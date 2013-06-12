@@ -15,9 +15,8 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.liquids.ILiquidTank;
 import net.minecraftforge.liquids.LiquidStack;
-import codechicken.nei.api.HUDAugmenterRegistry.Layout;
+import codechicken.nei.api.ItemInfo.Layout;
 import codechicken.nei.api.API;
-import codechicken.nei.api.HUDAugmenterRegistry;
 import codechicken.nei.api.IHighlightHandler;
 
 public class HUDHandlerBCTanks implements IHighlightHandler {
@@ -50,19 +49,19 @@ public class HUDHandlerBCTanks implements IHighlightHandler {
 			int liquidAmount = liquidStack != null ? liquidStack.amount:0;
 			int capacity     = tank.getCapacity();
 			
-			if (liquidStack != null && layout == HUDAugmenterRegistry.Layout.HEADER){
+			if (liquidStack != null && layout == Layout.HEADER){
 				String name = currenttip.get(0);
 				name = name + " (" + liquidStack.asItemStack().getDisplayName() + ")";
 				currenttip.set(0, name);
 			}
 			
-			if (liquidStack == null && layout == HUDAugmenterRegistry.Layout.HEADER){
+			if (liquidStack == null && layout == Layout.HEADER){
 				String name = currenttip.get(0);
 				name = name + " <Empty>";
 				currenttip.set(0, name);
 			}
 			
-			if (layout == HUDAugmenterRegistry.Layout.BODY)
+			if (layout == Layout.BODY)
 				currenttip.add(String.valueOf(liquidAmount) + "/" + String.valueOf(capacity)  + " mB");
 
 		}
@@ -84,8 +83,8 @@ public class HUDHandlerBCTanks implements IHighlightHandler {
 		
 		if (TileTank_GetTanks != null){
 			mod_Waila.instance.log.log(Level.INFO, "Waila module BuildcraftTank succefully hooked.");
-			API.registerHUDAugmenterTextHandler(new HUDHandlerBCTanks(), HUDAugmenterRegistry.Layout.HEADER);
-		    API.registerHUDAugmenterTextHandler(new HUDHandlerBCTanks(), HUDAugmenterRegistry.Layout.BODY);
+			API.registerHighlightHandler(new HUDHandlerBCTanks(), Layout.HEADER);
+		    API.registerHighlightHandler(new HUDHandlerBCTanks(), Layout.BODY);
 		}
 	}	
 	

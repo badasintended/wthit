@@ -7,7 +7,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-import codechicken.nei.api.HUDAugmenterRegistry.Layout;
+import codechicken.nei.api.ItemInfo.Layout;
 import codechicken.nei.api.IHighlightHandler;
 
 public class NEIHUDHandler implements IHighlightHandler {

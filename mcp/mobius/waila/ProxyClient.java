@@ -3,7 +3,7 @@ package mcp.mobius.waila;
 import java.util.logging.Level;
 
 import codechicken.nei.api.API;
-import codechicken.nei.api.HUDAugmenterRegistry;
+import codechicken.nei.api.ItemInfo;
 import codechicken.nei.forge.GuiContainerManager;
 
 import mcp.mobius.waila.addons.betterbarrels.HUDHandlerBetterBarrels;
@@ -20,7 +20,7 @@ public class ProxyClient extends ProxyServer {
 	public void registerHandlers(){
 		GuiContainerManager.addTooltipHandler(new WailaTooltipHandler());
 		//GuiContainerManager.addInputHandler(new EnchantementHandler());
-		API.registerHUDAugmenterTextHandler(new NEIHUDHandler(), HUDAugmenterRegistry.Layout.FOOTER);
+		API.registerHighlightHandler(new NEIHUDHandler(), ItemInfo.Layout.FOOTER);
 		//API.addKeyBind("showenchant", "Display enchantements", Keyboard.KEY_RSHIFT);
 		this.registerMods();		
 	}	

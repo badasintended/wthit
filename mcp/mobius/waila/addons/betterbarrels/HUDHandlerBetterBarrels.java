@@ -14,8 +14,8 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
 import codechicken.nei.api.API;
-import codechicken.nei.api.HUDAugmenterRegistry;
-import codechicken.nei.api.HUDAugmenterRegistry.Layout;
+import codechicken.nei.api.ItemInfo;
+import codechicken.nei.api.ItemInfo.Layout;
 import codechicken.nei.api.IHighlightHandler;
 
 public class HUDHandlerBetterBarrels implements IHighlightHandler {
@@ -71,7 +71,7 @@ public class HUDHandlerBetterBarrels implements IHighlightHandler {
 		
 		if (IBarrelStorage_getItem != null){
 			mod_Waila.instance.log.log(Level.INFO, "Waila module BetterBarrel succefully hooked.");
-			API.registerHUDAugmenterTextHandler(new HUDHandlerBetterBarrels(), HUDAugmenterRegistry.Layout.BODY);
+			API.registerHighlightHandler(new HUDHandlerBetterBarrels(), ItemInfo.Layout.BODY);
 		}
 	}
 
