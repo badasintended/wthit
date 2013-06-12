@@ -22,7 +22,7 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.ItemData;
 
-@Mod(modid="Waila", name="Waila", version="0.0.3")
+@Mod(modid="Waila", name="Waila", version="1.0.0")
 @NetworkMod(clientSideRequired=true, serverSideRequired=false)
 
 public class mod_Waila {

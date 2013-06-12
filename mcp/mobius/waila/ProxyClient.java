@@ -8,6 +8,9 @@ import codechicken.nei.forge.GuiContainerManager;
 
 import mcp.mobius.waila.addons.betterbarrels.HUDHandlerBetterBarrels;
 import mcp.mobius.waila.addons.buildcraft.HUDHandlerBCTanks;
+import mcp.mobius.waila.addons.ic2.HUDHandlerIC2Generator;
+import mcp.mobius.waila.addons.ic2.HUDHandlerIC2Machine;
+import mcp.mobius.waila.addons.ic2.HUDHandlerIC2Storage;
 import mcp.mobius.waila.handlers.NEIHUDHandler;
 import mcp.mobius.waila.handlers.WailaTooltipHandler;
 
@@ -42,6 +45,17 @@ public class ProxyClient extends ProxyServer {
 			HUDHandlerBCTanks.register();
 		} catch (ClassNotFoundException e){
 			mod_Waila.log.log(Level.INFO, "Buildcraft|Factory mod not found. Skipping.");			
+		}		
+		
+		/* INDUSTRIALCRAFT2 */
+		try {
+			Class ModIndustrialCraft = Class.forName("ic2.core.IC2");
+			mod_Waila.log.log(Level.INFO, "Industrialcraft2 mod found.");
+			HUDHandlerIC2Storage.register();
+			HUDHandlerIC2Machine.register();
+			HUDHandlerIC2Generator.register();
+		} catch (ClassNotFoundException e){
+			mod_Waila.log.log(Level.INFO, "Industrialcraft2 mod not found. Skipping.");			
 		}		
 		
 	}	
