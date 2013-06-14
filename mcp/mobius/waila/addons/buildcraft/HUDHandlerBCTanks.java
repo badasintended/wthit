@@ -6,6 +6,7 @@ import java.util.logging.Level;
 
 //import buildcraft.factory.TileTank;
 
+import mcp.mobius.waila.ConfigHandler;
 import mcp.mobius.waila.mod_Waila;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -49,19 +50,19 @@ public class HUDHandlerBCTanks implements IHighlightHandler {
 			int liquidAmount = liquidStack != null ? liquidStack.amount:0;
 			int capacity     = tank.getCapacity();
 			
-			if (liquidStack != null && layout == Layout.HEADER){
+			if (liquidStack != null && layout == Layout.HEADER && ConfigHandler.instance().getConfig("bc.tanktype")){
 				String name = currenttip.get(0);
 				name = name + " (" + liquidStack.asItemStack().getDisplayName() + ")";
 				currenttip.set(0, name);
 			}
 			
-			if (liquidStack == null && layout == Layout.HEADER){
+			if (liquidStack == null && layout == Layout.HEADER && ConfigHandler.instance().getConfig("bc.tanktype")){
 				String name = currenttip.get(0);
 				name = name + " <Empty>";
 				currenttip.set(0, name);
 			}
 			
-			if (layout == Layout.BODY)
+			if (layout == Layout.BODY && ConfigHandler.instance().getConfig("bc.tankamount"))
 				currenttip.add(String.valueOf(liquidAmount) + "/" + String.valueOf(capacity)  + " mB");
 
 		}

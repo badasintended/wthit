@@ -7,8 +7,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.MinecraftForge;
 import codechicken.core.CommonUtils;
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Mod.IMCCallback;
 import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.Mod.Init;
@@ -16,6 +18,8 @@ import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.Mod.PostInit;
 import cpw.mods.fml.common.Mod.PreInit;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLInterModComms;
+import cpw.mods.fml.common.event.FMLInterModComms.IMCMessage;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
@@ -23,7 +27,7 @@ import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.ItemData;
 
 @Mod(modid="Waila", name="Waila", version="1.0.0")
-@NetworkMod(clientSideRequired=true, serverSideRequired=false)
+//@NetworkMod(channels = {"Waila"},clientSideRequired=true, serverSideRequired=false)
 
 public class mod_Waila {
     // The instance of your mod that Forge uses.
@@ -60,6 +64,22 @@ public class mod_Waila {
             this.itemMap.put(itemData.getItemId(), itemData.getModId());
         } 		
 	}
+
+	@IMCCallback
+	public void processIMC(FMLInterModComms.IMCEvent event)
+	{
+		for (IMCMessage imcMessage : event.getMessages()){
+			mod_Waila.log.info("Received msg from " + imcMessage.getSender() + " : " + imcMessage.getStringValue());
+			if (imcMessage.key.equalsIgnoreCase("addconfig")){
+				String[] params = imcMessage.getStringValue().split("\\$\\$");
+				if (params.length != 3){
+					mod_Waila.log.warning("Error while parsing config option from " + imcMessage.getSender() + " : " + imcMessage.getStringValue());
+					continue;
+				}
+				ConfigHandler.instance().addConfig(params[0], params[1], params[2]);
+			}
+		}
+	}		
 	
 	public String getCanonicalName(ItemStack itemstack){
 		try{

@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 import java.util.logging.Level;
 
+import mcp.mobius.waila.ConfigHandler;
 import mcp.mobius.waila.mod_Waila;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -27,6 +28,9 @@ public class HUDHandlerIC2Machine implements IHighlightHandler {
 	
 	@Override
 	public List<String> handleTextData(ItemStack itemStack, World world, EntityPlayer player, MovingObjectPosition mop, List<String> currenttip, Layout layout) {
+		if (!ConfigHandler.instance().getConfig("ic2.inputeu"))
+			return currenttip;		
+		
 		TileEntity entity = world.getBlockTileEntity(mop.blockX, mop.blockY, mop.blockZ);
 		
 		if ((entity != null) && (TEElectricMachine.isInstance(entity))){

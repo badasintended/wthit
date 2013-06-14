@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 import java.util.logging.Level;
 
+import mcp.mobius.waila.ConfigHandler;
 import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.addons.buildcraft.HUDHandlerBCTanks;
 import net.minecraft.entity.player.EntityPlayer;
@@ -49,7 +50,12 @@ public class HUDHandlerIC2Storage implements IHighlightHandler {
 				mod_Waila.instance.log.log(Level.SEVERE, "[IC2] Unhandled exception trying to access an IEnergyStorage for display !.\n" + String.valueOf(e));
 				return currenttip;				
 			}
-			currenttip.add(String.format("IN/OUT : %s/%s EU/t", maxinput, output));
+			if (ConfigHandler.instance().getConfig("ic2.outputeu") && ConfigHandler.instance().getConfig("ic2.inputeu"))
+				currenttip.add(String.format("IN/OUT : %s/%s EU/t", maxinput, output));
+			else if (ConfigHandler.instance().getConfig("ic2.outputeu") && !ConfigHandler.instance().getConfig("ic2.inputeu"))
+				currenttip.add(String.format("OUT : %s EU/t", output));
+			else if (!ConfigHandler.instance().getConfig("ic2.outputeu") && ConfigHandler.instance().getConfig("ic2.inputeu"))
+				currenttip.add(String.format("IN : %s EU/t", maxinput));			
 			//currenttip.add(String.format("%s / %s EU", stored, capacity));			
 		}
 		
