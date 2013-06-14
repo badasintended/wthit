@@ -3,11 +3,11 @@ package mcp.mobius.waila;
 import java.util.HashMap;
 import java.util.Set;
 
-import mcp.mobius.waila.api.IConfigHandler;
+import mcp.mobius.waila.api.IWailaConfigHandler;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.Property;
 
-public class ConfigHandler implements IConfigHandler {
+public class ConfigHandler implements IWailaConfigHandler {
 
 	private static ConfigHandler instance = null;
 	private HashMap<String, ConfigModule> modules = new HashMap<String, ConfigModule>();

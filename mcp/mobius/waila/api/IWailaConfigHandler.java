@@ -5,7 +5,7 @@ import java.util.Set;
 
 import mcp.mobius.waila.ConfigModule;
 
-public interface IConfigHandler {
+public interface IWailaConfigHandler {
 	/* Returns a set of all the currently loaded modules in the config handler */
 	public Set<String> getModuleNames();
 	

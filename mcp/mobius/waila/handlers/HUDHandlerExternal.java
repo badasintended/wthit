@@ -3,7 +3,7 @@ package mcp.mobius.waila.handlers;
 import java.util.List;
 
 import mcp.mobius.waila.ConfigHandler;
-import mcp.mobius.waila.api.IConfigHandler;
+import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaBlock;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,7 +18,7 @@ public class HUDHandlerExternal implements IHighlightHandler {
 	public ItemStack identifyHighlight(World world, EntityPlayer player, MovingObjectPosition mop) {
 		Block block = Block.blocksList[world.getBlockId(mop.blockX, mop.blockY, mop.blockZ)];
 		if (IWailaBlock.class.isInstance(block))
-			return ((IWailaBlock)block).getWailaStack(world, player, mop, (IConfigHandler)ConfigHandler.instance());
+			return ((IWailaBlock)block).getWailaStack(world, player, mop, (IWailaConfigHandler)ConfigHandler.instance());
 		else
 			return null;
 	}
@@ -28,9 +28,9 @@ public class HUDHandlerExternal implements IHighlightHandler {
 		Block block = Block.blocksList[world.getBlockId(mop.blockX, mop.blockY, mop.blockZ)];
 		if (IWailaBlock.class.isInstance(block))
 			if (layout == Layout.HEADER)
-				return ((IWailaBlock)block).getWailaHead(itemStack, world, player, mop, currenttip, (IConfigHandler)ConfigHandler.instance());
+				return ((IWailaBlock)block).getWailaHead(itemStack, world, player, mop, currenttip, (IWailaConfigHandler)ConfigHandler.instance());
 			else if (layout == Layout.BODY)
-				return ((IWailaBlock)block).getWailaBody(itemStack, world, player, mop, currenttip, (IConfigHandler)ConfigHandler.instance());
+				return ((IWailaBlock)block).getWailaBody(itemStack, world, player, mop, currenttip, (IWailaConfigHandler)ConfigHandler.instance());
 		
 		return currenttip;
 	}
