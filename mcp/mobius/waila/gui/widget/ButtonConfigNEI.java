@@ -23,7 +23,7 @@ public class ButtonConfigNEI extends ButtonConfigOption {
 	}
 
 	@Override
-	public void setupInitialState(String _configKey){
+	public void setupInitialState(String _configKey, boolean _state){
 		this.configKey = _configKey;
 		this.state = NEIClientConfig.getSetting(this.configKey).getBooleanValue();
 		this.displayString = state ? stateTrue:stateFalse;		

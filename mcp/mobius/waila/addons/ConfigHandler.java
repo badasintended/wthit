@@ -52,9 +52,14 @@ public class ConfigHandler implements IWailaConfigHandler {
 	}
 	
 	@Override
-	public boolean getConfig(String key){
+	public boolean getConfig(String key, boolean defvalue){
 		mod_Waila.instance.config.load();
-		Property prop = mod_Waila.instance.config.get(Configuration.CATEGORY_GENERAL, key, true);
-		return prop.getBoolean(true);		
+		Property prop = mod_Waila.instance.config.get(Configuration.CATEGORY_GENERAL, key, defvalue);
+		return prop.getBoolean(defvalue);		
 	}
+	
+	@Override
+	public boolean getConfig(String key){
+		return this.getConfig(key, true);
+	}	
 }

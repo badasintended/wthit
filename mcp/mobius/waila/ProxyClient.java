@@ -12,6 +12,7 @@ import mcp.mobius.waila.addons.buildcraft.HUDHandlerBCTanks;
 import mcp.mobius.waila.addons.ic2.HUDHandlerIC2Generator;
 import mcp.mobius.waila.addons.ic2.HUDHandlerIC2Machine;
 import mcp.mobius.waila.addons.ic2.HUDHandlerIC2Storage;
+import mcp.mobius.waila.addons.vanillamc.HUDHandlerVanilla;
 import mcp.mobius.waila.gui.ConfigKeyHandler;
 import mcp.mobius.waila.handlers.HUDHandlerExternal;
 import mcp.mobius.waila.handlers.HUDHandlerWaila;
@@ -26,9 +27,10 @@ public class ProxyClient extends ProxyServer {
 	public void registerHandlers(){
 		GuiContainerManager.addTooltipHandler(new TooltipHandlerWaila());
 		//GuiContainerManager.addInputHandler(new EnchantementHandler());
-		API.registerHighlightHandler(new HUDHandlerWaila(), ItemInfo.Layout.FOOTER);
 		API.registerHighlightHandler(new HUDHandlerExternal(), ItemInfo.Layout.HEADER);
 		API.registerHighlightHandler(new HUDHandlerExternal(), ItemInfo.Layout.BODY);
+		API.registerHighlightHandler(new HUDHandlerWaila(),    ItemInfo.Layout.FOOTER);
+		API.registerHighlightHandler(new HUDHandlerWaila(),    ItemInfo.Layout.HEADER);		
 		
 		//API.registerHighlightIdentifier(2000, new HUDHandlerExternal());
 		KeyBindingRegistry.registerKeyBinding(new ConfigKeyHandler());
@@ -37,6 +39,8 @@ public class ProxyClient extends ProxyServer {
 	}	
 
 	public void registerMods(){
+		
+		HUDHandlerVanilla.register();
 		
 		/* BETTER BARRELS */
 		/*

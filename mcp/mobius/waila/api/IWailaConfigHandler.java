@@ -18,6 +18,9 @@ public interface IWailaConfigHandler {
 	 * */
 	//public void addConfig(String modName, String key, String name);
 	
-	/* Returns the current value of an option (true/false) */
-	public boolean getConfig(String key);
+	/* Returns the current value of an option (true/false) with a default value defvalue if not set*/
+	public boolean getConfig(String key, boolean defvalue);
+	
+	/* Returns the current value of an option (true/false) with a default value true if not set*/	
+	public boolean getConfig(String key);	
 }
