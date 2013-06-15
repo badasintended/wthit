@@ -1,4 +1,4 @@
-package mcp.mobius.waila;
+package mcp.mobius.waila.addons;
 
 import java.util.HashMap;
 

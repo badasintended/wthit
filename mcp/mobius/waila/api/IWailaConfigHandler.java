@@ -3,7 +3,7 @@ package mcp.mobius.waila.api;
 import java.util.HashMap;
 import java.util.Set;
 
-import mcp.mobius.waila.ConfigModule;
+import mcp.mobius.waila.addons.ConfigModule;
 
 public interface IWailaConfigHandler {
 	/* Returns a set of all the currently loaded modules in the config handler */

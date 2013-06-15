@@ -3,7 +3,7 @@ package mcp.mobius.waila.api;
 import java.util.List;
 
 import codechicken.nei.api.ItemInfo.Layout;
-import mcp.mobius.waila.ConfigHandler;
+import mcp.mobius.waila.addons.ConfigHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;

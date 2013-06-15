@@ -4,8 +4,8 @@ import java.lang.reflect.Method;
 import java.util.List;
 import java.util.logging.Level;
 
-import mcp.mobius.waila.ConfigHandler;
 import mcp.mobius.waila.mod_Waila;
+import mcp.mobius.waila.addons.ConfigHandler;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;

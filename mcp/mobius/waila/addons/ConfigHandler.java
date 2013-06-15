@@ -1,8 +1,9 @@
-package mcp.mobius.waila;
+package mcp.mobius.waila.addons;
 
 import java.util.HashMap;
 import java.util.Set;
 
+import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.Property;

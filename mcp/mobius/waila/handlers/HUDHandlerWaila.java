@@ -10,7 +10,7 @@ import net.minecraft.world.World;
 import codechicken.nei.api.ItemInfo.Layout;
 import codechicken.nei.api.IHighlightHandler;
 
-public class NEIHUDHandler implements IHighlightHandler {
+public class HUDHandlerWaila implements IHighlightHandler {
 
 	@Override
 	public ItemStack identifyHighlight(World world, EntityPlayer player, MovingObjectPosition mop) {

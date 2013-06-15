@@ -7,14 +7,15 @@ import codechicken.nei.api.ItemInfo;
 import codechicken.nei.forge.GuiContainerManager;
 import cpw.mods.fml.client.registry.KeyBindingRegistry;
 
+import mcp.mobius.waila.addons.ConfigHandler;
 import mcp.mobius.waila.addons.buildcraft.HUDHandlerBCTanks;
 import mcp.mobius.waila.addons.ic2.HUDHandlerIC2Generator;
 import mcp.mobius.waila.addons.ic2.HUDHandlerIC2Machine;
 import mcp.mobius.waila.addons.ic2.HUDHandlerIC2Storage;
 import mcp.mobius.waila.gui.ConfigKeyHandler;
 import mcp.mobius.waila.handlers.HUDHandlerExternal;
-import mcp.mobius.waila.handlers.NEIHUDHandler;
-import mcp.mobius.waila.handlers.WailaTooltipHandler;
+import mcp.mobius.waila.handlers.HUDHandlerWaila;
+import mcp.mobius.waila.handlers.TooltipHandlerWaila;
 
 public class ProxyClient extends ProxyServer {
 
@@ -23,9 +24,9 @@ public class ProxyClient extends ProxyServer {
 	
 	@Override
 	public void registerHandlers(){
-		GuiContainerManager.addTooltipHandler(new WailaTooltipHandler());
+		GuiContainerManager.addTooltipHandler(new TooltipHandlerWaila());
 		//GuiContainerManager.addInputHandler(new EnchantementHandler());
-		API.registerHighlightHandler(new NEIHUDHandler(), ItemInfo.Layout.FOOTER);
+		API.registerHighlightHandler(new HUDHandlerWaila(), ItemInfo.Layout.FOOTER);
 		API.registerHighlightHandler(new HUDHandlerExternal(), ItemInfo.Layout.HEADER);
 		API.registerHighlightHandler(new HUDHandlerExternal(), ItemInfo.Layout.BODY);
 		

@@ -1,6 +1,6 @@
 package mcp.mobius.waila.gui;
 
-import mcp.mobius.waila.ConfigHandler;
+import mcp.mobius.waila.addons.ConfigHandler;
 import mcp.mobius.waila.gui.widget.ButtonChangeScreen;
 import mcp.mobius.waila.gui.widget.ButtonConfigNEI;
 import mcp.mobius.waila.gui.widget.ButtonConfigOption;

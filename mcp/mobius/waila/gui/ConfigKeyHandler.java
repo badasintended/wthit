@@ -6,7 +6,7 @@ import org.lwjgl.input.Keyboard;
 
 import codechicken.nei.NEIClientConfig;
 
-import mcp.mobius.waila.ConfigHandler;
+import mcp.mobius.waila.addons.ConfigHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import cpw.mods.fml.client.registry.KeyBindingRegistry.KeyHandler;

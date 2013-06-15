@@ -11,7 +11,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.Property;
 import codechicken.nei.forge.IContainerTooltipHandler;
 
-public class WailaTooltipHandler implements IContainerTooltipHandler {
+public class TooltipHandlerWaila implements IContainerTooltipHandler {
 
 	private mod_Waila waila = mod_Waila.instance;
 	

@@ -1,8 +1,12 @@
 package mcp.mobius.waila;
 
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.logging.Logger;
 
+import mcp.mobius.waila.addons.ConfigHandler;
+import mcp.mobius.waila.addons.ExternalModulesHandler;
+import mcp.mobius.waila.api.IWailaRegistrar;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -26,7 +30,7 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.ItemData;
 
-@Mod(modid="Waila", name="Waila", version="1.0.0")
+@Mod(modid="Waila", name="Waila", version="1.1.0")
 //@NetworkMod(channels = {"Waila"},clientSideRequired=true, serverSideRequired=false)
 
 public class mod_Waila {
@@ -62,24 +66,55 @@ public class mod_Waila {
         {
             ItemData itemData = new ItemData((NBTTagCompound) itemDataList.tagAt(i));
             this.itemMap.put(itemData.getItemId(), itemData.getModId());
-        } 		
+        } 	
 	}
 
 	@IMCCallback
 	public void processIMC(FMLInterModComms.IMCEvent event)
 	{
 		for (IMCMessage imcMessage : event.getMessages()){
-			mod_Waila.log.info("Received msg from " + imcMessage.getSender() + " : " + imcMessage.getStringValue());
+			if (!imcMessage.isStringMessage()) continue;
+			
 			if (imcMessage.key.equalsIgnoreCase("addconfig")){
 				String[] params = imcMessage.getStringValue().split("\\$\\$");
 				if (params.length != 3){
-					mod_Waila.log.warning("Error while parsing config option from " + imcMessage.getSender() + " : " + imcMessage.getStringValue());
+					mod_Waila.log.warning(String.format("Error while parsing config option from [ %s ] for %s", imcMessage.getSender(), imcMessage.getStringValue()));					
 					continue;
 				}
+				mod_Waila.log.info(String.format("Receiving config request from [ %s ] for %s", imcMessage.getSender(), imcMessage.getStringValue()));				
 				ConfigHandler.instance().addConfig(params[0], params[1], params[2]);
+			}
+			
+			if (imcMessage.key.equalsIgnoreCase("register")){
+				mod_Waila.log.info(String.format("Receiving registration request from [ %s ] for method %s", imcMessage.getSender(), imcMessage.getStringValue()));
+				this.callbackRegistration(imcMessage.getStringValue(), imcMessage.getSender());
 			}
 		}
 	}		
+	
+	public void callbackRegistration(String method, String modname){
+		String[] splitName = method.split("\\.");
+		String methodName = splitName[splitName.length-1];
+		String className  = method.substring(0, method.length()-methodName.length()-1);
+		
+		mod_Waila.log.info(String.format("Trying to reflect %s %s", className, methodName));
+		
+		try{
+			Class  reflectClass  = Class.forName(className);
+			Method reflectMethod = reflectClass.getDeclaredMethod(methodName, IWailaRegistrar.class);
+			reflectMethod.invoke(null, (IWailaRegistrar)ExternalModulesHandler.instance());
+			
+			mod_Waila.log.info(String.format("Success in registering %s", modname));
+			
+		} catch (ClassNotFoundException e){
+			mod_Waila.log.warning(String.format("Could not find class %s", className));
+		} catch (NoSuchMethodException e){
+			mod_Waila.log.warning(String.format("Could not find method %s", methodName));
+		} catch (Exception e){
+			mod_Waila.log.warning(String.format("Exception while trying to access the method : %s", e.toString()));
+		}
+		
+	}
 	
 	public String getCanonicalName(ItemStack itemstack){
 		try{
