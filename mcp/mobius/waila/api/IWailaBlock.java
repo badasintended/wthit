@@ -2,8 +2,10 @@ package mcp.mobius.waila.api;
 
 import java.util.List;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
@@ -13,7 +15,7 @@ public interface IWailaBlock {
 	 *  Return null if you want to use the default lookup system.
 	 *  You get the world, the player and the location of the block. With that, it is easy to gather information & tile entities
 	 */
-	ItemStack    getWailaStack(World world, EntityPlayer player, MovingObjectPosition mop, IWailaConfigHandler config);
+	ItemStack    getWailaStack(World world, EntityPlayer player, TileEntity entity, Block block, MovingObjectPosition mop, IWailaConfigHandler config);
 	
 	/* Waila HUD is divided into 3 zones. The head corresponds to the item name, 
 	 * body to where you mostly want to put informations, and I reserve the tail for modname display 
@@ -30,6 +32,6 @@ public interface IWailaBlock {
 	 * Always return the currenttip is you don't want to modify the current zone.
 	 */
 	
-	List<String> getWailaHead(ItemStack itemStack, World world, EntityPlayer player, MovingObjectPosition mop, List<String> currenttip, IWailaConfigHandler config);
-	List<String> getWailaBody(ItemStack itemStack, World world, EntityPlayer player, MovingObjectPosition mop, List<String> currenttip, IWailaConfigHandler config);
+	List<String> getWailaHead(ItemStack itemStack, World world, EntityPlayer player, TileEntity entity, Block block, MovingObjectPosition mop, List<String> currenttip, IWailaConfigHandler config);
+	List<String> getWailaBody(ItemStack itemStack, World world, EntityPlayer player, TileEntity entity, Block block, MovingObjectPosition mop, List<String> currenttip, IWailaConfigHandler config);
 }

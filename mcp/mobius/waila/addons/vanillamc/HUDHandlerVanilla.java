@@ -24,15 +24,13 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 	
 	
 	@Override
-	public ItemStack getWailaStack(World world, EntityPlayer player, MovingObjectPosition mop, IWailaConfigHandler config) {
+	public ItemStack getWailaStack(World world, EntityPlayer player, TileEntity entity, Block block, MovingObjectPosition mop, IWailaConfigHandler config) {
 		return null;
 	}
 
 	@Override
-	public List<String> getWailaHead(ItemStack itemStack, World world, EntityPlayer player, MovingObjectPosition mop, List<String> currenttip, IWailaConfigHandler config) {
-		int blockID       = world.getBlockId(mop.blockX, mop.blockY, mop.blockZ);
-		TileEntity entity = world.getBlockTileEntity(mop.blockX, mop.blockY, mop.blockZ);
-		
+	public List<String> getWailaHead(ItemStack itemStack, World world, EntityPlayer player, TileEntity entity, Block block, MovingObjectPosition mop, List<String> currenttip, IWailaConfigHandler config) {
+		int blockID       = block.blockID;
 		/* Mob spawner handler */
 		if (blockID == mobSpawnerID && entity instanceof TileEntityMobSpawner && config.getConfig("vanilla.showspawntype")){
 			String name = currenttip.get(0);
@@ -44,9 +42,8 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 	}
 
 	@Override
-	public List<String> getWailaBody(ItemStack itemStack, World world, EntityPlayer player, MovingObjectPosition mop, List<String> currenttip, IWailaConfigHandler config) {
-		int blockID       = world.getBlockId(mop.blockX, mop.blockY, mop.blockZ);
-		
+	public List<String> getWailaBody(ItemStack itemStack, World world, EntityPlayer player, TileEntity entity, Block block, MovingObjectPosition mop, List<String> currenttip, IWailaConfigHandler config) {
+		int blockID       = block.blockID;
 		/* Crops */
 		if (config.getConfig("vanilla.showgrowthvalue"))
 			if (blockID == cropsID || blockID == melonStemID || blockID == pumpkinStemID || blockID == carrotID || blockID == potatoID){
