@@ -40,7 +40,7 @@ public class HUDHandlerBetterBarrels implements IHighlightHandler {
 			try {
 			 stack = (ItemStack) IBarrelStorage_getItem.invoke(TileEntityBarrel_Storage.get(entity));
 			} catch (Exception e){
-				mod_Waila.instance.log.log(Level.SEVERE, "[BB] Unhandled exception trying to access a barrel storage for display !.\n" + String.valueOf(e));
+				mod_Waila.log.log(Level.SEVERE, "[BB] Unhandled exception trying to access a barrel storage for display !.\n" + String.valueOf(e));
 				currenttip.add("<ERROR!>");
 				return currenttip;
 			}
@@ -62,15 +62,15 @@ public class HUDHandlerBetterBarrels implements IHighlightHandler {
 			IBarrelStorage_getItem   = IBarrelStorage.getMethod("getItem");
 			
 		} catch (ClassNotFoundException e){
-			mod_Waila.instance.log.log(Level.WARNING, "[BB] BetterBarrel classes not found.");
+			mod_Waila.log.log(Level.WARNING, "[BB] BetterBarrel classes not found.");
 		} catch (NoSuchFieldException e){
-			mod_Waila.instance.log.log(Level.WARNING, "[BB] Storage field not found.");			
+			mod_Waila.log.log(Level.WARNING, "[BB] Storage field not found.");			
 		} catch (NoSuchMethodException e){
-			mod_Waila.instance.log.log(Level.WARNING, "[BB] getItem() not found.");
+			mod_Waila.log.log(Level.WARNING, "[BB] getItem() not found.");
 		}
 		
 		if (IBarrelStorage_getItem != null){
-			mod_Waila.instance.log.log(Level.INFO, "Waila module BetterBarrel succefully hooked.");
+			mod_Waila.log.log(Level.INFO, "Waila module BetterBarrel succefully hooked.");
 			API.registerHighlightHandler(new HUDHandlerBetterBarrels(), ItemInfo.Layout.BODY);
 		}
 	}

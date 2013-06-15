@@ -1,6 +1,5 @@
 package mcp.mobius.waila.gui;
 
-import mcp.mobius.waila.addons.ConfigHandler;
 import mcp.mobius.waila.gui.widget.ButtonChangeScreen;
 import mcp.mobius.waila.gui.widget.ButtonConfigNEI;
 import mcp.mobius.waila.gui.widget.ButtonConfigOption;
@@ -14,6 +13,7 @@ public class GuiWailaConfig extends GuiBaseConfigScreen {
 		// TODO Auto-generated constructor stub
 	}
 
+	@Override
 	public void initGui()
     {
         buttonList.add(new ButtonChangeScreen(200, width / 2 - 100, height / 6 + 168, "Back", this.parentGui));

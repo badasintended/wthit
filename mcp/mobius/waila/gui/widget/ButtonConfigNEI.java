@@ -22,12 +22,14 @@ public class ButtonConfigNEI extends ButtonConfigOption {
 				_labelSize, _state, _configKey);
 	}
 
+	@Override
 	public void setupInitialState(String _configKey){
 		this.configKey = _configKey;
 		this.state = NEIClientConfig.getSetting(this.configKey).getBooleanValue();
 		this.displayString = state ? stateTrue:stateFalse;		
 	}	
 	
+	@Override
 	public void pressButton(){
 		super.pressButton();
 		this.state = !NEIClientConfig.getSetting(this.configKey).getBooleanValue();

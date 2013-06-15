@@ -1,10 +1,7 @@
 package mcp.mobius.waila.gui;
 
-import cpw.mods.fml.client.registry.KeyBindingRegistry;
 import mcp.mobius.waila.gui.widget.Button2States;
 import mcp.mobius.waila.gui.widget.ButtonChangeScreen;
-import mcp.mobius.waila.gui.widget.ButtonConfigOption;
-import mcp.mobius.waila.gui.widget.ContainerButtons;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 

@@ -1,14 +1,9 @@
 package mcp.mobius.waila.handlers;
 
-import static net.minecraftforge.common.Property.Type.STRING;
-
 import java.util.List;
-import java.util.Set;
-
 import mcp.mobius.waila.mod_Waila;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.Property;
 import codechicken.nei.forge.IContainerTooltipHandler;
 
 public class TooltipHandlerWaila implements IContainerTooltipHandler {

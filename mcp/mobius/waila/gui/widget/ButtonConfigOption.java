@@ -1,6 +1,5 @@
 package mcp.mobius.waila.gui.widget;
 
-import mcp.mobius.health.mod_Health;
 import mcp.mobius.waila.mod_Waila;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.Property;
@@ -30,6 +29,7 @@ public class ButtonConfigOption extends Button2States {
 		this.displayString = state ? stateTrue:stateFalse;		
 	}
 	
+	@Override
 	public void pressButton(){
 		super.pressButton();
 		this.writeConfigKey(this.configKey, this.state);

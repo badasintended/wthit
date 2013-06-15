@@ -41,7 +41,7 @@ public class HUDHandlerBCTanks implements IHighlightHandler {
 			try{
 				tank = ((ILiquidTank[])TileTank_GetTanks.invoke(TileTank.cast(entity), ForgeDirection.UNKNOWN))[0];
 			} catch (Exception e){
-				mod_Waila.instance.log.log(Level.SEVERE, "[BC] Unhandled exception trying to access a tank for display !.\n" + String.valueOf(e));
+				mod_Waila.log.log(Level.SEVERE, "[BC] Unhandled exception trying to access a tank for display !.\n" + String.valueOf(e));
 				return currenttip;
 			}
 			
@@ -77,13 +77,13 @@ public class HUDHandlerBCTanks implements IHighlightHandler {
 			TileTank_GetTanks   = TileTank.getMethod("getTanks", ForgeDirection.class);
 			
 		} catch (ClassNotFoundException e){
-			mod_Waila.instance.log.log(Level.WARNING, "[BC] TileTank class not found.");
+			mod_Waila.log.log(Level.WARNING, "[BC] TileTank class not found.");
 		} catch (NoSuchMethodException e){
-			mod_Waila.instance.log.log(Level.WARNING, "[BB] getTanks() not found.");
+			mod_Waila.log.log(Level.WARNING, "[BB] getTanks() not found.");
 		}
 		
 		if (TileTank_GetTanks != null){
-			mod_Waila.instance.log.log(Level.INFO, "Waila module BuildcraftTank succefully hooked.");
+			mod_Waila.log.log(Level.INFO, "Waila module BuildcraftTank succefully hooked.");
 			API.registerHighlightHandler(new HUDHandlerBCTanks(), Layout.HEADER);
 		    API.registerHighlightHandler(new HUDHandlerBCTanks(), Layout.BODY);
 		}

@@ -15,6 +15,7 @@ public class GuiModuleOptions extends GuiBaseConfigScreen {
 		this.modName = _modName;
 	}
 
+	@Override
 	public void initGui()
     {
         buttonList.add(new ButtonChangeScreen(200, width / 2 - 100, height / 6 + 168, "Back", this.parentGui));

@@ -4,7 +4,6 @@ import java.util.List;
 
 import mcp.mobius.waila.addons.ConfigHandler;
 import mcp.mobius.waila.addons.ExternalModulesHandler;
-import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaBlock;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import net.minecraft.block.Block;
@@ -22,11 +21,11 @@ public class HUDHandlerExternal implements IHighlightHandler {
 		Block block = Block.blocksList[blockID];
 		
 		if (IWailaBlock.class.isInstance(block))
-			return ((IWailaBlock)block).getWailaStack(world, player, mop, (IWailaConfigHandler)ConfigHandler.instance());
+			return ((IWailaBlock)block).getWailaStack(world, player, mop, ConfigHandler.instance());
 
 		if(ExternalModulesHandler.instance().hasStackProviders(blockID))
 			for (IWailaDataProvider dataProvider : ExternalModulesHandler.instance().getStackProviders(blockID)){
-				ItemStack retval = dataProvider.getWailaStack(world, player, mop, (IWailaConfigHandler)ConfigHandler.instance());
+				ItemStack retval = dataProvider.getWailaStack(world, player, mop, ConfigHandler.instance());
 				if (retval != null)
 					return retval;
 			}
@@ -41,17 +40,17 @@ public class HUDHandlerExternal implements IHighlightHandler {
 		
 		if (IWailaBlock.class.isInstance(block))
 			if (layout == Layout.HEADER)
-				return ((IWailaBlock)block).getWailaHead(itemStack, world, player, mop, currenttip, (IWailaConfigHandler)ConfigHandler.instance());
+				return ((IWailaBlock)block).getWailaHead(itemStack, world, player, mop, currenttip, ConfigHandler.instance());
 			else if (layout == Layout.BODY)
-				return ((IWailaBlock)block).getWailaBody(itemStack, world, player, mop, currenttip, (IWailaConfigHandler)ConfigHandler.instance());
+				return ((IWailaBlock)block).getWailaBody(itemStack, world, player, mop, currenttip, ConfigHandler.instance());
 		
 		if (layout == Layout.HEADER && ExternalModulesHandler.instance().hasHeadProviders(blockID))
 			for (IWailaDataProvider dataProvider : ExternalModulesHandler.instance().getHeadProviders(blockID))
-				currenttip = dataProvider.getWailaHead(itemStack, world, player, mop, currenttip, (IWailaConfigHandler)ConfigHandler.instance());
+				currenttip = dataProvider.getWailaHead(itemStack, world, player, mop, currenttip, ConfigHandler.instance());
 
 		if (layout == Layout.BODY && ExternalModulesHandler.instance().hasBodyProviders(blockID))
 			for (IWailaDataProvider dataProvider : ExternalModulesHandler.instance().getBodyProviders(blockID))
-				currenttip = dataProvider.getWailaBody(itemStack, world, player, mop, currenttip, (IWailaConfigHandler)ConfigHandler.instance());			
+				currenttip = dataProvider.getWailaBody(itemStack, world, player, mop, currenttip, ConfigHandler.instance());			
 			
 		return currenttip;
 	}

@@ -44,7 +44,8 @@ public class Button2States extends GuiButton {
 		this.displayString = state ? stateTrue:stateFalse;		
 	}
 
-    public void drawButton(Minecraft par1Minecraft, int par2, int par3)
+    @Override
+	public void drawButton(Minecraft par1Minecraft, int par2, int par3)
     {
         if (this.drawButton)
         {
@@ -86,7 +87,8 @@ public class Button2States extends GuiButton {
 		return state;
 	}
 	
-    public boolean mousePressed(Minecraft par1Minecraft, int par2, int par3)
+    @Override
+	public boolean mousePressed(Minecraft par1Minecraft, int par2, int par3)
     {
         return this.enabled && this.drawButton && par2 >= this.xPosition + this.labelSize && par3 >= this.yPosition && par2 < this.xPosition + this.labelSize + this.width && par3 < this.yPosition + this.height;
     }	

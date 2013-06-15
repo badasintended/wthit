@@ -44,9 +44,9 @@ public class EnchantementHandler implements IContainerInputHandler {
 							int meanItemEnchantability = 1 + itemEnchantability/4;
 							int maxItemEnchantability  = 1 + itemEnchantability/2;
 							
-							int minModifiedEnchantability =  (int)(0.85*(float)minItemEnchantability + 0.5);
-							int meanModifiedEnchantability =  (int)(1.00*(float)meanItemEnchantability + 0.5);
-							int maxModifiedEnchantability =  (int)(1.15*(float)maxItemEnchantability + 0.5);
+							int minModifiedEnchantability =  (int)(0.85*minItemEnchantability + 0.5);
+							int meanModifiedEnchantability =  (int)(1.00*meanItemEnchantability + 0.5);
+							int maxModifiedEnchantability =  (int)(1.15*maxItemEnchantability + 0.5);
 							
 							int minLevel = (int) ((minEnchantEnchantability - minModifiedEnchantability)/1.15);
 							int maxLevel = (int) ((maxEnchantEnchantability - maxModifiedEnchantability)/0.85);
