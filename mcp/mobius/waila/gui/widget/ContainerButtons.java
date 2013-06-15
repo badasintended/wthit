@@ -47,15 +47,19 @@ public class ContainerButtons {
 		if (button instanceof Button2States){
 			((Button2States) button).setWidth(80);
 			((Button2States) button).labelSize = this.width/2 - 80;
+	        button.xPosition = (this.buttons.size() - 1)%2 * this.width / 2 + this.posX;
+	        button.yPosition = (this.buttons.size() - 1)/2 * 20 + this.posY;			
 		}
 		
 		if (button instanceof ButtonChangeScreen){
-			((ButtonChangeScreen) button).setWidth(this.width/2);
+			//((ButtonChangeScreen) button).setWidth(this.width/2);
+			((ButtonChangeScreen) button).setWidth(120);
+	        button.xPosition = (this.buttons.size() - 1)%2 * this.width / 2 + this.posX + (this.width / 2 - ((ButtonChangeScreen) button).getWidth())/2;
+	        button.yPosition = (this.buttons.size() - 1)/2 * 20 + this.posY;			
 		}		
 		
 		
-        button.xPosition = (this.buttons.size() - 1)%2 * this.width / 2 + this.posX;
-        button.yPosition = (this.buttons.size() - 1)/2 * 20 + this.posY;
+
         
         this.parentScreen.buttonList.add(button);
 
