@@ -61,6 +61,19 @@ public class HUDHandlerExternal implements IHighlightHandler {
 			for (IWailaDataProvider dataProvider : ExternalModulesHandler.instance().getBodyProviders(blockID))
 				currenttip = dataProvider.getWailaBody(itemStack, currenttip, accessor, ConfigHandler.instance());	
 		}
+		
+		if (layout == Layout.HEADER && ExternalModulesHandler.instance().hasHeadProviders(block)){
+			TileEntity entity = world.getBlockTileEntity(mop.blockX, mop.blockY, mop.blockZ);
+			for (IWailaDataProvider dataProvider : ExternalModulesHandler.instance().getHeadProviders(block))
+				currenttip = dataProvider.getWailaHead(itemStack, currenttip, accessor, ConfigHandler.instance());
+		}
+
+		if (layout == Layout.BODY && ExternalModulesHandler.instance().hasBodyProviders(block)){
+			TileEntity entity = world.getBlockTileEntity(mop.blockX, mop.blockY, mop.blockZ);
+			for (IWailaDataProvider dataProvider : ExternalModulesHandler.instance().getBodyProviders(block))
+				currenttip = dataProvider.getWailaBody(itemStack, currenttip, accessor, ConfigHandler.instance());	
+		}		
+		
 		return currenttip;
 	}
 

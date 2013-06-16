@@ -99,16 +99,31 @@ public class ExternalModulesHandler implements IWailaRegistrar {
 		return this.tailProviders.get(blockID);
 	}		
 
-	public ArrayList<IWailaDataProvider> getHeadProviders(Class block) {
-		return this.headBlockProviders.get(block);
+	public ArrayList<IWailaDataProvider> getHeadProviders(Object block) {
+		ArrayList<IWailaDataProvider> returnList = new ArrayList<IWailaDataProvider>();
+		for (Class clazz : this.headBlockProviders.keySet())
+			if (clazz.isInstance(block))
+				returnList.addAll(this.headBlockProviders.get(clazz));
+				
+		return returnList;
 	}
 
-	public ArrayList<IWailaDataProvider> getBodyProviders(Class block) {
-		return this.bodyBlockProviders.get(block);
+	public ArrayList<IWailaDataProvider> getBodyProviders(Object block) {
+		ArrayList<IWailaDataProvider> returnList = new ArrayList<IWailaDataProvider>();
+		for (Class clazz : this.bodyBlockProviders.keySet())
+			if (clazz.isInstance(block))
+				returnList.addAll(this.bodyBlockProviders.get(clazz));
+				
+		return returnList;
 	}	
 
-	public ArrayList<IWailaDataProvider> getTailProviders(Class block) {
-		return this.tailBlockProviders.get(block);
+	public ArrayList<IWailaDataProvider> getTailProviders(Object block) {
+		ArrayList<IWailaDataProvider> returnList = new ArrayList<IWailaDataProvider>();
+		for (Class clazz : this.bodyBlockProviders.keySet())
+			if (clazz.isInstance(block))
+				returnList.addAll(this.bodyBlockProviders.get(clazz));
+				
+		return returnList;
 	}	
 	
 	public ArrayList<IWailaDataProvider> getStackProviders(int blockID) {
@@ -128,21 +143,29 @@ public class ExternalModulesHandler implements IWailaRegistrar {
 	public boolean hasTailProviders(int blockID){
 		return this.tailProviders.containsKey(blockID);
 	}	
-	
-	public boolean hasHeadProviders(Class block){
-		return this.headBlockProviders.containsKey(block);
-	}
-	
-	public boolean hasBodyProviders(Class block){
-		return this.bodyBlockProviders.containsKey(block);
-	}
 
-	public boolean hasTailProviders(Class block){
-		return this.tailBlockProviders.containsKey(block);
-	}		
-	
 	public boolean hasStackProviders(int blockID){
 		return this.stackProviders.containsKey(blockID);
+	}	
+	
+	public boolean hasHeadProviders(Object block){
+		for (Class clazz : this.headBlockProviders.keySet())
+			if (clazz.isInstance(block))
+				return true;
+		return false;
+	}
+	
+	public boolean hasBodyProviders(Object block){
+		for (Class clazz : this.bodyBlockProviders.keySet())
+			if (clazz.isInstance(block))
+				return true;
+		return false;
 	}
 
+	public boolean hasTailProviders(Object block){
+		for (Class clazz : this.tailBlockProviders.keySet())
+			if (clazz.isInstance(block))
+				return true;
+		return false;
+	}		
 }
