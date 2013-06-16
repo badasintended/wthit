@@ -10,4 +10,9 @@ public interface IWailaRegistrar {
 	
 	/* Register a stack overrider for the given blockID */
 	public void registerStackProvider(IWailaDataProvider dataProvider, int blockID);
+	
+	
+	/* Same thing, but works on a class hierarchy instead */
+	public void registerHeadProvider (IWailaDataProvider dataProvider, Class block);
+	public void registerBodyProvider (IWailaDataProvider dataProvider, Class block);
 }
