@@ -1,4 +1,4 @@
-package mcp.mobius.waila;
+package mcp.mobius.waila.server;
 
 public class ProxyServer {
 

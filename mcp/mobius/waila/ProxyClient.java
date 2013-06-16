@@ -17,6 +17,7 @@ import mcp.mobius.waila.gui.ConfigKeyHandler;
 import mcp.mobius.waila.handlers.HUDHandlerExternal;
 import mcp.mobius.waila.handlers.HUDHandlerWaila;
 import mcp.mobius.waila.handlers.TooltipHandlerWaila;
+import mcp.mobius.waila.server.ProxyServer;
 
 public class ProxyClient extends ProxyServer {
 

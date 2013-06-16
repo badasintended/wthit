@@ -7,6 +7,9 @@ import java.util.logging.Logger;
 import mcp.mobius.waila.addons.ConfigHandler;
 import mcp.mobius.waila.addons.ExternalModulesHandler;
 import mcp.mobius.waila.api.IWailaRegistrar;
+import mcp.mobius.waila.network.WailaConnectionHandler;
+import mcp.mobius.waila.network.WailaPacketHandler;
+import mcp.mobius.waila.server.ProxyServer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -25,11 +28,12 @@ import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLInterModComms.IMCMessage;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.ItemData;
 
 @Mod(modid="Waila", name="Waila", version="1.2.0")
-//@NetworkMod(channels = {"Waila"},clientSideRequired=true, serverSideRequired=false)
+@NetworkMod(channels = {"Waila"},clientSideRequired=false, serverSideRequired=false, connectionHandler = WailaConnectionHandler.class, packetHandler = WailaPacketHandler.class)
 
 public class mod_Waila {
     // The instance of your mod that Forge uses.
