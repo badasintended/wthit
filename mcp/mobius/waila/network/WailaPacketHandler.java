@@ -54,22 +54,5 @@ public class WailaPacketHandler implements IPacketHandler {
 		}
 	}
 	
-	private void dumpTag(NBTTagCompound nbt, int tab){
-		for (Object s : nbt.tagMap.keySet()){
-			for (int i = 0; i < tab; i++)
-				System.out.printf("\t");
-			
-			System.out.printf("[%s]%s : %s\n", nbt.getTag((String)s).getClass().getName(), s, nbt.getTag((String)s));
-			if (nbt.getTag((String)s) instanceof NBTTagCompound){
-				this.dumpTag((NBTTagCompound)nbt.getTag((String)s), tab + 1);
-			}
-			
-			if (nbt.getTag((String)s) instanceof NBTTagByteArray){
-				byte[] array = nbt.getByteArray((String)s);
-				for (int i = 0; i < array.length; i++)
-					System.out.printf("%s ", array[i]);
-				System.out.printf("\n");
-			}
-		}
-	}		
+		
 }
