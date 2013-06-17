@@ -10,16 +10,19 @@ import mcp.mobius.waila.api.IWailaDataAccessor;
 
 public class DataAccessor implements IWailaDataAccessor {
 
-	World world;
-	EntityPlayer player;
-	MovingObjectPosition mop;
-	Block block;
-	int blockID;
-	int metadata;
-	TileEntity entity;
-	NBTTagCompound nbtdata = null;
+	public World world;
+	public EntityPlayer player;
+	public MovingObjectPosition mop;
+	public Block block;
+	public int blockID;
+	public int metadata;
+	public TileEntity entity;
+	public NBTTagCompound remoteNbt = null;
+	public int tickSinceUpdate = 0;
 	
-	public DataAccessor(World _world, EntityPlayer _player, MovingObjectPosition _mop) {
+	public static DataAccessor instance = new DataAccessor();
+
+	public void set(World _world, EntityPlayer _player, MovingObjectPosition _mop) {
 		this.world    = _world;
 		this.player   = _player;
 		this.mop      = _mop;
@@ -28,7 +31,7 @@ public class DataAccessor implements IWailaDataAccessor {
 		this.metadata = world.getBlockMetadata(_mop.blockX, _mop.blockY, _mop.blockZ);
 		this.entity   = world.getBlockTileEntity(_mop.blockX, _mop.blockY, _mop.blockZ);
 	}
-
+	
 	@Override
 	public World getWorld() {
 		return this.world;
@@ -61,7 +64,14 @@ public class DataAccessor implements IWailaDataAccessor {
 
 	@Override
 	public NBTTagCompound getNBTData() {
-		return this.nbtdata;
+		if (this.entity == null) return null;
+		
+		if (this.isTagCorrect(this.remoteNbt))
+			return this.remoteNbt;
+
+		NBTTagCompound tag = new NBTTagCompound();
+		this.entity.writeToNBT(tag);
+		return tag;
 	}
 
 	@Override
@@ -69,4 +79,20 @@ public class DataAccessor implements IWailaDataAccessor {
 		return this.blockID;
 	}
 
+	private boolean isTagCorrect(NBTTagCompound tag){
+		if (tag == null){
+			return false;
+		}
+		
+		int x = tag.getInteger("x");
+		int y = tag.getInteger("y");
+		int z = tag.getInteger("z");
+		
+		if (x == this.mop.blockX && y == this.mop.blockY && z == this.mop.blockZ)
+			return true;
+		else {
+			return false;
+		}
+	}
+	
 }

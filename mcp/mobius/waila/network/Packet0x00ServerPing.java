@@ -11,9 +11,16 @@ import cpw.mods.fml.common.network.Player;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
 
-public class Packet0x00ServerPing extends Packet250CustomPayload {
+public class Packet0x00ServerPing {
 	
 	public byte header;
+
+	public Packet0x00ServerPing(Packet250CustomPayload packet){
+		DataInputStream inputStream = new DataInputStream(new ByteArrayInputStream(packet.data));
+		try{
+			this.header = inputStream.readByte();
+		} catch (IOException e){}		
+	}	
 	
 	public static Packet250CustomPayload create(){
 		Packet250CustomPayload packet = new Packet250CustomPayload();
@@ -31,10 +38,5 @@ public class Packet0x00ServerPing extends Packet250CustomPayload {
 		return packet;
 	}
 	
-	public void read(){
-		DataInputStream inputStream = new DataInputStream(new ByteArrayInputStream(this.data));
-		try{
-			this.header = inputStream.readByte();
-		} catch (IOException e){}		
-	}
+
 }

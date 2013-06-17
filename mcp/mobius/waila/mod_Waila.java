@@ -32,7 +32,7 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.ItemData;
 
-@Mod(modid="Waila", name="Waila", version="1.2.0")
+@Mod(modid="Waila", name="Waila", version="1.3.0_RC1")
 @NetworkMod(channels = {"Waila"},clientSideRequired=false, serverSideRequired=false, connectionHandler = WailaConnectionHandler.class, packetHandler = WailaPacketHandler.class)
 
 public class mod_Waila {
@@ -46,6 +46,7 @@ public class mod_Waila {
 	public static Logger log = Logger.getLogger("Waila");
 	private HashMap<Integer, String> itemMap = new HashMap<Integer, String>();	
 	public  Configuration config = null;	
+	public boolean serverPresent = false;
 	
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event) {

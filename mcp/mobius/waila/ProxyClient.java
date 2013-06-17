@@ -9,9 +9,9 @@ import cpw.mods.fml.client.registry.KeyBindingRegistry;
 
 import mcp.mobius.waila.addons.ConfigHandler;
 import mcp.mobius.waila.addons.buildcraft.HUDHandlerBCTanks;
-import mcp.mobius.waila.addons.ic2.HUDHandlerIC2Generator;
-import mcp.mobius.waila.addons.ic2.HUDHandlerIC2Machine;
-import mcp.mobius.waila.addons.ic2.HUDHandlerIC2Storage;
+import mcp.mobius.waila.addons.ic2.HUDHandlerIC2IEnergySource;
+import mcp.mobius.waila.addons.ic2.HUDHandlerIC2IEnergySink;
+import mcp.mobius.waila.addons.ic2.HUDHandlerIC2IEnergyStorage;
 import mcp.mobius.waila.addons.vanillamc.HUDHandlerVanilla;
 import mcp.mobius.waila.gui.ConfigKeyHandler;
 import mcp.mobius.waila.handlers.HUDHandlerExternal;
@@ -70,11 +70,11 @@ public class ProxyClient extends ProxyServer {
 		try {
 			Class ModIndustrialCraft = Class.forName("ic2.core.IC2");
 			mod_Waila.log.log(Level.INFO, "Industrialcraft2 mod found.");
-			HUDHandlerIC2Storage.register();
-			HUDHandlerIC2Machine.register();
-			HUDHandlerIC2Generator.register();
-			ConfigHandler.instance().addConfig("IndustrialCraft2", "ic2.inputeu",  "Max EU input");
-			ConfigHandler.instance().addConfig("IndustrialCraft2", "ic2.outputeu", "Max EU output");			
+			HUDHandlerIC2IEnergySink.register();
+			HUDHandlerIC2IEnergySource.register();
+			HUDHandlerIC2IEnergyStorage.register();
+			//HUDHandlerIC2Machine.register();
+			//HUDHandlerIC2Generator.register();
 			
 		} catch (ClassNotFoundException e){
 			mod_Waila.log.log(Level.INFO, "Industrialcraft2 mod not found. Skipping.");			
