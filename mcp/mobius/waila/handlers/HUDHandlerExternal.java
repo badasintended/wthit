@@ -47,7 +47,8 @@ public class HUDHandlerExternal implements IHighlightHandler {
 		Block block   = accessor.getBlock();
 		int   blockID = accessor.getBlockID();
 		
-		if (accessor.getTileEntity() != null && mod_Waila.instance.serverPresent){
+		if (accessor.getTileEntity() != null && mod_Waila.instance.serverPresent && (System.currentTimeMillis() - accessor.timeLastUpdate >= 250) ){
+			accessor.timeLastUpdate = System.currentTimeMillis();
 			PacketDispatcher.sendPacketToServer(Packet0x01TERequest.create(world, mop));
 		}
 		

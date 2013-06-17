@@ -18,7 +18,7 @@ public class DataAccessor implements IWailaDataAccessor {
 	public int metadata;
 	public TileEntity entity;
 	public NBTTagCompound remoteNbt = null;
-	public int tickSinceUpdate = 0;
+	public long timeLastUpdate = System.currentTimeMillis();
 	
 	public static DataAccessor instance = new DataAccessor();
 
@@ -81,6 +81,7 @@ public class DataAccessor implements IWailaDataAccessor {
 
 	private boolean isTagCorrect(NBTTagCompound tag){
 		if (tag == null){
+			this.timeLastUpdate = System.currentTimeMillis() - 250;
 			return false;
 		}
 		
@@ -91,6 +92,7 @@ public class DataAccessor implements IWailaDataAccessor {
 		if (x == this.mop.blockX && y == this.mop.blockY && z == this.mop.blockZ)
 			return true;
 		else {
+			this.timeLastUpdate = System.currentTimeMillis() - 250;			
 			return false;
 		}
 	}
