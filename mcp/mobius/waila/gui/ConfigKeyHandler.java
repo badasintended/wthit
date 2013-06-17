@@ -10,8 +10,10 @@ import mcp.mobius.waila.addons.ConfigHandler;
 import mcp.mobius.waila.handlers.DataAccessor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagByteArray;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import cpw.mods.fml.client.registry.KeyBindingRegistry.KeyHandler;
 import cpw.mods.fml.common.TickType;
 import cpw.mods.fml.common.registry.LanguageRegistry;
@@ -58,21 +60,45 @@ public class ConfigKeyHandler extends KeyHandler {
 
 	private void dumpTag(NBTTagCompound nbt, int tab){
 		if (nbt == null) return;
+		
 		for (Object s : nbt.tagMap.keySet()){
 			for (int i = 0; i < tab; i++)
 				System.out.printf("\t");
+
+			String  key = (String)s;
+			NBTBase tag = nbt.getTag(key);
+			String  tagtype = tag.getClass().getSimpleName();
 			
-			System.out.printf("[%s]%s : %s\n", nbt.getTag((String)s).getClass().getName(), s, nbt.getTag((String)s));
-			if (nbt.getTag((String)s) instanceof NBTTagCompound){
-				this.dumpTag((NBTTagCompound)nbt.getTag((String)s), tab + 1);
-			}
-			
-			if (nbt.getTag((String)s) instanceof NBTTagByteArray){
-				byte[] array = nbt.getByteArray((String)s);
+			if (!(tag instanceof NBTTagCompound) && !(tag instanceof NBTTagList))
+				System.out.printf("[%s]%s : %s\n", tagtype, key, tag);
+
+			if (tag instanceof NBTTagByteArray){
+				byte[] array = nbt.getByteArray(key);
 				for (int i = 0; i < array.length; i++)
 					System.out.printf("%s ", array[i]);
 				System.out.printf("\n");
 			}
+			
+			if (tag instanceof NBTTagCompound){
+				System.out.printf("[%s]%s\n", tagtype, s);
+				this.dumpTag(nbt.getCompoundTag(key), tab + 1);
+			}
+			
+			if (tag instanceof NBTTagList){
+				System.out.printf("[%s]%s\n", tagtype, s);
+				
+				for (Object o : nbt.getTagList(key).tagList){
+					NBTBase subtag = (NBTBase)o;
+					
+					if (!(subtag instanceof NBTTagCompound))
+						System.out.printf("[%s]%s : %s\n", subtag.getClass().getSimpleName(), subtag.getName(), subtag);
+
+					if (subtag instanceof NBTTagCompound)
+						this.dumpTag((NBTTagCompound)subtag, tab + 1);
+				}
+			}			
+
+
 		}
 	}	
 	

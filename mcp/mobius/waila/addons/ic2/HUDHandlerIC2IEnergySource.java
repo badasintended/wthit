@@ -21,13 +21,6 @@ import codechicken.nei.api.ItemInfo.Layout;
 
 public class HUDHandlerIC2IEnergySource implements IWailaDataProvider {
 
-	/* Our 3 interfaces */
-	private static Class IEnergyStorage = null;	
-	private static Class IEnergySource  = null;
-	
-	/* Our interesting methods */
-	private static Method IEnergySource_GetOutput    = null;
-	
 	@Override
 	public ItemStack getWailaStack(IWailaDataAccessor accessor,	IWailaConfigHandler config) {
 		return null;
@@ -44,8 +37,8 @@ public class HUDHandlerIC2IEnergySource implements IWailaDataProvider {
 		int output   = -1;
 		
 		try{
-			if (IEnergySource.isInstance(accessor.getTileEntity()))
-				output = (Integer)(IEnergySource_GetOutput.invoke(IEnergySource.cast(accessor.getTileEntity())));			
+			if (IC2Module.IEnergySource.isInstance(accessor.getTileEntity()))
+				output = (Integer)(IC2Module.IEnergySource_GetOutput.invoke(IC2Module.IEnergySource.cast(accessor.getTileEntity())));			
 		} catch (Exception e){
 			mod_Waila.log.log(Level.SEVERE, "[IC2] Unhandled exception trying to access an IEnergySource for display !.\n" + String.valueOf(e));
 			return currenttip;				
@@ -55,31 +48,9 @@ public class HUDHandlerIC2IEnergySource implements IWailaDataProvider {
 			currenttip.add(String.format("OUT : %s EU/t", output));
 		
 		if (config.getConfig("ic2.storage"))
-			if (accessor.getNBTData().hasKey("storage") && !IEnergyStorage.isInstance(accessor.getTileEntity()))
+			if (accessor.getNBTData().hasKey("storage") && !IC2Module.IEnergyStorage.isInstance(accessor.getTileEntity()))
 				currenttip.add(String.format("Storage : %s EU", accessor.getNBTData().getShort("storage")));
 			
 		return currenttip;
 	}	
-	
-	public static void register(){
-		try{
-			IEnergyStorage = Class.forName("ic2.api.tile.IEnergyStorage");			
-			IEnergySource  = Class.forName("ic2.api.energy.tile.IEnergySource");
-			IEnergySource_GetOutput    = IEnergySource.getMethod("getMaxEnergyOutput");
-		} catch (ClassNotFoundException e){
-			mod_Waila.log.log(Level.WARNING, "[IC2] IEnergySource class not found.");
-			return;
-		} catch (NoSuchMethodException e){
-			mod_Waila.log.log(Level.WARNING, "[IC2] One method was not found.");
-			return;			
-		}
-
-		ExternalModulesHandler.instance().addConfig("IndustrialCraft2", "ic2.outputeu", "Max EU output");			
-		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerIC2IEnergySource(), IEnergySource);
-		
-		mod_Waila.log.log(Level.INFO, "Waila module IndustrialCraft|Source succefully hooked.");
-	}
-
-		
-	
 }

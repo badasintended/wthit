@@ -8,10 +8,12 @@ import codechicken.nei.forge.GuiContainerManager;
 import cpw.mods.fml.client.registry.KeyBindingRegistry;
 
 import mcp.mobius.waila.addons.ConfigHandler;
+import mcp.mobius.waila.addons.buildcraft.BCModule;
 import mcp.mobius.waila.addons.buildcraft.HUDHandlerBCTanks;
 import mcp.mobius.waila.addons.ic2.HUDHandlerIC2IEnergySource;
 import mcp.mobius.waila.addons.ic2.HUDHandlerIC2IEnergySink;
 import mcp.mobius.waila.addons.ic2.HUDHandlerIC2IEnergyStorage;
+import mcp.mobius.waila.addons.ic2.IC2Module;
 import mcp.mobius.waila.addons.vanillamc.HUDHandlerVanilla;
 import mcp.mobius.waila.gui.ConfigKeyHandler;
 import mcp.mobius.waila.handlers.HUDHandlerExternal;
@@ -56,29 +58,10 @@ public class ProxyClient extends ProxyServer {
 		*/
 		
 		/* BUILDCRAFT */
-		try {
-			Class ModBuildcraftFactory = Class.forName("buildcraft.BuildCraftFactory");
-			mod_Waila.log.log(Level.INFO, "Buildcraft|Factory mod found.");
-			HUDHandlerBCTanks.register();
-			ConfigHandler.instance().addConfig("Buildcraft", "bc.tankamount", "Liquid amount");
-			ConfigHandler.instance().addConfig("Buildcraft", "bc.tanktype",   "Liquid type");
-		} catch (ClassNotFoundException e){
-			mod_Waila.log.log(Level.INFO, "Buildcraft|Factory mod not found. Skipping.");			
-		}		
+		BCModule.register();
 		
 		/* INDUSTRIALCRAFT2 */
-		try {
-			Class ModIndustrialCraft = Class.forName("ic2.core.IC2");
-			mod_Waila.log.log(Level.INFO, "Industrialcraft2 mod found.");
-			HUDHandlerIC2IEnergySink.register();
-			HUDHandlerIC2IEnergySource.register();
-			HUDHandlerIC2IEnergyStorage.register();
-			//HUDHandlerIC2Machine.register();
-			//HUDHandlerIC2Generator.register();
-			
-		} catch (ClassNotFoundException e){
-			mod_Waila.log.log(Level.INFO, "Industrialcraft2 mod not found. Skipping.");			
-		}		
+		IC2Module.register();
 		
 	}	
 	
