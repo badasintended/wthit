@@ -54,8 +54,9 @@ public class HUDHandlerIC2IEnergySource implements IWailaDataProvider {
 		if (ConfigHandler.instance().getConfig("ic2.outputeu") && (output != -1))
 			currenttip.add(String.format("OUT : %s EU/t", output));
 		
-		if (accessor.getNBTData().hasKey("storage") && !IEnergyStorage.isInstance(accessor.getTileEntity()))
-			currenttip.add(String.format("Storage : %s EU", accessor.getNBTData().getShort("storage")));
+		if (config.getConfig("ic2.storage"))
+			if (accessor.getNBTData().hasKey("storage") && !IEnergyStorage.isInstance(accessor.getTileEntity()))
+				currenttip.add(String.format("Storage : %s EU", accessor.getNBTData().getShort("storage")));
 			
 		return currenttip;
 	}	

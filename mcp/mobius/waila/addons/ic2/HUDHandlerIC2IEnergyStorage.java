@@ -41,6 +41,9 @@ public class HUDHandlerIC2IEnergyStorage implements IWailaDataProvider {
 
 	@Override
 	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
+		if (!config.getConfig("ic2.storage"))
+			return currenttip;
+		
 		int stored   = -1;
 		int capacity = -1;
 		try{
@@ -77,6 +80,7 @@ public class HUDHandlerIC2IEnergyStorage implements IWailaDataProvider {
 			return;			
 		}
 		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerIC2IEnergyStorage(), IEnergyStorage);
+		ExternalModulesHandler.instance().addConfigRemote("IndustrialCraft2", "ic2.storage", "Energy stored");	
 		
 		mod_Waila.log.log(Level.INFO, "Waila module IndustrialCraft|Storage succefully hooked.");
 	}

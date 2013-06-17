@@ -1,6 +1,8 @@
 package mcp.mobius.waila.addons;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Set;
 
 import mcp.mobius.waila.mod_Waila;
@@ -11,7 +13,8 @@ import net.minecraftforge.common.Property;
 public class ConfigHandler implements IWailaConfigHandler {
 
 	private static ConfigHandler instance = null;
-	private HashMap<String, ConfigModule> modules = new HashMap<String, ConfigModule>();
+	private LinkedHashMap<String, ConfigModule> modules = new LinkedHashMap<String, ConfigModule>();
+	private ArrayList<String> serverconfigs = new ArrayList<String>();
 	
 	private ConfigHandler() {
 		instance = this;
@@ -50,12 +53,28 @@ public class ConfigHandler implements IWailaConfigHandler {
 		
 		this.modules.get(modName).addOption(key, name);
 	}
+
+	public void addConfigServer(String modName, String key, String name){
+		if (!this.modules.containsKey(modName))
+			this.modules.put(modName, new ConfigModule(modName));
+		
+		this.modules.get(modName).addOption(key, name);
+		this.serverconfigs.add(key);
+	}	
 	
 	@Override
 	public boolean getConfig(String key, boolean defvalue){
 		mod_Waila.instance.config.load();
+		
+		if (this.serverconfigs.contains(key) && !mod_Waila.instance.serverPresent)
+			return false;
+		
 		Property prop = mod_Waila.instance.config.get(Configuration.CATEGORY_GENERAL, key, defvalue);
 		return prop.getBoolean(defvalue);		
+	}
+	
+	public boolean isServerRequired(String key){
+		return this.serverconfigs.contains(key);
 	}
 	
 	@Override

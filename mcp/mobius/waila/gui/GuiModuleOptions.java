@@ -3,6 +3,7 @@ package mcp.mobius.waila.gui;
 import mcp.mobius.waila.addons.ConfigHandler;
 import mcp.mobius.waila.gui.widget.ButtonChangeScreen;
 import mcp.mobius.waila.gui.widget.ButtonConfigOption;
+import mcp.mobius.waila.gui.widget.ButtonConfigRemote;
 import mcp.mobius.waila.gui.widget.ContainerButtons;
 import net.minecraft.client.gui.GuiScreen;
 
@@ -22,7 +23,10 @@ public class GuiModuleOptions extends GuiBaseConfigScreen {
         ContainerButtons container = new ContainerButtons(this, 5, 0, width - 10, height);
         
         for (String key:ConfigHandler.instance().getConfigKeys(this.modName).keySet()){
-        	container.addButton(new ButtonConfigOption(-1, "No", "Yes", ConfigHandler.instance().getConfigKeys(this.modName).get(key), key ));
+        	if (ConfigHandler.instance().isServerRequired(key))
+        		container.addButton(new ButtonConfigRemote(-1, "No", "Yes", ConfigHandler.instance().getConfigKeys(this.modName).get(key), key ));
+        	else
+        		container.addButton(new ButtonConfigOption(-1, "No", "Yes", ConfigHandler.instance().getConfigKeys(this.modName).get(key), key ));
         }
     }
 	

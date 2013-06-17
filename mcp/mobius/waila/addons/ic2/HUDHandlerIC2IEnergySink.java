@@ -53,8 +53,9 @@ public class HUDHandlerIC2IEnergySink implements IWailaDataProvider {
 		if (ConfigHandler.instance().getConfig("ic2.inputeu") && (maxinput != -1))
 			currenttip.add(String.format("IN : %s EU/t", maxinput));
 		
-		if (accessor.getNBTData().hasKey("energy") && !IEnergyStorage.isInstance(accessor.getTileEntity()))
-			currenttip.add(String.format("Storage : %s EU", accessor.getNBTData().getInteger("energy")));		
+		if (config.getConfig("ic2.storage"))
+			if (accessor.getNBTData().hasKey("energy") && !IEnergyStorage.isInstance(accessor.getTileEntity()))
+				currenttip.add(String.format("Storage : %s EU", accessor.getNBTData().getInteger("energy")));		
 		
 		return currenttip;
 	}	
