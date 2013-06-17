@@ -8,6 +8,9 @@ import java.util.logging.Level;
 
 import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.addons.ConfigHandler;
+import mcp.mobius.waila.api.IWailaConfigHandler;
+import mcp.mobius.waila.api.IWailaDataAccessor;
+import mcp.mobius.waila.api.IWailaDataProvider;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -20,73 +23,49 @@ import codechicken.nei.api.ItemInfo.Layout;
 import codechicken.nei.api.API;
 import codechicken.nei.api.IHighlightHandler;
 
-public class HUDHandlerBCTanks implements IHighlightHandler {
-	
-	private static Class  TileTank = null;
-	private static Method TileTank_GetTanks = null;
-	
+public class HUDHandlerBCTanks implements IWailaDataProvider {
+
 	@Override
-	public ItemStack identifyHighlight(World world, EntityPlayer player, MovingObjectPosition mop) {
+	public ItemStack getWailaStack(IWailaDataAccessor accessor,	IWailaConfigHandler config) {
 		return null;
 	}
 
 	@Override
-	public List<String> handleTextData(ItemStack itemStack, World world, EntityPlayer player, MovingObjectPosition mop,	List<String> currenttip, Layout layout) {
+	public List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
+		ILiquidTank tank  = this.getTank(accessor);
+		LiquidStack stack = tank != null ? tank.getLiquid() : null;
 
-		TileEntity entity = world.getBlockTileEntity(mop.blockX, mop.blockY, mop.blockZ);
-		
-		if ((entity != null) && (TileTank.isInstance(entity))){
-			
-			ILiquidTank tank = null;
-			try{
-				tank = ((ILiquidTank[])TileTank_GetTanks.invoke(TileTank.cast(entity), ForgeDirection.UNKNOWN))[0];
-			} catch (Exception e){
-				mod_Waila.log.log(Level.SEVERE, "[BC] Unhandled exception trying to access a tank for display !.\n" + String.valueOf(e));
-				return currenttip;
-			}
-			
-					
-			LiquidStack liquidStack = tank.getLiquid();
-			int liquidAmount = liquidStack != null ? liquidStack.amount:0;
-			int capacity     = tank.getCapacity();
-			
-			if (liquidStack != null && layout == Layout.HEADER && ConfigHandler.instance().getConfig("bc.tanktype")){
-				String name = currenttip.get(0);
-				name = name + " (" + liquidStack.asItemStack().getDisplayName() + ")";
-				currenttip.set(0, name);
-			}
-			
-			if (liquidStack == null && layout == Layout.HEADER && ConfigHandler.instance().getConfig("bc.tanktype")){
-				String name = currenttip.get(0);
-				name = name + " <Empty>";
-				currenttip.set(0, name);
-			}
-			
-			if (layout == Layout.BODY && ConfigHandler.instance().getConfig("bc.tankamount"))
-				currenttip.add(String.valueOf(liquidAmount) + "/" + String.valueOf(capacity)  + " mB");
-
-		}
+		String name = currenttip.get(0); 
+		if (stack != null && ConfigHandler.instance().getConfig("bc.tanktype"))
+			name = name + " (" + stack.asItemStack().getDisplayName() + ")";
+		else if (stack == null &&  ConfigHandler.instance().getConfig("bc.tanktype"))
+			name = name + " <Empty>";
+		currenttip.set(0, name);		
 		return currenttip;
 	}
-	
-	
-	
-	public static void register(){
-		try{
-			TileTank = Class.forName("buildcraft.factory.TileTank");
-			TileTank_GetTanks   = TileTank.getMethod("getTanks", ForgeDirection.class);
-			
-		} catch (ClassNotFoundException e){
-			mod_Waila.log.log(Level.WARNING, "[BC] TileTank class not found.");
-		} catch (NoSuchMethodException e){
-			mod_Waila.log.log(Level.WARNING, "[BB] getTanks() not found.");
-		}
+
+	@Override
+	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
+		ILiquidTank tank  = this.getTank(accessor);
+		LiquidStack stack = tank  != null ? tank.getLiquid() : null;
+		int liquidAmount  = stack != null ? stack.amount:0;
+		int capacity      = tank  != null ? tank.getCapacity() : 0;		
 		
-		if (TileTank_GetTanks != null){
-			mod_Waila.log.log(Level.INFO, "Waila module BuildcraftTank succefully hooked.");
-			API.registerHighlightHandler(new HUDHandlerBCTanks(), Layout.HEADER);
-		    API.registerHighlightHandler(new HUDHandlerBCTanks(), Layout.BODY);
+		if (ConfigHandler.instance().getConfig("bc.tankamount"))
+			currenttip.add(String.valueOf(liquidAmount) + "/" + String.valueOf(capacity)  + " mB");
+		
+		return currenttip;
+	}		
+	
+	public ILiquidTank getTank(IWailaDataAccessor accessor){
+		ILiquidTank tank = null;
+		try{
+			tank = ((ILiquidTank[])BCModule.TileTank_GetTanks.invoke(BCModule.TileTank.cast(accessor.getTileEntity()), ForgeDirection.UNKNOWN))[0];
+		} catch (Exception e){
+			mod_Waila.log.log(Level.SEVERE, "[BC] Unhandled exception trying to access a tank for display !.\n" + String.valueOf(e));
+			return null;
 		}
-	}	
+		return tank;
+	}
 	
 }
