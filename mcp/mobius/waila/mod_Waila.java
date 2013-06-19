@@ -40,7 +40,7 @@ public class mod_Waila {
 	@Instance("Waila")
 	public static mod_Waila instance;
 
-	@SidedProxy(clientSide="mcp.mobius.waila.ProxyClient", serverSide="mcp.mobius.waila.ProxyServer")
+	@SidedProxy(clientSide="mcp.mobius.waila.ProxyClient", serverSide="mcp.mobius.waila.server.ProxyServer")
 	public static ProxyServer proxy;	
 	
 	public static Logger log = Logger.getLogger("Waila");
