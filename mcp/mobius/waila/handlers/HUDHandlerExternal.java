@@ -22,13 +22,17 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class HUDHandlerExternal implements IHighlightHandler {
 	
-	private ArrayList<String> errs = new ArrayList<String>(); 
+	private static ArrayList<String> errs = new ArrayList<String>(); 
 	
-	private void handleErr(Throwable e, String className){
+	private  List<String> handleErr(Throwable e, String className, List<String> currenttip){
 		if (!errs.contains(className)){
 			errs.add(className);
 			mod_Waila.log.log(Level.WARNING, String.format("Catched unhandled exception : [%s] %s",className,e));
 		}
+		if (currenttip != null)
+			currenttip.add("<ERROR>");
+		
+		return currenttip;
 	}
 	
 	@Override
@@ -42,7 +46,7 @@ public class HUDHandlerExternal implements IHighlightHandler {
 			try{
 				return ((IWailaBlock)block).getWailaStack(accessor, ConfigHandler.instance());
 			}catch (Throwable e){
-				handleErr(e, block.getClass().toString());
+				handleErr(e, block.getClass().toString(), null);
 			}
 		}
 
@@ -53,7 +57,7 @@ public class HUDHandlerExternal implements IHighlightHandler {
 					if (retval != null)
 						return retval;					
 				}catch (Throwable e){
-					handleErr(e, dataProvider.getClass().toString());					
+					handleErr(e, dataProvider.getClass().toString(), null);					
 				}				
 			}
 		}
@@ -78,13 +82,13 @@ public class HUDHandlerExternal implements IHighlightHandler {
 				try{				
 					return ((IWailaBlock)block).getWailaHead(itemStack, currenttip, accessor, ConfigHandler.instance());
 				} catch (Throwable e){
-					handleErr(e, block.getClass().toString());
+					return handleErr(e, block.getClass().toString(), currenttip);
 				}					
 			else if (layout == Layout.BODY)
 				try{					
 					return ((IWailaBlock)block).getWailaBody(itemStack, currenttip, accessor, ConfigHandler.instance());
 				} catch (Throwable e){
-					handleErr(e, block.getClass().toString());
+					return handleErr(e, block.getClass().toString(), currenttip);
 				}						
 		}
 		
@@ -93,7 +97,7 @@ public class HUDHandlerExternal implements IHighlightHandler {
 				try{
 					currenttip = dataProvider.getWailaHead(itemStack, currenttip, accessor, ConfigHandler.instance());
 				} catch (Throwable e){
-					handleErr(e, dataProvider.getClass().toString());
+					currenttip = handleErr(e, dataProvider.getClass().toString(), currenttip);
 				}
 		}
 
@@ -102,7 +106,7 @@ public class HUDHandlerExternal implements IHighlightHandler {
 				try{				
 					currenttip = dataProvider.getWailaBody(itemStack, currenttip, accessor, ConfigHandler.instance());
 				} catch (Throwable e){
-					handleErr(e, dataProvider.getClass().toString());
+					currenttip = handleErr(e, dataProvider.getClass().toString(), currenttip);
 				}			
 		}
 		
@@ -111,7 +115,7 @@ public class HUDHandlerExternal implements IHighlightHandler {
 				try{				
 					currenttip = dataProvider.getWailaHead(itemStack, currenttip, accessor, ConfigHandler.instance());
 				} catch (Throwable e){
-					handleErr(e, dataProvider.getClass().toString());
+					currenttip = handleErr(e, dataProvider.getClass().toString(), currenttip);
 				}			
 		}
 
@@ -120,7 +124,7 @@ public class HUDHandlerExternal implements IHighlightHandler {
 				try{				
 					currenttip = dataProvider.getWailaBody(itemStack, currenttip, accessor, ConfigHandler.instance());
 				} catch (Throwable e){
-					handleErr(e, dataProvider.getClass().toString());
+					currenttip = handleErr(e, dataProvider.getClass().toString(), currenttip);
 				}			
 		}		
 
@@ -129,7 +133,7 @@ public class HUDHandlerExternal implements IHighlightHandler {
 				try{				
 					currenttip = dataProvider.getWailaHead(itemStack, currenttip, accessor, ConfigHandler.instance());
 				} catch (Throwable e){
-					handleErr(e, dataProvider.getClass().toString());
+					currenttip = handleErr(e, dataProvider.getClass().toString(), currenttip);
 				}			
 		}
 
@@ -138,7 +142,7 @@ public class HUDHandlerExternal implements IHighlightHandler {
 				try{
 					currenttip = dataProvider.getWailaBody(itemStack, currenttip, accessor, ConfigHandler.instance());
 				} catch (Throwable e){
-					handleErr(e, dataProvider.getClass().toString());
+					currenttip = handleErr(e, dataProvider.getClass().toString(), currenttip);
 				}			
 		}		
 		

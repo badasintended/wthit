@@ -26,8 +26,12 @@ public class HUDHandlerWaila implements IHighlightHandler {
 			if (modName != null && !modName.equals(""))
 				currenttip.add("\u00a79\u00a7o" + modName);
 		} else if (layout == Layout.HEADER && ConfigHandler.instance().getConfig("waila.showmetadata", false)){
-			String name = currenttip.get(0);
-			currenttip.set(0, name + String.format(" %s:%s", world.getBlockId(mop.blockX, mop.blockY, mop.blockZ), world.getBlockMetadata(mop.blockX, mop.blockY, mop.blockZ)));
+			if (currenttip.size() == 0)
+				currenttip.add("< Unnamed >");
+			else{
+				String name = currenttip.get(0);
+				currenttip.set(0, name + String.format(" %s:%s", world.getBlockId(mop.blockX, mop.blockY, mop.blockZ), world.getBlockMetadata(mop.blockX, mop.blockY, mop.blockZ)));
+			}
 		}
 		return currenttip;		
 	};		
