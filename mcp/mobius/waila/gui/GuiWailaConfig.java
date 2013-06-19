@@ -20,7 +20,7 @@ public class GuiWailaConfig extends GuiBaseConfigScreen {
         
         ContainerButtons container = new ContainerButtons(this, 5, 0, width - 10, height);
         container.addButton(new ButtonConfigNEI(-1, "Hidden",   "Shown", "Show/Hide Waila", "options.inworld tooltips" ));
-        container.addButton(new ButtonConfigOption(-1, "Maintened", "Toggled", "Toggle/Maintened", "waila.showmode" ));
+        container.addButton(new ButtonConfigOption(-1, "Maintained", "Toggled", "Toggle/Maintained", "waila.showmode" ));
         container.addButton(new ButtonConfigOption(-1, "Hidden", "Visible", "Show ID:Metadata", "waila.showmetadata", false ));
        
     }

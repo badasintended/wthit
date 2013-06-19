@@ -83,7 +83,7 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 
 		if (config.getConfig("vanilla.comparator"))
 			if ((blockID == comparatorIdl) ||(blockID == comparatorAct)){
-				String mode = ((accessor.getMetadata() >> 2) & 1) == 0 ? "Comparator" : "Substractor";
+				String mode = ((accessor.getMetadata() >> 2) & 1) == 0 ? "Comparator" : "Subtractor";
 				//int outputSignal = ((TileEntityComparator)entity).func_96100_a();
 				currenttip.add("Mode : " + mode);
 				//currenttip.add(String.format("Out : %s", outputSignal));
