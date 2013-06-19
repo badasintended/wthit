@@ -1,6 +1,5 @@
 package mcp.mobius.waila.handlers;
 
-import mcp.mobius.waila.addons.enchantingplus.EplusModule;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.ItemStack;
@@ -57,7 +56,6 @@ public class EnchantementHandler implements IContainerInputHandler {
 							
 							System.out.printf("%s [%s / %s / %s / %s]\n", enchant.getTranslatedName(lvl), minLevel, maxLevel, meanMinLevel, meanMaxLevel);
 
-                            String description = EplusModule.getEnchantmentToolTip(enchant);
 						}
 					}
 				}

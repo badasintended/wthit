@@ -25,16 +25,16 @@ public class ConfigKeyHandler extends KeyHandler {
         super(new KeyBinding[]{
                 new KeyBinding("key.wailaconfig", Keyboard.KEY_NUMPAD0),
                 new KeyBinding("key.wailadisplay", Keyboard.KEY_NUMPAD1),
-                new KeyBinding("key.wailatedump", Keyboard.KEY_NUMPAD1),
+                //new KeyBinding("key.wailatedump", Keyboard.KEY_NUMPAD1),
             }, new boolean[]{
                 false,
                 false,
-                false
+                //false
             });
         
         LanguageRegistry.instance().addStringLocalization("key.wailaconfig", "[Waila] Config screen");
         LanguageRegistry.instance().addStringLocalization("key.wailadisplay", "[Waila] Show/Hide");
-        LanguageRegistry.instance().addStringLocalization("key.wailatedump", "[Waila] Dump server TE");        
+        //LanguageRegistry.instance().addStringLocalization("key.wailatedump", "[Waila] Dump server TE");        
     }	
 
 	@Override
