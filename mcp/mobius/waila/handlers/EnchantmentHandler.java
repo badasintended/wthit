@@ -1,14 +1,18 @@
 package mcp.mobius.waila.handlers;
 
-import mcp.mobius.waila.addons.enchantingplus.EplusModule;
+import java.lang.reflect.Method;
+
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.ItemStack;
 import codechicken.nei.NEIClientConfig;
 import codechicken.nei.forge.IContainerInputHandler;
 
-public class EnchantementHandler implements IContainerInputHandler {
+public class EnchantmentHandler implements IContainerInputHandler {
 
+    static Class EplusApi;
+    static Method Tooltip;	
+	
 	@Override
 	public boolean keyTyped(GuiContainer gui, char keyChar, int keyCode) {
 		// TODO Auto-generated method stub
@@ -57,7 +61,7 @@ public class EnchantementHandler implements IContainerInputHandler {
 							
 							System.out.printf("%s [%s / %s / %s / %s]\n", enchant.getTranslatedName(lvl), minLevel, maxLevel, meanMinLevel, meanMaxLevel);
 
-                            String description = EplusModule.getEnchantmentToolTip(enchant);
+                            String description = this.getEnchantmentToolTip(enchant);
 						}
 					}
 				}
@@ -110,4 +114,21 @@ public class EnchantementHandler implements IContainerInputHandler {
 		
 	}
 
+    private String getEnchantmentToolTip(Enchantment enchantment) {
+        try {
+
+            if (EplusApi == null) {
+                EplusApi = Class.forName("eplus.api.EplusApi");
+            }
+
+            if (Tooltip == null) {
+                Tooltip = EplusApi.getMethod("getEnchantmentToolTip", Enchantment.class);
+            }
+
+            return String.valueOf(Tooltip.invoke(null, enchantment));
+
+        } catch (Exception e) {
+            return "";
+        }
+    }	
 }
