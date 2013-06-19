@@ -1,14 +1,26 @@
 package mcp.mobius.waila.addons.ic2;
 
+import java.lang.reflect.Method;
 import java.util.List;
 import java.util.logging.Level;
 
 import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.addons.ConfigHandler;
+import mcp.mobius.waila.addons.ExternalModulesHandler;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagInt;
+import net.minecraft.nbt.NBTTagShort;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.world.World;
+import codechicken.nei.api.API;
+import codechicken.nei.api.IHighlightHandler;
+import codechicken.nei.api.ItemInfo.Layout;
 
 public class HUDHandlerIC2IEnergySource implements IWailaDataProvider {
 
@@ -40,7 +52,7 @@ public class HUDHandlerIC2IEnergySource implements IWailaDataProvider {
 		
 		if (config.getConfig("ic2.storage"))
 			if (accessor.getNBTData().hasKey("storage") && !IC2Module.IEnergyStorage.isInstance(accessor.getTileEntity()))
-				currenttip.add(String.format("Storage : %s EU", accessor.getNBTData().getShort("storage")));
+				currenttip.add(String.format("Storage : %s EU", accessor.getNBTInteger(accessor.getNBTData(), "storage"))); 
 			
 		return currenttip;
 	}	

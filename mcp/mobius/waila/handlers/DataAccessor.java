@@ -2,7 +2,12 @@ package mcp.mobius.waila.handlers;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTTagByte;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagInt;
+import net.minecraft.nbt.NBTTagLong;
+import net.minecraft.nbt.NBTTagShort;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
@@ -74,6 +79,19 @@ public class DataAccessor implements IWailaDataAccessor {
 		return tag;
 	}
 
+	@Override
+	public int getNBTInteger(NBTTagCompound tag, String keyname){
+		NBTBase subtag = tag.getTag(keyname);
+		if (subtag instanceof NBTTagInt)
+			return tag.getInteger(keyname);
+		if (subtag instanceof NBTTagShort)
+			return tag.getShort(keyname);
+		if (subtag instanceof NBTTagByte)
+			return tag.getByte(keyname);
+
+		return 0;
+	}
+	
 	@Override
 	public int getBlockID() {
 		return this.blockID;

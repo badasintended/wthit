@@ -37,7 +37,7 @@ public class HUDHandlerIC2IEnergyStorage implements IWailaDataProvider {
 		}
 
 		if (accessor.getNBTData().hasKey("energy"))
-			stored = accessor.getNBTData().getInteger("energy");
+			stored = accessor.getNBTInteger(accessor.getNBTData(), "energy");
 
 		if ((capacity != -1) && (stored != -1))
 			currenttip.add(String.format("%s/%s EU", stored, capacity));
