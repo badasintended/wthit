@@ -25,7 +25,15 @@ public class GuiBaseConfigScreen extends GuiScreen {
    /* Here we handle key presses. Super will just close the gui on ESC, and we like it like that */
    public void keyTyped(char keyChar, int keyID)
    {
-       super.keyTyped(keyChar, keyID);
+       if (keyID == 1)
+       {
+    	   if (this.parentGui == null){
+    		   this.mc.displayGuiScreen((GuiScreen)null);
+    		   this.mc.setIngameFocus();
+    	   } else {
+    		   this.mc.displayGuiScreen(this.parentGui);
+    	   }
+       }	   
    }   
    
    @Override
