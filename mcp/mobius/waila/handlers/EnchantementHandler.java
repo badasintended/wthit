@@ -55,6 +55,7 @@ public class EnchantementHandler implements IContainerInputHandler {
 							int meanMaxLevel = (int) ((maxEnchantEnchantability - meanModifiedEnchantability)/1.0);
 							
 							System.out.printf("%s [%s / %s / %s / %s]\n", enchant.getTranslatedName(lvl), minLevel, maxLevel, meanMinLevel, meanMaxLevel);
+
 						}
 					}
 				}

@@ -36,7 +36,7 @@ public class HUDHandlerIC2IEnergySink implements IWailaDataProvider {
 			return currenttip;				
 		}
 
-		int ntransformers = this.getTransformerUpgrades(accessor.getNBTData());
+		int ntransformers = this.getTransformerUpgrades(accessor);
 		if (ntransformers > 0){
 			maxinput = maxinput * (int)Math.pow(4.0D, Math.min(3, ntransformers));
 		}
@@ -50,7 +50,7 @@ public class HUDHandlerIC2IEnergySink implements IWailaDataProvider {
 		
 		if (config.getConfig("ic2.storage"))
 			if (accessor.getNBTData().hasKey("energy") && !IC2Module.IEnergyStorage.isInstance(accessor.getTileEntity()))
-				currenttip.add(String.format("Storage : %s EU", accessor.getNBTData().getInteger("energy")));		
+				currenttip.add(String.format("Storage : %s EU", accessor.getNBTInteger(accessor.getNBTData(), "energy")));		
 		
 		return currenttip;
 	}
@@ -62,13 +62,14 @@ public class HUDHandlerIC2IEnergySink implements IWailaDataProvider {
 		return false;
 	}
 	
-	public int getTransformerUpgrades(NBTTagCompound tag){
+	public int getTransformerUpgrades(IWailaDataAccessor accessor){
+		NBTTagCompound tag = accessor.getNBTData();
 		if (!canUpgrade(tag)) return -1;
 		
 		int ntransformers = 0;
 		NBTTagList contents = tag.getCompoundTag("InvSlots").getCompoundTag("upgrade").getTagList("Contents");
 		for (NBTTagCompound subtag : (List<NBTTagCompound>)contents.tagList){
-			ItemStack currentSlot = new ItemStack(subtag.getShort("id"), subtag.getByte("Count"), subtag.getShort("Damage"));
+			ItemStack currentSlot = new ItemStack(accessor.getNBTInteger(subtag, "id"),accessor.getNBTInteger(subtag, "Count"),accessor.getNBTInteger(subtag, "Damage")); 
 			if (IC2Module.TransformerUpgradeStack.isItemEqual(currentSlot)){
 				ntransformers += currentSlot.stackSize;
 			}

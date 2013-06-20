@@ -16,5 +16,5 @@ public interface IWailaDataAccessor {
 	TileEntity           getTileEntity();
 	MovingObjectPosition getPosition();
 	NBTTagCompound       getNBTData();
-	
+	int          getNBTInteger(NBTTagCompound tag, String keyname);
 }
