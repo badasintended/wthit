@@ -7,7 +7,7 @@ import mcp.mobius.waila.gui.widget.ButtonConfigRemote;
 import mcp.mobius.waila.gui.widget.ContainerButtons;
 import net.minecraft.client.gui.GuiScreen;
 
-public class GuiModuleOptions extends GuiBaseConfigScreen {
+public class GuiModuleOptions extends GuiBaseWailaScreen {
 
 	private String modName;
 	

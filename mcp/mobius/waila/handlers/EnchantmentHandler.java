@@ -2,6 +2,8 @@ package mcp.mobius.waila.handlers;
 
 import java.lang.reflect.Method;
 
+import mcp.mobius.waila.gui.GUIEnchantScreen;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.ItemStack;
@@ -32,6 +34,10 @@ public class EnchantmentHandler implements IContainerInputHandler {
 			return false;		
 		
 		if(keyID == NEIClientConfig.getKeyBinding("showenchant")){
+			Minecraft mc = Minecraft.getMinecraft();
+			mc.displayGuiScreen(new GUIEnchantScreen(mc.currentScreen));
+			
+/*
 			try{
 				System.out.printf("==== ENCHANTS ====\n");
 				
@@ -69,6 +75,7 @@ public class EnchantmentHandler implements IContainerInputHandler {
 			catch (NullPointerException e){
 				System.out.printf("%s\n", e);
 			}
+*/
 		}
 		return false;
 	}
