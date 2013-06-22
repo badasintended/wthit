@@ -17,6 +17,7 @@ import net.minecraftforge.common.Configuration;
 import codechicken.core.CommonUtils;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.IMCCallback;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.Mod.Init;
@@ -47,6 +48,8 @@ public class mod_Waila {
 	private HashMap<Integer, String> itemMap = new HashMap<Integer, String>();	
 	public  Configuration config = null;	
 	public boolean serverPresent = false;
+	public HashMap<String, String> modSourceList = new HashMap<String, String>();
+	
 	
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event) {
@@ -70,6 +73,16 @@ public class mod_Waila {
             ItemData itemData = new ItemData((NBTTagCompound) itemDataList.tagAt(i));
             this.itemMap.put(itemData.getItemId(), itemData.getModId());
         } 	
+        
+        for (ModContainer mod : Loader.instance().getModList()) {
+        	this.modSourceList.put(mod.getSource().getName(), mod.getName());
+        	System.out.printf("%s\n", mod.getSource().getName());
+        }
+        
+//        for (String s : this.modSourceList.keySet())
+//        	if (this.modSourceList.get(s) == "Minecraft Coder Pack")
+//        		this.modSourceList.put(s, "Minecraft");
+        
 	}
 
 	@IMCCallback

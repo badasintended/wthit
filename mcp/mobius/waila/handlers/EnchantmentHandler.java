@@ -2,10 +2,15 @@ package mcp.mobius.waila.handlers;
 
 import java.lang.reflect.Method;
 
+import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.gui.GUIEnchantScreen;
+import mcp.mobius.waila.gui.widget.ContainerTable;
+import mcp.mobius.waila.gui.widget.Label;
+import mcp.mobius.waila.gui.widget.StackDisplay;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import codechicken.nei.NEIClientConfig;
 import codechicken.nei.forge.IContainerInputHandler;
@@ -32,21 +37,28 @@ public class EnchantmentHandler implements IContainerInputHandler {
 		ItemStack stackover = gui.manager.getStackMouseOver();
 		if(stackover == null)
 			return false;		
-		
+		 
 		if(keyID == NEIClientConfig.getKeyBinding("showenchant")){
-			Minecraft mc = Minecraft.getMinecraft();
-			mc.displayGuiScreen(new GUIEnchantScreen(mc.currentScreen));
-			
-/*
-			try{
-				System.out.printf("==== ENCHANTS ====\n");
-				
+			//try{
 				int itemEnchantability = stackover.getItem().getItemEnchantability();	
 				if (itemEnchantability == 0){return false;}
+
+				Minecraft mc = Minecraft.getMinecraft();
+				GUIEnchantScreen enchantScreen = new GUIEnchantScreen(mc.currentScreen);
+				enchantScreen.table = new ContainerTable(enchantScreen, 400, 4, new String[]{"\u00a7a\u00a7oName", "\u00a7a\u00a7oMin lvl", "\u00a7a\u00a7oMax lvl", "\u00a7a\u00a7oMod"});				
+				enchantScreen.stackDisplay = new StackDisplay(stackover, 0, 0);
+				enchantScreen.stackName = new Label("\u00a7f" + stackover.getDisplayName());
+				enchantScreen.stackEnchantability = new Label(String.format("\u00a7fEnchantability : %s", itemEnchantability));
 				
-				for(Enchantment enchant : Enchantment.enchantmentsList){
+				Enchantment[] enchants = null;
+				if (stackover.getItem() == Item.book)
+					enchants = Enchantment.field_92090_c;
+				else
+					enchants = Enchantment.enchantmentsList;
+					
+				for(Enchantment enchant : enchants){
 					if (enchant == null){continue;}
-					if (enchant.canApplyAtEnchantingTable(stackover)){
+					if (enchant.canApplyAtEnchantingTable(stackover) || stackover.getItem() == Item.book){
 						for (int lvl = enchant.getMinLevel(); lvl <= enchant.getMaxLevel(); lvl++){
 							int minEnchantEnchantability = enchant.getMinEnchantability(lvl);
 							int maxEnchantEnchantability = enchant.getMaxEnchantability(lvl);
@@ -65,21 +77,41 @@ public class EnchantmentHandler implements IContainerInputHandler {
 							int meanMinLevel = (int) ((minEnchantEnchantability - meanModifiedEnchantability)/1.0);
 							int meanMaxLevel = (int) ((maxEnchantEnchantability - meanModifiedEnchantability)/1.0);
 							
-							System.out.printf("%s [%s / %s / %s / %s]\n", enchant.getTranslatedName(lvl), minLevel, maxLevel, meanMinLevel, meanMaxLevel);
-
-                            String description = this.getEnchantmentToolTip(enchant);
+							enchantScreen.table.addRow(new Label(enchant.getTranslatedName(lvl)),
+													   new Label(String.valueOf(minLevel)),
+												       new Label(String.valueOf(maxLevel)),
+													   //new Label(String.valueOf(meanMinLevel)),
+												       //new Label(String.valueOf(meanMaxLevel)),
+												       new Label("\u00a79\u00a7o"+ this.getEnchantModName(enchant))
+													  );
+						
+                            //String description = this.getEnchantmentToolTip(enchant);
 						}
 					}
 				}
-			}				
-			catch (NullPointerException e){
-				System.out.printf("%s\n", e);
-			}
-*/
+				mc.displayGuiScreen(enchantScreen);				
+			//}
+			//catch (NullPointerException e){
+			//	System.out.printf("%s\n", e);
+			//}
+			
+			
 		}
 		return false;
 	}
 
+	public String getEnchantModName(Enchantment enchant){
+		String enchantPath = enchant.getClass().getProtectionDomain().getCodeSource().getLocation().toString();
+		String enchantModName = "<Unknown>";
+		for (String s: mod_Waila.instance.modSourceList.keySet())
+			if (enchantPath.contains(s))
+				enchantModName = mod_Waila.instance.modSourceList.get(s);
+		
+		if (enchantModName.equals("Minecraft Coder Pack"))
+			enchantModName = "Minecraft";
+		return enchantModName;
+	}
+	
 	@Override
 	public boolean mouseClicked(GuiContainer gui, int mousex, int mousey,
 			int button) {

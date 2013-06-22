@@ -2,15 +2,22 @@ package mcp.mobius.waila.gui;
 
 import mcp.mobius.waila.gui.widget.Button2States;
 import mcp.mobius.waila.gui.widget.ButtonChangeScreen;
+import mcp.mobius.waila.gui.widget.IWidget;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ScaledResolution;
 
 public class GuiBaseWailaScreen extends GuiScreen {
-
+ 
     protected GuiScreen parentGui;	// GUI we will return to in the case we are call from a GUI
-	
+	protected ScaledResolution res;
+    
 	public GuiBaseWailaScreen(GuiScreen _parentGui) {
 		this.parentGui = _parentGui;
+        res = new ScaledResolution(Minecraft.getMinecraft().gameSettings, 
+        		                   Minecraft.getMinecraft().displayWidth, 
+        		                   Minecraft.getMinecraft().displayHeight);		
 	}
 
    @Override
@@ -44,6 +51,10 @@ public class GuiBaseWailaScreen extends GuiScreen {
 	   
 	   else if (guibutton instanceof Button2States)
 		   ((Button2States)guibutton).pressButton();	   
+   }
+   
+   protected int getXCentered(int width){
+	   return (this.res.getScaledWidth()  - width)/ 2;
    }
    
 }
