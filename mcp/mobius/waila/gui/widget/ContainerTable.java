@@ -73,7 +73,7 @@ public class ContainerTable extends BaseWidget{
         for (int i = 1; i < this.ncolumns; i++)
         	this.columnPos[i] = this.columnPos[i-1] + this.columnWidth[i-1];	
         
-		this.isScrollActive = (this.getHeight() < this.getTableHeight());        
+		this.isScrollActive = (this.getViewportHeight() < this.getTableHeight());        
 	}
 
 	@Override
@@ -82,7 +82,7 @@ public class ContainerTable extends BaseWidget{
 		
 		GL11.glPushMatrix();
 		GL11.glTranslatef(0, this.viewportYPos, 0);
-		this.startScissorFilter(this.posX, this.posY + this.rowHeight, this.getWidth(), this.getHeight());
+		this.startScissorFilter(this.posX, this.posY + this.rowHeight, this.getWidth(), this.getViewportHeight());
 		
     	for (int i = 0; i < this.table.size(); i++)
     		this.drawRow(i, this.posX, this.posY+(i+1)*this.rowHeight);
@@ -107,9 +107,13 @@ public class ContainerTable extends BaseWidget{
 	}
 
 	public int getTableHeight(){
-		return this.rowHeight * (this.getSize() + 1);
+		return this.rowHeight * this.getSize();
 	}	
 
+	public int getViewportHeight(){
+		return this.getHeight() - this.rowHeight;
+	}
+	
 	@Override
 	public int getHeight(){
 		return this.height;
@@ -118,7 +122,7 @@ public class ContainerTable extends BaseWidget{
 	@Override
 	public void setHeight(int height){
 		this.height = height;
-		this.isScrollActive = (this.getHeight() < this.getTableHeight());
+		this.isScrollActive = (this.getViewportHeight() < this.getTableHeight());
 	}
 	
 	public void drawTitle(int rowleft, int rowtop)
@@ -148,10 +152,10 @@ public class ContainerTable extends BaseWidget{
 		this.parent.drawGradientRect(this.posX + this.getWidth() - this.scrollWidth, 
 				                     this.posY + this.rowHeight, 
 				                     this.posX + this.getWidth(), 
-				                     this.posY + this.getHeight() + this.rowHeight , 0xff999999, 0xff999999);
+				                     this.posY + this.getViewportHeight() + this.rowHeight , 0xff999999, 0xff999999);
 		
-		int barHeight = this.getHeight() - this.rowHeight - this.scrollButtonHeight;
-		int maxValue  = this.getTableHeight()  - this.rowHeight - this.getHeight() - this.scrollButtonHeight;
+		int barHeight = this.getViewportHeight()- this.scrollButtonHeight;
+		int maxValue  = this.getTableHeight() - this.getViewportHeight();
 		
 		float currentRatio = (float)(this.viewportYPos * -1) / (float)maxValue;
 		float currentTop   = barHeight * currentRatio;
@@ -166,7 +170,7 @@ public class ContainerTable extends BaseWidget{
 	@Override
 	public boolean mouseWheel(int mouseX, int mouseY, int mouseZ){
 		this.viewportYPos += (mouseZ / 120)*6;
-		this.viewportYPos = -1*Math.min(this.getTableHeight() - this.rowHeight - this.getHeight(), -1*this.viewportYPos);
+		this.viewportYPos = -1*Math.min(this.getTableHeight() - this.getViewportHeight(), -1*this.viewportYPos);
 		this.viewportYPos = Math.min(0, this.viewportYPos);
 		
 		return true;
