@@ -23,7 +23,8 @@ public class ContainerTable extends BaseWidget{
 	FontRenderer fontRender;
 	int[]  columnPos;
 	int[]  columnWidth;
-	ArrayList<IWidget[]> table               = new ArrayList<IWidget[]>();	
+	ArrayList<IWidget[]> table  = new ArrayList<IWidget[]>();
+	VerticalScrollBar scrollbar = new VerticalScrollBar();
 	Label[] columnnames;
 	
     /** where the mouse was in the window when you first clicked to scroll */
@@ -61,7 +62,7 @@ public class ContainerTable extends BaseWidget{
         	Label labelHeader = new Label(header[i]);
         	this.columnnames[i] = labelHeader;
         	this.addWidget(String.format("header_%s", i), labelHeader);
-        }        
+        }     
 	}
 	
 	public int getSize() {
@@ -82,7 +83,7 @@ public class ContainerTable extends BaseWidget{
         for (int i = 1; i < this.ncolumns; i++)
         	this.columnPos[i] = this.columnPos[i-1] + this.columnWidth[i-1];	
         
-		this.isScrollActive = (this.getViewportHeight() < this.getTableHeight());        
+		this.isScrollActive = (this.getViewportHeight() < this.getTableHeight());
 	}
 
 	@Override
@@ -99,11 +100,24 @@ public class ContainerTable extends BaseWidget{
     	this.stopScissorFilter();
 		GL11.glPopMatrix();
 		
-		if (this.isScrollActive)
-			this.drawScrollBar();
+		if (this.isScrollActive){
+	        this.updateScrollBar(this.viewportYPos * -1);
+			this.scrollbar.draw();
+		}
    	
 	}	
 
+	public void updateScrollBar(int value){
+		int scrollbarX = this.posX + this.getWidth() - this.scrollWidth;
+		int scrollbarY = this.posY + this.rowHeight;
+		int scrollbarW = this.scrollWidth;
+		int scrollbarH = this.getViewportHeight();
+		int maxvalue   = this.getTableHeight() - this.getViewportHeight();
+		
+		this.scrollbar.setup(this.parent, scrollbarX, scrollbarY, scrollbarW, scrollbarH, this.scrollButtonHeight, maxvalue);	
+		this.scrollbar.setCurrentValue(value);		
+	}
+	
 	@Override
 	public int getWidth(){
 		int width = 0;
@@ -155,25 +169,6 @@ public class ContainerTable extends BaseWidget{
 			data[j].draw(rowleft + this.columnPos[j], rowtop, 0);
 		}
 			
-	}
-	
-	public void drawScrollBar(){
-		this.parent.drawGradientRect(this.posX + this.getWidth() - this.scrollWidth, 
-				                     this.posY + this.rowHeight, 
-				                     this.posX + this.getWidth(), 
-				                     this.posY + this.getViewportHeight() + this.rowHeight , 0xff999999, 0xff999999);
-		
-		int barHeight = this.getViewportHeight()- this.scrollButtonHeight;
-		int maxValue  = this.getTableHeight() - this.getViewportHeight();
-		
-		float currentRatio = (float)(this.viewportYPos * -1) / (float)maxValue;
-		float currentTop   = barHeight * currentRatio;
-
-		this.parent.drawGradientRect(this.posX + this.getWidth() - this.scrollWidth, 
-                					 (int)(this.posY + currentTop + this.rowHeight), 
-                					 this.posX + this.getWidth(), 
-                					 (int)(this.posY + currentTop + this.rowHeight + this.scrollButtonHeight) , 0xffffffff, 0xffffffff);		
-		
 	}
 	
 	@Override
