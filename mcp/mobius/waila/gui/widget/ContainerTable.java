@@ -14,6 +14,12 @@ import net.minecraft.client.renderer.Tessellator;
 public class ContainerTable extends BaseWidget{
 	int rowHeight;
 	int ncolumns;
+	int viewportYPos  = 0;
+	int tableHeight   = 0;
+	int tableWidth    = 0;
+	int scrollWidth        = 8;
+	int scrollButtonHeight = 16;
+	boolean isScrollActive = false;
 	FontRenderer fontRender;
 	int[]  columnPos;
 	int[]  columnWidth;
@@ -65,15 +71,28 @@ public class ContainerTable extends BaseWidget{
 		
         this.columnPos[0] = 0;
         for (int i = 1; i < this.ncolumns; i++)
-        	this.columnPos[i] = this.columnPos[i-1] + this.columnWidth[i-1];		
+        	this.columnPos[i] = this.columnPos[i-1] + this.columnWidth[i-1];	
+        
+		this.isScrollActive = (this.getHeight() < this.getTableHeight());        
 	}
 
 	@Override
 	public void draw() {
 		this.drawTitle(this.posX, this.posY);
 		
+		GL11.glPushMatrix();
+		GL11.glTranslatef(0, this.viewportYPos, 0);
+		this.startScissorFilter(this.posX, this.posY + this.rowHeight, this.getWidth(), this.getHeight());
+		
     	for (int i = 0; i < this.table.size(); i++)
-    		this.drawRow(i, this.posX, this.posY+(i+1)*this.rowHeight);		
+    		this.drawRow(i, this.posX, this.posY+(i+1)*this.rowHeight);
+    	
+    	this.stopScissorFilter();
+		GL11.glPopMatrix();
+		
+		if (this.isScrollActive)
+			this.drawScrollBar();
+   	
 	}	
 
 	@Override
@@ -81,13 +100,26 @@ public class ContainerTable extends BaseWidget{
 		int width = 0;
 		for (int i: this.columnWidth)
 			width += i;
+		
+		if (this.isScrollActive)
+			width += this.scrollWidth;
 		return width;
 	}
 
-	@Override
-	public int getHeight(){
+	public int getTableHeight(){
 		return this.rowHeight * (this.getSize() + 1);
 	}	
+
+	@Override
+	public int getHeight(){
+		return this.height;
+	}	
+	
+	@Override
+	public void setHeight(int height){
+		this.height = height;
+		this.isScrollActive = (this.getHeight() < this.getTableHeight());
+	}
 	
 	public void drawTitle(int rowleft, int rowtop)
 	{
@@ -110,5 +142,33 @@ public class ContainerTable extends BaseWidget{
 			data[j].draw(rowleft + this.columnPos[j], rowtop, 0);
 		}
 			
+	}
+	
+	public void drawScrollBar(){
+		this.parent.drawGradientRect(this.posX + this.getWidth() - this.scrollWidth, 
+				                     this.posY + this.rowHeight, 
+				                     this.posX + this.getWidth(), 
+				                     this.posY + this.getHeight() + this.rowHeight , 0xff999999, 0xff999999);
+		
+		int barHeight = this.getHeight() - this.rowHeight - this.scrollButtonHeight;
+		int maxValue  = this.getTableHeight()  - this.rowHeight - this.getHeight() - this.scrollButtonHeight;
+		
+		float currentRatio = (float)(this.viewportYPos * -1) / (float)maxValue;
+		float currentTop   = barHeight * currentRatio;
+
+		this.parent.drawGradientRect(this.posX + this.getWidth() - this.scrollWidth, 
+                					 (int)(this.posY + currentTop + this.rowHeight), 
+                					 this.posX + this.getWidth(), 
+                					 (int)(this.posY + currentTop + this.rowHeight + this.scrollButtonHeight) , 0xffffffff, 0xffffffff);		
+		
+	}
+	
+	@Override
+	public boolean mouseWheel(int mouseX, int mouseY, int mouseZ){
+		this.viewportYPos += (mouseZ / 120)*6;
+		this.viewportYPos = -1*Math.min(this.getTableHeight() - this.rowHeight - this.getHeight(), -1*this.viewportYPos);
+		this.viewportYPos = Math.min(0, this.viewportYPos);
+		
+		return true;
 	}	
 }

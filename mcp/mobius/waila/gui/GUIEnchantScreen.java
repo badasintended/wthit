@@ -25,6 +25,7 @@ public class GUIEnchantScreen extends GuiBaseWailaScreen {
 		this.widStackEnchantability = new Label(this);
 		
 		this.widTable.setColumns(8, "\u00a7a\u00a7oName", "\u00a7a\u00a7oMin lvl", "\u00a7a\u00a7oMax lvl", "\u00a7a\u00a7oMod");
+		this.widTable.setHeight(this.res.getScaledHeight() - 16 - 32);
 		
 		this.addWidget("datatable",    this.widTable);
 		this.addWidget("stackdisplay", this.widStackDisplay);

@@ -17,7 +17,7 @@ import net.minecraft.client.gui.ScaledResolution;
 public class GuiBaseWailaScreen extends GuiScreen {
  
     protected GuiScreen parentGui;	// GUI we will return to in the case we are call from a GUI
-	protected ScaledResolution res;
+	public    ScaledResolution res;
     protected HashMap<String, IWidget> widgets = new HashMap<String, IWidget>();
 	
     private int  lastMouseButton = -1;

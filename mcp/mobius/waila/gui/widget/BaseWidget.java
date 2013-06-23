@@ -1,8 +1,12 @@
 package mcp.mobius.waila.gui.widget;
 
+import org.lwjgl.opengl.Display;
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.RenderEngine;
 
 public abstract class BaseWidget implements IWidget {
@@ -59,4 +63,22 @@ public abstract class BaseWidget implements IWidget {
 	public boolean mouseMovedOrUp(int mouseX, int mouseY, int buttonID){return false;}
 	@Override		
     public boolean mouseMoved(int mouseX, int mouseY){return false;}
+	
+	public void startScissorFilter(int posX, int posY, int width, int height){
+		ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft().gameSettings, 
+                									Minecraft.getMinecraft().displayWidth, 
+                									Minecraft.getMinecraft().displayHeight);			
+		int scaleFactor = res.getScaleFactor();
+		
+		int glLeft   =  posX * scaleFactor;
+		int glBottom =  (res.getScaledHeight() - (posY + height)) * scaleFactor;
+		
+		GL11.glScissor(posX*scaleFactor, glBottom, width*scaleFactor, height*scaleFactor);
+		GL11.glEnable(GL11.GL_SCISSOR_TEST);		
+	}
+	
+	public void stopScissorFilter(){
+		GL11.glDisable(GL11.GL_SCISSOR_TEST);
+	}
+	
 }
