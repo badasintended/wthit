@@ -51,4 +51,12 @@ public abstract class BaseWidget implements IWidget {
 		this.draw();
 	}
 
+	@Override
+	public boolean mouseClicked(int mouseX, int mouseY, int buttonID){return false;}
+	@Override
+	public boolean mouseWheel(int mouseX, int mouseY, int mouseZ){return false;}
+	@Override	
+	public boolean mouseMovedOrUp(int mouseX, int mouseY, int buttonID){return false;}
+	@Override		
+    public boolean mouseMoved(int mouseX, int mouseY){return false;}
 }

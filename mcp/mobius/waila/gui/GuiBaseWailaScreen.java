@@ -83,28 +83,30 @@ public class GuiBaseWailaScreen extends GuiScreen {
    @Override
    protected void mouseClicked(int mouseX, int mouseY, int buttonID)
    {
-	   //System.out.printf("%s %s %s\n", mouseX, mouseY, buttonID);
-	   
 	   IWidget widget = this.getWidgetAtCoordinates(mouseX, mouseY);
-	   if (widget != null)
-		   System.out.printf("%s\n", widget);
-	   
-	   super.mouseClicked(mouseX, mouseY, buttonID);
+	   if (widget == null || !widget.mouseClicked(mouseX, mouseY, buttonID))
+		   super.mouseClicked(mouseX, mouseY, buttonID);
    }   
    
    @Override
    protected void mouseMovedOrUp(int mouseX, int mouseY, int buttonID)
    {
-	   System.out.printf("%s %s %s\n", mouseX, mouseY, buttonID);
-	   super.mouseMovedOrUp(mouseX, mouseY, buttonID);	   
+	   IWidget widget = this.getWidgetAtCoordinates(mouseX, mouseY);
+	   if (widget == null || !widget.mouseMovedOrUp(mouseX, mouseY, buttonID))
+		   super.mouseMovedOrUp(mouseX, mouseY, buttonID);   
    }   
 
    protected void mouseWheel(int mouseX, int mouseY, int mouseZ){
-	   System.out.printf("%s %s %s\n", mouseX, mouseY, mouseZ);	   
+	   IWidget widget = this.getWidgetAtCoordinates(mouseX, mouseY);
+	   if (widget != null)
+		   widget.mouseWheel(mouseX, mouseY, mouseZ);
+   
    }
    
    protected void mouseMoved(int mouseX, int mouseY){
-	   System.out.printf("%s %s\n", mouseX, mouseY);	   
+	   IWidget widget = this.getWidgetAtCoordinates(mouseX, mouseY);
+	   if (widget != null)
+		   widget.mouseMoved(mouseX, mouseY);	   
    }   
    
    @Override

@@ -12,7 +12,11 @@ public interface IWidget {
 	void setLabel(String label);
     void setPos(int posX, int posY, int posZ);
 	
-	
+	boolean mouseClicked(int mouseX, int mouseY, int buttonID);
+    boolean mouseWheel(int mouseX, int mouseY, int mouseZ);
+    boolean mouseMovedOrUp(int mouseX, int mouseY, int buttonID);
+    boolean mouseMoved(int mouseX, int mouseY);
+    
 	void draw();
 	void draw(int x, int y, int z);
 }
