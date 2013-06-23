@@ -3,8 +3,8 @@ package mcp.mobius.waila.gui;
 import java.util.HashMap;
 
 import mcp.mobius.waila.addons.ConfigHandler;
-import mcp.mobius.waila.gui.widget.ButtonChangeScreen;
-import mcp.mobius.waila.gui.widget.ContainerButtons;
+import mcp.mobius.waila.gui.widget_old.ButtonChangeScreen;
+import mcp.mobius.waila.gui.widget_old.ContainerButtons;
 import net.minecraft.client.gui.GuiScreen;
 
 public class GuiModules extends GuiBaseWailaScreen {

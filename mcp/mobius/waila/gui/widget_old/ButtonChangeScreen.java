@@ -1,4 +1,4 @@
-package mcp.mobius.waila.gui.widget;
+package mcp.mobius.waila.gui.widget_old;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;

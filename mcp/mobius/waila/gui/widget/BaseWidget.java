@@ -1,5 +1,8 @@
 package mcp.mobius.waila.gui.widget;
 
+import java.util.Collection;
+import java.util.HashMap;
+
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
@@ -17,6 +20,7 @@ public abstract class BaseWidget implements IWidget {
 	protected GuiScreen parent;
 	protected FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;;
 	protected RenderEngine renderEngine = Minecraft.getMinecraft().renderEngine;
+    protected HashMap<String, IWidget> widgets = new HashMap<String, IWidget>();
 	
 	public BaseWidget(){}
 	
@@ -56,7 +60,13 @@ public abstract class BaseWidget implements IWidget {
 	}
 
 	@Override
-	public boolean mouseClicked(int mouseX, int mouseY, int buttonID){return false;}
+	public boolean mouseClicked(int mouseX, int mouseY, int buttonID){
+		IWidget widget = this.getWidgetAtCoordinates(mouseX, mouseY);
+		if (widget != null)
+			return widget.mouseClicked(mouseX, mouseY, buttonID);
+		return false;
+	}	
+	
 	@Override
 	public boolean mouseWheel(int mouseX, int mouseY, int mouseZ){return false;}
 	@Override	
@@ -80,5 +90,27 @@ public abstract class BaseWidget implements IWidget {
 	public void stopScissorFilter(){
 		GL11.glDisable(GL11.GL_SCISSOR_TEST);
 	}
-	
+
+	@Override		
+    public IWidget getWidgetAtCoordinates(int posX, int posY){
+	    for (IWidget widget : this.getWidgets())
+	 	   if ((posX >=  widget.getPosX()) && 
+	 	       (posX <=  widget.getPosX() + widget.getWidth()) &&
+		       (posY >=  widget.getPosY()) &&
+		       (posY <=  widget.getPosY() + widget.getHeight()))
+		      return widget;
+	   return null;
+   }
+	@Override		
+   public void addWidget(String name, IWidget widget){
+	   this.widgets.put(name, widget);
+   }
+	@Override		
+   public Collection<IWidget> getWidgets(){
+	   return this.widgets.values();
+   }
+	@Override		
+   public IWidget getWidget(String name){
+	   return this.widgets.get(name);
+   }   
 }

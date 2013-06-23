@@ -1,5 +1,7 @@
 package mcp.mobius.waila.gui.widget;
 
+import java.util.Collection;
+
 public interface IWidget {
 	int  getWidth();
 	int  getHeight();
@@ -19,4 +21,9 @@ public interface IWidget {
     
 	void draw();
 	void draw(int x, int y, int z);
+	
+	IWidget getWidgetAtCoordinates(int posX, int posY);
+	public void addWidget(String name, IWidget widget);
+	public Collection<IWidget> getWidgets();
+	public IWidget getWidget(String name);	
 }

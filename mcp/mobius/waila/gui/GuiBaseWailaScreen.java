@@ -6,15 +6,15 @@ import java.util.HashMap;
 
 import org.lwjgl.input.Mouse;
 
-import mcp.mobius.waila.gui.widget.Button2States;
-import mcp.mobius.waila.gui.widget.ButtonChangeScreen;
 import mcp.mobius.waila.gui.widget.IWidget;
+import mcp.mobius.waila.gui.widget_old.Button2States;
+import mcp.mobius.waila.gui.widget_old.ButtonChangeScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 
-public class GuiBaseWailaScreen extends GuiScreen {
+public class GuiBaseWailaScreen extends GuiScreen{
  
     protected GuiScreen parentGui;	// GUI we will return to in the case we are call from a GUI
 	public    ScaledResolution res;
@@ -81,7 +81,7 @@ public class GuiBaseWailaScreen extends GuiScreen {
    }
    
    @Override
-   protected void mouseClicked(int mouseX, int mouseY, int buttonID)
+   public void mouseClicked(int mouseX, int mouseY, int buttonID)
    {
 	   IWidget widget = this.getWidgetAtCoordinates(mouseX, mouseY);
 	   if (widget == null || !widget.mouseClicked(mouseX, mouseY, buttonID))
@@ -89,21 +89,21 @@ public class GuiBaseWailaScreen extends GuiScreen {
    }   
    
    @Override
-   protected void mouseMovedOrUp(int mouseX, int mouseY, int buttonID)
+   public void mouseMovedOrUp(int mouseX, int mouseY, int buttonID)
    {
 	   IWidget widget = this.getWidgetAtCoordinates(mouseX, mouseY);
 	   if (widget == null || !widget.mouseMovedOrUp(mouseX, mouseY, buttonID))
 		   super.mouseMovedOrUp(mouseX, mouseY, buttonID);   
    }   
 
-   protected void mouseWheel(int mouseX, int mouseY, int mouseZ){
+   public void mouseWheel(int mouseX, int mouseY, int mouseZ){
 	   IWidget widget = this.getWidgetAtCoordinates(mouseX, mouseY);
 	   if (widget != null)
 		   widget.mouseWheel(mouseX, mouseY, mouseZ);
    
    }
    
-   protected void mouseMoved(int mouseX, int mouseY){
+   public void mouseMoved(int mouseX, int mouseY){
 	   IWidget widget = this.getWidgetAtCoordinates(mouseX, mouseY);
 	   if (widget != null)
 		   widget.mouseMoved(mouseX, mouseY);	   

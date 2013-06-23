@@ -43,8 +43,11 @@ public class ContainerTable extends BaseWidget{
         this.columnWidth = new int[this.ncolumns];
         this.columnnames = new Label[this.ncolumns];
         
-        for (int i = 0; i < this.ncolumns; i++)
-        	this.columnnames[i] = new Label(columnnames[i]);
+        for (int i = 0; i < this.ncolumns; i++){
+        	Label labelHeader = new Label(columnnames[i]);
+        	this.columnnames[i] = labelHeader;
+        	this.addWidget(String.format("header_%s", i), labelHeader);
+        }
 	}
 
 	public void setColumns(int rowHeight, String... header){
@@ -54,8 +57,11 @@ public class ContainerTable extends BaseWidget{
         this.columnWidth = new int[this.ncolumns];
         this.columnnames = new Label[this.ncolumns];
         
-        for (int i = 0; i < this.ncolumns; i++)
-        	this.columnnames[i] = new Label(header[i]);        
+        for (int i = 0; i < this.ncolumns; i++){
+        	Label labelHeader = new Label(header[i]);
+        	this.columnnames[i] = labelHeader;
+        	this.addWidget(String.format("header_%s", i), labelHeader);
+        }        
 	}
 	
 	public int getSize() {
@@ -64,6 +70,9 @@ public class ContainerTable extends BaseWidget{
 
 	public void addRow(IWidget... data){
 		this.table.add(data);
+		for (int i = 0; i < data.length; i++)
+			this.addWidget(String.format("row_%s_%s", this.table.size(), i), data[i]);
+		
 		for (int i = 0; i < ncolumns; i++){
 			this.columnWidth[i] = Math.max(data[i].getWidth() + 8, this.columnWidth[i]);
 			this.columnWidth[i] = Math.max(this.columnnames[i].getWidth() + 8, this.columnWidth[i]);			
