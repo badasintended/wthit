@@ -10,15 +10,26 @@ import net.minecraft.client.renderer.Tessellator;
 
 public class GUIEnchantScreen extends GuiBaseWailaScreen {
 
-	public ContainerTable table;
-	public StackDisplay   stackDisplay;
-	public Label          stackName;
-	public Label          stackEnchantability;
+	public ContainerTable widTable;
+	public StackDisplay   widStackDisplay;
+	public Label          widStackName;
+	public Label          widStackEnchantability;
 	
 	public GUIEnchantScreen(GuiScreen _parentGui) {
 		super(_parentGui);
 		this.zLevel = -1.0F;
-		//this.zLevel = 500.0F;		
+		
+		this.widTable               = new ContainerTable(this);				
+		this.widStackDisplay        = new StackDisplay(this);
+		this.widStackName           = new Label(this);
+		this.widStackEnchantability = new Label(this);
+		
+		this.widTable.setColumns(8, "\u00a7a\u00a7oName", "\u00a7a\u00a7oMin lvl", "\u00a7a\u00a7oMax lvl", "\u00a7a\u00a7oMod");
+		
+		this.addWidget("datatable",    this.widTable);
+		this.addWidget("stackdisplay", this.widStackDisplay);
+		this.addWidget("stackname",    this.widStackName);
+		this.addWidget("stackenchant", this.widStackEnchantability);
 	}
 	
    @Override
@@ -29,10 +40,10 @@ public class GUIEnchantScreen extends GuiBaseWailaScreen {
 	   //this.parentGui.allowUserInput = false;
 	   
        super.drawScreen(i, j, f);
-       table.draw(this.getXCentered(table.getWidth()), 32, 0);           
-       stackDisplay.draw(this.getXCentered(table.getWidth()), 0, 0);
-       stackName.draw(this.getXCentered(table.getWidth())+32, 0, 0);
-       stackEnchantability.draw(this.getXCentered(table.getWidth())+32, 8, 0);
+       widTable.draw(this.getXCentered(widTable.getWidth()), 32, 0);           
+       widStackDisplay.draw(this.getXCentered(widTable.getWidth()), 0, 0);
+       widStackName.draw(this.getXCentered(widTable.getWidth())+32, 0, 0);
+       widStackEnchantability.draw(this.getXCentered(widTable.getWidth())+32, 8, 0);
    }
 
    @Override

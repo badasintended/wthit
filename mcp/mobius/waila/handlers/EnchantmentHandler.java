@@ -45,10 +45,9 @@ public class EnchantmentHandler implements IContainerInputHandler {
 
 				Minecraft mc = Minecraft.getMinecraft();
 				GUIEnchantScreen enchantScreen = new GUIEnchantScreen(mc.currentScreen);
-				enchantScreen.table = new ContainerTable(enchantScreen, 400, 4, new String[]{"\u00a7a\u00a7oName", "\u00a7a\u00a7oMin lvl", "\u00a7a\u00a7oMax lvl", "\u00a7a\u00a7oMod"});				
-				enchantScreen.stackDisplay = new StackDisplay(stackover, 0, 0);
-				enchantScreen.stackName = new Label("\u00a7f" + stackover.getDisplayName());
-				enchantScreen.stackEnchantability = new Label(String.format("\u00a7fEnchantability : %s", itemEnchantability));
+				enchantScreen.widStackDisplay.setStack(stackover);
+				enchantScreen.widStackName.setLabel("\u00a7f" + stackover.getDisplayName());
+				enchantScreen.widStackEnchantability.setLabel(String.format("\u00a7fEnchantability : %s", itemEnchantability));
 				
 				Enchantment[] enchants = null;
 				if (stackover.getItem() == Item.book)
@@ -77,12 +76,12 @@ public class EnchantmentHandler implements IContainerInputHandler {
 							int meanMinLevel = (int) ((minEnchantEnchantability - meanModifiedEnchantability)/1.0);
 							int meanMaxLevel = (int) ((maxEnchantEnchantability - meanModifiedEnchantability)/1.0);
 							
-							enchantScreen.table.addRow(new Label(enchant.getTranslatedName(lvl)),
-													   new Label(String.valueOf(minLevel)),
-												       new Label(String.valueOf(maxLevel)),
-													   //new Label(String.valueOf(meanMinLevel)),
-												       //new Label(String.valueOf(meanMaxLevel)),
-												       new Label("\u00a79\u00a7o"+ this.getEnchantModName(enchant))
+							enchantScreen.widTable.addRow(new Label(enchant.getTranslatedName(lvl)),
+													      new Label(String.valueOf(minLevel)),
+												          new Label(String.valueOf(maxLevel)),
+													      //new Label(String.valueOf(meanMinLevel)),
+												          //new Label(String.valueOf(meanMaxLevel)),
+												          new Label("\u00a79\u00a7o"+ this.getEnchantModName(enchant))
 													  );
 						
                             //String description = this.getEnchantmentToolTip(enchant);

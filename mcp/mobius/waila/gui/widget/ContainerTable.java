@@ -12,8 +12,7 @@ import net.minecraft.client.gui.GuiSlot;
 import net.minecraft.client.renderer.Tessellator;
 
 public class ContainerTable extends BaseWidget{
-	GuiScreen parentScreen;
-	int slotHeight;
+	int rowHeight;
 	int ncolumns;
 	FontRenderer fontRender;
 	int[]  columnPos;
@@ -24,10 +23,14 @@ public class ContainerTable extends BaseWidget{
     /** where the mouse was in the window when you first clicked to scroll */
     public float initialClickY = -2.0F;	
     
+    public ContainerTable(GuiScreen parent){
+    	this.parent = parent;
+    };
+    
 	public ContainerTable( GuiScreen parent, int height, int ncolumns, String[] columnnames) {
-		this.parentScreen = parent;
+		this.parent = parent;
         this.height  = height;
-        this.slotHeight = 8;
+        this.rowHeight = 8;
         this.fontRender = Minecraft.getMinecraft().fontRenderer;
         this.ncolumns = ncolumns;
         this.columnPos   = new int[this.ncolumns];
@@ -38,7 +41,17 @@ public class ContainerTable extends BaseWidget{
         	this.columnnames[i] = new Label(columnnames[i]);
 	}
 
-
+	public void setColumns(int rowHeight, String... header){
+		this.rowHeight   = rowHeight;
+		this.ncolumns    = header.length;
+        this.columnPos   = new int[this.ncolumns];
+        this.columnWidth = new int[this.ncolumns];
+        this.columnnames = new Label[this.ncolumns];
+        
+        for (int i = 0; i < this.ncolumns; i++)
+        	this.columnnames[i] = new Label(header[i]);        
+	}
+	
 	public int getSize() {
 		return this.table.size();
 	}
@@ -56,11 +69,11 @@ public class ContainerTable extends BaseWidget{
 	}
 
 	@Override
-	public void draw(int x, int y, int z) {
-		this.drawTitle(x, y);
+	public void draw() {
+		this.drawTitle(this.posX, this.posY);
 		
     	for (int i = 0; i < this.table.size(); i++)
-    		this.drawRow(i, x, y+(i+1)*this.slotHeight);		
+    		this.drawRow(i, this.posX, this.posY+(i+1)*this.rowHeight);		
 	}	
 
 	@Override
@@ -73,7 +86,7 @@ public class ContainerTable extends BaseWidget{
 
 	@Override
 	public int getHeight(){
-		return this.slotHeight * (this.getSize() + 1);
+		return this.rowHeight * (this.getSize() + 1);
 	}	
 	
 	public void drawTitle(int rowleft, int rowtop)
@@ -87,9 +100,9 @@ public class ContainerTable extends BaseWidget{
 	public void drawRow(int index, int rowleft, int rowtop)
 	{
 		if (index%2 == 0)
-			this.parentScreen.drawGradientRect(rowleft, rowtop, rowleft+this.getWidth(), rowtop+this.slotHeight, 0xff333333, 0xff333333);
+			this.parent.drawGradientRect(rowleft, rowtop, rowleft+this.getWidth(), rowtop+this.rowHeight, 0xff333333, 0xff333333);
 		else
-			this.parentScreen.drawGradientRect(rowleft, rowtop, rowleft+this.getWidth(), rowtop+this.slotHeight, 0xff000000, 0xff000000);			
+			this.parent.drawGradientRect(rowleft, rowtop, rowleft+this.getWidth(), rowtop+this.rowHeight, 0xff000000, 0xff000000);			
 		
 		IWidget[] data = this.table.get(index);
 		for (int j = 0; j < this.ncolumns; j++){

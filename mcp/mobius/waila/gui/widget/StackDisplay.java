@@ -2,6 +2,7 @@ package mcp.mobius.waila.gui.widget;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.RenderEngine;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
@@ -14,19 +15,19 @@ public class StackDisplay extends BaseWidget {
 	protected Icon icon;
 	protected int sizeX;
 	protected int sizeY;
-	public FontRenderer fontRender   = Minecraft.getMinecraft().fontRenderer;
-	public RenderEngine renderEngine = Minecraft.getMinecraft().renderEngine;
 	
-	public StackDisplay(ItemStack stack, int sizeX, int sizeY) {
+	public StackDisplay(GuiScreen parent){
+		this.parent = parent;
+	};
+	
+	public void setStack(ItemStack stack){
 		this.stack = stack;
 		this.icon  = stack.getIconIndex();
-		this.sizeX = sizeX;
-		this.sizeY = sizeY;
 	}
-
+	
 	@Override
-	public void draw(int x, int y, int z) {
-	    drawItems.renderItemAndEffectIntoGUI(this.fontRender, this.renderEngine, this.stack, x, y);
+	public void draw() {
+	    drawItems.renderItemAndEffectIntoGUI(this.fontRenderer, this.renderEngine, this.stack, this.posX, this.posY);
 	}
 
 	@Override
