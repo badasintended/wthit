@@ -5,8 +5,10 @@ import net.minecraft.client.gui.GuiScreen;
 public class VerticalScrollBar extends BaseWidget {
 
 	private int maxvalue;
-	private int currvalue;
-	private int buttonheight;
+	private int currvalue = 0;
+	private int buttonH;
+	private int buttonTop;
+	private int step = 6;
 	
 	public VerticalScrollBar(){};
 	
@@ -17,7 +19,7 @@ public class VerticalScrollBar extends BaseWidget {
 		this.width    = width;
 		this.height   = height;
 		this.maxvalue = maxvalue;
-		this.buttonheight = buttonH;
+		this.buttonH = buttonH;
 	}
 
 	@Override
@@ -39,12 +41,12 @@ public class VerticalScrollBar extends BaseWidget {
                 					 0xff999999, 0xff999999);
 
 		float currentRatio = (float)(this.currvalue) / (float)(this.maxvalue);
-		float currentTop   = (this.getHeight() - this.buttonheight) * currentRatio;
+		this.buttonTop = (int)((this.getHeight() - this.buttonH) * currentRatio) + this.posY;
 
 		this.parent.drawGradientRect(this.posX, 
-									 (int)(this.posY + currentTop), 
+									 buttonTop, 
 									 this.posX + this.getWidth(), 
-									 (int)(this.posY + currentTop + this.buttonheight),
+									 buttonTop + this.buttonH,
 									 0xffffffff, 0xffffffff);
 
 	}
@@ -52,5 +54,31 @@ public class VerticalScrollBar extends BaseWidget {
 	public void setCurrentValue(int currvalue){
 		this.currvalue = currvalue;
 	}
+
+	public void addCurrentValue(int value){
+		this.currvalue += value;
+		this.currvalue = Math.max(0, this.currvalue);
+		this.currvalue = Math.min(this.maxvalue, this.currvalue);
+
+	}
+	
+	public int getCurrentValue(){
+		return this.currvalue;
+	}
+	
+	public int getStep(){
+		return this.step;
+	}
+	
+	@Override
+	public boolean mouseClicked(int mouseX, int mouseY, int buttonID){
+		if(mouseY < this.buttonTop)
+			this.addCurrentValue(-1 * this.step);
+		else if (mouseY > this.buttonTop + this.buttonH)
+			this.addCurrentValue(this.step);			
+		else
+			System.out.printf("Clicked on button\n");
+		return true;
+	}	
 	
 }

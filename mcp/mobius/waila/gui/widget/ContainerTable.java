@@ -14,7 +14,7 @@ import net.minecraft.client.renderer.Tessellator;
 public class ContainerTable extends BaseWidget{
 	int rowHeight;
 	int ncolumns;
-	int viewportYPos  = 0;
+	//int viewportYPos  = 0;
 	int tableHeight   = 0;
 	int tableWidth    = 0;
 	int scrollWidth        = 8;
@@ -27,11 +27,9 @@ public class ContainerTable extends BaseWidget{
 	VerticalScrollBar scrollbar = new VerticalScrollBar();
 	Label[] columnnames;
 	
-    /** where the mouse was in the window when you first clicked to scroll */
-    public float initialClickY = -2.0F;	
-    
     public ContainerTable(GuiScreen parent){
     	this.parent = parent;
+    	this.addWidget("VScrollBar", this.scrollbar);
     };
     
 	public ContainerTable( GuiScreen parent, int height, int ncolumns, String[] columnnames) {
@@ -49,6 +47,7 @@ public class ContainerTable extends BaseWidget{
         	this.columnnames[i] = labelHeader;
         	this.addWidget(String.format("header_%s", i), labelHeader);
         }
+    	this.addWidget("VScrollBar", this.scrollbar);        
 	}
 
 	public void setColumns(int rowHeight, String... header){
@@ -91,7 +90,7 @@ public class ContainerTable extends BaseWidget{
 		this.drawTitle(this.posX, this.posY);
 		
 		GL11.glPushMatrix();
-		GL11.glTranslatef(0, this.viewportYPos, 0);
+		GL11.glTranslatef(0, this.scrollbar.getCurrentValue() * -1.0F, 0);
 		this.startScissorFilter(this.posX, this.posY + this.rowHeight, this.getWidth(), this.getViewportHeight());
 		
     	for (int i = 0; i < this.table.size(); i++)
@@ -101,13 +100,13 @@ public class ContainerTable extends BaseWidget{
 		GL11.glPopMatrix();
 		
 		if (this.isScrollActive){
-	        this.updateScrollBar(this.viewportYPos * -1);
+	        this.updateScrollBar();
 			this.scrollbar.draw();
 		}
    	
 	}	
 
-	public void updateScrollBar(int value){
+	public void updateScrollBar(){
 		int scrollbarX = this.posX + this.getWidth() - this.scrollWidth;
 		int scrollbarY = this.posY + this.rowHeight;
 		int scrollbarW = this.scrollWidth;
@@ -115,7 +114,6 @@ public class ContainerTable extends BaseWidget{
 		int maxvalue   = this.getTableHeight() - this.getViewportHeight();
 		
 		this.scrollbar.setup(this.parent, scrollbarX, scrollbarY, scrollbarW, scrollbarH, this.scrollButtonHeight, maxvalue);	
-		this.scrollbar.setCurrentValue(value);		
 	}
 	
 	@Override
@@ -173,10 +171,7 @@ public class ContainerTable extends BaseWidget{
 	
 	@Override
 	public boolean mouseWheel(int mouseX, int mouseY, int mouseZ){
-		this.viewportYPos += (mouseZ / 120)*6;
-		this.viewportYPos = -1*Math.min(this.getTableHeight() - this.getViewportHeight(), -1*this.viewportYPos);
-		this.viewportYPos = Math.min(0, this.viewportYPos);
-		
+		this.scrollbar.addCurrentValue((mouseZ / -120) * this.scrollbar.getStep());
 		return true;
 	}	
 }
