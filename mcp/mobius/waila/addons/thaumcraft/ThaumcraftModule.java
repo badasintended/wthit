@@ -15,7 +15,7 @@ import net.minecraft.item.ItemStack;
 public class ThaumcraftModule {
 
 	public static Class BlockMagicalLeaves = null;
-	
+	public static Class BlockCustomPlant = null;
 	
 	
 	public static void register(){
@@ -30,6 +30,7 @@ public class ThaumcraftModule {
 		
 		try{
 			BlockMagicalLeaves = Class.forName("thaumcraft.common.world.BlockMagicalLeaves");
+			BlockCustomPlant = Class.forName("thaumcraft.common.world.BlockCustomPlant");			
 		} catch (ClassNotFoundException e){
 			mod_Waila.log.log(Level.WARNING, "[Thaumcraft] Class not found. " + e);
 			return;
@@ -43,7 +44,8 @@ public class ThaumcraftModule {
 //			mod_Waila.log.log(Level.WARNING, "[Thaumcraft] Unhandled exception." + e);
 //			return;			
 		}		
-		ExternalModulesHandler.instance().registerStackProvider(new HUDHandlerLeaves(), BlockMagicalLeaves);		
+		ExternalModulesHandler.instance().registerStackProvider(new HUDHandlerLeaves(), BlockMagicalLeaves);
+		ExternalModulesHandler.instance().registerStackProvider(new HUDHandlerPlants(), BlockCustomPlant);			
 	}
 
 }
