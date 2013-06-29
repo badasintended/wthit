@@ -115,7 +115,7 @@ public class GuiBaseWailaScreen extends GuiScreen{
    }   
    
    public void mouseDragged(int mouseX, int mouseY, int buttonID, long deltaTime){
-	   System.out.printf("%s %s %s %s %s %s\n", mouseX, mouseY, buttonID, deltaTime);
+	   //System.out.printf("%s %s %s %s %s %s\n", mouseX, mouseY, buttonID, deltaTime);
    }
    
    @Override
