@@ -41,11 +41,14 @@ public class HUDHandlerIC2IEnergySink implements IWailaDataProvider {
 			maxinput = maxinput * (int)Math.pow(4.0D, Math.min(3, ntransformers));
 		}
 		
-		
-		if (ConfigHandler.instance().getConfig("ic2.inputeuother") && (maxinput != -1) && !this.canUpgrade(accessor.getNBTData()))
+
+		if (ConfigHandler.instance().getConfig("ic2.inputeuother") && (maxinput > 4096))
+			currenttip.add("IN : ANY");
+			
+		else if (ConfigHandler.instance().getConfig("ic2.inputeuother") && (maxinput != -1) && !this.canUpgrade(accessor.getNBTData()))
 			currenttip.add(String.format("IN : %s EU/t", maxinput));
 
-		if (ConfigHandler.instance().getConfig("ic2.inputeumach") && (maxinput != -1) && this.canUpgrade(accessor.getNBTData()))
+		else if (ConfigHandler.instance().getConfig("ic2.inputeumach") && (maxinput != -1) && this.canUpgrade(accessor.getNBTData()))
 			currenttip.add(String.format("IN : %s EU/t", maxinput));		
 		
 		if (config.getConfig("ic2.storage"))

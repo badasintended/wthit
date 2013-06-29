@@ -3,8 +3,12 @@ package mcp.mobius.waila.addons.vanillamc;
 import java.util.List;
 
 import net.minecraft.block.Block;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemRecord;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntityMobSpawner;
+import net.minecraft.tileentity.TileEntityRecordPlayer;
 import mcp.mobius.waila.addons.ExternalModulesHandler;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
@@ -24,6 +28,7 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 	static int comparatorIdl = Block.redstoneComparatorIdle.blockID;
 	static int comparatorAct = Block.redstoneComparatorActive.blockID;
 	static int redstone      = Block.redstoneWire.blockID;
+	static int jukebox       = Block.jukebox.blockID;
 	
 
 	@Override
@@ -94,7 +99,19 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 			if (blockID == redstone){
 				currenttip.add(String.format("Power : %s" , accessor.getMetadata()));
 				return currenttip;				
-			}		
+			}	
+		
+		if (config.getConfig("vanilla.jukebox"))
+			if (blockID == jukebox){
+				NBTTagCompound tag = accessor.getNBTData();
+				Item record = null;
+				if (tag.hasKey("Record")){
+					record = Item.itemsList[accessor.getNBTInteger(tag, "Record")];
+					currenttip.add(((ItemRecord)record).getRecordTitle());					
+				} else {
+					currenttip.add("<Empty>");
+				}
+			}
 		
 		return currenttip;
 	}	
@@ -105,7 +122,8 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 		ExternalModulesHandler.instance().addConfig("VanillaMC", "vanilla.leverstate", "Lever state");
 		ExternalModulesHandler.instance().addConfig("VanillaMC", "vanilla.repeater", "Repeater delay");
 		ExternalModulesHandler.instance().addConfig("VanillaMC", "vanilla.comparator", "Comparator mode");
-		ExternalModulesHandler.instance().addConfig("VanillaMC", "vanilla.redstone", "Redstone power");			
+		ExternalModulesHandler.instance().addConfig("VanillaMC", "vanilla.redstone", "Redstone power");
+		ExternalModulesHandler.instance().addConfigRemote("VanillaMC", "vanilla.jukebox", "Jukebox disk");		
 		ExternalModulesHandler.instance().registerHeadProvider(new HUDHandlerVanilla(), mobSpawnerID);
 		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerVanilla(), cropsID);
 		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerVanilla(), melonStemID);
@@ -118,7 +136,8 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerVanilla(), comparatorIdl);
 		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerVanilla(), comparatorAct);
 		ExternalModulesHandler.instance().registerHeadProvider(new HUDHandlerVanilla(), redstone);
-		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerVanilla(), redstone);			
+		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerVanilla(), redstone);
+		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerVanilla(), jukebox);		
 	}
 
 
