@@ -8,6 +8,7 @@ import codechicken.nei.forge.GuiContainerManager;
 import cpw.mods.fml.client.registry.KeyBindingRegistry;
 
 import mcp.mobius.waila.addons.buildcraft.BCModule;
+import mcp.mobius.waila.addons.enderstorage.EnderStorageModule;
 import mcp.mobius.waila.addons.ic2.IC2Module;
 import mcp.mobius.waila.addons.thaumcraft.ThaumcraftModule;
 import mcp.mobius.waila.addons.vanillamc.HUDHandlerVanilla;
@@ -63,6 +64,9 @@ public class ProxyClient extends ProxyServer {
 		
 		/*Thaumcraft*/
 		ThaumcraftModule.register();
+		
+		/*EnderStorage*/
+		EnderStorageModule.register();
 		
 	}	
 	
