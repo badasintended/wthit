@@ -173,5 +173,5 @@ public class ContainerTable extends BaseWidget{
 	public boolean mouseWheel(int mouseX, int mouseY, int mouseZ){
 		this.scrollbar.addCurrentValue((mouseZ / -120) * this.scrollbar.getStep());
 		return true;
-	}	
+	}
 }

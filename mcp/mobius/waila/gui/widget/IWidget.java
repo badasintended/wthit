@@ -15,9 +15,10 @@ public interface IWidget {
     void setPos(int posX, int posY, int posZ);
 	
 	boolean mouseClicked(int mouseX, int mouseY, int buttonID);
-    boolean mouseWheel(int mouseX, int mouseY, int mouseZ);
-    boolean mouseMovedOrUp(int mouseX, int mouseY, int buttonID);
+    boolean mouseReleased(int mouseX, int mouseY, int buttonID);
+	boolean mouseWheel(int mouseX, int mouseY, int mouseZ);
     boolean mouseMoved(int mouseX, int mouseY);
+    //boolean mouseDragged(int mouseX, int mouseY, int buttonID, long deltaTime);
     
 	void draw();
 	void draw(int x, int y, int z);

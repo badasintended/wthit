@@ -3,6 +3,7 @@ package mcp.mobius.waila.gui.widget;
 import java.util.Collection;
 import java.util.HashMap;
 
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
@@ -21,6 +22,8 @@ public abstract class BaseWidget implements IWidget {
 	protected FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;;
 	protected RenderEngine renderEngine = Minecraft.getMinecraft().renderEngine;
     protected HashMap<String, IWidget> widgets = new HashMap<String, IWidget>();
+	protected IWidget[] focusWidget = new IWidget[Mouse.getButtonCount()]; 
+    protected IWidget   mainFocusWidget = null;
 	
 	public BaseWidget(){}
 	
@@ -62,17 +65,54 @@ public abstract class BaseWidget implements IWidget {
 	@Override
 	public boolean mouseClicked(int mouseX, int mouseY, int buttonID){
 		IWidget widget = this.getWidgetAtCoordinates(mouseX, mouseY);
-		if (widget != null)
+		if (widget != null){
+			if (buttonID == 0)
+				this.mainFocusWidget = widget;
+			this.focusWidget[buttonID] = widget;
 			return widget.mouseClicked(mouseX, mouseY, buttonID);
+		} else
+			return false;
+	}
+	@Override	
+	public boolean mouseReleased(int mouseX, int mouseY, int buttonID){
+		if (buttonID == 0)
+			this.mainFocusWidget = null;
+		
+		if (this.focusWidget[buttonID] != null){
+			boolean retval = this.focusWidget[buttonID].mouseReleased(mouseX, mouseY, buttonID);
+			this.focusWidget[buttonID] = null;
+			return retval;
+		}
+		this.focusWidget[buttonID] = null;		
 		return false;
+	}
+	@Override
+	public boolean mouseWheel(int mouseX, int mouseY, int mouseZ){
+		IWidget widget = this.getWidgetAtCoordinates(mouseX, mouseY);
+		if (widget != null)
+			return widget.mouseWheel(mouseX, mouseY, mouseZ);
+		return false;		
+	}
+	@Override		
+    public boolean mouseMoved(int mouseX, int mouseY){
+		if (this.mainFocusWidget != null)
+			return this.mainFocusWidget.mouseMoved(mouseX, mouseY);
+			
+		IWidget widget = this.getWidgetAtCoordinates(mouseX, mouseY);
+		if (widget != null)
+			return widget.mouseMoved(mouseX, mouseY);
+		return false;		
 	}	
 	
-	@Override
-	public boolean mouseWheel(int mouseX, int mouseY, int mouseZ){return false;}
-	@Override	
-	public boolean mouseMovedOrUp(int mouseX, int mouseY, int buttonID){return false;}
-	@Override		
-    public boolean mouseMoved(int mouseX, int mouseY){return false;}
+	/*
+    @Override	
+    public boolean mouseDragged(int mouseX, int mouseY, int buttonID, long deltaTime){
+    	IWidget widget = this.getWidgetAtCoordinates(mouseX, mouseY);
+    	if (widget != null)
+    		return widget.mouseDragged(mouseX, mouseY, buttonID, deltaTime);
+		return false;    	
+	}
+	*/
 	
 	public void startScissorFilter(int posX, int posY, int width, int height){
 		ScaledResolution res = new ScaledResolution(Minecraft.getMinecraft().gameSettings, 

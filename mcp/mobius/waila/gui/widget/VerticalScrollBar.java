@@ -9,6 +9,7 @@ public class VerticalScrollBar extends BaseWidget {
 	private int buttonH;
 	private int buttonTop;
 	private int step = 6;
+	public  boolean dragging = false;
 	
 	public VerticalScrollBar(){};
 	
@@ -53,6 +54,8 @@ public class VerticalScrollBar extends BaseWidget {
 
 	public void setCurrentValue(int currvalue){
 		this.currvalue = currvalue;
+		this.currvalue = Math.max(0, this.currvalue);
+		this.currvalue = Math.min(this.maxvalue, this.currvalue);		
 	}
 
 	public void addCurrentValue(int value){
@@ -75,9 +78,31 @@ public class VerticalScrollBar extends BaseWidget {
 			this.addCurrentValue(-1 * this.step);
 		else if (mouseY > this.buttonTop + this.buttonH)
 			this.addCurrentValue(this.step);			
+		else if (buttonID == 0)
+			this.dragging = true;
 		else
-			System.out.printf("Clicked on button\n");
+			return false;
 		return true;
 	}	
 	
+	@Override
+	public boolean mouseReleased(int mouseX, int mouseY, int buttonID){
+		if (buttonID == 0)
+			this.dragging = false;
+		else
+			return false;
+		return true;
+	}
+	
+
+	@Override 
+	public boolean mouseMoved(int mouseX, int mouseY){
+		if (this.dragging){
+			int value = (int)((float)((mouseY - this.buttonH/2) - this.posY)/(float)(this.getHeight()-this.buttonH)*(float)this.maxvalue);
+			this.setCurrentValue(value);
+			return true;
+		}
+		return false;
+	}
+
 }

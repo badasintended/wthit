@@ -23,8 +23,12 @@ public class GuiBaseWailaScreen extends GuiScreen{
     /* Custom mouse handling */
     private int  lastMouseButton = -1;
     private long lastMouseEvent = -1;
+    private int  lastMousePosX  = -1;
+    private int  lastMousePosY  = -1;
     private static int buttonCount  = Mouse.getButtonCount();
-    private boolean[]  buttonStates = new boolean[buttonCount];
+    private boolean[]  lastButtonStates = new boolean[buttonCount];
+    private IWidget[] focusWidget = new IWidget[buttonCount]; 
+    private IWidget   mainFocusWidget = null;
     
     
     
@@ -89,16 +93,29 @@ public class GuiBaseWailaScreen extends GuiScreen{
    public void mouseClicked(int mouseX, int mouseY, int buttonID)
    {
 	   IWidget widget = this.getWidgetAtCoordinates(mouseX, mouseY);
-	   if (widget == null || !widget.mouseClicked(mouseX, mouseY, buttonID))
+	   if (widget != null && widget.mouseClicked(mouseX, mouseY, buttonID)){
+		   if (buttonID == 0)
+			   this.mainFocusWidget = widget;		   
+		   this.focusWidget[buttonID] = widget;
+	   }
+	   else
 		   super.mouseClicked(mouseX, mouseY, buttonID);
    }   
    
    @Override
    public void mouseMovedOrUp(int mouseX, int mouseY, int buttonID)
    {
-	   IWidget widget = this.getWidgetAtCoordinates(mouseX, mouseY);
-	   if (widget == null || !widget.mouseMovedOrUp(mouseX, mouseY, buttonID))
-		   super.mouseMovedOrUp(mouseX, mouseY, buttonID);   
+	   if (buttonID == 0)
+		   this.mainFocusWidget = null;		   
+	   
+	   if (this.focusWidget[buttonID] != null){
+		   this.focusWidget[buttonID].mouseReleased(mouseX, mouseY, buttonID);
+		   this.focusWidget[buttonID] = null;
+	   } else {
+		   IWidget widget = this.getWidgetAtCoordinates(mouseX, mouseY);
+		   if (widget == null || !widget.mouseReleased(mouseX, mouseY, buttonID))		   
+			   super.mouseMovedOrUp(mouseX, mouseY, buttonID);
+	   }
    }   
 
    public void mouseWheel(int mouseX, int mouseY, int mouseZ){
@@ -109,14 +126,22 @@ public class GuiBaseWailaScreen extends GuiScreen{
    }
    
    public void mouseMoved(int mouseX, int mouseY){
-	   IWidget widget = this.getWidgetAtCoordinates(mouseX, mouseY);
-	   if (widget != null)
-		   widget.mouseMoved(mouseX, mouseY);	   
+		if (this.mainFocusWidget != null)
+			this.mainFocusWidget.mouseMoved(mouseX, mouseY);
+		else{
+		   IWidget widget = this.getWidgetAtCoordinates(mouseX, mouseY);
+		   if (widget != null)
+			   widget.mouseMoved(mouseX, mouseY);
+		}
    }   
    
+   /*
    public void mouseDragged(int mouseX, int mouseY, int buttonID, long deltaTime){
-	   //System.out.printf("%s %s %s %s %s %s\n", mouseX, mouseY, buttonID, deltaTime);
+	   IWidget widget = this.getWidgetAtCoordinates(mouseX, mouseY);
+	   if (widget != null)
+		   widget.mouseDragged(mouseX, mouseY, buttonID, deltaTime);	   	   
    }
+   */
    
    @Override
    public void handleMouseInput()
@@ -124,6 +149,7 @@ public class GuiBaseWailaScreen extends GuiScreen{
        int mouseX = Mouse.getEventX() * this.width / this.mc.displayWidth;
        int mouseY = this.height - Mouse.getEventY() * this.height / this.mc.displayHeight - 1;
        int mouseZ = Mouse.getEventDWheel();
+	   boolean[]  buttonChanged  = new boolean[buttonCount];       
        
        if (mouseZ != 0)
     	   this.mouseWheel(mouseX, mouseY, mouseZ);
@@ -134,9 +160,42 @@ public class GuiBaseWailaScreen extends GuiScreen{
     	   hasStateChanged = true;
     	   changedButton   = Mouse.getEventButton();   
        }
-       for (int i = 0; i < this.buttonStates.length; i++)
-    	   this.buttonStates[i] = Mouse.isButtonDown(i);
+       for (int i = 0; i < buttonCount; i++){
+    	   buttonChanged[i] = Mouse.isButtonDown(i) != this.lastButtonStates[i];
+    	   this.lastButtonStates[i] = Mouse.isButtonDown(i);
+    	   
+	       if  (buttonChanged[i] && Mouse.isButtonDown(i))
+	    	   this.mouseClicked(mouseX, mouseY, i);
+	       else if  (buttonChanged[i] && !Mouse.isButtonDown(i))
+	    	   this.mouseMovedOrUp(mouseX, mouseY, i);
+       }
+
+       if ((mouseX != this.lastMousePosX) || (mouseY != this.lastMousePosY)){
+    	   this.mouseMoved(mouseX, mouseY);
+    	   this.lastMousePosX = mouseX;
+    	   this.lastMousePosY = mouseY;
+       }       
        
+       /*
+       if (changedButton != -1){
+	       if  (Mouse.isButtonDown(changedButton)){
+	    	   this.mouseClicked(mouseX, mouseY, changedButton);
+	    	   this.lastMouseButton = changedButton;
+	       }
+	       else if (!Mouse.isButtonDown(changedButton)){
+	    	   this.mouseMovedOrUp(mouseX, mouseY, changedButton);
+	    	   this.lastMouseButton = -1;    	   
+	       }
+       }
+       
+       if ((mouseX != this.lastMousePosX) || (mouseY != this.lastMousePosY)){
+    	   this.mouseMoved(mouseX, mouseY);
+    	   this.lastMousePosX = mouseX;
+    	   this.lastMousePosY = mouseY;
+       }
+       */
+       
+       /*
        if (hasStateChanged)
        {
            this.lastMouseButton = changedButton;
@@ -148,13 +207,21 @@ public class GuiBaseWailaScreen extends GuiScreen{
            this.lastMouseButton = -1;
            this.mouseMovedOrUp(mouseX, mouseY, changedButton);
        }
+       */
+       /*
        else if (this.lastMouseButton != -1 && this.lastMouseEvent > 0L)
        {
            long deltaTime = Minecraft.getSystemTime() - this.lastMouseEvent;
            this.mouseDragged(mouseX, mouseY, this.lastMouseButton, deltaTime);
        }
-       else if (Mouse.getDX() != 0 || Mouse.getDY() != 0)
+       */
+       /*
+       else if ((mouseX != this.lastMousePosX) || (mouseY != this.lastMousePosY)){
     	   this.mouseMoved(mouseX, mouseY);
+    	   this.lastMousePosX = mouseX;
+    	   this.lastMousePosY = mouseY;
+       }
+       */
    }   
  
    private IWidget getWidgetAtCoordinates(int posX, int posY){
