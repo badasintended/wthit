@@ -19,9 +19,14 @@ public class GuiBaseWailaScreen extends GuiScreen{
     protected GuiScreen parentGui;	// GUI we will return to in the case we are call from a GUI
 	public    ScaledResolution res;
     protected HashMap<String, IWidget> widgets = new HashMap<String, IWidget>();
-	
+
+    /* Custom mouse handling */
     private int  lastMouseButton = -1;
     private long lastMouseEvent = -1;
+    private static int buttonCount  = Mouse.getButtonCount();
+    private boolean[]  buttonStates = new boolean[buttonCount];
+    
+    
     
 	public GuiBaseWailaScreen(GuiScreen _parentGui) {
 		this.parentGui = _parentGui;
@@ -109,6 +114,10 @@ public class GuiBaseWailaScreen extends GuiScreen{
 		   widget.mouseMoved(mouseX, mouseY);	   
    }   
    
+   public void mouseDragged(int mouseX, int mouseY, int buttonID, long deltaTime){
+	   System.out.printf("%s %s %s %s %s %s\n", mouseX, mouseY, buttonID, deltaTime);
+   }
+   
    @Override
    public void handleMouseInput()
    {
@@ -119,21 +128,30 @@ public class GuiBaseWailaScreen extends GuiScreen{
        if (mouseZ != 0)
     	   this.mouseWheel(mouseX, mouseY, mouseZ);
        
-       if (Mouse.getEventButtonState())
+       int     changedButton = -1;
+       boolean hasStateChanged = false;
+       if (Mouse.getEventButtonState()){
+    	   hasStateChanged = true;
+    	   changedButton   = Mouse.getEventButton();   
+       }
+       for (int i = 0; i < this.buttonStates.length; i++)
+    	   this.buttonStates[i] = Mouse.isButtonDown(i);
+       
+       if (hasStateChanged)
        {
-           this.lastMouseButton = Mouse.getEventButton();
+           this.lastMouseButton = changedButton;
            this.lastMouseEvent  = Minecraft.getSystemTime();
            this.mouseClicked(mouseX, mouseY, this.lastMouseButton);
        }
-       else if (Mouse.getEventButton() != -1)
+       else if (changedButton != -1)
        {
            this.lastMouseButton = -1;
-           this.mouseMovedOrUp(mouseX, mouseY, Mouse.getEventButton());
+           this.mouseMovedOrUp(mouseX, mouseY, changedButton);
        }
        else if (this.lastMouseButton != -1 && this.lastMouseEvent > 0L)
        {
            long deltaTime = Minecraft.getSystemTime() - this.lastMouseEvent;
-           this.func_85041_a(mouseX, mouseY, this.lastMouseButton, deltaTime);
+           this.mouseDragged(mouseX, mouseY, this.lastMouseButton, deltaTime);
        }
        else if (Mouse.getDX() != 0 || Mouse.getDY() != 0)
     	   this.mouseMoved(mouseX, mouseY);

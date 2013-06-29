@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 
+import mcp.mobius.waila.WailaExceptionHandler;
 import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.handlers.DataAccessor;
 import net.minecraft.nbt.NBTTagCompound;
@@ -31,9 +32,13 @@ public class WailaPacketHandler implements IPacketHandler {
 		        MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
 		        TileEntity      entity = server.worldServers[castedPacket.worldID].getBlockTileEntity(castedPacket.posX, castedPacket.posY, castedPacket.posZ);
 		        if (entity != null){
-		        	NBTTagCompound tag = new NBTTagCompound();
-		        	entity.writeToNBT(tag);
-		        	PacketDispatcher.sendPacketToPlayer(Packet0x02TENBTData.create(tag), player);
+		        	try{
+		        		NBTTagCompound tag = new NBTTagCompound();
+		        		entity.writeToNBT(tag);
+		        		PacketDispatcher.sendPacketToPlayer(Packet0x02TENBTData.create(tag), player);
+		        	}catch(Throwable e){
+		        		WailaExceptionHandler.handleErr(e, entity.getClass().toString(), null);
+		        	}
 		        }
 			}
 			else if (header == 0x02){

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 
+import mcp.mobius.waila.WailaExceptionHandler;
 import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.addons.ConfigHandler;
 import mcp.mobius.waila.addons.ExternalModulesHandler;
@@ -22,19 +23,6 @@ import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class HUDHandlerExternal implements IHighlightHandler {
 	
-	private static ArrayList<String> errs = new ArrayList<String>(); 
-	
-	private  List<String> handleErr(Throwable e, String className, List<String> currenttip){
-		if (!errs.contains(className)){
-			errs.add(className);
-			mod_Waila.log.log(Level.WARNING, String.format("Catched unhandled exception : [%s] %s",className,e));
-		}
-		if (currenttip != null)
-			currenttip.add("<ERROR>");
-		
-		return currenttip;
-	}
-	
 	@Override
 	public ItemStack identifyHighlight(World world, EntityPlayer player, MovingObjectPosition mop) {
 		DataAccessor accessor = DataAccessor.instance;
@@ -46,7 +34,7 @@ public class HUDHandlerExternal implements IHighlightHandler {
 			try{
 				return ((IWailaBlock)block).getWailaStack(accessor, ConfigHandler.instance());
 			}catch (Throwable e){
-				handleErr(e, block.getClass().toString(), null);
+				WailaExceptionHandler.handleErr(e, block.getClass().toString(), null);
 			}
 		}
 
@@ -57,7 +45,7 @@ public class HUDHandlerExternal implements IHighlightHandler {
 					if (retval != null)
 						return retval;					
 				}catch (Throwable e){
-					handleErr(e, dataProvider.getClass().toString(), null);					
+					WailaExceptionHandler.handleErr(e, dataProvider.getClass().toString(), null);					
 				}				
 			}
 		}
@@ -82,13 +70,13 @@ public class HUDHandlerExternal implements IHighlightHandler {
 				try{				
 					return ((IWailaBlock)block).getWailaHead(itemStack, currenttip, accessor, ConfigHandler.instance());
 				} catch (Throwable e){
-					return handleErr(e, block.getClass().toString(), currenttip);
+					return WailaExceptionHandler.handleErr(e, block.getClass().toString(), currenttip);
 				}					
 			else if (layout == Layout.BODY)
 				try{					
 					return ((IWailaBlock)block).getWailaBody(itemStack, currenttip, accessor, ConfigHandler.instance());
 				} catch (Throwable e){
-					return handleErr(e, block.getClass().toString(), currenttip);
+					return WailaExceptionHandler.handleErr(e, block.getClass().toString(), currenttip);
 				}						
 		}
 		
@@ -97,7 +85,7 @@ public class HUDHandlerExternal implements IHighlightHandler {
 				try{
 					currenttip = dataProvider.getWailaHead(itemStack, currenttip, accessor, ConfigHandler.instance());
 				} catch (Throwable e){
-					currenttip = handleErr(e, dataProvider.getClass().toString(), currenttip);
+					currenttip = WailaExceptionHandler.handleErr(e, dataProvider.getClass().toString(), currenttip);
 				}
 		}
 
@@ -106,7 +94,7 @@ public class HUDHandlerExternal implements IHighlightHandler {
 				try{				
 					currenttip = dataProvider.getWailaBody(itemStack, currenttip, accessor, ConfigHandler.instance());
 				} catch (Throwable e){
-					currenttip = handleErr(e, dataProvider.getClass().toString(), currenttip);
+					currenttip = WailaExceptionHandler.handleErr(e, dataProvider.getClass().toString(), currenttip);
 				}			
 		}
 		
@@ -115,7 +103,7 @@ public class HUDHandlerExternal implements IHighlightHandler {
 				try{				
 					currenttip = dataProvider.getWailaHead(itemStack, currenttip, accessor, ConfigHandler.instance());
 				} catch (Throwable e){
-					currenttip = handleErr(e, dataProvider.getClass().toString(), currenttip);
+					currenttip = WailaExceptionHandler.handleErr(e, dataProvider.getClass().toString(), currenttip);
 				}			
 		}
 
@@ -124,7 +112,7 @@ public class HUDHandlerExternal implements IHighlightHandler {
 				try{				
 					currenttip = dataProvider.getWailaBody(itemStack, currenttip, accessor, ConfigHandler.instance());
 				} catch (Throwable e){
-					currenttip = handleErr(e, dataProvider.getClass().toString(), currenttip);
+					currenttip = WailaExceptionHandler.handleErr(e, dataProvider.getClass().toString(), currenttip);
 				}			
 		}		
 
@@ -133,7 +121,7 @@ public class HUDHandlerExternal implements IHighlightHandler {
 				try{				
 					currenttip = dataProvider.getWailaHead(itemStack, currenttip, accessor, ConfigHandler.instance());
 				} catch (Throwable e){
-					currenttip = handleErr(e, dataProvider.getClass().toString(), currenttip);
+					currenttip = WailaExceptionHandler.handleErr(e, dataProvider.getClass().toString(), currenttip);
 				}			
 		}
 
@@ -142,7 +130,7 @@ public class HUDHandlerExternal implements IHighlightHandler {
 				try{
 					currenttip = dataProvider.getWailaBody(itemStack, currenttip, accessor, ConfigHandler.instance());
 				} catch (Throwable e){
-					currenttip = handleErr(e, dataProvider.getClass().toString(), currenttip);
+					currenttip = WailaExceptionHandler.handleErr(e, dataProvider.getClass().toString(), currenttip);
 				}			
 		}		
 		

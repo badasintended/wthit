@@ -59,7 +59,6 @@ public class VerticalScrollBar extends BaseWidget {
 		this.currvalue += value;
 		this.currvalue = Math.max(0, this.currvalue);
 		this.currvalue = Math.min(this.maxvalue, this.currvalue);
-
 	}
 	
 	public int getCurrentValue(){
