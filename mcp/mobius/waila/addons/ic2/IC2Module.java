@@ -88,11 +88,5 @@ public class IC2Module {
 		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerIC2IEnergyStorage(), IEnergyStorage);
 		ExternalModulesHandler.instance().registerStackProvider(new HUDHandlerDoor(), BlockIC2Door);
 	}
-	
 
-
-	
-
-	
-	
 }
