@@ -3,6 +3,8 @@ package mcp.mobius.waila.addons;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 
+import net.minecraft.block.Block;
+
 import codechicken.nei.api.API;
 
 import mcp.mobius.waila.api.IWailaDataProvider;
@@ -90,6 +92,14 @@ public class ExternalModulesHandler implements IWailaRegistrar {
 		API.registerHighlightIdentifier(blockID, new HUDHandlerExternal());
 	}	
 
+	@Override
+	public void registerStackProvider(IWailaDataProvider dataProvider, Class block) {
+		for (int i = 0; i < Block.blocksList.length; i++)
+			if (block.isInstance(Block.blocksList[i])){
+				this.registerStackProvider(dataProvider, i);
+			}
+	}		
+	
 	/* Arrays getters */
 	
 	public ArrayList<IWailaDataProvider> getHeadProviders(int blockID) {

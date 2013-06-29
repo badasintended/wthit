@@ -6,6 +6,7 @@ import java.util.logging.Level;
 
 import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.addons.ExternalModulesHandler;
+import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 
 public class IC2Module {
@@ -27,6 +28,11 @@ public class IC2Module {
 	public static Field     EnergyStorageUpgrade = null;
 	public static ItemStack EnergyStorageUpgradeStack = null;	
 
+	/* Fix for doors */
+	public static Class      BlockIC2Door = null;
+	public static Field      ReinforcedDoor = null;	
+	public static ItemStack  ReinforcedDoorStack = null;
+	
 
 	public static void register(){
 
@@ -55,6 +61,10 @@ public class IC2Module {
 			TransformerUpgradeStack   = (ItemStack)TransformerUpgrade.get(null);
 			EnergyStorageUpgradeStack = (ItemStack)EnergyStorageUpgrade.get(null);
 			
+			BlockIC2Door = Class.forName("ic2.core.block.BlockIC2Door");
+			ReinforcedDoor = IC2Items.getDeclaredField("reinforcedDoor");
+			ReinforcedDoorStack = (ItemStack)ReinforcedDoor.get(null);
+			
 		} catch (ClassNotFoundException e){
 			mod_Waila.log.log(Level.WARNING, "[IC2] Class not found. " + e);
 			return;
@@ -76,9 +86,8 @@ public class IC2Module {
 		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerIC2IEnergySink(),    IEnergySink);
 		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerIC2IEnergySource(),  IEnergySource);		
 		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerIC2IEnergyStorage(), IEnergyStorage);
+		ExternalModulesHandler.instance().registerStackProvider(new HUDHandlerDoor(), BlockIC2Door);
 	}
-
-
 	
 
 
