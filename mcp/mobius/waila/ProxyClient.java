@@ -17,6 +17,7 @@ import mcp.mobius.waila.handlers.EnchantmentHandler;
 import mcp.mobius.waila.handlers.HUDHandlerExternal;
 import mcp.mobius.waila.handlers.HUDHandlerWaila;
 import mcp.mobius.waila.handlers.TooltipHandlerWaila;
+import mcp.mobius.waila.handlers.WikiHandler;
 import mcp.mobius.waila.server.ProxyServer;
 
 public class ProxyClient extends ProxyServer {
@@ -34,8 +35,9 @@ public class ProxyClient extends ProxyServer {
 		
 		KeyBindingRegistry.registerKeyBinding(new ConfigKeyHandler());
 		
-		GuiContainerManager.addInputHandler(new EnchantmentHandler());
-		API.addKeyBind("showenchant", "Display enchantements", Keyboard.KEY_RSHIFT);
+		GuiContainerManager.addInputHandler(new WikiHandler());
+		//API.addKeyBind("showenchant", "Display enchantements", Keyboard.KEY_RSHIFT);
+		API.addKeyBind("showwiki", "Display wiki", Keyboard.KEY_RSHIFT);
 		
 		this.registerMods();		
 	}	

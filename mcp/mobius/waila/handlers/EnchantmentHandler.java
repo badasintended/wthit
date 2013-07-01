@@ -3,7 +3,7 @@ package mcp.mobius.waila.handlers;
 import java.lang.reflect.Method;
 
 import mcp.mobius.waila.mod_Waila;
-import mcp.mobius.waila.gui.GUIEnchantScreen;
+import mcp.mobius.waila.gui.GuiEnchantScreenaa;
 import mcp.mobius.waila.gui.widget.ContainerTable;
 import mcp.mobius.waila.gui.widget.Label;
 import mcp.mobius.waila.gui.widget.StackDisplay;
@@ -44,7 +44,7 @@ public class EnchantmentHandler implements IContainerInputHandler {
 				if (itemEnchantability == 0){return false;}
 
 				Minecraft mc = Minecraft.getMinecraft();
-				GUIEnchantScreen enchantScreen = new GUIEnchantScreen(mc.currentScreen);
+				GuiEnchantScreenaa enchantScreen = new GuiEnchantScreenaa(mc.currentScreen);
 				enchantScreen.widStackDisplay.setStack(stackover);
 				enchantScreen.widStackName.setLabel("\u00a7f" + stackover.getDisplayName());
 				enchantScreen.widStackEnchantability.setLabel(String.format("\u00a7fEnchantability : %s", itemEnchantability));

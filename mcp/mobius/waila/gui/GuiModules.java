@@ -7,7 +7,7 @@ import mcp.mobius.waila.gui.widget_old.ButtonChangeScreen;
 import mcp.mobius.waila.gui.widget_old.ContainerButtons;
 import net.minecraft.client.gui.GuiScreen;
 
-public class GuiModules extends GuiBaseWailaScreen {
+public class GuiModules extends BaseWailaScreen {
 
 	private HashMap<String, GuiScreen> screens = new HashMap<String, GuiScreen>();
 	

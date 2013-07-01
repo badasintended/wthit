@@ -14,7 +14,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 
-public class GuiBaseWailaScreen extends GuiScreen{
+public class BaseWailaScreen extends GuiScreen{
  
     protected GuiScreen parentGui;	// GUI we will return to in the case we are call from a GUI
 	public    ScaledResolution res;
@@ -32,7 +32,7 @@ public class GuiBaseWailaScreen extends GuiScreen{
     
     
     
-	public GuiBaseWailaScreen(GuiScreen _parentGui) {
+	public BaseWailaScreen(GuiScreen _parentGui) {
 		this.parentGui = _parentGui;
         res = new ScaledResolution(Minecraft.getMinecraft().gameSettings, 
         		                   Minecraft.getMinecraft().displayWidth, 

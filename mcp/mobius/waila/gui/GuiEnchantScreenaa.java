@@ -8,14 +8,14 @@ import mcp.mobius.waila.gui.widget.StackDisplay;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.Tessellator;
 
-public class GUIEnchantScreen extends GuiBaseWailaScreen {
+public class GuiEnchantScreenaa extends BaseWailaScreen {
 
 	public ContainerTable widTable;
 	public StackDisplay   widStackDisplay;
 	public Label          widStackName;
 	public Label          widStackEnchantability;
 	
-	public GUIEnchantScreen(GuiScreen _parentGui) {
+	public GuiEnchantScreenaa(GuiScreen _parentGui) {
 		super(_parentGui);
 		this.zLevel = -1.0F;
 		

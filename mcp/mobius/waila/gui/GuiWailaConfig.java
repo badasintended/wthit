@@ -6,7 +6,7 @@ import mcp.mobius.waila.gui.widget_old.ButtonConfigOption;
 import mcp.mobius.waila.gui.widget_old.ContainerButtons;
 import net.minecraft.client.gui.GuiScreen;
 
-public class GuiWailaConfig extends GuiBaseWailaScreen {
+public class GuiWailaConfig extends BaseWailaScreen {
 
 	public GuiWailaConfig(GuiScreen _parentGui) {
 		super(_parentGui);
