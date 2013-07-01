@@ -1,6 +1,6 @@
 package mcp.mobius.waila.handlers;
 
-import mcp.mobius.waila.gui.GuiEnchantScreenaa;
+import mcp.mobius.waila.gui.GuiEnchantScreen;
 import mcp.mobius.waila.gui.GuiIngameWiki;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
