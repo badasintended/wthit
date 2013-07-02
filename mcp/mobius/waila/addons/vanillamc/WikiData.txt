@@ -1,0 +1,2 @@
+>>>>tile.stone
+This is basic stone.

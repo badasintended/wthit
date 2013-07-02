@@ -76,7 +76,7 @@ public class WikiReader extends BaseWidget {
 	}
 	
 	public ArrayList<String> getTailoredText(){
-		String[] splittedText = this.text.split("\n");
+		String[] splittedText = this.text.split("\r?\n");
 		ArrayList<String>  lines = new ArrayList<String>();
 		for (String s : splittedText){		
 			ArrayList<Integer> whiteSpaces = this.getWhiteSpaces(s);

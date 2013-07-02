@@ -1,12 +1,22 @@
 package mcp.mobius.waila.addons;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.logging.Level;
 
 import net.minecraft.block.Block;
 
 import codechicken.nei.api.API;
 
+import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaRegistrar;
 import mcp.mobius.waila.handlers.HUDHandlerExternal;
@@ -23,6 +33,8 @@ public class ExternalModulesHandler implements IWailaRegistrar {
 	public LinkedHashMap<Class, ArrayList<IWailaDataProvider>> bodyBlockProviders  = new LinkedHashMap<Class, ArrayList<IWailaDataProvider>>();
 	public LinkedHashMap<Class, ArrayList<IWailaDataProvider>> tailBlockProviders  = new LinkedHashMap<Class, ArrayList<IWailaDataProvider>>();	
 	public LinkedHashMap<Class, ArrayList<IWailaDataProvider>> stackBlockProviders = new LinkedHashMap<Class, ArrayList<IWailaDataProvider>>();	
+	
+	public LinkedHashMap<String, LinkedHashMap <String, String>> wikiDescriptions = new LinkedHashMap<String, LinkedHashMap <String, String>>();
 	
 	private ExternalModulesHandler() {
 		instance = this;
@@ -182,5 +194,71 @@ public class ExternalModulesHandler implements IWailaRegistrar {
 			if (clazz.isInstance(block))
 				return true;
 		return false;
-	}		
+	}
+
+	@Override
+	public void registerDocTextFile(String modid, String filename) {
+		String docData  = null;
+		int    nentries = 0;
+		
+		try{
+			docData = this.readFileAsString(filename);
+		} catch (IOException e){
+			mod_Waila.log.log(Level.WARNING, String.format("Error while accessing file %s : %s", filename, e));
+			return;
+		}
+
+		String[] sections = docData.split("^>>>>");
+		for (String s : sections){
+			s.trim();
+			if (!s.equals("")){
+				try{
+					String name   = s.split("\r?\n",0)[0];
+					String desc   = s.split("\r?\n",0)[1].trim();
+					if (!this.wikiDescriptions.containsKey(modid))
+						this.wikiDescriptions.put(modid, new LinkedHashMap <String, String>());
+					this.wikiDescriptions.get(modid).put(name, desc);
+					nentries += 1;
+				}catch (Exception e){
+					System.out.printf("%s\n", e);
+				}
+			}
+		}
+		mod_Waila.instance.log.log(Level.INFO, String.format("Registered %s entries from %s", nentries, filename));
+	}	
+	
+	public boolean hasDocText(String modid, String name){
+		if (this.wikiDescriptions.containsKey(modid))
+			return this.wikiDescriptions.get(modid).containsKey(name);
+		else
+			return false;
+	}
+	
+	public String getDocText(String modid, String name){
+		return this.wikiDescriptions.get(modid).get(name);
+	}
+	
+	private String readFileAsString(String filePath) throws IOException {
+//		URL fileURL   = this.getClass().getResource(filePath);
+//		File filedata = new File(fileURL);
+//		Reader paramReader = new InputStreamReader(this.getClass().getResourceAsStream(filePath)); 
+  
+		InputStream in = getClass().getResourceAsStream(filePath);
+		BufferedReader input = new BufferedReader(new InputStreamReader(in));		
+		
+		StringBuffer fileData = new StringBuffer();
+        //BufferedReader reader = new BufferedReader(paramReader);
+		
+        char[] buf = new char[1024];
+        int numRead=0;
+        while((numRead=input.read(buf)) != -1){
+            String readData = String.valueOf(buf, 0, numRead);
+            fileData.append(readData);
+        }
+        input.close();
+        return fileData.toString();
+	}
+	
+
+
 }

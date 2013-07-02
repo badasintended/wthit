@@ -23,7 +23,7 @@ public class HUDHandlerWaila implements IHighlightHandler {
 	public List<String> handleTextData(ItemStack itemStack, World world, EntityPlayer player, MovingObjectPosition mop,	List<String> currenttip, Layout layout) {
 		
 		if (layout == Layout.FOOTER){
-			String modName = mod_Waila.instance.getCanonicalName(itemStack);
+			String modName = mod_Waila.instance.getModName(itemStack);
 			if (modName != null && !modName.equals(""))
 				currenttip.add("\u00a79\u00a7o" + modName);
 		} else if (layout == Layout.HEADER && ConfigHandler.instance().getConfig("waila.showmetadata", false)){

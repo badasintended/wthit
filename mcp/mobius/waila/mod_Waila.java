@@ -132,7 +132,7 @@ public class mod_Waila {
 		
 	}
 	
-	public String getCanonicalName(ItemStack itemstack){
+	public String getModName(ItemStack itemstack){
 		try{
 			String modID = this.itemMap.get(itemstack.itemID);
 			ModContainer mod = CommonUtils.findModContainer(modID);
@@ -143,7 +143,16 @@ public class mod_Waila {
 			return "";
 		}
 	}
-	
+
+	public String getModID(ItemStack itemstack){
+		try{
+			String modID = this.itemMap.get(itemstack.itemID);
+			return modID;
+		} catch (NullPointerException e){
+			//System.out.printf("NPE : %s\n",itemstack.toString());
+			return "";
+		}
+	}	
 
 	
 }

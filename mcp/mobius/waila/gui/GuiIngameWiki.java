@@ -16,11 +16,6 @@ public class GuiIngameWiki extends BaseWailaScreen {
 		this.widReader.setHeight(this.res.getScaledHeight());	
 		
 		this.addWidget("wikireader",    this.widReader);
-		
-		this.widReader.setText("The quick brown fox jumps \n\n\n\n\nover the \nlazy \ndog \nThe \nq\nu\ni\nc\nk\n \nb\nrown \n\n\nf\nox\n \nj\nu\nm\np\ns\n \n\nn\no\nver the\n lazy \ndog \nThe \nquick \nbrown \nfox \njumps\n over the lazy dog The quick brown fox jumps \nover the lazy dog ");
-		for (String s : this.widReader.getTailoredText()){
-			System.out.println(s);
-		}
 	}
 
    @Override
