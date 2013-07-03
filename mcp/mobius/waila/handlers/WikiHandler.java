@@ -64,10 +64,19 @@ public class WikiHandler implements IContainerInputHandler {
 			wikiScreen.widStack.setStack(stackover);
 			wikiScreen.widItemName.setLabel(stackover.getDisplayName());
 			
-			LinkedHashMap<String, String> entries = SummaryProvider.instance().getSummary(stackover, (IWailaConfigHandler)(ConfigHandler.instance())); 
+			LinkedHashMap<String, String> entries = SummaryProvider.instance().getSummary(stackover, (IWailaConfigHandler)(ConfigHandler.instance()));
+			int nvalidentries = 0;
 			for (String s : entries.keySet())
-				if (entries.get(s) != null)
-					wikiScreen.widTable.addRow(new Label(s), new Label(entries.get(s)));
+				if (entries.get(s) != null)			
+					nvalidentries += 1;
+			
+			if (nvalidentries == 0)
+				for (int i = 0; i < 6; i++)
+					wikiScreen.widTable.addRow(new Label(""), new Label(entries.get("")));
+			else
+				for (String s : entries.keySet())
+					if (entries.get(s) != null)
+						wikiScreen.widTable.addRow(new Label(s), new Label(entries.get(s)));
 				
 			mc.displayGuiScreen(wikiScreen);		
 			

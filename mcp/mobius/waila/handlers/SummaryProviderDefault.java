@@ -7,11 +7,13 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.IShearable;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaSummaryProvider;
 
@@ -44,6 +46,33 @@ public class SummaryProviderDefault implements IWailaSummaryProvider {
 				currentSummary.put("Armor Value", this.getDamageReduction(stack) != null?String.valueOf(this.getDamageReduction(stack)):null);
 				currentSummary.put("Enchant", 	 this.getArmorEnchantability(stack) != null?String.valueOf(this.getArmorEnchantability(stack)):null);				
 			}
+		} else {
+			//We have an ItemBlock
+			ItemBlock itemBlock = (ItemBlock)stack.getItem();
+			Block     block     = Block.blocksList[itemBlock.getBlockID()];
+			try{currentSummary.put("Hardness", String.valueOf(block.getBlockHardness(Minecraft.getMinecraft().theWorld, 0, 0, 0)));} catch (Exception e){};
+			try{currentSummary.put("Resistance", String.valueOf(block.getExplosionResistance(null)));} catch (Exception e){};
+			
+			try{
+				ArrayList<ItemStack> droppedStacks = block.getBlockDropped(Minecraft.getMinecraft().theWorld, 0, 0, 0, stack.getItemDamage(), 3);
+				if (droppedStacks.size() == 1)
+					currentSummary.put("Drop", droppedStacks.get(0).getDisplayName());
+				else
+					for (int i=0; i < droppedStacks.size(); i++)
+						currentSummary.put(String.format("Drop %s", i), droppedStacks.get(i).getDisplayName());
+			}catch (Exception e){System.out.printf("%s\n",e);};
+
+			try{
+				if (block instanceof IShearable){
+					IShearable shearable = (IShearable)block;
+					ArrayList<ItemStack> droppedStacks = shearable.onSheared(null, Minecraft.getMinecraft().theWorld, 0, 0, 0, 3);
+					if (droppedStacks.size() == 1)
+						currentSummary.put("Sheared", droppedStacks.get(0).getDisplayName());
+					else
+						for (int i=0; i < droppedStacks.size(); i++)
+							currentSummary.put(String.format("Sheared %s", i), droppedStacks.get(i).getDisplayName());
+				}
+			}catch (Exception e){System.out.printf("%s\n",e);};			
 		}
 		
 		

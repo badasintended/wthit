@@ -10,7 +10,10 @@ import java.io.Reader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.logging.Level;
+
+import au.com.bytecode.opencsv.CSVReader;
 
 import net.minecraft.block.Block;
 
@@ -220,9 +223,10 @@ public class ExternalModulesHandler implements IWailaRegistrar {
 	}	
 	
 	@Override
-	public void registerDocTextFile(String modid, String filename) {
-		String docData  = null;
+	public void registerDocTextFile(String filename) {
+		List<String[]> docData  = null;
 		int    nentries = 0;
+		
 		
 		try{
 			docData = this.readFileAsString(filename);
@@ -231,6 +235,19 @@ public class ExternalModulesHandler implements IWailaRegistrar {
 			return;
 		}
 
+		for (String[] ss : docData){
+			String modid  = ss[0];
+			String name   = ss[1];
+			String desc   = "";
+			for (int i = 3; i < ss.length; i++)
+				desc += ss[i] + "\n";
+			if (!this.wikiDescriptions.containsKey(modid))
+				this.wikiDescriptions.put(modid, new LinkedHashMap <String, String>());
+			this.wikiDescriptions.get(modid).put(name, desc);
+			nentries += 1;			
+		}
+		
+		/*
 		String[] sections = docData.split(">>>>");
 		for (String s : sections){
 			s.trim();
@@ -247,6 +264,7 @@ public class ExternalModulesHandler implements IWailaRegistrar {
 				}
 			}
 		}
+		*/
 		mod_Waila.instance.log.log(Level.INFO, String.format("Registered %s entries from %s", nentries, filename));
 	}	
 	
@@ -261,14 +279,20 @@ public class ExternalModulesHandler implements IWailaRegistrar {
 		return this.wikiDescriptions.get(modid).get(name);
 	}
 	
-	private String readFileAsString(String filePath) throws IOException {
+	private List<String[]> readFileAsString(String filePath) throws IOException {
 //		URL fileURL   = this.getClass().getResource(filePath);
 //		File filedata = new File(fileURL);
-//		Reader paramReader = new InputStreamReader(this.getClass().getResourceAsStream(filePath)); 
-  
+//		Reader paramReader = new InputStreamReader(this.getClass().getResourceAsStream(filePath));
+		
 		InputStream in = getClass().getResourceAsStream(filePath);
 		BufferedReader input = new BufferedReader(new InputStreamReader(in));		
+		CSVReader reader = new CSVReader(input);
 		
+		List<String[]> myEntries = reader.readAll();
+		reader.close();
+		
+		return myEntries;
+		/*
 		StringBuffer fileData = new StringBuffer();
         //BufferedReader reader = new BufferedReader(paramReader);
 		
@@ -280,5 +304,6 @@ public class ExternalModulesHandler implements IWailaRegistrar {
         }
         input.close();
         return fileData.toString();
+        */
 	}
 }

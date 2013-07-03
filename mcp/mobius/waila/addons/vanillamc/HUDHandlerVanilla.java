@@ -139,7 +139,7 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerVanilla(), redstone);
 		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerVanilla(), jukebox);	
 		
-		ExternalModulesHandler.instance().registerDocTextFile("Minecraft", "/mcp/mobius/waila/addons/vanillamc/WikiData.txt");		
+		ExternalModulesHandler.instance().registerDocTextFile("/mcp/mobius/waila/addons/vanillamc/WikiData.csv");		
 	}
 
 
