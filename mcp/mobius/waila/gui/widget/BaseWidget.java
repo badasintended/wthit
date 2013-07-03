@@ -12,6 +12,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.RenderEngine;
+import net.minecraft.client.renderer.Tessellator;
 
 public abstract class BaseWidget implements IWidget {
 
@@ -24,7 +25,8 @@ public abstract class BaseWidget implements IWidget {
     protected HashMap<String, IWidget> widgets = new HashMap<String, IWidget>();
 	protected IWidget[] focusWidget = new IWidget[Mouse.getButtonCount()]; 
     protected IWidget   mainFocusWidget = null;
-	
+	protected int backgroundColor = 0;
+    
 	public BaseWidget(){}
 	
 	@Override
@@ -152,5 +154,46 @@ public abstract class BaseWidget implements IWidget {
 	@Override		
    public IWidget getWidget(String name){
 	   return this.widgets.get(name);
+   } 
+	
+   @Override 
+   public void setBackgroundColor(int color){
+	   this.backgroundColor = color;
+   }
+	
+   @Override
+   public void drawBackground(){
+	   if (this.backgroundColor != 0)
+		   this.drawGradientRect(this.posX, this.posY, this.posX+this.getWidth(), this.posY+this.getHeight(), 0.0, this.backgroundColor, this.backgroundColor);	   
+   }
+   
+   public void drawGradientRect(int left, int top, int right, int bottom, double zlevel, int colorStart, int colorStop)
+   {
+       float f = (float)(colorStart >> 24 & 255) / 255.0F;
+       float f1 = (float)(colorStart >> 16 & 255) / 255.0F;
+       float f2 = (float)(colorStart >> 8 & 255) / 255.0F;
+       float f3 = (float)(colorStart & 255) / 255.0F;
+       float f4 = (float)(colorStop >> 24 & 255) / 255.0F;
+       float f5 = (float)(colorStop >> 16 & 255) / 255.0F;
+       float f6 = (float)(colorStop >> 8 & 255) / 255.0F;
+       float f7 = (float)(colorStop & 255) / 255.0F;
+       GL11.glDisable(GL11.GL_TEXTURE_2D);
+       GL11.glEnable(GL11.GL_BLEND);
+       GL11.glDisable(GL11.GL_ALPHA_TEST);
+       GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+       GL11.glShadeModel(GL11.GL_SMOOTH);
+       Tessellator tessellator = Tessellator.instance;
+       tessellator.startDrawingQuads();
+       tessellator.setColorRGBA_F(f1, f2, f3, f);
+       tessellator.addVertex((double)right, (double)top, zlevel);
+       tessellator.addVertex((double)left, (double)top, zlevel);
+       tessellator.setColorRGBA_F(f5, f6, f7, f4);
+       tessellator.addVertex((double)left, (double)bottom, zlevel);
+       tessellator.addVertex((double)right, (double)bottom, zlevel);
+       tessellator.draw();
+       GL11.glShadeModel(GL11.GL_FLAT);
+       GL11.glDisable(GL11.GL_BLEND);
+       GL11.glEnable(GL11.GL_ALPHA_TEST);
+       GL11.glEnable(GL11.GL_TEXTURE_2D);
    }   
 }

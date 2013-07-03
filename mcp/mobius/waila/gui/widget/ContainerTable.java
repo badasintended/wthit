@@ -26,6 +26,7 @@ public class ContainerTable extends BaseWidget{
 	ArrayList<IWidget[]> table  = new ArrayList<IWidget[]>();
 	VerticalScrollBar scrollbar = new VerticalScrollBar();
 	Label[] columnnames;
+	boolean autosize = true;
 	
     public ContainerTable(GuiScreen parent){
     	this.parent = parent;
@@ -50,6 +51,10 @@ public class ContainerTable extends BaseWidget{
     	this.addWidget("VScrollBar", this.scrollbar);        
 	}
 
+	public void setAutosize(boolean value){
+		this.autosize = value;
+	}
+	
 	public void setColumns(int rowHeight, String... header){
 		this.rowHeight   = rowHeight;
 		this.ncolumns    = header.length;
@@ -61,7 +66,13 @@ public class ContainerTable extends BaseWidget{
         	Label labelHeader = new Label(header[i]);
         	this.columnnames[i] = labelHeader;
         	this.addWidget(String.format("header_%s", i), labelHeader);
-        }     
+        	
+			this.columnWidth[i] = Math.max(labelHeader.getWidth() + 8, this.columnWidth[i]);
+			this.columnWidth[i] = Math.max(this.columnnames[i].getWidth() + 8, this.columnWidth[i]);	        	
+        }
+        this.columnPos[0] = 0;
+        for (int i = 1; i < this.ncolumns; i++)
+        	this.columnPos[i] = this.columnPos[i-1] + this.columnWidth[i-1];        
 	}
 	
 	public int getSize() {
@@ -87,6 +98,9 @@ public class ContainerTable extends BaseWidget{
 
 	@Override
 	public void draw() {
+		GL11.glPushMatrix();
+		GL11.glTranslatef(1.0f, 1.0f, this.posZ);
+		this.drawBackground();
 		this.drawTitle(this.posX, this.posY);
 		
 		GL11.glPushMatrix();
@@ -103,7 +117,7 @@ public class ContainerTable extends BaseWidget{
 	        this.updateScrollBar();
 			this.scrollbar.draw();
 		}
-   	
+		GL11.glPopMatrix();		
 	}	
 
 	public void updateScrollBar(){
@@ -118,6 +132,9 @@ public class ContainerTable extends BaseWidget{
 	
 	@Override
 	public int getWidth(){
+		if (!autosize)
+			return this.width;
+		
 		int width = 0;
 		for (int i: this.columnWidth)
 			width += i;

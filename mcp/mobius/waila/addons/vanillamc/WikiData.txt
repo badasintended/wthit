@@ -1,2 +1,13 @@
 >>>>tile.stone
 This is basic stone.
+>>>>item.swordDiamond
+This is a diamond sword. 
+Good at killing zombies and creepers.
+>>>>item.pickaxeWood
+Your very first pickaxe.
+Not good at anything, beside getting splinters.
+>>>>item.pickaxeDiamond
+The ultimate pickaxe, made out of refined diamonds.
+Shinnnnyyyy.
+>>>>item.pickaxeIron
+Sturdy, solid, efficient. Your best friend.

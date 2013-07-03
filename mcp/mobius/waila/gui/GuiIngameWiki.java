@@ -1,28 +1,50 @@
 package mcp.mobius.waila.gui;
 
 import mcp.mobius.waila.gui.widget.ContainerTable;
+import mcp.mobius.waila.gui.widget.Label;
+import mcp.mobius.waila.gui.widget.StackDisplay;
 import mcp.mobius.waila.gui.widget.WikiReader;
 import net.minecraft.client.gui.GuiScreen;
 
 public class GuiIngameWiki extends BaseWailaScreen {
 
 	public WikiReader widReader = null;
+	public StackDisplay widStack = null;
+	public ContainerTable widTable = null;
+	public Label widItemName = null;
 	
 	public GuiIngameWiki(GuiScreen _parentGui) {
 		super(_parentGui);
 		
 		this.widReader = new WikiReader(this);
-		this.widReader.setWidth(this.res.getScaledWidth()/2);		
-		this.widReader.setHeight(this.res.getScaledHeight());	
+		this.widStack  = new StackDisplay(this);
+		this.widTable  = new ContainerTable(this);
+		this.widItemName = new Label("");
+		
+		this.widReader.setWidth(this.res.getScaledWidth()-this.res.getScaledWidth()/4 - 16);		
+		this.widReader.setHeight(this.res.getScaledHeight() - 24);	
+		this.widReader.setBackgroundColor(0x66888888);
+		
+		this.widStack.setScale(4.0f);
+
+		this.widTable.setAutosize(false);
+		this.widTable.setWidth(this.res.getScaledWidth()/4 - 8);
+		this.widTable.setHeight(this.res.getScaledHeight() - 16 - this.widStack.getHeight());
+		this.widTable.setColumns(8, "\u00a7a\u00a7oEntry", "\u00a7a\u00a7oValue");
 		
 		this.addWidget("wikireader",    this.widReader);
+		this.addWidget("stackdisplay",    this.widStack);
+		this.addWidget("datatable",    this.widTable);
 	}
 
    @Override
    public void drawScreen(int i, int j, float f)
    {
        super.drawScreen(i, j, f);
-       widReader.draw(0, 0, 0);           
+       widTable.draw(4, this.widStack.getHeight() + 16, 1000);
+       widItemName.draw(this.res.getScaledWidth()/8-widItemName.getWidth()/2, this.widStack.getHeight(), 0);
+       widReader.draw(this.res.getScaledWidth()/4 + 8, 8, 0);
+       widStack.draw(this.res.getScaledWidth()/8-widStack.getWidth()/2, 0, 0);
    }
 
    @Override

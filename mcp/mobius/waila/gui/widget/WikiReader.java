@@ -37,6 +37,7 @@ public class WikiReader extends BaseWidget {
 
 	@Override
 	public void draw() {
+		this.drawBackground();
 		GL11.glPushMatrix();
 		GL11.glTranslatef(0, this.scrollbar.getCurrentValue() * -1.0F, 0);
 		this.startScissorFilter(this.posX, this.posY, this.getWidth(), this.getViewportHeight());

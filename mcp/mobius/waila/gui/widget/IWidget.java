@@ -27,4 +27,7 @@ public interface IWidget {
 	public void addWidget(String name, IWidget widget);
 	public Collection<IWidget> getWidgets();
 	public IWidget getWidget(String name);	
+	
+	void drawBackground();
+	void setBackgroundColor(int color);
 }

@@ -35,6 +35,7 @@ public class VerticalScrollBar extends BaseWidget {
 
 	@Override
 	public void draw() {
+		this.drawBackground();
 		this.parent.drawGradientRect(this.posX, 
                 					 this.posY, 
                 					 this.posX + this.getWidth(),

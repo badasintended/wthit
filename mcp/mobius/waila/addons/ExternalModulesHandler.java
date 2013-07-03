@@ -19,6 +19,7 @@ import codechicken.nei.api.API;
 import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaRegistrar;
+import mcp.mobius.waila.api.IWailaSummaryProvider;
 import mcp.mobius.waila.handlers.HUDHandlerExternal;
 
 public class ExternalModulesHandler implements IWailaRegistrar {
@@ -35,6 +36,8 @@ public class ExternalModulesHandler implements IWailaRegistrar {
 	public LinkedHashMap<Class, ArrayList<IWailaDataProvider>> stackBlockProviders = new LinkedHashMap<Class, ArrayList<IWailaDataProvider>>();	
 	
 	public LinkedHashMap<String, LinkedHashMap <String, String>> wikiDescriptions = new LinkedHashMap<String, LinkedHashMap <String, String>>();
+
+	public LinkedHashMap<Class, ArrayList<IWailaSummaryProvider>> summaryProviders = new LinkedHashMap<Class, ArrayList<IWailaSummaryProvider>>();
 	
 	private ExternalModulesHandler() {
 		instance = this;
@@ -111,6 +114,13 @@ public class ExternalModulesHandler implements IWailaRegistrar {
 				this.registerStackProvider(dataProvider, i);
 			}
 	}		
+
+	@Override
+	public void registerShortDataProvider(IWailaSummaryProvider dataProvider, Class item) {
+		if (!this.summaryProviders.containsKey(item))
+			this.summaryProviders.put(item, new ArrayList<IWailaSummaryProvider>());
+		this.summaryProviders.get(item).add(dataProvider);		
+	}	
 	
 	/* Arrays getters */
 	
@@ -152,9 +162,18 @@ public class ExternalModulesHandler implements IWailaRegistrar {
 				
 		return returnList;
 	}	
-	
+
 	public ArrayList<IWailaDataProvider> getStackProviders(int blockID) {
 		return this.stackProviders.get(blockID);
+	}	
+
+	public ArrayList<IWailaSummaryProvider> getSummaryProvider(Object item){
+		ArrayList<IWailaSummaryProvider> returnList = new ArrayList<IWailaSummaryProvider>();
+		for (Class clazz : this.summaryProviders.keySet())
+			if (clazz.isInstance(item))
+				returnList.addAll(this.summaryProviders.get(clazz));
+				
+		return returnList;
 	}	
 	
 	/* Providers querry methods */
@@ -196,6 +215,10 @@ public class ExternalModulesHandler implements IWailaRegistrar {
 		return false;
 	}
 
+	public boolean hasSummaryProvider(Class item){
+		return this.summaryProviders.containsKey(item);
+	}	
+	
 	@Override
 	public void registerDocTextFile(String modid, String filename) {
 		String docData  = null;
@@ -208,13 +231,13 @@ public class ExternalModulesHandler implements IWailaRegistrar {
 			return;
 		}
 
-		String[] sections = docData.split("^>>>>");
+		String[] sections = docData.split(">>>>");
 		for (String s : sections){
 			s.trim();
 			if (!s.equals("")){
 				try{
-					String name   = s.split("\r?\n",0)[0];
-					String desc   = s.split("\r?\n",0)[1].trim();
+					String name   = s.split("\r?\n",2)[0].trim();
+					String desc   = s.split("\r?\n",2)[1].trim();
 					if (!this.wikiDescriptions.containsKey(modid))
 						this.wikiDescriptions.put(modid, new LinkedHashMap <String, String>());
 					this.wikiDescriptions.get(modid).put(name, desc);
@@ -258,7 +281,4 @@ public class ExternalModulesHandler implements IWailaRegistrar {
         input.close();
         return fileData.toString();
 	}
-	
-
-
 }

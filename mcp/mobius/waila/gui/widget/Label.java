@@ -19,6 +19,16 @@ public class Label extends BaseWidget {
 		this.parent = null;
 		this.setLabel(label);
 	}	
+
+	public Label(int label){
+		this.parent = null;
+		this.setLabel(String.valueOf(label));
+	}
+
+	public Label(float label){
+		this.parent = null;
+		this.setLabel(String.valueOf(label));
+	}	
 	
 	public int getCharWidth(){ 
 		return this.fontRenderer.getCharWidth((char)32); 
@@ -26,6 +36,7 @@ public class Label extends BaseWidget {
 	
 	@Override
 	public void draw() {
+		this.drawBackground();
 		this.renderString(this.posX, this.posY, 0, 0xffffffff);
 	}
 	

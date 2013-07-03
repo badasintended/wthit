@@ -19,4 +19,6 @@ public interface IWailaRegistrar {
 	public void registerBodyProvider (IWailaDataProvider dataProvider, Class block);
 	
 	public void registerDocTextFile  (String modid, String filename);
+	
+	public void registerShortDataProvider (IWailaSummaryProvider dataProvider, Class item);
 }
