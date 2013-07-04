@@ -11,6 +11,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 
 import au.com.bytecode.opencsv.CSVReader;
@@ -38,7 +39,7 @@ public class ExternalModulesHandler implements IWailaRegistrar {
 	public LinkedHashMap<Class, ArrayList<IWailaDataProvider>> tailBlockProviders  = new LinkedHashMap<Class, ArrayList<IWailaDataProvider>>();	
 	public LinkedHashMap<Class, ArrayList<IWailaDataProvider>> stackBlockProviders = new LinkedHashMap<Class, ArrayList<IWailaDataProvider>>();	
 	
-	public LinkedHashMap<String, LinkedHashMap <String, String>> wikiDescriptions = new LinkedHashMap<String, LinkedHashMap <String, String>>();
+	public LinkedHashMap<String, LinkedHashMap <String, LinkedHashMap <String, String>>> wikiDescriptions = new LinkedHashMap<String, LinkedHashMap <String, LinkedHashMap <String, String>>>();
 
 	public LinkedHashMap<Class, ArrayList<IWailaSummaryProvider>> summaryProviders = new LinkedHashMap<Class, ArrayList<IWailaSummaryProvider>>();
 	
@@ -238,13 +239,18 @@ public class ExternalModulesHandler implements IWailaRegistrar {
 		for (String[] ss : docData){
 			String modid  = ss[0];
 			String name   = ss[1];
-			String desc   = "";
-			for (int i = 3; i < ss.length; i++)
-				desc += ss[i] + "\n";
-			if (!this.wikiDescriptions.containsKey(modid))
-				this.wikiDescriptions.put(modid, new LinkedHashMap <String, String>());
-			this.wikiDescriptions.get(modid).put(name, desc);
-			nentries += 1;			
+			String meta   = ss[2];
+			String desc   = ss[5].replace('$', '\n');
+			if (!(desc.trim().equals(""))){
+				if (!this.wikiDescriptions.containsKey(modid))
+					this.wikiDescriptions.put(modid, new LinkedHashMap <String, LinkedHashMap <String, String>>());
+				if (!this.wikiDescriptions.get(modid).containsKey(name))
+					this.wikiDescriptions.get(modid).put(name, new LinkedHashMap<String, String>());
+				
+				this.wikiDescriptions.get(modid).get(name).put(meta, desc);
+				System.out.printf("Registered %s %s %s\n", modid, name, meta);
+				nentries += 1;			
+			}
 		}
 		
 		/*
@@ -268,15 +274,48 @@ public class ExternalModulesHandler implements IWailaRegistrar {
 		mod_Waila.instance.log.log(Level.INFO, String.format("Registered %s entries from %s", nentries, filename));
 	}	
 	
-	public boolean hasDocText(String modid, String name){
-		if (this.wikiDescriptions.containsKey(modid))
-			return this.wikiDescriptions.get(modid).containsKey(name);
-		else
-			return false;
+	public boolean hasDocTextModID(String modid){
+		return this.wikiDescriptions.containsKey(modid);
+	}
+
+	public boolean hasDocTextItem(String modid, String item){
+		if (this.hasDocTextModID(modid))
+			return this.wikiDescriptions.get(modid).containsKey(item);
+		return false;
 	}
 	
-	public String getDocText(String modid, String name){
+	public boolean hasDocTextMeta(String modid, String item, String meta){
+		if (this.hasDocTextItem(modid, item))
+			return this.wikiDescriptions.get(modid).get(item).containsKey(meta);
+		return false;		
+	}	
+
+	public LinkedHashMap<String, String> getDocText(String modid, String name){
 		return this.wikiDescriptions.get(modid).get(name);
+	}	
+	
+	public String getDocText(String modid, String name, String meta){
+		return this.wikiDescriptions.get(modid).get(name).get(meta);
+	}
+	
+	public boolean hasDocTextSpecificMeta(String modid, String name, String meta){
+		for (String s : this.getDocText(modid, name).keySet())
+			if (s.equals(meta))
+				return true;
+		return false;
+	}
+	
+	public String getDoxTextWildcardMatch(String modid, String name){
+		Set<String> keys = this.wikiDescriptions.get(modid).keySet();
+		for (String s : keys){
+			String regexed = s;
+			regexed = regexed.replace(".", "\\.");
+			regexed = regexed.replace("*", ".*");
+			
+			if (name.matches(s))
+				return s;			
+		}
+		return null;
 	}
 	
 	private List<String[]> readFileAsString(String filePath) throws IOException {

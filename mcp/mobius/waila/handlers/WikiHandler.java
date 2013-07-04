@@ -28,22 +28,30 @@ import codechicken.nei.forge.IContainerInputHandler;
 
 public class WikiHandler implements IContainerInputHandler {
 
-	public String getDescriptionString(String modid, String name){
-		if (ExternalModulesHandler.instance().wikiDescriptions.containsKey(modid)){
-			if (ExternalModulesHandler.instance().hasDocText(modid, name)){
-				return ExternalModulesHandler.instance().getDocText(modid, name);
-			} else {
-				LinkedHashMap <String, String> entries = ExternalModulesHandler.instance().wikiDescriptions.get(modid);
-				for (String s: entries.keySet()){
-					String regexed = s;
-					regexed = regexed.replace(".", "\\.");
-					regexed = regexed.replace("*", ".*");
-					
-					if (name.matches(s))
-						return ExternalModulesHandler.instance().getDocText(modid, s);
+	public String getDescriptionString(String modid, String name, String meta){
+		if (ExternalModulesHandler.instance().hasDocTextModID(modid)){
+			//Do we have an direct entry for this item ?
+			if (ExternalModulesHandler.instance().hasDocTextItem(modid, name)){
+				//We check if we have an exact match, a wildcard match and finally, an meta 0 match
+				if (ExternalModulesHandler.instance().hasDocTextMeta(modid, name, meta)){
+					return ExternalModulesHandler.instance().getDocText(modid, name, meta);
+				} else if (ExternalModulesHandler.instance().hasDocTextSpecificMeta(modid, name, "*")){
+					return ExternalModulesHandler.instance().getDocText(modid, name, "*");
+				} else if (ExternalModulesHandler.instance().hasDocTextSpecificMeta(modid, name, "0")){
+					return ExternalModulesHandler.instance().getDocText(modid, name, "0");
 				}
-				return String.format("No description for %s$$%s",modid, name);
+				
+			} else if (ExternalModulesHandler.instance().getDoxTextWildcardMatch(modid, name) != null) {
+				String key = ExternalModulesHandler.instance().getDoxTextWildcardMatch(modid, name);
+				if (ExternalModulesHandler.instance().hasDocTextMeta(modid, key, meta)){
+					return ExternalModulesHandler.instance().getDocText(modid, key, meta);
+				} else if (ExternalModulesHandler.instance().hasDocTextSpecificMeta(modid, key, "*")){
+					return ExternalModulesHandler.instance().getDocText(modid, key, "*");
+				} else if (ExternalModulesHandler.instance().hasDocTextSpecificMeta(modid, key, "0")){
+					return ExternalModulesHandler.instance().getDocText(modid, key, "0");
+				}				
 			}
+			
 		}
 		return String.format("No description for %s$$%s",modid, name);
 	}	
@@ -60,7 +68,7 @@ public class WikiHandler implements IContainerInputHandler {
 			Minecraft mc = Minecraft.getMinecraft();
 			GuiIngameWiki wikiScreen = new GuiIngameWiki(mc.currentScreen);
 			
-			wikiScreen.widReader.setText(this.getDescriptionString(mod_Waila.instance.getModID(stackover), stackover.getItemName()));
+			wikiScreen.widReader.setText(this.getDescriptionString(mod_Waila.instance.getModID(stackover), stackover.getItemName(), String.valueOf(stackover.getItemDamage())));
 			wikiScreen.widStack.setStack(stackover);
 			wikiScreen.widItemName.setLabel(stackover.getDisplayName());
 			
