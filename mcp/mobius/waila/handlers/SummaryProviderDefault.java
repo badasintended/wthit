@@ -188,7 +188,7 @@ public class SummaryProviderDefault implements IWailaSummaryProvider {
 	public Integer getDamageReduction(ItemStack stack){
 		if (stack.getItem() instanceof ItemArmor){
 			ItemArmor armor = (ItemArmor)stack.getItem();
-			return (Integer)armor.damageReduceAmount;
+			return armor.damageReduceAmount;
 		}
 		return  null;		
 	}

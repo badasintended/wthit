@@ -1,12 +1,9 @@
 package mcp.mobius.waila.gui;
 
-import org.lwjgl.opengl.GL11;
-
 import mcp.mobius.waila.gui.widget.ContainerTable;
 import mcp.mobius.waila.gui.widget.Label;
 import mcp.mobius.waila.gui.widget.StackDisplay;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.renderer.Tessellator;
 
 public class GuiEnchantScreen extends BaseWailaScreen {
 

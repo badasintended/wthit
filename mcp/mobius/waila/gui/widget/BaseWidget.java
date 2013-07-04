@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.HashMap;
 
 import org.lwjgl.input.Mouse;
-import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
@@ -169,14 +168,14 @@ public abstract class BaseWidget implements IWidget {
    
    public void drawGradientRect(int left, int top, int right, int bottom, double zlevel, int colorStart, int colorStop)
    {
-       float f = (float)(colorStart >> 24 & 255) / 255.0F;
-       float f1 = (float)(colorStart >> 16 & 255) / 255.0F;
-       float f2 = (float)(colorStart >> 8 & 255) / 255.0F;
-       float f3 = (float)(colorStart & 255) / 255.0F;
-       float f4 = (float)(colorStop >> 24 & 255) / 255.0F;
-       float f5 = (float)(colorStop >> 16 & 255) / 255.0F;
-       float f6 = (float)(colorStop >> 8 & 255) / 255.0F;
-       float f7 = (float)(colorStop & 255) / 255.0F;
+       float f = (colorStart >> 24 & 255) / 255.0F;
+       float f1 = (colorStart >> 16 & 255) / 255.0F;
+       float f2 = (colorStart >> 8 & 255) / 255.0F;
+       float f3 = (colorStart & 255) / 255.0F;
+       float f4 = (colorStop >> 24 & 255) / 255.0F;
+       float f5 = (colorStop >> 16 & 255) / 255.0F;
+       float f6 = (colorStop >> 8 & 255) / 255.0F;
+       float f7 = (colorStop & 255) / 255.0F;
        GL11.glDisable(GL11.GL_TEXTURE_2D);
        GL11.glEnable(GL11.GL_BLEND);
        GL11.glDisable(GL11.GL_ALPHA_TEST);
@@ -185,11 +184,11 @@ public abstract class BaseWidget implements IWidget {
        Tessellator tessellator = Tessellator.instance;
        tessellator.startDrawingQuads();
        tessellator.setColorRGBA_F(f1, f2, f3, f);
-       tessellator.addVertex((double)right, (double)top, zlevel);
-       tessellator.addVertex((double)left, (double)top, zlevel);
+       tessellator.addVertex(right, top, zlevel);
+       tessellator.addVertex(left, top, zlevel);
        tessellator.setColorRGBA_F(f5, f6, f7, f4);
-       tessellator.addVertex((double)left, (double)bottom, zlevel);
-       tessellator.addVertex((double)right, (double)bottom, zlevel);
+       tessellator.addVertex(left, bottom, zlevel);
+       tessellator.addVertex(right, bottom, zlevel);
        tessellator.draw();
        GL11.glShadeModel(GL11.GL_FLAT);
        GL11.glDisable(GL11.GL_BLEND);

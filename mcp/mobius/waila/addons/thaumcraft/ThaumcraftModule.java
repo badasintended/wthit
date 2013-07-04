@@ -1,16 +1,10 @@
 package mcp.mobius.waila.addons.thaumcraft;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.logging.Level;
 
 import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.addons.ExternalModulesHandler;
-import mcp.mobius.waila.addons.ic2.HUDHandlerDoor;
-import mcp.mobius.waila.addons.ic2.HUDHandlerIC2IEnergySink;
-import mcp.mobius.waila.addons.ic2.HUDHandlerIC2IEnergySource;
-import mcp.mobius.waila.addons.ic2.HUDHandlerIC2IEnergyStorage;
-import net.minecraft.item.ItemStack;
 
 public class ThaumcraftModule {
 

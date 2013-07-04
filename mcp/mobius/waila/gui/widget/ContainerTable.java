@@ -2,14 +2,11 @@ package mcp.mobius.waila.gui.widget;
 
 import java.util.ArrayList;
 
-import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiSlot;
-import net.minecraft.client.renderer.Tessellator;
 
 public class ContainerTable extends BaseWidget{
 	int rowHeight;

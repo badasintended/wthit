@@ -6,7 +6,6 @@ import java.util.logging.Level;
 
 import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.addons.ExternalModulesHandler;
-import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
 
 public class IC2Module {

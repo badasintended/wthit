@@ -1,8 +1,6 @@
 package mcp.mobius.waila.handlers;
 
 import java.util.List;
-import java.util.logging.Level;
-
 import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.addons.ConfigHandler;
 import net.minecraft.entity.player.EntityPlayer;

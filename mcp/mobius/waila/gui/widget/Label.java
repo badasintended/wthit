@@ -1,7 +1,5 @@
 package mcp.mobius.waila.gui.widget;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
 
 public class Label extends BaseWidget {

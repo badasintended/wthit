@@ -99,7 +99,7 @@ public class VerticalScrollBar extends BaseWidget {
 	@Override 
 	public boolean mouseMoved(int mouseX, int mouseY){
 		if (this.dragging){
-			int value = (int)((float)((mouseY - this.buttonH/2) - this.posY)/(float)(this.getHeight()-this.buttonH)*(float)this.maxvalue);
+			int value = (int)((float)((mouseY - this.buttonH/2) - this.posY)/(float)(this.getHeight()-this.buttonH)*this.maxvalue);
 			this.setCurrentValue(value);
 			return true;
 		}

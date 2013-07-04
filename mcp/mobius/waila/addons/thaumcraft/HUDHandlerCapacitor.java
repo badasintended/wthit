@@ -3,7 +3,6 @@ package mcp.mobius.waila.addons.thaumcraft;
 import java.util.List;
 
 import mcp.mobius.waila.WailaExceptionHandler;
-import mcp.mobius.waila.addons.ConfigHandler;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;

@@ -2,7 +2,6 @@ package mcp.mobius.waila.api;
 
 import java.util.LinkedHashMap;
 
-import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.ItemStack;
 
 public interface IWailaSummaryProvider {

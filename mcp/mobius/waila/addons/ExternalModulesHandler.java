@@ -1,13 +1,9 @@
 package mcp.mobius.waila.addons;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -271,7 +267,7 @@ public class ExternalModulesHandler implements IWailaRegistrar {
 			}
 		}
 		*/
-		mod_Waila.instance.log.log(Level.INFO, String.format("Registered %s entries from %s", nentries, filename));
+		mod_Waila.log.log(Level.INFO, String.format("Registered %s entries from %s", nentries, filename));
 	}	
 	
 	public boolean hasDocTextModID(String modid){

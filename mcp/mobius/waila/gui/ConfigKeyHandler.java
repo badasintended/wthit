@@ -7,13 +7,8 @@ import org.lwjgl.input.Keyboard;
 import codechicken.nei.NEIClientConfig;
 
 import mcp.mobius.waila.addons.ConfigHandler;
-import mcp.mobius.waila.handlers.DataAccessor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.nbt.NBTBase;
-import net.minecraft.nbt.NBTTagByteArray;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import cpw.mods.fml.client.registry.KeyBindingRegistry.KeyHandler;
 import cpw.mods.fml.common.TickType;
 import cpw.mods.fml.common.registry.LanguageRegistry;

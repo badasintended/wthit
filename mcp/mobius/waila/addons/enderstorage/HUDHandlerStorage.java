@@ -1,6 +1,5 @@
 package mcp.mobius.waila.addons.enderstorage;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;

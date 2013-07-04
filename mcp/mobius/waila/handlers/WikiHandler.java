@@ -1,28 +1,16 @@
 package mcp.mobius.waila.handlers;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.addons.ConfigHandler;
 import mcp.mobius.waila.addons.ExternalModulesHandler;
 import mcp.mobius.waila.api.IWailaConfigHandler;
-import mcp.mobius.waila.gui.GuiEnchantScreen;
 import mcp.mobius.waila.gui.GuiIngameWiki;
 import mcp.mobius.waila.gui.widget.Label;
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
-import net.minecraft.entity.monster.EntityZombie;
-import net.minecraft.item.EnumToolMaterial;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemTool;
 import codechicken.nei.NEIClientConfig;
 import codechicken.nei.forge.IContainerInputHandler;
 
@@ -72,7 +60,7 @@ public class WikiHandler implements IContainerInputHandler {
 			wikiScreen.widStack.setStack(stackover);
 			wikiScreen.widItemName.setLabel(stackover.getDisplayName());
 			
-			LinkedHashMap<String, String> entries = SummaryProvider.instance().getSummary(stackover, (IWailaConfigHandler)(ConfigHandler.instance()));
+			LinkedHashMap<String, String> entries = SummaryProvider.instance().getSummary(stackover, (ConfigHandler.instance()));
 			int nvalidentries = 0;
 			for (String s : entries.keySet())
 				if (entries.get(s) != null)			

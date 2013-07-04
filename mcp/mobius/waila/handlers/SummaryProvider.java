@@ -1,13 +1,7 @@
 package mcp.mobius.waila.handlers;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.ItemStack;
 import mcp.mobius.waila.addons.ExternalModulesHandler;
 import mcp.mobius.waila.api.IWailaConfigHandler;
