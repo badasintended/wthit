@@ -22,6 +22,7 @@ public interface IWidget {
     
 	void draw();
 	void draw(int x, int y, int z);
+	void draw(float scale);
 	
 	IWidget getWidgetAtCoordinates(int posX, int posY);
 	public void addWidget(String name, IWidget widget);

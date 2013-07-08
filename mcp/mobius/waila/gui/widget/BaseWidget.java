@@ -62,7 +62,18 @@ public abstract class BaseWidget implements IWidget {
 		this.posZ = z;
 		this.draw();
 	}
-
+	@Override 
+	public void draw(float scale){
+		int oldX = this.posX;
+		int oldY = this.posY;
+		this.posX /= scale;
+		this.posY /= scale;
+		this.draw();
+		this.posX = oldX;
+		this.posY = oldY;
+	}
+	
+	
 	@Override
 	public boolean mouseClicked(int mouseX, int mouseY, int buttonID){
 		IWidget widget = this.getWidgetAtCoordinates(mouseX, mouseY);

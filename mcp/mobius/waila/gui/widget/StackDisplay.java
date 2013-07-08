@@ -17,6 +17,11 @@ public class StackDisplay extends BaseWidget {
 	public StackDisplay(GuiScreen parent){
 		this.parent = parent;
 	};
+
+	public StackDisplay(GuiScreen parent, ItemStack stack){
+		this.parent = parent;
+		this.setStack(stack);
+	};	
 	
 	public void setStack(ItemStack stack){
 		this.stack = stack;
