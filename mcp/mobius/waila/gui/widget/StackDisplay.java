@@ -2,7 +2,11 @@ package mcp.mobius.waila.gui.widget;
 
 import org.lwjgl.opengl.GL11;
 
+import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.renderer.RenderEngine;
+import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
@@ -13,15 +17,21 @@ public class StackDisplay extends BaseWidget {
 	protected ItemStack stack;
 	protected Icon icon;
 	protected float scale = 1.0F;
+	protected boolean drawOverlay = false;
 	
 	public StackDisplay(GuiScreen parent){
 		this.parent = parent;
+		this.drawItems.zLevel = 500.0f;		
 	};
 
 	public StackDisplay(GuiScreen parent, ItemStack stack){
 		this.parent = parent;
 		this.setStack(stack);
 	};	
+	
+	public void setDrawOverlay(boolean value){
+		this.drawOverlay = value;
+	}
 	
 	public void setStack(ItemStack stack){
 		this.stack = stack;
@@ -33,7 +43,11 @@ public class StackDisplay extends BaseWidget {
 		this.drawBackground();
 		GL11.glPushMatrix();
 		GL11.glScalef(scale, scale, 1.0f);
+		
+		RenderHelper.enableStandardItemLighting();
 	    drawItems.renderItemAndEffectIntoGUI(this.fontRenderer, this.renderEngine, this.stack, (int)(this.posX/scale), (int)(this.posY/scale));
+	    if (this.drawOverlay)
+	    	drawItems.renderItemOverlayIntoGUI(this.fontRenderer, this.renderEngine, this.stack, (int)(this.posX/scale), (int)(this.posY/scale), String.valueOf(stack.stackSize));
 	    GL11.glPopMatrix();
 	}
 

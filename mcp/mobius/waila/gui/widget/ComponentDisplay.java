@@ -13,6 +13,7 @@ public class ComponentDisplay extends BaseWidget {
 	int spacingX = 4;
 	int spacingY = 4;
 	int stackDisplayWidth = 0;
+	boolean drawOverlay = false;
 	
 	public ComponentDisplay(GuiScreen parent){
 		this.parent = parent;
@@ -24,6 +25,12 @@ public class ComponentDisplay extends BaseWidget {
 		this.node   = node;
 		this.setComponents(node.elements);
 	};	
+
+	public void setDrawOverlay(boolean value){
+		for(IWidget widget : this.getWidgets())
+			if(widget instanceof StackDisplay)
+				((StackDisplay)widget).setDrawOverlay(value);
+	}	
 	
 	public void setComponents(ArrayList<ItemStack> components){
 		this.components = components;
@@ -56,7 +63,7 @@ public class ComponentDisplay extends BaseWidget {
 
 	@Override
 	public void draw() {
-		this.drawBackground();
+		//this.drawBackground();
 		int index = 0;
 		for (IWidget widget: this.getWidgets()){
 			widget.setPos(this.posX + (this.spacingX * (index + 1)) + ( index * this.stackDisplayWidth ), this.posY + this.spacingY, 0);

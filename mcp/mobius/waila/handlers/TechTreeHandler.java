@@ -52,9 +52,10 @@ public class TechTreeHandler implements IContainerInputHandler {
 
 			LinkedHashMap<Integer, ArrayList<CraftingTreeNode>> layers = new LinkedHashMap<Integer, ArrayList<CraftingTreeNode>> (); 
 			CraftingTreeNode tree = new CraftingTreeNode(null, stackover, 0, layers);
-			
+
+			/*
 			LinkedHashMap<Integer, ArrayList<CraftingTreeNode>> curratedLayers = new LinkedHashMap<Integer, ArrayList<CraftingTreeNode>> (); 
-			
+
 			for (int layer : layers.keySet())
 				curratedLayers.put(layer, new ArrayList<CraftingTreeNode>());
 			
@@ -74,7 +75,9 @@ public class TechTreeHandler implements IContainerInputHandler {
 				curratedLayers.get(layers.keySet().size()-1).add(node);
 				
 			System.out.printf("%s\n", curratedLayers);
+			*/
 			
+			/*
 			for (int layer = curratedLayers.keySet().size() - 1; layer >= 0; layer--){
 				int offsetX = 0;
 				for (int icompo = 0; icompo < curratedLayers.get(layer).size(); icompo++){
@@ -84,33 +87,20 @@ public class TechTreeHandler implements IContainerInputHandler {
 					offsetX += componentDisplay.getWidth() + 8;
 				}
 			}
-			
-			//ArrayList<ItemStack> topItem = new ArrayList<ItemStack>();
-			//topItem.add(stackover);
-			//ComponentsArray topComponent = new ComponentsArray(topItem);
-			//topComponent.getSubComponents(0);
-			
-			//int offsetY = techScreen.topOffset;
-			
-			//ArrayList<ArrayList<ItemStack>> layers = new ArrayList<ArrayList<ItemStack>>(); 
-
-			/*
-			techScreen.widViewport.addWidget(new StackDisplay(techScreen, stackover), techScreen.res.getScaledWidth()/2 - 8, offsetY+16, 0);
-			offsetY += 32;
-
-			for (IRecipe recipe : this.getRecipes(stackover)){
-				ArrayList<ItemStack> components = new ArrayList<ItemStack>();
-				for (ItemStack stack : this.getRecipeComponents(recipe))
-					components.add(stack);
-				ComponentDisplay componentDisplay = new ComponentDisplay(techScreen, components);
-				componentDisplay.setBackgroundColor(0xddeeeed1);
-				techScreen.widViewport.addWidget(componentDisplay, techScreen.res.getScaledWidth()/2 - 8, offsetY+16, 0);
-			}
-
-			
-			for (int i = 0; i < components.size(); i++)
-				techScreen.widViewport.addWidget(new StackDisplay(techScreen, components.get(i)), (techScreen.res.getScaledWidth()/(components.size()+1)*(i+1)) - 8, offsetY+40, 0);
 			*/
+
+			for (int layer = layers.keySet().size() - 1; layer >= 0; layer--){
+				int offsetX = 0;
+				for (int icompo = 0; icompo < layers.get(layer).size(); icompo++){
+					ComponentDisplay componentDisplay = new ComponentDisplay(techScreen, layers.get(layer).get(icompo));
+					componentDisplay.setBackgroundColor(0xddeeeed1);
+					if (layer != 0)
+						componentDisplay.setDrawOverlay(true);
+					
+					techScreen.widViewport.addWidget(componentDisplay, offsetX, layer*32, 0);
+					offsetX += componentDisplay.getWidth() + 8;
+				}
+			}			
 			
 			mc.displayGuiScreen(techScreen);
 		}

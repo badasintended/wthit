@@ -60,7 +60,10 @@ public abstract class BaseWidget implements IWidget {
 		this.posX = x;
 		this.posY = y;
 		this.posZ = z;
+		GL11.glPushMatrix();
+		GL11.glTranslatef(0.0f,0.0f, this.posZ);
 		this.draw();
+		GL11.glPopMatrix();
 	}
 	@Override 
 	public void draw(float scale){
@@ -68,7 +71,10 @@ public abstract class BaseWidget implements IWidget {
 		int oldY = this.posY;
 		this.posX /= scale;
 		this.posY /= scale;
+		GL11.glPushMatrix();
+		GL11.glTranslatef(0.0f,0.0f, this.posZ);		
 		this.draw();
+		GL11.glPopMatrix();		
 		this.posX = oldX;
 		this.posY = oldY;
 	}

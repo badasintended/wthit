@@ -52,10 +52,15 @@ public class DraggableViewport extends BaseWidget {
 		GL11.glTranslatef(offsetX, offsetY, 0);
 		GL11.glScalef(this.scale, this.scale, 1.0f);
 		this.startScissorFilter(this.posX, this.posY, this.getWidth(), this.getHeight());
+
+		for (IWidget widget : this.getWidgets())
+			widget.drawBackground();		
 		
 		for (IWidget widget : this.getWidgets())
-			widget.draw(this.scale);
-		
+			//widget.draw(this.scale);
+			widget.draw();
+
+	
     	this.stopScissorFilter();
 		GL11.glPopMatrix();		
 	}
