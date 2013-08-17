@@ -44,13 +44,16 @@ public class StackDisplay extends BaseWidget {
 		GL11.glPushMatrix();
 		GL11.glScalef(scale, scale, 1.0f);
 		
-		RenderHelper.enableStandardItemLighting();
+		RenderHelper.disableStandardItemLighting();
 	    drawItems.renderItemAndEffectIntoGUI(this.fontRenderer, this.renderEngine, this.stack, (int)(this.posX/scale), (int)(this.posY/scale));
 	    if (this.drawOverlay)
 	    	drawItems.renderItemOverlayIntoGUI(this.fontRenderer, this.renderEngine, this.stack, (int)(this.posX/scale), (int)(this.posY/scale), String.valueOf(stack.stackSize));
+		RenderHelper.enableStandardItemLighting();	    
 	    GL11.glPopMatrix();
+	    
 	}
 
+	
 	@Override
 	public int getWidth(){
 		return (int)(16 * this.scale);

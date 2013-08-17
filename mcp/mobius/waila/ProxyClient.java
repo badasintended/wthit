@@ -10,10 +10,13 @@ import codechicken.nei.forge.GuiContainerManager;
 import cpw.mods.fml.client.registry.KeyBindingRegistry;
 
 import mcp.mobius.waila.addons.ExternalModulesHandler;
+import mcp.mobius.waila.addons.betterbarrels.BetterBarrelsModule;
 import mcp.mobius.waila.addons.buildcraft.BCModule;
 import mcp.mobius.waila.addons.enderstorage.EnderStorageModule;
+import mcp.mobius.waila.addons.gravestone.GravestoneModule;
 import mcp.mobius.waila.addons.ic2.IC2Module;
 import mcp.mobius.waila.addons.thaumcraft.ThaumcraftModule;
+import mcp.mobius.waila.addons.twilightforest.TwilightForestModule;
 import mcp.mobius.waila.addons.vanillamc.HUDHandlerVanilla;
 import mcp.mobius.waila.gui.ConfigKeyHandler;
 import mcp.mobius.waila.handlers.HUDHandlerExternal;
@@ -39,10 +42,10 @@ public class ProxyClient extends ProxyServer {
 		
 		KeyBindingRegistry.registerKeyBinding(new ConfigKeyHandler());
 		
-		GuiContainerManager.addInputHandler(new TechTreeHandler());
+		//GuiContainerManager.addInputHandler(new TechTreeHandler());
 		//API.addKeyBind("showenchant", "Display enchantements", Keyboard.KEY_RSHIFT);
 		//API.addKeyBind("showwiki", "Display wiki", Keyboard.KEY_RSHIFT);
-		API.addKeyBind("showtechtree", "Display techtree", Keyboard.KEY_RSHIFT);
+		//API.addKeyBind("showtechtree", "Display techtree", Keyboard.KEY_RSHIFT);
 		
 		ExternalModulesHandler.instance().registerShortDataProvider(new SummaryProviderDefault(), Item.class);
 		
@@ -65,6 +68,9 @@ public class ProxyClient extends ProxyServer {
 		}
 		*/
 		
+		/*BETTER BARRELS*/
+		BetterBarrelsModule.register();
+		
 		/* BUILDCRAFT */
 		BCModule.register();
 		
@@ -77,6 +83,11 @@ public class ProxyClient extends ProxyServer {
 		/*EnderStorage*/
 		EnderStorageModule.register();
 		
+		/*Gravestone*/
+		GravestoneModule.register();
+		
+		/*Twilight forest*/
+		TwilightForestModule.register();
 	}	
 	
 }
