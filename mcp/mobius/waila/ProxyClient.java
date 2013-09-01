@@ -69,7 +69,7 @@ public class ProxyClient extends ProxyServer {
 		*/
 		
 		/*BETTER BARRELS*/
-		BetterBarrelsModule.register();
+		//BetterBarrelsModule.register();
 		
 		/* BUILDCRAFT */
 		BCModule.register();

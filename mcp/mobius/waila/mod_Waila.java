@@ -33,7 +33,7 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.ItemData;
 
-@Mod(modid="Waila", name="Waila", version="1.3.5_dev")
+@Mod(modid="Waila", name="Waila", version="1.3.6_dev")
 @NetworkMod(channels = {"Waila"},clientSideRequired=false, serverSideRequired=false, connectionHandler = WailaConnectionHandler.class, packetHandler = WailaPacketHandler.class)
 
 public class mod_Waila {
