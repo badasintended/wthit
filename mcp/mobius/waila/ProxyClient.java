@@ -8,8 +8,8 @@ import codechicken.nei.api.API;
 import codechicken.nei.api.ItemInfo;
 import codechicken.nei.forge.GuiContainerManager;
 import cpw.mods.fml.client.registry.KeyBindingRegistry;
-
 import mcp.mobius.waila.addons.ExternalModulesHandler;
+import mcp.mobius.waila.addons.appeng.AppEngModule;
 import mcp.mobius.waila.addons.betterbarrels.BetterBarrelsModule;
 import mcp.mobius.waila.addons.buildcraft.BCModule;
 import mcp.mobius.waila.addons.enderstorage.EnderStorageModule;
@@ -88,6 +88,9 @@ public class ProxyClient extends ProxyServer {
 		
 		/*Twilight forest*/
 		TwilightForestModule.register();
+		
+		/* Applied Energetics */
+		AppEngModule.register();
 	}	
 	
 }
