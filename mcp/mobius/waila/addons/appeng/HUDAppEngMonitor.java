@@ -28,7 +28,10 @@ public class HUDAppEngMonitor implements IWailaDataProvider {
 			if (config.getConfig("appeng.monitorcontent")){
 				try {
 					ItemStack stack = (ItemStack)AppEngModule.IAEItemStack_getItemStack.invoke(AppEngModule.IAEItemStack.cast(AppEngModule.TileStorageMonitor_getItem.invoke(entity)));
-					currenttip.add(stack.getDisplayName());
+					if (stack != null)
+						currenttip.add(stack.getDisplayName());
+					else
+						currenttip.add("<None>");
 				} catch (Exception e) {
 					System.out.printf("%s\n", e);
 				}			
