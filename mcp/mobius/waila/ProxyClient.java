@@ -4,6 +4,7 @@ import net.minecraft.item.Item;
 
 import org.lwjgl.input.Keyboard;
 
+import codechicken.nei.NEIClientConfig;
 import codechicken.nei.api.API;
 import codechicken.nei.api.ItemInfo;
 import codechicken.nei.forge.GuiContainerManager;
@@ -41,6 +42,9 @@ public class ProxyClient extends ProxyServer {
 		API.registerHighlightHandler(new HUDHandlerWaila(),    ItemInfo.Layout.HEADER);		
 		
 		KeyBindingRegistry.registerKeyBinding(new ConfigKeyHandler());
+		
+		// We mute the default keybind for displaying the tooltip
+		NEIClientConfig.getSetting(Constants.BIND_NEI_SHOW).setIntValue(Keyboard.KEY_NONE);
 		
 		//GuiContainerManager.addInputHandler(new TechTreeHandler());
 		//API.addKeyBind(Constants.BIND_ENCH, "Display enchantements", Keyboard.KEY_RSHIFT);

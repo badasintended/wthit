@@ -9,6 +9,7 @@ public final class Constants {
 	public static String BIND_WAILA_SHOW = "key.wailadisplay";	
 	
 	public static String CFG_NEI_SHOW = "world.highlight_tips";
+	public static String BIND_NEI_SHOW = "keys.world.highlight_tips";	
 	
 
 }
