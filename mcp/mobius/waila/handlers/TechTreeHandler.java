@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import mcp.mobius.waila.Constants;
 import mcp.mobius.waila.gui.GuiIngameWiki;
 import mcp.mobius.waila.gui.GuiTechTree;
 import mcp.mobius.waila.gui.widget.ComponentDisplay;
@@ -46,7 +47,7 @@ public class TechTreeHandler implements IContainerInputHandler {
 		if(stackover == null)
 			return false;		
 		 
-		if(keyID == NEIClientConfig.getKeyBinding("showtechtree")){
+		if(keyID == NEIClientConfig.getKeyBinding(Constants.BIND_SCREEN_TECH)){
 			Minecraft mc = Minecraft.getMinecraft();
 			GuiTechTree techScreen = new GuiTechTree(mc.currentScreen);
 

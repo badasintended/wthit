@@ -2,6 +2,7 @@ package mcp.mobius.waila.handlers;
 
 import java.util.LinkedHashMap;
 
+import mcp.mobius.waila.Constants;
 import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.addons.ConfigHandler;
 import mcp.mobius.waila.addons.ExternalModulesHandler;
@@ -52,7 +53,7 @@ public class WikiHandler implements IContainerInputHandler {
 		if(stackover == null)
 			return false;		
 		 
-		if(keyID == NEIClientConfig.getKeyBinding("showwiki")){
+		if(keyID == NEIClientConfig.getKeyBinding(Constants.BIND_SCREEN_WIKI)){
 			Minecraft mc = Minecraft.getMinecraft();
 			GuiIngameWiki wikiScreen = new GuiIngameWiki(mc.currentScreen);
 			

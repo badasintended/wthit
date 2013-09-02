@@ -43,9 +43,9 @@ public class ProxyClient extends ProxyServer {
 		KeyBindingRegistry.registerKeyBinding(new ConfigKeyHandler());
 		
 		//GuiContainerManager.addInputHandler(new TechTreeHandler());
-		//API.addKeyBind("showenchant", "Display enchantements", Keyboard.KEY_RSHIFT);
-		//API.addKeyBind("showwiki", "Display wiki", Keyboard.KEY_RSHIFT);
-		//API.addKeyBind("showtechtree", "Display techtree", Keyboard.KEY_RSHIFT);
+		//API.addKeyBind(Constants.BIND_ENCH, "Display enchantements", Keyboard.KEY_RSHIFT);
+		//API.addKeyBind(Constants.BIND_WIKI, "Display wiki",          Keyboard.KEY_RSHIFT);
+		//API.addKeyBind(Constants.BIND_TECH, "Display techtree",      Keyboard.KEY_RSHIFT);
 		
 		ExternalModulesHandler.instance().registerShortDataProvider(new SummaryProviderDefault(), Item.class);
 		
@@ -55,18 +55,6 @@ public class ProxyClient extends ProxyServer {
 	public void registerMods(){
 		
 		HUDHandlerVanilla.register();
-		
-		/* BETTER BARRELS */
-		/*
-		try {
-			Class ModBetterBarrels = Class.forName("mcp.mobius.betterbarrels.mod_BetterBarrels");
-			mod_Waila.log.log(Level.INFO, "BetterBarrel mod found.");
-			HUDHandlerBetterBarrels.register();
-			ConfigHandler.instance().addConfig("BetterBarrels", "betterbarrels.content", "Barrel content");
-		} catch (ClassNotFoundException e){
-			mod_Waila.log.log(Level.INFO, "BetterBarrel mod not found. Skipping.");			
-		}
-		*/
 		
 		/*BETTER BARRELS*/
 		//BetterBarrelsModule.register();
