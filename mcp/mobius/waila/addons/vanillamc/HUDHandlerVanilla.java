@@ -42,7 +42,7 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 		/* Mob spawner handler */
 		if (blockID == mobSpawnerID && accessor.getTileEntity() instanceof TileEntityMobSpawner && config.getConfig("vanilla.spawntype")){
 			String name = currenttip.get(0);
-			String mobname = ((TileEntityMobSpawner)accessor.getTileEntity()).func_98049_a().getEntityNameToSpawn();
+			String mobname = ((TileEntityMobSpawner)accessor.getTileEntity()).getSpawnerLogic().getEntityNameToSpawn();
 			currenttip.set(0, String.format("%s (%s)", name, mobname));
 		}
 

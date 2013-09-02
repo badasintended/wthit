@@ -50,7 +50,7 @@ public class EnchantmentHandler implements IContainerInputHandler {
 				
 				Enchantment[] enchants = null;
 				if (stackover.getItem() == Item.book)
-					enchants = Enchantment.field_92090_c;
+					enchants = Enchantment.enchantmentsBookList;
 				else
 					enchants = Enchantment.enchantmentsList;
 					

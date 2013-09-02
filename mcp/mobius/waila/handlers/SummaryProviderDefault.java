@@ -176,7 +176,7 @@ public class SummaryProviderDefault implements IWailaSummaryProvider {
 		return  material!=null?material.getEnchantability():null;
 	}
 	
-	public Integer getDamageVsEntity(ItemStack stack){
+	public Float getDamageVsEntity(ItemStack stack){
 		EnumToolMaterial material = this.getToolMaterial(stack);
 		return  material!=null?material.getDamageVsEntity():null;	
 	}

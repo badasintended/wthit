@@ -10,8 +10,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.RenderEngine;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.texture.TextureManager;
 
 public abstract class BaseWidget implements IWidget {
 
@@ -20,7 +20,7 @@ public abstract class BaseWidget implements IWidget {
 	protected int posX, posY, posZ;
 	protected GuiScreen parent;
 	protected FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;;
-	protected RenderEngine renderEngine = Minecraft.getMinecraft().renderEngine;
+	protected TextureManager renderEngine = Minecraft.getMinecraft().renderEngine;
     protected HashMap<String, IWidget> widgets = new HashMap<String, IWidget>();
 	protected IWidget[] focusWidget = new IWidget[Mouse.getButtonCount()]; 
     protected IWidget   mainFocusWidget = null;

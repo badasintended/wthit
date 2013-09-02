@@ -1,12 +1,14 @@
 package mcp.mobius.waila.addons.buildcraft;
 
 import java.util.List;
+import java.util.Map;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
+import mcp.mobius.waila.tools.Reflect;
 
 public class HUDHandlerBCPipes implements IWailaDataProvider {
 	@Override
@@ -30,7 +32,8 @@ public class HUDHandlerBCPipes implements IWailaDataProvider {
 	}
 
 	public boolean hasPartialKey(NBTTagCompound tag, String key){
-		for (Object k : tag.tagMap.keySet())
+		Map tagMap = (Map)Reflect.getFieldValue("net.minecraft.nbt.NBTTagCompound", "tagMap", tag);
+		for (Object k : tagMap.keySet())
 			if (((String)k).contains(key))
 				return true;
 		return false;
@@ -38,7 +41,8 @@ public class HUDHandlerBCPipes implements IWailaDataProvider {
 	
 	public double getPartialKeySum(NBTTagCompound tag, String key){
 		double retVal = 0;
-		for (Object k : tag.tagMap.keySet())
+		Map tagMap = (Map)Reflect.getFieldValue("net.minecraft.nbt.NBTTagCompound", "tagMap", tag);		
+		for (Object k : tagMap.keySet())
 			if (((String)k).contains(key))
 				retVal += tag.getDouble((String)k);
 		return retVal;
