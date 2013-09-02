@@ -35,7 +35,7 @@ public class HUDHandlerBCIPowerReceptor implements IWailaDataProvider {
 //		}
 //		currenttip.add(String.valueOf(powerRequest));
 		
-		NBTTagCompound tag = accessor.getNBTData();
+//		NBTTagCompound tag = accessor.getNBTData();
 		
 		return currenttip;
 	}
