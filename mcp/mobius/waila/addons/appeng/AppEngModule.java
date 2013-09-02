@@ -35,7 +35,7 @@ public class AppEngModule {
 			return;
 		}
 		
-		mod_Waila.log.log(Level.WARNING, "Waila module AppEng succefully hooked.");
+		mod_Waila.log.log(Level.INFO, "AppEng mod found.");
 		ExternalModulesHandler.instance().addConfig("Applied Energetic", "appeng.monitorcontent", "Monitor's content");		
 		ExternalModulesHandler.instance().registerBodyProvider(new HUDAppEngMonitor(), TileStorageMonitor);		
 	}
