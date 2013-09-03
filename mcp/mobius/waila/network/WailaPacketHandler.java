@@ -12,6 +12,7 @@ import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.common.DimensionManager;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.IPacketHandler;
 import cpw.mods.fml.common.network.PacketDispatcher;
@@ -28,22 +29,19 @@ public class WailaPacketHandler implements IPacketHandler {
 				mod_Waila.instance.serverPresent = true;
 			}
 			else if (header == 0x01){
-				try{
-					Packet0x01TERequest castedPacket = new Packet0x01TERequest(packet);
-			        MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
-			        TileEntity      entity = server.worldServers[castedPacket.worldID].getBlockTileEntity(castedPacket.posX, castedPacket.posY, castedPacket.posZ);
-			        if (entity != null){
-			        	try{
-			        		NBTTagCompound tag = new NBTTagCompound();
-			        		entity.writeToNBT(tag);
-			        		PacketDispatcher.sendPacketToPlayer(Packet0x02TENBTData.create(tag), player);
-			        	}catch(Throwable e){
-			        		WailaExceptionHandler.handleErr(e, entity.getClass().toString(), null);
-			        	}
-			        }
-	        	}catch(Throwable e){
-	        		WailaExceptionHandler.handleErr(e, "Error handling request packet 0x01.", null);	        		
-	        	}
+				Packet0x01TERequest castedPacket = new Packet0x01TERequest(packet);
+		        MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
+		        TileEntity      entity = DimensionManager.getWorld(castedPacket.worldID).getBlockTileEntity(castedPacket.posX, castedPacket.posY, castedPacket.posZ);
+		        //TileEntity      entity = server.worldServers[castedPacket.worldID].getBlockTileEntity(castedPacket.posX, castedPacket.posY, castedPacket.posZ);
+		        if (entity != null){
+		        	try{
+		        		NBTTagCompound tag = new NBTTagCompound();
+		        		entity.writeToNBT(tag);
+		        		PacketDispatcher.sendPacketToPlayer(Packet0x02TENBTData.create(tag), player);
+		        	}catch(Throwable e){
+		        		WailaExceptionHandler.handleErr(e, entity.getClass().toString(), null);
+		        	}
+		        }
 			}
 			else if (header == 0x02){
 				Packet0x02TENBTData castedPacket = new Packet0x02TENBTData(packet);
