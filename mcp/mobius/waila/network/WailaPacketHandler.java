@@ -28,18 +28,22 @@ public class WailaPacketHandler implements IPacketHandler {
 				mod_Waila.instance.serverPresent = true;
 			}
 			else if (header == 0x01){
-				Packet0x01TERequest castedPacket = new Packet0x01TERequest(packet);
-		        MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
-		        TileEntity      entity = server.worldServers[castedPacket.worldID].getBlockTileEntity(castedPacket.posX, castedPacket.posY, castedPacket.posZ);
-		        if (entity != null){
-		        	try{
-		        		NBTTagCompound tag = new NBTTagCompound();
-		        		entity.writeToNBT(tag);
-		        		PacketDispatcher.sendPacketToPlayer(Packet0x02TENBTData.create(tag), player);
-		        	}catch(Throwable e){
-		        		WailaExceptionHandler.handleErr(e, entity.getClass().toString(), null);
-		        	}
-		        }
+				try{
+					Packet0x01TERequest castedPacket = new Packet0x01TERequest(packet);
+			        MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
+			        TileEntity      entity = server.worldServers[castedPacket.worldID].getBlockTileEntity(castedPacket.posX, castedPacket.posY, castedPacket.posZ);
+			        if (entity != null){
+			        	try{
+			        		NBTTagCompound tag = new NBTTagCompound();
+			        		entity.writeToNBT(tag);
+			        		PacketDispatcher.sendPacketToPlayer(Packet0x02TENBTData.create(tag), player);
+			        	}catch(Throwable e){
+			        		WailaExceptionHandler.handleErr(e, entity.getClass().toString(), null);
+			        	}
+			        }
+	        	}catch(Throwable e){
+	        		WailaExceptionHandler.handleErr(e, "Error handling request packet 0x01.", null);	        		
+	        	}
 			}
 			else if (header == 0x02){
 				Packet0x02TENBTData castedPacket = new Packet0x02TENBTData(packet);
