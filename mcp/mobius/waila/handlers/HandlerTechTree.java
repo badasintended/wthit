@@ -24,22 +24,7 @@ import codechicken.nei.forge.IContainerInputHandler;
 
 public class HandlerTechTree implements IContainerInputHandler {
 
-	public HandlerTechTree() {
-		// TODO Auto-generated constructor stub
-	}
-
-	@Override
-	public boolean keyTyped(GuiContainer gui, char keyChar, int keyCode) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void onKeyTyped(GuiContainer gui, char keyChar, int keyID) {
-		// TODO Auto-generated method stub
-
-	}
-
+	public HandlerTechTree() {}
 
 	@Override
 	public boolean lastKeyTyped(GuiContainer gui, char keyChar, int keyID) {
@@ -53,42 +38,6 @@ public class HandlerTechTree implements IContainerInputHandler {
 
 			LinkedHashMap<Integer, ArrayList<CraftingTreeNode>> layers = new LinkedHashMap<Integer, ArrayList<CraftingTreeNode>> (); 
 			CraftingTreeNode tree = new CraftingTreeNode(null, stackover, 0, layers);
-
-			/*
-			LinkedHashMap<Integer, ArrayList<CraftingTreeNode>> curratedLayers = new LinkedHashMap<Integer, ArrayList<CraftingTreeNode>> (); 
-
-			for (int layer : layers.keySet())
-				curratedLayers.put(layer, new ArrayList<CraftingTreeNode>());
-			
-			for (int i = 0; i < (layers.size() - 1) ; i++)
-				for (CraftingTreeNode node : layers.get(i)){
-					if (node.bottomNodes.size() != 0){
-						curratedLayers.get(i).add(node);
-
-					}
-					else{
-						node.layer += 1;
-						layers.get(i+1).add(node);
-					}
-				}
-
-			for (CraftingTreeNode node : layers.get(layers.keySet().size()-1))
-				curratedLayers.get(layers.keySet().size()-1).add(node);
-				
-			System.out.printf("%s\n", curratedLayers);
-			*/
-			
-			/*
-			for (int layer = curratedLayers.keySet().size() - 1; layer >= 0; layer--){
-				int offsetX = 0;
-				for (int icompo = 0; icompo < curratedLayers.get(layer).size(); icompo++){
-					ComponentDisplay componentDisplay = new ComponentDisplay(techScreen, curratedLayers.get(layer).get(icompo));
-					componentDisplay.setBackgroundColor(0xddeeeed1);
-					techScreen.widViewport.addWidget(componentDisplay, offsetX, layer*32, 0);
-					offsetX += componentDisplay.getWidth() + 8;
-				}
-			}
-			*/
 
 			for (int layer = layers.keySet().size() - 1; layer >= 0; layer--){
 				int offsetX = 0;
@@ -107,46 +56,22 @@ public class HandlerTechTree implements IContainerInputHandler {
 		}
 		return false;
 	}
-
+	
 	@Override
-	public boolean mouseClicked(GuiContainer gui, int mousex, int mousey,
-			int button) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
+	public boolean keyTyped(GuiContainer gui, char keyChar, int keyCode) {	return false; }
 	@Override
-	public void onMouseClicked(GuiContainer gui, int mousex, int mousey,
-			int button) {
-		// TODO Auto-generated method stub
-
-	}
-
+	public void onKeyTyped(GuiContainer gui, char keyChar, int keyID) {	}
 	@Override
-	public void onMouseUp(GuiContainer gui, int mousex, int mousey, int button) {
-		// TODO Auto-generated method stub
-
-	}
-
+	public boolean mouseClicked(GuiContainer gui, int mousex, int mousey, int button) {	return false; }
 	@Override
-	public boolean mouseScrolled(GuiContainer gui, int mousex, int mousey,
-			int scrolled) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
+	public void onMouseClicked(GuiContainer gui, int mousex, int mousey,  int button) {	}
 	@Override
-	public void onMouseScrolled(GuiContainer gui, int mousex, int mousey,
-			int scrolled) {
-		// TODO Auto-generated method stub
-
-	}
-
+	public void onMouseUp(GuiContainer gui, int mousex, int mousey, int button) { }
 	@Override
-	public void onMouseDragged(GuiContainer gui, int mousex, int mousey,
-			int button, long heldTime) {
-		// TODO Auto-generated method stub
-
-	}
+	public boolean mouseScrolled(GuiContainer gui, int mousex, int mousey, int scrolled) { return false; }
+	@Override
+	public void onMouseScrolled(GuiContainer gui, int mousex, int mousey, int scrolled) { }
+	@Override
+	public void onMouseDragged(GuiContainer gui, int mousex, int mousey, int button, long heldTime) { }
 
 }

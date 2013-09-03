@@ -21,6 +21,7 @@ import mcp.mobius.waila.addons.vanillamc.HUDHandlerVanilla;
 import mcp.mobius.waila.gui.ConfigKeyHandler;
 import mcp.mobius.waila.handlers.HUDHandlerExternal;
 import mcp.mobius.waila.handlers.HUDHandlerWaila;
+import mcp.mobius.waila.handlers.HandlerEnchantment;
 import mcp.mobius.waila.handlers.SummaryProviderDefault;
 import mcp.mobius.waila.handlers.HandlerTechTree;
 import mcp.mobius.waila.handlers.TooltipHandlerWaila;
@@ -41,13 +42,15 @@ public class ProxyClient extends ProxyServer {
 		API.registerHighlightHandler(new HUDHandlerWaila(),    ItemInfo.Layout.HEADER);		
 		
 		KeyBindingRegistry.registerKeyBinding(new ConfigKeyHandler());
+
+		ExternalModulesHandler.instance().registerShortDataProvider(new SummaryProviderDefault(), Item.class);		
 		
-		//GuiContainerManager.addInputHandler(new TechTreeHandler());
-		//API.addKeyBind(Constants.BIND_SCREEN_ENCH, "Display enchantements", Keyboard.KEY_RSHIFT);
-		//API.addKeyBind(Constants.BIND_SCREEN_WIKI, "Display wiki",          Keyboard.KEY_RSHIFT);
-		//API.addKeyBind(Constants.BIND_SCREEN_TECH, "Display techtree",      Keyboard.KEY_RSHIFT);
-		
-		ExternalModulesHandler.instance().registerShortDataProvider(new SummaryProviderDefault(), Item.class);
+		//GuiContainerManager.addInputHandler(new HandlerEnchantment());		
+		//GuiContainerManager.addInputHandler(new HandlerWiki());		
+		//GuiContainerManager.addInputHandler(new HandlerTechTree());
+		//API.addKeyBind(Constants.BIND_SCREEN_ENCH, "Display enchantements", Keyboard.KEY_NUMPAD7);
+		//API.addKeyBind(Constants.BIND_SCREEN_WIKI, "Display wiki",          Keyboard.KEY_NUMPAD8);
+		//API.addKeyBind(Constants.BIND_SCREEN_TECH, "Display techtree",      Keyboard.KEY_NUMPAD9);
 		
 		this.registerMods();		
 	}	
