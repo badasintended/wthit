@@ -34,7 +34,8 @@ import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.ItemData;
 
 @Mod(modid="Waila", name="Waila", version="1.3.8")
-@NetworkMod(channels = {"Waila"},clientSideRequired=false, serverSideRequired=false, connectionHandler = WailaConnectionHandler.class, packetHandler = WailaPacketHandler.class)
+@NetworkMod(channels = {"Waila"},clientSideRequired=false, serverSideRequired=false, 
+			connectionHandler = WailaConnectionHandler.class, packetHandler = WailaPacketHandler.class, versionBounds="[1.3.0,)")
 
 public class mod_Waila {
     // The instance of your mod that Forge uses.
