@@ -15,7 +15,7 @@ import net.minecraft.item.ItemStack;
 import codechicken.nei.NEIClientConfig;
 import codechicken.nei.forge.IContainerInputHandler;
 
-public class WikiHandler implements IContainerInputHandler {
+public class HandlerWiki implements IContainerInputHandler {
 
 	public String getDescriptionString(String modid, String name, String meta){
 		if (ExternalModulesHandler.instance().hasDocTextModID(modid)){

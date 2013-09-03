@@ -22,9 +22,9 @@ import net.minecraftforge.oredict.ShapelessOreRecipe;
 import codechicken.nei.NEIClientConfig;
 import codechicken.nei.forge.IContainerInputHandler;
 
-public class TechTreeHandler implements IContainerInputHandler {
+public class HandlerTechTree implements IContainerInputHandler {
 
-	public TechTreeHandler() {
+	public HandlerTechTree() {
 		// TODO Auto-generated constructor stub
 	}
 

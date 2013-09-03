@@ -14,7 +14,7 @@ import net.minecraft.item.ItemStack;
 import codechicken.nei.NEIClientConfig;
 import codechicken.nei.forge.IContainerInputHandler;
 
-public class EnchantmentHandler implements IContainerInputHandler {
+public class HandlerEnchantment implements IContainerInputHandler {
 
     static Class EplusApi;
     static Method Tooltip;	
