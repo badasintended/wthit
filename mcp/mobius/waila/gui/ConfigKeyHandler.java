@@ -4,7 +4,6 @@ import java.util.EnumSet;
 
 import org.lwjgl.input.Keyboard;
 
-import codechicken.nei.NEIClientConfig;
 import mcp.mobius.waila.Constants;
 import mcp.mobius.waila.addons.ConfigHandler;
 import net.minecraft.client.Minecraft;
@@ -41,21 +40,25 @@ public class ConfigKeyHandler extends KeyHandler {
 				mc.displayGuiScreen(new GuiConfigScreen(mc.currentScreen));
 		}
 		
-		else if (kb.keyDescription == Constants.BIND_WAILA_SHOW && ConfigHandler.instance().getConfig("waila.showmode")){
-			boolean status = NEIClientConfig.getSetting(Constants.CFG_NEI_SHOW).getBooleanValue();
-			NEIClientConfig.getSetting(Constants.CFG_NEI_SHOW).setBooleanValue(!status);
+		else if (kb.keyDescription == Constants.BIND_WAILA_SHOW && ConfigHandler.instance().getConfig(Constants.CFG_WAILA_MODE)){
+			//boolean status = NEIClientConfig.getSetting(Constants.CFG_NEI_SHOW).getBooleanValue();
+			//NEIClientConfig.getSetting(Constants.CFG_NEI_SHOW).setBooleanValue(!status);
+			boolean status = ConfigHandler.instance().getConfig(Constants.CFG_WAILA_SHOW);
+			ConfigHandler.instance().setConfig(Constants.CFG_WAILA_SHOW, !status);
 		}
 		
-		else if (kb.keyDescription == Constants.BIND_WAILA_SHOW && !ConfigHandler.instance().getConfig("waila.showmode")){
-			NEIClientConfig.getSetting(Constants.CFG_NEI_SHOW).setBooleanValue(true);
+		else if (kb.keyDescription == Constants.BIND_WAILA_SHOW && !ConfigHandler.instance().getConfig(Constants.CFG_WAILA_MODE)){
+			//NEIClientConfig.getSetting(Constants.CFG_NEI_SHOW).setBooleanValue(true);
+			ConfigHandler.instance().setConfig(Constants.CFG_WAILA_SHOW, true);			
 		}
 	}
 
 	@Override
 	public void keyUp(EnumSet<TickType> types, KeyBinding kb, boolean tickEnd) {
 		if (!tickEnd) return;
-		if (kb.keyDescription == Constants.BIND_WAILA_SHOW && !ConfigHandler.instance().getConfig("waila.showmode")){
-			NEIClientConfig.getSetting(Constants.CFG_NEI_SHOW).setBooleanValue(false);
+		if (kb.keyDescription == Constants.BIND_WAILA_SHOW && !ConfigHandler.instance().getConfig(Constants.CFG_WAILA_MODE)){
+			//NEIClientConfig.getSetting(Constants.CFG_NEI_SHOW).setBooleanValue(false);
+			ConfigHandler.instance().setConfig(Constants.CFG_WAILA_SHOW, false);
 		}		
 	}
 

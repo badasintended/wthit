@@ -80,5 +80,12 @@ public class ConfigHandler implements IWailaConfigHandler {
 	@Override
 	public boolean getConfig(String key){
 		return this.getConfig(key, true);
-	}	
+	}
+	
+	@Override
+	public void setConfig(String key, boolean value){
+		mod_Waila.instance.config.load();
+		mod_Waila.instance.config.get(Configuration.CATEGORY_GENERAL, key, true).set(value);;
+		mod_Waila.instance.config.save();
+	}
 }

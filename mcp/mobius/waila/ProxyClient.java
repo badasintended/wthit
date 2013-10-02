@@ -9,6 +9,8 @@ import codechicken.nei.api.API;
 import codechicken.nei.api.ItemInfo;
 import codechicken.nei.forge.GuiContainerManager;
 import cpw.mods.fml.client.registry.KeyBindingRegistry;
+import cpw.mods.fml.common.registry.TickRegistry;
+import cpw.mods.fml.relauncher.Side;
 import mcp.mobius.waila.addons.ExternalModulesHandler;
 import mcp.mobius.waila.addons.appeng.AppEngModule;
 import mcp.mobius.waila.addons.betterbarrels.BetterBarrelsModule;
@@ -26,6 +28,7 @@ import mcp.mobius.waila.handlers.SummaryProviderDefault;
 import mcp.mobius.waila.handlers.HandlerTechTree;
 import mcp.mobius.waila.handlers.TooltipHandlerWaila;
 import mcp.mobius.waila.handlers.HandlerWiki;
+import mcp.mobius.waila.overlay.WailaTickHandler;
 import mcp.mobius.waila.server.ProxyServer;
 
 public class ProxyClient extends ProxyServer {
@@ -35,6 +38,8 @@ public class ProxyClient extends ProxyServer {
 	
 	@Override
 	public void registerHandlers(){
+		TickRegistry.registerTickHandler(new WailaTickHandler(), Side.CLIENT);		
+		
 		GuiContainerManager.addTooltipHandler(new TooltipHandlerWaila());
 		API.registerHighlightHandler(new HUDHandlerExternal(), ItemInfo.Layout.HEADER);
 		API.registerHighlightHandler(new HUDHandlerExternal(), ItemInfo.Layout.BODY);
