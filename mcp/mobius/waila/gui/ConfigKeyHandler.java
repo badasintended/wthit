@@ -112,7 +112,6 @@ public class ConfigKeyHandler extends KeyHandler {
 	public void keyUp(EnumSet<TickType> types, KeyBinding kb, boolean tickEnd) {
 		if (!tickEnd) return;
 		if (kb.keyDescription == Constants.BIND_WAILA_SHOW && !ConfigHandler.instance().getConfig(Constants.CFG_WAILA_MODE)){
-			//NEIClientConfig.getSetting(Constants.CFG_NEI_SHOW).setBooleanValue(false);
 			ConfigHandler.instance().setConfig(Constants.CFG_WAILA_SHOW, false);
 		}		
 	}
