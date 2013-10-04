@@ -8,6 +8,7 @@ public interface IWailaRegistrar {
 	/* Register a IWailaDataProvider for the given blockID, either for the Head section or the Body section */
 	public void registerHeadProvider (IWailaDataProvider dataProvider, int blockID);
 	public void registerBodyProvider (IWailaDataProvider dataProvider, int blockID);
+	public void registerTailProvider (IWailaDataProvider dataProvider, int blockID);	
 	
 	/* Register a stack overrider for the given blockID */
 	public void registerStackProvider(IWailaDataProvider dataProvider, int blockID);
@@ -17,6 +18,7 @@ public interface IWailaRegistrar {
 	/* Same thing, but works on a class hierarchy instead */
 	public void registerHeadProvider (IWailaDataProvider dataProvider, Class block);
 	public void registerBodyProvider (IWailaDataProvider dataProvider, Class block);
+	public void registerTailProvider (IWailaDataProvider dataProvider, Class block);	
 	
 	public void registerDocTextFile  (String filename);
 	

@@ -87,12 +87,14 @@ public class ExternalModulesHandler implements IWailaRegistrar {
 		this.bodyBlockProviders.get(block).add(dataProvider);
 	}	
 	
+	@Override
 	public void registerTailProvider(IWailaDataProvider dataProvider, int blockID) {
 		if (!this.tailProviders.containsKey(blockID))
 			this.tailProviders.put(blockID, new ArrayList<IWailaDataProvider>());
 		this.tailProviders.get(blockID).add(dataProvider);
 	}	
 
+	@Override
 	public void registerTailProvider(IWailaDataProvider dataProvider, Class block) {
 		if (!this.tailBlockProviders.containsKey(block))
 			this.tailBlockProviders.put(block, new ArrayList<IWailaDataProvider>());

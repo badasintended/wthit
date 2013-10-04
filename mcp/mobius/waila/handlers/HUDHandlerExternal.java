@@ -74,7 +74,13 @@ public class HUDHandlerExternal implements IHighlightHandler {
 					return ((IWailaBlock)block).getWailaBody(itemStack, currenttip, accessor, ConfigHandler.instance());
 				} catch (Throwable e){
 					return WailaExceptionHandler.handleErr(e, block.getClass().toString(), currenttip);
-				}						
+				}
+			else if (layout == Layout.FOOTER)
+				try{					
+					return ((IWailaBlock)block).getWailaTail(itemStack, currenttip, accessor, ConfigHandler.instance());
+				} catch (Throwable e){
+					return WailaExceptionHandler.handleErr(e, block.getClass().toString(), currenttip);
+				}				
 		}
 		
 		if (layout == Layout.HEADER && ExternalModulesHandler.instance().hasHeadProviders(blockID)){
@@ -95,6 +101,19 @@ public class HUDHandlerExternal implements IHighlightHandler {
 				}			
 		}
 		
+
+		if (layout == Layout.FOOTER && ExternalModulesHandler.instance().hasTailProviders(blockID)){
+			for (IWailaDataProvider dataProvider : ExternalModulesHandler.instance().getTailProviders(blockID))
+				try{				
+					currenttip = dataProvider.getWailaTail(itemStack, currenttip, accessor, ConfigHandler.instance());
+				} catch (Throwable e){
+					currenttip = WailaExceptionHandler.handleErr(e, dataProvider.getClass().toString(), currenttip);
+				}			
+		}		
+		
+		
+		
+		
 		if (layout == Layout.HEADER && ExternalModulesHandler.instance().hasHeadProviders(block)){
 			for (IWailaDataProvider dataProvider : ExternalModulesHandler.instance().getHeadProviders(block))
 				try{				
@@ -113,6 +132,17 @@ public class HUDHandlerExternal implements IHighlightHandler {
 				}			
 		}		
 
+		if (layout == Layout.FOOTER && ExternalModulesHandler.instance().hasTailProviders(block)){
+			for (IWailaDataProvider dataProvider : ExternalModulesHandler.instance().getTailProviders(block))
+				try{				
+					currenttip = dataProvider.getWailaTail(itemStack, currenttip, accessor, ConfigHandler.instance());
+				} catch (Throwable e){
+					currenttip = WailaExceptionHandler.handleErr(e, dataProvider.getClass().toString(), currenttip);
+				}			
+		}
+		
+		
+		
 		if (layout == Layout.HEADER && ExternalModulesHandler.instance().hasHeadProviders(accessor.getTileEntity())){
 			for (IWailaDataProvider dataProvider : ExternalModulesHandler.instance().getHeadProviders(accessor.getTileEntity()))
 				try{				
@@ -130,6 +160,16 @@ public class HUDHandlerExternal implements IHighlightHandler {
 					currenttip = WailaExceptionHandler.handleErr(e, dataProvider.getClass().toString(), currenttip);
 				}			
 		}		
+	
+		if (layout == Layout.FOOTER && ExternalModulesHandler.instance().hasTailProviders(accessor.getTileEntity())){
+			for (IWailaDataProvider dataProvider : ExternalModulesHandler.instance().getTailProviders(accessor.getTileEntity()))
+				try{
+					currenttip = dataProvider.getWailaTail(itemStack, currenttip, accessor, ConfigHandler.instance());
+				} catch (Throwable e){
+					currenttip = WailaExceptionHandler.handleErr(e, dataProvider.getClass().toString(), currenttip);
+				}			
+		}			
+		
 		
 		return currenttip;
 	}
