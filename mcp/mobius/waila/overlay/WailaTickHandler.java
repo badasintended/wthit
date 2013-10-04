@@ -13,6 +13,7 @@ public class WailaTickHandler implements ITickHandler {
 	@Override
 	public void tickEnd(EnumSet<TickType> type, Object... tickData) {
 		if(type.contains(TickType.RENDER)){
+			RayTracing.raytrace();
 			OverlayRenderer.renderOverlay();
 		}
 	}

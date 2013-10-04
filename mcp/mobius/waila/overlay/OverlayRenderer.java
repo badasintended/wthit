@@ -48,7 +48,7 @@ public class OverlayRenderer {
              mc.objectMouseOver != null)) 
         	return;
     
-        if (mc.objectMouseOver.typeOfHit == EnumMovingObjectType.TILE)
+        if (RayTracing.raytracedTarget.typeOfHit == EnumMovingObjectType.TILE)
         {
             World world = mc.theWorld;
             ArrayList<ItemStack> items = RayTracing.getIdentifierItems();
@@ -68,7 +68,7 @@ public class OverlayRenderer {
             renderOverlay(stack, ItemInfo.getText(stack, world, mc.thePlayer, RayTracing.raytracedTarget), getPositioning());
         }
         
-        if (mc.objectMouseOver.typeOfHit == EnumMovingObjectType.ENTITY)
+        if (RayTracing.raytracedTarget.typeOfHit == EnumMovingObjectType.ENTITY)
         {
         	Entity ent = mc.objectMouseOver.entityHit;
         	String modName = getEntityMod(ent);

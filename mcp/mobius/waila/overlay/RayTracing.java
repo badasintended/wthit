@@ -11,6 +11,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
@@ -22,10 +23,19 @@ public class RayTracing {
 	public static MovingObjectPosition raytracedTarget = null;
 	
 	public static void raytrace(){
-		if (ConfigHandler.instance().getConfig(Constants.CFG_WAILA_LIQUID))
-			raytracedTarget = getLiquidRaytrace();
-		else
+		if (Minecraft.getMinecraft().objectMouseOver == null){
+			raytracedTarget = null;
+			return;
+		}
+			
+		
+		if(Minecraft.getMinecraft().objectMouseOver.typeOfHit == EnumMovingObjectType.ENTITY)
 			raytracedTarget = Minecraft.getMinecraft().objectMouseOver;
+		else
+			if (ConfigHandler.instance().getConfig(Constants.CFG_WAILA_LIQUID))
+				raytracedTarget = getLiquidRaytrace();
+			else
+				raytracedTarget = Minecraft.getMinecraft().objectMouseOver;
 	}
 	
     public static MovingObjectPosition getLiquidRaytrace()
@@ -54,7 +64,6 @@ public class RayTracing {
     
     public static ArrayList<ItemStack> getIdentifierItems()
     {
-    	raytrace();
         ArrayList<ItemStack> items = new ArrayList<ItemStack>();
         
     	if (raytracedTarget == null)
