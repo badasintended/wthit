@@ -154,7 +154,7 @@ public class OverlayRenderer {
         for (int i = 0; i < textData.size(); i++)
             drawString(textData.get(i), x + 6, y + ty + 10*i, 0xFFA0A0A0, true);
 
-        RenderHelper.enableGUIStandardItemLighting();
+        //RenderHelper.enableGUIStandardItemLighting();
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
     }     
     
