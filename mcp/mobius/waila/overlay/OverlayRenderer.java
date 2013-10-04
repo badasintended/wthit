@@ -34,63 +34,6 @@ import static codechicken.core.gui.GuiDraw.*;
 
 public class OverlayRenderer {
 
-    public static ArrayList<ItemStack> getIdentifierItems(World world, EntityPlayer player, MovingObjectPosition hit)
-    {
-        int x = hit.blockX;
-        int y = hit.blockY;
-        int z = hit.blockZ;
-        Block mouseoverBlock = Block.blocksList[world.getBlockId(x, y, z)];
-        
-        ArrayList<ItemStack> items = new ArrayList<ItemStack>();
-        
-        ArrayList<IHighlightHandler> handlers = new ArrayList<IHighlightHandler>();
-        if(ItemInfo.highlightIdentifiers.get(0) != null)
-        	handlers.addAll(ItemInfo.highlightIdentifiers.get(0));
-        if(ItemInfo.highlightIdentifiers.get(mouseoverBlock.blockID) != null)
-        	handlers.addAll(ItemInfo.highlightIdentifiers.get(mouseoverBlock.blockID));
-        
-        for(IHighlightHandler ident : handlers)
-        {
-            ItemStack item = ident.identifyHighlight(world, player, hit);
-            if(item != null)
-                items.add(item);
-        }
-        
-        if(items.size() > 0)
-            return items;
-
-        if (world.getBlockTileEntity(x, y, z) == null){
-	        try{
-	        	ItemStack block = new ItemStack(mouseoverBlock, 1, world.getBlockMetadata(x, y, z));
-	        	items.add(block);
-	        } catch(Exception e){}
-        }
-        
-        ItemStack pick = mouseoverBlock.getPickBlock(hit, world, x, y, z);
-        if(pick != null)
-            items.add(pick);
-        
-        try
-        {
-            items.addAll(mouseoverBlock.getBlockDropped(world, x, y, z, world.getBlockMetadata(x, y, z), 0));
-        }
-        catch(Exception e){}
-        
-        if(mouseoverBlock instanceof IShearable)
-        {
-            IShearable shearable = (IShearable)mouseoverBlock;
-            if(shearable.isShearable(new ItemStack(Item.shears), world, x, y, z))
-            {
-                items.addAll(shearable.onSheared(new ItemStack(Item.shears), world, x, y, z, 0));
-            }
-        }
-        
-        if(items.size() == 0)
-            items.add(0, new ItemStack(mouseoverBlock, 1, world.getBlockMetadata(x, y, z)));
-        
-        return items;
-    }	
-	
     public static void renderOverlay()
     {
         Minecraft mc = Minecraft.getMinecraft();
@@ -102,7 +45,7 @@ public class OverlayRenderer {
                 mc.objectMouseOver.typeOfHit == EnumMovingObjectType.TILE)
         {
             World world = mc.theWorld;
-            ArrayList<ItemStack> items = getIdentifierItems(world, mc.thePlayer, mc.objectMouseOver);
+            ArrayList<ItemStack> items = RayTracing.getIdentifierItems();
             if (items.isEmpty())
                 return;
             
@@ -116,10 +59,12 @@ public class OverlayRenderer {
             });
 
             ItemStack stack = items.get(0);
-            renderOverlay(stack, ItemInfo.getText(stack, world, mc.thePlayer, mc.objectMouseOver), getPositioning());
+            renderOverlay(stack, ItemInfo.getText(stack, world, mc.thePlayer, RayTracing.raytracedTarget), getPositioning());
         }
-    }	
-
+    }		
+	
+   
+	
     private static Point getPositioning()
     {
         return new Point(5000, 100);

@@ -23,6 +23,7 @@ public class GuiWailaConfig extends BaseWailaScreen {
         container.addButton(new ButtonConfigOption(-1, "Hidden",     "Shown",   "Show/Hide Waila",   Constants.CFG_WAILA_SHOW ));
         container.addButton(new ButtonConfigOption(-1, "Maintained", "Toggled", "Toggle/Maintained", Constants.CFG_WAILA_MODE ));
         container.addButton(new ButtonConfigOption(-1, "Hidden",     "Visible", "Show ID:Metadata",  "waila.showmetadata", false ));
+        container.addButton(new ButtonConfigOption(-1, "Showed",     "Hidden",  "Liquids",           Constants.CFG_WAILA_LIQUID ));        
        
     }
 	

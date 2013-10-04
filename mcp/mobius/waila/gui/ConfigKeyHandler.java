@@ -19,15 +19,17 @@ public class ConfigKeyHandler extends KeyHandler {
         super(new KeyBinding[]{
                 new KeyBinding(Constants.BIND_WAILA_CFG,  Keyboard.KEY_NUMPAD0),
                 new KeyBinding(Constants.BIND_WAILA_SHOW, Keyboard.KEY_NUMPAD1),
+                new KeyBinding(Constants.BIND_WAILA_LIQUID, Keyboard.KEY_NUMPAD2),
                 //new KeyBinding("key.wailatedump", Keyboard.KEY_NUMPAD1),
             }, new boolean[]{
                 false,
                 false,
-                //false
+                false
             });
         
-        LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_CFG, "[Waila] Config screen");
-        LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_SHOW, "[Waila] Show/Hide");
+        LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_CFG,    "[Waila] Config screen");
+        LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_SHOW,   "[Waila] Show/Hide");
+        LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_LIQUID, "[Waila] Show liquids");
         //LanguageRegistry.instance().addStringLocalization("key.wailatedump", "[Waila] Dump server TE");        
     }	
 
@@ -41,16 +43,19 @@ public class ConfigKeyHandler extends KeyHandler {
 		}
 		
 		else if (kb.keyDescription == Constants.BIND_WAILA_SHOW && ConfigHandler.instance().getConfig(Constants.CFG_WAILA_MODE)){
-			//boolean status = NEIClientConfig.getSetting(Constants.CFG_NEI_SHOW).getBooleanValue();
-			//NEIClientConfig.getSetting(Constants.CFG_NEI_SHOW).setBooleanValue(!status);
 			boolean status = ConfigHandler.instance().getConfig(Constants.CFG_WAILA_SHOW);
 			ConfigHandler.instance().setConfig(Constants.CFG_WAILA_SHOW, !status);
 		}
 		
 		else if (kb.keyDescription == Constants.BIND_WAILA_SHOW && !ConfigHandler.instance().getConfig(Constants.CFG_WAILA_MODE)){
-			//NEIClientConfig.getSetting(Constants.CFG_NEI_SHOW).setBooleanValue(true);
 			ConfigHandler.instance().setConfig(Constants.CFG_WAILA_SHOW, true);			
 		}
+		
+		else if (kb.keyDescription == Constants.BIND_WAILA_LIQUID){
+			boolean status = ConfigHandler.instance().getConfig(Constants.CFG_WAILA_LIQUID);
+			ConfigHandler.instance().setConfig(Constants.CFG_WAILA_LIQUID, !status);
+		}		
+		
 	}
 
 	@Override
