@@ -8,6 +8,7 @@ import java.util.logging.Level;
 
 
 
+
 import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.addons.ConfigHandler;
 import mcp.mobius.waila.api.IWailaConfigHandler;
@@ -55,6 +56,11 @@ public class HUDHandlerBCTanks implements IWailaDataProvider {
 		
 		return currenttip;
 	}		
+
+	@Override
+	public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
+		return currenttip;
+	}	
 	
 	public FluidTankInfo getTank(IWailaDataAccessor accessor){
 		FluidTankInfo tank = null;

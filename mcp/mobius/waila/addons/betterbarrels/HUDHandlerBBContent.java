@@ -15,7 +15,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-
 import codechicken.nei.api.API;
 import codechicken.nei.api.ItemInfo;
 import codechicken.nei.api.ItemInfo.Layout;
@@ -56,4 +55,9 @@ public class HUDHandlerBBContent implements IWailaDataProvider {
 		}	
 		return currenttip;
 	}
+	
+	@Override
+	public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
+		return currenttip;
+	}	
 }

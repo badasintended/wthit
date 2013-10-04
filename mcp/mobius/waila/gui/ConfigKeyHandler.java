@@ -50,7 +50,7 @@ public class ConfigKeyHandler extends KeyHandler {
         LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_SHOW,   "[Waila] Show/Hide");
         LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_LIQUID, "[Waila] Show liquids");
         LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_RECIPE, "[Waila] Show recipe");
-        LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_USAGE, "[Waila] Show usage");
+        LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_USAGE,  "[Waila] Show usage");
         //LanguageRegistry.instance().addStringLocalization("key.wailatedump", "[Waila] Dump server TE");        
     }	
 

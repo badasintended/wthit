@@ -57,6 +57,11 @@ public class HUDHandlerIC2IEnergySink implements IWailaDataProvider {
 		
 		return currenttip;
 	}
+
+	@Override
+	public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
+		return currenttip;
+	}	
 	
 	public boolean canUpgrade(NBTTagCompound tag){
 		if (tag.hasKey("InvSlots"))

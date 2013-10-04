@@ -31,6 +31,11 @@ public class HUDHandlerBCPipes implements IWailaDataProvider {
 		return currenttip;
 	}
 
+	@Override
+	public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
+		return currenttip;
+	}	
+	
 	public boolean hasPartialKey(NBTTagCompound tag, String key){
 		Map tagMap = (Map)Reflect.getFieldValue("net.minecraft.nbt.NBTTagCompound", "tagMap", tag);
 		for (Object k : tagMap.keySet())

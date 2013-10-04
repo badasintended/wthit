@@ -43,5 +43,10 @@ public class HUDHandlerIC2IEnergySource implements IWailaDataProvider {
 				currenttip.add(String.format("Storage : %s EU", accessor.getNBTInteger(accessor.getNBTData(), "storage"))); 
 			
 		return currenttip;
+	}
+	
+	@Override
+	public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
+		return currenttip;
 	}	
 }

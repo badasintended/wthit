@@ -1,6 +1,7 @@
 package mcp.mobius.waila.addons.buildcraft;
 
 import java.util.List;
+
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import mcp.mobius.waila.api.IWailaConfigHandler;
@@ -40,4 +41,9 @@ public class HUDHandlerBCIPowerReceptor implements IWailaDataProvider {
 		return currenttip;
 	}
 
+	@Override
+	public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
+		return currenttip;
+	}	
+	
 }

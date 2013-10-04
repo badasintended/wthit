@@ -41,4 +41,9 @@ public class HUDHandlerStorage implements IWailaDataProvider {
 		return currenttip;
 	}
 
+	@Override
+	public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
+		return currenttip;
+	}	
+	
 }

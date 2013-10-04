@@ -114,6 +114,11 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 		
 		return currenttip;
 	}	
+
+	@Override
+	public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
+		return currenttip;
+	}	
 	
 	public static void register(){
 		ExternalModulesHandler.instance().addConfig("VanillaMC", "vanilla.spawntype", "Spawner type");
