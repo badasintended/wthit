@@ -28,6 +28,8 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public class ConfigKeyHandler extends KeyHandler {
 
+	static boolean firstInventory = true;
+	
     public ConfigKeyHandler()
     {
         super(new KeyBinding[]{
@@ -79,35 +81,47 @@ public class ConfigKeyHandler extends KeyHandler {
 		}		
 
 		else if (kb.keyDescription == Constants.BIND_WAILA_RECIPE){
-			if ((RayTracing.raytracedTarget != null) && (RayTracing.raytracedTarget.typeOfHit == EnumMovingObjectType.TILE)){
-				List<ItemStack> stacks = RayTracing.getIdentifierItems();
-				if (stacks.size() > 0){
-					mc.displayGuiScreen(new GuiInventory(mc.thePlayer));
-					if(!GuiCraftingRecipe.openRecipeGui("item", stacks.get(0))){
-						mc.thePlayer.addChatMessage("\u00a7f\u00a7oNo recipe found.");
-			            mc.displayGuiScreen((GuiScreen)null);
-		            	mc.setIngameFocus();					
-					}
-				}
-			}
+			this.openRecipeGUI(true);
 		}			
 
-		else if (kb.keyDescription == Constants.BIND_WAILA_USAGE){
-			if ((RayTracing.raytracedTarget != null) && (RayTracing.raytracedTarget.typeOfHit == EnumMovingObjectType.TILE)){
-				List<ItemStack> stacks = RayTracing.getIdentifierItems();
-				if (stacks.size() > 0){
-					mc.displayGuiScreen(new GuiInventory(mc.thePlayer));
-					if (!GuiUsageRecipe.openRecipeGui("item", stacks.get(0))){
-						mc.thePlayer.addChatMessage("\u00a7f\u00a7oNo usage found.");
-			            mc.displayGuiScreen((GuiScreen)null);
-		            	mc.setIngameFocus();
-					}
-				}
-			}
-		}			
+		else if (kb.keyDescription == Constants.BIND_WAILA_USAGE){ 
+			this.openRecipeGUI(false);
+		}
+			
 		
 	}
 
+	public void openRecipeGUI(boolean recipe){
+		Minecraft mc = Minecraft.getMinecraft();
+		boolean   uiResult;
+		String    msg;
+		
+		if ((RayTracing.raytracedTarget != null) && (RayTracing.raytracedTarget.typeOfHit == EnumMovingObjectType.TILE)){
+			List<ItemStack> stacks = RayTracing.getIdentifierItems();
+			if (stacks.size() > 0){
+				mc.displayGuiScreen(new GuiInventory(mc.thePlayer));
+				if (firstInventory){
+					try {Thread.sleep(1000);} catch (Exception e){};
+					firstInventory = false;
+				}					
+		
+				if(recipe)
+					if(!GuiCraftingRecipe.openRecipeGui("item", stacks.get(0).copy())){
+						mc.thePlayer.addChatMessage("\u00a7f\u00a7oNo recipe found.");
+						mc.displayGuiScreen((GuiScreen)null);
+						mc.setIngameFocus();
+					}				
+				
+				if(!recipe)
+					if(!GuiUsageRecipe.openRecipeGui("item", stacks.get(0).copy())){
+						mc.thePlayer.addChatMessage("\u00a7f\u00a7oNo usage found.");
+						mc.displayGuiScreen((GuiScreen)null);
+						mc.setIngameFocus();					
+					}
+			}
+		}
+	}
+	
 	@Override
 	public void keyUp(EnumSet<TickType> types, KeyBinding kb, boolean tickEnd) {
 		if (!tickEnd) return;

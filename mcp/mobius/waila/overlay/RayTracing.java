@@ -129,8 +129,8 @@ public class RayTracing {
             }
         }
         
-        //if(items.size() == 0)
-        //   items.add(0, new ItemStack(mouseoverBlock, 1, world.getBlockMetadata(x, y, z)));
+        if(items.size() == 0)
+           items.add(0, new ItemStack(mouseoverBlock, 1, world.getBlockMetadata(x, y, z)));
         
         return items;
     }	    
