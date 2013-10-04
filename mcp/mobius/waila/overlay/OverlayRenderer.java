@@ -45,9 +45,10 @@ public class OverlayRenderer {
         
         ArrayList<IHighlightHandler> handlers = new ArrayList<IHighlightHandler>();
         if(ItemInfo.highlightIdentifiers.get(0) != null)
-            handlers.addAll(ItemInfo.highlightIdentifiers.get(0));
+        	handlers.addAll(ItemInfo.highlightIdentifiers.get(0));
         if(ItemInfo.highlightIdentifiers.get(mouseoverBlock.blockID) != null)
-                handlers.addAll(ItemInfo.highlightIdentifiers.get(mouseoverBlock.blockID));
+        	handlers.addAll(ItemInfo.highlightIdentifiers.get(mouseoverBlock.blockID));
+        
         for(IHighlightHandler ident : handlers)
         {
             ItemStack item = ident.identifyHighlight(world, player, hit);
@@ -58,6 +59,13 @@ public class OverlayRenderer {
         if(items.size() > 0)
             return items;
 
+        if (world.getBlockTileEntity(x, y, z) == null){
+	        try{
+	        	ItemStack block = new ItemStack(mouseoverBlock, 1, world.getBlockMetadata(x, y, z));
+	        	items.add(block);
+	        } catch(Exception e){}
+        }
+        
         ItemStack pick = mouseoverBlock.getPickBlock(hit, world, x, y, z);
         if(pick != null)
             items.add(pick);
@@ -67,6 +75,7 @@ public class OverlayRenderer {
             items.addAll(mouseoverBlock.getBlockDropped(world, x, y, z, world.getBlockMetadata(x, y, z), 0));
         }
         catch(Exception e){}
+        
         if(mouseoverBlock instanceof IShearable)
         {
             IShearable shearable = (IShearable)mouseoverBlock;
