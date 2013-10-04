@@ -43,6 +43,8 @@ public class RayTracing {
     	EntityPlayer player = Minecraft.getMinecraft().thePlayer;
     	World world = Minecraft.getMinecraft().theWorld;
     	
+    	if ((player == null) || (world == null)) return null;
+    	
         float f = 1.0F;
         float f1 = player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * f;
         float f2 = player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw) * f;
@@ -98,19 +100,20 @@ public class RayTracing {
 	        try{
 	        	ItemStack block = new ItemStack(mouseoverBlock, 1, world.getBlockMetadata(x, y, z));
 	        	items.add(block);
-	        } catch(Exception e){}
+	        } catch(Exception e){
+	        }
         }
 
         if(items.size() > 0)
-            return items;        
-        
+            return items;
+
         ItemStack pick = mouseoverBlock.getPickBlock(raytracedTarget, world, x, y, z);
         if(pick != null)
             items.add(pick);
  
         if(items.size() > 0)
             return items;           
-        
+
         try
         {
             items.addAll(mouseoverBlock.getBlockDropped(world, x, y, z, world.getBlockMetadata(x, y, z), 0));
@@ -126,8 +129,8 @@ public class RayTracing {
             }
         }
         
-        if(items.size() == 0)
-            items.add(0, new ItemStack(mouseoverBlock, 1, world.getBlockMetadata(x, y, z)));
+        //if(items.size() == 0)
+        //   items.add(0, new ItemStack(mouseoverBlock, 1, world.getBlockMetadata(x, y, z)));
         
         return items;
     }	    

@@ -50,6 +50,7 @@ public class ProxyClient extends ProxyServer {
 		
 		// We mute the default keybind for displaying the tooltip
 		NEIClientConfig.getSetting(Constants.BIND_NEI_SHOW).setIntValue(Keyboard.KEY_NONE);
+		NEIClientConfig.getSetting(Constants.CFG_NEI_SHOW).setBooleanValue(false);
 		
 		//GuiContainerManager.addInputHandler(new TechTreeHandler());
 		//API.addKeyBind(Constants.BIND_ENCH, "Display enchantements", Keyboard.KEY_RSHIFT);

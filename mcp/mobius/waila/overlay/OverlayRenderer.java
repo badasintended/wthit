@@ -45,7 +45,8 @@ public class OverlayRenderer {
              mc.theWorld != null &&
              !mc.gameSettings.keyBindPlayerList.pressed &&
              ConfigHandler.instance().getConfig(Constants.CFG_WAILA_SHOW, true) &&
-             mc.objectMouseOver != null)) 
+             mc.objectMouseOver != null &&
+             RayTracing.raytracedTarget != null)) 
         	return;
     
         if (RayTracing.raytracedTarget.typeOfHit == EnumMovingObjectType.TILE)
