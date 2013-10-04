@@ -1,13 +1,27 @@
 package mcp.mobius.waila.gui;
 
+import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.List;
 
 import org.lwjgl.input.Keyboard;
 
+import codechicken.core.Profiler;
+import codechicken.nei.NEIClientUtils;
+import codechicken.nei.recipe.GuiCraftingRecipe;
+import codechicken.nei.recipe.GuiUsageRecipe;
+import codechicken.nei.recipe.ICraftingHandler;
+import codechicken.nei.recipe.ProfilerRecipeHandler;
 import mcp.mobius.waila.Constants;
 import mcp.mobius.waila.addons.ConfigHandler;
+import mcp.mobius.waila.overlay.RayTracing;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumMovingObjectType;
 import cpw.mods.fml.client.registry.KeyBindingRegistry.KeyHandler;
 import cpw.mods.fml.common.TickType;
 import cpw.mods.fml.common.registry.LanguageRegistry;
@@ -20,8 +34,11 @@ public class ConfigKeyHandler extends KeyHandler {
                 new KeyBinding(Constants.BIND_WAILA_CFG,  Keyboard.KEY_NUMPAD0),
                 new KeyBinding(Constants.BIND_WAILA_SHOW, Keyboard.KEY_NUMPAD1),
                 new KeyBinding(Constants.BIND_WAILA_LIQUID, Keyboard.KEY_NUMPAD2),
-                //new KeyBinding("key.wailatedump", Keyboard.KEY_NUMPAD1),
+                new KeyBinding(Constants.BIND_WAILA_RECIPE, Keyboard.KEY_NUMPAD3),
+                new KeyBinding(Constants.BIND_WAILA_USAGE, Keyboard.KEY_NUMPAD4),
             }, new boolean[]{
+                false,
+                false,
                 false,
                 false,
                 false
@@ -30,6 +47,8 @@ public class ConfigKeyHandler extends KeyHandler {
         LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_CFG,    "[Waila] Config screen");
         LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_SHOW,   "[Waila] Show/Hide");
         LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_LIQUID, "[Waila] Show liquids");
+        LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_RECIPE, "[Waila] Show recipe");
+        LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_USAGE, "[Waila] Show usage");
         //LanguageRegistry.instance().addStringLocalization("key.wailatedump", "[Waila] Dump server TE");        
     }	
 
@@ -42,7 +61,10 @@ public class ConfigKeyHandler extends KeyHandler {
 				mc.displayGuiScreen(new GuiConfigScreen(mc.currentScreen));
 		}
 		
-		else if (kb.keyDescription == Constants.BIND_WAILA_SHOW && ConfigHandler.instance().getConfig(Constants.CFG_WAILA_MODE)){
+		if (mc.currentScreen != null)
+			return;
+		
+		if (kb.keyDescription == Constants.BIND_WAILA_SHOW && ConfigHandler.instance().getConfig(Constants.CFG_WAILA_MODE)){
 			boolean status = ConfigHandler.instance().getConfig(Constants.CFG_WAILA_SHOW);
 			ConfigHandler.instance().setConfig(Constants.CFG_WAILA_SHOW, !status);
 		}
@@ -55,6 +77,34 @@ public class ConfigKeyHandler extends KeyHandler {
 			boolean status = ConfigHandler.instance().getConfig(Constants.CFG_WAILA_LIQUID);
 			ConfigHandler.instance().setConfig(Constants.CFG_WAILA_LIQUID, !status);
 		}		
+
+		else if (kb.keyDescription == Constants.BIND_WAILA_RECIPE){
+			if ((RayTracing.raytracedTarget != null) && (RayTracing.raytracedTarget.typeOfHit == EnumMovingObjectType.TILE)){
+				List<ItemStack> stacks = RayTracing.getIdentifierItems();
+				if (stacks.size() > 0){
+					mc.displayGuiScreen(new GuiInventory(mc.thePlayer));
+					if(!GuiCraftingRecipe.openRecipeGui("item", stacks.get(0))){
+						mc.thePlayer.addChatMessage("\u00a7f\u00a7oNo recipe found.");
+			            mc.displayGuiScreen((GuiScreen)null);
+		            	mc.setIngameFocus();					
+					}
+				}
+			}
+		}			
+
+		else if (kb.keyDescription == Constants.BIND_WAILA_USAGE){
+			if ((RayTracing.raytracedTarget != null) && (RayTracing.raytracedTarget.typeOfHit == EnumMovingObjectType.TILE)){
+				List<ItemStack> stacks = RayTracing.getIdentifierItems();
+				if (stacks.size() > 0){
+					mc.displayGuiScreen(new GuiInventory(mc.thePlayer));
+					if (!GuiUsageRecipe.openRecipeGui("item", stacks.get(0))){
+						mc.thePlayer.addChatMessage("\u00a7f\u00a7oNo usage found.");
+			            mc.displayGuiScreen((GuiScreen)null);
+		            	mc.setIngameFocus();
+					}
+				}
+			}
+		}			
 		
 	}
 
