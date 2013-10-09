@@ -15,6 +15,7 @@ import codechicken.nei.recipe.ProfilerRecipeHandler;
 import mcp.mobius.waila.Constants;
 import mcp.mobius.waila.addons.ConfigHandler;
 import mcp.mobius.waila.gui.BaseScreen;
+import mcp.mobius.waila.gui.TestScreen;
 import mcp.mobius.waila.overlay.RayTracing;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
@@ -69,7 +70,7 @@ public class ConfigKeyHandler extends KeyHandler {
 
 		if (kb.keyDescription == Constants.BIND_WAILA_TESTING){
 			if(mc.currentScreen == null)
-				mc.displayGuiScreen(new BaseScreen(mc.currentScreen));
+				mc.displayGuiScreen(new TestScreen(mc.currentScreen));
 		}		
 		
 		if (mc.currentScreen != null)
