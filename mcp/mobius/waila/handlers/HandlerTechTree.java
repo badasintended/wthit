@@ -5,10 +5,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import mcp.mobius.waila.Constants;
-import mcp.mobius.waila.gui.GuiIngameWiki;
-import mcp.mobius.waila.gui.GuiTechTree;
-import mcp.mobius.waila.gui.widget.ComponentDisplay;
-import mcp.mobius.waila.gui.widget.StackDisplay;
+import mcp.mobius.waila.gui_old.GuiIngameWiki;
+import mcp.mobius.waila.gui_old.GuiTechTree;
+import mcp.mobius.waila.gui_old.widget.ComponentDisplay;
+import mcp.mobius.waila.gui_old.widget.StackDisplay;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;

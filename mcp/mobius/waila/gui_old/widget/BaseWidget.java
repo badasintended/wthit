@@ -1,4 +1,4 @@
-package mcp.mobius.waila.gui.widget;
+package mcp.mobius.waila.gui_old.widget;
 
 import java.util.Collection;
 import java.util.HashMap;

@@ -1,17 +1,17 @@
-package mcp.mobius.waila.gui;
+package mcp.mobius.waila.gui_old;
 
-import mcp.mobius.waila.gui.widget.ContainerTable;
-import mcp.mobius.waila.gui.widget.Label;
-import mcp.mobius.waila.gui.widget.StackDisplay;
-import mcp.mobius.waila.gui.widget.WikiReader;
+import mcp.mobius.waila.gui_old.widget.ContainerTable;
+import mcp.mobius.waila.gui_old.widget.Label;
+import mcp.mobius.waila.gui_old.widget.StackDisplay;
+import mcp.mobius.waila.gui_old.widget.WikiReader;
 import net.minecraft.client.gui.GuiScreen;
 
 public class GuiIngameWiki extends BaseWailaScreen {
 
-	public WikiReader widReader = null;
-	public StackDisplay widStack = null;
+	public WikiReader    widReader = null;
+	public StackDisplay   widStack = null;
 	public ContainerTable widTable = null;
-	public Label widItemName = null;
+	public Label       widItemName = null;
 	
 	public GuiIngameWiki(GuiScreen _parentGui) {
 		super(_parentGui);

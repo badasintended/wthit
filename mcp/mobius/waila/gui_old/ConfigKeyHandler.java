@@ -1,4 +1,4 @@
-package mcp.mobius.waila.gui;
+package mcp.mobius.waila.gui_old;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -14,6 +14,7 @@ import codechicken.nei.recipe.ICraftingHandler;
 import codechicken.nei.recipe.ProfilerRecipeHandler;
 import mcp.mobius.waila.Constants;
 import mcp.mobius.waila.addons.ConfigHandler;
+import mcp.mobius.waila.gui.BaseScreen;
 import mcp.mobius.waila.overlay.RayTracing;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
@@ -33,12 +34,14 @@ public class ConfigKeyHandler extends KeyHandler {
     public ConfigKeyHandler()
     {
         super(new KeyBinding[]{
-                new KeyBinding(Constants.BIND_WAILA_CFG,  Keyboard.KEY_NUMPAD0),
-                new KeyBinding(Constants.BIND_WAILA_SHOW, Keyboard.KEY_NUMPAD1),
-                new KeyBinding(Constants.BIND_WAILA_LIQUID, Keyboard.KEY_NUMPAD2),
-                new KeyBinding(Constants.BIND_WAILA_RECIPE, Keyboard.KEY_NUMPAD3),
-                new KeyBinding(Constants.BIND_WAILA_USAGE, Keyboard.KEY_NUMPAD4),
+                new KeyBinding(Constants.BIND_WAILA_CFG,     Keyboard.KEY_NUMPAD0),
+                new KeyBinding(Constants.BIND_WAILA_SHOW,    Keyboard.KEY_NUMPAD1),
+                new KeyBinding(Constants.BIND_WAILA_LIQUID,  Keyboard.KEY_NUMPAD2),
+                new KeyBinding(Constants.BIND_WAILA_RECIPE,  Keyboard.KEY_NUMPAD3),
+                new KeyBinding(Constants.BIND_WAILA_USAGE,   Keyboard.KEY_NUMPAD4),
+                new KeyBinding(Constants.BIND_WAILA_TESTING, Keyboard.KEY_NUMPAD9),
             }, new boolean[]{
+                false,
                 false,
                 false,
                 false,
@@ -46,11 +49,12 @@ public class ConfigKeyHandler extends KeyHandler {
                 false
             });
         
-        LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_CFG,    "[Waila] Config screen");
-        LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_SHOW,   "[Waila] Show/Hide");
-        LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_LIQUID, "[Waila] Show liquids");
-        LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_RECIPE, "[Waila] Show recipe");
-        LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_USAGE,  "[Waila] Show usage");
+        LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_CFG,     "[Waila] Config screen");
+        LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_SHOW,    "[Waila] Show/Hide");
+        LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_LIQUID,  "[Waila] Show liquids");
+        LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_RECIPE,  "[Waila] Show recipe");
+        LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_USAGE,   "[Waila] Show usage");
+        LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_TESTING, "[Waila] Testing");
         //LanguageRegistry.instance().addStringLocalization("key.wailatedump", "[Waila] Dump server TE");        
     }	
 
@@ -62,6 +66,11 @@ public class ConfigKeyHandler extends KeyHandler {
 			if(mc.currentScreen == null)
 				mc.displayGuiScreen(new GuiConfigScreen(mc.currentScreen));
 		}
+
+		if (kb.keyDescription == Constants.BIND_WAILA_TESTING){
+			if(mc.currentScreen == null)
+				mc.displayGuiScreen(new BaseScreen(mc.currentScreen));
+		}		
 		
 		if (mc.currentScreen != null)
 			return;

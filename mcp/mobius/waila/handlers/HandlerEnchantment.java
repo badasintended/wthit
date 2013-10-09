@@ -4,8 +4,8 @@ import java.lang.reflect.Method;
 
 import mcp.mobius.waila.Constants;
 import mcp.mobius.waila.mod_Waila;
-import mcp.mobius.waila.gui.GuiEnchantScreen;
-import mcp.mobius.waila.gui.widget.Label;
+import mcp.mobius.waila.gui_old.GuiEnchantScreen;
+import mcp.mobius.waila.gui_old.widget.Label;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.enchantment.Enchantment;

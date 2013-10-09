@@ -1,13 +1,13 @@
-package mcp.mobius.waila.gui.widget;
+package mcp.mobius.waila.gui_old.widget;
 
 import java.util.Collection;
 
 public interface IWidget {
-	int  getWidth();
-	int  getHeight();
+	int    getWidth();
+	int    getHeight();
 	String getLabel();
-	int  getPosX();
-	int  getPosY();
+	int    getPosX();
+	int    getPosY();
 	
 	void setWidth(int width);
 	void setHeight(int height);

@@ -1,7 +1,7 @@
-package mcp.mobius.waila.gui;
+package mcp.mobius.waila.gui_old;
 
-import mcp.mobius.waila.gui.widget.DraggableViewport;
-import mcp.mobius.waila.gui.widget.StackDisplay;
+import mcp.mobius.waila.gui_old.widget.DraggableViewport;
+import mcp.mobius.waila.gui_old.widget.StackDisplay;
 import net.minecraft.client.gui.GuiScreen;
 
 public class GuiTechTree extends BaseWailaScreen {

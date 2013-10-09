@@ -1,13 +1,13 @@
-package mcp.mobius.waila.gui;
+package mcp.mobius.waila.gui_old;
 
 import java.util.Collection;
 import java.util.HashMap;
 
 import org.lwjgl.input.Mouse;
 
-import mcp.mobius.waila.gui.widget.IWidget;
-import mcp.mobius.waila.gui.widget_old.Button2States;
-import mcp.mobius.waila.gui.widget_old.ButtonChangeScreen;
+import mcp.mobius.waila.gui_old.widget.IWidget;
+import mcp.mobius.waila.gui_old.widget_old.Button2States;
+import mcp.mobius.waila.gui_old.widget_old.ButtonChangeScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;

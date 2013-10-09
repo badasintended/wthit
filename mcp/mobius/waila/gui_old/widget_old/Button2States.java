@@ -1,4 +1,4 @@
-package mcp.mobius.waila.gui.widget_old;
+package mcp.mobius.waila.gui_old.widget_old;
 
 import org.lwjgl.opengl.GL11;
 

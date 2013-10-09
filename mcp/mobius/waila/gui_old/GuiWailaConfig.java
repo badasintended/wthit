@@ -1,10 +1,10 @@
-package mcp.mobius.waila.gui;
+package mcp.mobius.waila.gui_old;
 
 import mcp.mobius.waila.Constants;
-import mcp.mobius.waila.gui.widget_old.ButtonChangeScreen;
-import mcp.mobius.waila.gui.widget_old.ButtonConfigNEI;
-import mcp.mobius.waila.gui.widget_old.ButtonConfigOption;
-import mcp.mobius.waila.gui.widget_old.ContainerButtons;
+import mcp.mobius.waila.gui_old.widget_old.ButtonChangeScreen;
+import mcp.mobius.waila.gui_old.widget_old.ButtonConfigNEI;
+import mcp.mobius.waila.gui_old.widget_old.ButtonConfigOption;
+import mcp.mobius.waila.gui_old.widget_old.ContainerButtons;
 import net.minecraft.client.gui.GuiScreen;
 
 public class GuiWailaConfig extends BaseWailaScreen {
