@@ -6,18 +6,18 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.util.Point;
 
-public class Label extends WidgetBase {
+public class LabelFixedFont extends WidgetBase {
 
 	private String text = "";
 	private int    color;
 
-	public Label(IWidget parent, String text){
+	public LabelFixedFont(IWidget parent, String text){
 		super(parent);
 		this.setText(text);
 		this.color = 0xFFFFFF;
 	}		
 	
-	public Label(IWidget parent, String text, int color){
+	public LabelFixedFont(IWidget parent, String text, int color){
 		super(parent);
 		this.setText(text);
 		this.color = color;

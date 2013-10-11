@@ -24,6 +24,8 @@ public abstract class WidgetBase implements IWidget {
 	protected boolean hasLight;
 	protected int     boundTexIndex;      
     
+	protected boolean isRendering = true;
+	
 	public WidgetBase(){
 		this.setParent(null);
 		this.mc  = Minecraft.getMinecraft();	
@@ -95,7 +97,8 @@ public abstract class WidgetBase implements IWidget {
 		this.draw(this.getPos());
 		
 		for (IWidget widget: this.widgets.values())
-			widget.draw();		
+			if (widget.shouldRender())
+				widget.draw();		
 	}
 
 	@Override
@@ -127,6 +130,13 @@ public abstract class WidgetBase implements IWidget {
     	if (hasLight) GL11.glEnable(GL11.GL_LIGHTING); else	GL11.glDisable(GL11.GL_LIGHTING);
     	GL11.glBindTexture(GL11.GL_TEXTURE_2D, boundTexIndex);    	
     }
+    
+	@Override
+	public void  show(){this.isRendering = true;};
+	@Override
+	public void  hide(){this.isRendering = false;};
+	@Override
+	public boolean shouldRender(){return this.isRendering;};    
     
     ////////////////////
     // INPUT HANDLING //

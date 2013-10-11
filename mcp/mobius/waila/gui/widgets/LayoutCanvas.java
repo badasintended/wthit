@@ -28,7 +28,8 @@ public class LayoutCanvas extends WidgetBase{
 		this.draw(this.getPos());
 		
 		for (IWidget widget: this.widgets.values())
-			widget.draw();		
+			if (widget.shouldRender())
+				widget.draw();		
 	}	
 	
 	@Override

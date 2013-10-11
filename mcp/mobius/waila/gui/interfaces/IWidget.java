@@ -20,6 +20,9 @@ public interface IWidget {
 	
 	void  draw();
 	void  draw(Point pos);
+	void  show();
+	void  hide();
+	boolean shouldRender();
 	
 	IWidget addWidget(String name, IWidget widget);
 	IWidget getWidget(String name);
