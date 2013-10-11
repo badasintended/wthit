@@ -61,13 +61,21 @@ public abstract class WidgetBase implements IWidget {
 		return widget;
 	}
 
-	private IWidget getWidgetAtCoordinates(int posX, int posY){
+	@Override
+	public IWidget getWidgetAtCoordinates(int posX, int posY){
 		for (IWidget widget : this.widgets.values())
 			if ((posX >=  widget.getPos().getX()) && 
 					(posX <=  widget.getPos().getX() + widget.getSize().getX()) &&
 					(posY >=  widget.getPos().getY()) &&
 					(posY <=  widget.getPos().getY() + widget.getSize().getY()))
 				return widget;
+		
+		if ((posX >=  this.getPos().getX()) && 
+				(posX <=  this.getPos().getX() + this.getSize().getX()) &&
+				(posY >=  this.getPos().getY()) &&
+				(posY <=  this.getPos().getY() + this.getSize().getY()))
+			return this;		
+		
 		return null;
 	}		
 	
@@ -128,6 +136,8 @@ public abstract class WidgetBase implements IWidget {
 
 	@Override
 	public void onMouseClick(MouseEvent event) {
+		//System.out.printf("%s %s\n", this, event);
+		
 		IWidget widget = this.getWidgetAtCoordinates(event.x, event.y);
 		if (widget != null && widget != this)
 			widget.onMouseClick(event);		
@@ -135,6 +145,8 @@ public abstract class WidgetBase implements IWidget {
 
 	@Override
 	public void onMouseDrag(MouseEvent event) {
+		//System.out.printf("%s %s\n", this, event);
+		
 		IWidget widget = this.getWidgetAtCoordinates(event.x, event.y);
 		if (widget != null && widget != this)
 			widget.onMouseDrag(event);		
@@ -142,24 +154,39 @@ public abstract class WidgetBase implements IWidget {
 
 	@Override
 	public void onMouseMove(MouseEvent event) {
+		//System.out.printf("%s %s\n", this, event);
+		
 		IWidget widget = this.getWidgetAtCoordinates(event.x, event.y);
 		if (widget != null && widget != this)
 			widget.onMouseMove(event);
 	}
 
 	@Override
-	public void onMouseReleased(MouseEvent event) {
+	public void onMouseRelease(MouseEvent event) {
+		//System.out.printf("%s %s\n", this, event);
+		
 		IWidget widget = this.getWidgetAtCoordinates(event.x, event.y);
 		if (widget != null && widget != this)
-			widget.onMouseReleased(event);		
+			widget.onMouseRelease(event);		
 	}
 
 	@Override
 	public void onMouseWheel(MouseEvent event) {
+		//System.out.printf("%s %s\n", this, event);
+		
 		IWidget widget = this.getWidgetAtCoordinates(event.x, event.y);
 		if (widget != null && widget != this)
 			widget.onMouseWheel(event);		
 	}
+
+	@Override
+	public void onMouseEnter(MouseEvent event) {
+		//System.out.printf("%70s %s\n", this, event);
+	}
 	
+	@Override
+	public void onMouseLeave(MouseEvent event) {
+		//System.out.printf("%70s %s\n", this, event);
+	}	
 
 }

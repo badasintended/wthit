@@ -24,14 +24,17 @@ public interface IWidget {
 	IWidget addWidget(String name, IWidget widget);
 	IWidget getWidget(String name);
 	IWidget delWidget(String name);	
+	IWidget getWidgetAtCoordinates(int posX, int posY);
 	
 	void handleMouseInput();
 	
 	void onMouseClick(MouseEvent event);
 	void onMouseDrag(MouseEvent event);
 	void onMouseMove(MouseEvent event);
-	void onMouseReleased(MouseEvent event);
+	void onMouseRelease(MouseEvent event);
 	void onMouseWheel(MouseEvent event);
+	void onMouseEnter(MouseEvent event);
+	void onMouseLeave(MouseEvent event);
 	
 	//boolean  onMouseEnter();
 	//boolean  onMouseMoved();

@@ -42,9 +42,6 @@ public class LayoutCanvas extends WidgetBase{
     	
     	MouseEvent event    = new MouseEvent(this);
     	EventType  type     = event.getEventType(this.lastMouseEvent);
-    	this.lastMouseEvent = event;
-    	
-    	if (type == EventType.NONE) return;    	
     	
     	switch (type){
 			case CLICK:
@@ -57,16 +54,26 @@ public class LayoutCanvas extends WidgetBase{
 				this.onMouseMove(event);
 				break;
 			case RELEASED:
-				this.onMouseReleased(event);
+				this.onMouseRelease(event);
 				break;
 			case WHEEL:
 				this.onMouseWheel(event);
+				break;
+			case ENTER:
+				if (event.trgwidget != null)
+					event.trgwidget.onMouseEnter(event);
+				if (this.lastMouseEvent.trgwidget != null){
+					event.type = EventType.LEAVE;
+					this.lastMouseEvent.trgwidget.onMouseLeave(event);
+				}
 				break;
 			case NONE:
 				break;
 			default:
 				break;
     	}
+    	
+    	this.lastMouseEvent = event;
     }	
 
 }

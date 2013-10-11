@@ -8,11 +8,12 @@ import mcp.mobius.waila.gui.interfaces.IWidget;
 
 public class MouseEvent {
 
-	public enum EventType {NONE, MOVE, CLICK, RELEASED, DRAG, WHEEL};
+	public enum EventType {NONE, MOVE, CLICK, RELEASED, DRAG, WHEEL, ENTER, LEAVE};
 	
 	public long timestamp;
 	public Minecraft mc;
-	public IWidget widget;
+	public IWidget srcwidget;
+	public IWidget trgwidget;
 	public int x,y,z;
 	public static int buttonCount = Mouse.getButtonCount();
     public boolean[]  buttonState = new boolean[buttonCount];
@@ -21,17 +22,19 @@ public class MouseEvent {
     
     
 	public MouseEvent(IWidget widget){
-		this.widget = widget;
+		this.srcwidget = widget;
 		this.timestamp = System.nanoTime();
 		
 		this.mc  = Minecraft.getMinecraft();
 		
-        this.x = Mouse.getEventX() * this.widget.getSize().getX() / this.mc.displayWidth;
-        this.y = this.widget.getSize().getY() - Mouse.getEventY() * this.widget.getSize().getY() / this.mc.displayHeight - 1;
+        this.x = Mouse.getEventX() * this.srcwidget.getSize().getX() / this.mc.displayWidth;
+        this.y = this.srcwidget.getSize().getY() - Mouse.getEventY() * this.srcwidget.getSize().getY() / this.mc.displayHeight - 1;
         this.z = Mouse.getEventDWheel();
         
         for (int i = 0; i < buttonCount; i++)
         	buttonState[i] = Mouse.isButtonDown(i);
+        
+        this.trgwidget = this.srcwidget.getWidgetAtCoordinates(this.x, this.y);
 	}
 	
 	public String toString(){
@@ -54,6 +57,11 @@ public class MouseEvent {
 	public EventType getEventType(MouseEvent me){
 		
 		this.type = EventType.NONE;		
+		
+		if (this.trgwidget != me.trgwidget){
+			this.type = EventType.ENTER;
+			return this.type;
+		}
 		
 		if (this.z != 0){
 			this.type = EventType.WHEEL;
