@@ -29,13 +29,15 @@ public abstract class WidgetBase implements IWidget {
 		this.mc  = Minecraft.getMinecraft();	
 		this.rez = new ScaledResolution(mc.gameSettings, mc.displayWidth, mc.displayHeight); 
 		this.texManager = this.mc.renderEngine;
+		this.setGeometry(new WidgetGeometry(0,0,50,50,false,false));		
 	}
 	
 	public WidgetBase(IWidget parent){
 		this.setParent(parent);
 		this.mc  = Minecraft.getMinecraft();
 		this.rez = new ScaledResolution(mc.gameSettings, mc.displayWidth, mc.displayHeight);
-		this.texManager = this.mc.renderEngine;		
+		this.texManager = this.mc.renderEngine;
+		this.setGeometry(new WidgetGeometry(0,0,50,50,false,false));
 	}
     
 	/////////////////////
@@ -101,8 +103,7 @@ public abstract class WidgetBase implements IWidget {
 
 	@Override
 	public void setGeometry(WidgetGeometry geom) { this.geom = geom; }
-	public void setGeometry(double x, double y, double sx, double sy){ this.setGeometry(new WidgetGeometry (x, y, sx, sy)) ;}
-	public void setGeometry(int x, int y, int sx, int sy)            { this.setGeometry(new WidgetGeometry (x, y, sx, sy)) ;}	
+	public void setGeometry(double x, double y, double sx, double sy, boolean fp, boolean fs){ this.setGeometry(new WidgetGeometry (x, y, sx, sy, fp, fs)) ;}
 	
 	@Override
 	public WidgetGeometry getGeometry() { return this.geom;	}
@@ -188,5 +189,4 @@ public abstract class WidgetBase implements IWidget {
 	public void onMouseLeave(MouseEvent event) {
 		//System.out.printf("%70s %s\n", this, event);
 	}	
-
 }
