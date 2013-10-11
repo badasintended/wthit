@@ -21,7 +21,7 @@ public class WidgetGeometry {
 	int    absSX = -1;
 	int    absSY = -1;	
 
-	boolean isAbsolute;
+	boolean isFractional;
 	
 	Align alignX;
 	Align alignY;
@@ -36,7 +36,7 @@ public class WidgetGeometry {
 		this.relY  = y;
 		this.relSX = sx;
 		this.relSY = sy;
-		this.isAbsolute = false;
+		this.isFractional = false;
 		this.alignX = Align.LEFT;
 		this.alignY = Align.TOP;
 	}
@@ -46,7 +46,7 @@ public class WidgetGeometry {
 		this.relY  = y;
 		this.relSX = sx;
 		this.relSY = sy;
-		this.isAbsolute = false;
+		this.isFractional = false;
 		this.alignX = alignX;
 		this.alignY = alignY;
 	}	
@@ -56,7 +56,7 @@ public class WidgetGeometry {
 		this.absY  = y;
 		this.absSX = sx;
 		this.absSY = sy;
-		this.isAbsolute = true;
+		this.isFractional = true;
 		this.alignX = Align.LEFT;
 		this.alignY = Align.TOP;		
 	}	
@@ -69,8 +69,10 @@ public class WidgetGeometry {
 	public Point getPos(IWidget parent){
 		Point thisPos;
 		
-		if (this.isAbsolute)
-			thisPos = new Point(this.absX, this.absY);
+		if (this.isFractional){
+			Point parentPos  = parent.getPos();
+			thisPos = new Point(parentPos.getX() + this.absX, parentPos.getY() +this.absY);
+		}
 		else {
 			Point parentPos  = parent.getPos();
 			Point parentSize = parent.getSize();
@@ -97,7 +99,7 @@ public class WidgetGeometry {
 	}
 	
 	public Point getSize(IWidget parent){
-		if (this.isAbsolute)
+		if (this.isFractional)
 			return new Point(this.absSX, this.absSY);
 		else {
 			Point parentSize = parent.getSize();
