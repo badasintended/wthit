@@ -26,8 +26,8 @@ public class BaseWailaScreen extends GuiScreen{
     private int  lastMousePosY  = -1;
     private static int buttonCount  = Mouse.getButtonCount();
     private boolean[]  lastButtonStates = new boolean[buttonCount];
-    private IWidget[] focusWidget = new IWidget[buttonCount]; 
-    private IWidget   mainFocusWidget = null;
+    private IWidget[]  focusWidget = new IWidget[buttonCount]; 
+    private IWidget    mainFocusWidget = null;
     
     
     

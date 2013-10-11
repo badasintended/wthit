@@ -1,5 +1,6 @@
 package mcp.mobius.waila.gui.interfaces;
 
+import mcp.mobius.waila.gui.events.MouseEvent;
 import mcp.mobius.waila.gui.widgets.WidgetGeometry;
 
 import org.lwjgl.util.Point;
@@ -23,4 +24,17 @@ public interface IWidget {
 	IWidget addWidget(String name, IWidget widget);
 	IWidget getWidget(String name);
 	IWidget delWidget(String name);	
+	
+	void handleMouseInput();
+	
+	void onMouseClick(MouseEvent event);
+	void onMouseDrag(MouseEvent event);
+	void onMouseMove(MouseEvent event);
+	void onMouseReleased(MouseEvent event);
+	void onMouseWheel(MouseEvent event);
+	
+	//boolean  onMouseEnter();
+	//boolean  onMouseMoved();
+	//boolean  onMouseLeave();
+	
 }

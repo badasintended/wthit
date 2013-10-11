@@ -8,10 +8,10 @@ import org.lwjgl.util.Point;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.texture.TextureManager;
+import mcp.mobius.waila.gui.events.MouseEvent;
 import mcp.mobius.waila.gui.interfaces.IWidget;
-import mcp.mobius.waila.gui.interfaces.IWidgetContainer;
 
-public abstract class WidgetBase implements IWidget, IWidgetContainer {
+public abstract class WidgetBase implements IWidget {
 
 	protected IWidget parent;
 	protected WidgetGeometry  geom;
@@ -60,6 +60,16 @@ public abstract class WidgetBase implements IWidget, IWidgetContainer {
 		this.widgets.remove(widget);
 		return widget;
 	}
+
+	private IWidget getWidgetAtCoordinates(int posX, int posY){
+		for (IWidget widget : this.widgets.values())
+			if ((posX >=  widget.getPos().getX()) && 
+					(posX <=  widget.getPos().getX() + widget.getSize().getX()) &&
+					(posY >=  widget.getPos().getY()) &&
+					(posY <=  widget.getPos().getY() + widget.getSize().getY()))
+				return widget;
+		return null;
+	}		
 	
 	///////////////////////
 	// IWIDGET INTERFACE //
@@ -108,4 +118,48 @@ public abstract class WidgetBase implements IWidget, IWidgetContainer {
     	if (hasLight) GL11.glEnable(GL11.GL_LIGHTING); else	GL11.glDisable(GL11.GL_LIGHTING);
     	GL11.glBindTexture(GL11.GL_TEXTURE_2D, boundTexIndex);    	
     }
+    
+    ////////////////////
+    // INPUT HANDLING //
+    ////////////////////
+    
+    @Override
+    public void handleMouseInput(){}
+
+	@Override
+	public void onMouseClick(MouseEvent event) {
+		IWidget widget = this.getWidgetAtCoordinates(event.x, event.y);
+		if (widget != null && widget != this)
+			widget.onMouseClick(event);		
+	}
+
+	@Override
+	public void onMouseDrag(MouseEvent event) {
+		IWidget widget = this.getWidgetAtCoordinates(event.x, event.y);
+		if (widget != null && widget != this)
+			widget.onMouseDrag(event);		
+	}
+
+	@Override
+	public void onMouseMove(MouseEvent event) {
+		IWidget widget = this.getWidgetAtCoordinates(event.x, event.y);
+		if (widget != null && widget != this)
+			widget.onMouseMove(event);
+	}
+
+	@Override
+	public void onMouseReleased(MouseEvent event) {
+		IWidget widget = this.getWidgetAtCoordinates(event.x, event.y);
+		if (widget != null && widget != this)
+			widget.onMouseReleased(event);		
+	}
+
+	@Override
+	public void onMouseWheel(MouseEvent event) {
+		IWidget widget = this.getWidgetAtCoordinates(event.x, event.y);
+		if (widget != null && widget != this)
+			widget.onMouseWheel(event);		
+	}
+	
+
 }
