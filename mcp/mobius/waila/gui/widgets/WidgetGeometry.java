@@ -28,8 +28,10 @@ public class WidgetGeometry {
 	double sx = -1;
 	double sy = -1;
 	
-	boolean fracPos;
-	boolean fracSize;
+	boolean fracPosX;
+	boolean fracPosY;
+	boolean fracSizeX;
+	boolean fracSizeY;
 	
 	Align alignX;
 	Align alignY;
@@ -44,70 +46,40 @@ public class WidgetGeometry {
 	}
 	
 	public WidgetGeometry(double x, double y, double sx, double sy, boolean fracPos, boolean fracSize, Align alignX, Align alignY){
+		this(x, y, sx, sy, fracPos, fracPos, fracSize, fracSize, alignX, alignY);
+	}
+
+	public WidgetGeometry(double x, double y, double sx, double sy, boolean fracPosX, boolean fracPosY, boolean fracSizeX, boolean fracSizeY, Align alignX, Align alignY){
 		this.x = x;
 		this.y = y;
 		this.sx = sx;
 		this.sy = sy;
-		this.fracPos = fracPos;
-		this.fracSize = fracSize;
-		this.alignX = alignX;
-		this.alignY = alignY;
-	}
-	
-	/*
-	public WidgetGeometry(double x, double y, double sx, double sy){
-		this(x, y, sx, sy, Align.LEFT, Align.TOP);
-	}
-
-	public WidgetGeometry(double x, double y, double sx, double sy, Align alignX, Align alignY){
-		this.relX  = x;
-		this.relY  = y;
-		this.relSX = sx;
-		this.relSY = sy;
-		this.isAbsolute = false;
+		this.fracPosX = fracPosX;
+		this.fracPosY = fracPosY;
+		this.fracSizeX = fracSizeX;
+		this.fracSizeY = fracSizeY;
 		this.alignX = alignX;
 		this.alignY = alignY;
 	}	
-	
-	public WidgetGeometry(int x, int y, int sx, int sy){
-		this(x, y, sx, sy, Align.LEFT, Align.TOP);
-	}	
-
-	public WidgetGeometry(int x, int y, int sx, int sy, Align alignX, Align alignY){
-		this.absX  = x;
-		this.absY  = y;
-		this.absSX = sx;
-		this.absSY = sy;
-		this.isAbsolute = true;
-		this.alignX = alignX;
-		this.alignY = alignY;		
-	}	
-	*/
-	
-	//public PointDouble getRelativePos() { return new PointDouble(this.relX, this.relY);}
-	//public Point       getAbsolutePos() { return new Point(this.absX, this.absY);}
-	//public PointDouble getRelativeSize(){ return new PointDouble(this.relSX, this.relSY);}
-	//public Point       getAbsoluteSize(){ return new Point(this.absSX, this.absSY);}
 	
 	public Point getPos(IWidget parent){
-		Point thisPos;
 		
-		if (!this.fracPos && parent != null){
-			Point parentPos  = parent.getPos();
-			thisPos = new Point(parentPos.getX() + (int)this.x, parentPos.getY() + (int)this.y);
-		}
-		else if (!this.fracPos && parent == null){
-			thisPos = new Point((int)this.x, (int)this.y);
-		}
-		else {
-			Point parentPos  = parent.getPos();
-			Point parentSize = parent.getSize();
-			thisPos    = new Point ( MathHelper.ceiling_double_int(parentPos.getX() + parentSize.getX() * this.x / 100D), 
-					                 MathHelper.ceiling_double_int(parentPos.getY() + parentSize.getY() * this.y / 100D));
-		}
+		int x = -1;
+		if (this.fracPosX)
+			x = MathHelper.ceiling_double_int(parent.getPos().getX() + parent.getSize().getX() * this.x / 100D);
+		if (!this.fracPosX && parent != null)
+			x = parent.getPos().getX() + (int)this.x;
+		if (!this.fracPosX && parent == null)
+			x = (int)this.x;
 		
-		int x = thisPos.getX();
-		int y = thisPos.getY();
+		int y = -1;
+		if (this.fracPosY)
+			y = MathHelper.ceiling_double_int(parent.getPos().getY() + parent.getSize().getY() * this.y / 100D);
+		if (!this.fracPosY && parent != null)
+			y = parent.getPos().getY() + (int)this.y;
+		if (!this.fracPosY && parent == null)
+			y = (int)this.y;
+		
 		
 		if (this.alignX == Align.CENTER)
 			x -= this.getSize(parent).getX() / 2;
@@ -125,13 +97,18 @@ public class WidgetGeometry {
 	}
 	
 	public Point getSize(IWidget parent){
-		if (!this.fracSize)
-			return new Point((int)this.sx, (int)this.sy);
-		else {
-			Point parentSize = parent.getSize();
-			Point thisSize    = new Point ( MathHelper.ceiling_double_int(parentSize.getX() * this.sx / 100D), 
-					                        MathHelper.ceiling_double_int(parentSize.getY() * this.sy / 100D));
-			return thisSize;
-		}
+		int sx = -1;
+		if (this.fracSizeX)
+			sx = MathHelper.ceiling_double_int(parent.getSize().getX() * this.sx / 100D);
+		if (!this.fracSizeX)
+			sx = (int)this.sx;
+		
+		int sy = -1;
+		if (this.fracSizeY)
+			sy = MathHelper.ceiling_double_int(parent.getSize().getY() * this.sy / 100D);
+		if (!this.fracSizeY)
+			sy = (int)this.sy;
+		
+		return new Point(sx,sy);
 	}	
 }
