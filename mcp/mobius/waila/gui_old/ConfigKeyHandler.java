@@ -15,7 +15,7 @@ import codechicken.nei.recipe.ProfilerRecipeHandler;
 import mcp.mobius.waila.Constants;
 import mcp.mobius.waila.addons.ConfigHandler;
 import mcp.mobius.waila.gui.ScreenBase;
-import mcp.mobius.waila.gui.ScreenTest;
+import mcp.mobius.waila.gui.testing.ScreenTest;
 import mcp.mobius.waila.overlay.RayTracing;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
