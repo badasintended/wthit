@@ -1,6 +1,10 @@
-package mcp.mobius.waila.gui.widgets;
+package mcp.mobius.waila.gui.widgets.buttons;
 
 import mcp.mobius.waila.gui.interfaces.IWidget;
+import mcp.mobius.waila.gui.widgets.LayoutBase;
+import mcp.mobius.waila.gui.widgets.WidgetBase;
+import mcp.mobius.waila.gui.widgets.WidgetGeometry;
+import mcp.mobius.waila.gui.widgets.WidgetGeometry.Align;
 
 import org.lwjgl.util.Point;
 

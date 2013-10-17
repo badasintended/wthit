@@ -1,8 +1,9 @@
-package mcp.mobius.waila.gui.widgets;
+package mcp.mobius.waila.gui.widgets.buttons;
 
 import mcp.mobius.waila.gui.events.MouseEvent;
 import mcp.mobius.waila.gui.helpers.UIHelper;
 import mcp.mobius.waila.gui.interfaces.IWidget;
+import mcp.mobius.waila.gui.widgets.WidgetBase;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.util.Point;
