@@ -12,7 +12,7 @@ import org.lwjgl.util.Point;
 
 public class ButtonBoolean extends ButtonBase {
 
-	private boolean state     = false;
+	protected boolean state     = false;
 	
 	public ButtonBoolean(IWidget parent, String textFalse, String textTrue){
 		super(parent);

@@ -12,8 +12,8 @@ import org.lwjgl.util.Point;
 
 public class ButtonInteger extends ButtonBase {
 
-	private int state = 0;
-	private int nStates;
+	protected int state = 0;
+	protected int nStates;
 	
 	public ButtonInteger(IWidget parent, String... texts){
 		super(parent);
