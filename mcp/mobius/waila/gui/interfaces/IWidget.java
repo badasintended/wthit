@@ -17,6 +17,8 @@ public interface IWidget {
 	
 	Point getPos();
 	Point getSize();
+	int   getRight();
+	int   getLeft();
 	
 	void  draw();
 	void  draw(Point pos);

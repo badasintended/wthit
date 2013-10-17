@@ -1,8 +1,8 @@
 package mcp.mobius.waila.gui.widgets.buttons;
 
-import mcp.mobius.waila.gui.ScreenBase;
 import mcp.mobius.waila.gui.events.MouseEvent;
 import mcp.mobius.waila.gui.interfaces.IWidget;
+import mcp.mobius.waila.gui.screens.ScreenBase;
 import mcp.mobius.waila.gui.widgets.LabelFixedFont;
 import mcp.mobius.waila.gui.widgets.WidgetGeometry;
 

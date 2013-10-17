@@ -18,4 +18,5 @@ public final class Constants {
 	public static String CFG_WAILA_SHOW   = "waila.cfg.show";
 	public static String CFG_WAILA_MODE   = "waila.cfg.showmode";
 	public static String CFG_WAILA_LIQUID = "waila.cfg.liquid";
+	public static String CFG_WAILA_METADATA = "waila.cfg.metadata";
 }

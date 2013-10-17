@@ -114,6 +114,10 @@ public abstract class WidgetBase implements IWidget {
 	public Point getPos() {	return this.geom.getPos(this.parent); }
 	@Override
 	public Point getSize() { return this.geom.getSize(this.parent); }
+	@Override
+	public int getLeft() {	return this.getPos().getX(); }		
+	@Override
+	public int getRight() {	return this.getPos().getX() + this.getSize().getX(); }	
 	
 	////////////////////////////
 	// SOME RENDERING HELPERS //
