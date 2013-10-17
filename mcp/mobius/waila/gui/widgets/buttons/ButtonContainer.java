@@ -34,9 +34,9 @@ public class ButtonContainer extends WidgetBase {
 		int row    = this.nButtons / this.columns;
 		double sizeColumn = 100.0 / this.columns;
 		
-		this.getWidget(layoutName).setGeometry(new WidgetGeometry(sizeColumn * column, spacing * row, sizeColumn, spacing, true, true));
+		this.getWidget(layoutName).setGeometry(new WidgetGeometry(sizeColumn * column, spacing * row, sizeColumn, spacing, true, false, true, false, WidgetGeometry.Align.LEFT, WidgetGeometry.Align.TOP));
 		this.getWidget(layoutName).addWidget(buttonName, button);
-		this.getWidget(layoutName).getWidget(buttonName).setGeometry(new WidgetGeometry(50.0, 50.0, buttonSize, 20.0, true, false, WidgetGeometry.Align.CENTER, WidgetGeometry.Align.CENTER));;
+		this.getWidget(layoutName).getWidget(buttonName).setGeometry(new WidgetGeometry(50.0, 50.0, buttonSize, 20.0, true, true, false, false, WidgetGeometry.Align.CENTER, WidgetGeometry.Align.CENTER));;
 		
 		this.nButtons += 1;
 	}
