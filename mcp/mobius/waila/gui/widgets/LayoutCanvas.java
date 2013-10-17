@@ -29,7 +29,9 @@ public class LayoutCanvas extends WidgetBase{
 		
 		for (IWidget widget: this.widgets.values())
 			if (widget.shouldRender())
-				widget.draw();		
+				widget.draw();
+		
+		this.handleMouseInput();
 	}	
 	
 	@Override
