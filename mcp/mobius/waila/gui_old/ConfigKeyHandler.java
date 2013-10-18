@@ -117,18 +117,27 @@ public class ConfigKeyHandler extends KeyHandler {
 					firstInventory = false;
 				}					
 		
+				// We check for recipes with metadata, and if we don't find any, we switch to a lookup without metadata
 				if(recipe)
 					if(!GuiCraftingRecipe.openRecipeGui("item", stacks.get(0).copy())){
-						mc.thePlayer.addChatMessage("\u00a7f\u00a7oNo recipe found.");
-						mc.displayGuiScreen((GuiScreen)null);
-						mc.setIngameFocus();
+						ItemStack target = stacks.get(0).copy();
+						target.setItemDamage(0);
+						if(!GuiCraftingRecipe.openRecipeGui("item", target)){
+							mc.thePlayer.addChatMessage("\u00a7f\u00a7oNo recipe found.");
+							mc.displayGuiScreen((GuiScreen)null);
+							mc.setIngameFocus();
+						}
 					}				
 				
 				if(!recipe)
 					if(!GuiUsageRecipe.openRecipeGui("item", stacks.get(0).copy())){
-						mc.thePlayer.addChatMessage("\u00a7f\u00a7oNo usage found.");
-						mc.displayGuiScreen((GuiScreen)null);
-						mc.setIngameFocus();					
+						ItemStack target = stacks.get(0).copy();
+						target.setItemDamage(0);
+						if(!GuiCraftingRecipe.openRecipeGui("item", target)){
+							mc.thePlayer.addChatMessage("\u00a7f\u00a7oNo usage found.");
+							mc.displayGuiScreen((GuiScreen)null);
+							mc.setIngameFocus();
+						}
 					}
 			}
 		}
