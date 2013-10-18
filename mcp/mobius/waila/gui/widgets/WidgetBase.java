@@ -72,7 +72,7 @@ public abstract class WidgetBase implements IWidget {
 					(posX <=  widget.getPos().getX() + widget.getSize().getX()) &&
 					(posY >=  widget.getPos().getY()) &&
 					(posY <=  widget.getPos().getY() + widget.getSize().getY()))
-				return widget;
+				return widget.getWidgetAtCoordinates(posX, posY);
 		
 		if ((posX >=  this.getPos().getX()) && 
 				(posX <=  this.getPos().getX() + this.getSize().getX()) &&
@@ -196,11 +196,21 @@ public abstract class WidgetBase implements IWidget {
 
 	@Override
 	public void onMouseEnter(MouseEvent event) {
-		//System.out.printf("%70s %s\n", this, event);
+		//System.out.printf("%s %s\n", this, event);
+		/*
+		IWidget widget = this.getWidgetAtCoordinates(event.x, event.y);
+		if (widget != null && widget != this)
+			widget.onMouseEnter(event);
+		*/	
 	}
 	
 	@Override
 	public void onMouseLeave(MouseEvent event) {
-		//System.out.printf("%70s %s\n", this, event);
+		//System.out.printf("%s %s\n", this, event);
+		/*
+		IWidget widget = this.getWidgetAtCoordinates(event.x, event.y);
+		if (widget != null && widget != this)
+			widget.onMouseLeave(event);
+		*/	
 	}	
 }

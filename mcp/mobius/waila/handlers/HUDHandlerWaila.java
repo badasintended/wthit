@@ -1,6 +1,8 @@
 package mcp.mobius.waila.handlers;
 
 import java.util.List;
+
+import mcp.mobius.waila.Constants;
 import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.addons.ConfigHandler;
 import net.minecraft.entity.player.EntityPlayer;
@@ -24,7 +26,7 @@ public class HUDHandlerWaila implements IHighlightHandler {
 			String modName = mod_Waila.instance.getModName(itemStack);
 			if (modName != null && !modName.equals(""))
 				currenttip.add("\u00a79\u00a7o" + modName);
-		} else if (layout == Layout.HEADER && ConfigHandler.instance().getConfig("waila.showmetadata", false)){
+		} else if (layout == Layout.HEADER && ConfigHandler.instance().getConfig(Constants.CFG_WAILA_METADATA, false)){
 			if (currenttip.size() == 0)
 				currenttip.add("< Unnamed >");
 			else{

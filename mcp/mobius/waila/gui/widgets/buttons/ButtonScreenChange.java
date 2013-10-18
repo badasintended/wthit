@@ -1,5 +1,6 @@
 package mcp.mobius.waila.gui.widgets.buttons;
 
+import net.minecraft.client.gui.GuiScreen;
 import mcp.mobius.waila.gui.events.MouseEvent;
 import mcp.mobius.waila.gui.interfaces.IWidget;
 import mcp.mobius.waila.gui.screens.ScreenBase;
@@ -8,9 +9,9 @@ import mcp.mobius.waila.gui.widgets.WidgetGeometry;
 
 public class ButtonScreenChange extends ButtonBase {
 	
-	ScreenBase linkedScreen;
+	GuiScreen linkedScreen;
 	
-	public ButtonScreenChange(IWidget parent, String text, ScreenBase linkedscreen){
+	public ButtonScreenChange(IWidget parent, String text, GuiScreen linkedscreen){
 		super(parent);
 		this.linkedScreen = linkedscreen;
 		
