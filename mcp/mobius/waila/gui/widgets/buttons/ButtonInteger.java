@@ -31,6 +31,8 @@ public class ButtonInteger extends ButtonBase {
 
 	@Override
 	public void onMouseClick(MouseEvent event){
+		super.onMouseClick(event);		
+		
 		if (event.button == 0)
 			this.state += 1;
 		

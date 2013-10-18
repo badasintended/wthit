@@ -22,7 +22,7 @@ public class ButtonContainer extends WidgetBase {
 		this.buttonSize = buttonSize;
 	}
 	
-	public void addButton(ButtonBase button, String label){
+	public void addButton(ButtonBase button){
 		String buttonName = String.format("Button_%d", nButtons);
 		String layoutName = String.format("Layout_%d", nButtons);
 		String layoutLabelName = String.format("LayoutLabel_%d", nButtons);
