@@ -1,4 +1,4 @@
-package mcp.mobius.waila.gui_old;
+package mcp.mobius.waila;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -12,7 +12,6 @@ import codechicken.nei.recipe.GuiCraftingRecipe;
 import codechicken.nei.recipe.GuiUsageRecipe;
 import codechicken.nei.recipe.ICraftingHandler;
 import codechicken.nei.recipe.ProfilerRecipeHandler;
-import mcp.mobius.waila.Constants;
 import mcp.mobius.waila.addons.ConfigHandler;
 import mcp.mobius.waila.gui.screens.ScreenBase;
 import mcp.mobius.waila.gui.screens.ScreenConfig;

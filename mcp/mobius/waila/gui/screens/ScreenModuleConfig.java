@@ -4,6 +4,7 @@ import mcp.mobius.waila.addons.ConfigHandler;
 import mcp.mobius.waila.gui.widgets.LayoutBase;
 import mcp.mobius.waila.gui.widgets.WidgetGeometry;
 import mcp.mobius.waila.gui.widgets.buttons.ButtonBooleanConfig;
+import mcp.mobius.waila.gui.widgets.buttons.ButtonBooleanConfigRemote;
 import mcp.mobius.waila.gui.widgets.buttons.ButtonContainer;
 import mcp.mobius.waila.gui.widgets.buttons.ButtonContainerLabel;
 import mcp.mobius.waila.gui.widgets.buttons.ButtonScreenChange;
@@ -26,8 +27,10 @@ public class ScreenModuleConfig extends ScreenBase {
 		ButtonContainerLabel buttonContainer = ((ButtonContainerLabel)this.getRoot().getWidget("ButtonContainer"));
 		
         for (String key:ConfigHandler.instance().getConfigKeys(this.modName).keySet()){
-        	buttonContainer.addButton(new ButtonBooleanConfig(this.getRoot(), key, "No", "Yes"), ConfigHandler.instance().getConfigKeys(this.modName).get(key));
-        	
+        	if (ConfigHandler.instance().isServerRequired(key))
+        		buttonContainer.addButton(new ButtonBooleanConfigRemote(this.getRoot(), key, "No", "Yes"), ConfigHandler.instance().getConfigKeys(this.modName).get(key));
+        	else
+        		buttonContainer.addButton(new ButtonBooleanConfig(this.getRoot(), key, "No", "Yes"), ConfigHandler.instance().getConfigKeys(this.modName).get(key));
         		//buttonContainer.addButton(new ButtonConfigRemote(-1, "No", "Yes", ConfigHandler.instance().getConfigKeys(this.modName).get(key), key ));
         	//else
         		//buttonContainer.addButton(new ButtonConfigOption(-1, "No", "Yes", ConfigHandler.instance().getConfigKeys(this.modName).get(key), key ));
