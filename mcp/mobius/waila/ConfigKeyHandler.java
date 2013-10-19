@@ -41,14 +41,14 @@ public class ConfigKeyHandler extends KeyHandler {
                 new KeyBinding(Constants.BIND_WAILA_LIQUID,  Keyboard.KEY_NUMPAD2),
                 new KeyBinding(Constants.BIND_WAILA_RECIPE,  Keyboard.KEY_NUMPAD3),
                 new KeyBinding(Constants.BIND_WAILA_USAGE,   Keyboard.KEY_NUMPAD4),
-                //new KeyBinding(Constants.BIND_WAILA_TESTING, Keyboard.KEY_NUMPAD9),
+                new KeyBinding(Constants.BIND_WAILA_TESTING, Keyboard.KEY_NUMPAD9),
             }, new boolean[]{
                 false,
                 false,
                 false,
                 false,
                 false,
-                //false
+                false
             });
         
         LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_CFG,     "[Waila] Config screen");
@@ -56,7 +56,7 @@ public class ConfigKeyHandler extends KeyHandler {
         LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_LIQUID,  "[Waila] Show liquids");
         LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_RECIPE,  "[Waila] Show recipe");
         LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_USAGE,   "[Waila] Show usage");
-        //LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_TESTING, "[Waila] Testing");
+        LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_TESTING, "[Waila] Testing");
         //LanguageRegistry.instance().addStringLocalization("key.wailatedump", "[Waila] Dump server TE");        
     }	
 
@@ -69,10 +69,10 @@ public class ConfigKeyHandler extends KeyHandler {
 				mc.displayGuiScreen(new ScreenConfig(mc.currentScreen));
 		}
 
-		//if (kb.keyDescription == Constants.BIND_WAILA_TESTING){
-		//	if(mc.currentScreen == null)
-		//		mc.displayGuiScreen(new ScreenConfig(mc.currentScreen));
-		//}		
+		if (kb.keyDescription == Constants.BIND_WAILA_TESTING){
+			if(mc.currentScreen == null)
+				mc.displayGuiScreen(new ScreenTest(mc.currentScreen));
+		}		
 		
 		if (mc.currentScreen != null)
 			return;

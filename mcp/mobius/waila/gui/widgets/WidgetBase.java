@@ -118,6 +118,11 @@ public abstract class WidgetBase implements IWidget {
 	public int getLeft() {	return this.getPos().getX(); }		
 	@Override
 	public int getRight() {	return this.getPos().getX() + this.getSize().getX(); }	
+	@Override
+	public int getTop() {	return this.getPos().getY(); }		
+	@Override
+	public int getBottom() {	return this.getPos().getY() + this.getSize().getY(); }	
+	
 	
 	////////////////////////////
 	// SOME RENDERING HELPERS //

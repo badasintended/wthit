@@ -10,7 +10,7 @@ import org.lwjgl.util.Point;
 
 public class PictureDisplay extends WidgetBase {
 
-	private ResourceLocation texture;
+	protected ResourceLocation texture;
 	
 	public PictureDisplay(IWidget parent, String uri){
 		super(parent);
