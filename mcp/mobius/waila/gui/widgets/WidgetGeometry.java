@@ -62,6 +62,17 @@ public class WidgetGeometry {
 		this.alignY = alignY;
 	}	
 	
+	public void setPos(double x, double y){
+		this.setPos(x, y, this.fracPosX, this.fracPosY);
+	}
+	
+	public void setPos(double x, double y, boolean fracX, boolean fracY){
+		this.x = x;
+		this.y = y;
+		this.fracPosX = fracX;
+		this.fracPosY = fracY;
+	}
+	
 	public Point getPos(IWidget parent){
 		
 		int x = -1;

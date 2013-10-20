@@ -1,9 +1,13 @@
 package mcp.mobius.waila.gui.widgets;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Point;
+
+import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.Table;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
@@ -20,6 +24,8 @@ public abstract class WidgetBase implements IWidget {
     protected TextureManager texManager;
     protected ScaledResolution rez;
 
+    protected HashBasedTable<String, String, ArrayList<IWidget>> attachedWidgets = HashBasedTable.create(); 
+    
 	protected boolean hasBlending;
 	protected boolean hasLight;
 	protected int     boundTexIndex;      
@@ -217,5 +223,34 @@ public abstract class WidgetBase implements IWidget {
 		if (widget != null && widget != this)
 			widget.onMouseLeave(event);
 		*/	
+	}
+
+	@Override
+	public void emit(String eventname, Object... params) {
+		try{
+			for (String slot : this.attachedWidgets.row(eventname).keySet()){
+				for (IWidget widget : this.attachedWidgets.get(eventname, slot)){
+					widget.onWidgetEvent(this, eventname, slot, params);
+				}
+			}
+		}
+		catch (Exception e){
+		}
+	}
+
+	@Override
+	public void attach(IWidget trgwidget, String eventname, String slotname) {
+		if (!this.attachedWidgets.contains(eventname, slotname))
+			this.attachedWidgets.put(eventname, slotname, new ArrayList<IWidget>());
+		
+		this.attachedWidgets.get(eventname, slotname).add(trgwidget);
+	}
+
+	@Override
+	public void onWidgetEvent(IWidget srcwidget, String eventname,	String slotname, Object... params) {
+		if (slotname.equals("setPosX"))
+			this.geom.setPos((Double)params[0], this.getPos().getY());
+		if (slotname.equals("setPosY"))
+			this.geom.setPos(this.getPos().getX(), (Double)params[0]);		
 	}	
 }

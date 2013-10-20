@@ -8,8 +8,8 @@ import org.lwjgl.util.Point;
 
 public class LabelFixedFont extends WidgetBase {
 
-	private String text = "";
-	private int    color;
+	protected String text = "";
+	protected int    color;
 
 	public LabelFixedFont(IWidget parent, String text){
 		super(parent);
@@ -50,4 +50,9 @@ public class LabelFixedFont extends WidgetBase {
 		this.mc.fontRenderer.drawString(this.text, pos.getX(), pos.getY(), this.color);
 	}
 
+	@Override
+	public void onWidgetEvent(IWidget srcwidget, String eventname,	String slotname, Object... params) {
+		if (slotname.equals("setText"))
+			this.setText(String.valueOf(params[0]));
+	}		
 }

@@ -35,5 +35,8 @@ public class PictureMovable extends PictureDisplay {
 		
 		this.setGeometry(new WidgetGeometry(newX, newY, this.getSize().getX(), this.getSize().getY(), 
 				false, false, this.geom.fracSizeX, this.geom.fracSizeY, this.geom.alignX, this.geom.alignY));
+		
+		this.emit("onDragX", this.getLeft());
+		this.emit("onDragY", this.getTop());
 	}
 }

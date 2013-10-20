@@ -43,6 +43,10 @@ public interface IWidget {
 	void onMouseEnter(MouseEvent event);
 	void onMouseLeave(MouseEvent event);
 	
+	void emit(String eventname, Object... params);
+	void attach(IWidget trgwidget, String eventname, String slotname);
+	void onWidgetEvent(IWidget srcwidget, String eventname, String slotname, Object... params);
+	
 	//boolean  onMouseEnter();
 	//boolean  onMouseMoved();
 	//boolean  onMouseLeave();
