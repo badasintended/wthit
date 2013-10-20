@@ -1,7 +1,6 @@
 package mcp.mobius.waila.gui.widgets;
 
 import mcp.mobius.waila.gui.events.Signal;
-import mcp.mobius.waila.gui.events.Slot;
 import mcp.mobius.waila.gui.interfaces.IWidget;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.ResourceLocation;
@@ -31,7 +30,7 @@ public class LabelFixedFont extends WidgetBase {
 		this.updateGeometry();
 	}
 	
-	private void setText(String text){
+	public void setText(String text){
 		this.text = text;
 		this.updateGeometry();
 	}
@@ -51,15 +50,4 @@ public class LabelFixedFont extends WidgetBase {
 	public void draw(Point pos) {
 		this.mc.fontRenderer.drawString(this.text, pos.getX(), pos.getY(), this.color);
 	}
-
-	@Override
-	public void onWidgetEvent(IWidget srcwidget, Signal signal,	Slot slot, Object... params) {
-		switch(slot){
-		case SET_VALUE:
-			this.setText(String.valueOf(params[0]));
-			break;
-		default:
-			break;
-		}
-	}		
 }

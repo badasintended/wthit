@@ -14,7 +14,6 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.texture.TextureManager;
 import mcp.mobius.waila.gui.events.MouseEvent;
 import mcp.mobius.waila.gui.events.Signal;
-import mcp.mobius.waila.gui.events.Slot;
 import mcp.mobius.waila.gui.interfaces.IWidget;
 
 public abstract class WidgetBase implements IWidget {
@@ -26,8 +25,6 @@ public abstract class WidgetBase implements IWidget {
     protected TextureManager texManager;
     protected ScaledResolution rez;
 
-    protected HashBasedTable<Signal, Slot, ArrayList<IWidget>> attachedWidgets = HashBasedTable.create(); 
-    
 	protected boolean hasBlending;
 	protected boolean hasLight;
 	protected int     boundTexIndex;      
@@ -229,36 +226,13 @@ public abstract class WidgetBase implements IWidget {
 
 	@Override
 	public void emit(Signal signal, Object... params) {
-		try{
-			for (Slot slot : this.attachedWidgets.row(signal).keySet()){
-				for (IWidget widget : this.attachedWidgets.get(signal, slot)){
-					widget.onWidgetEvent(this, signal, slot, params);
-				}
-			}
-		}
-		catch (Exception e){
-		}
+		if(this.parent != null)
+			this.parent.onWidgetEvent(this, signal, params);
 	}
 
 	@Override
-	public void attach(IWidget trgwidget, Signal signal, Slot slot) {
-		if (!this.attachedWidgets.contains(signal, slot))
-			this.attachedWidgets.put(signal, slot, new ArrayList<IWidget>());
-		
-		this.attachedWidgets.get(signal, slot).add(trgwidget);
+	public void onWidgetEvent(IWidget srcwidget, Signal signal, Object... params) {
+		if (this.parent != null)
+			this.parent.onWidgetEvent(srcwidget, signal, params);
 	}
-
-	@Override
-	public void onWidgetEvent(IWidget srcwidget, Signal signal, Slot slot, Object... params) {
-		switch(slot){
-		case SET_POS_X:
-			this.geom.setPos((Integer)params[0], this.getPos().getY());
-			break;
-		case SET_POS_Y:
-			this.geom.setPos(this.getPos().getX(), (Integer)params[0]);
-			break;
-		default:
-			break;
-		}
-	}	
 }

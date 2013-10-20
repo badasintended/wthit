@@ -1,54 +1,72 @@
 package mcp.mobius.waila.gui.screens;
 
+import org.lwjgl.util.Point;
+
 import mcp.mobius.waila.gui.events.Signal;
-import mcp.mobius.waila.gui.events.Slot;
+import mcp.mobius.waila.gui.interfaces.IWidget;
 import mcp.mobius.waila.gui.widgets.LabelFixedFont;
+import mcp.mobius.waila.gui.widgets.LayoutBase;
 import mcp.mobius.waila.gui.widgets.PictureMovable;
 import mcp.mobius.waila.gui.widgets.WidgetGeometry;
 import mcp.mobius.waila.gui.widgets.buttons.ButtonLabel;
-import mcp.mobius.waila.gui.widgets.logic.CounterInteger;
 import net.minecraft.client.gui.GuiScreen;
 
 public class ScreenHUDConfig extends ScreenBase {
 
+	private class EventCanvas extends LayoutBase{
+		public EventCanvas(IWidget parent){
+			super(parent);
+			this.setGeometry(new WidgetGeometry(0.0,0.0,100.0,100.0,true,true));
+			
+			this.addWidget("Picture", new PictureMovable(this, "waila:textures/test.png"));
+			
+			this.addWidget("ButtonXAdd", new ButtonLabel(this, "+"));
+			this.getWidget("ButtonXAdd").setGeometry(new WidgetGeometry(50.0,60,20,20,true, false, false, false, WidgetGeometry.Align.CENTER, WidgetGeometry.Align.TOP));
+			this.addWidget("ButtonXSub", new ButtonLabel(this, "-"));
+			this.getWidget("ButtonXSub").setGeometry(new WidgetGeometry(50.0,80,20,20,true, false, false, false, WidgetGeometry.Align.CENTER, WidgetGeometry.Align.TOP));
+
+			this.addWidget("ButtonYAdd", new ButtonLabel(this, "+"));
+			this.getWidget("ButtonYAdd").setGeometry(new WidgetGeometry(55.0,60,20,20,true, false, false, false, WidgetGeometry.Align.CENTER, WidgetGeometry.Align.TOP));
+			this.addWidget("ButtonYSub", new ButtonLabel(this, "-"));
+			this.getWidget("ButtonYSub").setGeometry(new WidgetGeometry(55.0,80,20,20,true, false, false, false, WidgetGeometry.Align.CENTER, WidgetGeometry.Align.TOP));		
+			
+			this.addWidget("Text",   new LabelFixedFont(this, "None"));
+			this.getWidget("Text").setGeometry(new WidgetGeometry(50.0,0,0,0,true, false, WidgetGeometry.Align.CENTER, WidgetGeometry.Align.TOP));
+			((LabelFixedFont)this.getWidget("Text")).setText(String.format("X : %3d, Y : %3d", 0, 0));
+			
+		}		
+		
+		@Override
+		public void onWidgetEvent(IWidget srcwidget, Signal signal, Object... params){
+			if (srcwidget.equals(this.getWidget("Picture")) && signal == Signal.DRAGGED)
+				((LabelFixedFont)this.getWidget("Text")).setText(String.format("X : %3d, Y : %3d", ((Point)params[0]).getX(), ((Point)params[0]).getY()));
+			
+			if (srcwidget.equals(this.getWidget("ButtonXAdd")) && signal == Signal.CLICKED){
+				this.getWidget("Picture").getGeometry().setPos(this.getWidget("Picture").getLeft() + 1, this.getWidget("Picture").getTop());
+				this.getWidget("Picture").emit(Signal.DRAGGED, this.getWidget("Picture").getPos());
+			}
+			
+			if (srcwidget.equals(this.getWidget("ButtonXSub")) && signal == Signal.CLICKED){
+				this.getWidget("Picture").getGeometry().setPos(this.getWidget("Picture").getLeft() - 1, this.getWidget("Picture").getTop());
+				this.getWidget("Picture").emit(Signal.DRAGGED, this.getWidget("Picture").getPos());
+			}
+			
+			if (srcwidget.equals(this.getWidget("ButtonYAdd")) && signal == Signal.CLICKED){
+				this.getWidget("Picture").getGeometry().setPos(this.getWidget("Picture").getLeft(), this.getWidget("Picture").getTop() + 1);
+				this.getWidget("Picture").emit(Signal.DRAGGED, this.getWidget("Picture").getPos());
+			}
+			
+			if (srcwidget.equals(this.getWidget("ButtonYSub")) && signal == Signal.CLICKED){
+				this.getWidget("Picture").getGeometry().setPos(this.getWidget("Picture").getLeft(), this.getWidget("Picture").getTop() - 1);
+				this.getWidget("Picture").emit(Signal.DRAGGED, this.getWidget("Picture").getPos());
+			}			
+		}
+	}
+	
 	public ScreenHUDConfig(GuiScreen parent){
 		super(parent);
 		
-		this.getRoot().addWidget("Picture", new PictureMovable(this.getRoot(), "waila:textures/test.png"));
-		
-		this.getRoot().addWidget("ButtonXAdd", new ButtonLabel(this.getRoot(), "+"));
-		this.getRoot().getWidget("ButtonXAdd").setGeometry(new WidgetGeometry(50.0,60,20,20,true, false, false, false, WidgetGeometry.Align.CENTER, WidgetGeometry.Align.TOP));
-		this.getRoot().addWidget("ButtonXSub", new ButtonLabel(this.getRoot(), "-"));
-		this.getRoot().getWidget("ButtonXSub").setGeometry(new WidgetGeometry(50.0,80,20,20,true, false, false, false, WidgetGeometry.Align.CENTER, WidgetGeometry.Align.TOP));
-
-		this.getRoot().addWidget("ButtonYAdd", new ButtonLabel(this.getRoot(), "+"));
-		this.getRoot().getWidget("ButtonYAdd").setGeometry(new WidgetGeometry(55.0,60,20,20,true, false, false, false, WidgetGeometry.Align.CENTER, WidgetGeometry.Align.TOP));
-		this.getRoot().addWidget("ButtonYSub", new ButtonLabel(this.getRoot(), "-"));
-		this.getRoot().getWidget("ButtonYSub").setGeometry(new WidgetGeometry(55.0,80,20,20,true, false, false, false, WidgetGeometry.Align.CENTER, WidgetGeometry.Align.TOP));		
-		
-		this.getRoot().addWidget("TextX",   new LabelFixedFont(this.getRoot(), "None"));
-		this.getRoot().getWidget("TextX").setGeometry(new WidgetGeometry(50.0,0,0,0,true, false, WidgetGeometry.Align.CENTER, WidgetGeometry.Align.TOP));
-		this.getRoot().addWidget("TextY",   new LabelFixedFont(this.getRoot(), "None"));
-		this.getRoot().getWidget("TextY").setGeometry(new WidgetGeometry(50.0,20,0,0,true, false, WidgetGeometry.Align.CENTER, WidgetGeometry.Align.TOP));
-		
-		this.getRoot().addWidget("CounterX", new CounterInteger(this.getRoot(), 0, 5));
-		this.getRoot().addWidget("CounterY", new CounterInteger(this.getRoot(), 0, 5));
-
-		/* LINKING THE LOGIC */
-		this.getRoot().getWidget("ButtonXAdd").attach(this.getRoot().getWidget("CounterX"), Signal.CLICKED, Slot.ADD_STEP);
-		this.getRoot().getWidget("ButtonXSub").attach(this.getRoot().getWidget("CounterX"), Signal.CLICKED, Slot.SUB_STEP);
-
-		this.getRoot().getWidget("ButtonYAdd").attach(this.getRoot().getWidget("CounterY"), Signal.CLICKED, Slot.ADD_STEP);
-		this.getRoot().getWidget("ButtonYSub").attach(this.getRoot().getWidget("CounterY"), Signal.CLICKED, Slot.SUB_STEP);		
-		
-		this.getRoot().getWidget("Picture").attach(this.getRoot().getWidget("CounterX"), Signal.DRAGGED_X, Slot.SET_VALUE);
-		this.getRoot().getWidget("Picture").attach(this.getRoot().getWidget("CounterY"), Signal.DRAGGED_Y, Slot.SET_VALUE);
-		
-		this.getRoot().getWidget("CounterX").attach(this.getRoot().getWidget("TextX"),   Signal.VALUE_CHANGED, Slot.SET_VALUE);
-		this.getRoot().getWidget("CounterY").attach(this.getRoot().getWidget("TextY"),   Signal.VALUE_CHANGED, Slot.SET_VALUE);
-		this.getRoot().getWidget("CounterX").attach(this.getRoot().getWidget("Picture"), Signal.VALUE_CHANGED, Slot.SET_POS_X);
-		this.getRoot().getWidget("CounterY").attach(this.getRoot().getWidget("Picture"), Signal.VALUE_CHANGED, Slot.SET_POS_Y);
-		
+		this.getRoot().addWidget("EventCanvas", new EventCanvas(this.getRoot()));
 	}
 
 }
