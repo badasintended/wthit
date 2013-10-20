@@ -82,10 +82,22 @@ public class ConfigHandler implements IWailaConfigHandler {
 		return this.getConfig(key, true);
 	}
 	
+	public int getConfigInt(String key){
+		mod_Waila.instance.config.load();
+		Property prop = mod_Waila.instance.config.get(Configuration.CATEGORY_GENERAL, key, 0);
+		return prop.getInt();			
+	}
+	
 	@Override
 	public void setConfig(String key, boolean value){
 		mod_Waila.instance.config.load();
 		mod_Waila.instance.config.get(Configuration.CATEGORY_GENERAL, key, true).set(value);;
 		mod_Waila.instance.config.save();
+	}
+	
+	public void setConfigInt(String key, int value){
+		mod_Waila.instance.config.load();
+		mod_Waila.instance.config.get(Configuration.CATEGORY_GENERAL, key, 0).set(value);;
+		mod_Waila.instance.config.save();		
 	}
 }

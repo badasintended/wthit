@@ -15,8 +15,11 @@ public final class Constants {
 	public static String CFG_NEI_SHOW  = "world.highlight_tips";
 	public static String BIND_NEI_SHOW = "keys.world.highlight_tips";	
 	
-	public static String CFG_WAILA_SHOW   = "waila.cfg.show";
-	public static String CFG_WAILA_MODE   = "waila.cfg.showmode";
-	public static String CFG_WAILA_LIQUID = "waila.cfg.liquid";
+	public static String CFG_WAILA_SHOW     = "waila.cfg.show";
+	public static String CFG_WAILA_MODE     = "waila.cfg.showmode";
+	public static String CFG_WAILA_LIQUID   = "waila.cfg.liquid";
 	public static String CFG_WAILA_METADATA = "waila.cfg.metadata";
+	public static String CFG_WAILA_POSX     = "waila.cfg.posx";
+	public static String CFG_WAILA_POSY     = "waila.cfg.posy";
+	
 }

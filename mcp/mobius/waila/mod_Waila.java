@@ -14,6 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.Property;
 import codechicken.core.CommonUtils;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.IMCCallback;
@@ -55,6 +56,15 @@ public class mod_Waila {
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event) {
 		config = new Configuration(event.getSuggestedConfigurationFile());
+
+		config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW,     true);
+		config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_MODE,     true);
+		config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID,   false);
+		config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATA, false);
+		config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSX,     5000);
+		config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSY,     100);
+		
+		config.save();
 	}	
 	
 	@Init

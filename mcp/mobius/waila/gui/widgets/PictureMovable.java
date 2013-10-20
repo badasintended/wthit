@@ -3,6 +3,7 @@ package mcp.mobius.waila.gui.widgets;
 import mcp.mobius.waila.gui.events.MouseEvent;
 import mcp.mobius.waila.gui.events.Signal;
 import mcp.mobius.waila.gui.interfaces.IWidget;
+import mcp.mobius.waila.gui.widgets.WidgetGeometry.PointDouble;
 
 import org.lwjgl.util.Point;
 
@@ -22,8 +23,8 @@ public class PictureMovable extends PictureDisplay {
 	
 	@Override	
 	public void onMouseDrag(MouseEvent event){
-		int newX = event.x - this.offsetX;
-		int newY = event.y - this.offsetY;
+		double newX = event.x - this.offsetX;
+		double newY = event.y - this.offsetY;
 		
 		newX = Math.max(newX, this.parent.getLeft());
 		newY = Math.max(newY, this.parent.getTop());
@@ -34,7 +35,9 @@ public class PictureMovable extends PictureDisplay {
 		if (newY + this.getSize().getY() > this.parent.getBottom())
 			newY = this.parent.getBottom() - this.getSize().getY();		
 		
-		this.geom.setPos(newX, newY, false, false);
+		this.geom.setPos(newX, newY);
+		
+		
 		
 		//this.setGeometry(new WidgetGeometry(newX, newY, this.getSize().getX(), this.getSize().getY(), 
 		//		false, false, this.geom.fracSizeX, this.geom.fracSizeY, this.geom.alignX, this.geom.alignY));

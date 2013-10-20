@@ -100,7 +100,7 @@ public class OverlayRenderer {
 	
     private static Point getPositioning()
     {
-        return new Point(5000, 100);
+        return new Point(ConfigHandler.instance().getConfigInt(Constants.CFG_WAILA_POSX), ConfigHandler.instance().getConfigInt(Constants.CFG_WAILA_POSY));
     }    
     
     public static void renderOverlay(ItemStack stack, List<String> textData, Point pos)

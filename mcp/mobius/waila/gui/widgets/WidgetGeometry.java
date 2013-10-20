@@ -10,18 +10,7 @@ import org.lwjgl.util.Point;
 public class WidgetGeometry {
 	
 	public enum Align {LEFT, CENTER, RIGHT, TOP, BOTTOM};
-	
-	//double relX = -1;
-	//double relY = -1;
-	//int    absX = -1;
-	//int    absY = -1;
 
-	//double relSX = -1;
-	//double relSY = -1;
-	//int    absSX = -1;
-	//int    absSY = -1;	
-
-	//boolean isAbsolute;
 	
 	double  x = -1;
 	double  y = -1;
@@ -39,6 +28,9 @@ public class WidgetGeometry {
 	public class PointDouble{
 		double x; double y;
 		public PointDouble(double x, double y){ this.x = x; this.y = y;};
+		public double getX(){return this.x;}
+		public double getY(){return this.y;}
+		public String toString(){return String.format("PointDouble : %.5f %.5f", this.x, this.y);}
 	}	
 	
 	public WidgetGeometry(double x, double y, double sx, double sy, boolean fracPos, boolean fracSize){
