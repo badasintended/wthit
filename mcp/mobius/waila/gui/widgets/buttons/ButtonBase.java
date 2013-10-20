@@ -1,6 +1,7 @@
 package mcp.mobius.waila.gui.widgets.buttons;
 
 import mcp.mobius.waila.gui.events.MouseEvent;
+import mcp.mobius.waila.gui.events.Signal;
 import mcp.mobius.waila.gui.helpers.UIHelper;
 import mcp.mobius.waila.gui.interfaces.IWidget;
 import mcp.mobius.waila.gui.widgets.LabelFixedFont;
@@ -66,5 +67,7 @@ public abstract class ButtonBase extends WidgetBase {
 	public void onMouseClick(MouseEvent event){
 		if (event.button == 0)
 			this.mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
+		
+		this.emit(Signal.CLICKED, event.button);
 	}
 }

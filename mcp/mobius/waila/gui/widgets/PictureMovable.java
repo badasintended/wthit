@@ -1,6 +1,7 @@
 package mcp.mobius.waila.gui.widgets;
 
 import mcp.mobius.waila.gui.events.MouseEvent;
+import mcp.mobius.waila.gui.events.Signal;
 import mcp.mobius.waila.gui.interfaces.IWidget;
 
 import org.lwjgl.util.Point;
@@ -33,10 +34,12 @@ public class PictureMovable extends PictureDisplay {
 		if (newY + this.getSize().getY() > this.parent.getBottom())
 			newY = this.parent.getBottom() - this.getSize().getY();		
 		
-		this.setGeometry(new WidgetGeometry(newX, newY, this.getSize().getX(), this.getSize().getY(), 
-				false, false, this.geom.fracSizeX, this.geom.fracSizeY, this.geom.alignX, this.geom.alignY));
+		this.geom.setPos(newX, newY, false, false);
 		
-		this.emit("onDragX", this.getLeft());
-		this.emit("onDragY", this.getTop());
+		//this.setGeometry(new WidgetGeometry(newX, newY, this.getSize().getX(), this.getSize().getY(), 
+		//		false, false, this.geom.fracSizeX, this.geom.fracSizeY, this.geom.alignX, this.geom.alignY));
+		
+		this.emit(Signal.DRAGGED_X, this.getLeft());
+		this.emit(Signal.DRAGGED_Y, this.getTop());
 	}
 }

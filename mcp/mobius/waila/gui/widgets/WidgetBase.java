@@ -13,6 +13,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.texture.TextureManager;
 import mcp.mobius.waila.gui.events.MouseEvent;
+import mcp.mobius.waila.gui.events.Signal;
+import mcp.mobius.waila.gui.events.Slot;
 import mcp.mobius.waila.gui.interfaces.IWidget;
 
 public abstract class WidgetBase implements IWidget {
@@ -24,7 +26,7 @@ public abstract class WidgetBase implements IWidget {
     protected TextureManager texManager;
     protected ScaledResolution rez;
 
-    protected HashBasedTable<String, String, ArrayList<IWidget>> attachedWidgets = HashBasedTable.create(); 
+    protected HashBasedTable<Signal, Slot, ArrayList<IWidget>> attachedWidgets = HashBasedTable.create(); 
     
 	protected boolean hasBlending;
 	protected boolean hasLight;
@@ -37,7 +39,7 @@ public abstract class WidgetBase implements IWidget {
 		this.mc  = Minecraft.getMinecraft();	
 		this.rez = new ScaledResolution(mc.gameSettings, mc.displayWidth, mc.displayHeight); 
 		this.texManager = this.mc.renderEngine;
-		this.setGeometry(new WidgetGeometry(0,0,50,50,false,false));		
+		this.setGeometry(new WidgetGeometry(0,0,50,50,false,false));
 	}
 	
 	public WidgetBase(IWidget parent){
@@ -226,11 +228,11 @@ public abstract class WidgetBase implements IWidget {
 	}
 
 	@Override
-	public void emit(String eventname, Object... params) {
+	public void emit(Signal signal, Object... params) {
 		try{
-			for (String slot : this.attachedWidgets.row(eventname).keySet()){
-				for (IWidget widget : this.attachedWidgets.get(eventname, slot)){
-					widget.onWidgetEvent(this, eventname, slot, params);
+			for (Slot slot : this.attachedWidgets.row(signal).keySet()){
+				for (IWidget widget : this.attachedWidgets.get(signal, slot)){
+					widget.onWidgetEvent(this, signal, slot, params);
 				}
 			}
 		}
@@ -239,18 +241,24 @@ public abstract class WidgetBase implements IWidget {
 	}
 
 	@Override
-	public void attach(IWidget trgwidget, String eventname, String slotname) {
-		if (!this.attachedWidgets.contains(eventname, slotname))
-			this.attachedWidgets.put(eventname, slotname, new ArrayList<IWidget>());
+	public void attach(IWidget trgwidget, Signal signal, Slot slot) {
+		if (!this.attachedWidgets.contains(signal, slot))
+			this.attachedWidgets.put(signal, slot, new ArrayList<IWidget>());
 		
-		this.attachedWidgets.get(eventname, slotname).add(trgwidget);
+		this.attachedWidgets.get(signal, slot).add(trgwidget);
 	}
 
 	@Override
-	public void onWidgetEvent(IWidget srcwidget, String eventname,	String slotname, Object... params) {
-		if (slotname.equals("setPosX"))
-			this.geom.setPos((Double)params[0], this.getPos().getY());
-		if (slotname.equals("setPosY"))
-			this.geom.setPos(this.getPos().getX(), (Double)params[0]);		
+	public void onWidgetEvent(IWidget srcwidget, Signal signal, Slot slot, Object... params) {
+		switch(slot){
+		case SET_POS_X:
+			this.geom.setPos((Integer)params[0], this.getPos().getY());
+			break;
+		case SET_POS_Y:
+			this.geom.setPos(this.getPos().getX(), (Integer)params[0]);
+			break;
+		default:
+			break;
+		}
 	}	
 }
