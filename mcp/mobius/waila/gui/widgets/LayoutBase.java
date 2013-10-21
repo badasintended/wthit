@@ -12,7 +12,9 @@ public class LayoutBase extends WidgetBase {
 	}
 	
 	@Override
-	public void draw(Point pos) {}
+	public void draw(Point pos) {
+		
+	}
 
 	/*
 	@Override

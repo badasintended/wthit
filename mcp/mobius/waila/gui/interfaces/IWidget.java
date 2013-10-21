@@ -33,6 +33,8 @@ public interface IWidget {
 	IWidget delWidget(String name);	
 	IWidget getWidgetAtCoordinates(double posX, double posY);
 	
+	boolean isWidgetAtCoordinates(double posx, double posy);
+	
 	void handleMouseInput();
 	
 	void onMouseClick(MouseEvent event);

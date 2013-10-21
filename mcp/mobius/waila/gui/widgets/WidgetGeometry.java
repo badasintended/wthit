@@ -96,6 +96,26 @@ public class WidgetGeometry {
 		this.fracPosY = fracY;
 	}
 	
+	public Point getUnalignedPos(IWidget parent){
+		int x = -1;
+		if (this.fracPosX)
+			x = MathHelper.ceiling_double_int(parent.getPos().getX() + parent.getSize().getX() * this.x / 100D);
+		if (!this.fracPosX && parent != null)
+			x = parent.getPos().getX() + (int)this.x;
+		if (!this.fracPosX && parent == null)
+			x = (int)this.x;
+		
+		int y = -1;
+		if (this.fracPosY)
+			y = MathHelper.ceiling_double_int(parent.getPos().getY() + parent.getSize().getY() * this.y / 100D);
+		if (!this.fracPosY && parent != null)
+			y = parent.getPos().getY() + (int)this.y;
+		if (!this.fracPosY && parent == null)
+			y = (int)this.y;
+		
+		return new Point(x,y);
+	}
+	
 	public Point getPos(IWidget parent){
 		
 		int x = -1;
@@ -145,4 +165,8 @@ public class WidgetGeometry {
 		
 		return new Point(sx,sy);
 	}	
+	
+	public String toString(){
+		return String.format("Geometry : [%s %s] [%s %s] [%s %s] [%s %s]", this.x, this.y, this.sx, this.sy, this.posType, this.sizeType, this.alignX, this.alignY);
+	}
 }

@@ -2,27 +2,32 @@ package mcp.mobius.waila.gui.screens;
 
 import org.lwjgl.util.Point;
 
+import mcp.mobius.waila.gui.events.MouseEvent;
 import mcp.mobius.waila.gui.interfaces.CType;
 import mcp.mobius.waila.gui.interfaces.IWidget;
 import mcp.mobius.waila.gui.interfaces.Signal;
 import mcp.mobius.waila.gui.interfaces.WAlign;
 import mcp.mobius.waila.gui.widgets.LabelFixedFont;
 import mcp.mobius.waila.gui.widgets.LayoutBase;
-import mcp.mobius.waila.gui.widgets.PictureMovable;
+import mcp.mobius.waila.gui.widgets.LayoutMargin;
 import mcp.mobius.waila.gui.widgets.WidgetGeometry;
 import mcp.mobius.waila.gui.widgets.buttons.ButtonLabel;
 import mcp.mobius.waila.gui.widgets.buttons.ButtonScreenChange;
+import mcp.mobius.waila.gui.widgets.movable.PictureMovableRC;
 import net.minecraft.client.gui.GuiScreen;
 
 public class ScreenHUDConfig extends ScreenBase {
 
 	private class EventCanvas extends LayoutBase{
+		IWidget draggedWidget = null;
+		
 		public EventCanvas(IWidget parent, GuiScreen prevScreen){
 			super(parent);
 			this.setGeometry(new WidgetGeometry(0.0,0.0,100.0,100.0,CType.RELXY, CType.RELXY));
 			
-			//this.addWidget("Picture", new PictureMovable(null, "waila:textures/test.png")).setGeometry(new WidgetGeometry(0.0,0.0,50.0,50.0,true,true,false,false,WidgetAlign.CENTER, WidgetAlign.CENTER));;
-			this.addWidget("Picture", new PictureMovable(null, "waila:textures/test.png")).setGeometry(new WidgetGeometry(0.0, 0.0, 50.0, 50.0,CType.ABSXY, CType.ABSXY, WAlign.LEFT, WAlign.TOP));
+			this.addWidget("Layout", new LayoutMargin(null));
+			((LayoutMargin)this.getWidget("Layout")).setMargins(25, 25, 25, 25);
+			this.getWidget("Layout").addWidget("Picture", new PictureMovableRC(null, "waila:textures/test.png")).setGeometry(new WidgetGeometry(50.0, 50.0, 50.0, 50.0,CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));
 			
 			/*
 			this.addWidget("TextTuto1", new LabelFixedFont(null, "Either drag the tooltip or use the buttons below to adjust your HUD")).setGeometry(new WidgetGeometry(50.0,  30.0,20,20, true, true, false, false, WidgetAlign.CENTER, WidgetAlign.CENTER));;
@@ -44,14 +49,42 @@ public class ScreenHUDConfig extends ScreenBase {
 			*/			
 		}		
 		
+		@Override 
+		public void onMouseClick(MouseEvent event){
+			if (event.button == 0)
+				if ((this.getWidgetAtCoordinates(event.x, event.y) == this))
+					if (this.getWidget("Layout").getWidget("Picture").isWidgetAtCoordinates(event.x, event.y)){
+						this.getWidget("Layout").getWidget("Picture").onMouseClick(event);
+						this.draggedWidget = this.getWidget("Layout").getWidget("Picture");
+					}
+			super.onMouseClick(event);
+		}
+		
+		@Override	
+		public void onMouseDrag(MouseEvent event){
+			if ((this.getWidgetAtCoordinates(event.x, event.y) == this) && (this.draggedWidget != null)){
+				this.draggedWidget.onMouseDrag(event);
+			} else {
+				super.onMouseDrag(event);
+			}
+		}
+		
+		@Override
+		public void onMouseRelease(MouseEvent event){
+			if (event.button == 0)
+				this.draggedWidget = null;
+			super.onMouseRelease(event);
+		}
+		
 		@Override
 		public void onWidgetEvent(IWidget srcwidget, Signal signal, Object... params){
-			/*
-			if (srcwidget.equals(this.getWidget("Picture")) && signal == Signal.DRAGGED){
-				((LabelFixedFont)this.getWidget("LayoutX").getWidget("TextX")).setText(String.format("X : %3d", ((Point)params[0]).getX()));
-				((LabelFixedFont)this.getWidget("LayoutY").getWidget("TextY")).setText(String.format("Y : %3d", ((Point)params[0]).getY()));				
+			if (srcwidget.equals(this.getWidget("Layout").getWidget("Picture")) && signal == Signal.DRAGGED){
+				this.draggedWidget = this.getWidget("Layout").getWidget("Picture");
+				//((LabelFixedFont)this.getWidget("LayoutX").getWidget("TextX")).setText(String.format("X : %3d", ((Point)params[0]).getX()));
+				//((LabelFixedFont)this.getWidget("LayoutY").getWidget("TextY")).setText(String.format("Y : %3d", ((Point)params[0]).getY()));				
 			}
-			
+
+			/*
 			if (srcwidget.equals(this.getWidget("LayoutX").getWidget("ButtonXAdd")) && signal == Signal.CLICKED){
 				this.getWidget("Picture").getGeometry().setPos(this.getWidget("Picture").getLeft() + 1, this.getWidget("Picture").getTop());
 				this.getWidget("Picture").emit(Signal.DRAGGED, this.getWidget("Picture").getPos());

@@ -89,6 +89,15 @@ public abstract class WidgetBase implements IWidget {
 		return null;
 	}		
 	
+	@Override
+	public boolean isWidgetAtCoordinates(double posx, double posy){
+		if (this.getLeft()   > posx) return false;
+		if (this.getRight()  < posx) return false;
+		if (this.getTop()    > posy) return false;
+		if (this.getBottom() < posy) return false;
+		return true;
+	}
+	
 	///////////////////////
 	// IWIDGET INTERFACE //
 	///////////////////////
