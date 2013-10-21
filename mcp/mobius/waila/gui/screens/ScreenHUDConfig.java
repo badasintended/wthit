@@ -154,17 +154,25 @@ public class ScreenHUDConfig extends ScreenBase {
 				double  pixelToPercentX = 100.0D / picture.getParent().getSize().getX();
 				double  pixelToPercentY = 100.0D / picture.getParent().getSize().getY();
 				
-				if (srcwidget.equals(this.getWidget("LayoutX").getWidget("ButtonXAdd")))
-					picture.getGeometry().setPos(pictureX + pixelToPercentX, pictureY);
+				if (srcwidget.equals(this.getWidget("LayoutX").getWidget("ButtonXAdd"))){
+					double newPos = Math.min(pictureX + pixelToPercentX, 100.0);
+					picture.getGeometry().setPos(newPos, pictureY);
+				}
 				
-				if (srcwidget.equals(this.getWidget("LayoutX").getWidget("ButtonXSub")))
-					picture.getGeometry().setPos(pictureX - pixelToPercentX, pictureY);
+				if (srcwidget.equals(this.getWidget("LayoutX").getWidget("ButtonXSub"))){
+					double newPos = Math.max(pictureX - pixelToPercentX, 0.0);
+					picture.getGeometry().setPos(newPos, pictureY);
+				}
 				
-				if (srcwidget.equals(this.getWidget("LayoutY").getWidget("ButtonYAdd")))
-					picture.getGeometry().setPos(pictureX, pictureY + pixelToPercentY);
+				if (srcwidget.equals(this.getWidget("LayoutY").getWidget("ButtonYAdd"))){
+					double newPos = Math.min(pictureY + pixelToPercentY, 100.0);
+					picture.getGeometry().setPos(pictureX, newPos);					
+				}
 				
-				if (srcwidget.equals(this.getWidget("LayoutY").getWidget("ButtonYSub")))
-					picture.getGeometry().setPos(pictureX, pictureY - pixelToPercentY);
+				if (srcwidget.equals(this.getWidget("LayoutY").getWidget("ButtonYSub"))){
+					double newPos = Math.max(pictureY - pixelToPercentY, 0.0);
+					picture.getGeometry().setPos(pictureX, newPos);
+				}
 
 				if (srcwidget.equals(this.getWidget("LayoutAlpha").getWidget("ButtonAlphaAdd")))
 					picture.setAlpha(Math.min(picture.getAlpha() + 0.05f, 1.0f));

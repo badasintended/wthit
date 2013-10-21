@@ -25,10 +25,15 @@ public class ScreenWailaConfig extends ScreenBase {
 		buttonContainer.addButton( new ButtonBooleanConfig(this.getRoot(), Constants.CFG_WAILA_METADATA, true, false,"Hidden",     "Visible"), "Show ID:Metadata");
 		buttonContainer.addButton( new ButtonBooleanConfig(this.getRoot(), Constants.CFG_WAILA_LIQUID,   true, false,"Hidden",     "Visible"), "Liquids");
 		
+
+		this.getRoot().addWidget("LayoutConfigPos", new LayoutBase(this.getRoot()));
+		this.getRoot().getWidget("LayoutConfigPos").setGeometry(new WidgetGeometry(0.0, 50.0, 100.0, 20.0,  CType.RELXY, CType.RELXY));
+		this.getRoot().getWidget("LayoutConfigPos").addWidget("ButtonConfigPos", new ButtonScreenChange(null, "Configure aspect ...", new ScreenHUDConfig(this)));
+		this.getRoot().getWidget("LayoutConfigPos").getWidget("ButtonConfigPos").setGeometry(new WidgetGeometry(50.0, 50.0, 150.0, 20.0, CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));		
 		
 		this.getRoot().addWidget("LayoutBack", new LayoutBase(this.getRoot()));
 		this.getRoot().getWidget("LayoutBack").setGeometry(new WidgetGeometry(0.0, 80.0, 100.0, 20.0,  CType.RELXY, CType.RELXY));
-		this.getRoot().getWidget("LayoutBack").addWidget("ButtonBack", new ButtonScreenChange(this.getRoot().getWidget("LayoutBack"), "Back", this.parent));
+		this.getRoot().getWidget("LayoutBack").addWidget("ButtonBack", new ButtonScreenChange(null, "Back", this.parent));
 		this.getRoot().getWidget("LayoutBack").getWidget("ButtonBack").setGeometry(new WidgetGeometry(50.0, 50.0, 100.0, 20.0, CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));
 	}
 }
