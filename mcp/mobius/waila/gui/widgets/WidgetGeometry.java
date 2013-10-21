@@ -96,6 +96,17 @@ public class WidgetGeometry {
 		this.fracPosY = fracY;
 	}
 	
+	public void setSize(double sx, double sy){
+		this.setSize(sx, sy, this.fracSizeX, this.fracSizeY);
+	}
+	
+	public void setSize(double sx, double sy, boolean fracSizeX, boolean fracSizeY){
+		this.sx = sx;
+		this.sy = sy;
+		this.fracSizeX = fracSizeX;
+		this.fracSizeY = fracSizeY;
+	}	
+	
 	public PointDouble getRawPos(){
 		return new PointDouble(this.x, this.y);
 	}

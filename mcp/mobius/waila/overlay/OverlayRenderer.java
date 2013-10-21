@@ -118,14 +118,16 @@ public class OverlayRenderer {
     
     public static void renderOverlay(ItemStack stack, List<String> textData, Point pos)
     {
+    	GL11.glScalef(mod_Waila.scale, mod_Waila.scale, 1.0f);
+    	
         int w = 0;
         for (String s : textData)
             w = Math.max(w, getStringWidth(s)+29);
         int h = Math.max(24, 10 + 10*textData.size());
 
         Dimension size = displaySize();
-        int x = (size.width-w-1)*pos.x/10000;
-        int y = (size.height-h-1)*pos.y/10000;
+        int x = ((int)(size.width / mod_Waila.scale)-w-1)*pos.x/10000;
+        int y = ((int)(size.height / mod_Waila.scale)-h-1)*pos.y/10000;
         
         GL11.glDisable(GL12.GL_RESCALE_NORMAL);
         RenderHelper.disableStandardItemLighting();
@@ -152,14 +154,16 @@ public class OverlayRenderer {
     
     public static void renderOverlay(Entity entity, List<String> textData, Point pos)
     {
+    	GL11.glScalef(mod_Waila.scale, mod_Waila.scale, 1.0f);    	
+    	
         int w = 0;
         for (String s : textData)
             w = Math.max(w, getStringWidth(s)+10);
         int h = Math.max(24, 10 + 10*textData.size());
 
         Dimension size = displaySize();
-        int x = (size.width-w-1)*pos.x/10000;
-        int y = (size.height-h-1)*pos.y/10000;
+        int x = ((int)(size.width / mod_Waila.scale)-w-1)*pos.x/10000;
+        int y = ((int)(size.height / mod_Waila.scale)-h-1)*pos.y/10000;
         
         GL11.glDisable(GL12.GL_RESCALE_NORMAL);
         RenderHelper.disableStandardItemLighting();

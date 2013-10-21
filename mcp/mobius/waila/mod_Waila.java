@@ -59,6 +59,7 @@ public class mod_Waila {
 	public static int gradient1;
 	public static int gradient2;
 	public static int fontcolor;
+	public static float scale;
 	
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event) {
@@ -77,6 +78,7 @@ public class mod_Waila {
 		gradient1 = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_GRADIENT1, 0x5000ff).getInt();
 		gradient2 = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_GRADIENT2, 0x28007f).getInt();
 		fontcolor = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_FONTCOLOR, 0xA0A0A0).getInt();
+		scale     = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SCALE,     100).getInt() / 100.0f;
 		
 		config.save();
 		
