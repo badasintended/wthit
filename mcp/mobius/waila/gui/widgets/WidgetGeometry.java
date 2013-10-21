@@ -96,6 +96,10 @@ public class WidgetGeometry {
 		this.fracPosY = fracY;
 	}
 	
+	public PointDouble getRawPos(IWidget parent){
+		return new PointDouble(this.x, this.y);
+	}
+	
 	public Point getUnalignedPos(IWidget parent){
 		int x = -1;
 		if (this.fracPosX)
