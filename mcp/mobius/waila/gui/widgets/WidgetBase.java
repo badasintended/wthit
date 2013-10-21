@@ -2,6 +2,7 @@ package mcp.mobius.waila.gui.widgets;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Point;
@@ -21,7 +22,7 @@ public abstract class WidgetBase implements IWidget {
 
 	protected IWidget parent;
 	protected WidgetGeometry  geom;
-    protected HashMap<String, IWidget> widgets = new HashMap<String, IWidget>();;	
+    protected LinkedHashMap<String, IWidget> widgets = new LinkedHashMap<String, IWidget>();;	
 	protected Minecraft mc;
     protected TextureManager texManager;
     protected ScaledResolution rez;
@@ -146,13 +147,16 @@ public abstract class WidgetBase implements IWidget {
     protected void saveGLState(){
 		hasBlending   = GL11.glGetBoolean(GL11.GL_BLEND);
 		hasLight      = GL11.glGetBoolean(GL11.GL_LIGHTING);
-    	boundTexIndex = GL11.glGetInteger(GL11.GL_TEXTURE_BINDING_2D);    	
+    	boundTexIndex = GL11.glGetInteger(GL11.GL_TEXTURE_BINDING_2D);  
+    	GL11.glPushAttrib(GL11.GL_CURRENT_BIT);
     }
     
     protected void loadGLState(){
     	if (hasBlending) GL11.glEnable(GL11.GL_BLEND); else GL11.glDisable(GL11.GL_BLEND);
     	if (hasLight) GL11.glEnable(GL11.GL_LIGHTING); else	GL11.glDisable(GL11.GL_LIGHTING);
-    	GL11.glBindTexture(GL11.GL_TEXTURE_2D, boundTexIndex);    	
+    	GL11.glBindTexture(GL11.GL_TEXTURE_2D, boundTexIndex);
+    	GL11.glPopAttrib();
+    	//GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
     }
     
 	@Override

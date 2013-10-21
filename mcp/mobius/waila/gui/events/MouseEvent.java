@@ -45,7 +45,7 @@ public class MouseEvent {
 	}
 	
 	public String toString(){
-		String retstring = String.format("MOUSE %s :  [%s] [ %d %d %d ] [", this.type, this.timestamp, this.x, this.y, this.z);
+		String retstring = String.format("MOUSE %s :  [%s] [ %.2f %.2f %d ] [", this.type, this.timestamp, this.x, this.y, this.z);
 		if (this.buttonCount < 5)
 			for (int i = 0; i < this.buttonCount; i++)
 				retstring += String.format(" %s ", this.buttonState[i]);

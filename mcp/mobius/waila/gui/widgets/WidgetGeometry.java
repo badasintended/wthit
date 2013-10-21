@@ -96,7 +96,7 @@ public class WidgetGeometry {
 		this.fracPosY = fracY;
 	}
 	
-	public PointDouble getRawPos(IWidget parent){
+	public PointDouble getRawPos(){
 		return new PointDouble(this.x, this.y);
 	}
 	
