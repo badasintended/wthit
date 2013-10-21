@@ -2,8 +2,10 @@ package mcp.mobius.waila.gui.screens;
 
 import org.lwjgl.util.Point;
 
-import mcp.mobius.waila.gui.events.Signal;
+import mcp.mobius.waila.gui.interfaces.CoordType;
 import mcp.mobius.waila.gui.interfaces.IWidget;
+import mcp.mobius.waila.gui.interfaces.Signal;
+import mcp.mobius.waila.gui.interfaces.WidgetAlign;
 import mcp.mobius.waila.gui.widgets.LabelFixedFont;
 import mcp.mobius.waila.gui.widgets.LayoutBase;
 import mcp.mobius.waila.gui.widgets.PictureMovable;
@@ -17,28 +19,28 @@ public class ScreenHUDConfig extends ScreenBase {
 	private class EventCanvas extends LayoutBase{
 		public EventCanvas(IWidget parent, GuiScreen prevScreen){
 			super(parent);
-			this.setGeometry(new WidgetGeometry(0.0,0.0,100.0,100.0,true,true));
+			this.setGeometry(new WidgetGeometry(0.0,0.0,100.0,100.0,CoordType.RELXY, CoordType.RELXY));
 			
-			//this.addWidget("Picture", new PictureMovable(null, "waila:textures/test.png")).setGeometry(new WidgetGeometry(0.0,0.0,50.0,50.0,true,true,false,false,WidgetGeometry.Align.CENTER, WidgetGeometry.Align.CENTER));;
-			this.addWidget("Picture", new PictureMovable(null, "waila:textures/test.png")).setGeometry(new WidgetGeometry(0.0, 0.0, 50.0, 50.0,false,false,false,false,WidgetGeometry.Align.LEFT, WidgetGeometry.Align.TOP));;
+			//this.addWidget("Picture", new PictureMovable(null, "waila:textures/test.png")).setGeometry(new WidgetGeometry(0.0,0.0,50.0,50.0,true,true,false,false,WidgetAlign.CENTER, WidgetAlign.CENTER));;
+			this.addWidget("Picture", new PictureMovable(null, "waila:textures/test.png")).setGeometry(new WidgetGeometry(0.0, 0.0, 50.0, 50.0,CoordType.ABS, CoordType.ABS,WidgetAlign.LEFT, WidgetAlign.TOP));;
 			
 			/*
-			this.addWidget("TextTuto1", new LabelFixedFont(null, "Either drag the tooltip or use the buttons below to adjust your HUD")).setGeometry(new WidgetGeometry(50.0,  30.0,20,20, true, true, false, false, WidgetGeometry.Align.CENTER, WidgetGeometry.Align.CENTER));;
+			this.addWidget("TextTuto1", new LabelFixedFont(null, "Either drag the tooltip or use the buttons below to adjust your HUD")).setGeometry(new WidgetGeometry(50.0,  30.0,20,20, true, true, false, false, WidgetAlign.CENTER, WidgetAlign.CENTER));;
 			
 			IWidget layoutX = this.addWidget("LayoutX", new LayoutBase(null));
-			layoutX.setGeometry(new WidgetGeometry(45.0,50.0,20,60,true, true, false, false, WidgetGeometry.Align.CENTER, WidgetGeometry.Align.CENTER));
-			layoutX.addWidget("ButtonXAdd", new ButtonLabel(null, "+")).setGeometry(new WidgetGeometry(0.0,  0.0,20,20, true, true, false, false, WidgetGeometry.Align.LEFT, WidgetGeometry.Align.TOP));
-			layoutX.addWidget("ButtonXSub", new ButtonLabel(null, "-")).setGeometry(new WidgetGeometry(0.0,100.0,20,20, true, true, false, false, WidgetGeometry.Align.LEFT, WidgetGeometry.Align.BOTTOM));
-			layoutX.addWidget("TextX",   new LabelFixedFont(null, "X :   0")).setGeometry(new WidgetGeometry(50.0,50.0,20,20, true, true, false, false, WidgetGeometry.Align.CENTER, WidgetGeometry.Align.CENTER));
+			layoutX.setGeometry(new WidgetGeometry(45.0,50.0,20,60,true, true, false, false, WidgetAlign.CENTER, WidgetAlign.CENTER));
+			layoutX.addWidget("ButtonXAdd", new ButtonLabel(null, "+")).setGeometry(new WidgetGeometry(0.0,  0.0,20,20, true, true, false, false, WidgetAlign.LEFT, WidgetAlign.TOP));
+			layoutX.addWidget("ButtonXSub", new ButtonLabel(null, "-")).setGeometry(new WidgetGeometry(0.0,100.0,20,20, true, true, false, false, WidgetAlign.LEFT, WidgetAlign.BOTTOM));
+			layoutX.addWidget("TextX",   new LabelFixedFont(null, "X :   0")).setGeometry(new WidgetGeometry(50.0,50.0,20,20, true, true, false, false, WidgetAlign.CENTER, WidgetAlign.CENTER));
 			
 			IWidget layoutY = this.addWidget("LayoutY", new LayoutBase(this));
-			layoutY.setGeometry(new WidgetGeometry(55.0,50.0,20,60,true, true, false, false, WidgetGeometry.Align.CENTER, WidgetGeometry.Align.CENTER));			
-			layoutY.addWidget("ButtonYAdd", new ButtonLabel(null, "+")).setGeometry(new WidgetGeometry(0.0,  0.0,20,20, true, true, false, false, WidgetGeometry.Align.LEFT, WidgetGeometry.Align.TOP));
-			layoutY.addWidget("ButtonYSub", new ButtonLabel(null, "-")).setGeometry(new WidgetGeometry(0.0,100.0,20,20, true, true, false, false, WidgetGeometry.Align.LEFT, WidgetGeometry.Align.BOTTOM));		
-			layoutY.addWidget("TextY",   new LabelFixedFont(null, "Y :   0")).setGeometry(new WidgetGeometry(50.0,50.0,20,20, true, true, false, false, WidgetGeometry.Align.CENTER, WidgetGeometry.Align.CENTER));
+			layoutY.setGeometry(new WidgetGeometry(55.0,50.0,20,60,true, true, false, false, WidgetAlign.CENTER, WidgetAlign.CENTER));			
+			layoutY.addWidget("ButtonYAdd", new ButtonLabel(null, "+")).setGeometry(new WidgetGeometry(0.0,  0.0,20,20, true, true, false, false, WidgetAlign.LEFT, WidgetAlign.TOP));
+			layoutY.addWidget("ButtonYSub", new ButtonLabel(null, "-")).setGeometry(new WidgetGeometry(0.0,100.0,20,20, true, true, false, false, WidgetAlign.LEFT, WidgetAlign.BOTTOM));		
+			layoutY.addWidget("TextY",   new LabelFixedFont(null, "Y :   0")).setGeometry(new WidgetGeometry(50.0,50.0,20,20, true, true, false, false, WidgetAlign.CENTER, WidgetAlign.CENTER));
 			
-			this.addWidget("ButtonCancel", new ButtonScreenChange(null, "Cancel", prevScreen)).setGeometry(new WidgetGeometry(70.0,97.0,100,20, true, true, false, false, WidgetGeometry.Align.CENTER, WidgetGeometry.Align.BOTTOM));;
-			this.addWidget("ButtonOk",     new ButtonScreenChange(null, "Ok",     prevScreen)).setGeometry(new WidgetGeometry(30.0,97.0,100,20, true, true, false, false, WidgetGeometry.Align.CENTER, WidgetGeometry.Align.BOTTOM));;;
+			this.addWidget("ButtonCancel", new ButtonScreenChange(null, "Cancel", prevScreen)).setGeometry(new WidgetGeometry(70.0,97.0,100,20, true, true, false, false, WidgetAlign.CENTER, WidgetAlign.BOTTOM));;
+			this.addWidget("ButtonOk",     new ButtonScreenChange(null, "Ok",     prevScreen)).setGeometry(new WidgetGeometry(30.0,97.0,100,20, true, true, false, false, WidgetAlign.CENTER, WidgetAlign.BOTTOM));;;
 			*/			
 		}		
 		

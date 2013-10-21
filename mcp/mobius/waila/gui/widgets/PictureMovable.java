@@ -1,8 +1,8 @@
 package mcp.mobius.waila.gui.widgets;
 
 import mcp.mobius.waila.gui.events.MouseEvent;
-import mcp.mobius.waila.gui.events.Signal;
 import mcp.mobius.waila.gui.interfaces.IWidget;
+import mcp.mobius.waila.gui.interfaces.Signal;
 import mcp.mobius.waila.gui.widgets.WidgetGeometry.PointDouble;
 
 import org.lwjgl.util.Point;

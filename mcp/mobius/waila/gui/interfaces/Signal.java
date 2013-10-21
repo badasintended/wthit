@@ -1,4 +1,4 @@
-package mcp.mobius.waila.gui.events;
+package mcp.mobius.waila.gui.interfaces;
 
 public enum Signal {
 	DRAGGED,

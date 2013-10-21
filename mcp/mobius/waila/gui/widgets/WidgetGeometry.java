@@ -1,6 +1,8 @@
 package mcp.mobius.waila.gui.widgets;
 
+import mcp.mobius.waila.gui.interfaces.CoordType;
 import mcp.mobius.waila.gui.interfaces.IWidget;
+import mcp.mobius.waila.gui.interfaces.WidgetAlign;
 import net.minecraft.util.MathHelper;
 
 import org.lwjgl.util.Point;
@@ -9,7 +11,7 @@ import org.lwjgl.util.Point;
 
 public class WidgetGeometry {
 	
-	public enum Align {LEFT, CENTER, RIGHT, TOP, BOTTOM};
+	//public enum Align {LEFT, CENTER, RIGHT, TOP, BOTTOM};
 
 	
 	double  x = -1;
@@ -17,13 +19,16 @@ public class WidgetGeometry {
 	double sx = -1;
 	double sy = -1;
 	
-	boolean fracPosX;
-	boolean fracPosY;
-	boolean fracSizeX;
-	boolean fracSizeY;
+	CoordType posType;
+	CoordType sizeType;
 	
-	Align alignX;
-	Align alignY;
+	boolean fracPosX = false;
+	boolean fracPosY = false;
+	boolean fracSizeX = false;
+	boolean fracSizeY = false;
+	
+	WidgetAlign alignX;
+	WidgetAlign alignY;
 	
 	public class PointDouble{
 		double x; double y;
@@ -33,27 +38,53 @@ public class WidgetGeometry {
 		public String toString(){return String.format("PointDouble : %.5f %.5f", this.x, this.y);}
 	}	
 	
-	public WidgetGeometry(double x, double y, double sx, double sy, boolean fracPos, boolean fracSize){
-		this(x, y, sx, sy, fracPos, fracSize, Align.LEFT, Align.TOP);
+	public WidgetGeometry(double x, double y, double sx, double sy, CoordType fracPos, CoordType fracSize){
+		this(x, y, sx, sy, fracPos, fracSize, WidgetAlign.LEFT, WidgetAlign.TOP);
 	}
 	
-	public WidgetGeometry(double x, double y, double sx, double sy, boolean fracPos, boolean fracSize, Align alignX, Align alignY){
-		this(x, y, sx, sy, fracPos, fracPos, fracSize, fracSize, alignX, alignY);
-	}
-
-	public WidgetGeometry(double x, double y, double sx, double sy, boolean fracPosX, boolean fracPosY, boolean fracSizeX, boolean fracSizeY, Align alignX, Align alignY){
+	public WidgetGeometry(double x, double y, double sx, double sy, CoordType fracPos, CoordType fracSize, WidgetAlign alignX, WidgetAlign alignY){
 		this.x = x;
 		this.y = y;
 		this.sx = sx;
 		this.sy = sy;
-		this.fracPosX = fracPosX;
-		this.fracPosY = fracPosY;
-		this.fracSizeX = fracSizeX;
-		this.fracSizeY = fracSizeY;
+		this.posType  = fracPos;
+		this.sizeType = fracSize;
+		
+		switch(fracPos){
+		case RELX:
+			this.fracPosX = true;
+			break;
+		case RELXY:
+			this.fracPosX = true;
+			this.fracPosY = true;
+			break;
+		case RELY:
+			this.fracPosY = true;
+			break;
+		default:
+			break;
+		
+		}
+
+		switch(fracSize){
+		case RELX:
+			this.fracSizeX = true;
+			break;
+		case RELXY:
+			this.fracSizeX = true;
+			this.fracSizeY = true;
+			break;
+		case RELY:
+			this.fracSizeY = true;
+			break;
+		default:
+			break;
+		
+		}		
+
 		this.alignX = alignX;
 		this.alignY = alignY;
-	}	
-	
+	}
 	public void setPos(double x, double y){
 		this.setPos(x, y, this.fracPosX, this.fracPosY);
 	}
@@ -84,16 +115,16 @@ public class WidgetGeometry {
 			y = (int)this.y;
 		
 		
-		if (this.alignX == Align.CENTER)
+		if (this.alignX == WidgetAlign.CENTER)
 			x -= this.getSize(parent).getX() / 2;
 		
-		if (this.alignY == Align.CENTER)
+		if (this.alignY == WidgetAlign.CENTER)
 			y -= this.getSize(parent).getY() / 2;
 		
-		if (this.alignX == Align.RIGHT)
+		if (this.alignX == WidgetAlign.RIGHT)
 			x -= this.getSize(parent).getX();
 		
-		if (this.alignY == Align.BOTTOM)
+		if (this.alignY == WidgetAlign.BOTTOM)
 			y -= this.getSize(parent).getY();
 		
 		return new Point(x,y);

@@ -2,7 +2,9 @@ package mcp.mobius.waila.gui.widgets.buttons;
 
 import net.minecraft.client.gui.GuiScreen;
 import mcp.mobius.waila.gui.events.MouseEvent;
+import mcp.mobius.waila.gui.interfaces.CoordType;
 import mcp.mobius.waila.gui.interfaces.IWidget;
+import mcp.mobius.waila.gui.interfaces.WidgetAlign;
 import mcp.mobius.waila.gui.screens.ScreenBase;
 import mcp.mobius.waila.gui.widgets.LabelFixedFont;
 import mcp.mobius.waila.gui.widgets.WidgetGeometry;
@@ -16,7 +18,7 @@ public class ButtonScreenChange extends ButtonBase {
 		this.linkedScreen = linkedscreen;
 		
 		this.addWidget("Label", new LabelFixedFont(this, text));
-		this.getWidget("Label").setGeometry(new WidgetGeometry(50.0D, 50.0D, 100.0D, 20.0D, true, false, WidgetGeometry.Align.CENTER, WidgetGeometry.Align.CENTER));		
+		this.getWidget("Label").setGeometry(new WidgetGeometry(50.0D, 50.0D, 100.0D, 20.0D, CoordType.RELXY, CoordType.ABS, WidgetAlign.CENTER, WidgetAlign.CENTER));		
 	}
 	
 	@Override

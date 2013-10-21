@@ -1,7 +1,8 @@
 package mcp.mobius.waila.gui.widgets;
 
-import mcp.mobius.waila.gui.events.Signal;
+import mcp.mobius.waila.gui.interfaces.CoordType;
 import mcp.mobius.waila.gui.interfaces.IWidget;
+import mcp.mobius.waila.gui.interfaces.Signal;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.ResourceLocation;
 
@@ -41,9 +42,9 @@ public class LabelFixedFont extends WidgetBase {
 	
 	private void updateGeometry(){
 		if (this.geom == null)
-			this.geom = new WidgetGeometry(0,0,50,50, false, false);
+			this.geom = new WidgetGeometry(0,0,50,50, CoordType.ABS, CoordType.ABS);
 		
-		this.geom = new WidgetGeometry(this.geom.x, this.geom.y, this.mc.fontRenderer.getStringWidth(this.text), 8, this.geom.fracPosX, this.geom.fracPosY, false, false, this.geom.alignX, this.geom.alignY);
+		this.geom = new WidgetGeometry(this.geom.x, this.geom.y, this.mc.fontRenderer.getStringWidth(this.text), 8, this.geom.posType, CoordType.ABS, this.geom.alignX, this.geom.alignY);
 	}
 	
 	@Override
