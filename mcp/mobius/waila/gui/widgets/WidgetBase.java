@@ -33,6 +33,8 @@ public abstract class WidgetBase implements IWidget {
     
 	protected boolean isRendering = true;
 	
+	protected float   alpha = 1.0f;
+	
 	public WidgetBase(){
 		this.setParent(null);
 		this.mc  = Minecraft.getMinecraft();	
@@ -110,11 +112,18 @@ public abstract class WidgetBase implements IWidget {
 	
 	@Override
 	public void draw(){
+		this.saveGLState();
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);
+		GL11.glColor4f(1.0f, 1.0f, 1.0f, this.alpha);
+		
 		this.draw(this.getPos());
 		
 		for (IWidget widget: this.widgets.values())
 			if (widget.shouldRender())
 				widget.draw();		
+
+		this.loadGLState();		
 	}
 
 	@Override
@@ -158,6 +167,12 @@ public abstract class WidgetBase implements IWidget {
     	GL11.glPopAttrib();
     	//GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
     }
+    
+    @Override 
+    public void setAlpha(float alpha){this.alpha = alpha;};
+    
+    @Override
+    public float getAlpha(){return this.alpha;};
     
 	@Override
 	public void  show(){this.isRendering = true;};

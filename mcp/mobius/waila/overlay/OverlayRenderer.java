@@ -20,6 +20,7 @@ import java.awt.Dimension;
 import java.awt.Point;
 
 import mcp.mobius.waila.Constants;
+import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.addons.ConfigHandler;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -35,9 +36,14 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IShearable;
 import static codechicken.core.gui.GuiDraw.*;
+import static mcp.mobius.waila.gui.helpers.UIHelper.*;
 
 public class OverlayRenderer {
 
+	protected static boolean hasBlending;
+	protected static boolean hasLight;
+	protected static int     boundTexIndex;   	
+	
     public static void renderOverlay()
     {
         Minecraft mc = Minecraft.getMinecraft();
@@ -103,6 +109,13 @@ public class OverlayRenderer {
         return new Point(ConfigHandler.instance().getConfigInt(Constants.CFG_WAILA_POSX), ConfigHandler.instance().getConfigInt(Constants.CFG_WAILA_POSY));
     }    
     
+    /*
+    public static int getColor(String key){
+    	int alpha = (int)(ConfigHandler.instance().getConfigInt(Constants.CFG_WAILA_ALPHA) / 100.0f * 256) << 24;
+    	return alpha + ConfigHandler.instance().getConfigInt(key);
+    }
+    */
+    
     public static void renderOverlay(ItemStack stack, List<String> textData, Point pos)
     {
         int w = 0;
@@ -119,11 +132,16 @@ public class OverlayRenderer {
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_DEPTH_TEST);
         
-        drawTooltipBox(x, y, w, h);
+        drawTooltipBox(x, y, w, h, mod_Waila.bgcolor, mod_Waila.gradient1, mod_Waila.gradient2);
 
         int ty = (h-8*textData.size())/2;
+        
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);     
         for (int i = 0; i < textData.size(); i++)
-            drawString(textData.get(i), x + 24, y + ty + 10*i, 0xFFA0A0A0, true);
+            drawString(textData.get(i), x + 24, y + ty + 10*i, mod_Waila.fontcolor, true);
+        GL11.glDisable(GL11.GL_BLEND);
+        
 
         RenderHelper.enableGUIStandardItemLighting();
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
@@ -148,14 +166,50 @@ public class OverlayRenderer {
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_DEPTH_TEST);
         
-        drawTooltipBox(x, y, w, h);
+        drawTooltipBox(x, y, w, h, mod_Waila.bgcolor, mod_Waila.gradient1, mod_Waila.gradient2);
 
         int ty = (h-8*textData.size())/2;
-        for (int i = 0; i < textData.size(); i++)
-            drawString(textData.get(i), x + 6, y + ty + 10*i, 0xFFA0A0A0, true);
 
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);         
+        for (int i = 0; i < textData.size(); i++)
+            drawString(textData.get(i), x + 6, y + ty + 10*i, mod_Waila.fontcolor, true);
+        GL11.glDisable(GL11.GL_BLEND);
+        
         //RenderHelper.enableGUIStandardItemLighting();
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
     }     
+
+    public static void saveGLState(){
+		hasBlending   = GL11.glGetBoolean(GL11.GL_BLEND);
+		hasLight      = GL11.glGetBoolean(GL11.GL_LIGHTING);
+    	boundTexIndex = GL11.glGetInteger(GL11.GL_TEXTURE_BINDING_2D);  
+    	GL11.glPushAttrib(GL11.GL_CURRENT_BIT);
+    }
+    
+    public static void loadGLState(){
+    	if (hasBlending) GL11.glEnable(GL11.GL_BLEND); else GL11.glDisable(GL11.GL_BLEND);
+    	if (hasLight) GL11.glEnable(GL11.GL_LIGHTING); else	GL11.glDisable(GL11.GL_LIGHTING);
+    	GL11.glBindTexture(GL11.GL_TEXTURE_2D, boundTexIndex);
+    	GL11.glPopAttrib();
+    	//GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+    }    
+    
+    public static void drawTooltipBox(int x, int y, int w, int h, int bg, int grad1, int grad2)
+    {
+        //int bg = 0xf0100010;
+        drawGradientRect(x + 1, y, w - 1, 1, bg, bg);
+        drawGradientRect(x + 1, y + h, w - 1, 1, bg, bg);
+        drawGradientRect(x + 1, y + 1, w - 1, h - 1, bg, bg);//center
+        drawGradientRect(x, y + 1, 1, h - 1, bg, bg);
+        drawGradientRect(x + w, y + 1, 1, h - 1, bg, bg);
+        //int grad1 = 0x505000ff;
+        //int grad2 = 0x5028007F;
+        drawGradientRect(x + 1, y + 2, 1, h - 3, grad1, grad2);
+        drawGradientRect(x + w - 1, y + 2, 1, h - 3, grad1, grad2);
+        
+        drawGradientRect(x + 1, y + 1, w - 1, 1, grad1, grad1);
+        drawGradientRect(x + 1, y + h - 1, w - 1, 1, grad2, grad2);
+    }    
     
 }

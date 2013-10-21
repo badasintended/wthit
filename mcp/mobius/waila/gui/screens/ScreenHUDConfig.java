@@ -3,6 +3,7 @@ package mcp.mobius.waila.gui.screens;
 import org.lwjgl.util.Point;
 
 import mcp.mobius.waila.Constants;
+import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.addons.ConfigHandler;
 import mcp.mobius.waila.gui.events.MouseEvent;
 import mcp.mobius.waila.gui.interfaces.CType;
@@ -29,31 +30,62 @@ public class ScreenHUDConfig extends ScreenBase {
 			
 			this.addWidget("TextTuto1", new LabelFixedFont(null, "Drag the HUD to setup its position.")).setGeometry(new WidgetGeometry(50.0,  30.0,20,20, CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));;
 			
+			/*
 			IWidget layoutX = this.addWidget("LayoutX", new LayoutBase(this));
-			layoutX.setGeometry(new WidgetGeometry(45.0,50.0,20,60, CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));
+			layoutX.setGeometry(new WidgetGeometry(40.0,50.0,20,60, CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));
 			layoutX.addWidget("ButtonXAdd", new ButtonLabel(null, "+")).setGeometry(new WidgetGeometry(0.0,  0.0,20,20, CType.RELXY, CType.ABSXY, WAlign.LEFT, WAlign.TOP));
 			layoutX.addWidget("ButtonXSub", new ButtonLabel(null, "-")).setGeometry(new WidgetGeometry(0.0,100.0,20,20, CType.RELXY, CType.ABSXY, WAlign.LEFT, WAlign.BOTTOM));
-			layoutX.addWidget("TextX",   new LabelFixedFont(null, "X :   0")).setGeometry(new WidgetGeometry(50.0,50.0,20,20, CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));
+			layoutX.addWidget("ValueDisplayX",   new LabelFixedFont(null, "0")).setGeometry(new WidgetGeometry(50.0,50.0,20,20, CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));
+			*/
 			
+			/*
 			IWidget layoutY = this.addWidget("LayoutY", new LayoutBase(this));
-			layoutY.setGeometry(new WidgetGeometry(55.0,50.0,20,60,CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));			
+			layoutY.setGeometry(new WidgetGeometry(50.0,50.0,20,60,CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));			
 			layoutY.addWidget("ButtonYAdd", new ButtonLabel(null, "+")).setGeometry(new WidgetGeometry(0.0,  0.0,20,20, CType.RELXY, CType.ABSXY, WAlign.LEFT, WAlign.TOP));
 			layoutY.addWidget("ButtonYSub", new ButtonLabel(null, "-")).setGeometry(new WidgetGeometry(0.0,100.0,20,20, CType.RELXY, CType.ABSXY, WAlign.LEFT, WAlign.BOTTOM));		
-			layoutY.addWidget("TextY",   new LabelFixedFont(null, "Y :   0")).setGeometry(new WidgetGeometry(50.0,50.0,20,20, CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));
+			layoutY.addWidget("ValueDisplayY",   new LabelFixedFont(null, "0")).setGeometry(new WidgetGeometry(50.0,50.0,20,20, CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));
+			*/
+
+			IWidget layoutX = this.addWidget("LayoutX", new LayoutBase(this));
+			layoutX.setGeometry(new WidgetGeometry(40.0,50.0,20,80,CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));
+			layoutX.addWidget("LabelX",        new LabelFixedFont(null, "X")) .setGeometry(new WidgetGeometry(50.0,   0.0,20,20, CType.REL_X, CType.ABSXY, WAlign.CENTER, WAlign.TOP));
+			layoutX.addWidget("ButtonXAdd",    new ButtonLabel(null, "+"))    .setGeometry(new WidgetGeometry(0.0,   10.0,20,20, CType.REL_X, CType.ABSXY, WAlign.LEFT,   WAlign.TOP));
+			layoutX.addWidget("ValueDisplayX", new LabelFixedFont(null, "0")) .setGeometry(new WidgetGeometry(50.0,  40.0,20,20, CType.REL_X, CType.ABSXY, WAlign.CENTER, WAlign.TOP));		
+			layoutX.addWidget("ButtonXSub",    new ButtonLabel(null, "-"))    .setGeometry(new WidgetGeometry(0.0,   60.0,20,20, CType.REL_X, CType.ABSXY, WAlign.LEFT,   WAlign.TOP));				
+			
+			IWidget layoutY = this.addWidget("LayoutY", new LayoutBase(this));
+			layoutY.setGeometry(new WidgetGeometry(50.0,50.0,20,80,CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));
+			layoutY.addWidget("LabelY",        new LabelFixedFont(null, "Y")) .setGeometry(new WidgetGeometry(50.0,   0.0,20,20, CType.REL_X, CType.ABSXY, WAlign.CENTER, WAlign.TOP));
+			layoutY.addWidget("ButtonYAdd",    new ButtonLabel(null, "+"))    .setGeometry(new WidgetGeometry(0.0,   10.0,20,20, CType.REL_X, CType.ABSXY, WAlign.LEFT,   WAlign.TOP));
+			layoutY.addWidget("ValueDisplayY", new LabelFixedFont(null, "0")) .setGeometry(new WidgetGeometry(50.0,  40.0,20,20, CType.REL_X, CType.ABSXY, WAlign.CENTER, WAlign.TOP));		
+			layoutY.addWidget("ButtonYSub",    new ButtonLabel(null, "-"))    .setGeometry(new WidgetGeometry(0.0,   60.0,20,20, CType.REL_X, CType.ABSXY, WAlign.LEFT,   WAlign.TOP));			
+			
+			IWidget layoutAlpha = this.addWidget("LayoutAlpha", new LayoutBase(this));
+			layoutAlpha.setGeometry(new WidgetGeometry(60.0,50.0,20,80,CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));
+			layoutAlpha.addWidget("LabelAlpha",        new LabelFixedFont(null, "Alpha")).setGeometry(new WidgetGeometry(50.0,   0.0,20,20, CType.REL_X, CType.ABSXY, WAlign.CENTER, WAlign.TOP));
+			layoutAlpha.addWidget("ButtonAlphaAdd",    new ButtonLabel(null, "+"))       .setGeometry(new WidgetGeometry(0.0,   10.0,20,20, CType.REL_X, CType.ABSXY, WAlign.LEFT,   WAlign.TOP));
+			layoutAlpha.addWidget("ValueDisplayAlpha", new LabelFixedFont(null, "0"))    .setGeometry(new WidgetGeometry(50.0,  40.0,20,20, CType.REL_X, CType.ABSXY, WAlign.CENTER, WAlign.TOP));		
+			layoutAlpha.addWidget("ButtonAlphaSub",    new ButtonLabel(null, "-"))       .setGeometry(new WidgetGeometry(0.0,   60.0,20,20, CType.REL_X, CType.ABSXY, WAlign.LEFT,   WAlign.TOP));		
+	
 			
 			this.addWidget("ButtonCancel", new ButtonScreenChange(null, "Cancel", prevScreen)).setGeometry(new WidgetGeometry(70.0,97.0,75,20, CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.BOTTOM));
 			this.addWidget("ButtonOk",     new ButtonScreenChange(null, "Ok",     prevScreen)).setGeometry(new WidgetGeometry(30.0,97.0,75,20, CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.BOTTOM));
 			this.addWidget("ButtonDefault",new ButtonLabel(null, "Default")).setGeometry(new WidgetGeometry(50.0,97.0,75,20, CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.BOTTOM));
 			
-			double picX  = ConfigHandler.instance().getConfigInt(Constants.CFG_WAILA_POSX) / 100.0;
-			double picY  = ConfigHandler.instance().getConfigInt(Constants.CFG_WAILA_POSY) / 100.0;
+			double picX     = ConfigHandler.instance().getConfigInt(Constants.CFG_WAILA_POSX)  / 100.0;
+			double picY     = ConfigHandler.instance().getConfigInt(Constants.CFG_WAILA_POSY)  / 100.0;
+			float  picAlpha = ConfigHandler.instance().getConfigInt(Constants.CFG_WAILA_ALPHA) / 100.0f;
+			
 			int picSX = 180 / this.rez.getScaleFactor(), picSY = 62 / this.rez.getScaleFactor();
 			this.addWidget("Layout", new LayoutMargin(null));
 			((LayoutMargin)this.getWidget("Layout")).setMargins(picSX/2, picSX/2, picSY/2, picSY/2);
 			this.getWidget("Layout").addWidget("Picture", new PictureMovableRC(null, "waila:textures/config_template.png")).setGeometry(new WidgetGeometry(picX, picY, picSX, picSY,CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));			
 
-			((LabelFixedFont)this.getWidget("LayoutX").getWidget("TextX")).setText(String.format("X : %.2f", picX));
-			((LabelFixedFont)this.getWidget("LayoutY").getWidget("TextY")).setText(String.format("Y : %.2f", picY));			
+			((LabelFixedFont)this.getWidget("LayoutX").getWidget("ValueDisplayX")).setText(String.format("%.2f", picX));
+			((LabelFixedFont)this.getWidget("LayoutY").getWidget("ValueDisplayY")).setText(String.format("%.2f", picY));
+			((LabelFixedFont)this.getWidget("LayoutAlpha").getWidget("ValueDisplayAlpha")).setText(String.format("%.2f", picAlpha));
+			
+			this.getWidget("Layout").getWidget("Picture").setAlpha(picAlpha);
 			
 		}		
 		
@@ -97,8 +129,9 @@ public class ScreenHUDConfig extends ScreenBase {
 		public void onWidgetEvent(IWidget srcwidget, Signal signal, Object... params){
 			if (srcwidget.equals(this.getWidget("Layout").getWidget("Picture")) && signal == Signal.DRAGGED){
 				this.draggedWidget = this.getWidget("Layout").getWidget("Picture");
-				((LabelFixedFont)this.getWidget("LayoutX").getWidget("TextX")).setText(String.format("X : %.2f", this.draggedWidget.getGeometry().getRawPos().getX()));
-				((LabelFixedFont)this.getWidget("LayoutY").getWidget("TextY")).setText(String.format("Y : %.2f", this.draggedWidget.getGeometry().getRawPos().getY()));		
+				((LabelFixedFont)this.getWidget("LayoutX").getWidget("ValueDisplayX")).setText(String.format("%.2f", this.draggedWidget.getGeometry().getRawPos().getX()));
+				((LabelFixedFont)this.getWidget("LayoutY").getWidget("ValueDisplayY")).setText(String.format("%.2f", this.draggedWidget.getGeometry().getRawPos().getY()));
+				((LabelFixedFont)this.getWidget("LayoutAlpha").getWidget("ValueDisplayAlpha")).setText(String.format("%.2f", this.draggedWidget.getAlpha()));
 			}
 
 			if (signal == Signal.CLICKED){
@@ -121,16 +154,32 @@ public class ScreenHUDConfig extends ScreenBase {
 				if (srcwidget.equals(this.getWidget("LayoutY").getWidget("ButtonYSub")))
 					picture.getGeometry().setPos(pictureX, pictureY - pixelToPercentY);
 
+				if (srcwidget.equals(this.getWidget("LayoutAlpha").getWidget("ButtonAlphaAdd")))
+					picture.setAlpha(Math.min(picture.getAlpha() + 0.05f, 1.0f));
+				
+				if (srcwidget.equals(this.getWidget("LayoutAlpha").getWidget("ButtonAlphaSub")))
+					picture.setAlpha(Math.max(picture.getAlpha() - 0.05f, 0.0f));
+				
+				
+				
 				picture.emit(Signal.DRAGGED, picture.getPos());
 				
 			}
 			if (srcwidget.equals(this.getWidget("ButtonOk")) && signal == Signal.CLICKED){
-				ConfigHandler.instance().setConfigInt(Constants.CFG_WAILA_POSX, (int)(this.getWidget("Layout").getWidget("Picture").getGeometry().getRawPos().getX() * 100.0));
-				ConfigHandler.instance().setConfigInt(Constants.CFG_WAILA_POSY, (int)(this.getWidget("Layout").getWidget("Picture").getGeometry().getRawPos().getY() * 100.0));				
+				ConfigHandler.instance().setConfigInt(Constants.CFG_WAILA_POSX,  (int)(this.getWidget("Layout").getWidget("Picture").getGeometry().getRawPos().getX() * 100.0));
+				ConfigHandler.instance().setConfigInt(Constants.CFG_WAILA_POSY,  (int)(this.getWidget("Layout").getWidget("Picture").getGeometry().getRawPos().getY() * 100.0));
+				ConfigHandler.instance().setConfigInt(Constants.CFG_WAILA_ALPHA, (int)(this.getWidget("Layout").getWidget("Picture").getAlpha() * 100.0));
+				
+				mod_Waila.alpha = ConfigHandler.instance().getConfigInt(Constants.CFG_WAILA_ALPHA);
+				mod_Waila.posX  = ConfigHandler.instance().getConfigInt(Constants.CFG_WAILA_POSX);
+				mod_Waila.posY  = ConfigHandler.instance().getConfigInt(Constants.CFG_WAILA_POSY);
+				
+				mod_Waila.updateColors();
 			}
 			
 			if (srcwidget.equals(this.getWidget("ButtonDefault")) && signal == Signal.CLICKED){
 				this.getWidget("Layout").getWidget("Picture").getGeometry().setPos(50.0, 1.0);
+				this.getWidget("Layout").getWidget("Picture").setAlpha(0.8f);
 			}
 		}
 	}

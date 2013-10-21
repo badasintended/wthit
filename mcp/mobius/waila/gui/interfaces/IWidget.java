@@ -26,6 +26,8 @@ public interface IWidget {
 	void  draw(Point pos);
 	void  show();
 	void  hide();
+	void  setAlpha(float alpha);
+	float getAlpha();
 	boolean shouldRender();
 	
 	IWidget addWidget(String name, IWidget widget);

@@ -21,5 +21,11 @@ public final class Constants {
 	public static String CFG_WAILA_METADATA = "waila.cfg.metadata";
 	public static String CFG_WAILA_POSX     = "waila.cfg.posx";
 	public static String CFG_WAILA_POSY     = "waila.cfg.posy";
+	public static String CFG_WAILA_ALPHA    = "waila.cfg.alpha";
+	
+	public static String CFG_WAILA_BGCOLOR    = "waila.cfg.bgcolor";
+	public static String CFG_WAILA_GRADIENT1  = "waila.cfg.gradient1";
+	public static String CFG_WAILA_GRADIENT2  = "waila.cfg.gradient2";
+	public static String CFG_WAILA_FONTCOLOR  = "waila.cfg.fontcolor";	
 	
 }

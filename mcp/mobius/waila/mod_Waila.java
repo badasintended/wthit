@@ -52,6 +52,13 @@ public class mod_Waila {
 	public boolean serverPresent = false;
 	public HashMap<String, String> modSourceList = new HashMap<String, String>();
 	
+	public static int posX;
+	public static int posY;
+	public static int alpha;
+	public static int bgcolor;
+	public static int gradient1;
+	public static int gradient2;
+	public static int fontcolor;
 	
 	@PreInit
 	public void preInit(FMLPreInitializationEvent event) {
@@ -61,10 +68,19 @@ public class mod_Waila {
 		config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_MODE,     true);
 		config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID,   false);
 		config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATA, false);
-		config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSX,     5000);
-		config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSY,     100);
+
+		posX = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSX,     5000).getInt();
+		posY = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSY,     100).getInt();
+
+		alpha =     config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_ALPHA,     80).getInt();
+		bgcolor =   config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_BGCOLOR,   0x100010).getInt();
+		gradient1 = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_GRADIENT1, 0x5000ff).getInt();
+		gradient2 = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_GRADIENT2, 0x28007f).getInt();
+		fontcolor = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_FONTCOLOR, 0xA0A0A0).getInt();
 		
 		config.save();
+		
+		updateColors();
 	}	
 	
 	@Init
@@ -165,5 +181,12 @@ public class mod_Waila {
 		}
 	}	
 
+	public static void updateColors(){
+    	alpha     = (int)(ConfigHandler.instance().getConfigInt(Constants.CFG_WAILA_ALPHA) / 100.0f * 256) << 24;
+    	bgcolor   = alpha + ConfigHandler.instance().getConfigInt(Constants.CFG_WAILA_BGCOLOR);
+    	gradient1 = alpha + ConfigHandler.instance().getConfigInt(Constants.CFG_WAILA_GRADIENT1);
+    	gradient2 = alpha + ConfigHandler.instance().getConfigInt(Constants.CFG_WAILA_GRADIENT2);
+    	fontcolor = alpha + ConfigHandler.instance().getConfigInt(Constants.CFG_WAILA_FONTCOLOR);
+	}
 	
 }
