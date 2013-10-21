@@ -14,7 +14,8 @@ public class MouseEvent {
 	public Minecraft mc;
 	public IWidget srcwidget;
 	public IWidget trgwidget;
-	public int x,y,z;
+	public double x,y;
+	public int z;
 	public static int buttonCount = Mouse.getButtonCount();
     public boolean[]  buttonState = new boolean[buttonCount];
 	public EventType type;
@@ -27,8 +28,8 @@ public class MouseEvent {
 		
 		this.mc  = Minecraft.getMinecraft();
 		
-        this.x = Mouse.getEventX() * this.srcwidget.getSize().getX() / this.mc.displayWidth;
-        this.y = this.srcwidget.getSize().getY() - Mouse.getEventY() * this.srcwidget.getSize().getY() / this.mc.displayHeight - 1;
+        this.x = (double)Mouse.getEventX() * (double)this.srcwidget.getSize().getX() / (double)this.mc.displayWidth;
+        this.y = (double)this.srcwidget.getSize().getY() - (double)Mouse.getEventY() * (double)this.srcwidget.getSize().getY() / (double)this.mc.displayHeight - 1.0;
 		
 		//this.x = Mouse.getEventX();
 		//this.y = Mouse.getEventY();

@@ -1,8 +1,8 @@
 package mcp.mobius.waila.gui.interfaces;
 
-public enum CoordType {
-RELX,
-RELY,
+public enum CType {
+REL_X,
+REL_Y,
 RELXY,
-ABS;
+ABSXY;
 }

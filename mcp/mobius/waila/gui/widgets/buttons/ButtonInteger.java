@@ -2,9 +2,9 @@ package mcp.mobius.waila.gui.widgets.buttons;
 
 import mcp.mobius.waila.gui.events.MouseEvent;
 import mcp.mobius.waila.gui.helpers.UIHelper;
-import mcp.mobius.waila.gui.interfaces.CoordType;
+import mcp.mobius.waila.gui.interfaces.CType;
 import mcp.mobius.waila.gui.interfaces.IWidget;
-import mcp.mobius.waila.gui.interfaces.WidgetAlign;
+import mcp.mobius.waila.gui.interfaces.WAlign;
 import mcp.mobius.waila.gui.widgets.LabelFixedFont;
 import mcp.mobius.waila.gui.widgets.WidgetGeometry;
 import net.minecraft.util.ResourceLocation;
@@ -25,7 +25,7 @@ public class ButtonInteger extends ButtonBase {
 			String labelName = String.format("Label_%d", i); 
 			this.addWidget(labelName, new LabelFixedFont(this, texts[i]));
 			this.getWidget(labelName).hide();
-			this.getWidget(labelName).setGeometry(new WidgetGeometry(50.0D, 50.0D, 100.0D, 20.0D, CoordType.RELXY, CoordType.ABS, WidgetAlign.CENTER, WidgetAlign.CENTER));
+			this.getWidget(labelName).setGeometry(new WidgetGeometry(50.0D, 50.0D, 100.0D, 20.0D, CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));
 		}
 		this.getWidget("Label_0").show();
 	}

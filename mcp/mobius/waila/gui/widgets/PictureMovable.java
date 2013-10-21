@@ -9,7 +9,7 @@ import org.lwjgl.util.Point;
 
 public class PictureMovable extends PictureDisplay {
 
-	private int offsetX, offsetY;
+	private double offsetX, offsetY;
 	
 	public PictureMovable(IWidget parent, String uri) {
 		super(parent, uri);

@@ -59,7 +59,7 @@ public abstract class ButtonBase extends WidgetBase {
 	}	
 
 	@Override
-	public IWidget getWidgetAtCoordinates(int posX, int posY){
+	public IWidget getWidgetAtCoordinates(double posX, double posY){
 		return this; 
 	}
 	

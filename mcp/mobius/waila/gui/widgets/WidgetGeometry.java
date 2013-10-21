@@ -1,8 +1,8 @@
 package mcp.mobius.waila.gui.widgets;
 
-import mcp.mobius.waila.gui.interfaces.CoordType;
+import mcp.mobius.waila.gui.interfaces.CType;
 import mcp.mobius.waila.gui.interfaces.IWidget;
-import mcp.mobius.waila.gui.interfaces.WidgetAlign;
+import mcp.mobius.waila.gui.interfaces.WAlign;
 import net.minecraft.util.MathHelper;
 
 import org.lwjgl.util.Point;
@@ -19,16 +19,16 @@ public class WidgetGeometry {
 	double sx = -1;
 	double sy = -1;
 	
-	CoordType posType;
-	CoordType sizeType;
+	CType posType;
+	CType sizeType;
 	
 	boolean fracPosX = false;
 	boolean fracPosY = false;
 	boolean fracSizeX = false;
 	boolean fracSizeY = false;
 	
-	WidgetAlign alignX;
-	WidgetAlign alignY;
+	WAlign alignX;
+	WAlign alignY;
 	
 	public class PointDouble{
 		double x; double y;
@@ -38,11 +38,11 @@ public class WidgetGeometry {
 		public String toString(){return String.format("PointDouble : %.5f %.5f", this.x, this.y);}
 	}	
 	
-	public WidgetGeometry(double x, double y, double sx, double sy, CoordType fracPos, CoordType fracSize){
-		this(x, y, sx, sy, fracPos, fracSize, WidgetAlign.LEFT, WidgetAlign.TOP);
+	public WidgetGeometry(double x, double y, double sx, double sy, CType fracPos, CType fracSize){
+		this(x, y, sx, sy, fracPos, fracSize, WAlign.LEFT, WAlign.TOP);
 	}
 	
-	public WidgetGeometry(double x, double y, double sx, double sy, CoordType fracPos, CoordType fracSize, WidgetAlign alignX, WidgetAlign alignY){
+	public WidgetGeometry(double x, double y, double sx, double sy, CType fracPos, CType fracSize, WAlign alignX, WAlign alignY){
 		this.x = x;
 		this.y = y;
 		this.sx = sx;
@@ -51,14 +51,14 @@ public class WidgetGeometry {
 		this.sizeType = fracSize;
 		
 		switch(fracPos){
-		case RELX:
+		case REL_X:
 			this.fracPosX = true;
 			break;
 		case RELXY:
 			this.fracPosX = true;
 			this.fracPosY = true;
 			break;
-		case RELY:
+		case REL_Y:
 			this.fracPosY = true;
 			break;
 		default:
@@ -67,14 +67,14 @@ public class WidgetGeometry {
 		}
 
 		switch(fracSize){
-		case RELX:
+		case REL_X:
 			this.fracSizeX = true;
 			break;
 		case RELXY:
 			this.fracSizeX = true;
 			this.fracSizeY = true;
 			break;
-		case RELY:
+		case REL_Y:
 			this.fracSizeY = true;
 			break;
 		default:
@@ -115,16 +115,16 @@ public class WidgetGeometry {
 			y = (int)this.y;
 		
 		
-		if (this.alignX == WidgetAlign.CENTER)
+		if (this.alignX == WAlign.CENTER)
 			x -= this.getSize(parent).getX() / 2;
 		
-		if (this.alignY == WidgetAlign.CENTER)
+		if (this.alignY == WAlign.CENTER)
 			y -= this.getSize(parent).getY() / 2;
 		
-		if (this.alignX == WidgetAlign.RIGHT)
+		if (this.alignX == WAlign.RIGHT)
 			x -= this.getSize(parent).getX();
 		
-		if (this.alignY == WidgetAlign.BOTTOM)
+		if (this.alignY == WAlign.BOTTOM)
 			y -= this.getSize(parent).getY();
 		
 		return new Point(x,y);

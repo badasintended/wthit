@@ -7,7 +7,7 @@ import org.lwjgl.util.Point;
 
 import mcp.mobius.waila.gui.events.MouseEvent;
 import mcp.mobius.waila.gui.events.MouseEvent.EventType;
-import mcp.mobius.waila.gui.interfaces.CoordType;
+import mcp.mobius.waila.gui.interfaces.CType;
 import mcp.mobius.waila.gui.interfaces.IWidget;
 
 public class LayoutCanvas extends WidgetBase{ 
@@ -16,7 +16,7 @@ public class LayoutCanvas extends WidgetBase{
 	
 	public LayoutCanvas(){
 		super();
-		this.setGeometry(0, 0, this.rez.getScaledWidth(), this.rez.getScaledHeight(), CoordType.ABS, CoordType.ABS);
+		this.setGeometry(0, 0, this.rez.getScaledWidth(), this.rez.getScaledHeight(), CType.ABSXY, CType.ABSXY);
         Mouse.getDWheel();	// This is to "calibrate" the DWheel
         this.lastMouseEvent = new MouseEvent(this);
 	}
@@ -24,7 +24,7 @@ public class LayoutCanvas extends WidgetBase{
 	@Override
 	public void draw(){
 		this.rez = new ScaledResolution(mc.gameSettings, mc.displayWidth, mc.displayHeight); 		
-		this.setGeometry(0, 0, this.rez.getScaledWidth(), this.rez.getScaledHeight(), CoordType.ABS, CoordType.ABS);
+		this.setGeometry(0, 0, this.rez.getScaledWidth(), this.rez.getScaledHeight(), CType.ABSXY, CType.ABSXY);
 		
 		this.draw(this.getPos());
 		

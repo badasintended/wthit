@@ -2,10 +2,10 @@ package mcp.mobius.waila.gui.screens;
 
 import org.lwjgl.util.Point;
 
-import mcp.mobius.waila.gui.interfaces.CoordType;
+import mcp.mobius.waila.gui.interfaces.CType;
 import mcp.mobius.waila.gui.interfaces.IWidget;
 import mcp.mobius.waila.gui.interfaces.Signal;
-import mcp.mobius.waila.gui.interfaces.WidgetAlign;
+import mcp.mobius.waila.gui.interfaces.WAlign;
 import mcp.mobius.waila.gui.widgets.LabelFixedFont;
 import mcp.mobius.waila.gui.widgets.LayoutBase;
 import mcp.mobius.waila.gui.widgets.PictureMovable;
@@ -19,10 +19,10 @@ public class ScreenHUDConfig extends ScreenBase {
 	private class EventCanvas extends LayoutBase{
 		public EventCanvas(IWidget parent, GuiScreen prevScreen){
 			super(parent);
-			this.setGeometry(new WidgetGeometry(0.0,0.0,100.0,100.0,CoordType.RELXY, CoordType.RELXY));
+			this.setGeometry(new WidgetGeometry(0.0,0.0,100.0,100.0,CType.RELXY, CType.RELXY));
 			
 			//this.addWidget("Picture", new PictureMovable(null, "waila:textures/test.png")).setGeometry(new WidgetGeometry(0.0,0.0,50.0,50.0,true,true,false,false,WidgetAlign.CENTER, WidgetAlign.CENTER));;
-			this.addWidget("Picture", new PictureMovable(null, "waila:textures/test.png")).setGeometry(new WidgetGeometry(0.0, 0.0, 50.0, 50.0,CoordType.ABS, CoordType.ABS,WidgetAlign.LEFT, WidgetAlign.TOP));;
+			this.addWidget("Picture", new PictureMovable(null, "waila:textures/test.png")).setGeometry(new WidgetGeometry(0.0, 0.0, 50.0, 50.0,CType.ABSXY, CType.ABSXY, WAlign.LEFT, WAlign.TOP));
 			
 			/*
 			this.addWidget("TextTuto1", new LabelFixedFont(null, "Either drag the tooltip or use the buttons below to adjust your HUD")).setGeometry(new WidgetGeometry(50.0,  30.0,20,20, true, true, false, false, WidgetAlign.CENTER, WidgetAlign.CENTER));;

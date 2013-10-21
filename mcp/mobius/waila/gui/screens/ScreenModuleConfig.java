@@ -1,8 +1,8 @@
 package mcp.mobius.waila.gui.screens;
 
 import mcp.mobius.waila.addons.ConfigHandler;
-import mcp.mobius.waila.gui.interfaces.CoordType;
-import mcp.mobius.waila.gui.interfaces.WidgetAlign;
+import mcp.mobius.waila.gui.interfaces.CType;
+import mcp.mobius.waila.gui.interfaces.WAlign;
 import mcp.mobius.waila.gui.widgets.LayoutBase;
 import mcp.mobius.waila.gui.widgets.WidgetGeometry;
 import mcp.mobius.waila.gui.widgets.buttons.ButtonBooleanConfig;
@@ -24,7 +24,7 @@ public class ScreenModuleConfig extends ScreenBase {
 		this.modName = modname;
 		
 		this.getRoot().addWidget("ButtonContainer", new ButtonContainerLabel(this.getRoot(), 2, 100, 25.0));
-		this.getRoot().getWidget("ButtonContainer").setGeometry(new WidgetGeometry(0.0, 20.0, 100.0, 60.0,  CoordType.RELXY, CoordType.RELXY, WidgetAlign.LEFT, WidgetAlign.TOP));		
+		this.getRoot().getWidget("ButtonContainer").setGeometry(new WidgetGeometry(0.0, 20.0, 100.0, 60.0,  CType.RELXY, CType.RELXY, WAlign.LEFT, WAlign.TOP));		
 		
 		ButtonContainerLabel buttonContainer = ((ButtonContainerLabel)this.getRoot().getWidget("ButtonContainer"));
 		
@@ -39,7 +39,7 @@ public class ScreenModuleConfig extends ScreenBase {
         }		
 		
 		this.getRoot().addWidget("LayoutBack", new LayoutBase(this.getRoot()));
-		this.getRoot().getWidget("LayoutBack").setGeometry(new WidgetGeometry(0.0, 80.0, 100.0, 20.0, CoordType.RELXY, CoordType.RELXY));
+		this.getRoot().getWidget("LayoutBack").setGeometry(new WidgetGeometry(0.0, 80.0, 100.0, 20.0, CType.RELXY, CType.RELXY));
 		this.getRoot().getWidget("LayoutBack").addWidget("ButtonBack", new ButtonScreenChange(this.getRoot().getWidget("LayoutBack"), "Back", this.parent));
 	}
 	

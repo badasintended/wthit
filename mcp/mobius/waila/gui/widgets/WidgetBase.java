@@ -13,7 +13,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.texture.TextureManager;
 import mcp.mobius.waila.gui.events.MouseEvent;
-import mcp.mobius.waila.gui.interfaces.CoordType;
+import mcp.mobius.waila.gui.interfaces.CType;
 import mcp.mobius.waila.gui.interfaces.IWidget;
 import mcp.mobius.waila.gui.interfaces.Signal;
 
@@ -37,7 +37,7 @@ public abstract class WidgetBase implements IWidget {
 		this.mc  = Minecraft.getMinecraft();	
 		this.rez = new ScaledResolution(mc.gameSettings, mc.displayWidth, mc.displayHeight); 
 		this.texManager = this.mc.renderEngine;
-		this.setGeometry(new WidgetGeometry(0, 0, 50, 50, CoordType.ABS, CoordType.ABS));
+		this.setGeometry(new WidgetGeometry(0, 0, 50, 50, CType.ABSXY, CType.ABSXY));
 	}
 	
 	public WidgetBase(IWidget parent){
@@ -45,7 +45,7 @@ public abstract class WidgetBase implements IWidget {
 		this.mc  = Minecraft.getMinecraft();
 		this.rez = new ScaledResolution(mc.gameSettings, mc.displayWidth, mc.displayHeight);
 		this.texManager = this.mc.renderEngine;
-		this.setGeometry(new WidgetGeometry(0, 0, 50, 50, CoordType.ABS, CoordType.ABS));
+		this.setGeometry(new WidgetGeometry(0, 0, 50, 50, CType.ABSXY, CType.ABSXY));
 	}
     
 	/////////////////////
@@ -72,7 +72,7 @@ public abstract class WidgetBase implements IWidget {
 	}
 
 	@Override
-	public IWidget getWidgetAtCoordinates(int posX, int posY){
+	public IWidget getWidgetAtCoordinates(double posX, double posY){
 		for (IWidget widget : this.widgets.values())
 			if ((posX >=  widget.getPos().getX()) && 
 					(posX <=  widget.getPos().getX() + widget.getSize().getX()) &&
@@ -112,7 +112,7 @@ public abstract class WidgetBase implements IWidget {
 
 	@Override
 	public void setGeometry(WidgetGeometry geom) { this.geom = geom; }
-	public void setGeometry(double x, double y, double sx, double sy, CoordType fp, CoordType fs){ this.setGeometry(new WidgetGeometry (x, y, sx, sy, fp, fs)) ;}
+	public void setGeometry(double x, double y, double sx, double sy, CType fp, CType fs){ this.setGeometry(new WidgetGeometry (x, y, sx, sy, fp, fs)) ;}
 	
 	@Override
 	public WidgetGeometry getGeometry() { return this.geom;	}

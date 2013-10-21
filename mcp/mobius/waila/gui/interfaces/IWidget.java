@@ -31,7 +31,7 @@ public interface IWidget {
 	IWidget addWidget(String name, IWidget widget);
 	IWidget getWidget(String name);
 	IWidget delWidget(String name);	
-	IWidget getWidgetAtCoordinates(int posX, int posY);
+	IWidget getWidgetAtCoordinates(double posX, double posY);
 	
 	void handleMouseInput();
 	
