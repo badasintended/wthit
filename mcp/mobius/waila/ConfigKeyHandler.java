@@ -72,7 +72,7 @@ public class ConfigKeyHandler extends KeyHandler {
 
 		if (kb.keyDescription == Constants.BIND_WAILA_TESTING){
 			if(mc.currentScreen == null)
-				mc.displayGuiScreen(new ScreenHUDConfig(mc.currentScreen));
+				mc.displayGuiScreen(new ScreenTest(mc.currentScreen));
 		}		
 		
 		if (mc.currentScreen != null)
