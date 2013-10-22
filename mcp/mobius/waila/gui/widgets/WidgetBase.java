@@ -158,12 +158,14 @@ public abstract class WidgetBase implements IWidget {
 		hasLight      = GL11.glGetBoolean(GL11.GL_LIGHTING);
     	boundTexIndex = GL11.glGetInteger(GL11.GL_TEXTURE_BINDING_2D);  
     	GL11.glPushAttrib(GL11.GL_CURRENT_BIT);
+    	GL11.glPushMatrix();
     }
     
     protected void loadGLState(){
     	if (hasBlending) GL11.glEnable(GL11.GL_BLEND); else GL11.glDisable(GL11.GL_BLEND);
     	if (hasLight) GL11.glEnable(GL11.GL_LIGHTING); else	GL11.glDisable(GL11.GL_LIGHTING);
     	GL11.glBindTexture(GL11.GL_TEXTURE_2D, boundTexIndex);
+    	GL11.glPopMatrix();
     	GL11.glPopAttrib();
     	//GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
     }

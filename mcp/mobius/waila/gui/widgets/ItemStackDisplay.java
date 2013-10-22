@@ -35,11 +35,14 @@ public class ItemStackDisplay extends WidgetBase {
 	public void draw(Point pos) {
 		if (this.stack == null) return;
 		
+		float scaleX = this.getSize().getX()/16.0f;
+		float scaleY = this.getSize().getY()/16.0f;
+		
 		GL11.glPushMatrix();
-		GL11.glScalef(this.getSize().getX()/16.0f, this.getSize().getY()/16.0f, 1.0f);
+		GL11.glScalef(scaleX, scaleY, 1.0f);
 		
         RenderHelper.enableGUIStandardItemLighting();
-		GuiContainerManager.drawItem(pos.getX(), pos.getY(), this.stack);
+		GuiContainerManager.drawItem((int)(pos.getX()/scaleX), (int)(pos.getY()/scaleX), this.stack);
 		GL11.glPopMatrix();
 	}
 
