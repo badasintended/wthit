@@ -1,12 +1,14 @@
-package mcp.mobius.waila.handlers;
+package mcp.mobius.waila.handlers.hud;
 
 import java.util.List;
+
 import mcp.mobius.waila.WailaExceptionHandler;
 import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.addons.ConfigHandler;
 import mcp.mobius.waila.addons.ExternalModulesHandler;
 import mcp.mobius.waila.api.IWailaBlock;
 import mcp.mobius.waila.api.IWailaDataProvider;
+import mcp.mobius.waila.handlers.DataAccessor;
 import mcp.mobius.waila.network.Packet0x01TERequest;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;

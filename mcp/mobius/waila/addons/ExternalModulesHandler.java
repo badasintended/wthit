@@ -11,16 +11,13 @@ import java.util.Set;
 import java.util.logging.Level;
 
 import au.com.bytecode.opencsv.CSVReader;
-
 import net.minecraft.block.Block;
-
 import codechicken.nei.api.API;
-
 import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaRegistrar;
 import mcp.mobius.waila.api.IWailaSummaryProvider;
-import mcp.mobius.waila.handlers.HUDHandlerExternal;
+import mcp.mobius.waila.handlers.hud.HUDHandlerExternal;
 
 public class ExternalModulesHandler implements IWailaRegistrar {
 

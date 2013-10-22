@@ -2,7 +2,7 @@ package mcp.mobius.waila.gui_old.widget;
 
 import java.util.ArrayList;
 
-import mcp.mobius.waila.handlers.CraftingTreeNode;
+import mcp.mobius.waila.gui_old.NEI.CraftingTreeNode;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.item.ItemStack;
 

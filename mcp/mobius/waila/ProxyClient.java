@@ -21,12 +21,12 @@ import mcp.mobius.waila.addons.ic2.IC2Module;
 import mcp.mobius.waila.addons.thaumcraft.ThaumcraftModule;
 import mcp.mobius.waila.addons.twilightforest.TwilightForestModule;
 import mcp.mobius.waila.addons.vanillamc.HUDHandlerVanilla;
-import mcp.mobius.waila.handlers.HUDHandlerExternal;
-import mcp.mobius.waila.handlers.HUDHandlerWaila;
+import mcp.mobius.waila.gui_old.NEI.HandlerTechTree;
+import mcp.mobius.waila.gui_old.NEI.HandlerWiki;
 import mcp.mobius.waila.handlers.SummaryProviderDefault;
-import mcp.mobius.waila.handlers.HandlerTechTree;
-import mcp.mobius.waila.handlers.TooltipHandlerWaila;
-import mcp.mobius.waila.handlers.HandlerWiki;
+import mcp.mobius.waila.handlers.hud.HUDHandlerExternal;
+import mcp.mobius.waila.handlers.hud.HUDHandlerWaila;
+import mcp.mobius.waila.handlers.tooltip.TooltipHandlerWaila;
 import mcp.mobius.waila.overlay.WailaTickHandler;
 import mcp.mobius.waila.server.ProxyServer;
 

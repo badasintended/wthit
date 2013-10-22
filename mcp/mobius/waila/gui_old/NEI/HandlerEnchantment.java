@@ -1,4 +1,4 @@
-package mcp.mobius.waila.handlers;
+package mcp.mobius.waila.gui_old.NEI;
 
 import java.lang.reflect.Method;
 

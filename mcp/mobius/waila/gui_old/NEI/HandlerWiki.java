@@ -1,4 +1,4 @@
-package mcp.mobius.waila.handlers;
+package mcp.mobius.waila.gui_old.NEI;
 
 import java.util.LinkedHashMap;
 
@@ -9,6 +9,7 @@ import mcp.mobius.waila.addons.ExternalModulesHandler;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.gui_old.GuiIngameWiki;
 import mcp.mobius.waila.gui_old.widget.Label;
+import mcp.mobius.waila.handlers.SummaryProvider;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
