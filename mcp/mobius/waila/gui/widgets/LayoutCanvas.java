@@ -55,10 +55,14 @@ public class LayoutCanvas extends WidgetBase{
 				//this.onMouseClick(event);
 				break;				
 			case DRAG:
-				this.onMouseDrag(event);
+				if (targetWidget != null)
+					targetWidget.onMouseDrag(event);				
+				//this.onMouseDrag(event);
 				break;				
 			case MOVE:
-				this.onMouseMove(event);
+				if (targetWidget != null)
+					targetWidget.onMouseMove(event);				
+				//this.onMouseMove(event);
 				break;
 			case RELEASED:
 				if (targetWidget != null)
