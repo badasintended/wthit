@@ -61,7 +61,8 @@ public class LayoutCanvas extends WidgetBase{
 				this.onMouseRelease(event);
 				break;
 			case WHEEL:
-				this.onMouseWheel(event);
+				this.getWidgetAtCoordinates(event.x, event.y).onMouseWheel(event);
+				//this.onMouseWheel(event);
 				break;
 			case ENTER:
 				if (event.trgwidget != null)

@@ -228,11 +228,15 @@ public abstract class WidgetBase implements IWidget {
 
 	@Override
 	public void onMouseWheel(MouseEvent event) {
-		//System.out.printf("%s %s\n", this, event);
+		System.out.printf("%s %s\n", this, event);
+		if (this.parent != null)
+			this.parent.onMouseWheel(event);
 		
+		/*
 		IWidget widget = this.getWidgetAtCoordinates(event.x, event.y);
 		if (widget != null && widget != this)
-			widget.onMouseWheel(event);		
+			widget.onMouseWheel(event);
+		*/
 	}
 
 	@Override

@@ -9,7 +9,8 @@ import org.lwjgl.util.Point;
 
 
 
-public class WidgetGeometry {
+//public class WidgetGeometry implements Cloneable{
+public class WidgetGeometry{
 	
 	//public enum Align {LEFT, CENTER, RIGHT, TOP, BOTTOM};
 
@@ -184,4 +185,9 @@ public class WidgetGeometry {
 	public String toString(){
 		return String.format("Geometry : [%s %s] [%s %s] [%s %s] [%s %s]", this.x, this.y, this.sx, this.sy, this.posType, this.sizeType, this.alignX, this.alignY);
 	}
+	
+	//@Override
+	//public WidgetGeometry clone() throws CloneNotSupportedException{
+	//	return (WidgetGeometry)super.clone();
+	//} 
 }

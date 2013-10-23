@@ -36,7 +36,8 @@ public class MouseEvent {
 		
 		//System.out.printf("%s %s\n", this.x, this.y);
 		
-        this.z = Mouse.getEventDWheel();
+        //this.z = Mouse.getEventDWheel();
+        this.z = Mouse.getDWheel();
         
         for (int i = 0; i < buttonCount; i++)
         	buttonState[i] = Mouse.isButtonDown(i);
