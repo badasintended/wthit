@@ -30,6 +30,7 @@ public class ScreenTest extends ScreenBase {
 		
 		IWidget attachedWidget = null;
 		int     yOffset        = 0;
+		int		step		   = 5;
 		
 		public SubLayout( IWidget parent){
 			super(parent);
@@ -45,13 +46,21 @@ public class ScreenTest extends ScreenBase {
 			return this.attachedWidget;
 		}
 		
+		public IWidget setStep(int step){
+			this.step = step;
+			return this;
+		}
+		
 		@Override
 		public void draw(Point pos) {}
 		
 		@Override
 		public void onMouseWheel(MouseEvent event){
-			this.yOffset += event.z / 120.0;
-			System.out.println(this.yOffset);
+			this.yOffset += event.z / 120.0 * this.step;
+
+			this.yOffset = Math.max(this.yOffset,  this.getSize().getY() - this.attachedWidget.getSize().getY());
+			this.yOffset = Math.min(this.yOffset, 0);
+			
 			((LayoutCropping)this.getWidget("Cropping")).setOffsets(0, this.yOffset);
 		}
 	}
