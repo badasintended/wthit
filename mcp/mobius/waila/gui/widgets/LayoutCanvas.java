@@ -46,10 +46,13 @@ public class LayoutCanvas extends WidgetBase{
     	
     	MouseEvent event    = new MouseEvent(this);
     	EventType  type     = event.getEventType(this.lastMouseEvent);
+    	IWidget    targetWidget = this.getWidgetAtCoordinates(event.x, event.y);
     	
     	switch (type){
 			case CLICK:
-				this.onMouseClick(event);
+				if (targetWidget != null)
+					targetWidget.onMouseClick(event);
+				//this.onMouseClick(event);
 				break;				
 			case DRAG:
 				this.onMouseDrag(event);
@@ -58,10 +61,13 @@ public class LayoutCanvas extends WidgetBase{
 				this.onMouseMove(event);
 				break;
 			case RELEASED:
-				this.onMouseRelease(event);
+				if (targetWidget != null)
+					targetWidget.onMouseRelease(event);
+				//this.onMouseRelease(event);
 				break;
 			case WHEEL:
-				this.getWidgetAtCoordinates(event.x, event.y).onMouseWheel(event);
+				if (targetWidget != null)
+					targetWidget.onMouseWheel(event);
 				//this.onMouseWheel(event);
 				break;
 			case ENTER:

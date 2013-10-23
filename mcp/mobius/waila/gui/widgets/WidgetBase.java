@@ -193,10 +193,12 @@ public abstract class WidgetBase implements IWidget {
 	@Override
 	public void onMouseClick(MouseEvent event) {
 		//System.out.printf("%s %s\n", this, event);
+		if (this.parent != null)
+			this.parent.onMouseClick(event);			
 		
-		IWidget widget = this.getWidgetAtCoordinates(event.x, event.y);
-		if (widget != null && widget != this)
-			widget.onMouseClick(event);		
+		//IWidget widget = this.getWidgetAtCoordinates(event.x, event.y);
+		//if (widget != null && widget != this)
+		//	widget.onMouseClick(event);		
 	}
 
 	@Override
@@ -220,10 +222,12 @@ public abstract class WidgetBase implements IWidget {
 	@Override
 	public void onMouseRelease(MouseEvent event) {
 		//System.out.printf("%s %s\n", this, event);
+		if (this.parent != null)
+			this.parent.onMouseRelease(event);		
 		
-		IWidget widget = this.getWidgetAtCoordinates(event.x, event.y);
-		if (widget != null && widget != this)
-			widget.onMouseRelease(event);		
+		//IWidget widget = this.getWidgetAtCoordinates(event.x, event.y);
+		//if (widget != null && widget != this)
+		//	widget.onMouseRelease(event);		
 	}
 
 	@Override
