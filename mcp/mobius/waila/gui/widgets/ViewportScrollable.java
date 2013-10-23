@@ -60,8 +60,6 @@ public class ViewportScrollable extends WidgetBase {
 			} else {
 				super.onMouseClick(event);				
 			}
-			
-			
 		}
 		
 		@Override
@@ -150,19 +148,6 @@ public class ViewportScrollable extends WidgetBase {
 		}		
 		
 	}
-
-	@Override
-	public void onMouseRelease(MouseEvent event){
-		if(event.button == 0)
-			((Escalator)this.getWidget("Escalator")).drag = false;
-		super.onMouseRelease(event);
-	}
-	
-	@Override
-	public void onMouseLeave(MouseEvent event){
-		((Escalator)this.getWidget("Escalator")).drag = false;
-		super.onMouseLeave(event);
-	}	
 	
 	@Override
 	public void onMouseDrag(MouseEvent event){
@@ -171,4 +156,19 @@ public class ViewportScrollable extends WidgetBase {
 		else
 			super.onMouseDrag(event);
 	}
+
+	@Override
+	public void onMouseClick(MouseEvent event){
+		if (event.button == 0){
+			if (!this.getWidget("Escalator").isWidgetAtCoordinates(event.x, event.y)){
+				((Escalator)this.getWidget("Escalator")).drag = false;
+				super.onMouseClick(event);
+			}
+			else
+				this.getWidget("Escalator").onMouseClick(event);
+		}
+		else
+			super.onMouseClick(event);
+	}	
+	
 }
