@@ -92,7 +92,7 @@ public class ViewportScrollable extends WidgetBase {
 
 	public ViewportScrollable( IWidget parent){
 		super(parent);
-		this.addWidget("Cropping",  new LayoutCropping(null)).setGeometry(new WidgetGeometry(50.0, 50.0, 80.0, 100.0, CType.RELXY, CType.RELXY, WAlign.CENTER, WAlign.CENTER));
+		this.addWidget("Cropping",  new LayoutCropping(null)).setGeometry(new WidgetGeometry(0.0, 50.0, 80.0, 100.0, CType.RELXY, CType.REL_Y, WAlign.LEFT, WAlign.CENTER));
 		this.addWidget("Escalator", new Escalator(null, this.step * 5)).setGeometry(new WidgetGeometry(100.0, 0, 8, 100.0, CType.RELXY, CType.REL_Y, WAlign.RIGHT, WAlign.TOP)).hide();
 	}
 
@@ -150,10 +150,23 @@ public class ViewportScrollable extends WidgetBase {
 		}		
 		
 	}
+
+	@Override
+	public void onMouseRelease(MouseEvent event){
+		if(event.button == 0)
+			((Escalator)this.getWidget("Escalator")).drag = false;
+		super.onMouseRelease(event);
+	}
+	
+	@Override
+	public void onMouseLeave(MouseEvent event){
+		((Escalator)this.getWidget("Escalator")).drag = false;
+		super.onMouseLeave(event);
+	}	
 	
 	@Override
 	public void onMouseDrag(MouseEvent event){
-		if (this.getWidget("Escalator").shouldRender())
+		if (this.getWidget("Escalator").shouldRender() && ((Escalator)this.getWidget("Escalator")).drag)
 			this.getWidget("Escalator").onMouseDrag(event);
 		else
 			super.onMouseDrag(event);
