@@ -26,9 +26,10 @@ public class LabelFixedFont extends WidgetBase {
 	}	
 	
 	@Override
-	public void setGeometry(WidgetGeometry geom){
+	public IWidget setGeometry(WidgetGeometry geom){
 		this.geom = geom;
 		this.updateGeometry();
+		return this;
 	}
 	
 	public void setText(String text){

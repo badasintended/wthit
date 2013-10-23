@@ -139,6 +139,9 @@ public class ScreenHUDConfig extends ScreenBase {
 		
 		@Override
 		public void onWidgetEvent(IWidget srcwidget, Signal signal, Object... params){
+
+			if (this.getWidget("Layout") == null) return;
+			
 			if (srcwidget.equals(this.getWidget("Layout").getWidget("Picture")) && signal == Signal.DRAGGED){
 				this.draggedWidget = this.getWidget("Layout").getWidget("Picture");
 				((LabelFixedFont)this.getWidget("LayoutX").getWidget("ValueDisplayX")).setText(String.format("%.2f", this.draggedWidget.getGeometry().getRawPos().getX()));
@@ -157,22 +160,22 @@ public class ScreenHUDConfig extends ScreenBase {
 				
 				if (srcwidget.equals(this.getWidget("LayoutX").getWidget("ButtonXAdd"))){
 					double newPos = Math.min(pictureX + pixelToPercentX, 100.0);
-					picture.getGeometry().setPos(newPos, pictureY);
+					picture.setPos(newPos, pictureY);
 				}
 				
 				if (srcwidget.equals(this.getWidget("LayoutX").getWidget("ButtonXSub"))){
 					double newPos = Math.max(pictureX - pixelToPercentX, 0.0);
-					picture.getGeometry().setPos(newPos, pictureY);
+					picture.setPos(newPos, pictureY);
 				}
 				
 				if (srcwidget.equals(this.getWidget("LayoutY").getWidget("ButtonYAdd"))){
 					double newPos = Math.min(pictureY + pixelToPercentY, 100.0);
-					picture.getGeometry().setPos(pictureX, newPos);					
+					picture.setPos(pictureX, newPos);					
 				}
 				
 				if (srcwidget.equals(this.getWidget("LayoutY").getWidget("ButtonYSub"))){
 					double newPos = Math.max(pictureY - pixelToPercentY, 0.0);
-					picture.getGeometry().setPos(pictureX, newPos);
+					picture.setPos(pictureX, newPos);
 				}
 
 				if (srcwidget.equals(this.getWidget("LayoutAlpha").getWidget("ButtonAlphaAdd")))
@@ -187,7 +190,7 @@ public class ScreenHUDConfig extends ScreenBase {
 					scale = Math.min(2.00f, scale);
 					
 					int picSX = (int)(180 / this.rez.getScaleFactor() * scale), picSY = (int)(62 / this.rez.getScaleFactor() * scale);
-					picture.getGeometry().setSize(picSX, picSY);
+					picture.setSize(picSX, picSY);
 					((LayoutMargin)this.getWidget("Layout")).setMargins(picSX/2, picSX/2, picSY/2, picSY/2);					
 				}
 				
@@ -197,7 +200,7 @@ public class ScreenHUDConfig extends ScreenBase {
 					scale = Math.min(2.00f, scale);
 					
 					int picSX = (int)(180 / this.rez.getScaleFactor() * scale), picSY = (int)(62 / this.rez.getScaleFactor() * scale);
-					picture.getGeometry().setSize(picSX, picSY);	
+					picture.setSize(picSX, picSY);	
 					((LayoutMargin)this.getWidget("Layout")).setMargins(picSX/2, picSX/2, picSY/2, picSY/2);					
 				}
 				
@@ -219,11 +222,11 @@ public class ScreenHUDConfig extends ScreenBase {
 			}
 			
 			if (srcwidget.equals(this.getWidget("ButtonDefault")) && signal == Signal.CLICKED){
-				this.getWidget("Layout").getWidget("Picture").getGeometry().setPos(50.0, 1.0);
+				this.getWidget("Layout").getWidget("Picture").setPos(50.0, 1.0);
 				this.getWidget("Layout").getWidget("Picture").setAlpha(0.8f);
 				this.scale = 1.0f;
 				int picSX = (int)(180 / this.rez.getScaleFactor() * scale), picSY = (int)(62 / this.rez.getScaleFactor() * scale);
-				this.getWidget("Layout").getWidget("Picture").getGeometry().setSize(picSX, picSY);		
+				this.getWidget("Layout").getWidget("Picture").setSize(picSX, picSY);		
 				((LayoutMargin)this.getWidget("Layout")).setMargins(picSX/2, picSX/2, picSY/2, picSY/2);				
 			}
 		}

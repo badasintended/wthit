@@ -45,7 +45,7 @@ public class PictureMovableRC extends WidgetBase {
 		newX = Math.min(newX, this.parent.getRight());
 		newY = Math.min(newY, this.parent.getBottom());		
 
-		this.geom.setPos(((newX - this.parent.getLeft()) / this.parent.getSize().getX()) * 100.0, ((newY - this.parent.getTop())/ this.parent.getSize().getY()) * 100.0);
+		this.setPos(((newX - this.parent.getLeft()) / this.parent.getSize().getX()) * 100.0, ((newY - this.parent.getTop())/ this.parent.getSize().getY()) * 100.0);
 		
 		//System.out.printf("%s\n", this.parent.getGeometry());
 		//System.out.printf("%s %s\n", this.parent.getPos(), this.parent.getSize());

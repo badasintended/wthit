@@ -31,6 +31,6 @@ public class ScreenTest extends ScreenBase {
 		super(parent);
 		
 		this.getRoot().addWidget("Layout", new ViewportScrollable(null)).setGeometry(new WidgetGeometry(50.0,50.0,50.0,50.0,CType.ABSXY, CType.RELXY, WAlign.TOP, WAlign.LEFT));
-		((ViewportScrollable)this.getRoot().getWidget("Layout")).attachWidget(new PictureSwitch(this.getRoot(), "waila:textures/test.png", "waila:textures/test_solar.png")).getGeometry().setSize(300, 300);
+		((ViewportScrollable)this.getRoot().getWidget("Layout")).attachWidget(new PictureSwitch(this.getRoot(), "waila:textures/test.png", "waila:textures/test_solar.png")).setSize(900, 900);
 	}
 }

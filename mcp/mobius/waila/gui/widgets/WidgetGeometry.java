@@ -86,19 +86,12 @@ public class WidgetGeometry{
 		this.alignX = alignX;
 		this.alignY = alignY;
 	}
-	public void setPos(double x, double y){
-		this.setPos(x, y, this.fracPosX, this.fracPosY);
-	}
 	
 	public void setPos(double x, double y, boolean fracX, boolean fracY){
 		this.x = x;
 		this.y = y;
 		this.fracPosX = fracX;
 		this.fracPosY = fracY;
-	}
-	
-	public void setSize(double sx, double sy){
-		this.setSize(sx, sy, this.fracSizeX, this.fracSizeY);
 	}
 	
 	public void setSize(double sx, double sy, boolean fracSizeX, boolean fracSizeY){
@@ -158,10 +151,10 @@ public class WidgetGeometry{
 			y -= this.getSize(parent).getY() / 2;
 		
 		if (this.alignX == WAlign.RIGHT)
-			x -= this.getSize(parent).getX();
+			x -= this.getSize(parent).getX() - 1;
 		
 		if (this.alignY == WAlign.BOTTOM)
-			y -= this.getSize(parent).getY();
+			y -= this.getSize(parent).getY() - 1;
 		
 		return new Point(x,y);
 	}

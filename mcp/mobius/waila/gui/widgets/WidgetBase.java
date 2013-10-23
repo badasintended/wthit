@@ -130,8 +130,17 @@ public abstract class WidgetBase implements IWidget {
 	public abstract void draw(Point pos);
 
 	@Override
-	public void setGeometry(WidgetGeometry geom) { this.geom = geom; }
-	public void setGeometry(double x, double y, double sx, double sy, CType fp, CType fs){ this.setGeometry(new WidgetGeometry (x, y, sx, sy, fp, fs)) ;}
+	public IWidget setGeometry(WidgetGeometry geom) { 
+		this.geom = geom; 
+		this.emit(Signal.GEOM_CHANGED, this.geom);  
+		return this;
+	}
+	
+	public IWidget setGeometry(double x, double y, double sx, double sy, CType fp, CType fs){ 
+		this.setGeometry(new WidgetGeometry (x, y, sx, sy, fp, fs));
+		this.emit(Signal.GEOM_CHANGED, this.geom);
+		return this;
+	}
 	
 	@Override
 	public WidgetGeometry getGeometry() { return this.geom;	}
@@ -147,7 +156,32 @@ public abstract class WidgetBase implements IWidget {
 	public int getTop() {	return this.getPos().getY(); }		
 	@Override
 	public int getBottom() {	return this.getPos().getY() + this.getSize().getY(); }	
+
+	@Override	
+	public IWidget setPos(double x, double y){
+		this.emit(Signal.GEOM_CHANGED, this.geom);		
+		return this.setPos(x, y, this.geom.fracPosX, this.geom.fracPosY);
+	}
 	
+	@Override	
+	public IWidget setPos(double x, double y, boolean fracX, boolean fracY){
+		this.emit(Signal.GEOM_CHANGED, this.geom);		
+		this.geom.setPos(x, y, fracX, fracY);
+		return this;		
+	};	
+	
+	@Override	
+	public IWidget setSize(double sx, double sy){
+		this.emit(Signal.GEOM_CHANGED, this.geom);		
+		return this.setSize(sx, sy, this.geom.fracSizeX, this.geom.fracSizeY);
+	}
+	
+	@Override	
+	public IWidget setSize(double sx, double sy, boolean fracX, boolean fracY){
+		this.emit(Signal.GEOM_CHANGED, this.geom);		
+		this.geom.setSize(sx, sy, fracX, fracY);
+		return this;		
+	};		
 	
 	////////////////////////////
 	// SOME RENDERING HELPERS //

@@ -20,7 +20,7 @@ public class ItemStackDisplay extends WidgetBase {
 	public ItemStackDisplay(IWidget parent, ItemStack stack){
 		super(parent);
 		this.stack = stack;
-		this.geom.setSize(16, 16);
+		this.setSize(16, 16);
 	}
 	
 	public void setStack(ItemStack stack){

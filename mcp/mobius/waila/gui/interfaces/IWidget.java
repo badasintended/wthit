@@ -12,8 +12,14 @@ public interface IWidget {
 	IWidget getParent();
 	void    setParent(IWidget parent);
 	
-	void setGeometry(WidgetGeometry geom);
+	IWidget setGeometry(WidgetGeometry geom);
 	WidgetGeometry getGeometry();
+
+	IWidget setPos(double x, double y);
+	IWidget setPos(double x, double y, boolean fracX, boolean fracY);
+	IWidget setSize(double sx, double sy);
+	IWidget setSize(double sx, double sy, boolean fracX, boolean fracY);
+	
 	
 	Point getPos();
 	Point getSize();
