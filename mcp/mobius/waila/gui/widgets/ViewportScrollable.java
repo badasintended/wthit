@@ -32,8 +32,8 @@ public class ViewportScrollable extends WidgetBase {
 		@Override
 		public void draw(Point pos) {
 			UIHelper.drawGradientRect(this.getLeft(), this.getTop(), this.getRight(), this.getBottom(), 1, 0xff999999, 0xff999999);
-			
-			UIHelper.drawGradientRect(this.getLeft(), this.getTop() + (yOffset*-1), this.getRight(), this.getTop() + (yOffset*-1) + sizeCursor, 1, 0xffffffff, 0xffffffff);
+			int offsetScaled = (int)(((double)this.getSize().getY() - (double)sizeCursor + 1) / (double)this.maxValue * (yOffset));
+			UIHelper.drawGradientRect(this.getLeft(), this.getTop() + offsetScaled, this.getRight(), this.getTop() + offsetScaled + sizeCursor, 1, 0xffffffff, 0xffffffff);
 		}
 	}
 	
@@ -90,6 +90,10 @@ public class ViewportScrollable extends WidgetBase {
 	
 	@Override
 	public void onWidgetEvent(IWidget srcwidget, Signal signal, Object... params){
+		System.out.println(srcwidget.getSize());
 		
+		if (srcwidget.equals(this.attachedWidget) && signal == Signal.GEOM_CHANGED){
+			((Escalator)this.getWidget("Escalator")).setMaxValue(this.getSize().getY() - srcwidget.getSize().getY());
+		}
 	}
 }

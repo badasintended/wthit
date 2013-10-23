@@ -159,27 +159,25 @@ public abstract class WidgetBase implements IWidget {
 
 	@Override	
 	public IWidget setPos(double x, double y){
-		this.emit(Signal.GEOM_CHANGED, this.geom);		
 		return this.setPos(x, y, this.geom.fracPosX, this.geom.fracPosY);
 	}
 	
 	@Override	
 	public IWidget setPos(double x, double y, boolean fracX, boolean fracY){
-		this.emit(Signal.GEOM_CHANGED, this.geom);		
 		this.geom.setPos(x, y, fracX, fracY);
+		this.emit(Signal.GEOM_CHANGED, this.geom);		
 		return this;		
 	};	
 	
 	@Override	
 	public IWidget setSize(double sx, double sy){
-		this.emit(Signal.GEOM_CHANGED, this.geom);		
 		return this.setSize(sx, sy, this.geom.fracSizeX, this.geom.fracSizeY);
 	}
 	
 	@Override	
 	public IWidget setSize(double sx, double sy, boolean fracX, boolean fracY){
-		this.emit(Signal.GEOM_CHANGED, this.geom);		
 		this.geom.setSize(sx, sy, fracX, fracY);
+		this.emit(Signal.GEOM_CHANGED, this.geom);		
 		return this;		
 	};		
 	
