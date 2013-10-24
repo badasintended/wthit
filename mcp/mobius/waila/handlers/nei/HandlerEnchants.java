@@ -1,5 +1,6 @@
 package mcp.mobius.waila.handlers.nei;
 
+import java.util.Map;
 import java.util.logging.Level;
 
 import mcp.mobius.waila.Constants;
@@ -8,6 +9,7 @@ import mcp.mobius.waila.gui.screens.info.ScreenEnchants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import codechicken.nei.NEIClientConfig;
@@ -45,8 +47,25 @@ public class HandlerEnchants implements IContainerInputHandler {
 					enchants = Enchantment.enchantmentsList;
 					
 				for(Enchantment enchant : enchants){
+					boolean isCompatible = true;
+					int     level        = 0;
+					boolean isApplied    = false;
+					
 					if (enchant == null){continue;}
 					if (enchant.canApplyAtEnchantingTable(stackover) || stackover.getItem() == Item.book){
+						
+						if (stackover.isItemEnchanted()){
+							Map stackenchants =  EnchantmentHelper.getEnchantments(stackover);
+							for (Object id : stackenchants.keySet()){
+								if (!enchant.canApplyTogether(Enchantment.enchantmentsList[(Integer)id]))
+									isCompatible = false;
+								if ((Integer)id == enchant.effectId){
+									isApplied = true;
+									level     = (Integer)stackenchants.get(id);
+								}
+							}
+						}
+						
 						for (int lvl = enchant.getMinLevel(); lvl <= enchant.getMaxLevel(); lvl++){
 							int minEnchantEnchantability = enchant.getMinEnchantability(lvl);
 							int maxEnchantEnchantability = enchant.getMaxEnchantability(lvl);
@@ -65,10 +84,15 @@ public class HandlerEnchants implements IContainerInputHandler {
 							int meanMinLevel = (int) ((minEnchantEnchantability - meanModifiedEnchantability)/1.0);
 							int meanMaxLevel = (int) ((maxEnchantEnchantability - meanModifiedEnchantability)/1.0);
 							
-							screen.addRow(enchant.getTranslatedName(lvl),
-									String.valueOf(minLevel),
-									String.valueOf(maxLevel),
-									String.valueOf(enchant.getWeight()),
+							String colorcode = isCompatible ? "\u00a7f" : "\u00a7c";
+							
+							if (isApplied && lvl == level)
+								colorcode = "\u00a7e";
+							
+							screen.addRow(colorcode + enchant.getTranslatedName(lvl),
+									colorcode + String.valueOf(minLevel),
+									colorcode + String.valueOf(maxLevel),
+									colorcode + String.valueOf(enchant.getWeight()),
 									"\u00a79\u00a7o"+ this.getEnchantModName(enchant));
 						}
 					}
