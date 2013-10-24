@@ -108,7 +108,7 @@ public class ScreenHUDConfig extends ScreenBase {
 			else
 				return super.getWidgetAtCoordinates(posX, posY);
 		}
-		
+
 		@Override 
 		public void onMouseClick(MouseEvent event){
 			if ((event.button == 0) && (this.getWidget("Layout").getWidget("Picture").isWidgetAtCoordinates(event.x, event.y))){ 
@@ -136,6 +136,14 @@ public class ScreenHUDConfig extends ScreenBase {
 				this.draggedWidget = null;
 			super.onMouseRelease(event);
 		}
+
+		
+		private void updateData(){
+			((LabelFixedFont)this.getWidget("LayoutX").getWidget("ValueDisplayX")).setText(String.format("%.2f", this.getWidget("Layout").getWidget("Picture").getGeometry().getRawPos().getX()));
+			((LabelFixedFont)this.getWidget("LayoutY").getWidget("ValueDisplayY")).setText(String.format("%.2f", this.getWidget("Layout").getWidget("Picture").getGeometry().getRawPos().getY()));
+			((LabelFixedFont)this.getWidget("LayoutAlpha").getWidget("ValueDisplayAlpha")).setText(String.format("%.2f", this.getWidget("Layout").getWidget("Picture").getAlpha()));
+			((LabelFixedFont)this.getWidget("LayoutScale").getWidget("ValueDisplayScale")).setText(String.format("%.2f", scale));			
+		}
 		
 		@Override
 		public void onWidgetEvent(IWidget srcwidget, Signal signal, Object... params){
@@ -144,10 +152,7 @@ public class ScreenHUDConfig extends ScreenBase {
 			
 			if (srcwidget.equals(this.getWidget("Layout").getWidget("Picture")) && signal == Signal.DRAGGED){
 				this.draggedWidget = this.getWidget("Layout").getWidget("Picture");
-				((LabelFixedFont)this.getWidget("LayoutX").getWidget("ValueDisplayX")).setText(String.format("%.2f", this.draggedWidget.getGeometry().getRawPos().getX()));
-				((LabelFixedFont)this.getWidget("LayoutY").getWidget("ValueDisplayY")).setText(String.format("%.2f", this.draggedWidget.getGeometry().getRawPos().getY()));
-				((LabelFixedFont)this.getWidget("LayoutAlpha").getWidget("ValueDisplayAlpha")).setText(String.format("%.2f", this.draggedWidget.getAlpha()));
-				((LabelFixedFont)this.getWidget("LayoutScale").getWidget("ValueDisplayScale")).setText(String.format("%.2f", scale));				
+				this.updateData();
 			}
 
 			if (signal == Signal.CLICKED){
@@ -204,7 +209,8 @@ public class ScreenHUDConfig extends ScreenBase {
 					((LayoutMargin)this.getWidget("Layout")).setMargins(picSX/2, picSX/2, picSY/2, picSY/2);					
 				}
 				
-				picture.emit(Signal.DRAGGED, picture.getPos());
+				//picture.emit(Signal.DRAGGED, picture.getPos());
+				this.updateData();
 				
 			}
 			if (srcwidget.equals(this.getWidget("ButtonOk")) && signal == Signal.CLICKED){
@@ -227,7 +233,9 @@ public class ScreenHUDConfig extends ScreenBase {
 				this.scale = 1.0f;
 				int picSX = (int)(180 / this.rez.getScaleFactor() * scale), picSY = (int)(62 / this.rez.getScaleFactor() * scale);
 				this.getWidget("Layout").getWidget("Picture").setSize(picSX, picSY);		
-				((LayoutMargin)this.getWidget("Layout")).setMargins(picSX/2, picSX/2, picSY/2, picSY/2);				
+				((LayoutMargin)this.getWidget("Layout")).setMargins(picSX/2, picSX/2, picSY/2, picSY/2);
+				
+				this.updateData();				
 			}
 		}
 	}
