@@ -182,6 +182,27 @@ public abstract class WidgetBase implements IWidget {
 		return this;		
 	};		
 	
+	@Override
+	public IWidget adjustSize(){
+		int minleft   = 9999;
+		int maxright  = 0;
+		int mintop    = 9999;
+		int maxbottom = 0;
+		
+		for (IWidget widget : this.widgets.values()){
+			minleft  = Math.min(minleft, widget.getLeft());
+			maxright = Math.max(maxright, widget.getRight());
+			
+			mintop    = Math.min(mintop,    widget.getTop());
+			maxbottom = Math.max(maxbottom, widget.getBottom());			
+		}
+		
+		this.setSize(maxright - minleft, maxbottom - mintop, false, false);
+		
+		this.emit(Signal.GEOM_CHANGED, this.geom);			
+		return this;
+	}
+	
 	////////////////////////////
 	// SOME RENDERING HELPERS //
 	////////////////////////////

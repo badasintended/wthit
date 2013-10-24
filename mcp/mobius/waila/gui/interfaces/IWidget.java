@@ -19,7 +19,7 @@ public interface IWidget {
 	IWidget setPos(double x, double y, boolean fracX, boolean fracY);
 	IWidget setSize(double sx, double sy);
 	IWidget setSize(double sx, double sy, boolean fracX, boolean fracY);
-	
+	IWidget adjustSize();
 	
 	Point getPos();
 	Point getSize();

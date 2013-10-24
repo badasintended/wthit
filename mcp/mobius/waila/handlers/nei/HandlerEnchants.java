@@ -32,6 +32,9 @@ public class HandlerEnchants implements IContainerInputHandler {
 				
 				Minecraft mc = Minecraft.getMinecraft();
 				ScreenEnchants screen = new ScreenEnchants(mc.currentScreen);
+				screen.setStack(stackover);
+				screen.setName(stackover.getDisplayName());
+				screen.setEnchantability(String.valueOf(itemEnchantability));
 				
 				Enchantment[] enchants = null;
 				if (stackover.getItem() == Item.book)
@@ -63,6 +66,7 @@ public class HandlerEnchants implements IContainerInputHandler {
 							screen.addRow(enchant.getTranslatedName(lvl),
 									String.valueOf(minLevel),
 									String.valueOf(maxLevel),
+									String.valueOf(enchant.getWeight()),
 									"\u00a79\u00a7o"+ this.getEnchantModName(enchant));
 						}
 					}
