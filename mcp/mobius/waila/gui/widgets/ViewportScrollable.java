@@ -76,7 +76,9 @@ public class ViewportScrollable extends WidgetBase {
 				double factor = ((double)this.getSize().getY() - (double)sizeCursor + 1) / (double)this.maxValue;
 				this.yOffset  = (int)(relativeY / factor);
 				this.yOffset = Math.max(this.yOffset, this.maxValue);
+				this.yOffset = Math.min(this.yOffset, 0);
 				this.emit(Signal.VALUE_CHANGED, this.yOffset);
+				this.emit(Signal.DRAGGED, this);
 			}
 			else
 				super.onMouseDrag(event);
@@ -142,10 +144,12 @@ public class ViewportScrollable extends WidgetBase {
 			((Escalator)this.getWidget("Escalator")).setMaxValue(this.getSize().getY() - srcwidget.getSize().getY());
 		}
 
-		if (srcwidget.equals(this.getWidget("Escalator")) && signal == Signal.VALUE_CHANGED){
+		else if (srcwidget.equals(this.getWidget("Escalator")) && signal == Signal.VALUE_CHANGED){
 			this.yOffset = (Integer)params[0];
 			((LayoutCropping)this.getWidget("Cropping")).setOffsets(0, this.yOffset);
-		}		
+		}	
+		else
+			super.onWidgetEvent(srcwidget, signal, params);
 		
 	}
 	

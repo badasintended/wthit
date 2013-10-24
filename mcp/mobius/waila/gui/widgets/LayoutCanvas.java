@@ -9,10 +9,12 @@ import mcp.mobius.waila.gui.events.MouseEvent;
 import mcp.mobius.waila.gui.events.MouseEvent.EventType;
 import mcp.mobius.waila.gui.interfaces.CType;
 import mcp.mobius.waila.gui.interfaces.IWidget;
+import mcp.mobius.waila.gui.interfaces.Signal;
 
 public class LayoutCanvas extends WidgetBase{ 
 
 	private MouseEvent lastMouseEvent;
+	private IWidget draggedWidget = null;
 	
 	public LayoutCanvas(){
 		super();
@@ -91,4 +93,26 @@ public class LayoutCanvas extends WidgetBase{
     	this.lastMouseEvent = event;
     }	
 
+    @Override
+    public void onWidgetEvent(IWidget srcwidget, Signal signal, Object... params){
+    	if (signal == Signal.DRAGGED)
+    		this.draggedWidget = srcwidget;
+    	else
+    		super.onWidgetEvent(srcwidget, signal, params);
+    }
+    
+    @Override
+    public void onMouseRelease(MouseEvent event){
+    	if(event.button == 0)
+    		this.draggedWidget = null;
+    	super.onMouseRelease(event);
+    }
+    
+    @Override
+    public void onMouseDrag(MouseEvent event){
+    	if (this.draggedWidget != null)
+    		this.draggedWidget.onMouseDrag(event);
+    	else
+    		super.onMouseDrag(event);
+    }
 }
