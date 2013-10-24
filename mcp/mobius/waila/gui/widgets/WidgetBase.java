@@ -17,13 +17,17 @@ import mcp.mobius.waila.gui.events.MouseEvent;
 import mcp.mobius.waila.gui.helpers.ReverseIterator;
 import mcp.mobius.waila.gui.interfaces.CType;
 import mcp.mobius.waila.gui.interfaces.IWidget;
+import mcp.mobius.waila.gui.interfaces.RenderPriority;
 import mcp.mobius.waila.gui.interfaces.Signal;
 
 public abstract class WidgetBase implements IWidget {
 
 	protected IWidget parent;
 	protected WidgetGeometry  geom;
-    protected LinkedHashMap<String, IWidget> widgets = new LinkedHashMap<String, IWidget>();;	
+    protected LinkedHashMap<String, IWidget> widgets            = new LinkedHashMap<String, IWidget>();
+    protected LinkedHashMap<String, IWidget> renderQueue_HIGH   = new LinkedHashMap<String, IWidget>();
+    protected LinkedHashMap<String, IWidget> renderQueue_MEDIUM = new LinkedHashMap<String, IWidget>();
+    protected LinkedHashMap<String, IWidget> renderQueue_LOW    = new LinkedHashMap<String, IWidget>();
 	protected Minecraft mc;
     protected TextureManager texManager;
     protected ScaledResolution rez;
@@ -58,10 +62,30 @@ public abstract class WidgetBase implements IWidget {
 	
 	@Override
 	public IWidget addWidget(String name, IWidget widget){
+		return this.addWidget(name, widget, RenderPriority.MEDIUM);
+	}
+	
+	@Override
+	public IWidget addWidget(String name, IWidget widget, RenderPriority priority){
 		widget.setParent(this);
 		this.widgets.put(name, widget);
+		
+		switch(priority){
+			case LOW:
+				this.renderQueue_LOW.put(name, widget);
+				break;
+			case HIGH:
+				this.renderQueue_HIGH.put(name, widget);
+				break;
+			case MEDIUM:
+				this.renderQueue_MEDIUM.put(name, widget);
+				break;			
+		}
+		
+
 		return this.getWidget(name);
-	}
+	}	
+	
 	
 	@Override
 	public IWidget getWidget(String name){
@@ -120,10 +144,24 @@ public abstract class WidgetBase implements IWidget {
 		
 		this.draw(this.getPos());
 		
+		/*
 		for (IWidget widget: this.widgets.values())
+			if (widget.shouldRender())
+				widget.draw();
+		*/		
+
+		for (IWidget widget: this.renderQueue_LOW.values())
 			if (widget.shouldRender())
 				widget.draw();		
 
+		for (IWidget widget: this.renderQueue_MEDIUM.values())
+			if (widget.shouldRender())
+				widget.draw();				
+		
+		for (IWidget widget: this.renderQueue_HIGH.values())
+			if (widget.shouldRender())
+				widget.draw();				
+		
 		this.loadGLState();		
 	}
 

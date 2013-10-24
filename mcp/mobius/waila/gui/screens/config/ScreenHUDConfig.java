@@ -8,6 +8,7 @@ import mcp.mobius.waila.addons.ConfigHandler;
 import mcp.mobius.waila.gui.events.MouseEvent;
 import mcp.mobius.waila.gui.interfaces.CType;
 import mcp.mobius.waila.gui.interfaces.IWidget;
+import mcp.mobius.waila.gui.interfaces.RenderPriority;
 import mcp.mobius.waila.gui.interfaces.Signal;
 import mcp.mobius.waila.gui.interfaces.WAlign;
 import mcp.mobius.waila.gui.screens.ScreenBase;
@@ -53,7 +54,7 @@ public class ScreenHUDConfig extends ScreenBase {
 			scale    = ConfigHandler.instance().getConfigInt(Constants.CFG_WAILA_SCALE) / 100.0f;			
 			
 			int picSX = (int)(180 / this.rez.getScaleFactor() * scale), picSY = (int)(62 / this.rez.getScaleFactor() * scale);
-			this.addWidget("Layout", new LayoutMargin(null));
+			this.addWidget("Layout", new LayoutMargin(null), RenderPriority.HIGH);
 			((LayoutMargin)this.getWidget("Layout")).setMargins(picSX/2, picSX/2, picSY/2, picSY/2);
 			this.getWidget("Layout").addWidget("Picture", new PictureMovableRC(null, "waila:textures/config_template.png")).setGeometry(new WidgetGeometry(picX, picY, picSX, picSY,CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));			
 

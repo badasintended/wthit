@@ -37,6 +37,7 @@ public interface IWidget {
 	boolean shouldRender();
 	
 	IWidget addWidget(String name, IWidget widget);
+	IWidget addWidget(String name, IWidget widget, RenderPriority priority);	
 	IWidget getWidget(String name);
 	IWidget delWidget(String name);	
 	IWidget getWidgetAtCoordinates(double posX, double posY);

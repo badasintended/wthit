@@ -28,11 +28,15 @@ public class LayoutCanvas extends LayoutBase{
 		this.rez = new ScaledResolution(mc.gameSettings, mc.displayWidth, mc.displayHeight); 		
 		this.setGeometry(0, 0, this.rez.getScaledWidth(), this.rez.getScaledHeight(), CType.ABSXY, CType.ABSXY);
 		
+		/*
 		this.draw(this.getPos());
 		
 		for (IWidget widget: this.widgets.values())
 			if (widget.shouldRender())
 				widget.draw();
+		*/
+		
+		super.draw();
 		
 		this.handleMouseInput();
 	}	
