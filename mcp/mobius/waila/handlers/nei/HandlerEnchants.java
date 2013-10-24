@@ -1,5 +1,7 @@
 package mcp.mobius.waila.handlers.nei;
 
+import java.util.logging.Level;
+
 import mcp.mobius.waila.Constants;
 import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.gui.screens.info.ScreenEnchants;
@@ -79,6 +81,9 @@ public class HandlerEnchants implements IContainerInputHandler {
 
 	public String getEnchantModName(Enchantment enchant){
 		String enchantPath = enchant.getClass().getProtectionDomain().getCodeSource().getLocation().toString();
+		
+		//mod_Waila.log.log(Level.INFO, enchantPath);
+		
 		String enchantModName = "<Unknown>";
 		for (String s: mod_Waila.instance.modSourceList.keySet())
 			if (enchantPath.contains(s))

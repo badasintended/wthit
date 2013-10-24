@@ -2,6 +2,7 @@ package mcp.mobius.waila;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import mcp.mobius.waila.addons.ConfigHandler;
@@ -105,8 +106,12 @@ public class mod_Waila {
         
         for (ModContainer mod : Loader.instance().getModList()) {
         	this.modSourceList.put(mod.getSource().getName(), mod.getName());
-        	System.out.printf("%s\n", mod.getSource().getName());
+        	//log.log(Level.INFO, String.format("%s %s", mod.getSource().getName(), mod.getName()));
         }
+
+        this.modSourceList.put("1.6.2.jar", "Minecraft");
+        this.modSourceList.put("1.6.3.jar", "Minecraft");          
+        this.modSourceList.put("1.6.4.jar", "Minecraft");        
         
 //        for (String s : this.modSourceList.keySet())
 //        	if (this.modSourceList.get(s) == "Minecraft Coder Pack")

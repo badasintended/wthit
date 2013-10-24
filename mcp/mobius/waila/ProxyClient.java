@@ -52,8 +52,6 @@ public class ProxyClient extends ProxyServer {
 		NEIClientConfig.getSetting(Constants.BIND_NEI_SHOW).setIntValue(Keyboard.KEY_NONE);
 		NEIClientConfig.getSetting(Constants.CFG_NEI_SHOW).setBooleanValue(false);
 		
-		GuiContainerManager.addInputHandler(new HandlerEnchants());
-		API.addKeyBind(Constants.BIND_SCREEN_ENCH, Keyboard.KEY_RSHIFT);
 		//API.addKeyBind(Constants.BIND_WIKI, "Display wiki",          Keyboard.KEY_RSHIFT);
 		//API.addKeyBind(Constants.BIND_TECH, "Display techtree",      Keyboard.KEY_RSHIFT);
 		

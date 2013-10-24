@@ -8,6 +8,8 @@ import org.lwjgl.input.Keyboard;
 
 import codechicken.core.Profiler;
 import codechicken.nei.NEIClientUtils;
+import codechicken.nei.api.API;
+import codechicken.nei.forge.GuiContainerManager;
 import codechicken.nei.recipe.GuiCraftingRecipe;
 import codechicken.nei.recipe.GuiUsageRecipe;
 import codechicken.nei.recipe.ICraftingHandler;
@@ -19,6 +21,7 @@ import mcp.mobius.waila.gui.screens.config.ScreenHUDConfig;
 import mcp.mobius.waila.gui.screens.config.ScreenWailaConfig;
 import mcp.mobius.waila.gui.screens.info.ScreenEnchants;
 import mcp.mobius.waila.gui.testing.ScreenTest;
+import mcp.mobius.waila.handlers.nei.HandlerEnchants;
 import mcp.mobius.waila.overlay.RayTracing;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
@@ -59,7 +62,11 @@ public class ConfigKeyHandler extends KeyHandler {
         LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_RECIPE,  "[Waila] Show recipe");
         LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_USAGE,   "[Waila] Show usage");
         LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_TESTING, "[Waila] Testing");
-        //LanguageRegistry.instance().addStringLocalization("key.wailatedump", "[Waila] Dump server TE");        
+        //LanguageRegistry.instance().addStringLocalization(Constants.BIND_SCREEN_ENCH,   "[Waila] Show enchant screen");
+        //LanguageRegistry.instance().addStringLocalization("key.wailatedump", "[Waila] Dump server TE");      
+        
+		GuiContainerManager.addInputHandler(new HandlerEnchants());
+		API.addKeyBind(Constants.BIND_SCREEN_ENCH, Keyboard.KEY_I);        
     }
 
 	@Override
