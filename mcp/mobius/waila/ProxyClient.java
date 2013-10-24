@@ -26,6 +26,7 @@ import mcp.mobius.waila.gui_old.NEI.HandlerWiki;
 import mcp.mobius.waila.handlers.SummaryProviderDefault;
 import mcp.mobius.waila.handlers.hud.HUDHandlerExternal;
 import mcp.mobius.waila.handlers.hud.HUDHandlerWaila;
+import mcp.mobius.waila.handlers.nei.HandlerEnchants;
 import mcp.mobius.waila.handlers.tooltip.TooltipHandlerWaila;
 import mcp.mobius.waila.overlay.WailaTickHandler;
 import mcp.mobius.waila.server.ProxyServer;
@@ -51,8 +52,8 @@ public class ProxyClient extends ProxyServer {
 		NEIClientConfig.getSetting(Constants.BIND_NEI_SHOW).setIntValue(Keyboard.KEY_NONE);
 		NEIClientConfig.getSetting(Constants.CFG_NEI_SHOW).setBooleanValue(false);
 		
-		//GuiContainerManager.addInputHandler(new TechTreeHandler());
-		//API.addKeyBind(Constants.BIND_ENCH, "Display enchantements", Keyboard.KEY_RSHIFT);
+		GuiContainerManager.addInputHandler(new HandlerEnchants());
+		API.addKeyBind(Constants.BIND_SCREEN_ENCH, Keyboard.KEY_RSHIFT);
 		//API.addKeyBind(Constants.BIND_WIKI, "Display wiki",          Keyboard.KEY_RSHIFT);
 		//API.addKeyBind(Constants.BIND_TECH, "Display techtree",      Keyboard.KEY_RSHIFT);
 		

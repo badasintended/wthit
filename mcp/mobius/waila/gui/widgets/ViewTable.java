@@ -24,12 +24,12 @@ public class ViewTable extends WidgetBase{
 			case LEFT:
 				//this.getWidget("Crop").addWidget("Text", new LabelFixedFont(null, text))
 				this.addWidget("Text", new LabelFixedFont(null, text))
-				    .setGeometry(new WidgetGeometry(0.0, 50.0, 100.0, 100.0,  CType.RELXY, CType.RELXY, WAlign.LEFT,   WAlign.CENTER));				
+				    .setGeometry(new WidgetGeometry(5.0, 50.0, 95.0, 100.0,  CType.RELXY, CType.RELXY, WAlign.LEFT,   WAlign.CENTER));				
 				break;
 			case RIGHT: 
 				//this.getWidget("Crop").addWidget("Text", new LabelFixedFont(null, text))
 				this.addWidget("Text", new LabelFixedFont(null, text))
-				    .setGeometry(new WidgetGeometry(0.0, 50.0, 100.0, 100.0,  CType.RELXY, CType.RELXY, WAlign.RIGHT,  WAlign.CENTER));				
+				    .setGeometry(new WidgetGeometry(5.0, 50.0, 95.0, 100.0,  CType.RELXY, CType.RELXY, WAlign.RIGHT,  WAlign.CENTER));				
 				break;
 			default:
 				throw new UIException(String.format("Unexpected align value : %s", align));
@@ -132,9 +132,9 @@ public class ViewTable extends WidgetBase{
 	
 	public ViewTable(IWidget parent){
 		super(parent);
-		this.addWidget("Titles",   new Row(null)).setGeometry(new WidgetGeometry(0.0, 0.0, 100.0, 10.0, CType.RELXY, CType.RELXY, WAlign.LEFT, WAlign.TOP));
+		this.addWidget("Titles",   new Row(null)).setGeometry(new WidgetGeometry(0.0, 0.0, 100.0, 16.0, CType.REL_X, CType.REL_X, WAlign.LEFT, WAlign.TOP));
 		((Row)this.getWidget("Titles")).setColors(0x00000000, 0x00000000);
-		this.addWidget("Viewport", new ViewportScrollable(null)).setGeometry(new WidgetGeometry(0.0, 10.0, 100.0, 90.0, CType.RELXY, CType.RELXY, WAlign.LEFT, WAlign.TOP));
+		this.addWidget("Viewport", new ViewportScrollable(null)).setGeometry(new WidgetGeometry(0.0, 16.0, 100.0, 90.0, CType.REL_X, CType.RELXY, WAlign.LEFT, WAlign.TOP));
 		((ViewportScrollable)(this.getWidget("Viewport"))).attachWidget(new LayoutBase(null)).setGeometry(new WidgetGeometry(0.0, 0.0, 100.0, 0.0, CType.RELXY, CType.REL_X, WAlign.LEFT, WAlign.TOP));
 		
 	}

@@ -17,6 +17,7 @@ import mcp.mobius.waila.gui.screens.ScreenBase;
 import mcp.mobius.waila.gui.screens.config.ScreenConfig;
 import mcp.mobius.waila.gui.screens.config.ScreenHUDConfig;
 import mcp.mobius.waila.gui.screens.config.ScreenWailaConfig;
+import mcp.mobius.waila.gui.screens.info.ScreenEnchants;
 import mcp.mobius.waila.gui.testing.ScreenTest;
 import mcp.mobius.waila.overlay.RayTracing;
 import net.minecraft.client.Minecraft;
@@ -59,7 +60,7 @@ public class ConfigKeyHandler extends KeyHandler {
         LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_USAGE,   "[Waila] Show usage");
         LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_TESTING, "[Waila] Testing");
         //LanguageRegistry.instance().addStringLocalization("key.wailatedump", "[Waila] Dump server TE");        
-    }	
+    }
 
 	@Override
 	public void keyDown(EnumSet<TickType> types, KeyBinding kb,	boolean tickEnd, boolean isRepeat) {
@@ -72,7 +73,7 @@ public class ConfigKeyHandler extends KeyHandler {
 
 		if (kb.keyDescription == Constants.BIND_WAILA_TESTING){
 			if(mc.currentScreen == null)
-				mc.displayGuiScreen(new ScreenTest(mc.currentScreen));
+				mc.displayGuiScreen(new ScreenEnchants(mc.currentScreen));
 		}		
 		
 		if (mc.currentScreen != null)
