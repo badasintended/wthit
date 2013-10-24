@@ -119,7 +119,6 @@ public class ViewportScrollable extends WidgetBase {
 	@Override
 	public void draw(){
 		//if (Display.wasResized())
-		//	System.out.println("True");
 		
 		if ((this.attachedWidget != null) && (this.attachedWidget.getSize().getY() > this.getSize().getY()))
 			this.getWidget("Escalator").show();

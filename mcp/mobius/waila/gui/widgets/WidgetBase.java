@@ -14,6 +14,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.texture.TextureManager;
 import mcp.mobius.waila.gui.events.MouseEvent;
+import mcp.mobius.waila.gui.helpers.ReverseIterator;
 import mcp.mobius.waila.gui.interfaces.CType;
 import mcp.mobius.waila.gui.interfaces.IWidget;
 import mcp.mobius.waila.gui.interfaces.Signal;
@@ -76,7 +77,7 @@ public abstract class WidgetBase implements IWidget {
 
 	@Override
 	public IWidget getWidgetAtCoordinates(double posX, double posY){
-		for (IWidget widget : this.widgets.values())
+		for (IWidget widget : new ReverseIterator<IWidget>(this.widgets.values()))
 			if ((posX >=  widget.getPos().getX()) && 
 					(posX <=  widget.getPos().getX() + widget.getSize().getX()) &&
 					(posY >=  widget.getPos().getY()) &&

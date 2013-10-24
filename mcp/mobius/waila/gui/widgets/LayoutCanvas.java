@@ -11,13 +11,13 @@ import mcp.mobius.waila.gui.interfaces.CType;
 import mcp.mobius.waila.gui.interfaces.IWidget;
 import mcp.mobius.waila.gui.interfaces.Signal;
 
-public class LayoutCanvas extends WidgetBase{ 
+public class LayoutCanvas extends LayoutBase{ 
 
 	private MouseEvent lastMouseEvent;
 	private IWidget draggedWidget = null;
 	
 	public LayoutCanvas(){
-		super();
+		super(null);
 		this.setGeometry(0, 0, this.rez.getScaledWidth(), this.rez.getScaledHeight(), CType.ABSXY, CType.ABSXY);
         Mouse.getDWheel();	// This is to "calibrate" the DWheel
         this.lastMouseEvent = new MouseEvent(this);
@@ -38,7 +38,7 @@ public class LayoutCanvas extends WidgetBase{
 	}	
 	
 	@Override
-	public void draw(Point pos) {}
+	public void draw(Point pos) { super.draw(pos); }
 	
     @Override
     public void handleMouseInput(){

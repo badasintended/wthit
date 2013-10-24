@@ -6,7 +6,7 @@ import net.minecraft.client.gui.ScaledResolution;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Point;
 
-public class LayoutCropping extends WidgetBase {
+public class LayoutCropping extends LayoutBase {
 
 	int xOffset = 0;
 	int yOffset = 0;
@@ -47,6 +47,6 @@ public class LayoutCropping extends WidgetBase {
 	}	
 	
 	@Override
-	public void draw(Point pos) {}
+	public void draw(Point pos) { super.draw(pos); }
 
 }

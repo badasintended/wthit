@@ -6,7 +6,7 @@ import mcp.mobius.waila.gui.interfaces.WAlign;
 
 import org.lwjgl.util.Point;
 
-public class LayoutMargin extends WidgetBase {
+public class LayoutMargin extends LayoutBase {
 
 	int left   = 0;
 	int right  = 0;
@@ -38,6 +38,6 @@ public class LayoutMargin extends WidgetBase {
 	}	
 	
 	@Override
-	public void draw(Point pos) {}
+	public void draw(Point pos) { super.draw(pos); }
 
 }
