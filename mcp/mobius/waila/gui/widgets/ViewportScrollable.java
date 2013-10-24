@@ -48,6 +48,8 @@ public class ViewportScrollable extends WidgetBase {
 			if (event.button == 0){
 				int offsetScaled = this.getTop() + (int)(((double)this.getSize().getY() - (double)sizeCursor + 1) / (double)this.maxValue * (yOffset));
 				
+				this.drag = false;
+				
 				if (event.y < offsetScaled)
 					this.yOffset += this.step;
 				else if (event.y > offsetScaled + sizeCursor)
@@ -92,7 +94,7 @@ public class ViewportScrollable extends WidgetBase {
 
 	public ViewportScrollable( IWidget parent){
 		super(parent);
-		this.addWidget("Cropping",  new LayoutCropping(null)).setGeometry(new WidgetGeometry(0.0, 50.0, 80.0, 100.0, CType.RELXY, CType.REL_Y, WAlign.LEFT, WAlign.CENTER));
+		this.addWidget("Cropping",  new LayoutCropping(null)).setGeometry(new WidgetGeometry(0.0, 0.0, 100.0, 100.0, CType.RELXY, CType.RELXY, WAlign.LEFT, WAlign.TOP));
 		this.addWidget("Escalator", new Escalator(null, this.step * 5)).setGeometry(new WidgetGeometry(100.0, 0, 8, 100.0, CType.RELXY, CType.REL_Y, WAlign.RIGHT, WAlign.TOP)).hide();
 	}
 

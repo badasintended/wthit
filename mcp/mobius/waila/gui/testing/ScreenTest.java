@@ -30,7 +30,7 @@ public class ScreenTest extends ScreenBase {
 	public ScreenTest(GuiScreen parent) {
 		super(parent);
 		
-		this.getRoot().addWidget("Layout", new ViewportScrollable(null)).setGeometry(new WidgetGeometry(50.0,50.0,50.0,50.0,CType.ABSXY, CType.RELXY, WAlign.TOP, WAlign.LEFT));
+		this.getRoot().addWidget("Layout", new ViewportScrollable(null)).setGeometry(new WidgetGeometry(50.0,50.0,75.0,75.0,CType.RELXY, CType.RELXY, WAlign.CENTER, WAlign.CENTER));
 		((ViewportScrollable)this.getRoot().getWidget("Layout")).attachWidget(new PictureSwitch(this.getRoot(), "waila:textures/test.png", "waila:textures/test_solar.png")).setSize(900, 900);
 	}
 }
