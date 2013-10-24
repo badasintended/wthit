@@ -2,23 +2,12 @@ package mcp.mobius.waila.gui_old.NEI;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.List;
-
 import mcp.mobius.waila.Constants;
-import mcp.mobius.waila.gui_old.GuiIngameWiki;
 import mcp.mobius.waila.gui_old.GuiTechTree;
 import mcp.mobius.waila.gui_old.widget.ComponentDisplay;
-import mcp.mobius.waila.gui_old.widget.StackDisplay;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.CraftingManager;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.ShapedRecipes;
-import net.minecraft.item.crafting.ShapelessRecipes;
-import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.oredict.ShapedOreRecipe;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
 import codechicken.nei.NEIClientConfig;
 import codechicken.nei.forge.IContainerInputHandler;
 

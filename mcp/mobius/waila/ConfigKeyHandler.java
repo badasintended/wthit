@@ -1,35 +1,26 @@
 package mcp.mobius.waila;
 
-import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
-import org.lwjgl.input.Keyboard;
-
-import codechicken.core.Profiler;
-import codechicken.nei.NEIClientUtils;
-import codechicken.nei.api.API;
-import codechicken.nei.forge.GuiContainerManager;
-import codechicken.nei.recipe.GuiCraftingRecipe;
-import codechicken.nei.recipe.GuiUsageRecipe;
-import codechicken.nei.recipe.ICraftingHandler;
-import codechicken.nei.recipe.ProfilerRecipeHandler;
 import mcp.mobius.waila.addons.ConfigHandler;
-import mcp.mobius.waila.gui.screens.ScreenBase;
 import mcp.mobius.waila.gui.screens.config.ScreenConfig;
-import mcp.mobius.waila.gui.screens.config.ScreenHUDConfig;
-import mcp.mobius.waila.gui.screens.config.ScreenWailaConfig;
 import mcp.mobius.waila.gui.screens.info.ScreenEnchants;
-import mcp.mobius.waila.gui.testing.ScreenTest;
 import mcp.mobius.waila.handlers.nei.HandlerEnchants;
 import mcp.mobius.waila.overlay.RayTracing;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumMovingObjectType;
+
+import org.lwjgl.input.Keyboard;
+
+import codechicken.nei.api.API;
+import codechicken.nei.forge.GuiContainerManager;
+import codechicken.nei.recipe.GuiCraftingRecipe;
+import codechicken.nei.recipe.GuiUsageRecipe;
 import cpw.mods.fml.client.registry.KeyBindingRegistry.KeyHandler;
 import cpw.mods.fml.common.TickType;
 import cpw.mods.fml.common.registry.LanguageRegistry;

@@ -3,8 +3,6 @@ package mcp.mobius.waila.gui_old.widget;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 
 public class DraggableViewport extends BaseWidget {
 

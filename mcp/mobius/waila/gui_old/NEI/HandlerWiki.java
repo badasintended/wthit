@@ -6,7 +6,6 @@ import mcp.mobius.waila.Constants;
 import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.addons.ConfigHandler;
 import mcp.mobius.waila.addons.ExternalModulesHandler;
-import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.gui_old.GuiIngameWiki;
 import mcp.mobius.waila.gui_old.widget.Label;
 import mcp.mobius.waila.handlers.SummaryProvider;

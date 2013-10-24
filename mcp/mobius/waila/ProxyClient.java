@@ -1,5 +1,20 @@
 package mcp.mobius.waila;
 
+import mcp.mobius.waila.addons.ExternalModulesHandler;
+import mcp.mobius.waila.addons.appeng.AppEngModule;
+import mcp.mobius.waila.addons.buildcraft.BCModule;
+import mcp.mobius.waila.addons.enderstorage.EnderStorageModule;
+import mcp.mobius.waila.addons.gravestone.GravestoneModule;
+import mcp.mobius.waila.addons.ic2.IC2Module;
+import mcp.mobius.waila.addons.thaumcraft.ThaumcraftModule;
+import mcp.mobius.waila.addons.twilightforest.TwilightForestModule;
+import mcp.mobius.waila.addons.vanillamc.HUDHandlerVanilla;
+import mcp.mobius.waila.handlers.SummaryProviderDefault;
+import mcp.mobius.waila.handlers.hud.HUDHandlerExternal;
+import mcp.mobius.waila.handlers.hud.HUDHandlerWaila;
+import mcp.mobius.waila.handlers.tooltip.TooltipHandlerWaila;
+import mcp.mobius.waila.overlay.WailaTickHandler;
+import mcp.mobius.waila.server.ProxyServer;
 import net.minecraft.item.Item;
 
 import org.lwjgl.input.Keyboard;
@@ -11,25 +26,6 @@ import codechicken.nei.forge.GuiContainerManager;
 import cpw.mods.fml.client.registry.KeyBindingRegistry;
 import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.Side;
-import mcp.mobius.waila.addons.ExternalModulesHandler;
-import mcp.mobius.waila.addons.appeng.AppEngModule;
-import mcp.mobius.waila.addons.betterbarrels.BetterBarrelsModule;
-import mcp.mobius.waila.addons.buildcraft.BCModule;
-import mcp.mobius.waila.addons.enderstorage.EnderStorageModule;
-import mcp.mobius.waila.addons.gravestone.GravestoneModule;
-import mcp.mobius.waila.addons.ic2.IC2Module;
-import mcp.mobius.waila.addons.thaumcraft.ThaumcraftModule;
-import mcp.mobius.waila.addons.twilightforest.TwilightForestModule;
-import mcp.mobius.waila.addons.vanillamc.HUDHandlerVanilla;
-import mcp.mobius.waila.gui_old.NEI.HandlerTechTree;
-import mcp.mobius.waila.gui_old.NEI.HandlerWiki;
-import mcp.mobius.waila.handlers.SummaryProviderDefault;
-import mcp.mobius.waila.handlers.hud.HUDHandlerExternal;
-import mcp.mobius.waila.handlers.hud.HUDHandlerWaila;
-import mcp.mobius.waila.handlers.nei.HandlerEnchants;
-import mcp.mobius.waila.handlers.tooltip.TooltipHandlerWaila;
-import mcp.mobius.waila.overlay.WailaTickHandler;
-import mcp.mobius.waila.server.ProxyServer;
 
 public class ProxyClient extends ProxyServer {
 

@@ -3,8 +3,6 @@ package mcp.mobius.waila.gui_old.NEI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
-
 import codechicken.core.ReflectionManager;
 import codechicken.nei.PositionedStack;
 import codechicken.nei.recipe.FuelRecipeHandler;
@@ -14,13 +12,7 @@ import codechicken.nei.recipe.TemplateRecipeHandler;
 import codechicken.nei.recipe.TemplateRecipeHandler.CachedRecipe;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.CraftingManager;
-import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.item.crafting.ShapedRecipes;
-import net.minecraft.item.crafting.ShapelessRecipes;
 import net.minecraftforge.oredict.OreDictionary;
-import net.minecraftforge.oredict.ShapedOreRecipe;
-import net.minecraftforge.oredict.ShapelessOreRecipe;
 
 public class CraftingTreeNode {
 
@@ -169,6 +161,7 @@ public class CraftingTreeNode {
 		return curratedStacks;
 	}
 	
+	@Override
 	public String toString(){
 		return this.elements.toString();
 	}

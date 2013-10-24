@@ -2,7 +2,6 @@ package mcp.mobius.waila.overlay;
 
 import java.util.EnumSet;
 
-import mcp.mobius.waila.mod_Waila;
 import cpw.mods.fml.common.ITickHandler;
 import cpw.mods.fml.common.TickType;
 

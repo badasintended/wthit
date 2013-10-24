@@ -2,10 +2,8 @@ package mcp.mobius.waila.gui_old.widget;
 
 import org.lwjgl.opengl.GL11;
 
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Icon;
@@ -20,7 +18,7 @@ public class StackDisplay extends BaseWidget {
 	
 	public StackDisplay(GuiScreen parent){
 		this.parent = parent;
-		this.drawItems.zLevel = 500.0f;		
+		StackDisplay.drawItems.zLevel = 500.0f;		
 	};
 
 	public StackDisplay(GuiScreen parent, ItemStack stack){

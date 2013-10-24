@@ -3,13 +3,11 @@ package mcp.mobius.waila.overlay;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import codechicken.nei.api.IHighlightHandler;
 import codechicken.nei.api.ItemInfo;
 import codechicken.nei.forge.GuiContainerManager;
 import cpw.mods.fml.common.ModContainer;
@@ -22,21 +20,13 @@ import java.awt.Point;
 import mcp.mobius.waila.Constants;
 import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.addons.ConfigHandler;
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumMovingObjectType;
-import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-import net.minecraftforge.common.IShearable;
 import static codechicken.core.gui.GuiDraw.*;
-import static mcp.mobius.waila.gui.helpers.UIHelper.*;
 
 public class OverlayRenderer {
 
