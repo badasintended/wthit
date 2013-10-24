@@ -31,8 +31,6 @@ public class ScreenHUDConfig extends ScreenBase {
 			super(parent);
 			this.setGeometry(new WidgetGeometry(0.0,0.0,100.0,100.0,CType.RELXY, CType.RELXY));
 			
-			this.addWidget("TextTuto1", new LabelFixedFont(null, "Drag the HUD to setup its position.")).setGeometry(new WidgetGeometry(50.0,  30.0,20,20, CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));;
-			
 			/*
 			IWidget layoutX = this.addWidget("LayoutX", new LayoutBase(this));
 			layoutX.setGeometry(new WidgetGeometry(40.0,50.0,20,60, CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));
@@ -48,7 +46,19 @@ public class ScreenHUDConfig extends ScreenBase {
 			layoutY.addWidget("ButtonYSub", new ButtonLabel(null, "-")).setGeometry(new WidgetGeometry(0.0,100.0,20,20, CType.RELXY, CType.ABSXY, WAlign.LEFT, WAlign.BOTTOM));		
 			layoutY.addWidget("ValueDisplayY",   new LabelFixedFont(null, "0")).setGeometry(new WidgetGeometry(50.0,50.0,20,20, CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));
 			*/
+			
+			double picX     = ConfigHandler.instance().getConfigInt(Constants.CFG_WAILA_POSX)  / 100.0;
+			double picY     = ConfigHandler.instance().getConfigInt(Constants.CFG_WAILA_POSY)  / 100.0;
+			float  picAlpha = ConfigHandler.instance().getConfigInt(Constants.CFG_WAILA_ALPHA) / 100.0f;
+			scale    = ConfigHandler.instance().getConfigInt(Constants.CFG_WAILA_SCALE) / 100.0f;			
+			
+			int picSX = (int)(180 / this.rez.getScaleFactor() * scale), picSY = (int)(62 / this.rez.getScaleFactor() * scale);
+			this.addWidget("Layout", new LayoutMargin(null));
+			((LayoutMargin)this.getWidget("Layout")).setMargins(picSX/2, picSX/2, picSY/2, picSY/2);
+			this.getWidget("Layout").addWidget("Picture", new PictureMovableRC(null, "waila:textures/config_template.png")).setGeometry(new WidgetGeometry(picX, picY, picSX, picSY,CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));			
 
+			this.addWidget("TextTuto1", new LabelFixedFont(null, "Drag the HUD to setup its position.")).setGeometry(new WidgetGeometry(50.0,  30.0,20,20, CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));;			
+			
 			IWidget layoutX = this.addWidget("LayoutX", new LayoutBase(this));
 			layoutX.setGeometry(new WidgetGeometry(35.0,50.0,20,80,CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));
 			layoutX.addWidget("LabelX",        new LabelFixedFont(null, "X")) .setGeometry(new WidgetGeometry(50.0,   0.0,20,20, CType.REL_X, CType.ABSXY, WAlign.CENTER, WAlign.TOP));
@@ -82,16 +92,8 @@ public class ScreenHUDConfig extends ScreenBase {
 			this.addWidget("ButtonOk",     new ButtonScreenChange(null, "Ok",     prevScreen)).setGeometry(new WidgetGeometry(30.0,97.0,75,20, CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.BOTTOM));
 			this.addWidget("ButtonDefault",new ButtonLabel(null, "Default")).setGeometry(new WidgetGeometry(50.0,97.0,75,20, CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.BOTTOM));
 			
-			double picX     = ConfigHandler.instance().getConfigInt(Constants.CFG_WAILA_POSX)  / 100.0;
-			double picY     = ConfigHandler.instance().getConfigInt(Constants.CFG_WAILA_POSY)  / 100.0;
-			float  picAlpha = ConfigHandler.instance().getConfigInt(Constants.CFG_WAILA_ALPHA) / 100.0f;
-			scale    = ConfigHandler.instance().getConfigInt(Constants.CFG_WAILA_SCALE) / 100.0f;
-			
-			int picSX = (int)(180 / this.rez.getScaleFactor() * scale), picSY = (int)(62 / this.rez.getScaleFactor() * scale);
-			this.addWidget("Layout", new LayoutMargin(null));
-			((LayoutMargin)this.getWidget("Layout")).setMargins(picSX/2, picSX/2, picSY/2, picSY/2);
-			this.getWidget("Layout").addWidget("Picture", new PictureMovableRC(null, "waila:textures/config_template.png")).setGeometry(new WidgetGeometry(picX, picY, picSX, picSY,CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));			
 
+			
 			((LabelFixedFont)this.getWidget("LayoutX").getWidget("ValueDisplayX")).setText(String.format("%.2f", picX));
 			((LabelFixedFont)this.getWidget("LayoutY").getWidget("ValueDisplayY")).setText(String.format("%.2f", picY));
 			((LabelFixedFont)this.getWidget("LayoutAlpha").getWidget("ValueDisplayAlpha")).setText(String.format("%.2f", picAlpha));
@@ -111,6 +113,8 @@ public class ScreenHUDConfig extends ScreenBase {
 
 		@Override 
 		public void onMouseClick(MouseEvent event){
+			//System.out.println(this.getWidgetAtCoordinates(event.x, event.y));
+			
 			if ((event.button == 0) && (this.getWidget("Layout").getWidget("Picture").isWidgetAtCoordinates(event.x, event.y))){ 
 				this.getWidget("Layout").getWidget("Picture").onMouseClick(event);
 				this.draggedWidget = this.getWidget("Layout").getWidget("Picture");

@@ -118,6 +118,8 @@ public class OverlayRenderer {
     
     public static void renderOverlay(ItemStack stack, List<String> textData, Point pos)
     {
+    	GL11.glPushMatrix();
+    	
     	GL11.glScalef(mod_Waila.scale, mod_Waila.scale, 1.0f);
     	
         int w = 0;
@@ -150,10 +152,14 @@ public class OverlayRenderer {
         
         if (stack.getItem() != null)
             GuiContainerManager.drawItem(x+5, y+h/2-8, stack);
+        
+    	GL11.glPopMatrix();        
     }    
     
     public static void renderOverlay(Entity entity, List<String> textData, Point pos)
     {
+    	GL11.glPushMatrix();    	
+    	
     	GL11.glScalef(mod_Waila.scale, mod_Waila.scale, 1.0f);    	
     	
         int w = 0;
@@ -182,6 +188,8 @@ public class OverlayRenderer {
         
         //RenderHelper.enableGUIStandardItemLighting();
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+        
+    	GL11.glPopMatrix();         
     }     
 
     public static void saveGLState(){
