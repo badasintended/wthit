@@ -1,20 +1,29 @@
 package mcp.mobius.waila;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.Set;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import mcp.mobius.antigregtech.AccessHelper;
 import mcp.mobius.waila.addons.ConfigHandler;
 import mcp.mobius.waila.addons.ExternalModulesHandler;
 import mcp.mobius.waila.api.IWailaRegistrar;
 import mcp.mobius.waila.network.WailaConnectionHandler;
 import mcp.mobius.waila.network.WailaPacketHandler;
 import mcp.mobius.waila.server.ProxyServer;
+import mcp.mobius.waila.tools.ModIdentification;
+import mcp.mobius.waila.tools.Reflect;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.Configuration;
 import codechicken.core.CommonUtils;
+import cpw.mods.fml.client.registry.KeyBindingRegistry;
+import cpw.mods.fml.client.registry.KeyBindingRegistry.KeyHandler;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.IMCCallback;
@@ -46,10 +55,8 @@ public class mod_Waila {
 	public static ProxyServer proxy;	
 	
 	public static Logger log = Logger.getLogger("Waila");
-	private HashMap<Integer, String> itemMap = new HashMap<Integer, String>();	
 	public  Configuration config = null;	
 	public boolean serverPresent = false;
-	public HashMap<String, String> modSourceList = new HashMap<String, String>();
 	
 	public static int posX;
 	public static int posY;
@@ -91,29 +98,23 @@ public class mod_Waila {
 
 	@PostInit
 	public void postInit(FMLPostInitializationEvent event) {
-		/* This section is about preloading the name/modid of the items in a table, so we don't look it up at every cycle */
-		
-        NBTTagList itemDataList = new NBTTagList();
-        GameData.writeItemData(itemDataList);
         
-        for(int i = 0; i < itemDataList.tagCount(); i++)
-        {
-            ItemData itemData = new ItemData((NBTTagCompound) itemDataList.tagAt(i));
-            this.itemMap.put(itemData.getItemId(), itemData.getModId());
-        } 	
-        
-        for (ModContainer mod : Loader.instance().getModList()) {
-        	this.modSourceList.put(mod.getSource().getName(), mod.getName());
-        	//log.log(Level.INFO, String.format("%s %s", mod.getSource().getName(), mod.getName()));
-        }
+        ModIdentification.init();
 
-        this.modSourceList.put("1.6.2.jar", "Minecraft");
-        this.modSourceList.put("1.6.3.jar", "Minecraft");          
-        this.modSourceList.put("1.6.4.jar", "Minecraft");        
-        
-//        for (String s : this.modSourceList.keySet())
-//        	if (this.modSourceList.get(s) == "Minecraft Coder Pack")
-//        		this.modSourceList.put(s, "Minecraft");
+        // Code to retrieve all the registered keybindings along with the mod adding them.
+        Field keyHandlers_Field = AccessHelper.getDeclaredField("cpw.mods.fml.client.registry.KeyBindingRegistry", "keyHandlers");
+        try {
+        	Set<KeyHandler> keyHandlers = (Set<KeyHandler>)keyHandlers_Field.get(KeyBindingRegistry.instance());
+            for (KeyHandler keyhandler : keyHandlers)
+            	for (int i = 0; i < keyhandler.getKeyBindings().length; i++)
+            		log.log(Level.INFO, String.format("%s %s", ModIdentification.idFromObject(keyhandler), keyhandler.getKeyBindings()[i].keyDescription));
+
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
+
         
 	}
 
@@ -164,28 +165,6 @@ public class mod_Waila {
 		
 	}
 	
-	public String getModName(ItemStack itemstack){
-		try{
-			String modID = this.itemMap.get(itemstack.itemID);
-			ModContainer mod = CommonUtils.findModContainer(modID);
-			String modname = mod == null ? modID : mod.getName();		
-			return modname;
-		} catch (NullPointerException e){
-			//System.out.printf("NPE : %s\n",itemstack.toString());
-			return "";
-		}
-	}
-
-	public String getModID(ItemStack itemstack){
-		try{
-			String modID = this.itemMap.get(itemstack.itemID);
-			return modID;
-		} catch (NullPointerException e){
-			//System.out.printf("NPE : %s\n",itemstack.toString());
-			return "";
-		}
-	}	
-
 	public static void updateColors(){
     	alpha     = (int)(ConfigHandler.instance().getConfigInt(Constants.CFG_WAILA_ALPHA) / 100.0f * 256) << 24;
     	bgcolor   = alpha + ConfigHandler.instance().getConfigInt(Constants.CFG_WAILA_BGCOLOR);

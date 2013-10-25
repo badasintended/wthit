@@ -5,6 +5,7 @@ import java.util.List;
 import mcp.mobius.waila.Constants;
 import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.addons.ConfigHandler;
+import mcp.mobius.waila.tools.ModIdentification;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
@@ -23,7 +24,7 @@ public class HUDHandlerWaila implements IHighlightHandler {
 	public List<String> handleTextData(ItemStack itemStack, World world, EntityPlayer player, MovingObjectPosition mop,	List<String> currenttip, Layout layout) {
 		
 		if (layout == Layout.FOOTER){
-			String modName = mod_Waila.instance.getModName(itemStack);
+			String modName = ModIdentification.nameFromStack(itemStack);
 			if (modName != null && !modName.equals(""))
 				currenttip.add("\u00a79\u00a7o" + modName);
 		} else if (layout == Layout.HEADER && ConfigHandler.instance().getConfig(Constants.CFG_WAILA_METADATA, false)){

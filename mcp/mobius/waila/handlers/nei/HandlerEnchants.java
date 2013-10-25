@@ -6,6 +6,7 @@ import java.util.logging.Level;
 import mcp.mobius.waila.Constants;
 import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.gui.screens.info.ScreenEnchants;
+import mcp.mobius.waila.tools.ModIdentification;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.enchantment.Enchantment;
@@ -93,7 +94,7 @@ public class HandlerEnchants implements IContainerInputHandler {
 									colorcode + String.valueOf(minLevel),
 									colorcode + String.valueOf(maxLevel),
 									colorcode + String.valueOf(enchant.getWeight()),
-									"\u00a79\u00a7o"+ this.getEnchantModName(enchant));
+									"\u00a79\u00a7o"+ ModIdentification.nameFromObject(enchant));
 						}
 					}
 				}
@@ -103,6 +104,7 @@ public class HandlerEnchants implements IContainerInputHandler {
 		return false;
 	}
 
+	/*
 	public String getEnchantModName(Enchantment enchant){
 		String enchantPath = enchant.getClass().getProtectionDomain().getCodeSource().getLocation().toString();
 		
@@ -116,7 +118,8 @@ public class HandlerEnchants implements IContainerInputHandler {
 		if (enchantModName.equals("Minecraft Coder Pack"))
 			enchantModName = "Minecraft";
 		return enchantModName;
-	}	
+	}
+	*/	
 	
 	@Override
 	public boolean mouseClicked(GuiContainer gui, int mousex, int mousey, int button) {	return false; }

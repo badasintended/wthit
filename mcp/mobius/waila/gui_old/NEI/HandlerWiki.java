@@ -9,6 +9,7 @@ import mcp.mobius.waila.addons.ExternalModulesHandler;
 import mcp.mobius.waila.gui_old.GuiIngameWiki;
 import mcp.mobius.waila.gui_old.widget.Label;
 import mcp.mobius.waila.handlers.SummaryProvider;
+import mcp.mobius.waila.tools.ModIdentification;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
@@ -57,7 +58,7 @@ public class HandlerWiki implements IContainerInputHandler {
 			Minecraft mc = Minecraft.getMinecraft();
 			GuiIngameWiki wikiScreen = new GuiIngameWiki(mc.currentScreen);
 			
-			wikiScreen.widReader.setText(this.getDescriptionString(mod_Waila.instance.getModID(stackover), stackover.getItemName(), String.valueOf(stackover.getItemDamage())));
+			wikiScreen.widReader.setText(this.getDescriptionString(ModIdentification.idFromStack(stackover), stackover.getItemName(), String.valueOf(stackover.getItemDamage())));
 			wikiScreen.widStack.setStack(stackover);
 			wikiScreen.widItemName.setLabel(stackover.getDisplayName());
 			
