@@ -29,7 +29,7 @@ public class ScreenEnchants extends ScreenBase {
 		  .setGeometry(new WidgetGeometry(40.0, 22.0, 16.0, 16.0, CType.ABSXY, CType.REL_X, WAlign.LEFT, WAlign.BOTTOM));		
 		
 		this.getRoot().addWidget("Table", new ViewTable(null))
-			.setGeometry(new WidgetGeometry(50.0, 50.0, 90.0, 90.0, CType.REL_X, CType.RELXY, WAlign.CENTER, WAlign.TOP));
+			.setGeometry(new WidgetGeometry(50.0, 50.0, 90.0, 80.0, CType.REL_X, CType.RELXY, WAlign.CENTER, WAlign.TOP));
 
 		((ViewTable)this.getRoot().getWidget("Table"))
 			.setColumnsTitle("\u00a7a\u00a7oName","\u00a7a\u00a7oMin lvl","\u00a7a\u00a7oMax lvl","\u00a7a\u00a7oWeight", "\u00a7a\u00a7oMod")
