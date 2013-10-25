@@ -16,6 +16,7 @@ import mcp.mobius.waila.network.WailaPacketHandler;
 import mcp.mobius.waila.server.ProxyServer;
 import mcp.mobius.waila.tools.ModIdentification;
 import mcp.mobius.waila.tools.Reflect;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -41,6 +42,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.ItemData;
+import cpw.mods.fml.common.registry.LanguageRegistry;
 
 @Mod(modid="Waila", name="Waila", version="1.4.0_dev")
 @NetworkMod(channels = {"Waila"},clientSideRequired=false, serverSideRequired=false, connectionHandler = WailaConnectionHandler.class, 
@@ -75,6 +77,9 @@ public class mod_Waila {
 		config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_MODE,     true);
 		config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID,   false);
 		config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATA, false);
+		config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_KEYBIND,  true);
+		
+		
 
 		posX = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSX,     5000).getInt();
 		posY = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSY,     100).getInt();
@@ -98,24 +103,38 @@ public class mod_Waila {
 
 	@PostInit
 	public void postInit(FMLPostInitializationEvent event) {
-        
         ModIdentification.init();
-
-        // Code to retrieve all the registered keybindings along with the mod adding them.
-        Field keyHandlers_Field = AccessHelper.getDeclaredField("cpw.mods.fml.client.registry.KeyBindingRegistry", "keyHandlers");
-        try {
-        	Set<KeyHandler> keyHandlers = (Set<KeyHandler>)keyHandlers_Field.get(KeyBindingRegistry.instance());
-            for (KeyHandler keyhandler : keyHandlers)
-            	for (int i = 0; i < keyhandler.getKeyBindings().length; i++)
-            		log.log(Level.INFO, String.format("%s %s", ModIdentification.idFromObject(keyhandler), keyhandler.getKeyBindings()[i].keyDescription));
-
-		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			e.printStackTrace();
-		}
-
         
+        if (ConfigHandler.instance().getConfig(Constants.CFG_WAILA_KEYBIND)){
+        
+	        for (String key: ModIdentification.keyhandlerStrings.keySet()){
+	        	String orig  = I18n.func_135053_a(key);
+	        	if (orig.equals(key))
+	        		orig = LanguageRegistry.instance().getStringLocalization(key);
+	        	if (orig.isEmpty())
+	        		orig = key;
+	        	
+	        	String modif;
+	        	if (orig.startsWith("[") || orig.contains(":"))
+	        		modif = orig;
+	        	else{
+	        		String id = ModIdentification.keyhandlerStrings.get(key);
+	        		
+	        		if (id.contains("."))
+	        			id = id.split("\\.")[0];
+	        		
+	        		if (id.length() > 10)
+	        			id = id.substring(0, 11);
+	        		
+	        		if (id.isEmpty())
+	        			id = "????";
+	        		
+	        		modif = String.format("[%s] %s", id, orig);
+	        	}
+	
+	        	LanguageRegistry.instance().addStringLocalization(key, modif);
+	        }
+        }
 	}
 
 	@IMCCallback

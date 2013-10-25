@@ -1,15 +1,20 @@
 package mcp.mobius.waila.tools;
 
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Field;
 import java.net.URLDecoder;
 import java.util.HashMap;
+import java.util.Set;
 import java.util.logging.Level;
 
 import codechicken.core.CommonUtils;
+import cpw.mods.fml.client.registry.KeyBindingRegistry;
+import cpw.mods.fml.client.registry.KeyBindingRegistry.KeyHandler;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.ItemData;
+import mcp.mobius.antigregtech.AccessHelper;
 import mcp.mobius.waila.mod_Waila;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.ItemStack;
@@ -18,9 +23,10 @@ import net.minecraft.nbt.NBTTagList;
 
 public class ModIdentification {
 	
-	public static HashMap<String, String> modSource_Name = new HashMap<String, String>();
-	public static HashMap<String, String> modSource_ID   = new HashMap<String, String>();
-	public static HashMap<Integer, String> itemMap       = new HashMap<Integer, String>();	
+	public static HashMap<String, String> modSource_Name   = new HashMap<String,  String>();
+	public static HashMap<String, String> modSource_ID     = new HashMap<String,  String>();
+	public static HashMap<Integer, String> itemMap         = new HashMap<Integer, String>();
+	public static HashMap<String, String> keyhandlerStrings = new HashMap<String,  String>();
 	
 	public static void   init(){
 
@@ -49,6 +55,19 @@ public class ModIdentification {
 //      for (String s : this.modSourceList.keySet())
 //    	if (this.modSourceList.get(s) == "Minecraft Coder Pack")
 //    		this.modSourceList.put(s, "Minecraft");        
+        
+        // Code to retrieve all the registered keybindings along with the mod adding them.
+        Field keyHandlers_Field = AccessHelper.getDeclaredField("cpw.mods.fml.client.registry.KeyBindingRegistry", "keyHandlers");
+        try {
+        	Set<KeyHandler> keyHandlers = (Set<KeyHandler>)keyHandlers_Field.get(KeyBindingRegistry.instance());
+            for (KeyHandler keyhandler : keyHandlers)
+            	for (int i = 0; i < keyhandler.getKeyBindings().length; i++)
+            		keyhandlerStrings.put(keyhandler.getKeyBindings()[i].keyDescription, idFromObject(keyhandler));
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}        
         
 	}
 	
@@ -89,9 +108,6 @@ public class ModIdentification {
 		
 		if (modName.equals("Minecraft Coder Pack"))
 			modName = "Minecraft";
-		
-		if (modName.equals("<Unknown>"))
-			mod_Waila.log.log(Level.INFO, String.format("%s %s", obj, objPath));
 		
 		return modName;
 	}	
