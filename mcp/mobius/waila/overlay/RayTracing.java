@@ -107,10 +107,12 @@ public class RayTracing {
         if(items.size() > 0)
             return items;
 
+        try{
         ItemStack pick = mouseoverBlock.getPickBlock(raytracedTarget, world, x, y, z);
         if(pick != null)
             items.add(pick);
- 
+        }catch(Exception e){}
+        
         if(items.size() > 0)
             return items;           
 
