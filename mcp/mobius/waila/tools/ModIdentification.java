@@ -14,7 +14,6 @@ import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.ItemData;
-import mcp.mobius.antigregtech.AccessHelper;
 import mcp.mobius.waila.mod_Waila;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.ItemStack;

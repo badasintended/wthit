@@ -7,7 +7,6 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import mcp.mobius.antigregtech.AccessHelper;
 import mcp.mobius.waila.addons.ConfigHandler;
 import mcp.mobius.waila.addons.ExternalModulesHandler;
 import mcp.mobius.waila.api.IWailaRegistrar;
