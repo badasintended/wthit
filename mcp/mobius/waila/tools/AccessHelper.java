@@ -38,6 +38,37 @@ public class AccessHelper {
 			}
 	    }
 
+	 public static Object getField(String classname, String fieldname, Object instance){
+	    	
+			try {
+				Class class_ = Class.forName(classname);
+		    	Field field_ = class_.getDeclaredField(fieldname);
+		    	field_.setAccessible(true);
+		    	
+		    	mod_Waila.log.fine(String.format("++ Found field %s %s\n", classname, fieldname));
+		    	return 	field_.get(instance);
+			} 
+			catch (NoSuchFieldException e)   {
+				mod_Waila.log.warning(String.format("== Field %s %s not found !\n", classname, fieldname));
+				return null;
+			} 
+			catch (SecurityException e)      {
+				mod_Waila.log.warning(String.format("== Field %s %s security exception !\n", classname, fieldname));				
+				return null;
+			}
+			catch (ClassNotFoundException e) {
+				mod_Waila.log.warning(String.format("== Class %s not found !\n", classname));				
+				return null;
+			} catch (IllegalArgumentException e) {
+				mod_Waila.log.warning(String.format("== %s\n", e));				
+				return null;
+			} catch (IllegalAccessException e) {
+				mod_Waila.log.warning(String.format("== %s\n", e));				
+				return null;
+			}
+	    }	 
+	 
+	 
 	    public static Block getBlock(String classname, String fieldname){
 	    	Field field_ = getDeclaredField(classname, fieldname);
 	    	try{

@@ -7,6 +7,7 @@ import mcp.mobius.waila.addons.enderstorage.EnderStorageModule;
 import mcp.mobius.waila.addons.gravestone.GravestoneModule;
 import mcp.mobius.waila.addons.ic2.IC2Module;
 import mcp.mobius.waila.addons.thaumcraft.ThaumcraftModule;
+import mcp.mobius.waila.addons.thermalexpansion.ThermalExpansionModule;
 import mcp.mobius.waila.addons.twilightforest.TwilightForestModule;
 import mcp.mobius.waila.addons.vanillamc.HUDHandlerVanilla;
 import mcp.mobius.waila.handlers.SummaryProviderDefault;
@@ -83,6 +84,9 @@ public class ProxyClient extends ProxyServer {
 		
 		/* Applied Energetics */
 		AppEngModule.register();
+		
+		/* Thermal Expansion */
+		ThermalExpansionModule.register();
 	}	
 	
 }
