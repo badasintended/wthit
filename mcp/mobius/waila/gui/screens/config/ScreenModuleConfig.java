@@ -31,9 +31,9 @@ public class ScreenModuleConfig extends ScreenBase {
 		
         for (String key:ConfigHandler.instance().getConfigKeys(this.modName).keySet()){
         	if (ConfigHandler.instance().isServerRequired(key))
-        		buttonContainer.addButton(new ButtonBooleanConfigRemote(this.getRoot(), key, "No", "Yes"), ConfigHandler.instance().getConfigKeys(this.modName).get(key));
+        		buttonContainer.addButton(new ButtonBooleanConfigRemote(this.getRoot(), key, "screen.button.no", "screen.button.yes"), ConfigHandler.instance().getConfigKeys(this.modName).get(key));
         	else
-        		buttonContainer.addButton(new ButtonBooleanConfig(this.getRoot(), key, "No", "Yes"), ConfigHandler.instance().getConfigKeys(this.modName).get(key));
+        		buttonContainer.addButton(new ButtonBooleanConfig(this.getRoot(), key, "screen.button.no", "screen.button.yes"), ConfigHandler.instance().getConfigKeys(this.modName).get(key));
         		//buttonContainer.addButton(new ButtonConfigRemote(-1, "No", "Yes", ConfigHandler.instance().getConfigKeys(this.modName).get(key), key ));
         	//else
         		//buttonContainer.addButton(new ButtonConfigOption(-1, "No", "Yes", ConfigHandler.instance().getConfigKeys(this.modName).get(key), key ));
@@ -41,7 +41,7 @@ public class ScreenModuleConfig extends ScreenBase {
 		
 		this.getRoot().addWidget("LayoutBack", new LayoutBase(this.getRoot()));
 		this.getRoot().getWidget("LayoutBack").setGeometry(new WidgetGeometry(0.0, 80.0, 100.0, 20.0, CType.RELXY, CType.RELXY));
-		this.getRoot().getWidget("LayoutBack").addWidget("ButtonBack", new ButtonScreenChange(this.getRoot().getWidget("LayoutBack"), "Back", this.parent));
+		this.getRoot().getWidget("LayoutBack").addWidget("ButtonBack", new ButtonScreenChange(this.getRoot().getWidget("LayoutBack"), "screen.button.back", this.parent));
 		this.getRoot().getWidget("LayoutBack").getWidget("ButtonBack").setGeometry(new WidgetGeometry(50.0, 50.0, 100.0, 20.0, CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));
 	}
 	

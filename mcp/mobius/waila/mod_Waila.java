@@ -22,6 +22,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.Configuration;
 import codechicken.core.CommonUtils;
+import codechicken.lib.lang.LangUtil;
 import cpw.mods.fml.client.registry.KeyBindingRegistry;
 import cpw.mods.fml.client.registry.KeyBindingRegistry.KeyHandler;
 import cpw.mods.fml.common.Loader;
@@ -134,6 +135,7 @@ public class mod_Waila {
 	        	LanguageRegistry.instance().addStringLocalization(key, modif);
 	        }
         }
+        
 	}
 
 	@IMCCallback

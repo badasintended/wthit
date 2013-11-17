@@ -23,6 +23,7 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.input.Keyboard;
 
+import codechicken.lib.lang.LangUtil;
 import codechicken.nei.NEIClientConfig;
 import codechicken.nei.api.API;
 import codechicken.nei.api.ItemInfo;
@@ -40,6 +41,8 @@ public class ProxyClient extends ProxyServer {
 	
 	@Override
 	public void registerHandlers(){
+		
+	    //LangUtil.instance.loadLangDir("waila");
 		
 		minecraftiaFont = FontLoader.createFont(new ResourceLocation("waila", "fonts/Minecraftia.ttf"), 14, true);
 		

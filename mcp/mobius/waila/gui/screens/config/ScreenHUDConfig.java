@@ -58,7 +58,7 @@ public class ScreenHUDConfig extends ScreenBase {
 			((LayoutMargin)this.getWidget("Layout")).setMargins(picSX/2, picSX/2, picSY/2, picSY/2);
 			this.getWidget("Layout").addWidget("Picture", new PictureMovableRC(null, "waila:textures/config_template.png")).setGeometry(new WidgetGeometry(picX, picY, picSX, picSY,CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));			
 
-			this.addWidget("TextTuto1", new LabelFixedFont(null, "Drag the HUD to setup its position.")).setGeometry(new WidgetGeometry(50.0,  30.0,20,20, CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));;			
+			this.addWidget("TextTuto1", new LabelFixedFont(null, "screen.label.dragtuto")).setGeometry(new WidgetGeometry(50.0,  30.0,20,20, CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));;			
 			
 			IWidget layoutX = this.addWidget("LayoutX", new LayoutBase(this));
 			layoutX.setGeometry(new WidgetGeometry(35.0,50.0,20,80,CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));
@@ -83,15 +83,15 @@ public class ScreenHUDConfig extends ScreenBase {
 	
 			IWidget layoutScale = this.addWidget("LayoutScale", new LayoutBase(this));
 			layoutScale.setGeometry(new WidgetGeometry(65.0,50.0,20,80,CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));
-			layoutScale.addWidget("LabelScale",        new LabelFixedFont(null, "Scale")).setGeometry(new WidgetGeometry(50.0,   0.0,20,20, CType.REL_X, CType.ABSXY, WAlign.CENTER, WAlign.TOP));
+			layoutScale.addWidget("LabelScale",        new LabelFixedFont(null, "screen.label.scale")).setGeometry(new WidgetGeometry(50.0,   0.0,20,20, CType.REL_X, CType.ABSXY, WAlign.CENTER, WAlign.TOP));
 			layoutScale.addWidget("ButtonScaleAdd",    new ButtonLabel(null, "+"))       .setGeometry(new WidgetGeometry(0.0,   10.0,20,20, CType.REL_X, CType.ABSXY, WAlign.LEFT,   WAlign.TOP));
 			layoutScale.addWidget("ValueDisplayScale", new LabelFixedFont(null, "0"))    .setGeometry(new WidgetGeometry(50.0,  40.0,20,20, CType.REL_X, CType.ABSXY, WAlign.CENTER, WAlign.TOP));		
 			layoutScale.addWidget("ButtonScaleSub",    new ButtonLabel(null, "-"))       .setGeometry(new WidgetGeometry(0.0,   60.0,20,20, CType.REL_X, CType.ABSXY, WAlign.LEFT,   WAlign.TOP));			
 			
 			
-			this.addWidget("ButtonCancel", new ButtonScreenChange(null, "Cancel", prevScreen)).setGeometry(new WidgetGeometry(70.0,97.0,75,20, CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.BOTTOM));
-			this.addWidget("ButtonOk",     new ButtonScreenChange(null, "Ok",     prevScreen)).setGeometry(new WidgetGeometry(30.0,97.0,75,20, CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.BOTTOM));
-			this.addWidget("ButtonDefault",new ButtonLabel(null, "Default")).setGeometry(new WidgetGeometry(50.0,97.0,75,20, CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.BOTTOM));
+			this.addWidget("ButtonCancel", new ButtonScreenChange(null, "screen.button.cancel", prevScreen)).setGeometry(new WidgetGeometry(70.0,97.0,75,20, CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.BOTTOM));
+			this.addWidget("ButtonOk",     new ButtonScreenChange(null, "screen.button.ok",     prevScreen)).setGeometry(new WidgetGeometry(30.0,97.0,75,20, CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.BOTTOM));
+			this.addWidget("ButtonDefault",new ButtonLabel(null, "screen.button.default")).setGeometry(new WidgetGeometry(50.0,97.0,75,20, CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.BOTTOM));
 			
 
 			

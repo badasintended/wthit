@@ -1,5 +1,6 @@
 package mcp.mobius.waila.gui.screens.info;
 
+import codechicken.lib.lang.LangUtil;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.item.ItemStack;
 import mcp.mobius.waila.gui.interfaces.CType;
@@ -31,8 +32,13 @@ public class ScreenEnchants extends ScreenBase {
 		this.getRoot().addWidget("Table", new ViewTable(null))
 			.setGeometry(new WidgetGeometry(50.0, 50.0, 90.0, 80.0, CType.REL_X, CType.RELXY, WAlign.CENTER, WAlign.TOP));
 
+		String columnName  = "\u00a7a\u00a7o" + LangUtil.translateG("enchant.title.name");
+		String columnMinLvl= "\u00a7a\u00a7o" + LangUtil.translateG("enchant.title.minlvl");;
+		String columnMaxLvl= "\u00a7a\u00a7o" + LangUtil.translateG("enchant.title.maxlvl");;
+		String columnWeight= "\u00a7a\u00a7o" + LangUtil.translateG("enchant.title.weight");;
+		
 		((ViewTable)this.getRoot().getWidget("Table"))
-			.setColumnsTitle("\u00a7a\u00a7oName","\u00a7a\u00a7oMin lvl","\u00a7a\u00a7oMax lvl","\u00a7a\u00a7oWeight", "\u00a7a\u00a7oMod")
+			.setColumnsTitle(columnName, columnMinLvl, columnMaxLvl, columnWeight, "\u00a7a\u00a7oMod")
 			.setColumnsWidth(35.0, 10.0, 10.0, 10.0, 35.0)
 			.setColumnsAlign(WAlign.LEFT, WAlign.CENTER, WAlign.CENTER, WAlign.CENTER, WAlign.LEFT);
 	}
@@ -59,7 +65,7 @@ public class ScreenEnchants extends ScreenBase {
 	}
 	
 	public ScreenEnchants setEnchantability(String value){
-		((LabelFixedFont)this.getRoot().getWidget("Layout_Title").getWidget("LabelEnchantability")).setText(String.format("Enchantability : %s", value));
+		((LabelFixedFont)this.getRoot().getWidget("Layout_Title").getWidget("LabelEnchantability")).setText(String.format("%s : %s", LangUtil.translateG("enchant.label.enchantability"), value));
 		this.getRoot().getWidget("Layout_Title").adjustSize();
 		return this;
 	}	

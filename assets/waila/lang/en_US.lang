@@ -1,0 +1,37 @@
+screen.button.waila=Waila
+screen.button.modules=Modules
+screen.label.scale=Scale
+screen.label.dragtuto=Drag the HUD to setup its position.
+
+screen.button.default=Default
+screen.button.cancel=Cancel
+screen.button.ok=Ok
+screen.button.yes=Yes
+screen.button.no=No
+screen.button.back=Back
+screen.button.hidden=Hidden
+screen.button.visible=Visible
+screen.button.maintained=Maintained
+screen.button.toggled=Toggled
+
+choice.showhidewaila=Show/Hide Waila
+choice.showhideidmeta=Show ID:Metadata
+choice.toggledmaintained=Toggled/Maintained
+choice.showliquids=Liquids
+screen.button.configureaspect=Configure aspect...
+
+enchant.title.name=Name
+enchant.title.minlvl=Min lvl
+enchant.title.maxlvl=Max lvl
+enchant.title.weight=Weight
+enchant.label.enchantability=Enchantability
+
+keybind.configscreen=[Waila] Config screen
+keybind.showhide=[Waila] Show/Hide
+keybind.showliquid=[Waila] Show liquids
+keybind.showrecipe=[Waila] Show recipe
+keybind.showusage=[Waila] Show usage
+keybind.testing=[Waila] Testing
+
+client.msg.norecipe=No recipe found.
+client.msg.nousage=No usage found.

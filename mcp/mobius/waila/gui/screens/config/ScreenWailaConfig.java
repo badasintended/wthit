@@ -21,20 +21,20 @@ public class ScreenWailaConfig extends ScreenBase {
 		
 		ButtonContainerLabel buttonContainer = ((ButtonContainerLabel)this.getRoot().getWidget("ButtonContainer"));
 		
-		buttonContainer.addButton( new ButtonBooleanConfig(this.getRoot(), Constants.CFG_WAILA_SHOW,     true, true, "Hidden",     "Visible"), "Show/Hide Waila");
-		buttonContainer.addButton( new ButtonBooleanConfig(this.getRoot(), Constants.CFG_WAILA_MODE,     true, true, "Maintained", "Toggled"), "Toggled/Maintained");
-		buttonContainer.addButton( new ButtonBooleanConfig(this.getRoot(), Constants.CFG_WAILA_METADATA, true, false,"Hidden",     "Visible"), "Show ID:Metadata");
-		buttonContainer.addButton( new ButtonBooleanConfig(this.getRoot(), Constants.CFG_WAILA_LIQUID,   true, false,"Hidden",     "Visible"), "Liquids");
+		buttonContainer.addButton( new ButtonBooleanConfig(this.getRoot(), Constants.CFG_WAILA_SHOW,     true, true, "screen.button.hidden",     "screen.button.visible"), "choice.showhidewaila");
+		buttonContainer.addButton( new ButtonBooleanConfig(this.getRoot(), Constants.CFG_WAILA_MODE,     true, true, "screen.button.maintained", "screen.button.toggled"), "choice.toggledmaintained");
+		buttonContainer.addButton( new ButtonBooleanConfig(this.getRoot(), Constants.CFG_WAILA_METADATA, true, false,"screen.button.hidden",     "screen.button.visible"), "choice.showhideidmeta");
+		buttonContainer.addButton( new ButtonBooleanConfig(this.getRoot(), Constants.CFG_WAILA_LIQUID,   true, false,"screen.button.hidden",     "screen.button.visible"), "choice.showliquids");
 		
 
 		this.getRoot().addWidget("LayoutConfigPos", new LayoutBase(this.getRoot()));
 		this.getRoot().getWidget("LayoutConfigPos").setGeometry(new WidgetGeometry(0.0, 50.0, 100.0, 20.0,  CType.RELXY, CType.RELXY));
-		this.getRoot().getWidget("LayoutConfigPos").addWidget("ButtonConfigPos", new ButtonScreenChange(null, "Configure aspect ...", new ScreenHUDConfig(this)));
+		this.getRoot().getWidget("LayoutConfigPos").addWidget("ButtonConfigPos", new ButtonScreenChange(null, "screen.button.configureaspect", new ScreenHUDConfig(this)));
 		this.getRoot().getWidget("LayoutConfigPos").getWidget("ButtonConfigPos").setGeometry(new WidgetGeometry(50.0, 50.0, 150.0, 20.0, CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));		
 		
 		this.getRoot().addWidget("LayoutBack", new LayoutBase(this.getRoot()));
 		this.getRoot().getWidget("LayoutBack").setGeometry(new WidgetGeometry(0.0, 80.0, 100.0, 20.0,  CType.RELXY, CType.RELXY));
-		this.getRoot().getWidget("LayoutBack").addWidget("ButtonBack", new ButtonScreenChange(null, "Back", this.parent));
+		this.getRoot().getWidget("LayoutBack").addWidget("ButtonBack", new ButtonScreenChange(null, "screen.button.back", this.parent));
 		this.getRoot().getWidget("LayoutBack").getWidget("ButtonBack").setGeometry(new WidgetGeometry(50.0, 50.0, 100.0, 20.0, CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));
 	}
 }

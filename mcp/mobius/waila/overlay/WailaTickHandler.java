@@ -2,11 +2,14 @@ package mcp.mobius.waila.overlay;
 
 import java.util.EnumSet;
 
+import codechicken.lib.lang.LangUtil;
 import cpw.mods.fml.common.ITickHandler;
 import cpw.mods.fml.common.TickType;
 
 public class WailaTickHandler implements ITickHandler {
 
+    public static LangUtil lang = LangUtil.loadLangDir("waila");
+	
 	private int ticks = 0;
 	
 	@Override

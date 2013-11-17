@@ -17,6 +17,7 @@ import net.minecraft.util.EnumMovingObjectType;
 
 import org.lwjgl.input.Keyboard;
 
+import codechicken.lib.lang.LangUtil;
 import codechicken.nei.api.API;
 import codechicken.nei.forge.GuiContainerManager;
 import codechicken.nei.recipe.GuiCraftingRecipe;
@@ -47,12 +48,12 @@ public class ConfigKeyHandler extends KeyHandler {
                 //false
             });
         
-        LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_CFG,     "[Waila] Config screen");
-        LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_SHOW,    "[Waila] Show/Hide");
-        LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_LIQUID,  "[Waila] Show liquids");
-        LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_RECIPE,  "[Waila] Show recipe");
-        LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_USAGE,   "[Waila] Show usage");
-        LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_TESTING, "[Waila] Testing");
+        LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_CFG,     LangUtil.translateG("keybind.configscreen"));
+        LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_SHOW,    LangUtil.translateG("keybind.showhide"));
+        LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_LIQUID,  LangUtil.translateG("keybind.showliquid"));
+        LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_RECIPE,  LangUtil.translateG("keybind.showrecipe"));
+        LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_USAGE,   LangUtil.translateG("keybind.showusage"));
+        LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_TESTING, LangUtil.translateG("keybind.testing"));
         //LanguageRegistry.instance().addStringLocalization(Constants.BIND_SCREEN_ENCH,   "[Waila] Show enchant screen");
         //LanguageRegistry.instance().addStringLocalization("key.wailatedump", "[Waila] Dump server TE");      
         
@@ -121,7 +122,7 @@ public class ConfigKeyHandler extends KeyHandler {
 						ItemStack target = stacks.get(0).copy();
 						target.setItemDamage(0);
 						if(!GuiCraftingRecipe.openRecipeGui("item", target)){
-							mc.thePlayer.addChatMessage("\u00a7f\u00a7oNo recipe found.");
+							mc.thePlayer.addChatMessage("\u00a7f\u00a7o" + LangUtil.translateG("client.msg.norecipe"));
 							mc.displayGuiScreen((GuiScreen)null);
 							mc.setIngameFocus();
 						}
@@ -132,7 +133,7 @@ public class ConfigKeyHandler extends KeyHandler {
 						ItemStack target = stacks.get(0).copy();
 						target.setItemDamage(0);						
 						if(!GuiUsageRecipe.openRecipeGui("item", target)){
-							mc.thePlayer.addChatMessage("\u00a7f\u00a7oNo usage found.");
+							mc.thePlayer.addChatMessage("\u00a7f\u00a7o" + LangUtil.translateG("client.msg.nousage"));
 							mc.displayGuiScreen((GuiScreen)null);
 							mc.setIngameFocus();
 						}
