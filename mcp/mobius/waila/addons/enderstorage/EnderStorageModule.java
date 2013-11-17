@@ -15,6 +15,8 @@ public class EnderStorageModule {
 	public static Class EnderStorageManager = null;	
 	public static Method GetColourFromFreq = null;
 	
+	public static Class TileEnderTank = null;
+	
 	public static void register(){	
 		try{
 			Class EnderStorage = Class.forName("codechicken.enderstorage.EnderStorage");
@@ -31,6 +33,8 @@ public class EnderStorageModule {
 			
 			EnderStorageManager = Class.forName("codechicken.enderstorage.api.EnderStorageManager");
 			GetColourFromFreq   = EnderStorageManager.getDeclaredMethod("getColourFromFreq", Integer.TYPE, Integer.TYPE);
+			
+			TileEnderTank = Class.forName("codechicken.enderstorage.storage.liquid.TileEnderTank");
 			
 		} catch (ClassNotFoundException e){
 			mod_Waila.log.log(Level.WARNING, "[EnderStorage] Class not found. " + e);

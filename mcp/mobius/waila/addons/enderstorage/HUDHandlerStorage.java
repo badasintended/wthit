@@ -26,12 +26,18 @@ public class HUDHandlerStorage implements IWailaDataProvider {
 	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
 		if(config.getConfig("enderstorage.colors")){
 			try{
+				
 				int freq = EnderStorageModule.TileFrequencyOwner_Freq.getInt(accessor.getTileEntity());
 				int freqLeft   = (Integer)EnderStorageModule.GetColourFromFreq.invoke(null, freq, 0); 
 				int freqCenter = (Integer)EnderStorageModule.GetColourFromFreq.invoke(null, freq, 1);
 				int freqRight  = (Integer)EnderStorageModule.GetColourFromFreq.invoke(null, freq, 2);
 				
-				currenttip.add(String.format("%s/%s/%s", colors[freqLeft], colors[freqCenter], colors[freqRight]));
+				if (!EnderStorageModule.TileEnderTank.isInstance(accessor.getTileEntity()))
+					currenttip.add(String.format("%s/%s/%s", colors[freqLeft], colors[freqCenter], colors[freqRight]));
+				else
+					currenttip.add(String.format("%s/%s/%s", colors[freqRight], colors[freqCenter], colors[freqLeft]));
+				
+				
 			} catch (Exception e){
 				currenttip = WailaExceptionHandler.handleErr(e, accessor.getTileEntity().getClass().getName(), currenttip);
 			}

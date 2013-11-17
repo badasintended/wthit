@@ -24,7 +24,9 @@ public class HUDHandlerIEnergyHandler implements IWailaDataProvider {
 
 	@Override
 	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
+		
 		if (!config.getConfig("thermalexpansion.energyhandler")) return currenttip;
+		if (!accessor.getNBTData().hasKey("Energy")) return currenttip;
 		
 		int energy = accessor.getNBTInteger(accessor.getNBTData(), "Energy");
 		try {
@@ -34,9 +36,6 @@ public class HUDHandlerIEnergyHandler implements IWailaDataProvider {
 		} catch (Exception e){    
 			currenttip = WailaExceptionHandler.handleErr(e, accessor.getTileEntity().getClass().getName(), currenttip);
 		} 
-
-		
-
 		
 		return currenttip;
 	}

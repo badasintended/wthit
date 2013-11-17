@@ -103,6 +103,7 @@ public class ThermalExpansionModule {
 		ExternalModulesHandler.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.owner", "Show owner");		
 		
 		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerIEnergyHandler(), IEnergyHandler);
+		//ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerIEnergyHandler(), TileEnergyCell);
 		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerEnergyCell(), TileEnergyCell);
 		ExternalModulesHandler.instance().registerHeadProvider(new HUDHandlerTank(), TileTank);
 		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerTank(), TileTank);
