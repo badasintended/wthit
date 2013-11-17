@@ -33,7 +33,7 @@ import cpw.mods.fml.relauncher.Side;
 
 public class ProxyClient extends ProxyServer {
 
-	public static TrueTypeFont minecraftiaFont;
+	TrueTypeFont minecraftiaFont;
 	
 	public ProxyClient() {}
 	
@@ -97,4 +97,6 @@ public class ProxyClient extends ProxyServer {
 		ThermalExpansionModule.register();
 	}	
 	
+	@Override
+	public Object getFont(){return this.minecraftiaFont;}	
 }

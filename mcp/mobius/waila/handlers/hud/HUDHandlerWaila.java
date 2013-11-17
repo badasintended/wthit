@@ -26,7 +26,7 @@ public class HUDHandlerWaila implements IHighlightHandler {
 		if (layout == Layout.FOOTER){
 			String modName = ModIdentification.nameFromStack(itemStack);
 			if (modName != null && !modName.equals(""))
-				currenttip.add("\u00a79\u00a7o" + modName);
+				currenttip.add("\u00A79\u00A7o" + modName);
 		} else if (layout == Layout.HEADER && ConfigHandler.instance().getConfig(Constants.CFG_WAILA_METADATA, false)){
 			if (currenttip.size() == 0)
 				currenttip.add("< Unnamed >");

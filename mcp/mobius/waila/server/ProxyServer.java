@@ -6,4 +6,5 @@ public class ProxyServer {
 
 	public void registerHandlers(){}	
 	
+	public Object getFont(){return null;}
 }
