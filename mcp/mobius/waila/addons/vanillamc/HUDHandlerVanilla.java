@@ -28,8 +28,10 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 	static int comparatorAct = Block.redstoneComparatorActive.blockID;
 	static int redstone      = Block.redstoneWire.blockID;
 	static int jukebox       = Block.jukebox.blockID;
+	static int cocoa		 = Block.cocoaPlant.blockID;
+	static int netherwart    = Block.netherStalk.blockID;
 	
-
+	
 	@Override
 	public ItemStack getWailaStack(IWailaDataAccessor accessor,	IWailaConfigHandler config) {
 		return null;
@@ -61,13 +63,32 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 		if (config.getConfig("vanilla.growthvalue"))
 			if (blockID == cropsID || blockID == melonStemID || blockID == pumpkinStemID || blockID == carrotID || blockID == potatoID){
 				float growthValue = (accessor.getMetadata() / 7.0F) * 100.0F;
-				if (growthValue != 100.0)
+				if (growthValue < 100.0)
 					currenttip.add(String.format("Growth : %.0f %%", growthValue));
 				else
 					currenttip.add("Growth : Mature");
 				return currenttip;
 			}		
 
+		if (blockID == cocoa){
+		
+			float growthValue = ((accessor.getMetadata() >> 2) / 2.0F) * 100.0F;
+			if (growthValue < 100.0)
+				currenttip.add(String.format("Growth : %.0f %%", growthValue));
+			else
+				currenttip.add("Growth : Mature");
+			return currenttip;
+		}		
+		
+		if (blockID == netherwart){
+			float growthValue = (accessor.getMetadata() / 3.0F) * 100.0F;
+			if (growthValue < 100.0)
+				currenttip.add(String.format("Growth : %.0f %%", growthValue));
+			else
+				currenttip.add("Growth : Mature");
+			return currenttip;
+		}		
+		
 		if (config.getConfig("vanilla.leverstate"))
 			if (blockID == leverID){
 				String redstoneOn = (accessor.getMetadata() & 8) == 0 ? "Off" : "On";
@@ -141,7 +162,9 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerVanilla(), comparatorAct);
 		ExternalModulesHandler.instance().registerHeadProvider(new HUDHandlerVanilla(), redstone);
 		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerVanilla(), redstone);
-		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerVanilla(), jukebox);	
+		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerVanilla(), jukebox);
+		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerVanilla(), cocoa);
+		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerVanilla(), netherwart);			
 		
 		ExternalModulesHandler.instance().registerDocTextFile("/mcp/mobius/waila/addons/vanillamc/WikiData.csv");		
 	}
