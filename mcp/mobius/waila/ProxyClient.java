@@ -10,6 +10,8 @@ import mcp.mobius.waila.addons.thaumcraft.ThaumcraftModule;
 import mcp.mobius.waila.addons.thermalexpansion.ThermalExpansionModule;
 import mcp.mobius.waila.addons.twilightforest.TwilightForestModule;
 import mcp.mobius.waila.addons.vanillamc.HUDHandlerVanilla;
+import mcp.mobius.waila.gui.truetyper.FontLoader;
+import mcp.mobius.waila.gui.truetyper.TrueTypeFont;
 import mcp.mobius.waila.handlers.SummaryProviderDefault;
 import mcp.mobius.waila.handlers.hud.HUDHandlerExternal;
 import mcp.mobius.waila.handlers.hud.HUDHandlerWaila;
@@ -17,6 +19,7 @@ import mcp.mobius.waila.handlers.tooltip.TooltipHandlerWaila;
 import mcp.mobius.waila.overlay.WailaTickHandler;
 import mcp.mobius.waila.server.ProxyServer;
 import net.minecraft.item.Item;
+import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.input.Keyboard;
 
@@ -30,11 +33,16 @@ import cpw.mods.fml.relauncher.Side;
 
 public class ProxyClient extends ProxyServer {
 
+	public static TrueTypeFont minecraftiaFont;
+	
 	public ProxyClient() {}
 	
 	
 	@Override
 	public void registerHandlers(){
+		
+		minecraftiaFont = FontLoader.createFont(new ResourceLocation("waila", "fonts/Minecraftia.ttf"), 14, true);
+		
 		TickRegistry.registerTickHandler(new WailaTickHandler(), Side.CLIENT);		
 		
 		GuiContainerManager.addTooltipHandler(new TooltipHandlerWaila());
