@@ -67,7 +67,7 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 				if (growthValue < 100.0)
 					currenttip.add(String.format("%s : %.0f %%", LangUtil.translateG("hud.msg.growth"), growthValue));
 				else
-					currenttip.add("Growth : Mature");
+					currenttip.add(String.format("%s : %s", LangUtil.translateG("hud.msg.growth"), LangUtil.translateG("hud.msg.mature")));
 				return currenttip;
 			}		
 
@@ -77,7 +77,7 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 			if (growthValue < 100.0)
 				currenttip.add(String.format("%s : %.0f %%", LangUtil.translateG("hud.msg.growth"), growthValue));
 			else
-				currenttip.add("Growth : Mature");
+				currenttip.add(String.format("%s : %s", LangUtil.translateG("hud.msg.growth"), LangUtil.translateG("hud.msg.mature")));
 			return currenttip;
 		}		
 		
@@ -86,14 +86,14 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 			if (growthValue < 100.0)
 				currenttip.add(String.format("%s : %.0f %%", LangUtil.translateG("hud.msg.growth"), growthValue));
 			else
-				currenttip.add("Growth : Mature");
+				currenttip.add(String.format("%s : %s", LangUtil.translateG("hud.msg.growth"), LangUtil.translateG("hud.msg.mature")));
 			return currenttip;
 		}		
 		
 		if (config.getConfig("vanilla.leverstate"))
 			if (blockID == leverID){
-				String redstoneOn = (accessor.getMetadata() & 8) == 0 ? "Off" : "On";
-				currenttip.add("State : " + redstoneOn);
+				String redstoneOn = (accessor.getMetadata() & 8) == 0 ? LangUtil.translateG("hud.msg.off") : LangUtil.translateG("hud.msg.on");
+				currenttip.add(String.format("%s : %s", LangUtil.translateG("hud.msg.state"), redstoneOn));
 				return currenttip;				
 			}				
 
@@ -101,15 +101,15 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 			if ((blockID == repeaterIdle) ||(blockID == repeaterActv)){
 				int tick = (accessor.getMetadata() >> 2) + 1 ;
 				if (tick == 1)
-					currenttip.add(String.format("Delay : %s tick", tick));
+					currenttip.add(String.format("%s : %s tick", LangUtil.translateG("hud.msg.delay"), tick));
 				else
-					currenttip.add(String.format("Delay : %s ticks", tick));
+					currenttip.add(String.format("%s : %s ticks", LangUtil.translateG("hud.msg.delay"), tick));
 				return currenttip;				
 			}		
 
 		if (config.getConfig("vanilla.comparator"))
 			if ((blockID == comparatorIdl) ||(blockID == comparatorAct)){
-				String mode = ((accessor.getMetadata() >> 2) & 1) == 0 ? "Comparator" : "Subtractor";
+				String mode = ((accessor.getMetadata() >> 2) & 1) == 0 ? LangUtil.translateG("hud.msg.comparator") : LangUtil.translateG("hud.msg.substractor");
 				//int outputSignal = ((TileEntityComparator)entity).func_96100_a();
 				currenttip.add("Mode : " + mode);
 				//currenttip.add(String.format("Out : %s", outputSignal));
@@ -118,7 +118,7 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 
 		if (config.getConfig("vanilla.redstone"))
 			if (blockID == redstone){
-				currenttip.add(String.format("Power : %s" , accessor.getMetadata()));
+				currenttip.add(String.format("%s : %s" , LangUtil.translateG("hud.msg.power"), accessor.getMetadata()));
 				return currenttip;				
 			}	
 		
@@ -130,7 +130,7 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 					record = Item.itemsList[accessor.getNBTInteger(tag, "Record")];
 					currenttip.add(((ItemRecord)record).getRecordTitle());					
 				} else {
-					currenttip.add("<Empty>");
+					currenttip.add(LangUtil.translateG("hud.msg.empty"));
 				}
 			}
 		
