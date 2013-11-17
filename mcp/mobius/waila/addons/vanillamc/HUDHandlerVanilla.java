@@ -2,6 +2,7 @@ package mcp.mobius.waila.addons.vanillamc;
 
 import java.util.List;
 
+import codechicken.lib.lang.LangUtil;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemRecord;
@@ -64,7 +65,7 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 			if (blockID == cropsID || blockID == melonStemID || blockID == pumpkinStemID || blockID == carrotID || blockID == potatoID){
 				float growthValue = (accessor.getMetadata() / 7.0F) * 100.0F;
 				if (growthValue < 100.0)
-					currenttip.add(String.format("Growth : %.0f %%", growthValue));
+					currenttip.add(String.format("%s : %.0f %%", LangUtil.translateG("hud.msg.growth"), growthValue));
 				else
 					currenttip.add("Growth : Mature");
 				return currenttip;
@@ -74,7 +75,7 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 		
 			float growthValue = ((accessor.getMetadata() >> 2) / 2.0F) * 100.0F;
 			if (growthValue < 100.0)
-				currenttip.add(String.format("Growth : %.0f %%", growthValue));
+				currenttip.add(String.format("%s : %.0f %%", LangUtil.translateG("hud.msg.growth"), growthValue));
 			else
 				currenttip.add("Growth : Mature");
 			return currenttip;
@@ -83,7 +84,7 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 		if (blockID == netherwart){
 			float growthValue = (accessor.getMetadata() / 3.0F) * 100.0F;
 			if (growthValue < 100.0)
-				currenttip.add(String.format("Growth : %.0f %%", growthValue));
+				currenttip.add(String.format("%s : %.0f %%", LangUtil.translateG("hud.msg.growth"), growthValue));
 			else
 				currenttip.add("Growth : Mature");
 			return currenttip;

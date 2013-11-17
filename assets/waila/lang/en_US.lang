@@ -86,7 +86,6 @@ hud.msg.comparator=Comparator
 hud.msg.substractor=Substractor
 hud.msg.record=Record
 
-
 option.appeng.monitorcontent=Monitor's content
 option.bb.content=Barrel's content
 option.bc.tankamount=Liquid amount
