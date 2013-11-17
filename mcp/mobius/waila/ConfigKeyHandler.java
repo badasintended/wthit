@@ -37,14 +37,14 @@ public class ConfigKeyHandler extends KeyHandler {
                 new KeyBinding(Constants.BIND_WAILA_LIQUID,  Keyboard.KEY_NUMPAD2),
                 new KeyBinding(Constants.BIND_WAILA_RECIPE,  Keyboard.KEY_NUMPAD3),
                 new KeyBinding(Constants.BIND_WAILA_USAGE,   Keyboard.KEY_NUMPAD4),
-                new KeyBinding(Constants.BIND_WAILA_TESTING, Keyboard.KEY_NUMPAD9),
+                //new KeyBinding(Constants.BIND_WAILA_TESTING, Keyboard.KEY_NUMPAD9),
             }, new boolean[]{
                 false,
                 false,
                 false,
                 false,
                 false,
-                false
+                //false
             });
         
         LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_CFG,     "[Waila] Config screen");

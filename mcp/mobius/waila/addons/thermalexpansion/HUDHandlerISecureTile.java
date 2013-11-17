@@ -1,16 +1,14 @@
 package mcp.mobius.waila.addons.thermalexpansion;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.ForgeDirection;
-import mcp.mobius.waila.WailaExceptionHandler;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 
-public class HUDHandlerIEnergyHandler implements IWailaDataProvider {
+
+public class HUDHandlerISecureTile implements IWailaDataProvider {
 
 	@Override
 	public ItemStack getWailaStack(IWailaDataAccessor accessor,	IWailaConfigHandler config) {
@@ -24,19 +22,28 @@ public class HUDHandlerIEnergyHandler implements IWailaDataProvider {
 
 	@Override
 	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
-		if (!config.getConfig("thermalexpansion.energyhandler")) return currenttip;
 		
-		int energy = accessor.getNBTInteger(accessor.getNBTData(), "Energy");
-		try {
-			Integer maxEnergy = (Integer)ThermalExpansionModule.IEnergyHandler_getMaxStorage.invoke(accessor.getTileEntity(), ForgeDirection.UNKNOWN);
-			if (maxEnergy != 0)
-				currenttip.add(String.format("%d / %d RF", energy, maxEnergy));			
-		} catch (Exception e){    
-			currenttip = WailaExceptionHandler.handleErr(e, accessor.getTileEntity().getClass().getName(), currenttip);
-		} 
-
+		if (config.getConfig("thermalexpansion.owner")){
 		
-
+			String owner  = accessor.getNBTData().getString("Owner");
+			int    iaccess = accessor.getNBTInteger(accessor.getNBTData(), "Access");
+			
+			String access = "INVALID";
+			switch(iaccess){
+			case 0:
+				access = "Public";
+				break;
+			case 1:
+				access = "Restricted";
+				break;
+			case 2:
+				access = "Private";			
+				break;
+			}
+			
+			currenttip.add(String.format("Owner : \u00a7f%s\u00a7r [ %s ]", owner, access));
+		
+		}
 		
 		return currenttip;
 	}
@@ -45,5 +52,7 @@ public class HUDHandlerIEnergyHandler implements IWailaDataProvider {
 	public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
 		return currenttip;
 	}
+
+	
 
 }
