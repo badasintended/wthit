@@ -78,10 +78,10 @@ public class IC2Module {
 			return;			
 		}		
 		
-		ExternalModulesHandler.instance().addConfigRemote("IndustrialCraft2", "ic2.inputeumach",   "Max EU input [Machines]");
-		ExternalModulesHandler.instance().addConfig("IndustrialCraft2", "ic2.inputeuother",  "Max EU input [Other]");
-		ExternalModulesHandler.instance().addConfig("IndustrialCraft2", "ic2.outputeu", "Max EU output");			
-		ExternalModulesHandler.instance().addConfigRemote("IndustrialCraft2", "ic2.storage", "Energy stored");	
+		ExternalModulesHandler.instance().addConfigRemote("IndustrialCraft2", "ic2.inputeumach");
+		ExternalModulesHandler.instance().addConfig("IndustrialCraft2", "ic2.inputeuother");
+		ExternalModulesHandler.instance().addConfig("IndustrialCraft2", "ic2.outputeu");			
+		ExternalModulesHandler.instance().addConfigRemote("IndustrialCraft2", "ic2.storage");	
 		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerIC2IEnergySink(),    IEnergySink);
 		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerIC2IEnergySource(),  IEnergySource);		
 		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerIC2IEnergyStorage(), IEnergyStorage);

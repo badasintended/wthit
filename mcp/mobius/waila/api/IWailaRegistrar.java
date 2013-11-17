@@ -4,6 +4,8 @@ public interface IWailaRegistrar {
 	/* Add a config option in the section modname with displayed text configtext and access key keyname */
 	public void addConfig(String modname, String keyname, String configtext);
 	public void addConfigRemote(String modname, String keyname, String configtext);	
+	public void addConfig(String modname, String keyname);
+	public void addConfigRemote(String modname, String keyname);	
 	
 	/* Register a IWailaDataProvider for the given blockID, either for the Head section or the Body section */
 	public void registerHeadProvider (IWailaDataProvider dataProvider, int blockID);

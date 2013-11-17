@@ -3,6 +3,7 @@ package mcp.mobius.waila.addons.ic2;
 import java.util.List;
 import java.util.logging.Level;
 
+import codechicken.lib.lang.LangUtil;
 import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.addons.ConfigHandler;
 import mcp.mobius.waila.api.IWailaConfigHandler;
@@ -36,11 +37,11 @@ public class HUDHandlerIC2IEnergySource implements IWailaDataProvider {
 		}
 
 		if (ConfigHandler.instance().getConfig("ic2.outputeu") && (output != -1))
-			currenttip.add(String.format("OUT : %s EU/t", output));
+			currenttip.add(String.format("%s : %s EU/t", LangUtil.translateG("hud.msg.output"), output));
 		
 		if (config.getConfig("ic2.storage"))
 			if (accessor.getNBTData().hasKey("storage") && !IC2Module.IEnergyStorage.isInstance(accessor.getTileEntity()))
-				currenttip.add(String.format("Storage : %s EU", accessor.getNBTInteger(accessor.getNBTData(), "storage"))); 
+				currenttip.add(String.format("%s : %s EU", LangUtil.translateG("hud.msg.storage"), accessor.getNBTInteger(accessor.getNBTData(), "storage"))); 
 			
 		return currenttip;
 	}

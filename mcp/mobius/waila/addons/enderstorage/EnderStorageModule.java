@@ -50,7 +50,7 @@ public class EnderStorageModule {
 			return;			
 		}
 		
-		ExternalModulesHandler.instance().addConfig("EnderStorage", "enderstorage.colors",  "Colors");		
+		ExternalModulesHandler.instance().addConfig("EnderStorage", "enderstorage.colors");		
 		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerStorage(),    TileFrequencyOwner);
 	}
 }

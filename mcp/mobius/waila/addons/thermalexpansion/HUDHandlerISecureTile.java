@@ -2,6 +2,7 @@ package mcp.mobius.waila.addons.thermalexpansion;
 
 import java.util.List;
 
+import codechicken.lib.lang.LangUtil;
 import net.minecraft.item.ItemStack;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
@@ -31,17 +32,17 @@ public class HUDHandlerISecureTile implements IWailaDataProvider {
 			String access = "INVALID";
 			switch(iaccess){
 			case 0:
-				access = "Public";
+				access = LangUtil.translateG("hud.msg.public");
 				break;
 			case 1:
-				access = "Restricted";
+				access = LangUtil.translateG("hud.msg.restricted");
 				break;
 			case 2:
-				access = "Private";			
+				access = LangUtil.translateG("hud.msg.private");			
 				break;
 			}
 			
-			currenttip.add(String.format("Owner : \u00a7f%s\u00a7r [ %s ]", owner, access));
+			currenttip.add(String.format("%s : \u00a7f%s\u00a7r [ %s ]", LangUtil.translateG("hud.msg.owner"), owner, access));
 		
 		}
 		

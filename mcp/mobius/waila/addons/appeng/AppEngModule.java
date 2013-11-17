@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
 
+import codechicken.lib.lang.LangUtil;
 import net.minecraftforge.common.ForgeDirection;
 import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.addons.ExternalModulesHandler;
@@ -36,7 +37,7 @@ public class AppEngModule {
 		}
 		
 		mod_Waila.log.log(Level.INFO, "AppEng mod found.");
-		ExternalModulesHandler.instance().addConfig("Applied Energetic", "appeng.monitorcontent", "Monitor's content");		
+		ExternalModulesHandler.instance().addConfig("Applied Energetic", "appeng.monitorcontent");		
 		ExternalModulesHandler.instance().registerBodyProvider(new HUDAppEngMonitor(), TileStorageMonitor);		
 	}
 }

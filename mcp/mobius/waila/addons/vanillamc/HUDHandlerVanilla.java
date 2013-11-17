@@ -142,13 +142,13 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 	}	
 	
 	public static void register(){
-		ExternalModulesHandler.instance().addConfig("VanillaMC", "vanilla.spawntype", "Spawner type");
-		ExternalModulesHandler.instance().addConfig("VanillaMC", "vanilla.growthvalue", "Growth value");
-		ExternalModulesHandler.instance().addConfig("VanillaMC", "vanilla.leverstate", "Lever state");
-		ExternalModulesHandler.instance().addConfig("VanillaMC", "vanilla.repeater", "Repeater delay");
-		ExternalModulesHandler.instance().addConfig("VanillaMC", "vanilla.comparator", "Comparator mode");
-		ExternalModulesHandler.instance().addConfig("VanillaMC", "vanilla.redstone", "Redstone power");
-		ExternalModulesHandler.instance().addConfigRemote("VanillaMC", "vanilla.jukebox", "Jukebox disk");		
+		ExternalModulesHandler.instance().addConfig("VanillaMC", "vanilla.spawntype");
+		ExternalModulesHandler.instance().addConfig("VanillaMC", "vanilla.growthvalue");
+		ExternalModulesHandler.instance().addConfig("VanillaMC", "vanilla.leverstate");
+		ExternalModulesHandler.instance().addConfig("VanillaMC", "vanilla.repeater");
+		ExternalModulesHandler.instance().addConfig("VanillaMC", "vanilla.comparator");
+		ExternalModulesHandler.instance().addConfig("VanillaMC", "vanilla.redstone");
+		ExternalModulesHandler.instance().addConfigRemote("VanillaMC", "vanilla.jukebox");		
 		ExternalModulesHandler.instance().registerHeadProvider(new HUDHandlerVanilla(), mobSpawnerID);
 		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerVanilla(), cropsID);
 		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerVanilla(), melonStemID);

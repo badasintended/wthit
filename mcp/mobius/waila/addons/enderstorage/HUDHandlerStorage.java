@@ -2,6 +2,7 @@ package mcp.mobius.waila.addons.enderstorage;
 
 import java.util.List;
 
+import codechicken.lib.lang.LangUtil;
 import net.minecraft.item.ItemStack;
 import mcp.mobius.waila.WailaExceptionHandler;
 import mcp.mobius.waila.api.IWailaConfigHandler;
@@ -10,7 +11,24 @@ import mcp.mobius.waila.api.IWailaDataProvider;
 
 public class HUDHandlerStorage implements IWailaDataProvider {
 	
-	private static String[] colors = {"White", "Orange", "Magenta", "LBlue", "Yellow", "Lime", "Pink", "Gray", "LGray", "Cyan", "Purple", "Blue", "Brown", "Green", "Red", "Black"};
+	private static String[] colors = {
+		LangUtil.translateG("hud.msg.white"),
+		LangUtil.translateG("hud.msg.orange"),
+		LangUtil.translateG("hud.msg.magenta"),
+		LangUtil.translateG("hud.msg.lblue"),
+		LangUtil.translateG("hud.msg.yellow"),
+		LangUtil.translateG("hud.msg.lime"),
+		LangUtil.translateG("hud.msg.pink"),
+		LangUtil.translateG("hud.msg.gray"),
+		LangUtil.translateG("hud.msg.lgray"),
+		LangUtil.translateG("hud.msg.cyan"),
+		LangUtil.translateG("hud.msg.purple"),
+		LangUtil.translateG("hud.msg.blue"),
+		LangUtil.translateG("hud.msg.brown"),
+		LangUtil.translateG("hud.msg.green"),
+		LangUtil.translateG("hud.msg.red"),
+		LangUtil.translateG("hud.msg.black")		
+	};
 	
 	@Override
 	public ItemStack getWailaStack(IWailaDataAccessor accessor, IWailaConfigHandler config) {

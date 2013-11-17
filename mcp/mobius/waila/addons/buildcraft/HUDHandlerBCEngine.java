@@ -2,6 +2,7 @@ package mcp.mobius.waila.addons.buildcraft;
 
 import java.util.List;
 
+import codechicken.lib.lang.LangUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import mcp.mobius.waila.api.IWailaConfigHandler;
@@ -28,9 +29,9 @@ public class HUDHandlerBCEngine implements IWailaDataProvider {
 			//float output = tag.getFloat("energyF")*tag.getFloat("progress");
 			float output = tag.getFloat("energyF");
 			if (output > 1.0F)
-				currenttip.add(String.format("Output : %.1f MJ",output));
+				currenttip.add(String.format("%s : %.1f MJ", LangUtil.translateG("hud.msg.output") ,output));
 			else
-				currenttip.add(String.format("Output : %.2f MJ",output));
+				currenttip.add(String.format("%s : %.2f MJ", LangUtil.translateG("hud.msg.output"), output));
 		}
 		return currenttip;
 	}

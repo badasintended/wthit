@@ -47,7 +47,7 @@ public class ThaumcraftModule {
 //			mod_Waila.log.log(Level.WARNING, "[Thaumcraft] Unhandled exception." + e);
 //			return;			
 		}		
-		ExternalModulesHandler.instance().addConfig("Thaumcraft", "thaumcraft.storedvis", "Capacitor storage");		
+		ExternalModulesHandler.instance().addConfig("Thaumcraft", "thaumcraft.storedvis");		
 		ExternalModulesHandler.instance().registerStackProvider(new HUDHandlerLeaves(), BlockMagicalLeaves);
 		ExternalModulesHandler.instance().registerStackProvider(new HUDHandlerPlants(), BlockCustomPlant);
 		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerCapacitor(), TileCrystalCapacitor);		

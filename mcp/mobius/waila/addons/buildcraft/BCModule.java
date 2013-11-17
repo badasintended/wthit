@@ -45,8 +45,8 @@ public class BCModule {
 			return;	
 		}
 		
-		ExternalModulesHandler.instance().addConfig("Buildcraft", "bc.tankamount", "Liquid amount");
-		ExternalModulesHandler.instance().addConfig("Buildcraft", "bc.tanktype",   "Liquid type");
+		ExternalModulesHandler.instance().addConfig("Buildcraft", "bc.tankamount");
+		ExternalModulesHandler.instance().addConfig("Buildcraft", "bc.tanktype");
 		//ExternalModulesHandler.instance().addConfigRemote("Buildcraft", "bc.powerpipe",   "Power pipes");
 		ExternalModulesHandler.instance().registerHeadProvider(new HUDHandlerBCTanks(), TileTank);			
 		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerBCTanks(), TileTank);

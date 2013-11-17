@@ -3,6 +3,7 @@ package mcp.mobius.waila.addons.appeng;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
+import codechicken.lib.lang.LangUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import mcp.mobius.waila.api.IWailaConfigHandler;
@@ -31,7 +32,7 @@ public class HUDAppEngMonitor implements IWailaDataProvider {
 					if (stack != null)
 						currenttip.add(stack.getDisplayName());
 					else
-						currenttip.add("<None>");
+						currenttip.add(LangUtil.translateG("hud.msg.none"));
 				} catch (Exception e) {
 					System.out.printf("%s\n", e);
 				}			

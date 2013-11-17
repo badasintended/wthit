@@ -9,6 +9,8 @@ import java.util.logging.Level;
 
 
 
+
+import codechicken.lib.lang.LangUtil;
 import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.addons.ConfigHandler;
 import mcp.mobius.waila.api.IWailaConfigHandler;
@@ -39,7 +41,7 @@ public class HUDHandlerBCTanks implements IWailaDataProvider {
 		if (stack != null && ConfigHandler.instance().getConfig("bc.tanktype"))
 			name = name + " (" + stack.getFluid().getName() + ")";
 		else if (stack == null &&  ConfigHandler.instance().getConfig("bc.tanktype"))
-			name = name + " <Empty>";
+			name = name + " " + LangUtil.translateG("hud.msg.empty");
 		currenttip.set(0, name);		
 		return currenttip;
 	}

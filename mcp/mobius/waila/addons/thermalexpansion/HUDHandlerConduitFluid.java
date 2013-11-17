@@ -2,6 +2,7 @@ package mcp.mobius.waila.addons.thermalexpansion;
 
 import java.util.List;
 
+import codechicken.lib.lang.LangUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import mcp.mobius.waila.WailaExceptionHandler;
@@ -32,7 +33,7 @@ public class HUDHandlerConduitFluid implements IWailaDataProvider {
 				try{
 					currenttip.add(fluid.getFluid().getLocalizedName());
 				} catch (NullPointerException f){
-					currenttip.add("Empty");
+					currenttip.add(LangUtil.translateG("hud.msg.empty"));
 				}
 				
 			} catch (Exception e){    

@@ -3,6 +3,7 @@ package mcp.mobius.waila.addons.thermalexpansion;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
+import codechicken.lib.lang.LangUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import mcp.mobius.waila.WailaExceptionHandler;
@@ -28,7 +29,7 @@ public class HUDHandlerTank implements IWailaDataProvider {
 			try{
 				name += String.format(" < %s >", fluid.getFluid().getLocalizedName());
 			} catch (NullPointerException f){
-				name += " < Empty >";
+				name += " " + LangUtil.translateG("hud.msg.empty");
 			}			
 			
 			currenttip.set(0, name);
@@ -55,9 +56,9 @@ public class HUDHandlerTank implements IWailaDataProvider {
 			if (config.getConfig("thermalexpansion.tankmode")){
 				Byte mode = (Byte)ThermalExpansionModule.TileTank_mode.get(accessor.getTileEntity());
 				if (mode == 0)
-					currenttip.add("Mode : \u00a7aInput");
+					currenttip.add(String.format("%s : \u00a7a%s", LangUtil.translateG("hud.msg.mode"), LangUtil.translateG("hud.msg.input")));
 				else if (mode == 1)
-					currenttip.add("Mode : \u00a7cOutput");
+					currenttip.add(String.format("%s : \u00a7c%s", LangUtil.translateG("hud.msg.mode"), LangUtil.translateG("hud.msg.output")));
 				else
 					currenttip.add(String.format("Mode : Unknown (%d)", mode));
 			}

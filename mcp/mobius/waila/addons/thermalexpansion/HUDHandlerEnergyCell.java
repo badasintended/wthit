@@ -2,6 +2,7 @@ package mcp.mobius.waila.addons.thermalexpansion;
 
 import java.util.List;
 
+import codechicken.lib.lang.LangUtil;
 import net.minecraft.item.ItemStack;
 import mcp.mobius.waila.WailaExceptionHandler;
 import mcp.mobius.waila.api.IWailaConfigHandler;
@@ -27,7 +28,7 @@ public class HUDHandlerEnergyCell implements IWailaDataProvider {
 		int energyReceive = accessor.getNBTInteger(accessor.getNBTData(), "Recv");
 		int energySend    = accessor.getNBTInteger(accessor.getNBTData(), "Send");
 		
-		currenttip.add(String.format("In/Out : %d / %d RF/t", energyReceive, energySend));
+		currenttip.add(String.format("%s/%s : %d / %d RF/t", LangUtil.translateG("hud.msg.in"), LangUtil.translateG("hud.msg.out"), energyReceive, energySend));
 		
 		return currenttip;
 	}

@@ -12,6 +12,7 @@ import java.util.logging.Level;
 
 import au.com.bytecode.opencsv.CSVReader;
 import net.minecraft.block.Block;
+import codechicken.lib.lang.LangUtil;
 import codechicken.nei.api.API;
 import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.api.IWailaDataProvider;
@@ -48,12 +49,22 @@ public class ExternalModulesHandler implements IWailaRegistrar {
 
 	@Override
 	public void addConfig(String modname, String key, String configname) {
-		ConfigHandler.instance().addConfig(modname, key, configname);
+		ConfigHandler.instance().addConfig(modname, key, LangUtil.translateG(configname));
 	}
 
 	@Override
 	public void addConfigRemote(String modname, String key, String configname) {
-		ConfigHandler.instance().addConfigServer(modname, key, configname);
+		ConfigHandler.instance().addConfigServer(modname, key, LangUtil.translateG(configname));
+	}	
+	
+	@Override
+	public void addConfig(String modname, String key) {
+		ConfigHandler.instance().addConfig(modname, key, LangUtil.translateG("option." + key));
+	}
+
+	@Override
+	public void addConfigRemote(String modname, String key) {
+		ConfigHandler.instance().addConfigServer(modname, key, LangUtil.translateG("option." + key));
 	}	
 	
 	@Override

@@ -3,6 +3,7 @@ package mcp.mobius.waila.addons.ic2;
 import java.util.List;
 import java.util.logging.Level;
 
+import codechicken.lib.lang.LangUtil;
 import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.addons.ConfigHandler;
 import mcp.mobius.waila.api.IWailaConfigHandler;
@@ -43,17 +44,17 @@ public class HUDHandlerIC2IEnergySink implements IWailaDataProvider {
 		
 
 		if (ConfigHandler.instance().getConfig("ic2.inputeuother") && (maxinput > 4096))
-			currenttip.add("IN : ANY");
+			currenttip.add(String.format("%s : %s", LangUtil.translateG("hud.msg.input"), LangUtil.translateG("hud.msg.any")));
 			
 		else if (ConfigHandler.instance().getConfig("ic2.inputeuother") && (maxinput != -1) && !this.canUpgrade(accessor.getNBTData()))
-			currenttip.add(String.format("IN : %s EU/t", maxinput));
+			currenttip.add(String.format("%s : %s EU/t", LangUtil.translateG("hud.msg.input"), maxinput));
 
 		else if (ConfigHandler.instance().getConfig("ic2.inputeumach") && (maxinput != -1) && this.canUpgrade(accessor.getNBTData()))
-			currenttip.add(String.format("IN : %s EU/t", maxinput));		
+			currenttip.add(String.format("%s : %s EU/t", LangUtil.translateG("hud.msg.input"), maxinput));		
 		
 		if (config.getConfig("ic2.storage"))
 			if (accessor.getNBTData().hasKey("energy") && !IC2Module.IEnergyStorage.isInstance(accessor.getTileEntity()))
-				currenttip.add(String.format("Storage : %s EU", accessor.getNBTInteger(accessor.getNBTData(), "energy")));		
+				currenttip.add(String.format("%s : %s EU", LangUtil.translateG("hud.msg.storage"), accessor.getNBTInteger(accessor.getNBTData(), "energy")));		
 		
 		return currenttip;
 	}

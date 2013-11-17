@@ -90,17 +90,14 @@ public class ThermalExpansionModule {
 //			return;			
 		}		
 		
-		ExternalModulesHandler.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.energyhandler", "Show RF storage");
-		ExternalModulesHandler.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.energycell", "Show ECell IN/OUT");
-		
-		ExternalModulesHandler.instance().addConfig("Thermal Expansion", "thermalexpansion.fluidtype", "Show fluid type");
-		ExternalModulesHandler.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.fluidamount", "Show fluid amount");
-		ExternalModulesHandler.instance().addConfig("Thermal Expansion", "thermalexpansion.tankmode", "Show tank mode");
-		
-		ExternalModulesHandler.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.tesssendrecv", "Tesseract mode");
-		ExternalModulesHandler.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.tessfreq", "Tesseract frequency");
-		
-		ExternalModulesHandler.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.owner", "Show owner");		
+		ExternalModulesHandler.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.energyhandler");
+		ExternalModulesHandler.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.energycell");
+		ExternalModulesHandler.instance().addConfig("Thermal Expansion", "thermalexpansion.fluidtype");
+		ExternalModulesHandler.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.fluidamount");
+		ExternalModulesHandler.instance().addConfig("Thermal Expansion", "thermalexpansion.tankmode");
+		ExternalModulesHandler.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.tesssendrecv");
+		ExternalModulesHandler.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.tessfreq");
+		ExternalModulesHandler.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.owner");		
 		
 		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerIEnergyHandler(), IEnergyHandler);
 		//ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerIEnergyHandler(), TileEnergyCell);

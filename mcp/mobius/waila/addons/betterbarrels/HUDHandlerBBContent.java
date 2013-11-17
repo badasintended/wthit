@@ -15,6 +15,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import codechicken.lib.lang.LangUtil;
 import codechicken.nei.api.API;
 import codechicken.nei.api.ItemInfo;
 import codechicken.nei.api.ItemInfo.Layout;
@@ -50,7 +51,7 @@ public class HUDHandlerBBContent implements IWailaDataProvider {
 			if (stack != null){
 				currenttip.add(stack.getDisplayName());
 			} else {
-				currenttip.add("<Empty>");
+				currenttip.add(LangUtil.translateG("hud.msg.empty"));
 			}
 		}	
 		return currenttip;

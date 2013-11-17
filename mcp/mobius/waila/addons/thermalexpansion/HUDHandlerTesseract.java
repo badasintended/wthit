@@ -2,6 +2,7 @@ package mcp.mobius.waila.addons.thermalexpansion;
 
 import java.util.List;
 
+import codechicken.lib.lang.LangUtil;
 import net.minecraft.item.ItemStack;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
@@ -23,57 +24,61 @@ public class HUDHandlerTesseract implements IWailaDataProvider {
 	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
 		
 		if (config.getConfig("thermalexpansion.tesssendrecv")){
-			String send = "Send : ";
-			String recv = "Recv : ";
+			String send = String.format("%s : ", LangUtil.translateG("hud.msg.send"));
+			String recv = String.format("%s : ", LangUtil.translateG("hud.msg.recv"));
+			String item = String.format("\u00a7a%s ", LangUtil.translateG("hud.msg.item"));
+			String fluid= String.format("\u00a79%s ", LangUtil.translateG("hud.msg.fluid"));
+			String energ= String.format("\u00a7c%s ", LangUtil.translateG("hud.msg.energ"));
+			
 			
 			switch (accessor.getNBTInteger(accessor.getNBTData(), "Item.Mode")){
 			case 0:
-				send += "\u00a7aItem ";
+				send += item;
 				break;
 			case 1:
-				recv += "\u00a7aItem ";
+				recv += item;
 				break;
 			case 2:
-				send += "\u00a7aItem ";
-				recv += "\u00a7aItem ";
+				send += item;
+				recv += item;
 				break;
 			}
 	
 			switch (accessor.getNBTInteger(accessor.getNBTData(), "Fluid.Mode")){
 			case 0:
-				send += "\u00a79Fluid ";
+				send += fluid;
 				break;
 			case 1:
-				recv += "\u00a79Fluid ";
+				recv += fluid;
 				break;
 			case 2:
-				send += "\u00a79Fluid ";
-				recv += "\u00a79Fluid ";
+				send += fluid;
+				recv += fluid;
 				break;
 			}
 			
 			switch (accessor.getNBTInteger(accessor.getNBTData(), "Energy.Mode")){
 			case 0:
-				send += "\u00a7cEnergy";
+				send += energ;
 				break;
 			case 1:
-				recv += "\u00a7cEnergy";
+				recv += energ;
 				break;
 			case 2:
-				send += "\u00a7cEnergy";
-				recv += "\u00a7cEnergy";
+				send += energ;
+				recv += energ;
 				break;
 			}		
 			
-			if (!send.equals("Send : "))
+			if (!send.equals(String.format("%s : ", LangUtil.translateG("hud.msg.send"))))
 				currenttip.add(send);
 			
-			if (!send.equals("Recv : "))		
+			if (!send.equals(String.format("%s : ", LangUtil.translateG("hud.msg.recv"))))		
 				currenttip.add(recv);
 		}
 		
 		if (config.getConfig("thermalexpansion.tessfreq"))
-			currenttip.add(String.format("Frequency : %d",accessor.getNBTInteger(accessor.getNBTData(), "Frequency")));		
+			currenttip.add(String.format("%s : %d",LangUtil.translateG("hud.msg.frequency"), accessor.getNBTInteger(accessor.getNBTData(), "Frequency")));		
 		
 		return currenttip;
 	}
