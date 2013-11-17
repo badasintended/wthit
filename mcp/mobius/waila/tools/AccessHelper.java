@@ -69,6 +69,16 @@ public class AccessHelper {
 	    }	 
 	 
 	 
+	 public static Object getFieldExcept(String classname, String fieldname, Object instance) throws Exception{
+			Class class_ = Class.forName(classname);
+	    	Field field_ = class_.getDeclaredField(fieldname);
+	    	field_.setAccessible(true);
+	    	
+	    	mod_Waila.log.fine(String.format("++ Found field %s %s\n", classname, fieldname));
+	    	return 	field_.get(instance);
+	 }	 
+	 
+	 
 	    public static Block getBlock(String classname, String fieldname){
 	    	Field field_ = getDeclaredField(classname, fieldname);
 	    	try{

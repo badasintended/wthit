@@ -128,7 +128,7 @@ public class OverlayRenderer {
         
         drawTooltipBox(x, y, w, h, mod_Waila.bgcolor, mod_Waila.gradient1, mod_Waila.gradient2);
 
-        int ty = (h-8*textData.size())/2;
+        int ty = (h-10*textData.size())/2;
         
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);     
@@ -168,7 +168,7 @@ public class OverlayRenderer {
         
         drawTooltipBox(x, y, w, h, mod_Waila.bgcolor, mod_Waila.gradient1, mod_Waila.gradient2);
 
-        int ty = (h-8*textData.size())/2;
+        int ty = (h-10*textData.size())/2;
 
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);         
