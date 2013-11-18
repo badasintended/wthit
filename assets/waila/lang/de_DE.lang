@@ -1,0 +1,124 @@
+screen.button.waila=Waila
+screen.button.modules=Module
+screen.label.scale=Maße
+screen.label.dragtuto=Verschiebe das HUD, um seine Position zu ändern.
+
+screen.button.default=Standard
+screen.button.cancel=Abbrechen
+screen.button.ok=Ok
+screen.button.yes=Ja
+screen.button.no=Nein
+screen.button.back=Zurück
+screen.button.hidden=Versteckt
+screen.button.visible=Sichtbar
+screen.button.maintained=Gewartet
+screen.button.toggled=Geschaltet
+
+choice.showhidewaila=Zeige/Verstecke Waila
+choice.showhideidmeta=Zeige ID:Metadata
+choice.toggledmaintained=Geschaltet/Gewartet
+choice.showliquids=Flüssigkeiten
+screen.button.configureaspect=Konfiguriere Aspekt...
+
+enchant.title.name=Name
+enchant.title.minlvl=Min lvl
+enchant.title.maxlvl=Max lvl
+enchant.title.weight=Gewicht
+enchant.label.enchantability=Verzauberbarkeit
+
+keybind.configscreen=[Waila] Config-Bildschirm
+keybind.showhide=[Waila] Zeigen/Verstecken
+keybind.showliquid=[Waila] Zeige Flüssigkeiten
+keybind.showrecipe=[Waila] Zeige Rezept
+keybind.showusage=[Waila] Zeige Nutzung
+keybind.testing=[Waila] Testen
+
+client.msg.norecipe=Kein Rezept gefunden.
+client.msg.nousage=Keine Nutzung gefunden.
+
+hud.msg.none=<Nichts>
+hud.msg.empty=<Leer>
+hud.msg.output=Output
+hud.msg.input=Input
+hud.msg.out=Out
+hud.msg.in=In
+hud.msg.power=Energie
+hud.msg.storage=Gespeichert
+hud.msg.any=Jegliches
+hud.msg.mode=Modus
+hud.msg.maxpower=Max Energie
+hud.msg.trigger=Trigger
+hud.msg.maxio=Max IO
+
+hud.msg.send=Senden
+hud.msg.recv=Empfangen
+hud.msg.item=Item
+hud.msg.fluid=Flüssigk.
+hud.msg.energ=Energie
+hud.msg.frequency=Frequenz
+
+hud.msg.owner=Besitzer
+hud.msg.public=Öffentlich
+hud.msg.restricted=Eingeschränkt
+hud.msg.private=Privat
+
+hud.msg.white=Weiß
+hud.msg.orange=Orange
+hud.msg.magenta=Magenta
+hud.msg.lblue=HBlau
+hud.msg.yellow=Gelb
+hud.msg.lime=HGrün
+hud.msg.pink=Pink
+hud.msg.gray=Grau
+hud.msg.lgray=HGrau
+hud.msg.cyan=Türkis
+hud.msg.purple=Violett
+hud.msg.blue=Blau
+hud.msg.brown=Braun
+hud.msg.green=Grün
+hud.msg.red=Rot
+hud.msg.black=Schwarz
+
+hud.msg.growth=Wachstum
+hud.msg.mature=Erwachsen
+hud.msg.off=Aus
+hud.msg.on=An
+hud.msg.state=Status
+hud.msg.delay=Verzögerung
+hud.msg.comparator=Komparator
+hud.msg.substractor=Substraktor
+hud.msg.record=Platte
+
+option.appeng.monitorcontent=Monitorinhalt
+option.bb.content=Fassinhalt
+option.bc.tankamount=Flüssigk.-Menge
+option.bc.tanktype=Flüssigk.-Typ
+option.enderstorage.colors=Farben
+option.ic2.inputeumach=Max EU-Input [Maschinen]
+option.ic2.inputeuother=Max EU-Input [Anderes]
+option.ic2.outputeu=Max EU-Output
+option.ic2.storage=Energie gespeichert
+option.thaumcraft.storedvis=Kondensatorspeicher
+option.thermalexpansion.energyhandler=Zeige RO-Speicher
+option.thermalexpansion.energycell=Zeige EZellen IN/OUT
+option.thermalexpansion.fluidtype=Zeige Flüssigk.-Typ
+option.thermalexpansion.fluidamount=Zeige Flüssigk.-Menge
+option.thermalexpansion.tankmode=Zeige Tankmodus
+option.thermalexpansion.tesssendrecv=Tesseraktmodus
+option.thermalexpansion.tessfreq=Tesseraktfrequenz
+option.thermalexpansion.owner=Zeige Besitzer
+option.vanilla.spawntype=Spawner-Typ
+option.vanilla.growthvalue=Wachstumswert
+option.vanilla.leverstate=Hebelstatus
+option.vanilla.repeater=Repeater-Verzögerung
+option.vanilla.comparator=Komparatormodus
+option.vanilla.redstone=Redstone-Stärke
+option.vanilla.jukebox=Musikbox-Platte
+option.etb.displaydata=Zeigel Sockeldaten
+option.enderio.inout=Zeige Input/Output
+option.enderio.storage=Zeige gespeicherte MJ
+option.enderio.owner=Zeige Block-Besitzer
+option.enderio.channel=Zeige Hypercube-Kanal
+option.bcapi.storage=Zeige gespeicherte MJ
+option.bcapi.consump=Zeige maximale Energie
+option.bcapi.trigger=Zeige Startenergie
