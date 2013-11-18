@@ -1,5 +1,6 @@
-package mcp.mobius.waila;
+package mcp.mobius.waila.client;
 
+import mcp.mobius.waila.Constants;
 import mcp.mobius.waila.addons.ExternalModulesHandler;
 import mcp.mobius.waila.addons.appeng.AppEngModule;
 import mcp.mobius.waila.addons.buildcraft.BCModule;

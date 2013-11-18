@@ -16,11 +16,14 @@ public interface IWailaRegistrar {
 	public void registerStackProvider(IWailaDataProvider dataProvider, int blockID);
 	public void registerStackProvider(IWailaDataProvider dataProvider, Class block);	
 	
-	
 	/* Same thing, but works on a class hierarchy instead */
 	public void registerHeadProvider (IWailaDataProvider dataProvider, Class block);
 	public void registerBodyProvider (IWailaDataProvider dataProvider, Class block);
 	public void registerTailProvider (IWailaDataProvider dataProvider, Class block);	
+	
+	/* The block decorators */
+	public void registerBlockDecorator (IWailaBlockDecorator decorator, int blockID);
+	public void registerBlockDecorator (IWailaBlockDecorator decorator, Class block);
 	
 	public void registerDocTextFile  (String filename);
 	

@@ -1,8 +1,9 @@
-package mcp.mobius.waila;
+package mcp.mobius.waila.client;
 
 import java.util.EnumSet;
 import java.util.List;
 
+import mcp.mobius.waila.Constants;
 import mcp.mobius.waila.addons.ConfigHandler;
 import mcp.mobius.waila.gui.screens.config.ScreenConfig;
 import mcp.mobius.waila.gui.screens.info.ScreenEnchants;

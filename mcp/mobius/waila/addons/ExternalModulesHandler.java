@@ -15,6 +15,7 @@ import net.minecraft.block.Block;
 import codechicken.lib.lang.LangUtil;
 import codechicken.nei.api.API;
 import mcp.mobius.waila.mod_Waila;
+import mcp.mobius.waila.api.IWailaBlockDecorator;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaRegistrar;
 import mcp.mobius.waila.api.IWailaSummaryProvider;
@@ -32,6 +33,9 @@ public class ExternalModulesHandler implements IWailaRegistrar {
 	public LinkedHashMap<Class, ArrayList<IWailaDataProvider>> bodyBlockProviders  = new LinkedHashMap<Class, ArrayList<IWailaDataProvider>>();
 	public LinkedHashMap<Class, ArrayList<IWailaDataProvider>> tailBlockProviders  = new LinkedHashMap<Class, ArrayList<IWailaDataProvider>>();	
 	public LinkedHashMap<Class, ArrayList<IWailaDataProvider>> stackBlockProviders = new LinkedHashMap<Class, ArrayList<IWailaDataProvider>>();	
+	
+	public LinkedHashMap<Integer, ArrayList<IWailaBlockDecorator>> blockIdDecorators    = new LinkedHashMap<Integer, ArrayList<IWailaBlockDecorator>>();
+	public LinkedHashMap<Class,   ArrayList<IWailaBlockDecorator>> blockClassDecorators = new LinkedHashMap<Class,   ArrayList<IWailaBlockDecorator>>();	
 	
 	public LinkedHashMap<String, LinkedHashMap <String, LinkedHashMap <String, String>>> wikiDescriptions = new LinkedHashMap<String, LinkedHashMap <String, LinkedHashMap <String, String>>>();
 
@@ -132,6 +136,20 @@ public class ExternalModulesHandler implements IWailaRegistrar {
 		this.summaryProviders.get(item).add(dataProvider);		
 	}	
 	
+	@Override
+	public void registerBlockDecorator(IWailaBlockDecorator decorator, int blockID) {
+		if (!this.blockIdDecorators.containsKey(blockID))
+			this.blockIdDecorators.put(blockID, new ArrayList<IWailaBlockDecorator>());
+		this.blockIdDecorators.get(blockID).add(decorator);		
+	}
+
+	@Override
+	public void registerBlockDecorator(IWailaBlockDecorator decorator,	Class block) {
+		if (!this.blockClassDecorators.containsKey(block))
+			this.blockClassDecorators.put(block, new ArrayList<IWailaBlockDecorator>());
+		this.blockClassDecorators.get(block).add(decorator);		
+	}	
+	
 	/* Arrays getters */
 	
 	public ArrayList<IWailaDataProvider> getHeadProviders(int blockID) {
@@ -186,6 +204,19 @@ public class ExternalModulesHandler implements IWailaRegistrar {
 		return returnList;
 	}	
 	
+	public ArrayList<IWailaBlockDecorator> getBlockDecorators(int blockID){
+		return this.blockIdDecorators.get(blockID);		
+	}
+
+	public ArrayList<IWailaBlockDecorator> getBlockDecorators(Object block){
+		ArrayList<IWailaBlockDecorator> returnList = new ArrayList<IWailaBlockDecorator>();
+		for (Class clazz : this.blockClassDecorators.keySet())
+			if (clazz.isInstance(block))
+				returnList.addAll(this.blockClassDecorators.get(clazz));
+				
+		return returnList;		
+	}	
+	
 	/* Providers querry methods */
 	
 	public boolean hasHeadProviders(int blockID){
@@ -229,6 +260,18 @@ public class ExternalModulesHandler implements IWailaRegistrar {
 		return this.summaryProviders.containsKey(item);
 	}	
 	
+	public boolean hasBlockDecorator(int blockID){
+		return this.blockIdDecorators.containsKey(blockID);
+	}
+
+	public boolean hasBlockDecorator(Object block){
+		for (Class clazz : this.blockClassDecorators.keySet())
+			if (clazz.isInstance(block))
+				return true;
+		return false;
+	}	
+	
+	/* ----------------- */
 	@Override
 	public void registerDocTextFile(String filename) {
 		List<String[]> docData  = null;

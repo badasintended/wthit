@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import mcp.mobius.waila.addons.ConfigHandler;
 import mcp.mobius.waila.addons.ExternalModulesHandler;
 import mcp.mobius.waila.api.IWailaRegistrar;
+import mcp.mobius.waila.client.WailaClientEventHandler;
 import mcp.mobius.waila.network.WailaConnectionHandler;
 import mcp.mobius.waila.network.WailaPacketHandler;
 import mcp.mobius.waila.server.ProxyServer;
@@ -21,6 +22,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.MinecraftForge;
 import codechicken.core.CommonUtils;
 import codechicken.lib.lang.LangUtil;
 import cpw.mods.fml.client.registry.KeyBindingRegistry;
@@ -53,7 +55,7 @@ public class mod_Waila {
 	@Instance("Waila")
 	public static mod_Waila instance;
 
-	@SidedProxy(clientSide="mcp.mobius.waila.ProxyClient", serverSide="mcp.mobius.waila.server.ProxyServer")
+	@SidedProxy(clientSide="mcp.mobius.waila.client.ProxyClient", serverSide="mcp.mobius.waila.server.ProxyServer")
 	public static ProxyServer proxy;	
 	
 	public static Logger log = Logger.getLogger("Waila");
@@ -94,6 +96,8 @@ public class mod_Waila {
 		config.save();
 		
 		updateColors();
+		
+		MinecraftForge.EVENT_BUS.register(new WailaClientEventHandler());		
 	}	
 	
 	@Init

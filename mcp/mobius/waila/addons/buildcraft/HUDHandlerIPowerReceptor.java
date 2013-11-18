@@ -31,32 +31,35 @@ public class HUDHandlerIPowerReceptor implements IWailaDataProvider {
 			String triggerStr = LangUtil.translateG("hud.msg.trigger");
 			
 			Object powerReceiver = BCPowerAPIModule.IPowerReceptor_getPowerReceiver.invoke(accessor.getTileEntity(), ForgeDirection.UNKNOWN);
+			if (powerReceiver != null){
+				
+				Float minEnergyRecv = (Float)BCPowerAPIModule.PR_getMinEnergyReceived.invoke(powerReceiver);
+				Float maxEnergyRecv = (Float)BCPowerAPIModule.PR_getMaxEnergyReceived.invoke(powerReceiver);
+				Float activation    = (Float)BCPowerAPIModule.PR_getActivationEnergy.invoke(powerReceiver);				
+	
+				
+				if(accessor.getNBTData().hasKey("powerProvider") && accessor.getNBTData().getCompoundTag("powerProvider").hasKey("storedEnergy") && config.getConfig("bcapi.storage")){
+					Float energyStored  = (Float)accessor.getNBTData().getCompoundTag("powerProvider").getFloat("storedEnergy");
+					Float maxEnergyStor = (Float)BCPowerAPIModule.PR_getMaxEnergyStored.invoke(powerReceiver);
+					if (maxEnergyStor != 0.0f)
+						currenttip.add(String.format("%.1f / %.1f MJ", energyStored, maxEnergyStor));
+				}
+	
+				if(accessor.getNBTData().hasKey("storedEnergy") && config.getConfig("bcapi.storage")){
+					Float energyStored  = (Float)accessor.getNBTData().getFloat("storedEnergy");
+					Float maxEnergyStor = (Float)BCPowerAPIModule.PR_getMaxEnergyStored.invoke(powerReceiver);
+					if (maxEnergyStor != 0.0f)
+						currenttip.add(String.format("%.1f / %.1f MJ", energyStored, maxEnergyStor));
+				}			
+				
+				if (maxEnergyRecv != 0.0f && config.getConfig("bcapi.consump"))
+					//currenttip.add(String.format("Min/Max Input : %.1f / %.1f MJ/t", minEnergyRecv, maxEnergyRecv));
+					currenttip.add(String.format("%s : %.1f MJ/t", maxPowerStr, maxEnergyRecv));
+				
+				if (activation != 0.0f && config.getConfig("bcapi.trigger"))
+					currenttip.add(String.format("%s : %.1f MJ", triggerStr, activation));			
 			
-			Float minEnergyRecv = (Float)BCPowerAPIModule.PR_getMinEnergyReceived.invoke(powerReceiver);
-			Float maxEnergyRecv = (Float)BCPowerAPIModule.PR_getMaxEnergyReceived.invoke(powerReceiver);
-			Float activation    = (Float)BCPowerAPIModule.PR_getActivationEnergy.invoke(powerReceiver);				
-
-			
-			if(accessor.getNBTData().hasKey("powerProvider") && accessor.getNBTData().getCompoundTag("powerProvider").hasKey("storedEnergy") && config.getConfig("bcapi.storage")){
-				Float energyStored  = (Float)accessor.getNBTData().getCompoundTag("powerProvider").getFloat("storedEnergy");
-				Float maxEnergyStor = (Float)BCPowerAPIModule.PR_getMaxEnergyStored.invoke(powerReceiver);
-				if (maxEnergyStor != 0.0f)
-					currenttip.add(String.format("%.1f / %.1f MJ", energyStored, maxEnergyStor));
 			}
-
-			if(accessor.getNBTData().hasKey("storedEnergy") && config.getConfig("bcapi.storage")){
-				Float energyStored  = (Float)accessor.getNBTData().getFloat("storedEnergy");
-				Float maxEnergyStor = (Float)BCPowerAPIModule.PR_getMaxEnergyStored.invoke(powerReceiver);
-				if (maxEnergyStor != 0.0f)
-					currenttip.add(String.format("%.1f / %.1f MJ", energyStored, maxEnergyStor));
-			}			
-			
-			if (maxEnergyRecv != 0.0f && config.getConfig("bcapi.consump"))
-				//currenttip.add(String.format("Min/Max Input : %.1f / %.1f MJ/t", minEnergyRecv, maxEnergyRecv));
-				currenttip.add(String.format("%s : %.1f MJ/t", maxPowerStr, maxEnergyRecv));
-			
-			if (activation != 0.0f && config.getConfig("bcapi.trigger"))
-				currenttip.add(String.format("%s : %.1f MJ", triggerStr, activation));			
 			
 		} catch (Exception e) {
 			currenttip = WailaExceptionHandler.handleErr(e, accessor.getTileEntity().getClass().getName(), currenttip);			
