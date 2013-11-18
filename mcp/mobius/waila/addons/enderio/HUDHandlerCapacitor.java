@@ -2,6 +2,7 @@ package mcp.mobius.waila.addons.enderio;
 
 import java.util.List;
 
+import codechicken.lib.lang.LangUtil;
 import net.minecraft.item.ItemStack;
 import mcp.mobius.waila.WailaExceptionHandler;
 import mcp.mobius.waila.api.IWailaConfigHandler;
@@ -25,6 +26,9 @@ public class HUDHandlerCapacitor implements IWailaDataProvider{
 		
 		try{
 			
+			String maxIOStr  = LangUtil.translateG("hud.msg.maxio");
+			String inputStr  = LangUtil.translateG("hud.msg.input");
+			String outputStr = LangUtil.translateG("hud.msg.output");
 			
 			Integer maxEnergyStored = (Integer)EnderIOModule.TCB_getMaxEnergyStored.invoke(accessor.getTileEntity());
 			Float   energyStored    = (Float)EnderIOModule.TCB_getEnergyStored.invoke(accessor.getTileEntity());
@@ -36,9 +40,9 @@ public class HUDHandlerCapacitor implements IWailaDataProvider{
 				currenttip.add(String.format("%.1f / %d MJ", energyStored, maxEnergyStored));
 			
 			if (config.getConfig("enderio.inout")){
-				currenttip.add(String.format("Max IO : %d MJ/t ", maxIO));
-				currenttip.add(String.format("Input  : %d MJ/t ", maxInput));
-				currenttip.add(String.format("Output : %d MJ/t ", maxOutput));
+				currenttip.add(String.format("%s : %d MJ/t ", maxIOStr, maxIO));
+				currenttip.add(String.format("%s : %d MJ/t ", inputStr, maxInput));
+				currenttip.add(String.format("%s : %d MJ/t ", outputStr, maxOutput));
 			}
 			
 			

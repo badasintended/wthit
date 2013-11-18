@@ -16,7 +16,6 @@ public class BCModule {
 	public static Class  TileEngine         = null;
 	
 	public static Method TileTank_getTankInfo      = null;
-	//public static Method IPowerReceptor_PowerRequest = null;
 
 	public static void register(){
 		try {
@@ -29,13 +28,7 @@ public class BCModule {
 		
 		try{
 			TileTank            = Class.forName("buildcraft.factory.TileTank");
-			IPowerReceptor      = Class.forName("buildcraft.api.power.IPowerReceptor");
-			PipeTransportPower  = Class.forName("buildcraft.transport.PipeTransportPower");
-			TileGenericPipe     = Class.forName("buildcraft.transport.TileGenericPipe");
-			TileEngine          = Class.forName("buildcraft.energy.TileEngine");
-			
 			TileTank_getTankInfo      = TileTank.getMethod("getTankInfo", ForgeDirection.class);
-			//IPowerReceptor_PowerRequest = IPowerReceptor.getMethod("powerRequest", ForgeDirection.class);
 			
 		} catch (ClassNotFoundException e){
 			mod_Waila.log.log(Level.WARNING, "[BC] Class not found. " + e);
@@ -47,12 +40,8 @@ public class BCModule {
 		
 		ExternalModulesHandler.instance().addConfig("Buildcraft", "bc.tankamount");
 		ExternalModulesHandler.instance().addConfig("Buildcraft", "bc.tanktype");
-		//ExternalModulesHandler.instance().addConfigRemote("Buildcraft", "bc.powerpipe",   "Power pipes");
 		ExternalModulesHandler.instance().registerHeadProvider(new HUDHandlerBCTanks(), TileTank);			
 		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerBCTanks(), TileTank);
-		//ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerBCPipes(), TileGenericPipe);
-		//ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerBCEngine(), TileEngine);			
-		//ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerBCIPowerReceptor(), PipeTransportPower);
 	}
 	
 }

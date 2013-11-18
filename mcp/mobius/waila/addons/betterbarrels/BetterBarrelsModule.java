@@ -6,7 +6,6 @@ import java.util.logging.Level;
 
 import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.addons.ExternalModulesHandler;
-import mcp.mobius.waila.addons.buildcraft.HUDHandlerBCPipes;
 import codechicken.lib.lang.LangUtil;
 import codechicken.nei.api.API;
 import codechicken.nei.api.ItemInfo;
