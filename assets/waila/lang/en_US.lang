@@ -26,12 +26,12 @@ enchant.title.maxlvl=Max lvl
 enchant.title.weight=Weight
 enchant.label.enchantability=Enchantability
 
-keybind.configscreen=[Waila] Config screen
-keybind.showhide=[Waila] Show/Hide
-keybind.showliquid=[Waila] Show liquids
-keybind.showrecipe=[Waila] Show recipe
-keybind.showusage=[Waila] Show usage
-keybind.testing=[Waila] Testing
+waila.keybind.wailaconfig=[Waila] Config screen
+waila.keybind.wailadisplay=[Waila] Show/Hide
+waila.keybind.liquid=[Waila] Show liquids
+waila.keybind.recipe=[Waila] Show recipe
+waila.keybind.usage=[Waila] Show usage
+waila.keybind.testing=[Waila] Testing
 
 client.msg.norecipe=No recipe found.
 client.msg.nousage=No usage found.

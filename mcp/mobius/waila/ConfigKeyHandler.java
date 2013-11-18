@@ -48,12 +48,14 @@ public class ConfigKeyHandler extends KeyHandler {
                 //false
             });
         
+        /*
         LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_CFG,     LangUtil.translateG("keybind.configscreen"));
         LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_SHOW,    LangUtil.translateG("keybind.showhide"));
         LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_LIQUID,  LangUtil.translateG("keybind.showliquid"));
         LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_RECIPE,  LangUtil.translateG("keybind.showrecipe"));
         LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_USAGE,   LangUtil.translateG("keybind.showusage"));
         LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_TESTING, LangUtil.translateG("keybind.testing"));
+        */
         //LanguageRegistry.instance().addStringLocalization(Constants.BIND_SCREEN_ENCH,   "[Waila] Show enchant screen");
         //LanguageRegistry.instance().addStringLocalization("key.wailatedump", "[Waila] Dump server TE");      
         

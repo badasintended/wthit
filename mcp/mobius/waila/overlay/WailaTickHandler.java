@@ -8,7 +8,7 @@ import cpw.mods.fml.common.TickType;
 
 public class WailaTickHandler implements ITickHandler {
 
-    public static LangUtil lang = LangUtil.loadLangDir("waila");
+    //public static LangUtil lang = LangUtil.loadLangDir("waila");
 	
 	private int ticks = 0;
 	

@@ -111,6 +111,8 @@ public class mod_Waila {
 	        	String orig  = I18n.func_135053_a(key);
 	        	if (orig.equals(key))
 	        		orig = LanguageRegistry.instance().getStringLocalization(key);
+	        	if (orig.equals(key))
+	        		orig = LangUtil.translateG(key);	        	
 	        	if (orig.isEmpty())
 	        		orig = key;
 	        	
