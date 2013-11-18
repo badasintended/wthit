@@ -24,6 +24,7 @@ public class HUDHandlerSocket implements IWailaDataProvider {
 
 	@Override
 	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
+			if (!config.getConfig("etb.displaydata")) return currenttip;
 		
 			try {
 				int[]      sides = (int[])ETBModule.Socket_sides.get(accessor.getTileEntity());
@@ -83,29 +84,11 @@ public class HUDHandlerSocket implements IWailaDataProvider {
 						}
 				}
 			
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			} catch (Exception e){
-				e.printStackTrace();
-			}
+				
 			
-			
-			//int[] sideID   = (int[])ETBModule.Socket_sideID.get(accessor.getTileEntity());
-			//int[] sideMeta = (int[])ETBModule.Socket_sideMeta.get(accessor.getTileEntity());
-			//int[] facID    = (int[])ETBModule.Socket_facID.get(accessor.getTileEntity());
-			//int[] facMeta  = (int[])ETBModule.Socket_facMeta.get(accessor.getTileEntity());
-			
-			//currenttip.add(String.format("Sides    : %s", Arrays.toString(sides)));
-			//currenttip.add(String.format("SideID   : %s", Arrays.toString(sideID)));
-			//currenttip.add(String.format("SideMeta : %s", Arrays.toString(sideMeta)));
-			//currenttip.add(String.format("FacID    : %s", Arrays.toString(facID)));
-			//currenttip.add(String.format("FacMeta  : %s", Arrays.toString(facMeta)));			
-			
-		//} catch (Exception e) {
-		//	currenttip = WailaExceptionHandler.handleErr(e, accessor.getTileEntity().getClass().getName(), currenttip);			
-		//}
+		} catch (Exception e) {
+			currenttip = WailaExceptionHandler.handleErr(e, accessor.getTileEntity().getClass().getName(), currenttip);			
+		}
 		
 		return currenttip;
 	}

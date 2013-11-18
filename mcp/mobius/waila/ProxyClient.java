@@ -3,6 +3,7 @@ package mcp.mobius.waila;
 import mcp.mobius.waila.addons.ExternalModulesHandler;
 import mcp.mobius.waila.addons.appeng.AppEngModule;
 import mcp.mobius.waila.addons.buildcraft.BCModule;
+import mcp.mobius.waila.addons.enderio.EnderIOModule;
 import mcp.mobius.waila.addons.enderstorage.EnderStorageModule;
 import mcp.mobius.waila.addons.etb.ETBModule;
 import mcp.mobius.waila.addons.gravestone.GravestoneModule;
@@ -102,6 +103,9 @@ public class ProxyClient extends ProxyServer {
 		
 		/* ETB */
 		ETBModule.register();
+		
+		/* EnderIO */
+		EnderIOModule.register();		
 	}	
 	
 	@Override

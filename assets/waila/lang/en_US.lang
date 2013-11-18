@@ -111,3 +111,6 @@ option.vanilla.repeater=Repeater delay
 option.vanilla.comparator=Comparator mode
 option.vanilla.redstone=Redstone power
 option.vanilla.jukebox=Jukebox disk
+option.etb.displaydata=Show socket data
+option.enderio.inout=Show input/output
+option.enderio.storage=Show stored MJ

@@ -69,6 +69,7 @@ public class ETBModule {
 			return;			
 		}		
 		
+		ExternalModulesHandler.instance().addConfig("Engineer Toolbox", "etb.displaydata");
 		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerSocket(), TileSocket);
 		
 	}
