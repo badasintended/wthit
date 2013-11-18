@@ -4,6 +4,7 @@ import mcp.mobius.waila.addons.ExternalModulesHandler;
 import mcp.mobius.waila.addons.appeng.AppEngModule;
 import mcp.mobius.waila.addons.buildcraft.BCModule;
 import mcp.mobius.waila.addons.enderstorage.EnderStorageModule;
+import mcp.mobius.waila.addons.etb.ETBModule;
 import mcp.mobius.waila.addons.gravestone.GravestoneModule;
 import mcp.mobius.waila.addons.ic2.IC2Module;
 import mcp.mobius.waila.addons.thaumcraft.ThaumcraftModule;
@@ -98,6 +99,9 @@ public class ProxyClient extends ProxyServer {
 		
 		/* Thermal Expansion */
 		ThermalExpansionModule.register();
+		
+		/* ETB */
+		ETBModule.register();
 	}	
 	
 	@Override
