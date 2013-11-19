@@ -19,4 +19,5 @@ public interface IWailaDataAccessor {
 	Vec3                 getRenderingPosition();
 	NBTTagCompound       getNBTData();
 	int                  getNBTInteger(NBTTagCompound tag, String keyname);
+	double               getPartialFrame();
 }

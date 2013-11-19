@@ -27,6 +27,7 @@ public class DataAccessor implements IWailaDataAccessor {
 	public TileEntity entity;
 	public NBTTagCompound remoteNbt = null;
 	public long timeLastUpdate = System.currentTimeMillis();
+	public double partialFrame;
 	
 	public static DataAccessor instance = new DataAccessor();
 
@@ -48,6 +49,7 @@ public class DataAccessor implements IWailaDataAccessor {
 			double py = viewEntity.lastTickPosY + (viewEntity.posY - viewEntity.lastTickPosY) * partialTicks;
 			double pz = viewEntity.lastTickPosZ + (viewEntity.posZ - viewEntity.lastTickPosZ) * partialTicks;		
 			this.renderingvec = Vec3.createVectorHelper(_mop.blockX - px, _mop.blockY - py, _mop.blockZ - pz);
+			this.partialFrame = partialTicks;
 		}
 	}
 	
@@ -132,6 +134,11 @@ public class DataAccessor implements IWailaDataAccessor {
 	@Override
 	public Vec3 getRenderingPosition() {
 		return this.renderingvec;
+	}
+
+	@Override
+	public double getPartialFrame() {
+		return this.partialFrame;
 	}
 	
 }

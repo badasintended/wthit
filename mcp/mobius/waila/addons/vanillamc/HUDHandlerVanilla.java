@@ -169,7 +169,7 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 		
 		ExternalModulesHandler.instance().registerDocTextFile("/mcp/mobius/waila/addons/vanillamc/WikiData.csv");
 		
-		//ExternalModulesHandler.instance().registerBlockDecorator(new HUDDecoratorVanilla(), cropsID);
+		ExternalModulesHandler.instance().registerBlockDecorator(new HUDDecoratorVanilla(), repeaterIdle);
 	}
 
 
