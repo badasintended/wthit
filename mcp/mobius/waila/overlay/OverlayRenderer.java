@@ -20,6 +20,7 @@ import java.awt.Point;
 import mcp.mobius.waila.Constants;
 import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.addons.ConfigHandler;
+import mcp.mobius.waila.addons.ExternalModulesHandler;
 import mcp.mobius.waila.gui.truetyper.FontHelper;
 import mcp.mobius.waila.gui.truetyper.TrueTypeFont;
 import net.minecraft.client.Minecraft;
@@ -63,8 +64,8 @@ public class OverlayRenderer {
                 }
             });
 
-            ItemStack stack = items.get(0);
-            renderOverlay(stack, ItemInfo.getText(stack, world, mc.thePlayer, RayTracing.raytracedTarget), getPositioning());
+            RayTracing.raytracedStack = items.get(0);
+            renderOverlay(RayTracing.raytracedStack, ItemInfo.getText(RayTracing.raytracedStack, world, mc.thePlayer, RayTracing.raytracedTarget), getPositioning());
         }
         
         if (RayTracing.raytracedTarget.typeOfHit == EnumMovingObjectType.ENTITY)

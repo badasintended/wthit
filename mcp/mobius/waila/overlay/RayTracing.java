@@ -21,6 +21,7 @@ import net.minecraftforge.common.IShearable;
 public class RayTracing {
 
 	public static MovingObjectPosition raytracedTarget = null;
+	public static ItemStack            raytracedStack  = null;
 	
 	public static void raytrace(){
 		if (Minecraft.getMinecraft().objectMouseOver == null){
