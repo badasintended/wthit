@@ -167,7 +167,9 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerVanilla(), cocoa);
 		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerVanilla(), netherwart);			
 		
-		ExternalModulesHandler.instance().registerDocTextFile("/mcp/mobius/waila/addons/vanillamc/WikiData.csv");		
+		ExternalModulesHandler.instance().registerDocTextFile("/mcp/mobius/waila/addons/vanillamc/WikiData.csv");
+		
+		//ExternalModulesHandler.instance().registerBlockDecorator(new HUDDecoratorVanilla(), cropsID);
 	}
 
 

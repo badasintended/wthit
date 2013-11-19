@@ -72,7 +72,7 @@ public class WailaClientEventHandler {
 					GL11.glPopMatrix();
 					WailaExceptionHandler.handleErr(e, decorator.getClass().toString(), null);
 				}			
-		}		
+		}
 		
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glPopAttrib();		
