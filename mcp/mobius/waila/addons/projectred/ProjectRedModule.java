@@ -42,6 +42,7 @@ public class ProjectRedModule {
 		}
 		
 		ExternalModulesHandler.instance().registerBlockDecorator(new HUDDecoratorRsGateLogic(), BlockMultipart);
+		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerRsGateLogic(), BlockMultipart);
 	}	
 	
 }

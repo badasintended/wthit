@@ -24,6 +24,8 @@ public class ThermalExpansionModule {
 	public static Method TileConduitFluid_getRenderFluid = null;
 	public static Method TileConduitFluid_getRenderFluidLevel = null;
 	
+	public static Class  TileConduitItems = null;
+	
 	public static Class  TileTesseract = null;
 	
 	public static Class  ISecureTile = null;
@@ -61,6 +63,8 @@ public class ThermalExpansionModule {
 			TileConduitFluid_getRenderFluid      = TileConduitFluid.getMethod("getRenderFluid");
 			TileConduitFluid_getRenderFluidLevel = TileConduitFluid.getMethod("getRenderFluidLevel");
 
+			TileConduitItems = Class.forName("thermalexpansion.block.conduit.item.TileConduitItem");				
+			
 			TileTesseract = Class.forName("thermalexpansion.block.tesseract.TileTesseract");
 			
 			ISecureTile   = Class.forName("cofh.api.tileentity.ISecureTile");
@@ -94,6 +98,7 @@ public class ThermalExpansionModule {
 		ExternalModulesHandler.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.energycell");
 		ExternalModulesHandler.instance().addConfig("Thermal Expansion", "thermalexpansion.fluidtype");
 		ExternalModulesHandler.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.fluidamount");
+		ExternalModulesHandler.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.conditemmode");		
 		ExternalModulesHandler.instance().addConfig("Thermal Expansion", "thermalexpansion.tankmode");
 		ExternalModulesHandler.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.tesssendrecv");
 		ExternalModulesHandler.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.tessfreq");
@@ -107,6 +112,8 @@ public class ThermalExpansionModule {
 		
 		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerConduitFluid(), TileConduitFluid);
 		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerTesseract(), TileTesseract);
+		
+		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerConduitItem(), TileConduitItems);		
 		
 		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerISecureTile(), ISecureTile);
 		

@@ -107,6 +107,7 @@ option.thermalexpansion.tankmode=Zeige Tankmodus
 option.thermalexpansion.tesssendrecv=Tesseraktmodus
 option.thermalexpansion.tessfreq=Tesseraktfrequenz
 option.thermalexpansion.owner=Zeige Besitzer
+option.thermalexpansion.conditemmode=Zeige Itemducmodus
 option.vanilla.spawntype=Spawner-Typ
 option.vanilla.growthvalue=Wachstumswert
 option.vanilla.leverstate=Hebelstatus

@@ -68,14 +68,14 @@ public class UIHelper {
         float playerViewY = player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw) * (float)partialFrame;
         float playerViewX = player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * (float)partialFrame;      	
         
-        UIHelper.drawFloatingText(text, posX, posY, posZ, offX, offY, offZ, playerViewX, playerViewY * -1.0F);
+        UIHelper.drawFloatingText(text, posX, posY, posZ, offX, offY, offZ, playerViewX, playerViewY * -1.0F, 0.0F);
     }
 
-    public static void drawFloatingText(String text, Vec3 pos, float offX, float offY, float offZ, float rotX, float rotY){
-    	UIHelper.drawFloatingText(text, (float)pos.xCoord, (float)pos.yCoord, (float)pos.zCoord, offX, offY, offZ, rotX, rotY);
+    public static void drawFloatingText(String text, Vec3 pos, float offX, float offY, float offZ, float rotX, float rotY, float rotZ){
+    	UIHelper.drawFloatingText(text, (float)pos.xCoord, (float)pos.yCoord, (float)pos.zCoord, offX, offY, offZ, rotX, rotY, rotZ);
     }
     
-    public static void drawFloatingText(String text, float posX, float posY, float posZ, float offX, float offY, float offZ, float rotX, float rotY){
+    public static void drawFloatingText(String text, float posX, float posY, float posZ, float offX, float offY, float offZ, float rotX, float rotY, float rotZ){
     	
         FontRenderer fontrenderer = Minecraft.getMinecraft().fontRenderer;    	
     	
@@ -86,9 +86,14 @@ public class UIHelper {
 
         //GL11.glTranslatef((float)accessor.getPosition().blockX + 0.0F, (float)accessor.getPosition().blockY + 0.5F, (float)accessor.getPosition().blockZ);
         GL11.glTranslatef(posX + offX, posY + offY, posZ + offZ);
+        
+        //GL11.glTranslatef(posX, posY, posZ);
         GL11.glNormal3f(0.0F, 1.0F, 0.0F);
         GL11.glRotatef(rotY, 0.0F, 1.0F, 0.0F);
         GL11.glRotatef(rotX, 1.0F, 0.0F, 0.0F);
+        GL11.glRotatef(rotZ, 0.0F, 0.0F, 1.0F);        
+        //GL11.glTranslatef(offX, offY, offZ);
+        
         GL11.glScalef(-f1, -f1, f1);
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glDepthMask(false);
@@ -120,6 +125,35 @@ public class UIHelper {
         GL11.glDisable(GL11.GL_TEXTURE_2D);
         GL11.glPopMatrix();	    	
     	
+    }     
+    
+    public static void drawRectangle(double x1, double y1, double z1, double x2, double y2, double z2, int r, int g, int b, int a){
+		Tessellator tessellator = Tessellator.instance;
+		
+        tessellator.setColorRGBA(r, g, b, a);
+        tessellator.startDrawingQuads();
+    	
+        tessellator.addVertex(x1, y2, z1);
+        tessellator.addVertex(x1, y1, z2);
+        tessellator.addVertex(x2, y1, z2);
+        tessellator.addVertex(x2, y2, z1);
+
+        tessellator.draw();
+        
+    }
+    
+    public static void drawRectangleEW(double x1, double y1, double z1, double x2, double y2, double z2, int r, int g, int b, int a){
+		Tessellator tessellator = Tessellator.instance;
+		
+        tessellator.setColorRGBA(r, g, b, a);
+        tessellator.startDrawingQuads();
+
+        tessellator.addVertex(x1, y1, z1);
+        tessellator.addVertex(x1, y1, z2);
+        tessellator.addVertex(x2, y2, z2);
+        tessellator.addVertex(x2, y2, z1);        
+        
+        tessellator.draw();    	
     }    
     
 }

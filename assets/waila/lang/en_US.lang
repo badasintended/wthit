@@ -107,6 +107,7 @@ option.thermalexpansion.tankmode=Show tank mode
 option.thermalexpansion.tesssendrecv=Tesseract mode
 option.thermalexpansion.tessfreq=Tesseract frequency
 option.thermalexpansion.owner=Show owner
+option.thermalexpansion.conditemmode=Show itemduc mode
 option.vanilla.spawntype=Spawner type
 option.vanilla.growthvalue=Growth value
 option.vanilla.leverstate=Lever state
