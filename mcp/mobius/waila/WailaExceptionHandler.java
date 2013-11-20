@@ -15,7 +15,8 @@ public class WailaExceptionHandler {
 			errs.add(className);
 			
 			for (StackTraceElement elem : e.getStackTrace()){
-				mod_Waila.log.log(Level.WARNING, String.format("%s.%s:%s",elem.getClassName(), elem.getMethodName(), elem.getLineNumber()));				
+				mod_Waila.log.log(Level.WARNING, String.format("%s.%s:%s",elem.getClassName(), elem.getMethodName(), elem.getLineNumber()));
+				if (elem.getClassName().contains("waila")) break;
 			}
 			
 			mod_Waila.log.log(Level.WARNING, String.format("Catched unhandled exception : [%s] %s",className,e));

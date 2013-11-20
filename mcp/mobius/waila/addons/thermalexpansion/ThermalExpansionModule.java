@@ -57,7 +57,7 @@ public class ThermalExpansionModule {
 			TileTank_getTankCapacity = TileTank.getMethod("getTankCapacity");
 			TileTank_mode            = TileTank.getField("mode");
 
-			TileConduitFluid = Class.forName("thermalexpansion.block.conduit.fluid.TileConduitFluidTrans");			
+			TileConduitFluid = Class.forName("thermalexpansion.block.conduit.fluid.TileConduitFluid");			
 			TileConduitFluid_getRenderFluid      = TileConduitFluid.getMethod("getRenderFluid");
 			TileConduitFluid_getRenderFluidLevel = TileConduitFluid.getMethod("getRenderFluidLevel");
 
