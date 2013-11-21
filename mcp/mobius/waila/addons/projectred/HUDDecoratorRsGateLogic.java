@@ -15,7 +15,7 @@ public class HUDDecoratorRsGateLogic implements IWailaBlockDecorator {
 	static byte[][] IOARRAY={
 		{1,1,2,1} /* OR    */, {1,1,2,1} /* NOR   */, {1,2,2,2} /* NOT    */, {1,1,2,1} /* AND   */,
 		{1,1,2,1} /* NAND  */, {0,1,2,1} /* XOR   */, {0,1,2,1} /* XNOR   */, {1,2,2,2} /* Buf   */,
-		{3,4,2,5} /* Multi */, {1,0,2,0} /* Pulse */, {1,0,2,0} /* Repeat */, {1,2,2,2} /* Rand  */,
+		{3,4,2,5} /* Multi */, {1,0,2,0} /* Pulse */, {0,0,0,0} /* Repeat */, {1,2,2,2} /* Rand  */,
 		{2,1,2,1} /* Latch */, {2,1,2,1} /* Toggle*/, {6,1,2,2} /* Transp */, {2,0,0,0} /* Light */,
 		{2,0,0,0} /* Rain  */, {1,7,2,7} /* Timer */, {2,2,2,2} /* Sequen */, {2,9,2,8} /* Count */,
 		{1,2,2,6} /* State */, {6,1,2,1} /* Sync  */, {10,1,10,1} /* Bus    */, {11,12,11,12} /* Null  */,
@@ -26,7 +26,7 @@ public class HUDDecoratorRsGateLogic implements IWailaBlockDecorator {
 	
 	@Override
 	public void decorateBlock(ItemStack itemStack, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
-
+		if (!config.getConfig("pr.showio")) return;
 	
 		
 		int orient = 0;

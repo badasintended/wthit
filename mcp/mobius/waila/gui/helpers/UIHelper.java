@@ -77,6 +77,8 @@ public class UIHelper {
     
     public static void drawFloatingText(String text, float posX, float posY, float posZ, float offX, float offY, float offZ, float rotX, float rotY, float rotZ){
     	
+    	if (text.isEmpty()) return;
+    	
         FontRenderer fontrenderer = Minecraft.getMinecraft().fontRenderer;    	
     	
         float f = 1.6F;

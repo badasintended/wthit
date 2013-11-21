@@ -41,6 +41,9 @@ public class ProjectRedModule {
 			return;			
 		}
 		
+		ExternalModulesHandler.instance().addConfigRemote("Project:Red", "pr.showio");	
+		ExternalModulesHandler.instance().addConfigRemote("Project:Red", "pr.showdata");	
+		
 		ExternalModulesHandler.instance().registerBlockDecorator(new HUDDecoratorRsGateLogic(), BlockMultipart);
 		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerRsGateLogic(), BlockMultipart);
 	}	

@@ -123,3 +123,5 @@ option.enderio.channel=Afficher hypercube canal
 option.bcapi.storage=Afficher MJ stocké
 option.bcapi.consump=Afficher puissance maximale
 option.bcapi.trigger=Energie déclanchement
+option.pr.showio=Afficher plaques IO
+option.pr.showdata=Afficher plaques data

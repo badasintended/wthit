@@ -23,6 +23,8 @@ public class HUDHandlerRsGateLogic implements IWailaDataProvider {
 
 	@Override
 	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
+		if (!config.getConfig("pr.showdata")) return currenttip;
+		
 		int orient = 0;
 		int subID  = 0;
 		int shape  = 0;
