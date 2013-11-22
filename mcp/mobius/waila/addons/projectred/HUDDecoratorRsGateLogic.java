@@ -64,6 +64,9 @@ public class HUDDecoratorRsGateLogic implements IWailaBlockDecorator {
 		if (vOrient == ForgeDirection.WEST)
 			hOrient += 1;		
 		
+		if (hOrient == -1)
+			hOrient = 3;
+		
 		String[] IOStr    = new String[4];
 		for (int i = 0; i < 4; i++)
 			IOStr[i] = IONAMES[IOARRAY[subID][i]];

@@ -28,6 +28,7 @@ public class HUDHandlerIC2IEnergySource implements IWailaDataProvider {
 		//if (accessor.getTileEntity() != null && TEElectricBlock.isInstance(accessor.getTileEntity())){
 		int output   = -1;
 		
+		/*
 		try{
 			if (IC2Module.IEnergySource.isInstance(accessor.getTileEntity()))
 				output = (Integer)(IC2Module.IEnergySource_GetOutput.invoke(IC2Module.IEnergySource.cast(accessor.getTileEntity())));			
@@ -35,6 +36,7 @@ public class HUDHandlerIC2IEnergySource implements IWailaDataProvider {
 			mod_Waila.log.log(Level.SEVERE, "[IC2] Unhandled exception trying to access an IEnergySource for display !.\n" + String.valueOf(e));
 			return currenttip;				
 		}
+		*/
 
 		if (ConfigHandler.instance().getConfig("ic2.outputeu") && (output != -1))
 			currenttip.add(String.format("%s : %s EU/t", LangUtil.translateG("hud.msg.output"), output));

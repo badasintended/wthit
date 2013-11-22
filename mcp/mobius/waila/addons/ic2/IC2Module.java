@@ -18,7 +18,7 @@ public class IC2Module {
 	/* Methods interfaces */
 	public static Method IEnergyStorage_GetCapacity = null;	
 	public static Method IEnergySink_GetInput       = null;
-	public static Method IEnergySource_GetOutput    = null;
+	//public static Method IEnergySource_GetOutput    = null;
 	
 	/* Some required items */
 	public static Class     IC2Items           = null;
@@ -50,7 +50,7 @@ public class IC2Module {
 			IEnergySource  = Class.forName("ic2.api.energy.tile.IEnergySource");			
 						
 			IEnergySink_GetInput       = IEnergySink.getMethod("getMaxSafeInput");
-			IEnergySource_GetOutput    = IEnergySource.getMethod("getMaxEnergyOutput");
+			//IEnergySource_GetOutput    = IEnergySource.getMethod("getMaxEnergyOutput");
 			IEnergyStorage_GetCapacity = IEnergyStorage.getMethod("getCapacity");
 			
 			IC2Items             = Class.forName("ic2.core.Ic2Items");
