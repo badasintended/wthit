@@ -1,0 +1,2 @@
+>>>>buildcraft.transport.ItemPlug:*
+This is a plug for pipes.
