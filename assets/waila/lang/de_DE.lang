@@ -123,3 +123,5 @@ option.enderio.channel=Zeige Hypercube-Kanal
 option.bcapi.storage=Zeige gespeicherte MJ
 option.bcapi.consump=Zeige maximale Energie
 option.bcapi.trigger=Zeige Startenergie
+option.pr.showio=Zeige Gatter IO
+option.pr.showdata=Zeige Gatterdaten
