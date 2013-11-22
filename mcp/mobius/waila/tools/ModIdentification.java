@@ -46,9 +46,11 @@ public class ModIdentification {
         modSource_Name.put("1.6.2.jar", "Minecraft");
         modSource_Name.put("1.6.3.jar", "Minecraft");          
         modSource_Name.put("1.6.4.jar", "Minecraft");		
+        modSource_Name.put("Forge", "Minecraft");  
         modSource_ID.put("1.6.2.jar", "Minecraft");
         modSource_ID.put("1.6.3.jar", "Minecraft");          
         modSource_ID.put("1.6.4.jar", "Minecraft");
+        modSource_ID.put("Forge", "Minecraft");        
         
         
 //      for (String s : this.modSourceList.keySet())
@@ -81,8 +83,10 @@ public class ModIdentification {
 		
 		String modName = "<Unknown>";
 		for (String s: modSource_Name.keySet())
-			if (objPath.contains(s))
+			if (objPath.contains(s)){
 				modName = modSource_Name.get(s);
+				break;
+			}
 		
 		if (modName.equals("Minecraft Coder Pack"))
 			modName = "Minecraft";
@@ -102,8 +106,10 @@ public class ModIdentification {
 		
 		String modName = "<Unknown>";
 		for (String s: modSource_ID.keySet())
-			if (objPath.contains(s))
+			if (objPath.contains(s)){
 				modName = modSource_ID.get(s);
+				break;
+			}
 		
 		if (modName.equals("Minecraft Coder Pack"))
 			modName = "Minecraft";
