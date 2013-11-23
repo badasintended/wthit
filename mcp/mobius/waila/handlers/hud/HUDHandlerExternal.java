@@ -61,12 +61,16 @@ public class HUDHandlerExternal implements IHighlightHandler {
 
 	@Override
 	public List<String> handleTextData(ItemStack itemStack, World world, EntityPlayer player, MovingObjectPosition mop, List<String> currenttip, Layout layout) {
+		if (this.prevMOP == null)
+			this.prevMOP = mop;
+		
 		DataAccessor accessor = DataAccessor.instance;
 		accessor.set(world, player, mop);
 		Block block   = accessor.getBlock();
 		int   blockID = accessor.getBlockID();
 		
-		if (accessor.getTileEntity() != null && mod_Waila.instance.serverPresent && (System.currentTimeMillis() - accessor.timeLastUpdate >= 250) ){
+		if (accessor.getTileEntity() != null && mod_Waila.instance.serverPresent && 
+				((System.currentTimeMillis() - accessor.timeLastUpdate >= 250) || this.areMopDifferent(player, mop))){
 			accessor.timeLastUpdate = System.currentTimeMillis();
 			PacketDispatcher.sendPacketToServer(Packet0x01TERequest.create(world, mop));
 		}
@@ -94,10 +98,7 @@ public class HUDHandlerExternal implements IHighlightHandler {
 				}				
 		}		
 		
-		if (this.prevMOP == null)
-			this.prevMOP = mop;
-		
-		if (this.prevMOP.blockX != mop.blockX || this.prevMOP.blockY != mop.blockY || this.prevMOP.blockZ != mop.blockZ || prevWorldID != player.dimension){
+		if (this.areMopDifferent(player, mop)){
 
 			headProviders.clear();
 			bodyProviders.clear();
@@ -165,4 +166,7 @@ public class HUDHandlerExternal implements IHighlightHandler {
 		return currenttip;
 	}
 
+	public boolean areMopDifferent(EntityPlayer player, MovingObjectPosition mop){
+		return this.prevMOP.blockX != mop.blockX || this.prevMOP.blockY != mop.blockY || this.prevMOP.blockZ != mop.blockZ || prevWorldID != player.dimension;
+	}
 }
