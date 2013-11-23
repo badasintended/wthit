@@ -3,6 +3,7 @@ package mcp.mobius.waila.addons.etb;
 import java.util.Arrays;
 import java.util.List;
 
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.ForgeDirection;
 import mcp.mobius.waila.WailaExceptionHandler;
@@ -29,9 +30,11 @@ public class HUDHandlerSocket implements IWailaDataProvider {
 			try {
 				int[]      sides = (int[])ETBModule.Socket_sides.get(accessor.getTileEntity());
 				Object[] configs = (Object[])ETBModule.Socket_configs.get(accessor.getTileEntity());
+				Item     module  = (Item)ETBModule.module.get(null);
+				
 				
 				for( int s = 0; s < 6; s++){
-						if (sides[s]!=0){
+						if (sides[s] != 0){
 							
 							int tank            = (Integer)ETBModule.SC_tank.get(configs[s]);
 							int inventory       = (Integer)ETBModule.SC_inventory.get(configs[s]);
@@ -39,7 +42,7 @@ public class HUDHandlerSocket implements IWailaDataProvider {
 							boolean[] rsLatch   = (boolean[])ETBModule.SC_rsLatch.get(configs[s]);
 							
 							
-							ItemStack stack = new ItemStack(ETBModule.module, 1, sides[s]);
+							ItemStack stack = new ItemStack(module, 1, sides[s]);
 							String tipstr = String.format("%-5s : %s ", ForgeDirection.getOrientation(s), stack.getDisplayName());
 							
 							String configstr = "[ ";

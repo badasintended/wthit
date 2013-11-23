@@ -18,7 +18,7 @@ public class ETBModule {
 	//public static Field Socket_facMeta  = null;	
 	
 	public static Class SocketsMod = null;
-	public static Item  module     = null;
+	public static Field module     = null;
 	
 	public static Class SideConfig   = null;
 	public static Field SC_tank      = null;
@@ -46,7 +46,14 @@ public class ETBModule {
 			//Socket_facMeta = TileSocket.getField("facMeta");
 		
 			SocketsMod = Class.forName("emasher.sockets.SocketsMod");
-			module     = (Item)SocketsMod.getField("module").get(null);
+			module     = SocketsMod.getField("module");
+			//module     = (Item)SocketsMod.getField("module").get(null);
+			/*
+			if (module == null){
+				mod_Waila.log.log(Level.WARNING, "[Engineer Toolbox] module field is null !");
+				return;					
+			}
+			*/
 			
 			SideConfig   = Class.forName("emasher.api.SideConfig");
 			SC_tank      = SideConfig.getField("tank");
@@ -56,16 +63,16 @@ public class ETBModule {
 			
 			
 		} catch (ClassNotFoundException e){
-			mod_Waila.log.log(Level.WARNING, "[EnderStorage] Class not found. " + e);
+			mod_Waila.log.log(Level.WARNING, "[Engineer Toolbox] Class not found. " + e);
 			return;
 //		} catch (NoSuchMethodException e){
-//			mod_Waila.log.log(Level.WARNING, "[EnderStorage] Method not found." + e);
+//			mod_Waila.log.log(Level.WARNING, "[Engineer Toolbox] Method not found." + e);
 //			return;			
 		} catch (NoSuchFieldException e){
-			mod_Waila.log.log(Level.WARNING, "[EnderStorage] Field not found." + e);
+			mod_Waila.log.log(Level.WARNING, "[Engineer Toolbox] Field not found." + e);
 			return;			
 		} catch (Exception e){
-			mod_Waila.log.log(Level.WARNING, "[EnderStorage] Unhandled exception." + e);
+			mod_Waila.log.log(Level.WARNING, "[Engineer Toolbox] Unhandled exception." + e);
 			return;			
 		}		
 		

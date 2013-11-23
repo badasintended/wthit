@@ -1,0 +1,113 @@
+screen.button.waila=Waila
+screen.button.modules=Modules
+screen.label.scale=Schaal
+screen.label.dragtuto=Sleep de HUD om zijn positie in te stellen.
+
+screen.button.default=Standaard
+screen.button.cancel=Annuleren
+screen.button.ok=Ok
+screen.button.yes=Ja
+screen.button.no=Nee
+screen.button.back=Terug
+screen.button.hidden=Verborgen
+screen.button.visible=Zichtbaar
+screen.button.maintained=Gehandhaafd
+screen.button.toggled=Omgeschakeld
+
+choice.showhidewaila=Toon/Verberg Waila
+choice.showhideidmeta=Toon ID:Metadata
+choice.toggledmaintained=Omgeschakeld/Gehandhaafd
+choice.showliquids=Vloeistoffen
+screen.button.configureaspect=Configureer aspect...
+
+enchant.title.name=Naam
+enchant.title.minlvl=Min lvl
+enchant.title.maxlvl=Max lvl
+enchant.title.weight=Gewicht
+enchant.label.enchantability=Enchantbaarheid
+
+keybind.configscreen=[Waila] Configuratiescherm
+keybind.showhide=[Waila] Toon/Verberg
+keybind.showliquid=[Waila] Toon vloeistoffen
+keybind.showrecipe=[Waila] Toon recepten
+keybind.showusage=[Waila] Toon gebruik
+keybind.testing=[Waila] Testen
+
+client.msg.norecipe=Geen recept gevonden.
+client.msg.nousage=Geen gebruik gevonden.
+
+hud.msg.none=<Geen>
+hud.msg.empty=<Leeg>
+hud.msg.output=Uitvoer
+hud.msg.input=Invoer
+hud.msg.out=Uit
+hud.msg.in=In
+hud.msg.power=Vermogen
+hud.msg.storage=Opslag
+hud.msg.any=Om het even welke
+hud.msg.mode=Modus
+
+hud.msg.send=Zend
+hud.msg.recv=Ontv
+hud.msg.item=Item
+hud.msg.fluid=Vloeistof
+hud.msg.energ=Energie
+hud.msg.frequency=Frequentie
+
+hud.msg.owner=Eigenaar
+hud.msg.public=Publiek
+hud.msg.restricted=Begrensd
+hud.msg.private=Privé
+
+hud.msg.white=Wit
+hud.msg.orange=Oranje
+hud.msg.magenta=Magenta
+hud.msg.lblue=LBlauw
+hud.msg.yellow=Geel
+hud.msg.lime=Limoen
+hud.msg.pink=Roze
+hud.msg.gray=Grijs
+hud.msg.lgray=LGrijs
+hud.msg.cyan=Cyaan
+hud.msg.purple=Paars
+hud.msg.blue=Blauw
+hud.msg.brown=Bruin
+hud.msg.green=Groen
+hud.msg.red=Rood
+hud.msg.black=Zwart
+
+hud.msg.growth=Groei
+hud.msg.mature=Volwassen
+hud.msg.off=Af
+hud.msg.on=Aan
+hud.msg.state=Status
+hud.msg.delay=Vertraging
+hud.msg.comparator=Vergelijker
+hud.msg.substractor=Aftrekker
+hud.msg.record=Neem op
+
+option.appeng.monitorcontent=Scherm inhoud
+option.bb.content=Ton inhoud
+option.bc.tankamount=Vloeistofhoeveelheid
+option.bc.tanktype=Vloeistoftype
+option.enderstorage.colors=Kleuren
+option.ic2.inputeumach=Max EU invoer [Machines]
+option.ic2.inputeuother=Max EU invoer [Andere]
+option.ic2.outputeu=Max EU uitvoer
+option.ic2.storage=Opgeslagen energie
+option.thaumcraft.storedvis=Condensator opslag
+option.thermalexpansion.energyhandler=Toon RF opslag
+option.thermalexpansion.energycell=Toon ECell IN/UIT
+option.thermalexpansion.fluidtype=Toon vloeistoftype
+option.thermalexpansion.fluidamount=Toon vloeistofhoeveelheid
+option.thermalexpansion.tankmode=Toon tank modus
+option.thermalexpansion.tesssendrecv=Tesseract modus
+option.thermalexpansion.tessfreq=Tesseract frequentie
+option.thermalexpansion.owner=Toon eigenaar
+option.vanilla.spawntype=Spawner type
+option.vanilla.growthvalue=Groei hoeveelheid
+option.vanilla.leverstate=Hendel status
+option.vanilla.repeater=Herhaler vertraging
+option.vanilla.comparator=Vergelijker modus
+option.vanilla.redstone=Redstone vermogen
+option.vanilla.jukebox=Jukebox schijf
