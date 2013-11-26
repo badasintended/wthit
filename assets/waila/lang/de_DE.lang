@@ -96,6 +96,7 @@ option.bc.tanktype=Flüssigk.-Typ
 option.enderstorage.colors=Farben
 option.ic2.inputeumach=Max EU-Input [Maschinen]
 option.ic2.inputeuother=Max EU-Input [Anderes]
+option.ic2.inputeu=Max EU-Input
 option.ic2.outputeu=Max EU-Output
 option.ic2.storage=Energie gespeichert
 option.thaumcraft.storedvis=Kondensatorspeicher

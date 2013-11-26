@@ -113,7 +113,9 @@ public class IC2Module {
 		
 		ExternalModulesHandler.instance().addConfigRemote("IndustrialCraft2", "ic2.storage");
 		ExternalModulesHandler.instance().addConfig("IndustrialCraft2", "ic2.outputeu");
-		ExternalModulesHandler.instance().addConfig("IndustrialCraft2", "ic2.inputeuother");		
+		ExternalModulesHandler.instance().addConfigRemote("IndustrialCraft2", "ic2.inputeu");		
+		ExternalModulesHandler.instance().addConfigRemote("IndustrialCraft2", "ic2.consump");
+		ExternalModulesHandler.instance().addConfigRemote("IndustrialCraft2", "ic2.tradeomat");
 		
 		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerTEStandardMachine(), TileEntityStandardMachine);
 		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerTEBaseGenerator(),   TileEntityBaseGenerator);
@@ -162,49 +164,5 @@ public class IC2Module {
 		
 		return upgrades;
 	}
-	
-	
-	/*
-	  public void setOverclockRates()
-	  {
-	    int extraProcessTime = 0;
-	    double processTimeMultiplier = 1.0D;
-	    int extraEnergyDemand = 0;
-	    double energyDemandMultiplier = 1.0D;
-	    int extraEnergyStorage = 0;
-	    double energyStorageMultiplier = 1.0D;
-	    int extraTier = 0;
-
-	    for (int i = 0; i < this.upgradeSlot.size(); i++) {
-	      ItemStack stack = this.upgradeSlot.get(i);
-
-	      if ((stack != null) && ((stack.func_77973_b() instanceof IUpgradeItem)))
-	      {
-	        IUpgradeItem upgrade = (IUpgradeItem)stack.func_77973_b();
-
-	        extraProcessTime += upgrade.getExtraProcessTime(stack, this) * stack.field_77994_a;
-	        processTimeMultiplier *= Math.pow(upgrade.getProcessTimeMultiplier(stack, this), stack.field_77994_a);
-	        extraEnergyDemand += upgrade.getExtraEnergyDemand(stack, this) * stack.field_77994_a;
-	        energyDemandMultiplier *= Math.pow(upgrade.getEnergyDemandMultiplier(stack, this), stack.field_77994_a);
-	        extraEnergyStorage += upgrade.getExtraEnergyStorage(stack, this) * stack.field_77994_a;
-	        energyStorageMultiplier *= Math.pow(upgrade.getEnergyStorageMultiplier(stack, this), stack.field_77994_a);
-	        extraTier += upgrade.getExtraTier(stack, this) * stack.field_77994_a;
-	      }
-	    }
-	    double previousProgress = this.progress / this.operationLength;
-
-	    double stackOpLen = (this.defaultOperationLength + extraProcessTime) * 64.0D * processTimeMultiplier;
-	    this.operationsPerTick = ((int)Math.min(Math.ceil(64.0D / stackOpLen), 2147483647.0D));
-	    this.operationLength = ((int)Math.round(stackOpLen * this.operationsPerTick / 64.0D));
-
-	    this.energyConsume = applyModifier(this.defaultEnergyConsume, extraEnergyDemand, energyDemandMultiplier);
-	    setTier(applyModifier(this.defaultTier, extraTier, 1.0D));
-	    this.maxEnergy = applyModifier(this.defaultEnergyStorage, extraEnergyStorage + this.operationLength * this.energyConsume, energyStorageMultiplier);
-
-	    if (this.operationLength < 1) this.operationLength = 1;
-
-	    this.progress = ((short)(int)Math.floor(previousProgress * this.operationLength + 0.1D));
-	  }	
-	*/
 	
 }

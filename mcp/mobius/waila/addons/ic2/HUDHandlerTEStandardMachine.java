@@ -2,6 +2,7 @@ package mcp.mobius.waila.addons.ic2;
 
 import java.util.List;
 
+import codechicken.lib.lang.LangUtil;
 import net.minecraft.item.ItemStack;
 import mcp.mobius.waila.WailaExceptionHandler;
 import mcp.mobius.waila.addons.ConfigHandler;
@@ -45,21 +46,25 @@ public class HUDHandlerTEStandardMachine implements IWailaDataProvider {
 			int       maxinput   = (Integer)IC2Module.IES_GetMaxSafeInput.invoke(accessor.getTileEntity()) * (int)Math.pow(4.0D, Math.min(4, upgrades.transform));
 			double stored        = IC2Module.getStoredEnergy(accessor); 
 
+			String storedStr   = LangUtil.translateG("hud.msg.stored");
+			String powerStr    = LangUtil.translateG("hud.msg.power");			
+			String maxPowerStr = LangUtil.translateG("hud.msg.maxpower");	
+			
 			/* EU Storage */
 			if (ConfigHandler.instance().getConfig("ic2.storage")){
-
-				
 				if ( stored >= 0.0 )
-					currenttip.add(String.format("Stored : %d / %d EU", Math.round(Math.min(stored,storage)), storage));
+					currenttip.add(String.format("%s : \u00a7f%d\u00a7r / \u00a7f%d\u00a7r EU", storedStr, Math.round(Math.min(stored,storage)), storage));
 			}
 		
-
-			if ( consumption > 0)
-				currenttip.add(String.format("Consumption : %d EU/t", consumption ));
-
-
-			if ( maxinput > 0)
-				currenttip.add(String.format("Max Input : %d EU/t", maxinput ));				
+			if (ConfigHandler.instance().getConfig("ic2.consump")){
+				if ( consumption > 0)
+					currenttip.add(String.format("%s : \u00a7f%d\u00a7r EU/t", powerStr, consumption ));
+			}
+			
+			if (ConfigHandler.instance().getConfig("ic2.inputeu")){
+				if ( maxinput > 0)
+					currenttip.add(String.format("%s : \u00a7f%d\u00a7r EU/t", maxPowerStr, maxinput ));
+			}
 			
 		} catch (Exception e){    
 			currenttip = WailaExceptionHandler.handleErr(e, accessor.getTileEntity().getClass().getName(), currenttip);

@@ -93,6 +93,7 @@ option.bc.tanktype=Vloeistoftype
 option.enderstorage.colors=Kleuren
 option.ic2.inputeumach=Max EU invoer [Machines]
 option.ic2.inputeuother=Max EU invoer [Andere]
+option.ic2.inputeu=Max EU invoer
 option.ic2.outputeu=Max EU uitvoer
 option.ic2.storage=Opgeslagen energie
 option.thaumcraft.storedvis=Condensator opslag

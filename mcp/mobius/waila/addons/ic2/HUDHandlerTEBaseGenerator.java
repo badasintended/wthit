@@ -2,6 +2,7 @@ package mcp.mobius.waila.addons.ic2;
 
 import java.util.List;
 
+import codechicken.lib.lang.LangUtil;
 import net.minecraft.item.ItemStack;
 import mcp.mobius.waila.WailaExceptionHandler;
 import mcp.mobius.waila.addons.ConfigHandler;
@@ -40,13 +41,16 @@ public class HUDHandlerTEBaseGenerator implements IWailaDataProvider {
 				storage    = IC2Module.TESG_MaxStorage.getShort(accessor.getTileEntity());
 				production = (int)IC2Module.TESG_Production.getDouble(accessor.getTileEntity());
 			}
-				
+		
+			String storedStr  = LangUtil.translateG("hud.msg.stored");
+			String outputStr  = LangUtil.translateG("hud.msg.output");			
+			
 			/* EU Storage */
 			if (ConfigHandler.instance().getConfig("ic2.storage")){
 				double stored  = IC2Module.getStoredEnergy(accessor); 
 			
 				if ( stored >= 0.0 && storage > 0)
-					currenttip.add(String.format("Stored : %d / %d EU", Math.round(Math.min(stored,storage)), storage));
+					currenttip.add(String.format("%s : \u00a7f%d\u00a7r / \u00a7f%d\u00a7r EU", storedStr, Math.round(Math.min(stored,storage)), storage));
 				
 				//else if (stored >= 0.0)
 				//	currenttip.add(String.format("Stored : %d EU", stored));				
@@ -54,7 +58,7 @@ public class HUDHandlerTEBaseGenerator implements IWailaDataProvider {
 			
 			if (ConfigHandler.instance().getConfig("ic2.outputeu")){
 					if ( production > 0)
-						currenttip.add(String.format("Production : %d EU/t", production));
+						currenttip.add(String.format("%s : \u00a7f%d\u00a7r EU/t", outputStr, production));
 			}
 			
 		} catch (Exception e){    
