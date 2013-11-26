@@ -39,6 +39,8 @@ public class IC2Module {
 	public static Class  IEnergySink         = null;
 	public static Method IES_GetMaxSafeInput = null;
 	
+	public static Class  TileEntityTradeOMat = null;
+	
 	/* Some required items */
 	public static Class     IC2Items           = null;
 	public static Field     TransformerUpgrade = null;
@@ -88,6 +90,8 @@ public class IC2Module {
 			EnergyStorageUpgradeStack = (ItemStack)EnergyStorageUpgrade.get(null);			
 			OverclockerUpgradeStack   = (ItemStack)OverclockerUpgrade.get(null);
 			
+			TileEntityTradeOMat       = Class.forName("ic2.core.block.personal.TileEntityTradeOMat");
+			
 		} catch (ClassNotFoundException e){
 			e.printStackTrace();
 			mod_Waila.log.log(Level.WARNING, "[IC2] Class not found. " + e);
@@ -116,6 +120,7 @@ public class IC2Module {
 		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerTEBaseGenerator(),   TileEntitySemifluidGenerator);
 		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerTEBaseGenerator(),   TileEntityGeoGenerator);		
 		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerTEElectricBlock(),   TileEntityElectricBlock);
+		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerTETradeOMat(),       TileEntityTradeOMat);		
 	}
 
 	/* Retuns the current stored energy if available in the nbt and config is true */
