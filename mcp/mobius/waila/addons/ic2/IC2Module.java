@@ -24,6 +24,14 @@ public class IC2Module {
 	public static Field TEBG_MaxStorage           = null;
 	public static Field TEBG_Production           = null;	
 	
+	public static Class TileEntitySemifluidGenerator = null;
+	public static Field TESG_MaxStorage              = null;
+	public static Field TESG_Production              = null;
+	
+	public static Class TileEntityGeoGenerator      = null;	
+	public static Field TEGG_MaxStorage              = null;
+	public static Field TEGG_Production              = null;
+	
 	public static Class TileEntityElectricBlock   = null;
 	public static Field TEEB_MaxStorage           = null;	
 	public static Field TEEB_Output               = null;	
@@ -54,6 +62,16 @@ public class IC2Module {
 			TEBG_MaxStorage           = TileEntityBaseGenerator.getField("maxStorage");
 			TEBG_Production           = TileEntityBaseGenerator.getField("production");			
 
+			TileEntitySemifluidGenerator = Class.forName("ic2.core.block.generator.tileentity.TileEntitySemifluidGenerator");
+			TESG_MaxStorage           = TileEntitySemifluidGenerator.getDeclaredField("maxStorage");
+			TESG_Production           = TileEntitySemifluidGenerator.getDeclaredField("production");
+			TESG_MaxStorage.setAccessible(true);
+			TESG_Production.setAccessible(true);
+			
+			TileEntityGeoGenerator    = Class.forName("ic2.core.block.generator.tileentity.TileEntityGeoGenerator");
+			TEGG_MaxStorage           = TileEntityGeoGenerator.getField("maxStorage");
+			TEGG_Production           = TileEntityGeoGenerator.getField("production");				
+			
 			TileEntityElectricBlock   = Class.forName("ic2.core.block.wiring.TileEntityElectricBlock");
 			TEEB_MaxStorage           = TileEntityElectricBlock.getField("maxStorage");	
 			TEEB_Output               = TileEntityElectricBlock.getField("output");
@@ -71,15 +89,19 @@ public class IC2Module {
 			OverclockerUpgradeStack   = (ItemStack)OverclockerUpgrade.get(null);
 			
 		} catch (ClassNotFoundException e){
+			e.printStackTrace();
 			mod_Waila.log.log(Level.WARNING, "[IC2] Class not found. " + e);
 			return;
 		} catch (NoSuchMethodException e){
+			e.printStackTrace();			
 			mod_Waila.log.log(Level.WARNING, "[IC2] Method not found." + e);
 			return;			
 		} catch (NoSuchFieldException e){
+			e.printStackTrace();			
 			mod_Waila.log.log(Level.WARNING, "[IC2] Field not found." + e);
 			return;			
 		} catch (Exception e){
+			e.printStackTrace();			
 			mod_Waila.log.log(Level.WARNING, "[IC2] Unhandled exception." + e);
 			return;			
 		}	
@@ -91,6 +113,8 @@ public class IC2Module {
 		
 		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerTEStandardMachine(), TileEntityStandardMachine);
 		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerTEBaseGenerator(),   TileEntityBaseGenerator);
+		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerTEBaseGenerator(),   TileEntitySemifluidGenerator);
+		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerTEBaseGenerator(),   TileEntityGeoGenerator);		
 		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerTEElectricBlock(),   TileEntityElectricBlock);
 	}
 

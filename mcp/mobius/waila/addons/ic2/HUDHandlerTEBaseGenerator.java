@@ -25,17 +25,34 @@ public class HUDHandlerTEBaseGenerator implements IWailaDataProvider {
 	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
 		
 		try{
+			int    storage = -1;
+			int production = -1;
+			
+			if (IC2Module.TileEntityBaseGenerator.isInstance(accessor.getTileEntity())){
+				storage    = IC2Module.TEBG_MaxStorage.getShort(accessor.getTileEntity());
+				production = IC2Module.TEBG_Production.getInt(accessor.getTileEntity());
+			}
+			else if (IC2Module.TileEntityGeoGenerator.isInstance(accessor.getTileEntity())){
+				storage    = IC2Module.TEGG_MaxStorage.getShort(accessor.getTileEntity());
+				production = IC2Module.TEGG_Production.getInt(accessor.getTileEntity());
+			}
+			else if (IC2Module.TileEntitySemifluidGenerator.isInstance(accessor.getTileEntity())){
+				storage    = IC2Module.TESG_MaxStorage.getShort(accessor.getTileEntity());
+				production = (int)IC2Module.TESG_Production.getDouble(accessor.getTileEntity());
+			}
+				
 			/* EU Storage */
 			if (ConfigHandler.instance().getConfig("ic2.storage")){
 				double stored  = IC2Module.getStoredEnergy(accessor); 
-				int    storage = IC2Module.TEBG_MaxStorage.getShort(accessor.getTileEntity());		
 			
-				if ( stored >= 0.0 )
+				if ( stored >= 0.0 && storage > 0)
 					currenttip.add(String.format("Stored : %d / %d EU", Math.round(Math.min(stored,storage)), storage));
+				
+				//else if (stored >= 0.0)
+				//	currenttip.add(String.format("Stored : %d EU", stored));				
 			}
 			
 			if (ConfigHandler.instance().getConfig("ic2.outputeu")){
-				int production = IC2Module.TEBG_Production.getInt(accessor.getTileEntity());
 					if ( production > 0)
 						currenttip.add(String.format("Production : %d EU/t", production));
 			}
