@@ -79,7 +79,7 @@ public class RayTracing {
         int y = raytracedTarget.blockY;
         int z = raytracedTarget.blockZ;
         Block mouseoverBlock = Block.blocksList[world.getBlockId(x, y, z)];
-        
+        if (mouseoverBlock == null) return items;
         
         ArrayList<IHighlightHandler> handlers = new ArrayList<IHighlightHandler>();
         if(ItemInfo.highlightIdentifiers.get(0) != null)
@@ -122,6 +122,9 @@ public class RayTracing {
             items.addAll(mouseoverBlock.getBlockDropped(world, x, y, z, world.getBlockMetadata(x, y, z), 0));
         }
         catch(Exception e){}
+        
+        if(items.size() > 0)
+            return items;         
         
         if(mouseoverBlock instanceof IShearable)
         {
