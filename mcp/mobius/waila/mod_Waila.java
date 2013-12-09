@@ -46,7 +46,7 @@ import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.ItemData;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid="Waila", name="Waila", version="1.4.1")
+@Mod(modid="Waila", name="Waila", version="1.4.2")
 @NetworkMod(channels = {"Waila"},clientSideRequired=false, serverSideRequired=false, connectionHandler = WailaConnectionHandler.class, 
 			packetHandler = WailaPacketHandler.class, versionBounds="[1.3.0,)")
 

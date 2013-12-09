@@ -13,6 +13,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 
 public class DataAccessor implements IWailaDataAccessor {
@@ -139,6 +140,26 @@ public class DataAccessor implements IWailaDataAccessor {
 	@Override
 	public double getPartialFrame() {
 		return this.partialFrame;
+	}
+	
+	@Override
+	public ForgeDirection getSide(){
+		int side = this.getPosition().sideHit;
+		switch (side){
+		case 0:
+			return ForgeDirection.DOWN;
+		case 1:
+			return ForgeDirection.UP;
+		case 2:
+			return ForgeDirection.EAST;
+		case 3:
+			return ForgeDirection.WEST;
+		case 4:
+			return ForgeDirection.NORTH;
+		case 5:
+			return ForgeDirection.SOUTH;
+		}
+		return ForgeDirection.UNKNOWN;
 	}
 	
 }

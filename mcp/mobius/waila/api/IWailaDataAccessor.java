@@ -7,6 +7,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeDirection;
 
 public interface IWailaDataAccessor {
 	World        		 getWorld();
@@ -20,4 +21,5 @@ public interface IWailaDataAccessor {
 	NBTTagCompound       getNBTData();
 	int                  getNBTInteger(NBTTagCompound tag, String keyname);
 	double               getPartialFrame();
+	ForgeDirection       getSide();
 }
