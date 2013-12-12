@@ -1,7 +1,7 @@
 screen.button.waila=Waila
 screen.button.modules=Модули
 screen.label.scale=Размер
-screen.label.dragtuto=Переместите интерфейс, чтобы поменять позицию.
+screen.label.dragtuto=Перетащите интерфейс, чтобы изменить позицию.
 
 screen.button.default=По умолчанию
 screen.button.cancel=Отмена
@@ -9,16 +9,16 @@ screen.button.ok=Ок
 screen.button.yes=Да
 screen.button.no=Нет
 screen.button.back=Назад
-screen.button.hidden=Скрытый
-screen.button.visible=Видимый
-screen.button.maintained=Обслуживается
-screen.button.toggled=Переключается
+screen.button.hidden=Скрывать
+screen.button.visible=Показывать
+screen.button.maintained=При нажатой клавише
+screen.button.toggled=Вкл./Выкл. гор. клавишей
 
 choice.showhidewaila=Показать/Скрыть Waila
 choice.showhideidmeta=Показать ID:Метаданные
-choice.toggledmaintained=Переключание/Обслуживание
+choice.toggledmaintained=Переключ./Нажатая клав.
 choice.showliquids=Жидкости
-screen.button.configureaspect=Настроить часть...
+screen.button.configureaspect=Настроить индикатор...
 
 enchant.title.name=Название
 enchant.title.minlvl=Мин. уровень
@@ -36,7 +36,7 @@ waila.keybind.testing=[Waila] Тестировать
 client.msg.norecipe=Рецептов не найдено.
 client.msg.nousage=Применений не найдено.
 
-hud.msg.none=<Ничто>
+hud.msg.none=<Ничего>
 hud.msg.empty=<Пусто>
 hud.msg.output=Вывод
 hud.msg.input=Ввод
