@@ -7,6 +7,9 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
+
 import mcp.mobius.waila.addons.ConfigHandler;
 import mcp.mobius.waila.addons.ExternalModulesHandler;
 import mcp.mobius.waila.api.IWailaRegistrar;
@@ -27,8 +30,11 @@ import codechicken.core.CommonUtils;
 import codechicken.lib.lang.LangUtil;
 import cpw.mods.fml.client.registry.KeyBindingRegistry;
 import cpw.mods.fml.client.registry.KeyBindingRegistry.KeyHandler;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.FMLModContainer;
 import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.IMCCallback;
 import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
@@ -39,6 +45,7 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLInterModComms;
 import cpw.mods.fml.common.event.FMLInterModComms.IMCMessage;
+import cpw.mods.fml.common.event.FMLLoadCompleteEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
@@ -46,7 +53,7 @@ import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.ItemData;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid="Waila", name="Waila", version="1.4.2")
+@Mod(modid="Waila", name="Waila", version="1.4.3", dependencies="required-after:NotEnoughItems")
 @NetworkMod(channels = {"Waila"},clientSideRequired=false, serverSideRequired=false, connectionHandler = WailaConnectionHandler.class, 
 			packetHandler = WailaPacketHandler.class, versionBounds="[1.3.0,)")
 
@@ -71,8 +78,9 @@ public class mod_Waila {
 	public static int fontcolor;
 	public static float scale;
 	
-	@PreInit
-	public void preInit(FMLPreInitializationEvent event) {
+    /* INIT SEQUENCE */
+    @EventHandler
+    public void preInit(FMLPreInitializationEvent event) {
 		config = new Configuration(event.getSuggestedConfigurationFile());
 
 		config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW,     true);
@@ -100,14 +108,20 @@ public class mod_Waila {
 		MinecraftForge.EVENT_BUS.register(new WailaClientEventHandler());		
 	}	
 	
-	@Init
-	public void load(FMLInitializationEvent event) {
-		proxy.registerHandlers();
+    @EventHandler
+    public void initialize(FMLInitializationEvent event) {
+        try {
+            Field eBus = FMLModContainer.class.getDeclaredField("eventBus");
+            eBus.setAccessible(true);
+            EventBus FMLbus = (EventBus) eBus.get(FMLCommonHandler.instance().findContainerFor(this));
+            FMLbus.register(this);
+        } catch (Throwable t) {}
 	}
 
-	@PostInit
-	public void postInit(FMLPostInitializationEvent event) {
-        ModIdentification.init();
+    @EventHandler
+    public void postInit(FMLPostInitializationEvent event) {
+		proxy.registerHandlers();
+    	ModIdentification.init();
         
         if (ConfigHandler.instance().getConfig(Constants.CFG_WAILA_KEYBIND)){
         
@@ -144,6 +158,11 @@ public class mod_Waila {
         
 	}
 
+    @Subscribe
+    public void loadComplete(FMLLoadCompleteEvent event) {    
+    	proxy.registerMods();
+    }    
+    	
 	@IMCCallback
 	public void processIMC(FMLInterModComms.IMCEvent event)
 	{

@@ -71,10 +71,9 @@ public class ProxyClient extends ProxyServer {
 		//API.addKeyBind(Constants.BIND_TECH, "Display techtree",      Keyboard.KEY_RSHIFT);
 		
 		ExternalModulesHandler.instance().registerShortDataProvider(new SummaryProviderDefault(), Item.class);
-		
-		this.registerMods();		
 	}	
 
+	@Override
 	public void registerMods(){
 		
 		HUDHandlerVanilla.register();

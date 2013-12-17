@@ -93,19 +93,19 @@ public class IC2Module {
 			TileEntityTradeOMat       = Class.forName("ic2.core.block.personal.TileEntityTradeOMat");
 			
 		} catch (ClassNotFoundException e){
-			e.printStackTrace();
+			//e.printStackTrace();
 			mod_Waila.log.log(Level.WARNING, "[IC2] Class not found. " + e);
 			return;
 		} catch (NoSuchMethodException e){
-			e.printStackTrace();			
+			//e.printStackTrace();			
 			mod_Waila.log.log(Level.WARNING, "[IC2] Method not found." + e);
 			return;			
 		} catch (NoSuchFieldException e){
-			e.printStackTrace();			
+			//e.printStackTrace();			
 			mod_Waila.log.log(Level.WARNING, "[IC2] Field not found." + e);
 			return;			
 		} catch (Exception e){
-			e.printStackTrace();			
+			//e.printStackTrace();			
 			mod_Waila.log.log(Level.WARNING, "[IC2] Unhandled exception." + e);
 			return;			
 		}	
