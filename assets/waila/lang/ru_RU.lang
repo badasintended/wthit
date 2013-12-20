@@ -126,3 +126,5 @@ option.bcapi.consump=Показывать макс. энергию
 option.bcapi.trigger=Показывать энергию активации
 option.pr.showio=Показывать ввод/вывод схем
 option.pr.showdata=Показывать инф. о схемах
+option.extrautilities.fluidamount=Показывать кол-во жидкости
+option.openblocks.fluidamount=Показывать кол-во жидкости

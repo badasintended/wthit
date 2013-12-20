@@ -133,3 +133,4 @@ option.bcapi.trigger=Show triggering energy
 option.pr.showio=Show gates IO
 option.pr.showdata=Show gates data
 option.extrautilities.fluidamount=Show fluid amount
+option.openblocks.fluidamount=Show fluid amount

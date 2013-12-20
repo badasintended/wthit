@@ -11,6 +11,7 @@ import mcp.mobius.waila.addons.etb.ETBModule;
 import mcp.mobius.waila.addons.exu.ExtraUtilitiesModule;
 import mcp.mobius.waila.addons.gravestone.GravestoneModule;
 import mcp.mobius.waila.addons.ic2.IC2Module;
+import mcp.mobius.waila.addons.openblocks.OpenBlocksModule;
 import mcp.mobius.waila.addons.projectred.ProjectRedModule;
 import mcp.mobius.waila.addons.thaumcraft.ThaumcraftModule;
 import mcp.mobius.waila.addons.thermalexpansion.ThermalExpansionModule;
@@ -119,7 +120,10 @@ public class ProxyClient extends ProxyServer {
 		ProjectRedModule.register();
 		
 		/* ExtraUtilities */
-		ExtraUtilitiesModule.register();				
+		ExtraUtilitiesModule.register();	
+		
+		/* OpenBlocks */
+		OpenBlocksModule.register();		
 	}	
 	
 	@Override
