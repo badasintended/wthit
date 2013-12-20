@@ -8,6 +8,7 @@ import mcp.mobius.waila.addons.buildcraft.BCPowerAPIModule;
 import mcp.mobius.waila.addons.enderio.EnderIOModule;
 import mcp.mobius.waila.addons.enderstorage.EnderStorageModule;
 import mcp.mobius.waila.addons.etb.ETBModule;
+import mcp.mobius.waila.addons.exu.ExtraUtilitiesModule;
 import mcp.mobius.waila.addons.gravestone.GravestoneModule;
 import mcp.mobius.waila.addons.ic2.IC2Module;
 import mcp.mobius.waila.addons.projectred.ProjectRedModule;
@@ -115,7 +116,10 @@ public class ProxyClient extends ProxyServer {
 		BCPowerAPIModule.register();
 		
 		/* ProjectRed API */
-		ProjectRedModule.register();		
+		ProjectRedModule.register();
+		
+		/* ExtraUtilities */
+		ExtraUtilitiesModule.register();				
 	}	
 	
 	@Override

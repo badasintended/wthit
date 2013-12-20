@@ -132,3 +132,4 @@ option.bcapi.consump=Zeige maximale Energie
 option.bcapi.trigger=Zeige Startenergie
 option.pr.showio=Zeige Gatter IO
 option.pr.showdata=Zeige Gatterdaten
+option.extrautilities.fluidamount=Zeige Flüssigk.-Menge
