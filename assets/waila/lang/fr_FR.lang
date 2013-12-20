@@ -133,3 +133,4 @@ option.pr.showio=Afficher plaques IO
 option.pr.showdata=Afficher plaques data
 option.extrautilities.fluidamount=Afficher niveau fluides
 option.openblocks.fluidamount=Afficher niveau fluides
+option.railcraft.fluidamount=Afficher niveau fluides
