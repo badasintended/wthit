@@ -20,15 +20,17 @@ public class ThermalExpansionModule {
 	public static Method TileTank_getTankCapacity = null;
 	public static Field  TileTank_mode = null;
 
-	public static Class  TileConduitFluid = null;
-	public static Method TileConduitFluid_getRenderFluid = null;
-	public static Method TileConduitFluid_getRenderFluidLevel = null;
+	//public static Class  TileConduitFluid = null;
+	//public static Method TileConduitFluid_getRenderFluid = null;
+	//public static Method TileConduitFluid_getRenderFluidLevel = null;
 	
-	public static Class  TileConduitItems = null;
+	//public static Class  TileConduitItems = null;
 	
 	public static Class  TileTesseract = null;
 	
 	public static Class  ISecureTile = null;
+	
+	public static Class BlockMultipart = null;
 	
 	//public static Field  TileTesseract_modItem   = null;
 	//public static Field  TileTesseract_modFluid  = null;
@@ -59,15 +61,16 @@ public class ThermalExpansionModule {
 			TileTank_getTankCapacity = TileTank.getMethod("getTankCapacity");
 			TileTank_mode            = TileTank.getField("mode");
 
-			TileConduitFluid = Class.forName("thermalexpansion.block.conduit.fluid.TileConduitFluid");			
-			TileConduitFluid_getRenderFluid      = TileConduitFluid.getMethod("getRenderFluid");
-			TileConduitFluid_getRenderFluidLevel = TileConduitFluid.getMethod("getRenderFluidLevel");
-
-			TileConduitItems = Class.forName("thermalexpansion.block.conduit.item.TileConduitItem");				
+			//TileConduitFluid = Class.forName("thermalexpansion.block.conduit.fluid.TileConduitFluid");			
+			//TileConduitFluid_getRenderFluid      = TileConduitFluid.getMethod("getRenderFluid");
+			//TileConduitFluid_getRenderFluidLevel = TileConduitFluid.getMethod("getRenderFluidLevel");
+			//TileConduitItems = Class.forName("thermalexpansion.block.conduit.item.TileConduitItem");				
 			
 			TileTesseract = Class.forName("thermalexpansion.block.tesseract.TileTesseract");
 			
 			ISecureTile   = Class.forName("cofh.api.tileentity.ISecureTile");
+			
+			BlockMultipart = Class.forName("codechicken.multipart.BlockMultipart");
 			
 			//TileTesseract_modItem   = TileTesseract.getField("modItem");
 			//TileTesseract_modFluid  = TileTesseract.getField("modFluid");
@@ -96,7 +99,7 @@ public class ThermalExpansionModule {
 		
 		ExternalModulesHandler.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.energyhandler");
 		ExternalModulesHandler.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.energycell");
-		ExternalModulesHandler.instance().addConfig("Thermal Expansion", "thermalexpansion.fluidtype");
+		ExternalModulesHandler.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.fluidtype");
 		ExternalModulesHandler.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.fluidamount");
 		ExternalModulesHandler.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.conditemmode");		
 		ExternalModulesHandler.instance().addConfig("Thermal Expansion", "thermalexpansion.tankmode");
@@ -105,19 +108,17 @@ public class ThermalExpansionModule {
 		ExternalModulesHandler.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.owner");		
 		
 		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerIEnergyHandler(), IEnergyHandler);
-		//ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerIEnergyHandler(), TileEnergyCell);
 		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerEnergyCell(), TileEnergyCell);
 		ExternalModulesHandler.instance().registerHeadProvider(new HUDHandlerTank(), TileTank);
 		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerTank(), TileTank);
 		
-		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerConduitFluid(), TileConduitFluid);
 		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerTesseract(), TileTesseract);
 		
-		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerConduitItem(), TileConduitItems);		
-		
 		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerISecureTile(), ISecureTile);
-		
-		//ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerConduitBase(), TileConduitBase);				
+
+		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerConduitFluid(), BlockMultipart);		
+		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerConduitItem(),  BlockMultipart);		
+			
 		
 	}
 	

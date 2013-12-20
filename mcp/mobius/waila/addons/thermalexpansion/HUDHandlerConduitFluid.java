@@ -4,6 +4,8 @@ import java.util.List;
 
 import codechicken.lib.lang.LangUtil;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.fluids.FluidStack;
 import mcp.mobius.waila.WailaExceptionHandler;
 import mcp.mobius.waila.api.IWailaConfigHandler;
@@ -25,22 +27,29 @@ public class HUDHandlerConduitFluid implements IWailaDataProvider {
 	@Override
 	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
 
-		if (config.getConfig("thermalexpansion.fluidtype")){
+		if (!config.getConfig("thermalexpansion.fluidtype")) return currenttip;
 		
-			try {
-				FluidStack fluid = (FluidStack)ThermalExpansionModule.TileConduitFluid_getRenderFluid.invoke(accessor.getTileEntity());
-				
-				try{
-					currenttip.add(fluid.getFluid().getLocalizedName());
-				} catch (NullPointerException f){
-					currenttip.add(LangUtil.translateG("hud.msg.empty"));
-				}
-				
-			} catch (Exception e){    
-				currenttip = WailaExceptionHandler.handleErr(e, accessor.getTileEntity().getClass().getName(), currenttip);
-			} 	
+		boolean found   = false;
+		FluidStack fluid = null;
+		
+		if (!accessor.getNBTData().hasKey("parts")) return currenttip;
+		NBTTagList parts = accessor.getNBTData().getTagList("parts"); 
+		for (int i = 0; i < parts.tagCount(); i++){
+			NBTTagCompound subtag = (NBTTagCompound)parts.tagAt(i);
+			String id = subtag.getString("id");
 			
-		}
+			if (id.contains("ConduitFluid")){
+				found  = true;
+				NBTTagCompound fluidTag = subtag.getCompoundTag("ConnFluid");
+				fluid = FluidStack.loadFluidStackFromNBT(fluidTag);
+			}
+		}			
+
+		if (fluid != null)
+			currenttip.add(fluid.getFluid().getLocalizedName());			
+		else
+			currenttip.add(LangUtil.translateG("hud.msg.empty"));
+		
 		return currenttip;
 	}
 

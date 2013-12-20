@@ -4,6 +4,7 @@ import java.util.List;
 
 import codechicken.lib.lang.LangUtil;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockSilverfish;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemRecord;
 import net.minecraft.item.ItemStack;
@@ -31,11 +32,29 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 	static int jukebox       = Block.jukebox.blockID;
 	static int cocoa		 = Block.cocoaPlant.blockID;
 	static int netherwart    = Block.netherStalk.blockID;
+	static int silverfish    = Block.silverfish.blockID;
 	
 	
 	@Override
 	public ItemStack getWailaStack(IWailaDataAccessor accessor,	IWailaConfigHandler config) {
+		int blockID       = accessor.getBlockID();
+		
+		if (blockID == silverfish){
+			int metadata = accessor.getMetadata();
+			switch(metadata){
+			case 0:
+				return new ItemStack(Block.stone);
+			case 1:
+				return new ItemStack(Block.cobblestone);
+			case 2:
+				return new ItemStack(Block.stoneBrick);
+			default:
+				return null;
+			}
+		}
+		
 		return null;
+		
 	}
 
 	@Override
@@ -149,23 +168,27 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 		ExternalModulesHandler.instance().addConfig("VanillaMC", "vanilla.repeater");
 		ExternalModulesHandler.instance().addConfig("VanillaMC", "vanilla.comparator");
 		ExternalModulesHandler.instance().addConfig("VanillaMC", "vanilla.redstone");
-		ExternalModulesHandler.instance().addConfigRemote("VanillaMC", "vanilla.jukebox");		
-		ExternalModulesHandler.instance().registerHeadProvider(new HUDHandlerVanilla(), mobSpawnerID);
-		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerVanilla(), cropsID);
-		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerVanilla(), melonStemID);
-		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerVanilla(), pumpkinStemID);
-		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerVanilla(), carrotID);
-		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerVanilla(), potatoID);
-		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerVanilla(), leverID);
-		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerVanilla(), repeaterIdle);
-		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerVanilla(), repeaterActv);
-		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerVanilla(), comparatorIdl);
-		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerVanilla(), comparatorAct);
-		ExternalModulesHandler.instance().registerHeadProvider(new HUDHandlerVanilla(), redstone);
-		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerVanilla(), redstone);
-		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerVanilla(), jukebox);
-		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerVanilla(), cocoa);
-		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerVanilla(), netherwart);			
+		ExternalModulesHandler.instance().addConfigRemote("VanillaMC", "vanilla.jukebox");
+		
+		IWailaDataProvider provider = new HUDHandlerVanilla();
+		
+		ExternalModulesHandler.instance().registerStackProvider(provider, silverfish);		
+		ExternalModulesHandler.instance().registerHeadProvider(provider, mobSpawnerID);
+		ExternalModulesHandler.instance().registerBodyProvider(provider, cropsID);
+		ExternalModulesHandler.instance().registerBodyProvider(provider, melonStemID);
+		ExternalModulesHandler.instance().registerBodyProvider(provider, pumpkinStemID);
+		ExternalModulesHandler.instance().registerBodyProvider(provider, carrotID);
+		ExternalModulesHandler.instance().registerBodyProvider(provider, potatoID);
+		ExternalModulesHandler.instance().registerBodyProvider(provider, leverID);
+		ExternalModulesHandler.instance().registerBodyProvider(provider, repeaterIdle);
+		ExternalModulesHandler.instance().registerBodyProvider(provider, repeaterActv);
+		ExternalModulesHandler.instance().registerBodyProvider(provider, comparatorIdl);
+		ExternalModulesHandler.instance().registerBodyProvider(provider, comparatorAct);
+		ExternalModulesHandler.instance().registerHeadProvider(provider, redstone);
+		ExternalModulesHandler.instance().registerBodyProvider(provider, redstone);
+		ExternalModulesHandler.instance().registerBodyProvider(provider, jukebox);
+		ExternalModulesHandler.instance().registerBodyProvider(provider, cocoa);
+		ExternalModulesHandler.instance().registerBodyProvider(provider, netherwart);			
 		
 		ExternalModulesHandler.instance().registerDocTextFile("/mcp/mobius/waila/addons/vanillamc/WikiData.csv");
 		
