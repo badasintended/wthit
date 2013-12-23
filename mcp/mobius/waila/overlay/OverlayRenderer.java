@@ -42,33 +42,17 @@ public class OverlayRenderer {
              mc.theWorld != null &&
              !mc.gameSettings.keyBindPlayerList.pressed &&
              ConfigHandler.instance().getConfig(Constants.CFG_WAILA_SHOW, true) &&
-             mc.objectMouseOver != null &&
-             RayTracing.raytracedTarget != null)) 
+             RayTracing.instance().getTarget()      != null))
         	return;
     
-        if (RayTracing.raytracedTarget.typeOfHit == EnumMovingObjectType.TILE)
+        if (RayTracing.instance().getTarget().typeOfHit == EnumMovingObjectType.TILE && RayTracing.instance().getTargetStack() != null)
         {
-            World world = mc.theWorld;
-            ArrayList<ItemStack> items = RayTracing.getIdentifierItems();
-            if (items.isEmpty())
-                return;
-            
-            Collections.sort(items, new Comparator<ItemStack>()
-            {
-                @Override
-                public int compare(ItemStack stack0, ItemStack stack1)
-                {
-                    return stack1.getItemDamage() - stack0.getItemDamage();
-                }
-            });
-
-            RayTracing.raytracedStack = items.get(0);
-            renderOverlay(RayTracing.raytracedStack, ItemInfo.getText(RayTracing.raytracedStack, world, mc.thePlayer, RayTracing.raytracedTarget), getPositioning());
+            renderOverlay(RayTracing.instance().getTargetStack(), ItemInfo.getText(RayTracing.instance().getTargetStack(), mc.theWorld, mc.thePlayer, RayTracing.instance().getTarget()), getPositioning());
         }
         
-        if (RayTracing.raytracedTarget.typeOfHit == EnumMovingObjectType.ENTITY)
+        if (RayTracing.instance().getTarget().typeOfHit == EnumMovingObjectType.ENTITY)
         {
-        	Entity ent = mc.objectMouseOver.entityHit;
+        	Entity ent = RayTracing.instance().getTarget().entityHit;
         	String modName = getEntityMod(ent);
         	
         	List<String> textData = new ArrayList<String>();

@@ -26,7 +26,7 @@ public class WailaClientEventHandler {
 	@ForgeSubscribe
     @SideOnly(Side.CLIENT)
     public void onRenderWorldLast(RenderWorldLastEvent event) {	
-		if (RayTracing.raytracedTarget == null || RayTracing.raytracedStack == null) return;
+		if (RayTracing.instance().getTarget() == null || RayTracing.instance().getTargetStack() == null) return;
 		
 		double partialTicks = event.partialTicks;
 
@@ -37,7 +37,7 @@ public class WailaClientEventHandler {
 		
 		if (world == null || player == null || viewEntity == null) return;
 		
-		accessor.set(world, player, RayTracing.raytracedTarget, viewEntity, partialTicks);		
+		accessor.set(world, player, RayTracing.instance().getTarget(), viewEntity, partialTicks);		
 
 		Block block   = accessor.getBlock();
 		int   blockID = accessor.getBlockID();
@@ -54,7 +54,7 @@ public class WailaClientEventHandler {
 			for (IWailaBlockDecorator decorator : ExternalModulesHandler.instance().getBlockDecorators(blockID))
 				try{
 					GL11.glPushMatrix();
-					decorator.decorateBlock(RayTracing.raytracedStack, accessor, ConfigHandler.instance());
+					decorator.decorateBlock(RayTracing.instance().getTargetStack(), accessor, ConfigHandler.instance());
 					GL11.glPopMatrix();
 				} catch (Throwable e){
 					GL11.glPopMatrix();
@@ -66,7 +66,7 @@ public class WailaClientEventHandler {
 			for (IWailaBlockDecorator decorator : ExternalModulesHandler.instance().getBlockDecorators(block))
 				try{
 					GL11.glPushMatrix();
-					decorator.decorateBlock(RayTracing.raytracedStack, accessor, ConfigHandler.instance());
+					decorator.decorateBlock(RayTracing.instance().getTargetStack(), accessor, ConfigHandler.instance());
 					GL11.glPopMatrix();					
 				} catch (Throwable e){
 					GL11.glPopMatrix();

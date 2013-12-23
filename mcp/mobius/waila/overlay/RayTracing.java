@@ -1,6 +1,8 @@
 package mcp.mobius.waila.overlay;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import codechicken.nei.api.IHighlightHandler;
 import codechicken.nei.api.ItemInfo;
@@ -8,6 +10,7 @@ import mcp.mobius.waila.Constants;
 import mcp.mobius.waila.addons.ConfigHandler;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -20,64 +23,89 @@ import net.minecraftforge.common.IShearable;
 
 public class RayTracing {
 
-	public static MovingObjectPosition raytracedTarget = null;
-	public static ItemStack            raytracedStack  = null;
-	
-	public static void raytrace(){
-		if (Minecraft.getMinecraft().objectMouseOver == null){
-			raytracedTarget = null;
-			return;
-		}
-			
-		
-		if(Minecraft.getMinecraft().objectMouseOver.typeOfHit == EnumMovingObjectType.ENTITY)
-			raytracedTarget = Minecraft.getMinecraft().objectMouseOver;
-		else
-			if (ConfigHandler.instance().getConfig(Constants.CFG_WAILA_LIQUID))
-				raytracedTarget = getLiquidRaytrace();
-			else
-				raytracedTarget = Minecraft.getMinecraft().objectMouseOver;
+	private static RayTracing _instance;
+	private RayTracing(){}	
+	public static RayTracing instance(){
+		if(_instance == null)
+			_instance = new RayTracing();
+		return _instance;
 	}
 	
-    public static MovingObjectPosition getLiquidRaytrace()
+	private MovingObjectPosition target      = null;
+	private ItemStack            targetStack = null;
+	private Minecraft            mc          = Minecraft.getMinecraft();
+	
+	public void fire(){
+		if (mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == EnumMovingObjectType.ENTITY){
+			this.target = mc.objectMouseOver;
+			this.targetStack = null;
+			return;
+		}
+		
+		EntityLivingBase viewpoint = mc.renderViewEntity;
+		if (viewpoint == null) return;
+			
+		this.target      = this.rayTrace(viewpoint, 4.0, 0);
+		
+		if (this.target == null) return;
+		
+		if (this.target.typeOfHit == EnumMovingObjectType.TILE)
+			this.targetStack = this.getIdentifierStack();
+		else
+			this.targetStack = null;
+	}
+	
+	public MovingObjectPosition getTarget(){ 
+		return this.target;
+	}
+	
+	public ItemStack getTargetStack(){
+		return this.targetStack;
+	}
+	
+    public MovingObjectPosition rayTrace(EntityLivingBase entity, double par1, float par3)
     {
-    	EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-    	World world = Minecraft.getMinecraft().theWorld;
-    	
-    	if ((player == null) || (world == null)) return null;
-    	
-        float f = 1.0F;
-        float f1 = player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * f;
-        float f2 = player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw) * f;
-        double d0 = player.prevPosX + (player.posX - player.prevPosX) * f;
-        double d1 = player.prevPosY + (player.posY - player.prevPosY) * f + 1.62D - player.yOffset;
-        double d2 = player.prevPosZ + (player.posZ - player.prevPosZ) * f;
-        Vec3 vec3 = world.getWorldVec3Pool().getVecFromPool(d0, d1, d2);
-        float f3 = MathHelper.cos(-f2 * 0.017453292F - (float)Math.PI);
-        float f4 = MathHelper.sin(-f2 * 0.017453292F - (float)Math.PI);
-        float f5 = -MathHelper.cos(-f1 * 0.017453292F);
-        float f6 = MathHelper.sin(-f1 * 0.017453292F);
-        float f7 = f4 * f5;
-        float f8 = f3 * f5;
-        double d3 = 5.0D;
-        Vec3 vec31 = vec3.addVector(f7 * d3, f6 * d3, f8 * d3);
-        return world.clip(vec3, vec31, true);
+        Vec3 vec3  = entity.getPosition(par3);
+        Vec3 vec31 = entity.getLook(par3);
+        Vec3 vec32 = vec3.addVector(vec31.xCoord * par1, vec31.yCoord * par1, vec31.zCoord * par1);
         
-    }
-    
-    public static ArrayList<ItemStack> getIdentifierItems()
+        if (ConfigHandler.instance().getConfig(Constants.CFG_WAILA_LIQUID))
+        	return entity.worldObj.clip(vec3, vec32, true);
+        else
+        	return entity.worldObj.clip(vec3, vec32, false);
+    }	
+	
+	public ItemStack getIdentifierStack(){
+        World world = mc.theWorld;
+        ArrayList<ItemStack> items = this.getIdentifierItems();
+        if (items.isEmpty())
+            return null;
+        
+        Collections.sort(items, new Comparator<ItemStack>()
+        {
+            @Override
+            public int compare(ItemStack stack0, ItemStack stack1)
+            {
+                return stack1.getItemDamage() - stack0.getItemDamage();
+            }
+        });
+
+        return items.get(0);		
+	}
+	
+    public ArrayList<ItemStack> getIdentifierItems()
     {
         ArrayList<ItemStack> items = new ArrayList<ItemStack>();
         
-    	if (raytracedTarget == null)
+    	if (this.target == null)
     		return items;
     	
-    	EntityPlayer player = Minecraft.getMinecraft().thePlayer;
-    	World world = Minecraft.getMinecraft().theWorld; 
+    	EntityPlayer player = mc.thePlayer;
+    	World world = mc.theWorld; 
     	
-        int x = raytracedTarget.blockX;
-        int y = raytracedTarget.blockY;
-        int z = raytracedTarget.blockZ;
+        int x = this.target.blockX;
+        int y = this.target.blockY;
+        int z = this.target.blockZ;
         Block mouseoverBlock = Block.blocksList[world.getBlockId(x, y, z)];
         if (mouseoverBlock == null) return items;
         
@@ -89,7 +117,7 @@ public class RayTracing {
         
         for(IHighlightHandler ident : handlers)
         {
-            ItemStack item = ident.identifyHighlight(world, player, raytracedTarget);
+            ItemStack item = ident.identifyHighlight(world, player, this.target);
             if(item != null)
                 items.add(item);
         }
@@ -109,7 +137,7 @@ public class RayTracing {
             return items;
 
         try{
-        ItemStack pick = mouseoverBlock.getPickBlock(raytracedTarget, world, x, y, z);
+        ItemStack pick = mouseoverBlock.getPickBlock(this.target, world, x, y, z);
         if(pick != null)
             items.add(pick);
         }catch(Exception e){}
@@ -139,5 +167,6 @@ public class RayTracing {
            items.add(0, new ItemStack(mouseoverBlock, 1, world.getBlockMetadata(x, y, z)));
         
         return items;
-    }	    
+    }
+    
 }

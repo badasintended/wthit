@@ -111,8 +111,8 @@ public class ConfigKeyHandler extends KeyHandler {
 		boolean   uiResult;
 		String    msg;
 		
-		if ((RayTracing.raytracedTarget != null) && (RayTracing.raytracedTarget.typeOfHit == EnumMovingObjectType.TILE)){
-			List<ItemStack> stacks = RayTracing.getIdentifierItems();
+		if ((RayTracing.instance().getTarget() != null) && (RayTracing.instance().getTarget().typeOfHit == EnumMovingObjectType.TILE)){
+			List<ItemStack> stacks = RayTracing.instance().getIdentifierItems();
 			if (stacks.size() > 0){
 				mc.displayGuiScreen(new GuiInventory(mc.thePlayer));
 				if (firstInventory){

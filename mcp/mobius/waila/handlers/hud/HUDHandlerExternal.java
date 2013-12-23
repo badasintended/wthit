@@ -13,6 +13,7 @@ import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.handlers.DataAccessor;
 import mcp.mobius.waila.network.Packet0x01TERequest;
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
@@ -72,7 +73,7 @@ public class HUDHandlerExternal implements IHighlightHandler {
 	@Override
 	public List<String> handleTextData(ItemStack itemStack, World world, EntityPlayer player, MovingObjectPosition mop, List<String> currenttip, Layout layout) {
 		if (this.prevMOP == null)
-			this.prevMOP = mop;
+			this.prevMOP = new MovingObjectPosition(Minecraft.getMinecraft().thePlayer);
 		
 		DataAccessor accessor = DataAccessor.instance;
 		accessor.set(world, player, mop);

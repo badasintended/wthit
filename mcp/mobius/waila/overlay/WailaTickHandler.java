@@ -11,6 +11,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import codechicken.lib.lang.LangUtil;
+import codechicken.nei.api.ItemInfo.Layout;
 import cpw.mods.fml.common.ITickHandler;
 import cpw.mods.fml.common.TickType;
 
@@ -23,9 +24,12 @@ public class WailaTickHandler implements ITickHandler {
 	public List<String> currenttipHEAD   = new ArrayList<String>();
 	public List<String> currenttipBODY   = new ArrayList<String>(); 
 	public List<String> currenttipTAIL   = new ArrayList<String>(); 
-
+	//public HUDHandlerExternal handler    = new HUDHandlerExternal();
+	
+	
 	private static WailaTickHandler _instance;
 	private WailaTickHandler(){}
+	
 	public static WailaTickHandler instance(){
 		if(_instance == null)
 			_instance = new WailaTickHandler();
@@ -43,7 +47,7 @@ public class WailaTickHandler implements ITickHandler {
 		}
 		
 		if(type.contains(TickType.CLIENT)){
-			RayTracing.raytrace();
+			RayTracing.instance().fire();
 			
 			/*
 			World world               = Minecraft.getMinecraft().theWorld;
@@ -55,10 +59,10 @@ public class WailaTickHandler implements ITickHandler {
 				currenttipBODY.clear();
 				currenttipTAIL.clear();
 				
-				identifiedHighlight = HUDHandlerExternal.instance().identifyHighlight(world, player, RayTracing.raytracedTarget);
-				currenttipHEAD      = HUDHandlerExternal.instance().handleTextData(identifiedStack, world, player, RayTracing.raytracedTarget, currenttipHEAD, Layout.HEADER);
-				currenttipBODY      = HUDHandlerExternal.instance().handleTextData(identifiedStack, world, player, RayTracing.raytracedTarget, currenttipBODY, Layout.BODY);
-				currenttipTAIL      = HUDHandlerExternal.instance().handleTextData(identifiedStack, world, player, RayTracing.raytracedTarget, currenttipTAIL, Layout.FOOTER);
+				identifiedHighlight = handler.identifyHighlight(world, player, RayTracing.raytracedTarget);
+				currenttipHEAD      = handler.handleTextData(identifiedStack, world, player, RayTracing.raytracedTarget, currenttipHEAD, Layout.HEADER);
+				currenttipBODY      = handler.handleTextData(identifiedStack, world, player, RayTracing.raytracedTarget, currenttipBODY, Layout.BODY);
+				currenttipTAIL      = handler.handleTextData(identifiedStack, world, player, RayTracing.raytracedTarget, currenttipTAIL, Layout.FOOTER);
 				
 				for(String s : currenttipBODY){
 					System.out.printf("%s\n",s);
