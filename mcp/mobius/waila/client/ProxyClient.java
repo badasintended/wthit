@@ -23,7 +23,6 @@ import mcp.mobius.waila.gui.truetyper.FontLoader;
 import mcp.mobius.waila.gui.truetyper.TrueTypeFont;
 import mcp.mobius.waila.handlers.SummaryProviderDefault;
 import mcp.mobius.waila.handlers.hud.HUDHandlerExternal;
-import mcp.mobius.waila.handlers.hud.HUDHandlerNEI;
 import mcp.mobius.waila.handlers.hud.HUDHandlerWaila;
 import mcp.mobius.waila.handlers.tooltip.TooltipHandlerWaila;
 import mcp.mobius.waila.overlay.WailaTickHandler;
@@ -62,10 +61,9 @@ public class ProxyClient extends ProxyServer {
 		
 		GuiContainerManager.addTooltipHandler(new TooltipHandlerWaila());
 		
-		//API.registerHighlightHandler(new HUDHandlerExternal(), ItemInfo.Layout.HEADER);
-		//API.registerHighlightHandler(new HUDHandlerExternal(), ItemInfo.Layout.BODY);
-		API.registerHighlightHandler(new HUDHandlerNEI(), ItemInfo.Layout.HEADER);
-		API.registerHighlightHandler(new HUDHandlerNEI(), ItemInfo.Layout.BODY);		
+		API.registerHighlightHandler(new HUDHandlerExternal(), ItemInfo.Layout.HEADER);
+		API.registerHighlightHandler(new HUDHandlerExternal(), ItemInfo.Layout.BODY);
+		API.registerHighlightHandler(new HUDHandlerExternal(), ItemInfo.Layout.FOOTER);		
 		API.registerHighlightHandler(new HUDHandlerWaila(),    ItemInfo.Layout.FOOTER);
 		API.registerHighlightHandler(new HUDHandlerWaila(),    ItemInfo.Layout.HEADER);		
 		

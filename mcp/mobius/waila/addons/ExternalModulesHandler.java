@@ -24,15 +24,15 @@ import mcp.mobius.waila.handlers.hud.HUDHandlerExternal;
 public class ExternalModulesHandler implements IWailaRegistrar {
 
 	private static ExternalModulesHandler instance = null;
-	public LinkedHashMap<Integer, ArrayList<IWailaDataProvider>> headProviders  = new LinkedHashMap<Integer, ArrayList<IWailaDataProvider>>();
-	public LinkedHashMap<Integer, ArrayList<IWailaDataProvider>> bodyProviders  = new LinkedHashMap<Integer, ArrayList<IWailaDataProvider>>();
-	public LinkedHashMap<Integer, ArrayList<IWailaDataProvider>> tailProviders  = new LinkedHashMap<Integer, ArrayList<IWailaDataProvider>>();	
+	//public LinkedHashMap<Integer, ArrayList<IWailaDataProvider>> headProviders  = new LinkedHashMap<Integer, ArrayList<IWailaDataProvider>>();
+	//public LinkedHashMap<Integer, ArrayList<IWailaDataProvider>> bodyProviders  = new LinkedHashMap<Integer, ArrayList<IWailaDataProvider>>();
+	//public LinkedHashMap<Integer, ArrayList<IWailaDataProvider>> tailProviders  = new LinkedHashMap<Integer, ArrayList<IWailaDataProvider>>();	
 	public LinkedHashMap<Integer, ArrayList<IWailaDataProvider>> stackProviders = new LinkedHashMap<Integer, ArrayList<IWailaDataProvider>>();	
 
 	public LinkedHashMap<Class, ArrayList<IWailaDataProvider>> headBlockProviders  = new LinkedHashMap<Class, ArrayList<IWailaDataProvider>>();
 	public LinkedHashMap<Class, ArrayList<IWailaDataProvider>> bodyBlockProviders  = new LinkedHashMap<Class, ArrayList<IWailaDataProvider>>();
 	public LinkedHashMap<Class, ArrayList<IWailaDataProvider>> tailBlockProviders  = new LinkedHashMap<Class, ArrayList<IWailaDataProvider>>();	
-	public LinkedHashMap<Class, ArrayList<IWailaDataProvider>> stackBlockProviders = new LinkedHashMap<Class, ArrayList<IWailaDataProvider>>();	
+	//public LinkedHashMap<Class, ArrayList<IWailaDataProvider>> stackBlockProviders = new LinkedHashMap<Class, ArrayList<IWailaDataProvider>>();	
 	
 	public LinkedHashMap<Integer, ArrayList<IWailaBlockDecorator>> blockIdDecorators    = new LinkedHashMap<Integer, ArrayList<IWailaBlockDecorator>>();
 	public LinkedHashMap<Class,   ArrayList<IWailaBlockDecorator>> blockClassDecorators = new LinkedHashMap<Class,   ArrayList<IWailaBlockDecorator>>();	
@@ -157,7 +157,7 @@ public class ExternalModulesHandler implements IWailaRegistrar {
 	}	
 	
 	/* Arrays getters */
-	
+	/*
 	public ArrayList<IWailaDataProvider> getHeadProviders(int blockID) {
 		return this.headProviders.get(blockID);
 	}
@@ -169,6 +169,7 @@ public class ExternalModulesHandler implements IWailaRegistrar {
 	public ArrayList<IWailaDataProvider> getTailProviders(int blockID) {
 		return this.tailProviders.get(blockID);
 	}		
+	*/
 
 	public ArrayList<IWailaDataProvider> getHeadProviders(Object block) {
 		ArrayList<IWailaDataProvider> returnList = new ArrayList<IWailaDataProvider>();
@@ -224,7 +225,7 @@ public class ExternalModulesHandler implements IWailaRegistrar {
 	}	
 	
 	/* Providers querry methods */
-	
+	/*
 	public boolean hasHeadProviders(int blockID){
 		return this.headProviders.containsKey(blockID);
 	}
@@ -236,6 +237,7 @@ public class ExternalModulesHandler implements IWailaRegistrar {
 	public boolean hasTailProviders(int blockID){
 		return this.tailProviders.containsKey(blockID);
 	}	
+	*/
 
 	public boolean hasStackProviders(int blockID){
 		return this.stackProviders.containsKey(blockID);
