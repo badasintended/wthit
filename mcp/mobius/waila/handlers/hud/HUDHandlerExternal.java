@@ -30,6 +30,16 @@ public class HUDHandlerExternal implements IHighlightHandler {
 	private MovingObjectPosition prevMOP = null;
 	private int prevWorldID = -999;
 	
+	/*
+	private static HUDHandlerExternal _instance;
+	private HUDHandlerExternal(){}
+	public static HUDHandlerExternal instance(){
+		if(_instance == null)
+			_instance = new HUDHandlerExternal();
+		return _instance;
+	}
+	*/	
+	
 	@Override
 	public ItemStack identifyHighlight(World world, EntityPlayer player, MovingObjectPosition mop) {
 		DataAccessor accessor = DataAccessor.instance;

@@ -56,7 +56,7 @@ public class ProxyClient extends ProxyServer {
 		
 		minecraftiaFont = FontLoader.createFont(new ResourceLocation("waila", "fonts/Minecraftia.ttf"), 14, true);
 		
-		TickRegistry.registerTickHandler(new WailaTickHandler(), Side.CLIENT);		
+		TickRegistry.registerTickHandler(WailaTickHandler.instance(), Side.CLIENT);		
 		
 		GuiContainerManager.addTooltipHandler(new TooltipHandlerWaila());
 		API.registerHighlightHandler(new HUDHandlerExternal(), ItemInfo.Layout.HEADER);
