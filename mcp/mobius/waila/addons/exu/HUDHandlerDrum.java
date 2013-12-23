@@ -28,8 +28,11 @@ public class HUDHandlerDrum implements IWailaDataProvider {
 		
 		if (!config.getConfig("extrautilities.fluidamount")) return currenttip;
 		
+		int amount = 0;
+		
 		NBTTagCompound subtag = accessor.getNBTData().getCompoundTag("tank");
-		int amount = accessor.getNBTInteger(subtag, "Amount");
+		if (subtag.hasKey("Amount"))
+			amount = accessor.getNBTInteger(subtag, "Amount");
 		
 		IFluidHandler handler = (IFluidHandler)accessor.getTileEntity();
 		if (handler == null) return currenttip;

@@ -53,7 +53,10 @@ public class HUDHandlerTank implements IWailaDataProvider {
 		FluidTankInfo[] tanks = handler.getTankInfo(ForgeDirection.UNKNOWN);
 		if (tanks.length != 1) return currenttip;
 		
-		currenttip.add(String.format("%d / %d mB", tanks[0].fluid.amount, tanks[0].capacity));
+		if(tanks[0].fluid != null)
+			currenttip.add(String.format("%d / %d mB", tanks[0].fluid.amount, tanks[0].capacity));
+		else
+			currenttip.add(String.format("0 / %d mB", tanks[0].capacity));
 		
 		return currenttip;
 	}

@@ -45,6 +45,8 @@ public class HUDHandlerConduitFluid implements IWailaDataProvider {
 			}
 		}			
 
+		if (!found) return currenttip;	
+		
 		if (fluid != null)
 			currenttip.add(fluid.getFluid().getLocalizedName());			
 		else

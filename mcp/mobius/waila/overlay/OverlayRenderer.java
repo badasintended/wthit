@@ -20,8 +20,6 @@ import java.awt.Point;
 import mcp.mobius.waila.Constants;
 import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.addons.ConfigHandler;
-import mcp.mobius.waila.addons.ExternalModulesHandler;
-import mcp.mobius.waila.gui.truetyper.FontHelper;
 import mcp.mobius.waila.gui.truetyper.TrueTypeFont;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
@@ -111,7 +109,7 @@ public class OverlayRenderer {
     
     public static void renderOverlay(ItemStack stack, List<String> textData, Point pos)
     {
-    	TrueTypeFont font = (TrueTypeFont)mod_Waila.instance.proxy.getFont();
+    	TrueTypeFont font = (TrueTypeFont)mod_Waila.proxy.getFont();
     	
     	GL11.glPushMatrix();
     	
