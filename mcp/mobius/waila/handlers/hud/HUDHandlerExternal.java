@@ -28,18 +28,8 @@ public class HUDHandlerExternal implements IHighlightHandler {
 	private ArrayList<IWailaDataProvider>   headProviders = new ArrayList<IWailaDataProvider>();
 	private ArrayList<IWailaDataProvider>   bodyProviders = new ArrayList<IWailaDataProvider>();
 	private ArrayList<IWailaDataProvider>   tailProviders = new ArrayList<IWailaDataProvider>();
-	private MovingObjectPosition prevMOP = null;
-	private int prevWorldID = -999;
-	
-	/*
-	private static HUDHandlerExternal _instance;
-	private HUDHandlerExternal(){}
-	public static HUDHandlerExternal instance(){
-		if(_instance == null)
-			_instance = new HUDHandlerExternal();
-		return _instance;
-	}
-	*/	
+	private Class prevBlock = null;
+	private Class prevTile  = null;
 	
 	@Override
 	public ItemStack identifyHighlight(World world, EntityPlayer player, MovingObjectPosition mop) {
@@ -72,21 +62,19 @@ public class HUDHandlerExternal implements IHighlightHandler {
 
 	@Override
 	public List<String> handleTextData(ItemStack itemStack, World world, EntityPlayer player, MovingObjectPosition mop, List<String> currenttip, Layout layout) {
-		if (this.prevMOP == null)
-			this.prevMOP = new MovingObjectPosition(Minecraft.getMinecraft().thePlayer);
-		
 		DataAccessor accessor = DataAccessor.instance;
 		accessor.set(world, player, mop);
 		Block block   = accessor.getBlock();
 		int   blockID = accessor.getBlockID();
 		
 		if (accessor.getTileEntity() != null && mod_Waila.instance.serverPresent && 
-				((System.currentTimeMillis() - accessor.timeLastUpdate >= 250) || this.areMopDifferent(player, mop))){
+				((System.currentTimeMillis() - accessor.timeLastUpdate >= 250))){
 			accessor.timeLastUpdate = System.currentTimeMillis();
 			PacketDispatcher.sendPacketToServer(Packet0x01TERequest.create(world, mop));
 		}
 
 		/* Interface IWailaBlock */
+		/*
 		if (IWailaBlock.class.isInstance(block)){
 			TileEntity entity = world.getBlockTileEntity(mop.blockX, mop.blockY, mop.blockZ);
 			if (layout == Layout.HEADER)
@@ -108,76 +96,58 @@ public class HUDHandlerExternal implements IHighlightHandler {
 					return WailaExceptionHandler.handleErr(e, block.getClass().toString(), currenttip);
 				}				
 		}		
-		
-		if (this.areMopDifferent(player, mop)){
+		*/
 
-			headProviders.clear();
-			bodyProviders.clear();
-			tailProviders.clear();
-			
-			this.prevMOP     = mop;
-			this.prevWorldID = player.dimension;
-			
-			/* Lookup by block ID */
-			if (layout == Layout.HEADER && ExternalModulesHandler.instance().hasHeadProviders(blockID))
-				headProviders.addAll(ExternalModulesHandler.instance().getHeadProviders(blockID));
-	
-			if (layout == Layout.BODY && ExternalModulesHandler.instance().hasBodyProviders(blockID))
-				bodyProviders.addAll(ExternalModulesHandler.instance().getBodyProviders(blockID));
-			
-			if (layout == Layout.FOOTER && ExternalModulesHandler.instance().hasTailProviders(blockID))
-				tailProviders.addAll(ExternalModulesHandler.instance().getTailProviders(blockID));
-	
-			
-			/* Lookup by class (for blocks)*/		
-			if (layout == Layout.HEADER && ExternalModulesHandler.instance().hasHeadProviders(block))
-				headProviders.addAll(ExternalModulesHandler.instance().getHeadProviders(block));
-	
-			if (layout == Layout.BODY && ExternalModulesHandler.instance().hasBodyProviders(block))
-				bodyProviders.addAll(ExternalModulesHandler.instance().getBodyProviders(block));
-	
-			if (layout == Layout.FOOTER && ExternalModulesHandler.instance().hasTailProviders(block))
-				tailProviders.addAll(ExternalModulesHandler.instance().getTailProviders(block));
-	
-			
-			/* Lookup by class (for tileentities)*/		
-			if (layout == Layout.HEADER && ExternalModulesHandler.instance().hasHeadProviders(accessor.getTileEntity()))
-				headProviders.addAll(ExternalModulesHandler.instance().getHeadProviders(accessor.getTileEntity()));
-	
-			if (layout == Layout.BODY && ExternalModulesHandler.instance().hasBodyProviders(accessor.getTileEntity()))
-				bodyProviders.addAll(ExternalModulesHandler.instance().getBodyProviders(accessor.getTileEntity()));
+		headProviders.clear();
+		bodyProviders.clear();
+		tailProviders.clear();
 		
-			if (layout == Layout.FOOTER && ExternalModulesHandler.instance().hasTailProviders(accessor.getTileEntity()))
-				tailProviders.addAll(ExternalModulesHandler.instance().getTailProviders(accessor.getTileEntity()));
-	
-		}
-		
-		/* Apply all collected providers */ 
-		for (IWailaDataProvider dataProvider : headProviders)
-			try{				
-				currenttip = dataProvider.getWailaHead(itemStack, currenttip, accessor, ConfigHandler.instance());
-			} catch (Throwable e){
-				currenttip = WailaExceptionHandler.handleErr(e, dataProvider.getClass().toString(), currenttip);
-			}
+		/* Lookup by class (for blocks)*/		
+		if (layout == Layout.HEADER && ExternalModulesHandler.instance().hasHeadProviders(block))
+			headProviders.addAll(ExternalModulesHandler.instance().getHeadProviders(block));
 
-		for (IWailaDataProvider dataProvider : bodyProviders)
-			try{				
-				currenttip = dataProvider.getWailaBody(itemStack, currenttip, accessor, ConfigHandler.instance());
-			} catch (Throwable e){
-				currenttip = WailaExceptionHandler.handleErr(e, dataProvider.getClass().toString(), currenttip);
-			}
+		else if (layout == Layout.BODY && ExternalModulesHandler.instance().hasBodyProviders(block))
+			bodyProviders.addAll(ExternalModulesHandler.instance().getBodyProviders(block));
+
+		else if (layout == Layout.FOOTER && ExternalModulesHandler.instance().hasTailProviders(block))
+			tailProviders.addAll(ExternalModulesHandler.instance().getTailProviders(block));
+
 		
-		for (IWailaDataProvider dataProvider : tailProviders)
-			try{				
-				currenttip = dataProvider.getWailaTail(itemStack, currenttip, accessor, ConfigHandler.instance());
-			} catch (Throwable e){
-				currenttip = WailaExceptionHandler.handleErr(e, dataProvider.getClass().toString(), currenttip);
-			}		
+		/* Lookup by class (for tileentities)*/		
+		if (layout == Layout.HEADER && ExternalModulesHandler.instance().hasHeadProviders(accessor.getTileEntity()))
+			headProviders.addAll(ExternalModulesHandler.instance().getHeadProviders(accessor.getTileEntity()));
+
+		else if (layout == Layout.BODY && ExternalModulesHandler.instance().hasBodyProviders(accessor.getTileEntity()))
+			bodyProviders.addAll(ExternalModulesHandler.instance().getBodyProviders(accessor.getTileEntity()));
+	
+		else if (layout == Layout.FOOTER && ExternalModulesHandler.instance().hasTailProviders(accessor.getTileEntity()))
+			tailProviders.addAll(ExternalModulesHandler.instance().getTailProviders(accessor.getTileEntity()));
+	
+		/* Apply all collected providers */
+		if (layout == Layout.HEADER)
+			for (IWailaDataProvider dataProvider : headProviders)
+				try{				
+					currenttip = dataProvider.getWailaHead(itemStack, currenttip, accessor, ConfigHandler.instance());
+				} catch (Throwable e){
+					currenttip = WailaExceptionHandler.handleErr(e, dataProvider.getClass().toString(), currenttip);
+				}
+
+		if (layout == Layout.BODY)		
+			for (IWailaDataProvider dataProvider : bodyProviders)
+				try{				
+					currenttip = dataProvider.getWailaBody(itemStack, currenttip, accessor, ConfigHandler.instance());
+				} catch (Throwable e){
+					currenttip = WailaExceptionHandler.handleErr(e, dataProvider.getClass().toString(), currenttip);
+				}
+		
+		if (layout == Layout.FOOTER)	
+			for (IWailaDataProvider dataProvider : tailProviders)
+				try{				
+					currenttip = dataProvider.getWailaTail(itemStack, currenttip, accessor, ConfigHandler.instance());
+				} catch (Throwable e){
+					currenttip = WailaExceptionHandler.handleErr(e, dataProvider.getClass().toString(), currenttip);
+				}		
 		
 		return currenttip;
-	}
-
-	public boolean areMopDifferent(EntityPlayer player, MovingObjectPosition mop){
-		return this.prevMOP.blockX != mop.blockX || this.prevMOP.blockY != mop.blockY || this.prevMOP.blockZ != mop.blockZ || prevWorldID != player.dimension;
 	}
 }

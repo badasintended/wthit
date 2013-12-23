@@ -1,6 +1,7 @@
 package mcp.mobius.waila.client;
 
 import mcp.mobius.waila.Constants;
+import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.addons.ExternalModulesHandler;
 import mcp.mobius.waila.addons.appeng.AppEngModule;
 import mcp.mobius.waila.addons.buildcraft.BCModule;
@@ -22,6 +23,7 @@ import mcp.mobius.waila.gui.truetyper.FontLoader;
 import mcp.mobius.waila.gui.truetyper.TrueTypeFont;
 import mcp.mobius.waila.handlers.SummaryProviderDefault;
 import mcp.mobius.waila.handlers.hud.HUDHandlerExternal;
+import mcp.mobius.waila.handlers.hud.HUDHandlerNEI;
 import mcp.mobius.waila.handlers.hud.HUDHandlerWaila;
 import mcp.mobius.waila.handlers.tooltip.TooltipHandlerWaila;
 import mcp.mobius.waila.overlay.WailaTickHandler;
@@ -59,8 +61,11 @@ public class ProxyClient extends ProxyServer {
 		TickRegistry.registerTickHandler(WailaTickHandler.instance(), Side.CLIENT);		
 		
 		GuiContainerManager.addTooltipHandler(new TooltipHandlerWaila());
-		API.registerHighlightHandler(new HUDHandlerExternal(), ItemInfo.Layout.HEADER);
-		API.registerHighlightHandler(new HUDHandlerExternal(), ItemInfo.Layout.BODY);
+		
+		//API.registerHighlightHandler(new HUDHandlerExternal(), ItemInfo.Layout.HEADER);
+		//API.registerHighlightHandler(new HUDHandlerExternal(), ItemInfo.Layout.BODY);
+		API.registerHighlightHandler(new HUDHandlerNEI(), ItemInfo.Layout.HEADER);
+		API.registerHighlightHandler(new HUDHandlerNEI(), ItemInfo.Layout.BODY);		
 		API.registerHighlightHandler(new HUDHandlerWaila(),    ItemInfo.Layout.FOOTER);
 		API.registerHighlightHandler(new HUDHandlerWaila(),    ItemInfo.Layout.HEADER);		
 		

@@ -14,6 +14,7 @@ import mcp.mobius.waila.addons.ConfigHandler;
 import mcp.mobius.waila.addons.ExternalModulesHandler;
 import mcp.mobius.waila.api.IWailaRegistrar;
 import mcp.mobius.waila.client.WailaClientEventHandler;
+import mcp.mobius.waila.handlers.hud.HUDHandlerExternal;
 import mcp.mobius.waila.network.WailaConnectionHandler;
 import mcp.mobius.waila.network.WailaPacketHandler;
 import mcp.mobius.waila.server.ProxyServer;

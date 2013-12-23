@@ -4,11 +4,13 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
+import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.handlers.hud.HUDHandlerExternal;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import codechicken.lib.lang.LangUtil;
 import codechicken.nei.api.ItemInfo.Layout;
@@ -24,7 +26,7 @@ public class WailaTickHandler implements ITickHandler {
 	public List<String> currenttipHEAD   = new ArrayList<String>();
 	public List<String> currenttipBODY   = new ArrayList<String>(); 
 	public List<String> currenttipTAIL   = new ArrayList<String>(); 
-	//public HUDHandlerExternal handler    = new HUDHandlerExternal();
+	public HUDHandlerExternal handler    = new HUDHandlerExternal();
 	
 	
 	private static WailaTickHandler _instance;
@@ -49,26 +51,21 @@ public class WailaTickHandler implements ITickHandler {
 		if(type.contains(TickType.CLIENT)){
 			RayTracing.instance().fire();
 			
-			/*
-			World world               = Minecraft.getMinecraft().theWorld;
-			EntityPlayer player       = Minecraft.getMinecraft().thePlayer;
-			ItemStack identifiedStack = RayTracing.raytracedStack;
+			World world                 = Minecraft.getMinecraft().theWorld;
+			EntityPlayer player         = Minecraft.getMinecraft().thePlayer;
+			ItemStack targetStack       = RayTracing.instance().getTargetStack();
+			MovingObjectPosition target = RayTracing.instance().getTarget();
 			
-			if (world != null && player != null && RayTracing.raytracedTarget != null){
-				currenttipHEAD.clear();
-				currenttipBODY.clear();
-				currenttipTAIL.clear();
-				
-				identifiedHighlight = handler.identifyHighlight(world, player, RayTracing.raytracedTarget);
-				currenttipHEAD      = handler.handleTextData(identifiedStack, world, player, RayTracing.raytracedTarget, currenttipHEAD, Layout.HEADER);
-				currenttipBODY      = handler.handleTextData(identifiedStack, world, player, RayTracing.raytracedTarget, currenttipBODY, Layout.BODY);
-				currenttipTAIL      = handler.handleTextData(identifiedStack, world, player, RayTracing.raytracedTarget, currenttipTAIL, Layout.FOOTER);
-				
-				for(String s : currenttipBODY){
-					System.out.printf("%s\n",s);
-				}
-			}			
-			*/
+			if (world != null && player != null && target != null && targetStack != null){
+				//this.currenttipHEAD.clear();
+				//this.currenttipBODY.clear();
+				//this.currenttipTAIL.clear();
+
+				this.identifiedHighlight = handler.identifyHighlight(world, player, target);
+				this.currenttipHEAD      = handler.handleTextData(targetStack, world, player, target, new ArrayList<String>(), Layout.HEADER);
+				this.currenttipBODY      = handler.handleTextData(targetStack, world, player, target, new ArrayList<String>(), Layout.BODY);
+				this.currenttipTAIL      = handler.handleTextData(targetStack, world, player, target, new ArrayList<String>(), Layout.FOOTER);
+			}
 		}		
 	}
 

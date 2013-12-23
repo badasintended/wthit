@@ -73,43 +73,49 @@ public class ExternalModulesHandler implements IWailaRegistrar {
 	
 	@Override
 	public void registerHeadProvider(IWailaDataProvider dataProvider, int blockID) {
-		if (!this.headProviders.containsKey(blockID))
-			this.headProviders.put(blockID, new ArrayList<IWailaDataProvider>());
-		this.headProviders.get(blockID).add(dataProvider);
+		this.registerHeadProvider(dataProvider, Block.blocksList[blockID].getClass());
 	}
 
 	@Override
 	public void registerHeadProvider(IWailaDataProvider dataProvider, Class block) {
 		if (!this.headBlockProviders.containsKey(block))
 			this.headBlockProviders.put(block, new ArrayList<IWailaDataProvider>());
+		
+		ArrayList<IWailaDataProvider> providers = this.headBlockProviders.get(block);
+		if (providers.contains(dataProvider)) return;
+		
 		this.headBlockProviders.get(block).add(dataProvider);		
 	}	
 	
 	@Override
 	public void registerBodyProvider(IWailaDataProvider dataProvider, int blockID) {
-		if (!this.bodyProviders.containsKey(blockID))
-			this.bodyProviders.put(blockID, new ArrayList<IWailaDataProvider>());
-		this.bodyProviders.get(blockID).add(dataProvider);
+		this.registerBodyProvider(dataProvider, Block.blocksList[blockID].getClass());		
 	}
 
 	@Override
 	public void registerBodyProvider(IWailaDataProvider dataProvider, Class block) {
 		if (!this.bodyBlockProviders.containsKey(block))
 			this.bodyBlockProviders.put(block, new ArrayList<IWailaDataProvider>());
+		
+		ArrayList<IWailaDataProvider> providers = this.bodyBlockProviders.get(block);
+		if (providers.contains(dataProvider)) return;		
+		
 		this.bodyBlockProviders.get(block).add(dataProvider);
 	}	
 	
 	@Override
 	public void registerTailProvider(IWailaDataProvider dataProvider, int blockID) {
-		if (!this.tailProviders.containsKey(blockID))
-			this.tailProviders.put(blockID, new ArrayList<IWailaDataProvider>());
-		this.tailProviders.get(blockID).add(dataProvider);
+		this.registerTailProvider(dataProvider, Block.blocksList[blockID].getClass());			
 	}	
 
 	@Override
 	public void registerTailProvider(IWailaDataProvider dataProvider, Class block) {
 		if (!this.tailBlockProviders.containsKey(block))
 			this.tailBlockProviders.put(block, new ArrayList<IWailaDataProvider>());
+		
+		ArrayList<IWailaDataProvider> providers = this.tailBlockProviders.get(block);
+		if (providers.contains(dataProvider)) return;		
+		
 		this.tailBlockProviders.get(block).add(dataProvider);
 	}		
 	
