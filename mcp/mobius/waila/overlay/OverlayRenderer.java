@@ -8,7 +8,6 @@ import java.util.List;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import codechicken.nei.api.ItemInfo;
 import codechicken.nei.forge.GuiContainerManager;
 import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.common.registry.EntityRegistry;
@@ -47,7 +46,7 @@ public class OverlayRenderer {
     
         if (RayTracing.instance().getTarget().typeOfHit == EnumMovingObjectType.TILE && RayTracing.instance().getTargetStack() != null)
         {
-            renderOverlay(RayTracing.instance().getTargetStack(), ItemInfo.getText(RayTracing.instance().getTargetStack(), mc.theWorld, mc.thePlayer, RayTracing.instance().getTarget()), getPositioning());
+            renderOverlay(RayTracing.instance().getTargetStack(), WailaTickHandler.instance().currenttip, getPositioning());
         }
         
         if (RayTracing.instance().getTarget().typeOfHit == EnumMovingObjectType.ENTITY)

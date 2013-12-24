@@ -25,7 +25,8 @@ public class WailaTickHandler implements ITickHandler {
 	public ItemStack identifiedHighlight = new ItemStack(Block.dirt);
 	public List<String> currenttipHEAD   = new ArrayList<String>();
 	public List<String> currenttipBODY   = new ArrayList<String>(); 
-	public List<String> currenttipTAIL   = new ArrayList<String>(); 
+	public List<String> currenttipTAIL   = new ArrayList<String>();
+	public List<String> currenttip       = new ArrayList<String>(); 	
 	public HUDHandlerExternal handler    = new HUDHandlerExternal();
 	
 	
@@ -45,7 +46,7 @@ public class WailaTickHandler implements ITickHandler {
 	@Override
 	public void tickEnd(EnumSet<TickType> type, Object... tickData) {
 		if(type.contains(TickType.RENDER)){
-			OverlayRenderer.renderOverlay();
+			OverlayRenderer.renderOverlay(); 
 		}
 		
 		if(type.contains(TickType.CLIENT)){
@@ -65,6 +66,11 @@ public class WailaTickHandler implements ITickHandler {
 				this.currenttipHEAD      = handler.handleTextData(targetStack, world, player, target, new ArrayList<String>(), Layout.HEADER);
 				this.currenttipBODY      = handler.handleTextData(targetStack, world, player, target, new ArrayList<String>(), Layout.BODY);
 				this.currenttipTAIL      = handler.handleTextData(targetStack, world, player, target, new ArrayList<String>(), Layout.FOOTER);
+				
+				this.currenttip.clear();
+				this.currenttip.addAll(this.currenttipHEAD);
+				this.currenttip.addAll(this.currenttipBODY);
+				this.currenttip.addAll(this.currenttipTAIL);				
 			}
 		}		
 	}
