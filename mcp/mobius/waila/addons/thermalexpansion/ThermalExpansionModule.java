@@ -6,7 +6,7 @@ import java.util.logging.Level;
 
 import net.minecraftforge.common.ForgeDirection;
 import mcp.mobius.waila.mod_Waila;
-import mcp.mobius.waila.addons.ExternalModulesHandler;
+import mcp.mobius.waila.api.impl.ModuleRegistrar;
 
 public class ThermalExpansionModule {
 
@@ -97,27 +97,27 @@ public class ThermalExpansionModule {
 //			return;			
 		}		
 		
-		ExternalModulesHandler.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.energyhandler");
-		ExternalModulesHandler.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.energycell");
-		ExternalModulesHandler.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.fluidtype");
-		ExternalModulesHandler.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.fluidamount");
-		ExternalModulesHandler.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.conditemmode");		
-		ExternalModulesHandler.instance().addConfig("Thermal Expansion", "thermalexpansion.tankmode");
-		ExternalModulesHandler.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.tesssendrecv");
-		ExternalModulesHandler.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.tessfreq");
-		ExternalModulesHandler.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.owner");		
+		ModuleRegistrar.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.energyhandler");
+		ModuleRegistrar.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.energycell");
+		ModuleRegistrar.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.fluidtype");
+		ModuleRegistrar.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.fluidamount");
+		ModuleRegistrar.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.conditemmode");		
+		ModuleRegistrar.instance().addConfig("Thermal Expansion", "thermalexpansion.tankmode");
+		ModuleRegistrar.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.tesssendrecv");
+		ModuleRegistrar.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.tessfreq");
+		ModuleRegistrar.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.owner");		
 		
-		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerIEnergyHandler(), IEnergyHandler);
-		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerEnergyCell(), TileEnergyCell);
-		ExternalModulesHandler.instance().registerHeadProvider(new HUDHandlerTank(), TileTank);
-		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerTank(), TileTank);
+		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerIEnergyHandler(), IEnergyHandler);
+		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerEnergyCell(), TileEnergyCell);
+		ModuleRegistrar.instance().registerHeadProvider(new HUDHandlerTank(), TileTank);
+		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTank(), TileTank);
 		
-		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerTesseract(), TileTesseract);
+		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTesseract(), TileTesseract);
 		
-		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerISecureTile(), ISecureTile);
+		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerISecureTile(), ISecureTile);
 
-		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerConduitFluid(), BlockMultipart);		
-		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerConduitItem(),  BlockMultipart);		
+		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerConduitFluid(), BlockMultipart);		
+		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerConduitItem(),  BlockMultipart);		
 			
 		
 	}

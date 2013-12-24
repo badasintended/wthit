@@ -3,7 +3,7 @@ package mcp.mobius.waila.addons.openblocks;
 import java.util.logging.Level;
 
 import mcp.mobius.waila.mod_Waila;
-import mcp.mobius.waila.addons.ExternalModulesHandler;
+import mcp.mobius.waila.api.impl.ModuleRegistrar;
 
 public class OpenBlocksModule {
 	
@@ -26,8 +26,8 @@ public class OpenBlocksModule {
 			return;
 		}
 		
-		ExternalModulesHandler.instance().addConfigRemote("OpenBlocks", "openblocks.fluidamount");		
-		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerTank(),  TileEntityTank);
-		ExternalModulesHandler.instance().registerHeadProvider(new HUDHandlerTank(),  TileEntityTank);		
+		ModuleRegistrar.instance().addConfigRemote("OpenBlocks", "openblocks.fluidamount");		
+		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTank(),  TileEntityTank);
+		ModuleRegistrar.instance().registerHeadProvider(new HUDHandlerTank(),  TileEntityTank);		
 	}
 }

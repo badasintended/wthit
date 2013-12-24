@@ -6,10 +6,10 @@ import codechicken.lib.lang.LangUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import mcp.mobius.waila.addons.ConfigHandler;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
+import mcp.mobius.waila.api.impl.ConfigHandler;
 
 public class HUDHandlerTETradeOMat implements IWailaDataProvider {
 

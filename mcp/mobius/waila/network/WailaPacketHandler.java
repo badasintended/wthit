@@ -6,7 +6,7 @@ import java.io.IOException;
 
 import mcp.mobius.waila.WailaExceptionHandler;
 import mcp.mobius.waila.mod_Waila;
-import mcp.mobius.waila.handlers.DataAccessor;
+import mcp.mobius.waila.api.impl.DataAccessor;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;

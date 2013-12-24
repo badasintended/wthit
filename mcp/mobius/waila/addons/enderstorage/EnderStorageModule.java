@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 import java.util.logging.Level;
 
 import mcp.mobius.waila.mod_Waila;
-import mcp.mobius.waila.addons.ExternalModulesHandler;
+import mcp.mobius.waila.api.impl.ModuleRegistrar;
 
 public class EnderStorageModule {
 
@@ -50,7 +50,7 @@ public class EnderStorageModule {
 			return;			
 		}
 		
-		ExternalModulesHandler.instance().addConfig("EnderStorage", "enderstorage.colors");		
-		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerStorage(),    TileFrequencyOwner);
+		ModuleRegistrar.instance().addConfig("EnderStorage", "enderstorage.colors");		
+		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerStorage(),    TileFrequencyOwner);
 	}
 }

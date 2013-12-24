@@ -16,7 +16,7 @@ import java.awt.Point;
 
 import mcp.mobius.waila.Constants;
 import mcp.mobius.waila.mod_Waila;
-import mcp.mobius.waila.addons.ConfigHandler;
+import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.gui.truetyper.TrueTypeFont;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;

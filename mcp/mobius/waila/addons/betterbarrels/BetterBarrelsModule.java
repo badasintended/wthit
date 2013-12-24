@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 import java.util.logging.Level;
 
 import mcp.mobius.waila.mod_Waila;
-import mcp.mobius.waila.addons.ExternalModulesHandler;
+import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import codechicken.lib.lang.LangUtil;
 import codechicken.nei.api.API;
 import codechicken.nei.api.ItemInfo;
@@ -33,8 +33,8 @@ public class BetterBarrelsModule {
 		
 		if (IBarrelStorage_getItem != null){
 			mod_Waila.log.log(Level.INFO, "Waila module BetterBarrel succefully hooked.");
-			ExternalModulesHandler.instance().addConfig("BetterBarrels", "bb.content");			
-			ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerBBContent(), TileEntityBarrel);			
+			ModuleRegistrar.instance().addConfig("BetterBarrels", "bb.content");			
+			ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerBBContent(), TileEntityBarrel);			
 		}
 	}	
 	

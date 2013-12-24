@@ -2,7 +2,6 @@ package mcp.mobius.waila.client;
 
 import mcp.mobius.waila.Constants;
 import mcp.mobius.waila.mod_Waila;
-import mcp.mobius.waila.addons.ExternalModulesHandler;
 import mcp.mobius.waila.addons.appeng.AppEngModule;
 import mcp.mobius.waila.addons.buildcraft.BCModule;
 import mcp.mobius.waila.addons.buildcraft.BCPowerAPIModule;
@@ -19,12 +18,13 @@ import mcp.mobius.waila.addons.thaumcraft.ThaumcraftModule;
 import mcp.mobius.waila.addons.thermalexpansion.ThermalExpansionModule;
 import mcp.mobius.waila.addons.twilightforest.TwilightForestModule;
 import mcp.mobius.waila.addons.vanillamc.HUDHandlerVanilla;
+import mcp.mobius.waila.api.impl.MetaDataProvider;
+import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.gui.truetyper.FontLoader;
 import mcp.mobius.waila.gui.truetyper.TrueTypeFont;
+import mcp.mobius.waila.handlers.HUDHandlerWaila;
 import mcp.mobius.waila.handlers.SummaryProviderDefault;
-import mcp.mobius.waila.handlers.hud.HUDHandlerExternal;
-import mcp.mobius.waila.handlers.hud.HUDHandlerWaila;
-import mcp.mobius.waila.handlers.tooltip.TooltipHandlerWaila;
+import mcp.mobius.waila.handlers.nei.TooltipHandlerWaila;
 import mcp.mobius.waila.overlay.WailaTickHandler;
 import mcp.mobius.waila.server.ProxyServer;
 import net.minecraft.block.Block;
@@ -77,9 +77,9 @@ public class ProxyClient extends ProxyServer {
 		//API.addKeyBind(Constants.BIND_WIKI, "Display wiki",          Keyboard.KEY_RSHIFT);
 		//API.addKeyBind(Constants.BIND_TECH, "Display techtree",      Keyboard.KEY_RSHIFT);
 
-		ExternalModulesHandler.instance().registerHeadProvider(new HUDHandlerWaila(), Block.class);
-		ExternalModulesHandler.instance().registerTailProvider(new HUDHandlerWaila(), Block.class);		
-		ExternalModulesHandler.instance().registerShortDataProvider(new SummaryProviderDefault(), Item.class);
+		ModuleRegistrar.instance().registerHeadProvider(new HUDHandlerWaila(), Block.class);
+		ModuleRegistrar.instance().registerTailProvider(new HUDHandlerWaila(), Block.class);		
+		ModuleRegistrar.instance().registerShortDataProvider(new SummaryProviderDefault(), Item.class);
 	}	
 
 	@Override

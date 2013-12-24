@@ -5,7 +5,7 @@ import java.util.logging.Level;
 
 import net.minecraft.item.Item;
 import mcp.mobius.waila.mod_Waila;
-import mcp.mobius.waila.addons.ExternalModulesHandler;
+import mcp.mobius.waila.api.impl.ModuleRegistrar;
 
 public class ETBModule {
 
@@ -76,8 +76,8 @@ public class ETBModule {
 			return;			
 		}		
 		
-		ExternalModulesHandler.instance().addConfig("Engineer Toolbox", "etb.displaydata");
-		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerSocket(), TileSocket);
+		ModuleRegistrar.instance().addConfig("Engineer Toolbox", "etb.displaydata");
+		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerSocket(), TileSocket);
 		
 	}
 }

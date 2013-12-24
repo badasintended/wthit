@@ -4,7 +4,7 @@ import java.lang.reflect.Method;
 import java.util.logging.Level;
 
 import mcp.mobius.waila.mod_Waila;
-import mcp.mobius.waila.addons.ExternalModulesHandler;
+import mcp.mobius.waila.api.impl.ModuleRegistrar;
 
 public class RailcraftModule {
 	public static Class  TileTankBase = null;	
@@ -35,8 +35,8 @@ public class RailcraftModule {
 			return;			
 		}
 		
-		ExternalModulesHandler.instance().addConfigRemote("Railcraft", "railcraft.fluidamount");		
-		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerTank(),  TileTankBase);
-		ExternalModulesHandler.instance().registerHeadProvider(new HUDHandlerTank(),  TileTankBase);
+		ModuleRegistrar.instance().addConfigRemote("Railcraft", "railcraft.fluidamount");		
+		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTank(),  TileTankBase);
+		ModuleRegistrar.instance().registerHeadProvider(new HUDHandlerTank(),  TileTankBase);
 	}
 }

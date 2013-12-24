@@ -3,7 +3,7 @@ package mcp.mobius.waila.addons.gravestone;
 import java.util.logging.Level;
 
 import mcp.mobius.waila.mod_Waila;
-import mcp.mobius.waila.addons.ExternalModulesHandler;
+import mcp.mobius.waila.api.impl.ModuleRegistrar;
 
 public class GravestoneModule {
 
@@ -26,7 +26,7 @@ public class GravestoneModule {
 		}
 
 		
-		ExternalModulesHandler.instance().registerStackProvider(new HUDHandlerGravestone(), BlockGraveStone);		
+		ModuleRegistrar.instance().registerStackProvider(new HUDHandlerGravestone(), BlockGraveStone);		
 	}
 
 }

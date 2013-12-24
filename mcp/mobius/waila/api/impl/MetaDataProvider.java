@@ -1,14 +1,11 @@
-package mcp.mobius.waila.handlers.hud;
+package mcp.mobius.waila.api.impl;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import mcp.mobius.waila.WailaExceptionHandler;
 import mcp.mobius.waila.mod_Waila;
-import mcp.mobius.waila.addons.ConfigHandler;
-import mcp.mobius.waila.addons.ExternalModulesHandler;
 import mcp.mobius.waila.api.IWailaDataProvider;
-import mcp.mobius.waila.handlers.DataAccessor;
 import mcp.mobius.waila.network.Packet0x01TERequest;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,7 +15,7 @@ import net.minecraft.world.World;
 import codechicken.nei.api.ItemInfo.Layout;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
-public class HUDHandlerExternal{
+public class MetaDataProvider{
 	
 	private ArrayList<IWailaDataProvider>   headProviders = new ArrayList<IWailaDataProvider>();
 	private ArrayList<IWailaDataProvider>   bodyProviders = new ArrayList<IWailaDataProvider>();
@@ -40,8 +37,8 @@ public class HUDHandlerExternal{
 		}
 		*/
 
-		if(ExternalModulesHandler.instance().hasStackProviders(blockID)){
-			for (IWailaDataProvider dataProvider : ExternalModulesHandler.instance().getStackProviders(blockID)){
+		if(ModuleRegistrar.instance().hasStackProviders(blockID)){
+			for (IWailaDataProvider dataProvider : ModuleRegistrar.instance().getStackProviders(blockID)){
 				try{
 					ItemStack retval = dataProvider.getWailaStack(accessor, ConfigHandler.instance());
 					if (retval != null)
@@ -94,25 +91,25 @@ public class HUDHandlerExternal{
 		tailProviders.clear();
 		
 		/* Lookup by class (for blocks)*/		
-		if (layout == Layout.HEADER && ExternalModulesHandler.instance().hasHeadProviders(block))
-			headProviders.addAll(ExternalModulesHandler.instance().getHeadProviders(block));
+		if (layout == Layout.HEADER && ModuleRegistrar.instance().hasHeadProviders(block))
+			headProviders.addAll(ModuleRegistrar.instance().getHeadProviders(block));
 
-		else if (layout == Layout.BODY && ExternalModulesHandler.instance().hasBodyProviders(block))
-			bodyProviders.addAll(ExternalModulesHandler.instance().getBodyProviders(block));
+		else if (layout == Layout.BODY && ModuleRegistrar.instance().hasBodyProviders(block))
+			bodyProviders.addAll(ModuleRegistrar.instance().getBodyProviders(block));
 
-		else if (layout == Layout.FOOTER && ExternalModulesHandler.instance().hasTailProviders(block))
-			tailProviders.addAll(ExternalModulesHandler.instance().getTailProviders(block));
+		else if (layout == Layout.FOOTER && ModuleRegistrar.instance().hasTailProviders(block))
+			tailProviders.addAll(ModuleRegistrar.instance().getTailProviders(block));
 
 		
 		/* Lookup by class (for tileentities)*/		
-		if (layout == Layout.HEADER && ExternalModulesHandler.instance().hasHeadProviders(accessor.getTileEntity()))
-			headProviders.addAll(ExternalModulesHandler.instance().getHeadProviders(accessor.getTileEntity()));
+		if (layout == Layout.HEADER && ModuleRegistrar.instance().hasHeadProviders(accessor.getTileEntity()))
+			headProviders.addAll(ModuleRegistrar.instance().getHeadProviders(accessor.getTileEntity()));
 
-		else if (layout == Layout.BODY && ExternalModulesHandler.instance().hasBodyProviders(accessor.getTileEntity()))
-			bodyProviders.addAll(ExternalModulesHandler.instance().getBodyProviders(accessor.getTileEntity()));
+		else if (layout == Layout.BODY && ModuleRegistrar.instance().hasBodyProviders(accessor.getTileEntity()))
+			bodyProviders.addAll(ModuleRegistrar.instance().getBodyProviders(accessor.getTileEntity()));
 	
-		else if (layout == Layout.FOOTER && ExternalModulesHandler.instance().hasTailProviders(accessor.getTileEntity()))
-			tailProviders.addAll(ExternalModulesHandler.instance().getTailProviders(accessor.getTileEntity()));
+		else if (layout == Layout.FOOTER && ModuleRegistrar.instance().hasTailProviders(accessor.getTileEntity()))
+			tailProviders.addAll(ModuleRegistrar.instance().getTailProviders(accessor.getTileEntity()));
 	
 		/* Apply all collected providers */
 		if (layout == Layout.HEADER)

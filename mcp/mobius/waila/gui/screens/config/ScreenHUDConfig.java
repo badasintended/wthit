@@ -4,7 +4,7 @@ import org.lwjgl.util.Point;
 
 import mcp.mobius.waila.Constants;
 import mcp.mobius.waila.mod_Waila;
-import mcp.mobius.waila.addons.ConfigHandler;
+import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.gui.events.MouseEvent;
 import mcp.mobius.waila.gui.interfaces.CType;
 import mcp.mobius.waila.gui.interfaces.IWidget;

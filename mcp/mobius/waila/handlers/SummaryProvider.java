@@ -3,9 +3,9 @@ package mcp.mobius.waila.handlers;
 import java.util.LinkedHashMap;
 
 import net.minecraft.item.ItemStack;
-import mcp.mobius.waila.addons.ExternalModulesHandler;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaSummaryProvider;
+import mcp.mobius.waila.api.impl.ModuleRegistrar;
 
 public class SummaryProvider {
 
@@ -24,7 +24,7 @@ public class SummaryProvider {
 	public LinkedHashMap<String, String> getSummary(ItemStack stack, IWailaConfigHandler config) {
 		LinkedHashMap<String, String> currentSummary = new LinkedHashMap<String, String>();
 		
-		for (IWailaSummaryProvider provider : ExternalModulesHandler.instance().getSummaryProvider(stack.getItem())){
+		for (IWailaSummaryProvider provider : ModuleRegistrar.instance().getSummaryProvider(stack.getItem())){
 			currentSummary = provider.getSummary(stack, currentSummary, config);
 		}
 		return currentSummary;

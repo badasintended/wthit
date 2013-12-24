@@ -6,7 +6,7 @@ import java.util.logging.Level;
 
 import net.minecraftforge.common.ForgeDirection;
 import mcp.mobius.waila.mod_Waila;
-import mcp.mobius.waila.addons.ExternalModulesHandler;
+import mcp.mobius.waila.api.impl.ModuleRegistrar;
 
 public class BCPowerAPIModule {
 
@@ -69,10 +69,10 @@ public class BCPowerAPIModule {
 			return;			
 		}
 		
-		ExternalModulesHandler.instance().addConfigRemote("BuildcraftAPI", "bcapi.storage");
-		ExternalModulesHandler.instance().addConfig("BuildcraftAPI", "bcapi.consump");
-		ExternalModulesHandler.instance().addConfig("BuildcraftAPI", "bcapi.trigger");
-		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerIPowerReceptor(), IPowerReceptor);		
+		ModuleRegistrar.instance().addConfigRemote("BuildcraftAPI", "bcapi.storage");
+		ModuleRegistrar.instance().addConfig("BuildcraftAPI", "bcapi.consump");
+		ModuleRegistrar.instance().addConfig("BuildcraftAPI", "bcapi.trigger");
+		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerIPowerReceptor(), IPowerReceptor);		
 
 	}	
 	

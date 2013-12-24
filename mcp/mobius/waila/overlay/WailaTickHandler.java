@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
-import mcp.mobius.waila.handlers.DataAccessor;
-import mcp.mobius.waila.handlers.hud.HUDHandlerExternal;
+import mcp.mobius.waila.api.impl.DataAccessor;
+import mcp.mobius.waila.api.impl.MetaDataProvider;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,7 +23,7 @@ public class WailaTickHandler implements ITickHandler {
 	private int ticks = 0;
 	public ItemStack identifiedHighlight = new ItemStack(Block.dirt);
 	public List<String> currenttip       = new ArrayList<String>(); 	
-	public HUDHandlerExternal handler    = new HUDHandlerExternal();
+	public MetaDataProvider handler    = new MetaDataProvider();
 	private Minecraft mc = Minecraft.getMinecraft();
 	
 	private static WailaTickHandler _instance;

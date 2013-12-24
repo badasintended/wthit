@@ -1,4 +1,4 @@
-package mcp.mobius.waila.handlers;
+package mcp.mobius.waila.api.impl;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;

@@ -1,4 +1,4 @@
-package mcp.mobius.waila.handlers.hud;
+package mcp.mobius.waila.handlers;
 
 import java.util.List;
 

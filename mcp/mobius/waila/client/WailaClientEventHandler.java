@@ -7,10 +7,10 @@ import org.lwjgl.opengl.GL11;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import mcp.mobius.waila.WailaExceptionHandler;
-import mcp.mobius.waila.addons.ConfigHandler;
-import mcp.mobius.waila.addons.ExternalModulesHandler;
 import mcp.mobius.waila.api.IWailaBlockDecorator;
-import mcp.mobius.waila.handlers.DataAccessor;
+import mcp.mobius.waila.api.impl.ConfigHandler;
+import mcp.mobius.waila.api.impl.DataAccessor;
+import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.overlay.RayTracing;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -42,7 +42,7 @@ public class WailaClientEventHandler {
 		Block block   = accessor.getBlock();
 		int   blockID = accessor.getBlockID();
 
-		if (!ExternalModulesHandler.instance().hasBlockDecorator(blockID) && !ExternalModulesHandler.instance().hasBlockDecorator(block)) return;
+		if (!ModuleRegistrar.instance().hasBlockDecorator(blockID) && !ModuleRegistrar.instance().hasBlockDecorator(block)) return;
 		
         GL11.glPushAttrib(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
@@ -50,8 +50,8 @@ public class WailaClientEventHandler {
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glDepthMask(false);		
 		
-		if (ExternalModulesHandler.instance().hasBlockDecorator(blockID)){
-			for (IWailaBlockDecorator decorator : ExternalModulesHandler.instance().getBlockDecorators(blockID))
+		if (ModuleRegistrar.instance().hasBlockDecorator(blockID)){
+			for (IWailaBlockDecorator decorator : ModuleRegistrar.instance().getBlockDecorators(blockID))
 				try{
 					GL11.glPushMatrix();
 					decorator.decorateBlock(RayTracing.instance().getTargetStack(), accessor, ConfigHandler.instance());
@@ -62,8 +62,8 @@ public class WailaClientEventHandler {
 				}			
 		}
 
-		if (ExternalModulesHandler.instance().hasBlockDecorator(block)){
-			for (IWailaBlockDecorator decorator : ExternalModulesHandler.instance().getBlockDecorators(block))
+		if (ModuleRegistrar.instance().hasBlockDecorator(block)){
+			for (IWailaBlockDecorator decorator : ModuleRegistrar.instance().getBlockDecorators(block))
 				try{
 					GL11.glPushMatrix();
 					decorator.decorateBlock(RayTracing.instance().getTargetStack(), accessor, ConfigHandler.instance());

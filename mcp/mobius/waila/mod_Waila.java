@@ -10,11 +10,11 @@ import java.util.logging.Logger;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 
-import mcp.mobius.waila.addons.ConfigHandler;
-import mcp.mobius.waila.addons.ExternalModulesHandler;
 import mcp.mobius.waila.api.IWailaRegistrar;
+import mcp.mobius.waila.api.impl.ConfigHandler;
+import mcp.mobius.waila.api.impl.MetaDataProvider;
+import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.client.WailaClientEventHandler;
-import mcp.mobius.waila.handlers.hud.HUDHandlerExternal;
 import mcp.mobius.waila.network.WailaConnectionHandler;
 import mcp.mobius.waila.network.WailaPacketHandler;
 import mcp.mobius.waila.server.ProxyServer;
@@ -197,7 +197,7 @@ public class mod_Waila {
 		try{
 			Class  reflectClass  = Class.forName(className);
 			Method reflectMethod = reflectClass.getDeclaredMethod(methodName, IWailaRegistrar.class);
-			reflectMethod.invoke(null, (IWailaRegistrar)ExternalModulesHandler.instance());
+			reflectMethod.invoke(null, (IWailaRegistrar)ModuleRegistrar.instance());
 			
 			mod_Waila.log.info(String.format("Success in registering %s", modname));
 			

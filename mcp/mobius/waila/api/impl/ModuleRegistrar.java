@@ -1,4 +1,4 @@
-package mcp.mobius.waila.addons;
+package mcp.mobius.waila.api.impl;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,17 +13,15 @@ import java.util.logging.Level;
 import au.com.bytecode.opencsv.CSVReader;
 import net.minecraft.block.Block;
 import codechicken.lib.lang.LangUtil;
-import codechicken.nei.api.API;
 import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.api.IWailaBlockDecorator;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaRegistrar;
 import mcp.mobius.waila.api.IWailaSummaryProvider;
-import mcp.mobius.waila.handlers.hud.HUDHandlerExternal;
 
-public class ExternalModulesHandler implements IWailaRegistrar {
+public class ModuleRegistrar implements IWailaRegistrar {
 
-	private static ExternalModulesHandler instance = null;
+	private static ModuleRegistrar instance = null;
 	//public LinkedHashMap<Integer, ArrayList<IWailaDataProvider>> headProviders  = new LinkedHashMap<Integer, ArrayList<IWailaDataProvider>>();
 	//public LinkedHashMap<Integer, ArrayList<IWailaDataProvider>> bodyProviders  = new LinkedHashMap<Integer, ArrayList<IWailaDataProvider>>();
 	//public LinkedHashMap<Integer, ArrayList<IWailaDataProvider>> tailProviders  = new LinkedHashMap<Integer, ArrayList<IWailaDataProvider>>();	
@@ -41,14 +39,14 @@ public class ExternalModulesHandler implements IWailaRegistrar {
 
 	public LinkedHashMap<Class, ArrayList<IWailaSummaryProvider>> summaryProviders = new LinkedHashMap<Class, ArrayList<IWailaSummaryProvider>>();
 	
-	private ExternalModulesHandler() {
+	private ModuleRegistrar() {
 		instance = this;
 	}
 
-	public static ExternalModulesHandler instance(){
-		if (ExternalModulesHandler.instance == null)
-			ExternalModulesHandler.instance = new ExternalModulesHandler();
-		return ExternalModulesHandler.instance;
+	public static ModuleRegistrar instance(){
+		if (ModuleRegistrar.instance == null)
+			ModuleRegistrar.instance = new ModuleRegistrar();
+		return ModuleRegistrar.instance;
 	}
 
 	@Override

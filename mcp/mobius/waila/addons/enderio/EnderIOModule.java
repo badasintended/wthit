@@ -6,7 +6,7 @@ import java.util.logging.Level;
 
 import net.minecraftforge.common.ForgeDirection;
 import mcp.mobius.waila.mod_Waila;
-import mcp.mobius.waila.addons.ExternalModulesHandler;
+import mcp.mobius.waila.api.impl.ModuleRegistrar;
 
 public class EnderIOModule {
 
@@ -53,12 +53,12 @@ public class EnderIOModule {
 			return;			
 		}
 		
-		ExternalModulesHandler.instance().addConfig("EnderIO", "enderio.inout");
-		ExternalModulesHandler.instance().addConfig("EnderIO", "enderio.storage");
-		ExternalModulesHandler.instance().addConfig("EnderIO", "enderio.owner");
-		ExternalModulesHandler.instance().addConfig("EnderIO", "enderio.channel");		
-		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerCapacitor(), TileCapacitorBank);
-		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerTesseract(), TileTesseract);
+		ModuleRegistrar.instance().addConfig("EnderIO", "enderio.inout");
+		ModuleRegistrar.instance().addConfig("EnderIO", "enderio.storage");
+		ModuleRegistrar.instance().addConfig("EnderIO", "enderio.owner");
+		ModuleRegistrar.instance().addConfig("EnderIO", "enderio.channel");		
+		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerCapacitor(), TileCapacitorBank);
+		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTesseract(), TileTesseract);
 	}	
 	
 }

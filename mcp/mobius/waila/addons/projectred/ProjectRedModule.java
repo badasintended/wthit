@@ -6,7 +6,7 @@ import java.util.logging.Level;
 import net.minecraft.block.Block;
 import net.minecraftforge.common.Configuration;
 import mcp.mobius.waila.mod_Waila;
-import mcp.mobius.waila.addons.ExternalModulesHandler;
+import mcp.mobius.waila.api.impl.ModuleRegistrar;
 
 public class ProjectRedModule {
 
@@ -41,11 +41,11 @@ public class ProjectRedModule {
 			return;			
 		}
 		
-		ExternalModulesHandler.instance().addConfigRemote("Project:Red", "pr.showio");	
-		ExternalModulesHandler.instance().addConfigRemote("Project:Red", "pr.showdata");	
+		ModuleRegistrar.instance().addConfigRemote("Project:Red", "pr.showio");	
+		ModuleRegistrar.instance().addConfigRemote("Project:Red", "pr.showdata");	
 		
-		ExternalModulesHandler.instance().registerBlockDecorator(new HUDDecoratorRsGateLogic(), BlockMultipart);
-		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerRsGateLogic(), BlockMultipart);
+		ModuleRegistrar.instance().registerBlockDecorator(new HUDDecoratorRsGateLogic(), BlockMultipart);
+		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerRsGateLogic(), BlockMultipart);
 	}	
 	
 }

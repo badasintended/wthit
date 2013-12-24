@@ -8,9 +8,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import mcp.mobius.waila.mod_Waila;
-import mcp.mobius.waila.addons.ConfigHandler;
-import mcp.mobius.waila.addons.ExternalModulesHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
+import mcp.mobius.waila.api.impl.ConfigHandler;
+import mcp.mobius.waila.api.impl.ModuleRegistrar;
 
 public class IC2Module {
 
@@ -111,18 +111,18 @@ public class IC2Module {
 		}	
 		
 		
-		ExternalModulesHandler.instance().addConfigRemote("IndustrialCraft2", "ic2.storage");
-		ExternalModulesHandler.instance().addConfig("IndustrialCraft2", "ic2.outputeu");
-		ExternalModulesHandler.instance().addConfigRemote("IndustrialCraft2", "ic2.inputeu");		
-		ExternalModulesHandler.instance().addConfigRemote("IndustrialCraft2", "ic2.consump");
-		ExternalModulesHandler.instance().addConfigRemote("IndustrialCraft2", "ic2.tradeomat");
+		ModuleRegistrar.instance().addConfigRemote("IndustrialCraft2", "ic2.storage");
+		ModuleRegistrar.instance().addConfig("IndustrialCraft2", "ic2.outputeu");
+		ModuleRegistrar.instance().addConfigRemote("IndustrialCraft2", "ic2.inputeu");		
+		ModuleRegistrar.instance().addConfigRemote("IndustrialCraft2", "ic2.consump");
+		ModuleRegistrar.instance().addConfigRemote("IndustrialCraft2", "ic2.tradeomat");
 		
-		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerTEStandardMachine(), TileEntityStandardMachine);
-		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerTEBaseGenerator(),   TileEntityBaseGenerator);
-		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerTEBaseGenerator(),   TileEntitySemifluidGenerator);
-		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerTEBaseGenerator(),   TileEntityGeoGenerator);		
-		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerTEElectricBlock(),   TileEntityElectricBlock);
-		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerTETradeOMat(),       TileEntityTradeOMat);		
+		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTEStandardMachine(), TileEntityStandardMachine);
+		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTEBaseGenerator(),   TileEntityBaseGenerator);
+		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTEBaseGenerator(),   TileEntitySemifluidGenerator);
+		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTEBaseGenerator(),   TileEntityGeoGenerator);		
+		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTEElectricBlock(),   TileEntityElectricBlock);
+		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTETradeOMat(),       TileEntityTradeOMat);		
 	}
 
 	/* Retuns the current stored energy if available in the nbt and config is true */

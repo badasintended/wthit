@@ -3,7 +3,7 @@ package mcp.mobius.waila.addons.twilightforest;
 import java.util.logging.Level;
 
 import mcp.mobius.waila.mod_Waila;
-import mcp.mobius.waila.addons.ExternalModulesHandler;
+import mcp.mobius.waila.api.impl.ModuleRegistrar;
 
 public class TwilightForestModule {
 
@@ -30,8 +30,8 @@ public class TwilightForestModule {
 		}
 
 		
-		ExternalModulesHandler.instance().registerStackProvider(new TwilightForestGenericOverride(), BlockTFRoots);
-		ExternalModulesHandler.instance().registerStackProvider(new TwilightForestGenericOverride(), BlockTFPlant);		
+		ModuleRegistrar.instance().registerStackProvider(new TwilightForestGenericOverride(), BlockTFRoots);
+		ModuleRegistrar.instance().registerStackProvider(new TwilightForestGenericOverride(), BlockTFPlant);		
 		//ExternalModulesHandler.instance().registerStackProvider(new TwilightForestGenericOverride(), BlockTFSapling);				
 	}
 

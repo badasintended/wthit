@@ -1,4 +1,4 @@
-package mcp.mobius.waila.handlers.tooltip;
+package mcp.mobius.waila.handlers.nei;
 
 import java.util.List;
 

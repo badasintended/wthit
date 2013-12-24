@@ -4,7 +4,7 @@ import java.lang.reflect.Method;
 import java.util.logging.Level;
 
 import mcp.mobius.waila.mod_Waila;
-import mcp.mobius.waila.addons.ExternalModulesHandler;
+import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import net.minecraftforge.common.ForgeDirection;
 
 public class BCModule {
@@ -38,10 +38,10 @@ public class BCModule {
 			return;	
 		}
 		
-		ExternalModulesHandler.instance().addConfig("Buildcraft", "bc.tankamount");
-		ExternalModulesHandler.instance().addConfig("Buildcraft", "bc.tanktype");
-		ExternalModulesHandler.instance().registerHeadProvider(new HUDHandlerBCTanks(), TileTank);			
-		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerBCTanks(), TileTank);
+		ModuleRegistrar.instance().addConfig("Buildcraft", "bc.tankamount");
+		ModuleRegistrar.instance().addConfig("Buildcraft", "bc.tanktype");
+		ModuleRegistrar.instance().registerHeadProvider(new HUDHandlerBCTanks(), TileTank);			
+		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerBCTanks(), TileTank);
 	}
 	
 }

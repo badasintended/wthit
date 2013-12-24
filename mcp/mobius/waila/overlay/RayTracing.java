@@ -5,9 +5,9 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import mcp.mobius.waila.Constants;
-import mcp.mobius.waila.addons.ConfigHandler;
-import mcp.mobius.waila.addons.ExternalModulesHandler;
-import mcp.mobius.waila.handlers.DataAccessor;
+import mcp.mobius.waila.api.impl.ConfigHandler;
+import mcp.mobius.waila.api.impl.DataAccessor;
+import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
@@ -125,8 +125,8 @@ public class RayTracing {
         }
         */
         
-        if (ExternalModulesHandler.instance().hasStackProviders(blockID))
-        	items.add(ExternalModulesHandler.instance().getStackProviders(blockID).get(0).getWailaStack(DataAccessor.instance, ConfigHandler.instance()));
+        if (ModuleRegistrar.instance().hasStackProviders(blockID))
+        	items.add(ModuleRegistrar.instance().getStackProviders(blockID).get(0).getWailaStack(DataAccessor.instance, ConfigHandler.instance()));
         
         if(items.size() > 0)
             return items;

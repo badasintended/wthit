@@ -4,8 +4,8 @@ import java.util.LinkedHashMap;
 
 import mcp.mobius.waila.Constants;
 import mcp.mobius.waila.mod_Waila;
-import mcp.mobius.waila.addons.ConfigHandler;
-import mcp.mobius.waila.addons.ExternalModulesHandler;
+import mcp.mobius.waila.api.impl.ConfigHandler;
+import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.gui_old.GuiIngameWiki;
 import mcp.mobius.waila.gui_old.widget.Label;
 import mcp.mobius.waila.handlers.SummaryProvider;
@@ -19,26 +19,26 @@ import codechicken.nei.forge.IContainerInputHandler;
 public class HandlerWiki implements IContainerInputHandler {
 
 	public String getDescriptionString(String modid, String name, String meta){
-		if (ExternalModulesHandler.instance().hasDocTextModID(modid)){
+		if (ModuleRegistrar.instance().hasDocTextModID(modid)){
 			//Do we have an direct entry for this item ?
-			if (ExternalModulesHandler.instance().hasDocTextItem(modid, name)){
+			if (ModuleRegistrar.instance().hasDocTextItem(modid, name)){
 				//We check if we have an exact match, a wildcard match and finally, an meta 0 match
-				if (ExternalModulesHandler.instance().hasDocTextMeta(modid, name, meta)){
-					return ExternalModulesHandler.instance().getDocText(modid, name, meta);
-				} else if (ExternalModulesHandler.instance().hasDocTextSpecificMeta(modid, name, "*")){
-					return ExternalModulesHandler.instance().getDocText(modid, name, "*");
-				} else if (ExternalModulesHandler.instance().hasDocTextSpecificMeta(modid, name, "0")){
-					return ExternalModulesHandler.instance().getDocText(modid, name, "0");
+				if (ModuleRegistrar.instance().hasDocTextMeta(modid, name, meta)){
+					return ModuleRegistrar.instance().getDocText(modid, name, meta);
+				} else if (ModuleRegistrar.instance().hasDocTextSpecificMeta(modid, name, "*")){
+					return ModuleRegistrar.instance().getDocText(modid, name, "*");
+				} else if (ModuleRegistrar.instance().hasDocTextSpecificMeta(modid, name, "0")){
+					return ModuleRegistrar.instance().getDocText(modid, name, "0");
 				}
 				
-			} else if (ExternalModulesHandler.instance().getDoxTextWildcardMatch(modid, name) != null) {
-				String key = ExternalModulesHandler.instance().getDoxTextWildcardMatch(modid, name);
-				if (ExternalModulesHandler.instance().hasDocTextMeta(modid, key, meta)){
-					return ExternalModulesHandler.instance().getDocText(modid, key, meta);
-				} else if (ExternalModulesHandler.instance().hasDocTextSpecificMeta(modid, key, "*")){
-					return ExternalModulesHandler.instance().getDocText(modid, key, "*");
-				} else if (ExternalModulesHandler.instance().hasDocTextSpecificMeta(modid, key, "0")){
-					return ExternalModulesHandler.instance().getDocText(modid, key, "0");
+			} else if (ModuleRegistrar.instance().getDoxTextWildcardMatch(modid, name) != null) {
+				String key = ModuleRegistrar.instance().getDoxTextWildcardMatch(modid, name);
+				if (ModuleRegistrar.instance().hasDocTextMeta(modid, key, meta)){
+					return ModuleRegistrar.instance().getDocText(modid, key, meta);
+				} else if (ModuleRegistrar.instance().hasDocTextSpecificMeta(modid, key, "*")){
+					return ModuleRegistrar.instance().getDocText(modid, key, "*");
+				} else if (ModuleRegistrar.instance().hasDocTextSpecificMeta(modid, key, "0")){
+					return ModuleRegistrar.instance().getDocText(modid, key, "0");
 				}				
 			}
 			
