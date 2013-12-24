@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import codechicken.nei.api.IHighlightHandler;
-import codechicken.nei.api.ItemInfo;
 import mcp.mobius.waila.Constants;
 import mcp.mobius.waila.addons.ConfigHandler;
+import mcp.mobius.waila.addons.ExternalModulesHandler;
+import mcp.mobius.waila.handlers.DataAccessor;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
@@ -47,11 +47,6 @@ public class RayTracing {
 		this.target      = this.rayTrace(viewpoint, 4.0, 0);
 		
 		if (this.target == null) return;
-		
-		if (this.target.typeOfHit == EnumMovingObjectType.TILE)
-			this.targetStack = this.getIdentifierStack();
-		else
-			this.targetStack = null;
 	}
 	
 	public MovingObjectPosition getTarget(){ 
@@ -59,6 +54,11 @@ public class RayTracing {
 	}
 	
 	public ItemStack getTargetStack(){
+		if (this.target.typeOfHit == EnumMovingObjectType.TILE)
+			this.targetStack = this.getIdentifierStack();
+		else
+			this.targetStack = null;		
+		
 		return this.targetStack;
 	}
 	
@@ -105,9 +105,12 @@ public class RayTracing {
         int x = this.target.blockX;
         int y = this.target.blockY;
         int z = this.target.blockZ;
-        Block mouseoverBlock = Block.blocksList[world.getBlockId(x, y, z)];
+        int   blockID        = world.getBlockId(x, y, z);
+        Block mouseoverBlock = Block.blocksList[blockID];
         if (mouseoverBlock == null) return items;
         
+        // TODO This block need to be redone to handle Waila API
+        /*
         ArrayList<IHighlightHandler> handlers = new ArrayList<IHighlightHandler>();
         if(ItemInfo.highlightIdentifiers.get(0) != null)
         	handlers.addAll(ItemInfo.highlightIdentifiers.get(0));
@@ -120,6 +123,10 @@ public class RayTracing {
             if(item != null)
                 items.add(item);
         }
+        */
+        
+        if (ExternalModulesHandler.instance().hasStackProviders(blockID))
+        	items.add(ExternalModulesHandler.instance().getStackProviders(blockID).get(0).getWailaStack(DataAccessor.instance, ConfigHandler.instance()));
         
         if(items.size() > 0)
             return items;

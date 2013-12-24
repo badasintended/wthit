@@ -26,9 +26,7 @@ public class HUDHandlerExternal{
 	private Class prevBlock = null;
 	private Class prevTile  = null;
 	
-	public ItemStack identifyHighlight(World world, EntityPlayer player, MovingObjectPosition mop) {
-		DataAccessor accessor = DataAccessor.instance;
-		accessor.set(world, player, mop);
+	public ItemStack identifyHighlight(World world, EntityPlayer player, MovingObjectPosition mop, DataAccessor accessor) {
 		Block block   = accessor.getBlock();
 		int   blockID = accessor.getBlockID();
 		
@@ -56,9 +54,7 @@ public class HUDHandlerExternal{
 		return null;
 	}
 
-	public List<String> handleTextData(ItemStack itemStack, World world, EntityPlayer player, MovingObjectPosition mop, List<String> currenttip, Layout layout) {
-		DataAccessor accessor = DataAccessor.instance;
-		accessor.set(world, player, mop);
+	public List<String> handleTextData(ItemStack itemStack, World world, EntityPlayer player, MovingObjectPosition mop, DataAccessor accessor, List<String> currenttip, Layout layout) {
 		Block block   = accessor.getBlock();
 		int   blockID = accessor.getBlockID();
 		
