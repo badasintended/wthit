@@ -27,6 +27,7 @@ import mcp.mobius.waila.handlers.hud.HUDHandlerWaila;
 import mcp.mobius.waila.handlers.tooltip.TooltipHandlerWaila;
 import mcp.mobius.waila.overlay.WailaTickHandler;
 import mcp.mobius.waila.server.ProxyServer;
+import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 
@@ -61,11 +62,11 @@ public class ProxyClient extends ProxyServer {
 		
 		GuiContainerManager.addTooltipHandler(new TooltipHandlerWaila());
 		
-		API.registerHighlightHandler(new HUDHandlerExternal(), ItemInfo.Layout.HEADER);
-		API.registerHighlightHandler(new HUDHandlerExternal(), ItemInfo.Layout.BODY);
-		API.registerHighlightHandler(new HUDHandlerExternal(), ItemInfo.Layout.FOOTER);		
-		API.registerHighlightHandler(new HUDHandlerWaila(),    ItemInfo.Layout.FOOTER);
-		API.registerHighlightHandler(new HUDHandlerWaila(),    ItemInfo.Layout.HEADER);		
+		//API.registerHighlightHandler(new HUDHandlerExternal(), ItemInfo.Layout.HEADER);
+		//API.registerHighlightHandler(new HUDHandlerExternal(), ItemInfo.Layout.BODY);
+		//API.registerHighlightHandler(new HUDHandlerExternal(), ItemInfo.Layout.FOOTER);		
+		//API.registerHighlightHandler(new HUDHandlerWaila(),    ItemInfo.Layout.FOOTER);
+		//API.registerHighlightHandler(new HUDHandlerWaila(),    ItemInfo.Layout.HEADER);		
 		
 		KeyBindingRegistry.registerKeyBinding(new ConfigKeyHandler());
 		
@@ -75,7 +76,9 @@ public class ProxyClient extends ProxyServer {
 		
 		//API.addKeyBind(Constants.BIND_WIKI, "Display wiki",          Keyboard.KEY_RSHIFT);
 		//API.addKeyBind(Constants.BIND_TECH, "Display techtree",      Keyboard.KEY_RSHIFT);
-		
+
+		ExternalModulesHandler.instance().registerHeadProvider(new HUDHandlerWaila(), Block.class);
+		ExternalModulesHandler.instance().registerTailProvider(new HUDHandlerWaila(), Block.class);		
 		ExternalModulesHandler.instance().registerShortDataProvider(new SummaryProviderDefault(), Item.class);
 	}	
 

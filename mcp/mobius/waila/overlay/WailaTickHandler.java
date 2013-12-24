@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
-import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.handlers.hud.HUDHandlerExternal;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -12,7 +11,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-import codechicken.lib.lang.LangUtil;
 import codechicken.nei.api.ItemInfo.Layout;
 import cpw.mods.fml.common.ITickHandler;
 import cpw.mods.fml.common.TickType;

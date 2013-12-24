@@ -124,7 +124,7 @@ public class ExternalModulesHandler implements IWailaRegistrar {
 		if (!this.stackProviders.containsKey(blockID))
 			this.stackProviders.put(blockID, new ArrayList<IWailaDataProvider>());
 		this.stackProviders.get(blockID).add(dataProvider);
-		API.registerHighlightIdentifier(blockID, new HUDHandlerExternal());
+		//API.registerHighlightIdentifier(blockID, new HUDHandlerExternal());
 	}	
 
 	@Override
@@ -191,9 +191,9 @@ public class ExternalModulesHandler implements IWailaRegistrar {
 
 	public ArrayList<IWailaDataProvider> getTailProviders(Object block) {
 		ArrayList<IWailaDataProvider> returnList = new ArrayList<IWailaDataProvider>();
-		for (Class clazz : this.bodyBlockProviders.keySet())
+		for (Class clazz : this.tailBlockProviders.keySet())
 			if (clazz.isInstance(block))
-				returnList.addAll(this.bodyBlockProviders.get(clazz));
+				returnList.addAll(this.tailBlockProviders.get(clazz));
 				
 		return returnList;
 	}	

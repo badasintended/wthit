@@ -1,10 +1,7 @@
 package mcp.mobius.waila.handlers.nei;
 
 import java.util.Map;
-import java.util.logging.Level;
-
 import mcp.mobius.waila.Constants;
-import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.gui.screens.info.ScreenEnchants;
 import mcp.mobius.waila.tools.ModIdentification;
 import net.minecraft.client.Minecraft;

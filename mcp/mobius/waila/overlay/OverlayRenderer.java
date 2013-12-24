@@ -1,8 +1,6 @@
 package mcp.mobius.waila.overlay;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import org.lwjgl.opengl.GL11;
@@ -25,7 +23,6 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumMovingObjectType;
-import net.minecraft.world.World;
 import static codechicken.core.gui.GuiDraw.*;
 
 public class OverlayRenderer {

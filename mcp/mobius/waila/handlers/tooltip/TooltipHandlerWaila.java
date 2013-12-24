@@ -2,7 +2,6 @@ package mcp.mobius.waila.handlers.tooltip;
 
 import java.util.List;
 
-import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.tools.ModIdentification;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
