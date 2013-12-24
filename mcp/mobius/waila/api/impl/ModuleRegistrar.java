@@ -122,7 +122,6 @@ public class ModuleRegistrar implements IWailaRegistrar {
 		if (!this.stackProviders.containsKey(blockID))
 			this.stackProviders.put(blockID, new ArrayList<IWailaDataProvider>());
 		this.stackProviders.get(blockID).add(dataProvider);
-		//API.registerHighlightIdentifier(blockID, new HUDHandlerExternal());
 	}	
 
 	@Override
@@ -153,21 +152,6 @@ public class ModuleRegistrar implements IWailaRegistrar {
 			this.blockClassDecorators.put(block, new ArrayList<IWailaBlockDecorator>());
 		this.blockClassDecorators.get(block).add(decorator);		
 	}	
-	
-	/* Arrays getters */
-	/*
-	public ArrayList<IWailaDataProvider> getHeadProviders(int blockID) {
-		return this.headProviders.get(blockID);
-	}
-
-	public ArrayList<IWailaDataProvider> getBodyProviders(int blockID) {
-		return this.bodyProviders.get(blockID);
-	}	
-
-	public ArrayList<IWailaDataProvider> getTailProviders(int blockID) {
-		return this.tailProviders.get(blockID);
-	}		
-	*/
 
 	public ArrayList<IWailaDataProvider> getHeadProviders(Object block) {
 		ArrayList<IWailaDataProvider> returnList = new ArrayList<IWailaDataProvider>();
@@ -222,21 +206,6 @@ public class ModuleRegistrar implements IWailaRegistrar {
 		return returnList;		
 	}	
 	
-	/* Providers querry methods */
-	/*
-	public boolean hasHeadProviders(int blockID){
-		return this.headProviders.containsKey(blockID);
-	}
-	
-	public boolean hasBodyProviders(int blockID){
-		return this.bodyProviders.containsKey(blockID);
-	}
-
-	public boolean hasTailProviders(int blockID){
-		return this.tailProviders.containsKey(blockID);
-	}	
-	*/
-
 	public boolean hasStackProviders(int blockID){
 		return this.stackProviders.containsKey(blockID);
 	}	

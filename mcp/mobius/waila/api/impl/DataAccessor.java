@@ -69,10 +69,27 @@ public class DataAccessor implements IWailaDataAccessor {
 	}
 
 	@Override
+	public int getBlockID() {
+		return this.blockID;
+	}	
+	
+	@Override
 	public int getMetadata() {
 		return this.metadata;
 	}
 
+	public void setBlock(Block block) {
+		this.block = block;
+	}
+
+	public void setBlockID(int val) {
+		this.blockID = val;
+	}	
+	
+	public void setMetadata(int val) {
+		this.metadata = val;
+	}	
+	
 	@Override
 	public TileEntity getTileEntity() {
 		return this.entity;
@@ -108,11 +125,6 @@ public class DataAccessor implements IWailaDataAccessor {
 		return 0;
 	}
 	
-	@Override
-	public int getBlockID() {
-		return this.blockID;
-	}
-
 	private boolean isTagCorrect(NBTTagCompound tag){
 		if (tag == null){
 			this.timeLastUpdate = System.currentTimeMillis() - 250;

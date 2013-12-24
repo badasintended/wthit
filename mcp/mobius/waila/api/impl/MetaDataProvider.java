@@ -5,11 +5,13 @@ import java.util.List;
 
 import mcp.mobius.waila.WailaExceptionHandler;
 import mcp.mobius.waila.mod_Waila;
+import mcp.mobius.waila.api.IWailaBlock;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.network.Packet0x01TERequest;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import codechicken.nei.api.ItemInfo.Layout;
@@ -27,7 +29,6 @@ public class MetaDataProvider{
 		Block block   = accessor.getBlock();
 		int   blockID = accessor.getBlockID();
 		
-		/*
 		if (IWailaBlock.class.isInstance(block)){
 			try{
 				return ((IWailaBlock)block).getWailaStack(accessor, ConfigHandler.instance());
@@ -35,7 +36,6 @@ public class MetaDataProvider{
 				WailaExceptionHandler.handleErr(e, block.getClass().toString(), null);
 			}
 		}
-		*/
 
 		if(ModuleRegistrar.instance().hasStackProviders(blockID)){
 			for (IWailaDataProvider dataProvider : ModuleRegistrar.instance().getStackProviders(blockID)){
@@ -62,7 +62,6 @@ public class MetaDataProvider{
 		}
 
 		/* Interface IWailaBlock */
-		/*
 		if (IWailaBlock.class.isInstance(block)){
 			TileEntity entity = world.getBlockTileEntity(mop.blockX, mop.blockY, mop.blockZ);
 			if (layout == Layout.HEADER)
@@ -84,7 +83,6 @@ public class MetaDataProvider{
 					return WailaExceptionHandler.handleErr(e, block.getClass().toString(), currenttip);
 				}				
 		}		
-		*/
 
 		headProviders.clear();
 		bodyProviders.clear();
