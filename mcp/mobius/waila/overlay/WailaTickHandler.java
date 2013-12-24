@@ -9,6 +9,8 @@ import mcp.mobius.waila.api.impl.MetaDataProvider;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.item.ItemBlockWithMetadata;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
@@ -55,7 +57,8 @@ public class WailaTickHandler implements ITickHandler {
 				if (target != null){
 					DataAccessor accessor = DataAccessor.instance;
 					accessor.set(world, player, target);
-					ItemStack targetStack       = RayTracing.instance().getTargetStack();
+					ItemStack targetStack = RayTracing.instance().getTargetStack();
+					
 					if (targetStack != null){
 						this.currenttip.clear();
 						

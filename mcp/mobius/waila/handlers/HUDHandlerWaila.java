@@ -2,6 +2,7 @@ package mcp.mobius.waila.handlers;
 
 import java.util.List;
 
+import static mcp.mobius.waila.SpecialChars.*;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
@@ -61,33 +62,8 @@ public class HUDHandlerWaila implements IWailaDataProvider {
 	public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
 		String modName = ModIdentification.nameFromStack(itemStack);
 		if (modName != null && !modName.equals(""))
-			currenttip.add("\u00A79\u00A7o" + modName);
+			currenttip.add(BLUE + ITALIC + modName);
 		
 		return currenttip;
 	}
-
-	/*
-	@Override
-	public ItemStack identifyHighlight(World world, EntityPlayer player, MovingObjectPosition mop) {
-		return null;
-	}
-
-	@Override
-	public List<String> handleTextData(ItemStack itemStack, World world, EntityPlayer player, MovingObjectPosition mop,	List<String> currenttip, Layout layout) {
-		
-		if (layout == Layout.FOOTER){
-			String modName = ModIdentification.nameFromStack(itemStack);
-			if (modName != null && !modName.equals(""))
-				currenttip.add("\u00A79\u00A7o" + modName);
-		} else if (layout == Layout.HEADER && ConfigHandler.instance().getConfig(Constants.CFG_WAILA_METADATA, false)){
-			if (currenttip.size() == 0)
-				currenttip.add("< Unnamed >");
-			else{
-				String name = currenttip.get(0);
-				currenttip.set(0, name + String.format(" %s:%s", world.getBlockId(mop.blockX, mop.blockY, mop.blockZ), world.getBlockMetadata(mop.blockX, mop.blockY, mop.blockZ)));
-			}
-		} 
-		return currenttip;		
-	}		
-	*/
 }
