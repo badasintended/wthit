@@ -13,6 +13,12 @@ public class WailaExceptionHandler {
 	public static  List<String> handleErr(Throwable e, String className, List<String> currenttip){
 		if (!errs.contains(className)){
 			errs.add(className);
+			
+			for (StackTraceElement elem : e.getStackTrace()){
+				mod_Waila.log.log(Level.WARNING, String.format("%s.%s:%s",elem.getClassName(), elem.getMethodName(), elem.getLineNumber()));
+				if (elem.getClassName().contains("waila")) break;
+			}
+			
 			mod_Waila.log.log(Level.WARNING, String.format("Catched unhandled exception : [%s] %s",className,e));
 		}
 		if (currenttip != null)

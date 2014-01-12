@@ -1,16 +1,10 @@
 package mcp.mobius.waila.addons.thaumcraft;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.util.logging.Level;
 
 import mcp.mobius.waila.mod_Waila;
-import mcp.mobius.waila.addons.ExternalModulesHandler;
-import mcp.mobius.waila.addons.ic2.HUDHandlerDoor;
-import mcp.mobius.waila.addons.ic2.HUDHandlerIC2IEnergySink;
-import mcp.mobius.waila.addons.ic2.HUDHandlerIC2IEnergySource;
-import mcp.mobius.waila.addons.ic2.HUDHandlerIC2IEnergyStorage;
-import net.minecraft.item.ItemStack;
+import mcp.mobius.waila.api.impl.ModuleRegistrar;
 
 public class ThaumcraftModule {
 
@@ -53,10 +47,10 @@ public class ThaumcraftModule {
 //			mod_Waila.log.log(Level.WARNING, "[Thaumcraft] Unhandled exception." + e);
 //			return;			
 		}		
-		ExternalModulesHandler.instance().addConfig("Thaumcraft", "thaumcraft.storedvis", "Capacitor storage");		
-		ExternalModulesHandler.instance().registerStackProvider(new HUDHandlerLeaves(), BlockMagicalLeaves);
-		ExternalModulesHandler.instance().registerStackProvider(new HUDHandlerPlants(), BlockCustomPlant);
-		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerCapacitor(), TileCrystalCapacitor);		
+		ModuleRegistrar.instance().addConfig("Thaumcraft", "thaumcraft.storedvis");		
+		ModuleRegistrar.instance().registerStackProvider(new HUDHandlerLeaves(), BlockMagicalLeaves);
+		ModuleRegistrar.instance().registerStackProvider(new HUDHandlerPlants(), BlockCustomPlant);
+		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerCapacitor(), TileCrystalCapacitor);		
 		
 	}
 

@@ -5,9 +5,7 @@ import java.lang.reflect.Method;
 import java.util.logging.Level;
 
 import mcp.mobius.waila.mod_Waila;
-import mcp.mobius.waila.addons.ExternalModulesHandler;
-import mcp.mobius.waila.addons.ic2.HUDHandlerIC2IEnergySink;
-import net.minecraft.item.ItemStack;
+import mcp.mobius.waila.api.impl.ModuleRegistrar;
 
 public class EnderStorageModule {
 
@@ -16,6 +14,8 @@ public class EnderStorageModule {
 	
 	public static Class EnderStorageManager = null;	
 	public static Method GetColourFromFreq = null;
+	
+	public static Class TileEnderTank = null;
 	
 	public static void register(){	
 		try{
@@ -34,6 +34,8 @@ public class EnderStorageModule {
 			EnderStorageManager = Class.forName("codechicken.enderstorage.api.EnderStorageManager");
 			GetColourFromFreq   = EnderStorageManager.getDeclaredMethod("getColourFromFreq", Integer.TYPE, Integer.TYPE);
 			
+			TileEnderTank = Class.forName("codechicken.enderstorage.storage.liquid.TileEnderTank");
+			
 		} catch (ClassNotFoundException e){
 			mod_Waila.log.log(Level.WARNING, "[EnderStorage] Class not found. " + e);
 			return;
@@ -48,7 +50,7 @@ public class EnderStorageModule {
 			return;			
 		}
 		
-		ExternalModulesHandler.instance().addConfig("EnderStorage", "enderstorage.colors",  "Colors");		
-		ExternalModulesHandler.instance().registerBodyProvider(new HUDHandlerStorage(),    TileFrequencyOwner);
+		ModuleRegistrar.instance().addConfig("EnderStorage", "enderstorage.colors");		
+		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerStorage(),    TileFrequencyOwner);
 	}
 }

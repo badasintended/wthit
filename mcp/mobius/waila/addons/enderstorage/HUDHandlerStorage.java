@@ -1,8 +1,8 @@
 package mcp.mobius.waila.addons.enderstorage;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import codechicken.lib.lang.LangUtil;
 import net.minecraft.item.ItemStack;
 import mcp.mobius.waila.WailaExceptionHandler;
 import mcp.mobius.waila.api.IWailaConfigHandler;
@@ -11,7 +11,24 @@ import mcp.mobius.waila.api.IWailaDataProvider;
 
 public class HUDHandlerStorage implements IWailaDataProvider {
 	
-	private static String[] colors = {"White", "Orange", "Magenta", "LBlue", "Yellow", "Lime", "Pink", "Gray", "LGray", "Cyan", "Purple", "Blue", "Brown", "Green", "Red", "Black"};
+	private static String[] colors = {
+		LangUtil.translateG("hud.msg.white"),
+		LangUtil.translateG("hud.msg.orange"),
+		LangUtil.translateG("hud.msg.magenta"),
+		LangUtil.translateG("hud.msg.lblue"),
+		LangUtil.translateG("hud.msg.yellow"),
+		LangUtil.translateG("hud.msg.lime"),
+		LangUtil.translateG("hud.msg.pink"),
+		LangUtil.translateG("hud.msg.gray"),
+		LangUtil.translateG("hud.msg.lgray"),
+		LangUtil.translateG("hud.msg.cyan"),
+		LangUtil.translateG("hud.msg.purple"),
+		LangUtil.translateG("hud.msg.blue"),
+		LangUtil.translateG("hud.msg.brown"),
+		LangUtil.translateG("hud.msg.green"),
+		LangUtil.translateG("hud.msg.red"),
+		LangUtil.translateG("hud.msg.black")		
+	};
 	
 	@Override
 	public ItemStack getWailaStack(IWailaDataAccessor accessor, IWailaConfigHandler config) {
@@ -27,12 +44,18 @@ public class HUDHandlerStorage implements IWailaDataProvider {
 	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
 		if(config.getConfig("enderstorage.colors")){
 			try{
+				
 				int freq = EnderStorageModule.TileFrequencyOwner_Freq.getInt(accessor.getTileEntity());
 				int freqLeft   = (Integer)EnderStorageModule.GetColourFromFreq.invoke(null, freq, 0); 
 				int freqCenter = (Integer)EnderStorageModule.GetColourFromFreq.invoke(null, freq, 1);
 				int freqRight  = (Integer)EnderStorageModule.GetColourFromFreq.invoke(null, freq, 2);
 				
-				currenttip.add(String.format("%s/%s/%s", colors[freqLeft], colors[freqCenter], colors[freqRight]));
+				if (!EnderStorageModule.TileEnderTank.isInstance(accessor.getTileEntity()))
+					currenttip.add(String.format("%s/%s/%s", colors[freqLeft], colors[freqCenter], colors[freqRight]));
+				else
+					currenttip.add(String.format("%s/%s/%s", colors[freqRight], colors[freqCenter], colors[freqLeft]));
+				
+				
 			} catch (Exception e){
 				currenttip = WailaExceptionHandler.handleErr(e, accessor.getTileEntity().getClass().getName(), currenttip);
 			}
@@ -42,4 +65,9 @@ public class HUDHandlerStorage implements IWailaDataProvider {
 		return currenttip;
 	}
 
+	@Override
+	public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
+		return currenttip;
+	}	
+	
 }

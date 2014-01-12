@@ -36,7 +36,7 @@ public class Packet0x01TERequest {
 		
 		try{
 			outputStream.writeByte(0x01);
-			outputStream.writeInt(world.getWorldInfo().getDimension());
+			outputStream.writeInt(world.provider.dimensionId);
 			outputStream.writeInt(mop.blockX);
 			outputStream.writeInt(mop.blockY);
 			outputStream.writeInt(mop.blockZ);			
