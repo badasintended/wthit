@@ -52,12 +52,14 @@ public class HUDHandlerIPowerReceptor implements IWailaDataProvider {
 						currenttip.add(String.format("%.1f / %.1f MJ", energyStored, maxEnergyStor));
 				}			
 				
+				/*
 				if (maxEnergyRecv != 0.0f && config.getConfig("bcapi.consump"))
 					//currenttip.add(String.format("Min/Max Input : %.1f / %.1f MJ/t", minEnergyRecv, maxEnergyRecv));
 					currenttip.add(String.format("%s : %.1f MJ/t", maxPowerStr, maxEnergyRecv));
 				
 				if (activation != 0.0f && config.getConfig("bcapi.trigger"))
-					currenttip.add(String.format("%s : %.1f MJ", triggerStr, activation));			
+					currenttip.add(String.format("%s : %.1f MJ", triggerStr, activation));
+				*/			
 			
 			}
 			
