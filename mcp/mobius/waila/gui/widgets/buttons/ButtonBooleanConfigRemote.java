@@ -44,7 +44,7 @@ public class ButtonBooleanConfigRemote extends ButtonBooleanConfig {
 		else{
 			this.saveGLState();
 			int  texOffset = -1;
-			this.mc.func_110434_K().func_110577_a(widgetsTexture);
+			this.mc.getTextureManager().bindTexture(widgetsTexture);
 			UIHelper.drawTexture(this.getPos().getX(), this.getPos().getY(), this.getSize().getX(), this.getSize().getY(), 0, 66 + texOffset*20, 200, 20);
 			this.loadGLState();
 		}

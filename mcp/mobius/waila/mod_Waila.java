@@ -27,6 +27,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.oredict.OreDictionary;
 import codechicken.core.CommonUtils;
 import codechicken.lib.lang.LangUtil;
 import cpw.mods.fml.client.registry.KeyBindingRegistry;
@@ -54,7 +55,7 @@ import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.ItemData;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid="Waila", name="Waila", version="1.4.4", dependencies="required-after:NotEnoughItems")
+@Mod(modid="Waila", name="Waila", version="1.4.5", dependencies="required-after:NotEnoughItems")
 @NetworkMod(channels = {"Waila"},clientSideRequired=false, serverSideRequired=false, connectionHandler = WailaConnectionHandler.class, 
 			packetHandler = WailaPacketHandler.class, versionBounds="[1.3.0,)")
 
@@ -127,7 +128,7 @@ public class mod_Waila {
         if (ConfigHandler.instance().getConfig(Constants.CFG_WAILA_KEYBIND)){
         
 	        for (String key: ModIdentification.keyhandlerStrings.keySet()){
-	        	String orig  = I18n.func_135053_a(key);
+	        	String orig  = I18n.getString(key);
 	        	if (orig.equals(key))
 	        		orig = LanguageRegistry.instance().getStringLocalization(key);
 	        	if (orig.equals(key))
@@ -162,6 +163,12 @@ public class mod_Waila {
     @Subscribe
     public void loadComplete(FMLLoadCompleteEvent event) {    
     	proxy.registerMods();
+    	
+    	String[] ores = OreDictionary.getOreNames();
+    	for (String s : ores)
+    		for (ItemStack stack : OreDictionary.getOres(s))
+    			System.out.printf("%s : %s\n", s, stack);
+    	
     }    
     	
 	@IMCCallback

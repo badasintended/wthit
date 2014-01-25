@@ -2,6 +2,7 @@ package mcp.mobius.waila.addons.ic2;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.logging.Level;
 
 import net.minecraft.item.ItemStack;
@@ -11,6 +12,7 @@ import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
+import mcp.mobius.waila.tools.AccessHelper;
 
 public class IC2Module {
 
@@ -147,7 +149,10 @@ public class IC2Module {
 		if (!inventory.hasKey("upgrade")) return null;
 		
 		NBTTagList nbtupgrades = inventory.getCompoundTag("upgrade").getTagList("Contents");
-		for (Object subobj : nbtupgrades.tagList){
+		
+		List tagList = (List)AccessHelper.getField("net.minecraft.nbt.NBTTagList", "tagList", nbtupgrades);		
+		
+		for (Object subobj : tagList){
 			NBTTagCompound subtag = (NBTTagCompound)subobj;
 			int id    = subtag.getShort("id");
 			int meta  = subtag.getShort("Damage");

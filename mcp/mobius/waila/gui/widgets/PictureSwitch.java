@@ -27,7 +27,7 @@ public class PictureSwitch extends WidgetBase {
 		ResourceLocation texture = mouseOver ? this.texture2 : this.texture1;
 		
 		GL11.glPushMatrix();
-		this.texManager.func_110577_a(texture);
+		this.texManager.bindTexture(texture);
 		UIHelper.drawTexture(pos.getX(), pos.getY(), this.getSize().getX(), this.getSize().getY());
 		GL11.glPopMatrix();
 
