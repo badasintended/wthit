@@ -171,7 +171,7 @@ public class mod_Waila {
     	
     }    
     	
-	@IMCCallback
+    @EventHandler
 	public void processIMC(FMLInterModComms.IMCEvent event)
 	{
 		for (IMCMessage imcMessage : event.getMessages()){
