@@ -48,8 +48,13 @@ public class Packet0x02TENBTData {
         else
         {
             byte[] abyte = CompressedStreamTools.compress(par0NBTTagCompound);
-            par1DataOutputStream.writeShort((short)abyte.length);
-            par1DataOutputStream.write(abyte);
+            
+            if (abyte.length > 32000)
+            	par1DataOutputStream.writeShort(-1);
+            else{
+            	par1DataOutputStream.writeShort((short)abyte.length);
+            	par1DataOutputStream.write(abyte);
+            }
         }
     }	
 
