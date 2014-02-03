@@ -34,7 +34,6 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 	static int netherwart    = Block.netherStalk.blockID;
 	static int silverfish    = Block.silverfish.blockID;
 	
-	
 	@Override
 	public ItemStack getWailaStack(IWailaDataAccessor accessor,	IWailaConfigHandler config) {
 		int blockID       = accessor.getBlockID();
@@ -51,6 +50,10 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 			default:
 				return null;
 			}
+		}
+
+		if (blockID == redstone){
+			return new ItemStack(Item.redstone);
 		}
 		
 		return null;
@@ -172,7 +175,8 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 		
 		IWailaDataProvider provider = new HUDHandlerVanilla();
 		
-		ModuleRegistrar.instance().registerStackProvider(provider, silverfish);		
+		ModuleRegistrar.instance().registerStackProvider(provider, silverfish);
+		ModuleRegistrar.instance().registerStackProvider(provider, redstone);
 		ModuleRegistrar.instance().registerHeadProvider(provider, mobSpawnerID);
 		ModuleRegistrar.instance().registerBodyProvider(provider, cropsID);
 		ModuleRegistrar.instance().registerBodyProvider(provider, melonStemID);
