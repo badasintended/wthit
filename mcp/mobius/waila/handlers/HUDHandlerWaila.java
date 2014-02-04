@@ -3,6 +3,7 @@ package mcp.mobius.waila.handlers;
 import java.util.List;
 
 import static mcp.mobius.waila.SpecialChars.*;
+import mcp.mobius.waila.Constants;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
@@ -47,8 +48,10 @@ public class HUDHandlerWaila implements IWailaDataProvider {
 		if (currenttip.size() == 0)
 			currenttip.add("< Unnamed >");
 		else{
-			name = currenttip.get(0);
-			currenttip.set(0, name + String.format(" %s:%s", accessor.getBlockID(), accessor.getMetadata()));
+			if (config.getConfig(Constants.CFG_WAILA_METADATA)){
+				name = currenttip.get(0);
+				currenttip.set(0, name + String.format(" %s:%s", accessor.getBlockID(), accessor.getMetadata()));
+			}
 		}		
 		return currenttip;
 	}
