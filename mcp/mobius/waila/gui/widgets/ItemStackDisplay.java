@@ -1,13 +1,12 @@
 package mcp.mobius.waila.gui.widgets;
 
+import mcp.mobius.waila.cbcore.ItemRenderer;
 import mcp.mobius.waila.gui.interfaces.IWidget;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Point;
-
-import codechicken.nei.forge.GuiContainerManager;
 
 public class ItemStackDisplay extends WidgetBase {
 
@@ -42,7 +41,7 @@ public class ItemStackDisplay extends WidgetBase {
 		GL11.glScalef(scaleX, scaleY, 1.0f);
 		
         RenderHelper.enableGUIStandardItemLighting();
-		GuiContainerManager.drawItem((int)(pos.getX()/scaleX), (int)(pos.getY()/scaleX), this.stack);
+		ItemRenderer.drawItem((int)(pos.getX()/scaleX), (int)(pos.getY()/scaleX), this.stack);
 		GL11.glPopMatrix();
 	}
 

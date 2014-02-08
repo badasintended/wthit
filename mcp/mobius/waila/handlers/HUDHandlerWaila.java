@@ -1,5 +1,6 @@
 package mcp.mobius.waila.handlers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static mcp.mobius.waila.SpecialChars.*;
@@ -8,9 +9,10 @@ import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.tools.ModIdentification;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import codechicken.nei.forge.GuiContainerManager;
 
 public class HUDHandlerWaila implements IWailaDataProvider {
 
@@ -25,7 +27,7 @@ public class HUDHandlerWaila implements IWailaDataProvider {
         String name = null;
         try
         {
-            String s = GuiContainerManager.itemDisplayNameShort(itemStack);
+            String s = itemDisplayNameShort(itemStack);
             if(s != null && !s.endsWith("Unnamed"))
                 name = s;
 
@@ -69,4 +71,30 @@ public class HUDHandlerWaila implements IWailaDataProvider {
 		
 		return currenttip;
 	}
+	
+    public static String itemDisplayNameShort(ItemStack itemstack)
+    {
+        List<String> namelist = null;
+        try
+        {
+            namelist = itemstack.getTooltip(Minecraft.getMinecraft().thePlayer, false);
+        }
+        catch(Throwable t) {}
+
+        if(namelist == null)
+            namelist = new ArrayList<String>();
+
+        if(namelist.size() == 0)
+            namelist.add("Unnamed");
+
+        if(namelist.get(0) == null || namelist.get(0).equals(""))
+            namelist.set(0, "Unnamed");
+
+        namelist.set(0, "\247"+Integer.toHexString(itemstack.getRarity().rarityColor)+namelist.get(0));
+        for(int i = 1; i < namelist.size(); i++)
+            namelist.set(i, "\u00a77"+namelist.get(i));
+
+        
+        return namelist.get(0);
+    }	
 }

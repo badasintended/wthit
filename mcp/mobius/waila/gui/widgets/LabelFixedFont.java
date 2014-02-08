@@ -1,5 +1,6 @@
 package mcp.mobius.waila.gui.widgets;
 
+import mcp.mobius.waila.cbcore.LangUtil;
 import mcp.mobius.waila.gui.interfaces.CType;
 import mcp.mobius.waila.gui.interfaces.IWidget;
 import mcp.mobius.waila.gui.interfaces.Signal;
@@ -7,8 +8,6 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.util.Point;
-
-import codechicken.lib.lang.LangUtil;
 
 public class LabelFixedFont extends WidgetBase {
 

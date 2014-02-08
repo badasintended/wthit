@@ -6,8 +6,8 @@ import java.util.List;
 import mcp.mobius.waila.Constants;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.gui.screens.config.ScreenConfig;
-import mcp.mobius.waila.gui.screens.info.ScreenEnchants;
-import mcp.mobius.waila.handlers.nei.HandlerEnchants;
+//import mcp.mobius.waila.gui.screens.info.ScreenEnchants;
+//import mcp.mobius.waila.handlers.nei.HandlerEnchants;
 import mcp.mobius.waila.overlay.RayTracing;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
@@ -18,11 +18,11 @@ import net.minecraft.util.EnumMovingObjectType;
 
 import org.lwjgl.input.Keyboard;
 
-import codechicken.lib.lang.LangUtil;
-import codechicken.nei.api.API;
-import codechicken.nei.forge.GuiContainerManager;
-import codechicken.nei.recipe.GuiCraftingRecipe;
-import codechicken.nei.recipe.GuiUsageRecipe;
+//import codechicken.lib.lang.LangUtil;
+//import codechicken.nei.api.API;
+//import codechicken.nei.forge.GuiContainerManager;
+//import codechicken.nei.recipe.GuiCraftingRecipe;
+//import codechicken.nei.recipe.GuiUsageRecipe;
 import cpw.mods.fml.client.registry.KeyBindingRegistry.KeyHandler;
 import cpw.mods.fml.common.TickType;
 import cpw.mods.fml.common.registry.LanguageRegistry;
@@ -49,19 +49,10 @@ public class ConfigKeyHandler extends KeyHandler {
                 //false
             });
         
-        /*
-        LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_CFG,     LangUtil.translateG("keybind.configscreen"));
-        LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_SHOW,    LangUtil.translateG("keybind.showhide"));
-        LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_LIQUID,  LangUtil.translateG("keybind.showliquid"));
-        LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_RECIPE,  LangUtil.translateG("keybind.showrecipe"));
-        LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_USAGE,   LangUtil.translateG("keybind.showusage"));
-        LanguageRegistry.instance().addStringLocalization(Constants.BIND_WAILA_TESTING, LangUtil.translateG("keybind.testing"));
-        */
-        //LanguageRegistry.instance().addStringLocalization(Constants.BIND_SCREEN_ENCH,   "[Waila] Show enchant screen");
-        //LanguageRegistry.instance().addStringLocalization("key.wailatedump", "[Waila] Dump server TE");      
+
         
-		GuiContainerManager.addInputHandler(new HandlerEnchants());
-		API.addKeyBind(Constants.BIND_SCREEN_ENCH, Keyboard.KEY_I);        
+		//GuiContainerManager.addInputHandler(new HandlerEnchants());
+		//API.addKeyBind(Constants.BIND_SCREEN_ENCH, Keyboard.KEY_I);        
     }
 
 	@Override
@@ -74,8 +65,10 @@ public class ConfigKeyHandler extends KeyHandler {
 		}
 
 		if (kb.keyDescription == Constants.BIND_WAILA_TESTING){
+			/*
 			if(mc.currentScreen == null)
 				mc.displayGuiScreen(new ScreenEnchants(mc.currentScreen));
+			*/
 		}		
 		
 		if (mc.currentScreen != null)
@@ -107,6 +100,7 @@ public class ConfigKeyHandler extends KeyHandler {
 	}
 
 	public void openRecipeGUI(boolean recipe){
+		/*
 		Minecraft mc = Minecraft.getMinecraft();
 		boolean   uiResult;
 		String    msg;
@@ -143,6 +137,7 @@ public class ConfigKeyHandler extends KeyHandler {
 					}
 			}
 		}
+		*/
 	}
 	
 	@Override

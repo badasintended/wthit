@@ -10,14 +10,14 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 
-import au.com.bytecode.opencsv.CSVReader;
+//import au.com.bytecode.opencsv.CSVReader;
 import net.minecraft.block.Block;
-import codechicken.lib.lang.LangUtil;
 import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.api.IWailaBlockDecorator;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaRegistrar;
 import mcp.mobius.waila.api.IWailaSummaryProvider;
+import mcp.mobius.waila.cbcore.LangUtil;
 
 public class ModuleRegistrar implements IWailaRegistrar {
 
@@ -249,53 +249,6 @@ public class ModuleRegistrar implements IWailaRegistrar {
 	/* ----------------- */
 	@Override
 	public void registerDocTextFile(String filename) {
-		List<String[]> docData  = null;
-		int    nentries = 0;
-		
-		
-		try{
-			docData = this.readFileAsString(filename);
-		} catch (IOException e){
-			mod_Waila.log.log(Level.WARNING, String.format("Error while accessing file %s : %s", filename, e));
-			return;
-		}
-
-		for (String[] ss : docData){
-			String modid  = ss[0];
-			String name   = ss[1];
-			String meta   = ss[2];
-			String desc   = ss[5].replace('$', '\n');
-			if (!(desc.trim().equals(""))){
-				if (!this.wikiDescriptions.containsKey(modid))
-					this.wikiDescriptions.put(modid, new LinkedHashMap <String, LinkedHashMap <String, String>>());
-				if (!this.wikiDescriptions.get(modid).containsKey(name))
-					this.wikiDescriptions.get(modid).put(name, new LinkedHashMap<String, String>());
-				
-				this.wikiDescriptions.get(modid).get(name).put(meta, desc);
-				System.out.printf("Registered %s %s %s\n", modid, name, meta);
-				nentries += 1;			
-			}
-		}
-		
-		/*
-		String[] sections = docData.split(">>>>");
-		for (String s : sections){
-			s.trim();
-			if (!s.equals("")){
-				try{
-					String name   = s.split("\r?\n",2)[0].trim();
-					String desc   = s.split("\r?\n",2)[1].trim();
-					if (!this.wikiDescriptions.containsKey(modid))
-						this.wikiDescriptions.put(modid, new LinkedHashMap <String, String>());
-					this.wikiDescriptions.get(modid).put(name, desc);
-					nentries += 1;
-				}catch (Exception e){
-					System.out.printf("%s\n", e);
-				}
-			}
-		}
-		*/
-		mod_Waila.log.log(Level.INFO, String.format("Registered %s entries from %s", nentries, filename));
 	}	
 	
 	public boolean hasDocTextModID(String modid){
@@ -340,33 +293,5 @@ public class ModuleRegistrar implements IWailaRegistrar {
 				return s;			
 		}
 		return null;
-	}
-	
-	private List<String[]> readFileAsString(String filePath) throws IOException {
-//		URL fileURL   = this.getClass().getResource(filePath);
-//		File filedata = new File(fileURL);
-//		Reader paramReader = new InputStreamReader(this.getClass().getResourceAsStream(filePath));
-		
-		InputStream in = getClass().getResourceAsStream(filePath);
-		BufferedReader input = new BufferedReader(new InputStreamReader(in));		
-		CSVReader reader = new CSVReader(input);
-		
-		List<String[]> myEntries = reader.readAll();
-		reader.close();
-		
-		return myEntries;
-		/*
-		StringBuffer fileData = new StringBuffer();
-        //BufferedReader reader = new BufferedReader(paramReader);
-		
-        char[] buf = new char[1024];
-        int numRead=0;
-        while((numRead=input.read(buf)) != -1){
-            String readData = String.valueOf(buf, 0, numRead);
-            fileData.append(readData);
-        }
-        input.close();
-        return fileData.toString();
-        */
 	}
 }

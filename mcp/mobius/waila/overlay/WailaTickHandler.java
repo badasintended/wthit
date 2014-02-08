@@ -5,6 +5,7 @@ import java.util.EnumSet;
 import java.util.List;
 
 import mcp.mobius.waila.api.impl.DataAccessor;
+import mcp.mobius.waila.api.impl.Layout;
 import mcp.mobius.waila.api.impl.MetaDataProvider;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -14,7 +15,6 @@ import net.minecraft.item.ItemBlockWithMetadata;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-import codechicken.nei.api.ItemInfo.Layout;
 import cpw.mods.fml.common.ITickHandler;
 import cpw.mods.fml.common.TickType;
 
@@ -44,7 +44,7 @@ public class WailaTickHandler implements ITickHandler {
 	@Override
 	public void tickEnd(EnumSet<TickType> type, Object... tickData) {
 		if(type.contains(TickType.RENDER)){
-			OverlayRenderer.renderOverlay(); 
+			OverlayRenderer.instance().renderOverlay(); 
 		}
 		
 		if(type.contains(TickType.CLIENT)){

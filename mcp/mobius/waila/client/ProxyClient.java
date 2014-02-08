@@ -24,7 +24,7 @@ import mcp.mobius.waila.gui.truetyper.FontLoader;
 import mcp.mobius.waila.gui.truetyper.TrueTypeFont;
 import mcp.mobius.waila.handlers.HUDHandlerWaila;
 import mcp.mobius.waila.handlers.SummaryProviderDefault;
-import mcp.mobius.waila.handlers.nei.TooltipHandlerWaila;
+//import mcp.mobius.waila.handlers.nei.TooltipHandlerWaila;
 import mcp.mobius.waila.overlay.WailaTickHandler;
 import mcp.mobius.waila.server.ProxyServer;
 import net.minecraft.block.Block;
@@ -60,7 +60,7 @@ public class ProxyClient extends ProxyServer {
 		
 		TickRegistry.registerTickHandler(WailaTickHandler.instance(), Side.CLIENT);		
 		
-		GuiContainerManager.addTooltipHandler(new TooltipHandlerWaila());
+		//GuiContainerManager.addTooltipHandler(new TooltipHandlerWaila());
 		
 		//API.registerHighlightHandler(new HUDHandlerExternal(), ItemInfo.Layout.HEADER);
 		//API.registerHighlightHandler(new HUDHandlerExternal(), ItemInfo.Layout.BODY);

@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Set;
 import java.util.logging.Level;
 
-import codechicken.core.CommonUtils;
 import cpw.mods.fml.client.registry.KeyBindingRegistry;
 import cpw.mods.fml.client.registry.KeyBindingRegistry.KeyHandler;
 import cpw.mods.fml.common.Loader;
@@ -120,7 +119,7 @@ public class ModIdentification {
 	public static String nameFromStack(ItemStack itemstack){
 		try{
 			String modID = itemMap.get(itemstack.itemID);
-			ModContainer mod = CommonUtils.findModContainer(modID);
+			ModContainer mod = ModIdentification.findModContainer(modID);
 			String modname = mod == null ? modID : mod.getName();		
 			return modname;
 		} catch (NullPointerException e){
@@ -138,4 +137,13 @@ public class ModIdentification {
 			return "";
 		}
 	}	
+	
+    public static ModContainer findModContainer(String modID)
+    {
+        for(ModContainer mc : Loader.instance().getModList())
+            if(modID.equals(mc.getModId()))
+                return mc;
+        
+        return null;
+    }	
 }

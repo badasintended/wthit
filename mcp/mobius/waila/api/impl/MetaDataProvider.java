@@ -14,7 +14,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-import codechicken.nei.api.ItemInfo.Layout;
 import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class MetaDataProvider{
