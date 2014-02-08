@@ -4,7 +4,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
 
-import codechicken.lib.lang.LangUtil;
 import net.minecraftforge.common.ForgeDirection;
 import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;

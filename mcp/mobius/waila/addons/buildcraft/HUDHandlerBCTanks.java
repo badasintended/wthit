@@ -3,20 +3,14 @@ package mcp.mobius.waila.addons.buildcraft;
 import java.util.List;
 import java.util.logging.Level;
 
+
 //import buildcraft.factory.TileTank;
-
-
-
-
-
-
-
-import codechicken.lib.lang.LangUtil;
 import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.impl.ConfigHandler;
+import mcp.mobius.waila.cbcore.LangUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;

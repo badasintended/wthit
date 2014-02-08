@@ -2,7 +2,6 @@ package mcp.mobius.waila.addons.openblocks;
 
 import java.util.List;
 
-import codechicken.lib.lang.LangUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
@@ -11,6 +10,7 @@ import net.minecraftforge.fluids.IFluidHandler;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
+import mcp.mobius.waila.cbcore.LangUtil;
 
 public class HUDHandlerTank implements IWailaDataProvider {
 

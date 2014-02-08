@@ -2,7 +2,6 @@ package mcp.mobius.waila.addons.vanillamc;
 
 import java.util.List;
 
-import codechicken.lib.lang.LangUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSilverfish;
 import net.minecraft.item.Item;
@@ -14,6 +13,7 @@ import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
+import mcp.mobius.waila.cbcore.LangUtil;
 
 public class HUDHandlerVanilla implements IWailaDataProvider {
 

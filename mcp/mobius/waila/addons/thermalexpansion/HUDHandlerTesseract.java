@@ -2,11 +2,11 @@ package mcp.mobius.waila.addons.thermalexpansion;
 
 import java.util.List;
 
-import codechicken.lib.lang.LangUtil;
 import net.minecraft.item.ItemStack;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
+import mcp.mobius.waila.cbcore.LangUtil;
 
 public class HUDHandlerTesseract implements IWailaDataProvider {
 
