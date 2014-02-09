@@ -4,9 +4,12 @@ import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 
+import java.io.IOException;
 import java.util.EnumMap;
 
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.nbt.CompressedStreamTools;
+import net.minecraft.nbt.NBTTagCompound;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.FMLEmbeddedChannel;
 import cpw.mods.fml.common.network.FMLIndexedMessageToMessageCodec;
@@ -78,5 +81,28 @@ public enum WailaPacketHandler {
     public void sendToServer(IWailaMessage message){
         channels.get(Side.CLIENT).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.TOSERVER);
         channels.get(Side.CLIENT).writeAndFlush(message).addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
+    }
+    
+    public void writeNBTTagCompoundToBuffer(ByteBuf target, NBTTagCompound tag) throws IOException{
+        if (tag == null)
+        	target.writeShort(-1);
+        else{
+            byte[] abyte = CompressedStreamTools.compress(tag);
+            target.writeShort((short)abyte.length);
+            target.writeBytes(abyte);
+        }
+    }
+
+    public NBTTagCompound readNBTTagCompoundFromBuffer(ByteBuf dat) throws IOException
+    {
+        short short1 = dat.readShort();
+
+        if (short1 < 0)
+            return null;
+        else{
+            byte[] abyte = new byte[short1];
+            dat.readBytes(abyte);
+            return CompressedStreamTools.decompress(abyte);
+        }
     }    
 }
