@@ -23,7 +23,7 @@ public class HUDHandlerConduitItem implements IWailaDataProvider {
 
 	@Override
 	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
-		
+		/*
 		if (!config.getConfig("thermalexpansion.conditemmode")) return currenttip;
 		
 		boolean found = false;
@@ -52,7 +52,7 @@ public class HUDHandlerConduitItem implements IWailaDataProvider {
 			currenttip.add("Mode : \u00a7fRound-Robin");			
 		else
 			currenttip.add("Mode : <UNKNOWN>");
-
+		*/
 		return currenttip;
 	}
 

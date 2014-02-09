@@ -1,7 +1,8 @@
 package mcp.mobius.waila.client;
 
 import mcp.mobius.waila.Constants;
-import mcp.mobius.waila.mod_Waila;
+import mcp.mobius.waila.cbcore.LangUtil;
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.addons.appeng.AppEngModule;
 import mcp.mobius.waila.addons.buildcraft.BCModule;
 import mcp.mobius.waila.addons.buildcraft.BCPowerAPIModule;
@@ -33,13 +34,8 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.input.Keyboard;
 
-import codechicken.lib.lang.LangUtil;
-import codechicken.nei.NEIClientConfig;
-import codechicken.nei.api.API;
-import codechicken.nei.api.ItemInfo;
-import codechicken.nei.forge.GuiContainerManager;
-import cpw.mods.fml.client.registry.KeyBindingRegistry;
-import cpw.mods.fml.common.registry.TickRegistry;
+//import cpw.mods.fml.client.registry.KeyBindingRegistry;
+//import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.Side;
 
 public class ProxyClient extends ProxyServer {
@@ -58,7 +54,7 @@ public class ProxyClient extends ProxyServer {
 		
 		minecraftiaFont = FontLoader.createFont(new ResourceLocation("waila", "fonts/Minecraftia.ttf"), 14, true);
 		
-		TickRegistry.registerTickHandler(WailaTickHandler.instance(), Side.CLIENT);		
+		//TickRegistry.registerTickHandler(WailaTickHandler.instance(), Side.CLIENT);		
 		
 		//GuiContainerManager.addTooltipHandler(new TooltipHandlerWaila());
 		
@@ -68,11 +64,11 @@ public class ProxyClient extends ProxyServer {
 		//API.registerHighlightHandler(new HUDHandlerWaila(),    ItemInfo.Layout.FOOTER);
 		//API.registerHighlightHandler(new HUDHandlerWaila(),    ItemInfo.Layout.HEADER);		
 		
-		KeyBindingRegistry.registerKeyBinding(new ConfigKeyHandler());
+		//KeyBindingRegistry.registerKeyBinding(new ConfigKeyHandler());
 		
 		// We mute the default keybind for displaying the tooltip
-		NEIClientConfig.getSetting(Constants.BIND_NEI_SHOW).setIntValue(Keyboard.KEY_NONE);
-		NEIClientConfig.getSetting(Constants.CFG_NEI_SHOW).setBooleanValue(false);
+		//NEIClientConfig.getSetting(Constants.BIND_NEI_SHOW).setIntValue(Keyboard.KEY_NONE);
+		//NEIClientConfig.getSetting(Constants.CFG_NEI_SHOW).setBooleanValue(false);
 		
 		//API.addKeyBind(Constants.BIND_WIKI, "Display wiki",          Keyboard.KEY_RSHIFT);
 		//API.addKeyBind(Constants.BIND_TECH, "Display techtree",      Keyboard.KEY_RSHIFT);

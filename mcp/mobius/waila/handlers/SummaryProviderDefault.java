@@ -8,8 +8,8 @@ import java.util.LinkedHashMap;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.item.EnumArmorMaterial;
-import net.minecraft.item.EnumToolMaterial;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
@@ -19,9 +19,9 @@ import mcp.mobius.waila.api.IWailaSummaryProvider;
 
 public class SummaryProviderDefault implements IWailaSummaryProvider {
 
-	public SummaryProviderDefault() {
-		// TODO Auto-generated constructor stub
-	}
+	//TODO : Redo the case for ItemBlocks
+	
+	public SummaryProviderDefault() {	}
 
 	@Override
 	public LinkedHashMap<String, String> getSummary(ItemStack stack, LinkedHashMap<String, String> currentSummary, IWailaConfigHandler config) {
@@ -47,9 +47,10 @@ public class SummaryProviderDefault implements IWailaSummaryProvider {
 				currentSummary.put("Enchant", 	 this.getArmorEnchantability(stack) != null?String.valueOf(this.getArmorEnchantability(stack)):null);				
 			}
 		} else {
+			/*
 			//We have an ItemBlock
 			ItemBlock itemBlock = (ItemBlock)stack.getItem();
-			Block     block     = Block.blocksList[itemBlock.getBlockID()];
+			Block     block     = itemBlock.getBlock();
 			try{currentSummary.put("Hardness", String.valueOf(block.getBlockHardness(Minecraft.getMinecraft().theWorld, 0, 0, 0)));} catch (Exception e){};
 			try{currentSummary.put("Resistance", String.valueOf(block.getExplosionResistance(null)));} catch (Exception e){};
 			
@@ -72,7 +73,8 @@ public class SummaryProviderDefault implements IWailaSummaryProvider {
 						for (int i=0; i < droppedStacks.size(); i++)
 							currentSummary.put(String.format("Sheared %s", i), droppedStacks.get(i).getDisplayName());
 				}
-			}catch (Exception e){System.out.printf("%s\n",e);};			
+			}catch (Exception e){System.out.printf("%s\n",e);};	
+			*/		
 		}
 		
 		
@@ -80,34 +82,34 @@ public class SummaryProviderDefault implements IWailaSummaryProvider {
 		return currentSummary;
 	}
 
-	public EnumToolMaterial getToolMaterial(ItemStack stack){
+	public Item.ToolMaterial getToolMaterial(ItemStack stack){
 		Class itemClass = stack.getItem().getClass();
-		EnumToolMaterial material = null;
+		Item.ToolMaterial material = null;
 		try{
 			Field getMaterial = this.findField(itemClass, "toolMaterial");
 			if (getMaterial != null){
 				getMaterial.setAccessible(true);
-				material = (EnumToolMaterial)(getMaterial.get(stack.getItem()));
+				material = (Item.ToolMaterial)(getMaterial.get(stack.getItem()));
 			}
 		} catch (Exception e){}		
 		return material;
 	}
 
-	public EnumArmorMaterial getArmorMaterial(ItemStack stack){
+	public ItemArmor.ArmorMaterial getArmorMaterial(ItemStack stack){
 		Class itemClass = stack.getItem().getClass();
-		EnumArmorMaterial material = null;
+		ItemArmor.ArmorMaterial material = null;
 		try{
 			Field getMaterial = this.findField(itemClass, "material");
 			if (getMaterial != null){
 				getMaterial.setAccessible(true);
-				material = (EnumArmorMaterial)(getMaterial.get(stack.getItem()));
+				material = (ItemArmor.ArmorMaterial)(getMaterial.get(stack.getItem()));
 			}
 		} catch (Exception e){}		
 		return material;
 	}	
 	
 	public String getToolMaterialName(ItemStack stack){
-		EnumToolMaterial material = this.getToolMaterial(stack);
+		Item.ToolMaterial material = this.getToolMaterial(stack);
 		if (material == null)
 			return null;
 		
@@ -123,7 +125,7 @@ public class SummaryProviderDefault implements IWailaSummaryProvider {
 	}
 
 	public String getArmorMaterialName(ItemStack stack){
-		EnumArmorMaterial material = this.getArmorMaterial(stack);
+		ItemArmor.ArmorMaterial material = this.getArmorMaterial(stack);
 		if (material == null)
 			return null;
 		
@@ -147,14 +149,14 @@ public class SummaryProviderDefault implements IWailaSummaryProvider {
 			Collections.addAll(effectiveBlocks, effectiveBlocksArray);
 			String effectiveAgainst = "";
 			
-			if (effectiveBlocks.contains(Block.obsidian))
-				effectiveAgainst = Block.obsidian.getLocalizedName();
-			else if (effectiveBlocks.contains(Block.stone))
-				effectiveAgainst = Block.stone.getLocalizedName();
-			else if (effectiveBlocks.contains(Block.dirt))
-				effectiveAgainst = Block.dirt.getLocalizedName();
-			else if (effectiveBlocks.contains(Block.wood))
-				effectiveAgainst = Block.wood.getLocalizedName();
+			if (effectiveBlocks.contains(Blocks.obsidian))
+				effectiveAgainst = Blocks.obsidian.getLocalizedName();
+			else if (effectiveBlocks.contains(Blocks.stone))
+				effectiveAgainst = Blocks.stone.getLocalizedName();
+			else if (effectiveBlocks.contains(Blocks.dirt))
+				effectiveAgainst = Blocks.dirt.getLocalizedName();
+			else if (effectiveBlocks.contains(Blocks.log))
+				effectiveAgainst = Blocks.log.getLocalizedName();
 	
 			return effectiveAgainst.equals("")?null:effectiveAgainst;
 		}catch (Exception e){}		
@@ -162,22 +164,22 @@ public class SummaryProviderDefault implements IWailaSummaryProvider {
 	}
 	
 	public Integer getHarvestLevel(ItemStack stack){
-		EnumToolMaterial material = this.getToolMaterial(stack);
+		Item.ToolMaterial material = this.getToolMaterial(stack);
 		return  material!=null?material.getHarvestLevel():null;
 	}
 	
 	public Float getEfficiencyOnProperMaterial(ItemStack stack){
-		EnumToolMaterial material = this.getToolMaterial(stack);
+		Item.ToolMaterial material = this.getToolMaterial(stack);
 		return  material!=null?material.getEfficiencyOnProperMaterial():null;
 	}	
 	
 	public Integer getToolEnchantability(ItemStack stack){
-		EnumToolMaterial material = this.getToolMaterial(stack);
+		Item.ToolMaterial material = this.getToolMaterial(stack);
 		return  material!=null?material.getEnchantability():null;
 	}
 	
 	public Float getDamageVsEntity(ItemStack stack){
-		EnumToolMaterial material = this.getToolMaterial(stack);
+		Item.ToolMaterial material = this.getToolMaterial(stack);
 		return  material!=null?material.getDamageVsEntity():null;	
 	}
 
@@ -194,7 +196,7 @@ public class SummaryProviderDefault implements IWailaSummaryProvider {
 	}
 
 	public Integer getArmorEnchantability(ItemStack stack){
-		EnumArmorMaterial material = this.getArmorMaterial(stack);
+		ItemArmor.ArmorMaterial material = this.getArmorMaterial(stack);
 		return  material!=null?material.getEnchantability():null;
 	}	
 	

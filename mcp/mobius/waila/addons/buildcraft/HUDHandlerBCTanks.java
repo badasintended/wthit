@@ -5,19 +5,19 @@ import java.util.logging.Level;
 
 
 //import buildcraft.factory.TileTank;
-import mcp.mobius.waila.mod_Waila;
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.cbcore.LangUtil;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
-import net.minecraftforge.liquids.ILiquidTank;
-import net.minecraftforge.liquids.LiquidStack;
+//import net.minecraftforge.liquids.ILiquidTank;
+//import net.minecraftforge.liquids.LiquidStack;
 
 public class HUDHandlerBCTanks implements IWailaDataProvider {
 
@@ -64,7 +64,7 @@ public class HUDHandlerBCTanks implements IWailaDataProvider {
 		try{
 			tank = ((FluidTankInfo[])BCModule.TileTank_getTankInfo.invoke(BCModule.TileTank.cast(accessor.getTileEntity()), ForgeDirection.UNKNOWN))[0];
 		} catch (Exception e){
-			mod_Waila.log.log(Level.SEVERE, "[BC] Unhandled exception trying to access a tank for display !.\n" + String.valueOf(e));
+			Waila.log.log(Level.SEVERE, "[BC] Unhandled exception trying to access a tank for display !.\n" + String.valueOf(e));
 			return null;
 		}
 		return tank;

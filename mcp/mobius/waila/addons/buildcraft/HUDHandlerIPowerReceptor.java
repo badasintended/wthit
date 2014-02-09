@@ -3,7 +3,7 @@ package mcp.mobius.waila.addons.buildcraft;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import mcp.mobius.waila.WailaExceptionHandler;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;

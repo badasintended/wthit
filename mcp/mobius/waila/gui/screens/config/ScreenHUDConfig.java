@@ -3,7 +3,7 @@ package mcp.mobius.waila.gui.screens.config;
 import org.lwjgl.util.Point;
 
 import mcp.mobius.waila.Constants;
-import mcp.mobius.waila.mod_Waila;
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.gui.events.MouseEvent;
 import mcp.mobius.waila.gui.interfaces.CType;
@@ -224,12 +224,12 @@ public class ScreenHUDConfig extends ScreenBase {
 				ConfigHandler.instance().setConfigInt(Constants.CFG_WAILA_ALPHA, (int)(this.getWidget("Layout").getWidget("Picture").getAlpha() * 100.0));
 				ConfigHandler.instance().setConfigInt(Constants.CFG_WAILA_SCALE, (int)(scale * 100.0));
 				
-				mod_Waila.alpha = ConfigHandler.instance().getConfigInt(Constants.CFG_WAILA_ALPHA);
-				mod_Waila.posX  = ConfigHandler.instance().getConfigInt(Constants.CFG_WAILA_POSX);
-				mod_Waila.posY  = ConfigHandler.instance().getConfigInt(Constants.CFG_WAILA_POSY);
-				mod_Waila.scale = ConfigHandler.instance().getConfigInt(Constants.CFG_WAILA_SCALE) / 100.0f;
+				Waila.alpha = ConfigHandler.instance().getConfigInt(Constants.CFG_WAILA_ALPHA);
+				Waila.posX  = ConfigHandler.instance().getConfigInt(Constants.CFG_WAILA_POSX);
+				Waila.posY  = ConfigHandler.instance().getConfigInt(Constants.CFG_WAILA_POSY);
+				Waila.scale = ConfigHandler.instance().getConfigInt(Constants.CFG_WAILA_SCALE) / 100.0f;
 				
-				mod_Waila.updateColors();
+				Waila.updateColors();
 			}
 			
 			if (srcwidget.equals(this.getWidget("ButtonDefault")) && signal == Signal.CLICKED){

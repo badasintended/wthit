@@ -4,19 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mcp.mobius.waila.WailaExceptionHandler;
-import mcp.mobius.waila.mod_Waila;
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IWailaBlock;
 import mcp.mobius.waila.api.IWailaDataProvider;
-import mcp.mobius.waila.network.Packet0x01TERequest;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class MetaDataProvider{
+	
+	//TODO : Redo the server side sync request
 	
 	private ArrayList<IWailaDataProvider>   headProviders = new ArrayList<IWailaDataProvider>();
 	private ArrayList<IWailaDataProvider>   bodyProviders = new ArrayList<IWailaDataProvider>();
@@ -26,7 +26,6 @@ public class MetaDataProvider{
 	
 	public ItemStack identifyHighlight(World world, EntityPlayer player, MovingObjectPosition mop, DataAccessor accessor) {
 		Block block   = accessor.getBlock();
-		int   blockID = accessor.getBlockID();
 		
 		if (IWailaBlock.class.isInstance(block)){
 			try{
@@ -36,8 +35,8 @@ public class MetaDataProvider{
 			}
 		}
 
-		if(ModuleRegistrar.instance().hasStackProviders(blockID)){
-			for (IWailaDataProvider dataProvider : ModuleRegistrar.instance().getStackProviders(blockID)){
+		if(ModuleRegistrar.instance().hasStackProviders(block)){
+			for (IWailaDataProvider dataProvider : ModuleRegistrar.instance().getStackProviders(block)){
 				try{
 					ItemStack retval = dataProvider.getWailaStack(accessor, ConfigHandler.instance());
 					if (retval != null)
@@ -52,17 +51,18 @@ public class MetaDataProvider{
 
 	public List<String> handleTextData(ItemStack itemStack, World world, EntityPlayer player, MovingObjectPosition mop, DataAccessor accessor, List<String> currenttip, Layout layout) {
 		Block block   = accessor.getBlock();
-		int   blockID = accessor.getBlockID();
 		
+		/*
 		if (accessor.getTileEntity() != null && mod_Waila.instance.serverPresent && 
 				((System.currentTimeMillis() - accessor.timeLastUpdate >= 250))){
 			accessor.timeLastUpdate = System.currentTimeMillis();
 			PacketDispatcher.sendPacketToServer(Packet0x01TERequest.create(world, mop));
 		}
+		*/
 
 		/* Interface IWailaBlock */
 		if (IWailaBlock.class.isInstance(block)){
-			TileEntity entity = world.getBlockTileEntity(mop.blockX, mop.blockY, mop.blockZ);
+			TileEntity entity = world.getTileEntity(mop.blockX, mop.blockY, mop.blockZ);
 			if (layout == Layout.HEADER)
 				try{				
 					return ((IWailaBlock)block).getWailaHead(itemStack, currenttip, accessor, ConfigHandler.instance());

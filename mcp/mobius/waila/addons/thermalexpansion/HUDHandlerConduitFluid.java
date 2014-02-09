@@ -26,7 +26,7 @@ public class HUDHandlerConduitFluid implements IWailaDataProvider {
 
 	@Override
 	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
-
+		/*
 		if (!config.getConfig("thermalexpansion.fluidtype")) return currenttip;
 		
 		boolean found   = false;
@@ -51,7 +51,7 @@ public class HUDHandlerConduitFluid implements IWailaDataProvider {
 			currenttip.add(fluid.getFluid().getLocalizedName());			
 		else
 			currenttip.add(LangUtil.translateG("hud.msg.empty"));
-		
+		*/
 		return currenttip;
 	}
 

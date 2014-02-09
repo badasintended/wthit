@@ -17,7 +17,7 @@ import java.awt.Dimension;
 import java.awt.Point;
 
 import mcp.mobius.waila.Constants;
-import mcp.mobius.waila.mod_Waila;
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.cbcore.GuiDraw;
 import mcp.mobius.waila.cbcore.ItemRenderer;
@@ -31,11 +31,13 @@ import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumMovingObjectType;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.client.ForgeHooksClient;
 
 public class OverlayRenderer {
 
+	//TODO : Readd entity name
+	
 	private static OverlayRenderer _instance;
 	private OverlayRenderer(){};
 	public static OverlayRenderer instance(){
@@ -52,24 +54,25 @@ public class OverlayRenderer {
         if(!(mc.currentScreen == null &&
              mc.theWorld != null &&
              mc.isGuiEnabled() &&
-             !mc.gameSettings.keyBindPlayerList.pressed &&
+             !mc.gameSettings.keyBindPlayerList.getIsKeyPressed() &&
              ConfigHandler.instance().getConfig(Constants.CFG_WAILA_SHOW, true) &&
              RayTracing.instance().getTarget()      != null))
         	return;
     
-        if (RayTracing.instance().getTarget().typeOfHit == EnumMovingObjectType.TILE && RayTracing.instance().getTargetStack() != null)
+        if (RayTracing.instance().getTarget().typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && RayTracing.instance().getTargetStack() != null)
         {
             renderOverlay(RayTracing.instance().getTargetStack(), WailaTickHandler.instance().currenttip, getPositioning());
         }
         
-        if (RayTracing.instance().getTarget().typeOfHit == EnumMovingObjectType.ENTITY)
+        if (RayTracing.instance().getTarget().typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY)
         {
         	Entity ent = RayTracing.instance().getTarget().entityHit;
         	String modName = getEntityMod(ent);
         	
         	List<String> textData = new ArrayList<String>();
         	try{
-        		textData.add("\u00a7f" + ent.getEntityName());
+        		//textData.add("\u00a7f" + ent.getEntityName());
+        		textData.add("\u00a7f" + "To be done");
         	} catch (Exception e){
         		textData.add("\u00a7f" + "Unknown");
         	}
@@ -105,11 +108,11 @@ public class OverlayRenderer {
     
     public void renderOverlay(ItemStack stack, List<String> textData, Point pos)
     {
-    	TrueTypeFont font = (TrueTypeFont)mod_Waila.proxy.getFont();
+    	TrueTypeFont font = (TrueTypeFont)Waila.proxy.getFont();
     	
     	GL11.glPushMatrix();
     	
-    	GL11.glScalef(mod_Waila.scale, mod_Waila.scale, 1.0f);
+    	GL11.glScalef(Waila.scale, Waila.scale, 1.0f);
     	
         int w = 0;
         for (String s : textData)
@@ -117,15 +120,15 @@ public class OverlayRenderer {
         int h = Math.max(24, 10 + 10*textData.size());
 
         Dimension size = GuiDraw.displaySize();
-        int x = ((int)(size.width / mod_Waila.scale)-w-1)*pos.x/10000;
-        int y = ((int)(size.height / mod_Waila.scale)-h-1)*pos.y/10000;
+        int x = ((int)(size.width / Waila.scale)-w-1)*pos.x/10000;
+        int y = ((int)(size.height / Waila.scale)-h-1)*pos.y/10000;
         
         GL11.glDisable(GL12.GL_RESCALE_NORMAL);
         RenderHelper.disableStandardItemLighting();
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_DEPTH_TEST);
         
-        drawTooltipBox(x, y, w, h, mod_Waila.bgcolor, mod_Waila.gradient1, mod_Waila.gradient2);
+        drawTooltipBox(x, y, w, h, Waila.bgcolor, Waila.gradient1, Waila.gradient2);
 
         int ty = (h-10*textData.size())/2;
         
@@ -133,7 +136,7 @@ public class OverlayRenderer {
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);     
         for (int i = 0; i < textData.size(); i++)
         	//FontHelper.drawString(textData.get(i), x + 24, y + ty + 10*i, font, 1.0f, 1.0f, new float[] {1.0f, 1.0f, 1.0f});
-        	GuiDraw.drawString(textData.get(i), x + 24, y + ty + 10*i, mod_Waila.fontcolor, true);
+        	GuiDraw.drawString(textData.get(i), x + 24, y + ty + 10*i, Waila.fontcolor, true);
         GL11.glDisable(GL11.GL_BLEND);
         
 
@@ -151,7 +154,7 @@ public class OverlayRenderer {
     {
     	GL11.glPushMatrix();    	
     	
-    	GL11.glScalef(mod_Waila.scale, mod_Waila.scale, 1.0f);    	
+    	GL11.glScalef(Waila.scale, Waila.scale, 1.0f);    	
     	
         int w = 0;
         for (String s : textData)
@@ -159,22 +162,22 @@ public class OverlayRenderer {
         int h = Math.max(24, 10 + 10*textData.size());
 
         Dimension size = GuiDraw.displaySize();
-        int x = ((int)(size.width / mod_Waila.scale)-w-1)*pos.x/10000;
-        int y = ((int)(size.height / mod_Waila.scale)-h-1)*pos.y/10000;
+        int x = ((int)(size.width / Waila.scale)-w-1)*pos.x/10000;
+        int y = ((int)(size.height / Waila.scale)-h-1)*pos.y/10000;
         
         GL11.glDisable(GL12.GL_RESCALE_NORMAL);
         RenderHelper.disableStandardItemLighting();
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_DEPTH_TEST);
         
-        drawTooltipBox(x, y, w, h, mod_Waila.bgcolor, mod_Waila.gradient1, mod_Waila.gradient2);
+        drawTooltipBox(x, y, w, h, Waila.bgcolor, Waila.gradient1, Waila.gradient2);
 
         int ty = (h-10*textData.size())/2;
 
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);         
         for (int i = 0; i < textData.size(); i++)
-        	GuiDraw.drawString(textData.get(i), x + 6, y + ty + 10*i, mod_Waila.fontcolor, true);
+        	GuiDraw.drawString(textData.get(i), x + 6, y + ty + 10*i, Waila.fontcolor, true);
         GL11.glDisable(GL11.GL_BLEND);
         
         //RenderHelper.enableGUIStandardItemLighting();

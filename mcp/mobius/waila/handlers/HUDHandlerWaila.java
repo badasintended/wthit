@@ -11,11 +11,14 @@ import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.tools.ModIdentification;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 public class HUDHandlerWaila implements IWailaDataProvider {
 
+	//TODO : Redo id:metadata ??
+	
 	@Override
 	public ItemStack getWailaStack(IWailaDataAccessor accessor,	IWailaConfigHandler config) {
 		return null;
@@ -38,7 +41,7 @@ public class HUDHandlerWaila implements IWailaDataProvider {
         {
         }
 
-        if(itemStack.getItem() == Item.redstone)
+        if(itemStack.getItem() == Items.redstone)
         {
             int md = accessor.getMetadata();
             String s = ""+md;
@@ -52,7 +55,7 @@ public class HUDHandlerWaila implements IWailaDataProvider {
 		else{
 			if (config.getConfig(Constants.CFG_WAILA_METADATA)){
 				name = currenttip.get(0);
-				currenttip.set(0, name + String.format(" %s:%s", accessor.getBlockID(), accessor.getMetadata()));
+				//currenttip.set(0, name + String.format(" %s:%s", accessor.getBlockID(), accessor.getMetadata()));
 			}
 		}		
 		return currenttip;
@@ -90,7 +93,7 @@ public class HUDHandlerWaila implements IWailaDataProvider {
         if(namelist.get(0) == null || namelist.get(0).equals(""))
             namelist.set(0, "Unnamed");
 
-        namelist.set(0, "\247"+Integer.toHexString(itemstack.getRarity().rarityColor)+namelist.get(0));
+        namelist.set(0, "\247"+Integer.toHexString(itemstack.getRarity().rarityColor.ordinal())+namelist.get(0));
         for(int i = 1; i < namelist.size(); i++)
             namelist.set(i, "\u00a77"+namelist.get(i));
 

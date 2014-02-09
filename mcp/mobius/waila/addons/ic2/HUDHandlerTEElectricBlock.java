@@ -15,7 +15,6 @@ public class HUDHandlerTEElectricBlock implements IWailaDataProvider {
 	@Override
 	public ItemStack getWailaStack(IWailaDataAccessor accessor,
 			IWailaConfigHandler config) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

@@ -3,9 +3,7 @@ package mcp.mobius.waila.gui.widgets.buttons;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Point;
 
-import net.minecraftforge.common.Configuration;
-import net.minecraftforge.common.Property;
-import mcp.mobius.waila.mod_Waila;
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.gui.events.MouseEvent;
 import mcp.mobius.waila.gui.helpers.UIHelper;
 import mcp.mobius.waila.gui.interfaces.IWidget;
@@ -19,7 +17,7 @@ public class ButtonBooleanConfigRemote extends ButtonBooleanConfig {
 	
 	public ButtonBooleanConfigRemote(IWidget parent, String configKey, boolean instant, boolean state_, String textFalse, String textTrue){
 		super(parent, configKey, instant, state_, textFalse, textTrue);
-		if (!mod_Waila.instance.serverPresent)
+		if (!Waila.instance.serverPresent)
 			this.state = false;
 		
 		if (this.state){
@@ -33,13 +31,13 @@ public class ButtonBooleanConfigRemote extends ButtonBooleanConfig {
 
 	@Override
 	public void onMouseClick(MouseEvent event){
-		if (mod_Waila.instance.serverPresent)
+		if (Waila.instance.serverPresent)
 			super.onMouseClick(event);
 	}	
 	
 	@Override
 	public void draw(Point pos) {
-		if (mod_Waila.instance.serverPresent)
+		if (Waila.instance.serverPresent)
 			super.draw(pos);		
 		else{
 			this.saveGLState();

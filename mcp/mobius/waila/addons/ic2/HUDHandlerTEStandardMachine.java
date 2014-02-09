@@ -13,9 +13,7 @@ import mcp.mobius.waila.cbcore.LangUtil;
 public class HUDHandlerTEStandardMachine implements IWailaDataProvider {
 
 	@Override
-	public ItemStack getWailaStack(IWailaDataAccessor accessor,
-			IWailaConfigHandler config) {
-		// TODO Auto-generated method stub
+	public ItemStack getWailaStack(IWailaDataAccessor accessor,	IWailaConfigHandler config) {
 		return null;
 	}
 

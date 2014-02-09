@@ -8,8 +8,8 @@ import java.util.SortedSet;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.Language;
-import net.minecraft.client.resources.Resource;
-import net.minecraft.client.resources.ResourceManager;
+import net.minecraft.client.resources.IResource;
+import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 import cpw.mods.fml.common.registry.LanguageRegistry;
@@ -81,11 +81,11 @@ public class LangUtil
     @SideOnly(Side.CLIENT)
     public LangUtil addLangDir(ResourceLocation dir)
     {
-        ResourceManager resManager = Minecraft.getMinecraft().getResourceManager();
+        IResourceManager resManager = Minecraft.getMinecraft().getResourceManager();
         for(Language lang : (SortedSet<Language>)Minecraft.getMinecraft().getLanguageManager().getLanguages())
         {
             String langID = lang.getLanguageCode();
-            Resource langRes;
+            IResource langRes;
             try
             {
                 langRes = resManager.getResource(new ResourceLocation(dir.getResourceDomain(), dir.getResourcePath()+'/'+langID+".lang"));

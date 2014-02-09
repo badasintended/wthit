@@ -12,7 +12,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 
 public class DataAccessor implements IWailaDataAccessor {
@@ -22,7 +22,7 @@ public class DataAccessor implements IWailaDataAccessor {
 	public MovingObjectPosition mop;
 	public Vec3 renderingvec = null;
 	public Block block;
-	public int blockID;
+	//public int blockID;
 	public int metadata;
 	public TileEntity entity;
 	public NBTTagCompound remoteNbt = null;
@@ -39,10 +39,11 @@ public class DataAccessor implements IWailaDataAccessor {
 		this.world    = _world;
 		this.player   = _player;
 		this.mop      = _mop;
-		this.blockID  = world.getBlockId(_mop.blockX, _mop.blockY, _mop.blockZ);
-		this.block    = Block.blocksList[this.blockID];
+		//this.blockID  = world.getBlockId(_mop.blockX, _mop.blockY, _mop.blockZ);
+		//this.block    = Block.blocksList[this.blockID];
+		this.block    = world.getBlock(_mop.blockX, _mop.blockY, _mop.blockZ);
 		this.metadata = world.getBlockMetadata(_mop.blockX, _mop.blockY, _mop.blockZ);
-		this.entity   = world.getBlockTileEntity(_mop.blockX, _mop.blockY, _mop.blockZ);
+		this.entity   = world.getTileEntity(_mop.blockX, _mop.blockY, _mop.blockZ);
 		
 		if (viewEntity != null){
 			double px = viewEntity.lastTickPosX + (viewEntity.posX - viewEntity.lastTickPosX) * partialTicks;
@@ -68,10 +69,12 @@ public class DataAccessor implements IWailaDataAccessor {
 		return this.block;
 	}
 
+	/*
 	@Override
 	public int getBlockID() {
 		return this.blockID;
-	}	
+	}
+	*/	
 	
 	@Override
 	public int getMetadata() {
@@ -82,9 +85,11 @@ public class DataAccessor implements IWailaDataAccessor {
 		this.block = block;
 	}
 
+	/*
 	public void setBlockID(int val) {
 		this.blockID = val;
-	}	
+	}
+	*/	
 	
 	public void setMetadata(int val) {
 		this.metadata = val;

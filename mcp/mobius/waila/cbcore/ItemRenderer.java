@@ -10,6 +10,7 @@ import java.util.HashSet;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderItem;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 
 import org.lwjgl.opengl.GL11;
@@ -59,15 +60,19 @@ public class ItemRenderer {
                 stackTraces.add(stackTrace);
             }
             
-            if(Tessellator.instance.isDrawing)
-                Tessellator.instance.draw();
-            drawItems.renderItemIntoGUI(fontRenderer, renderEngine, new ItemStack(51, 1, 0), i, j);
+            //if(Tessellator.instance.isDrawing)
+            Tessellator.instance.draw();
+            drawItems.renderItemIntoGUI(fontRenderer, renderEngine, new ItemStack(Blocks.fire, 1, 0), i, j);
         }
         drawItems.zLevel -= 100F;
         enable2DRender();
 
-        if(Tessellator.instance.isDrawing)
-            Tessellator.instance.draw();
+        //if(Tessellator.instance.isDrawing)
+        try{
+        	Tessellator.instance.draw();
+        } catch (Exception e){
+        	
+        }
     }
     
     public static void enable3DRender()

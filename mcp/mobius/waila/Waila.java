@@ -12,14 +12,13 @@ import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.cbcore.LangUtil;
 import mcp.mobius.waila.client.WailaClientEventHandler;
-import mcp.mobius.waila.network.WailaConnectionHandler;
-import mcp.mobius.waila.network.WailaPacketHandler;
+import mcp.mobius.waila.overlay.WailaTickHandler;
 import mcp.mobius.waila.server.ProxyServer;
 import mcp.mobius.waila.tools.ModIdentification;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.oredict.OreDictionary;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.FMLModContainer;
@@ -33,17 +32,15 @@ import cpw.mods.fml.common.event.FMLInterModComms.IMCMessage;
 import cpw.mods.fml.common.event.FMLLoadCompleteEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid="Waila", name="Waila", version="1.4.5", dependencies="required-after:NotEnoughItems")
-@NetworkMod(channels = {"Waila"},clientSideRequired=false, serverSideRequired=false, connectionHandler = WailaConnectionHandler.class, 
-			packetHandler = WailaPacketHandler.class, versionBounds="[1.3.0,)")
+//@Mod(modid="Waila", name="Waila", version="1.4.5", dependencies="required-after:NotEnoughItems")
+@Mod(modid="Waila", name="Waila", version="1.5.0_EXP")
 
-public class mod_Waila {
+public class Waila {
     // The instance of your mod that Forge uses.
 	@Instance("Waila")
-	public static mod_Waila instance;
+	public static Waila instance;
 
 	@SidedProxy(clientSide="mcp.mobius.waila.client.ProxyClient", serverSide="mcp.mobius.waila.server.ProxyServer")
 	public static ProxyServer proxy;	
@@ -88,17 +85,22 @@ public class mod_Waila {
 		
 		updateColors();
 		
-		MinecraftForge.EVENT_BUS.register(new WailaClientEventHandler());		
+
 	}	
 	
     @EventHandler
     public void initialize(FMLInitializationEvent event) {
+    	/*
         try {
             Field eBus = FMLModContainer.class.getDeclaredField("eventBus");
             eBus.setAccessible(true);
             EventBus FMLbus = (EventBus) eBus.get(FMLCommonHandler.instance().findContainerFor(this));
             FMLbus.register(this);
         } catch (Throwable t) {}
+        */
+        
+		MinecraftForge.EVENT_BUS.register(new WailaClientEventHandler());
+		FMLCommonHandler.instance().bus().register(WailaTickHandler.instance());        
 	}
 
     @EventHandler
@@ -109,9 +111,9 @@ public class mod_Waila {
         if (ConfigHandler.instance().getConfig(Constants.CFG_WAILA_KEYBIND)){
         
 	        for (String key: ModIdentification.keyhandlerStrings.keySet()){
-	        	String orig  = I18n.getString(key);
-	        	if (orig.equals(key))
-	        		orig = LanguageRegistry.instance().getStringLocalization(key);
+	        	//String orig  = I18n.getString(key);
+	        	//if (orig.equals(key))
+	        	String orig = LanguageRegistry.instance().getStringLocalization(key);
 	        	if (orig.equals(key))
 	        		orig = LangUtil.translateG(key);	        	
 	        	if (orig.isEmpty())
@@ -161,15 +163,15 @@ public class mod_Waila {
 			if (imcMessage.key.equalsIgnoreCase("addconfig")){
 				String[] params = imcMessage.getStringValue().split("\\$\\$");
 				if (params.length != 3){
-					mod_Waila.log.warning(String.format("Error while parsing config option from [ %s ] for %s", imcMessage.getSender(), imcMessage.getStringValue()));					
+					Waila.log.warning(String.format("Error while parsing config option from [ %s ] for %s", imcMessage.getSender(), imcMessage.getStringValue()));					
 					continue;
 				}
-				mod_Waila.log.info(String.format("Receiving config request from [ %s ] for %s", imcMessage.getSender(), imcMessage.getStringValue()));				
+				Waila.log.info(String.format("Receiving config request from [ %s ] for %s", imcMessage.getSender(), imcMessage.getStringValue()));				
 				ConfigHandler.instance().addConfig(params[0], params[1], params[2]);
 			}
 			
 			if (imcMessage.key.equalsIgnoreCase("register")){
-				mod_Waila.log.info(String.format("Receiving registration request from [ %s ] for method %s", imcMessage.getSender(), imcMessage.getStringValue()));
+				Waila.log.info(String.format("Receiving registration request from [ %s ] for method %s", imcMessage.getSender(), imcMessage.getStringValue()));
 				this.callbackRegistration(imcMessage.getStringValue(), imcMessage.getSender());
 			}
 		}
@@ -180,21 +182,21 @@ public class mod_Waila {
 		String methodName = splitName[splitName.length-1];
 		String className  = method.substring(0, method.length()-methodName.length()-1);
 		
-		mod_Waila.log.info(String.format("Trying to reflect %s %s", className, methodName));
+		Waila.log.info(String.format("Trying to reflect %s %s", className, methodName));
 		
 		try{
 			Class  reflectClass  = Class.forName(className);
 			Method reflectMethod = reflectClass.getDeclaredMethod(methodName, IWailaRegistrar.class);
 			reflectMethod.invoke(null, (IWailaRegistrar)ModuleRegistrar.instance());
 			
-			mod_Waila.log.info(String.format("Success in registering %s", modname));
+			Waila.log.info(String.format("Success in registering %s", modname));
 			
 		} catch (ClassNotFoundException e){
-			mod_Waila.log.warning(String.format("Could not find class %s", className));
+			Waila.log.warning(String.format("Could not find class %s", className));
 		} catch (NoSuchMethodException e){
-			mod_Waila.log.warning(String.format("Could not find method %s", methodName));
+			Waila.log.warning(String.format("Could not find method %s", methodName));
 		} catch (Exception e){
-			mod_Waila.log.warning(String.format("Exception while trying to access the method : %s", e.toString()));
+			Waila.log.warning(String.format("Exception while trying to access the method : %s", e.toString()));
 		}
 		
 	}

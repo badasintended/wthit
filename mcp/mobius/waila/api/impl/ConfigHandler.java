@@ -5,10 +5,10 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Set;
 
-import mcp.mobius.waila.mod_Waila;
+import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.common.config.Property;
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IWailaConfigHandler;
-import net.minecraftforge.common.Configuration;
-import net.minecraftforge.common.Property;
 
 public class ConfigHandler implements IWailaConfigHandler {
 
@@ -64,12 +64,12 @@ public class ConfigHandler implements IWailaConfigHandler {
 	
 	@Override
 	public boolean getConfig(String key, boolean defvalue){
-		mod_Waila.instance.config.load();
+		Waila.instance.config.load();
 		
-		if (this.serverconfigs.contains(key) && !mod_Waila.instance.serverPresent)
+		if (this.serverconfigs.contains(key) && !Waila.instance.serverPresent)
 			return false;
 		
-		Property prop = mod_Waila.instance.config.get(Configuration.CATEGORY_GENERAL, key, defvalue);
+		Property prop = Waila.instance.config.get(Configuration.CATEGORY_GENERAL, key, defvalue);
 		return prop.getBoolean(defvalue);		
 	}
 	
@@ -83,21 +83,21 @@ public class ConfigHandler implements IWailaConfigHandler {
 	}
 	
 	public int getConfigInt(String key){
-		mod_Waila.instance.config.load();
-		Property prop = mod_Waila.instance.config.get(Configuration.CATEGORY_GENERAL, key, 0);
+		Waila.instance.config.load();
+		Property prop = Waila.instance.config.get(Configuration.CATEGORY_GENERAL, key, 0);
 		return prop.getInt();			
 	}
 	
 	@Override
 	public void setConfig(String key, boolean value){
-		mod_Waila.instance.config.load();
-		mod_Waila.instance.config.get(Configuration.CATEGORY_GENERAL, key, true).set(value);;
-		mod_Waila.instance.config.save();
+		Waila.instance.config.load();
+		Waila.instance.config.get(Configuration.CATEGORY_GENERAL, key, true).set(value);;
+		Waila.instance.config.save();
 	}
 	
 	public void setConfigInt(String key, int value){
-		mod_Waila.instance.config.load();
-		mod_Waila.instance.config.get(Configuration.CATEGORY_GENERAL, key, 0).set(value);;
-		mod_Waila.instance.config.save();		
+		Waila.instance.config.load();
+		Waila.instance.config.get(Configuration.CATEGORY_GENERAL, key, 0).set(value);;
+		Waila.instance.config.save();		
 	}
 }

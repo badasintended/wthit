@@ -8,37 +8,28 @@ import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.gui.screens.config.ScreenConfig;
 //import mcp.mobius.waila.gui.screens.info.ScreenEnchants;
 //import mcp.mobius.waila.handlers.nei.HandlerEnchants;
-import mcp.mobius.waila.overlay.RayTracing;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.inventory.GuiInventory;
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumMovingObjectType;
-
-import org.lwjgl.input.Keyboard;
-
 //import codechicken.lib.lang.LangUtil;
 //import codechicken.nei.api.API;
 //import codechicken.nei.forge.GuiContainerManager;
 //import codechicken.nei.recipe.GuiCraftingRecipe;
 //import codechicken.nei.recipe.GuiUsageRecipe;
-import cpw.mods.fml.client.registry.KeyBindingRegistry.KeyHandler;
-import cpw.mods.fml.common.TickType;
-import cpw.mods.fml.common.registry.LanguageRegistry;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.settings.KeyBinding;
+import org.lwjgl.input.Keyboard;
 
-public class ConfigKeyHandler extends KeyHandler {
+public class ConfigKeyHandler {
 
 	static boolean firstInventory = true;
 	
+	/*
     public ConfigKeyHandler()
     {
         super(new KeyBinding[]{
-                new KeyBinding(Constants.BIND_WAILA_CFG,     Keyboard.KEY_NUMPAD0),
-                new KeyBinding(Constants.BIND_WAILA_SHOW,    Keyboard.KEY_NUMPAD1),
-                new KeyBinding(Constants.BIND_WAILA_LIQUID,  Keyboard.KEY_NUMPAD2),
-                new KeyBinding(Constants.BIND_WAILA_RECIPE,  Keyboard.KEY_NUMPAD3),
-                new KeyBinding(Constants.BIND_WAILA_USAGE,   Keyboard.KEY_NUMPAD4),
+                new KeyBinding(Constants.BIND_WAILA_CFG,     Keyboard.KEY_NUMPAD0, "Waila"),
+                new KeyBinding(Constants.BIND_WAILA_SHOW,    Keyboard.KEY_NUMPAD1, "Waila"),
+                new KeyBinding(Constants.BIND_WAILA_LIQUID,  Keyboard.KEY_NUMPAD2, "Waila"),
+                new KeyBinding(Constants.BIND_WAILA_RECIPE,  Keyboard.KEY_NUMPAD3, "Waila"),
+                new KeyBinding(Constants.BIND_WAILA_USAGE,   Keyboard.KEY_NUMPAD4, "Waila"),
                 //new KeyBinding(Constants.BIND_WAILA_TESTING, Keyboard.KEY_NUMPAD9),
             }, new boolean[]{
                 false,
@@ -49,14 +40,14 @@ public class ConfigKeyHandler extends KeyHandler {
                 //false
             });
         
-
-        
 		//GuiContainerManager.addInputHandler(new HandlerEnchants());
 		//API.addKeyBind(Constants.BIND_SCREEN_ENCH, Keyboard.KEY_I);        
     }
+     */
 
-	@Override
+	/*    
 	public void keyDown(EnumSet<TickType> types, KeyBinding kb,	boolean tickEnd, boolean isRepeat) {
+
 		if (!tickEnd) return;
 		Minecraft mc = Minecraft.getMinecraft();
 		if (kb.keyDescription == Constants.BIND_WAILA_CFG){
@@ -65,10 +56,8 @@ public class ConfigKeyHandler extends KeyHandler {
 		}
 
 		if (kb.keyDescription == Constants.BIND_WAILA_TESTING){
-			/*
 			if(mc.currentScreen == null)
 				mc.displayGuiScreen(new ScreenEnchants(mc.currentScreen));
-			*/
 		}		
 		
 		if (mc.currentScreen != null)
@@ -95,9 +84,8 @@ public class ConfigKeyHandler extends KeyHandler {
 		else if (kb.keyDescription == Constants.BIND_WAILA_USAGE){ 
 			this.openRecipeGUI(false);
 		}
-			
-		
 	}
+	*/
 
 	public void openRecipeGUI(boolean recipe){
 		/*
@@ -140,6 +128,7 @@ public class ConfigKeyHandler extends KeyHandler {
 		*/
 	}
 	
+	/*
 	@Override
 	public void keyUp(EnumSet<TickType> types, KeyBinding kb, boolean tickEnd) {
 		if (!tickEnd) return;
@@ -156,6 +145,7 @@ public class ConfigKeyHandler extends KeyHandler {
 	@Override
 	public String getLabel() {
 		return "Waila Config Screen Keybind";
-	}	
+	}
+	*/	
 	
 }

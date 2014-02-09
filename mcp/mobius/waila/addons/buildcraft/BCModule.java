@@ -3,9 +3,9 @@ package mcp.mobius.waila.addons.buildcraft;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
 
-import mcp.mobius.waila.mod_Waila;
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 
 public class BCModule {
 
@@ -20,9 +20,9 @@ public class BCModule {
 	public static void register(){
 		try {
 			Class ModBuildcraftFactory = Class.forName("buildcraft.BuildCraftFactory");
-			mod_Waila.log.log(Level.INFO, "Buildcraft|Factory mod found.");
+			Waila.log.log(Level.INFO, "Buildcraft|Factory mod found.");
 		} catch (ClassNotFoundException e){
-			mod_Waila.log.log(Level.INFO, "Buildcraft|Factory mod not found. Skipping.");	
+			Waila.log.log(Level.INFO, "Buildcraft|Factory mod not found. Skipping.");	
 			return;
 		}		
 		
@@ -31,10 +31,10 @@ public class BCModule {
 			TileTank_getTankInfo      = TileTank.getMethod("getTankInfo", ForgeDirection.class);
 			
 		} catch (ClassNotFoundException e){
-			mod_Waila.log.log(Level.WARNING, "[BC] Class not found. " + e);
+			Waila.log.log(Level.WARNING, "[BC] Class not found. " + e);
 			return;
 		} catch (NoSuchMethodException e){
-			mod_Waila.log.log(Level.WARNING, "[BC] Method not found." + e);
+			Waila.log.log(Level.WARNING, "[BC] Method not found." + e);
 			return;	
 		}
 		

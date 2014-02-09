@@ -12,7 +12,7 @@ import java.util.logging.Level;
 
 //import au.com.bytecode.opencsv.CSVReader;
 import net.minecraft.block.Block;
-import mcp.mobius.waila.mod_Waila;
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IWailaBlockDecorator;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaRegistrar;
@@ -25,14 +25,13 @@ public class ModuleRegistrar implements IWailaRegistrar {
 	//public LinkedHashMap<Integer, ArrayList<IWailaDataProvider>> headProviders  = new LinkedHashMap<Integer, ArrayList<IWailaDataProvider>>();
 	//public LinkedHashMap<Integer, ArrayList<IWailaDataProvider>> bodyProviders  = new LinkedHashMap<Integer, ArrayList<IWailaDataProvider>>();
 	//public LinkedHashMap<Integer, ArrayList<IWailaDataProvider>> tailProviders  = new LinkedHashMap<Integer, ArrayList<IWailaDataProvider>>();	
-	public LinkedHashMap<Integer, ArrayList<IWailaDataProvider>> stackProviders = new LinkedHashMap<Integer, ArrayList<IWailaDataProvider>>();	
+	//public LinkedHashMap<Integer, ArrayList<IWailaDataProvider>> stackProviders = new LinkedHashMap<Integer, ArrayList<IWailaDataProvider>>();	
 
 	public LinkedHashMap<Class, ArrayList<IWailaDataProvider>> headBlockProviders  = new LinkedHashMap<Class, ArrayList<IWailaDataProvider>>();
 	public LinkedHashMap<Class, ArrayList<IWailaDataProvider>> bodyBlockProviders  = new LinkedHashMap<Class, ArrayList<IWailaDataProvider>>();
 	public LinkedHashMap<Class, ArrayList<IWailaDataProvider>> tailBlockProviders  = new LinkedHashMap<Class, ArrayList<IWailaDataProvider>>();	
-	//public LinkedHashMap<Class, ArrayList<IWailaDataProvider>> stackBlockProviders = new LinkedHashMap<Class, ArrayList<IWailaDataProvider>>();	
+	public LinkedHashMap<Class, ArrayList<IWailaDataProvider>> stackBlockProviders = new LinkedHashMap<Class, ArrayList<IWailaDataProvider>>();	
 	
-	public LinkedHashMap<Integer, ArrayList<IWailaBlockDecorator>> blockIdDecorators    = new LinkedHashMap<Integer, ArrayList<IWailaBlockDecorator>>();
 	public LinkedHashMap<Class,   ArrayList<IWailaBlockDecorator>> blockClassDecorators = new LinkedHashMap<Class,   ArrayList<IWailaBlockDecorator>>();	
 	
 	public LinkedHashMap<String, LinkedHashMap <String, LinkedHashMap <String, String>>> wikiDescriptions = new LinkedHashMap<String, LinkedHashMap <String, LinkedHashMap <String, String>>>();
@@ -70,11 +69,6 @@ public class ModuleRegistrar implements IWailaRegistrar {
 	}	
 	
 	@Override
-	public void registerHeadProvider(IWailaDataProvider dataProvider, int blockID) {
-		this.registerHeadProvider(dataProvider, Block.blocksList[blockID].getClass());
-	}
-
-	@Override
 	public void registerHeadProvider(IWailaDataProvider dataProvider, Class block) {
 		if (!this.headBlockProviders.containsKey(block))
 			this.headBlockProviders.put(block, new ArrayList<IWailaDataProvider>());
@@ -85,11 +79,6 @@ public class ModuleRegistrar implements IWailaRegistrar {
 		this.headBlockProviders.get(block).add(dataProvider);		
 	}	
 	
-	@Override
-	public void registerBodyProvider(IWailaDataProvider dataProvider, int blockID) {
-		this.registerBodyProvider(dataProvider, Block.blocksList[blockID].getClass());		
-	}
-
 	@Override
 	public void registerBodyProvider(IWailaDataProvider dataProvider, Class block) {
 		if (!this.bodyBlockProviders.containsKey(block))
@@ -102,11 +91,6 @@ public class ModuleRegistrar implements IWailaRegistrar {
 	}	
 	
 	@Override
-	public void registerTailProvider(IWailaDataProvider dataProvider, int blockID) {
-		this.registerTailProvider(dataProvider, Block.blocksList[blockID].getClass());			
-	}	
-
-	@Override
 	public void registerTailProvider(IWailaDataProvider dataProvider, Class block) {
 		if (!this.tailBlockProviders.containsKey(block))
 			this.tailBlockProviders.put(block, new ArrayList<IWailaDataProvider>());
@@ -118,18 +102,14 @@ public class ModuleRegistrar implements IWailaRegistrar {
 	}		
 	
 	@Override
-	public void registerStackProvider(IWailaDataProvider dataProvider, int blockID) {
-		if (!this.stackProviders.containsKey(blockID))
-			this.stackProviders.put(blockID, new ArrayList<IWailaDataProvider>());
-		this.stackProviders.get(blockID).add(dataProvider);
-	}	
-
-	@Override
 	public void registerStackProvider(IWailaDataProvider dataProvider, Class block) {
-		for (int i = 0; i < Block.blocksList.length; i++)
-			if (block.isInstance(Block.blocksList[i])){
-				this.registerStackProvider(dataProvider, i);
-			}
+		if (!this.stackBlockProviders.containsKey(block))
+			this.stackBlockProviders.put(block, new ArrayList<IWailaDataProvider>());
+		
+		ArrayList<IWailaDataProvider> providers = this.stackBlockProviders.get(block);
+		if (providers.contains(dataProvider)) return;		
+		
+		this.stackBlockProviders.get(block).add(dataProvider);
 	}		
 
 	@Override
@@ -139,13 +119,6 @@ public class ModuleRegistrar implements IWailaRegistrar {
 		this.summaryProviders.get(item).add(dataProvider);		
 	}	
 	
-	@Override
-	public void registerBlockDecorator(IWailaBlockDecorator decorator, int blockID) {
-		if (!this.blockIdDecorators.containsKey(blockID))
-			this.blockIdDecorators.put(blockID, new ArrayList<IWailaBlockDecorator>());
-		this.blockIdDecorators.get(blockID).add(decorator);		
-	}
-
 	@Override
 	public void registerBlockDecorator(IWailaBlockDecorator decorator,	Class block) {
 		if (!this.blockClassDecorators.containsKey(block))
@@ -180,8 +153,13 @@ public class ModuleRegistrar implements IWailaRegistrar {
 		return returnList;
 	}	
 
-	public ArrayList<IWailaDataProvider> getStackProviders(int blockID) {
-		return this.stackProviders.get(blockID);
+	public ArrayList<IWailaDataProvider> getStackProviders(Object block) {
+		ArrayList<IWailaDataProvider> returnList = new ArrayList<IWailaDataProvider>();
+		for (Class clazz : this.stackBlockProviders.keySet())
+			if (clazz.isInstance(block))
+				returnList.addAll(this.stackBlockProviders.get(clazz));
+				
+		return returnList;
 	}	
 
 	public ArrayList<IWailaSummaryProvider> getSummaryProvider(Object item){
@@ -192,10 +170,6 @@ public class ModuleRegistrar implements IWailaRegistrar {
 				
 		return returnList;
 	}	
-	
-	public ArrayList<IWailaBlockDecorator> getBlockDecorators(int blockID){
-		return this.blockIdDecorators.get(blockID);		
-	}
 
 	public ArrayList<IWailaBlockDecorator> getBlockDecorators(Object block){
 		ArrayList<IWailaBlockDecorator> returnList = new ArrayList<IWailaBlockDecorator>();
@@ -206,8 +180,11 @@ public class ModuleRegistrar implements IWailaRegistrar {
 		return returnList;		
 	}	
 	
-	public boolean hasStackProviders(int blockID){
-		return this.stackProviders.containsKey(blockID);
+	public boolean hasStackProviders(Object block){
+		for (Class clazz : this.stackBlockProviders.keySet())
+			if (clazz.isInstance(block))
+				return true;
+		return false;
 	}	
 	
 	public boolean hasHeadProviders(Object block){
@@ -235,10 +212,6 @@ public class ModuleRegistrar implements IWailaRegistrar {
 		return this.summaryProviders.containsKey(item);
 	}	
 	
-	public boolean hasBlockDecorator(int blockID){
-		return this.blockIdDecorators.containsKey(blockID);
-	}
-
 	public boolean hasBlockDecorator(Object block){
 		for (Class clazz : this.blockClassDecorators.keySet())
 			if (clazz.isInstance(block))

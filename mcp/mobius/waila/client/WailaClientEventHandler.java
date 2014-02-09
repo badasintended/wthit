@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 import org.lwjgl.opengl.GL11;
 
+import cpw.mods.fml.common.Mod.EventHandler;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import mcp.mobius.waila.WailaExceptionHandler;
@@ -19,13 +22,13 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
-import net.minecraftforge.event.ForgeSubscribe;
 
 public class WailaClientEventHandler {
 
-	@ForgeSubscribe
+	@SubscribeEvent
     @SideOnly(Side.CLIENT)
     public void onRenderWorldLast(RenderWorldLastEvent event) {	
+		
 		if (RayTracing.instance().getTarget() == null || RayTracing.instance().getTargetStack() == null) return;
 		
 		double partialTicks = event.partialTicks;
@@ -40,9 +43,8 @@ public class WailaClientEventHandler {
 		accessor.set(world, player, RayTracing.instance().getTarget(), viewEntity, partialTicks);		
 
 		Block block   = accessor.getBlock();
-		int   blockID = accessor.getBlockID();
 
-		if (!ModuleRegistrar.instance().hasBlockDecorator(blockID) && !ModuleRegistrar.instance().hasBlockDecorator(block)) return;
+		if (!ModuleRegistrar.instance().hasBlockDecorator(block) && !ModuleRegistrar.instance().hasBlockDecorator(block)) return;
 		
         GL11.glPushAttrib(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
         GL11.glDisable(GL11.GL_TEXTURE_2D);
@@ -50,8 +52,8 @@ public class WailaClientEventHandler {
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         GL11.glDepthMask(false);		
 		
-		if (ModuleRegistrar.instance().hasBlockDecorator(blockID)){
-			for (IWailaBlockDecorator decorator : ModuleRegistrar.instance().getBlockDecorators(blockID))
+		if (ModuleRegistrar.instance().hasBlockDecorator(block)){
+			for (IWailaBlockDecorator decorator : ModuleRegistrar.instance().getBlockDecorators(block))
 				try{
 					GL11.glPushMatrix();
 					decorator.decorateBlock(RayTracing.instance().getTargetStack(), accessor, ConfigHandler.instance());

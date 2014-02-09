@@ -13,6 +13,8 @@ import mcp.mobius.waila.cbcore.LangUtil;
 
 public class HUDHandlerTETradeOMat implements IWailaDataProvider {
 
+	//TODO : Well, redo the damn class, that's it.
+	
 	@Override
 	public ItemStack getWailaStack(IWailaDataAccessor accessor,	IWailaConfigHandler config) {
 		return null;
@@ -25,7 +27,7 @@ public class HUDHandlerTETradeOMat implements IWailaDataProvider {
 
 	@Override
 	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
-		
+		/*
 		if (!ConfigHandler.instance().getConfig("ic2.tradeomat")) return currenttip;
 		
 		NBTTagCompound slots = accessor.getNBTData().getCompoundTag("InvSlots");
@@ -46,7 +48,7 @@ public class HUDHandlerTETradeOMat implements IWailaDataProvider {
 			ItemStack is = new ItemStack(subtag.getShort("id"), subtag.getByte("Count"), subtag.getShort("Damage"));
 			currenttip.add(String.format("%s : \u00a7f%d\u00a7r x \u00a7f%s\u00a7r", demandsStr, is.stackSize, is.getDisplayName()));
 		}		
-		
+		*/
 		return currenttip;
 	}
 
