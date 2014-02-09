@@ -6,15 +6,21 @@ import java.util.List;
 
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 import cpw.mods.fml.common.gameevent.TickEvent;
+import cpw.mods.fml.common.network.FMLOutboundHandler;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.impl.DataAccessor;
 import mcp.mobius.waila.api.impl.Layout;
 import mcp.mobius.waila.api.impl.MetaDataProvider;
+import mcp.mobius.waila.network.Message0x00ServerPing;
+import mcp.mobius.waila.network.WailaPacketHandler;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemBlockWithMetadata;
@@ -71,5 +77,10 @@ public class WailaTickHandler {
 				}
 			}
 		}
+	}
+	
+	@SubscribeEvent
+	public void onPlayerLoggedIn(PlayerLoggedInEvent event){
+		WailaPacketHandler.INSTANCE.sendTo(new Message0x00ServerPing(), (EntityPlayerMP)event.player);
 	}
 }

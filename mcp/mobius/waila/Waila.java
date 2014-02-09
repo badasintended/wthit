@@ -32,7 +32,9 @@ import cpw.mods.fml.common.event.FMLInterModComms.IMCMessage;
 import cpw.mods.fml.common.event.FMLLoadCompleteEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import cpw.mods.fml.common.registry.LanguageRegistry;
+import cpw.mods.fml.relauncher.Side;
 
 //@Mod(modid="Waila", name="Waila", version="1.4.5", dependencies="required-after:NotEnoughItems")
 @Mod(modid="Waila", name="Waila", version="1.5.0_EXP")
@@ -57,6 +59,8 @@ public class Waila {
 	public static int gradient2;
 	public static int fontcolor;
 	public static float scale;
+	
+	//public SimpleNetworkWrapper network = new SimpleNetworkWrapper("Waila");
 	
     /* INIT SEQUENCE */
     @EventHandler
@@ -90,17 +94,17 @@ public class Waila {
 	
     @EventHandler
     public void initialize(FMLInitializationEvent event) {
-    	/*
         try {
             Field eBus = FMLModContainer.class.getDeclaredField("eventBus");
             eBus.setAccessible(true);
             EventBus FMLbus = (EventBus) eBus.get(FMLCommonHandler.instance().findContainerFor(this));
             FMLbus.register(this);
         } catch (Throwable t) {}
-        */
         
 		MinecraftForge.EVENT_BUS.register(new WailaClientEventHandler());
-		FMLCommonHandler.instance().bus().register(WailaTickHandler.instance());        
+		FMLCommonHandler.instance().bus().register(WailaTickHandler.instance());  
+		
+		//network.registerMessage(ServerPingHandler.class, ServerPingMessage.class, 0, Side.CLIENT);
 	}
 
     @EventHandler

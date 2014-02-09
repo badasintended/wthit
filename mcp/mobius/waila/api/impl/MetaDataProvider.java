@@ -7,6 +7,8 @@ import mcp.mobius.waila.WailaExceptionHandler;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IWailaBlock;
 import mcp.mobius.waila.api.IWailaDataProvider;
+import mcp.mobius.waila.network.Message0x01TERequest;
+import mcp.mobius.waila.network.WailaPacketHandler;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -52,13 +54,12 @@ public class MetaDataProvider{
 	public List<String> handleTextData(ItemStack itemStack, World world, EntityPlayer player, MovingObjectPosition mop, DataAccessor accessor, List<String> currenttip, Layout layout) {
 		Block block   = accessor.getBlock();
 		
-		/*
-		if (accessor.getTileEntity() != null && mod_Waila.instance.serverPresent && 
+		if (accessor.getTileEntity() != null && Waila.instance.serverPresent && 
 				((System.currentTimeMillis() - accessor.timeLastUpdate >= 250))){
 			accessor.timeLastUpdate = System.currentTimeMillis();
-			PacketDispatcher.sendPacketToServer(Packet0x01TERequest.create(world, mop));
+			WailaPacketHandler.INSTANCE.sendToServer(new Message0x01TERequest(accessor.getTileEntity()));
 		}
-		*/
+
 
 		/* Interface IWailaBlock */
 		if (IWailaBlock.class.isInstance(block)){
