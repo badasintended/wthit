@@ -18,8 +18,6 @@ import net.minecraft.world.World;
 
 public class MetaDataProvider{
 	
-	//TODO : Redo the server side sync request
-	
 	private ArrayList<IWailaDataProvider>   headProviders = new ArrayList<IWailaDataProvider>();
 	private ArrayList<IWailaDataProvider>   bodyProviders = new ArrayList<IWailaDataProvider>();
 	private ArrayList<IWailaDataProvider>   tailProviders = new ArrayList<IWailaDataProvider>();

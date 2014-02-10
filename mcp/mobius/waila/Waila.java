@@ -11,8 +11,10 @@ import mcp.mobius.waila.api.IWailaRegistrar;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.cbcore.LangUtil;
-import mcp.mobius.waila.client.WailaClientEventHandler;
-import mcp.mobius.waila.overlay.WailaTickHandler;
+import mcp.mobius.waila.events.DecoratorRenderer;
+import mcp.mobius.waila.events.KeyHandler;
+import mcp.mobius.waila.events.NetworkHandler;
+import mcp.mobius.waila.events.TickHandler;
 import mcp.mobius.waila.server.ProxyServer;
 import mcp.mobius.waila.tools.ModIdentification;
 import net.minecraft.client.resources.I18n;
@@ -101,8 +103,13 @@ public class Waila {
             FMLbus.register(this);
         } catch (Throwable t) {}
         
-		MinecraftForge.EVENT_BUS.register(new WailaClientEventHandler());
-		FMLCommonHandler.instance().bus().register(WailaTickHandler.instance());  
+        if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT){
+        	MinecraftForge.EVENT_BUS.register(new DecoratorRenderer());
+    		FMLCommonHandler.instance().bus().register(new KeyHandler());
+    		FMLCommonHandler.instance().bus().register(TickHandler.instance());        	
+        }
+		FMLCommonHandler.instance().bus().register(new NetworkHandler());
+
 		
 		//network.registerMessage(ServerPingHandler.class, ServerPingMessage.class, 0, Side.CLIENT);
 	}
@@ -112,6 +119,7 @@ public class Waila {
 		proxy.registerHandlers();
     	ModIdentification.init();
         
+    	/*
         if (ConfigHandler.instance().getConfig(Constants.CFG_WAILA_KEYBIND)){
         
 	        for (String key: ModIdentification.keyhandlerStrings.keySet()){
@@ -144,6 +152,7 @@ public class Waila {
 	        	LanguageRegistry.instance().addStringLocalization(key, modif);
 	        }
         }
+        */
         
 	}
 

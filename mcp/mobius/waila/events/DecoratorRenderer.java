@@ -1,4 +1,4 @@
-package mcp.mobius.waila.client;
+package mcp.mobius.waila.events;
 
 import java.util.ArrayList;
 
@@ -23,7 +23,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 
-public class WailaClientEventHandler {
+public class DecoratorRenderer {
 
 	@SubscribeEvent
     @SideOnly(Side.CLIENT)

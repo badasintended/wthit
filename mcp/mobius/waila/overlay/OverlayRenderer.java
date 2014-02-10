@@ -21,6 +21,7 @@ import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.cbcore.GuiDraw;
 import mcp.mobius.waila.cbcore.ItemRenderer;
+import mcp.mobius.waila.events.TickHandler;
 import mcp.mobius.waila.gui.truetyper.TrueTypeFont;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -61,7 +62,7 @@ public class OverlayRenderer {
     
         if (RayTracing.instance().getTarget().typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && RayTracing.instance().getTargetStack() != null)
         {
-            renderOverlay(RayTracing.instance().getTargetStack(), WailaTickHandler.instance().currenttip, getPositioning());
+            renderOverlay(RayTracing.instance().getTargetStack(), TickHandler.instance().currenttip, getPositioning());
         }
         
         if (RayTracing.instance().getTarget().typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY)

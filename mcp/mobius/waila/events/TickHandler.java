@@ -1,4 +1,4 @@
-package mcp.mobius.waila.overlay;
+package mcp.mobius.waila.events;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -17,6 +17,8 @@ import mcp.mobius.waila.api.impl.Layout;
 import mcp.mobius.waila.api.impl.MetaDataProvider;
 import mcp.mobius.waila.network.Message0x00ServerPing;
 import mcp.mobius.waila.network.WailaPacketHandler;
+import mcp.mobius.waila.overlay.OverlayRenderer;
+import mcp.mobius.waila.overlay.RayTracing;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -28,7 +30,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
-public class WailaTickHandler {
+public class TickHandler {
 
     //public static LangUtil lang = LangUtil.loadLangDir("waila");
 	
@@ -38,12 +40,12 @@ public class WailaTickHandler {
 	public MetaDataProvider handler    = new MetaDataProvider();
 	private Minecraft mc = Minecraft.getMinecraft();
 	
-	private static WailaTickHandler _instance;
-	private WailaTickHandler(){}
+	private static TickHandler _instance;
+	private TickHandler(){}
 	
-	public static WailaTickHandler instance(){
+	public static TickHandler instance(){
 		if(_instance == null)
-			_instance = new WailaTickHandler();
+			_instance = new TickHandler();
 		return _instance;
 	}
 	
@@ -77,10 +79,5 @@ public class WailaTickHandler {
 				}
 			}
 		}
-	}
-	
-	@SubscribeEvent
-	public void onPlayerLoggedIn(PlayerLoggedInEvent event){
-		WailaPacketHandler.INSTANCE.sendTo(new Message0x00ServerPing(), (EntityPlayerMP)event.player);
 	}
 }

@@ -2,6 +2,8 @@ package mcp.mobius.waila.client;
 
 import mcp.mobius.waila.Constants;
 import mcp.mobius.waila.cbcore.LangUtil;
+import mcp.mobius.waila.events.KeyHandler;
+import mcp.mobius.waila.events.TickHandler;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.addons.appeng.AppEngModule;
 import mcp.mobius.waila.addons.buildcraft.BCModule;
@@ -26,13 +28,16 @@ import mcp.mobius.waila.gui.truetyper.TrueTypeFont;
 import mcp.mobius.waila.handlers.HUDHandlerWaila;
 import mcp.mobius.waila.handlers.SummaryProviderDefault;
 //import mcp.mobius.waila.handlers.nei.TooltipHandlerWaila;
-import mcp.mobius.waila.overlay.WailaTickHandler;
 import mcp.mobius.waila.server.ProxyServer;
 import net.minecraft.block.Block;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.input.Keyboard;
+
+
+
 
 //import cpw.mods.fml.client.registry.KeyBindingRegistry;
 //import cpw.mods.fml.common.registry.TickRegistry;
@@ -44,6 +49,7 @@ public class ProxyClient extends ProxyServer {
 	
 	//public static LangUtil lang = LangUtil.loadLangDir("waila");
 	
+
 	public ProxyClient() {}
 	
 	
@@ -52,7 +58,7 @@ public class ProxyClient extends ProxyServer {
 		
 	    LangUtil.instance.loadLangDir("waila");
 		
-		minecraftiaFont = FontLoader.createFont(new ResourceLocation("waila", "fonts/Minecraftia.ttf"), 14, true);
+		//minecraftiaFont = FontLoader.createFont(new ResourceLocation("waila", "fonts/Minecraftia.ttf"), 14, true);
 		
 		//TickRegistry.registerTickHandler(WailaTickHandler.instance(), Side.CLIENT);		
 		
@@ -73,6 +79,8 @@ public class ProxyClient extends ProxyServer {
 		//API.addKeyBind(Constants.BIND_WIKI, "Display wiki",          Keyboard.KEY_RSHIFT);
 		//API.addKeyBind(Constants.BIND_TECH, "Display techtree",      Keyboard.KEY_RSHIFT);
 
+		KeyHandler.registerKeybinds();
+		
 		ModuleRegistrar.instance().registerHeadProvider(new HUDHandlerWaila(), Block.class);
 		ModuleRegistrar.instance().registerTailProvider(new HUDHandlerWaila(), Block.class);		
 		ModuleRegistrar.instance().registerShortDataProvider(new SummaryProviderDefault(), Item.class);
@@ -87,49 +95,49 @@ public class ProxyClient extends ProxyServer {
 		//BetterBarrelsModule.register();
 		
 		/* BUILDCRAFT */
-		BCModule.register();
+		//BCModule.register();
 		
 		/* INDUSTRIALCRAFT2 */
-		IC2Module.register();
+		//IC2Module.register();
 		
 		/*Thaumcraft*/
-		ThaumcraftModule.register();
+		//ThaumcraftModule.register();
 		
 		/*EnderStorage*/
-		EnderStorageModule.register();
+		//EnderStorageModule.register();
 		
 		/*Gravestone*/
-		GravestoneModule.register();
+		//GravestoneModule.register();
 		
 		/*Twilight forest*/
-		TwilightForestModule.register();
+		//TwilightForestModule.register();
 		
 		/* Applied Energetics */
-		AppEngModule.register();
+		//AppEngModule.register();
 		
 		/* Thermal Expansion */
-		ThermalExpansionModule.register();
+		//ThermalExpansionModule.register();
 		
 		/* ETB */
-		ETBModule.register();
+		//ETBModule.register();
 		
 		/* EnderIO */
-		EnderIOModule.register();		
+		//EnderIOModule.register();		
 		
 		/* Buildcraft Power API */
-		BCPowerAPIModule.register();
+		//BCPowerAPIModule.register();
 		
 		/* ProjectRed API */
-		ProjectRedModule.register();
+		//ProjectRedModule.register();
 		
 		/* ExtraUtilities */
-		ExtraUtilitiesModule.register();	
+		//ExtraUtilitiesModule.register();	
 		
 		/* OpenBlocks */
-		OpenBlocksModule.register();
+		//OpenBlocksModule.register();
 		
 		/* Railcraft */
-		RailcraftModule.register();			
+		//RailcraftModule.register();			
 	}	
 	
 	@Override
