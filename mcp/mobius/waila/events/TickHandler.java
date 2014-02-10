@@ -29,13 +29,14 @@ import net.minecraft.item.ItemBlockWithMetadata;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import net.minecraftforge.client.event.RenderGameOverlayEvent;
 
 public class TickHandler {
 
     //public static LangUtil lang = LangUtil.loadLangDir("waila");
 	
 	private int ticks = 0;
-	public ItemStack identifiedHighlight = new ItemStack(Blocks.dirt);
+	public ItemStack identifiedHighlight;// = new ItemStack(Blocks.dirt);
 	public List<String> currenttip       = new ArrayList<String>(); 	
 	public MetaDataProvider handler    = new MetaDataProvider();
 	private Minecraft mc = Minecraft.getMinecraft();
@@ -48,7 +49,7 @@ public class TickHandler {
 			_instance = new TickHandler();
 		return _instance;
 	}
-	
+
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)
 	public void tickRender(TickEvent.RenderTickEvent event) {

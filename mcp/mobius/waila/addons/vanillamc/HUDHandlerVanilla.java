@@ -19,7 +19,6 @@ import mcp.mobius.waila.cbcore.LangUtil;
 
 public class HUDHandlerVanilla implements IWailaDataProvider {
 
-	//TODO : Fix mobspawners
 	//TODO : Fix records
 	
 	static Block mobSpawner    = Block.getBlockFromName("mob_spawner");
@@ -70,13 +69,11 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 		Block block       = accessor.getBlock();
 		
 		/* Mob spawner handler */
-		/*
 		if (block == mobSpawner && accessor.getTileEntity() instanceof TileEntityMobSpawner && config.getConfig("vanilla.spawntype")){
 			String name = currenttip.get(0);
-			String mobname = ((TileEntityMobSpawner)accessor.getTileEntity()).getSpawnerLogic().getEntityNameToSpawn();
+			String mobname = ((TileEntityMobSpawner)accessor.getTileEntity()).func_145881_a().getEntityNameToSpawn();
 			currenttip.set(0, String.format("%s (%s)", name, mobname));
 		}
-		*/
 
 		if (block == redstone){
 			String name = currenttip.get(0).replaceFirst(String.format(" %s", accessor.getMetadata()), "");
@@ -150,8 +147,8 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 				currenttip.add(String.format("%s : %s" , LangUtil.translateG("hud.msg.power"), accessor.getMetadata()));
 				return currenttip;				
 			}	
-		
-		/*
+
+        /*
 		if (config.getConfig("vanilla.jukebox"))
 			if (block == jukebox){
 				NBTTagCompound tag = accessor.getNBTData();
@@ -163,8 +160,8 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 					currenttip.add(LangUtil.translateG("hud.msg.empty"));
 				}
 			}
-		*/
-		
+        */
+
 		return currenttip;
 	}	
 
