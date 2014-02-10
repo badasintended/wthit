@@ -56,7 +56,8 @@ public class ProxyClient extends ProxyServer {
 	@Override
 	public void registerHandlers(){
 		
-	    LangUtil.instance.loadLangDir("waila");
+		LangUtil.instance.addLangDir(new ResourceLocation("waila", "lang"));
+	    //LangUtil.instance.loadLangDir("waila");
 		
 		//minecraftiaFont = FontLoader.createFont(new ResourceLocation("waila", "fonts/Minecraftia.ttf"), 14, true);
 		
