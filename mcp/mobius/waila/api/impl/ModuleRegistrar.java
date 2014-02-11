@@ -251,6 +251,35 @@ public class ModuleRegistrar implements IWailaRegistrar {
 		return returnList;		
 	}	
 	
+	public ArrayList<IWailaEntityProvider> getHeadEntityProviders(Object entity) {
+		ArrayList<IWailaEntityProvider> returnList = new ArrayList<IWailaEntityProvider>();
+		for (Class clazz : this.headEntityProviders.keySet())
+			if (clazz.isInstance(entity))
+				returnList.addAll(this.headEntityProviders.get(clazz));
+				
+		return returnList;
+	}
+
+	public ArrayList<IWailaEntityProvider> getBodyEntityProviders(Object entity) {
+		ArrayList<IWailaEntityProvider> returnList = new ArrayList<IWailaEntityProvider>();
+		for (Class clazz : this.bodyEntityProviders.keySet())
+			if (clazz.isInstance(entity))
+				returnList.addAll(this.bodyEntityProviders.get(clazz));
+				
+		return returnList;
+	}	
+
+	public ArrayList<IWailaEntityProvider> getTailEntityProviders(Object entity) {
+		ArrayList<IWailaEntityProvider> returnList = new ArrayList<IWailaEntityProvider>();
+		for (Class clazz : this.tailEntityProviders.keySet())
+			if (clazz.isInstance(entity))
+				returnList.addAll(this.tailEntityProviders.get(clazz));
+				
+		return returnList;
+	}		
+	
+	/* HAS METHODS */
+	
 	public boolean hasStackProviders(Object block){
 		for (Class clazz : this.stackBlockProviders.keySet())
 			if (clazz.isInstance(block))
@@ -286,6 +315,27 @@ public class ModuleRegistrar implements IWailaRegistrar {
 	public boolean hasBlockDecorator(Object block){
 		for (Class clazz : this.blockClassDecorators.keySet())
 			if (clazz.isInstance(block))
+				return true;
+		return false;
+	}	
+	
+	public boolean hasHeadEntityProviders(Object entity){
+		for (Class clazz : this.headEntityProviders.keySet())
+			if (clazz.isInstance(entity))
+				return true;
+		return false;
+	}
+	
+	public boolean hasBodyEntityProviders(Object entity){
+		for (Class clazz : this.bodyEntityProviders.keySet())
+			if (clazz.isInstance(entity))
+				return true;
+		return false;
+	}
+
+	public boolean hasTailEntityProviders(Object entity){
+		for (Class clazz : this.tailEntityProviders.keySet())
+			if (clazz.isInstance(entity))
 				return true;
 		return false;
 	}	
