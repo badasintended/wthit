@@ -39,7 +39,7 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.Side;
 
 //@Mod(modid="Waila", name="Waila", version="1.4.5", dependencies="required-after:NotEnoughItems")
-@Mod(modid="Waila", name="Waila", version="1.7.2_1.4.5")
+@Mod(modid="Waila", name="Waila", version="1.4.5_1.7.2")
 
 public class Waila {
     // The instance of your mod that Forge uses.
