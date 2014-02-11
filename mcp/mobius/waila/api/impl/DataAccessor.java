@@ -155,22 +155,7 @@ public class DataAccessor implements IWailaDataAccessor {
 	
 	@Override
 	public ForgeDirection getSide(){
-		int side = this.getPosition().sideHit;
-		switch (side){
-		case 0:
-			return ForgeDirection.DOWN;
-		case 1:
-			return ForgeDirection.UP;
-		case 2:
-			return ForgeDirection.EAST;
-		case 3:
-			return ForgeDirection.WEST;
-		case 4:
-			return ForgeDirection.NORTH;
-		case 5:
-			return ForgeDirection.SOUTH;
-		}
-		return ForgeDirection.UNKNOWN;
+		return ForgeDirection.getOrientation(this.getPosition().sideHit);
 	}
 	
 }
