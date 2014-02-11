@@ -16,23 +16,23 @@ import codechicken.lib.lang.LangUtil;
 import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.api.IWailaBlockDecorator;
 import mcp.mobius.waila.api.IWailaDataProvider;
+import mcp.mobius.waila.api.IWailaEntityProvider;
 import mcp.mobius.waila.api.IWailaRegistrar;
 import mcp.mobius.waila.api.IWailaSummaryProvider;
 
 public class ModuleRegistrar implements IWailaRegistrar {
 
 	private static ModuleRegistrar instance = null;
-	//public LinkedHashMap<Integer, ArrayList<IWailaDataProvider>> headProviders  = new LinkedHashMap<Integer, ArrayList<IWailaDataProvider>>();
-	//public LinkedHashMap<Integer, ArrayList<IWailaDataProvider>> bodyProviders  = new LinkedHashMap<Integer, ArrayList<IWailaDataProvider>>();
-	//public LinkedHashMap<Integer, ArrayList<IWailaDataProvider>> tailProviders  = new LinkedHashMap<Integer, ArrayList<IWailaDataProvider>>();	
-	public LinkedHashMap<Integer, ArrayList<IWailaDataProvider>> stackProviders = new LinkedHashMap<Integer, ArrayList<IWailaDataProvider>>();	
 
 	public LinkedHashMap<Class, ArrayList<IWailaDataProvider>> headBlockProviders  = new LinkedHashMap<Class, ArrayList<IWailaDataProvider>>();
 	public LinkedHashMap<Class, ArrayList<IWailaDataProvider>> bodyBlockProviders  = new LinkedHashMap<Class, ArrayList<IWailaDataProvider>>();
 	public LinkedHashMap<Class, ArrayList<IWailaDataProvider>> tailBlockProviders  = new LinkedHashMap<Class, ArrayList<IWailaDataProvider>>();	
-	//public LinkedHashMap<Class, ArrayList<IWailaDataProvider>> stackBlockProviders = new LinkedHashMap<Class, ArrayList<IWailaDataProvider>>();	
+	public LinkedHashMap<Class, ArrayList<IWailaDataProvider>> stackBlockProviders = new LinkedHashMap<Class, ArrayList<IWailaDataProvider>>();	
+
+	public LinkedHashMap<Class, ArrayList<IWailaEntityProvider>> headEntityProviders  = new LinkedHashMap<Class, ArrayList<IWailaEntityProvider>>();
+	public LinkedHashMap<Class, ArrayList<IWailaEntityProvider>> bodyEntityProviders  = new LinkedHashMap<Class, ArrayList<IWailaEntityProvider>>();
+	public LinkedHashMap<Class, ArrayList<IWailaEntityProvider>> tailEntityProviders  = new LinkedHashMap<Class, ArrayList<IWailaEntityProvider>>();	
 	
-	public LinkedHashMap<Integer, ArrayList<IWailaBlockDecorator>> blockIdDecorators    = new LinkedHashMap<Integer, ArrayList<IWailaBlockDecorator>>();
 	public LinkedHashMap<Class,   ArrayList<IWailaBlockDecorator>> blockClassDecorators = new LinkedHashMap<Class,   ArrayList<IWailaBlockDecorator>>();	
 	
 	public LinkedHashMap<String, LinkedHashMap <String, LinkedHashMap <String, String>>> wikiDescriptions = new LinkedHashMap<String, LinkedHashMap <String, LinkedHashMap <String, String>>>();
@@ -49,6 +49,7 @@ public class ModuleRegistrar implements IWailaRegistrar {
 		return ModuleRegistrar.instance;
 	}
 
+	/* CONFIG HANDLING */
 	@Override
 	public void addConfig(String modname, String key, String configname) {
 		ConfigHandler.instance().addConfig(modname, key, LangUtil.translateG(configname));
@@ -69,7 +70,10 @@ public class ModuleRegistrar implements IWailaRegistrar {
 		ConfigHandler.instance().addConfigServer(modname, key, LangUtil.translateG("option." + key));
 	}	
 	
+	
+	/* REGISTRATION METHODS */
 	@Override
+	@Deprecated
 	public void registerHeadProvider(IWailaDataProvider dataProvider, int blockID) {
 		this.registerHeadProvider(dataProvider, Block.blocksList[blockID].getClass());
 	}
@@ -86,6 +90,7 @@ public class ModuleRegistrar implements IWailaRegistrar {
 	}	
 	
 	@Override
+	@Deprecated
 	public void registerBodyProvider(IWailaDataProvider dataProvider, int blockID) {
 		this.registerBodyProvider(dataProvider, Block.blocksList[blockID].getClass());		
 	}
@@ -102,6 +107,7 @@ public class ModuleRegistrar implements IWailaRegistrar {
 	}	
 	
 	@Override
+	@Deprecated
 	public void registerTailProvider(IWailaDataProvider dataProvider, int blockID) {
 		this.registerTailProvider(dataProvider, Block.blocksList[blockID].getClass());			
 	}	
@@ -118,18 +124,20 @@ public class ModuleRegistrar implements IWailaRegistrar {
 	}		
 	
 	@Override
+	@Deprecated
 	public void registerStackProvider(IWailaDataProvider dataProvider, int blockID) {
-		if (!this.stackProviders.containsKey(blockID))
-			this.stackProviders.put(blockID, new ArrayList<IWailaDataProvider>());
-		this.stackProviders.get(blockID).add(dataProvider);
+		this.registerStackProvider(dataProvider, Block.blocksList[blockID].getClass());
 	}	
 
 	@Override
 	public void registerStackProvider(IWailaDataProvider dataProvider, Class block) {
-		for (int i = 0; i < Block.blocksList.length; i++)
-			if (block.isInstance(Block.blocksList[i])){
-				this.registerStackProvider(dataProvider, i);
-			}
+		if (!this.stackBlockProviders.containsKey(block))
+			this.stackBlockProviders.put(block, new ArrayList<IWailaDataProvider>());
+		
+		ArrayList<IWailaDataProvider> providers = this.stackBlockProviders.get(block);
+		if (providers.contains(dataProvider)) return;		
+		
+		this.stackBlockProviders.get(block).add(dataProvider);		
 	}		
 
 	@Override
@@ -140,10 +148,9 @@ public class ModuleRegistrar implements IWailaRegistrar {
 	}	
 	
 	@Override
+	@Deprecated
 	public void registerBlockDecorator(IWailaBlockDecorator decorator, int blockID) {
-		if (!this.blockIdDecorators.containsKey(blockID))
-			this.blockIdDecorators.put(blockID, new ArrayList<IWailaBlockDecorator>());
-		this.blockIdDecorators.get(blockID).add(decorator);		
+		this.registerBlockDecorator(decorator, Block.blocksList[blockID].getClass());	
 	}
 
 	@Override
@@ -153,6 +160,43 @@ public class ModuleRegistrar implements IWailaRegistrar {
 		this.blockClassDecorators.get(block).add(decorator);		
 	}	
 
+	
+	@Override
+	public void registerHeadProvider(IWailaEntityProvider dataProvider, Class entity) {
+		if (!this.headEntityProviders.containsKey(entity))
+			this.headEntityProviders.put(entity, new ArrayList<IWailaEntityProvider>());
+		
+		ArrayList<IWailaEntityProvider> providers = this.headEntityProviders.get(entity);
+		if (providers.contains(dataProvider)) return;
+		
+		this.headEntityProviders.get(entity).add(dataProvider);		
+	}	
+
+	@Override
+	public void registerBodyProvider(IWailaEntityProvider dataProvider, Class entity) {
+		if (!this.bodyEntityProviders.containsKey(entity))
+			this.bodyEntityProviders.put(entity, new ArrayList<IWailaEntityProvider>());
+		
+		ArrayList<IWailaEntityProvider> providers = this.bodyEntityProviders.get(entity);
+		if (providers.contains(dataProvider)) return;		
+		
+		this.bodyEntityProviders.get(entity).add(dataProvider);
+	}	
+	
+	@Override
+	public void registerTailProvider(IWailaEntityProvider dataProvider, Class entity) {
+		if (!this.tailEntityProviders.containsKey(entity))
+			this.tailEntityProviders.put(entity, new ArrayList<IWailaEntityProvider>());
+		
+		ArrayList<IWailaEntityProvider> providers = this.tailEntityProviders.get(entity);
+		if (providers.contains(dataProvider)) return;		
+		
+		this.tailEntityProviders.get(entity).add(dataProvider);
+	}	
+	
+	
+	/* PROVIDER GETTERS */
+	
 	public ArrayList<IWailaDataProvider> getHeadProviders(Object block) {
 		ArrayList<IWailaDataProvider> returnList = new ArrayList<IWailaDataProvider>();
 		for (Class clazz : this.headBlockProviders.keySet())
@@ -180,10 +224,15 @@ public class ModuleRegistrar implements IWailaRegistrar {
 		return returnList;
 	}	
 
-	public ArrayList<IWailaDataProvider> getStackProviders(int blockID) {
-		return this.stackProviders.get(blockID);
-	}	
-
+	public ArrayList<IWailaDataProvider> getStackProviders(Object block) {
+		ArrayList<IWailaDataProvider> returnList = new ArrayList<IWailaDataProvider>();
+		for (Class clazz : this.stackBlockProviders.keySet())
+			if (clazz.isInstance(block))
+				returnList.addAll(this.stackBlockProviders.get(clazz));
+				
+		return returnList;
+	}		
+	
 	public ArrayList<IWailaSummaryProvider> getSummaryProvider(Object item){
 		ArrayList<IWailaSummaryProvider> returnList = new ArrayList<IWailaSummaryProvider>();
 		for (Class clazz : this.summaryProviders.keySet())
@@ -193,10 +242,6 @@ public class ModuleRegistrar implements IWailaRegistrar {
 		return returnList;
 	}	
 	
-	public ArrayList<IWailaBlockDecorator> getBlockDecorators(int blockID){
-		return this.blockIdDecorators.get(blockID);		
-	}
-
 	public ArrayList<IWailaBlockDecorator> getBlockDecorators(Object block){
 		ArrayList<IWailaBlockDecorator> returnList = new ArrayList<IWailaBlockDecorator>();
 		for (Class clazz : this.blockClassDecorators.keySet())
@@ -206,8 +251,11 @@ public class ModuleRegistrar implements IWailaRegistrar {
 		return returnList;		
 	}	
 	
-	public boolean hasStackProviders(int blockID){
-		return this.stackProviders.containsKey(blockID);
+	public boolean hasStackProviders(Object block){
+		for (Class clazz : this.stackBlockProviders.keySet())
+			if (clazz.isInstance(block))
+				return true;
+		return false;
 	}	
 	
 	public boolean hasHeadProviders(Object block){
@@ -235,10 +283,6 @@ public class ModuleRegistrar implements IWailaRegistrar {
 		return this.summaryProviders.containsKey(item);
 	}	
 	
-	public boolean hasBlockDecorator(int blockID){
-		return this.blockIdDecorators.containsKey(blockID);
-	}
-
 	public boolean hasBlockDecorator(Object block){
 		for (Class clazz : this.blockClassDecorators.keySet())
 			if (clazz.isInstance(block))

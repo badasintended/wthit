@@ -8,11 +8,15 @@ public interface IWailaRegistrar {
 	public void addConfigRemote(String modname, String keyname);	
 	
 	/* Register a IWailaDataProvider for the given blockID, either for the Head section or the Body section */
+	@Deprecated
 	public void registerHeadProvider (IWailaDataProvider dataProvider, int blockID);
+	@Deprecated
 	public void registerBodyProvider (IWailaDataProvider dataProvider, int blockID);
+	@Deprecated
 	public void registerTailProvider (IWailaDataProvider dataProvider, int blockID);	
 	
 	/* Register a stack overrider for the given blockID */
+	@Deprecated
 	public void registerStackProvider(IWailaDataProvider dataProvider, int blockID);
 	public void registerStackProvider(IWailaDataProvider dataProvider, Class block);	
 	
@@ -20,12 +24,21 @@ public interface IWailaRegistrar {
 	public void registerHeadProvider (IWailaDataProvider dataProvider, Class block);
 	public void registerBodyProvider (IWailaDataProvider dataProvider, Class block);
 	public void registerTailProvider (IWailaDataProvider dataProvider, Class block);	
+
+	/* Entity text registration methods */
+	public void registerHeadProvider (IWailaEntityProvider dataProvider, Class block);
+	public void registerBodyProvider (IWailaEntityProvider dataProvider, Class block);
+	public void registerTailProvider (IWailaEntityProvider dataProvider, Class block);	
 	
 	/* The block decorators */
+	@Deprecated
 	public void registerBlockDecorator (IWailaBlockDecorator decorator, int blockID);
 	public void registerBlockDecorator (IWailaBlockDecorator decorator, Class block);
 	
 	public void registerDocTextFile  (String filename);
 	
 	public void registerShortDataProvider (IWailaSummaryProvider dataProvider, Class item);
+	
+	
+	/* Entity registration methods */
 }

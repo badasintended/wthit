@@ -12,6 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemBlockWithMetadata;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import codechicken.nei.api.ItemInfo.Layout;
@@ -54,7 +55,7 @@ public class WailaTickHandler implements ITickHandler {
 				RayTracing.instance().fire();
 				MovingObjectPosition target = RayTracing.instance().getTarget();
 				
-				if (target != null){
+				if (target != null && target.typeOfHit == EnumMovingObjectType.TILE){
 					DataAccessor accessor = DataAccessor.instance;
 					accessor.set(world, player, target);
 					ItemStack targetStack = RayTracing.instance().getTargetStack();

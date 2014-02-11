@@ -90,7 +90,7 @@ public class OverlayRenderer {
     
     public static void renderOverlay(ItemStack stack, List<String> textData, Point pos)
     {
-    	TrueTypeFont font = (TrueTypeFont)mod_Waila.proxy.getFont();
+    	//TrueTypeFont font = (TrueTypeFont)mod_Waila.proxy.getFont();
     	
     	GL11.glPushMatrix();
     	

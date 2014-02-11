@@ -37,8 +37,8 @@ public class MetaDataProvider{
 			}
 		}
 
-		if(ModuleRegistrar.instance().hasStackProviders(blockID)){
-			for (IWailaDataProvider dataProvider : ModuleRegistrar.instance().getStackProviders(blockID)){
+		if(ModuleRegistrar.instance().hasStackProviders(block)){
+			for (IWailaDataProvider dataProvider : ModuleRegistrar.instance().getStackProviders(block)){
 				try{
 					ItemStack retval = dataProvider.getWailaStack(accessor, ConfigHandler.instance());
 					if (retval != null)

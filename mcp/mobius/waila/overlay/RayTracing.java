@@ -125,8 +125,8 @@ public class RayTracing {
         }
         */
         
-        if (ModuleRegistrar.instance().hasStackProviders(blockID))
-        	items.add(ModuleRegistrar.instance().getStackProviders(blockID).get(0).getWailaStack(DataAccessor.instance, ConfigHandler.instance()));
+        if (ModuleRegistrar.instance().hasStackProviders(mouseoverBlock))
+        	items.add(ModuleRegistrar.instance().getStackProviders(mouseoverBlock).get(0).getWailaStack(DataAccessor.instance, ConfigHandler.instance()));
         
         if(items.size() > 0)
             return items;
