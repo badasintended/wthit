@@ -6,6 +6,7 @@ import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry.EntityRegistration;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.util.Icon;
 import mcp.mobius.waila.api.IWailaConfigHandler;
@@ -36,7 +37,9 @@ public class HUDHandlerEntities implements IWailaEntityProvider {
 
 	@Override
 	public List<String> getWailaBody(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
-		return currenttip;
+		//if (entity instanceof EntityLivingBase)
+		//	currenttip.add(String.format("%.1f / %.1f", ((EntityLivingBase)entity).getHealth(), ((EntityLivingBase)entity).getMaxHealth()));
+		return currenttip;	
 	}
 
 	@Override

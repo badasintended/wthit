@@ -64,12 +64,6 @@ public class ProxyClient extends ProxyServer {
 		
 		GuiContainerManager.addTooltipHandler(new TooltipHandlerWaila());
 		
-		//API.registerHighlightHandler(new HUDHandlerExternal(), ItemInfo.Layout.HEADER);
-		//API.registerHighlightHandler(new HUDHandlerExternal(), ItemInfo.Layout.BODY);
-		//API.registerHighlightHandler(new HUDHandlerExternal(), ItemInfo.Layout.FOOTER);		
-		//API.registerHighlightHandler(new HUDHandlerWaila(),    ItemInfo.Layout.FOOTER);
-		//API.registerHighlightHandler(new HUDHandlerWaila(),    ItemInfo.Layout.HEADER);		
-		
 		KeyBindingRegistry.registerKeyBinding(new ConfigKeyHandler());
 		
 		// We mute the default keybind for displaying the tooltip
@@ -83,6 +77,7 @@ public class ProxyClient extends ProxyServer {
 		ModuleRegistrar.instance().registerTailProvider(new HUDHandlerBlocks(), Block.class);
 		
 		ModuleRegistrar.instance().registerHeadProvider(new HUDHandlerEntities(), Entity.class);
+		//ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerEntities(), Entity.class);		
 		ModuleRegistrar.instance().registerTailProvider(new HUDHandlerEntities(), Entity.class);
 		
 		ModuleRegistrar.instance().registerShortDataProvider(new SummaryProviderDefault(), Item.class);

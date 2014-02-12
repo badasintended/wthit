@@ -136,22 +136,6 @@ public class RayTracing {
         Block mouseoverBlock = Block.blocksList[blockID];
         if (mouseoverBlock == null) return items;
         
-        // TODO This block need to be redone to handle Waila API
-        /*
-        ArrayList<IHighlightHandler> handlers = new ArrayList<IHighlightHandler>();
-        if(ItemInfo.highlightIdentifiers.get(0) != null)
-        	handlers.addAll(ItemInfo.highlightIdentifiers.get(0));
-        if(ItemInfo.highlightIdentifiers.get(mouseoverBlock.blockID) != null)
-        	handlers.addAll(ItemInfo.highlightIdentifiers.get(mouseoverBlock.blockID));
-        
-        for(IHighlightHandler ident : handlers)
-        {
-            ItemStack item = ident.identifyHighlight(world, player, this.target);
-            if(item != null)
-                items.add(item);
-        }
-        */
-        
         if (ModuleRegistrar.instance().hasStackProviders(mouseoverBlock))
         	items.add(ModuleRegistrar.instance().getStackProviders(mouseoverBlock).get(0).getWailaStack(DataAccessorBlock.instance, ConfigHandler.instance()));
         
