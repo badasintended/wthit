@@ -21,7 +21,7 @@ public class AccessHelper {
 				Class class_ = Class.forName(classname);
 		    	Field field_ = class_.getDeclaredField(fieldname);
 		    	field_.setAccessible(true);
-		    	mod_Waila.log.fine(String.format("++ Found field %s %s\n", classname, fieldname));
+		    	//mod_Waila.log.fine(String.format("++ Found field %s %s\n", classname, fieldname));
 		    	return field_;
 			} 
 			catch (NoSuchFieldException e)   {
@@ -45,7 +45,7 @@ public class AccessHelper {
 		    	Field field_ = class_.getDeclaredField(fieldname);
 		    	field_.setAccessible(true);
 		    	
-		    	mod_Waila.log.fine(String.format("++ Found field %s %s\n", classname, fieldname));
+		    	//mod_Waila.log.fine(String.format("++ Found field %s %s\n", classname, fieldname));
 		    	return 	field_.get(instance);
 			} 
 			catch (NoSuchFieldException e)   {
@@ -74,7 +74,7 @@ public class AccessHelper {
 	    	Field field_ = class_.getDeclaredField(fieldname);
 	    	field_.setAccessible(true);
 	    	
-	    	mod_Waila.log.fine(String.format("++ Found field %s %s\n", classname, fieldname));
+	    	//mod_Waila.log.fine(String.format("++ Found field %s %s\n", classname, fieldname));
 	    	return 	field_.get(instance);
 	 }	 
 	 

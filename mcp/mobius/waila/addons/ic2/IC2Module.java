@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 import java.util.logging.Level;
 
+import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
@@ -150,7 +151,8 @@ public class IC2Module {
 		
 		NBTTagList nbtupgrades = inventory.getCompoundTag("upgrade").getTagList("Contents");
 		
-		List tagList = (List)AccessHelper.getField("net.minecraft.nbt.NBTTagList", "tagList", nbtupgrades);		
+		//List tagList = (List)AccessHelper.getField("net.minecraft.nbt.NBTTagList", "tagList", nbtupgrades);
+		List tagList = ObfuscationReflectionHelper.getPrivateValue(NBTTagList.class, nbtupgrades, "field_74747_a");
 		
 		for (Object subobj : tagList){
 			NBTTagCompound subtag = (NBTTagCompound)subobj;

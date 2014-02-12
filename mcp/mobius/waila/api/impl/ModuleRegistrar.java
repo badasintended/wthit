@@ -43,7 +43,7 @@ public class ModuleRegistrar implements IWailaRegistrar {
 		instance = this;
 	}
 
-	public static ModuleRegistrar instance(){
+	public static ModuleRegistrar instance(){ 
 		if (ModuleRegistrar.instance == null)
 			ModuleRegistrar.instance = new ModuleRegistrar();
 		return ModuleRegistrar.instance;
