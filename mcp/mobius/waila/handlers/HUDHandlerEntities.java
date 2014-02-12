@@ -12,6 +12,7 @@ import net.minecraft.util.Icon;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaEntityAccessor;
 import mcp.mobius.waila.api.IWailaEntityProvider;
+import static mcp.mobius.waila.SpecialChars.*;
 
 public class HUDHandlerEntities implements IWailaEntityProvider {
 
@@ -28,9 +29,9 @@ public class HUDHandlerEntities implements IWailaEntityProvider {
 	@Override
 	public List<String> getWailaHead(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
 		try{
-			currenttip.add("\u00a7f" + entity.getEntityName());
+			currenttip.add(WHITE + entity.getEntityName());
 		} catch (Exception e){
-			currenttip.add("\u00a7f" + "Unknown");
+			currenttip.add(WHITE + "Unknown");
 		}		
 		return currenttip;
 	}
@@ -45,9 +46,9 @@ public class HUDHandlerEntities implements IWailaEntityProvider {
 	@Override
 	public List<String> getWailaTail(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
 		try{
-			currenttip.add("\u00a79\u00a7o" +  getEntityMod(entity));
+			currenttip.add(BLUE + ITALIC + getEntityMod(entity));
 		} catch (Exception e){
-			currenttip.add("\u00a79\u00a7o" +  "Unknown");
+			currenttip.add(BLUE + ITALIC + "Unknown");
 		}
 		return currenttip;
 	}

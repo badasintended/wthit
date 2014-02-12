@@ -47,11 +47,21 @@ public class ConfigHandler implements IWailaConfigHandler {
 			return null;
 	}
 	
+	private void saveConfig(String key){
+		mod_Waila.instance.config.load();
+		Property prop = mod_Waila.instance.config.get(Configuration.CATEGORY_GENERAL, key, true);
+		boolean state = prop.getBoolean(true);		
+		mod_Waila.instance.config.getCategory(Configuration.CATEGORY_GENERAL).put(key, new Property(key,String.valueOf(state),Property.Type.BOOLEAN));
+		mod_Waila.instance.config.save();		
+	}
+	
 	public void addConfig(String modName, String key, String name){
 		if (!this.modules.containsKey(modName))
 			this.modules.put(modName, new ConfigModule(modName));
 		
 		this.modules.get(modName).addOption(key, name);
+		
+		this.saveConfig(key);
 	}
 
 	public void addConfigServer(String modName, String key, String name){
@@ -60,6 +70,8 @@ public class ConfigHandler implements IWailaConfigHandler {
 		
 		this.modules.get(modName).addOption(key, name);
 		this.serverconfigs.add(key);
+		
+		this.saveConfig(key);		
 	}	
 	
 	@Override

@@ -28,6 +28,6 @@ public class SpecialChars {
 	public static String ITALIC   = MCStyle + "o";
 	public static String RESET    = MCStyle + "r";		
 
-	public static String WailaStyle  = "\u00A4";	
+	public static String WailaStyle  = "\u00A4";
 	
 }
