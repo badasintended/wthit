@@ -29,9 +29,10 @@ public class ModuleRegistrar implements IWailaRegistrar {
 	public LinkedHashMap<Class, ArrayList<IWailaDataProvider>> tailBlockProviders  = new LinkedHashMap<Class, ArrayList<IWailaDataProvider>>();	
 	public LinkedHashMap<Class, ArrayList<IWailaDataProvider>> stackBlockProviders = new LinkedHashMap<Class, ArrayList<IWailaDataProvider>>();	
 
-	public LinkedHashMap<Class, ArrayList<IWailaEntityProvider>> headEntityProviders  = new LinkedHashMap<Class, ArrayList<IWailaEntityProvider>>();
-	public LinkedHashMap<Class, ArrayList<IWailaEntityProvider>> bodyEntityProviders  = new LinkedHashMap<Class, ArrayList<IWailaEntityProvider>>();
-	public LinkedHashMap<Class, ArrayList<IWailaEntityProvider>> tailEntityProviders  = new LinkedHashMap<Class, ArrayList<IWailaEntityProvider>>();	
+	public LinkedHashMap<Class, ArrayList<IWailaEntityProvider>> headEntityProviders      = new LinkedHashMap<Class, ArrayList<IWailaEntityProvider>>();
+	public LinkedHashMap<Class, ArrayList<IWailaEntityProvider>> bodyEntityProviders      = new LinkedHashMap<Class, ArrayList<IWailaEntityProvider>>();
+	public LinkedHashMap<Class, ArrayList<IWailaEntityProvider>> tailEntityProviders      = new LinkedHashMap<Class, ArrayList<IWailaEntityProvider>>();
+	public LinkedHashMap<Class, ArrayList<IWailaEntityProvider>> overrideEntityProviders  = new LinkedHashMap<Class, ArrayList<IWailaEntityProvider>>();	
 	
 	public LinkedHashMap<Class,   ArrayList<IWailaBlockDecorator>> blockClassDecorators = new LinkedHashMap<Class,   ArrayList<IWailaBlockDecorator>>();	
 	
@@ -194,6 +195,16 @@ public class ModuleRegistrar implements IWailaRegistrar {
 		this.tailEntityProviders.get(entity).add(dataProvider);
 	}	
 	
+	public void registerOverrideEntityProvider (IWailaEntityProvider dataProvider, Class entity){
+		if (!this.overrideEntityProviders.containsKey(entity))
+			this.overrideEntityProviders.put(entity, new ArrayList<IWailaEntityProvider>());
+		
+		ArrayList<IWailaEntityProvider> providers = this.overrideEntityProviders.get(entity);
+		if (providers.contains(dataProvider)) return;		
+		
+		this.overrideEntityProviders.get(entity).add(dataProvider);		
+	}
+	
 	
 	/* PROVIDER GETTERS */
 	
@@ -278,6 +289,15 @@ public class ModuleRegistrar implements IWailaRegistrar {
 		return returnList;
 	}		
 	
+	public ArrayList<IWailaEntityProvider> getOverrideEntityProviders(Object entity) {
+		ArrayList<IWailaEntityProvider> returnList = new ArrayList<IWailaEntityProvider>();
+		for (Class clazz : this.overrideEntityProviders.keySet())
+			if (clazz.isInstance(entity))
+				returnList.addAll(this.overrideEntityProviders.get(clazz));
+				
+		return returnList;
+	}	
+	
 	/* HAS METHODS */
 	
 	public boolean hasStackProviders(Object block){
@@ -339,6 +359,13 @@ public class ModuleRegistrar implements IWailaRegistrar {
 				return true;
 		return false;
 	}	
+	
+	public boolean hasOverrideEntityProviders(Object entity){
+		for (Class clazz : this.overrideEntityProviders.keySet())
+			if (clazz.isInstance(entity))
+				return true;
+		return false;
+	}		
 	
 	/* ----------------- */
 	@Override

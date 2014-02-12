@@ -7,9 +7,11 @@ import java.util.Comparator;
 import mcp.mobius.waila.Constants;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.DataAccessorBlock;
+import mcp.mobius.waila.api.impl.DataAccessorEntity;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -32,6 +34,7 @@ public class RayTracing {
 	
 	private MovingObjectPosition target      = null;
 	private ItemStack            targetStack = null;
+	private Entity               targetEntity= null;
 	private Minecraft            mc          = Minecraft.getMinecraft();
 	
 	public void fire(){
@@ -62,6 +65,15 @@ public class RayTracing {
 		return this.targetStack;
 	}
 	
+	public Entity getTargetEntity(){
+		if (this.target.typeOfHit == EnumMovingObjectType.ENTITY)
+			this.targetEntity = this.getIdentifierEntity();
+		else
+			this.targetEntity = null;		
+		
+		return this.targetEntity;
+	}	
+	
     public MovingObjectPosition rayTrace(EntityLivingBase entity, double par1, float par3)
     {
         Vec3 vec3  = entity.getPosition(par3);
@@ -91,6 +103,21 @@ public class RayTracing {
 
         return items.get(0);		
 	}
+	
+	public Entity getIdentifierEntity(){
+        ArrayList<Entity> ents = new ArrayList<Entity>();		
+		
+    	if (this.target == null)
+    		return null;        
+        
+        if (ModuleRegistrar.instance().hasOverrideEntityProviders(this.target.entityHit))
+        	ents.add(ModuleRegistrar.instance().getOverrideEntityProviders(this.target.entityHit).get(0).getWailaOverride(DataAccessorEntity.instance, ConfigHandler.instance()));
+        
+        if(ents.size() > 0)
+            return ents.get(0);
+        else 
+        	return this.target.entityHit;
+	}	
 	
     public ArrayList<ItemStack> getIdentifierItems()
     {

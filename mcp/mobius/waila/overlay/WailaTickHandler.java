@@ -75,7 +75,7 @@ public class WailaTickHandler implements ITickHandler {
 					DataAccessorEntity accessor = DataAccessorEntity.instance;
 					accessor.set(world, player, target);
 					
-					Entity targetEnt = accessor.getEntity(); // This need to be replaced by the override check.
+					Entity targetEnt = RayTracing.instance().getTargetEntity(); // This need to be replaced by the override check.
 					
 					if (targetEnt != null){
 						this.currenttip.clear();

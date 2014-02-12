@@ -26,9 +26,10 @@ public interface IWailaRegistrar {
 	public void registerTailProvider (IWailaDataProvider dataProvider, Class block);	
 
 	/* Entity text registration methods */
-	public void registerHeadProvider (IWailaEntityProvider dataProvider, Class block);
-	public void registerBodyProvider (IWailaEntityProvider dataProvider, Class block);
-	public void registerTailProvider (IWailaEntityProvider dataProvider, Class block);	
+	public void registerHeadProvider     (IWailaEntityProvider dataProvider, Class entity);
+	public void registerBodyProvider     (IWailaEntityProvider dataProvider, Class entity);
+	public void registerTailProvider     (IWailaEntityProvider dataProvider, Class entity);
+	public void registerOverrideEntityProvider (IWailaEntityProvider dataProvider, Class entity);
 	
 	/* The block decorators */
 	@Deprecated
