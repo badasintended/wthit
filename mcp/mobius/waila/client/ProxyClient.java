@@ -22,12 +22,14 @@ import mcp.mobius.waila.api.impl.MetaDataProvider;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.gui.truetyper.FontLoader;
 import mcp.mobius.waila.gui.truetyper.TrueTypeFont;
-import mcp.mobius.waila.handlers.HUDHandlerWaila;
+import mcp.mobius.waila.handlers.HUDHandlerBlocks;
+import mcp.mobius.waila.handlers.HUDHandlerEntities;
 import mcp.mobius.waila.handlers.SummaryProviderDefault;
 import mcp.mobius.waila.handlers.nei.TooltipHandlerWaila;
 import mcp.mobius.waila.overlay.WailaTickHandler;
 import mcp.mobius.waila.server.ProxyServer;
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 
@@ -77,8 +79,12 @@ public class ProxyClient extends ProxyServer {
 		//API.addKeyBind(Constants.BIND_WIKI, "Display wiki",          Keyboard.KEY_RSHIFT);
 		//API.addKeyBind(Constants.BIND_TECH, "Display techtree",      Keyboard.KEY_RSHIFT);
 
-		ModuleRegistrar.instance().registerHeadProvider(new HUDHandlerWaila(), Block.class);
-		ModuleRegistrar.instance().registerTailProvider(new HUDHandlerWaila(), Block.class);		
+		ModuleRegistrar.instance().registerHeadProvider(new HUDHandlerBlocks(), Block.class);
+		ModuleRegistrar.instance().registerTailProvider(new HUDHandlerBlocks(), Block.class);
+		
+		ModuleRegistrar.instance().registerHeadProvider(new HUDHandlerEntities(), Entity.class);
+		ModuleRegistrar.instance().registerTailProvider(new HUDHandlerEntities(), Entity.class);		
+		
 		ModuleRegistrar.instance().registerShortDataProvider(new SummaryProviderDefault(), Item.class);
 	}	
 

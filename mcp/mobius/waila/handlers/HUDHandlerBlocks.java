@@ -12,7 +12,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import codechicken.nei.forge.GuiContainerManager;
 
-public class HUDHandlerWaila implements IWailaDataProvider {
+public class HUDHandlerBlocks implements IWailaDataProvider {
 
 	@Override
 	public ItemStack getWailaStack(IWailaDataAccessor accessor,	IWailaConfigHandler config) {
