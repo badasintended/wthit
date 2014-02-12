@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 
-public class DataAccessor implements IWailaDataAccessor {
+public class DataAccessorBlock implements IWailaDataAccessor {
 
 	public World world;
 	public EntityPlayer player;
@@ -29,7 +29,7 @@ public class DataAccessor implements IWailaDataAccessor {
 	public long timeLastUpdate = System.currentTimeMillis();
 	public double partialFrame;
 	
-	public static DataAccessor instance = new DataAccessor();
+	public static DataAccessorBlock instance = new DataAccessorBlock();
 
 	public void set(World _world, EntityPlayer _player, MovingObjectPosition _mop) {
 		this.set(_world, _player, _mop, null, 0.0);

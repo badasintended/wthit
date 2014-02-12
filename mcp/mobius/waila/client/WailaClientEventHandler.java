@@ -9,7 +9,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 import mcp.mobius.waila.WailaExceptionHandler;
 import mcp.mobius.waila.api.IWailaBlockDecorator;
 import mcp.mobius.waila.api.impl.ConfigHandler;
-import mcp.mobius.waila.api.impl.DataAccessor;
+import mcp.mobius.waila.api.impl.DataAccessorBlock;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.overlay.RayTracing;
 import net.minecraft.block.Block;
@@ -30,7 +30,7 @@ public class WailaClientEventHandler {
 		
 		double partialTicks = event.partialTicks;
 
-		DataAccessor accessor       = DataAccessor.instance;
+		DataAccessorBlock accessor       = DataAccessorBlock.instance;
 		World world                 = Minecraft.getMinecraft().theWorld;
 		EntityPlayer player         = Minecraft.getMinecraft().thePlayer;
 		EntityLivingBase viewEntity = Minecraft.getMinecraft().renderViewEntity;

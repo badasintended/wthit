@@ -17,6 +17,7 @@ import java.awt.Point;
 import mcp.mobius.waila.Constants;
 import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.api.impl.ConfigHandler;
+import mcp.mobius.waila.api.impl.DataAccessorEntity;
 import mcp.mobius.waila.gui.truetyper.TrueTypeFont;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
@@ -49,32 +50,9 @@ public class OverlayRenderer {
         
         if (RayTracing.instance().getTarget().typeOfHit == EnumMovingObjectType.ENTITY)
         {
-        	Entity ent = RayTracing.instance().getTarget().entityHit;
-        	String modName = getEntityMod(ent);
-        	
-        	List<String> textData = new ArrayList<String>();
-        	try{
-        		textData.add("\u00a7f" + ent.getEntityName());
-        	} catch (Exception e){
-        		textData.add("\u00a7f" + "Unknown");
-        	}
-        	textData.add("\u00a79\u00a7o" + modName);
-        	
-        	renderOverlay(ent, textData, getPositioning());
+        	renderOverlay(DataAccessorEntity.instance.getEntity(), WailaTickHandler.instance().currenttip, getPositioning()); // Might need change for the override       	
         }
     }		
-	
-    private static String getEntityMod(Entity entity){
-    	String modName = "";
-    	try{
-    		EntityRegistration er = EntityRegistry.instance().lookupModSpawn(entity.getClass(), true);
-    		ModContainer modC = er.getContainer();
-    		modName = modC.getName();
-    	} catch (NullPointerException e){
-    		modName = "Minecraft";	
-    	}
-    	return modName;
-    }
 	
     private static Point getPositioning()
     {

@@ -6,7 +6,7 @@ import java.io.IOException;
 
 import mcp.mobius.waila.WailaExceptionHandler;
 import mcp.mobius.waila.mod_Waila;
-import mcp.mobius.waila.api.impl.DataAccessor;
+import mcp.mobius.waila.api.impl.DataAccessorBlock;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
@@ -47,7 +47,7 @@ public class WailaPacketHandler implements IPacketHandler {
 					}
 					else if (header == 0x02){
 						Packet0x02TENBTData castedPacket = new Packet0x02TENBTData(packet);
-						DataAccessor.instance.remoteNbt = castedPacket.tag;
+						DataAccessorBlock.instance.remoteNbt = castedPacket.tag;
 					}
 				}
 	        }

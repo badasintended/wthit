@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
-import mcp.mobius.waila.api.impl.DataAccessor;
+import mcp.mobius.waila.api.impl.DataAccessorBlock;
+import mcp.mobius.waila.api.impl.DataAccessorEntity;
 import mcp.mobius.waila.api.impl.MetaDataProvider;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemBlockWithMetadata;
@@ -56,17 +58,31 @@ public class WailaTickHandler implements ITickHandler {
 				MovingObjectPosition target = RayTracing.instance().getTarget();
 				
 				if (target != null && target.typeOfHit == EnumMovingObjectType.TILE){
-					DataAccessor accessor = DataAccessor.instance;
+					DataAccessorBlock accessor = DataAccessorBlock.instance;
 					accessor.set(world, player, target);
-					ItemStack targetStack = RayTracing.instance().getTargetStack();
+					ItemStack targetStack = RayTracing.instance().getTargetStack();	// Here we get either the proper stack or the override
 					
 					if (targetStack != null){
 						this.currenttip.clear();
 						
 						//this.identifiedHighlight = handler.identifyHighlight(world, player, target);
-						this.currenttip      = handler.handleTextData(targetStack, world, player, target, accessor, currenttip, Layout.HEADER);
-						this.currenttip      = handler.handleTextData(targetStack, world, player, target, accessor, currenttip, Layout.BODY);
-						this.currenttip      = handler.handleTextData(targetStack, world, player, target, accessor, currenttip, Layout.FOOTER);
+						this.currenttip      = handler.handleBlockTextData(targetStack, world, player, target, accessor, currenttip, Layout.HEADER);
+						this.currenttip      = handler.handleBlockTextData(targetStack, world, player, target, accessor, currenttip, Layout.BODY);
+						this.currenttip      = handler.handleBlockTextData(targetStack, world, player, target, accessor, currenttip, Layout.FOOTER);
+					}
+				}
+				else if (target != null && target.typeOfHit == EnumMovingObjectType.ENTITY){
+					DataAccessorEntity accessor = DataAccessorEntity.instance;
+					accessor.set(world, player, target);
+					
+					Entity targetEnt = accessor.getEntity(); // This need to be replaced by the override check.
+					
+					if (targetEnt != null){
+						this.currenttip.clear();
+						
+						this.currenttip      = handler.handleEntityTextData(targetEnt, world, player, target, accessor, currenttip, Layout.HEADER);
+						this.currenttip      = handler.handleEntityTextData(targetEnt, world, player, target, accessor, currenttip, Layout.BODY);
+						this.currenttip      = handler.handleEntityTextData(targetEnt, world, player, target, accessor, currenttip, Layout.FOOTER);
 					}
 				}
 			}

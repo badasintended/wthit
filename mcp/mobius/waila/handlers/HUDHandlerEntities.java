@@ -2,6 +2,9 @@ package mcp.mobius.waila.handlers;
 
 import java.util.List;
 
+import cpw.mods.fml.common.ModContainer;
+import cpw.mods.fml.common.registry.EntityRegistry;
+import cpw.mods.fml.common.registry.EntityRegistry.EntityRegistration;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Icon;
 import mcp.mobius.waila.api.IWailaConfigHandler;
@@ -22,6 +25,11 @@ public class HUDHandlerEntities implements IWailaEntityProvider {
 
 	@Override
 	public List<String> getWailaHead(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
+		try{
+			currenttip.add("\u00a7f" + entity.getEntityName());
+		} catch (Exception e){
+			currenttip.add("\u00a7f" + "Unknown");
+		}		
 		return currenttip;
 	}
 
@@ -32,7 +40,24 @@ public class HUDHandlerEntities implements IWailaEntityProvider {
 
 	@Override
 	public List<String> getWailaTail(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
+		try{
+			currenttip.add("\u00a79\u00a7o" +  getEntityMod(entity));
+		} catch (Exception e){
+			currenttip.add("\u00a79\u00a7o" +  "Unknown");
+		}
 		return currenttip;
 	}
 
+    private static String getEntityMod(Entity entity){
+    	String modName = "";
+    	try{
+    		EntityRegistration er = EntityRegistry.instance().lookupModSpawn(entity.getClass(), true);
+    		ModContainer modC = er.getContainer();
+    		modName = modC.getName();
+    	} catch (NullPointerException e){
+    		modName = "Minecraft";	
+    	}
+    	return modName;
+    }	
+	
 }
