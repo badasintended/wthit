@@ -7,9 +7,11 @@ import mcp.mobius.waila.Constants;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
+import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.tools.ModIdentification;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.Configuration;
 import codechicken.nei.forge.GuiContainerManager;
 
 public class HUDHandlerBlocks implements IWailaDataProvider {
@@ -48,7 +50,7 @@ public class HUDHandlerBlocks implements IWailaDataProvider {
 		if (currenttip.size() == 0)
 			currenttip.add("< Unnamed >");
 		else{
-			if (config.getConfig(Constants.CFG_WAILA_METADATA)){
+			if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATA, true)){
 				name = currenttip.get(0);
 				currenttip.set(0, name + String.format(" %s:%s", accessor.getBlockID(), accessor.getMetadata()));
 			}

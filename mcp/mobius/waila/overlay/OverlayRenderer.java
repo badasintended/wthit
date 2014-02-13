@@ -24,6 +24,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumMovingObjectType;
+import net.minecraftforge.common.Configuration;
 import static codechicken.core.gui.GuiDraw.*;
 
 public class OverlayRenderer {
@@ -39,7 +40,7 @@ public class OverlayRenderer {
              mc.theWorld != null &&
              mc.isGuiEnabled() &&
              !mc.gameSettings.keyBindPlayerList.pressed &&
-             ConfigHandler.instance().getConfig(Constants.CFG_WAILA_SHOW, true) &&
+             ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW, true) &&
              RayTracing.instance().getTarget()      != null))
         	return;
     
@@ -56,7 +57,7 @@ public class OverlayRenderer {
 	
     private static Point getPositioning()
     {
-        return new Point(ConfigHandler.instance().getConfigInt(Constants.CFG_WAILA_POSX), ConfigHandler.instance().getConfigInt(Constants.CFG_WAILA_POSY));
+        return new Point(ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSX,0), ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSY,0));
     }    
     
     /*

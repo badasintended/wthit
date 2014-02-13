@@ -31,5 +31,9 @@ public final class Constants {
 	public static String CFG_WAILA_GRADIENT2  = "waila.cfg.gradient2";
 	public static String CFG_WAILA_FONTCOLOR  = "waila.cfg.fontcolor";
 	
+	public static String CATEGORY_MODULES     = "modules";
+	public static String CATEGORY_SERVER      = "server";
+	public static String SERVER_FREE          = "FREE";
+	public static String SERVER_FORCED        = "FORCED";
 	
 }

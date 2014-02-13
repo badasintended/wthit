@@ -15,6 +15,7 @@ import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumMovingObjectType;
+import net.minecraftforge.common.Configuration;
 
 import org.lwjgl.input.Keyboard;
 
@@ -81,18 +82,18 @@ public class ConfigKeyHandler extends KeyHandler {
 		if (mc.currentScreen != null)
 			return;
 		
-		if (kb.keyDescription == Constants.BIND_WAILA_SHOW && ConfigHandler.instance().getConfig(Constants.CFG_WAILA_MODE)){
-			boolean status = ConfigHandler.instance().getConfig(Constants.CFG_WAILA_SHOW);
-			ConfigHandler.instance().setConfig(Constants.CFG_WAILA_SHOW, !status);
+		if (kb.keyDescription == Constants.BIND_WAILA_SHOW && ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_MODE, true)){
+			boolean status = ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW, true);
+			ConfigHandler.instance().setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW, !status);
 		}
 		
-		else if (kb.keyDescription == Constants.BIND_WAILA_SHOW && !ConfigHandler.instance().getConfig(Constants.CFG_WAILA_MODE)){
-			ConfigHandler.instance().setConfig(Constants.CFG_WAILA_SHOW, true);			
+		else if (kb.keyDescription == Constants.BIND_WAILA_SHOW && !ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_MODE, true)){
+			ConfigHandler.instance().setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW, true);			
 		}
 		
 		else if (kb.keyDescription == Constants.BIND_WAILA_LIQUID){
-			boolean status = ConfigHandler.instance().getConfig(Constants.CFG_WAILA_LIQUID);
-			ConfigHandler.instance().setConfig(Constants.CFG_WAILA_LIQUID, !status);
+			boolean status = ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID, true);
+			ConfigHandler.instance().setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID, !status);
 		}		
 
 		else if (kb.keyDescription == Constants.BIND_WAILA_RECIPE){
@@ -148,8 +149,8 @@ public class ConfigKeyHandler extends KeyHandler {
 	@Override
 	public void keyUp(EnumSet<TickType> types, KeyBinding kb, boolean tickEnd) {
 		if (!tickEnd) return;
-		if (kb.keyDescription == Constants.BIND_WAILA_SHOW && !ConfigHandler.instance().getConfig(Constants.CFG_WAILA_MODE)){
-			ConfigHandler.instance().setConfig(Constants.CFG_WAILA_SHOW, false);
+		if (kb.keyDescription == Constants.BIND_WAILA_SHOW && !ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_MODE, true)){
+			ConfigHandler.instance().setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW, false);
 		}		
 	}
 

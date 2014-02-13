@@ -91,8 +91,6 @@ public class mod_Waila {
 		config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATA, false);
 		config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_KEYBIND,  true);
 		
-		
-
 		posX = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSX,     5000).getInt();
 		posY = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSY,     100).getInt();
 
@@ -125,7 +123,7 @@ public class mod_Waila {
 		proxy.registerHandlers();
     	ModIdentification.init();
         
-        if (ConfigHandler.instance().getConfig(Constants.CFG_WAILA_KEYBIND)){
+        if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_KEYBIND, true)){
         
 	        for (String key: ModIdentification.keyhandlerStrings.keySet()){
 	        	String orig  = I18n.getString(key);
@@ -219,11 +217,11 @@ public class mod_Waila {
 	}
 	
 	public static void updateColors(){
-    	alpha     = (int)(ConfigHandler.instance().getConfigInt(Constants.CFG_WAILA_ALPHA) / 100.0f * 256) << 24;
-    	bgcolor   = alpha + ConfigHandler.instance().getConfigInt(Constants.CFG_WAILA_BGCOLOR);
-    	gradient1 = alpha + ConfigHandler.instance().getConfigInt(Constants.CFG_WAILA_GRADIENT1);
-    	gradient2 = alpha + ConfigHandler.instance().getConfigInt(Constants.CFG_WAILA_GRADIENT2);
-    	fontcolor = alpha + ConfigHandler.instance().getConfigInt(Constants.CFG_WAILA_FONTCOLOR);
+    	alpha     = (int)(ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_ALPHA,0) / 100.0f * 256) << 24;
+    	bgcolor   = alpha + ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_BGCOLOR,0);
+    	gradient1 = alpha + ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_GRADIENT1,0);
+    	gradient2 = alpha + ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_GRADIENT2,0);
+    	fontcolor = alpha + ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_FONTCOLOR,0);
 	}
 	
 }

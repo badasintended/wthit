@@ -13,12 +13,12 @@ import mcp.mobius.waila.gui.widgets.LabelFixedFont;
 
 public class ButtonBooleanConfigRemote extends ButtonBooleanConfig {
 
-	public ButtonBooleanConfigRemote(IWidget parent, String configKey, String textFalse, String textTrue){
-		this(parent, configKey, true, true, textFalse, textTrue);
+	public ButtonBooleanConfigRemote(IWidget parent, String category, String configKey, String textFalse, String textTrue){
+		this(parent, category, configKey, true, true, textFalse, textTrue);
 	}	
 	
-	public ButtonBooleanConfigRemote(IWidget parent, String configKey, boolean instant, boolean state_, String textFalse, String textTrue){
-		super(parent, configKey, instant, state_, textFalse, textTrue);
+	public ButtonBooleanConfigRemote(IWidget parent, String category, String configKey, boolean instant, boolean state_, String textFalse, String textTrue){
+		super(parent, category, configKey, instant, state_, textFalse, textTrue);
 		if (!mod_Waila.instance.serverPresent)
 			this.state = false;
 		

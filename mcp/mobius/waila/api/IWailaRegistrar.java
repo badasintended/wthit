@@ -39,7 +39,4 @@ public interface IWailaRegistrar {
 	public void registerDocTextFile  (String filename);
 	
 	public void registerShortDataProvider (IWailaSummaryProvider dataProvider, Class item);
-	
-	
-	/* Entity registration methods */
 }
