@@ -17,6 +17,7 @@ import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.client.WailaClientEventHandler;
 import mcp.mobius.waila.network.WailaConnectionHandler;
 import mcp.mobius.waila.network.WailaPacketHandler;
+import mcp.mobius.waila.overlay.OverlayConfig;
 import mcp.mobius.waila.server.ProxyServer;
 import mcp.mobius.waila.tools.ModIdentification;
 import mcp.mobius.waila.tools.Reflect;
@@ -66,45 +67,14 @@ public class mod_Waila {
 
 	@SidedProxy(clientSide="mcp.mobius.waila.client.ProxyClient", serverSide="mcp.mobius.waila.server.ProxyServer")
 	public static ProxyServer proxy;	
-	
 	public static Logger log = Logger.getLogger("Waila");
-	public  Configuration config = null;	
 	public boolean serverPresent = false;
-	
-	public static int posX;
-	public static int posY;
-	public static int alpha;
-	public static int bgcolor;
-	public static int gradient1;
-	public static int gradient2;
-	public static int fontcolor;
-	public static float scale;
 	
     /* INIT SEQUENCE */
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-		config = new Configuration(event.getSuggestedConfigurationFile());
-
-		config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW,     true);
-		config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_MODE,     true);
-		config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID,   false);
-		config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATA, false);
-		config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_KEYBIND,  true);
-		
-		posX = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSX,     5000).getInt();
-		posY = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSY,     100).getInt();
-
-		alpha =     config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_ALPHA,     80).getInt();
-		bgcolor =   config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_BGCOLOR,   0x100010).getInt();
-		gradient1 = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_GRADIENT1, 0x5000ff).getInt();
-		gradient2 = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_GRADIENT2, 0x28007f).getInt();
-		fontcolor = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_FONTCOLOR, 0xA0A0A0).getInt();
-		scale     = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SCALE,     100).getInt() / 100.0f;
-		
-		config.save();
-		
-		updateColors();
-		
+    	ConfigHandler.instance().loadDefaultConfig(event);
+		OverlayConfig.updateColors();
 		MinecraftForge.EVENT_BUS.register(new WailaClientEventHandler());		
 	}	
 	
@@ -215,13 +185,4 @@ public class mod_Waila {
 		}
 		
 	}
-	
-	public static void updateColors(){
-    	alpha     = (int)(ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_ALPHA,0) / 100.0f * 256) << 24;
-    	bgcolor   = alpha + ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_BGCOLOR,0);
-    	gradient1 = alpha + ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_GRADIENT1,0);
-    	gradient2 = alpha + ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_GRADIENT2,0);
-    	fontcolor = alpha + ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_FONTCOLOR,0);
-	}
-	
 }

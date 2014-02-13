@@ -73,7 +73,7 @@ public class OverlayRenderer {
     	
     	GL11.glPushMatrix();
     	
-    	GL11.glScalef(mod_Waila.scale, mod_Waila.scale, 1.0f);
+    	GL11.glScalef(OverlayConfig.scale, OverlayConfig.scale, 1.0f);
     	
         int w = 0;
         for (String s : textData)
@@ -81,15 +81,15 @@ public class OverlayRenderer {
         int h = Math.max(24, 10 + 10*textData.size());
 
         Dimension size = displaySize();
-        int x = ((int)(size.width / mod_Waila.scale)-w-1)*pos.x/10000;
-        int y = ((int)(size.height / mod_Waila.scale)-h-1)*pos.y/10000;
+        int x = ((int)(size.width / OverlayConfig.scale)-w-1)*pos.x/10000;
+        int y = ((int)(size.height / OverlayConfig.scale)-h-1)*pos.y/10000;
         
         GL11.glDisable(GL12.GL_RESCALE_NORMAL);
         RenderHelper.disableStandardItemLighting();
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_DEPTH_TEST);
         
-        drawTooltipBox(x, y, w, h, mod_Waila.bgcolor, mod_Waila.gradient1, mod_Waila.gradient2);
+        drawTooltipBox(x, y, w, h, OverlayConfig.bgcolor, OverlayConfig.gradient1, OverlayConfig.gradient2);
 
         int ty = (h-10*textData.size())/2;
         
@@ -97,7 +97,7 @@ public class OverlayRenderer {
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);     
         for (int i = 0; i < textData.size(); i++)
         	//FontHelper.drawString(textData.get(i), x + 24, y + ty + 10*i, font, 1.0f, 1.0f, new float[] {1.0f, 1.0f, 1.0f});
-            drawString(textData.get(i), x + 24, y + ty + 10*i, mod_Waila.fontcolor, true);
+            drawString(textData.get(i), x + 24, y + ty + 10*i, OverlayConfig.fontcolor, true);
         GL11.glDisable(GL11.GL_BLEND);
         
 
@@ -114,7 +114,7 @@ public class OverlayRenderer {
     {
     	GL11.glPushMatrix();    	
     	
-    	GL11.glScalef(mod_Waila.scale, mod_Waila.scale, 1.0f);    	
+    	GL11.glScalef(OverlayConfig.scale, OverlayConfig.scale, 1.0f);    	
     	
         int w = 0;
         for (String s : textData)
@@ -122,22 +122,22 @@ public class OverlayRenderer {
         int h = Math.max(24, 10 + 10*textData.size());
 
         Dimension size = displaySize();
-        int x = ((int)(size.width / mod_Waila.scale)-w-1)*pos.x/10000;
-        int y = ((int)(size.height / mod_Waila.scale)-h-1)*pos.y/10000;
+        int x = ((int)(size.width / OverlayConfig.scale)-w-1)*pos.x/10000;
+        int y = ((int)(size.height / OverlayConfig.scale)-h-1)*pos.y/10000;
         
         GL11.glDisable(GL12.GL_RESCALE_NORMAL);
         RenderHelper.disableStandardItemLighting();
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_DEPTH_TEST);
         
-        drawTooltipBox(x, y, w, h, mod_Waila.bgcolor, mod_Waila.gradient1, mod_Waila.gradient2);
+        drawTooltipBox(x, y, w, h, OverlayConfig.bgcolor, OverlayConfig.gradient1, OverlayConfig.gradient2);
 
         int ty = (h-10*textData.size())/2;
 
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);         
         for (int i = 0; i < textData.size(); i++)
-            drawString(textData.get(i), x + 6, y + ty + 10*i, mod_Waila.fontcolor, true);
+            drawString(textData.get(i), x + 6, y + ty + 10*i, OverlayConfig.fontcolor, true);
         GL11.glDisable(GL11.GL_BLEND);
         
         //RenderHelper.enableGUIStandardItemLighting();

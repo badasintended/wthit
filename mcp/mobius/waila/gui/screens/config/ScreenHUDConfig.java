@@ -19,6 +19,7 @@ import mcp.mobius.waila.gui.widgets.WidgetGeometry;
 import mcp.mobius.waila.gui.widgets.buttons.ButtonLabel;
 import mcp.mobius.waila.gui.widgets.buttons.ButtonScreenChange;
 import mcp.mobius.waila.gui.widgets.movable.PictureMovableRC;
+import mcp.mobius.waila.overlay.OverlayConfig;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.common.Configuration;
 
@@ -225,12 +226,12 @@ public class ScreenHUDConfig extends ScreenBase {
 				ConfigHandler.instance().setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_ALPHA, (int)(this.getWidget("Layout").getWidget("Picture").getAlpha() * 100.0));
 				ConfigHandler.instance().setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SCALE, (int)(scale * 100.0));
 				
-				mod_Waila.alpha = ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_ALPHA,0);
-				mod_Waila.posX  = ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSX, 0);
-				mod_Waila.posY  = ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSY, 0);
-				mod_Waila.scale = ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SCALE,0) / 100.0f;
+				OverlayConfig.alpha = ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_ALPHA,0);
+				OverlayConfig.posX  = ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSX, 0);
+				OverlayConfig.posY  = ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSY, 0);
+				OverlayConfig.scale = ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SCALE,0) / 100.0f;
 				
-				mod_Waila.updateColors();
+				OverlayConfig.updateColors();
 			}
 			
 			if (srcwidget.equals(this.getWidget("ButtonDefault")) && signal == Signal.CLICKED){

@@ -5,9 +5,11 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Set;
 
+import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import mcp.mobius.waila.Constants;
 import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.api.IWailaConfigHandler;
+import mcp.mobius.waila.overlay.OverlayConfig;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.Property;
 
@@ -19,6 +21,8 @@ public class ConfigHandler implements IWailaConfigHandler {
 	
 	private LinkedHashMap<String, ConfigModule> modules = new LinkedHashMap<String, ConfigModule>();
 	private ArrayList<String> serverconfigs             = new ArrayList<String>();
+	public  Configuration config = null;	
+	
 	
 	public void addModule(String modName, HashMap<String, String> options){
 		this.addModule(modName, new ConfigModule(modName, options));
@@ -42,9 +46,9 @@ public class ConfigHandler implements IWailaConfigHandler {
 	}
 	
 	private void saveModuleKey(String modName, String key){
-		mod_Waila.instance.config.get(Constants.CATEGORY_MODULES, key, true);
-		mod_Waila.instance.config.get(Constants.CATEGORY_SERVER , key, Constants.SERVER_FREE);			
-		mod_Waila.instance.config.save();		
+		config.get(Constants.CATEGORY_MODULES, key, true);
+		config.get(Constants.CATEGORY_SERVER , key, Constants.SERVER_FREE);			
+		config.save();		
 	}
 	
 	public void addConfig(String modName, String key, String name){
@@ -76,7 +80,7 @@ public class ConfigHandler implements IWailaConfigHandler {
 		if (this.serverconfigs.contains(key) && !mod_Waila.instance.serverPresent)
 			return false;
 		
-		Property prop = mod_Waila.instance.config.get(Constants.CATEGORY_MODULES, key, defvalue);
+		Property prop = config.get(Constants.CATEGORY_MODULES, key, defvalue);
 		return prop.getBoolean(defvalue);		
 	}
 	
@@ -84,25 +88,59 @@ public class ConfigHandler implements IWailaConfigHandler {
 		return this.serverconfigs.contains(key);
 	}
 
+	
+	
+	
+	
+	
 	/* GENERAL ACCESS METHODS TO GET/SET VALUES IN THE CONFIG FILE */
 	
 	public boolean getConfig(String category, String key, boolean default_){
-		Property prop = mod_Waila.instance.config.get(category, key, default_);
+		Property prop = config.get(category, key, default_);
 		return prop.getBoolean(default_);		
 	}	
 	
 	public void setConfig(String category, String key, boolean state){
-		mod_Waila.instance.config.getCategory(category).put(key, new Property(key,String.valueOf(state),Property.Type.BOOLEAN));
-		mod_Waila.instance.config.save();		
+		config.getCategory(category).put(key, new Property(key,String.valueOf(state),Property.Type.BOOLEAN));
+		config.save();		
 	}
 	
 	public int getConfig(String category, String key, int default_){
-		Property prop = mod_Waila.instance.config.get(category, key, default_);
+		Property prop = config.get(category, key, default_);
 		return prop.getInt();		
 	}	
 	
 	public void setConfig(String category, String key, int state){
-		mod_Waila.instance.config.getCategory(category).put(key, new Property(key,String.valueOf(state),Property.Type.INTEGER));
-		mod_Waila.instance.config.save();		
-	}	
+		config.getCategory(category).put(key, new Property(key,String.valueOf(state),Property.Type.INTEGER));
+		config.save();		
+	}
+
+	
+	
+	
+	
+	
+	/* Default config loading */
+	
+	public void loadDefaultConfig(FMLPreInitializationEvent event){
+		config = new Configuration(event.getSuggestedConfigurationFile());
+	
+		config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW,     true);
+		config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_MODE,     true);
+		config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID,   false);
+		config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATA, false);
+		config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_KEYBIND,  true);
+		
+		OverlayConfig.posX = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSX,     5000).getInt();
+		OverlayConfig.posY = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSY,     100).getInt();
+	
+		OverlayConfig.alpha =     config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_ALPHA,     80).getInt();
+		OverlayConfig.bgcolor =   config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_BGCOLOR,   0x100010).getInt();
+		OverlayConfig.gradient1 = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_GRADIENT1, 0x5000ff).getInt();
+		OverlayConfig.gradient2 = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_GRADIENT2, 0x28007f).getInt();
+		OverlayConfig.fontcolor = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_FONTCOLOR, 0xA0A0A0).getInt();
+		OverlayConfig.scale     = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SCALE,     100).getInt() / 100.0f;
+		
+		config.save();	
+	}
 }
