@@ -41,37 +41,38 @@ public class ConfigHandler implements IWailaConfigHandler {
 			return null;
 	}
 	
-	private void saveModuleKey(String key){
-		mod_Waila.instance.config.load();
-		Property prop = mod_Waila.instance.config.get(Constants.CATEGORY_MODULES, key, true);
-		boolean state = prop.getBoolean(true);		
-		mod_Waila.instance.config.getCategory(Constants.CATEGORY_MODULES).put(key, new Property(key,String.valueOf(state),Property.Type.BOOLEAN));
+	private void saveModuleKey(String modName, String key){
+		mod_Waila.instance.config.get(Constants.CATEGORY_MODULES, key, true);
+		mod_Waila.instance.config.get(Constants.CATEGORY_SERVER , key, Constants.SERVER_FREE);			
 		mod_Waila.instance.config.save();		
 	}
 	
 	public void addConfig(String modName, String key, String name){
+		this.saveModuleKey(modName, key);
+		
 		if (!this.modules.containsKey(modName))
 			this.modules.put(modName, new ConfigModule(modName));
 		
 		this.modules.get(modName).addOption(key, name);
-		
-		this.saveModuleKey(key);
 	}
 
 	public void addConfigServer(String modName, String key, String name){
+		this.saveModuleKey(modName, key);
+		
 		if (!this.modules.containsKey(modName))
 			this.modules.put(modName, new ConfigModule(modName));
 		
 		this.modules.get(modName).addOption(key, name);
 		this.serverconfigs.add(key);
-		
-		this.saveModuleKey(key);		
+	}	
+	
+	@Override
+	public boolean getConfig(String key){
+		return this.getConfig(key, true);
 	}	
 	
 	@Override
 	public boolean getConfig(String key, boolean defvalue){
-		mod_Waila.instance.config.load();
-		
 		if (this.serverconfigs.contains(key) && !mod_Waila.instance.serverPresent)
 			return false;
 		
@@ -82,39 +83,10 @@ public class ConfigHandler implements IWailaConfigHandler {
 	public boolean isServerRequired(String key){
 		return this.serverconfigs.contains(key);
 	}
-	
-	@Override
-	public boolean getConfig(String key){
-		return this.getConfig(key, true);
-	}
 
-	/* ACCESS METHODS FOR THE GENERAL SECTION OF THE CONFIG (EVERYTHING DIRECTLY WAILA RELATED THAT SHOULDN'T BE CHANGED BY OTHER MODS */
-	/*
-	public boolean getConfigGeneral(String key, boolean default_){
-		mod_Waila.instance.config.load();
-		Property prop = mod_Waila.instance.config.get(Configuration.CATEGORY_GENERAL, key, default_);
-		return prop.getBoolean(default_);		
-	}	
-	
-	public void setConfigGeneral(String key, boolean state){
-		mod_Waila.instance.config.getCategory(Configuration.CATEGORY_GENERAL).put(key, new Property(key,String.valueOf(state),Property.Type.BOOLEAN));
-		mod_Waila.instance.config.save();		
-	}
-	
-	public int getConfigGeneral(String key, int default_){
-		mod_Waila.instance.config.load();
-		Property prop = mod_Waila.instance.config.get(Configuration.CATEGORY_GENERAL, key, default_);
-		return prop.getInt();		
-	}	
-	
-	public void setConfigGeneral(String key, int state){
-		mod_Waila.instance.config.getCategory(Configuration.CATEGORY_GENERAL).put(key, new Property(key,String.valueOf(state),Property.Type.INTEGER));
-		mod_Waila.instance.config.save();		
-	}
-	*/	
+	/* GENERAL ACCESS METHODS TO GET/SET VALUES IN THE CONFIG FILE */
 	
 	public boolean getConfig(String category, String key, boolean default_){
-		mod_Waila.instance.config.load();
 		Property prop = mod_Waila.instance.config.get(category, key, default_);
 		return prop.getBoolean(default_);		
 	}	
@@ -125,7 +97,6 @@ public class ConfigHandler implements IWailaConfigHandler {
 	}
 	
 	public int getConfig(String category, String key, int default_){
-		mod_Waila.instance.config.load();
 		Property prop = mod_Waila.instance.config.get(category, key, default_);
 		return prop.getInt();		
 	}	
