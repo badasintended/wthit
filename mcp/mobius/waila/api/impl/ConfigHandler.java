@@ -15,9 +15,11 @@ import net.minecraftforge.common.Property;
 
 public class ConfigHandler implements IWailaConfigHandler {
 
+	/* SINGLETON */
 	private static ConfigHandler _instance = null;
 	private ConfigHandler() { _instance = this; }
 	public static ConfigHandler instance(){	return _instance == null ? new ConfigHandler() : _instance;	}	
+	/* === */
 	
 	private LinkedHashMap<String, ConfigModule> modules = new LinkedHashMap<String, ConfigModule>();
 	private ArrayList<String> serverconfigs             = new ArrayList<String>();

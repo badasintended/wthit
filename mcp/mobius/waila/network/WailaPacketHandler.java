@@ -27,8 +27,12 @@ public class WailaPacketHandler implements IPacketHandler {
 	
 					byte header = this.getHeader(packet);
 					if (header == 0x00){
+						Packet0x00ServerPing castedPacket = new Packet0x00ServerPing(packet);
 						mod_Waila.log.info("Received server authentication msg. Remote sync will be activated");
 						mod_Waila.instance.serverPresent = true;
+					
+						for (String key : castedPacket.forcedKeys.keySet())
+							mod_Waila.log.info(String.format("Received forced key config %s : %s", key, castedPacket.forcedKeys.get(key)));
 					}
 					else if (header == 0x01){
 						Packet0x01TERequest castedPacket = new Packet0x01TERequest(packet);
