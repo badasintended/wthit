@@ -45,7 +45,7 @@ public class Packet0x00ServerPing {
 			ConfigCategory serverForcing = ConfigHandler.instance().config.getCategory(Constants.CATEGORY_SERVER);
 			
 			for (String key : serverForcing.keySet()){
-				if (serverForcing.get(key).getString().equals(Constants.SERVER_FORCED)){
+				if (serverForcing.get(key).getBoolean(false)){
 					Packet.writeString(key, outputStream);
 					outputStream.writeBoolean(ConfigHandler.instance().getConfig(key));
 				}

@@ -23,6 +23,7 @@ public class ConfigHandler implements IWailaConfigHandler {
 	
 	private LinkedHashMap<String, ConfigModule> modules = new LinkedHashMap<String, ConfigModule>();
 	private ArrayList<String> serverconfigs             = new ArrayList<String>();
+	public  HashMap<String, Boolean> forcedConfigs      = new HashMap<String, Boolean>();
 	public  Configuration config = null;	
 	
 	
@@ -81,6 +82,9 @@ public class ConfigHandler implements IWailaConfigHandler {
 	public boolean getConfig(String key, boolean defvalue){
 		if (this.serverconfigs.contains(key) && !mod_Waila.instance.serverPresent)
 			return false;
+		
+		if (this.forcedConfigs.containsKey(key))
+			return this.forcedConfigs.get(key);
 		
 		Property prop = config.get(Constants.CATEGORY_MODULES, key, defvalue);
 		return prop.getBoolean(defvalue);		
@@ -142,6 +146,9 @@ public class ConfigHandler implements IWailaConfigHandler {
 		OverlayConfig.gradient2 = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_GRADIENT2, 0x28007f).getInt();
 		OverlayConfig.fontcolor = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_FONTCOLOR, 0xA0A0A0).getInt();
 		OverlayConfig.scale     = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SCALE,     100).getInt() / 100.0f;
+
+		config.getCategory(Constants.CATEGORY_MODULES).setComment("Those are the config keys defined in modules.\nServer side, it is used to enforce keys client side using the next section.");		
+		config.getCategory(Constants.CATEGORY_SERVER).setComment("Any key set to true here will ensure that the client is using the configuration set in the 'module' section above.\nThis is useful for enforcing false to 'cheating' keys like silverfish.");
 		
 		config.save();	
 	}
