@@ -46,16 +46,16 @@ public class OverlayRenderer {
     
         if (RayTracing.instance().getTarget().typeOfHit == EnumMovingObjectType.TILE && RayTracing.instance().getTargetStack() != null)
         {
-            renderOverlay(RayTracing.instance().getTargetStack(), WailaTickHandler.instance().tooltip);
+            renderOverlay(WailaTickHandler.instance().tooltip);
         }
         
         if (RayTracing.instance().getTarget().typeOfHit == EnumMovingObjectType.ENTITY)
         {
-        	renderOverlay(DataAccessorEntity.instance.getEntity(), WailaTickHandler.instance().tooltip); // Might need change for the override       	
+        	renderOverlay(WailaTickHandler.instance().tooltip);       	
         }
     }		
     
-    public static void renderOverlay(ItemStack stack, Tooltip tooltip)
+    public static void renderOverlay(Tooltip tooltip)
     {
     	//TrueTypeFont font = (TrueTypeFont)mod_Waila.proxy.getFont();
     	
@@ -73,44 +73,20 @@ public class OverlayRenderer {
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);     
         for (int i = 0; i < tooltip.textData.size(); i++)
-        	//FontHelper.drawString(textData.get(i), x + 24, y + ty + 10*i, font, 1.0f, 1.0f, new float[] {1.0f, 1.0f, 1.0f});
-            drawString(tooltip.textData.get(i), tooltip.x + 24, tooltip.y + tooltip.ty + 10*i, OverlayConfig.fontcolor, true);
+    		drawString(tooltip.textData.get(i), tooltip.x + tooltip.offsetX, tooltip.y + tooltip.ty + 10*i, OverlayConfig.fontcolor, true);
         GL11.glDisable(GL11.GL_BLEND);
         
-        RenderHelper.enableGUIStandardItemLighting();
+        if (tooltip.hasIcon)
+        	RenderHelper.enableGUIStandardItemLighting();
+        
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         
-        if (stack.getItem() != null)
-            GuiContainerManager.drawItem(tooltip.x+5, tooltip.y+tooltip.h/2-8, stack);
+        if (tooltip.hasIcon && tooltip.stack != null && tooltip.stack.getItem() != null)
+            GuiContainerManager.drawItem(tooltip.x+5, tooltip.y+tooltip.h/2-8, tooltip.stack);
         
     	GL11.glPopMatrix();        
     }    
     
-    public static void renderOverlay(Entity entity, Tooltip tooltip)
-    {
-    	GL11.glPushMatrix();    	
-    	
-    	GL11.glScalef(OverlayConfig.scale, OverlayConfig.scale, 1.0f);    	
-        
-        GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-        RenderHelper.disableStandardItemLighting();
-        GL11.glDisable(GL11.GL_LIGHTING);
-        GL11.glDisable(GL11.GL_DEPTH_TEST);
-        
-        drawTooltipBox(tooltip.x, tooltip.y, tooltip.w, tooltip.h, OverlayConfig.bgcolor, OverlayConfig.gradient1, OverlayConfig.gradient2);
-
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);         
-        for (int i = 0; i < tooltip.textData.size(); i++)
-            drawString(tooltip.textData.get(i), tooltip.x + 6, tooltip.y + tooltip.ty + 10*i, OverlayConfig.fontcolor, true);
-        GL11.glDisable(GL11.GL_BLEND);
-        
-        //RenderHelper.enableGUIStandardItemLighting();
-        GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-        
-    	GL11.glPopMatrix();         
-    }     
-
     public static void saveGLState(){
 		hasBlending   = GL11.glGetBoolean(GL11.GL_BLEND);
 		hasLight      = GL11.glGetBoolean(GL11.GL_LIGHTING);

@@ -70,7 +70,7 @@ public class WailaTickHandler implements ITickHandler {
 						this.currenttip      = handler.handleBlockTextData(targetStack, world, player, target, accessor, currenttip, Layout.HEADER);
 						this.currenttip      = handler.handleBlockTextData(targetStack, world, player, target, accessor, currenttip, Layout.BODY);
 						this.currenttip      = handler.handleBlockTextData(targetStack, world, player, target, accessor, currenttip, Layout.FOOTER);
-						this.tooltip         = new Tooltip(this.currenttip);
+						this.tooltip         = new Tooltip(this.currenttip, targetStack);
 					}
 				}
 				else if (target != null && target.typeOfHit == EnumMovingObjectType.ENTITY){
@@ -85,7 +85,7 @@ public class WailaTickHandler implements ITickHandler {
 						this.currenttip      = handler.handleEntityTextData(targetEnt, world, player, target, accessor, currenttip, Layout.HEADER);
 						this.currenttip      = handler.handleEntityTextData(targetEnt, world, player, target, accessor, currenttip, Layout.BODY);
 						this.currenttip      = handler.handleEntityTextData(targetEnt, world, player, target, accessor, currenttip, Layout.FOOTER);
-						this.tooltip         = new Tooltip(this.currenttip);						
+						this.tooltip         = new Tooltip(this.currenttip, false);						
 					}
 				}
 			}
