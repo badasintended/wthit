@@ -23,37 +23,26 @@ public class Tooltip {
 	Point pos;
 	boolean hasIcon = false;
 	ItemStack stack;
-
+	
+	int[] columnsWidth;
+	int[] columnsPos;
+	int   ncolumns = 0;
+	
 	private class Line{
-		ArrayList<String> elems = new ArrayList<String>();
-		int lineWidth = 0;
-		int columns   = 1;
-		
+		String[] columns;
+		int      ncolumns;
+		int[]    columnsWidth;
+		int      lineWidth;
 		
 		public Line(String text){
+			columns      = text.split(TAB);
+			ncolumns     = columns.length;
+			columnsWidth = new int[ncolumns];
+			lineWidth    = 0;			
 			
-			// We split the original line around Waila special chars
-			String[] substrings = text.split(WailaStyleEnd);
-			for (int i = 0; i < substrings.length - 1; i++){
-				if (substrings[i].startsWith(WailaStyle))
-					elems.add(substrings[i]);
-				else{
-					elems.add(substrings[i].substring(0, substrings[i].length() - 2));
-					elems.add(substrings[i].substring(substrings[i].length() - 2) + WailaStyleEnd);
-					
-					if (elems.get(elems.size() - 1).equals(TAB))
-						columns += 1;
-				}
-			}
-			elems.add(substrings[substrings.length - 1]);
-
-			// We compute the size of the final rendered string (considering each special char to be 8px large)
-			for (String s: this.elems){
-				if (!s.startsWith(WailaStyle))
-					lineWidth += getStringWidth(s);
-				else{
-					lineWidth += 8;
-				}
+			for (int i = 0; i < ncolumns; i++){
+				columnsWidth[i] = getStringWidth(columns[i]);
+				lineWidth      += columnsWidth[i];
 			}
 		}
 	}
@@ -67,6 +56,24 @@ public class Tooltip {
 		for (String s : textData)
 			lines.add(new Line(s));
 		
+		for (Line l : lines)
+			ncolumns = Math.max(ncolumns, l.ncolumns);
+		
+		columnsWidth = new int[ncolumns];
+		columnsPos   = new int[ncolumns];
+
+		for (Line l : lines){
+			if (l.ncolumns > 1)
+				for (int i = 0; i < l.ncolumns; i++)
+					columnsWidth[i] = Math.max(columnsWidth[i], l.columnsWidth[i]);
+					
+			maxStringW = Math.max(maxStringW, l.lineWidth + (l.ncolumns - 1) * 8);
+		}
+		
+		for (int i = 0; i < ncolumns - 1; i++){
+			columnsPos[i + 1] = columnsWidth[i] + columnsPos[i];
+		}
+		
 		this.textData = textData;
 		this.pos      = new Point(ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSX,0), 
 				                  ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSY,0));
@@ -76,10 +83,6 @@ public class Tooltip {
 		int paddingH = hasIcon ? 24 : 0; 
 		offsetX      = hasIcon ? 24 : 6;
 		
-		
-		maxStringW = 0;
-        for (Line s : lines)
-        	maxStringW = Math.max(maxStringW, s.lineWidth);
         w = maxStringW + paddingW;
         
         h = Math.max(paddingH, 10 + 10*textData.size());
@@ -92,8 +95,9 @@ public class Tooltip {
 	}
 	
 	public void drawStrings(){
-        for (int i = 0; i < textData.size(); i++){
-    		drawString(textData.get(i), x + offsetX, y + ty + 10*i, OverlayConfig.fontcolor, true);
-        }
+		for (int i = 0; i < lines.size(); i++){
+			for (int c = 0; c < lines.get(i).ncolumns; c++)
+				drawString(lines.get(i).columns[c], x + offsetX + columnsPos[c] + 8*c, y + ty + 10*i, OverlayConfig.fontcolor, true);
+		}
 	}
 }
