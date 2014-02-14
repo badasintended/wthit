@@ -20,10 +20,14 @@ import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.DataAccessorEntity;
 import mcp.mobius.waila.gui.truetyper.TrueTypeFont;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumMovingObjectType;
+import net.minecraft.util.Icon;
 import net.minecraftforge.common.Configuration;
 import static codechicken.core.gui.GuiDraw.*;
 
@@ -32,6 +36,7 @@ public class OverlayRenderer {
 	protected static boolean hasBlending;
 	protected static boolean hasLight;
 	protected static int     boundTexIndex;   	
+	protected static RenderItem renderItem = new RenderItem();
 	
     public static void renderOverlay()
     {
@@ -116,6 +121,32 @@ public class OverlayRenderer {
         
         drawGradientRect(x + 1, y + 1, w - 1, 1, grad1, grad1);
         drawGradientRect(x + 1, y + h - 1, w - 1, 1, grad2, grad2);
+    }    
+    
+    public static void drawTexturedModalRect(int x, int y, int u, int v, int w, int h, int tw, int th)
+    {
+        float f  = 0.00390625F;
+        float f1 = 0.00390625F;
+        float zLevel = 0.0F;
+        Tessellator tessellator = Tessellator.instance;
+        tessellator.startDrawingQuads();
+        tessellator.addVertexWithUV((double)(x + 0), (double)(y + h), (double)zLevel, (double)((float)(u + 0)  * f), (double)((float)(v + th) * f1));
+        tessellator.addVertexWithUV((double)(x + w), (double)(y + h), (double)zLevel, (double)((float)(u + tw) * f), (double)((float)(v + th) * f1));
+        tessellator.addVertexWithUV((double)(x + w), (double)(y + 0), (double)zLevel, (double)((float)(u + tw) * f), (double)((float)(v + 0)  * f1));
+        tessellator.addVertexWithUV((double)(x + 0), (double)(y + 0), (double)zLevel, (double)((float)(u + 0)  * f), (double)((float)(v + 0)  * f1));
+        tessellator.draw();
+    }    
+    
+    public static void renderHeart(int x, int y, int sx, int sy){
+    	Minecraft.getMinecraft().getTextureManager().bindTexture(Gui.icons);
+    	drawTexturedModalRect(x, y, 52, 9, sx, sy, 9, 9);
+    	drawTexturedModalRect(x, y, 52, 0, sx, sy, 9, 9);
+    }
+    
+    public static void renderHalfHeart(int x, int y, int sx, int sy){
+    	Minecraft.getMinecraft().getTextureManager().bindTexture(Gui.icons);
+    	drawTexturedModalRect(x, y, 52, 9, sx, sy, 9, 9);
+    	drawTexturedModalRect(x, y, 61, 0, sx, sy, 9, 9);
     }    
     
 }
