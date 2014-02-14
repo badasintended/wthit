@@ -137,16 +137,10 @@ public class OverlayRenderer {
         tessellator.draw();
     }    
     
-    public static void renderHeart(int x, int y, int sx, int sy){
+    public static void renderIcon(int x, int y, int sx, int sy, IconUI icon){
     	Minecraft.getMinecraft().getTextureManager().bindTexture(Gui.icons);
-    	drawTexturedModalRect(x, y, 52, 9, sx, sy, 9, 9);
-    	drawTexturedModalRect(x, y, 52, 0, sx, sy, 9, 9);
+    	if (icon.bu != -1)
+    		drawTexturedModalRect(x, y, icon.bu, icon.bv, sx, sy, icon.bsu, icon.bsv);
+    	drawTexturedModalRect(x, y, icon.u, icon.v, sx, sy, icon.su, icon.sv);
     }
-    
-    public static void renderHalfHeart(int x, int y, int sx, int sy){
-    	Minecraft.getMinecraft().getTextureManager().bindTexture(Gui.icons);
-    	drawTexturedModalRect(x, y, 52, 9, sx, sy, 9, 9);
-    	drawTexturedModalRect(x, y, 61, 0, sx, sy, 9, 9);
-    }    
-    
 }

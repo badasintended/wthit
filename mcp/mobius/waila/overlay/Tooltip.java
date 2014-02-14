@@ -99,5 +99,7 @@ public class Tooltip {
 			for (int c = 0; c < lines.get(i).ncolumns; c++)
 				drawString(lines.get(i).columns[c], x + offsetX + columnsPos[c] + c*TabSpacing, y + ty + 10*i, OverlayConfig.fontcolor, true);
 		}
+		
+		//OverlayRenderer.renderIcon(0, 0, 16, 16, IconUI.HEART);
 	}
 }
