@@ -27,8 +27,9 @@ public class WailaTickHandler implements ITickHandler {
 	
 	private int ticks = 0;
 	public ItemStack identifiedHighlight = new ItemStack(Block.dirt);
-	public List<String> currenttip       = new ArrayList<String>(); 	
-	public MetaDataProvider handler    = new MetaDataProvider();
+	private List<String> currenttip      = new ArrayList<String>();
+	public  Tooltip      tooltip         = null;
+	public  MetaDataProvider handler     = new MetaDataProvider();
 	private Minecraft mc = Minecraft.getMinecraft();
 	
 	private static WailaTickHandler _instance;
@@ -69,6 +70,7 @@ public class WailaTickHandler implements ITickHandler {
 						this.currenttip      = handler.handleBlockTextData(targetStack, world, player, target, accessor, currenttip, Layout.HEADER);
 						this.currenttip      = handler.handleBlockTextData(targetStack, world, player, target, accessor, currenttip, Layout.BODY);
 						this.currenttip      = handler.handleBlockTextData(targetStack, world, player, target, accessor, currenttip, Layout.FOOTER);
+						this.tooltip         = new Tooltip(this.currenttip);
 					}
 				}
 				else if (target != null && target.typeOfHit == EnumMovingObjectType.ENTITY){
@@ -83,6 +85,7 @@ public class WailaTickHandler implements ITickHandler {
 						this.currenttip      = handler.handleEntityTextData(targetEnt, world, player, target, accessor, currenttip, Layout.HEADER);
 						this.currenttip      = handler.handleEntityTextData(targetEnt, world, player, target, accessor, currenttip, Layout.BODY);
 						this.currenttip      = handler.handleEntityTextData(targetEnt, world, player, target, accessor, currenttip, Layout.FOOTER);
+						this.tooltip         = new Tooltip(this.currenttip);						
 					}
 				}
 			}

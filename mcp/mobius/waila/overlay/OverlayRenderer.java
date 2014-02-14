@@ -46,28 +46,16 @@ public class OverlayRenderer {
     
         if (RayTracing.instance().getTarget().typeOfHit == EnumMovingObjectType.TILE && RayTracing.instance().getTargetStack() != null)
         {
-            renderOverlay(RayTracing.instance().getTargetStack(), WailaTickHandler.instance().currenttip, getPositioning());
+            renderOverlay(RayTracing.instance().getTargetStack(), WailaTickHandler.instance().tooltip);
         }
         
         if (RayTracing.instance().getTarget().typeOfHit == EnumMovingObjectType.ENTITY)
         {
-        	renderOverlay(DataAccessorEntity.instance.getEntity(), WailaTickHandler.instance().currenttip, getPositioning()); // Might need change for the override       	
+        	renderOverlay(DataAccessorEntity.instance.getEntity(), WailaTickHandler.instance().tooltip); // Might need change for the override       	
         }
     }		
-	
-    private static Point getPositioning()
-    {
-        return new Point(ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSX,0), ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSY,0));
-    }    
     
-    /*
-    public static int getColor(String key){
-    	int alpha = (int)(ConfigHandler.instance().getConfigInt(Constants.CFG_WAILA_ALPHA) / 100.0f * 256) << 24;
-    	return alpha + ConfigHandler.instance().getConfigInt(key);
-    }
-    */
-    
-    public static void renderOverlay(ItemStack stack, List<String> textData, Point pos)
+    public static void renderOverlay(ItemStack stack, Tooltip tooltip)
     {
     	//TrueTypeFont font = (TrueTypeFont)mod_Waila.proxy.getFont();
     	
@@ -75,69 +63,46 @@ public class OverlayRenderer {
     	
     	GL11.glScalef(OverlayConfig.scale, OverlayConfig.scale, 1.0f);
     	
-        int w = 0;
-        for (String s : textData)
-            w = Math.max(w, getStringWidth(s)+29);
-        int h = Math.max(24, 10 + 10*textData.size());
-
-        Dimension size = displaySize();
-        int x = ((int)(size.width / OverlayConfig.scale)-w-1)*pos.x/10000;
-        int y = ((int)(size.height / OverlayConfig.scale)-h-1)*pos.y/10000;
-        
         GL11.glDisable(GL12.GL_RESCALE_NORMAL);
         RenderHelper.disableStandardItemLighting();
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_DEPTH_TEST);
         
-        drawTooltipBox(x, y, w, h, OverlayConfig.bgcolor, OverlayConfig.gradient1, OverlayConfig.gradient2);
-
-        int ty = (h-10*textData.size())/2;
+        drawTooltipBox(tooltip.x, tooltip.y, tooltip.w, tooltip.h, OverlayConfig.bgcolor, OverlayConfig.gradient1, OverlayConfig.gradient2);
         
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);     
-        for (int i = 0; i < textData.size(); i++)
+        for (int i = 0; i < tooltip.textData.size(); i++)
         	//FontHelper.drawString(textData.get(i), x + 24, y + ty + 10*i, font, 1.0f, 1.0f, new float[] {1.0f, 1.0f, 1.0f});
-            drawString(textData.get(i), x + 24, y + ty + 10*i, OverlayConfig.fontcolor, true);
+            drawString(tooltip.textData.get(i), tooltip.x + 24, tooltip.y + tooltip.ty + 10*i, OverlayConfig.fontcolor, true);
         GL11.glDisable(GL11.GL_BLEND);
         
-
         RenderHelper.enableGUIStandardItemLighting();
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         
         if (stack.getItem() != null)
-            GuiContainerManager.drawItem(x+5, y+h/2-8, stack);
+            GuiContainerManager.drawItem(tooltip.x+5, tooltip.y+tooltip.h/2-8, stack);
         
     	GL11.glPopMatrix();        
     }    
     
-    public static void renderOverlay(Entity entity, List<String> textData, Point pos)
+    public static void renderOverlay(Entity entity, Tooltip tooltip)
     {
     	GL11.glPushMatrix();    	
     	
     	GL11.glScalef(OverlayConfig.scale, OverlayConfig.scale, 1.0f);    	
-    	
-        int w = 0;
-        for (String s : textData)
-            w = Math.max(w, getStringWidth(s)+10);
-        int h = Math.max(24, 10 + 10*textData.size());
-
-        Dimension size = displaySize();
-        int x = ((int)(size.width / OverlayConfig.scale)-w-1)*pos.x/10000;
-        int y = ((int)(size.height / OverlayConfig.scale)-h-1)*pos.y/10000;
         
         GL11.glDisable(GL12.GL_RESCALE_NORMAL);
         RenderHelper.disableStandardItemLighting();
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_DEPTH_TEST);
         
-        drawTooltipBox(x, y, w, h, OverlayConfig.bgcolor, OverlayConfig.gradient1, OverlayConfig.gradient2);
-
-        int ty = (h-10*textData.size())/2;
+        drawTooltipBox(tooltip.x, tooltip.y, tooltip.w, tooltip.h, OverlayConfig.bgcolor, OverlayConfig.gradient1, OverlayConfig.gradient2);
 
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);         
-        for (int i = 0; i < textData.size(); i++)
-            drawString(textData.get(i), x + 6, y + ty + 10*i, OverlayConfig.fontcolor, true);
+        for (int i = 0; i < tooltip.textData.size(); i++)
+            drawString(tooltip.textData.get(i), tooltip.x + 6, tooltip.y + tooltip.ty + 10*i, OverlayConfig.fontcolor, true);
         GL11.glDisable(GL11.GL_BLEND);
         
         //RenderHelper.enableGUIStandardItemLighting();
