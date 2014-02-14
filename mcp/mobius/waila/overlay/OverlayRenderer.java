@@ -72,8 +72,7 @@ public class OverlayRenderer {
         
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);     
-        for (int i = 0; i < tooltip.textData.size(); i++)
-    		drawString(tooltip.textData.get(i), tooltip.x + tooltip.offsetX, tooltip.y + tooltip.ty + 10*i, OverlayConfig.fontcolor, true);
+		tooltip.drawStrings();
         GL11.glDisable(GL11.GL_BLEND);
         
         if (tooltip.hasIcon)

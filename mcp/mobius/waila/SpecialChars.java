@@ -29,5 +29,6 @@ public class SpecialChars {
 	public static String RESET    = MCStyle + "r";		
 
 	public static String WailaStyle  = "\u00A4";
+	public static String TAB         = WailaStyle + "t";
 	
 }
