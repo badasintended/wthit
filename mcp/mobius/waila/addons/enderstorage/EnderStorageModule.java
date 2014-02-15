@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
 
-import mcp.mobius.waila.mod_Waila;
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 
 public class EnderStorageModule {
@@ -20,9 +20,9 @@ public class EnderStorageModule {
 	public static void register(){	
 		try{
 			Class EnderStorage = Class.forName("codechicken.enderstorage.EnderStorage");
-			mod_Waila.log.log(Level.INFO, "EnderStorage mod found.");
+			Waila.log.log(Level.INFO, "EnderStorage mod found.");
 		} catch (ClassNotFoundException e){
-			mod_Waila.log.log(Level.INFO, "[EnderStorage] EnderStorage mod not found.");
+			Waila.log.log(Level.INFO, "[EnderStorage] EnderStorage mod not found.");
 			return;
 		}
 		
@@ -37,16 +37,16 @@ public class EnderStorageModule {
 			TileEnderTank = Class.forName("codechicken.enderstorage.storage.liquid.TileEnderTank");
 			
 		} catch (ClassNotFoundException e){
-			mod_Waila.log.log(Level.WARNING, "[EnderStorage] Class not found. " + e);
+			Waila.log.log(Level.WARNING, "[EnderStorage] Class not found. " + e);
 			return;
 		} catch (NoSuchMethodException e){
-			mod_Waila.log.log(Level.WARNING, "[EnderStorage] Method not found." + e);
+			Waila.log.log(Level.WARNING, "[EnderStorage] Method not found." + e);
 			return;			
 		} catch (NoSuchFieldException e){
-			mod_Waila.log.log(Level.WARNING, "[EnderStorage] Field not found." + e);
+			Waila.log.log(Level.WARNING, "[EnderStorage] Field not found." + e);
 			return;			
 		} catch (Exception e){
-			mod_Waila.log.log(Level.WARNING, "[EnderStorage] Unhandled exception." + e);
+			Waila.log.log(Level.WARNING, "[EnderStorage] Unhandled exception." + e);
 			return;			
 		}
 		

@@ -1,9 +1,10 @@
 package mcp.mobius.waila.handlers.nei;
 
 import java.util.Map;
-import mcp.mobius.waila.Constants;
+
 import mcp.mobius.waila.gui.screens.info.ScreenEnchants;
-import mcp.mobius.waila.tools.ModIdentification;
+import mcp.mobius.waila.utils.Constants;
+import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.enchantment.Enchantment;

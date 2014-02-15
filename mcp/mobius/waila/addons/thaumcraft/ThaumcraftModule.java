@@ -3,7 +3,7 @@ package mcp.mobius.waila.addons.thaumcraft;
 import java.lang.reflect.Field;
 import java.util.logging.Level;
 
-import mcp.mobius.waila.mod_Waila;
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 
 public class ThaumcraftModule {
@@ -19,9 +19,9 @@ public class ThaumcraftModule {
 
 		try{
 			Class ModThaumcraft = Class.forName("thaumcraft.common.Thaumcraft");
-			mod_Waila.log.log(Level.INFO, "Thaumcraft mod found.");
+			Waila.log.log(Level.INFO, "Thaumcraft mod found.");
 		} catch (ClassNotFoundException e){
-			mod_Waila.log.log(Level.INFO, "[Thaumcraft] Thaumcraft mod not found.");
+			Waila.log.log(Level.INFO, "[Thaumcraft] Thaumcraft mod not found.");
 			return;
 		}
 		
@@ -35,13 +35,13 @@ public class ThaumcraftModule {
 			
 			
 		} catch (ClassNotFoundException e){
-			mod_Waila.log.log(Level.WARNING, "[Thaumcraft] Class not found. " + e);
+			Waila.log.log(Level.WARNING, "[Thaumcraft] Class not found. " + e);
 			return;
 //		} catch (NoSuchMethodException e){
 //			mod_Waila.log.log(Level.WARNING, "[Thaumcraft] Method not found." + e);
 //			return;			
 		} catch (NoSuchFieldException e){
-			mod_Waila.log.log(Level.WARNING, "[Thaumcraft] Field not found." + e);
+			Waila.log.log(Level.WARNING, "[Thaumcraft] Field not found." + e);
 			return;			
 //		} catch (Exception e){
 //			mod_Waila.log.log(Level.WARNING, "[Thaumcraft] Unhandled exception." + e);

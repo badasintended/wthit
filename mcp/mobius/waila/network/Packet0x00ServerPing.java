@@ -7,8 +7,8 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 
-import mcp.mobius.waila.Constants;
 import mcp.mobius.waila.api.impl.ConfigHandler;
+import mcp.mobius.waila.utils.Constants;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
 import net.minecraftforge.common.ConfigCategory;

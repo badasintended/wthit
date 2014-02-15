@@ -1,5 +1,5 @@
 package mcp.mobius.waila.overlay;
-import static mcp.mobius.waila.SpecialChars.*;
+import static mcp.mobius.waila.utils.SpecialChars.*;
 
 import java.util.HashMap;
 

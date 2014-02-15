@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import mcp.mobius.waila.Constants;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.DataAccessorBlock;
 import mcp.mobius.waila.api.impl.DataAccessorEntity;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
+import mcp.mobius.waila.utils.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;

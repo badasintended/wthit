@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 import java.util.logging.Level;
 
 import net.minecraftforge.common.ForgeDirection;
-import mcp.mobius.waila.mod_Waila;
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 
 public class ThermalExpansionModule {
@@ -45,9 +45,9 @@ public class ThermalExpansionModule {
 
 		try{
 			Class ModThermalExpansion = Class.forName("thermalexpansion.ThermalExpansion");
-			mod_Waila.log.log(Level.INFO, "Thermal Expansion mod found.");
+			Waila.log.log(Level.INFO, "Thermal Expansion mod found.");
 		} catch (ClassNotFoundException e){
-			mod_Waila.log.log(Level.INFO, "[Thermal Expansion] ThermalExpansion mod not found.");
+			Waila.log.log(Level.INFO, "[Thermal Expansion] ThermalExpansion mod not found.");
 			return;
 		}		
 		
@@ -84,13 +84,13 @@ public class ThermalExpansionModule {
 			//TileEnergyCell_energySend = TileEnergyCell.getField("energySend");
 			
 		} catch (ClassNotFoundException e){
-			mod_Waila.log.log(Level.WARNING, "[Thermal Expansion] Class not found. " + e);
+			Waila.log.log(Level.WARNING, "[Thermal Expansion] Class not found. " + e);
 			return;
 		} catch (NoSuchMethodException e){
-			mod_Waila.log.log(Level.WARNING, "[Thermal Expansion] Method not found." + e);
+			Waila.log.log(Level.WARNING, "[Thermal Expansion] Method not found." + e);
 			return;			
 		} catch (NoSuchFieldException e){
-			mod_Waila.log.log(Level.WARNING, "[Thermal Expansion] Field not found." + e);
+			Waila.log.log(Level.WARNING, "[Thermal Expansion] Field not found." + e);
 			return;			
 //		} catch (Exception e){
 //			mod_Waila.log.log(Level.WARNING, "[Thermal Expansion] Unhandled exception." + e);

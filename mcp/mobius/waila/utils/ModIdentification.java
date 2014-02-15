@@ -1,12 +1,14 @@
-package mcp.mobius.waila.tools;
+package mcp.mobius.waila.utils;
 
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Set;
-import java.util.logging.Level;
 
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import codechicken.core.CommonUtils;
 import cpw.mods.fml.client.registry.KeyBindingRegistry;
 import cpw.mods.fml.client.registry.KeyBindingRegistry.KeyHandler;
@@ -14,11 +16,6 @@ import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.common.registry.GameData;
 import cpw.mods.fml.common.registry.ItemData;
-import mcp.mobius.waila.mod_Waila;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 
 public class ModIdentification {
 	

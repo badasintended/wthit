@@ -9,11 +9,11 @@ import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import mcp.mobius.waila.mod_Waila;
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
-import mcp.mobius.waila.tools.AccessHelper;
+import mcp.mobius.waila.utils.AccessHelper;
 
 public class IC2Module {
 
@@ -97,19 +97,19 @@ public class IC2Module {
 			
 		} catch (ClassNotFoundException e){
 			//e.printStackTrace();
-			mod_Waila.log.log(Level.WARNING, "[IC2] Class not found. " + e);
+			Waila.log.log(Level.WARNING, "[IC2] Class not found. " + e);
 			return;
 		} catch (NoSuchMethodException e){
 			//e.printStackTrace();			
-			mod_Waila.log.log(Level.WARNING, "[IC2] Method not found." + e);
+			Waila.log.log(Level.WARNING, "[IC2] Method not found." + e);
 			return;			
 		} catch (NoSuchFieldException e){
 			//e.printStackTrace();			
-			mod_Waila.log.log(Level.WARNING, "[IC2] Field not found." + e);
+			Waila.log.log(Level.WARNING, "[IC2] Field not found." + e);
 			return;			
 		} catch (Exception e){
 			//e.printStackTrace();			
-			mod_Waila.log.log(Level.WARNING, "[IC2] Unhandled exception." + e);
+			Waila.log.log(Level.WARNING, "[IC2] Unhandled exception." + e);
 			return;			
 		}	
 		

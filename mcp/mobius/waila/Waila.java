@@ -2,9 +2,6 @@ package mcp.mobius.waila;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.HashMap;
-import java.util.Set;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.google.common.eventbus.EventBus;
@@ -12,38 +9,25 @@ import com.google.common.eventbus.Subscribe;
 
 import mcp.mobius.waila.api.IWailaRegistrar;
 import mcp.mobius.waila.api.impl.ConfigHandler;
-import mcp.mobius.waila.api.impl.MetaDataProvider;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
-import mcp.mobius.waila.client.WailaClientEventHandler;
 import mcp.mobius.waila.network.WailaConnectionHandler;
 import mcp.mobius.waila.network.WailaPacketHandler;
 import mcp.mobius.waila.overlay.OverlayConfig;
+import mcp.mobius.waila.overlay.DecoratorRenderer;
 import mcp.mobius.waila.server.ProxyServer;
-import mcp.mobius.waila.tools.ModIdentification;
-import mcp.mobius.waila.tools.Reflect;
+import mcp.mobius.waila.utils.Constants;
+import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.oredict.OreDictionary;
-import codechicken.core.CommonUtils;
 import codechicken.lib.lang.LangUtil;
-import cpw.mods.fml.client.registry.KeyBindingRegistry;
-import cpw.mods.fml.client.registry.KeyBindingRegistry.KeyHandler;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.FMLModContainer;
-import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.Mod.IMCCallback;
-import cpw.mods.fml.common.Mod.Init;
 import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.Mod.PostInit;
-import cpw.mods.fml.common.Mod.PreInit;
-import cpw.mods.fml.common.ModContainer;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLInterModComms;
@@ -52,18 +36,16 @@ import cpw.mods.fml.common.event.FMLLoadCompleteEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
-import cpw.mods.fml.common.registry.GameData;
-import cpw.mods.fml.common.registry.ItemData;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
 @Mod(modid="Waila", name="Waila", version="1.4.5a", dependencies="required-after:NotEnoughItems")
 @NetworkMod(channels = {"Waila"},clientSideRequired=false, serverSideRequired=false, connectionHandler = WailaConnectionHandler.class, 
 			packetHandler = WailaPacketHandler.class, versionBounds="[1.3.0,)")
 
-public class mod_Waila {
+public class Waila {
     // The instance of your mod that Forge uses.
 	@Instance("Waila")
-	public static mod_Waila instance;
+	public static Waila instance;
 
 	@SidedProxy(clientSide="mcp.mobius.waila.client.ProxyClient", serverSide="mcp.mobius.waila.server.ProxyServer")
 	public static ProxyServer proxy;	
@@ -75,7 +57,7 @@ public class mod_Waila {
     public void preInit(FMLPreInitializationEvent event) {
     	ConfigHandler.instance().loadDefaultConfig(event);
 		OverlayConfig.updateColors();
-		MinecraftForge.EVENT_BUS.register(new WailaClientEventHandler());		
+		MinecraftForge.EVENT_BUS.register(new DecoratorRenderer());		
 	}	
 	
     @EventHandler
@@ -148,15 +130,15 @@ public class mod_Waila {
 			if (imcMessage.key.equalsIgnoreCase("addconfig")){
 				String[] params = imcMessage.getStringValue().split("\\$\\$");
 				if (params.length != 3){
-					mod_Waila.log.warning(String.format("Error while parsing config option from [ %s ] for %s", imcMessage.getSender(), imcMessage.getStringValue()));					
+					Waila.log.warning(String.format("Error while parsing config option from [ %s ] for %s", imcMessage.getSender(), imcMessage.getStringValue()));					
 					continue;
 				}
-				mod_Waila.log.info(String.format("Receiving config request from [ %s ] for %s", imcMessage.getSender(), imcMessage.getStringValue()));				
+				Waila.log.info(String.format("Receiving config request from [ %s ] for %s", imcMessage.getSender(), imcMessage.getStringValue()));				
 				ConfigHandler.instance().addConfig(params[0], params[1], params[2]);
 			}
 			
 			if (imcMessage.key.equalsIgnoreCase("register")){
-				mod_Waila.log.info(String.format("Receiving registration request from [ %s ] for method %s", imcMessage.getSender(), imcMessage.getStringValue()));
+				Waila.log.info(String.format("Receiving registration request from [ %s ] for method %s", imcMessage.getSender(), imcMessage.getStringValue()));
 				this.callbackRegistration(imcMessage.getStringValue(), imcMessage.getSender());
 			}
 		}
@@ -167,21 +149,21 @@ public class mod_Waila {
 		String methodName = splitName[splitName.length-1];
 		String className  = method.substring(0, method.length()-methodName.length()-1);
 		
-		mod_Waila.log.info(String.format("Trying to reflect %s %s", className, methodName));
+		Waila.log.info(String.format("Trying to reflect %s %s", className, methodName));
 		
 		try{
 			Class  reflectClass  = Class.forName(className);
 			Method reflectMethod = reflectClass.getDeclaredMethod(methodName, IWailaRegistrar.class);
 			reflectMethod.invoke(null, (IWailaRegistrar)ModuleRegistrar.instance());
 			
-			mod_Waila.log.info(String.format("Success in registering %s", modname));
+			Waila.log.info(String.format("Success in registering %s", modname));
 			
 		} catch (ClassNotFoundException e){
-			mod_Waila.log.warning(String.format("Could not find class %s", className));
+			Waila.log.warning(String.format("Could not find class %s", className));
 		} catch (NoSuchMethodException e){
-			mod_Waila.log.warning(String.format("Could not find method %s", methodName));
+			Waila.log.warning(String.format("Could not find method %s", methodName));
 		} catch (Exception e){
-			mod_Waila.log.warning(String.format("Exception while trying to access the method : %s", e.toString()));
+			Waila.log.warning(String.format("Exception while trying to access the method : %s", e.toString()));
 		}
 		
 	}

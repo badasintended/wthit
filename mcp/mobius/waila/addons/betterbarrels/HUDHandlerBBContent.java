@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 import java.util.logging.Level;
 
-import mcp.mobius.waila.mod_Waila;
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
@@ -43,7 +43,7 @@ public class HUDHandlerBBContent implements IWailaDataProvider {
 			try {
 			 stack = (ItemStack) BetterBarrelsModule.IBarrelStorage_getItem.invoke(BetterBarrelsModule.TileEntityBarrel_Storage.get(entity));
 			} catch (Exception e){
-				mod_Waila.log.log(Level.SEVERE, "[BB] Unhandled exception trying to access a barrel storage for display !.\n" + String.valueOf(e));
+				Waila.log.log(Level.SEVERE, "[BB] Unhandled exception trying to access a barrel storage for display !.\n" + String.valueOf(e));
 				currenttip.add("<ERROR!>");
 				return currenttip;
 			}

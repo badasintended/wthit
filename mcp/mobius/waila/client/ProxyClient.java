@@ -1,7 +1,5 @@
 package mcp.mobius.waila.client;
 
-import mcp.mobius.waila.Constants;
-import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.addons.appeng.AppEngModule;
 import mcp.mobius.waila.addons.buildcraft.BCModule;
 import mcp.mobius.waila.addons.buildcraft.BCPowerAPIModule;
@@ -18,7 +16,6 @@ import mcp.mobius.waila.addons.thaumcraft.ThaumcraftModule;
 import mcp.mobius.waila.addons.thermalexpansion.ThermalExpansionModule;
 import mcp.mobius.waila.addons.twilightforest.TwilightForestModule;
 import mcp.mobius.waila.addons.vanillamc.HUDHandlerVanilla;
-import mcp.mobius.waila.api.impl.MetaDataProvider;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.gui.truetyper.FontLoader;
 import mcp.mobius.waila.gui.truetyper.TrueTypeFont;
@@ -28,6 +25,7 @@ import mcp.mobius.waila.handlers.SummaryProviderDefault;
 import mcp.mobius.waila.handlers.nei.TooltipHandlerWaila;
 import mcp.mobius.waila.overlay.WailaTickHandler;
 import mcp.mobius.waila.server.ProxyServer;
+import mcp.mobius.waila.utils.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
@@ -37,8 +35,6 @@ import org.lwjgl.input.Keyboard;
 
 import codechicken.lib.lang.LangUtil;
 import codechicken.nei.NEIClientConfig;
-import codechicken.nei.api.API;
-import codechicken.nei.api.ItemInfo;
 import codechicken.nei.forge.GuiContainerManager;
 import cpw.mods.fml.client.registry.KeyBindingRegistry;
 import cpw.mods.fml.common.registry.TickRegistry;
@@ -56,7 +52,7 @@ public class ProxyClient extends ProxyServer {
 	@Override
 	public void registerHandlers(){
 		
-	    LangUtil.instance.loadLangDir("waila");
+	    LangUtil.loadLangDir("waila");
 		
 		minecraftiaFont = FontLoader.createFont(new ResourceLocation("waila", "fonts/Minecraftia.ttf"), 14, true);
 		

@@ -1,27 +1,23 @@
-package mcp.mobius.waila.client;
-
-import java.util.ArrayList;
+package mcp.mobius.waila.overlay;
 
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import mcp.mobius.waila.WailaExceptionHandler;
 import mcp.mobius.waila.api.IWailaBlockDecorator;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.DataAccessorBlock;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
-import mcp.mobius.waila.overlay.RayTracing;
+import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
 import net.minecraftforge.event.ForgeSubscribe;
 
-public class WailaClientEventHandler {
+public class DecoratorRenderer {
 
 	@ForgeSubscribe
     @SideOnly(Side.CLIENT)
@@ -30,7 +26,7 @@ public class WailaClientEventHandler {
 		
 		double partialTicks = event.partialTicks;
 
-		DataAccessorBlock accessor       = DataAccessorBlock.instance;
+		DataAccessorBlock accessor  = DataAccessorBlock.instance;
 		World world                 = Minecraft.getMinecraft().theWorld;
 		EntityPlayer player         = Minecraft.getMinecraft().thePlayer;
 		EntityLivingBase viewEntity = Minecraft.getMinecraft().renderViewEntity;
@@ -40,7 +36,6 @@ public class WailaClientEventHandler {
 		accessor.set(world, player, RayTracing.instance().getTarget(), viewEntity, partialTicks);		
 
 		Block block   = accessor.getBlock();
-		int   blockID = accessor.getBlockID();
 
 		if (!ModuleRegistrar.instance().hasBlockDecorator(block)) return;
 		

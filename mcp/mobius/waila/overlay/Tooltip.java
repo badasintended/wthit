@@ -8,12 +8,11 @@ import java.awt.Dimension;
 import java.awt.Point;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.Icon;
 import net.minecraftforge.common.Configuration;
-import mcp.mobius.waila.Constants;
 import mcp.mobius.waila.api.impl.ConfigHandler;
+import mcp.mobius.waila.utils.Constants;
 import static codechicken.core.gui.GuiDraw.*;
-import static mcp.mobius.waila.SpecialChars.*;
+import static mcp.mobius.waila.utils.SpecialChars.*;
 
 public class Tooltip {
 	public static int TabSpacing = 8;
@@ -134,30 +133,15 @@ public class Tooltip {
 		for (int i = 0; i < lines.size(); i++){
 			for (int c = 0; c < lines.get(i).ncolumns; c++){
 				int offX = 0;				
-				/*
-				for (String s : lines.get(i).columns.get(c)){
-					if (s.startsWith(WailaStyle + WailaIcon))
-						offX += IconSize;
-					else if (s.startsWith(ALIGNRIGHT)){
-						offX += columnsWidth[c] - getStringWidth(s);
-						//drawString(s, x + offsetX + columnsPos[c] + c*TabSpacing + offX, y + ty + 10*i, OverlayConfig.fontcolor, true);
-						//offX += getStringWidth(s);
-					}
-					else{
-						drawString(s, x + offsetX + columnsPos[c] + c*TabSpacing + offX, y + ty + 10*i, OverlayConfig.fontcolor, true);
-						offX += getStringWidth(s);
-					}
-				}
-				*/
-				
-				//for (String s : lines.get(i).columns.get(c)){
+
 				for (int is = 0; is < lines.get(i).columns.get(c).size(); is++){
 					String s = lines.get(i).columns.get(c).get(is);
 					if (s.startsWith(WailaStyle + WailaIcon))
 						offX += IconSize;
-					else if (s.startsWith(ALIGNRIGHT)){
+					
+					else if (s.startsWith(ALIGNRIGHT))
 						offX += columnsWidth[c] - getStringWidth(lines.get(i).columns.get(c).get(is + 1));
-					}
+					
 					else{
 						drawString(s, x + offsetX + columnsPos[c] + c*TabSpacing + offX, y + ty + 10*i, OverlayConfig.fontcolor, true);
 						offX += getStringWidth(s);

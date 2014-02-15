@@ -1,8 +1,10 @@
-package mcp.mobius.waila;
+package mcp.mobius.waila.utils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
+
+import mcp.mobius.waila.Waila;
 
 public class WailaExceptionHandler {
 
@@ -15,11 +17,11 @@ public class WailaExceptionHandler {
 			errs.add(className);
 			
 			for (StackTraceElement elem : e.getStackTrace()){
-				mod_Waila.log.log(Level.WARNING, String.format("%s.%s:%s",elem.getClassName(), elem.getMethodName(), elem.getLineNumber()));
+				Waila.log.log(Level.WARNING, String.format("%s.%s:%s",elem.getClassName(), elem.getMethodName(), elem.getLineNumber()));
 				if (elem.getClassName().contains("waila")) break;
 			}
 			
-			mod_Waila.log.log(Level.WARNING, String.format("Catched unhandled exception : [%s] %s",className,e));
+			Waila.log.log(Level.WARNING, String.format("Catched unhandled exception : [%s] %s",className,e));
 		}
 		if (currenttip != null)
 			currenttip.add("<ERROR>");

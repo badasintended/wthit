@@ -3,12 +3,12 @@ package mcp.mobius.waila.client;
 import java.util.EnumSet;
 import java.util.List;
 
-import mcp.mobius.waila.Constants;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.gui.screens.config.ScreenConfig;
 import mcp.mobius.waila.gui.screens.info.ScreenEnchants;
 import mcp.mobius.waila.handlers.nei.HandlerEnchants;
 import mcp.mobius.waila.overlay.RayTracing;
+import mcp.mobius.waila.utils.Constants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiInventory;
@@ -26,7 +26,6 @@ import codechicken.nei.recipe.GuiCraftingRecipe;
 import codechicken.nei.recipe.GuiUsageRecipe;
 import cpw.mods.fml.client.registry.KeyBindingRegistry.KeyHandler;
 import cpw.mods.fml.common.TickType;
-import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public class ConfigKeyHandler extends KeyHandler {
 

@@ -13,7 +13,7 @@ import java.util.logging.Level;
 import au.com.bytecode.opencsv.CSVReader;
 import net.minecraft.block.Block;
 import codechicken.lib.lang.LangUtil;
-import mcp.mobius.waila.mod_Waila;
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IWailaBlockDecorator;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaEntityProvider;
@@ -195,6 +195,7 @@ public class ModuleRegistrar implements IWailaRegistrar {
 		this.tailEntityProviders.get(entity).add(dataProvider);
 	}	
 	
+	@Override
 	public void registerOverrideEntityProvider (IWailaEntityProvider dataProvider, Class entity){
 		if (!this.overrideEntityProviders.containsKey(entity))
 			this.overrideEntityProviders.put(entity, new ArrayList<IWailaEntityProvider>());
@@ -377,7 +378,7 @@ public class ModuleRegistrar implements IWailaRegistrar {
 		try{
 			docData = this.readFileAsString(filename);
 		} catch (IOException e){
-			mod_Waila.log.log(Level.WARNING, String.format("Error while accessing file %s : %s", filename, e));
+			Waila.log.log(Level.WARNING, String.format("Error while accessing file %s : %s", filename, e));
 			return;
 		}
 
@@ -416,7 +417,7 @@ public class ModuleRegistrar implements IWailaRegistrar {
 			}
 		}
 		*/
-		mod_Waila.log.log(Level.INFO, String.format("Registered %s entries from %s", nentries, filename));
+		Waila.log.log(Level.INFO, String.format("Registered %s entries from %s", nentries, filename));
 	}	
 	
 	public boolean hasDocTextModID(String modid){

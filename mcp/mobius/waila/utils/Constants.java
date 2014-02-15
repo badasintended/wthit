@@ -1,4 +1,4 @@
-package mcp.mobius.waila;
+package mcp.mobius.waila.utils;
 
 public final class Constants {
 	public static String BIND_SCREEN_WIKI = "showwiki";

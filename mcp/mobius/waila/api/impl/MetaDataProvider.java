@@ -3,13 +3,12 @@ package mcp.mobius.waila.api.impl;
 import java.util.ArrayList;
 import java.util.List;
 
-import mcp.mobius.waila.WailaExceptionHandler;
-import mcp.mobius.waila.mod_Waila;
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IWailaBlock;
 import mcp.mobius.waila.api.IWailaDataProvider;
-import mcp.mobius.waila.api.IWailaEntityAccessor;
 import mcp.mobius.waila.api.IWailaEntityProvider;
 import mcp.mobius.waila.network.Packet0x01TERequest;
+import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -63,7 +62,7 @@ public class MetaDataProvider{
 		Block block   = accessor.getBlock();
 		int   blockID = accessor.getBlockID();
 		
-		if (accessor.getTileEntity() != null && mod_Waila.instance.serverPresent && 
+		if (accessor.getTileEntity() != null && Waila.instance.serverPresent && 
 				((System.currentTimeMillis() - accessor.timeLastUpdate >= 250))){
 			accessor.timeLastUpdate = System.currentTimeMillis();
 			PacketDispatcher.sendPacketToServer(Packet0x01TERequest.create(world, mop));

@@ -7,20 +7,13 @@ import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry.EntityRegistration;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.util.Icon;
 import net.minecraft.util.MathHelper;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaEntityAccessor;
 import mcp.mobius.waila.api.IWailaEntityProvider;
-import static mcp.mobius.waila.SpecialChars.*;
+import static mcp.mobius.waila.utils.SpecialChars.*;
 
 public class HUDHandlerEntities implements IWailaEntityProvider {
-
-	@Override
-	public Icon getWailaIcon(IWailaEntityAccessor accessor,	IWailaConfigHandler config) {
-		return null;
-	}
 
 	@Override
 	public Entity getWailaOverride(IWailaEntityAccessor accessor, IWailaConfigHandler config) {
@@ -39,8 +32,6 @@ public class HUDHandlerEntities implements IWailaEntityProvider {
 
 	@Override
 	public List<String> getWailaBody(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
-		//if (entity instanceof EntityLivingBase)
-		//	
 		if (entity instanceof EntityLivingBase){
 			String hptip = "";
 			

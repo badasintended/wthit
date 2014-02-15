@@ -1,33 +1,17 @@
 package mcp.mobius.waila.overlay;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 import codechicken.nei.forge.GuiContainerManager;
-import cpw.mods.fml.common.ModContainer;
-import cpw.mods.fml.common.registry.EntityRegistry;
-import cpw.mods.fml.common.registry.EntityRegistry.EntityRegistration;
-
-import java.awt.Dimension;
-import java.awt.Point;
-
-import mcp.mobius.waila.Constants;
-import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.api.impl.ConfigHandler;
-import mcp.mobius.waila.api.impl.DataAccessorEntity;
-import mcp.mobius.waila.gui.truetyper.TrueTypeFont;
+import mcp.mobius.waila.utils.Constants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderItem;
-import net.minecraft.entity.Entity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumMovingObjectType;
-import net.minecraft.util.Icon;
 import net.minecraftforge.common.Configuration;
 import static codechicken.core.gui.GuiDraw.*;
 
@@ -43,7 +27,7 @@ public class OverlayRenderer {
         Minecraft mc = Minecraft.getMinecraft();
         if(!(mc.currentScreen == null &&
              mc.theWorld != null &&
-             mc.isGuiEnabled() &&
+             Minecraft.isGuiEnabled() &&
              !mc.gameSettings.keyBindPlayerList.pressed &&
              ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW, true) &&
              RayTracing.instance().getTarget()      != null))
@@ -134,10 +118,10 @@ public class OverlayRenderer {
         Tessellator tessellator = Tessellator.instance;
         tessellator.startDrawingQuads();
     	tessellator.setColorOpaque_F(1, 1, 1);        
-        tessellator.addVertexWithUV((double)(x + 0), (double)(y + h), (double)zLevel, (double)((float)(u + 0)  * f), (double)((float)(v + th) * f1));
-        tessellator.addVertexWithUV((double)(x + w), (double)(y + h), (double)zLevel, (double)((float)(u + tw) * f), (double)((float)(v + th) * f1));
-        tessellator.addVertexWithUV((double)(x + w), (double)(y + 0), (double)zLevel, (double)((float)(u + tw) * f), (double)((float)(v + 0)  * f1));
-        tessellator.addVertexWithUV((double)(x + 0), (double)(y + 0), (double)zLevel, (double)((float)(u + 0)  * f), (double)((float)(v + 0)  * f1));
+        tessellator.addVertexWithUV(x + 0, y + h, zLevel, (u + 0)  * f, (v + th) * f1);
+        tessellator.addVertexWithUV(x + w, y + h, zLevel, (u + tw) * f, (v + th) * f1);
+        tessellator.addVertexWithUV(x + w, y + 0, zLevel, (u + tw) * f, (v + 0)  * f1);
+        tessellator.addVertexWithUV(x + 0, y + 0, zLevel, (u + 0)  * f, (v + 0)  * f1);
         tessellator.draw();
     }    
     

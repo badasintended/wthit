@@ -2,7 +2,7 @@ package mcp.mobius.waila.handlers.nei;
 
 import java.util.List;
 
-import mcp.mobius.waila.tools.ModIdentification;
+import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.item.ItemStack;
 import codechicken.nei.forge.IContainerTooltipHandler;

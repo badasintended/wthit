@@ -1,8 +1,8 @@
 package mcp.mobius.waila.overlay;
 
 import net.minecraftforge.common.Configuration;
-import mcp.mobius.waila.Constants;
 import mcp.mobius.waila.api.impl.ConfigHandler;
+import mcp.mobius.waila.utils.Constants;
 
 public class OverlayConfig {
 	public static int posX;

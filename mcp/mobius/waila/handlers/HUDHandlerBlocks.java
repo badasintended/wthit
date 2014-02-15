@@ -2,13 +2,13 @@ package mcp.mobius.waila.handlers;
 
 import java.util.List;
 
-import static mcp.mobius.waila.SpecialChars.*;
-import mcp.mobius.waila.Constants;
+import static mcp.mobius.waila.utils.SpecialChars.*;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.impl.ConfigHandler;
-import mcp.mobius.waila.tools.ModIdentification;
+import mcp.mobius.waila.utils.Constants;
+import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.Configuration;

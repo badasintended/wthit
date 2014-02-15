@@ -4,10 +4,10 @@ import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 
-import mcp.mobius.waila.WailaExceptionHandler;
-import mcp.mobius.waila.mod_Waila;
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.DataAccessorBlock;
+import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
@@ -29,11 +29,11 @@ public class WailaPacketHandler implements IPacketHandler {
 					byte header = this.getHeader(packet);
 					if (header == 0x00){
 						Packet0x00ServerPing castedPacket = new Packet0x00ServerPing(packet);
-						mod_Waila.log.info("Received server authentication msg. Remote sync will be activated");
-						mod_Waila.instance.serverPresent = true;
+						Waila.log.info("Received server authentication msg. Remote sync will be activated");
+						Waila.instance.serverPresent = true;
 					
 						for (String key : castedPacket.forcedKeys.keySet())
-							mod_Waila.log.info(String.format("Received forced key config %s : %s", key, castedPacket.forcedKeys.get(key)));
+							Waila.log.info(String.format("Received forced key config %s : %s", key, castedPacket.forcedKeys.get(key)));
 						
 						ConfigHandler.instance().forcedConfigs = castedPacket.forcedKeys;
 					}

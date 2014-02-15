@@ -1,4 +1,4 @@
-package mcp.mobius.waila;
+package mcp.mobius.waila.utils;
 
 public class SpecialChars {
 

@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
 
-import mcp.mobius.waila.mod_Waila;
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import codechicken.lib.lang.LangUtil;
 import codechicken.nei.api.API;
@@ -24,15 +24,15 @@ public class BetterBarrelsModule {
 			IBarrelStorage_getItem   = IBarrelStorage.getMethod("getItem");
 			
 		} catch (ClassNotFoundException e){
-			mod_Waila.log.log(Level.WARNING, "[BB] BetterBarrel classes not found.");
+			Waila.log.log(Level.WARNING, "[BB] BetterBarrel classes not found.");
 		} catch (NoSuchFieldException e){
-			mod_Waila.log.log(Level.WARNING, "[BB] Storage field not found.");			
+			Waila.log.log(Level.WARNING, "[BB] Storage field not found.");			
 		} catch (NoSuchMethodException e){
-			mod_Waila.log.log(Level.WARNING, "[BB] getItem() not found.");
+			Waila.log.log(Level.WARNING, "[BB] getItem() not found.");
 		}
 		
 		if (IBarrelStorage_getItem != null){
-			mod_Waila.log.log(Level.INFO, "Waila module BetterBarrel succefully hooked.");
+			Waila.log.log(Level.INFO, "Waila module BetterBarrel succefully hooked.");
 			ModuleRegistrar.instance().addConfig("BetterBarrels", "bb.content");			
 			ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerBBContent(), TileEntityBarrel);			
 		}

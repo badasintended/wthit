@@ -5,7 +5,7 @@ import net.minecraftforge.common.Property;
 
 import org.lwjgl.util.Point;
 
-import mcp.mobius.waila.mod_Waila;
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.gui.events.MouseEvent;
 import mcp.mobius.waila.gui.interfaces.IWidget;

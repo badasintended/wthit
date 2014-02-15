@@ -2,8 +2,7 @@ package mcp.mobius.waila.gui.screens.config;
 
 import org.lwjgl.util.Point;
 
-import mcp.mobius.waila.Constants;
-import mcp.mobius.waila.mod_Waila;
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.gui.events.MouseEvent;
 import mcp.mobius.waila.gui.interfaces.CType;
@@ -20,6 +19,7 @@ import mcp.mobius.waila.gui.widgets.buttons.ButtonLabel;
 import mcp.mobius.waila.gui.widgets.buttons.ButtonScreenChange;
 import mcp.mobius.waila.gui.widgets.movable.PictureMovableRC;
 import mcp.mobius.waila.overlay.OverlayConfig;
+import mcp.mobius.waila.utils.Constants;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.common.Configuration;
 

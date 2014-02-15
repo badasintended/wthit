@@ -5,7 +5,7 @@ import java.lang.reflect.Method;
 import java.util.logging.Level;
 
 import net.minecraftforge.common.ForgeDirection;
-import mcp.mobius.waila.mod_Waila;
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 
 public class BCPowerAPIModule {
@@ -30,9 +30,9 @@ public class BCPowerAPIModule {
 	public static void register(){	
 		try{
 			Class ModClass = Class.forName("buildcraft.api.power.IPowerReceptor");
-			mod_Waila.log.log(Level.INFO, "Buildcraft Power API found.");
+			Waila.log.log(Level.INFO, "Buildcraft Power API found.");
 		} catch (ClassNotFoundException e){
-			mod_Waila.log.log(Level.INFO, "[Buildcraft Power API] Buildcraft Power API mod not found.");
+			Waila.log.log(Level.INFO, "[Buildcraft Power API] Buildcraft Power API mod not found.");
 			return;
 		}
 		
@@ -56,16 +56,16 @@ public class BCPowerAPIModule {
 			
 			
 		} catch (ClassNotFoundException e){
-			mod_Waila.log.log(Level.WARNING, "[EnderStorage] Class not found. " + e);
+			Waila.log.log(Level.WARNING, "[EnderStorage] Class not found. " + e);
 			return;
 		} catch (NoSuchMethodException e){
-			mod_Waila.log.log(Level.WARNING, "[EnderStorage] Method not found." + e);
+			Waila.log.log(Level.WARNING, "[EnderStorage] Method not found." + e);
 			return;			
 //		} catch (NoSuchFieldException e){
 //			mod_Waila.log.log(Level.WARNING, "[EnderStorage] Field not found." + e);
 //			return;			
 		} catch (Exception e){
-			mod_Waila.log.log(Level.WARNING, "[EnderStorage] Unhandled exception." + e);
+			Waila.log.log(Level.WARNING, "[EnderStorage] Unhandled exception." + e);
 			return;			
 		}
 		
