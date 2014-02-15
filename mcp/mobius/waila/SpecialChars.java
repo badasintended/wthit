@@ -31,5 +31,7 @@ public class SpecialChars {
 	public static String WailaStyle     = "\u00A4";
 	public static String WailaStyleEnd  = "\u00A5";
 	public static String TAB         = WailaStyle + "t" + WailaStyleEnd;
+	public static String HEART       = WailaStyle + "h" + WailaStyleEnd;
+	public static String HHEART      = WailaStyle + "d" + WailaStyleEnd;
 	
 }

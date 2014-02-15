@@ -17,6 +17,7 @@ import static mcp.mobius.waila.SpecialChars.*;
 
 public class Tooltip {
 	public static int TabSpacing = 8;
+	public static int IconSize   = 8; 
 	
 	ArrayList<Line> lines = new ArrayList<Line>();
 	int w,h,x,y,ty;
@@ -27,25 +28,52 @@ public class Tooltip {
 	ItemStack stack;
 	
 	int[] columnsWidth;
+	int[] columnsWidthAll;
 	int[] columnsPos;
 	int   ncolumns = 0;
 	
 	private class Line{
-		String[] columns;
+		String[] columnsRaw;
+		ArrayList<ArrayList<String>> columns = new ArrayList<ArrayList<String>>(); 
 		int      ncolumns;
 		int[]    columnsWidth;
 		int      lineWidth;
 		
 		public Line(String text){
-			columns      = text.split(TAB);
-			ncolumns     = columns.length;
+			columnsRaw   = text.split(TAB);
+			ncolumns     = columnsRaw.length;
 			columnsWidth = new int[ncolumns];
 			lineWidth    = 0;			
 			
+			for (String s : columnsRaw)
+				columns.add(parseString(s));
+
 			for (int i = 0; i < ncolumns; i++){
-				columnsWidth[i] = getStringWidth(columns[i]);
+				for (String s : columns.get(i)){
+					if (s.startsWith(WailaStyle))
+						columnsWidth[i] += IconSize;
+					else
+						columnsWidth[i] += getStringWidth(s);
+				}
 				lineWidth      += columnsWidth[i];
 			}
+		}
+		
+		ArrayList<String> parseString(String s){
+			ArrayList<String> retList = new ArrayList<String>();
+			Pattern pattern = Pattern.compile(WailaStyle + "." + WailaStyleEnd);
+			Matcher matcher = pattern.matcher(s);
+			
+			int prevIndex = 0;
+			while (matcher.find()){
+				String substring = s.substring(prevIndex, matcher.start());
+				if (!substring.equals(""))
+					retList.add(substring);
+				retList.add(s.substring(matcher.start(), matcher.end()));
+				prevIndex = matcher.end();
+			}
+			retList.add(s.substring(prevIndex));
+			return retList;
 		}
 	}
 	
@@ -61,16 +89,27 @@ public class Tooltip {
 		for (Line l : lines)
 			ncolumns = Math.max(ncolumns, l.ncolumns);
 		
-		columnsWidth = new int[ncolumns];
-		columnsPos   = new int[ncolumns];
+		columnsWidthAll = new int[ncolumns];
+		columnsWidth    = new int[ncolumns];
+		columnsPos      = new int[ncolumns];
 
 		for (Line l : lines){
-			if (l.ncolumns > 1)
-				for (int i = 0; i < l.ncolumns; i++)
+			for (int i = 0; i < l.ncolumns; i++){
+				if (l.ncolumns > 1)
 					columnsWidth[i] = Math.max(columnsWidth[i], l.columnsWidth[i]);
-					
-			maxStringW = Math.max(maxStringW, l.lineWidth + (l.ncolumns - 1) * TabSpacing);
+				columnsWidthAll[i] = Math.max(columnsWidth[i], l.columnsWidth[i]);
+			}
+				
+			
+			//maxStringW = Math.max(maxStringW, l.lineWidth + (l.ncolumns - 1) * TabSpacing);
 		}
+
+		maxStringW = 0;
+		for (int i = 0; i < ncolumns; i++)
+			maxStringW += columnsWidthAll[i];
+		maxStringW += ncolumns * TabSpacing;
+
+		
 		
 		for (int i = 0; i < ncolumns - 1; i++)
 			columnsPos[i + 1] = columnsWidth[i] + columnsPos[i];
@@ -96,10 +135,33 @@ public class Tooltip {
 	
 	public void drawStrings(){
 		for (int i = 0; i < lines.size(); i++){
-			for (int c = 0; c < lines.get(i).ncolumns; c++)
-				drawString(lines.get(i).columns[c], x + offsetX + columnsPos[c] + c*TabSpacing, y + ty + 10*i, OverlayConfig.fontcolor, true);
+			for (int c = 0; c < lines.get(i).ncolumns; c++){
+				int offX = 0;				
+				for (String s : lines.get(i).columns.get(c)){
+					if (s.startsWith(WailaStyle))
+						offX += IconSize;
+					else{
+						drawString(s, x + offsetX + columnsPos[c] + c*TabSpacing + offX, y + ty + 10*i, OverlayConfig.fontcolor, true);
+						offX += getStringWidth(s);
+					}
+				}
+			}
 		}
-		
-		//OverlayRenderer.renderIcon(0, 0, 16, 16, IconUI.HEART);
 	}
+	
+	public void drawIcons(){
+		for (int i = 0; i < lines.size(); i++){
+			for (int c = 0; c < lines.get(i).ncolumns; c++){
+				int offX = 0;				
+				for (String s : lines.get(i).columns.get(c)){
+					if (s.startsWith(WailaStyle)){
+						OverlayRenderer.renderIcon(x + offsetX + columnsPos[c] + c*TabSpacing + offX, y + ty + 10*i, IconSize, IconSize, IconUI.bySymbol(s));
+						offX += IconSize;
+					}else{
+						offX += getStringWidth(s);
+					}
+				}
+			}
+		}
+	}	
 }
