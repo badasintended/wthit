@@ -11,11 +11,11 @@ import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.packet.Packet250CustomPayload;
 
-public class Packet0x02TENBTData {
+public class Packet0x04EntNBTData {
 	public byte header;
 	public NBTTagCompound tag;
 
-	public Packet0x02TENBTData(Packet250CustomPayload packet){
+	public Packet0x04EntNBTData(Packet250CustomPayload packet){
 		DataInputStream inputStream = new DataInputStream(new ByteArrayInputStream(packet.data));
 		try{
 			this.header  = inputStream.readByte();
@@ -29,7 +29,7 @@ public class Packet0x02TENBTData {
 		DataOutputStream outputStream = new DataOutputStream(bos);
 		
 		try{
-			outputStream.writeByte(0x02);
+			outputStream.writeByte(0x04);
 			NBTUtil.writeNBTTagCompound(tag, outputStream);
 		}catch(IOException e){}
 		
@@ -39,4 +39,7 @@ public class Packet0x02TENBTData {
 		
 		return packet;
 	}	
+
+ 
+    
 }

@@ -9,6 +9,7 @@ import mcp.mobius.waila.api.IWailaBlock;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaEntityProvider;
 import mcp.mobius.waila.network.Packet0x01TERequest;
+import mcp.mobius.waila.network.Packet0x03EntRequest;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -161,8 +162,8 @@ public class MetaDataProvider{
 			if (ModuleRegistrar.instance().hasSyncedNBTKeys(accessor.getEntity()))
 				keys.addAll(ModuleRegistrar.instance().getSyncedNBTKeys(accessor.getEntity()));			
 			
-			//if (keys.size() != 0)
-			//	PacketDispatcher.sendPacketToServer(Packet0x01TERequest.create(world, mop, keys));
+			if (keys.size() != 0)
+				PacketDispatcher.sendPacketToServer(Packet0x03EntRequest.create(world, accessor.getEntity(), keys));
 		}
 
 		headEntityProviders.clear();

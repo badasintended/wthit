@@ -7,8 +7,10 @@ import java.io.IOException;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.DataAccessorBlock;
+import mcp.mobius.waila.api.impl.DataAccessorEntity;
 import mcp.mobius.waila.utils.NBTUtil;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
+import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
@@ -38,6 +40,7 @@ public class WailaPacketHandler implements IPacketHandler {
 						
 						ConfigHandler.instance().forcedConfigs = castedPacket.forcedKeys;
 					}
+					
 					else if (header == 0x01){
 						Packet0x01TERequest castedPacket = new Packet0x01TERequest(packet);
 				        MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
@@ -56,6 +59,26 @@ public class WailaPacketHandler implements IPacketHandler {
 						Packet0x02TENBTData castedPacket = new Packet0x02TENBTData(packet);
 						DataAccessorBlock.instance.remoteNbt = castedPacket.tag;
 					}
+					
+					else if (header == 0x03){
+						Packet0x03EntRequest castedPacket = new Packet0x03EntRequest(packet);
+				        MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
+				        Entity         entity = DimensionManager.getWorld(castedPacket.worldID).getEntityByID(castedPacket.id);
+				        if (entity != null){
+				        	try{
+				        		NBTTagCompound tag = new NBTTagCompound();
+				        		entity.writeToNBT(tag);
+				        		PacketDispatcher.sendPacketToPlayer(Packet0x04EntNBTData.create(NBTUtil.createTag(tag, castedPacket.keys)), player);
+				        	}catch(Throwable e){
+				        		WailaExceptionHandler.handleErr(e, entity.getClass().toString(), null);
+				        	}
+				        }
+					}
+					
+					else if (header == 0x04){
+						Packet0x04EntNBTData castedPacket = new Packet0x04EntNBTData(packet);
+						DataAccessorEntity.instance.remoteNbt = castedPacket.tag;
+					}					
 				}
 	        }
 		catch (Exception e){
