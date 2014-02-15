@@ -10,6 +10,7 @@ import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.impl.ConfigHandler;
+import static mcp.mobius.waila.SpecialChars.*;
 
 public class HUDHandlerTETradeOMat implements IWailaDataProvider {
 
@@ -38,13 +39,13 @@ public class HUDHandlerTETradeOMat implements IWailaDataProvider {
 		if (offer.tagCount() == 1){
 			NBTTagCompound subtag = (NBTTagCompound)offer.tagAt(0);
 			ItemStack is = new ItemStack(subtag.getShort("id"), subtag.getByte("Count"), subtag.getShort("Damage"));
-			currenttip.add(String.format("%s : \u00a7f%d\u00a7r x \u00a7f%s\u00a7r", offersStr, is.stackSize, is.getDisplayName()));
+			currenttip.add(String.format("%s%s\u00a7f%d\u00a7r x \u00a7f%s\u00a7r", offersStr, TAB, is.stackSize, is.getDisplayName()));
 		}
 
 		if (demand.tagCount() == 1){
 			NBTTagCompound subtag = (NBTTagCompound)demand.tagAt(0);
 			ItemStack is = new ItemStack(subtag.getShort("id"), subtag.getByte("Count"), subtag.getShort("Damage"));
-			currenttip.add(String.format("%s : \u00a7f%d\u00a7r x \u00a7f%s\u00a7r", demandsStr, is.stackSize, is.getDisplayName()));
+			currenttip.add(String.format("%s%s\u00a7f%d\u00a7r x \u00a7f%s\u00a7r", demandsStr, TAB, is.stackSize, is.getDisplayName()));
 		}		
 		
 		return currenttip;

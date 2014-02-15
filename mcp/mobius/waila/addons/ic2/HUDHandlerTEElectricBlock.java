@@ -9,6 +9,7 @@ import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.impl.ConfigHandler;
+import static mcp.mobius.waila.SpecialChars.*;
 
 public class HUDHandlerTEElectricBlock implements IWailaDataProvider {
 
@@ -37,13 +38,13 @@ public class HUDHandlerTEElectricBlock implements IWailaDataProvider {
 				int    storage = IC2Module.TEEB_MaxStorage.getInt(accessor.getTileEntity());
 				
 				if ( stored >= 0.0 )
-					currenttip.add(String.format("%s : \u00a7f%d\u00a7r / \u00a7f%d\u00a7r EU", storedStr, Math.round(Math.min(stored,storage)), storage));
+					currenttip.add(String.format("%s%s\u00a7f%d\u00a7r / \u00a7f%d\u00a7r EU", storedStr, TAB, Math.round(Math.min(stored,storage)), storage));
 			}
 			
 			if (ConfigHandler.instance().getConfig("ic2.outputeu")){
 				int production = IC2Module.TEEB_Output.getInt(accessor.getTileEntity());
 					if ( production > 0)
-						currenttip.add(String.format("%s : \u00a7f%d\u00a7r EU/t", outputStr, production));
+						currenttip.add(String.format("%s%s\u00a7f%d\u00a7r EU/t", outputStr, TAB, production));
 			}			
 			
 		} catch (Exception e){    

@@ -9,6 +9,7 @@ import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.impl.ConfigHandler;
+import static mcp.mobius.waila.SpecialChars.*;
 
 public class HUDHandlerTEStandardMachine implements IWailaDataProvider {
 
@@ -53,17 +54,17 @@ public class HUDHandlerTEStandardMachine implements IWailaDataProvider {
 			/* EU Storage */
 			if (ConfigHandler.instance().getConfig("ic2.storage")){
 				if ( stored >= 0.0 )
-					currenttip.add(String.format("%s : \u00a7f%d\u00a7r / \u00a7f%d\u00a7r EU", storedStr, Math.round(Math.min(stored,storage)), storage));
+					currenttip.add(String.format("%s%s\u00a7f%d\u00a7r / \u00a7f%d\u00a7r EU", storedStr, TAB, Math.round(Math.min(stored,storage)), storage));
 			}
 		
 			if (ConfigHandler.instance().getConfig("ic2.consump")){
 				if ( consumption > 0)
-					currenttip.add(String.format("%s : \u00a7f%d\u00a7r EU/t", powerStr, consumption ));
+					currenttip.add(String.format("%s%s\u00a7f%d\u00a7r EU/t", powerStr, TAB, consumption ));
 			}
 			
 			if (ConfigHandler.instance().getConfig("ic2.inputeu")){
 				if ( maxinput > 0)
-					currenttip.add(String.format("%s : \u00a7f%d\u00a7r EU/t", maxPowerStr, maxinput ));
+					currenttip.add(String.format("%s%s\u00a7f%d\u00a7r EU/t", maxPowerStr, TAB, maxinput ));
 			}
 			
 		} catch (Exception e){    
