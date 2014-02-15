@@ -46,6 +46,7 @@ public class ProjectRedModule {
 		
 		ModuleRegistrar.instance().registerBlockDecorator(new HUDDecoratorRsGateLogic(), BlockMultipart);
 		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerRsGateLogic(), BlockMultipart);
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", BlockMultipart);
 	}	
 	
 }

@@ -32,7 +32,10 @@ public class TwilightForestModule {
 		
 		ModuleRegistrar.instance().registerStackProvider(new TwilightForestGenericOverride(), BlockTFRoots);
 		ModuleRegistrar.instance().registerStackProvider(new TwilightForestGenericOverride(), BlockTFPlant);		
-		//ExternalModulesHandler.instance().registerStackProvider(new TwilightForestGenericOverride(), BlockTFSapling);				
+		//ExternalModulesHandler.instance().registerStackProvider(new TwilightForestGenericOverride(), BlockTFSapling);	
+		
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", BlockTFRoots);
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", BlockTFPlant);		
 	}
 
 }

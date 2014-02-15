@@ -38,6 +38,7 @@ public class AppEngModule {
 		
 		Waila.log.log(Level.INFO, "AppEng mod found.");
 		ModuleRegistrar.instance().addConfig("Applied Energetic", "appeng.monitorcontent");		
-		ModuleRegistrar.instance().registerBodyProvider(new HUDAppEngMonitor(), TileStorageMonitor);		
+		ModuleRegistrar.instance().registerBodyProvider(new HUDAppEngMonitor(), TileStorageMonitor);
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", TileStorageMonitor);
 	}
 }

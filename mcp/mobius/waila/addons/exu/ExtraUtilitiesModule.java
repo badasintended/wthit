@@ -29,6 +29,7 @@ public class ExtraUtilitiesModule {
 		}
 		
 		ModuleRegistrar.instance().addConfigRemote("ExtraUtilities", "extrautilities.fluidamount");		
-		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerDrum(),  TileEntityDrum);			
+		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerDrum(),  TileEntityDrum);
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", TileEntityDrum);
 	}
 }

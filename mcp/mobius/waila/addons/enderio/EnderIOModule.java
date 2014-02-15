@@ -59,6 +59,8 @@ public class EnderIOModule {
 		ModuleRegistrar.instance().addConfig("EnderIO", "enderio.channel");		
 		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerCapacitor(), TileCapacitorBank);
 		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTesseract(), TileTesseract);
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", TileCapacitorBank);
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", TileTesseract);		
 	}	
 	
 }

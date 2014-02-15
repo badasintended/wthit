@@ -26,7 +26,8 @@ public class GravestoneModule {
 		}
 
 		
-		ModuleRegistrar.instance().registerStackProvider(new HUDHandlerGravestone(), BlockGraveStone);		
+		ModuleRegistrar.instance().registerStackProvider(new HUDHandlerGravestone(), BlockGraveStone);	
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", BlockGraveStone);
 	}
 
 }

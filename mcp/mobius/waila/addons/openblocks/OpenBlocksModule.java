@@ -29,5 +29,6 @@ public class OpenBlocksModule {
 		ModuleRegistrar.instance().addConfigRemote("OpenBlocks", "openblocks.fluidamount");		
 		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTank(),  TileEntityTank);
 		ModuleRegistrar.instance().registerHeadProvider(new HUDHandlerTank(),  TileEntityTank);		
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", TileEntityTank);
 	}
 }

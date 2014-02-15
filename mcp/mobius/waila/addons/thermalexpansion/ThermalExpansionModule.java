@@ -119,6 +119,12 @@ public class ThermalExpansionModule {
 		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerConduitFluid(), BlockMultipart);		
 		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerConduitItem(),  BlockMultipart);		
 			
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", IEnergyHandler);
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", TileEnergyCell);
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", TileTank);
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", TileTesseract);
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", ISecureTile);
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", BlockMultipart);
 		
 	}
 	

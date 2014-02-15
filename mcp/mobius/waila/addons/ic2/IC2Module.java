@@ -125,7 +125,14 @@ public class IC2Module {
 		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTEBaseGenerator(),   TileEntitySemifluidGenerator);
 		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTEBaseGenerator(),   TileEntityGeoGenerator);		
 		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTEElectricBlock(),   TileEntityElectricBlock);
-		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTETradeOMat(),       TileEntityTradeOMat);		
+		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTETradeOMat(),       TileEntityTradeOMat);	
+		
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", TileEntityStandardMachine);
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", TileEntityBaseGenerator);
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", TileEntitySemifluidGenerator);
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", TileEntityGeoGenerator);
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", TileEntityElectricBlock);
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", TileEntityTradeOMat);
 	}
 
 	/* Retuns the current stored energy if available in the nbt and config is true */

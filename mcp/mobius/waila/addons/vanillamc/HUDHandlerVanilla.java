@@ -194,6 +194,23 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 		ModuleRegistrar.instance().registerBodyProvider(provider, cocoa);
 		ModuleRegistrar.instance().registerBodyProvider(provider, netherwart);			
 		
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", Block.mobSpawner.getClass());
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", Block.crops.getClass());
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", Block.melonStem.getClass());
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", Block.pumpkinStem.getClass());
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", Block.carrot.getClass());
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", Block.potato.getClass());
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", Block.lever.getClass());
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", Block.redstoneRepeaterIdle.getClass());
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", Block.redstoneRepeaterActive.getClass());
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", Block.redstoneComparatorIdle.getClass());
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", Block.redstoneComparatorActive.getClass());
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", Block.redstoneWire.getClass());		
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", Block.jukebox.getClass());		
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", Block.cocoaPlant.getClass());
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", Block.netherStalk.getClass());		
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", Block.silverfish.getClass());	
+		
 		ModuleRegistrar.instance().registerDocTextFile("/mcp/mobius/waila/addons/vanillamc/WikiData.csv");
 		
 		//ExternalModulesHandler.instance().registerBlockDecorator(new HUDDecoratorVanilla(), repeaterIdle);

@@ -38,5 +38,6 @@ public class RailcraftModule {
 		ModuleRegistrar.instance().addConfigRemote("Railcraft", "railcraft.fluidamount");		
 		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTank(),  TileTankBase);
 		ModuleRegistrar.instance().registerHeadProvider(new HUDHandlerTank(),  TileTankBase);
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", TileTankBase);
 	}
 }

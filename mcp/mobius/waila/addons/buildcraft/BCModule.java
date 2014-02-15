@@ -42,6 +42,7 @@ public class BCModule {
 		ModuleRegistrar.instance().addConfig("Buildcraft", "bc.tanktype");
 		ModuleRegistrar.instance().registerHeadProvider(new HUDHandlerBCTanks(), TileTank);			
 		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerBCTanks(), TileTank);
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", TileTank);
 	}
 	
 }

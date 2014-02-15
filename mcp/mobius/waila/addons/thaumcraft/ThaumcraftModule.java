@@ -52,6 +52,9 @@ public class ThaumcraftModule {
 		ModuleRegistrar.instance().registerStackProvider(new HUDHandlerPlants(), BlockCustomPlant);
 		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerCapacitor(), TileCrystalCapacitor);		
 		
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", BlockMagicalLeaves);
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", BlockCustomPlant);
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", TileCrystalCapacitor);
 	}
 
 }
