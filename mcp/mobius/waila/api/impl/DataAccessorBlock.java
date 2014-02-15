@@ -158,4 +158,12 @@ public class DataAccessorBlock implements IWailaDataAccessor {
 		return ForgeDirection.getOrientation(this.getPosition().sideHit);
 	}
 	
+	public boolean isTimeElapsed(long time){
+		return System.currentTimeMillis() - this.timeLastUpdate >= time;
+	}
+	
+	public void resetTimer(){
+		this.timeLastUpdate = System.currentTimeMillis();
+	}
+	
 }

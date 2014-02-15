@@ -7,6 +7,7 @@ import java.io.IOException;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.DataAccessorBlock;
+import mcp.mobius.waila.utils.NBTUtil;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
@@ -45,7 +46,7 @@ public class WailaPacketHandler implements IPacketHandler {
 				        	try{
 				        		NBTTagCompound tag = new NBTTagCompound();
 				        		entity.writeToNBT(tag);
-				        		PacketDispatcher.sendPacketToPlayer(Packet0x02TENBTData.create(tag), player);
+				        		PacketDispatcher.sendPacketToPlayer(Packet0x02TENBTData.create(NBTUtil.createTag(tag, castedPacket.keys)), player);
 				        	}catch(Throwable e){
 				        		WailaExceptionHandler.handleErr(e, entity.getClass().toString(), null);
 				        	}

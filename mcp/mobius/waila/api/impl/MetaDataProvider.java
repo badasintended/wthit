@@ -1,6 +1,7 @@
 package mcp.mobius.waila.api.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import mcp.mobius.waila.Waila;
@@ -60,12 +61,19 @@ public class MetaDataProvider{
 
 	public List<String> handleBlockTextData(ItemStack itemStack, World world, EntityPlayer player, MovingObjectPosition mop, DataAccessorBlock accessor, List<String> currenttip, Layout layout) {
 		Block block   = accessor.getBlock();
-		int   blockID = accessor.getBlockID();
 		
-		if (accessor.getTileEntity() != null && Waila.instance.serverPresent && 
-				((System.currentTimeMillis() - accessor.timeLastUpdate >= 250))){
-			accessor.timeLastUpdate = System.currentTimeMillis();
-			PacketDispatcher.sendPacketToServer(Packet0x01TERequest.create(world, mop));
+		if (accessor.getTileEntity() != null && Waila.instance.serverPresent && accessor.isTimeElapsed(250)){
+			accessor.resetTimer();
+			HashSet<String> keys = new HashSet<String>();
+			
+			if (ModuleRegistrar.instance().hasSyncedNBTKeys(block))
+				keys.addAll(ModuleRegistrar.instance().getSyncedNBTKeys(block));
+
+			if (ModuleRegistrar.instance().hasSyncedNBTKeys(accessor.getTileEntity()))
+				keys.addAll(ModuleRegistrar.instance().getSyncedNBTKeys(accessor.getTileEntity()));			
+			
+			if (keys.size() != 0)
+				PacketDispatcher.sendPacketToServer(Packet0x01TERequest.create(world, mop, keys));
 		}
 
 		/* Interface IWailaBlock */
@@ -146,16 +154,16 @@ public class MetaDataProvider{
 	
 	public List<String> handleEntityTextData(Entity entity, World world, EntityPlayer player, MovingObjectPosition mop, DataAccessorEntity accessor, List<String> currenttip, Layout layout) {
 		
-		/*
-		Block block   = accessor.getBlock();
-		int   blockID = accessor.getBlockID();
-		
-		if (accessor.getTileEntity() != null && mod_Waila.instance.serverPresent && 
-				((System.currentTimeMillis() - accessor.timeLastUpdate >= 250))){
-			accessor.timeLastUpdate = System.currentTimeMillis();
-			PacketDispatcher.sendPacketToServer(Packet0x01TERequest.create(world, mop));
+		if (accessor.getEntity() != null && Waila.instance.serverPresent && accessor.isTimeElapsed(250)){
+			accessor.resetTimer();
+			HashSet<String> keys = new HashSet<String>();
+
+			if (ModuleRegistrar.instance().hasSyncedNBTKeys(accessor.getEntity()))
+				keys.addAll(ModuleRegistrar.instance().getSyncedNBTKeys(accessor.getEntity()));			
+			
+			//if (keys.size() != 0)
+			//	PacketDispatcher.sendPacketToServer(Packet0x01TERequest.create(world, mop, keys));
 		}
-		*/
 
 		headEntityProviders.clear();
 		bodyEntityProviders.clear();

@@ -118,4 +118,12 @@ public class DataAccessorEntity implements IWailaEntityAccessor {
 		return this.partialFrame;
 	}
 
+	public boolean isTimeElapsed(long time){
+		return System.currentTimeMillis() - this.timeLastUpdate >= time;
+	}
+	
+	public void resetTimer(){
+		this.timeLastUpdate = System.currentTimeMillis();
+	}	
+	
 }
