@@ -51,7 +51,7 @@ public class HUDHandlerTEBaseGenerator implements IWailaDataProvider {
 				double stored  = IC2Module.getStoredEnergy(accessor); 
 			
 				if ( stored >= 0.0 && storage > 0)
-					currenttip.add(String.format("%s%s\u00a7f%d\u00a7r / \u00a7f%d\u00a7r EU", storedStr, TAB, Math.round(Math.min(stored,storage)), storage));
+					currenttip.add(String.format("%s%s\u00a7f%d\u00a7r / \u00a7f%d\u00a7r EU", storedStr, TAB + ALIGNRIGHT, Math.round(Math.min(stored,storage)), storage));
 				
 				//else if (stored >= 0.0)
 				//	currenttip.add(String.format("Stored : %d EU", stored));				
@@ -59,7 +59,7 @@ public class HUDHandlerTEBaseGenerator implements IWailaDataProvider {
 			
 			if (ConfigHandler.instance().getConfig("ic2.outputeu")){
 					if ( production > 0)
-						currenttip.add(String.format("%s%s\u00a7f%d\u00a7r EU/t", outputStr, TAB, production));
+						currenttip.add(String.format("%s%s\u00a7f%d\u00a7r EU/t", outputStr, TAB + ALIGNRIGHT, production));
 			}
 			
 		} catch (Exception e){    

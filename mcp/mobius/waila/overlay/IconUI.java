@@ -32,7 +32,7 @@ EHEART(52, 9, 9, 9, "c");
 		this.bv  = bv;
 		this.bsu = bsu;
 		this.bsv = bsv;
-		this.symbol = WailaStyle + symbol + WailaStyleEnd;
+		this.symbol = WailaStyle + WailaIcon + symbol;
 	}	
 	
 	public static IconUI bySymbol(String s){

@@ -39,13 +39,13 @@ public class HUDHandlerTETradeOMat implements IWailaDataProvider {
 		if (offer.tagCount() == 1){
 			NBTTagCompound subtag = (NBTTagCompound)offer.tagAt(0);
 			ItemStack is = new ItemStack(subtag.getShort("id"), subtag.getByte("Count"), subtag.getShort("Damage"));
-			currenttip.add(String.format("%s%s\u00a7f%d\u00a7r x \u00a7f%s\u00a7r", offersStr, TAB, is.stackSize, is.getDisplayName()));
+			currenttip.add(String.format("%s%s\u00a7f%d\u00a7r x \u00a7f%s\u00a7r", offersStr, TAB + ALIGNRIGHT, is.stackSize, is.getDisplayName()));
 		}
 
 		if (demand.tagCount() == 1){
 			NBTTagCompound subtag = (NBTTagCompound)demand.tagAt(0);
 			ItemStack is = new ItemStack(subtag.getShort("id"), subtag.getByte("Count"), subtag.getShort("Damage"));
-			currenttip.add(String.format("%s%s\u00a7f%d\u00a7r x \u00a7f%s\u00a7r", demandsStr, TAB, is.stackSize, is.getDisplayName()));
+			currenttip.add(String.format("%s%s\u00a7f%d\u00a7r x \u00a7f%s\u00a7r", demandsStr, TAB + ALIGNRIGHT, is.stackSize, is.getDisplayName()));
 		}		
 		
 		return currenttip;

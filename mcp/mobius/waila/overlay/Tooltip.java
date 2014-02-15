@@ -28,7 +28,6 @@ public class Tooltip {
 	ItemStack stack;
 	
 	int[] columnsWidth;
-	int[] columnsWidthAll;
 	int[] columnsPos;
 	int   ncolumns = 0;
 	
@@ -50,8 +49,10 @@ public class Tooltip {
 
 			for (int i = 0; i < ncolumns; i++){
 				for (String s : columns.get(i)){
-					if (s.startsWith(WailaStyle))
+					if (s.startsWith(WailaStyle + WailaIcon))
 						columnsWidth[i] += IconSize;
+					else if (s.startsWith(WailaStyle + WailaStyle))
+						columnsWidth[i] += 0;
 					else
 						columnsWidth[i] += getStringWidth(s);
 				}
@@ -61,7 +62,7 @@ public class Tooltip {
 		
 		ArrayList<String> parseString(String s){
 			ArrayList<String> retList = new ArrayList<String>();
-			Pattern pattern = Pattern.compile(WailaStyle + "." + WailaStyleEnd);
+			Pattern pattern = Pattern.compile(WailaStyle + "..");
 			Matcher matcher = pattern.matcher(s);
 			
 			int prevIndex = 0;
@@ -89,27 +90,23 @@ public class Tooltip {
 		for (Line l : lines)
 			ncolumns = Math.max(ncolumns, l.ncolumns);
 		
-		columnsWidthAll = new int[ncolumns];
 		columnsWidth    = new int[ncolumns];
 		columnsPos      = new int[ncolumns];
 
 		for (Line l : lines){
 			for (int i = 0; i < l.ncolumns; i++){
-				if (l.ncolumns > 1)
+				if (l.ncolumns > 1 && ncolumns != 1)
 					columnsWidth[i] = Math.max(columnsWidth[i], l.columnsWidth[i]);
-				columnsWidthAll[i] = Math.max(columnsWidth[i], l.columnsWidth[i]);
+				else if (ncolumns == 1)
+					columnsWidth[i] = Math.max(columnsWidth[i], l.columnsWidth[i]);
 			}
-				
-			
-			//maxStringW = Math.max(maxStringW, l.lineWidth + (l.ncolumns - 1) * TabSpacing);
 		}
 
 		maxStringW = 0;
 		for (int i = 0; i < ncolumns; i++)
-			maxStringW += columnsWidthAll[i];
+			maxStringW += columnsWidth[i];
 		maxStringW += ncolumns * TabSpacing;
 
-		
 		
 		for (int i = 0; i < ncolumns - 1; i++)
 			columnsPos[i + 1] = columnsWidth[i] + columnsPos[i];
@@ -137,14 +134,36 @@ public class Tooltip {
 		for (int i = 0; i < lines.size(); i++){
 			for (int c = 0; c < lines.get(i).ncolumns; c++){
 				int offX = 0;				
+				/*
 				for (String s : lines.get(i).columns.get(c)){
-					if (s.startsWith(WailaStyle))
+					if (s.startsWith(WailaStyle + WailaIcon))
 						offX += IconSize;
+					else if (s.startsWith(ALIGNRIGHT)){
+						offX += columnsWidth[c] - getStringWidth(s);
+						//drawString(s, x + offsetX + columnsPos[c] + c*TabSpacing + offX, y + ty + 10*i, OverlayConfig.fontcolor, true);
+						//offX += getStringWidth(s);
+					}
 					else{
 						drawString(s, x + offsetX + columnsPos[c] + c*TabSpacing + offX, y + ty + 10*i, OverlayConfig.fontcolor, true);
 						offX += getStringWidth(s);
 					}
 				}
+				*/
+				
+				//for (String s : lines.get(i).columns.get(c)){
+				for (int is = 0; is < lines.get(i).columns.get(c).size(); is++){
+					String s = lines.get(i).columns.get(c).get(is);
+					if (s.startsWith(WailaStyle + WailaIcon))
+						offX += IconSize;
+					else if (s.startsWith(ALIGNRIGHT)){
+						offX += columnsWidth[c] - getStringWidth(lines.get(i).columns.get(c).get(is + 1));
+					}
+					else{
+						drawString(s, x + offsetX + columnsPos[c] + c*TabSpacing + offX, y + ty + 10*i, OverlayConfig.fontcolor, true);
+						offX += getStringWidth(s);
+					}
+				}				
+				
 			}
 		}
 	}
@@ -154,7 +173,7 @@ public class Tooltip {
 			for (int c = 0; c < lines.get(i).ncolumns; c++){
 				int offX = 0;				
 				for (String s : lines.get(i).columns.get(c)){
-					if (s.startsWith(WailaStyle)){
+					if (s.startsWith(WailaStyle + WailaIcon)){
 						OverlayRenderer.renderIcon(x + offsetX + columnsPos[c] + c*TabSpacing + offX, y + ty + 10*i, IconSize, IconSize, IconUI.bySymbol(s));
 						offX += IconSize;
 					}else{
