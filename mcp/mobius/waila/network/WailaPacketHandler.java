@@ -41,7 +41,6 @@ public class WailaPacketHandler implements IPacketHandler {
 						Packet0x01TERequest castedPacket = new Packet0x01TERequest(packet);
 				        MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
 				        TileEntity      entity = DimensionManager.getWorld(castedPacket.worldID).getBlockTileEntity(castedPacket.posX, castedPacket.posY, castedPacket.posZ);
-				        //TileEntity      entity = server.worldServers[castedPacket.worldID].getBlockTileEntity(castedPacket.posX, castedPacket.posY, castedPacket.posZ);
 				        if (entity != null){
 				        	try{
 				        		NBTTagCompound tag = new NBTTagCompound();

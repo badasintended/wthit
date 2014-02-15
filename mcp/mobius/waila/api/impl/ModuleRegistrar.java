@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
@@ -29,15 +30,18 @@ public class ModuleRegistrar implements IWailaRegistrar {
 	public LinkedHashMap<Class, ArrayList<IWailaDataProvider>> tailBlockProviders  = new LinkedHashMap<Class, ArrayList<IWailaDataProvider>>();	
 	public LinkedHashMap<Class, ArrayList<IWailaDataProvider>> stackBlockProviders = new LinkedHashMap<Class, ArrayList<IWailaDataProvider>>();	
 
+	public LinkedHashMap<Class, ArrayList<IWailaBlockDecorator>> blockClassDecorators = new LinkedHashMap<Class,   ArrayList<IWailaBlockDecorator>>();
+	
 	public LinkedHashMap<Class, ArrayList<IWailaEntityProvider>> headEntityProviders      = new LinkedHashMap<Class, ArrayList<IWailaEntityProvider>>();
 	public LinkedHashMap<Class, ArrayList<IWailaEntityProvider>> bodyEntityProviders      = new LinkedHashMap<Class, ArrayList<IWailaEntityProvider>>();
 	public LinkedHashMap<Class, ArrayList<IWailaEntityProvider>> tailEntityProviders      = new LinkedHashMap<Class, ArrayList<IWailaEntityProvider>>();
 	public LinkedHashMap<Class, ArrayList<IWailaEntityProvider>> overrideEntityProviders  = new LinkedHashMap<Class, ArrayList<IWailaEntityProvider>>();	
 	
-	public LinkedHashMap<Class,   ArrayList<IWailaBlockDecorator>> blockClassDecorators = new LinkedHashMap<Class,   ArrayList<IWailaBlockDecorator>>();	
+	public LinkedHashMap<Class, HashSet<String>> syncedNBTKeys = new LinkedHashMap<Class, HashSet<String>>();
+	
+	
 	
 	public LinkedHashMap<String, LinkedHashMap <String, LinkedHashMap <String, String>>> wikiDescriptions = new LinkedHashMap<String, LinkedHashMap <String, LinkedHashMap <String, String>>>();
-
 	public LinkedHashMap<Class, ArrayList<IWailaSummaryProvider>> summaryProviders = new LinkedHashMap<Class, ArrayList<IWailaSummaryProvider>>();
 	
 	private ModuleRegistrar() {
@@ -207,6 +211,16 @@ public class ModuleRegistrar implements IWailaRegistrar {
 	}
 	
 	
+	@Override
+	public void registerSyncedNBTKey(String key, Class target){
+		if (!this.syncedNBTKeys.containsKey(target))
+			this.syncedNBTKeys.put(target, new HashSet<String>());
+		
+		this.syncedNBTKeys.get(target).add(key);		
+	}	
+	
+	
+	
 	/* PROVIDER GETTERS */
 	
 	public ArrayList<IWailaDataProvider> getHeadProviders(Object block) {
@@ -299,6 +313,15 @@ public class ModuleRegistrar implements IWailaRegistrar {
 		return returnList;
 	}	
 	
+	public HashSet<String> getSyncedNBTKeys(Object target){
+		HashSet<String> returnList = new HashSet<String>();
+		for (Class clazz : this.syncedNBTKeys.keySet())
+			if (clazz.isInstance(target))
+				returnList.addAll(this.syncedNBTKeys.get(clazz));
+				
+		return returnList;		
+	}
+	
 	/* HAS METHODS */
 	
 	public boolean hasStackProviders(Object block){
@@ -364,6 +387,13 @@ public class ModuleRegistrar implements IWailaRegistrar {
 	public boolean hasOverrideEntityProviders(Object entity){
 		for (Class clazz : this.overrideEntityProviders.keySet())
 			if (clazz.isInstance(entity))
+				return true;
+		return false;
+	}		
+	
+	public boolean hasSyncedNBTKeys(Object target){
+		for (Class clazz : this.syncedNBTKeys.keySet())
+			if (clazz.isInstance(target))
 				return true;
 		return false;
 	}		

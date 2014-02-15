@@ -36,7 +36,15 @@ public interface IWailaRegistrar {
 	public void registerBlockDecorator (IWailaBlockDecorator decorator, int blockID);
 	public void registerBlockDecorator (IWailaBlockDecorator decorator, Class block);
 	
+	/* Selective NBT key syncing. Will register a key to sync over the network for the given class (block, te or ent).  
+	 * Accept * as a ending wildcard 
+	 * registerNBTKey("bob.*", MyBlock.class)
+	 * registerNBTKey("data.life", MyEntity.class) 
+	 * registerNBTKey("*", MyTileEntity.class) will reproduce the full tag syncing from 1.4.5 
+	 * */
+	public void registerSyncedNBTKey(String key, Class target);
+
+	/* UNUSED FOR NOW (Will be used for the ingame wiki */
 	public void registerDocTextFile  (String filename);
-	
 	public void registerShortDataProvider (IWailaSummaryProvider dataProvider, Class item);
 }
