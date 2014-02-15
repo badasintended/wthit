@@ -12,6 +12,7 @@ import mcp.mobius.waila.addons.ic2.IC2Module;
 import mcp.mobius.waila.addons.openblocks.OpenBlocksModule;
 import mcp.mobius.waila.addons.projectred.ProjectRedModule;
 import mcp.mobius.waila.addons.railcraft.RailcraftModule;
+import mcp.mobius.waila.addons.stevescarts.StevesCartsModule;
 import mcp.mobius.waila.addons.thaumcraft.ThaumcraftModule;
 import mcp.mobius.waila.addons.thermalexpansion.ThermalExpansionModule;
 import mcp.mobius.waila.addons.twilightforest.TwilightForestModule;
@@ -130,7 +131,10 @@ public class ProxyClient extends ProxyServer {
 		OpenBlocksModule.register();
 		
 		/* Railcraft */
-		RailcraftModule.register();			
+		RailcraftModule.register();		
+		
+		/* Steve's Carts */
+		StevesCartsModule.register();
 	}	
 	
 	@Override
