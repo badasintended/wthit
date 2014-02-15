@@ -79,7 +79,9 @@ public class OverlayRenderer {
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);     
 		tooltip.drawStrings();
         GL11.glDisable(GL11.GL_BLEND);
-		tooltip.drawIcons();        
+
+        tooltip.drawIcons();        
+
         
         if (tooltip.hasIcon)
         	RenderHelper.enableGUIStandardItemLighting();
@@ -131,6 +133,7 @@ public class OverlayRenderer {
         float zLevel = 0.0F;
         Tessellator tessellator = Tessellator.instance;
         tessellator.startDrawingQuads();
+    	tessellator.setColorOpaque_F(1, 1, 1);        
         tessellator.addVertexWithUV((double)(x + 0), (double)(y + h), (double)zLevel, (double)((float)(u + 0)  * f), (double)((float)(v + th) * f1));
         tessellator.addVertexWithUV((double)(x + w), (double)(y + h), (double)zLevel, (double)((float)(u + tw) * f), (double)((float)(v + th) * f1));
         tessellator.addVertexWithUV((double)(x + w), (double)(y + 0), (double)zLevel, (double)((float)(u + tw) * f), (double)((float)(v + 0)  * f1));

@@ -9,6 +9,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.util.Icon;
+import net.minecraft.util.MathHelper;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaEntityAccessor;
 import mcp.mobius.waila.api.IWailaEntityProvider;
@@ -39,7 +40,24 @@ public class HUDHandlerEntities implements IWailaEntityProvider {
 	@Override
 	public List<String> getWailaBody(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
 		//if (entity instanceof EntityLivingBase)
-		//	currenttip.add(String.format("%.1f / %.1f", ((EntityLivingBase)entity).getHealth(), ((EntityLivingBase)entity).getMaxHealth()));
+		//	
+		if (entity instanceof EntityLivingBase){
+			String hptip = "";
+			
+			float  health = ((EntityLivingBase)entity).getHealth() / 2.0f;
+			float  maxhp  = ((EntityLivingBase)entity).getMaxHealth() / 2.0f;;
+			
+			for (int i = 0; i < MathHelper.floor_float(health); i++)
+				hptip += HEART;
+			
+			if (((EntityLivingBase)entity).getHealth() > MathHelper.floor_float(health) * 2.0f)
+				hptip += HHEART;
+
+			for (int i = 0; i < MathHelper.floor_float(maxhp - health); i++)
+				hptip += EHEART;
+			
+			currenttip.add(hptip);
+		}
 		return currenttip;	
 	}
 

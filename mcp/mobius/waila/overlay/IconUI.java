@@ -4,8 +4,9 @@ import static mcp.mobius.waila.SpecialChars.*;
 import java.util.HashMap;
 
 public enum IconUI {
-HEART (52, 0, 9, 9, 52, 9, 9, 9, "h"),
-HHEART(61, 0, 9, 9, 52, 9, 9, 9, "d");
+HEART (52, 0, 9, 9, 52, 9, 9, 9, "a"),
+HHEART(61, 0, 9, 9, 52, 9, 9, 9, "b"),
+EHEART(52, 9, 9, 9, "c");
 
 	private final static HashMap<String, IconUI> lk = new HashMap<String, IconUI>();
 	static {
