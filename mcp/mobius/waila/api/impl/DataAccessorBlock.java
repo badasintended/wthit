@@ -45,7 +45,8 @@ public class DataAccessorBlock implements IWailaDataAccessor {
 		this.block    = Block.blocksList[this.blockID];
 		this.metadata = world.getBlockMetadata(_mop.blockX, _mop.blockY, _mop.blockZ);
 		this.entity   = world.getBlockTileEntity(_mop.blockX, _mop.blockY, _mop.blockZ);
-		this.stack    = new ItemStack(this.blockID, 1, this.metadata);
+		try{ this.stack = new ItemStack(this.blockID, 1, this.metadata); } catch (Exception e) {}
+			
 		
 		if (viewEntity != null){
 			double px = viewEntity.lastTickPosX + (viewEntity.posX - viewEntity.lastTickPosX) * partialTicks;
