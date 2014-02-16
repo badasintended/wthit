@@ -16,6 +16,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
@@ -133,8 +134,9 @@ public class RayTracing {
         int x = this.target.blockX;
         int y = this.target.blockY;
         int z = this.target.blockZ;
-        int   blockID        = world.getBlockId(x, y, z);
-        Block mouseoverBlock = Block.blocksList[blockID];
+        int   blockID         = world.getBlockId(x, y, z);
+        Block mouseoverBlock  = Block.blocksList[blockID];
+        TileEntity tileEntity = world.getBlockTileEntity(x, y, z); 
         if (mouseoverBlock == null) return items;
         
         if (ModuleRegistrar.instance().hasStackProviders(mouseoverBlock)){
@@ -142,6 +144,12 @@ public class RayTracing {
         	if (providerStack != null)
         		items.add(providerStack);
         }
+        
+        if (tileEntity != null &&  ModuleRegistrar.instance().hasStackProviders(tileEntity)){
+        	ItemStack providerStack = ModuleRegistrar.instance().getStackProviders(tileEntity).get(0).getWailaStack(DataAccessorBlock.instance, ConfigHandler.instance());
+        	if (providerStack != null)
+        		items.add(providerStack);
+        }        
         
         if(items.size() > 0)
             return items;
