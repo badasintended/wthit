@@ -52,7 +52,8 @@ public class HUDHandlerBlocks implements IWailaDataProvider {
 		else{
 			if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATA, true)){
 				name = currenttip.get(0);
-				currenttip.set(0, name + String.format(" %s:%s", accessor.getBlockID(), accessor.getMetadata()));
+				//currenttip.set(0, name + String.format(" %s:%s", accessor.getBlockID(), accessor.getMetadata()));
+				currenttip.set(0, name + String.format(" %s:%s", itemStack.itemID, itemStack.getItemDamage()));
 			}
 		}		
 		return currenttip;

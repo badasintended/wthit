@@ -45,15 +45,25 @@ public class HUDMinecartModular implements IWailaEntityProvider {
 			
 			for (int i = 0; i < metas.length; i++){
 				if (tag.hasKey("module" + String.valueOf(i) + "Fuel")){
+					
 					int fuel = accessor.getNBTInteger(tag, "module" + String.valueOf(i) + "Fuel");
 					currenttip.add(new ItemStack(ItemCartModule, 1, metas[i]).getDisplayName() + TAB + ALIGNRIGHT + " [ " + WHITE + fuel + GRAY + " POW ]");
+					
 				} else if (tag.hasKey("module" + String.valueOf(i) + "Fluid")){
+					
 					NBTTagCompound subtag = tag.getCompoundTag("module" + String.valueOf(i) + "Fluid");
-					int amount = accessor.getNBTInteger(subtag, "Amount");
-					String fluid = subtag.getString("FluidName"); 
-					currenttip.add(new ItemStack(ItemCartModule, 1, metas[i]).getDisplayName() + TAB + ALIGNRIGHT + " [ " + WHITE + String.valueOf(amount) + GRAY + " mB of " + WHITE + fluid + GRAY + " ]");
+					if (subtag.hasKey("amount")){
+						int amount = accessor.getNBTInteger(subtag, "Amount");
+						String fluid = subtag.getString("FluidName"); 
+						currenttip.add(new ItemStack(ItemCartModule, 1, metas[i]).getDisplayName() + TAB + ALIGNRIGHT + " [ " + WHITE + String.valueOf(amount) + GRAY + " mB of " + WHITE + fluid + GRAY + " ]");
+					} else {
+						currenttip.add(new ItemStack(ItemCartModule, 1, metas[i]).getDisplayName() + TAB + ALIGNRIGHT + " < " + WHITE + "Empty" + GRAY + " > ");
+					}
+				
 				}else{
+					
 					currenttip.add(new ItemStack(ItemCartModule, 1, metas[i]).getDisplayName());
+					
 				}
 			}			
 		}

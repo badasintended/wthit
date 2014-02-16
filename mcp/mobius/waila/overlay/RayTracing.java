@@ -137,8 +137,11 @@ public class RayTracing {
         Block mouseoverBlock = Block.blocksList[blockID];
         if (mouseoverBlock == null) return items;
         
-        if (ModuleRegistrar.instance().hasStackProviders(mouseoverBlock))
-        	items.add(ModuleRegistrar.instance().getStackProviders(mouseoverBlock).get(0).getWailaStack(DataAccessorBlock.instance, ConfigHandler.instance()));
+        if (ModuleRegistrar.instance().hasStackProviders(mouseoverBlock)){
+        	ItemStack providerStack = ModuleRegistrar.instance().getStackProviders(mouseoverBlock).get(0).getWailaStack(DataAccessorBlock.instance, ConfigHandler.instance());
+        	if (providerStack != null)
+        		items.add(providerStack);
+        }
         
         if(items.size() > 0)
             return items;

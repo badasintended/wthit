@@ -3,6 +3,7 @@ package mcp.mobius.waila.api.impl;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagByte;
 import net.minecraft.nbt.NBTTagCompound;
@@ -28,6 +29,7 @@ public class DataAccessorBlock implements IWailaDataAccessor {
 	public NBTTagCompound remoteNbt = null;
 	public long timeLastUpdate = System.currentTimeMillis();
 	public double partialFrame;
+	public ItemStack stack;
 	
 	public static DataAccessorBlock instance = new DataAccessorBlock();
 
@@ -43,6 +45,7 @@ public class DataAccessorBlock implements IWailaDataAccessor {
 		this.block    = Block.blocksList[this.blockID];
 		this.metadata = world.getBlockMetadata(_mop.blockX, _mop.blockY, _mop.blockZ);
 		this.entity   = world.getBlockTileEntity(_mop.blockX, _mop.blockY, _mop.blockZ);
+		this.stack    = new ItemStack(this.blockID, 1, this.metadata);
 		
 		if (viewEntity != null){
 			double px = viewEntity.lastTickPosX + (viewEntity.posX - viewEntity.lastTickPosX) * partialTicks;
@@ -164,6 +167,11 @@ public class DataAccessorBlock implements IWailaDataAccessor {
 	
 	public void resetTimer(){
 		this.timeLastUpdate = System.currentTimeMillis();
+	}
+
+	@Override
+	public ItemStack getStack() {
+		return this.stack;
 	}
 	
 }
