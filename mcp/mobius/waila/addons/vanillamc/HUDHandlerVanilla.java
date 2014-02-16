@@ -38,7 +38,7 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 	public ItemStack getWailaStack(IWailaDataAccessor accessor,	IWailaConfigHandler config) {
 		int blockID       = accessor.getBlockID();
 		
-		if (blockID == silverfish){
+		if (blockID == silverfish && config.getConfig("vanilla.silverfish")){
 			int metadata = accessor.getMetadata();
 			switch(metadata){
 			case 0:
@@ -171,6 +171,7 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 		ModuleRegistrar.instance().addConfig("VanillaMC", "vanilla.repeater");
 		ModuleRegistrar.instance().addConfig("VanillaMC", "vanilla.comparator");
 		ModuleRegistrar.instance().addConfig("VanillaMC", "vanilla.redstone");
+		ModuleRegistrar.instance().addConfig("VanillaMC", "vanilla.silverfish");
 		ModuleRegistrar.instance().addConfigRemote("VanillaMC", "vanilla.jukebox");
 		
 		IWailaDataProvider provider = new HUDHandlerVanilla();
