@@ -8,9 +8,12 @@ import cpw.mods.fml.common.registry.EntityRegistry.EntityRegistration;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.MathHelper;
+import net.minecraftforge.common.Configuration;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaEntityAccessor;
 import mcp.mobius.waila.api.IWailaEntityProvider;
+import mcp.mobius.waila.api.impl.ConfigHandler;
+import mcp.mobius.waila.utils.Constants;
 import static mcp.mobius.waila.utils.SpecialChars.*;
 
 public class HUDHandlerEntities implements IWailaEntityProvider {
@@ -32,6 +35,12 @@ public class HUDHandlerEntities implements IWailaEntityProvider {
 
 	@Override
 	public List<String> getWailaBody(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
+		if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHIFT, false) && currenttip.size() > 0 && !accessor.getPlayer().isSneaking()){
+			currenttip.clear();
+			currenttip.add(ITALIC + "Press shift for more data");
+			return currenttip;
+		}		
+		
 		if (entity instanceof EntityLivingBase){
 			String hptip = "";
 			

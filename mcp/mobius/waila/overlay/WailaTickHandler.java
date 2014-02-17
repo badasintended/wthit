@@ -26,6 +26,9 @@ public class WailaTickHandler implements ITickHandler {
 	private int ticks = 0;
 	public ItemStack identifiedHighlight = new ItemStack(Block.dirt);
 	private List<String> currenttip      = new ArrayList<String>();
+	private List<String> currenttipHead  = new ArrayList<String>();
+	private List<String> currenttipBody  = new ArrayList<String>();
+	private List<String> currenttipTail  = new ArrayList<String>();
 	public  Tooltip      tooltip         = null;
 	public  MetaDataProvider handler     = new MetaDataProvider();
 	private Minecraft mc = Minecraft.getMinecraft();
@@ -63,11 +66,20 @@ public class WailaTickHandler implements ITickHandler {
 					
 					if (targetStack != null){
 						this.currenttip.clear();
+						this.currenttipHead.clear();
+						this.currenttipBody.clear();
+						this.currenttipTail.clear();
+						
 						
 						//this.identifiedHighlight = handler.identifyHighlight(world, player, target);
-						this.currenttip      = handler.handleBlockTextData(targetStack, world, player, target, accessor, currenttip, Layout.HEADER);
-						this.currenttip      = handler.handleBlockTextData(targetStack, world, player, target, accessor, currenttip, Layout.BODY);
-						this.currenttip      = handler.handleBlockTextData(targetStack, world, player, target, accessor, currenttip, Layout.FOOTER);
+						this.currenttipHead      = handler.handleBlockTextData(targetStack, world, player, target, accessor, currenttipHead, Layout.HEADER);
+						this.currenttipBody      = handler.handleBlockTextData(targetStack, world, player, target, accessor, currenttipBody, Layout.BODY);
+						this.currenttipTail      = handler.handleBlockTextData(targetStack, world, player, target, accessor, currenttipTail, Layout.FOOTER);
+						
+						this.currenttip.addAll(this.currenttipHead);
+						this.currenttip.addAll(this.currenttipBody);
+						this.currenttip.addAll(this.currenttipTail);						
+						
 						this.tooltip         = new Tooltip(this.currenttip, targetStack);
 					}
 				}
@@ -79,10 +91,18 @@ public class WailaTickHandler implements ITickHandler {
 					
 					if (targetEnt != null){
 						this.currenttip.clear();
+						this.currenttipHead.clear();
+						this.currenttipBody.clear();
+						this.currenttipTail.clear();
 						
-						this.currenttip      = handler.handleEntityTextData(targetEnt, world, player, target, accessor, currenttip, Layout.HEADER);
-						this.currenttip      = handler.handleEntityTextData(targetEnt, world, player, target, accessor, currenttip, Layout.BODY);
-						this.currenttip      = handler.handleEntityTextData(targetEnt, world, player, target, accessor, currenttip, Layout.FOOTER);
+						this.currenttipHead      = handler.handleEntityTextData(targetEnt, world, player, target, accessor, currenttipHead, Layout.HEADER);
+						this.currenttipBody      = handler.handleEntityTextData(targetEnt, world, player, target, accessor, currenttipBody, Layout.BODY);
+						this.currenttipTail      = handler.handleEntityTextData(targetEnt, world, player, target, accessor, currenttipTail, Layout.FOOTER);
+						
+						this.currenttip.addAll(this.currenttipHead);
+						this.currenttip.addAll(this.currenttipBody);
+						this.currenttip.addAll(this.currenttipTail);						
+						
 						this.tooltip         = new Tooltip(this.currenttip, false);						
 					}
 				}

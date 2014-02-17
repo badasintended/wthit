@@ -17,6 +17,7 @@ import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
+import static mcp.mobius.waila.utils.SpecialChars.*;
 
 public class HUDCartAssembler implements IWailaDataProvider {
 
@@ -33,7 +34,10 @@ public class HUDCartAssembler implements IWailaDataProvider {
 	@Override
 	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
 		if (!config.getConfig("stevescarts.showall")) return currenttip;
-		if (config.getConfig("stevescarts.shifttoggle") && !accessor.getPlayer().isSneaking()) return currenttip;
+		if (config.getConfig("stevescarts.shifttoggle") && !accessor.getPlayer().isSneaking()){
+			currenttip.add(ITALIC + "Press shift for more data");
+			return currenttip;			
+		}
 		
 		int currTime      = accessor.getNBTInteger(accessor.getNBTData(), "currentTime");
 		int maxTime       = accessor.getNBTInteger(accessor.getNBTData(), "maxTime");

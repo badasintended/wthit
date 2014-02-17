@@ -32,7 +32,10 @@ public class HUDMinecartModular implements IWailaEntityProvider {
 	@Override
 	public List<String> getWailaBody(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
 		if (!config.getConfig("stevescarts.showall")) return currenttip;
-		if (config.getConfig("stevescarts.shifttoggle") && !accessor.getPlayer().isSneaking()) return currenttip;
+		if (config.getConfig("stevescarts.shifttoggle") && !accessor.getPlayer().isSneaking()){
+			currenttip.add(ITALIC + "Press shift for more data");
+			return currenttip;			
+		}
 		
 		Item ItemCartModule = null;
 		try {

@@ -32,6 +32,7 @@ import mcp.mobius.waila.utils.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.input.Keyboard;
@@ -76,7 +77,6 @@ public class ProxyClient extends ProxyServer {
 		ModuleRegistrar.instance().registerTailProvider(new HUDHandlerBlocks(), Block.class);
 		
 		ModuleRegistrar.instance().registerHeadProvider(new HUDHandlerEntities(), Entity.class);
-		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerEntities(), Entity.class);		
 		ModuleRegistrar.instance().registerTailProvider(new HUDHandlerEntities(), Entity.class);
 		
 		ModuleRegistrar.instance().registerShortDataProvider(new SummaryProviderDefault(), Item.class);
@@ -142,7 +142,11 @@ public class ProxyClient extends ProxyServer {
 		SecretRoomsModule.register();
 		
 		/* Carpenter's Blocks */
-		CarpentersModule.register();		
+		CarpentersModule.register();	
+
+		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerBlocks(), Block.class);
+		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerBlocks(), TileEntity.class);
+		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerEntities(), Entity.class);
 	}	
 	
 	@Override

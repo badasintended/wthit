@@ -26,6 +26,7 @@ public class ScreenWailaConfig extends ScreenBase {
 		buttonContainer.addButton( new ButtonBooleanConfig(this.getRoot(), Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_MODE,     true, true, "screen.button.maintained", "screen.button.toggled"), "choice.toggledmaintained");
 		buttonContainer.addButton( new ButtonBooleanConfig(this.getRoot(), Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATA, true, false,"screen.button.hidden",     "screen.button.visible"), "choice.showhideidmeta");
 		buttonContainer.addButton( new ButtonBooleanConfig(this.getRoot(), Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID,   true, false,"screen.button.hidden",     "screen.button.visible"), "choice.showliquids");
+		buttonContainer.addButton( new ButtonBooleanConfig(this.getRoot(), Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHIFT,    true, false,"screen.button.no",         "screen.button.yes"), "choice.shifttoggled");
 		
 
 		this.getRoot().addWidget("LayoutConfigPos", new LayoutBase(this.getRoot()));

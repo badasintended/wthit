@@ -30,7 +30,10 @@ public class HUDCargoManager implements IWailaDataProvider {
 	@Override
 	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
 		if (!config.getConfig("stevescarts.showall")) return currenttip;
-		if (config.getConfig("stevescarts.shifttoggle") && !accessor.getPlayer().isSneaking()) return currenttip;
+		if (config.getConfig("stevescarts.shifttoggle") && !accessor.getPlayer().isSneaking()){
+			currenttip.add(ITALIC + "Press shift for more data");
+			return currenttip;			
+		}
 		
 		NBTTagCompound tag = accessor.getNBTData();
 

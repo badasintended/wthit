@@ -18,6 +18,7 @@ choice.showhidewaila=Show/Hide Waila
 choice.showhideidmeta=Show ID:Metadata
 choice.toggledmaintained=Toggled/Maintained
 choice.showliquids=Liquids
+choice.shifttoggled=Sneak toggle
 screen.button.configureaspect=Configure aspect...
 
 enchant.title.name=Name
