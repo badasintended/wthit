@@ -23,4 +23,6 @@ public interface IWailaFMPAccessor {
 	NBTTagCompound       getFullNBTData();
 	int                  getNBTInteger(NBTTagCompound tag, String keyname);
 	double               getPartialFrame();
+	Vec3                 getRenderingPosition();
+	String               getID();
 }

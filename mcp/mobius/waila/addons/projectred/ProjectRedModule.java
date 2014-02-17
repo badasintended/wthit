@@ -44,9 +44,16 @@ public class ProjectRedModule {
 		ModuleRegistrar.instance().addConfigRemote("Project:Red", "pr.showio");	
 		ModuleRegistrar.instance().addConfigRemote("Project:Red", "pr.showdata");	
 		
-		ModuleRegistrar.instance().registerBlockDecorator(new HUDDecoratorRsGateLogic(), BlockMultipart);
-		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerRsGateLogic(), BlockMultipart);
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", BlockMultipart);
+		ModuleRegistrar.instance().registerBodyProvider(new HUDFMPGateLogic(), "pr_sgate");
+		ModuleRegistrar.instance().registerBodyProvider(new HUDFMPGateLogic(), "pr_igate");
+		ModuleRegistrar.instance().registerBodyProvider(new HUDFMPGateLogic(), "pr_tgate");
+		ModuleRegistrar.instance().registerBodyProvider(new HUDFMPGateLogic(), "pr_bgate");
+		ModuleRegistrar.instance().registerBodyProvider(new HUDFMPGateLogic(), "pr_agate");
+		ModuleRegistrar.instance().registerBodyProvider(new HUDFMPGateLogic(), "pr_rgate");
+		
+		//ModuleRegistrar.instance().registerBlockDecorator(new HUDDecoratorRsGateLogic(), BlockMultipart);
+		//ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerRsGateLogic(), BlockMultipart);
+		//ModuleRegistrar.instance().registerSyncedNBTKey("*", BlockMultipart);
 	}	
 	
 }
