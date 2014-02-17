@@ -140,22 +140,10 @@ public class ModuleRegistrar implements IWailaRegistrar {
 	public void registerOverrideEntityProvider (IWailaEntityProvider dataProvider, Class entity){
 		this.registerProvider(dataProvider, entity, this.overrideEntityProviders);			
 	}	
-	
-	private <T> void registerProvider(T dataProvider, Class clazz, LinkedHashMap<Class, ArrayList<T>> target) {
-		if (!target.containsKey(clazz))
-			target.put(clazz, new ArrayList<T>());
-		
-		ArrayList<T> providers =target.get(clazz);
-		if (providers.contains(dataProvider)) return;		
-		
-		target.get(clazz).add(dataProvider);		
-	}	
-	
+
 	@Override
 	public void registerShortDataProvider(IWailaSummaryProvider dataProvider, Class item) {
-		if (!this.summaryProviders.containsKey(item))
-			this.summaryProviders.put(item, new ArrayList<IWailaSummaryProvider>());
-		this.summaryProviders.get(item).add(dataProvider);		
+		this.registerProvider(dataProvider, item, this.summaryProviders);	
 	}	
 	
 	@Override
@@ -166,11 +154,18 @@ public class ModuleRegistrar implements IWailaRegistrar {
 
 	@Override
 	public void registerBlockDecorator(IWailaBlockDecorator decorator,	Class block) {
-		if (!this.blockClassDecorators.containsKey(block))
-			this.blockClassDecorators.put(block, new ArrayList<IWailaBlockDecorator>());
-		this.blockClassDecorators.get(block).add(decorator);		
+		this.registerProvider(decorator, block, this.blockClassDecorators);	
 	}	
-
+	
+	private <T> void registerProvider(T dataProvider, Class clazz, LinkedHashMap<Class, ArrayList<T>> target) {
+		if (!target.containsKey(clazz))
+			target.put(clazz, new ArrayList<T>());
+		
+		ArrayList<T> providers =target.get(clazz);
+		if (providers.contains(dataProvider)) return;		
+		
+		target.get(clazz).add(dataProvider);		
+	}	
 	
 	@Override
 	public void registerSyncedNBTKey(String key, Class target){
@@ -185,93 +180,52 @@ public class ModuleRegistrar implements IWailaRegistrar {
 	/* PROVIDER GETTERS */
 	
 	public ArrayList<IWailaDataProvider> getHeadProviders(Object block) {
-		ArrayList<IWailaDataProvider> returnList = new ArrayList<IWailaDataProvider>();
-		for (Class clazz : this.headBlockProviders.keySet())
-			if (clazz.isInstance(block))
-				returnList.addAll(this.headBlockProviders.get(clazz));
-				
-		return returnList;
+		return getProviders(block, this.headBlockProviders);
 	}
 
 	public ArrayList<IWailaDataProvider> getBodyProviders(Object block) {
-		ArrayList<IWailaDataProvider> returnList = new ArrayList<IWailaDataProvider>();
-		for (Class clazz : this.bodyBlockProviders.keySet())
-			if (clazz.isInstance(block))
-				returnList.addAll(this.bodyBlockProviders.get(clazz));
-				
-		return returnList;
+		return getProviders(block, this.bodyBlockProviders);		
 	}	
 
 	public ArrayList<IWailaDataProvider> getTailProviders(Object block) {
-		ArrayList<IWailaDataProvider> returnList = new ArrayList<IWailaDataProvider>();
-		for (Class clazz : this.tailBlockProviders.keySet())
-			if (clazz.isInstance(block))
-				returnList.addAll(this.tailBlockProviders.get(clazz));
-				
-		return returnList;
+		return getProviders(block, this.tailBlockProviders);
 	}	
 
 	public ArrayList<IWailaDataProvider> getStackProviders(Object block) {
-		ArrayList<IWailaDataProvider> returnList = new ArrayList<IWailaDataProvider>();
-		for (Class clazz : this.stackBlockProviders.keySet())
-			if (clazz.isInstance(block))
-				returnList.addAll(this.stackBlockProviders.get(clazz));
-				
-		return returnList;
+		return getProviders(block, this.stackBlockProviders);
 	}		
 	
-	public ArrayList<IWailaSummaryProvider> getSummaryProvider(Object item){
-		ArrayList<IWailaSummaryProvider> returnList = new ArrayList<IWailaSummaryProvider>();
-		for (Class clazz : this.summaryProviders.keySet())
-			if (clazz.isInstance(item))
-				returnList.addAll(this.summaryProviders.get(clazz));
-				
-		return returnList;
-	}	
-	
-	public ArrayList<IWailaBlockDecorator> getBlockDecorators(Object block){
-		ArrayList<IWailaBlockDecorator> returnList = new ArrayList<IWailaBlockDecorator>();
-		for (Class clazz : this.blockClassDecorators.keySet())
-			if (clazz.isInstance(block))
-				returnList.addAll(this.blockClassDecorators.get(clazz));
-				
-		return returnList;		
-	}	
-	
 	public ArrayList<IWailaEntityProvider> getHeadEntityProviders(Object entity) {
-		ArrayList<IWailaEntityProvider> returnList = new ArrayList<IWailaEntityProvider>();
-		for (Class clazz : this.headEntityProviders.keySet())
-			if (clazz.isInstance(entity))
-				returnList.addAll(this.headEntityProviders.get(clazz));
-				
-		return returnList;
+		return getProviders(entity, this.headEntityProviders);		
 	}
 
 	public ArrayList<IWailaEntityProvider> getBodyEntityProviders(Object entity) {
-		ArrayList<IWailaEntityProvider> returnList = new ArrayList<IWailaEntityProvider>();
-		for (Class clazz : this.bodyEntityProviders.keySet())
-			if (clazz.isInstance(entity))
-				returnList.addAll(this.bodyEntityProviders.get(clazz));
-				
-		return returnList;
+		return getProviders(entity, this.bodyEntityProviders);
 	}	
 
 	public ArrayList<IWailaEntityProvider> getTailEntityProviders(Object entity) {
-		ArrayList<IWailaEntityProvider> returnList = new ArrayList<IWailaEntityProvider>();
-		for (Class clazz : this.tailEntityProviders.keySet())
-			if (clazz.isInstance(entity))
-				returnList.addAll(this.tailEntityProviders.get(clazz));
-				
-		return returnList;
+		return getProviders(entity, this.tailEntityProviders);
 	}		
 	
 	public ArrayList<IWailaEntityProvider> getOverrideEntityProviders(Object entity) {
-		ArrayList<IWailaEntityProvider> returnList = new ArrayList<IWailaEntityProvider>();
-		for (Class clazz : this.overrideEntityProviders.keySet())
-			if (clazz.isInstance(entity))
-				returnList.addAll(this.overrideEntityProviders.get(clazz));
+		return getProviders(entity, this.overrideEntityProviders);
+	}		
+
+	public ArrayList<IWailaSummaryProvider> getSummaryProvider(Object item){
+		return getProviders(item, this.summaryProviders);
+	}	
+	
+	public ArrayList<IWailaBlockDecorator> getBlockDecorators(Object block){
+		return getProviders(block, this.blockClassDecorators);
+	}	
+	
+	private <T> ArrayList<T> getProviders(Object obj, LinkedHashMap<Class, ArrayList<T>> target){
+		ArrayList<T> returnList = new ArrayList<T>();
+		for (Class clazz : target.keySet())
+			if (clazz.isInstance(obj))
+				returnList.addAll(target.get(clazz));
 				
-		return returnList;
+		return returnList;		
 	}	
 	
 	public HashSet<String> getSyncedNBTKeys(Object target){
@@ -286,71 +240,51 @@ public class ModuleRegistrar implements IWailaRegistrar {
 	/* HAS METHODS */
 	
 	public boolean hasStackProviders(Object block){
-		for (Class clazz : this.stackBlockProviders.keySet())
-			if (clazz.isInstance(block))
-				return true;
-		return false;
+		return hasProviders(block, this.stackBlockProviders);
 	}	
 	
 	public boolean hasHeadProviders(Object block){
-		for (Class clazz : this.headBlockProviders.keySet())
-			if (clazz.isInstance(block))
-				return true;
-		return false;
+		return hasProviders(block, this.headBlockProviders);		
 	}
 	
 	public boolean hasBodyProviders(Object block){
-		for (Class clazz : this.bodyBlockProviders.keySet())
-			if (clazz.isInstance(block))
-				return true;
-		return false;
+		return hasProviders(block, this.bodyBlockProviders);
 	}
 
 	public boolean hasTailProviders(Object block){
-		for (Class clazz : this.tailBlockProviders.keySet())
-			if (clazz.isInstance(block))
-				return true;
-		return false;
+		return hasProviders(block, this.tailBlockProviders);
 	}
 
-	public boolean hasSummaryProvider(Class item){
-		return this.summaryProviders.containsKey(item);
-	}	
-	
-	public boolean hasBlockDecorator(Object block){
-		for (Class clazz : this.blockClassDecorators.keySet())
-			if (clazz.isInstance(block))
-				return true;
-		return false;
-	}	
-	
 	public boolean hasHeadEntityProviders(Object entity){
-		for (Class clazz : this.headEntityProviders.keySet())
-			if (clazz.isInstance(entity))
-				return true;
-		return false;
+		return hasProviders(entity, this.headEntityProviders);
 	}
 	
 	public boolean hasBodyEntityProviders(Object entity){
-		for (Class clazz : this.bodyEntityProviders.keySet())
-			if (clazz.isInstance(entity))
-				return true;
-		return false;
+		return hasProviders(entity, this.bodyEntityProviders);
 	}
 
 	public boolean hasTailEntityProviders(Object entity){
-		for (Class clazz : this.tailEntityProviders.keySet())
-			if (clazz.isInstance(entity))
-				return true;
-		return false;
+		return hasProviders(entity, this.tailEntityProviders);
 	}	
 	
 	public boolean hasOverrideEntityProviders(Object entity){
-		for (Class clazz : this.overrideEntityProviders.keySet())
-			if (clazz.isInstance(entity))
+		return hasProviders(entity, this.overrideEntityProviders);
+	}			
+
+	public boolean hasBlockDecorator(Object block){
+		return hasProviders(block, this.blockClassDecorators);
+	}	
+	
+	private <T> boolean hasProviders(Object obj, LinkedHashMap<Class, ArrayList<T>> target){
+		for (Class clazz : target.keySet())
+			if (clazz.isInstance(obj))
 				return true;
-		return false;
-	}		
+		return false;		
+	}	
+	
+	public boolean hasSummaryProvider(Class item){
+		return this.summaryProviders.containsKey(item);
+	}	
 	
 	public boolean hasSyncedNBTKeys(Object target){
 		for (Class clazz : this.syncedNBTKeys.keySet())
