@@ -29,6 +29,13 @@ public class ProjectRedModule {
 		ModuleRegistrar.instance().registerBodyProvider(new HUDFMPGateLogic(), "pr_agate");
 		ModuleRegistrar.instance().registerBodyProvider(new HUDFMPGateLogic(), "pr_rgate");
 		
+		ModuleRegistrar.instance().registerDecorator(new HUDDecoratorRsGateLogic(), "pr_sgate");
+		ModuleRegistrar.instance().registerDecorator(new HUDDecoratorRsGateLogic(), "pr_igate");
+		ModuleRegistrar.instance().registerDecorator(new HUDDecoratorRsGateLogic(), "pr_tgate");
+		ModuleRegistrar.instance().registerDecorator(new HUDDecoratorRsGateLogic(), "pr_bgate");
+		ModuleRegistrar.instance().registerDecorator(new HUDDecoratorRsGateLogic(), "pr_agate");
+		ModuleRegistrar.instance().registerDecorator(new HUDDecoratorRsGateLogic(), "pr_rgate");		
+		
 		//ModuleRegistrar.instance().registerBlockDecorator(new HUDDecoratorRsGateLogic(), BlockMultipart);
 		//ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerRsGateLogic(), BlockMultipart);
 		//ModuleRegistrar.instance().registerSyncedNBTKey("*", BlockMultipart);

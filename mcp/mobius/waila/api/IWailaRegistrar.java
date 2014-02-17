@@ -38,8 +38,9 @@ public interface IWailaRegistrar {
 	
 	/* The block decorators */
 	@Deprecated
-	public void registerBlockDecorator (IWailaBlockDecorator decorator, int blockID);
-	public void registerBlockDecorator (IWailaBlockDecorator decorator, Class block);
+	public void registerDecorator (IWailaBlockDecorator decorator, int blockID);
+	public void registerDecorator (IWailaBlockDecorator decorator, Class block);
+	public void registerDecorator (IWailaFMPDecorator decorator,   String name);	
 	
 	/* Selective NBT key syncing. Will register a key to sync over the network for the given class (block, te or ent).  
 	 * Accept * as a ending wildcard 

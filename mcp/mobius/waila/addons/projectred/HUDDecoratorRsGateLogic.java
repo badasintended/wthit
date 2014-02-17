@@ -8,9 +8,12 @@ import net.minecraftforge.common.ForgeDirection;
 import mcp.mobius.waila.api.IWailaBlockDecorator;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
+import mcp.mobius.waila.api.IWailaFMPAccessor;
+import mcp.mobius.waila.api.IWailaFMPDecorator;
 import mcp.mobius.waila.gui.helpers.UIHelper;
+import mcp.mobius.waila.utils.NBTUtil;
 
-public class HUDDecoratorRsGateLogic implements IWailaBlockDecorator {
+public class HUDDecoratorRsGateLogic implements IWailaFMPDecorator {
 
 	static byte[][] IOARRAY={
 		{1,1,2,1} /* OR    */, {1,1,2,1} /* NOR   */, {1,2,2,2} /* NOT    */, {1,1,2,1} /* AND   */,
@@ -25,13 +28,19 @@ public class HUDDecoratorRsGateLogic implements IWailaBlockDecorator {
 	static String[] IONAMES={ "", "IN", "OUT", "SWAP", "IN_A", "IN_B", "LOCK", "IO", "POS", "NEG", "BUS", "A", "B"};
 	
 	@Override
-	public void decorateBlock(ItemStack itemStack, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
+	public void decorateBlock(ItemStack itemStack, IWailaFMPAccessor accessor,	IWailaConfigHandler config) {
 		if (!config.getConfig("pr.showio")) return;
 	
 		
 		int orient = 0;
 		int subID  = 0;
 		int shape  = 0;
+		
+		orient = NBTUtil.getNBTInteger(accessor.getNBTData(), "orient");
+		subID  = NBTUtil.getNBTInteger(accessor.getNBTData(), "subID");
+		shape  = NBTUtil.getNBTInteger(accessor.getNBTData(), "shape");		
+		
+		/*
 		boolean found = false;
 		
 		if (!accessor.getNBTData().hasKey("parts")) return;
@@ -51,6 +60,7 @@ public class HUDDecoratorRsGateLogic implements IWailaBlockDecorator {
 		}
 		
 		if (!found) return;
+		*/
 
 		//orient = orient - ((orient & 0x10) + (orient & 0x8) + (orient & 0x4));
 		int hOrient = orient & 0x3;

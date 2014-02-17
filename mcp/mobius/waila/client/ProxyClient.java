@@ -22,6 +22,7 @@ import mcp.mobius.waila.addons.vanillamc.HUDHandlerVanilla;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.gui.truetyper.FontLoader;
 import mcp.mobius.waila.gui.truetyper.TrueTypeFont;
+import mcp.mobius.waila.handlers.DecoratorFMP;
 import mcp.mobius.waila.handlers.HUDHandlerBlocks;
 import mcp.mobius.waila.handlers.HUDHandlerEntities;
 import mcp.mobius.waila.handlers.HUDHandlerFMP;
@@ -146,8 +147,10 @@ public class ProxyClient extends ProxyServer {
 		/* Carpenter's Blocks */
 		CarpentersModule.register();	
 
-		if(Loader.isModLoaded("ForgeMultipart"))
+		if(Loader.isModLoaded("ForgeMultipart")){
 			HUDHandlerFMP.register();
+			DecoratorFMP.register();
+		}
 		
 		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerBlocks(), Block.class);
 		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerBlocks(), TileEntity.class);

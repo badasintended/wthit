@@ -18,6 +18,7 @@ import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IWailaBlockDecorator;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaEntityProvider;
+import mcp.mobius.waila.api.IWailaFMPDecorator;
 import mcp.mobius.waila.api.IWailaFMPProvider;
 import mcp.mobius.waila.api.IWailaRegistrar;
 import mcp.mobius.waila.api.IWailaSummaryProvider;
@@ -41,6 +42,8 @@ public class ModuleRegistrar implements IWailaRegistrar {
 	public LinkedHashMap<String, ArrayList<IWailaFMPProvider>> headFMPProviders = new LinkedHashMap<String, ArrayList<IWailaFMPProvider>>();
 	public LinkedHashMap<String, ArrayList<IWailaFMPProvider>> bodyFMPProviders = new LinkedHashMap<String, ArrayList<IWailaFMPProvider>>();
 	public LinkedHashMap<String, ArrayList<IWailaFMPProvider>> tailFMPProviders = new LinkedHashMap<String, ArrayList<IWailaFMPProvider>>();	
+
+	public LinkedHashMap<String, ArrayList<IWailaFMPDecorator>> FMPClassDecorators = new LinkedHashMap<String, ArrayList<IWailaFMPDecorator>>();	
 	
 	public LinkedHashMap<Class, HashSet<String>> syncedNBTKeys = new LinkedHashMap<Class, HashSet<String>>();
 	
@@ -166,13 +169,18 @@ public class ModuleRegistrar implements IWailaRegistrar {
 	
 	@Override
 	@Deprecated
-	public void registerBlockDecorator(IWailaBlockDecorator decorator, int blockID) {
-		this.registerBlockDecorator(decorator, Block.blocksList[blockID].getClass());	
+	public void registerDecorator(IWailaBlockDecorator decorator, int blockID) {
+		this.registerDecorator(decorator, Block.blocksList[blockID].getClass());	
 	}
 
 	@Override
-	public void registerBlockDecorator(IWailaBlockDecorator decorator,	Class block) {
+	public void registerDecorator(IWailaBlockDecorator decorator, Class block) {
 		this.registerProvider(decorator, block, this.blockClassDecorators);	
+	}	
+	
+	@Override
+	public void registerDecorator(IWailaFMPDecorator decorator, String name) {
+		this.registerProvider(decorator, name, this.FMPClassDecorators);	
 	}	
 	
 	private <T, V> void registerProvider(T dataProvider, V clazz, LinkedHashMap<V, ArrayList<T>> target) {
@@ -249,6 +257,10 @@ public class ModuleRegistrar implements IWailaRegistrar {
 		return getProviders(block, this.blockClassDecorators);
 	}	
 	
+	public ArrayList<IWailaFMPDecorator> getFMPDecorators(String name){
+		return getProviders(name, this.FMPClassDecorators);
+	}		
+	
 	private <T> ArrayList<T> getProviders(Object obj, LinkedHashMap<Class, ArrayList<T>> target){
 		ArrayList<T> returnList = new ArrayList<T>();
 		for (Class clazz : target.keySet())
@@ -320,6 +332,10 @@ public class ModuleRegistrar implements IWailaRegistrar {
 	public boolean hasBlockDecorator(Object block){
 		return hasProviders(block, this.blockClassDecorators);
 	}	
+
+	public boolean hasFMPDecorator(String name){
+		return hasProviders(name, this.FMPClassDecorators);
+	}		
 	
 	private <T> boolean hasProviders(Object obj, LinkedHashMap<Class, ArrayList<T>> target){
 		for (Class clazz : target.keySet())

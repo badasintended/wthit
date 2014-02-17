@@ -30,21 +30,15 @@ public class DataAccessorFMP implements IWailaFMPAccessor {
 		this.set(_world, _player, _mop, _partialNBT, id, null, 0.0);
 	}
 	
-	public void set(World _world, EntityPlayer _player, MovingObjectPosition _mop, NBTTagCompound _partialNBT, String id, EntityLivingBase viewEntity, double partialTicks) {
+	public void set(World _world, EntityPlayer _player, MovingObjectPosition _mop, NBTTagCompound _partialNBT, String id, Vec3 renderVec, double partialTicks) {
 		this.world      = _world;
 		this.player     = _player;
 		this.mop        = _mop;
 		this.entity     = world.getBlockTileEntity(_mop.blockX, _mop.blockY, _mop.blockZ);
 		this.partialNBT = _partialNBT;
 		this.id         = id;
-		
-		if (viewEntity != null){
-			double px = viewEntity.lastTickPosX + (viewEntity.posX - viewEntity.lastTickPosX) * partialTicks;
-			double py = viewEntity.lastTickPosY + (viewEntity.posY - viewEntity.lastTickPosY) * partialTicks;
-			double pz = viewEntity.lastTickPosZ + (viewEntity.posZ - viewEntity.lastTickPosZ) * partialTicks;		
-			this.renderingvec = Vec3.createVectorHelper(_mop.blockX - px, _mop.blockY - py, _mop.blockZ - pz);
-			this.partialFrame = partialTicks;
-		}
+		this.renderingvec = renderVec;
+		this.partialFrame = partialTicks;
 	}	
 	
 	@Override
