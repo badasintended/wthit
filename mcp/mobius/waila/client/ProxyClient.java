@@ -3,6 +3,7 @@ package mcp.mobius.waila.client;
 import mcp.mobius.waila.addons.appeng.AppEngModule;
 import mcp.mobius.waila.addons.buildcraft.BCModule;
 import mcp.mobius.waila.addons.buildcraft.BCPowerAPIModule;
+import mcp.mobius.waila.addons.carpenters.CarpentersModule;
 import mcp.mobius.waila.addons.enderio.EnderIOModule;
 import mcp.mobius.waila.addons.enderstorage.EnderStorageModule;
 import mcp.mobius.waila.addons.etb.ETBModule;
@@ -138,7 +139,10 @@ public class ProxyClient extends ProxyServer {
 		StevesCartsModule.register();
 		
 		/* Secret Rooms */
-		SecretRoomsModule.register();		
+		SecretRoomsModule.register();
+		
+		/* Carpenter's Blocks */
+		CarpentersModule.register();		
 	}	
 	
 	@Override

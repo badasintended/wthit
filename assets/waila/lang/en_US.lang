@@ -137,3 +137,4 @@ option.extrautilities.fluidamount=Show fluid amount
 option.openblocks.fluidamount=Show fluid amount
 option.railcraft.fluidamount=Show fluid amount
 option.secretrooms.hide=Hide camo blocks
+option.carpenters.hide=Hide camo blocks
