@@ -23,7 +23,8 @@ public final class Constants {
 	public static String CFG_WAILA_POSX     = "waila.cfg.posx";
 	public static String CFG_WAILA_POSY     = "waila.cfg.posy";
 	public static String CFG_WAILA_SCALE    = "waila.cfg.scale";
-	public static String CFG_WAILA_SHIFT    = "waila.cfg.shift";	
+	public static String CFG_WAILA_SHIFTBLOCK = "waila.cfg.shiftblock";
+	public static String CFG_WAILA_SHIFTENTS  = "waila.cfg.shiftents";
 	
 	
 	public static String CFG_WAILA_ALPHA    = "waila.cfg.alpha";
