@@ -85,13 +85,7 @@ public class ModuleRegistrar implements IWailaRegistrar {
 
 	@Override
 	public void registerHeadProvider(IWailaDataProvider dataProvider, Class block) {
-		if (!this.headBlockProviders.containsKey(block))
-			this.headBlockProviders.put(block, new ArrayList<IWailaDataProvider>());
-		
-		ArrayList<IWailaDataProvider> providers = this.headBlockProviders.get(block);
-		if (providers.contains(dataProvider)) return;
-		
-		this.headBlockProviders.get(block).add(dataProvider);		
+		this.registerProvider(dataProvider, block, this.headBlockProviders);		
 	}	
 	
 	@Override
@@ -102,13 +96,7 @@ public class ModuleRegistrar implements IWailaRegistrar {
 
 	@Override
 	public void registerBodyProvider(IWailaDataProvider dataProvider, Class block) {
-		if (!this.bodyBlockProviders.containsKey(block))
-			this.bodyBlockProviders.put(block, new ArrayList<IWailaDataProvider>());
-		
-		ArrayList<IWailaDataProvider> providers = this.bodyBlockProviders.get(block);
-		if (providers.contains(dataProvider)) return;		
-		
-		this.bodyBlockProviders.get(block).add(dataProvider);
+		this.registerProvider(dataProvider, block, this.bodyBlockProviders);
 	}	
 	
 	@Override
@@ -119,13 +107,7 @@ public class ModuleRegistrar implements IWailaRegistrar {
 
 	@Override
 	public void registerTailProvider(IWailaDataProvider dataProvider, Class block) {
-		if (!this.tailBlockProviders.containsKey(block))
-			this.tailBlockProviders.put(block, new ArrayList<IWailaDataProvider>());
-		
-		ArrayList<IWailaDataProvider> providers = this.tailBlockProviders.get(block);
-		if (providers.contains(dataProvider)) return;		
-		
-		this.tailBlockProviders.get(block).add(dataProvider);
+		this.registerProvider(dataProvider, block, this.tailBlockProviders);
 	}		
 	
 	@Override
@@ -136,15 +118,39 @@ public class ModuleRegistrar implements IWailaRegistrar {
 
 	@Override
 	public void registerStackProvider(IWailaDataProvider dataProvider, Class block) {
-		if (!this.stackBlockProviders.containsKey(block))
-			this.stackBlockProviders.put(block, new ArrayList<IWailaDataProvider>());
-		
-		ArrayList<IWailaDataProvider> providers = this.stackBlockProviders.get(block);
-		if (providers.contains(dataProvider)) return;		
-		
-		this.stackBlockProviders.get(block).add(dataProvider);		
+		this.registerProvider(dataProvider, block, this.stackBlockProviders);
 	}		
 
+	@Override
+	public void registerHeadProvider(IWailaEntityProvider dataProvider, Class entity) {
+		this.registerProvider(dataProvider, entity, this.headEntityProviders);		
+	}	
+
+	@Override
+	public void registerBodyProvider(IWailaEntityProvider dataProvider, Class entity) {
+		this.registerProvider(dataProvider, entity, this.bodyEntityProviders);			
+	}	
+	
+	@Override
+	public void registerTailProvider(IWailaEntityProvider dataProvider, Class entity) {
+		this.registerProvider(dataProvider, entity, this.tailEntityProviders);		
+	}	
+	
+	@Override
+	public void registerOverrideEntityProvider (IWailaEntityProvider dataProvider, Class entity){
+		this.registerProvider(dataProvider, entity, this.overrideEntityProviders);			
+	}	
+	
+	private <T> void registerProvider(T dataProvider, Class clazz, LinkedHashMap<Class, ArrayList<T>> target) {
+		if (!target.containsKey(clazz))
+			target.put(clazz, new ArrayList<T>());
+		
+		ArrayList<T> providers =target.get(clazz);
+		if (providers.contains(dataProvider)) return;		
+		
+		target.get(clazz).add(dataProvider);		
+	}	
+	
 	@Override
 	public void registerShortDataProvider(IWailaSummaryProvider dataProvider, Class item) {
 		if (!this.summaryProviders.containsKey(item))
@@ -165,51 +171,6 @@ public class ModuleRegistrar implements IWailaRegistrar {
 		this.blockClassDecorators.get(block).add(decorator);		
 	}	
 
-	
-	@Override
-	public void registerHeadProvider(IWailaEntityProvider dataProvider, Class entity) {
-		if (!this.headEntityProviders.containsKey(entity))
-			this.headEntityProviders.put(entity, new ArrayList<IWailaEntityProvider>());
-		
-		ArrayList<IWailaEntityProvider> providers = this.headEntityProviders.get(entity);
-		if (providers.contains(dataProvider)) return;
-		
-		this.headEntityProviders.get(entity).add(dataProvider);		
-	}	
-
-	@Override
-	public void registerBodyProvider(IWailaEntityProvider dataProvider, Class entity) {
-		if (!this.bodyEntityProviders.containsKey(entity))
-			this.bodyEntityProviders.put(entity, new ArrayList<IWailaEntityProvider>());
-		
-		ArrayList<IWailaEntityProvider> providers = this.bodyEntityProviders.get(entity);
-		if (providers.contains(dataProvider)) return;		
-		
-		this.bodyEntityProviders.get(entity).add(dataProvider);
-	}	
-	
-	@Override
-	public void registerTailProvider(IWailaEntityProvider dataProvider, Class entity) {
-		if (!this.tailEntityProviders.containsKey(entity))
-			this.tailEntityProviders.put(entity, new ArrayList<IWailaEntityProvider>());
-		
-		ArrayList<IWailaEntityProvider> providers = this.tailEntityProviders.get(entity);
-		if (providers.contains(dataProvider)) return;		
-		
-		this.tailEntityProviders.get(entity).add(dataProvider);
-	}	
-	
-	@Override
-	public void registerOverrideEntityProvider (IWailaEntityProvider dataProvider, Class entity){
-		if (!this.overrideEntityProviders.containsKey(entity))
-			this.overrideEntityProviders.put(entity, new ArrayList<IWailaEntityProvider>());
-		
-		ArrayList<IWailaEntityProvider> providers = this.overrideEntityProviders.get(entity);
-		if (providers.contains(dataProvider)) return;		
-		
-		this.overrideEntityProviders.get(entity).add(dataProvider);		
-	}
-	
 	
 	@Override
 	public void registerSyncedNBTKey(String key, Class target){
