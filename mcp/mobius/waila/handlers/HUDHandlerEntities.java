@@ -35,12 +35,6 @@ public class HUDHandlerEntities implements IWailaEntityProvider {
 
 	@Override
 	public List<String> getWailaBody(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
-		if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHIFTENTS, false) && currenttip.size() > 0 && !accessor.getPlayer().isSneaking()){
-			currenttip.clear();
-			currenttip.add(ITALIC + "Press shift for more data");
-			return currenttip;
-		}		
-		
 		if (entity instanceof EntityLivingBase){
 			String hptip = "";
 			
@@ -57,7 +51,14 @@ public class HUDHandlerEntities implements IWailaEntityProvider {
 				hptip += EHEART;
 			
 			currenttip.add(hptip);
-		}
+		}		
+		
+		if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHIFTENTS, false) && currenttip.size() > 0 && !accessor.getPlayer().isSneaking()){
+			currenttip.clear();
+			currenttip.add(ITALIC + "Press shift for more data");
+			return currenttip;
+		}		
+
 		return currenttip;	
 	}
 
