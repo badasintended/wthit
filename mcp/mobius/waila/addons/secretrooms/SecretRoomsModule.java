@@ -8,7 +8,8 @@ import mcp.mobius.waila.api.impl.ModuleRegistrar;
 public class SecretRoomsModule {
 
 	public static Class  TileEntityCamo = null;
-
+	public static Class  BlockTorchLever = null;
+	public static Class  BlockCamoTrapDoor = null;
 	
 	public static void register(){
 		try{
@@ -20,8 +21,10 @@ public class SecretRoomsModule {
 		}			
 		
 		try{
-			TileEntityCamo = Class.forName("com.github.AbrarSyed.secretroomsmod.blocks.TileEntityCamo");
-
+			TileEntityCamo    = Class.forName("com.github.AbrarSyed.secretroomsmod.blocks.TileEntityCamo");
+			BlockTorchLever   = Class.forName("com.github.AbrarSyed.secretroomsmod.blocks.BlockTorchLever");
+			BlockCamoTrapDoor = Class.forName("com.github.AbrarSyed.secretroomsmod.blocks.BlockCamoTrapDoor");
+			
 		} catch (ClassNotFoundException e){
 			Waila.log.log(Level.WARNING, "[SecretRooms] Class not found. " + e);
 			return;
@@ -32,6 +35,8 @@ public class SecretRoomsModule {
 
 		ModuleRegistrar.instance().addConfigRemote("SecretRooms", "secretrooms.hide");
 		ModuleRegistrar.instance().registerStackProvider(new HUDTileEntityCamo(), TileEntityCamo);
+		ModuleRegistrar.instance().registerStackProvider(new HUDTileEntityCamo(), BlockTorchLever);
+		ModuleRegistrar.instance().registerStackProvider(new HUDTileEntityCamo(), BlockCamoTrapDoor);
 		ModuleRegistrar.instance().registerSyncedNBTKey("*", TileEntityCamo);			
 	}		
 	
