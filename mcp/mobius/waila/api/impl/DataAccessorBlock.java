@@ -15,6 +15,7 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 import mcp.mobius.waila.api.IWailaDataAccessor;
+import mcp.mobius.waila.utils.NBTUtil;
 
 public class DataAccessorBlock implements IWailaDataAccessor {
 
@@ -118,15 +119,7 @@ public class DataAccessorBlock implements IWailaDataAccessor {
 
 	@Override
 	public int getNBTInteger(NBTTagCompound tag, String keyname){
-		NBTBase subtag = tag.getTag(keyname);
-		if (subtag instanceof NBTTagInt)
-			return tag.getInteger(keyname);
-		if (subtag instanceof NBTTagShort)
-			return tag.getShort(keyname);
-		if (subtag instanceof NBTTagByte)
-			return tag.getByte(keyname);
-
-		return 0;
+		return NBTUtil.getNBTInteger(tag, keyname);
 	}
 	
 	private boolean isTagCorrect(NBTTagCompound tag){

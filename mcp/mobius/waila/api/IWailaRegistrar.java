@@ -31,6 +31,11 @@ public interface IWailaRegistrar {
 	public void registerTailProvider     (IWailaEntityProvider dataProvider, Class entity);
 	public void registerOverrideEntityProvider (IWailaEntityProvider dataProvider, Class entity);
 	
+	/* FMP Providers */
+	public void registerHeadProvider(IWailaFMPProvider dataProvider, String name);
+	public void registerBodyProvider(IWailaFMPProvider dataProvider, String name);
+	public void registerTailProvider(IWailaFMPProvider dataProvider, String name);
+	
 	/* The block decorators */
 	@Deprecated
 	public void registerBlockDecorator (IWailaBlockDecorator decorator, int blockID);

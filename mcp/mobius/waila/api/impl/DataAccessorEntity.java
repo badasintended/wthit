@@ -12,6 +12,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import mcp.mobius.waila.api.IWailaEntityAccessor;
+import mcp.mobius.waila.utils.NBTUtil;
 
 public class DataAccessorEntity implements IWailaEntityAccessor {
 
@@ -97,15 +98,7 @@ public class DataAccessorEntity implements IWailaEntityAccessor {
 	
 	@Override
 	public int getNBTInteger(NBTTagCompound tag, String keyname){
-		NBTBase subtag = tag.getTag(keyname);
-		if (subtag instanceof NBTTagInt)
-			return tag.getInteger(keyname);
-		if (subtag instanceof NBTTagShort)
-			return tag.getShort(keyname);
-		if (subtag instanceof NBTTagByte)
-			return tag.getByte(keyname);
-
-		return 0;
+		return NBTUtil.getNBTInteger(tag, keyname);
 	}
 
 	@Override
