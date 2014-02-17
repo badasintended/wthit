@@ -10,9 +10,6 @@ import mcp.mobius.waila.api.impl.ModuleRegistrar;
 
 public class ProjectRedModule {
 
-
-	public static Class BlockMultipart = null;
-	
 	public static void register(){	
 		try{
 			Class ModClass = Class.forName("mrtjp.projectred.ProjectRedIntegration");
@@ -20,25 +17,6 @@ public class ProjectRedModule {
 		} catch (ClassNotFoundException e){
 			Waila.log.log(Level.INFO, "[ProjectRed] ProjectRed|Integration mod not found.");
 			return;
-		}
-		
-		try{
-			
-			//InstancedRsGateLogic = Class.forName("mrtjp.projectred.integration.InstancedRsGateLogic");
-			BlockMultipart = Class.forName("codechicken.multipart.BlockMultipart");
-			
-		} catch (ClassNotFoundException e){
-			Waila.log.log(Level.WARNING, "[EnderStorage] Class not found. " + e);
-			return;
-//		} catch (NoSuchMethodException e){
-//			mod_Waila.log.log(Level.WARNING, "[EnderStorage] Method not found." + e);
-//			return;			
-//		} catch (NoSuchFieldException e){
-//			mod_Waila.log.log(Level.WARNING, "[EnderStorage] Field not found." + e);
-//			return;			
-		} catch (Exception e){
-			Waila.log.log(Level.WARNING, "[EnderStorage] Unhandled exception." + e);
-			return;			
 		}
 		
 		ModuleRegistrar.instance().addConfigRemote("Project:Red", "pr.showio");	

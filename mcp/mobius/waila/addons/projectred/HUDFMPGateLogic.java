@@ -45,27 +45,27 @@ public class HUDFMPGateLogic implements IWailaFMPProvider {
 		
 		switch(subID){
 		case 10:		
-			currenttip.add(String.format("[Repeater]" + TAB + WHITE + "%d" + GRAY + " ticks", (int)Math.pow(2, shape)));
+			currenttip.add(String.format("[Repeater]" + TAB + ALIGNRIGHT + WHITE + "%d" + GRAY + " ticks", (int)Math.pow(2, shape)));
 			break;	
 			
 		case 15:
 			if (shape == 0)
-				currenttip.add("[Sensor]" + TAB + WHITE + "Open");
+				currenttip.add("[Sensor]" + TAB + ALIGNRIGHT + WHITE + "Open");
 			if (shape == 1)
-				currenttip.add("[Sensor]" + TAB + WHITE + "Half closed");			
+				currenttip.add("[Sensor]" + TAB + ALIGNRIGHT + WHITE + "Half closed");			
 			if (shape == 2)
-				currenttip.add("[Sensor]" + TAB + WHITE + "Closed");			
+				currenttip.add("[Sensor]" + TAB + ALIGNRIGHT + WHITE + "Closed");			
 			break;
 			
 		case 17:
-			currenttip.add(String.format("[Timer delay]" + TAB + WHITE + "%d " + GRAY + "ms", (pmax + 2) * 50));
+			currenttip.add(String.format("[Timer delay]" + TAB + ALIGNRIGHT + WHITE + "%d " + GRAY + "ms", (pmax + 2) * 50));
 			break;
 		
 		case 19:
 		
 			
-			currenttip.add(String.format("[Counter value]"+ TAB + WHITE + "%d " + GRAY + "/ " + WHITE + "%d", val, max));
-			currenttip.add(String.format("[Counter step]"+ TAB + WHITE + "-%d " + GRAY + "/ " + WHITE + "+%d", dec, inc));
+			currenttip.add(String.format("[Counter value]"+ TAB + ALIGNRIGHT + WHITE + "%d "  + GRAY + "/ " + WHITE + "%d", val, max));
+			currenttip.add(String.format("[Counter step]" + TAB + ALIGNRIGHT + WHITE + "-%d " + GRAY + "/ " + WHITE + "+%d", dec, inc));
 			
 		default:
 			break;
