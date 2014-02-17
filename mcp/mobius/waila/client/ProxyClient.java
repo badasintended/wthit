@@ -24,6 +24,7 @@ import mcp.mobius.waila.gui.truetyper.FontLoader;
 import mcp.mobius.waila.gui.truetyper.TrueTypeFont;
 import mcp.mobius.waila.handlers.HUDHandlerBlocks;
 import mcp.mobius.waila.handlers.HUDHandlerEntities;
+import mcp.mobius.waila.handlers.HUDHandlerFMP;
 import mcp.mobius.waila.handlers.SummaryProviderDefault;
 import mcp.mobius.waila.handlers.nei.TooltipHandlerWaila;
 import mcp.mobius.waila.overlay.WailaTickHandler;
@@ -41,6 +42,7 @@ import codechicken.lib.lang.LangUtil;
 import codechicken.nei.NEIClientConfig;
 import codechicken.nei.forge.GuiContainerManager;
 import cpw.mods.fml.client.registry.KeyBindingRegistry;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.Side;
 
@@ -144,6 +146,9 @@ public class ProxyClient extends ProxyServer {
 		/* Carpenter's Blocks */
 		CarpentersModule.register();	
 
+		if(Loader.isModLoaded("ForgeMultipart"))
+			HUDHandlerFMP.register();
+		
 		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerBlocks(), Block.class);
 		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerBlocks(), TileEntity.class);
 		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerEntities(), Entity.class);

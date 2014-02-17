@@ -185,18 +185,6 @@ public class ModuleRegistrar implements IWailaRegistrar {
 		target.get(clazz).add(dataProvider);		
 	}	
 	
-	/*
-	private <T> void registerProvider(T dataProvider, String name, LinkedHashMap<String, ArrayList<T>> target) {
-		if (!target.containsKey(name))
-			target.put(name, new ArrayList<T>());
-		
-		ArrayList<T> providers =target.get(name);
-		if (providers.contains(dataProvider)) return;		
-		
-		target.get(name).add(dataProvider);		
-	}
-	*/		
-	
 	@Override
 	public void registerSyncedNBTKey(String key, Class target){
 		if (!this.syncedNBTKeys.containsKey(target))
@@ -312,6 +300,10 @@ public class ModuleRegistrar implements IWailaRegistrar {
 	public boolean hasTailEntityProviders(Object entity){
 		return hasProviders(entity, this.tailEntityProviders);
 	}	
+
+	public boolean hasOverrideEntityProviders(Object entity){
+		return hasProviders(entity, this.overrideEntityProviders);
+	}		
 	
 	public boolean hasHeadFMPProviders(String name){
 		return hasProviders(name, this.headFMPProviders);
@@ -324,10 +316,6 @@ public class ModuleRegistrar implements IWailaRegistrar {
 	public boolean hasTailFMPProviders(String name){
 		return hasProviders(name, this.tailFMPProviders);
 	}		
-	
-	public boolean hasOverrideEntityProviders(Object entity){
-		return hasProviders(entity, this.overrideEntityProviders);
-	}			
 
 	public boolean hasBlockDecorator(Object block){
 		return hasProviders(block, this.blockClassDecorators);
