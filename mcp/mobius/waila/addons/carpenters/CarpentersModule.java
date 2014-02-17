@@ -36,7 +36,8 @@ public class CarpentersModule {
 		ModuleRegistrar.instance().addConfigRemote("Carpenter's Blocks", "carpenters.hide");
 		ModuleRegistrar.instance().registerStackProvider(new HUDCarpentersBlocksTE(), BlockCarpentersDoor);
 		ModuleRegistrar.instance().registerStackProvider(new HUDCarpentersBlocksTE(), BlockCarpentersHatch);
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", TEBase);			
+		ModuleRegistrar.instance().registerSyncedNBTKey("data",    TEBase);
+		ModuleRegistrar.instance().registerSyncedNBTKey("cover_6", TEBase);
 	}	
 	
 }

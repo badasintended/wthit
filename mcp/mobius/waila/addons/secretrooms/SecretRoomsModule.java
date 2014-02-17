@@ -37,7 +37,8 @@ public class SecretRoomsModule {
 		ModuleRegistrar.instance().registerStackProvider(new HUDTileEntityCamo(), TileEntityCamo);
 		ModuleRegistrar.instance().registerStackProvider(new HUDTileEntityCamo(), BlockTorchLever);
 		ModuleRegistrar.instance().registerStackProvider(new HUDTileEntityCamo(), BlockCamoTrapDoor);
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", TileEntityCamo);			
+		ModuleRegistrar.instance().registerSyncedNBTKey("copyID",   TileEntityCamo);
+		ModuleRegistrar.instance().registerSyncedNBTKey("copyMeta", TileEntityCamo);
 	}		
 	
 }
