@@ -31,6 +31,9 @@ public class HUDMinecartModular implements IWailaEntityProvider {
 
 	@Override
 	public List<String> getWailaBody(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
+		if (!config.getConfig("stevescarts.showall")) return currenttip;
+		if (config.getConfig("stevescarts.shifttoggle") && !accessor.getPlayer().isSneaking()) return currenttip;
+		
 		Item ItemCartModule = null;
 		try {
 			ItemCartModule = (Item)StevesCartsModule.ItemCartModule.get(null);

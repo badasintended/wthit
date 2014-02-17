@@ -32,6 +32,8 @@ public class HUDCartAssembler implements IWailaDataProvider {
 
 	@Override
 	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
+		if (!config.getConfig("stevescarts.showall")) return currenttip;
+		if (config.getConfig("stevescarts.shifttoggle") && !accessor.getPlayer().isSneaking()) return currenttip;
 		
 		int currTime      = accessor.getNBTInteger(accessor.getNBTData(), "currentTime");
 		int maxTime       = accessor.getNBTInteger(accessor.getNBTData(), "maxTime");

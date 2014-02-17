@@ -59,6 +59,10 @@ public class StevesCartsModule {
 			return;
 		}			
 			
+		ModuleRegistrar.instance().addConfigRemote("Steve's carts", "stevescarts.showall");
+		ModuleRegistrar.instance().addConfigRemote("Steve's carts", "stevescarts.colorblind");
+		ModuleRegistrar.instance().addConfigRemote("Steve's carts", "stevescarts.shifttoggle");
+		
 		ModuleRegistrar.instance().registerBodyProvider(new HUDCartAssembler(),    TileEntityCartAssembler);
 		ModuleRegistrar.instance().registerBodyProvider(new HUDCargoManager(),     TileEntityCargo);
 		ModuleRegistrar.instance().registerBodyProvider(new HUDLiquidManager(),    TileEntityLiquid);		

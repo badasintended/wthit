@@ -27,11 +27,16 @@ public class HUDLiquidManager implements IWailaDataProvider {
 
 	@Override
 	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
+		if (!config.getConfig("stevescarts.showall")) return currenttip;
+		if (config.getConfig("stevescarts.shifttoggle") && !accessor.getPlayer().isSneaking()) return currenttip;
+		
 		NBTTagCompound tag = accessor.getNBTData();
 
-		int side = accessor.getSide().ordinal() - 2;
-		if (side >= 0)
-			currenttip.add("Looking at side " + WHITE + sides[side]);				
+		if (config.getConfig("stevescarts.colorblind")){
+			int side = accessor.getSide().ordinal() - 2;
+			if (side >= 0)
+				currenttip.add("Looking at side " + WHITE + sides[side]);		
+		}		
 		
 		int layout = accessor.getNBTInteger(tag, "layout");
 		switch(layout){
