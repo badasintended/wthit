@@ -9,6 +9,7 @@ import mcp.mobius.waila.addons.enderstorage.EnderStorageModule;
 import mcp.mobius.waila.addons.etb.ETBModule;
 import mcp.mobius.waila.addons.exu.ExtraUtilitiesModule;
 import mcp.mobius.waila.addons.gravestone.GravestoneModule;
+import mcp.mobius.waila.addons.harvestcraft.HarvestcraftModule;
 import mcp.mobius.waila.addons.ic2.IC2Module;
 import mcp.mobius.waila.addons.openblocks.OpenBlocksModule;
 import mcp.mobius.waila.addons.projectred.ProjectRedModule;
@@ -147,6 +148,9 @@ public class ProxyClient extends ProxyServer {
 		/* Carpenter's Blocks */
 		CarpentersModule.register();	
 
+		/* Pam's HarvestCraft */
+		HarvestcraftModule.register();
+		
 		if(Loader.isModLoaded("ForgeMultipart")){
 			HUDHandlerFMP.register();
 			DecoratorFMP.register();
