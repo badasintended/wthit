@@ -7,7 +7,7 @@ import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaFMPAccessor;
 import mcp.mobius.waila.api.IWailaFMPProvider;
 import mcp.mobius.waila.utils.NBTUtil;
-import static mcp.mobius.waila.utils.SpecialChars.*;
+import static mcp.mobius.waila.api.SpecialChars.*;
 
 public class HUDFMPGateLogic implements IWailaFMPProvider {
 

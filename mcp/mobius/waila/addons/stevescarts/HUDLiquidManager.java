@@ -7,7 +7,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
-import static mcp.mobius.waila.utils.SpecialChars.*;
+import static mcp.mobius.waila.api.SpecialChars.*;
 
 
 public class HUDLiquidManager implements IWailaDataProvider {

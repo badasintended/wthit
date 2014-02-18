@@ -12,7 +12,7 @@ import net.minecraftforge.common.Configuration;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.utils.Constants;
 import static codechicken.core.gui.GuiDraw.*;
-import static mcp.mobius.waila.utils.SpecialChars.*;
+import static mcp.mobius.waila.api.SpecialChars.*;
 
 public class Tooltip {
 	public static int TabSpacing = 8;

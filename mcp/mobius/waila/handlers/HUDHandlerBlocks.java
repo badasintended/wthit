@@ -2,7 +2,7 @@ package mcp.mobius.waila.handlers;
 
 import java.util.List;
 
-import static mcp.mobius.waila.utils.SpecialChars.*;
+import static mcp.mobius.waila.api.SpecialChars.*;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;

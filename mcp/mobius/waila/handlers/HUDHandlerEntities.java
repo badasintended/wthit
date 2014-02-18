@@ -14,7 +14,7 @@ import mcp.mobius.waila.api.IWailaEntityAccessor;
 import mcp.mobius.waila.api.IWailaEntityProvider;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.utils.Constants;
-import static mcp.mobius.waila.utils.SpecialChars.*;
+import static mcp.mobius.waila.api.SpecialChars.*;
 
 public class HUDHandlerEntities implements IWailaEntityProvider {
 
