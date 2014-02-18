@@ -16,6 +16,7 @@ import mcp.mobius.waila.addons.openblocks.OpenBlocksModule;
 import mcp.mobius.waila.addons.projectred.ProjectRedModule;
 import mcp.mobius.waila.addons.railcraft.RailcraftModule;
 import mcp.mobius.waila.addons.secretrooms.SecretRoomsModule;
+import mcp.mobius.waila.addons.statues.StatuesModule;
 import mcp.mobius.waila.addons.stevescarts.StevesCartsModule;
 import mcp.mobius.waila.addons.thaumcraft.ThaumcraftModule;
 import mcp.mobius.waila.addons.thermalexpansion.ThermalExpansionModule;
@@ -154,6 +155,9 @@ public class ProxyClient extends ProxyServer {
 		
 		/* Magical crops */
 		MagicalCropsModule.register();		
+		
+		/* Statues */
+		StatuesModule.register();
 		
 		if(Loader.isModLoaded("ForgeMultipart")){
 			HUDHandlerFMP.register();
