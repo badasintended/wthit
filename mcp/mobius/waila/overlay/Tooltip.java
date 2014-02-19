@@ -27,6 +27,7 @@ public class Tooltip {
 	ItemStack stack;
 	
 	int[] columnsWidth;
+	int   columnsWidthMono;
 	int[] columnsPos;
 	int   ncolumns = 0;
 	
@@ -89,16 +90,17 @@ public class Tooltip {
 		for (Line l : lines)
 			ncolumns = Math.max(ncolumns, l.ncolumns);
 		
-		columnsWidth    = new int[ncolumns];
-		columnsPos      = new int[ncolumns];
+		columnsWidth     = new int[ncolumns];
+		columnsPos       = new int[ncolumns];
 
 		for (Line l : lines){
 			for (int i = 0; i < l.ncolumns; i++){
 				if (l.ncolumns > 1 && ncolumns != 1)
 					columnsWidth[i] = Math.max(columnsWidth[i], l.columnsWidth[i]);
-				else if (ncolumns == 1)
-					columnsWidth[i] = Math.max(columnsWidth[i], l.columnsWidth[i]);
 			}
+			
+			columnsWidthMono = Math.max(columnsWidthMono, l.columnsWidth[0]);
+			
 		}
 
 		maxStringW = 0;
@@ -106,6 +108,7 @@ public class Tooltip {
 			maxStringW += columnsWidth[i];
 		maxStringW += ncolumns * TabSpacing;
 
+		maxStringW = Math.max(maxStringW, columnsWidthMono);
 		
 		for (int i = 0; i < ncolumns - 1; i++)
 			columnsPos[i + 1] = columnsWidth[i] + columnsPos[i];
