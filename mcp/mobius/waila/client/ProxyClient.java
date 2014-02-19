@@ -1,5 +1,6 @@
 package mcp.mobius.waila.client;
 
+import mcp.mobius.waila.addons.agriculture.AgricultureModule;
 import mcp.mobius.waila.addons.appeng.AppEngModule;
 import mcp.mobius.waila.addons.buildcraft.BCModule;
 import mcp.mobius.waila.addons.buildcraft.BCPowerAPIModule;
@@ -159,6 +160,9 @@ public class ProxyClient extends ProxyServer {
 		
 		/* Statues */
 		StatuesModule.register();
+		
+		/* Agriculture */
+		AgricultureModule.register();		
 		
 		if(Loader.isModLoaded("ForgeMultipart")){
 			HUDHandlerFMP.register();
