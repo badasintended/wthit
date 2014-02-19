@@ -78,9 +78,13 @@ public class MetaDataProvider{
 				PacketDispatcher.sendPacketToServer(Packet0x01TERequest.create(world, mop, keys));
 		} else if (accessor.getTileEntity() != null && !Waila.instance.serverPresent && accessor.isTimeElapsed(250)) {
 			
-    		NBTTagCompound tag = new NBTTagCompound();
-    		accessor.getTileEntity().writeToNBT(tag);			
-			accessor.remoteNbt = tag;
+			try{
+				NBTTagCompound tag = new NBTTagCompound();
+    			accessor.getTileEntity().writeToNBT(tag);			
+				accessor.remoteNbt = tag;			
+			} catch (Exception e){
+				WailaExceptionHandler.handleErr(e, this.getClass().getName(), null);
+			}			
 		}
 
 		/* Interface IWailaBlock */
@@ -173,9 +177,13 @@ public class MetaDataProvider{
 			
 		} else if (accessor.getEntity() != null && !Waila.instance.serverPresent && accessor.isTimeElapsed(250)) {
 			
-    		NBTTagCompound tag = new NBTTagCompound();
-    		accessor.getEntity().writeToNBT(tag);			
-			accessor.remoteNbt = tag;
+			try{
+				NBTTagCompound tag = new NBTTagCompound();
+				accessor.getEntity().writeToNBT(tag);			
+				accessor.remoteNbt = tag;
+			} catch (Exception e){
+				WailaExceptionHandler.handleErr(e, this.getClass().getName(), null);
+			}
 		}
 
 		headEntityProviders.clear();
