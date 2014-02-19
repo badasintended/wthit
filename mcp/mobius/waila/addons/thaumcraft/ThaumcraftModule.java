@@ -1,6 +1,7 @@
 package mcp.mobius.waila.addons.thaumcraft;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.logging.Level;
 
 import mcp.mobius.waila.Waila;
@@ -12,10 +13,21 @@ public class ThaumcraftModule {
 	public static Class TileAlchemyFurnace = null;
 	public static Class ItemGoggles = null;
 	
+	public static Class Thaumcraft = null;
+	public static Class TCClientProxy = null;
+	public static Class PlayerKnowledge = null;
+	public static Class Aspect = null;
+	
+	public static Field TC_proxy       = null; //Thaumcraft.proxy
+	public static Field playerResearch = null; //ClientProxy.playerResearch
+	
+	public static Method hasDiscoveredAspect = null; //PlayerKnowledge.hasDiscoveredAspect
+	public static Method getAspect = null; //Aspect.getAspect
+	
 	public static void register(){
 
 		try{
-			Class ModThaumcraft = Class.forName("thaumcraft.common.Thaumcraft");
+			Thaumcraft = Class.forName("thaumcraft.common.Thaumcraft");
 			Waila.log.log(Level.INFO, "Thaumcraft mod found.");
 		} catch (ClassNotFoundException e){
 			Waila.log.log(Level.INFO, "[Thaumcraft] Thaumcraft mod not found.");
@@ -26,6 +38,16 @@ public class ThaumcraftModule {
 			IAspectContainer   = Class.forName("thaumcraft.api.aspects.IAspectContainer");
 			TileAlchemyFurnace = Class.forName("thaumcraft.common.tiles.TileAlchemyFurnace");
 			ItemGoggles        = Class.forName("thaumcraft.common.items.armor.ItemGoggles");
+			TCClientProxy      = Class.forName("thaumcraft.client.ClientProxy");
+			PlayerKnowledge    = Class.forName("thaumcraft.common.lib.research.PlayerKnowledge");
+			Aspect             = Class.forName("thaumcraft.api.aspects.Aspect");
+			
+			TC_proxy           = Thaumcraft.getDeclaredField("proxy");
+			playerResearch     = TCClientProxy.getDeclaredField("playerResearch");
+			playerResearch.setAccessible(true);
+			
+			hasDiscoveredAspect = PlayerKnowledge.getDeclaredMethod("hasDiscoveredAspect", String.class, Aspect);
+			getAspect           = Aspect.getDeclaredMethod("getAspect", String.class);
 			
 		} catch (ClassNotFoundException e){
 			Waila.log.log(Level.WARNING, "[Thaumcraft] Class not found. " + e);

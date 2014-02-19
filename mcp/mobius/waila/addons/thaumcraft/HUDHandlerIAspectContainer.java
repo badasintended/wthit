@@ -10,6 +10,7 @@ import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.utils.NBTUtil;
+import mcp.mobius.waila.utils.WailaExceptionHandler;
 import static mcp.mobius.waila.api.SpecialChars.*;
 
 public class HUDHandlerIAspectContainer implements IWailaDataProvider {
@@ -33,12 +34,12 @@ public class HUDHandlerIAspectContainer implements IWailaDataProvider {
 		
 		if (tag.hasKey("Aspect") && tag.hasKey("Amount") && !tag.getString("Aspect").equals("")){
 			String aspect = Character.toUpperCase(tag.getString("Aspect").charAt(0)) + tag.getString("Aspect").substring(1);
-			currenttip.add(this.getAspectString(tag, "Aspect", "Amount"));
+			currenttip.add(this.getAspectString(tag, "Aspect", "Amount", accessor));
 		}
 
 		if (tag.hasKey("aspect") && tag.hasKey("amount") && !tag.getString("aspect").equals("")){
 			String aspect = Character.toUpperCase(tag.getString("aspect").charAt(0)) + tag.getString("aspect").substring(1);
-			currenttip.add(this.getAspectString(tag, "aspect", "amount"));
+			currenttip.add(this.getAspectString(tag, "aspect", "amount", accessor));
 		}		
 		
 		if (tag.hasKey("Aspects")){
@@ -46,7 +47,7 @@ public class HUDHandlerIAspectContainer implements IWailaDataProvider {
 			for (int i = 0; i < taglist.tagCount(); i++){
 				NBTTagCompound subtag = (NBTTagCompound)taglist.tagAt(i);
 				if (subtag.hasKey("amount") && subtag.hasKey("key") && !subtag.getString("key").equals("")){
-					currenttip.add(this.getAspectString(subtag, "key", "amount"));
+					currenttip.add(this.getAspectString(subtag, "key", "amount", accessor));
 				}
 			}
 		}
@@ -59,11 +60,30 @@ public class HUDHandlerIAspectContainer implements IWailaDataProvider {
 		return currenttip;
 	}	
 	
-	private String getAspectString(NBTTagCompound tag, String keyAspect, String keyAmount){
-		String aspect = Character.toUpperCase(tag.getString(keyAspect).charAt(0)) + tag.getString(keyAspect).substring(1);
+	private String getAspectString(NBTTagCompound tag, String keyAspect, String keyAmount, IWailaDataAccessor accessor){
+		String aspect = tag.getString(keyAspect);
+		aspect = knowAspect(aspect, accessor) ? aspect : "????";
+		aspect = Character.toUpperCase(aspect.charAt(0)) + aspect.substring(1);
+		
 		String amount = String.valueOf(NBTUtil.getNBTInteger(tag, keyAmount));
 		
+		
+		
 		return String.format("%s" + TAB + ALIGNRIGHT + WHITE + "%s",  aspect, amount);
+	}
+	
+	private boolean knowAspect(String name, IWailaDataAccessor accessor){
+		try{
+			Object proxy    = ThaumcraftModule.TC_proxy.get(null);
+			Object research = ThaumcraftModule.playerResearch.get(proxy); 
+			Object aspect   = ThaumcraftModule.getAspect.invoke(null, name);
+			Boolean known   = (Boolean)ThaumcraftModule.hasDiscoveredAspect.invoke(research, accessor.getPlayer().username, aspect);
+			return known;
+			
+		} catch (Exception e){
+			WailaExceptionHandler.handleErr(e, this.getClass().getName(), null);
+			return false;
+		}
 	}
 	
 }
