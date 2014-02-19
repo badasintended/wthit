@@ -85,9 +85,13 @@ public class ProxyClient extends ProxyServer {
 		ModuleRegistrar.instance().registerTailProvider(new HUDHandlerBlocks(), Block.class);
 		
 		ModuleRegistrar.instance().registerHeadProvider(new HUDHandlerEntities(), Entity.class);
+		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerEntities(), Entity.class);		
 		ModuleRegistrar.instance().registerTailProvider(new HUDHandlerEntities(), Entity.class);
 		
 		ModuleRegistrar.instance().registerShortDataProvider(new SummaryProviderDefault(), Item.class);
+		
+		ModuleRegistrar.instance().addConfig("General", "general.showhp");
+		ModuleRegistrar.instance().addConfig("General", "general.showcrop");		
 	}	
 
 	@Override
@@ -171,7 +175,6 @@ public class ProxyClient extends ProxyServer {
 		
 		//ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerBlocks(),   Block.class);
 		//ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerBlocks(),   TileEntity.class);
-		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerEntities(), Entity.class);
 	}	
 	
 	@Override

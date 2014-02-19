@@ -84,7 +84,7 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 		Block block       = accessor.getBlock();
 		/* Crops */
 		boolean iscrop = crops.getClass().isInstance(block);	//Done to cover all inheriting mods
-		if (config.getConfig("vanilla.growthvalue"))
+		if (config.getConfig("general.showcrop"))
 			if (iscrop || block == melonStem || block == pumpkinStem || block == carrot || block == potato){
 				float growthValue = (accessor.getMetadata() / 7.0F) * 100.0F;
 				if (growthValue < 100.0)
@@ -94,7 +94,7 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 				return currenttip;
 			}		
 
-		if (block == cocoa){
+		if (block == cocoa && config.getConfig("general.showcrop")){
 		
 			float growthValue = ((accessor.getMetadata() >> 2) / 2.0F) * 100.0F;
 			if (growthValue < 100.0)
@@ -104,7 +104,7 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 			return currenttip;
 		}		
 		
-		if (block == netherwart){
+		if (block == netherwart && config.getConfig("general.showcrop")){
 			float growthValue = (accessor.getMetadata() / 3.0F) * 100.0F;
 			if (growthValue < 100.0)
 				currenttip.add(String.format("%s : %.0f %%", LangUtil.translateG("hud.msg.growth"), growthValue));
@@ -167,7 +167,6 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 	
 	public static void register(){
 		ModuleRegistrar.instance().addConfig("VanillaMC", "vanilla.spawntype");
-		ModuleRegistrar.instance().addConfig("VanillaMC", "vanilla.growthvalue");
 		ModuleRegistrar.instance().addConfig("VanillaMC", "vanilla.leverstate");
 		ModuleRegistrar.instance().addConfig("VanillaMC", "vanilla.repeater");
 		ModuleRegistrar.instance().addConfig("VanillaMC", "vanilla.comparator");

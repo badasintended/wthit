@@ -22,6 +22,8 @@ public class HUDHandlerCrop implements IWailaDataProvider {
 
 	@Override
 	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
+		if (!config.getConfig("general.showcrop")) return currenttip;
+		
 		int growthStage = accessor.getMetadata();
 
 		float growthValue = (growthStage / 6.0F) * 100.0F;

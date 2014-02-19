@@ -143,3 +143,5 @@ option.carpenters.hide=Hide camo blocks
 option.stevescarts.showall=Show data
 option.stevescarts.colorblind=Colorblind mode
 option.stevescarts.shifttoggle=Shift toggle
+option.general.showhp=Show entities health
+option.general.showcrop=Show crop growth
