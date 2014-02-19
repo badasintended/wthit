@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
+import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.DataAccessorBlock;
 import mcp.mobius.waila.api.impl.DataAccessorEntity;
 import mcp.mobius.waila.api.impl.MetaDataProvider;
+import mcp.mobius.waila.utils.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -15,9 +17,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import net.minecraftforge.common.Configuration;
 import codechicken.nei.api.ItemInfo.Layout;
 import cpw.mods.fml.common.ITickHandler;
 import cpw.mods.fml.common.TickType;
+import static mcp.mobius.waila.api.SpecialChars.*;
 
 public class WailaTickHandler implements ITickHandler {
 
@@ -76,6 +80,11 @@ public class WailaTickHandler implements ITickHandler {
 						this.currenttipBody      = handler.handleBlockTextData(targetStack, world, player, target, accessor, currenttipBody, Layout.BODY);
 						this.currenttipTail      = handler.handleBlockTextData(targetStack, world, player, target, accessor, currenttipTail, Layout.FOOTER);
 						
+						if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHIFTBLOCK, false) && currenttipBody.size() > 0 && !accessor.getPlayer().isSneaking()){
+							currenttipBody.clear();
+							currenttipBody.add(ITALIC + "Press shift for more data");
+						}						
+						
 						this.currenttip.addAll(this.currenttipHead);
 						this.currenttip.addAll(this.currenttipBody);
 						this.currenttip.addAll(this.currenttipTail);						
@@ -98,6 +107,11 @@ public class WailaTickHandler implements ITickHandler {
 						this.currenttipHead      = handler.handleEntityTextData(targetEnt, world, player, target, accessor, currenttipHead, Layout.HEADER);
 						this.currenttipBody      = handler.handleEntityTextData(targetEnt, world, player, target, accessor, currenttipBody, Layout.BODY);
 						this.currenttipTail      = handler.handleEntityTextData(targetEnt, world, player, target, accessor, currenttipTail, Layout.FOOTER);
+						
+						if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHIFTENTS, false) && currenttipBody.size() > 0 && !accessor.getPlayer().isSneaking()){
+							currenttipBody.clear();
+							currenttipBody.add(ITALIC + "Press shift for more data");
+						}							
 						
 						this.currenttip.addAll(this.currenttipHead);
 						this.currenttip.addAll(this.currenttipBody);

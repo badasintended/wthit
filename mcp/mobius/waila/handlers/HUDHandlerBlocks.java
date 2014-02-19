@@ -61,12 +61,13 @@ public class HUDHandlerBlocks implements IWailaDataProvider {
 
 	@Override
 	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
+		/*
 		if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHIFTBLOCK, false) && currenttip.size() > 0 && !accessor.getPlayer().isSneaking()){
 			currenttip.clear();
 			currenttip.add(ITALIC + "Press shift for more data");
 			return currenttip;
 		}
-		
+		*/
 		return currenttip;
 	}
 

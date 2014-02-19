@@ -22,6 +22,7 @@ import mcp.mobius.waila.addons.thaumcraft.ThaumcraftModule;
 import mcp.mobius.waila.addons.thermalexpansion.ThermalExpansionModule;
 import mcp.mobius.waila.addons.twilightforest.TwilightForestModule;
 import mcp.mobius.waila.addons.vanillamc.HUDHandlerVanilla;
+import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.gui.truetyper.FontLoader;
 import mcp.mobius.waila.gui.truetyper.TrueTypeFont;
@@ -164,8 +165,8 @@ public class ProxyClient extends ProxyServer {
 			DecoratorFMP.register();
 		}
 		
-		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerBlocks(), Block.class);
-		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerBlocks(), TileEntity.class);
+		//ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerBlocks(),   Block.class);
+		//ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerBlocks(),   TileEntity.class);
 		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerEntities(), Entity.class);
 	}	
 	

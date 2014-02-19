@@ -33,7 +33,7 @@ public class SecretRoomsModule {
 			return;
 		}			
 
-		ModuleRegistrar.instance().addConfigRemote("SecretRooms", "secretrooms.hide");
+		ModuleRegistrar.instance().addConfig("SecretRooms", "secretrooms.hide");
 		ModuleRegistrar.instance().registerStackProvider(new HUDTileEntityCamo(), TileEntityCamo);
 		ModuleRegistrar.instance().registerStackProvider(new HUDTileEntityCamo(), BlockTorchLever);
 		ModuleRegistrar.instance().registerStackProvider(new HUDTileEntityCamo(), BlockCamoTrapDoor);

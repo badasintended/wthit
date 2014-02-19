@@ -15,6 +15,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
@@ -75,6 +76,11 @@ public class MetaDataProvider{
 			
 			if (keys.size() != 0)
 				PacketDispatcher.sendPacketToServer(Packet0x01TERequest.create(world, mop, keys));
+		} else if (accessor.getTileEntity() != null && !Waila.instance.serverPresent && accessor.isTimeElapsed(250)) {
+			
+    		NBTTagCompound tag = new NBTTagCompound();
+    		accessor.getTileEntity().writeToNBT(tag);			
+			accessor.remoteNbt = tag;
 		}
 
 		/* Interface IWailaBlock */
@@ -164,6 +170,12 @@ public class MetaDataProvider{
 			
 			if (keys.size() != 0)
 				PacketDispatcher.sendPacketToServer(Packet0x03EntRequest.create(world, accessor.getEntity(), keys));
+			
+		} else if (accessor.getEntity() != null && !Waila.instance.serverPresent && accessor.isTimeElapsed(250)) {
+			
+    		NBTTagCompound tag = new NBTTagCompound();
+    		accessor.getEntity().writeToNBT(tag);			
+			accessor.remoteNbt = tag;
 		}
 
 		headEntityProviders.clear();

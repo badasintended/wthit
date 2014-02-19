@@ -53,11 +53,13 @@ public class HUDHandlerEntities implements IWailaEntityProvider {
 			currenttip.add(hptip);
 		}		
 		
+		/*
 		if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHIFTENTS, false) && currenttip.size() > 0 && !accessor.getPlayer().isSneaking()){
 			currenttip.clear();
 			currenttip.add(ITALIC + "Press shift for more data");
 			return currenttip;
 		}		
+		*/
 
 		return currenttip;	
 	}
