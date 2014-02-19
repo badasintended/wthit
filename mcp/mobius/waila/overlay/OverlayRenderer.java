@@ -19,6 +19,7 @@ public class OverlayRenderer {
 
 	protected static boolean hasBlending;
 	protected static boolean hasLight;
+	protected static boolean hasDepthTest;
 	protected static int     boundTexIndex;   	
 	protected static RenderItem renderItem = new RenderItem();
 	
@@ -49,6 +50,7 @@ public class OverlayRenderer {
     	//TrueTypeFont font = (TrueTypeFont)mod_Waila.proxy.getFont();
     	
     	GL11.glPushMatrix();
+    	saveGLState();
     	
     	GL11.glScalef(OverlayConfig.scale, OverlayConfig.scale, 1.0f);
     	
@@ -66,7 +68,6 @@ public class OverlayRenderer {
 
         tooltip.drawIcons();        
 
-        
         if (tooltip.hasIcon)
         	RenderHelper.enableGUIStandardItemLighting();
         
@@ -75,19 +76,24 @@ public class OverlayRenderer {
         if (tooltip.hasIcon && tooltip.stack != null && tooltip.stack.getItem() != null)
             GuiContainerManager.drawItem(tooltip.x+5, tooltip.y+tooltip.h/2-8, tooltip.stack);
         
-    	GL11.glPopMatrix();        
+        loadGLState();
+    	GL11.glPopMatrix();  
+    	
+    	
     }    
     
     public static void saveGLState(){
 		hasBlending   = GL11.glGetBoolean(GL11.GL_BLEND);
 		hasLight      = GL11.glGetBoolean(GL11.GL_LIGHTING);
+		hasDepthTest  = GL11.glGetBoolean(GL11.GL_DEPTH_TEST);
     	boundTexIndex = GL11.glGetInteger(GL11.GL_TEXTURE_BINDING_2D);  
     	GL11.glPushAttrib(GL11.GL_CURRENT_BIT);
     }
     
     public static void loadGLState(){
-    	if (hasBlending) GL11.glEnable(GL11.GL_BLEND); else GL11.glDisable(GL11.GL_BLEND);
-    	if (hasLight) GL11.glEnable(GL11.GL_LIGHTING); else	GL11.glDisable(GL11.GL_LIGHTING);
+    	if (hasBlending)  GL11.glEnable(GL11.GL_BLEND);      else GL11.glDisable(GL11.GL_BLEND);
+    	if (hasLight)     GL11.glEnable(GL11.GL_LIGHTING);   else GL11.glDisable(GL11.GL_LIGHTING);
+    	if (hasDepthTest) GL11.glEnable(GL11.GL_DEPTH_TEST); else GL11.glDisable(GL11.GL_DEPTH_TEST);
     	GL11.glBindTexture(GL11.GL_TEXTURE_2D, boundTexIndex);
     	GL11.glPopAttrib();
     	//GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
