@@ -18,6 +18,8 @@ import static mcp.mobius.waila.api.SpecialChars.*;
 
 public class HUDHandlerEntities implements IWailaEntityProvider {
 
+	public static int nhearts = 20;
+	
 	@Override
 	public Entity getWailaOverride(IWailaEntityAccessor accessor, IWailaConfigHandler config) {
 		return null;
@@ -38,44 +40,43 @@ public class HUDHandlerEntities implements IWailaEntityProvider {
 		if (entity instanceof EntityLivingBase){
 			String hptip = "";
 			
+			nhearts = nhearts <= 0 ? 20 : nhearts;
+			
 			float  health = ((EntityLivingBase)entity).getHealth() / 2.0f;
 			float  maxhp  = ((EntityLivingBase)entity).getMaxHealth() / 2.0f;;
 			
-			for (int i = 0; i < MathHelper.floor_float(health); i++){
-				hptip += HEART;
-				if(hptip.length() % (20 * HEART.length()) == 0){
-					currenttip.add(hptip);
-					hptip = "";
+			if (maxhp > 40.0f)
+				currenttip.add(String.format("HP : " + WHITE + "%.0f" + GRAY + " / " + WHITE + "%.0f", health, maxhp));
+			
+			else{
+				for (int i = 0; i < MathHelper.floor_float(health); i++){
+					hptip += HEART;
+					if(hptip.length() % (nhearts * HEART.length()) == 0){
+						currenttip.add(hptip);
+						hptip = "";
+					}
 				}
-			}
-			
-			if (((EntityLivingBase)entity).getHealth() > MathHelper.floor_float(health) * 2.0f){
-				hptip += HHEART;
-				if(hptip.length() % (20 * HEART.length()) == 0){
+				
+				if (((EntityLivingBase)entity).getHealth() > MathHelper.floor_float(health) * 2.0f){
+					hptip += HHEART;
+					if(hptip.length() % (nhearts * HEART.length()) == 0){
+						currenttip.add(hptip);
+						hptip = "";
+					}				
+				}
+	
+				for (int i = 0; i < MathHelper.floor_float(maxhp - health); i++){
+					hptip += EHEART;
+					if(hptip.length() % (nhearts * HEART.length()) == 0){
+						currenttip.add(hptip);
+						hptip = "";
+					}				
+				}
+				
+				if (!hptip.equals(""))
 					currenttip.add(hptip);
-					hptip = "";
-				}				
 			}
-
-			for (int i = 0; i < MathHelper.floor_float(maxhp - health); i++){
-				hptip += EHEART;
-				if(hptip.length() % (20 * HEART.length()) == 0){
-					currenttip.add(hptip);
-					hptip = "";
-				}				
-			}
-			
-			if (!hptip.equals(""))
-				currenttip.add(hptip);
 		}		
-		
-		/*
-		if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHIFTENTS, false) && currenttip.size() > 0 && !accessor.getPlayer().isSneaking()){
-			currenttip.clear();
-			currenttip.add(ITALIC + "Press shift for more data");
-			return currenttip;
-		}		
-		*/
 
 		return currenttip;	
 	}
