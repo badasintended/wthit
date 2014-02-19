@@ -19,6 +19,7 @@ import static mcp.mobius.waila.api.SpecialChars.*;
 public class HUDHandlerEntities implements IWailaEntityProvider {
 
 	public static int nhearts = 20;
+	public static float maxhpfortext = 40.0f;
 	
 	@Override
 	public Entity getWailaOverride(IWailaEntityAccessor accessor, IWailaConfigHandler config) {
@@ -45,7 +46,7 @@ public class HUDHandlerEntities implements IWailaEntityProvider {
 			float  health = ((EntityLivingBase)entity).getHealth() / 2.0f;
 			float  maxhp  = ((EntityLivingBase)entity).getMaxHealth() / 2.0f;
 			
-			if (maxhp > 20.0f)
+			if (((EntityLivingBase)entity).getHealth() > maxhpfortext)
 				currenttip.add(String.format("HP : " + WHITE + "%.0f" + GRAY + " / " + WHITE + "%.0f", ((EntityLivingBase)entity).getHealth(), ((EntityLivingBase)entity).getMaxHealth()));
 			
 			else{

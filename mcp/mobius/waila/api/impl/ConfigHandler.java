@@ -148,7 +148,8 @@ public class ConfigHandler implements IWailaConfigHandler {
 		OverlayConfig.fontcolor = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_FONTCOLOR, 0xA0A0A0).getInt();
 		OverlayConfig.scale     = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SCALE,     100).getInt() / 100.0f;
 
-		HUDHandlerEntities.nhearts = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_NHEARTS, 20).getInt();
+		HUDHandlerEntities.nhearts      = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_NHEARTS, 20).getInt();
+		HUDHandlerEntities.maxhpfortext = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_MAXHP, 40).getInt();
 		
 		config.getCategory(Constants.CATEGORY_MODULES).setComment("Those are the config keys defined in modules.\nServer side, it is used to enforce keys client side using the next section.");		
 		config.getCategory(Constants.CATEGORY_SERVER).setComment("Any key set to true here will ensure that the client is using the configuration set in the 'module' section above.\nThis is useful for enforcing false to 'cheating' keys like silverfish.");

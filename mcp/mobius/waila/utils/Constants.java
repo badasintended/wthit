@@ -25,7 +25,8 @@ public final class Constants {
 	public static String CFG_WAILA_SCALE    = "waila.cfg.scale";
 	public static String CFG_WAILA_SHIFTBLOCK = "waila.cfg.shiftblock";
 	public static String CFG_WAILA_SHIFTENTS  = "waila.cfg.shiftents";
-	public static String CFG_WAILA_NHEARTS  = "waila.cfg.nhearts";
+	public static String CFG_WAILA_NHEARTS    = "waila.cfg.heartsperline";
+	public static String CFG_WAILA_MAXHP      = "waila.cfg.maxhpbeforetext";
 	
 	public static String CFG_WAILA_ALPHA    = "waila.cfg.alpha";
 	public static String CFG_WAILA_BGCOLOR    = "waila.cfg.bgcolor";
