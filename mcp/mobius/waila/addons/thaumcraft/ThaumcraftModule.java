@@ -8,12 +8,9 @@ import mcp.mobius.waila.api.impl.ModuleRegistrar;
 
 public class ThaumcraftModule {
 
-	public static Class BlockMagicalLeaves = null;
-	public static Class BlockCustomPlant = null;
-	
-	public static Class TileCrystalCapacitor = null;
-	public static Field TileCrystalCapacitor_StoredVis = null;
-	public static Field TileCrystalCapacitor_MaxVis = null;		
+	public static Class IAspectContainer = null;
+	public static Class TileAlchemyFurnace = null;
+	public static Class ItemGoggles = null;
 	
 	public static void register(){
 
@@ -26,35 +23,23 @@ public class ThaumcraftModule {
 		}
 		
 		try{
-			BlockMagicalLeaves = Class.forName("thaumcraft.common.world.BlockMagicalLeaves");
-			BlockCustomPlant = Class.forName("thaumcraft.common.world.BlockCustomPlant");	
-			
-			TileCrystalCapacitor = Class.forName("thaumcraft.common.tiles.TileCrystalCapacitor");
-			TileCrystalCapacitor_StoredVis = TileCrystalCapacitor.getField("storedVis");
-			TileCrystalCapacitor_MaxVis    = TileCrystalCapacitor.getField("maxVis");			
-			
+			IAspectContainer   = Class.forName("thaumcraft.api.aspects.IAspectContainer");
+			TileAlchemyFurnace = Class.forName("thaumcraft.common.tiles.TileAlchemyFurnace");
+			ItemGoggles        = Class.forName("thaumcraft.common.items.armor.ItemGoggles");
 			
 		} catch (ClassNotFoundException e){
 			Waila.log.log(Level.WARNING, "[Thaumcraft] Class not found. " + e);
 			return;
-//		} catch (NoSuchMethodException e){
-//			mod_Waila.log.log(Level.WARNING, "[Thaumcraft] Method not found." + e);
-//			return;			
-		} catch (NoSuchFieldException e){
-			Waila.log.log(Level.WARNING, "[Thaumcraft] Field not found." + e);
+		} catch (Exception e){
+			Waila.log.log(Level.WARNING, "[Thaumcraft] Unhandled exception." + e);
 			return;			
-//		} catch (Exception e){
-//			mod_Waila.log.log(Level.WARNING, "[Thaumcraft] Unhandled exception." + e);
-//			return;			
-		}		
-		ModuleRegistrar.instance().addConfig("Thaumcraft", "thaumcraft.storedvis");		
-		ModuleRegistrar.instance().registerStackProvider(new HUDHandlerLeaves(), BlockMagicalLeaves);
-		ModuleRegistrar.instance().registerStackProvider(new HUDHandlerPlants(), BlockCustomPlant);
-		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerCapacitor(), TileCrystalCapacitor);		
+		}
 		
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", BlockMagicalLeaves);
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", BlockCustomPlant);
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", TileCrystalCapacitor);
+		//ModuleRegistrar.instance().addConfig("Thaumcraft", "thaumcraft.storedvis");		
+		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerIAspectContainer(), IAspectContainer);
+		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerIAspectContainer(), TileAlchemyFurnace);
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", IAspectContainer);
+
 	}
 
 }
