@@ -38,10 +38,10 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid="Waila", name="Waila", version="1.5.0", dependencies="required-after:NotEnoughItems")
+@Mod(modid="Waila", name="Waila", version="1.5.1", dependencies="required-after:NotEnoughItems")
 @NetworkMod(channels = {"Waila"},clientSideRequired=false, serverSideRequired=false, connectionHandler = WailaConnectionHandler.class, 
-			//packetHandler = WailaPacketHandler.class, versionBounds="[1.3.0,)")
-			packetHandler = WailaPacketHandler.class)
+			packetHandler = WailaPacketHandler.class, versionBounds="[1.5.0,)")
+			//packetHandler = WailaPacketHandler.class)
 
 public class Waila {
     // The instance of your mod that Forge uses.

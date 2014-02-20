@@ -20,6 +20,10 @@ public class OverlayRenderer {
 	protected static boolean hasBlending;
 	protected static boolean hasLight;
 	protected static boolean hasDepthTest;
+	protected static boolean hasLight0;
+	protected static boolean hasLight1;
+	protected static boolean hasRescaleNormal;
+	protected static boolean hasColorMaterial;
 	protected static int     boundTexIndex;   	
 	protected static RenderItem renderItem = new RenderItem();
 	
@@ -38,7 +42,7 @@ public class OverlayRenderer {
         {
             renderOverlay(WailaTickHandler.instance().tooltip);
         }
-        
+
         if (RayTracing.instance().getTarget().typeOfHit == EnumMovingObjectType.ENTITY)
         {
         	renderOverlay(WailaTickHandler.instance().tooltip);       	
@@ -85,15 +89,23 @@ public class OverlayRenderer {
     public static void saveGLState(){
 		hasBlending   = GL11.glGetBoolean(GL11.GL_BLEND);
 		hasLight      = GL11.glGetBoolean(GL11.GL_LIGHTING);
-		hasDepthTest  = GL11.glGetBoolean(GL11.GL_DEPTH_TEST);
-    	boundTexIndex = GL11.glGetInteger(GL11.GL_TEXTURE_BINDING_2D);  
+		//hasLight0     = GL11.glGetBoolean(GL11.GL_LIGHT0);
+		//hasLight1     = GL11.glGetBoolean(GL11.GL_LIGHT1);
+		hasDepthTest     = GL11.glGetBoolean(GL11.GL_DEPTH_TEST);
+		//hasRescaleNormal = GL11.glGetBoolean(GL12.GL_RESCALE_NORMAL);
+		//hasColorMaterial = GL11.glGetBoolean(GL11.GL_COLOR_MATERIAL);
+    	boundTexIndex    = GL11.glGetInteger(GL11.GL_TEXTURE_BINDING_2D);  
     	GL11.glPushAttrib(GL11.GL_CURRENT_BIT);
     }
     
     public static void loadGLState(){
-    	if (hasBlending)  GL11.glEnable(GL11.GL_BLEND);      else GL11.glDisable(GL11.GL_BLEND);
-    	if (hasLight)     GL11.glEnable(GL11.GL_LIGHTING);   else GL11.glDisable(GL11.GL_LIGHTING);
-    	if (hasDepthTest) GL11.glEnable(GL11.GL_DEPTH_TEST); else GL11.glDisable(GL11.GL_DEPTH_TEST);
+    	if (hasBlending)      GL11.glEnable(GL11.GL_BLEND);      else GL11.glDisable(GL11.GL_BLEND);
+    	//if (hasLight)         GL11.glEnable(GL11.GL_LIGHTING);   else GL11.glDisable(GL11.GL_LIGHTING);
+    	//if (hasLight0)        GL11.glEnable(GL11.GL_LIGHT0);     else GL11.glDisable(GL11.GL_LIGHT0);
+    	if (hasLight1)        GL11.glEnable(GL11.GL_LIGHT1);     else GL11.glDisable(GL11.GL_LIGHT1);
+    	if (hasDepthTest)     GL11.glEnable(GL11.GL_DEPTH_TEST); else GL11.glDisable(GL11.GL_DEPTH_TEST);
+    	//if (hasRescaleNormal) GL11.glEnable(GL12.GL_RESCALE_NORMAL); else GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+    	//if (hasColorMaterial) GL11.glEnable(GL11.GL_COLOR_MATERIAL); else GL11.glDisable(GL11.GL_COLOR_MATERIAL);
     	GL11.glBindTexture(GL11.GL_TEXTURE_2D, boundTexIndex);
     	GL11.glPopAttrib();
     	//GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);

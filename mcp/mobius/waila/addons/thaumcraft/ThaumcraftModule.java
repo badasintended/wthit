@@ -57,7 +57,7 @@ public class ThaumcraftModule {
 			return;			
 		}
 		
-		//ModuleRegistrar.instance().addConfig("Thaumcraft", "thaumcraft.storedvis");		
+		ModuleRegistrar.instance().addConfigRemote("Thaumcraft", "thaumcraft.aspects");		
 		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerIAspectContainer(), IAspectContainer);
 		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerIAspectContainer(), TileAlchemyFurnace);
 		ModuleRegistrar.instance().registerSyncedNBTKey("*", IAspectContainer);

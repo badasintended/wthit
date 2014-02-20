@@ -26,6 +26,8 @@ public class HUDHandlerIAspectContainer implements IWailaDataProvider {
 
 	@Override
 	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
+		if (!config.getConfig("thaumcraft.aspects")) return currenttip;
+		
 		ItemStack headSlot = accessor.getPlayer().inventory.armorInventory[3];
 		if (headSlot == null) return currenttip;
 		if (!ThaumcraftModule.ItemGoggles.isInstance(headSlot.getItem())) return currenttip;
