@@ -44,6 +44,16 @@ public class Packet0x00ServerPing {
 			
 			ConfigCategory serverForcing = ConfigHandler.instance().config.getCategory(Constants.CATEGORY_SERVER);
 			
+			/*
+			ConfigCategory serverModules = ConfigHandler.instance().config.getCategory(Constants.CATEGORY_MODULES);
+			
+			HashMap<String, Boolean> keys = new HashMap<String, Boolean>();
+			
+			for (String key : serverModules.keySet()){
+				keys.put(key, serverModules.get(key).getBoolean(true));
+			}
+			*/
+			
 			for (String key : serverForcing.keySet()){
 				if (serverForcing.get(key).getBoolean(false)){
 					Packet.writeString(key, outputStream);

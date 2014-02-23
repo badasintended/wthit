@@ -78,7 +78,10 @@ public class RayTracing {
 	
     public MovingObjectPosition rayTrace(EntityLivingBase entity, double par1, float par3)
     {
-        Vec3 vec3  = entity.getPosition(par3);
+        Vec3 vec3     = entity.getPosition(par3);
+        if (entity.getEyeHeight() != 0.12F)
+        	vec3.yCoord  += entity.getEyeHeight();
+        
         Vec3 vec31 = entity.getLook(par3);
         Vec3 vec32 = vec3.addVector(vec31.xCoord * par1, vec31.yCoord * par1, vec31.zCoord * par1);
         

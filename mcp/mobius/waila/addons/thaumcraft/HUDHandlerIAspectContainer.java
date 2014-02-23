@@ -65,7 +65,7 @@ public class HUDHandlerIAspectContainer implements IWailaDataProvider {
 	private String getAspectString(NBTTagCompound tag, String keyAspect, String keyAmount, IWailaDataAccessor accessor){
 		String aspect = tag.getString(keyAspect);
 		aspect = knowAspect(aspect, accessor) ? aspect : "????";
-		aspect = Character.toUpperCase(aspect.charAt(0)) + aspect.substring(1);
+		aspect = Character.toUpperCase(aspect.charAt(0)) + aspect.substring(1); 
 		
 		String amount = String.valueOf(NBTUtil.getNBTInteger(tag, keyAmount));
 		
