@@ -1,6 +1,7 @@
 package mcp.mobius.waila.addons.thaumcraft;
 
 import java.util.List;
+import java.util.Map;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -77,10 +78,21 @@ public class HUDHandlerIAspectContainer implements IWailaDataProvider {
 	private boolean knowAspect(String name, IWailaDataAccessor accessor){
 		try{
 			Object proxy    = ThaumcraftModule.TC_proxy.get(null);
-			Object research = ThaumcraftModule.playerResearch.get(proxy); 
-			Object aspect   = ThaumcraftModule.getAspect.invoke(null, name);
-			Boolean known   = (Boolean)ThaumcraftModule.hasDiscoveredAspect.invoke(research, accessor.getPlayer().username, aspect);
-			return known;
+			Object known    = ThaumcraftModule.getKnownAspects.invoke(proxy, (Object[])null);
+			Object listAspc = ((Map<String, Object>)known).get(accessor.getPlayer().username);
+			//Object research = ThaumcraftModule.playerResearch.get(proxy); 
+			//Object aspect       = ThaumcraftModule.getAspect.invoke(null, name);
+			//Object knownaspects = ThaumcraftModule.aspectsDiscovered.get(research);
+			//Boolean known   = (Boolean)ThaumcraftModule.hasDiscoveredAspect.invoke(research, accessor.getPlayer().username, aspect);
+			
+			Object[] aspects = (Object[])ThaumcraftModule.list_getAspects.invoke(listAspc);
+			for (Object o : aspects){
+				if (ThaumcraftModule.aspect_tag.get(o).equals(name)){
+					return true;
+				}
+			}
+
+			return false;
 			
 		} catch (Exception e){
 			WailaExceptionHandler.handleErr(e, this.getClass().getName(), null);
