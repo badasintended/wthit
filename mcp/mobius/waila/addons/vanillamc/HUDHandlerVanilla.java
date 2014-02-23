@@ -182,8 +182,8 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 		ModuleRegistrar.instance().registerBodyProvider(provider, crops.getClass());
 		ModuleRegistrar.instance().registerBodyProvider(provider, melonStem.getClass());
 		ModuleRegistrar.instance().registerBodyProvider(provider, pumpkinStem.getClass());
-		ModuleRegistrar.instance().registerBodyProvider(provider, carrot.getClass());
-		ModuleRegistrar.instance().registerBodyProvider(provider, potato.getClass());
+		//ModuleRegistrar.instance().registerBodyProvider(provider, carrot.getClass());
+		//ModuleRegistrar.instance().registerBodyProvider(provider, potato.getClass());
 		ModuleRegistrar.instance().registerBodyProvider(provider, lever.getClass());
 		ModuleRegistrar.instance().registerBodyProvider(provider, repeaterIdle.getClass());
 		ModuleRegistrar.instance().registerBodyProvider(provider, repeaterActv.getClass());
