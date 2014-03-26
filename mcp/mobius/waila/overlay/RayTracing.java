@@ -4,20 +4,24 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import mcp.mobius.waila.Constants;
 import mcp.mobius.waila.api.impl.ConfigHandler;
-import mcp.mobius.waila.api.impl.DataAccessor;
+import mcp.mobius.waila.api.impl.DataAccessorBlock;
+import mcp.mobius.waila.api.impl.DataAccessorEntity;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
+import mcp.mobius.waila.utils.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
+import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.IShearable;
 
 public class RayTracing {
@@ -32,6 +36,7 @@ public class RayTracing {
 	
 	private MovingObjectPosition target      = null;
 	private ItemStack            targetStack = null;
+	private Entity               targetEntity= null;
 	private Minecraft            mc          = Minecraft.getMinecraft();
 	
 	public void fire(){
@@ -62,13 +67,25 @@ public class RayTracing {
 		return this.targetStack;
 	}
 	
+	public Entity getTargetEntity(){
+		if (this.target.typeOfHit == EnumMovingObjectType.ENTITY)
+			this.targetEntity = this.getIdentifierEntity();
+		else
+			this.targetEntity = null;		
+		
+		return this.targetEntity;
+	}	
+	
     public MovingObjectPosition rayTrace(EntityLivingBase entity, double par1, float par3)
     {
-        Vec3 vec3  = entity.getPosition(par3);
+        Vec3 vec3     = entity.getPosition(par3);
+        if (entity.getEyeHeight() != 0.12F)
+        	vec3.yCoord  += entity.getEyeHeight();
+        
         Vec3 vec31 = entity.getLook(par3);
         Vec3 vec32 = vec3.addVector(vec31.xCoord * par1, vec31.yCoord * par1, vec31.zCoord * par1);
         
-        if (ConfigHandler.instance().getConfig(Constants.CFG_WAILA_LIQUID))
+        if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID, true))
         	return entity.worldObj.clip(vec3, vec32, true);
         else
         	return entity.worldObj.clip(vec3, vec32, false);
@@ -92,6 +109,21 @@ public class RayTracing {
         return items.get(0);		
 	}
 	
+	public Entity getIdentifierEntity(){
+        ArrayList<Entity> ents = new ArrayList<Entity>();		
+		
+    	if (this.target == null)
+    		return null;        
+        
+        if (ModuleRegistrar.instance().hasOverrideEntityProviders(this.target.entityHit))
+        	ents.add(ModuleRegistrar.instance().getOverrideEntityProviders(this.target.entityHit).get(0).getWailaOverride(DataAccessorEntity.instance, ConfigHandler.instance()));
+        
+        if(ents.size() > 0)
+            return ents.get(0);
+        else 
+        	return this.target.entityHit;
+	}	
+	
     public ArrayList<ItemStack> getIdentifierItems()
     {
         ArrayList<ItemStack> items = new ArrayList<ItemStack>();
@@ -105,28 +137,22 @@ public class RayTracing {
         int x = this.target.blockX;
         int y = this.target.blockY;
         int z = this.target.blockZ;
-        int   blockID        = world.getBlockId(x, y, z);
-        Block mouseoverBlock = Block.blocksList[blockID];
+        int   blockID         = world.getBlockId(x, y, z);
+        Block mouseoverBlock  = Block.blocksList[blockID];
+        TileEntity tileEntity = world.getBlockTileEntity(x, y, z); 
         if (mouseoverBlock == null) return items;
         
-        // TODO This block need to be redone to handle Waila API
-        /*
-        ArrayList<IHighlightHandler> handlers = new ArrayList<IHighlightHandler>();
-        if(ItemInfo.highlightIdentifiers.get(0) != null)
-        	handlers.addAll(ItemInfo.highlightIdentifiers.get(0));
-        if(ItemInfo.highlightIdentifiers.get(mouseoverBlock.blockID) != null)
-        	handlers.addAll(ItemInfo.highlightIdentifiers.get(mouseoverBlock.blockID));
-        
-        for(IHighlightHandler ident : handlers)
-        {
-            ItemStack item = ident.identifyHighlight(world, player, this.target);
-            if(item != null)
-                items.add(item);
+        if (ModuleRegistrar.instance().hasStackProviders(mouseoverBlock)){
+        	ItemStack providerStack = ModuleRegistrar.instance().getStackProviders(mouseoverBlock).get(0).getWailaStack(DataAccessorBlock.instance, ConfigHandler.instance());
+        	if (providerStack != null)
+        		items.add(providerStack);
         }
-        */
         
-        if (ModuleRegistrar.instance().hasStackProviders(blockID))
-        	items.add(ModuleRegistrar.instance().getStackProviders(blockID).get(0).getWailaStack(DataAccessor.instance, ConfigHandler.instance()));
+        if (tileEntity != null &&  ModuleRegistrar.instance().hasStackProviders(tileEntity)){
+        	ItemStack providerStack = ModuleRegistrar.instance().getStackProviders(tileEntity).get(0).getWailaStack(DataAccessorBlock.instance, ConfigHandler.instance());
+        	if (providerStack != null)
+        		items.add(providerStack);
+        }        
         
         if(items.size() > 0)
             return items;

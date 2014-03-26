@@ -1,44 +1,54 @@
 package mcp.mobius.waila.client;
 
-import mcp.mobius.waila.Constants;
-import mcp.mobius.waila.mod_Waila;
+import mcp.mobius.waila.addons.agriculture.AgricultureModule;
 import mcp.mobius.waila.addons.appeng.AppEngModule;
 import mcp.mobius.waila.addons.buildcraft.BCModule;
 import mcp.mobius.waila.addons.buildcraft.BCPowerAPIModule;
+import mcp.mobius.waila.addons.carpenters.CarpentersModule;
 import mcp.mobius.waila.addons.enderio.EnderIOModule;
 import mcp.mobius.waila.addons.enderstorage.EnderStorageModule;
 import mcp.mobius.waila.addons.etb.ETBModule;
 import mcp.mobius.waila.addons.exu.ExtraUtilitiesModule;
 import mcp.mobius.waila.addons.gravestone.GravestoneModule;
+import mcp.mobius.waila.addons.harvestcraft.HarvestcraftModule;
 import mcp.mobius.waila.addons.ic2.IC2Module;
+import mcp.mobius.waila.addons.magicalcrops.MagicalCropsModule;
 import mcp.mobius.waila.addons.openblocks.OpenBlocksModule;
 import mcp.mobius.waila.addons.projectred.ProjectRedModule;
 import mcp.mobius.waila.addons.railcraft.RailcraftModule;
+import mcp.mobius.waila.addons.secretrooms.SecretRoomsModule;
+import mcp.mobius.waila.addons.statues.StatuesModule;
+import mcp.mobius.waila.addons.stevescarts.StevesCartsModule;
 import mcp.mobius.waila.addons.thaumcraft.ThaumcraftModule;
 import mcp.mobius.waila.addons.thermalexpansion.ThermalExpansionModule;
 import mcp.mobius.waila.addons.twilightforest.TwilightForestModule;
 import mcp.mobius.waila.addons.vanillamc.HUDHandlerVanilla;
-import mcp.mobius.waila.api.impl.MetaDataProvider;
+import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.gui.truetyper.FontLoader;
 import mcp.mobius.waila.gui.truetyper.TrueTypeFont;
-import mcp.mobius.waila.handlers.HUDHandlerWaila;
+import mcp.mobius.waila.handlers.DecoratorFMP;
+import mcp.mobius.waila.handlers.HUDHandlerBlocks;
+import mcp.mobius.waila.handlers.HUDHandlerEntities;
+import mcp.mobius.waila.handlers.HUDHandlerFMP;
 import mcp.mobius.waila.handlers.SummaryProviderDefault;
 import mcp.mobius.waila.handlers.nei.TooltipHandlerWaila;
 import mcp.mobius.waila.overlay.WailaTickHandler;
 import mcp.mobius.waila.server.ProxyServer;
+import mcp.mobius.waila.utils.Constants;
 import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.input.Keyboard;
 
 import codechicken.lib.lang.LangUtil;
 import codechicken.nei.NEIClientConfig;
-import codechicken.nei.api.API;
-import codechicken.nei.api.ItemInfo;
 import codechicken.nei.forge.GuiContainerManager;
 import cpw.mods.fml.client.registry.KeyBindingRegistry;
+import cpw.mods.fml.common.Loader;
 import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.Side;
 
@@ -54,19 +64,13 @@ public class ProxyClient extends ProxyServer {
 	@Override
 	public void registerHandlers(){
 		
-	    LangUtil.instance.loadLangDir("waila");
+	    LangUtil.loadLangDir("waila");
 		
 		minecraftiaFont = FontLoader.createFont(new ResourceLocation("waila", "fonts/Minecraftia.ttf"), 14, true);
 		
 		TickRegistry.registerTickHandler(WailaTickHandler.instance(), Side.CLIENT);		
 		
 		GuiContainerManager.addTooltipHandler(new TooltipHandlerWaila());
-		
-		//API.registerHighlightHandler(new HUDHandlerExternal(), ItemInfo.Layout.HEADER);
-		//API.registerHighlightHandler(new HUDHandlerExternal(), ItemInfo.Layout.BODY);
-		//API.registerHighlightHandler(new HUDHandlerExternal(), ItemInfo.Layout.FOOTER);		
-		//API.registerHighlightHandler(new HUDHandlerWaila(),    ItemInfo.Layout.FOOTER);
-		//API.registerHighlightHandler(new HUDHandlerWaila(),    ItemInfo.Layout.HEADER);		
 		
 		KeyBindingRegistry.registerKeyBinding(new ConfigKeyHandler());
 		
@@ -77,9 +81,17 @@ public class ProxyClient extends ProxyServer {
 		//API.addKeyBind(Constants.BIND_WIKI, "Display wiki",          Keyboard.KEY_RSHIFT);
 		//API.addKeyBind(Constants.BIND_TECH, "Display techtree",      Keyboard.KEY_RSHIFT);
 
-		ModuleRegistrar.instance().registerHeadProvider(new HUDHandlerWaila(), Block.class);
-		ModuleRegistrar.instance().registerTailProvider(new HUDHandlerWaila(), Block.class);		
+		ModuleRegistrar.instance().registerHeadProvider(new HUDHandlerBlocks(), Block.class);
+		ModuleRegistrar.instance().registerTailProvider(new HUDHandlerBlocks(), Block.class);
+		
+		ModuleRegistrar.instance().registerHeadProvider(new HUDHandlerEntities(), Entity.class);
+		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerEntities(), Entity.class);		
+		ModuleRegistrar.instance().registerTailProvider(new HUDHandlerEntities(), Entity.class);
+		
 		ModuleRegistrar.instance().registerShortDataProvider(new SummaryProviderDefault(), Item.class);
+		
+		ModuleRegistrar.instance().addConfig("General", "general.showhp");
+		ModuleRegistrar.instance().addConfig("General", "general.showcrop");		
 	}	
 
 	@Override
@@ -133,7 +145,36 @@ public class ProxyClient extends ProxyServer {
 		OpenBlocksModule.register();
 		
 		/* Railcraft */
-		RailcraftModule.register();			
+		RailcraftModule.register();		
+		
+		/* Steve's Carts */
+		StevesCartsModule.register();
+		
+		/* Secret Rooms */
+		SecretRoomsModule.register();
+		
+		/* Carpenter's Blocks */
+		CarpentersModule.register();	
+
+		/* Pam's HarvestCraft */
+		HarvestcraftModule.register();
+		
+		/* Magical crops */
+		MagicalCropsModule.register();		
+		
+		/* Statues */
+		StatuesModule.register();
+		
+		/* Agriculture */
+		AgricultureModule.register();		
+		
+		if(Loader.isModLoaded("ForgeMultipart")){
+			HUDHandlerFMP.register();
+			DecoratorFMP.register();
+		}
+		
+		//ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerBlocks(),   Block.class);
+		//ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerBlocks(),   TileEntity.class);
 	}	
 	
 	@Override

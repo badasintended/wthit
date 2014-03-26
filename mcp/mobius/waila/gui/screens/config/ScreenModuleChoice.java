@@ -8,7 +8,6 @@ import mcp.mobius.waila.gui.widgets.LayoutBase;
 import mcp.mobius.waila.gui.widgets.WidgetGeometry;
 import mcp.mobius.waila.gui.widgets.buttons.ButtonContainer;
 import mcp.mobius.waila.gui.widgets.buttons.ButtonScreenChange;
-import mcp.mobius.waila.gui_old.widget_old.ButtonChangeScreen;
 import net.minecraft.client.gui.GuiScreen;
 
 public class ScreenModuleChoice extends ScreenBase {

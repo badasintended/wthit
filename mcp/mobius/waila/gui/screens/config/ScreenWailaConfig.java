@@ -1,7 +1,7 @@
 package mcp.mobius.waila.gui.screens.config;
 
 import net.minecraft.client.gui.GuiScreen;
-import mcp.mobius.waila.Constants;
+import net.minecraftforge.common.Configuration;
 import mcp.mobius.waila.gui.interfaces.CType;
 import mcp.mobius.waila.gui.interfaces.WAlign;
 import mcp.mobius.waila.gui.screens.ScreenBase;
@@ -11,6 +11,7 @@ import mcp.mobius.waila.gui.widgets.buttons.ButtonBooleanConfig;
 import mcp.mobius.waila.gui.widgets.buttons.ButtonContainerLabel;
 import mcp.mobius.waila.gui.widgets.buttons.ButtonIntegerConfig;
 import mcp.mobius.waila.gui.widgets.buttons.ButtonScreenChange;
+import mcp.mobius.waila.utils.Constants;
 
 public class ScreenWailaConfig extends ScreenBase {
 	public ScreenWailaConfig(GuiScreen parent){
@@ -21,10 +22,12 @@ public class ScreenWailaConfig extends ScreenBase {
 		
 		ButtonContainerLabel buttonContainer = ((ButtonContainerLabel)this.getRoot().getWidget("ButtonContainer"));
 		
-		buttonContainer.addButton( new ButtonBooleanConfig(this.getRoot(), Constants.CFG_WAILA_SHOW,     true, true, "screen.button.hidden",     "screen.button.visible"), "choice.showhidewaila");
-		buttonContainer.addButton( new ButtonBooleanConfig(this.getRoot(), Constants.CFG_WAILA_MODE,     true, true, "screen.button.maintained", "screen.button.toggled"), "choice.toggledmaintained");
-		buttonContainer.addButton( new ButtonBooleanConfig(this.getRoot(), Constants.CFG_WAILA_METADATA, true, false,"screen.button.hidden",     "screen.button.visible"), "choice.showhideidmeta");
-		buttonContainer.addButton( new ButtonBooleanConfig(this.getRoot(), Constants.CFG_WAILA_LIQUID,   true, false,"screen.button.hidden",     "screen.button.visible"), "choice.showliquids");
+		buttonContainer.addButton( new ButtonBooleanConfig(this.getRoot(), Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW,     true, true, "screen.button.hidden",     "screen.button.visible"), "choice.showhidewaila");
+		buttonContainer.addButton( new ButtonBooleanConfig(this.getRoot(), Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_MODE,     true, true, "screen.button.maintained", "screen.button.toggled"), "choice.toggledmaintained");
+		buttonContainer.addButton( new ButtonBooleanConfig(this.getRoot(), Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATA, true, false,"screen.button.hidden",     "screen.button.visible"), "choice.showhideidmeta");
+		buttonContainer.addButton( new ButtonBooleanConfig(this.getRoot(), Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID,   true, false,"screen.button.hidden",     "screen.button.visible"), "choice.showliquids");
+		buttonContainer.addButton( new ButtonBooleanConfig(this.getRoot(), Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHIFTBLOCK, true, false,"screen.button.no",         "screen.button.yes"), "choice.shifttoggledblock");
+		buttonContainer.addButton( new ButtonBooleanConfig(this.getRoot(), Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHIFTENTS,  true, false,"screen.button.no",         "screen.button.yes"), "choice.shifttoggledents");		
 		
 
 		this.getRoot().addWidget("LayoutConfigPos", new LayoutBase(this.getRoot()));

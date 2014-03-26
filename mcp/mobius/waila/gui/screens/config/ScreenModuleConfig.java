@@ -11,8 +11,7 @@ import mcp.mobius.waila.gui.widgets.buttons.ButtonBooleanConfigRemote;
 import mcp.mobius.waila.gui.widgets.buttons.ButtonContainer;
 import mcp.mobius.waila.gui.widgets.buttons.ButtonContainerLabel;
 import mcp.mobius.waila.gui.widgets.buttons.ButtonScreenChange;
-import mcp.mobius.waila.gui_old.widget_old.ButtonConfigOption;
-import mcp.mobius.waila.gui_old.widget_old.ButtonConfigRemote;
+import mcp.mobius.waila.utils.Constants;
 import net.minecraft.client.gui.GuiScreen;
 
 public class ScreenModuleConfig extends ScreenBase {
@@ -31,9 +30,9 @@ public class ScreenModuleConfig extends ScreenBase {
 		
         for (String key:ConfigHandler.instance().getConfigKeys(this.modName).keySet()){
         	if (ConfigHandler.instance().isServerRequired(key))
-        		buttonContainer.addButton(new ButtonBooleanConfigRemote(this.getRoot(), key, "screen.button.no", "screen.button.yes"), ConfigHandler.instance().getConfigKeys(this.modName).get(key));
+        		buttonContainer.addButton(new ButtonBooleanConfigRemote(this.getRoot(), Constants.CATEGORY_MODULES, key, "screen.button.no", "screen.button.yes"), ConfigHandler.instance().getConfigKeys(this.modName).get(key));
         	else
-        		buttonContainer.addButton(new ButtonBooleanConfig(this.getRoot(), key, "screen.button.no", "screen.button.yes"), ConfigHandler.instance().getConfigKeys(this.modName).get(key));
+        		buttonContainer.addButton(new ButtonBooleanConfig(this.getRoot(), Constants.CATEGORY_MODULES, key, "screen.button.no", "screen.button.yes"), ConfigHandler.instance().getConfigKeys(this.modName).get(key));
         		//buttonContainer.addButton(new ButtonConfigRemote(-1, "No", "Yes", ConfigHandler.instance().getConfigKeys(this.modName).get(key), key ));
         	//else
         		//buttonContainer.addButton(new ButtonConfigOption(-1, "No", "Yes", ConfigHandler.instance().getConfigKeys(this.modName).get(key), key ));

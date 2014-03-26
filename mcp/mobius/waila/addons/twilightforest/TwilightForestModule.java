@@ -2,7 +2,7 @@ package mcp.mobius.waila.addons.twilightforest;
 
 import java.util.logging.Level;
 
-import mcp.mobius.waila.mod_Waila;
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 
 public class TwilightForestModule {
@@ -15,9 +15,9 @@ public class TwilightForestModule {
 
 		try{
 			Class TwilightForestMod = Class.forName("twilightforest.TwilightForestMod");
-			mod_Waila.log.log(Level.INFO, "TwilightForestMod mod found.");
+			Waila.log.log(Level.INFO, "TwilightForestMod mod found.");
 		} catch (ClassNotFoundException e){
-			mod_Waila.log.log(Level.INFO, "[TwilightForestMod] TwilightForestMod mod not found.");
+			Waila.log.log(Level.INFO, "[TwilightForestMod] TwilightForestMod mod not found.");
 			return;
 		}		
 
@@ -26,13 +26,16 @@ public class TwilightForestModule {
 			BlockTFPlant = Class.forName("twilightforest.block.BlockTFPlant");
 			BlockTFSapling = Class.forName("twilightforest.block.BlockTFSapling");				
 		} catch (ClassNotFoundException e) {
-			mod_Waila.log.log(Level.WARNING, "[TwilightForestMod] Class not found. " + e);
+			Waila.log.log(Level.WARNING, "[TwilightForestMod] Class not found. " + e);
 		}
 
 		
 		ModuleRegistrar.instance().registerStackProvider(new TwilightForestGenericOverride(), BlockTFRoots);
 		ModuleRegistrar.instance().registerStackProvider(new TwilightForestGenericOverride(), BlockTFPlant);		
-		//ExternalModulesHandler.instance().registerStackProvider(new TwilightForestGenericOverride(), BlockTFSapling);				
+		//ExternalModulesHandler.instance().registerStackProvider(new TwilightForestGenericOverride(), BlockTFSapling);	
+		
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", BlockTFRoots);
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", BlockTFPlant);		
 	}
 
 }

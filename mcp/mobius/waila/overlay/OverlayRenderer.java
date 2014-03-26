@@ -1,181 +1,111 @@
 package mcp.mobius.waila.overlay;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 import codechicken.nei.forge.GuiContainerManager;
-import cpw.mods.fml.common.ModContainer;
-import cpw.mods.fml.common.registry.EntityRegistry;
-import cpw.mods.fml.common.registry.EntityRegistry.EntityRegistration;
-
-import java.awt.Dimension;
-import java.awt.Point;
-
-import mcp.mobius.waila.Constants;
-import mcp.mobius.waila.mod_Waila;
 import mcp.mobius.waila.api.impl.ConfigHandler;
-import mcp.mobius.waila.gui.truetyper.TrueTypeFont;
+import mcp.mobius.waila.utils.Constants;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.entity.Entity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.util.EnumMovingObjectType;
+import net.minecraftforge.common.Configuration;
 import static codechicken.core.gui.GuiDraw.*;
 
 public class OverlayRenderer {
 
 	protected static boolean hasBlending;
 	protected static boolean hasLight;
+	protected static boolean hasDepthTest;
+	protected static boolean hasLight0;
+	protected static boolean hasLight1;
+	protected static boolean hasRescaleNormal;
+	protected static boolean hasColorMaterial;
 	protected static int     boundTexIndex;   	
+	protected static RenderItem renderItem = new RenderItem();
 	
     public static void renderOverlay()
     {
         Minecraft mc = Minecraft.getMinecraft();
         if(!(mc.currentScreen == null &&
              mc.theWorld != null &&
+             Minecraft.isGuiEnabled() &&
              !mc.gameSettings.keyBindPlayerList.pressed &&
-             ConfigHandler.instance().getConfig(Constants.CFG_WAILA_SHOW, true) &&
+             ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW, true) &&
              RayTracing.instance().getTarget()      != null))
         	return;
     
         if (RayTracing.instance().getTarget().typeOfHit == EnumMovingObjectType.TILE && RayTracing.instance().getTargetStack() != null)
         {
-            renderOverlay(RayTracing.instance().getTargetStack(), WailaTickHandler.instance().currenttip, getPositioning());
+            renderOverlay(WailaTickHandler.instance().tooltip);
         }
-        
+
         if (RayTracing.instance().getTarget().typeOfHit == EnumMovingObjectType.ENTITY)
         {
-        	Entity ent = RayTracing.instance().getTarget().entityHit;
-        	String modName = getEntityMod(ent);
-        	
-        	List<String> textData = new ArrayList<String>();
-        	try{
-        		textData.add("\u00a7f" + ent.getEntityName());
-        	} catch (Exception e){
-        		textData.add("\u00a7f" + "Unknown");
-        	}
-        	textData.add("\u00a79\u00a7o" + modName);
-        	
-        	renderOverlay(ent, textData, getPositioning());
+        	renderOverlay(WailaTickHandler.instance().tooltip);       	
         }
     }		
-	
-    private static String getEntityMod(Entity entity){
-    	String modName = "";
-    	try{
-    		EntityRegistration er = EntityRegistry.instance().lookupModSpawn(entity.getClass(), true);
-    		ModContainer modC = er.getContainer();
-    		modName = modC.getName();
-    	} catch (NullPointerException e){
-    		modName = "Minecraft";	
-    	}
-    	return modName;
-    }
-	
-    private static Point getPositioning()
-    {
-        return new Point(ConfigHandler.instance().getConfigInt(Constants.CFG_WAILA_POSX), ConfigHandler.instance().getConfigInt(Constants.CFG_WAILA_POSY));
-    }    
     
-    /*
-    public static int getColor(String key){
-    	int alpha = (int)(ConfigHandler.instance().getConfigInt(Constants.CFG_WAILA_ALPHA) / 100.0f * 256) << 24;
-    	return alpha + ConfigHandler.instance().getConfigInt(key);
-    }
-    */
-    
-    public static void renderOverlay(ItemStack stack, List<String> textData, Point pos)
+    public static void renderOverlay(Tooltip tooltip)
     {
-    	TrueTypeFont font = (TrueTypeFont)mod_Waila.proxy.getFont();
+    	//TrueTypeFont font = (TrueTypeFont)mod_Waila.proxy.getFont();
     	
     	GL11.glPushMatrix();
+    	saveGLState();
     	
-    	GL11.glScalef(mod_Waila.scale, mod_Waila.scale, 1.0f);
+    	GL11.glScalef(OverlayConfig.scale, OverlayConfig.scale, 1.0f);
     	
-        int w = 0;
-        for (String s : textData)
-            w = Math.max(w, getStringWidth(s)+29);
-        int h = Math.max(24, 10 + 10*textData.size());
-
-        Dimension size = displaySize();
-        int x = ((int)(size.width / mod_Waila.scale)-w-1)*pos.x/10000;
-        int y = ((int)(size.height / mod_Waila.scale)-h-1)*pos.y/10000;
-        
         GL11.glDisable(GL12.GL_RESCALE_NORMAL);
         RenderHelper.disableStandardItemLighting();
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_DEPTH_TEST);
         
-        drawTooltipBox(x, y, w, h, mod_Waila.bgcolor, mod_Waila.gradient1, mod_Waila.gradient2);
-
-        int ty = (h-10*textData.size())/2;
+        drawTooltipBox(tooltip.x, tooltip.y, tooltip.w, tooltip.h, OverlayConfig.bgcolor, OverlayConfig.gradient1, OverlayConfig.gradient2);
         
 		GL11.glEnable(GL11.GL_BLEND);
 		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);     
-        for (int i = 0; i < textData.size(); i++)
-        	//FontHelper.drawString(textData.get(i), x + 24, y + ty + 10*i, font, 1.0f, 1.0f, new float[] {1.0f, 1.0f, 1.0f});
-            drawString(textData.get(i), x + 24, y + ty + 10*i, mod_Waila.fontcolor, true);
+		tooltip.drawStrings();
         GL11.glDisable(GL11.GL_BLEND);
-        
 
-        RenderHelper.enableGUIStandardItemLighting();
+        tooltip.drawIcons();        
+
+        if (tooltip.hasIcon)
+        	RenderHelper.enableGUIStandardItemLighting();
+        
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         
-        if (stack.getItem() != null)
-            GuiContainerManager.drawItem(x+5, y+h/2-8, stack);
+        if (tooltip.hasIcon && tooltip.stack != null && tooltip.stack.getItem() != null)
+            GuiContainerManager.drawItem(tooltip.x+5, tooltip.y+tooltip.h/2-8, tooltip.stack);
         
-    	GL11.glPopMatrix();        
+        loadGLState();
+    	GL11.glPopMatrix();  
+    	
+    	
     }    
     
-    public static void renderOverlay(Entity entity, List<String> textData, Point pos)
-    {
-    	GL11.glPushMatrix();    	
-    	
-    	GL11.glScalef(mod_Waila.scale, mod_Waila.scale, 1.0f);    	
-    	
-        int w = 0;
-        for (String s : textData)
-            w = Math.max(w, getStringWidth(s)+10);
-        int h = Math.max(24, 10 + 10*textData.size());
-
-        Dimension size = displaySize();
-        int x = ((int)(size.width / mod_Waila.scale)-w-1)*pos.x/10000;
-        int y = ((int)(size.height / mod_Waila.scale)-h-1)*pos.y/10000;
-        
-        GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-        RenderHelper.disableStandardItemLighting();
-        GL11.glDisable(GL11.GL_LIGHTING);
-        GL11.glDisable(GL11.GL_DEPTH_TEST);
-        
-        drawTooltipBox(x, y, w, h, mod_Waila.bgcolor, mod_Waila.gradient1, mod_Waila.gradient2);
-
-        int ty = (h-10*textData.size())/2;
-
-		GL11.glEnable(GL11.GL_BLEND);
-		GL11.glBlendFunc(GL11.GL_SRC_ALPHA,GL11.GL_ONE_MINUS_SRC_ALPHA);         
-        for (int i = 0; i < textData.size(); i++)
-            drawString(textData.get(i), x + 6, y + ty + 10*i, mod_Waila.fontcolor, true);
-        GL11.glDisable(GL11.GL_BLEND);
-        
-        //RenderHelper.enableGUIStandardItemLighting();
-        GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-        
-    	GL11.glPopMatrix();         
-    }     
-
     public static void saveGLState(){
 		hasBlending   = GL11.glGetBoolean(GL11.GL_BLEND);
 		hasLight      = GL11.glGetBoolean(GL11.GL_LIGHTING);
-    	boundTexIndex = GL11.glGetInteger(GL11.GL_TEXTURE_BINDING_2D);  
+		//hasLight0     = GL11.glGetBoolean(GL11.GL_LIGHT0);
+		//hasLight1     = GL11.glGetBoolean(GL11.GL_LIGHT1);
+		hasDepthTest     = GL11.glGetBoolean(GL11.GL_DEPTH_TEST);
+		//hasRescaleNormal = GL11.glGetBoolean(GL12.GL_RESCALE_NORMAL);
+		//hasColorMaterial = GL11.glGetBoolean(GL11.GL_COLOR_MATERIAL);
+    	boundTexIndex    = GL11.glGetInteger(GL11.GL_TEXTURE_BINDING_2D);  
     	GL11.glPushAttrib(GL11.GL_CURRENT_BIT);
     }
     
     public static void loadGLState(){
-    	if (hasBlending) GL11.glEnable(GL11.GL_BLEND); else GL11.glDisable(GL11.GL_BLEND);
-    	if (hasLight) GL11.glEnable(GL11.GL_LIGHTING); else	GL11.glDisable(GL11.GL_LIGHTING);
+    	if (hasBlending)      GL11.glEnable(GL11.GL_BLEND);      else GL11.glDisable(GL11.GL_BLEND);
+    	//if (hasLight)         GL11.glEnable(GL11.GL_LIGHTING);   else GL11.glDisable(GL11.GL_LIGHTING);
+    	//if (hasLight0)        GL11.glEnable(GL11.GL_LIGHT0);     else GL11.glDisable(GL11.GL_LIGHT0);
+    	if (hasLight1)        GL11.glEnable(GL11.GL_LIGHT1);     else GL11.glDisable(GL11.GL_LIGHT1);
+    	if (hasDepthTest)     GL11.glEnable(GL11.GL_DEPTH_TEST); else GL11.glDisable(GL11.GL_DEPTH_TEST);
+    	//if (hasRescaleNormal) GL11.glEnable(GL12.GL_RESCALE_NORMAL); else GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+    	//if (hasColorMaterial) GL11.glEnable(GL11.GL_COLOR_MATERIAL); else GL11.glDisable(GL11.GL_COLOR_MATERIAL);
     	GL11.glBindTexture(GL11.GL_TEXTURE_2D, boundTexIndex);
     	GL11.glPopAttrib();
     	//GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
@@ -198,4 +128,25 @@ public class OverlayRenderer {
         drawGradientRect(x + 1, y + h - 1, w - 1, 1, grad2, grad2);
     }    
     
+    public static void drawTexturedModalRect(int x, int y, int u, int v, int w, int h, int tw, int th)
+    {
+        float f  = 0.00390625F;
+        float f1 = 0.00390625F;
+        float zLevel = 0.0F;
+        Tessellator tessellator = Tessellator.instance;
+        tessellator.startDrawingQuads();
+    	tessellator.setColorOpaque_F(1, 1, 1);        
+        tessellator.addVertexWithUV(x + 0, y + h, zLevel, (u + 0)  * f, (v + th) * f1);
+        tessellator.addVertexWithUV(x + w, y + h, zLevel, (u + tw) * f, (v + th) * f1);
+        tessellator.addVertexWithUV(x + w, y + 0, zLevel, (u + tw) * f, (v + 0)  * f1);
+        tessellator.addVertexWithUV(x + 0, y + 0, zLevel, (u + 0)  * f, (v + 0)  * f1);
+        tessellator.draw();
+    }    
+    
+    public static void renderIcon(int x, int y, int sx, int sy, IconUI icon){
+    	Minecraft.getMinecraft().getTextureManager().bindTexture(Gui.icons);
+    	if (icon.bu != -1)
+    		drawTexturedModalRect(x, y, icon.bu, icon.bv, sx, sy, icon.bsu, icon.bsv);
+    	drawTexturedModalRect(x, y, icon.u, icon.v, sx, sy, icon.su, icon.sv);
+    }
 }

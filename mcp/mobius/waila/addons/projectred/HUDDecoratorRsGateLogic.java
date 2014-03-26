@@ -8,9 +8,12 @@ import net.minecraftforge.common.ForgeDirection;
 import mcp.mobius.waila.api.IWailaBlockDecorator;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
+import mcp.mobius.waila.api.IWailaFMPAccessor;
+import mcp.mobius.waila.api.IWailaFMPDecorator;
 import mcp.mobius.waila.gui.helpers.UIHelper;
+import mcp.mobius.waila.utils.NBTUtil;
 
-public class HUDDecoratorRsGateLogic implements IWailaBlockDecorator {
+public class HUDDecoratorRsGateLogic implements IWailaFMPDecorator {
 
 	static byte[][] IOARRAY={
 		{1,1,2,1} /* OR    */, {1,1,2,1} /* NOR   */, {1,2,2,2} /* NOT    */, {1,1,2,1} /* AND   */,
@@ -22,36 +25,28 @@ public class HUDDecoratorRsGateLogic implements IWailaBlockDecorator {
 		{11,12,11,12} /* Inver */, {11,12,11,12} /* Buff  */, {1,9,2,8} /* Cmp    */, {1,12,2,12} /* And   */,
 		};		
 	
+	
+	static byte[][] IOARRAYALTER={
+			{1,8,2,9} /* Cmp 1*/, {1,6,2,2} /* State 1*/, {2,8,2,9} /* Count 1*/, {6,2,2,1} /* Transp 1*/,
+			{2,1,2,1} /* Latch 1*/, {2,1,2,1} /* Latch 2*/, {2,1,2,1} /* Latch 3*/
+		};		
+	
 	static String[] IONAMES={ "", "IN", "OUT", "SWAP", "IN_A", "IN_B", "LOCK", "IO", "POS", "NEG", "BUS", "A", "B"};
 	
 	@Override
-	public void decorateBlock(ItemStack itemStack, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
+	public void decorateBlock(ItemStack itemStack, IWailaFMPAccessor accessor,	IWailaConfigHandler config) {
+
 		if (!config.getConfig("pr.showio")) return;
 	
 		
 		int orient = 0;
 		int subID  = 0;
 		int shape  = 0;
-		boolean found = false;
 		
-		if (!accessor.getNBTData().hasKey("parts")) return;
-		NBTTagList parts = accessor.getNBTData().getTagList("parts"); 
-		for (int i = 0; i < parts.tagCount(); i++){
-			NBTTagCompound subtag = (NBTTagCompound)parts.tagAt(i);
-			String id = subtag.getString("id");
-			
-			if (id.equals("pr_sgate") || id.equals("pr_igate") || 
-			    id.equals("pr_tgate") || id.equals("pr_bgate") || 
-			    id.equals("pr_agate") || id.equals("pr_rgate")){
-				orient = accessor.getNBTInteger(subtag, "orient");
-				subID  = accessor.getNBTInteger(subtag, "subID");
-				shape  = accessor.getNBTInteger(subtag, "shape");
-				found  = true;
-			}
-		}
+		orient = NBTUtil.getNBTInteger(accessor.getNBTData(), "orient");
+		subID  = NBTUtil.getNBTInteger(accessor.getNBTData(), "subID");
+		shape  = NBTUtil.getNBTInteger(accessor.getNBTData(), "shape");		
 		
-		if (!found) return;
-
 		//orient = orient - ((orient & 0x10) + (orient & 0x8) + (orient & 0x4));
 		int hOrient = orient & 0x3;
 		ForgeDirection vOrient = ForgeDirection.getOrientation((orient - (orient & 0x3)) >> 2);
@@ -68,8 +63,27 @@ public class HUDDecoratorRsGateLogic implements IWailaBlockDecorator {
 			hOrient = 3;
 		
 		String[] IOStr    = new String[4];
-		for (int i = 0; i < 4; i++)
-			IOStr[i] = IONAMES[IOARRAY[subID][i]];
+		if (shape != 0){
+			int altIndex = -1;
+			if (subID == 26 && shape == 1) altIndex = 0;
+			if (subID == 20 && shape == 1) altIndex = 1;
+			if (subID == 19 && shape == 1) altIndex = 2;
+			if (subID == 14 && shape == 1) altIndex = 3;
+			if (subID == 12 && shape == 1) altIndex = 4;
+			if (subID == 12 && shape == 2) altIndex = 5;
+			if (subID == 12 && shape == 3) altIndex = 6;			
+			
+			if (altIndex == -1)
+				for (int i = 0; i < 4; i++)
+					IOStr[i] = IONAMES[IOARRAY[subID][i]];
+			else
+				for (int i = 0; i < 4; i++)
+					IOStr[i] = IONAMES[IOARRAYALTER[altIndex][i]];				
+		} else {
+			for (int i = 0; i < 4; i++)
+				IOStr[i] = IONAMES[IOARRAY[subID][i]];
+			
+		}
 		
 		String[] IOStrRot = new String[4];
 		
@@ -118,7 +132,6 @@ public class HUDDecoratorRsGateLogic implements IWailaBlockDecorator {
 			break;
 		default:
 			break;
-		
 		}
 		
         double x = accessor.getRenderingPosition().xCoord;

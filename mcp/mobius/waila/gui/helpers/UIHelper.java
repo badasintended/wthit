@@ -59,6 +59,45 @@ public class UIHelper {
         GL11.glEnable(GL11.GL_TEXTURE_2D);
     }    
     
+    public static void drawBillboard(Vec3 pos, float offX, float offY, float offZ, double x1, double y1, double x2, double y2, int r, int g, int b, int a, double partialFrame){
+    	UIHelper.drawBillboard((float)pos.xCoord, (float)pos.yCoord, (float)pos.zCoord, offX, offY, offZ, x1, y1, x2, y2, r, g, b, a, partialFrame);
+    }
+    
+    public static void drawBillboard(float posX, float posY, float posZ, float offX, float offY, float offZ, double x1, double y1, double x2, double y2, int r, int g, int b, int a, double partialFrame){
+        EntityLivingBase player = Minecraft.getMinecraft().renderViewEntity;
+        float playerViewY = player.prevRotationYaw + (player.rotationYaw - player.prevRotationYaw) * (float)partialFrame;
+        float playerViewX = player.prevRotationPitch + (player.rotationPitch - player.prevRotationPitch) * (float)partialFrame;  
+        
+        UIHelper.drawBillboard(posX, posY, posZ, offX, offY, offZ, playerViewX, playerViewY * -1.0F, 0.0F, x1, y1, x2, y2, r, g, b, a);
+    }    
+    
+    public static void drawBillboard(float posX, float posY, float posZ, float offX, float offY, float offZ, float rotX, float rotY, float rotZ, double x1, double y1, double x2, double y2, int r, int g, int b, int a){
+        float f = 1.6F;
+        float f1 = 0.016666668F * f;
+        GL11.glPushMatrix();
+        
+        GL11.glTranslatef(posX + offX, posY + offY, posZ + offZ);
+        
+        GL11.glNormal3f(0.0F, 1.0F, 0.0F);
+        GL11.glRotatef(rotY, 0.0F, 1.0F, 0.0F);
+        GL11.glRotatef(rotX, 1.0F, 0.0F, 0.0F);
+        GL11.glRotatef(rotZ, 0.0F, 0.0F, 1.0F);        
+        
+        //GL11.glScalef(-f1, -f1, f1);
+        GL11.glDisable(GL11.GL_LIGHTING);
+        GL11.glDepthMask(false);
+        GL11.glDisable(GL11.GL_DEPTH_TEST);
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+
+        //GL11.glDisable(GL11.GL_TEXTURE_2D);
+        drawRectangle(x1, y1, 0, x2, y2, 0, r, g, b, a);
+
+        GL11.glPopMatrix();	    	    	
+    }
+    
+    
+    
     public static void drawBillboardText(String text, Vec3 pos, float offX, float offY, float offZ, double partialFrame){
     	UIHelper.drawBillboardText(text, (float)pos.xCoord, (float)pos.yCoord, (float)pos.zCoord, offX, offY, offZ, partialFrame);
     }
@@ -104,17 +143,9 @@ public class UIHelper {
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
         byte b0 = 0;
 
-		Tessellator tessellator = Tessellator.instance;
         GL11.glDisable(GL11.GL_TEXTURE_2D);
-        tessellator.startDrawingQuads();
         int j = fontrenderer.getStringWidth(text) / 2;
-        tessellator.setColorRGBA_F(0.0F, 0.0F, 0.0F, 0.25F);
-        tessellator.addVertex((double)(-j - 1), (double)(-1 + b0), 0.0D);
-        tessellator.addVertex((double)(-j - 1), (double)(8 + b0), 0.0D);
-        tessellator.addVertex((double)(j + 1), (double)(8 + b0), 0.0D);
-        tessellator.addVertex((double)(j + 1), (double)(-1 + b0), 0.0D);
-        tessellator.draw();
-        
+        drawRectangle((double)(-j - 1), (double)(8 + b0), 0.0, (double)(j + 1), (double)(-1 + b0), 0.0, 0, 0, 0, 64);
         
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         fontrenderer.drawString(text, -fontrenderer.getStringWidth(text) / 2, b0, 553648127);
@@ -132,9 +163,9 @@ public class UIHelper {
     public static void drawRectangle(double x1, double y1, double z1, double x2, double y2, double z2, int r, int g, int b, int a){
 		Tessellator tessellator = Tessellator.instance;
 		
-        tessellator.setColorRGBA(r, g, b, a);
         tessellator.startDrawingQuads();
-    	
+        tessellator.setColorRGBA(r, g, b, a);
+        
         tessellator.addVertex(x1, y2, z1);
         tessellator.addVertex(x1, y1, z2);
         tessellator.addVertex(x2, y1, z2);
@@ -147,9 +178,9 @@ public class UIHelper {
     public static void drawRectangleEW(double x1, double y1, double z1, double x2, double y2, double z2, int r, int g, int b, int a){
 		Tessellator tessellator = Tessellator.instance;
 		
-        tessellator.setColorRGBA(r, g, b, a);
         tessellator.startDrawingQuads();
-
+        tessellator.setColorRGBA(r, g, b, a);
+        
         tessellator.addVertex(x1, y1, z1);
         tessellator.addVertex(x1, y1, z2);
         tessellator.addVertex(x2, y2, z2);

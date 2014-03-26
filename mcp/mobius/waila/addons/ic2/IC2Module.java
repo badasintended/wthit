@@ -2,15 +2,18 @@ package mcp.mobius.waila.addons.ic2;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.logging.Level;
 
+import cpw.mods.fml.common.ObfuscationReflectionHelper;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import mcp.mobius.waila.mod_Waila;
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
+import mcp.mobius.waila.utils.AccessHelper;
 
 public class IC2Module {
 
@@ -94,19 +97,19 @@ public class IC2Module {
 			
 		} catch (ClassNotFoundException e){
 			//e.printStackTrace();
-			mod_Waila.log.log(Level.WARNING, "[IC2] Class not found. " + e);
+			Waila.log.log(Level.WARNING, "[IC2] Class not found. " + e);
 			return;
 		} catch (NoSuchMethodException e){
 			//e.printStackTrace();			
-			mod_Waila.log.log(Level.WARNING, "[IC2] Method not found." + e);
+			Waila.log.log(Level.WARNING, "[IC2] Method not found." + e);
 			return;			
 		} catch (NoSuchFieldException e){
 			//e.printStackTrace();			
-			mod_Waila.log.log(Level.WARNING, "[IC2] Field not found." + e);
+			Waila.log.log(Level.WARNING, "[IC2] Field not found." + e);
 			return;			
 		} catch (Exception e){
 			//e.printStackTrace();			
-			mod_Waila.log.log(Level.WARNING, "[IC2] Unhandled exception." + e);
+			Waila.log.log(Level.WARNING, "[IC2] Unhandled exception." + e);
 			return;			
 		}	
 		
@@ -122,7 +125,14 @@ public class IC2Module {
 		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTEBaseGenerator(),   TileEntitySemifluidGenerator);
 		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTEBaseGenerator(),   TileEntityGeoGenerator);		
 		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTEElectricBlock(),   TileEntityElectricBlock);
-		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTETradeOMat(),       TileEntityTradeOMat);		
+		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTETradeOMat(),       TileEntityTradeOMat);	
+		
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", TileEntityStandardMachine);
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", TileEntityBaseGenerator);
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", TileEntitySemifluidGenerator);
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", TileEntityGeoGenerator);
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", TileEntityElectricBlock);
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", TileEntityTradeOMat);
 	}
 
 	/* Retuns the current stored energy if available in the nbt and config is true */
@@ -147,7 +157,11 @@ public class IC2Module {
 		if (!inventory.hasKey("upgrade")) return null;
 		
 		NBTTagList nbtupgrades = inventory.getCompoundTag("upgrade").getTagList("Contents");
-		for (Object subobj : nbtupgrades.tagList){
+		
+		//List tagList = (List)AccessHelper.getField("net.minecraft.nbt.NBTTagList", "tagList", nbtupgrades);
+		List tagList = ObfuscationReflectionHelper.getPrivateValue(NBTTagList.class, nbtupgrades, "field_74747_a");
+		
+		for (Object subobj : tagList){
 			NBTTagCompound subtag = (NBTTagCompound)subobj;
 			int id    = subtag.getShort("id");
 			int meta  = subtag.getShort("Damage");

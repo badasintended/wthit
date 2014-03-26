@@ -4,9 +4,13 @@ import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 
-import mcp.mobius.waila.WailaExceptionHandler;
-import mcp.mobius.waila.mod_Waila;
-import mcp.mobius.waila.api.impl.DataAccessor;
+import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.api.impl.ConfigHandler;
+import mcp.mobius.waila.api.impl.DataAccessorBlock;
+import mcp.mobius.waila.api.impl.DataAccessorEntity;
+import mcp.mobius.waila.utils.NBTUtil;
+import mcp.mobius.waila.utils.WailaExceptionHandler;
+import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
@@ -27,19 +31,25 @@ public class WailaPacketHandler implements IPacketHandler {
 	
 					byte header = this.getHeader(packet);
 					if (header == 0x00){
-						mod_Waila.log.info("Received server authentication msg. Remote sync will be activated");
-						mod_Waila.instance.serverPresent = true;
+						Packet0x00ServerPing castedPacket = new Packet0x00ServerPing(packet);
+						Waila.log.info("Received server authentication msg. Remote sync will be activated");
+						Waila.instance.serverPresent = true;
+					
+						for (String key : castedPacket.forcedKeys.keySet())
+							Waila.log.info(String.format("Received forced key config %s : %s", key, castedPacket.forcedKeys.get(key)));
+						
+						ConfigHandler.instance().forcedConfigs = castedPacket.forcedKeys;
 					}
+					
 					else if (header == 0x01){
 						Packet0x01TERequest castedPacket = new Packet0x01TERequest(packet);
 				        MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
 				        TileEntity      entity = DimensionManager.getWorld(castedPacket.worldID).getBlockTileEntity(castedPacket.posX, castedPacket.posY, castedPacket.posZ);
-				        //TileEntity      entity = server.worldServers[castedPacket.worldID].getBlockTileEntity(castedPacket.posX, castedPacket.posY, castedPacket.posZ);
 				        if (entity != null){
 				        	try{
 				        		NBTTagCompound tag = new NBTTagCompound();
 				        		entity.writeToNBT(tag);
-				        		PacketDispatcher.sendPacketToPlayer(Packet0x02TENBTData.create(tag), player);
+				        		PacketDispatcher.sendPacketToPlayer(Packet0x02TENBTData.create(NBTUtil.createTag(tag, castedPacket.keys)), player);
 				        	}catch(Throwable e){
 				        		WailaExceptionHandler.handleErr(e, entity.getClass().toString(), null);
 				        	}
@@ -47,8 +57,28 @@ public class WailaPacketHandler implements IPacketHandler {
 					}
 					else if (header == 0x02){
 						Packet0x02TENBTData castedPacket = new Packet0x02TENBTData(packet);
-						DataAccessor.instance.remoteNbt = castedPacket.tag;
+						DataAccessorBlock.instance.remoteNbt = castedPacket.tag;
 					}
+					
+					else if (header == 0x03){
+						Packet0x03EntRequest castedPacket = new Packet0x03EntRequest(packet);
+				        MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
+				        Entity         entity = DimensionManager.getWorld(castedPacket.worldID).getEntityByID(castedPacket.id);
+				        if (entity != null){
+				        	try{
+				        		NBTTagCompound tag = new NBTTagCompound();
+				        		entity.writeToNBT(tag);
+				        		PacketDispatcher.sendPacketToPlayer(Packet0x04EntNBTData.create(NBTUtil.createTag(tag, castedPacket.keys)), player);
+				        	}catch(Throwable e){
+				        		WailaExceptionHandler.handleErr(e, entity.getClass().toString(), null);
+				        	}
+				        }
+					}
+					
+					else if (header == 0x04){
+						Packet0x04EntNBTData castedPacket = new Packet0x04EntNBTData(packet);
+						DataAccessorEntity.instance.remoteNbt = castedPacket.tag;
+					}					
 				}
 	        }
 		catch (Exception e){
