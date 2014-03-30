@@ -19,6 +19,7 @@ import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
+import net.minecraft.src.ModLoader;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.oredict.OreDictionary;
@@ -38,7 +39,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
-@Mod(modid="Waila", name="Waila", version="1.5.1", dependencies="required-after:NotEnoughItems")
+@Mod(modid="Waila", name="Waila", version="1.5.2", dependencies="required-after:NotEnoughItems")
 @NetworkMod(channels = {"Waila"},clientSideRequired=false, serverSideRequired=false, connectionHandler = WailaConnectionHandler.class, 
 			packetHandler = WailaPacketHandler.class, versionBounds="[1.5.0,)")
 			//packetHandler = WailaPacketHandler.class)
@@ -76,7 +77,7 @@ public class Waila {
 		proxy.registerHandlers();
     	ModIdentification.init();
         
-        if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_KEYBIND, true)){
+        if (!ModLoader.isModLoaded("nek") && ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_KEYBIND, true)){
         
 	        for (String key: ModIdentification.keyhandlerStrings.keySet()){
 	        	String orig  = I18n.getString(key);
