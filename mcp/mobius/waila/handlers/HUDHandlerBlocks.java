@@ -2,6 +2,7 @@ package mcp.mobius.waila.handlers;
 
 import java.util.List;
 
+import codechicken.nei.guihook.GuiContainerManager;
 import static mcp.mobius.waila.api.SpecialChars.*;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
@@ -9,10 +10,10 @@ import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.ModIdentification;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.Configuration;
-import codechicken.nei.forge.GuiContainerManager;
+import net.minecraftforge.common.config.Configuration;
 
 public class HUDHandlerBlocks implements IWailaDataProvider {
 
@@ -38,7 +39,7 @@ public class HUDHandlerBlocks implements IWailaDataProvider {
         {
         }
 
-        if(itemStack.getItem() == Item.redstone)
+        if(itemStack.getItem() == Items.redstone)
         {
             int md = accessor.getMetadata();
             String s = ""+md;

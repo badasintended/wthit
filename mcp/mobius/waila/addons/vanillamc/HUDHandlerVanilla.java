@@ -2,9 +2,10 @@ package mcp.mobius.waila.addons.vanillamc;
 
 import java.util.List;
 
-import codechicken.lib.lang.LangUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockSilverfish;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemRecord;
 import net.minecraft.item.ItemStack;
@@ -14,25 +15,26 @@ import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
+import mcp.mobius.waila.cbcore.LangUtil;
 
 public class HUDHandlerVanilla implements IWailaDataProvider {
 
-	static Block mobSpawner    = Block.mobSpawner;
-	static Block crops         = Block.crops;
-	static Block melonStem     = Block.melonStem;
-	static Block pumpkinStem   = Block.pumpkinStem;
-	static Block carrot        = Block.carrot;
-	static Block potato        = Block.potato;
-	static Block lever         = Block.lever;
-	static Block repeaterIdle  = Block.redstoneRepeaterIdle;
-	static Block repeaterActv  = Block.redstoneRepeaterActive;
-	static Block comparatorIdl = Block.redstoneComparatorIdle;
-	static Block comparatorAct = Block.redstoneComparatorActive;
-	static Block redstone      = Block.redstoneWire;
-	static Block jukebox       = Block.jukebox;
-	static Block cocoa		   = Block.cocoaPlant;
-	static Block netherwart    = Block.netherStalk;
-	static Block silverfish    = Block.silverfish;
+	static Block mobSpawner    = Blocks.mob_spawner;
+	static Block crops         = Blocks.wheat;
+	static Block melonStem     = Blocks.melon_stem;
+	static Block pumpkinStem   = Blocks.pumpkin_stem;
+	static Block carrot        = Blocks.carrots;
+	static Block potato        = Blocks.potatoes;
+	static Block lever         = Blocks.lever;
+	static Block repeaterIdle  = Blocks.unpowered_repeater;
+	static Block repeaterActv  = Blocks.powered_repeater;
+	static Block comparatorIdl = Blocks.unpowered_comparator;
+	static Block comparatorAct = Blocks.powered_comparator;
+	static Block redstone      = Blocks.redstone_wire;
+	static Block jukebox       = Blocks.jukebox;
+	static Block cocoa		   = Blocks.cocoa;
+	static Block netherwart    = Blocks.nether_wart;
+	static Block silverfish    = Blocks.monster_egg;
 	
 	@Override
 	public ItemStack getWailaStack(IWailaDataAccessor accessor,	IWailaConfigHandler config) {
@@ -42,18 +44,18 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 			int metadata = accessor.getMetadata();
 			switch(metadata){
 			case 0:
-				return new ItemStack(Block.stone);
+				return new ItemStack(Blocks.stone);
 			case 1:
-				return new ItemStack(Block.cobblestone);
+				return new ItemStack(Blocks.cobblestone);
 			case 2:
-				return new ItemStack(Block.stoneBrick);
+				return new ItemStack(Blocks.brick_block);
 			default:
 				return null;
 			}
 		}
 
 		if (block == redstone){
-			return new ItemStack(Item.redstone);
+			return new ItemStack(Items.redstone);
 		}
 		
 		return null;
@@ -67,7 +69,7 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 		/* Mob spawner handler */
 		if (block == mobSpawner && accessor.getTileEntity() instanceof TileEntityMobSpawner && config.getConfig("vanilla.spawntype")){
 			String name = currenttip.get(0);
-			String mobname = ((TileEntityMobSpawner)accessor.getTileEntity()).getSpawnerLogic().getEntityNameToSpawn();
+			String mobname = ((TileEntityMobSpawner)accessor.getTileEntity()).func_145881_a().getEntityNameToSpawn();
 			currenttip.set(0, String.format("%s (%s)", name, mobname));
 		}
 
@@ -145,6 +147,7 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 				return currenttip;				
 			}	
 		
+		/*
 		if (config.getConfig("vanilla.jukebox"))
 			if (block == jukebox){
 				NBTTagCompound tag = accessor.getNBTData();
@@ -156,6 +159,7 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 					currenttip.add(LangUtil.translateG("hud.msg.empty"));
 				}
 			}
+		*/
 		
 		return currenttip;
 	}	
@@ -195,22 +199,22 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 		ModuleRegistrar.instance().registerBodyProvider(provider, cocoa.getClass());
 		ModuleRegistrar.instance().registerBodyProvider(provider, netherwart.getClass());			
 		
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", Block.mobSpawner.getClass());
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", Block.crops.getClass());
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", Block.melonStem.getClass());
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", Block.pumpkinStem.getClass());
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", Block.carrot.getClass());
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", Block.potato.getClass());
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", Block.lever.getClass());
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", Block.redstoneRepeaterIdle.getClass());
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", Block.redstoneRepeaterActive.getClass());
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", Block.redstoneComparatorIdle.getClass());
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", Block.redstoneComparatorActive.getClass());
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", Block.redstoneWire.getClass());		
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", Block.jukebox.getClass());		
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", Block.cocoaPlant.getClass());
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", Block.netherStalk.getClass());		
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", Block.silverfish.getClass());	
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", mobSpawner.getClass());
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", crops.getClass());
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", melonStem.getClass());
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", pumpkinStem.getClass());
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", carrot.getClass());
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", potato.getClass());
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", lever.getClass());
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", repeaterIdle.getClass());
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", repeaterActv.getClass());
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", comparatorIdl.getClass());
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", comparatorAct.getClass());
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", redstone.getClass());		
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", jukebox.getClass());		
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", cocoa.getClass());
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", netherwart.getClass());		
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", silverfish.getClass());	
 		
 		ModuleRegistrar.instance().registerDocTextFile("/mcp/mobius/waila/addons/vanillamc/WikiData.csv");
 		

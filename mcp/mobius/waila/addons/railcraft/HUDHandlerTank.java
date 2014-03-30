@@ -3,7 +3,7 @@ package mcp.mobius.waila.addons.railcraft;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-import codechicken.lib.lang.LangUtil;
+import mcp.mobius.waila.cbcore.LangUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidTank;

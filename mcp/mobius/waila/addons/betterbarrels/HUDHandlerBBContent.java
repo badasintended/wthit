@@ -15,7 +15,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-import codechicken.lib.lang.LangUtil;
+import mcp.mobius.waila.cbcore.LangUtil;
 import codechicken.nei.api.API;
 import codechicken.nei.api.ItemInfo;
 import codechicken.nei.api.ItemInfo.Layout;

@@ -8,7 +8,7 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.util.Point;
 
-import codechicken.lib.lang.LangUtil;
+import mcp.mobius.waila.cbcore.LangUtil;
 
 public class LabelFixedFont extends WidgetBase {
 

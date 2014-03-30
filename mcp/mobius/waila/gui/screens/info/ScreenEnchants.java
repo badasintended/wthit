@@ -1,6 +1,6 @@
 package mcp.mobius.waila.gui.screens.info;
 
-import codechicken.lib.lang.LangUtil;
+import mcp.mobius.waila.cbcore.LangUtil;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.item.ItemStack;
 import mcp.mobius.waila.gui.interfaces.CType;

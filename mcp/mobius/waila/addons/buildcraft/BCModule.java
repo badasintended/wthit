@@ -3,9 +3,9 @@ package mcp.mobius.waila.addons.buildcraft;
 import java.lang.reflect.Method;
 import java.util.logging.Level;
 
+import net.minecraftforge.common.util.ForgeDirection;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
-import net.minecraftforge.common.ForgeDirection;
 
 public class BCModule {
 

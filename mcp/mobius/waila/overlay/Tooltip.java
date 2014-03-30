@@ -8,7 +8,7 @@ import java.awt.Dimension;
 import java.awt.Point;
 
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.config.Configuration;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.utils.Constants;
 import static codechicken.core.gui.GuiDraw.*;

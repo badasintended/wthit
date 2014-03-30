@@ -13,11 +13,11 @@ import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumMovingObjectType;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.config.Configuration;
 import codechicken.nei.api.ItemInfo.Layout;
 import cpw.mods.fml.common.ITickHandler;
 import cpw.mods.fml.common.TickType;
@@ -28,7 +28,7 @@ public class WailaTickHandler implements ITickHandler {
     //public static LangUtil lang = LangUtil.loadLangDir("waila");
 	
 	private int ticks = 0;
-	public ItemStack identifiedHighlight = new ItemStack(Block.dirt);
+	public ItemStack identifiedHighlight = new ItemStack(Blocks.dirt);
 	private List<String> currenttip      = new ArrayList<String>();
 	private List<String> currenttipHead  = new ArrayList<String>();
 	private List<String> currenttipBody  = new ArrayList<String>();
@@ -63,7 +63,7 @@ public class WailaTickHandler implements ITickHandler {
 				RayTracing.instance().fire();
 				MovingObjectPosition target = RayTracing.instance().getTarget();
 				
-				if (target != null && target.typeOfHit == EnumMovingObjectType.TILE){
+				if (target != null && target.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK){
 					DataAccessorBlock accessor = DataAccessorBlock.instance;
 					accessor.set(world, player, target);
 					ItemStack targetStack = RayTracing.instance().getTargetStack();	// Here we get either the proper stack or the override
@@ -92,7 +92,7 @@ public class WailaTickHandler implements ITickHandler {
 						this.tooltip         = new Tooltip(this.currenttip, targetStack);
 					}
 				}
-				else if (target != null && target.typeOfHit == EnumMovingObjectType.ENTITY){
+				else if (target != null && target.typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY){
 					DataAccessorEntity accessor = DataAccessorEntity.instance;
 					accessor.set(world, player, target);
 					

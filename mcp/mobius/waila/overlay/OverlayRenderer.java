@@ -3,7 +3,7 @@ package mcp.mobius.waila.overlay;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import codechicken.nei.forge.GuiContainerManager;
+import codechicken.nei.guihook.GuiContainerManager;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.utils.Constants;
 import net.minecraft.client.Minecraft;
@@ -11,8 +11,8 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderItem;
-import net.minecraft.util.EnumMovingObjectType;
-import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.config.Configuration;
+import net.minecraft.util.MovingObjectPosition;
 import static codechicken.core.gui.GuiDraw.*;
 
 public class OverlayRenderer {
@@ -38,12 +38,12 @@ public class OverlayRenderer {
              RayTracing.instance().getTarget()      != null))
         	return;
     
-        if (RayTracing.instance().getTarget().typeOfHit == EnumMovingObjectType.TILE && RayTracing.instance().getTargetStack() != null)
+        if (RayTracing.instance().getTarget().typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && RayTracing.instance().getTargetStack() != null)
         {
             renderOverlay(WailaTickHandler.instance().tooltip);
         }
 
-        if (RayTracing.instance().getTarget().typeOfHit == EnumMovingObjectType.ENTITY)
+        if (RayTracing.instance().getTarget().typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY)
         {
         	renderOverlay(WailaTickHandler.instance().tooltip);       	
         }

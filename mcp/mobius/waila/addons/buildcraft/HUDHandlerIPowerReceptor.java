@@ -2,12 +2,12 @@ package mcp.mobius.waila.addons.buildcraft;
 
 import java.util.List;
 
-import codechicken.lib.lang.LangUtil;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
+import mcp.mobius.waila.cbcore.LangUtil;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 
 public class HUDHandlerIPowerReceptor implements IWailaDataProvider {

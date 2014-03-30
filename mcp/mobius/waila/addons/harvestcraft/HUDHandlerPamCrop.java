@@ -2,7 +2,7 @@ package mcp.mobius.waila.addons.harvestcraft;
 
 import java.util.List;
 
-import codechicken.lib.lang.LangUtil;
+import mcp.mobius.waila.cbcore.LangUtil;
 import net.minecraft.item.ItemStack;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;

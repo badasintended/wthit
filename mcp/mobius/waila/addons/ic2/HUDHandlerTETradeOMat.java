@@ -2,7 +2,7 @@ package mcp.mobius.waila.addons.ic2;
 
 import java.util.List;
 
-import codechicken.lib.lang.LangUtil;
+import mcp.mobius.waila.cbcore.LangUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;

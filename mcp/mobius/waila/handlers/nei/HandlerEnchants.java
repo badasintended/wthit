@@ -9,6 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import codechicken.nei.NEIClientConfig;
@@ -40,7 +41,7 @@ public class HandlerEnchants implements IContainerInputHandler {
 				screen.setEnchantability(String.valueOf(itemEnchantability));
 				
 				Enchantment[] enchants = null;
-				if (stackover.getItem() == Item.book)
+				if (stackover.getItem() == Items.book)
 					enchants = Enchantment.enchantmentsBookList;
 				else
 					enchants = Enchantment.enchantmentsList;
@@ -51,7 +52,7 @@ public class HandlerEnchants implements IContainerInputHandler {
 					boolean isApplied    = false;
 					
 					if (enchant == null){continue;}
-					if (enchant.canApplyAtEnchantingTable(stackover) || stackover.getItem() == Item.book){
+					if (enchant.canApplyAtEnchantingTable(stackover) || stackover.getItem() == Items.book){
 						
 						if (stackover.isItemEnchanted()){
 							Map stackenchants =  EnchantmentHelper.getEnchantments(stackover);

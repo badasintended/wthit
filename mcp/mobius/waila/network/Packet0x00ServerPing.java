@@ -11,7 +11,7 @@ import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.utils.Constants;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.Packet250CustomPayload;
-import net.minecraftforge.common.ConfigCategory;
+import net.minecraftforge.common.config.ConfigCategory;
 
 public class Packet0x00ServerPing {
 	

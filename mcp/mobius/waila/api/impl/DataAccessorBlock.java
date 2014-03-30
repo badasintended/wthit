@@ -13,7 +13,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.utils.NBTUtil;
 
@@ -42,11 +42,12 @@ public class DataAccessorBlock implements IWailaDataAccessor {
 		this.world    = _world;
 		this.player   = _player;
 		this.mop      = _mop;
-		this.blockID  = world.getBlockId(_mop.blockX, _mop.blockY, _mop.blockZ);
-		this.block    = Block.blocksList[this.blockID];
+		//this.blockID  = world.getBlockId(_mop.blockX, _mop.blockY, _mop.blockZ);
+		//this.block    = Block.blocksList[this.blockID];
+		this.block    = world.getBlock(_mop.blockX, _mop.blockY, _mop.blockZ);
 		this.metadata = world.getBlockMetadata(_mop.blockX, _mop.blockY, _mop.blockZ);
-		this.entity   = world.getBlockTileEntity(_mop.blockX, _mop.blockY, _mop.blockZ);
-		try{ this.stack = new ItemStack(this.blockID, 1, this.metadata); } catch (Exception e) {}
+		this.entity   = world.getTileEntity(_mop.blockX, _mop.blockY, _mop.blockZ);
+		try{ this.stack = new ItemStack(this.block, 1, this.metadata); } catch (Exception e) {}
 			
 		
 		if (viewEntity != null){

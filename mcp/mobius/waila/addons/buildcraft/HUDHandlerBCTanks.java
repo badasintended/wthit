@@ -5,25 +5,19 @@ import java.util.logging.Level;
 
 //import buildcraft.factory.TileTank;
 
-
-
-
-
-
-
-import codechicken.lib.lang.LangUtil;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.ForgeDirection;
+import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 import net.minecraftforge.liquids.ILiquidTank;
 import net.minecraftforge.liquids.LiquidStack;
+import mcp.mobius.waila.cbcore.LangUtil;
 
 public class HUDHandlerBCTanks implements IWailaDataProvider {
 

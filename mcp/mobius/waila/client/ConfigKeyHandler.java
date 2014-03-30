@@ -4,6 +4,7 @@ import java.util.EnumSet;
 import java.util.List;
 
 import mcp.mobius.waila.api.impl.ConfigHandler;
+import mcp.mobius.waila.cbcore.LangUtil;
 import mcp.mobius.waila.gui.screens.config.ScreenConfig;
 import mcp.mobius.waila.gui.screens.info.ScreenEnchants;
 import mcp.mobius.waila.handlers.nei.HandlerEnchants;
@@ -14,14 +15,14 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumMovingObjectType;
-import net.minecraftforge.common.Configuration;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.common.config.Property;
 
 import org.lwjgl.input.Keyboard;
 
-import codechicken.lib.lang.LangUtil;
 import codechicken.nei.api.API;
-import codechicken.nei.forge.GuiContainerManager;
+import codechicken.nei.guihook.GuiContainerManager;
 import codechicken.nei.recipe.GuiCraftingRecipe;
 import codechicken.nei.recipe.GuiUsageRecipe;
 import cpw.mods.fml.client.registry.KeyBindingRegistry.KeyHandler;
@@ -111,7 +112,7 @@ public class ConfigKeyHandler extends KeyHandler {
 		boolean   uiResult;
 		String    msg;
 		
-		if ((RayTracing.instance().getTarget() != null) && (RayTracing.instance().getTarget().typeOfHit == EnumMovingObjectType.TILE)){
+		if ((RayTracing.instance().getTarget() != null) && (RayTracing.instance().getTarget().typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)){
 			List<ItemStack> stacks = RayTracing.instance().getIdentifierItems();
 			if (stacks.size() > 0){
 				mc.displayGuiScreen(new GuiInventory(mc.thePlayer));

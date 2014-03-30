@@ -13,7 +13,6 @@ import java.util.logging.Level;
 
 import au.com.bytecode.opencsv.CSVReader;
 import net.minecraft.block.Block;
-import codechicken.lib.lang.LangUtil;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IWailaBlockDecorator;
 import mcp.mobius.waila.api.IWailaDataProvider;
@@ -22,6 +21,7 @@ import mcp.mobius.waila.api.IWailaFMPDecorator;
 import mcp.mobius.waila.api.IWailaFMPProvider;
 import mcp.mobius.waila.api.IWailaRegistrar;
 import mcp.mobius.waila.api.IWailaSummaryProvider;
+import mcp.mobius.waila.cbcore.LangUtil;
 
 public class ModuleRegistrar implements IWailaRegistrar {
 
@@ -84,21 +84,9 @@ public class ModuleRegistrar implements IWailaRegistrar {
 	
 	/* REGISTRATION METHODS */
 	@Override
-	@Deprecated
-	public void registerHeadProvider(IWailaDataProvider dataProvider, int blockID) {
-		this.registerHeadProvider(dataProvider, Block.blocksList[blockID].getClass());
-	}
-
-	@Override
 	public void registerHeadProvider(IWailaDataProvider dataProvider, Class block) {
 		this.registerProvider(dataProvider, block, this.headBlockProviders);		
 	}	
-	
-	@Override
-	@Deprecated
-	public void registerBodyProvider(IWailaDataProvider dataProvider, int blockID) {
-		this.registerBodyProvider(dataProvider, Block.blocksList[blockID].getClass());		
-	}
 
 	@Override
 	public void registerBodyProvider(IWailaDataProvider dataProvider, Class block) {
@@ -106,22 +94,10 @@ public class ModuleRegistrar implements IWailaRegistrar {
 	}	
 	
 	@Override
-	@Deprecated
-	public void registerTailProvider(IWailaDataProvider dataProvider, int blockID) {
-		this.registerTailProvider(dataProvider, Block.blocksList[blockID].getClass());			
-	}	
-
-	@Override
 	public void registerTailProvider(IWailaDataProvider dataProvider, Class block) {
 		this.registerProvider(dataProvider, block, this.tailBlockProviders);
 	}		
 	
-	@Override
-	@Deprecated
-	public void registerStackProvider(IWailaDataProvider dataProvider, int blockID) {
-		this.registerStackProvider(dataProvider, Block.blocksList[blockID].getClass());
-	}	
-
 	@Override
 	public void registerStackProvider(IWailaDataProvider dataProvider, Class block) {
 		this.registerProvider(dataProvider, block, this.stackBlockProviders);
@@ -166,12 +142,6 @@ public class ModuleRegistrar implements IWailaRegistrar {
 	public void registerShortDataProvider(IWailaSummaryProvider dataProvider, Class item) {
 		this.registerProvider(dataProvider, item, this.summaryProviders);	
 	}	
-	
-	@Override
-	@Deprecated
-	public void registerDecorator(IWailaBlockDecorator decorator, int blockID) {
-		this.registerDecorator(decorator, Block.blocksList[blockID].getClass());	
-	}
 
 	@Override
 	public void registerDecorator(IWailaBlockDecorator decorator, Class block) {

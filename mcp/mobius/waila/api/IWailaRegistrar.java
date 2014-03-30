@@ -7,17 +7,7 @@ public interface IWailaRegistrar {
 	public void addConfig(String modname, String keyname);
 	public void addConfigRemote(String modname, String keyname);	
 	
-	/* Register a IWailaDataProvider for the given blockID, either for the Head section or the Body section */
-	@Deprecated
-	public void registerHeadProvider (IWailaDataProvider dataProvider, int blockID);
-	@Deprecated
-	public void registerBodyProvider (IWailaDataProvider dataProvider, int blockID);
-	@Deprecated
-	public void registerTailProvider (IWailaDataProvider dataProvider, int blockID);	
-	
 	/* Register a stack overrider for the given blockID */
-	@Deprecated
-	public void registerStackProvider(IWailaDataProvider dataProvider, int blockID);
 	public void registerStackProvider(IWailaDataProvider dataProvider, Class block);	
 	
 	/* Same thing, but works on a class hierarchy instead */
@@ -37,8 +27,6 @@ public interface IWailaRegistrar {
 	public void registerTailProvider(IWailaFMPProvider dataProvider, String name);
 	
 	/* The block decorators */
-	@Deprecated
-	public void registerDecorator (IWailaBlockDecorator decorator, int blockID);
 	public void registerDecorator (IWailaBlockDecorator decorator, Class block);
 	public void registerDecorator (IWailaFMPDecorator decorator,   String name);	
 	

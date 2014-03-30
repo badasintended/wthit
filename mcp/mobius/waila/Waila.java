@@ -19,10 +19,9 @@ import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.oredict.OreDictionary;
-import codechicken.lib.lang.LangUtil;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.FMLModContainer;
 import cpw.mods.fml.common.Mod;
@@ -35,13 +34,16 @@ import cpw.mods.fml.common.event.FMLInterModComms.IMCMessage;
 import cpw.mods.fml.common.event.FMLLoadCompleteEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.registry.LanguageRegistry;
+import cpw.mods.fml.relauncher.Side;
+import mcp.mobius.waila.cbcore.LangUtil;
 
-@Mod(modid="Waila", name="Waila", version="1.5.1", dependencies="required-after:NotEnoughItems")
+@Mod(modid="Waila", name="Waila", version="1.5.1a_1.7.2", dependencies="required-after:NotEnoughItems")
+/*
 @NetworkMod(channels = {"Waila"},clientSideRequired=false, serverSideRequired=false, connectionHandler = WailaConnectionHandler.class, 
 			packetHandler = WailaPacketHandler.class, versionBounds="[1.5.0,)")
 			//packetHandler = WailaPacketHandler.class)
+*/
 
 public class Waila {
     // The instance of your mod that Forge uses.
@@ -69,6 +71,13 @@ public class Waila {
             EventBus FMLbus = (EventBus) eBus.get(FMLCommonHandler.instance().findContainerFor(this));
             FMLbus.register(this);
         } catch (Throwable t) {}
+        
+        if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT){
+        	MinecraftForge.EVENT_BUS.register(new DecoratorRenderer());
+    		FMLCommonHandler.instance().bus().register(new KeyHandler());
+    		FMLCommonHandler.instance().bus().register(TickHandler.instance());        	
+        }
+		FMLCommonHandler.instance().bus().register(new NetworkHandler());        
 	}
 
     @EventHandler
@@ -76,6 +85,7 @@ public class Waila {
 		proxy.registerHandlers();
     	ModIdentification.init();
         
+    	/*
         if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_KEYBIND, true)){
         
 	        for (String key: ModIdentification.keyhandlerStrings.keySet()){
@@ -108,6 +118,7 @@ public class Waila {
 	        	LanguageRegistry.instance().addStringLocalization(key, modif);
 	        }
         }
+        */
         
 	}
 
