@@ -4,7 +4,6 @@ import java.util.List;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraftforge.common.ForgeDirection;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
@@ -13,6 +12,7 @@ public class HUDCarpentersBlocksTE implements IWailaDataProvider {
 
 	@Override
 	public ItemStack getWailaStack(IWailaDataAccessor accessor,	IWailaConfigHandler config) {
+		/*
 		if (!config.getConfig("carpenters.hide")) return null;
 
 		NBTTagCompound tag  = accessor.getNBTData();
@@ -34,7 +34,7 @@ public class HUDCarpentersBlocksTE implements IWailaDataProvider {
 			
 			return new ItemStack(cover & 0xfff, 0, (cover & 0xf000) >>> 12);			
 		}
-		
+		*/
 		return null;
 	}
 

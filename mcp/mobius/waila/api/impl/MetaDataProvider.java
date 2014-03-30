@@ -8,8 +8,8 @@ import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IWailaBlock;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaEntityProvider;
-import mcp.mobius.waila.network.Packet0x01TERequest;
-import mcp.mobius.waila.network.Packet0x03EntRequest;
+import mcp.mobius.waila.network.Message0x01TERequest;
+import mcp.mobius.waila.network.WailaPacketHandler;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -20,7 +20,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import codechicken.nei.api.ItemInfo.Layout;
-import cpw.mods.fml.common.network.PacketDispatcher;
 
 public class MetaDataProvider{
 	
@@ -75,7 +74,7 @@ public class MetaDataProvider{
 				keys.addAll(ModuleRegistrar.instance().getSyncedNBTKeys(accessor.getTileEntity()));			
 			
 			if (keys.size() != 0)
-				PacketDispatcher.sendPacketToServer(Packet0x01TERequest.create(world, mop, keys));
+				WailaPacketHandler.INSTANCE.sendToServer(new Message0x01TERequest(accessor.getTileEntity(), keys));
 		} else if (accessor.getTileEntity() != null && !Waila.instance.serverPresent && accessor.isTimeElapsed(250)) {
 			
 			try{
@@ -89,7 +88,7 @@ public class MetaDataProvider{
 
 		/* Interface IWailaBlock */
 		if (IWailaBlock.class.isInstance(block)){
-			TileEntity entity = world.getBlockTileEntity(mop.blockX, mop.blockY, mop.blockZ);
+			TileEntity entity = world.getTileEntity(mop.blockX, mop.blockY, mop.blockZ);
 			if (layout == Layout.HEADER)
 				try{				
 					return ((IWailaBlock)block).getWailaHead(itemStack, currenttip, accessor, ConfigHandler.instance());

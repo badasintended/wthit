@@ -2,6 +2,7 @@ package mcp.mobius.waila.overlay;
 
 import org.lwjgl.opengl.GL11;
 
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import mcp.mobius.waila.api.IWailaBlockDecorator;
@@ -15,11 +16,10 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
-import net.minecraftforge.event.ForgeSubscribe;
 
 public class DecoratorRenderer {
 
-	@ForgeSubscribe
+	@SubscribeEvent
     @SideOnly(Side.CLIENT)
     public void onRenderWorldLast(RenderWorldLastEvent event) {	
 		if (RayTracing.instance().getTarget() == null || RayTracing.instance().getTargetStack() == null) return;

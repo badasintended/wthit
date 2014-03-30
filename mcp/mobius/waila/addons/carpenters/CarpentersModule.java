@@ -12,6 +12,7 @@ public class CarpentersModule {
 	public static Class BlockCarpentersHatch = null;
 	
 	public static void register(){
+		/*
 		try{
 			Class CarpentersBlocks = Class.forName("carpentersblocks.CarpentersBlocks");
 			Waila.log.log(Level.INFO, "CarpentersBlocks mod found.");
@@ -38,6 +39,7 @@ public class CarpentersModule {
 		ModuleRegistrar.instance().registerStackProvider(new HUDCarpentersBlocksTE(), BlockCarpentersHatch);
 		ModuleRegistrar.instance().registerSyncedNBTKey("data",    TEBase);
 		ModuleRegistrar.instance().registerSyncedNBTKey("cover_6", TEBase);
+		*/
 	}	
 	
 }

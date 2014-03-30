@@ -120,6 +120,7 @@ public class AccessHelper {
 			}	    	
 	    }
 
+	    /*
 	    public static void cleanSmeltingRecipes(ItemStack stack){
 	    	Map smeltingList = FurnaceRecipes.smelting().getSmeltingList();
 	    	Map<List<Integer>, ItemStack> smeltingListMeta = FurnaceRecipes.smelting().getMetaSmeltingList();
@@ -149,5 +150,5 @@ public class AccessHelper {
 	    	for (List<Integer> key : matchingRecipesMeta.keySet())
 	    		FurnaceRecipes.smelting().getMetaSmeltingList().remove(key);	    	
 	    }
-	    
+	    */
 }

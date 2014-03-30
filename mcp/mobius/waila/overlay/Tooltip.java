@@ -7,11 +7,11 @@ import java.util.regex.Pattern;
 import java.awt.Dimension;
 import java.awt.Point;
 
+import codechicken.lib.gui.GuiDraw;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.utils.Constants;
-import static codechicken.core.gui.GuiDraw.*;
 import static mcp.mobius.waila.api.SpecialChars.*;
 
 public class Tooltip {
@@ -54,7 +54,7 @@ public class Tooltip {
 					else if (s.startsWith(WailaStyle + WailaStyle))
 						columnsWidth[i] += 0;
 					else
-						columnsWidth[i] += getStringWidth(s);
+						columnsWidth[i] += GuiDraw.getStringWidth(s);
 				}
 				lineWidth      += columnsWidth[i];
 			}
@@ -125,7 +125,7 @@ public class Tooltip {
         
         h = Math.max(paddingH, 10 + 10*lines.size());
 
-        Dimension size = displaySize();
+        Dimension size = GuiDraw.displaySize();
         x = ((int)(size.width  / OverlayConfig.scale)-w-1)*pos.x/10000;
         y = ((int)(size.height / OverlayConfig.scale)-h-1)*pos.y/10000;	
         
@@ -143,11 +143,11 @@ public class Tooltip {
 						offX += IconSize;
 					
 					else if (s.startsWith(ALIGNRIGHT))
-						offX += columnsWidth[c] - getStringWidth(lines.get(i).columns.get(c).get(is + 1));
+						offX += columnsWidth[c] - GuiDraw.getStringWidth(lines.get(i).columns.get(c).get(is + 1));
 					
 					else{
-						drawString(s, x + offsetX + columnsPos[c] + c*TabSpacing + offX, y + ty + 10*i, OverlayConfig.fontcolor, true);
-						offX += getStringWidth(s);
+						GuiDraw.drawString(s, x + offsetX + columnsPos[c] + c*TabSpacing + offX, y + ty + 10*i, OverlayConfig.fontcolor, true);
+						offX += GuiDraw.getStringWidth(s);
 					}
 				}				
 				
@@ -164,7 +164,7 @@ public class Tooltip {
 						OverlayRenderer.renderIcon(x + offsetX + columnsPos[c] + c*TabSpacing + offX, y + ty + 10*i, IconSize, IconSize, IconUI.bySymbol(s));
 						offX += IconSize;
 					}else{
-						offX += getStringWidth(s);
+						offX += GuiDraw.getStringWidth(s);
 					}
 				}
 			}

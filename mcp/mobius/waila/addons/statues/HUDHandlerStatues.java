@@ -19,11 +19,10 @@ public class HUDHandlerStatues implements IWailaDataProvider {
 
 	@Override
 	public List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
-		
 		try {
 			String skinName = (String)StatuesModule.skinName.get(accessor.getTileEntity());
 			if (skinName.equals("")){
-				TileEntity belowEnt = accessor.getWorld().getBlockTileEntity(accessor.getPosition().blockX, accessor.getPosition().blockY - 1, accessor.getPosition().blockZ);
+				TileEntity belowEnt = accessor.getWorld().getTileEntity(accessor.getPosition().blockX, accessor.getPosition().blockY - 1, accessor.getPosition().blockZ);
 				if (StatuesModule.TileEntityStatue.isInstance(belowEnt))
 					skinName = (String)StatuesModule.skinName.get(belowEnt);
 			}

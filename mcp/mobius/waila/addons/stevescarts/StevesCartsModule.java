@@ -23,6 +23,7 @@ public class StevesCartsModule {
 	public static Method GetSelectionName = null;  // CargoItemSelection.getName
 	
 	public static void register(){
+		/*
 		try{
 			Class ModStevesCarts = Class.forName("vswe.stevescarts.StevesCarts");
 			Waila.log.log(Level.INFO, "StevesCarts mod found.");
@@ -72,7 +73,8 @@ public class StevesCartsModule {
 		ModuleRegistrar.instance().registerSyncedNBTKey("*", TileEntityCartAssembler);
 		ModuleRegistrar.instance().registerSyncedNBTKey("*", MinecartModular);
 		ModuleRegistrar.instance().registerSyncedNBTKey("*", TileEntityCargo);
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", TileEntityLiquid);			
+		ModuleRegistrar.instance().registerSyncedNBTKey("*", TileEntityLiquid);	
+		*/		
 	}	
 	
 }

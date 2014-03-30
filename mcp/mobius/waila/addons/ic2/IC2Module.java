@@ -54,7 +54,7 @@ public class IC2Module {
 	public static ItemStack OverclockerUpgradeStack   = null;
 	
 	public static void register(){
-
+	/*
 		
 		try{
 			TileEntityStandardMachine = Class.forName("ic2.core.block.machine.tileentity.TileEntityStandardMachine");
@@ -133,16 +133,19 @@ public class IC2Module {
 		ModuleRegistrar.instance().registerSyncedNBTKey("*", TileEntityGeoGenerator);
 		ModuleRegistrar.instance().registerSyncedNBTKey("*", TileEntityElectricBlock);
 		ModuleRegistrar.instance().registerSyncedNBTKey("*", TileEntityTradeOMat);
+		*/
 	}
 
 	/* Retuns the current stored energy if available in the nbt and config is true */
 	public static double getStoredEnergy(IWailaDataAccessor accessor){
+		/*
 		if (ConfigHandler.instance().getConfig("ic2.storage")){
 			if (accessor.getNBTData().hasKey("energy"))
 				return accessor.getNBTData().getDouble("energy");
 			else if (accessor.getNBTData().hasKey("storage"))
 				return accessor.getNBTData().getDouble("storage");
 		}
+		*/
 		return -1.0;
 	}
 	
@@ -150,7 +153,8 @@ public class IC2Module {
 		
 		NBTTagCompound nbt   = accessor.getNBTData();
 		IC2Upgrades upgrades = new IC2Upgrades();
-		
+
+		/*
 		if (!nbt.hasKey("InvSlots")) return null;
 		
 		NBTTagCompound inventory = nbt.getCompoundTag("InvSlots");
@@ -175,7 +179,7 @@ public class IC2Module {
 			if (OverclockerUpgradeStack.getItemDamage()   == meta && OverclockerUpgradeStack.itemID == id)
 				upgrades.overclocker += count;			
 		}
-		
+		*/
 		return upgrades;
 	}
 	

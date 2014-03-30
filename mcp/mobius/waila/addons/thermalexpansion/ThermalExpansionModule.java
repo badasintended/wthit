@@ -42,7 +42,7 @@ public class ThermalExpansionModule {
 	//public static Field  TileConduitBase_isOutput = null;	
 	
 	public static void register(){
-
+		/*
 		try{
 			Class ModThermalExpansion = Class.forName("thermalexpansion.ThermalExpansion");
 			Waila.log.log(Level.INFO, "Thermal Expansion mod found.");
@@ -125,7 +125,7 @@ public class ThermalExpansionModule {
 		ModuleRegistrar.instance().registerSyncedNBTKey("*", TileTesseract);
 		ModuleRegistrar.instance().registerSyncedNBTKey("*", ISecureTile);
 		ModuleRegistrar.instance().registerSyncedNBTKey("*", BlockMultipart);
-		
+		*/
 	}
 	
 	

@@ -3,6 +3,7 @@ package mcp.mobius.waila.addons.secretrooms;
 import java.util.List;
 
 import net.minecraft.block.Block;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import mcp.mobius.waila.api.IWailaConfigHandler;
@@ -13,7 +14,7 @@ public class HUDTileEntityCamo implements IWailaDataProvider {
 
 	@Override
 	public ItemStack getWailaStack(IWailaDataAccessor accessor,	IWailaConfigHandler config) {
-	
+		/*
 		if (!config.getConfig("secretrooms.hide")) return null;
 		
 		if ( SecretRoomsModule.BlockCamoTrapDoor.isInstance(accessor.getBlock()) ){
@@ -22,7 +23,7 @@ public class HUDTileEntityCamo implements IWailaDataProvider {
 		}
 
 		else if ( SecretRoomsModule.BlockTorchLever.isInstance(accessor.getBlock()) ){
-			return new ItemStack(Block.torchWood);
+			return new ItemStack(Blocks.torch);
 		}		
 		
 		else if (accessor.getNBTData() != null){
@@ -34,7 +35,7 @@ public class HUDTileEntityCamo implements IWailaDataProvider {
 				return new ItemStack(copyID, 1, copyMeta);
 			}
 		}
-		
+		*/
 		return null;
 	}
 
@@ -55,6 +56,7 @@ public class HUDTileEntityCamo implements IWailaDataProvider {
 
 	private ItemStack getTrapDoorBlock(IWailaDataAccessor accessor){
 		// modify coordinates to get hinge Block.
+		/*
 		int i = accessor.getMetadata();
 		int j = accessor.getPosition().blockX;
 		int k = accessor.getPosition().blockZ;
@@ -83,6 +85,8 @@ public class HUDTileEntityCamo implements IWailaDataProvider {
 		int blockMeta = accessor.getWorld().getBlockMetadata(j, accessor.getPosition().blockY, k);
 		
 		return new ItemStack(blockID, 1, blockMeta);
+		*/
+		return null;
 	}
 	
 }

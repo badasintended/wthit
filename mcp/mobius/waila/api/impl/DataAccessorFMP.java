@@ -34,7 +34,7 @@ public class DataAccessorFMP implements IWailaFMPAccessor {
 		this.world      = _world;
 		this.player     = _player;
 		this.mop        = _mop;
-		this.entity     = world.getBlockTileEntity(_mop.blockX, _mop.blockY, _mop.blockZ);
+		this.entity     = world.getTileEntity(_mop.blockX, _mop.blockY, _mop.blockZ);
 		this.partialNBT = _partialNBT;
 		this.id         = id;
 		this.renderingvec = renderVec;

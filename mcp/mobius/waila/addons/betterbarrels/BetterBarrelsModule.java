@@ -6,7 +6,6 @@ import java.util.logging.Level;
 
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
-import codechicken.lib.lang.LangUtil;
 import codechicken.nei.api.API;
 import codechicken.nei.api.ItemInfo;
 

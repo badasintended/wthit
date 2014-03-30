@@ -3,6 +3,7 @@ package mcp.mobius.waila.overlay;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
+import codechicken.lib.gui.GuiDraw;
 import codechicken.nei.guihook.GuiContainerManager;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.utils.Constants;
@@ -13,7 +14,6 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraft.util.MovingObjectPosition;
-import static codechicken.core.gui.GuiDraw.*;
 
 public class OverlayRenderer {
 
@@ -114,18 +114,18 @@ public class OverlayRenderer {
     public static void drawTooltipBox(int x, int y, int w, int h, int bg, int grad1, int grad2)
     {
         //int bg = 0xf0100010;
-        drawGradientRect(x + 1, y, w - 1, 1, bg, bg);
-        drawGradientRect(x + 1, y + h, w - 1, 1, bg, bg);
-        drawGradientRect(x + 1, y + 1, w - 1, h - 1, bg, bg);//center
-        drawGradientRect(x, y + 1, 1, h - 1, bg, bg);
-        drawGradientRect(x + w, y + 1, 1, h - 1, bg, bg);
+    	GuiDraw.drawGradientRect(x + 1, y, w - 1, 1, bg, bg);
+    	GuiDraw.drawGradientRect(x + 1, y + h, w - 1, 1, bg, bg);
+    	GuiDraw.drawGradientRect(x + 1, y + 1, w - 1, h - 1, bg, bg);//center
+    	GuiDraw.drawGradientRect(x, y + 1, 1, h - 1, bg, bg);
+    	GuiDraw.drawGradientRect(x + w, y + 1, 1, h - 1, bg, bg);
         //int grad1 = 0x505000ff;
         //int grad2 = 0x5028007F;
-        drawGradientRect(x + 1, y + 2, 1, h - 3, grad1, grad2);
-        drawGradientRect(x + w - 1, y + 2, 1, h - 3, grad1, grad2);
+    	GuiDraw.drawGradientRect(x + 1, y + 2, 1, h - 3, grad1, grad2);
+    	GuiDraw.drawGradientRect(x + w - 1, y + 2, 1, h - 3, grad1, grad2);
         
-        drawGradientRect(x + 1, y + 1, w - 1, 1, grad1, grad1);
-        drawGradientRect(x + 1, y + h - 1, w - 1, 1, grad2, grad2);
+    	GuiDraw.drawGradientRect(x + 1, y + 1, w - 1, 1, grad1, grad1);
+    	GuiDraw.drawGradientRect(x + 1, y + h - 1, w - 1, 1, grad2, grad2);
     }    
     
     public static void drawTexturedModalRect(int x, int y, int u, int v, int w, int h, int tw, int th)

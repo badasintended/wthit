@@ -3,8 +3,7 @@ package mcp.mobius.waila.gui.widgets.buttons;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Point;
 
-import net.minecraftforge.common.Configuration;
-import net.minecraftforge.common.Property;
+import net.minecraftforge.common.config.Configuration;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.gui.events.MouseEvent;

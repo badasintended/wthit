@@ -10,7 +10,7 @@ import com.google.common.eventbus.Subscribe;
 import mcp.mobius.waila.api.IWailaRegistrar;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
-import mcp.mobius.waila.network.WailaConnectionHandler;
+import mcp.mobius.waila.network.NetworkHandler;
 import mcp.mobius.waila.network.WailaPacketHandler;
 import mcp.mobius.waila.overlay.OverlayConfig;
 import mcp.mobius.waila.overlay.DecoratorRenderer;

@@ -34,7 +34,7 @@ public class ThaumcraftModule {
 	public static Method list_getAspects = null; //AspectList.getAspects
 	
 	public static void register(){
-
+		/*
 		try{
 			Thaumcraft = Class.forName("thaumcraft.common.Thaumcraft");
 			Waila.log.log(Level.INFO, "Thaumcraft mod found.");
@@ -86,7 +86,7 @@ public class ThaumcraftModule {
 		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerIAspectContainer(), IAspectContainer);
 		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerIAspectContainer(), TileAlchemyFurnace);
 		ModuleRegistrar.instance().registerSyncedNBTKey("*", IAspectContainer);
-
+		*/
 	}
 
 }

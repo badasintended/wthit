@@ -27,6 +27,7 @@ public class HUDHandlerIAspectContainer implements IWailaDataProvider {
 
 	@Override
 	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
+		/*
 		if (!config.getConfig("thaumcraft.aspects")) return currenttip;
 		
 		ItemStack headSlot = accessor.getPlayer().inventory.armorInventory[3];
@@ -59,7 +60,7 @@ public class HUDHandlerIAspectContainer implements IWailaDataProvider {
 				}
 			}
 		}
-		
+		*/
 		return currenttip;
 	}
 
@@ -81,6 +82,7 @@ public class HUDHandlerIAspectContainer implements IWailaDataProvider {
 	}
 	
 	private boolean knowAspect(String name, IWailaDataAccessor accessor){
+		/*
 		try{
 			Object proxy    = ThaumcraftModule.TC_proxy.get(null);
 			Object known    = ThaumcraftModule.getKnownAspects.invoke(proxy, (Object[])null);
@@ -103,6 +105,8 @@ public class HUDHandlerIAspectContainer implements IWailaDataProvider {
 			WailaExceptionHandler.handleErr(e, this.getClass().getName(), null);
 			return false;
 		}
+		*/
+		return false;
 	}
 	
 }

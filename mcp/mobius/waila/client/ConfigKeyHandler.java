@@ -103,8 +103,6 @@ public class ConfigKeyHandler extends KeyHandler {
 		else if (kb.keyDescription == Constants.BIND_WAILA_USAGE){ 
 			this.openRecipeGUI(false);
 		}
-			
-		
 	}
 
 	public void openRecipeGUI(boolean recipe){

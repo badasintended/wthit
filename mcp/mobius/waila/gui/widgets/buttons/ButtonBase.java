@@ -6,6 +6,7 @@ import mcp.mobius.waila.gui.interfaces.IWidget;
 import mcp.mobius.waila.gui.interfaces.Signal;
 import mcp.mobius.waila.gui.widgets.LabelFixedFont;
 import mcp.mobius.waila.gui.widgets.WidgetBase;
+import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.opengl.GL11;
@@ -66,7 +67,7 @@ public abstract class ButtonBase extends WidgetBase {
 	@Override
 	public void onMouseClick(MouseEvent event){
 		if (event.button == 0)
-			this.mc.sndManager.playSoundFX("random.click", 1.0F, 1.0F);
+			this.mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
 		
 		this.emit(Signal.CLICKED, event.button);
 	}
