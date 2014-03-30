@@ -15,8 +15,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
-import net.minecraftforge.liquids.ILiquidTank;
-import net.minecraftforge.liquids.LiquidStack;
 import mcp.mobius.waila.cbcore.LangUtil;
 
 public class HUDHandlerBCTanks implements IWailaDataProvider {

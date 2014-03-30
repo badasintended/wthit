@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
+import org.lwjgl.input.Keyboard;
+
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.DataAccessorBlock;
 import mcp.mobius.waila.api.impl.DataAccessorEntity;
 import mcp.mobius.waila.api.impl.MetaDataProvider;
+import mcp.mobius.waila.client.KeyEvent;
 import mcp.mobius.waila.utils.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
@@ -57,6 +60,12 @@ public class WailaTickHandler{
 	@SubscribeEvent
 	@SideOnly(Side.CLIENT)	
 	public void tickClient(TickEvent.ClientTickEvent event) {
+		
+		if (!Keyboard.isKeyDown(KeyEvent.key_show.getKeyCode()) && !ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_MODE, false)){
+			ConfigHandler.instance().setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW, false);	
+		}		
+		
+		
 		World world                 = mc.theWorld;
 		EntityPlayer player         = mc.thePlayer;			
 		if (world != null && player != null){

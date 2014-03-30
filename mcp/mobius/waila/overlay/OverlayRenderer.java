@@ -33,7 +33,7 @@ public class OverlayRenderer {
         if(!(mc.currentScreen == null &&
              mc.theWorld != null &&
              Minecraft.isGuiEnabled() &&
-             !mc.gameSettings.keyBindPlayerList.pressed &&
+             !mc.gameSettings.keyBindPlayerList.getIsKeyPressed() &&
              ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW, true) &&
              RayTracing.instance().getTarget()      != null))
         	return;

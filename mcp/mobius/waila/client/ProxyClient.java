@@ -31,7 +31,7 @@ import mcp.mobius.waila.handlers.DecoratorFMP;
 import mcp.mobius.waila.handlers.HUDHandlerBlocks;
 import mcp.mobius.waila.handlers.HUDHandlerEntities;
 import mcp.mobius.waila.handlers.HUDHandlerFMP;
-import mcp.mobius.waila.handlers.SummaryProviderDefault;
+//import mcp.mobius.waila.handlers.SummaryProviderDefault;
 import mcp.mobius.waila.handlers.nei.TooltipHandlerWaila;
 import mcp.mobius.waila.overlay.WailaTickHandler;
 import mcp.mobius.waila.server.ProxyServer;
@@ -47,9 +47,9 @@ import org.lwjgl.input.Keyboard;
 import mcp.mobius.waila.cbcore.LangUtil;
 import codechicken.nei.NEIClientConfig;
 import codechicken.nei.guihook.GuiContainerManager;
-import cpw.mods.fml.client.registry.KeyBindingRegistry;
+//import cpw.mods.fml.client.registry.KeyBindingRegistry;
 import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.registry.TickRegistry;
+//import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.Side;
 
 public class ProxyClient extends ProxyServer {
@@ -68,11 +68,11 @@ public class ProxyClient extends ProxyServer {
 		
 		minecraftiaFont = FontLoader.createFont(new ResourceLocation("waila", "fonts/Minecraftia.ttf"), 14, true);
 		
-		TickRegistry.registerTickHandler(WailaTickHandler.instance(), Side.CLIENT);		
+		//TickRegistry.registerTickHandler(WailaTickHandler.instance(), Side.CLIENT);		
 		
 		GuiContainerManager.addTooltipHandler(new TooltipHandlerWaila());
 		
-		KeyBindingRegistry.registerKeyBinding(new ConfigKeyHandler());
+		//KeyBindingRegistry.registerKeyBinding(new ConfigKeyHandler());
 		
 		// We mute the default keybind for displaying the tooltip
 		NEIClientConfig.getSetting(Constants.BIND_NEI_SHOW).setIntValue(Keyboard.KEY_NONE);
@@ -88,7 +88,7 @@ public class ProxyClient extends ProxyServer {
 		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerEntities(), Entity.class);		
 		ModuleRegistrar.instance().registerTailProvider(new HUDHandlerEntities(), Entity.class);
 		
-		ModuleRegistrar.instance().registerShortDataProvider(new SummaryProviderDefault(), Item.class);
+		//ModuleRegistrar.instance().registerShortDataProvider(new SummaryProviderDefault(), Item.class);
 		
 		ModuleRegistrar.instance().addConfig("General", "general.showhp");
 		ModuleRegistrar.instance().addConfig("General", "general.showcrop");		

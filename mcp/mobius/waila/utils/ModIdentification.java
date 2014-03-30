@@ -33,21 +33,23 @@ public class ModIdentification {
             ItemData itemData = new ItemData((NBTTagCompound) itemDataList.tagAt(i));
             itemMap.put(itemData.getItemId(), itemData.getModId());
         } 		
+		 */
 		
         for (ModContainer mod : Loader.instance().getModList()){
         	modSource_Name.put(mod.getSource().getName(), mod.getName());
         	modSource_ID.put(mod.getSource().getName(), mod.getModId());
         }
-        */
 
         //TODO : Update this to match new version (1.7.2)
         modSource_Name.put("1.6.2.jar", "Minecraft");
         modSource_Name.put("1.6.3.jar", "Minecraft");          
-        modSource_Name.put("1.6.4.jar", "Minecraft");		
+        modSource_Name.put("1.6.4.jar", "Minecraft");
+        modSource_Name.put("1.7.2.jar", "Minecraft");
         modSource_Name.put("Forge", "Minecraft");  
         modSource_ID.put("1.6.2.jar", "Minecraft");
         modSource_ID.put("1.6.3.jar", "Minecraft");          
         modSource_ID.put("1.6.4.jar", "Minecraft");
+        modSource_ID.put("1.7.2.jar", "Minecraft");
         modSource_ID.put("Forge", "Minecraft");        
         
         
@@ -72,7 +74,6 @@ public class ModIdentification {
         
 	}
 	
-	/*
 	public static String nameFromObject(Object obj){
 		String objPath = obj.getClass().getProtectionDomain().getCodeSource().getLocation().toString();
 		
@@ -94,7 +95,6 @@ public class ModIdentification {
 		
 		return modName;
 	}
-	*/
 	
 	/*
 	public static String idFromObject(Object obj){

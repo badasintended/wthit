@@ -22,6 +22,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IShearable;
+import net.minecraftforge.common.config.Configuration;
 
 public class RayTracing {
 
@@ -85,7 +86,7 @@ public class RayTracing {
         Vec3 vec32 = vec3.addVector(vec31.xCoord * par1, vec31.yCoord * par1, vec31.zCoord * par1);
         
         //if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID, true))
-        if (ConfigHandler.instance().getConfig(Constants.CFG_WAILA_LIQUID, true))
+        if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID, true))
         	return entity.worldObj.rayTraceBlocks(vec3, vec32, true);
         else
         	return entity.worldObj.rayTraceBlocks(vec3, vec32, false);

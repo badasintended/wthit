@@ -13,7 +13,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import codechicken.nei.NEIClientConfig;
-import codechicken.nei.forge.IContainerInputHandler;
+import codechicken.nei.guihook.IContainerInputHandler;
 
 public class HandlerEnchants implements IContainerInputHandler {
 

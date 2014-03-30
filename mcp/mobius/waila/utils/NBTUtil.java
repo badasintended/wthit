@@ -44,7 +44,8 @@ public class NBTUtil {
 		NBTTagCompound deepTag = targetTag;
 		for (int i = 0; i < path.length - 1; i++){
 			if (!deepTag.hasKey(path[i]))
-				deepTag.setCompoundTag(path[i], new NBTTagCompound());
+				//deepTag.setCompoundTag(path[i], new NBTTagCompound());
+				deepTag.setTag(path[i], new NBTTagCompound());
 			
 			deepTag = deepTag.getCompoundTag(path[i]);
 		}

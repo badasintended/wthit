@@ -38,6 +38,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.Side;
 import mcp.mobius.waila.cbcore.LangUtil;
+import mcp.mobius.waila.client.KeyEvent;
 
 @Mod(modid="Waila", name="Waila", version="1.5.1a_1.7.2", dependencies="required-after:NotEnoughItems")
 /*
@@ -75,7 +76,7 @@ public class Waila {
         
         if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT){
         	MinecraftForge.EVENT_BUS.register(new DecoratorRenderer());
-    		FMLCommonHandler.instance().bus().register(new KeyHandler());
+    		FMLCommonHandler.instance().bus().register(new KeyEvent());
     		FMLCommonHandler.instance().bus().register(WailaTickHandler.instance());        	
         }
 		FMLCommonHandler.instance().bus().register(new NetworkHandler());        

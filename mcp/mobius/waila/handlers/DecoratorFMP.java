@@ -18,9 +18,9 @@ public class DecoratorFMP implements IWailaBlockDecorator {
 
 	@Override
 	public void decorateBlock(ItemStack itemStack, IWailaDataAccessor accessor, IWailaConfigHandler config) {
-		NBTTagList list = accessor.getNBTData().getTagList("parts");
+		NBTTagList list = accessor.getNBTData().getTagList("parts", 10);
 		for (int i = 0; i < list.tagCount(); i++){
-			NBTTagCompound subtag = (NBTTagCompound) list.tagAt(i);
+			NBTTagCompound subtag = list.getCompoundTagAt(i);
 			String id = subtag.getString("id");
 
 			if (ModuleRegistrar.instance().hasFMPDecorator(id)){
