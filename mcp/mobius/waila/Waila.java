@@ -14,6 +14,7 @@ import mcp.mobius.waila.network.WailaConnectionHandler;
 import mcp.mobius.waila.network.WailaPacketHandler;
 import mcp.mobius.waila.overlay.OverlayConfig;
 import mcp.mobius.waila.overlay.DecoratorRenderer;
+import mcp.mobius.waila.overlay.WailaTickHandler;
 import mcp.mobius.waila.server.ProxyServer;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.ModIdentification;
@@ -75,7 +76,7 @@ public class Waila {
         if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT){
         	MinecraftForge.EVENT_BUS.register(new DecoratorRenderer());
     		FMLCommonHandler.instance().bus().register(new KeyHandler());
-    		FMLCommonHandler.instance().bus().register(TickHandler.instance());        	
+    		FMLCommonHandler.instance().bus().register(WailaTickHandler.instance());        	
         }
 		FMLCommonHandler.instance().bus().register(new NetworkHandler());        
 	}

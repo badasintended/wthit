@@ -1,99 +1,122 @@
 package mcp.mobius.waila.network;
 
-import java.io.ByteArrayInputStream;
-import java.io.DataInputStream;
+import io.netty.buffer.ByteBuf;
+import io.netty.channel.ChannelFutureListener;
+import io.netty.channel.ChannelHandlerContext;
+
 import java.io.IOException;
+import java.util.EnumMap;
 
-import mcp.mobius.waila.Waila;
-import mcp.mobius.waila.api.impl.ConfigHandler;
-import mcp.mobius.waila.api.impl.DataAccessorBlock;
-import mcp.mobius.waila.api.impl.DataAccessorEntity;
-import mcp.mobius.waila.utils.NBTUtil;
-import mcp.mobius.waila.utils.WailaExceptionHandler;
-import net.minecraft.entity.Entity;
+import com.google.common.base.Charsets;
+
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.network.INetworkManager;
-import net.minecraft.network.packet.Packet250CustomPayload;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraftforge.common.DimensionManager;
 import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.network.IPacketHandler;
-import cpw.mods.fml.common.network.PacketDispatcher;
-import cpw.mods.fml.common.network.Player;
+import cpw.mods.fml.common.network.FMLEmbeddedChannel;
+import cpw.mods.fml.common.network.FMLIndexedMessageToMessageCodec;
+import cpw.mods.fml.common.network.FMLOutboundHandler;
+import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.relauncher.Side;
 
-public class WailaPacketHandler implements IPacketHandler {
-
-	@Override
-	public void onPacketData(INetworkManager manager, Packet250CustomPayload packet, Player player){
-    	try{
-			if (packet.channel.equals("Waila")) {
+public enum WailaPacketHandler {
+	INSTANCE;
 	
-					byte header = this.getHeader(packet);
-					if (header == 0x00){
-						Packet0x00ServerPing castedPacket = new Packet0x00ServerPing(packet);
-						Waila.log.info("Received server authentication msg. Remote sync will be activated");
-						Waila.instance.serverPresent = true;
-					
-						for (String key : castedPacket.forcedKeys.keySet())
-							Waila.log.info(String.format("Received forced key config %s : %s", key, castedPacket.forcedKeys.get(key)));
-						
-						ConfigHandler.instance().forcedConfigs = castedPacket.forcedKeys;
-					}
-					
-					else if (header == 0x01){
-						Packet0x01TERequest castedPacket = new Packet0x01TERequest(packet);
-				        MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
-				        TileEntity      entity = DimensionManager.getWorld(castedPacket.worldID).getBlockTileEntity(castedPacket.posX, castedPacket.posY, castedPacket.posZ);
-				        if (entity != null){
-				        	try{
-				        		NBTTagCompound tag = new NBTTagCompound();
-				        		entity.writeToNBT(tag);
-				        		PacketDispatcher.sendPacketToPlayer(Packet0x02TENBTData.create(NBTUtil.createTag(tag, castedPacket.keys)), player);
-				        	}catch(Throwable e){
-				        		WailaExceptionHandler.handleErr(e, entity.getClass().toString(), null);
-				        	}
-				        }
-					}
-					else if (header == 0x02){
-						Packet0x02TENBTData castedPacket = new Packet0x02TENBTData(packet);
-						DataAccessorBlock.instance.remoteNbt = castedPacket.tag;
-					}
-					
-					else if (header == 0x03){
-						Packet0x03EntRequest castedPacket = new Packet0x03EntRequest(packet);
-				        MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
-				        Entity         entity = DimensionManager.getWorld(castedPacket.worldID).getEntityByID(castedPacket.id);
-				        if (entity != null){
-				        	try{
-				        		NBTTagCompound tag = new NBTTagCompound();
-				        		entity.writeToNBT(tag);
-				        		PacketDispatcher.sendPacketToPlayer(Packet0x04EntNBTData.create(NBTUtil.createTag(tag, castedPacket.keys)), player);
-				        	}catch(Throwable e){
-				        		WailaExceptionHandler.handleErr(e, entity.getClass().toString(), null);
-				        	}
-				        }
-					}
-					
-					else if (header == 0x04){
-						Packet0x04EntNBTData castedPacket = new Packet0x04EntNBTData(packet);
-						DataAccessorEntity.instance.remoteNbt = castedPacket.tag;
-					}					
-				}
-	        }
-		catch (Exception e){
-			return;
-		}		
-	}
+    public EnumMap<Side, FMLEmbeddedChannel> channels;	
+    
+    private WailaPacketHandler(){
+        this.channels = NetworkRegistry.INSTANCE.newChannel("Waila", new WailaCodec());
+        if (FMLCommonHandler.instance().getSide() == Side.CLIENT){
+            addClientHandlers();
+        	addServerHandlers();
+        }else{
+        	addServerHandlers();
+        }
+       
+    }
 
-	public byte getHeader(Packet250CustomPayload packet){
-		DataInputStream inputStream = new DataInputStream(new ByteArrayInputStream(packet.data));
-		try{
-			return inputStream.readByte();
-		} catch (IOException e){
-			return -1;
-		}
-	}
-	
-		
+    private void addClientHandlers(){
+        FMLEmbeddedChannel channel = this.channels.get(Side.CLIENT);
+        String codec = channel.findChannelHandlerNameForType(WailaCodec.class);
+        
+        channel.pipeline().addAfter(codec,        "ServerPing", new Message0x00ServerPing());
+        channel.pipeline().addAfter("ServerPing", "TENBTData",  new Message0x02TENBTData());          
+    }
+    
+    private void addServerHandlers(){
+        FMLEmbeddedChannel channel = this.channels.get(Side.SERVER);
+        String codec = channel.findChannelHandlerNameForType(WailaCodec.class);
+        
+        channel.pipeline().addAfter(codec, "TERequest", new Message0x01TERequest());    	
+    }    
+    
+    private class WailaCodec extends FMLIndexedMessageToMessageCodec<IWailaMessage>
+    {
+        public WailaCodec()
+        {
+            addDiscriminator(0, Message0x00ServerPing.class);
+            addDiscriminator(1, Message0x01TERequest.class);
+            addDiscriminator(2, Message0x02TENBTData.class);            
+        }
+        
+        @Override
+        public void encodeInto(ChannelHandlerContext ctx, IWailaMessage msg, ByteBuf target) throws Exception
+        {
+        	msg.encodeInto(ctx, msg, target);
+        }
+
+        @Override
+        public void decodeInto(ChannelHandlerContext ctx, ByteBuf dat, IWailaMessage msg)
+        {
+        	msg.decodeInto(ctx, dat, msg);
+        }
+   }
+    
+    public void sendTo(IWailaMessage message, EntityPlayerMP player){
+        channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.PLAYER);
+        channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGETARGS).set(player);
+        channels.get(Side.SERVER).writeAndFlush(message).addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);    	
+    }
+    
+    public void sendToServer(IWailaMessage message){
+        channels.get(Side.CLIENT).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.TOSERVER);
+        channels.get(Side.CLIENT).writeAndFlush(message).addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
+    }
+    
+    public void writeNBT(ByteBuf target, NBTTagCompound tag) throws IOException{
+        if (tag == null)
+        	target.writeShort(-1);
+        else{
+            byte[] abyte = CompressedStreamTools.compress(tag);
+            target.writeShort((short)abyte.length);
+            target.writeBytes(abyte);
+        }
+    }
+
+    public NBTTagCompound readNBT(ByteBuf dat) throws IOException
+    {
+        short short1 = dat.readShort();
+
+        if (short1 < 0)
+            return null;
+        else{
+            byte[] abyte = new byte[short1];
+            dat.readBytes(abyte);
+            return CompressedStreamTools.decompress(abyte);
+        }
+    }
+    
+    public void writeString(ByteBuf buffer, String data) throws IOException
+    {
+        byte[] abyte = data.getBytes(Charsets.UTF_8);
+       	buffer.writeShort(abyte.length);
+       	buffer.writeBytes(abyte);
+    }
+    
+    public String readString(ByteBuf buffer) throws IOException
+    {
+        int j = buffer.readShort();
+        String s = new String(buffer.readBytes(j).array(), Charsets.UTF_8);
+        return s;
+    }    
 }
