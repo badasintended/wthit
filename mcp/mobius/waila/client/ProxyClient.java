@@ -121,7 +121,7 @@ public class ProxyClient extends ProxyServer {
 		TwilightForestModule.register();
 		
 		/* Applied Energetics */
-		AppEngModule.register();
+		//AppEngModule.register();
 		
 		/* Thermal Expansion */
 		ThermalExpansionModule.register();

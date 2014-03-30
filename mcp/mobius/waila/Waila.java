@@ -40,7 +40,7 @@ import cpw.mods.fml.relauncher.Side;
 import mcp.mobius.waila.cbcore.LangUtil;
 import mcp.mobius.waila.client.KeyEvent;
 
-@Mod(modid="Waila", name="Waila", version="1.5.1a_1.7.2", dependencies="required-after:NotEnoughItems")
+@Mod(modid="Waila", name="Waila", version="1.5.2_1.7.2", dependencies="required-after:NotEnoughItems")
 /*
 @NetworkMod(channels = {"Waila"},clientSideRequired=false, serverSideRequired=false, connectionHandler = WailaConnectionHandler.class, 
 			packetHandler = WailaPacketHandler.class, versionBounds="[1.5.0,)")
