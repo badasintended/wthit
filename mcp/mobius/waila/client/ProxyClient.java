@@ -46,7 +46,7 @@ import org.lwjgl.input.Keyboard;
 
 import mcp.mobius.waila.cbcore.LangUtil;
 import codechicken.nei.NEIClientConfig;
-import codechicken.nei.guihook.GuiContainerManager;
+import codechicken.nei.forge.GuiContainerManager;
 //import cpw.mods.fml.client.registry.KeyBindingRegistry;
 import cpw.mods.fml.common.Loader;
 //import cpw.mods.fml.common.registry.TickRegistry;

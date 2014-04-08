@@ -40,14 +40,16 @@ public enum WailaPacketHandler {
         String codec = channel.findChannelHandlerNameForType(WailaCodec.class);
         
         channel.pipeline().addAfter(codec,        "ServerPing", new Message0x00ServerPing());
-        channel.pipeline().addAfter("ServerPing", "TENBTData",  new Message0x02TENBTData());          
+        channel.pipeline().addAfter("ServerPing", "TENBTData",  new Message0x02TENBTData());
+        channel.pipeline().addAfter("TENBTData",  "EntNBTData", new Message0x04EntNBTData()); 
     }
     
     private void addServerHandlers(){
         FMLEmbeddedChannel channel = this.channels.get(Side.SERVER);
         String codec = channel.findChannelHandlerNameForType(WailaCodec.class);
         
-        channel.pipeline().addAfter(codec, "TERequest", new Message0x01TERequest());    	
+        channel.pipeline().addAfter(codec,       "TERequest",  new Message0x01TERequest());
+        channel.pipeline().addAfter("TERequest", "EntRequest", new Message0x03EntRequest());
     }    
     
     private class WailaCodec extends FMLIndexedMessageToMessageCodec<IWailaMessage>
@@ -56,7 +58,9 @@ public enum WailaPacketHandler {
         {
             addDiscriminator(0, Message0x00ServerPing.class);
             addDiscriminator(1, Message0x01TERequest.class);
-            addDiscriminator(2, Message0x02TENBTData.class);            
+            addDiscriminator(2, Message0x02TENBTData.class);
+            addDiscriminator(3, Message0x03EntRequest.class);
+            addDiscriminator(4, Message0x04EntNBTData.class);
         }
         
         @Override

@@ -3,8 +3,8 @@ package mcp.mobius.waila.overlay;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import codechicken.lib.gui.GuiDraw;
-import codechicken.nei.guihook.GuiContainerManager;
+import codechicken.core.gui.GuiDraw;
+import codechicken.nei.forge.GuiContainerManager;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.utils.Constants;
 import net.minecraft.client.Minecraft;
