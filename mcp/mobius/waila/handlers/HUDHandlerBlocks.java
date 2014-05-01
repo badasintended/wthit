@@ -2,7 +2,7 @@ package mcp.mobius.waila.handlers;
 
 import java.util.List;
 
-import codechicken.nei.forge.GuiContainerManager;
+import codechicken.nei.guihook.GuiContainerManager;
 import static mcp.mobius.waila.api.SpecialChars.*;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;

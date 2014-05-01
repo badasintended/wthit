@@ -5,7 +5,7 @@ import java.util.List;
 import org.lwjgl.input.Keyboard;
 
 import codechicken.nei.api.API;
-import codechicken.nei.forge.GuiContainerManager;
+import codechicken.nei.guihook.GuiContainerManager;
 import codechicken.nei.recipe.GuiCraftingRecipe;
 import codechicken.nei.recipe.GuiUsageRecipe;
 import cpw.mods.fml.client.registry.ClientRegistry;

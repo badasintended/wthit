@@ -7,8 +7,7 @@ import net.minecraft.item.ItemStack;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Point;
 
-import codechicken.nei.forge.GuiContainerManager;
-
+import codechicken.nei.guihook.GuiContainerManager;
 
 public class ItemStackDisplay extends WidgetBase {
 

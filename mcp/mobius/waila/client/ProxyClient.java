@@ -44,12 +44,10 @@ import net.minecraft.util.ResourceLocation;
 
 import org.lwjgl.input.Keyboard;
 
-import mcp.mobius.waila.cbcore.LangUtil;
 import codechicken.nei.NEIClientConfig;
-import codechicken.nei.forge.GuiContainerManager;
-//import cpw.mods.fml.client.registry.KeyBindingRegistry;
+import codechicken.nei.guihook.GuiContainerManager;
+import mcp.mobius.waila.cbcore.LangUtil;
 import cpw.mods.fml.common.Loader;
-//import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.Side;
 
 public class ProxyClient extends ProxyServer {
@@ -70,6 +68,7 @@ public class ProxyClient extends ProxyServer {
 		
 		//TickRegistry.registerTickHandler(WailaTickHandler.instance(), Side.CLIENT);		
 		
+		//GuiContainerManager.addTooltipHandler(new TooltipHandlerWaila());
 		GuiContainerManager.addTooltipHandler(new TooltipHandlerWaila());
 		
 		//KeyBindingRegistry.registerKeyBinding(new ConfigKeyHandler());
