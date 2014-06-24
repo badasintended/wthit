@@ -150,7 +150,7 @@ public class ProxyClient extends ProxyServer {
 		StevesCartsModule.register();
 		
 		/* Secret Rooms */
-		SecretRoomsModule.register();
+		//SecretRoomsModule.register();
 		
 		/* Carpenter's Blocks */
 		CarpentersModule.register();	
