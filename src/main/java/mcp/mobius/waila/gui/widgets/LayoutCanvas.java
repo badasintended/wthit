@@ -25,7 +25,7 @@ public class LayoutCanvas extends LayoutBase{
 
 	@Override
 	public void draw(){
-		this.rez = new ScaledResolution(mc.gameSettings, mc.displayWidth, mc.displayHeight); 		
+		this.rez = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight); 		
 		this.setGeometry(0, 0, this.rez.getScaledWidth(), this.rez.getScaledHeight(), CType.ABSXY, CType.ABSXY);
 		
 		/*

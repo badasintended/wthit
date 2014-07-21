@@ -9,6 +9,7 @@ import java.util.logging.Level;
 import mcp.mobius.waila.Waila;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTBase;
+import net.minecraft.nbt.NBTSizeTracker;
 import net.minecraft.nbt.NBTTagByte;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagInt;
@@ -101,7 +102,7 @@ public class NBTUtil {
         {
             byte[] abyte = new byte[short1];
             par0DataInputStream.readFully(abyte);
-            return CompressedStreamTools.decompress(abyte);
+            return CompressedStreamTools.func_152457_a(abyte, NBTSizeTracker.field_152451_a);
         }
     }   	
 	

@@ -42,7 +42,7 @@ public class FontHelper {
 
 	public static void drawString(String s, float x, float y, TrueTypeFont font, float scaleX, float scaleY, float rotationZ, float... rgba){
 		Minecraft mc = Minecraft.getMinecraft();
-		ScaledResolution sr = new ScaledResolution(mc.gameSettings, mc.displayWidth, mc.displayHeight);
+		ScaledResolution sr = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
 		if(mc.gameSettings.hideGUI){
 			return;
 		}
@@ -88,7 +88,7 @@ public class FontHelper {
 
 	private static void set2DMode(FloatBuffer matrixData) {
 		Minecraft mc = Minecraft.getMinecraft();
-		ScaledResolution sr = new ScaledResolution(mc.gameSettings, mc.displayWidth, mc.displayHeight);
+		ScaledResolution sr = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
 		mc.entityRenderer.setupOverlayRendering();
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 	    GL11.glPushMatrix(); 

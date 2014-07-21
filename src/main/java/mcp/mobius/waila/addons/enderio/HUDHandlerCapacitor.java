@@ -31,7 +31,7 @@ public class HUDHandlerCapacitor implements IWailaDataProvider{
 			String outputStr = LangUtil.translateG("hud.msg.output");
 			
 			Integer maxEnergyStored = (Integer)EnderIOModule.TCB_getMaxEnergyStored.invoke(accessor.getTileEntity());
-			Float   energyStored    = (Float)EnderIOModule.TCB_getEnergyStored.invoke(accessor.getTileEntity());
+			Double  energyStored    = (Double)EnderIOModule.TCB_getEnergyStored.invoke(accessor.getTileEntity());
 			Integer maxIO           = (Integer)EnderIOModule.TCB_getMaxIO.invoke(accessor.getTileEntity());
 			Integer maxInput        = (Integer)EnderIOModule.TCB_getMaxInput.invoke(accessor.getTileEntity());
 			Integer maxOutput       = (Integer)EnderIOModule.TCB_getMaxOutput.invoke(accessor.getTileEntity());

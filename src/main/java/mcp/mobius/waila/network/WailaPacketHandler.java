@@ -11,6 +11,7 @@ import com.google.common.base.Charsets;
 
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.CompressedStreamTools;
+import net.minecraft.nbt.NBTSizeTracker;
 import net.minecraft.nbt.NBTTagCompound;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.FMLEmbeddedChannel;
@@ -106,7 +107,7 @@ public enum WailaPacketHandler {
         else{
             byte[] abyte = new byte[short1];
             dat.readBytes(abyte);
-            return CompressedStreamTools.decompress(abyte);
+            return CompressedStreamTools.func_152457_a(abyte, NBTSizeTracker.field_152451_a);
         }
     }
     

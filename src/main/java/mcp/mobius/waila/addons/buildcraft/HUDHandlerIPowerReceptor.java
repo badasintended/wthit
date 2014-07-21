@@ -33,22 +33,22 @@ public class HUDHandlerIPowerReceptor implements IWailaDataProvider {
 			Object powerReceiver = BCPowerAPIModule.IPowerReceptor_getPowerReceiver.invoke(accessor.getTileEntity(), ForgeDirection.UNKNOWN);
 			if (powerReceiver != null){
 				
-				Float minEnergyRecv = (Float)BCPowerAPIModule.PR_getMinEnergyReceived.invoke(powerReceiver);
-				Float maxEnergyRecv = (Float)BCPowerAPIModule.PR_getMaxEnergyReceived.invoke(powerReceiver);
-				Float activation    = (Float)BCPowerAPIModule.PR_getActivationEnergy.invoke(powerReceiver);				
+				Object minEnergyRecv = BCPowerAPIModule.PR_getMinEnergyReceived.invoke(powerReceiver);
+				Object maxEnergyRecv = BCPowerAPIModule.PR_getMaxEnergyReceived.invoke(powerReceiver);
+				Object activation    = BCPowerAPIModule.PR_getActivationEnergy.invoke(powerReceiver);				
 	
 				
 				if(accessor.getNBTData().hasKey("powerProvider") && accessor.getNBTData().getCompoundTag("powerProvider").hasKey("storedEnergy") && config.getConfig("bcapi.storage")){
-					Float energyStored  = (Float)accessor.getNBTData().getCompoundTag("powerProvider").getFloat("storedEnergy");
-					Float maxEnergyStor = (Float)BCPowerAPIModule.PR_getMaxEnergyStored.invoke(powerReceiver);
-					if (maxEnergyStor != 0.0f)
+					Object energyStored  = accessor.getNBTData().getCompoundTag("powerProvider").getFloat("storedEnergy");
+					Number maxEnergyStor = (Number)BCPowerAPIModule.PR_getMaxEnergyStored.invoke(powerReceiver);
+					if (maxEnergyStor.floatValue() != 0.0f)
 						currenttip.add(String.format("%.1f / %.1f MJ", energyStored, maxEnergyStor));
 				}
 	
 				if(accessor.getNBTData().hasKey("storedEnergy") && config.getConfig("bcapi.storage")){
-					Float energyStored  = (Float)accessor.getNBTData().getFloat("storedEnergy");
-					Float maxEnergyStor = (Float)BCPowerAPIModule.PR_getMaxEnergyStored.invoke(powerReceiver);
-					if (maxEnergyStor != 0.0f)
+					Object energyStored  = accessor.getNBTData().getFloat("storedEnergy");
+					Number maxEnergyStor = (Number)BCPowerAPIModule.PR_getMaxEnergyStored.invoke(powerReceiver);
+					if (maxEnergyStor.floatValue() != 0.0f)
 						currenttip.add(String.format("%.1f / %.1f MJ", energyStored, maxEnergyStor));
 				}			
 				
