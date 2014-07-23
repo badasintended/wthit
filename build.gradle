@@ -1,0 +1,135 @@
+buildscript {
+    repositories {
+        mavenCentral()
+        maven {
+            name = "forge"
+            url = "http://files.minecraftforge.net/maven"
+        }
+        maven {
+            name = "sonatype"
+            url = "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:1.2-SNAPSHOT'
+    }
+}
+
+configurations {
+    deployerJars
+}
+
+//add dependency repositories
+repositories {
+	mavenLocal()
+    mavenCentral()
+    maven {
+        name = "chickenbones"
+        url = "http://chickenbones.net/maven/"
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'forge'
+apply plugin: 'maven'
+
+version = "1.5.3"
+group= "mcp.mobius.waila" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+archivesBaseName = "Waila"
+
+// Define properties file
+ext.configFile = file "build.properties"
+
+configFile.withReader {
+    // Load config. It shall from now be referenced as simply config or project.config
+    def prop = new Properties()
+    prop.load(it)
+    project.ext.config = new ConfigSlurper().parse prop
+}
+
+dependencies {
+    compile "codechicken:CodeChickenLib:${config.mc_version}-${config.ccl_version}:dev"
+    compile "codechicken:CodeChickenCore:${config.mc_version}-${config.ccc_version}:dev"
+    compile "codechicken:NotEnoughItems:${config.mc_version}-${config.nei_version}:dev"
+    deployerJars "org.apache.maven.wagon:wagon-ssh:2.2"
+}
+
+minecraft {
+    version = "1.7.10-10.13.0.1187"
+    assetDir = "eclipse/assets"
+}
+
+def root = project.projectDir.parentFile
+sourceSets {
+    main {
+        java {
+            srcDir new File(root, "src")
+        }
+        resources {
+            srcDir new File(root, "resources")
+        }
+    }
+}
+
+processResources
+{
+    // this will ensure that this task is redone when the versions change.
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    // replace stuff in mcmod.info, nothing else
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+                
+        // replace version and mcversion
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+        
+    // copy everything else, thats not the mcmod.info
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
+
+jar { 
+exclude "**/client/gui/inventory/GuiContainer.class" 
+exclude "**/client/gui/inventory/GuiContainer.java" 
+}
+
+task sourceJar(type: Jar) {
+    from sourceSets.main.java
+    from new File(root, "dev")
+    classifier = 'sources'
+}
+
+task devJar(type: Jar) {
+    from sourceSets.main.output
+    classifier = 'dev'
+}
+
+artifacts {
+    archives sourceJar, devJar
+}
+
+uploadArchives {
+	dependsOn 'reobf'
+    repositories.mavenDeployer {
+        configuration = configurations.deployerJars
+        repository(url: "scp://mobiusstrip.eu/home/mobius/web/maven"){
+            authentication(userName: "mobius")
+        }
+
+        pom {
+            groupId = project.group
+            version = project.version
+            artifactId = project.archivesBaseName
+            project {
+                name project.archivesBaseName
+                packaging 'jar'
+                description 'Waila '
+                url 'http://mobiusstrip.eu'        
+            }
+        }
+    }
+
+}
