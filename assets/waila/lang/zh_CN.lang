@@ -1,0 +1,151 @@
+#Translated by {TehporP,SinusoidalC}
+#Powered by Trigonometry-F
+
+screen.button.waila=WAILA
+screen.button.modules=Modules已加载模组
+screen.label.scale=Scale大小
+screen.label.dragtuto=Drag the HUD to setup its position.拖动HUD来设置位置
+
+screen.button.default=Default默认
+screen.button.cancel=Cancel取消
+screen.button.ok=Ok确认
+screen.button.yes=Yes是
+screen.button.no=No否
+screen.button.back=Back返回
+screen.button.hidden=Hidden隐藏
+screen.button.visible=Visible显示
+screen.button.maintained=Maintained保持
+screen.button.toggled=Toggled切换
+
+choice.showhidewaila=Show/Hide Waila显示/隐藏维拉
+choice.showhideidmeta=Show ID:Metadata显示物品ID
+choice.toggledmaintained=Toggled/Maintained保持/切换显示
+choice.showliquids=Liquids流体
+choice.shifttoggledblock=Sneak toggle blocks潜行切换方块信息
+choice.shifttoggledents=Sneak toggle entities潜行切换实体信息
+screen.button.configureaspect=Configure aspect...HUD设置
+
+enchant.title.name=Name名称
+enchant.title.minlvl=Min lvl最低 Lv
+enchant.title.maxlvl=Max lvl最大 Lv
+enchant.title.weight=Weight负担
+enchant.label.enchantability=Enchantability附魔
+
+waila.keybind.wailaconfig=[Waila] Config screen[Waila] 设置
+waila.keybind.wailadisplay=[Waila] Show/Hide[Waila] 隐藏/显示
+waila.keybind.liquid=[Waila] Show liquids[Waila] 显示流体
+waila.keybind.recipe=[Waila] Show recipe[Waila] 显示合成
+waila.keybind.usage=[Waila] Show usage[Waila] 显示用途
+waila.keybind.testing=[Waila] Testing[Waila] 测试
+
+client.msg.norecipe=No recipe found.找不到该物品合成
+client.msg.nousage=No usage found.找不到该物品用处
+
+hud.msg.none=<None><无>
+hud.msg.empty=<Empty><空>
+hud.msg.output=Output输出
+hud.msg.input=Input输入
+hud.msg.out=Out
+hud.msg.in=In
+hud.msg.power=Power能源
+hud.msg.storage=Storage能源存储
+hud.msg.stored=Stored已储存
+hud.msg.any=Any任何
+hud.msg.mode=Mode模式
+hud.msg.maxpower=Max Power最大能源
+hud.msg.trigger=Trigger红石模式
+hud.msg.maxio=Max IO最大输出
+
+hud.msg.send=Send发送
+hud.msg.recv=Recv接收
+hud.msg.item=Item物品
+hud.msg.fluid=Fluid流体
+hud.msg.energ=Energy能量
+hud.msg.frequency=Frequency频率
+
+hud.msg.owner=Owner所有者
+hud.msg.public=Public公共
+hud.msg.restricted=Restricted受限
+hud.msg.private=Private私有
+
+hud.msg.white=White白色
+hud.msg.orange=Orange橙色
+hud.msg.magenta=Magenta品红
+hud.msg.lblue=LBlue浅蓝
+hud.msg.yellow=Yellow黄色
+hud.msg.lime=Lime浅黄
+hud.msg.pink=Pink粉色
+hud.msg.gray=Gray灰色
+hud.msg.lgray=LGray浅灰色
+hud.msg.cyan=Cyan青色
+hud.msg.purple=Purple紫色
+hud.msg.blue=Blue蓝色
+hud.msg.brown=Brown棕色
+hud.msg.green=Green绿色
+hud.msg.red=Red红色
+hud.msg.black=Black黑色
+
+hud.msg.growth=Growth成长状态
+hud.msg.mature=Mature成熟
+hud.msg.off=Off关
+hud.msg.on=On开
+hud.msg.state=State状态
+hud.msg.delay=Delay延迟
+hud.msg.comparator=Comparator比较器
+hud.msg.substractor=Substractor减法器?
+hud.msg.record=Record记录
+
+hud.msg.offers=Offers供
+hud.msg.demands=Demands求
+
+option.appeng.monitorcontent=Monitor's content显示容器内容
+option.bb.content=Barrel's content显示桶中内容
+option.bc.tankamount=Liquid amount流体总量
+option.bc.tanktype=Liquid type流体类型
+option.enderstorage.colors=Colors颜色
+option.ic2.inputeumach=Max EU input [Machines]最大EU输入[机器]
+option.ic2.inputeuother=Max EU input [Other]最大EU输入[其他]
+option.ic2.inputeu=Max EU input最大EU输入
+option.ic2.outputeu=Max EU output最大EU输出
+option.ic2.storage=Energy stored能源储存
+option.ic2.consump=Show consumption显示耗能
+option.ic2.tradeomat=Show Trade-O-Mat request显示贸易机请求
+option.thaumcraft.storedvis=Capacitor storage灵力储存
+option.thermalexpansion.energyhandler=Show RF storage显示RF储存量
+option.thermalexpansion.energycell=Show ECell IN/OUT显示Ecell输入输出
+option.thermalexpansion.fluidtype=Show fluid type显示流体类型
+option.thermalexpansion.fluidamount=Show fluid amount显示流体总量
+option.thermalexpansion.tankmode=Show tank mode显示水缸模式
+option.thermalexpansion.tesssendrecv=Tesseract mode显示超立方体模式
+option.thermalexpansion.tessfreq=Tesseract frequency显示超立方体频率
+option.thermalexpansion.owner=Show owner显示所有者
+option.thermalexpansion.conditemmode=Show Itemduct mode显示物品输出模式
+option.vanilla.spawntype=Spawner type刷怪笼种类
+option.vanilla.growthvalue=Growth value显示生长程度
+option.vanilla.leverstate=Lever state显示拉杆状态
+option.vanilla.repeater=Repeater delay显示中继器延迟
+option.vanilla.comparator=Comparator mode显示比较器模式
+option.vanilla.redstone=Redstone power显示红石能量等级
+option.vanilla.jukebox=Jukebox disk显示唱片机内唱片
+option.vanilla.silverfish=Hide silverfish隐藏蠹虫
+option.etb.displaydata=Show socket data显示插槽数据
+option.enderio.inout=Show input/output显示输入输出
+option.enderio.storage=Show stored MJ显示已储存MJ
+option.enderio.owner=Show block owner显示方块所有者
+option.enderio.channel=Show hypercube channel显示超立方体频道
+option.bcapi.storage=Show stored MJ显示已储存MJ
+option.bcapi.consump=Show maximum power显示最大能量
+option.bcapi.trigger=Show triggering energy显示触发能
+option.pr.showio=Show gates IO显示管道门IO
+option.pr.showdata=Show gates data显示管道门数据
+option.extrautilities.fluidamount=Show fluid amount显示流体总量
+option.openblocks.fluidamount=Show fluid amount显示流体总量
+option.railcraft.fluidamount=Show fluid amount显示流体总量
+option.secretrooms.hide=Hide camo blocks隐藏迷彩方块
+option.carpenters.hide=Hide camo blocks隐藏迷彩方块
+option.stevescarts.showall=Show data显示数据
+option.stevescarts.colorblind=Colorblind mode色盲模式
+option.stevescarts.shifttoggle=Shift toggleShift来切换模式
+option.general.showhp=Show entities health显示生物生命值
+option.general.showcrop=Show crop growth显示作物生长程度
+option.thaumcraft.aspects=Show aspects现实方位
