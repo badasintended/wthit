@@ -73,6 +73,10 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 			return new ItemStack(Blocks.redstone_ore);
 		}
 		
+		if (block == crops ){
+			return new ItemStack(Items.wheat);
+		}
+		
 		return null;
 		
 	}
@@ -199,6 +203,8 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 		ModuleRegistrar.instance().registerStackProvider(provider, redstone.getClass());
 		ModuleRegistrar.instance().registerStackProvider(provider, doubleplant.getClass());
 		ModuleRegistrar.instance().registerStackProvider(provider, BlockRedstoneOre.class);
+		ModuleRegistrar.instance().registerStackProvider(provider, crops.getClass());
+		//ModuleRegistrar.instance().registerStackProvider(provider, Block.class);
 		ModuleRegistrar.instance().registerHeadProvider(provider, mobSpawner.getClass());
 		ModuleRegistrar.instance().registerBodyProvider(provider, crops.getClass());
 		ModuleRegistrar.instance().registerBodyProvider(provider, melonStem.getClass());

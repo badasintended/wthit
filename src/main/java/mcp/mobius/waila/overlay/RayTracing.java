@@ -95,6 +95,7 @@ public class RayTracing {
 	public ItemStack getIdentifierStack(){
         World world = mc.theWorld;
         ArrayList<ItemStack> items = this.getIdentifierItems();
+        
         if (items.isEmpty())
             return null;
         
@@ -162,7 +163,10 @@ public class RayTracing {
         if (world.getTileEntity(x, y, z) == null){
 	        try{
 	        	ItemStack block = new ItemStack(mouseoverBlock, 1, world.getBlockMetadata(x, y, z));
-	        	items.add(block);
+	        	
+	        	if (block.getItem() != null)
+	        		items.add(block);
+	        	
 	        } catch(Exception e){
 	        }
         }
