@@ -16,6 +16,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
@@ -166,6 +167,11 @@ public class RayTracing {
 	        	
 	        	if (block.getItem() != null)
 	        		items.add(block);
+	        	//else
+	        	//	items.add(new ItemStack(new ItemBlock(mouseoverBlock)));
+	        	//else
+	        	//	items.add(new ItemStack(Item.getItemFromBlock(mouseoverBlock)));
+	        	
 	        	
 	        } catch(Exception e){
 	        }

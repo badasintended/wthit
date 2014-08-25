@@ -15,6 +15,7 @@ import net.minecraft.tileentity.TileEntityMobSpawner;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
+import mcp.mobius.waila.api.SpecialChars;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.cbcore.LangUtil;
 
@@ -95,6 +96,14 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 		if (block == redstone){
 			String name = currenttip.get(0).replaceFirst(String.format(" %s", accessor.getMetadata()), "");
 			currenttip.set(0, name);
+		}		
+		
+		if (block == melonStem){
+			currenttip.set(0, SpecialChars.WHITE + "Melon stem");
+		}
+	
+		if (block == pumpkinStem){
+			currenttip.set(0, SpecialChars.WHITE + "Pumpkin stem");
 		}		
 		
 		return currenttip;
@@ -206,6 +215,9 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 		ModuleRegistrar.instance().registerStackProvider(provider, crops.getClass());
 		//ModuleRegistrar.instance().registerStackProvider(provider, Block.class);
 		ModuleRegistrar.instance().registerHeadProvider(provider, mobSpawner.getClass());
+		ModuleRegistrar.instance().registerHeadProvider(provider, melonStem.getClass());
+		ModuleRegistrar.instance().registerHeadProvider(provider, pumpkinStem.getClass());
+		
 		ModuleRegistrar.instance().registerBodyProvider(provider, crops.getClass());
 		ModuleRegistrar.instance().registerBodyProvider(provider, melonStem.getClass());
 		ModuleRegistrar.instance().registerBodyProvider(provider, pumpkinStem.getClass());
