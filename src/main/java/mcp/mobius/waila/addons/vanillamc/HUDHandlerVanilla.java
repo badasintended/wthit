@@ -3,6 +3,7 @@ package mcp.mobius.waila.addons.vanillamc;
 import java.util.List;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockRedstoneOre;
 import net.minecraft.block.BlockSilverfish;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -66,6 +67,10 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 			int meta = accessor.getWorld().getBlockMetadata(x, y, z);
 			
 			return new ItemStack(doubleplant, 0, meta);
+		}
+		
+		if (block instanceof BlockRedstoneOre){
+			return new ItemStack(Blocks.redstone_ore);
 		}
 		
 		return null;
@@ -193,6 +198,7 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 		ModuleRegistrar.instance().registerStackProvider(provider, silverfish.getClass());
 		ModuleRegistrar.instance().registerStackProvider(provider, redstone.getClass());
 		ModuleRegistrar.instance().registerStackProvider(provider, doubleplant.getClass());
+		ModuleRegistrar.instance().registerStackProvider(provider, BlockRedstoneOre.class);
 		ModuleRegistrar.instance().registerHeadProvider(provider, mobSpawner.getClass());
 		ModuleRegistrar.instance().registerBodyProvider(provider, crops.getClass());
 		ModuleRegistrar.instance().registerBodyProvider(provider, melonStem.getClass());
