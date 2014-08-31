@@ -31,6 +31,7 @@ import mcp.mobius.waila.handlers.DecoratorFMP;
 import mcp.mobius.waila.handlers.HUDHandlerBlocks;
 import mcp.mobius.waila.handlers.HUDHandlerEntities;
 import mcp.mobius.waila.handlers.HUDHandlerFMP;
+import mcp.mobius.waila.handlers.nei.ModNameFilter;
 //import mcp.mobius.waila.handlers.SummaryProviderDefault;
 import mcp.mobius.waila.handlers.nei.TooltipHandlerWaila;
 import mcp.mobius.waila.overlay.WailaTickHandler;
@@ -45,6 +46,7 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
 
 import codechicken.nei.NEIClientConfig;
+import codechicken.nei.api.API;
 import codechicken.nei.guihook.GuiContainerManager;
 import mcp.mobius.waila.cbcore.LangUtil;
 import cpw.mods.fml.common.Loader;
@@ -69,6 +71,7 @@ public class ProxyClient extends ProxyServer {
 		//TickRegistry.registerTickHandler(WailaTickHandler.instance(), Side.CLIENT);		
 		
 		//GuiContainerManager.addTooltipHandler(new TooltipHandlerWaila());
+		API.addSearchProvider(new ModNameFilter());
 		GuiContainerManager.addTooltipHandler(new TooltipHandlerWaila());
 		
 		//KeyBindingRegistry.registerKeyBinding(new ConfigKeyHandler());
