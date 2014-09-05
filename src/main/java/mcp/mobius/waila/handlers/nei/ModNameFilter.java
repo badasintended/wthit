@@ -5,6 +5,7 @@ import java.util.regex.PatternSyntaxException;
 
 import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.oredict.OreDictionary;
 import codechicken.nei.NEIClientConfig;
 import codechicken.nei.ItemList.EverythingItemFilter;
 import codechicken.nei.ItemList.PatternItemFilter;
@@ -23,7 +24,8 @@ public class ModNameFilter implements ISearchProvider{
 	public static class Filter implements ItemFilter {
 	
 		Pattern pattern;
-	
+		boolean oreDictSearch = false;
+		
 	    public Filter(String searchText) {
 	        switch(NEIClientConfig.getIntSetting("inventory.searchmode")) {
             case 0://plain
@@ -38,7 +40,13 @@ public class ModNameFilter implements ISearchProvider{
 	        }
 	        
 	        try {
-	            pattern = Pattern.compile(searchText);
+	        	if (searchText.startsWith("#") && searchText.length() > 1){
+	        		pattern = Pattern.compile(searchText.substring(1));
+	        		oreDictSearch = true;	        		
+	        	} else {
+	        		pattern = Pattern.compile(searchText);
+	        		oreDictSearch = false;
+	        	}
 	        } catch (PatternSyntaxException ignored) {}
 	    }
 	
@@ -46,7 +54,17 @@ public class ModNameFilter implements ISearchProvider{
 	    public boolean matches(ItemStack item) {
 	        if (pattern == null || pattern.toString().equals(""))
 	            return true;
-	        return pattern.matcher(ItemInfo.getSearchName(item)).find() || pattern.matcher(ModIdentification.nameFromStack(item).toLowerCase()).find(); 
+	        
+	        if (oreDictSearch){
+	        	int[] ids = OreDictionary.getOreIDs(item);
+	        	for (int id : ids){
+	        		if (pattern.matcher(OreDictionary.getOreName(id)).find())
+	        			return true;
+	        	}
+	        	return false;
+	        } else {
+		        return pattern.matcher(ItemInfo.getSearchName(item)).find() || pattern.matcher(ModIdentification.nameFromStack(item).toLowerCase()).find();	        	
+	        }
 	    }
 	}
 }
