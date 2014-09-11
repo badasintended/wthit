@@ -110,19 +110,19 @@ public class ProxyClient extends ProxyServer {
 		//ThaumcraftModule.register();
 		
 		/*EnderStorage*/
-		//EnderStorageModule.register();
+		EnderStorageModule.register();
 		
 		/*Gravestone*/
-		//GravestoneModule.register();
+		GravestoneModule.register();
 		
 		/*Twilight forest*/
-		//TwilightForestModule.register();
+		TwilightForestModule.register();
 		
 		/* Thermal Expansion */
 		ThermalExpansionModule.register();
 		
 		/* ETB */
-		//ETBModule.register();
+		ETBModule.register();
 		
 		/* EnderIO */
 		EnderIOModule.register();		
@@ -134,16 +134,16 @@ public class ProxyClient extends ProxyServer {
 		ProjectRedModule.register();
 		
 		/* ExtraUtilities */
-		//ExtraUtilitiesModule.register();	
+		ExtraUtilitiesModule.register();	
 		
 		/* OpenBlocks */
-		//OpenBlocksModule.register();
+		OpenBlocksModule.register();
 		
 		/* Railcraft */
-		//RailcraftModule.register();		
+		RailcraftModule.register();		
 		
 		/* Steve's Carts */
-		//StevesCartsModule.register();
+		StevesCartsModule.register();
 		
 		/* Secret Rooms */
 		//SecretRoomsModule.register();
@@ -152,16 +152,16 @@ public class ProxyClient extends ProxyServer {
 		CarpentersModule.register();	
 
 		/* Pam's HarvestCraft */
-		//HarvestcraftModule.register();
+		HarvestcraftModule.register();
 		
 		/* Magical crops */
-		//MagicalCropsModule.register();		
+		MagicalCropsModule.register();		
 		
 		/* Statues */
-		//StatuesModule.register();
+		StatuesModule.register();
 		
 		/* Agriculture */
-		//AgricultureModule.register();		
+		AgricultureModule.register();		
 		
 		if(Loader.isModLoaded("ForgeMultipart")){
 			HUDHandlerFMP.register();
