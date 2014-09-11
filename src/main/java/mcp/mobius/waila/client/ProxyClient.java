@@ -1,7 +1,6 @@
 package mcp.mobius.waila.client;
 
 import mcp.mobius.waila.addons.agriculture.AgricultureModule;
-import mcp.mobius.waila.addons.appeng.AppEngModule;
 import mcp.mobius.waila.addons.buildcraft.BCModule;
 import mcp.mobius.waila.addons.buildcraft.BCPowerAPIModule;
 import mcp.mobius.waila.addons.carpenters.CarpentersModule;
@@ -101,9 +100,6 @@ public class ProxyClient extends ProxyServer {
 		
 		HUDHandlerVanilla.register();
 		
-		/*BETTER BARRELS*/
-		//BetterBarrelsModule.register();
-		
 		/* BUILDCRAFT */
 		//BCModule.register();
 		
@@ -122,9 +118,6 @@ public class ProxyClient extends ProxyServer {
 		/*Twilight forest*/
 		//TwilightForestModule.register();
 		
-		/* Applied Energetics */
-		//AppEngModule.register();
-		
 		/* Thermal Expansion */
 		ThermalExpansionModule.register();
 		
@@ -132,7 +125,7 @@ public class ProxyClient extends ProxyServer {
 		//ETBModule.register();
 		
 		/* EnderIO */
-		//EnderIOModule.register();		
+		EnderIOModule.register();		
 		
 		/* Buildcraft Power API */
 		//BCPowerAPIModule.register();
