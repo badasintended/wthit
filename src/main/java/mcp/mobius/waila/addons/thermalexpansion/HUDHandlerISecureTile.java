@@ -29,6 +29,9 @@ public class HUDHandlerISecureTile implements IWailaDataProvider {
 			String owner  = accessor.getNBTData().getString("Owner");
 			int    iaccess = accessor.getNBTInteger(accessor.getNBTData(), "Access");
 			
+			if (owner.equals("[None]"))
+				return currenttip;
+			
 			String access = "INVALID";
 			switch(iaccess){
 			case 0:

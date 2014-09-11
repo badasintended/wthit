@@ -105,22 +105,22 @@ public class ProxyClient extends ProxyServer {
 		//BetterBarrelsModule.register();
 		
 		/* BUILDCRAFT */
-		BCModule.register();
+		//BCModule.register();
 		
 		/* INDUSTRIALCRAFT2 */
-		IC2Module.register();
+		//IC2Module.register();
 		
 		/*Thaumcraft*/
-		ThaumcraftModule.register();
+		//ThaumcraftModule.register();
 		
 		/*EnderStorage*/
-		EnderStorageModule.register();
+		//EnderStorageModule.register();
 		
 		/*Gravestone*/
-		GravestoneModule.register();
+		//GravestoneModule.register();
 		
 		/*Twilight forest*/
-		TwilightForestModule.register();
+		//TwilightForestModule.register();
 		
 		/* Applied Energetics */
 		//AppEngModule.register();
@@ -129,28 +129,28 @@ public class ProxyClient extends ProxyServer {
 		ThermalExpansionModule.register();
 		
 		/* ETB */
-		ETBModule.register();
+		//ETBModule.register();
 		
 		/* EnderIO */
-		EnderIOModule.register();		
+		//EnderIOModule.register();		
 		
 		/* Buildcraft Power API */
-		BCPowerAPIModule.register();
+		//BCPowerAPIModule.register();
 		
 		/* ProjectRed API */
 		ProjectRedModule.register();
 		
 		/* ExtraUtilities */
-		ExtraUtilitiesModule.register();	
+		//ExtraUtilitiesModule.register();	
 		
 		/* OpenBlocks */
-		OpenBlocksModule.register();
+		//OpenBlocksModule.register();
 		
 		/* Railcraft */
-		RailcraftModule.register();		
+		//RailcraftModule.register();		
 		
 		/* Steve's Carts */
-		StevesCartsModule.register();
+		//StevesCartsModule.register();
 		
 		/* Secret Rooms */
 		//SecretRoomsModule.register();
@@ -159,16 +159,16 @@ public class ProxyClient extends ProxyServer {
 		CarpentersModule.register();	
 
 		/* Pam's HarvestCraft */
-		HarvestcraftModule.register();
+		//HarvestcraftModule.register();
 		
 		/* Magical crops */
-		MagicalCropsModule.register();		
+		//MagicalCropsModule.register();		
 		
 		/* Statues */
-		StatuesModule.register();
+		//StatuesModule.register();
 		
 		/* Agriculture */
-		AgricultureModule.register();		
+		//AgricultureModule.register();		
 		
 		if(Loader.isModLoaded("ForgeMultipart")){
 			HUDHandlerFMP.register();

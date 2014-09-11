@@ -58,7 +58,7 @@ public class ModNameFilter implements ISearchProvider{
 	        if (oreDictSearch){
 	        	int[] ids = OreDictionary.getOreIDs(item);
 	        	for (int id : ids){
-	        		if (pattern.matcher(OreDictionary.getOreName(id)).find())
+	        		if (pattern.matcher(OreDictionary.getOreName(id).toLowerCase()).find())
 	        			return true;
 	        	}
 	        	return false;
