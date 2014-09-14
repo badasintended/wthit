@@ -145,6 +145,10 @@ public class OverlayRenderer {
     
     public static void renderIcon(int x, int y, int sx, int sy, IconUI icon){
     	Minecraft.getMinecraft().getTextureManager().bindTexture(Gui.icons);
+    	
+    	if (icon == null)
+    		return;
+    	
     	if (icon.bu != -1)
     		drawTexturedModalRect(x, y, icon.bu, icon.bv, sx, sy, icon.bsu, icon.bsv);
     	drawTexturedModalRect(x, y, icon.u, icon.v, sx, sy, icon.su, icon.sv);

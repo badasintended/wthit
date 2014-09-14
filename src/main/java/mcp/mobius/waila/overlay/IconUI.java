@@ -3,10 +3,13 @@ import static mcp.mobius.waila.api.SpecialChars.*;
 
 import java.util.HashMap;
 
+import mcp.mobius.waila.Waila;
+
 public enum IconUI {
 HEART (52, 0, 9, 9, 52, 9, 9, 9, "a"),
 HHEART(61, 0, 9, 9, 52, 9, 9, 9, "b"),
-EHEART(52, 9, 9, 9, "c");
+EHEART(52, 9, 9, 9, "c"),
+BUBBLEEXP(25, 18, 9, 9, "x");
 
 	private final static HashMap<String, IconUI> lk = new HashMap<String, IconUI>();
 	static {
@@ -36,7 +39,13 @@ EHEART(52, 9, 9, 9, "c");
 	}	
 	
 	public static IconUI bySymbol(String s){
-		return lk.get(s);
+		IconUI iconUI = lk.get(s);
+		if (iconUI == null){
+			return lk.get("x");
+		}
+		else {
+			return lk.get(s);
+		}
 	}
 	
 }
