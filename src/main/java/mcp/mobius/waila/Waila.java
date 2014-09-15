@@ -35,10 +35,12 @@ import cpw.mods.fml.common.event.FMLInterModComms.IMCMessage;
 import cpw.mods.fml.common.event.FMLLoadCompleteEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.Side;
 import mcp.mobius.waila.cbcore.LangUtil;
 import mcp.mobius.waila.client.KeyEvent;
+import mcp.mobius.waila.commands.CommandDumpHandlers;
 
 @Mod(modid="Waila", name="Waila", version="1.5.4a", dependencies="required-after:NotEnoughItems", acceptableRemoteVersions="*")
 /*
@@ -182,4 +184,9 @@ public class Waila {
 		}
 		
 	}
+	
+	@EventHandler
+	public void serverStarting(FMLServerStartingEvent event){
+		event.registerServerCommand(new CommandDumpHandlers());
+	}	
 }
