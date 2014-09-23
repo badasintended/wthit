@@ -50,7 +50,7 @@ public class RayTracing {
 		EntityLivingBase viewpoint = mc.renderViewEntity;
 		if (viewpoint == null) return;
 			
-		this.target      = this.rayTrace(viewpoint, 4.0, 0);
+		this.target      = this.rayTrace(viewpoint, mc.playerController.getBlockReachDistance() - 0.5, 0);
 		
 		if (this.target == null) return;
 	}
