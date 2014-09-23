@@ -12,10 +12,7 @@ public class ThaumcraftModule {
 
 	public static Class IAspectContainer = null;
 	public static Class TileAlchemyFurnace = null;
-	//public static Class ItemGoggles = null;
 	public static Class IGoggles = null;
-	public static Class ItemRevealingHelm = null;
-	public static Class ItemGemHelm = null;
 	
 	public static Class Thaumcraft = null;
 	public static Class TCClientProxy = null;
@@ -39,17 +36,8 @@ public class ThaumcraftModule {
 		}
 
 		try{
-			ItemRevealingHelm = Class.forName("vazkii.tinkerer.common.item.ItemRevealingHelm");
-		} catch (ClassNotFoundException e){	}		
-		
-		try{
-			ItemGemHelm = Class.forName("vazkii.tinkerer.common.item.kami.armor.ItemGemHelm");
-		} catch (ClassNotFoundException e){	}		
-		
-		try{
 			IAspectContainer   = Class.forName("thaumcraft.api.aspects.IAspectContainer");
 			TileAlchemyFurnace = Class.forName("thaumcraft.common.tiles.TileAlchemyFurnace");
-			//ItemGoggles        = Class.forName("thaumcraft.common.items.armor.ItemGoggles");
 			IGoggles           = Class.forName("thaumcraft.api.IGoggles");
 			TCClientProxy      = Class.forName("thaumcraft.client.ClientProxy");
 			TCCommonProxy      = Class.forName("thaumcraft.common.CommonProxy");
