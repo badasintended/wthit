@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
@@ -68,28 +69,31 @@ public class ModNameFilter implements ISearchProvider{
 	    public boolean matches(ItemStack item) {
 	    	boolean result = true;
 	    	
-	    	for (ISearchProvider provider : searchProviders){
-	    		ItemFilter filter = provider.getFilter(searchText);
-	    		if (filter != null)
-	    			result &= provider.getFilter(searchText).matches(item);
+	    	try{
+		    	for (ISearchProvider provider : searchProviders){
+		    		ItemFilter filter = provider.getFilter(searchText);
+		    		if (filter != null)
+		    			result &= provider.getFilter(searchText).matches(item);
+		    	}
+		    	
+		        if (pattern == null || pattern.toString().equals("")){
+		            result &= true;
+		        } else if (pattern.toString().startsWith("@")){ // If it starts with @, we skip it
+		        } else if (oreDictSearch){
+		        	int[] ids = OreDictionary.getOreIDs(item);
+		        	boolean found = false;
+		        	for (int id : ids){
+		        		if (pattern.matcher(OreDictionary.getOreName(id).toLowerCase()).find()){
+		        			found = true;
+		        		}
+		        	}
+		        	result &= found;
+		        } else {
+			        result &= pattern.matcher(ItemInfo.getSearchName(item)).find() || pattern.matcher(ModIdentification.nameFromStack(item).toLowerCase()).find();	        	
+		        }
+	    	} catch (Exception e){
+	    		Waila.log.warning(String.format("Error while filtering items : %s : %s", e, e.getMessage()));
 	    	}
-	    	
-	        if (pattern == null || pattern.toString().equals("")){
-	            result &= true;
-	        } else if (pattern.toString().startsWith("@")){ // If it starts with @, we skip it
-	        } else if (oreDictSearch){
-	        	int[] ids = OreDictionary.getOreIDs(item);
-	        	boolean found = false;
-	        	for (int id : ids){
-	        		if (pattern.matcher(OreDictionary.getOreName(id).toLowerCase()).find()){
-	        			found = true;
-	        		}
-	        	}
-	        	result &= found;
-	        } else {
-		        result &= pattern.matcher(ItemInfo.getSearchName(item)).find() || pattern.matcher(ModIdentification.nameFromStack(item).toLowerCase()).find();	        	
-	        }
-	        
 	        return result;
 	    }
 	}
