@@ -107,7 +107,7 @@ public class ProxyClient extends ProxyServer {
 		//IC2Module.register();
 		
 		/*Thaumcraft*/
-		//ThaumcraftModule.register();
+		ThaumcraftModule.register();
 		
 		/*EnderStorage*/
 		EnderStorageModule.register();
