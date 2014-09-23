@@ -164,6 +164,8 @@ public class RayTracing {
         if (world.getTileEntity(x, y, z) == null){
 	        try{
 	        	ItemStack block = new ItemStack(mouseoverBlock, 1, world.getBlockMetadata(x, y, z));
+
+	        	//System.out.printf("%s %s %s\n", block, block.getDisplayName(), block.getItemDamage());	        	
 	        	
 	        	if (block.getItem() != null)
 	        		items.add(block);
