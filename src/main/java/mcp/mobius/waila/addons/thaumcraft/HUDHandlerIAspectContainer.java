@@ -27,16 +27,13 @@ public class HUDHandlerIAspectContainer implements IWailaDataProvider {
 
 	@Override
 	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
-		/*
 		if (!config.getConfig("thaumcraft.aspects")) return currenttip;
 		
 		ItemStack headSlot = accessor.getPlayer().inventory.armorInventory[3];
 		if (headSlot == null) return currenttip;
 		
-		boolean hasReveal =  ThaumcraftModule.ItemGoggles.isInstance(headSlot.getItem()) ||
-							(ThaumcraftModule.ItemRevealingHelm != null && ThaumcraftModule.ItemRevealingHelm.isInstance(headSlot.getItem())) ||
-							(ThaumcraftModule.ItemGemHelm != null && ThaumcraftModule.ItemGemHelm.isInstance(headSlot.getItem()));
-		
+		boolean hasReveal =  ThaumcraftModule.IGoggles.isInstance(headSlot.getItem());
+			
 		if (!hasReveal) return currenttip;
 		
 		NBTTagCompound tag = accessor.getNBTData();
@@ -52,15 +49,14 @@ public class HUDHandlerIAspectContainer implements IWailaDataProvider {
 		}		
 		
 		if (tag.hasKey("Aspects")){
-			NBTTagList taglist = tag.getTagList("Aspects");
+			NBTTagList taglist = tag.getTagList("Aspects", 10);
 			for (int i = 0; i < taglist.tagCount(); i++){
-				NBTTagCompound subtag = (NBTTagCompound)taglist.tagAt(i);
+				NBTTagCompound subtag = taglist.getCompoundTagAt(i);
 				if (subtag.hasKey("amount") && subtag.hasKey("key") && !subtag.getString("key").equals("")){
 					currenttip.add(this.getAspectString(subtag, "key", "amount", accessor));
 				}
 			}
 		}
-		*/
 		return currenttip;
 	}
 
@@ -82,11 +78,10 @@ public class HUDHandlerIAspectContainer implements IWailaDataProvider {
 	}
 	
 	private boolean knowAspect(String name, IWailaDataAccessor accessor){
-		/*
 		try{
 			Object proxy    = ThaumcraftModule.TC_proxy.get(null);
 			Object known    = ThaumcraftModule.getKnownAspects.invoke(proxy, (Object[])null);
-			Object listAspc = ((Map<String, Object>)known).get(accessor.getPlayer().username);
+			Object listAspc = ((Map<String, Object>)known).get(accessor.getPlayer().getDisplayName());
 			//Object research = ThaumcraftModule.playerResearch.get(proxy); 
 			//Object aspect       = ThaumcraftModule.getAspect.invoke(null, name);
 			//Object knownaspects = ThaumcraftModule.aspectsDiscovered.get(research);
@@ -105,8 +100,7 @@ public class HUDHandlerIAspectContainer implements IWailaDataProvider {
 			WailaExceptionHandler.handleErr(e, this.getClass().getName(), null);
 			return false;
 		}
-		*/
-		return false;
+		//return false;
 	}
 	
 }

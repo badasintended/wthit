@@ -38,6 +38,8 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 	static Block netherwart    = Blocks.nether_wart;
 	static Block silverfish    = Blocks.monster_egg;
 	static Block doubleplant   = Blocks.double_plant;
+	static Block leave         = Blocks.leaves;
+	static Block leave2        = Blocks.leaves2;	
 	
 	@Override
 	public ItemStack getWailaStack(IWailaDataAccessor accessor,	IWailaConfigHandler config) {
@@ -76,6 +78,10 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 		
 		if (block == crops ){
 			return new ItemStack(Items.wheat);
+		}
+		
+		if ((block == leave || block == leave2) && (accessor.getMetadata() > 3)){
+			return new ItemStack(block, 1, accessor.getMetadata() - 4);
 		}
 		
 		return null;
@@ -213,6 +219,9 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 		ModuleRegistrar.instance().registerStackProvider(provider, doubleplant.getClass());
 		ModuleRegistrar.instance().registerStackProvider(provider, BlockRedstoneOre.class);
 		ModuleRegistrar.instance().registerStackProvider(provider, crops.getClass());
+		ModuleRegistrar.instance().registerStackProvider(provider, leave.getClass());
+		ModuleRegistrar.instance().registerStackProvider(provider, leave2.getClass());		
+		
 		//ModuleRegistrar.instance().registerStackProvider(provider, Block.class);
 		ModuleRegistrar.instance().registerHeadProvider(provider, mobSpawner.getClass());
 		ModuleRegistrar.instance().registerHeadProvider(provider, melonStem.getClass());

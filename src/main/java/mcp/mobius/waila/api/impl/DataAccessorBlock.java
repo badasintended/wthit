@@ -113,9 +113,11 @@ public class DataAccessorBlock implements IWailaDataAccessor {
 		if (this.isTagCorrect(this.remoteNbt))
 			return this.remoteNbt;
 
-		NBTTagCompound tag = new NBTTagCompound();
-		this.entity.writeToNBT(tag);
-		return tag;
+		NBTTagCompound tag = new NBTTagCompound();		
+		try{
+			this.entity.writeToNBT(tag);
+		} catch (Exception e){}
+		return tag;		
 	}
 
 	@Override
