@@ -1,9 +1,9 @@
 package mcp.mobius.waila.addons.etb;
 
 import java.lang.reflect.Field;
-import java.util.logging.Level;
 
-import net.minecraft.item.Item;
+import org.apache.logging.log4j.Level;
+
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 
@@ -63,16 +63,16 @@ public class ETBModule {
 			
 			
 		} catch (ClassNotFoundException e){
-			Waila.log.log(Level.WARNING, "[Engineer Toolbox] Class not found. " + e);
+			Waila.log.log(Level.WARN, "[Engineer Toolbox] Class not found. " + e);
 			return;
 //		} catch (NoSuchMethodException e){
-//			mod_Waila.log.log(Level.WARNING, "[Engineer Toolbox] Method not found." + e);
+//			Waila.log.log(Level.WARN, "[Engineer Toolbox] Method not found." + e);
 //			return;			
 		} catch (NoSuchFieldException e){
-			Waila.log.log(Level.WARNING, "[Engineer Toolbox] Field not found." + e);
+			Waila.log.log(Level.WARN, "[Engineer Toolbox] Field not found." + e);
 			return;			
 		} catch (Exception e){
-			Waila.log.log(Level.WARNING, "[Engineer Toolbox] Unhandled exception." + e);
+			Waila.log.log(Level.WARN, "[Engineer Toolbox] Unhandled exception." + e);
 			return;			
 		}		
 		

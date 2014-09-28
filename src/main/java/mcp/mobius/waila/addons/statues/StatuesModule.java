@@ -1,7 +1,8 @@
 package mcp.mobius.waila.addons.statues;
 
 import java.lang.reflect.Field;
-import java.util.logging.Level;
+
+import org.apache.logging.log4j.Level;
 
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
@@ -24,10 +25,10 @@ public class StatuesModule {
 			TileEntityStatue = Class.forName("info.jbcs.minecraft.statues.TileEntityStatue");
 			skinName = TileEntityStatue.getDeclaredField("skinName");
 		} catch (ClassNotFoundException e){
-			Waila.log.log(Level.WARNING, "[Statues] Class not found. " + e);
+			Waila.log.log(Level.WARN, "[Statues] Class not found. " + e);
 			return;
 		} catch (NoSuchFieldException e){
-			Waila.log.log(Level.WARNING, "[Statues] Class not found. " + e);
+			Waila.log.log(Level.WARN, "[Statues] Class not found. " + e);
 			return;
 		}
 		

@@ -4,7 +4,8 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.HashSet;
-import java.util.logging.Level;
+
+import org.apache.logging.log4j.Level;
 
 import mcp.mobius.waila.Waila;
 import net.minecraft.nbt.CompressedStreamTools;
@@ -13,10 +14,7 @@ import net.minecraft.nbt.NBTSizeTracker;
 import net.minecraft.nbt.NBTTagByte;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagInt;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.nbt.NBTTagLong;
 import net.minecraft.nbt.NBTTagShort;
-import net.minecraft.nbt.NBTTagString;
 
 public class NBTUtil {
 
@@ -32,7 +30,7 @@ public class NBTUtil {
 					return deepTag.getTag(i);
 				}
 			} else {
-				Waila.log.log(Level.WARNING, "Leaf " + key + " not found.");
+				Waila.log.log(Level.WARN, "Leaf " + key + " not found.");
 				return null;
 			}
 		}

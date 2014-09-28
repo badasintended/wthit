@@ -1,10 +1,7 @@
 package mcp.mobius.waila.addons.projectred;
 
-import java.io.File;
-import java.util.logging.Level;
+import org.apache.logging.log4j.Level;
 
-import net.minecraft.block.Block;
-import net.minecraftforge.common.config.Configuration;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 

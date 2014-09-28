@@ -1,7 +1,8 @@
 package mcp.mobius.waila.handlers;
 
 import java.util.List;
-import java.util.logging.Level;
+
+import org.apache.logging.log4j.Level;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -81,10 +82,10 @@ public class HUDHandlerFMP implements IWailaDataProvider {
 		try{
 			BlockMultipart = Class.forName("codechicken.multipart.BlockMultipart");
 		} catch (ClassNotFoundException e){
-			Waila.log.log(Level.WARNING, "[FMP] Class not found. " + e);
+			Waila.log.log(Level.WARN, "[FMP] Class not found. " + e);
 			return;
 		} catch (Exception e){
-			Waila.log.log(Level.WARNING, "[FMP] Unhandled exception." + e);
+			Waila.log.log(Level.WARN, "[FMP] Unhandled exception." + e);
 			return;			
 		}
 

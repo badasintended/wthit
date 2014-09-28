@@ -1,6 +1,6 @@
 package mcp.mobius.waila.addons.openblocks;
 
-import java.util.logging.Level;
+import org.apache.logging.log4j.Level;
 
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
@@ -22,7 +22,7 @@ public class OpenBlocksModule {
 		try{
 			TileEntityTank = Class.forName("openblocks.common.tileentity.TileEntityTank");
 		} catch (ClassNotFoundException e){
-			Waila.log.log(Level.WARNING, "[OpenBlocks] Class not found. " + e);
+			Waila.log.log(Level.WARN, "[OpenBlocks] Class not found. " + e);
 			return;
 		}
 		

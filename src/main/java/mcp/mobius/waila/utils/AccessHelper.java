@@ -2,16 +2,12 @@ package mcp.mobius.waila.utils;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import mcp.mobius.waila.Waila;
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.CraftingManager;
-import net.minecraft.item.crafting.FurnaceRecipes;
 import net.minecraft.item.crafting.IRecipe;
 
 public class AccessHelper {
@@ -25,15 +21,15 @@ public class AccessHelper {
 		    	return field_;
 			} 
 			catch (NoSuchFieldException e)   {
-				Waila.log.warning(String.format("== Field %s %s not found !\n", classname, fieldname));
+				Waila.log.warn(String.format("== Field %s %s not found !\n", classname, fieldname));
 				return null;
 			} 
 			catch (SecurityException e)      {
-				Waila.log.warning(String.format("== Field %s %s security exception !\n", classname, fieldname));				
+				Waila.log.warn(String.format("== Field %s %s security exception !\n", classname, fieldname));
 				return null;
 			}
 			catch (ClassNotFoundException e) {
-				Waila.log.warning(String.format("== Class %s not found !\n", classname));				
+				Waila.log.warn(String.format("== Class %s not found !\n", classname));
 				return null;
 			}
 	    }
@@ -49,21 +45,21 @@ public class AccessHelper {
 		    	return 	field_.get(instance);
 			} 
 			catch (NoSuchFieldException e)   {
-				Waila.log.warning(String.format("== Field %s %s not found !\n", classname, fieldname));
+				Waila.log.warn(String.format("== Field %s %s not found !\n", classname, fieldname));
 				return null;
 			} 
 			catch (SecurityException e)      {
-				Waila.log.warning(String.format("== Field %s %s security exception !\n", classname, fieldname));				
+				Waila.log.warn(String.format("== Field %s %s security exception !\n", classname, fieldname));
 				return null;
 			}
 			catch (ClassNotFoundException e) {
-				Waila.log.warning(String.format("== Class %s not found !\n", classname));				
+				Waila.log.warn(String.format("== Class %s not found !\n", classname));
 				return null;
 			} catch (IllegalArgumentException e) {
-				Waila.log.warning(String.format("== %s\n", e));				
+				Waila.log.warn(String.format("== %s\n", e));
 				return null;
 			} catch (IllegalAccessException e) {
-				Waila.log.warning(String.format("== %s\n", e));				
+				Waila.log.warn(String.format("== %s\n", e));
 				return null;
 			}
 	    }	 
@@ -85,7 +81,7 @@ public class AccessHelper {
 	    		return (Block)field_.get(Block.class);
 	    	} catch (Exception e) {
 				System.out.printf("%s\n", e);
-				Waila.log.warning(String.format("== ERROR GETTING BLOCK %s %s\n", classname, fieldname));
+				Waila.log.warn(String.format("== ERROR GETTING BLOCK %s %s\n", classname, fieldname));
 	    		return null;
 	    	}
 	    }
@@ -96,7 +92,7 @@ public class AccessHelper {
 	    		return (Item)field_.get(Item.class);
 	    	} catch (Exception e) {
 				System.out.printf("%s\n", e);
-				Waila.log.warning(String.format("== ERROR GETTING ITEM %s %s\n", classname, fieldname));				
+				Waila.log.warn(String.format("== ERROR GETTING ITEM %s %s\n", classname, fieldname));
 	    		return null;
 	    	}
 	    } 

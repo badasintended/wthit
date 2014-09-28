@@ -1,6 +1,6 @@
 package mcp.mobius.waila.addons.exu;
 
-import java.util.logging.Level;
+import org.apache.logging.log4j.Level;
 
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
@@ -24,7 +24,7 @@ public class ExtraUtilitiesModule {
 		try{
 			TileEntityDrum = Class.forName("extrautils.tileentity.TileEntityDrum");
 		} catch (ClassNotFoundException e){
-			Waila.log.log(Level.WARNING, "[ExtraUtilities] Class not found. " + e);
+			Waila.log.log(Level.WARN, "[ExtraUtilities] Class not found. " + e);
 			return;
 		}
 		

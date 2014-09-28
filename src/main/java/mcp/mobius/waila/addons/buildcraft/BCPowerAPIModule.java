@@ -1,8 +1,8 @@
 package mcp.mobius.waila.addons.buildcraft;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.logging.Level;
+
+import org.apache.logging.log4j.Level;
 
 import net.minecraftforge.common.util.ForgeDirection;
 import mcp.mobius.waila.Waila;
@@ -56,16 +56,16 @@ public class BCPowerAPIModule {
 			
 			
 		} catch (ClassNotFoundException e){
-			Waila.log.log(Level.WARNING, "[EnderStorage] Class not found. " + e);
+			Waila.log.log(Level.WARN, "[EnderStorage] Class not found. " + e);
 			return;
 		} catch (NoSuchMethodException e){
-			Waila.log.log(Level.WARNING, "[EnderStorage] Method not found." + e);
+			Waila.log.log(Level.WARN, "[EnderStorage] Method not found." + e);
 			return;			
 //		} catch (NoSuchFieldException e){
 //			mod_Waila.log.log(Level.WARNING, "[EnderStorage] Field not found." + e);
 //			return;			
 		} catch (Exception e){
-			Waila.log.log(Level.WARNING, "[EnderStorage] Unhandled exception." + e);
+			Waila.log.log(Level.WARN, "[EnderStorage] Unhandled exception." + e);
 			return;			
 		}
 		

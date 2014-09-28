@@ -1,9 +1,10 @@
 package mcp.mobius.waila.addons.buildcraft;
 
 import java.util.List;
-import java.util.logging.Level;
 
 //import buildcraft.factory.TileTank;
+
+import org.apache.logging.log4j.Level;
 
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IWailaConfigHandler;
@@ -14,7 +15,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
-import net.minecraftforge.fluids.IFluidHandler;
 import mcp.mobius.waila.cbcore.LangUtil;
 
 public class HUDHandlerBCTanks implements IWailaDataProvider {
@@ -62,7 +62,7 @@ public class HUDHandlerBCTanks implements IWailaDataProvider {
 		try{
 			tank = ((FluidTankInfo[])BCModule.TileTank_getTankInfo.invoke(BCModule.TileTank.cast(accessor.getTileEntity()), ForgeDirection.UNKNOWN))[0];
 		} catch (Exception e){
-			Waila.log.log(Level.SEVERE, "[BC] Unhandled exception trying to access a tank for display !.\n" + String.valueOf(e));
+			Waila.log.log(Level.ERROR, "[BC] Unhandled exception trying to access a tank for display !.\n" + String.valueOf(e));
 			return null;
 		}
 		return tank;

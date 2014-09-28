@@ -1,6 +1,6 @@
 package mcp.mobius.waila.addons.magicalcrops;
 
-import java.util.logging.Level;
+import org.apache.logging.log4j.Level;
 
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
@@ -21,7 +21,7 @@ public class MagicalCropsModule {
 		try{
 			BlockMagicalCrops = Class.forName("magicalcrops.BlockMagicalCrops");
 		} catch (ClassNotFoundException e){
-			Waila.log.log(Level.WARNING, "[MagicalCrops] Class not found. " + e);
+			Waila.log.log(Level.WARN, "[MagicalCrops] Class not found. " + e);
 			return;
 		}
 		

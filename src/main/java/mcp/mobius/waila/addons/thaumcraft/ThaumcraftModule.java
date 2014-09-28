@@ -2,11 +2,11 @@ package mcp.mobius.waila.addons.thaumcraft;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.logging.Level;
+
+import org.apache.logging.log4j.Level;
 
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
-import mcp.mobius.waila.utils.WailaExceptionHandler;
 
 public class ThaumcraftModule {
 
@@ -52,10 +52,10 @@ public class ThaumcraftModule {
 			list_getAspects     = AspectList.getDeclaredMethod("getAspects");
 			
 		} catch (ClassNotFoundException e){
-			Waila.log.log(Level.WARNING, "[Thaumcraft] Class not found. " + e);
+			Waila.log.log(Level.WARN, "[Thaumcraft] Class not found. " + e);
 			return;
 		} catch (Exception e){
-			Waila.log.log(Level.WARNING, "[Thaumcraft] Unhandled exception." + e);
+			Waila.log.log(Level.WARN, "[Thaumcraft] Unhandled exception." + e);
 			return;			
 		}
 		

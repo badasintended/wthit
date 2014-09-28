@@ -92,7 +92,7 @@ public class ModNameFilter implements ISearchProvider{
 			        result &= pattern.matcher(ItemInfo.getSearchName(item)).find() || pattern.matcher(ModIdentification.nameFromStack(item).toLowerCase()).find();	        	
 		        }
 	    	} catch (Exception e){
-	    		Waila.log.warning(String.format("Error while filtering items : %s : %s", e, e.getMessage()));
+	    		Waila.log.warn(String.format("Error while filtering items : %s : %s", e, e.getMessage()));
 	    	}
 	        return result;
 	    }

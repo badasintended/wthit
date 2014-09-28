@@ -9,10 +9,10 @@ import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
-import java.util.logging.Level;
+
+import org.apache.logging.log4j.Level;
 
 import au.com.bytecode.opencsv.CSVReader;
-import net.minecraft.block.Block;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IWailaBlockDecorator;
 import mcp.mobius.waila.api.IWailaDataProvider;
@@ -339,7 +339,7 @@ public class ModuleRegistrar implements IWailaRegistrar {
 		try{
 			docData = this.readFileAsString(filename);
 		} catch (IOException e){
-			Waila.log.log(Level.WARNING, String.format("Error while accessing file %s : %s", filename, e));
+			Waila.log.log(Level.WARN, String.format("Error while accessing file %s : %s", filename, e));
 			return;
 		}
 

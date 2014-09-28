@@ -1,6 +1,6 @@
 package mcp.mobius.waila.addons.twilightforest;
 
-import java.util.logging.Level;
+import org.apache.logging.log4j.Level;
 
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
@@ -26,7 +26,7 @@ public class TwilightForestModule {
 			BlockTFPlant = Class.forName("twilightforest.block.BlockTFPlant");
 			BlockTFSapling = Class.forName("twilightforest.block.BlockTFSapling");				
 		} catch (ClassNotFoundException e) {
-			Waila.log.log(Level.WARNING, "[TwilightForestMod] Class not found. " + e);
+			Waila.log.log(Level.WARN, "[TwilightForestMod] Class not found. " + e);
 		}
 
 		

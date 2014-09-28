@@ -1,7 +1,8 @@
 package mcp.mobius.waila.addons.buildcraft;
 
 import java.lang.reflect.Method;
-import java.util.logging.Level;
+
+import org.apache.logging.log4j.Level;
 
 import net.minecraftforge.common.util.ForgeDirection;
 import mcp.mobius.waila.Waila;
@@ -31,10 +32,10 @@ public class BCModule {
 			ModuleRegistrar.instance().registerSyncedNBTKey("*", TileTank);			
 			
 		} catch (ClassNotFoundException e){
-			Waila.log.log(Level.WARNING, "[BC] Class not found. " + e);
+			Waila.log.log(Level.WARN, "[BC] Class not found. " + e);
 			return;
 		} catch (NoSuchMethodException e){
-			Waila.log.log(Level.WARNING, "[BC] Method not found." + e);
+			Waila.log.log(Level.WARN, "[BC] Method not found." + e);
 			return;	
 		}
 		

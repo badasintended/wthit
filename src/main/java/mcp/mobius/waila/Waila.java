@@ -2,7 +2,9 @@ package mcp.mobius.waila;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.logging.Logger;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
@@ -56,7 +58,7 @@ public class Waila {
 
 	@SidedProxy(clientSide="mcp.mobius.waila.client.ProxyClient", serverSide="mcp.mobius.waila.server.ProxyServer")
 	public static ProxyServer proxy;	
-	public static Logger log = Logger.getLogger("Waila");
+	public static Logger log = LogManager.getLogger("Waila");
 	public boolean serverPresent = false;
 	
     /* INIT SEQUENCE */
@@ -147,7 +149,7 @@ public class Waila {
 			if (imcMessage.key.equalsIgnoreCase("addconfig")){
 				String[] params = imcMessage.getStringValue().split("\\$\\$");
 				if (params.length != 3){
-					Waila.log.warning(String.format("Error while parsing config option from [ %s ] for %s", imcMessage.getSender(), imcMessage.getStringValue()));					
+					Waila.log.warn(String.format("Error while parsing config option from [ %s ] for %s", imcMessage.getSender(), imcMessage.getStringValue()));
 					continue;
 				}
 				Waila.log.info(String.format("Receiving config request from [ %s ] for %s", imcMessage.getSender(), imcMessage.getStringValue()));				
@@ -176,11 +178,11 @@ public class Waila {
 			Waila.log.info(String.format("Success in registering %s", modname));
 			
 		} catch (ClassNotFoundException e){
-			Waila.log.warning(String.format("Could not find class %s", className));
+			Waila.log.warn(String.format("Could not find class %s", className));
 		} catch (NoSuchMethodException e){
-			Waila.log.warning(String.format("Could not find method %s", methodName));
+			Waila.log.warn(String.format("Could not find method %s", methodName));
 		} catch (Exception e){
-			Waila.log.warning(String.format("Exception while trying to access the method : %s", e.toString()));
+			Waila.log.warn(String.format("Exception while trying to access the method : %s", e.toString()));
 		}
 		
 	}

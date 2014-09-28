@@ -31,7 +31,7 @@ public class HUDHandlerTank implements IWailaDataProvider {
 			String name = currenttip.get(0);
 			
 			try{
-				name += String.format(" < %s >", fluid.getFluid().getLocalizedName());
+				name += String.format(" < %s >", fluid.getFluid().getLocalizedName(fluid));
 			} catch (NullPointerException f){
 				name += " " + LangUtil.translateG("hud.msg.empty");
 			}			

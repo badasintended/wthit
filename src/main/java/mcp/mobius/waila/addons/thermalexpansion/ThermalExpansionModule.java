@@ -2,7 +2,8 @@ package mcp.mobius.waila.addons.thermalexpansion;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.logging.Level;
+
+import org.apache.logging.log4j.Level;
 
 import net.minecraftforge.common.util.ForgeDirection;
 import mcp.mobius.waila.Waila;
@@ -35,7 +36,7 @@ public class ThermalExpansionModule {
 			ModuleRegistrar.instance().registerSyncedNBTKey("*", IEnergyHandler);
 			
 		} catch (Exception e){
-			Waila.log.log(Level.WARNING, "[Thermal Expansion] Error while loading Energy hooks." + e);
+			Waila.log.log(Level.WARN, "[Thermal Expansion] Error while loading Energy hooks." + e);
 		}	
 
 		// XXX : We register the energy cell
@@ -47,7 +48,7 @@ public class ThermalExpansionModule {
 			ModuleRegistrar.instance().registerSyncedNBTKey("*", TileEnergyCell);
 			
 		} catch (Exception e){
-			Waila.log.log(Level.WARNING, "[Thermal Expansion] Error while loading Energy Cell hooks." + e);
+			Waila.log.log(Level.WARN, "[Thermal Expansion] Error while loading Energy Cell hooks." + e);
 		}				
 			
 		// XXX : We register the Tank interface
@@ -65,7 +66,7 @@ public class ThermalExpansionModule {
 			ModuleRegistrar.instance().registerSyncedNBTKey("*", TileTank);
 			
 		} catch (Exception e){
-			Waila.log.log(Level.WARNING, "[Thermal Expansion] Error while loading Tank hooks." + e);
+			Waila.log.log(Level.WARN, "[Thermal Expansion] Error while loading Tank hooks." + e);
 		}			
 	
 		// XXX : We register the Tesseract interface
@@ -78,7 +79,7 @@ public class ThermalExpansionModule {
 			ModuleRegistrar.instance().registerSyncedNBTKey("*", TileTesseract);
 			
 		} catch (Exception e){
-			Waila.log.log(Level.WARNING, "[Thermal Expansion] Error while loading Tesseract hooks." + e);
+			Waila.log.log(Level.WARN, "[Thermal Expansion] Error while loading Tesseract hooks." + e);
 		}		
 
 		// XXX : We register the ISecureTile interface
@@ -90,7 +91,7 @@ public class ThermalExpansionModule {
 			ModuleRegistrar.instance().registerSyncedNBTKey("*", ISecureTile);
 			
 		} catch (Exception e){
-			Waila.log.log(Level.WARNING, "[Thermal Expansion] Error while loading ISecureTile hooks." + e);
+			Waila.log.log(Level.WARN, "[Thermal Expansion] Error while loading ISecureTile hooks." + e);
 		}			
 	}
 	

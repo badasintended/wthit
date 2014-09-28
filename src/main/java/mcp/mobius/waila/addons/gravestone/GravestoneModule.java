@@ -1,6 +1,6 @@
 package mcp.mobius.waila.addons.gravestone;
 
-import java.util.logging.Level;
+import org.apache.logging.log4j.Level;
 
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
@@ -22,7 +22,7 @@ public class GravestoneModule {
 		try {
 			BlockGraveStone = Class.forName("GraveStone.block.BlockGSGraveStone");
 		} catch (ClassNotFoundException e) {
-			Waila.log.log(Level.WARNING, "[GraveStone] Class not found. " + e);
+			Waila.log.log(Level.WARN, "[GraveStone] Class not found. " + e);
 		}
 
 		
