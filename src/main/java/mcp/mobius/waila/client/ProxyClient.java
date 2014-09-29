@@ -23,6 +23,7 @@ import mcp.mobius.waila.addons.thermalexpansion.ThermalExpansionModule;
 import mcp.mobius.waila.addons.twilightforest.TwilightForestModule;
 import mcp.mobius.waila.addons.vanillamc.HUDHandlerVanilla;
 import mcp.mobius.waila.api.IWailaDataProvider;
+import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.gui.truetyper.FontLoader;
 import mcp.mobius.waila.gui.truetyper.TrueTypeFont;
@@ -41,6 +42,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.config.Configuration;
 
 import org.lwjgl.input.Keyboard;
 
@@ -70,7 +72,9 @@ public class ProxyClient extends ProxyServer {
 		//TickRegistry.registerTickHandler(WailaTickHandler.instance(), Side.CLIENT);		
 		
 		//GuiContainerManager.addTooltipHandler(new TooltipHandlerWaila());
-		API.addSearchProvider(new ModNameFilter());
+		if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_NEWFILTERS, true))
+			API.addSearchProvider(new ModNameFilter());
+		
 		GuiContainerManager.addTooltipHandler(new TooltipHandlerWaila());
 		
 		//KeyBindingRegistry.registerKeyBinding(new ConfigKeyHandler());

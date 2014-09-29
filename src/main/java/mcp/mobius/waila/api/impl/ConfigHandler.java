@@ -132,11 +132,12 @@ public class ConfigHandler implements IWailaConfigHandler {
 	public void loadDefaultConfig(FMLPreInitializationEvent event){
 		config = new Configuration(event.getSuggestedConfigurationFile());
 	
-		config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW,     true);
-		config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_MODE,     true);
-		config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID,   false);
-		config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATA, false);
-		config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_KEYBIND,  true);
+		config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW,       true);
+		config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_MODE,       true);
+		config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID,     false);
+		config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATA,   false);
+		config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_KEYBIND,    true);
+		config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_NEWFILTERS, true);
 		
 		OverlayConfig.posX = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSX,     5000).getInt();
 		OverlayConfig.posY = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSY,     100).getInt();
