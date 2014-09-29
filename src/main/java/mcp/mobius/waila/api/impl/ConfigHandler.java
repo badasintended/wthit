@@ -50,9 +50,7 @@ public class ConfigHandler implements IWailaConfigHandler {
 	}
 	
 	private void saveModuleKey(String modName, String key){
-		config.get(Constants.CATEGORY_MODULES, key, Constants.CFG_DEFAULT_VALUE);
-		config.get(Constants.CATEGORY_SERVER , key, Constants.SERVER_FREE);			
-		config.save();		
+		this.saveModuleKey(modName, key, Constants.CFG_DEFAULT_VALUE);
 	}
 	
 	private void saveModuleKey(String modName, String key, boolean defvalue){
