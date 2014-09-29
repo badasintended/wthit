@@ -3,9 +3,13 @@ package mcp.mobius.waila.api;
 public interface IWailaRegistrar {
 	/* Add a config option in the section modname with displayed text configtext and access key keyname */
 	public void addConfig(String modname, String keyname, String configtext);
+	public void addConfig(String modname, String keyname, String configtext, boolean defvalue);
 	public void addConfigRemote(String modname, String keyname, String configtext);	
+	public void addConfigRemote(String modname, String keyname, String configtext, boolean defvalue);
 	public void addConfig(String modname, String keyname);
+	public void addConfig(String modname, String keyname, boolean defvalue);	
 	public void addConfigRemote(String modname, String keyname);	
+	public void addConfigRemote(String modname, String keyname, boolean defvalue);
 	
 	/* Register a stack overrider for the given blockID */
 	public void registerStackProvider(IWailaDataProvider dataProvider, Class block);	

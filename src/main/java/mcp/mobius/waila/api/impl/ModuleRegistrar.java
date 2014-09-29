@@ -22,6 +22,7 @@ import mcp.mobius.waila.api.IWailaFMPProvider;
 import mcp.mobius.waila.api.IWailaRegistrar;
 import mcp.mobius.waila.api.IWailaSummaryProvider;
 import mcp.mobius.waila.cbcore.LangUtil;
+import mcp.mobius.waila.utils.Constants;
 
 public class ModuleRegistrar implements IWailaRegistrar {
 
@@ -63,22 +64,42 @@ public class ModuleRegistrar implements IWailaRegistrar {
 	/* CONFIG HANDLING */
 	@Override
 	public void addConfig(String modname, String key, String configname) {
-		ConfigHandler.instance().addConfig(modname, key, LangUtil.translateG(configname));
+		this.addConfig(modname, key, configname, Constants.CFG_DEFAULT_VALUE);
 	}
 
 	@Override
 	public void addConfigRemote(String modname, String key, String configname) {
-		ConfigHandler.instance().addConfigServer(modname, key, LangUtil.translateG(configname));
+		this.addConfigRemote(modname, key, configname, Constants.CFG_DEFAULT_VALUE);
 	}	
 	
 	@Override
 	public void addConfig(String modname, String key) {
-		ConfigHandler.instance().addConfig(modname, key, LangUtil.translateG("option." + key));
+		this.addConfig(modname, key, Constants.CFG_DEFAULT_VALUE);
 	}
 
 	@Override
 	public void addConfigRemote(String modname, String key) {
-		ConfigHandler.instance().addConfigServer(modname, key, LangUtil.translateG("option." + key));
+		this.addConfigRemote(modname, key, Constants.CFG_DEFAULT_VALUE);
+	}	
+	
+	@Override
+	public void addConfig(String modname, String key, String configname, boolean defvalue) {
+		ConfigHandler.instance().addConfig(modname, key, LangUtil.translateG(configname), defvalue);
+	}
+
+	@Override
+	public void addConfigRemote(String modname, String key, String configname, boolean defvalue) {
+		ConfigHandler.instance().addConfigServer(modname, key, LangUtil.translateG(configname), defvalue);
+	}	
+	
+	@Override
+	public void addConfig(String modname, String key, boolean defvalue) {
+		ConfigHandler.instance().addConfig(modname, key, LangUtil.translateG("option." + key), defvalue);
+	}
+
+	@Override
+	public void addConfigRemote(String modname, String key, boolean defvalue) {
+		ConfigHandler.instance().addConfigServer(modname, key, LangUtil.translateG("option." + key), defvalue);
 	}	
 	
 	

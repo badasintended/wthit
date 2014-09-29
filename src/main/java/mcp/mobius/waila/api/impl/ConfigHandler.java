@@ -50,13 +50,23 @@ public class ConfigHandler implements IWailaConfigHandler {
 	}
 	
 	private void saveModuleKey(String modName, String key){
-		config.get(Constants.CATEGORY_MODULES, key, true);
+		config.get(Constants.CATEGORY_MODULES, key, Constants.CFG_DEFAULT_VALUE);
 		config.get(Constants.CATEGORY_SERVER , key, Constants.SERVER_FREE);			
 		config.save();		
 	}
 	
+	private void saveModuleKey(String modName, String key, boolean defvalue){
+		config.get(Constants.CATEGORY_MODULES, key, defvalue);
+		config.get(Constants.CATEGORY_SERVER , key, Constants.SERVER_FREE);			
+		config.save();		
+	}	
+
 	public void addConfig(String modName, String key, String name){
-		this.saveModuleKey(modName, key);
+		this.addConfig(modName, key, name, Constants.CFG_DEFAULT_VALUE);
+	}
+	
+	public void addConfig(String modName, String key, String name, boolean defvalue){
+		this.saveModuleKey(modName, key, defvalue);
 		
 		if (!this.modules.containsKey(modName))
 			this.modules.put(modName, new ConfigModule(modName));
@@ -65,7 +75,11 @@ public class ConfigHandler implements IWailaConfigHandler {
 	}
 
 	public void addConfigServer(String modName, String key, String name){
-		this.saveModuleKey(modName, key);
+		this.addConfigServer(modName, key, name, Constants.CFG_DEFAULT_VALUE);
+	}
+	
+	public void addConfigServer(String modName, String key, String name, boolean defvalue){
+		this.saveModuleKey(modName, key, defvalue);
 		
 		if (!this.modules.containsKey(modName))
 			this.modules.put(modName, new ConfigModule(modName));
@@ -76,7 +90,7 @@ public class ConfigHandler implements IWailaConfigHandler {
 	
 	@Override
 	public boolean getConfig(String key){
-		return this.getConfig(key, true);
+		return this.getConfig(key, Constants.CFG_DEFAULT_VALUE);
 	}	
 	
 	@Override

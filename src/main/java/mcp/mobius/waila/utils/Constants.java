@@ -14,20 +14,21 @@ public final class Constants {
 	
 	public static String CFG_NEI_SHOW  = "world.highlight_tips";
 	public static String BIND_NEI_SHOW = "keys.world.highlight_tips";	
-	
-	public static String CFG_WAILA_SHOW     = "waila.cfg.show";
-	public static String CFG_WAILA_MODE     = "waila.cfg.showmode";
-	public static String CFG_WAILA_LIQUID   = "waila.cfg.liquid";
-	public static String CFG_WAILA_METADATA = "waila.cfg.metadata";
-	public static String CFG_WAILA_KEYBIND  = "waila.cfg.keybind";
-	public static String CFG_WAILA_POSX     = "waila.cfg.posx";
-	public static String CFG_WAILA_POSY     = "waila.cfg.posy";
-	public static String CFG_WAILA_SCALE    = "waila.cfg.scale";
-	public static String CFG_WAILA_SHIFTBLOCK = "waila.cfg.shiftblock";
-	public static String CFG_WAILA_SHIFTENTS  = "waila.cfg.shiftents";
-	public static String CFG_WAILA_NHEARTS    = "waila.cfg.heartsperline";
-	public static String CFG_WAILA_MAXHP      = "waila.cfg.maxhpbeforetext";
-	public static String CFG_WAILA_NEWFILTERS = "waila.cfg.newfilters";	
+
+	public static boolean CFG_DEFAULT_VALUE     = true;
+	public static String  CFG_WAILA_SHOW     = "waila.cfg.show";
+	public static String  CFG_WAILA_MODE     = "waila.cfg.showmode";
+	public static String  CFG_WAILA_LIQUID   = "waila.cfg.liquid";
+	public static String  CFG_WAILA_METADATA = "waila.cfg.metadata";
+	public static String  CFG_WAILA_KEYBIND  = "waila.cfg.keybind";
+	public static String  CFG_WAILA_POSX     = "waila.cfg.posx";
+	public static String  CFG_WAILA_POSY     = "waila.cfg.posy";
+	public static String  CFG_WAILA_SCALE    = "waila.cfg.scale";
+	public static String  CFG_WAILA_SHIFTBLOCK = "waila.cfg.shiftblock";
+	public static String  CFG_WAILA_SHIFTENTS  = "waila.cfg.shiftents";
+	public static String  CFG_WAILA_NHEARTS    = "waila.cfg.heartsperline";
+	public static String  CFG_WAILA_MAXHP      = "waila.cfg.maxhpbeforetext";
+	public static String  CFG_WAILA_NEWFILTERS = "waila.cfg.newfilters";	
 	
 	public static String CFG_WAILA_ALPHA    = "waila.cfg.alpha";
 	public static String CFG_WAILA_BGCOLOR    = "waila.cfg.bgcolor";
