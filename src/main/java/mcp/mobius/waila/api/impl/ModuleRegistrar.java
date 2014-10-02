@@ -51,6 +51,8 @@ public class ModuleRegistrar implements IWailaRegistrar {
 	public LinkedHashMap<String, LinkedHashMap <String, LinkedHashMap <String, String>>> wikiDescriptions = new LinkedHashMap<String, LinkedHashMap <String, LinkedHashMap <String, String>>>();
 	public LinkedHashMap<Class, ArrayList<IWailaSummaryProvider>> summaryProviders = new LinkedHashMap<Class, ArrayList<IWailaSummaryProvider>>();
 	
+	public LinkedHashMap<String, String> IMCRequests = new LinkedHashMap<String, String>();	
+	
 	private ModuleRegistrar() {
 		instance = this;
 	}
@@ -61,6 +63,11 @@ public class ModuleRegistrar implements IWailaRegistrar {
 		return ModuleRegistrar.instance;
 	}
 
+	/* IMC HANDLING */
+	public void addIMCRequest(String method, String modname){
+		this.IMCRequests.put(method, modname);
+	}
+	
 	/* CONFIG HANDLING */
 	@Override
 	public void addConfig(String modname, String key, String configname) {

@@ -132,12 +132,14 @@ public class Waila {
     @Subscribe
     public void loadComplete(FMLLoadCompleteEvent event) {    
     	proxy.registerMods();
+    	proxy.registerIMCs();
     	
+    	/*
     	String[] ores = OreDictionary.getOreNames();
     	for (String s : ores)
     		for (ItemStack stack : OreDictionary.getOres(s))
     			System.out.printf("%s : %s\n", s, stack);
-    	
+    	*/
     }    
     	
     @EventHandler
@@ -158,34 +160,12 @@ public class Waila {
 			
 			if (imcMessage.key.equalsIgnoreCase("register")){
 				Waila.log.info(String.format("Receiving registration request from [ %s ] for method %s", imcMessage.getSender(), imcMessage.getStringValue()));
-				this.callbackRegistration(imcMessage.getStringValue(), imcMessage.getSender());
+				ModuleRegistrar.instance().addIMCRequest(imcMessage.getStringValue(), imcMessage.getSender());
 			}
 		}
 	}		
 	
-	public void callbackRegistration(String method, String modname){
-		String[] splitName = method.split("\\.");
-		String methodName = splitName[splitName.length-1];
-		String className  = method.substring(0, method.length()-methodName.length()-1);
-		
-		Waila.log.info(String.format("Trying to reflect %s %s", className, methodName));
-		
-		try{
-			Class  reflectClass  = Class.forName(className);
-			Method reflectMethod = reflectClass.getDeclaredMethod(methodName, IWailaRegistrar.class);
-			reflectMethod.invoke(null, (IWailaRegistrar)ModuleRegistrar.instance());
-			
-			Waila.log.info(String.format("Success in registering %s", modname));
-			
-		} catch (ClassNotFoundException e){
-			Waila.log.warn(String.format("Could not find class %s", className));
-		} catch (NoSuchMethodException e){
-			Waila.log.warn(String.format("Could not find method %s", methodName));
-		} catch (Exception e){
-			Waila.log.warn(String.format("Exception while trying to access the method : %s", e.toString()));
-		}
-		
-	}
+
 	
 	@EventHandler
 	public void serverStarting(FMLServerStartingEvent event){
