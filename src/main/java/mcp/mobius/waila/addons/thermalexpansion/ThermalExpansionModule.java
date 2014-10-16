@@ -33,7 +33,7 @@ public class ThermalExpansionModule {
 			
 			ModuleRegistrar.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.energyhandler");			
 			ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerIEnergyHandler(), IEnergyHandler);			
-			ModuleRegistrar.instance().registerSyncedNBTKey("*", IEnergyHandler);
+			ModuleRegistrar.instance().registerSyncedNBTKey("Energy", IEnergyHandler);
 			
 		} catch (Exception e){
 			Waila.log.log(Level.WARN, "[Thermal Expansion] Error while loading Energy hooks." + e);
@@ -45,7 +45,8 @@ public class ThermalExpansionModule {
 			
 			ModuleRegistrar.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.energycell");			
 			ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerEnergyCell(), TileEnergyCell);
-			ModuleRegistrar.instance().registerSyncedNBTKey("*", TileEnergyCell);
+			ModuleRegistrar.instance().registerSyncedNBTKey("Recv", TileEnergyCell);
+			ModuleRegistrar.instance().registerSyncedNBTKey("Send", TileEnergyCell);
 			
 		} catch (Exception e){
 			Waila.log.log(Level.WARN, "[Thermal Expansion] Error while loading Energy Cell hooks." + e);
@@ -63,7 +64,7 @@ public class ThermalExpansionModule {
 			ModuleRegistrar.instance().addConfig("Thermal Expansion", "thermalexpansion.tankmode");
 			ModuleRegistrar.instance().registerHeadProvider(new HUDHandlerTank(), TileTank);
 			ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTank(), TileTank);			
-			ModuleRegistrar.instance().registerSyncedNBTKey("*", TileTank);
+			ModuleRegistrar.instance().registerSyncedNBTKey("Amount", TileTank);
 			
 		} catch (Exception e){
 			Waila.log.log(Level.WARN, "[Thermal Expansion] Error while loading Tank hooks." + e);
@@ -88,7 +89,8 @@ public class ThermalExpansionModule {
 			
 			ModuleRegistrar.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.owner");		
 			ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerISecureTile(), ISecureTile);
-			ModuleRegistrar.instance().registerSyncedNBTKey("*", ISecureTile);
+			ModuleRegistrar.instance().registerSyncedNBTKey("Owner", ISecureTile);
+			ModuleRegistrar.instance().registerSyncedNBTKey("Access", ISecureTile);
 			
 		} catch (Exception e){
 			Waila.log.log(Level.WARN, "[Thermal Expansion] Error while loading ISecureTile hooks." + e);
