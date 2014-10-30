@@ -1,7 +1,7 @@
 package mcp.mobius.waila.handlers.nei;
 
-import java.util.LinkedList;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
@@ -11,24 +11,22 @@ import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
 import codechicken.nei.NEIClientConfig;
-import codechicken.nei.ItemList.EverythingItemFilter;
-import codechicken.nei.ItemList.PatternItemFilter;
 import codechicken.nei.SearchField;
 import codechicken.nei.SearchField.ISearchProvider;
 import codechicken.nei.api.ItemFilter;
 import codechicken.nei.api.ItemInfo;
-import codechicken.nei.api.ItemFilter.ItemFilterProvider;
 
 public class ModNameFilter implements ISearchProvider{
 
-	List<ISearchProvider> searchProviders = new LinkedList<ISearchProvider>();
+	List<ISearchProvider> searchProviders = null;
 	
 	@Override
 	public ItemFilter getFilter(String searchText) {
-		for (ISearchProvider provider : SearchField.searchProviders)
-			if (!provider.equals(this))
-				searchProviders.add(provider);
-		
+		if(searchProviders == null)
+		{
+			searchProviders = new LinkedList<ISearchProvider>(SearchField.searchProviders);
+			searchProviders.remove(this);		
+		}
 		return new Filter(searchText, this.searchProviders);
 	}
 	
