@@ -1,5 +1,8 @@
 package mcp.mobius.waila.network;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.HashSet;
 
 import cpw.mods.fml.common.FMLCommonHandler;
@@ -19,6 +22,17 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
 public class Message0x01TERequest extends SimpleChannelInboundHandler<Message0x01TERequest> implements IWailaMessage {
+	
+	private static Field classToNameMap = null;
+	
+	static{
+		try{
+			classToNameMap = TileEntity.class.getDeclaredField("classToNameMap");
+			classToNameMap.setAccessible(true);
+		} catch (Exception e){
+			throw new RuntimeException(e);
+		}
+	}
 	
 	public int dim;
 	public int posX;
@@ -79,22 +93,24 @@ public class Message0x01TERequest extends SimpleChannelInboundHandler<Message0x0
         		NBTTagCompound tag  = new NBTTagCompound();
         		boolean hasNBTBlock = ModuleRegistrar.instance().hasNBTProviders(block);
         		boolean hasNBTEnt   = ModuleRegistrar.instance().hasNBTProviders(entity);
-        		
-        		if (hasNBTBlock){
+
+        		if (hasNBTBlock || hasNBTEnt){
+        			tag.setInteger("x", msg.posX);
+            		tag.setInteger("y", msg.posY);
+            		tag.setInteger("z", msg.posZ);
+            		tag.setString ("id", (String)((HashMap)classToNameMap.get(null)).get(entity.getClass()));
+            		
         			for (IWailaDataProvider provider : ModuleRegistrar.instance().getNBTProviders(block))
         				tag = provider.getNBTData(entity, tag, world, msg.posX, msg.posY, msg.posZ);
-        		}
-        		
-        		if (hasNBTEnt){
-        			for (IWailaDataProvider provider : ModuleRegistrar.instance().getNBTProviders(entity))
-        				tag = provider.getNBTData(entity, tag, world, msg.posX, msg.posY, msg.posZ);
-        		} 
         			
-        		if (!hasNBTBlock && !hasNBTEnt) {
+        			for (IWailaDataProvider provider : ModuleRegistrar.instance().getNBTProviders(entity))
+        				tag = provider.getNBTData(entity, tag, world, msg.posX, msg.posY, msg.posZ);  
+        			
+        		} else {
         			entity.writeToNBT(tag);
         			tag = NBTUtil.createTag(tag, msg.keys);
         		}
-        			
+
     			ctx.writeAndFlush(new Message0x02TENBTData(tag)).addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);        			
         		
         		

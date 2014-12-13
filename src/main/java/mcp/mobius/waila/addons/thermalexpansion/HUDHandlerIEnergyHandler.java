@@ -50,6 +50,13 @@ public class HUDHandlerIEnergyHandler implements IWailaDataProvider {
 
 	@Override
 	public NBTTagCompound getNBTData(TileEntity te, NBTTagCompound tag, World world, int x, int y, int z) {
+		try{
+			int energy = (Integer) ThermalExpansionModule.IEnergyHandler_getCurStorage.invoke(te, ForgeDirection.UNKNOWN);
+			tag.setInteger("Energy", energy);
+		} catch (Exception e){
+			throw new RuntimeException(e);
+		}
+		
 		return tag;
 	}	
 	

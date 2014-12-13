@@ -62,6 +62,16 @@ public class HUDHandlerISecureTile implements IWailaDataProvider {
 
 	@Override
 	public NBTTagCompound getNBTData(TileEntity te, NBTTagCompound tag, World world, int x, int y, int z) {
+		try {
+			String owner = (String) ThermalExpansionModule.ISecureTile_getOwnerName.invoke(te);
+			int    access = ((Enum) ThermalExpansionModule.ISecureTile_getAccess.invoke(te)).ordinal();
+			
+			tag.setString("Owner", owner);
+			tag.setInteger("Access", access);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return tag;
 	}	
 

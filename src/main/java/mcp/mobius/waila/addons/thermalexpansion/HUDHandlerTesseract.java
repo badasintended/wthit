@@ -93,6 +93,16 @@ public class HUDHandlerTesseract implements IWailaDataProvider {
 
 	@Override
 	public NBTTagCompound getNBTData(TileEntity te, NBTTagCompound tag, World world, int x, int y, int z) {
+		try {
+			byte modeItem   = ThermalExpansionModule.TileTesseract_Item.getByte(te);
+			byte modeFluid  = ThermalExpansionModule.TileTesseract_Fluid.getByte(te);
+			byte modeEnergy = ThermalExpansionModule.TileTesseract_Energy.getByte(te);
+			tag.setByte("Item.Mode", modeItem);
+			tag.setByte("Fluid.Mode", modeFluid);
+			tag.setByte("Energy.Mode", modeEnergy);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return tag;
 	}	
 	

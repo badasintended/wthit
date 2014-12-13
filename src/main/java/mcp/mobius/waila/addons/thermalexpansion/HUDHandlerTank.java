@@ -84,6 +84,12 @@ public class HUDHandlerTank implements IWailaDataProvider {
 
 	@Override
 	public NBTTagCompound getNBTData(TileEntity te, NBTTagCompound tag, World world, int x, int y, int z) {
+		try {
+			int amount = (Integer) ThermalExpansionModule.TileTank_getTankAmount.invoke(te);
+			tag.setInteger("Amount", amount);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		return tag;
 	}	
 	
