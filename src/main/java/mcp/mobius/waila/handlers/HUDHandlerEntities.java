@@ -98,7 +98,7 @@ public class HUDHandlerEntities implements IWailaEntityProvider {
 	}
 
 	@Override
-	public NBTTagCompound getNBTData(Entity te, NBTTagCompound tag, World world, int x, int y, int z) {
+	public NBTTagCompound getNBTData(Entity te, NBTTagCompound tag) {
 		return tag;
 	}	
 	

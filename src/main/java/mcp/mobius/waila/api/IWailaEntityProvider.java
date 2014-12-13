@@ -22,5 +22,5 @@ public interface IWailaEntityProvider {
 	 * NBTTagCompound tag argument is the current NBT tag passed along by the various providers (first provider will be empty).
 	 * You HAVE TO return it if you registered as a provider, even if you are not doing anything to it (similar to the tooltip lists).
 	 * */
-	NBTTagCompound getNBTData(Entity ent, NBTTagCompound tag, World world, int x, int y, int z);	
+	NBTTagCompound getNBTData(Entity ent, NBTTagCompound tag);	
 }
