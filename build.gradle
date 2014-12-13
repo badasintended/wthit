@@ -33,7 +33,7 @@ apply plugin: 'java'
 apply plugin: 'forge'
 apply plugin: 'maven'
 
-version = "1.5.6_dev1_1.7.10"
+version = "1.5.6_dev4_1.7.10"
 group= "mcp.mobius.waila" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "Waila"
 
