@@ -30,7 +30,7 @@ public class NBTUtil {
 					return deepTag.getTag(i);
 				}
 			} else {
-				Waila.log.log(Level.WARN, "Leaf " + key + " not found.");
+				//Waila.log.log(Level.WARN, "Leaf " + key + " not found.");
 				return null;
 			}
 		}
