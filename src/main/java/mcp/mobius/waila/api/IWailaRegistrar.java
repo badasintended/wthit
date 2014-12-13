@@ -39,6 +39,9 @@ public interface IWailaRegistrar {
 	 * registerNBTKey("bob.*", MyBlock.class)
 	 * registerNBTKey("data.life", MyEntity.class) 
 	 * registerNBTKey("*", MyTileEntity.class) will reproduce the full tag syncing from 1.4.5 
+	 * 
+	 * This registration method is deprecated in favor to registerNBTProvider.
+	 * It will be removed in MC 1.8 !!!
 	 * */
 	@Deprecated
 	public void registerSyncedNBTKey(String key, Class target);
