@@ -7,6 +7,8 @@ import org.apache.logging.log4j.Level;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IWailaConfigHandler;
@@ -77,6 +79,11 @@ public class HUDHandlerFMP implements IWailaDataProvider {
 		return currenttip;
 	}
 
+	@Override
+	public NBTTagCompound getNBTData(TileEntity te, NBTTagCompound tag, World world, int x, int y, int z) {
+		return tag;
+	}
+	
 	public static void register(){
 		Class BlockMultipart = null;
 		try{

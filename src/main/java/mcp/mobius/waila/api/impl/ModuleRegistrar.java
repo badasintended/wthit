@@ -32,7 +32,8 @@ public class ModuleRegistrar implements IWailaRegistrar {
 	public LinkedHashMap<Class, ArrayList<IWailaDataProvider>> bodyBlockProviders  = new LinkedHashMap<Class, ArrayList<IWailaDataProvider>>();
 	public LinkedHashMap<Class, ArrayList<IWailaDataProvider>> tailBlockProviders  = new LinkedHashMap<Class, ArrayList<IWailaDataProvider>>();	
 	public LinkedHashMap<Class, ArrayList<IWailaDataProvider>> stackBlockProviders = new LinkedHashMap<Class, ArrayList<IWailaDataProvider>>();	
-
+	public LinkedHashMap<Class, ArrayList<IWailaDataProvider>> NBTDataProviders    = new LinkedHashMap<Class, ArrayList<IWailaDataProvider>>();
+	
 	public LinkedHashMap<Class, ArrayList<IWailaBlockDecorator>> blockClassDecorators = new LinkedHashMap<Class,   ArrayList<IWailaBlockDecorator>>();
 	
 	public LinkedHashMap<Class, ArrayList<IWailaEntityProvider>> headEntityProviders      = new LinkedHashMap<Class, ArrayList<IWailaEntityProvider>>();
@@ -132,6 +133,11 @@ public class ModuleRegistrar implements IWailaRegistrar {
 	}		
 
 	@Override
+	public void registerNBTProvider(IWailaDataProvider dataProvider, Class entity) {
+		this.registerProvider(dataProvider, entity, this.NBTDataProviders);	
+	}	
+	
+	@Override
 	public void registerHeadProvider(IWailaEntityProvider dataProvider, Class entity) {
 		this.registerProvider(dataProvider, entity, this.headEntityProviders);		
 	}	
@@ -199,8 +205,6 @@ public class ModuleRegistrar implements IWailaRegistrar {
 		this.syncedNBTKeys.get(target).add(key);		
 	}	
 	
-	
-	
 	/* PROVIDER GETTERS */
 	
 	public ArrayList<IWailaDataProvider> getHeadProviders(Object block) {
@@ -218,6 +222,10 @@ public class ModuleRegistrar implements IWailaRegistrar {
 	public ArrayList<IWailaDataProvider> getStackProviders(Object block) {
 		return getProviders(block, this.stackBlockProviders);
 	}		
+	
+	public ArrayList<IWailaDataProvider> getNBTProviders(Object block) {
+		return getProviders(block, this.NBTDataProviders);
+	}	
 	
 	public ArrayList<IWailaEntityProvider> getHeadEntityProviders(Object entity) {
 		return getProviders(entity, this.headEntityProviders);		
@@ -299,6 +307,10 @@ public class ModuleRegistrar implements IWailaRegistrar {
 		return hasProviders(block, this.tailBlockProviders);
 	}
 
+	public boolean hasNBTProviders(Object block){
+		return hasProviders(block, this.NBTDataProviders);
+	}	
+	
 	public boolean hasHeadEntityProviders(Object entity){
 		return hasProviders(entity, this.headEntityProviders);
 	}

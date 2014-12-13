@@ -13,6 +13,9 @@ import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import net.minecraftforge.common.config.Configuration;
 
 public class HUDHandlerBlocks implements IWailaDataProvider {
@@ -80,5 +83,10 @@ public class HUDHandlerBlocks implements IWailaDataProvider {
 		}
 		
 		return currenttip;
+	}
+
+	@Override
+	public NBTTagCompound getNBTData(TileEntity te, NBTTagCompound tag, World world, int x, int y, int z) {
+		return tag;
 	}
 }

@@ -3,6 +3,9 @@ package mcp.mobius.waila.api;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 
 public interface IWailaDataProvider{
 	/*
@@ -16,7 +19,7 @@ public interface IWailaDataProvider{
 	 * body to where you mostly want to put informations, and I reserve the tail for modname display 
 	 */ 
 	
-	/* Those 2 methods works exactly the same way, except they are related to a different zone in Waila HUD.
+	/* Those 3 methods works exactly the same way, except they are related to a different zone in Waila HUD.
 	 * You get in input world, player and the block location. You also get the itemstack as returned by the default lookup system or getWailaStack().
 	 * ConfigHandler provides the current Waila config state so you can show/hide elements depending on the configuration. Refer the ConfigHandler class for more info.
 	 * currenttip represents the current list of text lines in the tooltip zone.
@@ -30,4 +33,11 @@ public interface IWailaDataProvider{
 	List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config);
 	List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config);
 	List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config);
+	
+	/* This method is used server side to return a custom NBT tag for tes properly registered with the Registrar.registerNBTProvider.
+	 * It is an override to the classical way of getting NBT data via writeToNBT.
+	 * NBTTagCompound tag argument is the current NBT tag passed along by the various providers (first provider will be empty).
+	 * You HAVE TO return it if you registered as a provider, even if you are not doing anything to it (similar to the tooltip lists).
+	 * */
+	NBTTagCompound getNBTData(TileEntity te, NBTTagCompound tag, World world, int x, int y, int z);
 }

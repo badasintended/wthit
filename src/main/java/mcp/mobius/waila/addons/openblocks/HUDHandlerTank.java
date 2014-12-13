@@ -3,6 +3,9 @@ package mcp.mobius.waila.addons.openblocks;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
@@ -66,4 +69,9 @@ public class HUDHandlerTank implements IWailaDataProvider {
 		return currenttip;
 	}
 
+	@Override
+	public NBTTagCompound getNBTData(TileEntity te, NBTTagCompound tag, World world, int x, int y, int z) {
+		return tag;
+	}	
+	
 }

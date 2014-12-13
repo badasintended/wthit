@@ -40,8 +40,12 @@ public interface IWailaRegistrar {
 	 * registerNBTKey("data.life", MyEntity.class) 
 	 * registerNBTKey("*", MyTileEntity.class) will reproduce the full tag syncing from 1.4.5 
 	 * */
+	@Deprecated
 	public void registerSyncedNBTKey(String key, Class target);
 
+	/* Registering an NBT Provider provides a way to override the default "writeToNBT" way of doing things. */
+	public void registerNBTProvider(IWailaDataProvider dataProvider, Class entity);
+	
 	/* UNUSED FOR NOW (Will be used for the ingame wiki */
 	public void registerDocTextFile  (String filename);
 	public void registerShortDataProvider (IWailaSummaryProvider dataProvider, Class item);

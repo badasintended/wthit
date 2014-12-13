@@ -5,6 +5,9 @@ import java.util.List;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
@@ -101,4 +104,9 @@ public class HUDHandlerSocket implements IWailaDataProvider {
 		return currenttip;
 	}
 
+	@Override
+	public NBTTagCompound getNBTData(TileEntity te, NBTTagCompound tag, World world, int x, int y, int z) {
+		return tag;
+	}	
+	
 }

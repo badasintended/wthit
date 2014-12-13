@@ -3,6 +3,9 @@ package mcp.mobius.waila.addons.twilightforest;
 import java.util.List;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
@@ -28,4 +31,9 @@ public class TwilightForestGenericOverride implements IWailaDataProvider {
 	public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
 		return currenttip;
 	}
+	
+	@Override
+	public NBTTagCompound getNBTData(TileEntity te, NBTTagCompound tag, World world, int x, int y, int z) {
+		return tag;
+	}	
 }

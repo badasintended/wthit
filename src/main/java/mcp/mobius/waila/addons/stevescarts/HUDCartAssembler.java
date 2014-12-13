@@ -84,5 +84,8 @@ public class HUDCartAssembler implements IWailaDataProvider {
 		return currenttip;
 	}
 
-
+	@Override
+	public NBTTagCompound getNBTData(TileEntity te, NBTTagCompound tag, World world, int x, int y, int z) {
+		return tag;
+	}
 }

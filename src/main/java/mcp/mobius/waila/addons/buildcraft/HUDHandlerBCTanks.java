@@ -4,6 +4,8 @@ import java.util.List;
 
 //import buildcraft.factory.TileTank;
 
+
+
 import org.apache.logging.log4j.Level;
 
 import mcp.mobius.waila.Waila;
@@ -12,6 +14,9 @@ import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
@@ -67,5 +72,10 @@ public class HUDHandlerBCTanks implements IWailaDataProvider {
 		}
 		return tank;
 	}
+	
+	@Override
+	public NBTTagCompound getNBTData(TileEntity te, NBTTagCompound tag, World world, int x, int y, int z) {
+		return tag;
+	}	
 	
 }

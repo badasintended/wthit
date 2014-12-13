@@ -5,6 +5,9 @@ import java.util.List;
 
 import mcp.mobius.waila.cbcore.LangUtil;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
@@ -79,4 +82,9 @@ public class HUDHandlerTank implements IWailaDataProvider {
 		return currenttip;
 	}
 
+	@Override
+	public NBTTagCompound getNBTData(TileEntity te, NBTTagCompound tag, World world, int x, int y, int z) {
+		return tag;
+	}	
+	
 }
