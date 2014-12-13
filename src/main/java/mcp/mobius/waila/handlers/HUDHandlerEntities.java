@@ -7,7 +7,10 @@ import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry.EntityRegistration;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.World;
 import net.minecraftforge.common.config.Configuration;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaEntityAccessor;
@@ -94,6 +97,11 @@ public class HUDHandlerEntities implements IWailaEntityProvider {
 		return currenttip;
 	}
 
+	@Override
+	public NBTTagCompound getNBTData(Entity te, NBTTagCompound tag, World world, int x, int y, int z) {
+		return tag;
+	}	
+	
     private static String getEntityMod(Entity entity){
     	String modName = "";
     	try{

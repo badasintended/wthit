@@ -30,7 +30,14 @@ public class Message0x01TERequest extends SimpleChannelInboundHandler<Message0x0
 			classToNameMap = TileEntity.class.getDeclaredField("classToNameMap");
 			classToNameMap.setAccessible(true);
 		} catch (Exception e){
-			throw new RuntimeException(e);
+			
+			try{
+				classToNameMap = TileEntity.class.getDeclaredField("field_145853_j");
+				classToNameMap.setAccessible(true);
+			} catch (Exception f){
+				throw new RuntimeException(f);
+			}
+			
 		}
 	}
 	

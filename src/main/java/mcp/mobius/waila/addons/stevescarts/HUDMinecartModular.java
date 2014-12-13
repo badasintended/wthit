@@ -6,6 +6,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaEntityAccessor;
 import mcp.mobius.waila.api.IWailaEntityProvider;
@@ -82,4 +84,8 @@ public class HUDMinecartModular implements IWailaEntityProvider {
 		return currenttip;
 	}
 
+	@Override
+	public NBTTagCompound getNBTData(Entity te, NBTTagCompound tag, World world, int x, int y, int z) {
+		return tag;
+	}	
 }

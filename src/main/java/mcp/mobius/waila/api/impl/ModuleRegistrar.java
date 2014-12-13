@@ -40,7 +40,8 @@ public class ModuleRegistrar implements IWailaRegistrar {
 	public LinkedHashMap<Class, ArrayList<IWailaEntityProvider>> bodyEntityProviders      = new LinkedHashMap<Class, ArrayList<IWailaEntityProvider>>();
 	public LinkedHashMap<Class, ArrayList<IWailaEntityProvider>> tailEntityProviders      = new LinkedHashMap<Class, ArrayList<IWailaEntityProvider>>();
 	public LinkedHashMap<Class, ArrayList<IWailaEntityProvider>> overrideEntityProviders  = new LinkedHashMap<Class, ArrayList<IWailaEntityProvider>>();	
-
+	public LinkedHashMap<Class, ArrayList<IWailaEntityProvider>> NBTEntityProviders       = new LinkedHashMap<Class, ArrayList<IWailaEntityProvider>>();
+	
 	public LinkedHashMap<String, ArrayList<IWailaFMPProvider>> headFMPProviders = new LinkedHashMap<String, ArrayList<IWailaFMPProvider>>();
 	public LinkedHashMap<String, ArrayList<IWailaFMPProvider>> bodyFMPProviders = new LinkedHashMap<String, ArrayList<IWailaFMPProvider>>();
 	public LinkedHashMap<String, ArrayList<IWailaFMPProvider>> tailFMPProviders = new LinkedHashMap<String, ArrayList<IWailaFMPProvider>>();	
@@ -153,6 +154,11 @@ public class ModuleRegistrar implements IWailaRegistrar {
 	}	
 	
 	@Override
+	public void registerNBTProvider(IWailaEntityProvider dataProvider, Class entity) {
+		this.registerProvider(dataProvider, entity, this.NBTEntityProviders);	
+	}		
+	
+	@Override
 	public void registerHeadProvider(IWailaFMPProvider dataProvider, String name) {
 		this.registerProvider(dataProvider, name, this.headFMPProviders);		
 	}	
@@ -244,6 +250,10 @@ public class ModuleRegistrar implements IWailaRegistrar {
 		return getProviders(entity, this.overrideEntityProviders);
 	}		
 
+	public ArrayList<IWailaEntityProvider> getNBTEntityProviders(Object entity) {
+		return getProviders(entity, this.NBTEntityProviders);
+	}		
+	
 	public ArrayList<IWailaFMPProvider> getHeadFMPProviders(String name) {
 		return getProviders(name, this.headFMPProviders);		
 	}	
@@ -327,6 +337,10 @@ public class ModuleRegistrar implements IWailaRegistrar {
 
 	public boolean hasOverrideEntityProviders(Object entity){
 		return hasProviders(entity, this.overrideEntityProviders);
+	}		
+	
+	public boolean hasNBTEntityProviders(Object entity){
+		return hasProviders(entity, this.NBTEntityProviders);
 	}		
 	
 	public boolean hasHeadFMPProviders(String name){

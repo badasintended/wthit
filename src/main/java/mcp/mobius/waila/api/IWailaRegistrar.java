@@ -19,11 +19,17 @@ public interface IWailaRegistrar {
 	public void registerBodyProvider (IWailaDataProvider dataProvider, Class block);
 	public void registerTailProvider (IWailaDataProvider dataProvider, Class block);	
 
+	/* Registering an NBT Provider provides a way to override the default "writeToNBT" way of doing things. */
+	public void registerNBTProvider(IWailaDataProvider dataProvider, Class block);	
+	
 	/* Entity text registration methods */
 	public void registerHeadProvider     (IWailaEntityProvider dataProvider, Class entity);
 	public void registerBodyProvider     (IWailaEntityProvider dataProvider, Class entity);
 	public void registerTailProvider     (IWailaEntityProvider dataProvider, Class entity);
 	public void registerOverrideEntityProvider (IWailaEntityProvider dataProvider, Class entity);
+
+	/* Registering an NBT Provider provides a way to override the default "writeToNBT" way of doing things. */
+	public void registerNBTProvider(IWailaEntityProvider dataProvider, Class entity);	
 	
 	/* FMP Providers */
 	public void registerHeadProvider(IWailaFMPProvider dataProvider, String name);
@@ -45,9 +51,6 @@ public interface IWailaRegistrar {
 	 * */
 	@Deprecated
 	public void registerSyncedNBTKey(String key, Class target);
-
-	/* Registering an NBT Provider provides a way to override the default "writeToNBT" way of doing things. */
-	public void registerNBTProvider(IWailaDataProvider dataProvider, Class entity);
 	
 	/* UNUSED FOR NOW (Will be used for the ingame wiki */
 	public void registerDocTextFile  (String filename);
