@@ -32,8 +32,9 @@ public class ThermalExpansionModule {
 			IEnergyHandler_getMaxStorage = IEnergyHandler.getMethod("getMaxEnergyStored", ForgeDirection.class);
 			
 			ModuleRegistrar.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.energyhandler");			
-			ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerIEnergyHandler(), IEnergyHandler);			
-			ModuleRegistrar.instance().registerSyncedNBTKey("Energy", IEnergyHandler);
+			ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerIEnergyHandler(), IEnergyHandler);
+			ModuleRegistrar.instance().registerNBTProvider (new HUDHandlerIEnergyHandler(), IEnergyHandler);
+			//ModuleRegistrar.instance().registerSyncedNBTKey("Energy", IEnergyHandler);
 			
 		} catch (Exception e){
 			Waila.log.log(Level.WARN, "[Thermal Expansion] Error while loading Energy hooks." + e);
@@ -45,8 +46,9 @@ public class ThermalExpansionModule {
 			
 			ModuleRegistrar.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.energycell");			
 			ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerEnergyCell(), TileEnergyCell);
-			ModuleRegistrar.instance().registerSyncedNBTKey("Recv", TileEnergyCell);
-			ModuleRegistrar.instance().registerSyncedNBTKey("Send", TileEnergyCell);
+			ModuleRegistrar.instance().registerNBTProvider (new HUDHandlerEnergyCell(), TileEnergyCell);
+			//ModuleRegistrar.instance().registerSyncedNBTKey("Recv", TileEnergyCell);
+			//ModuleRegistrar.instance().registerSyncedNBTKey("Send", TileEnergyCell);
 			
 		} catch (Exception e){
 			Waila.log.log(Level.WARN, "[Thermal Expansion] Error while loading Energy Cell hooks." + e);
@@ -63,8 +65,9 @@ public class ThermalExpansionModule {
 			ModuleRegistrar.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.fluidamount");
 			ModuleRegistrar.instance().addConfig("Thermal Expansion", "thermalexpansion.tankmode");
 			ModuleRegistrar.instance().registerHeadProvider(new HUDHandlerTank(), TileTank);
-			ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTank(), TileTank);			
-			ModuleRegistrar.instance().registerSyncedNBTKey("Amount", TileTank);
+			ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTank(), TileTank);		
+			ModuleRegistrar.instance().registerNBTProvider (new HUDHandlerTank(), TileTank);
+			//ModuleRegistrar.instance().registerSyncedNBTKey("Amount", TileTank);
 			
 		} catch (Exception e){
 			Waila.log.log(Level.WARN, "[Thermal Expansion] Error while loading Tank hooks." + e);
@@ -77,7 +80,8 @@ public class ThermalExpansionModule {
 			ModuleRegistrar.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.tesssendrecv");
 			ModuleRegistrar.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.tessfreq");
 			ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTesseract(), TileTesseract);
-			ModuleRegistrar.instance().registerSyncedNBTKey("*", TileTesseract);
+			ModuleRegistrar.instance().registerNBTProvider (new HUDHandlerTesseract(), TileTesseract);
+			//ModuleRegistrar.instance().registerSyncedNBTKey("*", TileTesseract);
 			
 		} catch (Exception e){
 			Waila.log.log(Level.WARN, "[Thermal Expansion] Error while loading Tesseract hooks." + e);
@@ -89,8 +93,9 @@ public class ThermalExpansionModule {
 			
 			ModuleRegistrar.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.owner");		
 			ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerISecureTile(), ISecureTile);
-			ModuleRegistrar.instance().registerSyncedNBTKey("Owner", ISecureTile);
-			ModuleRegistrar.instance().registerSyncedNBTKey("Access", ISecureTile);
+			ModuleRegistrar.instance().registerNBTProvider (new HUDHandlerISecureTile(), ISecureTile);
+			//ModuleRegistrar.instance().registerSyncedNBTKey("Owner", ISecureTile);
+			//ModuleRegistrar.instance().registerSyncedNBTKey("Access", ISecureTile);
 			
 		} catch (Exception e){
 			Waila.log.log(Level.WARN, "[Thermal Expansion] Error while loading ISecureTile hooks." + e);

@@ -3,11 +3,15 @@ package mcp.mobius.waila.network;
 import java.util.HashSet;
 
 import cpw.mods.fml.common.FMLCommonHandler;
+import mcp.mobius.waila.api.IWailaDataProvider;
+import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.utils.NBTUtil;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
+import net.minecraft.block.Block;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelFutureListener;
@@ -66,12 +70,34 @@ public class Message0x01TERequest extends SimpleChannelInboundHandler<Message0x0
 	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, Message0x01TERequest msg) throws Exception {
         MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
-        TileEntity      entity = DimensionManager.getWorld(msg.dim).getTileEntity(msg.posX, msg.posY, msg.posZ);
+        World           world  = DimensionManager.getWorld(msg.dim);
+        TileEntity      entity = world.getTileEntity(msg.posX, msg.posY, msg.posZ);
+        Block           block  = world.getBlock(msg.posX, msg.posY, msg.posZ);
+        
         if (entity != null){
         	try{
-        		NBTTagCompound tag = new NBTTagCompound();
-        		entity.writeToNBT(tag);
-        		ctx.writeAndFlush(new Message0x02TENBTData(NBTUtil.createTag(tag, msg.keys))).addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
+        		NBTTagCompound tag  = new NBTTagCompound();
+        		boolean hasNBTBlock = ModuleRegistrar.instance().hasNBTProviders(block);
+        		boolean hasNBTEnt   = ModuleRegistrar.instance().hasNBTProviders(entity);
+        		
+        		if (hasNBTBlock){
+        			for (IWailaDataProvider provider : ModuleRegistrar.instance().getNBTProviders(block))
+        				tag = provider.getNBTData(entity, tag, world, msg.posX, msg.posY, msg.posZ);
+        		}
+        		
+        		if (hasNBTEnt){
+        			for (IWailaDataProvider provider : ModuleRegistrar.instance().getNBTProviders(entity))
+        				tag = provider.getNBTData(entity, tag, world, msg.posX, msg.posY, msg.posZ);
+        		} 
+        			
+        		if (!hasNBTBlock && !hasNBTEnt) {
+        			entity.writeToNBT(tag);
+        			tag = NBTUtil.createTag(tag, msg.keys);
+        		}
+        			
+    			ctx.writeAndFlush(new Message0x02TENBTData(tag)).addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);        			
+        		
+        		
         	}catch(Throwable e){
         		WailaExceptionHandler.handleErr(e, entity.getClass().toString(), null);
         	}

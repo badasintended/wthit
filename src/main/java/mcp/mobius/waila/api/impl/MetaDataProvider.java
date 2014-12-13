@@ -74,8 +74,9 @@ public class MetaDataProvider{
 			if (ModuleRegistrar.instance().hasSyncedNBTKeys(accessor.getTileEntity()))
 				keys.addAll(ModuleRegistrar.instance().getSyncedNBTKeys(accessor.getTileEntity()));			
 			
-			if (keys.size() != 0)
+			if (keys.size() != 0 || ModuleRegistrar.instance().hasNBTProviders(block) || ModuleRegistrar.instance().hasNBTProviders(accessor.getTileEntity()))
 				WailaPacketHandler.INSTANCE.sendToServer(new Message0x01TERequest(accessor.getTileEntity(), keys));
+			
 		} else if (accessor.getTileEntity() != null && !Waila.instance.serverPresent && accessor.isTimeElapsed(250)) {
 			
 			try{

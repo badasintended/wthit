@@ -197,6 +197,7 @@ public class ModuleRegistrar implements IWailaRegistrar {
 		target.get(clazz).add(dataProvider);		
 	}	
 	
+	@Deprecated
 	@Override
 	public void registerSyncedNBTKey(String key, Class target){
 		if (!this.syncedNBTKeys.containsKey(target))
@@ -280,6 +281,7 @@ public class ModuleRegistrar implements IWailaRegistrar {
 		return target.get(name);		
 	}		
 	
+	@Deprecated
 	public HashSet<String> getSyncedNBTKeys(Object target){
 		HashSet<String> returnList = new HashSet<String>();
 		for (Class clazz : this.syncedNBTKeys.keySet())
@@ -362,6 +364,7 @@ public class ModuleRegistrar implements IWailaRegistrar {
 		return this.summaryProviders.containsKey(item);
 	}	
 	
+	@Deprecated
 	public boolean hasSyncedNBTKeys(Object target){
 		for (Class clazz : this.syncedNBTKeys.keySet())
 			if (clazz.isInstance(target))
