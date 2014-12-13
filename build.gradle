@@ -55,8 +55,8 @@ dependencies {
 }
 
 minecraft {
-    version = "1.7.10-10.13.2.1258"
-    assetDir = "eclipse/assets"
+    version = "1.7.10-10.13.2.1264"
+    runDir = "eclipse"
 }
 
 def root = project.projectDir.parentFile
