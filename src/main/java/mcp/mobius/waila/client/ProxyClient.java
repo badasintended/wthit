@@ -109,7 +109,7 @@ public class ProxyClient extends ProxyServer {
 		HUDHandlerVanilla.register();
 		
 		/* BUILDCRAFT */
-		BCModule.register();
+		//BCModule.register();
 		
 		/* INDUSTRIALCRAFT2 */
 		//IC2Module.register();
