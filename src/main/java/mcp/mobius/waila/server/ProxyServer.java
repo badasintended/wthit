@@ -7,6 +7,7 @@ import java.util.LinkedHashMap;
 import cpw.mods.fml.common.Loader;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.addons.agriculture.AgricultureModule;
+import mcp.mobius.waila.addons.buildcraft.BCModule;
 import mcp.mobius.waila.addons.carpenters.CarpentersModule;
 import mcp.mobius.waila.addons.enderio.EnderIOModule;
 import mcp.mobius.waila.addons.enderstorage.EnderStorageModule;
@@ -41,7 +42,7 @@ public class ProxyServer {
 		HUDHandlerVanilla.register();
 		
 		/* BUILDCRAFT */
-		//BCModule.register();
+		BCModule.register();
 		
 		/* INDUSTRIALCRAFT2 */
 		//IC2Module.register();
@@ -66,9 +67,6 @@ public class ProxyServer {
 		
 		/* EnderIO */
 		EnderIOModule.register();		
-		
-		/* Buildcraft Power API */
-		//BCPowerAPIModule.register();
 		
 		/* ProjectRed API */
 		ProjectRedModule.register();

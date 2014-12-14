@@ -29,7 +29,6 @@ public class BCModule {
 			ModuleRegistrar.instance().addConfig("Buildcraft", "bc.tanktype");
 			ModuleRegistrar.instance().registerHeadProvider(new HUDHandlerBCTanks(), TileTank);			
 			ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerBCTanks(), TileTank);
-			ModuleRegistrar.instance().registerNBTProvider (new HUDHandlerBCTanks(), TileTank);			
 			
 		} catch (ClassNotFoundException e){
 			Waila.log.log(Level.WARN, "[BC] Class not found. " + e);

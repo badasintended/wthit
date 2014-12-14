@@ -34,8 +34,6 @@ public class TwilightForestGenericOverride implements IWailaDataProvider {
 	
 	@Override
 	public NBTTagCompound getNBTData(TileEntity te, NBTTagCompound tag, World world, int x, int y, int z) {
-		if (te != null)
-			te.writeToNBT(tag);
 		return tag;
 	}	
 }
