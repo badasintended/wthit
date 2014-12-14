@@ -1,6 +1,7 @@
 package mcp.mobius.waila.addons.ic2;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 import org.apache.logging.log4j.Level;
 
@@ -85,9 +86,8 @@ public class IC2Module {
 			ModuleRegistrar.instance().addConfigRemote("IndustrialCraft2", "ic2.outputeu");			
 			
 		} catch (Exception e){
-			Waila.log.log(Level.WARN, "[IndustrialCraft 2] Error while loading TileEntityBaseGenerator hooks." + e);
+			Waila.log.log(Level.WARN, "[IndustrialCraft 2] Error while loading generator hooks." + e);
 		}		
-		
 	}
 	
 }
