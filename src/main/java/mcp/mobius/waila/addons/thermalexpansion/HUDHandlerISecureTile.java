@@ -70,7 +70,7 @@ public class HUDHandlerISecureTile implements IWailaDataProvider {
 			tag.setInteger("Access", access);
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 		return tag;
 	}	

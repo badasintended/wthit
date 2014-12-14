@@ -101,7 +101,7 @@ public class HUDHandlerTesseract implements IWailaDataProvider {
 			tag.setByte("Fluid.Mode", modeFluid);
 			tag.setByte("Energy.Mode", modeEnergy);
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 		return tag;
 	}	

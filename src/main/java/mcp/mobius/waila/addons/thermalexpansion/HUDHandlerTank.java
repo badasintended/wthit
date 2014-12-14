@@ -88,7 +88,7 @@ public class HUDHandlerTank implements IWailaDataProvider {
 			int amount = (Integer) ThermalExpansionModule.TileTank_getTankAmount.invoke(te);
 			tag.setInteger("Amount", amount);
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 		return tag;
 	}	

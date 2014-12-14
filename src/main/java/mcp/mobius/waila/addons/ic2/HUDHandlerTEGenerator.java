@@ -100,6 +100,7 @@ public class HUDHandlerTEGenerator implements IWailaDataProvider {
 			tag.setDouble ("storage",    storage);
 			tag.setLong   ("production", production);
 			tag.setLong   ("maxStorage", maxStorage);
+			
 		} catch (Exception e){
 			throw new RuntimeException(e);
 		}

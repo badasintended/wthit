@@ -49,7 +49,7 @@ public class HUDHandlerEnergyCell implements IWailaDataProvider {
 			tag.setInteger("Recv", recv);
 			tag.setInteger("Send", send);
 		} catch (Exception e) {
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 		return tag;
 	}	

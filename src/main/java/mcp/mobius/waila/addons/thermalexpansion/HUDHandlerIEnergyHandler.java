@@ -53,6 +53,7 @@ public class HUDHandlerIEnergyHandler implements IWailaDataProvider {
 		try{
 			int energy = (Integer) ThermalExpansionModule.IEnergyHandler_getCurStorage.invoke(te, ForgeDirection.UNKNOWN);
 			tag.setInteger("Energy", energy);
+			
 		} catch (Exception e){
 			throw new RuntimeException(e);
 		}
