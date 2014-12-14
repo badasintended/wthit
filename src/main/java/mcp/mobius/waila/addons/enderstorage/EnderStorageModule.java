@@ -52,7 +52,7 @@ public class EnderStorageModule {
 		}
 		
 		ModuleRegistrar.instance().addConfig("EnderStorage", "enderstorage.colors");		
-		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerStorage(),    TileFrequencyOwner);
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", TileFrequencyOwner);
+		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerStorage(), TileFrequencyOwner);
+		ModuleRegistrar.instance().registerNBTProvider (new HUDHandlerStorage(), TileFrequencyOwner);
 	}
 }

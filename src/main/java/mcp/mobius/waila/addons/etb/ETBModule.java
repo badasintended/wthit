@@ -78,6 +78,6 @@ public class ETBModule {
 		
 		ModuleRegistrar.instance().addConfig("Engineer Toolbox", "etb.displaydata");
 		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerSocket(), TileSocket);
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", TileSocket);
+		ModuleRegistrar.instance().registerNBTProvider (new HUDHandlerSocket(), TileSocket);
 	}
 }

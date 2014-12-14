@@ -86,6 +86,8 @@ public class HUDMinecartModular implements IWailaEntityProvider {
 
 	@Override
 	public NBTTagCompound getNBTData(Entity te, NBTTagCompound tag) {
+		if (te != null)
+			te.writeToNBT(tag);
 		return tag;
 	}	
 }

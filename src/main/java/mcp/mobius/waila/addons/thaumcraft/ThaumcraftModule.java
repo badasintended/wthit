@@ -62,8 +62,8 @@ public class ThaumcraftModule {
 		ModuleRegistrar.instance().addConfigRemote("Thaumcraft", "thaumcraft.aspects");		
 		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerIAspectContainer(), IAspectContainer);
 		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerIAspectContainer(), TileAlchemyFurnace);
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", IAspectContainer);
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", TileAlchemyFurnace);		
+		ModuleRegistrar.instance().registerNBTProvider (new HUDHandlerIAspectContainer(), IAspectContainer);
+		ModuleRegistrar.instance().registerNBTProvider (new HUDHandlerIAspectContainer(), TileAlchemyFurnace);		
 	}
 
 }

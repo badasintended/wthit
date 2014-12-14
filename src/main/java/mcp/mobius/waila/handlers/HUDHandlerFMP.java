@@ -81,6 +81,8 @@ public class HUDHandlerFMP implements IWailaDataProvider {
 
 	@Override
 	public NBTTagCompound getNBTData(TileEntity te, NBTTagCompound tag, World world, int x, int y, int z) {
+		if (te != null)
+			te.writeToNBT(tag);
 		return tag;
 	}
 	
@@ -99,7 +101,7 @@ public class HUDHandlerFMP implements IWailaDataProvider {
 		ModuleRegistrar.instance().registerHeadProvider(new HUDHandlerFMP(), BlockMultipart);		
 		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerFMP(), BlockMultipart);		
 		ModuleRegistrar.instance().registerTailProvider(new HUDHandlerFMP(), BlockMultipart);
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", BlockMultipart);
+		ModuleRegistrar.instance().registerNBTProvider (new HUDHandlerFMP(), BlockMultipart);
 		
 		Waila.log.log(Level.INFO, "Forge Multipart found and dedicated handler registered");
 		

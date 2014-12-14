@@ -73,7 +73,7 @@ public class BCPowerAPIModule {
 		ModuleRegistrar.instance().addConfig("BuildcraftAPI", "bcapi.consump");
 		ModuleRegistrar.instance().addConfig("BuildcraftAPI", "bcapi.trigger");
 		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerIPowerReceptor(), IPowerReceptor);
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", IPowerReceptor);
+		ModuleRegistrar.instance().registerNBTProvider (new HUDHandlerIPowerReceptor(), IPowerReceptor);
 
 	}	
 	
