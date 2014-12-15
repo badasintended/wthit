@@ -49,7 +49,7 @@ public class ProxyServer {
 		IC2Module.register();
 		
 		/*Thaumcraft*/
-		ThaumcraftModule.register();
+		//ThaumcraftModule.register();
 		
 		/*EnderStorage*/
 		EnderStorageModule.register();
