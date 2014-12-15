@@ -118,6 +118,11 @@ public class Message0x01TERequest extends SimpleChannelInboundHandler<Message0x0
         			tag = NBTUtil.createTag(tag, msg.keys);
         		}
 
+    			tag.setInteger("WailaX", msg.posX);
+        		tag.setInteger("WailaY", msg.posY);
+        		tag.setInteger("WailaZ", msg.posZ);
+        		tag.setString ("WailaID", (String)((HashMap)classToNameMap.get(null)).get(entity.getClass()));        		
+        		
     			ctx.writeAndFlush(new Message0x02TENBTData(tag)).addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);        			
         		
         		

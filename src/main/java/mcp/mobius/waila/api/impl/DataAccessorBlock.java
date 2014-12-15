@@ -131,9 +131,9 @@ public class DataAccessorBlock implements IWailaDataAccessor {
 			return false;
 		}
 		
-		int x = tag.getInteger("x");
-		int y = tag.getInteger("y");
-		int z = tag.getInteger("z");
+		int x = tag.getInteger("WailaX");
+		int y = tag.getInteger("WailaY");
+		int z = tag.getInteger("WailaZ");
 		
 		if (x == this.mop.blockX && y == this.mop.blockY && z == this.mop.blockZ)
 			return true;
