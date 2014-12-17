@@ -49,7 +49,7 @@ public class ProxyServer {
 		IC2Module.register();
 		
 		/*Thaumcraft*/
-		//ThaumcraftModule.register();
+		ThaumcraftModule.register();
 		
 		/*EnderStorage*/
 		EnderStorageModule.register();
@@ -67,7 +67,7 @@ public class ProxyServer {
 		ETBModule.register();
 		
 		/* EnderIO */
-		EnderIOModule.register();		
+		//EnderIOModule.register();		
 		
 		/* ProjectRed API */
 		ProjectRedModule.register();

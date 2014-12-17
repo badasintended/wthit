@@ -5,6 +5,7 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRedstoneOre;
 import net.minecraft.block.BlockSilverfish;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
@@ -206,7 +207,7 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 	}	
 	
 	@Override
-	public NBTTagCompound getNBTData(TileEntity te, NBTTagCompound tag, World world, int x, int y, int z) {
+	public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, int x, int y, int z) {
 		if (te != null)
 			te.writeToNBT(tag);
 		return tag;

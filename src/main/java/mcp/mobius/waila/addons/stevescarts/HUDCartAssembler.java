@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -85,7 +86,7 @@ public class HUDCartAssembler implements IWailaDataProvider {
 	}
 
 	@Override
-	public NBTTagCompound getNBTData(TileEntity te, NBTTagCompound tag, World world, int x, int y, int z) {
+	public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, int x, int y, int z) {
 		if (te != null)
 			te.writeToNBT(tag);
 		return tag;

@@ -3,6 +3,7 @@ package mcp.mobius.waila.addons.thermalexpansion;
 import java.util.List;
 
 import mcp.mobius.waila.cbcore.LangUtil;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -61,7 +62,7 @@ public class HUDHandlerISecureTile implements IWailaDataProvider {
 	}
 
 	@Override
-	public NBTTagCompound getNBTData(TileEntity te, NBTTagCompound tag, World world, int x, int y, int z) {
+	public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, int x, int y, int z) {
 		try {
 			String owner = (String) ThermalExpansionModule.ISecureTile_getOwnerName.invoke(te);
 			int    access = ((Enum) ThermalExpansionModule.ISecureTile_getAccess.invoke(te)).ordinal();

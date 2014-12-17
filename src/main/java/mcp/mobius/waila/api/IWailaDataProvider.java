@@ -2,6 +2,7 @@ package mcp.mobius.waila.api;
 
 import java.util.List;
 
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -39,5 +40,5 @@ public interface IWailaDataProvider{
 	 * NBTTagCompound tag argument is the current NBT tag passed along by the various providers (first provider will be empty).
 	 * You HAVE TO return it if you registered as a provider, even if you are not doing anything to it (similar to the tooltip lists).
 	 * */
-	NBTTagCompound getNBTData(TileEntity te, NBTTagCompound tag, World world, int x, int y, int z);
+	NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, int x, int y, int z);
 }

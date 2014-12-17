@@ -3,6 +3,7 @@ package mcp.mobius.waila.addons.thermalexpansion;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -49,7 +50,7 @@ public class HUDHandlerIEnergyHandler implements IWailaDataProvider {
 	}
 
 	@Override
-	public NBTTagCompound getNBTData(TileEntity te, NBTTagCompound tag, World world, int x, int y, int z) {
+	public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, int x, int y, int z) {
 		try{
 			int energy = (Integer) ThermalExpansionModule.IEnergyHandler_getCurStorage.invoke(te, ForgeDirection.UNKNOWN);
 			tag.setInteger("Energy", energy);

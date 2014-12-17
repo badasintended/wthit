@@ -6,12 +6,15 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.utils.NBTUtil;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -107,17 +110,34 @@ public class Message0x01TERequest extends SimpleChannelInboundHandler<Message0x0
             		tag.setInteger("z", msg.posZ);
             		tag.setString ("id", (String)((HashMap)classToNameMap.get(null)).get(entity.getClass()));
             		
-        			for (IWailaDataProvider provider : ModuleRegistrar.instance().getNBTProviders(block))
-        				tag = provider.getNBTData(entity, tag, world, msg.posX, msg.posY, msg.posZ);
+            		EntityPlayerMP player = ((NetHandlerPlayServer) ctx.channel().attr(NetworkRegistry.NET_HANDLER).get()).playerEntity;
+            		
+        			for (IWailaDataProvider provider : ModuleRegistrar.instance().getNBTProviders(block)){
+        				try{
+        					tag = provider.getNBTData(player, entity, tag, world, msg.posX, msg.posY, msg.posZ);
+        				} catch (AbstractMethodError ame){
+        					Method getNBTData = provider.getClass().getMethod("getNBTData", TileEntity.class, NBTTagCompound.class, World.class, int.class, int.class, int.class);
+        					tag = (NBTTagCompound)getNBTData.invoke(provider, entity, tag, world, msg.posX, msg.posY, msg.posZ);
+        				}
+        			}
         			
-        			for (IWailaDataProvider provider : ModuleRegistrar.instance().getNBTProviders(entity))
-        				tag = provider.getNBTData(entity, tag, world, msg.posX, msg.posY, msg.posZ);  
+        			for (IWailaDataProvider provider : ModuleRegistrar.instance().getNBTProviders(entity)){
+        				try{        				
+        					tag = provider.getNBTData(player, entity, tag, world, msg.posX, msg.posY, msg.posZ);
+        				} catch (AbstractMethodError ame){
+        					Method getNBTData = provider.getClass().getMethod("getNBTData", TileEntity.class, NBTTagCompound.class, World.class, int.class, int.class, int.class);
+        					tag = (NBTTagCompound)getNBTData.invoke(provider, entity, tag, world, msg.posX, msg.posY, msg.posZ);
+        				}       					
+        			}
         			
         		} else {
         			entity.writeToNBT(tag);
         			tag = NBTUtil.createTag(tag, msg.keys);
         		}
 
+        		for (Object s : tag.func_150296_c())
+        			System.out.printf("%s\n", s);
+        		
     			tag.setInteger("WailaX", msg.posX);
         		tag.setInteger("WailaY", msg.posY);
         		tag.setInteger("WailaZ", msg.posZ);
@@ -127,6 +147,7 @@ public class Message0x01TERequest extends SimpleChannelInboundHandler<Message0x0
         		
         		
         	}catch(Throwable e){
+        		e.printStackTrace();
         		WailaExceptionHandler.handleErr(e, entity.getClass().toString(), null);
         	}
         }

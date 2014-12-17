@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import mcp.mobius.waila.cbcore.LangUtil;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -83,7 +84,7 @@ public class HUDHandlerTank implements IWailaDataProvider {
 	}
 
 	@Override
-	public NBTTagCompound getNBTData(TileEntity te, NBTTagCompound tag, World world, int x, int y, int z) {
+	public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, int x, int y, int z) {
 		try {
 			int amount = (Integer) ThermalExpansionModule.TileTank_getTankAmount.invoke(te);
 			tag.setInteger("Amount", amount);

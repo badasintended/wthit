@@ -2,6 +2,7 @@ package mcp.mobius.waila.addons.stevescarts;
 
 import java.util.List;
 
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -126,7 +127,7 @@ public class HUDLiquidManager implements IWailaDataProvider {
 	}	
 	
 	@Override
-	public NBTTagCompound getNBTData(TileEntity te, NBTTagCompound tag, World world, int x, int y, int z) {
+	public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, int x, int y, int z) {
 		if (te != null)
 			te.writeToNBT(tag);
 		return tag;

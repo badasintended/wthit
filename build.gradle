@@ -17,6 +17,8 @@ buildscript {
 
 configurations {
     deployerJars
+    //packed
+    //compile.extendsFrom packed  
 }
 
 //add dependency repositories
@@ -91,9 +93,25 @@ processResources
     }
 }
 
+//def commonManifest = {
+//    attributes 'FMLCorePlugin': 'mcp.mobius.wailacore.asm.CoreDescription'
+//    attributes 'FMLCorePluginContainsFMLMod': 'mcp.mobius.waila.Waila'
+//}
+
 jar { 
-exclude "**/client/gui/inventory/GuiContainer.class" 
-exclude "**/client/gui/inventory/GuiContainer.java" 
+    exclude "**/client/gui/inventory/GuiContainer.class" 
+    exclude "**/client/gui/inventory/GuiContainer.java" 
+
+//    manifest commonManifest
+
+//    from {
+//        configurations.packed.collect {
+//            it.isDirectory() ? it : zipTree(it).matching {
+//                exclude "META-INF", "META-INF/**", "*META-INF*", "meta-inf"
+//                exclude "**.jar", "**/*.jar", "*.jar"
+//            }
+//        }
+//    }
 }
 
 task sourceJar(type: Jar) {

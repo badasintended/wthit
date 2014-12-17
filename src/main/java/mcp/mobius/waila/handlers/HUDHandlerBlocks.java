@@ -10,6 +10,7 @@ import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.ModIdentification;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -86,7 +87,7 @@ public class HUDHandlerBlocks implements IWailaDataProvider {
 	}
 
 	@Override
-	public NBTTagCompound getNBTData(TileEntity te, NBTTagCompound tag, World world, int x, int y, int z) {
+	public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, int x, int y, int z) {
 		return tag;
 	}
 }
