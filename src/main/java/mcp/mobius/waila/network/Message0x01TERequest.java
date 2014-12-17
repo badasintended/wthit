@@ -134,9 +134,6 @@ public class Message0x01TERequest extends SimpleChannelInboundHandler<Message0x0
         			entity.writeToNBT(tag);
         			tag = NBTUtil.createTag(tag, msg.keys);
         		}
-
-        		for (Object s : tag.func_150296_c())
-        			System.out.printf("%s\n", s);
         		
     			tag.setInteger("WailaX", msg.posX);
         		tag.setInteger("WailaY", msg.posY);

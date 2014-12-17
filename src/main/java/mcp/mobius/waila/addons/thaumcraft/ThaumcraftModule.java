@@ -20,12 +20,21 @@ public class ThaumcraftModule {
 	
 	public static Class  AspectList = null;
 	public static Method AspectList_writeToNBT = null;
+	public static Field  AspectList_aspects = null;
+
+	public static Class TileAlchemyFurnace = null;
+	public static Field TileAlchemyFurnace_aspects = null;	
+	
+	public static Class  Aspect = null;
+	public static Field  Aspect_tag = null;		
 	
 	public static Class  CommonProxy = null;
 	public static Method CommonProxy_getKnownAspects = null;
-	
+
+	public static Class IGoggles = null;	
+
 	//public static Class TileAlchemyFurnace = null;
-	//public static Class IGoggles = null;	
+	
 	
 	public static void register(){
 		try{
@@ -37,18 +46,25 @@ public class ThaumcraftModule {
 			
 			AspectList                  = Class.forName("thaumcraft.api.aspects.AspectList");
 			AspectList_writeToNBT       = AspectList.getDeclaredMethod("writeToNBT", NBTTagCompound.class);
+			AspectList_aspects          = AspectList.getDeclaredField("aspects");
+
+			TileAlchemyFurnace          = Class.forName("thaumcraft.common.tiles.TileAlchemyFurnace");
+			TileAlchemyFurnace_aspects  = TileAlchemyFurnace.getDeclaredField("aspects");
+			
+			Aspect                      = Class.forName("thaumcraft.api.aspects.Aspect");
+			Aspect_tag                  = Aspect.getDeclaredField("tag");
+			Aspect_tag.setAccessible(true);
 			
 			CommonProxy                 = Class.forName("thaumcraft.common.CommonProxy");
 			CommonProxy_getKnownAspects = CommonProxy.getDeclaredMethod("getKnownAspects");
-			
-			//TileAlchemyFurnace = Class.forName("thaumcraft.common.tiles.TileAlchemyFurnace");
-			//IGoggles           = Class.forName("thaumcraft.api.IGoggles");			
+
+			IGoggles           			= Class.forName("thaumcraft.api.IGoggles");			
 
 			ModuleRegistrar.instance().addConfigRemote("Thaumcraft", "thaumcraft.aspects");		
 			ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerIAspectContainer(), IAspectContainer);
-			//ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerIAspectContainer(), TileAlchemyFurnace);
+			ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerIAspectContainer(), TileAlchemyFurnace);
 			ModuleRegistrar.instance().registerNBTProvider (new HUDHandlerIAspectContainer(), IAspectContainer);
-			//ModuleRegistrar.instance().registerNBTProvider (new HUDHandlerIAspectContainer(), TileAlchemyFurnace);
+			ModuleRegistrar.instance().registerNBTProvider (new HUDHandlerIAspectContainer(), TileAlchemyFurnace);
 			
 		} catch (ClassNotFoundException e){
 			Waila.log.log(Level.WARN, "[Thaumcraft] Class not found. " + e);
