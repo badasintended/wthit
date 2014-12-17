@@ -4,12 +4,28 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
 public class TipList<E> extends ArrayList<E> {
 	Map<E, Set<String>> tags = new HashMap();
+	
+	public boolean add(E e, String tag){
+		if (!tags.containsKey(e))
+			tags.put(e, new HashSet<String>());		
+		tags.get(e).add(tag);
+		return super.add(e);
+	}
+	
+	public boolean add(E e, List<String> taglst){
+		if (!tags.containsKey(e))
+			tags.put(e, new HashSet<String>());
+		tags.get(e).addAll(taglst);
+		
+		return super.add(e);
+	}	
 	
 	public Set<String> getTags(E e){
 		Set<String> ret = tags.get(e);
@@ -53,6 +69,11 @@ public class TipList<E> extends ArrayList<E> {
 				ret.add(s.getKey());
 		}
 		return ret;
+	}	
+	
+	public void removeEntries(String tag){
+		for (E e : this.getEntries(tag))
+			this.remove(e);
 	}	
 	
 	public String getTagsAsString(E e){

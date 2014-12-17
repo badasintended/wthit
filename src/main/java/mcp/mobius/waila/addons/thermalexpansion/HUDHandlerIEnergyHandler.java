@@ -36,9 +36,7 @@ public class HUDHandlerIEnergyHandler implements IWailaDataProvider {
 		int maxEnergy = accessor.getNBTInteger(accessor.getNBTData(), "MaxStorage");
 		try {
 			if ((maxEnergy != 0) && (((TipList)currenttip).getEntries("RFEnergyStorage").size() == 0)){
-				String s = String.format("%d / %d RF", energy, maxEnergy);
-				currenttip.add(s);
-				((TipList)currenttip).addTag(s, "RFEnergyStorage");
+				((TipList)currenttip).add(String.format("%d / %d RF", energy, maxEnergy), "RFEnergyStorage");
 			}
 		} catch (Exception e){    
 			currenttip = WailaExceptionHandler.handleErr(e, accessor.getTileEntity().getClass().getName(), currenttip);
