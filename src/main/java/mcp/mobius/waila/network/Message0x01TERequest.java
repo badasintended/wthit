@@ -1,13 +1,23 @@
 package mcp.mobius.waila.network;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.HashSet;
 
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.network.NetworkRegistry;
+import mcp.mobius.waila.api.IWailaDataProvider;
+import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.utils.NBTUtil;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
+import net.minecraft.block.Block;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelFutureListener;
@@ -15,6 +25,24 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
 public class Message0x01TERequest extends SimpleChannelInboundHandler<Message0x01TERequest> implements IWailaMessage {
+	
+	private static Field classToNameMap = null;
+	
+	static{
+		try{
+			classToNameMap = TileEntity.class.getDeclaredField("classToNameMap");
+			classToNameMap.setAccessible(true);
+		} catch (Exception e){
+			
+			try{
+				classToNameMap = TileEntity.class.getDeclaredField("field_145853_j");
+				classToNameMap.setAccessible(true);
+			} catch (Exception f){
+				throw new RuntimeException(f);
+			}
+			
+		}
+	}
 	
 	public int dim;
 	public int posX;
@@ -66,13 +94,57 @@ public class Message0x01TERequest extends SimpleChannelInboundHandler<Message0x0
 	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, Message0x01TERequest msg) throws Exception {
         MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
-        TileEntity      entity = DimensionManager.getWorld(msg.dim).getTileEntity(msg.posX, msg.posY, msg.posZ);
+        World           world  = DimensionManager.getWorld(msg.dim);
+        TileEntity      entity = world.getTileEntity(msg.posX, msg.posY, msg.posZ);
+        Block           block  = world.getBlock(msg.posX, msg.posY, msg.posZ);
+        
         if (entity != null){
         	try{
-        		NBTTagCompound tag = new NBTTagCompound();
-        		entity.writeToNBT(tag);
-        		ctx.writeAndFlush(new Message0x02TENBTData(NBTUtil.createTag(tag, msg.keys))).addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
+        		NBTTagCompound tag  = new NBTTagCompound();
+        		boolean hasNBTBlock = ModuleRegistrar.instance().hasNBTProviders(block);
+        		boolean hasNBTEnt   = ModuleRegistrar.instance().hasNBTProviders(entity);
+
+        		if (hasNBTBlock || hasNBTEnt){
+        			tag.setInteger("x", msg.posX);
+            		tag.setInteger("y", msg.posY);
+            		tag.setInteger("z", msg.posZ);
+            		tag.setString ("id", (String)((HashMap)classToNameMap.get(null)).get(entity.getClass()));
+            		
+            		EntityPlayerMP player = ((NetHandlerPlayServer) ctx.channel().attr(NetworkRegistry.NET_HANDLER).get()).playerEntity;
+            		
+        			for (IWailaDataProvider provider : ModuleRegistrar.instance().getNBTProviders(block)){
+        				try{
+        					tag = provider.getNBTData(player, entity, tag, world, msg.posX, msg.posY, msg.posZ);
+        				} catch (AbstractMethodError ame){
+        					Method getNBTData = provider.getClass().getMethod("getNBTData", TileEntity.class, NBTTagCompound.class, World.class, int.class, int.class, int.class);
+        					tag = (NBTTagCompound)getNBTData.invoke(provider, entity, tag, world, msg.posX, msg.posY, msg.posZ);
+        				}
+        			}
+        			
+        			for (IWailaDataProvider provider : ModuleRegistrar.instance().getNBTProviders(entity)){
+        				try{        				
+        					tag = provider.getNBTData(player, entity, tag, world, msg.posX, msg.posY, msg.posZ);
+        				} catch (AbstractMethodError ame){
+        					Method getNBTData = provider.getClass().getMethod("getNBTData", TileEntity.class, NBTTagCompound.class, World.class, int.class, int.class, int.class);
+        					tag = (NBTTagCompound)getNBTData.invoke(provider, entity, tag, world, msg.posX, msg.posY, msg.posZ);
+        				}       					
+        			}
+        			
+        		} else {
+        			entity.writeToNBT(tag);
+        			tag = NBTUtil.createTag(tag, msg.keys);
+        		}
+        		
+    			tag.setInteger("WailaX", msg.posX);
+        		tag.setInteger("WailaY", msg.posY);
+        		tag.setInteger("WailaZ", msg.posZ);
+        		tag.setString ("WailaID", (String)((HashMap)classToNameMap.get(null)).get(entity.getClass()));        		
+        		
+    			ctx.writeAndFlush(new Message0x02TENBTData(tag)).addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);        			
+        		
+        		
         	}catch(Throwable e){
+        		e.printStackTrace();
         		WailaExceptionHandler.handleErr(e, entity.getClass().toString(), null);
         	}
         }

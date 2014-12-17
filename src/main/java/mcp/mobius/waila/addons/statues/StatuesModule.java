@@ -32,9 +32,9 @@ public class StatuesModule {
 			return;
 		}
 		
-		ModuleRegistrar.instance().registerHeadProvider(new HUDHandlerStatues(),  TileEntityStatue);
-		ModuleRegistrar.instance().registerTailProvider(new HUDHandlerStatues(),  TileEntityStatue);		
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", TileEntityStatue);
+		ModuleRegistrar.instance().registerHeadProvider(new HUDHandlerStatues(), TileEntityStatue);
+		ModuleRegistrar.instance().registerTailProvider(new HUDHandlerStatues(), TileEntityStatue);		
+		ModuleRegistrar.instance().registerNBTProvider (new HUDHandlerStatues(), TileEntityStatue);
 	}	
 	
 }

@@ -2,185 +2,92 @@ package mcp.mobius.waila.addons.ic2;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.List;
-import java.util.logging.Level;
 
-import cpw.mods.fml.common.ObfuscationReflectionHelper;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
+import org.apache.logging.log4j.Level;
+
 import mcp.mobius.waila.Waila;
-import mcp.mobius.waila.api.IWailaDataAccessor;
-import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
-import mcp.mobius.waila.utils.AccessHelper;
 
 public class IC2Module {
 
-	public static Class TileEntityStandardMachine = null;
-	public static Field TESM_DefaultEnergyStorage = null;	
-	public static Field TESM_DefaultEnergyConsume = null;
-	public static Field TESM_DefaultOperationLength = null;	
-	public static Field TESM_MaxEnergy            = null;	
+	public static Class TileBaseGenerator = null;
+	public static Field TileBaseGenerator_storage    = null;
+	public static Field TileBaseGenerator_maxStorage = null;
+	public static Field TileBaseGenerator_production = null;
 	
-	public static Class TileEntityBaseGenerator   = null;
-	public static Field TEBG_MaxStorage           = null;
-	public static Field TEBG_Production           = null;	
+	public static Class TileGeoGenerator = null;
+	public static Field TileGeoGenerator_storage    = null;
+	public static Field TileGeoGenerator_maxStorage = null;
+	public static Field TileGeoGenerator_production = null;
+
+	public static Class TileKineticGenerator = null;
+	public static Field TileKineticGenerator_storage    = null;
+	public static Field TileKineticGenerator_maxStorage = null;
+	public static Field TileKineticGenerator_production = null;	
 	
-	public static Class TileEntitySemifluidGenerator = null;
-	public static Field TESG_MaxStorage              = null;
-	public static Field TESG_Production              = null;
+	public static Class TileSemifluidGenerator = null;
+	public static Field TileSemifluidGenerator_storage    = null;
+	public static Field TileSemifluidGenerator_maxStorage = null;
+	public static Field TileSemifluidGenerator_production = null;	
 	
-	public static Class TileEntityGeoGenerator      = null;	
-	public static Field TEGG_MaxStorage              = null;
-	public static Field TEGG_Production              = null;
-	
-	public static Class TileEntityElectricBlock   = null;
-	public static Field TEEB_MaxStorage           = null;	
-	public static Field TEEB_Output               = null;	
-	
-	public static Class  IEnergySink         = null;
-	public static Method IES_GetMaxSafeInput = null;
-	
-	public static Class  TileEntityTradeOMat = null;
-	
-	/* Some required items */
-	public static Class     IC2Items           = null;
-	public static Field     TransformerUpgrade = null;
-	public static ItemStack TransformerUpgradeStack   = null;
-	public static Field     EnergyStorageUpgrade      = null;
-	public static ItemStack EnergyStorageUpgradeStack = null;		
-	public static Field     OverclockerUpgrade        = null;
-	public static ItemStack OverclockerUpgradeStack   = null;
+	public static Class TileStirlingGenerator = null;
+	public static Field TileStirlingGenerator_storage    = null;
+	public static Field TileStirlingGenerator_maxStorage = null;
+	public static Field TileStirlingGenerator_production = null;	
 	
 	public static void register(){
-	/*
-		
+		// XXX : We register the Energy interface first
 		try{
-			TileEntityStandardMachine = Class.forName("ic2.core.block.machine.tileentity.TileEntityStandardMachine");
-			TESM_DefaultEnergyStorage = TileEntityStandardMachine.getField("defaultEnergyStorage");
-			TESM_DefaultEnergyConsume = TileEntityStandardMachine.getField("defaultEnergyConsume");
-			TESM_DefaultOperationLength = TileEntityStandardMachine.getField("defaultOperationLength");
-			TESM_MaxEnergy            = TileEntityStandardMachine.getField("maxEnergy");			
-			
-			TileEntityBaseGenerator   = Class.forName("ic2.core.block.generator.tileentity.TileEntityBaseGenerator");
-			TEBG_MaxStorage           = TileEntityBaseGenerator.getField("maxStorage");
-			TEBG_Production           = TileEntityBaseGenerator.getField("production");			
+			TileBaseGenerator            = Class.forName("ic2.core.block.generator.tileentity.TileEntityBaseGenerator");
+			TileBaseGenerator_storage    = TileBaseGenerator.getDeclaredField("storage");
+			TileBaseGenerator_maxStorage = TileBaseGenerator.getDeclaredField("maxStorage");
+			TileBaseGenerator_production = TileBaseGenerator.getDeclaredField("production");
 
-			TileEntitySemifluidGenerator = Class.forName("ic2.core.block.generator.tileentity.TileEntitySemifluidGenerator");
-			TESG_MaxStorage           = TileEntitySemifluidGenerator.getDeclaredField("maxStorage");
-			TESG_Production           = TileEntitySemifluidGenerator.getDeclaredField("production");
-			TESG_MaxStorage.setAccessible(true);
-			TESG_Production.setAccessible(true);
+			TileGeoGenerator            = Class.forName("ic2.core.block.generator.tileentity.TileEntityGeoGenerator");
+			TileGeoGenerator_storage    = TileGeoGenerator.getDeclaredField("storage");
+			TileGeoGenerator_maxStorage = TileGeoGenerator.getDeclaredField("maxStorage");
+			TileGeoGenerator_production = TileGeoGenerator.getDeclaredField("production");			
 			
-			TileEntityGeoGenerator    = Class.forName("ic2.core.block.generator.tileentity.TileEntityGeoGenerator");
-			TEGG_MaxStorage           = TileEntityGeoGenerator.getField("maxStorage");
-			TEGG_Production           = TileEntityGeoGenerator.getField("production");				
+			TileKineticGenerator            = Class.forName("ic2.core.block.generator.tileentity.TileEntityKineticGenerator");
+			TileKineticGenerator_storage    = TileKineticGenerator.getDeclaredField("EUstorage");
+			TileKineticGenerator_maxStorage = TileKineticGenerator.getDeclaredField("maxEUStorage");
+			TileKineticGenerator_production = TileKineticGenerator.getDeclaredField("production");		
+			TileKineticGenerator_storage.setAccessible(true);
+			TileKineticGenerator_maxStorage.setAccessible(true);
+			TileKineticGenerator_production.setAccessible(true);
 			
-			TileEntityElectricBlock   = Class.forName("ic2.core.block.wiring.TileEntityElectricBlock");
-			TEEB_MaxStorage           = TileEntityElectricBlock.getField("maxStorage");	
-			TEEB_Output               = TileEntityElectricBlock.getField("output");
+			TileSemifluidGenerator            = Class.forName("ic2.core.block.generator.tileentity.TileEntitySemifluidGenerator");
+			TileSemifluidGenerator_storage    = TileSemifluidGenerator.getDeclaredField("storage");
+			TileSemifluidGenerator_maxStorage = TileSemifluidGenerator.getDeclaredField("maxStorage");
+			TileSemifluidGenerator_production = TileSemifluidGenerator.getDeclaredField("production");
+			TileSemifluidGenerator_storage.setAccessible(true);
+			TileSemifluidGenerator_maxStorage.setAccessible(true);
+			TileSemifluidGenerator_production.setAccessible(true);
 			
-			IEnergySink               = Class.forName("ic2.api.energy.tile.IEnergySink");			
-			IES_GetMaxSafeInput       = IEnergySink.getMethod("getMaxSafeInput");
+			TileStirlingGenerator            = Class.forName("ic2.core.block.generator.tileentity.TileEntityStirlingGenerator");
+			TileStirlingGenerator_storage    = TileStirlingGenerator.getDeclaredField("EUstorage");
+			TileStirlingGenerator_maxStorage = TileStirlingGenerator.getDeclaredField("maxEUStorage");
+			TileStirlingGenerator_production = TileStirlingGenerator.getDeclaredField("production");			
 			
-			IC2Items                  = Class.forName("ic2.core.Ic2Items");
-			TransformerUpgrade        = IC2Items.getField("transformerUpgrade"); 
-			EnergyStorageUpgrade      = IC2Items.getField("energyStorageUpgrade");
-			OverclockerUpgrade        = IC2Items.getField("overclockerUpgrade");
+			//ModuleRegistrar.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.energyhandler");			
+			ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTEGenerator(), TileBaseGenerator);
+			ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTEGenerator(), TileGeoGenerator);
+			ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTEGenerator(), TileKineticGenerator);
+			ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTEGenerator(), TileSemifluidGenerator);
+			ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTEGenerator(), TileStirlingGenerator);
 			
-			TransformerUpgradeStack   = (ItemStack)TransformerUpgrade.get(null);
-			EnergyStorageUpgradeStack = (ItemStack)EnergyStorageUpgrade.get(null);			
-			OverclockerUpgradeStack   = (ItemStack)OverclockerUpgrade.get(null);
+			ModuleRegistrar.instance().registerNBTProvider (new HUDHandlerTEGenerator(), TileBaseGenerator);
+			ModuleRegistrar.instance().registerNBTProvider (new HUDHandlerTEGenerator(), TileGeoGenerator);
+			ModuleRegistrar.instance().registerNBTProvider (new HUDHandlerTEGenerator(), TileKineticGenerator);
+			ModuleRegistrar.instance().registerNBTProvider (new HUDHandlerTEGenerator(), TileSemifluidGenerator);
+			ModuleRegistrar.instance().registerNBTProvider (new HUDHandlerTEGenerator(), TileStirlingGenerator);
 			
-			TileEntityTradeOMat       = Class.forName("ic2.core.block.personal.TileEntityTradeOMat");
+			ModuleRegistrar.instance().addConfigRemote("IndustrialCraft2", "ic2.storage");
+			ModuleRegistrar.instance().addConfigRemote("IndustrialCraft2", "ic2.outputeu");			
 			
-		} catch (ClassNotFoundException e){
-			//e.printStackTrace();
-			Waila.log.log(Level.WARNING, "[IC2] Class not found. " + e);
-			return;
-		} catch (NoSuchMethodException e){
-			//e.printStackTrace();			
-			Waila.log.log(Level.WARNING, "[IC2] Method not found." + e);
-			return;			
-		} catch (NoSuchFieldException e){
-			//e.printStackTrace();			
-			Waila.log.log(Level.WARNING, "[IC2] Field not found." + e);
-			return;			
 		} catch (Exception e){
-			//e.printStackTrace();			
-			Waila.log.log(Level.WARNING, "[IC2] Unhandled exception." + e);
-			return;			
-		}	
-		
-		
-		ModuleRegistrar.instance().addConfigRemote("IndustrialCraft2", "ic2.storage");
-		ModuleRegistrar.instance().addConfig("IndustrialCraft2", "ic2.outputeu");
-		ModuleRegistrar.instance().addConfigRemote("IndustrialCraft2", "ic2.inputeu");		
-		ModuleRegistrar.instance().addConfigRemote("IndustrialCraft2", "ic2.consump");
-		ModuleRegistrar.instance().addConfigRemote("IndustrialCraft2", "ic2.tradeomat");
-		
-		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTEStandardMachine(), TileEntityStandardMachine);
-		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTEBaseGenerator(),   TileEntityBaseGenerator);
-		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTEBaseGenerator(),   TileEntitySemifluidGenerator);
-		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTEBaseGenerator(),   TileEntityGeoGenerator);		
-		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTEElectricBlock(),   TileEntityElectricBlock);
-		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTETradeOMat(),       TileEntityTradeOMat);	
-		
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", TileEntityStandardMachine);
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", TileEntityBaseGenerator);
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", TileEntitySemifluidGenerator);
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", TileEntityGeoGenerator);
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", TileEntityElectricBlock);
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", TileEntityTradeOMat);
-		*/
-	}
-
-	/* Retuns the current stored energy if available in the nbt and config is true */
-	public static double getStoredEnergy(IWailaDataAccessor accessor){
-		/*
-		if (ConfigHandler.instance().getConfig("ic2.storage")){
-			if (accessor.getNBTData().hasKey("energy"))
-				return accessor.getNBTData().getDouble("energy");
-			else if (accessor.getNBTData().hasKey("storage"))
-				return accessor.getNBTData().getDouble("storage");
-		}
-		*/
-		return -1.0;
-	}
-	
-	public static IC2Upgrades getUpgrades(IWailaDataAccessor accessor){
-		
-		NBTTagCompound nbt   = accessor.getNBTData();
-		IC2Upgrades upgrades = new IC2Upgrades();
-
-		/*
-		if (!nbt.hasKey("InvSlots")) return null;
-		
-		NBTTagCompound inventory = nbt.getCompoundTag("InvSlots");
-		if (!inventory.hasKey("upgrade")) return null;
-		
-		NBTTagList nbtupgrades = inventory.getCompoundTag("upgrade").getTagList("Contents");
-		
-		//List tagList = (List)AccessHelper.getField("net.minecraft.nbt.NBTTagList", "tagList", nbtupgrades);
-		List tagList = ObfuscationReflectionHelper.getPrivateValue(NBTTagList.class, nbtupgrades, "field_74747_a");
-		
-		for (Object subobj : tagList){
-			NBTTagCompound subtag = (NBTTagCompound)subobj;
-			int id    = subtag.getShort("id");
-			int meta  = subtag.getShort("Damage");
-			int count = subtag.getByte("Count");
-			
-			//ItemStack is = new ItemStack(id, 1, count);
-			if (TransformerUpgradeStack.getItemDamage()   == meta && TransformerUpgradeStack.itemID == id)
-				upgrades.transform += count;
-			if (EnergyStorageUpgradeStack.getItemDamage() == meta && EnergyStorageUpgradeStack.itemID == id)
-				upgrades.storage += count;
-			if (OverclockerUpgradeStack.getItemDamage()   == meta && OverclockerUpgradeStack.itemID == id)
-				upgrades.overclocker += count;			
-		}
-		*/
-		return upgrades;
+			Waila.log.log(Level.WARN, "[IndustrialCraft 2] Error while loading generator hooks." + e);
+		}		
 	}
 	
 }

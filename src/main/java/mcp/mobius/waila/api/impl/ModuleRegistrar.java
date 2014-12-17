@@ -32,14 +32,16 @@ public class ModuleRegistrar implements IWailaRegistrar {
 	public LinkedHashMap<Class, ArrayList<IWailaDataProvider>> bodyBlockProviders  = new LinkedHashMap<Class, ArrayList<IWailaDataProvider>>();
 	public LinkedHashMap<Class, ArrayList<IWailaDataProvider>> tailBlockProviders  = new LinkedHashMap<Class, ArrayList<IWailaDataProvider>>();	
 	public LinkedHashMap<Class, ArrayList<IWailaDataProvider>> stackBlockProviders = new LinkedHashMap<Class, ArrayList<IWailaDataProvider>>();	
-
+	public LinkedHashMap<Class, ArrayList<IWailaDataProvider>> NBTDataProviders    = new LinkedHashMap<Class, ArrayList<IWailaDataProvider>>();
+	
 	public LinkedHashMap<Class, ArrayList<IWailaBlockDecorator>> blockClassDecorators = new LinkedHashMap<Class,   ArrayList<IWailaBlockDecorator>>();
 	
 	public LinkedHashMap<Class, ArrayList<IWailaEntityProvider>> headEntityProviders      = new LinkedHashMap<Class, ArrayList<IWailaEntityProvider>>();
 	public LinkedHashMap<Class, ArrayList<IWailaEntityProvider>> bodyEntityProviders      = new LinkedHashMap<Class, ArrayList<IWailaEntityProvider>>();
 	public LinkedHashMap<Class, ArrayList<IWailaEntityProvider>> tailEntityProviders      = new LinkedHashMap<Class, ArrayList<IWailaEntityProvider>>();
 	public LinkedHashMap<Class, ArrayList<IWailaEntityProvider>> overrideEntityProviders  = new LinkedHashMap<Class, ArrayList<IWailaEntityProvider>>();	
-
+	public LinkedHashMap<Class, ArrayList<IWailaEntityProvider>> NBTEntityProviders       = new LinkedHashMap<Class, ArrayList<IWailaEntityProvider>>();
+	
 	public LinkedHashMap<String, ArrayList<IWailaFMPProvider>> headFMPProviders = new LinkedHashMap<String, ArrayList<IWailaFMPProvider>>();
 	public LinkedHashMap<String, ArrayList<IWailaFMPProvider>> bodyFMPProviders = new LinkedHashMap<String, ArrayList<IWailaFMPProvider>>();
 	public LinkedHashMap<String, ArrayList<IWailaFMPProvider>> tailFMPProviders = new LinkedHashMap<String, ArrayList<IWailaFMPProvider>>();	
@@ -51,6 +53,8 @@ public class ModuleRegistrar implements IWailaRegistrar {
 	public LinkedHashMap<String, LinkedHashMap <String, LinkedHashMap <String, String>>> wikiDescriptions = new LinkedHashMap<String, LinkedHashMap <String, LinkedHashMap <String, String>>>();
 	public LinkedHashMap<Class, ArrayList<IWailaSummaryProvider>> summaryProviders = new LinkedHashMap<Class, ArrayList<IWailaSummaryProvider>>();
 	
+	public LinkedHashMap<String, String> IMCRequests = new LinkedHashMap<String, String>();	
+	
 	private ModuleRegistrar() {
 		instance = this;
 	}
@@ -61,6 +65,11 @@ public class ModuleRegistrar implements IWailaRegistrar {
 		return ModuleRegistrar.instance;
 	}
 
+	/* IMC HANDLING */
+	public void addIMCRequest(String method, String modname){
+		this.IMCRequests.put(method, modname);
+	}
+	
 	/* CONFIG HANDLING */
 	@Override
 	public void addConfig(String modname, String key, String configname) {
@@ -125,6 +134,11 @@ public class ModuleRegistrar implements IWailaRegistrar {
 	}		
 
 	@Override
+	public void registerNBTProvider(IWailaDataProvider dataProvider, Class entity) {
+		this.registerProvider(dataProvider, entity, this.NBTDataProviders);	
+	}	
+	
+	@Override
 	public void registerHeadProvider(IWailaEntityProvider dataProvider, Class entity) {
 		this.registerProvider(dataProvider, entity, this.headEntityProviders);		
 	}	
@@ -138,6 +152,11 @@ public class ModuleRegistrar implements IWailaRegistrar {
 	public void registerTailProvider(IWailaEntityProvider dataProvider, Class entity) {
 		this.registerProvider(dataProvider, entity, this.tailEntityProviders);		
 	}	
+	
+	@Override
+	public void registerNBTProvider(IWailaEntityProvider dataProvider, Class entity) {
+		this.registerProvider(dataProvider, entity, this.NBTEntityProviders);	
+	}		
 	
 	@Override
 	public void registerHeadProvider(IWailaFMPProvider dataProvider, String name) {
@@ -184,6 +203,7 @@ public class ModuleRegistrar implements IWailaRegistrar {
 		target.get(clazz).add(dataProvider);		
 	}	
 	
+	@Deprecated
 	@Override
 	public void registerSyncedNBTKey(String key, Class target){
 		if (!this.syncedNBTKeys.containsKey(target))
@@ -191,8 +211,6 @@ public class ModuleRegistrar implements IWailaRegistrar {
 		
 		this.syncedNBTKeys.get(target).add(key);		
 	}	
-	
-	
 	
 	/* PROVIDER GETTERS */
 	
@@ -212,6 +230,10 @@ public class ModuleRegistrar implements IWailaRegistrar {
 		return getProviders(block, this.stackBlockProviders);
 	}		
 	
+	public ArrayList<IWailaDataProvider> getNBTProviders(Object block) {
+		return getProviders(block, this.NBTDataProviders);
+	}	
+	
 	public ArrayList<IWailaEntityProvider> getHeadEntityProviders(Object entity) {
 		return getProviders(entity, this.headEntityProviders);		
 	}
@@ -228,6 +250,10 @@ public class ModuleRegistrar implements IWailaRegistrar {
 		return getProviders(entity, this.overrideEntityProviders);
 	}		
 
+	public ArrayList<IWailaEntityProvider> getNBTEntityProviders(Object entity) {
+		return getProviders(entity, this.NBTEntityProviders);
+	}		
+	
 	public ArrayList<IWailaFMPProvider> getHeadFMPProviders(String name) {
 		return getProviders(name, this.headFMPProviders);		
 	}	
@@ -265,6 +291,7 @@ public class ModuleRegistrar implements IWailaRegistrar {
 		return target.get(name);		
 	}		
 	
+	@Deprecated
 	public HashSet<String> getSyncedNBTKeys(Object target){
 		HashSet<String> returnList = new HashSet<String>();
 		for (Class clazz : this.syncedNBTKeys.keySet())
@@ -292,6 +319,10 @@ public class ModuleRegistrar implements IWailaRegistrar {
 		return hasProviders(block, this.tailBlockProviders);
 	}
 
+	public boolean hasNBTProviders(Object block){
+		return hasProviders(block, this.NBTDataProviders);
+	}	
+	
 	public boolean hasHeadEntityProviders(Object entity){
 		return hasProviders(entity, this.headEntityProviders);
 	}
@@ -306,6 +337,10 @@ public class ModuleRegistrar implements IWailaRegistrar {
 
 	public boolean hasOverrideEntityProviders(Object entity){
 		return hasProviders(entity, this.overrideEntityProviders);
+	}		
+	
+	public boolean hasNBTEntityProviders(Object entity){
+		return hasProviders(entity, this.NBTEntityProviders);
 	}		
 	
 	public boolean hasHeadFMPProviders(String name){
@@ -343,6 +378,7 @@ public class ModuleRegistrar implements IWailaRegistrar {
 		return this.summaryProviders.containsKey(item);
 	}	
 	
+	@Deprecated
 	public boolean hasSyncedNBTKeys(Object target){
 		for (Class clazz : this.syncedNBTKeys.keySet())
 			if (clazz.isInstance(target))

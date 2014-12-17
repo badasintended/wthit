@@ -4,9 +4,12 @@ import java.util.List;
 
 import org.apache.logging.log4j.Level;
 
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IWailaConfigHandler;
@@ -77,6 +80,13 @@ public class HUDHandlerFMP implements IWailaDataProvider {
 		return currenttip;
 	}
 
+	@Override
+	public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, int x, int y, int z) {
+		if (te != null)
+			te.writeToNBT(tag);
+		return tag;
+	}
+	
 	public static void register(){
 		Class BlockMultipart = null;
 		try{
@@ -92,7 +102,7 @@ public class HUDHandlerFMP implements IWailaDataProvider {
 		ModuleRegistrar.instance().registerHeadProvider(new HUDHandlerFMP(), BlockMultipart);		
 		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerFMP(), BlockMultipart);		
 		ModuleRegistrar.instance().registerTailProvider(new HUDHandlerFMP(), BlockMultipart);
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", BlockMultipart);
+		ModuleRegistrar.instance().registerNBTProvider (new HUDHandlerFMP(), BlockMultipart);
 		
 		Waila.log.log(Level.INFO, "Forge Multipart found and dedicated handler registered");
 		

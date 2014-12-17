@@ -1,14 +1,23 @@
 package mcp.mobius.waila.network;
 
+import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.HashSet;
 
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.network.NetworkRegistry;
+import mcp.mobius.waila.api.IWailaDataProvider;
+import mcp.mobius.waila.api.IWailaEntityProvider;
+import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.utils.NBTUtil;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelFutureListener;
@@ -60,12 +69,31 @@ public class Message0x03EntRequest extends SimpleChannelInboundHandler<Message0x
 	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, Message0x03EntRequest msg) throws Exception {
         MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
-        Entity          entity = DimensionManager.getWorld(msg.dim).getEntityByID(msg.id);
+        World           world  = DimensionManager.getWorld(msg.dim);
+        Entity          entity = world.getEntityByID(msg.id);
+        
         if (entity != null){
         	try{
         		NBTTagCompound tag = new NBTTagCompound();
-        		entity.writeToNBT(tag);
-        		ctx.writeAndFlush(new Message0x04EntNBTData(NBTUtil.createTag(tag, msg.keys))).addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);        		
+        		
+        		EntityPlayerMP player = ((NetHandlerPlayServer) ctx.channel().attr(NetworkRegistry.NET_HANDLER).get()).playerEntity;
+        		
+        		if (ModuleRegistrar.instance().hasNBTEntityProviders(entity)){
+        			for (IWailaEntityProvider provider : ModuleRegistrar.instance().getNBTEntityProviders(entity)){
+        				try{
+        					tag = provider.getNBTData(player, entity, tag, world);
+        				} catch (AbstractMethodError ame){
+        					Method getNBTData = provider.getClass().getMethod("getNBTData", Entity.class, NBTTagCompound.class);
+        					tag = (NBTTagCompound)getNBTData.invoke(provider, entity, tag);
+        				}        				
+        			}
+
+        		} else {
+            		entity.writeToNBT(tag);
+            		tag = NBTUtil.createTag(tag, msg.keys);
+        		}
+
+        		ctx.writeAndFlush(new Message0x04EntNBTData(tag)).addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);        		
         	}catch(Throwable e){
         		WailaExceptionHandler.handleErr(e, entity.getClass().toString(), null);
         	}

@@ -1,8 +1,10 @@
 package mcp.mobius.waila.client;
 
+import java.lang.reflect.Method;
+
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.addons.agriculture.AgricultureModule;
 import mcp.mobius.waila.addons.buildcraft.BCModule;
-import mcp.mobius.waila.addons.buildcraft.BCPowerAPIModule;
 import mcp.mobius.waila.addons.carpenters.CarpentersModule;
 import mcp.mobius.waila.addons.enderio.EnderIOModule;
 import mcp.mobius.waila.addons.enderstorage.EnderStorageModule;
@@ -23,6 +25,7 @@ import mcp.mobius.waila.addons.thermalexpansion.ThermalExpansionModule;
 import mcp.mobius.waila.addons.twilightforest.TwilightForestModule;
 import mcp.mobius.waila.addons.vanillamc.HUDHandlerVanilla;
 import mcp.mobius.waila.api.IWailaDataProvider;
+import mcp.mobius.waila.api.IWailaRegistrar;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.gui.truetyper.FontLoader;
@@ -98,84 +101,8 @@ public class ProxyClient extends ProxyServer {
 		ModuleRegistrar.instance().addConfig("General", "general.showhp");
 		ModuleRegistrar.instance().addConfig("General", "general.showcrop");		
 	}	
-
-	@Override
-	public void registerMods(){
-		
-		HUDHandlerVanilla.register();
-		
-		/* BUILDCRAFT */
-		BCModule.register();
-		
-		/* INDUSTRIALCRAFT2 */
-		//IC2Module.register();
-		
-		/*Thaumcraft*/
-		ThaumcraftModule.register();
-		
-		/*EnderStorage*/
-		EnderStorageModule.register();
-		
-		/*Gravestone*/
-		GravestoneModule.register();
-		
-		/*Twilight forest*/
-		TwilightForestModule.register();
-		
-		/* Thermal Expansion */
-		ThermalExpansionModule.register();
-		
-		/* ETB */
-		ETBModule.register();
-		
-		/* EnderIO */
-		EnderIOModule.register();		
-		
-		/* Buildcraft Power API */
-		//BCPowerAPIModule.register();
-		
-		/* ProjectRed API */
-		ProjectRedModule.register();
-		
-		/* ExtraUtilities */
-		ExtraUtilitiesModule.register();	
-		
-		/* OpenBlocks */
-		OpenBlocksModule.register();
-		
-		/* Railcraft */
-		RailcraftModule.register();		
-		
-		/* Steve's Carts */
-		StevesCartsModule.register();
-		
-		/* Secret Rooms */
-		//SecretRoomsModule.register();
-		
-		/* Carpenter's Blocks */
-		CarpentersModule.register();	
-
-		/* Pam's HarvestCraft */
-		HarvestcraftModule.register();
-		
-		/* Magical crops */
-		MagicalCropsModule.register();		
-		
-		/* Statues */
-		StatuesModule.register();
-		
-		/* Agriculture */
-		AgricultureModule.register();		
-		
-		if(Loader.isModLoaded("ForgeMultipart")){
-			HUDHandlerFMP.register();
-			DecoratorFMP.register();
-		}
-		
-		//ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerBlocks(),   Block.class);
-		//ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerBlocks(),   TileEntity.class);
-	}	
 	
 	@Override
 	public Object getFont(){return this.minecraftiaFont;}	
+
 }

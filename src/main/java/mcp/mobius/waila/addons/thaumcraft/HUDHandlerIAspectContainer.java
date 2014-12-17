@@ -1,20 +1,24 @@
 package mcp.mobius.waila.addons.thaumcraft;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.StringUtils;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.World;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
-import mcp.mobius.waila.utils.NBTUtil;
-import mcp.mobius.waila.utils.WailaExceptionHandler;
+
 import static mcp.mobius.waila.api.SpecialChars.*;
 
-public class HUDHandlerIAspectContainer implements IWailaDataProvider {
+public class HUDHandlerIAspectContainer implements IWailaDataProvider{
+
 	@Override
 	public ItemStack getWailaStack(IWailaDataAccessor accessor,	IWailaConfigHandler config) {
 		return null;
@@ -27,80 +31,75 @@ public class HUDHandlerIAspectContainer implements IWailaDataProvider {
 
 	@Override
 	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
-		if (!config.getConfig("thaumcraft.aspects")) return currenttip;
-		
-		ItemStack headSlot = accessor.getPlayer().inventory.armorInventory[3];
-		if (headSlot == null) return currenttip;
-		
-		boolean hasReveal =  ThaumcraftModule.IGoggles.isInstance(headSlot.getItem());
-			
-		if (!hasReveal) return currenttip;
 		
 		NBTTagCompound tag = accessor.getNBTData();
-		
-		if (tag.hasKey("Aspect") && tag.hasKey("Amount") && !tag.getString("Aspect").equals("")){
-			String aspect = Character.toUpperCase(tag.getString("Aspect").charAt(0)) + tag.getString("Aspect").substring(1);
-			currenttip.add(this.getAspectString(tag, "Aspect", "Amount", accessor));
-		}
-
-		if (tag.hasKey("aspect") && tag.hasKey("amount") && !tag.getString("aspect").equals("")){
-			String aspect = Character.toUpperCase(tag.getString("aspect").charAt(0)) + tag.getString("aspect").substring(1);
-			currenttip.add(this.getAspectString(tag, "aspect", "amount", accessor));
-		}		
-		
 		if (tag.hasKey("Aspects")){
 			NBTTagList taglist = tag.getTagList("Aspects", 10);
 			for (int i = 0; i < taglist.tagCount(); i++){
 				NBTTagCompound subtag = taglist.getCompoundTagAt(i);
-				if (subtag.hasKey("amount") && subtag.hasKey("key") && !subtag.getString("key").equals("")){
-					currenttip.add(this.getAspectString(subtag, "key", "amount", accessor));
-				}
+				
+				String aspect = Character.toUpperCase(subtag.getString("key").charAt(0)) + subtag.getString("key").substring(1); 
+				String amount = String.valueOf(subtag.getInteger("value"));
+				
+				currenttip.add(String.format("%s" + TAB + ALIGNRIGHT + WHITE + "%s",  aspect, amount));
 			}
-		}
+		}		
+		
 		return currenttip;
 	}
 
 	@Override
 	public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
 		return currenttip;
-	}	
-	
-	private String getAspectString(NBTTagCompound tag, String keyAspect, String keyAmount, IWailaDataAccessor accessor){
-		String aspect = tag.getString(keyAspect);
-		aspect = knowAspect(aspect, accessor) ? aspect : "????";
-		aspect = Character.toUpperCase(aspect.charAt(0)) + aspect.substring(1); 
-		
-		String amount = String.valueOf(NBTUtil.getNBTInteger(tag, keyAmount));
-		
-		
-		
-		return String.format("%s" + TAB + ALIGNRIGHT + WHITE + "%s",  aspect, amount);
 	}
+
+	@Override
+	public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag,	World world, int x, int y, int z) {
 	
-	private boolean knowAspect(String name, IWailaDataAccessor accessor){
 		try{
-			Object proxy    = ThaumcraftModule.TC_proxy.get(null);
-			Object known    = ThaumcraftModule.getKnownAspects.invoke(proxy, (Object[])null);
-			Object listAspc = ((Map<String, Object>)known).get(accessor.getPlayer().getDisplayName());
-			//Object research = ThaumcraftModule.playerResearch.get(proxy); 
-			//Object aspect       = ThaumcraftModule.getAspect.invoke(null, name);
-			//Object knownaspects = ThaumcraftModule.aspectsDiscovered.get(research);
-			//Boolean known   = (Boolean)ThaumcraftModule.hasDiscoveredAspect.invoke(research, accessor.getPlayer().username, aspect);
+			tag.setTag("Aspects", new NBTTagList());
+			NBTTagList aspects = tag.getTagList("Aspects", 10);			
 			
-			Object[] aspects = (Object[])ThaumcraftModule.list_getAspects.invoke(listAspc);
-			for (Object o : aspects){
-				if (ThaumcraftModule.aspect_tag.get(o).equals(name)){
-					return true;
+			ItemStack headSlot = player.inventory.armorInventory[3];
+			if (headSlot == null) return tag;
+			boolean hasReveal =  ThaumcraftModule.IGoggles.isInstance(headSlot.getItem());
+			if (!hasReveal) return tag;
+			
+			HashMap knownAspects        = (HashMap)       ThaumcraftModule.CommonProxy_getKnownAspects.invoke(ThaumcraftModule.Thaumcraft_proxy.get(null));
+			LinkedHashMap playerAspects = (LinkedHashMap) ThaumcraftModule.AspectList_aspects.get(knownAspects.get(player.getCommandSenderName()));
+			LinkedHashMap tileAspects   = new LinkedHashMap();
+			
+			if (ThaumcraftModule.IAspectContainer.isInstance(te)){
+				tileAspects = (LinkedHashMap) ThaumcraftModule.AspectList_aspects.get(ThaumcraftModule.IAspectContainer_getAspects.invoke(te));
+			} else if (ThaumcraftModule.TileAlchemyFurnace.isInstance(te)){
+				tileAspects = (LinkedHashMap) ThaumcraftModule.AspectList_aspects.get(ThaumcraftModule.TileAlchemyFurnace_aspects.get(te));
+			}
+			
+			for (Object o : tileAspects.keySet()){
+				if (playerAspects.containsKey(o)){
+					NBTTagCompound cmptag = new NBTTagCompound();
+					cmptag.setString ("key",   (String)ThaumcraftModule.Aspect_tag.get(o));
+					cmptag.setInteger("value", (Integer) tileAspects.get(o));
+					aspects.appendTag(cmptag);
+				} else {
+					NBTTagCompound cmptag = new NBTTagCompound();
+					cmptag.setString ("key",   "???");
+					cmptag.setInteger("value", (Integer) tileAspects.get(o));
+					aspects.appendTag(cmptag);					
 				}
 			}
-
-			return false;
+				
+				//for (int i = 0; i < aspects.tagCount(); i++){
+				//	System.out.printf("%s : %s\n", aspects.getCompoundTagAt(i).getString("key"), aspects.getCompoundTagAt(i).getString("value"));
+				//}
+		
 			
-		} catch (Exception e){
-			WailaExceptionHandler.handleErr(e, this.getClass().getName(), null);
-			return false;
+			
+		} catch (Exception e) {
+			throw new RuntimeException(e);
 		}
-		//return false;
+		
+		return tag;
 	}
-	
+
 }

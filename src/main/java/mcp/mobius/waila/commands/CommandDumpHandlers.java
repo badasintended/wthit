@@ -19,7 +19,7 @@ public class CommandDumpHandlers extends CommandBase {
 
 	@Override
 	public String getCommandUsage(ICommandSender p_71518_1_) {
-		return null;
+		return "/dumphandlers";
 	}
 
 	@Override

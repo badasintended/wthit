@@ -5,13 +5,16 @@ import java.util.List;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRedstoneOre;
 import net.minecraft.block.BlockSilverfish;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemRecord;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityMobSpawner;
+import net.minecraft.world.World;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
@@ -203,6 +206,13 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 		return currenttip;
 	}	
 	
+	@Override
+	public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, int x, int y, int z) {
+		if (te != null)
+			te.writeToNBT(tag);
+		return tag;
+	}	
+	
 	public static void register(){
 		ModuleRegistrar.instance().addConfig("VanillaMC", "vanilla.spawntype");
 		ModuleRegistrar.instance().addConfig("VanillaMC", "vanilla.leverstate");
@@ -243,22 +253,22 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 		ModuleRegistrar.instance().registerBodyProvider(provider, cocoa.getClass());
 		ModuleRegistrar.instance().registerBodyProvider(provider, netherwart.getClass());			
 		
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", mobSpawner.getClass());
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", crops.getClass());
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", melonStem.getClass());
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", pumpkinStem.getClass());
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", carrot.getClass());
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", potato.getClass());
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", lever.getClass());
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", repeaterIdle.getClass());
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", repeaterActv.getClass());
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", comparatorIdl.getClass());
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", comparatorAct.getClass());
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", redstone.getClass());		
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", jukebox.getClass());		
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", cocoa.getClass());
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", netherwart.getClass());		
-		ModuleRegistrar.instance().registerSyncedNBTKey("*", silverfish.getClass());	
+		ModuleRegistrar.instance().registerNBTProvider(provider, mobSpawner.getClass());
+		ModuleRegistrar.instance().registerNBTProvider(provider, crops.getClass());
+		ModuleRegistrar.instance().registerNBTProvider(provider, melonStem.getClass());
+		ModuleRegistrar.instance().registerNBTProvider(provider, pumpkinStem.getClass());
+		ModuleRegistrar.instance().registerNBTProvider(provider, carrot.getClass());
+		ModuleRegistrar.instance().registerNBTProvider(provider, potato.getClass());
+		ModuleRegistrar.instance().registerNBTProvider(provider, lever.getClass());
+		ModuleRegistrar.instance().registerNBTProvider(provider, repeaterIdle.getClass());
+		ModuleRegistrar.instance().registerNBTProvider(provider, repeaterActv.getClass());
+		ModuleRegistrar.instance().registerNBTProvider(provider, comparatorIdl.getClass());
+		ModuleRegistrar.instance().registerNBTProvider(provider, comparatorAct.getClass());
+		ModuleRegistrar.instance().registerNBTProvider(provider, redstone.getClass());		
+		ModuleRegistrar.instance().registerNBTProvider(provider, jukebox.getClass());		
+		ModuleRegistrar.instance().registerNBTProvider(provider, cocoa.getClass());
+		ModuleRegistrar.instance().registerNBTProvider(provider, netherwart.getClass());		
+		ModuleRegistrar.instance().registerNBTProvider(provider, silverfish.getClass());	
 		
 		//ModuleRegistrar.instance().registerDocTextFile("/mcp/mobius/waila/addons/vanillamc/WikiData.csv");
 		
