@@ -2,7 +2,6 @@ package mcp.mobius.waila.network;
 
 import java.util.HashMap;
 
-import net.minecraft.tileentity.TileEntity;
 import net.minecraftforge.common.config.ConfigCategory;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.impl.ConfigHandler;

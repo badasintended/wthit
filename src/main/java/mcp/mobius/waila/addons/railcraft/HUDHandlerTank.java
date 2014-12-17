@@ -1,6 +1,5 @@
 package mcp.mobius.waila.addons.railcraft;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import mcp.mobius.waila.cbcore.LangUtil;

@@ -10,7 +10,6 @@ import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import codechicken.nei.NEIClientConfig;
 import codechicken.nei.guihook.GuiContainerManager;
@@ -26,7 +25,8 @@ public class HandlerEnchants implements IContainerInputHandler {
 
 	@Override
 	public boolean lastKeyTyped(GuiContainer gui, char keyChar, int keyID) {
-		ItemStack stackover = GuiContainerManager.getManager().getStackMouseOver(gui);
+		GuiContainerManager.getManager();
+		ItemStack stackover = GuiContainerManager.getStackMouseOver(gui);
 		if(stackover == null)
 			return false;
 		

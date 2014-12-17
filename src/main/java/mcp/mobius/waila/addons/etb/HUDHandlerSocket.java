@@ -1,6 +1,5 @@
 package mcp.mobius.waila.addons.etb;
 
-import java.util.Arrays;
 import java.util.List;
 
 import net.minecraft.entity.player.EntityPlayerMP;

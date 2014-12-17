@@ -1,10 +1,5 @@
 package mcp.mobius.waila.addons.carpenters;
 
-import java.util.logging.Level;
-
-import mcp.mobius.waila.Waila;
-import mcp.mobius.waila.api.impl.ModuleRegistrar;
-
 public class CarpentersModule {
 
 	public static Class TEBase = null;

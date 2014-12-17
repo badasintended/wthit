@@ -1,7 +1,5 @@
 package mcp.mobius.waila.overlay;
 
-import java.util.ArrayList;
-import java.util.EnumSet;
 import java.util.List;
 
 import org.lwjgl.input.Keyboard;
@@ -13,7 +11,6 @@ import mcp.mobius.waila.api.impl.MetaDataProvider;
 import mcp.mobius.waila.api.impl.TipList;
 import mcp.mobius.waila.client.KeyEvent;
 import mcp.mobius.waila.utils.Constants;
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;

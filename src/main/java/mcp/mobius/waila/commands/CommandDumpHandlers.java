@@ -1,9 +1,5 @@
 package mcp.mobius.waila.commands;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-
-import mcp.mobius.waila.api.IWailaBlockDecorator;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaEntityProvider;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;

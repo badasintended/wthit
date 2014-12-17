@@ -3,8 +3,6 @@ import static mcp.mobius.waila.api.SpecialChars.*;
 
 import java.util.HashMap;
 
-import mcp.mobius.waila.Waila;
-
 public enum IconUI {
 HEART (52, 0, 9, 9, 52, 9, 9, 9, "a"),
 HHEART(61, 0, 9, 9, 52, 9, 9, 9, "b"),

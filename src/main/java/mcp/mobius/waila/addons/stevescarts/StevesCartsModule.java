@@ -2,10 +2,6 @@ package mcp.mobius.waila.addons.stevescarts;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.util.logging.Level;
-
-import mcp.mobius.waila.Waila;
-import mcp.mobius.waila.api.impl.ModuleRegistrar;
 
 public class StevesCartsModule {
 

@@ -3,7 +3,6 @@ package mcp.mobius.waila.addons.stevescarts;
 import java.util.ArrayList;
 import java.util.List;
 
-import codechicken.lib.math.MathHelper;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;

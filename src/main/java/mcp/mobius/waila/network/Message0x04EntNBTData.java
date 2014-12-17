@@ -1,6 +1,5 @@
 package mcp.mobius.waila.network;
 
-import mcp.mobius.waila.api.impl.DataAccessorBlock;
 import mcp.mobius.waila.api.impl.DataAccessorEntity;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.nbt.NBTTagCompound;
