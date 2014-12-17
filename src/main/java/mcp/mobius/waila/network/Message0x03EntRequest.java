@@ -1,16 +1,20 @@
 package mcp.mobius.waila.network;
 
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.HashSet;
 
 import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaEntityProvider;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.utils.NBTUtil;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -72,9 +76,18 @@ public class Message0x03EntRequest extends SimpleChannelInboundHandler<Message0x
         	try{
         		NBTTagCompound tag = new NBTTagCompound();
         		
+        		EntityPlayerMP player = ((NetHandlerPlayServer) ctx.channel().attr(NetworkRegistry.NET_HANDLER).get()).playerEntity;
+        		
         		if (ModuleRegistrar.instance().hasNBTEntityProviders(entity)){
-        			for (IWailaEntityProvider provider : ModuleRegistrar.instance().getNBTEntityProviders(entity))
-        				tag = provider.getNBTData(entity, tag);  
+        			for (IWailaEntityProvider provider : ModuleRegistrar.instance().getNBTEntityProviders(entity)){
+        				try{
+        					tag = provider.getNBTData(player, entity, tag, world);
+        				} catch (AbstractMethodError ame){
+        					Method getNBTData = provider.getClass().getMethod("getNBTData", Entity.class, NBTTagCompound.class);
+        					tag = (NBTTagCompound)getNBTData.invoke(provider, entity, tag);
+        				}        				
+        			}
+
         		} else {
             		entity.writeToNBT(tag);
             		tag = NBTUtil.createTag(tag, msg.keys);

@@ -7,6 +7,7 @@ import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.EntityRegistry.EntityRegistration;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MathHelper;
@@ -98,7 +99,7 @@ public class HUDHandlerEntities implements IWailaEntityProvider {
 	}
 
 	@Override
-	public NBTTagCompound getNBTData(Entity te, NBTTagCompound tag) {
+	public NBTTagCompound getNBTData(EntityPlayerMP player, Entity te, NBTTagCompound tag, World world) {
 		return tag;
 	}	
 	

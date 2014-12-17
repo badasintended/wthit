@@ -3,6 +3,7 @@ package mcp.mobius.waila.addons.stevescarts;
 import java.util.List;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -85,7 +86,7 @@ public class HUDMinecartModular implements IWailaEntityProvider {
 	}
 
 	@Override
-	public NBTTagCompound getNBTData(Entity te, NBTTagCompound tag) {
+	public NBTTagCompound getNBTData(EntityPlayerMP player, Entity te, NBTTagCompound tag, World world) {
 		if (te != null)
 			te.writeToNBT(tag);
 		return tag;
