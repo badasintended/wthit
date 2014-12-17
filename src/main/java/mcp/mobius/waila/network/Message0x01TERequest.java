@@ -9,6 +9,7 @@ import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
+import mcp.mobius.waila.utils.AccessHelper;
 import mcp.mobius.waila.utils.NBTUtil;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.block.Block;
@@ -116,8 +117,7 @@ public class Message0x01TERequest extends SimpleChannelInboundHandler<Message0x0
         				try{
         					tag = provider.getNBTData(player, entity, tag, world, msg.posX, msg.posY, msg.posZ);
         				} catch (AbstractMethodError ame){
-        					Method getNBTData = provider.getClass().getMethod("getNBTData", TileEntity.class, NBTTagCompound.class, World.class, int.class, int.class, int.class);
-        					tag = (NBTTagCompound)getNBTData.invoke(provider, entity, tag, world, msg.posX, msg.posY, msg.posZ);
+        					tag = AccessHelper.getNBTData(provider, entity, tag, world, msg.posX, msg.posY, msg.posZ);
         				}
         			}
         			
@@ -125,8 +125,7 @@ public class Message0x01TERequest extends SimpleChannelInboundHandler<Message0x0
         				try{        				
         					tag = provider.getNBTData(player, entity, tag, world, msg.posX, msg.posY, msg.posZ);
         				} catch (AbstractMethodError ame){
-        					Method getNBTData = provider.getClass().getMethod("getNBTData", TileEntity.class, NBTTagCompound.class, World.class, int.class, int.class, int.class);
-        					tag = (NBTTagCompound)getNBTData.invoke(provider, entity, tag, world, msg.posX, msg.posY, msg.posZ);
+        					tag = AccessHelper.getNBTData(provider, entity, tag, world, msg.posX, msg.posY, msg.posZ);
         				}       					
         			}
         			

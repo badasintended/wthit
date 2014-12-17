@@ -10,6 +10,7 @@ import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.DataAccessorBlock;
 import mcp.mobius.waila.api.impl.DataAccessorEntity;
 import mcp.mobius.waila.api.impl.MetaDataProvider;
+import mcp.mobius.waila.api.impl.TipList;
 import mcp.mobius.waila.client.KeyEvent;
 import mcp.mobius.waila.utils.Constants;
 import net.minecraft.block.Block;
@@ -34,10 +35,10 @@ public class WailaTickHandler{
 	
 	private int ticks = 0;
 	public ItemStack identifiedHighlight = new ItemStack(Blocks.dirt);
-	private List<String> currenttip      = new ArrayList<String>();
-	private List<String> currenttipHead  = new ArrayList<String>();
-	private List<String> currenttipBody  = new ArrayList<String>();
-	private List<String> currenttipTail  = new ArrayList<String>();
+	private List<String> currenttip      = new TipList<String>();
+	private List<String> currenttipHead  = new TipList<String>();
+	private List<String> currenttipBody  = new TipList<String>();
+	private List<String> currenttipTail  = new TipList<String>();
 	public  Tooltip      tooltip         = null;
 	public  MetaDataProvider handler     = new MetaDataProvider();
 	private Minecraft mc = Minecraft.getMinecraft();

@@ -9,6 +9,7 @@ import cpw.mods.fml.common.network.NetworkRegistry;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaEntityProvider;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
+import mcp.mobius.waila.utils.AccessHelper;
 import mcp.mobius.waila.utils.NBTUtil;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.entity.Entity;
@@ -83,8 +84,7 @@ public class Message0x03EntRequest extends SimpleChannelInboundHandler<Message0x
         				try{
         					tag = provider.getNBTData(player, entity, tag, world);
         				} catch (AbstractMethodError ame){
-        					Method getNBTData = provider.getClass().getMethod("getNBTData", Entity.class, NBTTagCompound.class);
-        					tag = (NBTTagCompound)getNBTData.invoke(provider, entity, tag);
+        					tag = AccessHelper.getNBTData(provider, entity, tag);
         				}        				
         			}
 
