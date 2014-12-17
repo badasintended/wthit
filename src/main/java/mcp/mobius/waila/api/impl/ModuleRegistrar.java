@@ -178,10 +178,12 @@ public class ModuleRegistrar implements IWailaRegistrar {
 		this.registerProvider(dataProvider, entity, this.overrideEntityProviders);			
 	}	
 
+	/*
 	@Override
 	public void registerShortDataProvider(IWailaSummaryProvider dataProvider, Class item) {
 		this.registerProvider(dataProvider, item, this.summaryProviders);	
-	}	
+	}
+	*/	
 
 	@Override
 	public void registerDecorator(IWailaBlockDecorator decorator, Class block) {
@@ -387,6 +389,7 @@ public class ModuleRegistrar implements IWailaRegistrar {
 	}		
 	
 	/* ----------------- */
+	/*
 	@Override
 	public void registerDocTextFile(String filename) {
 		List<String[]> docData  = null;
@@ -417,27 +420,28 @@ public class ModuleRegistrar implements IWailaRegistrar {
 			}
 		}
 		
-		/*
-		String[] sections = docData.split(">>>>");
-		for (String s : sections){
-			s.trim();
-			if (!s.equals("")){
-				try{
-					String name   = s.split("\r?\n",2)[0].trim();
-					String desc   = s.split("\r?\n",2)[1].trim();
-					if (!this.wikiDescriptions.containsKey(modid))
-						this.wikiDescriptions.put(modid, new LinkedHashMap <String, String>());
-					this.wikiDescriptions.get(modid).put(name, desc);
-					nentries += 1;
-				}catch (Exception e){
-					System.out.printf("%s\n", e);
-				}
-			}
-		}
-		*/
+		
+//		String[] sections = docData.split(">>>>");
+//		for (String s : sections){
+//			s.trim();
+//			if (!s.equals("")){
+//				try{
+//					String name   = s.split("\r?\n",2)[0].trim();
+//					String desc   = s.split("\r?\n",2)[1].trim();
+//					if (!this.wikiDescriptions.containsKey(modid))
+//						this.wikiDescriptions.put(modid, new LinkedHashMap <String, String>());
+//					this.wikiDescriptions.get(modid).put(name, desc);
+//					nentries += 1;
+//				}catch (Exception e){
+//					System.out.printf("%s\n", e);
+//				}
+//			}
+//		}
+		
 		Waila.log.log(Level.INFO, String.format("Registered %s entries from %s", nentries, filename));
 	}	
-	
+	*/
+
 	public boolean hasDocTextModID(String modid){
 		return this.wikiDescriptions.containsKey(modid);
 	}
