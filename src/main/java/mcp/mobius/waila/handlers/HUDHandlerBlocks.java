@@ -80,7 +80,7 @@ public class HUDHandlerBlocks implements IWailaDataProvider {
 	public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
 		String modName = ModIdentification.nameFromStack(itemStack);
 		if (modName != null && !modName.equals("")){
-			currenttip.add(BLUE + ITALIC + modName );
+			currenttip.add(BLUE + ITALIC + modName);
 		}
 		
 		return currenttip;
