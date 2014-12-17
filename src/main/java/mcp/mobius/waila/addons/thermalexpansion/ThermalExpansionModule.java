@@ -11,9 +11,17 @@ import mcp.mobius.waila.api.impl.ModuleRegistrar;
 
 public class ThermalExpansionModule {
 
-	public static Class  IEnergyHandler = null;
-	public static Method IEnergyHandler_getMaxStorage = null;
-	public static Method IEnergyHandler_getCurStorage = null;
+	public static Class  IEnergyProvider = null;
+	public static Method IEnergyProvider_getMaxStorage = null;
+	public static Method IEnergyProvider_getCurStorage = null;
+
+	public static Class  IEnergyReceiver = null;
+	public static Method IEnergyReceiver_getMaxStorage = null;
+	public static Method IEnergyReceiver_getCurStorage = null;	
+
+	public static Class  IEnergyInfo = null;
+	public static Method IEnergyInfo_getMaxStorage = null;
+	public static Method IEnergyInfo_getCurStorage = null;	
 	
 	public static Class TileEnergyCell = null;
 	public static Field TileEnergyCell_Recv = null;
@@ -39,13 +47,26 @@ public class ThermalExpansionModule {
 	public static void register(){
 		// XXX : We register the Energy interface first
 		try{
-			IEnergyHandler               = Class.forName("cofh.api.energy.IEnergyHandler");
-			IEnergyHandler_getMaxStorage = IEnergyHandler.getMethod("getMaxEnergyStored", ForgeDirection.class);
-			IEnergyHandler_getCurStorage = IEnergyHandler.getMethod("getEnergyStored",    ForgeDirection.class);
+			IEnergyProvider              = Class.forName("cofh.api.energy.IEnergyProvider");
+			IEnergyProvider_getMaxStorage = IEnergyProvider.getMethod("getMaxEnergyStored", ForgeDirection.class);
+			IEnergyProvider_getCurStorage = IEnergyProvider.getMethod("getEnergyStored",    ForgeDirection.class);
+			
+			IEnergyReceiver              = Class.forName("cofh.api.energy.IEnergyReceiver");
+			IEnergyReceiver_getMaxStorage = IEnergyReceiver.getMethod("getMaxEnergyStored", ForgeDirection.class);
+			IEnergyReceiver_getCurStorage = IEnergyReceiver.getMethod("getEnergyStored",    ForgeDirection.class);			
+			
+			IEnergyInfo                  = Class.forName("cofh.api.tileentity.IEnergyInfo");
+			IEnergyInfo_getMaxStorage    = IEnergyInfo.getMethod("getInfoMaxEnergyStored");
+			IEnergyInfo_getCurStorage    = IEnergyInfo.getMethod("getInfoEnergyStored");			
+
 			
 			ModuleRegistrar.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.energyhandler");			
-			ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerIEnergyHandler(), IEnergyHandler);
-			ModuleRegistrar.instance().registerNBTProvider (new HUDHandlerIEnergyHandler(), IEnergyHandler);
+			ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerIEnergyHandler(), IEnergyProvider);
+			ModuleRegistrar.instance().registerNBTProvider (new HUDHandlerIEnergyHandler(), IEnergyProvider);
+			ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerIEnergyHandler(), IEnergyReceiver);
+			ModuleRegistrar.instance().registerNBTProvider (new HUDHandlerIEnergyHandler(), IEnergyReceiver);
+			ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerIEnergyHandler(), IEnergyInfo);
+			ModuleRegistrar.instance().registerNBTProvider (new HUDHandlerIEnergyHandler(), IEnergyInfo);			
 			
 		} catch (Exception e){
 			Waila.log.log(Level.WARN, "[Thermal Expansion] Error while loading Energy hooks." + e);

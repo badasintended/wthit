@@ -1,6 +1,7 @@
 package mcp.mobius.waila.api.impl;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -65,6 +66,48 @@ public class TipList<E> extends ArrayList<E> {
 		return ret;
 	}	
 	
+	public void clear(){
+		tags.clear();
+		super.clear();
+	}	
+	
+	public E set(int index, E element){
+		tags.remove(this.get(index));
+		return super.set(index, element);
+	}	
+	
+	public E remove(int index){
+		tags.remove(this.get(index));
+		return super.remove(index);
+	}
+	
+	public boolean remove(Object o){
+		tags.remove(o);
+		return super.remove(o);
+	}
+	
+	public boolean removeAll(Collection<?> c){
+		for (Object o : c)
+			tags.remove(o);
+		
+		return super.removeAll(c);
+	}
+	
+	protected void removeRange(int fromIndex, int toIndex){
+		for (int i = fromIndex; i < toIndex; i++)
+			tags.remove(this.get(i));
+		
+		super.removeRange(fromIndex, toIndex);
+	}
+	
+	public boolean retainAll(Collection<?> c){
+		for (E e : tags.keySet())
+			if (!c.contains(e))
+				tags.remove(e);
+		
+		return super.retainAll(c);
+	}	
+	
 	/*
 	public boolean add(E e){
 		this.setInitialTag(e);		
@@ -109,43 +152,7 @@ public class TipList<E> extends ArrayList<E> {
 		return super.clone();
 	}
 	
-	public E remove(int index){
-		tags.remove(this.get(index));
-		return super.remove(index);
-	}
-	
-	public boolean remove(Object o){
-		tags.remove(o);
-		return super.remove(o);
-	}
-	
-	public boolean removeAll(Collection<?> c){
-		for (Object o : c)
-			tags.remove(o);
-		
-		return super.removeAll(c);
-	}
-	
-	protected void removeRange(int fromIndex, int toIndex){
-		for (int i = fromIndex; i < toIndex; i++)
-			tags.remove(this.get(i));
-		
-		super.removeRange(fromIndex, toIndex);
-	}
-	
-	public boolean retainAll(Collection<?> c){
-		for (E e : tags.keySet())
-			if (!c.contains(e))
-				tags.remove(e);
-		
-		return super.retainAll(c);
-	}
-	
-	public E set(int index, E element){
-		tags.remove(this.get(index));
-		this.setInitialTag(element);
-		return super.set(index, element);
-	}
+
 	
 	private void setInitialTag(E key){
 		tags.put(key, new ArrayList());

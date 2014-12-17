@@ -11,6 +11,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
+import mcp.mobius.waila.api.impl.TipList;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 
 public class HUDHandlerIEnergyHandler implements IWailaDataProvider {
@@ -31,11 +32,14 @@ public class HUDHandlerIEnergyHandler implements IWailaDataProvider {
 		if (!config.getConfig("thermalexpansion.energyhandler")) return currenttip;
 		if (!accessor.getNBTData().hasKey("Energy")) return currenttip;
 		
-		int energy = accessor.getNBTInteger(accessor.getNBTData(), "Energy");
+		int energy    = accessor.getNBTInteger(accessor.getNBTData(), "Energy");
+		int maxEnergy = accessor.getNBTInteger(accessor.getNBTData(), "MaxStorage");
 		try {
-			Integer maxEnergy = (Integer)ThermalExpansionModule.IEnergyHandler_getMaxStorage.invoke(accessor.getTileEntity(), ForgeDirection.UNKNOWN);
-			if (maxEnergy != 0)
-				currenttip.add(String.format("%d / %d RF", energy, maxEnergy));			
+			if ((maxEnergy != 0) && (((TipList)currenttip).getEntries("RFEnergyStorage").size() == 0)){
+				String s = String.format("%d / %d RF", energy, maxEnergy);
+				currenttip.add(s);
+				((TipList)currenttip).addTag(s, "RFEnergyStorage");
+			}
 		} catch (Exception e){    
 			currenttip = WailaExceptionHandler.handleErr(e, accessor.getTileEntity().getClass().getName(), currenttip);
 		} 
@@ -51,10 +55,24 @@ public class HUDHandlerIEnergyHandler implements IWailaDataProvider {
 	@Override
 	public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, int x, int y, int z) {
 		try{
-			int energy = (Integer) ThermalExpansionModule.IEnergyHandler_getCurStorage.invoke(te, ForgeDirection.UNKNOWN);
-			tag.setInteger("Energy", energy);
+			Integer energy = -1;
+			Integer maxsto = -1;
+			if (ThermalExpansionModule.IEnergyInfo.isInstance(te)){
+				energy = (Integer) ThermalExpansionModule.IEnergyInfo_getCurStorage.invoke(te);
+				maxsto = (Integer) ThermalExpansionModule.IEnergyInfo_getMaxStorage.invoke(te);
+			} else if (ThermalExpansionModule.IEnergyProvider.isInstance(te)){
+				energy = (Integer) ThermalExpansionModule.IEnergyProvider_getCurStorage.invoke(te, ForgeDirection.UNKNOWN);
+				maxsto = (Integer) ThermalExpansionModule.IEnergyProvider_getMaxStorage.invoke(te, ForgeDirection.UNKNOWN);
+			} else if (ThermalExpansionModule.IEnergyReceiver.isInstance(te)){
+				energy = (Integer) ThermalExpansionModule.IEnergyReceiver_getCurStorage.invoke(te, ForgeDirection.UNKNOWN);
+				maxsto = (Integer) ThermalExpansionModule.IEnergyReceiver_getMaxStorage.invoke(te, ForgeDirection.UNKNOWN);
+			}
+
+			tag.setInteger("Energy",     energy);
+			tag.setInteger("MaxStorage", maxsto);
 			
 		} catch (Exception e){
+			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
 		
