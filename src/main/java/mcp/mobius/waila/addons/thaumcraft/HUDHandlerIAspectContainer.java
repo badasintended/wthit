@@ -1,8 +1,10 @@
 package mcp.mobius.waila.addons.thaumcraft;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
+
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -12,7 +14,6 @@ import net.minecraft.world.World;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
-
 import static mcp.mobius.waila.api.SpecialChars.*;
 
 public class HUDHandlerIAspectContainer implements IWailaDataProvider{
@@ -33,14 +34,22 @@ public class HUDHandlerIAspectContainer implements IWailaDataProvider{
 		NBTTagCompound tag = accessor.getNBTData();
 		if (tag.hasKey("Aspects")){
 			NBTTagList taglist = tag.getTagList("Aspects", 10);
+			
+			List<String> unknownAspects = new ArrayList<String>();
+			
 			for (int i = 0; i < taglist.tagCount(); i++){
 				NBTTagCompound subtag = taglist.getCompoundTagAt(i);
 				
 				String aspect = Character.toUpperCase(subtag.getString("key").charAt(0)) + subtag.getString("key").substring(1); 
 				String amount = String.valueOf(subtag.getInteger("value"));
 				
-				currenttip.add(String.format("%s" + TAB + ALIGNRIGHT + WHITE + "%s",  aspect, amount));
+				if (!aspect.equals("???"))
+					currenttip.add(String.format("%s" + TAB + ALIGNRIGHT + WHITE + "%s",  aspect, amount));
+				else
+					unknownAspects.add(String.format("%s" + TAB + ALIGNRIGHT + WHITE + "%s",  aspect, amount));
 			}
+			
+			currenttip.addAll(unknownAspects);
 		}		
 		
 		return currenttip;
