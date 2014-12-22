@@ -32,10 +32,10 @@ public class WailaTickHandler{
 	
 	private int ticks = 0;
 	public ItemStack identifiedHighlight = new ItemStack(Blocks.dirt);
-	private List<String> currenttip      = new TipList<String>();
-	private List<String> currenttipHead  = new TipList<String>();
-	private List<String> currenttipBody  = new TipList<String>();
-	private List<String> currenttipTail  = new TipList<String>();
+	private List<String> currenttip      = new TipList<String, String>();
+	private List<String> currenttipHead  = new TipList<String, String>();
+	private List<String> currenttipBody  = new TipList<String, String>();
+	private List<String> currenttipTail  = new TipList<String, String>();
 	public  Tooltip      tooltip         = null;
 	public  MetaDataProvider handler     = new MetaDataProvider();
 	private Minecraft mc = Minecraft.getMinecraft();

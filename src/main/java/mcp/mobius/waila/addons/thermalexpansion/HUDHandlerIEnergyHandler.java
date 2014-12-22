@@ -11,8 +11,8 @@ import net.minecraftforge.common.util.ForgeDirection;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
-import mcp.mobius.waila.api.impl.TipList;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
+import mcp.mobius.waila.api.ITaggedList;
 
 public class HUDHandlerIEnergyHandler implements IWailaDataProvider {
 
@@ -35,8 +35,8 @@ public class HUDHandlerIEnergyHandler implements IWailaDataProvider {
 		int energy    = accessor.getNBTInteger(accessor.getNBTData(), "Energy");
 		int maxEnergy = accessor.getNBTInteger(accessor.getNBTData(), "MaxStorage");
 		try {
-			if ((maxEnergy != 0) && (((TipList)currenttip).getEntries("RFEnergyStorage").size() == 0)){
-				((TipList)currenttip).add(String.format("%d / %d RF", energy, maxEnergy), "RFEnergyStorage");
+			if ((maxEnergy != 0) && (((ITaggedList)currenttip).getEntries("RFEnergyStorage").size() == 0)){
+				((ITaggedList)currenttip).add(String.format("%d / %d RF", energy, maxEnergy), "RFEnergyStorage");
 			}
 		} catch (Exception e){    
 			currenttip = WailaExceptionHandler.handleErr(e, accessor.getTileEntity().getClass().getName(), currenttip);
