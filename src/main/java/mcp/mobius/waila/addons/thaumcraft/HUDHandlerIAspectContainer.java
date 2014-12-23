@@ -31,6 +31,8 @@ public class HUDHandlerIAspectContainer implements IWailaDataProvider{
 	@Override
 	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
 		
+		if (!config.getConfig("thaumcraft.aspects")) return currenttip;
+		
 		NBTTagCompound tag = accessor.getNBTData();
 		if (tag.hasKey("Aspects")){
 			NBTTagList taglist = tag.getTagList("Aspects", 10);
@@ -83,16 +85,18 @@ public class HUDHandlerIAspectContainer implements IWailaDataProvider{
 			}
 			
 			for (Object o : tileAspects.keySet()){
-				if (playerAspects.containsKey(o)){
-					NBTTagCompound cmptag = new NBTTagCompound();
-					cmptag.setString ("key",   (String)ThaumcraftModule.Aspect_tag.get(o));
-					cmptag.setInteger("value", (Integer) tileAspects.get(o));
-					aspects.appendTag(cmptag);
-				} else {
-					NBTTagCompound cmptag = new NBTTagCompound();
-					cmptag.setString ("key",   "???");
-					cmptag.setInteger("value", (Integer) tileAspects.get(o));
-					aspects.appendTag(cmptag);					
+				if ((Integer) tileAspects.get(o) > 0){
+					if (playerAspects.containsKey(o)){
+						NBTTagCompound cmptag = new NBTTagCompound();
+						cmptag.setString ("key",   (String)ThaumcraftModule.Aspect_tag.get(o));
+						cmptag.setInteger("value", (Integer) tileAspects.get(o));
+						aspects.appendTag(cmptag);
+					} else {
+						NBTTagCompound cmptag = new NBTTagCompound();
+						cmptag.setString ("key",   "???");
+						cmptag.setInteger("value", (Integer) tileAspects.get(o));
+						aspects.appendTag(cmptag);					
+					}
 				}
 			}
 				
