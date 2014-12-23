@@ -117,6 +117,8 @@ public class Message0x01TERequest extends SimpleChannelInboundHandler<Message0x0
         					tag = provider.getNBTData(player, entity, tag, world, msg.posX, msg.posY, msg.posZ);
         				} catch (AbstractMethodError ame){
         					tag = AccessHelper.getNBTData(provider, entity, tag, world, msg.posX, msg.posY, msg.posZ);
+        				} catch (NoSuchMethodError nsm){
+        					tag = AccessHelper.getNBTData(provider, entity, tag, world, msg.posX, msg.posY, msg.posZ);        					
         				}
         			}
         			
@@ -125,7 +127,9 @@ public class Message0x01TERequest extends SimpleChannelInboundHandler<Message0x0
         					tag = provider.getNBTData(player, entity, tag, world, msg.posX, msg.posY, msg.posZ);
         				} catch (AbstractMethodError ame){
         					tag = AccessHelper.getNBTData(provider, entity, tag, world, msg.posX, msg.posY, msg.posZ);
-        				}       					
+        				} catch (NoSuchMethodError nsm){
+        					tag = AccessHelper.getNBTData(provider, entity, tag, world, msg.posX, msg.posY, msg.posZ);        					
+        				}
         			}
         			
         		} else {
@@ -142,7 +146,6 @@ public class Message0x01TERequest extends SimpleChannelInboundHandler<Message0x0
         		
         		
         	}catch(Throwable e){
-        		e.printStackTrace();
         		WailaExceptionHandler.handleErr(e, entity.getClass().toString(), null);
         	}
         }
