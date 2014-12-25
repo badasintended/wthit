@@ -70,7 +70,6 @@ public class HUDHandlerIEnergyHandler implements IWailaDataProvider {
 			tag.setInteger("MaxStorage", maxsto);
 			
 		} catch (Exception e){
-			e.printStackTrace();
 			throw new RuntimeException(e);
 		}
 		

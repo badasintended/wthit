@@ -2,9 +2,12 @@ package mcp.mobius.waila.addons.thermalexpansion;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.List;
 
 import org.apache.logging.log4j.Level;
 
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.world.IBlockAccess;
 import net.minecraftforge.common.util.ForgeDirection;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
@@ -43,6 +46,9 @@ public class ThermalExpansionModule {
 	public static Method ISecureTile_getOwnerName = null;
 	
 	public static Class BlockMultipart = null;
+	
+	public static Class  IBlockInfo = null;
+	public static Method IBlockInfo_getBlockInfo = null;
 	
 	public static void register(){
 		// XXX : We register the Energy interface first
@@ -136,6 +142,22 @@ public class ThermalExpansionModule {
 		} catch (Exception e){
 			Waila.log.log(Level.WARN, "[Thermal Expansion] Error while loading ISecureTile hooks." + e);
 		}			
+		
+		// XXX : We register the IBlockInfo interface
+		/*
+		try{
+			IBlockInfo              = Class.forName("cofh.api.block.IBlockInfo");
+			IBlockInfo_getBlockInfo = IBlockInfo.getMethod("getBlockInfo", IBlockAccess.class, int.class, int.class, int.class, ForgeDirection.class, EntityPlayer.class, List.class, boolean.class);
+			
+			
+			//ModuleRegistrar.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.energyhandler");			
+			ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerIBlockInfo(), IBlockInfo);
+			ModuleRegistrar.instance().registerNBTProvider (new HUDHandlerIBlockInfo(), IBlockInfo);
+			
+		} catch (Exception e){
+			Waila.log.log(Level.WARN, "[Thermal Expansion] Error while loading IBlockInfo hooks." + e);
+		}			
+		*/
 	}
 	
 	
