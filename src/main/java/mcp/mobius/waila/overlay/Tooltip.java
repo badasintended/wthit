@@ -10,7 +10,10 @@ import java.awt.Point;
 import codechicken.lib.gui.GuiDraw;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
+import mcp.mobius.waila.api.IWailaTooltipRenderer;
 import mcp.mobius.waila.api.impl.ConfigHandler;
+import mcp.mobius.waila.api.impl.DataAccessorBlock;
+import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.utils.Constants;
 import static mcp.mobius.waila.api.SpecialChars.*;
 
@@ -53,6 +56,11 @@ public class Tooltip {
 						columnsWidth[i] += IconSize;
 					else if (s.startsWith(WailaStyle + WailaStyle))
 						columnsWidth[i] += 0;
+					else if (s.startsWith(RENDER)){
+						IWailaTooltipRenderer renderer = ModuleRegistrar.instance().getTooltipRenderer(s.substring(3));
+						if (renderer != null)
+							columnsWidth[i] += renderer.getSize(DataAccessorBlock.instance).x;
+					}
 					else
 						columnsWidth[i] += GuiDraw.getStringWidth(s);
 				}
@@ -68,12 +76,25 @@ public class Tooltip {
 			int prevIndex = 0;
 			while (matcher.find()){
 				String substring = s.substring(prevIndex, matcher.start());
+
 				if (!substring.equals(""))
 					retList.add(substring);
-				retList.add(s.substring(matcher.start(), matcher.end()));
-				prevIndex = matcher.end();
+				
+				String controlStr = s.substring(matcher.start(), matcher.end()); 
+
+				// If we don't have a render type block
+				if (controlStr.startsWith(RENDER)){
+					int   endOfBlock = s.substring(prevIndex).indexOf("}");
+					String renderStr = controlStr + s.substring(matcher.end() + 1, endOfBlock); 
+					retList.add(renderStr);
+					prevIndex += renderStr.length() + 2;
+				} else {
+					retList.add(controlStr);
+					prevIndex = matcher.end();					
+				}
 			}
 			retList.add(s.substring(prevIndex));
+			
 			return retList;
 		}
 	}
@@ -163,6 +184,10 @@ public class Tooltip {
 					if (s.startsWith(WailaStyle + WailaIcon)){
 						OverlayRenderer.renderIcon(x + offsetX + columnsPos[c] + c*TabSpacing + offX, y + ty + 10*i, IconSize, IconSize, IconUI.bySymbol(s));
 						offX += IconSize;
+					} else if (s.startsWith(RENDER)){
+						IWailaTooltipRenderer renderer = ModuleRegistrar.instance().getTooltipRenderer(s.substring(3));
+						if (renderer != null)
+							renderer.draw(DataAccessorBlock.instance);
 					}else{
 						offX += GuiDraw.getStringWidth(s);
 					}

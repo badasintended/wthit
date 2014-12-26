@@ -69,6 +69,8 @@ public interface IWailaRegistrar {
 	@Deprecated
 	public void registerSyncedNBTKey(String key, Class target);
 	
+	public void registerTooltipRenderer(String name, IWailaTooltipRenderer renderer);
+	
 	/* UNUSED FOR NOW (Will be used for the ingame wiki */
 	//public void registerDocTextFile  (String filename);
 	//public void registerShortDataProvider (IWailaSummaryProvider dataProvider, Class item);

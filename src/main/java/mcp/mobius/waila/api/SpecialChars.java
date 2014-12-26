@@ -30,11 +30,13 @@ public class SpecialChars {
 
 	public static String WailaStyle     = "\u00A4";
 	public static String WailaIcon      = "\u00A5";
+	public static String WailaRenderer  = "\u00A6";
 	public static String TAB         = WailaStyle + WailaStyle +"a";
 	public static String ALIGNRIGHT  = WailaStyle + WailaStyle +"b";
 	public static String ALIGNCENTER = WailaStyle + WailaStyle +"c";	
 	public static String HEART       = WailaStyle + WailaIcon  +"a";
 	public static String HHEART      = WailaStyle + WailaIcon  +"b";
 	public static String EHEART      = WailaStyle + WailaIcon  +"c";
+	public static String RENDER      = WailaStyle + WailaRenderer +"a";
 	
 }

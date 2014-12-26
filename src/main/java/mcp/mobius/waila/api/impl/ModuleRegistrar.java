@@ -21,6 +21,7 @@ import mcp.mobius.waila.api.IWailaFMPDecorator;
 import mcp.mobius.waila.api.IWailaFMPProvider;
 import mcp.mobius.waila.api.IWailaRegistrar;
 import mcp.mobius.waila.api.IWailaSummaryProvider;
+import mcp.mobius.waila.api.IWailaTooltipRenderer;
 import mcp.mobius.waila.cbcore.LangUtil;
 import mcp.mobius.waila.utils.Constants;
 
@@ -54,6 +55,8 @@ public class ModuleRegistrar implements IWailaRegistrar {
 	public LinkedHashMap<Class, ArrayList<IWailaSummaryProvider>> summaryProviders = new LinkedHashMap<Class, ArrayList<IWailaSummaryProvider>>();
 	
 	public LinkedHashMap<String, String> IMCRequests = new LinkedHashMap<String, String>();	
+	
+	public LinkedHashMap<String, IWailaTooltipRenderer> tooltipRenderers = new LinkedHashMap<String, IWailaTooltipRenderer>();
 	
 	private ModuleRegistrar() {
 		instance = this;
@@ -214,6 +217,14 @@ public class ModuleRegistrar implements IWailaRegistrar {
 		this.syncedNBTKeys.get(target).add(key);		
 	}	
 	
+	@Override
+	public void registerTooltipRenderer(String name, IWailaTooltipRenderer renderer){
+		if (!this.tooltipRenderers.containsKey(name))
+			this.tooltipRenderers.put(name, renderer);
+		else
+			Waila.log.warn(String.format("A renderer named %s already exists (Class : %s). Skipping new renderer.", name, renderer.getClass().getName()));
+	}
+	
 	/* PROVIDER GETTERS */
 	
 	public ArrayList<IWailaDataProvider> getHeadProviders(Object block) {
@@ -279,6 +290,10 @@ public class ModuleRegistrar implements IWailaRegistrar {
 	public ArrayList<IWailaFMPDecorator> getFMPDecorators(String name){
 		return getProviders(name, this.FMPClassDecorators);
 	}		
+	
+	public IWailaTooltipRenderer getTooltipRenderer(String name){
+		return this.tooltipRenderers.get(name);
+	}
 	
 	private <T> ArrayList<T> getProviders(Object obj, LinkedHashMap<Class, ArrayList<T>> target){
 		ArrayList<T> returnList = new ArrayList<T>();
