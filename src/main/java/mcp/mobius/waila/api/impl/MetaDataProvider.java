@@ -35,7 +35,7 @@ public class MetaDataProvider{
 	private Class prevBlock = null;
 	private Class prevTile  = null;
 	
-	public ItemStack identifyBlockHighlight(World world, EntityPlayer player, MovingObjectPosition mop, DataAccessorBlock accessor) {
+	public ItemStack identifyBlockHighlight(World world, EntityPlayer player, MovingObjectPosition mop, DataAccessorCommon accessor) {
 		Block block   = accessor.getBlock();
 		int   blockID = accessor.getBlockID();
 		
@@ -61,7 +61,7 @@ public class MetaDataProvider{
 		return null;
 	}
 
-	public List<String> handleBlockTextData(ItemStack itemStack, World world, EntityPlayer player, MovingObjectPosition mop, DataAccessorBlock accessor, List<String> currenttip, Layout layout) {
+	public List<String> handleBlockTextData(ItemStack itemStack, World world, EntityPlayer player, MovingObjectPosition mop, DataAccessorCommon accessor, List<String> currenttip, Layout layout) {
 		Block block   = accessor.getBlock();
 		
 		if (accessor.getTileEntity() != null && Waila.instance.serverPresent && accessor.isTimeElapsed(250)){
@@ -164,7 +164,7 @@ public class MetaDataProvider{
 		return currenttip;
 	}
 	
-	public List<String> handleEntityTextData(Entity entity, World world, EntityPlayer player, MovingObjectPosition mop, DataAccessorEntity accessor, List<String> currenttip, Layout layout) {
+	public List<String> handleEntityTextData(Entity entity, World world, EntityPlayer player, MovingObjectPosition mop, DataAccessorCommon accessor, List<String> currenttip, Layout layout) {
 		
 		if (accessor.getEntity() != null && Waila.instance.serverPresent && accessor.isTimeElapsed(250)){
 			accessor.resetTimer();

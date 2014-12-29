@@ -14,9 +14,9 @@ import mcp.mobius.waila.api.IWailaCommonAccessor;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaTooltipRenderer;
 import mcp.mobius.waila.api.impl.ConfigHandler;
-import mcp.mobius.waila.api.impl.DataAccessorBlock;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
+import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderIcon;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderString;
 import mcp.mobius.waila.utils.Constants;
 import static mcp.mobius.waila.api.SpecialChars.*;
@@ -91,6 +91,7 @@ public class Tooltip {
 		columnsPos.add(0);		
 		
 		for (String s : textData){
+			
 			ArrayList<String>  line = new ArrayList(Arrays.asList(patternTab.split(s)));
 			ArrayList<Integer> size = new ArrayList<Integer>();
 			for (String ss : line)
@@ -138,6 +139,7 @@ public class Tooltip {
 					String cs = lineMatcher.group();
 					Renderable renderable = null;
 					Matcher renderMatcher = patternRender.matcher(cs);	//We keep a matcher here to be able to check if we have a Renderer. Might be better to do a startWith + full matcher init after the check
+					Matcher iconMatcher   = patternIcon.matcher(cs);
 					
 					if (renderMatcher.find()){
 						String renderName = renderMatcher.group("name");
@@ -146,7 +148,8 @@ public class Tooltip {
 						if (renderer != null){
 							renderable = new Renderable(renderer, new Point(offsetX, offsetY), renderMatcher.group("args").split(","));
 						}
-
+					} else if (iconMatcher.find()){
+						renderable = new Renderable(new TTRenderIcon(iconMatcher.group("type")), new Point(offsetX, offsetY));
 					} else {
 						// Todo : The added offset should be based on the remaining of the column, not just the current string !
 						if (cs.startsWith(ALIGNRIGHT))
@@ -196,13 +199,13 @@ public class Tooltip {
 		ty = (h - this.getRenderableTotalHeight())/2;
 	}
 	
-	public void drawStrings(){
+	public void draw(){
 		for (Renderable r : this.elements)
 			r.draw(accessor, x + offsetX, y + ty);
 	}
-	
-	public void drawIcons(){
+
 	/*
+	public void drawIcons(){
 		for (int i = 0; i < lines.size(); i++){
 			for (int c = 0; c < lines.get(i).ncolumns; c++){
 				int offX = 0;				
@@ -222,6 +225,6 @@ public class Tooltip {
 				}
 			}
 		}
-	*/
-	}	
+	}
+	 */
 }

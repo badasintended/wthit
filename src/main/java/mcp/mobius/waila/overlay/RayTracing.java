@@ -5,8 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 
 import mcp.mobius.waila.api.impl.ConfigHandler;
-import mcp.mobius.waila.api.impl.DataAccessorBlock;
-import mcp.mobius.waila.api.impl.DataAccessorEntity;
+import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.utils.Constants;
 import net.minecraft.block.Block;
@@ -114,7 +113,7 @@ public class RayTracing {
     		return null;        
         
         if (ModuleRegistrar.instance().hasOverrideEntityProviders(this.target.entityHit))
-        	ents.add(ModuleRegistrar.instance().getOverrideEntityProviders(this.target.entityHit).get(0).getWailaOverride(DataAccessorEntity.instance, ConfigHandler.instance()));
+        	ents.add(ModuleRegistrar.instance().getOverrideEntityProviders(this.target.entityHit).get(0).getWailaOverride(DataAccessorCommon.instance, ConfigHandler.instance()));
         
         if(ents.size() > 0)
             return ents.get(0);
@@ -142,13 +141,13 @@ public class RayTracing {
         if (mouseoverBlock == null) return items;
         
         if (ModuleRegistrar.instance().hasStackProviders(mouseoverBlock)){
-        	ItemStack providerStack = ModuleRegistrar.instance().getStackProviders(mouseoverBlock).get(0).getWailaStack(DataAccessorBlock.instance, ConfigHandler.instance());
+        	ItemStack providerStack = ModuleRegistrar.instance().getStackProviders(mouseoverBlock).get(0).getWailaStack(DataAccessorCommon.instance, ConfigHandler.instance());
         	if (providerStack != null)
         		items.add(providerStack);
         }
         
         if (tileEntity != null &&  ModuleRegistrar.instance().hasStackProviders(tileEntity)){
-        	ItemStack providerStack = ModuleRegistrar.instance().getStackProviders(tileEntity).get(0).getWailaStack(DataAccessorBlock.instance, ConfigHandler.instance());
+        	ItemStack providerStack = ModuleRegistrar.instance().getStackProviders(tileEntity).get(0).getWailaStack(DataAccessorCommon.instance, ConfigHandler.instance());
         	if (providerStack != null)
         		items.add(providerStack);
         }        

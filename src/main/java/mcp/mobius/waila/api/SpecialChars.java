@@ -51,5 +51,5 @@ public class SpecialChars {
 	public static final Pattern patternRight     = Pattern.compile("(?i)"  + ALIGNRIGHT);
 	public static final Pattern patternCenter    = Pattern.compile("(?i)"  + ALIGNCENTER);
 	public static final Pattern patternIcon      = Pattern.compile("(?i)(" + WailaStyle + WailaIcon + "(?<type>[0-9A-Z]))");
-	public static final Pattern patternLineSplit = Pattern.compile("(?i)(" + WailaStyle + WailaStyle + "[^" + WailaStyle + "]+|" + WailaStyle + WailaRenderer + "a\\{([^,}]*),?([^}]*)\\}|[^" + WailaStyle + "]+)");
+	public static final Pattern patternLineSplit = Pattern.compile("(?i)(" + WailaStyle + WailaStyle + "[^" + WailaStyle + "]+|" + WailaStyle + WailaIcon + "[0-9A-Z]|" + WailaStyle + WailaRenderer + "a\\{([^,}]*),?([^}]*)\\}|[^" + WailaStyle + "]+)");
 }

@@ -88,6 +88,8 @@ public class Message0x03EntRequest extends SimpleChannelInboundHandler<Message0x
             		entity.writeToNBT(tag);
             		tag = NBTUtil.createTag(tag, msg.keys);
         		}
+        		
+        		tag.setInteger("WailaEntityID", entity.getEntityId());
 
         		ctx.writeAndFlush(new Message0x04EntNBTData(tag)).addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);        		
         	}catch(Throwable e){

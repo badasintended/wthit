@@ -9,7 +9,6 @@ import java.util.regex.Pattern;
 import org.lwjgl.opengl.GL11;
 
 import mcp.mobius.waila.api.IWailaTooltipRenderer;
-import mcp.mobius.waila.api.impl.DataAccessorBlock;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import net.minecraft.client.Minecraft;

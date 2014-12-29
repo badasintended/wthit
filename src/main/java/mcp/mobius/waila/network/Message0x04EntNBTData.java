@@ -1,6 +1,6 @@
 package mcp.mobius.waila.network;
 
-import mcp.mobius.waila.api.impl.DataAccessorEntity;
+import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.nbt.NBTTagCompound;
 import io.netty.buffer.ByteBuf;
@@ -33,7 +33,7 @@ public class Message0x04EntNBTData extends SimpleChannelInboundHandler<Message0x
 
 	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, Message0x04EntNBTData msg) throws Exception {
-		DataAccessorEntity.instance.setNBTData(msg.tag);
+		DataAccessorCommon.instance.setNBTData(msg.tag);
 	}
 
 }

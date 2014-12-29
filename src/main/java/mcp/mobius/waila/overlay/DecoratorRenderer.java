@@ -7,7 +7,7 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import mcp.mobius.waila.api.IWailaBlockDecorator;
 import mcp.mobius.waila.api.impl.ConfigHandler;
-import mcp.mobius.waila.api.impl.DataAccessorBlock;
+import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.block.Block;
@@ -26,7 +26,7 @@ public class DecoratorRenderer {
 		
 		double partialTicks = event.partialTicks;
 
-		DataAccessorBlock accessor  = DataAccessorBlock.instance;
+		DataAccessorCommon accessor = DataAccessorCommon.instance;
 		World world                 = Minecraft.getMinecraft().theWorld;
 		EntityPlayer player         = Minecraft.getMinecraft().thePlayer;
 		EntityLivingBase viewEntity = Minecraft.getMinecraft().renderViewEntity;

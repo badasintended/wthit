@@ -15,6 +15,7 @@ import net.minecraftforge.common.util.ForgeDirection;
 import mcp.mobius.waila.api.IWailaCommonAccessor;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaEntityAccessor;
+import mcp.mobius.waila.utils.NBTUtil;
 
 public class DataAccessorCommon implements IWailaCommonAccessor, IWailaDataAccessor, IWailaEntityAccessor{
 
@@ -44,14 +45,18 @@ public class DataAccessorCommon implements IWailaCommonAccessor, IWailaDataAcces
 		this.mop        = _mop;
 		
 		if (this.mop.typeOfHit == MovingObjectType.BLOCK){
-			//this.blockID  = world.getBlockId(_mop.blockX, _mop.blockY, _mop.blockZ);
-			//this.block    = Block.blocksList[this.blockID];
 			this.block      = world.getBlock(_mop.blockX, _mop.blockY, _mop.blockZ);
 			this.metadata   = world.getBlockMetadata(_mop.blockX, _mop.blockY, _mop.blockZ);
 			this.tileEntity = world.getTileEntity(_mop.blockX, _mop.blockY, _mop.blockZ);
+			this.entity     = null;
 			try{ this.stack = new ItemStack(this.block, 1, this.metadata); } catch (Exception e) {}
+			
 		} else if (this.mop.typeOfHit == MovingObjectType.ENTITY){
-			this.entity   = _mop.entityHit;
+			this.block      = null;
+			this.metadata   = -1;
+			this.tileEntity = null;
+			this.stack      = null;
+			this.entity     = _mop.entityHit;
 		}
 		
 		if (viewEntity != null){
@@ -64,45 +69,121 @@ public class DataAccessorCommon implements IWailaCommonAccessor, IWailaDataAcces
 	}	
 	
 	@Override
-	public World getWorld() {return null;}
+	public World getWorld() {return this.world;}
 
 	@Override
-	public EntityPlayer getPlayer() {return null;}
+	public EntityPlayer getPlayer() {return this.player;}
 
 	@Override
-	public Block getBlock() {return null;}
+	public Block getBlock() {return this.block;}
 
 	@Override
-	public int getBlockID() {return 0;}
+	public int getBlockID() {return this.blockID;}
 
 	@Override
-	public int getMetadata() {return 0;}
+	public int getMetadata() {return this.metadata;}
 
 	@Override
-	public TileEntity getTileEntity() {return null;}
+	public TileEntity getTileEntity() {	return this.tileEntity;}
 
 	@Override
-	public Entity getEntity() {return null;}
+	public Entity getEntity() {return this.entity;}
 
 	@Override
-	public MovingObjectPosition getPosition() {return null;}
+	public MovingObjectPosition getPosition() {return this.mop;}
 
 	@Override
-	public Vec3 getRenderingPosition() {return null;}
+	public Vec3 getRenderingPosition() {return this.renderingvec;}
 
 	@Override
-	public NBTTagCompound getNBTData() {return null;}
+	public NBTTagCompound getNBTData() {
+		if ((this.tileEntity != null) && this.isTagCorrectTileEntity(this.remoteNbt)) 
+			return remoteNbt;
+		
+		if ((this.entity != null) && this.isTagCorrectEntity(this.remoteNbt)) 
+			return remoteNbt;		
+		
+		if (this.tileEntity != null){
+			NBTTagCompound tag = new NBTTagCompound();		
+			try{
+				this.tileEntity.writeToNBT(tag);
+			} catch (Exception e){}
+			return tag;			
+		}
+		
+		if (this.entity != null){
+			NBTTagCompound tag = new NBTTagCompound();
+			this.entity.writeToNBT(tag);
+			return tag;
+		}
+		
+		return null;
+	}
+
+	public void setNBTData(NBTTagCompound tag){
+		this.remoteNbt = tag;
+	}	
+	
+	private boolean isTagCorrectTileEntity(NBTTagCompound tag){
+		if (tag == null || !tag.hasKey("WailaX")){
+			this.timeLastUpdate = System.currentTimeMillis() - 250;
+			return false;
+		}
+		
+		int x = tag.getInteger("WailaX");
+		int y = tag.getInteger("WailaY");
+		int z = tag.getInteger("WailaZ");
+		
+		if (x == this.mop.blockX && y == this.mop.blockY && z == this.mop.blockZ)
+			return true;
+		else {
+			this.timeLastUpdate = System.currentTimeMillis() - 250;			
+			return false;
+		}
+	}	
+	
+	private boolean isTagCorrectEntity(NBTTagCompound tag){
+		if (tag == null || !tag.hasKey("WailaEntityID")){
+			this.timeLastUpdate = System.currentTimeMillis() - 250;
+			return false;
+		}
+		
+		int id = tag.getInteger("WailaEntityID");
+	
+		if (id == this.entity.getEntityId())
+			return true;
+		else {
+			this.timeLastUpdate = System.currentTimeMillis() - 250;			
+			return false;
+		}
+	}		
+	
+	@Override
+	public int getNBTInteger(NBTTagCompound tag, String keyname) {
+		return NBTUtil.getNBTInteger(tag, keyname);
+	}
 
 	@Override
-	public int getNBTInteger(NBTTagCompound tag, String keyname) {return 0;}
+	public double getPartialFrame() {
+		return this.partialFrame;
+	}
 
 	@Override
-	public double getPartialFrame() {return 0;}
+	public ForgeDirection getSide() {
+		return ForgeDirection.getOrientation(this.getPosition().sideHit);
+	}
 
 	@Override
-	public ForgeDirection getSide() {return null;}
+	public ItemStack getStack() {
+		return this.stack;
+	}
 
-	@Override
-	public ItemStack getStack() {return null;}
-
+	public boolean isTimeElapsed(long time){
+		return System.currentTimeMillis() - this.timeLastUpdate >= time;
+	}
+	
+	public void resetTimer(){
+		this.timeLastUpdate = System.currentTimeMillis();
+	}	
+	
 }

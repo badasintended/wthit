@@ -5,8 +5,7 @@ import java.util.List;
 import org.lwjgl.input.Keyboard;
 
 import mcp.mobius.waila.api.impl.ConfigHandler;
-import mcp.mobius.waila.api.impl.DataAccessorBlock;
-import mcp.mobius.waila.api.impl.DataAccessorEntity;
+import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.MetaDataProvider;
 import mcp.mobius.waila.api.impl.TipList;
 import mcp.mobius.waila.client.KeyEvent;
@@ -71,7 +70,7 @@ public class WailaTickHandler{
 			MovingObjectPosition target = RayTracing.instance().getTarget();
 			
 			if (target != null && target.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK){
-				DataAccessorBlock accessor = DataAccessorBlock.instance;
+				DataAccessorCommon accessor = DataAccessorCommon.instance;
 				accessor.set(world, player, target);
 				ItemStack targetStack = RayTracing.instance().getTargetStack();	// Here we get either the proper stack or the override
 				
@@ -100,7 +99,7 @@ public class WailaTickHandler{
 				}
 			}
 			else if (target != null && target.typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY){
-				DataAccessorEntity accessor = DataAccessorEntity.instance;
+				DataAccessorCommon accessor = DataAccessorCommon.instance;
 				accessor.set(world, player, target);
 				
 				Entity targetEnt = RayTracing.instance().getTargetEntity(); // This need to be replaced by the override check.
