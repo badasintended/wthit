@@ -134,6 +134,10 @@ public class Tooltip {
 					
 					if (renderMatcher.find()){
 						String renderName = renderMatcher.group("name");
+						String renderArgs = renderMatcher.group("args");
+						
+						System.out.printf("%s [ %s ]\n", renderName, renderArgs);
+						
 						IWailaTooltipRenderer renderer = ModuleRegistrar.instance().getTooltipRenderer(renderName);
 						if (renderer != null)
 							renderable = new Renderable(renderer, new Point(offsetX, offsetY));

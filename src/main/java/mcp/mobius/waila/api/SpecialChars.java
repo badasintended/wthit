@@ -46,10 +46,10 @@ public class SpecialChars {
 	
 	public static final Pattern patternMinecraft = Pattern.compile("(?i)"  + MCStyle + "[0-9A-FK-OR]");
 	public static final Pattern patternWaila     = Pattern.compile("(?i)(" + WailaStyle + "(?<type>..))");
-	public static final Pattern patternRender    = Pattern.compile("(?i)(" + RENDER + "\\{(?<name>.+?)\\})");
+	public static final Pattern patternRender    = Pattern.compile("(?i)(" + RENDER + "\\{(?<name>[^,}]*),?(?<args>[^}]*)\\})");
 	public static final Pattern patternTab       = Pattern.compile("(?i)"  + TAB);
 	public static final Pattern patternRight     = Pattern.compile("(?i)"  + ALIGNRIGHT);
 	public static final Pattern patternCenter    = Pattern.compile("(?i)"  + ALIGNCENTER);
 	public static final Pattern patternIcon      = Pattern.compile("(?i)(" + WailaStyle + WailaIcon + "(?<type>[0-9A-Z]))");
-	public static final Pattern patternLineSplit = Pattern.compile("(?i)(" + WailaStyle + WailaStyle + "[^" + WailaStyle + "]+|" + WailaStyle + WailaRenderer + "a\\{.+?\\}|[^" + WailaStyle + "]+)");
+	public static final Pattern patternLineSplit = Pattern.compile("(?i)(" + WailaStyle + WailaStyle + "[^" + WailaStyle + "]+|" + WailaStyle + WailaRenderer + "a\\{([^,}]*),?([^}]*)\\}|[^" + WailaStyle + "]+)");
 }
