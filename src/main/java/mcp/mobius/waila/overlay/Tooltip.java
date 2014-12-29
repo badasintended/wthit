@@ -15,6 +15,7 @@ import mcp.mobius.waila.api.IWailaTooltipRenderer;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.DataAccessorBlock;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
+import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderString;
 import mcp.mobius.waila.utils.Constants;
 import static mcp.mobius.waila.api.SpecialChars.*;
 
@@ -152,7 +153,7 @@ public class Tooltip {
 						if (cs.startsWith(ALIGNCENTER))
 							offsetX += (columnsWidth.get(c) - DisplayUtil.getDisplayWidth(currentLine.substring(lineMatcher.start()))) / 2;
 						
-						renderable = new Renderable(new TooltipRendererString(DisplayUtil.stripWailaSymbols(cs)), new Point(offsetX, offsetY));
+						renderable = new Renderable(new TTRenderString(DisplayUtil.stripWailaSymbols(cs)), new Point(offsetX, offsetY));
 					}
 					
 					if (renderable != null){
