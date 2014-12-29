@@ -124,21 +124,27 @@ public class Tooltip {
 			int maxHeight = 0;								// Maximum height of this line
 			for (int c = 0; c < lines.get(i).size(); c++){	// We check all the columns for this line
 				offsetX     = columnsPos.get(c);			// We move the "cursor" to the current column
-				Matcher lineMatcher = patternLineSplit.matcher(lines.get(i).get(c));
+				String  currentLine = lines.get(i).get(c);
+				Matcher lineMatcher = patternLineSplit.matcher(currentLine);
 				
 				while (lineMatcher.find()){
 					String cs = lineMatcher.group();
 					Renderable renderable = null;
+					Matcher renderMatcher = patternRender.matcher(cs);	//We keep a matcher here to be able to check if we have a Renderer. Might be better to do a startWith + full matcher init after the check
 					
-					if (cs.startsWith(RENDER)){
-						
+					if (renderMatcher.find()){
+						String renderName = renderMatcher.group("name");
+						IWailaTooltipRenderer renderer = ModuleRegistrar.instance().getTooltipRenderer(renderName);
+						if (renderer != null)
+							renderable = new Renderable(renderer, new Point(offsetX, offsetY));
+
 					} else {
-					
+						// Todo : The added offset should be based on the remaining of the column, not just the current string !
 						if (cs.startsWith(ALIGNRIGHT))
-							offsetX +=  columnsWidth.get(c) - DisplayUtil.getDisplayWidth(cs);
+							offsetX +=  columnsWidth.get(c) - DisplayUtil.getDisplayWidth(currentLine.substring(lineMatcher.start()));
 
 						if (cs.startsWith(ALIGNCENTER))
-							offsetX += (columnsWidth.get(c) - DisplayUtil.getDisplayWidth(cs)) / 2;
+							offsetX += (columnsWidth.get(c) - DisplayUtil.getDisplayWidth(currentLine.substring(lineMatcher.start()))) / 2;
 						
 						renderable = new Renderable(new TooltipRendererString(DisplayUtil.stripWailaSymbols(cs)), new Point(offsetX, offsetY));
 					}
