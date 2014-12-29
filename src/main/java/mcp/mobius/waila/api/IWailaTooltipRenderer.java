@@ -5,6 +5,6 @@ import java.awt.Point;
 
 
 public interface IWailaTooltipRenderer {
-	Dimension getSize(IWailaDataAccessor accessor);
-	void      draw   (IWailaDataAccessor accessor, int x, int y);
+	Dimension getSize(String[] params, IWailaDataAccessor accessor);
+	void      draw   (String[] params, IWailaDataAccessor accessor, int x, int y);
 }

@@ -38,14 +38,20 @@ public class Tooltip {
 	IWailaDataAccessor accessor = DataAccessorBlock.instance;
 	
 	/////////////////////////////////////Renderable///////////////////////////////////////
-	private class Renderable implements IWailaTooltipRenderer{
+	private class Renderable{
 		final IWailaTooltipRenderer renderer;
 		final Point pos;
+		final String[] params;
 		
-		public Renderable(IWailaTooltipRenderer renderer, Point pos){
+		public Renderable(IWailaTooltipRenderer renderer, Point pos, String[] params){
 			this.renderer = renderer;
 			this.pos      = pos;
+			this.params   = params;
 		}
+
+		public Renderable(IWailaTooltipRenderer renderer, Point pos){
+			this(renderer, pos, new String[]{});
+		}		
 		
 		//public void setPos(int x, int y){
 		//	this.pos = new Point(x, y);
@@ -55,14 +61,12 @@ public class Tooltip {
 			return this.pos;
 		}
 		
-		@Override
 		public Dimension getSize(IWailaDataAccessor accessor) {
-			return this.renderer.getSize(accessor);
+			return this.renderer.getSize(this.params, accessor);
 		}
 		
-		@Override
 		public void draw(IWailaDataAccessor accessor, int x, int y) {
-			this.renderer.draw(accessor, x + this.pos.x, y + this.pos.y);
+			this.renderer.draw(this.params, accessor, x + this.pos.x, y + this.pos.y);
 		}
 		
 		@Override
@@ -134,13 +138,11 @@ public class Tooltip {
 					
 					if (renderMatcher.find()){
 						String renderName = renderMatcher.group("name");
-						String renderArgs = renderMatcher.group("args");
-						
-						System.out.printf("%s [ %s ]\n", renderName, renderArgs);
 						
 						IWailaTooltipRenderer renderer = ModuleRegistrar.instance().getTooltipRenderer(renderName);
-						if (renderer != null)
-							renderable = new Renderable(renderer, new Point(offsetX, offsetY));
+						if (renderer != null){
+							renderable = new Renderable(renderer, new Point(offsetX, offsetY), renderMatcher.group("args").split(","));
+						}
 
 					} else {
 						// Todo : The added offset should be based on the remaining of the column, not just the current string !

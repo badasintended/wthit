@@ -17,12 +17,12 @@ public class TooltipRendererString implements IWailaTooltipRenderer{
 	}
 	
 	@Override
-	public Dimension getSize(IWailaDataAccessor accessor) {
+	public Dimension getSize(String[] params, IWailaDataAccessor accessor) {
 		return size;
 	}
 
 	@Override
-	public void draw(IWailaDataAccessor accessor, int x, int y) {
+	public void draw(String[] params, IWailaDataAccessor accessor, int x, int y) {
 		GuiDraw.drawString(data, x, y, OverlayConfig.fontcolor, true);		
 	}
 

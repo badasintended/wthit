@@ -32,7 +32,7 @@ public class DisplayUtil {
 		 while (renderMatcher.find()){
 			 IWailaTooltipRenderer renderer = ModuleRegistrar.instance().getTooltipRenderer(renderMatcher.group("name"));
 			 if (renderer != null)
-				 width += renderer.getSize(DataAccessorBlock.instance).width;
+				 width += renderer.getSize(renderMatcher.group("args").split(","), DataAccessorBlock.instance).width;
 		 }
 		 
 		 width += fontRenderer.getStringWidth(stripSymbols(s));
