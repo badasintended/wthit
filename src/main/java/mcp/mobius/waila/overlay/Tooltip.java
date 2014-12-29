@@ -24,7 +24,7 @@ public class Tooltip {
 	
 	ArrayList<ArrayList<String>>  lines = new ArrayList<ArrayList<String>>();
 	ArrayList<ArrayList<Integer>> sizes = new ArrayList<ArrayList<Integer>>();
-	ArrayList<Integer>          columns = new ArrayList<Integer>();
+	ArrayList<Integer>     columnsWidth = new ArrayList<Integer>();
 	ArrayList<Integer>       columnsPos = new ArrayList<Integer>();	
 	
 	ArrayList<Renderable> elements = new ArrayList<Renderable>();
@@ -80,7 +80,7 @@ public class Tooltip {
 	
 	public Tooltip(List<String> textData, boolean hasIcon){
 
-		columns.add(0);		// Small init of the arrays to have at least one element
+		columnsWidth.add(0);		// Small init of the arrays to have at least one element
 		columnsPos.add(0);		
 		
 		for (String s : textData){
@@ -89,14 +89,15 @@ public class Tooltip {
 			for (String ss : line)
 				size.add(DisplayUtil.getDisplayWidth(ss));
 			
+			// This line.size() > 1 is to prevent columns to align on lines without column (ie : the name & modid)
 			if (line.size() > 1){
-				while (columns.size() < line.size()){
-					columns.add(0);
+				while (columnsWidth.size() < line.size()){
+					columnsWidth.add(0);
 					columnsPos.add(0);
 				}
 
 				for (int i = 0; i < line.size(); i++)
-					columns.set(i, Math.max(columns.get(i), size.get(i)));
+					columnsWidth.set(i, Math.max(columnsWidth.get(i), size.get(i)));
 			}
 			
 			maxStringW = Math.max(maxStringW, DisplayUtil.getDisplayWidth(s) + TabSpacing * (line.size() - 1));
@@ -105,9 +106,13 @@ public class Tooltip {
 			sizes.add(size);
 		}
 		
+		// We correct if we only have one column
+		if (columnsWidth.size() == 1)
+			columnsWidth.set(0, maxStringW);
+		
 		// We compute the position of the columns to be able to align the renderable later on
-		for (int i = 1; i < columns.size(); i++)
-			columnsPos.set(i, columns.get(i - 1) + columnsPos.get(i - 1) + TabSpacing);
+		for (int i = 1; i < columnsWidth.size(); i++)
+			columnsPos.set(i, columnsWidth.get(i - 1) + columnsPos.get(i - 1) + TabSpacing);
 		
 		this.computeRenderables();
 		this.computePositionAndSize(hasIcon);
@@ -116,35 +121,29 @@ public class Tooltip {
 	private void computeRenderables(){
 		int offsetY = 0;
 		for (int i = 0; i < lines.size(); i++){				// We check all the lines, one by one
-			int maxHeight = 0;	// Maximum height of this line
+			int maxHeight = 0;								// Maximum height of this line
 			for (int c = 0; c < lines.get(i).size(); c++){	// We check all the columns for this line
-				String cs   = lines.get(i).get(c);
-				offsetX     = columnsPos.get(c);
+				offsetX     = columnsPos.get(c);			// We move the "cursor" to the current column
+				Matcher lineMatcher = patternLineSplit.matcher(lines.get(i).get(c));
 				
-				Renderable renderable = new Renderable(new TooltipRendererString(DisplayUtil.stripWailaSymbols(cs)), new Point(offsetX, offsetY));
-				this.elements.add(renderable);
-				offsetX  += renderable.getSize(accessor).width;
-				maxHeight = Math.max(maxHeight, renderable.getSize(accessor).height);				
-			}
-			offsetY += maxHeight;
-		}
-		
-		/*
-		int offsetY = 0;
-		
-		for (int i = 0; i < lines.size(); i++){
-			int maxHeight = 0;
-			
-			for (int c = 0; c < lines.get(i).ncolumns; c++){
-				int offsetX = 0;				
-
-				for (int is = 0; is < lines.get(i).columns.get(c).size(); is++){
-					String s = lines.get(i).columns.get(c).get(is);
+				while (lineMatcher.find()){
+					String cs = lineMatcher.group();
+					Renderable renderable = null;
 					
-					if (s.startsWith(ALIGNRIGHT))
-						offsetX += columnsWidth[c] - DisplayUtil.getDisplayWidth(lines.get(i).columns.get(c).get(is + 1));					
-					else{
-						Renderable renderable = new Renderable(new TooltipRendererString(s), new Point(offsetX + columnsPos[c] + c*TabSpacing, offsetY)); 
+					if (cs.startsWith(RENDER)){
+						
+					} else {
+					
+						if (cs.startsWith(ALIGNRIGHT))
+							offsetX +=  columnsWidth.get(c) - DisplayUtil.getDisplayWidth(cs);
+
+						if (cs.startsWith(ALIGNCENTER))
+							offsetX += (columnsWidth.get(c) - DisplayUtil.getDisplayWidth(cs)) / 2;
+						
+						renderable = new Renderable(new TooltipRendererString(DisplayUtil.stripWailaSymbols(cs)), new Point(offsetX, offsetY));
+					}
+					
+					if (renderable != null){
 						this.elements.add(renderable);
 						offsetX  += renderable.getSize(accessor).width;
 						maxHeight = Math.max(maxHeight, renderable.getSize(accessor).height);
@@ -153,7 +152,6 @@ public class Tooltip {
 			}
 			offsetY += maxHeight;
 		}
-		*/
 	}
 	
 	private int  getRenderableTotalHeight(){
@@ -186,28 +184,6 @@ public class Tooltip {
 	public void drawStrings(){
 		for (Renderable r : this.elements)
 			r.draw(accessor, x + offsetX, y + ty);
-		
-		/*
-		for (int i = 0; i < lines.size(); i++){
-			for (int c = 0; c < lines.get(i).ncolumns; c++){
-				int offX = 0;				
-
-				for (int is = 0; is < lines.get(i).columns.get(c).size(); is++){
-					String s = lines.get(i).columns.get(c).get(is);
-					if (s.startsWith(WailaStyle + WailaIcon))
-						offX += IconSize;
-					
-					else if (s.startsWith(ALIGNRIGHT))
-						offX += columnsWidth[c] - GuiDraw.getStringWidth(lines.get(i).columns.get(c).get(is + 1));
-					
-					else{
-						GuiDraw.drawString(s, x + offsetX + columnsPos[c] + c*TabSpacing + offX, y + ty + 10*i, OverlayConfig.fontcolor, true);
-						offX += GuiDraw.getStringWidth(s);
-					}
-				}				
-			}
-		}
-		*/
 	}
 	
 	public void drawIcons(){
