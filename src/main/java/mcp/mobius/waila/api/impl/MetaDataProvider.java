@@ -82,7 +82,7 @@ public class MetaDataProvider{
 			try{
 				NBTTagCompound tag = new NBTTagCompound();
     			accessor.getTileEntity().writeToNBT(tag);			
-				accessor.remoteNbt = tag;			
+				accessor.setNBTData(tag);			
 			} catch (Exception e){
 				WailaExceptionHandler.handleErr(e, this.getClass().getName(), null);
 			}			

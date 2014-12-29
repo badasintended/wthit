@@ -15,18 +15,18 @@ import mcp.mobius.waila.utils.NBTUtil;
 
 public class DataAccessorBlock implements IWailaDataAccessor {
 
-	public World world;
-	public EntityPlayer player;
-	public MovingObjectPosition mop;
-	public Vec3 renderingvec = null;
-	public Block block;
-	public int blockID;
-	public int metadata;
-	public TileEntity entity;
-	public NBTTagCompound remoteNbt = null;
-	public long timeLastUpdate = System.currentTimeMillis();
-	public double partialFrame;
-	public ItemStack stack;
+	World world;
+	EntityPlayer player;
+	MovingObjectPosition mop;
+	Vec3 renderingvec = null;
+	Block block;
+	int blockID;
+	int metadata;
+	TileEntity entity;
+	NBTTagCompound remoteNbt = null;
+	long timeLastUpdate = System.currentTimeMillis();
+	double partialFrame;
+	ItemStack stack;
 	
 	public static DataAccessorBlock instance = new DataAccessorBlock();
 
@@ -116,6 +116,10 @@ public class DataAccessorBlock implements IWailaDataAccessor {
 		return tag;		
 	}
 
+	public void setNBTData(NBTTagCompound tag){
+		this.remoteNbt = tag;
+	}
+	
 	@Override
 	public int getNBTInteger(NBTTagCompound tag, String keyname){
 		return NBTUtil.getNBTInteger(tag, keyname);

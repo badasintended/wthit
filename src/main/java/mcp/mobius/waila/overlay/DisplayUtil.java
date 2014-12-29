@@ -10,6 +10,7 @@ import org.lwjgl.opengl.GL11;
 
 import mcp.mobius.waila.api.IWailaTooltipRenderer;
 import mcp.mobius.waila.api.impl.DataAccessorBlock;
+import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -32,7 +33,7 @@ public class DisplayUtil {
 		 while (renderMatcher.find()){
 			 IWailaTooltipRenderer renderer = ModuleRegistrar.instance().getTooltipRenderer(renderMatcher.group("name"));
 			 if (renderer != null)
-				 width += renderer.getSize(renderMatcher.group("args").split(","), DataAccessorBlock.instance).width;
+				 width += renderer.getSize(renderMatcher.group("args").split(","), DataAccessorCommon.instance).width;
 		 }
 		 
 		 width += fontRenderer.getStringWidth(stripSymbols(s));

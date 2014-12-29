@@ -11,16 +11,16 @@ import mcp.mobius.waila.utils.NBTUtil;
 
 public class DataAccessorFMP implements IWailaFMPAccessor {
 	
-	public String id;
-	public World world;
-	public EntityPlayer player;
-	public MovingObjectPosition mop;
-	public Vec3 renderingvec = null;
-	public TileEntity entity;
-	public NBTTagCompound partialNBT = null;	
-	public NBTTagCompound remoteNBT  = null;
-	public long timeLastUpdate = System.currentTimeMillis();
-	public double partialFrame;
+	String id;
+	World world;
+	EntityPlayer player;
+	MovingObjectPosition mop;
+	Vec3 renderingvec = null;
+	TileEntity entity;
+	NBTTagCompound partialNBT = null;	
+	NBTTagCompound remoteNBT  = null;
+	long timeLastUpdate = System.currentTimeMillis();
+	double partialFrame;
 	
 	public static DataAccessorFMP instance = new DataAccessorFMP();
 	

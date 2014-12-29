@@ -34,7 +34,7 @@ public class Message0x02TENBTData extends SimpleChannelInboundHandler<Message0x0
 
 	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, Message0x02TENBTData msg) throws Exception {
-		DataAccessorBlock.instance.remoteNbt = msg.tag;
+		DataAccessorBlock.instance.setNBTData(msg.tag);
 	}
 }
 

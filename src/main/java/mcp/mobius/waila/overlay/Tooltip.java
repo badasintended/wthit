@@ -10,10 +10,12 @@ import java.awt.Point;
 import scala.actors.threadpool.Arrays;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
+import mcp.mobius.waila.api.IWailaCommonAccessor;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaTooltipRenderer;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.DataAccessorBlock;
+import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderString;
 import mcp.mobius.waila.utils.Constants;
@@ -36,7 +38,7 @@ public class Tooltip {
 	boolean hasIcon = false;
 	ItemStack stack;
 	
-	IWailaDataAccessor accessor = DataAccessorBlock.instance;
+	IWailaCommonAccessor accessor = DataAccessorCommon.instance;
 	
 	/////////////////////////////////////Renderable///////////////////////////////////////
 	private class Renderable{
@@ -62,11 +64,11 @@ public class Tooltip {
 			return this.pos;
 		}
 		
-		public Dimension getSize(IWailaDataAccessor accessor) {
+		public Dimension getSize(IWailaCommonAccessor accessor) {
 			return this.renderer.getSize(this.params, accessor);
 		}
 		
-		public void draw(IWailaDataAccessor accessor, int x, int y) {
+		public void draw(IWailaCommonAccessor accessor, int x, int y) {
 			this.renderer.draw(this.params, accessor, x + this.pos.x, y + this.pos.y);
 		}
 		

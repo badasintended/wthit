@@ -33,7 +33,7 @@ public class Message0x04EntNBTData extends SimpleChannelInboundHandler<Message0x
 
 	@Override
 	protected void channelRead0(ChannelHandlerContext ctx, Message0x04EntNBTData msg) throws Exception {
-		DataAccessorEntity.instance.remoteNbt = msg.tag;
+		DataAccessorEntity.instance.setNBTData(msg.tag);
 	}
 
 }

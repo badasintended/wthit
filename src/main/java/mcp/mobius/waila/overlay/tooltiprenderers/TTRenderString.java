@@ -3,6 +3,7 @@ package mcp.mobius.waila.overlay.tooltiprenderers;
 import java.awt.Dimension;
 
 import codechicken.lib.gui.GuiDraw;
+import mcp.mobius.waila.api.IWailaCommonAccessor;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaTooltipRenderer;
 import mcp.mobius.waila.overlay.DisplayUtil;
@@ -19,12 +20,12 @@ public class TTRenderString implements IWailaTooltipRenderer{
 	}
 	
 	@Override
-	public Dimension getSize(String[] params, IWailaDataAccessor accessor) {
+	public Dimension getSize(String[] params, IWailaCommonAccessor accessor) {
 		return size;
 	}
 
 	@Override
-	public void draw(String[] params, IWailaDataAccessor accessor, int x, int y) {
+	public void draw(String[] params, IWailaCommonAccessor accessor, int x, int y) {
 		GuiDraw.drawString(data, x, y, OverlayConfig.fontcolor, true);		
 	}
 

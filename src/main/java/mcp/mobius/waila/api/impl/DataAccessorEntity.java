@@ -12,14 +12,14 @@ import mcp.mobius.waila.utils.NBTUtil;
 
 public class DataAccessorEntity implements IWailaEntityAccessor {
 
-	public World world;
-	public EntityPlayer player;
-	public MovingObjectPosition mop;
-	public Vec3 renderingvec = null;
-	public Entity entity;
-	public NBTTagCompound remoteNbt = null;
-	public long timeLastUpdate = System.currentTimeMillis();
-	public double partialFrame;
+	World world;
+	EntityPlayer player;
+	MovingObjectPosition mop;
+	Vec3 renderingvec = null;
+	Entity entity;
+	NBTTagCompound remoteNbt = null;
+	long timeLastUpdate = System.currentTimeMillis();
+	double partialFrame;
 	
 	public static DataAccessorEntity instance = new DataAccessorEntity();
 
@@ -97,6 +97,10 @@ public class DataAccessorEntity implements IWailaEntityAccessor {
 		return NBTUtil.getNBTInteger(tag, keyname);
 	}
 
+	public void setNBTData(NBTTagCompound tag){
+		this.remoteNbt = tag;
+	}	
+	
 	@Override
 	public Vec3 getRenderingPosition() {
 		return this.renderingvec;
