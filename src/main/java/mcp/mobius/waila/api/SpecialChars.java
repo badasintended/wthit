@@ -1,5 +1,10 @@
 package mcp.mobius.waila.api;
 
+import static mcp.mobius.waila.api.SpecialChars.RENDER;
+import static mcp.mobius.waila.api.SpecialChars.WailaStyle;
+
+import java.util.regex.Pattern;
+
 public class SpecialChars {
 
 	public static String MCStyle  = "\u00A7";
@@ -39,4 +44,11 @@ public class SpecialChars {
 	public static String EHEART      = WailaStyle + WailaIcon  +"c";
 	public static String RENDER      = WailaStyle + WailaRenderer +"a";
 	
+	public static final Pattern patternMinecraft = Pattern.compile("(?i)"  + MCStyle + "[0-9A-FK-OR]");
+	public static final Pattern patternWaila     = Pattern.compile("(?i)"  + WailaStyle + "..");
+	public static final Pattern patternRender    = Pattern.compile("(?i)(" + RENDER + "\\{(?<name>.+?)\\})");
+	public static final Pattern patternTab       = Pattern.compile("(?i)"  + TAB);
+	public static final Pattern patternRight     = Pattern.compile("(?i)"  + ALIGNRIGHT);
+	public static final Pattern patternCenter    = Pattern.compile("(?i)"  + ALIGNCENTER);
+	public static final Pattern patternIcon      = Pattern.compile("(?i)("  + WailaStyle + WailaIcon + "(?<type>[0-9A-Z]))");
 }

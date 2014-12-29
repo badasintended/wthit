@@ -3,10 +3,14 @@ package mcp.mobius.waila.overlay;
 import static mcp.mobius.waila.api.SpecialChars.*;
 
 import java.awt.Dimension;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.lwjgl.opengl.GL11;
 
+import mcp.mobius.waila.api.IWailaTooltipRenderer;
+import mcp.mobius.waila.api.impl.DataAccessorBlock;
+import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.ScaledResolution;
@@ -16,23 +20,43 @@ import net.minecraft.util.EnumChatFormatting;
 
 public class DisplayUtil {
 	public  static FontRenderer fontRenderer = Minecraft.getMinecraft().fontRenderer;
-	private static final Pattern formattingCodePattern  = Pattern.compile("(?i)" + String.valueOf('\u00a7') + "[0-9A-FK-OR]");
-	private static final Pattern formattingWailaPattern = Pattern.compile("(?i)" + WailaStyle + "..");
+
 	
-	 public static int getStringWidth(String s) {
+	 public static int getDisplayWidth(String s) {
 		 if (s == null || s.equals(""))
 			 return 0;
 		 
-		 String result = formattingCodePattern.matcher(s).replaceAll("");
-		 result = formattingWailaPattern.matcher(result).replaceAll("");
-		 return fontRenderer.getStringWidth(result);
-	}
+		 int width = 0;
+		 
+		 Matcher renderMatcher = patternRender.matcher(s);
+		 while (renderMatcher.find()){
+			 IWailaTooltipRenderer renderer = ModuleRegistrar.instance().getTooltipRenderer(renderMatcher.group("name"));
+			 if (renderer != null)
+				 width += renderer.getSize(DataAccessorBlock.instance).width;
+		 }
+		 
+		 width += fontRenderer.getStringWidth(stripSymbols(s));
+		 return width;
+	 }
 	 
 	 public static Dimension displaySize() {
 		 Minecraft mc = Minecraft.getMinecraft();
 		 ScaledResolution res = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
 		 return new Dimension(res.getScaledWidth(), res.getScaledHeight());
 	 }
+	 
+	 public static String stripSymbols(String s){
+		 String result = patternRender.matcher(s).replaceAll("");
+		 result = patternMinecraft.matcher(result).replaceAll("");
+		 result = patternWaila.matcher(result).replaceAll("");
+		 return result;
+	 }
+	 
+	 public static String stripWailaSymbols(String s){
+		 String result = patternRender.matcher(s).replaceAll("");
+		 result = patternWaila.matcher(result).replaceAll("");
+		 return result;
+	 }	 
 	 
 	 /*
 	 protected void drawGradientRect(int p_73733_1_, int p_73733_2_, int p_73733_3_, int p_73733_4_, int p_73733_5_, int p_73733_6_)

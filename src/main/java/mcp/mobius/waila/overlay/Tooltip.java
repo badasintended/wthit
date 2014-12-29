@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 import java.awt.Dimension;
 import java.awt.Point;
 
+import scala.actors.threadpool.Arrays;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
 import mcp.mobius.waila.api.IWailaDataAccessor;
@@ -21,7 +22,11 @@ public class Tooltip {
 	public static int TabSpacing = 8;
 	public static int IconSize   = 8; 
 	
-	ArrayList<Line>       lines    = new ArrayList<Line>();
+	ArrayList<ArrayList<String>>  lines = new ArrayList<ArrayList<String>>();
+	ArrayList<ArrayList<Integer>> sizes = new ArrayList<ArrayList<Integer>>();
+	ArrayList<Integer>          columns = new ArrayList<Integer>();
+	ArrayList<Integer>       columnsPos = new ArrayList<Integer>();	
+	
 	ArrayList<Renderable> elements = new ArrayList<Renderable>();
 	int w,h,x,y,ty;
 	int offsetX;
@@ -31,78 +36,6 @@ public class Tooltip {
 	ItemStack stack;
 	
 	IWailaDataAccessor accessor = DataAccessorBlock.instance;
-	
-	int[] columnsWidth;
-	int   columnsWidthMono;
-	int[] columnsPos;
-	int   ncolumns = 0;
-	
-	/////////////////////////////////////Line///////////////////////////////////////
-	private class Line{
-		String[] columnsRaw;
-		ArrayList<ArrayList<String>> columns = new ArrayList<ArrayList<String>>(); 
-		int      ncolumns;
-		int[]    columnsWidth;
-		int      lineWidth;
-		
-		public Line(String text){
-			columnsRaw   = text.split(TAB);
-			ncolumns     = columnsRaw.length;
-			columnsWidth = new int[ncolumns];
-			lineWidth    = 0;			
-			
-			for (String s : columnsRaw)
-				columns.add(parseString(s));
-
-			for (int i = 0; i < ncolumns; i++){
-				for (String s : columns.get(i)){
-					if (s.startsWith(WailaStyle + WailaIcon))
-						columnsWidth[i] += IconSize;
-					else if (s.startsWith(WailaStyle + WailaStyle))
-						columnsWidth[i] += 0;
-					else if (s.startsWith(RENDER)){
-						IWailaTooltipRenderer renderer = ModuleRegistrar.instance().getTooltipRenderer(s.substring(3));
-						if (renderer != null)
-							columnsWidth[i] += renderer.getSize(DataAccessorBlock.instance).width;
-					}
-					else
-						columnsWidth[i] += DisplayUtil.getStringWidth(s);
-				}
-				lineWidth      += columnsWidth[i];
-			}
-		}
-		
-		ArrayList<String> parseString(String s){
-			ArrayList<String> retList = new ArrayList<String>();
-			Pattern pattern = Pattern.compile(WailaStyle + "..");
-			Matcher matcher = pattern.matcher(s);
-			
-			int prevIndex = 0;
-			while (matcher.find()){
-				String substring = s.substring(prevIndex, matcher.start());
-
-				if (!substring.trim().equals(""))
-					retList.add(substring);
-				
-				String controlStr = s.substring(matcher.start(), matcher.end()); 
-
-				// If we don't have a render type block
-				if (controlStr.startsWith(RENDER)){
-					int   endOfBlock = s.substring(prevIndex).indexOf("}");
-					String renderStr = controlStr + s.substring(matcher.end() + 1, endOfBlock); 
-					retList.add(renderStr);
-					prevIndex += renderStr.length() + 2;
-				} else {
-					retList.add(controlStr);
-					prevIndex = matcher.end();					
-				}
-			}
-			retList.add(s.substring(prevIndex));
-			
-			return retList;
-		}
-	}
-	////////////////////////////////////////////////////////////////////////////
 	
 	/////////////////////////////////////Renderable///////////////////////////////////////
 	private class Renderable implements IWailaTooltipRenderer{
@@ -146,41 +79,57 @@ public class Tooltip {
 	}
 	
 	public Tooltip(List<String> textData, boolean hasIcon){
-		for (String s : textData)
-			lines.add(new Line(s));		
-		this.computeColumns();
 
+		columns.add(0);		// Small init of the arrays to have at least one element
+		columnsPos.add(0);		
+		
+		for (String s : textData){
+			ArrayList<String>  line = new ArrayList(Arrays.asList(patternTab.split(s)));
+			ArrayList<Integer> size = new ArrayList<Integer>();
+			for (String ss : line)
+				size.add(DisplayUtil.getDisplayWidth(ss));
+			
+			if (line.size() > 1){
+				while (columns.size() < line.size()){
+					columns.add(0);
+					columnsPos.add(0);
+				}
+
+				for (int i = 0; i < line.size(); i++)
+					columns.set(i, Math.max(columns.get(i), size.get(i)));
+			}
+			
+			maxStringW = Math.max(maxStringW, DisplayUtil.getDisplayWidth(s) + TabSpacing * (line.size() - 1));
+			
+			lines.add(line);
+			sizes.add(size);
+		}
+		
+		// We compute the position of the columns to be able to align the renderable later on
+		for (int i = 1; i < columns.size(); i++)
+			columnsPos.set(i, columns.get(i - 1) + columnsPos.get(i - 1) + TabSpacing);
+		
 		this.computeRenderables();
 		this.computePositionAndSize(hasIcon);
 	}
 	
-	private void computeColumns(){
-		for (Line l : lines)
-			ncolumns = Math.max(ncolumns, l.ncolumns);
-		
-		columnsWidth     = new int[ncolumns];
-		columnsPos       = new int[ncolumns];
-
-		for (Line l : lines){
-			for (int i = 0; i < l.ncolumns; i++){
-				if (l.ncolumns > 1 && ncolumns != 1)
-					columnsWidth[i] = Math.max(columnsWidth[i], l.columnsWidth[i]);
-			}
-			columnsWidthMono = Math.max(columnsWidthMono, l.columnsWidth[0]);
-		}
-
-		maxStringW = 0;
-		for (int i = 0; i < ncolumns; i++)
-			maxStringW += columnsWidth[i];
-		maxStringW += ncolumns * TabSpacing;
-
-		maxStringW = Math.max(maxStringW, columnsWidthMono);
-		
-		for (int i = 0; i < ncolumns - 1; i++)
-			columnsPos[i + 1] = columnsWidth[i] + columnsPos[i];		
-	}
-	
 	private void computeRenderables(){
+		int offsetY = 0;
+		for (int i = 0; i < lines.size(); i++){				// We check all the lines, one by one
+			int maxHeight = 0;	// Maximum height of this line
+			for (int c = 0; c < lines.get(i).size(); c++){	// We check all the columns for this line
+				String cs   = lines.get(i).get(c);
+				offsetX     = columnsPos.get(c);
+				
+				Renderable renderable = new Renderable(new TooltipRendererString(DisplayUtil.stripWailaSymbols(cs)), new Point(offsetX, offsetY));
+				this.elements.add(renderable);
+				offsetX  += renderable.getSize(accessor).width;
+				maxHeight = Math.max(maxHeight, renderable.getSize(accessor).height);				
+			}
+			offsetY += maxHeight;
+		}
+		
+		/*
 		int offsetY = 0;
 		
 		for (int i = 0; i < lines.size(); i++){
@@ -193,7 +142,7 @@ public class Tooltip {
 					String s = lines.get(i).columns.get(c).get(is);
 					
 					if (s.startsWith(ALIGNRIGHT))
-						offsetX += columnsWidth[c] - DisplayUtil.getStringWidth(lines.get(i).columns.get(c).get(is + 1));					
+						offsetX += columnsWidth[c] - DisplayUtil.getDisplayWidth(lines.get(i).columns.get(c).get(is + 1));					
 					else{
 						Renderable renderable = new Renderable(new TooltipRendererString(s), new Point(offsetX + columnsPos[c] + c*TabSpacing, offsetY)); 
 						this.elements.add(renderable);
@@ -204,6 +153,7 @@ public class Tooltip {
 			}
 			offsetY += maxHeight;
 		}
+		*/
 	}
 	
 	private int  getRenderableTotalHeight(){

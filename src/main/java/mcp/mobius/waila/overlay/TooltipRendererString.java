@@ -13,7 +13,7 @@ public class TooltipRendererString implements IWailaTooltipRenderer{
 	
 	public TooltipRendererString(String data){
 		this.data = data;
-		this.size = new Dimension(GuiDraw.getStringWidth(data), 10);
+		this.size = new Dimension(DisplayUtil.getDisplayWidth(data), data.equals("") ? 0 : 10);
 	}
 	
 	@Override
