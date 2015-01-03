@@ -1,5 +1,8 @@
 package mcp.mobius.waila.overlay.tooltiprenderers;
 
+import static mcp.mobius.waila.api.SpecialChars.WailaIcon;
+import static mcp.mobius.waila.api.SpecialChars.WailaStyle;
+
 import java.awt.Dimension;
 
 import org.lwjgl.opengl.GL11;
@@ -25,8 +28,8 @@ public class TTRenderIcon implements IWailaTooltipRenderer {
 	}
 
 	@Override
-	public void draw(String[] params, IWailaCommonAccessor accessor, int x, int y) {
-		OverlayRenderer.renderIcon(x, y, IconSize, IconSize, IconUI.bySymbol(type));		
+	public void draw(String[] params, IWailaCommonAccessor accessor) {
+		OverlayRenderer.renderIcon(0, 0, IconSize, IconSize, IconUI.bySymbol(WailaStyle + WailaIcon + type));		
 	}
 
 }

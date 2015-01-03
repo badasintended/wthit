@@ -50,6 +50,21 @@ public class SpecialChars {
 	public static final Pattern patternTab       = Pattern.compile("(?i)"  + TAB);
 	public static final Pattern patternRight     = Pattern.compile("(?i)"  + ALIGNRIGHT);
 	public static final Pattern patternCenter    = Pattern.compile("(?i)"  + ALIGNCENTER);
-	public static final Pattern patternIcon      = Pattern.compile("(?i)(" + WailaStyle + WailaIcon + "(?<type>[0-9A-Z]))");
+	public static final Pattern patternIcon      = Pattern.compile("(?i)(" + WailaStyle + WailaIcon + "(?<type>[0-9a-z]))");
 	public static final Pattern patternLineSplit = Pattern.compile("(?i)(" + WailaStyle + WailaStyle + "[^" + WailaStyle + "]+|" + WailaStyle + WailaIcon + "[0-9A-Z]|" + WailaStyle + WailaRenderer + "a\\{([^,}]*),?([^}]*)\\}|[^" + WailaStyle + "]+)");
+	
+	/**
+	 * Helper method to get a proper RENDER string. Just put the name of the renderer and the params in, and it will give back a directly usable String for the tooltip.
+	 * @param name
+	 * @param params
+	 * @return
+	 */
+	public static String getRenderString(String name, String... params){
+		String result = RENDER + "{" + name;
+		for (String s : params){
+			result += "," + s;
+		}
+		result += "}";
+		return result;
+	}
 }

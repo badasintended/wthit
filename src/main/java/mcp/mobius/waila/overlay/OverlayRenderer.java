@@ -70,6 +70,8 @@ public class OverlayRenderer {
 		tooltip.draw();
         GL11.glDisable(GL11.GL_BLEND);
 
+        tooltip.draw2nd();
+        
         if (tooltip.hasIcon)
         	RenderHelper.enableGUIStandardItemLighting();
         

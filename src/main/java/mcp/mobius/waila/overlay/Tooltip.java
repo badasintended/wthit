@@ -7,6 +7,8 @@ import java.util.regex.Pattern;
 import java.awt.Dimension;
 import java.awt.Point;
 
+import org.lwjgl.opengl.GL11;
+
 import scala.actors.threadpool.Arrays;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
@@ -30,7 +32,9 @@ public class Tooltip {
 	ArrayList<Integer>     columnsWidth = new ArrayList<Integer>();
 	ArrayList<Integer>       columnsPos = new ArrayList<Integer>();	
 	
-	ArrayList<Renderable> elements = new ArrayList<Renderable>();
+	ArrayList<Renderable> elements    = new ArrayList<Renderable>();
+	ArrayList<Renderable> elements2nd = new ArrayList<Renderable>();
+	
 	int w,h,x,y,ty;
 	int offsetX;
 	int maxStringW;
@@ -69,7 +73,10 @@ public class Tooltip {
 		}
 		
 		public void draw(IWailaCommonAccessor accessor, int x, int y) {
-			this.renderer.draw(this.params, accessor, x + this.pos.x, y + this.pos.y);
+			GL11.glPushMatrix();
+			GL11.glTranslatef(x + this.pos.x, y + this.pos.y, 0);
+			this.renderer.draw(this.params, accessor);
+			GL11.glPopMatrix();
 		}
 		
 		@Override
@@ -147,9 +154,11 @@ public class Tooltip {
 						IWailaTooltipRenderer renderer = ModuleRegistrar.instance().getTooltipRenderer(renderName);
 						if (renderer != null){
 							renderable = new Renderable(renderer, new Point(offsetX, offsetY), renderMatcher.group("args").split(","));
+							this.elements2nd.add(renderable);							
 						}
 					} else if (iconMatcher.find()){
 						renderable = new Renderable(new TTRenderIcon(iconMatcher.group("type")), new Point(offsetX, offsetY));
+						this.elements2nd.add(renderable);							
 					} else {
 						// Todo : The added offset should be based on the remaining of the column, not just the current string !
 						if (cs.startsWith(ALIGNRIGHT))
@@ -159,12 +168,12 @@ public class Tooltip {
 							offsetX += (columnsWidth.get(c) - DisplayUtil.getDisplayWidth(currentLine.substring(lineMatcher.start()))) / 2;
 						
 						renderable = new Renderable(new TTRenderString(DisplayUtil.stripWailaSymbols(cs)), new Point(offsetX, offsetY));
+						this.elements.add(renderable);
 					}
 					
 					if (renderable != null){
-						this.elements.add(renderable);
 						offsetX  += renderable.getSize(accessor).width;
-						maxHeight = Math.max(maxHeight, renderable.getSize(accessor).height);
+						maxHeight = Math.max(maxHeight, renderable.getSize(accessor).height + 2);
 					}
 				}
 			}
@@ -175,7 +184,7 @@ public class Tooltip {
 	private int  getRenderableTotalHeight(){
 		int result = 0;
 		for (Renderable r : this.elements)
-			result = Math.max(r.getPos().y + r.getSize(accessor).height, result);
+			result = Math.max(r.getPos().y + r.getSize(accessor).height + 2, result);
 		return result;
 	}
 	
@@ -190,13 +199,13 @@ public class Tooltip {
 	
 		w = maxStringW + paddingW;
 		
-		h = Math.max(paddingH, this.getRenderableTotalHeight() + 10);
+		h = Math.max(paddingH, this.getRenderableTotalHeight() + 8);
 		
 		Dimension size = DisplayUtil.displaySize();
 		x = ((int)(size.width  / OverlayConfig.scale)-w-1)*pos.x/10000;
 		y = ((int)(size.height / OverlayConfig.scale)-h-1)*pos.y/10000;	
 		
-		ty = (h - this.getRenderableTotalHeight())/2;
+		ty = (h - this.getRenderableTotalHeight())/2 + 1;
 	}
 	
 	public void draw(){
@@ -204,6 +213,11 @@ public class Tooltip {
 			r.draw(accessor, x + offsetX, y + ty);
 	}
 
+	public void draw2nd(){
+		for (Renderable r : this.elements2nd)
+			r.draw(accessor, x + offsetX, y + ty);
+	}	
+	
 	/*
 	public void drawIcons(){
 		for (int i = 0; i < lines.size(); i++){
