@@ -473,12 +473,11 @@ public class TrueTypeFont {
 			return textureId.get(0);
 		    
 		} catch (Exception e) {
-	    	e.printStackTrace();
-	    	System.exit(-1);
+	    	throw new RuntimeException(e);
+	    	//System.exit(-1);
 	    }
-		
-		return -1;
 	}
+	
 	public static boolean isSupported(String fontname) {
 		Font font[] = getFonts();
 		for (int i = font.length-1; i >= 0; i--) {
