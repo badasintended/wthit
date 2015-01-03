@@ -1,5 +1,6 @@
 package mcp.mobius.waila.api.impl;
 
+import cpw.mods.fml.common.registry.GameData;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -25,6 +26,7 @@ public class DataAccessorCommon implements IWailaCommonAccessor, IWailaDataAcces
 	public Vec3 renderingvec = null;
 	public Block block;
 	public int blockID;
+	public String blockResource;
 	public int metadata;
 	public TileEntity tileEntity;
 	public Entity entity;
@@ -49,6 +51,8 @@ public class DataAccessorCommon implements IWailaCommonAccessor, IWailaDataAcces
 			this.metadata   = world.getBlockMetadata(_mop.blockX, _mop.blockY, _mop.blockZ);
 			this.tileEntity = world.getTileEntity(_mop.blockX, _mop.blockY, _mop.blockZ);
 			this.entity     = null;
+			this.blockID       = Block.getIdFromBlock(this.block);
+			this.blockResource = GameData.getBlockRegistry().getNameForObject(this.block);
 			try{ this.stack = new ItemStack(this.block, 1, this.metadata); } catch (Exception e) {}
 			
 		} else if (this.mop.typeOfHit == MovingObjectType.ENTITY){
@@ -184,6 +188,11 @@ public class DataAccessorCommon implements IWailaCommonAccessor, IWailaDataAcces
 	
 	public void resetTimer(){
 		this.timeLastUpdate = System.currentTimeMillis();
+	}
+
+	@Override
+	public String getBlockQualifiedName() {
+		return this.blockResource;
 	}	
 	
 }

@@ -2,7 +2,7 @@ package mcp.mobius.waila.handlers;
 
 import java.util.List;
 
-
+import cpw.mods.fml.common.registry.GameData;
 import static mcp.mobius.waila.api.SpecialChars.*;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
@@ -11,11 +11,14 @@ import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.ModIdentification;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraftforge.common.config.Configuration;
 
@@ -56,9 +59,7 @@ public class HUDHandlerBlocks implements IWailaDataProvider {
 			currenttip.add("< Unnamed >");
 		else{
 			if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATA, true)){
-				name = currenttip.get(0);
-				//currenttip.set(0, name + String.format(" %s:%s", accessor.getBlockID(), accessor.getMetadata()));
-				//currenttip.set(0, name + String.format(" %s:%s", itemStack.itemID, itemStack.getItemDamage()));
+				currenttip.add(String.format(ITALIC + "[%d:%d] | %s", accessor.getBlockID(), accessor.getMetadata(), accessor.getBlockQualifiedName()));
 			}
 		}		
 		return currenttip;

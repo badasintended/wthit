@@ -24,6 +24,7 @@ public interface IWailaDataAccessor{
 	EntityPlayer 		 getPlayer();
 	Block        		 getBlock();
 	int          		 getBlockID();
+	String               getBlockQualifiedName();
 	int          		 getMetadata();
 	TileEntity           getTileEntity();
 	MovingObjectPosition getPosition();
