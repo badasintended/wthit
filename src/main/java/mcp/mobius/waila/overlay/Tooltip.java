@@ -61,10 +61,6 @@ public class Tooltip {
 			this(renderer, pos, new String[]{});
 		}		
 		
-		//public void setPos(int x, int y){
-		//	this.pos = new Point(x, y);
-		//}
-		
 		public Point getPos(){
 			return this.pos;
 		}
@@ -171,7 +167,6 @@ public class Tooltip {
 						renderable = new Renderable(new TTRenderIcon(iconMatcher.group("type")), new Point(offsetX, offsetY));
 						this.elements2nd.add(renderable);							
 					} else {
-						// Todo : The added offset should be based on the remaining of the column, not just the current string !
 						if (cs.startsWith(ALIGNRIGHT))
 							offsetX +=  columnsWidth.get(c) - DisplayUtil.getDisplayWidth(currentLine.substring(lineMatcher.start()));
 
@@ -228,28 +223,4 @@ public class Tooltip {
 		for (Renderable r : this.elements2nd)
 			r.draw(accessor, x + offsetX, y + ty);
 	}	
-	
-	/*
-	public void drawIcons(){
-		for (int i = 0; i < lines.size(); i++){
-			for (int c = 0; c < lines.get(i).ncolumns; c++){
-				int offX = 0;				
-				for (String s : lines.get(i).columns.get(c)){
-					if (s.startsWith(WailaStyle + WailaIcon)){
-						OverlayRenderer.renderIcon(x + offsetX + columnsPos[c] + c*TabSpacing + offX, y + ty + 10*i, IconSize, IconSize, IconUI.bySymbol(s));
-						offX += IconSize;
-					} else if (s.startsWith(RENDER)){
-						IWailaTooltipRenderer renderer = ModuleRegistrar.instance().getTooltipRenderer(s.substring(3));
-						if (renderer != null){
-							renderer.draw(DataAccessorBlock.instance, x + offsetX + columnsPos[c] + c*TabSpacing + offX, y + ty + 10*i);
-							offX += renderer.getSize(DataAccessorBlock.instance).getWidth();
-						}
-					}else{
-						offX += GuiDraw.getStringWidth(s);
-					}
-				}
-			}
-		}
-	}
-	 */
 }
