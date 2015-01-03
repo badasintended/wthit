@@ -1,23 +1,18 @@
 package mcp.mobius.waila.client;
 
-import java.lang.reflect.Method;
-
-import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.gui.truetyper.FontLoader;
 import mcp.mobius.waila.gui.truetyper.TrueTypeFont;
 import mcp.mobius.waila.handlers.HUDHandlerBlocks;
 import mcp.mobius.waila.handlers.HUDHandlerEntities;
+import mcp.mobius.waila.handlers.VanillaTooltipHandler;
 //import mcp.mobius.waila.handlers.SummaryProviderDefault;
 import mcp.mobius.waila.server.ProxyServer;
-import mcp.mobius.waila.utils.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.common.config.Configuration;
-
-import org.lwjgl.input.Keyboard;
-
+import net.minecraftforge.common.MinecraftForge;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Loader;
 import mcp.mobius.waila.cbcore.LangUtil;
 
@@ -43,6 +38,8 @@ public class ProxyClient extends ProxyServer {
 			try{
 				Class.forName("mcp.mobius.waila.handlers.nei.NEIHandler").getDeclaredMethod("register").invoke(null);
 			} catch (Exception e){}
+		} else {
+			MinecraftForge.EVENT_BUS.register(new VanillaTooltipHandler());    
 		}
 
 		ModuleRegistrar.instance().registerHeadProvider(new HUDHandlerBlocks(), Block.class);
