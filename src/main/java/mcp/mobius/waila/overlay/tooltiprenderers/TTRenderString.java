@@ -2,7 +2,6 @@ package mcp.mobius.waila.overlay.tooltiprenderers;
 
 import java.awt.Dimension;
 
-import codechicken.lib.gui.GuiDraw;
 import mcp.mobius.waila.api.IWailaCommonAccessor;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaTooltipRenderer;
@@ -26,7 +25,7 @@ public class TTRenderString implements IWailaTooltipRenderer{
 
 	@Override
 	public void draw(String[] params, IWailaCommonAccessor accessor) {
-		GuiDraw.drawString(data, 0, 0, OverlayConfig.fontcolor, true);		
+		DisplayUtil.drawString(data, 0, 0, OverlayConfig.fontcolor, true);		
 	}
 
 }

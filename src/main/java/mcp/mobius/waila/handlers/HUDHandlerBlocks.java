@@ -2,12 +2,13 @@ package mcp.mobius.waila.handlers;
 
 import java.util.List;
 
-import codechicken.nei.guihook.GuiContainerManager;
+
 import static mcp.mobius.waila.api.SpecialChars.*;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.impl.ConfigHandler;
+import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -31,7 +32,7 @@ public class HUDHandlerBlocks implements IWailaDataProvider {
         String name = null;
         try
         {
-            String s = GuiContainerManager.itemDisplayNameShort(itemStack);
+            String s = DisplayUtil.itemDisplayNameShort(itemStack);
             if(s != null && !s.endsWith("Unnamed"))
                 name = s;
 

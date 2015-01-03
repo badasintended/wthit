@@ -3,8 +3,6 @@ package mcp.mobius.waila.overlay;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import codechicken.lib.gui.GuiDraw;
-import codechicken.nei.guihook.GuiContainerManager;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.utils.Constants;
 import net.minecraft.client.Minecraft;
@@ -25,7 +23,6 @@ public class OverlayRenderer {
 	protected static boolean hasRescaleNormal;
 	protected static boolean hasColorMaterial;
 	protected static int     boundTexIndex;   	
-	protected static RenderItem renderItem = new RenderItem();
 	
     public static void renderOverlay()
     {
@@ -78,7 +75,8 @@ public class OverlayRenderer {
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
         
         if (tooltip.hasIcon && tooltip.stack != null && tooltip.stack.getItem() != null)
-            GuiContainerManager.drawItem(tooltip.x+5, tooltip.y+tooltip.h/2-8, tooltip.stack);
+            DisplayUtil.renderStack(tooltip.x+5, tooltip.y+tooltip.h/2-8, tooltip.stack);
+
         
         loadGLState();
     	GL11.glPopMatrix();  
@@ -114,33 +112,18 @@ public class OverlayRenderer {
     public static void drawTooltipBox(int x, int y, int w, int h, int bg, int grad1, int grad2)
     {
         //int bg = 0xf0100010;
-    	GuiDraw.drawGradientRect(x + 1, y, w - 1, 1, bg, bg);
-    	GuiDraw.drawGradientRect(x + 1, y + h, w - 1, 1, bg, bg);
-    	GuiDraw.drawGradientRect(x + 1, y + 1, w - 1, h - 1, bg, bg);//center
-    	GuiDraw.drawGradientRect(x, y + 1, 1, h - 1, bg, bg);
-    	GuiDraw.drawGradientRect(x + w, y + 1, 1, h - 1, bg, bg);
+    	DisplayUtil.drawGradientRect(x + 1, y, w - 1, 1, bg, bg);
+    	DisplayUtil.drawGradientRect(x + 1, y + h, w - 1, 1, bg, bg);
+    	DisplayUtil.drawGradientRect(x + 1, y + 1, w - 1, h - 1, bg, bg);//center
+    	DisplayUtil.drawGradientRect(x, y + 1, 1, h - 1, bg, bg);
+    	DisplayUtil.drawGradientRect(x + w, y + 1, 1, h - 1, bg, bg);
         //int grad1 = 0x505000ff;
         //int grad2 = 0x5028007F;
-    	GuiDraw.drawGradientRect(x + 1, y + 2, 1, h - 3, grad1, grad2);
-    	GuiDraw.drawGradientRect(x + w - 1, y + 2, 1, h - 3, grad1, grad2);
+    	DisplayUtil.drawGradientRect(x + 1, y + 2, 1, h - 3, grad1, grad2);
+    	DisplayUtil.drawGradientRect(x + w - 1, y + 2, 1, h - 3, grad1, grad2);
         
-    	GuiDraw.drawGradientRect(x + 1, y + 1, w - 1, 1, grad1, grad1);
-    	GuiDraw.drawGradientRect(x + 1, y + h - 1, w - 1, 1, grad2, grad2);
-    }    
-    
-    public static void drawTexturedModalRect(int x, int y, int u, int v, int w, int h, int tw, int th)
-    {
-        float f  = 0.00390625F;
-        float f1 = 0.00390625F;
-        float zLevel = 0.0F;
-        Tessellator tessellator = Tessellator.instance;
-        tessellator.startDrawingQuads();
-    	tessellator.setColorOpaque_F(1, 1, 1);        
-        tessellator.addVertexWithUV(x + 0, y + h, zLevel, (u + 0)  * f, (v + th) * f1);
-        tessellator.addVertexWithUV(x + w, y + h, zLevel, (u + tw) * f, (v + th) * f1);
-        tessellator.addVertexWithUV(x + w, y + 0, zLevel, (u + tw) * f, (v + 0)  * f1);
-        tessellator.addVertexWithUV(x + 0, y + 0, zLevel, (u + 0)  * f, (v + 0)  * f1);
-        tessellator.draw();
+    	DisplayUtil.drawGradientRect(x + 1, y + 1, w - 1, 1, grad1, grad1);
+    	DisplayUtil.drawGradientRect(x + 1, y + h - 1, w - 1, 1, grad2, grad2);
     }    
     
     public static void renderIcon(int x, int y, int sx, int sy, IconUI icon){
@@ -150,7 +133,7 @@ public class OverlayRenderer {
     		return;
     	
     	if (icon.bu != -1)
-    		drawTexturedModalRect(x, y, icon.bu, icon.bv, sx, sy, icon.bsu, icon.bsv);
-    	drawTexturedModalRect(x, y, icon.u, icon.v, sx, sy, icon.su, icon.sv);
+    		DisplayUtil.drawTexturedModalRect(x, y, icon.bu, icon.bv, sx, sy, icon.bsu, icon.bsv);
+    	DisplayUtil.drawTexturedModalRect(x, y, icon.u, icon.v, sx, sy, icon.su, icon.sv);
     }
 }

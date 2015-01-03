@@ -1,6 +1,7 @@
 package mcp.mobius.waila.overlay;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -9,7 +10,6 @@ import java.awt.Point;
 
 import org.lwjgl.opengl.GL11;
 
-import scala.actors.threadpool.Arrays;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
 import mcp.mobius.waila.api.IWailaCommonAccessor;

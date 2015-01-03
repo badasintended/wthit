@@ -1,15 +1,14 @@
 package mcp.mobius.waila.client;
 
+import java.lang.reflect.Method;
+
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.gui.truetyper.FontLoader;
 import mcp.mobius.waila.gui.truetyper.TrueTypeFont;
 import mcp.mobius.waila.handlers.HUDHandlerBlocks;
 import mcp.mobius.waila.handlers.HUDHandlerEntities;
-import mcp.mobius.waila.handlers.nei.ModNameFilter;
-import mcp.mobius.waila.handlers.nei.OreDictFilter;
 //import mcp.mobius.waila.handlers.SummaryProviderDefault;
-import mcp.mobius.waila.handlers.nei.TooltipHandlerWaila;
 import mcp.mobius.waila.server.ProxyServer;
 import mcp.mobius.waila.utils.Constants;
 import net.minecraft.block.Block;
@@ -19,9 +18,7 @@ import net.minecraftforge.common.config.Configuration;
 
 import org.lwjgl.input.Keyboard;
 
-import codechicken.nei.NEIClientConfig;
-import codechicken.nei.api.API;
-import codechicken.nei.guihook.GuiContainerManager;
+import cpw.mods.fml.common.Loader;
 import mcp.mobius.waila.cbcore.LangUtil;
 
 public class ProxyClient extends ProxyServer {
@@ -42,22 +39,11 @@ public class ProxyClient extends ProxyServer {
 		
 		//TickRegistry.registerTickHandler(WailaTickHandler.instance(), Side.CLIENT);		
 		
-		//GuiContainerManager.addTooltipHandler(new TooltipHandlerWaila());
-		if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_NEWFILTERS, true)){
-			API.addSearchProvider(new ModNameFilter());
-			API.addSearchProvider(new OreDictFilter());
+		if (Loader.isModLoaded("NotEnoughItems")){
+			try{
+				Class.forName("mcp.mobius.waila.handlers.nei.NEIHandler").getDeclaredMethod("register").invoke(null);
+			} catch (Exception e){}
 		}
-		
-		GuiContainerManager.addTooltipHandler(new TooltipHandlerWaila());
-		
-		//KeyBindingRegistry.registerKeyBinding(new ConfigKeyHandler());
-		
-		// We mute the default keybind for displaying the tooltip
-		NEIClientConfig.getSetting(Constants.BIND_NEI_SHOW).setIntValue(Keyboard.KEY_NONE);
-		NEIClientConfig.getSetting(Constants.CFG_NEI_SHOW).setBooleanValue(false);
-		
-		//API.addKeyBind(Constants.BIND_WIKI, "Display wiki",          Keyboard.KEY_RSHIFT);
-		//API.addKeyBind(Constants.BIND_TECH, "Display techtree",      Keyboard.KEY_RSHIFT);
 
 		ModuleRegistrar.instance().registerHeadProvider(new HUDHandlerBlocks(), Block.class);
 		ModuleRegistrar.instance().registerTailProvider(new HUDHandlerBlocks(), Block.class);
