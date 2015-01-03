@@ -7,6 +7,7 @@ import mcp.mobius.waila.gui.truetyper.TrueTypeFont;
 import mcp.mobius.waila.handlers.HUDHandlerBlocks;
 import mcp.mobius.waila.handlers.HUDHandlerEntities;
 import mcp.mobius.waila.handlers.nei.ModNameFilter;
+import mcp.mobius.waila.handlers.nei.OreDictFilter;
 //import mcp.mobius.waila.handlers.SummaryProviderDefault;
 import mcp.mobius.waila.handlers.nei.TooltipHandlerWaila;
 import mcp.mobius.waila.server.ProxyServer;
@@ -42,8 +43,10 @@ public class ProxyClient extends ProxyServer {
 		//TickRegistry.registerTickHandler(WailaTickHandler.instance(), Side.CLIENT);		
 		
 		//GuiContainerManager.addTooltipHandler(new TooltipHandlerWaila());
-		if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_NEWFILTERS, true))
+		if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_NEWFILTERS, true)){
 			API.addSearchProvider(new ModNameFilter());
+			API.addSearchProvider(new OreDictFilter());
+		}
 		
 		GuiContainerManager.addTooltipHandler(new TooltipHandlerWaila());
 		

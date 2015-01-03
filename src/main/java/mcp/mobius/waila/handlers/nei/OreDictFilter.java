@@ -1,26 +1,19 @@
 package mcp.mobius.waila.handlers.nei;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
 
-import mcp.mobius.waila.Waila;
-import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.oredict.OreDictionary;
-import codechicken.nei.NEIClientConfig;
 import codechicken.nei.SearchField;
 import codechicken.nei.SearchField.ISearchProvider;
 import codechicken.nei.api.ItemFilter;
-import codechicken.nei.api.ItemInfo;
 
-public class ModNameFilter implements ISearchProvider{
+public class OreDictFilter implements ISearchProvider{
 
 	@Override
 	public ItemFilter getFilter(String searchText) {
-		Pattern pattern = SearchField.getPattern(searchText);
+		if (!searchText.startsWith("#") || searchText.length() < 2) return null;
+		Pattern pattern = SearchField.getPattern(searchText.substring(1));
 		return pattern == null ? null : new Filter(pattern);
 	}
 
@@ -39,9 +32,15 @@ public class ModNameFilter implements ISearchProvider{
 		
 		@Override
 		public boolean matches(ItemStack itemstack) {
-			return this.pattern.matcher(ModIdentification.nameFromStack(itemstack).toLowerCase()).find();
+        	int[] ids = OreDictionary.getOreIDs(itemstack);
+        	boolean found = false;
+        	for (int id : ids){
+        		if (pattern.matcher(OreDictionary.getOreName(id).toLowerCase()).find()){
+        			found = true;
+        		}
+        	}
+        	return found;			
 		}
 		
 	}
-	
 }
