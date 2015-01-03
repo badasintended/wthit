@@ -21,6 +21,7 @@ import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderIcon;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderString;
 import mcp.mobius.waila.utils.Constants;
+import mcp.mobius.waila.utils.WailaExceptionHandler;
 import static mcp.mobius.waila.api.SpecialChars.*;
 
 public class Tooltip {
@@ -69,13 +70,23 @@ public class Tooltip {
 		}
 		
 		public Dimension getSize(IWailaCommonAccessor accessor) {
-			return this.renderer.getSize(this.params, accessor);
+			Dimension dim = new Dimension(0,0);
+			try {
+				dim = this.renderer.getSize(this.params, accessor);
+			} catch (Throwable e){
+				WailaExceptionHandler.handleErr(e, this.renderer.getClass().getName() + ".getSize()", null);				
+			}
+			return dim; 
 		}
 		
 		public void draw(IWailaCommonAccessor accessor, int x, int y) {
 			GL11.glPushMatrix();
 			GL11.glTranslatef(x + this.pos.x, y + this.pos.y, 0);
-			this.renderer.draw(this.params, accessor);
+			try{
+				this.renderer.draw(this.params, accessor);
+			} catch (Throwable e){
+				WailaExceptionHandler.handleErr(e, this.renderer.getClass().getName() + ".draw()", null);				
+			}
 			GL11.glPopMatrix();
 		}
 		
