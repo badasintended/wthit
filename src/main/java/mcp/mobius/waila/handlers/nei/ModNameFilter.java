@@ -26,7 +26,7 @@ public class ModNameFilter implements ISearchProvider{
 
 	@Override
 	public boolean isPrimary() {
-		return true;
+		return false;
 	}
 
 	public static class Filter implements ItemFilter {
