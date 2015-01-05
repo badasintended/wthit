@@ -1,6 +1,7 @@
 package mcp.mobius.waila.server;
 
 import java.lang.reflect.Method;
+
 import cpw.mods.fml.common.Loader;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.addons.agriculture.AgricultureModule;
@@ -21,6 +22,7 @@ import mcp.mobius.waila.addons.stevescarts.StevesCartsModule;
 import mcp.mobius.waila.addons.thaumcraft.ThaumcraftModule;
 import mcp.mobius.waila.addons.thermalexpansion.ThermalExpansionModule;
 import mcp.mobius.waila.addons.twilightforest.TwilightForestModule;
+import mcp.mobius.waila.addons.vanillamc.HUDHandlerFurnace;
 import mcp.mobius.waila.addons.vanillamc.HUDHandlerVanilla;
 import mcp.mobius.waila.api.IWailaRegistrar;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
@@ -36,6 +38,7 @@ public class ProxyServer {
 	public void registerMods(){
 		
 		HUDHandlerVanilla.register();
+		HUDHandlerFurnace.register();
 		
 		/* BUILDCRAFT */
 		BCModule.register();

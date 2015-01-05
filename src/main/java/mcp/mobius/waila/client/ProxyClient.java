@@ -7,6 +7,8 @@ import mcp.mobius.waila.handlers.HUDHandlerBlocks;
 import mcp.mobius.waila.handlers.HUDHandlerEntities;
 import mcp.mobius.waila.handlers.VanillaTooltipHandler;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderHealth;
+import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderProgressBar;
+import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderStack;
 //import mcp.mobius.waila.handlers.SummaryProviderDefault;
 import mcp.mobius.waila.server.ProxyServer;
 import net.minecraft.block.Block;
@@ -55,7 +57,9 @@ public class ProxyClient extends ProxyServer {
 		ModuleRegistrar.instance().addConfig("General", "general.showhp");
 		ModuleRegistrar.instance().addConfig("General", "general.showcrop");
 		
-		ModuleRegistrar.instance().registerTooltipRenderer("waila.health", new TTRenderHealth());
+		ModuleRegistrar.instance().registerTooltipRenderer("waila.health",    new TTRenderHealth());
+		ModuleRegistrar.instance().registerTooltipRenderer("waila.stack",     new TTRenderStack());
+		ModuleRegistrar.instance().registerTooltipRenderer("waila.progress",  new TTRenderProgressBar());
 	}	
 	
 	@Override
