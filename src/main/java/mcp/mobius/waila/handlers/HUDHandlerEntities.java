@@ -48,7 +48,7 @@ public class HUDHandlerEntities implements IWailaEntityProvider {
 			float  health = ((EntityLivingBase)entity).getHealth() / 2.0f;
 			float  maxhp  = ((EntityLivingBase)entity).getMaxHealth() / 2.0f;
 			
-			if (((EntityLivingBase)entity).getHealth() > maxhpfortext)
+			if (((EntityLivingBase)entity).getMaxHealth() > maxhpfortext)
 				currenttip.add(String.format("HP : " + WHITE + "%.0f" + GRAY + " / " + WHITE + "%.0f", ((EntityLivingBase)entity).getHealth(), ((EntityLivingBase)entity).getMaxHealth()));
 			
 			else{
