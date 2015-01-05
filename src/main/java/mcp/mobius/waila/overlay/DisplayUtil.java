@@ -42,6 +42,10 @@ public class DisplayUtil {
 				 width += renderer.getSize(renderMatcher.group("args").split(","), DataAccessorCommon.instance).width;
 		 }
 		 
+		 Matcher iconMatcher = patternIcon.matcher(s);
+		 while (iconMatcher.find())
+			 width += 8;
+		 
 		 width += fontRenderer.getStringWidth(stripSymbols(s));
 		 return width;
 	 }
