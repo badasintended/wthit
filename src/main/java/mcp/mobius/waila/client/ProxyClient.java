@@ -6,6 +6,7 @@ import mcp.mobius.waila.gui.truetyper.TrueTypeFont;
 import mcp.mobius.waila.handlers.HUDHandlerBlocks;
 import mcp.mobius.waila.handlers.HUDHandlerEntities;
 import mcp.mobius.waila.handlers.VanillaTooltipHandler;
+import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderHealth;
 //import mcp.mobius.waila.handlers.SummaryProviderDefault;
 import mcp.mobius.waila.server.ProxyServer;
 import net.minecraft.block.Block;
@@ -52,7 +53,9 @@ public class ProxyClient extends ProxyServer {
 		//ModuleRegistrar.instance().registerShortDataProvider(new SummaryProviderDefault(), Item.class);
 		
 		ModuleRegistrar.instance().addConfig("General", "general.showhp");
-		ModuleRegistrar.instance().addConfig("General", "general.showcrop");		
+		ModuleRegistrar.instance().addConfig("General", "general.showcrop");
+		
+		ModuleRegistrar.instance().registerTooltipRenderer("waila.health", new TTRenderHealth());
 	}	
 	
 	@Override
