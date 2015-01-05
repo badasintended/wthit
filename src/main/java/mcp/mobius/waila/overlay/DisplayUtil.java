@@ -167,4 +167,15 @@ public class DisplayUtil {
 		return list.get(0);
 	}	
 	
+    public static void renderIcon(int x, int y, int sx, int sy, IconUI icon){
+    	Minecraft.getMinecraft().getTextureManager().bindTexture(Gui.icons);
+    	
+    	if (icon == null)
+    		return;
+    	
+    	if (icon.bu != -1)
+    		DisplayUtil.drawTexturedModalRect(x, y, icon.bu, icon.bv, sx, sy, icon.bsu, icon.bsv);
+    	DisplayUtil.drawTexturedModalRect(x, y, icon.u, icon.v, sx, sy, icon.su, icon.sv);
+    }	
+	
 }

@@ -10,6 +10,7 @@ import org.lwjgl.opengl.GL11;
 import mcp.mobius.waila.api.IWailaCommonAccessor;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaTooltipRenderer;
+import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.overlay.OverlayRenderer;
 import mcp.mobius.waila.overlay.IconUI;
 
@@ -29,7 +30,7 @@ public class TTRenderIcon implements IWailaTooltipRenderer {
 
 	@Override
 	public void draw(String[] params, IWailaCommonAccessor accessor) {
-		OverlayRenderer.renderIcon(0, 0, IconSize, IconSize, IconUI.bySymbol(WailaStyle + WailaIcon + type));		
+		DisplayUtil.renderIcon(0, 0, IconSize, IconSize, IconUI.bySymbol(WailaStyle + WailaIcon + type));		
 	}
 
 }

@@ -8,6 +8,7 @@ import java.awt.Dimension;
 import net.minecraft.util.MathHelper;
 import mcp.mobius.waila.api.IWailaCommonAccessor;
 import mcp.mobius.waila.api.IWailaTooltipRenderer;
+import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.overlay.IconUI;
 import mcp.mobius.waila.overlay.OverlayRenderer;
 
@@ -46,17 +47,17 @@ public class TTRenderHealth implements IWailaTooltipRenderer {
 			
 		
 			if (iheart <= MathHelper.floor_float(health)){
-				OverlayRenderer.renderIcon(offsetX, offsetY, 8, 8, IconUI.HEART);
+				DisplayUtil.renderIcon(offsetX, offsetY, 8, 8, IconUI.HEART);
 				offsetX += 8;
 			}
 			
 			if ((iheart > health) && (iheart < health + 1)){
-				OverlayRenderer.renderIcon(offsetX, offsetY, 8, 8, IconUI.HHEART);
+				DisplayUtil.renderIcon(offsetX, offsetY, 8, 8, IconUI.HHEART);
 				offsetX += 8;
 			}
 
 			if (iheart >= health + 1){
-				OverlayRenderer.renderIcon(offsetX, offsetY, 8, 8, IconUI.EHEART);
+				DisplayUtil.renderIcon(offsetX, offsetY, 8, 8, IconUI.EHEART);
 				offsetX += 8;
 			}				
 
@@ -67,5 +68,4 @@ public class TTRenderHealth implements IWailaTooltipRenderer {
 			
 		}
 	}
-
 }

@@ -125,15 +125,4 @@ public class OverlayRenderer {
     	DisplayUtil.drawGradientRect(x + 1, y + 1, w - 1, 1, grad1, grad1);
     	DisplayUtil.drawGradientRect(x + 1, y + h - 1, w - 1, 1, grad2, grad2);
     }    
-    
-    public static void renderIcon(int x, int y, int sx, int sy, IconUI icon){
-    	Minecraft.getMinecraft().getTextureManager().bindTexture(Gui.icons);
-    	
-    	if (icon == null)
-    		return;
-    	
-    	if (icon.bu != -1)
-    		DisplayUtil.drawTexturedModalRect(x, y, icon.bu, icon.bv, sx, sy, icon.bsu, icon.bsv);
-    	DisplayUtil.drawTexturedModalRect(x, y, icon.u, icon.v, sx, sy, icon.su, icon.sv);
-    }
 }
