@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
@@ -13,7 +14,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
@@ -141,15 +144,29 @@ public class RayTracing {
         if (mouseoverBlock == null) return items;
         
         if (ModuleRegistrar.instance().hasStackProviders(mouseoverBlock)){
-        	ItemStack providerStack = ModuleRegistrar.instance().getStackProviders(mouseoverBlock).get(0).getWailaStack(DataAccessorCommon.instance, ConfigHandler.instance());
-        	if (providerStack != null)
-        		items.add(providerStack);
+        	for(IWailaDataProvider provider : ModuleRegistrar.instance().getStackProviders(mouseoverBlock)){
+        		ItemStack providerStack = provider.getWailaStack(DataAccessorCommon.instance, ConfigHandler.instance());
+        		if (providerStack != null){
+        			
+        			if (providerStack.getItem() == null)
+        				return new ArrayList<ItemStack>();
+        			
+        			items.add(providerStack);
+        		}
+        	}
         }
         
         if (tileEntity != null &&  ModuleRegistrar.instance().hasStackProviders(tileEntity)){
-        	ItemStack providerStack = ModuleRegistrar.instance().getStackProviders(tileEntity).get(0).getWailaStack(DataAccessorCommon.instance, ConfigHandler.instance());
-        	if (providerStack != null)
-        		items.add(providerStack);
+        	for(IWailaDataProvider provider : ModuleRegistrar.instance().getStackProviders(tileEntity)){
+        		ItemStack providerStack = provider.getWailaStack(DataAccessorCommon.instance, ConfigHandler.instance());
+        		if (providerStack != null){
+        			
+        			if (providerStack.getItem() == null)
+        				return new ArrayList<ItemStack>();        			
+        			
+        			items.add(providerStack);
+        		}
+        	}        	
         }        
         
         if(items.size() > 0)
