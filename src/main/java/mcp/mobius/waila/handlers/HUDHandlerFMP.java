@@ -36,8 +36,10 @@ public class HUDHandlerFMP implements IWailaDataProvider {
 			if (ModuleRegistrar.instance().hasHeadFMPProviders(id)){
 				DataAccessorFMP.instance.set(accessor.getWorld(), accessor.getPlayer(), accessor.getPosition(), subtag, id); 
 				
-				for (IWailaFMPProvider provider : ModuleRegistrar.instance().getHeadFMPProviders(id))
-					currenttip = provider.getWailaHead(itemStack, currenttip, DataAccessorFMP.instance, config);
+				for (List<IWailaFMPProvider> providersList : ModuleRegistrar.instance().getHeadFMPProviders(id).values()){
+					for (IWailaFMPProvider provider : providersList)
+						currenttip = provider.getWailaHead(itemStack, currenttip, DataAccessorFMP.instance, config);
+				}
 			}
 		}
 		
@@ -54,8 +56,10 @@ public class HUDHandlerFMP implements IWailaDataProvider {
 			if (ModuleRegistrar.instance().hasBodyFMPProviders(id)){
 				DataAccessorFMP.instance.set(accessor.getWorld(), accessor.getPlayer(), accessor.getPosition(), subtag, id); 
 				
-				for (IWailaFMPProvider provider : ModuleRegistrar.instance().getBodyFMPProviders(id))
-					currenttip = provider.getWailaBody(itemStack, currenttip, DataAccessorFMP.instance, config);
+				for (List<IWailaFMPProvider> providersList : ModuleRegistrar.instance().getBodyFMPProviders(id).values()){
+					for (IWailaFMPProvider provider : providersList)
+						currenttip = provider.getWailaBody(itemStack, currenttip, DataAccessorFMP.instance, config);
+				}
 			}
 		}
 		
@@ -72,8 +76,10 @@ public class HUDHandlerFMP implements IWailaDataProvider {
 			if (ModuleRegistrar.instance().hasTailFMPProviders(id)){
 				DataAccessorFMP.instance.set(accessor.getWorld(), accessor.getPlayer(), accessor.getPosition(), subtag, id); 
 				
-				for (IWailaFMPProvider provider : ModuleRegistrar.instance().getTailFMPProviders(id))
-					currenttip = provider.getWailaTail(itemStack, currenttip, DataAccessorFMP.instance, config);
+				for (List<IWailaFMPProvider> providersList : ModuleRegistrar.instance().getTailFMPProviders(id).values()){
+					for (IWailaFMPProvider provider : providersList)
+						currenttip = provider.getWailaTail(itemStack, currenttip, DataAccessorFMP.instance, config);
+				}
 			}
 		}
 		

@@ -1,5 +1,7 @@
 package mcp.mobius.waila.handlers;
 
+import java.util.List;
+
 import org.apache.logging.log4j.Level;
 
 import net.minecraft.item.ItemStack;
@@ -25,8 +27,9 @@ public class DecoratorFMP implements IWailaBlockDecorator {
 			if (ModuleRegistrar.instance().hasFMPDecorator(id)){
 				DataAccessorFMP.instance.set(accessor.getWorld(), accessor.getPlayer(), accessor.getPosition(), subtag, id, accessor.getRenderingPosition(), accessor.getPartialFrame()); 
 				
-				for (IWailaFMPDecorator provider : ModuleRegistrar.instance().getFMPDecorators(id))
-					provider.decorateBlock(itemStack, DataAccessorFMP.instance, config);
+				for (List<IWailaFMPDecorator> providersList : ModuleRegistrar.instance().getFMPDecorators(id).values())
+					for (IWailaFMPDecorator provider : providersList)
+						provider.decorateBlock(itemStack, DataAccessorFMP.instance, config);
 			}
 		}
 	}

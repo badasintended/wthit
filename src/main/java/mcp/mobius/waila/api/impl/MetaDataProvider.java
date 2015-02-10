@@ -3,6 +3,8 @@ package mcp.mobius.waila.api.impl;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IWailaBlock;
@@ -24,13 +26,13 @@ import net.minecraft.world.World;
 
 public class MetaDataProvider{
 	
-	private ArrayList<IWailaDataProvider>   headBlockProviders = new ArrayList<IWailaDataProvider>();
-	private ArrayList<IWailaDataProvider>   bodyBlockProviders = new ArrayList<IWailaDataProvider>();
-	private ArrayList<IWailaDataProvider>   tailBlockProviders = new ArrayList<IWailaDataProvider>();
+	private Map<Integer, List<IWailaDataProvider>>  headBlockProviders = new TreeMap<Integer, List<IWailaDataProvider>>();
+	private Map<Integer, List<IWailaDataProvider>>  bodyBlockProviders = new TreeMap<Integer, List<IWailaDataProvider>>();
+	private Map<Integer, List<IWailaDataProvider>>  tailBlockProviders = new TreeMap<Integer, List<IWailaDataProvider>>();
 	
-	private ArrayList<IWailaEntityProvider>   headEntityProviders = new ArrayList<IWailaEntityProvider>();
-	private ArrayList<IWailaEntityProvider>   bodyEntityProviders = new ArrayList<IWailaEntityProvider>();
-	private ArrayList<IWailaEntityProvider>   tailEntityProviders = new ArrayList<IWailaEntityProvider>();
+	private Map<Integer, List<IWailaEntityProvider>>  headEntityProviders = new TreeMap<Integer, List<IWailaEntityProvider>>();
+	private Map<Integer, List<IWailaEntityProvider>>  bodyEntityProviders = new TreeMap<Integer, List<IWailaEntityProvider>>();
+	private Map<Integer, List<IWailaEntityProvider>>  tailEntityProviders = new TreeMap<Integer, List<IWailaEntityProvider>>();
 	
 	private Class prevBlock = null;
 	private Class prevTile  = null;
@@ -48,14 +50,16 @@ public class MetaDataProvider{
 		}
 
 		if(ModuleRegistrar.instance().hasStackProviders(block)){
-			for (IWailaDataProvider dataProvider : ModuleRegistrar.instance().getStackProviders(block)){
-				try{
-					ItemStack retval = dataProvider.getWailaStack(accessor, ConfigHandler.instance());
-					if (retval != null)
-						return retval;					
-				}catch (Throwable e){
-					WailaExceptionHandler.handleErr(e, dataProvider.getClass().toString(), null);					
-				}				
+			for (List<IWailaDataProvider> providerList : ModuleRegistrar.instance().getStackProviders(block).values()){
+				for (IWailaDataProvider dataProvider : providerList){
+					try{
+						ItemStack retval = dataProvider.getWailaStack(accessor, ConfigHandler.instance());
+						if (retval != null)
+							return retval;					
+					}catch (Throwable e){
+						WailaExceptionHandler.handleErr(e, dataProvider.getClass().toString(), null);					
+					}				
+				}
 			}
 		}
 		return null;
@@ -117,50 +121,54 @@ public class MetaDataProvider{
 		
 		/* Lookup by class (for blocks)*/		
 		if (layout == Layout.HEADER && ModuleRegistrar.instance().hasHeadProviders(block))
-			headBlockProviders.addAll(ModuleRegistrar.instance().getHeadProviders(block));
+			headBlockProviders.putAll(ModuleRegistrar.instance().getHeadProviders(block));
 
 		else if (layout == Layout.BODY && ModuleRegistrar.instance().hasBodyProviders(block))
-			bodyBlockProviders.addAll(ModuleRegistrar.instance().getBodyProviders(block));
+			bodyBlockProviders.putAll(ModuleRegistrar.instance().getBodyProviders(block));
 
 		else if (layout == Layout.FOOTER && ModuleRegistrar.instance().hasTailProviders(block))
-			tailBlockProviders.addAll(ModuleRegistrar.instance().getTailProviders(block));
+			tailBlockProviders.putAll(ModuleRegistrar.instance().getTailProviders(block));
 
 		
 		/* Lookup by class (for tileentities)*/		
 		if (layout == Layout.HEADER && ModuleRegistrar.instance().hasHeadProviders(accessor.getTileEntity()))
-			headBlockProviders.addAll(ModuleRegistrar.instance().getHeadProviders(accessor.getTileEntity()));
+			headBlockProviders.putAll(ModuleRegistrar.instance().getHeadProviders(accessor.getTileEntity()));
 
 		else if (layout == Layout.BODY && ModuleRegistrar.instance().hasBodyProviders(accessor.getTileEntity()))
-			bodyBlockProviders.addAll(ModuleRegistrar.instance().getBodyProviders(accessor.getTileEntity()));
+			bodyBlockProviders.putAll(ModuleRegistrar.instance().getBodyProviders(accessor.getTileEntity()));
 	
 		else if (layout == Layout.FOOTER && ModuleRegistrar.instance().hasTailProviders(accessor.getTileEntity()))
-			tailBlockProviders.addAll(ModuleRegistrar.instance().getTailProviders(accessor.getTileEntity()));
+			tailBlockProviders.putAll(ModuleRegistrar.instance().getTailProviders(accessor.getTileEntity()));
 	
 		/* Apply all collected providers */
 		if (layout == Layout.HEADER)
-			for (IWailaDataProvider dataProvider : headBlockProviders)
-				try{				
-					currenttip = dataProvider.getWailaHead(itemStack, currenttip, accessor, ConfigHandler.instance());
-				} catch (Throwable e){
-					currenttip = WailaExceptionHandler.handleErr(e, dataProvider.getClass().toString(), currenttip);
-				}
+			for (List<IWailaDataProvider> providersList : headBlockProviders.values()){
+				for (IWailaDataProvider dataProvider : providersList)
+					try{				
+						currenttip = dataProvider.getWailaHead(itemStack, currenttip, accessor, ConfigHandler.instance());
+					} catch (Throwable e){
+						currenttip = WailaExceptionHandler.handleErr(e, dataProvider.getClass().toString(), currenttip);
+					}
+			}
 
-		if (layout == Layout.BODY)		
-			for (IWailaDataProvider dataProvider : bodyBlockProviders)
-				try{				
-					currenttip = dataProvider.getWailaBody(itemStack, currenttip, accessor, ConfigHandler.instance());
-				} catch (Throwable e){
-					currenttip = WailaExceptionHandler.handleErr(e, dataProvider.getClass().toString(), currenttip);
-				}
-		
+		if (layout == Layout.BODY)	
+			for (List<IWailaDataProvider> providersList : bodyBlockProviders.values()){			
+				for (IWailaDataProvider dataProvider : providersList)
+					try{				
+						currenttip = dataProvider.getWailaBody(itemStack, currenttip, accessor, ConfigHandler.instance());
+					} catch (Throwable e){
+						currenttip = WailaExceptionHandler.handleErr(e, dataProvider.getClass().toString(), currenttip);
+					}
+			}
 		if (layout == Layout.FOOTER)	
-			for (IWailaDataProvider dataProvider : tailBlockProviders)
-				try{				
-					currenttip = dataProvider.getWailaTail(itemStack, currenttip, accessor, ConfigHandler.instance());
-				} catch (Throwable e){
-					currenttip = WailaExceptionHandler.handleErr(e, dataProvider.getClass().toString(), currenttip);
-				}		
-		
+			for (List<IWailaDataProvider> providersList : tailBlockProviders.values()){
+				for (IWailaDataProvider dataProvider : providersList)
+					try{				
+						currenttip = dataProvider.getWailaTail(itemStack, currenttip, accessor, ConfigHandler.instance());
+					} catch (Throwable e){
+						currenttip = WailaExceptionHandler.handleErr(e, dataProvider.getClass().toString(), currenttip);
+					}		
+			}
 		return currenttip;
 	}
 	
@@ -193,38 +201,44 @@ public class MetaDataProvider{
 		
 		/* Lookup by class (for entities)*/		
 		if (layout == Layout.HEADER && ModuleRegistrar.instance().hasHeadEntityProviders(entity))
-			headEntityProviders.addAll(ModuleRegistrar.instance().getHeadEntityProviders(entity));
+			headEntityProviders.putAll(ModuleRegistrar.instance().getHeadEntityProviders(entity));
 
 		else if (layout == Layout.BODY && ModuleRegistrar.instance().hasBodyEntityProviders(entity))
-			bodyEntityProviders.addAll(ModuleRegistrar.instance().getBodyEntityProviders(entity));
+			bodyEntityProviders.putAll(ModuleRegistrar.instance().getBodyEntityProviders(entity));
 
 		else if (layout == Layout.FOOTER && ModuleRegistrar.instance().hasTailEntityProviders(entity))
-			tailEntityProviders.addAll(ModuleRegistrar.instance().getTailEntityProviders(entity));
+			tailEntityProviders.putAll(ModuleRegistrar.instance().getTailEntityProviders(entity));
 
 		/* Apply all collected providers */
 		if (layout == Layout.HEADER)
-			for (IWailaEntityProvider dataProvider : headEntityProviders)
-				try{				
-					currenttip = dataProvider.getWailaHead(entity, currenttip, accessor, ConfigHandler.instance());
-				} catch (Throwable e){
-					currenttip = WailaExceptionHandler.handleErr(e, dataProvider.getClass().toString(), currenttip);
-				}
+			for (List<IWailaEntityProvider> providersList : headEntityProviders.values()){
+				for (IWailaEntityProvider dataProvider : providersList)
+					try{				
+						currenttip = dataProvider.getWailaHead(entity, currenttip, accessor, ConfigHandler.instance());
+					} catch (Throwable e){
+						currenttip = WailaExceptionHandler.handleErr(e, dataProvider.getClass().toString(), currenttip);
+					}
+			}
 
 		if (layout == Layout.BODY)		
-			for (IWailaEntityProvider dataProvider : bodyEntityProviders)
-				try{				
-					currenttip = dataProvider.getWailaBody(entity, currenttip, accessor, ConfigHandler.instance());
-				} catch (Throwable e){
-					currenttip = WailaExceptionHandler.handleErr(e, dataProvider.getClass().toString(), currenttip);
-				}
+			for (List<IWailaEntityProvider> providersList : bodyEntityProviders.values()){
+				for (IWailaEntityProvider dataProvider : providersList)
+					try{				
+						currenttip = dataProvider.getWailaBody(entity, currenttip, accessor, ConfigHandler.instance());
+					} catch (Throwable e){
+						currenttip = WailaExceptionHandler.handleErr(e, dataProvider.getClass().toString(), currenttip);
+					}
+			}
 		
 		if (layout == Layout.FOOTER)	
-			for (IWailaEntityProvider dataProvider : tailEntityProviders)
-				try{				
-					currenttip = dataProvider.getWailaTail(entity, currenttip, accessor, ConfigHandler.instance());
-				} catch (Throwable e){
-					currenttip = WailaExceptionHandler.handleErr(e, dataProvider.getClass().toString(), currenttip);
-				}		
+			for (List<IWailaEntityProvider> providersList : tailEntityProviders.values()){
+				for (IWailaEntityProvider dataProvider : providersList)
+					try{				
+						currenttip = dataProvider.getWailaTail(entity, currenttip, accessor, ConfigHandler.instance());
+					} catch (Throwable e){
+						currenttip = WailaExceptionHandler.handleErr(e, dataProvider.getClass().toString(), currenttip);
+					}
+			}
 		
 		return currenttip;
 	}	

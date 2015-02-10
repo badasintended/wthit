@@ -3,8 +3,10 @@ package mcp.mobius.waila.overlay;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 import mcp.mobius.waila.api.IWailaDataProvider;
+import mcp.mobius.waila.api.IWailaEntityProvider;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
@@ -115,8 +117,13 @@ public class RayTracing {
     	if (this.target == null)
     		return null;        
         
-        if (ModuleRegistrar.instance().hasOverrideEntityProviders(this.target.entityHit))
-        	ents.add(ModuleRegistrar.instance().getOverrideEntityProviders(this.target.entityHit).get(0).getWailaOverride(DataAccessorCommon.instance, ConfigHandler.instance()));
+        if (ModuleRegistrar.instance().hasOverrideEntityProviders(this.target.entityHit)){
+        	for (List<IWailaEntityProvider> listProviders : ModuleRegistrar.instance().getOverrideEntityProviders(this.target.entityHit).values()){
+        		for (IWailaEntityProvider provider : listProviders){
+        			ents.add(provider.getWailaOverride(DataAccessorCommon.instance, ConfigHandler.instance()));
+        		}
+        	}
+        }
         
         if(ents.size() > 0)
             return ents.get(0);
@@ -144,29 +151,34 @@ public class RayTracing {
         if (mouseoverBlock == null) return items;
         
         if (ModuleRegistrar.instance().hasStackProviders(mouseoverBlock)){
-        	for(IWailaDataProvider provider : ModuleRegistrar.instance().getStackProviders(mouseoverBlock)){
-        		ItemStack providerStack = provider.getWailaStack(DataAccessorCommon.instance, ConfigHandler.instance());
-        		if (providerStack != null){
-        			
-        			if (providerStack.getItem() == null)
-        				return new ArrayList<ItemStack>();
-        			
-        			items.add(providerStack);
-        		}
+        	for (List<IWailaDataProvider> providersList : ModuleRegistrar.instance().getStackProviders(mouseoverBlock).values()){
+	        	for(IWailaDataProvider provider : providersList){
+	        		ItemStack providerStack = provider.getWailaStack(DataAccessorCommon.instance, ConfigHandler.instance());
+	        		if (providerStack != null){
+	        			
+	        			if (providerStack.getItem() == null)
+	        				return new ArrayList<ItemStack>();
+	        			
+	        			items.add(providerStack);
+	        		}
+	        	}
         	}
         }
         
         if (tileEntity != null &&  ModuleRegistrar.instance().hasStackProviders(tileEntity)){
-        	for(IWailaDataProvider provider : ModuleRegistrar.instance().getStackProviders(tileEntity)){
-        		ItemStack providerStack = provider.getWailaStack(DataAccessorCommon.instance, ConfigHandler.instance());
-        		if (providerStack != null){
-        			
-        			if (providerStack.getItem() == null)
-        				return new ArrayList<ItemStack>();        			
-        			
-        			items.add(providerStack);
-        		}
-        	}        	
+        	for (List<IWailaDataProvider> providersList : ModuleRegistrar.instance().getStackProviders(tileEntity).values()){
+        	
+	        	for(IWailaDataProvider provider : providersList){
+	        		ItemStack providerStack = provider.getWailaStack(DataAccessorCommon.instance, ConfigHandler.instance());
+	        		if (providerStack != null){
+	        			
+	        			if (providerStack.getItem() == null)
+	        				return new ArrayList<ItemStack>();        			
+	        			
+	        			items.add(providerStack);
+	        		}
+	        	}        	
+        	}
         }        
         
         if(items.size() > 0)

@@ -1,5 +1,7 @@
 package mcp.mobius.waila.overlay;
 
+import java.util.List;
+
 import org.lwjgl.opengl.GL11;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -46,15 +48,17 @@ public class DecoratorRenderer {
         GL11.glDepthMask(false);		
 
 		if (ModuleRegistrar.instance().hasBlockDecorator(block)){
-			for (IWailaBlockDecorator decorator : ModuleRegistrar.instance().getBlockDecorators(block))
-				try{
-					GL11.glPushMatrix();
-					decorator.decorateBlock(RayTracing.instance().getTargetStack(), accessor, ConfigHandler.instance());
-					GL11.glPopMatrix();					
-				} catch (Throwable e){
-					GL11.glPopMatrix();
-					WailaExceptionHandler.handleErr(e, decorator.getClass().toString(), null);
-				}			
+			for (List<IWailaBlockDecorator> decoratorsList : ModuleRegistrar.instance().getBlockDecorators(block).values()){
+				for (IWailaBlockDecorator decorator : decoratorsList)
+					try{
+						GL11.glPushMatrix();
+						decorator.decorateBlock(RayTracing.instance().getTargetStack(), accessor, ConfigHandler.instance());
+						GL11.glPopMatrix();					
+					} catch (Throwable e){
+						GL11.glPopMatrix();
+						WailaExceptionHandler.handleErr(e, decorator.getClass().toString(), null);
+					}
+			}
 		}
 		
         GL11.glEnable(GL11.GL_TEXTURE_2D);

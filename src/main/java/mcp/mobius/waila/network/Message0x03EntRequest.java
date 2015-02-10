@@ -1,6 +1,7 @@
 package mcp.mobius.waila.network;
 
 import java.util.HashSet;
+import java.util.List;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.network.NetworkRegistry;
@@ -76,12 +77,14 @@ public class Message0x03EntRequest extends SimpleChannelInboundHandler<Message0x
         		EntityPlayerMP player = ((NetHandlerPlayServer) ctx.channel().attr(NetworkRegistry.NET_HANDLER).get()).playerEntity;
         		
         		if (ModuleRegistrar.instance().hasNBTEntityProviders(entity)){
-        			for (IWailaEntityProvider provider : ModuleRegistrar.instance().getNBTEntityProviders(entity)){
-        				try{
-        					tag = provider.getNBTData(player, entity, tag, world);
-        				} catch (AbstractMethodError ame){
-        					tag = AccessHelper.getNBTData(provider, entity, tag);
-        				}        				
+        			for (List<IWailaEntityProvider> providersList : ModuleRegistrar.instance().getNBTEntityProviders(entity).values()){
+	        			for (IWailaEntityProvider provider : providersList){
+	        				try{
+	        					tag = provider.getNBTData(player, entity, tag, world);
+	        				} catch (AbstractMethodError ame){
+	        					tag = AccessHelper.getNBTData(provider, entity, tag);
+	        				}        				
+	        			}
         			}
 
         		} else {

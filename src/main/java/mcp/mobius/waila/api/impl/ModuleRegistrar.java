@@ -5,10 +5,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 
 import org.apache.logging.log4j.Level;
 
@@ -230,67 +233,67 @@ public class ModuleRegistrar implements IWailaRegistrar {
 	
 	/* PROVIDER GETTERS */
 	
-	public ArrayList<IWailaDataProvider> getHeadProviders(Object block) {
+	public Map<Integer, List<IWailaDataProvider>> getHeadProviders(Object block) {
 		return getProviders(block, this.headBlockProviders);
 	}
 
-	public ArrayList<IWailaDataProvider> getBodyProviders(Object block) {
+	public Map<Integer, List<IWailaDataProvider>> getBodyProviders(Object block) {
 		return getProviders(block, this.bodyBlockProviders);		
 	}	
 
-	public ArrayList<IWailaDataProvider> getTailProviders(Object block) {
+	public Map<Integer, List<IWailaDataProvider>> getTailProviders(Object block) {
 		return getProviders(block, this.tailBlockProviders);
 	}	
 
-	public ArrayList<IWailaDataProvider> getStackProviders(Object block) {
+	public Map<Integer, List<IWailaDataProvider>> getStackProviders(Object block) {
 		return getProviders(block, this.stackBlockProviders);
 	}		
 	
-	public ArrayList<IWailaDataProvider> getNBTProviders(Object block) {
+	public Map<Integer, List<IWailaDataProvider>> getNBTProviders(Object block) {
 		return getProviders(block, this.NBTDataProviders);
 	}	
 	
-	public ArrayList<IWailaEntityProvider> getHeadEntityProviders(Object entity) {
+	public Map<Integer, List<IWailaEntityProvider>> getHeadEntityProviders(Object entity) {
 		return getProviders(entity, this.headEntityProviders);		
 	}
 
-	public ArrayList<IWailaEntityProvider> getBodyEntityProviders(Object entity) {
+	public Map<Integer, List<IWailaEntityProvider>> getBodyEntityProviders(Object entity) {
 		return getProviders(entity, this.bodyEntityProviders);
 	}	
 
-	public ArrayList<IWailaEntityProvider> getTailEntityProviders(Object entity) {
+	public Map<Integer, List<IWailaEntityProvider>> getTailEntityProviders(Object entity) {
 		return getProviders(entity, this.tailEntityProviders);
 	}		
 	
-	public ArrayList<IWailaEntityProvider> getOverrideEntityProviders(Object entity) {
+	public Map<Integer, List<IWailaEntityProvider>> getOverrideEntityProviders(Object entity) {
 		return getProviders(entity, this.overrideEntityProviders);
 	}		
 
-	public ArrayList<IWailaEntityProvider> getNBTEntityProviders(Object entity) {
+	public Map<Integer, List<IWailaEntityProvider>> getNBTEntityProviders(Object entity) {
 		return getProviders(entity, this.NBTEntityProviders);
 	}		
 	
-	public ArrayList<IWailaFMPProvider> getHeadFMPProviders(String name) {
+	public Map<Integer, List<IWailaFMPProvider>> getHeadFMPProviders(String name) {
 		return getProviders(name, this.headFMPProviders);		
 	}	
 	
-	public ArrayList<IWailaFMPProvider> getBodyFMPProviders(String name) {
+	public Map<Integer, List<IWailaFMPProvider>> getBodyFMPProviders(String name) {
 		return getProviders(name, this.bodyFMPProviders);
 	}	
 
-	public ArrayList<IWailaFMPProvider> getTailFMPProviders(String name) {
+	public Map<Integer, List<IWailaFMPProvider>> getTailFMPProviders(String name) {
 		return getProviders(name, this.tailFMPProviders);
 	}		
 	
-	public ArrayList<IWailaSummaryProvider> getSummaryProvider(Object item){
+	public Map<Integer, List<IWailaSummaryProvider>> getSummaryProvider(Object item){
 		return getProviders(item, this.summaryProviders);
 	}	
 	
-	public ArrayList<IWailaBlockDecorator> getBlockDecorators(Object block){
+	public Map<Integer, List<IWailaBlockDecorator>> getBlockDecorators(Object block){
 		return getProviders(block, this.blockClassDecorators);
 	}	
 	
-	public ArrayList<IWailaFMPDecorator> getFMPDecorators(String name){
+	public Map<Integer, List<IWailaFMPDecorator>> getFMPDecorators(String name){
 		return getProviders(name, this.FMPClassDecorators);
 	}		
 	
@@ -298,17 +301,24 @@ public class ModuleRegistrar implements IWailaRegistrar {
 		return this.tooltipRenderers.get(name);
 	}
 	
-	private <T> ArrayList<T> getProviders(Object obj, LinkedHashMap<Class, ArrayList<T>> target){
-		ArrayList<T> returnList = new ArrayList<T>();
-		for (Class clazz : target.keySet())
+	private <T> Map<Integer, List<T>> getProviders(Object obj, LinkedHashMap<Class, ArrayList<T>> target){
+		Map<Integer, List<T>> returnList = new TreeMap<Integer, List<T>>();
+		Integer index = 0;
+		
+		for (Class clazz : target.keySet()){
 			if (clazz.isInstance(obj))
-				returnList.addAll(target.get(clazz));
-				
+				returnList.put(index, target.get(clazz));
+			
+			index++;
+		}
+		
 		return returnList;		
 	}	
 	
-	private <T> ArrayList<T> getProviders(String name, LinkedHashMap<String, ArrayList<T>> target){
-		return target.get(name);		
+	private <T> Map<Integer, List<T>> getProviders(String name, LinkedHashMap<String, ArrayList<T>> target){
+		Map<Integer, List<T>> returnList = new TreeMap<Integer, List<T>>();
+		returnList.put(0, target.get(name));
+		return returnList;		
 	}		
 	
 	@Deprecated

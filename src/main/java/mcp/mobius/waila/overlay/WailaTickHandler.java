@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.lwjgl.input.Keyboard;
 
+import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.MetaDataProvider;
@@ -75,10 +76,10 @@ public class WailaTickHandler{
 				ItemStack targetStack = RayTracing.instance().getTargetStack();	// Here we get either the proper stack or the override
 				
 				if (targetStack != null){
-					this.currenttip.clear();
-					this.currenttipHead.clear();
-					this.currenttipBody.clear();
-					this.currenttipTail.clear();
+					this.currenttip     = new TipList<String, String>();
+					this.currenttipHead = new TipList<String, String>();
+					this.currenttipBody = new TipList<String, String>();
+					this.currenttipTail = new TipList<String, String>();
 					
 					
 					//this.identifiedHighlight = handler.identifyHighlight(world, player, target);
@@ -105,10 +106,10 @@ public class WailaTickHandler{
 				Entity targetEnt = RayTracing.instance().getTargetEntity(); // This need to be replaced by the override check.
 				
 				if (targetEnt != null){
-					this.currenttip.clear();
-					this.currenttipHead.clear();
-					this.currenttipBody.clear();
-					this.currenttipTail.clear();
+					this.currenttip     = new TipList<String, String>();
+					this.currenttipHead = new TipList<String, String>();
+					this.currenttipBody = new TipList<String, String>();
+					this.currenttipTail = new TipList<String, String>();
 					
 					this.currenttipHead      = handler.handleEntityTextData(targetEnt, world, player, target, accessor, currenttipHead, Layout.HEADER);
 					this.currenttipBody      = handler.handleEntityTextData(targetEnt, world, player, target, accessor, currenttipBody, Layout.BODY);
