@@ -13,6 +13,7 @@ import org.lwjgl.opengl.GL11;
 import mcp.mobius.waila.api.IWailaTooltipRenderer;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
+import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
@@ -71,8 +72,13 @@ public class DisplayUtil {
 	 
 	 public static void renderStack(int x, int y, ItemStack stack){
 		 enable3DRender();
-		 renderItem.renderItemAndEffectIntoGUI(fontRenderer, textureManager, stack, x, y);
-		 renderItem.renderItemOverlayIntoGUI(fontRenderer, textureManager, stack, x, y);
+		 try{
+			 renderItem.renderItemAndEffectIntoGUI(fontRenderer, textureManager, stack, x, y);
+			 renderItem.renderItemOverlayIntoGUI(fontRenderer, textureManager, stack, x, y);
+		 } catch (Exception e){
+			 String stackStr = stack != null ? stack.toString() : "NullStack";
+			 WailaExceptionHandler.handleErr(e, "renderStack | " + stackStr, null);
+		 }
 		 enable2DRender();
 	 }
 	 

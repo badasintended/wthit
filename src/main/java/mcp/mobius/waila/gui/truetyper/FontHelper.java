@@ -35,10 +35,12 @@ public class FontHelper {
 	private static String formatEscape = "\u00A7";
 
 
+	/*
 	public static void drawString(String s, float x, float y, TrueTypeFont font, float scaleX, float scaleY, float... rgba){
 		drawString(s,x,y,font,scaleX,scaleY,0,rgba);
 
 	}
+	*/
 
 	public static void drawString(String s, float x, float y, TrueTypeFont font, float scaleX, float scaleY, float rotationZ, float... rgba){
 		Minecraft mc = Minecraft.getMinecraft();
