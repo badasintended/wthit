@@ -147,7 +147,7 @@ public class Message0x01TERequest extends SimpleChannelInboundHandler<Message0x0
         		tag.setInteger("WailaZ", msg.posZ);
         		tag.setString ("WailaID", (String)((HashMap)classToNameMap.get(null)).get(entity.getClass()));
 
-                WailaPacketHandler.INSTANCE.sendTo(new Message0x02TENBTData(tag), WailaPacketHandler.getPlayer(ctx));
+        		WailaPacketHandler.INSTANCE.sendTo(new Message0x02TENBTData(tag), WailaPacketHandler.getPlayer(ctx));
                 //ctx.writeAndFlush(new Message0x02TENBTData(tag)).addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);
         	}catch(Throwable e){
         		WailaExceptionHandler.handleErr(e, entity.getClass().toString(), null);

@@ -124,7 +124,7 @@ public enum WailaPacketHandler {
         return s;
     }
 
-    public static EntityPlayerMP getPlayer(ChannelHandlerContext ctx){
-        return ((NetHandlerPlayServer) ctx.channel().attr(NetworkRegistry.NET_HANDLER).get()).playerEntity;
-    }
+	public static EntityPlayerMP getPlayer(ChannelHandlerContext ctx){
+		return ((NetHandlerPlayServer) ctx.channel().attr(NetworkRegistry.NET_HANDLER).get()).playerEntity;
+	}
 }

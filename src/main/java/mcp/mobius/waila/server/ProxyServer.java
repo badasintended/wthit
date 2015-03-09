@@ -62,8 +62,8 @@ public class ProxyServer {
 		/* Thermal Expansion */
 		ThermalExpansionModule.register();
 
-        /* Thermal Dynamics */
-        ThermalDynamicsModule.register();
+		/* Thermal Dynamics */
+		ThermalDynamicsModule.register();
 		
 		/* ETB */
 		ETBModule.register();
