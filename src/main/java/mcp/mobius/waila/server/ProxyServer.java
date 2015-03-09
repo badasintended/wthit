@@ -1,7 +1,5 @@
 package mcp.mobius.waila.server;
 
-import java.lang.reflect.Method;
-
 import cpw.mods.fml.common.Loader;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.addons.agriculture.AgricultureModule;
@@ -20,6 +18,7 @@ import mcp.mobius.waila.addons.railcraft.RailcraftModule;
 import mcp.mobius.waila.addons.statues.StatuesModule;
 import mcp.mobius.waila.addons.stevescarts.StevesCartsModule;
 import mcp.mobius.waila.addons.thaumcraft.ThaumcraftModule;
+import mcp.mobius.waila.addons.thermaldynamics.ThermalDynamicsModule;
 import mcp.mobius.waila.addons.thermalexpansion.ThermalExpansionModule;
 import mcp.mobius.waila.addons.twilightforest.TwilightForestModule;
 import mcp.mobius.waila.addons.vanillamc.HUDHandlerFurnace;
@@ -28,6 +27,8 @@ import mcp.mobius.waila.api.IWailaRegistrar;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.handlers.DecoratorFMP;
 import mcp.mobius.waila.handlers.HUDHandlerFMP;
+
+import java.lang.reflect.Method;
 
 public class ProxyServer {
 
@@ -60,6 +61,9 @@ public class ProxyServer {
 		
 		/* Thermal Expansion */
 		ThermalExpansionModule.register();
+
+        /* Thermal Dynamics */
+        ThermalDynamicsModule.register();
 		
 		/* ETB */
 		ETBModule.register();
