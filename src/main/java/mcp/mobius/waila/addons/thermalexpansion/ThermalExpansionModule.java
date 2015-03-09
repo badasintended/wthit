@@ -1,16 +1,12 @@
 package mcp.mobius.waila.addons.thermalexpansion;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.util.List;
-
-import org.apache.logging.log4j.Level;
-
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.world.IBlockAccess;
-import net.minecraftforge.common.util.ForgeDirection;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
+import net.minecraftforge.common.util.ForgeDirection;
+import org.apache.logging.log4j.Level;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 public class ThermalExpansionModule {
 
@@ -44,6 +40,11 @@ public class ThermalExpansionModule {
 	public static Class  ISecureTile = null;
 	public static Method ISecureTile_getAccess    = null;
 	public static Method ISecureTile_getOwnerName = null;
+
+    public static Class  TileCache = null;
+    public static Method TileCache_getItemStack = null;
+    public static Method TileCache_getMaxStored = null;
+    public static Method TileCache_getStored = null;
 	
 	public static Class BlockMultipart = null;
 	
@@ -76,15 +77,15 @@ public class ThermalExpansionModule {
 			
 		} catch (Exception e){
 			Waila.log.log(Level.WARN, "[Thermal Expansion] Error while loading Energy hooks." + e);
-		}	
+		}
 
 		// XXX : We register the energy cell
 		try{		
-			TileEnergyCell = Class.forName("thermalexpansion.block.cell.TileCell");
+			TileEnergyCell = Class.forName("cofh.thermalexpansion.block.cell.TileCell");
 			TileEnergyCell_Recv = TileEnergyCell.getDeclaredField("energyReceive");
 			TileEnergyCell_Send = TileEnergyCell.getDeclaredField("energySend");
 			
-			ModuleRegistrar.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.energycell");			
+			ModuleRegistrar.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.energycell");
 			ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerEnergyCell(), TileEnergyCell);
 			ModuleRegistrar.instance().registerNBTProvider (new HUDHandlerEnergyCell(), TileEnergyCell);
 			
@@ -94,7 +95,7 @@ public class ThermalExpansionModule {
 			
 		// XXX : We register the Tank interface
 		try{
-			TileTank                 = Class.forName("thermalexpansion.block.tank.TileTank");
+			TileTank                 = Class.forName("cofh.thermalexpansion.block.tank.TileTank");
 			TileTank_getTankFluid    = TileTank.getMethod("getTankFluid");
 			TileTank_getTankCapacity = TileTank.getMethod("getTankCapacity");
 			TileTank_getTankAmount   = TileTank.getMethod("getTankFluidAmount");
@@ -113,7 +114,7 @@ public class ThermalExpansionModule {
 	
 		// XXX : We register the Tesseract interface
 		try{
-			TileTesseract = Class.forName("thermalexpansion.block.ender.TileTesseract");
+			TileTesseract = Class.forName("cofh.thermalexpansion.block.ender.TileTesseract");
 			TileTesseract_Item   = TileTesseract.getDeclaredField("modeItem");
 			TileTesseract_Fluid  = TileTesseract.getDeclaredField("modeFluid");
 			TileTesseract_Energy = TileTesseract.getDeclaredField("modeEnergy");			
@@ -141,9 +142,25 @@ public class ThermalExpansionModule {
 			
 		} catch (Exception e){
 			Waila.log.log(Level.WARN, "[Thermal Expansion] Error while loading ISecureTile hooks." + e);
-		}			
-		
-		// XXX : We register the IBlockInfo interface
+		}
+
+        // XXX : We register the Cache interface
+        try{
+            TileCache = Class.forName("cofh.thermalexpansion.block.cache.TileCache");
+            TileCache_getItemStack   = TileCache.getDeclaredMethod("getStoredItemType");
+            TileCache_getMaxStored  = TileCache.getDeclaredMethod("getMaxStoredCount");
+            TileCache_getStored     = TileCache.getDeclaredMethod("getStoredCount");
+
+            ModuleRegistrar.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.cache");
+            ModuleRegistrar.instance().registerHeadProvider(new HUDHandlerCache(), TileCache);
+            ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerCache(), TileCache);
+            ModuleRegistrar.instance().registerNBTProvider (new HUDHandlerCache(), TileCache);
+
+        } catch (Exception e){
+            Waila.log.log(Level.WARN, "[Thermal Expansion] Error while loading Tesseract hooks." + e);
+        }
+
+        // XXX : We register the IBlockInfo interface
 		/*
 		try{
 			IBlockInfo              = Class.forName("cofh.api.block.IBlockInfo");
