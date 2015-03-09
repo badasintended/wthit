@@ -14,7 +14,7 @@ public class ExtraUtilitiesModule {
 		
 
 		try{
-			Class ModExtraUtilities = Class.forName("extrautils.ExtraUtils");
+			Class ModExtraUtilities = Class.forName("com.rwtema.extrautils.ExtraUtils");
 			Waila.log.log(Level.INFO, "ExtraUtilities mod found.");
 		} catch (ClassNotFoundException e){
 			Waila.log.log(Level.INFO, "[ExtraUtilities] ExtraUtilities mod not found.");
@@ -22,7 +22,7 @@ public class ExtraUtilitiesModule {
 		}			
 		
 		try{
-			TileEntityDrum = Class.forName("extrautils.tileentity.TileEntityDrum");
+			TileEntityDrum = Class.forName("com.rwtema.extrautils.tileentity.TileEntityDrum");
 		} catch (ClassNotFoundException e){
 			Waila.log.log(Level.WARN, "[ExtraUtilities] Class not found. " + e);
 			return;
