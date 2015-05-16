@@ -40,6 +40,9 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 	static Block doubleplant   = Blocks.double_plant;
 	static Block leave         = Blocks.leaves;
 	static Block leave2        = Blocks.leaves2;	
+	static Block log           = Blocks.log;
+	static Block log2          = Blocks.log2;
+	static Block quartz        = Blocks.quartz_block;
 	
 	@Override
 	public ItemStack getWailaStack(IWailaDataAccessor accessor,	IWailaConfigHandler config) {
@@ -83,6 +86,14 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 		if ((block == leave || block == leave2) && (accessor.getMetadata() > 3)){
 			return new ItemStack(block, 1, accessor.getMetadata() - 4);
 		}
+		
+		if (block == log || block == log2){
+			return new ItemStack(block, 1, accessor.getMetadata()%4);
+		}
+
+		if ((block == quartz) && (accessor.getMetadata() > 2)){
+			return new ItemStack(block, 1, 2);
+		}		
 		
 		return null;
 		
@@ -228,6 +239,9 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 		ModuleRegistrar.instance().registerStackProvider(provider, crops.getClass());
 		ModuleRegistrar.instance().registerStackProvider(provider, leave.getClass());
 		ModuleRegistrar.instance().registerStackProvider(provider, leave2.getClass());		
+		ModuleRegistrar.instance().registerStackProvider(provider, log.getClass());
+		ModuleRegistrar.instance().registerStackProvider(provider, log2.getClass());
+		ModuleRegistrar.instance().registerStackProvider(provider, quartz.getClass());	
 		
 		//ModuleRegistrar.instance().registerStackProvider(provider, Block.class);
 		ModuleRegistrar.instance().registerHeadProvider(provider, mobSpawner.getClass());

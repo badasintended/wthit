@@ -1,5 +1,6 @@
 package mcp.mobius.waila.client;
 
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.gui.truetyper.FontLoader;
 import mcp.mobius.waila.gui.truetyper.TrueTypeFont;
@@ -40,7 +41,10 @@ public class ProxyClient extends ProxyServer {
 		if (Loader.isModLoaded("NotEnoughItems")){
 			try{
 				Class.forName("mcp.mobius.waila.handlers.nei.NEIHandler").getDeclaredMethod("register").invoke(null);
-			} catch (Exception e){}
+			} catch (Exception e){
+				Waila.log.error("Failed to hook into NEI properly. Reverting to Vanilla tooltip handler");
+				MinecraftForge.EVENT_BUS.register(new VanillaTooltipHandler());    
+			}
 		} else {
 			MinecraftForge.EVENT_BUS.register(new VanillaTooltipHandler());    
 		}
