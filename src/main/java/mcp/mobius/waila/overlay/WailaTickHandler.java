@@ -59,8 +59,10 @@ public class WailaTickHandler{
 	@SideOnly(Side.CLIENT)	
 	public void tickClient(TickEvent.ClientTickEvent event) {
 		
-		if (!Keyboard.isKeyDown(KeyEvent.key_show.getKeyCode()) && !ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_MODE, false)){
-			ConfigHandler.instance().setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW, false);	
+		if (!Keyboard.isKeyDown(KeyEvent.key_show.getKeyCode()) && 
+			!ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_MODE, false) &&
+			 ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW, false)){
+			 ConfigHandler.instance().setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW, false);	
 		}		
 		
 		
