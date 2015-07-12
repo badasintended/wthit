@@ -57,7 +57,7 @@ dependencies {
 }
 
 minecraft {
-    version = "1.7.10-10.13.3.1407-1.7.10"
+    version = "1.7.10-${config.forge_version}-1.7.10"
     runDir = "eclipse"
 }
 
