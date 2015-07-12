@@ -31,7 +31,7 @@ public class OverlayRenderer {
              mc.theWorld != null &&
              Minecraft.isGuiEnabled() &&
              !mc.gameSettings.keyBindPlayerList.getIsKeyPressed() &&
-             ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW, true) &&
+             ConfigHandler.instance().showTooltip() &&
              RayTracing.instance().getTarget()      != null))
         	return;
     

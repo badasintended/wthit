@@ -135,7 +135,10 @@ public class ConfigHandler implements IWailaConfigHandler {
 	}
 
 	
-	
+	/* Some accessor helpers */
+	public boolean showTooltip(){
+		return getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW, true);
+	}
 	
 	
 	

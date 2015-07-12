@@ -14,6 +14,7 @@ import mcp.mobius.waila.cbcore.Layout;
 import mcp.mobius.waila.network.Message0x01TERequest;
 import mcp.mobius.waila.network.Message0x03EntRequest;
 import mcp.mobius.waila.network.WailaPacketHandler;
+import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -23,6 +24,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import net.minecraftforge.common.config.Configuration;
 
 public class MetaDataProvider{
 	
@@ -68,7 +70,7 @@ public class MetaDataProvider{
 	public List<String> handleBlockTextData(ItemStack itemStack, World world, EntityPlayer player, MovingObjectPosition mop, DataAccessorCommon accessor, List<String> currenttip, Layout layout) {
 		Block block   = accessor.getBlock();
 		
-		if (accessor.getTileEntity() != null && Waila.instance.serverPresent && accessor.isTimeElapsed(250)){
+		if (accessor.getTileEntity() != null && Waila.instance.serverPresent && accessor.isTimeElapsed(250) && ConfigHandler.instance().showTooltip()){
 			accessor.resetTimer();
 			HashSet<String> keys = new HashSet<String>();
 			
@@ -81,7 +83,7 @@ public class MetaDataProvider{
 			if (keys.size() != 0 || ModuleRegistrar.instance().hasNBTProviders(block) || ModuleRegistrar.instance().hasNBTProviders(accessor.getTileEntity()))
 				WailaPacketHandler.INSTANCE.sendToServer(new Message0x01TERequest(accessor.getTileEntity(), keys));
 			
-		} else if (accessor.getTileEntity() != null && !Waila.instance.serverPresent && accessor.isTimeElapsed(250)) {
+		} else if (accessor.getTileEntity() != null && !Waila.instance.serverPresent && accessor.isTimeElapsed(250) && ConfigHandler.instance().showTooltip()) {
 			
 			try{
 				NBTTagCompound tag = new NBTTagCompound();

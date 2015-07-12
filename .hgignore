@@ -7,3 +7,4 @@ out
 *.iml
 *.ipr
 *.iws
+src/main/java/net/*
