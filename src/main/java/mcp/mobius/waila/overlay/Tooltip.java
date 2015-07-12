@@ -107,7 +107,7 @@ public class Tooltip {
 		
 		for (String s : textData){
 			
-			ArrayList<String>  line = new ArrayList(Arrays.asList(patternTab.split(s)));
+			ArrayList<String>  line = new ArrayList<String>(Arrays.asList(patternTab.split(s)));
 			ArrayList<Integer> size = new ArrayList<Integer>();
 			for (String ss : line)
 				size.add(DisplayUtil.getDisplayWidth(ss));
