@@ -40,7 +40,7 @@ public class OverlayRenderer {
             renderOverlay(WailaTickHandler.instance().tooltip);
         }
 
-        if (RayTracing.instance().getTarget().typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY)
+        if (RayTracing.instance().getTarget().typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY && ConfigHandler.instance().getConfig("general.showents"))
         {
         	renderOverlay(WailaTickHandler.instance().tooltip);       	
         }
