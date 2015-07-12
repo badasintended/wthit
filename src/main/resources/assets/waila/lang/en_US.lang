@@ -147,3 +147,5 @@ option.general.showents=Show entities
 option.general.showhp=Show entities health
 option.general.showcrop=Show crop growth
 option.thaumcraft.aspects=Show aspects
+
+nei.options.keys.showenchant=Show enchanting values
