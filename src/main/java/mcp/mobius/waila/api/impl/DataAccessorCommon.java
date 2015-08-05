@@ -53,7 +53,7 @@ public class DataAccessorCommon implements IWailaCommonAccessor, IWailaDataAcces
 			this.tileEntity = world.getTileEntity(_mop.getBlockPos());
 			this.entity     = null;
 			this.blockID       = Block.getIdFromBlock(this.block);
-			this.blockResource = String.valueOf(GameData.getBlockRegistry().getNameForObject(this.block)); //TODO Girafi ?
+			this.blockResource = String.valueOf(GameData.getBlockRegistry().getNameForObject(this.block));
 			try{ this.stack = new ItemStack(this.block, 1, this.metadata); } catch (Exception e) {}
 			
 		} else if (this.mop.typeOfHit == MovingObjectType.ENTITY){
@@ -68,7 +68,7 @@ public class DataAccessorCommon implements IWailaCommonAccessor, IWailaDataAcces
 			double px = viewEntity.lastTickPosX + (viewEntity.posX - viewEntity.lastTickPosX) * partialTicks;
 			double py = viewEntity.lastTickPosY + (viewEntity.posY - viewEntity.lastTickPosY) * partialTicks;
 			double pz = viewEntity.lastTickPosZ + (viewEntity.posZ - viewEntity.lastTickPosZ) * partialTicks;
-			this.renderingvec = getRenderingPosition() /*renderingvec.addVector(renderingvec.xCoord - px, renderingvec.yCoord - py, renderingvec.zCoord - pz)*/; //TODO Girafi
+			this.renderingvec = new Vec3(_mop.getBlockPos().getX() - px, _mop.getBlockPos().getY() - py, _mop.getBlockPos().getZ() - pz);
 			this.partialFrame = partialTicks;
 		}
 	}	

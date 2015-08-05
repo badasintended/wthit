@@ -30,8 +30,6 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
     static Block farmland      = Blocks.farmland;
 	static Block melonStem     = Blocks.melon_stem;
 	static Block pumpkinStem   = Blocks.pumpkin_stem;
-	static Block pumpkin	   = Blocks.pumpkin;
-	static Block pumpkin_lit   = Blocks.lit_pumpkin;
 	static Block carrot        = Blocks.carrots;
 	static Block potato        = Blocks.potatoes;
 	static Block lever         = Blocks.lever;
@@ -84,16 +82,6 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 		
 		if (block == crops){
 			return new ItemStack(Items.wheat);
-		}
-
-		if (block == pumpkin){
-			return new ItemStack(Blocks.cobblestone, 1, 0);
-
-		}
-
-		if (block == pumpkin_lit){
-			int meta = accessor.getMetadata();
-			return new ItemStack(Blocks.coal_block, 1, meta);
 		}
 
         if (block == farmland){
@@ -266,8 +254,6 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 		ModuleRegistrar.instance().registerBodyProvider(provider, crops.getClass());
 		ModuleRegistrar.instance().registerBodyProvider(provider, melonStem.getClass());
 		ModuleRegistrar.instance().registerBodyProvider(provider, pumpkinStem.getClass());
-		ModuleRegistrar.instance().registerBodyProvider(provider, pumpkin.getClass());
-		ModuleRegistrar.instance().registerBodyProvider(provider, pumpkin_lit.getClass());
 		//ModuleRegistrar.instance().registerBodyProvider(provider, carrot.getClass());
 		//ModuleRegistrar.instance().registerBodyProvider(provider, potato.getClass());
 		ModuleRegistrar.instance().registerBodyProvider(provider, lever.getClass());
