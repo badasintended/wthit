@@ -2,7 +2,7 @@ package mcp.mobius.waila.addons.thermalexpansion;
 
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
-import net.minecraftforge.common.util.ForgeDirection;
+import net.minecraft.util.EnumFacing;
 import org.apache.logging.log4j.Level;
 
 import java.lang.reflect.Field;
@@ -55,12 +55,12 @@ public class ThermalExpansionModule {
 		// XXX : We register the Energy interface first
 		try{
 			IEnergyProvider              = Class.forName("cofh.api.energy.IEnergyProvider");
-			IEnergyProvider_getMaxStorage = IEnergyProvider.getMethod("getMaxEnergyStored", ForgeDirection.class);
-			IEnergyProvider_getCurStorage = IEnergyProvider.getMethod("getEnergyStored",    ForgeDirection.class);
+			IEnergyProvider_getMaxStorage = IEnergyProvider.getMethod("getMaxEnergyStored", EnumFacing.class);
+			IEnergyProvider_getCurStorage = IEnergyProvider.getMethod("getEnergyStored",    EnumFacing.class);
 			
 			IEnergyReceiver              = Class.forName("cofh.api.energy.IEnergyReceiver");
-			IEnergyReceiver_getMaxStorage = IEnergyReceiver.getMethod("getMaxEnergyStored", ForgeDirection.class);
-			IEnergyReceiver_getCurStorage = IEnergyReceiver.getMethod("getEnergyStored",    ForgeDirection.class);			
+			IEnergyReceiver_getMaxStorage = IEnergyReceiver.getMethod("getMaxEnergyStored", EnumFacing.class);
+			IEnergyReceiver_getCurStorage = IEnergyReceiver.getMethod("getEnergyStored",    EnumFacing.class);
 			
 			IEnergyInfo                  = Class.forName("cofh.api.tileentity.IEnergyInfo");
 			IEnergyInfo_getMaxStorage    = IEnergyInfo.getMethod("getInfoMaxEnergyStored");

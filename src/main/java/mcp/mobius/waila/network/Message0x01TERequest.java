@@ -1,7 +1,8 @@
 package mcp.mobius.waila.network;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.network.NetworkRegistry;
+import net.minecraft.util.BlockPos;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -53,10 +54,10 @@ public class Message0x01TERequest extends SimpleChannelInboundHandler<Message0x0
 	public Message0x01TERequest(){}	
 	
 	public Message0x01TERequest(TileEntity ent, HashSet<String> keys){
-		this.dim  = ent.getWorldObj().provider.dimensionId;
-		this.posX = ent.xCoord;
-		this.posY = ent.yCoord;
-		this.posZ = ent.zCoord;
+		this.dim  = ent.getWorld().provider.getDimensionId();
+		this.posX = ent.getPos().getX();
+		this.posY = ent.getPos().getY();
+		this.posZ = ent.getPos().getZ();
 		this.keys = keys;
 	}
 	
@@ -95,8 +96,9 @@ public class Message0x01TERequest extends SimpleChannelInboundHandler<Message0x0
 	protected void channelRead0(ChannelHandlerContext ctx, Message0x01TERequest msg) throws Exception {
         MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
         World           world  = DimensionManager.getWorld(msg.dim);
-        TileEntity      entity = world.getTileEntity(msg.posX, msg.posY, msg.posZ);
-        Block           block  = world.getBlock(msg.posX, msg.posY, msg.posZ);
+		BlockPos		pos	   = new BlockPos(msg.posX, msg.posY, msg.posZ);
+        TileEntity      entity = world.getTileEntity(pos);
+        Block           block  = world.getBlockState(pos).getBlock();
         
         if (entity != null){
         	try{
@@ -115,7 +117,7 @@ public class Message0x01TERequest extends SimpleChannelInboundHandler<Message0x0
             		for (List<IWailaDataProvider> providersList : ModuleRegistrar.instance().getNBTProviders(block).values()){
 	        			for (IWailaDataProvider provider : providersList){
 	        				try{
-	        					tag = provider.getNBTData(player, entity, tag, world, msg.posX, msg.posY, msg.posZ);
+	        					tag = provider.getNBTData(player, entity, tag, world, new BlockPos(msg.posX, msg.posY, msg.posZ));
 	        				} catch (AbstractMethodError ame){
 	        					tag = AccessHelper.getNBTData(provider, entity, tag, world, msg.posX, msg.posY, msg.posZ);
 	        				} catch (NoSuchMethodError nsm){
@@ -128,7 +130,7 @@ public class Message0x01TERequest extends SimpleChannelInboundHandler<Message0x0
             		for (List<IWailaDataProvider> providersList : ModuleRegistrar.instance().getNBTProviders(entity).values()){
 	        			for (IWailaDataProvider provider : providersList){
 	        				try{        				
-	        					tag = provider.getNBTData(player, entity, tag, world, msg.posX, msg.posY, msg.posZ);
+	        					tag = provider.getNBTData(player, entity, tag, world, new BlockPos(msg.posX, msg.posY, msg.posZ));
 	        				} catch (AbstractMethodError ame){
 	        					tag = AccessHelper.getNBTData(provider, entity, tag, world, msg.posX, msg.posY, msg.posZ);
 	        				} catch (NoSuchMethodError nsm){

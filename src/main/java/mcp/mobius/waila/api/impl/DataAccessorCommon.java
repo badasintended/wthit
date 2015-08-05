@@ -1,22 +1,23 @@
 package mcp.mobius.waila.api.impl;
 
-import cpw.mods.fml.common.registry.GameData;
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.MovingObjectPosition.MovingObjectType;
-import net.minecraft.util.Vec3;
-import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 import mcp.mobius.waila.api.IWailaCommonAccessor;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaEntityAccessor;
 import mcp.mobius.waila.utils.NBTUtil;
+import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.MovingObjectPosition.MovingObjectType;
+import net.minecraft.util.Vec3;
+import net.minecraft.world.World;
+import net.minecraftforge.fml.common.registry.GameData;
 
 public class DataAccessorCommon implements IWailaCommonAccessor, IWailaDataAccessor, IWailaEntityAccessor{
 
@@ -41,18 +42,18 @@ public class DataAccessorCommon implements IWailaCommonAccessor, IWailaDataAcces
 		this.set(_world, _player, _mop, null, 0.0);
 	}
 	
-	public void set(World _world, EntityPlayer _player, MovingObjectPosition _mop, EntityLivingBase viewEntity, double partialTicks) {
+	public void set(World _world, EntityPlayer _player, MovingObjectPosition _mop, Entity viewEntity, double partialTicks) {
 		this.world      = _world;
 		this.player     = _player;
 		this.mop        = _mop;
 		
 		if (this.mop.typeOfHit == MovingObjectType.BLOCK){
-			this.block      = world.getBlock(_mop.blockX, _mop.blockY, _mop.blockZ);
-			this.metadata   = world.getBlockMetadata(_mop.blockX, _mop.blockY, _mop.blockZ);
-			this.tileEntity = world.getTileEntity(_mop.blockX, _mop.blockY, _mop.blockZ);
+			this.block      = world.getBlockState(_mop.getBlockPos()).getBlock();
+			this.metadata   = world.getBlockState(_mop.getBlockPos()).getBlock().getMetaFromState(world.getBlockState(_mop.getBlockPos()));
+			this.tileEntity = world.getTileEntity(_mop.getBlockPos());
 			this.entity     = null;
 			this.blockID       = Block.getIdFromBlock(this.block);
-			this.blockResource = GameData.getBlockRegistry().getNameForObject(this.block);
+			this.blockResource = String.valueOf(GameData.getBlockRegistry().getNameForObject(this.block)); //TODO Girafi ?
 			try{ this.stack = new ItemStack(this.block, 1, this.metadata); } catch (Exception e) {}
 			
 		} else if (this.mop.typeOfHit == MovingObjectType.ENTITY){
@@ -66,8 +67,8 @@ public class DataAccessorCommon implements IWailaCommonAccessor, IWailaDataAcces
 		if (viewEntity != null){
 			double px = viewEntity.lastTickPosX + (viewEntity.posX - viewEntity.lastTickPosX) * partialTicks;
 			double py = viewEntity.lastTickPosY + (viewEntity.posY - viewEntity.lastTickPosY) * partialTicks;
-			double pz = viewEntity.lastTickPosZ + (viewEntity.posZ - viewEntity.lastTickPosZ) * partialTicks;		
-			this.renderingvec = Vec3.createVectorHelper(_mop.blockX - px, _mop.blockY - py, _mop.blockZ - pz);
+			double pz = viewEntity.lastTickPosZ + (viewEntity.posZ - viewEntity.lastTickPosZ) * partialTicks;
+			this.renderingvec = getRenderingPosition() /*renderingvec.addVector(renderingvec.xCoord - px, renderingvec.yCoord - py, renderingvec.zCoord - pz)*/; //TODO Girafi
 			this.partialFrame = partialTicks;
 		}
 	}	
@@ -88,13 +89,23 @@ public class DataAccessorCommon implements IWailaCommonAccessor, IWailaDataAcces
 	public int getMetadata() {return this.metadata;}
 
 	@Override
+	public IBlockState getBlockState() {
+		return null;
+	}
+
+	@Override
 	public TileEntity getTileEntity() {	return this.tileEntity;}
 
 	@Override
 	public Entity getEntity() {return this.entity;}
 
 	@Override
-	public MovingObjectPosition getPosition() {return this.mop;}
+	public BlockPos getPosition() {
+		return null;
+	}
+
+	@Override
+	public MovingObjectPosition getMOP() {return this.mop;}
 
 	@Override
 	public Vec3 getRenderingPosition() {return this.renderingvec;}
@@ -138,7 +149,7 @@ public class DataAccessorCommon implements IWailaCommonAccessor, IWailaDataAcces
 		int y = tag.getInteger("WailaY");
 		int z = tag.getInteger("WailaZ");
 		
-		if (x == this.mop.blockX && y == this.mop.blockY && z == this.mop.blockZ)
+		if (x == this.mop.getBlockPos().getX() && y == this.mop.getBlockPos().getY() && z == this.mop.getBlockPos().getZ())
 			return true;
 		else {
 			this.timeLastUpdate = System.currentTimeMillis() - 250;			
@@ -173,9 +184,14 @@ public class DataAccessorCommon implements IWailaCommonAccessor, IWailaDataAcces
 	}
 
 	@Override
-	public ForgeDirection getSide() {
-		return ForgeDirection.getOrientation(this.getPosition().sideHit);
+	public EnumFacing getSide() {
+		return null;
 	}
+
+/*	@Override
+	public EnumFacing getSide() {
+		return EnumFacing.values()[(this.getPosition().sideHit)];
+	}*/
 
 	@Override
 	public ItemStack getStack() {

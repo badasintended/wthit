@@ -22,6 +22,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.config.Configuration;
@@ -96,7 +97,7 @@ public class MetaDataProvider{
 
 		/* Interface IWailaBlock */
 		if (IWailaBlock.class.isInstance(block)){
-			TileEntity entity = world.getTileEntity(mop.blockX, mop.blockY, mop.blockZ);
+			TileEntity entity = world.getTileEntity(mop.getBlockPos());
 			if (layout == Layout.HEADER)
 				try{				
 					return ((IWailaBlock)block).getWailaHead(itemStack, currenttip, accessor, ConfigHandler.instance());

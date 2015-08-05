@@ -1,6 +1,7 @@
 package mcp.mobius.waila.addons.thermalexpansion;
 
-import cpw.mods.fml.common.registry.GameData;
+import net.minecraft.util.BlockPos;
+import net.minecraftforge.fml.common.registry.GameData;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
@@ -36,7 +37,7 @@ public class HUDHandlerCache implements IWailaDataProvider {
                 color = name.substring(0, 2);
 
             if(storedItem != null) {
-                String namex = GameData.getItemRegistry().getNameForObject(storedItem.getItem());
+                String namex = GameData.getItemRegistry().getNameForObject(storedItem.getItem()).toString();
                 name += String.format(" < " + SpecialChars.getRenderString("waila.stack", "1", namex, "0", String.valueOf(storedItem.getItemDamage())) + color + " %s >", storedItem.getDisplayName());
             }
             else
@@ -83,7 +84,7 @@ public class HUDHandlerCache implements IWailaDataProvider {
 	}
 
 	@Override
-	public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, int x, int y, int z) {
+	public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
 		if(te != null)
             te.writeToNBT(tag);
         try {
@@ -102,7 +103,7 @@ public class HUDHandlerCache implements IWailaDataProvider {
         is.stackSize = tag.getInteger("Count");
         is.setItemDamage(Math.max(0, tag.getShort("Damage")));
         if (tag.hasKey("tag", 10)) {
-            is.stackTagCompound = tag.getCompoundTag("tag");
+            //is.stackTagCompound = tag.getCompoundTag("tag"); //TODO
         }
 
         return is;

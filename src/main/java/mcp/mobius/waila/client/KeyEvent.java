@@ -1,26 +1,16 @@
 package mcp.mobius.waila.client;
 
-import java.util.List;
-
-import org.lwjgl.input.Keyboard;
-
-import cpw.mods.fml.client.registry.ClientRegistry;
-import cpw.mods.fml.common.Loader;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
 import mcp.mobius.waila.api.impl.ConfigHandler;
-import mcp.mobius.waila.cbcore.LangUtil;
 import mcp.mobius.waila.gui.screens.config.ScreenConfig;
-import mcp.mobius.waila.overlay.RayTracing;
 import mcp.mobius.waila.utils.Constants;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatComponentTranslation;
-import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
+import org.lwjgl.input.Keyboard;
 
 public class KeyEvent {
 	public static KeyBinding key_cfg;

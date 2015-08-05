@@ -1,10 +1,12 @@
 package mcp.mobius.waila.gui.truetyper;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
+import org.lwjgl.BufferUtils;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.glu.GLU;
+
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBuffer;
 import java.awt.image.DataBufferByte;
@@ -14,18 +16,6 @@ import java.nio.ByteOrder;
 import java.nio.IntBuffer;
 import java.util.HashMap;
 import java.util.Map;
-import java.awt.GraphicsEnvironment;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.settings.GameSettings;
-
-import org.lwjgl.BufferUtils;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
-import org.lwjgl.opengl.GL30;
-import org.lwjgl.util.glu.GLU;
-
 
 /**
 *	TrueTyper: Open Source TTF implementation for Minecraft.
@@ -243,8 +233,9 @@ public class TrueTypeFont {
 		float SrcWidth = srcX2 - srcX;
 		float SrcHeight = srcY2 - srcY;
 		float RenderWidth = (SrcWidth / textureWidth);
-		float RenderHeight = (SrcHeight / textureHeight);		
-		Tessellator t = Tessellator.instance;
+		float RenderHeight = (SrcHeight / textureHeight);
+		Tessellator tessellator = Tessellator.getInstance();
+		WorldRenderer t = tessellator.getWorldRenderer();
 		
 		//t.setColorRGBA_F(0f, 0f, 0f, 1f);
 		
@@ -360,7 +351,8 @@ public class TrueTypeFont {
 		
 		}
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, fontTextureID);
-		Tessellator t = Tessellator.instance;
+		Tessellator tessellator = Tessellator.getInstance();
+		WorldRenderer t = tessellator.getWorldRenderer();
 		t.startDrawingQuads();
 	//	GL11.glBegin(GL11.GL_QUADS);
 		if(rgba.length == 4)
@@ -409,7 +401,7 @@ public class TrueTypeFont {
 				
 			}
 		}
-		t.draw();
+		tessellator.draw();
 	//	GL11.glEnd();
 		
 		GL11.glPopMatrix();

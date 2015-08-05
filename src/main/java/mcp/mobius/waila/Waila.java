@@ -1,50 +1,34 @@
 package mcp.mobius.waila;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-
+import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
+import mcp.mobius.waila.api.impl.ConfigHandler;
+import mcp.mobius.waila.api.impl.ModuleRegistrar;
+import mcp.mobius.waila.client.KeyEvent;
+import mcp.mobius.waila.commands.CommandDumpHandlers;
+import mcp.mobius.waila.network.NetworkHandler;
+import mcp.mobius.waila.network.WailaPacketHandler;
+import mcp.mobius.waila.overlay.DecoratorRenderer;
+import mcp.mobius.waila.overlay.OverlayConfig;
+import mcp.mobius.waila.overlay.WailaTickHandler;
+import mcp.mobius.waila.server.ProxyServer;
+import mcp.mobius.waila.utils.ModIdentification;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.FMLModContainer;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.Mod.Instance;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.*;
+import net.minecraftforge.fml.common.event.FMLInterModComms.IMCMessage;
+import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.google.common.eventbus.EventBus;
-import com.google.common.eventbus.Subscribe;
+import java.lang.reflect.Field;
 
-import mcp.mobius.waila.api.IWailaRegistrar;
-import mcp.mobius.waila.api.impl.ConfigHandler;
-import mcp.mobius.waila.api.impl.ModuleRegistrar;
-import mcp.mobius.waila.network.NetworkHandler;
-import mcp.mobius.waila.network.WailaPacketHandler;
-import mcp.mobius.waila.overlay.OverlayConfig;
-import mcp.mobius.waila.overlay.DecoratorRenderer;
-import mcp.mobius.waila.overlay.WailaTickHandler;
-import mcp.mobius.waila.server.ProxyServer;
-import mcp.mobius.waila.utils.Constants;
-import mcp.mobius.waila.utils.ModIdentification;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.oredict.OreDictionary;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.FMLModContainer;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLInterModComms;
-import cpw.mods.fml.common.event.FMLInterModComms.IMCMessage;
-import cpw.mods.fml.common.event.FMLLoadCompleteEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.event.FMLServerStartingEvent;
-import cpw.mods.fml.common.registry.LanguageRegistry;
-import cpw.mods.fml.relauncher.Side;
-import mcp.mobius.waila.cbcore.LangUtil;
-import mcp.mobius.waila.client.KeyEvent;
-import mcp.mobius.waila.commands.CommandDumpHandlers;
-
-@Mod(modid="Waila", name="Waila", version="1.5.11", dependencies="after:NotEnoughItems@[1.0.4.0,)", acceptableRemoteVersions="*")
+@Mod(modid="Waila", name="Waila", version="1.5.11", dependencies="after:NotEnoughItems@[1.0.5.0,)", acceptableRemoteVersions="*")
 /*
 @NetworkMod(channels = {"Waila"},clientSideRequired=false, serverSideRequired=false, connectionHandler = WailaConnectionHandler.class, 
 			packetHandler = WailaPacketHandler.class, versionBounds="[1.5.0,)")

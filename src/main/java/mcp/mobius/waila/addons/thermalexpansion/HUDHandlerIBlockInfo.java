@@ -8,9 +8,9 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IChatComponent;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
@@ -38,11 +38,11 @@ public class HUDHandlerIBlockInfo implements IWailaDataProvider {
 	}
 
 	@Override
-	public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, int x, int y, int z) {
+	public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
 		try{
 			List info = new ArrayList();
-			Block block = world.getBlock(x, y, z);
-			ThermalExpansionModule.IBlockInfo_getBlockInfo.invoke(block, world, x, y, z, ForgeDirection.UNKNOWN, player, info, false);
+			Block block = world.getBlockState(pos).getBlock();
+			ThermalExpansionModule.IBlockInfo_getBlockInfo.invoke(block, world, pos, EnumFacing.DOWN, player, info, false);
 			
 			for (Object i : info){
 				System.out.printf("%s\n", i);

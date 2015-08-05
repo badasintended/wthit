@@ -2,6 +2,7 @@ package mcp.mobius.waila.handlers;
 
 import java.util.List;
 
+import net.minecraft.util.BlockPos;
 import org.apache.logging.log4j.Level;
 
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -34,7 +35,7 @@ public class HUDHandlerFMP implements IWailaDataProvider {
 			String id = subtag.getString("id");
 
 			if (ModuleRegistrar.instance().hasHeadFMPProviders(id)){
-				DataAccessorFMP.instance.set(accessor.getWorld(), accessor.getPlayer(), accessor.getPosition(), subtag, id); 
+				DataAccessorFMP.instance.set(accessor.getWorld(), accessor.getPlayer(), accessor.getMOP(), subtag, id);
 				
 				for (List<IWailaFMPProvider> providersList : ModuleRegistrar.instance().getHeadFMPProviders(id).values()){
 					for (IWailaFMPProvider provider : providersList)
@@ -54,7 +55,7 @@ public class HUDHandlerFMP implements IWailaDataProvider {
 			String id = subtag.getString("id");
 
 			if (ModuleRegistrar.instance().hasBodyFMPProviders(id)){
-				DataAccessorFMP.instance.set(accessor.getWorld(), accessor.getPlayer(), accessor.getPosition(), subtag, id); 
+				DataAccessorFMP.instance.set(accessor.getWorld(), accessor.getPlayer(), accessor.getMOP(), subtag, id);
 				
 				for (List<IWailaFMPProvider> providersList : ModuleRegistrar.instance().getBodyFMPProviders(id).values()){
 					for (IWailaFMPProvider provider : providersList)
@@ -74,7 +75,7 @@ public class HUDHandlerFMP implements IWailaDataProvider {
 			String id = subtag.getString("id");
 
 			if (ModuleRegistrar.instance().hasTailFMPProviders(id)){
-				DataAccessorFMP.instance.set(accessor.getWorld(), accessor.getPlayer(), accessor.getPosition(), subtag, id); 
+				DataAccessorFMP.instance.set(accessor.getWorld(), accessor.getPlayer(), accessor.getMOP(), subtag, id);
 				
 				for (List<IWailaFMPProvider> providersList : ModuleRegistrar.instance().getTailFMPProviders(id).values()){
 					for (IWailaFMPProvider provider : providersList)
@@ -87,7 +88,7 @@ public class HUDHandlerFMP implements IWailaDataProvider {
 	}
 
 	@Override
-	public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, int x, int y, int z) {
+	public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
 		if (te != null)
 			te.writeToNBT(tag);
 		return tag;

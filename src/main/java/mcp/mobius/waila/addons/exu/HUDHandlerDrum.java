@@ -6,8 +6,9 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidTankInfo;
 import net.minecraftforge.fluids.IFluidHandler;
 import mcp.mobius.waila.api.IWailaConfigHandler;
@@ -40,7 +41,7 @@ public class HUDHandlerDrum implements IWailaDataProvider {
 		IFluidHandler handler = (IFluidHandler)accessor.getTileEntity();
 		if (handler == null) return currenttip;
 		
-		FluidTankInfo[] tanks = handler.getTankInfo(ForgeDirection.UNKNOWN);
+		FluidTankInfo[] tanks = handler.getTankInfo(EnumFacing.DOWN);
 		if (tanks.length != 1) return currenttip;
 		
 		currenttip.add(String.format("%d / %d mB", amount, tanks[0].capacity));
@@ -54,7 +55,7 @@ public class HUDHandlerDrum implements IWailaDataProvider {
 	}
 
 	@Override
-	public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, int x, int y, int z) {
+	public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
 		if (te != null)
 			te.writeToNBT(tag);
 		return tag;

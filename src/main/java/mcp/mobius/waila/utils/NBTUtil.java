@@ -66,7 +66,7 @@ public class NBTUtil {
 		return outTag;
 	}
 	
-    public static void writeNBTTagCompound(NBTTagCompound par0NBTTagCompound, DataOutputStream par1DataOutputStream) throws IOException
+/*    public static void writeNBTTagCompound(NBTTagCompound par0NBTTagCompound, DataOutputStream par1DataOutputStream) throws IOException
     {
         if (par0NBTTagCompound == null)
         {
@@ -74,8 +74,8 @@ public class NBTUtil {
         }
         else
         {
-            byte[] abyte = CompressedStreamTools.compress(par0NBTTagCompound);
-            
+            byte[] abyte = CompressedStreamTools.(par0NBTTagCompound);
+
             if (abyte.length > 32000)
             	par1DataOutputStream.writeShort(-1);
             else{
@@ -83,9 +83,9 @@ public class NBTUtil {
             	par1DataOutputStream.write(abyte);
             }
         }
-    }	
+    }	*/
 
-    public static NBTTagCompound readNBTTagCompound(DataInputStream par0DataInputStream) throws IOException
+/*    public static NBTTagCompound readNBTTagCompound(DataInputStream par0DataInputStream) throws IOException
     {
         short short1 = par0DataInputStream.readShort();
 
@@ -99,7 +99,7 @@ public class NBTUtil {
             par0DataInputStream.readFully(abyte);
             return CompressedStreamTools.func_152457_a(abyte, NBTSizeTracker.field_152451_a);
         }
-    }   	
+    } */
 	
 	public static int getNBTInteger(NBTTagCompound tag, String keyname){
 		NBTBase subtag = tag.getTag(keyname);

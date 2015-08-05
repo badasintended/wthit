@@ -25,7 +25,7 @@ public class DecoratorFMP implements IWailaBlockDecorator {
 			String id = subtag.getString("id");
 
 			if (ModuleRegistrar.instance().hasFMPDecorator(id)){
-				DataAccessorFMP.instance.set(accessor.getWorld(), accessor.getPlayer(), accessor.getPosition(), subtag, id, accessor.getRenderingPosition(), accessor.getPartialFrame()); 
+				DataAccessorFMP.instance.set(accessor.getWorld(), accessor.getPlayer(), accessor.getMOP(), subtag, id, accessor.getRenderingPosition(), accessor.getPartialFrame());
 				
 				for (List<IWailaFMPDecorator> providersList : ModuleRegistrar.instance().getFMPDecorators(id).values())
 					for (IWailaFMPDecorator provider : providersList)

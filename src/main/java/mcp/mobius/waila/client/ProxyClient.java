@@ -16,8 +16,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.Loader;
+import net.minecraftforge.fml.common.Loader;
 import mcp.mobius.waila.cbcore.LangUtil;
 
 public class ProxyClient extends ProxyServer {

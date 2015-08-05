@@ -1,7 +1,7 @@
 package mcp.mobius.waila.network;
 
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -30,7 +30,7 @@ public class Message0x03EntRequest extends SimpleChannelInboundHandler<Message0x
 	public Message0x03EntRequest(){}	
 	
 	public Message0x03EntRequest(Entity ent, HashSet<String> keys){
-		this.dim  = ent.worldObj.provider.dimensionId;
+		this.dim  = ent.worldObj.provider.getDimensionId();
 		this.id   = ent.getEntityId();
 		this.keys = keys;
 	}	

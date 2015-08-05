@@ -4,9 +4,9 @@ import java.util.List;
 
 //import buildcraft.factory.TileTank;
 
-
-
-
+import net.minecraft.client.renderer.EnumFaceDirection;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import org.apache.logging.log4j.Level;
 
 import mcp.mobius.waila.Waila;
@@ -19,7 +19,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTankInfo;
 import mcp.mobius.waila.cbcore.LangUtil;
@@ -67,7 +66,7 @@ public class HUDHandlerBCTanks implements IWailaDataProvider {
 	public FluidTankInfo getTank(IWailaDataAccessor accessor){
 		FluidTankInfo tank = null;
 		try{
-			tank = ((FluidTankInfo[])BCModule.TileTank_getTankInfo.invoke(BCModule.TileTank.cast(accessor.getTileEntity()), ForgeDirection.UNKNOWN))[0];
+			tank = ((FluidTankInfo[])BCModule.TileTank_getTankInfo.invoke(BCModule.TileTank.cast(accessor.getTileEntity()), EnumFacing.HORIZONTALS))[0];
 		} catch (Exception e){
 			Waila.log.log(Level.ERROR, "[BC] Unhandled exception trying to access a tank for display !.\n" + String.valueOf(e));
 			return null;
@@ -76,7 +75,7 @@ public class HUDHandlerBCTanks implements IWailaDataProvider {
 	}
 	
 	@Override
-	public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, int x, int y, int z) {
+	public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
 		return tag;
 	}	
 	

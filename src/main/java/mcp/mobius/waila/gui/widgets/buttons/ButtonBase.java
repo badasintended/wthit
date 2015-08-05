@@ -67,7 +67,7 @@ public abstract class ButtonBase extends WidgetBase {
 	@Override
 	public void onMouseClick(MouseEvent event){
 		if (event.button == 0)
-			this.mc.getSoundHandler().playSound(PositionedSoundRecord.func_147674_a(new ResourceLocation("gui.button.press"), 1.0F));
+			this.mc.getSoundHandler().playSound(PositionedSoundRecord.create(new ResourceLocation("gui.button.press"), 1.0F));
 		
 		this.emit(Signal.CLICKED, event.button);
 	}

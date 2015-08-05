@@ -1,12 +1,12 @@
 package mcp.mobius.waila.addons.projectred;
 
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.util.ForgeDirection;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaFMPAccessor;
 import mcp.mobius.waila.api.IWailaFMPDecorator;
 import mcp.mobius.waila.gui.helpers.UIHelper;
 import mcp.mobius.waila.utils.NBTUtil;
+import net.minecraft.util.EnumFacing;
 
 public class HUDDecoratorRsGateLogic implements IWailaFMPDecorator {
 
@@ -44,14 +44,14 @@ public class HUDDecoratorRsGateLogic implements IWailaFMPDecorator {
 		
 		//orient = orient - ((orient & 0x10) + (orient & 0x8) + (orient & 0x4));
 		int hOrient = orient & 0x3;
-		ForgeDirection vOrient = ForgeDirection.getOrientation((orient - (orient & 0x3)) >> 2);
+		EnumFacing vOrient = EnumFacing.values()[(orient - (orient & 0x3)) >> 2];
 		
 		//System.out.printf("%s\n", ForgeDirection.getOrientation(vOrient));
 		
-		if (vOrient == ForgeDirection.EAST)
+		if (vOrient == EnumFacing.EAST)
 			hOrient -= 1;
 
-		if (vOrient == ForgeDirection.WEST)
+		if (vOrient == EnumFacing.WEST)
 			hOrient += 1;		
 		
 		if (hOrient == -1)

@@ -1,12 +1,14 @@
 package mcp.mobius.waila.network;
 
 import com.google.common.base.Charsets;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.network.FMLEmbeddedChannel;
-import cpw.mods.fml.common.network.FMLIndexedMessageToMessageCodec;
-import cpw.mods.fml.common.network.FMLOutboundHandler;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.relauncher.Side;
+import io.netty.buffer.ByteBufInputStream;
+import io.netty.buffer.ByteBufOutputStream;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.network.FMLEmbeddedChannel;
+import net.minecraftforge.fml.common.network.FMLIndexedMessageToMessageCodec;
+import net.minecraftforge.fml.common.network.FMLOutboundHandler;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.relauncher.Side;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
@@ -90,23 +92,19 @@ public enum WailaPacketHandler {
     public void writeNBT(ByteBuf target, NBTTagCompound tag) throws IOException{
         if (tag == null)
         	target.writeShort(-1);
-        else{
-            byte[] abyte = CompressedStreamTools.compress(tag);
-            target.writeShort((short)abyte.length);
-            target.writeBytes(abyte);
+        else {
+            target.writeShort(0);
+            CompressedStreamTools.writeCompressed(tag, new ByteBufOutputStream(target));
         }
     }
 
     public NBTTagCompound readNBT(ByteBuf dat) throws IOException
     {
         short short1 = dat.readShort();
-
         if (short1 < 0)
             return null;
         else{
-            byte[] abyte = new byte[short1];
-            dat.readBytes(abyte);
-            return CompressedStreamTools.func_152457_a(abyte, NBTSizeTracker.field_152451_a);
+            return CompressedStreamTools.readCompressed(new ByteBufInputStream(dat));
         }
     }
     

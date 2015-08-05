@@ -2,9 +2,9 @@ package mcp.mobius.waila.addons.buildcraft;
 
 import java.lang.reflect.Method;
 
+import net.minecraft.util.EnumFacing;
 import org.apache.logging.log4j.Level;
 
-import net.minecraftforge.common.util.ForgeDirection;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 
@@ -23,7 +23,7 @@ public class BCModule {
 	public static void register(){
 		try{
 			TileTank            = Class.forName("buildcraft.factory.TileTank");
-			TileTank_getTankInfo      = TileTank.getMethod("getTankInfo", ForgeDirection.class);
+			TileTank_getTankInfo      = TileTank.getMethod("getTankInfo", EnumFacing.class);
 
 			ModuleRegistrar.instance().addConfig("Buildcraft", "bc.tankamount");
 			ModuleRegistrar.instance().addConfig("Buildcraft", "bc.tanktype");
