@@ -12,6 +12,6 @@ public class VanillaTooltipHandler {
 	public void tooltipEvent(ItemTooltipEvent event) {
 		String canonicalName = ModIdentification.nameFromStack(event.itemStack);
 		if (canonicalName != null && !canonicalName.equals(""))
-			event.toolTip.add("\u00a79\u00a7o" + canonicalName);	
+			event.toolTip.add("\u00a79\u00a7o" +  canonicalName);
 	}
 }

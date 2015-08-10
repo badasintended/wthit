@@ -28,6 +28,8 @@ enchant.title.maxlvl=Max lvl
 enchant.title.weight=Weight
 enchant.label.enchantability=Enchantability
 
+entity.ItemFrame.name=Item Frame
+
 waila.keybind.wailaconfig=[Waila] Config screen
 waila.keybind.wailadisplay=[Waila] Show/Hide
 waila.keybind.liquid=[Waila] Show liquids

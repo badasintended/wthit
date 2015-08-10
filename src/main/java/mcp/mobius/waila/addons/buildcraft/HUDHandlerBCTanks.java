@@ -66,7 +66,7 @@ public class HUDHandlerBCTanks implements IWailaDataProvider {
 	public FluidTankInfo getTank(IWailaDataAccessor accessor){
 		FluidTankInfo tank = null;
 		try{
-			tank = ((FluidTankInfo[])BCModule.TileTank_getTankInfo.invoke(BCModule.TileTank.cast(accessor.getTileEntity()), EnumFacing.HORIZONTALS))[0];
+			tank = ((FluidTankInfo[])BCModule.TileTank_getTankInfo.invoke(BCModule.TileTank.cast(accessor.getTileEntity()), EnumFacing.DOWN))[0];
 		} catch (Exception e){
 			Waila.log.log(Level.ERROR, "[BC] Unhandled exception trying to access a tank for display !.\n" + String.valueOf(e));
 			return null;
