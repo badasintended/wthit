@@ -10,7 +10,6 @@ import mcp.mobius.waila.handlers.VanillaTooltipHandler;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderHealth;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderProgressBar;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderStack;
-//import mcp.mobius.waila.handlers.SummaryProviderDefault;
 import mcp.mobius.waila.server.ProxyServer;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;

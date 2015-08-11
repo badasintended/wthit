@@ -3,6 +3,7 @@ package mcp.mobius.waila.handlers.nei;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.regex.Pattern;
 import java.util.regex.PatternSyntaxException;
 
@@ -39,7 +40,7 @@ public class ModNameFilter implements ISearchProvider{
 		
 		@Override
 		public boolean matches(ItemStack itemstack) {
-			return this.pattern.matcher(ModIdentification.nameFromStack(itemstack).toLowerCase()).find();
+			return this.pattern.matcher(ModIdentification.nameFromStack(itemstack).toLowerCase(Locale.US)).find();
 		}
 		
 	}

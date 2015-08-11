@@ -120,7 +120,7 @@ public class UIHelper {
     	
     	if (text.isEmpty()) return;
     	
-        FontRenderer fontRendererObj = Minecraft.getMinecraft().standardGalacticFontRenderer;
+        FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
     	
         float f = 1.6F;
         float f1 = 0.016666668F * f;

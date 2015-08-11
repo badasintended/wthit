@@ -49,7 +49,6 @@ public class LabelFixedFont extends WidgetBase {
 	public void draw(Point pos) {
 		this.saveGLState();
 		this.mc.fontRendererObj.drawString(this.text, pos.getX(), pos.getY(), this.color);
-		//this.mc.fontRenderer.drawString(this.text, pos.getX(), pos.getY(), this.color);
 		this.loadGLState();
 	}
 }

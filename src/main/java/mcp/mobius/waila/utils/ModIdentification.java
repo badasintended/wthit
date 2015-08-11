@@ -9,6 +9,7 @@ import net.minecraftforge.fml.common.registry.GameData;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class ModIdentification {
 
@@ -41,11 +42,13 @@ public class ModIdentification {
         modSource_Name.put("1.6.3.jar", "Minecraft");
         modSource_Name.put("1.6.4.jar", "Minecraft");
         modSource_Name.put("1.7.2.jar", "Minecraft");
+        modSource_Name.put("1.8.0.jar", "Minecraft");
         modSource_Name.put("Forge", "Minecraft");
         modSource_ID.put("1.6.2.jar", "Minecraft");
         modSource_ID.put("1.6.3.jar", "Minecraft");
         modSource_ID.put("1.6.4.jar", "Minecraft");
         modSource_ID.put("1.7.2.jar", "Minecraft");
+        modSource_ID.put("1.8.0.jar", "Minecraft");
         modSource_ID.put("Forge", "Minecraft");
 
 
@@ -129,7 +132,7 @@ public class ModIdentification {
 
     public static ModContainer findModContainer(String modID) {
         for (ModContainer mc : Loader.instance().getModList())
-            if (modID.toLowerCase().equals(mc.getModId().toLowerCase()))
+            if (modID.toLowerCase(Locale.US).equals(mc.getModId().toLowerCase(Locale.US)))
                 return mc;
         return null;
     }

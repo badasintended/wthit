@@ -42,64 +42,64 @@ public class ProxyServer {
 		HUDHandlerFurnace.register();
 		
 		/* BUILDCRAFT */
-		BCModule.register();
+		//BCModule.register();
 		
 		/* INDUSTRIALCRAFT2 */
-		IC2Module.register();
+		//IC2Module.register();
 		
 		/*Thaumcraft*/
-		ThaumcraftModule.register();
+		//ThaumcraftModule.register();
 		
 		/*EnderStorage*/
-		EnderStorageModule.register();
+		//EnderStorageModule.register();
 		
 		/*Gravestone*/
-		GravestoneModule.register();
+		//GravestoneModule.register();
 		
 		/*Twilight forest*/
-		TwilightForestModule.register();
+		//TwilightForestModule.register();
 		
 		/* Thermal Expansion */
-		ThermalExpansionModule.register();
+		//ThermalExpansionModule.register();
 
 		/* Thermal Dynamics */
-		ThermalDynamicsModule.register();
+		//ThermalDynamicsModule.register();
 		
 		/* ETB */
-		ETBModule.register();
+		//ETBModule.register();
 		
 		/* EnderIO */
 		//EnderIOModule.register();		
 		
 		/* ProjectRed API */
-		ProjectRedModule.register();
+		//ProjectRedModule.register();
 		
 		/* ExtraUtilities */
-		ExtraUtilitiesModule.register();	
+		//ExtraUtilitiesModule.register();
 		
 		/* OpenBlocks */
-		OpenBlocksModule.register();
+		//OpenBlocksModule.register();
 		
 		/* Railcraft */
-		RailcraftModule.register();		
+		//RailcraftModule.register();
 		
 		/* Steve's Carts */
-		StevesCartsModule.register();
+		//StevesCartsModule.register();
 		
 		/* Secret Rooms */
 		//SecretRoomsModule.register();
 		
 		/* Carpenter's Blocks */
-		CarpentersModule.register();	
+		//CarpentersModule.register();
 
 		/* Pam's HarvestCraft */
-		HarvestcraftModule.register();
+		//HarvestcraftModule.register();
 		
 		/* Magical crops */
-		MagicalCropsModule.register();		
+		//MagicalCropsModule.register();
 		
 		/* Statues */
-		StatuesModule.register();
+		//StatuesModule.register();
 		
 		/* Agriculture */
 		AgricultureModule.register();		
