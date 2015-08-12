@@ -48,7 +48,7 @@ public class Message0x01TERequest extends SimpleChannelInboundHandler<Message0x0
 	public int dim;
 	public int posX;
 	public int posY;
-	public int posZ;	
+	public int posZ;
 	public HashSet<String> keys = new HashSet<String> ();	
 	
 	public Message0x01TERequest(){}	

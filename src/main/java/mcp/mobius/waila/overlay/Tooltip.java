@@ -1,28 +1,24 @@
 package mcp.mobius.waila.overlay;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.awt.Dimension;
-import java.awt.Point;
-
-import org.lwjgl.opengl.GL11;
-
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.config.Configuration;
 import mcp.mobius.waila.api.IWailaCommonAccessor;
-import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaTooltipRenderer;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderIcon;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderString;
-import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderTrueTyper;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.config.Configuration;
+import org.lwjgl.opengl.GL11;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.regex.Matcher;
+
 import static mcp.mobius.waila.api.SpecialChars.*;
 
 public class Tooltip {
