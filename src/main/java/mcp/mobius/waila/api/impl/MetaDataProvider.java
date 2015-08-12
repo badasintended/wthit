@@ -71,12 +71,6 @@ public class MetaDataProvider{
 			accessor.resetTimer();
 			HashSet<String> keys = new HashSet<String>();
 			
-			if (ModuleRegistrar.instance().hasSyncedNBTKeys(block))
-				keys.addAll(ModuleRegistrar.instance().getSyncedNBTKeys(block));
-
-			if (ModuleRegistrar.instance().hasSyncedNBTKeys(accessor.getTileEntity()))
-				keys.addAll(ModuleRegistrar.instance().getSyncedNBTKeys(accessor.getTileEntity()));			
-			
 			if (keys.size() != 0 || ModuleRegistrar.instance().hasNBTProviders(block) || ModuleRegistrar.instance().hasNBTProviders(accessor.getTileEntity()))
 				WailaPacketHandler.INSTANCE.sendToServer(new Message0x01TERequest(accessor.getTileEntity(), keys));
 			
@@ -176,9 +170,6 @@ public class MetaDataProvider{
 		if (accessor.getEntity() != null && Waila.instance.serverPresent && accessor.isTimeElapsed(250)){
 			accessor.resetTimer();
 			HashSet<String> keys = new HashSet<String>();
-
-			if (ModuleRegistrar.instance().hasSyncedNBTKeys(accessor.getEntity()))
-				keys.addAll(ModuleRegistrar.instance().getSyncedNBTKeys(accessor.getEntity()));			
 			
 			if (keys.size() != 0 || ModuleRegistrar.instance().hasNBTEntityProviders(accessor.getEntity()))
 				WailaPacketHandler.INSTANCE.sendToServer(new Message0x03EntRequest(accessor.getEntity(), keys));			
