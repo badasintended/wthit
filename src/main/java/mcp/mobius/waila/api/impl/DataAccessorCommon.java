@@ -5,6 +5,7 @@ import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaEntityAccessor;
 import mcp.mobius.waila.utils.NBTUtil;
 import net.minecraft.block.Block;
+import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -26,6 +27,8 @@ public class DataAccessorCommon implements IWailaCommonAccessor, IWailaDataAcces
 	public MovingObjectPosition mop;
 	public Vec3 renderingvec = null;
 	public Block block;
+	public IBlockState state;
+	public BlockPos pos;
 	public int blockID;
 	public String blockResource;
 	public int metadata;
@@ -90,7 +93,7 @@ public class DataAccessorCommon implements IWailaCommonAccessor, IWailaDataAcces
 
 	@Override
 	public IBlockState getBlockState() {
-		return null;
+		return this.state;
 	}
 
 	@Override
@@ -101,7 +104,7 @@ public class DataAccessorCommon implements IWailaCommonAccessor, IWailaDataAcces
 
 	@Override
 	public BlockPos getPosition() {
-		return null;
+		return this.pos;
 	}
 
 	@Override
@@ -185,13 +188,8 @@ public class DataAccessorCommon implements IWailaCommonAccessor, IWailaDataAcces
 
 	@Override
 	public EnumFacing getSide() {
-		return null;
+		return this.getMOP().sideHit;
 	}
-
-/*	@Override
-	public EnumFacing getSide() {
-		return EnumFacing.values()[(this.getPosition().sideHit)];
-	}*/
 
 	@Override
 	public ItemStack getStack() {

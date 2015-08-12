@@ -14,7 +14,6 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import org.apache.logging.log4j.Level;
-import org.lwjgl.opengl.GL11;
 
 import java.util.Locale;
 import java.util.Map;

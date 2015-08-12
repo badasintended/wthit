@@ -28,11 +28,11 @@ public interface IWailaCommonAccessor {
 	int          		 getMetadata();
 	TileEntity           getTileEntity();
 	Entity               getEntity();
-	BlockPos getPosition();
+	BlockPos 			 getPosition();
 	Vec3                 getRenderingPosition();
 	NBTTagCompound       getNBTData();
 	int                  getNBTInteger(NBTTagCompound tag, String keyname);
 	double               getPartialFrame();
-	//EnumFacing			 getSide();
+	EnumFacing			 getSide();
 	ItemStack            getStack();
 }
