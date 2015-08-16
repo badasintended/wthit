@@ -4,11 +4,13 @@ import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.SpecialChars;
+import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameData;
@@ -35,12 +37,12 @@ public class HUDHandlerFurnace implements IWailaDataProvider {
 		String renderStr = "";
 		{
 			ItemStack stack = ItemStack.loadItemStackFromNBT(tag.getCompoundTagAt(0));
-			String name     = GameData.getItemRegistry().getNameForObject(stack.getItem()).toString();
+			String name     = String.valueOf(GameData.getItemRegistry().getNameForObject(stack.getItem()));
 			renderStr += SpecialChars.getRenderString("waila.stack", "1", name, String.valueOf(stack.stackSize), String.valueOf(stack.getItemDamage()));
 		}
 		{
 			ItemStack stack = ItemStack.loadItemStackFromNBT(tag.getCompoundTagAt(1));
-			String name     = GameData.getItemRegistry().getNameForObject(stack.getItem()).toString();
+			String name     = String.valueOf(GameData.getItemRegistry().getNameForObject(stack.getItem()));
 			renderStr += SpecialChars.getRenderString("waila.stack", "1", name, String.valueOf(stack.stackSize), String.valueOf(stack.getItemDamage()));
 		}
 		
@@ -48,7 +50,7 @@ public class HUDHandlerFurnace implements IWailaDataProvider {
 		
 		{
 			ItemStack stack = ItemStack.loadItemStackFromNBT(tag.getCompoundTagAt(2));
-			String name     = GameData.getItemRegistry().getNameForObject(stack.getItem()).toString();
+			String name     = String.valueOf(GameData.getItemRegistry().getNameForObject(stack.getItem()));
 			renderStr += SpecialChars.getRenderString("waila.stack", "1", name, String.valueOf(stack.stackSize), String.valueOf(stack.getItemDamage()));
 		}		
 		

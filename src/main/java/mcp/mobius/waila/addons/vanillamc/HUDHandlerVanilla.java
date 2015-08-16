@@ -125,7 +125,7 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 	
 		if (block == pumpkinStem){
 			currenttip.set(0, SpecialChars.WHITE + "Pumpkin stem");
-		}		
+		}
 		
 		return currenttip;
 	}

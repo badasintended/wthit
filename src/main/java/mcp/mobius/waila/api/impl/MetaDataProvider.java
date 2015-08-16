@@ -1,7 +1,6 @@
 package mcp.mobius.waila.api.impl;
 
 import mcp.mobius.waila.Waila;
-import mcp.mobius.waila.api.IWailaBlock;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaEntityProvider;
 import mcp.mobius.waila.cbcore.Layout;
@@ -39,14 +38,6 @@ public class MetaDataProvider{
 	public ItemStack identifyBlockHighlight(World world, EntityPlayer player, MovingObjectPosition mop, DataAccessorCommon accessor) {
 		Block block   = accessor.getBlock();
 		int   blockID = accessor.getBlockID();
-		
-		if (IWailaBlock.class.isInstance(block)){
-			try{
-				return ((IWailaBlock)block).getWailaStack(accessor, ConfigHandler.instance());
-			}catch (Throwable e){
-				WailaExceptionHandler.handleErr(e, block.getClass().toString(), null);
-			}
-		}
 
 		if(ModuleRegistrar.instance().hasStackProviders(block)){
 			for (List<IWailaDataProvider> providerList : ModuleRegistrar.instance().getStackProviders(block).values()){
@@ -84,29 +75,6 @@ public class MetaDataProvider{
 				WailaExceptionHandler.handleErr(e, this.getClass().getName(), null);
 			}			
 		}
-
-		/* Interface IWailaBlock */
-		if (IWailaBlock.class.isInstance(block)){
-			TileEntity entity = world.getTileEntity(mop.getBlockPos());
-			if (layout == Layout.HEADER)
-				try{				
-					return ((IWailaBlock)block).getWailaHead(itemStack, currenttip, accessor, ConfigHandler.instance());
-				} catch (Throwable e){
-					return WailaExceptionHandler.handleErr(e, block.getClass().toString(), currenttip);
-				}					
-			else if (layout == Layout.BODY)
-				try{					
-					return ((IWailaBlock)block).getWailaBody(itemStack, currenttip, accessor, ConfigHandler.instance());
-				} catch (Throwable e){
-					return WailaExceptionHandler.handleErr(e, block.getClass().toString(), currenttip);
-				}
-			else if (layout == Layout.FOOTER)
-				try{					
-					return ((IWailaBlock)block).getWailaTail(itemStack, currenttip, accessor, ConfigHandler.instance());
-				} catch (Throwable e){
-					return WailaExceptionHandler.handleErr(e, block.getClass().toString(), currenttip);
-				}				
-		}		
 
 		headBlockProviders.clear();
 		bodyBlockProviders.clear();
@@ -169,10 +137,6 @@ public class MetaDataProvider{
 		
 		if (accessor.getEntity() != null && Waila.instance.serverPresent && accessor.isTimeElapsed(250)){
 			accessor.resetTimer();
-			HashSet<String> keys = new HashSet<String>();
-			
-			if (keys.size() != 0 || ModuleRegistrar.instance().hasNBTEntityProviders(accessor.getEntity()))
-				WailaPacketHandler.INSTANCE.sendToServer(new Message0x03EntRequest(accessor.getEntity(), keys));			
 			
 		} else if (accessor.getEntity() != null && !Waila.instance.serverPresent && accessor.isTimeElapsed(250)) {
 			

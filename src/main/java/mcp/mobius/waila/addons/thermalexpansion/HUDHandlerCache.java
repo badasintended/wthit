@@ -37,7 +37,7 @@ public class HUDHandlerCache implements IWailaDataProvider {
                 color = name.substring(0, 2);
 
             if(storedItem != null) {
-                String namex = GameData.getItemRegistry().getNameForObject(storedItem.getItem()).toString();
+                String namex = String.valueOf(GameData.getItemRegistry().getNameForObject(storedItem.getItem()));
                 name += String.format(" < " + SpecialChars.getRenderString("waila.stack", "1", namex, "0", String.valueOf(storedItem.getItemDamage())) + color + " %s >", storedItem.getDisplayName());
             }
             else
