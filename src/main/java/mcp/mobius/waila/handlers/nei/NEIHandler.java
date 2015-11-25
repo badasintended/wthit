@@ -15,7 +15,7 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.common.config.Configuration;
 
 import org.lwjgl.input.Keyboard;
-
+/*
 import codechicken.nei.NEIClientConfig;
 import codechicken.nei.api.API;
 import codechicken.nei.guihook.GuiContainerManager;
@@ -85,3 +85,4 @@ public class NEIHandler {
 		}
 	}	
 }
+*/

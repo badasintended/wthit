@@ -205,7 +205,7 @@ public class RayTracing {
             return items;
 
         try{
-        ItemStack pick = mouseoverBlock.getPickBlock(this.target, world, pos);
+        ItemStack pick = mouseoverBlock.getPickBlock(this.target, world, pos, player);
         if(pick != null)
             items.add(pick);
         }catch(Exception e){}

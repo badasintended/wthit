@@ -1,7 +1,7 @@
 package mcp.mobius.waila.handlers.nei;
 
 import java.util.List;
-
+/*
 import codechicken.nei.guihook.IContainerTooltipHandler;
 import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -28,3 +28,4 @@ public class TooltipHandlerWaila implements IContainerTooltipHandler {
 	}
 
 }
+*/

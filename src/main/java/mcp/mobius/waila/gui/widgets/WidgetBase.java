@@ -43,7 +43,7 @@ public abstract class WidgetBase implements IWidget {
 	public WidgetBase(){
 		this.setParent(null);
 		this.mc  = Minecraft.getMinecraft();	
-		this.rez = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight); 
+		this.rez = new ScaledResolution(mc); //TODO , was mc, mc.displayWidth, mc.displayHeight
 		this.texManager = this.mc.renderEngine;
 		this.setGeometry(new WidgetGeometry(0, 0, 50, 50, CType.ABSXY, CType.ABSXY));
 	}
@@ -51,7 +51,7 @@ public abstract class WidgetBase implements IWidget {
 	public WidgetBase(IWidget parent){
 		this.setParent(parent);
 		this.mc  = Minecraft.getMinecraft();
-		this.rez = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
+		this.rez = new ScaledResolution(mc); //TODO , was mc, mc.displayWidth, mc.displayHeight
 		this.texManager = this.mc.renderEngine;
 		this.setGeometry(new WidgetGeometry(0, 0, 50, 50, CType.ABSXY, CType.ABSXY));
 	}

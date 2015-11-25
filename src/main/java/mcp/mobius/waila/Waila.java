@@ -28,7 +28,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Field;
 
-@Mod(modid="Waila", name="Waila", version="1.5.11", dependencies="after:NotEnoughItems@[1.0.5.0,)", acceptableRemoteVersions="*")
+@Mod(modid="Waila", name="Waila", version="@VERSION@", acceptableRemoteVersions="*")
 /*
 @NetworkMod(channels = {"Waila"},clientSideRequired=false, serverSideRequired=false, connectionHandler = WailaConnectionHandler.class, 
 			packetHandler = WailaPacketHandler.class, versionBounds="[1.5.0,)")
@@ -65,11 +65,11 @@ public class Waila {
         
         if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT){
         	MinecraftForge.EVENT_BUS.register(new DecoratorRenderer());
-    		FMLCommonHandler.instance().bus().register(new KeyEvent());
-    		FMLCommonHandler.instance().bus().register(WailaTickHandler.instance());    
+			MinecraftForge.EVENT_BUS.register(new KeyEvent());
+			MinecraftForge.EVENT_BUS.register(WailaTickHandler.instance());
     		
         }
-		FMLCommonHandler.instance().bus().register(new NetworkHandler());        
+		MinecraftForge.EVENT_BUS.register(new NetworkHandler());
 	}
 
     @EventHandler

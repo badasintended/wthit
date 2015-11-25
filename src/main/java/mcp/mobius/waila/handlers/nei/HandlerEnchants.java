@@ -1,5 +1,5 @@
 package mcp.mobius.waila.handlers.nei;
-
+/*
 import codechicken.nei.NEIClientConfig;
 import codechicken.nei.guihook.GuiContainerManager;
 import codechicken.nei.guihook.IContainerInputHandler;
@@ -131,4 +131,4 @@ public class HandlerEnchants implements IContainerInputHandler {
 
 	@Override
 	public void onMouseDragged(GuiContainer guiContainer, int mouseX, int mouseY, int button, long heldTime) {}
-}
+}*/

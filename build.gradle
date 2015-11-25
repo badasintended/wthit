@@ -1,27 +1,25 @@
 buildscript {
     repositories {
-        mavenCentral()
+        jcenter()
         maven {
             name = "forge"
             url = "http://files.minecraftforge.net/maven"
         }
-        maven {
-            name = "sonatype"
-            url = "https://oss.sonatype.org/content/repositories/snapshots/"
-        }
     }
     dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.0-SNAPSHOT'
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
     }
 }
+
+apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'java'
+apply plugin: 'maven'
 
 configurations {
     deployerJars
-    //packed
-    //compile.extendsFrom packed  
 }
 
-//add dependency repositories
+/*
 repositories {
 	mavenLocal()
     mavenCentral()
@@ -29,90 +27,46 @@ repositories {
         name = "chickenbones"
         url = "http://chickenbones.net/maven/"
     }
-}
+}*/
 
-apply plugin: 'java'
-apply plugin: 'net.minecraftforge.gradle.forge'
-apply plugin: 'maven'
-
-version = "1.5.11-RC3_1.8"
+version = "${waila_version}_${mc_version}"
 group= "mcp.mobius.waila" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "Waila"
 
-// Define properties file
-ext.configFile = file "build.properties"
-
-configFile.withReader {
-    // Load config. It shall from now be referenced as simply config or project.config
-    def prop = new Properties()
-    prop.load(it)
-    project.ext.config = new ConfigSlurper().parse prop
+minecraft {
+    version = "${mc_version}-${forge_version}"
+	mappings = "snapshot_20151122"
+    runDir = "run"
+	
+    replace "@VERSION@", project.waila_version
+    replaceIn "Waila.java"
 }
 
 dependencies {
-    compile "codechicken:CodeChickenLib:${config.mc_version}-${config.ccl_version}:dev"
-    compile "codechicken:CodeChickenCore:${config.mc_version}-${config.ccc_version}:dev"
-    compile "codechicken:NotEnoughItems:${config.mc_version}-${config.nei_version}:dev"
+    //compile "codechicken:CodeChickenLib:${mc_version}-${ccl_version}:dev"
+    //compile "codechicken:CodeChickenCore:${mc_version}-${ccc_version}:dev"
+    //compile "codechicken:NotEnoughItems:${mc_version}-${nei_version}:dev"
     deployerJars "org.apache.maven.wagon:wagon-ssh:2.2"
 }
 
-minecraft {
-    version = "1.8-${config.forge_version}"
-	mappings = "snapshot_20141130"
-    runDir = "eclipse"
-}
-
-def root = project.projectDir.parentFile
-sourceSets {
-    main {
-        java {
-            srcDir new File(root, "src")
-        }
-        resources {
-            srcDir new File(root, "resources")
-        }
-    }
-}
-
-processResources
-{
-    // this will ensure that this task is redone when the versions change.
+processResources{
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
 
-    // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
                 
-        // replace version and mcversion
-        expand 'version':project.version, 'mcversion':project.minecraft.version
+        expand 'version':project.waila_version, 'mcversion':project.minecraft.version
     }
-        
-    // copy everything else, thats not the mcmod.info
+	
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
 }
 
-//def commonManifest = {
-//    attributes 'FMLCorePlugin': 'mcp.mobius.wailacore.asm.CoreDescription'
-//    attributes 'FMLCorePluginContainsFMLMod': 'mcp.mobius.waila.Waila'
-//}
-
 jar { 
     exclude "**/client/gui/inventory/GuiContainer.class" 
     exclude "**/client/gui/inventory/GuiContainer.java" 
-
-//    manifest commonManifest
-
-//    from {
-//        configurations.packed.collect {
-//            it.isDirectory() ? it : zipTree(it).matching {
-//                exclude "META-INF", "META-INF/**", "*META-INF*", "meta-inf"
-//                exclude "**.jar", "**/*.jar", "*.jar"
-//            }
-//        }
-//    }
 }
 
 task devJar(type: Jar) {
@@ -121,7 +75,7 @@ task devJar(type: Jar) {
 }
 
 artifacts {
-    archives sourceJar, devJar
+    archives devJar
 }
 
 uploadArchives {
@@ -144,5 +98,4 @@ uploadArchives {
             }
         }
     }
-
 }

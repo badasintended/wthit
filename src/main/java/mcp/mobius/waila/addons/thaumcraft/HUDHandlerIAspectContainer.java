@@ -76,7 +76,7 @@ public class HUDHandlerIAspectContainer implements IWailaDataProvider{
 			if (!hasReveal) return tag;
 			
 			HashMap knownAspects        = (HashMap)       ThaumcraftModule.CommonProxy_getKnownAspects.invoke(ThaumcraftModule.Thaumcraft_proxy.get(null));
-			LinkedHashMap playerAspects = (LinkedHashMap) ThaumcraftModule.AspectList_aspects.get(knownAspects.get(player.getName()));
+			LinkedHashMap playerAspects = (LinkedHashMap) ThaumcraftModule.AspectList_aspects.get(knownAspects.get(player.getCommandSenderName()));
 			LinkedHashMap tileAspects   = new LinkedHashMap();
 			
 			if (ThaumcraftModule.IAspectContainer.isInstance(te)){

@@ -1,16 +1,21 @@
 [
 {
-  "modid": "waila",
+  "modid": "Waila",
   "name": "Waila",
-  "description": "All your data are belong to us.",
+  "description": "",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
-  "authors": ["ProfMobius"],
-  "credits": "The Forge and FML guys, for making this example",
+  "authorList": [
+    "ProfMobius"
+  ],
+  "credits": "",
   "logoFile": "",
-  "screenshots": [],
-  "dependencies": []
+  "screenshots": [
+  ],
+  "parent":"",
+  "dependencies": [
+  ]
 }
 ]
