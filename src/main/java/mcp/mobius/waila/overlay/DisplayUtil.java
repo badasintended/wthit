@@ -125,8 +125,7 @@ public class DisplayUtil {
         float zLevel = 0.0F;
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer t = tessellator.getWorldRenderer();
-        t.begin(7, DefaultVertexFormats.POSITION_COLOR);
-        //t.setColorOpaque_F(1, 1, 1);
+        t.begin(7, DefaultVertexFormats.POSITION_TEX);
         t.pos((double) (x + 0), (double) (y + height), (double) zLevel).tex((double) ((float) (textureX + 0) * f), (double) ((float) (textureY + th) * f1)).endVertex();
         t.pos((double) (x + width), (double) (y + height), (double) zLevel).tex((double) ((float) (textureX + tw) * f), (double) ((float) (textureY + th) * f1)).endVertex();
         t.pos((double) (x + width), (double) (y + 0), (double) zLevel).tex((double) ((float) (textureX + tw) * f), (double) ((float) (textureY + 0) * f1)).endVertex();
@@ -170,13 +169,14 @@ public class DisplayUtil {
     }
 
     public static void renderIcon(int x, int y, int sx, int sy, IconUI icon) {
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         Minecraft.getMinecraft().getTextureManager().bindTexture(Gui.icons);
 
         if (icon == null)
             return;
 
         if (icon.bu != -1)
-            DisplayUtil.drawTexturedModalRect(x, y, icon.bu, icon.bv, sx, sy, icon.bsu, icon.bsv);
+        DisplayUtil.drawTexturedModalRect(x, y, icon.bu, icon.bv, sx, sy, icon.bsu, icon.bsv);
         DisplayUtil.drawTexturedModalRect(x, y, icon.u, icon.v, sx, sy, icon.su, icon.sv);
     }
 }
