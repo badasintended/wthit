@@ -29,7 +29,7 @@ public class HUDHandlerEntities implements IWailaEntityProvider {
 	@Override
 	public List<String> getWailaHead(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
 		try {
-			currenttip.add(WHITE + entity.getCommandSenderName());
+			currenttip.add(WHITE + entity.getName());
 		} catch (Exception e) {
 			currenttip.add(WHITE + "Unknown");
 		}

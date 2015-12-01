@@ -22,11 +22,11 @@ public class UIHelper {
 
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer t = tessellator.getWorldRenderer();
-        t.func_181668_a(7, DefaultVertexFormats.field_181705_e);
-        t.func_181662_b((double) (posX + 0), (double) (posY + sizeY), (double) zLevel).func_181673_a((double) ((float) texU * f), (double) ((float) (texV + texSizeV) * f)).func_181675_d();
-        t.func_181662_b((double) (posX + sizeX), (double) (posY + sizeY), (double) zLevel).func_181673_a((double) ((float) (texU + texSizeU) * f), (double) ((float) (texV + texSizeV) * f)).func_181675_d();
-        t.func_181662_b((double) (posX + sizeX), (double) (posY + 0), (double) zLevel).func_181673_a((double) ((float) (texU + texSizeU) * f), (double) ((float) texV * f)).func_181675_d();
-        t.func_181662_b((double) (posX + 0), (double) (posY + 0), (double) zLevel).func_181673_a((double) ((float) texU * f), (double) ((float) texV * f)).func_181675_d();
+        t.begin(7, DefaultVertexFormats.POSITION_TEX);
+        t.pos((double) (posX + 0), (double) (posY + sizeY), (double) zLevel).tex((double) ((float) texU * f), (double) ((float) (texV + texSizeV) * f)).endVertex();
+        t.pos((double) (posX + sizeX), (double) (posY + sizeY), (double) zLevel).tex((double) ((float) (texU + texSizeU) * f), (double) ((float) (texV + texSizeV) * f)).endVertex();
+        t.pos((double) (posX + sizeX), (double) (posY + 0), (double) zLevel).tex((double) ((float) (texU + texSizeU) * f), (double) ((float) texV * f)).endVertex();
+        t.pos((double) (posX + 0), (double) (posY + 0), (double) zLevel).tex((double) ((float) texU * f), (double) ((float) texV * f)).endVertex();
         tessellator.draw();
     }
 
@@ -46,11 +46,11 @@ public class UIHelper {
         GlStateManager.shadeModel(7425);
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer t = tessellator.getWorldRenderer();
-        t.func_181668_a(7, DefaultVertexFormats.field_181705_e);
-        t.func_181662_b((double) right, (double) top, (double) zLevel).func_181666_a(red1, green1, blue1, alpha1).func_181675_d();
-        t.func_181662_b((double) left, (double) top, (double) zLevel).func_181666_a(red1, green1, blue1, alpha1).func_181675_d();
-        t.func_181662_b((double) left, (double) bottom, (double) zLevel).func_181666_a(red2, green2, blue2, alpha2).func_181675_d();
-        t.func_181662_b((double) right, (double) bottom, (double) zLevel).func_181666_a(red2, green2, blue2, alpha2).func_181675_d();
+        t.begin(7, DefaultVertexFormats.POSITION_COLOR);
+        t.pos((double) right, (double) top, (double) zLevel).color(red1, green1, blue1, alpha1).endVertex();
+        t.pos((double) left, (double) top, (double) zLevel).color(red1, green1, blue1, alpha1).endVertex();
+        t.pos((double) left, (double) bottom, (double) zLevel).color(red2, green2, blue2, alpha2).endVertex();
+        t.pos((double) right, (double) bottom, (double) zLevel).color(red2, green2, blue2, alpha2).endVertex();
         tessellator.draw();
         GlStateManager.shadeModel(7424);
         GlStateManager.disableBlend();
@@ -159,11 +159,11 @@ public class UIHelper {
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer t = tessellator.getWorldRenderer();
 
-        t.func_181668_a(7, DefaultVertexFormats.field_181705_e);
-        t.func_181662_b(x1, y2, z1).func_181666_a(r, g, b, a).func_181675_d();
-        t.func_181662_b(x1, y1, z2).func_181666_a(r, g, b, a).func_181675_d();
-        t.func_181662_b(x2, y1, z2).func_181666_a(r, g, b, a).func_181675_d();
-        t.func_181662_b(x2, y2, z1).func_181666_a(r, g, b, a).func_181675_d();
+        t.begin(7, DefaultVertexFormats.POSITION_COLOR);
+        t.pos(x1, y2, z1).color(r, g, b, a).endVertex();
+        t.pos(x1, y1, z2).color(r, g, b, a).endVertex();
+        t.pos(x2, y1, z2).color(r, g, b, a).endVertex();
+        t.pos(x2, y2, z1).color(r, g, b, a).endVertex();
         tessellator.draw();
     }
 
@@ -171,11 +171,11 @@ public class UIHelper {
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer t = tessellator.getWorldRenderer();
 
-        t.func_181668_a(7, DefaultVertexFormats.field_181705_e);
-        t.func_181662_b(x1, y1, z1).func_181666_a(r, g, b, a).func_181675_d();
-        t.func_181662_b(x1, y1, z2).func_181666_a(r, g, b, a).func_181675_d();
-        t.func_181662_b(x2, y2, z2).func_181666_a(r, g, b, a).func_181675_d();
-        t.func_181662_b(x2, y2, z1).func_181666_a(r, g, b, a).func_181675_d();
+        t.begin(7, DefaultVertexFormats.POSITION_COLOR);
+        t.pos(x1, y1, z1).color(r, g, b, a).endVertex();
+        t.pos(x1, y1, z2).color(r, g, b, a).endVertex();
+        t.pos(x2, y2, z2).color(r, g, b, a).endVertex();
+        t.pos(x2, y2, z1).color(r, g, b, a).endVertex();
         tessellator.draw();
     }
 }

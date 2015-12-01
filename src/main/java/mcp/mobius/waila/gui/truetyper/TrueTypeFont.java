@@ -244,19 +244,19 @@ public class TrueTypeFont {
 
 		//t.setColorRGBA_F(0f, 0f, 0f, 1f);
 
-		t.func_181662_b((double) drawX, (double) drawY, 0).func_181673_a((double) ((float) TextureSrcX), (double) ((float) TextureSrcY)).func_181675_d();
+		t.pos((double) drawX, (double) drawY, 0).tex((double) ((float) TextureSrcX), (double) ((float) TextureSrcY)).endVertex();
 		//GL11.glTexCoord2f(TextureSrcX, TextureSrcY);
 		//GL11.glVertex2f(drawX, drawY);
 
-		t.func_181662_b((double) drawX, (double) (drawY + DrawHeight), 0).func_181673_a((double) ((float) TextureSrcX), (double) ((float) (TextureSrcY + RenderHeight))).func_181675_d();
+		t.pos((double) drawX, (double) (drawY + DrawHeight), 0).tex((double) ((float) TextureSrcX), (double) ((float) (TextureSrcY + RenderHeight))).endVertex();
 		//GL11.glTexCoord2f(TextureSrcX, TextureSrcY + RenderHeight);
 		//GL11.glVertex2f(drawX, drawY + DrawHeight);
 
-		t.func_181662_b((double) drawX + DrawWidth, (double) (drawY + DrawHeight), 0).func_181673_a((double) ((float) (TextureSrcX + RenderWidth)), (double) ((float) (TextureSrcY + RenderHeight))).func_181675_d();
+		t.pos((double) drawX + DrawWidth, (double) (drawY + DrawHeight), 0).tex((double) ((float) (TextureSrcX + RenderWidth)), (double) ((float) (TextureSrcY + RenderHeight))).endVertex();
 		//GL11.glTexCoord2f(TextureSrcX + RenderWidth, TextureSrcY + RenderHeight);
 		//GL11.glVertex2f(drawX + DrawWidth, drawY + DrawHeight);
 
-		t.func_181662_b((double) (drawX + DrawWidth), (double) drawY, 0).func_181673_a((double) ((float) (TextureSrcX + RenderWidth)), (double) ((float) TextureSrcY)).func_181675_d();
+		t.pos((double) (drawX + DrawWidth), (double) drawY, 0).tex((double) ((float) (TextureSrcX + RenderWidth)), (double) ((float) TextureSrcY)).endVertex();
 		//GL11.glTexCoord2f(TextureSrcX + RenderWidth, TextureSrcY);
 		//GL11.glVertex2f(drawX + DrawWidth, drawY);
 	}
@@ -355,10 +355,10 @@ public class TrueTypeFont {
 		GL11.glBindTexture(GL11.GL_TEXTURE_2D, fontTextureID);
 		Tessellator tessellator = Tessellator.getInstance();
 		WorldRenderer t = tessellator.getWorldRenderer();
-		t.func_181668_a(7, DefaultVertexFormats.field_181705_e);
+		t.begin(7, DefaultVertexFormats.POSITION_COLOR);
 		//	GL11.glBegin(GL11.GL_QUADS);
 		if (rgba.length == 4)
-			//t.setColorRGBA_F(rgba[0], rgba[1], rgba[2], rgba[3]); //TODO Fix / Check how it works without
+			t.putColorRGB_F(rgba[0], rgba[1], rgba[2], (int) rgba[3]);
 			while (i >= startIndex && i <= endIndex) {
 
 				charCurrent = whatchars.charAt(i);

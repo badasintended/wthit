@@ -8,7 +8,6 @@ import mcp.mobius.waila.gui.widgets.LayoutBase;
 import mcp.mobius.waila.gui.widgets.WidgetGeometry;
 import mcp.mobius.waila.gui.widgets.buttons.ButtonBooleanConfig;
 import mcp.mobius.waila.gui.widgets.buttons.ButtonBooleanConfigRemote;
-import mcp.mobius.waila.gui.widgets.buttons.ButtonContainer;
 import mcp.mobius.waila.gui.widgets.buttons.ButtonContainerLabel;
 import mcp.mobius.waila.gui.widgets.buttons.ButtonScreenChange;
 import mcp.mobius.waila.utils.Constants;
@@ -24,7 +23,7 @@ public class ScreenModuleConfig extends ScreenBase {
 		this.modName = modname;
 		
 		this.getRoot().addWidget("ButtonContainer", new ButtonContainerLabel(this.getRoot(), 2, 100, 25.0));
-		this.getRoot().getWidget("ButtonContainer").setGeometry(new WidgetGeometry(0.0, 20.0, 100.0, 60.0,  CType.RELXY, CType.RELXY, WAlign.LEFT, WAlign.TOP));		
+		this.getRoot().getWidget("ButtonContainer").setGeometry(new WidgetGeometry(0.0, 20.0, 100.0, 60.0,  CType.RELXY, CType.RELXY, WAlign.LEFT, WAlign.TOP));
 		
 		ButtonContainerLabel buttonContainer = ((ButtonContainerLabel)this.getRoot().getWidget("ButtonContainer"));
 		

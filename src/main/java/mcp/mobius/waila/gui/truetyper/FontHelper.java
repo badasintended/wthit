@@ -90,7 +90,7 @@ public class FontHelper {
 
 	private static void set2DMode(FloatBuffer matrixData) {
 		Minecraft mc = Minecraft.getMinecraft();
-		ScaledResolution sr = new ScaledResolution(mc); //TODO , was mc, mc.displayWidth, mc.displayHeight
+		ScaledResolution sr = new ScaledResolution(mc);
 		mc.entityRenderer.setupOverlayRendering();
 		GL11.glMatrixMode(GL11.GL_PROJECTION);
 	    GL11.glPushMatrix(); 

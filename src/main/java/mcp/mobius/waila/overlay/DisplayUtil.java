@@ -50,7 +50,7 @@ public class DisplayUtil {
 
     public static Dimension displaySize() {
         Minecraft mc = Minecraft.getMinecraft();
-        ScaledResolution res = new ScaledResolution(mc); //TODO , was mc, mc.displayWidth, mc.displayHeight
+        ScaledResolution res = new ScaledResolution(mc);
         return new Dimension(res.getScaledWidth(), res.getScaledHeight());
     }
 
@@ -107,11 +107,11 @@ public class DisplayUtil {
         GlStateManager.shadeModel(7425);
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer t = tessellator.getWorldRenderer();
-        t.func_181668_a(7, DefaultVertexFormats.field_181705_e);
-        t.func_181662_b((double) (left + right), (double) top, (double) zLevel).func_181666_a(f1, f2, f3, f).func_181675_d();
-        t.func_181662_b((double) left, (double) top, (double) zLevel).func_181666_a(f1, f2, f3, f).func_181675_d();
-        t.func_181662_b((double) left, (double) (top + bottom), (double) zLevel).func_181666_a(f5, f6, f7, f4).func_181675_d();
-        t.func_181662_b((double) (left + right), (double) (top + bottom), (double) zLevel).func_181666_a(f5, f6, f7, f4).func_181675_d();
+        t.begin(7, DefaultVertexFormats.POSITION_COLOR);
+        t.pos((double) (left + right), (double) top, (double) zLevel).color(f1, f2, f3, f).endVertex();
+        t.pos((double) left, (double) top, (double) zLevel).color(f1, f2, f3, f).endVertex();
+        t.pos((double) left, (double) (top + bottom), (double) zLevel).color(f5, f6, f7, f4).endVertex();
+        t.pos((double) (left + right), (double) (top + bottom), (double) zLevel).color(f5, f6, f7, f4).endVertex();
         tessellator.draw();
         GlStateManager.shadeModel(7424);
         GlStateManager.disableBlend();
@@ -125,12 +125,12 @@ public class DisplayUtil {
         float zLevel = 0.0F;
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer t = tessellator.getWorldRenderer();
-        t.func_181668_a(7, DefaultVertexFormats.field_181705_e);
+        t.begin(7, DefaultVertexFormats.POSITION_COLOR);
         //t.setColorOpaque_F(1, 1, 1);
-        t.func_181662_b((double) (x + 0), (double) (y + height), (double) zLevel).func_181673_a((double) ((float) (textureX + 0) * f), (double) ((float) (textureY + th) * f1)).func_181675_d();
-        t.func_181662_b((double) (x + width), (double) (y + height), (double) zLevel).func_181673_a((double) ((float) (textureX + tw) * f), (double) ((float) (textureY + th) * f1)).func_181675_d();
-        t.func_181662_b((double) (x + width), (double) (y + 0), (double) zLevel).func_181673_a((double) ((float) (textureX + tw) * f), (double) ((float) (textureY + 0) * f1)).func_181675_d();
-        t.func_181662_b((double) (x + 0), (double) (y + 0), (double) zLevel).func_181673_a((double) ((float) (textureX + 0) * f), (double) ((float) (textureY + 0) * f1)).func_181675_d();
+        t.pos((double) (x + 0), (double) (y + height), (double) zLevel).tex((double) ((float) (textureX + 0) * f), (double) ((float) (textureY + th) * f1)).endVertex();
+        t.pos((double) (x + width), (double) (y + height), (double) zLevel).tex((double) ((float) (textureX + tw) * f), (double) ((float) (textureY + th) * f1)).endVertex();
+        t.pos((double) (x + width), (double) (y + 0), (double) zLevel).tex((double) ((float) (textureX + tw) * f), (double) ((float) (textureY + 0) * f1)).endVertex();
+        t.pos((double) (x + 0), (double) (y + 0), (double) zLevel).tex((double) ((float) (textureX + 0) * f), (double) ((float) (textureY + 0) * f1)).endVertex();
         tessellator.draw();
     }
 

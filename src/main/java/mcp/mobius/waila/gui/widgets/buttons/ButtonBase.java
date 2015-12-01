@@ -24,7 +24,7 @@ public abstract class ButtonBase extends WidgetBase {
 	@Override
 	public void draw() {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-		
+
 		for (IWidget widget : this.widgets.values())
 			if (widget instanceof LabelFixedFont)
 				if (this.mouseOver)
@@ -42,10 +42,10 @@ public abstract class ButtonBase extends WidgetBase {
 
 		if (this.mouseOver)
 			texOffset = 1;
-		
+
 		this.mc.getTextureManager().bindTexture(widgetsTexture);
 		UIHelper.drawTexture(this.getPos().getX(), this.getPos().getY(), this.getSize().getX(), this.getSize().getY(), 0, 66 + texOffset*20, 200, 20);
-		
+
 		this.loadGLState();
 	}
 

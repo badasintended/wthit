@@ -17,7 +17,7 @@ public class ScreenModuleChoice extends ScreenBase {
 
 		this.getRoot().addWidget("ButtonContainer", new ButtonContainer(this.getRoot(), 3, 100, 25.0));
 		this.getRoot().getWidget("ButtonContainer").setGeometry(new WidgetGeometry(50.0, 20.0, 400.0, 60.0, CType.RELXY, CType.REL_Y, WAlign.CENTER, WAlign.TOP));
-		
+
 		ButtonContainer buttonContainer = ((ButtonContainer)this.getRoot().getWidget("ButtonContainer"));
 		
         for (String key : ConfigHandler.instance().getModuleNames())

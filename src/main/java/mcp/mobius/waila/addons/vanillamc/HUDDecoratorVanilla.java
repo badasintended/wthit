@@ -29,50 +29,48 @@ public class HUDDecoratorVanilla implements IWailaBlockDecorator {
                 double y = accessor.getRenderingPosition().yCoord - offset;
                 double z = accessor.getRenderingPosition().zCoord - offset;
 
-                t.func_181668_a(7, DefaultVertexFormats.field_181705_e);
+                t.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR_NORMAL);
 
-                //t.setColorRGBA(255, 255, 255, 150); //TODO Fix color
+                t.pos(x, y + 0.2, z).endVertex();
+                t.pos(x, y + 0.2, z + delta / 2 - 0.1).endVertex();
+                t.pos(x + offset, y + 0.2, z + delta / 2 - 0.1).endVertex();
+                t.pos(x + offset, y + 0.2, z).endVertex();
 
-                t.func_181662_b(x, y + 0.2, z).func_181675_d();
-                t.func_181662_b(x, y + 0.2, z + delta / 2 - 0.1).func_181675_d();
-                t.func_181662_b(x + offset, y + 0.2, z + delta / 2 - 0.1).func_181675_d();
-                t.func_181662_b(x + offset, y + 0.2, z).func_181675_d();
+                t.pos(x, y + 0.2, z + delta / 2 + 0.1).endVertex();
+                t.pos(x, y + 0.2, z + delta).endVertex();
+                t.pos(x + offset, y + 0.2, z + delta).endVertex();
+                t.pos(x + offset, y + 0.2, z + delta / 2 + 0.1).endVertex();
 
-                t.func_181662_b(x, y + 0.2, z + delta / 2 + 0.1).func_181675_d();
-                t.func_181662_b(x, y + 0.2, z + delta).func_181675_d();
-                t.func_181662_b(x + offset, y + 0.2, z + delta).func_181675_d();
-                t.func_181662_b(x + offset, y + 0.2, z + delta / 2 + 0.1).func_181675_d();
+                t.pos(x + delta - 0.1, y + 0.2, z + 0.1).endVertex();
+                t.pos(x + delta - 0.1, y + 0.2, z + delta / 2 - 0.1).endVertex();
+                t.pos(x + delta + offset - 0.1, y + 0.2, z + delta / 2 - 0.1).endVertex();
+                t.pos(x + delta + offset - 0.1, y + 0.2, z + 0.1).endVertex();
 
-                t.func_181662_b(x + delta - 0.1, y + 0.2, z + 0.1).func_181675_d();
-                t.func_181662_b(x + delta - 0.1, y + 0.2, z + delta / 2 - 0.1).func_181675_d();
-                t.func_181662_b(x + delta + offset - 0.1, y + 0.2, z + delta / 2 - 0.1).func_181675_d();
-                t.func_181662_b(x + delta + offset - 0.1, y + 0.2, z + 0.1).func_181675_d();
-
-                t.func_181662_b(x + delta - 0.1, y + 0.2, z + delta / 2 + 0.1).func_181675_d();
-                t.func_181662_b(x + delta - 0.1, y + 0.2, z + delta).func_181675_d();
-                t.func_181662_b(x + delta + offset - 0.1, y + 0.2, z + delta).func_181675_d();
-                t.func_181662_b(x + delta + offset - 0.1, y + 0.2, z + delta / 2 + 0.1).func_181675_d();
+                t.pos(x + delta - 0.1, y + 0.2, z + delta / 2 + 0.1).endVertex();
+                t.pos(x + delta - 0.1, y + 0.2, z + delta).endVertex();
+                t.pos(x + delta + offset - 0.1, y + 0.2, z + delta).endVertex();
+                t.pos(x + delta + offset - 0.1, y + 0.2, z + delta / 2 + 0.1).endVertex();
 
 
-                t.func_181662_b(x + 0.1, y + 0.2, z).func_181675_d();
-                t.func_181662_b(x + 0.1, y + 0.2, z + offset).func_181675_d();
-                t.func_181662_b(x + delta / 2 - 0.1, y + 0.2, z + offset).func_181675_d();
-                t.func_181662_b(x + delta / 2 - 0.1, y + 0.2, z).func_181675_d();
+                t.pos(x + 0.1, y + 0.2, z).endVertex();
+                t.pos(x + 0.1, y + 0.2, z + offset).endVertex();
+                t.pos(x + delta / 2 - 0.1, y + 0.2, z + offset).endVertex();
+                t.pos(x + delta / 2 - 0.1, y + 0.2, z).endVertex();
 
-                t.func_181662_b(x + delta / 2 + 0.1, y + 0.2, z).func_181675_d();
-                t.func_181662_b(x + delta / 2 + 0.1, y + 0.2, z + offset).func_181675_d();
-                t.func_181662_b(x + delta, y + 0.2, z + offset).func_181675_d();
-                t.func_181662_b(x + delta, y + 0.2, z).func_181675_d();
+                t.pos(x + delta / 2 + 0.1, y + 0.2, z).endVertex();
+                t.pos(x + delta / 2 + 0.1, y + 0.2, z + offset).endVertex();
+                t.pos(x + delta, y + 0.2, z + offset).endVertex();
+                t.pos(x + delta, y + 0.2, z).endVertex();
 
-                t.func_181662_b(x + 0.1, y + 0.2, z + delta - 0.1).func_181675_d();
-                t.func_181662_b(x + 0.1, y + 0.2, z + offset + delta - 0.1).func_181675_d();
-                t.func_181662_b(x + delta / 2 - 0.1, y + 0.2, z + offset + delta - 0.1).func_181675_d();
-                t.func_181662_b(x + delta / 2 - 0.1, y + 0.2, z + delta - 0.1).func_181675_d();
+                t.pos(x + 0.1, y + 0.2, z + delta - 0.1).endVertex();
+                t.pos(x + 0.1, y + 0.2, z + offset + delta - 0.1).endVertex();
+                t.pos(x + delta / 2 - 0.1, y + 0.2, z + offset + delta - 0.1).endVertex();
+                t.pos(x + delta / 2 - 0.1, y + 0.2, z + delta - 0.1).endVertex();
 
-                t.func_181662_b(x + delta / 2 + 0.1, y + 0.2, z + delta - 0.1).func_181675_d();
-                t.func_181662_b(x + delta / 2 + 0.1, y + 0.2, z + offset + delta - 0.1).func_181675_d();
-                t.func_181662_b(x + delta - 0.1, y + 0.2, z + offset + delta - 0.1).func_181675_d();
-                t.func_181662_b(x + delta - 0.1, y + 0.2, z + delta - 0.1).func_181675_d();
+                t.pos(x + delta / 2 + 0.1, y + 0.2, z + delta - 0.1).endVertex();
+                t.pos(x + delta / 2 + 0.1, y + 0.2, z + offset + delta - 0.1).endVertex();
+                t.pos(x + delta - 0.1, y + 0.2, z + offset + delta - 0.1).endVertex();
+                t.pos(x + delta - 0.1, y + 0.2, z + delta - 0.1).endVertex();
 
                 tessellator.draw();
         }

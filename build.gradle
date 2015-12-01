@@ -30,12 +30,12 @@ repositories {
 }*/
 
 version = "${waila_version}_${mc_version}"
-group= "mcp.mobius.waila" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
+group= "mcp.mobius.waila"
 archivesBaseName = "Waila"
 
 minecraft {
     version = "${mc_version}-${forge_version}"
-	mappings = "snapshot_20151122"
+	mappings = "snapshot_20151129"
     runDir = "run"
 	
     replace "@VERSION@", project.waila_version
@@ -43,9 +43,9 @@ minecraft {
 }
 
 dependencies {
-    //compile "codechicken:CodeChickenLib:${mc_version}-${ccl_version}:dev"
-    //compile "codechicken:CodeChickenCore:${mc_version}-${ccc_version}:dev"
-    //compile "codechicken:NotEnoughItems:${mc_version}-${nei_version}:dev"
+    //deobfCompile "codechicken:CodeChickenLib:${mc_version}-${ccl_version}:dev"
+    //deobfCompile "codechicken:CodeChickenCore:${mc_version}-${ccc_version}:dev"
+    //deobfCompile "codechicken:NotEnoughItems:${mc_version}-${nei_version}:dev"
     deployerJars "org.apache.maven.wagon:wagon-ssh:2.2"
 }
 
