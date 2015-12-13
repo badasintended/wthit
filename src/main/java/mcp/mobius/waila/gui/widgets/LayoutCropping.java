@@ -22,7 +22,7 @@ public class LayoutCropping extends LayoutBase {
 	
 	@Override
 	public void draw(){
-		this.rez = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);		
+		this.rez = new ScaledResolution(mc);
 		this.saveGLState();
 		
 		GL11.glEnable(GL11.GL_BLEND);

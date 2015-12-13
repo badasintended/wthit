@@ -1,10 +1,14 @@
 syntax: glob
 *.orig
 .gradle
+gradle
 build
 eclipse
+run
 out
 *.iml
 *.ipr
 *.iws
+*.bat
+gradlew
 src/main/java/net/*

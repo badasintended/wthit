@@ -49,6 +49,7 @@ public class ModIdentification {
         modSource_ID.put("1.6.4.jar", "Minecraft");
         modSource_ID.put("1.7.2.jar", "Minecraft");
         modSource_ID.put("1.8.0.jar", "Minecraft");
+        modSource_ID.put("1.8.8.jar", "Minecraft");
         modSource_ID.put("Forge", "Minecraft");
 
 

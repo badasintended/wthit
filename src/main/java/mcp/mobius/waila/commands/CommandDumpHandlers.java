@@ -9,7 +9,7 @@ import net.minecraft.command.ICommandSender;
 public class CommandDumpHandlers extends CommandBase {
 
 	@Override
-	public String getName() {
+	public String getCommandName() {
 		return "dumphandlers";
 	}
 
@@ -19,7 +19,7 @@ public class CommandDumpHandlers extends CommandBase {
 	}
 
 	@Override
-	public void execute(ICommandSender sender, String[] string) {
+	public void processCommand(ICommandSender sender, String[] string) {
 		
 		System.out.printf("\n\n== HEAD BLOCK PROVIDERS ==\n");
 		for (Class clazz : ModuleRegistrar.instance().headBlockProviders.keySet()){
@@ -99,9 +99,9 @@ public class CommandDumpHandlers extends CommandBase {
     public int getRequiredPermissionLevel(){ return 3; }	
 
 	@Override
-    public boolean canCommandSenderUse(ICommandSender sender){
+    public boolean canCommandSenderUseCommand(ICommandSender sender){
 		//if ((sender instanceof EntityPlayerMP) && ((EntityPlayerMP)sender).playerNetServerHandler.netManager instanceof MemoryConnection) return true;
-		return super.canCommandSenderUse(sender);
+		return super.canCommandSenderUseCommand(sender);
 	}
 	
 }

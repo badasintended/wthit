@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import mcp.mobius.waila.api.IWailaCommonAccessor;
 import mcp.mobius.waila.api.IWailaTooltipRenderer;
 import mcp.mobius.waila.overlay.DisplayUtil;
+import net.minecraft.util.ResourceLocation;
 
 public class TTRenderStack implements IWailaTooltipRenderer{
 
@@ -26,9 +27,9 @@ public class TTRenderStack implements IWailaTooltipRenderer{
 		
 		ItemStack stack = null;
 		if (type == 0)
-			stack = new ItemStack((Block)Block.blockRegistry.getObject(name), amount, meta);
+			stack = new ItemStack((Block)Block.blockRegistry.getObject(new ResourceLocation(name)), amount, meta);
 		if (type == 1)
-			stack = new ItemStack((Item)Item.itemRegistry.getObject(name), amount, meta);
+			stack = new ItemStack((Item)Item.itemRegistry.getObject(new ResourceLocation(name)), amount, meta);
 		
 		RenderHelper.enableGUIStandardItemLighting();
 		DisplayUtil.renderStack(0, 0, stack);
