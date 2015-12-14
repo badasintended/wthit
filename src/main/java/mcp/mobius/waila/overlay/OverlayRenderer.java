@@ -3,6 +3,8 @@ package mcp.mobius.waila.overlay;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
@@ -17,7 +19,9 @@ public class OverlayRenderer {
     protected static boolean hasLight1;
     protected static boolean hasRescaleNormal;
     protected static boolean hasColorMaterial;
+    protected static boolean depthMask;
     protected static int     boundTexIndex;
+    protected static int     depthFunc;
 
     public static void renderOverlay()
     {
@@ -68,33 +72,36 @@ public class OverlayRenderer {
             RenderHelper.enableGUIStandardItemLighting();
 
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-
-        if (tooltip.hasIcon && tooltip.stack != null && tooltip.stack.getItem() != null)
-            DisplayUtil.renderStack(tooltip.x+5, tooltip.y+tooltip.h/2-8, tooltip.stack);
-
+        if (tooltip.hasIcon && tooltip.stack != null && tooltip.stack.getItem() != null) {
+            DisplayUtil.renderStack(tooltip.x + 5, tooltip.y + tooltip.h / 2 - 8, tooltip.stack);
+        }
 
         loadGLState();
+        GL11.glEnable(GL11.GL_DEPTH_TEST);
         GL11.glPopMatrix();
-
     }
 
     public static void saveGLState(){
-         hasLight      = GL11.glGetBoolean(GL11.GL_LIGHTING);
-        //hasLight0     = GL11.glGetBoolean(GL11.GL_LIGHT0);
-        //hasLight1     = GL11.glGetBoolean(GL11.GL_LIGHT1);
+        hasLight      = GL11.glGetBoolean(GL11.GL_LIGHTING);
+        hasLight0     = GL11.glGetBoolean(GL11.GL_LIGHT0);
+        hasLight1     = GL11.glGetBoolean(GL11.GL_LIGHT1);
         hasDepthTest     = GL11.glGetBoolean(GL11.GL_DEPTH_TEST);
-        //hasRescaleNormal = GL11.glGetBoolean(GL12.GL_RESCALE_NORMAL);
-        //hasColorMaterial = GL11.glGetBoolean(GL11.GL_COLOR_MATERIAL);
+        hasRescaleNormal = GL11.glGetBoolean(GL12.GL_RESCALE_NORMAL);
+        hasColorMaterial = GL11.glGetBoolean(GL11.GL_COLOR_MATERIAL);
+        depthFunc        = GL11.glGetInteger(GL11.GL_DEPTH_FUNC);
+        depthMask        = GL11.glGetBoolean(GL11.GL_DEPTH_WRITEMASK);
         GL11.glPushAttrib(GL11.GL_CURRENT_BIT);
     }
 
     public static void loadGLState(){
+        GL11.glDepthMask(depthMask);
+        GL11.glDepthFunc(depthFunc);
         if (hasLight)         GL11.glEnable(GL11.GL_LIGHTING);   else GL11.glDisable(GL11.GL_LIGHTING);
-        //if (hasLight0)        GL11.glEnable(GL11.GL_LIGHT0);     else GL11.glDisable(GL11.GL_LIGHT0);
-        //if (hasLight1)        GL11.glEnable(GL11.GL_LIGHT1);     else GL11.glDisable(GL11.GL_LIGHT1);
+        if (hasLight0)        GL11.glEnable(GL11.GL_LIGHT0);     else GL11.glDisable(GL11.GL_LIGHT0);
+        if (hasLight1)        GL11.glEnable(GL11.GL_LIGHT1);     else GL11.glDisable(GL11.GL_LIGHT1);
         if (hasDepthTest)     GL11.glEnable(GL11.GL_DEPTH_TEST); else GL11.glDisable(GL11.GL_DEPTH_TEST);
-        //if (hasRescaleNormal) GL11.glEnable(GL12.GL_RESCALE_NORMAL); else GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-        //if (hasColorMaterial) GL11.glEnable(GL11.GL_COLOR_MATERIAL); else GL11.glDisable(GL11.GL_COLOR_MATERIAL);
+        if (hasRescaleNormal) GL11.glEnable(GL12.GL_RESCALE_NORMAL); else GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+        if (hasColorMaterial) GL11.glEnable(GL11.GL_COLOR_MATERIAL); else GL11.glDisable(GL11.GL_COLOR_MATERIAL);
         GL11.glPopAttrib();
         //GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
     }

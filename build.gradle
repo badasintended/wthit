@@ -79,7 +79,7 @@ artifacts {
 }
 
 uploadArchives {
-	dependsOn 'reobf'
+	dependsOn 'build'
     repositories.mavenDeployer {
         configuration = configurations.deployerJars
         repository(url: "scp://mobiusstrip.eu/home/mobius/web/maven"){
