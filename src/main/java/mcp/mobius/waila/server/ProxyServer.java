@@ -1,34 +1,16 @@
 package mcp.mobius.waila.server;
 
-import net.minecraftforge.fml.common.Loader;
+import java.lang.reflect.Method;
+
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.addons.agriculture.AgricultureModule;
-import mcp.mobius.waila.addons.buildcraft.BCModule;
-import mcp.mobius.waila.addons.carpenters.CarpentersModule;
-import mcp.mobius.waila.addons.enderstorage.EnderStorageModule;
-import mcp.mobius.waila.addons.etb.ETBModule;
-import mcp.mobius.waila.addons.exu.ExtraUtilitiesModule;
-import mcp.mobius.waila.addons.gravestone.GravestoneModule;
-import mcp.mobius.waila.addons.harvestcraft.HarvestcraftModule;
-import mcp.mobius.waila.addons.ic2.IC2Module;
-import mcp.mobius.waila.addons.magicalcrops.MagicalCropsModule;
-import mcp.mobius.waila.addons.openblocks.OpenBlocksModule;
-import mcp.mobius.waila.addons.projectred.ProjectRedModule;
-import mcp.mobius.waila.addons.railcraft.RailcraftModule;
-import mcp.mobius.waila.addons.statues.StatuesModule;
-import mcp.mobius.waila.addons.stevescarts.StevesCartsModule;
-import mcp.mobius.waila.addons.thaumcraft.ThaumcraftModule;
-import mcp.mobius.waila.addons.thermaldynamics.ThermalDynamicsModule;
-import mcp.mobius.waila.addons.thermalexpansion.ThermalExpansionModule;
-import mcp.mobius.waila.addons.twilightforest.TwilightForestModule;
 import mcp.mobius.waila.addons.vanillamc.HUDHandlerFurnace;
 import mcp.mobius.waila.addons.vanillamc.HUDHandlerVanilla;
 import mcp.mobius.waila.api.IWailaRegistrar;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.handlers.DecoratorFMP;
 import mcp.mobius.waila.handlers.HUDHandlerFMP;
-
-import java.lang.reflect.Method;
+import net.minecraftforge.fml.common.Loader;
 
 public class ProxyServer {
 

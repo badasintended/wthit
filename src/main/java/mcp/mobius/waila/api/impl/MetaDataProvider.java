@@ -1,11 +1,15 @@
 package mcp.mobius.waila.api.impl;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaEntityProvider;
 import mcp.mobius.waila.cbcore.Layout;
 import mcp.mobius.waila.network.Message0x01TERequest;
-import mcp.mobius.waila.network.Message0x03EntRequest;
 import mcp.mobius.waila.network.WailaPacketHandler;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.block.Block;
@@ -13,14 +17,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 public class MetaDataProvider{
 	
@@ -35,7 +33,7 @@ public class MetaDataProvider{
 	private Class prevBlock = null;
 	private Class prevTile  = null;
 	
-	public ItemStack identifyBlockHighlight(World world, EntityPlayer player, MovingObjectPosition mop, DataAccessorCommon accessor) {
+	public ItemStack identifyBlockHighlight(World world, EntityPlayer player, RayTraceResult mop, DataAccessorCommon accessor) {
 		Block block   = accessor.getBlock();
 		int   blockID = accessor.getBlockID();
 
@@ -55,7 +53,7 @@ public class MetaDataProvider{
 		return null;
 	}
 
-	public List<String> handleBlockTextData(ItemStack itemStack, World world, EntityPlayer player, MovingObjectPosition mop, DataAccessorCommon accessor, List<String> currenttip, Layout layout) {
+	public List<String> handleBlockTextData(ItemStack itemStack, World world, EntityPlayer player, RayTraceResult mop, DataAccessorCommon accessor, List<String> currenttip, Layout layout) {
 		Block block   = accessor.getBlock();
 		
 		if (accessor.getTileEntity() != null && Waila.instance.serverPresent && accessor.isTimeElapsed(250) && ConfigHandler.instance().showTooltip()){
@@ -133,7 +131,7 @@ public class MetaDataProvider{
 		return currenttip;
 	}
 	
-	public List<String> handleEntityTextData(Entity entity, World world, EntityPlayer player, MovingObjectPosition mop, DataAccessorCommon accessor, List<String> currenttip, Layout layout) {
+	public List<String> handleEntityTextData(Entity entity, World world, EntityPlayer player, RayTraceResult mop, DataAccessorCommon accessor, List<String> currenttip, Layout layout) {
 		
 		if (accessor.getEntity() != null && Waila.instance.serverPresent && accessor.isTimeElapsed(250)){
 			accessor.resetTimer();

@@ -1,12 +1,13 @@
 package mcp.mobius.waila.addons.thermalexpansion;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+
+import org.apache.logging.log4j.Level;
+
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import net.minecraft.util.EnumFacing;
-import org.apache.logging.log4j.Level;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 
 public class ThermalExpansionModule {
 

@@ -1,5 +1,21 @@
 package mcp.mobius.waila.overlay;
 
+import static mcp.mobius.waila.api.SpecialChars.ALIGNCENTER;
+import static mcp.mobius.waila.api.SpecialChars.ALIGNRIGHT;
+import static mcp.mobius.waila.api.SpecialChars.patternIcon;
+import static mcp.mobius.waila.api.SpecialChars.patternLineSplit;
+import static mcp.mobius.waila.api.SpecialChars.patternRender;
+import static mcp.mobius.waila.api.SpecialChars.patternTab;
+
+import java.awt.Dimension;
+import java.awt.Point;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.regex.Matcher;
+
+import org.lwjgl.opengl.GL11;
+
 import mcp.mobius.waila.api.IWailaCommonAccessor;
 import mcp.mobius.waila.api.IWailaTooltipRenderer;
 import mcp.mobius.waila.api.impl.ConfigHandler;
@@ -11,15 +27,6 @@ import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
-import org.lwjgl.opengl.GL11;
-
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.regex.Matcher;
-
-import static mcp.mobius.waila.api.SpecialChars.*;
 
 public class Tooltip {
 	public static int TabSpacing = 8;

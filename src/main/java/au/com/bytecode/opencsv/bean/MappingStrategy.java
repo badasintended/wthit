@@ -1,6 +1,10 @@
 package au.com.bytecode.opencsv.bean;
 
 
+import java.beans.IntrospectionException;
+import java.beans.PropertyDescriptor;
+import java.io.IOException;
+
 /**
  Copyright 2007 Kyle Miller.
 
@@ -18,10 +22,6 @@ package au.com.bytecode.opencsv.bean;
  */
 
 import au.com.bytecode.opencsv.CSVReader;
-
-import java.beans.IntrospectionException;
-import java.beans.PropertyDescriptor;
-import java.io.IOException;
 
 public interface MappingStrategy<T> {
 

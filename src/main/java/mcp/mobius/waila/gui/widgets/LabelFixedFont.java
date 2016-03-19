@@ -1,9 +1,10 @@
 package mcp.mobius.waila.gui.widgets;
 
+import org.lwjgl.util.Point;
+
 import mcp.mobius.waila.cbcore.LangUtil;
 import mcp.mobius.waila.gui.interfaces.CType;
 import mcp.mobius.waila.gui.interfaces.IWidget;
-import org.lwjgl.util.Point;
 
 public class LabelFixedFont extends WidgetBase {
 

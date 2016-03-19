@@ -2,13 +2,13 @@ package mcp.mobius.waila.overlay.tooltiprenderers;
 
 import java.awt.Dimension;
 
+import mcp.mobius.waila.api.IWailaCommonAccessor;
+import mcp.mobius.waila.api.IWailaTooltipRenderer;
+import mcp.mobius.waila.overlay.DisplayUtil;
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import mcp.mobius.waila.api.IWailaCommonAccessor;
-import mcp.mobius.waila.api.IWailaTooltipRenderer;
-import mcp.mobius.waila.overlay.DisplayUtil;
 import net.minecraft.util.ResourceLocation;
 
 public class TTRenderStack implements IWailaTooltipRenderer{

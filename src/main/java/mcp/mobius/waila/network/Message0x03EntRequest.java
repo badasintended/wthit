@@ -1,7 +1,8 @@
 package mcp.mobius.waila.network;
 
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
+import java.util.HashSet;
+import java.util.List;
+
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -17,9 +18,8 @@ import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
-
-import java.util.HashSet;
-import java.util.List;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 public class Message0x03EntRequest extends SimpleChannelInboundHandler<Message0x03EntRequest> implements IWailaMessage {
 
@@ -30,7 +30,7 @@ public class Message0x03EntRequest extends SimpleChannelInboundHandler<Message0x
 	public Message0x03EntRequest(){}	
 	
 	public Message0x03EntRequest(Entity ent, HashSet<String> keys){
-		this.dim  = ent.worldObj.provider.getDimensionId();
+		this.dim  = ent.worldObj.provider.getDimension();
 		this.id   = ent.getEntityId();
 		this.keys = keys;
 	}	

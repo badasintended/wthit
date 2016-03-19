@@ -7,11 +7,11 @@ import java.io.InputStreamReader;
 import java.util.SortedSet;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.Language;
 import net.minecraft.client.resources.IResource;
 import net.minecraft.client.resources.IResourceManager;
+import net.minecraft.client.resources.Language;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.StatCollector;
+import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.fml.common.registry.LanguageRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -43,7 +43,7 @@ public class LangUtil
         if(ret.length() == 0)
             ret = LanguageRegistry.instance().getStringLocalization(s, "en_US");
         if(ret.length() == 0)
-            ret = StatCollector.translateToLocal(s);
+            ret = I18n.translateToLocal(s);
         if(ret.length() == 0)
             return s;
         if(format.length > 0)

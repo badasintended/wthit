@@ -1,10 +1,11 @@
 package mcp.mobius.waila.overlay;
 
+import static mcp.mobius.waila.api.SpecialChars.ITALIC;
+
 import java.util.List;
 
 import org.lwjgl.input.Keyboard;
 
-import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.MetaDataProvider;
@@ -15,16 +16,14 @@ import mcp.mobius.waila.utils.Constants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.MovingObjectPosition;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import static mcp.mobius.waila.api.SpecialChars.*;
 
 public class WailaTickHandler{
 
@@ -70,9 +69,9 @@ public class WailaTickHandler{
 		EntityPlayer player         = mc.thePlayer;			
 		if (world != null && player != null){
 			RayTracing.instance().fire();
-			MovingObjectPosition target = RayTracing.instance().getTarget();
+			RayTraceResult target = RayTracing.instance().getTarget();
 			
-			if (target != null && target.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK){
+			if (target != null && target.typeOfHit == RayTraceResult.Type.BLOCK){
 				DataAccessorCommon accessor = DataAccessorCommon.instance;
 				accessor.set(world, player, target);
 				ItemStack targetStack = RayTracing.instance().getTargetStack();	// Here we get either the proper stack or the override
@@ -101,7 +100,7 @@ public class WailaTickHandler{
 					this.tooltip         = new Tooltip(this.currenttip, targetStack);
 				}
 			}
-			else if (target != null && target.typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY){
+			else if (target != null && target.typeOfHit == RayTraceResult.Type.ENTITY){
 				DataAccessorCommon accessor = DataAccessorCommon.instance;
 				accessor.set(world, player, target);
 				

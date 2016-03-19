@@ -5,8 +5,8 @@ import mcp.mobius.waila.utils.NBTUtil;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
 public class DataAccessorFMP implements IWailaFMPAccessor {
@@ -14,8 +14,8 @@ public class DataAccessorFMP implements IWailaFMPAccessor {
 	String id;
 	World world;
 	EntityPlayer player;
-	MovingObjectPosition mop;
-	Vec3 renderingvec = null;
+	RayTraceResult mop;
+	Vec3d renderingvec = null;
 	TileEntity entity;
 	NBTTagCompound partialNBT = null;	
 	NBTTagCompound remoteNBT  = null;
@@ -24,11 +24,11 @@ public class DataAccessorFMP implements IWailaFMPAccessor {
 	
 	public static DataAccessorFMP instance = new DataAccessorFMP();
 	
-	public void set(World _world, EntityPlayer _player, MovingObjectPosition _mop, NBTTagCompound _partialNBT, String id) {
+	public void set(World _world, EntityPlayer _player, RayTraceResult _mop, NBTTagCompound _partialNBT, String id) {
 		this.set(_world, _player, _mop, _partialNBT, id, null, 0.0);
 	}
 	
-	public void set(World _world, EntityPlayer _player, MovingObjectPosition _mop, NBTTagCompound _partialNBT, String id, Vec3 renderVec, double partialTicks) {
+	public void set(World _world, EntityPlayer _player, RayTraceResult _mop, NBTTagCompound _partialNBT, String id, Vec3d renderVec, double partialTicks) {
 		this.world      = _world;
 		this.player     = _player;
 		this.mop        = _mop;
@@ -55,7 +55,7 @@ public class DataAccessorFMP implements IWailaFMPAccessor {
 	}
 
 	@Override
-	public MovingObjectPosition getPosition() {
+	public RayTraceResult getPosition() {
 		return this.mop;
 	}
 
@@ -87,7 +87,7 @@ public class DataAccessorFMP implements IWailaFMPAccessor {
 	}
 
 	@Override
-	public Vec3 getRenderingPosition() {
+	public Vec3d getRenderingPosition() {
 		return this.renderingvec;
 	}
 

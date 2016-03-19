@@ -1,16 +1,12 @@
 package mcp.mobius.waila.overlay.tooltiprenderers;
 
-import static mcp.mobius.waila.api.SpecialChars.WailaIcon;
-import static mcp.mobius.waila.api.SpecialChars.WailaStyle;
-
 import java.awt.Dimension;
 
-import net.minecraft.util.MathHelper;
 import mcp.mobius.waila.api.IWailaCommonAccessor;
 import mcp.mobius.waila.api.IWailaTooltipRenderer;
 import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.overlay.IconUI;
-import mcp.mobius.waila.overlay.OverlayRenderer;
+import net.minecraft.util.math.MathHelper;
 
 /**
  * Custom renderer for health bars.

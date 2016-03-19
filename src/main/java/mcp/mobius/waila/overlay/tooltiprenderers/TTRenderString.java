@@ -2,12 +2,8 @@
 
 import java.awt.Dimension;
 
-import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IWailaCommonAccessor;
-import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaTooltipRenderer;
-import mcp.mobius.waila.gui.truetyper.FontHelper;
-import mcp.mobius.waila.gui.truetyper.TrueTypeFont;
 import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.overlay.OverlayConfig;
 

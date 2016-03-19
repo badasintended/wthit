@@ -1,15 +1,12 @@
 package mcp.mobius.waila.gui.widgets.buttons;
 
-import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Point;
 
-import net.minecraftforge.common.config.Configuration;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.gui.events.MouseEvent;
 import mcp.mobius.waila.gui.helpers.UIHelper;
 import mcp.mobius.waila.gui.interfaces.IWidget;
-import mcp.mobius.waila.gui.widgets.LabelFixedFont;
 
 public class ButtonBooleanConfigRemote extends ButtonBooleanConfig {
 

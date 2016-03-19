@@ -1,14 +1,15 @@
 package mcp.mobius.waila.gui.helpers;
 
+import org.lwjgl.opengl.GL11;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.Vec3;
-import org.lwjgl.opengl.GL11;
+import net.minecraft.util.math.Vec3d;
 
 public class UIHelper {
 
@@ -21,7 +22,7 @@ public class UIHelper {
         float f = 0.00390625F;
 
         Tessellator tessellator = Tessellator.getInstance();
-        WorldRenderer t = tessellator.getWorldRenderer();
+        VertexBuffer t = tessellator.getBuffer();
         t.begin(7, DefaultVertexFormats.POSITION_TEX);
         t.pos((double) (posX + 0), (double) (posY + sizeY), (double) zLevel).tex((double) ((float) texU * f), (double) ((float) (texV + texSizeV) * f)).endVertex();
         t.pos((double) (posX + sizeX), (double) (posY + sizeY), (double) zLevel).tex((double) ((float) (texU + texSizeU) * f), (double) ((float) (texV + texSizeV) * f)).endVertex();
@@ -45,7 +46,7 @@ public class UIHelper {
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
         GlStateManager.shadeModel(7425);
         Tessellator tessellator = Tessellator.getInstance();
-        WorldRenderer t = tessellator.getWorldRenderer();
+        VertexBuffer t = tessellator.getBuffer();
         t.begin(7, DefaultVertexFormats.POSITION_COLOR);
         t.pos((double) right, (double) top, (double) zLevel).color(red1, green1, blue1, alpha1).endVertex();
         t.pos((double) left, (double) top, (double) zLevel).color(red1, green1, blue1, alpha1).endVertex();
@@ -58,7 +59,7 @@ public class UIHelper {
         GlStateManager.enableTexture2D();
     }
 
-    public static void drawBillboard(Vec3 pos, float offX, float offY, float offZ, double x1, double y1, double x2, double y2, int r, int g, int b, int a, double partialFrame) {
+    public static void drawBillboard(Vec3d pos, float offX, float offY, float offZ, double x1, double y1, double x2, double y2, int r, int g, int b, int a, double partialFrame) {
         UIHelper.drawBillboard((float) pos.xCoord, (float) pos.yCoord, (float) pos.zCoord, offX, offY, offZ, x1, y1, x2, y2, r, g, b, a, partialFrame);
     }
 
@@ -95,7 +96,7 @@ public class UIHelper {
         GL11.glPopMatrix();
     }
 
-    public static void drawBillboardText(String text, Vec3 pos, float offX, float offY, float offZ, double partialFrame) {
+    public static void drawBillboardText(String text, Vec3d pos, float offX, float offY, float offZ, double partialFrame) {
         UIHelper.drawBillboardText(text, (float) pos.xCoord, (float) pos.yCoord, (float) pos.zCoord, offX, offY, offZ, partialFrame);
     }
 
@@ -107,7 +108,7 @@ public class UIHelper {
         UIHelper.drawFloatingText(text, posX, posY, posZ, offX, offY, offZ, playerViewX, playerViewY * -1.0F, 0.0F);
     }
 
-    public static void drawFloatingText(String text, Vec3 pos, float offX, float offY, float offZ, float rotX, float rotY, float rotZ) {
+    public static void drawFloatingText(String text, Vec3d pos, float offX, float offY, float offZ, float rotX, float rotY, float rotZ) {
         UIHelper.drawFloatingText(text, (float) pos.xCoord, (float) pos.yCoord, (float) pos.zCoord, offX, offY, offZ, rotX, rotY, rotZ);
     }
 
@@ -157,7 +158,7 @@ public class UIHelper {
 
     public static void drawRectangle(double x1, double y1, double z1, double x2, double y2, double z2, int r, int g, int b, int a) {
         Tessellator tessellator = Tessellator.getInstance();
-        WorldRenderer t = tessellator.getWorldRenderer();
+        VertexBuffer t = tessellator.getBuffer();
 
         t.begin(7, DefaultVertexFormats.POSITION_COLOR);
         t.pos(x1, y2, z1).color(r, g, b, a).endVertex();
@@ -169,7 +170,7 @@ public class UIHelper {
 
     public static void drawRectangleEW(double x1, double y1, double z1, double x2, double y2, double z2, int r, int g, int b, int a) {
         Tessellator tessellator = Tessellator.getInstance();
-        WorldRenderer t = tessellator.getWorldRenderer();
+        VertexBuffer t = tessellator.getBuffer();
 
         t.begin(7, DefaultVertexFormats.POSITION_COLOR);
         t.pos(x1, y1, z1).color(r, g, b, a).endVertex();

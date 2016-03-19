@@ -3,12 +3,11 @@ package mcp.mobius.waila.addons.thaumcraft;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-import net.minecraft.nbt.NBTTagCompound;
-
 import org.apache.logging.log4j.Level;
 
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
+import net.minecraft.nbt.NBTTagCompound;
 
 public class ThaumcraftModule {
 	

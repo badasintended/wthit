@@ -1,13 +1,12 @@
 package mcp.mobius.waila.overlay;
 
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL12;
+
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.init.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.MovingObjectPosition;
-import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
+import net.minecraft.util.math.RayTraceResult;
 
 public class OverlayRenderer {
 
@@ -34,12 +33,12 @@ public class OverlayRenderer {
                 RayTracing.instance().getTarget()      != null))
             return;
 
-        if (RayTracing.instance().getTarget().typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && RayTracing.instance().getTargetStack() != null)
+        if (RayTracing.instance().getTarget().typeOfHit == RayTraceResult.Type.BLOCK && RayTracing.instance().getTargetStack() != null)
         {
             renderOverlay(WailaTickHandler.instance().tooltip);
         }
 
-        if (RayTracing.instance().getTarget().typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY && ConfigHandler.instance().getConfig("general.showents"))
+        if (RayTracing.instance().getTarget().typeOfHit == RayTraceResult.Type.ENTITY && ConfigHandler.instance().getConfig("general.showents"))
         {
             renderOverlay(WailaTickHandler.instance().tooltip);
         }

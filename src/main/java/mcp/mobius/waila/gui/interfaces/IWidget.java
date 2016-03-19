@@ -1,9 +1,9 @@
 package mcp.mobius.waila.gui.interfaces;
 
+import org.lwjgl.util.Point;
+
 import mcp.mobius.waila.gui.events.MouseEvent;
 import mcp.mobius.waila.gui.widgets.WidgetGeometry;
-
-import org.lwjgl.util.Point;
 
 public interface IWidget {
 	// Should all the coordinates, sizes, etc be % or absolute values ?

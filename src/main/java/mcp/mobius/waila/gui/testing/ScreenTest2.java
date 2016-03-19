@@ -1,13 +1,12 @@
 package mcp.mobius.waila.gui.testing;
 
-import net.minecraft.client.gui.GuiScreen;
 import mcp.mobius.waila.gui.interfaces.CType;
 import mcp.mobius.waila.gui.interfaces.WAlign;
 import mcp.mobius.waila.gui.screens.ScreenBase;
 import mcp.mobius.waila.gui.widgets.LabelFixedFont;
 import mcp.mobius.waila.gui.widgets.WidgetGeometry;
 import mcp.mobius.waila.gui.widgets.buttons.ButtonContainerLabel;
-import mcp.mobius.waila.gui.widgets.buttons.ButtonIntegerConfig;
+import net.minecraft.client.gui.GuiScreen;
 
 public class ScreenTest2 extends ScreenBase {
 

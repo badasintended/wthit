@@ -1,8 +1,10 @@
 package mcp.mobius.waila.network;
 
-import net.minecraft.util.BlockPos;
-import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.network.NetworkRegistry;
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -17,13 +19,11 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetHandlerPlayServer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.DimensionManager;
-
-import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 public class Message0x01TERequest extends SimpleChannelInboundHandler<Message0x01TERequest> implements IWailaMessage {
 	
@@ -54,7 +54,7 @@ public class Message0x01TERequest extends SimpleChannelInboundHandler<Message0x0
 	public Message0x01TERequest(){}	
 	
 	public Message0x01TERequest(TileEntity ent, HashSet<String> keys){
-		this.dim  = ent.getWorld().provider.getDimensionId();
+		this.dim  = ent.getWorld().provider.getDimension();
 		this.posX = ent.getPos().getX();
 		this.posY = ent.getPos().getY();
 		this.posZ = ent.getPos().getZ();

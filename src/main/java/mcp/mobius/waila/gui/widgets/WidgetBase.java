@@ -1,24 +1,19 @@
 package mcp.mobius.waila.gui.widgets;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Point;
 
-import com.google.common.collect.HashBasedTable;
-import com.google.common.collect.Table;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.texture.TextureManager;
 import mcp.mobius.waila.gui.events.MouseEvent;
 import mcp.mobius.waila.gui.helpers.ReverseIterator;
 import mcp.mobius.waila.gui.interfaces.CType;
 import mcp.mobius.waila.gui.interfaces.IWidget;
 import mcp.mobius.waila.gui.interfaces.RenderPriority;
 import mcp.mobius.waila.gui.interfaces.Signal;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.texture.TextureManager;
 
 public abstract class WidgetBase implements IWidget {
 

@@ -1,11 +1,11 @@
 package mcp.mobius.waila.addons.projectred;
 
-import net.minecraft.item.ItemStack;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaFMPAccessor;
 import mcp.mobius.waila.api.IWailaFMPDecorator;
 import mcp.mobius.waila.gui.helpers.UIHelper;
 import mcp.mobius.waila.utils.NBTUtil;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumFacing;
 
 public class HUDDecoratorRsGateLogic implements IWailaFMPDecorator {

@@ -1,5 +1,16 @@
 package au.com.bytecode.opencsv.bean;
 
+import java.beans.IntrospectionException;
+import java.beans.PropertyDescriptor;
+import java.beans.PropertyEditor;
+import java.beans.PropertyEditorManager;
+import java.io.Reader;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  Copyright 2007 Kyle Miller.
 
@@ -17,17 +28,6 @@ package au.com.bytecode.opencsv.bean;
  */
 
 import au.com.bytecode.opencsv.CSVReader;
-
-import java.beans.IntrospectionException;
-import java.beans.PropertyDescriptor;
-import java.beans.PropertyEditor;
-import java.beans.PropertyEditorManager;
-import java.io.Reader;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class CsvToBean<T> {
     private Map<Class<?>, PropertyEditor> editorMap = null;

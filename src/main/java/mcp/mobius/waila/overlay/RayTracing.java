@@ -14,16 +14,14 @@ import mcp.mobius.waila.utils.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IShearable;
 import net.minecraftforge.common.config.Configuration;
@@ -38,13 +36,13 @@ public class RayTracing {
 		return _instance;
 	}
 	
-	private MovingObjectPosition target      = null;
+	private RayTraceResult target      = null;
 	private ItemStack            targetStack = null;
 	private Entity               targetEntity= null;
 	private Minecraft            mc          = Minecraft.getMinecraft();
 	
 	public void fire(){
-		if (mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY){
+		if (mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == RayTraceResult.Type.ENTITY){
 			this.target = mc.objectMouseOver;
 			this.targetStack = null;
 			return;
@@ -58,12 +56,12 @@ public class RayTracing {
 		if (this.target == null) return;
 	}
 	
-	public MovingObjectPosition getTarget(){ 
+	public RayTraceResult getTarget(){ 
 		return this.target;
 	}
 	
 	public ItemStack getTargetStack(){
-		if (this.target.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
+		if (this.target.typeOfHit == RayTraceResult.Type.BLOCK)
 			this.targetStack = this.getIdentifierStack();
 		else
 			this.targetStack = null;		
@@ -72,7 +70,7 @@ public class RayTracing {
 	}
 	
 	public Entity getTargetEntity(){
-		if (this.target.typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY)
+		if (this.target.typeOfHit == RayTraceResult.Type.ENTITY)
 			this.targetEntity = this.getIdentifierEntity();
 		else
 			this.targetEntity = null;		
@@ -80,11 +78,11 @@ public class RayTracing {
 		return this.targetEntity;
 	}	
 	
-    public MovingObjectPosition rayTrace(Entity entity, double par1, float par3)
+    public RayTraceResult rayTrace(Entity entity, double par1, float par3)
     {
-        Vec3 vec3  = entity.getPositionEyes(par3);
-        Vec3 vec31 = entity.getLook(par3);
-        Vec3 vec32 = vec3.addVector(vec31.xCoord * par1, vec31.yCoord * par1, vec31.zCoord * par1);
+        Vec3d vec3  = entity.getPositionEyes(par3);
+        Vec3d vec31 = entity.getLook(par3);
+        Vec3d vec32 = vec3.addVector(vec31.xCoord * par1, vec31.yCoord * par1, vec31.zCoord * par1);
         
         //if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID, true))
         if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID, true))
@@ -205,7 +203,7 @@ public class RayTracing {
             return items;
 
         try{
-        ItemStack pick = mouseoverBlock.getPickBlock(this.target, world, pos, player);
+        ItemStack pick = mouseoverBlock.getPickBlock(mouseoverBlock.getDefaultState(), target, world, pos, player);//(this.target, world, pos, player);
         if(pick != null)
             items.add(pick);
         }catch(Exception e){}

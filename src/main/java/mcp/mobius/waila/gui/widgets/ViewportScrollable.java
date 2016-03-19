@@ -1,14 +1,13 @@
 package mcp.mobius.waila.gui.widgets;
 
+import org.lwjgl.util.Point;
+
 import mcp.mobius.waila.gui.events.MouseEvent;
 import mcp.mobius.waila.gui.helpers.UIHelper;
 import mcp.mobius.waila.gui.interfaces.CType;
 import mcp.mobius.waila.gui.interfaces.IWidget;
 import mcp.mobius.waila.gui.interfaces.Signal;
 import mcp.mobius.waila.gui.interfaces.WAlign;
-
-import org.lwjgl.opengl.Display;
-import org.lwjgl.util.Point;
 
 public class ViewportScrollable extends WidgetBase {
 

@@ -1,6 +1,7 @@
 package mcp.mobius.waila.addons.ic2;
 
 import java.lang.reflect.Field;
+
 import org.apache.logging.log4j.Level;
 
 import mcp.mobius.waila.Waila;

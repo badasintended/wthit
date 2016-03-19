@@ -1,18 +1,14 @@
 package mcp.mobius.waila.gui.widgets.movable;
 
-import mcp.mobius.waila.gui.events.MouseEvent;
-import mcp.mobius.waila.gui.helpers.UIHelper;
-import mcp.mobius.waila.gui.interfaces.CType;
-import mcp.mobius.waila.gui.interfaces.IWidget;
-import mcp.mobius.waila.gui.interfaces.Signal;
-import mcp.mobius.waila.gui.interfaces.WAlign;
-import mcp.mobius.waila.gui.widgets.WidgetBase;
-import mcp.mobius.waila.gui.widgets.WidgetGeometry;
-import mcp.mobius.waila.gui.widgets.WidgetGeometry.PointDouble;
-import net.minecraft.util.ResourceLocation;
-
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Point;
+
+import mcp.mobius.waila.gui.events.MouseEvent;
+import mcp.mobius.waila.gui.helpers.UIHelper;
+import mcp.mobius.waila.gui.interfaces.IWidget;
+import mcp.mobius.waila.gui.interfaces.Signal;
+import mcp.mobius.waila.gui.widgets.WidgetBase;
+import net.minecraft.util.ResourceLocation;
 
 
 // A movable picture setup especially for centered relative positions.

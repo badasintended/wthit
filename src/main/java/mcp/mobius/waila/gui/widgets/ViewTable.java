@@ -1,11 +1,11 @@
 package mcp.mobius.waila.gui.widgets;
 
+import org.lwjgl.util.Point;
+
 import mcp.mobius.waila.gui.helpers.UIException;
 import mcp.mobius.waila.gui.interfaces.CType;
 import mcp.mobius.waila.gui.interfaces.IWidget;
 import mcp.mobius.waila.gui.interfaces.WAlign;
-
-import org.lwjgl.util.Point;
 
 public class ViewTable extends WidgetBase{
 

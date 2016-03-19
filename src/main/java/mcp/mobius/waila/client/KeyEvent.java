@@ -1,5 +1,7 @@
 package mcp.mobius.waila.client;
 
+import org.lwjgl.input.Keyboard;
+
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.gui.screens.config.ScreenConfig;
 import mcp.mobius.waila.utils.Constants;
@@ -10,7 +12,6 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
-import org.lwjgl.input.Keyboard;
 
 public class KeyEvent {
 	public static KeyBinding key_cfg;

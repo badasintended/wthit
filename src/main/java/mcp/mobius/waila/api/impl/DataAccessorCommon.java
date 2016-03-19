@@ -5,18 +5,17 @@ import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaEntityAccessor;
 import mcp.mobius.waila.utils.NBTUtil;
 import net.minecraft.block.Block;
-import net.minecraft.block.state.BlockState;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.MovingObjectPosition.MovingObjectType;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.math.RayTraceResult.Type;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameData;
 
@@ -24,8 +23,8 @@ public class DataAccessorCommon implements IWailaCommonAccessor, IWailaDataAcces
 
 	public World world;
 	public EntityPlayer player;
-	public MovingObjectPosition mop;
-	public Vec3 renderingvec = null;
+	public RayTraceResult mop;
+	public Vec3d renderingvec = null;
 	public Block block;
 	public IBlockState state;
 	public BlockPos pos;
@@ -41,16 +40,16 @@ public class DataAccessorCommon implements IWailaCommonAccessor, IWailaDataAcces
 	
 	public static DataAccessorCommon instance = new DataAccessorCommon();
 	
-	public void set(World _world, EntityPlayer _player, MovingObjectPosition _mop) {
+	public void set(World _world, EntityPlayer _player, RayTraceResult _mop) {
 		this.set(_world, _player, _mop, null, 0.0);
 	}
 	
-	public void set(World _world, EntityPlayer _player, MovingObjectPosition _mop, Entity viewEntity, double partialTicks) {
+	public void set(World _world, EntityPlayer _player, RayTraceResult _mop, Entity viewEntity, double partialTicks) {
 		this.world      = _world;
 		this.player     = _player;
 		this.mop        = _mop;
 
-		if (this.mop.typeOfHit == MovingObjectType.BLOCK){
+		if (this.mop.typeOfHit == Type.BLOCK){
 			this.pos 		= _mop.getBlockPos();
 			this.state      = world.getBlockState(this.pos);
 			this.block      = this.state.getBlock();
@@ -61,7 +60,7 @@ public class DataAccessorCommon implements IWailaCommonAccessor, IWailaDataAcces
 			this.blockResource = String.valueOf(GameData.getBlockRegistry().getNameForObject(this.block));
 			try{ this.stack = new ItemStack(this.block, 1, this.metadata); } catch (Exception e) {}
 			
-		} else if (this.mop.typeOfHit == MovingObjectType.ENTITY){
+		} else if (this.mop.typeOfHit == RayTraceResult.Type.ENTITY){
 			this.pos        = new BlockPos(_mop.entityHit);
 			this.state      = null;
 			this.block      = null;
@@ -75,7 +74,7 @@ public class DataAccessorCommon implements IWailaCommonAccessor, IWailaDataAcces
 			double px = viewEntity.lastTickPosX + (viewEntity.posX - viewEntity.lastTickPosX) * partialTicks;
 			double py = viewEntity.lastTickPosY + (viewEntity.posY - viewEntity.lastTickPosY) * partialTicks;
 			double pz = viewEntity.lastTickPosZ + (viewEntity.posZ - viewEntity.lastTickPosZ) * partialTicks;
-			this.renderingvec = new Vec3(this.pos.getX() - px, this.pos.getY() - py, this.pos.getZ() - pz);
+			this.renderingvec = new Vec3d(this.pos.getX() - px, this.pos.getY() - py, this.pos.getZ() - pz);
 			this.partialFrame = partialTicks;
 		}
 	}	
@@ -112,10 +111,10 @@ public class DataAccessorCommon implements IWailaCommonAccessor, IWailaDataAcces
 	}
 
 	@Override
-	public MovingObjectPosition getMOP() {return this.mop;}
+	public RayTraceResult getMOP() {return this.mop;}
 
 	@Override
-	public Vec3 getRenderingPosition() {return this.renderingvec;}
+	public Vec3d getRenderingPosition() {return this.renderingvec;}
 
 	@Override
 	public NBTTagCompound getNBTData() {

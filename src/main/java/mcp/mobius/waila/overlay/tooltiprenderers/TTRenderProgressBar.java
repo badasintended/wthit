@@ -2,11 +2,11 @@ package mcp.mobius.waila.overlay.tooltiprenderers;
 
 import java.awt.Dimension;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.util.ResourceLocation;
 import mcp.mobius.waila.api.IWailaCommonAccessor;
 import mcp.mobius.waila.api.IWailaTooltipRenderer;
 import mcp.mobius.waila.overlay.DisplayUtil;
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.ResourceLocation;
 
 public class TTRenderProgressBar implements IWailaTooltipRenderer{
 

@@ -1,13 +1,12 @@
 package mcp.mobius.waila.gui.widgets.buttons;
 
-import net.minecraft.client.gui.GuiScreen;
 import mcp.mobius.waila.gui.events.MouseEvent;
 import mcp.mobius.waila.gui.interfaces.CType;
 import mcp.mobius.waila.gui.interfaces.IWidget;
 import mcp.mobius.waila.gui.interfaces.WAlign;
-import mcp.mobius.waila.gui.screens.ScreenBase;
 import mcp.mobius.waila.gui.widgets.LabelFixedFont;
 import mcp.mobius.waila.gui.widgets.WidgetGeometry;
+import net.minecraft.client.gui.GuiScreen;
 
 public class ButtonScreenChange extends ButtonBase {
 	

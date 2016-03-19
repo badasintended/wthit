@@ -1,7 +1,8 @@
 package mcp.mobius.waila.addons.thermalexpansion;
 
-import net.minecraft.util.BlockPos;
-import net.minecraftforge.fml.common.registry.GameData;
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
+
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
@@ -12,10 +13,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-
-import java.lang.reflect.InvocationTargetException;
-import java.util.List;
+import net.minecraftforge.fml.common.registry.GameData;
 
 public class HUDHandlerCache implements IWailaDataProvider {
 

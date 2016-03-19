@@ -1,11 +1,11 @@
 package mcp.mobius.waila.network;
 
-import mcp.mobius.waila.api.impl.DataAccessorCommon;
-import mcp.mobius.waila.utils.WailaExceptionHandler;
-import net.minecraft.nbt.NBTTagCompound;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import mcp.mobius.waila.api.impl.DataAccessorCommon;
+import mcp.mobius.waila.utils.WailaExceptionHandler;
+import net.minecraft.nbt.NBTTagCompound;
 
 public class Message0x04EntNBTData extends SimpleChannelInboundHandler<Message0x04EntNBTData> implements IWailaMessage {
 

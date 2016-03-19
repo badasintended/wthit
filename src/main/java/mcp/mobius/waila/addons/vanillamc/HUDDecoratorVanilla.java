@@ -5,7 +5,7 @@ import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.gui.helpers.UIHelper;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
 
@@ -14,7 +14,7 @@ public class HUDDecoratorVanilla implements IWailaBlockDecorator {
         @Override
         public void decorateBlock(ItemStack stack, IWailaDataAccessor accessor, IWailaConfigHandler config) {
                 Tessellator tessellator = Tessellator.getInstance();
-                WorldRenderer t = tessellator.getWorldRenderer();
+                VertexBuffer t = tessellator.getBuffer();
 
                 //UIHelper.drawBillboardText(stack.getDisplayName(), accessor.getRenderingPosition(), 0.5F, 1.5F, 0.5F, accessor.getPartialFrame());
                 UIHelper.drawFloatingText("IN", accessor.getRenderingPosition(), 0.5F, 0.2F, -0.2F, 90F, 0F, 0F);

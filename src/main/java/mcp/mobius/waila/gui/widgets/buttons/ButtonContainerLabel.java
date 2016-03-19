@@ -1,5 +1,7 @@
 package mcp.mobius.waila.gui.widgets.buttons;
 
+import org.lwjgl.util.Point;
+
 import mcp.mobius.waila.gui.interfaces.CType;
 import mcp.mobius.waila.gui.interfaces.IWidget;
 import mcp.mobius.waila.gui.interfaces.WAlign;
@@ -7,8 +9,6 @@ import mcp.mobius.waila.gui.widgets.LabelFixedFont;
 import mcp.mobius.waila.gui.widgets.LayoutBase;
 import mcp.mobius.waila.gui.widgets.WidgetBase;
 import mcp.mobius.waila.gui.widgets.WidgetGeometry;
-
-import org.lwjgl.util.Point;
 
 //TODO : THIS CLASS IS WIP AND CAN'T WORK RIGHT NOW
 
