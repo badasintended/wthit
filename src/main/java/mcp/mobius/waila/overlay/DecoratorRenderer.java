@@ -26,7 +26,7 @@ public class DecoratorRenderer {
 	public void onRenderWorldLast(RenderWorldLastEvent event) {
 		if (RayTracing.instance().getTarget() == null || RayTracing.instance().getTargetStack() == null) return;
 
-		double partialTicks = event.partialTicks;
+		double partialTicks = event.getPartialTicks();
 
 		DataAccessorCommon accessor = DataAccessorCommon.instance;
 		World world = Minecraft.getMinecraft().theWorld;

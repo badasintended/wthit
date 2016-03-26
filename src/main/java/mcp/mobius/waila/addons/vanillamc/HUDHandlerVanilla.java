@@ -9,7 +9,11 @@ import mcp.mobius.waila.api.SpecialChars;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.cbcore.LangUtil;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockFenceGate;
+import net.minecraft.block.BlockLadder;
 import net.minecraft.block.BlockRedstoneOre;
+import net.minecraft.block.BlockStairs;
+import net.minecraft.block.BlockTorch;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -100,7 +104,23 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 
 		if ((block == quartz) && (accessor.getMetadata() > 2)){
 			return new ItemStack(block, 1, 2);
-		}		
+		}
+		
+		if (block instanceof BlockStairs) {
+			return new ItemStack(block, 1, 0);
+		}
+		
+		if (block instanceof BlockTorch) {
+			return new ItemStack(block, 1, 0);
+		}
+		
+		if (block instanceof BlockLadder) {
+			return new ItemStack(block, 1, 0);
+		}
+		
+		if (block instanceof BlockFenceGate) {
+			return new ItemStack(block, 1, 0);
+		}
 		
 		return null;
 		
@@ -247,7 +267,11 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 		ModuleRegistrar.instance().registerStackProvider(provider, leave2.getClass());		
 		ModuleRegistrar.instance().registerStackProvider(provider, log.getClass());
 		ModuleRegistrar.instance().registerStackProvider(provider, log2.getClass());
-		ModuleRegistrar.instance().registerStackProvider(provider, quartz.getClass());	
+		ModuleRegistrar.instance().registerStackProvider(provider, quartz.getClass());
+		ModuleRegistrar.instance().registerStackProvider(provider, BlockStairs.class);
+		ModuleRegistrar.instance().registerStackProvider(provider, BlockTorch.class);
+		ModuleRegistrar.instance().registerStackProvider(provider, BlockLadder.class);
+		ModuleRegistrar.instance().registerStackProvider(provider, BlockFenceGate.class);
 		
 		//ModuleRegistrar.instance().registerStackProvider(provider, Block.class);
 		ModuleRegistrar.instance().registerHeadProvider(provider, mobSpawner.getClass());
@@ -290,8 +314,5 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 		//ModuleRegistrar.instance().registerDocTextFile("/mcp/mobius/waila/addons/vanillamc/WikiData.csv");
 		
 		//ExternalModulesHandler.instance().registerBlockDecorator(new HUDDecoratorVanilla(), repeaterIdle);
-	}
-
-
-	
+	}	
 }

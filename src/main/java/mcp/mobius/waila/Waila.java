@@ -35,7 +35,7 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.relauncher.Side;
 
-@Mod(modid="Waila", name="Waila", version="1.6.0", dependencies = "required-after:Forge@[11.15.0,)", acceptableRemoteVersions="*")
+@Mod(modid="Waila", name="Waila", version="1.6.0", dependencies = "required-after:Forge@[12.16.0.1809,);", acceptableRemoteVersions="*")
 public class Waila {
     // The instance of your mod that Forge uses.
 	@Instance("Waila")

@@ -12,7 +12,6 @@ import net.minecraft.client.resources.IResourceManager;
 import net.minecraft.client.resources.Language;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.translation.I18n;
-import net.minecraftforge.fml.common.registry.LanguageRegistry;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -39,9 +38,9 @@ public class LangUtil
     {
         if(prefix != null && !s.startsWith(prefix+"."))
             s = prefix+"."+s;
-        String ret = LanguageRegistry.instance().getStringLocalization(s);
+        String ret = I18n.translateToLocal(s);//LanguageRegistry.instance().getStringLocalization(s);
         if(ret.length() == 0)
-            ret = LanguageRegistry.instance().getStringLocalization(s, "en_US");
+            ret = I18n.translateToLocal(s);//LanguageRegistry.instance().getStringLocalization(s, "en_US");
         if(ret.length() == 0)
             ret = I18n.translateToLocal(s);
         if(ret.length() == 0)
@@ -53,7 +52,7 @@ public class LangUtil
 
     public void addLangFile(InputStream resource, String lang) throws IOException
     {
-        LanguageRegistry reg = LanguageRegistry.instance();
+//        LanguageRegistry reg = LanguageRegistry.instance();
         BufferedReader reader = new BufferedReader(new InputStreamReader(resource, "UTF-8"));
         while(true)
         {
@@ -68,7 +67,7 @@ public class LangUtil
             String value = read.substring(equalIndex+1);
             if(prefix != null)
                 key = prefix+"."+key;
-            reg.addStringLocalization(key, lang, value);
+//            reg.addStringLocalization(key, lang, value);
         }
     }
 
@@ -104,7 +103,6 @@ public class LangUtil
                 e.printStackTrace();
             }
         }
-        
         return this;
     }
 }
