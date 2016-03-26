@@ -35,7 +35,7 @@ archivesBaseName = "Waila"
 
 minecraft {
     version = "${mc_version}-${forge_version}"
-	mappings = "snapshot_20151129"
+    mappings = "snapshot_20160312"
     runDir = "run"
 	
     replace "@VERSION@", project.waila_version
