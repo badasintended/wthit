@@ -1,7 +1,6 @@
 syntax: glob
 *.orig
 .gradle
-gradle
 build
 eclipse
 run
@@ -10,5 +9,4 @@ out
 *.ipr
 *.iws
 *.bat
-gradlew
 src/main/java/net/*
