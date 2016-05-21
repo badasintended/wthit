@@ -1,5 +1,6 @@
 package mcp.mobius.waila.addons.vanillamc;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import mcp.mobius.waila.api.IWailaConfigHandler;
@@ -9,11 +10,19 @@ import mcp.mobius.waila.api.SpecialChars;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.cbcore.LangUtil;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockBasePressurePlate;
+import net.minecraft.block.BlockButton;
+import net.minecraft.block.BlockDoublePlant;
+import net.minecraft.block.BlockDoublePlant.EnumPlantType;
 import net.minecraft.block.BlockFenceGate;
+import net.minecraft.block.BlockFlowerPot;
+import net.minecraft.block.BlockFlowerPot.EnumFlowerType;
 import net.minecraft.block.BlockLadder;
+import net.minecraft.block.BlockRailBase;
 import net.minecraft.block.BlockRedstoneOre;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.BlockTorch;
+import net.minecraft.block.BlockTrapDoor;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -28,29 +37,64 @@ import net.minecraft.world.World;
 
 public class HUDHandlerVanilla implements IWailaDataProvider {
 
-	static Block mobSpawner    = Blocks.mob_spawner;
-	static Block crops         = Blocks.wheat;
-    static Block farmland      = Blocks.farmland;
-	static Block melonStem     = Blocks.melon_stem;
-	static Block pumpkinStem   = Blocks.pumpkin_stem;
-	static Block carrot        = Blocks.carrots;
-	static Block potato        = Blocks.potatoes;
-	static Block lever         = Blocks.lever;
-	static Block repeaterIdle  = Blocks.unpowered_repeater;
-	static Block repeaterActv  = Blocks.powered_repeater;
-	static Block comparatorIdl = Blocks.unpowered_comparator;
-	static Block comparatorAct = Blocks.powered_comparator;
-	static Block redstone      = Blocks.redstone_wire;
-	static Block jukebox       = Blocks.jukebox;
-	static Block cocoa		   = Blocks.cocoa;
-	static Block netherwart    = Blocks.nether_wart;
-	static Block silverfish    = Blocks.monster_egg;
-	static Block doubleplant   = Blocks.double_plant;
-	static Block leave         = Blocks.leaves;
-	static Block leave2        = Blocks.leaves2;	
-	static Block log           = Blocks.log;
-	static Block log2          = Blocks.log2;
-	static Block quartz        = Blocks.quartz_block;
+    static List<Block> removemetadata = new ArrayList<Block>() {{
+        add(Blocks.STICKY_PISTON);
+        add(Blocks.PISTON);
+        add(Blocks.TNT);
+        add(Blocks.LEVER);
+        add(Blocks.SNOW_LAYER);
+        add(Blocks.CACTUS);
+        add(Blocks.PUMPKIN);
+        add(Blocks.LIT_PUMPKIN);
+        add(Blocks.BROWN_MUSHROOM_BLOCK);
+        add(Blocks.RED_MUSHROOM_BLOCK);
+        add(Blocks.VINE);
+        add(Blocks.END_PORTAL_FRAME);
+        add(Blocks.HAY_BLOCK);
+        add(Blocks.END_ROD);
+        add(Blocks.PURPUR_SLAB);
+        add(Blocks.CHORUS_FLOWER);
+        add(Blocks.PURPUR_PILLAR);
+        add(Blocks.TRIPWIRE_HOOK);
+    }};
+    
+	static Block mobSpawner       = Blocks.MOB_SPAWNER;
+	static Block crops            = Blocks.WHEAT;
+    static Block farmland         = Blocks.FARMLAND;
+	static Block melonStem        = Blocks.MELON_STEM;
+	static Block pumpkinStem      = Blocks.PUMPKIN_STEM;
+	static Block carrot           = Blocks.CARROTS;
+	static Block potato           = Blocks.POTATOES;
+	static Block lever            = Blocks.LEVER;
+	static Block repeaterIdle     = Blocks.UNPOWERED_REPEATER;
+	static Block repeaterActv     = Blocks.POWERED_REPEATER;
+	static Block comparatorIdl    = Blocks.UNPOWERED_COMPARATOR;
+	static Block comparatorAct    = Blocks.POWERED_COMPARATOR;
+	static Block redstone         = Blocks.REDSTONE_WIRE;
+	static Block jukebox          = Blocks.JUKEBOX;
+	static Block cocoa            = Blocks.COCOA;
+	static Block netherwart       = Blocks.NETHER_WART;
+	static Block silverfish       = Blocks.MONSTER_EGG;
+	static Block doubleplant      = Blocks.DOUBLE_PLANT;
+	static Block leave            = Blocks.LEAVES;
+	static Block leave2           = Blocks.LEAVES2;	
+	static Block log              = Blocks.LOG;
+	static Block log2             = Blocks.LOG2;
+	static Block quartz           = Blocks.QUARTZ_BLOCK;
+	static Block sapling          = Blocks.SAPLING;
+	static Block stickypiston     = Blocks.STICKY_PISTON;
+	static Block piston           = Blocks.PISTON;
+	static Block pistonhead       = Blocks.PISTON_HEAD;
+	static Block stoneslab        = Blocks.STONE_SLAB;
+	static Block doublestoneslab  = Blocks.DOUBLE_STONE_SLAB;
+	static Block woodenslab       = Blocks.WOODEN_SLAB;
+	static Block doublewoodenslab = Blocks.DOUBLE_WOODEN_SLAB;
+	static Block flowerpot        = Blocks.FLOWER_POT;
+	static Block anvil            = Blocks.ANVIL;
+	static Block stoneslab2       = Blocks.STONE_SLAB2;
+    static Block doublestoneslab2 = Blocks.DOUBLE_STONE_SLAB2;
+	
+    
 	
 	@Override
 	public ItemStack getWailaStack(IWailaDataAccessor accessor,	IWailaConfigHandler config) {
@@ -60,51 +104,162 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 			int metadata = accessor.getMetadata();
 			switch(metadata){
 			case 0:
-				return new ItemStack(Blocks.stone);
+				return new ItemStack(Blocks.STONE);
 			case 1:
-				return new ItemStack(Blocks.cobblestone);
+				return new ItemStack(Blocks.COBBLESTONE);
 			case 2:
-				return new ItemStack(Blocks.brick_block);
+				return new ItemStack(Blocks.BRICK_BLOCK);
 			default:
 				return null;
 			}
 		}
 
-		if (block == redstone){
-			return new ItemStack(Items.redstone);
+		if (block == redstone) {
+			return new ItemStack(Items.REDSTONE);
 		}
 
         if (block == doubleplant && (accessor.getMetadata() & 8) != 0) {
             int x = accessor.getPosition().getX();
             int y = accessor.getPosition().getY() - 1;
             int z = accessor.getPosition().getZ();
-            int meta = doubleplant.getMetaFromState(accessor.getWorld().getBlockState(new BlockPos(x, y, z)));
-            return new ItemStack(doubleplant, 1, meta);
+            if (accessor.getWorld().getBlockState(new BlockPos(x, y, z)) != Blocks.DOUBLE_PLANT)
+                y += 1; // We only have the top half of a double plant!
+            EnumPlantType variant = accessor.getWorld().getBlockState(new BlockPos(x, y, z)).getValue(BlockDoublePlant.VARIANT);
+            switch (variant) {
+                case FERN:
+                    return new ItemStack(doubleplant, 1, 3);
+                case GRASS:
+                    return new ItemStack(doubleplant, 1, 2);
+                case PAEONIA:
+                    return new ItemStack(doubleplant, 1, 5);
+                case ROSE:
+                    return new ItemStack(doubleplant, 1, 4);
+                case SUNFLOWER:
+                    return new ItemStack(doubleplant, 1, 0);
+                case SYRINGA:
+                    return new ItemStack(doubleplant, 1, 1);
+                default:
+            }
         }
+        
+        if (block == flowerpot) {
+          int x = accessor.getPosition().getX();
+          int y = accessor.getPosition().getY();
+          int z = accessor.getPosition().getZ();
+          if (!accessor.getWorld().getBlockState(new BlockPos(x, y, z)).getPropertyNames().contains(BlockFlowerPot.CONTENTS))
+              return new ItemStack(Blocks.FLOWER_POT, 1, accessor.getMetadata());
+          EnumFlowerType variant = accessor.getWorld().getBlockState(new BlockPos(x, y, z)).getValue(BlockFlowerPot.CONTENTS);
+          switch (variant) {
+              case ACACIA_SAPLING:
+                  return new ItemStack(Blocks.SAPLING, 1, 4);
+              case ALLIUM:
+                  return new ItemStack(Blocks.RED_FLOWER, 1, 2);
+              case BIRCH_SAPLING:
+                  return new ItemStack(Blocks.SAPLING, 1, 2);
+              case BLUE_ORCHID:
+                  return new ItemStack(Blocks.RED_FLOWER, 1, 1);
+              case CACTUS:
+                  return new ItemStack(Blocks.CACTUS, 1, 0);
+              case DANDELION:
+                  return new ItemStack(Blocks.YELLOW_FLOWER, 1, 0);
+              case DARK_OAK_SAPLING:
+                  return new ItemStack(Blocks.SAPLING, 1, 5);
+              case DEAD_BUSH:
+                  return new ItemStack(Blocks.TALLGRASS, 1, 0);
+              case EMPTY:
+                  return new ItemStack(Items.FLOWER_POT, 1, 0);
+              case FERN:
+                  return new ItemStack(Blocks.TALLGRASS, 1, 2);
+              case HOUSTONIA:
+                  return new ItemStack(Blocks.RED_FLOWER, 1, 3);
+              case JUNGLE_SAPLING:
+                  return new ItemStack(Blocks.SAPLING, 1, 3);
+              case MUSHROOM_BROWN:
+                  return new ItemStack(Blocks.BROWN_MUSHROOM, 1, 0);
+              case MUSHROOM_RED:
+                  return new ItemStack(Blocks.RED_MUSHROOM, 1, 0);
+              case OAK_SAPLING:
+                  return new ItemStack(Blocks.SAPLING, 1, 0);
+              case ORANGE_TULIP:
+                  return new ItemStack(Blocks.RED_FLOWER, 1, 5);
+              case OXEYE_DAISY:
+                  return new ItemStack(Blocks.RED_FLOWER, 1, 8);
+              case PINK_TULIP:
+                  return new ItemStack(Blocks.RED_FLOWER, 1, 7);
+              case POPPY:
+                  return new ItemStack(Blocks.RED_FLOWER, 1, 0);
+              case RED_TULIP:
+                  return new ItemStack(Blocks.RED_FLOWER, 1, 4);
+              case SPRUCE_SAPLING:
+                  return new ItemStack(Blocks.SAPLING, 1, 1);
+              case WHITE_TULIP:
+                  return new ItemStack(Blocks.RED_FLOWER, 1, 6);
+              default:
+          }
+      }
 		
 		if (block instanceof BlockRedstoneOre){
-			return new ItemStack(Blocks.redstone_ore);
+			return new ItemStack(Blocks.REDSTONE_ORE);
 		}
 		
-		if (block == crops){
-			return new ItemStack(Items.wheat);
+		if (block == crops) {
+			return new ItemStack(Items.WHEAT);
 		}
 
-        if (block == farmland){
-            return new ItemStack(Blocks.farmland);
+        if (block == farmland) {
+            return new ItemStack(Blocks.FARMLAND);
         }
 		
-		if ((block == leave || block == leave2) && (accessor.getMetadata() > 3)) {
-			return new ItemStack(block, 1, accessor.getMetadata() - 4);
+		if (block == leave || block == leave2 || block == log || block == log2) {
+			return new ItemStack(block, 1, accessor.getMetadata() % 4);
 		}
 
-		if (block == log || block == log2){
-			return new ItemStack(block, 1, accessor.getMetadata()%4);
-		}
-
-		if ((block == quartz) && (accessor.getMetadata() > 2)){
+		if ((block == quartz) && (accessor.getMetadata() > 2)) {
 			return new ItemStack(block, 1, 2);
 		}
+		
+		if (block == sapling) {
+		    return new ItemStack(block, 1, accessor.getMetadata() % 8);
+		}
+		
+		if (block == pistonhead) {
+		    if (accessor.getMetadata() < 8)
+		        return new ItemStack(Blocks.PISTON, 1, 0);
+		    else
+		        return new ItemStack(Blocks.STICKY_PISTON, 1, 0);
+		}
+		
+		if (block == stoneslab) {
+		    return new ItemStack(block, 1, accessor.getMetadata() % 8);
+		}
+		
+		if (block == doublestoneslab) {
+            return new ItemStack(Blocks.STONE_SLAB, 1, accessor.getMetadata() % 8);
+		}
+		
+		if (block == woodenslab) {
+		    return new ItemStack(block, 1, accessor.getMetadata() % 8);
+		}
+		
+		if (block == doublewoodenslab) {
+		    return new ItemStack(Blocks.WOODEN_SLAB, 1, accessor.getMetadata() % 8);
+		}
+		
+		if (block == anvil) {
+		    return new ItemStack(block, 1, accessor.getMetadata() / 4);
+		}
+		
+		if (block == stoneslab2) {
+            return new ItemStack(block, 1, accessor.getMetadata() % 8);
+		}
+		
+        if (block == doublestoneslab2) {
+            return new ItemStack(Blocks.STONE_SLAB2, 1, accessor.getMetadata() % 8);
+        }
+        
+        if (removemetadata.contains(block)) {
+            return new ItemStack(block, 1, 0);
+        }
 		
 		if (block instanceof BlockStairs) {
 			return new ItemStack(block, 1, 0);
@@ -120,6 +275,22 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 		
 		if (block instanceof BlockFenceGate) {
 			return new ItemStack(block, 1, 0);
+		}
+		
+		if (block instanceof BlockButton) {
+		    return new ItemStack(block, 1, 0);
+		}
+		
+		if (block instanceof BlockBasePressurePlate) {
+		    return new ItemStack(block, 1, 0);
+		}
+		
+		if (block instanceof BlockRailBase) {
+		    return new ItemStack(block, 1, 0);
+		}
+		
+		if (block instanceof BlockTrapDoor) {
+            return new ItemStack(block, 1, 0);
 		}
 		
 		return null;
@@ -268,10 +439,32 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 		ModuleRegistrar.instance().registerStackProvider(provider, log.getClass());
 		ModuleRegistrar.instance().registerStackProvider(provider, log2.getClass());
 		ModuleRegistrar.instance().registerStackProvider(provider, quartz.getClass());
+		ModuleRegistrar.instance().registerStackProvider(provider, sapling.getClass());
+		ModuleRegistrar.instance().registerStackProvider(provider, stickypiston.getClass());
+		ModuleRegistrar.instance().registerStackProvider(provider, piston.getClass());
+		ModuleRegistrar.instance().registerStackProvider(provider, pistonhead.getClass());
+		ModuleRegistrar.instance().registerStackProvider(provider, stoneslab.getClass());
+		ModuleRegistrar.instance().registerStackProvider(provider, doublestoneslab.getClass());
+		ModuleRegistrar.instance().registerStackProvider(provider, lever.getClass());
+		ModuleRegistrar.instance().registerStackProvider(provider, woodenslab.getClass());
+		ModuleRegistrar.instance().registerStackProvider(provider, doublewoodenslab.getClass());
+		ModuleRegistrar.instance().registerStackProvider(provider, anvil.getClass());
+		ModuleRegistrar.instance().registerStackProvider(provider, stoneslab2.getClass());
+        ModuleRegistrar.instance().registerStackProvider(provider, doublestoneslab2.getClass());
+        ModuleRegistrar.instance().registerStackProvider(provider, flowerpot.getClass());
+		
+        for (Block b : removemetadata) {
+            ModuleRegistrar.instance().registerStackProvider(provider, b.getClass());
+        }
+        
 		ModuleRegistrar.instance().registerStackProvider(provider, BlockStairs.class);
 		ModuleRegistrar.instance().registerStackProvider(provider, BlockTorch.class);
 		ModuleRegistrar.instance().registerStackProvider(provider, BlockLadder.class);
 		ModuleRegistrar.instance().registerStackProvider(provider, BlockFenceGate.class);
+		ModuleRegistrar.instance().registerStackProvider(provider, BlockButton.class);
+		ModuleRegistrar.instance().registerStackProvider(provider, BlockBasePressurePlate.class);
+		ModuleRegistrar.instance().registerStackProvider(provider, BlockRailBase.class);
+		ModuleRegistrar.instance().registerStackProvider(provider, BlockTrapDoor.class);
 		
 		//ModuleRegistrar.instance().registerStackProvider(provider, Block.class);
 		ModuleRegistrar.instance().registerHeadProvider(provider, mobSpawner.getClass());

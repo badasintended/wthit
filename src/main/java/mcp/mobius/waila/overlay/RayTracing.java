@@ -225,9 +225,9 @@ public class RayTracing {
         if(mouseoverBlock instanceof IShearable)
         {
             IShearable shearable = (IShearable)mouseoverBlock;
-            if(shearable.isShearable(new ItemStack(Items.shears), world, pos))
+            if(shearable.isShearable(new ItemStack(Items.SHEARS), world, pos))
             {
-                items.addAll(shearable.onSheared(new ItemStack(Items.shears), world, pos, 0));
+                items.addAll(shearable.onSheared(new ItemStack(Items.SHEARS), world, pos, 0));
             }
         }
         

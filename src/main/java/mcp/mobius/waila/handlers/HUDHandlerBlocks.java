@@ -46,7 +46,7 @@ public class HUDHandlerBlocks implements IWailaDataProvider {
         {
         }
 
-        if(itemStack.getItem() == Items.redstone)
+        if(itemStack.getItem() == Items.REDSTONE)
         {
             int md = accessor.getMetadata();
             String s = ""+md;

@@ -174,7 +174,7 @@ public class DisplayUtil {
 
     public static void renderIcon(int x, int y, int sx, int sy, IconUI icon) {
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        Minecraft.getMinecraft().getTextureManager().bindTexture(Gui.icons);
+        Minecraft.getMinecraft().getTextureManager().bindTexture(Gui.ICONS);
 
         if (icon == null)
             return;
