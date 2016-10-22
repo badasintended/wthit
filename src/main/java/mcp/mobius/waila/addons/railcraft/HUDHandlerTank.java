@@ -27,7 +27,7 @@ public class HUDHandlerTank implements IWailaDataProvider {
     public List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
         if (!config.getConfig("railcraft.fluidamount")) return currenttip;
         try {
-            IFluidTank tank = (IFluidTank) RailcraftModule.ITankTile_getTank.invoke(RailcraftModule.ITankTile.cast(accessor.getTileEntity()));
+            IFluidTank tank = (IFluidTank) PluginRailcraft.ITankTile_getTank.invoke(PluginRailcraft.ITankTile.cast(accessor.getTileEntity()));
             if (tank == null) return currenttip;
 
             FluidStack fluid = tank.getFluid();
@@ -54,7 +54,7 @@ public class HUDHandlerTank implements IWailaDataProvider {
         if (!config.getConfig("railcraft.fluidamount")) return currenttip;
 
         try {
-            IFluidTank tank = (IFluidTank) RailcraftModule.ITankTile_getTank.invoke(RailcraftModule.ITankTile.cast(accessor.getTileEntity()));
+            IFluidTank tank = (IFluidTank) PluginRailcraft.ITankTile_getTank.invoke(PluginRailcraft.ITankTile.cast(accessor.getTileEntity()));
             if (tank == null) return currenttip;
 
             FluidStack fluid = tank.getFluid();

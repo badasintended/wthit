@@ -1,31 +1,27 @@
 package mcp.mobius.waila.addons.enderstorage;
 
 import mcp.mobius.waila.Waila;
-import mcp.mobius.waila.api.impl.ModuleRegistrar;
+import mcp.mobius.waila.api.IWailaPlugin;
+import mcp.mobius.waila.api.IWailaRegistrar;
+import mcp.mobius.waila.api.WailaPlugin;
 import org.apache.logging.log4j.Level;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-public class EnderStorageModule {
+@WailaPlugin("EnderStorage")
+public class PluginEnderStorage implements IWailaPlugin {
 
-    public static Class TileFrequencyOwner = null;
+    public static Class<?> TileFrequencyOwner = null;
     public static Field TileFrequencyOwner_Freq = null;
 
-    public static Class EnderStorageManager = null;
+    public static Class<?> EnderStorageManager = null;
     public static Method GetColourFromFreq = null;
 
-    public static Class TileEnderTank = null;
+    public static Class<?> TileEnderTank = null;
 
-    public static void register() {
-        try {
-            Class EnderStorage = Class.forName("codechicken.enderstorage.EnderStorage");
-            Waila.log.log(Level.INFO, "EnderStorage mod found.");
-        } catch (ClassNotFoundException e) {
-            Waila.log.log(Level.INFO, "[EnderStorage] EnderStorage mod not found.");
-            return;
-        }
-
+    @Override
+    public void register(IWailaRegistrar registrar) {
         try {
 
             TileFrequencyOwner = Class.forName("codechicken.enderstorage.common.TileFrequencyOwner");
@@ -50,8 +46,8 @@ public class EnderStorageModule {
             return;
         }
 
-        ModuleRegistrar.instance().addConfig("EnderStorage", "enderstorage.colors");
-        ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerStorage(), TileFrequencyOwner);
-        ModuleRegistrar.instance().registerNBTProvider(new HUDHandlerStorage(), TileFrequencyOwner);
+        registrar.addConfig("EnderStorage", "enderstorage.colors");
+        registrar.registerBodyProvider(new HUDHandlerStorage(), TileFrequencyOwner);
+        registrar.registerNBTProvider(new HUDHandlerStorage(), TileFrequencyOwner);
     }
 }

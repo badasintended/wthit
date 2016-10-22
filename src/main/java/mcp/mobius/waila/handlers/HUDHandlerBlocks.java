@@ -7,6 +7,7 @@ import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.ModIdentification;
+import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -52,23 +53,14 @@ public class HUDHandlerBlocks implements IWailaDataProvider {
         if (currenttip.size() == 0)
             currenttip.add("< Unnamed >");
         else {
-            if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATA, true)) {
-                currenttip.add(String.format(ITALIC + "< Unimplemented >"));
-                //currenttip.add(String.format(ITALIC + "[%s:%d] | %s",  accessor.getBlock().getStateId(accessor.getBlockState()), accessor.getMetadata()/*, accessor.getBlockQualifiedName()*/));
-            }
+            if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATA, true))
+                currenttip.add(String.format(ITALIC + "[%s:%d]", accessor.getBlock().getRegistryName().toString(), accessor.getMetadata()));
         }
         return currenttip;
     }
 
     @Override
     public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
-        /*
-		if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHIFTBLOCK, false) && currenttip.size() > 0 && !accessor.getPlayer().isSneaking()){
-			currenttip.clear();
-			currenttip.add(ITALIC + "Press shift for more data");
-			return currenttip;
-		}
-		*/
         return currenttip;
     }
 

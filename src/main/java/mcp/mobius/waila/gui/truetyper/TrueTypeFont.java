@@ -82,7 +82,6 @@ public class TrueTypeFont {
         this.antiAlias = antiAlias;
 
         createSet(additionalChars);
-        System.out.println("TrueTypeFont loaded: " + font + " - AntiAlias = " + antiAlias);
         fontHeight -= 1;
         if (fontHeight <= 0) fontHeight = 1;
     }

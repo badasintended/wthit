@@ -64,7 +64,7 @@ public class LangUtil {
     @SideOnly(Side.CLIENT)
     public LangUtil addLangDir(ResourceLocation dir) {
         IResourceManager resManager = Minecraft.getMinecraft().getResourceManager();
-        for (Language lang : (SortedSet<Language>) Minecraft.getMinecraft().getLanguageManager().getLanguages()) {
+        for (Language lang : Minecraft.getMinecraft().getLanguageManager().getLanguages()) {
             String langID = lang.getLanguageCode();
             IResource langRes;
             try {

@@ -1,6 +1,11 @@
 package mcp.mobius.waila.api;
 
 /**
+ * Main registration interface for Waila plugins. To register your plugin, annotate your main plugin class with
+ * {@link WailaPlugin} and implement {@link IWailaPlugin}.
+ *
+ * <b>Note: Deprecated information below.</b> It will still work, but the supported method will now be the annotation.
+ *
  * Main registration interface. An instance will be provided to a method specified in an IMC msg formatted as follow<br>
  * FMLInterModComms.sendMessage("Waila", "register", "fully.qualified.path.to.registration.method");<br>
  * The registration method need to follow this signature<br>

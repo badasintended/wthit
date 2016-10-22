@@ -14,7 +14,7 @@ public interface IWailaBlockDecorator {
 
     /**
      * Callback for the decorator. It provides a standard GL stack positioned on the block.</br>
-     * Will be used if the implementing class is registered via {@link IWailaRegistrar}.{@link registerDecorator}.</br>
+     * Will be used if the implementing class is registered via {@link IWailaRegistrar#registerDecorator}.</br>
      *
      * @param itemStack Current block scanned, in ItemStack form.
      * @param accessor  Contains most of the relevant information about the current environment.

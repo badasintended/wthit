@@ -17,16 +17,13 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class ProxyClient extends ProxyServer {
 
     TrueTypeFont minecraftiaFont;
-
-    //public static LangUtil lang = LangUtil.loadLangDir("waila");
-
-    public ProxyClient() {
-    }
-
 
     @Override
     public void registerHandlers() {
@@ -35,18 +32,7 @@ public class ProxyClient extends ProxyServer {
 
         minecraftiaFont = FontLoader.createFont(new ResourceLocation("waila", "fonts/Minecraftia.ttf"), 14, true);
 
-        //TickRegistry.registerTickHandler(WailaTickHandler.instance(), Side.CLIENT);
-
-        if (Loader.isModLoaded("NotEnoughItems")) {
-            try {
-                Class.forName("mcp.mobius.waila.handlers.nei.NEIHandler").getDeclaredMethod("register").invoke(null);
-            } catch (Exception e) {
-                Waila.log.error("Failed to hook into NEI properly. Reverting to Vanilla tooltip handler");
-                MinecraftForge.EVENT_BUS.register(new VanillaTooltipHandler());
-            }
-        } else {
-            MinecraftForge.EVENT_BUS.register(new VanillaTooltipHandler());
-        }
+        MinecraftForge.EVENT_BUS.register(new VanillaTooltipHandler());
 
         ModuleRegistrar.instance().registerHeadProvider(new HUDHandlerBlocks(), Block.class);
         ModuleRegistrar.instance().registerTailProvider(new HUDHandlerBlocks(), Block.class);

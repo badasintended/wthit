@@ -1,4 +1,4 @@
-package mcp.mobius.waila.addons.vanillamc;
+package mcp.mobius.waila.addons.minecraft;
 
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;

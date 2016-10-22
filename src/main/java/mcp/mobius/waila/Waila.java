@@ -2,6 +2,7 @@ package mcp.mobius.waila;
 
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
+import mcp.mobius.waila.api.WailaPlugin;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.client.KeyEvent;
@@ -20,6 +21,7 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.discovery.ASMDataTable;
 import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.common.event.FMLInterModComms.IMCMessage;
 import net.minecraftforge.fml.relauncher.Side;
@@ -27,6 +29,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Field;
+import java.util.Set;
 
 @Mod(modid = "Waila", name = "Waila", version = "1.7.0", dependencies = "required-after:Forge@[12.16.0.1809,);", acceptableRemoteVersions = "*")
 public class Waila {
@@ -37,11 +40,15 @@ public class Waila {
     @SidedProxy(clientSide = "mcp.mobius.waila.client.ProxyClient", serverSide = "mcp.mobius.waila.server.ProxyServer")
     public static ProxyServer proxy;
     public static Logger log = LogManager.getLogger("Waila");
+    public static Set<ASMDataTable.ASMData> plugins;
+
     public boolean serverPresent = false;
 
     /* INIT SEQUENCE */
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+        plugins = event.getAsmData().getAll(WailaPlugin.class.getCanonicalName());
+
         ConfigHandler.instance().loadDefaultConfig(event);
         OverlayConfig.updateColors();
         MinecraftForge.EVENT_BUS.register(new DecoratorRenderer());
@@ -56,6 +63,7 @@ public class Waila {
             EventBus FMLbus = (EventBus) eBus.get(FMLCommonHandler.instance().findContainerFor(this));
             FMLbus.register(this);
         } catch (Throwable t) {
+            // No-op
         }
 
         if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
@@ -70,55 +78,12 @@ public class Waila {
     public void postInit(FMLPostInitializationEvent event) {
         proxy.registerHandlers();
         ModIdentification.init();
-        
-    	/*
-        if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_KEYBIND, true)){
-        
-	        for (String key: ModIdentification.keyhandlerStrings.keySet()){
-	        	String orig  = I18n.getString(key);
-	        	if (orig.equals(key))
-	        		orig = LanguageRegistry.instance().getStringLocalization(key);
-	        	if (orig.equals(key))
-	        		orig = LangUtil.translateG(key);	        	
-	        	if (orig.isEmpty())
-	        		orig = key;
-	        	
-	        	String modif;
-	        	if (orig.startsWith("[") || orig.contains(":"))
-	        		modif = orig;
-	        	else{
-	        		String id = ModIdentification.keyhandlerStrings.get(key);
-	        		
-	        		if (id.contains("."))
-	        			id = id.split("\\.")[0];
-	        		
-	        		if (id.length() > 10)
-	        			id = id.substring(0, 11);
-	        		
-	        		if (id.isEmpty())
-	        			id = "????";
-	        		
-	        		modif = String.format("[%s] %s", id, orig);
-	        	}
-	
-	        	LanguageRegistry.instance().addStringLocalization(key, modif);
-	        }
-        }
-        */
-
     }
 
     @Subscribe
     public void loadComplete(FMLLoadCompleteEvent event) {
         proxy.registerMods();
         proxy.registerIMCs();
-
-    	/*
-    	String[] ores = OreDictionary.getOreNames();
-    	for (String s : ores)
-    		for (ItemStack stack : OreDictionary.getOres(s))
-    			System.out.printf("%s : %s\n", s, stack);
-    	*/
     }
 
     @EventHandler

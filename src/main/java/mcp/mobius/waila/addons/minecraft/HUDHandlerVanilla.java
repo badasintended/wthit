@@ -1,4 +1,4 @@
-package mcp.mobius.waila.addons.vanillamc;
+package mcp.mobius.waila.addons.minecraft;
 
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
@@ -49,6 +49,7 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 
     static Block mobSpawner = Blocks.MOB_SPAWNER;
     static Block crops = Blocks.WHEAT;
+    static Block beet = Blocks.BEETROOTS;
     static Block farmland = Blocks.FARMLAND;
     static Block melonStem = Blocks.MELON_STEM;
     static Block pumpkinStem = Blocks.PUMPKIN_STEM;
@@ -192,6 +193,10 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 
         if (block == crops) {
             return new ItemStack(Items.WHEAT);
+        }
+
+        if (block == beet) {
+            return new ItemStack(Items.BEETROOT);
         }
 
         if (block == farmland) {

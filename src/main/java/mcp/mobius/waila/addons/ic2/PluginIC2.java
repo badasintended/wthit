@@ -1,39 +1,44 @@
 package mcp.mobius.waila.addons.ic2;
 
 import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.api.IWailaPlugin;
+import mcp.mobius.waila.api.IWailaRegistrar;
+import mcp.mobius.waila.api.WailaPlugin;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import org.apache.logging.log4j.Level;
 
 import java.lang.reflect.Field;
 
-public class IC2Module {
+@WailaPlugin("IC2")
+public class PluginIC2 implements IWailaPlugin {
 
-    public static Class TileBaseGenerator = null;
+    public static Class<?> TileBaseGenerator = null;
     public static Field TileBaseGenerator_storage = null;
     public static Field TileBaseGenerator_maxStorage = null;
     public static Field TileBaseGenerator_production = null;
 
-    public static Class TileGeoGenerator = null;
+    public static Class<?> TileGeoGenerator = null;
     public static Field TileGeoGenerator_storage = null;
     public static Field TileGeoGenerator_maxStorage = null;
     public static Field TileGeoGenerator_production = null;
 
-    public static Class TileKineticGenerator = null;
+    public static Class<?> TileKineticGenerator = null;
     public static Field TileKineticGenerator_storage = null;
     public static Field TileKineticGenerator_maxStorage = null;
     public static Field TileKineticGenerator_production = null;
 
-    public static Class TileSemifluidGenerator = null;
+    public static Class<?> TileSemifluidGenerator = null;
     public static Field TileSemifluidGenerator_storage = null;
     public static Field TileSemifluidGenerator_maxStorage = null;
     public static Field TileSemifluidGenerator_production = null;
 
-    public static Class TileStirlingGenerator = null;
+    public static Class<?> TileStirlingGenerator = null;
     public static Field TileStirlingGenerator_storage = null;
     public static Field TileStirlingGenerator_maxStorage = null;
     public static Field TileStirlingGenerator_production = null;
 
-    public static void register() {
+    @Override
+    public void register(IWailaRegistrar registrar) {
         // XXX : We register the Energy interface first
         try {
             TileBaseGenerator = Class.forName("ic2.core.block.generator.tileentity.TileEntityBaseGenerator");
@@ -67,21 +72,21 @@ public class IC2Module {
             TileStirlingGenerator_maxStorage = TileStirlingGenerator.getDeclaredField("maxEUStorage");
             TileStirlingGenerator_production = TileStirlingGenerator.getDeclaredField("production");
 
-            //ModuleRegistrar.instance().addConfigRemote("Thermal Expansion", "thermalexpansion.energyhandler");
-            ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTEGenerator(), TileBaseGenerator);
-            ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTEGenerator(), TileGeoGenerator);
-            ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTEGenerator(), TileKineticGenerator);
-            ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTEGenerator(), TileSemifluidGenerator);
-            ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerTEGenerator(), TileStirlingGenerator);
+            //registrar.addConfigRemote("Thermal Expansion", "thermalexpansion.energyhandler");
+            registrar.registerBodyProvider(new HUDHandlerTEGenerator(), TileBaseGenerator);
+            registrar.registerBodyProvider(new HUDHandlerTEGenerator(), TileGeoGenerator);
+            registrar.registerBodyProvider(new HUDHandlerTEGenerator(), TileKineticGenerator);
+            registrar.registerBodyProvider(new HUDHandlerTEGenerator(), TileSemifluidGenerator);
+            registrar.registerBodyProvider(new HUDHandlerTEGenerator(), TileStirlingGenerator);
 
-            ModuleRegistrar.instance().registerNBTProvider(new HUDHandlerTEGenerator(), TileBaseGenerator);
-            ModuleRegistrar.instance().registerNBTProvider(new HUDHandlerTEGenerator(), TileGeoGenerator);
-            ModuleRegistrar.instance().registerNBTProvider(new HUDHandlerTEGenerator(), TileKineticGenerator);
-            ModuleRegistrar.instance().registerNBTProvider(new HUDHandlerTEGenerator(), TileSemifluidGenerator);
-            ModuleRegistrar.instance().registerNBTProvider(new HUDHandlerTEGenerator(), TileStirlingGenerator);
+            registrar.registerNBTProvider(new HUDHandlerTEGenerator(), TileBaseGenerator);
+            registrar.registerNBTProvider(new HUDHandlerTEGenerator(), TileGeoGenerator);
+            registrar.registerNBTProvider(new HUDHandlerTEGenerator(), TileKineticGenerator);
+            registrar.registerNBTProvider(new HUDHandlerTEGenerator(), TileSemifluidGenerator);
+            registrar.registerNBTProvider(new HUDHandlerTEGenerator(), TileStirlingGenerator);
 
-            ModuleRegistrar.instance().addConfigRemote("IndustrialCraft2", "ic2.storage");
-            ModuleRegistrar.instance().addConfigRemote("IndustrialCraft2", "ic2.outputeu");
+            registrar.addConfigRemote("IndustrialCraft2", "ic2.storage");
+            registrar.addConfigRemote("IndustrialCraft2", "ic2.outputeu");
 
         } catch (Exception e) {
             Waila.log.log(Level.WARN, "[IndustrialCraft 2] Error while loading generator hooks." + e);
