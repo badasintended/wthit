@@ -3,6 +3,7 @@ package mcp.mobius.waila.handlers;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
+import mcp.mobius.waila.api.SpecialChars;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.utils.Constants;
@@ -20,10 +21,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeModContainer;
 import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
-import net.minecraftforge.fluids.IFluidBlock;
-import net.minecraftforge.fluids.UniversalBucket;
+import net.minecraftforge.fluids.*;
 
 import java.util.List;
 
@@ -111,6 +109,9 @@ public class HUDHandlerBlocks implements IWailaDataProvider {
                 ret = UniversalBucket.getFilledBucket(ForgeModContainer.getInstance().universalBucket, fluid);
             else if (vanilla)
                 ret = fluid == FluidRegistry.WATER ? new ItemStack(Items.WATER_BUCKET) : new ItemStack(Items.LAVA_BUCKET);
+
+            if (ret != null)
+                ret.setStackDisplayName(SpecialChars.RESET + SpecialChars.WHITE + fluid.getLocalizedName(new FluidStack(fluid, 1000)));
         }
         return ret != null ? ret : stack;
     }
