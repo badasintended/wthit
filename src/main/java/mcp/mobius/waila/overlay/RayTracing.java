@@ -173,40 +173,19 @@ public class RayTracing {
             return items;
 
         if (world.getTileEntity(pos) == null) {
-            try {
-                if (Item.getItemFromBlock(mouseoverBlock) != null) {
-                    if (Item.getItemFromBlock(mouseoverBlock).getHasSubtypes())
-                        items.add(new ItemStack(mouseoverBlock, 1, mouseoverBlock.getMetaFromState(world.getBlockState(pos))));
-                    else
-                        items.add(new ItemStack(mouseoverBlock));
-                }
-            } catch (Exception e) {
-            }
+            if (Item.getItemFromBlock(mouseoverBlock) != null)
+                items.add(mouseoverBlock.getPickBlock(world.getBlockState(pos), target, world, pos, player));
         }
 
         if (items.size() > 0)
             return items;
 
-        try {
-            ItemStack pick = mouseoverBlock.getPickBlock(mouseoverBlock.getDefaultState(), target, world, pos, player);//(this.target, world, pos, player);
-            if (pick != null)
-                items.add(pick);
-        } catch (Exception e) {
-        }
+        ItemStack pick = mouseoverBlock.getPickBlock(world.getBlockState(pos), target, world, pos, player);//(this.target, world, pos, player);
+        if (pick != null)
+            items.add(pick);
 
         if (items.size() > 0)
             return items;
-
-        /*
-        try
-        {
-            items.addAll(mouseoverBlock.getBlockDropped(world, x, y, z, world.getBlockMetadata(x, y, z), 0));
-        }
-        catch(Exception e){}
-
-        if(items.size() > 0)
-            return items;
-        */
 
         if (mouseoverBlock instanceof IShearable) {
             IShearable shearable = (IShearable) mouseoverBlock;
@@ -215,8 +194,14 @@ public class RayTracing {
             }
         }
 
-        if (items.size() == 0)
-            items.add(0, new ItemStack(mouseoverBlock, 1, mouseoverBlock.getMetaFromState(world.getBlockState(pos))));
+        if (items.size() == 0) {
+            if (Item.getItemFromBlock(mouseoverBlock) != null) {
+                if (Item.getItemFromBlock(mouseoverBlock).getHasSubtypes())
+                    items.add(new ItemStack(mouseoverBlock, 1, mouseoverBlock.getMetaFromState(world.getBlockState(pos))));
+                else
+                    items.add(new ItemStack(mouseoverBlock));
+            }
+        }
 
         return items;
     }
