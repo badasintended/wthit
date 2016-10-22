@@ -18,6 +18,8 @@ import java.util.List;
 
 public class HUDHandlerTank implements IWailaDataProvider {
 
+    static final IWailaDataProvider INSTANCE = new HUDHandlerTank();
+
     @Override
     public ItemStack getWailaStack(IWailaDataAccessor accessor, IWailaConfigHandler config) {
         return null;
