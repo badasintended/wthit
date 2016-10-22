@@ -12,6 +12,7 @@ import net.minecraft.block.BlockDoublePlant.EnumPlantType;
 import net.minecraft.block.BlockFlowerPot;
 import net.minecraft.block.BlockFlowerPot.EnumFlowerType;
 import net.minecraft.block.BlockRedstoneOre;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -88,28 +89,12 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
             return new ItemStack(Items.REDSTONE);
         }
 
-        if (block == doubleplant && (accessor.getMetadata() & 8) != 0) {
-            int x = accessor.getPosition().getX();
-            int y = accessor.getPosition().getY() - 1;
-            int z = accessor.getPosition().getZ();
-            if (accessor.getWorld().getBlockState(new BlockPos(x, y, z)) != Blocks.DOUBLE_PLANT)
-                y += 1; // We only have the top half of a double plant!
-            EnumPlantType variant = accessor.getWorld().getBlockState(new BlockPos(x, y, z)).getValue(BlockDoublePlant.VARIANT);
-            switch (variant) {
-                case FERN:
-                    return new ItemStack(doubleplant, 1, 3);
-                case GRASS:
-                    return new ItemStack(doubleplant, 1, 2);
-                case PAEONIA:
-                    return new ItemStack(doubleplant, 1, 5);
-                case ROSE:
-                    return new ItemStack(doubleplant, 1, 4);
-                case SUNFLOWER:
-                    return new ItemStack(doubleplant, 1, 0);
-                case SYRINGA:
-                    return new ItemStack(doubleplant, 1, 1);
-                default:
-            }
+        if (block == doubleplant) {
+            IBlockState state = accessor.getBlockState();
+            if (state.getValue(BlockDoublePlant.HALF) == BlockDoublePlant.EnumBlockHalf.UPPER)
+                state = accessor.getWorld().getBlockState(accessor.getPosition().down());
+            EnumPlantType variant = state.getValue(BlockDoublePlant.VARIANT);
+            return new ItemStack(doubleplant, 1, variant.getMeta());
         }
 
         if (block == flowerpot) {
@@ -165,6 +150,7 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
                 case WHITE_TULIP:
                     return new ItemStack(Blocks.RED_FLOWER, 1, 6);
                 default:
+                    return new ItemStack(Blocks.FLOWER_POT);
             }
         }
 
