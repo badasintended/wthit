@@ -10,9 +10,7 @@ public class PluginMinecraft implements IWailaPlugin {
 
     @Override
     public void register(IWailaRegistrar registrar) {
-        HUDHandlerVanilla.register();
-        
-        registrar.registerBodyProvider(new HUDHandlerFurnace(), TileEntityFurnace.class);
-        registrar.registerNBTProvider(new HUDHandlerFurnace(), TileEntityFurnace.class);
+        HUDHandlerVanilla.register(registrar);
+        HUDHandlerFurnace.register(registrar);
     }
 }
