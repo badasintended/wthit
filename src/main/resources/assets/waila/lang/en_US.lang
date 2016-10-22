@@ -91,6 +91,7 @@ hud.msg.delay=Delay
 hud.msg.comparator=Comparator
 hud.msg.substractor=Substractor
 hud.msg.record=Record
+hud.msg.toomuch=Too many...
 
 hud.msg.offers=Offers
 hud.msg.demands=Demands
@@ -147,6 +148,7 @@ option.general.showents=Show entities
 option.general.showhp=Show entities health
 option.general.showcrop=Show crop growth
 option.general.registry=Show registry data
+option.capability.tankinfo=Show tank data
 option.thaumcraft.aspects=Show aspects
 
 nei.options.keys.showenchant=Show enchanting values
