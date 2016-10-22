@@ -6,9 +6,12 @@ import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.SpecialChars;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.cbcore.LangUtil;
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockDoublePlant;
 import net.minecraft.block.BlockDoublePlant.EnumPlantType;
+import net.minecraft.block.BlockFlowerPot;
 import net.minecraft.block.BlockFlowerPot.EnumFlowerType;
+import net.minecraft.block.BlockRedstoneOre;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -21,31 +24,9 @@ import net.minecraft.tileentity.TileEntityMobSpawner;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class HUDHandlerVanilla implements IWailaDataProvider {
-
-    static List<Block> removemetadata = new ArrayList<Block>() {{
-        add(Blocks.STICKY_PISTON);
-        add(Blocks.PISTON);
-        add(Blocks.TNT);
-        add(Blocks.LEVER);
-        add(Blocks.SNOW_LAYER);
-        add(Blocks.CACTUS);
-        add(Blocks.PUMPKIN);
-        add(Blocks.LIT_PUMPKIN);
-        add(Blocks.BROWN_MUSHROOM_BLOCK);
-        add(Blocks.RED_MUSHROOM_BLOCK);
-        add(Blocks.VINE);
-        add(Blocks.END_PORTAL_FRAME);
-        add(Blocks.HAY_BLOCK);
-        add(Blocks.END_ROD);
-        add(Blocks.PURPUR_SLAB);
-        add(Blocks.CHORUS_FLOWER);
-        add(Blocks.PURPUR_PILLAR);
-        add(Blocks.TRIPWIRE_HOOK);
-    }};
 
     static Block mobSpawner = Blocks.MOB_SPAWNER;
     static Block crops = Blocks.WHEAT;
@@ -250,42 +231,6 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
             return new ItemStack(Blocks.STONE_SLAB2, 1, accessor.getMetadata() % 8);
         }
 
-        if (removemetadata.contains(block)) {
-            return new ItemStack(block, 1, 0);
-        }
-
-        if (block instanceof BlockStairs) {
-            return new ItemStack(block, 1, 0);
-        }
-
-        if (block instanceof BlockTorch) {
-            return new ItemStack(block, 1, 0);
-        }
-
-        if (block instanceof BlockLadder) {
-            return new ItemStack(block, 1, 0);
-        }
-
-        if (block instanceof BlockFenceGate) {
-            return new ItemStack(block, 1, 0);
-        }
-
-        if (block instanceof BlockButton) {
-            return new ItemStack(block, 1, 0);
-        }
-
-        if (block instanceof BlockBasePressurePlate) {
-            return new ItemStack(block, 1, 0);
-        }
-
-        if (block instanceof BlockRailBase) {
-            return new ItemStack(block, 1, 0);
-        }
-
-        if (block instanceof BlockTrapDoor) {
-            return new ItemStack(block, 1, 0);
-        }
-
         return null;
 
     }
@@ -445,19 +390,6 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
         ModuleRegistrar.instance().registerStackProvider(provider, stoneslab2.getClass());
         ModuleRegistrar.instance().registerStackProvider(provider, doublestoneslab2.getClass());
         ModuleRegistrar.instance().registerStackProvider(provider, flowerpot.getClass());
-
-        for (Block b : removemetadata) {
-            ModuleRegistrar.instance().registerStackProvider(provider, b.getClass());
-        }
-
-        ModuleRegistrar.instance().registerStackProvider(provider, BlockStairs.class);
-        ModuleRegistrar.instance().registerStackProvider(provider, BlockTorch.class);
-        ModuleRegistrar.instance().registerStackProvider(provider, BlockLadder.class);
-        ModuleRegistrar.instance().registerStackProvider(provider, BlockFenceGate.class);
-        ModuleRegistrar.instance().registerStackProvider(provider, BlockButton.class);
-        ModuleRegistrar.instance().registerStackProvider(provider, BlockBasePressurePlate.class);
-        ModuleRegistrar.instance().registerStackProvider(provider, BlockRailBase.class);
-        ModuleRegistrar.instance().registerStackProvider(provider, BlockTrapDoor.class);
 
         //ModuleRegistrar.instance().registerStackProvider(provider, Block.class);
         ModuleRegistrar.instance().registerHeadProvider(provider, mobSpawner.getClass());
