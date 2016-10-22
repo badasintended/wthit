@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
 import java.awt.*;
 
@@ -27,9 +28,9 @@ public class TTRenderStack implements IWailaTooltipRenderer {
 
         ItemStack stack = null;
         if (type == 0)
-            stack = new ItemStack((Block) Block.REGISTRY.getObject(new ResourceLocation(name)), amount, meta);
+            stack = new ItemStack(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(name)), amount, meta);
         if (type == 1)
-            stack = new ItemStack((Item) Item.REGISTRY.getObject(new ResourceLocation(name)), amount, meta);
+            stack = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(name)), amount, meta);
 
         RenderHelper.enableGUIStandardItemLighting();
         DisplayUtil.renderStack(0, 0, stack);

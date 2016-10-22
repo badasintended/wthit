@@ -56,7 +56,7 @@ public class DataAccessorCommon implements IWailaCommonAccessor, IWailaDataAcces
             this.tileEntity = world.getTileEntity(this.pos);
             this.entity = null;
             this.blockID = Block.getIdFromBlock(this.block);
-            this.blockResource = String.valueOf(GameData.getBlockRegistry().getNameForObject(this.block));
+            this.blockResource = this.block.getRegistryName().toString();
             try {
                 this.stack = new ItemStack(this.block, 1, this.metadata);
             } catch (Exception e) {

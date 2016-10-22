@@ -35,12 +35,12 @@ public class HUDHandlerFurnace implements IWailaDataProvider {
         String renderStr = "";
         {
             ItemStack stack = ItemStack.loadItemStackFromNBT(tag.getCompoundTagAt(0));
-            String name = String.valueOf(GameData.getItemRegistry().getNameForObject(stack.getItem()));
+            String name = stack.getItem().getRegistryName().toString();
             renderStr += SpecialChars.getRenderString("waila.stack", "1", name, String.valueOf(stack.stackSize), String.valueOf(stack.getItemDamage()));
         }
         {
             ItemStack stack = ItemStack.loadItemStackFromNBT(tag.getCompoundTagAt(1));
-            String name = String.valueOf(GameData.getItemRegistry().getNameForObject(stack.getItem()));
+            String name = stack.getItem().getRegistryName().toString();
             renderStr += SpecialChars.getRenderString("waila.stack", "1", name, String.valueOf(stack.stackSize), String.valueOf(stack.getItemDamage()));
         }
 
@@ -48,7 +48,7 @@ public class HUDHandlerFurnace implements IWailaDataProvider {
 
         {
             ItemStack stack = ItemStack.loadItemStackFromNBT(tag.getCompoundTagAt(2));
-            String name = String.valueOf(GameData.getItemRegistry().getNameForObject(stack.getItem()));
+            String name = stack.getItem().getRegistryName().toString();
             renderStr += SpecialChars.getRenderString("waila.stack", "1", name, String.valueOf(stack.stackSize), String.valueOf(stack.getItemDamage()));
         }
 
