@@ -11,6 +11,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
@@ -173,18 +174,12 @@ public class RayTracing {
 
         if (world.getTileEntity(pos) == null) {
             try {
-                ItemStack block = new ItemStack(mouseoverBlock, 1, mouseoverBlock.getMetaFromState(world.getBlockState(pos)));
-
-                //System.out.printf("%s %s %s\n", block, block.getDisplayName(), block.getItemDamage());
-
-                if (block.getItem() != null)
-                    items.add(block);
-                //else
-                //	items.add(new ItemStack(new ItemBlock(mouseoverBlock)));
-                //else
-                //	items.add(new ItemStack(Item.getItemFromBlock(mouseoverBlock)));
-
-
+                if (Item.getItemFromBlock(mouseoverBlock) != null) {
+                    if (Item.getItemFromBlock(mouseoverBlock).getHasSubtypes())
+                        items.add(new ItemStack(mouseoverBlock, 1, mouseoverBlock.getMetaFromState(world.getBlockState(pos))));
+                    else
+                        items.add(new ItemStack(mouseoverBlock));
+                }
             } catch (Exception e) {
             }
         }
