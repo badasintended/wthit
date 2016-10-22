@@ -20,52 +20,55 @@ import net.minecraftforge.fml.common.Loader;
 
 public class ProxyClient extends ProxyServer {
 
-	TrueTypeFont minecraftiaFont;
-	
-	//public static LangUtil lang = LangUtil.loadLangDir("waila");
-	
-	public ProxyClient() {}
-	
-	
-	@Override
-	public void registerHandlers(){
-		
-	    LangUtil.loadLangDir("waila");
-		
-		minecraftiaFont = FontLoader.createFont(new ResourceLocation("waila", "fonts/Minecraftia.ttf"), 14, true);
-		
-		//TickRegistry.registerTickHandler(WailaTickHandler.instance(), Side.CLIENT);		
-		
-		if (Loader.isModLoaded("NotEnoughItems")){
-			try{
-				Class.forName("mcp.mobius.waila.handlers.nei.NEIHandler").getDeclaredMethod("register").invoke(null);
-			} catch (Exception e){
-				Waila.log.error("Failed to hook into NEI properly. Reverting to Vanilla tooltip handler");
-				MinecraftForge.EVENT_BUS.register(new VanillaTooltipHandler());    
-			}
-		} else {
-			MinecraftForge.EVENT_BUS.register(new VanillaTooltipHandler());    
-		}
+    TrueTypeFont minecraftiaFont;
 
-		ModuleRegistrar.instance().registerHeadProvider(new HUDHandlerBlocks(), Block.class);
-		ModuleRegistrar.instance().registerTailProvider(new HUDHandlerBlocks(), Block.class);
-		
-		ModuleRegistrar.instance().registerHeadProvider(new HUDHandlerEntities(), Entity.class);
-		ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerEntities(), Entity.class);		
-		ModuleRegistrar.instance().registerTailProvider(new HUDHandlerEntities(), Entity.class);
-		
-		//ModuleRegistrar.instance().registerShortDataProvider(new SummaryProviderDefault(), Item.class);
+    //public static LangUtil lang = LangUtil.loadLangDir("waila");
 
-		ModuleRegistrar.instance().addConfig("General", "general.showents");		
-		ModuleRegistrar.instance().addConfig("General", "general.showhp");
-		ModuleRegistrar.instance().addConfig("General", "general.showcrop");
-		
-		ModuleRegistrar.instance().registerTooltipRenderer("waila.health",    new TTRenderHealth());
-		ModuleRegistrar.instance().registerTooltipRenderer("waila.stack",     new TTRenderStack());
-		ModuleRegistrar.instance().registerTooltipRenderer("waila.progress",  new TTRenderProgressBar());
-	}	
-	
-	@Override
-	public Object getFont(){return this.minecraftiaFont;}	
+    public ProxyClient() {
+    }
+
+
+    @Override
+    public void registerHandlers() {
+
+        LangUtil.loadLangDir("waila");
+
+        minecraftiaFont = FontLoader.createFont(new ResourceLocation("waila", "fonts/Minecraftia.ttf"), 14, true);
+
+        //TickRegistry.registerTickHandler(WailaTickHandler.instance(), Side.CLIENT);
+
+        if (Loader.isModLoaded("NotEnoughItems")) {
+            try {
+                Class.forName("mcp.mobius.waila.handlers.nei.NEIHandler").getDeclaredMethod("register").invoke(null);
+            } catch (Exception e) {
+                Waila.log.error("Failed to hook into NEI properly. Reverting to Vanilla tooltip handler");
+                MinecraftForge.EVENT_BUS.register(new VanillaTooltipHandler());
+            }
+        } else {
+            MinecraftForge.EVENT_BUS.register(new VanillaTooltipHandler());
+        }
+
+        ModuleRegistrar.instance().registerHeadProvider(new HUDHandlerBlocks(), Block.class);
+        ModuleRegistrar.instance().registerTailProvider(new HUDHandlerBlocks(), Block.class);
+
+        ModuleRegistrar.instance().registerHeadProvider(new HUDHandlerEntities(), Entity.class);
+        ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerEntities(), Entity.class);
+        ModuleRegistrar.instance().registerTailProvider(new HUDHandlerEntities(), Entity.class);
+
+        //ModuleRegistrar.instance().registerShortDataProvider(new SummaryProviderDefault(), Item.class);
+
+        ModuleRegistrar.instance().addConfig("General", "general.showents");
+        ModuleRegistrar.instance().addConfig("General", "general.showhp");
+        ModuleRegistrar.instance().addConfig("General", "general.showcrop");
+
+        ModuleRegistrar.instance().registerTooltipRenderer("waila.health", new TTRenderHealth());
+        ModuleRegistrar.instance().registerTooltipRenderer("waila.stack", new TTRenderStack());
+        ModuleRegistrar.instance().registerTooltipRenderer("waila.progress", new TTRenderProgressBar());
+    }
+
+    @Override
+    public Object getFont() {
+        return this.minecraftiaFont;
+    }
 
 }

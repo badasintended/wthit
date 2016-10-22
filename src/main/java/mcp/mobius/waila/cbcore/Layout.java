@@ -1,6 +1,5 @@
 package mcp.mobius.waila.cbcore;
 
-public enum Layout
-{
-	HEADER,	 BODY, FOOTER
+public enum Layout {
+    HEADER, BODY, FOOTER
 }

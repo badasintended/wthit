@@ -3,14 +3,14 @@ package mcp.mobius.wailacore.asm;
 import net.minecraft.launchwrapper.IClassTransformer;
 
 public class CoreTransformer implements IClassTransformer {
-	
-	public CoreTransformer(){
-		super();
-	}
-	
-	@Override
-	public byte[] transform(String name, String srgname, byte[] bytes) {
-		
+
+    public CoreTransformer() {
+        super();
+    }
+
+    @Override
+    public byte[] transform(String name, String srgname, byte[] bytes) {
+
 		/*
 		boolean     changed     = false;
 		ClassNode   classNode   = new ClassNode();
@@ -60,7 +60,7 @@ public class CoreTransformer implements IClassTransformer {
         */
 
         return bytes;
-	}
+    }
 
 
 }

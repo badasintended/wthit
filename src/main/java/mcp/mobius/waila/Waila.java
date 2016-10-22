@@ -1,13 +1,7 @@
 package mcp.mobius.waila;
 
-import java.lang.reflect.Field;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
-
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.client.KeyEvent;
@@ -26,35 +20,34 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
 import net.minecraftforge.fml.common.SidedProxy;
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLInterModComms;
+import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.common.event.FMLInterModComms.IMCMessage;
-import net.minecraftforge.fml.common.event.FMLLoadCompleteEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.relauncher.Side;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-@Mod(modid="Waila", name="Waila", version="1.7.0", dependencies = "required-after:Forge@[12.16.0.1809,);", acceptableRemoteVersions="*")
+import java.lang.reflect.Field;
+
+@Mod(modid = "Waila", name = "Waila", version = "1.7.0", dependencies = "required-after:Forge@[12.16.0.1809,);", acceptableRemoteVersions = "*")
 public class Waila {
     // The instance of your mod that Forge uses.
-	@Instance("Waila")
-	public static Waila instance;
+    @Instance("Waila")
+    public static Waila instance;
 
-	@SidedProxy(clientSide="mcp.mobius.waila.client.ProxyClient", serverSide="mcp.mobius.waila.server.ProxyServer")
-	public static ProxyServer proxy;	
-	public static Logger log = LogManager.getLogger("Waila");
-	public boolean serverPresent = false;
-	
+    @SidedProxy(clientSide = "mcp.mobius.waila.client.ProxyClient", serverSide = "mcp.mobius.waila.server.ProxyServer")
+    public static ProxyServer proxy;
+    public static Logger log = LogManager.getLogger("Waila");
+    public boolean serverPresent = false;
+
     /* INIT SEQUENCE */
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
-    	ConfigHandler.instance().loadDefaultConfig(event);
-		OverlayConfig.updateColors();
-		MinecraftForge.EVENT_BUS.register(new DecoratorRenderer());	
-		WailaPacketHandler.INSTANCE.ordinal();
-	}	
-	
+        ConfigHandler.instance().loadDefaultConfig(event);
+        OverlayConfig.updateColors();
+        MinecraftForge.EVENT_BUS.register(new DecoratorRenderer());
+        WailaPacketHandler.INSTANCE.ordinal();
+    }
+
     @EventHandler
     public void initialize(FMLInitializationEvent event) {
         try {
@@ -62,20 +55,21 @@ public class Waila {
             eBus.setAccessible(true);
             EventBus FMLbus = (EventBus) eBus.get(FMLCommonHandler.instance().findContainerFor(this));
             FMLbus.register(this);
-        } catch (Throwable t) {}
-        
-        if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT){
-        	MinecraftForge.EVENT_BUS.register(new DecoratorRenderer());
-			MinecraftForge.EVENT_BUS.register(new KeyEvent());
-			MinecraftForge.EVENT_BUS.register(WailaTickHandler.instance());
+        } catch (Throwable t) {
         }
-		MinecraftForge.EVENT_BUS.register(new NetworkHandler());
-	}
+
+        if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
+            MinecraftForge.EVENT_BUS.register(new DecoratorRenderer());
+            MinecraftForge.EVENT_BUS.register(new KeyEvent());
+            MinecraftForge.EVENT_BUS.register(WailaTickHandler.instance());
+        }
+        MinecraftForge.EVENT_BUS.register(new NetworkHandler());
+    }
 
     @EventHandler
     public void postInit(FMLPostInitializationEvent event) {
-		proxy.registerHandlers();
-    	ModIdentification.init();
+        proxy.registerHandlers();
+        ModIdentification.init();
         
     	/*
         if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_KEYBIND, true)){
@@ -111,49 +105,47 @@ public class Waila {
 	        }
         }
         */
-        
-	}
+
+    }
 
     @Subscribe
-    public void loadComplete(FMLLoadCompleteEvent event) {    
-    	proxy.registerMods();
-    	proxy.registerIMCs();
-    	
+    public void loadComplete(FMLLoadCompleteEvent event) {
+        proxy.registerMods();
+        proxy.registerIMCs();
+
     	/*
     	String[] ores = OreDictionary.getOreNames();
     	for (String s : ores)
     		for (ItemStack stack : OreDictionary.getOres(s))
     			System.out.printf("%s : %s\n", s, stack);
     	*/
-    }    
-    	
-    @EventHandler
-	public void processIMC(FMLInterModComms.IMCEvent event)
-	{
-		for (IMCMessage imcMessage : event.getMessages()){
-			if (!imcMessage.isStringMessage()) continue;
-			
-			if (imcMessage.key.equalsIgnoreCase("addconfig")){
-				String[] params = imcMessage.getStringValue().split("\\$\\$");
-				if (params.length != 3){
-					Waila.log.warn(String.format("Error while parsing config option from [ %s ] for %s", imcMessage.getSender(), imcMessage.getStringValue()));
-					continue;
-				}
-				Waila.log.info(String.format("Receiving config request from [ %s ] for %s", imcMessage.getSender(), imcMessage.getStringValue()));				
-				ConfigHandler.instance().addConfig(params[0], params[1], params[2]);
-			}
-			
-			if (imcMessage.key.equalsIgnoreCase("register")){
-				Waila.log.info(String.format("Receiving registration request from [ %s ] for method %s", imcMessage.getSender(), imcMessage.getStringValue()));
-				ModuleRegistrar.instance().addIMCRequest(imcMessage.getStringValue(), imcMessage.getSender());
-			}
-		}
-	}		
-	
+    }
 
-	
-	@EventHandler
-	public void serverStarting(FMLServerStartingEvent event){
-		event.registerServerCommand(new CommandDumpHandlers());
-	}	
+    @EventHandler
+    public void processIMC(FMLInterModComms.IMCEvent event) {
+        for (IMCMessage imcMessage : event.getMessages()) {
+            if (!imcMessage.isStringMessage()) continue;
+
+            if (imcMessage.key.equalsIgnoreCase("addconfig")) {
+                String[] params = imcMessage.getStringValue().split("\\$\\$");
+                if (params.length != 3) {
+                    Waila.log.warn(String.format("Error while parsing config option from [ %s ] for %s", imcMessage.getSender(), imcMessage.getStringValue()));
+                    continue;
+                }
+                Waila.log.info(String.format("Receiving config request from [ %s ] for %s", imcMessage.getSender(), imcMessage.getStringValue()));
+                ConfigHandler.instance().addConfig(params[0], params[1], params[2]);
+            }
+
+            if (imcMessage.key.equalsIgnoreCase("register")) {
+                Waila.log.info(String.format("Receiving registration request from [ %s ] for method %s", imcMessage.getSender(), imcMessage.getStringValue()));
+                ModuleRegistrar.instance().addIMCRequest(imcMessage.getStringValue(), imcMessage.getSender());
+            }
+        }
+    }
+
+
+    @EventHandler
+    public void serverStarting(FMLServerStartingEvent event) {
+        event.registerServerCommand(new CommandDumpHandlers());
+    }
 }

@@ -1,7 +1,5 @@
 package mcp.mobius.waila.server;
 
-import java.lang.reflect.Method;
-
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.addons.agriculture.AgricultureModule;
 import mcp.mobius.waila.addons.vanillamc.HUDHandlerFurnace;
@@ -12,118 +10,124 @@ import mcp.mobius.waila.handlers.DecoratorFMP;
 import mcp.mobius.waila.handlers.HUDHandlerFMP;
 import net.minecraftforge.fml.common.Loader;
 
+import java.lang.reflect.Method;
+
 public class ProxyServer {
 
-	public ProxyServer() {}
+    public ProxyServer() {
+    }
 
-	public void registerHandlers(){}	
-	
-	public void registerMods(){
-		
-		HUDHandlerVanilla.register();
-		HUDHandlerFurnace.register();
-		
+    public void registerHandlers() {
+    }
+
+    public void registerMods() {
+
+        HUDHandlerVanilla.register();
+        HUDHandlerFurnace.register();
+
 		/* BUILDCRAFT */
-		//BCModule.register();
+        //BCModule.register();
 		
 		/* INDUSTRIALCRAFT2 */
-		//IC2Module.register();
+        //IC2Module.register();
 		
 		/*Thaumcraft*/
-		//ThaumcraftModule.register();
+        //ThaumcraftModule.register();
 		
 		/*EnderStorage*/
-		//EnderStorageModule.register();
+        //EnderStorageModule.register();
 		
 		/*Gravestone*/
-		//GravestoneModule.register();
+        //GravestoneModule.register();
 		
 		/*Twilight forest*/
-		//TwilightForestModule.register();
+        //TwilightForestModule.register();
 		
 		/* Thermal Expansion */
-		//ThermalExpansionModule.register();
+        //ThermalExpansionModule.register();
 
 		/* Thermal Dynamics */
-		//ThermalDynamicsModule.register();
+        //ThermalDynamicsModule.register();
 		
 		/* ETB */
-		//ETBModule.register();
+        //ETBModule.register();
 		
 		/* EnderIO */
-		//EnderIOModule.register();		
+        //EnderIOModule.register();
 		
 		/* ProjectRed API */
-		//ProjectRedModule.register();
+        //ProjectRedModule.register();
 		
 		/* ExtraUtilities */
-		//ExtraUtilitiesModule.register();
+        //ExtraUtilitiesModule.register();
 		
 		/* OpenBlocks */
-		//OpenBlocksModule.register();
+        //OpenBlocksModule.register();
 		
 		/* Railcraft */
-		//RailcraftModule.register();
+        //RailcraftModule.register();
 		
 		/* Steve's Carts */
-		//StevesCartsModule.register();
+        //StevesCartsModule.register();
 		
 		/* Secret Rooms */
-		//SecretRoomsModule.register();
+        //SecretRoomsModule.register();
 		
 		/* Carpenter's Blocks */
-		//CarpentersModule.register();
+        //CarpentersModule.register();
 
 		/* Pam's HarvestCraft */
-		//HarvestcraftModule.register();
+        //HarvestcraftModule.register();
 		
 		/* Magical crops */
-		//MagicalCropsModule.register();
+        //MagicalCropsModule.register();
 		
 		/* Statues */
-		//StatuesModule.register();
+        //StatuesModule.register();
 		
 		/* Agriculture */
-		AgricultureModule.register();		
-		
-		if(Loader.isModLoaded("ForgeMultipart")){
-			HUDHandlerFMP.register();
-			DecoratorFMP.register();
-		}
-		
-		//ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerBlocks(),   Block.class);
-		//ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerBlocks(),   TileEntity.class);
-	}
-	
-	public void registerIMCs(){
-		for (String s : ModuleRegistrar.instance().IMCRequests.keySet()){
-			this.callbackRegistration(s, ModuleRegistrar.instance().IMCRequests.get(s));
-		}
-	}
-	
-	public void callbackRegistration(String method, String modname){
-		String[] splitName = method.split("\\.");
-		String methodName = splitName[splitName.length-1];
-		String className  = method.substring(0, method.length()-methodName.length()-1);
-		
-		Waila.log.info(String.format("Trying to reflect %s %s", className, methodName));
-		
-		try{
-			Class  reflectClass  = Class.forName(className);
-			Method reflectMethod = reflectClass.getDeclaredMethod(methodName, IWailaRegistrar.class);
-			reflectMethod.invoke(null, (IWailaRegistrar)ModuleRegistrar.instance());
-			
-			Waila.log.info(String.format("Success in registering %s", modname));
-			
-		} catch (ClassNotFoundException e){
-			Waila.log.warn(String.format("Could not find class %s", className));
-		} catch (NoSuchMethodException e){
-			Waila.log.warn(String.format("Could not find method %s", methodName));
-		} catch (Exception e){
-			Waila.log.warn(String.format("Exception while trying to access the method : %s", e.toString()));
-		}
-	}	
-	
-	
-	public Object getFont(){return null;}
+        AgricultureModule.register();
+
+        if (Loader.isModLoaded("ForgeMultipart")) {
+            HUDHandlerFMP.register();
+            DecoratorFMP.register();
+        }
+
+        //ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerBlocks(),   Block.class);
+        //ModuleRegistrar.instance().registerBodyProvider(new HUDHandlerBlocks(),   TileEntity.class);
+    }
+
+    public void registerIMCs() {
+        for (String s : ModuleRegistrar.instance().IMCRequests.keySet()) {
+            this.callbackRegistration(s, ModuleRegistrar.instance().IMCRequests.get(s));
+        }
+    }
+
+    public void callbackRegistration(String method, String modname) {
+        String[] splitName = method.split("\\.");
+        String methodName = splitName[splitName.length - 1];
+        String className = method.substring(0, method.length() - methodName.length() - 1);
+
+        Waila.log.info(String.format("Trying to reflect %s %s", className, methodName));
+
+        try {
+            Class reflectClass = Class.forName(className);
+            Method reflectMethod = reflectClass.getDeclaredMethod(methodName, IWailaRegistrar.class);
+            reflectMethod.invoke(null, (IWailaRegistrar) ModuleRegistrar.instance());
+
+            Waila.log.info(String.format("Success in registering %s", modname));
+
+        } catch (ClassNotFoundException e) {
+            Waila.log.warn(String.format("Could not find class %s", className));
+        } catch (NoSuchMethodException e) {
+            Waila.log.warn(String.format("Could not find method %s", methodName));
+        } catch (Exception e) {
+            Waila.log.warn(String.format("Exception while trying to access the method : %s", e.toString()));
+        }
+    }
+
+
+    public Object getFont() {
+        return null;
+    }
 }

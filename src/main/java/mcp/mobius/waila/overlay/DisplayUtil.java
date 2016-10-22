@@ -1,17 +1,5 @@
 package mcp.mobius.waila.overlay;
 
-import static mcp.mobius.waila.api.SpecialChars.patternIcon;
-import static mcp.mobius.waila.api.SpecialChars.patternMinecraft;
-import static mcp.mobius.waila.api.SpecialChars.patternRender;
-import static mcp.mobius.waila.api.SpecialChars.patternWaila;
-
-import java.awt.Dimension;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.regex.Matcher;
-
-import org.lwjgl.opengl.GL11;
-
 import mcp.mobius.waila.api.IWailaTooltipRenderer;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
@@ -26,10 +14,18 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
+import org.lwjgl.opengl.GL11;
+
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+
+import static mcp.mobius.waila.api.SpecialChars.*;
 
 public class DisplayUtil {
-    private static FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
     protected static RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
+    private static FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
 
     public static int getDisplayWidth(String s) {
         if (s == null || s.equals(""))
@@ -180,7 +176,7 @@ public class DisplayUtil {
             return;
 
         if (icon.bu != -1)
-        DisplayUtil.drawTexturedModalRect(x, y, icon.bu, icon.bv, sx, sy, icon.bsu, icon.bsv);
+            DisplayUtil.drawTexturedModalRect(x, y, icon.bu, icon.bv, sx, sy, icon.bsu, icon.bsv);
         DisplayUtil.drawTexturedModalRect(x, y, icon.u, icon.v, sx, sy, icon.su, icon.sv);
     }
 }

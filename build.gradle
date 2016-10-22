@@ -15,19 +15,9 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'java'
 apply plugin: 'maven'
 
-configurations {
-    deployerJars
-}
-
-/*
 repositories {
-	mavenLocal()
-    mavenCentral()
-    maven {
-        name = "chickenbones"
-        url = "http://chickenbones.net/maven/"
-    }
-}*/
+
+}
 
 version = "${waila_version}_${mc_version}"
 group= "mcp.mobius.waila"
@@ -35,7 +25,7 @@ archivesBaseName = "Waila"
 
 minecraft {
     version = "${mc_version}-${forge_version}"
-    mappings = "snapshot_20160518"
+    mappings = "snapshot_20161021"
     runDir = "run"
 	
     replace "@VERSION@", project.waila_version
@@ -43,10 +33,7 @@ minecraft {
 }
 
 dependencies {
-    //deobfCompile "codechicken:CodeChickenLib:${mc_version}-${ccl_version}:dev"
-    //deobfCompile "codechicken:CodeChickenCore:${mc_version}-${ccc_version}:dev"
-    //deobfCompile "codechicken:NotEnoughItems:${mc_version}-${nei_version}:dev"
-    deployerJars "org.apache.maven.wagon:wagon-ssh:2.2"
+
 }
 
 processResources{
@@ -69,33 +56,10 @@ jar {
     exclude "**/client/gui/inventory/GuiContainer.java" 
 }
 
-task devJar(type: Jar) {
-    from sourceSets.main.output
-    classifier = 'dev'
-}
-
 artifacts {
-    archives devJar
+
 }
 
 uploadArchives {
-	dependsOn 'build'
-    repositories.mavenDeployer {
-        configuration = configurations.deployerJars
-        repository(url: "scp://mobiusstrip.eu/home/mobius/web/maven"){
-            authentication(userName: "mobius")
-        }
 
-        pom {
-            groupId = project.group
-            version = project.version
-            artifactId = project.archivesBaseName
-            project {
-                name project.archivesBaseName
-                packaging 'jar'
-                description 'Waila '
-                url 'http://mobiusstrip.eu'        
-            }
-        }
-    }
 }

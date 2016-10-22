@@ -4,12 +4,13 @@ import java.util.ArrayList;
 
 public class Test {
 
-	public static ArrayList<TrueTypeFont> testFonts = new ArrayList<TrueTypeFont>();
-	public static float[] white = {1f,1f,1f,1f};
-	public static boolean init = false;
-	public static void initTest(){
-		return;
-		/*
+    public static ArrayList<TrueTypeFont> testFonts = new ArrayList<TrueTypeFont>();
+    public static float[] white = {1f, 1f, 1f, 1f};
+    public static boolean init = false;
+
+    public static void initTest() {
+        return;
+        /*
 		 GraphicsEnvironment e = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		 Font[] fonts = e.getAllFonts();
 		 {
@@ -45,5 +46,5 @@ public class Test {
 			int x = 10;	
 			FontHelper.drawString("He"+EnumChatFormatting.GOLD+"llo "+EnumChatFormatting.GREEN+"wor"+EnumChatFormatting.YELLOW+"ld", x, y, testFonts.get(i), 1f, 1f);
 		}*/
-	}
+    }
 }

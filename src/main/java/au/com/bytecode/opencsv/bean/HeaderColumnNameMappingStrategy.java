@@ -1,5 +1,7 @@
 package au.com.bytecode.opencsv.bean;
 
+import au.com.bytecode.opencsv.CSVReader;
+
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
@@ -7,8 +9,6 @@ import java.beans.PropertyDescriptor;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
-import au.com.bytecode.opencsv.CSVReader;
 
 /**
  * Copyright 2007 Kyle Miller.

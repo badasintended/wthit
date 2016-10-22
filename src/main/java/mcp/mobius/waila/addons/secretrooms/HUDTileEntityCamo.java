@@ -1,7 +1,5 @@
 package mcp.mobius.waila.addons.secretrooms;
 
-import java.util.List;
-
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
@@ -12,11 +10,13 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import java.util.List;
+
 public class HUDTileEntityCamo implements IWailaDataProvider {
 
-	@Override
-	public ItemStack getWailaStack(IWailaDataAccessor accessor,	IWailaConfigHandler config) {
-		/*
+    @Override
+    public ItemStack getWailaStack(IWailaDataAccessor accessor, IWailaConfigHandler config) {
+        /*
 		if (!config.getConfig("secretrooms.hide")) return null;
 		
 		if ( SecretRoomsModule.BlockCamoTrapDoor.isInstance(accessor.getBlock()) ){
@@ -38,26 +38,26 @@ public class HUDTileEntityCamo implements IWailaDataProvider {
 			}
 		}
 		*/
-		return null;
-	}
+        return null;
+    }
 
-	@Override
-	public List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
-		return currenttip;
-	}
+    @Override
+    public List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
+        return currenttip;
+    }
 
-	@Override
-	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
-		return currenttip;
-	}
+    @Override
+    public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
+        return currenttip;
+    }
 
-	@Override
-	public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
-		return currenttip;
-	}
+    @Override
+    public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
+        return currenttip;
+    }
 
-	private ItemStack getTrapDoorBlock(IWailaDataAccessor accessor){
-		// modify coordinates to get hinge Block.
+    private ItemStack getTrapDoorBlock(IWailaDataAccessor accessor) {
+        // modify coordinates to get hinge Block.
 		/*
 		int i = accessor.getMetadata();
 		int j = accessor.getPosition().blockX;
@@ -88,14 +88,14 @@ public class HUDTileEntityCamo implements IWailaDataProvider {
 		
 		return new ItemStack(blockID, 1, blockMeta);
 		*/
-		return null;
-	}
-	
-	@Override
-	public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
-		if (te != null)
-			te.writeToNBT(tag);
-		return tag;
-	}	
-	
+        return null;
+    }
+
+    @Override
+    public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
+        if (te != null)
+            te.writeToNBT(tag);
+        return tag;
+    }
+
 }

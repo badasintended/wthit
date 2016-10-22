@@ -1,11 +1,5 @@
 package mcp.mobius.waila.handlers;
 
-import static mcp.mobius.waila.api.SpecialChars.BLUE;
-import static mcp.mobius.waila.api.SpecialChars.ITALIC;
-import static mcp.mobius.waila.api.SpecialChars.RENDER;
-
-import java.util.List;
-
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
@@ -22,76 +16,76 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.config.Configuration;
 
+import java.util.List;
+
+import static mcp.mobius.waila.api.SpecialChars.*;
+
 public class HUDHandlerBlocks implements IWailaDataProvider {
 
-	@Override
-	public ItemStack getWailaStack(IWailaDataAccessor accessor,	IWailaConfigHandler config) {
-		return null;
-	}
+    @Override
+    public ItemStack getWailaStack(IWailaDataAccessor accessor, IWailaConfigHandler config) {
+        return null;
+    }
 
-	@Override
-	public List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
+    @Override
+    public List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
 
         String name = null;
-        try
-        {
+        try {
             String s = DisplayUtil.itemDisplayNameShort(itemStack);
-            if(s != null && !s.endsWith("Unnamed"))
+            if (s != null && !s.endsWith("Unnamed"))
                 name = s;
 
-            if(name != null)
+            if (name != null)
                 currenttip.add(name);
-        }
-        catch(Exception e)
-        {
+        } catch (Exception e) {
         }
 
-        if(itemStack.getItem() == Items.REDSTONE)
-        {
+        if (itemStack.getItem() == Items.REDSTONE) {
             int md = accessor.getMetadata();
-            String s = ""+md;
-            if(s.length() < 2)
-                s=" "+s;
-            currenttip.set(currenttip.size()-1, name+" "+s);
-        }		
-		
-		if (currenttip.size() == 0)
-			currenttip.add("< Unnamed >");
-		else{
-			if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATA, true)){
-				currenttip.add(String.format(ITALIC + "< Unimplemented >"));
-				//currenttip.add(String.format(ITALIC + "[%s:%d] | %s",  accessor.getBlock().getStateId(accessor.getBlockState()), accessor.getMetadata()/*, accessor.getBlockQualifiedName()*/));
-			}
-		}		
-		return currenttip;
-	}
+            String s = "" + md;
+            if (s.length() < 2)
+                s = " " + s;
+            currenttip.set(currenttip.size() - 1, name + " " + s);
+        }
 
-	@Override
-	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
-		/*
+        if (currenttip.size() == 0)
+            currenttip.add("< Unnamed >");
+        else {
+            if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATA, true)) {
+                currenttip.add(String.format(ITALIC + "< Unimplemented >"));
+                //currenttip.add(String.format(ITALIC + "[%s:%d] | %s",  accessor.getBlock().getStateId(accessor.getBlockState()), accessor.getMetadata()/*, accessor.getBlockQualifiedName()*/));
+            }
+        }
+        return currenttip;
+    }
+
+    @Override
+    public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
+        /*
 		if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHIFTBLOCK, false) && currenttip.size() > 0 && !accessor.getPlayer().isSneaking()){
 			currenttip.clear();
 			currenttip.add(ITALIC + "Press shift for more data");
 			return currenttip;
 		}
 		*/
-		return currenttip;
-	}
+        return currenttip;
+    }
 
-	@Override
-	public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
-		currenttip.add(RENDER + "{Plip}" + RENDER + "{Plop,thisisatest,222,333}");		
-		
-		String modName = ModIdentification.nameFromStack(itemStack);
-		if (modName != null && !modName.equals("")){
-			currenttip.add(BLUE + ITALIC + modName);
-		}
-		
-		return currenttip;
-	}
+    @Override
+    public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
+        currenttip.add(RENDER + "{Plip}" + RENDER + "{Plop,thisisatest,222,333}");
 
-	@Override
-	public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
-		return tag;
-	}
+        String modName = ModIdentification.nameFromStack(itemStack);
+        if (modName != null && !modName.equals("")) {
+            currenttip.add(BLUE + ITALIC + modName);
+        }
+
+        return currenttip;
+    }
+
+    @Override
+    public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
+        return tag;
+    }
 }

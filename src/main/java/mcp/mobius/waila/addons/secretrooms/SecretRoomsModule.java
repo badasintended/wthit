@@ -2,12 +2,12 @@ package mcp.mobius.waila.addons.secretrooms;
 
 public class SecretRoomsModule {
 
-	public static Class  TileEntityCamo = null;
-	public static Class  BlockTorchLever = null;
-	public static Class  BlockCamoTrapDoor = null;
-	
-	public static void register(){
-		/*
+    public static Class TileEntityCamo = null;
+    public static Class BlockTorchLever = null;
+    public static Class BlockCamoTrapDoor = null;
+
+    public static void register() {
+        /*
 		try{
 			Class SecretRooms = Class.forName("com.github.AbrarSyed.secretroomsmod.common.SecretRooms");
 			Waila.log.log(Level.INFO, "SecretRooms mod found.");
@@ -36,6 +36,6 @@ public class SecretRoomsModule {
 		ModuleRegistrar.instance().registerSyncedNBTKey("copyID",   TileEntityCamo);
 		ModuleRegistrar.instance().registerSyncedNBTKey("copyMeta", TileEntityCamo);
 		*/
-	}		
-	
+    }
+
 }

@@ -8,16 +8,16 @@ import mcp.mobius.waila.gui.widgets.LabelFixedFont;
 import mcp.mobius.waila.gui.widgets.WidgetGeometry;
 
 public class ButtonLabel extends ButtonBase {
-	
-	public ButtonLabel(IWidget parent, String text){
-		super(parent);
-		
-		this.addWidget("Label", new LabelFixedFont(this, text));
-		this.getWidget("Label").setGeometry(new WidgetGeometry(50.0D, 50.0D, 100.0D, 20.0D, CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));		
-	}
-	
-	@Override
-	public void onMouseClick(MouseEvent event){
-		super.onMouseClick(event);			
-	}
+
+    public ButtonLabel(IWidget parent, String text) {
+        super(parent);
+
+        this.addWidget("Label", new LabelFixedFont(this, text));
+        this.getWidget("Label").setGeometry(new WidgetGeometry(50.0D, 50.0D, 100.0D, 20.0D, CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));
+    }
+
+    @Override
+    public void onMouseClick(MouseEvent event) {
+        super.onMouseClick(event);
+    }
 }

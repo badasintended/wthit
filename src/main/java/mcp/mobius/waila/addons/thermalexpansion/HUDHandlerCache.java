@@ -1,8 +1,5 @@
 package mcp.mobius.waila.addons.thermalexpansion;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.List;
-
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
@@ -17,30 +14,34 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.GameData;
 
+import java.lang.reflect.InvocationTargetException;
+import java.util.List;
+
 public class HUDHandlerCache implements IWailaDataProvider {
 
-	@Override
-	public ItemStack getWailaStack(IWailaDataAccessor accessor,	IWailaConfigHandler config) { return null; }
+    @Override
+    public ItemStack getWailaStack(IWailaDataAccessor accessor, IWailaConfigHandler config) {
+        return null;
+    }
 
-	@Override
-	public List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
-		if(!config.getConfig("thermalexpansion.cache"))
+    @Override
+    public List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
+        if (!config.getConfig("thermalexpansion.cache"))
             return currenttip;
         try {
             ItemStack storedItem = null;
-            if(accessor.getNBTData().hasKey("Item"))
+            if (accessor.getNBTData().hasKey("Item"))
                 storedItem = readItemStack(accessor.getNBTData().getCompoundTag("Item"));
 
             String name = currenttip.get(0);
             String color = "";
-            if(name.startsWith("\u00a7"))
+            if (name.startsWith("\u00a7"))
                 color = name.substring(0, 2);
 
-            if(storedItem != null) {
+            if (storedItem != null) {
                 String namex = String.valueOf(GameData.getItemRegistry().getNameForObject(storedItem.getItem()));
                 name += String.format(" < " + SpecialChars.getRenderString("waila.stack", "1", namex, "0", String.valueOf(storedItem.getItemDamage())) + color + " %s >", storedItem.getDisplayName());
-            }
-            else
+            } else
                 name += " " + LangUtil.translateG("hud.msg.empty");
 
             currenttip.set(0, name);
@@ -49,43 +50,42 @@ public class HUDHandlerCache implements IWailaDataProvider {
         }
 
         return currenttip;
-	}
+    }
 
-	@Override
-	public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
+    @Override
+    public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
         if (!config.getConfig("thermalexpansion.cache"))
             return currenttip;
 
         NBTTagCompound tag = accessor.getNBTData();
         ItemStack storedItem = null;
-        if(tag.hasKey("Item"))
+        if (tag.hasKey("Item"))
             storedItem = readItemStack(tag.getCompoundTag("Item"));
 
         int stored = 0;
         int maxStored = 0;
-        if(tag.hasKey("Stored"))
+        if (tag.hasKey("Stored"))
             stored = tag.getInteger("Stored");
-        if(tag.hasKey("MaxStored"))
+        if (tag.hasKey("MaxStored"))
             maxStored = tag.getInteger("MaxStored");
 
-        if(storedItem != null) {
+        if (storedItem != null) {
             currenttip.add("Stored: " + stored + "/" + maxStored);
-        }
-        else
+        } else
             currenttip.add("Capacity: " + maxStored);
 
 
-		return currenttip;
-	}
+        return currenttip;
+    }
 
-	@Override
-	public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor,	IWailaConfigHandler config) {
-		return currenttip;
-	}
+    @Override
+    public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
+        return currenttip;
+    }
 
-	@Override
-	public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
-		if(te != null)
+    @Override
+    public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
+        if (te != null)
             te.writeToNBT(tag);
         try {
             tag.setInteger("MaxStored", (Integer) ThermalExpansionModule.TileCache_getMaxStored.invoke(te));
@@ -96,7 +96,7 @@ public class HUDHandlerCache implements IWailaDataProvider {
             e.printStackTrace();
         }
         return tag;
-	}
+    }
 
     public ItemStack readItemStack(NBTTagCompound tag) {
         ItemStack is = new ItemStack(Item.getItemById(tag.getShort("id")));
@@ -108,5 +108,5 @@ public class HUDHandlerCache implements IWailaDataProvider {
 
         return is;
     }
-	
+
 }

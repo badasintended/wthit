@@ -1,19 +1,19 @@
 package au.com.bytecode.opencsv;
 
 /**
- Copyright 2005 Bytecode Pty Ltd.
-
- Licensed under the Apache License, Version 2.0 (the "License");
- you may not use this file except in compliance with the License.
- You may obtain a copy of the License at
-
- http://www.apache.org/licenses/LICENSE-2.0
-
- Unless required by applicable law or agreed to in writing, software
- distributed under the License is distributed on an "AS IS" BASIS,
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and
- limitations under the License.
+ * Copyright 2005 Bytecode Pty Ltd.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 import java.io.IOException;
@@ -29,56 +29,43 @@ import java.util.List;
  */
 public class CSVParser {
 
-    private final char separator;
-
-    private final char quotechar;
-
-    private final char escape;
-
-    private final boolean strictQuotes;
-
-    private String pending;
-    private boolean inField = false;
-
-    private final boolean ignoreLeadingWhiteSpace;
-
     /**
      * The default separator to use if none is supplied to the constructor.
      */
     public static final char DEFAULT_SEPARATOR = ',';
-
     public static final int INITIAL_READ_SIZE = 128;
-
     /**
      * The default quote character to use if none is supplied to the
      * constructor.
      */
     public static final char DEFAULT_QUOTE_CHARACTER = '"';
-
-
     /**
      * The default escape character to use if none is supplied to the
      * constructor.
      */
     public static final char DEFAULT_ESCAPE_CHARACTER = '\\';
-
     /**
      * The default strict quote behavior to use if none is supplied to the
      * constructor
      */
     public static final boolean DEFAULT_STRICT_QUOTES = false;
-
     /**
      * The default leading whitespace behavior to use if none is supplied to the
      * constructor
      */
     public static final boolean DEFAULT_IGNORE_LEADING_WHITESPACE = true;
-
     /**
      * This is the "null" character - if a value is set to this then it is ignored.
      * I.E. if the quote character is set to null then there is no quote character.
      */
     public static final char NULL_CHARACTER = '\0';
+    private final char separator;
+    private final char quotechar;
+    private final char escape;
+    private final boolean strictQuotes;
+    private final boolean ignoreLeadingWhiteSpace;
+    private String pending;
+    private boolean inField = false;
 
     /**
      * Constructs CSVParser using a comma for the separator.
