@@ -1,5 +1,6 @@
 package mcp.mobius.waila.server;
 
+import com.google.common.base.Stopwatch;
 import com.google.common.base.Strings;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IWailaPlugin;
@@ -23,11 +24,12 @@ public class ProxyServer {
                     requiredMod = "anything";
                 Waila.log.info("Attempting to register plugin for {} from {}", requiredMod, data.getClassName());
                 if (Loader.isModLoaded(requiredMod) || requiredMod.equalsIgnoreCase("anything")) {
+                    Stopwatch stopwatch = Stopwatch.createStarted();
                     Class<?> asmClass = Class.forName(data.getClassName());
                     if (IWailaPlugin.class.isAssignableFrom(asmClass)) {
                         IWailaPlugin wailaPlugin = (IWailaPlugin) asmClass.newInstance();
                         wailaPlugin.register(ModuleRegistrar.instance());
-                        Waila.log.info("Registered plugin for {} from {}", requiredMod, data.getClassName());
+                        Waila.log.info("Registered plugin for {} from {} in {}", requiredMod, data.getClassName(), stopwatch.stop());
                     } else Waila.log.error("{} attempted to register a plugin for {} that did not implement IWailaPlugin", data.getClassName(), requiredMod);
                 } else Waila.log.error("{} is not loaded. Passing over plugin.", requiredMod);
             } catch (Exception e) {
