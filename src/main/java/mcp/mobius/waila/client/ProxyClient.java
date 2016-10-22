@@ -34,6 +34,7 @@ public class ProxyClient extends ProxyServer {
 
         MinecraftForge.EVENT_BUS.register(new VanillaTooltipHandler());
 
+        ModuleRegistrar.instance().registerStackProvider(new HUDHandlerBlocks(), Block.class);
         ModuleRegistrar.instance().registerHeadProvider(new HUDHandlerBlocks(), Block.class);
         ModuleRegistrar.instance().registerTailProvider(new HUDHandlerBlocks(), Block.class);
 

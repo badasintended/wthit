@@ -2,6 +2,7 @@ package mcp.mobius.waila.utils;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.ForgeModContainer;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.ModContainer;
 
@@ -13,7 +14,8 @@ public class ModIdentification {
     public static Map<String, ModContainer> containers = new HashMap<String, ModContainer>();
 
     public static void init() {
-
+        containers.put("minecraft", Loader.instance().getMinecraftModContainer());
+        containers.put("forge", ForgeModContainer.getInstance());
     }
 
     public static String nameFromStack(ItemStack stack) {

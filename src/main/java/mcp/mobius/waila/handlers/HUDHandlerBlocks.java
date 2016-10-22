@@ -8,14 +8,22 @@ import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockLiquid;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeModContainer;
 import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.IFluidBlock;
+import net.minecraftforge.fluids.UniversalBucket;
 
 import java.util.List;
 
@@ -25,11 +33,15 @@ public class HUDHandlerBlocks implements IWailaDataProvider {
 
     @Override
     public ItemStack getWailaStack(IWailaDataAccessor accessor, IWailaConfigHandler config) {
+        if (accessor.getBlockState().getMaterial().isLiquid())
+            return getStackFromLiquid(accessor.getStack(), accessor.getBlockState());
         return null;
     }
 
     @Override
     public List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
+        if (accessor.getBlockState().getMaterial().isLiquid())
+            itemStack = getStackFromLiquid(itemStack, accessor.getBlockState());
 
         String name = null;
         try {
@@ -68,6 +80,9 @@ public class HUDHandlerBlocks implements IWailaDataProvider {
     public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
         currenttip.add(RENDER + "{Plip}" + RENDER + "{Plop,thisisatest,222,333}");
 
+        if (accessor.getBlockState().getMaterial().isLiquid())
+            itemStack = getStackFromLiquid(itemStack, accessor.getBlockState());
+
         String modName = ModIdentification.nameFromStack(itemStack);
         if (modName != null && !modName.equals("")) {
             currenttip.add(BLUE + ITALIC + modName);
@@ -79,5 +94,24 @@ public class HUDHandlerBlocks implements IWailaDataProvider {
     @Override
     public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
         return tag;
+    }
+
+    private static ItemStack getStackFromLiquid(ItemStack stack, IBlockState state) {
+        Fluid fluid = null;
+        boolean vanilla = false;
+        ItemStack ret = null;
+        if (state.getBlock() instanceof BlockLiquid) {
+            Block fluidBlock = BlockLiquid.getStaticBlock(state.getMaterial());
+            fluid = fluidBlock == Blocks.WATER ? FluidRegistry.WATER : FluidRegistry.LAVA;
+            vanilla = true;
+        } else if (state.getBlock() instanceof IFluidBlock) fluid = ((IFluidBlock) state.getBlock()).getFluid();
+
+        if (fluid != null) {
+            if (FluidRegistry.isUniversalBucketEnabled())
+                ret = UniversalBucket.getFilledBucket(ForgeModContainer.getInstance().universalBucket, fluid);
+            else if (vanilla)
+                ret = fluid == FluidRegistry.WATER ? new ItemStack(Items.WATER_BUCKET) : new ItemStack(Items.LAVA_BUCKET);
+        }
+        return ret != null ? ret : stack;
     }
 }
