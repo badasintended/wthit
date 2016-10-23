@@ -23,14 +23,15 @@ public class ModIdentification {
             return "";
 
         ResourceLocation resource = stack.getItem().getRegistryName();
-        ModContainer container = containers.get(resource.getResourceDomain());
-        if (container == null)
-            container = findModContainer(resource.getResourceDomain());
+        ModContainer container = findModContainer(resource.getResourceDomain());
 
         return container == null ? "Minecraft" : container.getName();
     }
 
     public static ModContainer findModContainer(String modID) {
+        if (containers.get(modID) != null)
+            return containers.get(modID);
+
         for (ModContainer container : Loader.instance().getModList()) {
             if (modID.equalsIgnoreCase(container.getModId())) {
                 containers.put(modID, container);
