@@ -175,16 +175,23 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
         Block block = accessor.getBlock();
 
         // Displays maturity percentage
-        boolean iscrop = BlockCrops.class.isInstance(block); // Done to cover all inheriting mods
-        if (config.getConfig("general.showcrop")) {
-            if (iscrop || block == melonStem || block == pumpkinStem) {
-                float growthValue = (accessor.getMetadata() / (float) ((BlockCrops) block).getMaxAge()) * 100.0F;
-                if (growthValue < 100.0)
-                    currenttip.add(String.format("%s : %.0f %%", LangUtil.translateG("hud.msg.growth"), growthValue));
-                else
-                    currenttip.add(String.format("%s : %s", LangUtil.translateG("hud.msg.growth"), LangUtil.translateG("hud.msg.mature")));
-                return currenttip;
-            }
+        if (config.getConfig("general.showcrop") && BlockCrops.class.isInstance(block)) {
+            float growthValue = (accessor.getMetadata() / (float) ((BlockCrops) block).getMaxAge()) * 100.0F;
+            if (growthValue < 100.0)
+                currenttip.add(String.format("%s : %.0f %%", LangUtil.translateG("hud.msg.growth"), growthValue));
+            else
+                currenttip.add(String.format("%s : %s", LangUtil.translateG("hud.msg.growth"), LangUtil.translateG("hud.msg.mature")));
+            return currenttip;
+        }
+
+        // Displays maturity percentage
+        if (block == melonStem || block == pumpkinStem) {
+            float growthValue = (accessor.getMetadata() / 7F) * 100.0F;
+            if (growthValue < 100.0)
+                currenttip.add(String.format("%s : %.0f %%", LangUtil.translateG("hud.msg.growth"), growthValue));
+            else
+                currenttip.add(String.format("%s : %s", LangUtil.translateG("hud.msg.growth"), LangUtil.translateG("hud.msg.mature")));
+            return currenttip;
         }
 
         // Displays maturity percentage
