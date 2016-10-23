@@ -1,5 +1,6 @@
 package mcp.mobius.waila.handlers;
 
+import com.google.common.base.Strings;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
@@ -82,9 +83,8 @@ public class HUDHandlerBlocks implements IWailaDataProvider {
             itemStack = getStackFromLiquid(itemStack, accessor.getBlockState());
 
         String modName = ModIdentification.nameFromStack(itemStack);
-        if (modName != null && !modName.equals("")) {
-            currenttip.add(BLUE + ITALIC + modName);
-        }
+        if (!Strings.isNullOrEmpty(modName))
+            currenttip.add(VanillaTooltipHandler.namePrefix + modName);
 
         return currenttip;
     }

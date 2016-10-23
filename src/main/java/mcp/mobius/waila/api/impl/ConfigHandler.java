@@ -3,6 +3,7 @@ package mcp.mobius.waila.api.impl;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.handlers.HUDHandlerEntities;
+import mcp.mobius.waila.handlers.VanillaTooltipHandler;
 import mcp.mobius.waila.overlay.OverlayConfig;
 import mcp.mobius.waila.utils.Constants;
 import net.minecraftforge.common.config.Configuration;
@@ -157,6 +158,8 @@ public class ConfigHandler implements IWailaConfigHandler {
         OverlayConfig.gradient2 = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_GRADIENT2, 0x28007f).getInt();
         OverlayConfig.fontcolor = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_FONTCOLOR, 0xA0A0A0).getInt();
         OverlayConfig.scale = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SCALE, 100).getInt() / 100.0f;
+
+        VanillaTooltipHandler.namePrefix = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_NAMEPREFIX, "\u00a79\u00a7o").getString();
 
         HUDHandlerEntities.nhearts = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_NHEARTS, 20).getInt();
         HUDHandlerEntities.maxhpfortext = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_MAXHP, 40).getInt();
