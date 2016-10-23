@@ -96,6 +96,9 @@ hud.msg.toomuch=Too many...
 hud.msg.offers=Offers
 hud.msg.demands=Demands
 
+hud.item.melonstem=Melon Stem
+hud.item.pumpkinstem=Pumpkin Stem
+
 option.appeng.monitorcontent=Monitor's content
 option.bb.content=Barrel's content
 option.bc.tankamount=Liquid amount
