@@ -19,7 +19,7 @@ public interface IWailaEntityProvider {
 
     /**
      * Callback used to override the default Waila lookup system.</br>
-     * Will be used if the implementing class is registered via {@link IWailaRegistrar}.{@link registerOverrideEntityProvider}.</br>
+     * Will be used if the implementing class is registered via {@link IWailaRegistrar#registerOverrideEntityProvider}.</br>
      *
      * @param accessor Contains most of the relevant information about the current environment.
      * @param config   Current configuration of Waila.
@@ -29,7 +29,7 @@ public interface IWailaEntityProvider {
 
     /**
      * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).</br>
-     * Will be used if the implementing class is registered via {@link IWailaRegistrar}.{@link registerHeadProvider} client side.</br>
+     * Will be used if the implementing class is registered via {@link IWailaRegistrar#registerHeadProvider} client side.</br>
      * You are supposed to always return the modified input currenttip.</br>
      *
      * @param entity     Current Entity scanned.
@@ -42,7 +42,7 @@ public interface IWailaEntityProvider {
 
     /**
      * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).</br>
-     * Will be used if the implementing class is registered via {@link IWailaRegistrar}.{@link registerBodyProvider} client side.</br>
+     * Will be used if the implementing class is registered via {@link IWailaRegistrar#registerBodyProvider} client side.</br>
      * You are supposed to always return the modified input currenttip.</br>
      *
      * @param entity     Current Entity scanned.
@@ -55,7 +55,7 @@ public interface IWailaEntityProvider {
 
     /**
      * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).</br>
-     * Will be used if the implementing class is registered via {@link IWailaRegistrar}.{@link registerTailProvider} client side.</br>
+     * Will be used if the implementing class is registered via {@link IWailaRegistrar#registerTailProvider} client side.</br>
      * You are supposed to always return the modified input currenttip.</br>
      *
      * @param entity     Current Entity scanned.
@@ -68,7 +68,7 @@ public interface IWailaEntityProvider {
 
     /**
      * Callback used server side to return a custom synchronization NBTTagCompound.</br>
-     * Will be used if the implementing class is registered via {@link IWailaRegistrar}.{@link registerNBTProvider} server and client side.</br>
+     * Will be used if the implementing class is registered via {@link IWailaRegistrar#registerNBTProvider} server and client side.</br>
      * You are supposed to always return the modified input NBTTagCompound tag.</br>
      *
      * @param player The player requesting data synchronization (The owner of the current connection).
