@@ -2,14 +2,21 @@ package mcp.mobius.waila.client;
 
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.gui.screens.config.ScreenConfig;
+import mcp.mobius.waila.handlers.JEIHandler;
+import mcp.mobius.waila.overlay.RayTracing;
 import mcp.mobius.waila.utils.Constants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemStack;
+import net.minecraftforge.client.settings.KeyConflictContext;
+import net.minecraftforge.client.settings.KeyModifier;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
@@ -23,11 +30,11 @@ public class KeyEvent {
     public static KeyBinding key_usage;
 
     public KeyEvent() {
-        KeyEvent.key_cfg = new KeyBinding(Constants.BIND_WAILA_CFG, Keyboard.KEY_NUMPAD0, "Waila");
-        KeyEvent.key_show = new KeyBinding(Constants.BIND_WAILA_SHOW, Keyboard.KEY_NUMPAD1, "Waila");
-        KeyEvent.key_liquid = new KeyBinding(Constants.BIND_WAILA_LIQUID, Keyboard.KEY_NUMPAD2, "Waila");
-        KeyEvent.key_recipe = new KeyBinding(Constants.BIND_WAILA_RECIPE, Keyboard.KEY_NUMPAD3, "Waila");
-        KeyEvent.key_usage = new KeyBinding(Constants.BIND_WAILA_USAGE, Keyboard.KEY_NUMPAD4, "Waila");
+        KeyEvent.key_cfg = new KeyBinding(Constants.BIND_WAILA_CFG, KeyConflictContext.IN_GAME, KeyModifier.NONE, Keyboard.KEY_NUMPAD0, "Waila");
+        KeyEvent.key_show = new KeyBinding(Constants.BIND_WAILA_SHOW, KeyConflictContext.IN_GAME, KeyModifier.NONE, Keyboard.KEY_NUMPAD1, "Waila");
+        KeyEvent.key_liquid = new KeyBinding(Constants.BIND_WAILA_LIQUID, KeyConflictContext.IN_GAME, KeyModifier.NONE, Keyboard.KEY_NUMPAD2, "Waila");
+        KeyEvent.key_recipe = new KeyBinding(Constants.BIND_WAILA_RECIPE, KeyConflictContext.IN_GAME, KeyModifier.NONE, Keyboard.KEY_NUMPAD3, "Waila");
+        KeyEvent.key_usage = new KeyBinding(Constants.BIND_WAILA_USAGE, KeyConflictContext.IN_GAME, KeyModifier.NONE, Keyboard.KEY_NUMPAD4, "Waila");
 
         ClientRegistry.registerKeyBinding(KeyEvent.key_cfg);
         ClientRegistry.registerKeyBinding(KeyEvent.key_show);
@@ -51,6 +58,18 @@ public class KeyEvent {
         } else if (key_liquid.isPressed()) {
             boolean status = ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID, true);
             ConfigHandler.instance().setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID, !status);
+        }
+
+        if (Loader.isModLoaded("JEI")) {
+            if (key_recipe.isPressed()) {
+                ItemStack targetStack = RayTracing.instance().getTargetStack();
+                if (targetStack != null)
+                    JEIHandler.displayRecipes(targetStack);
+            } else if (key_usage.isPressed()) {
+                ItemStack targetStack = RayTracing.instance().getTargetStack();
+                if (targetStack != null)
+                    JEIHandler.displayUses(targetStack);
+            }
         }
     }
 }

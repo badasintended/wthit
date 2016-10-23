@@ -15,10 +15,6 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'java'
 apply plugin: 'maven'
 
-repositories {
-
-}
-
 version = "${waila_version}_${mc_version}"
 group= "mcp.mobius.waila"
 archivesBaseName = "Waila"
@@ -32,8 +28,12 @@ minecraft {
     replaceIn "Waila.java"
 }
 
-dependencies {
+repositories {
+    maven { url "http://dvs1.progwml6.com/files/maven" }
+}
 
+dependencies {
+    deobfCompile "mezz.jei:jei_1.10.2:3.12.8.327"
 }
 
 processResources{

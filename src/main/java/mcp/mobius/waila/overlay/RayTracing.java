@@ -56,7 +56,7 @@ public class RayTracing {
     }
 
     public ItemStack getTargetStack() {
-        if (this.target.typeOfHit == RayTraceResult.Type.BLOCK)
+        if (this.target != null && this.target.typeOfHit == RayTraceResult.Type.BLOCK)
             this.targetStack = this.getIdentifierStack();
         else
             this.targetStack = null;
