@@ -51,11 +51,6 @@ processResources{
     }
 }
 
-jar { 
-    exclude "**/client/gui/inventory/GuiContainer.class" 
-    exclude "**/client/gui/inventory/GuiContainer.java" 
-}
-
 artifacts {
 
 }
