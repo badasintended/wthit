@@ -21,7 +21,9 @@ public class TTRenderStack implements IWailaTooltipRenderer {
 
     @Override
     public void draw(String[] params, IWailaCommonAccessor accessor) {
-        int type = Integer.valueOf(params[0]); //0 for block, 1 for item
+        int type = Integer.valueOf(params[0]); //0 for block, 1 for item, 2 for blank space
+        if (type == 2)
+            return;
         String name = params[1]; //Fully qualified name
         int amount = Integer.valueOf(params[2]);
         int meta = Integer.valueOf(params[3]);
