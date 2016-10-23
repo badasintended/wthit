@@ -129,6 +129,7 @@ option.vanilla.comparator=Comparator mode
 option.vanilla.redstone=Redstone power
 option.vanilla.jukebox=Jukebox disk
 option.vanilla.silverfish=Hide silverfish
+option.vanilla.furnacedisplay=Show furnace progress
 option.etb.displaydata=Show socket data
 option.enderio.inout=Show input/output
 option.enderio.storage=Show stored MJ
