@@ -15,7 +15,12 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'java'
 apply plugin: 'maven'
 
-version = "${waila_version}_${mc_version}"
+def build_number = 'CUSTOM'
+
+if (System.getenv('BUILD_NUMBER') != null)
+    build_number = System.getenv('BUILD_NUMBER')
+
+version = "${waila_version}-B${build_number}_${mc_version}"
 group= "mcp.mobius.waila"
 archivesBaseName = "Waila"
 
