@@ -1,8 +1,9 @@
-package mcp.mobius.waila.handlers;
+package mcp.mobius.waila.addons.core;
 
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaEntityAccessor;
 import mcp.mobius.waila.api.IWailaEntityProvider;
+import mcp.mobius.waila.handlers.VanillaTooltipHandler;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -17,6 +18,8 @@ import java.util.List;
 import static mcp.mobius.waila.api.SpecialChars.*;
 
 public class HUDHandlerEntities implements IWailaEntityProvider {
+
+    static final IWailaEntityProvider INSTANCE = new HUDHandlerEntities();
 
     public static int nhearts = 20;
     public static float maxhpfortext = 40.0f;

@@ -25,20 +25,21 @@ public class ModIdentification {
         ResourceLocation resource = stack.getItem().getRegistryName();
         ModContainer container = findModContainer(resource.getResourceDomain());
 
-        return container == null ? "Minecraft" : container.getName();
+        return container.getName();
     }
 
     public static ModContainer findModContainer(String modID) {
         if (containers.get(modID) != null)
             return containers.get(modID);
 
+        ModContainer modContainer = null;
         for (ModContainer container : Loader.instance().getModList()) {
             if (modID.equalsIgnoreCase(container.getModId())) {
                 containers.put(modID, container);
-                return container;
+                modContainer = container;
             }
         }
 
-        return null;
+        return modContainer == null ? Loader.instance().getMinecraftModContainer() : modContainer;
     }
 }

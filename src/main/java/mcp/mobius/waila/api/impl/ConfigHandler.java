@@ -2,7 +2,7 @@ package mcp.mobius.waila.api.impl;
 
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IWailaConfigHandler;
-import mcp.mobius.waila.handlers.HUDHandlerEntities;
+import mcp.mobius.waila.addons.core.HUDHandlerEntities;
 import mcp.mobius.waila.handlers.VanillaTooltipHandler;
 import mcp.mobius.waila.overlay.OverlayConfig;
 import mcp.mobius.waila.utils.Constants;

@@ -3,6 +3,7 @@ package mcp.mobius.waila.server;
 import com.google.common.base.Stopwatch;
 import com.google.common.base.Strings;
 import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.addons.core.PluginCore;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.api.IWailaRegistrar;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
@@ -17,6 +18,10 @@ public class ProxyServer {
     }
 
     public void registerMods() {
+        // Register core plugin to make sure it gets loaded before all others.
+        PluginCore core = new PluginCore();
+        core.register(ModuleRegistrar.instance());
+
         for (ASMDataTable.ASMData data : Waila.plugins) {
             try {
                 String requiredMod = (String) data.getAnnotationInfo().get("value");
