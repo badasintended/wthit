@@ -3,6 +3,7 @@ package mcp.mobius.waila.overlay;
 import mcp.mobius.waila.api.IWailaTooltipRenderer;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
+import mcp.mobius.waila.handlers.VanillaTooltipHandler;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -158,14 +159,14 @@ public class DisplayUtil {
 
         namelist.set(0, itemstack.getRarity().rarityColor.toString() + namelist.get(0));
         for (int i = 1; i < namelist.size(); i++)
-            namelist.set(i, "\u00a77" + namelist.get(i));
+            namelist.set(i, namelist.get(i));
 
         return namelist;
     }
 
     public static String itemDisplayNameShort(ItemStack itemstack) {
         List<String> list = itemDisplayNameMultiline(itemstack);
-        return list.get(0);
+        return String.format(VanillaTooltipHandler.objectNameWrapper, list.get(0));
     }
 
     public static void renderIcon(int x, int y, int sx, int sy, IconUI icon) {

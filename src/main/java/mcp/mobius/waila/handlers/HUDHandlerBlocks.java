@@ -4,7 +4,6 @@ import com.google.common.base.Strings;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
-import mcp.mobius.waila.api.SpecialChars;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.utils.Constants;
@@ -111,7 +110,7 @@ public class HUDHandlerBlocks implements IWailaDataProvider {
                 ret = fluid == FluidRegistry.WATER ? new ItemStack(Items.WATER_BUCKET) : new ItemStack(Items.LAVA_BUCKET);
 
             if (ret != null)
-                ret.setStackDisplayName(SpecialChars.RESET + SpecialChars.WHITE + fluid.getLocalizedName(new FluidStack(fluid, 1000)));
+                ret.setStackDisplayName(fluid.getLocalizedName(new FluidStack(fluid, 1000)));
         }
         return ret != null ? ret : stack;
     }
