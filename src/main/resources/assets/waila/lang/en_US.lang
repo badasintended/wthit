@@ -96,6 +96,8 @@ hud.msg.toomuch=Too many...
 hud.msg.offers=Offers
 hud.msg.demands=Demands
 
+hud.msg.career=Career: %s
+
 hud.item.melonstem=Melon Stem
 hud.item.pumpkinstem=Pumpkin Stem
 
