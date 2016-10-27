@@ -1,6 +1,10 @@
 # HWYLA [![Build Status](http://tehnut.info/jenkins/buildStatus/icon?job=HWYLA/1.10)](http://tehnut.info/jenkins/job/HWYLA/job/1.10/) [![License](https://img.shields.io/badge/license-CC%20BY--NC--SA%204.0-blue.svg)](https://tldrlegal.com/license/creative-commons-attribution-noncommercial-sharealike-4.0-international-(cc-by-nc-sa-4.0))
 
-A fork of [Waila by ProfMobius](https://minecraft.curseforge.com/projects/waila). This fork is allowable under the [license](https://github.com/TehNut/Waila-Reborn/blob/1.10/LICENSE.md).
+**Here's What You're Looking At** (Pronounced "Hwhy-la", similar to "Coo-Hwhip")
+
+A fork of [WAILA](https://minecraft.curseforge.com/projects/waila) by [ProfMobius](https://minecraft.curseforge.com/members/ProfMobius).
+
+This fork is permitted under the [CC BY-NC-SA 4.0](https://github.com/TehNut/HWYLA/blob/1.10/LICENSE.md) license.
 
 I intend to update this fork quickly and often.
 
@@ -13,6 +17,9 @@ This is a list of the primary changes and differences between the official Waila
 * Added a new plugin registration system
     * Use `@WailaPlugin` on an instance of `IWailaPlugin`
     * The annotation can take a String value for a required modid. Blank for any
+* Rewrote portions of `IWailaRegistrar` to be enum based
+    * Old registration methods are still there
+    * It is, in my opinion, a cleaner implementation
 * If fluid tooltips are enabled, they will now attempt to display the fluid inside a bucket.
 * Added native support for displaying tank information
     * Disabled by default so as to not clash with mods adding their own support
@@ -22,7 +29,7 @@ This is a list of the primary changes and differences between the official Waila
     * Did any of you even know this was a thing? I sure didn't
 * Maturity tooltips for crops now work correctly if the crop has a different max age.
 * Added config for the format used to display Block, Entity, and Mod names
-    * You can now change the color, add other text, etc.
+    * You can now wrap custom text around the name, with support for MOTD-like formatting codes.
     * See image below
 * Fixed the ID + Meta tooltip
     * No more `< UNIMPLEMENTED >` in your tooltips
