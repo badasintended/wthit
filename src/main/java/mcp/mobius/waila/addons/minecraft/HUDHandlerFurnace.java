@@ -9,7 +9,6 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -81,8 +80,6 @@ public class HUDHandlerFurnace implements IWailaDataProvider {
     public static void register(IWailaRegistrar registrar) {
         registrar.addConfig("VanillaMC", "vanilla.furnacedisplay", true);
 
-        registrar.registerBodyProvider(new HUDHandlerFurnace(), TileEntityFurnace.class);
-        registrar.registerNBTProvider(new HUDHandlerFurnace(), TileEntityFurnace.class);
-
+        registrar.registerProvider(new HUDHandlerFurnace(), TileEntityFurnace.class, TagLocation.BODY, TagLocation.DATA);
     }
 }

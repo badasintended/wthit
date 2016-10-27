@@ -98,7 +98,7 @@ public class ModuleRegistrar implements IWailaRegistrar {
     /* REGISTRATION METHODS */
 
     @Override
-    public void registerBlockProvider(IWailaDataProvider dataProvider, Class<? extends Block> blockClass, TagLocation... locations) {
+    public void registerProvider(IWailaDataProvider dataProvider, Class blockClass, TagLocation... locations) {
         for (TagLocation location : locations) {
             Map<Class, ArrayList<IWailaDataProvider>> registry = blockProviders.get(location);
             List<IWailaDataProvider> providers = registry.get(blockClass);
@@ -112,21 +112,7 @@ public class ModuleRegistrar implements IWailaRegistrar {
     }
 
     @Override
-    public void registerTileProvider(IWailaDataProvider dataProvider, Class<? extends TileEntity> tileClass, TagLocation... locations) {
-        for (TagLocation location : locations) {
-            Map<Class, ArrayList<IWailaDataProvider>> registry = blockProviders.get(location);
-            List<IWailaDataProvider> providers = registry.get(tileClass);
-            if (providers == null) {
-                registry.put(tileClass, Lists.newArrayList(dataProvider));
-                return;
-            }
-
-            providers.add(dataProvider);
-        }
-    }
-
-    @Override
-    public void registerEntityProvider(IWailaEntityProvider dataProvider, Class<? extends Entity> entityClass, TagLocation... locations) {
+    public void registerProvider(IWailaEntityProvider dataProvider, Class entityClass, TagLocation... locations) {
         for (TagLocation location : locations) {
             Map<Class, ArrayList<IWailaEntityProvider>> registry = entityProviders.get(location);
             List<IWailaEntityProvider> providers = registry.get(entityClass);

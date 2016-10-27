@@ -10,8 +10,8 @@ public class PluginCapability implements IWailaPlugin {
 
     @Override
     public void register(IWailaRegistrar registrar) {
-        registrar.registerBodyProvider(HUDHandlerTank.INSTANCE, TileEntity.class);
-        registrar.registerNBTProvider(HUDHandlerTank.INSTANCE, TileEntity.class);
+        registrar.registerProvider(HUDHandlerTank.INSTANCE, TileEntity.class);
+        registrar.registerProvider(HUDHandlerTank.INSTANCE, TileEntity.class);
 
         registrar.addConfig("Capability", "capability.tankinfo", false);
     }

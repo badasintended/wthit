@@ -29,8 +29,6 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
     static Block farmland = Blocks.FARMLAND;
     static Block melonStem = Blocks.MELON_STEM;
     static Block pumpkinStem = Blocks.PUMPKIN_STEM;
-    static Block carrot = Blocks.CARROTS;
-    static Block potato = Blocks.POTATOES;
     static Block lever = Blocks.LEVER;
     static Block repeaterIdle = Blocks.UNPOWERED_REPEATER;
     static Block repeaterActv = Blocks.POWERED_REPEATER;
@@ -293,46 +291,24 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
 
         IWailaDataProvider provider = new HUDHandlerVanilla();
 
-        registrar.registerStackProvider(provider, silverfish.getClass());
-        registrar.registerStackProvider(provider, flowerpot.getClass());
-        registrar.registerStackProvider(provider, crops.getClass());
-        registrar.registerStackProvider(provider, beet.getClass());
-        registrar.registerStackProvider(provider, farmland.getClass());
-
-        registrar.registerHeadProvider(provider, mobSpawner.getClass());
-        registrar.registerHeadProvider(provider, melonStem.getClass());
-        registrar.registerHeadProvider(provider, pumpkinStem.getClass());
-        registrar.registerHeadProvider(provider, redstone.getClass());
-
-        registrar.registerBodyProvider(provider, BlockCrops.class);
-        registrar.registerBodyProvider(provider, melonStem.getClass());
-        registrar.registerBodyProvider(provider, pumpkinStem.getClass());
-        registrar.registerBodyProvider(provider, cocoa.getClass());
-        registrar.registerBodyProvider(provider, netherwart.getClass());
-        registrar.registerBodyProvider(provider, lever.getClass());
-        registrar.registerBodyProvider(provider, repeaterIdle.getClass());
-        registrar.registerBodyProvider(provider, repeaterActv.getClass());
-        registrar.registerBodyProvider(provider, comparatorIdl.getClass());
-        registrar.registerBodyProvider(provider, comparatorAct.getClass());
-        registrar.registerBodyProvider(provider, redstone.getClass());
-        registrar.registerBodyProvider(provider, jukebox.getClass());
-
-        registrar.registerNBTProvider(provider, mobSpawner.getClass());
-        registrar.registerNBTProvider(provider, crops.getClass());
-        registrar.registerNBTProvider(provider, melonStem.getClass());
-        registrar.registerNBTProvider(provider, pumpkinStem.getClass());
-        registrar.registerNBTProvider(provider, carrot.getClass());
-        registrar.registerNBTProvider(provider, potato.getClass());
-        registrar.registerNBTProvider(provider, lever.getClass());
-        registrar.registerNBTProvider(provider, repeaterIdle.getClass());
-        registrar.registerNBTProvider(provider, repeaterActv.getClass());
-        registrar.registerNBTProvider(provider, comparatorIdl.getClass());
-        registrar.registerNBTProvider(provider, comparatorAct.getClass());
-        registrar.registerNBTProvider(provider, redstone.getClass());
-        registrar.registerNBTProvider(provider, jukebox.getClass());
-        registrar.registerNBTProvider(provider, cocoa.getClass());
-        registrar.registerNBTProvider(provider, netherwart.getClass());
-        registrar.registerNBTProvider(provider, silverfish.getClass());
+        registrar.registerProvider(provider, silverfish.getClass(), TagLocation.STACK, TagLocation.DATA);
+        registrar.registerProvider(provider, flowerpot.getClass(), TagLocation.STACK);
+        registrar.registerProvider(provider, crops.getClass(), TagLocation.STACK, TagLocation.DATA);
+        registrar.registerProvider(provider, beet.getClass(), TagLocation.STACK);
+        registrar.registerProvider(provider, farmland.getClass(), TagLocation.STACK);
+        registrar.registerProvider(provider, mobSpawner.getClass(), TagLocation.HEAD, TagLocation.DATA);
+        registrar.registerProvider(provider, BlockCrops.class, TagLocation.BODY, TagLocation.DATA);
+        registrar.registerProvider(provider, melonStem.getClass(), TagLocation.HEAD, TagLocation.BODY, TagLocation.DATA);
+        registrar.registerProvider(provider, pumpkinStem.getClass(), TagLocation.HEAD, TagLocation.BODY, TagLocation.DATA);
+        registrar.registerProvider(provider, cocoa.getClass(), TagLocation.BODY, TagLocation.DATA);
+        registrar.registerProvider(provider, netherwart.getClass(), TagLocation.BODY, TagLocation.DATA);
+        registrar.registerProvider(provider, redstone.getClass(), TagLocation.HEAD, TagLocation.BODY, TagLocation.DATA);
+        registrar.registerProvider(provider, lever.getClass(), TagLocation.BODY, TagLocation.DATA);
+        registrar.registerProvider(provider, repeaterIdle.getClass(), TagLocation.BODY, TagLocation.DATA);
+        registrar.registerProvider(provider, repeaterActv.getClass(), TagLocation.BODY, TagLocation.DATA);
+        registrar.registerProvider(provider, comparatorIdl.getClass(), TagLocation.BODY, TagLocation.DATA);
+        registrar.registerProvider(provider, comparatorAct.getClass(), TagLocation.BODY, TagLocation.DATA);
+        registrar.registerProvider(provider, jukebox.getClass(), TagLocation.BODY, TagLocation.DATA);
 
         //registrar.registerDocTextFile("/mcp/mobius/waila/addons/vanillamc/WikiData.csv");
 

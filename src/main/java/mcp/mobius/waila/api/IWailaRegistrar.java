@@ -1,9 +1,5 @@
 package mcp.mobius.waila.api;
 
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.tileentity.TileEntity;
-
 /**
  * Main registration interface for Waila plugins. To register your plugin, annotate your main plugin class with
  * {@link WailaPlugin} and implement {@link IWailaPlugin}.
@@ -42,11 +38,9 @@ public interface IWailaRegistrar {
 
     void addConfigRemote(String modname, String keyname, boolean defvalue);
 
-    void registerBlockProvider(IWailaDataProvider dataProvider, Class<? extends Block> blockClass, TagLocation... locations);
+    void registerProvider(IWailaDataProvider dataProvider, Class blockClass, TagLocation... locations);
 
-    void registerTileProvider(IWailaDataProvider dataProvider, Class<? extends TileEntity> tileClass, TagLocation... locations);
-
-    void registerEntityProvider(IWailaEntityProvider dataProvider, Class<? extends Entity> entityClass, TagLocation... locations);
+    void registerProvider(IWailaEntityProvider dataProvider, Class entityClass, TagLocation... locations);
 
     /* FMP Providers */
     void registerHeadProvider(IWailaFMPProvider dataProvider, String name);
@@ -67,21 +61,21 @@ public interface IWailaRegistrar {
     //public void registerShortDataProvider (IWailaSummaryProvider dataProvider, Class item);
 
      /* Register a stack overrider for the given blockID */
-    /*** @deprecated - See {@link #registerBlockProvider(IWailaDataProvider, Class, TagLocation...)}*/
+    /*** @deprecated - See {@link #registerProvider(IWailaDataProvider, Class, TagLocation...)}*/
     @Deprecated
     void registerStackProvider(IWailaDataProvider dataProvider, Class block);
     /* Same thing, but works on a class hierarchy instead */
-    /*** @deprecated - See {@link #registerBlockProvider(IWailaDataProvider, Class, TagLocation...)}*/
+    /*** @deprecated - See {@link #registerProvider(IWailaDataProvider, Class, TagLocation...)}*/
     @Deprecated
     void registerHeadProvider(IWailaDataProvider dataProvider, Class block);
-    /*** @deprecated - See {@link #registerBlockProvider(IWailaDataProvider, Class, TagLocation...)}*/
+    /*** @deprecated - See {@link #registerProvider(IWailaDataProvider, Class, TagLocation...)}*/
     @Deprecated
     void registerBodyProvider(IWailaDataProvider dataProvider, Class block);
-    /*** @deprecated - See {@link #registerBlockProvider(IWailaDataProvider, Class, TagLocation...)}*/
+    /*** @deprecated - See {@link #registerProvider(IWailaDataProvider, Class, TagLocation...)}*/
     @Deprecated
     void registerTailProvider(IWailaDataProvider dataProvider, Class block);
     /* Registering an NBT Provider provides a way to override the default "writeToNBT" way of doing things. */
-    /*** @deprecated - See {@link #registerBlockProvider(IWailaDataProvider, Class, TagLocation...)}*/
+    /*** @deprecated - See {@link #registerProvider(IWailaDataProvider, Class, TagLocation...)}*/
     @Deprecated
     void registerNBTProvider(IWailaDataProvider dataProvider, Class block);
     /* Entity text registration methods */
