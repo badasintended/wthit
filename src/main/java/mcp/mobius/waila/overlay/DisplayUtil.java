@@ -166,7 +166,7 @@ public class DisplayUtil {
 
     public static String itemDisplayNameShort(ItemStack itemstack) {
         List<String> list = itemDisplayNameMultiline(itemstack);
-        return String.format(VanillaTooltipHandler.objectNameWrapper, list.get(0));
+        return String.format(VanillaTooltipHandler.blockNameWrapper, list.get(0));
     }
 
     public static void renderIcon(int x, int y, int sx, int sy, IconUI icon) {

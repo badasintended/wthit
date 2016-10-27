@@ -26,8 +26,6 @@ import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
 
-import static mcp.mobius.waila.api.SpecialChars.ITALIC;
-
 public class HUDHandlerFluids implements IWailaDataProvider {
 
     static final IWailaDataProvider INSTANCE = new HUDHandlerFluids();
@@ -42,7 +40,7 @@ public class HUDHandlerFluids implements IWailaDataProvider {
         Pair<Fluid, Boolean> fluidPair = getFluidFromBlock(accessor.getBlockState());
         String name = null;
         try {
-            String s = String.format(VanillaTooltipHandler.objectNameWrapper, fluidPair.getLeft().getLocalizedName(new FluidStack(fluidPair.getLeft(), 1000)));
+            String s = String.format(VanillaTooltipHandler.fluidNameWrapper, fluidPair.getLeft().getLocalizedName(new FluidStack(fluidPair.getLeft(), 1000)));
             if (s != null && !s.endsWith("Unnamed"))
                 name = s;
 
@@ -51,42 +49,45 @@ public class HUDHandlerFluids implements IWailaDataProvider {
         } catch (Exception e) {
         }
 
-        if (currenttip.size() == 0)
-            currenttip.add("< Unnamed >");
+        if (currenttip.size() == 0) currenttip.add("< Unnamed >");
         else {
-            if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATA, true))
-                currenttip.add(String.format(ITALIC + "[%s:%d]", accessor.getBlock().getRegistryName().toString(), accessor.getMetadata()));
+            String metaMetaData = String.format(
+                    VanillaTooltipHandler.metaDataThroughput,
+                    accessor.getBlock().getRegistryName().toString(),
+                    accessor.getMetadata()
+            );
+
+            if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATA, true) && !Strings.isNullOrEmpty(VanillaTooltipHandler.metaDataWrapper)) {
+                currenttip.add(String.format(VanillaTooltipHandler.metaDataWrapper, metaMetaData));
+                }
         }
+
         return currenttip;
     }
 
+
     @Override
-    public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
-        return null;
-    }
+    public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {return null;}
 
     @Override
     public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
         Pair<Fluid, Boolean> fluidPair = getFluidFromBlock(accessor.getBlockState());
         String modName = ModIdentification.findModContainer(FluidRegistry.getDefaultFluidName(fluidPair.getLeft()).split(":")[0]).getName();
-
-        if (!Strings.isNullOrEmpty(modName))
+        if (!Strings.isNullOrEmpty(VanillaTooltipHandler.modNameWrapper) && !Strings.isNullOrEmpty(modName)) {
             currenttip.add(String.format(VanillaTooltipHandler.modNameWrapper, modName));
+        }
 
         return currenttip;
     }
 
     @Override
-    public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
-        return null;
-    }
+    public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {return null;}
 
     private static ItemStack getStackFromLiquid(IBlockState state) {
         Pair<Fluid, Boolean> fluidPair = getFluidFromBlock(state);
         Fluid fluid = fluidPair.getLeft();
         boolean vanilla = fluidPair.getRight();
         ItemStack ret = null;
-
         if (fluid != null) {
             if (FluidRegistry.isUniversalBucketEnabled())
                 ret = UniversalBucket.getFilledBucket(ForgeModContainer.getInstance().universalBucket, fluid);
@@ -95,6 +96,7 @@ public class HUDHandlerFluids implements IWailaDataProvider {
             else
                 ret = FluidContainerRegistry.fillFluidContainer(new FluidStack(fluid, 1000), new ItemStack(Items.BUCKET));
         }
+
         return ret != null ? ret : null;
     }
 
@@ -105,8 +107,8 @@ public class HUDHandlerFluids implements IWailaDataProvider {
             Block fluidBlock = BlockLiquid.getStaticBlock(state.getMaterial());
             fluid = fluidBlock == Blocks.WATER ? FluidRegistry.WATER : FluidRegistry.LAVA;
             vanilla = true;
-        } else if (state.getBlock() instanceof IFluidBlock) fluid = ((IFluidBlock) state.getBlock()).getFluid();
-
+        }
+        else if (state.getBlock() instanceof IFluidBlock) fluid = ((IFluidBlock) state.getBlock()).getFluid();
 
         return Pair.of(fluid, vanilla);
     }

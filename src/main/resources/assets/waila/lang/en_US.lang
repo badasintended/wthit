@@ -82,6 +82,7 @@ hud.msg.green=Green
 hud.msg.red=Red
 hud.msg.black=Black
 
+hud.msg.health=Health
 hud.msg.growth=Growth
 hud.msg.mature=Mature
 hud.msg.off=Off

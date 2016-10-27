@@ -18,7 +18,10 @@ public final class Constants {
     public static boolean CFG_DEFAULT_VALUE = true;
     public static String CFG_WAILA_SHOW = "waila.cfg.show";
     public static String CFG_WAILA_MODNAMEWRAPPER = "waila.cfg.modnamewrapper";
-    public static String CFG_WAILA_OBJECTNAMEWRAPPER = "waila.cfg.objectnamewrapper";
+    public static String CFG_WAILA_BLOCKNAMEWRAPPER = "waila.cfg.blocknamewrapper";
+    public static String CFG_WAILA_FLUIDNAMEWRAPPER = "waila.cfg.fluidnamewrapper";
+    public static String CFG_WAILA_ENTITYNAMEWRAPPER = "waila.cfg.entitynamewrapper";
+    public static String CFG_WAILA_METADATAWRAPPER = "waila.cfg.metadatawrapper";
     public static String CFG_WAILA_MODE = "waila.cfg.showmode";
     public static String CFG_WAILA_LIQUID = "waila.cfg.liquid";
     public static String CFG_WAILA_METADATA = "waila.cfg.metadata";
