@@ -1,5 +1,9 @@
 package mcp.mobius.waila.api;
 
+import net.minecraft.block.Block;
+import net.minecraft.entity.Entity;
+import net.minecraft.tileentity.TileEntity;
+
 /**
  * Main registration interface for Waila plugins. To register your plugin, annotate your main plugin class with
  * {@link WailaPlugin} and implement {@link IWailaPlugin}.
@@ -38,30 +42,11 @@ public interface IWailaRegistrar {
 
     void addConfigRemote(String modname, String keyname, boolean defvalue);
 
-    /* Register a stack overrider for the given blockID */
-    void registerStackProvider(IWailaDataProvider dataProvider, Class block);
+    void registerBlockProvider(IWailaDataProvider dataProvider, Class<? extends Block> blockClass, TagLocation... locations);
 
-    /* Same thing, but works on a class hierarchy instead */
-    void registerHeadProvider(IWailaDataProvider dataProvider, Class block);
+    void registerTileProvider(IWailaDataProvider dataProvider, Class<? extends TileEntity> tileClass, TagLocation... locations);
 
-    void registerBodyProvider(IWailaDataProvider dataProvider, Class block);
-
-    void registerTailProvider(IWailaDataProvider dataProvider, Class block);
-
-    /* Registering an NBT Provider provides a way to override the default "writeToNBT" way of doing things. */
-    void registerNBTProvider(IWailaDataProvider dataProvider, Class block);
-
-    /* Entity text registration methods */
-    void registerHeadProvider(IWailaEntityProvider dataProvider, Class entity);
-
-    void registerBodyProvider(IWailaEntityProvider dataProvider, Class entity);
-
-    void registerTailProvider(IWailaEntityProvider dataProvider, Class entity);
-
-    void registerOverrideEntityProvider(IWailaEntityProvider dataProvider, Class entity);
-
-    /* Registering an NBT Provider provides a way to override the default "writeToNBT" way of doing things. */
-    void registerNBTProvider(IWailaEntityProvider dataProvider, Class entity);
+    void registerEntityProvider(IWailaEntityProvider dataProvider, Class<? extends Entity> entityClass, TagLocation... locations);
 
     /* FMP Providers */
     void registerHeadProvider(IWailaFMPProvider dataProvider, String name);
@@ -80,4 +65,41 @@ public interface IWailaRegistrar {
 	/* UNUSED FOR NOW (Will be used for the ingame wiki */
     //public void registerDocTextFile  (String filename);
     //public void registerShortDataProvider (IWailaSummaryProvider dataProvider, Class item);
+
+     /* Register a stack overrider for the given blockID */
+    /*** @deprecated - See {@link #registerBlockProvider(IWailaDataProvider, Class, TagLocation...)}*/
+    @Deprecated
+    void registerStackProvider(IWailaDataProvider dataProvider, Class block);
+    /* Same thing, but works on a class hierarchy instead */
+    /*** @deprecated - See {@link #registerBlockProvider(IWailaDataProvider, Class, TagLocation...)}*/
+    @Deprecated
+    void registerHeadProvider(IWailaDataProvider dataProvider, Class block);
+    /*** @deprecated - See {@link #registerBlockProvider(IWailaDataProvider, Class, TagLocation...)}*/
+    @Deprecated
+    void registerBodyProvider(IWailaDataProvider dataProvider, Class block);
+    /*** @deprecated - See {@link #registerBlockProvider(IWailaDataProvider, Class, TagLocation...)}*/
+    @Deprecated
+    void registerTailProvider(IWailaDataProvider dataProvider, Class block);
+    /* Registering an NBT Provider provides a way to override the default "writeToNBT" way of doing things. */
+    /*** @deprecated - See {@link #registerBlockProvider(IWailaDataProvider, Class, TagLocation...)}*/
+    @Deprecated
+    void registerNBTProvider(IWailaDataProvider dataProvider, Class block);
+    /* Entity text registration methods */
+    /*** @deprecated - See {@link #registerEntityProvider(IWailaDataProvider, Class, TagLocation...)}*/
+    @Deprecated
+    void registerHeadProvider(IWailaEntityProvider dataProvider, Class entity);
+    /*** @deprecated - See {@link #registerEntityProvider(IWailaDataProvider, Class, TagLocation...)}*/
+    @Deprecated
+    void registerBodyProvider(IWailaEntityProvider dataProvider, Class entity);
+    /*** @deprecated - See {@link #registerEntityProvider(IWailaDataProvider, Class, TagLocation...)}*/
+    @Deprecated
+    void registerTailProvider(IWailaEntityProvider dataProvider, Class entity);
+    /*** @deprecated - See {@link #registerEntityProvider(IWailaDataProvider, Class, TagLocation...)}*/
+    @Deprecated
+    void registerOverrideEntityProvider(IWailaEntityProvider dataProvider, Class entity);
+    /* Registering an NBT Provider provides a way to override the default "writeToNBT" way of doing things. */
+    /*** @deprecated - See {@link #registerEntityProvider(IWailaDataProvider, Class, TagLocation...)}*/
+    @Deprecated
+    void registerNBTProvider(IWailaEntityProvider dataProvider, Class entity);
+
 }
