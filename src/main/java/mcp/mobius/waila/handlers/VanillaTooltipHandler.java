@@ -10,6 +10,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class VanillaTooltipHandler {
 
     public static String objectNameWrapper = "\u00a7r\u00a7f%s";
+
     public static String modNameWrapper = "\u00a79\u00a7o%s";
 
     @SubscribeEvent

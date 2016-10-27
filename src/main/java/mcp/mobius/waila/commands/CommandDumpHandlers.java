@@ -3,7 +3,6 @@ package mcp.mobius.waila.commands;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaEntityProvider;
-import mcp.mobius.waila.api.TagLocation;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
@@ -12,8 +11,6 @@ import net.minecraft.server.MinecraftServer;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.util.ArrayList;
-import java.util.Map;
 
 public class CommandDumpHandlers extends CommandBase {
 
@@ -50,39 +47,77 @@ public class CommandDumpHandlers extends CommandBase {
 
     public static String getHandlerDump() {
         String toPrint = "# Waila Handler Dump\n\n";
-
-        // Block/TileEntity handlers
-        for (TagLocation location : TagLocation.values()) {
-            if (location == TagLocation.OVERRIDE)
-                continue;
-
-            toPrint += "### " + location.name() + " BLOCK PROVIDERS\n";
-            if (!ModuleRegistrar.instance().blockProviders.get(location).isEmpty()) {
-                for (Map.Entry<Class, ArrayList<IWailaDataProvider>> data : ModuleRegistrar.instance().blockProviders.get(location).entrySet()) {
-                    toPrint += String.format("* %s\n", data.getKey().getName());
-                    for (IWailaDataProvider provider : data.getValue())
-                        toPrint += String.format("\t* %s\n", provider.getClass().getName());
-                    toPrint += "\n";
-                }
-            } else toPrint += "\n";
+        toPrint += "### HEAD BLOCK PROVIDERS\n";
+        for (Class clazz : ModuleRegistrar.instance().headBlockProviders.keySet()) {
+            toPrint += String.format("* %s\n", clazz.getName());
+            for (IWailaDataProvider provider : ModuleRegistrar.instance().headBlockProviders.get(clazz)) {
+                toPrint += String.format("  * %s\n", provider.getClass().getName());
+            }
+            toPrint += "\n";
         }
 
-        // Entity handlers
-        for (TagLocation location : TagLocation.values()) {
-            if (location == TagLocation.STACK)
-                continue;
-
-            toPrint += "### " + location.name() + " ENTITY PROVIDERS\n";
-            if (!ModuleRegistrar.instance().entityProviders.get(location).isEmpty()) {
-                for (Map.Entry<Class, ArrayList<IWailaEntityProvider>> data : ModuleRegistrar.instance().entityProviders.get(location).entrySet()) {
-                    toPrint += String.format("* %s\n", data.getKey().getName());
-                    for (IWailaEntityProvider provider : data.getValue())
-                        toPrint += String.format("\t* %s\n", provider.getClass().getName());
-                    toPrint += "\n";
-                }
-            } else toPrint += "\n";
+        toPrint += "\n\n### BODY BLOCK PROVIDERS\n";
+        for (Class clazz : ModuleRegistrar.instance().bodyBlockProviders.keySet()) {
+            toPrint += String.format("* %s\n", clazz.getName());
+            for (IWailaDataProvider provider : ModuleRegistrar.instance().bodyBlockProviders.get(clazz)) {
+                toPrint += String.format("  * %s\n", provider.getClass().getName());
+            }
+            toPrint += "\n";
         }
 
+        toPrint += "\n\n### TAIL BLOCK PROVIDERS\n";
+        for (Class clazz : ModuleRegistrar.instance().tailBlockProviders.keySet()) {
+            toPrint += String.format("* %s\n", clazz.getName());
+            for (IWailaDataProvider provider : ModuleRegistrar.instance().tailBlockProviders.get(clazz)) {
+                toPrint += String.format("  * %s\n", provider.getClass().getName());
+            }
+            toPrint += "\n";
+        }
+
+        toPrint += "\n\n### STACK BLOCK PROVIDERS\n";
+        for (Class clazz : ModuleRegistrar.instance().stackBlockProviders.keySet()) {
+            toPrint += String.format("* %s\n", clazz.getName());
+            for (IWailaDataProvider provider : ModuleRegistrar.instance().stackBlockProviders.get(clazz)) {
+                toPrint += String.format("  * %s\n", provider.getClass().getName());
+            }
+            toPrint += "\n";
+        }
+
+        toPrint += "\n\n### HEAD ENTITY PROVIDERS\n";
+        for (Class clazz : ModuleRegistrar.instance().headEntityProviders.keySet()) {
+            toPrint += String.format("* %s\n", clazz.getName());
+            for (IWailaEntityProvider provider : ModuleRegistrar.instance().headEntityProviders.get(clazz)) {
+                toPrint += String.format("  * %s\n", provider.getClass().getName());
+            }
+            toPrint += "\n";
+        }
+
+        toPrint += "\n\n### BODY ENTITY PROVIDERS\n";
+        for (Class clazz : ModuleRegistrar.instance().bodyEntityProviders.keySet()) {
+            toPrint += String.format("* %s\n", clazz.getName());
+            for (IWailaEntityProvider provider : ModuleRegistrar.instance().bodyEntityProviders.get(clazz)) {
+                toPrint += String.format("  * %s\n", provider.getClass().getName());
+            }
+            toPrint += "\n";
+        }
+
+        toPrint += "\n\n### TAIL ENTITY PROVIDERS\n";
+        for (Class clazz : ModuleRegistrar.instance().tailEntityProviders.keySet()) {
+            toPrint += String.format("* %s\n", clazz.getName());
+            for (IWailaEntityProvider provider : ModuleRegistrar.instance().tailEntityProviders.get(clazz)) {
+                toPrint += String.format("  * %s\n", provider.getClass().getName());
+            }
+            toPrint += "\n";
+        }
+
+        toPrint += "\n\n### STACK ENTITY PROVIDERS\n";
+        for (Class clazz : ModuleRegistrar.instance().overrideEntityProviders.keySet()) {
+            toPrint += String.format("* %s\n", clazz.getName());
+            for (IWailaEntityProvider provider : ModuleRegistrar.instance().overrideEntityProviders.get(clazz)) {
+                toPrint += String.format("  * %s\n", provider.getClass().getName());
+            }
+            toPrint += "\n";
+        }
         return toPrint;
     }
 }

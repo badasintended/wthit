@@ -2,7 +2,6 @@ package mcp.mobius.waila.overlay;
 
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaEntityProvider;
-import mcp.mobius.waila.api.TagLocation;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
@@ -109,8 +108,8 @@ public class RayTracing {
         if (this.target == null)
             return null;
 
-        if (ModuleRegistrar.instance().hasProviders(target.entityHit, TagLocation.OVERRIDE)) {
-            for (List<IWailaEntityProvider> listProviders : ModuleRegistrar.instance().getEntityProviders(target.entityHit, TagLocation.OVERRIDE).values()) {
+        if (ModuleRegistrar.instance().hasOverrideEntityProviders(this.target.entityHit)) {
+            for (List<IWailaEntityProvider> listProviders : ModuleRegistrar.instance().getOverrideEntityProviders(this.target.entityHit).values()) {
                 for (IWailaEntityProvider provider : listProviders) {
                     ents.add(provider.getWailaOverride(DataAccessorCommon.instance, ConfigHandler.instance()));
                 }
@@ -139,8 +138,8 @@ public class RayTracing {
         TileEntity tileEntity = world.getTileEntity(pos);
         if (mouseoverBlock == null) return items;
 
-        if (ModuleRegistrar.instance().hasProviders(mouseoverBlock, TagLocation.STACK)) {
-            for (List<IWailaDataProvider> providersList : ModuleRegistrar.instance().getBlockProviders(mouseoverBlock, TagLocation.STACK).values()) {
+        if (ModuleRegistrar.instance().hasStackProviders(mouseoverBlock)) {
+            for (List<IWailaDataProvider> providersList : ModuleRegistrar.instance().getStackProviders(mouseoverBlock).values()) {
                 for (IWailaDataProvider provider : providersList) {
                     ItemStack providerStack = provider.getWailaStack(DataAccessorCommon.instance, ConfigHandler.instance());
                     if (providerStack != null) {
@@ -154,8 +153,8 @@ public class RayTracing {
             }
         }
 
-        if (tileEntity != null && ModuleRegistrar.instance().hasProviders(tileEntity, TagLocation.STACK)) {
-            for (List<IWailaDataProvider> providersList : ModuleRegistrar.instance().getTileProviders(tileEntity, TagLocation.STACK).values()) {
+        if (tileEntity != null && ModuleRegistrar.instance().hasStackProviders(tileEntity)) {
+            for (List<IWailaDataProvider> providersList : ModuleRegistrar.instance().getStackProviders(tileEntity).values()) {
 
                 for (IWailaDataProvider provider : providersList) {
                     ItemStack providerStack = provider.getWailaStack(DataAccessorCommon.instance, ConfigHandler.instance());

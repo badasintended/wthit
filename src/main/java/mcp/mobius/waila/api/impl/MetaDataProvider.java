@@ -3,10 +3,8 @@ package mcp.mobius.waila.api.impl;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaEntityProvider;
-import mcp.mobius.waila.api.TagLocation;
 import mcp.mobius.waila.cbcore.Layout;
 import mcp.mobius.waila.network.Message0x01TERequest;
-import mcp.mobius.waila.network.Message0x03EntRequest;
 import mcp.mobius.waila.network.WailaPacketHandler;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.block.Block;
@@ -39,8 +37,8 @@ public class MetaDataProvider {
         Block block = accessor.getBlock();
         int blockID = accessor.getBlockID();
 
-        if (ModuleRegistrar.instance().hasProviders(block, TagLocation.STACK)) {
-            for (List<IWailaDataProvider> providerList : ModuleRegistrar.instance().getBlockProviders(block, TagLocation.STACK).values()) {
+        if (ModuleRegistrar.instance().hasStackProviders(block)) {
+            for (List<IWailaDataProvider> providerList : ModuleRegistrar.instance().getStackProviders(block).values()) {
                 for (IWailaDataProvider dataProvider : providerList) {
                     try {
                         ItemStack retval = dataProvider.getWailaStack(accessor, ConfigHandler.instance());
@@ -62,7 +60,7 @@ public class MetaDataProvider {
             accessor.resetTimer();
             HashSet<String> keys = new HashSet<String>();
 
-            if (keys.size() != 0 || ModuleRegistrar.instance().hasProviders(block, TagLocation.DATA) || ModuleRegistrar.instance().hasProviders(accessor.getTileEntity(), TagLocation.DATA))
+            if (keys.size() != 0 || ModuleRegistrar.instance().hasNBTProviders(block) || ModuleRegistrar.instance().hasNBTProviders(accessor.getTileEntity()))
                 WailaPacketHandler.INSTANCE.sendToServer(new Message0x01TERequest(accessor.getTileEntity(), keys));
 
         } else if (accessor.getTileEntity() != null && !Waila.instance.serverPresent && accessor.isTimeElapsed(250) && ConfigHandler.instance().showTooltip()) {
@@ -81,25 +79,25 @@ public class MetaDataProvider {
         tailBlockProviders.clear();
 
 		/* Lookup by class (for blocks)*/
-        if (layout == Layout.HEADER && ModuleRegistrar.instance().hasProviders(block, TagLocation.HEAD))
-            headBlockProviders.putAll(ModuleRegistrar.instance().getBlockProviders(block, TagLocation.HEAD));
+        if (layout == Layout.HEADER && ModuleRegistrar.instance().hasHeadProviders(block))
+            headBlockProviders.putAll(ModuleRegistrar.instance().getHeadProviders(block));
 
-        else if (layout == Layout.BODY && ModuleRegistrar.instance().hasProviders(block, TagLocation.BODY))
-            bodyBlockProviders.putAll(ModuleRegistrar.instance().getBlockProviders(block, TagLocation.BODY));
+        else if (layout == Layout.BODY && ModuleRegistrar.instance().hasBodyProviders(block))
+            bodyBlockProviders.putAll(ModuleRegistrar.instance().getBodyProviders(block));
 
-        else if (layout == Layout.FOOTER && ModuleRegistrar.instance().hasProviders(block, TagLocation.TAIL))
-            tailBlockProviders.putAll(ModuleRegistrar.instance().getBlockProviders(block, TagLocation.TAIL));
+        else if (layout == Layout.FOOTER && ModuleRegistrar.instance().hasTailProviders(block))
+            tailBlockProviders.putAll(ModuleRegistrar.instance().getTailProviders(block));
 
 		
 		/* Lookup by class (for tileentities)*/
-        if (layout == Layout.HEADER && ModuleRegistrar.instance().hasProviders(accessor.getTileEntity(), TagLocation.HEAD))
-            headBlockProviders.putAll(ModuleRegistrar.instance().getTileProviders(accessor.getTileEntity(), TagLocation.HEAD));
+        if (layout == Layout.HEADER && ModuleRegistrar.instance().hasHeadProviders(accessor.getTileEntity()))
+            headBlockProviders.putAll(ModuleRegistrar.instance().getHeadProviders(accessor.getTileEntity()));
 
-        else if (layout == Layout.BODY && ModuleRegistrar.instance().hasProviders(accessor.getTileEntity(), TagLocation.BODY))
-            bodyBlockProviders.putAll(ModuleRegistrar.instance().getTileProviders(accessor.getTileEntity(), TagLocation.BODY));
+        else if (layout == Layout.BODY && ModuleRegistrar.instance().hasBodyProviders(accessor.getTileEntity()))
+            bodyBlockProviders.putAll(ModuleRegistrar.instance().getBodyProviders(accessor.getTileEntity()));
 
-        else if (layout == Layout.FOOTER && ModuleRegistrar.instance().hasProviders(accessor.getTileEntity(), TagLocation.TAIL))
-            tailBlockProviders.putAll(ModuleRegistrar.instance().getTileProviders(accessor.getTileEntity(), TagLocation.TAIL));
+        else if (layout == Layout.FOOTER && ModuleRegistrar.instance().hasTailProviders(accessor.getTileEntity()))
+            tailBlockProviders.putAll(ModuleRegistrar.instance().getTailProviders(accessor.getTileEntity()));
 	
 		/* Apply all collected providers */
         if (layout == Layout.HEADER)
@@ -137,10 +135,6 @@ public class MetaDataProvider {
 
         if (accessor.getEntity() != null && Waila.instance.serverPresent && accessor.isTimeElapsed(250)) {
             accessor.resetTimer();
-            HashSet<String> keys = new HashSet<String>();
-
-            if (keys.size() != 0 || ModuleRegistrar.instance().hasProviders(entity, TagLocation.DATA) || ModuleRegistrar.instance().hasProviders(accessor.getEntity(), TagLocation.HEAD))
-                WailaPacketHandler.INSTANCE.sendToServer(new Message0x03EntRequest(accessor.getEntity(), keys));
 
         } else if (accessor.getEntity() != null && !Waila.instance.serverPresent && accessor.isTimeElapsed(250)) {
 
@@ -158,14 +152,14 @@ public class MetaDataProvider {
         tailEntityProviders.clear();
 		
 		/* Lookup by class (for entities)*/
-        if (layout == Layout.HEADER && ModuleRegistrar.instance().hasProviders(entity, TagLocation.HEAD))
-            headEntityProviders.putAll(ModuleRegistrar.instance().getEntityProviders(entity, TagLocation.HEAD));
+        if (layout == Layout.HEADER && ModuleRegistrar.instance().hasHeadEntityProviders(entity))
+            headEntityProviders.putAll(ModuleRegistrar.instance().getHeadEntityProviders(entity));
 
-        else if (layout == Layout.BODY && ModuleRegistrar.instance().hasProviders(entity, TagLocation.BODY))
-            bodyEntityProviders.putAll(ModuleRegistrar.instance().getEntityProviders(entity, TagLocation.BODY));
+        else if (layout == Layout.BODY && ModuleRegistrar.instance().hasBodyEntityProviders(entity))
+            bodyEntityProviders.putAll(ModuleRegistrar.instance().getBodyEntityProviders(entity));
 
-        else if (layout == Layout.FOOTER && ModuleRegistrar.instance().hasProviders(entity, TagLocation.TAIL))
-            tailEntityProviders.putAll(ModuleRegistrar.instance().getEntityProviders(entity, TagLocation.TAIL));
+        else if (layout == Layout.FOOTER && ModuleRegistrar.instance().hasTailEntityProviders(entity))
+            tailEntityProviders.putAll(ModuleRegistrar.instance().getTailEntityProviders(entity));
 
 		/* Apply all collected providers */
         if (layout == Layout.HEADER)

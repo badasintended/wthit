@@ -31,7 +31,7 @@ import org.apache.logging.log4j.Logger;
 import java.lang.reflect.Field;
 import java.util.Set;
 
-@Mod(modid = "Waila", name = "Waila", version = "1.8.0", dependencies = "required-after:Forge@[12.16.0.1809,);", acceptableRemoteVersions = "*")
+@Mod(modid = "Waila", name = "Waila", version = "1.7.0", dependencies = "required-after:Forge@[12.16.0.1809,);", acceptableRemoteVersions = "*")
 public class Waila {
     // The instance of your mod that Forge uses.
     @Instance("Waila")
