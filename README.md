@@ -17,9 +17,6 @@ This is a list of the primary changes and differences between the official Waila
 * Added a new plugin registration system
     * Use `@WailaPlugin` on an instance of `IWailaPlugin`
     * The annotation can take a String value for a required modid. Blank for any
-* Rewrote portions of `IWailaRegistrar` to be enum based
-    * Old registration methods are still there
-    * It is, in my opinion, a cleaner implementation
 * If fluid tooltips are enabled, they will now attempt to display the fluid inside a bucket.
 * Added native support for displaying tank information
     * Disabled by default so as to not clash with mods adding their own support
