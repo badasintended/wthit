@@ -3,7 +3,6 @@ package mcp.mobius.waila.overlay;
 import mcp.mobius.waila.api.IWailaTooltipRenderer;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
-import mcp.mobius.waila.handlers.VanillaTooltipHandler;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -166,7 +165,7 @@ public class DisplayUtil {
 
     public static String itemDisplayNameShort(ItemStack itemstack) {
         List<String> list = itemDisplayNameMultiline(itemstack);
-        return String.format(VanillaTooltipHandler.blockNameWrapper, list.get(0));
+        return String.format(FormattingConfig.blockFormat, list.get(0));
     }
 
     public static void renderIcon(int x, int y, int sx, int sy, IconUI icon) {

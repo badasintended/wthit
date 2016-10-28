@@ -5,7 +5,7 @@ import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.impl.ConfigHandler;
-import mcp.mobius.waila.handlers.VanillaTooltipHandler;
+import mcp.mobius.waila.overlay.FormattingConfig;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.block.Block;
@@ -40,7 +40,7 @@ public class HUDHandlerFluids implements IWailaDataProvider {
         Pair<Fluid, Boolean> fluidPair = getFluidFromBlock(accessor.getBlockState());
         String name = null;
         try {
-            String s = String.format(VanillaTooltipHandler.fluidNameWrapper, fluidPair.getLeft().getLocalizedName(new FluidStack(fluidPair.getLeft(), 1000)));
+            String s = String.format(FormattingConfig.fluidFormat, fluidPair.getLeft().getLocalizedName(new FluidStack(fluidPair.getLeft(), 1000)));
             if (s != null && !s.endsWith("Unnamed"))
                 name = s;
 
@@ -52,14 +52,8 @@ public class HUDHandlerFluids implements IWailaDataProvider {
         if (currenttip.size() == 0)
             currenttip.add("< Unnamed >");
         else {
-            String metaData = String.format(
-                    VanillaTooltipHandler.metaDataThroughput,
-                    accessor.getBlock().getRegistryName().toString(),
-                    accessor.getMetadata()
-            );
-
-            if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATA, true) && !Strings.isNullOrEmpty(VanillaTooltipHandler.metaDataWrapper))
-                currenttip.add(String.format(VanillaTooltipHandler.metaDataWrapper, metaData));
+            if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATA, true) && !Strings.isNullOrEmpty(FormattingConfig.metaFormat))
+                currenttip.add(String.format(FormattingConfig.metaFormat, accessor.getBlock().getRegistryName().toString(), accessor.getMetadata()));
         }
 
         return currenttip;
@@ -73,8 +67,8 @@ public class HUDHandlerFluids implements IWailaDataProvider {
     public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
         Pair<Fluid, Boolean> fluidPair = getFluidFromBlock(accessor.getBlockState());
         String modName = ModIdentification.findModContainer(FluidRegistry.getDefaultFluidName(fluidPair.getLeft()).split(":")[0]).getName();
-        if (!Strings.isNullOrEmpty(VanillaTooltipHandler.modNameWrapper) && !Strings.isNullOrEmpty(modName))
-            currenttip.add(String.format(VanillaTooltipHandler.modNameWrapper, modName));
+        if (!Strings.isNullOrEmpty(FormattingConfig.modNameFormat) && !Strings.isNullOrEmpty(modName))
+            currenttip.add(String.format(FormattingConfig.modNameFormat, modName));
 
         return currenttip;
     }

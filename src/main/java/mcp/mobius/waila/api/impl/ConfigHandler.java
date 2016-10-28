@@ -4,6 +4,7 @@ import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.addons.core.HUDHandlerEntities;
 import mcp.mobius.waila.handlers.VanillaTooltipHandler;
+import mcp.mobius.waila.overlay.FormattingConfig;
 import mcp.mobius.waila.overlay.OverlayConfig;
 import mcp.mobius.waila.utils.Constants;
 import net.minecraftforge.common.config.Configuration;
@@ -125,6 +126,16 @@ public class ConfigHandler implements IWailaConfigHandler {
         config.save();
     }
 
+    public String getConfig(String category, String key, String default_) {
+        Property prop = config.get(category, key, default_);
+        return prop.getString();
+    }
+
+    public void setConfig(String category, String key, String value) {
+        config.getCategory(category).put(key, new Property(key, value, Property.Type.STRING));
+        config.save();
+    }
+
     public int getConfig(String category, String key, int default_) {
         Property prop = config.get(category, key, default_);
         return prop.getInt();
@@ -152,19 +163,14 @@ public class ConfigHandler implements IWailaConfigHandler {
 
         OverlayConfig.posX = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSX, 5000).getInt();
         OverlayConfig.posY = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSY, 100).getInt();
-
-        OverlayConfig.alpha = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_ALPHA, 80).getInt();
-        OverlayConfig.bgcolor = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_BGCOLOR, 0x100010).getInt();
-        OverlayConfig.gradient1 = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_GRADIENT1, 0x5000ff).getInt();
-        OverlayConfig.gradient2 = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_GRADIENT2, 0x28007f).getInt();
-        OverlayConfig.fontcolor = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_FONTCOLOR, 0xA0A0A0).getInt();
         OverlayConfig.scale = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SCALE, 100).getInt() / 100.0f;
+        OverlayConfig.updateColors();
 
-        VanillaTooltipHandler.modNameWrapper = StringEscapeUtils.unescapeJava(config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_MODNAMEWRAPPER, StringEscapeUtils.escapeJava("\u00A79\u00A7o%s")).getString());
-        VanillaTooltipHandler.blockNameWrapper = StringEscapeUtils.unescapeJava(config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_BLOCKNAMEWRAPPER, StringEscapeUtils.escapeJava("\u00a7r\u00a7f%s")).getString());
-        VanillaTooltipHandler.fluidNameWrapper = StringEscapeUtils.unescapeJava(config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_FLUIDNAMEWRAPPER, StringEscapeUtils.escapeJava("\u00a7r\u00a7f%s")).getString());
-        VanillaTooltipHandler.entityNameWrapper = StringEscapeUtils.unescapeJava(config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_ENTITYNAMEWRAPPER, StringEscapeUtils.escapeJava("\u00a7r\u00a7f%s")).getString());
-        VanillaTooltipHandler.metaDataWrapper = StringEscapeUtils.unescapeJava(config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATAWRAPPER, StringEscapeUtils.escapeJava("\u00a77[%s]")).getString());
+        FormattingConfig.modNameFormat = StringEscapeUtils.unescapeJava(config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_MODNAMEWRAPPER, StringEscapeUtils.escapeJava("\u00A79\u00A7o%s")).getString());
+        FormattingConfig.blockFormat = StringEscapeUtils.unescapeJava(config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_BLOCKNAMEWRAPPER, StringEscapeUtils.escapeJava("\u00a7r\u00a7f%s")).getString());
+        FormattingConfig.fluidFormat = StringEscapeUtils.unescapeJava(config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_FLUIDNAMEWRAPPER, StringEscapeUtils.escapeJava("\u00a7r\u00a7f%s")).getString());
+        FormattingConfig.entityFormat = StringEscapeUtils.unescapeJava(config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_ENTITYNAMEWRAPPER, StringEscapeUtils.escapeJava("\u00a7r\u00a7f%s")).getString());
+        FormattingConfig.metaFormat = StringEscapeUtils.unescapeJava(config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATAWRAPPER, StringEscapeUtils.escapeJava("\u00a77[%s]")).getString());
 
         HUDHandlerEntities.nhearts = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_NHEARTS, 20).getInt();
         HUDHandlerEntities.maxhpfortext = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_MAXHP, 40).getInt();

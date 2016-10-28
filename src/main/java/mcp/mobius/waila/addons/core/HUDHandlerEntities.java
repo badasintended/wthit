@@ -4,7 +4,7 @@ import com.google.common.base.Strings;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaEntityAccessor;
 import mcp.mobius.waila.api.IWailaEntityProvider;
-import mcp.mobius.waila.handlers.VanillaTooltipHandler;
+import mcp.mobius.waila.overlay.FormattingConfig;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -33,12 +33,12 @@ public class HUDHandlerEntities implements IWailaEntityProvider {
 
     @Override
     public List<String> getWailaHead(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
-        if (!Strings.isNullOrEmpty(VanillaTooltipHandler.entityNameWrapper)) {
+        if (!Strings.isNullOrEmpty(FormattingConfig.entityFormat)) {
             try {
-                currenttip.add(String.format(VanillaTooltipHandler.entityNameWrapper, entity.getName()));
+                currenttip.add(String.format(FormattingConfig.entityFormat, entity.getName()));
             }
             catch (Exception e) {
-                currenttip.add(String.format(VanillaTooltipHandler.entityNameWrapper, "Unknown"));
+                currenttip.add(String.format(FormattingConfig.entityFormat, "Unknown"));
             }
         } else currenttip.add("Unknown");
 
@@ -69,12 +69,12 @@ public class HUDHandlerEntities implements IWailaEntityProvider {
 
     @Override
     public List<String> getWailaTail(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
-        if (!Strings.isNullOrEmpty(VanillaTooltipHandler.modNameWrapper) && !Strings.isNullOrEmpty(getEntityMod(entity))) {
+        if (!Strings.isNullOrEmpty(FormattingConfig.modNameFormat) && !Strings.isNullOrEmpty(getEntityMod(entity))) {
             try {
-                currenttip.add(String.format(VanillaTooltipHandler.modNameWrapper, getEntityMod(entity)));
+                currenttip.add(String.format(FormattingConfig.modNameFormat, getEntityMod(entity)));
             }
             catch (Exception e) {
-                currenttip.add(String.format(VanillaTooltipHandler.modNameWrapper, "Unknown"));
+                currenttip.add(String.format(FormattingConfig.modNameFormat, "Unknown"));
             }
         }
 

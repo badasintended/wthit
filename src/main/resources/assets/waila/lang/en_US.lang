@@ -20,7 +20,13 @@ choice.toggledmaintained=Toggled/Maintained
 choice.showliquids=Liquids
 choice.shifttoggledblock=Sneak toggle blocks
 choice.shifttoggledents=Sneak toggle entities
+choice.format.modname=Mod Name
+choice.format.blockname=Block Name
+choice.format.fluidname=Fluid Name
+choice.format.entityname=Entity Name
+choice.format.metadata=Metadata
 screen.button.configureaspect=Configure aspect...
+screen.button.configureformat=Configure formatting...
 
 enchant.title.name=Name
 enchant.title.minlvl=Min lvl

@@ -34,6 +34,11 @@ public class ScreenWailaConfig extends ScreenBase {
         this.getRoot().getWidget("LayoutConfigPos").addWidget("ButtonConfigPos", new ButtonScreenChange(null, "screen.button.configureaspect", new ScreenHUDConfig(this)));
         this.getRoot().getWidget("LayoutConfigPos").getWidget("ButtonConfigPos").setGeometry(new WidgetGeometry(50.0, 50.0, 150.0, 20.0, CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));
 
+        this.getRoot().addWidget("FormatConfig", new LayoutBase(this.getRoot()));
+        this.getRoot().getWidget("FormatConfig").setGeometry(new WidgetGeometry(0.0, 60.0, 100.0, 20.0, CType.RELXY, CType.RELXY));
+        this.getRoot().getWidget("FormatConfig").addWidget("ButtonConfigPos", new ButtonScreenChange(null, "screen.button.configureformat", new ScreenFormatConfig(this)));
+        this.getRoot().getWidget("FormatConfig").getWidget("ButtonConfigPos").setGeometry(new WidgetGeometry(50.0, 50.0, 150.0, 20.0, CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));
+
         this.getRoot().addWidget("LayoutBack", new LayoutBase(this.getRoot()));
         this.getRoot().getWidget("LayoutBack").setGeometry(new WidgetGeometry(0.0, 80.0, 100.0, 20.0, CType.RELXY, CType.RELXY));
         this.getRoot().getWidget("LayoutBack").addWidget("ButtonBack", new ButtonScreenChange(null, "screen.button.back", this.parent));

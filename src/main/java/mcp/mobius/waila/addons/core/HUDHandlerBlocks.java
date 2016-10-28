@@ -5,8 +5,8 @@ import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.impl.ConfigHandler;
-import mcp.mobius.waila.handlers.VanillaTooltipHandler;
 import mcp.mobius.waila.overlay.DisplayUtil;
+import mcp.mobius.waila.overlay.FormattingConfig;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -52,17 +52,8 @@ public class HUDHandlerBlocks implements IWailaDataProvider {
         }
         if (currenttip.size() == 0)
             currenttip.add("< Unnamed >");
-        else {
-            String metaMetaData = String.format(
-                    VanillaTooltipHandler.metaDataThroughput,
-                    accessor.getBlock().getRegistryName().toString(),
-                    accessor.getMetadata()
-            );
-
-            if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATA, true) && !Strings.isNullOrEmpty(VanillaTooltipHandler.metaDataWrapper)) {
-                currenttip.add(String.format(VanillaTooltipHandler.metaDataWrapper, metaMetaData));
-            }
-        }
+        else if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATA, true) && !Strings.isNullOrEmpty(FormattingConfig.metaFormat))
+            currenttip.add(String.format(FormattingConfig.metaFormat, accessor.getBlock().getRegistryName().toString(), accessor.getMetadata()));
 
         return currenttip;
     }
@@ -77,8 +68,8 @@ public class HUDHandlerBlocks implements IWailaDataProvider {
         if (accessor.getBlockState().getMaterial().isLiquid())
             return currenttip;
         String modName = ModIdentification.nameFromStack(itemStack);
-        if (!Strings.isNullOrEmpty(VanillaTooltipHandler.modNameWrapper))
-            currenttip.add(String.format(VanillaTooltipHandler.modNameWrapper, modName));
+        if (!Strings.isNullOrEmpty(FormattingConfig.modNameFormat))
+            currenttip.add(String.format(FormattingConfig.modNameFormat, modName));
 
         return currenttip;
     }
