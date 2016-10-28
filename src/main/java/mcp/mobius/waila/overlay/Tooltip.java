@@ -30,6 +30,7 @@ public class Tooltip {
     ArrayList<Integer> columnsWidth = new ArrayList<Integer>();
     ArrayList<Integer> columnsPos = new ArrayList<Integer>();
 
+    ArrayList<Renderable> additionalHeights = new ArrayList<Renderable>();
     ArrayList<Renderable> elements = new ArrayList<Renderable>();
     ArrayList<Renderable> elements2nd = new ArrayList<Renderable>();
 
@@ -112,10 +113,12 @@ public class Tooltip {
                         if (renderer != null) {
                             renderable = new Renderable(renderer, new Point(offsetX, offsetY), renderMatcher.group("args").split(","));
                             this.elements2nd.add(renderable);
+                            this.additionalHeights.add(renderable);
                         }
                     } else if (iconMatcher.find()) {
                         renderable = new Renderable(new TTRenderIcon(iconMatcher.group("type")), new Point(offsetX, offsetY));
                         this.elements2nd.add(renderable);
+                        this.additionalHeights.add(renderable);
                     } else {
                         if (cs.startsWith(ALIGNRIGHT))
                             offsetX += columnsWidth.get(c) - DisplayUtil.getDisplayWidth(currentLine.substring(lineMatcher.start()));
@@ -141,6 +144,8 @@ public class Tooltip {
     private int getRenderableTotalHeight() {
         int result = 0;
         for (Renderable r : this.elements)
+            result = Math.max(r.getPos().y + r.getSize(accessor).height + 2, result);
+        for (Renderable r : this.additionalHeights)
             result = Math.max(r.getPos().y + r.getSize(accessor).height + 2, result);
         return result;
     }

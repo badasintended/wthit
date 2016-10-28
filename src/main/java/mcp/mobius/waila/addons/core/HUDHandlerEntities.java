@@ -33,10 +33,14 @@ public class HUDHandlerEntities implements IWailaEntityProvider {
 
     @Override
     public List<String> getWailaHead(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
-        if (!Strings.isNullOrEmpty(VanillaTooltipHandler.modNameWrapper)) {
-            try {currenttip.add(String.format(VanillaTooltipHandler.entityNameWrapper, entity.getName()));}
-            catch (Exception e) {currenttip.add(String.format(VanillaTooltipHandler.entityNameWrapper, "Unknown"));}
-        }
+        if (!Strings.isNullOrEmpty(VanillaTooltipHandler.entityNameWrapper)) {
+            try {
+                currenttip.add(String.format(VanillaTooltipHandler.entityNameWrapper, entity.getName()));
+            }
+            catch (Exception e) {
+                currenttip.add(String.format(VanillaTooltipHandler.entityNameWrapper, "Unknown"));
+            }
+        } else currenttip.add("Unknown");
 
         return currenttip;
     }
@@ -57,20 +61,7 @@ public class HUDHandlerEntities implements IWailaEntityProvider {
                             )
                     );
 
-                } else {
-                    currenttip.add(
-                            getRenderString(
-                                    "waila.health",
-                                    String.valueOf(nhearts),
-                                    String.valueOf(health),
-                                    String.valueOf(maxhp)
-                            )
-                    );
-                    // Putting a cheat bandage on this until I figure it out.
-                if (Strings.isNullOrEmpty(VanillaTooltipHandler.modNameWrapper)) {
-                    currenttip.add(" ");
-                }
-                }
+                } else currenttip.add(getRenderString("waila.health", String.valueOf(nhearts), String.valueOf(health), String.valueOf(maxhp)));
             }
 
             return currenttip;
@@ -79,8 +70,12 @@ public class HUDHandlerEntities implements IWailaEntityProvider {
     @Override
     public List<String> getWailaTail(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
         if (!Strings.isNullOrEmpty(VanillaTooltipHandler.modNameWrapper) && !Strings.isNullOrEmpty(getEntityMod(entity))) {
-            try {currenttip.add(String.format(VanillaTooltipHandler.modNameWrapper, getEntityMod(entity)));}
-            catch (Exception e) {currenttip.add(String.format(VanillaTooltipHandler.modNameWrapper, "Unknown"));}
+            try {
+                currenttip.add(String.format(VanillaTooltipHandler.modNameWrapper, getEntityMod(entity)));
+            }
+            catch (Exception e) {
+                currenttip.add(String.format(VanillaTooltipHandler.modNameWrapper, "Unknown"));
+            }
         }
 
         return currenttip;
@@ -90,6 +85,7 @@ public class HUDHandlerEntities implements IWailaEntityProvider {
     public NBTTagCompound getNBTData(EntityPlayerMP player, Entity te, NBTTagCompound tag, World world) {
         return tag;
     }
+
     private static String getEntityMod(Entity entity) {
 
         String modName = "";

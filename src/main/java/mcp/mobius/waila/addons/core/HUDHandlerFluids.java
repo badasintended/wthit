@@ -49,17 +49,17 @@ public class HUDHandlerFluids implements IWailaDataProvider {
         } catch (Exception e) {
         }
 
-        if (currenttip.size() == 0) currenttip.add("< Unnamed >");
+        if (currenttip.size() == 0)
+            currenttip.add("< Unnamed >");
         else {
-            String metaMetaData = String.format(
+            String metaData = String.format(
                     VanillaTooltipHandler.metaDataThroughput,
                     accessor.getBlock().getRegistryName().toString(),
                     accessor.getMetadata()
             );
 
-            if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATA, true) && !Strings.isNullOrEmpty(VanillaTooltipHandler.metaDataWrapper)) {
-                currenttip.add(String.format(VanillaTooltipHandler.metaDataWrapper, metaMetaData));
-                }
+            if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATA, true) && !Strings.isNullOrEmpty(VanillaTooltipHandler.metaDataWrapper))
+                currenttip.add(String.format(VanillaTooltipHandler.metaDataWrapper, metaData));
         }
 
         return currenttip;
@@ -73,9 +73,8 @@ public class HUDHandlerFluids implements IWailaDataProvider {
     public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
         Pair<Fluid, Boolean> fluidPair = getFluidFromBlock(accessor.getBlockState());
         String modName = ModIdentification.findModContainer(FluidRegistry.getDefaultFluidName(fluidPair.getLeft()).split(":")[0]).getName();
-        if (!Strings.isNullOrEmpty(VanillaTooltipHandler.modNameWrapper) && !Strings.isNullOrEmpty(modName)) {
+        if (!Strings.isNullOrEmpty(VanillaTooltipHandler.modNameWrapper) && !Strings.isNullOrEmpty(modName))
             currenttip.add(String.format(VanillaTooltipHandler.modNameWrapper, modName));
-        }
 
         return currenttip;
     }
