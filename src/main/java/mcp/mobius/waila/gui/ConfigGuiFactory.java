@@ -1,5 +1,6 @@
 package mcp.mobius.waila.gui;
 
+import mcp.mobius.waila.gui.screens.config.ScreenConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.fml.client.IModGuiFactory;
@@ -15,7 +16,7 @@ public class ConfigGuiFactory implements IModGuiFactory {
 
     @Override
     public Class<? extends GuiScreen> mainConfigGuiClass() {
-        return GuiWailaConfig.class;
+        return ScreenConfig.class;
     }
 
     @Override
