@@ -45,12 +45,12 @@ public class HUDHandlerFluids implements IWailaDataProvider {
                 name = s;
 
             if (name != null)
-                currenttip.add(name);
+                currenttip.add("\u00a7r" + name);
         } catch (Exception e) {
         }
 
         if (currenttip.size() == 0)
-            currenttip.add("< Unnamed >");
+            currenttip.add("\u00a7r" + String.format(FormattingConfig.fluidFormat, "< Unnamed >"));
         else {
             if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATA, true) && !Strings.isNullOrEmpty(FormattingConfig.metaFormat))
                 currenttip.add(String.format(FormattingConfig.metaFormat, accessor.getBlock().getRegistryName().toString(), accessor.getMetadata()));

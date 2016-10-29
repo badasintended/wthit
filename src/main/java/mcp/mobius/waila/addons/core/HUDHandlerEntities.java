@@ -35,10 +35,10 @@ public class HUDHandlerEntities implements IWailaEntityProvider {
     public List<String> getWailaHead(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
         if (!Strings.isNullOrEmpty(FormattingConfig.entityFormat)) {
             try {
-                currenttip.add(String.format(FormattingConfig.entityFormat, entity.getName()));
+                currenttip.add("\u00a7r" + String.format(FormattingConfig.entityFormat, entity.getName()));
             }
             catch (Exception e) {
-                currenttip.add(String.format(FormattingConfig.entityFormat, "Unknown"));
+                currenttip.add("\u00a7r" + String.format(FormattingConfig.entityFormat, "Unknown"));
             }
         } else currenttip.add("Unknown");
 

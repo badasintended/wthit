@@ -26,6 +26,7 @@ This is a list of the primary changes and differences between the official Waila
 * Maturity tooltips for crops now work correctly if the crop has a different max age.
 * Added config for the format used to display Block, Entity, and Mod names
     * You can now wrap custom text around the name, with support for MOTD-like formatting codes.
+    * Due to limitations presented by item rarity, the block name itself will always be a fixed colour, and reset formatting to default after itself.
     * See image below
 * Fixed the ID + Meta tooltip
     * No more `< UNIMPLEMENTED >` in your tooltips
