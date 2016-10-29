@@ -25,8 +25,12 @@ choice.format.blockname=Block Name
 choice.format.fluidname=Fluid Name
 choice.format.entityname=Entity Name
 choice.format.metadata=Metadata
+choice.format.background=Background Color
+choice.format.gradienttop=Gradient Color (Top)
+choice.format.gradientbottom=Gradient Color (Bottom)
+choice.format.font=Text Color
 screen.button.configureaspect=Configure aspect...
-screen.button.configureformat=Configure formatting...
+screen.button.configureformat=Format content...
 
 enchant.title.name=Name
 enchant.title.minlvl=Min lvl
