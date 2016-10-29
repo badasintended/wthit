@@ -23,7 +23,7 @@ public class TTRenderHealth implements IWailaTooltipRenderer {
         int heartsPerLine = (int) (Math.min(maxhearts, Math.ceil(maxhealth)));
         int nlines = (int) (Math.ceil(maxhealth / maxhearts));
 
-        return new Dimension(8 * heartsPerLine, 10 * nlines - 4);
+        return new Dimension(8 * heartsPerLine, 10 * nlines - 3);
     }
 
     @Override
