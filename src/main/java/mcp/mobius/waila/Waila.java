@@ -51,7 +51,6 @@ public class Waila {
 
         ConfigHandler.instance().loadDefaultConfig(event);
         OverlayConfig.updateColors();
-        MinecraftForge.EVENT_BUS.register(new DecoratorRenderer());
         WailaPacketHandler.INSTANCE.ordinal();
     }
 
