@@ -3,7 +3,7 @@ package mcp.mobius.waila.overlay.tooltiprenderers;
 import mcp.mobius.waila.api.IWailaCommonAccessor;
 import mcp.mobius.waila.api.IWailaTooltipRenderer;
 import mcp.mobius.waila.overlay.DisplayUtil;
-import mcp.mobius.waila.overlay.OverlayConfig;
+import mcp.mobius.waila.config.OverlayConfig;
 
 import java.awt.*;
 

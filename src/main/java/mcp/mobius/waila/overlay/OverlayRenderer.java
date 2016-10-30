@@ -1,6 +1,7 @@
 package mcp.mobius.waila.overlay;
 
 import mcp.mobius.waila.api.impl.ConfigHandler;
+import mcp.mobius.waila.config.OverlayConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.util.math.RayTraceResult;

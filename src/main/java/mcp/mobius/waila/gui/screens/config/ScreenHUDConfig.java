@@ -11,7 +11,7 @@ import mcp.mobius.waila.gui.widgets.WidgetGeometry;
 import mcp.mobius.waila.gui.widgets.buttons.ButtonLabel;
 import mcp.mobius.waila.gui.widgets.buttons.ButtonScreenChange;
 import mcp.mobius.waila.gui.widgets.movable.PictureMovableRC;
-import mcp.mobius.waila.overlay.OverlayConfig;
+import mcp.mobius.waila.config.OverlayConfig;
 import mcp.mobius.waila.utils.Constants;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.common.config.Configuration;

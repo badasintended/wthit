@@ -1,7 +1,7 @@
 package mcp.mobius.waila.handlers;
 
 import com.google.common.base.Strings;
-import mcp.mobius.waila.overlay.FormattingConfig;
+import mcp.mobius.waila.config.FormattingConfig;
 import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;

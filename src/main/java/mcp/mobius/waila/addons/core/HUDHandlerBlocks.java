@@ -6,7 +6,7 @@ import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.overlay.DisplayUtil;
-import mcp.mobius.waila.overlay.FormattingConfig;
+import mcp.mobius.waila.config.FormattingConfig;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.entity.player.EntityPlayerMP;

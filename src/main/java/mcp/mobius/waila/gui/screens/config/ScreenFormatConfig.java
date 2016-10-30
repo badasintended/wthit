@@ -1,9 +1,12 @@
 package mcp.mobius.waila.gui.screens.config;
 
 import com.google.common.base.Predicate;
+import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.api.SpecialChars;
 import mcp.mobius.waila.api.impl.ConfigHandler;
-import mcp.mobius.waila.overlay.FormattingConfig;
-import mcp.mobius.waila.overlay.OverlayConfig;
+import mcp.mobius.waila.config.ColorConfig;
+import mcp.mobius.waila.config.FormattingConfig;
+import mcp.mobius.waila.config.OverlayConfig;
 import mcp.mobius.waila.utils.Constants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -13,12 +16,16 @@ import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.lwjgl.input.Keyboard;
 
 import javax.annotation.Nullable;
-import java.awt.*;
+import java.awt.Color;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 import java.util.Locale;
 
 @SideOnly(Side.CLIENT)
@@ -72,30 +79,35 @@ public class ScreenFormatConfig extends GuiScreen {
 
         Keyboard.enableRepeatEvents(true);
 
-        buttonList.add(new GuiButton(0, width / 2 - 125, height - 30, 80, 20, I18n.translateToLocal("screen.button.ok")));
-        buttonList.add(new GuiButton(1, width / 2 - 40, height - 30, 80, 20, I18n.translateToLocal("screen.button.cancel")));
-        buttonList.add(new GuiButton(2, width / 2 + 45, height - 30, 80, 20, I18n.translateToLocal("screen.button.default")));
+        buttonList.add(new GuiButton(0, width / 2 - 125, height - 25, 80, 20, I18n.translateToLocal("screen.button.ok")));
+        buttonList.add(new GuiButton(1, width / 2 - 40, height - 25, 80, 20, I18n.translateToLocal("screen.button.cancel")));
+        buttonList.add(new GuiButton(2, width / 2 + 45, height - 25, 80, 20, I18n.translateToLocal("screen.button.default")));
+        int textFieldOffset = 0;
+        if (!ColorConfig.ACTIVE_CONFIGS.isEmpty()) {
+            buttonList.add(new ButtonCycleTheme(this, 3, width / 2 - 75, height - 48, 150, 20, ColorConfig.ACTIVE_CONFIGS));
+            textFieldOffset = -10;
+        }
 
-        nameFormat = new GuiTextField(3, fontRendererObj, width / 4, 20, 150, 16);
+        nameFormat = new GuiTextField(3, fontRendererObj, width / 4, 20 + textFieldOffset, 150, 16);
         nameFormat.setText(StringEscapeUtils.escapeJava(FormattingConfig.modNameFormat));
-        blockFormat = new GuiTextField(4, fontRendererObj, width / 4, 40, 150, 16);
+        blockFormat = new GuiTextField(4, fontRendererObj, width / 4, 40 + textFieldOffset, 150, 16);
         blockFormat.setText(StringEscapeUtils.escapeJava(FormattingConfig.blockFormat));
-        fluidFormat = new GuiTextField(5, fontRendererObj, width / 4, 60, 150, 16);
+        fluidFormat = new GuiTextField(5, fontRendererObj, width / 4, 60 + textFieldOffset, 150, 16);
         fluidFormat.setText(StringEscapeUtils.escapeJava(FormattingConfig.fluidFormat));
-        entityFormat = new GuiTextField(6, fontRendererObj, width / 4, 80, 150, 16);
+        entityFormat = new GuiTextField(6, fontRendererObj, width / 4, 80 + textFieldOffset, 150, 16);
         entityFormat.setText(StringEscapeUtils.escapeJava(FormattingConfig.entityFormat));
-        metaFormat = new GuiTextField(7, fontRendererObj, width / 4, 100, 150, 16);
+        metaFormat = new GuiTextField(7, fontRendererObj, width / 4, 100 + textFieldOffset, 150, 16);
         metaFormat.setText(StringEscapeUtils.escapeJava(FormattingConfig.metaFormat));
-        backgroundColor = new GuiTextField(8, fontRendererObj, width / 4, 120, 150, 16);
+        backgroundColor = new GuiTextField(8, fontRendererObj, width / 4, 120 + textFieldOffset, 150, 16);
         backgroundColor.setText("#" + Integer.toHexString(new Color(OverlayConfig.bgcolor).getRGB()).substring(2).toUpperCase(Locale.ENGLISH));
         backgroundColor.setValidator(HEX_COLOR);
-        gradientTop = new GuiTextField(9, fontRendererObj, width / 4, 140, 150, 16);
+        gradientTop = new GuiTextField(9, fontRendererObj, width / 4, 140 + textFieldOffset, 150, 16);
         gradientTop.setText("#" + Integer.toHexString(new Color(OverlayConfig.gradient1).getRGB()).substring(2).toUpperCase(Locale.ENGLISH));
         gradientTop.setValidator(HEX_COLOR);
-        gradientBottom = new GuiTextField(9, fontRendererObj, width / 4, 160, 150, 16);
+        gradientBottom = new GuiTextField(9, fontRendererObj, width / 4, 160 + textFieldOffset, 150, 16);
         gradientBottom.setText("#" + Integer.toHexString(new Color(OverlayConfig.gradient2).getRGB()).substring(2).toUpperCase(Locale.ENGLISH));
         gradientBottom.setValidator(HEX_COLOR);
-        textColor = new GuiTextField(9, fontRendererObj, width / 4, 180, 150, 16);
+        textColor = new GuiTextField(9, fontRendererObj, width / 4, 180 + textFieldOffset, 150, 16);
         textColor.setText("#" + Integer.toHexString(new Color(OverlayConfig.fontcolor).getRGB()).substring(2).toUpperCase(Locale.ENGLISH));
         textColor.setValidator(HEX_COLOR);
     }
@@ -216,5 +228,74 @@ public class ScreenFormatConfig extends GuiScreen {
         config.setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_GRADIENT2, Color.decode(gradientBottom.getText()).getRGB());
         config.setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_FONTCOLOR, Color.decode(textColor.getText()).getRGB());
         OverlayConfig.updateColors();
+    }
+    
+    public static class ButtonCycleTheme extends GuiButton {
+
+        private static int cachedIndex = 0;
+
+        private final ScreenFormatConfig parent;
+        private List<ColorConfig> configs;
+        private int index;
+
+        public ButtonCycleTheme(ScreenFormatConfig parent, int buttonId, int x, int y, int widthIn, int heightIn, List<ColorConfig> colorConfigs) {
+            super(buttonId, x, y, widthIn, heightIn, "");
+
+            this.configs = colorConfigs;
+            this.parent = parent;
+            this.index = cachedIndex;
+        }
+
+        public ButtonCycleTheme(ScreenFormatConfig parent, int buttonId, int x, int y, List<ColorConfig> colorConfigs) {
+            this(parent, buttonId, x, y, 200, 20, colorConfigs);
+        }
+
+        @Override
+        public void drawButton(Minecraft mc, int mouseX, int mouseY) {
+            String toDraw = configs.get(index).getName();
+            if (net.minecraft.client.resources.I18n.hasKey(toDraw))
+                toDraw = net.minecraft.client.resources.I18n.format(toDraw);
+
+            if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
+                toDraw = SpecialChars.GREEN + net.minecraft.client.resources.I18n.format("screen.button.exporttheme");
+
+            displayString = toDraw;
+            super.drawButton(mc, mouseX, mouseY);
+        }
+
+        @Override
+        public boolean mousePressed(Minecraft mc, int mouseX, int mouseY) {
+            if (super.mousePressed(mc, mouseX, mouseY)) {
+                if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
+                    ColorConfig config = new ColorConfig(
+                            RandomStringUtils.randomAlphanumeric(10),
+                            Color.decode(parent.backgroundColor.getText()),
+                            Color.decode(parent.gradientTop.getText()),
+                            Color.decode(parent.gradientBottom.getText()),
+                            Color.decode(parent.textColor.getText())
+                    );
+                    String json = OverlayConfig.GSON.toJson(config);
+                    try {
+                        FileWriter fileWriter = new FileWriter(new File(Waila.themeDir, config.getName() + ".json"));
+                        fileWriter.write(json);
+                        fileWriter.close();
+                    } catch (Exception e) {
+                        return false;
+                    }
+                    return true;
+                }
+
+                index++;
+                if (index >= configs.size())
+                    index = 0;
+
+                cachedIndex = index;
+
+                configs.get(index).apply(parent.backgroundColor, parent.gradientTop, parent.gradientBottom, parent.textColor);
+                return true;
+            }
+
+            return false;
+        }
     }
 }

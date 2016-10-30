@@ -31,6 +31,7 @@ choice.format.gradientbottom=Gradient Color (Bottom)
 choice.format.font=Text Color
 screen.button.configureaspect=Configure aspect...
 screen.button.configureformat=Format content...
+screen.button.exporttheme=Export theme
 
 enchant.title.name=Name
 enchant.title.minlvl=Min lvl
@@ -111,6 +112,9 @@ hud.msg.career=Career: %s
 
 hud.item.melonstem=Melon Stem
 hud.item.pumpkinstem=Pumpkin Stem
+
+cfg.theme.vanilla=Vanilla
+cfg.theme.dark=Dark
 
 option.appeng.monitorcontent=Monitor's content
 option.bb.content=Barrel's content

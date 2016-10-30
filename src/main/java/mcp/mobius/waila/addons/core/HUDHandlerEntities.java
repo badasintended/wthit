@@ -4,7 +4,7 @@ import com.google.common.base.Strings;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaEntityAccessor;
 import mcp.mobius.waila.api.IWailaEntityProvider;
-import mcp.mobius.waila.overlay.FormattingConfig;
+import mcp.mobius.waila.config.FormattingConfig;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayerMP;

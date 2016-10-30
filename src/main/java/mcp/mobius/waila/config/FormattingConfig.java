@@ -1,4 +1,4 @@
-package mcp.mobius.waila.overlay;
+package mcp.mobius.waila.config;
 
 public class FormattingConfig {
 
