@@ -16,7 +16,7 @@ public class TTRenderStack implements IWailaTooltipRenderer {
 
     @Override
     public Dimension getSize(String[] params, IWailaCommonAccessor accessor) {
-        return new Dimension(16, 16);
+        return new Dimension(params[0].equals("1") ? 20 : 16, 16);
     }
 
     @Override
