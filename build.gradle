@@ -56,6 +56,16 @@ processResources{
     }
 }
 
+// API jar
+task apiJar(type: Jar) {
+    from sourceSets.main.allSource
+    from sourceSets.main.output
+    include 'mcp/mobius/waila/api/**/*'
+    classifier = 'api'
+}
+
+tasks.build.dependsOn apiJar
+
 artifacts {
 
 }
