@@ -13,7 +13,7 @@ buildscript {
 
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'java'
-apply plugin: 'maven'
+apply plugin: 'maven-publish'
 
 def build_number = 'CUSTOM'
 
@@ -66,10 +66,24 @@ task apiJar(type: Jar) {
 
 tasks.build.dependsOn apiJar
 
-artifacts {
-
+tasks.withType(JavaCompile) { task ->
+    task.options.encoding = 'UTF-8'
 }
 
-uploadArchives {
-
+publishing {
+    tasks.publish.dependsOn 'build'
+    publications {
+        mavenJava(MavenPublication) {
+            artifact jar
+            artifact sourceJar
+            artifact apiJar
+        }
+    }
+    repositories {
+        if (project.hasProperty('maven_repo')) {
+            maven { url maven_repo }
+        } else {
+            mavenLocal()
+        }
+    }
 }
