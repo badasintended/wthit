@@ -188,10 +188,8 @@ public class ScreenFormatConfig extends GuiScreen {
     private void updateConfig() {
         ConfigHandler config = ConfigHandler.instance();
 
-        if (nameFormat.getText().contains("%s")) {
-            config.setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_MODNAMEFORMAT, nameFormat.getText());
-            FormattingConfig.modNameFormat = StringEscapeUtils.unescapeJava(nameFormat.getText());
-        }
+        config.setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_MODNAMEFORMAT, nameFormat.getText());
+        FormattingConfig.modNameFormat = StringEscapeUtils.unescapeJava(nameFormat.getText());
 
         if (blockFormat.getText().contains("%s")) {
             config.setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_BLOCKNAMEFORMAT, blockFormat.getText());
