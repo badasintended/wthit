@@ -27,18 +27,18 @@ public class ProxyServer {
                 String requiredMod = (String) data.getAnnotationInfo().get("value");
                 if (Strings.isNullOrEmpty(requiredMod))
                     requiredMod = "anything";
-                Waila.log.info("Attempting to register plugin for {} from {}", requiredMod, data.getClassName());
+                Waila.LOGGER.info("Attempting to register plugin for {} from {}", requiredMod, data.getClassName());
                 if (Loader.isModLoaded(requiredMod) || requiredMod.equalsIgnoreCase("anything")) {
                     Stopwatch stopwatch = Stopwatch.createStarted();
                     Class<?> asmClass = Class.forName(data.getClassName());
                     if (IWailaPlugin.class.isAssignableFrom(asmClass)) {
                         IWailaPlugin wailaPlugin = (IWailaPlugin) asmClass.newInstance();
                         wailaPlugin.register(ModuleRegistrar.instance());
-                        Waila.log.info("Registered plugin for {} from {} in {}", requiredMod, data.getClassName(), stopwatch.stop());
-                    } else Waila.log.error("{} attempted to register a plugin for {} that did not implement IWailaPlugin", data.getClassName(), requiredMod);
-                } else Waila.log.error("{} is not loaded. Passing over plugin.", requiredMod);
+                        Waila.LOGGER.info("Registered plugin for {} from {} in {}", requiredMod, data.getClassName(), stopwatch.stop());
+                    } else Waila.LOGGER.error("{} attempted to register a plugin for {} that did not implement IWailaPlugin", data.getClassName(), requiredMod);
+                } else Waila.LOGGER.error("{} is not loaded. Passing over plugin.", requiredMod);
             } catch (Exception e) {
-                Waila.log.error("Error registering plugin for class {}", data.getClassName());
+                Waila.LOGGER.error("Error registering plugin for class {}", data.getClassName());
             }
         }
     }
@@ -54,21 +54,21 @@ public class ProxyServer {
         String methodName = splitName[splitName.length - 1];
         String className = method.substring(0, method.length() - methodName.length() - 1);
 
-        Waila.log.info(String.format("Trying to reflect %s %s", className, methodName));
+        Waila.LOGGER.info(String.format("Trying to reflect %s %s", className, methodName));
 
         try {
             Class reflectClass = Class.forName(className);
             Method reflectMethod = reflectClass.getDeclaredMethod(methodName, IWailaRegistrar.class);
             reflectMethod.invoke(null, (IWailaRegistrar) ModuleRegistrar.instance());
 
-            Waila.log.info(String.format("Success in registering %s", modname));
+            Waila.LOGGER.info(String.format("Success in registering %s", modname));
 
         } catch (ClassNotFoundException e) {
-            Waila.log.warn(String.format("Could not find class %s", className));
+            Waila.LOGGER.warn(String.format("Could not find class %s", className));
         } catch (NoSuchMethodException e) {
-            Waila.log.warn(String.format("Could not find method %s", methodName));
+            Waila.LOGGER.warn(String.format("Could not find method %s", methodName));
         } catch (Exception e) {
-            Waila.log.warn(String.format("Exception while trying to access the method : %s", e.toString()));
+            Waila.LOGGER.warn(String.format("Exception while trying to access the method : %s", e.toString()));
         }
     }
 

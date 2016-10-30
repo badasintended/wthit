@@ -194,7 +194,7 @@ public class ModuleRegistrar implements IWailaRegistrar {
         if (!this.tooltipRenderers.containsKey(name))
             this.tooltipRenderers.put(name, renderer);
         else
-            Waila.log.warn(String.format("A renderer named %s already exists (Class : %s). Skipping new renderer.", name, renderer.getClass().getName()));
+            Waila.LOGGER.warn(String.format("A renderer named %s already exists (Class : %s). Skipping new renderer.", name, renderer.getClass().getName()));
     }
 
     public Map<Integer, List<IWailaDataProvider>> getHeadProviders(Object block) {

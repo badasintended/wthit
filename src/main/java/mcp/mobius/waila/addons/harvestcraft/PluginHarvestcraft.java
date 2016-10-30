@@ -16,7 +16,7 @@ public class PluginHarvestcraft implements IWailaPlugin {
         try {
             TileEntityPamCrop = Class.forName("assets.pamharvestcraft.TileEntityPamCrop");
         } catch (ClassNotFoundException e) {
-            Waila.log.log(Level.WARN, "[PamHarvestCraft] Class not found. " + e);
+            Waila.LOGGER.log(Level.WARN, "[PamHarvestCraft] Class not found. " + e);
             return;
         }
 

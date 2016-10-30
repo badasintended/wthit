@@ -18,11 +18,11 @@ public class WailaExceptionHandler {
             errs.add(className);
 
             for (StackTraceElement elem : e.getStackTrace()) {
-                Waila.log.log(Level.WARN, String.format("%s.%s:%s", elem.getClassName(), elem.getMethodName(), elem.getLineNumber()));
+                Waila.LOGGER.log(Level.WARN, String.format("%s.%s:%s", elem.getClassName(), elem.getMethodName(), elem.getLineNumber()));
                 if (elem.getClassName().contains("waila")) break;
             }
 
-            Waila.log.log(Level.WARN, String.format("Catched unhandled exception : [%s] %s", className, e));
+            Waila.LOGGER.log(Level.WARN, String.format("Catched unhandled exception : [%s] %s", className, e));
         }
         if (currenttip != null)
             currenttip.add("<ERROR>");

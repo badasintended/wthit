@@ -31,15 +31,20 @@ import org.apache.logging.log4j.Logger;
 import java.lang.reflect.Field;
 import java.util.Set;
 
-@Mod(modid = "Waila", name = "Waila", version = "1.8.0", dependencies = "required-after:Forge@[12.16.0.1887,);", acceptedMinecraftVersions = "[1.9, 1.11]", acceptableRemoteVersions = "*", guiFactory = "mcp.mobius.waila.gui.ConfigGuiFactory")
+@Mod(modid = Waila.MODID, name = Waila.NAME, version = Waila.VERSION, dependencies = Waila.DEPEND, acceptedMinecraftVersions = "[1.9, 1.11]", acceptableRemoteVersions = "*", guiFactory = "mcp.mobius.waila.gui.ConfigGuiFactory")
 public class Waila {
+
+    public static final String MODID = "Waila";
+    public static final String NAME = "Waila";
+    public static final String VERSION = "1.8.0";
+    public static final String DEPEND = "required-after:Forge@[12.16.0.1887,);";
+    public static final Logger LOGGER = LogManager.getLogger("Waila");
+
     // The instance of your mod that Forge uses.
     @Instance("Waila")
     public static Waila instance;
-
     @SidedProxy(clientSide = "mcp.mobius.waila.client.ProxyClient", serverSide = "mcp.mobius.waila.server.ProxyServer")
     public static ProxyServer proxy;
-    public static Logger log = LogManager.getLogger("Waila");
     public static Set<ASMDataTable.ASMData> plugins;
 
     public boolean serverPresent = false;
@@ -93,15 +98,15 @@ public class Waila {
             if (imcMessage.key.equalsIgnoreCase("addconfig")) {
                 String[] params = imcMessage.getStringValue().split("\\$\\$");
                 if (params.length != 3) {
-                    Waila.log.warn(String.format("Error while parsing config option from [ %s ] for %s", imcMessage.getSender(), imcMessage.getStringValue()));
+                    Waila.LOGGER.warn(String.format("Error while parsing config option from [ %s ] for %s", imcMessage.getSender(), imcMessage.getStringValue()));
                     continue;
                 }
-                Waila.log.info(String.format("Receiving config request from [ %s ] for %s", imcMessage.getSender(), imcMessage.getStringValue()));
+                Waila.LOGGER.info(String.format("Receiving config request from [ %s ] for %s", imcMessage.getSender(), imcMessage.getStringValue()));
                 ConfigHandler.instance().addConfig(params[0], params[1], params[2]);
             }
 
             if (imcMessage.key.equalsIgnoreCase("register")) {
-                Waila.log.info(String.format("Receiving registration request from [ %s ] for method %s", imcMessage.getSender(), imcMessage.getStringValue()));
+                Waila.LOGGER.info(String.format("Receiving registration request from [ %s ] for method %s", imcMessage.getSender(), imcMessage.getStringValue()));
                 ModuleRegistrar.instance().addIMCRequest(imcMessage.getStringValue(), imcMessage.getSender());
             }
         }

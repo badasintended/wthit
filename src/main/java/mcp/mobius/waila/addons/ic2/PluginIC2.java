@@ -4,7 +4,6 @@ import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.api.IWailaRegistrar;
 import mcp.mobius.waila.api.WailaPlugin;
-import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import org.apache.logging.log4j.Level;
 
 import java.lang.reflect.Field;
@@ -89,7 +88,7 @@ public class PluginIC2 implements IWailaPlugin {
             registrar.addConfigRemote("IndustrialCraft2", "ic2.outputeu");
 
         } catch (Exception e) {
-            Waila.log.log(Level.WARN, "[IndustrialCraft 2] Error while loading generator hooks." + e);
+            Waila.LOGGER.log(Level.WARN, "[IndustrialCraft 2] Error while loading generator hooks." + e);
         }
     }
 

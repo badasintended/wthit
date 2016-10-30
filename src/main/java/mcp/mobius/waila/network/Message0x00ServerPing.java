@@ -50,11 +50,11 @@ public class Message0x00ServerPing extends SimpleChannelInboundHandler<Message0x
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Message0x00ServerPing msg) throws Exception {
-        Waila.log.info("Received server authentication msg. Remote sync will be activated");
+        Waila.LOGGER.info("Received server authentication msg. Remote sync will be activated");
         Waila.instance.serverPresent = true;
 
         for (String key : msg.forcedKeys.keySet())
-            Waila.log.info(String.format("Received forced key config %s : %s", key, msg.forcedKeys.get(key)));
+            Waila.LOGGER.info(String.format("Received forced key config %s : %s", key, msg.forcedKeys.get(key)));
 
         ConfigHandler.instance().forcedConfigs = msg.forcedKeys;
     }

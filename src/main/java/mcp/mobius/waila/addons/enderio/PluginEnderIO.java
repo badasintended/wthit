@@ -34,16 +34,16 @@ public class PluginEnderIO implements IWailaPlugin {
             TileTesseract = Class.forName("crazypants.enderio.machine.hypercube.TileHyperCube");
 
         } catch (ClassNotFoundException e) {
-            Waila.log.log(Level.WARN, "[EnderIO] Class not found. " + e);
+            Waila.LOGGER.log(Level.WARN, "[EnderIO] Class not found. " + e);
             return;
         } catch (NoSuchMethodException e) {
-            Waila.log.log(Level.WARN, "[EnderIO] Method not found." + e);
+            Waila.LOGGER.log(Level.WARN, "[EnderIO] Method not found." + e);
             return;
 //		} catch (NoSuchFieldException e){
 //			mod_Waila.log.log(Level.WARNING, "[EnderIO] Field not found." + e);
 //			return;			
         } catch (Exception e) {
-            Waila.log.log(Level.WARN, "[EnderIO] Unhandled exception." + e);
+            Waila.LOGGER.log(Level.WARN, "[EnderIO] Unhandled exception." + e);
             return;
         }
 

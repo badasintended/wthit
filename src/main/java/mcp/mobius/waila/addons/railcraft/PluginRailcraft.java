@@ -4,7 +4,6 @@ import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.api.IWailaRegistrar;
 import mcp.mobius.waila.api.WailaPlugin;
-import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import org.apache.logging.log4j.Level;
 
 import java.lang.reflect.Method;
@@ -25,10 +24,10 @@ public class PluginRailcraft implements IWailaPlugin {
             //StandardTank = Class.forName("mods.railcraft.common.fluids.tanks.StandardTank");
 
         } catch (ClassNotFoundException e) {
-            Waila.log.log(Level.WARN, "[Railcraft] Class not found. " + e);
+            Waila.LOGGER.log(Level.WARN, "[Railcraft] Class not found. " + e);
             return;
         } catch (NoSuchMethodException e) {
-            Waila.log.log(Level.WARN, "[Railcraft] Method not found." + e);
+            Waila.LOGGER.log(Level.WARN, "[Railcraft] Method not found." + e);
             return;
         }
 

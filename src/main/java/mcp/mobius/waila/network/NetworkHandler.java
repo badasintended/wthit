@@ -8,7 +8,7 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent;
 public class NetworkHandler {
     @SubscribeEvent
     public void onPlayerLoggedIn(PlayerLoggedInEvent event) {
-        Waila.log.info(String.format("Player %s connected. Sending ping", event.player));
+        Waila.LOGGER.info(String.format("Player %s connected. Sending ping", event.player));
         WailaPacketHandler.INSTANCE.sendTo(new Message0x00ServerPing(), (EntityPlayerMP) event.player);
     }
 }

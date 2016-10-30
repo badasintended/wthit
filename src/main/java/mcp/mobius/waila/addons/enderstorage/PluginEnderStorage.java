@@ -33,16 +33,16 @@ public class PluginEnderStorage implements IWailaPlugin {
             TileEnderTank = Class.forName("codechicken.enderstorage.storage.liquid.TileEnderTank");
 
         } catch (ClassNotFoundException e) {
-            Waila.log.log(Level.WARN, "[EnderStorage] Class not found. " + e);
+            Waila.LOGGER.log(Level.WARN, "[EnderStorage] Class not found. " + e);
             return;
         } catch (NoSuchMethodException e) {
-            Waila.log.log(Level.WARN, "[EnderStorage] Method not found." + e);
+            Waila.LOGGER.log(Level.WARN, "[EnderStorage] Method not found." + e);
             return;
         } catch (NoSuchFieldException e) {
-            Waila.log.log(Level.WARN, "[EnderStorage] Field not found." + e);
+            Waila.LOGGER.log(Level.WARN, "[EnderStorage] Field not found." + e);
             return;
         } catch (Exception e) {
-            Waila.log.log(Level.WARN, "[EnderStorage] Unhandled exception." + e);
+            Waila.LOGGER.log(Level.WARN, "[EnderStorage] Unhandled exception." + e);
             return;
         }
 

@@ -33,10 +33,10 @@ public class CommandDumpHandlers extends CommandBase {
             FileWriter writer = new FileWriter(dumpFile);
             writer.write(getHandlerDump());
             writer.close();
-            Waila.log.info("Printed handler dump to {}", dumpFile.getAbsolutePath());
+            Waila.LOGGER.info("Printed handler dump to {}", dumpFile.getAbsolutePath());
         } catch (Exception e) {
-            Waila.log.error("Error dumping handlers to file. Falling back to log.");
-            Waila.log.error("\n" + getHandlerDump());
+            Waila.LOGGER.error("Error dumping handlers to file. Falling back to log.");
+            Waila.LOGGER.error("\n" + getHandlerDump());
         }
     }
 
