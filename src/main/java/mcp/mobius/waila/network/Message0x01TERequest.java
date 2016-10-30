@@ -6,6 +6,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.utils.AccessHelper;
+import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.NBTUtil;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.block.Block;
@@ -26,24 +27,6 @@ import java.util.HashSet;
 import java.util.List;
 
 public class Message0x01TERequest extends SimpleChannelInboundHandler<Message0x01TERequest> implements IWailaMessage {
-
-    private static Field classToNameMap = null;
-
-    static {
-        try {
-            classToNameMap = TileEntity.class.getDeclaredField("classToNameMap");
-            classToNameMap.setAccessible(true);
-        } catch (Exception e) {
-
-            try {
-                classToNameMap = TileEntity.class.getDeclaredField("field_145853_j");
-                classToNameMap.setAccessible(true);
-            } catch (Exception f) {
-                throw new RuntimeException(f);
-            }
-
-        }
-    }
 
     public int dim;
     public int posX;
@@ -111,7 +94,7 @@ public class Message0x01TERequest extends SimpleChannelInboundHandler<Message0x0
                     tag.setInteger("x", msg.posX);
                     tag.setInteger("y", msg.posY);
                     tag.setInteger("z", msg.posZ);
-                    tag.setString("id", (String) ((HashMap) classToNameMap.get(null)).get(entity.getClass()));
+                    tag.setString("id", (String) ((HashMap) Constants.TE_CLASS_TO_NAME.get(null)).get(entity.getClass()));
 
                     EntityPlayerMP player = ((NetHandlerPlayServer) ctx.channel().attr(NetworkRegistry.NET_HANDLER).get()).playerEntity;
 
@@ -148,7 +131,7 @@ public class Message0x01TERequest extends SimpleChannelInboundHandler<Message0x0
                 tag.setInteger("WailaX", msg.posX);
                 tag.setInteger("WailaY", msg.posY);
                 tag.setInteger("WailaZ", msg.posZ);
-                tag.setString("WailaID", (String) ((HashMap) classToNameMap.get(null)).get(entity.getClass()));
+                tag.setString("WailaID", (String) ((HashMap) Constants.TE_CLASS_TO_NAME.get(null)).get(entity.getClass()));
 
                 WailaPacketHandler.INSTANCE.sendTo(new Message0x02TENBTData(tag), WailaPacketHandler.getPlayer(ctx));
                 //ctx.writeAndFlush(new Message0x02TENBTData(tag)).addListener(ChannelFutureListener.FIRE_EXCEPTION_ON_FAILURE);

@@ -166,6 +166,7 @@ option.general.showhp=Show entities health
 option.general.showcrop=Show crop growth
 option.general.registry=Show registry data
 option.capability.tankinfo=Show tank data
+option.capability.energyinfo=Show energy data
 option.thaumcraft.aspects=Show aspects
 
 nei.options.keys.showenchant=Show enchanting values

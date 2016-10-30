@@ -2,7 +2,7 @@ package mcp.mobius.waila.utils;
 
 import net.minecraft.nbt.*;
 
-import java.util.HashSet;
+import java.util.Set;
 
 public class NBTUtil {
 
@@ -42,7 +42,7 @@ public class NBTUtil {
         return targetTag;
     }
 
-    public static NBTTagCompound createTag(NBTTagCompound inTag, HashSet<String> keys) {
+    public static NBTTagCompound createTag(NBTTagCompound inTag, Set<String> keys) {
         if (keys.contains("*")) return inTag;
 
         NBTTagCompound outTag = new NBTTagCompound();

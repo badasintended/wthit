@@ -212,4 +212,14 @@ public class RayTracing {
         return _instance;
     }
 
+    public static RayTraceResult rayTraceServer(Entity entity, double distance) {
+        Vec3d eyePosition = new Vec3d(entity.getPosition().add(0, entity.getEyeHeight(), 0));
+        Vec3d lookVector = entity.getLook(0.0F);
+        Vec3d endPoint = eyePosition.addVector(lookVector.xCoord * distance, lookVector.yCoord * distance, lookVector.zCoord * distance);
+
+        if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID, true))
+            return entity.worldObj.rayTraceBlocks(eyePosition, endPoint, true);
+        else
+            return entity.worldObj.rayTraceBlocks(eyePosition, endPoint, false);
+    }
 }

@@ -1,5 +1,10 @@
 package mcp.mobius.waila.utils;
 
+import net.minecraft.tileentity.TileEntity;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
+
+import java.lang.reflect.Field;
+
 public final class Constants {
     public static final String BIND_SCREEN_WIKI = "showwiki";
     public static final String BIND_SCREEN_TECH = "showtechtree";
@@ -46,4 +51,10 @@ public final class Constants {
     public static final boolean SERVER_FREE = false;
     public static final boolean SERVER_FORCED = true;
 
+    public static final Field TE_CLASS_TO_NAME;
+
+    static {
+        TE_CLASS_TO_NAME = ReflectionHelper.findField(TileEntity.class, "classToNameMap", "field_145853_j");
+        TE_CLASS_TO_NAME.setAccessible(true);
+    }
 }
