@@ -9,7 +9,6 @@ import org.lwjgl.opengl.GL12;
 
 public class OverlayRenderer {
 
-
     protected static boolean hasBlending;
     protected static boolean hasLight;
     protected static boolean hasDepthTest;
@@ -53,7 +52,8 @@ public class OverlayRenderer {
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_DEPTH_TEST);
 
-        drawTooltipBox(tooltip.x, tooltip.y, tooltip.w, tooltip.h, OverlayConfig.bgcolor, OverlayConfig.gradient1, OverlayConfig.gradient2);
+        if (OverlayConfig.alpha != 0)
+            drawTooltipBox(tooltip.x, tooltip.y, tooltip.w, tooltip.h, OverlayConfig.bgcolor, OverlayConfig.gradient1, OverlayConfig.gradient2);
 
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
