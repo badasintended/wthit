@@ -28,6 +28,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.io.File;
 import java.lang.reflect.Field;
 import java.util.Set;
 
@@ -46,6 +47,7 @@ public class Waila {
     @SidedProxy(clientSide = "mcp.mobius.waila.client.ProxyClient", serverSide = "mcp.mobius.waila.server.ProxyServer")
     public static ProxyServer proxy;
     public static Set<ASMDataTable.ASMData> plugins;
+    public static File configDir;
 
     public boolean serverPresent = false;
 
@@ -54,6 +56,7 @@ public class Waila {
     public void preInit(FMLPreInitializationEvent event) {
         plugins = event.getAsmData().getAll(WailaPlugin.class.getCanonicalName());
 
+        configDir = new File(event.getModConfigurationDirectory(), "waila");
         ConfigHandler.instance().loadDefaultConfig(event);
         OverlayConfig.updateColors();
         WailaPacketHandler.INSTANCE.ordinal();

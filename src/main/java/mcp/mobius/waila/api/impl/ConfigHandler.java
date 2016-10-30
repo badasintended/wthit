@@ -9,8 +9,10 @@ import mcp.mobius.waila.utils.Constants;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -151,7 +153,17 @@ public class ConfigHandler implements IWailaConfigHandler {
     }
 
     public void loadDefaultConfig(FMLPreInitializationEvent event) {
-        config = new Configuration(event.getSuggestedConfigurationFile());
+        File configFile = new File(Waila.configDir, "waila.cfg");
+        try {
+            FileUtils.forceMkdir(Waila.configDir);
+            File file = event.getSuggestedConfigurationFile();
+            if (file.exists() && !configFile.exists())
+                FileUtils.moveFile(file, configFile);
+        } catch (Exception e) {
+            Waila.LOGGER.error("Error migrating config to new location");
+        }
+
+        config = new Configuration(configFile);
 
         config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW, true);
         config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_MODE, true);
