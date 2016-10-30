@@ -72,9 +72,9 @@ public class ScreenFormatConfig extends GuiScreen {
 
         Keyboard.enableRepeatEvents(true);
 
-        addButton(new GuiButton(0, width / 2 - 125, height - 30, 80, 20, I18n.translateToLocal("screen.button.ok")));
-        addButton(new GuiButton(1, width / 2 - 40, height - 30, 80, 20, I18n.translateToLocal("screen.button.cancel")));
-        addButton(new GuiButton(2, width / 2 + 45, height - 30, 80, 20, I18n.translateToLocal("screen.button.default")));
+        buttonList.add(new GuiButton(0, width / 2 - 125, height - 30, 80, 20, I18n.translateToLocal("screen.button.ok")));
+        buttonList.add(new GuiButton(1, width / 2 - 40, height - 30, 80, 20, I18n.translateToLocal("screen.button.cancel")));
+        buttonList.add(new GuiButton(2, width / 2 + 45, height - 30, 80, 20, I18n.translateToLocal("screen.button.default")));
 
         nameFormat = new GuiTextField(3, fontRendererObj, width / 4, 20, 150, 16);
         nameFormat.setText(StringEscapeUtils.escapeJava(FormattingConfig.modNameFormat));
