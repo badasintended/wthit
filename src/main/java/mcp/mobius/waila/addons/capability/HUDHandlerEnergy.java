@@ -57,11 +57,12 @@ public class HUDHandlerEnergy implements IWailaDataProvider {
     public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
         if (te != null) {
             te.writeToNBT(tag);
-            if (te.hasCapability(CapabilityEnergy.ENERGY, null)) {
-                RayTraceResult rayTrace = RayTracing.rayTraceServer(player, player.capabilities.isCreativeMode ? 5.0 : 4.5);
-                EnumFacing side = null;
-                if (rayTrace != null && rayTrace.typeOfHit == RayTraceResult.Type.BLOCK)
-                    side = rayTrace.sideHit;
+            RayTraceResult rayTrace = RayTracing.rayTraceServer(player, player.capabilities.isCreativeMode ? 5.0 : 4.5);
+            EnumFacing side = null;
+            if (rayTrace != null && rayTrace.typeOfHit == RayTraceResult.Type.BLOCK)
+                side = rayTrace.sideHit;
+
+            if (te.hasCapability(CapabilityEnergy.ENERGY, side)) {
                 IEnergyStorage energyStorage = te.getCapability(CapabilityEnergy.ENERGY, side);
                 NBTTagCompound energyTag = new NBTTagCompound();
                 energyTag.setInteger("capacity", energyStorage.getMaxEnergyStored());
