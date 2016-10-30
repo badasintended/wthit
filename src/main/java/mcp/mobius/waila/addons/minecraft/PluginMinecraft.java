@@ -4,7 +4,6 @@ import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.api.IWailaRegistrar;
 import mcp.mobius.waila.api.WailaPlugin;
 import net.minecraft.entity.passive.EntityVillager;
-import net.minecraft.tileentity.TileEntityFurnace;
 
 @WailaPlugin
 public class PluginMinecraft implements IWailaPlugin {
@@ -14,6 +13,7 @@ public class PluginMinecraft implements IWailaPlugin {
         HUDHandlerVanilla.register(registrar);
         HUDHandlerFurnace.register(registrar);
 
-        registrar.registerBodyProvider(new HUDHandlerVillager(), EntityVillager.class);
+        registrar.registerBodyProvider(HUDHandlerVillager.INSTANCE, EntityVillager.class);
+        registrar.registerNBTProvider(HUDHandlerVillager.INSTANCE, EntityVillager.class);
     }
 }

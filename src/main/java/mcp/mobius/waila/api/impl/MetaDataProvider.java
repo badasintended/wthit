@@ -5,6 +5,7 @@ import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaEntityProvider;
 import mcp.mobius.waila.cbcore.Layout;
 import mcp.mobius.waila.network.Message0x01TERequest;
+import mcp.mobius.waila.network.Message0x03EntRequest;
 import mcp.mobius.waila.network.WailaPacketHandler;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.block.Block;
@@ -60,7 +61,7 @@ public class MetaDataProvider {
             accessor.resetTimer();
             HashSet<String> keys = new HashSet<String>();
 
-            if (keys.size() != 0 || ModuleRegistrar.instance().hasNBTProviders(block) || ModuleRegistrar.instance().hasNBTProviders(accessor.getTileEntity()))
+            if (ModuleRegistrar.instance().hasNBTProviders(block) || ModuleRegistrar.instance().hasNBTProviders(accessor.getTileEntity()))
                 WailaPacketHandler.INSTANCE.sendToServer(new Message0x01TERequest(accessor.getTileEntity(), keys));
 
         } else if (accessor.getTileEntity() != null && !Waila.instance.serverPresent && accessor.isTimeElapsed(250) && ConfigHandler.instance().showTooltip()) {
@@ -135,6 +136,11 @@ public class MetaDataProvider {
 
         if (accessor.getEntity() != null && Waila.instance.serverPresent && accessor.isTimeElapsed(250)) {
             accessor.resetTimer();
+
+            HashSet<String> keys = new HashSet<String>();
+
+            if (ModuleRegistrar.instance().hasNBTEntityProviders(accessor.getEntity()))
+                WailaPacketHandler.INSTANCE.sendToServer(new Message0x03EntRequest(accessor.getEntity(), keys));
 
         } else if (accessor.getEntity() != null && !Waila.instance.serverPresent && accessor.isTimeElapsed(250)) {
 

@@ -10,11 +10,12 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.VillagerRegistry;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 import java.util.List;
 
 public class HUDHandlerVillager implements IWailaEntityProvider {
+
+    static IWailaEntityProvider INSTANCE = new HUDHandlerVillager();
 
     @Override
     public Entity getWailaOverride(IWailaEntityAccessor accessor, IWailaConfigHandler config) {
@@ -29,7 +30,7 @@ public class HUDHandlerVillager implements IWailaEntityProvider {
     @Override
     public List<String> getWailaBody(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
         EntityVillager villager = (EntityVillager) entity;
-        int careerId = ReflectionHelper.getPrivateValue(EntityVillager.class, villager, "careerId", "field_175563_bv");
+        int careerId = accessor.getNBTData().getInteger("Career") - 1;
         VillagerRegistry.VillagerCareer career = villager.getProfessionForge().getCareer(careerId);
         currenttip.add(I18n.translateToLocalFormatted("hud.msg.career", I18n.translateToLocal("entity.Villager." + career.getName())));
         return currenttip;
