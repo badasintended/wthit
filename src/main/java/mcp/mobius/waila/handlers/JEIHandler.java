@@ -2,7 +2,6 @@ package mcp.mobius.waila.handlers;
 
 import mezz.jei.api.*;
 import mezz.jei.api.recipe.IFocus;
-import mezz.jei.gui.Focus;
 import mezz.jei.gui.ItemListOverlay;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;
@@ -23,7 +22,7 @@ public class JEIHandler extends BlankModPlugin {
     }
 
     public static void displayRecipes(ItemStack stack) {
-        runtime.getRecipesGui().show(new Focus<ItemStack>(IFocus.Mode.OUTPUT, stack));
+        runtime.getRecipesGui().show(runtime.getRecipeRegistry().createFocus(IFocus.Mode.OUTPUT, stack));
         if (Minecraft.getMinecraft().currentScreen != runtime.getRecipesGui()) {
             Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new TextComponentTranslation("client.msg.norecipe").setStyle(new Style().setColor(TextFormatting.RED)));
             return;
@@ -32,7 +31,7 @@ public class JEIHandler extends BlankModPlugin {
     }
 
     public static void displayUses(ItemStack stack) {
-        runtime.getRecipesGui().show(new Focus<ItemStack>(IFocus.Mode.INPUT, stack));
+        runtime.getRecipesGui().show(runtime.getRecipeRegistry().createFocus(IFocus.Mode.INPUT, stack));
         if (Minecraft.getMinecraft().currentScreen != runtime.getRecipesGui()) {
             Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new TextComponentTranslation("client.msg.nousage").setStyle(new Style().setColor(TextFormatting.RED)));
             return;
