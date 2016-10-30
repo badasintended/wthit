@@ -5,6 +5,7 @@ import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
@@ -14,9 +15,13 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.TextFormatting;
 import org.lwjgl.opengl.GL11;
 
+import javax.annotation.Nullable;
 import java.awt.*;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -26,6 +31,9 @@ import static mcp.mobius.waila.api.SpecialChars.*;
 public class DisplayUtil {
     protected static RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
     private static FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
+
+    private static final String[] NUM_SUFFIXES = new String[]{"","k", "m", "b", "t"};
+    private static final int MAX_LENGTH = 4;
 
     public static int getDisplayWidth(String s) {
         if (s == null || s.equals(""))
@@ -71,12 +79,43 @@ public class DisplayUtil {
         enable3DRender();
         try {
             renderItem.renderItemAndEffectIntoGUI(stack, x, y);
-            renderItem.renderItemOverlayIntoGUI(fontRendererObj, stack, x, y, null);
+            ItemStack overlayRender = stack.copy();
+            overlayRender.stackSize = 1;
+            renderItem.renderItemOverlayIntoGUI(fontRendererObj, overlayRender, x, y, null);
+            renderStackSize(fontRendererObj, stack, x, y);
+
         } catch (Exception e) {
             String stackStr = stack != null ? stack.toString() : "NullStack";
             WailaExceptionHandler.handleErr(e, "renderStack | " + stackStr, null);
         }
         enable2DRender();
+    }
+
+    public static void renderStackSize(FontRenderer fr, ItemStack stack, int xPosition, int yPosition) {
+        if (stack != null && stack.stackSize != 1) {
+            String s = shortHandNumber(stack.stackSize);
+
+            if (stack.stackSize < 1)
+                s = TextFormatting.RED + String.valueOf(stack.stackSize);
+
+            GlStateManager.disableLighting();
+            GlStateManager.disableDepth();
+            GlStateManager.disableBlend();
+//            GlStateManager.scale(0.5F, 0.5F, 0.5F);
+            fr.drawStringWithShadow(s, (float) (xPosition + 19 - 2 - fr.getStringWidth(s)), (float) (yPosition + 6 + 3), 16777215);
+            GlStateManager.enableLighting();
+            GlStateManager.enableDepth();
+            GlStateManager.enableBlend();
+        }
+    }
+
+    private static String shortHandNumber(Number number) {
+        String shorthand = new DecimalFormat("##0E0").format(number);
+        shorthand = shorthand.replaceAll("E[0-9]", NUM_SUFFIXES[Character.getNumericValue(shorthand.charAt(shorthand.length() - 1)) / 3]);
+        while(shorthand.length() > MAX_LENGTH || shorthand.matches("[0-9]+\\.[a-z]"))
+            shorthand = shorthand.substring(0, shorthand.length()-2) + shorthand.substring(shorthand.length() - 1);
+
+        return shorthand;
     }
 
     public static void enable3DRender() {
