@@ -56,7 +56,7 @@ public class ColorConfig {
         Collections.sort(ACTIVE_CONFIGS, new Comparator<ColorConfig>() {
             @Override
             public int compare(ColorConfig config1, ColorConfig config2) {
-                return config1.getName().equalsIgnoreCase("cfg.theme.vanilla") ? 1 : 0;
+                return config1.getName().equalsIgnoreCase("cfg.theme.vanilla") ? -1 : 0;
             }
         });
     }
