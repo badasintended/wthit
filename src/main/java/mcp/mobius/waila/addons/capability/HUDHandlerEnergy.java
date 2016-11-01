@@ -1,5 +1,6 @@
 package mcp.mobius.waila.addons.capability;
 
+import mcp.mobius.waila.addons.HUDHandlerBase;
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
@@ -15,19 +16,9 @@ import net.minecraftforge.energy.IEnergyStorage;
 
 import java.util.List;
 
-public class HUDHandlerEnergy implements IWailaDataProvider {
+public class HUDHandlerEnergy extends HUDHandlerBase {
 
     static final IWailaDataProvider INSTANCE = new HUDHandlerEnergy();
-
-    @Override
-    public ItemStack getWailaStack(IWailaDataAccessor accessor, IWailaConfigHandler config) {
-        return null;
-    }
-
-    @Override
-    public List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
-        return null;
-    }
 
     @Override
     public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
@@ -44,11 +35,6 @@ public class HUDHandlerEnergy implements IWailaDataProvider {
         }
 
         return currenttip;
-    }
-
-    @Override
-    public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
-        return null;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package mcp.mobius.waila.addons.minecraft;
 
+import mcp.mobius.waila.addons.HUDHandlerBase;
 import mcp.mobius.waila.api.*;
 import mcp.mobius.waila.cbcore.LangUtil;
 import net.minecraft.block.Block;
@@ -21,7 +22,7 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
-public class HUDHandlerVanilla implements IWailaDataProvider {
+public class HUDHandlerVanilla extends HUDHandlerBase {
 
     static Block mobSpawner = Blocks.MOB_SPAWNER;
     static Block crops = Blocks.WHEAT;
@@ -267,11 +268,6 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
             }
         }
 
-        return currenttip;
-    }
-
-    @Override
-    public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
         return currenttip;
     }
 

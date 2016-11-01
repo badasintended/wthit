@@ -1,6 +1,7 @@
 package mcp.mobius.waila.addons.core;
 
 import com.google.common.base.Strings;
+import mcp.mobius.waila.addons.HUDHandlerBase;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
@@ -9,25 +10,15 @@ import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.config.FormattingConfig;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.ModIdentification;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 import net.minecraftforge.common.config.Configuration;
 
 import java.util.List;
 
-public class HUDHandlerBlocks implements IWailaDataProvider {
+public class HUDHandlerBlocks extends HUDHandlerBase {
 
     static final IWailaDataProvider INSTANCE = new HUDHandlerBlocks();
-
-    @Override
-    public ItemStack getWailaStack(IWailaDataAccessor accessor, IWailaConfigHandler config) {
-        return null;
-    }
 
     @Override
     public List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
@@ -35,31 +26,25 @@ public class HUDHandlerBlocks implements IWailaDataProvider {
             return currenttip;
 
         String name = null;
-        try {
-            String s = DisplayUtil.itemDisplayNameShort(itemStack);
-            if (s != null && !s.endsWith("Unnamed"))
-                name = s;
-            if (name != null)
-                currenttip.add(name);
-        } catch (Exception e) {}
+
+        String displayName = DisplayUtil.itemDisplayNameShort(itemStack);
+        if (displayName != null && !displayName.endsWith("Unnamed"))
+            name = displayName;
+        if (name != null)
+            currenttip.add(name);
 
         if (itemStack.getItem() == Items.REDSTONE) {
             int md = accessor.getMetadata();
-            String s = "" + md;
-            if (s.length() < 2)
-                s = " " + s;
-            currenttip.set(currenttip.size() - 1, name + " " + s);
+            String redstoneMeta = "" + md;
+            if (redstoneMeta.length() < 2)
+                redstoneMeta = " " + redstoneMeta;
+            currenttip.set(currenttip.size() - 1, name + " " + redstoneMeta);
         }
         if (currenttip.size() == 0)
             currenttip.add("\u00a7r" + String.format(FormattingConfig.blockFormat, "< Unnamed >"));
         else if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATA, true) && !Strings.isNullOrEmpty(FormattingConfig.metaFormat))
             currenttip.add("\u00a7r" + String.format(FormattingConfig.metaFormat, accessor.getBlock().getRegistryName().toString(), accessor.getMetadata()));
 
-        return currenttip;
-    }
-
-    @Override
-    public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
         return currenttip;
     }
 
@@ -72,10 +57,5 @@ public class HUDHandlerBlocks implements IWailaDataProvider {
             currenttip.add(String.format(FormattingConfig.modNameFormat, modName));
 
         return currenttip;
-    }
-
-    @Override
-    public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
-        return tag;
     }
 }

@@ -1,5 +1,6 @@
 package mcp.mobius.waila.addons.capability;
 
+import mcp.mobius.waila.addons.HUDHandlerBase;
 import mcp.mobius.waila.api.*;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.IInventory;
@@ -17,19 +18,9 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 import java.util.ArrayList;
 import java.util.List;
 
-public class HUDHandlerInventory implements IWailaDataProvider {
+public class HUDHandlerInventory extends HUDHandlerBase {
 
     static final IWailaDataProvider INSTANCE = new HUDHandlerInventory();
-
-    @Override
-    public ItemStack getWailaStack(IWailaDataAccessor accessor, IWailaConfigHandler config) {
-        return null;
-    }
-
-    @Override
-    public List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
-        return null;
-    }
 
     @Override
     public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
@@ -69,11 +60,6 @@ public class HUDHandlerInventory implements IWailaDataProvider {
             ((ITaggedList<String, String>) currenttip).add(renderString, "IItemHandler");
         }
         return currenttip;
-    }
-
-    @Override
-    public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
-        return null;
     }
 
     @Override
