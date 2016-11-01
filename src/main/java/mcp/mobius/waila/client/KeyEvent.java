@@ -50,7 +50,7 @@ public class KeyEvent {
         if (key_cfg.isPressed()) {
             if (mc.currentScreen == null)
                 mc.displayGuiScreen(new ScreenConfig(null));
-        } else if (key_show.isPressed() && ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_MODE, false)) {
+        } else if (key_show.isKeyDown() && ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_MODE, false)) {
             boolean status = ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW, true);
             ConfigHandler.instance().setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW, !status);
         } else if (key_show.isPressed() && !ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_MODE, false)) {
