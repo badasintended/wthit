@@ -1,7 +1,6 @@
 package mcp.mobius.waila.addons.capability;
 
 import mcp.mobius.waila.api.*;
-import mcp.mobius.waila.overlay.RayTracing;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -10,9 +9,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityEnderChest;
 import net.minecraft.tileentity.TileEntityFurnace;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.items.*;
 import net.minecraftforge.items.wrapper.InvWrapper;
@@ -83,13 +80,8 @@ public class HUDHandlerInventory implements IWailaDataProvider {
     public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
         if (te != null) {
             te.writeToNBT(tag);
-            RayTraceResult rayTrace = RayTracing.rayTraceServer(player, player.capabilities.isCreativeMode ? 5.0 : 4.5);
-            EnumFacing side = null;
-            if (rayTrace != null && rayTrace.typeOfHit == RayTraceResult.Type.BLOCK)
-                side = rayTrace.sideHit;
-
-            if (te.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side)) {
-                IItemHandler itemHandler = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, side);
+            if (te.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null)) {
+                IItemHandler itemHandler = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
                 tag.setTag("handler", invToNBT(itemHandler));
                 tag.setInteger("handlerSize", itemHandler.getSlots());
             } else if (te instanceof IInventory) {

@@ -4,14 +4,11 @@ import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
-import mcp.mobius.waila.overlay.RayTracing;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
@@ -58,13 +55,8 @@ public class HUDHandlerEnergy implements IWailaDataProvider {
     public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
         if (te != null) {
             te.writeToNBT(tag);
-            RayTraceResult rayTrace = RayTracing.rayTraceServer(player, player.capabilities.isCreativeMode ? 5.0 : 4.5);
-            EnumFacing side = null;
-            if (rayTrace != null && rayTrace.typeOfHit == RayTraceResult.Type.BLOCK)
-                side = rayTrace.sideHit;
-
-            if (te.hasCapability(CapabilityEnergy.ENERGY, side)) {
-                IEnergyStorage energyStorage = te.getCapability(CapabilityEnergy.ENERGY, side);
+            if (te.hasCapability(CapabilityEnergy.ENERGY, null)) {
+                IEnergyStorage energyStorage = te.getCapability(CapabilityEnergy.ENERGY, null);
                 NBTTagCompound energyTag = new NBTTagCompound();
                 energyTag.setInteger("capacity", energyStorage.getMaxEnergyStored());
                 energyTag.setInteger("stored", energyStorage.getEnergyStored());
