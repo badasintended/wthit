@@ -8,6 +8,7 @@ import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.utils.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.Vector3d;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -136,7 +137,8 @@ public class RayTracing {
         //Block mouseoverBlock  = Block.blocksList[blockID];
         Block mouseoverBlock = world.getBlockState(pos).getBlock();
         TileEntity tileEntity = world.getTileEntity(pos);
-        if (mouseoverBlock == null) return items;
+        if (mouseoverBlock == null)
+            return items;
 
         if (ModuleRegistrar.instance().hasStackProviders(mouseoverBlock)) {
             for (List<IWailaDataProvider> providersList : ModuleRegistrar.instance().getStackProviders(mouseoverBlock).values()) {
@@ -169,32 +171,29 @@ public class RayTracing {
             }
         }
 
-        if (items.size() > 0)
+        if (!items.isEmpty())
             return items;
 
-        if (world.getTileEntity(pos) == null) {
-            if (Item.getItemFromBlock(mouseoverBlock) != null)
-                items.add(mouseoverBlock.getPickBlock(world.getBlockState(pos), target, world, pos, player));
-        }
+        if (world.getTileEntity(pos) == null && Item.getItemFromBlock(mouseoverBlock) != null)
+            items.add(mouseoverBlock.getPickBlock(world.getBlockState(pos), target, world, pos, player));
 
-        if (items.size() > 0)
+        if (!items.isEmpty())
             return items;
 
         ItemStack pick = mouseoverBlock.getPickBlock(world.getBlockState(pos), target, world, pos, player);//(this.target, world, pos, player);
         if (pick != null)
             items.add(pick);
 
-        if (items.size() > 0)
+        if (!items.isEmpty())
             return items;
 
         if (mouseoverBlock instanceof IShearable) {
             IShearable shearable = (IShearable) mouseoverBlock;
-            if (shearable.isShearable(new ItemStack(Items.SHEARS), world, pos)) {
+            if (shearable.isShearable(new ItemStack(Items.SHEARS), world, pos))
                 items.addAll(shearable.onSheared(new ItemStack(Items.SHEARS), world, pos, 0));
-            }
         }
 
-        if (items.size() == 0) {
+        if (items.isEmpty()) {
             if (Item.getItemFromBlock(mouseoverBlock) != null) {
                 if (Item.getItemFromBlock(mouseoverBlock).getHasSubtypes())
                     items.add(new ItemStack(mouseoverBlock, 1, mouseoverBlock.getMetaFromState(world.getBlockState(pos))));
@@ -213,13 +212,12 @@ public class RayTracing {
     }
 
     public static RayTraceResult rayTraceServer(Entity entity, double distance) {
-        Vec3d eyePosition = new Vec3d(entity.getPosition().add(0, entity.getEyeHeight(), 0));
-        Vec3d lookVector = entity.getLook(0.0F);
-        Vec3d endPoint = eyePosition.addVector(lookVector.xCoord * distance, lookVector.yCoord * distance, lookVector.zCoord * distance);
+        double eyeHeight = entity.posY + entity.getEyeHeight();
+        Vec3d headVec = new Vec3d(entity.posX, eyeHeight, entity.posZ);
+        Vec3d start = new Vec3d(headVec.xCoord, headVec.yCoord, headVec.zCoord);
+        Vec3d lookVec = entity.getLook(1.0F);
+        headVec.add(new Vec3d(lookVec.xCoord * distance, lookVec.yCoord * distance, lookVec.zCoord * distance));
 
-        if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID, true))
-            return entity.worldObj.rayTraceBlocks(eyePosition, endPoint, true);
-        else
-            return entity.worldObj.rayTraceBlocks(eyePosition, endPoint, false);
+        return entity.worldObj.rayTraceBlocks(start, headVec, ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID, true));
     }
 }
