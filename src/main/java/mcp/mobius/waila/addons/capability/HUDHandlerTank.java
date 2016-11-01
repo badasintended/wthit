@@ -1,5 +1,6 @@
 package mcp.mobius.waila.addons.capability;
 
+import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
@@ -44,9 +45,9 @@ public class HUDHandlerTank implements IWailaDataProvider {
         for (IFluidTankProperties property : fluidHandler.getTankProperties()) {
             if (property.getContents() != null) {
                 if (fluidCount <= 5) {
-                    currenttip.add(String.format("%s: %d / %d mB", property.getContents().getLocalizedName(), property.getContents().amount, property.getCapacity()));
+                    ((ITaggedList<String, String>) currenttip).add(String.format("%s: %d / %d mB", property.getContents().getLocalizedName(), property.getContents().amount, property.getCapacity()), "IFluidHandler");
                     fluidCount++;
-                } else currenttip.add(I18n.translateToLocal("hud.msg.toomuch"));
+                } else ((ITaggedList<String, String>) currenttip).add(I18n.translateToLocal("hud.msg.toomuch"), "IFluidHandler");
             }
         }
 

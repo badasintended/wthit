@@ -1,5 +1,6 @@
 package mcp.mobius.waila.addons.capability;
 
+import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
@@ -41,7 +42,7 @@ public class HUDHandlerEnergy implements IWailaDataProvider {
             int stored = energyTag.getInteger("stored");
             int capacity = energyTag.getInteger("capacity");
 
-            currenttip.add(String.format("%d / %d FE", stored, capacity));
+            ((ITaggedList<String, String>) currenttip).add(String.format("%d / %d FE", stored, capacity), "IEnergyStorage");
             return currenttip;
         }
 

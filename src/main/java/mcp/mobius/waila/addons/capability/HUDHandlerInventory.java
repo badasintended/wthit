@@ -1,9 +1,6 @@
 package mcp.mobius.waila.addons.capability;
 
-import mcp.mobius.waila.api.IWailaConfigHandler;
-import mcp.mobius.waila.api.IWailaDataAccessor;
-import mcp.mobius.waila.api.IWailaDataProvider;
-import mcp.mobius.waila.api.SpecialChars;
+import mcp.mobius.waila.api.*;
 import mcp.mobius.waila.overlay.RayTracing;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.IInventory;
@@ -72,7 +69,7 @@ public class HUDHandlerInventory implements IWailaDataProvider {
                 drawnCount += 1;
             }
 
-            currenttip.add(renderString);
+            ((ITaggedList<String, String>) currenttip).add(renderString, "IItemHandler");
         }
         return currenttip;
     }
