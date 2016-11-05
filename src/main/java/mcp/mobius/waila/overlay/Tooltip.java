@@ -75,7 +75,7 @@ public class Tooltip {
                     columnsWidth.set(i, Math.max(columnsWidth.get(i), size.get(i)));
             }
 
-            maxStringW = Math.max(maxStringW, DisplayUtil.getDisplayWidth(s) + TabSpacing * (line.size() - 1));
+            maxStringW = Math.max(maxStringW, DisplayUtil.getDisplayWidth(s));
 
             lines.add(line);
             sizes.add(size);
@@ -100,7 +100,6 @@ public class Tooltip {
             for (int c = 0; c < lines.get(i).size(); c++) {    // We check all the columns for this line
                 offsetX = columnsPos.get(c);            // We move the "cursor" to the current column
                 String currentLine = lines.get(i).get(c);
-                Matcher lineMatcher = patternLineSplit.matcher(currentLine);
                 String[] lines = currentLine.split(SpecialChars.WailaSplitter);
 
                 for (String line : lines) {
@@ -122,14 +121,13 @@ public class Tooltip {
                         this.elements2nd.add(renderable);
                         this.additionalHeights.add(renderable);
                     } else {
-//                        if (line.startsWith(ALIGNRIGHT))
-//                            offsetX += columnsWidth.get(c) - DisplayUtil.getDisplayWidth(currentLine.substring(lineMatcher.start()));
-//
-//                        if (line.startsWith(ALIGNCENTER))
-//                            offsetX += (columnsWidth.get(c) - DisplayUtil.getDisplayWidth(currentLine.substring(lineMatcher.start()))) / 2;
+                        if (line.startsWith(ALIGNRIGHT))
+                            offsetX += columnsWidth.get(c) - DisplayUtil.getDisplayWidth(line);
+
+                        if (line.startsWith(ALIGNCENTER))
+                            offsetX += (columnsWidth.get(c) - DisplayUtil.getDisplayWidth(line)) / 2;
 
                         renderable = new Renderable(new TTRenderString(DisplayUtil.stripWailaSymbols(line)), new Point(offsetX, offsetY));
-                        //renderable = new Renderable(new TTRenderTrueTyper(DisplayUtil.stripWailaSymbols(line)), new Point(offsetX, offsetY));
                         this.elements.add(renderable);
                     }
 

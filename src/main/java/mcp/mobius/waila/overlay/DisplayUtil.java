@@ -39,18 +39,24 @@ public class DisplayUtil {
 
         int width = 0;
 
-        Matcher renderMatcher = patternRender.matcher(s);
-        while (renderMatcher.find()) {
-            IWailaTooltipRenderer renderer = ModuleRegistrar.instance().getTooltipRenderer(renderMatcher.group("name"));
-            if (renderer != null)
-                width += renderer.getSize(renderMatcher.group("args").split("\\+,"), DataAccessorCommon.instance).width;
+        String[] renderSplit = s.split(WailaSplitter);
+        for (String render : renderSplit) {
+            Matcher renderMatcher = patternRender.matcher(render);
+            while (renderMatcher.find()) {
+                IWailaTooltipRenderer renderer = ModuleRegistrar.instance().getTooltipRenderer(renderMatcher.group("name"));
+                if (renderer != null) {
+                    width += renderer.getSize(renderMatcher.group("args").split("\\+,"), DataAccessorCommon.instance).width;
+                    s = s.replace(render, "");
+                }
+            }
         }
 
         Matcher iconMatcher = patternIcon.matcher(s);
         while (iconMatcher.find())
             width += 8;
 
-        width += fontRendererObj.getStringWidth(stripSymbols(s));
+        String stripped = stripSymbols(s);
+        width += fontRendererObj.getStringWidth(stripped);
         return width;
     }
 
