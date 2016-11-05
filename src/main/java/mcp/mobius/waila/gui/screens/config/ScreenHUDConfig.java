@@ -60,7 +60,7 @@ public class ScreenHUDConfig extends ScreenBase {
             this.getWidget("Layout").addWidget("Picture", new PictureMovableRC(null, "waila:textures/config_template_bg.png")).setGeometry(new WidgetGeometry(picX, picY, picSX, picSY, CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));
             this.getWidget("Layout").getWidget("Picture").addWidget("Foreground", new PictureMovableRC(null, "waila:textures/config_template_fg.png")).setGeometry(new WidgetGeometry(picX, picY, picSX, picSY, CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));
             IWidget foreground = getWidget("Layout").getWidget("Picture").getWidget("Foreground");
-            foreground.setPos(picX, picY + 45);
+            foreground.setPos(picSX - 40, picSY + 17);
 
             this.addWidget("TextTuto1", new LabelFixedFont(null, "screen.label.dragtuto")).setGeometry(new WidgetGeometry(50.0, 30.0, 20, 20, CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));
 
