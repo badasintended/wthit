@@ -1,10 +1,15 @@
 package mcp.mobius.waila.overlay.tooltiprenderers;
 
+import com.google.common.base.Objects;
+import com.google.common.base.Strings;
 import mcp.mobius.waila.api.IWailaCommonAccessor;
 import mcp.mobius.waila.api.IWailaTooltipRenderer;
 import mcp.mobius.waila.overlay.DisplayUtil;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.JsonToNBT;
+import net.minecraft.nbt.NBTException;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
@@ -25,12 +30,23 @@ public class TTRenderStack implements IWailaTooltipRenderer {
         String name = params[1]; //Fully qualified name
         int amount = Integer.valueOf(params[2]);
         int meta = Integer.valueOf(params[3]);
+        NBTTagCompound tagCompound = null;
+        try {
+            tagCompound = JsonToNBT.getTagFromJson(params[4]);
+        } catch (NBTException e) {
+            // No-op
+        } catch (ArrayIndexOutOfBoundsException e) {
+            // No-op
+        }
 
         ItemStack stack = null;
         if (type == 0)
             stack = new ItemStack(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(name)), amount, meta);
         if (type == 1)
             stack = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(name)), amount, meta);
+
+        if (tagCompound != null)
+            stack.setTagCompound(tagCompound);
 
         RenderHelper.enableGUIStandardItemLighting();
         DisplayUtil.renderStack(0, 0, stack);

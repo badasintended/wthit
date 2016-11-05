@@ -33,8 +33,9 @@ public class SpecialChars {
     public static String WailaIcon = "\u00A5";
     public static final Pattern patternIcon = Pattern.compile("(?i)(" + WailaStyle + WailaIcon + "(?<type>[0-9a-z]))");
     public static String WailaRenderer = "\u00A6";
-    public static final Pattern patternLineSplit = Pattern.compile("(?i)(" + WailaStyle + WailaStyle + "[^" + WailaStyle + "]+|" + WailaStyle + WailaIcon + "[0-9A-Z]|" + WailaStyle + WailaRenderer + "a\\{([^,}]*),?([^}]*)\\}|[^" + WailaStyle + "]+)");
+    public static final Pattern patternLineSplit = Pattern.compile("(?i)(" + WailaStyle + WailaStyle + "[^" + WailaStyle + "]+|" + WailaStyle + WailaIcon + "[0-9A-Z]|" + WailaStyle + WailaRenderer + "a\\{([^,}]*),?([^}].*)\\}$|[^" + WailaStyle + "]+)");
     public static String TAB = WailaStyle + WailaStyle + "a";
+    public static String WailaSplitter = "\u03D6";
     public static final Pattern patternTab = Pattern.compile("(?i)" + TAB);
     public static String ALIGNRIGHT = WailaStyle + WailaStyle + "b";
     public static final Pattern patternRight = Pattern.compile("(?i)" + ALIGNRIGHT);
@@ -44,7 +45,7 @@ public class SpecialChars {
     public static String HHEART = WailaStyle + WailaIcon + "b";
     public static String EHEART = WailaStyle + WailaIcon + "c";
     public static String RENDER = WailaStyle + WailaRenderer + "a";
-    public static final Pattern patternRender = Pattern.compile("(?i)(" + RENDER + "\\{(?<name>[^,}]*),?(?<args>[^}]*)\\})");
+    public static final Pattern patternRender = Pattern.compile("(?i)(" + RENDER + "\\{(?<name>[^,}]*)\\+,?(?<args>.*)\\}$)");
 
     /**
      * Helper method to get a proper RENDER string. Just put the name of the renderer and the params in, and it will give back a directly usable String for the tooltip.
@@ -56,9 +57,9 @@ public class SpecialChars {
     public static String getRenderString(String name, String... params) {
         String result = RENDER + "{" + name;
         for (String s : params) {
-            result += "," + s;
+            result += "+," + s;
         }
-        result += "}";
+        result += "}" + WailaSplitter;
         return result;
     }
 }

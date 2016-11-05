@@ -2,6 +2,7 @@ package mcp.mobius.waila.overlay;
 
 import mcp.mobius.waila.api.IWailaCommonAccessor;
 import mcp.mobius.waila.api.IWailaTooltipRenderer;
+import mcp.mobius.waila.api.SpecialChars;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
@@ -100,19 +101,19 @@ public class Tooltip {
                 offsetX = columnsPos.get(c);            // We move the "cursor" to the current column
                 String currentLine = lines.get(i).get(c);
                 Matcher lineMatcher = patternLineSplit.matcher(currentLine);
+                String[] lines = currentLine.split(SpecialChars.WailaSplitter);
 
-                while (lineMatcher.find()) {
-                    String cs = lineMatcher.group();
+                for (String line : lines) {
                     Renderable renderable = null;
-                    Matcher renderMatcher = patternRender.matcher(cs);    //We keep a matcher here to be able to check if we have a Renderer. Might be better to do a startWith + full matcher init after the check
-                    Matcher iconMatcher = patternIcon.matcher(cs);
+                    Matcher renderMatcher = patternRender.matcher(line);    //We keep a matcher here to be able to check if we have a Renderer. Might be better to do a startWith + full matcher init after the check
+                    Matcher iconMatcher = patternIcon.matcher(line);
 
                     if (renderMatcher.find()) {
                         String renderName = renderMatcher.group("name");
 
                         IWailaTooltipRenderer renderer = ModuleRegistrar.instance().getTooltipRenderer(renderName);
                         if (renderer != null) {
-                            renderable = new Renderable(renderer, new Point(offsetX, offsetY), renderMatcher.group("args").split(","));
+                            renderable = new Renderable(renderer, new Point(offsetX, offsetY), renderMatcher.group("args").split("\\+,"));
                             this.elements2nd.add(renderable);
                             this.additionalHeights.add(renderable);
                         }
@@ -121,14 +122,14 @@ public class Tooltip {
                         this.elements2nd.add(renderable);
                         this.additionalHeights.add(renderable);
                     } else {
-                        if (cs.startsWith(ALIGNRIGHT))
-                            offsetX += columnsWidth.get(c) - DisplayUtil.getDisplayWidth(currentLine.substring(lineMatcher.start()));
+//                        if (line.startsWith(ALIGNRIGHT))
+//                            offsetX += columnsWidth.get(c) - DisplayUtil.getDisplayWidth(currentLine.substring(lineMatcher.start()));
+//
+//                        if (line.startsWith(ALIGNCENTER))
+//                            offsetX += (columnsWidth.get(c) - DisplayUtil.getDisplayWidth(currentLine.substring(lineMatcher.start()))) / 2;
 
-                        if (cs.startsWith(ALIGNCENTER))
-                            offsetX += (columnsWidth.get(c) - DisplayUtil.getDisplayWidth(currentLine.substring(lineMatcher.start()))) / 2;
-
-                        renderable = new Renderable(new TTRenderString(DisplayUtil.stripWailaSymbols(cs)), new Point(offsetX, offsetY));
-                        //renderable = new Renderable(new TTRenderTrueTyper(DisplayUtil.stripWailaSymbols(cs)), new Point(offsetX, offsetY));
+                        renderable = new Renderable(new TTRenderString(DisplayUtil.stripWailaSymbols(line)), new Point(offsetX, offsetY));
+                        //renderable = new Renderable(new TTRenderTrueTyper(DisplayUtil.stripWailaSymbols(line)), new Point(offsetX, offsetY));
                         this.elements.add(renderable);
                     }
 

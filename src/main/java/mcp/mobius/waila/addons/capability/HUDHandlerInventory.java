@@ -53,7 +53,10 @@ public class HUDHandlerInventory extends HUDHandlerBase {
                     drawnCount = 0;
                 }
 
-                renderString += SpecialChars.getRenderString("waila.stack", "1", name, String.valueOf(stack.stackSize), String.valueOf(stack.getItemDamage()));
+                String nbt = "";
+                if (stack.hasTagCompound())
+                    nbt = stack.getTagCompound().toString();
+                renderString += SpecialChars.getRenderString("waila.stack", "1", name, String.valueOf(stack.stackSize), String.valueOf(stack.getItemDamage()), nbt);
                 drawnCount += 1;
             }
 
