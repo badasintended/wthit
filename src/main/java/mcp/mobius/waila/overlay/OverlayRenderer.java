@@ -23,12 +23,19 @@ public class OverlayRenderer {
 
     public static void renderOverlay() {
         Minecraft mc = Minecraft.getMinecraft();
-        if (!(mc.currentScreen == null &&
-                mc.theWorld != null &&
-                Minecraft.isGuiEnabled() &&
-                !mc.gameSettings.keyBindPlayerList.isKeyDown() &&
-                ConfigHandler.instance().showTooltip() &&
-                RayTracing.instance().getTarget() != null))
+        if (mc.currentScreen != null || mc.theWorld == null)
+            return;
+
+        if (ConfigHandler.instance().hideFromList() && (mc.gameSettings.keyBindPlayerList.isKeyDown() && !mc.isIntegratedServerRunning()))
+            return;
+
+        if (!Minecraft.isGuiEnabled())
+            return;
+
+        if (!ConfigHandler.instance().showTooltip())
+            return;
+
+        if (RayTracing.instance().getTarget() == null)
             return;
 
         if (RayTracing.instance().getTarget().typeOfHit == RayTraceResult.Type.BLOCK && RayTracing.instance().getTargetStack() != null) {

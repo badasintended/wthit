@@ -152,6 +152,10 @@ public class ConfigHandler implements IWailaConfigHandler {
         return getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW, true);
     }
 
+    public boolean hideFromList() {
+        return getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_HIDEFROMLIST, true);
+    }
+
     public void loadDefaultConfig(FMLPreInitializationEvent event) {
         File configFile = new File(Waila.configDir, "waila.cfg");
         try {
@@ -171,6 +175,7 @@ public class ConfigHandler implements IWailaConfigHandler {
         config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATA, false);
         config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_KEYBIND, true);
         config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_NEWFILTERS, true);
+        config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_HIDEFROMLIST, true);
 
         OverlayConfig.posX = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSX, 5000).getInt();
         OverlayConfig.posY = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSY, 100).getInt();
