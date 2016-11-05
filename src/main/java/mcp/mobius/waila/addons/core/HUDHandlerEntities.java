@@ -55,7 +55,7 @@ public class HUDHandlerEntities implements IWailaEntityProvider {
                 if (((EntityLivingBase) entity).getMaxHealth() > maxhpfortext) {
                     currenttip.add(
                             String.format(
-                                    I18n.translateToLocal("hud.msg.health") + ": " + WHITE + "%.0f" + GRAY + " / " + WHITE + "%.0f",
+                                    I18n.translateToLocal("hud.msg.health") + ": %.0f / %.0f",
                                     ((EntityLivingBase) entity).getHealth(),
                                     ((EntityLivingBase) entity).getMaxHealth()
                             )
