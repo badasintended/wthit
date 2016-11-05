@@ -51,7 +51,7 @@ public class ScreenFormatConfig extends GuiScreen {
             if (input.length() == 1)
                 return input.equalsIgnoreCase("#");
 
-            return input.startsWith("#") && input.length() < 8;
+            return input.startsWith("#") && input.substring(1).matches("^[a-zA-Z0-9]*$") && input.length() < 8;
         }
     };
 
