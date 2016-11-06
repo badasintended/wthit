@@ -1,5 +1,6 @@
 package mcp.mobius.waila.addons.capability;
 
+import com.google.common.base.Strings;
 import mcp.mobius.waila.addons.HUDHandlerBase;
 import mcp.mobius.waila.api.*;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -60,7 +61,8 @@ public class HUDHandlerInventory extends HUDHandlerBase {
                 drawnCount += 1;
             }
 
-            ((ITaggedList<String, String>) currenttip).add(renderString, "IItemHandler");
+            if (!Strings.isNullOrEmpty(renderString))
+                ((ITaggedList<String, String>) currenttip).add(renderString, "IItemHandler");
         }
         return currenttip;
     }
