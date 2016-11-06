@@ -5,6 +5,8 @@
 A fork of [WAILA](https://minecraft.curseforge.com/projects/waila) by [ProfMobius](https://minecraft.curseforge.com/members/ProfMobius).
 This fork is permitted under the [CC BY-NC-SA 4.0](https://github.com/TehNut/HWYLA/blob/1.10/LICENSE.md) license.
 
+Usage of this mod is allowed in all modpacks, including those hosted on Curse using it as a third party mod.
+
 I intend to update this fork quickly and often.
 
 ## Changes
