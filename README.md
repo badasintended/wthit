@@ -17,10 +17,20 @@ This is a list of the primary changes and differences between the official Waila
     * Use `@WailaPlugin` on an instance of `IWailaPlugin`
     * The annotation can take a String value for a required modid. Blank for any
 * If fluid tooltips are enabled, they will now attempt to display the fluid inside a bucket.
-* Added native support for displaying tank information
-    * Disabled by default so as to not clash with mods adding their own support
-    * Limited to 5 tanks displayed to avoid mishaps where hundreds would get added
-    * Only works on tanks using the Forge Capability system
+* Forge Capability support (Information is obtained using a `null` facing. Mods who do not handle this correctly are not supported)
+    * Native support for displaying tank information
+        * Disabled by default so as to not clash with mods adding their own support
+        * Limited to 5 tanks displayed to avoid mishaps where hundreds would get added
+        * Only works on tanks using the Forge Capability system
+    * Native support for displaying inventory contents
+        * Disabled by default so as to not clash with mods adding their own support
+        * Displays up to 5 items. If sneaking, the full inventory will be displayed
+        * Items that are stack-able are condensed down. So if you have 2 stacks of Cobblestone, it will show with a single stack with a count of 128.
+            * When a count reaches a high enough number, it will be condensed down. (eg: `1357` -> `1.3K`)
+        * Works on all blocks that provide `IInventory`, `IItemHandler`, or `instanceof TileEntityEnderChest`
+    * Native support for displaying Forge Energy storage
+        * Disabled by default so as to not clash with mods adding their own support
+        * Only works on energy handlers that provide `IEnergyStorage`
 * Fixed the Furnace progress handler
     * Did any of you even know this was a thing? I sure didn't
 * Maturity tooltips for crops now work correctly if the crop has a different max age.
