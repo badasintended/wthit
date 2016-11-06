@@ -111,7 +111,7 @@ public class ColorConfig {
             String gradientTop = getOptionalString(json, "gradientTop", "#5000FF");
             String gradientBottom = getOptionalString(json, "gradientBottom", "#28007F");
             String font = getOptionalString(json, "font", "#A0A0A0");
-            return new ColorConfig(name, Color.decode(background), Color.decode(gradientTop), Color.decode(gradientBottom), Color.decode(font));
+            return new ColorConfig(name, OverlayConfig.fromHex(background), OverlayConfig.fromHex(gradientTop), OverlayConfig.fromHex(gradientBottom), OverlayConfig.fromHex(font));
         }
 
         @Override

@@ -44,4 +44,13 @@ public class OverlayConfig {
     public static String toHex(Color color) {
         return "#" + Integer.toHexString(color.getRGB()).substring(2).toUpperCase(Locale.ENGLISH);
     }
+
+    public static Color fromHex(String hex) {
+        try {
+            return Color.decode(hex);
+        } catch (NumberFormatException e) {
+            System.out.println(hex + " - no");
+            return Color.BLACK;
+        }
+    }
 }

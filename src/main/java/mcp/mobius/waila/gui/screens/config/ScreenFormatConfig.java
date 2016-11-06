@@ -99,16 +99,16 @@ public class ScreenFormatConfig extends GuiScreen {
         metaFormat = new GuiTextField(7, fontRendererObj, width / 4, 100 + textFieldOffset, 150, 16);
         metaFormat.setText(StringEscapeUtils.escapeJava(FormattingConfig.metaFormat));
         backgroundColor = new GuiTextField(8, fontRendererObj, width / 4, 120 + textFieldOffset, 150, 16);
-        backgroundColor.setText("#" + Integer.toHexString(new Color(OverlayConfig.bgcolor).getRGB()).substring(2).toUpperCase(Locale.ENGLISH));
+        backgroundColor.setText(OverlayConfig.toHex(new Color(OverlayConfig.bgcolor)));
         backgroundColor.setValidator(HEX_COLOR);
         gradientTop = new GuiTextField(9, fontRendererObj, width / 4, 140 + textFieldOffset, 150, 16);
-        gradientTop.setText("#" + Integer.toHexString(new Color(OverlayConfig.gradient1).getRGB()).substring(2).toUpperCase(Locale.ENGLISH));
+        gradientTop.setText(OverlayConfig.toHex(new Color(OverlayConfig.gradient1)));
         gradientTop.setValidator(HEX_COLOR);
         gradientBottom = new GuiTextField(9, fontRendererObj, width / 4, 160 + textFieldOffset, 150, 16);
-        gradientBottom.setText("#" + Integer.toHexString(new Color(OverlayConfig.gradient2).getRGB()).substring(2).toUpperCase(Locale.ENGLISH));
+        gradientBottom.setText(OverlayConfig.toHex(new Color(OverlayConfig.gradient2)));
         gradientBottom.setValidator(HEX_COLOR);
         textColor = new GuiTextField(9, fontRendererObj, width / 4, 180 + textFieldOffset, 150, 16);
-        textColor.setText("#" + Integer.toHexString(new Color(OverlayConfig.fontcolor).getRGB()).substring(2).toUpperCase(Locale.ENGLISH));
+        textColor.setText(OverlayConfig.toHex(new Color(OverlayConfig.fontcolor)));
         textColor.setValidator(HEX_COLOR);
     }
 
@@ -184,10 +184,10 @@ public class ScreenFormatConfig extends GuiScreen {
                 fluidFormat.setText(StringEscapeUtils.escapeJava(FLUID_FORMAT));
                 entityFormat.setText(StringEscapeUtils.escapeJava(ENTITY_FORMAT));
                 metaFormat.setText(StringEscapeUtils.escapeJava(META_FORMAT));
-                backgroundColor.setText("#" + Integer.toHexString(new Color(BACKGROUND_COLOR).getRGB()).substring(2).toUpperCase(Locale.ENGLISH));
-                gradientTop.setText("#" + Integer.toHexString(new Color(GRADIENT_TOP_COLOR).getRGB()).substring(2).toUpperCase(Locale.ENGLISH));
-                gradientBottom.setText("#" + Integer.toHexString(new Color(GRADIENT_BOTTOM_COLOR).getRGB()).substring(2).toUpperCase(Locale.ENGLISH));
-                textColor.setText("#" + Integer.toHexString(new Color(FONT_COLOR).getRGB()).substring(2).toUpperCase(Locale.ENGLISH));
+                backgroundColor.setText(OverlayConfig.toHex(new Color(BACKGROUND_COLOR)));
+                gradientTop.setText(OverlayConfig.toHex(new Color(GRADIENT_TOP_COLOR)));
+                gradientBottom.setText(OverlayConfig.toHex(new Color(GRADIENT_BOTTOM_COLOR)));
+                textColor.setText(OverlayConfig.toHex(new Color(FONT_COLOR)));
             }
         }
     }
@@ -223,10 +223,10 @@ public class ScreenFormatConfig extends GuiScreen {
             FormattingConfig.metaFormat = StringEscapeUtils.unescapeJava(metaFormat.getText());
         }
 
-        config.setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_BGCOLOR, Color.decode(backgroundColor.getText()).getRGB());
-        config.setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_GRADIENT1, Color.decode(gradientTop.getText()).getRGB());
-        config.setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_GRADIENT2, Color.decode(gradientBottom.getText()).getRGB());
-        config.setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_FONTCOLOR, Color.decode(textColor.getText()).getRGB());
+        config.setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_BGCOLOR, OverlayConfig.fromHex(backgroundColor.getText()).getRGB());
+        config.setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_GRADIENT1, OverlayConfig.fromHex(gradientTop.getText()).getRGB());
+        config.setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_GRADIENT2, OverlayConfig.fromHex(gradientBottom.getText()).getRGB());
+        config.setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_FONTCOLOR, OverlayConfig.fromHex(textColor.getText()).getRGB());
         OverlayConfig.updateColors();
     }
     
@@ -269,10 +269,10 @@ public class ScreenFormatConfig extends GuiScreen {
                 if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
                     ColorConfig config = new ColorConfig(
                             RandomStringUtils.randomAlphanumeric(10),
-                            Color.decode(parent.backgroundColor.getText()),
-                            Color.decode(parent.gradientTop.getText()),
-                            Color.decode(parent.gradientBottom.getText()),
-                            Color.decode(parent.textColor.getText())
+                            OverlayConfig.fromHex(parent.backgroundColor.getText()),
+                            OverlayConfig.fromHex(parent.gradientTop.getText()),
+                            OverlayConfig.fromHex(parent.gradientBottom.getText()),
+                            OverlayConfig.fromHex(parent.textColor.getText())
                     );
                     String json = OverlayConfig.GSON.toJson(config);
                     try {
