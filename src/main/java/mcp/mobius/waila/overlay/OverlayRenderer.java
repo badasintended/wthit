@@ -1,10 +1,12 @@
 package mcp.mobius.waila.overlay;
 
+import mcp.mobius.waila.api.event.WailaRenderEvent;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.config.OverlayConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraftforge.common.MinecraftForge;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
@@ -60,7 +62,16 @@ public class OverlayRenderer {
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_DEPTH_TEST);
 
-        drawTooltipBox(tooltip.x, tooltip.y, tooltip.w, tooltip.h, OverlayConfig.bgcolor, OverlayConfig.gradient1, OverlayConfig.gradient2);
+        WailaRenderEvent.Pre event = new WailaRenderEvent.Pre(tooltip.textData, tooltip.x, tooltip.y, tooltip.w, tooltip.h);
+        if (MinecraftForge.EVENT_BUS.post(event)) {
+            RenderHelper.enableGUIStandardItemLighting();
+            GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+            loadGLState();
+            GL11.glEnable(GL11.GL_DEPTH_TEST);
+            GL11.glPopMatrix();
+            return;
+        }
+        drawTooltipBox(event.getX(), event.getY(), event.getWidth(), event.getHeight(), OverlayConfig.bgcolor, OverlayConfig.gradient1, OverlayConfig.gradient2);
 
         GL11.glEnable(GL11.GL_BLEND);
         GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
@@ -73,10 +84,10 @@ public class OverlayRenderer {
             RenderHelper.enableGUIStandardItemLighting();
 
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-        if (tooltip.hasIcon && tooltip.stack != null && tooltip.stack.getItem() != null) {
-//        	System.out.println("" + tooltip.stack.getDisplayName() + tooltip.stack.getMetadata());
-            DisplayUtil.renderStack(tooltip.x + 5, tooltip.y + tooltip.h / 2 - 8, tooltip.stack);
-        }
+        if (tooltip.hasIcon && tooltip.stack != null && tooltip.stack.getItem() != null)
+            DisplayUtil.renderStack(event.getX() + 5, event.getY() + event.getHeight() / 2 - 8, tooltip.stack);
+
+        MinecraftForge.EVENT_BUS.post(new WailaRenderEvent.Post(event.getX(), event.getY(), event.getWidth(), event.getHeight()));
 
         loadGLState();
         GL11.glEnable(GL11.GL_DEPTH_TEST);

@@ -27,6 +27,7 @@ public class Tooltip {
     public static int TabSpacing = 8;
     public static int IconSize = 8;
 
+    List<String> textData = new ArrayList<String>();
     ArrayList<ArrayList<String>> lines = new ArrayList<ArrayList<String>>();
     ArrayList<ArrayList<Integer>> sizes = new ArrayList<ArrayList<Integer>>();
     ArrayList<Integer> columnsWidth = new ArrayList<Integer>();
@@ -53,6 +54,7 @@ public class Tooltip {
 
 
     public Tooltip(List<String> textData, boolean hasIcon) {
+        this.textData = textData;
 
         columnsWidth.add(0);        // Small init of the arrays to have at least one element
         columnsPos.add(0);
