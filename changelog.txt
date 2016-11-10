@@ -1,0 +1,6 @@
+------------------------------------------------------
+Version 1.8.0
+------------------------------------------------------
+
+- Fixed display stack displaying the wrong meta in the majority of cases
+- Too many others to list. See the README here: https://github.com/TehNut/HWYLA/blob/988db9fa8220a32c7c598371e2099d61ea91d182/README.md
