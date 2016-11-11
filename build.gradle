@@ -25,7 +25,7 @@ if (System.getenv('BUILD_NUMBER') != null)
 
 version = "${waila_version}-B${build_number}_${mc_version}"
 group= "mcp.mobius.waila"
-archivesBaseName = "Waila"
+archivesBaseName = "Hwyla"
 
 minecraft {
     version = "${mc_version}-${forge_version}"

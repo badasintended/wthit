@@ -9,6 +9,24 @@ Usage of this mod is allowed in all modpacks, including those hosted on Curse us
 
 I intend to update this fork quickly and often.
 
+## Developers
+
+To use this fork in your workspace, add the following to your `build.gradle`:
+
+```groovy
+repositories {
+    maven { url "http://tehnut.info/maven" }
+}
+
+dependencies {
+    deobfCompile "mcp.mobius.waila:Hwyla:<HWYLA_VERSION>"
+}
+```
+
+`HWYLA_VERSION` can be found by browsing through the maven.
+
+***Note***: Builds 8 through 12 use `mcp.mobius.waila:Waila:<HWYLA_VERSION>`.
+
 ## Changes
 
 This is a list of the primary changes and differences between the official Waila and this fork. 
