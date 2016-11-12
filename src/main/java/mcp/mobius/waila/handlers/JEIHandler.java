@@ -1,5 +1,6 @@
 package mcp.mobius.waila.handlers;
 
+import mcp.mobius.waila.utils.ModIdentification;
 import mezz.jei.api.*;
 import mezz.jei.api.recipe.IFocus;
 import mezz.jei.gui.ItemListOverlay;
@@ -8,12 +9,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraftforge.fml.common.ModContainer;
 
 import javax.annotation.Nonnull;
+import java.lang.reflect.Method;
 
 @JEIPlugin
 public class JEIHandler extends BlankModPlugin {
 
+    private static final ModContainer JEI_CONTAINER = ModIdentification.findModContainer("JEI");
+    private static final int NO_REFLECT_BUILD = 359;
     private static IJeiRuntime runtime;
 
     @Override
@@ -40,7 +45,15 @@ public class JEIHandler extends BlankModPlugin {
     }
 
     private static void openItemList() {
-        ItemListOverlay itemList = (ItemListOverlay) runtime.getItemListOverlay();
-        itemList.open();
+        if (Integer.parseInt(JEI_CONTAINER.getVersion().split("\\.")[3]) >= NO_REFLECT_BUILD)
+            return;
+
+        try {
+            ItemListOverlay itemList = (ItemListOverlay) runtime.getItemListOverlay();
+            Method open = itemList.getClass().getDeclaredMethod("open");
+            open.invoke(itemList);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
