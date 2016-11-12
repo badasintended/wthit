@@ -1,11 +1,8 @@
-screen.button.waila=Waila
-screen.button.modules=Modules
 screen.label.scale=Schaal
 screen.label.dragtuto=Sleep de HUD om zijn positie in te stellen.
 
 screen.button.default=Standaard
 screen.button.cancel=Annuleren
-screen.button.ok=Ok
 screen.button.yes=Ja
 screen.button.no=Nee
 screen.button.back=Terug
@@ -21,8 +18,6 @@ choice.showliquids=Vloeistoffen
 screen.button.configureaspect=Configureer aspect...
 
 enchant.title.name=Naam
-enchant.title.minlvl=Min lvl
-enchant.title.maxlvl=Max lvl
 enchant.title.weight=Gewicht
 enchant.label.enchantability=Enchantbaarheid
 
@@ -41,7 +36,6 @@ hud.msg.empty=<Leeg>
 hud.msg.output=Uitvoer
 hud.msg.input=Invoer
 hud.msg.out=Uit
-hud.msg.in=In
 hud.msg.power=Vermogen
 hud.msg.storage=Opslag
 hud.msg.any=Om het even welke
@@ -49,7 +43,6 @@ hud.msg.mode=Modus
 
 hud.msg.send=Zend
 hud.msg.recv=Ontv
-hud.msg.item=Item
 hud.msg.fluid=Vloeistof
 hud.msg.energ=Energie
 hud.msg.frequency=Frequentie
@@ -57,7 +50,7 @@ hud.msg.frequency=Frequentie
 hud.msg.owner=Eigenaar
 hud.msg.public=Publiek
 hud.msg.restricted=Begrensd
-hud.msg.private=Privé
+hud.msg.private=PrivÃ©
 
 hud.msg.white=Wit
 hud.msg.orange=Oranje

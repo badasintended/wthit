@@ -1,13 +1,9 @@
-screen.button.waila=Waila
 screen.button.modules=Moduli
 screen.label.scale=Scala
 screen.label.dragtuto=Trascina il HUD per selezionare la sua posizione.
 
-screen.button.default=Default
 screen.button.cancel=Cancella
-screen.button.ok=Ok
 screen.button.yes=Si
-screen.button.no=No
 screen.button.back=Indietro
 screen.button.hidden=Nascosto
 screen.button.visible=Visibile
@@ -70,7 +66,6 @@ hud.msg.orange=Arancione
 hud.msg.magenta=Magenta
 hud.msg.lblue=Azzurro
 hud.msg.yellow=Giallo
-hud.msg.lime=Lime
 hud.msg.pink=Rosa
 hud.msg.gray=Grigio
 hud.msg.lgray=Grigio chiaro

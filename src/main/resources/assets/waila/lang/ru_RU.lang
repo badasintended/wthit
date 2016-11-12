@@ -1,11 +1,9 @@
-screen.button.waila=Waila
 screen.button.modules=Модули
 screen.label.scale=Размер
 screen.label.dragtuto=Тащите интерфейс, чтобы изменить позицию.
 
 screen.button.default=По умолчанию
 screen.button.cancel=Отмена
-screen.button.ok=Ок
 screen.button.yes=Да
 screen.button.no=Нет
 screen.button.back=Назад

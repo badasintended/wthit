@@ -1,11 +1,8 @@
-screen.button.waila=Waila
-screen.button.modules=Modules
 screen.label.scale=Echelle
 screen.label.dragtuto=Faites glisser le HUD pour paramétrer la position.
 
 screen.button.default=Défaut
 screen.button.cancel=Annuler
-screen.button.ok=Ok
 screen.button.yes=Oui
 screen.button.no=Non
 screen.button.back=Retour
@@ -21,8 +18,6 @@ choice.showliquids=Liquides
 screen.button.configureaspect=Configurer l'aspect…
 
 enchant.title.name=Nom
-enchant.title.minlvl=Min lvl
-enchant.title.maxlvl=Max lvl
 enchant.title.weight=Poids
 enchant.label.enchantability=Enchantabilitée
 
@@ -31,7 +26,6 @@ waila.keybind.wailadisplay=[Waila] Afficher/Masquer
 waila.keybind.liquid=[Waila] Afficher les liquides
 waila.keybind.recipe=[Waila] Afficher les recettes
 waila.keybind.usage=[Waila] Afficher l'utilisation
-waila.keybind.testing=[Waila] Test
 
 client.msg.norecipe=Pas de recette trouvée.
 client.msg.nousage=Pas d'utilisation trouvée.
@@ -46,7 +40,6 @@ hud.msg.power=Energie
 hud.msg.storage=Stockage
 hud.msg.stored=Stocké
 hud.msg.any=Tout
-hud.msg.mode=Mode
 hud.msg.maxpower=Max Puissance
 hud.msg.trigger=Déclencheur
 hud.msg.maxio=Max Entrée/Sortie
@@ -64,7 +57,6 @@ hud.msg.restricted=Limité
 hud.msg.private=Privée
 
 hud.msg.white=Blanc
-hud.msg.orange=Orange
 hud.msg.magenta=Magenta
 hud.msg.lblue=Bleu clair
 hud.msg.yellow=Jaune
@@ -81,9 +73,6 @@ hud.msg.red=Rouge
 hud.msg.black=Noir
 
 hud.msg.growth=Croissance
-hud.msg.mature=Mature
-hud.msg.off=Off
-hud.msg.on=On
 hud.msg.state=Etat
 hud.msg.delay=Retard
 hud.msg.comparator=Comparateur
@@ -114,7 +103,6 @@ option.thermalexpansion.tesssendrecv=Tesseract mode
 option.thermalexpansion.tessfreq=Tesseract fréquence
 option.thermalexpansion.owner=Afficher propriétaire
 option.thermalexpansion.conditemmode=Afficher Itemduct mode
-option.vanilla.spawntype=Spawner type
 option.vanilla.growthvalue=Niveau de croissance
 option.vanilla.leverstate=Etat Levier
 option.vanilla.repeater=Répeteur retard

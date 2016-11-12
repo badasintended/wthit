@@ -1,11 +1,9 @@
-screen.button.waila=Waila
 screen.button.modules=Moodulid
 screen.label.scale=Skaala
 screen.label.dragtuto=Lohista HUDi, et seade üles selle positsioon.
 
 screen.button.default=Vaikimisi
 screen.button.cancel=Tühista
-screen.button.ok=Ok
 screen.button.yes=Jah
 screen.button.no=Ei
 screen.button.back=Tagasi
@@ -23,8 +21,6 @@ choice.shifttoggledents=Hiilimis lülita entiteedid
 screen.button.configureaspect=Konfigureeri aspekti...
 
 enchant.title.name=Nimi
-enchant.title.minlvl=Min lvl
-enchant.title.maxlvl=Max lvl
 enchant.title.weight=Raskus
 enchant.label.enchantability=Loitsitav
 
@@ -50,8 +46,6 @@ hud.msg.stored=Hoiustatud
 hud.msg.any=Iga
 hud.msg.mode=Mood
 hud.msg.maxpower=Max Võimsus
-hud.msg.trigger=Trigger
-hud.msg.maxio=Max IO
 
 hud.msg.send=Saada
 hud.msg.recv=Võtavastu
