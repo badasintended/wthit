@@ -1,4 +1,4 @@
-# HWYLA Changelog
+# HWYLA Changes
 
 #### This is a list of primary changes between HWYLA and WAILA itself as of the creation of this fork.
 
