@@ -1,0 +1,167 @@
+screen.button.modules=Módulos
+screen.label.scale=Escala
+screen.label.dragtuto=Arrastre el HUD para configurar su posición
+
+screen.button.default=Defecto
+screen.button.cancel=Cancelar
+screen.button.yes=Sí
+screen.button.back=Atrás
+screen.button.hidden=Ocultar
+screen.button.maintained=Mantenido
+screen.button.toggled=Cazonete
+
+choice.showhidewaila=Mostrar/Ocultar Waila
+choice.toggledmaintained=Cazonete/Mantenido
+choice.showliquids=Líquidos
+choice.shifttoggledblock=SHIFT para bloques
+choice.shifttoggledents=SHIFT para entidades
+choice.hidefromlist=Ocultar de la lista de jugadores
+choice.format.modname=Nombre Mod
+choice.format.blockname=Nombre del Bloque
+choice.format.fluidname=Nombre del Fluido
+choice.format.entityname=Nombre de la Entidad
+choice.format.background=Color de fondo
+choice.format.gradienttop=Color del degradado (parte superior)
+choice.format.gradientbottom=Color del degradado (Fondo)
+choice.format.font=Color de texto
+screen.button.configureaspect=Configurar aspecto...
+screen.button.configureformat=Configurar contenido...
+screen.button.exporttheme=Exportar tema
+
+enchant.title.name=Nombre
+enchant.title.minlvl=Nivel mínimo
+enchant.title.maxlvl=Nivel máximo
+enchant.title.weight=Peso
+
+
+waila.keybind.wailaconfig=[Waila] Pantalla Configurar
+waila.keybind.wailadisplay=[Waila] Mostrar/Ocultar
+waila.keybind.liquid=[Waila] Mostrar fluidos
+waila.keybind.recipe=[Waila] Mostrar recetas
+waila.keybind.usage=[Waila] Mostrar uso
+waila.keybind.testing=[Waila] Pruebas
+
+client.msg.norecipe=No se encontró receta.
+client.msg.nousage=No se encontró uso.
+
+hud.msg.none=<Nada>
+hud.msg.empty=<Vacío>
+hud.msg.output=Salida
+hud.msg.input=Entrada
+hud.msg.out=Fuera
+hud.msg.in=Adentro
+hud.msg.power=Energía
+hud.msg.storage=Almacenamiento
+hud.msg.stored=Almacenado
+hud.msg.any=Alguna
+hud.msg.mode=Modo
+hud.msg.maxpower=Máximo Energía
+hud.msg.trigger=Gatillo
+hud.msg.maxio=Máximo IO
+
+hud.msg.send=Enviar
+hud.msg.recv=Recibir
+hud.msg.item=ítem
+hud.msg.fluid=Fluido
+hud.msg.energ=Energía
+hud.msg.frequency=Frecuencia
+
+hud.msg.owner=Dueño
+hud.msg.public=Público
+hud.msg.restricted=Limitado
+hud.msg.private=Privado
+
+hud.msg.white=Blanco
+hud.msg.orange=Naranja
+hud.msg.magenta=Magenta
+hud.msg.lblue=Azul claro
+hud.msg.yellow=Amarillo
+hud.msg.lime=Lima
+hud.msg.pink=Rosa
+hud.msg.gray=Gris
+hud.msg.lgray=Gris claro
+hud.msg.cyan=Cian
+hud.msg.purple=Púrpura
+hud.msg.blue=Azul
+hud.msg.brown=Marrón
+hud.msg.green=Verde
+hud.msg.red=Rojo
+hud.msg.black=Negro
+
+hud.msg.health=Salud
+hud.msg.growth=Crecimiento
+hud.msg.mature=Maduro
+hud.msg.off=Apagado
+hud.msg.on=Encendido
+hud.msg.state=Estado
+hud.msg.delay=Retrasar
+hud.msg.comparator=Comparador
+hud.msg.substractor=Sustractor
+hud.msg.record=Disco
+hud.msg.toomuch=Demasiado...
+
+hud.msg.offers=Ofrecer
+hud.msg.demands=Peticiones
+
+hud.item.melonstem=Tallo de melón
+hud.item.pumpkinstem=Tallo de calabaza
+
+cfg.theme.dark=Oscuro
+
+option.appeng.monitorcontent=Contenido del monitor
+option.bb.content=Contenido de Barrel
+option.bc.tankamount=Cantidad de fluido
+option.bc.tanktype=Tipo de fluido
+option.enderstorage.colors=Colores
+option.ic2.inputeumach=Entrada máxima EU [Máquinas]
+option.ic2.inputeuother=Entrada máxima EU [Otro]
+option.ic2.inputeu=Entrada máxima EU
+option.ic2.outputeu=Salida máxima 
+option.ic2.storage=Energía almacenada
+option.ic2.consump=Mostrar consumo
+option.thaumcraft.storedvis=Almacenamiento de condensadores
+option.thermalexpansion.energyhandler=Mostrar almacenamiento RF
+option.thermalexpansion.energycell=Mostrar Entrada/Salida de célula energía
+option.thermalexpansion.fluidtype=Mostrar tipo de fluido
+option.thermalexpansion.fluidamount=Mostrar cantidad de fluido
+option.thermalexpansion.tankmode=Mostrar modo de tanque
+option.thermalexpansion.tesssendrecv=Tesseract modo
+option.thermalexpansion.tessfreq=Tesseract frecuencia
+option.thermalexpansion.owner=Mostrar dueño
+option.thermalexpansion.conditemmode=Mostrar modo de Itemduct
+option.vanilla.growthvalue=Valor de crecimiento
+option.vanilla.leverstate=Estado de palanca
+option.vanilla.repeater=Retardo del repetidor
+option.vanilla.comparator=Modo comparador
+option.vanilla.redstone=Poder Redstone
+option.vanilla.jukebox=Disco de jukebox
+option.vanilla.silverfish=Ocultar los silverfish
+option.vanilla.furnacedisplay=Mostrar progreso del horno
+option.etb.displaydata=Mostrar datos de socket
+option.enderio.inout=Mostrar entrada/salida
+option.enderio.storage=Mostrar almacenado MJ
+option.enderio.owner=Mostrar dueño del bloque
+option.enderio.channel=Mostrar canal hipercubo
+option.bcapi.storage=Mostrar almacenado MJ
+option.bcapi.consump=Mostrar energía máxima
+option.bcapi.trigger=Mostrar desencadenante del energía
+option.pr.showio=Mostrar puertas E/S
+option.pr.showdata=Mostrar datos de puerta
+option.extrautilities.fluidamount=Mostrar cantidad de fluido
+option.openblocks.fluidamount=Mostrar cantidad de fluido
+option.railcraft.fluidamount=Mostrar cantidad de fluido
+option.secretrooms.hide=Ocultar bloques de camuflaje
+option.carpenters.hide=Ocultar bloques de camuflaje
+option.stevescarts.showall=Mostrar datos
+option.stevescarts.colorblind=Modo daltónico
+option.stevescarts.shifttoggle=Tecla de mayúscula cazonete
+option.general.showents=Mostrar entidades
+option.general.showhp=Mostrar salud de entidades
+option.general.showcrop=Mostrar crecimiento del cultivo
+option.general.registry=Mostrar información del registro
+option.capability.tankinfo=Mostrar información del tanque
+option.capability.energyinfo=Mostrar información de energía
+option.capability.inventoryinfo=Mostrar información de inventario
+option.thaumcraft.aspects=Mostrar aspectos
+
+nei.options.keys.showenchant=Mostrar valores del encantamientos
