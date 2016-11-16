@@ -36,7 +36,7 @@ import java.util.Set;
 @Mod(modid = Waila.MODID, name = Waila.NAME, version = Waila.VERSION, dependencies = Waila.DEPEND, acceptedMinecraftVersions = "[1.11,1.12]", acceptableRemoteVersions = "*", guiFactory = "mcp.mobius.waila.gui.ConfigGuiFactory")
 public class Waila {
 
-    public static final String MODID = "Waila";
+    public static final String MODID = "waila";
     public static final String NAME = "Waila";
     public static final String VERSION = "1.8.0";
     public static final String DEPEND = "";
