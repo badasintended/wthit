@@ -1,7 +1,5 @@
 package mcp.mobius.waila;
 
-import com.google.common.eventbus.EventBus;
-import com.google.common.eventbus.Subscribe;
 import mcp.mobius.waila.api.WailaPlugin;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
@@ -17,7 +15,6 @@ import mcp.mobius.waila.server.ProxyServer;
 import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import net.minecraftforge.fml.common.FMLModContainer;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
 import net.minecraftforge.fml.common.Mod.Instance;
@@ -30,7 +27,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
-import java.lang.reflect.Field;
 import java.util.Set;
 
 @Mod(modid = Waila.MODID, name = Waila.NAME, version = Waila.VERSION, dependencies = Waila.DEPEND, acceptedMinecraftVersions = "[1.9, 1.11]", acceptableRemoteVersions = "*", guiFactory = "mcp.mobius.waila.gui.ConfigGuiFactory")
@@ -43,7 +39,7 @@ public class Waila {
     public static final Logger LOGGER = LogManager.getLogger("Waila");
 
     // The instance of your mod that Forge uses.
-    @Instance("Waila")
+    @Instance(MODID)
     public static Waila instance;
     @SidedProxy(clientSide = "mcp.mobius.waila.client.ProxyClient", serverSide = "mcp.mobius.waila.server.ProxyServer")
     public static ProxyServer proxy;
@@ -69,15 +65,6 @@ public class Waila {
 
     @EventHandler
     public void initialize(FMLInitializationEvent event) {
-        try {
-            Field eBus = FMLModContainer.class.getDeclaredField("eventBus");
-            eBus.setAccessible(true);
-            EventBus FMLbus = (EventBus) eBus.get(FMLCommonHandler.instance().findContainerFor(this));
-            FMLbus.register(this);
-        } catch (Throwable t) {
-            // No-op
-        }
-
         if (FMLCommonHandler.instance().getEffectiveSide() == Side.CLIENT) {
             MinecraftForge.EVENT_BUS.register(new DecoratorRenderer());
             MinecraftForge.EVENT_BUS.register(new KeyEvent());
@@ -92,7 +79,7 @@ public class Waila {
         ModIdentification.init();
     }
 
-    @Subscribe
+    @EventHandler
     public void loadComplete(FMLLoadCompleteEvent event) {
         proxy.registerMods();
         proxy.registerIMCs();
