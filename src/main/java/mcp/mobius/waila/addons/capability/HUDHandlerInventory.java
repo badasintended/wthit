@@ -30,8 +30,9 @@ public class HUDHandlerInventory extends HUDHandlerBase {
 
         if (accessor.getNBTData().hasKey("handler")) {
             int handlerSize = accessor.getNBTData().getInteger("handlerSize");
-            IItemHandler itemHandler = new ItemStackHandler(handlerSize);
-            populateInv((ItemStackHandler) itemHandler, accessor.getNBTData().getTagList("handler", 10));
+            ItemStackHandler itemHandler = new ItemStackHandler();
+            itemHandler.setSize(handlerSize);
+            populateInv(itemHandler, accessor.getNBTData().getTagList("handler", 10));
 
             List<ItemStack> toRender = new ArrayList<ItemStack>();
             for (int slot = 0; slot < itemHandler.getSlots(); slot++) {
@@ -129,7 +130,7 @@ public class HUDHandlerInventory extends HUDHandlerBase {
     private void addStack(List<ItemStack> stacks, ItemStack stack) {
         for (ItemStack invStack : stacks) {
             if (ItemHandlerHelper.canItemStacksStack(invStack, stack)) {
-                invStack.func_190920_e(invStack.func_190916_E() + stack.func_190916_E());
+                invStack.func_190917_f(stack.func_190916_E());
                 return;
             }
         }
