@@ -60,7 +60,7 @@ public class KeyEvent {
             ConfigHandler.instance().setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID, !status);
         }
 
-        if (Loader.isModLoaded("JEI")) {
+        if (Loader.isModLoaded("jei")) {
             if (key_recipe.isPressed()) {
                 ItemStack targetStack = RayTracing.instance().getTargetStack();
                 if (targetStack != null)
