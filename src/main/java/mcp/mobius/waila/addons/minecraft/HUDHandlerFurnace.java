@@ -28,7 +28,7 @@ public class HUDHandlerFurnace extends HUDHandlerBase {
         for (int i = 0; i < itemTag.tagCount(); i++) {
             NBTTagCompound tagCompound = itemTag.getCompoundTagAt(i);
             byte slot = tagCompound.getByte("Slot");
-            ItemStack stack = ItemStack.loadItemStackFromNBT(tagCompound);
+            ItemStack stack = new ItemStack(tagCompound);
             inventory[slot] = stack;
         }
 
@@ -36,19 +36,19 @@ public class HUDHandlerFurnace extends HUDHandlerBase {
 
         if (inventory[0] != null) {
             String name = inventory[0].getItem().getRegistryName().toString();
-            renderStr += SpecialChars.getRenderString("waila.stack", "1", name, String.valueOf(inventory[0].stackSize), String.valueOf(inventory[0].getItemDamage()));
+            renderStr += SpecialChars.getRenderString("waila.stack", "1", name, String.valueOf(inventory[0].func_190916_E()), String.valueOf(inventory[0].getItemDamage()));
         } else renderStr += SpecialChars.getRenderString("waila.stack", "2");
 
         if (inventory[1] != null) {
             String name = inventory[1].getItem().getRegistryName().toString();
-            renderStr += SpecialChars.getRenderString("waila.stack", "1", name, String.valueOf(inventory[1].stackSize), String.valueOf(inventory[1].getItemDamage()));
+            renderStr += SpecialChars.getRenderString("waila.stack", "1", name, String.valueOf(inventory[1].func_190916_E()), String.valueOf(inventory[1].getItemDamage()));
         } else renderStr += SpecialChars.getRenderString("waila.stack", "2");
 
         renderStr += SpecialChars.getRenderString("waila.progress", String.valueOf(cookTime), String.valueOf(200));
 
         if (inventory[2] != null) {
             String name = inventory[2].getItem().getRegistryName().toString();
-            renderStr += SpecialChars.getRenderString("waila.stack", "1", name, String.valueOf(inventory[2].stackSize), String.valueOf(inventory[2].getItemDamage()));
+            renderStr += SpecialChars.getRenderString("waila.stack", "1", name, String.valueOf(inventory[2].func_190916_E()), String.valueOf(inventory[2].getItemDamage()));
         } else renderStr += SpecialChars.getRenderString("waila.stack", "2");
 
         currenttip.add(renderStr);

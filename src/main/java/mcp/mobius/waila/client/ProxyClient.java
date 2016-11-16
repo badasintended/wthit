@@ -24,7 +24,7 @@ public class ProxyClient extends ProxyServer {
 
         LangUtil.loadLangDir("waila");
 
-        minecraftiaFont = FontLoader.createFont(new ResourceLocation("waila", "fonts/Minecraftia.ttf"), 14, true);
+//        minecraftiaFont = FontLoader.createFont(new ResourceLocation("waila", "fonts/minecraftia.ttf"), 14, true);
 
         MinecraftForge.EVENT_BUS.register(new VanillaTooltipHandler());
 

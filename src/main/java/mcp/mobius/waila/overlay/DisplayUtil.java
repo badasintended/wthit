@@ -84,7 +84,7 @@ public class DisplayUtil {
         try {
             renderItem.renderItemAndEffectIntoGUI(stack, x, y);
             ItemStack overlayRender = stack.copy();
-            overlayRender.stackSize = 1;
+            overlayRender.func_190920_e(1);
             renderItem.renderItemOverlayIntoGUI(fontRendererObj, overlayRender, x, y, null);
             renderStackSize(fontRendererObj, stack, x, y);
 
@@ -96,11 +96,11 @@ public class DisplayUtil {
     }
 
     public static void renderStackSize(FontRenderer fr, ItemStack stack, int xPosition, int yPosition) {
-        if (stack != null && stack.stackSize != 1) {
-            String s = shortHandNumber(stack.stackSize);
+        if (stack != null && stack.func_190916_E() != 1) {
+            String s = shortHandNumber(stack.func_190916_E());
 
-            if (stack.stackSize < 1)
-                s = TextFormatting.RED + String.valueOf(stack.stackSize);
+            if (stack.func_190916_E() < 1)
+                s = TextFormatting.RED + String.valueOf(stack.func_190916_E());
 
             GlStateManager.disableLighting();
             GlStateManager.disableDepth();
@@ -186,7 +186,7 @@ public class DisplayUtil {
     public static List<String> itemDisplayNameMultiline(ItemStack itemstack) {
         List<String> namelist = null;
         try {
-            namelist = itemstack.getTooltip(Minecraft.getMinecraft().thePlayer, Minecraft.getMinecraft().gameSettings.advancedItemTooltips);
+            namelist = itemstack.getTooltip(Minecraft.getMinecraft().player, Minecraft.getMinecraft().gameSettings.advancedItemTooltips);
         } catch (Throwable ignored) {
         }
 

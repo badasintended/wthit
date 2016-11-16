@@ -25,7 +25,7 @@ public class OverlayRenderer {
 
     public static void renderOverlay() {
         Minecraft mc = Minecraft.getMinecraft();
-        if (mc.currentScreen != null || mc.theWorld == null)
+        if (mc.currentScreen != null || mc.world == null)
             return;
 
         if (ConfigHandler.instance().hideFromList() && (mc.gameSettings.keyBindPlayerList.isKeyDown() && !mc.isIntegratedServerRunning()))

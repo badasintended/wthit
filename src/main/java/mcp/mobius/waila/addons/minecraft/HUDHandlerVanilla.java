@@ -260,7 +260,7 @@ public class HUDHandlerVanilla extends HUDHandlerBase {
             if (block == jukebox) {
                 NBTTagCompound tag = accessor.getNBTData();
                 if (tag.hasKey("RecordItem", 10)) {
-                    Item record = ItemStack.loadItemStackFromNBT(tag.getCompoundTag("RecordItem")).getItem();
+                    Item record = new ItemStack(tag.getCompoundTag("RecordItem")).getItem();
                     currenttip.add(LangUtil.translateG("record.nowPlaying").replace("%s", ((ItemRecord) record).getRecordNameLocal()));
                 } else {
                     currenttip.add(LangUtil.translateG("hud.msg.empty"));

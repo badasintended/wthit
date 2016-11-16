@@ -36,7 +36,7 @@ public class HUDHandlerInventory extends HUDHandlerBase {
             List<ItemStack> toRender = new ArrayList<ItemStack>();
             for (int slot = 0; slot < itemHandler.getSlots(); slot++) {
                 ItemStack stack = itemHandler.getStackInSlot(slot);
-                if (stack == null)
+                if (stack.func_190926_b())
                     continue;
 
                 addStack(toRender, stack);
@@ -57,7 +57,7 @@ public class HUDHandlerInventory extends HUDHandlerBase {
                 String nbt = "";
                 if (stack.hasTagCompound())
                     nbt = stack.getTagCompound().toString();
-                renderString += SpecialChars.getRenderString("waila.stack", "1", name, String.valueOf(stack.stackSize), String.valueOf(stack.getItemDamage()), nbt);
+                renderString += SpecialChars.getRenderString("waila.stack", "1", name, String.valueOf(stack.func_190916_E()), String.valueOf(stack.getItemDamage()), nbt);
                 drawnCount += 1;
             }
 
@@ -94,7 +94,7 @@ public class HUDHandlerInventory extends HUDHandlerBase {
         int size = itemHandler.getSlots();
         for (int i = 0; i < size; i++) {
             ItemStack stack = itemHandler.getStackInSlot(i);
-            if (stack != null) {
+            if (!stack.func_190926_b()) {
                 NBTTagCompound itemTag = new NBTTagCompound();
                 itemTag.setInteger("Slot", i);
                 writeStack(stack, itemTag);
@@ -117,19 +117,19 @@ public class HUDHandlerInventory extends HUDHandlerBase {
 
     private void writeStack(ItemStack stack, NBTTagCompound tagCompound) {
         stack.writeToNBT(tagCompound);
-        tagCompound.setInteger("CountI", stack.stackSize);
+        tagCompound.setInteger("CountI", stack.func_190916_E());
     }
 
     private ItemStack readStack(NBTTagCompound tagCompound) {
-        ItemStack stack = ItemStack.loadItemStackFromNBT(tagCompound);
-        stack.stackSize = tagCompound.getInteger("CountI");
+        ItemStack stack = new ItemStack(tagCompound);
+        stack.func_190920_e(tagCompound.getInteger("CountI"));
         return stack;
     }
 
     private void addStack(List<ItemStack> stacks, ItemStack stack) {
         for (ItemStack invStack : stacks) {
             if (ItemHandlerHelper.canItemStacksStack(invStack, stack)) {
-                invStack.stackSize += stack.stackSize;
+                invStack.func_190920_e(invStack.func_190916_E() + stack.func_190916_E());
                 return;
             }
         }

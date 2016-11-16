@@ -59,8 +59,8 @@ public class WailaTickHandler {
         }
 
 
-        World world = mc.theWorld;
-        EntityPlayer player = mc.thePlayer;
+        World world = mc.world;
+        EntityPlayer player = mc.player;
         if (world != null && player != null) {
             RayTracing.instance().fire();
             RayTraceResult target = RayTracing.instance().getTarget();
