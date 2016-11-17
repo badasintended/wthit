@@ -12,12 +12,15 @@ import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.ForgeModContainer;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fluids.*;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.wrappers.FluidBlockWrapper;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
@@ -71,8 +74,10 @@ public class HUDHandlerFluids extends HUDHandlerBase {
                 ret = UniversalBucket.getFilledBucket(ForgeModContainer.getInstance().universalBucket, fluid);
             else if (vanilla)
                 ret = fluid == FluidRegistry.WATER ? new ItemStack(Items.WATER_BUCKET) : new ItemStack(Items.LAVA_BUCKET);
-            else
-                ret = FluidContainerRegistry.fillFluidContainer(new FluidStack(fluid, 1000), new ItemStack(Items.BUCKET));
+            else {
+                IFluidHandler dummyFluid = new FluidBlockWrapper((IFluidBlock) fluid.getBlock(), Minecraft.getMinecraft().world, Minecraft.getMinecraft().objectMouseOver.getBlockPos());
+                ret = FluidUtil.tryFillContainer(new ItemStack(Items.BUCKET), dummyFluid, 1000, null, true).getResult();
+            }
         }
 
         return ret != null ? ret : null;

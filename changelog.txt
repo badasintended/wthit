@@ -1,4 +1,15 @@
 ------------------------------------------------------
+Version 1.8.3
+------------------------------------------------------
+
+- Fixed inventory handler (this fix is redundant in newer Forge versions)
+- Re-implement JEI integration (The Recipe/Usage not found message has been moved to the action area)
+- Lowercased the modid to "waila" (Was "Waila")
+- Removed some unnecessary reflection
+- Added a handler to display items in the Llama and Donkey inventories (and any future mobs that use `AbstractChestHorse`) (#29)
+    - (Added some necessary reflection)
+
+------------------------------------------------------
 Version 1.8.2
 ------------------------------------------------------
 
