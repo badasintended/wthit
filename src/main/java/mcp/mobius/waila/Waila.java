@@ -32,9 +32,9 @@ import java.util.Set;
 @Mod(modid = Waila.MODID, name = Waila.NAME, version = Waila.VERSION, dependencies = Waila.DEPEND, acceptedMinecraftVersions = "[1.9, 1.11]", acceptableRemoteVersions = "*", guiFactory = "mcp.mobius.waila.gui.ConfigGuiFactory")
 public class Waila {
 
-    public static final String MODID = "Waila";
+    public static final String MODID = "waila";
     public static final String NAME = "Waila";
-    public static final String VERSION = "1.8.0";
+    public static final String VERSION = "@VERSION@";
     public static final String DEPEND = "required-after:Forge@[12.16.0.1887,);";
     public static final Logger LOGGER = LogManager.getLogger("Waila");
 
