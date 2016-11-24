@@ -16,7 +16,7 @@ public class InventoryUtils {
         int size = itemHandler.getSlots();
         for (int i = 0; i < size; i++) {
             ItemStack stack = itemHandler.getStackInSlot(i);
-            if (!stack.func_190926_b()) {
+            if (!stack.isEmpty()) {
                 NBTTagCompound itemTag = new NBTTagCompound();
                 itemTag.setInteger("Slot", i);
                 writeStack(stack, itemTag);
@@ -39,19 +39,19 @@ public class InventoryUtils {
 
     public static void writeStack(ItemStack stack, NBTTagCompound tagCompound) {
         stack.writeToNBT(tagCompound);
-        tagCompound.setInteger("CountI", stack.func_190916_E());
+        tagCompound.setInteger("CountI", stack.getCount());
     }
 
     public static ItemStack readStack(NBTTagCompound tagCompound) {
         ItemStack stack = new ItemStack(tagCompound);
-        stack.func_190920_e(tagCompound.getInteger("CountI"));
+        stack.setCount(tagCompound.getInteger("CountI"));
         return stack;
     }
 
     public static void addStack(List<ItemStack> stacks, ItemStack stack) {
         for (ItemStack invStack : stacks) {
             if (ItemHandlerHelper.canItemStacksStack(invStack, stack)) {
-                invStack.func_190917_f(stack.func_190916_E());
+                invStack.grow(stack.getCount());
                 return;
             }
         }

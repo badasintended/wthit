@@ -70,7 +70,7 @@ public class HUDHandlerVanilla extends HUDHandlerBase {
             int x = accessor.getPosition().getX();
             int y = accessor.getPosition().getY();
             int z = accessor.getPosition().getZ();
-            if (!accessor.getWorld().getBlockState(new BlockPos(x, y, z)).getPropertyNames().contains(BlockFlowerPot.CONTENTS))
+            if (!accessor.getWorld().getBlockState(new BlockPos(x, y, z)).getPropertyKeys().contains(BlockFlowerPot.CONTENTS))
                 return new ItemStack(Blocks.FLOWER_POT, 1, accessor.getMetadata());
             EnumFlowerType variant = accessor.getWorld().getBlockState(new BlockPos(x, y, z)).getValue(BlockFlowerPot.CONTENTS);
             switch (variant) {

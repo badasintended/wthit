@@ -38,7 +38,7 @@ public class HUDHandlerInventory extends HUDHandlerBase {
             List<ItemStack> toRender = new ArrayList<ItemStack>();
             for (int slot = 0; slot < itemHandler.getSlots(); slot++) {
                 ItemStack stack = itemHandler.getStackInSlot(slot);
-                if (stack.func_190926_b())
+                if (stack.isEmpty())
                     continue;
 
                 InventoryUtils.addStack(toRender, stack);
@@ -59,7 +59,7 @@ public class HUDHandlerInventory extends HUDHandlerBase {
                 String nbt = "";
                 if (stack.hasTagCompound())
                     nbt = stack.getTagCompound().toString();
-                renderString += SpecialChars.getRenderString("waila.stack", "1", name, String.valueOf(stack.func_190916_E()), String.valueOf(stack.getItemDamage()), nbt);
+                renderString += SpecialChars.getRenderString("waila.stack", "1", name, String.valueOf(stack.getCount()), String.valueOf(stack.getItemDamage()), nbt);
                 drawnCount += 1;
             }
 

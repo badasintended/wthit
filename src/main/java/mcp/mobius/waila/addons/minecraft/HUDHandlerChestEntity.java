@@ -1,6 +1,5 @@
 package mcp.mobius.waila.addons.minecraft;
 
-import com.google.common.base.Throwables;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaEntityAccessor;
 import mcp.mobius.waila.api.IWailaEntityProvider;
@@ -60,7 +59,7 @@ public class HUDHandlerChestEntity implements IWailaEntityProvider {
             List<ItemStack> toRender = new ArrayList<ItemStack>();
             for (int slot = 0; slot < itemHandler.getSlots(); slot++) {
                 ItemStack stack = itemHandler.getStackInSlot(slot);
-                if (stack.func_190926_b())
+                if (stack.isEmpty())
                     continue;
 
                 if (!foundCarpet && entity instanceof EntityLlama && stack.getItem() == Item.getItemFromBlock(Blocks.CARPET)) {
@@ -86,7 +85,7 @@ public class HUDHandlerChestEntity implements IWailaEntityProvider {
                 String nbt = "";
                 if (stack.hasTagCompound())
                     nbt = stack.getTagCompound().toString();
-                renderString += SpecialChars.getRenderString("waila.stack", "1", name, String.valueOf(stack.func_190916_E()), String.valueOf(stack.getItemDamage()), nbt);
+                renderString += SpecialChars.getRenderString("waila.stack", "1", name, String.valueOf(stack.getCount()), String.valueOf(stack.getItemDamage()), nbt);
                 drawnCount += 1;
             }
 
@@ -108,7 +107,7 @@ public class HUDHandlerChestEntity implements IWailaEntityProvider {
         IItemHandler itemHandler = new InvWrapper(horseChest);
         tag.setTag("handler", InventoryUtils.invToNBT(itemHandler));
         tag.setInteger("handlerSize", itemHandler.getSlots());
-        tag.setBoolean("chested", ((AbstractChestHorse) ent).func_190695_dh());
+        tag.setBoolean("chested", ((AbstractChestHorse) ent).hasChest());
 
         return tag;
     }

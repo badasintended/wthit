@@ -84,7 +84,7 @@ public class DisplayUtil {
         try {
             renderItem.renderItemAndEffectIntoGUI(stack, x, y);
             ItemStack overlayRender = stack.copy();
-            overlayRender.func_190920_e(1);
+            overlayRender.setCount(1);
             renderItem.renderItemOverlayIntoGUI(fontRendererObj, overlayRender, x, y, null);
             renderStackSize(fontRendererObj, stack, x, y);
 
@@ -96,11 +96,11 @@ public class DisplayUtil {
     }
 
     public static void renderStackSize(FontRenderer fr, ItemStack stack, int xPosition, int yPosition) {
-        if (stack != null && stack.func_190916_E() != 1) {
-            String s = shortHandNumber(stack.func_190916_E());
+        if (stack != null && stack.getCount() != 1) {
+            String s = shortHandNumber(stack.getCount());
 
-            if (stack.func_190916_E() < 1)
-                s = TextFormatting.RED + String.valueOf(stack.func_190916_E());
+            if (stack.getCount() < 1)
+                s = TextFormatting.RED + String.valueOf(stack.getCount());
 
             GlStateManager.disableLighting();
             GlStateManager.disableDepth();

@@ -23,12 +23,12 @@ public class JEIHandler extends BlankModPlugin {
     public static void displayRecipes(ItemStack stack) {
         runtime.getRecipesGui().show(runtime.getRecipeRegistry().createFocus(IFocus.Mode.OUTPUT, stack));
         if (Minecraft.getMinecraft().currentScreen != runtime.getRecipesGui())
-            Minecraft.getMinecraft().player.addChatComponentMessage(new TextComponentTranslation("client.msg.norecipe").setStyle(new Style().setColor(TextFormatting.RED)), true);
+            Minecraft.getMinecraft().player.sendStatusMessage(new TextComponentTranslation("client.msg.norecipe").setStyle(new Style().setColor(TextFormatting.RED)), true);
     }
 
     public static void displayUses(ItemStack stack) {
         runtime.getRecipesGui().show(runtime.getRecipeRegistry().createFocus(IFocus.Mode.INPUT, stack));
         if (Minecraft.getMinecraft().currentScreen != runtime.getRecipesGui())
-            Minecraft.getMinecraft().player.addChatComponentMessage(new TextComponentTranslation("client.msg.nousage").setStyle(new Style().setColor(TextFormatting.RED)), true);
+            Minecraft.getMinecraft().player.sendStatusMessage(new TextComponentTranslation("client.msg.nousage").setStyle(new Style().setColor(TextFormatting.RED)), true);
     }
 }

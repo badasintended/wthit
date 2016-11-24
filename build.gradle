@@ -29,7 +29,7 @@ archivesBaseName = "Hwyla"
 
 minecraft {
     version = "${mc_version}-${forge_version}"
-    mappings = "snapshot_20161115"
+    mappings = "snapshot_20161124"
     runDir = "run"
 	
     replace "@VERSION@", project.waila_version
@@ -41,7 +41,7 @@ repositories {
 }
 
 dependencies {
-    deobfCompile "mezz.jei:jei_1.11:4.0.0.188"
+    deobfCompile "mezz.jei:jei_1.11:4.0.2.194"
 }
 
 processResources{

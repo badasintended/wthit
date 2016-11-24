@@ -32,7 +32,7 @@ public class TTRenderHealth implements IWailaTooltipRenderer {
         float health = Float.valueOf(params[1]);
         float maxhealth = Float.valueOf(params[2]);
 
-        int nhearts = MathHelper.ceiling_float_int(maxhealth);
+        int nhearts = MathHelper.ceil(maxhealth);
         int heartsPerLine = (int) (Math.min(maxhearts, Math.ceil(maxhealth)));
 
         int offsetX = 0;
@@ -41,7 +41,7 @@ public class TTRenderHealth implements IWailaTooltipRenderer {
         for (int iheart = 1; iheart <= nhearts; iheart++) {
 
 
-            if (iheart <= MathHelper.floor_float(health)) {
+            if (iheart <= MathHelper.floor(health)) {
                 DisplayUtil.renderIcon(offsetX, offsetY, 8, 8, IconUI.HEART);
                 offsetX += 8;
             }
