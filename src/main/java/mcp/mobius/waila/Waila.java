@@ -34,7 +34,7 @@ public class Waila {
 
     public static final String MODID = "waila";
     public static final String NAME = "Waila";
-    public static final String VERSION = "1.8.0";
+    public static final String VERSION = "@VERSION@";
     public static final String DEPEND = "";
     public static final Logger LOGGER = LogManager.getLogger("Waila");
 
