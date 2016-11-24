@@ -19,8 +19,12 @@ public class ProxyServer {
 
     public void registerMods() {
         // Register core plugin to make sure it gets loaded before all others.
-        PluginCore core = new PluginCore();
-        core.register(ModuleRegistrar.instance());
+        try {
+            PluginCore core = new PluginCore();
+            core.register(ModuleRegistrar.instance());
+        } catch (Exception e) {
+            Waila.LOGGER.error("Error registering plugin for class {}", PluginCore.class.getCanonicalName());
+        }
 
         for (ASMDataTable.ASMData data : Waila.plugins) {
             try {

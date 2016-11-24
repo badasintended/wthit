@@ -12,7 +12,6 @@ import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -31,7 +30,7 @@ public class HUDHandlerFluids extends HUDHandlerBase {
 
     @Override
     public ItemStack getWailaStack(IWailaDataAccessor accessor, IWailaConfigHandler config) {
-        return getStackFromLiquid(accessor.getBlockState());
+        return getStackFromLiquid(accessor.getBlockState(), accessor);
     }
 
     @Override
@@ -64,7 +63,7 @@ public class HUDHandlerFluids extends HUDHandlerBase {
         return currenttip;
     }
 
-    private static ItemStack getStackFromLiquid(IBlockState state) {
+    private static ItemStack getStackFromLiquid(IBlockState state, IWailaDataAccessor accessor) {
         Pair<Fluid, Boolean> fluidPair = getFluidFromBlock(state);
         Fluid fluid = fluidPair.getLeft();
         boolean vanilla = fluidPair.getRight();
@@ -75,7 +74,7 @@ public class HUDHandlerFluids extends HUDHandlerBase {
             else if (vanilla)
                 ret = fluid == FluidRegistry.WATER ? new ItemStack(Items.WATER_BUCKET) : new ItemStack(Items.LAVA_BUCKET);
             else {
-                IFluidHandler dummyFluid = new FluidBlockWrapper((IFluidBlock) fluid.getBlock(), Minecraft.getMinecraft().world, Minecraft.getMinecraft().objectMouseOver.getBlockPos());
+                IFluidHandler dummyFluid = new FluidBlockWrapper((IFluidBlock) fluid.getBlock(), accessor.getWorld(), accessor.getPosition());
                 ret = FluidUtil.tryFillContainer(new ItemStack(Items.BUCKET), dummyFluid, 1000, null, true).getResult();
             }
         }
