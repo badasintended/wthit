@@ -8,9 +8,9 @@ import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.utils.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.Vector3d;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -48,8 +48,6 @@ public class RayTracing {
         if (viewpoint == null) return;
 
         this.target = this.rayTrace(viewpoint, mc.playerController.getBlockReachDistance(), 0);
-
-        if (this.target == null) return;
     }
 
     public RayTraceResult getTarget() {
@@ -137,7 +135,7 @@ public class RayTracing {
         //Block mouseoverBlock  = Block.blocksList[blockID];
         Block mouseoverBlock = world.getBlockState(pos).getBlock();
         TileEntity tileEntity = world.getTileEntity(pos);
-        if (mouseoverBlock == null)
+        if (mouseoverBlock == Blocks.AIR)
             return items;
 
         if (ModuleRegistrar.instance().hasStackProviders(mouseoverBlock)) {
@@ -146,7 +144,7 @@ public class RayTracing {
                     ItemStack providerStack = provider.getWailaStack(DataAccessorCommon.instance, ConfigHandler.instance());
                     if (providerStack != null) {
 
-                        if (providerStack.getItem() == null)
+                        if (providerStack.isEmpty())
                             return new ArrayList<ItemStack>();
 
                         items.add(providerStack);
@@ -162,7 +160,7 @@ public class RayTracing {
                     ItemStack providerStack = provider.getWailaStack(DataAccessorCommon.instance, ConfigHandler.instance());
                     if (providerStack != null) {
 
-                        if (providerStack.getItem() == null)
+                        if (providerStack.isEmpty())
                             return new ArrayList<ItemStack>();
 
                         items.add(providerStack);
@@ -174,14 +172,14 @@ public class RayTracing {
         if (!items.isEmpty())
             return items;
 
-        if (world.getTileEntity(pos) == null && Item.getItemFromBlock(mouseoverBlock) != null)
+        if (world.getTileEntity(pos) == null && Item.getItemFromBlock(mouseoverBlock) != Item.getItemFromBlock(Blocks.AIR))
             items.add(mouseoverBlock.getPickBlock(world.getBlockState(pos), target, world, pos, player));
 
         if (!items.isEmpty())
             return items;
 
         ItemStack pick = mouseoverBlock.getPickBlock(world.getBlockState(pos), target, world, pos, player);//(this.target, world, pos, player);
-        if (pick != null)
+        if (!pick.isEmpty())
             items.add(pick);
 
         if (!items.isEmpty())
@@ -194,7 +192,7 @@ public class RayTracing {
         }
 
         if (items.isEmpty()) {
-            if (Item.getItemFromBlock(mouseoverBlock) != null) {
+            if (Item.getItemFromBlock(mouseoverBlock) != Item.getItemFromBlock(Blocks.AIR)) {
                 if (Item.getItemFromBlock(mouseoverBlock).getHasSubtypes())
                     items.add(new ItemStack(mouseoverBlock, 1, mouseoverBlock.getMetaFromState(world.getBlockState(pos))));
                 else
