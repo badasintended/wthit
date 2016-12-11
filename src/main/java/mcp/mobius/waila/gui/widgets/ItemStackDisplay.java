@@ -9,7 +9,7 @@ import org.lwjgl.util.Point;
 
 public class ItemStackDisplay extends WidgetBase {
 
-    ItemStack stack = null;
+    ItemStack stack = ItemStack.EMPTY;
 
     public ItemStackDisplay(IWidget parent) {
         this(parent, null);
@@ -31,7 +31,7 @@ public class ItemStackDisplay extends WidgetBase {
 
     @Override
     public void draw(Point pos) {
-        if (this.stack == null) return;
+        if (this.stack.isEmpty()) return;
 
         float scaleX = this.getSize().getX() / 16.0f;
         float scaleY = this.getSize().getY() / 16.0f;

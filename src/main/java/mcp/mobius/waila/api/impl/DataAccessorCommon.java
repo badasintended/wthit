@@ -68,7 +68,7 @@ public class DataAccessorCommon implements IWailaCommonAccessor, IWailaDataAcces
             this.block = null;
             this.metadata = -1;
             this.tileEntity = null;
-            this.stack = null;
+            this.stack = ItemStack.EMPTY;
             this.entity = _mop.entityHit;
         }
 

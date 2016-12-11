@@ -31,7 +31,7 @@ public class RayTracing {
 
     private static RayTracing _instance;
     private RayTraceResult target = null;
-    private ItemStack targetStack = null;
+    private ItemStack targetStack = ItemStack.EMPTY;
     private Entity targetEntity = null;
     private Minecraft mc = Minecraft.getMinecraft();
     private RayTracing() {
@@ -40,7 +40,7 @@ public class RayTracing {
     public void fire() {
         if (mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == RayTraceResult.Type.ENTITY) {
             this.target = mc.objectMouseOver;
-            this.targetStack = null;
+            this.targetStack = ItemStack.EMPTY;
             return;
         }
 
@@ -58,7 +58,7 @@ public class RayTracing {
         if (this.target != null && this.target.typeOfHit == RayTraceResult.Type.BLOCK)
             this.targetStack = this.getIdentifierStack();
         else
-            this.targetStack = null;
+            this.targetStack = ItemStack.EMPTY;
 
         return this.targetStack;
     }
@@ -142,7 +142,7 @@ public class RayTracing {
             for (List<IWailaDataProvider> providersList : ModuleRegistrar.instance().getStackProviders(mouseoverBlock).values()) {
                 for (IWailaDataProvider provider : providersList) {
                     ItemStack providerStack = provider.getWailaStack(DataAccessorCommon.instance, ConfigHandler.instance());
-                    if (providerStack != null) {
+                    if (providerStack != null) { // TODO - Enforce Nonnull on API
 
                         if (providerStack.isEmpty())
                             return new ArrayList<ItemStack>();

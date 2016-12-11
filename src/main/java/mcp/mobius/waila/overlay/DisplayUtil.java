@@ -96,7 +96,7 @@ public class DisplayUtil {
     }
 
     public static void renderStackSize(FontRenderer fr, ItemStack stack, int xPosition, int yPosition) {
-        if (stack != null && stack.getCount() != 1) {
+        if (!stack.isEmpty() && stack.getCount() != 1) {
             String s = shortHandNumber(stack.getCount());
 
             if (stack.getCount() < 1)

@@ -1,7 +1,5 @@
 package mcp.mobius.waila.overlay.tooltiprenderers;
 
-import com.google.common.base.Objects;
-import com.google.common.base.Strings;
 import mcp.mobius.waila.api.IWailaCommonAccessor;
 import mcp.mobius.waila.api.IWailaTooltipRenderer;
 import mcp.mobius.waila.overlay.DisplayUtil;
@@ -39,11 +37,13 @@ public class TTRenderStack implements IWailaTooltipRenderer {
             // No-op
         }
 
-        ItemStack stack = null;
+        ItemStack stack = ItemStack.EMPTY;
         if (type == 0)
             stack = new ItemStack(ForgeRegistries.BLOCKS.getValue(new ResourceLocation(name)), amount, meta);
         if (type == 1)
             stack = new ItemStack(ForgeRegistries.ITEMS.getValue(new ResourceLocation(name)), amount, meta);
+        if (stack.isEmpty())
+            return;
 
         if (tagCompound != null)
             stack.setTagCompound(tagCompound);

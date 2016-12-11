@@ -67,7 +67,7 @@ public class HUDHandlerFluids extends HUDHandlerBase {
         Pair<Fluid, Boolean> fluidPair = getFluidFromBlock(state);
         Fluid fluid = fluidPair.getLeft();
         boolean vanilla = fluidPair.getRight();
-        ItemStack ret = null;
+        ItemStack ret = ItemStack.EMPTY;
         if (fluid != null) {
             if (FluidRegistry.isUniversalBucketEnabled())
                 ret = UniversalBucket.getFilledBucket(ForgeModContainer.getInstance().universalBucket, fluid);
@@ -79,7 +79,7 @@ public class HUDHandlerFluids extends HUDHandlerBase {
             }
         }
 
-        return ret != null ? ret : null;
+        return ret;
     }
 
     private static Pair<Fluid, Boolean> getFluidFromBlock(IBlockState state) {

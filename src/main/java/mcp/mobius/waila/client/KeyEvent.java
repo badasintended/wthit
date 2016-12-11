@@ -63,11 +63,11 @@ public class KeyEvent {
         if (Loader.isModLoaded("jei")) {
             if (key_recipe.isPressed()) {
                 ItemStack targetStack = RayTracing.instance().getTargetStack();
-                if (targetStack != null)
+                if (!targetStack.isEmpty())
                     JEIHandler.displayRecipes(targetStack);
             } else if (key_usage.isPressed()) {
                 ItemStack targetStack = RayTracing.instance().getTargetStack();
-                if (targetStack != null)
+                if (!targetStack.isEmpty())
                     JEIHandler.displayUses(targetStack);
             }
         }

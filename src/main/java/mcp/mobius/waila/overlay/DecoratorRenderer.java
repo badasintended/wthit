@@ -23,7 +23,8 @@ public class DecoratorRenderer {
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
     public void onRenderWorldLast(RenderWorldLastEvent event) {
-        if (RayTracing.instance().getTarget() == null || RayTracing.instance().getTargetStack() == null) return;
+        if (RayTracing.instance().getTarget() == null || RayTracing.instance().getTargetStack().isEmpty())
+            return;
 
         double partialTicks = event.getPartialTicks();
 
@@ -32,13 +33,15 @@ public class DecoratorRenderer {
         EntityPlayer player = Minecraft.getMinecraft().player;
         Entity viewEntity = Minecraft.getMinecraft().getRenderViewEntity();
 
-        if (world == null || player == null || viewEntity == null) return;
+        if (world == null || player == null || viewEntity == null)
+            return;
 
         accessor.set(world, player, RayTracing.instance().getTarget(), viewEntity, partialTicks);
 
         Block block = accessor.getBlock();
 
-        if (!ModuleRegistrar.instance().hasBlockDecorator(block)) return;
+        if (!ModuleRegistrar.instance().hasBlockDecorator(block))
+            return;
 
         GL11.glPushAttrib(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
         GL11.glDisable(GL11.GL_TEXTURE_2D);

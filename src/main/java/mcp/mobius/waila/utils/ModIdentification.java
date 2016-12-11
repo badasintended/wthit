@@ -19,7 +19,7 @@ public class ModIdentification {
     }
 
     public static String nameFromStack(ItemStack stack) {
-        if (stack == null)
+        if (stack.isEmpty())
             return "";
 
         ResourceLocation resource = stack.getItem().getRegistryName();
