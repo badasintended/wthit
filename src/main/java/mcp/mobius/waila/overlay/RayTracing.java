@@ -77,7 +77,6 @@ public class RayTracing {
         Vec3d vec31 = entity.getLook(par3);
         Vec3d vec32 = vec3.addVector(vec31.xCoord * par1, vec31.yCoord * par1, vec31.zCoord * par1);
 
-        //if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID, true))
         if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID, true))
             return entity.getEntityWorld().rayTraceBlocks(vec3, vec32, true);
         else
@@ -89,7 +88,7 @@ public class RayTracing {
         ArrayList<ItemStack> items = this.getIdentifierItems();
 
         if (items.isEmpty())
-            return null;
+            return ItemStack.EMPTY;
 
         Collections.sort(items, new Comparator<ItemStack>() {
             @Override
