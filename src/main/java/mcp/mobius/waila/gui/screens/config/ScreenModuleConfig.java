@@ -1,6 +1,7 @@
 package mcp.mobius.waila.gui.screens.config;
 
 import mcp.mobius.waila.api.impl.ConfigHandler;
+import mcp.mobius.waila.cbcore.LangUtil;
 import mcp.mobius.waila.gui.interfaces.CType;
 import mcp.mobius.waila.gui.interfaces.WAlign;
 import mcp.mobius.waila.gui.screens.ScreenBase;
@@ -29,9 +30,9 @@ public class ScreenModuleConfig extends ScreenBase {
 
         for (String key : ConfigHandler.instance().getConfigKeys(this.modName).keySet()) {
             if (ConfigHandler.instance().isServerRequired(key))
-                buttonContainer.addButton(new ButtonBooleanConfigRemote(this.getRoot(), Constants.CATEGORY_MODULES, key, "screen.button.no", "screen.button.yes"), ConfigHandler.instance().getConfigKeys(this.modName).get(key));
+                buttonContainer.addButton(new ButtonBooleanConfigRemote(this.getRoot(), Constants.CATEGORY_MODULES, key, "screen.button.no", "screen.button.yes"), LangUtil.translateG(ConfigHandler.instance().getConfigKeys(this.modName).get(key)));
             else
-                buttonContainer.addButton(new ButtonBooleanConfig(this.getRoot(), Constants.CATEGORY_MODULES, key, "screen.button.no", "screen.button.yes"), ConfigHandler.instance().getConfigKeys(this.modName).get(key));
+                buttonContainer.addButton(new ButtonBooleanConfig(this.getRoot(), Constants.CATEGORY_MODULES, key, "screen.button.no", "screen.button.yes"), LangUtil.translateG(ConfigHandler.instance().getConfigKeys(this.modName).get(key)));
             //buttonContainer.addButton(new ButtonConfigRemote(-1, "No", "Yes", ConfigHandler.instance().getConfigKeys(this.modName).get(key), key ));
             //else
             //buttonContainer.addButton(new ButtonConfigOption(-1, "No", "Yes", ConfigHandler.instance().getConfigKeys(this.modName).get(key), key ));
