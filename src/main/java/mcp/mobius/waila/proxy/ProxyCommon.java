@@ -1,4 +1,4 @@
-package mcp.mobius.waila.server;
+package mcp.mobius.waila.proxy;
 
 import com.google.common.base.Stopwatch;
 import com.google.common.base.Strings;
@@ -6,16 +6,55 @@ import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.addons.core.PluginCore;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.api.IWailaRegistrar;
+import mcp.mobius.waila.api.WailaPlugin;
+import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
+import mcp.mobius.waila.config.OverlayConfig;
+import mcp.mobius.waila.network.NetworkHandler;
+import mcp.mobius.waila.network.WailaPacketHandler;
+import mcp.mobius.waila.utils.ModIdentification;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.discovery.ASMDataTable;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLLoadCompleteEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
+import java.io.File;
 import java.lang.reflect.Method;
 
-public class ProxyServer {
+public class ProxyCommon implements IProxy {
 
-    public void registerHandlers() {
+    @Override
+    public void preInit(FMLPreInitializationEvent event) {
+        Waila.plugins = event.getAsmData().getAll(WailaPlugin.class.getCanonicalName());
+
+        Waila.configDir = new File(event.getModConfigurationDirectory(), "waila");
+        Waila.themeDir = new File(Waila.configDir, "theme");
+        ConfigHandler.instance().loadDefaultConfig(event);
+
+        OverlayConfig.updateColors();
+        WailaPacketHandler.INSTANCE.ordinal();
     }
+
+    @Override
+    public void init(FMLInitializationEvent event) {
+        MinecraftForge.EVENT_BUS.register(new NetworkHandler());
+    }
+
+    @Override
+    public void postInit(FMLPostInitializationEvent event) {
+        ModIdentification.init();
+    }
+
+    @Override
+    public void loadComplete(FMLLoadCompleteEvent event) {
+        registerMods();
+        registerIMCs();
+    }
+
+    // Utilities
 
     public void registerMods() {
         // Register core plugin to make sure it gets loaded before all others.
@@ -47,13 +86,12 @@ public class ProxyServer {
         }
     }
 
-    public void registerIMCs() {
-        for (String s : ModuleRegistrar.instance().IMCRequests.keySet()) {
+    private void registerIMCs() {
+        for (String s : ModuleRegistrar.instance().IMCRequests.keySet())
             this.callbackRegistration(s, ModuleRegistrar.instance().IMCRequests.get(s));
-        }
     }
 
-    public void callbackRegistration(String method, String modname) {
+    private void callbackRegistration(String method, String modname) {
         String[] splitName = method.split("\\.");
         String methodName = splitName[splitName.length - 1];
         String className = method.substring(0, method.length() - methodName.length() - 1);
@@ -74,10 +112,5 @@ public class ProxyServer {
         } catch (Exception e) {
             Waila.LOGGER.warn(String.format("Exception while trying to access the method : %s", e.toString()));
         }
-    }
-
-
-    public Object getFont() {
-        return null;
     }
 }
