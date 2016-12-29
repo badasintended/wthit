@@ -85,12 +85,12 @@ public class ModuleRegistrar implements IWailaRegistrar {
 
     @Override
     public void addConfig(String modname, String key, boolean defvalue) {
-        ConfigHandler.instance().addConfig(modname, key, LangUtil.translateG("option." + key), defvalue);
+        ConfigHandler.instance().addConfig(modname, key, "option." + key, defvalue);
     }
 
     @Override
     public void addConfigRemote(String modname, String key, boolean defvalue) {
-        ConfigHandler.instance().addConfigServer(modname, key, LangUtil.translateG("option." + key), defvalue);
+        ConfigHandler.instance().addConfigServer(modname, key, "option." + key, defvalue);
     }
 
     /* REGISTRATION METHODS */

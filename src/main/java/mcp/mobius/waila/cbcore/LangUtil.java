@@ -30,16 +30,7 @@ public class LangUtil {
     public String translate(String s, Object... format) {
         if (prefix != null && !s.startsWith(prefix + "."))
             s = prefix + "." + s;
-        String ret = I18n.translateToLocal(s);//LanguageRegistry.instance().getStringLocalization(s);
-        if (ret.length() == 0)
-            ret = I18n.translateToLocal(s);//LanguageRegistry.instance().getStringLocalization(s, "en_US");
-        if (ret.length() == 0)
-            ret = I18n.translateToLocal(s);
-        if (ret.length() == 0)
-            return s;
-        if (format.length > 0)
-            ret = String.format(ret, format);
-        return ret;
+        return I18n.translateToLocalFormatted(s, format);
     }
 
     public void addLangFile(InputStream resource, String lang) throws IOException {
