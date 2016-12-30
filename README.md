@@ -3,6 +3,8 @@
 
 ##### **HWYLA** (pronounced "Hwhy-la", similar to "Coo-Hwhip") - a fork of [WAILA](https://minecraft.curseforge.com/projects/waila) by [ProfMobius](https://minecraft.curseforge.com/members/ProfMobius).
 
+##### The IMC registration system requires you to change the `Waila` modid to `waila` as Forge now enforces lowercase modids. If your plugin magically stops working during your 1.10 -> 1.11 transition, this is likely why. 
+
 ###### *This fork is permitted under the [CC BY-NC-SA 4.0](LICENSE.md) license. Usage of this mod is permitted in all modpacks.*
 
 ##### A full list of significant changes since this fork's creation can be found in the **[CHANGES.md](CHANGES.md)** document.
