@@ -1,11 +1,14 @@
 package mcp.mobius.waila.overlay;
 
+import com.google.common.collect.Lists;
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IWailaDataProvider;
 import mcp.mobius.waila.api.IWailaEntityProvider;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.utils.Constants;
+import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -18,6 +21,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.IShearable;
 import net.minecraftforge.common.config.Configuration;
@@ -34,6 +38,7 @@ public class RayTracing {
     private ItemStack targetStack = ItemStack.EMPTY;
     private Entity targetEntity = null;
     private Minecraft mc = Minecraft.getMinecraft();
+    private BlockPos previousBadBlock;
     private RayTracing() {
     }
 
@@ -178,6 +183,18 @@ public class RayTracing {
             return items;
 
         ItemStack pick = mouseoverBlock.getPickBlock(world.getBlockState(pos), target, world, pos, player);//(this.target, world, pos, player);
+
+        if (pick == null) {
+            if (!target.getBlockPos().equals(previousBadBlock)) {
+                String modName = ModIdentification.findModContainer(mouseoverBlock.getRegistryName().getResourceDomain()).getName();
+                Waila.LOGGER.fatal("Block " + mouseoverBlock.getRegistryName() + " from " + modName + " returned null in getPickBlock(...). This is not valid behavior, please report this to them.");
+                previousBadBlock = target.getBlockPos();
+            }
+            ItemStack fallback = new ItemStack(Blocks.BARRIER);
+            fallback.setStackDisplayName(TextFormatting.RESET.toString() + TextFormatting.RED.toString() + "This block did a bad. Check console.");
+            return Lists.newArrayList(fallback);
+        }
+
         if (!pick.isEmpty())
             items.add(pick);
 
