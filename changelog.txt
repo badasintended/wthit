@@ -1,4 +1,14 @@
 ------------------------------------------------------
+Version 1.8.6
+------------------------------------------------------
+
+- Lowercased modid in mcmod.info. The file will work properly now.
+- Moved over to a proper proxy system instead of the possibly buggy side checks.
+- In-game config now properly respects localization keys.
+- Added a fallback for when blocks return null in `getPickBlock(...)`
+    - This is a big no-no in 1.11. If you notice this (trust me, you will), please report it to the author of the mod.
+
+------------------------------------------------------
 Version 1.8.5
 ------------------------------------------------------
 
