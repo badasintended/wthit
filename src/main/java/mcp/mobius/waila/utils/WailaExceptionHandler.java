@@ -1,29 +1,33 @@
 package mcp.mobius.waila.utils;
 
 import mcp.mobius.waila.Waila;
-import org.apache.logging.log4j.Level;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 
+import java.io.File;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class WailaExceptionHandler {
 
-    private static ArrayList<String> errs = new ArrayList<String>();
-
-    public WailaExceptionHandler() {
-    }
+    private static final ArrayList<String> ERRORS = new ArrayList<String>();
+    private static final File ERROR_OUTPUT = new File("WailaErrorOutput.txt");
+    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy - HH:mm:ss");
 
     public static List<String> handleErr(Throwable e, String className, List<String> currenttip) {
-        if (!errs.contains(className)) {
-            errs.add(className);
+        if (!ERRORS.contains(className)) {
+            ERRORS.add(className);
 
-            for (StackTraceElement elem : e.getStackTrace()) {
-                Waila.LOGGER.log(Level.WARN, String.format("%s.%s:%s", elem.getClassName(), elem.getMethodName(), elem.getLineNumber()));
-                if (elem.getClassName().contains("waila"))
-                    break;
+            Waila.LOGGER.error("Caught unhandled exception : [{}] {}", className, e);
+            Waila.LOGGER.error("See WailaErrorOutput.txt for more information");
+            try {
+                FileUtils.writeStringToFile(ERROR_OUTPUT, DATE_FORMAT.format(new Date()) + "\n" + className + "\n" + ExceptionUtils.getStackTrace(e) + "\n", true);
+            } catch (Exception what) {
+                // no
             }
-
-            Waila.LOGGER.log(Level.WARN, String.format("Caught unhandled exception : [%s] %s", className, e));
         }
         if (currenttip != null)
             currenttip.add("<ERROR>");
