@@ -13,16 +13,13 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Set;
+import java.util.*;
 
 public class ConfigHandler implements IWailaConfigHandler {
 
     /* SINGLETON */
     private static ConfigHandler _instance = null;
-    public HashMap<String, Boolean> forcedConfigs = new HashMap<String, Boolean>();
+    public Map<String, Boolean> forcedConfigs = new HashMap<String, Boolean>();
     public Configuration config = null;
     /* === */
     private LinkedHashMap<String, ConfigModule> modules = new LinkedHashMap<String, ConfigModule>();

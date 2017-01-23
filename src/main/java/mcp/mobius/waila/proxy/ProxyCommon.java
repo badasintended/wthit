@@ -10,8 +10,7 @@ import mcp.mobius.waila.api.WailaPlugin;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.config.OverlayConfig;
-import mcp.mobius.waila.network.NetworkHandler;
-import mcp.mobius.waila.network.WailaPacketHandler;
+import mcp.mobius.waila.handlers.NetworkHandler;
 import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Loader;
@@ -35,7 +34,6 @@ public class ProxyCommon implements IProxy {
         ConfigHandler.instance().loadDefaultConfig(event);
 
         OverlayConfig.updateColors();
-        WailaPacketHandler.INSTANCE.ordinal();
     }
 
     @Override
