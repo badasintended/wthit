@@ -3,7 +3,9 @@ package mcp.mobius.waila.addons.minecraft;
 import mcp.mobius.waila.addons.HUDHandlerBase;
 import mcp.mobius.waila.api.*;
 import mcp.mobius.waila.cbcore.LangUtil;
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockCrops;
+import net.minecraft.block.BlockFlowerPot;
 import net.minecraft.block.BlockFlowerPot.EnumFlowerType;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -72,7 +74,7 @@ public class HUDHandlerVanilla extends HUDHandlerBase {
             int x = accessor.getPosition().getX();
             int y = accessor.getPosition().getY();
             int z = accessor.getPosition().getZ();
-            if (!accessor.getWorld().getBlockState(new BlockPos(x, y, z)).getPropertyNames().contains(BlockFlowerPot.CONTENTS))
+            if (!accessor.getWorld().getBlockState(new BlockPos(x, y, z)).getPropertyKeys().contains(BlockFlowerPot.CONTENTS))
                 return new ItemStack(Blocks.FLOWER_POT, 1, accessor.getMetadata());
             EnumFlowerType variant = accessor.getWorld().getBlockState(new BlockPos(x, y, z)).getValue(BlockFlowerPot.CONTENTS);
             switch (variant) {
@@ -274,7 +276,7 @@ public class HUDHandlerVanilla extends HUDHandlerBase {
                 NBTTagCompound tag = accessor.getNBTData();
                 if (tag.hasKey("RecordItem", 10)) {
                     Item record = ItemStack.loadItemStackFromNBT(tag.getCompoundTag("RecordItem")).getItem();
-                    currenttip.add(LangUtil.translateG("record.nowPlaying").replace("%s", ((ItemRecord) record).getRecordNameLocal()));
+                    currenttip.add(LangUtil.translateG("record.nowPlaying", ((ItemRecord) record).getRecordNameLocal()));
                 } else {
                     currenttip.add(LangUtil.translateG("hud.msg.empty"));
                 }
