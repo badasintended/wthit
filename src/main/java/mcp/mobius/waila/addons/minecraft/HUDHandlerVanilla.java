@@ -3,9 +3,7 @@ package mcp.mobius.waila.addons.minecraft;
 import mcp.mobius.waila.addons.HUDHandlerBase;
 import mcp.mobius.waila.api.*;
 import mcp.mobius.waila.cbcore.LangUtil;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockCrops;
-import net.minecraft.block.BlockFlowerPot;
+import net.minecraft.block.*;
 import net.minecraft.block.BlockFlowerPot.EnumFlowerType;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
@@ -19,10 +17,14 @@ import net.minecraft.tileentity.TileEntityMobSpawner;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
+import java.lang.reflect.Method;
 import java.util.List;
 
 public class HUDHandlerVanilla extends HUDHandlerBase {
+
+    static Method getCrop;
 
     static Block mobSpawner = Blocks.MOB_SPAWNER;
     static Block crops = Blocks.WHEAT;
@@ -123,14 +125,25 @@ public class HUDHandlerVanilla extends HUDHandlerBase {
             }
         }
 
-        // Wheat crop should display Wheat item
-        if (block == crops) {
-            return new ItemStack(Items.WHEAT);
-        }
+        if (config.getConfig("vanilla.alternatecropitem")) {
+            if (block instanceof BlockCrops) {
+                if (getCrop == null)
+                    getCrop = ReflectionHelper.findMethod(BlockCrops.class, null, new String[]{"getCrop", "func_149865_P"});
 
-        // Beetroot crop should display Beeroot item
-        if (block == beet) {
-            return new ItemStack(Items.BEETROOT);
+                try {
+                    return new ItemStack((Item) getCrop.invoke(block));
+                } catch (Exception e) {
+                    return null;
+                }
+            }
+        } else {
+            // Wheat crop should display Wheat item
+            if (block == crops)
+                return new ItemStack(Items.WHEAT);
+
+            // Beetroot crop should display Beetroot item
+            if (block == beet)
+                return new ItemStack(Items.BEETROOT);
         }
 
         // Display farmland instead of dirt
@@ -285,6 +298,7 @@ public class HUDHandlerVanilla extends HUDHandlerBase {
         registrar.addConfig("VanillaMC", "vanilla.comparator");
         registrar.addConfig("VanillaMC", "vanilla.redstone");
         registrar.addConfig("VanillaMC", "vanilla.silverfish");
+        registrar.addConfig("VanillaMC", "vanilla.alternatecropitem");
         registrar.addConfigRemote("VanillaMC", "vanilla.jukebox");
 
         IWailaDataProvider provider = new HUDHandlerVanilla();
