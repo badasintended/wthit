@@ -29,7 +29,7 @@ public class JEIHandler extends BlankModPlugin {
     public static void displayRecipes(ItemStack stack) {
         runtime.getRecipesGui().show(runtime.getRecipeRegistry().createFocus(IFocus.Mode.OUTPUT, stack));
         if (Minecraft.getMinecraft().currentScreen != runtime.getRecipesGui()) {
-            Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new TextComponentTranslation("client.msg.norecipe").setStyle(new Style().setColor(TextFormatting.RED)));
+            Minecraft.getMinecraft().player.sendMessage(new TextComponentTranslation("client.msg.norecipe").setStyle(new Style().setColor(TextFormatting.RED)));
             return;
         }
         openItemList();
@@ -38,7 +38,7 @@ public class JEIHandler extends BlankModPlugin {
     public static void displayUses(ItemStack stack) {
         runtime.getRecipesGui().show(runtime.getRecipeRegistry().createFocus(IFocus.Mode.INPUT, stack));
         if (Minecraft.getMinecraft().currentScreen != runtime.getRecipesGui()) {
-            Minecraft.getMinecraft().thePlayer.addChatComponentMessage(new TextComponentTranslation("client.msg.nousage").setStyle(new Style().setColor(TextFormatting.RED)));
+            Minecraft.getMinecraft().player.sendMessage(new TextComponentTranslation("client.msg.nousage").setStyle(new Style().setColor(TextFormatting.RED)));
             return;
         }
         openItemList();

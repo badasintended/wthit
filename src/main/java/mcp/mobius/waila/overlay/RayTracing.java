@@ -81,13 +81,12 @@ public class RayTracing {
 
         //if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID, true))
         if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID, true))
-            return entity.worldObj.rayTraceBlocks(vec3, vec32, true);
+            return entity.getEntityWorld().rayTraceBlocks(vec3, vec32, true);
         else
-            return entity.worldObj.rayTraceBlocks(vec3, vec32, false);
+            return entity.getEntityWorld().rayTraceBlocks(vec3, vec32, false);
     }
 
     public ItemStack getIdentifierStack() {
-        World world = mc.theWorld;
         ArrayList<ItemStack> items = this.getIdentifierItems();
 
         if (items.isEmpty())
@@ -129,8 +128,8 @@ public class RayTracing {
         if (this.target == null)
             return items;
 
-        EntityPlayer player = mc.thePlayer;
-        World world = mc.theWorld;
+        EntityPlayer player = mc.player;
+        World world = mc.world;
         BlockPos pos = target.getBlockPos();
 
         //int   blockID         = world.getBlockId(x, y, z);
@@ -218,6 +217,6 @@ public class RayTracing {
         Vec3d lookVec = entity.getLook(1.0F);
         headVec.add(new Vec3d(lookVec.xCoord * distance, lookVec.yCoord * distance, lookVec.zCoord * distance));
 
-        return entity.worldObj.rayTraceBlocks(start, headVec, ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID, true));
+        return entity.getEntityWorld().rayTraceBlocks(start, headVec, ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID, true));
     }
 }

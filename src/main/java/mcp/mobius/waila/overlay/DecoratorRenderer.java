@@ -28,8 +28,8 @@ public class DecoratorRenderer {
         double partialTicks = event.getPartialTicks();
 
         DataAccessorCommon accessor = DataAccessorCommon.instance;
-        World world = Minecraft.getMinecraft().theWorld;
-        EntityPlayer player = Minecraft.getMinecraft().thePlayer;
+        World world = Minecraft.getMinecraft().world;
+        EntityPlayer player = Minecraft.getMinecraft().player;
         Entity viewEntity = Minecraft.getMinecraft().getRenderViewEntity();
 
         if (world == null || player == null || viewEntity == null) return;

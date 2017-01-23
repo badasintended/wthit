@@ -98,7 +98,7 @@ public class WidgetGeometry {
     public Point getUnalignedPos(IWidget parent) {
         int x = -1;
         if (this.fracPosX)
-            x = MathHelper.ceiling_double_int(parent.getPos().getX() + parent.getSize().getX() * this.x / 100D);
+            x = MathHelper.ceil(parent.getPos().getX() + parent.getSize().getX() * this.x / 100D);
         if (!this.fracPosX && parent != null)
             x = parent.getPos().getX() + (int) this.x;
         if (!this.fracPosX && parent == null)
@@ -106,7 +106,7 @@ public class WidgetGeometry {
 
         int y = -1;
         if (this.fracPosY)
-            y = MathHelper.ceiling_double_int(parent.getPos().getY() + parent.getSize().getY() * this.y / 100D);
+            y = MathHelper.ceil(parent.getPos().getY() + parent.getSize().getY() * this.y / 100D);
         if (!this.fracPosY && parent != null)
             y = parent.getPos().getY() + (int) this.y;
         if (!this.fracPosY && parent == null)
@@ -119,7 +119,7 @@ public class WidgetGeometry {
 
         int x = -1;
         if (this.fracPosX)
-            x = MathHelper.ceiling_double_int(parent.getPos().getX() + parent.getSize().getX() * this.x / 100D);
+            x = MathHelper.ceil(parent.getPos().getX() + parent.getSize().getX() * this.x / 100D);
         if (!this.fracPosX && parent != null)
             x = parent.getPos().getX() + (int) this.x;
         if (!this.fracPosX && parent == null)
@@ -127,7 +127,7 @@ public class WidgetGeometry {
 
         int y = -1;
         if (this.fracPosY)
-            y = MathHelper.ceiling_double_int(parent.getPos().getY() + parent.getSize().getY() * this.y / 100D);
+            y = MathHelper.ceil(parent.getPos().getY() + parent.getSize().getY() * this.y / 100D);
         if (!this.fracPosY && parent != null)
             y = parent.getPos().getY() + (int) this.y;
         if (!this.fracPosY && parent == null)
@@ -152,13 +152,13 @@ public class WidgetGeometry {
     public Point getSize(IWidget parent) {
         int sx = -1;
         if (this.fracSizeX)
-            sx = MathHelper.ceiling_double_int(parent.getSize().getX() * this.sx / 100D);
+            sx = MathHelper.ceil(parent.getSize().getX() * this.sx / 100D);
         if (!this.fracSizeX)
             sx = (int) this.sx;
 
         int sy = -1;
         if (this.fracSizeY)
-            sy = MathHelper.ceiling_double_int(parent.getSize().getY() * this.sy / 100D);
+            sy = MathHelper.ceil(parent.getSize().getY() * this.sy / 100D);
         if (!this.fracSizeY)
             sy = (int) this.sy;
 

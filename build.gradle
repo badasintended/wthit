@@ -29,7 +29,7 @@ archivesBaseName = "Hwyla"
 
 minecraft {
     version = "${mc_version}-${forge_version}"
-    mappings = "snapshot_20161021"
+    mappings = "${mcp_version}"
     runDir = "run"
 	
     replace "@VERSION@", project.waila_version
