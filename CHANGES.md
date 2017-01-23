@@ -108,3 +108,7 @@ Relevant notes on the general code clean-up that was done.
 
 * Vanilla special casing has been stripped out, it has now been fixed to work *properly*.
 * Core-mod related code has been deleted. It was pretty much unused and out-dated.
+
+---
+### Rewrote packet system.
+The packet system in Waila is extremely old and has been getting patch on top of patch to make it work. It has been rewritten to use Forge's `SimpleImpl` system.

@@ -1,4 +1,15 @@
 ------------------------------------------------------
+Version 1.8.7
+------------------------------------------------------
+
+- Increased usefulness of WailaExceptionHandler
+    - A full stacktrace is now printed to the root instance directory
+- Fixed record tooltip
+- Rewrote packet system
+    - See `CHANGES.md` for more information
+- Add an alternative way to get a crop's item
+
+------------------------------------------------------
 Version 1.8.6
 ------------------------------------------------------
 
