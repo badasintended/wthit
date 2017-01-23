@@ -94,14 +94,4 @@ public class AccessHelper {
             return null;
         }
     }
-
-    public static NBTTagCompound getNBTData(IWailaDataProvider provider, TileEntity entity, NBTTagCompound tag, World world, int x, int y, int z) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-        Method getNBTData = provider.getClass().getMethod("getNBTData", TileEntity.class, NBTTagCompound.class, World.class, int.class, int.class, int.class);
-        return (NBTTagCompound) getNBTData.invoke(provider, entity, tag, world, x, y, z);
-    }
-
-    public static NBTTagCompound getNBTData(IWailaEntityProvider provider, Entity entity, NBTTagCompound tag) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
-        Method getNBTData = provider.getClass().getMethod("getNBTData", Entity.class, NBTTagCompound.class);
-        return (NBTTagCompound) getNBTData.invoke(provider, entity, tag);
-    }
 }

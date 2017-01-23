@@ -3,6 +3,10 @@ package mcp.mobius.waila;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.commands.CommandDumpHandlers;
+import mcp.mobius.waila.network.MessageReceiveData;
+import mcp.mobius.waila.network.MessageRequestEntity;
+import mcp.mobius.waila.network.MessageRequestTile;
+import mcp.mobius.waila.network.MessageServerPing;
 import mcp.mobius.waila.proxy.IProxy;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
@@ -11,6 +15,8 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.discovery.ASMDataTable;
 import net.minecraftforge.fml.common.event.*;
 import net.minecraftforge.fml.common.event.FMLInterModComms.IMCMessage;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import net.minecraftforge.fml.relauncher.Side;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -25,6 +31,7 @@ public class Waila {
     public static final String VERSION = "@VERSION@";
     public static final String DEPEND = "required-after:Forge@[12.16.0.1887,);";
     public static final Logger LOGGER = LogManager.getLogger("Waila");
+    public static final SimpleNetworkWrapper NETWORK_WRAPPER = new SimpleNetworkWrapper(MODID);
 
     // The instance of your mod that Forge uses.
     @Instance(MODID)
@@ -40,6 +47,11 @@ public class Waila {
     /* INIT SEQUENCE */
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
+        NETWORK_WRAPPER.registerMessage(MessageServerPing.Handler.class, MessageServerPing.class, 0, Side.CLIENT);
+        NETWORK_WRAPPER.registerMessage(MessageRequestTile.Handler.class, MessageRequestTile.class, 1, Side.SERVER);
+        NETWORK_WRAPPER.registerMessage(MessageRequestEntity.Handler.class, MessageRequestEntity.class, 2, Side.SERVER);
+        NETWORK_WRAPPER.registerMessage(MessageReceiveData.Handler.class, MessageReceiveData.class, 3, Side.CLIENT);
+
         proxy.preInit(event);
     }
 
