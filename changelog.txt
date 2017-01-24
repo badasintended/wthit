@@ -2,6 +2,13 @@
 Version 1.8.7
 ------------------------------------------------------
 
+- Fix backwards compat with supporting mods
+    - I cherry-picked the wrong change and the modid got lowercased
+
+------------------------------------------------------
+Version 1.8.7
+------------------------------------------------------
+
 - Pulled all the improvements over from the 1.11 branch
     - Removed some unnecessary reflection at startup
     - Fixed replacing version at build-time. No more 1.8.0.
