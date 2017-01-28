@@ -1,5 +1,13 @@
 ------------------------------------------------------
-Version 1.8.7
+Version 1.8.9
+------------------------------------------------------
+
+- Fixed server disconnect when receiving large NBT payloads from TileEntities
+    - Only caused when a payload was >2mb in size (which is really, really big for a packet, to be honest...)
+    - Most notably occurred was when looking at a RefinedStorage Disk Drive on a large network
+
+------------------------------------------------------
+Version 1.8.8
 ------------------------------------------------------
 
 - Increased usefulness of WailaExceptionHandler
