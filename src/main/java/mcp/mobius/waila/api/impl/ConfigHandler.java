@@ -188,6 +188,13 @@ public class ConfigHandler implements IWailaConfigHandler {
         HUDHandlerEntities.nhearts = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_NHEARTS, 20).getInt();
         HUDHandlerEntities.maxhpfortext = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_MAXHP, 40).getInt();
 
+        Property rateLimiterProp = config.get(Configuration.CATEGORY_CLIENT, Constants.CFG_WAILA_RATELIMITER, 250);
+        rateLimiterProp.setMinValue(250);
+        rateLimiterProp.setComment("The amount of time in milliseconds (1000ms = 1s) between queries to the server for Tile Entity and Entity data. There is an enforced minimum of 250 (or every 1/4 of a second).");
+        MetaDataProvider.rateLimiter = rateLimiterProp.getInt();
+        if (MetaDataProvider.rateLimiter < 250)
+            MetaDataProvider.rateLimiter = 250;
+
         config.getCategory(Constants.CATEGORY_MODULES).setComment("Those are the config keys defined in modules.\nServer side, it is used to enforce keys client side using the next section.");
         config.getCategory(Constants.CATEGORY_SERVER).setComment("Any key set to true here will ensure that the client is using the configuration set in the 'module' section above.\nThis is useful for enforcing false to 'cheating' keys like silverfish.");
 

@@ -22,6 +22,8 @@ import java.util.TreeMap;
 
 public class MetaDataProvider {
 
+    public static int rateLimiter = 250;
+
     private Map<Integer, List<IWailaDataProvider>> headBlockProviders = new TreeMap<Integer, List<IWailaDataProvider>>();
     private Map<Integer, List<IWailaDataProvider>> bodyBlockProviders = new TreeMap<Integer, List<IWailaDataProvider>>();
     private Map<Integer, List<IWailaDataProvider>> tailBlockProviders = new TreeMap<Integer, List<IWailaDataProvider>>();
@@ -56,14 +58,14 @@ public class MetaDataProvider {
     public List<String> handleBlockTextData(ItemStack itemStack, World world, EntityPlayer player, RayTraceResult mop, DataAccessorCommon accessor, List<String> currenttip, Layout layout) {
         Block block = accessor.getBlock();
 
-        if (accessor.getTileEntity() != null && Waila.instance.serverPresent && accessor.isTimeElapsed(250) && ConfigHandler.instance().showTooltip()) {
+        if (accessor.getTileEntity() != null && Waila.instance.serverPresent && accessor.isTimeElapsed(rateLimiter) && ConfigHandler.instance().showTooltip()) {
             accessor.resetTimer();
             HashSet<String> keys = new HashSet<String>();
 
             if (ModuleRegistrar.instance().hasNBTProviders(block) || ModuleRegistrar.instance().hasNBTProviders(accessor.getTileEntity()))
                 Waila.NETWORK_WRAPPER.sendToServer(new MessageRequestTile(accessor.getPlayer(), accessor.getTileEntity(), keys));
 
-        } else if (accessor.getTileEntity() != null && !Waila.instance.serverPresent && accessor.isTimeElapsed(250) && ConfigHandler.instance().showTooltip()) {
+        } else if (accessor.getTileEntity() != null && !Waila.instance.serverPresent && accessor.isTimeElapsed(rateLimiter) && ConfigHandler.instance().showTooltip()) {
 
             try {
                 NBTTagCompound tag = new NBTTagCompound();
@@ -133,7 +135,7 @@ public class MetaDataProvider {
 
     public List<String> handleEntityTextData(Entity entity, World world, EntityPlayer player, RayTraceResult mop, DataAccessorCommon accessor, List<String> currenttip, Layout layout) {
 
-        if (accessor.getEntity() != null && Waila.instance.serverPresent && accessor.isTimeElapsed(250)) {
+        if (accessor.getEntity() != null && Waila.instance.serverPresent && accessor.isTimeElapsed(rateLimiter)) {
             accessor.resetTimer();
 
             HashSet<String> keys = new HashSet<String>();
@@ -141,7 +143,7 @@ public class MetaDataProvider {
             if (ModuleRegistrar.instance().hasNBTEntityProviders(accessor.getEntity()))
                 Waila.NETWORK_WRAPPER.sendToServer(new MessageRequestEntity(accessor.getPlayer(), accessor.getEntity(), keys));
 
-        } else if (accessor.getEntity() != null && !Waila.instance.serverPresent && accessor.isTimeElapsed(250)) {
+        } else if (accessor.getEntity() != null && !Waila.instance.serverPresent && accessor.isTimeElapsed(rateLimiter)) {
 
             try {
                 NBTTagCompound tag = new NBTTagCompound();
