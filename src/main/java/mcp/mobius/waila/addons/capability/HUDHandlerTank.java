@@ -52,8 +52,6 @@ public class HUDHandlerTank extends HUDHandlerBase {
     @Override
     public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
         if (te != null) {
-            te.writeToNBT(tag);
-
             if (te.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)) {
                 NBTTagList tanks = new NBTTagList();
                 IFluidHandler fluidHandler = te.getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null);

@@ -40,7 +40,6 @@ public class HUDHandlerEnergy extends HUDHandlerBase {
     @Override
     public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
         if (te != null) {
-            te.writeToNBT(tag);
             if (te.hasCapability(CapabilityEnergy.ENERGY, null)) {
                 IEnergyStorage energyStorage = te.getCapability(CapabilityEnergy.ENERGY, null);
                 NBTTagCompound energyTag = new NBTTagCompound();

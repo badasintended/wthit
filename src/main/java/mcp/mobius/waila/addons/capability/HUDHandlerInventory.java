@@ -3,6 +3,7 @@ package mcp.mobius.waila.addons.capability;
 import com.google.common.base.Strings;
 import mcp.mobius.waila.addons.HUDHandlerBase;
 import mcp.mobius.waila.api.*;
+import mcp.mobius.waila.utils.InventoryUtils;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -30,25 +31,18 @@ public class HUDHandlerInventory extends HUDHandlerBase {
 
         if (accessor.getNBTData().hasKey("handler")) {
             int handlerSize = accessor.getNBTData().getInteger("handlerSize");
-            IItemHandler itemHandler = new ItemStackHandler(handlerSize);
-            populateInv((ItemStackHandler) itemHandler, accessor.getNBTData().getTagList("handler", 10));
-
-            List<ItemStack> toRender = new ArrayList<ItemStack>();
-            for (int slot = 0; slot < itemHandler.getSlots(); slot++) {
-                ItemStack stack = itemHandler.getStackInSlot(slot);
-                if (stack == null)
-                    continue;
-
-                addStack(toRender, stack);
-            }
+            ItemStackHandler itemHandler = new ItemStackHandler();
+            itemHandler.setSize(handlerSize);
+            InventoryUtils.populateInv(itemHandler, accessor.getNBTData().getTagList("handler", 10));
 
             String renderString = "";
             int drawnCount = 0;
-            for (ItemStack stack : toRender) {
+            for (int i = 0; i < itemHandler.getSlots(); i++) {
+                ItemStack stack = itemHandler.getStackInSlot(i);
+                if (stack == null)
+                    continue;
                 String name = stack.getItem().getRegistryName().toString();
-                if (drawnCount > 5 && !accessor.getPlayer().isSneaking())
-                    break;
-                else if (drawnCount > 5 && accessor.getPlayer().isSneaking()) {
+                if (drawnCount >= 5) {
                     currenttip.add(renderString);
                     renderString = "";
                     drawnCount = 0;
@@ -70,70 +64,22 @@ public class HUDHandlerInventory extends HUDHandlerBase {
     @Override
     public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
         if (te != null) {
-            te.writeToNBT(tag);
+            tag.removeTag("Items"); // Should catch all inventories that do things the standard way. Keeps from duplicating the item list and doubling the packet size
             if (te.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null)) {
                 IItemHandler itemHandler = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
-                tag.setTag("handler", invToNBT(itemHandler));
-                tag.setInteger("handlerSize", itemHandler.getSlots());
+                tag.setTag("handler", InventoryUtils.invToNBT(itemHandler, player.isSneaking() ? itemHandler.getSlots() : 5));
+                tag.setInteger("handlerSize", player.isSneaking() ? itemHandler.getSlots() : 5);
             } else if (te instanceof IInventory) {
                 IItemHandler itemHandler = new InvWrapper((IInventory) te);
-                tag.setTag("handler", invToNBT(itemHandler));
-                tag.setInteger("handlerSize", itemHandler.getSlots());
+                tag.setTag("handler", InventoryUtils.invToNBT(itemHandler, player.isSneaking() ? itemHandler.getSlots() : 5));
+                tag.setInteger("handlerSize", player.isSneaking() ? itemHandler.getSlots() : 5);
             } else if (te instanceof TileEntityEnderChest) {
                 IItemHandler itemHandler = new InvWrapper(player.getInventoryEnderChest());
-                tag.setTag("handler", invToNBT(itemHandler));
-                tag.setInteger("handlerSize", itemHandler.getSlots());
+                tag.setTag("handler", InventoryUtils.invToNBT(itemHandler, player.isSneaking() ? itemHandler.getSlots() : 5));
+                tag.setInteger("handlerSize", player.isSneaking() ? itemHandler.getSlots() : 5);
             }
         }
 
         return tag;
-    }
-
-    private NBTTagList invToNBT(IItemHandler itemHandler) {
-        NBTTagList nbtTagList = new NBTTagList();
-        int size = itemHandler.getSlots();
-        for (int i = 0; i < size; i++) {
-            ItemStack stack = itemHandler.getStackInSlot(i);
-            if (stack != null) {
-                NBTTagCompound itemTag = new NBTTagCompound();
-                itemTag.setInteger("Slot", i);
-                writeStack(stack, itemTag);
-                nbtTagList.appendTag(itemTag);
-            }
-        }
-
-        return nbtTagList;
-    }
-
-    private void populateInv(IItemHandlerModifiable itemHandler, NBTTagList tagList) {
-        for (int i = 0; i < tagList.tagCount(); i++) {
-            NBTTagCompound itemTags = tagList.getCompoundTagAt(i);
-            int slot = itemTags.getInteger("Slot");
-
-            if (slot >= 0 && slot < itemHandler.getSlots())
-                itemHandler.setStackInSlot(slot, readStack(itemTags));
-        }
-    }
-
-    private void writeStack(ItemStack stack, NBTTagCompound tagCompound) {
-        stack.writeToNBT(tagCompound);
-        tagCompound.setInteger("CountI", stack.stackSize);
-    }
-
-    private ItemStack readStack(NBTTagCompound tagCompound) {
-        ItemStack stack = ItemStack.loadItemStackFromNBT(tagCompound);
-        stack.stackSize = tagCompound.getInteger("CountI");
-        return stack;
-    }
-
-    private void addStack(List<ItemStack> stacks, ItemStack stack) {
-        for (ItemStack invStack : stacks) {
-            if (ItemHandlerHelper.canItemStacksStack(invStack, stack)) {
-                invStack.stackSize += stack.stackSize;
-                return;
-            }
-        }
-
-        stacks.add(stack.copy());
     }
 }
