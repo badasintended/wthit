@@ -35,22 +35,14 @@ public class HUDHandlerInventory extends HUDHandlerBase {
             itemHandler.setSize(handlerSize);
             InventoryUtils.populateInv(itemHandler, accessor.getNBTData().getTagList("handler", 10));
 
-            List<ItemStack> toRender = new ArrayList<ItemStack>();
-            for (int slot = 0; slot < itemHandler.getSlots(); slot++) {
-                ItemStack stack = itemHandler.getStackInSlot(slot);
-                if (stack.isEmpty())
-                    continue;
-
-                InventoryUtils.addStack(toRender, stack);
-            }
-
             String renderString = "";
             int drawnCount = 0;
-            for (ItemStack stack : toRender) {
+            for (int i = 0; i < itemHandler.getSlots(); i++) {
+                ItemStack stack = itemHandler.getStackInSlot(i);
+                if (stack.isEmpty())
+                    continue;
                 String name = stack.getItem().getRegistryName().toString();
-                if (drawnCount >= 5 && !accessor.getPlayer().isSneaking())
-                    break;
-                else if (drawnCount >= 5 && accessor.getPlayer().isSneaking()) {
+                if (drawnCount >= 5) {
                     currenttip.add(renderString);
                     renderString = "";
                     drawnCount = 0;
@@ -72,19 +64,19 @@ public class HUDHandlerInventory extends HUDHandlerBase {
     @Override
     public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
         if (te != null) {
-            te.writeToNBT(tag);
+            tag.removeTag("Items"); // Should catch all inventories that do things the standard way. Keeps from duplicating the item list and doubling the packet size
             if (te.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null)) {
                 IItemHandler itemHandler = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
-                tag.setTag("handler", InventoryUtils.invToNBT(itemHandler));
-                tag.setInteger("handlerSize", itemHandler.getSlots());
+                tag.setTag("handler", InventoryUtils.invToNBT(itemHandler, player.isSneaking() ? itemHandler.getSlots() : 5));
+                tag.setInteger("handlerSize", player.isSneaking() ? itemHandler.getSlots() : 5);
             } else if (te instanceof IInventory) {
                 IItemHandler itemHandler = new InvWrapper((IInventory) te);
-                tag.setTag("handler", InventoryUtils.invToNBT(itemHandler));
-                tag.setInteger("handlerSize", itemHandler.getSlots());
+                tag.setTag("handler", InventoryUtils.invToNBT(itemHandler, player.isSneaking() ? itemHandler.getSlots() : 5));
+                tag.setInteger("handlerSize", player.isSneaking() ? itemHandler.getSlots() : 5);
             } else if (te instanceof TileEntityEnderChest) {
                 IItemHandler itemHandler = new InvWrapper(player.getInventoryEnderChest());
-                tag.setTag("handler", InventoryUtils.invToNBT(itemHandler));
-                tag.setInteger("handlerSize", itemHandler.getSlots());
+                tag.setTag("handler", InventoryUtils.invToNBT(itemHandler, player.isSneaking() ? itemHandler.getSlots() : 5));
+                tag.setInteger("handlerSize", player.isSneaking() ? itemHandler.getSlots() : 5);
             }
         }
 

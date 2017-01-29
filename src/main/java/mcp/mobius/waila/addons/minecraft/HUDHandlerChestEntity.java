@@ -9,11 +9,8 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.AbstractChestHorse;
 import net.minecraft.entity.passive.AbstractHorse;
-import net.minecraft.entity.passive.EntityLlama;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.ContainerHorseChest;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
@@ -22,7 +19,6 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class HUDHandlerChestEntity implements IWailaEntityProvider {
@@ -55,28 +51,15 @@ public class HUDHandlerChestEntity implements IWailaEntityProvider {
             itemHandler.setSize(handlerSize);
             InventoryUtils.populateInv(itemHandler, accessor.getNBTData().getTagList("handler", 10));
 
-            boolean foundCarpet = false;
-            List<ItemStack> toRender = new ArrayList<ItemStack>();
-            for (int slot = 0; slot < itemHandler.getSlots(); slot++) {
-                ItemStack stack = itemHandler.getStackInSlot(slot);
+            String renderString = "";
+            int drawnCount = 0;
+            for (int i = 0; i < itemHandler.getSlots(); i++) {
+                ItemStack stack = itemHandler.getStackInSlot(i);
                 if (stack.isEmpty())
                     continue;
 
-                if (!foundCarpet && entity instanceof EntityLlama && stack.getItem() == Item.getItemFromBlock(Blocks.CARPET)) {
-                    foundCarpet = true;
-                    continue;
-                }
-
-                InventoryUtils.addStack(toRender, stack);
-            }
-
-            String renderString = "";
-            int drawnCount = 0;
-            for (ItemStack stack : toRender) {
                 String name = stack.getItem().getRegistryName().toString();
-                if (drawnCount >= 5 && !accessor.getPlayer().isSneaking())
-                    break;
-                else if (drawnCount >= 5 && accessor.getPlayer().isSneaking()) {
+                if (drawnCount >= 5) {
                     currenttip.add(renderString);
                     renderString = "";
                     drawnCount = 0;
@@ -105,7 +88,7 @@ public class HUDHandlerChestEntity implements IWailaEntityProvider {
         ContainerHorseChest horseChest = ReflectionHelper.getPrivateValue(AbstractHorse.class, (AbstractChestHorse) ent, "horseChest", "field_110296_bG");
 
         IItemHandler itemHandler = new InvWrapper(horseChest);
-        tag.setTag("handler", InventoryUtils.invToNBT(itemHandler));
+        tag.setTag("handler", InventoryUtils.invToNBT(itemHandler, player.isSneaking() ? itemHandler.getSlots() : 5));
         tag.setInteger("handlerSize", itemHandler.getSlots());
         tag.setBoolean("chested", ((AbstractChestHorse) ent).hasChest());
 

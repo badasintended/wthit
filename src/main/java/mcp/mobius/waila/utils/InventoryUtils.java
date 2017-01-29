@@ -7,15 +7,19 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemHandlerHelper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class InventoryUtils {
 
-    public static NBTTagList invToNBT(IItemHandler itemHandler) {
+    public static NBTTagList invToNBT(IItemHandler itemHandler, int amount) {
         NBTTagList nbtTagList = new NBTTagList();
-        int size = itemHandler.getSlots();
-        for (int i = 0; i < size; i++) {
-            ItemStack stack = itemHandler.getStackInSlot(i);
+
+        List<ItemStack> compressed = compressInventory(itemHandler);
+        for (int i = 0; i < compressed.size(); i++) {
+            if (i > amount)
+                break;
+            ItemStack stack = compressed.get(i);
             if (!stack.isEmpty()) {
                 NBTTagCompound itemTag = new NBTTagCompound();
                 itemTag.setInteger("Slot", i);
@@ -46,6 +50,19 @@ public class InventoryUtils {
         ItemStack stack = new ItemStack(tagCompound);
         stack.setCount(tagCompound.getInteger("CountI"));
         return stack;
+    }
+
+    public static List<ItemStack> compressInventory(IItemHandler itemHandler) {
+        List<ItemStack> compressed = new ArrayList<ItemStack>();
+        for (int slot = 0; slot < itemHandler.getSlots(); slot++) {
+            ItemStack stack = itemHandler.getStackInSlot(slot);
+            if (stack.isEmpty())
+                continue;
+
+            addStack(compressed, stack);
+        }
+
+        return compressed;
     }
 
     public static void addStack(List<ItemStack> stacks, ItemStack stack) {
