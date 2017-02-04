@@ -1,11 +1,9 @@
 package mcp.mobius.waila.network;
 
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.ByteBufInputStream;
-import io.netty.buffer.ByteBufOutputStream;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
-import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraftforge.fml.common.network.ByteBufUtils;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessageHandler;
 import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
@@ -23,20 +21,12 @@ public class MessageReceiveData implements IMessage {
 
     @Override
     public void fromBytes(ByteBuf buf) {
-        try {
-            tag = CompressedStreamTools.readCompressed(new ByteBufInputStream(buf));
-        } catch (Exception e) {
-            tag = new NBTTagCompound();
-        }
+        tag = ByteBufUtils.readTag(buf);
     }
 
     @Override
     public void toBytes(ByteBuf buf) {
-        try {
-            CompressedStreamTools.writeCompressed(tag, new ByteBufOutputStream(buf));
-        } catch (Exception e) {
-
-        }
+        ByteBufUtils.writeTag(buf, tag);
     }
 
     public static class Handler implements IMessageHandler<MessageReceiveData, IMessage> {
