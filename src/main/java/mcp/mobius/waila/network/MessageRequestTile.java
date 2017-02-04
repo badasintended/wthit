@@ -96,9 +96,8 @@ public class MessageRequestTile implements IMessage {
                         for (List<IWailaDataProvider> providersList : ModuleRegistrar.instance().getNBTProviders(tile).values())
                             for (IWailaDataProvider provider : providersList)
                                 tag = provider.getNBTData(player, tile, tag, world, message.pos);
-
                     } else {
-                        tile.writeToNBT(tag);
+                        tag = tile.getUpdateTag();
                         tag = NBTUtil.createTag(tag, message.keys);
                     }
 
