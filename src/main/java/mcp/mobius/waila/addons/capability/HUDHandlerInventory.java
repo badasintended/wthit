@@ -1,6 +1,7 @@
 package mcp.mobius.waila.addons.capability;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.Sets;
 import mcp.mobius.waila.addons.HUDHandlerBase;
 import mcp.mobius.waila.api.*;
 import mcp.mobius.waila.utils.InventoryUtils;
@@ -8,7 +9,6 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityEnderChest;
 import net.minecraft.tileentity.TileEntityFurnace;
@@ -17,10 +17,16 @@ import net.minecraft.world.World;
 import net.minecraftforge.items.*;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class HUDHandlerInventory extends HUDHandlerBase {
+
+    // A set of tile names that need to be ignored in order to avoid network overload
+    // Yay hardcoding, but it's better than nothing for now
+    private static final Set<String> INVENTORY_IGNORE = Sets.newHashSet(
+            "refinedstorage:disk_drive"
+    );
 
     static final IWailaDataProvider INSTANCE = new HUDHandlerInventory();
 
@@ -63,7 +69,7 @@ public class HUDHandlerInventory extends HUDHandlerBase {
 
     @Override
     public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
-        if (te != null) {
+        if (te != null && !INVENTORY_IGNORE.contains(tag.getString("id"))) {
             tag.removeTag("Items"); // Should catch all inventories that do things the standard way. Keeps from duplicating the item list and doubling the packet size
             if (te.hasCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null)) {
                 IItemHandler itemHandler = te.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, null);
