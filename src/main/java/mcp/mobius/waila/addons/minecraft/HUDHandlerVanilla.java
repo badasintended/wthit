@@ -286,8 +286,6 @@ public class HUDHandlerVanilla extends HUDHandlerBase {
 
     @Override
     public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
-        if (te != null)
-            te.writeToNBT(tag);
         return tag;
     }
 
@@ -326,23 +324,6 @@ public class HUDHandlerVanilla extends HUDHandlerBase {
         registrar.registerBodyProvider(provider, comparatorAct.getClass());
         registrar.registerBodyProvider(provider, redstone.getClass());
         registrar.registerBodyProvider(provider, jukebox.getClass());
-
-        registrar.registerNBTProvider(provider, mobSpawner.getClass());
-        registrar.registerNBTProvider(provider, crops.getClass());
-        registrar.registerNBTProvider(provider, melonStem.getClass());
-        registrar.registerNBTProvider(provider, pumpkinStem.getClass());
-        registrar.registerNBTProvider(provider, carrot.getClass());
-        registrar.registerNBTProvider(provider, potato.getClass());
-        registrar.registerNBTProvider(provider, lever.getClass());
-        registrar.registerNBTProvider(provider, repeaterIdle.getClass());
-        registrar.registerNBTProvider(provider, repeaterActv.getClass());
-        registrar.registerNBTProvider(provider, comparatorIdl.getClass());
-        registrar.registerNBTProvider(provider, comparatorAct.getClass());
-        registrar.registerNBTProvider(provider, redstone.getClass());
-        registrar.registerNBTProvider(provider, jukebox.getClass());
-        registrar.registerNBTProvider(provider, cocoa.getClass());
-        registrar.registerNBTProvider(provider, netherwart.getClass());
-        registrar.registerNBTProvider(provider, silverfish.getClass());
 
         //registrar.registerDocTextFile("/mcp/mobius/waila/addons/vanillamc/WikiData.csv");
 

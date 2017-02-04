@@ -58,21 +58,22 @@ public class MetaDataProvider {
     public List<String> handleBlockTextData(ItemStack itemStack, World world, EntityPlayer player, RayTraceResult mop, DataAccessorCommon accessor, List<String> currenttip, Layout layout) {
         Block block = accessor.getBlock();
 
-        if (accessor.getTileEntity() != null && Waila.instance.serverPresent && accessor.isTimeElapsed(rateLimiter) && ConfigHandler.instance().showTooltip()) {
-            accessor.resetTimer();
-            HashSet<String> keys = new HashSet<String>();
+        if (accessor.getTileEntity() != null && accessor.isTimeElapsed(rateLimiter) && ConfigHandler.instance().showTooltip()) {
+            if (Waila.instance.serverPresent) {
+                accessor.resetTimer();
+                HashSet<String> keys = new HashSet<String>();
 
-            if (ModuleRegistrar.instance().hasNBTProviders(block) || ModuleRegistrar.instance().hasNBTProviders(accessor.getTileEntity()))
-                Waila.NETWORK_WRAPPER.sendToServer(new MessageRequestTile(accessor.getPlayer(), accessor.getTileEntity(), keys));
+                if (ModuleRegistrar.instance().hasNBTProviders(block) || ModuleRegistrar.instance().hasNBTProviders(accessor.getTileEntity()))
+                    Waila.NETWORK_WRAPPER.sendToServer(new MessageRequestTile(accessor.getPlayer(), accessor.getTileEntity(), keys));
 
-        } else if (accessor.getTileEntity() != null && !Waila.instance.serverPresent && accessor.isTimeElapsed(rateLimiter) && ConfigHandler.instance().showTooltip()) {
-
-            try {
-                NBTTagCompound tag = new NBTTagCompound();
-                accessor.getTileEntity().writeToNBT(tag);
-                accessor.setNBTData(tag);
-            } catch (Exception e) {
-                WailaExceptionHandler.handleErr(e, this.getClass().getName(), null);
+            } else {
+                try {
+                    NBTTagCompound tag = new NBTTagCompound();
+                    accessor.getTileEntity().writeToNBT(tag);
+                    accessor.setNBTData(tag);
+                } catch (Exception e) {
+                    WailaExceptionHandler.handleErr(e, this.getClass().getName(), null);
+                }
             }
         }
 
