@@ -1,4 +1,13 @@
 ------------------------------------------------------
+Version 1.8.10
+------------------------------------------------------
+
+- Fixed NBT serialization
+- Temporarily disabled the capability handlers
+    - These were using too much data on the network when looking at large inventories.
+    - They will make a return once I can re-implement them in a way that avoids that
+
+------------------------------------------------------
 Version 1.8.9
 ------------------------------------------------------
 
