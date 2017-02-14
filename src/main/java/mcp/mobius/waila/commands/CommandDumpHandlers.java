@@ -46,7 +46,8 @@ public class CommandDumpHandlers extends CommandBase {
     }
 
     public static String getHandlerDump() {
-        String toPrint = "# Waila Handler Dump\n\n";
+        String toPrint = "# Waila Handler Dump\n";
+        toPrint += "Waila/Hwyla version: " + Waila.VERSION + "\n\n";
         toPrint += "### HEAD BLOCK PROVIDERS\n";
         for (Class clazz : ModuleRegistrar.instance().headBlockProviders.keySet()) {
             toPrint += String.format("* %s\n", clazz.getName());
