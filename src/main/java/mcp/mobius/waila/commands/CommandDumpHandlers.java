@@ -83,6 +83,15 @@ public class CommandDumpHandlers extends CommandBase {
             toPrint += "\n";
         }
 
+        toPrint += "\n\n### NBT BLOCK PROVIDERS\n";
+        for (Class clazz : ModuleRegistrar.instance().NBTDataProviders.keySet()) {
+            toPrint += String.format("* %s\n", clazz.getName());
+            for (IWailaDataProvider provider : ModuleRegistrar.instance().NBTDataProviders.get(clazz)) {
+                toPrint += String.format("  * %s\n", provider.getClass().getName());
+            }
+            toPrint += "\n";
+        }
+
         toPrint += "\n\n### HEAD ENTITY PROVIDERS\n";
         for (Class clazz : ModuleRegistrar.instance().headEntityProviders.keySet()) {
             toPrint += String.format("* %s\n", clazz.getName());
@@ -114,6 +123,15 @@ public class CommandDumpHandlers extends CommandBase {
         for (Class clazz : ModuleRegistrar.instance().overrideEntityProviders.keySet()) {
             toPrint += String.format("* %s\n", clazz.getName());
             for (IWailaEntityProvider provider : ModuleRegistrar.instance().overrideEntityProviders.get(clazz)) {
+                toPrint += String.format("  * %s\n", provider.getClass().getName());
+            }
+            toPrint += "\n";
+        }
+
+        toPrint += "\n\n### NBT ENTITY PROVIDERS\n";
+        for (Class clazz : ModuleRegistrar.instance().NBTEntityProviders.keySet()) {
+            toPrint += String.format("* %s\n", clazz.getName());
+            for (IWailaEntityProvider provider : ModuleRegistrar.instance().NBTEntityProviders.get(clazz)) {
                 toPrint += String.format("  * %s\n", provider.getClass().getName());
             }
             toPrint += "\n";
