@@ -32,7 +32,7 @@ minecraft {
     mappings = "${mcp_version}"
     runDir = "run"
 	
-    replace "@VERSION@", project.waila_version
+    replace "@VERSION@", project.version
     replaceIn "Waila.java"
 }
 
@@ -51,7 +51,7 @@ processResources{
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
                 
-        expand 'version':project.waila_version, 'mcversion':project.minecraft.version
+        expand 'version':project.version, 'mcversion':project.minecraft.version
     }
 	
     from(sourceSets.main.resources.srcDirs) {
