@@ -27,6 +27,9 @@ When enabled, HWYLA will attempt to display the type of fluid the player is look
 
 ---
 ### Added native support for Forge Capabilities.
+
+###### ***This feature is currently disabled until further notice.***
+
 Information is obtained using a `null` facing. Mods that do not handle this correctly are unsupported.
 
 * #### Tank fluid contents.
