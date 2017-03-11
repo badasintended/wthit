@@ -1,4 +1,12 @@
 ------------------------------------------------------
+Version 1.8.11
+------------------------------------------------------
+
+- Fixed alternate crop getter always using a meta of 0
+    - If you continue to have problems with it, disable it.
+- /dumphandlers now includes NBT handlers
+
+------------------------------------------------------
 Version 1.8.10
 ------------------------------------------------------
 
