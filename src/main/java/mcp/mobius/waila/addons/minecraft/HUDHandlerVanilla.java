@@ -131,7 +131,7 @@ public class HUDHandlerVanilla extends HUDHandlerBase {
                     getCrop = ReflectionHelper.findMethod(BlockCrops.class, null, new String[]{"getCrop", "func_149865_P"});
 
                 try {
-                    return new ItemStack((Item) getCrop.invoke(block));
+                    return new ItemStack((Item) getCrop.invoke(block), 1, block.damageDropped(accessor.getBlockState()));
                 } catch (Exception e) {
                     return null;
                 }
