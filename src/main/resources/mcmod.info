@@ -2,13 +2,14 @@
 {
   "modid": "waila",
   "name": "Waila",
-  "description": "",
+  "description": "You are using Hwyla, a fork of Waila. You can find more information on the Hwyla CurseForge page.",
   "version": "${version}",
   "mcversion": "${mcversion}",
   "url": "",
   "updateUrl": "",
   "authorList": [
-    "ProfMobius"
+    "ProfMobius",
+    "TehNut"
   ],
   "credits": "",
   "logoFile": "",
