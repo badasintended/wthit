@@ -3,6 +3,7 @@ package mcp.mobius.waila.api.event;
 import net.minecraftforge.fml.common.eventhandler.Cancelable;
 import net.minecraftforge.fml.common.eventhandler.Event;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 /**
@@ -81,6 +82,7 @@ public class WailaRenderEvent extends Event {
             this.currentTip = currentTip;
         }
 
+        @Nonnull
         public List<String> getCurrentTip() {
             return currentTip;
         }

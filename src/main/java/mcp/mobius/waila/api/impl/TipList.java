@@ -1,12 +1,13 @@
 package mcp.mobius.waila.api.impl;
 
+import com.google.common.collect.Maps;
 import mcp.mobius.waila.api.ITaggedList;
 
 import java.util.*;
 import java.util.Map.Entry;
 
 public class TipList<E, T> extends ArrayList<E> implements ITaggedList<E, T> {
-    Map<E, Set<T>> tags = new HashMap();
+    Map<E, Set<T>> tags = Maps.newHashMap();
 
     @Override
     public boolean add(E e, T tag) {

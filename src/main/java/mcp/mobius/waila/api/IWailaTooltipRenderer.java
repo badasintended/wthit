@@ -1,14 +1,17 @@
 package mcp.mobius.waila.api;
 
+import javax.annotation.Nonnull;
+import javax.annotation.ParametersAreNonnullByDefault;
 import java.awt.*;
 
-
+@ParametersAreNonnullByDefault
 public interface IWailaTooltipRenderer {
     /**
      * @param params   Array of string parameters as passed to the RENDER arg in the tooltip ({rendername,param1,param2,...})
      * @param accessor A global accessor for TileEntities and Entities
      * @return Dimension of the reserved area
      */
+    @Nonnull
     Dimension getSize(String[] params, IWailaCommonAccessor accessor);
 
     /**

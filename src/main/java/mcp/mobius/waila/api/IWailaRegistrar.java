@@ -1,5 +1,7 @@
 package mcp.mobius.waila.api;
 
+import javax.annotation.ParametersAreNonnullByDefault;
+
 /**
  * Main registration interface for Waila plugins. To register your plugin, annotate your main plugin class with
  * {@link WailaPlugin} and implement {@link IWailaPlugin}.
@@ -20,6 +22,7 @@ package mcp.mobius.waila.api;
  *
  * @author ProfMobius
  */
+@ParametersAreNonnullByDefault
 public interface IWailaRegistrar {
     /* Add a config option in the section modname with displayed text configtext and access key keyname */
     void addConfig(String modname, String keyname, String configtext);

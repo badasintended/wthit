@@ -7,6 +7,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 
 /**
@@ -25,8 +27,9 @@ public interface IWailaDataProvider {
      *
      * @param accessor Contains most of the relevant information about the current environment.
      * @param config   Current configuration of Waila.
-     * @return null if override is not required, an ItemStack otherwise.
+     * @return null if override is not required, a non-empty ItemStack otherwise.
      */
+    @Nullable
     ItemStack getWailaStack(IWailaDataAccessor accessor, IWailaConfigHandler config);
 
     /**
@@ -34,12 +37,16 @@ public interface IWailaDataProvider {
      * Will be used if the implementing class is registered via {@link IWailaRegistrar#registerHeadProvider} client side.</br>
      * You are supposed to always return the modified input currenttip.</br>
      *
+     * You may return null if you have not registered this as a head provider. However, you should return the provided list
+     * to be safe.
+     *
      * @param itemStack  Current block scanned, in ItemStack form.
      * @param currenttip Current list of tooltip lines (might have been processed by other providers and might be processed by other providers).
      * @param accessor   Contains most of the relevant information about the current environment.
      * @param config     Current configuration of Waila.
      * @return Modified input currenttip
      */
+    @Nonnull
     List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config);
 
     /**
@@ -47,18 +54,8 @@ public interface IWailaDataProvider {
      * Will be used if the implementing class is registered via {@link IWailaRegistrar#registerBodyProvider} client side.</br>
      * You are supposed to always return the modified input currenttip.</br>
      *
-     * @param itemStack  Current block scanned, in ItemStack form.
-     * @param currenttip Current list of tooltip lines (might have been processed by other providers and might be processed by other providers).
-     * @param accessor   Contains most of the relevant information about the current environment.
-     * @param config     Current configuration of Waila.
-     * @return Modified input currenttip
-     */
-    List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config);
-
-    /**
-     * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).</br>
-     * Will be used if the implementing class is registered via {@link IWailaRegistrar#registerTailProvider} client side.</br>
-     * You are supposed to always return the modified input currenttip.</br>
+     * You may return null if you have not registered this as a body provider. However, you should return the provided list
+     * to be safe.
      *
      * @param itemStack  Current block scanned, in ItemStack form.
      * @param currenttip Current list of tooltip lines (might have been processed by other providers and might be processed by other providers).
@@ -66,12 +63,33 @@ public interface IWailaDataProvider {
      * @param config     Current configuration of Waila.
      * @return Modified input currenttip
      */
+    @Nonnull
+    List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config);
+
+    /**
+     * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).</br>
+     * Will be used if the implementing class is registered via {@link IWailaRegistrar#registerTailProvider} client side.</br>
+     * You are supposed to always return the modified input currenttip.</br>
+     *
+     * You may return null if you have not registered this as a tail provider. However, you should return the provided list
+     * to be safe.
+     *
+     * @param itemStack  Current block scanned, in ItemStack form.
+     * @param currenttip Current list of tooltip lines (might have been processed by other providers and might be processed by other providers).
+     * @param accessor   Contains most of the relevant information about the current environment.
+     * @param config     Current configuration of Waila.
+     * @return Modified input currenttip
+     */
+    @Nonnull
     List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config);
 
     /**
      * Callback used server side to return a custom synchronization NBTTagCompound.</br>
      * Will be used if the implementing class is registered via {@link IWailaRegistrar#registerNBTProvider} server and client side.</br>
      * You are supposed to always return the modified input NBTTagCompound tag.</br>
+     *
+     * You may return null if you have not registered this as an NBT provider. However, you should return the provided
+     * tag to be safe.
      *
      * @param player The player requesting data synchronization (The owner of the current connection).
      * @param te     The TileEntity targeted for synchronization.
@@ -80,5 +98,6 @@ public interface IWailaDataProvider {
      * @param pos    Position of the TileEntity.
      * @return Modified input NBTTagCompound tag.
      */
+    @Nonnull
     NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos);
 }

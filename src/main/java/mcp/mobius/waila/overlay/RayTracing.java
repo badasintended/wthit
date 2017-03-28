@@ -11,6 +11,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.Vector3d;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -136,7 +137,7 @@ public class RayTracing {
         //Block mouseoverBlock  = Block.blocksList[blockID];
         Block mouseoverBlock = world.getBlockState(pos).getBlock();
         TileEntity tileEntity = world.getTileEntity(pos);
-        if (mouseoverBlock == null)
+        if (mouseoverBlock == Blocks.AIR)
             return items;
 
         if (ModuleRegistrar.instance().hasStackProviders(mouseoverBlock)) {

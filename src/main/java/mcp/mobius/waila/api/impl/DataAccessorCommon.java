@@ -8,6 +8,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -17,7 +19,6 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.common.registry.GameData;
 
 public class DataAccessorCommon implements IWailaCommonAccessor, IWailaDataAccessor, IWailaEntityAccessor {
 
@@ -26,12 +27,12 @@ public class DataAccessorCommon implements IWailaCommonAccessor, IWailaDataAcces
     public EntityPlayer player;
     public RayTraceResult mop;
     public Vec3d renderingvec = null;
-    public Block block;
-    public IBlockState state;
-    public BlockPos pos;
-    public int blockID;
-    public String blockResource;
-    public int metadata;
+    public Block block = Blocks.AIR;
+    public IBlockState state = Blocks.AIR.getDefaultState();
+    public BlockPos pos = BlockPos.ORIGIN;
+    public int blockID = -1;
+    public String blockResource = Blocks.AIR.getRegistryName().toString();
+    public int metadata = -1;
     public TileEntity tileEntity;
     public Entity entity;
     public NBTTagCompound remoteNbt = null;
@@ -57,15 +58,14 @@ public class DataAccessorCommon implements IWailaCommonAccessor, IWailaDataAcces
             this.entity = null;
             this.blockID = Block.getIdFromBlock(this.block);
             this.blockResource = this.block.getRegistryName().toString();
-            try {
-                this.stack = new ItemStack(this.block, 1, this.metadata);
-            } catch (Exception e) {
-            }
+            Item itemBlock = Item.getItemFromBlock(this.block);
+            this.stack = itemBlock == null ? null : new ItemStack(this.block, 1, this.metadata);
 
         } else if (this.mop.typeOfHit == RayTraceResult.Type.ENTITY) {
             this.pos = new BlockPos(_mop.entityHit);
-            this.state = null;
-            this.block = null;
+            this.state = Blocks.AIR.getDefaultState();
+            this.block = Blocks.AIR;
+            this.blockID = -1;
             this.metadata = -1;
             this.tileEntity = null;
             this.stack = null;
@@ -159,7 +159,7 @@ public class DataAccessorCommon implements IWailaCommonAccessor, IWailaDataAcces
             return tag;
         }
 
-        return null;
+        return new NBTTagCompound();
     }
 
     public void setNBTData(NBTTagCompound tag) {
