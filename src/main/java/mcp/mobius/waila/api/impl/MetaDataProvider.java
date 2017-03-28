@@ -64,7 +64,7 @@ public class MetaDataProvider {
                 HashSet<String> keys = new HashSet<String>();
 
                 if (ModuleRegistrar.instance().hasNBTProviders(block) || ModuleRegistrar.instance().hasNBTProviders(accessor.getTileEntity()))
-                    Waila.NETWORK_WRAPPER.sendToServer(new MessageRequestTile(accessor.getPlayer(), accessor.getTileEntity(), keys));
+                    Waila.NETWORK_WRAPPER.sendToServer(new MessageRequestTile(accessor.getTileEntity(), keys));
 
             } else {
                 try {
@@ -142,7 +142,7 @@ public class MetaDataProvider {
             HashSet<String> keys = new HashSet<String>();
 
             if (ModuleRegistrar.instance().hasNBTEntityProviders(accessor.getEntity()))
-                Waila.NETWORK_WRAPPER.sendToServer(new MessageRequestEntity(accessor.getPlayer(), accessor.getEntity(), keys));
+                Waila.NETWORK_WRAPPER.sendToServer(new MessageRequestEntity(accessor.getEntity(), keys));
 
         } else if (accessor.getEntity() != null && !Waila.instance.serverPresent && accessor.isTimeElapsed(rateLimiter)) {
 

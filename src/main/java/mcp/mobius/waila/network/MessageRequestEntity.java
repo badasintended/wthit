@@ -27,16 +27,14 @@ public class MessageRequestEntity implements IMessage {
 
     public int dim;
     public int entityId;
-    public UUID playerId;
     public Set<String> keys = Sets.newHashSet();
 
     public MessageRequestEntity() {
     }
 
-    public MessageRequestEntity(EntityPlayer player, Entity entity, Set<String> keys) {
+    public MessageRequestEntity(Entity entity, Set<String> keys) {
         this.dim = entity.getEntityWorld().provider.getDimension();
         this.entityId = entity.getEntityId();
-        this.playerId = player.getGameProfile().getId();
         this.keys = keys;
     }
 
@@ -45,7 +43,6 @@ public class MessageRequestEntity implements IMessage {
         dim = buf.readInt();
         entityId = buf.readInt();
         int nKeys = buf.readInt();
-        playerId = UUID.fromString(ByteBufUtils.readUTF8String(buf));
         for (int i = 0; i < nKeys; i++)
             keys.add(ByteBufUtils.readUTF8String(buf));
     }
@@ -55,7 +52,6 @@ public class MessageRequestEntity implements IMessage {
         buf.writeInt(dim);
         buf.writeInt(entityId);
         buf.writeInt(keys.size());
-        ByteBufUtils.writeUTF8String(buf, playerId.toString());
         for (String key : keys)
             ByteBufUtils.writeUTF8String(buf, key);
     }
@@ -63,14 +59,14 @@ public class MessageRequestEntity implements IMessage {
     public static class Handler implements IMessageHandler<MessageRequestEntity, IMessage> {
 
         @Override
-        public IMessage onMessage(final MessageRequestEntity message, MessageContext ctx) {
+        public IMessage onMessage(final MessageRequestEntity message, final MessageContext ctx) {
             final MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
             server.addScheduledTask(new Runnable() {
                 @Override
                 public void run() {
                     World world = DimensionManager.getWorld(message.dim);
                     Entity entity = world.getEntityByID(message.entityId);
-                    EntityPlayerMP player = server.getPlayerList().getPlayerByUUID(message.playerId);
+                    EntityPlayerMP player = ctx.getServerHandler().playerEntity;
 
                     if (entity == null)
                         return;
