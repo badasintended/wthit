@@ -1,4 +1,16 @@
 ------------------------------------------------------
+Version 1.8.12
+------------------------------------------------------
+
+- Server now makes sure a requested block is loaded before attempting to access it
+- Removed some needless data from the data request packets
+    - Packet size is now much smaller
+- Added TehNut to mcmod.info author list
+- Added a short description to the mcmod.info explaining that the user is using Hwyla
+- [API] Added nullability annotations to almost the entire API
+- [API] Modified some of the javadocs to be somewhat more informative
+
+------------------------------------------------------
 Version 1.8.11
 ------------------------------------------------------
 
