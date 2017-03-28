@@ -5,18 +5,15 @@ import mcp.mobius.waila.api.*;
 import mcp.mobius.waila.cbcore.LangUtil;
 import net.minecraft.block.*;
 import net.minecraft.block.BlockFlowerPot.EnumFlowerType;
-import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemRecord;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityMobSpawner;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.translation.I18n;
-import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 import java.lang.reflect.Method;
@@ -32,8 +29,6 @@ public class HUDHandlerVanilla extends HUDHandlerBase {
     static Block farmland = Blocks.FARMLAND;
     static Block melonStem = Blocks.MELON_STEM;
     static Block pumpkinStem = Blocks.PUMPKIN_STEM;
-    static Block carrot = Blocks.CARROTS;
-    static Block potato = Blocks.POTATOES;
     static Block lever = Blocks.LEVER;
     static Block repeaterIdle = Blocks.UNPOWERED_REPEATER;
     static Block repeaterActv = Blocks.POWERED_REPEATER;
@@ -62,7 +57,7 @@ public class HUDHandlerVanilla extends HUDHandlerBase {
                 case 2:
                     return new ItemStack(Blocks.BRICK_BLOCK);
                 default:
-                    return null;
+                    return ItemStack.EMPTY;
             }
         }
 
@@ -133,7 +128,7 @@ public class HUDHandlerVanilla extends HUDHandlerBase {
                 try {
                     return new ItemStack((Item) getCrop.invoke(block), 1, block.damageDropped(accessor.getBlockState()));
                 } catch (Exception e) {
-                    return null;
+                    return ItemStack.EMPTY;
                 }
             }
         } else {
@@ -151,7 +146,7 @@ public class HUDHandlerVanilla extends HUDHandlerBase {
             return new ItemStack(Blocks.FARMLAND);
         }
 
-        return null;
+        return ItemStack.EMPTY;
     }
 
     @Override
@@ -282,11 +277,6 @@ public class HUDHandlerVanilla extends HUDHandlerBase {
         }
 
         return currenttip;
-    }
-
-    @Override
-    public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
-        return tag;
     }
 
     public static void register(IWailaRegistrar registrar) {

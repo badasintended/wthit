@@ -32,7 +32,7 @@ public class HUDHandlerChestEntity implements IWailaEntityProvider {
 
     @Override
     public List<String> getWailaHead(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
-        return null;
+        return currenttip;
     }
 
     @Override
@@ -80,7 +80,7 @@ public class HUDHandlerChestEntity implements IWailaEntityProvider {
 
     @Override
     public List<String> getWailaTail(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
-        return null;
+        return currenttip;
     }
 
     @Override

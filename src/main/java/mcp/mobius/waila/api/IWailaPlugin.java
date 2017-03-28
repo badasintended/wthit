@@ -2,6 +2,8 @@ package mcp.mobius.waila.api;
 
 /**
  * Main interface used for Waila plugins. Provides a valid instance of {@link IWailaRegistrar}.
+ *
+ * Annotate your class with {@link WailaPlugin}.
  */
 public interface IWailaPlugin {
 

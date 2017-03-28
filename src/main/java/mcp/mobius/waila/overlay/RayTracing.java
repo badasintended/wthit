@@ -146,7 +146,7 @@ public class RayTracing {
             for (List<IWailaDataProvider> providersList : ModuleRegistrar.instance().getStackProviders(mouseoverBlock).values()) {
                 for (IWailaDataProvider provider : providersList) {
                     ItemStack providerStack = provider.getWailaStack(DataAccessorCommon.instance, ConfigHandler.instance());
-                    if (providerStack != null) { // TODO - Enforce Nonnull on API
+                    if (providerStack != null) { // TODO - Enforce Nonnull on API in 1.12
 
                         if (providerStack.isEmpty())
                             return new ArrayList<ItemStack>();
@@ -162,7 +162,7 @@ public class RayTracing {
 
                 for (IWailaDataProvider provider : providersList) {
                     ItemStack providerStack = provider.getWailaStack(DataAccessorCommon.instance, ConfigHandler.instance());
-                    if (providerStack != null) {
+                    if (providerStack != null) {  // TODO - Enforce Nonnull on API in 1.12
 
                         if (providerStack.isEmpty())
                             return new ArrayList<ItemStack>();
@@ -184,7 +184,7 @@ public class RayTracing {
 
         ItemStack pick = mouseoverBlock.getPickBlock(world.getBlockState(pos), target, world, pos, player);//(this.target, world, pos, player);
 
-        if (pick == null) {
+        if (pick == null) { // TODO - Remove in 1.12. Helpful error reporting for blocks passing a null stack that was left over during the 1.11 porting
             if (!target.getBlockPos().equals(previousBadBlock)) {
                 String modName = ModIdentification.findModContainer(mouseoverBlock.getRegistryName().getResourceDomain()).getName();
                 Waila.LOGGER.fatal("Block " + mouseoverBlock.getRegistryName() + " from " + modName + " returned null in getPickBlock(...). This is not valid behavior, please report this to them.");

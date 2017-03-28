@@ -1,5 +1,6 @@
 package mcp.mobius.waila.api;
 
+import javax.annotation.Nonnull;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -13,16 +14,18 @@ public interface IWailaConfigHandler {
     /**
      * Returns a set of all the currently loaded modules in the config handler.
      *
-     * @return
+     * @return a set of all the currently loaded modules in the config handler.
      */
+    @Nonnull
     Set<String> getModuleNames();
 
     /**
      * Returns all the currently available options for a given module
      *
      * @param modName Module name
-     * @return
+     * @return all the currently available options for a given module
      */
+    @Nonnull
     HashMap<String, String> getConfigKeys(String modName);
 
     /**

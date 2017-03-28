@@ -56,18 +56,10 @@ public class HUDHandlerFurnace extends HUDHandlerBase {
         return currenttip;
     }
 
-    @Override
-    public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
-        if (te != null)
-            te.writeToNBT(tag);
-        return tag;
-    }
-
     public static void register(IWailaRegistrar registrar) {
         registrar.addConfig("VanillaMC", "vanilla.furnacedisplay", true);
 
         registrar.registerBodyProvider(new HUDHandlerFurnace(), TileEntityFurnace.class);
-        registrar.registerNBTProvider(new HUDHandlerFurnace(), TileEntityFurnace.class);
 
     }
 }

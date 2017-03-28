@@ -10,6 +10,8 @@ import java.lang.annotation.Target;
 /**
  * Used to mark a class as a Waila plugin. Detected at runtime automatically.
  *
+ * Classes annotated with this must implement {@link IWailaPlugin}.
+ *
  * To other HUD mods: If you wish to add support for mods that have native support for Waila, use Forge's ASMDataTable
  * (accessible via {@link FMLPreInitializationEvent#getAsmData()}) to detect this annotation.
  */

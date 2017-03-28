@@ -24,7 +24,7 @@ public class HUDHandlerVillager implements IWailaEntityProvider {
 
     @Override
     public List<String> getWailaHead(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
-        return null;
+        return currenttip;
     }
 
     @Override
@@ -38,11 +38,11 @@ public class HUDHandlerVillager implements IWailaEntityProvider {
 
     @Override
     public List<String> getWailaTail(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
-        return null;
+        return currenttip;
     }
 
     @Override
     public NBTTagCompound getNBTData(EntityPlayerMP player, Entity ent, NBTTagCompound tag, World world) {
-        return ent.writeToNBT(tag);
+        return tag;
     }
 }
