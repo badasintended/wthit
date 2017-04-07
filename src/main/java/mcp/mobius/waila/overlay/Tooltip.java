@@ -41,13 +41,13 @@ public class Tooltip {
     int offsetX;
     int maxStringW;
     Point pos;
-    boolean hasIcon = false;
+    private boolean hasIcon = false;
     ItemStack stack;
 
     IWailaCommonAccessor accessor = DataAccessorCommon.instance;
 
     public Tooltip(List<String> textData, ItemStack stack) {
-        this(textData, true);
+        this(textData, ConfigHandler.instance().showItem());
         this.stack = stack;
     }
     ////////////////////////////////////////////////////////////////////////////
@@ -180,6 +180,10 @@ public class Tooltip {
     public void draw2nd() {
         for (Renderable r : this.elements2nd)
             r.draw(accessor, x + offsetX, y + ty);
+    }
+
+    public boolean hasIcon() {
+        return hasIcon && ConfigHandler.instance().showItem();
     }
 
     /////////////////////////////////////Renderable///////////////////////////////////////

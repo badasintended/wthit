@@ -21,6 +21,7 @@ choice.showliquids=Liquids
 choice.shifttoggledblock=Sneak toggle blocks
 choice.shifttoggledents=Sneak toggle entities
 choice.hidefromlist=Hide from player list
+choice.showitem=Display Item
 choice.format.modname=Mod Name
 choice.format.blockname=Block Name
 choice.format.fluidname=Fluid Name

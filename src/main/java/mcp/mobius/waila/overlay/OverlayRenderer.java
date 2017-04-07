@@ -80,11 +80,11 @@ public class OverlayRenderer {
 
         tooltip.draw2nd();
 
-        if (tooltip.hasIcon)
+        if (tooltip.hasIcon())
             RenderHelper.enableGUIStandardItemLighting();
 
         GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-        if (tooltip.hasIcon && tooltip.stack != null && tooltip.stack.getItem() != null)
+        if (tooltip.hasIcon() && tooltip.stack != null && tooltip.stack.getItem() != null)
             DisplayUtil.renderStack(event.getX() + 5, event.getY() + event.getHeight() / 2 - 8, tooltip.stack);
 
         MinecraftForge.EVENT_BUS.post(new WailaRenderEvent.Post(event.getX(), event.getY(), event.getWidth(), event.getHeight()));
