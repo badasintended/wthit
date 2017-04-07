@@ -55,6 +55,7 @@ hud.msg.comparator=Comparator
 hud.msg.substractor=Substractor
 hud.msg.record=Record
 hud.msg.toomuch=Too many...
+hud.msg.power=Power
 
 hud.msg.offers=Offers
 hud.msg.demands=Demands
