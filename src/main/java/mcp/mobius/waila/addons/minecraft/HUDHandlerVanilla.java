@@ -7,15 +7,18 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockCrops;
 import net.minecraft.block.BlockFlowerPot;
 import net.minecraft.block.BlockFlowerPot.EnumFlowerType;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemRecord;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityMobSpawner;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.translation.I18n;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 import java.lang.reflect.Method;
@@ -281,6 +284,11 @@ public class HUDHandlerVanilla extends HUDHandlerBase {
         return currenttip;
     }
 
+    @Override
+    public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
+        return te.writeToNBT(tag);
+    }
+
     public static void register(IWailaRegistrar registrar) {
         registrar.addConfig("VanillaMC", "vanilla.spawntype");
         registrar.addConfig("VanillaMC", "vanilla.leverstate");
@@ -316,6 +324,8 @@ public class HUDHandlerVanilla extends HUDHandlerBase {
         registrar.registerBodyProvider(provider, comparatorAct.getClass());
         registrar.registerBodyProvider(provider, redstone.getClass());
         registrar.registerBodyProvider(provider, jukebox.getClass());
+
+        registrar.registerNBTProvider(provider, jukebox.getClass());
 
         //registrar.registerDocTextFile("/mcp/mobius/waila/addons/vanillamc/WikiData.csv");
 
