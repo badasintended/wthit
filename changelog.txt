@@ -1,4 +1,13 @@
 ------------------------------------------------------
+Version 1.8.13
+------------------------------------------------------
+
+- Fixed furnace display not working
+- Fixed Jukebox always displaying as empty
+- Fixed localization for Redstone power level
+- Added config to stop the item from rendering in the tooltip
+
+------------------------------------------------------
 Version 1.8.12
 ------------------------------------------------------
 
