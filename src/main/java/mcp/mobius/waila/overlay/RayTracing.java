@@ -80,7 +80,6 @@ public class RayTracing {
         Vec3d vec31 = entity.getLook(par3);
         Vec3d vec32 = vec3.addVector(vec31.xCoord * par1, vec31.yCoord * par1, vec31.zCoord * par1);
 
-        //if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID, true))
         if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID, true))
             return entity.getEntityWorld().rayTraceBlocks(vec3, vec32, true);
         else
@@ -145,9 +144,8 @@ public class RayTracing {
                 for (IWailaDataProvider provider : providersList) {
                     ItemStack providerStack = provider.getWailaStack(DataAccessorCommon.instance, ConfigHandler.instance());
                     if (providerStack != null) {
-
                         if (providerStack.getItem() == null)
-                            return new ArrayList<ItemStack>();
+                            continue;
 
                         items.add(providerStack);
                     }
@@ -161,9 +159,8 @@ public class RayTracing {
                 for (IWailaDataProvider provider : providersList) {
                     ItemStack providerStack = provider.getWailaStack(DataAccessorCommon.instance, ConfigHandler.instance());
                     if (providerStack != null) {
-
                         if (providerStack.getItem() == null)
-                            return new ArrayList<ItemStack>();
+                            continue;
 
                         items.add(providerStack);
                     }
@@ -181,6 +178,7 @@ public class RayTracing {
             return items;
 
         ItemStack pick = mouseoverBlock.getPickBlock(world.getBlockState(pos), target, world, pos, player);//(this.target, world, pos, player);
+
         if (pick != null)
             items.add(pick);
 
