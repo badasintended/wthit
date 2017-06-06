@@ -147,9 +147,8 @@ public class RayTracing {
                 for (IWailaDataProvider provider : providersList) {
                     ItemStack providerStack = provider.getWailaStack(DataAccessorCommon.instance, ConfigHandler.instance());
                     if (providerStack != null) { // TODO - Enforce Nonnull on API in 1.12
-
                         if (providerStack.isEmpty())
-                            return new ArrayList<ItemStack>();
+                            continue;
 
                         items.add(providerStack);
                     }
@@ -163,9 +162,8 @@ public class RayTracing {
                 for (IWailaDataProvider provider : providersList) {
                     ItemStack providerStack = provider.getWailaStack(DataAccessorCommon.instance, ConfigHandler.instance());
                     if (providerStack != null) {  // TODO - Enforce Nonnull on API in 1.12
-
                         if (providerStack.isEmpty())
-                            return new ArrayList<ItemStack>();
+                            continue;
 
                         items.add(providerStack);
                     }
@@ -175,9 +173,6 @@ public class RayTracing {
 
         if (!items.isEmpty())
             return items;
-
-        if (world.getTileEntity(pos) == null && Item.getItemFromBlock(mouseoverBlock) != Item.getItemFromBlock(Blocks.AIR))
-            items.add(mouseoverBlock.getPickBlock(world.getBlockState(pos), target, world, pos, player));
 
         if (!items.isEmpty())
             return items;
