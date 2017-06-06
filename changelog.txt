@@ -1,4 +1,12 @@
 ------------------------------------------------------
+Version 1.8.14
+------------------------------------------------------
+
+- Stack provider check no longer returns an empty list when an empty stack is provided
+    - It now properly continues on to the next stack handler
+    - Thanks for writing a weird plugin Dankhax
+
+------------------------------------------------------
 Version 1.8.13
 ------------------------------------------------------
 
