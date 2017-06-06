@@ -12,6 +12,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.relauncher.Side;
@@ -257,7 +258,7 @@ public class ScreenFormatConfig extends GuiScreen {
                 toDraw = net.minecraft.client.resources.I18n.format(toDraw);
 
             if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
-                toDraw = SpecialChars.GREEN + net.minecraft.client.resources.I18n.format("screen.button.exporttheme");
+                toDraw = TextFormatting.GREEN + net.minecraft.client.resources.I18n.format("screen.button.exporttheme");
 
             displayString = toDraw;
             super.drawButton(mc, mouseX, mouseY);

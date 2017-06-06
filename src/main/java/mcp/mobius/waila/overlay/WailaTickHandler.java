@@ -12,6 +12,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -21,8 +22,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
 
 import java.util.List;
-
-import static mcp.mobius.waila.api.SpecialChars.ITALIC;
 
 public class WailaTickHandler {
 
@@ -84,7 +83,7 @@ public class WailaTickHandler {
 
                     if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHIFTBLOCK, false) && currenttipBody.size() > 0 && !accessor.getPlayer().isSneaking()) {
                         currenttipBody.clear();
-                        currenttipBody.add(ITALIC + "Press shift for more data");
+                        currenttipBody.add(TextFormatting.ITALIC + "Press shift for more data");
                     }
 
                     this.currenttip.addAll(this.currenttipHead);
@@ -111,7 +110,7 @@ public class WailaTickHandler {
 
                     if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHIFTENTS, false) && currenttipBody.size() > 0 && !accessor.getPlayer().isSneaking()) {
                         currenttipBody.clear();
-                        currenttipBody.add(ITALIC + "Press shift for more data");
+                        currenttipBody.add(TextFormatting.ITALIC + "Press shift for more data");
                     }
 
                     this.currenttip.addAll(this.currenttipHead);

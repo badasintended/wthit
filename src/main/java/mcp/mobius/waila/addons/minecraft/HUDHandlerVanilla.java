@@ -15,6 +15,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityMobSpawner;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
@@ -171,12 +172,12 @@ public class HUDHandlerVanilla extends HUDHandlerBase {
 
         // Melon Stem instead of Melon Seeds
         if (block == melonStem) {
-            currenttip.set(0, SpecialChars.WHITE + I18n.translateToLocal("hud.item.melonstem"));
+            currenttip.set(0, TextFormatting.WHITE + I18n.translateToLocal("hud.item.melonstem"));
         }
 
         // Pumpkin Stem instead of Pumpkin Seeds
         if (block == pumpkinStem) {
-            currenttip.set(0, SpecialChars.WHITE + I18n.translateToLocal("hud.item.pumpkinstem"));
+            currenttip.set(0, TextFormatting.WHITE + I18n.translateToLocal("hud.item.pumpkinstem"));
         }
 
         return currenttip;
