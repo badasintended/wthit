@@ -2,6 +2,7 @@ package mcp.mobius.waila.overlay;
 
 import mcp.mobius.waila.api.event.WailaRenderEvent;
 import mcp.mobius.waila.api.impl.ConfigHandler;
+import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.config.OverlayConfig;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderHelper;
@@ -62,7 +63,7 @@ public class OverlayRenderer {
         GL11.glDisable(GL11.GL_LIGHTING);
         GL11.glDisable(GL11.GL_DEPTH_TEST);
 
-        WailaRenderEvent.Pre event = new WailaRenderEvent.Pre(tooltip.textData, tooltip.x, tooltip.y, tooltip.w, tooltip.h);
+        WailaRenderEvent.Pre event = new WailaRenderEvent.Pre(DataAccessorCommon.instance, tooltip.x, tooltip.y, tooltip.w, tooltip.h);
         if (MinecraftForge.EVENT_BUS.post(event)) {
             RenderHelper.enableGUIStandardItemLighting();
             GL11.glEnable(GL12.GL_RESCALE_NORMAL);
@@ -71,6 +72,7 @@ public class OverlayRenderer {
             GL11.glPopMatrix();
             return;
         }
+
         drawTooltipBox(event.getX(), event.getY(), event.getWidth(), event.getHeight(), OverlayConfig.bgcolor, OverlayConfig.gradient1, OverlayConfig.gradient2);
 
         GL11.glEnable(GL11.GL_BLEND);

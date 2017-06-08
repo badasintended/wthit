@@ -3,6 +3,7 @@ package mcp.mobius.waila.overlay;
 import mcp.mobius.waila.api.IWailaCommonAccessor;
 import mcp.mobius.waila.api.IWailaTooltipRenderer;
 import mcp.mobius.waila.api.SpecialChars;
+import mcp.mobius.waila.api.event.WailaTooltipEvent;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
@@ -12,6 +13,7 @@ import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderString;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.item.ItemStack;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import org.lwjgl.opengl.GL11;
 
@@ -54,13 +56,21 @@ public class Tooltip {
 
 
     public Tooltip(List<String> textData, boolean hasIcon) {
-        this.textData = textData;
+        WailaTooltipEvent event = new WailaTooltipEvent(textData, accessor);
+        MinecraftForge.EVENT_BUS.post(event);
 
+        this.textData = event.getCurrentTip();
+
+        this.computeSizes();
+        this.computeRenderables();
+        this.computePositionAndSize(hasIcon);
+    }
+
+    private void computeSizes() {
         columnsWidth.add(0);        // Small init of the arrays to have at least one element
         columnsPos.add(0);
 
         for (String s : textData) {
-
             ArrayList<String> line = new ArrayList<String>(Arrays.asList(patternTab.split(s)));
             ArrayList<Integer> size = new ArrayList<Integer>();
             for (String ss : line)
@@ -90,9 +100,6 @@ public class Tooltip {
         // We compute the position of the columns to be able to align the renderable later on
         for (int i = 1; i < columnsWidth.size(); i++)
             columnsPos.set(i, columnsWidth.get(i - 1) + columnsPos.get(i - 1) + TabSpacing);
-
-        this.computeRenderables();
-        this.computePositionAndSize(hasIcon);
     }
 
     private void computeRenderables() {
