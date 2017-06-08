@@ -1,4 +1,18 @@
 ------------------------------------------------------
+Version 1.8.15
+------------------------------------------------------
+
+- Changed the WailaRenderEvent
+    - Removed tooltip list. Modifying it here just broke everything.
+    - Provided access to ICommonProvider
+- Added WailaTooltipEvent
+    - Fired right before all the tooltip sizing is calculated
+    - Final chance to modify tooltip before display
+- Re-enabled Energy and Fluid capability handlers
+    - Still no items for now
+- Darkhax disturbed my beach episode for this. I hope you're happy.
+
+------------------------------------------------------
 Version 1.8.14
 ------------------------------------------------------
 
