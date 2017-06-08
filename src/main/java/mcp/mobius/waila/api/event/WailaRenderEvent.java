@@ -1,10 +1,8 @@
 package mcp.mobius.waila.api.event;
 
+import mcp.mobius.waila.api.IWailaCommonAccessor;
 import net.minecraftforge.fml.common.eventhandler.Cancelable;
 import net.minecraftforge.fml.common.eventhandler.Event;
-
-import javax.annotation.Nonnull;
-import java.util.List;
 
 /**
  * The base event for rendering the Waila tooltip. This provides the opportunity to do last minute changes to the tooltip.
@@ -69,22 +67,20 @@ public class WailaRenderEvent extends Event {
      *
      * This event is cancelable.
      * If this event is canceled, the tooltip will not render.
-     *
-     * {@link #currentTip} - The text currently being drawn on the tooltip
      */
     @Cancelable
     public static class Pre extends WailaRenderEvent {
 
-        private final List<String> currentTip;
+        private final IWailaCommonAccessor accessor;
 
-        public Pre(List<String> currentTip, int xPos, int yPos, int width, int height) {
+        public Pre(IWailaCommonAccessor accessor, int xPos, int yPos, int width, int height) {
             super(xPos, yPos, width, height);
-            this.currentTip = currentTip;
+
+            this.accessor = accessor;
         }
 
-        @Nonnull
-        public List<String> getCurrentTip() {
-            return currentTip;
+        public IWailaCommonAccessor getAccessor() {
+            return accessor;
         }
 
         @Override
