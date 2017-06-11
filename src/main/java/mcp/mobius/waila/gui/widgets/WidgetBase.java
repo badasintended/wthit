@@ -8,6 +8,7 @@ import mcp.mobius.waila.gui.interfaces.RenderPriority;
 import mcp.mobius.waila.gui.interfaces.Signal;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.TextureManager;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Point;
@@ -137,9 +138,9 @@ public abstract class WidgetBase implements IWidget {
     @Override
     public void draw() {
         this.saveGLState();
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glColor4f(1.0f, 1.0f, 1.0f, this.alpha);
+        GlStateManager.enableBlend();
+        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+        GlStateManager.color(1.0f, 1.0f, 1.0f, this.alpha);
 
         this.draw(this.getPos());
 
@@ -271,17 +272,23 @@ public abstract class WidgetBase implements IWidget {
     protected void saveGLState() {
         hasBlending = GL11.glGetBoolean(GL11.GL_BLEND);
         hasLight = GL11.glGetBoolean(GL11.GL_LIGHTING);
-        GL11.glPushAttrib(GL11.GL_CURRENT_BIT);
-        GL11.glPushMatrix();
+        GlStateManager.pushAttrib();
+        GlStateManager.pushMatrix();
     }
 
     protected void loadGLState() {
-        if (hasBlending) GL11.glEnable(GL11.GL_BLEND);
-        else GL11.glDisable(GL11.GL_BLEND);
-        if (hasLight) GL11.glEnable(GL11.GL_LIGHTING);
-        else GL11.glDisable(GL11.GL_LIGHTING);
-        GL11.glPopMatrix();
-        GL11.glPopAttrib();
+        if (hasBlending)
+            GlStateManager.enableBlend();
+        else
+            GlStateManager.disableBlend();
+
+        if (hasLight)
+            GlStateManager.enableLighting();
+        else
+            GlStateManager.disableLighting();
+
+        GlStateManager.popMatrix();
+        GlStateManager.popAttrib();
     }
 
     @Override
@@ -289,35 +296,25 @@ public abstract class WidgetBase implements IWidget {
         return this.alpha;
     }
 
-    ;
-
     @Override
     public void setAlpha(float alpha) {
         this.alpha = alpha;
     }
-
-    ;
 
     @Override
     public void show() {
         this.isRendering = true;
     }
 
-    ;
-
     @Override
     public void hide() {
         this.isRendering = false;
     }
 
-    ;
-
     @Override
     public boolean shouldRender() {
         return this.isRendering;
     }
-
-    ;
 
     ////////////////////
     // INPUT HANDLING //

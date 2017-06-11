@@ -2,8 +2,8 @@ package mcp.mobius.waila.gui.widgets;
 
 import mcp.mobius.waila.gui.helpers.UIHelper;
 import mcp.mobius.waila.gui.interfaces.IWidget;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Point;
 
 public class PictureDisplay extends WidgetBase {
@@ -19,10 +19,10 @@ public class PictureDisplay extends WidgetBase {
     public void draw(Point pos) {
         this.saveGLState();
 
-        GL11.glPushMatrix();
+        GlStateManager.pushMatrix();
         this.texManager.bindTexture(texture);
         UIHelper.drawTexture(pos.getX(), pos.getY(), this.getSize().getX(), this.getSize().getY());
-        GL11.glPopMatrix();
+        GlStateManager.popMatrix();
 
         this.loadGLState();
     }
