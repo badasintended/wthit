@@ -132,6 +132,9 @@ public class WailaTickHandler {
 
     @SubscribeEvent
     public void onTooltip(WailaTooltipEvent event) {
+        if (!ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_TTS, false))
+            return;
+
         String narrate = TextFormatting.getTextWithoutFormattingCodes(event.getCurrentTip().get(0));
         if (narrate.equalsIgnoreCase(lastNarration))
             return;
