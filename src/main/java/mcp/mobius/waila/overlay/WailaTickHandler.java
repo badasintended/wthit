@@ -130,6 +130,9 @@ public class WailaTickHandler {
 
     @SubscribeEvent
     public void onTooltip(WailaTooltipEvent event) {
+        if (!Narrator.getNarrator().active())
+            return;
+
         if (!ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_TTS, false))
             return;
 
