@@ -14,7 +14,9 @@ import net.minecraft.tileentity.TileEntityEnderChest;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.items.*;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandler;
+import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
 import java.util.List;
@@ -22,13 +24,12 @@ import java.util.Set;
 
 public class HUDHandlerInventory extends HUDHandlerBase {
 
+    static final IWailaDataProvider INSTANCE = new HUDHandlerInventory();
     // A set of tile names that need to be ignored in order to avoid network overload
     // Yay hardcoding, but it's better than nothing for now
     private static final Set<String> INVENTORY_IGNORE = Sets.newHashSet(
             "refinedstorage:disk_drive"
     );
-
-    static final IWailaDataProvider INSTANCE = new HUDHandlerInventory();
 
     @Override
     public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {

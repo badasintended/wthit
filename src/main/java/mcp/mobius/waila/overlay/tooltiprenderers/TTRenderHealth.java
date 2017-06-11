@@ -6,7 +6,7 @@ import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.overlay.IconUI;
 import net.minecraft.util.math.MathHelper;
 
-import java.awt.*;
+import java.awt.Dimension;
 
 /**
  * Custom renderer for health bars.

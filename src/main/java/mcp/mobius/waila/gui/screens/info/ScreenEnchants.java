@@ -70,7 +70,7 @@ public class ScreenEnchants extends ScreenBase {
     }
 
 	/*
-	public ScreenEnchants setStack(ItemStack stack){
+    public ScreenEnchants setStack(ItemStack stack){
 		((ItemStackDisplay)this.getRoot().getWidget("ItemStack")).setStack(stack);
 		return this;
 	}

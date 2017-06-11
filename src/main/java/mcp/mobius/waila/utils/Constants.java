@@ -14,8 +14,6 @@ public final class Constants {
 
     public static final String CFG_NEI_SHOW = "world.highlight_tips";
     public static final String BIND_NEI_SHOW = "keys.world.highlight_tips";
-
-    public static boolean CFG_DEFAULT_VALUE = true;
     public static final String CFG_WAILA_SHOW = "waila.cfg.show";
     public static final String CFG_WAILA_HIDEFROMLIST = "waila.cfg.hidefromlist";
     public static final String CFG_WAILA_SHOWITEM = "waila.cfg.showitem";
@@ -38,15 +36,14 @@ public final class Constants {
     public static final String CFG_WAILA_MAXHP = "waila.cfg.maxhpbeforetext";
     public static final String CFG_WAILA_NEWFILTERS = "waila.cfg.newfilters";
     public static final String CFG_WAILA_RATELIMITER = "waila.cfg.ratelimiter";
-
     public static final String CFG_WAILA_ALPHA = "waila.cfg.alpha";
     public static final String CFG_WAILA_BGCOLOR = "waila.cfg.bgcolor";
     public static final String CFG_WAILA_GRADIENT1 = "waila.cfg.gradient1";
     public static final String CFG_WAILA_GRADIENT2 = "waila.cfg.gradient2";
     public static final String CFG_WAILA_FONTCOLOR = "waila.cfg.fontcolor";
-
     public static final String CATEGORY_MODULES = "modules";
     public static final String CATEGORY_SERVER = "server_forcing";
     public static final boolean SERVER_FREE = false;
     public static final boolean SERVER_FORCED = true;
+    public static boolean CFG_DEFAULT_VALUE = true;
 }

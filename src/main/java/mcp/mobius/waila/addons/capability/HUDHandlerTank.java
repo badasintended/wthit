@@ -43,7 +43,8 @@ public class HUDHandlerTank extends HUDHandlerBase {
             if (fluidCount <= 5) {
                 ((ITaggedList<String, String>) currenttip).add(String.format("%s: %d / %d mB", contents.getLocalizedName(), contents.amount, capacity), "IFluidHandler");
                 fluidCount++;
-            } else ((ITaggedList<String, String>) currenttip).add(I18n.translateToLocal("hud.msg.toomuch"), "IFluidHandler");
+            } else
+                ((ITaggedList<String, String>) currenttip).add(I18n.translateToLocal("hud.msg.toomuch"), "IFluidHandler");
         }
 
         return currenttip;

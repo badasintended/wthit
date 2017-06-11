@@ -1,6 +1,7 @@
 package mcp.mobius.waila.gui.screens.config;
 
 import mcp.mobius.waila.api.impl.ConfigHandler;
+import mcp.mobius.waila.config.OverlayConfig;
 import mcp.mobius.waila.gui.events.MouseEvent;
 import mcp.mobius.waila.gui.interfaces.*;
 import mcp.mobius.waila.gui.screens.ScreenBase;
@@ -11,7 +12,6 @@ import mcp.mobius.waila.gui.widgets.WidgetGeometry;
 import mcp.mobius.waila.gui.widgets.buttons.ButtonLabel;
 import mcp.mobius.waila.gui.widgets.buttons.ButtonScreenChange;
 import mcp.mobius.waila.gui.widgets.movable.PictureMovableRC;
-import mcp.mobius.waila.config.OverlayConfig;
 import mcp.mobius.waila.utils.Constants;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraftforge.common.config.Configuration;
@@ -34,7 +34,7 @@ public class ScreenHUDConfig extends ScreenBase {
             this.setGeometry(new WidgetGeometry(0.0, 0.0, 100.0, 100.0, CType.RELXY, CType.RELXY));
 
 			/*
-			IWidget layoutX = this.addWidget("LayoutX", new LayoutBase(this));
+            IWidget layoutX = this.addWidget("LayoutX", new LayoutBase(this));
 			layoutX.setGeometry(new WidgetGeometry(40.0,50.0,20,60, CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));
 			layoutX.addWidget("ButtonXAdd", new ButtonLabel(null, "+")).setGeometry(new WidgetGeometry(0.0,  0.0,20,20, CType.RELXY, CType.ABSXY, WAlign.LEFT, WAlign.TOP));
 			layoutX.addWidget("ButtonXSub", new ButtonLabel(null, "-")).setGeometry(new WidgetGeometry(0.0,100.0,20,20, CType.RELXY, CType.ABSXY, WAlign.LEFT, WAlign.BOTTOM));

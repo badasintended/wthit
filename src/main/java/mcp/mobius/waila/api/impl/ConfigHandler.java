@@ -24,6 +24,7 @@ public class ConfigHandler implements IWailaConfigHandler {
     /* === */
     private LinkedHashMap<String, ConfigModule> modules = new LinkedHashMap<>();
     private ArrayList<String> serverconfigs = new ArrayList<>();
+
     private ConfigHandler() {
         _instance = this;
     }
@@ -206,7 +207,7 @@ public class ConfigHandler implements IWailaConfigHandler {
 
         config.save();
     }
-	
+
 	
 	
 	/* Default config loading */

@@ -27,7 +27,7 @@ public class LayoutCanvas extends LayoutBase {
         this.setGeometry(0, 0, this.rez.getScaledWidth(), this.rez.getScaledHeight(), CType.ABSXY, CType.ABSXY);
 
 		/*
-		this.draw(this.getPos());
+        this.draw(this.getPos());
 		
 		for (IWidget widget: this.widgets.values())
 			if (widget.shouldRender())

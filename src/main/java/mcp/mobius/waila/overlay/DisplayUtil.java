@@ -18,7 +18,7 @@ import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
 
-import java.awt.*;
+import java.awt.Dimension;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,11 +27,10 @@ import java.util.regex.Matcher;
 import static mcp.mobius.waila.api.SpecialChars.*;
 
 public class DisplayUtil {
+    private static final String[] NUM_SUFFIXES = new String[]{"", "k", "m", "b", "t"};
+    private static final int MAX_LENGTH = 4;
     protected static RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
     private static FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
-
-    private static final String[] NUM_SUFFIXES = new String[]{"","k", "m", "b", "t"};
-    private static final int MAX_LENGTH = 4;
 
     public static int getDisplayWidth(String s) {
         if (s == null || s.equals(""))
@@ -116,8 +115,8 @@ public class DisplayUtil {
     private static String shortHandNumber(Number number) {
         String shorthand = new DecimalFormat("##0E0").format(number);
         shorthand = shorthand.replaceAll("E[0-9]", NUM_SUFFIXES[Character.getNumericValue(shorthand.charAt(shorthand.length() - 1)) / 3]);
-        while(shorthand.length() > MAX_LENGTH || shorthand.matches("[0-9]+\\.[a-z]"))
-            shorthand = shorthand.substring(0, shorthand.length()-2) + shorthand.substring(shorthand.length() - 1);
+        while (shorthand.length() > MAX_LENGTH || shorthand.matches("[0-9]+\\.[a-z]"))
+            shorthand = shorthand.substring(0, shorthand.length() - 2) + shorthand.substring(shorthand.length() - 1);
 
         return shorthand;
     }

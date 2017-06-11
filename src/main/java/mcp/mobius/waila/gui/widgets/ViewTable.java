@@ -14,6 +14,7 @@ public class ViewTable extends WidgetBase {
     String[] texts;
     WAlign[] aligns;
     boolean init = false;
+
     public ViewTable(IWidget parent) {
         super(parent);
         this.addWidget("Titles", new Row(null)).setGeometry(new WidgetGeometry(0.0, 0.0, 100.0, 16.0, CType.REL_X, CType.REL_X, WAlign.LEFT, WAlign.TOP));

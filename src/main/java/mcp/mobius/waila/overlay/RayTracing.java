@@ -33,6 +33,7 @@ public class RayTracing {
     private Entity targetEntity = null;
     private Minecraft mc = Minecraft.getMinecraft();
     private BlockPos previousBadBlock;
+
     private RayTracing() {
     }
 

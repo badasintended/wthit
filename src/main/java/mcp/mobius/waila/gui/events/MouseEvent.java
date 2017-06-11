@@ -18,6 +18,7 @@ public class MouseEvent {
     public boolean[] buttonState = new boolean[buttonCount];
     public EventType type;
     public int button = -1;
+
     public MouseEvent(IWidget widget) {
         this.srcwidget = widget;
         this.timestamp = System.nanoTime();

@@ -13,8 +13,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 public class ColorConfig {
@@ -23,45 +21,11 @@ public class ColorConfig {
 
     private static final ColorConfig DEFAULT_VANILLA = new ColorConfig("cfg.theme.vanilla", null, null, null, null);
     private static final ColorConfig DEFAULT_DARK = new ColorConfig("cfg.theme.dark", Color.decode("#131313"), Color.decode("#383838"), Color.decode("#242424"), null);
-
-    public static void init() {
-        try {
-            if (!Waila.themeDir.exists() && Waila.themeDir.mkdirs()) {
-                String vanillaJson = OverlayConfig.GSON.toJson(DEFAULT_VANILLA);
-                FileWriter vanillaWriter = new FileWriter(new File(Waila.themeDir, "vanilla.json"));
-                vanillaWriter.write(vanillaJson);
-                vanillaWriter.close();
-
-                String darkJson = OverlayConfig.GSON.toJson(DEFAULT_DARK);
-                FileWriter darkWriter = new FileWriter(new File(Waila.themeDir, "dark.json"));
-                darkWriter.write(darkJson);
-                darkWriter.close();
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        File[] themeFiles = Waila.themeDir.listFiles((FileFilter) FileFilterUtils.suffixFileFilter(".json"));
-        if (themeFiles != null) {
-            try {
-                for (File file : themeFiles)
-                    ACTIVE_CONFIGS.add(OverlayConfig.GSON.fromJson(new FileReader(file), ColorConfig.class));
-            } catch (Exception e) {
-                Waila.LOGGER.error("Error parsing theme files");
-            }
-        }
-
-        // List Vanilla theme first
-        ACTIVE_CONFIGS.sort((config1, config2) -> config1.getName().equalsIgnoreCase("cfg.theme.vanilla") ? -1 : 0);
-    }
-
     private final String name;
     private final Color background;
     private final Color gradientTop;
     private final Color gradientBottom;
     private final Color font;
-
     public ColorConfig(String name, Color background, Color gradientTop, Color gradientBottom, Color font) {
         this.name = name;
         this.background = background;
@@ -97,6 +61,38 @@ public class ColorConfig {
         font.setText(OverlayConfig.toHex(getFont()));
     }
 
+    public static void init() {
+        try {
+            if (!Waila.themeDir.exists() && Waila.themeDir.mkdirs()) {
+                String vanillaJson = OverlayConfig.GSON.toJson(DEFAULT_VANILLA);
+                FileWriter vanillaWriter = new FileWriter(new File(Waila.themeDir, "vanilla.json"));
+                vanillaWriter.write(vanillaJson);
+                vanillaWriter.close();
+
+                String darkJson = OverlayConfig.GSON.toJson(DEFAULT_DARK);
+                FileWriter darkWriter = new FileWriter(new File(Waila.themeDir, "dark.json"));
+                darkWriter.write(darkJson);
+                darkWriter.close();
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        File[] themeFiles = Waila.themeDir.listFiles((FileFilter) FileFilterUtils.suffixFileFilter(".json"));
+        if (themeFiles != null) {
+            try {
+                for (File file : themeFiles)
+                    ACTIVE_CONFIGS.add(OverlayConfig.GSON.fromJson(new FileReader(file), ColorConfig.class));
+            } catch (Exception e) {
+                Waila.LOGGER.error("Error parsing theme files");
+            }
+        }
+
+        // List Vanilla theme first
+        ACTIVE_CONFIGS.sort((config1, config2) -> config1.getName().equalsIgnoreCase("cfg.theme.vanilla") ? -1 : 0);
+    }
+
     public static class Serializer implements JsonSerializer<ColorConfig>, JsonDeserializer<ColorConfig> {
 
         @Override
@@ -116,7 +112,7 @@ public class ColorConfig {
             jsonObject.addProperty("name", src.getName() != null ? src.getName() : RandomStringUtils.random(10));
             jsonObject.addProperty("background", src.getBackground() != null ? OverlayConfig.toHex(src.getBackground()) : "#100010");
             jsonObject.addProperty("gradientTop", src.getGradientTop() != null ? OverlayConfig.toHex(src.getGradientTop()) : "#5000FF");
-            jsonObject.addProperty("gradientBottom", src.getGradientBottom() != null ? OverlayConfig.toHex(src.getGradientBottom()): "#28007F");
+            jsonObject.addProperty("gradientBottom", src.getGradientBottom() != null ? OverlayConfig.toHex(src.getGradientBottom()) : "#28007F");
             jsonObject.addProperty("font", src.getFont() != null ? OverlayConfig.toHex(src.getFont()) : "#A0A0A0");
             return jsonObject;
         }

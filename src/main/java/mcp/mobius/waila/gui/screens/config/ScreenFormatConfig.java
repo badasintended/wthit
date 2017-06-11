@@ -20,7 +20,6 @@ import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.lwjgl.input.Keyboard;
 
-import javax.annotation.Nullable;
 import java.awt.Color;
 import java.io.File;
 import java.io.FileWriter;
@@ -225,7 +224,7 @@ public class ScreenFormatConfig extends GuiScreen {
         config.setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_FONTCOLOR, OverlayConfig.fromHex(textColor.getText()).getRGB());
         OverlayConfig.updateColors();
     }
-    
+
     public static class ButtonCycleTheme extends GuiButton {
 
         private static int cachedIndex = 0;

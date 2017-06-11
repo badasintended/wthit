@@ -1,9 +1,14 @@
 package mcp.mobius.waila.addons.minecraft;
 
 import mcp.mobius.waila.addons.HUDHandlerBase;
-import mcp.mobius.waila.api.*;
+import mcp.mobius.waila.api.IWailaConfigHandler;
+import mcp.mobius.waila.api.IWailaDataAccessor;
+import mcp.mobius.waila.api.IWailaDataProvider;
+import mcp.mobius.waila.api.IWailaRegistrar;
 import mcp.mobius.waila.cbcore.LangUtil;
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockCrops;
+import net.minecraft.block.BlockFlowerPot;
 import net.minecraft.block.BlockFlowerPot.EnumFlowerType;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;

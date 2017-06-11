@@ -60,8 +60,8 @@ public class SpecialChars {
     public static String WailaRenderer = "\u00A6";
     public static final Pattern patternLineSplit = Pattern.compile("(?i)(" + WailaStyle + WailaStyle + "[^" + WailaStyle + "]+|" + WailaStyle + WailaIcon + "[0-9A-Z]|" + WailaStyle + WailaRenderer + "a\\{([^,}]*),?([^}].*)\\}$|[^" + WailaStyle + "]+)");
     public static String TAB = WailaStyle + WailaStyle + "a";
-    public static String WailaSplitter = WailaStyle + "\u03D6";
     public static final Pattern patternTab = Pattern.compile("(?i)" + TAB);
+    public static String WailaSplitter = WailaStyle + "\u03D6";
     public static String ALIGNRIGHT = WailaStyle + WailaStyle + "b";
     public static final Pattern patternRight = Pattern.compile("(?i)" + ALIGNRIGHT);
     public static String ALIGNCENTER = WailaStyle + WailaStyle + "c";

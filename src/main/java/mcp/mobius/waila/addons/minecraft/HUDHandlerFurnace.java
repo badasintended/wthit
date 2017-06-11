@@ -1,7 +1,10 @@
 package mcp.mobius.waila.addons.minecraft;
 
 import mcp.mobius.waila.addons.HUDHandlerBase;
-import mcp.mobius.waila.api.*;
+import mcp.mobius.waila.api.IWailaConfigHandler;
+import mcp.mobius.waila.api.IWailaDataAccessor;
+import mcp.mobius.waila.api.IWailaRegistrar;
+import mcp.mobius.waila.api.SpecialChars;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;

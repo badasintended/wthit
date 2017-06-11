@@ -14,7 +14,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
@@ -41,6 +40,7 @@ public class WailaTickHandler {
     private List<String> currenttipBody = new TipList<String, String>();
     private List<String> currenttipTail = new TipList<String, String>();
     private Minecraft mc = Minecraft.getMinecraft();
+    private String lastNarration;
 
     private WailaTickHandler() {
     }
@@ -127,8 +127,6 @@ public class WailaTickHandler {
         }
 
     }
-
-    private String lastNarration;
 
     @SubscribeEvent
     public void onTooltip(WailaTooltipEvent event) {

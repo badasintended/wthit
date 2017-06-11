@@ -89,8 +89,7 @@ public class HUDHandlerFluids extends HUDHandlerBase {
             Block fluidBlock = BlockLiquid.getStaticBlock(state.getMaterial());
             fluid = fluidBlock == Blocks.WATER ? FluidRegistry.WATER : FluidRegistry.LAVA;
             vanilla = true;
-        }
-        else if (state.getBlock() instanceof IFluidBlock) fluid = ((IFluidBlock) state.getBlock()).getFluid();
+        } else if (state.getBlock() instanceof IFluidBlock) fluid = ((IFluidBlock) state.getBlock()).getFluid();
 
         return Pair.of(fluid, vanilla);
     }

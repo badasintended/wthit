@@ -17,7 +17,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 
-import java.awt.*;
+import java.awt.Dimension;
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -43,10 +44,9 @@ public class Tooltip {
     int offsetX;
     int maxStringW;
     Point pos;
-    private boolean hasIcon = false;
     ItemStack stack;
-
     IWailaCommonAccessor accessor = DataAccessorCommon.instance;
+    private boolean hasIcon = false;
 
     public Tooltip(List<String> textData, ItemStack stack) {
         this(textData, ConfigHandler.instance().showItem());

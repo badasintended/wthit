@@ -38,7 +38,7 @@ public class LayoutCropping extends LayoutBase {
         GlStateManager.translate(xOffset, yOffset, 0.0F);
 
 		/*
-		for (IWidget widget: this.widgets.values())
+        for (IWidget widget: this.widgets.values())
 			if (widget.shouldRender())
 				widget.draw();		
 		*/

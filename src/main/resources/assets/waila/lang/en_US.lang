@@ -84,8 +84,8 @@ option.general.showents=Show entities
 option.general.showhp=Show entities health
 option.general.showcrop=Show crop growth
 option.general.registry=Show registry data
-option.capability.tankinfo=§mShow tank data
-option.capability.energyinfo=§mShow energy data
+option.capability.tankinfo=Show tank data
+option.capability.energyinfo=Show energy data
 option.capability.inventoryinfo=§mShow inventory data
 
 nei.options.keys.showenchant=Show enchanting values

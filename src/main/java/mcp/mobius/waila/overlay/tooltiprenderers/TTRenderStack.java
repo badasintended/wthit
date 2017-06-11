@@ -11,7 +11,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.registry.ForgeRegistries;
 
-import java.awt.*;
+import java.awt.Dimension;
 
 public class TTRenderStack implements IWailaTooltipRenderer {
 

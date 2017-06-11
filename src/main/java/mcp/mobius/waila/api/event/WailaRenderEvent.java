@@ -6,10 +6,10 @@ import net.minecraftforge.fml.common.eventhandler.Event;
 
 /**
  * The base event for rendering the Waila tooltip. This provides the opportunity to do last minute changes to the tooltip.
- *
+ * <p>
  * All sub-events are fired from {@link mcp.mobius.waila.overlay.OverlayRenderer#renderOverlay(mcp.mobius.waila.overlay.Tooltip)}.
  * All sub-events are fired every render tick.
- *
+ * <p>
  * {@link #xPos} - The X location that the tooltip is being rendered at.
  * {@link #yPos} - The Y location that the tooltip is being rendered at.
  * {@link #width} - The width of the tooltip.
@@ -64,7 +64,7 @@ public class WailaRenderEvent extends Event {
     /**
      * This event is fired just before the Waila tooltip is rendered and right after setting up the GL state in
      * {@link mcp.mobius.waila.overlay.OverlayRenderer#renderOverlay(mcp.mobius.waila.overlay.Tooltip)}
-     *
+     * <p>
      * This event is cancelable.
      * If this event is canceled, the tooltip will not render.
      */
@@ -108,7 +108,7 @@ public class WailaRenderEvent extends Event {
      * This event is fired just after the tooltip is rendered and right before the GL state is reset in
      * {@link mcp.mobius.waila.overlay.OverlayRenderer#renderOverlay(mcp.mobius.waila.overlay.Tooltip)}
      * This event is only fired if {@link Pre} is not cancelled.
-     *
+     * <p>
      * This event is not cancelable.
      */
     public static class Post extends WailaRenderEvent {

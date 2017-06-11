@@ -17,7 +17,7 @@ import net.minecraftforge.fml.common.registry.EntityRegistry.EntityRegistration;
 
 import java.util.List;
 
-import static mcp.mobius.waila.api.SpecialChars.*;
+import static mcp.mobius.waila.api.SpecialChars.getRenderString;
 
 public class HUDHandlerEntities implements IWailaEntityProvider {
 
@@ -36,8 +36,7 @@ public class HUDHandlerEntities implements IWailaEntityProvider {
         if (!Strings.isNullOrEmpty(FormattingConfig.entityFormat)) {
             try {
                 currenttip.add("\u00a7r" + String.format(FormattingConfig.entityFormat, entity.getName()));
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 currenttip.add("\u00a7r" + String.format(FormattingConfig.entityFormat, "Unknown"));
             }
         } else currenttip.add("Unknown");
@@ -48,32 +47,32 @@ public class HUDHandlerEntities implements IWailaEntityProvider {
     @Override
     public List<String> getWailaBody(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
         if (config.getConfig("general.showhp") && entity instanceof EntityLivingBase) {
-                nhearts = nhearts <= 0 ? 20 : nhearts;
-                float health = ((EntityLivingBase) entity).getHealth() / 2.0f;
-                float maxhp = ((EntityLivingBase) entity).getMaxHealth() / 2.0f;
+            nhearts = nhearts <= 0 ? 20 : nhearts;
+            float health = ((EntityLivingBase) entity).getHealth() / 2.0f;
+            float maxhp = ((EntityLivingBase) entity).getMaxHealth() / 2.0f;
 
-                if (((EntityLivingBase) entity).getMaxHealth() > maxhpfortext) {
-                    currenttip.add(
-                            String.format(
-                                    I18n.translateToLocal("hud.msg.health") + ": %.0f / %.0f",
-                                    ((EntityLivingBase) entity).getHealth(),
-                                    ((EntityLivingBase) entity).getMaxHealth()
-                            )
-                    );
+            if (((EntityLivingBase) entity).getMaxHealth() > maxhpfortext) {
+                currenttip.add(
+                        String.format(
+                                I18n.translateToLocal("hud.msg.health") + ": %.0f / %.0f",
+                                ((EntityLivingBase) entity).getHealth(),
+                                ((EntityLivingBase) entity).getMaxHealth()
+                        )
+                );
 
-                } else currenttip.add(getRenderString("waila.health", String.valueOf(nhearts), String.valueOf(health), String.valueOf(maxhp)));
-            }
-
-            return currenttip;
+            } else
+                currenttip.add(getRenderString("waila.health", String.valueOf(nhearts), String.valueOf(health), String.valueOf(maxhp)));
         }
+
+        return currenttip;
+    }
 
     @Override
     public List<String> getWailaTail(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
         if (!Strings.isNullOrEmpty(FormattingConfig.modNameFormat) && !Strings.isNullOrEmpty(getEntityMod(entity))) {
             try {
                 currenttip.add(String.format(FormattingConfig.modNameFormat, getEntityMod(entity)));
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 currenttip.add(String.format(FormattingConfig.modNameFormat, "Unknown"));
             }
         }
@@ -93,8 +92,9 @@ public class HUDHandlerEntities implements IWailaEntityProvider {
             EntityRegistration er = EntityRegistry.instance().lookupModSpawn(entity.getClass(), true);
             ModContainer modC = er.getContainer();
             modName = modC.getName();
+        } catch (NullPointerException e) {
+            modName = "Minecraft";
         }
-        catch (NullPointerException e) {modName = "Minecraft";}
 
         return modName;
     }

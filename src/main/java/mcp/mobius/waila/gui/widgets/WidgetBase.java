@@ -145,7 +145,7 @@ public abstract class WidgetBase implements IWidget {
         this.draw(this.getPos());
 
 		/*
-		for (IWidget widget: this.widgets.values())
+        for (IWidget widget: this.widgets.values())
 			if (widget.shouldRender())
 				widget.draw();
 		*/

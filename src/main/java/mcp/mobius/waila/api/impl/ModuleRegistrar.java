@@ -200,7 +200,7 @@ public class ModuleRegistrar implements IWailaRegistrar {
     public Map<Integer, List<IWailaDataProvider>> getHeadProviders(Object block) {
         return getProviders(block, this.headBlockProviders);
     }
-	
+
 	/* PROVIDER GETTERS */
 
     public Map<Integer, List<IWailaDataProvider>> getBodyProviders(Object block) {

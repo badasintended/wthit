@@ -13,6 +13,7 @@ public class ViewportScrollable extends WidgetBase {
     IWidget attachedWidget = null;
     int yOffset = 0;
     int step = 5;
+
     public ViewportScrollable(IWidget parent) {
         super(parent);
         this.addWidget("Cropping", new LayoutCropping(null)).setGeometry(new WidgetGeometry(0.0, 0.0, 100.0, 100.0, CType.RELXY, CType.RELXY, WAlign.LEFT, WAlign.TOP));

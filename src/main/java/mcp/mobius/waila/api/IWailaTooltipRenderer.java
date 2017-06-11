@@ -2,7 +2,7 @@ package mcp.mobius.waila.api;
 
 import javax.annotation.Nonnull;
 import javax.annotation.ParametersAreNonnullByDefault;
-import java.awt.*;
+import java.awt.Dimension;
 
 @ParametersAreNonnullByDefault
 public interface IWailaTooltipRenderer {

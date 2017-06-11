@@ -6,7 +6,7 @@ import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.utils.Constants;
 import net.minecraftforge.common.config.Configuration;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.Locale;
 
 public class OverlayConfig {

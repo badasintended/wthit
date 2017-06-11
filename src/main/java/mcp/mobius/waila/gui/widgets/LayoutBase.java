@@ -27,7 +27,7 @@ public class LayoutBase extends WidgetBase {
     }
 
 	/*
-	@Override
+    @Override
 	public void onMouseEnter(MouseEvent event) {
 		IWidget widget = this.getWidgetAtCoordinates(event.x, event.y);
 		if (widget != null && widget != this)

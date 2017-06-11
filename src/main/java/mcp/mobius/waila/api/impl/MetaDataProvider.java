@@ -101,7 +101,7 @@ public class MetaDataProvider {
 
         else if (layout == Layout.FOOTER && ModuleRegistrar.instance().hasTailProviders(accessor.getTileEntity()))
             tailBlockProviders.putAll(ModuleRegistrar.instance().getTailProviders(accessor.getTileEntity()));
-	
+
 		/* Apply all collected providers */
         if (layout == Layout.HEADER)
             for (List<IWailaDataProvider> providersList : headBlockProviders.values()) {

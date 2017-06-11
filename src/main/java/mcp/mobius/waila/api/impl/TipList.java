@@ -145,7 +145,7 @@ public class TipList<E, T> extends ArrayList<E> implements ITaggedList<E, T> {
     }
 
 	/*
-	public boolean add(E e){
+    public boolean add(E e){
 		this.setInitialTag(e);		
 		return super.add(e);
 	}

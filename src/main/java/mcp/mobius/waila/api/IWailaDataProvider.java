@@ -23,10 +23,10 @@ public interface IWailaDataProvider {
     /**
      * Callback used to override the default Waila lookup system.</br>
      * Will be used if the implementing class is registered via {@link IWailaRegistrar#registerStackProvider}.</br>
-     *
+     * <p>
      * You may return null if you have not registered this as a stack provider. However, you should return an empty ItemStack
      * to be safe.
-     *
+     * <p>
      * While this is annotated with {@link Nonnull}, nulls are still accepted. This is to give plugins a chance to move
      * over. Nulls will not be accepted in 1.12.
      *
@@ -41,7 +41,7 @@ public interface IWailaDataProvider {
      * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).</br>
      * Will be used if the implementing class is registered via {@link IWailaRegistrar#registerHeadProvider} client side.</br>
      * You are supposed to always return the modified input currenttip.</br>
-     *
+     * <p>
      * You may return null if you have not registered this as a head provider. However, you should return the provided list
      * to be safe.
      *
@@ -58,7 +58,7 @@ public interface IWailaDataProvider {
      * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).</br>
      * Will be used if the implementing class is registered via {@link IWailaRegistrar#registerBodyProvider} client side.</br>
      * You are supposed to always return the modified input currenttip.</br>
-     *
+     * <p>
      * You may return null if you have not registered this as a body provider. However, you should return the provided list
      * to be safe.
      *
@@ -75,7 +75,7 @@ public interface IWailaDataProvider {
      * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).</br>
      * Will be used if the implementing class is registered via {@link IWailaRegistrar#registerTailProvider} client side.</br>
      * You are supposed to always return the modified input currenttip.</br>
-     *
+     * <p>
      * You may return null if you have not registered this as a tail provider. However, you should return the provided list
      * to be safe.
      *
@@ -92,7 +92,7 @@ public interface IWailaDataProvider {
      * Callback used server side to return a custom synchronization NBTTagCompound.</br>
      * Will be used if the implementing class is registered via {@link IWailaRegistrar#registerNBTProvider} server and client side.</br>
      * You are supposed to always return the modified input NBTTagCompound tag.</br>
-     *
+     * <p>
      * You may return null if you have not registered this as an NBT provider. However, you should return the provided
      * tag to be safe.
      *

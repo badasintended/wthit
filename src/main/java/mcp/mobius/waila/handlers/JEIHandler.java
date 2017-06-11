@@ -1,6 +1,8 @@
 package mcp.mobius.waila.handlers;
 
-import mezz.jei.api.*;
+import mezz.jei.api.BlankModPlugin;
+import mezz.jei.api.IJeiRuntime;
+import mezz.jei.api.JEIPlugin;
 import mezz.jei.api.recipe.IFocus;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemStack;

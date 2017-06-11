@@ -5,7 +5,7 @@ import mcp.mobius.waila.api.IWailaTooltipRenderer;
 import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.overlay.IconUI;
 
-import java.awt.*;
+import java.awt.Dimension;
 
 import static mcp.mobius.waila.api.SpecialChars.WailaIcon;
 import static mcp.mobius.waila.api.SpecialChars.WailaStyle;

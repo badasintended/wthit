@@ -13,7 +13,7 @@ import net.minecraft.world.World;
 import java.util.List;
 
 public class HUDHandlerBase implements IWailaDataProvider {
-    
+
     @Override
     public ItemStack getWailaStack(IWailaDataAccessor accessor, IWailaConfigHandler config) {
         return ItemStack.EMPTY;

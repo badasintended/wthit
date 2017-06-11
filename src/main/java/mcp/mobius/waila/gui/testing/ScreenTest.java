@@ -31,7 +31,7 @@ public class ScreenTest extends ScreenBase {
 
 		
 		/*
-		this.getRoot().addWidget("Test", new Row(null)).setGeometry(new WidgetGeometry(50.0, 50.0, 90.0, 20.0, CType.RELXY, CType.REL_X, WAlign.CENTER, WAlign.CENTER));
+        this.getRoot().addWidget("Test", new Row(null)).setGeometry(new WidgetGeometry(50.0, 50.0, 90.0, 20.0, CType.RELXY, CType.REL_X, WAlign.CENTER, WAlign.CENTER));
 		((Row)this.getRoot().getWidget("Test")).setColumnsText("aabbbbbbbbbbbbbbbbbbbbbbbbb","bb","cc");
 		((Row)this.getRoot().getWidget("Test")).setColumnsWidth(30.0,30.0,30.0);
 		((Row)this.getRoot().getWidget("Test")).setColumnsAlign(WAlign.LEFT, WAlign.CENTER, WAlign.CENTER);

@@ -76,7 +76,8 @@ public class ProxyCommon implements IProxy {
                         IWailaPlugin wailaPlugin = (IWailaPlugin) asmClass.newInstance();
                         wailaPlugin.register(ModuleRegistrar.instance());
                         Waila.LOGGER.info("Registered plugin for {} from {} in {}", requiredMod, data.getClassName(), stopwatch.stop());
-                    } else Waila.LOGGER.error("{} attempted to register a plugin for {} that did not implement IWailaPlugin", data.getClassName(), requiredMod);
+                    } else
+                        Waila.LOGGER.error("{} attempted to register a plugin for {} that did not implement IWailaPlugin", data.getClassName(), requiredMod);
                 } else Waila.LOGGER.error("{} is not loaded. Passing over plugin.", requiredMod);
             } catch (Exception e) {
                 Waila.LOGGER.error("Error registering plugin for class {}", data.getClassName());
