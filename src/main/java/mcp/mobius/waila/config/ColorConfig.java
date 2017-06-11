@@ -19,7 +19,7 @@ import java.util.List;
 
 public class ColorConfig {
 
-    public static final List<ColorConfig> ACTIVE_CONFIGS = new ArrayList<ColorConfig>();
+    public static final List<ColorConfig> ACTIVE_CONFIGS = new ArrayList<>();
 
     private static final ColorConfig DEFAULT_VANILLA = new ColorConfig("cfg.theme.vanilla", null, null, null, null);
     private static final ColorConfig DEFAULT_DARK = new ColorConfig("cfg.theme.dark", Color.decode("#131313"), Color.decode("#383838"), Color.decode("#242424"), null);
@@ -53,12 +53,7 @@ public class ColorConfig {
         }
 
         // List Vanilla theme first
-        Collections.sort(ACTIVE_CONFIGS, new Comparator<ColorConfig>() {
-            @Override
-            public int compare(ColorConfig config1, ColorConfig config2) {
-                return config1.getName().equalsIgnoreCase("cfg.theme.vanilla") ? -1 : 0;
-            }
-        });
+        ACTIVE_CONFIGS.sort((config1, config2) -> config1.getName().equalsIgnoreCase("cfg.theme.vanilla") ? -1 : 0);
     }
 
     private final String name;

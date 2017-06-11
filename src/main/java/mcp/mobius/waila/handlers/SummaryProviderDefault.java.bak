@@ -20,7 +20,7 @@ import mcp.mobius.waila.api.IWailaSummaryProvider;
 public class SummaryProviderDefault implements IWailaSummaryProvider {
 
 	public SummaryProviderDefault() {
-		// TODO Auto-generated constructor stub
+
 	}
 
 	@Override

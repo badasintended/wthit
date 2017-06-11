@@ -11,7 +11,7 @@ public enum IconUI {
     EHEART(52, 9, 9, 9, "c"),
     BUBBLEEXP(25, 18, 9, 9, "x");
 
-    private final static HashMap<String, IconUI> lk = new HashMap<String, IconUI>();
+    private final static HashMap<String, IconUI> lk = new HashMap<>();
 
     static {
         for (IconUI icon : IconUI.values()) {

@@ -24,13 +24,13 @@ public class MetaDataProvider {
 
     public static int rateLimiter = 250;
 
-    private Map<Integer, List<IWailaDataProvider>> headBlockProviders = new TreeMap<Integer, List<IWailaDataProvider>>();
-    private Map<Integer, List<IWailaDataProvider>> bodyBlockProviders = new TreeMap<Integer, List<IWailaDataProvider>>();
-    private Map<Integer, List<IWailaDataProvider>> tailBlockProviders = new TreeMap<Integer, List<IWailaDataProvider>>();
+    private Map<Integer, List<IWailaDataProvider>> headBlockProviders = new TreeMap<>();
+    private Map<Integer, List<IWailaDataProvider>> bodyBlockProviders = new TreeMap<>();
+    private Map<Integer, List<IWailaDataProvider>> tailBlockProviders = new TreeMap<>();
 
-    private Map<Integer, List<IWailaEntityProvider>> headEntityProviders = new TreeMap<Integer, List<IWailaEntityProvider>>();
-    private Map<Integer, List<IWailaEntityProvider>> bodyEntityProviders = new TreeMap<Integer, List<IWailaEntityProvider>>();
-    private Map<Integer, List<IWailaEntityProvider>> tailEntityProviders = new TreeMap<Integer, List<IWailaEntityProvider>>();
+    private Map<Integer, List<IWailaEntityProvider>> headEntityProviders = new TreeMap<>();
+    private Map<Integer, List<IWailaEntityProvider>> bodyEntityProviders = new TreeMap<>();
+    private Map<Integer, List<IWailaEntityProvider>> tailEntityProviders = new TreeMap<>();
 
     private Class prevBlock = null;
     private Class prevTile = null;
@@ -61,7 +61,7 @@ public class MetaDataProvider {
         if (accessor.getTileEntity() != null && accessor.isTimeElapsed(rateLimiter) && ConfigHandler.instance().showTooltip()) {
             if (Waila.instance.serverPresent) {
                 accessor.resetTimer();
-                HashSet<String> keys = new HashSet<String>();
+                HashSet<String> keys = new HashSet<>();
 
                 if (ModuleRegistrar.instance().hasNBTProviders(block) || ModuleRegistrar.instance().hasNBTProviders(accessor.getTileEntity()))
                     Waila.NETWORK_WRAPPER.sendToServer(new MessageRequestTile(accessor.getTileEntity(), keys));
@@ -139,7 +139,7 @@ public class MetaDataProvider {
         if (accessor.getEntity() != null && Waila.instance.serverPresent && accessor.isTimeElapsed(rateLimiter)) {
             accessor.resetTimer();
 
-            HashSet<String> keys = new HashSet<String>();
+            HashSet<String> keys = new HashSet<>();
 
             if (ModuleRegistrar.instance().hasNBTEntityProviders(accessor.getEntity()))
                 Waila.NETWORK_WRAPPER.sendToServer(new MessageRequestEntity(accessor.getEntity(), keys));

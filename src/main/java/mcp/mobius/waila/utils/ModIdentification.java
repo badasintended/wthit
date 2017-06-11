@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class ModIdentification {
 
-    public static Map<String, ModContainer> containers = new HashMap<String, ModContainer>();
+    public static Map<String, ModContainer> containers = new HashMap<>();
 
     public static void init() {
         containers.put("minecraft", Loader.instance().getMinecraftModContainer());

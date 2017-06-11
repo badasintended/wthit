@@ -16,7 +16,7 @@ public abstract class ScreenBase extends GuiScreen {
     public ScreenBase(GuiScreen parent) {
         this.parent = parent;
         this.mc = Minecraft.getMinecraft();
-        this.widgets = new HashMap<String, IWidget>();
+        this.widgets = new HashMap<>();
 
         this.addWidget("canvas", new LayoutCanvas());
 

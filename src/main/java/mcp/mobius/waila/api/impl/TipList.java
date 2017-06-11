@@ -12,7 +12,7 @@ public class TipList<E, T> extends ArrayList<E> implements ITaggedList<E, T> {
     @Override
     public boolean add(E e, T tag) {
         if (!tags.containsKey(e))
-            tags.put(e, new HashSet<T>());
+            tags.put(e, new HashSet<>());
         tags.get(e).add(tag);
         return super.add(e);
     }
@@ -20,7 +20,7 @@ public class TipList<E, T> extends ArrayList<E> implements ITaggedList<E, T> {
     @Override
     public boolean add(E e, Collection<? extends T> taglst) {
         if (!tags.containsKey(e))
-            tags.put(e, new HashSet<T>());
+            tags.put(e, new HashSet<>());
         tags.get(e).addAll(taglst);
 
         return super.add(e);
@@ -30,7 +30,7 @@ public class TipList<E, T> extends ArrayList<E> implements ITaggedList<E, T> {
     public Set<T> getTags(E e) {
         Set<T> ret = tags.get(e);
         if (ret == null && this.contains(e)) {
-            tags.put(e, new HashSet<T>());
+            tags.put(e, new HashSet<>());
             ret = tags.get(e);
         }
         return ret;
@@ -44,7 +44,7 @@ public class TipList<E, T> extends ArrayList<E> implements ITaggedList<E, T> {
     @Override
     public void addTag(E e, T tag) {
         if (this.contains(e) && !tags.containsKey(e))
-            tags.put(e, new HashSet<T>());
+            tags.put(e, new HashSet<>());
 
         tags.get(e).add(tag);
     }
@@ -57,7 +57,7 @@ public class TipList<E, T> extends ArrayList<E> implements ITaggedList<E, T> {
     @Override
     public void removeTag(E e, T tag) {
         if (this.contains(e) && !tags.containsKey(e))
-            tags.put(e, new HashSet<T>());
+            tags.put(e, new HashSet<>());
 
         tags.get(e).remove(tag);
     }

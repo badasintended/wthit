@@ -29,15 +29,15 @@ public class Tooltip {
     public static int TabSpacing = 8;
     public static int IconSize = 8;
 
-    List<String> textData = new ArrayList<String>();
-    ArrayList<ArrayList<String>> lines = new ArrayList<ArrayList<String>>();
-    ArrayList<ArrayList<Integer>> sizes = new ArrayList<ArrayList<Integer>>();
-    ArrayList<Integer> columnsWidth = new ArrayList<Integer>();
-    ArrayList<Integer> columnsPos = new ArrayList<Integer>();
+    List<String> textData = new ArrayList<>();
+    ArrayList<ArrayList<String>> lines = new ArrayList<>();
+    ArrayList<ArrayList<Integer>> sizes = new ArrayList<>();
+    ArrayList<Integer> columnsWidth = new ArrayList<>();
+    ArrayList<Integer> columnsPos = new ArrayList<>();
 
-    ArrayList<Renderable> additionalHeights = new ArrayList<Renderable>();
-    ArrayList<Renderable> elements = new ArrayList<Renderable>();
-    ArrayList<Renderable> elements2nd = new ArrayList<Renderable>();
+    ArrayList<Renderable> additionalHeights = new ArrayList<>();
+    ArrayList<Renderable> elements = new ArrayList<>();
+    ArrayList<Renderable> elements2nd = new ArrayList<>();
 
     int w, h, x, y, ty;
     int offsetX;
@@ -71,8 +71,8 @@ public class Tooltip {
         columnsPos.add(0);
 
         for (String s : textData) {
-            ArrayList<String> line = new ArrayList<String>(Arrays.asList(patternTab.split(s)));
-            ArrayList<Integer> size = new ArrayList<Integer>();
+            ArrayList<String> line = new ArrayList<>(Arrays.asList(patternTab.split(s)));
+            ArrayList<Integer> size = new ArrayList<>();
             for (String ss : line)
                 size.add(DisplayUtil.getDisplayWidth(ss));
 

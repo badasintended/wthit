@@ -9,7 +9,7 @@ public class ConfigModule {
 
     public ConfigModule(String _modName) {
         this.modName = _modName;
-        this.options = new HashMap<String, String>();
+        this.options = new HashMap<>();
     }
 
     public ConfigModule(String _modName, HashMap<String, String> _options) {

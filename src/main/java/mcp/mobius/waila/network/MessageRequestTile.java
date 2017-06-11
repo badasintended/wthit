@@ -61,50 +61,47 @@ public class MessageRequestTile implements IMessage {
         @Override
         public IMessage onMessage(final MessageRequestTile message, final MessageContext ctx) {
             final MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
-            server.addScheduledTask(new Runnable() {
-                @Override
-                public void run() {
-                    World world = DimensionManager.getWorld(message.dim);
-                    if (!world.isBlockLoaded(message.pos))
-                        return;
+            server.addScheduledTask(() -> {
+                World world = DimensionManager.getWorld(message.dim);
+                if (!world.isBlockLoaded(message.pos))
+                    return;
 
-                    TileEntity tile = world.getTileEntity(message.pos);
-                    IBlockState state = world.getBlockState(message.pos);
-                    EntityPlayerMP player = ctx.getServerHandler().playerEntity;
+                TileEntity tile = world.getTileEntity(message.pos);
+                IBlockState state = world.getBlockState(message.pos);
+                EntityPlayerMP player = ctx.getServerHandler().playerEntity;
 
-                    if (tile == null)
-                        return;
+                if (tile == null)
+                    return;
 
-                    NBTTagCompound tag = new NBTTagCompound();
-                    boolean hasNBTBlock = ModuleRegistrar.instance().hasNBTProviders(state.getBlock());
-                    boolean hasNBTEnt = ModuleRegistrar.instance().hasNBTProviders(tile);
+                NBTTagCompound tag = new NBTTagCompound();
+                boolean hasNBTBlock = ModuleRegistrar.instance().hasNBTProviders(state.getBlock());
+                boolean hasNBTEnt = ModuleRegistrar.instance().hasNBTProviders(tile);
 
-                    if (hasNBTBlock || hasNBTEnt) {
-                        tag.setInteger("x", message.pos.getX());
-                        tag.setInteger("y", message.pos.getY());
-                        tag.setInteger("z", message.pos.getZ());
-                        tag.setString("id", TileEntity.getKey(tile.getClass()).toString());
+                if (hasNBTBlock || hasNBTEnt) {
+                    tag.setInteger("x", message.pos.getX());
+                    tag.setInteger("y", message.pos.getY());
+                    tag.setInteger("z", message.pos.getZ());
+                    tag.setString("id", TileEntity.getKey(tile.getClass()).toString());
 
-                        for (List<IWailaDataProvider> providersList : ModuleRegistrar.instance().getNBTProviders(state.getBlock()).values())
-                            for (IWailaDataProvider provider : providersList)
-                                tag = provider.getNBTData(player, tile, tag, world, message.pos);
+                    for (List<IWailaDataProvider> providersList : ModuleRegistrar.instance().getNBTProviders(state.getBlock()).values())
+                        for (IWailaDataProvider provider : providersList)
+                            tag = provider.getNBTData(player, tile, tag, world, message.pos);
 
 
-                        for (List<IWailaDataProvider> providersList : ModuleRegistrar.instance().getNBTProviders(tile).values())
-                            for (IWailaDataProvider provider : providersList)
-                                tag = provider.getNBTData(player, tile, tag, world, message.pos);
-                    } else {
-                        tag = tile.getUpdateTag();
-                        tag = NBTUtil.createTag(tag, message.keys);
-                    }
-
-                    tag.setInteger("WailaX", message.pos.getX());
-                    tag.setInteger("WailaY", message.pos.getY());
-                    tag.setInteger("WailaZ", message.pos.getZ());
-                    tag.setString("WailaID", TileEntity.getKey(tile.getClass()).toString());
-
-                    Waila.NETWORK_WRAPPER.sendTo(new MessageReceiveData(tag), player);
+                    for (List<IWailaDataProvider> providersList : ModuleRegistrar.instance().getNBTProviders(tile).values())
+                        for (IWailaDataProvider provider : providersList)
+                            tag = provider.getNBTData(player, tile, tag, world, message.pos);
+                } else {
+                    tag = tile.getUpdateTag();
+                    tag = NBTUtil.createTag(tag, message.keys);
                 }
+
+                tag.setInteger("WailaX", message.pos.getX());
+                tag.setInteger("WailaY", message.pos.getY());
+                tag.setInteger("WailaZ", message.pos.getZ());
+                tag.setString("WailaID", TileEntity.getKey(tile.getClass()).toString());
+
+                Waila.NETWORK_WRAPPER.sendTo(new MessageReceiveData(tag), player);
             });
 
             return null;

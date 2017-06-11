@@ -19,11 +19,11 @@ public class ConfigHandler implements IWailaConfigHandler {
 
     /* SINGLETON */
     private static ConfigHandler _instance = null;
-    public Map<String, Boolean> forcedConfigs = new HashMap<String, Boolean>();
+    public Map<String, Boolean> forcedConfigs = new HashMap<>();
     public Configuration config = null;
     /* === */
-    private LinkedHashMap<String, ConfigModule> modules = new LinkedHashMap<String, ConfigModule>();
-    private ArrayList<String> serverconfigs = new ArrayList<String>();
+    private LinkedHashMap<String, ConfigModule> modules = new LinkedHashMap<>();
+    private ArrayList<String> serverconfigs = new ArrayList<>();
     private ConfigHandler() {
         _instance = this;
     }

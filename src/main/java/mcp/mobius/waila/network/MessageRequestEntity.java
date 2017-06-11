@@ -61,31 +61,28 @@ public class MessageRequestEntity implements IMessage {
         @Override
         public IMessage onMessage(final MessageRequestEntity message, final MessageContext ctx) {
             final MinecraftServer server = FMLCommonHandler.instance().getMinecraftServerInstance();
-            server.addScheduledTask(new Runnable() {
-                @Override
-                public void run() {
-                    World world = DimensionManager.getWorld(message.dim);
-                    Entity entity = world.getEntityByID(message.entityId);
-                    EntityPlayerMP player = ctx.getServerHandler().playerEntity;
+            server.addScheduledTask(() -> {
+                World world = DimensionManager.getWorld(message.dim);
+                Entity entity = world.getEntityByID(message.entityId);
+                EntityPlayerMP player = ctx.getServerHandler().playerEntity;
 
-                    if (entity == null)
-                        return;
+                if (entity == null)
+                    return;
 
-                    NBTTagCompound tag = new NBTTagCompound();
+                NBTTagCompound tag = new NBTTagCompound();
 
-                    if (ModuleRegistrar.instance().hasNBTEntityProviders(entity)) {
-                        for (List<IWailaEntityProvider> providersList : ModuleRegistrar.instance().getNBTEntityProviders(entity).values())
-                            for (IWailaEntityProvider provider : providersList)
-                                tag = provider.getNBTData(player, entity, tag, world);
-                    } else {
-                        entity.writeToNBT(tag);
-                        tag = NBTUtil.createTag(tag, message.keys);
-                    }
-
-                    tag.setInteger("WailaEntityID", entity.getEntityId());
-
-                    Waila.NETWORK_WRAPPER.sendTo(new MessageReceiveData(tag), player);
+                if (ModuleRegistrar.instance().hasNBTEntityProviders(entity)) {
+                    for (List<IWailaEntityProvider> providersList : ModuleRegistrar.instance().getNBTEntityProviders(entity).values())
+                        for (IWailaEntityProvider provider : providersList)
+                            tag = provider.getNBTData(player, entity, tag, world);
+                } else {
+                    entity.writeToNBT(tag);
+                    tag = NBTUtil.createTag(tag, message.keys);
                 }
+
+                tag.setInteger("WailaEntityID", entity.getEntityId());
+
+                Waila.NETWORK_WRAPPER.sendTo(new MessageReceiveData(tag), player);
             });
 
             return null;

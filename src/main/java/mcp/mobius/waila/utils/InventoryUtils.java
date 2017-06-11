@@ -53,7 +53,7 @@ public class InventoryUtils {
     }
 
     public static List<ItemStack> compressInventory(IItemHandler itemHandler) {
-        List<ItemStack> compressed = new ArrayList<ItemStack>();
+        List<ItemStack> compressed = new ArrayList<>();
         for (int slot = 0; slot < itemHandler.getSlots(); slot++) {
             ItemStack stack = itemHandler.getStackInSlot(slot);
             if (stack.isEmpty())

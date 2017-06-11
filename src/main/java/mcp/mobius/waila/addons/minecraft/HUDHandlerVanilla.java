@@ -127,7 +127,7 @@ public class HUDHandlerVanilla extends HUDHandlerBase {
         if (config.getConfig("vanilla.alternatecropitem")) {
             if (block instanceof BlockCrops) {
                 if (getCrop == null)
-                    getCrop = ReflectionHelper.findMethod(BlockCrops.class, null, new String[]{"getCrop", "func_149865_P"});
+                    getCrop = ReflectionHelper.findMethod(BlockCrops.class, "getCrop", "func_149865_P");
 
                 try {
                     return new ItemStack((Item) getCrop.invoke(block), 1, block.damageDropped(accessor.getBlockState()));

@@ -14,7 +14,7 @@ import java.util.List;
 
 public class WailaExceptionHandler {
 
-    private static final ArrayList<String> ERRORS = new ArrayList<String>();
+    private static final ArrayList<String> ERRORS = new ArrayList<>();
     private static final File ERROR_OUTPUT = new File("WailaErrorOutput.txt");
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy - HH:mm:ss");
 

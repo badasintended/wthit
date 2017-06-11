@@ -19,10 +19,10 @@ public abstract class WidgetBase implements IWidget {
 
     protected IWidget parent;
     protected WidgetGeometry geom;
-    protected LinkedHashMap<String, IWidget> widgets = new LinkedHashMap<String, IWidget>();
-    protected LinkedHashMap<String, IWidget> renderQueue_HIGH = new LinkedHashMap<String, IWidget>();
-    protected LinkedHashMap<String, IWidget> renderQueue_MEDIUM = new LinkedHashMap<String, IWidget>();
-    protected LinkedHashMap<String, IWidget> renderQueue_LOW = new LinkedHashMap<String, IWidget>();
+    protected LinkedHashMap<String, IWidget> widgets = new LinkedHashMap<>();
+    protected LinkedHashMap<String, IWidget> renderQueue_HIGH = new LinkedHashMap<>();
+    protected LinkedHashMap<String, IWidget> renderQueue_MEDIUM = new LinkedHashMap<>();
+    protected LinkedHashMap<String, IWidget> renderQueue_LOW = new LinkedHashMap<>();
     protected Minecraft mc;
     protected TextureManager texManager;
     protected ScaledResolution rez;
@@ -96,7 +96,7 @@ public abstract class WidgetBase implements IWidget {
 
     @Override
     public IWidget getWidgetAtCoordinates(double posX, double posY) {
-        for (IWidget widget : new ReverseIterator<IWidget>(this.widgets.values()))
+        for (IWidget widget : new ReverseIterator<>(this.widgets.values()))
             if ((posX >= widget.getPos().getX()) &&
                     (posX <= widget.getPos().getX() + widget.getSize().getX()) &&
                     (posY >= widget.getPos().getY()) &&
