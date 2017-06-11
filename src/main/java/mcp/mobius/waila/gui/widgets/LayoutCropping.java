@@ -2,6 +2,7 @@ package mcp.mobius.waila.gui.widgets;
 
 import mcp.mobius.waila.gui.interfaces.IWidget;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Point;
 
@@ -24,9 +25,9 @@ public class LayoutCropping extends LayoutBase {
         this.rez = new ScaledResolution(mc);
         this.saveGLState();
 
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glColor4f(1.0f, 1.0f, 1.0f, this.alpha);
+        GlStateManager.enableBlend();
+        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, alpha);
 
         this.draw(this.getPos());
 
@@ -34,7 +35,7 @@ public class LayoutCropping extends LayoutBase {
         GL11.glScissor(this.getPos().getX() * this.rez.getScaleFactor(), (this.rez.getScaledHeight() - (this.getPos().getY() + this.getSize().getY())) * this.rez.getScaleFactor(), this.getSize().getX() * this.rez.getScaleFactor(), this.getSize().getY() * this.rez.getScaleFactor());
         //GL11.glScissor(this.getPos().getX()*this.rez.getScaleFactor(), this.getPos().getY()*this.rez.getScaleFactor(), this.getSize().getX()*this.rez.getScaleFactor(), this.getSize().getY()*this.rez.getScaleFactor());
 
-        GL11.glTranslatef(xOffset, yOffset, 0.0f);
+        GlStateManager.translate(xOffset, yOffset, 0.0F);
 
 		/*
 		for (IWidget widget: this.widgets.values())

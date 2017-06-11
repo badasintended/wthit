@@ -5,6 +5,7 @@ import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.config.OverlayConfig;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.common.MinecraftForge;
@@ -53,47 +54,47 @@ public class OverlayRenderer {
     public static void renderOverlay(Tooltip tooltip) {
         //TrueTypeFont font = (TrueTypeFont)mod_Waila.proxy.getFont();
 
-        GL11.glPushMatrix();
+        GlStateManager.pushMatrix();
         saveGLState();
 
-        GL11.glScalef(OverlayConfig.scale, OverlayConfig.scale, 1.0f);
+        GlStateManager.scale(OverlayConfig.scale, OverlayConfig.scale, 1.0F);
 
-        GL11.glDisable(GL12.GL_RESCALE_NORMAL);
+        GlStateManager.disableRescaleNormal();
         RenderHelper.disableStandardItemLighting();
-        GL11.glDisable(GL11.GL_LIGHTING);
-        GL11.glDisable(GL11.GL_DEPTH_TEST);
+        GlStateManager.disableLighting();
+        GlStateManager.disableDepth();
 
         WailaRenderEvent.Pre event = new WailaRenderEvent.Pre(DataAccessorCommon.instance, tooltip.x, tooltip.y, tooltip.w, tooltip.h);
         if (MinecraftForge.EVENT_BUS.post(event)) {
             RenderHelper.enableGUIStandardItemLighting();
-            GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+            GlStateManager.enableRescaleNormal();
             loadGLState();
-            GL11.glEnable(GL11.GL_DEPTH_TEST);
-            GL11.glPopMatrix();
+            GlStateManager.enableDepth();
+            GlStateManager.popMatrix();
             return;
         }
 
         drawTooltipBox(event.getX(), event.getY(), event.getWidth(), event.getHeight(), OverlayConfig.bgcolor, OverlayConfig.gradient1, OverlayConfig.gradient2);
 
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
+        GlStateManager.enableBlend();
+        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
         tooltip.draw();
-        GL11.glDisable(GL11.GL_BLEND);
+        GlStateManager.disableBlend();
 
         tooltip.draw2nd();
 
         if (tooltip.hasIcon())
             RenderHelper.enableGUIStandardItemLighting();
 
-        GL11.glEnable(GL12.GL_RESCALE_NORMAL);
+        GlStateManager.enableRescaleNormal();
         if (tooltip.hasIcon() && !tooltip.stack.isEmpty())
             DisplayUtil.renderStack(event.getX() + 5, event.getY() + event.getHeight() / 2 - 8, tooltip.stack);
 
         MinecraftForge.EVENT_BUS.post(new WailaRenderEvent.Post(event.getX(), event.getY(), event.getWidth(), event.getHeight()));
 
         loadGLState();
-        GL11.glEnable(GL11.GL_DEPTH_TEST);
-        GL11.glPopMatrix();
+        GlStateManager.enableDepth();
+        GlStateManager.popMatrix();
     }
 
     public static void saveGLState() {
@@ -105,25 +106,41 @@ public class OverlayRenderer {
         hasColorMaterial = GL11.glGetBoolean(GL11.GL_COLOR_MATERIAL);
         depthFunc = GL11.glGetInteger(GL11.GL_DEPTH_FUNC);
         depthMask = GL11.glGetBoolean(GL11.GL_DEPTH_WRITEMASK);
-        GL11.glPushAttrib(GL11.GL_CURRENT_BIT);
+        GL11.glPushAttrib(GL11.GL_CURRENT_BIT); // Leave me alone :(
     }
 
     public static void loadGLState() {
-        GL11.glDepthMask(depthMask);
-        GL11.glDepthFunc(depthFunc);
-        if (hasLight) GL11.glEnable(GL11.GL_LIGHTING);
-        else GL11.glDisable(GL11.GL_LIGHTING);
-        if (hasLight0) GL11.glEnable(GL11.GL_LIGHT0);
-        else GL11.glDisable(GL11.GL_LIGHT0);
-        if (hasLight1) GL11.glEnable(GL11.GL_LIGHT1);
-        else GL11.glDisable(GL11.GL_LIGHT1);
-        if (hasDepthTest) GL11.glEnable(GL11.GL_DEPTH_TEST);
-        else GL11.glDisable(GL11.GL_DEPTH_TEST);
-        if (hasRescaleNormal) GL11.glEnable(GL12.GL_RESCALE_NORMAL);
-        else GL11.glDisable(GL12.GL_RESCALE_NORMAL);
-        if (hasColorMaterial) GL11.glEnable(GL11.GL_COLOR_MATERIAL);
-        else GL11.glDisable(GL11.GL_COLOR_MATERIAL);
-        GL11.glPopAttrib();
+        GlStateManager.depthMask(depthMask);
+        GlStateManager.depthFunc(depthFunc);
+        if (hasLight)
+            GlStateManager.enableLighting();
+        else
+            GlStateManager.disableLighting();
+
+        if (hasLight0)
+            GlStateManager.enableLight(0);
+        else
+            GlStateManager.disableLight(0);
+
+        if (hasLight1)
+            GlStateManager.enableLight(1);
+        else
+            GlStateManager.disableLight(1);
+
+        if (hasDepthTest)
+            GlStateManager.enableDepth();
+        else
+            GlStateManager.disableDepth();
+        if (hasRescaleNormal)
+            GlStateManager.enableRescaleNormal();
+        else
+            GlStateManager.disableRescaleNormal();
+        if (hasColorMaterial)
+            GlStateManager.enableColorMaterial();
+        else
+            GlStateManager.disableColorMaterial();
+
+        GlStateManager.popAttrib();
         //GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
     }
 

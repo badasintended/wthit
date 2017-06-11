@@ -3,8 +3,8 @@ package mcp.mobius.waila.gui.widgets;
 import mcp.mobius.waila.gui.events.MouseEvent;
 import mcp.mobius.waila.gui.helpers.UIHelper;
 import mcp.mobius.waila.gui.interfaces.IWidget;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Point;
 
 public class PictureSwitch extends WidgetBase {
@@ -25,10 +25,10 @@ public class PictureSwitch extends WidgetBase {
 
         ResourceLocation texture = mouseOver ? this.texture2 : this.texture1;
 
-        GL11.glPushMatrix();
+        GlStateManager.pushMatrix();
         this.texManager.bindTexture(texture);
         UIHelper.drawTexture(pos.getX(), pos.getY(), this.getSize().getX(), this.getSize().getY());
-        GL11.glPopMatrix();
+        GlStateManager.popMatrix();
 
         this.loadGLState();
     }

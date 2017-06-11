@@ -6,8 +6,8 @@ import mcp.mobius.waila.gui.interfaces.IWidget;
 import mcp.mobius.waila.gui.interfaces.Signal;
 import mcp.mobius.waila.gui.widgets.LabelFixedFont;
 import mcp.mobius.waila.gui.widgets.WidgetBase;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
-import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.Point;
 
 public abstract class ButtonBase extends WidgetBase {
@@ -21,7 +21,7 @@ public abstract class ButtonBase extends WidgetBase {
 
     @Override
     public void draw() {
-        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
 
         for (IWidget widget : this.widgets.values())
             if (widget instanceof LabelFixedFont)

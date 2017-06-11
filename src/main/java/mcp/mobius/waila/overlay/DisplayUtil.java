@@ -16,7 +16,6 @@ import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.TextFormatting;
-import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 import java.text.DecimalFormat;
@@ -123,13 +122,13 @@ public class DisplayUtil {
     }
 
     public static void enable3DRender() {
-        GL11.glEnable(GL11.GL_LIGHTING);
-        GL11.glEnable(GL11.GL_DEPTH_TEST);
+        GlStateManager.enableLighting();
+        GlStateManager.enableDepth();
     }
 
     public static void enable2DRender() {
-        GL11.glDisable(GL11.GL_LIGHTING);
-        GL11.glDisable(GL11.GL_DEPTH_TEST);
+        GlStateManager.disableLighting();
+        GlStateManager.disableDepth();
     }
 
     public static void drawGradientRect(int left, int top, int right, int bottom, int startColor, int endColor) {

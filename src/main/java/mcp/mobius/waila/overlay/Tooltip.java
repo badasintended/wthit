@@ -12,10 +12,10 @@ import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderIcon;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderString;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
-import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -224,14 +224,14 @@ public class Tooltip {
         }
 
         public void draw(IWailaCommonAccessor accessor, int x, int y) {
-            GL11.glPushMatrix();
-            GL11.glTranslatef(x + this.pos.x, y + this.pos.y, 0);
+            GlStateManager.pushMatrix();
+            GlStateManager.translate(x + this.pos.x, y + this.pos.y, 0);
             try {
                 this.renderer.draw(this.params, accessor);
             } catch (Throwable e) {
                 WailaExceptionHandler.handleErr(e, this.renderer.getClass().getName() + ".draw()", null);
             }
-            GL11.glPopMatrix();
+            GlStateManager.popMatrix();
         }
 
         @Override
