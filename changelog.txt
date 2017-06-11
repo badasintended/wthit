@@ -1,4 +1,14 @@
 ------------------------------------------------------
+Version 1.8.16
+------------------------------------------------------
+
+- Updated to 1.12
+- Added config to narrate the first line of the tooltip
+    - Only narrates when the tooltip has changed, so looking at different Grass Blocks won't spam you
+    - Still a bit dodgy
+    - John Madden John Madden John Madden John Madden John Madden SOISOISOISOISOI
+
+------------------------------------------------------
 Version 1.8.15
 ------------------------------------------------------
 
