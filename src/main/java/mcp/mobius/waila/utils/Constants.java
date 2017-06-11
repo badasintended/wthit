@@ -19,6 +19,7 @@ public final class Constants {
     public static final String CFG_WAILA_SHOW = "waila.cfg.show";
     public static final String CFG_WAILA_HIDEFROMLIST = "waila.cfg.hidefromlist";
     public static final String CFG_WAILA_SHOWITEM = "waila.cfg.showitem";
+    public static final String CFG_WAILA_TTS = "waila.cfg.tts";
     public static final String CFG_WAILA_MODNAMEFORMAT = "waila.cfg.modnameformat";
     public static final String CFG_WAILA_BLOCKNAMEFORMAT = "waila.cfg.blocknameformat";
     public static final String CFG_WAILA_FLUIDNAMEFORMAT = "waila.cfg.fluidnameformat";

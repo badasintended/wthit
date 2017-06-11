@@ -1,7 +1,7 @@
 package mcp.mobius.waila.gui.truetyper;
 
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
@@ -232,23 +232,23 @@ public class TrueTypeFont {
         float RenderWidth = (SrcWidth / textureWidth);
         float RenderHeight = (SrcHeight / textureHeight);
         Tessellator tessellator = Tessellator.getInstance();
-        VertexBuffer t = tessellator.getBuffer();
+        BufferBuilder buffer = tessellator.getBuffer();
 
-        //t.setColorRGBA_F(0f, 0f, 0f, 1f);
+        //buffer.setColorRGBA_F(0f, 0f, 0f, 1f);
 
-        t.pos((double) drawX, (double) drawY, 0).tex((double) ((float) TextureSrcX), (double) ((float) TextureSrcY)).endVertex();
+        buffer.pos((double) drawX, (double) drawY, 0).tex((double) ((float) TextureSrcX), (double) ((float) TextureSrcY)).endVertex();
         //GL11.glTexCoord2f(TextureSrcX, TextureSrcY);
         //GL11.glVertex2f(drawX, drawY);
 
-        t.pos((double) drawX, (double) (drawY + DrawHeight), 0).tex((double) ((float) TextureSrcX), (double) ((float) (TextureSrcY + RenderHeight))).endVertex();
+        buffer.pos((double) drawX, (double) (drawY + DrawHeight), 0).tex((double) ((float) TextureSrcX), (double) ((float) (TextureSrcY + RenderHeight))).endVertex();
         //GL11.glTexCoord2f(TextureSrcX, TextureSrcY + RenderHeight);
         //GL11.glVertex2f(drawX, drawY + DrawHeight);
 
-        t.pos((double) drawX + DrawWidth, (double) (drawY + DrawHeight), 0).tex((double) ((float) (TextureSrcX + RenderWidth)), (double) ((float) (TextureSrcY + RenderHeight))).endVertex();
+        buffer.pos((double) drawX + DrawWidth, (double) (drawY + DrawHeight), 0).tex((double) ((float) (TextureSrcX + RenderWidth)), (double) ((float) (TextureSrcY + RenderHeight))).endVertex();
         //GL11.glTexCoord2f(TextureSrcX + RenderWidth, TextureSrcY + RenderHeight);
         //GL11.glVertex2f(drawX + DrawWidth, drawY + DrawHeight);
 
-        t.pos((double) (drawX + DrawWidth), (double) drawY, 0).tex((double) ((float) (TextureSrcX + RenderWidth)), (double) ((float) TextureSrcY)).endVertex();
+        buffer.pos((double) (drawX + DrawWidth), (double) drawY, 0).tex((double) ((float) (TextureSrcX + RenderWidth)), (double) ((float) TextureSrcY)).endVertex();
         //GL11.glTexCoord2f(TextureSrcX + RenderWidth, TextureSrcY);
         //GL11.glVertex2f(drawX + DrawWidth, drawY);
     }
@@ -345,11 +345,11 @@ public class TrueTypeFont {
         }
         GL11.glBindTexture(GL11.GL_TEXTURE_2D, fontTextureID);
         Tessellator tessellator = Tessellator.getInstance();
-        VertexBuffer t = tessellator.getBuffer();
-        t.begin(7, DefaultVertexFormats.POSITION_COLOR);
+        BufferBuilder buffer = tessellator.getBuffer();
+        buffer.begin(7, DefaultVertexFormats.POSITION_COLOR);
         //	GL11.glBegin(GL11.GL_QUADS);
         if (rgba.length == 4)
-            t.putColorRGB_F(rgba[0], rgba[1], rgba[2], (int) rgba[3]);
+            buffer.putColorRGB_F(rgba[0], rgba[1], rgba[2], (int) rgba[3]);
         while (i >= startIndex && i <= endIndex) {
 
             charCurrent = whatchars.charAt(i);

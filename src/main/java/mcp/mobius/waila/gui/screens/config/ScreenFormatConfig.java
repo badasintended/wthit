@@ -2,7 +2,6 @@ package mcp.mobius.waila.gui.screens.config;
 
 import com.google.common.base.Predicate;
 import mcp.mobius.waila.Waila;
-import mcp.mobius.waila.api.SpecialChars;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.config.ColorConfig;
 import mcp.mobius.waila.config.FormattingConfig;
@@ -27,7 +26,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
-import java.util.Locale;
 
 @SideOnly(Side.CLIENT)
 public class ScreenFormatConfig extends GuiScreen {
@@ -43,17 +41,14 @@ public class ScreenFormatConfig extends GuiScreen {
     public static final int GRADIENT_BOTTOM_COLOR = 2621567;
     public static final int FONT_COLOR = 10526880;
 
-    private static final Predicate<String> HEX_COLOR = new Predicate<String>() {
-        @Override
-        public boolean apply(@Nullable String input) {
-            if (input == null)
-                return false;
+    private static final Predicate<String> HEX_COLOR = input -> {
+        if (input == null)
+            return false;
 
-            if (input.length() == 1)
-                return input.equalsIgnoreCase("#");
+        if (input.length() == 1)
+            return input.equalsIgnoreCase("#");
 
-            return input.startsWith("#") && input.substring(1).matches("^[a-zA-Z0-9]*$") && input.length() < 8;
-        }
+        return input.startsWith("#") && input.substring(1).matches("^[a-zA-Z0-9]*$") && input.length() < 8;
     };
 
     private final GuiScreen parent;
@@ -252,6 +247,11 @@ public class ScreenFormatConfig extends GuiScreen {
         }
 
         @Override
+        public void func_191745_a(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
+            drawButton(mc, mouseX, mouseY);
+            super.func_191745_a(mc, mouseX, mouseY, partialTicks);
+        }
+
         public void drawButton(Minecraft mc, int mouseX, int mouseY) {
             String toDraw = configs.get(index).getName();
             if (net.minecraft.client.resources.I18n.hasKey(toDraw))
@@ -261,7 +261,6 @@ public class ScreenFormatConfig extends GuiScreen {
                 toDraw = TextFormatting.GREEN + net.minecraft.client.resources.I18n.format("screen.button.exporttheme");
 
             displayString = toDraw;
-            super.drawButton(mc, mouseX, mouseY);
         }
 
         @Override

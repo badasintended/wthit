@@ -178,6 +178,7 @@ public class ConfigHandler implements IWailaConfigHandler {
         config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_NEWFILTERS, true);
         config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_HIDEFROMLIST, true);
         config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOWITEM, true);
+        config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_TTS, true);
 
         OverlayConfig.posX = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSX, 5000).getInt();
         OverlayConfig.posY = config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSY, 100).getInt();

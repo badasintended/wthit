@@ -1,5 +1,7 @@
 package mcp.mobius.waila.overlay;
 
+import com.mojang.text2speech.Narrator;
+import mcp.mobius.waila.api.event.WailaTooltipEvent;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.MetaDataProvider;
@@ -10,7 +12,9 @@ import mcp.mobius.waila.utils.Constants;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
@@ -122,6 +126,21 @@ public class WailaTickHandler {
             }
         }
 
+    }
+
+    private String lastNarration;
+
+    @SubscribeEvent
+    public void onTooltip(WailaTooltipEvent event) {
+        String narrate = TextFormatting.getTextWithoutFormattingCodes(event.getCurrentTip().get(0));
+        if (narrate.equalsIgnoreCase(lastNarration))
+            return;
+
+        if (event.getAccessor().getBlock() == Blocks.AIR && event.getAccessor().getEntity() == null)
+            return;
+
+        Narrator.getNarrator().say(narrate);
+        lastNarration = narrate;
     }
 
     public static WailaTickHandler instance() {

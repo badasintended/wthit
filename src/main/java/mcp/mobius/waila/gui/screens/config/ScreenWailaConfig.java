@@ -29,15 +29,15 @@ public class ScreenWailaConfig extends ScreenBase {
         buttonContainer.addButton(new ButtonBooleanConfig(this.getRoot(), Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHIFTENTS, true, false, "screen.button.no", "screen.button.yes"), "choice.shifttoggledents");
         buttonContainer.addButton(new ButtonBooleanConfig(this.getRoot(), Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_HIDEFROMLIST, true, false, "screen.button.no", "screen.button.yes"), "choice.hidefromlist");
         buttonContainer.addButton(new ButtonBooleanConfig(this.getRoot(), Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOWITEM, true, false, "screen.button.no", "screen.button.yes"), "choice.showitem");
-
+        buttonContainer.addButton(new ButtonBooleanConfig(this.getRoot(), Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_TTS, true, false, "screen.button.no", "screen.button.yes"), "choice.tts");
 
         this.getRoot().addWidget("LayoutConfigPos", new LayoutBase(this.getRoot()));
-        this.getRoot().getWidget("LayoutConfigPos").setGeometry(new WidgetGeometry(0.0, 50.0, 100.0, 20.0, CType.RELXY, CType.RELXY));
+        this.getRoot().getWidget("LayoutConfigPos").setGeometry(new WidgetGeometry(0.0, 60.0, 100.0, 20.0, CType.RELXY, CType.RELXY));
         this.getRoot().getWidget("LayoutConfigPos").addWidget("ButtonConfigPos", new ButtonScreenChange(null, "screen.button.configureaspect", new ScreenHUDConfig(this)));
         this.getRoot().getWidget("LayoutConfigPos").getWidget("ButtonConfigPos").setGeometry(new WidgetGeometry(50.0, 50.0, 150.0, 20.0, CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));
 
         this.getRoot().addWidget("FormatConfig", new LayoutBase(this.getRoot()));
-        this.getRoot().getWidget("FormatConfig").setGeometry(new WidgetGeometry(0.0, 60.0, 100.0, 20.0, CType.RELXY, CType.RELXY));
+        this.getRoot().getWidget("FormatConfig").setGeometry(new WidgetGeometry(0.0, 70.0, 100.0, 20.0, CType.RELXY, CType.RELXY));
         this.getRoot().getWidget("FormatConfig").addWidget("ButtonConfigPos", new ButtonScreenChange(null, "screen.button.configureformat", new ScreenFormatConfig(this)));
         this.getRoot().getWidget("FormatConfig").getWidget("ButtonConfigPos").setGeometry(new WidgetGeometry(50.0, 50.0, 150.0, 20.0, CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));
 

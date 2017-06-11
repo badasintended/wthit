@@ -2,9 +2,9 @@ package mcp.mobius.waila.gui.helpers;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.Vec3d;
@@ -21,12 +21,12 @@ public class UIHelper {
         float f = 0.00390625F;
 
         Tessellator tessellator = Tessellator.getInstance();
-        VertexBuffer t = tessellator.getBuffer();
-        t.begin(7, DefaultVertexFormats.POSITION_TEX);
-        t.pos((double) (posX + 0), (double) (posY + sizeY), (double) zLevel).tex((double) ((float) texU * f), (double) ((float) (texV + texSizeV) * f)).endVertex();
-        t.pos((double) (posX + sizeX), (double) (posY + sizeY), (double) zLevel).tex((double) ((float) (texU + texSizeU) * f), (double) ((float) (texV + texSizeV) * f)).endVertex();
-        t.pos((double) (posX + sizeX), (double) (posY + 0), (double) zLevel).tex((double) ((float) (texU + texSizeU) * f), (double) ((float) texV * f)).endVertex();
-        t.pos((double) (posX + 0), (double) (posY + 0), (double) zLevel).tex((double) ((float) texU * f), (double) ((float) texV * f)).endVertex();
+        BufferBuilder buffer = tessellator.getBuffer();
+        buffer.begin(7, DefaultVertexFormats.POSITION_TEX);
+        buffer.pos((double) (posX + 0), (double) (posY + sizeY), (double) zLevel).tex((double) ((float) texU * f), (double) ((float) (texV + texSizeV) * f)).endVertex();
+        buffer.pos((double) (posX + sizeX), (double) (posY + sizeY), (double) zLevel).tex((double) ((float) (texU + texSizeU) * f), (double) ((float) (texV + texSizeV) * f)).endVertex();
+        buffer.pos((double) (posX + sizeX), (double) (posY + 0), (double) zLevel).tex((double) ((float) (texU + texSizeU) * f), (double) ((float) texV * f)).endVertex();
+        buffer.pos((double) (posX + 0), (double) (posY + 0), (double) zLevel).tex((double) ((float) texU * f), (double) ((float) texV * f)).endVertex();
         tessellator.draw();
     }
 
@@ -45,12 +45,12 @@ public class UIHelper {
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
         GlStateManager.shadeModel(7425);
         Tessellator tessellator = Tessellator.getInstance();
-        VertexBuffer t = tessellator.getBuffer();
-        t.begin(7, DefaultVertexFormats.POSITION_COLOR);
-        t.pos((double) right, (double) top, (double) zLevel).color(red1, green1, blue1, alpha1).endVertex();
-        t.pos((double) left, (double) top, (double) zLevel).color(red1, green1, blue1, alpha1).endVertex();
-        t.pos((double) left, (double) bottom, (double) zLevel).color(red2, green2, blue2, alpha2).endVertex();
-        t.pos((double) right, (double) bottom, (double) zLevel).color(red2, green2, blue2, alpha2).endVertex();
+        BufferBuilder buffer = tessellator.getBuffer();
+        buffer.begin(7, DefaultVertexFormats.POSITION_COLOR);
+        buffer.pos((double) right, (double) top, (double) zLevel).color(red1, green1, blue1, alpha1).endVertex();
+        buffer.pos((double) left, (double) top, (double) zLevel).color(red1, green1, blue1, alpha1).endVertex();
+        buffer.pos((double) left, (double) bottom, (double) zLevel).color(red2, green2, blue2, alpha2).endVertex();
+        buffer.pos((double) right, (double) bottom, (double) zLevel).color(red2, green2, blue2, alpha2).endVertex();
         tessellator.draw();
         GlStateManager.shadeModel(7424);
         GlStateManager.disableBlend();
@@ -157,25 +157,25 @@ public class UIHelper {
 
     public static void drawRectangle(double x1, double y1, double z1, double x2, double y2, double z2, int r, int g, int b, int a) {
         Tessellator tessellator = Tessellator.getInstance();
-        VertexBuffer t = tessellator.getBuffer();
+        BufferBuilder buffer = tessellator.getBuffer();
 
-        t.begin(7, DefaultVertexFormats.POSITION_COLOR);
-        t.pos(x1, y2, z1).color(r, g, b, a).endVertex();
-        t.pos(x1, y1, z2).color(r, g, b, a).endVertex();
-        t.pos(x2, y1, z2).color(r, g, b, a).endVertex();
-        t.pos(x2, y2, z1).color(r, g, b, a).endVertex();
+        buffer.begin(7, DefaultVertexFormats.POSITION_COLOR);
+        buffer.pos(x1, y2, z1).color(r, g, b, a).endVertex();
+        buffer.pos(x1, y1, z2).color(r, g, b, a).endVertex();
+        buffer.pos(x2, y1, z2).color(r, g, b, a).endVertex();
+        buffer.pos(x2, y2, z1).color(r, g, b, a).endVertex();
         tessellator.draw();
     }
 
     public static void drawRectangleEW(double x1, double y1, double z1, double x2, double y2, double z2, int r, int g, int b, int a) {
         Tessellator tessellator = Tessellator.getInstance();
-        VertexBuffer t = tessellator.getBuffer();
+        BufferBuilder buffer = tessellator.getBuffer();
 
-        t.begin(7, DefaultVertexFormats.POSITION_COLOR);
-        t.pos(x1, y1, z1).color(r, g, b, a).endVertex();
-        t.pos(x1, y1, z2).color(r, g, b, a).endVertex();
-        t.pos(x2, y2, z2).color(r, g, b, a).endVertex();
-        t.pos(x2, y2, z1).color(r, g, b, a).endVertex();
+        buffer.begin(7, DefaultVertexFormats.POSITION_COLOR);
+        buffer.pos(x1, y1, z1).color(r, g, b, a).endVertex();
+        buffer.pos(x1, y1, z2).color(r, g, b, a).endVertex();
+        buffer.pos(x2, y2, z2).color(r, g, b, a).endVertex();
+        buffer.pos(x2, y2, z1).color(r, g, b, a).endVertex();
         tessellator.draw();
     }
 }
