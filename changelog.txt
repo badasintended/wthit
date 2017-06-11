@@ -1,4 +1,13 @@
 ------------------------------------------------------
+Version 1.8.17
+------------------------------------------------------
+
+- Fully moved to GlStateManager
+    - Should cause much less rendering issues with other mods
+- Fixed Narration config
+    - If you are updating from 1.8.16, you'll need to manually toggle the config
+
+------------------------------------------------------
 Version 1.8.16
 ------------------------------------------------------
 
