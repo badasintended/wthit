@@ -1,4 +1,22 @@
 ------------------------------------------------------
+Version 1.8.17
+------------------------------------------------------
+
+- Fully moved to GlStateManager
+    - Should cause much less rendering issues with other mods
+- Changed the WailaRenderEvent
+    - Removed tooltip list. Modifying it here just broke everything.
+    - Provided access to ICommonProvider
+- Added WailaTooltipEvent
+    - Fired right before all the tooltip sizing is calculated
+    - Final chance to modify tooltip before display
+- Re-enabled Energy and Fluid capability handlers
+    - Still no items for now
+- Stack provider check no longer returns an empty list when a stack containing a null item is provided
+    - It now properly continues on to the next stack handler
+    - Thanks for writing a weird plugin Dankhax
+
+------------------------------------------------------
 Version 1.8.13
 ------------------------------------------------------
 
