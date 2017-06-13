@@ -15,9 +15,13 @@ import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
+
+import java.lang.reflect.Field;
+import java.util.Map;
 
 @SideOnly(Side.CLIENT)
 public class KeyEvent {
@@ -39,6 +43,16 @@ public class KeyEvent {
         ClientRegistry.registerKeyBinding(KeyEvent.key_liquid);
         ClientRegistry.registerKeyBinding(KeyEvent.key_recipe);
         ClientRegistry.registerKeyBinding(KeyEvent.key_usage);
+
+        // TODO - Remove when Forge adds proper support
+        Field categoryIntMappingField = ReflectionHelper.findField(KeyBinding.class, "field_193627_d");
+        try {
+            Map<String, Integer> categoryIntMapping = (Map<String, Integer>) categoryIntMappingField.get(null);
+            if (!categoryIntMapping.containsKey("Waila"))
+                categoryIntMapping.put("Waila", 1818); // Magic number: Version number of release this is going in (1.8.18)
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @SubscribeEvent
