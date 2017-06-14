@@ -40,6 +40,7 @@ public class WailaTickHandler {
     private List<String> currenttipBody = new TipList<String, String>();
     private List<String> currenttipTail = new TipList<String, String>();
     private Minecraft mc = Minecraft.getMinecraft();
+    private Narrator narrator;
     private String lastNarration;
 
     private WailaTickHandler() {
@@ -130,7 +131,7 @@ public class WailaTickHandler {
 
     @SubscribeEvent
     public void onTooltip(WailaTooltipEvent event) {
-        if (!Narrator.getNarrator().active())
+        if (!getNarrator().active())
             return;
 
         if (!ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_TTS, false))
@@ -143,8 +144,16 @@ public class WailaTickHandler {
         if (event.getAccessor().getBlock() == Blocks.AIR && event.getAccessor().getEntity() == null)
             return;
 
-        Narrator.getNarrator().say(narrate);
+        getNarrator().clear();
+        getNarrator().say(narrate);
         lastNarration = narrate;
+    }
+
+    private Narrator getNarrator() {
+        if (narrator == null) {
+            narrator = Narrator.getNarrator();
+        }
+        return narrator;
     }
 
     public static WailaTickHandler instance() {
