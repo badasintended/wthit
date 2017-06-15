@@ -11,8 +11,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -74,35 +74,35 @@ public class ScreenFormatConfig extends GuiScreen {
 
         Keyboard.enableRepeatEvents(true);
 
-        buttonList.add(new GuiButton(0, width / 2 - 125, height - 25, 80, 20, I18n.translateToLocal("screen.button.ok")));
-        buttonList.add(new GuiButton(1, width / 2 - 40, height - 25, 80, 20, I18n.translateToLocal("screen.button.cancel")));
-        buttonList.add(new GuiButton(2, width / 2 + 45, height - 25, 80, 20, I18n.translateToLocal("screen.button.default")));
+        buttonList.add(new GuiButton(0, width / 2 - 125, height - 25, 80, 20, I18n.format("screen.button.ok")));
+        buttonList.add(new GuiButton(1, width / 2 - 40, height - 25, 80, 20, I18n.format("screen.button.cancel")));
+        buttonList.add(new GuiButton(2, width / 2 + 45, height - 25, 80, 20, I18n.format("screen.button.default")));
         int textFieldOffset = 0;
         if (!ColorConfig.ACTIVE_CONFIGS.isEmpty()) {
             buttonList.add(new ButtonCycleTheme(this, 3, width / 2 - 75, height - 48, 150, 20, ColorConfig.ACTIVE_CONFIGS));
             textFieldOffset = -10;
         }
 
-        nameFormat = new GuiTextField(3, fontRendererObj, width / 4, 20 + textFieldOffset, 150, 16);
+        nameFormat = new GuiTextField(3, fontRenderer, width / 4, 20 + textFieldOffset, 150, 16);
         nameFormat.setText(StringEscapeUtils.escapeJava(FormattingConfig.modNameFormat));
-        blockFormat = new GuiTextField(4, fontRendererObj, width / 4, 40 + textFieldOffset, 150, 16);
+        blockFormat = new GuiTextField(4, fontRenderer, width / 4, 40 + textFieldOffset, 150, 16);
         blockFormat.setText(StringEscapeUtils.escapeJava(FormattingConfig.blockFormat));
-        fluidFormat = new GuiTextField(5, fontRendererObj, width / 4, 60 + textFieldOffset, 150, 16);
+        fluidFormat = new GuiTextField(5, fontRenderer, width / 4, 60 + textFieldOffset, 150, 16);
         fluidFormat.setText(StringEscapeUtils.escapeJava(FormattingConfig.fluidFormat));
-        entityFormat = new GuiTextField(6, fontRendererObj, width / 4, 80 + textFieldOffset, 150, 16);
+        entityFormat = new GuiTextField(6, fontRenderer, width / 4, 80 + textFieldOffset, 150, 16);
         entityFormat.setText(StringEscapeUtils.escapeJava(FormattingConfig.entityFormat));
-        metaFormat = new GuiTextField(7, fontRendererObj, width / 4, 100 + textFieldOffset, 150, 16);
+        metaFormat = new GuiTextField(7, fontRenderer, width / 4, 100 + textFieldOffset, 150, 16);
         metaFormat.setText(StringEscapeUtils.escapeJava(FormattingConfig.metaFormat));
-        backgroundColor = new GuiTextField(8, fontRendererObj, width / 4, 120 + textFieldOffset, 150, 16);
+        backgroundColor = new GuiTextField(8, fontRenderer, width / 4, 120 + textFieldOffset, 150, 16);
         backgroundColor.setText(OverlayConfig.toHex(new Color(OverlayConfig.bgcolor)));
         backgroundColor.setValidator(HEX_COLOR);
-        gradientTop = new GuiTextField(9, fontRendererObj, width / 4, 140 + textFieldOffset, 150, 16);
+        gradientTop = new GuiTextField(9, fontRenderer, width / 4, 140 + textFieldOffset, 150, 16);
         gradientTop.setText(OverlayConfig.toHex(new Color(OverlayConfig.gradient1)));
         gradientTop.setValidator(HEX_COLOR);
-        gradientBottom = new GuiTextField(9, fontRendererObj, width / 4, 160 + textFieldOffset, 150, 16);
+        gradientBottom = new GuiTextField(9, fontRenderer, width / 4, 160 + textFieldOffset, 150, 16);
         gradientBottom.setText(OverlayConfig.toHex(new Color(OverlayConfig.gradient2)));
         gradientBottom.setValidator(HEX_COLOR);
-        textColor = new GuiTextField(9, fontRendererObj, width / 4, 180 + textFieldOffset, 150, 16);
+        textColor = new GuiTextField(9, fontRenderer, width / 4, 180 + textFieldOffset, 150, 16);
         textColor.setText(OverlayConfig.toHex(new Color(OverlayConfig.fontcolor)));
         textColor.setValidator(HEX_COLOR);
     }
@@ -112,23 +112,23 @@ public class ScreenFormatConfig extends GuiScreen {
         drawDefaultBackground();
         super.drawScreen(mouseX, mouseY, partialTicks);
 
-        drawString(fontRendererObj, I18n.translateToLocal("choice.format.modname"), nameFormat.xPosition + nameFormat.width + 5, nameFormat.yPosition + 5, 0xFFFFFF);
+        drawString(fontRenderer, I18n.format("choice.format.modname"), nameFormat.x + nameFormat.width + 5, nameFormat.y + 5, 0xFFFFFF);
         nameFormat.drawTextBox();
-        drawString(fontRendererObj, I18n.translateToLocal("choice.format.blockname"), blockFormat.xPosition + blockFormat.width + 5, blockFormat.yPosition + 5, 0xFFFFFF);
+        drawString(fontRenderer, I18n.format("choice.format.blockname"), blockFormat.x + blockFormat.width + 5, blockFormat.y + 5, 0xFFFFFF);
         blockFormat.drawTextBox();
-        drawString(fontRendererObj, I18n.translateToLocal("choice.format.fluidname"), fluidFormat.xPosition + fluidFormat.width + 5, fluidFormat.yPosition + 5, 0xFFFFFF);
+        drawString(fontRenderer, I18n.format("choice.format.fluidname"), fluidFormat.x + fluidFormat.width + 5, fluidFormat.y + 5, 0xFFFFFF);
         fluidFormat.drawTextBox();
-        drawString(fontRendererObj, I18n.translateToLocal("choice.format.entityname"), entityFormat.xPosition + entityFormat.width + 5, entityFormat.yPosition + 5, 0xFFFFFF);
+        drawString(fontRenderer, I18n.format("choice.format.entityname"), entityFormat.x + entityFormat.width + 5, entityFormat.y + 5, 0xFFFFFF);
         entityFormat.drawTextBox();
-        drawString(fontRendererObj, I18n.translateToLocal("choice.format.metadata"), metaFormat.xPosition + metaFormat.width + 5, metaFormat.yPosition + 5, 0xFFFFFF);
+        drawString(fontRenderer, I18n.format("choice.format.metadata"), metaFormat.x + metaFormat.width + 5, metaFormat.y + 5, 0xFFFFFF);
         metaFormat.drawTextBox();
-        drawString(fontRendererObj, I18n.translateToLocal("choice.format.background"), backgroundColor.xPosition + backgroundColor.width + 5, backgroundColor.yPosition + 5, 0xFFFFFF);
+        drawString(fontRenderer, I18n.format("choice.format.background"), backgroundColor.x + backgroundColor.width + 5, backgroundColor.y + 5, 0xFFFFFF);
         backgroundColor.drawTextBox();
-        drawString(fontRendererObj, I18n.translateToLocal("choice.format.gradienttop"), gradientTop.xPosition + gradientTop.width + 5, gradientTop.yPosition + 5, 0xFFFFFF);
+        drawString(fontRenderer, I18n.format("choice.format.gradienttop"), gradientTop.x + gradientTop.width + 5, gradientTop.y + 5, 0xFFFFFF);
         gradientTop.drawTextBox();
-        drawString(fontRendererObj, I18n.translateToLocal("choice.format.gradientbottom"), gradientBottom.xPosition + gradientBottom.width + 5, gradientBottom.yPosition + 5, 0xFFFFFF);
+        drawString(fontRenderer, I18n.format("choice.format.gradientbottom"), gradientBottom.x + gradientBottom.width + 5, gradientBottom.y + 5, 0xFFFFFF);
         gradientBottom.drawTextBox();
-        drawString(fontRendererObj, I18n.translateToLocal("choice.format.font"), textColor.xPosition + textColor.width + 5, textColor.yPosition + 5, 0xFFFFFF);
+        drawString(fontRenderer, I18n.format("choice.format.font"), textColor.x + textColor.width + 5, textColor.y + 5, 0xFFFFFF);
         textColor.drawTextBox();
     }
 
@@ -246,12 +246,7 @@ public class ScreenFormatConfig extends GuiScreen {
         }
 
         @Override
-        public void func_191745_a(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
-            drawButton(mc, mouseX, mouseY);
-            super.func_191745_a(mc, mouseX, mouseY, partialTicks);
-        }
-
-        public void drawButton(Minecraft mc, int mouseX, int mouseY) {
+        public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
             String toDraw = configs.get(index).getName();
             if (net.minecraft.client.resources.I18n.hasKey(toDraw))
                 toDraw = net.minecraft.client.resources.I18n.format(toDraw);

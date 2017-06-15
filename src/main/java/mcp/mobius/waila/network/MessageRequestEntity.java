@@ -62,7 +62,7 @@ public class MessageRequestEntity implements IMessage {
             server.addScheduledTask(() -> {
                 World world = DimensionManager.getWorld(message.dim);
                 Entity entity = world.getEntityByID(message.entityId);
-                EntityPlayerMP player = ctx.getServerHandler().playerEntity;
+                EntityPlayerMP player = ctx.getServerHandler().player;
 
                 if (entity == null)
                     return;

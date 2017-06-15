@@ -68,7 +68,7 @@ public class MessageRequestTile implements IMessage {
 
                 TileEntity tile = world.getTileEntity(message.pos);
                 IBlockState state = world.getBlockState(message.pos);
-                EntityPlayerMP player = ctx.getServerHandler().playerEntity;
+                EntityPlayerMP player = ctx.getServerHandler().player;
 
                 if (tile == null)
                     return;

@@ -75,7 +75,7 @@ public class RayTracing {
     public RayTraceResult rayTrace(Entity entity, double par1, float par3) {
         Vec3d vec3 = entity.getPositionEyes(par3);
         Vec3d vec31 = entity.getLook(par3);
-        Vec3d vec32 = vec3.addVector(vec31.xCoord * par1, vec31.yCoord * par1, vec31.zCoord * par1);
+        Vec3d vec32 = vec3.addVector(vec31.x * par1, vec31.y * par1, vec31.z * par1);
 
         if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID, true))
             return entity.getEntityWorld().rayTraceBlocks(vec3, vec32, true);
@@ -198,9 +198,9 @@ public class RayTracing {
     public static RayTraceResult rayTraceServer(Entity entity, double distance) {
         double eyeHeight = entity.posY + entity.getEyeHeight();
         Vec3d headVec = new Vec3d(entity.posX, eyeHeight, entity.posZ);
-        Vec3d start = new Vec3d(headVec.xCoord, headVec.yCoord, headVec.zCoord);
+        Vec3d start = new Vec3d(headVec.x, headVec.y, headVec.z);
         Vec3d lookVec = entity.getLook(1.0F);
-        headVec.add(new Vec3d(lookVec.xCoord * distance, lookVec.yCoord * distance, lookVec.zCoord * distance));
+        headVec.add(new Vec3d(lookVec.x * distance, lookVec.y * distance, lookVec.z * distance));
 
         return entity.getEntityWorld().rayTraceBlocks(start, headVec, ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID, true));
     }

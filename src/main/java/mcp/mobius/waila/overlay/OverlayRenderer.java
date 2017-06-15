@@ -54,6 +54,7 @@ public class OverlayRenderer {
     public static void renderOverlay(Tooltip tooltip) {
         //TrueTypeFont font = (TrueTypeFont)mod_Waila.proxy.getFont();
 
+        Minecraft.getMinecraft().mcProfiler.startSection("Waila Overlay");
         GlStateManager.pushMatrix();
         saveGLState();
 
@@ -95,6 +96,7 @@ public class OverlayRenderer {
         loadGLState();
         GlStateManager.enableDepth();
         GlStateManager.popMatrix();
+        Minecraft.getMinecraft().mcProfiler.endSection();
     }
 
     public static void saveGLState() {

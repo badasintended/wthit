@@ -30,7 +30,7 @@ public class DisplayUtil {
     private static final String[] NUM_SUFFIXES = new String[]{"", "k", "m", "b", "t"};
     private static final int MAX_LENGTH = 4;
     protected static RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
-    private static FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
+    private static FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRenderer;
 
     public static int getDisplayWidth(String s) {
         if (s == null || s.equals(""))

@@ -150,10 +150,7 @@ public class WailaTickHandler {
     }
 
     private Narrator getNarrator() {
-        if (narrator == null) {
-            narrator = Narrator.getNarrator();
-        }
-        return narrator;
+        return narrator == null ? narrator = Narrator.getNarrator() : narrator;
     }
 
     public static WailaTickHandler instance() {

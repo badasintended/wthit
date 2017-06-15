@@ -58,7 +58,7 @@ public class UIHelper {
     }
 
     public static void drawBillboard(Vec3d pos, float offX, float offY, float offZ, double x1, double y1, double x2, double y2, int r, int g, int b, int a, double partialFrame) {
-        UIHelper.drawBillboard((float) pos.xCoord, (float) pos.yCoord, (float) pos.zCoord, offX, offY, offZ, x1, y1, x2, y2, r, g, b, a, partialFrame);
+        UIHelper.drawBillboard((float) pos.x, (float) pos.y, (float) pos.z, offX, offY, offZ, x1, y1, x2, y2, r, g, b, a, partialFrame);
     }
 
     public static void drawBillboard(float posX, float posY, float posZ, float offX, float offY, float offZ, double x1, double y1, double x2, double y2, int r, int g, int b, int a, double partialFrame) {
@@ -95,7 +95,7 @@ public class UIHelper {
     }
 
     public static void drawBillboardText(String text, Vec3d pos, float offX, float offY, float offZ, double partialFrame) {
-        UIHelper.drawBillboardText(text, (float) pos.xCoord, (float) pos.yCoord, (float) pos.zCoord, offX, offY, offZ, partialFrame);
+        UIHelper.drawBillboardText(text, (float) pos.x, (float) pos.y, (float) pos.z, offX, offY, offZ, partialFrame);
     }
 
     public static void drawBillboardText(String text, float posX, float posY, float posZ, float offX, float offY, float offZ, double partialFrame) {
@@ -107,14 +107,14 @@ public class UIHelper {
     }
 
     public static void drawFloatingText(String text, Vec3d pos, float offX, float offY, float offZ, float rotX, float rotY, float rotZ) {
-        UIHelper.drawFloatingText(text, (float) pos.xCoord, (float) pos.yCoord, (float) pos.zCoord, offX, offY, offZ, rotX, rotY, rotZ);
+        UIHelper.drawFloatingText(text, (float) pos.x, (float) pos.y, (float) pos.z, offX, offY, offZ, rotX, rotY, rotZ);
     }
 
     public static void drawFloatingText(String text, float posX, float posY, float posZ, float offX, float offY, float offZ, float rotX, float rotY, float rotZ) {
         if (text.isEmpty())
             return;
 
-        FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRendererObj;
+        FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRenderer;
 
         float f = 1.6F;
         float f1 = 0.016666668F * f;
