@@ -1,10 +1,6 @@
 package mcp.mobius.waila.addons.minecraft;
 
-import mcp.mobius.waila.addons.HUDHandlerBase;
-import mcp.mobius.waila.api.IWailaConfigHandler;
-import mcp.mobius.waila.api.IWailaDataAccessor;
-import mcp.mobius.waila.api.IWailaRegistrar;
-import mcp.mobius.waila.api.SpecialChars;
+import mcp.mobius.waila.api.*;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
@@ -15,10 +11,12 @@ import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
-public class HUDHandlerFurnace extends HUDHandlerBase {
+public class HUDHandlerFurnace implements IWailaDataProvider {
 
+    @Nonnull
     @Override
     public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
         if (!config.getConfig("vanilla.furnacedisplay") || accessor.getBlock() != Blocks.LIT_FURNACE)
@@ -59,6 +57,7 @@ public class HUDHandlerFurnace extends HUDHandlerBase {
         return currenttip;
     }
 
+    @Nonnull
     @Override
     public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
         return te.writeToNBT(tag);

@@ -1,6 +1,5 @@
 package mcp.mobius.waila.addons.capability;
 
-import mcp.mobius.waila.addons.HUDHandlerBase;
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
@@ -14,12 +13,14 @@ import net.minecraft.world.World;
 import net.minecraftforge.energy.CapabilityEnergy;
 import net.minecraftforge.energy.IEnergyStorage;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
-public class HUDHandlerEnergy extends HUDHandlerBase {
+public class HUDHandlerEnergy implements IWailaDataProvider {
 
     static final IWailaDataProvider INSTANCE = new HUDHandlerEnergy();
 
+    @Nonnull
     @Override
     public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
         if (!config.getConfig("capability.energyinfo") || accessor.getTileEntity() == null)
@@ -37,6 +38,7 @@ public class HUDHandlerEnergy extends HUDHandlerBase {
         return currenttip;
     }
 
+    @Nonnull
     @Override
     public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
         if (te != null) {

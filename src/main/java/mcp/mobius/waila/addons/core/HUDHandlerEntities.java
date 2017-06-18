@@ -15,6 +15,7 @@ import net.minecraftforge.fml.common.ModContainer;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.EntityRegistry.EntityRegistration;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 import static mcp.mobius.waila.api.SpecialChars.getRenderString;
@@ -26,11 +27,7 @@ public class HUDHandlerEntities implements IWailaEntityProvider {
     public static int nhearts = 20;
     public static float maxhpfortext = 40.0f;
 
-    @Override
-    public Entity getWailaOverride(IWailaEntityAccessor accessor, IWailaConfigHandler config) {
-        return null;
-    }
-
+    @Nonnull
     @Override
     public List<String> getWailaHead(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
         if (!Strings.isNullOrEmpty(FormattingConfig.entityFormat)) {
@@ -44,6 +41,7 @@ public class HUDHandlerEntities implements IWailaEntityProvider {
         return currenttip;
     }
 
+    @Nonnull
     @Override
     public List<String> getWailaBody(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
         if (config.getConfig("general.showhp") && entity instanceof EntityLivingBase) {
@@ -67,6 +65,7 @@ public class HUDHandlerEntities implements IWailaEntityProvider {
         return currenttip;
     }
 
+    @Nonnull
     @Override
     public List<String> getWailaTail(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
         if (!Strings.isNullOrEmpty(FormattingConfig.modNameFormat) && !Strings.isNullOrEmpty(getEntityMod(entity))) {
@@ -80,6 +79,7 @@ public class HUDHandlerEntities implements IWailaEntityProvider {
         return currenttip;
     }
 
+    @Nonnull
     @Override
     public NBTTagCompound getNBTData(EntityPlayerMP player, Entity te, NBTTagCompound tag, World world) {
         return tag;
@@ -87,7 +87,7 @@ public class HUDHandlerEntities implements IWailaEntityProvider {
 
     private static String getEntityMod(Entity entity) {
 
-        String modName = "";
+        String modName;
         try {
             EntityRegistration er = EntityRegistry.instance().lookupModSpawn(entity.getClass(), true);
             ModContainer modC = er.getContainer();

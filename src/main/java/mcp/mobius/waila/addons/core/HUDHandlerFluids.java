@@ -1,7 +1,6 @@
 package mcp.mobius.waila.addons.core;
 
 import com.google.common.base.Strings;
-import mcp.mobius.waila.addons.HUDHandlerBase;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
@@ -22,17 +21,20 @@ import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.wrappers.FluidBlockWrapper;
 import org.apache.commons.lang3.tuple.Pair;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
-public class HUDHandlerFluids extends HUDHandlerBase {
+public class HUDHandlerFluids implements IWailaDataProvider {
 
     static final IWailaDataProvider INSTANCE = new HUDHandlerFluids();
 
+    @Nonnull
     @Override
     public ItemStack getWailaStack(IWailaDataAccessor accessor, IWailaConfigHandler config) {
         return getStackFromLiquid(accessor.getBlockState(), accessor);
     }
 
+    @Nonnull
     @Override
     public List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
         Pair<Fluid, Boolean> fluidPair = getFluidFromBlock(accessor.getBlockState());
@@ -53,6 +55,7 @@ public class HUDHandlerFluids extends HUDHandlerBase {
         return currenttip;
     }
 
+    @Nonnull
     @Override
     public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
         Pair<Fluid, Boolean> fluidPair = getFluidFromBlock(accessor.getBlockState());

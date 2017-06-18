@@ -1,6 +1,5 @@
 package mcp.mobius.waila.addons.capability;
 
-import mcp.mobius.waila.addons.HUDHandlerBase;
 import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
@@ -18,12 +17,14 @@ import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidHandler;
 import net.minecraftforge.fluids.capability.IFluidTankProperties;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
-public class HUDHandlerTank extends HUDHandlerBase {
+public class HUDHandlerTank implements IWailaDataProvider {
 
     static final IWailaDataProvider INSTANCE = new HUDHandlerTank();
 
+    @Nonnull
     @Override
     public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
         if (!config.getConfig("capability.tankinfo"))
@@ -50,6 +51,7 @@ public class HUDHandlerTank extends HUDHandlerBase {
         return currenttip;
     }
 
+    @Nonnull
     @Override
     public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
         if (te != null) {

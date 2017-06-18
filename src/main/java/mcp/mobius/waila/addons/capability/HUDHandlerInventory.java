@@ -2,7 +2,6 @@ package mcp.mobius.waila.addons.capability;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
-import mcp.mobius.waila.addons.HUDHandlerBase;
 import mcp.mobius.waila.api.*;
 import mcp.mobius.waila.utils.InventoryUtils;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -19,10 +18,11 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 import java.util.Set;
 
-public class HUDHandlerInventory extends HUDHandlerBase {
+public class HUDHandlerInventory implements IWailaDataProvider {
 
     static final IWailaDataProvider INSTANCE = new HUDHandlerInventory();
     // A set of tile names that need to be ignored in order to avoid network overload
@@ -31,6 +31,7 @@ public class HUDHandlerInventory extends HUDHandlerBase {
             "refinedstorage:disk_drive"
     );
 
+    @Nonnull
     @Override
     public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
         if (!config.getConfig("capability.inventoryinfo") || accessor.getTileEntity() == null || accessor.getTileEntity().getClass() == TileEntityFurnace.class)
@@ -68,6 +69,7 @@ public class HUDHandlerInventory extends HUDHandlerBase {
         return currenttip;
     }
 
+    @Nonnull
     @Override
     public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
         if (te != null && !INVENTORY_IGNORE.contains(tag.getString("id"))) {

@@ -1,6 +1,5 @@
 package mcp.mobius.waila.addons.minecraft;
 
-import mcp.mobius.waila.addons.HUDHandlerBase;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
@@ -25,10 +24,11 @@ import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
+import javax.annotation.Nonnull;
 import java.lang.reflect.Method;
 import java.util.List;
 
-public class HUDHandlerVanilla extends HUDHandlerBase {
+public class HUDHandlerVanilla implements IWailaDataProvider {
 
     static Method getCrop;
 
@@ -50,7 +50,7 @@ public class HUDHandlerVanilla extends HUDHandlerBase {
     static Block silverfish = Blocks.MONSTER_EGG;
     static Block flowerpot = Blocks.FLOWER_POT;
 
-
+    @Nonnull
     @Override
     public ItemStack getWailaStack(IWailaDataAccessor accessor, IWailaConfigHandler config) {
         Block block = accessor.getBlock();
@@ -158,6 +158,7 @@ public class HUDHandlerVanilla extends HUDHandlerBase {
         return ItemStack.EMPTY;
     }
 
+    @Nonnull
     @Override
     public List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
         Block block = accessor.getBlock();
@@ -188,6 +189,7 @@ public class HUDHandlerVanilla extends HUDHandlerBase {
         return currenttip;
     }
 
+    @Nonnull
     @Override
     public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
         Block block = accessor.getBlock();
@@ -288,6 +290,7 @@ public class HUDHandlerVanilla extends HUDHandlerBase {
         return currenttip;
     }
 
+    @Nonnull
     @Override
     public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
         return te.writeToNBT(tag);

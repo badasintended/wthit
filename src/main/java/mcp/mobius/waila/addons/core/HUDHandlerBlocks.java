@@ -1,7 +1,6 @@
 package mcp.mobius.waila.addons.core;
 
 import com.google.common.base.Strings;
-import mcp.mobius.waila.addons.HUDHandlerBase;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
@@ -14,12 +13,14 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Configuration;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
-public class HUDHandlerBlocks extends HUDHandlerBase {
+public class HUDHandlerBlocks implements IWailaDataProvider {
 
     static final IWailaDataProvider INSTANCE = new HUDHandlerBlocks();
 
+    @Nonnull
     @Override
     public List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
         if (accessor.getBlockState().getMaterial().isLiquid())
@@ -48,6 +49,7 @@ public class HUDHandlerBlocks extends HUDHandlerBase {
         return currenttip;
     }
 
+    @Nonnull
     @Override
     public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
         if (accessor.getBlockState().getMaterial().isLiquid())

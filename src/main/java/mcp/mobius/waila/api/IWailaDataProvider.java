@@ -35,7 +35,9 @@ public interface IWailaDataProvider {
      * @return {@link ItemStack#EMPTY} if override is not required, a non-empty ItemStack otherwise.
      */
     @Nonnull
-    ItemStack getWailaStack(IWailaDataAccessor accessor, IWailaConfigHandler config);
+    default ItemStack getWailaStack(IWailaDataAccessor accessor, IWailaConfigHandler config) {
+        return accessor.getStack();
+    }
 
     /**
      * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).</br>
@@ -52,7 +54,9 @@ public interface IWailaDataProvider {
      * @return Modified input currenttip
      */
     @Nonnull
-    List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config);
+    default List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
+        return currenttip;
+    }
 
     /**
      * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).</br>
@@ -69,7 +73,9 @@ public interface IWailaDataProvider {
      * @return Modified input currenttip
      */
     @Nonnull
-    List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config);
+    default List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
+        return currenttip;
+    }
 
     /**
      * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).</br>
@@ -86,7 +92,9 @@ public interface IWailaDataProvider {
      * @return Modified input currenttip
      */
     @Nonnull
-    List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config);
+    default List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
+        return currenttip;
+    }
 
     /**
      * Callback used server side to return a custom synchronization NBTTagCompound.</br>
@@ -104,5 +112,7 @@ public interface IWailaDataProvider {
      * @return Modified input NBTTagCompound tag.
      */
     @Nonnull
-    NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos);
+    default NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
+        return tag;
+    }
 }

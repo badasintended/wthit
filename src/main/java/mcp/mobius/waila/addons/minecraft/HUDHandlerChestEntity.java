@@ -19,22 +19,14 @@ import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import net.minecraftforge.items.wrapper.InvWrapper;
 
+import javax.annotation.Nonnull;
 import java.util.List;
 
 public class HUDHandlerChestEntity implements IWailaEntityProvider {
 
     public static final IWailaEntityProvider INSTANCE = new HUDHandlerChestEntity();
 
-    @Override
-    public Entity getWailaOverride(IWailaEntityAccessor accessor, IWailaConfigHandler config) {
-        return null;
-    }
-
-    @Override
-    public List<String> getWailaHead(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
-        return currenttip;
-    }
-
+    @Nonnull
     @Override
     public List<String> getWailaBody(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
         if (!config.getConfig("vanilla.horseinventory"))
@@ -78,11 +70,7 @@ public class HUDHandlerChestEntity implements IWailaEntityProvider {
         return currenttip;
     }
 
-    @Override
-    public List<String> getWailaTail(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
-        return currenttip;
-    }
-
+    @Nonnull
     @Override
     public NBTTagCompound getNBTData(EntityPlayerMP player, Entity ent, NBTTagCompound tag, World world) {
         ContainerHorseChest horseChest = ReflectionHelper.getPrivateValue(AbstractHorse.class, (AbstractChestHorse) ent, "horseChest", "field_110296_bG");

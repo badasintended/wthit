@@ -28,7 +28,9 @@ public interface IWailaEntityProvider {
      * @return null if override is not required, an Entity otherwise.
      */
     @Nullable
-    Entity getWailaOverride(IWailaEntityAccessor accessor, IWailaConfigHandler config);
+    default Entity getWailaOverride(IWailaEntityAccessor accessor, IWailaConfigHandler config) {
+        return null;
+    }
 
     /**
      * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).</br>
@@ -45,7 +47,9 @@ public interface IWailaEntityProvider {
      * @return Modified input currenttip
      */
     @Nonnull
-    List<String> getWailaHead(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config);
+    default List<String> getWailaHead(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
+        return currenttip;
+    }
 
     /**
      * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).</br>
@@ -62,7 +66,9 @@ public interface IWailaEntityProvider {
      * @return Modified input currenttip
      */
     @Nonnull
-    List<String> getWailaBody(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config);
+    default List<String> getWailaBody(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
+        return currenttip;
+    }
 
     /**
      * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).</br>
@@ -79,7 +85,9 @@ public interface IWailaEntityProvider {
      * @return Modified input currenttip
      */
     @Nonnull
-    List<String> getWailaTail(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config);
+    default List<String> getWailaTail(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
+        return currenttip;
+    }
 
     /**
      * Callback used server side to return a custom synchronization NBTTagCompound.</br>
@@ -96,5 +104,7 @@ public interface IWailaEntityProvider {
      * @return Modified input NBTTagCompound tag.
      */
     @Nonnull
-    NBTTagCompound getNBTData(EntityPlayerMP player, Entity ent, NBTTagCompound tag, World world);
+    default NBTTagCompound getNBTData(EntityPlayerMP player, Entity ent, NBTTagCompound tag, World world) {
+        return tag;
+    }
 }
