@@ -22,15 +22,11 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 import javax.annotation.Nonnull;
-import java.lang.reflect.Method;
 import java.util.List;
 
 public class HUDHandlerVanilla implements IWailaDataProvider {
-
-    static Method getCrop;
 
     static Block mobSpawner = Blocks.MOB_SPAWNER;
     static Block crops = Blocks.WHEAT;
@@ -129,26 +125,13 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
             }
         }
 
-        if (config.getConfig("vanilla.alternatecropitem")) {
-            if (block instanceof BlockCrops) {
-                if (getCrop == null)
-                    getCrop = ReflectionHelper.findMethod(BlockCrops.class, "getCrop", "func_149865_P");
+        // Wheat crop should display Wheat item
+        if (block == crops)
+            return new ItemStack(Items.WHEAT);
 
-                try {
-                    return new ItemStack((Item) getCrop.invoke(block), 1, block.damageDropped(accessor.getBlockState()));
-                } catch (Exception e) {
-                    return ItemStack.EMPTY;
-                }
-            }
-        } else {
-            // Wheat crop should display Wheat item
-            if (block == crops)
-                return new ItemStack(Items.WHEAT);
-
-            // Beetroot crop should display Beetroot item
-            if (block == beet)
-                return new ItemStack(Items.BEETROOT);
-        }
+        // Beetroot crop should display Beetroot item
+        if (block == beet)
+            return new ItemStack(Items.BEETROOT);
 
         // Display farmland instead of dirt
         if (block == farmland) {
@@ -303,7 +286,6 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
         registrar.addConfig("VanillaMC", "vanilla.comparator");
         registrar.addConfig("VanillaMC", "vanilla.redstone");
         registrar.addConfig("VanillaMC", "vanilla.silverfish");
-        registrar.addConfig("VanillaMC", "vanilla.alternatecropitem");
         registrar.addConfigRemote("VanillaMC", "vanilla.jukebox");
 
         IWailaDataProvider provider = new HUDHandlerVanilla();

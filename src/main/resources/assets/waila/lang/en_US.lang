@@ -58,10 +58,8 @@ hud.msg.substractor=Substractor
 hud.msg.record=Record
 hud.msg.toomuch=Too many...
 hud.msg.power=Power
-
 hud.msg.offers=Offers
 hud.msg.demands=Demands
-
 hud.msg.career=Career: %s
 
 hud.item.melonstem=Melon Stem
@@ -76,7 +74,6 @@ option.vanilla.leverstate=Lever state
 option.vanilla.repeater=Repeater delay
 option.vanilla.comparator=Comparator mode
 option.vanilla.redstone=Redstone power
-option.vanilla.alternatecropitem=Alternate Crop
 option.vanilla.jukebox=Jukebox disk
 option.vanilla.silverfish=Hide silverfish
 option.vanilla.furnacedisplay=Show furnace progress
