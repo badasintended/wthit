@@ -13,6 +13,7 @@ screen.button.hidden=Hidden
 screen.button.visible=Visible
 screen.button.maintained=Maintained
 screen.button.toggled=Toggled
+screen.hwyla.warning=§cWarning:§r You are using a fork of Waila called Hwyla. You can view the (mostly complete) list of changes by clicking the button at the top left of this screen.
 
 choice.showhidewaila=Show/Hide Waila
 choice.showhideidmeta=Show ID:Metadata
