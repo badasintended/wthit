@@ -26,7 +26,7 @@ public class HUDHandlerEnergy implements IWailaDataProvider {
         if (!config.getConfig("capability.energyinfo") || accessor.getTileEntity() == null)
             return currenttip;
 
-        if (accessor.getNBTData().hasKey("forgeEnergy") && accessor.getTileEntity().hasCapability(CapabilityEnergy.ENERGY, accessor.getSide())) {
+        if (accessor.getNBTData().hasKey("forgeEnergy")) {
             NBTTagCompound energyTag = accessor.getNBTData().getCompoundTag("forgeEnergy");
             int stored = energyTag.getInteger("stored");
             int capacity = energyTag.getInteger("capacity");
