@@ -5,7 +5,10 @@ import mcp.mobius.waila.api.IWailaEntityAccessor;
 import mcp.mobius.waila.api.IWailaEntityProvider;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityVillager;
+import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.text.translation.I18n;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.VillagerRegistry;
 
 import javax.annotation.Nonnull;
@@ -23,5 +26,13 @@ public class HUDHandlerVillager implements IWailaEntityProvider {
         VillagerRegistry.VillagerCareer career = villager.getProfessionForge().getCareer(careerId);
         currenttip.add(I18n.translateToLocalFormatted("hud.msg.career", I18n.translateToLocal("entity.Villager." + career.getName())));
         return currenttip;
+    }
+
+    @Nonnull
+    @Override
+    public NBTTagCompound getNBTData(EntityPlayerMP player, Entity ent, NBTTagCompound tag, World world) {
+        if (ent instanceof EntityVillager)
+            ent.writeToNBT(tag);
+        return tag;
     }
 }
