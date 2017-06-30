@@ -1,4 +1,17 @@
 ------------------------------------------------------
+Version 1.8.19
+------------------------------------------------------
+
+- Added some branding to the main config screen to inform users about how this is a fork
+    - Includes a link to that MC version's CHANGES.md
+- Recompiled on latest Forge
+- Make use of some Java 8 features in the API
+- Removed alternate crop option
+    - Did more harm than good
+- Fixed sided check for IEnergyHandler
+- Fixed Villager career display
+
+------------------------------------------------------
 Version 1.8.18
 ------------------------------------------------------
 
