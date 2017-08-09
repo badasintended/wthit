@@ -23,7 +23,7 @@ import org.apache.logging.log4j.Logger;
 import java.io.File;
 import java.util.Set;
 
-@Mod(modid = Waila.MODID, name = Waila.NAME, version = Waila.VERSION, dependencies = Waila.DEPEND, acceptedMinecraftVersions = "[1.11,1.12]", acceptableRemoteVersions = "*", guiFactory = "mcp.mobius.waila.gui.ConfigGuiFactory")
+@Mod(modid = Waila.MODID, name = Waila.NAME, version = Waila.VERSION, dependencies = Waila.DEPEND, acceptableRemoteVersions = "*", guiFactory = "mcp.mobius.waila.gui.ConfigGuiFactory")
 public class Waila {
 
     public static final String MODID = "waila";
