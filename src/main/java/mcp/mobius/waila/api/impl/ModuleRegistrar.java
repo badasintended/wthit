@@ -1,15 +1,10 @@
 package mcp.mobius.waila.api.impl;
 
-import au.com.bytecode.opencsv.CSVReader;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.*;
 import mcp.mobius.waila.cbcore.LangUtil;
 import mcp.mobius.waila.utils.Constants;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.*;
 
 public class ModuleRegistrar implements IWailaRegistrar {
@@ -460,34 +455,6 @@ public class ModuleRegistrar implements IWailaRegistrar {
                 return s;
         }
         return null;
-    }
-
-    private List<String[]> readFileAsString(String filePath) throws IOException {
-//		URL fileURL   = this.getClass().getResource(filePath);
-//		File filedata = new File(fileURL);
-//		Reader paramReader = new InputStreamReader(this.getClass().getResourceAsStream(filePath));
-
-        InputStream in = getClass().getResourceAsStream(filePath);
-        BufferedReader input = new BufferedReader(new InputStreamReader(in));
-        CSVReader reader = new CSVReader(input);
-
-        List<String[]> myEntries = reader.readAll();
-        reader.close();
-
-        return myEntries;
-		/*
-		StringBuffer fileData = new StringBuffer();
-        //BufferedReader reader = new BufferedReader(paramReader);
-
-        char[] buf = new char[1024];
-        int numRead=0;
-        while((numRead=input.read(buf)) != -1){
-            String readData = String.valueOf(buf, 0, numRead);
-            fileData.append(readData);
-        }
-        input.close();
-        return fileData.toString();
-        */
     }
 
     public static ModuleRegistrar instance() {
