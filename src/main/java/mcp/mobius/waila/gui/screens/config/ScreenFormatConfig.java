@@ -50,8 +50,11 @@ public class ScreenFormatConfig extends GuiScreen {
         return input.startsWith("#") && input.substring(1).matches("^[a-zA-Z0-9]*$") && input.length() < 8;
     };
 
+    private static int cachedTemplateIndex = 0;
+
     private final GuiScreen parent;
 
+    private int templateIndex;
     private GuiTextField nameFormat;
     private GuiTextField blockFormat;
     private GuiTextField fluidFormat;
@@ -79,7 +82,8 @@ public class ScreenFormatConfig extends GuiScreen {
         buttonList.add(new GuiButton(2, width / 2 + 45, height - 25, 80, 20, I18n.format("screen.button.default")));
         int textFieldOffset = 0;
         if (!ColorConfig.ACTIVE_CONFIGS.isEmpty()) {
-            buttonList.add(new ButtonCycleTheme(this, 3, width / 2 - 75, height - 48, 150, 20, ColorConfig.ACTIVE_CONFIGS));
+            buttonList.add(new ButtonCycleTheme(this, 3, width / 2 - 75, height - 48, 150, 20));
+            templateIndex = cachedTemplateIndex;
             textFieldOffset = -10;
         }
 
@@ -184,6 +188,30 @@ public class ScreenFormatConfig extends GuiScreen {
                 gradientBottom.setText(OverlayConfig.toHex(new Color(GRADIENT_BOTTOM_COLOR)));
                 textColor.setText(OverlayConfig.toHex(new Color(FONT_COLOR)));
             }
+            case 3: {
+                if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
+                    ColorConfig config = new ColorConfig(
+                            RandomStringUtils.randomAlphanumeric(10),
+                            OverlayConfig.fromHex(backgroundColor.getText()),
+                            OverlayConfig.fromHex(gradientTop.getText()),
+                            OverlayConfig.fromHex(gradientBottom.getText()),
+                            OverlayConfig.fromHex(textColor.getText())
+                    );
+                    String json = OverlayConfig.GSON.toJson(config);
+                    try {
+                        FileWriter fileWriter = new FileWriter(new File(Waila.themeDir, config.getName() + ".json"));
+                        fileWriter.write(json);
+                        fileWriter.close();
+                    } catch (Exception e) {
+                        // No-op
+                    }
+
+                    return;
+                }
+
+                cachedTemplateIndex = templateIndex = (templateIndex + 1) % ColorConfig.ACTIVE_CONFIGS.size();
+                ColorConfig.ACTIVE_CONFIGS.get(templateIndex).apply(backgroundColor, gradientTop, gradientBottom, textColor);
+            }
         }
     }
 
@@ -227,69 +255,32 @@ public class ScreenFormatConfig extends GuiScreen {
 
     public static class ButtonCycleTheme extends GuiButton {
 
-        private static int cachedIndex = 0;
-
         private final ScreenFormatConfig parent;
-        private List<ColorConfig> configs;
-        private int index;
 
-        public ButtonCycleTheme(ScreenFormatConfig parent, int buttonId, int x, int y, int widthIn, int heightIn, List<ColorConfig> colorConfigs) {
+        public ButtonCycleTheme(ScreenFormatConfig parent, int buttonId, int x, int y, int widthIn, int heightIn) {
             super(buttonId, x, y, widthIn, heightIn, "");
 
-            this.configs = colorConfigs;
             this.parent = parent;
-            this.index = cachedIndex;
         }
 
-        public ButtonCycleTheme(ScreenFormatConfig parent, int buttonId, int x, int y, List<ColorConfig> colorConfigs) {
-            this(parent, buttonId, x, y, 200, 20, colorConfigs);
+        public ButtonCycleTheme(ScreenFormatConfig parent, int buttonId, int x, int y) {
+            this(parent, buttonId, x, y, 200, 20);
         }
 
         @Override
         public void drawButton(Minecraft mc, int mouseX, int mouseY, float partialTicks) {
-            String toDraw = configs.get(index).getName();
-            if (net.minecraft.client.resources.I18n.hasKey(toDraw))
-                toDraw = net.minecraft.client.resources.I18n.format(toDraw);
+            if (!visible)
+                return;
+
+            String toDraw = ColorConfig.ACTIVE_CONFIGS.get(parent.templateIndex).getName();
+            if (I18n.hasKey(toDraw))
+                toDraw = I18n.format(toDraw);
 
             if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT))
-                toDraw = TextFormatting.GREEN + net.minecraft.client.resources.I18n.format("screen.button.exporttheme");
+                toDraw = TextFormatting.GREEN + I18n.format("screen.button.exporttheme");
 
             displayString = toDraw;
-        }
-
-        @Override
-        public boolean mousePressed(Minecraft mc, int mouseX, int mouseY) {
-            if (super.mousePressed(mc, mouseX, mouseY)) {
-                if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT)) {
-                    ColorConfig config = new ColorConfig(
-                            RandomStringUtils.randomAlphanumeric(10),
-                            OverlayConfig.fromHex(parent.backgroundColor.getText()),
-                            OverlayConfig.fromHex(parent.gradientTop.getText()),
-                            OverlayConfig.fromHex(parent.gradientBottom.getText()),
-                            OverlayConfig.fromHex(parent.textColor.getText())
-                    );
-                    String json = OverlayConfig.GSON.toJson(config);
-                    try {
-                        FileWriter fileWriter = new FileWriter(new File(Waila.themeDir, config.getName() + ".json"));
-                        fileWriter.write(json);
-                        fileWriter.close();
-                    } catch (Exception e) {
-                        return false;
-                    }
-                    return true;
-                }
-
-                index++;
-                if (index >= configs.size())
-                    index = 0;
-
-                cachedIndex = index;
-
-                configs.get(index).apply(parent.backgroundColor, parent.gradientTop, parent.gradientBottom, parent.textColor);
-                return true;
-            }
-
-            return false;
+            super.drawButton(mc, mouseX, mouseY, partialTicks);
         }
     }
 }

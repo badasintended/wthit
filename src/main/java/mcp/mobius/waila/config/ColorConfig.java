@@ -82,8 +82,11 @@ public class ColorConfig {
         File[] themeFiles = Waila.themeDir.listFiles((FileFilter) FileFilterUtils.suffixFileFilter(".json"));
         if (themeFiles != null) {
             try {
-                for (File file : themeFiles)
-                    ACTIVE_CONFIGS.add(OverlayConfig.GSON.fromJson(new FileReader(file), ColorConfig.class));
+                for (File file : themeFiles) {
+                    FileReader reader = new FileReader(file);
+                    ACTIVE_CONFIGS.add(OverlayConfig.GSON.fromJson(reader, ColorConfig.class));
+                    reader.close();
+                }
             } catch (Exception e) {
                 Waila.LOGGER.error("Error parsing theme files");
             }
