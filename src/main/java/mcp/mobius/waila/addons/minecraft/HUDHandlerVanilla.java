@@ -60,7 +60,13 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
                 case 1:
                     return new ItemStack(Blocks.COBBLESTONE);
                 case 2:
-                    return new ItemStack(Blocks.BRICK_BLOCK);
+                    return new ItemStack(Blocks.STONEBRICK);
+                case 3:
+                    return new ItemStack(Blocks.STONEBRICK, 1, 1);
+                case 4:
+                    return new ItemStack(Blocks.STONEBRICK, 1, 2);
+                case 5:
+                    return new ItemStack(Blocks.STONEBRICK, 1, 3);
                 default:
                     return ItemStack.EMPTY;
             }
