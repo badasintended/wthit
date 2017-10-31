@@ -3,6 +3,7 @@ package mcp.mobius.waila.addons.minecraft;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaEntityAccessor;
 import mcp.mobius.waila.api.IWailaEntityProvider;
+import mcp.mobius.waila.cbcore.LangUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -24,7 +25,7 @@ public class HUDHandlerVillager implements IWailaEntityProvider {
         EntityVillager villager = (EntityVillager) entity;
         int careerId = accessor.getNBTData().getInteger("Career") - 1;
         VillagerRegistry.VillagerCareer career = villager.getProfessionForge().getCareer(careerId);
-        currenttip.add(I18n.translateToLocalFormatted("hud.msg.career", I18n.translateToLocal("entity.Villager." + career.getName())));
+        currenttip.add(LangUtil.translateG("hud.msg.career", LangUtil.translateG("entity.Villager." + career.getName())));
         return currenttip;
     }
 

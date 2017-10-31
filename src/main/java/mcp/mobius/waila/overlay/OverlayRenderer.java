@@ -14,7 +14,6 @@ import org.lwjgl.opengl.GL12;
 
 public class OverlayRenderer {
 
-    protected static boolean hasBlending;
     protected static boolean hasLight;
     protected static boolean hasDepthTest;
     protected static boolean hasLight0;
@@ -22,10 +21,12 @@ public class OverlayRenderer {
     protected static boolean hasRescaleNormal;
     protected static boolean hasColorMaterial;
     protected static boolean depthMask;
-    protected static int boundTexIndex;
     protected static int depthFunc;
 
     public static void renderOverlay() {
+        if (!ConfigHandler.instance().showTooltip())
+            return;
+
         Minecraft mc = Minecraft.getMinecraft();
         if (mc.currentScreen != null || mc.world == null)
             return;
@@ -36,19 +37,14 @@ public class OverlayRenderer {
         if (!Minecraft.isGuiEnabled())
             return;
 
-        if (!ConfigHandler.instance().showTooltip())
-            return;
-
         if (RayTracing.instance().getTarget() == null)
             return;
 
-        if (RayTracing.instance().getTarget().typeOfHit == RayTraceResult.Type.BLOCK && !RayTracing.instance().getTargetStack().isEmpty()) {
+        if (RayTracing.instance().getTarget().typeOfHit == RayTraceResult.Type.BLOCK && !RayTracing.instance().getTargetStack().isEmpty())
             renderOverlay(WailaTickHandler.instance().tooltip);
-        }
 
-        if (RayTracing.instance().getTarget().typeOfHit == RayTraceResult.Type.ENTITY && ConfigHandler.instance().getConfig("general.showents")) {
+        if (RayTracing.instance().getTarget().typeOfHit == RayTraceResult.Type.ENTITY && ConfigHandler.instance().getConfig("general.showents"))
             renderOverlay(WailaTickHandler.instance().tooltip);
-        }
     }
 
     public static void renderOverlay(Tooltip tooltip) {

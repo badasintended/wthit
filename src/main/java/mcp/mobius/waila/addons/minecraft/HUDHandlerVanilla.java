@@ -7,8 +7,7 @@ import mcp.mobius.waila.api.IWailaRegistrar;
 import mcp.mobius.waila.cbcore.LangUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockCrops;
-import net.minecraft.block.BlockFlowerPot;
-import net.minecraft.block.BlockFlowerPot.EnumFlowerType;
+import net.minecraft.block.BlockSilverfish;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
@@ -44,91 +43,16 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
     static Block cocoa = Blocks.COCOA;
     static Block netherwart = Blocks.NETHER_WART;
     static Block silverfish = Blocks.MONSTER_EGG;
-    static Block flowerpot = Blocks.FLOWER_POT;
 
     @Nonnull
     @Override
     public ItemStack getWailaStack(IWailaDataAccessor accessor, IWailaConfigHandler config) {
         Block block = accessor.getBlock();
 
-        // Hides whether a block is a Silverfish version or not
+        // Disguises silverfish blocks as their normal counterpart
         if (block == silverfish && config.getConfig("vanilla.silverfish")) {
-            int metadata = accessor.getMetadata();
-            switch (metadata) {
-                case 0:
-                    return new ItemStack(Blocks.STONE);
-                case 1:
-                    return new ItemStack(Blocks.COBBLESTONE);
-                case 2:
-                    return new ItemStack(Blocks.STONEBRICK);
-                case 3:
-                    return new ItemStack(Blocks.STONEBRICK, 1, 1);
-                case 4:
-                    return new ItemStack(Blocks.STONEBRICK, 1, 2);
-                case 5:
-                    return new ItemStack(Blocks.STONEBRICK, 1, 3);
-                default:
-                    return ItemStack.EMPTY;
-            }
-        }
-
-        // TODO - Find out why this is broken
-        // Displays flower type item instead of flowerpot if one exists
-        if (block == flowerpot) {
-            int x = accessor.getPosition().getX();
-            int y = accessor.getPosition().getY();
-            int z = accessor.getPosition().getZ();
-            if (!accessor.getWorld().getBlockState(new BlockPos(x, y, z)).getPropertyKeys().contains(BlockFlowerPot.CONTENTS))
-                return new ItemStack(Blocks.FLOWER_POT, 1, accessor.getMetadata());
-            EnumFlowerType variant = accessor.getWorld().getBlockState(new BlockPos(x, y, z)).getValue(BlockFlowerPot.CONTENTS);
-            switch (variant) {
-                case ACACIA_SAPLING:
-                    return new ItemStack(Blocks.SAPLING, 1, 4);
-                case ALLIUM:
-                    return new ItemStack(Blocks.RED_FLOWER, 1, 2);
-                case BIRCH_SAPLING:
-                    return new ItemStack(Blocks.SAPLING, 1, 2);
-                case BLUE_ORCHID:
-                    return new ItemStack(Blocks.RED_FLOWER, 1, 1);
-                case CACTUS:
-                    return new ItemStack(Blocks.CACTUS, 1, 0);
-                case DANDELION:
-                    return new ItemStack(Blocks.YELLOW_FLOWER, 1, 0);
-                case DARK_OAK_SAPLING:
-                    return new ItemStack(Blocks.SAPLING, 1, 5);
-                case DEAD_BUSH:
-                    return new ItemStack(Blocks.TALLGRASS, 1, 0);
-                case EMPTY:
-                    return new ItemStack(Items.FLOWER_POT, 1, 0);
-                case FERN:
-                    return new ItemStack(Blocks.TALLGRASS, 1, 2);
-                case HOUSTONIA:
-                    return new ItemStack(Blocks.RED_FLOWER, 1, 3);
-                case JUNGLE_SAPLING:
-                    return new ItemStack(Blocks.SAPLING, 1, 3);
-                case MUSHROOM_BROWN:
-                    return new ItemStack(Blocks.BROWN_MUSHROOM, 1, 0);
-                case MUSHROOM_RED:
-                    return new ItemStack(Blocks.RED_MUSHROOM, 1, 0);
-                case OAK_SAPLING:
-                    return new ItemStack(Blocks.SAPLING, 1, 0);
-                case ORANGE_TULIP:
-                    return new ItemStack(Blocks.RED_FLOWER, 1, 5);
-                case OXEYE_DAISY:
-                    return new ItemStack(Blocks.RED_FLOWER, 1, 8);
-                case PINK_TULIP:
-                    return new ItemStack(Blocks.RED_FLOWER, 1, 7);
-                case POPPY:
-                    return new ItemStack(Blocks.RED_FLOWER, 1, 0);
-                case RED_TULIP:
-                    return new ItemStack(Blocks.RED_FLOWER, 1, 4);
-                case SPRUCE_SAPLING:
-                    return new ItemStack(Blocks.SAPLING, 1, 1);
-                case WHITE_TULIP:
-                    return new ItemStack(Blocks.RED_FLOWER, 1, 6);
-                default:
-                    return new ItemStack(Blocks.FLOWER_POT);
-            }
+            BlockSilverfish.EnumType type = accessor.getBlockState().getValue(BlockSilverfish.VARIANT);
+            return type.getModelBlock().getBlock().getPickBlock(type.getModelBlock(), accessor.getMOP(), accessor.getWorld(), accessor.getPosition(), accessor.getPlayer());
         }
 
         // Wheat crop should display Wheat item
@@ -140,9 +64,8 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
             return new ItemStack(Items.BEETROOT);
 
         // Display farmland instead of dirt
-        if (block == farmland) {
+        if (block == farmland)
             return new ItemStack(Blocks.FARMLAND);
-        }
 
         return ItemStack.EMPTY;
     }
@@ -166,14 +89,12 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
         }
 
         // Melon Stem instead of Melon Seeds
-        if (block == melonStem) {
+        if (block == melonStem)
             currenttip.set(0, TextFormatting.WHITE + I18n.translateToLocal("hud.item.melonstem"));
-        }
 
         // Pumpkin Stem instead of Pumpkin Seeds
-        if (block == pumpkinStem) {
+        if (block == pumpkinStem)
             currenttip.set(0, TextFormatting.WHITE + I18n.translateToLocal("hud.item.pumpkinstem"));
-        }
 
         return currenttip;
     }
@@ -184,43 +105,15 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
         Block block = accessor.getBlock();
 
         // Displays maturity percentage
-        if (config.getConfig("general.showcrop") && BlockCrops.class.isInstance(block)) {
-            float growthValue = (accessor.getMetadata() / (float) ((BlockCrops) block).getMaxAge()) * 100.0F;
-            if (growthValue < 100.0)
-                currenttip.add(String.format("%s : %.0f %%", LangUtil.translateG("hud.msg.growth"), growthValue));
-            else
-                currenttip.add(String.format("%s : %s", LangUtil.translateG("hud.msg.growth"), LangUtil.translateG("hud.msg.mature")));
-            return currenttip;
-        }
-
-        // Displays maturity percentage
-        if (block == melonStem || block == pumpkinStem) {
-            float growthValue = (accessor.getMetadata() / 7F) * 100.0F;
-            if (growthValue < 100.0)
-                currenttip.add(String.format("%s : %.0f %%", LangUtil.translateG("hud.msg.growth"), growthValue));
-            else
-                currenttip.add(String.format("%s : %s", LangUtil.translateG("hud.msg.growth"), LangUtil.translateG("hud.msg.mature")));
-            return currenttip;
-        }
-
-        // Displays maturity percentage
-        if (block == cocoa && config.getConfig("general.showcrop")) {
-            float growthValue = ((accessor.getMetadata() >> 2) / 2.0F) * 100.0F;
-            if (growthValue < 100.0)
-                currenttip.add(String.format("%s : %.0f %%", LangUtil.translateG("hud.msg.growth"), growthValue));
-            else
-                currenttip.add(String.format("%s : %s", LangUtil.translateG("hud.msg.growth"), LangUtil.translateG("hud.msg.mature")));
-            return currenttip;
-        }
-
-        // Displays maturity percentage
-        if (block == netherwart && config.getConfig("general.showcrop")) {
-            float growthValue = (accessor.getMetadata() / 3.0F) * 100.0F;
-            if (growthValue < 100.0)
-                currenttip.add(String.format("%s : %.0f %%", LangUtil.translateG("hud.msg.growth"), growthValue));
-            else
-                currenttip.add(String.format("%s : %s", LangUtil.translateG("hud.msg.growth"), LangUtil.translateG("hud.msg.mature")));
-            return currenttip;
+        if (config.getConfig("general.showcrop")) {
+            if (BlockCrops.class.isInstance(block))
+                addMaturityTooltip(currenttip, accessor.getMetadata() / (float) ((BlockCrops) block).getMaxAge());
+            else if (block == melonStem || block == pumpkinStem)
+                addMaturityTooltip(currenttip, accessor.getMetadata() / 7F);
+            else if (block == cocoa)
+                addMaturityTooltip(currenttip, (accessor.getMetadata() >> 2) / 2.0F);
+            else if (block == netherwart)
+                addMaturityTooltip(currenttip, accessor.getMetadata() / 3.0F);
         }
 
         // Displays on/off state of Lever
@@ -248,9 +141,7 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
         if (config.getConfig("vanilla.comparator")) {
             if ((block == comparatorIdl) || (block == comparatorAct)) {
                 String mode = ((accessor.getMetadata() >> 2) & 1) == 0 ? LangUtil.translateG("hud.msg.comparator") : LangUtil.translateG("hud.msg.substractor");
-                //int outputSignal = ((TileEntityComparator)entity).func_96100_a();
                 currenttip.add("Mode : " + mode);
-                //currenttip.add(String.format("Out : %s", outputSignal));
                 return currenttip;
             }
         }
@@ -297,7 +188,6 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
         IWailaDataProvider provider = new HUDHandlerVanilla();
 
         registrar.registerStackProvider(provider, silverfish.getClass());
-        registrar.registerStackProvider(provider, flowerpot.getClass());
         registrar.registerStackProvider(provider, crops.getClass());
         registrar.registerStackProvider(provider, beet.getClass());
         registrar.registerStackProvider(provider, farmland.getClass());
@@ -321,9 +211,13 @@ public class HUDHandlerVanilla implements IWailaDataProvider {
         registrar.registerBodyProvider(provider, jukebox.getClass());
 
         registrar.registerNBTProvider(provider, jukebox.getClass());
+    }
 
-        //registrar.registerDocTextFile("/mcp/mobius/waila/addons/vanillamc/WikiData.csv");
-
-        //ExternalModulesHandler.instance().registerBlockDecorator(new HUDDecoratorVanilla(), repeaterIdle);
+    private static void addMaturityTooltip(List<String> currentTip, float growthValue) {
+        growthValue *= 100.0F;
+        if (growthValue < 100.0F)
+            currentTip.add(LangUtil.translateG("hud.msg.growth") + " : " + LangUtil.translateG("hud.msg.growth.value", (int) growthValue));
+        else
+            currentTip.add(LangUtil.translateG("hud.msg.growth") + " : " + LangUtil.translateG("hud.msg.mature"));
     }
 }

@@ -12,17 +12,18 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.world.World;
 import net.minecraftforge.client.event.RenderWorldLastEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
+@Mod.EventBusSubscriber(Side.CLIENT)
 public class DecoratorRenderer {
 
     @SubscribeEvent
-    @SideOnly(Side.CLIENT)
-    public void onRenderWorldLast(RenderWorldLastEvent event) {
+    public static void onRenderWorldLast(RenderWorldLastEvent event) {
         if (RayTracing.instance().getTarget() == null || RayTracing.instance().getTargetStack().isEmpty())
             return;
 

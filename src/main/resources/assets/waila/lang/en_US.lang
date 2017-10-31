@@ -49,6 +49,7 @@ client.msg.nousage=No usage found.
 hud.msg.empty=<Empty>
 hud.msg.health=Health
 hud.msg.growth=Growth
+hud.msg.growth.value=%.0f %%
 hud.msg.mature=Mature
 hud.msg.off=Off
 hud.msg.on=On
@@ -84,6 +85,5 @@ option.general.showcrop=Show crop growth
 option.general.registry=Show registry data
 option.capability.tankinfo=Show tank data
 option.capability.energyinfo=Show energy data
-option.capability.inventoryinfo=§mShow inventory data
 
 nei.options.keys.showenchant=Show enchanting values

@@ -19,6 +19,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.IShearable;
 import net.minecraftforge.common.config.Configuration;
 
@@ -30,9 +31,7 @@ public class RayTracing {
     private static RayTracing _instance;
     private RayTraceResult target = null;
     private ItemStack targetStack = ItemStack.EMPTY;
-    private Entity targetEntity = null;
     private Minecraft mc = Minecraft.getMinecraft();
-    private BlockPos previousBadBlock;
 
     private RayTracing() {
     }
@@ -55,36 +54,22 @@ public class RayTracing {
     }
 
     public ItemStack getTargetStack() {
-        if (this.target != null && this.target.typeOfHit == RayTraceResult.Type.BLOCK)
-            this.targetStack = this.getIdentifierStack();
-        else
-            this.targetStack = ItemStack.EMPTY;
-
-        return this.targetStack;
+        return targetStack = target != null && target.typeOfHit == RayTraceResult.Type.BLOCK ? getIdentifierStack() : ItemStack.EMPTY;
     }
 
     public Entity getTargetEntity() {
-        if (this.target.typeOfHit == RayTraceResult.Type.ENTITY)
-            this.targetEntity = this.getIdentifierEntity();
-        else
-            this.targetEntity = null;
-
-        return this.targetEntity;
+        return target.typeOfHit == RayTraceResult.Type.ENTITY ? getIdentifierEntity() : null;
     }
 
-    public RayTraceResult rayTrace(Entity entity, double par1, float par3) {
-        Vec3d vec3 = entity.getPositionEyes(par3);
-        Vec3d vec31 = entity.getLook(par3);
-        Vec3d vec32 = vec3.addVector(vec31.x * par1, vec31.y * par1, vec31.z * par1);
+    public RayTraceResult rayTrace(Entity entity, double playerReach, float partialTicks) {
+        Vec3d eyePosition = entity.getPositionEyes(partialTicks);
+        Vec3d lookVector = entity.getLook(partialTicks);
+        Vec3d traceEnd = eyePosition.addVector(lookVector.x * playerReach, lookVector.y * playerReach, lookVector.z * playerReach);
 
-        if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID, true))
-            return entity.getEntityWorld().rayTraceBlocks(vec3, vec32, true);
-        else
-            return entity.getEntityWorld().rayTraceBlocks(vec3, vec32, false);
+        return entity.getEntityWorld().rayTraceBlocks(eyePosition, traceEnd, ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_LIQUID, true));
     }
 
     public ItemStack getIdentifierStack() {
-        World world = mc.world;
         ArrayList<ItemStack> items = this.getIdentifierItems();
 
         if (items.isEmpty())
@@ -96,23 +81,17 @@ public class RayTracing {
     }
 
     public Entity getIdentifierEntity() {
-        ArrayList<Entity> ents = new ArrayList<>();
-
         if (this.target == null)
             return null;
 
-        if (ModuleRegistrar.instance().hasOverrideEntityProviders(this.target.entityHit)) {
-            for (List<IWailaEntityProvider> listProviders : ModuleRegistrar.instance().getOverrideEntityProviders(this.target.entityHit).values()) {
-                for (IWailaEntityProvider provider : listProviders) {
-                    ents.add(provider.getWailaOverride(DataAccessorCommon.instance, ConfigHandler.instance()));
-                }
-            }
-        }
+        ArrayList<Entity> ents = new ArrayList<>();
 
-        if (ents.size() > 0)
-            return ents.get(0);
-        else
-            return this.target.entityHit;
+        if (ModuleRegistrar.instance().hasOverrideEntityProviders(this.target.entityHit))
+            for (List<IWailaEntityProvider> listProviders : ModuleRegistrar.instance().getOverrideEntityProviders(this.target.entityHit).values())
+                for (IWailaEntityProvider provider : listProviders)
+                    ents.add(provider.getWailaOverride(DataAccessorCommon.instance, ConfigHandler.instance()));
+
+        return ents.size() > 0 ? ents.get(0) : target.entityHit;
     }
 
     public ArrayList<ItemStack> getIdentifierItems() {
@@ -125,8 +104,6 @@ public class RayTracing {
         World world = mc.world;
         BlockPos pos = target.getBlockPos();
 
-        //int   blockID         = world.getBlockId(x, y, z);
-        //Block mouseoverBlock  = Block.blocksList[blockID];
         Block mouseoverBlock = world.getBlockState(pos).getBlock();
         TileEntity tileEntity = world.getTileEntity(pos);
         if (mouseoverBlock == Blocks.AIR)
@@ -160,10 +137,7 @@ public class RayTracing {
         if (!items.isEmpty())
             return items;
 
-        if (!items.isEmpty())
-            return items;
-
-        ItemStack pick = mouseoverBlock.getPickBlock(world.getBlockState(pos), target, world, pos, player);//(this.target, world, pos, player);
+        ItemStack pick = mouseoverBlock.getPickBlock(world.getBlockState(pos), target, world, pos, player);
 
         if (!pick.isEmpty())
             items.add(pick);

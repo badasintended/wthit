@@ -18,7 +18,6 @@ public class NBTUtil {
                     return deepTag.getTag(i);
                 }
             } else {
-                //Waila.log.log(Level.WARN, "Leaf " + key + " not found.");
                 return null;
             }
         }
@@ -31,7 +30,6 @@ public class NBTUtil {
         NBTTagCompound deepTag = targetTag;
         for (int i = 0; i < path.length - 1; i++) {
             if (!deepTag.hasKey(path[i]))
-                //deepTag.setCompoundTag(path[i], new NBTTagCompound());
                 deepTag.setTag(path[i], new NBTTagCompound());
 
             deepTag = deepTag.getCompoundTag(path[i]);
@@ -49,48 +47,12 @@ public class NBTUtil {
 
         for (String key : keys) {
             NBTBase tagToAdd = getTag(key, inTag);
-            //System.out.printf("%s\n", tagToAdd);
             if (tagToAdd != null)
                 outTag = setTag(key, outTag, tagToAdd);
         }
 
         return outTag;
     }
-
-/*    public static void writeNBTTagCompound(NBTTagCompound par0NBTTagCompound, DataOutputStream par1DataOutputStream) throws IOException
-    {
-        if (par0NBTTagCompound == null)
-        {
-            par1DataOutputStream.writeShort(-1);
-        }
-        else
-        {
-            byte[] abyte = CompressedStreamTools.(par0NBTTagCompound);
-
-            if (abyte.length > 32000)
-            	par1DataOutputStream.writeShort(-1);
-            else{
-            	par1DataOutputStream.writeShort((short)abyte.length);
-            	par1DataOutputStream.write(abyte);
-            }
-        }
-    }	*/
-
-/*    public static NBTTagCompound readNBTTagCompound(DataInputStream par0DataInputStream) throws IOException
-    {
-        short short1 = par0DataInputStream.readShort();
-
-        if (short1 < 0)
-        {
-            return null;
-        }
-        else
-        {
-            byte[] abyte = new byte[short1];
-            par0DataInputStream.readFully(abyte);
-            return CompressedStreamTools.func_152457_a(abyte, NBTSizeTracker.field_152451_a);
-        }
-    } */
 
     public static int getNBTInteger(NBTTagCompound tag, String keyname) {
         NBTBase subtag = tag.getTag(keyname);
@@ -103,5 +65,4 @@ public class NBTUtil {
 
         return 0;
     }
-
 }

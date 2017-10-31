@@ -14,14 +14,12 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.ForgeModContainer;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fluids.*;
 import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.wrappers.FluidBlockWrapper;
-import org.apache.commons.lang3.tuple.Pair;
 
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 
 public class HUDHandlerFluids implements IWailaDataProvider {
@@ -37,10 +35,12 @@ public class HUDHandlerFluids implements IWailaDataProvider {
     @Nonnull
     @Override
     public List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
-        Pair<Fluid, Boolean> fluidPair = getFluidFromBlock(accessor.getBlockState());
+        Fluid fluid = getFluidFromBlock(accessor.getBlockState());
+        if (fluid == null)
+            return currenttip;
 
         String name = null;
-        String displayName = String.format(FormattingConfig.fluidFormat, fluidPair.getLeft().getLocalizedName(new FluidStack(fluidPair.getLeft(), 1000)));
+        String displayName = String.format(FormattingConfig.fluidFormat, fluid.getLocalizedName(new FluidStack(fluid, 1000)));
         if (displayName != null && !displayName.endsWith("Unnamed"))
             name = displayName;
 
@@ -58,42 +58,43 @@ public class HUDHandlerFluids implements IWailaDataProvider {
     @Nonnull
     @Override
     public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
-        Pair<Fluid, Boolean> fluidPair = getFluidFromBlock(accessor.getBlockState());
-        String modName = ModIdentification.findModContainer(FluidRegistry.getDefaultFluidName(fluidPair.getLeft()).split(":")[0]).getName();
+        Fluid fluid = getFluidFromBlock(accessor.getBlockState());
+        if (fluid == null)
+            return currenttip;
+
+        String modName = ModIdentification.findModContainer(FluidRegistry.getDefaultFluidName(fluid).split(":")[0]).getName();
         if (!Strings.isNullOrEmpty(FormattingConfig.modNameFormat) && !Strings.isNullOrEmpty(modName))
             currenttip.add(String.format(FormattingConfig.modNameFormat, modName));
 
         return currenttip;
     }
 
+    @Nonnull
     private static ItemStack getStackFromLiquid(IBlockState state, IWailaDataAccessor accessor) {
-        Pair<Fluid, Boolean> fluidPair = getFluidFromBlock(state);
-        Fluid fluid = fluidPair.getLeft();
-        boolean vanilla = fluidPair.getRight();
-        ItemStack ret = ItemStack.EMPTY;
-        if (fluid != null) {
-            if (FluidRegistry.isUniversalBucketEnabled())
-                ret = UniversalBucket.getFilledBucket(ForgeModContainer.getInstance().universalBucket, fluid);
-            else if (vanilla)
-                ret = fluid == FluidRegistry.WATER ? new ItemStack(Items.WATER_BUCKET) : new ItemStack(Items.LAVA_BUCKET);
-            else {
-                IFluidHandler dummyFluid = new FluidBlockWrapper((IFluidBlock) fluid.getBlock(), accessor.getWorld(), accessor.getPosition());
-                ret = FluidUtil.tryFillContainer(new ItemStack(Items.BUCKET), dummyFluid, 1000, null, true).getResult();
-            }
-        }
+        IFluidHandler fluidHandler = FluidUtil.getFluidHandler(accessor.getWorld(), accessor.getPosition(), accessor.getSide());
+        if (fluidHandler == null)
+            return ItemStack.EMPTY;
 
-        return ret;
+        FluidStack stack = fluidHandler.drain(Fluid.BUCKET_VOLUME, false);
+        if (stack == null)
+            return ItemStack.EMPTY;
+
+        ItemStack bucket = FluidUtil.getFilledBucket(stack);
+        if (!bucket.isEmpty())
+            return bucket;
+
+        FluidActionResult result = FluidUtil.tryFillContainer(new ItemStack(Items.BUCKET), fluidHandler, 1, null, false);
+        return result.isSuccess() ? result.getResult() : ItemStack.EMPTY;
     }
 
-    private static Pair<Fluid, Boolean> getFluidFromBlock(IBlockState state) {
+    @Nullable
+    private static Fluid getFluidFromBlock(IBlockState state) {
         Fluid fluid = null;
-        boolean vanilla = false;
         if (state.getBlock() instanceof BlockLiquid) {
             Block fluidBlock = BlockLiquid.getStaticBlock(state.getMaterial());
             fluid = fluidBlock == Blocks.WATER ? FluidRegistry.WATER : FluidRegistry.LAVA;
-            vanilla = true;
         } else if (state.getBlock() instanceof IFluidBlock) fluid = ((IFluidBlock) state.getBlock()).getFluid();
 
-        return Pair.of(fluid, vanilla);
+        return fluid;
     }
 }

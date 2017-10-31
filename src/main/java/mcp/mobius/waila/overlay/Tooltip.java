@@ -12,6 +12,8 @@ import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderIcon;
 import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderString;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
@@ -67,7 +69,7 @@ public class Tooltip {
     }
 
     private void computeSizes() {
-        columnsWidth.add(0);        // Small init of the arrays to have at least one element
+        columnsWidth.add(0); // Small init of the arrays to have at least one element
         columnsPos.add(0);
 
         for (String s : textData) {
@@ -104,16 +106,16 @@ public class Tooltip {
 
     private void computeRenderables() {
         int offsetY = 0;
-        for (int i = 0; i < lines.size(); i++) {                // We check all the lines, one by one
-            int maxHeight = 0;                                // Maximum height of this line
-            for (int c = 0; c < lines.get(i).size(); c++) {    // We check all the columns for this line
-                offsetX = columnsPos.get(c);            // We move the "cursor" to the current column
-                String currentLine = lines.get(i).get(c);
+        for (ArrayList<String> line1 : lines) { // We check all the lines, one by one
+            int maxHeight = 0; // Maximum height of this line
+            for (int c = 0; c < line1.size(); c++) { // We check all the columns for this line
+                offsetX = columnsPos.get(c); // We move the "cursor" to the current column
+                String currentLine = line1.get(c);
                 String[] lines = currentLine.split(SpecialChars.WailaSplitter);
 
                 for (String line : lines) {
                     Renderable renderable = null;
-                    Matcher renderMatcher = patternRender.matcher(line);    //We keep a matcher here to be able to check if we have a Renderer. Might be better to do a startWith + full matcher init after the check
+                    Matcher renderMatcher = patternRender.matcher(line); // We keep a matcher here to be able to check if we have a Renderer. Might be better to do a startWith + full matcher init after the check
                     Matcher iconMatcher = patternIcon.matcher(line);
 
                     if (renderMatcher.find()) {
@@ -160,8 +162,10 @@ public class Tooltip {
     }
 
     private void computePositionAndSize(boolean hasIcon) {
-        this.pos = new Point(ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSX, 0),
-                ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSY, 0));
+        this.pos = new Point(
+                ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSX, 0),
+                ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSY, 0)
+        );
         this.hasIcon = hasIcon;
 
         int paddingW = hasIcon ? 29 : 13;
@@ -172,9 +176,9 @@ public class Tooltip {
 
         h = Math.max(paddingH, this.getRenderableTotalHeight() + 8);
 
-        Dimension size = DisplayUtil.displaySize();
-        x = ((int) (size.width / OverlayConfig.scale) - w - 1) * pos.x / 10000;
-        y = ((int) (size.height / OverlayConfig.scale) - h - 1) * pos.y / 10000;
+        ScaledResolution resolution = new ScaledResolution(Minecraft.getMinecraft());
+        x = ((int) (resolution.getScaledWidth()/ OverlayConfig.scale) - w - 1) * pos.x / 10000;
+        y = ((int) (resolution.getScaledHeight()/ OverlayConfig.scale) - h - 1) * pos.y / 10000;
 
         ty = (h - this.getRenderableTotalHeight()) / 2 + 1;
     }

@@ -59,23 +59,12 @@ public class DisplayUtil {
         return width;
     }
 
-    public static Dimension displaySize() {
-        Minecraft mc = Minecraft.getMinecraft();
-        ScaledResolution res = new ScaledResolution(mc);
-        return new Dimension(res.getScaledWidth(), res.getScaledHeight());
-    }
-
     public static String stripSymbols(String s) {
-        String result = patternRender.matcher(s).replaceAll("");
-        result = patternMinecraft.matcher(result).replaceAll("");
-        result = patternWaila.matcher(result).replaceAll("");
-        return result;
+        return s.replaceAll(patternRender.pattern(), "").replaceAll(patternMinecraft.pattern(), "").replaceAll(patternWaila.pattern(), "");
     }
 
     public static String stripWailaSymbols(String s) {
-        String result = patternRender.matcher(s).replaceAll("");
-        result = patternWaila.matcher(result).replaceAll("");
-        return result;
+        return s.replaceAll(patternWaila.pattern(), "").replaceAll(patternRender.pattern(), "");
     }
 
     public static void renderStack(int x, int y, ItemStack stack) {

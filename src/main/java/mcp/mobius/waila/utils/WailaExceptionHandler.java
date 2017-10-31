@@ -35,5 +35,4 @@ public class WailaExceptionHandler {
 
         return currenttip;
     }
-
 }

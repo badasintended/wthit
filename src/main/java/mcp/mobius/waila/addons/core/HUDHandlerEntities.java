@@ -12,6 +12,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.ModContainer;
+import net.minecraftforge.fml.common.registry.EntityEntry;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.EntityRegistry.EntityRegistration;
 
@@ -49,16 +50,9 @@ public class HUDHandlerEntities implements IWailaEntityProvider {
             float health = ((EntityLivingBase) entity).getHealth() / 2.0f;
             float maxhp = ((EntityLivingBase) entity).getMaxHealth() / 2.0f;
 
-            if (((EntityLivingBase) entity).getMaxHealth() > maxhpfortext) {
-                currenttip.add(
-                        String.format(
-                                I18n.translateToLocal("hud.msg.health") + ": %.0f / %.0f",
-                                ((EntityLivingBase) entity).getHealth(),
-                                ((EntityLivingBase) entity).getMaxHealth()
-                        )
-                );
-
-            } else
+            if (((EntityLivingBase) entity).getMaxHealth() > maxhpfortext)
+                currenttip.add(String.format(I18n.translateToLocal("hud.msg.health") + ": %.0f / %.0f", ((EntityLivingBase) entity).getHealth(), ((EntityLivingBase) entity).getMaxHealth()));
+            else
                 currenttip.add(getRenderString("waila.health", String.valueOf(nhearts), String.valueOf(health), String.valueOf(maxhp)));
         }
 
@@ -68,34 +62,17 @@ public class HUDHandlerEntities implements IWailaEntityProvider {
     @Nonnull
     @Override
     public List<String> getWailaTail(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
-        if (!Strings.isNullOrEmpty(FormattingConfig.modNameFormat) && !Strings.isNullOrEmpty(getEntityMod(entity))) {
-            try {
-                currenttip.add(String.format(FormattingConfig.modNameFormat, getEntityMod(entity)));
-            } catch (Exception e) {
-                currenttip.add(String.format(FormattingConfig.modNameFormat, "Unknown"));
-            }
-        }
+        if (!Strings.isNullOrEmpty(FormattingConfig.modNameFormat) && !Strings.isNullOrEmpty(getEntityMod(entity)))
+            currenttip.add(String.format(FormattingConfig.modNameFormat, getEntityMod(entity)));
 
         return currenttip;
     }
 
-    @Nonnull
-    @Override
-    public NBTTagCompound getNBTData(EntityPlayerMP player, Entity te, NBTTagCompound tag, World world) {
-        return tag;
-    }
-
     private static String getEntityMod(Entity entity) {
+        EntityEntry entityEntry = EntityRegistry.getEntry(entity.getClass());
+        if (entityEntry == null)
+            return "Unknown";
 
-        String modName;
-        try {
-            EntityRegistration er = EntityRegistry.instance().lookupModSpawn(entity.getClass(), true);
-            ModContainer modC = er.getContainer();
-            modName = modC.getName();
-        } catch (NullPointerException e) {
-            modName = "Minecraft";
-        }
-
-        return modName;
+        return entityEntry.getRegistryName().getResourceDomain();
     }
 }
