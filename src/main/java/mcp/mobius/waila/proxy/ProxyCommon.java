@@ -10,9 +10,7 @@ import mcp.mobius.waila.api.WailaPlugin;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.config.OverlayConfig;
-import mcp.mobius.waila.handlers.NetworkHandler;
 import mcp.mobius.waila.utils.ModIdentification;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.discovery.ASMDataTable;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -38,7 +36,7 @@ public class ProxyCommon implements IProxy {
 
     @Override
     public void init(FMLInitializationEvent event) {
-        MinecraftForge.EVENT_BUS.register(new NetworkHandler());
+
     }
 
     @Override

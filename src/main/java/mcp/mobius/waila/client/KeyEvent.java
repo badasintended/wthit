@@ -14,14 +14,13 @@ import net.minecraftforge.client.settings.KeyModifier;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Loader;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
-import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
 
-@SideOnly(Side.CLIENT)
+@Mod.EventBusSubscriber(Side.CLIENT)
 public class KeyEvent {
     public static KeyBinding key_cfg;
     public static KeyBinding key_show;
@@ -29,7 +28,7 @@ public class KeyEvent {
     public static KeyBinding key_recipe;
     public static KeyBinding key_usage;
 
-    public KeyEvent() {
+    public static void init() {
         KeyEvent.key_cfg = new KeyBinding(Constants.BIND_WAILA_CFG, KeyConflictContext.IN_GAME, KeyModifier.NONE, Keyboard.KEY_NUMPAD0, "Waila");
         KeyEvent.key_show = new KeyBinding(Constants.BIND_WAILA_SHOW, KeyConflictContext.IN_GAME, KeyModifier.NONE, Keyboard.KEY_NUMPAD1, "Waila");
         KeyEvent.key_liquid = new KeyBinding(Constants.BIND_WAILA_LIQUID, KeyConflictContext.IN_GAME, KeyModifier.NONE, Keyboard.KEY_NUMPAD2, "Waila");
@@ -44,7 +43,7 @@ public class KeyEvent {
     }
 
     @SubscribeEvent
-    public void onKeyEvent(KeyInputEvent event) {
+    public static void onKeyEvent(KeyInputEvent event) {
         Minecraft mc = Minecraft.getMinecraft();
 
         if (key_cfg.isPressed()) {

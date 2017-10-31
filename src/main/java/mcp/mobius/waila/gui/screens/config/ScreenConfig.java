@@ -33,7 +33,7 @@ public class ScreenConfig extends ScreenBase {
         titleInfo.getWidget("HwylaName").setGeometry(new WidgetGeometry(50.0, 0.0F, 50.0, 30.0, CType.RELXY, CType.REL_X, WAlign.CENTER, WAlign.CENTER));
         titleInfo.addWidget("HwylaVersion", new LabelFixedFont(titleInfo, Loader.MC_VERSION + " - " + Waila.VERSION));
         titleInfo.getWidget("HwylaVersion").setGeometry(new WidgetGeometry(50.0, 40.0F, 50.0, 30.0, CType.RELXY, CType.REL_X, WAlign.CENTER, WAlign.CENTER));
-        List<String> warningCut = Minecraft.getMinecraft().fontRenderer.listFormattedStringToWidth(I18n.format("screen.hwyla.warning"), 200);
+        List<String> warningCut = Minecraft.getMinecraft().fontRendererObj.listFormattedStringToWidth(I18n.format("screen.hwyla.warning"), 200);
         for (int i = 0; i < warningCut.size(); i++) {
             String warning = warningCut.get(i);
             titleInfo.addWidget("HwylaWarning" + i, new LabelFixedFont(titleInfo, warning));
@@ -50,7 +50,9 @@ public class ScreenConfig extends ScreenBase {
                         String branch = versionSplit[0] + "." + versionSplit[1];
                         try {
                             Desktop.getDesktop().browse(new URI("https://github.com/TehNut/HWYLA/blob/" + branch + "/CHANGES.md"));
-                        } catch (URISyntaxException | IOException e) {
+                        } catch (URISyntaxException e) {
+                            e.printStackTrace();
+                        } catch (IOException e) {
                             e.printStackTrace();
                         }
                     }
