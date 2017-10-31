@@ -1,4 +1,14 @@
 ------------------------------------------------------
+Version 1.8.21
+------------------------------------------------------
+
+- Fixed some monster spawn blocks not being hidden properly
+- A ton of internal cleanup
+    - Mod should now run at least 2.47293451% faster.
+    - Don't quote me on that.
+- Fixed theme button not drawing
+
+------------------------------------------------------
 Version 1.8.20
 ------------------------------------------------------
 
