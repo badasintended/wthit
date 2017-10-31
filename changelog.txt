@@ -1,4 +1,19 @@
 ------------------------------------------------------
+Version 1.8.21
+------------------------------------------------------
+
+- Fixed some monster spawn blocks not being hidden properly
+- Removed alternate crop option
+    - Was causing more issues than it solved
+- Added branding to the main option menu to explain that this is a fork
+- Removed an erroneous sided check in the energy handler
+- Fixed the Villager career displays
+- Removed an unnecessary shaded library that needlessly increased file size
+- A ton of internal cleanup
+    - Mod should now run at least 2.47293451% faster.
+    - Don't quote me on that.
+
+------------------------------------------------------
 Version 1.8.17
 ------------------------------------------------------
 
