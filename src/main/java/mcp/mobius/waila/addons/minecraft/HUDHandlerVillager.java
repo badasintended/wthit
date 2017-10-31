@@ -11,22 +11,27 @@ import net.minecraft.util.text.translation.I18n;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.VillagerRegistry;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 
 public class HUDHandlerVillager implements IWailaEntityProvider {
 
     static IWailaEntityProvider INSTANCE = new HUDHandlerVillager();
 
+    @Nullable
     @Override
     public Entity getWailaOverride(IWailaEntityAccessor accessor, IWailaConfigHandler config) {
         return null;
     }
 
+    @Nonnull
     @Override
     public List<String> getWailaHead(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
         return currenttip;
     }
 
+    @Nonnull
     @Override
     public List<String> getWailaBody(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
         EntityVillager villager = (EntityVillager) entity;
@@ -36,13 +41,17 @@ public class HUDHandlerVillager implements IWailaEntityProvider {
         return currenttip;
     }
 
+    @Nonnull
     @Override
     public List<String> getWailaTail(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
         return currenttip;
     }
 
+    @Nonnull
     @Override
     public NBTTagCompound getNBTData(EntityPlayerMP player, Entity ent, NBTTagCompound tag, World world) {
+        if (ent instanceof EntityVillager)
+            ent.writeToNBT(tag);
         return tag;
     }
 }
