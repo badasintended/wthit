@@ -35,8 +35,8 @@ public class WailaTickHandler {
     }
 
     @SubscribeEvent
-    public static void renderOverlay(RenderGameOverlayEvent event) {
-        if (event.getType() == RenderGameOverlayEvent.ElementType.HOTBAR)
+    public static void renderOverlay(TickEvent.RenderTickEvent event) {
+        if (event.phase == TickEvent.Phase.END)
             OverlayRenderer.renderOverlay();
     }
 
