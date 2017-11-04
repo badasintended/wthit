@@ -1,4 +1,12 @@
 ------------------------------------------------------
+Version 1.8.22
+------------------------------------------------------
+
+- Fixed Entity mod name displaying the modid instead
+- Moved tooltip rendering back to where it used to be
+    - There were some GL issues causing the hotbar to render oddly
+
+------------------------------------------------------
 Version 1.8.21
 ------------------------------------------------------
 
