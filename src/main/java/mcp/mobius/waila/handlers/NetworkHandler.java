@@ -15,10 +15,11 @@ public class NetworkHandler {
     @SubscribeEvent
     public static void onPlayerLoggedIn(PlayerLoggedInEvent event) {
         Waila.LOGGER.info(String.format("Player %s connected. Sending ping", event.player));
-        if (hasWaila(event.player))
-            Waila.NETWORK_WRAPPER.sendTo(new MessageServerPing(null), (EntityPlayerMP) event.player);
+//        if (hasWaila(event.player))
+        Waila.NETWORK_WRAPPER.sendTo(new MessageServerPing(null), (EntityPlayerMP) event.player);
     }
 
+    // Crashes in some cases for some reason
     private static boolean hasWaila(EntityPlayer player) {
         return NetworkDispatcher.get(((EntityPlayerMP) player).connection.getNetworkManager()).getModList().containsKey(Waila.MODID);
     }
