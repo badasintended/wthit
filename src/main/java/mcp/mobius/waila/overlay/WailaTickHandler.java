@@ -51,6 +51,9 @@ public class WailaTickHandler {
         if (!ConfigHandler.instance().showTooltip())
             return;
 
+        if (!Keyboard.isCreated())
+            return;
+
         if (!Keyboard.isKeyDown(KeyEvent.key_show.getKeyCode()))
             if (!ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_MODE, false))
                 if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW, false))
