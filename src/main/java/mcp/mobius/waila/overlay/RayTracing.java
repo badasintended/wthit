@@ -6,6 +6,7 @@ import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.utils.Constants;
+import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
@@ -138,6 +139,9 @@ public class RayTracing {
             return items;
 
         ItemStack pick = mouseoverBlock.getPickBlock(world.getBlockState(pos), target, world, pos, player);
+        //noinspection ConstantConditions
+        if (pick == null)
+            throw new NullPointerException(mouseoverBlock.getRegistryName() + " from mod " + ModIdentification.findModContainer(mouseoverBlock.getRegistryName().getResourceDomain()).getName() + " returned a null ItemStack in getPickBlock(...). Please report this to them.");
 
         if (!pick.isEmpty())
             items.add(pick);
