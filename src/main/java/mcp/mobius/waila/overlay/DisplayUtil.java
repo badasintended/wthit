@@ -54,7 +54,7 @@ public class DisplayUtil {
         while (iconMatcher.find())
             width += 8;
 
-        String stripped = stripSymbols(s);
+        String stripped = stripWailaSymbols(s);
         width += fontRendererObj.getStringWidth(stripped);
         return width;
     }
