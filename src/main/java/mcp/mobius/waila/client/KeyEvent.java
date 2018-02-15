@@ -1,5 +1,6 @@
 package mcp.mobius.waila.client;
 
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.gui.screens.config.ScreenConfig;
 import mcp.mobius.waila.handlers.JEIHandler;
@@ -19,7 +20,7 @@ import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import org.lwjgl.input.Keyboard;
 
-@Mod.EventBusSubscriber(Side.CLIENT)
+@Mod.EventBusSubscriber(modid = Waila.MODID, value = Side.CLIENT)
 public class KeyEvent {
     public static KeyBinding key_cfg;
     public static KeyBinding key_show;

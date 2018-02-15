@@ -1,5 +1,6 @@
 package mcp.mobius.waila.overlay;
 
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IWailaBlockDecorator;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
@@ -19,7 +20,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import java.util.List;
 
-@Mod.EventBusSubscriber(Side.CLIENT)
+@Mod.EventBusSubscriber(modid = Waila.MODID, value = Side.CLIENT)
 public class DecoratorRenderer {
 
     @SubscribeEvent

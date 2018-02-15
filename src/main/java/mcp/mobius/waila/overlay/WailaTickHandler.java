@@ -1,6 +1,7 @@
 package mcp.mobius.waila.overlay;
 
 import com.mojang.text2speech.Narrator;
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.event.WailaTooltipEvent;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.DataAccessorCommon;
@@ -28,7 +29,7 @@ import org.lwjgl.input.Keyboard;
 
 import java.util.List;
 
-@Mod.EventBusSubscriber(Side.CLIENT)
+@Mod.EventBusSubscriber(modid = Waila.MODID, value = Side.CLIENT)
 public class WailaTickHandler {
 
     private static WailaTickHandler _instance;
