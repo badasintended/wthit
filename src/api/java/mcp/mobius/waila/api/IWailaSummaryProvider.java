@@ -4,6 +4,7 @@ import net.minecraft.item.ItemStack;
 
 import java.util.LinkedHashMap;
 
+@Deprecated
 public interface IWailaSummaryProvider {
     /* This interface is used to control the display data in the description screen */
 

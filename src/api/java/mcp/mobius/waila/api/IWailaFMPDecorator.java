@@ -8,13 +8,16 @@ import net.minecraft.item.ItemStack;
  * registered to Waila via the {@link IWailaRegistrar} instance provided in the original registration callback method
  * (cf. {@link IWailaRegistrar} documentation for more information).
  *
+ * @deprecated FMP is neither updated nor supported.
+ *
  * @author ProfMobius
  */
+@Deprecated
 public interface IWailaFMPDecorator {
 
     /**
      * Callback for the decorator. It provides a standard GL stack positioned on the block.</br>
-     * Will be used if the implementing class is registered via {@link IWailaRegistrar}.{@link registerDecorator}.</br>
+     * Will be used if the implementing class is registered via {@link IWailaRegistrar#registerDecorator(IWailaFMPDecorator, String)}.</br>
      *
      * @param itemStack Current block scanned, in ItemStack form.
      * @param accessor  Contains most of the relevant information about the current environment.

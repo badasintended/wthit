@@ -12,9 +12,11 @@ import net.minecraft.world.World;
  * It will also return things that are unmodified by the overriding systems (like getWailaStack).<br>
  * An instance of this interface is passed to most of Waila FMP callbacks.
  *
+ * @deprecated FMP is neither updated nor supported.
+ *
  * @author ProfMobius
  */
-
+@Deprecated
 public interface IWailaFMPAccessor {
     World getWorld();
 

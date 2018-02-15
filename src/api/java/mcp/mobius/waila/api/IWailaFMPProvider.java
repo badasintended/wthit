@@ -10,12 +10,15 @@ import java.util.List;
  * registered to Waila via the {@link IWailaRegistrar} instance provided in the original registration callback method
  * (cf. {@link IWailaRegistrar} documentation for more information).
  *
+ * @deprecated FMP is neither updated nor supported.
+ *
  * @author ProfMobius
  */
+@Deprecated
 public interface IWailaFMPProvider {
     /**
      * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).</br>
-     * Will be used if the implementing class is registered via {@link IWailaRegistrar}.{@link registerHeadProvider} client side.</br>
+     * Will be used if the implementing class is registered via {@link IWailaRegistrar#registerHeadProvider(IWailaFMPProvider, String)} client side.</br>
      * You are supposed to always return the modified input currenttip.</br>
      *
      * @param itemStack  Current block scanned, in ItemStack form.
@@ -28,7 +31,7 @@ public interface IWailaFMPProvider {
 
     /**
      * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).</br>
-     * Will be used if the implementing class is registered via {@link IWailaRegistrar}.{@link registerBodyProvider} client side.</br>
+     * Will be used if the implementing class is registered via {@link IWailaRegistrar#registerBodyProvider(IWailaFMPProvider, String)} client side.</br>
      * You are supposed to always return the modified input currenttip.</br>
      *
      * @param itemStack  Current block scanned, in ItemStack form.
@@ -41,7 +44,7 @@ public interface IWailaFMPProvider {
 
     /**
      * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).</br>
-     * Will be used if the implementing class is registered via {@link IWailaRegistrar}.{@link registerTailProvider} client side.</br>
+     * Will be used if the implementing class is registered via {@link IWailaRegistrar#registerTailProvider(IWailaFMPProvider, String)} client side.</br>
      * You are supposed to always return the modified input currenttip.</br>
      *
      * @param itemStack  Current block scanned, in ItemStack form.

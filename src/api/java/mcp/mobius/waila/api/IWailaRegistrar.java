@@ -67,15 +67,19 @@ public interface IWailaRegistrar {
     void registerNBTProvider(IWailaEntityProvider dataProvider, Class entity);
 
     /* FMP Providers */
+    @Deprecated
     void registerHeadProvider(IWailaFMPProvider dataProvider, String name);
 
+    @Deprecated
     void registerBodyProvider(IWailaFMPProvider dataProvider, String name);
 
+    @Deprecated
     void registerTailProvider(IWailaFMPProvider dataProvider, String name);
 
     /* The block decorators */
     void registerDecorator(IWailaBlockDecorator decorator, Class block);
 
+    @Deprecated
     void registerDecorator(IWailaFMPDecorator decorator, String name);
 
     void registerTooltipRenderer(String name, IWailaTooltipRenderer renderer);
