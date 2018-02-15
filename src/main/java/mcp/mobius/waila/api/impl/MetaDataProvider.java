@@ -158,7 +158,7 @@ public class MetaDataProvider {
         headEntityProviders.clear();
         bodyEntityProviders.clear();
         tailEntityProviders.clear();
-		
+
 		/* Lookup by class (for entities)*/
         if (layout == Layout.HEADER && ModuleRegistrar.instance().hasHeadEntityProviders(entity))
             headEntityProviders.putAll(ModuleRegistrar.instance().getHeadEntityProviders(entity));

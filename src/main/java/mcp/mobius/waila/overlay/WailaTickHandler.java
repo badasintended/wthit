@@ -18,13 +18,11 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.input.Keyboard;
 
 import java.util.List;
@@ -33,10 +31,10 @@ import java.util.List;
 public class WailaTickHandler {
 
     private static WailaTickHandler _instance;
-    public Tooltip tooltip = null;
-    public MetaDataProvider handler = new MetaDataProvider();
     private static Narrator narrator;
     private static String lastNarration = "";
+    public Tooltip tooltip = null;
+    public MetaDataProvider handler = new MetaDataProvider();
 
     private WailaTickHandler() {
     }

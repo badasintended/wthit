@@ -26,6 +26,7 @@ public class ColorConfig {
     private final Color gradientTop;
     private final Color gradientBottom;
     private final Color font;
+
     public ColorConfig(String name, Color background, Color gradientTop, Color gradientBottom, Color font) {
         this.name = name;
         this.background = background;

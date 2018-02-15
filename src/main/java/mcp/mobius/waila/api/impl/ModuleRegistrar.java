@@ -285,7 +285,7 @@ public class ModuleRegistrar implements IWailaRegistrar {
     public boolean hasStackProviders(Object block) {
         return hasProviders(block, this.stackBlockProviders);
     }
-	
+
 	/* HAS METHODS */
 
     public boolean hasHeadProviders(Object block) {

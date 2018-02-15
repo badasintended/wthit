@@ -8,9 +8,8 @@ import net.minecraft.item.ItemStack;
  * registered to Waila via the {@link IWailaRegistrar} instance provided in the original registration callback method
  * (cf. {@link IWailaRegistrar} documentation for more information).
  *
- * @deprecated FMP is neither updated nor supported.
- *
  * @author ProfMobius
+ * @deprecated FMP is neither updated nor supported.
  */
 @Deprecated
 public interface IWailaFMPDecorator {

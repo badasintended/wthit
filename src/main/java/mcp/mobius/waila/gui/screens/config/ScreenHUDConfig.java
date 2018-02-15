@@ -42,7 +42,7 @@ public class ScreenHUDConfig extends ScreenBase {
 			*/
 
 			/*
-			IWidget layoutY = this.addWidget("LayoutY", new LayoutBase(this));
+            IWidget layoutY = this.addWidget("LayoutY", new LayoutBase(this));
 			layoutY.setGeometry(new WidgetGeometry(50.0,50.0,20,60,CType.RELXY, CType.ABSXY, WAlign.CENTER, WAlign.CENTER));
 			layoutY.addWidget("ButtonYAdd", new ButtonLabel(null, "+")).setGeometry(new WidgetGeometry(0.0,  0.0,20,20, CType.RELXY, CType.ABSXY, WAlign.LEFT, WAlign.TOP));
 			layoutY.addWidget("ButtonYSub", new ButtonLabel(null, "-")).setGeometry(new WidgetGeometry(0.0,100.0,20,20, CType.RELXY, CType.ABSXY, WAlign.LEFT, WAlign.BOTTOM));

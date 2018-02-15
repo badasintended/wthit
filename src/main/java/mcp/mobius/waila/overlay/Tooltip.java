@@ -177,8 +177,8 @@ public class Tooltip {
         h = Math.max(paddingH, this.getRenderableTotalHeight() + 8);
 
         ScaledResolution resolution = new ScaledResolution(Minecraft.getMinecraft());
-        x = ((int) (resolution.getScaledWidth()/ OverlayConfig.scale) - w - 1) * pos.x / 10000;
-        y = ((int) (resolution.getScaledHeight()/ OverlayConfig.scale) - h - 1) * pos.y / 10000;
+        x = ((int) (resolution.getScaledWidth() / OverlayConfig.scale) - w - 1) * pos.x / 10000;
+        y = ((int) (resolution.getScaledHeight() / OverlayConfig.scale) - h - 1) * pos.y / 10000;
 
         ty = (h - this.getRenderableTotalHeight()) / 2 + 1;
     }

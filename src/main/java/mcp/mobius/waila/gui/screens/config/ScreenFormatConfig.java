@@ -24,7 +24,6 @@ import java.awt.Color;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
 
 @SideOnly(Side.CLIENT)
 public class ScreenFormatConfig extends GuiScreen {
