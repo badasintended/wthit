@@ -1,25 +1,26 @@
 package mcp.mobius.waila.proxy;
 
 import com.google.common.base.Stopwatch;
-import com.google.common.base.Strings;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.addons.core.PluginCore;
 import mcp.mobius.waila.api.IWailaPlugin;
-import mcp.mobius.waila.api.IWailaRegistrar;
 import mcp.mobius.waila.api.WailaPlugin;
 import mcp.mobius.waila.api.impl.ConfigHandler;
 import mcp.mobius.waila.api.impl.ModuleRegistrar;
 import mcp.mobius.waila.config.OverlayConfig;
 import mcp.mobius.waila.utils.ModIdentification;
-import net.minecraftforge.fml.common.Loader;
-import net.minecraftforge.fml.common.discovery.ASMDataTable;
+import mcp.mobius.waila.utils.PluginUtil;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
 import java.io.File;
-import java.lang.reflect.Method;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 
 public class ProxyCommon implements IProxy {
 
@@ -46,68 +47,32 @@ public class ProxyCommon implements IProxy {
 
     @Override
     public void loadComplete(FMLLoadCompleteEvent event) {
-        registerMods();
-        registerIMCs();
-    }
+        Stopwatch stopwatch = Stopwatch.createStarted();
+        Waila.LOGGER.info("Starting Waila...");
 
-    // Utilities
+        Map<Class<?>, IWailaPlugin> plugins = Maps.newHashMap();
 
-    public void registerMods() {
-        // Register core plugin to make sure it gets loaded before all others.
-        try {
-            PluginCore core = new PluginCore();
-            core.register(ModuleRegistrar.instance());
-        } catch (Exception e) {
-            Waila.LOGGER.error("Error registering plugin for class {}", PluginCore.class.getCanonicalName());
+        Waila.LOGGER.info("Gathering annotated plugins...");
+        PluginUtil.gatherAnnotatedPlugins(plugins);
+        Waila.LOGGER.info("Gathering wrapped IMC plugins...");
+        PluginUtil.gatherIMCPlugins(plugins);
+
+        Waila.LOGGER.info("Registering plugins...");
+        plugins.remove(PluginCore.class).register(ModuleRegistrar.instance()); // Manually register the core plugin, then discard it
+        Waila.LOGGER.info("Registering plugin at {}", PluginCore.class.getCanonicalName());
+        // Register the rest
+        List<Map.Entry<Class<?>, IWailaPlugin>> sortedPlugins = Lists.newArrayList(plugins.entrySet());
+        sortedPlugins.sort((o1, o2) -> {
+            if (o1.getKey().getCanonicalName().startsWith("mcp.mobius.waila"))
+                return -1;
+
+            return o1.getKey().getCanonicalName().compareToIgnoreCase(o2.getKey().getCanonicalName());
+        });
+        for (Map.Entry<Class<?>, IWailaPlugin> plugin : sortedPlugins) {
+            Waila.LOGGER.info("Registering plugin at {}", plugin.getKey().getCanonicalName());
+            plugin.getValue().register(ModuleRegistrar.instance());
         }
 
-        for (ASMDataTable.ASMData data : Waila.plugins) {
-            try {
-                String requiredMod = (String) data.getAnnotationInfo().get("value");
-                if (Strings.isNullOrEmpty(requiredMod))
-                    requiredMod = "anything";
-                Waila.LOGGER.info("Attempting to register plugin for {} from {}", requiredMod, data.getClassName());
-                if (Loader.isModLoaded(requiredMod) || requiredMod.equalsIgnoreCase("anything")) {
-                    Stopwatch stopwatch = Stopwatch.createStarted();
-                    Class<?> asmClass = Class.forName(data.getClassName());
-                    if (IWailaPlugin.class.isAssignableFrom(asmClass)) {
-                        IWailaPlugin wailaPlugin = (IWailaPlugin) asmClass.newInstance();
-                        wailaPlugin.register(ModuleRegistrar.instance());
-                        Waila.LOGGER.info("Registered plugin for {} from {} in {}", requiredMod, data.getClassName(), stopwatch.stop());
-                    } else
-                        Waila.LOGGER.error("{} attempted to register a plugin for {} that did not implement IWailaPlugin", data.getClassName(), requiredMod);
-                } else Waila.LOGGER.error("{} is not loaded. Passing over plugin.", requiredMod);
-            } catch (Exception e) {
-                Waila.LOGGER.error("Error registering plugin for class {}", data.getClassName());
-            }
-        }
-    }
-
-    private void registerIMCs() {
-        for (String s : ModuleRegistrar.instance().IMCRequests.keySet())
-            this.callbackRegistration(s, ModuleRegistrar.instance().IMCRequests.get(s));
-    }
-
-    private void callbackRegistration(String method, String modname) {
-        String[] splitName = method.split("\\.");
-        String methodName = splitName[splitName.length - 1];
-        String className = method.substring(0, method.length() - methodName.length() - 1);
-
-        Waila.LOGGER.info(String.format("Trying to reflect %s %s", className, methodName));
-
-        try {
-            Class reflectClass = Class.forName(className);
-            Method reflectMethod = reflectClass.getDeclaredMethod(methodName, IWailaRegistrar.class);
-            reflectMethod.invoke(null, (IWailaRegistrar) ModuleRegistrar.instance());
-
-            Waila.LOGGER.info(String.format("Success in registering %s", modname));
-
-        } catch (ClassNotFoundException e) {
-            Waila.LOGGER.warn(String.format("Could not find class %s", className));
-        } catch (NoSuchMethodException e) {
-            Waila.LOGGER.warn(String.format("Could not find method %s", methodName));
-        } catch (Exception e) {
-            Waila.LOGGER.warn(String.format("Exception while trying to access the method : %s", e.toString()));
-        }
+        Waila.LOGGER.info("Starting Waila took {}", stopwatch.stop());
     }
 }

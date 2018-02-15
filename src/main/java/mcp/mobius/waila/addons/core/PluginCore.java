@@ -2,12 +2,13 @@ package mcp.mobius.waila.addons.core;
 
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.api.IWailaRegistrar;
+import mcp.mobius.waila.api.WailaPlugin;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.entity.Entity;
 import net.minecraftforge.fluids.IFluidBlock;
 
-// This is treated as a normal plugin, but it is not loaded by the normal loader to make sure that it gets registered first.
+@WailaPlugin
 public class PluginCore implements IWailaPlugin {
 
     @Override

@@ -33,7 +33,6 @@ public class Waila {
     public static final Logger LOGGER = LogManager.getLogger("Waila");
     public static final SimpleNetworkWrapper NETWORK_WRAPPER = new SimpleNetworkWrapper(MODID);
 
-    // The instance of your mod that Forge uses.
     @Instance(MODID)
     public static Waila instance;
     @SidedProxy(clientSide = "mcp.mobius.waila.proxy.ProxyClient", serverSide = "mcp.mobius.waila.proxy.ProxyServer")
@@ -44,7 +43,6 @@ public class Waila {
 
     public boolean serverPresent = false;
 
-    /* INIT SEQUENCE */
     @EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         NETWORK_WRAPPER.registerMessage(MessageServerPing.Handler.class, MessageServerPing.class, 0, Side.CLIENT);
@@ -78,15 +76,15 @@ public class Waila {
             if (imcMessage.key.equalsIgnoreCase("addconfig")) {
                 String[] params = imcMessage.getStringValue().split("\\$\\$");
                 if (params.length != 3) {
-                    Waila.LOGGER.warn(String.format("Error while parsing config option from [ %s ] for %s", imcMessage.getSender(), imcMessage.getStringValue()));
+                    Waila.LOGGER.warn("Error while parsing config option from [ {} ] for {}", imcMessage.getSender(), imcMessage.getStringValue());
                     continue;
                 }
-                Waila.LOGGER.info(String.format("Receiving config request from [ %s ] for %s", imcMessage.getSender(), imcMessage.getStringValue()));
+                Waila.LOGGER.debug("Receiving config request from [ {} ] for {}", imcMessage.getSender(), imcMessage.getStringValue());
                 ConfigHandler.instance().addConfig(params[0], params[1], params[2]);
             }
 
             if (imcMessage.key.equalsIgnoreCase("register")) {
-                Waila.LOGGER.info(String.format("Receiving registration request from [ %s ] for method %s", imcMessage.getSender(), imcMessage.getStringValue()));
+                Waila.LOGGER.debug("Receiving registration request from [ {} ] for method {}", imcMessage.getSender(), imcMessage.getStringValue());
                 ModuleRegistrar.instance().addIMCRequest(imcMessage.getStringValue(), imcMessage.getSender());
             }
         }
