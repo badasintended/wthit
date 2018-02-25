@@ -22,13 +22,18 @@ public interface IWailaDataProvider {
 
     /**
      * Callback used to override the default Waila lookup system.</br>
-     * Will be used if the implementing class is registered via {@link IWailaRegistrar#registerStackProvider}.</br>
+     * Will only be called if the implementing class is registered via {@link IWailaRegistrar#registerStackProvider}.</br>
      * <p>
      * You may return null if you have not registered this as a stack provider. However, you should return an empty ItemStack
      * to be safe.
      * <p>
      * While this is annotated with {@link Nonnull}, nulls are still accepted. This is to give plugins a chance to move
-     * over. Nulls will not be accepted in 1.12.
+     * over.
+     * <p>
+     * This method is only called on the client side. If you require data from the server, you should also implement
+     * {@link #getNBTData(EntityPlayerMP, TileEntity, NBTTagCompound, World, BlockPos)} and add the data to the {@link NBTTagCompound}
+     * there, which can then be read back using {@link IWailaDataAccessor#getNBTData()}. If you rely on the client knowing
+     * the data you need, you are not guaranteed to have the proper values.
      *
      * @param accessor Contains most of the relevant information about the current environment.
      * @param config   Current configuration of Waila.
@@ -41,72 +46,91 @@ public interface IWailaDataProvider {
 
     /**
      * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).</br>
-     * Will be used if the implementing class is registered via {@link IWailaRegistrar#registerHeadProvider} client side.</br>
-     * You are supposed to always return the modified input currenttip.</br>
+     * Will only be called if the implementing class is registered via {@link IWailaRegistrar#registerHeadProvider}.</br>
+     * You are supposed to always return the modified input tooltip.</br>
      * <p>
      * You may return null if you have not registered this as a head provider. However, you should return the provided list
      * to be safe.
+     * <p>
+     * This method is only called on the client side. If you require data from the server, you should also implement
+     * {@link #getNBTData(EntityPlayerMP, TileEntity, NBTTagCompound, World, BlockPos)} and add the data to the {@link NBTTagCompound}
+     * there, which can then be read back using {@link IWailaDataAccessor#getNBTData()}. If you rely on the client knowing
+     * the data you need, you are not guaranteed to have the proper values.
      *
      * @param itemStack  Current block scanned, in ItemStack form.
-     * @param currenttip Current list of tooltip lines (might have been processed by other providers and might be processed by other providers).
+     * @param tooltip Current list of tooltip lines (might have been processed by other providers and might be processed 
+     *                   by other providers).
      * @param accessor   Contains most of the relevant information about the current environment.
      * @param config     Current configuration of Waila.
-     * @return Modified input currenttip
+     * @return Modified input tooltip
      */
     @Nonnull
-    default List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
-        return currenttip;
+    default List<String> getWailaHead(ItemStack itemStack, List<String> tooltip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
+        return tooltip;
     }
 
     /**
      * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).</br>
-     * Will be used if the implementing class is registered via {@link IWailaRegistrar#registerBodyProvider} client side.</br>
-     * You are supposed to always return the modified input currenttip.</br>
+     * Will only be called if the implementing class is registered via {@link IWailaRegistrar#registerBodyProvider}.</br>
+     * You are supposed to always return the modified input tooltip.</br>
      * <p>
      * You may return null if you have not registered this as a body provider. However, you should return the provided list
      * to be safe.
+     * <p>
+     * This method is only called on the client side. If you require data from the server, you should also implement
+     * {@link #getNBTData(EntityPlayerMP, TileEntity, NBTTagCompound, World, BlockPos)} and add the data to the {@link NBTTagCompound}
+     * there, which can then be read back using {@link IWailaDataAccessor#getNBTData()}. If you rely on the client knowing
+     * the data you need, you are not guaranteed to have the proper values.
      *
      * @param itemStack  Current block scanned, in ItemStack form.
-     * @param currenttip Current list of tooltip lines (might have been processed by other providers and might be processed by other providers).
+     * @param tooltip Current list of tooltip lines (might have been processed by other providers and might be processed 
+     *                   by other providers).
      * @param accessor   Contains most of the relevant information about the current environment.
      * @param config     Current configuration of Waila.
-     * @return Modified input currenttip
+     * @return Modified input tooltip
      */
     @Nonnull
-    default List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
-        return currenttip;
+    default List<String> getWailaBody(ItemStack itemStack, List<String> tooltip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
+        return tooltip;
     }
 
     /**
      * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).</br>
-     * Will be used if the implementing class is registered via {@link IWailaRegistrar#registerTailProvider} client side.</br>
-     * You are supposed to always return the modified input currenttip.</br>
+     * Will only be called if the implementing class is registered via {@link IWailaRegistrar#registerTailProvider}.</br>
+     * You are supposed to always return the modified input tooltip.</br>
      * <p>
      * You may return null if you have not registered this as a tail provider. However, you should return the provided list
      * to be safe.
+     * <p>
+     * This method is only called on the client side. If you require data from the server, you should also implement
+     * {@link #getNBTData(EntityPlayerMP, TileEntity, NBTTagCompound, World, BlockPos)} and add the data to the {@link NBTTagCompound}
+     * there, which can then be read back using {@link IWailaDataAccessor#getNBTData()}. If you rely on the client knowing
+     * the data you need, you are not guaranteed to have the proper values.
      *
      * @param itemStack  Current block scanned, in ItemStack form.
-     * @param currenttip Current list of tooltip lines (might have been processed by other providers and might be processed by other providers).
+     * @param tooltip Current list of tooltip lines (might have been processed by other providers and might be processed by other providers).
      * @param accessor   Contains most of the relevant information about the current environment.
      * @param config     Current configuration of Waila.
-     * @return Modified input currenttip
+     * @return Modified input tooltip
      */
     @Nonnull
-    default List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
-        return currenttip;
+    default List<String> getWailaTail(ItemStack itemStack, List<String> tooltip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
+        return tooltip;
     }
 
     /**
      * Callback used server side to return a custom synchronization NBTTagCompound.</br>
-     * Will be used if the implementing class is registered via {@link IWailaRegistrar#registerNBTProvider} server and client side.</br>
+     * Will only be called if the implementing class is registered via {@link IWailaRegistrar#registerNBTProvider}.</br>
      * You are supposed to always return the modified input NBTTagCompound tag.</br>
      * <p>
      * You may return null if you have not registered this as an NBT provider. However, you should return the provided
      * tag to be safe.
+     * <p>
      *
      * @param player The player requesting data synchronization (The owner of the current connection).
      * @param te     The TileEntity targeted for synchronization.
-     * @param tag    Current synchronization tag (might have been processed by other providers and might be processed by other providers).
+     * @param tag    Current synchronization tag (might have been processed by other providers and might be processed by 
+     *               other providers).
      * @param world  TileEntity's World.
      * @param pos    Position of the TileEntity.
      * @return Modified input NBTTagCompound tag.
