@@ -1,4 +1,15 @@
 ------------------------------------------------------
+Version 1.8.24
+------------------------------------------------------
+
+- Properly blame mods who are returning a null ItemStack in getPickBlock.
+    - This is completely invalid behavior and I will no longer tolerate being blamed for the crashes it causes.
+    - Example blame: `minecraft:cobblestone from mod Minecraft returned a null ItemStack in getPickBlock(...). Please report this to them.`
+- Fixed tooltip width calculation not taking fully formatted ITextComponents into account
+    - Bold lettering spilled out of the tooltip since it's wider than normal text.
+- Wrap Waila style plugins in our own plugin system to bring everything closer to the same codebase.
+
+------------------------------------------------------
 Version 1.8.23
 ------------------------------------------------------
 
