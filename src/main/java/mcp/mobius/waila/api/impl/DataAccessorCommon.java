@@ -3,14 +3,13 @@ package mcp.mobius.waila.api.impl;
 import mcp.mobius.waila.api.IWailaCommonAccessor;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaEntityAccessor;
+import mcp.mobius.waila.utils.ModIdentification;
 import mcp.mobius.waila.utils.NBTUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -59,11 +58,10 @@ public class DataAccessorCommon implements IWailaCommonAccessor, IWailaDataAcces
             this.entity = null;
             this.blockID = Block.getIdFromBlock(this.block);
             this.blockResource = this.block.getRegistryName().toString();
-            Item itemBlock = Item.getItemFromBlock(this.block);
-            if (itemBlock != Items.AIR)
-                this.stack = new ItemStack(this.block, 1, this.metadata);
-            else
-                this.stack = ItemStack.EMPTY;
+            this.stack = block.getPickBlock(state, mop, world, pos, player);
+            //noinspection ConstantConditions
+            if (stack == null)
+                throw new NullPointerException(block.getRegistryName() + " from mod " + ModIdentification.findModContainer(block.getRegistryName().getResourceDomain()).getName() + " returned a null ItemStack in getPickBlock(...). Please report this to them.");
 
         } else if (this.mop.typeOfHit == RayTraceResult.Type.ENTITY) {
             this.pos = new BlockPos(_mop.entityHit);
