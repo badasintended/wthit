@@ -24,6 +24,9 @@ public class OverlayRenderer {
     protected static int depthFunc;
 
     public static void renderOverlay() {
+        if (WailaTickHandler.instance().tooltip == null)
+            return;
+
         if (!ConfigHandler.instance().showTooltip())
             return;
 
