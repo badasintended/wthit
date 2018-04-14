@@ -10,6 +10,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.registry.VillagerRegistry;
+import net.minecraftforge.fml.relauncher.ReflectionHelper;
 
 import javax.annotation.Nonnull;
 import java.util.List;
@@ -22,7 +23,7 @@ public class HUDHandlerVillager implements IWailaEntityProvider {
     @Override
     public List<String> getWailaBody(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
         EntityVillager villager = (EntityVillager) entity;
-        int careerId = accessor.getNBTData().getInteger("Career") - 1;
+        int careerId = accessor.getNBTData().getInteger("careerId");
         VillagerRegistry.VillagerCareer career = villager.getProfessionForge().getCareer(careerId);
         currenttip.add(LangUtil.translateG("hud.msg.career", LangUtil.translateG("entity.Villager." + career.getName())));
         return currenttip;
@@ -31,8 +32,8 @@ public class HUDHandlerVillager implements IWailaEntityProvider {
     @Nonnull
     @Override
     public NBTTagCompound getNBTData(EntityPlayerMP player, Entity ent, NBTTagCompound tag, World world) {
-        if (ent instanceof EntityVillager)
-            ent.writeToNBT(tag);
+        int careerId = ReflectionHelper.getPrivateValue(EntityVillager.class, (EntityVillager) ent, "field_175563_bv", "careerId");
+        tag.setInteger("careerId", careerId - 1);
         return tag;
     }
 }
