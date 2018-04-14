@@ -14,6 +14,7 @@ public class PluginCore implements IWailaPlugin {
     @Override
     public void register(IWailaRegistrar registrar) {
         registrar.registerHeadProvider(HUDHandlerBlocks.INSTANCE, Block.class);
+        registrar.registerBodyProvider(HUDHandlerBlocks.INSTANCE, Block.class);
         registrar.registerTailProvider(HUDHandlerBlocks.INSTANCE, Block.class);
 
         // Fluid blocks using vanilla system (Vanilla)
@@ -32,5 +33,6 @@ public class PluginCore implements IWailaPlugin {
         registrar.addConfig("General", "general.showents");
         registrar.addConfig("General", "general.showhp");
         registrar.addConfig("General", "general.showcrop");
+        registrar.addConfig("General", "general.showstates", false);
     }
 }

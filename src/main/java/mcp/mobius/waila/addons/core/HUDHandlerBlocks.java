@@ -9,8 +9,13 @@ import mcp.mobius.waila.config.FormattingConfig;
 import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.ModIdentification;
+import net.minecraft.block.properties.IProperty;
+import net.minecraft.block.properties.PropertyBool;
+import net.minecraft.block.state.BlockStateContainer;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.config.Configuration;
 
 import javax.annotation.Nonnull;
@@ -47,6 +52,21 @@ public class HUDHandlerBlocks implements IWailaDataProvider {
             currenttip.add("\u00a7r" + String.format(FormattingConfig.metaFormat, accessor.getBlock().getRegistryName().toString(), accessor.getMetadata()));
 
         return currenttip;
+    }
+
+    @Nonnull
+    @Override
+    public List<String> getWailaBody(ItemStack itemStack, List<String> tooltip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
+        if (config.getConfig("general.showstates")) {
+            IBlockState actualState = accessor.getBlockState().getBlock().getActualState(accessor.getBlockState(), accessor.getWorld(), accessor.getPosition());
+            BlockStateContainer container = accessor.getBlock().getBlockState();
+            for (IProperty<?> property : container.getProperties()) {
+                Comparable<?> value = actualState.getValue(property);
+                tooltip.add(property.getName() + ": " + (property instanceof PropertyBool ? value == Boolean.TRUE ? TextFormatting.GREEN : TextFormatting.RED : "") + value.toString());
+            }
+        }
+
+        return tooltip;
     }
 
     @Nonnull
