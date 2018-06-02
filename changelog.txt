@@ -1,4 +1,19 @@
 ------------------------------------------------------
+Version 1.8.26
+------------------------------------------------------
+
+- Remove compatibility with 1.12.0 and 1.12.1
+- Switch to using `getCreatorModId()` to allow mods to override which mod name is shown in the tooltip
+    - This is why 1.12.2 is required
+- Don't attempt to render the overlay if the tooltip is somehow null
+- Add a config to render current state values in the tooltip
+    - As seen by the client
+- Reduced network usage by the villager handler
+    - Rather than writing the entire entity to the tag, we just write the career ID
+    - This is possible thanks to the fix in 1.8.22
+- Allow hiding the tooltip when the debug menu is open
+
+------------------------------------------------------
 Version 1.8.25
 ------------------------------------------------------
 
