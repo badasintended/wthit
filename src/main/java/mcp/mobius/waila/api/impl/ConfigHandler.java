@@ -154,6 +154,10 @@ public class ConfigHandler implements IWailaConfigHandler {
         return getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_HIDEFROMLIST, true);
     }
 
+    public boolean hideFromDebug() {
+        return getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_HIDEFROMDEBUG, true);
+    }
+
     public boolean showItem() {
         return getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOWITEM, true);
     }
@@ -178,6 +182,7 @@ public class ConfigHandler implements IWailaConfigHandler {
         config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_KEYBIND, true);
         config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_NEWFILTERS, true);
         config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_HIDEFROMLIST, true);
+        config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_HIDEFROMDEBUG, false);
         config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOWITEM, true);
         config.get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_TTS, false);
 

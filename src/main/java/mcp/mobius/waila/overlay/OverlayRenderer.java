@@ -40,6 +40,9 @@ public class OverlayRenderer {
         if (!Minecraft.isGuiEnabled())
             return;
 
+        if (mc.gameSettings.showDebugInfo && ConfigHandler.instance().hideFromDebug())
+            return;
+
         if (RayTracing.instance().getTarget() == null)
             return;
 
