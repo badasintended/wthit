@@ -138,10 +138,7 @@ curseforge {
     project {
         id = "${curse_id}"
         changelog = getChangelogText()
-        releaseType = 'beta'
-
-        addGameVersion "1.12.1"
-        addGameVersion "1.12.2"
+        releaseType = 'release'
 
         addArtifact sourcesJar
         addArtifact apiJar

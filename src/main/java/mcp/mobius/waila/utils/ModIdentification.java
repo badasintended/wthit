@@ -22,24 +22,19 @@ public class ModIdentification {
         if (stack.isEmpty())
             return "";
 
-        ResourceLocation resource = stack.getItem().getRegistryName();
-        ModContainer container = findModContainer(resource.getResourceDomain());
+        String domain = stack.getItem().getCreatorModId(stack);
+        ModContainer container = findModContainer(domain);
 
         return container.getName();
     }
 
     public static ModContainer findModContainer(String modID) {
-        if (containers.get(modID) != null)
-            return containers.get(modID);
+        return containers.computeIfAbsent(modID, s -> {
+            for (ModContainer container : Loader.instance().getModList())
+                if (modID.equalsIgnoreCase(container.getModId()))
+                    return container;
 
-        ModContainer modContainer = null;
-        for (ModContainer container : Loader.instance().getModList()) {
-            if (modID.equalsIgnoreCase(container.getModId())) {
-                containers.put(modID, container);
-                modContainer = container;
-            }
-        }
-
-        return modContainer == null ? Loader.instance().getMinecraftModContainer() : modContainer;
+            return Loader.instance().getMinecraftModContainer();
+        });
     }
 }
