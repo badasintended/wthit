@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "package": "mcp.mobius.waila.mixin.client",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "hwyla-refmap.json",
+  "mixins": [
+    "MixinMinecraftClient",
+    "MixinGameRenderer",
+    "MixinItemStack"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

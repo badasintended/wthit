@@ -1,38 +1,41 @@
 package mcp.mobius.waila.addons.core;
 
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.api.IWailaRegistrar;
-import mcp.mobius.waila.api.WailaPlugin;
+import mcp.mobius.waila.api.TooltipPosition;
+import mcp.mobius.waila.overlay.tooltiprenderers.TooltipRendererHealth;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockLiquid;
+import net.minecraft.block.FluidBlock;
 import net.minecraft.entity.Entity;
-import net.minecraftforge.fluids.IFluidBlock;
+import net.minecraft.util.Identifier;
 
-@WailaPlugin
 public class PluginCore implements IWailaPlugin {
+
+    static final Identifier RENDER_ENTITY_HEALTH = new Identifier(Waila.MODID, "render_health");
+
+    static final Identifier CONFIG_SHOW_REGISTRY = new Identifier(Waila.MODID, "show_registry");
+    public static final Identifier CONFIG_SHOW_ENTITY = new Identifier(Waila.MODID, "show_entities");
+    static final Identifier CONFIG_SHOW_ENTITY_HEALTH = new Identifier(Waila.MODID, "show_entity_hp");
+    static final Identifier CONFIG_SHOW_STATES = new Identifier(Waila.MODID, "show_states");
 
     @Override
     public void register(IWailaRegistrar registrar) {
-        registrar.registerHeadProvider(HUDHandlerBlocks.INSTANCE, Block.class);
-        registrar.registerBodyProvider(HUDHandlerBlocks.INSTANCE, Block.class);
-        registrar.registerTailProvider(HUDHandlerBlocks.INSTANCE, Block.class);
+        registrar.registerComponentProvider(HUDHandlerBlocks.INSTANCE, TooltipPosition.HEAD, Block.class);
+        registrar.registerComponentProvider(HUDHandlerBlocks.INSTANCE, TooltipPosition.BODY, Block.class);
+        registrar.registerComponentProvider(HUDHandlerBlocks.INSTANCE, TooltipPosition.TAIL, Block.class);
 
-        // Fluid blocks using vanilla system (Vanilla)
-        registrar.registerStackProvider(HUDHandlerFluids.INSTANCE, BlockLiquid.class);
-        registrar.registerHeadProvider(HUDHandlerFluids.INSTANCE, BlockLiquid.class);
-        registrar.registerTailProvider(HUDHandlerFluids.INSTANCE, BlockLiquid.class);
-        // Fluid blocks using Forge's system (Mods doing things correctly)
-        registrar.registerStackProvider(HUDHandlerFluids.INSTANCE, IFluidBlock.class);
-        registrar.registerHeadProvider(HUDHandlerFluids.INSTANCE, IFluidBlock.class);
-        registrar.registerTailProvider(HUDHandlerFluids.INSTANCE, IFluidBlock.class);
+        registrar.registerStackProvider(HUDHandlerFluids.INSTANCE, FluidBlock.class);
 
-        registrar.registerHeadProvider(HUDHandlerEntities.INSTANCE, Entity.class);
-        registrar.registerBodyProvider(HUDHandlerEntities.INSTANCE, Entity.class);
-        registrar.registerTailProvider(HUDHandlerEntities.INSTANCE, Entity.class);
+        registrar.registerComponentProvider(HUDHandlerEntities.INSTANCE, TooltipPosition.HEAD, Entity.class);
+        registrar.registerComponentProvider(HUDHandlerEntities.INSTANCE, TooltipPosition.BODY, Entity.class);
+        registrar.registerComponentProvider(HUDHandlerEntities.INSTANCE, TooltipPosition.TAIL, Entity.class);
 
-        registrar.addConfig("General", "general.showents");
-        registrar.addConfig("General", "general.showhp");
-        registrar.addConfig("General", "general.showcrop");
-        registrar.addConfig("General", "general.showstates", false);
+        registrar.addConfig(CONFIG_SHOW_REGISTRY, false);
+        registrar.addConfig(CONFIG_SHOW_ENTITY, true);
+        registrar.addConfig(CONFIG_SHOW_ENTITY_HEALTH, true);
+        registrar.addConfig(CONFIG_SHOW_STATES, false);
+
+        registrar.registerTooltipRenderer(RENDER_ENTITY_HEALTH, new TooltipRendererHealth());
     }
 }

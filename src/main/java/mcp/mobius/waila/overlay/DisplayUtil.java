@@ -1,79 +1,38 @@
 package mcp.mobius.waila.overlay;
 
-import mcp.mobius.waila.api.IWailaTooltipRenderer;
-import mcp.mobius.waila.api.impl.DataAccessorCommon;
-import mcp.mobius.waila.api.impl.ModuleRegistrar;
-import mcp.mobius.waila.config.FormattingConfig;
+import com.mojang.blaze3d.platform.GlStateManager;
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.FontRenderer;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderItem;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.client.item.TooltipOptions;
+import net.minecraft.client.render.BufferBuilder;
+import net.minecraft.client.render.Tessellator;
+import net.minecraft.client.render.VertexFormats;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.TextFormatting;
+import net.minecraft.text.StringTextComponent;
+import net.minecraft.text.TextComponent;
+import net.minecraft.text.TextFormat;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-
-import static mcp.mobius.waila.api.SpecialChars.*;
 
 public class DisplayUtil {
+
     private static final String[] NUM_SUFFIXES = new String[]{"", "k", "m", "b", "t"};
     private static final int MAX_LENGTH = 4;
-    protected static RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
-    private static FontRenderer fontRendererObj = Minecraft.getMinecraft().fontRenderer;
-
-    public static int getDisplayWidth(String s) {
-        if (s == null || s.equals(""))
-            return 0;
-
-        int width = 0;
-
-        String[] renderSplit = s.split(WailaSplitter);
-        for (String render : renderSplit) {
-            Matcher renderMatcher = patternRender.matcher(render);
-            while (renderMatcher.find()) {
-                IWailaTooltipRenderer renderer = ModuleRegistrar.instance().getTooltipRenderer(renderMatcher.group("name"));
-                if (renderer != null) {
-                    width += renderer.getSize(renderMatcher.group("args").split("\\+,"), DataAccessorCommon.instance).width;
-                    s = s.replace(render, "");
-                }
-            }
-        }
-
-        Matcher iconMatcher = patternIcon.matcher(s);
-        while (iconMatcher.find())
-            width += 8;
-
-        String stripped = stripWailaSymbols(s);
-        width += fontRendererObj.getStringWidth(stripped);
-        return width;
-    }
-
-    public static String stripSymbols(String s) {
-        return s.replaceAll(patternRender.pattern(), "").replaceAll(patternMinecraft.pattern(), "").replaceAll(patternWaila.pattern(), "");
-    }
-
-    public static String stripWailaSymbols(String s) {
-        return s.replaceAll(patternWaila.pattern(), "").replaceAll(patternRender.pattern(), "");
-    }
+    private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
 
     public static void renderStack(int x, int y, ItemStack stack) {
         enable3DRender();
         try {
-            renderItem.renderItemAndEffectIntoGUI(stack, x, y);
+            CLIENT.getItemRenderer().renderItemAndGlowInGui(stack, x, y);
             ItemStack overlayRender = stack.copy();
-            overlayRender.setCount(1);
-            renderItem.renderItemOverlayIntoGUI(fontRendererObj, overlayRender, x, y, null);
-            renderStackSize(fontRendererObj, stack, x, y);
-
+            overlayRender.setAmount(1);
+            CLIENT.getItemRenderer().renderItemOverlaysInGUI(CLIENT.fontRenderer, overlayRender, x, y);
+            renderStackSize(CLIENT.fontRenderer, stack, x, y);
         } catch (Exception e) {
             String stackStr = stack != null ? stack.toString() : "NullStack";
             WailaExceptionHandler.handleErr(e, "renderStack | " + stackStr, null);
@@ -82,19 +41,18 @@ public class DisplayUtil {
     }
 
     public static void renderStackSize(FontRenderer fr, ItemStack stack, int xPosition, int yPosition) {
-        if (!stack.isEmpty() && stack.getCount() != 1) {
-            String s = shortHandNumber(stack.getCount());
+        if (!stack.isEmpty() && stack.getAmount() != 1) {
+            String s = shortHandNumber(stack.getAmount());
 
-            if (stack.getCount() < 1)
-                s = TextFormatting.RED + String.valueOf(stack.getCount());
+            if (stack.getAmount() < 1)
+                s = TextFormat.RED + String.valueOf(stack.getAmount());
 
             GlStateManager.disableLighting();
-            GlStateManager.disableDepth();
+            GlStateManager.disableDepthTest();
             GlStateManager.disableBlend();
-//            GlStateManager.scale(0.5F, 0.5F, 0.5F);
-            fr.drawStringWithShadow(s, (float) (xPosition + 19 - 2 - fr.getStringWidth(s)), (float) (yPosition + 6 + 3), 16777215);
+            fr.drawWithShadow(s, (float) (xPosition + 19 - 2 - fr.getStringWidth(s)), (float) (yPosition + 6 + 3), 16777215);
             GlStateManager.enableLighting();
-            GlStateManager.enableDepth();
+            GlStateManager.enableDepthTest();
             GlStateManager.enableBlend();
         }
     }
@@ -110,12 +68,12 @@ public class DisplayUtil {
 
     public static void enable3DRender() {
         GlStateManager.enableLighting();
-        GlStateManager.enableDepth();
+        GlStateManager.enableDepthTest();
     }
 
     public static void enable2DRender() {
         GlStateManager.disableLighting();
-        GlStateManager.disableDepth();
+        GlStateManager.disableDepthTest();
     }
 
     public static void drawGradientRect(int left, int top, int right, int bottom, int startColor, int endColor) {
@@ -129,23 +87,23 @@ public class DisplayUtil {
         float f5 = (float) (endColor >> 16 & 255) / 255.0F;
         float f6 = (float) (endColor >> 8 & 255) / 255.0F;
         float f7 = (float) (endColor & 255) / 255.0F;
-        GlStateManager.disableTexture2D();
+        GlStateManager.disableTexture();
         GlStateManager.enableBlend();
-        GlStateManager.disableAlpha();
-        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+        GlStateManager.disableAlphaTest();
+        GlStateManager.blendFuncSeparate(770, 771, 1, 0);
         GlStateManager.shadeModel(7425);
         Tessellator tessellator = Tessellator.getInstance();
-        BufferBuilder buffer = tessellator.getBuffer();
-        buffer.begin(7, DefaultVertexFormats.POSITION_COLOR);
-        buffer.pos((double) (left + right), (double) top, (double) zLevel).color(f1, f2, f3, f).endVertex();
-        buffer.pos((double) left, (double) top, (double) zLevel).color(f1, f2, f3, f).endVertex();
-        buffer.pos((double) left, (double) (top + bottom), (double) zLevel).color(f5, f6, f7, f4).endVertex();
-        buffer.pos((double) (left + right), (double) (top + bottom), (double) zLevel).color(f5, f6, f7, f4).endVertex();
+        BufferBuilder buffer = tessellator.getBufferBuilder();
+        buffer.begin(7, VertexFormats.POSITION_COLOR);
+        buffer.vertex((double) (left + right), (double) top, (double) zLevel).color(f1, f2, f3, f).next();
+        buffer.vertex((double) left, (double) top, (double) zLevel).color(f1, f2, f3, f).next();
+        buffer.vertex((double) left, (double) (top + bottom), (double) zLevel).color(f5, f6, f7, f4).next();
+        buffer.vertex((double) (left + right), (double) (top + bottom), (double) zLevel).color(f5, f6, f7, f4).next();
         tessellator.draw();
         GlStateManager.shadeModel(7424);
         GlStateManager.disableBlend();
-        GlStateManager.enableAlpha();
-        GlStateManager.enableTexture2D();
+        GlStateManager.enableAlphaTest();
+        GlStateManager.enableTexture();
     }
 
     public static void drawTexturedModalRect(int x, int y, int textureX, int textureY, int width, int height, int tw, int th) {
@@ -153,39 +111,36 @@ public class DisplayUtil {
         float f1 = 0.00390625F;
         float zLevel = 0.0F;
         Tessellator tessellator = Tessellator.getInstance();
-        BufferBuilder buffer = tessellator.getBuffer();
-        buffer.begin(7, DefaultVertexFormats.POSITION_TEX);
-        buffer.pos((double) (x), (double) (y + height), (double) zLevel).tex((double) ((float) (textureX) * f), (double) ((float) (textureY + th) * f1)).endVertex();
-        buffer.pos((double) (x + width), (double) (y + height), (double) zLevel).tex((double) ((float) (textureX + tw) * f), (double) ((float) (textureY + th) * f1)).endVertex();
-        buffer.pos((double) (x + width), (double) (y), (double) zLevel).tex((double) ((float) (textureX + tw) * f), (double) ((float) (textureY) * f1)).endVertex();
-        buffer.pos((double) (x), (double) (y), (double) zLevel).tex((double) ((float) (textureX) * f), (double) ((float) (textureY) * f1)).endVertex();
+        BufferBuilder buffer = tessellator.getBufferBuilder();
+        buffer.begin(7, VertexFormats.POSITION_UV);
+        buffer.vertex((double) (x), (double) (y + height), (double) zLevel).texture((double) ((float) (textureX) * f), (double) ((float) (textureY + th) * f1)).next();
+        buffer.vertex((double) (x + width), (double) (y + height), (double) zLevel).texture((double) ((float) (textureX + tw) * f), (double) ((float) (textureY + th) * f1)).next();
+        buffer.vertex((double) (x + width), (double) (y), (double) zLevel).texture((double) ((float) (textureX + tw) * f), (double) ((float) (textureY) * f1)).next();
+        buffer.vertex((double) (x), (double) (y), (double) zLevel).texture((double) ((float) (textureX) * f), (double) ((float) (textureY) * f1)).next();
         tessellator.draw();
     }
 
     public static void drawString(String text, int x, int y, int colour, boolean shadow) {
         if (shadow)
-            fontRendererObj.drawStringWithShadow(text, x, y, colour);
+            CLIENT.fontRenderer.drawWithShadow(text, x, y, colour);
         else
-            fontRendererObj.drawString(text, x, y, colour);
+            CLIENT.fontRenderer.draw(text, x, y, colour);
     }
 
-    public static List<String> itemDisplayNameMultiline(ItemStack itemstack) {
-        List<String> namelist = null;
+    public static List<TextComponent> itemDisplayNameMultiline(ItemStack itemstack) {
+        List<TextComponent> namelist = null;
         try {
-            namelist = itemstack.getTooltip(Minecraft.getMinecraft().player, ITooltipFlag.TooltipFlags.NORMAL);
+            namelist = itemstack.getTooltipText(CLIENT.player, TooltipOptions.Instance.NORMAL);
         } catch (Throwable ignored) {
         }
 
         if (namelist == null)
             namelist = new ArrayList<>();
 
-        if (namelist.size() == 0)
-            namelist.add("Unnamed");
+        if (namelist.isEmpty())
+            namelist.add(new StringTextComponent("Unnamed"));
 
-        if (namelist.get(0) == null || namelist.get(0).equals(""))
-            namelist.set(0, "Unnamed");
-
-        namelist.set(0, itemstack.getRarity().rarityColor.toString() + namelist.get(0));
+        namelist.set(0, new StringTextComponent(itemstack.getRarity().formatting.toString() + namelist.get(0)));
         for (int i = 1; i < namelist.size(); i++)
             namelist.set(i, namelist.get(i));
 
@@ -193,13 +148,13 @@ public class DisplayUtil {
     }
 
     public static String itemDisplayNameShort(ItemStack itemstack) {
-        List<String> list = itemDisplayNameMultiline(itemstack);
-        return String.format(FormattingConfig.blockFormat, list.get(0));
+        List<TextComponent> list = itemDisplayNameMultiline(itemstack);
+        return String.format(Waila.config.getFormatting().getBlockName(), list.get(0).getFormattedText());
     }
 
     public static void renderIcon(int x, int y, int sx, int sy, IconUI icon) {
-        GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        Minecraft.getMinecraft().getTextureManager().bindTexture(Gui.ICONS);
+        GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+        CLIENT.getTextureManager().bindTexture(Gui.ICONS);
 
         if (icon == null)
             return;

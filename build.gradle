@@ -1,146 +1,23 @@
-buildscript {
-    repositories {
-        jcenter()
-        maven {
-            name = "forge"
-            url = "http://files.minecraftforge.net/maven"
-        }
-    }
-    dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
-    }
-}
-
 plugins {
-    id "com.matthewprenger.cursegradle" version "1.0.10"
-    id "maven-publish"
+	id 'fabric-loom' version '0.2.0-SNAPSHOT'
 }
 
-apply plugin: 'net.minecraftforge.gradle.forge'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
-def build_number = 'CUSTOM'
-
-if (System.getenv('BUILD_NUMBER') != null)
-    build_number = System.getenv('BUILD_NUMBER')
-
-version = "${waila_version}-B${build_number}_${mc_version}"
-group= "mcp.mobius.waila"
 archivesBaseName = "Hwyla"
+version = "1.14-fabric-1.0.0"
 
 minecraft {
-    version = "${mc_version}-${forge_version}"
-    mappings = "${mcp_version}"
-    runDir = "run"
-	
-    replace "@VERSION@", project.waila_version
-    replaceIn "Waila.java"
-}
-
-repositories {
-    maven { url "http://dvs1.progwml6.com/files/maven" }
+    refmapName = 'hwyla-refmap.json'
 }
 
 dependencies {
-    deobfCompile "mezz.jei:jei_1.12.2:4.7.11.102"
-}
+	minecraft "com.mojang:minecraft:18w50a"
+	mappings "net.fabricmc:yarn:18w50a.67"
+	modCompile "net.fabricmc:fabric-loader:0.3.0.74"
 
-processResources{
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
-
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-                
-        expand 'version':project.waila_version, 'mcversion':project.minecraft.version
-    }
-	
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-    }
-}
-
-// Combine main and API source sets
-jar {
-    from sourceSets.main.output
-    from sourceSets.api.output
-}
-
-// API jar
-task apiJar(type: Jar) {
-    classifier = 'api'
-    from sourceSets.api.output
-
-    // TODO: when FG bug is fixed, remove allJava from the api jar.
-    // https://github.com/MinecraftForge/ForgeGradle/issues/369
-    // Gradle should be able to pull them from the -sources jar.
-    from sourceSets.api.allJava
-}
-
-task sourcesJar(type: Jar) {
-    classifier = 'sources'
-    from sourceSets.main.allJava
-    from sourceSets.api.allJava
-}
-
-tasks.build.dependsOn apiJar, sourcesJar
-
-tasks.withType(JavaCompile) { task ->
-    task.options.encoding = 'UTF-8'
-}
-
-publishing {
-    tasks.publish.dependsOn 'build'
-    publications {
-        mavenJava(MavenPublication) {
-            artifact jar
-            artifact sourcesJar
-            artifact apiJar
-        }
-    }
-    repositories {
-        if (project.hasProperty('maven_repo')) {
-            maven { url maven_repo }
-        } else {
-            mavenLocal()
-        }
-    }
-}
-
-String getChangelogText() {
-    def changelogFile = new File('changelog.txt')
-    String str = ''
-    String separator = '---'
-    int lineCount = 0
-    boolean done = false
-    changelogFile.eachLine {
-        if (done || it == null) {
-            return
-        }
-        if (lineCount < 3) {
-            lineCount++
-            if (it.startsWith(separator)) {
-                return
-            }
-        }
-        if (!it.startsWith(separator)) {
-            str += "$it" + (lineCount < 3 ? ':\n\n' : '\n')
-            return
-        }
-        done = true // once we go past the first version block, parse no more
-    }
-    return str
-}
-
-curseforge {
-    if (project.hasProperty('curse_key_TehNut'))
-        apiKey = project.curse_key_TehNut
-
-    project {
-        id = "${curse_id}"
-        changelog = getChangelogText()
-        releaseType = 'release'
-
-        addArtifact sourcesJar
-        addArtifact apiJar
-    }
+	// Fabric API. This is technically optional, but you probably want it anyway.
+	modCompile "net.fabricmc:fabric:0.1.2.63"
+    modCompile files("lib/PluginLoader-1.14-fabric-1.0.0.jar")
 }

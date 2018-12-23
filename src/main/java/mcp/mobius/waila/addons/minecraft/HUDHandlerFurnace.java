@@ -1,74 +1,65 @@
 package mcp.mobius.waila.addons.minecraft;
 
 import mcp.mobius.waila.api.*;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityFurnace;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.state.property.Properties;
+import net.minecraft.text.TextComponent;
+import net.minecraft.util.DefaultedList;
+import net.minecraft.util.InventoryUtil;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 
-public class HUDHandlerFurnace implements IWailaDataProvider {
+public class HUDHandlerFurnace implements IWailaDataProvider, IServerDataProvider<BlockEntity> {
 
-    @Nonnull
+    static final HUDHandlerFurnace INSTANCE = new HUDHandlerFurnace();
+
     @Override
-    public List<String> getWailaBody(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
-        if (!config.getConfig("vanilla.furnacedisplay") || accessor.getBlock() != Blocks.LIT_FURNACE)
-            return currenttip;
+    public void appendBody(List<TextComponent> tooltip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
+        if (!config.get(PluginMinecraft.CONFIG_DISPLAY_FURNACE))
+            return;
 
-        int cookTime = accessor.getNBTData().getShort("CookTime");
+        if (!accessor.getBlockState().get(Properties.LIT))
+            return;
 
-        NBTTagList itemTag = accessor.getNBTData().getTagList("Items", 10);
-        ItemStack[] inventory = new ItemStack[3];
-        for (int i = 0; i < itemTag.tagCount(); i++) {
-            NBTTagCompound tagCompound = itemTag.getCompoundTagAt(i);
-            byte slot = tagCompound.getByte("Slot");
-            ItemStack stack = new ItemStack(tagCompound);
-            inventory[slot] = stack;
-        }
+        CompoundTag furnaceData = accessor.getServerData().getCompound("furnace");
+        int cookTime = furnaceData.getShort("CookTime");
 
-        String renderStr = "";
+        DefaultedList<ItemStack> inventory = DefaultedList.create();
+        InventoryUtil.deserialize(furnaceData, inventory);
 
-        if (inventory[0] != null) {
-            String name = inventory[0].getItem().getRegistryName().toString();
-            renderStr += SpecialChars.getRenderString("waila.stack", "1", name, String.valueOf(inventory[0].getCount()), String.valueOf(inventory[0].getItemDamage()));
-        } else renderStr += SpecialChars.getRenderString("waila.stack", "2");
+        CompoundTag progress = new CompoundTag();
+        progress.putInt("cook", cookTime);
 
-        if (inventory[1] != null) {
-            String name = inventory[1].getItem().getRegistryName().toString();
-            renderStr += SpecialChars.getRenderString("waila.stack", "1", name, String.valueOf(inventory[1].getCount()), String.valueOf(inventory[1].getItemDamage()));
-        } else renderStr += SpecialChars.getRenderString("waila.stack", "2");
+        RenderableTextComponent renderables = new RenderableTextComponent(
+                getRenderable(inventory.get(0)),
+                getRenderable(inventory.get(1)),
+                getRenderable(inventory.get(2)),
+                new RenderableTextComponent(PluginMinecraft.RENDER_FURNACE_PROGRESS, progress)
+        );
 
-        renderStr += SpecialChars.getRenderString("waila.progress", String.valueOf(cookTime), String.valueOf(200));
-
-        if (inventory[2] != null) {
-            String name = inventory[2].getItem().getRegistryName().toString();
-            renderStr += SpecialChars.getRenderString("waila.stack", "1", name, String.valueOf(inventory[2].getCount()), String.valueOf(inventory[2].getItemDamage()));
-        } else renderStr += SpecialChars.getRenderString("waila.stack", "2");
-
-        currenttip.add(renderStr);
-
-        return currenttip;
+        tooltip.add(renderables);
     }
 
-    @Nonnull
     @Override
-    public NBTTagCompound getNBTData(EntityPlayerMP player, TileEntity te, NBTTagCompound tag, World world, BlockPos pos) {
-        return te.writeToNBT(tag);
+    public void appendServerData(CompoundTag data, ServerPlayerEntity player, World world, BlockEntity blockEntity) {
+        AbstractFurnaceBlockEntity furnace = (AbstractFurnaceBlockEntity) blockEntity;
+        data.put("furnace", furnace.toTag(new CompoundTag()));
     }
 
-    public static void register(IWailaRegistrar registrar) {
-        registrar.addConfig("VanillaMC", "vanilla.furnacedisplay", true);
-
-        HUDHandlerFurnace provider = new HUDHandlerFurnace();
-
-        registrar.registerBodyProvider(provider, TileEntityFurnace.class);
-        registrar.registerNBTProvider(provider, TileEntityFurnace.class);
+    private static RenderableTextComponent getRenderable(ItemStack stack) {
+        if (stack.isEmpty()) {
+            CompoundTag tag = new CompoundTag();
+            tag.putString("id", Registry.ITEM.getId(stack.getItem()).toString());
+            tag.putInt("count", stack.getAmount());
+            if (stack.hasTag())
+                tag.putString("nbt", stack.getTag().toString());
+            return new RenderableTextComponent(PluginMinecraft.RENDER_ITEM, tag);
+        } else return new RenderableTextComponent(PluginMinecraft.RENDER_SPACER, new CompoundTag());
     }
 }

@@ -1,7 +1,7 @@
 package mcp.mobius.waila.api;
 
-import javax.annotation.Nonnull;
-import java.util.HashMap;
+import net.minecraft.util.Identifier;
+
 import java.util.Set;
 
 /**
@@ -11,37 +11,35 @@ import java.util.Set;
  * @author ProfMobius
  */
 public interface IWailaConfigHandler {
-    /**
-     * Returns a set of all the currently loaded modules in the config handler.
-     *
-     * @return a set of all the currently loaded modules in the config handler.
-     */
-    @Nonnull
-    Set<String> getModuleNames();
 
     /**
-     * Returns all the currently available options for a given module
+     * Gets a collection of all the keys for a given namespace.
      *
-     * @param modName Module name
-     * @return all the currently available options for a given module
+     * @param namespace The namespace to get keys from
+     * @return all the keys for a given namespace.
      */
-    @Nonnull
-    HashMap<String, String> getConfigKeys(String modName);
+    Set<Identifier> getKeys(String namespace);
 
     /**
-     * Returns the current value of an option (true/false) with a default value if not set.
+     * Gets a collection of all keys.
      *
-     * @param key      Option to lookup
-     * @param defvalue Default values
-     * @return Value of the option or defvalue if not set.
+     * @return all registered keys.
      */
-    boolean getConfig(String key, boolean defvalue);
+    Set<Identifier> getKeys();
 
     /**
-     * Returns the current value of an option (true/false) with a default value true if not set
-     *
-     * @param key Option to lookup
-     * @return Value of the option or true if not set.
+     * @see #get(Identifier, boolean)
      */
-    boolean getConfig(String key);
+    default boolean get(Identifier key) {
+        return get(key, false);
+    }
+
+    /**
+     * Gets a value from the config with the provided default returned if the key is not registered.
+     *
+     * @param key The config key
+     * @param defaultValue The default value
+     * @return The value returned from the config or the default value if none exist.
+     */
+    boolean get(Identifier key, boolean defaultValue);
 }

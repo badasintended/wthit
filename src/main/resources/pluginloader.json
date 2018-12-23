@@ -1,0 +1,4 @@
+{
+  "id": "waila",
+  "initializer": "mcp.mobius.waila.WailaPlugins"
+}

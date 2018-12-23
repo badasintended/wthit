@@ -1,83 +1,54 @@
 package mcp.mobius.waila.addons.core;
 
 import com.google.common.base.Strings;
+import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.api.ITaggedList;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaDataAccessor;
 import mcp.mobius.waila.api.IWailaDataProvider;
-import mcp.mobius.waila.api.impl.ConfigHandler;
-import mcp.mobius.waila.config.FormattingConfig;
-import mcp.mobius.waila.overlay.DisplayUtil;
-import mcp.mobius.waila.utils.Constants;
 import mcp.mobius.waila.utils.ModIdentification;
-import net.minecraft.block.properties.IProperty;
-import net.minecraft.block.properties.PropertyBool;
-import net.minecraft.block.state.BlockStateContainer;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.common.config.Configuration;
+import net.minecraft.block.BlockState;
+import net.minecraft.client.resource.language.I18n;
+import net.minecraft.state.property.BooleanProperty;
+import net.minecraft.text.*;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 
-import javax.annotation.Nonnull;
 import java.util.List;
 
 public class HUDHandlerBlocks implements IWailaDataProvider {
 
     static final IWailaDataProvider INSTANCE = new HUDHandlerBlocks();
+    static final Identifier MOD_NAME_TAG = new Identifier(Waila.MODID, "mod_name");
 
-    @Nonnull
     @Override
-    public List<String> getWailaHead(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
+    public void appendHead(List<TextComponent> tooltip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
         if (accessor.getBlockState().getMaterial().isLiquid())
-            return currenttip;
+            return;
 
-        String name = null;
-
-        String displayName = DisplayUtil.itemDisplayNameShort(itemStack);
-        if (displayName != null && !displayName.endsWith("Unnamed"))
-            name = displayName;
-        if (name != null)
-            currenttip.add(name);
-
-        if (itemStack.getItem() == Items.REDSTONE) {
-            int md = accessor.getMetadata();
-            String redstoneMeta = "" + md;
-            if (redstoneMeta.length() < 2)
-                redstoneMeta = " " + redstoneMeta;
-            currenttip.set(currenttip.size() - 1, name + " " + redstoneMeta);
-        }
-        if (currenttip.size() == 0)
-            currenttip.add("\u00a7r" + String.format(FormattingConfig.blockFormat, "< Unnamed >"));
-        else if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_METADATA, true) && !Strings.isNullOrEmpty(FormattingConfig.metaFormat))
-            currenttip.add("\u00a7r" + String.format(FormattingConfig.metaFormat, accessor.getBlock().getRegistryName().toString(), accessor.getMetadata()));
-
-        return currenttip;
+        tooltip.add(new StringTextComponent(String.format(Waila.config.getFormatting().getEntityName(), I18n.translate(accessor.getStack().getTranslationKey()))));
+        if (config.get(PluginCore.CONFIG_SHOW_REGISTRY))
+            tooltip.add(new StringTextComponent(Registry.BLOCK.getId(accessor.getBlock()).toString()).setStyle(new Style().setColor(TextFormat.GRAY)));
     }
 
-    @Nonnull
     @Override
-    public List<String> getWailaBody(ItemStack itemStack, List<String> tooltip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
-        if (config.getConfig("general.showstates")) {
-            IBlockState actualState = accessor.getBlockState().getBlock().getActualState(accessor.getBlockState(), accessor.getWorld(), accessor.getPosition());
-            BlockStateContainer container = accessor.getBlock().getBlockState();
-            for (IProperty<?> property : container.getProperties()) {
-                Comparable<?> value = actualState.getValue(property);
-                tooltip.add(property.getName() + ": " + (property instanceof PropertyBool ? value == Boolean.TRUE ? TextFormatting.GREEN : TextFormatting.RED : "") + value.toString());
-            }
+    public void appendBody(List<TextComponent> tooltip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
+        if (config.get(PluginCore.CONFIG_SHOW_STATES)) {
+            BlockState state = accessor.getBlockState();
+            state.getProperties().forEach(p -> {
+                Comparable<?> value = state.get(p);
+                TextComponent valueText = new StringTextComponent(value.toString()).setStyle(new Style().setColor(p instanceof BooleanProperty ? value == Boolean.TRUE ? TextFormat.GREEN : TextFormat.RED : TextFormat.RESET));
+                tooltip.add(new StringTextComponent(p.getName() + ":").append(valueText));
+            });
         }
-
-        return tooltip;
     }
 
-    @Nonnull
     @Override
-    public List<String> getWailaTail(ItemStack itemStack, List<String> currenttip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
-        if (accessor.getBlockState().getMaterial().isLiquid())
-            return currenttip;
-        String modName = ModIdentification.nameFromStack(itemStack);
-        if (!Strings.isNullOrEmpty(FormattingConfig.modNameFormat))
-            currenttip.add(String.format(FormattingConfig.modNameFormat, modName));
-
-        return currenttip;
+    public void appendTail(List<TextComponent> tooltip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
+        String modName = ModIdentification.getModInfo(accessor.getStack().getItem()).getName();
+        if (!Strings.isNullOrEmpty(modName)) {
+            modName = String.format(Waila.config.getFormatting().getModName(), modName);
+            ((ITaggedList<TextComponent, Identifier>) tooltip).add(new StringTextComponent(modName), MOD_NAME_TAG);
+        }
     }
 }

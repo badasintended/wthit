@@ -1,8 +1,10 @@
 package mcp.mobius.waila.api.event;
 
 import mcp.mobius.waila.api.IWailaCommonAccessor;
-import net.minecraftforge.fml.common.eventhandler.Cancelable;
-import net.minecraftforge.fml.common.eventhandler.Event;
+import net.fabricmc.fabric.util.HandlerArray;
+import net.fabricmc.fabric.util.HandlerRegistry;
+
+import java.awt.Rectangle;
 
 /**
  * The base event for rendering the Waila tooltip. This provides the opportunity to do last minute changes to the tooltip.
@@ -10,55 +12,29 @@ import net.minecraftforge.fml.common.eventhandler.Event;
  * All sub-events are fired from {@link mcp.mobius.waila.overlay.OverlayRenderer#renderOverlay(mcp.mobius.waila.overlay.Tooltip)}.
  * All sub-events are fired every render tick.
  * <p>
- * {@link #xPos} - The X location that the tooltip is being rendered at.
- * {@link #yPos} - The Y location that the tooltip is being rendered at.
- * {@link #width} - The width of the tooltip.
- * {@link #height} - The height of the tooltip.
+ * {@link #position} The position and size of the tooltip being rendered
  */
-public class WailaRenderEvent extends Event {
+public class WailaRenderEvent {
 
-    private int xPos;
-    private int yPos;
-    private int width;
-    private int height;
+    public static final HandlerRegistry<PreRender> WAILA_RENDER_PRE = new HandlerArray<>(PreRender.class);
+    public static final HandlerRegistry<PostRender> WAILA_RENDER_POST = new HandlerArray<>(PostRender.class);
 
-    public WailaRenderEvent(int xPos, int yPos, int width, int height) {
-        this.xPos = xPos;
-        this.yPos = yPos;
-        this.width = width;
-        this.height = height;
+    public interface PreRender {
+        boolean onPreRender(Pre event);
     }
 
-    public int getX() {
-        return xPos;
+    public interface PostRender {
+        void onPostRender(Post event);
     }
 
-    protected void setxPos(int xPos) {
-        this.xPos = xPos;
+    private final Rectangle position;
+
+    private WailaRenderEvent(Rectangle position) {
+        this.position = position;
     }
 
-    public int getY() {
-        return yPos;
-    }
-
-    protected void setyPos(int yPos) {
-        this.yPos = yPos;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    protected void setWidth(int width) {
-        this.width = width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    protected void setHeight(int height) {
-        this.height = height;
+    public Rectangle getPosition() {
+        return position;
     }
 
     /**
@@ -68,39 +44,18 @@ public class WailaRenderEvent extends Event {
      * This event is cancelable.
      * If this event is canceled, the tooltip will not render.
      */
-    @Cancelable
     public static class Pre extends WailaRenderEvent {
 
         private final IWailaCommonAccessor accessor;
 
-        public Pre(IWailaCommonAccessor accessor, int xPos, int yPos, int width, int height) {
-            super(xPos, yPos, width, height);
+        public Pre(IWailaCommonAccessor accessor, Rectangle position) {
+            super(position);
 
             this.accessor = accessor;
         }
 
         public IWailaCommonAccessor getAccessor() {
             return accessor;
-        }
-
-        @Override
-        public void setxPos(int xPos) {
-            super.setxPos(xPos);
-        }
-
-        @Override
-        public void setyPos(int yPos) {
-            super.setyPos(yPos);
-        }
-
-        @Override
-        public void setWidth(int width) {
-            super.setWidth(width);
-        }
-
-        @Override
-        public void setHeight(int height) {
-            super.setHeight(height);
         }
     }
 
@@ -113,8 +68,8 @@ public class WailaRenderEvent extends Event {
      */
     public static class Post extends WailaRenderEvent {
 
-        public Post(int xPos, int yPos, int width, int height) {
-            super(xPos, yPos, width, height);
+        public Post(Rectangle position) {
+            super(position);
         }
     }
 }

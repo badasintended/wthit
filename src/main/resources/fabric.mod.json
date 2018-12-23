@@ -1,0 +1,37 @@
+{
+  "id": "waila",
+  "name": "Hwyla",
+  "description": "What am I looking at?",
+  "version": "1.0.0",
+  "license": "CC BY NC SA 4.0",
+  "side": "universal",
+  "initializers": [
+    "mcp.mobius.waila.Waila",
+    "mcp.mobius.waila.WailaClient"
+  ],
+  "links": {
+    "homepage": "https://minecraft.curseforge.com/projects/hwyla",
+    "issues": "https://github.com/TehNut/Hwyla/issues",
+    "sources": "https://github.com/TehNut/Hwyla"
+  },
+  "authors": [
+    {
+      "name": "TehNut",
+      "website": "https://tehnut.info",
+      "email": "nick@tehnut.info"
+    },
+    {
+      "name": "ProfMobius",
+      "website": "https://twitter.com/profmobius"
+    }
+  ],
+  "contributors": [
+    "InsomniaKitten"
+  ],
+  "requires": {
+    "fabric": "*"
+  },
+  "mixins": {
+    "client": "hwyla.client.json"
+  }
+}

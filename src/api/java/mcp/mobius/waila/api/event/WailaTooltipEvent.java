@@ -1,7 +1,9 @@
 package mcp.mobius.waila.api.event;
 
 import mcp.mobius.waila.api.IWailaCommonAccessor;
-import net.minecraftforge.fml.common.eventhandler.Event;
+import net.fabricmc.fabric.util.HandlerArray;
+import net.fabricmc.fabric.util.HandlerRegistry;
+import net.minecraft.text.TextComponent;
 
 import java.util.List;
 
@@ -13,21 +15,27 @@ import java.util.List;
  * <p>
  * {@link #currentTip} - The current tooltip to be drawn.
  */
-public class WailaTooltipEvent extends Event {
+public class WailaTooltipEvent {
 
-    private final List<String> currentTip;
+    public static final HandlerRegistry<HandleTooltip> WAILA_HANDLE_TOOLTIP = new HandlerArray<>(HandleTooltip.class);
+
+    private final List<TextComponent> currentTip;
     private final IWailaCommonAccessor accessor;
 
-    public WailaTooltipEvent(List<String> currentTip, IWailaCommonAccessor accessor) {
+    public WailaTooltipEvent(List<TextComponent> currentTip, IWailaCommonAccessor accessor) {
         this.currentTip = currentTip;
         this.accessor = accessor;
     }
 
-    public List<String> getCurrentTip() {
+    public List<TextComponent> getCurrentTip() {
         return currentTip;
     }
 
     public IWailaCommonAccessor getAccessor() {
         return accessor;
+    }
+
+    public interface HandleTooltip {
+        void onTooltip(WailaTooltipEvent event);
     }
 }

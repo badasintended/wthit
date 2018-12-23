@@ -1,0 +1,13 @@
+[
+  {
+    "id": "waila_core",
+    "initializer": "mcp.mobius.waila.addons.core.PluginCore",
+    "data": {
+      "requiredMod": "whatever"
+    }
+  },
+  {
+    "id": "waila_vanilla",
+    "initializer": "mcp.mobius.waila.addons.minecraft.PluginMinecraft"
+  }
+]

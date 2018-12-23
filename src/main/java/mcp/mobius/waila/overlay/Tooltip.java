@@ -1,246 +1,134 @@
 package mcp.mobius.waila.overlay;
 
-import mcp.mobius.waila.api.IWailaCommonAccessor;
-import mcp.mobius.waila.api.IWailaTooltipRenderer;
-import mcp.mobius.waila.api.SpecialChars;
+import com.google.common.collect.Lists;
+import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.api.RenderableTextComponent;
 import mcp.mobius.waila.api.event.WailaTooltipEvent;
-import mcp.mobius.waila.api.impl.ConfigHandler;
-import mcp.mobius.waila.api.impl.DataAccessorCommon;
-import mcp.mobius.waila.api.impl.ModuleRegistrar;
-import mcp.mobius.waila.config.OverlayConfig;
-import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderIcon;
-import mcp.mobius.waila.overlay.tooltiprenderers.TTRenderString;
-import mcp.mobius.waila.utils.Constants;
-import mcp.mobius.waila.utils.WailaExceptionHandler;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.item.ItemStack;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.common.config.Configuration;
+import mcp.mobius.waila.api.impl.DataAccessor;
+import mcp.mobius.waila.api.impl.config.WailaConfig;
+import net.fabricmc.fabric.util.HandlerArray;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.util.Window;
+import net.minecraft.text.TextComponent;
 
 import java.awt.Dimension;
-import java.awt.Point;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.awt.Rectangle;
 import java.util.List;
-import java.util.regex.Matcher;
-
-import static mcp.mobius.waila.api.SpecialChars.*;
 
 public class Tooltip {
-    public static int TabSpacing = 8;
-    public static int IconSize = 8;
 
-    List<String> textData = new ArrayList<>();
-    ArrayList<ArrayList<String>> lines = new ArrayList<>();
-    ArrayList<ArrayList<Integer>> sizes = new ArrayList<>();
-    ArrayList<Integer> columnsWidth = new ArrayList<>();
-    ArrayList<Integer> columnsPos = new ArrayList<>();
+    private final MinecraftClient client;
+    private final List<Line> lines;
+    private final boolean showItem;
+    private final Dimension totalSize;
 
-    ArrayList<Renderable> additionalHeights = new ArrayList<>();
-    ArrayList<Renderable> elements = new ArrayList<>();
-    ArrayList<Renderable> elements2nd = new ArrayList<>();
+    public Tooltip(List<TextComponent> components, boolean showItem) {
+        WailaTooltipEvent event = new WailaTooltipEvent(components, DataAccessor.INSTANCE);
+        Object[] postSubscribers = ((HandlerArray<WailaTooltipEvent.HandleTooltip>) WailaTooltipEvent.WAILA_HANDLE_TOOLTIP).getBackingArray();
+        for (Object object : postSubscribers)
+            ((WailaTooltipEvent.HandleTooltip) object).onTooltip(event);
 
-    int w, h, x, y, ty;
-    int offsetX;
-    int maxStringW;
-    Point pos;
-    ItemStack stack;
-    IWailaCommonAccessor accessor = DataAccessorCommon.instance;
-    private boolean hasIcon = false;
+        this.client = MinecraftClient.getInstance();
+        this.lines = Lists.newArrayList();
+        this.showItem = showItem;
+        this.totalSize = new Dimension();
 
-    public Tooltip(List<String> textData, ItemStack stack) {
-        this(textData, ConfigHandler.instance().showItem());
-        this.stack = stack;
-    }
-    ////////////////////////////////////////////////////////////////////////////
-
-
-    public Tooltip(List<String> textData, boolean hasIcon) {
-        WailaTooltipEvent event = new WailaTooltipEvent(textData, accessor);
-        MinecraftForge.EVENT_BUS.post(event);
-
-        this.textData = event.getCurrentTip();
-
-        this.computeSizes();
-        this.computeRenderables();
-        this.computePositionAndSize(hasIcon);
+        computeLines(components);
+        addPadding();
     }
 
-    private void computeSizes() {
-        columnsWidth.add(0); // Small init of the arrays to have at least one element
-        columnsPos.add(0);
-
-        for (String s : textData) {
-            ArrayList<String> line = new ArrayList<>(Arrays.asList(patternTab.split(s)));
-            ArrayList<Integer> size = new ArrayList<>();
-            for (String ss : line)
-                size.add(DisplayUtil.getDisplayWidth(ss));
-
-            // This line.size() > 1 is to prevent columns to align on lines without column (ie : the name & modid)
-            if (line.size() > 1) {
-                while (columnsWidth.size() < line.size()) {
-                    columnsWidth.add(0);
-                    columnsPos.add(0);
-                }
-
-                for (int i = 0; i < line.size(); i++)
-                    columnsWidth.set(i, Math.max(columnsWidth.get(i), size.get(i)));
-            }
-
-            maxStringW = Math.max(maxStringW, DisplayUtil.getDisplayWidth(s));
-
-            lines.add(line);
-            sizes.add(size);
-        }
-
-        // We correct if we only have one column
-        if (columnsWidth.size() == 1)
-            columnsWidth.set(0, maxStringW);
-
-        // We compute the position of the columns to be able to align the renderable later on
-        for (int i = 1; i < columnsWidth.size(); i++)
-            columnsPos.set(i, columnsWidth.get(i - 1) + columnsPos.get(i - 1) + TabSpacing);
+    public void computeLines(List<TextComponent> components) {
+        components.forEach(c -> {
+            Dimension size = getLineSize(c);
+            totalSize.setSize(Math.max(totalSize.width, size.width), totalSize.height + size.height);
+            lines.add(new Line(c, size));
+        });
     }
 
-    private void computeRenderables() {
-        int offsetY = 0;
-        for (ArrayList<String> line1 : lines) { // We check all the lines, one by one
-            int maxHeight = 0; // Maximum height of this line
-            for (int c = 0; c < line1.size(); c++) { // We check all the columns for this line
-                offsetX = columnsPos.get(c); // We move the "cursor" to the current column
-                String currentLine = line1.get(c);
-                String[] lines = currentLine.split(SpecialChars.WailaSplitter);
-
-                for (String line : lines) {
-                    Renderable renderable = null;
-                    Matcher renderMatcher = patternRender.matcher(line); // We keep a matcher here to be able to check if we have a Renderer. Might be better to do a startWith + full matcher init after the check
-                    Matcher iconMatcher = patternIcon.matcher(line);
-
-                    if (renderMatcher.find()) {
-                        String renderName = renderMatcher.group("name");
-
-                        IWailaTooltipRenderer renderer = ModuleRegistrar.instance().getTooltipRenderer(renderName);
-                        if (renderer != null) {
-                            renderable = new Renderable(renderer, new Point(offsetX, offsetY), renderMatcher.group("args").split("\\+,"));
-                            this.elements2nd.add(renderable);
-                            this.additionalHeights.add(renderable);
-                        }
-                    } else if (iconMatcher.find()) {
-                        renderable = new Renderable(new TTRenderIcon(iconMatcher.group("type")), new Point(offsetX, offsetY));
-                        this.elements2nd.add(renderable);
-                        this.additionalHeights.add(renderable);
-                    } else {
-                        if (line.startsWith(ALIGNRIGHT))
-                            offsetX += columnsWidth.get(c) - DisplayUtil.getDisplayWidth(line);
-
-                        if (line.startsWith(ALIGNCENTER))
-                            offsetX += (columnsWidth.get(c) - DisplayUtil.getDisplayWidth(line)) / 2;
-
-                        renderable = new Renderable(new TTRenderString(DisplayUtil.stripWailaSymbols(line)), new Point(offsetX, offsetY));
-                        this.elements.add(renderable);
-                    }
-
-                    if (renderable != null) {
-                        offsetX += renderable.getSize(accessor).width;
-                        maxHeight = Math.max(maxHeight, renderable.getSize(accessor).height + 2);
-                    }
-                }
-            }
-            offsetY += maxHeight;
-        }
-    }
-
-    private int getRenderableTotalHeight() {
-        int result = 0;
-        for (Renderable r : this.elements)
-            result = Math.max(r.getPos().y + r.getSize(accessor).height + 2, result);
-        for (Renderable r : this.additionalHeights)
-            result = Math.max(r.getPos().y + r.getSize(accessor).height + 2, result);
-        return result;
-    }
-
-    private void computePositionAndSize(boolean hasIcon) {
-        this.pos = new Point(
-                ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSX, 0),
-                ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_POSY, 0)
-        );
-        this.hasIcon = hasIcon;
-
-        int paddingW = hasIcon ? 29 : 13;
-        int paddingH = hasIcon ? 24 : 0;
-        offsetX = hasIcon ? 24 : 6;
-
-        w = maxStringW + paddingW;
-
-        h = Math.max(paddingH, this.getRenderableTotalHeight() + 8);
-
-        ScaledResolution resolution = new ScaledResolution(Minecraft.getMinecraft());
-        x = ((int) (resolution.getScaledWidth() / OverlayConfig.scale) - w - 1) * pos.x / 10000;
-        y = ((int) (resolution.getScaledHeight() / OverlayConfig.scale) - h - 1) * pos.y / 10000;
-
-        ty = (h - this.getRenderableTotalHeight()) / 2 + 1;
+    public void addPadding() {
+        totalSize.width += hasItem() ? 30 : 10;
+        totalSize.height += 10;
     }
 
     public void draw() {
-        for (Renderable r : this.elements)
-            r.draw(accessor, x + offsetX, y + ty);
-    }
+        Rectangle position = getPosition();
+        WailaConfig.ConfigOverlay.ConfigOverlayColor color = Waila.config.getOverlay().getColor();
 
-    public void draw2nd() {
-        for (Renderable r : this.elements2nd)
-            r.draw(accessor, x + offsetX, y + ty);
-    }
+        position.x += hasItem() ? 26 : 6;
+        position.width += hasItem() ? 24 : 4;
+        position.y += 6;
 
-    public boolean hasIcon() {
-        return hasIcon && ConfigHandler.instance().showItem();
-    }
-
-    /////////////////////////////////////Renderable///////////////////////////////////////
-    private class Renderable {
-        final IWailaTooltipRenderer renderer;
-        final Point pos;
-        final String[] params;
-
-        public Renderable(IWailaTooltipRenderer renderer, Point pos, String[] params) {
-            this.renderer = renderer;
-            this.pos = pos;
-            this.params = params;
-        }
-
-        public Renderable(IWailaTooltipRenderer renderer, Point pos) {
-            this(renderer, pos, new String[]{});
-        }
-
-        public Point getPos() {
-            return this.pos;
-        }
-
-        public Dimension getSize(IWailaCommonAccessor accessor) {
-            Dimension dim = new Dimension(0, 0);
-            try {
-                dim = this.renderer.getSize(this.params, accessor);
-            } catch (Throwable e) {
-                WailaExceptionHandler.handleErr(e, this.renderer.getClass().getName() + ".getSize()", null);
+        for (Line line : lines) {
+            if (line.getComponent() instanceof RenderableTextComponent) {
+                RenderableTextComponent component = (RenderableTextComponent) line.getComponent();
+                int xOffset = 0;
+                for (RenderableTextComponent.RenderContainer container : component.getRenderers()) {
+                    Dimension size = container.getRenderer().getSize(container.getData(), DataAccessor.INSTANCE);
+                    container.getRenderer().draw(container.getData(), DataAccessor.INSTANCE, position.x + xOffset, position.y);
+                    xOffset += size.width;
+                }
+            } else {
+                client.fontRenderer.drawWithShadow(line.getComponent().getFormattedText(), position.x, position.y, color.getFontColor());
             }
-            return dim;
+            position.y += line.size.height + 1;
         }
+    }
 
-        public void draw(IWailaCommonAccessor accessor, int x, int y) {
-            GlStateManager.pushMatrix();
-            GlStateManager.translate(x + this.pos.x, y + this.pos.y, 0);
-            try {
-                this.renderer.draw(this.params, accessor);
-            } catch (Throwable e) {
-                WailaExceptionHandler.handleErr(e, this.renderer.getClass().getName() + ".draw()", null);
+    private Dimension getLineSize(TextComponent component) {
+        if (component instanceof RenderableTextComponent) {
+            RenderableTextComponent renderable = (RenderableTextComponent) component;
+            List<RenderableTextComponent.RenderContainer> renderers = renderable.getRenderers();
+            if (renderers.isEmpty())
+                return new Dimension(0, 0);
+
+            int width = 0;
+            int height = 0;
+            for (RenderableTextComponent.RenderContainer container : renderers) {
+                Dimension iconSize = container.getRenderer().getSize(container.getData(), DataAccessor.INSTANCE);
+                width += iconSize.width;
+                height = Math.max(height, iconSize.height);
             }
-            GlStateManager.popMatrix();
+
+            return new Dimension(width, height);
         }
 
-        @Override
-        public String toString() {
-            return String.format("Renderable@[%d,%d] | %s", pos.x, pos.y, renderer);
+        return new Dimension(client.fontRenderer.getStringWidth(component.getFormattedText()), client.fontRenderer.fontHeight);
+    }
+
+    public List<Line> getLines() {
+        return lines;
+    }
+
+    public boolean hasItem() {
+        return showItem && Waila.config.getGeneral().shouldShowItem() && !RayTracing.INSTANCE.getIdentifierStack().isEmpty();
+    }
+
+    public Rectangle getPosition() {
+        Window window = MinecraftClient.getInstance().window;
+        return new Rectangle(
+                (int) (window.getScaledWidth() * Waila.config.getOverlay().getOverlayPosX() - totalSize.width / 2), // Center it
+                (int) (window.getScaledHeight() * (1.0F - Waila.config.getOverlay().getOverlayPosY())),
+                totalSize.width,
+                totalSize.height
+        );
+    }
+
+    public static class Line {
+
+        private final TextComponent component;
+        private final Dimension size;
+
+        public Line(TextComponent component, Dimension size) {
+            this.component = component;
+            this.size = size;
+        }
+
+        public TextComponent getComponent() {
+            return component;
+        }
+
+        public Dimension getSize() {
+            return size;
         }
     }
 }

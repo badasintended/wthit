@@ -1,76 +1,46 @@
 package mcp.mobius.waila.addons.core;
 
-import com.google.common.base.Strings;
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IWailaConfigHandler;
 import mcp.mobius.waila.api.IWailaEntityAccessor;
 import mcp.mobius.waila.api.IWailaEntityProvider;
-import mcp.mobius.waila.config.FormattingConfig;
+import mcp.mobius.waila.api.RenderableTextComponent;
 import mcp.mobius.waila.utils.ModIdentification;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.util.text.translation.I18n;
-import net.minecraftforge.fml.common.ModContainer;
-import net.minecraftforge.fml.common.registry.EntityEntry;
-import net.minecraftforge.fml.common.registry.EntityRegistry;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.text.*;
 
-import javax.annotation.Nonnull;
 import java.util.List;
-
-import static mcp.mobius.waila.api.SpecialChars.getRenderString;
 
 public class HUDHandlerEntities implements IWailaEntityProvider {
 
     static final IWailaEntityProvider INSTANCE = new HUDHandlerEntities();
 
-    public static int nhearts = 20;
-    public static float maxhpfortext = 40.0f;
+    public static float maxHealthForRender = 40.0F;
 
-    @Nonnull
     @Override
-    public List<String> getWailaHead(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
-        if (!Strings.isNullOrEmpty(FormattingConfig.entityFormat)) {
-            try {
-                currenttip.add("\u00a7r" + String.format(FormattingConfig.entityFormat, entity.getName()));
-            } catch (Exception e) {
-                currenttip.add("\u00a7r" + String.format(FormattingConfig.entityFormat, "Unknown"));
+    public void appendHead(List<TextComponent> tooltip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
+        tooltip.add(new StringTextComponent(String.format(Waila.config.getFormatting().getEntityName(), accessor.getEntity().getDisplayName().getFormattedText())));
+    }
+
+    @Override
+    public void appendBody(List<TextComponent> tooltip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
+        if (config.get(PluginCore.CONFIG_SHOW_ENTITY_HEALTH)) {
+            float health = accessor.getEntity().getHealth() / 2.0F;
+            float maxHealth = accessor.getEntity().getHealthMaximum() / 2.0F;
+
+            if (accessor.getEntity().getHealthMaximum() > maxHealthForRender)
+                tooltip.add(new TranslatableTextComponent("hud.msg.health", health, maxHealth));
+            else {
+                CompoundTag healthData = new CompoundTag();
+                healthData.putFloat("health", health);
+                healthData.putFloat("max", maxHealth);
+                tooltip.add(new RenderableTextComponent(PluginCore.RENDER_ENTITY_HEALTH, healthData));
             }
-        } else currenttip.add("Unknown");
-
-        return currenttip;
-    }
-
-    @Nonnull
-    @Override
-    public List<String> getWailaBody(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
-        if (config.getConfig("general.showhp") && entity instanceof EntityLivingBase) {
-            nhearts = nhearts <= 0 ? 20 : nhearts;
-            float health = ((EntityLivingBase) entity).getHealth() / 2.0f;
-            float maxhp = ((EntityLivingBase) entity).getMaxHealth() / 2.0f;
-
-            if (((EntityLivingBase) entity).getMaxHealth() > maxhpfortext)
-                currenttip.add(String.format(I18n.translateToLocal("hud.msg.health") + ": %.0f / %.0f", ((EntityLivingBase) entity).getHealth(), ((EntityLivingBase) entity).getMaxHealth()));
-            else
-                currenttip.add(getRenderString("waila.health", String.valueOf(nhearts), String.valueOf(health), String.valueOf(maxhp)));
         }
-
-        return currenttip;
     }
 
-    @Nonnull
     @Override
-    public List<String> getWailaTail(Entity entity, List<String> currenttip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
-        if (!Strings.isNullOrEmpty(FormattingConfig.modNameFormat) && !Strings.isNullOrEmpty(getEntityMod(entity)))
-            currenttip.add(String.format(FormattingConfig.modNameFormat, getEntityMod(entity)));
-
-        return currenttip;
-    }
-
-    private static String getEntityMod(Entity entity) {
-        EntityEntry entityEntry = EntityRegistry.getEntry(entity.getClass());
-        if (entityEntry == null)
-            return "Unknown";
-
-        ModContainer container = ModIdentification.findModContainer(entityEntry.getRegistryName().getResourceDomain());
-        return container.getName();
+    public void appendTail(List<TextComponent> tooltip, IWailaEntityAccessor accessor, IWailaConfigHandler config) {
+        tooltip.add(new StringTextComponent(String.format(Waila.config.getFormatting().getModName(), ModIdentification.getModInfo(accessor.getEntity()).getName())));
     }
 }

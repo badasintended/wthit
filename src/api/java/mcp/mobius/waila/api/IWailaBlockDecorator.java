@@ -2,8 +2,6 @@ package mcp.mobius.waila.api;
 
 import net.minecraft.item.ItemStack;
 
-import javax.annotation.Nonnull;
-
 /**
  * Callback class interface used to provide Block/TileEntity decorator.<br>
  * All methods in this interface shouldn't to be called by the implementing mod. An instance of the class is to be
@@ -22,6 +20,6 @@ public interface IWailaBlockDecorator {
      * @param accessor  Contains most of the relevant information about the current environment.
      * @param config    Current configuration of Waila.
      */
-    void decorateBlock(@Nonnull ItemStack itemStack, @Nonnull IWailaDataAccessor accessor, @Nonnull IWailaConfigHandler config);
+    void decorateBlock(ItemStack itemStack, IWailaDataAccessor accessor, IWailaConfigHandler config);
 
 }

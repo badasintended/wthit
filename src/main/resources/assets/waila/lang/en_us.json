@@ -1,0 +1,13 @@
+{
+  "tooltip.waila.crop_growth": "Growth: %s",
+  "tooltip.waila.crop_mature": "Mature",
+  "tooltip.waila.empty": "Empty",
+  "tooltip.waila.delay": "Delay: %d",
+  "tooltip.waila.mode": "Mode: %s",
+  "tooltip.waila.mode_comparator": "Comparator",
+  "tooltip.waila.mode_subtractor": "Subtractor",
+  "tooltip.waila.state": "State: %s",
+  "tooltip.waila.state_on": "On",
+  "tooltip.waila.state_off": "Off",
+  "tooltip.waila.power": "Power: %d"
+}

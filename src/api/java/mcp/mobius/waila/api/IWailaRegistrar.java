@@ -1,90 +1,96 @@
 package mcp.mobius.waila.api;
 
-import javax.annotation.ParametersAreNonnullByDefault;
+import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.util.Identifier;
 
-/**
- * Main registration interface for Waila plugins. To register your plugin, annotate your main plugin class with
- * {@link WailaPlugin} and implement {@link IWailaPlugin}.
- * <p>
- * <b>Note: Deprecated information below.</b> It will still work, but the supported method will now be the annotation.
- * <p>
- * Main registration interface. An instance will be provided to a method specified in an IMC msg formatted as follow<br>
- * FMLInterModComms.sendMessage("Waila", "register", "fully.qualified.path.to.registration.method");<br>
- * The registration method need to follow this signature<br>
- * public static void callbackRegister({@link IWailaRegistrar} registrar)<p>
- * If not specified otherwise, all the registration methods taking a class can take classes as well as interfaces.
- * Waila will do a lookup using instanceof on the registered classes, meaning that if all your targets inherit one interface, you only need
- * to specify it to cover the whole hierarchy.<br>
- * For the registration of blocks, both Blocks and TileEntities are accepted.<p>
- * For the configuration keys :<br>
- * modname refers to a String used for display in Waila's config panel.<br>
- * keyname refers to an unique key used internally for config query (cf {@link IWailaConfigHandler}). Those keys are shared across Waila, keep them unique !<br>
- *
- * @author ProfMobius
- */
-@ParametersAreNonnullByDefault
 public interface IWailaRegistrar {
-    /* Add a config option in the section modname with displayed text configtext and access key keyname */
-    void addConfig(String modname, String keyname, String configtext);
 
-    void addConfig(String modname, String keyname, String configtext, boolean defvalue);
+    /**
+     * Registers a namespaced config key to be accessed within data providers.
+     *
+     * @param key the namespaced key
+     * @param defaultValue the default value
+     */
+    void addConfig(Identifier key, boolean defaultValue);
 
-    void addConfigRemote(String modname, String keyname, String configtext);
+    /**
+     * Registers a namespaced config key to be accessed within data providers. These values are sent from the server to
+     * the client upon connection.
+     *
+     * @param key The namespaced key
+     * @param defaultValue The default value
+     */
+    void addSyncedConfig(Identifier key, boolean defaultValue);
 
-    void addConfigRemote(String modname, String keyname, String configtext, boolean defvalue);
-
-    void addConfig(String modname, String keyname);
-
-    void addConfig(String modname, String keyname, boolean defvalue);
-
-    void addConfigRemote(String modname, String keyname);
-
-    void addConfigRemote(String modname, String keyname, boolean defvalue);
-
-    /* Register a stack overrider for the given blockID */
+    /**
+     * Registers an {@link IWailaDataProvider} instance to allow overriding the displayed item for a block via the
+     * {@link IWailaDataProvider#getStack(IWailaDataAccessor, IWailaConfigHandler)} method. A {@link BlockEntity}
+     * is also an acceptable class type.
+     *
+     * @param dataProvider The data provider instance
+     * @param block The highest level class to apply to
+     */
     void registerStackProvider(IWailaDataProvider dataProvider, Class block);
 
-    /* Same thing, but works on a class hierarchy instead */
-    void registerHeadProvider(IWailaDataProvider dataProvider, Class block);
+    /**
+     * Registers an {@link IWailaDataProvider} instance for appending {@link net.minecraft.text.TextComponent} to the tooltip.
+     * A {@link BlockEntity} is also an acceptable class type.
+     *
+     * @param dataProvider The data provider instance
+     * @param position The position on the tooltip this applies to
+     * @param block The highest level class to apply to
+     */
+    void registerComponentProvider(IWailaDataProvider dataProvider, TooltipPosition position, Class block);
 
-    void registerBodyProvider(IWailaDataProvider dataProvider, Class block);
+    /**
+     * Registers an {@link IServerDataProvider<BlockEntity>} instance for data syncing purposes. A {@link BlockEntity}
+     * is also an acceptable class type.
+     *
+     * @param dataProvider The data provider instance
+     * @param block The highest level class to apply to
+     */
+    void registerBlockDataProvider(IServerDataProvider<BlockEntity> dataProvider, Class block);
 
-    void registerTailProvider(IWailaDataProvider dataProvider, Class block);
-
-    /* Registering an NBT Provider provides a way to override the default "writeToNBT" way of doing things. */
-    void registerNBTProvider(IWailaDataProvider dataProvider, Class block);
-
-    /* Entity text registration methods */
-    void registerHeadProvider(IWailaEntityProvider dataProvider, Class entity);
-
-    void registerBodyProvider(IWailaEntityProvider dataProvider, Class entity);
-
-    void registerTailProvider(IWailaEntityProvider dataProvider, Class entity);
-
+    /**
+     * Registers an {@link IWailaEntityProvider} instance to allow overriding the entity being displayed.
+     *
+     * @param dataProvider The data provider instance
+     * @param entity The highest level class to apply to
+     */
     void registerOverrideEntityProvider(IWailaEntityProvider dataProvider, Class entity);
 
-    /* Registering an NBT Provider provides a way to override the default "writeToNBT" way of doing things. */
-    void registerNBTProvider(IWailaEntityProvider dataProvider, Class entity);
+    /**
+     * Registers an {@link IWailaEntityProvider} instance for appending {@link net.minecraft.text.TextComponent} to the tooltip.
+     *
+     * @param dataProvider The data provider instance
+     * @param position The position on the tooltip this applies to
+     * @param entity The highest level class to apply to
+     */
+    void registerComponentProvider(IWailaEntityProvider dataProvider, TooltipPosition position, Class entity);
 
-    /* FMP Providers */
-    @Deprecated
-    void registerHeadProvider(IWailaFMPProvider dataProvider, String name);
+    /**
+     * Registers an {@link IWailaEntityProvider} instance for data syncing purposes.
+     *
+     * @param dataProvider The data provider instance
+     * @param entity The highest level class to apply to
+     */
+    void registerEntityDataProvider(IServerDataProvider<LivingEntity> dataProvider, Class entity);
 
-    @Deprecated
-    void registerBodyProvider(IWailaFMPProvider dataProvider, String name);
-
-    @Deprecated
-    void registerTailProvider(IWailaFMPProvider dataProvider, String name);
-
-    /* The block decorators */
+    /**
+     * Registers an {@link IWailaBlockDecorator} instance to allow rendering content in the world while looking at the block.
+     *
+     * @param decorator The decorator instance
+     * @param block The highest level class to apply to
+     */
     void registerDecorator(IWailaBlockDecorator decorator, Class block);
 
-    @Deprecated
-    void registerDecorator(IWailaFMPDecorator decorator, String name);
-
-    void registerTooltipRenderer(String name, IWailaTooltipRenderer renderer);
-
-	/* UNUSED FOR NOW (Will be used for the ingame wiki */
-    //public void registerDocTextFile  (String filename);
-    //public void registerShortDataProvider (IWailaSummaryProvider dataProvider, Class item);
+    /**
+     * Registers an {@link IWailaTooltipRenderer} to allow passing a data string as a component to be rendered as a graphic
+     * instead.
+     *
+     * @param id The identifier for lookup
+     * @param renderer The renderer instance
+     */
+    void registerTooltipRenderer(Identifier id, IWailaTooltipRenderer renderer);
 }

@@ -1,16 +1,22 @@
 package mcp.mobius.waila.overlay;
 
+import com.mojang.blaze3d.platform.GlStateManager;
+import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.WailaClient;
+import mcp.mobius.waila.addons.core.PluginCore;
 import mcp.mobius.waila.api.event.WailaRenderEvent;
-import mcp.mobius.waila.api.impl.ConfigHandler;
-import mcp.mobius.waila.api.impl.DataAccessorCommon;
-import mcp.mobius.waila.config.OverlayConfig;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderHelper;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraftforge.common.MinecraftForge;
+import mcp.mobius.waila.api.impl.DataAccessor;
+import mcp.mobius.waila.api.impl.config.PluginConfig;
+import mcp.mobius.waila.api.impl.config.WailaConfig;
+import net.fabricmc.fabric.util.HandlerArray;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.ingame.ChatGui;
+import net.minecraft.client.render.GuiLighting;
+import net.minecraft.util.HitResult;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
+
+import java.awt.Rectangle;
 
 public class OverlayRenderer {
 
@@ -27,78 +33,85 @@ public class OverlayRenderer {
         if (WailaTickHandler.instance().tooltip == null)
             return;
 
-        if (!ConfigHandler.instance().showTooltip())
+        if (!Waila.config.getGeneral().shouldDisplayTooltip())
             return;
 
-        Minecraft mc = Minecraft.getMinecraft();
-        if (mc.currentScreen != null || mc.world == null)
+        if (Waila.config.getGeneral().getDisplayMode() == WailaConfig.DisplayMode.HOLD_KEY && !WailaClient.showOverlay.method_1434())
             return;
 
-        if (ConfigHandler.instance().hideFromList() && (mc.gameSettings.keyBindPlayerList.isKeyDown() && !mc.isIntegratedServerRunning()))
+        MinecraftClient mc = MinecraftClient.getInstance();
+        if ((mc.currentGui != null && !(mc.currentGui instanceof ChatGui)) || mc.world == null)
             return;
 
-        if (!Minecraft.isGuiEnabled())
+        if (Waila.config.getGeneral().shouldHideFromPlayerList() && mc.options.keyPlayerList.method_1434() && mc.getGame().getCurrentSession().getPlayerCount() > 1)
             return;
 
-        if (mc.gameSettings.showDebugInfo && ConfigHandler.instance().hideFromDebug())
+        if (!MinecraftClient.method_1498())
             return;
 
-        if (RayTracing.instance().getTarget() == null)
+        if (mc.options.debugEnabled && Waila.config.getGeneral().shouldHideFromDebug())
             return;
 
-        if (RayTracing.instance().getTarget().typeOfHit == RayTraceResult.Type.BLOCK && !RayTracing.instance().getTargetStack().isEmpty())
+        if (RayTracing.INSTANCE.getTarget() == null)
+            return;
+
+        if (RayTracing.INSTANCE.getTarget().type == HitResult.Type.BLOCK && !RayTracing.INSTANCE.getTargetStack().isEmpty())
             renderOverlay(WailaTickHandler.instance().tooltip);
 
-        if (RayTracing.instance().getTarget().typeOfHit == RayTraceResult.Type.ENTITY && ConfigHandler.instance().getConfig("general.showents"))
+        if (RayTracing.INSTANCE.getTarget().type == HitResult.Type.ENTITY && PluginConfig.INSTANCE.get(PluginCore.CONFIG_SHOW_ENTITY))
             renderOverlay(WailaTickHandler.instance().tooltip);
     }
 
     public static void renderOverlay(Tooltip tooltip) {
-        //TrueTypeFont font = (TrueTypeFont)mod_Waila.proxy.getFont();
-
-        Minecraft.getMinecraft().mcProfiler.startSection("Waila Overlay");
+        MinecraftClient.getInstance().getProfiler().begin("Waila Overlay");
         GlStateManager.pushMatrix();
         saveGLState();
 
-        GlStateManager.scale(OverlayConfig.scale, OverlayConfig.scale, 1.0F);
+        GlStateManager.scalef(Waila.config.getOverlay().getOverlayScale(), Waila.config.getOverlay().getOverlayScale(), 1.0F);
 
         GlStateManager.disableRescaleNormal();
-        RenderHelper.disableStandardItemLighting();
+        GuiLighting.disable();
         GlStateManager.disableLighting();
-        GlStateManager.disableDepth();
+        GlStateManager.disableDepthTest();
 
-        WailaRenderEvent.Pre event = new WailaRenderEvent.Pre(DataAccessorCommon.instance, tooltip.x, tooltip.y, tooltip.w, tooltip.h);
-        if (MinecraftForge.EVENT_BUS.post(event)) {
-            RenderHelper.enableGUIStandardItemLighting();
-            GlStateManager.enableRescaleNormal();
-            loadGLState();
-            GlStateManager.enableDepth();
-            GlStateManager.popMatrix();
-            return;
+        WailaRenderEvent.Pre preEvent = new WailaRenderEvent.Pre(DataAccessor.INSTANCE, tooltip.getPosition());
+        Object[] preSubscribers = ((HandlerArray<WailaRenderEvent.PreRender>) WailaRenderEvent.WAILA_RENDER_PRE).getBackingArray();
+        for (Object object : preSubscribers) {
+            if (((WailaRenderEvent.PreRender) object).onPreRender(preEvent)) {
+                GuiLighting.enableForItems();
+                GlStateManager.enableRescaleNormal();
+                loadGLState();
+                GlStateManager.enableDepthTest();
+                GlStateManager.popMatrix();
+                return;
+            }
         }
 
-        drawTooltipBox(event.getX(), event.getY(), event.getWidth(), event.getHeight(), OverlayConfig.bgcolor, OverlayConfig.gradient1, OverlayConfig.gradient2);
+        Rectangle position = preEvent.getPosition();
+        WailaConfig.ConfigOverlay.ConfigOverlayColor color = Waila.config.getOverlay().getColor();
+        drawTooltipBox(position.x, position.y, position.width, position.height, color.getBackgroundColor(), color.getGradientStart(), color.getGradientEnd());
 
         GlStateManager.enableBlend();
-        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+        GlStateManager.blendFunc(GlStateManager.SrcBlendFactor.SRC_ALPHA, GlStateManager.DstBlendFactor.ONE_MINUS_SRC_ALPHA);
         tooltip.draw();
         GlStateManager.disableBlend();
 
-        tooltip.draw2nd();
-
-        if (tooltip.hasIcon())
-            RenderHelper.enableGUIStandardItemLighting();
+        if (tooltip.hasItem())
+            GuiLighting.enableForItems();
 
         GlStateManager.enableRescaleNormal();
-        if (tooltip.hasIcon() && !tooltip.stack.isEmpty())
-            DisplayUtil.renderStack(event.getX() + 5, event.getY() + event.getHeight() / 2 - 8, tooltip.stack);
+        if (tooltip.hasItem())
+            DisplayUtil.renderStack(position.x + 5, position.y + position.height / 2 - 8, RayTracing.INSTANCE.getIdentifierStack());
 
-        MinecraftForge.EVENT_BUS.post(new WailaRenderEvent.Post(event.getX(), event.getY(), event.getWidth(), event.getHeight()));
+        WailaRenderEvent.Post postEvent = new WailaRenderEvent.Post(position);
+        Object[] postSubscribers = ((HandlerArray<WailaRenderEvent.PostRender>) WailaRenderEvent.WAILA_RENDER_POST).getBackingArray();
+        for (Object object : postSubscribers)
+            ((WailaRenderEvent.PostRender) object).onPostRender(postEvent);
 
         loadGLState();
-        GlStateManager.enableDepth();
+        GlStateManager.enableDepthTest();
         GlStateManager.popMatrix();
-        Minecraft.getMinecraft().mcProfiler.endSection();
+        MinecraftClient.getInstance().getProfiler().end();
     }
 
     public static void saveGLState() {
@@ -132,9 +145,9 @@ public class OverlayRenderer {
             GlStateManager.disableLight(1);
 
         if (hasDepthTest)
-            GlStateManager.enableDepth();
+            GlStateManager.enableDepthTest();
         else
-            GlStateManager.disableDepth();
+            GlStateManager.disableDepthTest();
         if (hasRescaleNormal)
             GlStateManager.enableRescaleNormal();
         else
@@ -144,8 +157,7 @@ public class OverlayRenderer {
         else
             GlStateManager.disableColorMaterial();
 
-        GlStateManager.popAttrib();
-        //GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+        GlStateManager.popAttributes();
     }
 
     public static void drawTooltipBox(int x, int y, int w, int h, int bg, int grad1, int grad2) {

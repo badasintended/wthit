@@ -1,65 +1,46 @@
 package mcp.mobius.waila.api;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
-
 /**
  * The Accessor is used to get some basic data out of the game without having to request direct access to the game engine.<br>
- * It will also return things that are unmodified by the overriding systems (like getWailaStack).<br>
+ * It will also return things that are unmodified by the overriding systems (like getStack).<br>
  * Common accessor for both Entity and Block/TileEntity.<br>
  * Available data depends on what it is called upon (ie : getEntity() will return null if looking at a block, etc).<br>
  */
 public interface IWailaCommonAccessor {
 
-    @Nonnull
     World getWorld();
 
-    @Nonnull
-    EntityPlayer getPlayer();
+    PlayerEntity getPlayer();
 
-    @Nonnull
     Block getBlock();
 
-    int getBlockID();
+    Identifier getBlockId();
 
-    @Nonnull
-    String getBlockQualifiedName();
+    BlockEntity getBlockEntity();
 
-    int getMetadata();
-
-    @Nullable
-    TileEntity getTileEntity();
-
-    @Nullable
     Entity getEntity();
 
-    @Nonnull
     BlockPos getPosition();
 
-    @Nullable
     Vec3d getRenderingPosition();
 
-    @Nonnull
-    NBTTagCompound getNBTData();
-
-    int getNBTInteger(NBTTagCompound tag, String keyname);
+    CompoundTag getServerData();
 
     double getPartialFrame();
 
-    @Nullable
-    EnumFacing getSide();
+    Direction getSide();
 
-    @Nonnull
     ItemStack getStack();
 }

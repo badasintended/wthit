@@ -1,21 +1,20 @@
 package mcp.mobius.waila.overlay;
 
-import java.util.HashMap;
+import com.google.common.collect.Maps;
 
-import static mcp.mobius.waila.api.SpecialChars.WailaIcon;
-import static mcp.mobius.waila.api.SpecialChars.WailaStyle;
+import java.util.Map;
 
 public enum IconUI {
     HEART(52, 0, 9, 9, 52, 9, 9, 9, "a"),
-    HHEART(61, 0, 9, 9, 52, 9, 9, 9, "b"),
-    EHEART(52, 9, 9, 9, "c"),
-    BUBBLEEXP(25, 18, 9, 9, "x");
+    HALF_HEART(61, 0, 9, 9, 52, 9, 9, 9, "b"),
+    EMPTY_HEART(52, 9, 9, 9, "c"),
+    EXPERIENCE_BUBBLE(25, 18, 9, 9, "x");
 
-    private final static HashMap<String, IconUI> lk = new HashMap<>();
+    private final static Map<String, IconUI> ELEMENTS = Maps.newHashMap();
 
     static {
         for (IconUI icon : IconUI.values()) {
-            lk.put(icon.symbol, icon);
+            ELEMENTS.put(icon.symbol, icon);
         }
     }
 
@@ -23,11 +22,11 @@ public enum IconUI {
     public final int bu, bv, bsu, bsv;
     public final String symbol;
 
-    private IconUI(int u, int v, int su, int sv, String symbol) {
+    IconUI(int u, int v, int su, int sv, String symbol) {
         this(u, v, su, sv, -1, -1, -1, -1, symbol);
     }
 
-    private IconUI(int u, int v, int su, int sv, int bu, int bv, int bsu, int bsv, String symbol) {
+    IconUI(int u, int v, int su, int sv, int bu, int bv, int bsu, int bsv, String symbol) {
         this.u = u;
         this.v = v;
         this.su = su;
@@ -36,16 +35,10 @@ public enum IconUI {
         this.bv = bv;
         this.bsu = bsu;
         this.bsv = bsv;
-        this.symbol = WailaStyle + WailaIcon + symbol;
+        this.symbol = symbol;
     }
 
     public static IconUI bySymbol(String s) {
-        IconUI iconUI = lk.get(s);
-        if (iconUI == null) {
-            return lk.get("x");
-        } else {
-            return lk.get(s);
-        }
+        return ELEMENTS.getOrDefault(s, IconUI.EXPERIENCE_BUBBLE);
     }
-
 }
