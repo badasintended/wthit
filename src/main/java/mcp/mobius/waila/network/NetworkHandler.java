@@ -1,5 +1,6 @@
 package mcp.mobius.waila.network;
 
+import com.google.common.collect.Maps;
 import io.netty.buffer.Unpooled;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.impl.config.ConfigEntry;
@@ -25,6 +26,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
+import java.util.Map;
 import java.util.Set;
 
 public class NetworkHandler {
@@ -35,67 +37,77 @@ public class NetworkHandler {
     public static final Identifier GET_CONFIG = new Identifier(Waila.MODID, "send_config");
 
     public static void init() {
-        CustomPayloadPacketRegistry.CLIENT.register(RECEIVE_DATA, (packetContext, packetByteBuf) -> DataAccessor.INSTANCE.setServerData(packetByteBuf.readCompoundTag()));
+        CustomPayloadPacketRegistry.CLIENT.register(RECEIVE_DATA, (packetContext, packetByteBuf) -> {
+            CompoundTag tag = packetByteBuf.readCompoundTag();
+            packetContext.getTaskQueue().execute(() -> {
+                DataAccessor.INSTANCE.setServerData(tag);
+            });
+        });
         CustomPayloadPacketRegistry.SERVER.register(REQUEST_ENTITY, (packetContext, packetByteBuf) -> {
             PlayerEntity player = packetContext.getPlayer();
             World world = player.world;
             Entity entity = world.getEntityById(packetByteBuf.readInt());
+            packetContext.getTaskQueue().execute(() -> {
+                if (!(entity instanceof LivingEntity))
+                    return;
 
-            if (!(entity instanceof LivingEntity))
-                return;
+                CompoundTag tag = new CompoundTag();
+                if (WailaRegistrar.INSTANCE.hasNBTEntityProviders(entity)) {
+                    WailaRegistrar.INSTANCE.getNBTEntityProviders(entity).values().forEach(l -> l.forEach(p -> p.appendServerData(tag, (ServerPlayerEntity) player, world, (LivingEntity) entity)));
+                } else {
+                    entity.toTag(tag);
+                }
 
-            CompoundTag tag = new CompoundTag();
-            if (WailaRegistrar.INSTANCE.hasNBTEntityProviders(entity)) {
-                WailaRegistrar.INSTANCE.getNBTEntityProviders(entity).values().forEach(l -> l.forEach(p -> p.appendServerData(tag, (ServerPlayerEntity) player, world, (LivingEntity) entity)));
-            } else {
-                entity.toTag(tag);
-            }
+                tag.putInt("WailaEntityID", entity.getEntityId());
 
-            tag.putInt("WailaEntityID", entity.getEntityId());
-
-            PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
-            buf.writeCompoundTag(tag);
-            ((ServerPlayerEntity) player).networkHandler.sendPacket(new CustomPayloadClientPacket(RECEIVE_DATA, buf));
+                PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+                buf.writeCompoundTag(tag);
+                ((ServerPlayerEntity) player).networkHandler.sendPacket(new CustomPayloadClientPacket(RECEIVE_DATA, buf));
+            });
         });
         CustomPayloadPacketRegistry.SERVER.register(REQUEST_TILE, (packetContext, packetByteBuf) -> {
             PlayerEntity player = packetContext.getPlayer();
             World world = player.world;
             BlockPos pos = packetByteBuf.readBlockPos();
 
-            if (!world.isBlockLoaded(pos))
-                return;
+            packetContext.getTaskQueue().execute(() -> {
+                if (!world.isBlockLoaded(pos))
+                    return;
 
-            BlockEntity tile = world.getBlockEntity(pos);
-            if (tile == null)
-                return;
+                BlockEntity tile = world.getBlockEntity(pos);
+                if (tile == null)
+                    return;
 
-            BlockState state = world.getBlockState(pos);
+                BlockState state = world.getBlockState(pos);
 
+                CompoundTag tag = new CompoundTag();
+                if (WailaRegistrar.INSTANCE.hasNBTProviders(tile) || WailaRegistrar.INSTANCE.hasNBTProviders(state.getBlock())) {
+                    WailaRegistrar.INSTANCE.getNBTProviders(tile).values().forEach(l -> l.forEach(p -> p.appendServerData(tag, (ServerPlayerEntity) player, world, tile)));
+                    WailaRegistrar.INSTANCE.getNBTProviders(state.getBlock()).values().forEach(l -> l.forEach(p -> p.appendServerData(tag, (ServerPlayerEntity) player, world, tile)));
+                } else {
+                    tile.toTag(tag);
+                }
 
-            CompoundTag tag = new CompoundTag();
-            if (WailaRegistrar.INSTANCE.hasNBTProviders(tile) || WailaRegistrar.INSTANCE.hasNBTProviders(state.getBlock())) {
-                WailaRegistrar.INSTANCE.getNBTProviders(tile).values().forEach(l -> l.forEach(p -> p.appendServerData(tag, (ServerPlayerEntity) player, world, tile)));
-                WailaRegistrar.INSTANCE.getNBTProviders(state.getBlock()).values().forEach(l -> l.forEach(p -> p.appendServerData(tag, (ServerPlayerEntity) player, world, tile)));
-            } else {
-                tile.toTag(tag);
-            }
+                tag.putInt("x", pos.getX());
+                tag.putInt("y", pos.getY());
+                tag.putInt("z", pos.getZ());
+                tag.putString("id", Registry.BLOCK_ENTITY.getId(tile.getType()).toString());
 
-            tag.putInt("x", pos.getX());
-            tag.putInt("y", pos.getY());
-            tag.putInt("z", pos.getZ());
-            tag.putString("id", Registry.BLOCK_ENTITY.getId(tile.getType()).toString());
-
-            PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
-            buf.writeCompoundTag(tag);
-            ((ServerPlayerEntity) player).networkHandler.sendPacket(new CustomPayloadClientPacket(RECEIVE_DATA, buf));
+                PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
+                buf.writeCompoundTag(tag);
+                ((ServerPlayerEntity) player).networkHandler.sendPacket(new CustomPayloadClientPacket(RECEIVE_DATA, buf));
+            });
         });
         CustomPayloadPacketRegistry.CLIENT.register(GET_CONFIG, (packetContext, packetByteBuf) -> {
             int size = packetByteBuf.readInt();
+            Map<Identifier, Boolean> temp = Maps.newHashMap();
             for (int i = 0; i < size; i++) {
                 Identifier id = new Identifier(packetByteBuf.readString(packetByteBuf.readInt()));
                 boolean value = packetByteBuf.readBoolean();
-                PluginConfig.INSTANCE.set(id, value);
+                temp.put(id, value);
             }
+
+            packetContext.getTaskQueue().execute(() -> temp.forEach(PluginConfig.INSTANCE::set));
         });
     }
 
