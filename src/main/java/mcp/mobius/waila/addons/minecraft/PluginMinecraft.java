@@ -4,6 +4,7 @@ import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.api.IWailaRegistrar;
 import mcp.mobius.waila.api.TooltipPosition;
 import mcp.mobius.waila.overlay.tooltiprenderers.TooltipRendererProgressBar;
+import mcp.mobius.waila.overlay.tooltiprenderers.TooltipRendererSpacer;
 import mcp.mobius.waila.overlay.tooltiprenderers.TooltipRendererStack;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
@@ -41,9 +42,9 @@ public class PluginMinecraft implements IWailaPlugin {
         registrar.addConfig(CONFIG_REDSTONE, true);
         registrar.addConfig(CONFIG_JUKEBOX, true);
 
-        registrar.registerTooltipRenderer(RENDER_ITEM, new TooltipRendererProgressBar());
-//        registrar.registerTooltipRenderer(RENDER_SPACER, new TooltipRendererProgressBar());
-        registrar.registerTooltipRenderer(RENDER_FURNACE_PROGRESS, new TooltipRendererStack());
+        registrar.registerTooltipRenderer(RENDER_ITEM, new TooltipRendererStack());
+        registrar.registerTooltipRenderer(RENDER_SPACER, new TooltipRendererSpacer());
+        registrar.registerTooltipRenderer(RENDER_FURNACE_PROGRESS, new TooltipRendererProgressBar());
 
         registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, StoneInfestedBlock.class);
         registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, CropBlock.class);

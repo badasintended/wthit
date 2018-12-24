@@ -1,10 +1,12 @@
 package mcp.mobius.waila.addons.minecraft;
 
 import mcp.mobius.waila.api.*;
+import net.fabricmc.fabric.api.util.NbtType;
 import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.ListTag;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.state.property.Properties;
 import net.minecraft.text.TextComponent;
@@ -27,11 +29,14 @@ public class HUDHandlerFurnace implements IWailaDataProvider, IServerDataProvide
         if (!accessor.getBlockState().get(Properties.LIT))
             return;
 
-        CompoundTag furnaceData = accessor.getServerData().getCompound("furnace");
-        int cookTime = furnaceData.getShort("CookTime");
+        int cookTime = accessor.getServerData().getInt("cookTime");
+        if (cookTime <= 0)
+            return;
 
-        DefaultedList<ItemStack> inventory = DefaultedList.create();
-        InventoryUtil.deserialize(furnaceData, inventory);
+        ListTag furnaceItems = accessor.getServerData().getList("furnace", NbtType.COMPOUND);
+        DefaultedList<ItemStack> inventory = DefaultedList.create(3, ItemStack.EMPTY);
+        for (int i = 0; i <furnaceItems.size(); i++)
+            inventory.set(i, ItemStack.fromTag(furnaceItems.getCompoundTag(i)));
 
         CompoundTag progress = new CompoundTag();
         progress.putInt("cook", cookTime);
@@ -39,8 +44,8 @@ public class HUDHandlerFurnace implements IWailaDataProvider, IServerDataProvide
         RenderableTextComponent renderables = new RenderableTextComponent(
                 getRenderable(inventory.get(0)),
                 getRenderable(inventory.get(1)),
-                getRenderable(inventory.get(2)),
-                new RenderableTextComponent(PluginMinecraft.RENDER_FURNACE_PROGRESS, progress)
+                new RenderableTextComponent(PluginMinecraft.RENDER_FURNACE_PROGRESS, progress),
+                getRenderable(inventory.get(2))
         );
 
         tooltip.add(renderables);
@@ -49,17 +54,26 @@ public class HUDHandlerFurnace implements IWailaDataProvider, IServerDataProvide
     @Override
     public void appendServerData(CompoundTag data, ServerPlayerEntity player, World world, BlockEntity blockEntity) {
         AbstractFurnaceBlockEntity furnace = (AbstractFurnaceBlockEntity) blockEntity;
-        data.put("furnace", furnace.toTag(new CompoundTag()));
+        ListTag items = new ListTag();
+        items.add(furnace.getInvStack(0).toTag(new CompoundTag()));
+        items.add(furnace.getInvStack(1).toTag(new CompoundTag()));
+        items.add(furnace.getInvStack(2).toTag(new CompoundTag()));
+        data.put("furnace", items);
+        data.putInt("cookTime", furnace.toTag(new CompoundTag()).getInt("CookTime")); // smh
     }
 
     private static RenderableTextComponent getRenderable(ItemStack stack) {
-        if (stack.isEmpty()) {
+        if (!stack.isEmpty()) {
             CompoundTag tag = new CompoundTag();
             tag.putString("id", Registry.ITEM.getId(stack.getItem()).toString());
             tag.putInt("count", stack.getAmount());
             if (stack.hasTag())
                 tag.putString("nbt", stack.getTag().toString());
             return new RenderableTextComponent(PluginMinecraft.RENDER_ITEM, tag);
-        } else return new RenderableTextComponent(PluginMinecraft.RENDER_SPACER, new CompoundTag());
+        } else {
+            CompoundTag spacerTag = new CompoundTag();
+            spacerTag.putInt("width", 18);
+            return new RenderableTextComponent(PluginMinecraft.RENDER_SPACER, spacerTag);
+        }
     }
 }
