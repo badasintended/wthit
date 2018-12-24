@@ -11,20 +11,20 @@ import net.minecraft.util.Identifier;
 
 import java.util.*;
 
-public class WailaRegistrar implements IWailaRegistrar {
+public class WailaRegistrar implements IRegistrar {
 
     public static final WailaRegistrar INSTANCE = new WailaRegistrar();
 
-    private final Map<Class, List<IWailaDataProvider>> blockStackProviders;
-    private final EnumMap<TooltipPosition, Map<Class, List<IWailaDataProvider>>> blockComponentProviders;
+    private final Map<Class, List<IComponentProvider>> blockStackProviders;
+    private final EnumMap<TooltipPosition, Map<Class, List<IComponentProvider>>> blockComponentProviders;
     private final Map<Class, List<IServerDataProvider<BlockEntity>>> blockDataProviders;
 
-    private final Map<Class, List<IWailaEntityProvider>> entityOverrideProviders;
-    private final EnumMap<TooltipPosition, Map<Class, List<IWailaEntityProvider>>> entityComponentProviders;
+    private final Map<Class, List<IEntityComponentProvider>> entityOverrideProviders;
+    private final EnumMap<TooltipPosition, Map<Class, List<IEntityComponentProvider>>> entityComponentProviders;
     private final Map<Class, List<IServerDataProvider<LivingEntity>>> entityDataProviders;
 
-    private final Map<Class, List<IWailaBlockDecorator>> blockDecorators;
-    private final Map<Identifier, IWailaTooltipRenderer> tooltipRenderers;
+    private final Map<Class, List<IBlockDecorator>> blockDecorators;
+    private final Map<Identifier, ITooltipRenderer> tooltipRenderers;
 
     WailaRegistrar() {
         blockStackProviders = Maps.newLinkedHashMap();
@@ -59,12 +59,12 @@ public class WailaRegistrar implements IWailaRegistrar {
     /* REGISTRATION METHODS */
 
     @Override
-    public void registerStackProvider(IWailaDataProvider dataProvider, Class block) {
+    public void registerStackProvider(IComponentProvider dataProvider, Class block) {
         registerProvider(dataProvider, block, blockStackProviders);
     }
 
     @Override
-    public void registerComponentProvider(IWailaDataProvider dataProvider, TooltipPosition position, Class block) {
+    public void registerComponentProvider(IComponentProvider dataProvider, TooltipPosition position, Class block) {
         registerProvider(dataProvider, block, blockComponentProviders.get(position));
     }
 
@@ -74,12 +74,12 @@ public class WailaRegistrar implements IWailaRegistrar {
     }
 
     @Override
-    public void registerOverrideEntityProvider(IWailaEntityProvider dataProvider, Class entity) {
+    public void registerOverrideEntityProvider(IEntityComponentProvider dataProvider, Class entity) {
         registerProvider(dataProvider, entity, entityOverrideProviders);
     }
 
     @Override
-    public void registerComponentProvider(IWailaEntityProvider dataProvider, TooltipPosition position, Class entity) {
+    public void registerComponentProvider(IEntityComponentProvider dataProvider, TooltipPosition position, Class entity) {
         registerProvider(dataProvider, entity, entityComponentProviders.get(position));
     }
 
@@ -88,13 +88,13 @@ public class WailaRegistrar implements IWailaRegistrar {
     }
 
     @Override
-    public void registerDecorator(IWailaBlockDecorator decorator, Class block) {
-        List<IWailaBlockDecorator> decorators = blockDecorators.computeIfAbsent(block, b -> Lists.newArrayList());
+    public void registerDecorator(IBlockDecorator decorator, Class block) {
+        List<IBlockDecorator> decorators = blockDecorators.computeIfAbsent(block, b -> Lists.newArrayList());
         decorators.add(decorator);
     }
 
     @Override
-    public void registerTooltipRenderer(Identifier id, IWailaTooltipRenderer renderer) {
+    public void registerTooltipRenderer(Identifier id, ITooltipRenderer renderer) {
         this.tooltipRenderers.put(id, renderer);
     }
 
@@ -111,19 +111,19 @@ public class WailaRegistrar implements IWailaRegistrar {
 
     /* PROVIDER GETTERS */
 
-    public Map<Integer, List<IWailaDataProvider>> getHeadProviders(Object block) {
+    public Map<Integer, List<IComponentProvider>> getHeadProviders(Object block) {
         return getProviders(block, blockComponentProviders.get(TooltipPosition.HEAD));
     }
 
-    public Map<Integer, List<IWailaDataProvider>> getBodyProviders(Object block) {
+    public Map<Integer, List<IComponentProvider>> getBodyProviders(Object block) {
         return getProviders(block, blockComponentProviders.get(TooltipPosition.BODY));
     }
 
-    public Map<Integer, List<IWailaDataProvider>> getTailProviders(Object block) {
+    public Map<Integer, List<IComponentProvider>> getTailProviders(Object block) {
         return getProviders(block, blockComponentProviders.get(TooltipPosition.TAIL));
     }
 
-    public Map<Integer, List<IWailaDataProvider>> getStackProviders(Object block) {
+    public Map<Integer, List<IComponentProvider>> getStackProviders(Object block) {
         return getProviders(block, blockStackProviders);
     }
 
@@ -131,19 +131,19 @@ public class WailaRegistrar implements IWailaRegistrar {
         return getProviders(block, blockDataProviders);
     }
 
-    public Map<Integer, List<IWailaEntityProvider>> getHeadEntityProviders(Object entity) {
+    public Map<Integer, List<IEntityComponentProvider>> getHeadEntityProviders(Object entity) {
         return getProviders(entity, entityComponentProviders.get(TooltipPosition.HEAD));
     }
 
-    public Map<Integer, List<IWailaEntityProvider>> getBodyEntityProviders(Object entity) {
+    public Map<Integer, List<IEntityComponentProvider>> getBodyEntityProviders(Object entity) {
         return getProviders(entity, entityComponentProviders.get(TooltipPosition.BODY));
     }
 
-    public Map<Integer, List<IWailaEntityProvider>> getTailEntityProviders(Object entity) {
+    public Map<Integer, List<IEntityComponentProvider>> getTailEntityProviders(Object entity) {
         return getProviders(entity, entityComponentProviders.get(TooltipPosition.TAIL));
     }
 
-    public Map<Integer, List<IWailaEntityProvider>> getOverrideEntityProviders(Object entity) {
+    public Map<Integer, List<IEntityComponentProvider>> getOverrideEntityProviders(Object entity) {
         return getProviders(entity, entityOverrideProviders);
     }
 
@@ -151,11 +151,11 @@ public class WailaRegistrar implements IWailaRegistrar {
         return getProviders(entity, entityDataProviders);
     }
 
-    public Map<Integer, List<IWailaBlockDecorator>> getBlockDecorators(Object block) {
+    public Map<Integer, List<IBlockDecorator>> getBlockDecorators(Object block) {
         return getProviders(block, blockDecorators);
     }
 
-    public IWailaTooltipRenderer getTooltipRenderer(Identifier id) {
+    public ITooltipRenderer getTooltipRenderer(Identifier id) {
         return this.tooltipRenderers.get(id);
     }
 

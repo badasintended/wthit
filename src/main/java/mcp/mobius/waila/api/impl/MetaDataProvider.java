@@ -1,8 +1,8 @@
 package mcp.mobius.waila.api.impl;
 
 import mcp.mobius.waila.Waila;
-import mcp.mobius.waila.api.IWailaDataProvider;
-import mcp.mobius.waila.api.IWailaEntityProvider;
+import mcp.mobius.waila.api.IComponentProvider;
+import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.TooltipPosition;
 import mcp.mobius.waila.api.impl.config.PluginConfig;
 import mcp.mobius.waila.network.NetworkHandler;
@@ -19,13 +19,13 @@ public class MetaDataProvider {
 
     public static int rateLimiter = 250;
 
-    private Map<Integer, List<IWailaDataProvider>> headBlockProviders = new TreeMap<>();
-    private Map<Integer, List<IWailaDataProvider>> bodyBlockProviders = new TreeMap<>();
-    private Map<Integer, List<IWailaDataProvider>> tailBlockProviders = new TreeMap<>();
+    private Map<Integer, List<IComponentProvider>> headBlockProviders = new TreeMap<>();
+    private Map<Integer, List<IComponentProvider>> bodyBlockProviders = new TreeMap<>();
+    private Map<Integer, List<IComponentProvider>> tailBlockProviders = new TreeMap<>();
 
-    private Map<Integer, List<IWailaEntityProvider>> headEntityProviders = new TreeMap<>();
-    private Map<Integer, List<IWailaEntityProvider>> bodyEntityProviders = new TreeMap<>();
-    private Map<Integer, List<IWailaEntityProvider>> tailEntityProviders = new TreeMap<>();
+    private Map<Integer, List<IEntityComponentProvider>> headEntityProviders = new TreeMap<>();
+    private Map<Integer, List<IEntityComponentProvider>> bodyEntityProviders = new TreeMap<>();
+    private Map<Integer, List<IEntityComponentProvider>> tailEntityProviders = new TreeMap<>();
 
     public void gatherBlockComponents(DataAccessor accessor, List<TextComponent> tooltip, TooltipPosition position) {
         Block block = accessor.getBlock();
@@ -66,8 +66,8 @@ public class MetaDataProvider {
 
         switch (position) {
             case HEAD: {
-                for (List<IWailaDataProvider> providersList : headBlockProviders.values()) {
-                    for (IWailaDataProvider dataProvider : providersList) {
+                for (List<IComponentProvider> providersList : headBlockProviders.values()) {
+                    for (IComponentProvider dataProvider : providersList) {
                         try {
                             dataProvider.appendHead(tooltip, accessor, PluginConfig.INSTANCE);
                         } catch (Throwable e) {
@@ -78,8 +78,8 @@ public class MetaDataProvider {
                 break;
             }
             case BODY: {
-                for (List<IWailaDataProvider> providersList : bodyBlockProviders.values()) {
-                    for (IWailaDataProvider dataProvider : providersList) {
+                for (List<IComponentProvider> providersList : bodyBlockProviders.values()) {
+                    for (IComponentProvider dataProvider : providersList) {
                         try {
                             dataProvider.appendBody(tooltip, accessor, PluginConfig.INSTANCE);
                         } catch (Throwable e) {
@@ -90,8 +90,8 @@ public class MetaDataProvider {
                 break;
             }
             case TAIL: {
-                for (List<IWailaDataProvider> providersList : tailBlockProviders.values()) {
-                    for (IWailaDataProvider dataProvider : providersList) {
+                for (List<IComponentProvider> providersList : tailBlockProviders.values()) {
+                    for (IComponentProvider dataProvider : providersList) {
                         try {
                             dataProvider.appendTail(tooltip, accessor, PluginConfig.INSTANCE);
                         } catch (Throwable e) {
@@ -128,8 +128,8 @@ public class MetaDataProvider {
 
         switch (position) {
             case HEAD: {
-                for (List<IWailaEntityProvider> providersList : headEntityProviders.values()) {
-                    for (IWailaEntityProvider dataProvider : providersList) {
+                for (List<IEntityComponentProvider> providersList : headEntityProviders.values()) {
+                    for (IEntityComponentProvider dataProvider : providersList) {
                         try {
                             dataProvider.appendHead(tooltip, accessor, PluginConfig.INSTANCE);
                         } catch (Throwable e) {
@@ -140,8 +140,8 @@ public class MetaDataProvider {
                 break;
             }
             case BODY: {
-                for (List<IWailaEntityProvider> providersList : bodyEntityProviders.values()) {
-                    for (IWailaEntityProvider dataProvider : providersList) {
+                for (List<IEntityComponentProvider> providersList : bodyEntityProviders.values()) {
+                    for (IEntityComponentProvider dataProvider : providersList) {
                         try {
                             dataProvider.appendBody(tooltip, accessor, PluginConfig.INSTANCE);
                         } catch (Throwable e) {
@@ -152,8 +152,8 @@ public class MetaDataProvider {
                 break;
             }
             case TAIL: {
-                for (List<IWailaEntityProvider> providersList : tailEntityProviders.values()) {
-                    for (IWailaEntityProvider dataProvider : providersList) {
+                for (List<IEntityComponentProvider> providersList : tailEntityProviders.values()) {
+                    for (IEntityComponentProvider dataProvider : providersList) {
                         try {
                             dataProvider.appendTail(tooltip, accessor, PluginConfig.INSTANCE);
                         } catch (Throwable e) {

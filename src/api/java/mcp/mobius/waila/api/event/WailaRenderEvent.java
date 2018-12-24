@@ -1,6 +1,6 @@
 package mcp.mobius.waila.api.event;
 
-import mcp.mobius.waila.api.IWailaCommonAccessor;
+import mcp.mobius.waila.api.ICommonAccessor;
 import net.fabricmc.fabric.util.HandlerArray;
 import net.fabricmc.fabric.util.HandlerRegistry;
 
@@ -46,15 +46,15 @@ public class WailaRenderEvent {
      */
     public static class Pre extends WailaRenderEvent {
 
-        private final IWailaCommonAccessor accessor;
+        private final ICommonAccessor accessor;
 
-        public Pre(IWailaCommonAccessor accessor, Rectangle position) {
+        public Pre(ICommonAccessor accessor, Rectangle position) {
             super(position);
 
             this.accessor = accessor;
         }
 
-        public IWailaCommonAccessor getAccessor() {
+        public ICommonAccessor getAccessor() {
             return accessor;
         }
     }

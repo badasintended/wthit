@@ -1,14 +1,14 @@
 package mcp.mobius.waila.overlay.tooltiprenderers;
 
-import mcp.mobius.waila.api.IWailaCommonAccessor;
-import mcp.mobius.waila.api.IWailaTooltipRenderer;
+import mcp.mobius.waila.api.ICommonAccessor;
+import mcp.mobius.waila.api.ITooltipRenderer;
 import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.overlay.IconUI;
 import net.minecraft.nbt.CompoundTag;
 
 import java.awt.Dimension;
 
-public class TooltipRendererIcon implements IWailaTooltipRenderer {
+public class TooltipRendererIcon implements ITooltipRenderer {
 
     private final String type;
     private final int size = 8;
@@ -18,12 +18,12 @@ public class TooltipRendererIcon implements IWailaTooltipRenderer {
     }
 
     @Override
-    public Dimension getSize(CompoundTag tag, IWailaCommonAccessor accessor) {
+    public Dimension getSize(CompoundTag tag, ICommonAccessor accessor) {
         return new Dimension(size, size);
     }
 
     @Override
-    public void draw(CompoundTag tag, IWailaCommonAccessor accessor, int x, int y) {
+    public void draw(CompoundTag tag, ICommonAccessor accessor, int x, int y) {
         DisplayUtil.renderIcon(x, y, size, size, IconUI.bySymbol(type));
     }
 

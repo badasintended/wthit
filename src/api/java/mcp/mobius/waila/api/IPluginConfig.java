@@ -10,7 +10,7 @@ import java.util.Set;
  *
  * @author ProfMobius
  */
-public interface IWailaConfigHandler {
+public interface IPluginConfig {
 
     /**
      * Gets a collection of all the keys for a given namespace.

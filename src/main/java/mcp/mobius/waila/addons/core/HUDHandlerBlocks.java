@@ -3,9 +3,9 @@ package mcp.mobius.waila.addons.core;
 import com.google.common.base.Strings;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.ITaggedList;
-import mcp.mobius.waila.api.IWailaConfigHandler;
-import mcp.mobius.waila.api.IWailaDataAccessor;
-import mcp.mobius.waila.api.IWailaDataProvider;
+import mcp.mobius.waila.api.IPluginConfig;
+import mcp.mobius.waila.api.IDataAccessor;
+import mcp.mobius.waila.api.IComponentProvider;
 import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.resource.language.I18n;
@@ -16,13 +16,13 @@ import net.minecraft.util.registry.Registry;
 
 import java.util.List;
 
-public class HUDHandlerBlocks implements IWailaDataProvider {
+public class HUDHandlerBlocks implements IComponentProvider {
 
-    static final IWailaDataProvider INSTANCE = new HUDHandlerBlocks();
+    static final IComponentProvider INSTANCE = new HUDHandlerBlocks();
     static final Identifier MOD_NAME_TAG = new Identifier(Waila.MODID, "mod_name");
 
     @Override
-    public void appendHead(List<TextComponent> tooltip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
+    public void appendHead(List<TextComponent> tooltip, IDataAccessor accessor, IPluginConfig config) {
         if (accessor.getBlockState().getMaterial().isLiquid())
             return;
 
@@ -32,7 +32,7 @@ public class HUDHandlerBlocks implements IWailaDataProvider {
     }
 
     @Override
-    public void appendBody(List<TextComponent> tooltip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
+    public void appendBody(List<TextComponent> tooltip, IDataAccessor accessor, IPluginConfig config) {
         if (config.get(PluginCore.CONFIG_SHOW_STATES)) {
             BlockState state = accessor.getBlockState();
             state.getProperties().forEach(p -> {
@@ -44,7 +44,7 @@ public class HUDHandlerBlocks implements IWailaDataProvider {
     }
 
     @Override
-    public void appendTail(List<TextComponent> tooltip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
+    public void appendTail(List<TextComponent> tooltip, IDataAccessor accessor, IPluginConfig config) {
         String modName = ModIdentification.getModInfo(accessor.getStack().getItem()).getName();
         if (!Strings.isNullOrEmpty(modName)) {
             modName = String.format(Waila.config.getFormatting().getModName(), modName);

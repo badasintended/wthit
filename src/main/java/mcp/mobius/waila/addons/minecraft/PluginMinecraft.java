@@ -1,7 +1,7 @@
 package mcp.mobius.waila.addons.minecraft;
 
 import mcp.mobius.waila.api.IWailaPlugin;
-import mcp.mobius.waila.api.IWailaRegistrar;
+import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.TooltipPosition;
 import mcp.mobius.waila.overlay.tooltiprenderers.TooltipRendererProgressBar;
 import mcp.mobius.waila.overlay.tooltiprenderers.TooltipRendererSpacer;
@@ -31,7 +31,7 @@ public class PluginMinecraft implements IWailaPlugin {
     static final Identifier CONFIG_JUKEBOX = new Identifier(MC_NAMESPACE, "jukebox");
 
     @Override
-    public void register(IWailaRegistrar registrar) {
+    public void register(IRegistrar registrar) {
         registrar.addConfig(CONFIG_DISPLAY_FURNACE, true);
         registrar.addSyncedConfig(CONFIG_HIDE_SILVERFISH, true);
         registrar.addConfig(CONFIG_SPAWNER_TYPE, true);

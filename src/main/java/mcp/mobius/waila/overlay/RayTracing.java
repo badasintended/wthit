@@ -2,8 +2,8 @@ package mcp.mobius.waila.overlay;
 
 import com.google.common.collect.Lists;
 import mcp.mobius.waila.Waila;
-import mcp.mobius.waila.api.IWailaDataProvider;
-import mcp.mobius.waila.api.IWailaEntityProvider;
+import mcp.mobius.waila.api.IComponentProvider;
+import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.impl.DataAccessor;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.api.impl.config.PluginConfig;
@@ -81,9 +81,9 @@ public class RayTracing {
         List<Entity> entities = Lists.newArrayList();
 
         if (WailaRegistrar.INSTANCE.hasOverrideEntityProviders(this.target.entity)) {
-            Collection<List<IWailaEntityProvider>> overrideProviders = WailaRegistrar.INSTANCE.getOverrideEntityProviders(this.target.entity).values();
-            for (List<IWailaEntityProvider> providers : overrideProviders)
-                for (IWailaEntityProvider provider : providers)
+            Collection<List<IEntityComponentProvider>> overrideProviders = WailaRegistrar.INSTANCE.getOverrideEntityProviders(this.target.entity).values();
+            for (List<IEntityComponentProvider> providers : overrideProviders)
+                for (IEntityComponentProvider provider : providers)
                     entities.add(provider.getOverride(DataAccessor.INSTANCE, PluginConfig.INSTANCE));
         }
 
@@ -123,9 +123,9 @@ public class RayTracing {
         return items;
     }
 
-    private void handleStackProviders(List<ItemStack> items, Collection<List<IWailaDataProvider>> providers) {
-        for (List<IWailaDataProvider> providersList : providers) {
-            for (IWailaDataProvider provider : providersList) {
+    private void handleStackProviders(List<ItemStack> items, Collection<List<IComponentProvider>> providers) {
+        for (List<IComponentProvider> providersList : providers) {
+            for (IComponentProvider provider : providersList) {
                 ItemStack providerStack = provider.getStack(DataAccessor.INSTANCE, PluginConfig.INSTANCE);
                 if (providerStack.isEmpty())
                     continue;

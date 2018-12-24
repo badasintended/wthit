@@ -1,8 +1,8 @@
 package mcp.mobius.waila.overlay.tooltiprenderers;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import mcp.mobius.waila.api.IWailaCommonAccessor;
-import mcp.mobius.waila.api.IWailaTooltipRenderer;
+import mcp.mobius.waila.api.ICommonAccessor;
+import mcp.mobius.waila.api.ITooltipRenderer;
 import mcp.mobius.waila.overlay.DisplayUtil;
 import net.minecraft.client.render.GuiLighting;
 import net.minecraft.item.Item;
@@ -15,15 +15,15 @@ import net.minecraft.util.registry.Registry;
 
 import java.awt.Dimension;
 
-public class TooltipRendererStack implements IWailaTooltipRenderer {
+public class TooltipRendererStack implements ITooltipRenderer {
 
     @Override
-    public Dimension getSize(CompoundTag tag, IWailaCommonAccessor accessor) {
+    public Dimension getSize(CompoundTag tag, ICommonAccessor accessor) {
         return new Dimension(18, 18);
     }
 
     @Override
-    public void draw(CompoundTag tag, IWailaCommonAccessor accessor, int x, int y) {
+    public void draw(CompoundTag tag, ICommonAccessor accessor, int x, int y) {
         int count = tag.getInt("count");
         if (count <= 0)
             return;

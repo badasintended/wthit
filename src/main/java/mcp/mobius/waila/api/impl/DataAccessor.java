@@ -1,8 +1,8 @@
 package mcp.mobius.waila.api.impl;
 
-import mcp.mobius.waila.api.IWailaCommonAccessor;
-import mcp.mobius.waila.api.IWailaDataAccessor;
-import mcp.mobius.waila.api.IWailaEntityAccessor;
+import mcp.mobius.waila.api.ICommonAccessor;
+import mcp.mobius.waila.api.IDataAccessor;
+import mcp.mobius.waila.api.IEntityAccessor;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
@@ -20,7 +20,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
-public class DataAccessor implements IWailaCommonAccessor, IWailaDataAccessor, IWailaEntityAccessor {
+public class DataAccessor implements ICommonAccessor, IDataAccessor, IEntityAccessor {
 
     public static final DataAccessor INSTANCE = new DataAccessor();
 

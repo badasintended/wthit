@@ -18,12 +18,12 @@ import net.minecraft.world.World;
 
 import java.util.List;
 
-public class HUDHandlerVanilla implements IWailaDataProvider, IServerDataProvider<BlockEntity> {
+public class HUDHandlerVanilla implements IComponentProvider, IServerDataProvider<BlockEntity> {
 
     static final HUDHandlerVanilla INSTANCE = new HUDHandlerVanilla();
 
     @Override
-    public ItemStack getStack(IWailaDataAccessor accessor, IWailaConfigHandler config) {
+    public ItemStack getStack(IDataAccessor accessor, IPluginConfig config) {
         if (config.get(PluginMinecraft.CONFIG_HIDE_SILVERFISH) && accessor.getBlock() instanceof StoneInfestedBlock)
             return new ItemStack(((StoneInfestedBlock) accessor.getBlock()).method_10271().getItem()); // getMimicBlock
 
@@ -37,7 +37,7 @@ public class HUDHandlerVanilla implements IWailaDataProvider, IServerDataProvide
     }
 
     @Override
-    public void appendHead(List<TextComponent> tooltip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
+    public void appendHead(List<TextComponent> tooltip, IDataAccessor accessor, IPluginConfig config) {
         if (accessor.getBlock() == Blocks.SPAWNER && config.get(PluginMinecraft.CONFIG_SPAWNER_TYPE)) {
             MobSpawnerBlockEntity spawner = (MobSpawnerBlockEntity) accessor.getBlockEntity();
             tooltip.set(0, new TranslatableTextComponent(accessor.getBlock().getTranslationKey())
@@ -49,7 +49,7 @@ public class HUDHandlerVanilla implements IWailaDataProvider, IServerDataProvide
     }
 
     @Override
-    public void appendBody(List<TextComponent> tooltip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
+    public void appendBody(List<TextComponent> tooltip, IDataAccessor accessor, IPluginConfig config) {
         if (config.get(PluginMinecraft.CONFIG_CROP_PROGRESS)) {
             if (accessor.getBlock() instanceof CropBlock) {
                 CropBlock crop = (CropBlock) accessor.getBlock();

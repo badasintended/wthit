@@ -11,18 +11,17 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.state.property.Properties;
 import net.minecraft.text.TextComponent;
 import net.minecraft.util.DefaultedList;
-import net.minecraft.util.InventoryUtil;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
 import java.util.List;
 
-public class HUDHandlerFurnace implements IWailaDataProvider, IServerDataProvider<BlockEntity> {
+public class HUDHandlerFurnace implements IComponentProvider, IServerDataProvider<BlockEntity> {
 
     static final HUDHandlerFurnace INSTANCE = new HUDHandlerFurnace();
 
     @Override
-    public void appendBody(List<TextComponent> tooltip, IWailaDataAccessor accessor, IWailaConfigHandler config) {
+    public void appendBody(List<TextComponent> tooltip, IDataAccessor accessor, IPluginConfig config) {
         if (!config.get(PluginMinecraft.CONFIG_DISPLAY_FURNACE))
             return;
 

@@ -15,7 +15,7 @@ import net.minecraft.world.World;
  * @author ProfMobius
  */
 
-public interface IWailaEntityAccessor {
+public interface IEntityAccessor {
 
     World getWorld();
 

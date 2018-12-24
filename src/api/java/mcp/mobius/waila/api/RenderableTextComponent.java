@@ -75,7 +75,7 @@ public class RenderableTextComponent extends StringTextComponent {
     public static class RenderContainer {
         private final Identifier id;
         private final CompoundTag data;
-        private final IWailaTooltipRenderer renderer;
+        private final ITooltipRenderer renderer;
 
         public RenderContainer(Identifier id, CompoundTag data) {
             this.id = id;
@@ -91,7 +91,7 @@ public class RenderableTextComponent extends StringTextComponent {
             return data;
         }
 
-        public IWailaTooltipRenderer getRenderer() {
+        public ITooltipRenderer getRenderer() {
             return renderer;
         }
     }

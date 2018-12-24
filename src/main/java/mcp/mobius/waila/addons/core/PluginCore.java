@@ -2,7 +2,7 @@ package mcp.mobius.waila.addons.core;
 
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IWailaPlugin;
-import mcp.mobius.waila.api.IWailaRegistrar;
+import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.TooltipPosition;
 import mcp.mobius.waila.overlay.tooltiprenderers.TooltipRendererHealth;
 import net.minecraft.block.Block;
@@ -20,7 +20,7 @@ public class PluginCore implements IWailaPlugin {
     static final Identifier CONFIG_SHOW_STATES = new Identifier(Waila.MODID, "show_states");
 
     @Override
-    public void register(IWailaRegistrar registrar) {
+    public void register(IRegistrar registrar) {
         registrar.registerComponentProvider(HUDHandlerBlocks.INSTANCE, TooltipPosition.HEAD, Block.class);
         registrar.registerComponentProvider(HUDHandlerBlocks.INSTANCE, TooltipPosition.BODY, Block.class);
         registrar.registerComponentProvider(HUDHandlerBlocks.INSTANCE, TooltipPosition.TAIL, Block.class);

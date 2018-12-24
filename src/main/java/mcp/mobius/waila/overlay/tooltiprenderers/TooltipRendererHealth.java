@@ -1,8 +1,8 @@
 package mcp.mobius.waila.overlay.tooltiprenderers;
 
 import mcp.mobius.waila.Waila;
-import mcp.mobius.waila.api.IWailaCommonAccessor;
-import mcp.mobius.waila.api.IWailaTooltipRenderer;
+import mcp.mobius.waila.api.ICommonAccessor;
+import mcp.mobius.waila.api.ITooltipRenderer;
 import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.overlay.IconUI;
 import net.minecraft.nbt.CompoundTag;
@@ -10,10 +10,10 @@ import net.minecraft.util.math.MathHelper;
 
 import java.awt.Dimension;
 
-public class TooltipRendererHealth implements IWailaTooltipRenderer {
+public class TooltipRendererHealth implements ITooltipRenderer {
 
     @Override
-    public Dimension getSize(CompoundTag tag, IWailaCommonAccessor accessor) {
+    public Dimension getSize(CompoundTag tag, ICommonAccessor accessor) {
         float maxHearts = Waila.config.getGeneral().getMaxHealthForRender();
         float maxHealth = tag.getFloat("max");
 
@@ -24,7 +24,7 @@ public class TooltipRendererHealth implements IWailaTooltipRenderer {
     }
 
     @Override
-    public void draw(CompoundTag tag, IWailaCommonAccessor accessor, int x, int y) {
+    public void draw(CompoundTag tag, ICommonAccessor accessor, int x, int y) {
         float maxHearts = Waila.config.getGeneral().getMaxHealthForRender();
         float health = tag.getFloat("health");
         float maxHealth = tag.getFloat("max");

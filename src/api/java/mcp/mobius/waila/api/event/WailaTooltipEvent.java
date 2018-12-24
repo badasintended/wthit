@@ -1,6 +1,6 @@
 package mcp.mobius.waila.api.event;
 
-import mcp.mobius.waila.api.IWailaCommonAccessor;
+import mcp.mobius.waila.api.ICommonAccessor;
 import net.fabricmc.fabric.util.HandlerArray;
 import net.fabricmc.fabric.util.HandlerRegistry;
 import net.minecraft.text.TextComponent;
@@ -20,9 +20,9 @@ public class WailaTooltipEvent {
     public static final HandlerRegistry<HandleTooltip> WAILA_HANDLE_TOOLTIP = new HandlerArray<>(HandleTooltip.class);
 
     private final List<TextComponent> currentTip;
-    private final IWailaCommonAccessor accessor;
+    private final ICommonAccessor accessor;
 
-    public WailaTooltipEvent(List<TextComponent> currentTip, IWailaCommonAccessor accessor) {
+    public WailaTooltipEvent(List<TextComponent> currentTip, ICommonAccessor accessor) {
         this.currentTip = currentTip;
         this.accessor = accessor;
     }
@@ -31,7 +31,7 @@ public class WailaTooltipEvent {
         return currentTip;
     }
 
-    public IWailaCommonAccessor getAccessor() {
+    public ICommonAccessor getAccessor() {
         return accessor;
     }
 

@@ -4,13 +4,13 @@ import net.minecraft.nbt.CompoundTag;
 
 import java.awt.Dimension;
 
-public interface IWailaTooltipRenderer {
+public interface ITooltipRenderer {
     /**
      * @param data     The data supplied by the provider
      * @param accessor A global accessor for TileEntities and Entities
      * @return Dimension of the reserved area
      */
-    Dimension getSize(CompoundTag data, IWailaCommonAccessor accessor);
+    Dimension getSize(CompoundTag data, ICommonAccessor accessor);
 
     /**
      * Draw method for the renderer. The GL matrice is automatically moved to the top left of the reserved zone.<br>
@@ -19,5 +19,5 @@ public interface IWailaTooltipRenderer {
      * @param data     The data supplied by the provider
      * @param accessor A global accessor for TileEntities and Entities
      */
-    void draw(CompoundTag data, IWailaCommonAccessor accessor, int x, int y);
+    void draw(CompoundTag data, ICommonAccessor accessor, int x, int y);
 }

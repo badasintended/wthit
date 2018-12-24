@@ -5,7 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import mcp.mobius.waila.Waila;
-import mcp.mobius.waila.api.IWailaConfigHandler;
+import mcp.mobius.waila.api.IPluginConfig;
 import net.fabricmc.loader.FabricLoader;
 import net.minecraft.util.Identifier;
 
@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class PluginConfig implements IWailaConfigHandler {
+public class PluginConfig implements IPluginConfig {
 
     public static final PluginConfig INSTANCE = new PluginConfig();
 
