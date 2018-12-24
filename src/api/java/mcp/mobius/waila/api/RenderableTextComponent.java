@@ -3,6 +3,7 @@ package mcp.mobius.waila.api;
 import com.google.common.collect.Lists;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
+import net.fabricmc.fabric.api.util.NbtType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringTag;
@@ -26,12 +27,17 @@ public class RenderableTextComponent extends StringTextComponent {
         List<RenderContainer> renderers = Lists.newArrayList();
         CompoundTag data = getData();
         if (data.containsKey("renders")) {
-            ListTag list = data.getList("renders", 10);
+            ListTag list = data.getList("renders", NbtType.STRING);
             list.forEach(t -> {
-                CompoundTag tag = (CompoundTag) t;
-                Identifier id = new Identifier(tag.getString("id"));
-                CompoundTag dataTag = tag.getCompound("data");
-                renderers.add(new RenderContainer(id, dataTag));
+                StringTag stringTag = (StringTag) t;
+                try {
+                    CompoundTag tag = JsonLikeTagParser.parse(stringTag.asString());
+                    Identifier id = new Identifier(tag.getString("id"));
+                    CompoundTag dataTag = tag.getCompound("data");
+                    renderers.add(new RenderContainer(id, dataTag));
+                } catch (CommandSyntaxException e) {
+                    // no-op
+                }
             });
         } else {
             Identifier id = new Identifier(data.getString("id"));
