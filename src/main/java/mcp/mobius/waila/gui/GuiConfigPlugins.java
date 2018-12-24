@@ -16,7 +16,7 @@ import java.util.Set;
 public class GuiConfigPlugins extends GuiOptions {
 
     public GuiConfigPlugins(Gui parent) {
-        super(parent, new TranslatableTextComponent("gui.plugins.configuration"), PluginConfig.INSTANCE::save, PluginConfig.INSTANCE::reload);
+        super(parent, new TranslatableTextComponent("gui.waila.plugin_settings"), PluginConfig.INSTANCE::save, PluginConfig.INSTANCE::reload);
     }
 
     @Override
