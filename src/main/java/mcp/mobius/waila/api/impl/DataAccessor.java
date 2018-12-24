@@ -140,14 +140,14 @@ public class DataAccessor implements IWailaCommonAccessor, IWailaDataAccessor, I
     }
 
     private boolean isTagCorrectTileEntity(CompoundTag tag) {
-        if (tag == null || !tag.containsKey("WailaX")) {
+        if (tag == null) {
             this.timeLastUpdate = System.currentTimeMillis() - 250;
             return false;
         }
 
-        int x = tag.getInt("WailaX");
-        int y = tag.getInt("WailaY");
-        int z = tag.getInt("WailaZ");
+        int x = tag.getInt("x");
+        int y = tag.getInt("y");
+        int z = tag.getInt("z");
 
         if (x == this.hitResult.getBlockPos().getX() && y == this.hitResult.getBlockPos().getY() && z == this.hitResult.getBlockPos().getZ())
             return true;
