@@ -12,6 +12,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
+import java.util.Collection;
 import java.util.Map;
 
 public class WailaConfig {
@@ -125,8 +126,20 @@ public class WailaConfig {
     public static class ConfigOverlay {
         private float overlayPosX = 0.5F;
         private float overlayPosY = 0.99F;
-        private float overlayScale = 100;
+        private float overlayScale = 1.0F;
         private ConfigOverlayColor color = new ConfigOverlayColor();
+
+        public void setOverlayPosX(float overlayPosX) {
+            this.overlayPosX = overlayPosX;
+        }
+
+        public void setOverlayPosY(float overlayPosY) {
+            this.overlayPosY = overlayPosY;
+        }
+
+        public void setOverlayScale(float overlayScale) {
+            this.overlayScale = overlayScale;
+        }
 
         public float getOverlayPosX() {
             return Math.min(Math.max(overlayPosX, 0.0F), 1.0F);
@@ -137,7 +150,7 @@ public class WailaConfig {
         }
 
         public float getOverlayScale() {
-            return overlayScale / 100F;
+            return overlayScale;
         }
 
         public ConfigOverlayColor getColor() {
@@ -158,8 +171,20 @@ public class WailaConfig {
                 return alpha == 100 ? 255 : alpha == 0 ? (int) (0.4F / 100.0F * 256) << 24 : (int) (alpha / 100.0F * 256) << 24;
             }
 
+            public int getRawAlpha() {
+                return alpha;
+            }
+
             public HUDTheme getTheme() {
                 return themes.getOrDefault(activeTheme, HUDTheme.VANILLA);
+            }
+
+            public Collection<HUDTheme> getThemes() {
+                return themes.values();
+            }
+
+            public void setAlpha(int alpha) {
+                this.alpha = alpha;
             }
 
             public int getBackgroundColor() {
@@ -214,7 +239,27 @@ public class WailaConfig {
         private String blockName = StringEscapeUtils.escapeJava("\u00a7f%s");
         private String fluidName = StringEscapeUtils.escapeJava("\u00a7f%s");
         private String entityName = StringEscapeUtils.escapeJava("\u00a7f%s");
-        private String meta = StringEscapeUtils.escapeJava("\u00a77[%s@%d]");
+        private String registryName = StringEscapeUtils.escapeJava("\u00a77[%s]");
+
+        public void setModName(String modName) {
+            this.modName = modName;
+        }
+
+        public void setBlockName(String blockName) {
+            this.blockName = blockName;
+        }
+
+        public void setFluidName(String fluidName) {
+            this.fluidName = fluidName;
+        }
+
+        public void setEntityName(String entityName) {
+            this.entityName = entityName;
+        }
+
+        public void setRegistryName(String registryName) {
+            this.registryName = registryName;
+        }
 
         public String getModName() {
             return StringEscapeUtils.unescapeJava(modName);
@@ -232,8 +277,8 @@ public class WailaConfig {
             return StringEscapeUtils.unescapeJava(entityName);
         }
 
-        public String getMeta() {
-            return StringEscapeUtils.unescapeJava(meta);
+        public String getRegistryName() {
+            return StringEscapeUtils.unescapeJava(registryName);
         }
     }
 

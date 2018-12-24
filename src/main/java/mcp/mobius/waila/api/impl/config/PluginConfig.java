@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -41,14 +42,22 @@ public class PluginConfig implements IWailaConfigHandler {
         return configs.keySet();
     }
 
-    public Set<ConfigEntry> getSyncableConfigs() {
-        return configs.values().stream().filter(ConfigEntry::isSynced).collect(Collectors.toSet());
-    }
-
     @Override
     public boolean get(Identifier key, boolean defaultValue) {
         ConfigEntry entry = configs.get(key);
         return entry == null ? defaultValue : entry.getValue();
+    }
+
+    public Set<ConfigEntry> getSyncableConfigs() {
+        return configs.values().stream().filter(ConfigEntry::isSynced).collect(Collectors.toSet());
+    }
+
+    public List<String> getNamespaces() {
+        return configs.keySet().stream().sorted((o1, o2) -> o1.getNamespace().compareToIgnoreCase(o2.getNamespace())).map(Identifier::getNamespace).distinct().collect(Collectors.toList());
+    }
+
+    public ConfigEntry getEntry(Identifier key) {
+        return configs.get(key);
     }
 
     public void set(Identifier key, boolean value) {
