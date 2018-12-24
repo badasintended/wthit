@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "package": "mcp.mobius.waila.mixin.server",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "hwyla-refmap.json",
+  "mixins": [
+    "MixinPlayerManager"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

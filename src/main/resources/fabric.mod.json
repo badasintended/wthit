@@ -32,6 +32,7 @@
     "fabric": "*"
   },
   "mixins": {
-    "client": "hwyla.client.json"
+    "client": "hwyla.client.json",
+    "server": "hwyla.server.json"
   }
 }

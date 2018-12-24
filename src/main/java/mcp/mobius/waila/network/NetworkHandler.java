@@ -107,7 +107,10 @@ public class NetworkHandler {
                 temp.put(id, value);
             }
 
-            packetContext.getTaskQueue().execute(() -> temp.forEach(PluginConfig.INSTANCE::set));
+            packetContext.getTaskQueue().execute(() -> {
+                temp.forEach(PluginConfig.INSTANCE::set);
+                Waila.LOGGER.info("Received config from the server");
+            });
         });
     }
 
@@ -127,6 +130,7 @@ public class NetworkHandler {
 
     @Environment(EnvType.SERVER)
     public static void sendConfig(PluginConfig config, ServerPlayerEntity player) {
+        Waila.LOGGER.info("Sending config to {} ({})", player.getGameProfile().getName(), player.getGameProfile().getId());
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
         Set<ConfigEntry> entries = config.getSyncableConfigs();
         buf.writeInt(entries.size());
