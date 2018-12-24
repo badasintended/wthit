@@ -8,6 +8,7 @@ import info.tehnut.pluginloader.PluginLoaderBuilder;
 import info.tehnut.pluginloader.ValidationStrategy;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
+import mcp.mobius.waila.api.impl.config.PluginConfig;
 import net.fabricmc.api.loader.Loader;
 import net.fabricmc.loader.language.LanguageAdapter;
 
@@ -54,6 +55,8 @@ public class WailaPlugins implements LoaderCreator {
                         Waila.LOGGER.info("Registering plugin at {}", p.getClass().getCanonicalName());
                         p.register(WailaRegistrar.INSTANCE);
                     });
-                });
+                    PluginConfig.INSTANCE.reload();
+                })
+                .build();
     }
 }

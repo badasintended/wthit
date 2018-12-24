@@ -1,9 +1,5 @@
 package mcp.mobius.waila;
 
-import mcp.mobius.waila.addons.core.PluginCore;
-import mcp.mobius.waila.addons.minecraft.PluginMinecraft;
-import mcp.mobius.waila.api.impl.WailaRegistrar;
-import mcp.mobius.waila.api.impl.config.PluginConfig;
 import mcp.mobius.waila.api.impl.config.WailaConfig;
 import mcp.mobius.waila.network.NetworkHandler;
 import net.fabricmc.api.ModInitializer;
@@ -23,10 +19,5 @@ public class Waila implements ModInitializer {
     public void onInitialize() {
         config = WailaConfig.loadConfig();
         NetworkHandler.init();
-
-        // FIXME temporary
-        new PluginCore().register(WailaRegistrar.INSTANCE);
-        new PluginMinecraft().register(WailaRegistrar.INSTANCE);
-        PluginConfig.INSTANCE.reload();
     }
 }
