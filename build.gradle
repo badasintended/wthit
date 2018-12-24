@@ -69,6 +69,9 @@ curseforge {
         changelog = getChangelogText()
         releaseType = 'release'
 
+        gameVersionStrings.clear()
+        gameVersionStrings.add("1.14_Snapshot")
+
         addArtifact sourcesJar
         addArtifact apiJar
     }
