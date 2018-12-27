@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import info.tehnut.pluginloader.LoaderCreator;
 import info.tehnut.pluginloader.PluginLoaderBuilder;
 import info.tehnut.pluginloader.ValidationStrategy;
+import mcp.mobius.waila.addons.core.PluginCore;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.api.impl.config.PluginConfig;
@@ -42,6 +43,7 @@ public class WailaPlugins implements LoaderCreator {
                     }
                 })
                 .withPostCall(() -> {
+                    Waila.LOGGER.info("Registering plugin at {}", PluginCore.class.getCanonicalName());
                     PLUGINS.remove("waila_core").register(WailaRegistrar.INSTANCE); // Handle and clear the core plugin so it's registered first
                     List<IWailaPlugin> sorted = Lists.newArrayList(PLUGINS.values());
                     sorted.sort((o1, o2) -> {

@@ -26,6 +26,7 @@ public class Waila implements ModInitializer {
         NetworkHandler.init();
 
         if (!Loader.getInstance().isModLoaded("pluginloader")) {
+            LOGGER.info("Internal Waila plugins loaded manually. You should consider installing plugin-loader: https://tehnut.info/maven/info/tehnut/pluginloader/plugin-loader/");
             new PluginCore().register(WailaRegistrar.INSTANCE);
             new PluginMinecraft().register(WailaRegistrar.INSTANCE);
             PluginConfig.INSTANCE.reload();

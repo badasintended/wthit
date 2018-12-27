@@ -26,10 +26,33 @@
     }
   ],
   "contributors": [
-    "InsomniaKitten"
+    "InsomniaKitten",
+    "Girafi",
+    "Vexatos",
+    "gigabit101",
+    "Lordmau5",
+    "MrNinja93",
+    "tambry",
+    "magik6k",
+    "Parker8283",
+    "Sven792",
+    "3TUSK",
+    "Foxgreat",
+    "josephcsible",
+    "RCXcrafter",
+    "shadowfacts",
+    "X00LA",
+    "crafteverywhere",
+    "SinusoidalC",
+    "viliml",
+    "Eracer",
+    "odininon"
   ],
   "requires": {
     "fabric": "*"
+  },
+  "recommended": {
+    "pluginloader": "*"
   },
   "mixins": {
     "client": "hwyla.client.json",
