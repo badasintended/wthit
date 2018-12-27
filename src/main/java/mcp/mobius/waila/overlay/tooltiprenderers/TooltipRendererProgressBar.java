@@ -23,15 +23,17 @@ public class TooltipRendererProgressBar implements ITooltipRenderer {
     @Override
     public void draw(CompoundTag tag, ICommonAccessor accessor, int x, int y) {
         int currentValue = tag.getInt("progress");
-        int maxValue = tag.getInt("total");
-
-        int progress = (currentValue * 22) / maxValue;
 
         CLIENT.getTextureManager().bindTexture(SHEET);
 
+        // Draws the "empty" background arrow
         DisplayUtil.drawTexturedModalRect(x + 2, y, 0, 16, 22, 16, 22, 16);
-        DisplayUtil.drawTexturedModalRect(x + 2, y, 0, 0, progress + 1, 16, progress + 1, 16);
 
+        int maxValue = tag.getInt("total");
+        if (maxValue > 0) {
+            int progress = (currentValue * 22) / maxValue;
+            // Draws the "full" foreground arrow based on the progress
+            DisplayUtil.drawTexturedModalRect(x + 2, y, 0, 0, progress + 1, 16, progress + 1, 16);
+        }
     }
-
 }
