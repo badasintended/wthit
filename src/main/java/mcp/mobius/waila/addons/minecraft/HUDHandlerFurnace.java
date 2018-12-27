@@ -28,17 +28,14 @@ public class HUDHandlerFurnace implements IComponentProvider, IServerDataProvide
         if (!accessor.getBlockState().get(Properties.LIT))
             return;
 
-        int cookTime = accessor.getServerData().getInt("cookTime");
-        if (cookTime <= 0)
-            return;
-
         ListTag furnaceItems = accessor.getServerData().getList("furnace", NbtType.COMPOUND);
         DefaultedList<ItemStack> inventory = DefaultedList.create(3, ItemStack.EMPTY);
         for (int i = 0; i <furnaceItems.size(); i++)
             inventory.set(i, ItemStack.fromTag(furnaceItems.getCompoundTag(i)));
 
         CompoundTag progress = new CompoundTag();
-        progress.putInt("cook", cookTime);
+        progress.putInt("progress", accessor.getServerData().getInt("progress"));
+        progress.putInt("total", accessor.getServerData().getInt("total"));
 
         RenderableTextComponent renderables = new RenderableTextComponent(
                 getRenderable(inventory.get(0)),
@@ -58,7 +55,9 @@ public class HUDHandlerFurnace implements IComponentProvider, IServerDataProvide
         items.add(furnace.getInvStack(1).toTag(new CompoundTag()));
         items.add(furnace.getInvStack(2).toTag(new CompoundTag()));
         data.put("furnace", items);
-        data.putInt("cookTime", furnace.toTag(new CompoundTag()).getInt("CookTime")); // smh
+        CompoundTag furnaceTag = furnace.toTag(new CompoundTag());
+        data.putInt("progress", furnaceTag.getInt("CookTime")); // smh
+        data.putInt("total", furnaceTag.getInt("CookTimeTotal")); // smh
     }
 
     private static RenderableTextComponent getRenderable(ItemStack stack) {
