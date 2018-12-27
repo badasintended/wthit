@@ -33,6 +33,7 @@ public class OptionsListWidget extends EntryListWidget<OptionsListWidget.Entry> 
         return 250;
     }
 
+    // The only difference here from super is the center background piece has been removed.
     @Override
     public void draw(int x, int y, float partialTicks) {
         if (this.visible) {

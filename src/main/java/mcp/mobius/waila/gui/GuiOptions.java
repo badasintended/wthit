@@ -1,11 +1,15 @@
 package mcp.mobius.waila.gui;
 
+import com.google.common.collect.Lists;
 import mcp.mobius.waila.gui.config.OptionsListWidget;
+import mcp.mobius.waila.gui.config.value.OptionsEntryValue;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiEventListener;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.text.TextComponent;
+
+import java.util.List;
 
 public abstract class GuiOptions extends Gui {
 
@@ -60,11 +64,34 @@ public abstract class GuiOptions extends Gui {
     }
 
     @Override
-    public void draw(int x, int y, float partialTicks) {
+    public void draw(int mouseX, int mouseY, float partialTicks) {
         drawBackground();
-        options.draw(x, y, partialTicks);
+        options.draw(mouseX, mouseY, partialTicks);
         drawStringCentered(fontRenderer, title.getFormattedText(), width / 2, 12, 16777215);
-        super.draw(x, y, partialTicks);
+        super.draw(mouseX, mouseY, partialTicks);
+
+        if (mouseY < 32 || mouseY > height - 32)
+            return;
+
+        int selectedIndex = options.getSelectedEntry(mouseX, mouseY);
+        if (selectedIndex < 0 || selectedIndex >= options.getEntries().size())
+            return;
+
+        OptionsListWidget.Entry entry = options.getEntries().get(selectedIndex);
+        if (entry instanceof OptionsEntryValue) {
+            OptionsEntryValue value = (OptionsEntryValue) entry;
+
+            if (I18n.hasTranslation(value.getDescription())) {
+                int valueX = value.getX() + 10;
+                String title = value.getTitle().getFormattedText();
+                if (mouseX < valueX || mouseX > valueX + fontRenderer.getStringWidth(title))
+                    return;
+
+                List<String> tooltip = Lists.newArrayList(title);
+                tooltip.addAll(fontRenderer.wrapStringToWidthAsList(I18n.translate(value.getDescription()), 200));
+                drawTooltip(tooltip, mouseX, mouseY);
+            }
+        }
     }
 
     @Override
