@@ -14,21 +14,19 @@ import net.minecraft.util.Identifier;
 
 public class PluginMinecraft implements IWailaPlugin {
 
-    private static final String MC_NAMESPACE = "minecraft";
+    static final Identifier RENDER_ITEM = new Identifier("item");
+    static final Identifier RENDER_SPACER = new Identifier("spacer");
+    static final Identifier RENDER_FURNACE_PROGRESS = new Identifier("furnace_progress");
 
-    static final Identifier RENDER_ITEM = new Identifier(MC_NAMESPACE, "item");
-    static final Identifier RENDER_SPACER = new Identifier(MC_NAMESPACE, "spacer");
-    static final Identifier RENDER_FURNACE_PROGRESS = new Identifier(MC_NAMESPACE, "furnace_progress");
-
-    static final Identifier CONFIG_DISPLAY_FURNACE = new Identifier(MC_NAMESPACE, "display_furnace_contents");
-    static final Identifier CONFIG_HIDE_SILVERFISH = new Identifier(MC_NAMESPACE, "hide_infestations");
-    static final Identifier CONFIG_SPAWNER_TYPE = new Identifier(MC_NAMESPACE, "spawner_type");
-    static final Identifier CONFIG_CROP_PROGRESS = new Identifier(MC_NAMESPACE, "crop_progress");
-    static final Identifier CONFIG_LEVER = new Identifier(MC_NAMESPACE, "lever");
-    static final Identifier CONFIG_REPEATER = new Identifier(MC_NAMESPACE, "repeater");
-    static final Identifier CONFIG_COMPARATOR = new Identifier(MC_NAMESPACE, "comparator");
-    static final Identifier CONFIG_REDSTONE = new Identifier(MC_NAMESPACE, "redstone");
-    static final Identifier CONFIG_JUKEBOX = new Identifier(MC_NAMESPACE, "jukebox");
+    static final Identifier CONFIG_DISPLAY_FURNACE = new Identifier("display_furnace_contents");
+    static final Identifier CONFIG_HIDE_SILVERFISH = new Identifier("hide_infestations");
+    static final Identifier CONFIG_SPAWNER_TYPE = new Identifier("spawner_type");
+    static final Identifier CONFIG_CROP_PROGRESS = new Identifier("crop_progress");
+    static final Identifier CONFIG_LEVER = new Identifier("lever");
+    static final Identifier CONFIG_REPEATER = new Identifier("repeater");
+    static final Identifier CONFIG_COMPARATOR = new Identifier("comparator");
+    static final Identifier CONFIG_REDSTONE = new Identifier("redstone");
+    static final Identifier CONFIG_JUKEBOX = new Identifier("jukebox");
 
     @Override
     public void register(IRegistrar registrar) {
@@ -52,6 +50,7 @@ public class PluginMinecraft implements IWailaPlugin {
         registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.BODY, CropBlock.class);
         registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.BODY, StemBlock.class);
         registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.BODY, CocoaBlock.class);
+        registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.BODY, SweetBerryBushBlock.class);
         registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.BODY, LeverBlock.class);
         registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.BODY, RepeaterBlock.class);
         registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.BODY, ComparatorBlock.class);
