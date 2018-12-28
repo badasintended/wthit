@@ -15,16 +15,16 @@ public class WailaRegistrar implements IRegistrar {
 
     public static final WailaRegistrar INSTANCE = new WailaRegistrar();
 
-    private final Map<Class, List<IComponentProvider>> blockStackProviders;
-    private final EnumMap<TooltipPosition, Map<Class, List<IComponentProvider>>> blockComponentProviders;
-    private final Map<Class, List<IServerDataProvider<BlockEntity>>> blockDataProviders;
+    final Map<Class, List<IComponentProvider>> blockStackProviders;
+    final EnumMap<TooltipPosition, Map<Class, List<IComponentProvider>>> blockComponentProviders;
+    final Map<Class, List<IServerDataProvider<BlockEntity>>> blockDataProviders;
 
-    private final Map<Class, List<IEntityComponentProvider>> entityOverrideProviders;
-    private final EnumMap<TooltipPosition, Map<Class, List<IEntityComponentProvider>>> entityComponentProviders;
-    private final Map<Class, List<IServerDataProvider<LivingEntity>>> entityDataProviders;
+    final Map<Class, List<IEntityComponentProvider>> entityOverrideProviders;
+    final EnumMap<TooltipPosition, Map<Class, List<IEntityComponentProvider>>> entityComponentProviders;
+    final Map<Class, List<IServerDataProvider<LivingEntity>>> entityDataProviders;
 
-    private final Map<Class, List<IBlockDecorator>> blockDecorators;
-    private final Map<Identifier, ITooltipRenderer> tooltipRenderers;
+    final Map<Class, List<IBlockDecorator>> blockDecorators;
+    final Map<Identifier, ITooltipRenderer> tooltipRenderers;
 
     WailaRegistrar() {
         blockStackProviders = Maps.newLinkedHashMap();
