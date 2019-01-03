@@ -47,7 +47,7 @@ public class Tooltip {
 
     public void addPadding() {
         totalSize.width += hasItem() ? 30 : 10;
-        totalSize.height += 10;
+        totalSize.height += 8;
     }
 
     public void draw() {
@@ -70,7 +70,7 @@ public class Tooltip {
             } else {
                 client.fontRenderer.drawWithShadow(line.getComponent().getFormattedText(), position.x, position.y, color.getFontColor());
             }
-            position.y += line.size.height + 1;
+            position.y += line.size.height;
         }
     }
 
@@ -92,7 +92,7 @@ public class Tooltip {
             return new Dimension(width, height);
         }
 
-        return new Dimension(client.fontRenderer.getStringWidth(component.getFormattedText()), client.fontRenderer.fontHeight);
+        return new Dimension(client.fontRenderer.getStringWidth(component.getFormattedText()), client.fontRenderer.fontHeight + 1);
     }
 
     public List<Line> getLines() {
