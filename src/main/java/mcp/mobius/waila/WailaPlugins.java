@@ -2,6 +2,8 @@ package mcp.mobius.waila;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import info.tehnut.pluginloader.LoaderCreator;
 import info.tehnut.pluginloader.PluginLoaderBuilder;
@@ -12,6 +14,7 @@ import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.api.impl.config.PluginConfig;
 import net.fabricmc.api.loader.Loader;
 import net.fabricmc.loader.language.LanguageAdapter;
+import net.minecraft.util.ActionResult;
 
 import java.util.List;
 import java.util.Map;
@@ -23,16 +26,32 @@ public class WailaPlugins implements LoaderCreator {
     @Override
     public void createLoaders() {
         new PluginLoaderBuilder(Waila.MODID)
-                .withValidator(ValidationStrategy.instanceOf(IWailaPlugin.class))
+                .withValidator(ValidationStrategy.instanceOf(IWailaPlugin.class).and((pluginClass, container) -> {
+                    if (container.getInfo().getData() != null && container.getInfo().getData().isJsonObject()) {
+                        JsonObject json = container.getInfo().getData().getAsJsonObject();
+                        if (json.has("required")) {
+                            JsonElement required = json.get("required");
+                            if (required.isJsonPrimitive() && !Loader.getInstance().isModLoaded(required.getAsString()))
+                                return ActionResult.PASS;
+                            else if (required.isJsonArray()) {
+                                JsonArray requiredArray = required.getAsJsonArray();
+                                for (int i = 0; i < requiredArray.size(); i++) {
+                                    JsonElement element = requiredArray.get(i);
+                                    if (!element.isJsonPrimitive())
+                                        continue;
+
+                                    if (!Loader.getInstance().isModLoaded(element.getAsString()))
+                                        return ActionResult.PASS;
+                                }
+                            }
+                        }
+                    }
+
+                    return ActionResult.SUCCESS;
+                }))
                 .withInitializer((clazz, container) -> {
                     if (PLUGINS.containsKey(container.getInfo().getId()))
                         return; // No plugin overrides allowed
-
-                    if (container.getInfo().getData() != null && container.getInfo().getData().isJsonObject()) {
-                        JsonObject json = container.getInfo().getData().getAsJsonObject();
-                        if (json.has("required") && !Loader.getInstance().isModLoaded(json.getAsJsonPrimitive("required").getAsString()))
-                            return;
-                    }
 
                     try {
                         IWailaPlugin plugin = (IWailaPlugin) container.getOwner().getAdapter().createInstance(clazz, new LanguageAdapter.Options());
