@@ -1,5 +1,6 @@
 package mcp.mobius.waila.api;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
@@ -21,7 +22,7 @@ public interface IEntityAccessor {
 
     PlayerEntity getPlayer();
 
-    LivingEntity getEntity();
+    Entity getEntity();
 
     HitResult getHitResult();
 

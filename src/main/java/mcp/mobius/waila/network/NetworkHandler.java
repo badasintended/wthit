@@ -48,7 +48,7 @@ public class NetworkHandler {
             World world = player.world;
             Entity entity = world.getEntityById(packetByteBuf.readInt());
             packetContext.getTaskQueue().execute(() -> {
-                if (!(entity instanceof LivingEntity))
+                if (entity == null)
                     return;
 
                 CompoundTag tag = new CompoundTag();
@@ -115,7 +115,7 @@ public class NetworkHandler {
     }
 
     @Environment(EnvType.CLIENT)
-    public static void requestEntity(LivingEntity entity) {
+    public static void requestEntity(Entity entity) {
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
         buf.writeInt(entity.getEntityId());
         MinecraftClient.getInstance().getNetworkHandler().getClientConnection().sendPacket(new CustomPayloadServerPacket(REQUEST_ENTITY, buf));

@@ -33,7 +33,7 @@ public class DataAccessor implements ICommonAccessor, IDataAccessor, IEntityAcce
     public BlockPos pos = BlockPos.ORIGIN;
     public Identifier blockRegistryName = Registry.ITEM.getDefaultId();
     public BlockEntity blockEntity;
-    public LivingEntity entity;
+    public Entity entity;
     public CompoundTag serverData = null;
     public long timeLastUpdate = System.currentTimeMillis();
     public double partialFrame;
@@ -56,13 +56,13 @@ public class DataAccessor implements ICommonAccessor, IDataAccessor, IEntityAcce
             this.entity = null;
             this.blockRegistryName = Registry.BLOCK.getId(block);
             this.stack = block.getPickStack(world, pos, state);
-        } else if (this.hitResult.type == HitResult.Type.ENTITY && hit.entity instanceof LivingEntity) {
+        } else if (this.hitResult.type == HitResult.Type.ENTITY) {
             this.pos = new BlockPos(hit.entity);
             this.state = Blocks.AIR.getDefaultState();
             this.block = Blocks.AIR;
             this.blockEntity = null;
             this.stack = ItemStack.EMPTY;
-            this.entity = (LivingEntity) hit.entity;
+            this.entity = hit.entity;
         }
 
         if (viewEntity != null) {
@@ -100,7 +100,7 @@ public class DataAccessor implements ICommonAccessor, IDataAccessor, IEntityAcce
     }
 
     @Override
-    public LivingEntity getEntity() {
+    public Entity getEntity() {
         return this.entity;
     }
 
