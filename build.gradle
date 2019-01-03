@@ -10,7 +10,7 @@ targetCompatibility = 1.8
 def build_number = System.getenv('BUILD_NUMBER') != null ? System.getenv('BUILD_NUMBER') : 'CUSTOM'
 
 group = package_group
-archivesBaseName = mod_name
+archivesBaseName = "${mod_name}-fabric"
 version = "${mc_version}-${mod_version}-${build_number}"
 
 minecraft {
@@ -60,6 +60,11 @@ publishing {
     }
 }
 
+def curseRelations = {
+    optionalLibrary 'pluginloader'
+    requiredLibrary 'fabric'
+}
+
 curseforge {
     if (project.hasProperty('curse_key_TehNut'))
         apiKey = project.curse_key_TehNut
@@ -68,6 +73,8 @@ curseforge {
         id = "${curse_id}"
         changelog = getChangelogText()
         releaseType = 'release'
+
+        relations curseRelations
 
         gameVersionStrings.clear()
         gameVersionStrings.add("1.14-Snapshot")

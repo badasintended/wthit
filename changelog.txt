@@ -1,4 +1,17 @@
 ------------------------------------------------------
+Version 1.9.1
+------------------------------------------------------
+
+- Furnace progress rendering now takes the different burn times into account for the different furnace types
+- Removed some unnecessary textures from the jar
+- Added support for the Sweet Berry Bush's maturity
+- Added description tooltips to some entries int he config GUI
+- Re-implemented the handler dump command
+- Fixed spacing on large tooltips
+- Fixed display for paintings, item frames, etc
+- Renamed "Configure Aspect" to "Color" in the config GUI
+
+------------------------------------------------------
 Version 1.9.0
 ------------------------------------------------------
 
