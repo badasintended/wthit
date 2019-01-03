@@ -19,16 +19,19 @@ import java.util.List;
 public class HUDHandlerBlocks implements IComponentProvider {
 
     static final IComponentProvider INSTANCE = new HUDHandlerBlocks();
+    static final Identifier OBJECT_NAME_TAG = new Identifier(Waila.MODID, "object_name");
+    static final Identifier REGISTRY_NAME_TAG = new Identifier(Waila.MODID, "registry_name");
     static final Identifier MOD_NAME_TAG = new Identifier(Waila.MODID, "mod_name");
+    static final Identifier STATE_VALUE_TAG = new Identifier(Waila.MODID, "state_values");
 
     @Override
     public void appendHead(List<TextComponent> tooltip, IDataAccessor accessor, IPluginConfig config) {
         if (accessor.getBlockState().getMaterial().isLiquid())
             return;
 
-        tooltip.add(new StringTextComponent(String.format(Waila.config.getFormatting().getEntityName(), I18n.translate(accessor.getStack().getTranslationKey()))));
+        ((ITaggedList<TextComponent, Identifier>) tooltip).add(new StringTextComponent(String.format(Waila.config.getFormatting().getBlockName(), I18n.translate(accessor.getStack().getTranslationKey()))), OBJECT_NAME_TAG);
         if (config.get(PluginCore.CONFIG_SHOW_REGISTRY))
-            tooltip.add(new StringTextComponent(Registry.BLOCK.getId(accessor.getBlock()).toString()).setStyle(new Style().setColor(TextFormat.GRAY)));
+            ((ITaggedList<TextComponent, Identifier>) tooltip).add(new StringTextComponent(Registry.BLOCK.getId(accessor.getBlock()).toString()).setStyle(new Style().setColor(TextFormat.GRAY)), REGISTRY_NAME_TAG);
     }
 
     @Override
@@ -38,7 +41,7 @@ public class HUDHandlerBlocks implements IComponentProvider {
             state.getProperties().forEach(p -> {
                 Comparable<?> value = state.get(p);
                 TextComponent valueText = new StringTextComponent(value.toString()).setStyle(new Style().setColor(p instanceof BooleanProperty ? value == Boolean.TRUE ? TextFormat.GREEN : TextFormat.RED : TextFormat.RESET));
-                tooltip.add(new StringTextComponent(p.getName() + ":").append(valueText));
+                ((ITaggedList<TextComponent, Identifier>) tooltip).add(new StringTextComponent(p.getName() + ":").append(valueText), STATE_VALUE_TAG);
             });
         }
     }

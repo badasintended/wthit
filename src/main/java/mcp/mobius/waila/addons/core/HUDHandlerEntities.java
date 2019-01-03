@@ -1,13 +1,13 @@
 package mcp.mobius.waila.addons.core;
 
 import mcp.mobius.waila.Waila;
-import mcp.mobius.waila.api.IPluginConfig;
-import mcp.mobius.waila.api.IEntityAccessor;
-import mcp.mobius.waila.api.IEntityComponentProvider;
-import mcp.mobius.waila.api.RenderableTextComponent;
+import mcp.mobius.waila.api.*;
 import mcp.mobius.waila.utils.ModIdentification;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.text.*;
+import net.minecraft.util.Identifier;
+import net.minecraft.util.registry.Registry;
 
 import java.util.List;
 
@@ -19,16 +19,19 @@ public class HUDHandlerEntities implements IEntityComponentProvider {
 
     @Override
     public void appendHead(List<TextComponent> tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        tooltip.add(new StringTextComponent(String.format(Waila.config.getFormatting().getEntityName(), accessor.getEntity().getDisplayName().getFormattedText())));
+        ((ITaggedList<TextComponent, Identifier>) tooltip).add(new StringTextComponent(String.format(Waila.config.getFormatting().getEntityName(), accessor.getEntity().getDisplayName())), HUDHandlerBlocks.OBJECT_NAME_TAG);
+        if (config.get(PluginCore.CONFIG_SHOW_REGISTRY))
+            ((ITaggedList<TextComponent, Identifier>) tooltip).add(new StringTextComponent(Registry.ENTITY_TYPE.getId(accessor.getEntity().getType()).toString()).setStyle(new Style().setColor(TextFormat.GRAY)), HUDHandlerBlocks.REGISTRY_NAME_TAG);
     }
 
     @Override
     public void appendBody(List<TextComponent> tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        if (config.get(PluginCore.CONFIG_SHOW_ENTITY_HEALTH)) {
-            float health = accessor.getEntity().getHealth() / 2.0F;
-            float maxHealth = accessor.getEntity().getHealthMaximum() / 2.0F;
+        if (config.get(PluginCore.CONFIG_SHOW_ENTITY_HEALTH) && accessor.getEntity() instanceof LivingEntity) {
+            LivingEntity living = (LivingEntity) accessor.getEntity();
+            float health = living.getHealth() / 2.0F;
+            float maxHealth = living.getHealthMaximum() / 2.0F;
 
-            if (accessor.getEntity().getHealthMaximum() > maxHealthForRender)
+            if (living.getHealthMaximum() > maxHealthForRender)
                 tooltip.add(new TranslatableTextComponent("hud.msg.health", health, maxHealth));
             else {
                 CompoundTag healthData = new CompoundTag();
