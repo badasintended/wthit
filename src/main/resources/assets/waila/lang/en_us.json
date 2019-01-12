@@ -15,6 +15,10 @@
   "gui.waila.waila_settings": "%s Settings",
   "gui.waila.plugin_settings": "Plugin Settings",
 
+  "key.waila.config": "Open Config",
+  "key.waila.show_overlay": "Show Overlay",
+  "key.waila.toggle_liquid": "Toggle Liquid",
+
   "config.waila.general": "General",
   "config.waila.display_tooltip": "Display Tooltip",
   "config.waila.display_tooltip_desc": "Collect data and render the tooltip",

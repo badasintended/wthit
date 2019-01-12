@@ -63,7 +63,7 @@ public class OverlayRenderer {
     }
 
     public static void renderOverlay(Tooltip tooltip) {
-        MinecraftClient.getInstance().getProfiler().begin("Waila Overlay");
+        MinecraftClient.getInstance().getProfiler().push("Waila Overlay");
         GlStateManager.pushMatrix();
         saveGLState();
 
@@ -111,7 +111,7 @@ public class OverlayRenderer {
         loadGLState();
         GlStateManager.enableDepthTest();
         GlStateManager.popMatrix();
-        MinecraftClient.getInstance().getProfiler().end();
+        MinecraftClient.getInstance().getProfiler().pop();
     }
 
     public static void saveGLState() {

@@ -3,25 +3,24 @@ package mcp.mobius.waila;
 import mcp.mobius.waila.api.impl.config.WailaConfig;
 import mcp.mobius.waila.gui.GuiConfigHome;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.events.client.SpriteEvent;
+import net.fabricmc.fabric.api.client.keybinding.FabricKeyBinding;
+import net.fabricmc.fabric.api.client.keybinding.KeyBindingRegistry;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.settings.KeyBinding;
-import org.apache.commons.lang3.ArrayUtils;
+import net.minecraft.client.util.InputUtil;
+import net.minecraft.util.Identifier;
 
 public class WailaClient implements ClientModInitializer {
 
-    public static KeyBinding openConfig;
-    public static KeyBinding showOverlay;
-    public static KeyBinding toggleLiquid;
+    public static FabricKeyBinding openConfig;
+    public static FabricKeyBinding showOverlay;
+    public static FabricKeyBinding toggleLiquid;
 
     @Override
     public void onInitializeClient() {
-        SpriteEvent.PROVIDE.register(spriteRegistry -> {
-            openConfig = new KeyBinding("key.waila_config", 320, "key.categories.misc"); // Num0
-            showOverlay = new KeyBinding("key.waila_show_overlay", 321, "key.categories.misc"); // Num1
-            toggleLiquid = new KeyBinding("key.waila_toggle_liquid", 322, "key.categories.misc"); // Num2
-            MinecraftClient.getInstance().options.keysAll = ArrayUtils.addAll(MinecraftClient.getInstance().options.keysAll, openConfig, showOverlay, toggleLiquid);
-        });
+        KeyBindingRegistry.INSTANCE.addCategory(Waila.NAME);
+        FabricKeyBinding.Builder.create(new Identifier(Waila.MODID, "config"), InputUtil.Type.KEY_KEYBOARD, 320, Waila.NAME); // Num 0
+        FabricKeyBinding.Builder.create(new Identifier(Waila.MODID, "show_overlay"), InputUtil.Type.KEY_KEYBOARD, 321, Waila.NAME); // Num 1
+        FabricKeyBinding.Builder.create(new Identifier(Waila.MODID, "toggle_liquid"), InputUtil.Type.KEY_KEYBOARD, 322, Waila.NAME); // Num 2
     }
 
     public static void handleKeybinds() {
