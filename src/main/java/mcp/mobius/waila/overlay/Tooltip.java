@@ -52,7 +52,7 @@ public class Tooltip {
 
     public void draw() {
         Rectangle position = getPosition();
-        WailaConfig.ConfigOverlay.ConfigOverlayColor color = Waila.config.getOverlay().getColor();
+        WailaConfig.ConfigOverlay.ConfigOverlayColor color = Waila.CONFIG.get().getOverlay().getColor();
 
         position.x += hasItem() ? 26 : 6;
         position.width += hasItem() ? 24 : 4;
@@ -100,14 +100,14 @@ public class Tooltip {
     }
 
     public boolean hasItem() {
-        return showItem && Waila.config.getGeneral().shouldShowItem() && !RayTracing.INSTANCE.getIdentifierStack().isEmpty();
+        return showItem && Waila.CONFIG.get().getGeneral().shouldShowItem() && !RayTracing.INSTANCE.getIdentifierStack().isEmpty();
     }
 
     public Rectangle getPosition() {
         Window window = MinecraftClient.getInstance().window;
         return new Rectangle(
-                (int) (window.getScaledWidth() * Waila.config.getOverlay().getOverlayPosX() - totalSize.width / 2), // Center it
-                (int) (window.getScaledHeight() * (1.0F - Waila.config.getOverlay().getOverlayPosY())),
+                (int) (window.getScaledWidth() * Waila.CONFIG.get().getOverlay().getOverlayPosX() - totalSize.width / 2), // Center it
+                (int) (window.getScaledHeight() * (1.0F - Waila.CONFIG.get().getOverlay().getOverlayPosY())),
                 totalSize.width,
                 totalSize.height
         );

@@ -62,7 +62,7 @@ public class RayTracing {
         Vec3d lookVector = entity.getRotationVec(partialTicks);
         Vec3d traceEnd = eyePosition.add(lookVector.x * playerReach, lookVector.y * playerReach, lookVector.z * playerReach);
 
-        return entity.getEntityWorld().rayTrace(eyePosition, traceEnd, Waila.config.getGeneral().shouldDisplayFluids() ? FluidRayTraceMode.SOURCE_ONLY : FluidRayTraceMode.NONE);
+        return entity.getEntityWorld().rayTrace(eyePosition, traceEnd, Waila.CONFIG.get().getGeneral().shouldDisplayFluids() ? FluidRayTraceMode.SOURCE_ONLY : FluidRayTraceMode.NONE);
     }
 
     public ItemStack getIdentifierStack() {

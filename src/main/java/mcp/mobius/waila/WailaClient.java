@@ -32,13 +32,13 @@ public class WailaClient implements ClientModInitializer {
         }
 
         while (showOverlay.method_1436()) {
-            if (Waila.config.getGeneral().getDisplayMode() == WailaConfig.DisplayMode.TOGGLE) {
-                Waila.config.getGeneral().setDisplayTooltip(!Waila.config.getGeneral().shouldDisplayTooltip());
+            if (Waila.CONFIG.get().getGeneral().getDisplayMode() == WailaConfig.DisplayMode.TOGGLE) {
+                Waila.CONFIG.get().getGeneral().setDisplayTooltip(!Waila.CONFIG.get().getGeneral().shouldDisplayTooltip());
             }
         }
 
         while (toggleLiquid.method_1436()) {
-            Waila.config.getGeneral().setDisplayFluids(!Waila.config.getGeneral().shouldDisplayFluids());
+            Waila.CONFIG.get().getGeneral().setDisplayFluids(!Waila.CONFIG.get().getGeneral().shouldDisplayFluids());
         }
     }
 }

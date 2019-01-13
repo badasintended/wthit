@@ -2,26 +2,14 @@ package mcp.mobius.waila.api.impl.config;
 
 import com.google.common.collect.Maps;
 import com.google.gson.*;
-import mcp.mobius.waila.Waila;
-import net.fabricmc.loader.FabricLoader;
 import net.minecraft.util.Identifier;
 import org.apache.commons.lang3.StringEscapeUtils;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.Map;
 
 public class WailaConfig {
-
-    private static final Gson GSON = new GsonBuilder()
-            .registerTypeAdapter(ConfigOverlay.ConfigOverlayColor.class, new ConfigOverlay.ConfigOverlayColor.Adapter())
-            .registerTypeAdapter(Identifier.class, new Identifier.DeSerializer())
-            .setPrettyPrinting()
-            .create();
 
     private final ConfigGeneral general = new ConfigGeneral();
     private final ConfigOverlay overlay = new ConfigOverlay();
@@ -285,39 +273,5 @@ public class WailaConfig {
     public enum DisplayMode {
         HOLD_KEY,
         TOGGLE
-    }
-
-    public static WailaConfig loadConfig() {
-        File file = new File(FabricLoader.INSTANCE.getConfigDirectory(), Waila.MODID + "/" + Waila.MODID + ".json");
-        if (file.exists()) {
-            try (FileReader reader = new FileReader(file)) {
-                return GSON.fromJson(reader, WailaConfig.class);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        WailaConfig config = new WailaConfig();
-        try {
-            file.getParentFile().mkdirs();
-            file.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try (FileWriter writer = new FileWriter(file)) {
-            writer.write(GSON.toJson(config));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return config;
-    }
-
-    public static void save(WailaConfig config) {
-        File file = new File(FabricLoader.INSTANCE.getConfigDirectory(), Waila.MODID + "/" + Waila.MODID + ".json");
-        try (FileWriter writer = new FileWriter(file)) {
-            writer.write(GSON.toJson(config));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

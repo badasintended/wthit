@@ -32,7 +32,7 @@ public class HUDHandlerFluids implements IComponentProvider {
 
     @Override
     public void appendHead(List<TextComponent> tooltip, IDataAccessor accessor, IPluginConfig config) {
-        tooltip.add(new StringTextComponent(String.format(Waila.config.getFormatting().getFluidName(), I18n.translate(accessor.getBlock().getTranslationKey()))));
+        tooltip.add(new StringTextComponent(String.format(Waila.CONFIG.get().getFormatting().getFluidName(), I18n.translate(accessor.getBlock().getTranslationKey()))));
         if (config.get(PluginCore.CONFIG_SHOW_REGISTRY))
             tooltip.add(new StringTextComponent(Registry.BLOCK.getId(accessor.getBlock()).toString()).setStyle(new Style().setColor(TextFormat.GRAY)));
     }

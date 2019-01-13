@@ -14,7 +14,7 @@ public class TooltipRendererHealth implements ITooltipRenderer {
 
     @Override
     public Dimension getSize(CompoundTag tag, ICommonAccessor accessor) {
-        float maxHearts = Waila.config.getGeneral().getMaxHealthForRender();
+        float maxHearts = Waila.CONFIG.get().getGeneral().getMaxHealthForRender();
         float maxHealth = tag.getFloat("max");
 
         int heartsPerLine = (int) (Math.min(maxHearts, Math.ceil(maxHealth)));
@@ -25,7 +25,7 @@ public class TooltipRendererHealth implements ITooltipRenderer {
 
     @Override
     public void draw(CompoundTag tag, ICommonAccessor accessor, int x, int y) {
-        float maxHearts = Waila.config.getGeneral().getMaxHealthForRender();
+        float maxHearts = Waila.CONFIG.get().getGeneral().getMaxHealthForRender();
         float health = tag.getFloat("health");
         float maxHealth = tag.getFloat("max");
 

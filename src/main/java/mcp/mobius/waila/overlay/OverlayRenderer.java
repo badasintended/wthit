@@ -33,23 +33,23 @@ public class OverlayRenderer {
         if (WailaTickHandler.instance().tooltip == null)
             return;
 
-        if (!Waila.config.getGeneral().shouldDisplayTooltip())
+        if (!Waila.CONFIG.get().getGeneral().shouldDisplayTooltip())
             return;
 
-        if (Waila.config.getGeneral().getDisplayMode() == WailaConfig.DisplayMode.HOLD_KEY && !WailaClient.showOverlay.method_1434())
+        if (Waila.CONFIG.get().getGeneral().getDisplayMode() == WailaConfig.DisplayMode.HOLD_KEY && !WailaClient.showOverlay.method_1434())
             return;
 
         MinecraftClient mc = MinecraftClient.getInstance();
         if ((mc.currentGui != null && !(mc.currentGui instanceof ChatGui)) || mc.world == null)
             return;
 
-        if (Waila.config.getGeneral().shouldHideFromPlayerList() && mc.options.keyPlayerList.method_1434() && mc.getGame().getCurrentSession().getPlayerCount() > 1)
+        if (Waila.CONFIG.get().getGeneral().shouldHideFromPlayerList() && mc.options.keyPlayerList.method_1434() && mc.getGame().getCurrentSession().getPlayerCount() > 1)
             return;
 
         if (!MinecraftClient.method_1498())
             return;
 
-        if (mc.options.debugEnabled && Waila.config.getGeneral().shouldHideFromDebug())
+        if (mc.options.debugEnabled && Waila.CONFIG.get().getGeneral().shouldHideFromDebug())
             return;
 
         if (RayTracing.INSTANCE.getTarget() == null)
@@ -67,7 +67,7 @@ public class OverlayRenderer {
         GlStateManager.pushMatrix();
         saveGLState();
 
-        GlStateManager.scalef(Waila.config.getOverlay().getOverlayScale(), Waila.config.getOverlay().getOverlayScale(), 1.0F);
+        GlStateManager.scalef(Waila.CONFIG.get().getOverlay().getOverlayScale(), Waila.CONFIG.get().getOverlay().getOverlayScale(), 1.0F);
 
         GlStateManager.disableRescaleNormal();
         GuiLighting.disable();
@@ -88,7 +88,7 @@ public class OverlayRenderer {
         }
 
         Rectangle position = preEvent.getPosition();
-        WailaConfig.ConfigOverlay.ConfigOverlayColor color = Waila.config.getOverlay().getColor();
+        WailaConfig.ConfigOverlay.ConfigOverlayColor color = Waila.CONFIG.get().getOverlay().getColor();
         drawTooltipBox(position.x, position.y, position.width, position.height, color.getBackgroundColor(), color.getGradientStart(), color.getGradientEnd());
 
         GlStateManager.enableBlend();

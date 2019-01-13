@@ -21,6 +21,6 @@ public class MixinItemStack {
     private void appendModName(PlayerEntity player, TooltipOptions options, CallbackInfoReturnable<List<TextComponent>> callbackInfo) {
         List<TextComponent> components = callbackInfo.getReturnValue();
         ItemStack stack = (ItemStack) (Object) this;
-        components.add(new StringTextComponent(String.format(Waila.config.getFormatting().getModName(), ModIdentification.getModInfo(stack.getItem()).getName())));
+        components.add(new StringTextComponent(String.format(Waila.CONFIG.get().getFormatting().getModName(), ModIdentification.getModInfo(stack.getItem()).getName())));
     }
 }

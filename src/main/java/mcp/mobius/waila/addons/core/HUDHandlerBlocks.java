@@ -29,7 +29,7 @@ public class HUDHandlerBlocks implements IComponentProvider {
         if (accessor.getBlockState().getMaterial().isLiquid())
             return;
 
-        ((ITaggedList<TextComponent, Identifier>) tooltip).add(new StringTextComponent(String.format(Waila.config.getFormatting().getBlockName(), I18n.translate(accessor.getStack().getTranslationKey()))), OBJECT_NAME_TAG);
+        ((ITaggedList<TextComponent, Identifier>) tooltip).add(new StringTextComponent(String.format(Waila.CONFIG.get().getFormatting().getBlockName(), I18n.translate(accessor.getStack().getTranslationKey()))), OBJECT_NAME_TAG);
         if (config.get(PluginCore.CONFIG_SHOW_REGISTRY))
             ((ITaggedList<TextComponent, Identifier>) tooltip).add(new StringTextComponent(Registry.BLOCK.getId(accessor.getBlock()).toString()).setStyle(new Style().setColor(TextFormat.GRAY)), REGISTRY_NAME_TAG);
     }
@@ -50,7 +50,7 @@ public class HUDHandlerBlocks implements IComponentProvider {
     public void appendTail(List<TextComponent> tooltip, IDataAccessor accessor, IPluginConfig config) {
         String modName = ModIdentification.getModInfo(accessor.getStack().getItem()).getName();
         if (!Strings.isNullOrEmpty(modName)) {
-            modName = String.format(Waila.config.getFormatting().getModName(), modName);
+            modName = String.format(Waila.CONFIG.get().getFormatting().getModName(), modName);
             ((ITaggedList<TextComponent, Identifier>) tooltip).add(new StringTextComponent(modName), MOD_NAME_TAG);
         }
     }

@@ -32,10 +32,10 @@ public class WailaTickHandler {
 
     private WailaTickHandler() {
         WailaTooltipEvent.WAILA_HANDLE_TOOLTIP.register(event -> {
-            if (!Waila.config.getGeneral().shouldDisplayTooltip())
+            if (!Waila.CONFIG.get().getGeneral().shouldDisplayTooltip())
                 return;
 
-            if (getNarrator().active() || !Waila.config.getGeneral().shouldEnableTextToSpeech())
+            if (getNarrator().active() || !Waila.CONFIG.get().getGeneral().shouldEnableTextToSpeech())
                 return;
 
             if (MinecraftClient.getInstance().currentGui != null && !(MinecraftClient.getInstance().currentGui instanceof ChatGui))
@@ -59,7 +59,7 @@ public class WailaTickHandler {
     }
 
     public void tickClient() {
-        if (!Waila.config.getGeneral().shouldDisplayTooltip())
+        if (!Waila.CONFIG.get().getGeneral().shouldDisplayTooltip())
             return;
 
         MinecraftClient client = MinecraftClient.getInstance();
@@ -70,8 +70,8 @@ public class WailaTickHandler {
             return;
 
 //        if (!MinecraftClient.getInstance().keyboard.(KeyEvent.key_show.getKeyCode()))
-//            if (!ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_MODE, false))
-//                if (ConfigHandler.instance().getConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW, false))
+//            if (!ConfigHandler.instance().get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_MODE, false))
+//                if (ConfigHandler.instance().get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW, false))
 //                    ConfigHandler.instance().setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW, false);
 
         if (world != null && player != null) {
@@ -118,7 +118,7 @@ public class WailaTickHandler {
     }
 
     private void combinePositions(PlayerEntity player, List<TextComponent> currentTip, List<TextComponent> currentTipHead, List<TextComponent> currentTipBody, List<TextComponent> currentTipTail) {
-        if (Waila.config.getGeneral().shouldShiftForDetails() && !currentTipBody.isEmpty() && !player.isSneaking()) {
+        if (Waila.CONFIG.get().getGeneral().shouldShiftForDetails() && !currentTipBody.isEmpty() && !player.isSneaking()) {
             currentTipBody.clear();
             currentTipBody.add(new TranslatableTextComponent("tooltip.waila.sneak_for_details").setStyle(new Style().setItalic(true)));
         }

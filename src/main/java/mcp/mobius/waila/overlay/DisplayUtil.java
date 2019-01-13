@@ -149,7 +149,7 @@ public class DisplayUtil {
 
     public static String itemDisplayNameShort(ItemStack itemstack) {
         List<TextComponent> list = itemDisplayNameMultiline(itemstack);
-        return String.format(Waila.config.getFormatting().getBlockName(), list.get(0).getFormattedText());
+        return String.format(Waila.CONFIG.get().getFormatting().getBlockName(), list.get(0).getFormattedText());
     }
 
     public static void renderIcon(int x, int y, int sx, int sy, IconUI icon) {

@@ -35,7 +35,7 @@ public class GuiConfigHome extends Gui {
         addButton(new ButtonWidget(3, width / 2 - 50, height / 2 + 20, 100, 20, I18n.translate("gui.done")) {
             @Override
             public void onPressed(double mouseX, double mouseY) {
-                WailaConfig.save(Waila.config);
+                Waila.CONFIG.save();
                 PluginConfig.INSTANCE.save();
                 client.openGui(parent);
             }
