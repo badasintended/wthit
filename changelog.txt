@@ -1,4 +1,13 @@
 ------------------------------------------------------
+Version 1.9.4
+------------------------------------------------------
+
+- Fixed entity tooltips displaying data about the last block viewed
+- Fixed entity health renderer
+    - It allowed up to 40 hearts per line, now it only allows up to 10 by default
+    - Math for newlines was wrong and reset the horizontal positioning
+
+------------------------------------------------------
 Version 1.9.3
 ------------------------------------------------------
 
