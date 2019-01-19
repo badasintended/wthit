@@ -79,7 +79,7 @@ public class RayTracing {
     }
 
     public Entity getIdentifierEntity() {
-        if (this.target == null || this.target.getType() == HitResult.Type.ENTITY)
+        if (this.target == null || this.target.getType() != HitResult.Type.ENTITY)
             return null;
 
         List<Entity> entities = Lists.newArrayList();
