@@ -36,6 +36,7 @@ public class WailaConfig {
         private boolean showItem = true;
         private boolean enableTextToSpeech = false;
         private int maxHealthForRender = 40;
+        private int maxHeartsPerLine = 10;
         private boolean displayFluids;
 
         public void setDisplayTooltip(boolean displayTooltip) {
@@ -68,6 +69,10 @@ public class WailaConfig {
 
         public void setMaxHealthForRender(int maxHealthForRender) {
             this.maxHealthForRender = maxHealthForRender;
+        }
+
+        public void setMaxHeartsPerLine(int maxHeartsPerLine) {
+            this.maxHeartsPerLine = maxHeartsPerLine;
         }
 
         public void setDisplayFluids(boolean displayFluids) {
@@ -104,6 +109,10 @@ public class WailaConfig {
 
         public int getMaxHealthForRender() {
             return maxHealthForRender;
+        }
+
+        public int getMaxHeartsPerLine() {
+            return maxHeartsPerLine;
         }
 
         public boolean shouldDisplayFluids() {

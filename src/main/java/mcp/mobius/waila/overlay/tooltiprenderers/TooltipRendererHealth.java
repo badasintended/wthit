@@ -14,43 +14,44 @@ public class TooltipRendererHealth implements ITooltipRenderer {
 
     @Override
     public Dimension getSize(CompoundTag tag, ICommonAccessor accessor) {
-        float maxHearts = Waila.CONFIG.get().getGeneral().getMaxHealthForRender();
+        float maxHearts = Waila.CONFIG.get().getGeneral().getMaxHeartsPerLine();
         float maxHealth = tag.getFloat("max");
 
         int heartsPerLine = (int) (Math.min(maxHearts, Math.ceil(maxHealth)));
         int lineCount = (int) (Math.ceil(maxHealth / maxHearts));
 
-        return new Dimension(8 * heartsPerLine, 10 * lineCount - 3);
+        return new Dimension(8 * heartsPerLine, 10 * lineCount);
     }
 
     @Override
     public void draw(CompoundTag tag, ICommonAccessor accessor, int x, int y) {
-        float maxHearts = Waila.CONFIG.get().getGeneral().getMaxHealthForRender();
+        float maxHearts = Waila.CONFIG.get().getGeneral().getMaxHeartsPerLine();
         float health = tag.getFloat("health");
         float maxHealth = tag.getFloat("max");
 
         int heartCount = MathHelper.ceil(maxHealth);
         int heartsPerLine = (int) (Math.min(maxHearts, Math.ceil(maxHealth)));
 
+        int xOffset = 0;
         for (int i = 1; i <= heartCount; i++) {
             if (i <= MathHelper.floor(health)) {
-                DisplayUtil.renderIcon(x, y, 8, 8, IconUI.HEART);
-                x += 8;
+                DisplayUtil.renderIcon(x + xOffset, y, 8, 8, IconUI.HEART);
+                xOffset += 8;
             }
 
             if ((i > health) && (i < health + 1)) {
-                DisplayUtil.renderIcon(x, y, 8, 8, IconUI.HALF_HEART);
-                x += 8;
+                DisplayUtil.renderIcon(x + xOffset, y, 8, 8, IconUI.HALF_HEART);
+                xOffset += 8;
             }
 
             if (i >= health + 1) {
-                DisplayUtil.renderIcon(x, y, 8, 8, IconUI.EMPTY_HEART);
-                x += 8;
+                DisplayUtil.renderIcon(x + xOffset, y, 8, 8, IconUI.EMPTY_HEART);
+                xOffset += 8;
             }
 
             if (i % heartsPerLine == 0) {
                 y += 10;
-                x = 0;
+                xOffset = 0;
             }
 
         }

@@ -15,8 +15,6 @@ public class HUDHandlerEntities implements IEntityComponentProvider {
 
     static final IEntityComponentProvider INSTANCE = new HUDHandlerEntities();
 
-    public static float maxHealthForRender = 40.0F;
-
     @Override
     public void appendHead(List<TextComponent> tooltip, IEntityAccessor accessor, IPluginConfig config) {
         ((ITaggedList<TextComponent, Identifier>) tooltip).add(new StringTextComponent(String.format(Waila.CONFIG.get().getFormatting().getEntityName(), accessor.getEntity().getDisplayName().getFormattedText())), HUDHandlerBlocks.OBJECT_NAME_TAG);
@@ -31,7 +29,7 @@ public class HUDHandlerEntities implements IEntityComponentProvider {
             float health = living.getHealth() / 2.0F;
             float maxHealth = living.getHealthMaximum() / 2.0F;
 
-            if (living.getHealthMaximum() > maxHealthForRender)
+            if (living.getHealthMaximum() > Waila.CONFIG.get().getGeneral().getMaxHealthForRender())
                 tooltip.add(new TranslatableTextComponent("hud.msg.health", health, maxHealth));
             else {
                 CompoundTag healthData = new CompoundTag();
