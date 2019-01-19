@@ -83,7 +83,7 @@ public class WailaTickHandler {
             List<TextComponent> currentTipBody = new TaggedList<TextComponent, Identifier>();
             List<TextComponent> currentTipTail = new TaggedList<TextComponent, Identifier>();
 
-            if (target != null && target.type == HitResult.Type.BLOCK) {
+            if (target != null && target.getType() == HitResult.Type.BLOCK) {
                 DataAccessor accessor = DataAccessor.INSTANCE;
                 accessor.set(world, player, target);
                 ItemStack targetStack = RayTracing.INSTANCE.getTargetStack(); // Here we get either the proper stack or the override
@@ -97,7 +97,7 @@ public class WailaTickHandler {
 
                     tooltip = new Tooltip(currentTip, !targetStack.isEmpty());
                 }
-            } else if (target != null && target.type == HitResult.Type.ENTITY) {
+            } else if (target != null && target.getType() == HitResult.Type.ENTITY) {
                 DataAccessor accessor = DataAccessor.INSTANCE;
                 accessor.set(world, player, target);
 

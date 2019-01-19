@@ -36,14 +36,14 @@ public class OverlayRenderer {
         if (!Waila.CONFIG.get().getGeneral().shouldDisplayTooltip())
             return;
 
-        if (Waila.CONFIG.get().getGeneral().getDisplayMode() == WailaConfig.DisplayMode.HOLD_KEY && !WailaClient.showOverlay.method_1434())
+        if (Waila.CONFIG.get().getGeneral().getDisplayMode() == WailaConfig.DisplayMode.HOLD_KEY && !WailaClient.showOverlay.isPressed())
             return;
 
         MinecraftClient mc = MinecraftClient.getInstance();
         if ((mc.currentGui != null && !(mc.currentGui instanceof ChatGui)) || mc.world == null)
             return;
 
-        if (Waila.CONFIG.get().getGeneral().shouldHideFromPlayerList() && mc.options.keyPlayerList.method_1434() && mc.getGame().getCurrentSession().getPlayerCount() > 1)
+        if (Waila.CONFIG.get().getGeneral().shouldHideFromPlayerList() && mc.options.keyPlayerList.isPressed() && mc.getGame().getCurrentSession().getPlayerCount() > 1)
             return;
 
         if (!MinecraftClient.method_1498())
@@ -55,10 +55,10 @@ public class OverlayRenderer {
         if (RayTracing.INSTANCE.getTarget() == null)
             return;
 
-        if (RayTracing.INSTANCE.getTarget().type == HitResult.Type.BLOCK && !RayTracing.INSTANCE.getTargetStack().isEmpty())
+        if (RayTracing.INSTANCE.getTarget().getType() == HitResult.Type.BLOCK && !RayTracing.INSTANCE.getTargetStack().isEmpty())
             renderOverlay(WailaTickHandler.instance().tooltip);
 
-        if (RayTracing.INSTANCE.getTarget().type == HitResult.Type.ENTITY && PluginConfig.INSTANCE.get(PluginCore.CONFIG_SHOW_ENTITY))
+        if (RayTracing.INSTANCE.getTarget().getType() == HitResult.Type.ENTITY && PluginConfig.INSTANCE.get(PluginCore.CONFIG_SHOW_ENTITY))
             renderOverlay(WailaTickHandler.instance().tooltip);
     }
 
@@ -92,7 +92,7 @@ public class OverlayRenderer {
         drawTooltipBox(position.x, position.y, position.width, position.height, color.getBackgroundColor(), color.getGradientStart(), color.getGradientEnd());
 
         GlStateManager.enableBlend();
-        GlStateManager.blendFunc(GlStateManager.SrcBlendFactor.SRC_ALPHA, GlStateManager.DstBlendFactor.ONE_MINUS_SRC_ALPHA);
+        GlStateManager.blendFunc(GlStateManager.class_1033.SRC_ALPHA, GlStateManager.class_1027.ONE_MINUS_SRC_ALPHA);
         tooltip.draw();
         GlStateManager.disableBlend();
 

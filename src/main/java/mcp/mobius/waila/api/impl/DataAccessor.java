@@ -12,6 +12,8 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.util.BlockHitResult;
+import net.minecraft.util.EntityHitResult;
 import net.minecraft.util.HitResult;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -48,21 +50,21 @@ public class DataAccessor implements ICommonAccessor, IDataAccessor, IEntityAcce
         this.player = player;
         this.hitResult = hit;
 
-        if (this.hitResult.type == HitResult.Type.BLOCK) {
-            this.pos = hit.getBlockPos();
+        if (this.hitResult.getType() == HitResult.Type.BLOCK) {
+            this.pos = ((BlockHitResult) hit).getBlockPos();
             this.state = this.world.getBlockState(this.pos);
             this.block = this.state.getBlock();
             this.blockEntity = this.world.getBlockEntity(this.pos);
             this.entity = null;
             this.blockRegistryName = Registry.BLOCK.getId(block);
             this.stack = block.getPickStack(world, pos, state);
-        } else if (this.hitResult.type == HitResult.Type.ENTITY) {
-            this.pos = new BlockPos(hit.entity);
+        } else if (this.hitResult.getType() == HitResult.Type.ENTITY) {
+            this.entity = ((EntityHitResult) hit).getEntity();
+            this.pos = new BlockPos(entity);
             this.state = Blocks.AIR.getDefaultState();
             this.block = Blocks.AIR;
             this.blockEntity = null;
             this.stack = ItemStack.EMPTY;
-            this.entity = hit.entity;
         }
 
         if (viewEntity != null) {
@@ -149,7 +151,8 @@ public class DataAccessor implements ICommonAccessor, IDataAccessor, IEntityAcce
         int y = tag.getInt("y");
         int z = tag.getInt("z");
 
-        if (x == this.hitResult.getBlockPos().getX() && y == this.hitResult.getBlockPos().getY() && z == this.hitResult.getBlockPos().getZ())
+        BlockPos hitPos = ((BlockHitResult) hitResult).getBlockPos();
+        if (x == hitPos.getX() && y == hitPos.getY() && z == hitPos.getZ())
             return true;
         else {
             this.timeLastUpdate = System.currentTimeMillis() - 250;
@@ -180,7 +183,7 @@ public class DataAccessor implements ICommonAccessor, IDataAccessor, IEntityAcce
 
     @Override
     public Direction getSide() {
-        return this.getHitResult().side;
+        return hitResult == null ? null : hitResult.getType() == HitResult.Type.ENTITY ? null : ((BlockHitResult) hitResult).getSide();
     }
 
     @Override

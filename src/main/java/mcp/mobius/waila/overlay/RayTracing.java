@@ -13,10 +13,12 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.util.BlockHitResult;
+import net.minecraft.util.EntityHitResult;
 import net.minecraft.util.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.FluidRayTraceMode;
+import net.minecraft.world.RayTraceContext;
 import net.minecraft.world.World;
 
 import java.util.Collection;
@@ -33,7 +35,7 @@ public class RayTracing {
     }
 
     public void fire() {
-        if (mc.hitResult != null && mc.hitResult.type == HitResult.Type.ENTITY) {
+        if (mc.hitResult != null && mc.hitResult.getType() == HitResult.Type.ENTITY) {
             this.target = mc.hitResult;
             return;
         }
@@ -50,11 +52,11 @@ public class RayTracing {
     }
 
     public ItemStack getTargetStack() {
-        return target != null && target.type == HitResult.Type.BLOCK ? getIdentifierStack() : ItemStack.EMPTY;
+        return target != null && target.getType() == HitResult.Type.BLOCK ? getIdentifierStack() : ItemStack.EMPTY;
     }
 
     public Entity getTargetEntity() {
-        return target.type == HitResult.Type.ENTITY ? getIdentifierEntity() : null;
+        return target.getType() == HitResult.Type.ENTITY ? getIdentifierEntity() : null;
     }
 
     public HitResult rayTrace(Entity entity, double playerReach, float partialTicks) {
@@ -62,7 +64,9 @@ public class RayTracing {
         Vec3d lookVector = entity.getRotationVec(partialTicks);
         Vec3d traceEnd = eyePosition.add(lookVector.x * playerReach, lookVector.y * playerReach, lookVector.z * playerReach);
 
-        return entity.getEntityWorld().rayTrace(eyePosition, traceEnd, Waila.CONFIG.get().getGeneral().shouldDisplayFluids() ? FluidRayTraceMode.SOURCE_ONLY : FluidRayTraceMode.NONE);
+        RayTraceContext.FluidHandling fluidView = Waila.CONFIG.get().getGeneral().shouldDisplayFluids() ? RayTraceContext.FluidHandling.SOURCE_ONLY : RayTraceContext.FluidHandling.NONE;
+        RayTraceContext context = new RayTraceContext(eyePosition, traceEnd, RayTraceContext.ShapeType.COLLIDER, fluidView, entity);
+        return entity.getEntityWorld().rayTrace(context);
     }
 
     public ItemStack getIdentifierStack() {
@@ -75,29 +79,30 @@ public class RayTracing {
     }
 
     public Entity getIdentifierEntity() {
-        if (this.target == null)
+        if (this.target == null || this.target.getType() == HitResult.Type.ENTITY)
             return null;
 
         List<Entity> entities = Lists.newArrayList();
 
-        if (WailaRegistrar.INSTANCE.hasOverrideEntityProviders(this.target.entity)) {
-            Collection<List<IEntityComponentProvider>> overrideProviders = WailaRegistrar.INSTANCE.getOverrideEntityProviders(this.target.entity).values();
+        Entity entity = ((EntityHitResult) this.target).getEntity();
+        if (WailaRegistrar.INSTANCE.hasOverrideEntityProviders(entity)) {
+            Collection<List<IEntityComponentProvider>> overrideProviders = WailaRegistrar.INSTANCE.getOverrideEntityProviders(entity).values();
             for (List<IEntityComponentProvider> providers : overrideProviders)
                 for (IEntityComponentProvider provider : providers)
                     entities.add(provider.getOverride(DataAccessor.INSTANCE, PluginConfig.INSTANCE));
         }
 
-        return entities.size() > 0 ? entities.get(0) : target.entity;
+        return entities.size() > 0 ? entities.get(0) : entity;
     }
 
     public List<ItemStack> getIdentifierItems() {
         List<ItemStack> items = Lists.newArrayList();
 
-        if (this.target == null)
+        if (this.target == null || this.target.getType() != HitResult.Type.BLOCK)
             return items;
 
         World world = mc.world;
-        BlockPos pos = target.getBlockPos();
+        BlockPos pos = ((BlockHitResult) target).getBlockPos();
         BlockState state = world.getBlockState(pos);
         if (state.isAir())
             return items;

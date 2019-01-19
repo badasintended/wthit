@@ -42,7 +42,7 @@ public class HUDHandlerVanilla implements IComponentProvider, IServerDataProvide
             MobSpawnerBlockEntity spawner = (MobSpawnerBlockEntity) accessor.getBlockEntity();
             tooltip.set(0, new TranslatableTextComponent(accessor.getBlock().getTranslationKey())
                     .append(new StringTextComponent(" ("))
-                    .append(spawner.getLogic().method_8283().getDisplayName())
+                    .append(spawner.getLogic().getRenderedEntity().getDisplayName())
                     .append(new StringTextComponent(")"))
             );
         }
