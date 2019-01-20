@@ -8,7 +8,6 @@ import mcp.mobius.waila.api.event.WailaRenderEvent;
 import mcp.mobius.waila.api.impl.DataAccessor;
 import mcp.mobius.waila.api.impl.config.PluginConfig;
 import mcp.mobius.waila.api.impl.config.WailaConfig;
-import net.fabricmc.fabric.util.HandlerArray;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.ingame.ChatGui;
 import net.minecraft.client.render.GuiLighting;
@@ -43,7 +42,8 @@ public class OverlayRenderer {
         if ((mc.currentGui != null && !(mc.currentGui instanceof ChatGui)) || mc.world == null)
             return;
 
-        if (Waila.CONFIG.get().getGeneral().shouldHideFromPlayerList() && mc.options.keyPlayerList.isPressed() && mc.getGame().getCurrentSession().getPlayerCount() > 1)
+        boolean isOnServer = !mc.isInSingleplayer() || mc.player.networkHandler.method_2880().size() > 1;
+        if (Waila.CONFIG.get().getGeneral().shouldHideFromPlayerList() && mc.options.keyPlayerList.isPressed() && isOnServer)
             return;
 
         if (!MinecraftClient.method_1498())
@@ -75,9 +75,9 @@ public class OverlayRenderer {
         GlStateManager.disableDepthTest();
 
         WailaRenderEvent.Pre preEvent = new WailaRenderEvent.Pre(DataAccessor.INSTANCE, tooltip.getPosition());
-        Object[] preSubscribers = ((HandlerArray<WailaRenderEvent.PreRender>) WailaRenderEvent.WAILA_RENDER_PRE).getBackingArray();
-        for (Object object : preSubscribers) {
-            if (((WailaRenderEvent.PreRender) object).onPreRender(preEvent)) {
+        WailaRenderEvent.PreRender[] preHandlers = WailaRenderEvent.WAILA_RENDER_PRE.getBackingArray();
+        for (WailaRenderEvent.PreRender handler : preHandlers) {
+            if (handler.onPreRender(preEvent)) {
                 GuiLighting.enableForItems();
                 GlStateManager.enableRescaleNormal();
                 loadGLState();
@@ -104,9 +104,9 @@ public class OverlayRenderer {
             DisplayUtil.renderStack(position.x + 5, position.y + position.height / 2 - 8, RayTracing.INSTANCE.getIdentifierStack());
 
         WailaRenderEvent.Post postEvent = new WailaRenderEvent.Post(position);
-        Object[] postSubscribers = ((HandlerArray<WailaRenderEvent.PostRender>) WailaRenderEvent.WAILA_RENDER_POST).getBackingArray();
-        for (Object object : postSubscribers)
-            ((WailaRenderEvent.PostRender) object).onPostRender(postEvent);
+        WailaRenderEvent.PostRender[] postHandlers = WailaRenderEvent.WAILA_RENDER_POST.getBackingArray();
+        for (WailaRenderEvent.PostRender handler : postHandlers)
+            handler.onPostRender(postEvent);
 
         loadGLState();
         GlStateManager.enableDepthTest();
@@ -161,14 +161,11 @@ public class OverlayRenderer {
     }
 
     public static void drawTooltipBox(int x, int y, int w, int h, int bg, int grad1, int grad2) {
-        //int bg = 0xf0100010;
         DisplayUtil.drawGradientRect(x + 1, y, w - 1, 1, bg, bg);
         DisplayUtil.drawGradientRect(x + 1, y + h, w - 1, 1, bg, bg);
         DisplayUtil.drawGradientRect(x + 1, y + 1, w - 1, h - 1, bg, bg);//center
         DisplayUtil.drawGradientRect(x, y + 1, 1, h - 1, bg, bg);
         DisplayUtil.drawGradientRect(x + w, y + 1, 1, h - 1, bg, bg);
-        //int grad1 = 0x505000ff;
-        //int grad2 = 0x5028007F;
         DisplayUtil.drawGradientRect(x + 1, y + 2, 1, h - 3, grad1, grad2);
         DisplayUtil.drawGradientRect(x + w - 1, y + 2, 1, h - 3, grad1, grad2);
 
