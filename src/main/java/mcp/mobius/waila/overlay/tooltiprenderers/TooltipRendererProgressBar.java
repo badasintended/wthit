@@ -12,7 +12,6 @@ import java.awt.Dimension;
 
 public class TooltipRendererProgressBar implements ITooltipRenderer {
 
-    private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
     private static final Identifier SHEET = new Identifier(Waila.MODID, "textures/sprites.png");
 
     @Override
@@ -24,7 +23,7 @@ public class TooltipRendererProgressBar implements ITooltipRenderer {
     public void draw(CompoundTag tag, ICommonAccessor accessor, int x, int y) {
         int currentValue = tag.getInt("progress");
 
-        CLIENT.getTextureManager().bindTexture(SHEET);
+        MinecraftClient.getInstance().getTextureManager().bindTexture(SHEET);
 
         // Draws the "empty" background arrow
         DisplayUtil.drawTexturedModalRect(x + 2, y, 0, 16, 22, 16, 22, 16);
