@@ -1,4 +1,14 @@
 ------------------------------------------------------
+Version 1.9.6
+------------------------------------------------------
+
+- Fixed crash on server start
+- Fixed overlay not being hidden when the player list was open
+- Fixed server -> client config sending for synced values
+- Fixed health tooltip over the configured heart max not being translated
+    - Also limited the text display to 2 decimal places
+
+------------------------------------------------------
 Version 1.9.5
 ------------------------------------------------------
 
