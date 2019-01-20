@@ -2,7 +2,6 @@ package mcp.mobius.waila.api.event;
 
 import mcp.mobius.waila.api.ICommonAccessor;
 import net.fabricmc.fabric.util.HandlerArray;
-import net.fabricmc.fabric.util.HandlerRegistry;
 
 import java.awt.Rectangle;
 
@@ -16,8 +15,8 @@ import java.awt.Rectangle;
  */
 public class WailaRenderEvent {
 
-    public static final HandlerRegistry<PreRender> WAILA_RENDER_PRE = new HandlerArray<>(PreRender.class);
-    public static final HandlerRegistry<PostRender> WAILA_RENDER_POST = new HandlerArray<>(PostRender.class);
+    public static final HandlerArray<PreRender> WAILA_RENDER_PRE = new HandlerArray<>(PreRender.class);
+    public static final HandlerArray<PostRender> WAILA_RENDER_POST = new HandlerArray<>(PostRender.class);
 
     public interface PreRender {
         boolean onPreRender(Pre event);

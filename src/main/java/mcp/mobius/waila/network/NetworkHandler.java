@@ -1,6 +1,7 @@
 package mcp.mobius.waila.network;
 
 import com.google.common.collect.Maps;
+import com.google.gson.Gson;
 import io.netty.buffer.Unpooled;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.impl.config.ConfigEntry;
@@ -102,14 +103,15 @@ public class NetworkHandler {
             int size = packetByteBuf.readInt();
             Map<Identifier, Boolean> temp = Maps.newHashMap();
             for (int i = 0; i < size; i++) {
-                Identifier id = new Identifier(packetByteBuf.readString(packetByteBuf.readInt()));
+                int idLength = packetByteBuf.readInt();
+                Identifier id = new Identifier(packetByteBuf.readString(idLength));
                 boolean value = packetByteBuf.readBoolean();
                 temp.put(id, value);
             }
 
             packetContext.getTaskQueue().execute(() -> {
                 temp.forEach(PluginConfig.INSTANCE::set);
-                Waila.LOGGER.info("Received config from the server");
+                Waila.LOGGER.info("Received config from the server: {}", new Gson().toJson(temp));
             });
         });
     }
@@ -135,6 +137,7 @@ public class NetworkHandler {
         Set<ConfigEntry> entries = config.getSyncableConfigs();
         buf.writeInt(entries.size());
         entries.forEach(e -> {
+            buf.writeInt(e.getId().toString().length());
             buf.writeString(e.getId().toString());
             buf.writeBoolean(e.getValue());
         });
