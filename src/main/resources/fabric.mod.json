@@ -2,7 +2,7 @@
   "id": "waila",
   "name": "Hwyla",
   "description": "What am I looking at?",
-  "version": "1.9.4",
+  "version": "1.9.5",
   "license": "CC BY NC SA 4.0",
   "side": "universal",
   "initializers": [
