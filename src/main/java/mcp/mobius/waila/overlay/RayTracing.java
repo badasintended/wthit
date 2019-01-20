@@ -65,7 +65,7 @@ public class RayTracing {
         Vec3d traceEnd = eyePosition.add(lookVector.x * playerReach, lookVector.y * playerReach, lookVector.z * playerReach);
 
         RayTraceContext.FluidHandling fluidView = Waila.CONFIG.get().getGeneral().shouldDisplayFluids() ? RayTraceContext.FluidHandling.SOURCE_ONLY : RayTraceContext.FluidHandling.NONE;
-        RayTraceContext context = new RayTraceContext(eyePosition, traceEnd, RayTraceContext.ShapeType.COLLIDER, fluidView, entity);
+        RayTraceContext context = new RayTraceContext(eyePosition, traceEnd, RayTraceContext.ShapeType.OUTLINE, fluidView, entity);
         return entity.getEntityWorld().rayTrace(context);
     }
 
