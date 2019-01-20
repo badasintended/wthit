@@ -10,6 +10,7 @@
   "tooltip.waila.state_on": "On",
   "tooltip.waila.state_off": "Off",
   "tooltip.waila.power": "Power: %d",
+  "tooltip.waila.health": "%s/%s Health",
 
   "gui.waila.configuration": "%s Configuration",
   "gui.waila.waila_settings": "%s Settings",
