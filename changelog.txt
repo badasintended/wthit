@@ -2,6 +2,12 @@
 Version 1.9.6
 ------------------------------------------------------
 
+- Updated to 19w04a
+
+------------------------------------------------------
+Version 1.9.6
+------------------------------------------------------
+
 - Fixed crash on server start
 - Fixed overlay not being hidden when the player list was open
 - Fixed server -> client config sending for synced values
