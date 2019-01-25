@@ -11,7 +11,7 @@ import mcp.mobius.waila.api.impl.config.WailaConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.ingame.ChatGui;
 import net.minecraft.client.render.GuiLighting;
-import net.minecraft.util.HitResult;
+import net.minecraft.util.hit.HitResult;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
@@ -92,7 +92,7 @@ public class OverlayRenderer {
         drawTooltipBox(position.x, position.y, position.width, position.height, color.getBackgroundColor(), color.getGradientStart(), color.getGradientEnd());
 
         GlStateManager.enableBlend();
-        GlStateManager.blendFunc(GlStateManager.class_1033.SRC_ALPHA, GlStateManager.class_1027.ONE_MINUS_SRC_ALPHA);
+        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
         tooltip.draw();
         GlStateManager.disableBlend();
 

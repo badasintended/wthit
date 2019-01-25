@@ -16,8 +16,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.text.Style;
 import net.minecraft.text.TextComponent;
 import net.minecraft.text.TranslatableTextComponent;
-import net.minecraft.util.HitResult;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.hit.HitResult;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -68,11 +68,6 @@ public class WailaTickHandler {
 
         if (client.keyboard == null)
             return;
-
-//        if (!MinecraftClient.getInstance().keyboard.(KeyEvent.key_show.getKeyCode()))
-//            if (!ConfigHandler.instance().get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_MODE, false))
-//                if (ConfigHandler.instance().get(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW, false))
-//                    ConfigHandler.instance().setConfig(Configuration.CATEGORY_GENERAL, Constants.CFG_WAILA_SHOW, false);
 
         if (world != null && player != null) {
             RayTracing.INSTANCE.fire();

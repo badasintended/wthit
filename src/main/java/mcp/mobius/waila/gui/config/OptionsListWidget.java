@@ -57,7 +57,7 @@ public class OptionsListWidget extends EntryListWidget<OptionsListWidget.Entry> 
             this.method_1954(0, this.y1, 255, 255);
             this.method_1954(this.y2, this.height, 255, 255);
             GlStateManager.enableBlend();
-            GlStateManager.blendFuncSeparate(GlStateManager.class_1033.SRC_ALPHA, GlStateManager.class_1027.ONE_MINUS_SRC_ALPHA, GlStateManager.class_1033.ZERO, GlStateManager.class_1027.ONE);
+            GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ZERO, GlStateManager.DestFactor.ONE);
             GlStateManager.disableAlphaTest();
             GlStateManager.shadeModel(7425);
             GlStateManager.disableTexture();

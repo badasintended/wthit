@@ -44,7 +44,7 @@ public class PluginMinecraft implements IWailaPlugin {
         registrar.registerTooltipRenderer(RENDER_SPACER, new TooltipRendererSpacer());
         registrar.registerTooltipRenderer(RENDER_FURNACE_PROGRESS, new TooltipRendererProgressBar());
 
-        registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, StoneInfestedBlock.class);
+        registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, InfestedBlock.class);
         registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, CropBlock.class);
         registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.HEAD, MobSpawnerBlockEntity.class);
         registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.BODY, CropBlock.class);

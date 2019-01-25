@@ -24,8 +24,8 @@ public class HUDHandlerVanilla implements IComponentProvider, IServerDataProvide
 
     @Override
     public ItemStack getStack(IDataAccessor accessor, IPluginConfig config) {
-        if (config.get(PluginMinecraft.CONFIG_HIDE_SILVERFISH) && accessor.getBlock() instanceof StoneInfestedBlock)
-            return new ItemStack(((StoneInfestedBlock) accessor.getBlock()).method_10271().getItem()); // getMimicBlock
+        if (config.get(PluginMinecraft.CONFIG_HIDE_SILVERFISH) && accessor.getBlock() instanceof InfestedBlock)
+            return new ItemStack(((InfestedBlock) accessor.getBlock()).getRegularBlock().getItem());
 
         if (accessor.getBlock() == Blocks.WHEAT)
             return new ItemStack(Items.WHEAT);
