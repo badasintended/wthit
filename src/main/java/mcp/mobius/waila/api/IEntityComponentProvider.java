@@ -1,6 +1,7 @@
 package mcp.mobius.waila.api;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.TextComponent;
@@ -28,6 +29,18 @@ public interface IEntityComponentProvider {
      */
     default Entity getOverride(IEntityAccessor accessor, IPluginConfig config) {
         return null;
+    }
+
+    /**
+     * Callback used to set an item to display alongside the entity name in the tooltip, similar to how blocks are treated.
+     * Will only be called if the implementing class is registered via {@link}
+     *
+     * @param accessor Contains most of the relevant information about the current environment.
+     * @param config   Current configuration of Waila.
+     * @return The item to display or {@link ItemStack#EMPTY} to display nothing.
+     */
+    default ItemStack getDisplayItem(IEntityAccessor accessor, IPluginConfig config) {
+        return ItemStack.EMPTY;
     }
 
     /**

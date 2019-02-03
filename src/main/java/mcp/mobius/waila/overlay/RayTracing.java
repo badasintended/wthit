@@ -98,32 +98,53 @@ public class RayTracing {
     public List<ItemStack> getIdentifierItems() {
         List<ItemStack> items = Lists.newArrayList();
 
-        if (this.target == null || this.target.getType() != HitResult.Type.BLOCK)
+        if (this.target == null)
             return items;
 
-        World world = mc.world;
-        BlockPos pos = ((BlockHitResult) target).getBlockPos();
-        BlockState state = world.getBlockState(pos);
-        if (state.isAir())
-            return items;
+        switch (this.target.getType()) {
+            case ENTITY: {
+                if (WailaRegistrar.INSTANCE.hasStackEntityProviders(((EntityHitResult) target).getEntity())) {
+                    Collection<List<IEntityComponentProvider>> providers = WailaRegistrar.INSTANCE.getStackEntityProviders(((EntityHitResult) target).getEntity()).values();
+                    for (List<IEntityComponentProvider> providersList : providers) {
+                        for (IEntityComponentProvider provider : providersList) {
+                            ItemStack providerStack = provider.getDisplayItem(DataAccessor.INSTANCE, PluginConfig.INSTANCE);
+                            if (providerStack.isEmpty())
+                                continue;
 
-        BlockEntity tile = world.getBlockEntity(pos);
+                            items.add(providerStack);
+                        }
+                    }
+                }
+                break;
+            }
+            case BLOCK: {
+                World world = mc.world;
+                BlockPos pos = ((BlockHitResult) target).getBlockPos();
+                BlockState state = world.getBlockState(pos);
+                if (state.isAir())
+                    return items;
 
-        if (WailaRegistrar.INSTANCE.hasStackProviders(state.getBlock()))
-            handleStackProviders(items, WailaRegistrar.INSTANCE.getStackProviders(state.getBlock()).values());
+                BlockEntity tile = world.getBlockEntity(pos);
 
-        if (tile != null && WailaRegistrar.INSTANCE.hasStackProviders(tile))
-            handleStackProviders(items, WailaRegistrar.INSTANCE.getStackProviders(tile).values());
+                if (WailaRegistrar.INSTANCE.hasStackProviders(state.getBlock()))
+                    handleStackProviders(items, WailaRegistrar.INSTANCE.getStackProviders(state.getBlock()).values());
 
-        if (!items.isEmpty())
-            return items;
+                if (tile != null && WailaRegistrar.INSTANCE.hasStackProviders(tile))
+                    handleStackProviders(items, WailaRegistrar.INSTANCE.getStackProviders(tile).values());
 
-        ItemStack pick = state.getBlock().getPickStack(world, pos, state);
-        if (!pick.isEmpty())
-            return Collections.singletonList(pick);
+                if (!items.isEmpty())
+                    return items;
 
-        if (items.isEmpty() && state.getBlock().getItem() != Items.AIR)
-            items.add(new ItemStack(state.getBlock()));
+                ItemStack pick = state.getBlock().getPickStack(world, pos, state);
+                if (!pick.isEmpty())
+                    return Collections.singletonList(pick);
+
+                if (items.isEmpty() && state.getBlock().getItem() != Items.AIR)
+                    items.add(new ItemStack(state.getBlock()));
+
+                break;
+            }
+        }
 
         return items;
     }

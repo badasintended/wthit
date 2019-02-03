@@ -20,6 +20,7 @@ public class WailaRegistrar implements IRegistrar {
     final Map<Class, List<IServerDataProvider<BlockEntity>>> blockDataProviders;
 
     final Map<Class, List<IEntityComponentProvider>> entityOverrideProviders;
+    final Map<Class, List<IEntityComponentProvider>> entityStackProviders;
     final EnumMap<TooltipPosition, Map<Class, List<IEntityComponentProvider>>> entityComponentProviders;
     final Map<Class, List<IServerDataProvider<LivingEntity>>> entityDataProviders;
 
@@ -32,6 +33,7 @@ public class WailaRegistrar implements IRegistrar {
         blockDataProviders = Maps.newLinkedHashMap();
 
         entityOverrideProviders = Maps.newLinkedHashMap();
+        entityStackProviders = Maps.newLinkedHashMap();
         entityComponentProviders = new EnumMap<>(TooltipPosition.class);
         entityDataProviders = Maps.newLinkedHashMap();
 
@@ -76,6 +78,11 @@ public class WailaRegistrar implements IRegistrar {
     @Override
     public void registerOverrideEntityProvider(IEntityComponentProvider dataProvider, Class entity) {
         registerProvider(dataProvider, entity, entityOverrideProviders);
+    }
+
+    @Override
+    public void registerEntityStackProvider(IEntityComponentProvider dataProvider, Class entity) {
+        registerProvider(dataProvider, entity, entityStackProviders);
     }
 
     @Override
@@ -147,6 +154,10 @@ public class WailaRegistrar implements IRegistrar {
         return getProviders(entity, entityOverrideProviders);
     }
 
+    public Map<Integer, List<IEntityComponentProvider>> getStackEntityProviders(Object entity) {
+        return getProviders(entity, entityStackProviders);
+    }
+
     public Map<Integer, List<IServerDataProvider<LivingEntity>>> getNBTEntityProviders(Object entity) {
         return getProviders(entity, entityDataProviders);
     }
@@ -209,6 +220,10 @@ public class WailaRegistrar implements IRegistrar {
 
     public boolean hasOverrideEntityProviders(Object entity) {
         return hasProviders(entity, entityOverrideProviders);
+    }
+
+    public boolean hasStackEntityProviders(Object entity) {
+        return hasProviders(entity, entityStackProviders);
     }
 
     public boolean hasNBTEntityProviders(Object entity) {

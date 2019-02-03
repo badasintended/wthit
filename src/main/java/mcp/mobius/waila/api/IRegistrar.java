@@ -61,6 +61,14 @@ public interface IRegistrar {
     void registerOverrideEntityProvider(IEntityComponentProvider dataProvider, Class entity);
 
     /**
+     * Registers an {@link IEntityComponentProvider} instance to allow displaying an item next to the entity name.
+     *
+     * @param dataProvider The data provider instance
+     * @param entity The highest level class to apply to
+     */
+    void registerEntityStackProvider(IEntityComponentProvider dataProvider, Class entity);
+
+    /**
      * Registers an {@link IEntityComponentProvider} instance for appending {@link net.minecraft.text.TextComponent} to the tooltip.
      *
      * @param dataProvider The data provider instance

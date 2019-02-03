@@ -105,7 +105,8 @@ public class WailaTickHandler {
 
                     combinePositions(player, currentTip, currentTipHead, currentTipBody, currentTipTail);
 
-                    tooltip = new Tooltip(currentTip, false);
+                    ItemStack displayItem = RayTracing.INSTANCE.getIdentifierStack();
+                    tooltip = new Tooltip(currentTip, !displayItem.isEmpty());
                 }
             }
         }
