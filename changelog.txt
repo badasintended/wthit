@@ -1,5 +1,13 @@
 ------------------------------------------------------
-Version 1.9.6
+Version 1.9.8
+------------------------------------------------------
+
+- Added an API feature that allows displaying an item on an entity tooltip
+    - Useful for things like paintings, item frames, and minecarts (which are included by default)
+- Fixed minecart tooltip being blank
+
+------------------------------------------------------
+Version 1.9.7
 ------------------------------------------------------
 
 - Updated to 19w04a
