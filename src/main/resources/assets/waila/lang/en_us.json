@@ -11,6 +11,7 @@
   "tooltip.waila.state_off": "Off",
   "tooltip.waila.power": "Power: %d",
   "tooltip.waila.health": "%s/%s Health",
+  "tooltip.waila.sneak_for_details":  "Sneak for details",
 
   "gui.waila.configuration": "%s Configuration",
   "gui.waila.waila_settings": "%s Settings",
