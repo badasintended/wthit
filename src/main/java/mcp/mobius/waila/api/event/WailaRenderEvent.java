@@ -1,9 +1,15 @@
 package mcp.mobius.waila.api.event;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import mcp.mobius.waila.api.ICommonAccessor;
-import net.fabricmc.fabric.util.HandlerArray;
+import net.fabricmc.fabric.api.event.Event;
+import net.fabricmc.fabric.api.event.EventFactory;
+import net.minecraft.client.render.GuiLighting;
 
 import java.awt.Rectangle;
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.reflect.Method;
 
 /**
  * The base event for rendering the Waila tooltip. This provides the opportunity to do last minute changes to the tooltip.
@@ -15,8 +21,43 @@ import java.awt.Rectangle;
  */
 public class WailaRenderEvent {
 
-    public static final HandlerArray<PreRender> WAILA_RENDER_PRE = new HandlerArray<>(PreRender.class);
-    public static final HandlerArray<PostRender> WAILA_RENDER_POST = new HandlerArray<>(PostRender.class);
+    private static MethodHandle loadGlState_;
+    public static final Event<PreRender> WAILA_RENDER_PRE = EventFactory.createArrayBacked(PreRender.class,
+            listeners -> event -> {
+                for (PreRender listener : listeners) {
+                    if (listener.onPreRender(event)) {
+                        GuiLighting.enableForItems();
+                        GlStateManager.enableRescaleNormal();
+                        try {
+                            loadGlState_.invoke();
+                        } catch (Throwable e) {
+                            // No-op
+                        }
+                        GlStateManager.enableDepthTest();
+                        GlStateManager.popMatrix();
+                        return true;
+                    }
+                }
+
+                return  false;
+            }
+    );
+    public static final Event<PostRender> WAILA_RENDER_POST = EventFactory.createArrayBacked(PostRender.class,
+            listeners -> event -> {
+                for (PostRender listener : listeners)
+                    listener.onPostRender(event);
+            }
+    );
+
+    static {
+        try {
+            Class overlayRenderer = Class.forName("mcp.mobius.waila.overlay.OverlayRenderer");
+            Method method = overlayRenderer.getMethod("loadGLState");
+            loadGlState_ = MethodHandles.lookup().unreflect(method);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public interface PreRender {
         boolean onPreRender(Pre event);

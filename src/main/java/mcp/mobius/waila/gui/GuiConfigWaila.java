@@ -7,7 +7,7 @@ import mcp.mobius.waila.gui.config.value.OptionsEntryValueBoolean;
 import mcp.mobius.waila.gui.config.value.OptionsEntryValueCycle;
 import mcp.mobius.waila.gui.config.value.OptionsEntryValueEnum;
 import mcp.mobius.waila.gui.config.value.OptionsEntryValueInput;
-import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.text.TranslatableTextComponent;
 import net.minecraft.util.Identifier;
@@ -16,7 +16,7 @@ import org.apache.commons.lang3.StringEscapeUtils;
 
 public class GuiConfigWaila extends GuiOptions {
 
-    public GuiConfigWaila(Gui parent) {
+    public GuiConfigWaila(Screen parent) {
         super(parent, new TranslatableTextComponent("gui.waila.configuration", Waila.NAME), Waila.CONFIG::save, Waila.CONFIG::invalidate);
     }
 
@@ -26,7 +26,7 @@ public class GuiConfigWaila extends GuiOptions {
         options.add(new OptionsEntryButton(SystemUtil.createTranslationKey("config", new Identifier(Waila.MODID, "general")), new ButtonWidget(0, 0, 0, 100, 20, null) {
             @Override
             public void onPressed(double mouseX, double mouseY) {
-                client.openGui(new GuiOptions(GuiConfigWaila.this, new TranslatableTextComponent(SystemUtil.createTranslationKey("config", new Identifier(Waila.MODID, "general")))) {
+                client.openScreen(new GuiOptions(GuiConfigWaila.this, new TranslatableTextComponent(SystemUtil.createTranslationKey("config", new Identifier(Waila.MODID, "general")))) {
                     @Override
                     public OptionsListWidget getOptions() {
                         OptionsListWidget options = new OptionsListWidget(this, client, width + 45, height, 32, height - 32, 30);
@@ -62,7 +62,7 @@ public class GuiConfigWaila extends GuiOptions {
         options.add(new OptionsEntryButton(SystemUtil.createTranslationKey("config", new Identifier(Waila.MODID, "overlay")), new ButtonWidget(0, 0, 0, 100, 20, null) {
             @Override
             public void onPressed(double mouseX, double mouseY) {
-                client.openGui(new GuiOptions(GuiConfigWaila.this, new TranslatableTextComponent(SystemUtil.createTranslationKey("config", new Identifier(Waila.MODID, "overlay")))) {
+                client.openScreen(new GuiOptions(GuiConfigWaila.this, new TranslatableTextComponent(SystemUtil.createTranslationKey("config", new Identifier(Waila.MODID, "overlay")))) {
                     @Override
                     public OptionsListWidget getOptions() {
                         OptionsListWidget options = new OptionsListWidget(this, client, width + 45, height, 32, height - 32, 30);
@@ -78,7 +78,7 @@ public class GuiConfigWaila extends GuiOptions {
                         options.add(new OptionsEntryButton(SystemUtil.createTranslationKey("config", new Identifier(Waila.MODID, "overlay_color")), new ButtonWidget(0, 0, 0, 100, 20, null) {
                             @Override
                             public void onPressed(double mouseX, double mouseY) {
-                                client.openGui(new GuiOptions(GuiConfigWaila.this, new TranslatableTextComponent(SystemUtil.createTranslationKey("config", new Identifier(Waila.MODID, "overlay_color")))) {
+                                client.openScreen(new GuiOptions(GuiConfigWaila.this, new TranslatableTextComponent(SystemUtil.createTranslationKey("config", new Identifier(Waila.MODID, "overlay_color")))) {
                                     @Override
                                     public OptionsListWidget getOptions() {
                                         OptionsListWidget options = new OptionsListWidget(this, client, width + 45, height, 32, height - 32, 30);
@@ -104,7 +104,7 @@ public class GuiConfigWaila extends GuiOptions {
         options.add(new OptionsEntryButton(SystemUtil.createTranslationKey("config", new Identifier(Waila.MODID, "formatting")), new ButtonWidget(0, 0, 0, 100, 20, null) {
             @Override
             public void onPressed(double mouseX, double mouseY) {
-                client.openGui(new GuiOptions(GuiConfigWaila.this, new TranslatableTextComponent(SystemUtil.createTranslationKey("config", new Identifier(Waila.MODID, "overlay")))) {
+                client.openScreen(new GuiOptions(GuiConfigWaila.this, new TranslatableTextComponent(SystemUtil.createTranslationKey("config", new Identifier(Waila.MODID, "overlay")))) {
                     @Override
                     public OptionsListWidget getOptions() {
                         OptionsListWidget options = new OptionsListWidget(this, client, width + 45, height, 32, height - 32, 30);

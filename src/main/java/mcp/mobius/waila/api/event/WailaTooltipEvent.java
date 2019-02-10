@@ -1,8 +1,8 @@
 package mcp.mobius.waila.api.event;
 
 import mcp.mobius.waila.api.ICommonAccessor;
-import net.fabricmc.fabric.util.HandlerArray;
-import net.fabricmc.fabric.util.HandlerRegistry;
+import net.fabricmc.fabric.api.event.Event;
+import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.text.TextComponent;
 
 import java.util.List;
@@ -17,7 +17,12 @@ import java.util.List;
  */
 public class WailaTooltipEvent {
 
-    public static final HandlerRegistry<HandleTooltip> WAILA_HANDLE_TOOLTIP = new HandlerArray<>(HandleTooltip.class);
+    public static final Event<HandleTooltip> WAILA_HANDLE_TOOLTIP = EventFactory.createArrayBacked(HandleTooltip.class,
+            listeners -> event -> {
+                for (HandleTooltip listener : listeners)
+                    listener.onTooltip(event);
+            }
+    );
 
     private final List<TextComponent> currentTip;
     private final ICommonAccessor accessor;

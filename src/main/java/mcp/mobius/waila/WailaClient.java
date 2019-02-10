@@ -31,7 +31,7 @@ public class WailaClient implements ClientModInitializer {
             return;
 
         while (openConfig.wasPressed()) {
-            MinecraftClient.getInstance().openGui(new GuiConfigHome(null));
+            MinecraftClient.getInstance().openScreen(new GuiConfigHome(null));
         }
 
         while (showOverlay.wasPressed()) {

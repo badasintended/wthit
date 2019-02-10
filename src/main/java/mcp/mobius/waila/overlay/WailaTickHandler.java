@@ -9,7 +9,7 @@ import mcp.mobius.waila.api.impl.MetaDataProvider;
 import mcp.mobius.waila.api.impl.TaggedList;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.ingame.ChatGui;
+import net.minecraft.client.gui.ingame.ChatScreen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
@@ -38,7 +38,7 @@ public class WailaTickHandler {
             if (getNarrator().active() || !Waila.CONFIG.get().getGeneral().shouldEnableTextToSpeech())
                 return;
 
-            if (MinecraftClient.getInstance().currentGui != null && !(MinecraftClient.getInstance().currentGui instanceof ChatGui))
+            if (MinecraftClient.getInstance().currentScreen != null && !(MinecraftClient.getInstance().currentScreen instanceof ChatScreen))
                 return;
 
             if (event.getAccessor().getBlock() == Blocks.AIR && event.getAccessor().getEntity() == null)

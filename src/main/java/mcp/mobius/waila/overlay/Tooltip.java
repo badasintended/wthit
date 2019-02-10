@@ -6,7 +6,6 @@ import mcp.mobius.waila.api.RenderableTextComponent;
 import mcp.mobius.waila.api.event.WailaTooltipEvent;
 import mcp.mobius.waila.api.impl.DataAccessor;
 import mcp.mobius.waila.api.impl.config.WailaConfig;
-import net.fabricmc.fabric.util.HandlerArray;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.Window;
 import net.minecraft.text.TextComponent;
@@ -24,9 +23,7 @@ public class Tooltip {
 
     public Tooltip(List<TextComponent> components, boolean showItem) {
         WailaTooltipEvent event = new WailaTooltipEvent(components, DataAccessor.INSTANCE);
-        Object[] postSubscribers = ((HandlerArray<WailaTooltipEvent.HandleTooltip>) WailaTooltipEvent.WAILA_HANDLE_TOOLTIP).getBackingArray();
-        for (Object object : postSubscribers)
-            ((WailaTooltipEvent.HandleTooltip) object).onTooltip(event);
+        WailaTooltipEvent.WAILA_HANDLE_TOOLTIP.invoker().onTooltip(event);
 
         this.client = MinecraftClient.getInstance();
         this.lines = Lists.newArrayList();

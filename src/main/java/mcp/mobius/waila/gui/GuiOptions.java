@@ -3,30 +3,30 @@ package mcp.mobius.waila.gui;
 import com.google.common.collect.Lists;
 import mcp.mobius.waila.gui.config.OptionsListWidget;
 import mcp.mobius.waila.gui.config.value.OptionsEntryValue;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiEventListener;
+import net.minecraft.client.gui.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.text.TextComponent;
 
 import java.util.List;
 
-public abstract class GuiOptions extends Gui {
+public abstract class GuiOptions extends Screen {
 
-    private final Gui parent;
+    private final Screen parent;
     private final TextComponent title;
     private final Runnable saver;
     private final Runnable canceller;
     private OptionsListWidget options;
 
-    public GuiOptions(Gui parent, TextComponent title, Runnable saver, Runnable canceller) {
+    public GuiOptions(Screen parent, TextComponent title, Runnable saver, Runnable canceller) {
         this.parent = parent;
         this.title = title;
         this.saver = saver;
         this.canceller = canceller;
     }
 
-    public GuiOptions(Gui parent, TextComponent title) {
+    public GuiOptions(Screen parent, TextComponent title) {
         this(parent, title, null, null);
     }
 
@@ -117,7 +117,7 @@ public abstract class GuiOptions extends Gui {
 
     @Override
     public void close() {
-        client.openGui(parent);
+        client.openScreen(parent);
     }
 
     public void addListener(GuiEventListener listener) {

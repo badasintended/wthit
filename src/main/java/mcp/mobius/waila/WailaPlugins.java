@@ -12,7 +12,7 @@ import mcp.mobius.waila.addons.core.PluginCore;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.api.impl.config.PluginConfig;
-import net.fabricmc.api.loader.Loader;
+import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.language.LanguageAdapter;
 import net.minecraft.util.ActionResult;
 
@@ -31,7 +31,7 @@ public class WailaPlugins implements LoaderCreator {
                         JsonObject json = container.getInfo().getData().getAsJsonObject();
                         if (json.has("required")) {
                             JsonElement required = json.get("required");
-                            if (required.isJsonPrimitive() && !Loader.getInstance().isModLoaded(required.getAsString()))
+                            if (required.isJsonPrimitive() && !FabricLoader.getInstance().isModLoaded(required.getAsString()))
                                 return ActionResult.PASS;
                             else if (required.isJsonArray()) {
                                 JsonArray requiredArray = required.getAsJsonArray();
@@ -40,7 +40,7 @@ public class WailaPlugins implements LoaderCreator {
                                     if (!element.isJsonPrimitive())
                                         continue;
 
-                                    if (!Loader.getInstance().isModLoaded(element.getAsString()))
+                                    if (!FabricLoader.getInstance().isModLoaded(element.getAsString()))
                                         return ActionResult.PASS;
                                 }
                             }

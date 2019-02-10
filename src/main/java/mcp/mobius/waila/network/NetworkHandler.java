@@ -10,7 +10,8 @@ import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.api.impl.config.PluginConfig;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.networking.CustomPayloadPacketRegistry;
+import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
+import net.fabricmc.fabric.api.network.ServerSidePacketRegistry;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
@@ -38,13 +39,13 @@ public class NetworkHandler {
     public static final Identifier GET_CONFIG = new Identifier(Waila.MODID, "send_config");
 
     public static void init() {
-        CustomPayloadPacketRegistry.CLIENT.register(RECEIVE_DATA, (packetContext, packetByteBuf) -> {
+        ClientSidePacketRegistry.INSTANCE.register(RECEIVE_DATA, (packetContext, packetByteBuf) -> {
             CompoundTag tag = packetByteBuf.readCompoundTag();
             packetContext.getTaskQueue().execute(() -> {
                 DataAccessor.INSTANCE.setServerData(tag);
             });
         });
-        CustomPayloadPacketRegistry.SERVER.register(REQUEST_ENTITY, (packetContext, packetByteBuf) -> {
+        ServerSidePacketRegistry.INSTANCE.register(REQUEST_ENTITY, (packetContext, packetByteBuf) -> {
             PlayerEntity player = packetContext.getPlayer();
             World world = player.world;
             Entity entity = world.getEntityById(packetByteBuf.readInt());
@@ -66,7 +67,7 @@ public class NetworkHandler {
                 ((ServerPlayerEntity) player).networkHandler.sendPacket(new CustomPayloadClientPacket(RECEIVE_DATA, buf));
             });
         });
-        CustomPayloadPacketRegistry.SERVER.register(REQUEST_TILE, (packetContext, packetByteBuf) -> {
+        ServerSidePacketRegistry.INSTANCE.register(REQUEST_TILE, (packetContext, packetByteBuf) -> {
             PlayerEntity player = packetContext.getPlayer();
             World world = player.world;
             BlockPos pos = packetByteBuf.readBlockPos();
@@ -99,7 +100,7 @@ public class NetworkHandler {
                 ((ServerPlayerEntity) player).networkHandler.sendPacket(new CustomPayloadClientPacket(RECEIVE_DATA, buf));
             });
         });
-        CustomPayloadPacketRegistry.CLIENT.register(GET_CONFIG, (packetContext, packetByteBuf) -> {
+        ClientSidePacketRegistry.INSTANCE.register(GET_CONFIG, (packetContext, packetByteBuf) -> {
             int size = packetByteBuf.readInt();
             Map<Identifier, Boolean> temp = Maps.newHashMap();
             for (int i = 0; i < size; i++) {
@@ -118,6 +119,9 @@ public class NetworkHandler {
 
     @Environment(EnvType.CLIENT)
     public static void requestEntity(Entity entity) {
+        if (MinecraftClient.getInstance().getNetworkHandler() == null)
+            return;
+
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
         buf.writeInt(entity.getEntityId());
         MinecraftClient.getInstance().getNetworkHandler().getClientConnection().sendPacket(new CustomPayloadServerPacket(REQUEST_ENTITY, buf));
@@ -125,6 +129,9 @@ public class NetworkHandler {
 
     @Environment(EnvType.CLIENT)
     public static void requestTile(BlockEntity blockEntity) {
+        if (MinecraftClient.getInstance().getNetworkHandler() == null)
+            return;
+
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
         buf.writeBlockPos(blockEntity.getPos());
         MinecraftClient.getInstance().getNetworkHandler().getClientConnection().sendPacket(new CustomPayloadServerPacket(REQUEST_TILE, buf));

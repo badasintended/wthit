@@ -9,7 +9,7 @@ import mcp.mobius.waila.api.impl.DataAccessor;
 import mcp.mobius.waila.api.impl.config.PluginConfig;
 import mcp.mobius.waila.api.impl.config.WailaConfig;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.ingame.ChatGui;
+import net.minecraft.client.gui.ingame.ChatScreen;
 import net.minecraft.client.render.GuiLighting;
 import net.minecraft.util.hit.HitResult;
 import org.lwjgl.opengl.GL11;
@@ -39,7 +39,7 @@ public class OverlayRenderer {
             return;
 
         MinecraftClient mc = MinecraftClient.getInstance();
-        if ((mc.currentGui != null && !(mc.currentGui instanceof ChatGui)) || mc.world == null)
+        if ((mc.currentScreen != null && !(mc.currentScreen instanceof ChatScreen)) || mc.world == null)
             return;
 
         boolean isOnServer = !mc.isInSingleplayer() || mc.player.networkHandler.method_2880().size() > 1;
@@ -75,17 +75,7 @@ public class OverlayRenderer {
         GlStateManager.disableDepthTest();
 
         WailaRenderEvent.Pre preEvent = new WailaRenderEvent.Pre(DataAccessor.INSTANCE, tooltip.getPosition());
-        WailaRenderEvent.PreRender[] preHandlers = WailaRenderEvent.WAILA_RENDER_PRE.getBackingArray();
-        for (WailaRenderEvent.PreRender handler : preHandlers) {
-            if (handler.onPreRender(preEvent)) {
-                GuiLighting.enableForItems();
-                GlStateManager.enableRescaleNormal();
-                loadGLState();
-                GlStateManager.enableDepthTest();
-                GlStateManager.popMatrix();
-                return;
-            }
-        }
+        WailaRenderEvent.WAILA_RENDER_PRE.invoker().onPreRender(preEvent);
 
         Rectangle position = preEvent.getPosition();
         WailaConfig.ConfigOverlay.ConfigOverlayColor color = Waila.CONFIG.get().getOverlay().getColor();
@@ -104,9 +94,7 @@ public class OverlayRenderer {
             DisplayUtil.renderStack(position.x + 5, position.y + position.height / 2 - 8, RayTracing.INSTANCE.getIdentifierStack());
 
         WailaRenderEvent.Post postEvent = new WailaRenderEvent.Post(position);
-        WailaRenderEvent.PostRender[] postHandlers = WailaRenderEvent.WAILA_RENDER_POST.getBackingArray();
-        for (WailaRenderEvent.PostRender handler : postHandlers)
-            handler.onPostRender(postEvent);
+        WailaRenderEvent.WAILA_RENDER_POST.invoker().onPostRender(postEvent);
 
         loadGLState();
         GlStateManager.enableDepthTest();

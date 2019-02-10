@@ -5,7 +5,7 @@ import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.FontRenderer;
-import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.Drawable;
 import net.minecraft.client.item.TooltipOptions;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.Tessellator;
@@ -28,10 +28,10 @@ public class DisplayUtil {
     public static void renderStack(int x, int y, ItemStack stack) {
         enable3DRender();
         try {
-            CLIENT.getItemRenderer().renderItemAndGlowInGui(stack, x, y);
+            CLIENT.getItemRenderer().renderGuiItemIcon(stack, x, y);
             ItemStack overlayRender = stack.copy();
             overlayRender.setAmount(1);
-            CLIENT.getItemRenderer().renderItemOverlaysInGUI(CLIENT.fontRenderer, overlayRender, x, y);
+            CLIENT.getItemRenderer().renderGuiItemOverlay(CLIENT.fontRenderer, overlayRender, x, y);
             renderStackSize(CLIENT.fontRenderer, stack, x, y);
         } catch (Exception e) {
             String stackStr = stack != null ? stack.toString() : "NullStack";
@@ -154,7 +154,7 @@ public class DisplayUtil {
 
     public static void renderIcon(int x, int y, int sx, int sy, IconUI icon) {
         GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        CLIENT.getTextureManager().bindTexture(Gui.ICONS);
+        CLIENT.getTextureManager().bindTexture(Drawable.ICONS);
 
         if (icon == null)
             return;

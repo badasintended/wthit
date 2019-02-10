@@ -2,17 +2,16 @@ package mcp.mobius.waila.gui;
 
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.impl.config.PluginConfig;
-import mcp.mobius.waila.api.impl.config.WailaConfig;
-import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.resource.language.I18n;
 
-public class GuiConfigHome extends Gui {
+public class GuiConfigHome extends Screen {
 
-    private final Gui parent;
+    private final Screen parent;
     private String title = "Waila Configuration";
 
-    public GuiConfigHome(Gui parent) {
+    public GuiConfigHome(Screen parent) {
         this.parent = parent;
     }
 
@@ -23,13 +22,13 @@ public class GuiConfigHome extends Gui {
         addButton(new ButtonWidget(1, width / 2 - 105, height / 2 - 10, 100, 20, I18n.translate("gui.waila.waila_settings", Waila.NAME)) {
             @Override
             public void onPressed(double mouseX, double mouseY) {
-                client.openGui(new GuiConfigWaila(GuiConfigHome.this));
+                client.openScreen(new GuiConfigWaila(GuiConfigHome.this));
             }
         });
         addButton(new ButtonWidget(2, width / 2 + 5, height / 2 - 10, 100, 20, I18n.translate("gui.waila.plugin_settings")) {
             @Override
             public void onPressed(double mouseX, double mouseY) {
-                client.openGui(new GuiConfigPlugins(GuiConfigHome.this));
+                client.openScreen(new GuiConfigPlugins(GuiConfigHome.this));
             }
         });
         addButton(new ButtonWidget(3, width / 2 - 50, height / 2 + 20, 100, 20, I18n.translate("gui.done")) {
@@ -37,7 +36,7 @@ public class GuiConfigHome extends Gui {
             public void onPressed(double mouseX, double mouseY) {
                 Waila.CONFIG.save();
                 PluginConfig.INSTANCE.save();
-                client.openGui(parent);
+                client.openScreen(parent);
             }
         });
     }
