@@ -23,25 +23,26 @@ public class WailaClient {
     public static IForgeKeybinding showOverlay;
     public static IForgeKeybinding toggleLiquid;
 
-    @SubscribeEvent
-    public static void onKeyPressed(InputEvent.KeyInputEvent event) {
-        if (openConfig == null || showOverlay == null || toggleLiquid == null)
-            return;
-
-        while (openConfig.getKeyBinding().isPressed()) {
-            Minecraft.getInstance().displayGuiScreen(new GuiConfigHome(null));
-        }
-
-        while (showOverlay.getKeyBinding().isPressed()) {
-            if (Waila.CONFIG.get().getGeneral().getDisplayMode() == WailaConfig.DisplayMode.TOGGLE) {
-                Waila.CONFIG.get().getGeneral().setDisplayTooltip(!Waila.CONFIG.get().getGeneral().shouldDisplayTooltip());
-            }
-        }
-
-        while (toggleLiquid.getKeyBinding().isPressed()) {
-            Waila.CONFIG.get().getGeneral().setDisplayFluids(!Waila.CONFIG.get().getGeneral().shouldDisplayFluids());
-        }
-    }
+    // TODO Bring this back and remove the handling in the tick event when forge implements it
+//    @SubscribeEvent
+//    public static void onKeyPressed(InputEvent.KeyInputEvent event) {
+//        if (openConfig == null || showOverlay == null || toggleLiquid == null)
+//            return;
+//
+//        while (openConfig.getKeyBinding().isPressed()) {
+//            Minecraft.getInstance().displayGuiScreen(new GuiConfigHome(null));
+//        }
+//
+//        while (showOverlay.getKeyBinding().isPressed()) {
+//            if (Waila.CONFIG.get().getGeneral().getDisplayMode() == WailaConfig.DisplayMode.TOGGLE) {
+//                Waila.CONFIG.get().getGeneral().setDisplayTooltip(!Waila.CONFIG.get().getGeneral().shouldDisplayTooltip());
+//            }
+//        }
+//
+//        while (toggleLiquid.getKeyBinding().isPressed()) {
+//            Waila.CONFIG.get().getGeneral().setDisplayFluids(!Waila.CONFIG.get().getGeneral().shouldDisplayFluids());
+//        }
+//    }
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onTooltip(ItemTooltipEvent event) {
@@ -59,5 +60,22 @@ public class WailaClient {
     public static void onClientTick(TickEvent.ClientTickEvent event) {
         if (event.phase == TickEvent.Phase.END)
             WailaTickHandler.instance().tickClient();
+
+        if (openConfig == null || showOverlay == null || toggleLiquid == null)
+            return;
+
+        while (openConfig.getKeyBinding().isPressed()) {
+            Minecraft.getInstance().displayGuiScreen(new GuiConfigHome(null));
+        }
+
+        while (showOverlay.getKeyBinding().isPressed()) {
+            if (Waila.CONFIG.get().getGeneral().getDisplayMode() == WailaConfig.DisplayMode.TOGGLE) {
+                Waila.CONFIG.get().getGeneral().setDisplayTooltip(!Waila.CONFIG.get().getGeneral().shouldDisplayTooltip());
+            }
+        }
+
+        while (toggleLiquid.getKeyBinding().isPressed()) {
+            Waila.CONFIG.get().getGeneral().setDisplayFluids(!Waila.CONFIG.get().getGeneral().shouldDisplayFluids());
+        }
     }
 }

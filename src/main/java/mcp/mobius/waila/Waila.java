@@ -74,7 +74,7 @@ public class Waila {
     @SubscribeEvent
     public void setupClient(FMLClientSetupEvent event) {
         WailaClient.openConfig = new KeyBinding("key.waila.config", KeyConflictContext.IN_GAME, KeyModifier.NONE, InputMappings.Type.KEYSYM.getOrMakeInput(320), Waila.NAME);
-        WailaClient.showOverlay = new KeyBinding("key.waila.display", KeyConflictContext.IN_GAME, KeyModifier.NONE, InputMappings.Type.KEYSYM.getOrMakeInput(321), Waila.NAME);
+        WailaClient.showOverlay = new KeyBinding("key.waila.show_overlay", KeyConflictContext.IN_GAME, KeyModifier.NONE, InputMappings.Type.KEYSYM.getOrMakeInput(321), Waila.NAME);
         WailaClient.toggleLiquid = new KeyBinding("key.waila.toggle_liquid", KeyConflictContext.IN_GAME, KeyModifier.NONE, InputMappings.Type.KEYSYM.getOrMakeInput(322), Waila.NAME);
 
         ClientRegistry.registerKeyBinding(WailaClient.openConfig.getKeyBinding());
@@ -115,6 +115,7 @@ public class Waila {
 
     @SubscribeEvent
     public void playerJoin(PlayerEvent.PlayerLoggedInEvent event) {
+        LOGGER.info("Syncing config to {} ({})", event.getPlayer().getGameProfile().getName(), event.getPlayer().getGameProfile().getId());
         NETWORK.sendTo(new MessageServerPing(PluginConfig.INSTANCE), ((EntityPlayerMP) event.getPlayer()).connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
     }
 }
