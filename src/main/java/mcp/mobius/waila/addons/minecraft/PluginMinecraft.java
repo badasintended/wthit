@@ -12,6 +12,7 @@ import net.minecraft.entity.EntityLeashKnot;
 import net.minecraft.entity.item.EntityItemFrame;
 import net.minecraft.entity.item.EntityMinecart;
 import net.minecraft.entity.item.EntityPainting;
+import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.tileentity.TileEntityFurnace;
 import net.minecraft.tileentity.TileEntityJukebox;
 import net.minecraft.tileentity.TileEntityMobSpawner;
@@ -33,6 +34,7 @@ public class PluginMinecraft implements IWailaPlugin {
     static final ResourceLocation CONFIG_COMPARATOR = new ResourceLocation("comparator");
     static final ResourceLocation CONFIG_REDSTONE = new ResourceLocation("redstone");
     static final ResourceLocation CONFIG_JUKEBOX = new ResourceLocation("jukebox");
+    static final ResourceLocation CONFIG_VILLAGER_PROFESSION = new ResourceLocation("villager_profession");
 
     @Override
     public void register(IRegistrar registrar) {
@@ -45,6 +47,7 @@ public class PluginMinecraft implements IWailaPlugin {
         registrar.addConfig(CONFIG_COMPARATOR, true);
         registrar.addConfig(CONFIG_REDSTONE, true);
         registrar.addConfig(CONFIG_JUKEBOX, true);
+        registrar.addConfig(CONFIG_VILLAGER_PROFESSION, true);
 
         registrar.registerTooltipRenderer(RENDER_ITEM, new TooltipRendererStack());
         registrar.registerTooltipRenderer(RENDER_SPACER, new TooltipRendererSpacer());
@@ -67,6 +70,9 @@ public class PluginMinecraft implements IWailaPlugin {
         registrar.registerEntityStackProvider(HUDHandlerEntityIcon.INSTANCE, EntityItemFrame.class);
         registrar.registerEntityStackProvider(HUDHandlerEntityIcon.INSTANCE, EntityPainting.class);
         registrar.registerEntityStackProvider(HUDHandlerEntityIcon.INSTANCE, EntityLeashKnot.class);
+        registrar.registerComponentProvider(HUDHandlerVillager.INSTANCE, TooltipPosition.HEAD, EntityVillager.class);
+        registrar.registerComponentProvider(HUDHandlerVillager.INSTANCE, TooltipPosition.BODY, EntityVillager.class);
+        registrar.registerEntityDataProvider(HUDHandlerVillager.INSTANCE, EntityVillager.class);
         registrar.registerComponentProvider(HUDHandlerFurnace.INSTANCE, TooltipPosition.BODY, TileEntityFurnace.class);
         registrar.registerBlockDataProvider(HUDHandlerFurnace.INSTANCE, TileEntityFurnace.class);
     }

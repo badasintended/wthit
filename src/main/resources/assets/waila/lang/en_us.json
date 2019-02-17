@@ -12,6 +12,7 @@
   "tooltip.waila.power": "Power: %d",
   "tooltip.waila.health": "%s/%s Health",
   "tooltip.waila.sneak_for_details":  "Sneak for details",
+  "tooltip.waila.villager_profession":  "Profession: %s",
 
   "gui.waila.configuration": "%s Configuration",
   "gui.waila.waila_settings": "%s Settings",
@@ -67,6 +68,7 @@
   "config.waila.plugin_minecraft.comparator": "Comparator Mode",
   "config.waila.plugin_minecraft.redstone": "Power Level",
   "config.waila.plugin_minecraft.jukebox": "Active Record",
+  "config.waila.plugin_minecraft.villager_profession": "Villager Profession",
 
   "config.waila.plugin_waila": "Waila",
   "config.waila.plugin_waila.show_registry": "Show Registry Names",
