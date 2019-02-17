@@ -30,14 +30,14 @@ minecraft {
     runs {
         client = {
             properties 'forge.logging.markers': 'REGISTRIES,REGISTRYDUMP'
-            properties 'forge.logging.console.level': 'debug'
+            properties 'forge.logging.console.level': 'info'
             properties 'username': 'Hwyla'
             workingDirectory project.file('run').canonicalPath
             source sourceSets.main
         }
         server = {
             properties 'forge.logging.markers': 'REGISTRIES,REGISTRYDUMP'
-            properties 'forge.logging.console.level': 'debug'
+            properties 'forge.logging.console.level': 'info'
             workingDirectory project.file('run/server').canonicalPath
             source sourceSets.main
         }

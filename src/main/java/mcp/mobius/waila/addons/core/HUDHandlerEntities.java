@@ -16,9 +16,9 @@ public class HUDHandlerEntities implements IEntityComponentProvider {
 
     @Override
     public void appendHead(List<ITextComponent> tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        ((ITaggedList<ITextComponent, ResourceLocation>) tooltip).add(new TextComponentString(String.format(Waila.CONFIG.get().getFormatting().getEntityName(), accessor.getEntity().getDisplayName().getFormattedText())), HUDHandlerBlocks.OBJECT_NAME_TAG);
+        ((ITaggableList<ResourceLocation, ITextComponent>) tooltip).setTag(HUDHandlerBlocks.OBJECT_NAME_TAG, new TextComponentString(String.format(Waila.CONFIG.get().getFormatting().getEntityName(), accessor.getEntity().getDisplayName().getFormattedText())));
         if (config.get(PluginCore.CONFIG_SHOW_REGISTRY))
-            ((ITaggedList<ITextComponent, ResourceLocation>) tooltip).add(new TextComponentString(accessor.getEntity().getType().getRegistryName().toString()).setStyle(new Style().setColor(TextFormatting.GRAY)), HUDHandlerBlocks.REGISTRY_NAME_TAG);
+            ((ITaggableList<ResourceLocation, ITextComponent>) tooltip).setTag(HUDHandlerBlocks.REGISTRY_NAME_TAG, new TextComponentString(accessor.getEntity().getType().getRegistryName().toString()).setStyle(new Style().setColor(TextFormatting.GRAY)));
     }
 
     @Override

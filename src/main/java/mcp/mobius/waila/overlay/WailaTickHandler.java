@@ -2,11 +2,10 @@ package mcp.mobius.waila.overlay;
 
 import com.mojang.text2speech.Narrator;
 import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.api.ITaggableList;
 import mcp.mobius.waila.api.TooltipPosition;
 import mcp.mobius.waila.api.event.WailaTooltipEvent;
-import mcp.mobius.waila.api.impl.DataAccessor;
-import mcp.mobius.waila.api.impl.MetaDataProvider;
-import mcp.mobius.waila.api.impl.TaggedList;
+import mcp.mobius.waila.api.impl.*;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.entity.Entity;
@@ -34,10 +33,6 @@ public class WailaTickHandler {
     public Tooltip tooltip = null;
     public MetaDataProvider handler = new MetaDataProvider();
 
-    public void renderOverlay() {
-        OverlayRenderer.renderOverlay();
-    }
-
     public void tickClient() {
         if (!Waila.CONFIG.get().getGeneral().shouldDisplayTooltip())
             return;
@@ -53,10 +48,10 @@ public class WailaTickHandler {
             RayTracing.INSTANCE.fire();
             RayTraceResult target = RayTracing.INSTANCE.getTarget();
 
-            List<ITextComponent> currentTip = new TaggedList<ITextComponent, ResourceLocation>();
-            List<ITextComponent> currentTipHead = new TaggedList<ITextComponent, ResourceLocation>();
-            List<ITextComponent> currentTipBody = new TaggedList<ITextComponent, ResourceLocation>();
-            List<ITextComponent> currentTipTail = new TaggedList<ITextComponent, ResourceLocation>();
+            List<ITextComponent> currentTip = new TaggableList<>(TaggedTextComponent::new);
+            List<ITextComponent> currentTipHead = new TaggableList<>(TaggedTextComponent::new);
+            List<ITextComponent> currentTipBody = new TaggableList<>(TaggedTextComponent::new);
+            List<ITextComponent> currentTipTail = new TaggableList<>(TaggedTextComponent::new);
 
             if (target != null && target.type == RayTraceResult.Type.BLOCK) {
                 DataAccessor accessor = DataAccessor.INSTANCE;
@@ -99,9 +94,9 @@ public class WailaTickHandler {
             currentTipBody.add(new TextComponentTranslation("tooltip.waila.sneak_for_details").setStyle(new Style().setItalic(true)));
         }
 
-        currentTip.addAll(currentTipHead);
-        currentTip.addAll(currentTipBody);
-        currentTip.addAll(currentTipTail);
+        ((ITaggableList<ResourceLocation, ITextComponent>) currentTip).absorb((ITaggableList<ResourceLocation, ITextComponent>) currentTipHead);
+        ((ITaggableList<ResourceLocation, ITextComponent>) currentTip).absorb((ITaggableList<ResourceLocation, ITextComponent>) currentTipBody);
+        ((ITaggableList<ResourceLocation, ITextComponent>) currentTip).absorb((ITaggableList<ResourceLocation, ITextComponent>) currentTipTail);
     }
 
     private static Narrator getNarrator() {

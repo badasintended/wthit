@@ -7,6 +7,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
@@ -18,11 +19,13 @@ import java.util.List;
 
 public class HUDHandlerVillager implements IEntityComponentProvider, IServerDataProvider<Entity> {
 
+    static final ResourceLocation OBJECT_NAME_TAG = new ResourceLocation(Waila.MODID, "object_name");
+    static final ResourceLocation VILLAGER_PROFESSION_TAG = new ResourceLocation(Waila.MODID, "villager_profession");
     static final HUDHandlerVillager INSTANCE = new HUDHandlerVillager();
 
     @Override
     public void appendHead(List<ITextComponent> tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        tooltip.set(0, new TextComponentString(String.format(Waila.CONFIG.get().getFormatting().getEntityName(), I18n.format("entity.minecraft.villager"))));
+        ((ITaggableList<ResourceLocation, ITextComponent>) tooltip).setTag(OBJECT_NAME_TAG, new TextComponentString(String.format(Waila.CONFIG.get().getFormatting().getEntityName(), I18n.format("entity.minecraft.villager"))));
     }
 
     @Override
@@ -32,7 +35,7 @@ public class HUDHandlerVillager implements IEntityComponentProvider, IServerData
             int careerId = accessor.getServerData().getInt("career");
             VillagerRegistry.VillagerCareer career = villager.getProfessionForge().getCareer(careerId);
             ITextComponent profession = new TextComponentTranslation("entity.minecraft.villager" + (career.getName().equals("nitwit") ? ".none" : "." + career.getName()));
-            tooltip.add(new TextComponentTranslation("tooltip.waila.villager_profession", profession));
+            ((ITaggableList<ResourceLocation, ITextComponent>) tooltip).setTag(VILLAGER_PROFESSION_TAG, new TextComponentTranslation("tooltip.waila.villager_profession", profession));
         }
     }
 
