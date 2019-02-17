@@ -3,6 +3,7 @@ package mcp.mobius.waila.utils;
 import com.google.common.collect.Maps;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.ModList;
@@ -38,7 +39,8 @@ public class ModIdentification {
     }
 
     public static Info getModInfo(Entity entity) {
-        return getModInfo(entity.getType().getRegistryName());
+        ResourceLocation registryName = entity.getType().getRegistryName();
+        return registryName == null ? MC_MOD_INFO : getModInfo(registryName);
     }
 
     public static class Info {
