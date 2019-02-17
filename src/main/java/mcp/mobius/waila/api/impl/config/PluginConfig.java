@@ -1,6 +1,7 @@
 package mcp.mobius.waila.api.impl.config;
 
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -78,7 +79,24 @@ public class PluginConfig implements IPluginConfig {
                 config = Maps.newHashMap();
             }
 
-            config.forEach((namespace, subMap) -> subMap.forEach((path, value) -> set(new ResourceLocation(namespace, path), value)));
+            Set<ResourceLocation> found = Sets.newHashSet();
+            config.forEach((namespace, subMap) -> subMap.forEach((path, value) -> {
+                ResourceLocation id = new ResourceLocation(namespace, path);
+                set(id, value);
+                found.add(id);
+            }));
+
+            Set<ResourceLocation> allKeys = getKeys();
+            boolean flag = false;
+            for (ResourceLocation id : allKeys) {
+                if (!found.contains(id)) {
+                    set(id, getEntry(id).getDefaultValue());
+                    flag = true;
+                }
+            }
+
+            if (flag)
+                save();
         }
     }
 
