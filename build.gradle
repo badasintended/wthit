@@ -44,6 +44,19 @@ minecraft {
     }
 }
 
+processResources {
+    inputs.property "version", project.version
+
+    from(sourceSets.main.resources.srcDirs) {
+        include '**/*.toml'
+
+        expand 'version': project.version
+    }
+    from(sourceSets.main.resources.srcDirs) {
+        exclude '**/*.toml'
+    }
+}
+
 repositories {
 
 }
@@ -55,18 +68,29 @@ dependencies {
 // Combine main and API source sets
 jar {
     from sourceSets.main.output
+    manifest {
+        attributes(["Specification-Title": "Hwyla",
+                    "Specification-Vendor": "TehNut",
+                    "Specification-Version": "1", // We are version 1 of ourselves
+                    "Implementation-Title": project.name,
+                    "Implementation-Version": "${version}",
+                    "Implementation-Vendor" :"TehNut",
+                    "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")],)
+    }
 }
 
 // API jar
 task apiJar(type: Jar) {
     classifier = 'api'
-//    from sourceSets.api.output
+    include 'mcp/mobius/waila/api/**/*'
+    exclude 'mcp/mobius/waila/api/impl/**/*'
+    from sourceSets.main.allSource
+    from sourceSets.main.output
 }
 
 task sourcesJar(type: Jar) {
     classifier = 'sources'
     from sourceSets.main.allJava
-//    from sourceSets.api.allJava
 }
 
 tasks.build.dependsOn apiJar, sourcesJar

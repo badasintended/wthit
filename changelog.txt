@@ -1,4 +1,26 @@
 ------------------------------------------------------
+Version 1.10.0
+------------------------------------------------------
+
+- Initial port to 1.13.2 on Forge
+- Modders beware: There are several API changes to bring it up to modern standards. Notable changes include
+    - Tooltips are now backed by `ITextComponent` instead of `String`
+    - `ITaggedList` has been reworked to be much easier to work with
+        - See `HUDHandlerVillager#appendHead(...)` for an example of how to replace an existing tagged line
+    - Config values are now namespaced
+        - See `PluginCore` or `PluginMinecraft` for examples
+    - Tooltip renderers are now namespaced
+        - See `PluginCore` or `PluginMinecraft` for examples
+    - Some classes were renamed to remove the "Waila" identifier
+    - `getNBTData(...)` in `IWailaDataProvider` was moved to `IServerDataProvider`
+        - See `HUDHandlerFurnace` or `HUDHandlerVillager` in the default Minecraft plugin for block/entity examples
+    - Registration methods for data providers have been flattened into a single method (`registerComponentProvider`) with a position parameter
+        - See `PluginCore` or `PluginMinecraft` for examples
+    - There is now a way to display a stack for an entity (`registerEntityStackProvider`)
+
+When in doubt, check the javadocs.
+
+------------------------------------------------------
 Version 1.9.9
 ------------------------------------------------------
 

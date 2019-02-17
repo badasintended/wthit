@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[0,)"
+loaderVersion="[25,)"
 issueTrackerURL="https://github.com/TehNut/Hwyla/issues"
 displayURL="https://github.com/TehNut/Hwyla"
 authors="TehNut, ProfMobius"
@@ -15,12 +15,12 @@ authors="TehNut, ProfMobius"
 [[dependencies.waila]]
     modId="forge"
     mandatory=true
-    versionRange="[15.24.0.0,)"
+    versionRange="[25,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.waila]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.13,1.14)"
+    versionRange="[1.13.2]"
     ordering="NONE"
     side="BOTH"

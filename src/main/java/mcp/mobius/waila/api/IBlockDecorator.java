@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
  *
  * @author ProfMobius
  */
+// TODO implement
 public interface IBlockDecorator {
 
     /**
