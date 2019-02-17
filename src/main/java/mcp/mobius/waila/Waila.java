@@ -8,6 +8,7 @@ import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.api.impl.config.PluginConfig;
 import mcp.mobius.waila.api.impl.config.WailaConfig;
 import mcp.mobius.waila.command.CommandDumpHandlers;
+import mcp.mobius.waila.gui.GuiConfigHome;
 import mcp.mobius.waila.network.MessageReceiveData;
 import mcp.mobius.waila.network.MessageRequestEntity;
 import mcp.mobius.waila.network.MessageRequestTile;
@@ -21,6 +22,7 @@ import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.client.settings.KeyModifier;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ExtensionPoint;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
@@ -80,6 +82,8 @@ public class Waila {
         ClientRegistry.registerKeyBinding(WailaClient.openConfig.getKeyBinding());
         ClientRegistry.registerKeyBinding(WailaClient.showOverlay.getKeyBinding());
         ClientRegistry.registerKeyBinding(WailaClient.toggleLiquid.getKeyBinding());
+
+        ModList.get().getModContainerById(MODID).ifPresent(c -> c.registerExtensionPoint(ExtensionPoint.CONFIGGUIFACTORY, () -> (mc, parent) -> new GuiConfigHome(parent)));
     }
 
     @SubscribeEvent
