@@ -29,6 +29,7 @@ public class MessageReceiveData {
             context.get().enqueueWork(() -> {
                 DataAccessor.INSTANCE.setServerData(message.tag);
             });
+            context.get().setPacketHandled(true);
         }
     }
 }

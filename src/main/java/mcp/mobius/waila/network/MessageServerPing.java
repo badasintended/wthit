@@ -56,6 +56,7 @@ public class MessageServerPing {
                 message.forcedKeys.forEach(PluginConfig.INSTANCE::set);
                 Waila.LOGGER.info("Received config from the server: {}", new Gson().toJson(message.forcedKeys));
             });
+            context.get().setPacketHandled(true);
         }
     }
 }

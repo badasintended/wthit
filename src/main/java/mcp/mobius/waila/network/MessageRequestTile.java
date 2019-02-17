@@ -70,6 +70,7 @@ public class MessageRequestTile {
 
                 Waila.NETWORK.sendTo(new MessageReceiveData(tag), player.connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
             });
+            context.get().setPacketHandled(true);
         }
     }
 }
