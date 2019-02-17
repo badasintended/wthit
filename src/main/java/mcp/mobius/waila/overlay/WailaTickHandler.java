@@ -19,12 +19,13 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import java.util.List;
 
-@Mod.EventBusSubscriber(modid = Waila.MODID)
+@Mod.EventBusSubscriber(modid = Waila.MODID, value = Dist.CLIENT)
 public class WailaTickHandler {
 
     public static WailaTickHandler INSTANCE = new WailaTickHandler();
