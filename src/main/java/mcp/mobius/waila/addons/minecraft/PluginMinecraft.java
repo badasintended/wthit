@@ -3,6 +3,7 @@ package mcp.mobius.waila.addons.minecraft;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.TooltipPosition;
+import mcp.mobius.waila.api.WailaPlugin;
 import mcp.mobius.waila.overlay.tooltiprenderers.TooltipRendererProgressBar;
 import mcp.mobius.waila.overlay.tooltiprenderers.TooltipRendererSpacer;
 import mcp.mobius.waila.overlay.tooltiprenderers.TooltipRendererStack;
@@ -16,6 +17,7 @@ import net.minecraft.tileentity.TileEntityJukebox;
 import net.minecraft.tileentity.TileEntityMobSpawner;
 import net.minecraft.util.ResourceLocation;
 
+@WailaPlugin
 public class PluginMinecraft implements IWailaPlugin {
 
     static final ResourceLocation RENDER_ITEM = new ResourceLocation("item");

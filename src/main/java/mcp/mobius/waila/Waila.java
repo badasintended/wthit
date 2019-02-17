@@ -1,6 +1,10 @@
 package mcp.mobius.waila;
 
 import com.google.gson.GsonBuilder;
+import mcp.mobius.waila.addons.core.PluginCore;
+import mcp.mobius.waila.api.IWailaPlugin;
+import mcp.mobius.waila.api.WailaPlugin;
+import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.api.impl.config.PluginConfig;
 import mcp.mobius.waila.api.impl.config.WailaConfig;
 import mcp.mobius.waila.command.CommandDumpHandlers;
@@ -17,10 +21,13 @@ import net.minecraftforge.client.settings.KeyConflictContext;
 import net.minecraftforge.client.settings.KeyModifier;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.network.NetworkDirection;
@@ -43,12 +50,15 @@ public class Waila {
     public static final JsonConfig<WailaConfig> CONFIG = new JsonConfig<>(MODID + "/" + MODID, WailaConfig.class)
             .withGson(new GsonBuilder()
                     .setPrettyPrinting()
+                    .registerTypeAdapter(WailaConfig.ConfigOverlay.ConfigOverlayColor.class, new WailaConfig.ConfigOverlay.ConfigOverlayColor.Adapter())
+                    .registerTypeAdapter(ResourceLocation.class, new ResourceLocation.Serializer())
                     .create()
             );
 
     public Waila() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setupClient);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::loadComplete);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::serverStarting);
         MinecraftForge.EVENT_BUS.register(this);
     }
@@ -66,6 +76,36 @@ public class Waila {
         WailaClient.openConfig = new KeyBinding("key.waila.config", KeyConflictContext.IN_GAME, KeyModifier.NONE, InputMappings.Type.KEYSYM.getOrMakeInput(320), Waila.NAME);
         WailaClient.showOverlay = new KeyBinding("key.waila.display", KeyConflictContext.IN_GAME, KeyModifier.NONE, InputMappings.Type.KEYSYM.getOrMakeInput(321), Waila.NAME);
         WailaClient.toggleLiquid = new KeyBinding("key.waila.toggle_liquid", KeyConflictContext.IN_GAME, KeyModifier.NONE, InputMappings.Type.KEYSYM.getOrMakeInput(322), Waila.NAME);
+
+        ClientRegistry.registerKeyBinding(WailaClient.openConfig.getKeyBinding());
+        ClientRegistry.registerKeyBinding(WailaClient.showOverlay.getKeyBinding());
+        ClientRegistry.registerKeyBinding(WailaClient.toggleLiquid.getKeyBinding());
+    }
+
+    @SubscribeEvent
+    public void loadComplete(FMLLoadCompleteEvent event) {
+        new PluginCore().register(WailaRegistrar.INSTANCE);
+        ModList.get().getAllScanData().forEach(scan -> {
+            scan.getAnnotations().forEach(a -> {
+                if (a.getAnnotationType().getClassName().equals(WailaPlugin.class.getName())) {
+                    String required = (String) a.getAnnotationData().getOrDefault("value", "");
+                    if (required.isEmpty() || ModList.get().isLoaded(required)) {
+                        try {
+                            Class<?> clazz = Class.forName(a.getMemberName());
+                            if (IWailaPlugin.class.isAssignableFrom(clazz)) {
+                                IWailaPlugin plugin = (IWailaPlugin) clazz.newInstance();
+                                plugin.register(WailaRegistrar.INSTANCE);
+                                LOGGER.info("Registered plugin at {}", a.getMemberName());
+                            }
+                        } catch (Exception e) {
+                            LOGGER.error("Error loading plugin at {}", a.getMemberName(), e);
+                        }
+                    }
+                }
+            });
+        });
+
+        PluginConfig.INSTANCE.reload();
     }
 
     @SubscribeEvent

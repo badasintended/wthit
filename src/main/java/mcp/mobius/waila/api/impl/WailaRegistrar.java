@@ -240,9 +240,4 @@ public class WailaRegistrar implements IRegistrar {
                 return true;
         return false;
     }
-
-    @Deprecated
-    public static WailaRegistrar instance() {
-        return INSTANCE;
-    }
 }
