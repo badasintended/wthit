@@ -6,8 +6,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IPluginConfig;
-import net.fabricmc.loader.FabricLoader;
-import net.minecraft.util.Identifier;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.loading.FMLPaths;
 
 import java.io.File;
 import java.io.FileReader;
@@ -22,7 +22,7 @@ public class PluginConfig implements IPluginConfig {
 
     public static final PluginConfig INSTANCE = new PluginConfig();
 
-    private final Map<Identifier, ConfigEntry> configs;
+    private final Map<ResourceLocation, ConfigEntry> configs;
 
     private PluginConfig() {
         this.configs = Maps.newHashMap();
@@ -33,17 +33,17 @@ public class PluginConfig implements IPluginConfig {
     }
 
     @Override
-    public Set<Identifier> getKeys(String namespace) {
+    public Set<ResourceLocation> getKeys(String namespace) {
         return getKeys().stream().filter(id -> id.getNamespace().equals(namespace)).collect(Collectors.toSet());
     }
 
     @Override
-    public Set<Identifier> getKeys() {
+    public Set<ResourceLocation> getKeys() {
         return configs.keySet();
     }
 
     @Override
-    public boolean get(Identifier key, boolean defaultValue) {
+    public boolean get(ResourceLocation key, boolean defaultValue) {
         ConfigEntry entry = configs.get(key);
         return entry == null ? defaultValue : entry.getValue();
     }
@@ -53,20 +53,20 @@ public class PluginConfig implements IPluginConfig {
     }
 
     public List<String> getNamespaces() {
-        return configs.keySet().stream().sorted((o1, o2) -> o1.getNamespace().compareToIgnoreCase(o2.getNamespace())).map(Identifier::getNamespace).distinct().collect(Collectors.toList());
+        return configs.keySet().stream().sorted((o1, o2) -> o1.getNamespace().compareToIgnoreCase(o2.getNamespace())).map(ResourceLocation::getNamespace).distinct().collect(Collectors.toList());
     }
 
-    public ConfigEntry getEntry(Identifier key) {
+    public ConfigEntry getEntry(ResourceLocation key) {
         return configs.get(key);
     }
 
-    public void set(Identifier key, boolean value) {
+    public void set(ResourceLocation key, boolean value) {
         ConfigEntry entry = configs.computeIfAbsent(key, k -> new ConfigEntry(k, value, true));
         entry.setValue(value);
     }
 
     public void reload() {
-        File configFile = new File(FabricLoader.INSTANCE.getConfigDirectory(), Waila.MODID + "/" + Waila.MODID + "_plugins.json");
+        File configFile = new File(FMLPaths.CONFIGDIR.get().toFile(), Waila.MODID + "/" + Waila.MODID + "_plugins.json");
 
         if (!configFile.exists()) { // Write defaults, but don't read
             writeConfig(configFile, true);
@@ -78,12 +78,12 @@ public class PluginConfig implements IPluginConfig {
                 config = Maps.newHashMap();
             }
 
-            config.forEach((namespace, subMap) -> subMap.forEach((path, value) -> set(new Identifier(namespace, path), value)));
+            config.forEach((namespace, subMap) -> subMap.forEach((path, value) -> set(new ResourceLocation(namespace, path), value)));
         }
     }
 
     public void save() {
-        File configFile = new File(FabricLoader.INSTANCE.getConfigDirectory(), Waila.MODID + "/" + Waila.MODID + "_plugins.json");
+        File configFile = new File(FMLPaths.CONFIGDIR.get().toFile(), Waila.MODID + "/" + Waila.MODID + "_plugins.json");
         writeConfig(configFile, false);
     }
 

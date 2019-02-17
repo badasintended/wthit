@@ -2,7 +2,7 @@ package mcp.mobius.waila.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import net.fabricmc.loader.FabricLoader;
+import net.minecraftforge.fml.loading.FMLPaths;
 
 import java.io.File;
 import java.io.FileReader;
@@ -19,7 +19,7 @@ public class JsonConfig<T> {
     private Gson gson = DEFAULT_GSON;
 
     public JsonConfig(String fileName, Class<T> configClass, Supplier<T> defaultFactory) {
-        this.configFile = new File(FabricLoader.INSTANCE.getConfigDirectory(), fileName + (fileName.endsWith(".json") ? "" : ".json"));
+        this.configFile = new File(FMLPaths.CONFIGDIR.get().toFile(), fileName + (fileName.endsWith(".json") ? "" : ".json"));
         this.configGetter = new CachedSupplier<>(() -> {
             if (!configFile.exists()) {
                 T def = defaultFactory.get();
@@ -60,6 +60,9 @@ public class JsonConfig<T> {
     }
 
     public void write(T t, boolean invalidate) {
+        if (!configFile.getParentFile().exists())
+            configFile.getParentFile().mkdirs();
+
         try (FileWriter writer = new FileWriter(configFile)) {
             writer.write(gson.toJson(t));
             if (invalidate)

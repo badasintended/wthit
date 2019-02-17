@@ -2,46 +2,62 @@ package mcp.mobius.waila;
 
 import mcp.mobius.waila.api.impl.config.WailaConfig;
 import mcp.mobius.waila.gui.GuiConfigHome;
-import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.keybinding.FabricKeyBinding;
-import net.fabricmc.fabric.api.client.keybinding.KeyBindingRegistry;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.util.InputUtil;
-import net.minecraft.util.Identifier;
+import mcp.mobius.waila.overlay.OverlayRenderer;
+import mcp.mobius.waila.overlay.WailaTickHandler;
+import mcp.mobius.waila.utils.ModIdentification;
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.extensions.IForgeKeybinding;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
+import net.minecraftforge.eventbus.api.EventPriority;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.gameevent.InputEvent;
+import net.minecraftforge.fml.common.gameevent.TickEvent;
 
-public class WailaClient implements ClientModInitializer {
+@Mod.EventBusSubscriber(modid = Waila.MODID, value = Dist.CLIENT)
+public class WailaClient {
 
-    public static FabricKeyBinding openConfig;
-    public static FabricKeyBinding showOverlay;
-    public static FabricKeyBinding toggleLiquid;
+    public static IForgeKeybinding openConfig;
+    public static IForgeKeybinding showOverlay;
+    public static IForgeKeybinding toggleLiquid;
 
-    @Override
-    public void onInitializeClient() {
-        KeyBindingRegistry.INSTANCE.addCategory(Waila.NAME);
-        openConfig = FabricKeyBinding.Builder.create(new Identifier(Waila.MODID, "config"), InputUtil.Type.KEY_KEYBOARD, 320, Waila.NAME).build(); // Num 0
-        showOverlay = FabricKeyBinding.Builder.create(new Identifier(Waila.MODID, "show_overlay"), InputUtil.Type.KEY_KEYBOARD, 321, Waila.NAME).build(); // Num 1
-        toggleLiquid = FabricKeyBinding.Builder.create(new Identifier(Waila.MODID, "toggle_liquid"), InputUtil.Type.KEY_KEYBOARD, 322, Waila.NAME).build(); // Num 2
-        KeyBindingRegistry.INSTANCE.register(openConfig);
-        KeyBindingRegistry.INSTANCE.register(showOverlay);
-        KeyBindingRegistry.INSTANCE.register(toggleLiquid);
-    }
-
-    public static void handleKeybinds() {
+    @SubscribeEvent
+    public static void onKeyPressed(InputEvent.KeyInputEvent event) {
         if (openConfig == null || showOverlay == null || toggleLiquid == null)
             return;
 
-        while (openConfig.wasPressed()) {
-            MinecraftClient.getInstance().openScreen(new GuiConfigHome(null));
+        while (openConfig.getKeyBinding().isPressed()) {
+            Minecraft.getInstance().displayGuiScreen(new GuiConfigHome(null));
         }
 
-        while (showOverlay.wasPressed()) {
+        while (showOverlay.getKeyBinding().isPressed()) {
             if (Waila.CONFIG.get().getGeneral().getDisplayMode() == WailaConfig.DisplayMode.TOGGLE) {
                 Waila.CONFIG.get().getGeneral().setDisplayTooltip(!Waila.CONFIG.get().getGeneral().shouldDisplayTooltip());
             }
         }
 
-        while (toggleLiquid.wasPressed()) {
+        while (toggleLiquid.getKeyBinding().isPressed()) {
             Waila.CONFIG.get().getGeneral().setDisplayFluids(!Waila.CONFIG.get().getGeneral().shouldDisplayFluids());
         }
+    }
+
+    @SubscribeEvent(priority = EventPriority.LOWEST)
+    public static void onTooltip(ItemTooltipEvent event) {
+        String name = String.format(Waila.CONFIG.get().getFormatting().getModName(), ModIdentification.getModInfo(event.getItemStack().getItem()).getName());
+        event.getToolTip().add(new TextComponentString(name));
+    }
+
+    @SubscribeEvent
+    public static void onRenderTick(TickEvent.RenderTickEvent event) {
+        if (event.phase == TickEvent.Phase.END)
+            OverlayRenderer.renderOverlay();
+    }
+
+    @SubscribeEvent
+    public static void onClientTick(TickEvent.ClientTickEvent event) {
+        if (event.phase == TickEvent.Phase.END)
+            WailaTickHandler.instance().tickClient();
     }
 }

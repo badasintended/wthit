@@ -7,21 +7,24 @@ import mcp.mobius.waila.api.event.WailaTooltipEvent;
 import mcp.mobius.waila.api.impl.DataAccessor;
 import mcp.mobius.waila.api.impl.MetaDataProvider;
 import mcp.mobius.waila.api.impl.TaggedList;
-import net.minecraft.block.Blocks;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.ingame.ChatScreen;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiChat;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.text.Style;
-import net.minecraft.text.TextComponent;
-import net.minecraft.text.TranslatableTextComponent;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.hit.HitResult;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.World;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 
 import java.util.List;
 
+@Mod.EventBusSubscriber(modid = Waila.MODID)
 public class WailaTickHandler {
 
     public static WailaTickHandler INSTANCE = new WailaTickHandler();
@@ -29,30 +32,6 @@ public class WailaTickHandler {
     private static String lastNarration = "";
     public Tooltip tooltip = null;
     public MetaDataProvider handler = new MetaDataProvider();
-
-    private WailaTickHandler() {
-        WailaTooltipEvent.WAILA_HANDLE_TOOLTIP.register(event -> {
-            if (!Waila.CONFIG.get().getGeneral().shouldDisplayTooltip())
-                return;
-
-            if (getNarrator().active() || !Waila.CONFIG.get().getGeneral().shouldEnableTextToSpeech())
-                return;
-
-            if (MinecraftClient.getInstance().currentScreen != null && !(MinecraftClient.getInstance().currentScreen instanceof ChatScreen))
-                return;
-
-            if (event.getAccessor().getBlock() == Blocks.AIR && event.getAccessor().getEntity() == null)
-                return;
-
-            String narrate = event.getCurrentTip().get(0).getFormattedText();
-            if (lastNarration.equalsIgnoreCase(narrate))
-                return;
-
-            getNarrator().clear();
-            getNarrator().say(narrate);
-            lastNarration = narrate;
-        });
-    }
 
     public void renderOverlay() {
         OverlayRenderer.renderOverlay();
@@ -62,23 +41,23 @@ public class WailaTickHandler {
         if (!Waila.CONFIG.get().getGeneral().shouldDisplayTooltip())
             return;
 
-        MinecraftClient client = MinecraftClient.getInstance();
+        Minecraft client = Minecraft.getInstance();
         World world = client.world;
-        PlayerEntity player = client.player;
+        EntityPlayer player = client.player;
 
-        if (client.keyboard == null)
+        if (client.keyboardListener == null)
             return;
 
         if (world != null && player != null) {
             RayTracing.INSTANCE.fire();
-            HitResult target = RayTracing.INSTANCE.getTarget();
+            RayTraceResult target = RayTracing.INSTANCE.getTarget();
 
-            List<TextComponent> currentTip = new TaggedList<TextComponent, Identifier>();
-            List<TextComponent> currentTipHead = new TaggedList<TextComponent, Identifier>();
-            List<TextComponent> currentTipBody = new TaggedList<TextComponent, Identifier>();
-            List<TextComponent> currentTipTail = new TaggedList<TextComponent, Identifier>();
+            List<ITextComponent> currentTip = new TaggedList<ITextComponent, ResourceLocation>();
+            List<ITextComponent> currentTipHead = new TaggedList<ITextComponent, ResourceLocation>();
+            List<ITextComponent> currentTipBody = new TaggedList<ITextComponent, ResourceLocation>();
+            List<ITextComponent> currentTipTail = new TaggedList<ITextComponent, ResourceLocation>();
 
-            if (target != null && target.getType() == HitResult.Type.BLOCK) {
+            if (target != null && target.type == RayTraceResult.Type.BLOCK) {
                 DataAccessor accessor = DataAccessor.INSTANCE;
                 accessor.set(world, player, target);
                 ItemStack targetStack = RayTracing.INSTANCE.getTargetStack(); // Here we get either the proper stack or the override
@@ -92,7 +71,7 @@ public class WailaTickHandler {
 
                     tooltip = new Tooltip(currentTip, !targetStack.isEmpty());
                 }
-            } else if (target != null && target.getType() == HitResult.Type.ENTITY) {
+            } else if (target != null && target.type == RayTraceResult.Type.ENTITY) {
                 DataAccessor accessor = DataAccessor.INSTANCE;
                 accessor.set(world, player, target);
 
@@ -113,10 +92,10 @@ public class WailaTickHandler {
 
     }
 
-    private void combinePositions(PlayerEntity player, List<TextComponent> currentTip, List<TextComponent> currentTipHead, List<TextComponent> currentTipBody, List<TextComponent> currentTipTail) {
+    private void combinePositions(EntityPlayer player, List<ITextComponent> currentTip, List<ITextComponent> currentTipHead, List<ITextComponent> currentTipBody, List<ITextComponent> currentTipTail) {
         if (Waila.CONFIG.get().getGeneral().shouldShiftForDetails() && !currentTipBody.isEmpty() && !player.isSneaking()) {
             currentTipBody.clear();
-            currentTipBody.add(new TranslatableTextComponent("tooltip.waila.sneak_for_details").setStyle(new Style().setItalic(true)));
+            currentTipBody.add(new TextComponentTranslation("tooltip.waila.sneak_for_details").setStyle(new Style().setItalic(true)));
         }
 
         currentTip.addAll(currentTipHead);
@@ -132,5 +111,28 @@ public class WailaTickHandler {
         if (INSTANCE == null)
             INSTANCE = new WailaTickHandler();
         return INSTANCE;
+    }
+
+    @SubscribeEvent
+    public static void onTooltip(WailaTooltipEvent event) {
+        if (!Waila.CONFIG.get().getGeneral().shouldDisplayTooltip())
+            return;
+
+        if (getNarrator().active() || !Waila.CONFIG.get().getGeneral().shouldEnableTextToSpeech())
+            return;
+
+        if (Minecraft.getInstance().currentScreen != null && !(Minecraft.getInstance().currentScreen instanceof GuiChat))
+            return;
+
+        if (event.getAccessor().getBlock() == Blocks.AIR && event.getAccessor().getEntity() == null)
+            return;
+
+        String narrate = event.getCurrentTip().get(0).getFormattedText();
+        if (lastNarration.equalsIgnoreCase(narrate))
+            return;
+
+        getNarrator().clear();
+        getNarrator().say(narrate);
+        lastNarration = narrate;
     }
 }

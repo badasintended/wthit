@@ -2,54 +2,59 @@ package mcp.mobius.waila.gui;
 
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.impl.config.PluginConfig;
-import net.minecraft.client.gui.Screen;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.resource.language.I18n;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.util.ResourceLocation;
 
-public class GuiConfigHome extends Screen {
+public class GuiConfigHome extends GuiScreen {
 
-    private final Screen parent;
+    private final GuiScreen parent;
     private String title = "Waila Configuration";
 
-    public GuiConfigHome(Screen parent) {
+    public GuiConfigHome(GuiScreen parent) {
         this.parent = parent;
     }
 
     @Override
-    protected void onInitialized() {
-        this.title = I18n.translate("gui.waila.configuration", Waila.NAME);
+    protected void initGui() {
+        this.title = I18n.format("gui.waila.configuration", Waila.NAME);
 
-        addButton(new ButtonWidget(1, width / 2 - 105, height / 2 - 10, 100, 20, I18n.translate("gui.waila.waila_settings", Waila.NAME)) {
+        addButton(new GuiButton(1, width / 2 - 105, height / 2 - 10, 100, 20, I18n.format("gui.waila.waila_settings", Waila.NAME)) {
             @Override
-            public void onPressed(double mouseX, double mouseY) {
-                client.openScreen(new GuiConfigWaila(GuiConfigHome.this));
+            public void onClick(double mouseX, double mouseY) {
+                mc.displayGuiScreen(new GuiConfigWaila(GuiConfigHome.this));
             }
         });
-        addButton(new ButtonWidget(2, width / 2 + 5, height / 2 - 10, 100, 20, I18n.translate("gui.waila.plugin_settings")) {
+        addButton(new GuiButton(2, width / 2 + 5, height / 2 - 10, 100, 20, I18n.format("gui.waila.plugin_settings")) {
             @Override
-            public void onPressed(double mouseX, double mouseY) {
-                client.openScreen(new GuiConfigPlugins(GuiConfigHome.this));
+            public void onClick(double mouseX, double mouseY) {
+                mc.displayGuiScreen(new GuiConfigPlugins(GuiConfigHome.this));
             }
         });
-        addButton(new ButtonWidget(3, width / 2 - 50, height / 2 + 20, 100, 20, I18n.translate("gui.done")) {
+        addButton(new GuiButton(3, width / 2 - 50, height / 2 + 20, 100, 20, I18n.format("gui.done")) {
             @Override
-            public void onPressed(double mouseX, double mouseY) {
+            public void onClick(double mouseX, double mouseY) {
                 Waila.CONFIG.save();
                 PluginConfig.INSTANCE.save();
-                client.openScreen(parent);
+                mc.displayGuiScreen(parent);
             }
         });
     }
 
     @Override
-    public void draw(int x, int y, float partialTicks) {
-        drawBackground();
-        drawStringCentered(fontRenderer, title, width / 2, height / 3, 16777215);
-        super.draw(x, y, partialTicks);
+    public void render(int x, int y, float partialTicks) {
+        drawDefaultBackground();
+        drawCenteredString(fontRenderer, title, width / 2, height / 3, 16777215);
+        super.render(x, y, partialTicks);
     }
 
     @Override
     public boolean keyPressed(int int_1, int int_2, int int_3) {
         return super.keyPressed(int_1, int_2, int_3);
+    }
+
+    public static String createTranslationKey(String type, ResourceLocation context) {
+        return type + "." + context.getNamespace() + "." + context.getPath().replace("/", ".");
     }
 }

@@ -1,106 +1,107 @@
 package mcp.mobius.waila.gui.config;
 
-import com.mojang.blaze3d.platform.GlStateManager;
 import mcp.mobius.waila.gui.GuiOptions;
 import mcp.mobius.waila.gui.config.value.OptionsEntryValue;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.Drawable;
-import net.minecraft.client.gui.GuiEventListener;
-import net.minecraft.client.gui.widget.EntryListWidget;
-import net.minecraft.client.render.BufferBuilder;
-import net.minecraft.client.render.Tessellator;
-import net.minecraft.client.render.VertexFormats;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiListExtended;
+import net.minecraft.client.gui.IGuiEventListener;
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.math.MathHelper;
 
-public class OptionsListWidget extends EntryListWidget<OptionsListWidget.Entry> {
+public class OptionsListWidget extends GuiListExtended<OptionsListWidget.Entry> {
 
     private final GuiOptions owner;
     private final Runnable diskWriter;
 
-    public OptionsListWidget(GuiOptions owner, MinecraftClient client, int x, int height, int width, int y, int entryHeight, Runnable diskWriter) {
+    public OptionsListWidget(GuiOptions owner, Minecraft client, int x, int height, int width, int y, int entryHeight, Runnable diskWriter) {
         super(client, x, height, width, y, entryHeight);
 
         this.owner = owner;
         this.diskWriter = diskWriter;
     }
 
-    public OptionsListWidget(GuiOptions owner, MinecraftClient client, int x, int height, int width, int y, int entryHeight) {
+    public OptionsListWidget(GuiOptions owner, Minecraft client, int x, int height, int width, int y, int entryHeight) {
         this(owner, client, x, height, width, y, entryHeight, null);
     }
 
     @Override
-    public int getEntryWidth() {
+    public int getListWidth() {
         return 250;
     }
 
     // The only difference here from super is the center background piece has been removed.
-    @Override
-    public void draw(int x, int y, float partialTicks) {
+    public void drawScreen(int mouseXIn, int mouseYIn, float partialTicks) {
         if (this.visible) {
             this.drawBackground();
-            int int_3 = this.getScrollbarPosition();
-            int int_4 = int_3 + 6;
-            this.clampScrollY();
+            int i = this.getScrollBarX();
+            int j = i + 6;
+            this.bindAmountScrolled();
             GlStateManager.disableLighting();
             GlStateManager.disableFog();
             Tessellator tessellator = Tessellator.getInstance();
-            BufferBuilder buffer = tessellator.getBufferBuilder();
-            this.client.getTextureManager().bindTexture(Drawable.OPTIONS_BG);
-            int int_5 = this.x1 + this.width / 2 - this.getEntryWidth() / 2 + 2;
-            int int_6 = this.y1 + 4 - (int)this.scrollY;
-            if (this.field_2170) {
-                this.method_1940(int_5, int_6, tessellator);
+            BufferBuilder bufferbuilder = tessellator.getBuffer();
+            // Nuked background rendering from this line
+            int k = this.left + this.width / 2 - this.getListWidth() / 2 + 2;
+            int l = this.top + 4 - (int)this.amountScrolled;
+            if (this.hasListHeader) {
+                this.drawListHeader(k, l, tessellator);
             }
 
-            this.drawEntries(int_5, int_6, x, y, partialTicks);
+            this.drawSelectionBox(k, l, mouseXIn, mouseYIn, partialTicks);
             GlStateManager.disableDepthTest();
-            this.method_1954(0, this.y1, 255, 255);
-            this.method_1954(this.y2, this.height, 255, 255);
+            this.overlayBackground(0, this.top, 255, 255);
+            this.overlayBackground(this.bottom, this.height, 255, 255);
             GlStateManager.enableBlend();
             GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ZERO, GlStateManager.DestFactor.ONE);
             GlStateManager.disableAlphaTest();
             GlStateManager.shadeModel(7425);
-            GlStateManager.disableTexture();
-            buffer.begin(7, VertexFormats.POSITION_UV_COLOR);
-            buffer.vertex((double)this.x1, (double)(this.y1 + 4), 0.0D).texture(0.0D, 1.0D).color(0, 0, 0, 0).next();
-            buffer.vertex((double)this.x2, (double)(this.y1 + 4), 0.0D).texture(1.0D, 1.0D).color(0, 0, 0, 0).next();
-            buffer.vertex((double)this.x2, (double)this.y1, 0.0D).texture(1.0D, 0.0D).color(0, 0, 0, 255).next();
-            buffer.vertex((double)this.x1, (double)this.y1, 0.0D).texture(0.0D, 0.0D).color(0, 0, 0, 255).next();
-
-            buffer.vertex((double)this.x1, (double)this.y2, 0.0D).texture(0.0D, 1.0D).color(0, 0, 0, 255).next();
-            buffer.vertex((double)this.x2, (double)this.y2, 0.0D).texture(1.0D, 1.0D).color(0, 0, 0, 255).next();
-            buffer.vertex((double)this.x2, (double)(this.y2 - 4), 0.0D).texture(1.0D, 0.0D).color(0, 0, 0, 0).next();
-            buffer.vertex((double)this.x1, (double)(this.y2 - 4), 0.0D).texture(0.0D, 0.0D).color(0, 0, 0, 0).next();
+            GlStateManager.disableTexture2D();
+            bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
+            bufferbuilder.pos((double)this.left, (double)(this.top + 4), 0.0D).tex(0.0D, 1.0D).color(0, 0, 0, 0).endVertex();
+            bufferbuilder.pos((double)this.right, (double)(this.top + 4), 0.0D).tex(1.0D, 1.0D).color(0, 0, 0, 0).endVertex();
+            bufferbuilder.pos((double)this.right, (double)this.top, 0.0D).tex(1.0D, 0.0D).color(0, 0, 0, 255).endVertex();
+            bufferbuilder.pos((double)this.left, (double)this.top, 0.0D).tex(0.0D, 0.0D).color(0, 0, 0, 255).endVertex();
             tessellator.draw();
-            int int_8 = this.getMaxScrollY();
-            if (int_8 > 0) {
-                int int_9 = (int)((float)((this.y2 - this.y1) * (this.y2 - this.y1)) / (float)this.getMaxScrollPosition());
-                int_9 = MathHelper.clamp(int_9, 32, this.y2 - this.y1 - 8);
-                int int_10 = (int)this.scrollY * (this.y2 - this.y1 - int_9) / int_8 + this.y1;
-                if (int_10 < this.y1) {
-                    int_10 = this.y1;
+            bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
+            bufferbuilder.pos((double)this.left, (double)this.bottom, 0.0D).tex(0.0D, 1.0D).color(0, 0, 0, 255).endVertex();
+            bufferbuilder.pos((double)this.right, (double)this.bottom, 0.0D).tex(1.0D, 1.0D).color(0, 0, 0, 255).endVertex();
+            bufferbuilder.pos((double)this.right, (double)(this.bottom - 4), 0.0D).tex(1.0D, 0.0D).color(0, 0, 0, 0).endVertex();
+            bufferbuilder.pos((double)this.left, (double)(this.bottom - 4), 0.0D).tex(0.0D, 0.0D).color(0, 0, 0, 0).endVertex();
+            tessellator.draw();
+            int j1 = this.getMaxScroll();
+            if (j1 > 0) {
+                int k1 = (int)((float)((this.bottom - this.top) * (this.bottom - this.top)) / (float)this.getContentHeight());
+                k1 = MathHelper.clamp(k1, 32, this.bottom - this.top - 8);
+                int l1 = (int)this.amountScrolled * (this.bottom - this.top - k1) / j1 + this.top;
+                if (l1 < this.top) {
+                    l1 = this.top;
                 }
 
-                buffer.begin(7, VertexFormats.POSITION_UV_COLOR);
-                buffer.vertex((double)int_3, (double)this.y2, 0.0D).texture(0.0D, 1.0D).color(0, 0, 0, 255).next();
-                buffer.vertex((double)int_4, (double)this.y2, 0.0D).texture(1.0D, 1.0D).color(0, 0, 0, 255).next();
-                buffer.vertex((double)int_4, (double)this.y1, 0.0D).texture(1.0D, 0.0D).color(0, 0, 0, 255).next();
-                buffer.vertex((double)int_3, (double)this.y1, 0.0D).texture(0.0D, 0.0D).color(0, 0, 0, 255).next();
-
-                buffer.vertex((double)int_3, (double)(int_10 + int_9), 0.0D).texture(0.0D, 1.0D).color(128, 128, 128, 255).next();
-                buffer.vertex((double)int_4, (double)(int_10 + int_9), 0.0D).texture(1.0D, 1.0D).color(128, 128, 128, 255).next();
-                buffer.vertex((double)int_4, (double)int_10, 0.0D).texture(1.0D, 0.0D).color(128, 128, 128, 255).next();
-                buffer.vertex((double)int_3, (double)int_10, 0.0D).texture(0.0D, 0.0D).color(128, 128, 128, 255).next();
-
-                buffer.vertex((double)int_3, (double)(int_10 + int_9 - 1), 0.0D).texture(0.0D, 1.0D).color(192, 192, 192, 255).next();
-                buffer.vertex((double)(int_4 - 1), (double)(int_10 + int_9 - 1), 0.0D).texture(1.0D, 1.0D).color(192, 192, 192, 255).next();
-                buffer.vertex((double)(int_4 - 1), (double)int_10, 0.0D).texture(1.0D, 0.0D).color(192, 192, 192, 255).next();
-                buffer.vertex((double)int_3, (double)int_10, 0.0D).texture(0.0D, 0.0D).color(192, 192, 192, 255).next();
+                bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
+                bufferbuilder.pos((double)i, (double)this.bottom, 0.0D).tex(0.0D, 1.0D).color(0, 0, 0, 255).endVertex();
+                bufferbuilder.pos((double)j, (double)this.bottom, 0.0D).tex(1.0D, 1.0D).color(0, 0, 0, 255).endVertex();
+                bufferbuilder.pos((double)j, (double)this.top, 0.0D).tex(1.0D, 0.0D).color(0, 0, 0, 255).endVertex();
+                bufferbuilder.pos((double)i, (double)this.top, 0.0D).tex(0.0D, 0.0D).color(0, 0, 0, 255).endVertex();
+                tessellator.draw();
+                bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
+                bufferbuilder.pos((double)i, (double)(l1 + k1), 0.0D).tex(0.0D, 1.0D).color(128, 128, 128, 255).endVertex();
+                bufferbuilder.pos((double)j, (double)(l1 + k1), 0.0D).tex(1.0D, 1.0D).color(128, 128, 128, 255).endVertex();
+                bufferbuilder.pos((double)j, (double)l1, 0.0D).tex(1.0D, 0.0D).color(128, 128, 128, 255).endVertex();
+                bufferbuilder.pos((double)i, (double)l1, 0.0D).tex(0.0D, 0.0D).color(128, 128, 128, 255).endVertex();
+                tessellator.draw();
+                bufferbuilder.begin(7, DefaultVertexFormats.POSITION_TEX_COLOR);
+                bufferbuilder.pos((double)i, (double)(l1 + k1 - 1), 0.0D).tex(0.0D, 1.0D).color(192, 192, 192, 255).endVertex();
+                bufferbuilder.pos((double)(j - 1), (double)(l1 + k1 - 1), 0.0D).tex(1.0D, 1.0D).color(192, 192, 192, 255).endVertex();
+                bufferbuilder.pos((double)(j - 1), (double)l1, 0.0D).tex(1.0D, 0.0D).color(192, 192, 192, 255).endVertex();
+                bufferbuilder.pos((double)i, (double)l1, 0.0D).tex(0.0D, 0.0D).color(192, 192, 192, 255).endVertex();
                 tessellator.draw();
             }
 
-            this.method_1942(x, y);
-            GlStateManager.enableTexture();
+            this.renderDecorations(mouseXIn, mouseYIn);
+            GlStateManager.enableTexture2D();
             GlStateManager.shadeModel(7424);
             GlStateManager.enableAlphaTest();
             GlStateManager.disableBlend();
@@ -108,7 +109,7 @@ public class OptionsListWidget extends EntryListWidget<OptionsListWidget.Entry> 
     }
 
     public void save() {
-        getEntries()
+        getChildren()
                 .stream()
                 .filter(e -> e instanceof OptionsEntryValue)
                 .map(e -> (OptionsEntryValue) e)
@@ -119,19 +120,19 @@ public class OptionsListWidget extends EntryListWidget<OptionsListWidget.Entry> 
 
     public void add(Entry entry) {
         if (entry instanceof OptionsEntryValue) {
-            GuiEventListener listener = ((OptionsEntryValue) entry).getListener();
+            IGuiEventListener listener = ((OptionsEntryValue) entry).getListener();
             if (listener != null)
                 owner.addListener(listener);
         }
         addEntry(entry);
     }
 
-    public abstract static class Entry extends EntryListWidget.Entry<Entry> {
+    public abstract static class Entry extends GuiListExtended.IGuiListEntry<Entry> {
 
-        protected final MinecraftClient client;
+        protected final Minecraft client;
 
         public Entry() {
-            this.client = MinecraftClient.getInstance();
+            this.client = Minecraft.getInstance();
         }
     }
 }

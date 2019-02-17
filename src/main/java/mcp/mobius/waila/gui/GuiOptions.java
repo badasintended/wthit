@@ -3,59 +3,59 @@ package mcp.mobius.waila.gui;
 import com.google.common.collect.Lists;
 import mcp.mobius.waila.gui.config.OptionsListWidget;
 import mcp.mobius.waila.gui.config.value.OptionsEntryValue;
-import net.minecraft.client.gui.GuiEventListener;
-import net.minecraft.client.gui.Screen;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.resource.language.I18n;
-import net.minecraft.text.TextComponent;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.IGuiEventListener;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.util.text.ITextComponent;
 
 import java.util.List;
 
-public abstract class GuiOptions extends Screen {
+public abstract class GuiOptions extends GuiScreen {
 
-    private final Screen parent;
-    private final TextComponent title;
+    private final GuiScreen parent;
+    private final ITextComponent title;
     private final Runnable saver;
     private final Runnable canceller;
     private OptionsListWidget options;
 
-    public GuiOptions(Screen parent, TextComponent title, Runnable saver, Runnable canceller) {
+    public GuiOptions(GuiScreen parent, ITextComponent title, Runnable saver, Runnable canceller) {
         this.parent = parent;
         this.title = title;
         this.saver = saver;
         this.canceller = canceller;
     }
 
-    public GuiOptions(Screen parent, TextComponent title) {
+    public GuiOptions(GuiScreen parent, ITextComponent title) {
         this(parent, title, null, null);
     }
 
     @Override
-    protected void onInitialized() {
+    protected void initGui() {
         options = getOptions();
-        listeners.add(options);
+        children.add(options);
         setFocused(options);
 
         if (saver != null && canceller != null) {
-            addButton(new ButtonWidget(1, width / 2 - 100, height - 25, 100, 20, I18n.translate("gui.done")) {
+            addButton(new GuiButton(1, width / 2 - 100, height - 25, 100, 20, I18n.format("gui.done")) {
                 @Override
-                public void onPressed(double mouseX, double mouseY) {
+                public void onClick(double mouseX, double mouseY) {
                     options.save();
                     saver.run();
                     close();
                 }
             });
-            addButton(new ButtonWidget(2, width / 2 + 5, height - 25, 100, 20, I18n.translate("gui.cancel")) {
+            addButton(new GuiButton(2, width / 2 + 5, height - 25, 100, 20, I18n.format("gui.cancel")) {
                 @Override
-                public void onPressed(double mouseX, double mouseY) {
+                public void onClick(double mouseX, double mouseY) {
                     canceller.run();
                     close();
                 }
             });
         } else {
-            addButton(new ButtonWidget(2, width / 2 - 50, height - 25, 100, 20, I18n.translate("gui.done")) {
+            addButton(new GuiButton(2, width / 2 - 50, height - 25, 100, 20, I18n.format("gui.done")) {
                 @Override
-                public void onPressed(double mouseX, double mouseY) {
+                public void onClick(double mouseX, double mouseY) {
                     options.save();
                     close();
                 }
@@ -64,32 +64,32 @@ public abstract class GuiOptions extends Screen {
     }
 
     @Override
-    public void draw(int mouseX, int mouseY, float partialTicks) {
-        drawBackground();
-        options.draw(mouseX, mouseY, partialTicks);
-        drawStringCentered(fontRenderer, title.getFormattedText(), width / 2, 12, 16777215);
-        super.draw(mouseX, mouseY, partialTicks);
+    public void render(int mouseX, int mouseY, float partialTicks) {
+        drawDefaultBackground();
+        options.drawScreen(mouseX, mouseY, partialTicks);
+        drawCenteredString(fontRenderer, title.getFormattedText(), width / 2, 12, 16777215);
+        super.render(mouseX, mouseY, partialTicks);
 
         if (mouseY < 32 || mouseY > height - 32)
             return;
 
-        int selectedIndex = options.getSelectedEntry(mouseX, mouseY);
-        if (selectedIndex < 0 || selectedIndex >= options.getEntries().size())
+        int selectedIndex = options.getEntryAt(mouseX, mouseY);
+        if (selectedIndex < 0 || selectedIndex >= options.getChildren().size())
             return;
 
-        OptionsListWidget.Entry entry = options.getEntries().get(selectedIndex);
+        OptionsListWidget.Entry entry = options.getChildren().get(selectedIndex);
         if (entry instanceof OptionsEntryValue) {
             OptionsEntryValue value = (OptionsEntryValue) entry;
 
-            if (I18n.hasTranslation(value.getDescription())) {
+            if (I18n.hasKey(value.getDescription())) {
                 int valueX = value.getX() + 10;
                 String title = value.getTitle().getFormattedText();
                 if (mouseX < valueX || mouseX > valueX + fontRenderer.getStringWidth(title))
                     return;
 
                 List<String> tooltip = Lists.newArrayList(title);
-                tooltip.addAll(fontRenderer.wrapStringToWidthAsList(I18n.translate(value.getDescription()), 200));
-                drawTooltip(tooltip, mouseX, mouseY);
+                tooltip.addAll(fontRenderer.listFormattedStringToWidth(I18n.format(value.getDescription()), 200));
+                drawHoveringText(tooltip, mouseX, mouseY);
             }
         }
     }
@@ -97,7 +97,7 @@ public abstract class GuiOptions extends Screen {
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (button == 0 && options.mouseClicked(mouseX, mouseY, button)) {
-            setActive(true);
+            setDragging(true);
             setFocused(options);
             return true;
         }
@@ -108,7 +108,7 @@ public abstract class GuiOptions extends Screen {
     @Override
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
         if (button == 0 && options.mouseReleased(mouseX, mouseY, button)) {
-            setActive(false);
+            setDragging(false);
             return true;
         }
 
@@ -117,11 +117,11 @@ public abstract class GuiOptions extends Screen {
 
     @Override
     public void close() {
-        client.openScreen(parent);
+        mc.displayGuiScreen(parent);
     }
 
-    public void addListener(GuiEventListener listener) {
-        listeners.add(listener);
+    public void addListener(IGuiEventListener listener) {
+        children.add(listener);
     }
 
     public abstract OptionsListWidget getOptions();

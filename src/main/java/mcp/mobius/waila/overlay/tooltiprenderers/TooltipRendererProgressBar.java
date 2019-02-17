@@ -4,26 +4,26 @@ import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.ITooltipRenderer;
 import mcp.mobius.waila.overlay.DisplayUtil;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.Minecraft;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.ResourceLocation;
 
 import java.awt.Dimension;
 
 public class TooltipRendererProgressBar implements ITooltipRenderer {
 
-    private static final Identifier SHEET = new Identifier(Waila.MODID, "textures/sprites.png");
+    private static final ResourceLocation SHEET = new ResourceLocation(Waila.MODID, "textures/sprites.png");
 
     @Override
-    public Dimension getSize(CompoundTag tag, ICommonAccessor accessor) {
+    public Dimension getSize(NBTTagCompound tag, ICommonAccessor accessor) {
         return new Dimension(26, 16);
     }
 
     @Override
-    public void draw(CompoundTag tag, ICommonAccessor accessor, int x, int y) {
+    public void draw(NBTTagCompound tag, ICommonAccessor accessor, int x, int y) {
         int currentValue = tag.getInt("progress");
 
-        MinecraftClient.getInstance().getTextureManager().bindTexture(SHEET);
+        Minecraft.getInstance().getTextureManager().bindTexture(SHEET);
 
         // Draws the "empty" background arrow
         DisplayUtil.drawTexturedModalRect(x + 2, y, 0, 16, 22, 16, 22, 16);

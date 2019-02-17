@@ -4,21 +4,18 @@ import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IEntityAccessor;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.hit.EntityHitResult;
-import net.minecraft.util.hit.HitResult;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
 public class DataAccessor implements ICommonAccessor, IDataAccessor, IEntityAccessor {
@@ -26,50 +23,50 @@ public class DataAccessor implements ICommonAccessor, IDataAccessor, IEntityAcce
     public static final DataAccessor INSTANCE = new DataAccessor();
 
     public World world;
-    public PlayerEntity player;
-    public HitResult hitResult;
+    public EntityPlayer player;
+    public RayTraceResult hitResult;
     public Vec3d renderingvec = null;
     public Block block = Blocks.AIR;
-    public BlockState state = Blocks.AIR.getDefaultState();
+    public IBlockState state = Blocks.AIR.getDefaultState();
     public BlockPos pos = BlockPos.ORIGIN;
-    public Identifier blockRegistryName = Registry.ITEM.getDefaultId();
-    public BlockEntity blockEntity;
+    public ResourceLocation blockRegistryName = Blocks.AIR.getRegistryName();
+    public TileEntity tileEntity;
     public Entity entity;
-    public CompoundTag serverData = null;
+    public NBTTagCompound serverData = null;
     public long timeLastUpdate = System.currentTimeMillis();
     public double partialFrame;
     public ItemStack stack = ItemStack.EMPTY;
 
-    public void set(World world, PlayerEntity player, HitResult hit) {
+    public void set(World world, EntityPlayer player, RayTraceResult hit) {
         this.set(world, player, hit, null, 0.0);
     }
 
-    public void set(World world, PlayerEntity player, HitResult hit, Entity viewEntity, double partialTicks) {
+    public void set(World world, EntityPlayer player, RayTraceResult hit, Entity viewEntity, double partialTicks) {
         this.world = world;
         this.player = player;
         this.hitResult = hit;
 
-        if (this.hitResult.getType() == HitResult.Type.BLOCK) {
-            this.pos = ((BlockHitResult) hit).getBlockPos();
+        if (this.hitResult.type == RayTraceResult.Type.BLOCK) {
+            this.pos = this.hitResult.getBlockPos();
             this.state = this.world.getBlockState(this.pos);
             this.block = this.state.getBlock();
-            this.blockEntity = this.world.getBlockEntity(this.pos);
+            this.tileEntity = this.world.getTileEntity(this.pos);
             this.entity = null;
-            this.blockRegistryName = Registry.BLOCK.getId(block);
-            this.stack = block.getPickStack(world, pos, state);
-        } else if (this.hitResult.getType() == HitResult.Type.ENTITY) {
-            this.entity = ((EntityHitResult) hit).getEntity();
+            this.blockRegistryName = block.getRegistryName();
+            this.stack = block.getPickBlock(state, hitResult, world, pos, player);
+        } else if (this.hitResult.type == RayTraceResult.Type.ENTITY) {
+            this.entity = hitResult.entity;
             this.pos = new BlockPos(entity);
             this.state = Blocks.AIR.getDefaultState();
             this.block = Blocks.AIR;
-            this.blockEntity = null;
+            this.tileEntity = null;
             this.stack = ItemStack.EMPTY;
         }
 
         if (viewEntity != null) {
-            double px = viewEntity.prevX + (viewEntity.x - viewEntity.prevX) * partialTicks;
-            double py = viewEntity.prevY + (viewEntity.y - viewEntity.prevY) * partialTicks;
-            double pz = viewEntity.prevZ + (viewEntity.z - viewEntity.prevZ) * partialTicks;
+            double px = viewEntity.prevPosX + (viewEntity.posX - viewEntity.prevPosX) * partialTicks;
+            double py = viewEntity.prevPosY + (viewEntity.posY - viewEntity.prevPosY) * partialTicks;
+            double pz = viewEntity.prevPosZ + (viewEntity.posZ - viewEntity.prevPosZ) * partialTicks;
             this.renderingvec = new Vec3d(this.pos.getX() - px, this.pos.getY() - py, this.pos.getZ() - pz);
             this.partialFrame = partialTicks;
         }
@@ -81,7 +78,7 @@ public class DataAccessor implements ICommonAccessor, IDataAccessor, IEntityAcce
     }
 
     @Override
-    public PlayerEntity getPlayer() {
+    public EntityPlayer getPlayer() {
         return this.player;
     }
 
@@ -91,13 +88,13 @@ public class DataAccessor implements ICommonAccessor, IDataAccessor, IEntityAcce
     }
 
     @Override
-    public BlockState getBlockState() {
+    public IBlockState getBlockState() {
         return this.state;
     }
 
     @Override
-    public BlockEntity getBlockEntity() {
-        return this.blockEntity;
+    public TileEntity getTileEntity() {
+        return this.tileEntity;
     }
 
     @Override
@@ -110,7 +107,7 @@ public class DataAccessor implements ICommonAccessor, IDataAccessor, IEntityAcce
         return this.pos;
     }
 
-    public HitResult getHitResult() {
+    public RayTraceResult getHitResult() {
         return this.hitResult;
     }
 
@@ -120,27 +117,27 @@ public class DataAccessor implements ICommonAccessor, IDataAccessor, IEntityAcce
     }
 
     @Override
-    public CompoundTag getServerData() {
-        if ((this.blockEntity != null) && this.isTagCorrectTileEntity(this.serverData))
+    public NBTTagCompound getServerData() {
+        if ((this.tileEntity != null) && this.isTagCorrectTileEntity(this.serverData))
             return serverData;
 
         if ((this.entity != null) && this.isTagCorrectEntity(this.serverData))
             return serverData;
 
-        if (this.blockEntity != null)
-            return blockEntity.toTag(new CompoundTag());
+        if (this.tileEntity != null)
+            return tileEntity.write(new NBTTagCompound());
 
         if (this.entity != null)
-            return entity.toTag(new CompoundTag());
+            return entity.writeWithoutTypeId(new NBTTagCompound());
 
-        return new CompoundTag();
+        return new NBTTagCompound();
     }
 
-    public void setServerData(CompoundTag tag) {
+    public void setServerData(NBTTagCompound tag) {
         this.serverData = tag;
     }
 
-    private boolean isTagCorrectTileEntity(CompoundTag tag) {
+    private boolean isTagCorrectTileEntity(NBTTagCompound tag) {
         if (tag == null) {
             this.timeLastUpdate = System.currentTimeMillis() - 250;
             return false;
@@ -150,7 +147,7 @@ public class DataAccessor implements ICommonAccessor, IDataAccessor, IEntityAcce
         int y = tag.getInt("y");
         int z = tag.getInt("z");
 
-        BlockPos hitPos = ((BlockHitResult) hitResult).getBlockPos();
+        BlockPos hitPos = hitResult.getBlockPos();
         if (x == hitPos.getX() && y == hitPos.getY() && z == hitPos.getZ())
             return true;
         else {
@@ -159,8 +156,8 @@ public class DataAccessor implements ICommonAccessor, IDataAccessor, IEntityAcce
         }
     }
 
-    private boolean isTagCorrectEntity(CompoundTag tag) {
-        if (tag == null || !tag.containsKey("WailaEntityID")) {
+    private boolean isTagCorrectEntity(NBTTagCompound tag) {
+        if (tag == null || !tag.contains("WailaEntityID")) {
             this.timeLastUpdate = System.currentTimeMillis() - 250;
             return false;
         }
@@ -181,8 +178,8 @@ public class DataAccessor implements ICommonAccessor, IDataAccessor, IEntityAcce
     }
 
     @Override
-    public Direction getSide() {
-        return hitResult == null ? null : hitResult.getType() == HitResult.Type.ENTITY ? null : ((BlockHitResult) hitResult).getSide();
+    public EnumFacing getSide() {
+        return hitResult == null ? null : hitResult.type == RayTraceResult.Type.ENTITY ? null : hitResult.sideHit;
     }
 
     @Override
@@ -199,7 +196,7 @@ public class DataAccessor implements ICommonAccessor, IDataAccessor, IEntityAcce
     }
 
     @Override
-    public Identifier getBlockId() {
+    public ResourceLocation getBlockId() {
         return blockRegistryName;
     }
 }

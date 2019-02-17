@@ -1,19 +1,18 @@
 package mcp.mobius.waila.overlay;
 
-import com.mojang.blaze3d.platform.GlStateManager;
-import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.FontRenderer;
-import net.minecraft.client.gui.Drawable;
-import net.minecraft.client.item.TooltipOptions;
-import net.minecraft.client.render.BufferBuilder;
-import net.minecraft.client.render.Tessellator;
-import net.minecraft.client.render.VertexFormats;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
-import net.minecraft.text.StringTextComponent;
-import net.minecraft.text.TextComponent;
-import net.minecraft.text.TextFormat;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -23,15 +22,15 @@ public class DisplayUtil {
 
     private static final String[] NUM_SUFFIXES = new String[]{"", "k", "m", "b", "t"};
     private static final int MAX_LENGTH = 4;
-    private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
+    private static final Minecraft CLIENT = Minecraft.getInstance();
 
     public static void renderStack(int x, int y, ItemStack stack) {
         enable3DRender();
         try {
-            CLIENT.getItemRenderer().renderGuiItemIcon(stack, x, y);
+            CLIENT.getItemRenderer().renderItemIntoGUI(stack, x, y);
             ItemStack overlayRender = stack.copy();
-            overlayRender.setAmount(1);
-            CLIENT.getItemRenderer().renderGuiItemOverlay(CLIENT.fontRenderer, overlayRender, x, y);
+            overlayRender.setCount(1);
+            CLIENT.getItemRenderer().renderItemOverlayIntoGUI(CLIENT.fontRenderer, overlayRender, x, y, null);
             renderStackSize(CLIENT.fontRenderer, stack, x, y);
         } catch (Exception e) {
             String stackStr = stack != null ? stack.toString() : "NullStack";
@@ -41,16 +40,16 @@ public class DisplayUtil {
     }
 
     public static void renderStackSize(FontRenderer fr, ItemStack stack, int xPosition, int yPosition) {
-        if (!stack.isEmpty() && stack.getAmount() != 1) {
-            String s = shortHandNumber(stack.getAmount());
+        if (!stack.isEmpty() && stack.getCount() != 1) {
+            String s = shortHandNumber(stack.getCount());
 
-            if (stack.getAmount() < 1)
-                s = TextFormat.RED + String.valueOf(stack.getAmount());
+            if (stack.getCount() < 1)
+                s = TextFormatting.RED + String.valueOf(stack.getCount());
 
             GlStateManager.disableLighting();
             GlStateManager.disableDepthTest();
             GlStateManager.disableBlend();
-            fr.drawWithShadow(s, (float) (xPosition + 19 - 2 - fr.getStringWidth(s)), (float) (yPosition + 6 + 3), 16777215);
+            fr.drawStringWithShadow(s, (float) (xPosition + 19 - 2 - fr.getStringWidth(s)), (float) (yPosition + 6 + 3), 16777215);
             GlStateManager.enableLighting();
             GlStateManager.enableDepthTest();
             GlStateManager.enableBlend();
@@ -87,23 +86,23 @@ public class DisplayUtil {
         float f5 = (float) (endColor >> 16 & 255) / 255.0F;
         float f6 = (float) (endColor >> 8 & 255) / 255.0F;
         float f7 = (float) (endColor & 255) / 255.0F;
-        GlStateManager.disableTexture();
+        GlStateManager.disableTexture2D();
         GlStateManager.enableBlend();
         GlStateManager.disableAlphaTest();
         GlStateManager.blendFuncSeparate(770, 771, 1, 0);
         GlStateManager.shadeModel(7425);
         Tessellator tessellator = Tessellator.getInstance();
-        BufferBuilder buffer = tessellator.getBufferBuilder();
-        buffer.begin(7, VertexFormats.POSITION_COLOR);
-        buffer.vertex((double) (left + right), (double) top, (double) zLevel).color(f1, f2, f3, f).next();
-        buffer.vertex((double) left, (double) top, (double) zLevel).color(f1, f2, f3, f).next();
-        buffer.vertex((double) left, (double) (top + bottom), (double) zLevel).color(f5, f6, f7, f4).next();
-        buffer.vertex((double) (left + right), (double) (top + bottom), (double) zLevel).color(f5, f6, f7, f4).next();
+        BufferBuilder buffer = tessellator.getBuffer();
+        buffer.begin(7, DefaultVertexFormats.POSITION_COLOR);
+        buffer.pos((double) (left + right), (double) top, (double) zLevel).color(f1, f2, f3, f).endVertex();
+        buffer.pos((double) left, (double) top, (double) zLevel).color(f1, f2, f3, f).endVertex();
+        buffer.pos((double) left, (double) (top + bottom), (double) zLevel).color(f5, f6, f7, f4).endVertex();
+        buffer.pos((double) (left + right), (double) (top + bottom), (double) zLevel).color(f5, f6, f7, f4).endVertex();
         tessellator.draw();
         GlStateManager.shadeModel(7424);
         GlStateManager.disableBlend();
         GlStateManager.enableAlphaTest();
-        GlStateManager.enableTexture();
+        GlStateManager.enableTexture2D();
     }
 
     public static void drawTexturedModalRect(int x, int y, int textureX, int textureY, int width, int height, int tw, int th) {
@@ -111,26 +110,19 @@ public class DisplayUtil {
         float f1 = 0.00390625F;
         float zLevel = 0.0F;
         Tessellator tessellator = Tessellator.getInstance();
-        BufferBuilder buffer = tessellator.getBufferBuilder();
-        buffer.begin(7, VertexFormats.POSITION_UV);
-        buffer.vertex((double) (x), (double) (y + height), (double) zLevel).texture((double) ((float) (textureX) * f), (double) ((float) (textureY + th) * f1)).next();
-        buffer.vertex((double) (x + width), (double) (y + height), (double) zLevel).texture((double) ((float) (textureX + tw) * f), (double) ((float) (textureY + th) * f1)).next();
-        buffer.vertex((double) (x + width), (double) (y), (double) zLevel).texture((double) ((float) (textureX + tw) * f), (double) ((float) (textureY) * f1)).next();
-        buffer.vertex((double) (x), (double) (y), (double) zLevel).texture((double) ((float) (textureX) * f), (double) ((float) (textureY) * f1)).next();
+        BufferBuilder buffer = tessellator.getBuffer();
+        buffer.begin(7, DefaultVertexFormats.POSITION_TEX);
+        buffer.pos((double) (x), (double) (y + height), (double) zLevel).tex((double) ((float) (textureX) * f), (double) ((float) (textureY + th) * f1)).endVertex();
+        buffer.pos((double) (x + width), (double) (y + height), (double) zLevel).tex((double) ((float) (textureX + tw) * f), (double) ((float) (textureY + th) * f1)).endVertex();
+        buffer.pos((double) (x + width), (double) (y), (double) zLevel).tex((double) ((float) (textureX + tw) * f), (double) ((float) (textureY) * f1)).endVertex();
+        buffer.pos((double) (x), (double) (y), (double) zLevel).tex((double) ((float) (textureX) * f), (double) ((float) (textureY) * f1)).endVertex();
         tessellator.draw();
     }
 
-    public static void drawString(String text, int x, int y, int colour, boolean shadow) {
-        if (shadow)
-            CLIENT.fontRenderer.drawWithShadow(text, x, y, colour);
-        else
-            CLIENT.fontRenderer.draw(text, x, y, colour);
-    }
-
-    public static List<TextComponent> itemDisplayNameMultiline(ItemStack itemstack) {
-        List<TextComponent> namelist = null;
+    public static List<ITextComponent> itemDisplayNameMultiline(ItemStack itemstack) {
+        List<ITextComponent> namelist = null;
         try {
-            namelist = itemstack.getTooltipText(CLIENT.player, TooltipOptions.Instance.NORMAL);
+            namelist = itemstack.getTooltip(CLIENT.player, ITooltipFlag.TooltipFlags.NORMAL);
         } catch (Throwable ignored) {
         }
 
@@ -138,23 +130,18 @@ public class DisplayUtil {
             namelist = new ArrayList<>();
 
         if (namelist.isEmpty())
-            namelist.add(new StringTextComponent("Unnamed"));
+            namelist.add(new TextComponentString("Unnamed"));
 
-        namelist.set(0, new StringTextComponent(itemstack.getRarity().formatting.toString() + namelist.get(0)));
+        namelist.set(0, new TextComponentString(itemstack.getRarity().color.toString() + namelist.get(0)));
         for (int i = 1; i < namelist.size(); i++)
             namelist.set(i, namelist.get(i));
 
         return namelist;
     }
 
-    public static String itemDisplayNameShort(ItemStack itemstack) {
-        List<TextComponent> list = itemDisplayNameMultiline(itemstack);
-        return String.format(Waila.CONFIG.get().getFormatting().getBlockName(), list.get(0).getFormattedText());
-    }
-
     public static void renderIcon(int x, int y, int sx, int sy, IconUI icon) {
         GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        CLIENT.getTextureManager().bindTexture(Drawable.ICONS);
+        CLIENT.getTextureManager().bindTexture(Gui.ICONS);
 
         if (icon == null)
             return;

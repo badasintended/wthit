@@ -6,9 +6,10 @@ import mcp.mobius.waila.api.RenderableTextComponent;
 import mcp.mobius.waila.api.event.WailaTooltipEvent;
 import mcp.mobius.waila.api.impl.DataAccessor;
 import mcp.mobius.waila.api.impl.config.WailaConfig;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.util.Window;
-import net.minecraft.text.TextComponent;
+import net.minecraft.client.MainWindow;
+import net.minecraft.client.Minecraft;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraftforge.common.MinecraftForge;
 
 import java.awt.Dimension;
 import java.awt.Rectangle;
@@ -16,16 +17,16 @@ import java.util.List;
 
 public class Tooltip {
 
-    private final MinecraftClient client;
+    private final Minecraft client;
     private final List<Line> lines;
     private final boolean showItem;
     private final Dimension totalSize;
 
-    public Tooltip(List<TextComponent> components, boolean showItem) {
+    public Tooltip(List<ITextComponent> components, boolean showItem) {
         WailaTooltipEvent event = new WailaTooltipEvent(components, DataAccessor.INSTANCE);
-        WailaTooltipEvent.WAILA_HANDLE_TOOLTIP.invoker().onTooltip(event);
+        MinecraftForge.EVENT_BUS.post(event);
 
-        this.client = MinecraftClient.getInstance();
+        this.client = Minecraft.getInstance();
         this.lines = Lists.newArrayList();
         this.showItem = showItem;
         this.totalSize = new Dimension();
@@ -34,7 +35,7 @@ public class Tooltip {
         addPadding();
     }
 
-    public void computeLines(List<TextComponent> components) {
+    public void computeLines(List<ITextComponent> components) {
         components.forEach(c -> {
             Dimension size = getLineSize(c);
             totalSize.setSize(Math.max(totalSize.width, size.width), totalSize.height + size.height);
@@ -65,13 +66,13 @@ public class Tooltip {
                     xOffset += size.width;
                 }
             } else {
-                client.fontRenderer.drawWithShadow(line.getComponent().getFormattedText(), position.x, position.y, color.getFontColor());
+                client.fontRenderer.drawStringWithShadow(line.getComponent().getFormattedText(), position.x, position.y, color.getFontColor());
             }
             position.y += line.size.height;
         }
     }
 
-    private Dimension getLineSize(TextComponent component) {
+    private Dimension getLineSize(ITextComponent component) {
         if (component instanceof RenderableTextComponent) {
             RenderableTextComponent renderable = (RenderableTextComponent) component;
             List<RenderableTextComponent.RenderContainer> renderers = renderable.getRenderers();
@@ -89,7 +90,7 @@ public class Tooltip {
             return new Dimension(width, height);
         }
 
-        return new Dimension(client.fontRenderer.getStringWidth(component.getFormattedText()), client.fontRenderer.fontHeight + 1);
+        return new Dimension(client.fontRenderer.getStringWidth(component.getFormattedText()), client.fontRenderer.FONT_HEIGHT + 1);
     }
 
     public List<Line> getLines() {
@@ -101,7 +102,7 @@ public class Tooltip {
     }
 
     public Rectangle getPosition() {
-        Window window = MinecraftClient.getInstance().window;
+        MainWindow window = Minecraft.getInstance().mainWindow;
         return new Rectangle(
                 (int) (window.getScaledWidth() * Waila.CONFIG.get().getOverlay().getOverlayPosX() - totalSize.width / 2), // Center it
                 (int) (window.getScaledHeight() * (1.0F - Waila.CONFIG.get().getOverlay().getOverlayPosY())),
@@ -112,15 +113,15 @@ public class Tooltip {
 
     public static class Line {
 
-        private final TextComponent component;
+        private final ITextComponent component;
         private final Dimension size;
 
-        public Line(TextComponent component, Dimension size) {
+        public Line(ITextComponent component, Dimension size) {
             this.component = component;
             this.size = size;
         }
 
-        public TextComponent getComponent() {
+        public ITextComponent getComponent() {
             return component;
         }
 

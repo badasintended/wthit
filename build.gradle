@@ -1,45 +1,78 @@
+buildscript {
+    repositories {
+        maven { url = 'https://files.minecraftforge.net/maven' }
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+    }
+}
 plugins {
-    id "com.matthewprenger.cursegradle" version "1.1.2"
-    id 'fabric-loom' version '0.2.0-SNAPSHOT'
+    id "com.matthewprenger.cursegradle" version "1.0.10"
     id "maven-publish"
 }
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+apply plugin: 'net.minecraftforge.gradle'
 
-def build_number = System.getenv('BUILD_NUMBER') != null ? System.getenv('BUILD_NUMBER') : 'CUSTOM'
+def build_number = 'CUSTOM'
 
-group = package_group
-archivesBaseName = "${mod_name}-fabric"
-version = "${mc_version}-${mod_version}-${build_number}"
+if (System.getenv('BUILD_NUMBER') != null)
+    build_number = System.getenv('BUILD_NUMBER')
+
+version = "${waila_version}-B${build_number}_${mc_version}"
+group = "mcp.mobius.waila"
+archivesBaseName = "Hwyla"
 
 minecraft {
-    refmapName = mod_name.toLowerCase() + '-refmap.json'
+    mappings channel: 'snapshot', version: "20190216-1.13.1" // FIXME - Use properties when Forge fixes lack of GString support
+
+    runs {
+        client = {
+            properties 'forge.logging.markers': 'REGISTRIES,REGISTRYDUMP'
+            properties 'forge.logging.console.level': 'debug'
+            properties 'username': 'Hwyla'
+            workingDirectory project.file('run').canonicalPath
+            source sourceSets.main
+        }
+        server = {
+            properties 'forge.logging.markers': 'REGISTRIES,REGISTRYDUMP'
+            properties 'forge.logging.console.level': 'debug'
+            workingDirectory project.file('run/server').canonicalPath
+            source sourceSets.main
+        }
+    }
 }
 
 repositories {
-    maven { url "https://tehnut.info/maven" }
+
 }
 
 dependencies {
-    minecraft "com.mojang:minecraft:${snapshot_version}"
-    mappings "net.fabricmc:yarn:${snapshot_version}.${mappings_version}"
-    modCompile "net.fabricmc:fabric-loader:${loader_version}"
-    modCompile "net.fabricmc:fabric:${api_version}"
-    modCompile "info.tehnut.pluginloader:plugin-loader:${plugin_loader_version}"
+    minecraft "net.minecraftforge:forge:${mc_version}-${forge_version}"
+}
+
+// Combine main and API source sets
+jar {
+    from sourceSets.main.output
+}
+
+// API jar
+task apiJar(type: Jar) {
+    classifier = 'api'
+//    from sourceSets.api.output
 }
 
 task sourcesJar(type: Jar) {
-    from sourceSets.main.allJava
     classifier = 'sources'
+    from sourceSets.main.allJava
+//    from sourceSets.api.allJava
 }
 
-task apiJar(type: Jar) {
-    from sourceSets.main.allSource
-    from sourceSets.main.output
-    include 'mcp/mobius/waila/api/**/*'
-    exclude 'mcp/mobius/waila/api/impl/**/*'
-    classifier = 'api'
+tasks.build.dependsOn apiJar, sourcesJar
+
+tasks.withType(JavaCompile) { task ->
+    task.options.encoding = 'UTF-8'
 }
 
 publishing {
@@ -57,30 +90,6 @@ publishing {
         } else {
             mavenLocal()
         }
-    }
-}
-
-def curseRelations = {
-    optionalLibrary 'pluginloader'
-    requiredLibrary 'fabric'
-}
-
-curseforge {
-    if (project.hasProperty('curse_key_TehNut'))
-        apiKey = project.curse_key_TehNut
-
-    project {
-        id = "${curse_id}"
-        changelog = getChangelogText()
-        releaseType = 'release'
-
-        relations curseRelations
-
-        gameVersionStrings.clear()
-        gameVersionStrings.add("1.14-Snapshot")
-
-        addArtifact sourcesJar
-        addArtifact apiJar
     }
 }
 
@@ -107,4 +116,18 @@ String getChangelogText() {
         done = true // once we go past the first version block, parse no more
     }
     return str
+}
+
+curseforge {
+    if (project.hasProperty('curse_key_TehNut'))
+        apiKey = project.curse_key_TehNut
+
+    project {
+        id = "${curse_id}"
+        changelog = getChangelogText()
+        releaseType = 'release'
+
+        addArtifact sourcesJar
+        addArtifact apiJar
+    }
 }

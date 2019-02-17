@@ -4,15 +4,14 @@ import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IComponentProvider;
-import net.minecraft.block.Blocks;
-import net.minecraft.client.resource.language.I18n;
+import net.minecraft.client.resources.I18n;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.text.StringTextComponent;
-import net.minecraft.text.Style;
-import net.minecraft.text.TextComponent;
-import net.minecraft.text.TextFormat;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.Style;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextFormatting;
 
 import java.util.List;
 
@@ -31,9 +30,9 @@ public class HUDHandlerFluids implements IComponentProvider {
     }
 
     @Override
-    public void appendHead(List<TextComponent> tooltip, IDataAccessor accessor, IPluginConfig config) {
-        tooltip.add(new StringTextComponent(String.format(Waila.CONFIG.get().getFormatting().getFluidName(), I18n.translate(accessor.getBlock().getTranslationKey()))));
+    public void appendHead(List<ITextComponent> tooltip, IDataAccessor accessor, IPluginConfig config) {
+        tooltip.add(new TextComponentString(String.format(Waila.CONFIG.get().getFormatting().getFluidName(), I18n.format(accessor.getBlock().getTranslationKey()))));
         if (config.get(PluginCore.CONFIG_SHOW_REGISTRY))
-            tooltip.add(new StringTextComponent(Registry.BLOCK.getId(accessor.getBlock()).toString()).setStyle(new Style().setColor(TextFormat.GRAY)));
+            tooltip.add(new TextComponentString(accessor.getBlock().getRegistryName().toString()).setStyle(new Style().setColor(TextFormatting.GRAY)));
     }
 }

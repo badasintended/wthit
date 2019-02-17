@@ -5,9 +5,9 @@ import com.google.common.collect.Maps;
 import mcp.mobius.waila.api.*;
 import mcp.mobius.waila.api.impl.config.ConfigEntry;
 import mcp.mobius.waila.api.impl.config.PluginConfig;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.util.Identifier;
+import net.minecraft.entity.Entity;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 
 import java.util.*;
 
@@ -17,15 +17,15 @@ public class WailaRegistrar implements IRegistrar {
 
     final Map<Class, List<IComponentProvider>> blockStackProviders;
     final EnumMap<TooltipPosition, Map<Class, List<IComponentProvider>>> blockComponentProviders;
-    final Map<Class, List<IServerDataProvider<BlockEntity>>> blockDataProviders;
+    final Map<Class, List<IServerDataProvider<TileEntity>>> blockDataProviders;
 
     final Map<Class, List<IEntityComponentProvider>> entityOverrideProviders;
     final Map<Class, List<IEntityComponentProvider>> entityStackProviders;
     final EnumMap<TooltipPosition, Map<Class, List<IEntityComponentProvider>>> entityComponentProviders;
-    final Map<Class, List<IServerDataProvider<LivingEntity>>> entityDataProviders;
+    final Map<Class, List<IServerDataProvider<Entity>>> entityDataProviders;
 
     final Map<Class, List<IBlockDecorator>> blockDecorators;
-    final Map<Identifier, ITooltipRenderer> tooltipRenderers;
+    final Map<ResourceLocation, ITooltipRenderer> tooltipRenderers;
 
     WailaRegistrar() {
         blockStackProviders = Maps.newLinkedHashMap();
@@ -49,12 +49,12 @@ public class WailaRegistrar implements IRegistrar {
     /* CONFIG HANDLING */
 
     @Override
-    public void addConfig(Identifier key, boolean defaultValue) {
+    public void addConfig(ResourceLocation key, boolean defaultValue) {
         PluginConfig.INSTANCE.addConfig(new ConfigEntry(key, defaultValue, false));
     }
 
     @Override
-    public void addSyncedConfig(Identifier key, boolean defaultValue) {
+    public void addSyncedConfig(ResourceLocation key, boolean defaultValue) {
         PluginConfig.INSTANCE.addConfig(new ConfigEntry(key, defaultValue, true));
     }
 
@@ -71,7 +71,7 @@ public class WailaRegistrar implements IRegistrar {
     }
 
     @Override
-    public void registerBlockDataProvider(IServerDataProvider<BlockEntity> dataProvider, Class block) {
+    public void registerBlockDataProvider(IServerDataProvider<TileEntity> dataProvider, Class block) {
         registerProvider(dataProvider, block, blockDataProviders);
     }
 
@@ -90,7 +90,7 @@ public class WailaRegistrar implements IRegistrar {
         registerProvider(dataProvider, entity, entityComponentProviders.get(position));
     }
 
-    public void registerEntityDataProvider(IServerDataProvider<LivingEntity> dataProvider, Class entity) {
+    public void registerEntityDataProvider(IServerDataProvider<Entity> dataProvider, Class entity) {
         registerProvider(dataProvider, entity, entityDataProviders);
     }
 
@@ -101,7 +101,7 @@ public class WailaRegistrar implements IRegistrar {
     }
 
     @Override
-    public void registerTooltipRenderer(Identifier id, ITooltipRenderer renderer) {
+    public void registerTooltipRenderer(ResourceLocation id, ITooltipRenderer renderer) {
         this.tooltipRenderers.put(id, renderer);
     }
 
@@ -134,7 +134,7 @@ public class WailaRegistrar implements IRegistrar {
         return getProviders(block, blockStackProviders);
     }
 
-    public Map<Integer, List<IServerDataProvider<BlockEntity>>> getNBTProviders(Object block) {
+    public Map<Integer, List<IServerDataProvider<TileEntity>>> getNBTProviders(Object block) {
         return getProviders(block, blockDataProviders);
     }
 
@@ -158,7 +158,7 @@ public class WailaRegistrar implements IRegistrar {
         return getProviders(entity, entityStackProviders);
     }
 
-    public Map<Integer, List<IServerDataProvider<LivingEntity>>> getNBTEntityProviders(Object entity) {
+    public Map<Integer, List<IServerDataProvider<Entity>>> getNBTEntityProviders(Object entity) {
         return getProviders(entity, entityDataProviders);
     }
 
@@ -166,7 +166,7 @@ public class WailaRegistrar implements IRegistrar {
         return getProviders(block, blockDecorators);
     }
 
-    public ITooltipRenderer getTooltipRenderer(Identifier id) {
+    public ITooltipRenderer getTooltipRenderer(ResourceLocation id) {
         return this.tooltipRenderers.get(id);
     }
 

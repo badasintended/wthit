@@ -1,9 +1,9 @@
 package mcp.mobius.waila.api;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.util.hit.HitResult;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 
@@ -19,15 +19,15 @@ public interface IEntityAccessor {
 
     World getWorld();
 
-    PlayerEntity getPlayer();
+    EntityPlayer getPlayer();
 
     Entity getEntity();
 
-    HitResult getHitResult();
+    RayTraceResult getHitResult();
 
     Vec3d getRenderingPosition();
 
-    CompoundTag getServerData();
+     NBTTagCompound getServerData();
 
     double getPartialFrame();
 }

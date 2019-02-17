@@ -1,28 +1,28 @@
 package mcp.mobius.waila.gui.config.value;
 
 import mcp.mobius.waila.gui.config.OptionsListWidget;
-import net.minecraft.client.gui.GuiEventListener;
-import net.minecraft.text.TextComponent;
-import net.minecraft.text.TranslatableTextComponent;
+import net.minecraft.client.gui.IGuiEventListener;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
 
 import java.util.function.Consumer;
 
 public abstract class OptionsEntryValue<T> extends OptionsListWidget.Entry {
 
-    private final TextComponent title;
+    private final ITextComponent title;
     private final String description;
     protected final Consumer<T> save;
     protected T value;
 
     public OptionsEntryValue(String optionName, Consumer<T> save) {
-        this.title = new TranslatableTextComponent(optionName);
+        this.title = new TextComponentTranslation(optionName);
         this.description = optionName + "_desc";
         this.save = save;
     }
 
     @Override
-    public final void draw(int entryWidth, int entryHeight, int mouseX, int mouseY, boolean selected, float partialTicks) {
-        client.fontRenderer.drawWithShadow(title.getFormattedText(), getX() + 10, getY() + (entryHeight / 4) + (client.fontRenderer.fontHeight / 2), 16777215);
+    public final void drawEntry(int entryWidth, int entryHeight, int mouseX, int mouseY, boolean selected, float partialTicks) {
+        client.fontRenderer.drawStringWithShadow(title.getFormattedText(), getX() + 10, getY() + (entryHeight / 4) + (client.fontRenderer.FONT_HEIGHT / 2), 16777215);
         drawValue(entryWidth, entryHeight, getX(), getY(), mouseX, mouseY, selected, partialTicks);
     }
 
@@ -30,11 +30,11 @@ public abstract class OptionsEntryValue<T> extends OptionsListWidget.Entry {
         save.accept(value);
     }
 
-    public GuiEventListener getListener() {
+    public IGuiEventListener getListener() {
         return null;
     }
 
-    public TextComponent getTitle() {
+    public ITextComponent getTitle() {
         return title;
     }
 

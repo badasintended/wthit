@@ -3,19 +3,19 @@ package mcp.mobius.waila.api;
 import com.google.common.collect.Lists;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
-import net.fabricmc.fabric.api.util.NbtType;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringTag;
-import net.minecraft.sortme.JsonLikeTagParser;
-import net.minecraft.text.StringTextComponent;
-import net.minecraft.util.Identifier;
+import net.minecraft.nbt.JsonToNBT;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.nbt.NBTTagString;
+import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.TextComponentString;
+import net.minecraftforge.common.util.Constants;
 
 import java.util.List;
 
-public class RenderableTextComponent extends StringTextComponent {
+public class RenderableTextComponent extends TextComponentString {
 
-    public RenderableTextComponent(Identifier id, CompoundTag data) {
+    public RenderableTextComponent(ResourceLocation id, NBTTagCompound data) {
         super(getRenderString(id, data));
     }
 
@@ -25,69 +25,69 @@ public class RenderableTextComponent extends StringTextComponent {
 
     public List<RenderContainer> getRenderers() {
         List<RenderContainer> renderers = Lists.newArrayList();
-        CompoundTag data = getData();
-        if (data.containsKey("renders")) {
-            ListTag list = data.getList("renders", NbtType.STRING);
+        NBTTagCompound data = getData();
+        if (data.contains("renders")) {
+            NBTTagList list = data.getList("renders", Constants.NBT.TAG_STRING);
             list.forEach(t -> {
-                StringTag stringTag = (StringTag) t;
+                NBTTagString stringTag = (NBTTagString) t;
                 try {
-                    CompoundTag tag = JsonLikeTagParser.parse(stringTag.asString());
-                    Identifier id = new Identifier(tag.getString("id"));
-                    CompoundTag dataTag = tag.getCompound("data");
+                    NBTTagCompound tag = JsonToNBT.getTagFromJson(stringTag.getString());
+                    ResourceLocation id = new ResourceLocation(tag.getString("id"));
+                    NBTTagCompound dataTag = tag.getCompound("data");
                     renderers.add(new RenderContainer(id, dataTag));
                 } catch (CommandSyntaxException e) {
                     // no-op
                 }
             });
         } else {
-            Identifier id = new Identifier(data.getString("id"));
-            CompoundTag dataTag = data.getCompound("data");
+            ResourceLocation id = new ResourceLocation(data.getString("id"));
+            NBTTagCompound dataTag = data.getCompound("data");
             renderers.add(new RenderContainer(id, dataTag));
         }
 
         return renderers;
     }
 
-    private CompoundTag getData() {
+    private NBTTagCompound getData() {
         try {
-            return JsonLikeTagParser.parse(getFormattedText());
+            return JsonToNBT.getTagFromJson(getFormattedText());
         } catch (CommandSyntaxException e) {
-            return new CompoundTag();
+            return new NBTTagCompound();
         }
     }
 
-    private static String getRenderString(Identifier id, CompoundTag data) {
-        CompoundTag renderData = new CompoundTag();
+    private static String getRenderString(ResourceLocation id, NBTTagCompound data) {
+        NBTTagCompound renderData = new NBTTagCompound();
         renderData.putString("id", id.toString());
         renderData.put("data", data);
         return renderData.toString();
     }
 
     private static String getRenderString(RenderableTextComponent... components) {
-        CompoundTag container = new CompoundTag();
-        ListTag renderData = new ListTag();
+        NBTTagCompound container = new NBTTagCompound();
+        NBTTagList renderData = new NBTTagList();
         for (RenderableTextComponent component : components)
-            renderData.add(new StringTag(component.getFormattedText()));
+            renderData.add(new NBTTagString(component.getFormattedText()));
         container.put("renders", renderData);
         return container.toString();
     }
 
     public static class RenderContainer {
-        private final Identifier id;
-        private final CompoundTag data;
+        private final ResourceLocation id;
+        private final NBTTagCompound data;
         private final ITooltipRenderer renderer;
 
-        public RenderContainer(Identifier id, CompoundTag data) {
+        public RenderContainer(ResourceLocation id, NBTTagCompound data) {
             this.id = id;
             this.data = data;
             this.renderer = WailaRegistrar.INSTANCE.getTooltipRenderer(id);
         }
 
-        public Identifier getId() {
+        public ResourceLocation getId() {
             return id;
         }
 
-        public CompoundTag getData() {
+        public NBTTagCompound getData() {
             return data;
         }
 

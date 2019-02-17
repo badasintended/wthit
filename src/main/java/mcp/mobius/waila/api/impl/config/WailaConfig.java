@@ -2,7 +2,7 @@ package mcp.mobius.waila.api.impl.config;
 
 import com.google.common.collect.Maps;
 import com.google.gson.*;
-import net.minecraft.util.Identifier;
+import net.minecraft.util.ResourceLocation;
 import org.apache.commons.lang3.StringEscapeUtils;
 
 import java.lang.reflect.Type;
@@ -156,8 +156,8 @@ public class WailaConfig {
 
         public static class ConfigOverlayColor {
             private int alpha = 80;
-            private Map<Identifier, HUDTheme> themes = Maps.newHashMap();
-            private Identifier activeTheme = HUDTheme.VANILLA.getId();
+            private Map<ResourceLocation, HUDTheme> themes = Maps.newHashMap();
+            private ResourceLocation activeTheme = HUDTheme.VANILLA.getId();
 
             public ConfigOverlayColor() {
                 themes.put(HUDTheme.VANILLA.getId(), HUDTheme.VANILLA);
@@ -200,7 +200,7 @@ public class WailaConfig {
                 return getTheme().getFontColor();
             }
 
-            public void applyTheme(Identifier id) {
+            public void applyTheme(ResourceLocation id) {
                 activeTheme = themes.containsKey(id) ? id : activeTheme;
             }
 
@@ -210,7 +210,7 @@ public class WailaConfig {
                     JsonObject json = element.getAsJsonObject();
                     ConfigOverlayColor color = new ConfigOverlayColor();
                     color.alpha = json.getAsJsonPrimitive("alpha").getAsInt();
-                    color.activeTheme = new Identifier(json.getAsJsonPrimitive("activeTheme").getAsString());
+                    color.activeTheme = new ResourceLocation(json.getAsJsonPrimitive("activeTheme").getAsString());
                     color.themes = Maps.newHashMap();
                     json.getAsJsonArray("themes").forEach(e -> {
                         HUDTheme theme = context.deserialize(e, HUDTheme.class);

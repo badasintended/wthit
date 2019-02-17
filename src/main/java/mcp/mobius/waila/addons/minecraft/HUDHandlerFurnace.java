@@ -1,39 +1,38 @@
 package mcp.mobius.waila.addons.minecraft;
 
 import mcp.mobius.waila.api.*;
-import net.fabricmc.fabric.api.util.NbtType;
-import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
-import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.state.property.Properties;
-import net.minecraft.text.TextComponent;
-import net.minecraft.util.DefaultedList;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
+import net.minecraft.state.properties.BlockStateProperties;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityFurnace;
+import net.minecraft.util.NonNullList;
+import net.minecraft.util.text.ITextComponent;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.Constants;
 
 import java.util.List;
 
-public class HUDHandlerFurnace implements IComponentProvider, IServerDataProvider<BlockEntity> {
+public class HUDHandlerFurnace implements IComponentProvider, IServerDataProvider<TileEntity> {
 
     static final HUDHandlerFurnace INSTANCE = new HUDHandlerFurnace();
 
     @Override
-    public void appendBody(List<TextComponent> tooltip, IDataAccessor accessor, IPluginConfig config) {
+    public void appendBody(List<ITextComponent> tooltip, IDataAccessor accessor, IPluginConfig config) {
         if (!config.get(PluginMinecraft.CONFIG_DISPLAY_FURNACE))
             return;
 
-        if (!accessor.getBlockState().get(Properties.LIT))
+        if (!accessor.getBlockState().get(BlockStateProperties.LIT))
             return;
 
-        ListTag furnaceItems = accessor.getServerData().getList("furnace", NbtType.COMPOUND);
-        DefaultedList<ItemStack> inventory = DefaultedList.create(3, ItemStack.EMPTY);
+        NBTTagList furnaceItems = accessor.getServerData().getList("furnace", Constants.NBT.TAG_COMPOUND);
+        NonNullList<ItemStack> inventory = NonNullList.withSize(3, ItemStack.EMPTY);
         for (int i = 0; i <furnaceItems.size(); i++)
-            inventory.set(i, ItemStack.fromTag(furnaceItems.getCompoundTag(i)));
+            inventory.set(i, ItemStack.read(furnaceItems.getCompound(i)));
 
-        CompoundTag progress = new CompoundTag();
+        NBTTagCompound progress = new NBTTagCompound();
         progress.putInt("progress", accessor.getServerData().getInt("progress"));
         progress.putInt("total", accessor.getServerData().getInt("total"));
 
@@ -48,28 +47,28 @@ public class HUDHandlerFurnace implements IComponentProvider, IServerDataProvide
     }
 
     @Override
-    public void appendServerData(CompoundTag data, ServerPlayerEntity player, World world, BlockEntity blockEntity) {
-        AbstractFurnaceBlockEntity furnace = (AbstractFurnaceBlockEntity) blockEntity;
-        ListTag items = new ListTag();
-        items.add(furnace.getInvStack(0).toTag(new CompoundTag()));
-        items.add(furnace.getInvStack(1).toTag(new CompoundTag()));
-        items.add(furnace.getInvStack(2).toTag(new CompoundTag()));
+    public void appendServerData(NBTTagCompound data, EntityPlayerMP player, World world, TileEntity blockEntity) {
+        TileEntityFurnace furnace = (TileEntityFurnace) blockEntity;
+        NBTTagList items = new NBTTagList();
+        items.add(furnace.getStackInSlot(0).write(new NBTTagCompound()));
+        items.add(furnace.getStackInSlot(1).write(new NBTTagCompound()));
+        items.add(furnace.getStackInSlot(2).write(new NBTTagCompound()));
         data.put("furnace", items);
-        CompoundTag furnaceTag = furnace.toTag(new CompoundTag());
+        NBTTagCompound furnaceTag = furnace.write(new NBTTagCompound());
         data.putInt("progress", furnaceTag.getInt("CookTime")); // smh
         data.putInt("total", furnaceTag.getInt("CookTimeTotal")); // smh
     }
 
     private static RenderableTextComponent getRenderable(ItemStack stack) {
         if (!stack.isEmpty()) {
-            CompoundTag tag = new CompoundTag();
-            tag.putString("id", Registry.ITEM.getId(stack.getItem()).toString());
-            tag.putInt("count", stack.getAmount());
+            NBTTagCompound tag = new NBTTagCompound();
+            tag.putString("id", stack.getItem().getRegistryName().toString());
+            tag.putInt("count", stack.getCount());
             if (stack.hasTag())
                 tag.putString("nbt", stack.getTag().toString());
             return new RenderableTextComponent(PluginMinecraft.RENDER_ITEM, tag);
         } else {
-            CompoundTag spacerTag = new CompoundTag();
+            NBTTagCompound spacerTag = new NBTTagCompound();
             spacerTag.putInt("width", 18);
             return new RenderableTextComponent(PluginMinecraft.RENDER_SPACER, spacerTag);
         }

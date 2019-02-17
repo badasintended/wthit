@@ -1,6 +1,6 @@
 package mcp.mobius.waila.api;
 
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NBTTagCompound;
 
 import java.awt.Dimension;
 
@@ -10,7 +10,7 @@ public interface ITooltipRenderer {
      * @param accessor A global accessor for TileEntities and Entities
      * @return Dimension of the reserved area
      */
-    Dimension getSize(CompoundTag data, ICommonAccessor accessor);
+    Dimension getSize(NBTTagCompound data, ICommonAccessor accessor);
 
     /**
      * Draw method for the renderer. The GL matrice is automatically moved to the top left of the reserved zone.<br>
@@ -19,5 +19,5 @@ public interface ITooltipRenderer {
      * @param data     The data supplied by the provider
      * @param accessor A global accessor for TileEntities and Entities
      */
-    void draw(CompoundTag data, ICommonAccessor accessor, int x, int y);
+    void draw(NBTTagCompound data, ICommonAccessor accessor, int x, int y);
 }
