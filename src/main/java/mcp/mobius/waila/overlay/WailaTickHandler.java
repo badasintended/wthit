@@ -2,11 +2,10 @@ package mcp.mobius.waila.overlay;
 
 import com.mojang.text2speech.Narrator;
 import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.api.ITaggableList;
 import mcp.mobius.waila.api.TooltipPosition;
 import mcp.mobius.waila.api.event.WailaTooltipEvent;
-import mcp.mobius.waila.api.impl.DataAccessor;
-import mcp.mobius.waila.api.impl.MetaDataProvider;
-import mcp.mobius.waila.api.impl.TaggedList;
+import mcp.mobius.waila.api.impl.*;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.ingame.ChatScreen;
@@ -73,10 +72,10 @@ public class WailaTickHandler {
             RayTracing.INSTANCE.fire();
             HitResult target = RayTracing.INSTANCE.getTarget();
 
-            List<TextComponent> currentTip = new TaggedList<TextComponent, Identifier>();
-            List<TextComponent> currentTipHead = new TaggedList<TextComponent, Identifier>();
-            List<TextComponent> currentTipBody = new TaggedList<TextComponent, Identifier>();
-            List<TextComponent> currentTipTail = new TaggedList<TextComponent, Identifier>();
+            List<TextComponent> currentTip = new TaggableList<>(TaggedTextComponent::new);
+            List<TextComponent> currentTipHead = new TaggableList<>(TaggedTextComponent::new);
+            List<TextComponent> currentTipBody = new TaggableList<>(TaggedTextComponent::new);
+            List<TextComponent> currentTipTail = new TaggableList<>(TaggedTextComponent::new);
 
             if (target != null && target.getType() == HitResult.Type.BLOCK) {
                 DataAccessor accessor = DataAccessor.INSTANCE;
@@ -119,9 +118,9 @@ public class WailaTickHandler {
             currentTipBody.add(new TranslatableTextComponent("tooltip.waila.sneak_for_details").setStyle(new Style().setItalic(true)));
         }
 
-        currentTip.addAll(currentTipHead);
-        currentTip.addAll(currentTipBody);
-        currentTip.addAll(currentTipTail);
+        ((ITaggableList<Identifier, TextComponent>) currentTip).absorb((ITaggableList<Identifier, TextComponent>) currentTipHead);
+        ((ITaggableList<Identifier, TextComponent>) currentTip).absorb((ITaggableList<Identifier, TextComponent>) currentTipBody);
+        ((ITaggableList<Identifier, TextComponent>) currentTip).absorb((ITaggableList<Identifier, TextComponent>) currentTipTail);
     }
 
     private static Narrator getNarrator() {

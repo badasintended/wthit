@@ -2,13 +2,17 @@ package mcp.mobius.waila.overlay;
 
 import com.google.common.collect.Lists;
 import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.api.ITaggableList;
 import mcp.mobius.waila.api.RenderableTextComponent;
 import mcp.mobius.waila.api.event.WailaTooltipEvent;
 import mcp.mobius.waila.api.impl.DataAccessor;
+import mcp.mobius.waila.api.impl.TaggableList;
+import mcp.mobius.waila.api.impl.TaggedTextComponent;
 import mcp.mobius.waila.api.impl.config.WailaConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.Window;
 import net.minecraft.text.TextComponent;
+import net.minecraft.util.Identifier;
 
 import java.awt.Dimension;
 import java.awt.Rectangle;
@@ -36,9 +40,13 @@ public class Tooltip {
 
     public void computeLines(List<TextComponent> components) {
         components.forEach(c -> {
-            Dimension size = getLineSize(c);
+            Dimension size = getLineSize(c, components);
             totalSize.setSize(Math.max(totalSize.width, size.width), totalSize.height + size.height);
-            lines.add(new Line(c, size));
+            TextComponent component = c;
+            if (component instanceof TaggedTextComponent)
+                component = ((ITaggableList<Identifier, TextComponent>) components).getTag(((TaggedTextComponent) component).getTag());
+
+            lines.add(new Line(component, size));
         });
     }
 
@@ -71,7 +79,7 @@ public class Tooltip {
         }
     }
 
-    private Dimension getLineSize(TextComponent component) {
+    private Dimension getLineSize(TextComponent component, List<TextComponent> components) {
         if (component instanceof RenderableTextComponent) {
             RenderableTextComponent renderable = (RenderableTextComponent) component;
             List<RenderableTextComponent.RenderContainer> renderers = renderable.getRenderers();
@@ -87,6 +95,12 @@ public class Tooltip {
             }
 
             return new Dimension(width, height);
+        } else if (component instanceof TaggedTextComponent) {
+            TaggedTextComponent tagged = (TaggedTextComponent) component;
+            if (components instanceof TaggableList) {
+                TextComponent taggedLine = ((TaggableList<Identifier, TextComponent>) components).getTag(tagged.getTag());
+                return taggedLine == null ? new Dimension(0, 0) : getLineSize(taggedLine, components);
+            }
         }
 
         return new Dimension(client.fontRenderer.getStringWidth(component.getFormattedText()), client.fontRenderer.fontHeight + 1);

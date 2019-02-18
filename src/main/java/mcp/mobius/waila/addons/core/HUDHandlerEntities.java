@@ -17,9 +17,9 @@ public class HUDHandlerEntities implements IEntityComponentProvider {
 
     @Override
     public void appendHead(List<TextComponent> tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        ((ITaggedList<TextComponent, Identifier>) tooltip).add(new StringTextComponent(String.format(Waila.CONFIG.get().getFormatting().getEntityName(), accessor.getEntity().getDisplayName().getFormattedText())), HUDHandlerBlocks.OBJECT_NAME_TAG);
+        ((ITaggableList<Identifier, TextComponent>) tooltip).setTag(HUDHandlerBlocks.OBJECT_NAME_TAG, new StringTextComponent(String.format(Waila.CONFIG.get().getFormatting().getEntityName(), accessor.getEntity().getDisplayName().getFormattedText())));
         if (config.get(PluginCore.CONFIG_SHOW_REGISTRY))
-            ((ITaggedList<TextComponent, Identifier>) tooltip).add(new StringTextComponent(Registry.ENTITY_TYPE.getId(accessor.getEntity().getType()).toString()).setStyle(new Style().setColor(TextFormat.GRAY)), HUDHandlerBlocks.REGISTRY_NAME_TAG);
+            ((ITaggableList<Identifier, TextComponent>) tooltip).setTag(HUDHandlerBlocks.REGISTRY_NAME_TAG, new StringTextComponent(Registry.ENTITY_TYPE.getId(accessor.getEntity().getType()).toString()).setStyle(new Style().setColor(TextFormat.GRAY)));
     }
 
     @Override
@@ -42,6 +42,6 @@ public class HUDHandlerEntities implements IEntityComponentProvider {
 
     @Override
     public void appendTail(List<TextComponent> tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        tooltip.add(new StringTextComponent(String.format(Waila.CONFIG.get().getFormatting().getModName(), ModIdentification.getModInfo(accessor.getEntity()).getName())));
+        ((ITaggableList<Identifier, TextComponent>) tooltip).setTag(HUDHandlerBlocks.MOD_NAME_TAG, new StringTextComponent(String.format(Waila.CONFIG.get().getFormatting().getModName(), ModIdentification.getModInfo(accessor.getEntity()).getName())));
     }
 }
