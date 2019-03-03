@@ -3,7 +3,7 @@ package mcp.mobius.waila.gui;
 import com.google.common.collect.Lists;
 import mcp.mobius.waila.gui.config.OptionsListWidget;
 import mcp.mobius.waila.gui.config.value.OptionsEntryValue;
-import net.minecraft.client.gui.GuiEventListener;
+import net.minecraft.client.gui.InputListener;
 import net.minecraft.client.gui.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.resource.language.I18n;
@@ -37,7 +37,7 @@ public abstract class GuiOptions extends Screen {
         setFocused(options);
 
         if (saver != null && canceller != null) {
-            addButton(new ButtonWidget(1, width / 2 - 100, height - 25, 100, 20, I18n.translate("gui.done")) {
+            addButton(new ButtonWidget(screenWidth / 2 - 100, screenHeight - 25, 100, 20, I18n.translate("gui.done")) {
                 @Override
                 public void onPressed(double mouseX, double mouseY) {
                     options.save();
@@ -45,7 +45,7 @@ public abstract class GuiOptions extends Screen {
                     close();
                 }
             });
-            addButton(new ButtonWidget(2, width / 2 + 5, height - 25, 100, 20, I18n.translate("gui.cancel")) {
+            addButton(new ButtonWidget(screenWidth / 2 + 5, screenHeight - 25, 100, 20, I18n.translate("gui.cancel")) {
                 @Override
                 public void onPressed(double mouseX, double mouseY) {
                     canceller.run();
@@ -53,7 +53,7 @@ public abstract class GuiOptions extends Screen {
                 }
             });
         } else {
-            addButton(new ButtonWidget(2, width / 2 - 50, height - 25, 100, 20, I18n.translate("gui.done")) {
+            addButton(new ButtonWidget(screenWidth / 2 - 50, screenHeight - 25, 100, 20, I18n.translate("gui.done")) {
                 @Override
                 public void onPressed(double mouseX, double mouseY) {
                     options.save();
@@ -67,17 +67,17 @@ public abstract class GuiOptions extends Screen {
     public void draw(int mouseX, int mouseY, float partialTicks) {
         drawBackground();
         options.draw(mouseX, mouseY, partialTicks);
-        drawStringCentered(fontRenderer, title.getFormattedText(), width / 2, 12, 16777215);
+        drawStringCentered(fontRenderer, title.getFormattedText(), screenWidth / 2, 12, 16777215);
         super.draw(mouseX, mouseY, partialTicks);
 
-        if (mouseY < 32 || mouseY > height - 32)
+        if (mouseY < 32 || mouseY > screenHeight - 32)
             return;
 
         int selectedIndex = options.getSelectedEntry(mouseX, mouseY);
-        if (selectedIndex < 0 || selectedIndex >= options.getEntries().size())
+        if (selectedIndex < 0 || selectedIndex >= options.getInputListeners().size())
             return;
 
-        OptionsListWidget.Entry entry = options.getEntries().get(selectedIndex);
+        OptionsListWidget.Entry entry = options.getInputListeners().get(selectedIndex);
         if (entry instanceof OptionsEntryValue) {
             OptionsEntryValue value = (OptionsEntryValue) entry;
 
@@ -97,7 +97,7 @@ public abstract class GuiOptions extends Screen {
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (button == 0 && options.mouseClicked(mouseX, mouseY, button)) {
-            setActive(true);
+            setHasFocus(true);
             setFocused(options);
             return true;
         }
@@ -108,7 +108,7 @@ public abstract class GuiOptions extends Screen {
     @Override
     public boolean mouseReleased(double mouseX, double mouseY, int button) {
         if (button == 0 && options.mouseReleased(mouseX, mouseY, button)) {
-            setActive(false);
+            setHasFocus(false);
             return true;
         }
 
@@ -120,7 +120,7 @@ public abstract class GuiOptions extends Screen {
         client.openScreen(parent);
     }
 
-    public void addListener(GuiEventListener listener) {
+    public void addListener(InputListener listener) {
         listeners.add(listener);
     }
 

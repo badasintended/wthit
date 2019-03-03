@@ -15,13 +15,13 @@ import net.fabricmc.fabric.api.network.ServerSidePacketRegistry;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.packet.CustomPayloadClientPacket;
+import net.minecraft.client.network.packet.CustomPayloadS2CPacket;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.network.packet.CustomPayloadServerPacket;
+import net.minecraft.server.network.packet.CustomPayloadC2SPacket;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.PacketByteBuf;
 import net.minecraft.util.math.BlockPos;
@@ -64,7 +64,7 @@ public class NetworkHandler {
 
                 PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
                 buf.writeCompoundTag(tag);
-                ((ServerPlayerEntity) player).networkHandler.sendPacket(new CustomPayloadClientPacket(RECEIVE_DATA, buf));
+                ((ServerPlayerEntity) player).networkHandler.sendPacket(new CustomPayloadS2CPacket(RECEIVE_DATA, buf));
             });
         });
         ServerSidePacketRegistry.INSTANCE.register(REQUEST_TILE, (packetContext, packetByteBuf) -> {
@@ -97,7 +97,7 @@ public class NetworkHandler {
 
                 PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
                 buf.writeCompoundTag(tag);
-                ((ServerPlayerEntity) player).networkHandler.sendPacket(new CustomPayloadClientPacket(RECEIVE_DATA, buf));
+                ((ServerPlayerEntity) player).networkHandler.sendPacket(new CustomPayloadS2CPacket(RECEIVE_DATA, buf));
             });
         });
         ClientSidePacketRegistry.INSTANCE.register(GET_CONFIG, (packetContext, packetByteBuf) -> {
@@ -124,7 +124,7 @@ public class NetworkHandler {
 
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
         buf.writeInt(entity.getEntityId());
-        MinecraftClient.getInstance().getNetworkHandler().getClientConnection().sendPacket(new CustomPayloadServerPacket(REQUEST_ENTITY, buf));
+        MinecraftClient.getInstance().getNetworkHandler().getClientConnection().sendPacket(new CustomPayloadC2SPacket(REQUEST_ENTITY, buf));
     }
 
     @Environment(EnvType.CLIENT)
@@ -134,7 +134,7 @@ public class NetworkHandler {
 
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
         buf.writeBlockPos(blockEntity.getPos());
-        MinecraftClient.getInstance().getNetworkHandler().getClientConnection().sendPacket(new CustomPayloadServerPacket(REQUEST_TILE, buf));
+        MinecraftClient.getInstance().getNetworkHandler().getClientConnection().sendPacket(new CustomPayloadC2SPacket(REQUEST_TILE, buf));
     }
 
     @Environment(EnvType.SERVER)
@@ -149,6 +149,6 @@ public class NetworkHandler {
             buf.writeBoolean(e.getValue());
         });
 
-        player.networkHandler.sendPacket(new CustomPayloadClientPacket(GET_CONFIG, buf));
+        player.networkHandler.sendPacket(new CustomPayloadS2CPacket(GET_CONFIG, buf));
     }
 }

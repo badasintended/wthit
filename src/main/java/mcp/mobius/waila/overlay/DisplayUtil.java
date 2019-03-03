@@ -4,9 +4,9 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.FontRenderer;
-import net.minecraft.client.gui.Drawable;
-import net.minecraft.client.item.TooltipOptions;
+import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexFormats;
@@ -31,8 +31,8 @@ public class DisplayUtil {
             CLIENT.getItemRenderer().renderGuiItemIcon(stack, x, y);
             ItemStack overlayRender = stack.copy();
             overlayRender.setAmount(1);
-            CLIENT.getItemRenderer().renderGuiItemOverlay(CLIENT.fontRenderer, overlayRender, x, y);
-            renderStackSize(CLIENT.fontRenderer, stack, x, y);
+            CLIENT.getItemRenderer().renderGuiItemOverlay(CLIENT.textRenderer, overlayRender, x, y);
+            renderStackSize(CLIENT.textRenderer, stack, x, y);
         } catch (Exception e) {
             String stackStr = stack != null ? stack.toString() : "NullStack";
             WailaExceptionHandler.handleErr(e, "renderStack | " + stackStr, null);
@@ -40,7 +40,7 @@ public class DisplayUtil {
         enable2DRender();
     }
 
-    public static void renderStackSize(FontRenderer fr, ItemStack stack, int xPosition, int yPosition) {
+    public static void renderStackSize(TextRenderer fr, ItemStack stack, int xPosition, int yPosition) {
         if (!stack.isEmpty() && stack.getAmount() != 1) {
             String s = shortHandNumber(stack.getAmount());
 
@@ -120,17 +120,10 @@ public class DisplayUtil {
         tessellator.draw();
     }
 
-    public static void drawString(String text, int x, int y, int colour, boolean shadow) {
-        if (shadow)
-            CLIENT.fontRenderer.drawWithShadow(text, x, y, colour);
-        else
-            CLIENT.fontRenderer.draw(text, x, y, colour);
-    }
-
     public static List<TextComponent> itemDisplayNameMultiline(ItemStack itemstack) {
         List<TextComponent> namelist = null;
         try {
-            namelist = itemstack.getTooltipText(CLIENT.player, TooltipOptions.Instance.NORMAL);
+            namelist = itemstack.getTooltipText(CLIENT.player, TooltipContext.Default.NORMAL);
         } catch (Throwable ignored) {
         }
 
@@ -154,7 +147,7 @@ public class DisplayUtil {
 
     public static void renderIcon(int x, int y, int sx, int sy, IconUI icon) {
         GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        CLIENT.getTextureManager().bindTexture(Drawable.ICONS);
+        CLIENT.getTextureManager().bindTexture(DrawableHelper.ICONS);
 
         if (icon == null)
             return;

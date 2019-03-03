@@ -42,11 +42,11 @@ public class OverlayRenderer {
         if ((mc.currentScreen != null && !(mc.currentScreen instanceof ChatScreen)) || mc.world == null)
             return;
 
-        boolean isOnServer = !mc.isInSingleplayer() || mc.player.networkHandler.method_2880().size() > 1;
+        boolean isOnServer = !mc.isInSingleplayer() || mc.player.networkHandler.getScoreboardEntries().size() > 1;
         if (Waila.CONFIG.get().getGeneral().shouldHideFromPlayerList() && mc.options.keyPlayerList.isPressed() && isOnServer)
             return;
 
-        if (!MinecraftClient.method_1498())
+        if (!MinecraftClient.isHudEnabled())
             return;
 
         if (mc.options.debugEnabled && Waila.CONFIG.get().getGeneral().shouldHideFromDebug())

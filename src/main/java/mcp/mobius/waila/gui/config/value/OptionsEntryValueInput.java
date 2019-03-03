@@ -1,8 +1,7 @@
 package mcp.mobius.waila.gui.config.value;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.FontRenderer;
-import net.minecraft.client.gui.GuiEventListener;
+import net.minecraft.client.font.TextRenderer;
+import net.minecraft.client.gui.InputListener;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 
 import java.lang.invoke.MethodHandle;
@@ -19,7 +18,7 @@ public class OptionsEntryValueInput<T> extends OptionsEntryValue<T> {
     private static final MethodHandle _SET_Y;
     static {
         try {
-            Field _x = TextFieldWidget.class.getDeclaredFields()[3];
+            Field _x = TextFieldWidget.class.getDeclaredFields()[2];
             _x.setAccessible(true);
             _SET_Y = MethodHandles.lookup().unreflectSetter(_x);
         } catch (Exception e) {
@@ -33,7 +32,7 @@ public class OptionsEntryValueInput<T> extends OptionsEntryValue<T> {
         super(optionName, save);
 
         this.value = value;
-        this.textField = new WatchedTextfield(this, 0, MinecraftClient.getInstance().fontRenderer, 0, 0, 98, 18);
+        this.textField = new WatchedTextfield(this, client.textRenderer, 0, 0, 98, 18);
         textField.setText(String.valueOf(value));
         textField.method_1890(validator);
     }
@@ -50,11 +49,11 @@ public class OptionsEntryValueInput<T> extends OptionsEntryValue<T> {
         } catch (Throwable e) {
             e.printStackTrace();
         }
-        textField.render(mouseX, mouseY, partialTicks);
+        textField.draw(mouseX, mouseY, partialTicks);
     }
 
     @Override
-    public GuiEventListener getListener() {
+    public InputListener getListener() {
         return textField;
     }
 
@@ -84,8 +83,8 @@ public class OptionsEntryValueInput<T> extends OptionsEntryValue<T> {
     private static class WatchedTextfield extends TextFieldWidget {
         private final OptionsEntryValueInput<?> watcher;
 
-        public WatchedTextfield(OptionsEntryValueInput<?> watcher, int id, FontRenderer fontRenderer, int x, int y, int width, int height) {
-            super(id, fontRenderer, x, y, width, height);
+        public WatchedTextfield(OptionsEntryValueInput<?> watcher, TextRenderer fontRenderer, int x, int y, int width, int height) {
+            super(fontRenderer, x, y, width, height);
 
             this.watcher = watcher;
         }

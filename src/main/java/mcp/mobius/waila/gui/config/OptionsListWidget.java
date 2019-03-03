@@ -4,8 +4,8 @@ import com.mojang.blaze3d.platform.GlStateManager;
 import mcp.mobius.waila.gui.GuiOptions;
 import mcp.mobius.waila.gui.config.value.OptionsEntryValue;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.Drawable;
-import net.minecraft.client.gui.GuiEventListener;
+import net.minecraft.client.gui.DrawableHelper;
+import net.minecraft.client.gui.InputListener;
 import net.minecraft.client.gui.widget.EntryListWidget;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.Tessellator;
@@ -35,7 +35,7 @@ public class OptionsListWidget extends EntryListWidget<OptionsListWidget.Entry> 
 
     // The only difference here from super is the center background piece has been removed.
     @Override
-    public void draw(int x, int y, float partialTicks) {
+    public void draw(int mouseX, int mouseY, float partialTicks) {
         if (this.visible) {
             this.drawBackground();
             int int_3 = this.getScrollbarPosition();
@@ -45,17 +45,17 @@ public class OptionsListWidget extends EntryListWidget<OptionsListWidget.Entry> 
             GlStateManager.disableFog();
             Tessellator tessellator = Tessellator.getInstance();
             BufferBuilder buffer = tessellator.getBufferBuilder();
-            this.client.getTextureManager().bindTexture(Drawable.OPTIONS_BG);
-            int int_5 = this.x1 + this.width / 2 - this.getEntryWidth() / 2 + 2;
+            this.client.getTextureManager().bindTexture(DrawableHelper.OPTIONS_BG);
+            int int_5 = this.x1 + this.width / 2 - this.getEntryWidth() + 2;
             int int_6 = this.y1 + 4 - (int)this.scrollY;
             if (this.field_2170) {
                 this.method_1940(int_5, int_6, tessellator);
             }
 
-            this.drawEntries(int_5, int_6, x, y, partialTicks);
+            this.drawEntries(int_5, int_6, mouseX, mouseY, partialTicks);
             GlStateManager.disableDepthTest();
-            this.method_1954(0, this.y1, 255, 255);
-            this.method_1954(this.y2, this.height, 255, 255);
+            this.renderCoverBackground(0, this.y1, 255, 255);
+            this.renderCoverBackground(this.y2, this.height, 255, 255);
             GlStateManager.enableBlend();
             GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ZERO, GlStateManager.DestFactor.ONE);
             GlStateManager.disableAlphaTest();
@@ -99,7 +99,7 @@ public class OptionsListWidget extends EntryListWidget<OptionsListWidget.Entry> 
                 tessellator.draw();
             }
 
-            this.method_1942(x, y);
+            this.method_1942(mouseX, mouseY);
             GlStateManager.enableTexture();
             GlStateManager.shadeModel(7424);
             GlStateManager.enableAlphaTest();
@@ -108,7 +108,7 @@ public class OptionsListWidget extends EntryListWidget<OptionsListWidget.Entry> 
     }
 
     public void save() {
-        getEntries()
+        getInputListeners()
                 .stream()
                 .filter(e -> e instanceof OptionsEntryValue)
                 .map(e -> (OptionsEntryValue) e)
@@ -119,7 +119,7 @@ public class OptionsListWidget extends EntryListWidget<OptionsListWidget.Entry> 
 
     public void add(Entry entry) {
         if (entry instanceof OptionsEntryValue) {
-            GuiEventListener listener = ((OptionsEntryValue) entry).getListener();
+            InputListener listener = ((OptionsEntryValue) entry).getListener();
             if (listener != null)
                 owner.addListener(listener);
         }

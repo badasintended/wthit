@@ -21,17 +21,17 @@ public class GuiConfigPlugins extends GuiOptions {
 
     @Override
     public OptionsListWidget getOptions() {
-        OptionsListWidget options = new OptionsListWidget(this, client, width + 45, height, 32, height - 32, 30, PluginConfig.INSTANCE::save);
+        OptionsListWidget options = new OptionsListWidget(this, client, screenWidth + 45, screenHeight, 32, screenHeight - 32, 30, PluginConfig.INSTANCE::save);
         PluginConfig.INSTANCE.getNamespaces().forEach(namespace -> {
             String translationKey = "config.waila.plugin_" + namespace;
             Set<Identifier> keys = PluginConfig.INSTANCE.getKeys(namespace);
-            options.add(new OptionsEntryButton(translationKey, new ButtonWidget(0, 0, 0, 100, 20, null) {
+            options.add(new OptionsEntryButton(translationKey, new ButtonWidget(0, 0, 100, 20, null) {
                 @Override
                 public void onPressed(double mouseX, double mouseY) {
                     client.openScreen(new GuiOptions(GuiConfigPlugins.this, new TranslatableTextComponent(translationKey)) {
                         @Override
                         public OptionsListWidget getOptions() {
-                            OptionsListWidget options = new OptionsListWidget(this, client, width + 45, height, 32, height - 32, 30);
+                            OptionsListWidget options = new OptionsListWidget(this, client, screenWidth + 45, screenHeight, 32, screenHeight - 32, 30);
                             keys.stream().sorted((o1, o2) -> o1.getPath().compareToIgnoreCase(o2.getPath())).forEach(i -> {
                                 ConfigEntry entry = PluginConfig.INSTANCE.getEntry(i);
                                 if (!entry.isSynced() || MinecraftClient.getInstance().getCurrentServerEntry() == null)

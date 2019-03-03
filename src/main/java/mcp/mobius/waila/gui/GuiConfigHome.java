@@ -19,19 +19,19 @@ public class GuiConfigHome extends Screen {
     protected void onInitialized() {
         this.title = I18n.translate("gui.waila.configuration", Waila.NAME);
 
-        addButton(new ButtonWidget(1, width / 2 - 105, height / 2 - 10, 100, 20, I18n.translate("gui.waila.waila_settings", Waila.NAME)) {
+        addButton(new ButtonWidget(screenWidth / 2 - 105, screenHeight/ 2 - 10, 100, 20, I18n.translate("gui.waila.waila_settings", Waila.NAME)) {
             @Override
             public void onPressed(double mouseX, double mouseY) {
                 client.openScreen(new GuiConfigWaila(GuiConfigHome.this));
             }
         });
-        addButton(new ButtonWidget(2, width / 2 + 5, height / 2 - 10, 100, 20, I18n.translate("gui.waila.plugin_settings")) {
+        addButton(new ButtonWidget(screenWidth / 2 + 5, screenHeight / 2 - 10, 100, 20, I18n.translate("gui.waila.plugin_settings")) {
             @Override
             public void onPressed(double mouseX, double mouseY) {
                 client.openScreen(new GuiConfigPlugins(GuiConfigHome.this));
             }
         });
-        addButton(new ButtonWidget(3, width / 2 - 50, height / 2 + 20, 100, 20, I18n.translate("gui.done")) {
+        addButton(new ButtonWidget(screenWidth / 2 - 50, screenHeight / 2 + 20, 100, 20, I18n.translate("gui.done")) {
             @Override
             public void onPressed(double mouseX, double mouseY) {
                 Waila.CONFIG.save();
@@ -44,7 +44,7 @@ public class GuiConfigHome extends Screen {
     @Override
     public void draw(int x, int y, float partialTicks) {
         drawBackground();
-        drawStringCentered(fontRenderer, title, width / 2, height / 3, 16777215);
+        drawStringCentered(fontRenderer, title, screenWidth / 2, screenHeight / 3, 16777215);
         super.draw(x, y, partialTicks);
     }
 

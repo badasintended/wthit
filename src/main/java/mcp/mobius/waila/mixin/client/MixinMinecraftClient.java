@@ -17,7 +17,7 @@ public class MixinMinecraftClient {
         WailaTickHandler.INSTANCE.tickClient();
     }
 
-    @Inject(method = "method_1508", at = @At("TAIL"))
+    @Inject(method = "handleInputEvents", at = @At("TAIL"))
     private void handleKeybinds(CallbackInfo callbackInfo) {
         WailaClient.handleKeybinds();
     }

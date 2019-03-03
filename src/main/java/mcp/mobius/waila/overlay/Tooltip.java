@@ -73,7 +73,7 @@ public class Tooltip {
                     xOffset += size.width;
                 }
             } else {
-                client.fontRenderer.drawWithShadow(line.getComponent().getFormattedText(), position.x, position.y, color.getFontColor());
+                client.textRenderer.drawWithShadow(line.getComponent().getFormattedText(), position.x, position.y, color.getFontColor());
             }
             position.y += line.size.height;
         }
@@ -103,7 +103,7 @@ public class Tooltip {
             }
         }
 
-        return new Dimension(client.fontRenderer.getStringWidth(component.getFormattedText()), client.fontRenderer.fontHeight + 1);
+        return new Dimension(client.textRenderer.getStringWidth(component.getFormattedText()), client.textRenderer.fontHeight + 1);
     }
 
     public List<Line> getLines() {

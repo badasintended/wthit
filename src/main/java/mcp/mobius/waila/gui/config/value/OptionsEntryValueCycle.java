@@ -1,6 +1,6 @@
 package mcp.mobius.waila.gui.config.value;
 
-import net.minecraft.client.gui.GuiEventListener;
+import net.minecraft.client.gui.InputListener;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.resource.language.I18n;
 
@@ -21,7 +21,7 @@ public class OptionsEntryValueCycle extends OptionsEntryValue<String> {
         this.translationKey = optionName;
         this.createLocale = createLocale;
         List<String> vals = Arrays.asList(values);
-        this.button = new ButtonWidget(0, 0, 0, 100, 20, createLocale ? I18n.translate(optionName + "_" + selected.replace(" ", "_").toLowerCase(Locale.ROOT)) : selected) {
+        this.button = new ButtonWidget(0, 0, 100, 20, createLocale ? I18n.translate(optionName + "_" + selected.replace(" ", "_").toLowerCase(Locale.ROOT)) : selected) {
             @Override
             public void onPressed(double mouseX, double mouseY) {
                 value = vals.get((vals.indexOf(value) + 1) % vals.size());
@@ -38,12 +38,12 @@ public class OptionsEntryValueCycle extends OptionsEntryValue<String> {
     protected void drawValue(int entryWidth, int entryHeight, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks) {
         this.button.x = x + 135;
         this.button.y = y + entryHeight / 6;
-        this.button.text = createLocale ? I18n.translate(translationKey + "_" + value.replace(" ", "_").toLowerCase(Locale.ROOT)) : value;
+        this.button.setText(createLocale ? I18n.translate(translationKey + "_" + value.replace(" ", "_").toLowerCase(Locale.ROOT)) : value);
         this.button.draw(mouseX, mouseY, partialTicks);
     }
 
     @Override
-    public GuiEventListener getListener() {
+    public InputListener getListener() {
         return button;
     }
 }

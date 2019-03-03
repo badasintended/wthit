@@ -1,7 +1,7 @@
 package mcp.mobius.waila.gui.config.value;
 
 import mcp.mobius.waila.gui.config.OptionsListWidget;
-import net.minecraft.client.gui.GuiEventListener;
+import net.minecraft.client.gui.InputListener;
 import net.minecraft.text.TextComponent;
 import net.minecraft.text.TranslatableTextComponent;
 
@@ -22,7 +22,7 @@ public abstract class OptionsEntryValue<T> extends OptionsListWidget.Entry {
 
     @Override
     public final void draw(int entryWidth, int entryHeight, int mouseX, int mouseY, boolean selected, float partialTicks) {
-        client.fontRenderer.drawWithShadow(title.getFormattedText(), getX() + 10, getY() + (entryHeight / 4) + (client.fontRenderer.fontHeight / 2), 16777215);
+        client.textRenderer.drawWithShadow(title.getFormattedText(), getX() + 10, getY() + (entryHeight / 4) + (client.textRenderer.fontHeight / 2), 16777215);
         drawValue(entryWidth, entryHeight, getX(), getY(), mouseX, mouseY, selected, partialTicks);
     }
 
@@ -30,7 +30,7 @@ public abstract class OptionsEntryValue<T> extends OptionsListWidget.Entry {
         save.accept(value);
     }
 
-    public GuiEventListener getListener() {
+    public InputListener getListener() {
         return null;
     }
 

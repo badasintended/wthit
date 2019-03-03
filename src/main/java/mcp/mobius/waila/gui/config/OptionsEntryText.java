@@ -9,11 +9,11 @@ public class OptionsEntryText extends OptionsListWidget.Entry {
 
     public OptionsEntryText(String title) {
         this.title = I18n.translate(title);
-        this.width = client.fontRenderer.getStringWidth(title);
+        this.width = client.textRenderer.getStringWidth(title);
     }
 
     @Override
     public void draw(int var1, int var2, int var3, int var4, boolean var5, float var6) {
-        client.fontRenderer.drawWithShadow(title, (float)(client.currentScreen.width / 2 - width / 2), (float)(this.getY() + var2 - client.fontRenderer.fontHeight - 1), 16777215);
+        client.textRenderer.drawWithShadow(title, (float)(client.currentScreen.screenWidth / 2 - width / 2), (float)(this.getY() + var2 - client.textRenderer.fontHeight - 1), 16777215);
     }
 }
