@@ -65,6 +65,8 @@ dependencies {
     minecraft "net.minecraftforge:forge:${mc_version}-${forge_version}"
 }
 
+apply from: "gradle/process_mod_info.gradle"
+
 // Combine main and API source sets
 jar {
     from sourceSets.main.output
