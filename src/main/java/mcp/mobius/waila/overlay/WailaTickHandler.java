@@ -48,7 +48,7 @@ public class WailaTickHandler {
                 return;
 
             getNarrator().clear();
-            getNarrator().say(narrate);
+            getNarrator().say(narrate, true);
             lastNarration = narrate;
         });
     }

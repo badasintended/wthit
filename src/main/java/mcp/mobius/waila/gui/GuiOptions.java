@@ -39,7 +39,7 @@ public abstract class GuiOptions extends Screen {
         if (saver != null && canceller != null) {
             addButton(new ButtonWidget(screenWidth / 2 - 100, screenHeight - 25, 100, 20, I18n.translate("gui.done")) {
                 @Override
-                public void onPressed(double mouseX, double mouseY) {
+                public void onPressed() {
                     options.save();
                     saver.run();
                     close();
@@ -47,7 +47,7 @@ public abstract class GuiOptions extends Screen {
             });
             addButton(new ButtonWidget(screenWidth / 2 + 5, screenHeight - 25, 100, 20, I18n.translate("gui.cancel")) {
                 @Override
-                public void onPressed(double mouseX, double mouseY) {
+                public void onPressed() {
                     canceller.run();
                     close();
                 }
@@ -55,7 +55,7 @@ public abstract class GuiOptions extends Screen {
         } else {
             addButton(new ButtonWidget(screenWidth / 2 - 50, screenHeight - 25, 100, 20, I18n.translate("gui.done")) {
                 @Override
-                public void onPressed(double mouseX, double mouseY) {
+                public void onPressed() {
                     options.save();
                     close();
                 }

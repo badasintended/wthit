@@ -27,7 +27,7 @@ public class GuiConfigPlugins extends GuiOptions {
             Set<Identifier> keys = PluginConfig.INSTANCE.getKeys(namespace);
             options.add(new OptionsEntryButton(translationKey, new ButtonWidget(0, 0, 100, 20, null) {
                 @Override
-                public void onPressed(double mouseX, double mouseY) {
+                public void onPressed() {
                     client.openScreen(new GuiOptions(GuiConfigPlugins.this, new TranslatableTextComponent(translationKey)) {
                         @Override
                         public OptionsListWidget getOptions() {

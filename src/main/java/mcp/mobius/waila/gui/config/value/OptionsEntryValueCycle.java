@@ -23,7 +23,7 @@ public class OptionsEntryValueCycle extends OptionsEntryValue<String> {
         List<String> vals = Arrays.asList(values);
         this.button = new ButtonWidget(0, 0, 100, 20, createLocale ? I18n.translate(optionName + "_" + selected.replace(" ", "_").toLowerCase(Locale.ROOT)) : selected) {
             @Override
-            public void onPressed(double mouseX, double mouseY) {
+            public void onPressed() {
                 value = vals.get((vals.indexOf(value) + 1) % vals.size());
             }
         };

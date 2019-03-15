@@ -1,5 +1,6 @@
 package mcp.mobius.waila.gui.config;
 
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.resource.language.I18n;
 
@@ -27,7 +28,8 @@ public class OptionsEntryButton extends OptionsListWidget.Entry {
     @Override
     public boolean mouseClicked(double mouseY, double mouseX, int button) {
         if (button == 0 && this.button.isHovered()) {
-            this.button.onPressed(mouseY, mouseX);
+            this.button.playPressedSound(MinecraftClient.getInstance().getSoundLoader());
+            this.button.onPressed();
             return true;
         }
 

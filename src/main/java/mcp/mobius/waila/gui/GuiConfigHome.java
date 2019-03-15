@@ -21,19 +21,19 @@ public class GuiConfigHome extends Screen {
 
         addButton(new ButtonWidget(screenWidth / 2 - 105, screenHeight/ 2 - 10, 100, 20, I18n.translate("gui.waila.waila_settings", Waila.NAME)) {
             @Override
-            public void onPressed(double mouseX, double mouseY) {
+            public void onPressed() {
                 client.openScreen(new GuiConfigWaila(GuiConfigHome.this));
             }
         });
         addButton(new ButtonWidget(screenWidth / 2 + 5, screenHeight / 2 - 10, 100, 20, I18n.translate("gui.waila.plugin_settings")) {
             @Override
-            public void onPressed(double mouseX, double mouseY) {
+            public void onPressed() {
                 client.openScreen(new GuiConfigPlugins(GuiConfigHome.this));
             }
         });
         addButton(new ButtonWidget(screenWidth / 2 - 50, screenHeight / 2 + 20, 100, 20, I18n.translate("gui.done")) {
             @Override
-            public void onPressed(double mouseX, double mouseY) {
+            public void onPressed() {
                 Waila.CONFIG.save();
                 PluginConfig.INSTANCE.save();
                 client.openScreen(parent);

@@ -26,7 +26,7 @@ public class WailaPlugins implements LoaderCreator {
     @Override
     public void createLoaders() {
         new PluginLoaderBuilder(Waila.MODID)
-                .withValidator(ValidationStrategy.instanceOf(IWailaPlugin.class).and((pluginClass, container) -> {
+                .withValidator(ValidationStrategy.hasInterface(IWailaPlugin.class).and((pluginClass, container) -> {
                     if (container.getInfo().getData() != null && container.getInfo().getData().isJsonObject()) {
                         JsonObject json = container.getInfo().getData().getAsJsonObject();
                         if (json.has("required")) {
