@@ -38,8 +38,8 @@ public class OptionsEntryValueCycle extends OptionsEntryValue<String> {
     protected void drawValue(int entryWidth, int entryHeight, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks) {
         this.button.x = x + 135;
         this.button.y = y + entryHeight / 6;
-        this.button.setText(createLocale ? I18n.translate(translationKey + "_" + value.replace(" ", "_").toLowerCase(Locale.ROOT)) : value);
-        this.button.draw(mouseX, mouseY, partialTicks);
+        this.button.setMessage(createLocale ? I18n.translate(translationKey + "_" + value.replace(" ", "_").toLowerCase(Locale.ROOT)) : value);
+        this.button.render(mouseX, mouseY, partialTicks);
     }
 
     @Override

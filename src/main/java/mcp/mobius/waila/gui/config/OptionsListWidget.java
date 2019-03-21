@@ -35,7 +35,7 @@ public class OptionsListWidget extends EntryListWidget<OptionsListWidget.Entry> 
 
     // The only difference here from super is the center background piece has been removed.
     @Override
-    public void draw(int mouseX, int mouseY, float partialTicks) {
+    public void render(int mouseX, int mouseY, float partialTicks) {
         if (this.visible) {
             this.drawBackground();
             int int_3 = this.getScrollbarPosition();
@@ -46,46 +46,46 @@ public class OptionsListWidget extends EntryListWidget<OptionsListWidget.Entry> 
             Tessellator tessellator = Tessellator.getInstance();
             BufferBuilder buffer = tessellator.getBufferBuilder();
             this.client.getTextureManager().bindTexture(DrawableHelper.OPTIONS_BG);
-            int int_5 = this.x1 + this.width / 2 - this.getEntryWidth() + 2;
-            int int_6 = this.y1 + 4 - (int)this.scrollY;
-            if (this.field_2170) {
-                this.method_1940(int_5, int_6, tessellator);
+            int int_5 = this.x + this.width / 2 - this.getEntryWidth() + 2;
+            int int_6 = this.y + 4 - (int)this.scrollY;
+            if (this.renderHeader) {
+                this.renderHeader(int_5, int_6, tessellator);
             }
 
             this.drawEntries(int_5, int_6, mouseX, mouseY, partialTicks);
             GlStateManager.disableDepthTest();
-            this.renderCoverBackground(0, this.y1, 255, 255);
-            this.renderCoverBackground(this.y2, this.height, 255, 255);
+            this.renderCoverBackground(0, this.y, 255, 255);
+            this.renderCoverBackground(this.bottom, this.height, 255, 255);
             GlStateManager.enableBlend();
             GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ZERO, GlStateManager.DestFactor.ONE);
             GlStateManager.disableAlphaTest();
             GlStateManager.shadeModel(7425);
             GlStateManager.disableTexture();
             buffer.begin(7, VertexFormats.POSITION_UV_COLOR);
-            buffer.vertex((double)this.x1, (double)(this.y1 + 4), 0.0D).texture(0.0D, 1.0D).color(0, 0, 0, 0).next();
-            buffer.vertex((double)this.x2, (double)(this.y1 + 4), 0.0D).texture(1.0D, 1.0D).color(0, 0, 0, 0).next();
-            buffer.vertex((double)this.x2, (double)this.y1, 0.0D).texture(1.0D, 0.0D).color(0, 0, 0, 255).next();
-            buffer.vertex((double)this.x1, (double)this.y1, 0.0D).texture(0.0D, 0.0D).color(0, 0, 0, 255).next();
+            buffer.vertex((double)this.x, (double)(this.y + 4), 0.0D).texture(0.0D, 1.0D).color(0, 0, 0, 0).next();
+            buffer.vertex((double)this.right, (double)(this.y + 4), 0.0D).texture(1.0D, 1.0D).color(0, 0, 0, 0).next();
+            buffer.vertex((double)this.right, (double)this.y, 0.0D).texture(1.0D, 0.0D).color(0, 0, 0, 255).next();
+            buffer.vertex((double)this.x, (double)this.y, 0.0D).texture(0.0D, 0.0D).color(0, 0, 0, 255).next();
 
-            buffer.vertex((double)this.x1, (double)this.y2, 0.0D).texture(0.0D, 1.0D).color(0, 0, 0, 255).next();
-            buffer.vertex((double)this.x2, (double)this.y2, 0.0D).texture(1.0D, 1.0D).color(0, 0, 0, 255).next();
-            buffer.vertex((double)this.x2, (double)(this.y2 - 4), 0.0D).texture(1.0D, 0.0D).color(0, 0, 0, 0).next();
-            buffer.vertex((double)this.x1, (double)(this.y2 - 4), 0.0D).texture(0.0D, 0.0D).color(0, 0, 0, 0).next();
+            buffer.vertex((double)this.x, (double)this.bottom, 0.0D).texture(0.0D, 1.0D).color(0, 0, 0, 255).next();
+            buffer.vertex((double)this.right, (double)this.bottom, 0.0D).texture(1.0D, 1.0D).color(0, 0, 0, 255).next();
+            buffer.vertex((double)this.right, (double)(this.bottom - 4), 0.0D).texture(1.0D, 0.0D).color(0, 0, 0, 0).next();
+            buffer.vertex((double)this.x, (double)(this.bottom - 4), 0.0D).texture(0.0D, 0.0D).color(0, 0, 0, 0).next();
             tessellator.draw();
             int int_8 = this.getMaxScrollY();
             if (int_8 > 0) {
-                int int_9 = (int)((float)((this.y2 - this.y1) * (this.y2 - this.y1)) / (float)this.getMaxScrollPosition());
-                int_9 = MathHelper.clamp(int_9, 32, this.y2 - this.y1 - 8);
-                int int_10 = (int)this.scrollY * (this.y2 - this.y1 - int_9) / int_8 + this.y1;
-                if (int_10 < this.y1) {
-                    int_10 = this.y1;
+                int int_9 = (int)((float)((this.bottom - this.y) * (this.bottom - this.y)) / (float)this.getMaxScrollPosition());
+                int_9 = MathHelper.clamp(int_9, 32, this.bottom - this.y - 8);
+                int int_10 = (int)this.scrollY * (this.bottom - this.y - int_9) / int_8 + this.y;
+                if (int_10 < this.y) {
+                    int_10 = this.y;
                 }
 
                 buffer.begin(7, VertexFormats.POSITION_UV_COLOR);
-                buffer.vertex((double)int_3, (double)this.y2, 0.0D).texture(0.0D, 1.0D).color(0, 0, 0, 255).next();
-                buffer.vertex((double)int_4, (double)this.y2, 0.0D).texture(1.0D, 1.0D).color(0, 0, 0, 255).next();
-                buffer.vertex((double)int_4, (double)this.y1, 0.0D).texture(1.0D, 0.0D).color(0, 0, 0, 255).next();
-                buffer.vertex((double)int_3, (double)this.y1, 0.0D).texture(0.0D, 0.0D).color(0, 0, 0, 255).next();
+                buffer.vertex((double)int_3, (double)this.bottom, 0.0D).texture(0.0D, 1.0D).color(0, 0, 0, 255).next();
+                buffer.vertex((double)int_4, (double)this.bottom, 0.0D).texture(1.0D, 1.0D).color(0, 0, 0, 255).next();
+                buffer.vertex((double)int_4, (double)this.y, 0.0D).texture(1.0D, 0.0D).color(0, 0, 0, 255).next();
+                buffer.vertex((double)int_3, (double)this.y, 0.0D).texture(0.0D, 0.0D).color(0, 0, 0, 255).next();
 
                 buffer.vertex((double)int_3, (double)(int_10 + int_9), 0.0D).texture(0.0D, 1.0D).color(128, 128, 128, 255).next();
                 buffer.vertex((double)int_4, (double)(int_10 + int_9), 0.0D).texture(1.0D, 1.0D).color(128, 128, 128, 255).next();
@@ -99,7 +99,7 @@ public class OptionsListWidget extends EntryListWidget<OptionsListWidget.Entry> 
                 tessellator.draw();
             }
 
-            this.method_1942(mouseX, mouseY);
+            this.renderDecorations(mouseX, mouseY);
             GlStateManager.enableTexture();
             GlStateManager.shadeModel(7424);
             GlStateManager.enableAlphaTest();

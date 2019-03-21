@@ -42,10 +42,10 @@ public class GuiConfigHome extends Screen {
     }
 
     @Override
-    public void draw(int x, int y, float partialTicks) {
+    public void render(int x, int y, float partialTicks) {
         drawBackground();
         drawStringCentered(fontRenderer, title, screenWidth / 2, screenHeight / 3, 16777215);
-        super.draw(x, y, partialTicks);
+        super.render(x, y, partialTicks);
     }
 
     @Override

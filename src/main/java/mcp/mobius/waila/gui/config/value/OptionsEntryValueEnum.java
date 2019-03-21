@@ -29,8 +29,8 @@ public class OptionsEntryValueEnum<T extends Enum<T>> extends OptionsEntryValue<
     protected void drawValue(int entryWidth, int entryHeight, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks) {
         this.button.x = x + 135;
         this.button.y = y + entryHeight / 6;
-        this.button.setText(I18n.translate(translationKey + "_" + value.name().toLowerCase(Locale.ROOT)));
-        this.button.draw(mouseX, mouseY, partialTicks);
+        this.button.setMessage(I18n.translate(translationKey + "_" + value.name().toLowerCase(Locale.ROOT)));
+        this.button.render(mouseX, mouseY, partialTicks);
     }
 
     @Override

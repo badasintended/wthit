@@ -49,7 +49,7 @@ public class OptionsEntryValueInput<T> extends OptionsEntryValue<T> {
         } catch (Throwable e) {
             e.printStackTrace();
         }
-        textField.draw(mouseX, mouseY, partialTicks);
+        textField.render(mouseX, mouseY, partialTicks);
     }
 
     @Override

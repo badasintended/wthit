@@ -63,12 +63,14 @@ public abstract class GuiOptions extends Screen {
         }
     }
 
+
+
     @Override
-    public void draw(int mouseX, int mouseY, float partialTicks) {
+    public void render(int mouseX, int mouseY, float partialTicks) {
         drawBackground();
-        options.draw(mouseX, mouseY, partialTicks);
+        options.render(mouseX, mouseY, partialTicks);
         drawStringCentered(fontRenderer, title.getFormattedText(), screenWidth / 2, 12, 16777215);
-        super.draw(mouseX, mouseY, partialTicks);
+        super.render(mouseX, mouseY, partialTicks);
 
         if (mouseY < 32 || mouseY > screenHeight - 32)
             return;
@@ -92,27 +94,6 @@ public abstract class GuiOptions extends Screen {
                 drawTooltip(tooltip, mouseX, mouseY);
             }
         }
-    }
-
-    @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        if (button == 0 && options.mouseClicked(mouseX, mouseY, button)) {
-            setHasFocus(true);
-            setFocused(options);
-            return true;
-        }
-
-        return super.mouseClicked(mouseX, mouseY, button);
-    }
-
-    @Override
-    public boolean mouseReleased(double mouseX, double mouseY, int button) {
-        if (button == 0 && options.mouseReleased(mouseX, mouseY, button)) {
-            setHasFocus(false);
-            return true;
-        }
-
-        return super.mouseReleased(mouseX, mouseY, button);
     }
 
     @Override
