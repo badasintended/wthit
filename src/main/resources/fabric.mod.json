@@ -52,7 +52,8 @@
     "fabric": "*"
   },
   "recommended": {
-    "pluginloader": "*"
+    "pluginloader": "*",
+    "modmenu": "1.1.5"
   },
   "mixins": {
     "client": "hwyla.client.json",
