@@ -26,7 +26,7 @@ public class OptionsEntryButton extends OptionsListWidget.Entry {
     @Override
     public boolean mouseClicked(double mouseY, double mouseX, int button) {
         if (button == 0 && this.button.isHovered()) {
-            this.button.playDownSound(MinecraftClient.getInstance().getSoundLoader());
+            this.button.playDownSound(MinecraftClient.getInstance().getSoundManager());
             this.button.onPressed();
             return true;
         }

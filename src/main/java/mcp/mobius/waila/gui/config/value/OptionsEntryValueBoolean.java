@@ -13,12 +13,9 @@ public class OptionsEntryValueBoolean extends OptionsEntryValue<Boolean> {
     public OptionsEntryValueBoolean(String optionName, boolean value, Consumer<Boolean> save) {
         super(optionName, save);
 
-        this.button = new ButtonWidget(0, 0, 100, 20, I18n.translate("gui." + (value ? "yes" : "no"))) {
-            @Override
-            public void onPressed() {
-                OptionsEntryValueBoolean.this.value = !OptionsEntryValueBoolean.this.value;
-            }
-        };
+        this.button = new ButtonWidget(0, 0, 100, 20, I18n.translate("gui." + (value ? "yes" : "no")), w -> {
+            this.value = !this.value;
+        });
         this.value = value;
     }
 

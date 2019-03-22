@@ -14,14 +14,14 @@ import java.util.List;
 public abstract class GuiOptions extends Screen {
 
     private final Screen parent;
-    private final TextComponent title;
     private final Runnable saver;
     private final Runnable canceller;
     private OptionsListWidget options;
 
     public GuiOptions(Screen parent, TextComponent title, Runnable saver, Runnable canceller) {
+        super(title);
+
         this.parent = parent;
-        this.title = title;
         this.saver = saver;
         this.canceller = canceller;
     }
@@ -37,29 +37,20 @@ public abstract class GuiOptions extends Screen {
         setFocused(options);
 
         if (saver != null && canceller != null) {
-            addButton(new ButtonWidget(screenWidth / 2 - 100, screenHeight - 25, 100, 20, I18n.translate("gui.done")) {
-                @Override
-                public void onPressed() {
-                    options.save();
-                    saver.run();
-                    close();
-                }
-            });
-            addButton(new ButtonWidget(screenWidth / 2 + 5, screenHeight - 25, 100, 20, I18n.translate("gui.cancel")) {
-                @Override
-                public void onPressed() {
-                    canceller.run();
-                    close();
-                }
-            });
+            addButton(new ButtonWidget(screenWidth / 2 - 100, screenHeight - 25, 100, 20, I18n.translate("gui.done"), w -> {
+                options.save();
+                saver.run();
+                close();
+            }));
+            addButton(new ButtonWidget(screenWidth / 2 + 5, screenHeight - 25, 100, 20, I18n.translate("gui.cancel"), w -> {
+                canceller.run();
+                close();
+            }));
         } else {
-            addButton(new ButtonWidget(screenWidth / 2 - 50, screenHeight - 25, 100, 20, I18n.translate("gui.done")) {
-                @Override
-                public void onPressed() {
-                    options.save();
-                    close();
-                }
-            });
+            addButton(new ButtonWidget(screenWidth / 2 - 50, screenHeight - 25, 100, 20, I18n.translate("gui.done"), w -> {
+                options.save();
+                close();
+            }));
         }
     }
 

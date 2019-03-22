@@ -16,12 +16,9 @@ public class OptionsEntryValueEnum<T extends Enum<T>> extends OptionsEntryValue<
         super(optionName, save);
 
         this.translationKey = optionName;
-        this.button = new ButtonWidget(0, 0, 100, 20, I18n.translate(optionName + "_" + selected.name().toLowerCase(Locale.ROOT))) {
-            @Override
-            public void onPressed() {
-                value = values[(value.ordinal() + 1) % values.length];
-            }
-        };
+        this.button = new ButtonWidget(0, 0, 100, 20, I18n.translate(optionName + "_" + selected.name().toLowerCase(Locale.ROOT)), w -> {
+            value = values[(value.ordinal() + 1) % values.length];
+        });
         this.value = selected;
     }
 

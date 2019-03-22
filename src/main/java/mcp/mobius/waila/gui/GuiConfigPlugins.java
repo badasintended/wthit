@@ -25,23 +25,20 @@ public class GuiConfigPlugins extends GuiOptions {
         PluginConfig.INSTANCE.getNamespaces().forEach(namespace -> {
             String translationKey = "config.waila.plugin_" + namespace;
             Set<Identifier> keys = PluginConfig.INSTANCE.getKeys(namespace);
-            options.add(new OptionsEntryButton(translationKey, new ButtonWidget(0, 0, 100, 20, null) {
-                @Override
-                public void onPressed() {
-                    client.openScreen(new GuiOptions(GuiConfigPlugins.this, new TranslatableTextComponent(translationKey)) {
-                        @Override
-                        public OptionsListWidget getOptions() {
-                            OptionsListWidget options = new OptionsListWidget(this, client, screenWidth + 45, screenHeight, 32, screenHeight - 32, 30);
-                            keys.stream().sorted((o1, o2) -> o1.getPath().compareToIgnoreCase(o2.getPath())).forEach(i -> {
-                                ConfigEntry entry = PluginConfig.INSTANCE.getEntry(i);
-                                if (!entry.isSynced() || MinecraftClient.getInstance().getCurrentServerEntry() == null)
-                                    options.add(new OptionsEntryValueBoolean(translationKey + "." + i.getPath(), entry.getValue(), b -> PluginConfig.INSTANCE.set(i, b)));
-                            });
-                            return options;
-                        }
-                    });
-                }
-            }));
+            options.add(new OptionsEntryButton(translationKey, new ButtonWidget(0, 0, 100, 20, null, w -> {
+                client.openScreen(new GuiOptions(GuiConfigPlugins.this, new TranslatableTextComponent(translationKey)) {
+                    @Override
+                    public OptionsListWidget getOptions() {
+                        OptionsListWidget options = new OptionsListWidget(this, client, screenWidth + 45, screenHeight, 32, screenHeight - 32, 30);
+                        keys.stream().sorted((o1, o2) -> o1.getPath().compareToIgnoreCase(o2.getPath())).forEach(i -> {
+                            ConfigEntry entry = PluginConfig.INSTANCE.getEntry(i);
+                            if (!entry.isSynced() || MinecraftClient.getInstance().getCurrentServerEntry() == null)
+                                options.add(new OptionsEntryValueBoolean(translationKey + "." + i.getPath(), entry.getValue(), b -> PluginConfig.INSTANCE.set(i, b)));
+                        });
+                        return options;
+                    }
+                });
+            })));
         });
         return options;
     }
