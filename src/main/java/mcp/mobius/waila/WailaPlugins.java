@@ -2,82 +2,122 @@ package mcp.mobius.waila;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.gson.JsonArray;
+import com.google.common.collect.Streams;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import info.tehnut.pluginloader.LoaderCreator;
-import info.tehnut.pluginloader.PluginLoaderBuilder;
-import info.tehnut.pluginloader.ValidationStrategy;
 import mcp.mobius.waila.addons.core.PluginCore;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.api.impl.config.PluginConfig;
 import net.fabricmc.loader.api.FabricLoader;
-import net.fabricmc.loader.language.LanguageAdapter;
-import net.minecraft.util.ActionResult;
+import net.fabricmc.loader.api.ModContainer;
+import net.fabricmc.loader.api.metadata.ModMetadata;
 
 import java.util.List;
 import java.util.Map;
 
-public class WailaPlugins implements LoaderCreator {
+public class WailaPlugins {
 
     public static final Map<String, IWailaPlugin> PLUGINS = Maps.newHashMap();
 
-    @Override
-    public void createLoaders() {
-        new PluginLoaderBuilder(Waila.MODID)
-                .withValidator(ValidationStrategy.hasInterface(IWailaPlugin.class).and((pluginClass, container) -> {
-                    if (container.getInfo().getData() != null && container.getInfo().getData().isJsonObject()) {
-                        JsonObject json = container.getInfo().getData().getAsJsonObject();
-                        if (json.has("required")) {
-                            JsonElement required = json.get("required");
-                            if (required.isJsonPrimitive() && !FabricLoader.getInstance().isModLoaded(required.getAsString()))
-                                return ActionResult.PASS;
-                            else if (required.isJsonArray()) {
-                                JsonArray requiredArray = required.getAsJsonArray();
-                                for (int i = 0; i < requiredArray.size(); i++) {
-                                    JsonElement element = requiredArray.get(i);
-                                    if (!element.isJsonPrimitive())
-                                        continue;
+    public static void gatherPlugins() {
+        PLUGINS.clear();
 
-                                    if (!FabricLoader.getInstance().isModLoaded(element.getAsString()))
-                                        return ActionResult.PASS;
-                                }
-                            }
-                        }
-                    }
+        FabricLoader.getInstance().getAllMods().stream()
+                .map(ModContainer::getMetadata)
+                .filter(modMetadata -> modMetadata.containsCustomElement("waila:plugins"))
+                .map(m -> new PluginData(m.getId(), m.getCustomElement("waila:plugins"), m))
+                .filter(d -> {
+                    if (d.json.isJsonObject() || d.json.isJsonArray())
+                        return true;
 
-                    return ActionResult.SUCCESS;
-                }))
-                .withInitializer((clazz, container) -> {
-                    if (PLUGINS.containsKey(container.getInfo().getId()))
-                        return; // No plugin overrides allowed
-
-                    try {
-                        IWailaPlugin plugin = (IWailaPlugin) container.getOwner().getAdapter().createInstance(clazz, new LanguageAdapter.Options());
-                        PLUGINS.put(container.getInfo().getId(), plugin);
-                        Waila.LOGGER.info("Discovered plugin {} at {}", container.getInfo().getId(), plugin.getClass().getCanonicalName());
-                    } catch (Exception e){
-                        e.printStackTrace();
-                    }
+                    Waila.LOGGER.error("Plugin data provided by {} must be a JsonObject or a JsonArray.", d.id);
+                    return false;
                 })
-                .withPostCall(() -> {
-                    Waila.LOGGER.info("Registering plugin at {}", PluginCore.class.getCanonicalName());
-                    PLUGINS.remove("waila_core").register(WailaRegistrar.INSTANCE); // Handle and clear the core plugin so it's registered first
-                    List<IWailaPlugin> sorted = Lists.newArrayList(PLUGINS.values());
-                    sorted.sort((o1, o2) -> {
-                        if (o1.getClass().getCanonicalName().startsWith("mcp.mobius.waila"))
-                            return -1; // Put waila plugins at the top
+                .forEach(d -> {
+                    if (d.json.isJsonObject()) {
+                        handlePluginData(d, d.json.getAsJsonObject());
+                    } else {
+                        Streams.stream(d.json.getAsJsonArray())
+                                .filter(e -> {
+                                    if (e.isJsonObject())
+                                        return true;
 
-                        return o1.getClass().getCanonicalName().compareToIgnoreCase(o2.getClass().getCanonicalName());
-                    });
+                                    Waila.LOGGER.error("Plugin data provided by {} must be a JsonObject.");
+                                    return false;
+                                })
+                                .map(JsonElement::getAsJsonObject)
+                                .forEach(jsonObject -> handlePluginData(d, jsonObject));
+                    }
+                });
+    }
 
-                    sorted.forEach(p -> {
-                        Waila.LOGGER.info("Registering plugin at {}", p.getClass().getCanonicalName());
-                        p.register(WailaRegistrar.INSTANCE);
-                    });
-                    PluginConfig.INSTANCE.reload();
-                })
-                .build();
+    public static void initializePlugins() {
+        Waila.LOGGER.info("Registering plugin at {}", PluginCore.class.getCanonicalName());
+        PLUGINS.remove("waila:core").register(WailaRegistrar.INSTANCE); // Handle and clear the core plugin so it's registered first
+
+        List<IWailaPlugin> sorted = Lists.newArrayList(PLUGINS.values());
+        sorted.sort((o1, o2) -> {
+            // Don't move waila classes when compared to eachother
+            if (isWailaClass(o1) && isWailaClass(o2))
+                return 0;
+
+            // Move waila plugins to the top
+            if (isWailaClass(o1))
+                return -1;
+
+            return o1.getClass().getCanonicalName().compareToIgnoreCase(o2.getClass().getCanonicalName());
+        });
+
+        sorted.forEach(p -> {
+            Waila.LOGGER.info("Registering plugin at {}", p.getClass().getCanonicalName());
+            p.register(WailaRegistrar.INSTANCE);
+        });
+        PluginConfig.INSTANCE.reload();
+    }
+
+    private static void handlePluginData(PluginData data, JsonObject json) {
+        if (json.has("required")) {
+            JsonElement required = json.get("required");
+            if (required.isJsonPrimitive() && !FabricLoader.getInstance().isModLoaded(required.getAsJsonPrimitive().getAsString()))
+                return;
+
+            if (required.isJsonArray()) {
+                for (JsonElement element : required.getAsJsonArray()) {
+                    if (!element.isJsonPrimitive())
+                        continue;
+
+                    if (!FabricLoader.getInstance().isModLoaded(element.getAsString()))
+                        return;
+                }
+            }
+        }
+
+        // TODO Revisit if fabric ever makes language adapters accessible again
+        String id = json.getAsJsonPrimitive("id").getAsString();
+        String initializer = json.getAsJsonPrimitive("initializer").getAsString();
+        try {
+            IWailaPlugin plugin = (IWailaPlugin) Class.forName(initializer).newInstance();
+            PLUGINS.put(id, plugin);
+            Waila.LOGGER.info("Discovered plugin {} provided by {} at {}", id, data.metadata.getId(), plugin.getClass().getCanonicalName());
+        } catch (Exception e) {
+            Waila.LOGGER.error("Error creating instance of plugin {} provided by {}", id, data.metadata.getId());
+        }
+    }
+
+    private static boolean isWailaClass(Object object) {
+        return object.getClass().getCanonicalName().startsWith("mcp.mobius.waila");
+    }
+
+    public static class PluginData {
+        private final String id;
+        private final JsonElement json;
+        private final ModMetadata metadata;
+
+        public PluginData(String id, JsonElement json, ModMetadata metadata) {
+            this.id = id;
+            this.json = json;
+            this.metadata = metadata;
+        }
     }
 }

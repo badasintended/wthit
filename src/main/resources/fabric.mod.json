@@ -1,28 +1,60 @@
 {
+  "schemaVersion": 1,
   "id": "waila",
+  "version": "1.9.13",
+  "custom": {
+    "waila:plugins": [
+      {
+        "id": "waila:core",
+        "initializer": "mcp.mobius.waila.addons.core.PluginCore"
+      },
+      {
+        "id": "waila:vanilla",
+        "initializer": "mcp.mobius.waila.addons.minecraft.PluginMinecraft"
+      }
+    ]
+  },
+
+  "entrypoints": {
+    "main": [
+      "mcp.mobius.waila.Waila"
+    ],
+    "client": [
+      "mcp.mobius.waila.WailaClient"
+    ]
+  },
+  "mixins": [
+    {
+      "config": "hwyla.client.json",
+      "environment": "client"
+    },
+    {
+      "config": "hwyla.server.json",
+      "environment": "server"
+    }
+  ],
+
   "name": "Hwyla",
   "description": "What am I looking at?",
-  "version": "1.9.13",
-  "license": "CC BY NC SA 4.0",
-  "side": "universal",
-  "initializers": [
-    "mcp.mobius.waila.Waila",
-    "mcp.mobius.waila.WailaClient"
-  ],
-  "links": {
+  "contact": {
     "homepage": "https://minecraft.curseforge.com/projects/hwyla",
     "issues": "https://github.com/TehNut/Hwyla/issues",
     "sources": "https://github.com/TehNut/Hwyla"
   },
+  "license": "CC BY NC SA 4.0",
   "authors": [
     {
-      "name": "TehNut",
-      "website": "https://tehnut.info",
-      "email": "nick@tehnut.info"
+      "name": "Nicholas \"TehNut\" Ignoffo",
+      "contact": {
+        "email": "nick@tehnut.info",
+        "homepage": "https://tehnut.info"
+      }
     },
     {
       "name": "ProfMobius",
-      "website": "https://twitter.com/profmobius"
+      "contact": {
+        "homepage": "https://twitter.com/profmobius"
+      }
     }
   ],
   "contributors": [
@@ -48,15 +80,11 @@
     "Eracer",
     "odininon"
   ],
-  "requires": {
+
+  "depends": {
     "fabric": "*"
   },
-  "recommended": {
-    "pluginloader": "*",
-    "modmenu": "1.1.5"
-  },
-  "mixins": {
-    "client": "hwyla.client.json",
-    "server": "hwyla.server.json"
+  "suggests": {
+    "modmenu": "*"
   }
 }

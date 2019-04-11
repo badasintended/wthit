@@ -3,10 +3,6 @@
 
 ##### **HWYLA** (pronounced "Hwhy-la", similar to "Coo-Hwhip") - a fork of [WAILA](https://minecraft.curseforge.com/projects/waila) by [ProfMobius](https://minecraft.curseforge.com/members/ProfMobius).
 
-Note: 1.14 versions for Fabric require the [plugin-loader](https://tehnut.info/maven/info/tehnut/pluginloader/plugin-loader/) project to load plugins.
-
-##### The IMC registration system requires you to change the `Waila` modid to `waila` as Forge now enforces lowercase modids. If your plugin magically stops working during your 1.10 -> 1.11 transition, this is likely why. 
-
 ###### *This fork is permitted under the [CC BY-NC-SA 4.0](LICENSE.md) license. Usage of this mod is permitted in all modpacks.*
 
 ##### A full list of significant changes since this fork's creation can be found in the **[CHANGES.md](CHANGES.md)** document.
@@ -30,3 +26,20 @@ dependencies {
 > `HWYLA_VERSION` can be found by browsing through the maven.
 
 > **!!!** Builds 8 through 12 use `mcp.mobius.waila:Waila:<HWYLA_VERSION>`.
+
+As of Fabric Loader 0.4.0, Waila plugins are discovered from the `fabric.mod.json` file. Simply add a `custom` object field
+to that file with the following data:
+
+```json
+{
+  "waila:plugins": {
+    "id": "mymod:my_plugin",
+    "initializer": "foo.bar.Baz"
+  }
+}
+```
+
+`waila:plugins` can also be an array of objects instead of a singular object. 
+
+A `required` field can be added to specify mods required for that plugin to be loaded. It can either be a single string 
+or an array of strings.

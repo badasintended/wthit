@@ -1,10 +1,6 @@
 package mcp.mobius.waila;
 
 import com.google.gson.GsonBuilder;
-import mcp.mobius.waila.addons.core.PluginCore;
-import mcp.mobius.waila.addons.minecraft.PluginMinecraft;
-import mcp.mobius.waila.api.impl.WailaRegistrar;
-import mcp.mobius.waila.api.impl.config.PluginConfig;
 import mcp.mobius.waila.api.impl.config.WailaConfig;
 import mcp.mobius.waila.command.CommandDumpHandlers;
 import mcp.mobius.waila.gui.GuiConfigHome;
@@ -31,7 +27,7 @@ public class Waila implements ModInitializer {
             .withGson(new GsonBuilder()
                     .setPrettyPrinting()
                     .registerTypeAdapter(WailaConfig.ConfigOverlay.ConfigOverlayColor.class, new WailaConfig.ConfigOverlay.ConfigOverlayColor.Adapter())
-                    .registerTypeAdapter(Identifier.class, new Identifier.DeSerializer())
+                    .registerTypeAdapter(Identifier.class, new Identifier.Serializer())
                     .create()
             );
 
@@ -41,12 +37,8 @@ public class Waila implements ModInitializer {
 
         CommandRegistry.INSTANCE.register(false, CommandDumpHandlers::register);
 
-        if (!FabricLoader.getInstance().isModLoaded("pluginloader")) {
-            LOGGER.info("Internal Waila plugins loaded manually. You should consider installing plugin-loader: https://minecraft.curseforge.com/projects/pluginloader");
-            new PluginCore().register(WailaRegistrar.INSTANCE);
-            new PluginMinecraft().register(WailaRegistrar.INSTANCE);
-            PluginConfig.INSTANCE.reload();
-        }
+        WailaPlugins.gatherPlugins();
+        WailaPlugins.initializePlugins();
 
         if (FabricLoader.getInstance().isModLoaded("modmenu") && FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT)
             enableModMenuConfig();

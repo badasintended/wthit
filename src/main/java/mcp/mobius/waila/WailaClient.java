@@ -18,9 +18,9 @@ public class WailaClient implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
         KeyBindingRegistry.INSTANCE.addCategory(Waila.NAME);
-        openConfig = FabricKeyBinding.Builder.create(new Identifier(Waila.MODID, "config"), InputUtil.Type.KEY_KEYBOARD, 320, Waila.NAME).build(); // Num 0
-        showOverlay = FabricKeyBinding.Builder.create(new Identifier(Waila.MODID, "show_overlay"), InputUtil.Type.KEY_KEYBOARD, 321, Waila.NAME).build(); // Num 1
-        toggleLiquid = FabricKeyBinding.Builder.create(new Identifier(Waila.MODID, "toggle_liquid"), InputUtil.Type.KEY_KEYBOARD, 322, Waila.NAME).build(); // Num 2
+        openConfig = FabricKeyBinding.Builder.create(new Identifier(Waila.MODID, "config"), InputUtil.Type.KEYSYM, 320, Waila.NAME).build(); // Num 0
+        showOverlay = FabricKeyBinding.Builder.create(new Identifier(Waila.MODID, "show_overlay"), InputUtil.Type.KEYSYM, 321, Waila.NAME).build(); // Num 1
+        toggleLiquid = FabricKeyBinding.Builder.create(new Identifier(Waila.MODID, "toggle_liquid"), InputUtil.Type.KEYSYM, 322, Waila.NAME).build(); // Num 2
         KeyBindingRegistry.INSTANCE.register(openConfig);
         KeyBindingRegistry.INSTANCE.register(showOverlay);
         KeyBindingRegistry.INSTANCE.register(toggleLiquid);

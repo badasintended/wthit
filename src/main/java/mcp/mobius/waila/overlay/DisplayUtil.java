@@ -147,7 +147,7 @@ public class DisplayUtil {
 
     public static void renderIcon(int x, int y, int sx, int sy, IconUI icon) {
         GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        CLIENT.getTextureManager().bindTexture(DrawableHelper.ICONS);
+        CLIENT.getTextureManager().bindTexture(DrawableHelper.GUI_ICONS_LOCATION);
 
         if (icon == null)
             return;
