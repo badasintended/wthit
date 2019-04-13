@@ -36,6 +36,7 @@
 
   "name": "Hwyla",
   "description": "What am I looking at?",
+  "icon": "assets/waila/icon.png",
   "contact": {
     "homepage": "https://minecraft.curseforge.com/projects/hwyla",
     "issues": "https://github.com/TehNut/Hwyla/issues",
