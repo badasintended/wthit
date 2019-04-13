@@ -1,4 +1,12 @@
 ------------------------------------------------------
+Version 1.9.14
+------------------------------------------------------
+
+- Updated to 1.14 Pre Release 2
+- Updated to Fabric Loader 0.4.0
+- Reworked plugin loading system to make use of new Fabric Loader features
+
+------------------------------------------------------
 Version 1.9.13
 ------------------------------------------------------
 
