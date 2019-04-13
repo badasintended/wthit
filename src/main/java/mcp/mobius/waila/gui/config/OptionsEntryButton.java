@@ -16,18 +16,18 @@ public class OptionsEntryButton extends OptionsListWidget.Entry {
     }
 
     @Override
-    public void draw(int entryWidth, int entryHeight, int mouseX, int mouseY, boolean selected, float partialTicks) {
-        client.textRenderer.drawWithShadow(title, getX() + 10, getY() + (entryHeight / 4) + (client.textRenderer.fontHeight / 2), 16777215);
-        this.button.x = getX() + 135;
-        this.button.y = getY() + entryHeight / 6;
-        this.button.render(mouseX, mouseY, partialTicks);
+    public void render(int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
+        client.textRenderer.drawWithShadow(title, rowLeft + 10, rowTop + (height / 4) + (client.textRenderer.fontHeight / 2), 16777215);
+        this.button.x = rowLeft + 135;
+        this.button.y = rowTop + height / 6;
+        this.button.render(mouseX, mouseY, deltaTime);
     }
 
     @Override
     public boolean mouseClicked(double mouseY, double mouseX, int button) {
         if (button == 0 && this.button.isHovered()) {
             this.button.playDownSound(MinecraftClient.getInstance().getSoundManager());
-            this.button.onPressed();
+            this.button.onPress();
             return true;
         }
 

@@ -1,7 +1,7 @@
 package mcp.mobius.waila.gui.config.value;
 
 import mcp.mobius.waila.gui.config.OptionsListWidget;
-import net.minecraft.client.gui.InputListener;
+import net.minecraft.client.gui.Element;
 import net.minecraft.text.TextComponent;
 import net.minecraft.text.TranslatableTextComponent;
 
@@ -13,6 +13,7 @@ public abstract class OptionsEntryValue<T> extends OptionsListWidget.Entry {
     private final String description;
     protected final Consumer<T> save;
     protected T value;
+    private int x;
 
     public OptionsEntryValue(String optionName, Consumer<T> save) {
         this.title = new TranslatableTextComponent(optionName);
@@ -21,16 +22,17 @@ public abstract class OptionsEntryValue<T> extends OptionsListWidget.Entry {
     }
 
     @Override
-    public final void draw(int entryWidth, int entryHeight, int mouseX, int mouseY, boolean selected, float partialTicks) {
-        client.textRenderer.drawWithShadow(title.getFormattedText(), getX() + 10, getY() + (entryHeight / 4) + (client.textRenderer.fontHeight / 2), 16777215);
-        drawValue(entryWidth, entryHeight, getX(), getY(), mouseX, mouseY, selected, partialTicks);
+    public final void render(int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
+        client.textRenderer.drawWithShadow(title.getFormattedText(), rowLeft + 10, rowTop + (height / 4) + (client.textRenderer.fontHeight / 2), 16777215);
+        drawValue(width, height, rowLeft, rowTop, mouseX, mouseY, hovered, deltaTime);
+        this.x = rowLeft;
     }
 
     public void save() {
         save.accept(value);
     }
 
-    public InputListener getListener() {
+    public Element getListener() {
         return null;
     }
 
@@ -43,11 +45,7 @@ public abstract class OptionsEntryValue<T> extends OptionsListWidget.Entry {
     }
 
     public int getX() {
-        return super.getX();
-    }
-
-    public int getY() {
-        return super.getY();
+        return x;
     }
 
     protected abstract void drawValue(int entryWidth, int entryHeight, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks);

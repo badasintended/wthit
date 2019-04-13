@@ -5,14 +5,16 @@ import mcp.mobius.waila.gui.GuiOptions;
 import mcp.mobius.waila.gui.config.value.OptionsEntryValue;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.gui.InputListener;
-import net.minecraft.client.gui.widget.EntryListWidget;
+import net.minecraft.client.gui.Element;
+import net.minecraft.client.gui.widget.ItemListWidget;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.util.math.MathHelper;
 
-public class OptionsListWidget extends EntryListWidget<OptionsListWidget.Entry> {
+import java.awt.Color;
+
+public class OptionsListWidget extends ItemListWidget<OptionsListWidget.Entry> {
 
     private final GuiOptions owner;
     private final Runnable diskWriter;
@@ -29,86 +31,76 @@ public class OptionsListWidget extends EntryListWidget<OptionsListWidget.Entry> 
     }
 
     @Override
-    public int getEntryWidth() {
+    public int getItemWidth() {
         return 250;
     }
 
-    // The only difference here from super is the center background piece has been removed.
-    @Override
-    public void render(int mouseX, int mouseY, float partialTicks) {
-        if (this.visible) {
-            this.drawBackground();
-            int int_3 = this.getScrollbarPosition();
-            int int_4 = int_3 + 6;
-            this.clampScrollY();
-            GlStateManager.disableLighting();
-            GlStateManager.disableFog();
-            Tessellator tessellator = Tessellator.getInstance();
-            BufferBuilder buffer = tessellator.getBufferBuilder();
-            this.client.getTextureManager().bindTexture(DrawableHelper.OPTIONS_BG);
-            int int_5 = this.x + this.width / 2 - this.getEntryWidth() + 2;
-            int int_6 = this.y + 4 - (int)this.scrollY;
-            if (this.renderHeader) {
-                this.renderHeader(int_5, int_6, tessellator);
+    public void render(int int_1, int int_2, float float_1) {
+        this.drawBackground();
+        int int_3 = this.getScrollbarPosition();
+        int int_4 = int_3 + 6;
+        GlStateManager.disableLighting();
+        GlStateManager.disableFog();
+        Tessellator tessellator_1 = Tessellator.getInstance();
+        BufferBuilder bufferBuilder_1 = tessellator_1.getBufferBuilder();
+        this.client.getTextureManager().bindTexture(DrawableHelper.BACKGROUND_LOCATION);
+        GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+        int int_5 = this.getRowLeft();
+        int int_6 = this.top + 4 - (int)this.getScroll();
+
+        this.renderList(int_5, int_6, int_1, int_2, float_1);
+        GlStateManager.disableDepthTest();
+        this.renderHoleBackground(0, this.top, 255, 255);
+        this.renderHoleBackground(this.bottom, this.height, 255, 255);
+        GlStateManager.enableBlend();
+        GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ZERO, GlStateManager.DestFactor.ONE);
+        GlStateManager.disableAlphaTest();
+        GlStateManager.shadeModel(7425);
+        GlStateManager.disableTexture();
+        bufferBuilder_1.begin(7, VertexFormats.POSITION_UV_COLOR);
+        bufferBuilder_1.vertex((double)this.left, (double)(this.top + 4), 0.0D).texture(0.0D, 1.0D).color(0, 0, 0, 0).next();
+        bufferBuilder_1.vertex((double)this.right, (double)(this.top + 4), 0.0D).texture(1.0D, 1.0D).color(0, 0, 0, 0).next();
+        bufferBuilder_1.vertex((double)this.right, (double)this.top, 0.0D).texture(1.0D, 0.0D).color(0, 0, 0, 255).next();
+        bufferBuilder_1.vertex((double)this.left, (double)this.top, 0.0D).texture(0.0D, 0.0D).color(0, 0, 0, 255).next();
+        bufferBuilder_1.vertex((double)this.left, (double)this.bottom, 0.0D).texture(0.0D, 1.0D).color(0, 0, 0, 255).next();
+        bufferBuilder_1.vertex((double)this.right, (double)this.bottom, 0.0D).texture(1.0D, 1.0D).color(0, 0, 0, 255).next();
+        bufferBuilder_1.vertex((double)this.right, (double)(this.bottom - 4), 0.0D).texture(1.0D, 0.0D).color(0, 0, 0, 0).next();
+        bufferBuilder_1.vertex((double)this.left, (double)(this.bottom - 4), 0.0D).texture(0.0D, 0.0D).color(0, 0, 0, 0).next();
+        tessellator_1.draw();
+        int int_8 = Math.max(0, this.getMaxScrollPosition() - (this.bottom - this.top - 4)); // getMaxScroll
+        if (int_8 > 0) {
+            int int_9 = (int)((float)((this.bottom - this.top) * (this.bottom - this.top)) / (float)this.getMaxScrollPosition());
+            int_9 = MathHelper.clamp(int_9, 32, this.bottom - this.top - 8);
+            int int_10 = (int)this.getScroll() * (this.bottom - this.top - int_9) / int_8 + this.top;
+            if (int_10 < this.top) {
+                int_10 = this.top;
             }
 
-            this.drawEntries(int_5, int_6, mouseX, mouseY, partialTicks);
-            GlStateManager.disableDepthTest();
-            this.renderCoverBackground(0, this.y, 255, 255);
-            this.renderCoverBackground(this.bottom, this.height, 255, 255);
-            GlStateManager.enableBlend();
-            GlStateManager.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ZERO, GlStateManager.DestFactor.ONE);
-            GlStateManager.disableAlphaTest();
-            GlStateManager.shadeModel(7425);
-            GlStateManager.disableTexture();
-            buffer.begin(7, VertexFormats.POSITION_UV_COLOR);
-            buffer.vertex((double)this.x, (double)(this.y + 4), 0.0D).texture(0.0D, 1.0D).color(0, 0, 0, 0).next();
-            buffer.vertex((double)this.right, (double)(this.y + 4), 0.0D).texture(1.0D, 1.0D).color(0, 0, 0, 0).next();
-            buffer.vertex((double)this.right, (double)this.y, 0.0D).texture(1.0D, 0.0D).color(0, 0, 0, 255).next();
-            buffer.vertex((double)this.x, (double)this.y, 0.0D).texture(0.0D, 0.0D).color(0, 0, 0, 255).next();
-
-            buffer.vertex((double)this.x, (double)this.bottom, 0.0D).texture(0.0D, 1.0D).color(0, 0, 0, 255).next();
-            buffer.vertex((double)this.right, (double)this.bottom, 0.0D).texture(1.0D, 1.0D).color(0, 0, 0, 255).next();
-            buffer.vertex((double)this.right, (double)(this.bottom - 4), 0.0D).texture(1.0D, 0.0D).color(0, 0, 0, 0).next();
-            buffer.vertex((double)this.x, (double)(this.bottom - 4), 0.0D).texture(0.0D, 0.0D).color(0, 0, 0, 0).next();
-            tessellator.draw();
-            int int_8 = this.getMaxScrollY();
-            if (int_8 > 0) {
-                int int_9 = (int)((float)((this.bottom - this.y) * (this.bottom - this.y)) / (float)this.getMaxScrollPosition());
-                int_9 = MathHelper.clamp(int_9, 32, this.bottom - this.y - 8);
-                int int_10 = (int)this.scrollY * (this.bottom - this.y - int_9) / int_8 + this.y;
-                if (int_10 < this.y) {
-                    int_10 = this.y;
-                }
-
-                buffer.begin(7, VertexFormats.POSITION_UV_COLOR);
-                buffer.vertex((double)int_3, (double)this.bottom, 0.0D).texture(0.0D, 1.0D).color(0, 0, 0, 255).next();
-                buffer.vertex((double)int_4, (double)this.bottom, 0.0D).texture(1.0D, 1.0D).color(0, 0, 0, 255).next();
-                buffer.vertex((double)int_4, (double)this.y, 0.0D).texture(1.0D, 0.0D).color(0, 0, 0, 255).next();
-                buffer.vertex((double)int_3, (double)this.y, 0.0D).texture(0.0D, 0.0D).color(0, 0, 0, 255).next();
-
-                buffer.vertex((double)int_3, (double)(int_10 + int_9), 0.0D).texture(0.0D, 1.0D).color(128, 128, 128, 255).next();
-                buffer.vertex((double)int_4, (double)(int_10 + int_9), 0.0D).texture(1.0D, 1.0D).color(128, 128, 128, 255).next();
-                buffer.vertex((double)int_4, (double)int_10, 0.0D).texture(1.0D, 0.0D).color(128, 128, 128, 255).next();
-                buffer.vertex((double)int_3, (double)int_10, 0.0D).texture(0.0D, 0.0D).color(128, 128, 128, 255).next();
-
-                buffer.vertex((double)int_3, (double)(int_10 + int_9 - 1), 0.0D).texture(0.0D, 1.0D).color(192, 192, 192, 255).next();
-                buffer.vertex((double)(int_4 - 1), (double)(int_10 + int_9 - 1), 0.0D).texture(1.0D, 1.0D).color(192, 192, 192, 255).next();
-                buffer.vertex((double)(int_4 - 1), (double)int_10, 0.0D).texture(1.0D, 0.0D).color(192, 192, 192, 255).next();
-                buffer.vertex((double)int_3, (double)int_10, 0.0D).texture(0.0D, 0.0D).color(192, 192, 192, 255).next();
-                tessellator.draw();
-            }
-
-            this.renderDecorations(mouseX, mouseY);
-            GlStateManager.enableTexture();
-            GlStateManager.shadeModel(7424);
-            GlStateManager.enableAlphaTest();
-            GlStateManager.disableBlend();
+            bufferBuilder_1.begin(7, VertexFormats.POSITION_UV_COLOR);
+            bufferBuilder_1.vertex((double)int_3, (double)this.bottom, 0.0D).texture(0.0D, 1.0D).color(0, 0, 0, 255).next();
+            bufferBuilder_1.vertex((double)int_4, (double)this.bottom, 0.0D).texture(1.0D, 1.0D).color(0, 0, 0, 255).next();
+            bufferBuilder_1.vertex((double)int_4, (double)this.top, 0.0D).texture(1.0D, 0.0D).color(0, 0, 0, 255).next();
+            bufferBuilder_1.vertex((double)int_3, (double)this.top, 0.0D).texture(0.0D, 0.0D).color(0, 0, 0, 255).next();
+            bufferBuilder_1.vertex((double)int_3, (double)(int_10 + int_9), 0.0D).texture(0.0D, 1.0D).color(128, 128, 128, 255).next();
+            bufferBuilder_1.vertex((double)int_4, (double)(int_10 + int_9), 0.0D).texture(1.0D, 1.0D).color(128, 128, 128, 255).next();
+            bufferBuilder_1.vertex((double)int_4, (double)int_10, 0.0D).texture(1.0D, 0.0D).color(128, 128, 128, 255).next();
+            bufferBuilder_1.vertex((double)int_3, (double)int_10, 0.0D).texture(0.0D, 0.0D).color(128, 128, 128, 255).next();
+            bufferBuilder_1.vertex((double)int_3, (double)(int_10 + int_9 - 1), 0.0D).texture(0.0D, 1.0D).color(192, 192, 192, 255).next();
+            bufferBuilder_1.vertex((double)(int_4 - 1), (double)(int_10 + int_9 - 1), 0.0D).texture(1.0D, 1.0D).color(192, 192, 192, 255).next();
+            bufferBuilder_1.vertex((double)(int_4 - 1), (double)int_10, 0.0D).texture(1.0D, 0.0D).color(192, 192, 192, 255).next();
+            bufferBuilder_1.vertex((double)int_3, (double)int_10, 0.0D).texture(0.0D, 0.0D).color(192, 192, 192, 255).next();
+            tessellator_1.draw();
         }
+
+        this.renderDecorations(int_1, int_2);
+        GlStateManager.enableTexture();
+        GlStateManager.shadeModel(7424);
+        GlStateManager.enableAlphaTest();
+        GlStateManager.disableBlend();
     }
 
     public void save() {
-        getInputListeners()
+        children()
                 .stream()
                 .filter(e -> e instanceof OptionsEntryValue)
                 .map(e -> (OptionsEntryValue) e)
@@ -119,19 +111,22 @@ public class OptionsListWidget extends EntryListWidget<OptionsListWidget.Entry> 
 
     public void add(Entry entry) {
         if (entry instanceof OptionsEntryValue) {
-            InputListener listener = ((OptionsEntryValue) entry).getListener();
-            if (listener != null)
-                owner.addListener(listener);
+            Element element = ((OptionsEntryValue) entry).getListener();
+            if (element != null)
+                owner.addListener(element);
         }
-        addEntry(entry);
+        addItem(entry);
     }
 
-    public abstract static class Entry extends EntryListWidget.Entry<Entry> {
+    public abstract static class Entry extends ItemListWidget.Item<Entry> {
 
         protected final MinecraftClient client;
 
         public Entry() {
             this.client = MinecraftClient.getInstance();
         }
+
+        @Override
+        public abstract void render(int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime);
     }
 }

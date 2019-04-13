@@ -18,29 +18,24 @@ public class GuiConfigHome extends Screen {
     }
 
     @Override
-    protected void onInitialized() {
-        addButton(new ButtonWidget(screenWidth / 2 - 105, screenHeight/ 2 - 10, 100, 20, I18n.translate("gui.waila.waila_settings", Waila.NAME), w -> {
-            client.openScreen(new GuiConfigWaila(GuiConfigHome.this));
+    protected void init() {
+        addButton(new ButtonWidget(width / 2 - 105, height / 2 - 10, 100, 20, I18n.translate("gui.waila.waila_settings", Waila.NAME), w -> {
+            minecraft.openScreen(new GuiConfigWaila(GuiConfigHome.this));
         }));
-        addButton(new ButtonWidget(screenWidth / 2 + 5, screenHeight / 2 - 10, 100, 20, I18n.translate("gui.waila.plugin_settings"), w -> {
-            client.openScreen(new GuiConfigPlugins(GuiConfigHome.this));
+        addButton(new ButtonWidget(width / 2 + 5, height / 2 - 10, 100, 20, I18n.translate("gui.waila.plugin_settings"), w -> {
+            minecraft.openScreen(new GuiConfigPlugins(GuiConfigHome.this));
         }));
-        addButton(new ButtonWidget(screenWidth / 2 - 50, screenHeight / 2 + 20, 100, 20, I18n.translate("gui.done"), w -> {
+        addButton(new ButtonWidget(width / 2 - 50, height / 2 + 20, 100, 20, I18n.translate("gui.done"), w -> {
             Waila.CONFIG.save();
             PluginConfig.INSTANCE.save();
-            client.openScreen(parent);
+            minecraft.openScreen(parent);
         }));
     }
 
     @Override
     public void render(int x, int y, float partialTicks) {
-        drawBackground();
-        drawStringCentered(fontRenderer, title.getFormattedText(), screenWidth / 2, screenHeight / 3, 16777215);
+        renderBackground();
+        drawCenteredString(font, title.getFormattedText(), width / 2, height / 3, 16777215);
         super.render(x, y, partialTicks);
-    }
-
-    @Override
-    public boolean keyPressed(int int_1, int int_2, int int_3) {
-        return super.keyPressed(int_1, int_2, int_3);
     }
 }

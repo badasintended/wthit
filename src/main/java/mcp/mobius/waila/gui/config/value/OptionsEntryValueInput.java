@@ -1,7 +1,7 @@
 package mcp.mobius.waila.gui.config.value;
 
 import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.InputListener;
+import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 
 import java.lang.invoke.MethodHandle;
@@ -53,7 +53,7 @@ public class OptionsEntryValueInput<T> extends OptionsEntryValue<T> {
     }
 
     @Override
-    public InputListener getListener() {
+    public Element getListener() {
         return textField;
     }
 

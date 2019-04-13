@@ -3,7 +3,8 @@ package mcp.mobius.waila.gui;
 import com.google.common.collect.Lists;
 import mcp.mobius.waila.gui.config.OptionsListWidget;
 import mcp.mobius.waila.gui.config.value.OptionsEntryValue;
-import net.minecraft.client.gui.InputListener;
+import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.resource.language.I18n;
@@ -31,69 +32,65 @@ public abstract class GuiOptions extends Screen {
     }
 
     @Override
-    protected void onInitialized() {
+    public void init(MinecraftClient client, int width, int height) {
+        super.init(client, width, height);
+
         options = getOptions();
-        listeners.add(options);
+        children.add(options);
         setFocused(options);
 
         if (saver != null && canceller != null) {
-            addButton(new ButtonWidget(screenWidth / 2 - 100, screenHeight - 25, 100, 20, I18n.translate("gui.done"), w -> {
+            addButton(new ButtonWidget(width / 2 - 100, height - 25, 100, 20, I18n.translate("gui.done"), w -> {
                 options.save();
                 saver.run();
-                close();
+                onClose();
             }));
-            addButton(new ButtonWidget(screenWidth / 2 + 5, screenHeight - 25, 100, 20, I18n.translate("gui.cancel"), w -> {
+            addButton(new ButtonWidget(width / 2 + 5, height - 25, 100, 20, I18n.translate("gui.cancel"), w -> {
                 canceller.run();
-                close();
+                onClose();
             }));
         } else {
-            addButton(new ButtonWidget(screenWidth / 2 - 50, screenHeight - 25, 100, 20, I18n.translate("gui.done"), w -> {
+            addButton(new ButtonWidget(width / 2 - 50, height - 25, 100, 20, I18n.translate("gui.done"), w -> {
                 options.save();
-                close();
+                onClose();
             }));
         }
     }
 
-
-
     @Override
     public void render(int mouseX, int mouseY, float partialTicks) {
-        drawBackground();
+        renderBackground();
         options.render(mouseX, mouseY, partialTicks);
-        drawStringCentered(fontRenderer, title.getFormattedText(), screenWidth / 2, 12, 16777215);
+        drawCenteredString(font, title.getFormattedText(), width / 2, 12, 16777215);
         super.render(mouseX, mouseY, partialTicks);
 
-        if (mouseY < 32 || mouseY > screenHeight - 32)
+        if (mouseY < 32 || mouseY > height - 32)
             return;
 
-        int selectedIndex = options.getSelectedEntry(mouseX, mouseY);
-        if (selectedIndex < 0 || selectedIndex >= options.getInputListeners().size())
-            return;
-
-        OptionsListWidget.Entry entry = options.getInputListeners().get(selectedIndex);
+        OptionsListWidget.Entry entry = options.getSelectedItem();
         if (entry instanceof OptionsEntryValue) {
             OptionsEntryValue value = (OptionsEntryValue) entry;
 
             if (I18n.hasTranslation(value.getDescription())) {
                 int valueX = value.getX() + 10;
                 String title = value.getTitle().getFormattedText();
-                if (mouseX < valueX || mouseX > valueX + fontRenderer.getStringWidth(title))
+                if (mouseX < valueX || mouseX > valueX + font.getStringWidth(title))
                     return;
 
                 List<String> tooltip = Lists.newArrayList(title);
-                tooltip.addAll(fontRenderer.wrapStringToWidthAsList(I18n.translate(value.getDescription()), 200));
-                drawTooltip(tooltip, mouseX, mouseY);
+                tooltip.addAll(font.wrapStringToWidthAsList(I18n.translate(value.getDescription()), 200));
+                renderTooltip(tooltip, mouseX, mouseY);
             }
         }
     }
 
     @Override
-    public void close() {
-        client.openScreen(parent);
+    public void onClose() {
+        minecraft.openScreen(parent);
     }
 
-    public void addListener(InputListener listener) {
-        listeners.add(listener);
+    public void addListener(Element listener) {
+        children.add(listener);
     }
 
     public abstract OptionsListWidget getOptions();

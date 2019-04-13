@@ -22,12 +22,12 @@ public class GuiConfigWaila extends GuiOptions {
 
     @Override
     public OptionsListWidget getOptions() {
-        OptionsListWidget options = new OptionsListWidget(this, client, screenWidth + 45, screenHeight, 32, screenHeight - 32, 30, Waila.CONFIG::save);
+        OptionsListWidget options = new OptionsListWidget(this, minecraft, width + 45, height, 32, height - 32, 30, Waila.CONFIG::save);
         options.add(new OptionsEntryButton(SystemUtil.createTranslationKey("config", new Identifier(Waila.MODID, "general")), new ButtonWidget(0, 0, 100, 20, null, w -> {
-            client.openScreen(new GuiOptions(GuiConfigWaila.this, new TranslatableTextComponent(SystemUtil.createTranslationKey("config", new Identifier(Waila.MODID, "general")))) {
+            minecraft.openScreen(new GuiOptions(GuiConfigWaila.this, new TranslatableTextComponent(SystemUtil.createTranslationKey("config", new Identifier(Waila.MODID, "general")))) {
                 @Override
                 public OptionsListWidget getOptions() {
-                    OptionsListWidget options = new OptionsListWidget(this, client, screenWidth + 45, screenHeight, 32, screenHeight - 32, 30);
+                    OptionsListWidget options = new OptionsListWidget(this, minecraft, width + 45, height, 32, height - 32, 30);
                     options.add(new OptionsEntryValueBoolean(SystemUtil.createTranslationKey("config", new Identifier(Waila.MODID, "display_tooltip")), Waila.CONFIG.get().getGeneral().shouldDisplayTooltip(), val ->
                             Waila.CONFIG.get().getGeneral().setDisplayTooltip(val)
                     ));
@@ -57,10 +57,10 @@ public class GuiConfigWaila extends GuiOptions {
             });
         })));
         options.add(new OptionsEntryButton(SystemUtil.createTranslationKey("config", new Identifier(Waila.MODID, "overlay")), new ButtonWidget(0, 0, 100, 20, null, w -> {
-            client.openScreen(new GuiOptions(GuiConfigWaila.this, new TranslatableTextComponent(SystemUtil.createTranslationKey("config", new Identifier(Waila.MODID, "overlay")))) {
+            minecraft.openScreen(new GuiOptions(GuiConfigWaila.this, new TranslatableTextComponent(SystemUtil.createTranslationKey("config", new Identifier(Waila.MODID, "overlay")))) {
                 @Override
                 public OptionsListWidget getOptions() {
-                    OptionsListWidget options = new OptionsListWidget(this, client, screenWidth + 45, screenHeight, 32, screenHeight - 32, 30);
+                    OptionsListWidget options = new OptionsListWidget(this, minecraft, width + 45, height, 32, height - 32, 30);
                     options.add(new OptionsEntryValueInput<>(SystemUtil.createTranslationKey("config", new Identifier(Waila.MODID, "overlay_pos_x")), Waila.CONFIG.get().getOverlay().getOverlayPosX(), val ->
                             Waila.CONFIG.get().getOverlay().setOverlayPosX(Math.min(1.0F, Math.max(0.0F, val)))
                             , OptionsEntryValueInput.FLOAT));
@@ -71,10 +71,10 @@ public class GuiConfigWaila extends GuiOptions {
                             Waila.CONFIG.get().getOverlay().setOverlayScale(Math.min(2.0F, Math.max(0.1F, val)))
                             , OptionsEntryValueInput.FLOAT));
                     options.add(new OptionsEntryButton(SystemUtil.createTranslationKey("config", new Identifier(Waila.MODID, "overlay_color")), new ButtonWidget(0, 0, 100, 20, null, w -> {
-                        client.openScreen(new GuiOptions(GuiConfigWaila.this, new TranslatableTextComponent(SystemUtil.createTranslationKey("config", new Identifier(Waila.MODID, "overlay_color")))) {
+                        minecraft.openScreen(new GuiOptions(GuiConfigWaila.this, new TranslatableTextComponent(SystemUtil.createTranslationKey("config", new Identifier(Waila.MODID, "overlay_color")))) {
                             @Override
                             public OptionsListWidget getOptions() {
-                                OptionsListWidget options = new OptionsListWidget(this, client, screenWidth + 45, screenHeight, 32, screenHeight - 32, 30);
+                                OptionsListWidget options = new OptionsListWidget(this, minecraft, width + 45, height, 32, height - 32, 30);
                                 options.add(new OptionsEntryValueInput<>(SystemUtil.createTranslationKey("config", new Identifier(Waila.MODID, "overlay_alpha")), Waila.CONFIG.get().getOverlay().getColor().getRawAlpha(), val ->
                                         Waila.CONFIG.get().getOverlay().getColor().setAlpha(Math.min(100, Math.max(0, val)))
                                         , OptionsEntryValueInput.INTEGER));
@@ -93,10 +93,10 @@ public class GuiConfigWaila extends GuiOptions {
             });
         })));
         options.add(new OptionsEntryButton(SystemUtil.createTranslationKey("config", new Identifier(Waila.MODID, "formatting")), new ButtonWidget(0, 0, 100, 20, null, w -> {
-            client.openScreen(new GuiOptions(GuiConfigWaila.this, new TranslatableTextComponent(SystemUtil.createTranslationKey("config", new Identifier(Waila.MODID, "overlay")))) {
+            minecraft.openScreen(new GuiOptions(GuiConfigWaila.this, new TranslatableTextComponent(SystemUtil.createTranslationKey("config", new Identifier(Waila.MODID, "overlay")))) {
                 @Override
                 public OptionsListWidget getOptions() {
-                    OptionsListWidget options = new OptionsListWidget(this, client, screenWidth + 45, screenHeight, 32, screenHeight - 32, 30);
+                    OptionsListWidget options = new OptionsListWidget(this, minecraft, width + 45, height, 32, height - 32, 30);
                     options.add(new OptionsEntryValueInput<>(SystemUtil.createTranslationKey("config", new Identifier(Waila.MODID, "format_mod_name")), StringEscapeUtils.escapeJava(Waila.CONFIG.get().getFormatting().getModName()), val ->
                             Waila.CONFIG.get().getFormatting().setModName(val.isEmpty() || !val.contains("%s") ? Waila.CONFIG.get().getFormatting().getModName() : val)
                     ));

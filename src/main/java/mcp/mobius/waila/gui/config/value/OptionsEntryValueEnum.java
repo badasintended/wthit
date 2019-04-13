@@ -1,6 +1,6 @@
 package mcp.mobius.waila.gui.config.value;
 
-import net.minecraft.client.gui.InputListener;
+import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.resource.language.I18n;
 
@@ -31,7 +31,7 @@ public class OptionsEntryValueEnum<T extends Enum<T>> extends OptionsEntryValue<
     }
 
     @Override
-    public InputListener getListener() {
+    public Element getListener() {
         return button;
     }
 }
