@@ -2,7 +2,7 @@ package mcp.mobius.waila.command;
 
 import com.mojang.brigadier.CommandDispatcher;
 import mcp.mobius.waila.api.impl.DumpGenerator;
-import net.minecraft.server.command.ServerCommandManager;
+import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.StringTextComponent;
 import net.minecraft.text.TranslatableTextComponent;
@@ -14,7 +14,7 @@ import java.io.IOException;
 public class CommandDumpHandlers {
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
-        dispatcher.register(ServerCommandManager.literal("dumpHandlers")
+        dispatcher.register(CommandManager.literal("dumpHandlers")
                 .requires(source -> source.hasPermissionLevel(2))
                 .executes(context -> {
                     File file = new File("waila_handlers.md");

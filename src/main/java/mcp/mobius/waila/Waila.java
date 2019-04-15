@@ -3,19 +3,13 @@ package mcp.mobius.waila;
 import com.google.gson.GsonBuilder;
 import mcp.mobius.waila.api.impl.config.WailaConfig;
 import mcp.mobius.waila.command.CommandDumpHandlers;
-import mcp.mobius.waila.gui.GuiConfigHome;
 import mcp.mobius.waila.network.NetworkHandler;
 import mcp.mobius.waila.utils.JsonConfig;
-import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.registry.CommandRegistry;
-import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.lang.reflect.Method;
 
 public class Waila implements ModInitializer {
 
@@ -39,18 +33,5 @@ public class Waila implements ModInitializer {
 
         WailaPlugins.gatherPlugins();
         WailaPlugins.initializePlugins();
-
-        if (FabricLoader.getInstance().isModLoaded("modmenu") && FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT)
-            enableModMenuConfig();
-    }
-
-    private static void enableModMenuConfig() {
-        try {
-            Class<?> modMenuApi_ = Class.forName("io.github.prospector.modmenu.api.ModMenuApi");
-            Method addConfigOverride_ = modMenuApi_.getMethod("addConfigOverride", String.class, Runnable.class);
-            addConfigOverride_.invoke(null, MODID, (Runnable) () -> MinecraftClient.getInstance().openScreen(new GuiConfigHome(null)));
-        } catch (Exception e) {
-            LOGGER.error("Error enabling the Mod Menu config button for Hwyla", e);
-        }
     }
 }

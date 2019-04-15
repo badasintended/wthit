@@ -1,16 +1,12 @@
 package mcp.mobius.waila.network;
 
-import com.google.common.collect.Maps;
-import com.google.gson.Gson;
 import io.netty.buffer.Unpooled;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.impl.config.ConfigEntry;
-import mcp.mobius.waila.api.impl.DataAccessor;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.api.impl.config.PluginConfig;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
 import net.fabricmc.fabric.api.network.ServerSidePacketRegistry;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -28,23 +24,14 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
-import java.util.Map;
 import java.util.Set;
 
 public class NetworkHandler {
 
-    public static final Identifier RECEIVE_DATA = new Identifier(Waila.MODID, "receive_data");
     public static final Identifier REQUEST_ENTITY = new Identifier(Waila.MODID, "request_entity");
     public static final Identifier REQUEST_TILE = new Identifier(Waila.MODID, "request_tile");
-    public static final Identifier GET_CONFIG = new Identifier(Waila.MODID, "send_config");
 
     public static void init() {
-        ClientSidePacketRegistry.INSTANCE.register(RECEIVE_DATA, (packetContext, packetByteBuf) -> {
-            CompoundTag tag = packetByteBuf.readCompoundTag();
-            packetContext.getTaskQueue().execute(() -> {
-                DataAccessor.INSTANCE.setServerData(tag);
-            });
-        });
         ServerSidePacketRegistry.INSTANCE.register(REQUEST_ENTITY, (packetContext, packetByteBuf) -> {
             PlayerEntity player = packetContext.getPlayer();
             World world = player.world;
@@ -64,7 +51,7 @@ public class NetworkHandler {
 
                 PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
                 buf.writeCompoundTag(tag);
-                ((ServerPlayerEntity) player).networkHandler.sendPacket(new CustomPayloadS2CPacket(RECEIVE_DATA, buf));
+                ((ServerPlayerEntity) player).networkHandler.sendPacket(new CustomPayloadS2CPacket(ClientNetworkHandler.RECEIVE_DATA, buf));
             });
         });
         ServerSidePacketRegistry.INSTANCE.register(REQUEST_TILE, (packetContext, packetByteBuf) -> {
@@ -97,22 +84,7 @@ public class NetworkHandler {
 
                 PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
                 buf.writeCompoundTag(tag);
-                ((ServerPlayerEntity) player).networkHandler.sendPacket(new CustomPayloadS2CPacket(RECEIVE_DATA, buf));
-            });
-        });
-        ClientSidePacketRegistry.INSTANCE.register(GET_CONFIG, (packetContext, packetByteBuf) -> {
-            int size = packetByteBuf.readInt();
-            Map<Identifier, Boolean> temp = Maps.newHashMap();
-            for (int i = 0; i < size; i++) {
-                int idLength = packetByteBuf.readInt();
-                Identifier id = new Identifier(packetByteBuf.readString(idLength));
-                boolean value = packetByteBuf.readBoolean();
-                temp.put(id, value);
-            }
-
-            packetContext.getTaskQueue().execute(() -> {
-                temp.forEach(PluginConfig.INSTANCE::set);
-                Waila.LOGGER.info("Received config from the server: {}", new Gson().toJson(temp));
+                ((ServerPlayerEntity) player).networkHandler.sendPacket(new CustomPayloadS2CPacket(ClientNetworkHandler.RECEIVE_DATA, buf));
             });
         });
     }
@@ -149,6 +121,6 @@ public class NetworkHandler {
             buf.writeBoolean(e.getValue());
         });
 
-        player.networkHandler.sendPacket(new CustomPayloadS2CPacket(GET_CONFIG, buf));
+        player.networkHandler.sendPacket(new CustomPayloadS2CPacket(ClientNetworkHandler.GET_CONFIG, buf));
     }
 }
