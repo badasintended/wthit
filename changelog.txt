@@ -2,6 +2,7 @@
 Version 1.9.15
 ------------------------------------------------------
 
+- Updated to 1.14 Pre Release 3
 - Fixed server crash on startup
 - Added a logo for ModMenu
 

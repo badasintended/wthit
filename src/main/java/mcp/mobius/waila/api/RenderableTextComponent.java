@@ -6,8 +6,8 @@ import mcp.mobius.waila.api.impl.WailaRegistrar;
 import net.fabricmc.fabric.api.util.NbtType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.StringNbtReader;
 import net.minecraft.nbt.StringTag;
-import net.minecraft.sortme.JsonLikeTagParser;
 import net.minecraft.text.StringTextComponent;
 import net.minecraft.util.Identifier;
 
@@ -31,7 +31,7 @@ public class RenderableTextComponent extends StringTextComponent {
             list.forEach(t -> {
                 StringTag stringTag = (StringTag) t;
                 try {
-                    CompoundTag tag = JsonLikeTagParser.parse(stringTag.asString());
+                    CompoundTag tag = StringNbtReader.parse(stringTag.asString());
                     Identifier id = new Identifier(tag.getString("id"));
                     CompoundTag dataTag = tag.getCompound("data");
                     renderers.add(new RenderContainer(id, dataTag));
@@ -50,7 +50,7 @@ public class RenderableTextComponent extends StringTextComponent {
 
     private CompoundTag getData() {
         try {
-            return JsonLikeTagParser.parse(getFormattedText());
+            return StringNbtReader.parse(getFormattedText());
         } catch (CommandSyntaxException e) {
             return new CompoundTag();
         }

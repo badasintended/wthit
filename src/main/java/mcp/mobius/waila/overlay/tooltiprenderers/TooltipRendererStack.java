@@ -9,7 +9,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.sortme.JsonLikeTagParser;
+import net.minecraft.nbt.StringNbtReader;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
@@ -34,7 +34,7 @@ public class TooltipRendererStack implements ITooltipRenderer {
 
         CompoundTag stackTag = null;
         try {
-            stackTag = JsonLikeTagParser.parse(tag.getString("nbt"));
+            stackTag = StringNbtReader.parse(tag.getString("nbt"));
         } catch (CommandSyntaxException e) {
             // No-op
         }

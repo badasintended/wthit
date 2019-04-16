@@ -96,7 +96,7 @@ public class NetworkHandler {
 
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
         buf.writeInt(entity.getEntityId());
-        MinecraftClient.getInstance().getNetworkHandler().getClientConnection().sendPacket(new CustomPayloadC2SPacket(REQUEST_ENTITY, buf));
+        MinecraftClient.getInstance().getNetworkHandler().getClientConnection().send(new CustomPayloadC2SPacket(REQUEST_ENTITY, buf));
     }
 
     @Environment(EnvType.CLIENT)
@@ -106,7 +106,7 @@ public class NetworkHandler {
 
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
         buf.writeBlockPos(blockEntity.getPos());
-        MinecraftClient.getInstance().getNetworkHandler().getClientConnection().sendPacket(new CustomPayloadC2SPacket(REQUEST_TILE, buf));
+        MinecraftClient.getInstance().getNetworkHandler().getClientConnection().send(new CustomPayloadC2SPacket(REQUEST_TILE, buf));
     }
 
     @Environment(EnvType.SERVER)

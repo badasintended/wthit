@@ -36,7 +36,7 @@ public class HUDHandlerBlocks implements IComponentProvider {
             BlockState state = accessor.getBlockState();
             state.getProperties().forEach(p -> {
                 Comparable<?> value = state.get(p);
-                TextComponent valueText = new StringTextComponent(value.toString()).setStyle(new Style().setColor(p instanceof BooleanProperty ? value == Boolean.TRUE ? TextFormat.GREEN : TextFormat.RED : TextFormat.color)); // `color` should be `RESET` but yarn is fucked. this crashes so just change it to something else for testing
+                TextComponent valueText = new StringTextComponent(value.toString()).setStyle(new Style().setColor(p instanceof BooleanProperty ? value == Boolean.TRUE ? TextFormat.GREEN : TextFormat.RED : TextFormat.RESET));
                 tooltip.add(new StringTextComponent(p.getName() + ":").append(valueText));
             });
         }

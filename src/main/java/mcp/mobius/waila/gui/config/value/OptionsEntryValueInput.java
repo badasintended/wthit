@@ -84,7 +84,7 @@ public class OptionsEntryValueInput<T> extends OptionsEntryValue<T> {
         private final OptionsEntryValueInput<?> watcher;
 
         public WatchedTextfield(OptionsEntryValueInput<?> watcher, TextRenderer fontRenderer, int x, int y, int width, int height) {
-            super(fontRenderer, x, y, width, height);
+            super(fontRenderer, x, y, width, height, "");
 
             this.watcher = watcher;
         }
