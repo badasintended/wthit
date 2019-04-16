@@ -8,23 +8,16 @@ import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.api.impl.config.PluginConfig;
 import mcp.mobius.waila.api.impl.config.WailaConfig;
 import mcp.mobius.waila.command.CommandDumpHandlers;
-import mcp.mobius.waila.gui.GuiConfigHome;
 import mcp.mobius.waila.network.MessageReceiveData;
 import mcp.mobius.waila.network.MessageRequestEntity;
 import mcp.mobius.waila.network.MessageRequestTile;
 import mcp.mobius.waila.network.MessageServerPing;
 import mcp.mobius.waila.utils.JsonConfig;
-import net.minecraft.client.settings.KeyBinding;
-import net.minecraft.client.util.InputMappings;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.settings.KeyConflictContext;
-import net.minecraftforge.client.settings.KeyModifier;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ExtensionPoint;
 import net.minecraftforge.fml.ModList;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
@@ -75,15 +68,7 @@ public class Waila {
 
     @SubscribeEvent
     public void setupClient(FMLClientSetupEvent event) {
-        WailaClient.openConfig = new KeyBinding("key.waila.config", KeyConflictContext.IN_GAME, KeyModifier.NONE, InputMappings.Type.KEYSYM.getOrMakeInput(320), Waila.NAME);
-        WailaClient.showOverlay = new KeyBinding("key.waila.show_overlay", KeyConflictContext.IN_GAME, KeyModifier.NONE, InputMappings.Type.KEYSYM.getOrMakeInput(321), Waila.NAME);
-        WailaClient.toggleLiquid = new KeyBinding("key.waila.toggle_liquid", KeyConflictContext.IN_GAME, KeyModifier.NONE, InputMappings.Type.KEYSYM.getOrMakeInput(322), Waila.NAME);
-
-        ClientRegistry.registerKeyBinding(WailaClient.openConfig.getKeyBinding());
-        ClientRegistry.registerKeyBinding(WailaClient.showOverlay.getKeyBinding());
-        ClientRegistry.registerKeyBinding(WailaClient.toggleLiquid.getKeyBinding());
-
-        ModList.get().getModContainerById(MODID).ifPresent(c -> c.registerExtensionPoint(ExtensionPoint.CONFIGGUIFACTORY, () -> (mc, parent) -> new GuiConfigHome(parent)));
+        WailaClient.initClient();
     }
 
     @SubscribeEvent
