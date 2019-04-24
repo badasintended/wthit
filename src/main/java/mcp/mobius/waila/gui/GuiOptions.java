@@ -67,7 +67,7 @@ public abstract class GuiOptions extends Screen {
         if (mouseY < 32 || mouseY > height - 32)
             return;
 
-        OptionsListWidget.Entry entry = options.getSelectedItem();
+        OptionsListWidget.Entry entry = options.getSelected();
         if (entry instanceof OptionsEntryValue) {
             OptionsEntryValue value = (OptionsEntryValue) entry;
 

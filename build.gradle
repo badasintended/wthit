@@ -1,11 +1,11 @@
 plugins {
     id "com.matthewprenger.cursegradle" version "1.1.2"
-    id 'fabric-loom' version '0.2.0-SNAPSHOT'
+    id 'fabric-loom' version '0.2.2-SNAPSHOT'
     id "maven-publish"
 }
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
 def build_number = System.getenv('BUILD_NUMBER') != null ? System.getenv('BUILD_NUMBER') : 'CUSTOM'
 
@@ -26,6 +26,11 @@ dependencies {
     mappings "net.fabricmc:yarn:${mc_version}+build.${mappings_version}"
     modCompile "net.fabricmc:fabric-loader:${loader_version}"
     modCompile "net.fabricmc:fabric:${api_version}"
+//    modCompile "net.fabricmc:fabric-client-registries:${api_version}"
+//    modCompile "net.fabricmc:fabric-commands:${api_version}"
+//    modCompile "net.fabricmc:fabric-lib:${api_version}"
+//    modCompile "net.fabricmc:fabric-networking:${api_version}"
+//    modCompile "net.fabricmc:fabric-resource-loader:${api_version}"
 }
 
 task sourcesJar(type: Jar) {
@@ -60,7 +65,6 @@ publishing {
 }
 
 def curseRelations = {
-    optionalLibrary 'pluginloader'
     requiredLibrary 'fabric'
 }
 

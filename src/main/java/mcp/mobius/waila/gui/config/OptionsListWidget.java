@@ -6,15 +6,16 @@ import mcp.mobius.waila.gui.config.value.OptionsEntryValue;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.gui.Element;
-import net.minecraft.client.gui.widget.ItemListWidget;
+import net.minecraft.client.gui.widget.ElementListWidget;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.util.math.MathHelper;
 
-import java.awt.Color;
+import java.util.Collections;
+import java.util.List;
 
-public class OptionsListWidget extends ItemListWidget<OptionsListWidget.Entry> {
+public class OptionsListWidget extends ElementListWidget<OptionsListWidget.Entry> {
 
     private final GuiOptions owner;
     private final Runnable diskWriter;
@@ -31,22 +32,22 @@ public class OptionsListWidget extends ItemListWidget<OptionsListWidget.Entry> {
     }
 
     @Override
-    public int getItemWidth() {
+    public int getRowWidth() {
         return 250;
     }
 
     public void render(int int_1, int int_2, float float_1) {
-        this.drawBackground();
+        this.renderBackground();
         int int_3 = this.getScrollbarPosition();
         int int_4 = int_3 + 6;
         GlStateManager.disableLighting();
         GlStateManager.disableFog();
         Tessellator tessellator_1 = Tessellator.getInstance();
         BufferBuilder bufferBuilder_1 = tessellator_1.getBufferBuilder();
-        this.client.getTextureManager().bindTexture(DrawableHelper.BACKGROUND_LOCATION);
+        this.minecraft.getTextureManager().bindTexture(DrawableHelper.BACKGROUND_LOCATION);
         GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         int int_5 = this.getRowLeft();
-        int int_6 = this.top + 4 - (int)this.getScroll();
+        int int_6 = this.top + 4 - (int)this.getScrollAmount();
 
         this.renderList(int_5, int_6, int_1, int_2, float_1);
         GlStateManager.disableDepthTest();
@@ -67,11 +68,11 @@ public class OptionsListWidget extends ItemListWidget<OptionsListWidget.Entry> {
         bufferBuilder_1.vertex((double)this.right, (double)(this.bottom - 4), 0.0D).texture(1.0D, 0.0D).color(0, 0, 0, 0).next();
         bufferBuilder_1.vertex((double)this.left, (double)(this.bottom - 4), 0.0D).texture(0.0D, 0.0D).color(0, 0, 0, 0).next();
         tessellator_1.draw();
-        int int_8 = Math.max(0, this.getMaxScrollPosition() - (this.bottom - this.top - 4)); // getMaxScroll
+        int int_8 = Math.max(0, this.getMaxPosition() - (this.bottom - this.top - 4));
         if (int_8 > 0) {
-            int int_9 = (int)((float)((this.bottom - this.top) * (this.bottom - this.top)) / (float)this.getMaxScrollPosition());
+            int int_9 = (int)((float)((this.bottom - this.top) * (this.bottom - this.top)) / (float)this.getMaxPosition());
             int_9 = MathHelper.clamp(int_9, 32, this.bottom - this.top - 8);
-            int int_10 = (int)this.getScroll() * (this.bottom - this.top - int_9) / int_8 + this.top;
+            int int_10 = (int)this.getScrollAmount() * (this.bottom - this.top - int_9) / int_8 + this.top;
             if (int_10 < this.top) {
                 int_10 = this.top;
             }
@@ -115,15 +116,20 @@ public class OptionsListWidget extends ItemListWidget<OptionsListWidget.Entry> {
             if (element != null)
                 owner.addListener(element);
         }
-        addItem(entry);
+        addEntry(entry);
     }
 
-    public abstract static class Entry extends ItemListWidget.Item<Entry> {
+    public abstract static class Entry extends ElementListWidget.Entry<Entry> {
 
         protected final MinecraftClient client;
 
         public Entry() {
             this.client = MinecraftClient.getInstance();
+        }
+
+        @Override
+        public List<? extends Element> children() {
+            return Collections.emptyList();
         }
 
         @Override

@@ -4,9 +4,6 @@ import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 
-import java.lang.invoke.MethodHandle;
-import java.lang.invoke.MethodHandles;
-import java.lang.reflect.Field;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
@@ -15,16 +12,6 @@ public class OptionsEntryValueInput<T> extends OptionsEntryValue<T> {
     public static final Predicate<String> ANY = s -> true;
     public static final Predicate<String> INTEGER = s -> s.matches("^[0-9]*$");
     public static final Predicate<String> FLOAT = s -> s.matches("[-+]?([0-9]*\\.[0-9]+|[0-9]+)") || s.endsWith(".") || s.isEmpty();
-    private static final MethodHandle _SET_Y;
-    static {
-        try {
-            Field _x = TextFieldWidget.class.getDeclaredFields()[2];
-            _x.setAccessible(true);
-            _SET_Y = MethodHandles.lookup().unreflectSetter(_x);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-    }
 
     private final TextFieldWidget textField;
 
@@ -44,11 +31,7 @@ public class OptionsEntryValueInput<T> extends OptionsEntryValue<T> {
     @Override
     protected void drawValue(int entryWidth, int entryHeight, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks) {
         textField.setX(x + 135);
-        try {
-            _SET_Y.bindTo(textField).invoke(y + entryHeight / 6);
-        } catch (Throwable e) {
-            e.printStackTrace();
-        }
+        textField.y = y + entryHeight / 6;
         textField.render(mouseX, mouseY, partialTicks);
     }
 
