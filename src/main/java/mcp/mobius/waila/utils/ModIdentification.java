@@ -27,8 +27,11 @@ public class ModIdentification {
 
     private static final Map<String, ModMetadata> CONTAINER_CACHE = Maps.newHashMap();
     private static final ModMetadata MC_MOD_INFO = new DummyModMetadata("minecraft", "Minecraft");
+    private static final ModMetadata COMMON_MOD_INFO = new DummyModMetadata("c", "Common");
+
     static {
         CONTAINER_CACHE.put(MC_MOD_INFO.getId(), MC_MOD_INFO);
+        CONTAINER_CACHE.put(COMMON_MOD_INFO.getId(), COMMON_MOD_INFO);
     }
 
     public static ModMetadata getModInfo(String namespace) {
