@@ -7,9 +7,9 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
+import net.minecraft.network.chat.Component;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.state.property.Properties;
-import net.minecraft.text.TextComponent;
 import net.minecraft.util.DefaultedList;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
@@ -21,7 +21,7 @@ public class HUDHandlerFurnace implements IComponentProvider, IServerDataProvide
     static final HUDHandlerFurnace INSTANCE = new HUDHandlerFurnace();
 
     @Override
-    public void appendBody(List<TextComponent> tooltip, IDataAccessor accessor, IPluginConfig config) {
+    public void appendBody(List<Component> tooltip, IDataAccessor accessor, IPluginConfig config) {
         if (!config.get(PluginMinecraft.CONFIG_DISPLAY_FURNACE))
             return;
 
@@ -64,7 +64,7 @@ public class HUDHandlerFurnace implements IComponentProvider, IServerDataProvide
         if (!stack.isEmpty()) {
             CompoundTag tag = new CompoundTag();
             tag.putString("id", Registry.ITEM.getId(stack.getItem()).toString());
-            tag.putInt("count", stack.getAmount());
+            tag.putInt("count", stack.getCount());
             if (stack.hasTag())
                 tag.putString("nbt", stack.getTag().toString());
             return new RenderableTextComponent(PluginMinecraft.RENDER_ITEM, tag);

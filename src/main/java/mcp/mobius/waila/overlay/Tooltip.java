@@ -11,7 +11,7 @@ import mcp.mobius.waila.api.impl.TaggedTextComponent;
 import mcp.mobius.waila.api.impl.config.WailaConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.Window;
-import net.minecraft.text.TextComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.util.Identifier;
 
 import java.awt.Dimension;
@@ -25,7 +25,7 @@ public class Tooltip {
     private final boolean showItem;
     private final Dimension totalSize;
 
-    public Tooltip(List<TextComponent> components, boolean showItem) {
+    public Tooltip(List<Component> components, boolean showItem) {
         WailaTooltipEvent event = new WailaTooltipEvent(components, DataAccessor.INSTANCE);
         WailaTooltipEvent.WAILA_HANDLE_TOOLTIP.invoker().onTooltip(event);
 
@@ -38,13 +38,13 @@ public class Tooltip {
         addPadding();
     }
 
-    public void computeLines(List<TextComponent> components) {
+    public void computeLines(List<Component> components) {
         components.forEach(c -> {
             Dimension size = getLineSize(c, components);
             totalSize.setSize(Math.max(totalSize.width, size.width), totalSize.height + size.height);
-            TextComponent component = c;
+            Component component = c;
             if (component instanceof TaggedTextComponent)
-                component = ((ITaggableList<Identifier, TextComponent>) components).getTag(((TaggedTextComponent) component).getTag());
+                component = ((ITaggableList<Identifier, Component>) components).getTag(((TaggedTextComponent) component).getTag());
 
             lines.add(new Line(component, size));
         });
@@ -79,7 +79,7 @@ public class Tooltip {
         }
     }
 
-    private Dimension getLineSize(TextComponent component, List<TextComponent> components) {
+    private Dimension getLineSize(Component component, List<Component> components) {
         if (component instanceof RenderableTextComponent) {
             RenderableTextComponent renderable = (RenderableTextComponent) component;
             List<RenderableTextComponent.RenderContainer> renderers = renderable.getRenderers();
@@ -98,7 +98,7 @@ public class Tooltip {
         } else if (component instanceof TaggedTextComponent) {
             TaggedTextComponent tagged = (TaggedTextComponent) component;
             if (components instanceof TaggableList) {
-                TextComponent taggedLine = ((TaggableList<Identifier, TextComponent>) components).getTag(tagged.getTag());
+                Component taggedLine = ((TaggableList<Identifier, Component>) components).getTag(tagged.getTag());
                 return taggedLine == null ? new Dimension(0, 0) : getLineSize(taggedLine, components);
             }
         }
@@ -126,15 +126,15 @@ public class Tooltip {
 
     public static class Line {
 
-        private final TextComponent component;
+        private final Component component;
         private final Dimension size;
 
-        public Line(TextComponent component, Dimension size) {
+        public Line(Component component, Dimension size) {
             this.component = component;
             this.size = size;
         }
 
-        public TextComponent getComponent() {
+        public Component getComponent() {
             return component;
         }
 

@@ -7,9 +7,9 @@ import mcp.mobius.waila.gui.config.value.OptionsEntryValueBoolean;
 import mcp.mobius.waila.gui.config.value.OptionsEntryValueCycle;
 import mcp.mobius.waila.gui.config.value.OptionsEntryValueEnum;
 import mcp.mobius.waila.gui.config.value.OptionsEntryValueInput;
-import net.minecraft.client.gui.Screen;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.text.TranslatableTextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.SystemUtil;
 import org.apache.commons.lang3.StringEscapeUtils;
@@ -17,14 +17,14 @@ import org.apache.commons.lang3.StringEscapeUtils;
 public class GuiConfigWaila extends GuiOptions {
 
     public GuiConfigWaila(Screen parent) {
-        super(parent, new TranslatableTextComponent("gui.waila.configuration", Waila.NAME), Waila.CONFIG::save, Waila.CONFIG::invalidate);
+        super(parent, new TranslatableComponent("gui.waila.configuration", Waila.NAME), Waila.CONFIG::save, Waila.CONFIG::invalidate);
     }
 
     @Override
     public OptionsListWidget getOptions() {
         OptionsListWidget options = new OptionsListWidget(this, minecraft, width + 45, height, 32, height - 32, 30, Waila.CONFIG::save);
         options.add(new OptionsEntryButton(SystemUtil.createTranslationKey("config", new Identifier(Waila.MODID, "general")), new ButtonWidget(0, 0, 100, 20, null, w -> {
-            minecraft.openScreen(new GuiOptions(GuiConfigWaila.this, new TranslatableTextComponent(SystemUtil.createTranslationKey("config", new Identifier(Waila.MODID, "general")))) {
+            minecraft.openScreen(new GuiOptions(GuiConfigWaila.this, new TranslatableComponent(SystemUtil.createTranslationKey("config", new Identifier(Waila.MODID, "general")))) {
                 @Override
                 public OptionsListWidget getOptions() {
                     OptionsListWidget options = new OptionsListWidget(this, minecraft, width + 45, height, 32, height - 32, 30);
@@ -57,7 +57,7 @@ public class GuiConfigWaila extends GuiOptions {
             });
         })));
         options.add(new OptionsEntryButton(SystemUtil.createTranslationKey("config", new Identifier(Waila.MODID, "overlay")), new ButtonWidget(0, 0, 100, 20, null, w -> {
-            minecraft.openScreen(new GuiOptions(GuiConfigWaila.this, new TranslatableTextComponent(SystemUtil.createTranslationKey("config", new Identifier(Waila.MODID, "overlay")))) {
+            minecraft.openScreen(new GuiOptions(GuiConfigWaila.this, new TranslatableComponent(SystemUtil.createTranslationKey("config", new Identifier(Waila.MODID, "overlay")))) {
                 @Override
                 public OptionsListWidget getOptions() {
                     OptionsListWidget options = new OptionsListWidget(this, minecraft, width + 45, height, 32, height - 32, 30);
@@ -71,7 +71,7 @@ public class GuiConfigWaila extends GuiOptions {
                             Waila.CONFIG.get().getOverlay().setOverlayScale(Math.min(2.0F, Math.max(0.1F, val)))
                             , OptionsEntryValueInput.FLOAT));
                     options.add(new OptionsEntryButton(SystemUtil.createTranslationKey("config", new Identifier(Waila.MODID, "overlay_color")), new ButtonWidget(0, 0, 100, 20, null, w -> {
-                        minecraft.openScreen(new GuiOptions(GuiConfigWaila.this, new TranslatableTextComponent(SystemUtil.createTranslationKey("config", new Identifier(Waila.MODID, "overlay_color")))) {
+                        minecraft.openScreen(new GuiOptions(GuiConfigWaila.this, new TranslatableComponent(SystemUtil.createTranslationKey("config", new Identifier(Waila.MODID, "overlay_color")))) {
                             @Override
                             public OptionsListWidget getOptions() {
                                 OptionsListWidget options = new OptionsListWidget(this, minecraft, width + 45, height, 32, height - 32, 30);
@@ -93,7 +93,7 @@ public class GuiConfigWaila extends GuiOptions {
             });
         })));
         options.add(new OptionsEntryButton(SystemUtil.createTranslationKey("config", new Identifier(Waila.MODID, "formatting")), new ButtonWidget(0, 0, 100, 20, null, w -> {
-            minecraft.openScreen(new GuiOptions(GuiConfigWaila.this, new TranslatableTextComponent(SystemUtil.createTranslationKey("config", new Identifier(Waila.MODID, "overlay")))) {
+            minecraft.openScreen(new GuiOptions(GuiConfigWaila.this, new TranslatableComponent(SystemUtil.createTranslationKey("config", new Identifier(Waila.MODID, "overlay")))) {
                 @Override
                 public OptionsListWidget getOptions() {
                     OptionsListWidget options = new OptionsListWidget(this, minecraft, width + 45, height, 32, height - 32, 30);

@@ -21,7 +21,7 @@ public class OptionsEntryValueInput<T> extends OptionsEntryValue<T> {
         this.value = value;
         this.textField = new WatchedTextfield(this, client.textRenderer, 0, 0, 98, 18);
         textField.setText(String.valueOf(value));
-        textField.method_1890(validator);
+        textField.setTextPredicate(validator);
     }
 
     public OptionsEntryValueInput(String optionName, T value, Consumer<T> save) {

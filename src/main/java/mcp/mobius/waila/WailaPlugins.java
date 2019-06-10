@@ -43,7 +43,7 @@ public class WailaPlugins {
                                     if (e.isJsonObject())
                                         return true;
 
-                                    Waila.LOGGER.error("Plugin data provided by {} must be a JsonObject.");
+                                    Waila.LOGGER.error("Plugin data provided by {} must be a JsonObject.", d.id);
                                     return false;
                                 })
                                 .map(JsonElement::getAsJsonObject)

@@ -2,17 +2,17 @@ package mcp.mobius.waila.gui;
 
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.impl.config.PluginConfig;
-import net.minecraft.client.gui.Screen;
+import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.resource.language.I18n;
-import net.minecraft.text.TranslatableTextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 
 public class GuiConfigHome extends Screen {
 
     private final Screen parent;
 
     public GuiConfigHome(Screen parent) {
-        super(new TranslatableTextComponent("gui.waila.configuration"));
+        super(new TranslatableComponent("gui.waila.configuration"));
 
         this.parent = parent;
     }

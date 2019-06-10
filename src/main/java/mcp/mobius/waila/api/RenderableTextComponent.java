@@ -8,12 +8,12 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringNbtReader;
 import net.minecraft.nbt.StringTag;
-import net.minecraft.text.StringTextComponent;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.util.Identifier;
 
 import java.util.List;
 
-public class RenderableTextComponent extends StringTextComponent {
+public class RenderableTextComponent extends TextComponent {
 
     public RenderableTextComponent(Identifier id, CompoundTag data) {
         super(getRenderString(id, data));

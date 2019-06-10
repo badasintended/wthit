@@ -2,21 +2,21 @@ package mcp.mobius.waila.gui.config.value;
 
 import mcp.mobius.waila.gui.config.OptionsListWidget;
 import net.minecraft.client.gui.Element;
-import net.minecraft.text.TextComponent;
-import net.minecraft.text.TranslatableTextComponent;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 
 import java.util.function.Consumer;
 
 public abstract class OptionsEntryValue<T> extends OptionsListWidget.Entry {
 
-    private final TextComponent title;
+    private final Component title;
     private final String description;
     protected final Consumer<T> save;
     protected T value;
     private int x;
 
     public OptionsEntryValue(String optionName, Consumer<T> save) {
-        this.title = new TranslatableTextComponent(optionName);
+        this.title = new TranslatableComponent(optionName);
         this.description = optionName + "_desc";
         this.save = save;
     }
@@ -36,7 +36,7 @@ public abstract class OptionsEntryValue<T> extends OptionsListWidget.Entry {
         return null;
     }
 
-    public TextComponent getTitle() {
+    public Component getTitle() {
         return title;
     }
 

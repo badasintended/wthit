@@ -83,7 +83,11 @@
   ],
 
   "depends": {
-    "fabric": "*"
+    "fabric-api-base": "*",
+    "fabric-commands-v0": "*",
+    "fabric-keybindings-v0": "*",
+    "fabric-networking-v0": "*",
+    "fabric-resource-loader-v0": "*"
   },
   "suggests": {
     "modmenu": "*"

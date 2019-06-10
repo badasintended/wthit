@@ -139,7 +139,7 @@ public class RayTracing {
                 if (!pick.isEmpty())
                     return Collections.singletonList(pick);
 
-                if (items.isEmpty() && state.getBlock().getItem() != Items.AIR)
+                if (items.isEmpty() && state.getBlock().asItem() != Items.AIR)
                     items.add(new ItemStack(state.getBlock()));
 
                 break;

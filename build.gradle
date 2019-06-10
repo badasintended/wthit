@@ -1,6 +1,6 @@
 plugins {
-    id "com.matthewprenger.cursegradle" version "1.1.2"
-    id 'fabric-loom' version '0.2.2-SNAPSHOT'
+    id "com.matthewprenger.cursegradle" version "1.3.0"
+    id 'fabric-loom' version '0.2.4-SNAPSHOT'
     id "maven-publish"
 }
 
@@ -25,12 +25,11 @@ dependencies {
     minecraft "com.mojang:minecraft:${mc_version}"
     mappings "net.fabricmc:yarn:${mc_version}+build.${mappings_version}"
     modCompile "net.fabricmc:fabric-loader:${loader_version}"
-    modCompile "net.fabricmc:fabric:${api_version}"
-//    modCompile "net.fabricmc:fabric-client-registries:${api_version}"
-//    modCompile "net.fabricmc:fabric-commands:${api_version}"
-//    modCompile "net.fabricmc:fabric-lib:${api_version}"
-//    modCompile "net.fabricmc:fabric-networking:${api_version}"
-//    modCompile "net.fabricmc:fabric-resource-loader:${api_version}"
+    modCompile "net.fabricmc.fabric-api:fabric-api-base:${api_version}"
+    modCompile "net.fabricmc.fabric-api:fabric-commands-v0:${api_commands_version}"
+    modCompile "net.fabricmc.fabric-api:fabric-keybindings-v0:${api_keybinding_version}"
+    modCompile "net.fabricmc.fabric-api:fabric-networking-v0:${api_networking_version}"
+    modCompile "net.fabricmc.fabric-api:fabric-resource-loader-v0:${api_resources_version}"
 }
 
 task sourcesJar(type: Jar) {
@@ -50,7 +49,7 @@ publishing {
     tasks.publish.dependsOn 'build'
     publications {
         mavenJava(MavenPublication) {
-            artifact jar
+            artifact remapJar.output
             artifact sourcesJar
             artifact apiJar
         }
@@ -79,11 +78,19 @@ curseforge {
 
         relations curseRelations
 
-        gameVersionStrings.clear()
-        gameVersionStrings.add("1.14-Snapshot")
-
+        addGameVersion "1.14"
+        addGameVersion "Java 8"
         addArtifact sourcesJar
         addArtifact apiJar
+        mainArtifact(file("${project.buildDir}/libs/${archivesBaseName}-${version}.jar"))
+
+        afterEvaluate {
+            uploadTask.dependsOn(remapJar)
+        }
+    }
+
+    options {
+        forgeGradleIntegration = false
     }
 }
 

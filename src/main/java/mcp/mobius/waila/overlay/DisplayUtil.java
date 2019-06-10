@@ -3,6 +3,7 @@ package mcp.mobius.waila.overlay;
 import com.mojang.blaze3d.platform.GlStateManager;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
+import net.minecraft.ChatFormat;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
@@ -11,9 +12,8 @@ import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.item.ItemStack;
-import net.minecraft.text.StringTextComponent;
-import net.minecraft.text.TextComponent;
-import net.minecraft.text.TextFormat;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -30,7 +30,7 @@ public class DisplayUtil {
         try {
             CLIENT.getItemRenderer().renderGuiItemIcon(stack, x, y);
             ItemStack overlayRender = stack.copy();
-            overlayRender.setAmount(1);
+            overlayRender.setCount(1);
             CLIENT.getItemRenderer().renderGuiItemOverlay(CLIENT.textRenderer, overlayRender, x, y);
             renderStackSize(CLIENT.textRenderer, stack, x, y);
         } catch (Exception e) {
@@ -41,11 +41,11 @@ public class DisplayUtil {
     }
 
     public static void renderStackSize(TextRenderer fr, ItemStack stack, int xPosition, int yPosition) {
-        if (!stack.isEmpty() && stack.getAmount() != 1) {
-            String s = shortHandNumber(stack.getAmount());
+        if (!stack.isEmpty() && stack.getCount() != 1) {
+            String s = shortHandNumber(stack.getCount());
 
-            if (stack.getAmount() < 1)
-                s = TextFormat.RED + String.valueOf(stack.getAmount());
+            if (stack.getCount() < 1)
+                s = ChatFormat.RED + String.valueOf(stack.getCount());
 
             GlStateManager.disableLighting();
             GlStateManager.disableDepthTest();
@@ -120,10 +120,10 @@ public class DisplayUtil {
         tessellator.draw();
     }
 
-    public static List<TextComponent> itemDisplayNameMultiline(ItemStack itemstack) {
-        List<TextComponent> namelist = null;
+    public static List<Component> itemDisplayNameMultiline(ItemStack itemstack) {
+        List<Component> namelist = null;
         try {
-            namelist = itemstack.getTooltipText(CLIENT.player, TooltipContext.Default.NORMAL);
+            namelist = itemstack.getTooltip(CLIENT.player, TooltipContext.Default.NORMAL);
         } catch (Throwable ignored) {
         }
 
@@ -131,9 +131,9 @@ public class DisplayUtil {
             namelist = new ArrayList<>();
 
         if (namelist.isEmpty())
-            namelist.add(new StringTextComponent("Unnamed"));
+            namelist.add(new TextComponent("Unnamed"));
 
-        namelist.set(0, new StringTextComponent(itemstack.getRarity().formatting.toString() + namelist.get(0)));
+        namelist.set(0, new TextComponent(itemstack.getRarity().formatting.toString() + namelist.get(0)));
         for (int i = 1; i < namelist.size(); i++)
             namelist.set(i, namelist.get(i));
 
@@ -141,7 +141,7 @@ public class DisplayUtil {
     }
 
     public static String itemDisplayNameShort(ItemStack itemstack) {
-        List<TextComponent> list = itemDisplayNameMultiline(itemstack);
+        List<Component> list = itemDisplayNameMultiline(itemstack);
         return String.format(Waila.CONFIG.get().getFormatting().getBlockName(), list.get(0).getFormattedText());
     }
 
