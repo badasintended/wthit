@@ -22,7 +22,7 @@ if (System.getenv('BUILD_NUMBER') != null)
 
 version = "${waila_version}-B${build_number}_${mc_version}"
 group = "mcp.mobius.waila"
-archivesBaseName = "Hwyla"
+archivesBaseName = "Hwyla-forge"
 
 minecraft {
     mappings channel: "${mapping_channel}", version: "${mapping_version}"
