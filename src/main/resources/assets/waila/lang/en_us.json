@@ -21,6 +21,8 @@
   "key.waila.show_overlay": "Show Overlay",
   "key.waila.toggle_liquid": "Toggle Liquid",
 
+  "command.waila.dump_success": "Dumped all handlers to waila_handlers.md",
+
   "config.waila.general": "General",
   "config.waila.display_tooltip": "Display Tooltip",
   "config.waila.display_tooltip_desc": "Collect data and render the tooltip",
