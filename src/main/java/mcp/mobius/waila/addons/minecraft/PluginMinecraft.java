@@ -8,14 +8,13 @@ import mcp.mobius.waila.overlay.tooltiprenderers.TooltipRendererProgressBar;
 import mcp.mobius.waila.overlay.tooltiprenderers.TooltipRendererSpacer;
 import mcp.mobius.waila.overlay.tooltiprenderers.TooltipRendererStack;
 import net.minecraft.block.*;
-import net.minecraft.entity.EntityLeashKnot;
-import net.minecraft.entity.item.EntityItemFrame;
-import net.minecraft.entity.item.EntityMinecart;
-import net.minecraft.entity.item.EntityPainting;
-import net.minecraft.entity.passive.EntityVillager;
-import net.minecraft.tileentity.TileEntityFurnace;
-import net.minecraft.tileentity.TileEntityJukebox;
-import net.minecraft.tileentity.TileEntityMobSpawner;
+import net.minecraft.entity.item.ItemFrameEntity;
+import net.minecraft.entity.item.LeashKnotEntity;
+import net.minecraft.entity.item.PaintingEntity;
+import net.minecraft.entity.item.minecart.MinecartEntity;
+import net.minecraft.tileentity.FurnaceTileEntity;
+import net.minecraft.tileentity.JukeboxTileEntity;
+import net.minecraft.tileentity.MobSpawnerTileEntity;
 import net.minecraft.util.ResourceLocation;
 
 @WailaPlugin
@@ -34,7 +33,6 @@ public class PluginMinecraft implements IWailaPlugin {
     static final ResourceLocation CONFIG_COMPARATOR = new ResourceLocation("comparator");
     static final ResourceLocation CONFIG_REDSTONE = new ResourceLocation("redstone");
     static final ResourceLocation CONFIG_JUKEBOX = new ResourceLocation("jukebox");
-    static final ResourceLocation CONFIG_VILLAGER_PROFESSION = new ResourceLocation("villager_profession");
 
     @Override
     public void register(IRegistrar registrar) {
@@ -47,33 +45,29 @@ public class PluginMinecraft implements IWailaPlugin {
         registrar.addConfig(CONFIG_COMPARATOR, true);
         registrar.addConfig(CONFIG_REDSTONE, true);
         registrar.addConfig(CONFIG_JUKEBOX, true);
-        registrar.addConfig(CONFIG_VILLAGER_PROFESSION, true);
 
         registrar.registerTooltipRenderer(RENDER_ITEM, new TooltipRendererStack());
         registrar.registerTooltipRenderer(RENDER_SPACER, new TooltipRendererSpacer());
         registrar.registerTooltipRenderer(RENDER_FURNACE_PROGRESS, new TooltipRendererProgressBar());
 
-        registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, BlockSilverfish.class);
-        registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, BlockCrops.class);
-        registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.HEAD, TileEntityMobSpawner.class);
-        registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.BODY, BlockCrops.class);
-        registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.BODY, BlockStem.class);
-        registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.BODY, BlockCocoa.class);
-        registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.BODY, BlockLever.class);
-        registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.BODY, BlockRedstoneRepeater.class);
-        registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.BODY, BlockRedstoneComparator.class);
-        registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.BODY, BlockRedstone.class);
-        registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.BODY, TileEntityJukebox.class);
-        registrar.registerBlockDataProvider(HUDHandlerVanilla.INSTANCE, TileEntityJukebox.class);
+        registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, SilverfishBlock.class);
+        registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, CropsBlock.class);
+        registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.HEAD, MobSpawnerTileEntity.class);
+        registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.BODY, CropsBlock.class);
+        registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.BODY, StemBlock.class);
+        registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.BODY, CocoaBlock.class);
+        registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.BODY, LeverBlock.class);
+        registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.BODY, RepeaterBlock.class);
+        registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.BODY, ComparatorBlock.class);
+        registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.BODY, RedstoneBlock.class);
+        registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.BODY, JukeboxTileEntity.class);
+        registrar.registerBlockDataProvider(HUDHandlerVanilla.INSTANCE, JukeboxTileEntity.class);
 
-        registrar.registerEntityStackProvider(HUDHandlerEntityIcon.INSTANCE, EntityMinecart.class);
-        registrar.registerEntityStackProvider(HUDHandlerEntityIcon.INSTANCE, EntityItemFrame.class);
-        registrar.registerEntityStackProvider(HUDHandlerEntityIcon.INSTANCE, EntityPainting.class);
-        registrar.registerEntityStackProvider(HUDHandlerEntityIcon.INSTANCE, EntityLeashKnot.class);
-        registrar.registerComponentProvider(HUDHandlerVillager.INSTANCE, TooltipPosition.HEAD, EntityVillager.class);
-        registrar.registerComponentProvider(HUDHandlerVillager.INSTANCE, TooltipPosition.BODY, EntityVillager.class);
-        registrar.registerEntityDataProvider(HUDHandlerVillager.INSTANCE, EntityVillager.class);
-        registrar.registerComponentProvider(HUDHandlerFurnace.INSTANCE, TooltipPosition.BODY, TileEntityFurnace.class);
-        registrar.registerBlockDataProvider(HUDHandlerFurnace.INSTANCE, TileEntityFurnace.class);
+        registrar.registerEntityStackProvider(HUDHandlerEntityIcon.INSTANCE, MinecartEntity.class);
+        registrar.registerEntityStackProvider(HUDHandlerEntityIcon.INSTANCE, ItemFrameEntity.class);
+        registrar.registerEntityStackProvider(HUDHandlerEntityIcon.INSTANCE, PaintingEntity.class);
+        registrar.registerEntityStackProvider(HUDHandlerEntityIcon.INSTANCE, LeashKnotEntity.class);
+        registrar.registerComponentProvider(HUDHandlerFurnace.INSTANCE, TooltipPosition.BODY, FurnaceTileEntity.class);
+        registrar.registerBlockDataProvider(HUDHandlerFurnace.INSTANCE, FurnaceTileEntity.class);
     }
 }

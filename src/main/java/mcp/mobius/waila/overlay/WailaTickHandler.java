@@ -6,17 +6,17 @@ import mcp.mobius.waila.api.ITaggableList;
 import mcp.mobius.waila.api.TooltipPosition;
 import mcp.mobius.waila.api.event.WailaTooltipEvent;
 import mcp.mobius.waila.api.impl.*;
+import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiChat;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Blocks;
+import net.minecraft.entity.player.ChatVisibility;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.Style;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -39,7 +39,7 @@ public class WailaTickHandler {
 
         Minecraft client = Minecraft.getInstance();
         World world = client.world;
-        EntityPlayer player = client.player;
+        PlayerEntity player = client.player;
 
         if (client.keyboardListener == null)
             return;
@@ -53,7 +53,7 @@ public class WailaTickHandler {
             List<ITextComponent> currentTipBody = new TaggableList<>(TaggedTextComponent::new);
             List<ITextComponent> currentTipTail = new TaggableList<>(TaggedTextComponent::new);
 
-            if (target != null && target.type == RayTraceResult.Type.BLOCK) {
+            if (target != null && target.getType() == RayTraceResult.Type.BLOCK) {
                 DataAccessor accessor = DataAccessor.INSTANCE;
                 accessor.set(world, player, target);
                 ItemStack targetStack = RayTracing.INSTANCE.getTargetStack(); // Here we get either the proper stack or the override
@@ -67,7 +67,7 @@ public class WailaTickHandler {
 
                     tooltip = new Tooltip(currentTip, !targetStack.isEmpty());
                 }
-            } else if (target != null && target.type == RayTraceResult.Type.ENTITY) {
+            } else if (target != null && target.getType() == RayTraceResult.Type.ENTITY) {
                 DataAccessor accessor = DataAccessor.INSTANCE;
                 accessor.set(world, player, target);
 
@@ -88,10 +88,10 @@ public class WailaTickHandler {
 
     }
 
-    private void combinePositions(EntityPlayer player, List<ITextComponent> currentTip, List<ITextComponent> currentTipHead, List<ITextComponent> currentTipBody, List<ITextComponent> currentTipTail) {
+    private void combinePositions(PlayerEntity player, List<ITextComponent> currentTip, List<ITextComponent> currentTipHead, List<ITextComponent> currentTipBody, List<ITextComponent> currentTipTail) {
         if (Waila.CONFIG.get().getGeneral().shouldShiftForDetails() && !currentTipBody.isEmpty() && !player.isSneaking()) {
             currentTipBody.clear();
-            currentTipBody.add(new TextComponentTranslation("tooltip.waila.sneak_for_details").setStyle(new Style().setItalic(true)));
+            currentTipBody.add(new TranslationTextComponent("tooltip.waila.sneak_for_details").setStyle(new Style().setItalic(true)));
         }
 
         ((ITaggableList<ResourceLocation, ITextComponent>) currentTip).absorb((ITaggableList<ResourceLocation, ITextComponent>) currentTipHead);
@@ -117,7 +117,7 @@ public class WailaTickHandler {
         if (getNarrator().active() || !Waila.CONFIG.get().getGeneral().shouldEnableTextToSpeech())
             return;
 
-        if (Minecraft.getInstance().currentScreen != null && !(Minecraft.getInstance().currentScreen instanceof GuiChat))
+        if (Minecraft.getInstance().field_71462_r != null && Minecraft.getInstance().gameSettings.chatVisibility != ChatVisibility.HIDDEN)
             return;
 
         if (event.getAccessor().getBlock() == Blocks.AIR && event.getAccessor().getEntity() == null)
@@ -128,7 +128,7 @@ public class WailaTickHandler {
             return;
 
         getNarrator().clear();
-        getNarrator().say(narrate);
+        getNarrator().say(narrate, true);
         lastNarration = narrate;
     }
 }

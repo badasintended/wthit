@@ -1,5 +1,6 @@
 package mcp.mobius.waila.overlay;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.addons.core.PluginCore;
@@ -8,9 +9,8 @@ import mcp.mobius.waila.api.impl.DataAccessor;
 import mcp.mobius.waila.api.impl.config.PluginConfig;
 import mcp.mobius.waila.api.impl.config.WailaConfig;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiChat;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.entity.player.ChatVisibility;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraftforge.common.MinecraftForge;
 import org.lwjgl.opengl.GL11;
@@ -40,7 +40,7 @@ public class OverlayRenderer {
             return;
 
         Minecraft mc = Minecraft.getInstance();
-        if ((mc.currentScreen != null && !(mc.currentScreen instanceof GuiChat)) || mc.world == null)
+        if ((mc.field_71462_r != null && mc.gameSettings.chatVisibility != ChatVisibility.HIDDEN) || mc.world == null)
             return;
 
         boolean isOnServer = !mc.isSingleplayer() || mc.player.connection.getPlayerInfoMap().size() > 1;
@@ -56,15 +56,15 @@ public class OverlayRenderer {
         if (RayTracing.INSTANCE.getTarget() == null)
             return;
 
-        if (RayTracing.INSTANCE.getTarget().type == RayTraceResult.Type.BLOCK && !RayTracing.INSTANCE.getTargetStack().isEmpty())
+        if (RayTracing.INSTANCE.getTarget().getType() == RayTraceResult.Type.BLOCK && !RayTracing.INSTANCE.getTargetStack().isEmpty())
             renderOverlay(WailaTickHandler.instance().tooltip);
 
-        if (RayTracing.INSTANCE.getTarget().type == RayTraceResult.Type.ENTITY && PluginConfig.INSTANCE.get(PluginCore.CONFIG_SHOW_ENTITY))
+        if (RayTracing.INSTANCE.getTarget().getType() == RayTraceResult.Type.ENTITY && PluginConfig.INSTANCE.get(PluginCore.CONFIG_SHOW_ENTITY))
             renderOverlay(WailaTickHandler.instance().tooltip);
     }
 
     public static void renderOverlay(Tooltip tooltip) {
-        Minecraft.getInstance().profiler.startSection("Waila Overlay");
+        Minecraft.getInstance().getProfiler().startSection("Waila Overlay");
         GlStateManager.pushMatrix();
         saveGLState();
 
@@ -87,7 +87,9 @@ public class OverlayRenderer {
 
         Rectangle position = preEvent.getPosition();
         WailaConfig.ConfigOverlay.ConfigOverlayColor color = Waila.CONFIG.get().getOverlay().getColor();
-        drawTooltipBox(position.x, position.y, position.width, position.height, color.getBackgroundColor(), color.getGradientStart(), color.getGradientEnd());
+        WailaRenderEvent.Color colorEvent = new WailaRenderEvent.Color(color.getAlpha(), color.getBackgroundColor(), color.getGradientStart(), color.getGradientEnd());
+        MinecraftForge.EVENT_BUS.post(colorEvent);
+        drawTooltipBox(position.x, position.y, position.width, position.height, colorEvent.getBackground(), colorEvent.getGradientStart(), colorEvent.getGradientEnd());
 
         GlStateManager.enableBlend();
         GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
@@ -107,7 +109,7 @@ public class OverlayRenderer {
         loadGLState();
         GlStateManager.enableDepthTest();
         GlStateManager.popMatrix();
-        Minecraft.getInstance().profiler.endSection();
+        Minecraft.getInstance().getProfiler().endSection();
     }
 
     public static void saveGLState() {
@@ -153,7 +155,7 @@ public class OverlayRenderer {
         else
             GlStateManager.disableColorMaterial();
 
-        GlStateManager.popAttrib();
+        GlStateManager.popAttributes();
     }
 
     public static void drawTooltipBox(int x, int y, int w, int h, int bg, int grad1, int grad2) {

@@ -7,16 +7,13 @@ import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.impl.DataAccessor;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.api.impl.config.PluginConfig;
-import net.minecraft.block.state.IBlockState;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
-import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceFluidMode;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.*;
 import net.minecraft.world.World;
 
 import java.util.Collection;
@@ -33,7 +30,7 @@ public class RayTracing {
     }
 
     public void fire() {
-        if (mc.objectMouseOver != null && mc.objectMouseOver.type == RayTraceResult.Type.ENTITY) {
+        if (mc.objectMouseOver != null && mc.objectMouseOver.getType() == RayTraceResult.Type.ENTITY) {
             this.target = mc.objectMouseOver;
             return;
         }
@@ -50,11 +47,11 @@ public class RayTracing {
     }
 
     public ItemStack getTargetStack() {
-        return target != null && target.type == RayTraceResult.Type.BLOCK ? getIdentifierStack() : ItemStack.EMPTY;
+        return target != null && target.getType() == RayTraceResult.Type.BLOCK ? getIdentifierStack() : ItemStack.EMPTY;
     }
 
     public Entity getTargetEntity() {
-        return target.type == RayTraceResult.Type.ENTITY ? getIdentifierEntity() : null;
+        return target.getType() == RayTraceResult.Type.ENTITY ? getIdentifierEntity() : null;
     }
 
     public RayTraceResult rayTrace(Entity entity, double playerReach, float partialTicks) {
@@ -62,7 +59,9 @@ public class RayTracing {
         Vec3d lookVector = entity.getLook(partialTicks);
         Vec3d traceEnd = eyePosition.add(lookVector.x * playerReach, lookVector.y * playerReach, lookVector.z * playerReach);
 
-        return entity.getEntityWorld().rayTraceBlocks(eyePosition, traceEnd, Waila.CONFIG.get().getGeneral().shouldDisplayFluids() ? RayTraceFluidMode.SOURCE_ONLY : RayTraceFluidMode.NEVER);
+        RayTraceContext.FluidMode fluidView = Waila.CONFIG.get().getGeneral().shouldDisplayFluids() ? RayTraceContext.FluidMode.SOURCE_ONLY : RayTraceContext.FluidMode.NONE;
+        RayTraceContext context = new RayTraceContext(eyePosition, traceEnd, RayTraceContext.BlockMode.OUTLINE, fluidView, entity);
+        return entity.getEntityWorld().rayTraceBlocks(context);
     }
 
     public ItemStack getIdentifierStack() {
@@ -75,12 +74,12 @@ public class RayTracing {
     }
 
     public Entity getIdentifierEntity() {
-        if (this.target == null || this.target.type != RayTraceResult.Type.ENTITY)
+        if (this.target == null || this.target.getType() != RayTraceResult.Type.ENTITY)
             return null;
 
         List<Entity> entities = Lists.newArrayList();
 
-        Entity entity = target.entity;
+        Entity entity = ((EntityRayTraceResult) target).getEntity();
         if (WailaRegistrar.INSTANCE.hasOverrideEntityProviders(entity)) {
             Collection<List<IEntityComponentProvider>> overrideProviders = WailaRegistrar.INSTANCE.getOverrideEntityProviders(entity).values();
             for (List<IEntityComponentProvider> providers : overrideProviders)
@@ -97,10 +96,10 @@ public class RayTracing {
         if (this.target == null)
             return items;
 
-        switch (this.target.type) {
+        switch (this.target.getType()) {
             case ENTITY: {
-                if (WailaRegistrar.INSTANCE.hasStackEntityProviders(target.entity)) {
-                    Collection<List<IEntityComponentProvider>> providers = WailaRegistrar.INSTANCE.getStackEntityProviders(target.entity).values();
+                if (WailaRegistrar.INSTANCE.hasStackEntityProviders(((EntityRayTraceResult) target).getEntity())) {
+                    Collection<List<IEntityComponentProvider>> providers = WailaRegistrar.INSTANCE.getStackEntityProviders(((EntityRayTraceResult) target).getEntity()).values();
                     for (List<IEntityComponentProvider> providersList : providers) {
                         for (IEntityComponentProvider provider : providersList) {
                             ItemStack providerStack = provider.getDisplayItem(DataAccessor.INSTANCE, PluginConfig.INSTANCE);
@@ -115,8 +114,8 @@ public class RayTracing {
             }
             case BLOCK: {
                 World world = mc.world;
-                BlockPos pos = target.getBlockPos();
-                IBlockState state = world.getBlockState(pos);
+                BlockPos pos = ((BlockRayTraceResult) target).getPos();
+                BlockState state = world.getBlockState(pos);
                 if (state.isAir(world, pos))
                     return items;
 

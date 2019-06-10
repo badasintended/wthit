@@ -1,9 +1,5 @@
-import blue.endless.jankson.Jankson
-import com.moandjiezana.toml.TomlWriter
-import groovy.json.JsonSlurper
-
 buildscript {
-    repositories {
+    repositories { 
         jcenter()
     }
 
@@ -20,17 +16,13 @@ processResources {
     }
 }
 
+import blue.endless.jankson.Jankson
+import com.moandjiezana.toml.TomlWriter
+import groovy.json.JsonSlurper
+
 //shitshow ahead: groovy is too magic to call methods before call to super
 class Json5ToTomlFilter extends FilterReader {
     Json5ToTomlFilter(Reader input) {
-        super(
-                new StringReader(
-                        new TomlWriter().write(
-                                new JsonSlurper().parseText(
-                                        Jankson.builder().build().load(input.text).toJson()
-                                )
-                        )
-                )
-        )
+        super(new StringReader(new TomlWriter().write(new JsonSlurper().parseText(Jankson.builder().build().load(input.text).toJson()))))
     }
 }

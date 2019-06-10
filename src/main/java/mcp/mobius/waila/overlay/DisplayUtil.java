@@ -1,17 +1,17 @@
 package mcp.mobius.waila.overlay;
 
+import com.mojang.blaze3d.platform.GlStateManager;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.AbstractGui;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TextFormatting;
 
 import java.text.DecimalFormat;
@@ -86,7 +86,7 @@ public class DisplayUtil {
         float f5 = (float) (endColor >> 16 & 255) / 255.0F;
         float f6 = (float) (endColor >> 8 & 255) / 255.0F;
         float f7 = (float) (endColor & 255) / 255.0F;
-        GlStateManager.disableTexture2D();
+        GlStateManager.disableTexture();
         GlStateManager.enableBlend();
         GlStateManager.disableAlphaTest();
         GlStateManager.blendFuncSeparate(770, 771, 1, 0);
@@ -102,7 +102,7 @@ public class DisplayUtil {
         GlStateManager.shadeModel(7424);
         GlStateManager.disableBlend();
         GlStateManager.enableAlphaTest();
-        GlStateManager.enableTexture2D();
+        GlStateManager.enableTexture();
     }
 
     public static void drawTexturedModalRect(int x, int y, int textureX, int textureY, int width, int height, int tw, int th) {
@@ -130,9 +130,9 @@ public class DisplayUtil {
             namelist = new ArrayList<>();
 
         if (namelist.isEmpty())
-            namelist.add(new TextComponentString("Unnamed"));
+            namelist.add(new StringTextComponent("Unnamed"));
 
-        namelist.set(0, new TextComponentString(itemstack.getRarity().color.toString() + namelist.get(0)));
+        namelist.set(0, new StringTextComponent(itemstack.getRarity().color.toString() + namelist.get(0)));
         for (int i = 1; i < namelist.size(); i++)
             namelist.set(i, namelist.get(i));
 
@@ -141,7 +141,7 @@ public class DisplayUtil {
 
     public static void renderIcon(int x, int y, int sx, int sy, IconUI icon) {
         GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        CLIENT.getTextureManager().bindTexture(Gui.ICONS);
+        CLIENT.getTextureManager().bindTexture(AbstractGui.GUI_ICONS_LOCATION);
 
         if (icon == null)
             return;

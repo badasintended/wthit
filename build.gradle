@@ -9,7 +9,7 @@ buildscript {
     }
 }
 plugins {
-    id "com.matthewprenger.cursegradle" version "1.0.10"
+    id "com.matthewprenger.cursegradle" version "1.3.0"
     id "maven-publish"
 }
 
@@ -25,7 +25,7 @@ group = "mcp.mobius.waila"
 archivesBaseName = "Hwyla"
 
 minecraft {
-    mappings channel: 'snapshot', version: "20190216-1.13.1" // FIXME - Use properties when Forge fixes lack of GString support
+    mappings channel: "${mapping_channel}", version: "${mapping_version}"
 
     runs {
         client = {
@@ -40,6 +40,32 @@ minecraft {
             properties 'forge.logging.console.level': 'info'
             workingDirectory project.file('run/server').canonicalPath
             source sourceSets.main
+        }
+    }
+
+    runs {
+        client {
+            workingDirectory project.file('run')
+            property 'forge.logging.markers', 'REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.console.level', 'info'
+
+            mods {
+                waila {
+                    source sourceSets.main
+                }
+            }
+        }
+
+        server {
+            workingDirectory project.file('run/server')
+            property 'forge.logging.markers', 'REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.console.level', 'info'
+
+            mods {
+                waila {
+                    source sourceSets.main
+                }
+            }
         }
     }
 }

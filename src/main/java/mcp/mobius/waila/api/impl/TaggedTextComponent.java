@@ -1,9 +1,9 @@
 package mcp.mobius.waila.api.impl;
 
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
 
-public class TaggedTextComponent extends TextComponentString {
+public class TaggedTextComponent extends StringTextComponent {
 
     private final ResourceLocation tag;
 

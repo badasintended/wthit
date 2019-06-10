@@ -1,7 +1,7 @@
 package mcp.mobius.waila.network;
 
 import mcp.mobius.waila.api.impl.DataAccessor;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkEvent;
 
@@ -9,9 +9,9 @@ import java.util.function.Supplier;
 
 public class MessageReceiveData {
 
-    public NBTTagCompound tag;
+    public CompoundNBT tag;
 
-    public MessageReceiveData(NBTTagCompound tag) {
+    public MessageReceiveData(CompoundNBT tag) {
         this.tag = tag;
     }
 

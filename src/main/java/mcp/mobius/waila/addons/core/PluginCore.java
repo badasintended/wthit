@@ -6,10 +6,10 @@ import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.TooltipPosition;
 import mcp.mobius.waila.overlay.tooltiprenderers.TooltipRendererHealth;
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockFlowingFluid;
-import net.minecraft.entity.EntityHanging;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.item.EntityMinecart;
+import net.minecraft.block.FlowingFluidBlock;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.item.HangingEntity;
+import net.minecraft.entity.item.minecart.MinecartEntity;
 import net.minecraft.util.ResourceLocation;
 
 public class PluginCore implements IWailaPlugin {
@@ -27,16 +27,16 @@ public class PluginCore implements IWailaPlugin {
         registrar.registerComponentProvider(HUDHandlerBlocks.INSTANCE, TooltipPosition.BODY, Block.class);
         registrar.registerComponentProvider(HUDHandlerBlocks.INSTANCE, TooltipPosition.TAIL, Block.class);
 
-        registrar.registerStackProvider(HUDHandlerFluids.INSTANCE, BlockFlowingFluid.class);
-        registrar.registerComponentProvider(HUDHandlerFluids.INSTANCE, TooltipPosition.HEAD, BlockFlowingFluid.class);
+        registrar.registerStackProvider(HUDHandlerFluids.INSTANCE, FlowingFluidBlock.class);
+        registrar.registerComponentProvider(HUDHandlerFluids.INSTANCE, TooltipPosition.HEAD, FlowingFluidBlock.class);
 
-        registrar.registerComponentProvider(HUDHandlerEntities.INSTANCE, TooltipPosition.HEAD, EntityLiving.class);
-        registrar.registerComponentProvider(HUDHandlerEntities.INSTANCE, TooltipPosition.HEAD, EntityHanging.class);
-        registrar.registerComponentProvider(HUDHandlerEntities.INSTANCE, TooltipPosition.HEAD, EntityMinecart.class);
-        registrar.registerComponentProvider(HUDHandlerEntities.INSTANCE, TooltipPosition.BODY, EntityLiving.class);
-        registrar.registerComponentProvider(HUDHandlerEntities.INSTANCE, TooltipPosition.TAIL, EntityLiving.class);
-        registrar.registerComponentProvider(HUDHandlerEntities.INSTANCE, TooltipPosition.TAIL, EntityHanging.class);
-        registrar.registerComponentProvider(HUDHandlerEntities.INSTANCE, TooltipPosition.TAIL, EntityMinecart.class);
+        registrar.registerComponentProvider(HUDHandlerEntities.INSTANCE, TooltipPosition.HEAD, LivingEntity.class);
+        registrar.registerComponentProvider(HUDHandlerEntities.INSTANCE, TooltipPosition.HEAD, HangingEntity.class);
+        registrar.registerComponentProvider(HUDHandlerEntities.INSTANCE, TooltipPosition.HEAD, MinecartEntity.class);
+        registrar.registerComponentProvider(HUDHandlerEntities.INSTANCE, TooltipPosition.BODY, LivingEntity.class);
+        registrar.registerComponentProvider(HUDHandlerEntities.INSTANCE, TooltipPosition.TAIL, LivingEntity.class);
+        registrar.registerComponentProvider(HUDHandlerEntities.INSTANCE, TooltipPosition.TAIL, HangingEntity.class);
+        registrar.registerComponentProvider(HUDHandlerEntities.INSTANCE, TooltipPosition.TAIL, MinecartEntity.class);
 
         registrar.addConfig(CONFIG_SHOW_REGISTRY, false);
         registrar.addConfig(CONFIG_SHOW_ENTITY, true);

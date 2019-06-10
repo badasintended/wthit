@@ -5,7 +5,7 @@ import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.ITooltipRenderer;
 import mcp.mobius.waila.overlay.DisplayUtil;
 import net.minecraft.client.Minecraft;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 
 import java.awt.Dimension;
@@ -15,12 +15,12 @@ public class TooltipRendererProgressBar implements ITooltipRenderer {
     private static final ResourceLocation SHEET = new ResourceLocation(Waila.MODID, "textures/sprites.png");
 
     @Override
-    public Dimension getSize(NBTTagCompound tag, ICommonAccessor accessor) {
+    public Dimension getSize(CompoundNBT tag, ICommonAccessor accessor) {
         return new Dimension(26, 16);
     }
 
     @Override
-    public void draw(NBTTagCompound tag, ICommonAccessor accessor, int x, int y) {
+    public void draw(CompoundNBT tag, ICommonAccessor accessor, int x, int y) {
         int currentValue = tag.getInt("progress");
 
         Minecraft.getInstance().getTextureManager().bindTexture(SHEET);

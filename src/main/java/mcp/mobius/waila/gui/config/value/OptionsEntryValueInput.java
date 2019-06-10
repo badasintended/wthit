@@ -1,9 +1,8 @@
 package mcp.mobius.waila.gui.config.value;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.IGuiEventListener;
+import net.minecraft.client.gui.widget.TextFieldWidget;
 
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -14,13 +13,13 @@ public class OptionsEntryValueInput<T> extends OptionsEntryValue<T> {
     public static final Predicate<String> INTEGER = s -> s.matches("^[0-9]*$");
     public static final Predicate<String> FLOAT = s -> s.matches("[-+]?([0-9]*\\.[0-9]+|[0-9]+)") || s.endsWith(".") || s.isEmpty();
 
-    private final GuiTextField textField;
+    private final TextFieldWidget textField;
 
     public OptionsEntryValueInput(String optionName, T value, Consumer<T> save, Predicate<String> validator) {
         super(optionName, save);
 
         this.value = value;
-        this.textField = new WatchedTextfield(this, 0, Minecraft.getInstance().fontRenderer, 0, 0, 98, 18);
+        this.textField = new WatchedTextfield(this, client.fontRenderer, 0, 0, 98, 18);
         textField.setText(String.valueOf(value));
         textField.setValidator(validator);
     }
@@ -33,7 +32,7 @@ public class OptionsEntryValueInput<T> extends OptionsEntryValue<T> {
     protected void drawValue(int entryWidth, int entryHeight, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks) {
         textField.x = x + 135;
         textField.y = y + entryHeight / 6;
-        textField.drawTextField(mouseX, mouseY, partialTicks);
+        textField.render(mouseX, mouseY, partialTicks);
     }
 
     @Override
@@ -64,18 +63,18 @@ public class OptionsEntryValueInput<T> extends OptionsEntryValue<T> {
         }
     }
 
-    private static class WatchedTextfield extends GuiTextField {
+    private static class WatchedTextfield extends TextFieldWidget {
         private final OptionsEntryValueInput<?> watcher;
 
-        public WatchedTextfield(OptionsEntryValueInput<?> watcher, int id, FontRenderer fontRenderer, int x, int y, int width, int height) {
-            super(id, fontRenderer, x, y, width, height);
+        public WatchedTextfield(OptionsEntryValueInput<?> watcher, FontRenderer fontRenderer, int x, int y, int width, int height) {
+            super(fontRenderer, x, y, width, height, "");
 
             this.watcher = watcher;
         }
 
         @Override
-        public void writeText(String value) {
-            super.writeText(value);
+        public void writeText(String string) {
+            super.writeText(string);
             watcher.setValue(getText());
         }
 
@@ -85,6 +84,7 @@ public class OptionsEntryValueInput<T> extends OptionsEntryValue<T> {
             watcher.setValue(getText());
         }
 
+        @Override
         public void deleteWords(int count) {
             super.deleteWords(count);
             watcher.setValue(getText());

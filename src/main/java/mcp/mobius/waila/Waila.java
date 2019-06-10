@@ -13,7 +13,7 @@ import mcp.mobius.waila.network.MessageRequestEntity;
 import mcp.mobius.waila.network.MessageRequestTile;
 import mcp.mobius.waila.network.MessageServerPing;
 import mcp.mobius.waila.utils.JsonConfig;
-import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -105,6 +105,6 @@ public class Waila {
     @SubscribeEvent
     public void playerJoin(PlayerEvent.PlayerLoggedInEvent event) {
         LOGGER.info("Syncing config to {} ({})", event.getPlayer().getGameProfile().getName(), event.getPlayer().getGameProfile().getId());
-        NETWORK.sendTo(new MessageServerPing(PluginConfig.INSTANCE), ((EntityPlayerMP) event.getPlayer()).connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
+        NETWORK.sendTo(new MessageServerPing(PluginConfig.INSTANCE), ((ServerPlayerEntity) event.getPlayer()).connection.netManager, NetworkDirection.PLAY_TO_CLIENT);
     }
 }

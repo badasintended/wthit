@@ -62,4 +62,55 @@ public class WailaRenderEvent extends Event {
             super(position);
         }
     }
+
+    public static class Color extends Event {
+        private final int alpha;
+        private int background;
+        private int gradientStart;
+        private int gradientEnd;
+        private boolean reset;
+
+        public Color(int alpha, int background, int gradientStart, int gradientEnd) {
+            this.alpha = alpha;
+            this.background = background;
+            this.gradientStart = gradientStart;
+            this.gradientEnd = gradientEnd;
+        }
+
+        public int getAlpha() {
+            return alpha;
+        }
+
+        public int getBackground() {
+            return background;
+        }
+
+        public void setBackground(int background) {
+            this.background = background;
+        }
+
+        public int getGradientStart() {
+            return gradientStart;
+        }
+
+        public void setGradientStart(int gradientStart) {
+            this.gradientStart = gradientStart;
+        }
+
+        public int getGradientEnd() {
+            return gradientEnd;
+        }
+
+        public void setGradientEnd(int gradientEnd) {
+            this.gradientEnd = gradientEnd;
+        }
+
+        public boolean isReset() {
+            return reset;
+        }
+
+        public void setReset(boolean reset) {
+            this.reset = reset;
+        }
+    }
 }

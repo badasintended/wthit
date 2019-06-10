@@ -21,8 +21,8 @@ public interface IComponentProvider {
      * Will only be called if the implementing class is registered via {@link IRegistrar#registerStackProvider}.</br>
      * <p>
      * This method is only called on the client side. If you require data from the server, you should also implement
-     * {@link IServerDataProvider#appendServerData(net.minecraft.nbt.NBTTagCompound, net.minecraft.entity.player.EntityPlayerMP, World, Object)}
-     * and add the data to the {@link net.minecraft.nbt.NBTTagCompound} there, which can then be read back using {@link IDataAccessor#getServerData()}.
+     * {@link IServerDataProvider#appendServerData(net.minecraft.nbt.CompoundNBT, net.minecraft.entity.player.ServerPlayerEntity, World, Object)}
+     * and add the data to the {@link net.minecraft.nbt.CompoundNBT} there, which can then be read back using {@link IDataAccessor#getServerData()}.
      * If you rely on the client knowing the data you need, you are not guaranteed to have the proper values.
      *
      * @param accessor Contains most of the relevant information about the current environment.
@@ -39,8 +39,8 @@ public interface IComponentProvider {
      * You are supposed to always return the modified input tooltip.</br>
      * <p>
      * This method is only called on the client side. If you require data from the server, you should also implement
-     * {@link IServerDataProvider#appendServerData(net.minecraft.nbt.NBTTagCompound, net.minecraft.entity.player.EntityPlayerMP, World, Object)}
-     * and add the data to the {@link net.minecraft.nbt.NBTTagCompound} there, which can then be read back using {@link IDataAccessor#getServerData()}.
+     * {@link IServerDataProvider#appendServerData(net.minecraft.nbt.CompoundNBT, net.minecraft.entity.player.ServerPlayerEntity, World, Object)}
+     * and add the data to the {@link net.minecraft.nbt.CompoundNBT} there, which can then be read back using {@link IDataAccessor#getServerData()}.
      * If you rely on the client knowing the data you need, you are not guaranteed to have the proper values.
      *
      * @param tooltip    Current list of tooltip lines (might have been processed by other providers and might be processed
@@ -58,8 +58,8 @@ public interface IComponentProvider {
      * You are supposed to always return the modified input tooltip.</br>
      * <p>
      * This method is only called on the client side. If you require data from the server, you should also implement
-     * {@link IServerDataProvider#appendServerData(net.minecraft.nbt.NBTTagCompound, net.minecraft.entity.player.EntityPlayerMP, World, Object)}
-     * and add the data to the {@link net.minecraft.nbt.NBTTagCompound} there, which can then be read back using {@link IDataAccessor#getServerData()}.
+     * {@link IServerDataProvider#appendServerData(net.minecraft.nbt.CompoundNBT, net.minecraft.entity.player.ServerPlayerEntity, World, Object)}
+     * and add the data to the {@link net.minecraft.nbt.CompoundNBT} there, which can then be read back using {@link IDataAccessor#getServerData()}.
      * If you rely on the client knowing the data you need, you are not guaranteed to have the proper values.
      *
      * @param tooltip    Current list of tooltip lines (might have been processed by other providers and might be processed
@@ -80,8 +80,8 @@ public interface IComponentProvider {
      * to be safe.
      * <p>
      * This method is only called on the client side. If you require data from the server, you should also implement
-     * {@link IServerDataProvider#appendServerData(net.minecraft.nbt.NBTTagCompound, net.minecraft.entity.player.EntityPlayerMP, World, Object)}
-     * and add the data to the {@link net.minecraft.nbt.NBTTagCompound} there, which can then be read back using {@link IDataAccessor#getServerData()}.
+     * {@link IServerDataProvider#appendServerData(net.minecraft.nbt.CompoundNBT, net.minecraft.entity.player.ServerPlayerEntity, World, Object)}
+     * and add the data to the {@link net.minecraft.nbt.CompoundNBT} there, which can then be read back using {@link IDataAccessor#getServerData()}.
      * If you rely on the client knowing the data you need, you are not guaranteed to have the proper values.
      *
      * @param tooltip Current list of tooltip lines (might have been processed by other providers and might be processed by other providers).

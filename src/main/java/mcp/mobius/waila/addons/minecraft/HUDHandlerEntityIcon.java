@@ -3,12 +3,12 @@ package mcp.mobius.waila.addons.minecraft;
 import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
-import net.minecraft.entity.EntityLeashKnot;
-import net.minecraft.entity.item.EntityItemFrame;
-import net.minecraft.entity.item.EntityMinecart;
-import net.minecraft.entity.item.EntityPainting;
-import net.minecraft.init.Items;
+import net.minecraft.entity.item.ItemFrameEntity;
+import net.minecraft.entity.item.LeashKnotEntity;
+import net.minecraft.entity.item.PaintingEntity;
+import net.minecraft.entity.item.minecart.MinecartEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 
 public class HUDHandlerEntityIcon implements IEntityComponentProvider {
 
@@ -16,9 +16,9 @@ public class HUDHandlerEntityIcon implements IEntityComponentProvider {
 
     @Override
     public ItemStack getDisplayItem(IEntityAccessor accessor, IPluginConfig config) {
-        if (accessor.getEntity() instanceof EntityMinecart) {
-            EntityMinecart minecartEntity = (EntityMinecart) accessor.getEntity();
-            EntityMinecart.Type type = minecartEntity.getMinecartType();
+        if (accessor.getEntity() instanceof MinecartEntity) {
+            MinecartEntity minecartEntity = (MinecartEntity) accessor.getEntity();
+            MinecartEntity.Type type = minecartEntity.getMinecartType();
             switch (type) {
                 case RIDEABLE:
                     return new ItemStack(Items.MINECART);
@@ -33,12 +33,12 @@ public class HUDHandlerEntityIcon implements IEntityComponentProvider {
                 case COMMAND_BLOCK:
                     return new ItemStack(Items.COMMAND_BLOCK_MINECART);
             }
-        } else if (accessor.getEntity() instanceof EntityItemFrame) {
-            ItemStack held = ((EntityItemFrame) accessor.getEntity()).getDisplayedItem();
+        } else if (accessor.getEntity() instanceof ItemFrameEntity) {
+            ItemStack held = ((ItemFrameEntity) accessor.getEntity()).getDisplayedItem();
             return held.isEmpty() ? new ItemStack(Items.ITEM_FRAME) : held;
-        } else if (accessor.getEntity() instanceof EntityPainting) {
+        } else if (accessor.getEntity() instanceof PaintingEntity) {
             return new ItemStack(Items.PAINTING);
-        } else if (accessor.getEntity() instanceof EntityLeashKnot) {
+        } else if (accessor.getEntity() instanceof LeashKnotEntity) {
             return new ItemStack(Items.LEAD);
         }
         return ItemStack.EMPTY;

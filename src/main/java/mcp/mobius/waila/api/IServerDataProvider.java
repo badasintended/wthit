@@ -1,7 +1,7 @@
 package mcp.mobius.waila.api;
 
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.world.World;
 
 public interface IServerDataProvider<T> {
@@ -15,5 +15,5 @@ public interface IServerDataProvider<T> {
      * @param world  The world.
      * @param t      The type targeted for synchronization.
      */
-    void appendServerData(NBTTagCompound data, EntityPlayerMP player, World world, T t);
+    void appendServerData(CompoundNBT data, ServerPlayerEntity player, World world, T t);
 }

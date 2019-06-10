@@ -4,8 +4,8 @@ import com.mojang.brigadier.CommandDispatcher;
 import mcp.mobius.waila.api.impl.DumpGenerator;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.Commands;
-import net.minecraft.util.text.TextComponentString;
-import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.StringTextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -20,10 +20,10 @@ public class CommandDumpHandlers {
                     File file = new File("waila_handlers.md");
                     try (FileWriter writer = new FileWriter(file)) {
                         writer.write(DumpGenerator.generateInfoDump());
-                        context.getSource().sendFeedback(new TextComponentTranslation("command.waila.dump_success"), false);
+                        context.getSource().sendFeedback(new TranslationTextComponent("command.waila.dump_success"), false);
                         return 1;
                     } catch (IOException e) {
-                        context.getSource().sendErrorMessage(new TextComponentString(e.getClass().getSimpleName() + ": " + e.getMessage()));
+                        context.getSource().sendErrorMessage(new StringTextComponent(e.getClass().getSimpleName() + ": " + e.getMessage()));
                         return 0;
                     }
                 })

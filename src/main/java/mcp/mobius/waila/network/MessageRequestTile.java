@@ -2,9 +2,9 @@ package mcp.mobius.waila.network;
 
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
@@ -43,19 +43,19 @@ public class MessageRequestTile {
             if (server == null)
                 return;
 
-            server.addScheduledTask(() -> {
-                EntityPlayerMP player = context.get().getSender();
+            server.execute(() -> {
+                ServerPlayerEntity player = context.get().getSender();
                 World world = player.world;
                 if (!world.isBlockLoaded(message.pos))
                     return;
 
                 TileEntity tile = world.getTileEntity(message.pos);
-                IBlockState state = world.getBlockState(message.pos);
+                BlockState state = world.getBlockState(message.pos);
 
                 if (tile == null)
                     return;
 
-                NBTTagCompound tag = new NBTTagCompound();
+                CompoundNBT tag = new CompoundNBT();
                 if (WailaRegistrar.INSTANCE.hasNBTProviders(tile) || WailaRegistrar.INSTANCE.hasNBTProviders(state.getBlock())) {
                     WailaRegistrar.INSTANCE.getNBTProviders(tile).values().forEach(l -> l.forEach(p -> p.appendServerData(tag, player, world, tile)));
                     WailaRegistrar.INSTANCE.getNBTProviders(state.getBlock()).values().forEach(l -> l.forEach(p -> p.appendServerData(tag, player, world, tile)));

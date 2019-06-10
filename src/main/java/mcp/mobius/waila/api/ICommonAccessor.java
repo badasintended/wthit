@@ -2,11 +2,11 @@ package mcp.mobius.waila.api;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
@@ -22,7 +22,7 @@ public interface ICommonAccessor {
 
     World getWorld();
 
-    EntityPlayer getPlayer();
+    PlayerEntity getPlayer();
 
     Block getBlock();
 
@@ -36,11 +36,11 @@ public interface ICommonAccessor {
 
     Vec3d getRenderingPosition();
 
-    NBTTagCompound getServerData();
+    CompoundNBT getServerData();
 
     double getPartialFrame();
 
-    EnumFacing getSide();
+    Direction getSide();
 
     ItemStack getStack();
 }

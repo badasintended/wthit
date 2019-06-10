@@ -3,8 +3,8 @@ package mcp.mobius.waila.addons.core;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.*;
 import mcp.mobius.waila.utils.ModIdentification;
-import net.minecraft.entity.EntityLiving;
-import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.*;
 
@@ -16,22 +16,22 @@ public class HUDHandlerEntities implements IEntityComponentProvider {
 
     @Override
     public void appendHead(List<ITextComponent> tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        ((ITaggableList<ResourceLocation, ITextComponent>) tooltip).setTag(HUDHandlerBlocks.OBJECT_NAME_TAG, new TextComponentString(String.format(Waila.CONFIG.get().getFormatting().getEntityName(), accessor.getEntity().getDisplayName().getFormattedText())));
+        ((ITaggableList<ResourceLocation, ITextComponent>) tooltip).setTag(HUDHandlerBlocks.OBJECT_NAME_TAG, new StringTextComponent(String.format(Waila.CONFIG.get().getFormatting().getEntityName(), accessor.getEntity().getDisplayName().getFormattedText())));
         if (config.get(PluginCore.CONFIG_SHOW_REGISTRY))
-            ((ITaggableList<ResourceLocation, ITextComponent>) tooltip).setTag(HUDHandlerBlocks.REGISTRY_NAME_TAG, new TextComponentString(accessor.getEntity().getType().getRegistryName().toString()).setStyle(new Style().setColor(TextFormatting.GRAY)));
+            ((ITaggableList<ResourceLocation, ITextComponent>) tooltip).setTag(HUDHandlerBlocks.REGISTRY_NAME_TAG, new StringTextComponent(accessor.getEntity().getType().getRegistryName().toString()).setStyle(new Style().setColor(TextFormatting.GRAY)));
     }
 
     @Override
     public void appendBody(List<ITextComponent> tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        if (config.get(PluginCore.CONFIG_SHOW_ENTITY_HEALTH) && accessor.getEntity() instanceof EntityLiving) {
-            EntityLiving living = (EntityLiving) accessor.getEntity();
+        if (config.get(PluginCore.CONFIG_SHOW_ENTITY_HEALTH) && accessor.getEntity() instanceof LivingEntity) {
+            LivingEntity living = (LivingEntity) accessor.getEntity();
             float health = living.getHealth() / 2.0F;
             float maxHealth = living.getMaxHealth() / 2.0F;
 
             if (living.getMaxHealth() > Waila.CONFIG.get().getGeneral().getMaxHealthForRender())
-                tooltip.add(new TextComponentTranslation("tooltip.waila.health", String.format("%.2f", health), String.format("%.2f", maxHealth)));
+                tooltip.add(new TranslationTextComponent("tooltip.waila.health", String.format("%.2f", health), String.format("%.2f", maxHealth)));
             else {
-                NBTTagCompound healthData = new NBTTagCompound();
+                CompoundNBT healthData = new CompoundNBT();
                 healthData.putFloat("health", health);
                 healthData.putFloat("max", maxHealth);
                 tooltip.add(new RenderableTextComponent(PluginCore.RENDER_ENTITY_HEALTH, healthData));
@@ -41,6 +41,6 @@ public class HUDHandlerEntities implements IEntityComponentProvider {
 
     @Override
     public void appendTail(List<ITextComponent> tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        tooltip.add(new TextComponentString(String.format(Waila.CONFIG.get().getFormatting().getModName(), ModIdentification.getModInfo(accessor.getEntity()).getName())));
+        tooltip.add(new StringTextComponent(String.format(Waila.CONFIG.get().getFormatting().getModName(), ModIdentification.getModInfo(accessor.getEntity()).getName())));
     }
 }

@@ -2,7 +2,7 @@ package mcp.mobius.waila.utils;
 
 import mcp.mobius.waila.Waila;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.StringTextComponent;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
@@ -33,6 +33,6 @@ public class WailaExceptionHandler {
             }
         }
         if (tooltip != null)
-            tooltip.add(new TextComponentString("<ERROR>"));
+            tooltip.add(new StringTextComponent("<ERROR>"));
     }
 }
