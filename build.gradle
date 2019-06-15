@@ -28,26 +28,11 @@ minecraft {
     mappings channel: "${mapping_channel}", version: "${mapping_version}"
 
     runs {
-        client = {
-            properties 'forge.logging.markers': 'REGISTRIES,REGISTRYDUMP'
-            properties 'forge.logging.console.level': 'info'
-            properties 'username': 'Hwyla'
-            workingDirectory project.file('run').canonicalPath
-            source sourceSets.main
-        }
-        server = {
-            properties 'forge.logging.markers': 'REGISTRIES,REGISTRYDUMP'
-            properties 'forge.logging.console.level': 'info'
-            workingDirectory project.file('run/server').canonicalPath
-            source sourceSets.main
-        }
-    }
-
-    runs {
         client {
             workingDirectory project.file('run')
             property 'forge.logging.markers', 'REGISTRIES,REGISTRYDUMP'
-            property 'forge.logging.console.level', 'info'
+            property 'forge.logging.console.level', 'info'properties 'username': 'Hwyla'
+            property 'username': 'Hwyla'
 
             mods {
                 waila {
