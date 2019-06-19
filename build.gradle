@@ -31,8 +31,8 @@ minecraft {
         client {
             workingDirectory project.file('run')
             property 'forge.logging.markers', 'REGISTRIES,REGISTRYDUMP'
-            property 'forge.logging.console.level', 'info'properties 'username': 'Hwyla'
-            property 'username': 'Hwyla'
+            property 'forge.logging.console.level', 'info'
+            property 'username', 'Hwyla'
 
             mods {
                 waila {
