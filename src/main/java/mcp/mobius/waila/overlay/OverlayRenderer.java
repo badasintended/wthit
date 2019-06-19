@@ -40,7 +40,7 @@ public class OverlayRenderer {
             return;
 
         Minecraft mc = Minecraft.getInstance();
-        if ((mc.field_71462_r != null && mc.gameSettings.chatVisibility != ChatVisibility.HIDDEN) || mc.world == null)
+        if ((mc.currentScreen != null && mc.gameSettings.chatVisibility != ChatVisibility.HIDDEN) || mc.world == null)
             return;
 
         boolean isOnServer = !mc.isSingleplayer() || mc.player.connection.getPlayerInfoMap().size() > 1;

@@ -117,7 +117,7 @@ public class WailaTickHandler {
         if (getNarrator().active() || !Waila.CONFIG.get().getGeneral().shouldEnableTextToSpeech())
             return;
 
-        if (Minecraft.getInstance().field_71462_r != null && Minecraft.getInstance().gameSettings.chatVisibility != ChatVisibility.HIDDEN)
+        if (Minecraft.getInstance().currentScreen != null && Minecraft.getInstance().gameSettings.chatVisibility != ChatVisibility.HIDDEN)
             return;
 
         if (event.getAccessor().getBlock() == Blocks.AIR && event.getAccessor().getEntity() == null)
