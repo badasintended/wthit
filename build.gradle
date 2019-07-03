@@ -164,6 +164,9 @@ curseforge {
         changelog = getChangelogText()
         releaseType = 'release'
 
+        addGameVersion "1.14.2"
+        addGameVersion "1.14.3"
+        
         addArtifact sourcesJar
         addArtifact apiJar
     }
