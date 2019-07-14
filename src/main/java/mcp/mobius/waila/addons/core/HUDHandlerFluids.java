@@ -34,7 +34,7 @@ public class HUDHandlerFluids implements IComponentProvider {
 
     @Override
     public void appendHead(List<Component> tooltip, IDataAccessor accessor, IPluginConfig config) {
-        ((ITaggableList<Identifier, Component>) tooltip).setTag(HUDHandlerBlocks.OBJECT_NAME_TAG, new TextComponent(String.format(Waila.CONFIG.get().getFormatting().getFluidName(), I18n.translate(accessor.getBlock().getTranslationKey()))));
+        ((ITaggableList<Identifier, Component>) tooltip).setTag(HUDHandlerBlocks.OBJECT_NAME_TAG, new TextComponent(String.format(Waila.CONFIG.get().getFormatting().getFluidName(), I18n.translate(accessor.getBlock().getTextComponent().getFormattedText()))));
         if (config.get(PluginCore.CONFIG_SHOW_REGISTRY))
             ((ITaggableList<Identifier, Component>) tooltip).setTag(HUDHandlerBlocks.REGISTRY_NAME_TAG, new TextComponent(Registry.BLOCK.getId(accessor.getBlock()).toString()).setStyle(new Style().setColor(ChatFormat.GRAY)));
     }

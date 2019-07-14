@@ -6,7 +6,6 @@ import mcp.mobius.waila.api.*;
 import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.ChatFormat;
 import net.minecraft.block.BlockState;
-import net.minecraft.client.resource.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
@@ -28,7 +27,7 @@ public class HUDHandlerBlocks implements IComponentProvider {
         if (accessor.getBlockState().getMaterial().isLiquid())
             return;
 
-        ((ITaggableList<Identifier, Component>) tooltip).setTag(OBJECT_NAME_TAG, new TextComponent(String.format(Waila.CONFIG.get().getFormatting().getBlockName(), I18n.translate(accessor.getStack().getTranslationKey()))));
+        ((ITaggableList<Identifier, Component>) tooltip).setTag(OBJECT_NAME_TAG, new TextComponent(String.format(Waila.CONFIG.get().getFormatting().getBlockName(), accessor.getBlock().getTextComponent().getFormattedText())));
         if (config.get(PluginCore.CONFIG_SHOW_REGISTRY))
             ((ITaggableList<Identifier, Component>) tooltip).setTag(REGISTRY_NAME_TAG, new TextComponent(Registry.BLOCK.getId(accessor.getBlock()).toString()).setStyle(new Style().setColor(ChatFormat.GRAY)));
     }

@@ -1,5 +1,6 @@
 package mcp.mobius.waila.addons.minecraft;
 
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.*;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
@@ -14,6 +15,7 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.state.property.Properties;
+import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -21,6 +23,8 @@ import java.util.List;
 public class HUDHandlerVanilla implements IComponentProvider, IServerDataProvider<BlockEntity> {
 
     static final HUDHandlerVanilla INSTANCE = new HUDHandlerVanilla();
+
+    static final Identifier OBJECT_NAME_TAG = new Identifier(Waila.MODID, "object_name");
 
     @Override
     public ItemStack getStack(IDataAccessor accessor, IPluginConfig config) {
@@ -40,7 +44,7 @@ public class HUDHandlerVanilla implements IComponentProvider, IServerDataProvide
     public void appendHead(List<Component> tooltip, IDataAccessor accessor, IPluginConfig config) {
         if (accessor.getBlock() == Blocks.SPAWNER && config.get(PluginMinecraft.CONFIG_SPAWNER_TYPE)) {
             MobSpawnerBlockEntity spawner = (MobSpawnerBlockEntity) accessor.getBlockEntity();
-            tooltip.set(0, new TranslatableComponent(accessor.getBlock().getTranslationKey())
+            ((ITaggableList<Identifier, Component>) tooltip).setTag(OBJECT_NAME_TAG, new TranslatableComponent(accessor.getBlock().getTranslationKey())
                     .append(new TextComponent(" ("))
                     .append(spawner.getLogic().getRenderedEntity().getDisplayName())
                     .append(new TextComponent(")"))
