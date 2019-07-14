@@ -1,4 +1,12 @@
 ------------------------------------------------------
+Version 1.9.17
+------------------------------------------------------
+
+- Fixed crash when looking at falling block entities
+- Added support for falling block entities
+- Switched name getting to use the block's dedicated getter
+
+------------------------------------------------------
 Version 1.9.16
 ------------------------------------------------------
 
