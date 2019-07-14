@@ -10,6 +10,7 @@ import net.minecraft.block.*;
 import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.block.entity.JukeboxBlockEntity;
 import net.minecraft.block.entity.MobSpawnerBlockEntity;
+import net.minecraft.entity.FallingBlockEntity;
 import net.minecraft.entity.decoration.ItemFrameEntity;
 import net.minecraft.entity.decoration.LeadKnotEntity;
 import net.minecraft.entity.decoration.painting.PaintingEntity;
@@ -61,6 +62,10 @@ public class PluginMinecraft implements IWailaPlugin {
         registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.BODY, RedstoneWireBlock.class);
         registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.BODY, JukeboxBlockEntity.class);
         registrar.registerBlockDataProvider(HUDHandlerVanilla.INSTANCE, JukeboxBlockEntity.class);
+
+        registrar.registerComponentProvider(HUDHandlerFallingBlock.INSTANCE, TooltipPosition.HEAD, FallingBlockEntity.class);
+        registrar.registerComponentProvider(HUDHandlerFallingBlock.INSTANCE, TooltipPosition.TAIL, FallingBlockEntity.class);
+        registrar.registerEntityStackProvider(HUDHandlerFallingBlock.INSTANCE, FallingBlockEntity.class);
 
         registrar.registerEntityStackProvider(HUDHandlerEntityIcon.INSTANCE, AbstractMinecartEntity.class);
         registrar.registerEntityStackProvider(HUDHandlerEntityIcon.INSTANCE, ItemFrameEntity.class);

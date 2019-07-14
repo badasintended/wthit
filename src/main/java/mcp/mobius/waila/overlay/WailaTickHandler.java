@@ -37,6 +37,9 @@ public class WailaTickHandler {
             if (getNarrator().active() || !Waila.CONFIG.get().getGeneral().shouldEnableTextToSpeech())
                 return;
 
+            if (event.getCurrentTip().isEmpty())
+                return;
+
             if (MinecraftClient.getInstance().currentScreen != null && !(MinecraftClient.getInstance().currentScreen instanceof ChatScreen))
                 return;
 
