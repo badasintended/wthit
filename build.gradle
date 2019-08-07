@@ -166,7 +166,8 @@ curseforge {
 
         addGameVersion "1.14.2"
         addGameVersion "1.14.3"
-        
+        addGameVersion "1.14.4"
+
         addArtifact sourcesJar
         addArtifact apiJar
     }
