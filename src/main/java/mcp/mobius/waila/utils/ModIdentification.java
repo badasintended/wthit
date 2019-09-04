@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.ModList;
 
@@ -33,8 +34,12 @@ public class ModIdentification {
         return getModInfo(block.getRegistryName());
     }
 
+    public static Info getModInfo(ItemStack stack) {
+        return getModInfo(stack.getItem().getCreatorModId(stack));
+    }
+
     public static Info getModInfo(Item item) {
-        return getModInfo(item.getRegistryName());
+        return getModInfo(new ItemStack(item));
     }
 
     public static Info getModInfo(Entity entity) {

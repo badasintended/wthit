@@ -46,7 +46,7 @@ public class HUDHandlerBlocks implements IComponentProvider {
 
     @Override
     public void appendTail(List<ITextComponent> tooltip, IDataAccessor accessor, IPluginConfig config) {
-        String modName = ModIdentification.getModInfo(accessor.getStack().getItem()).getName();
+        String modName = ModIdentification.getModInfo(accessor.getStack()).getName();
         if (!Strings.isNullOrEmpty(modName)) {
             modName = String.format(Waila.CONFIG.get().getFormatting().getModName(), modName);
             ((ITaggableList<ResourceLocation, ITextComponent>) tooltip).setTag(MOD_NAME_TAG, new StringTextComponent(modName));

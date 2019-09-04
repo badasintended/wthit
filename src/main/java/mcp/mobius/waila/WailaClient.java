@@ -96,7 +96,7 @@ public class WailaClient {
 
     @SubscribeEvent(priority = EventPriority.LOWEST)
     public static void onTooltip(ItemTooltipEvent event) {
-        String name = String.format(Waila.CONFIG.get().getFormatting().getModName(), ModIdentification.getModInfo(event.getItemStack().getItem()).getName());
+        String name = String.format(Waila.CONFIG.get().getFormatting().getModName(), ModIdentification.getModInfo(event.getItemStack()).getName());
         event.getToolTip().add(new StringTextComponent(name));
     }
 
