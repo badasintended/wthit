@@ -27,7 +27,7 @@ public class HUDHandlerBlocks implements IComponentProvider {
         if (accessor.getBlockState().getMaterial().isLiquid())
             return;
 
-        ((ITaggableList<ResourceLocation, ITextComponent>) tooltip).setTag(OBJECT_NAME_TAG, new StringTextComponent(String.format(Waila.CONFIG.get().getFormatting().getBlockName(), I18n.format(accessor.getStack().getTranslationKey()))));
+        ((ITaggableList<ResourceLocation, ITextComponent>) tooltip).setTag(OBJECT_NAME_TAG, new StringTextComponent(String.format(Waila.CONFIG.get().getFormatting().getBlockName(), accessor.getStack().getDisplayName().getFormattedText())));
         if (config.get(PluginCore.CONFIG_SHOW_REGISTRY))
             ((ITaggableList<ResourceLocation, ITextComponent>) tooltip).setTag(REGISTRY_NAME_TAG, new StringTextComponent(accessor.getBlock().getRegistryName().toString()).setStyle(new Style().setColor(TextFormatting.GRAY)));
     }
