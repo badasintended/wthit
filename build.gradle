@@ -64,7 +64,7 @@ publishing {
 }
 
 def curseRelations = {
-    requiredLibrary 'fabric'
+    requiredLibrary 'fabric-api'
 }
 
 curseforge {
