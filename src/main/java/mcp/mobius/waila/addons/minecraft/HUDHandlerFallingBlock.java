@@ -6,12 +6,12 @@ import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITaggableList;
 import mcp.mobius.waila.utils.ModIdentification;
-import net.minecraft.ChatFormat;
 import net.minecraft.entity.FallingBlockEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Style;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
@@ -33,15 +33,15 @@ public class HUDHandlerFallingBlock implements IEntityComponentProvider {
     }
 
     @Override
-    public void appendHead(List<Component> tooltip, IEntityAccessor accessor, IPluginConfig config) {
+    public void appendHead(List<Text> tooltip, IEntityAccessor accessor, IPluginConfig config) {
         FallingBlockEntity entity = (FallingBlockEntity) accessor.getEntity();
-        ((ITaggableList<Identifier, Component>) tooltip).setTag(OBJECT_NAME_TAG, new TextComponent(String.format(Waila.CONFIG.get().getFormatting().getEntityName(), entity.getBlockState().getBlock().getTextComponent().getFormattedText())));
+        ((ITaggableList<Identifier, Text>) tooltip).setTag(OBJECT_NAME_TAG, new LiteralText(String.format(Waila.CONFIG.get().getFormatting().getEntityName(), entity.getBlockState().getBlock().getName())));
         if (config.get(CONFIG_SHOW_REGISTRY))
-            ((ITaggableList<Identifier, Component>) tooltip).setTag(REGISTRY_NAME_TAG, new TextComponent(Registry.ENTITY_TYPE.getId(accessor.getEntity().getType()).toString()).setStyle(new Style().setColor(ChatFormat.GRAY)));
+            ((ITaggableList<Identifier, Text>) tooltip).setTag(REGISTRY_NAME_TAG, new LiteralText(Registry.ENTITY_TYPE.getId(accessor.getEntity().getType()).toString()).setStyle(new Style().setColor(Formatting.GRAY)));
     }
 
     @Override
-    public void appendTail(List<Component> tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        ((ITaggableList<Identifier, Component>) tooltip).setTag(MOD_NAME_TAG, new TextComponent(String.format(Waila.CONFIG.get().getFormatting().getModName(), ModIdentification.getModInfo(accessor.getEntity()).getName())));
+    public void appendTail(List<Text> tooltip, IEntityAccessor accessor, IPluginConfig config) {
+        ((ITaggableList<Identifier, Text>) tooltip).setTag(MOD_NAME_TAG, new LiteralText(String.format(Waila.CONFIG.get().getFormatting().getModName(), ModIdentification.getModInfo(accessor.getEntity()).getName())));
     }
 }

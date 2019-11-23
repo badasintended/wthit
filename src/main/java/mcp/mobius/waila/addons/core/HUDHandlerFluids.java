@@ -5,14 +5,13 @@ import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IComponentProvider;
 import mcp.mobius.waila.api.ITaggableList;
-import net.minecraft.ChatFormat;
 import net.minecraft.block.Blocks;
-import net.minecraft.client.resource.language.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Style;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
@@ -33,9 +32,9 @@ public class HUDHandlerFluids implements IComponentProvider {
     }
 
     @Override
-    public void appendHead(List<Component> tooltip, IDataAccessor accessor, IPluginConfig config) {
-        ((ITaggableList<Identifier, Component>) tooltip).setTag(HUDHandlerBlocks.OBJECT_NAME_TAG, new TextComponent(String.format(Waila.CONFIG.get().getFormatting().getFluidName(), I18n.translate(accessor.getBlock().getTextComponent().getFormattedText()))));
+    public void appendHead(List<Text> tooltip, IDataAccessor accessor, IPluginConfig config) {
+        ((ITaggableList<Identifier, Text>) tooltip).setTag(HUDHandlerBlocks.OBJECT_NAME_TAG, new LiteralText(String.format(Waila.CONFIG.get().getFormatting().getFluidName(), accessor.getBlock().getName().asFormattedString())));
         if (config.get(PluginCore.CONFIG_SHOW_REGISTRY))
-            ((ITaggableList<Identifier, Component>) tooltip).setTag(HUDHandlerBlocks.REGISTRY_NAME_TAG, new TextComponent(Registry.BLOCK.getId(accessor.getBlock()).toString()).setStyle(new Style().setColor(ChatFormat.GRAY)));
+            ((ITaggableList<Identifier, Text>) tooltip).setTag(HUDHandlerBlocks.REGISTRY_NAME_TAG, new LiteralText(Registry.BLOCK.getId(accessor.getBlock()).toString()).setStyle(new Style().setColor(Formatting.GRAY)));
     }
 }

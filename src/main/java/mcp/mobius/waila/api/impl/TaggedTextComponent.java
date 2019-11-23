@@ -1,9 +1,9 @@
 package mcp.mobius.waila.api.impl;
 
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.text.LiteralText;
 import net.minecraft.util.Identifier;
 
-public class TaggedTextComponent extends TextComponent {
+public class TaggedTextComponent extends LiteralText {
 
     private final Identifier tag;
 

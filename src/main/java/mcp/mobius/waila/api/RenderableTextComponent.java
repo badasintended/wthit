@@ -8,12 +8,12 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringNbtReader;
 import net.minecraft.nbt.StringTag;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.text.LiteralText;
 import net.minecraft.util.Identifier;
 
 import java.util.List;
 
-public class RenderableTextComponent extends TextComponent {
+public class RenderableTextComponent extends LiteralText {
 
     public RenderableTextComponent(Identifier id, CompoundTag data) {
         super(getRenderString(id, data));
@@ -26,7 +26,7 @@ public class RenderableTextComponent extends TextComponent {
     public List<RenderContainer> getRenderers() {
         List<RenderContainer> renderers = Lists.newArrayList();
         CompoundTag data = getData();
-        if (data.containsKey("renders")) {
+        if (data.contains("renders")) {
             ListTag list = data.getList("renders", NbtType.STRING);
             list.forEach(t -> {
                 StringTag stringTag = (StringTag) t;
@@ -50,7 +50,7 @@ public class RenderableTextComponent extends TextComponent {
 
     private CompoundTag getData() {
         try {
-            return StringNbtReader.parse(getFormattedText());
+            return StringNbtReader.parse(asFormattedString());
         } catch (CommandSyntaxException e) {
             return new CompoundTag();
         }
@@ -67,7 +67,7 @@ public class RenderableTextComponent extends TextComponent {
         CompoundTag container = new CompoundTag();
         ListTag renderData = new ListTag();
         for (RenderableTextComponent component : components)
-            renderData.add(new StringTag(component.getFormattedText()));
+            renderData.add(StringTag.of(component.asFormattedString()));
         container.put("renders", renderData);
         return container.toString();
     }

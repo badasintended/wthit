@@ -3,7 +3,7 @@ package mcp.mobius.waila.api.event;
 import mcp.mobius.waila.api.ICommonAccessor;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
-import net.minecraft.network.chat.Component;
+import net.minecraft.text.Text;
 
 import java.util.List;
 
@@ -24,15 +24,15 @@ public class WailaTooltipEvent {
             }
     );
 
-    private final List<Component> currentTip;
+    private final List<Text> currentTip;
     private final ICommonAccessor accessor;
 
-    public WailaTooltipEvent(List<Component> currentTip, ICommonAccessor accessor) {
+    public WailaTooltipEvent(List<Text> currentTip, ICommonAccessor accessor) {
         this.currentTip = currentTip;
         this.accessor = accessor;
     }
 
-    public List<Component> getCurrentTip() {
+    public List<Text> getCurrentTip() {
         return currentTip;
     }
 

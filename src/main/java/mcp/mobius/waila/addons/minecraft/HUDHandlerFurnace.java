@@ -7,9 +7,9 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.state.property.Properties;
+import net.minecraft.text.Text;
 import net.minecraft.util.DefaultedList;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
@@ -21,7 +21,7 @@ public class HUDHandlerFurnace implements IComponentProvider, IServerDataProvide
     static final HUDHandlerFurnace INSTANCE = new HUDHandlerFurnace();
 
     @Override
-    public void appendBody(List<Component> tooltip, IDataAccessor accessor, IPluginConfig config) {
+    public void appendBody(List<Text> tooltip, IDataAccessor accessor, IPluginConfig config) {
         if (!config.get(PluginMinecraft.CONFIG_DISPLAY_FURNACE))
             return;
 
@@ -29,9 +29,9 @@ public class HUDHandlerFurnace implements IComponentProvider, IServerDataProvide
             return;
 
         ListTag furnaceItems = accessor.getServerData().getList("furnace", NbtType.COMPOUND);
-        DefaultedList<ItemStack> inventory = DefaultedList.create(3, ItemStack.EMPTY);
+        DefaultedList<ItemStack> inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
         for (int i = 0; i <furnaceItems.size(); i++)
-            inventory.set(i, ItemStack.fromTag(furnaceItems.getCompoundTag(i)));
+            inventory.set(i, ItemStack.fromTag(furnaceItems.getCompound(i)));
 
         CompoundTag progress = new CompoundTag();
         progress.putInt("progress", accessor.getServerData().getInt("progress"));

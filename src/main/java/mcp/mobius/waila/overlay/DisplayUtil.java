@@ -1,9 +1,9 @@
 package mcp.mobius.waila.overlay;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
-import net.minecraft.ChatFormat;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
@@ -12,8 +12,9 @@ import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -45,15 +46,15 @@ public class DisplayUtil {
             String s = shortHandNumber(stack.getCount());
 
             if (stack.getCount() < 1)
-                s = ChatFormat.RED + String.valueOf(stack.getCount());
+                s = Formatting.RED + String.valueOf(stack.getCount());
 
-            GlStateManager.disableLighting();
-            GlStateManager.disableDepthTest();
-            GlStateManager.disableBlend();
+            RenderSystem.disableLighting();
+            RenderSystem.disableDepthTest();
+            RenderSystem.disableBlend();
             fr.drawWithShadow(s, (float) (xPosition + 19 - 2 - fr.getStringWidth(s)), (float) (yPosition + 6 + 3), 16777215);
-            GlStateManager.enableLighting();
-            GlStateManager.enableDepthTest();
-            GlStateManager.enableBlend();
+            RenderSystem.enableLighting();
+            RenderSystem.enableDepthTest();
+            RenderSystem.enableBlend();
         }
     }
 
@@ -67,13 +68,13 @@ public class DisplayUtil {
     }
 
     public static void enable3DRender() {
-        GlStateManager.enableLighting();
-        GlStateManager.enableDepthTest();
+        RenderSystem.enableLighting();
+        RenderSystem.enableDepthTest();
     }
 
     public static void enable2DRender() {
-        GlStateManager.disableLighting();
-        GlStateManager.disableDepthTest();
+        RenderSystem.disableLighting();
+        RenderSystem.disableDepthTest();
     }
 
     public static void drawGradientRect(int left, int top, int right, int bottom, int startColor, int endColor) {
@@ -87,23 +88,23 @@ public class DisplayUtil {
         float f5 = (float) (endColor >> 16 & 255) / 255.0F;
         float f6 = (float) (endColor >> 8 & 255) / 255.0F;
         float f7 = (float) (endColor & 255) / 255.0F;
-        GlStateManager.disableTexture();
-        GlStateManager.enableBlend();
-        GlStateManager.disableAlphaTest();
-        GlStateManager.blendFuncSeparate(770, 771, 1, 0);
-        GlStateManager.shadeModel(7425);
+        RenderSystem.disableTexture();
+        RenderSystem.enableBlend();
+        RenderSystem.disableAlphaTest();
+        RenderSystem.blendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+        RenderSystem.shadeModel(7425);
         Tessellator tessellator = Tessellator.getInstance();
-        BufferBuilder buffer = tessellator.getBufferBuilder();
+        BufferBuilder buffer = tessellator.getBuffer();
         buffer.begin(7, VertexFormats.POSITION_COLOR);
         buffer.vertex((double) (left + right), (double) top, (double) zLevel).color(f1, f2, f3, f).next();
         buffer.vertex((double) left, (double) top, (double) zLevel).color(f1, f2, f3, f).next();
         buffer.vertex((double) left, (double) (top + bottom), (double) zLevel).color(f5, f6, f7, f4).next();
         buffer.vertex((double) (left + right), (double) (top + bottom), (double) zLevel).color(f5, f6, f7, f4).next();
         tessellator.draw();
-        GlStateManager.shadeModel(7424);
-        GlStateManager.disableBlend();
-        GlStateManager.enableAlphaTest();
-        GlStateManager.enableTexture();
+        RenderSystem.shadeModel(7424);
+        RenderSystem.disableBlend();
+        RenderSystem.enableAlphaTest();
+        RenderSystem.enableTexture();
     }
 
     public static void drawTexturedModalRect(int x, int y, int textureX, int textureY, int width, int height, int tw, int th) {
@@ -111,17 +112,17 @@ public class DisplayUtil {
         float f1 = 0.00390625F;
         float zLevel = 0.0F;
         Tessellator tessellator = Tessellator.getInstance();
-        BufferBuilder buffer = tessellator.getBufferBuilder();
-        buffer.begin(7, VertexFormats.POSITION_UV);
-        buffer.vertex((double) (x), (double) (y + height), (double) zLevel).texture((double) ((float) (textureX) * f), (double) ((float) (textureY + th) * f1)).next();
-        buffer.vertex((double) (x + width), (double) (y + height), (double) zLevel).texture((double) ((float) (textureX + tw) * f), (double) ((float) (textureY + th) * f1)).next();
-        buffer.vertex((double) (x + width), (double) (y), (double) zLevel).texture((double) ((float) (textureX + tw) * f), (double) ((float) (textureY) * f1)).next();
-        buffer.vertex((double) (x), (double) (y), (double) zLevel).texture((double) ((float) (textureX) * f), (double) ((float) (textureY) * f1)).next();
+        BufferBuilder buffer = tessellator.getBuffer();
+        buffer.begin(7, VertexFormats.POSITION_TEXTURE);
+        buffer.vertex(x, y + height, zLevel).texture((float) (textureX) * f, (float) (textureY + th) * f1).next();
+        buffer.vertex(x + width, y + height, zLevel).texture((float) (textureX + tw) * f, (float) (textureY + th) * f1).next();
+        buffer.vertex(x + width, y, zLevel).texture((float) (textureX + tw) * f, (float) (textureY) * f1).next();
+        buffer.vertex(x, y, zLevel).texture((float) (textureX) * f, (float) (textureY) * f1).next();
         tessellator.draw();
     }
 
-    public static List<Component> itemDisplayNameMultiline(ItemStack itemstack) {
-        List<Component> namelist = null;
+    public static List<Text> itemDisplayNameMultiline(ItemStack itemstack) {
+        List<Text> namelist = null;
         try {
             namelist = itemstack.getTooltip(CLIENT.player, TooltipContext.Default.NORMAL);
         } catch (Throwable ignored) {
@@ -131,9 +132,9 @@ public class DisplayUtil {
             namelist = new ArrayList<>();
 
         if (namelist.isEmpty())
-            namelist.add(new TextComponent("Unnamed"));
+            namelist.add(new LiteralText("Unnamed"));
 
-        namelist.set(0, new TextComponent(itemstack.getRarity().formatting.toString() + namelist.get(0)));
+        namelist.set(0, new LiteralText(itemstack.getRarity().formatting.toString() + namelist.get(0)));
         for (int i = 1; i < namelist.size(); i++)
             namelist.set(i, namelist.get(i));
 
@@ -141,19 +142,21 @@ public class DisplayUtil {
     }
 
     public static String itemDisplayNameShort(ItemStack itemstack) {
-        List<Component> list = itemDisplayNameMultiline(itemstack);
-        return String.format(Waila.CONFIG.get().getFormatting().getBlockName(), list.get(0).getFormattedText());
+        List<Text> list = itemDisplayNameMultiline(itemstack);
+        return String.format(Waila.CONFIG.get().getFormatting().getBlockName(), list.get(0).asFormattedString());
     }
 
     public static void renderIcon(int x, int y, int sx, int sy, IconUI icon) {
-        GlStateManager.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         CLIENT.getTextureManager().bindTexture(DrawableHelper.GUI_ICONS_LOCATION);
 
         if (icon == null)
             return;
 
+        RenderSystem.enableAlphaTest();
         if (icon.bu != -1)
             DisplayUtil.drawTexturedModalRect(x, y, icon.bu, icon.bv, sx, sy, icon.bsu, icon.bsv);
         DisplayUtil.drawTexturedModalRect(x, y, icon.u, icon.v, sx, sy, icon.su, icon.sv);
+        RenderSystem.disableAlphaTest();
     }
 }

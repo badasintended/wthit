@@ -9,7 +9,7 @@ import mcp.mobius.waila.network.NetworkHandler;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.network.chat.Component;
+import net.minecraft.text.Text;
 
 import java.util.List;
 import java.util.Map;
@@ -27,7 +27,7 @@ public class MetaDataProvider {
     private Map<Integer, List<IEntityComponentProvider>> bodyEntityProviders = new TreeMap<>();
     private Map<Integer, List<IEntityComponentProvider>> tailEntityProviders = new TreeMap<>();
 
-    public void gatherBlockComponents(DataAccessor accessor, List<Component> tooltip, TooltipPosition position) {
+    public void gatherBlockComponents(DataAccessor accessor, List<Text> tooltip, TooltipPosition position) {
         Block block = accessor.getBlock();
 
         if (accessor.getBlockEntity() != null && accessor.isTimeElapsed(rateLimiter) && Waila.CONFIG.get().getGeneral().shouldDisplayTooltip()) {
@@ -104,7 +104,7 @@ public class MetaDataProvider {
         }
     }
 
-    public void gatherEntityComponents(Entity entity, DataAccessor accessor, List<Component> tooltip, TooltipPosition position) {
+    public void gatherEntityComponents(Entity entity, DataAccessor accessor, List<Text> tooltip, TooltipPosition position) {
         if (accessor.getEntity() != null && accessor.isTimeElapsed(rateLimiter)) {
             accessor.resetTimer();
 

@@ -12,9 +12,9 @@ import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.text.Style;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.world.World;
@@ -46,7 +46,7 @@ public class WailaTickHandler {
             if (event.getAccessor().getBlock() == Blocks.AIR && event.getAccessor().getEntity() == null)
                 return;
 
-            String narrate = event.getCurrentTip().get(0).getFormattedText();
+            String narrate = event.getCurrentTip().get(0).asFormattedString();
             if (lastNarration.equalsIgnoreCase(narrate))
                 return;
 
@@ -75,10 +75,10 @@ public class WailaTickHandler {
             RayTracing.INSTANCE.fire();
             HitResult target = RayTracing.INSTANCE.getTarget();
 
-            List<Component> currentTip = new TaggableList<>(TaggedTextComponent::new);
-            List<Component> currentTipHead = new TaggableList<>(TaggedTextComponent::new);
-            List<Component> currentTipBody = new TaggableList<>(TaggedTextComponent::new);
-            List<Component> currentTipTail = new TaggableList<>(TaggedTextComponent::new);
+            List<Text> currentTip = new TaggableList<>(TaggedTextComponent::new);
+            List<Text> currentTipHead = new TaggableList<>(TaggedTextComponent::new);
+            List<Text> currentTipBody = new TaggableList<>(TaggedTextComponent::new);
+            List<Text> currentTipTail = new TaggableList<>(TaggedTextComponent::new);
 
             if (target != null && target.getType() == HitResult.Type.BLOCK) {
                 DataAccessor accessor = DataAccessor.INSTANCE;
@@ -115,15 +115,15 @@ public class WailaTickHandler {
 
     }
 
-    private void combinePositions(PlayerEntity player, List<Component> currentTip, List<Component> currentTipHead, List<Component> currentTipBody, List<Component> currentTipTail) {
+    private void combinePositions(PlayerEntity player, List<Text> currentTip, List<Text> currentTipHead, List<Text> currentTipBody, List<Text> currentTipTail) {
         if (Waila.CONFIG.get().getGeneral().shouldShiftForDetails() && !currentTipBody.isEmpty() && !player.isSneaking()) {
             currentTipBody.clear();
-            currentTipBody.add(new TranslatableComponent("tooltip.waila.sneak_for_details").setStyle(new Style().setItalic(true)));
+            currentTipBody.add(new TranslatableText("tooltip.waila.sneak_for_details").setStyle(new Style().setItalic(true)));
         }
 
-        ((ITaggableList<Identifier, Component>) currentTip).absorb((ITaggableList<Identifier, Component>) currentTipHead);
-        ((ITaggableList<Identifier, Component>) currentTip).absorb((ITaggableList<Identifier, Component>) currentTipBody);
-        ((ITaggableList<Identifier, Component>) currentTip).absorb((ITaggableList<Identifier, Component>) currentTipTail);
+        ((ITaggableList<Identifier, Text>) currentTip).absorb((ITaggableList<Identifier, Text>) currentTipHead);
+        ((ITaggableList<Identifier, Text>) currentTip).absorb((ITaggableList<Identifier, Text>) currentTipBody);
+        ((ITaggableList<Identifier, Text>) currentTip).absorb((ITaggableList<Identifier, Text>) currentTipTail);
     }
 
     private static Narrator getNarrator() {

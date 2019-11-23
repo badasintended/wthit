@@ -4,12 +4,12 @@ import com.google.common.base.Strings;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.*;
 import mcp.mobius.waila.utils.ModIdentification;
-import net.minecraft.ChatFormat;
 import net.minecraft.block.BlockState;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.state.property.BooleanProperty;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Style;
+import net.minecraft.text.Text;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
@@ -23,33 +23,33 @@ public class HUDHandlerBlocks implements IComponentProvider {
     static final Identifier MOD_NAME_TAG = new Identifier(Waila.MODID, "mod_name");
 
     @Override
-    public void appendHead(List<Component> tooltip, IDataAccessor accessor, IPluginConfig config) {
+    public void appendHead(List<Text> tooltip, IDataAccessor accessor, IPluginConfig config) {
         if (accessor.getBlockState().getMaterial().isLiquid())
             return;
 
-        ((ITaggableList<Identifier, Component>) tooltip).setTag(OBJECT_NAME_TAG, new TextComponent(String.format(Waila.CONFIG.get().getFormatting().getBlockName(), accessor.getBlock().getTextComponent().getFormattedText())));
+        ((ITaggableList<Identifier, Text>) tooltip).setTag(OBJECT_NAME_TAG, new LiteralText(String.format(Waila.CONFIG.get().getFormatting().getBlockName(), accessor.getBlock().getName().asFormattedString())));
         if (config.get(PluginCore.CONFIG_SHOW_REGISTRY))
-            ((ITaggableList<Identifier, Component>) tooltip).setTag(REGISTRY_NAME_TAG, new TextComponent(Registry.BLOCK.getId(accessor.getBlock()).toString()).setStyle(new Style().setColor(ChatFormat.GRAY)));
+            ((ITaggableList<Identifier, Text>) tooltip).setTag(REGISTRY_NAME_TAG, new LiteralText(Registry.BLOCK.getId(accessor.getBlock()).toString()).setStyle(new Style().setColor(Formatting.GRAY)));
     }
 
     @Override
-    public void appendBody(List<Component> tooltip, IDataAccessor accessor, IPluginConfig config) {
+    public void appendBody(List<Text> tooltip, IDataAccessor accessor, IPluginConfig config) {
         if (config.get(PluginCore.CONFIG_SHOW_STATES)) {
             BlockState state = accessor.getBlockState();
             state.getProperties().forEach(p -> {
                 Comparable<?> value = state.get(p);
-                Component valueText = new TextComponent(value.toString()).setStyle(new Style().setColor(p instanceof BooleanProperty ? value == Boolean.TRUE ? ChatFormat.GREEN : ChatFormat.RED : ChatFormat.RESET));
-                tooltip.add(new TextComponent(p.getName() + ":").append(valueText));
+                Text valueText = new LiteralText(value.toString()).setStyle(new Style().setColor(p instanceof BooleanProperty ? value == Boolean.TRUE ? Formatting.GREEN : Formatting.RED : Formatting.RESET));
+                tooltip.add(new LiteralText(p.getName() + ":").append(valueText));
             });
         }
     }
 
     @Override
-    public void appendTail(List<Component> tooltip, IDataAccessor accessor, IPluginConfig config) {
+    public void appendTail(List<Text> tooltip, IDataAccessor accessor, IPluginConfig config) {
         String modName = ModIdentification.getModInfo(accessor.getStack().getItem()).getName();
         if (!Strings.isNullOrEmpty(modName)) {
             modName = String.format(Waila.CONFIG.get().getFormatting().getModName(), modName);
-            ((ITaggableList<Identifier, Component>) tooltip).setTag(MOD_NAME_TAG, new TextComponent(modName));
+            ((ITaggableList<Identifier, Text>) tooltip).setTag(MOD_NAME_TAG, new LiteralText(modName));
         }
     }
 }

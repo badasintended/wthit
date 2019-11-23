@@ -67,9 +67,9 @@ public class DataAccessor implements ICommonAccessor, IDataAccessor, IEntityAcce
         }
 
         if (viewEntity != null) {
-            double px = viewEntity.prevX + (viewEntity.x - viewEntity.prevX) * partialTicks;
-            double py = viewEntity.prevY + (viewEntity.y - viewEntity.prevY) * partialTicks;
-            double pz = viewEntity.prevZ + (viewEntity.z - viewEntity.prevZ) * partialTicks;
+            double px = viewEntity.prevX + (viewEntity.getX() - viewEntity.prevX) * partialTicks;
+            double py = viewEntity.prevY + (viewEntity.getY() - viewEntity.prevY) * partialTicks;
+            double pz = viewEntity.prevZ + (viewEntity.getZ() - viewEntity.prevZ) * partialTicks;
             this.renderingvec = new Vec3d(this.pos.getX() - px, this.pos.getY() - py, this.pos.getZ() - pz);
             this.partialFrame = partialTicks;
         }
@@ -160,7 +160,7 @@ public class DataAccessor implements ICommonAccessor, IDataAccessor, IEntityAcce
     }
 
     private boolean isTagCorrectEntity(CompoundTag tag) {
-        if (tag == null || !tag.containsKey("WailaEntityID")) {
+        if (tag == null || !tag.contains("WailaEntityID")) {
             this.timeLastUpdate = System.currentTimeMillis() - 250;
             return false;
         }

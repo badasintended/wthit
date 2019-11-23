@@ -3,8 +3,8 @@ package mcp.mobius.waila.api;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.Text;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -57,7 +57,7 @@ public interface IEntityComponentProvider {
      * @param accessor   Contains most of the relevant information about the current environment.
      * @param config     Current configuration of Waila.
      */
-    default void appendHead(List<Component> tooltip, IEntityAccessor accessor, IPluginConfig config) {
+    default void appendHead(List<Text> tooltip, IEntityAccessor accessor, IPluginConfig config) {
 
     }
 
@@ -75,7 +75,7 @@ public interface IEntityComponentProvider {
      * @param accessor   Contains most of the relevant information about the current environment.
      * @param config     Current configuration of Waila.
      */
-    default void appendBody(List<Component> tooltip, IEntityAccessor accessor, IPluginConfig config) {
+    default void appendBody(List<Text> tooltip, IEntityAccessor accessor, IPluginConfig config) {
 
     }
 
@@ -93,7 +93,7 @@ public interface IEntityComponentProvider {
      * @param accessor   Contains most of the relevant information about the current environment.
      * @param config     Current configuration of Waila.
      */
-    default void appendTail(List<Component> tooltip, IEntityAccessor accessor, IPluginConfig config) {
+    default void appendTail(List<Text> tooltip, IEntityAccessor accessor, IPluginConfig config) {
 
     }
 }

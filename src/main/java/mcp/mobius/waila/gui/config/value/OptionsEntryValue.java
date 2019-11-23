@@ -2,28 +2,28 @@ package mcp.mobius.waila.gui.config.value;
 
 import mcp.mobius.waila.gui.config.OptionsListWidget;
 import net.minecraft.client.gui.Element;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 
 import java.util.function.Consumer;
 
 public abstract class OptionsEntryValue<T> extends OptionsListWidget.Entry {
 
-    private final Component title;
+    private final Text title;
     private final String description;
     protected final Consumer<T> save;
     protected T value;
     private int x;
 
     public OptionsEntryValue(String optionName, Consumer<T> save) {
-        this.title = new TranslatableComponent(optionName);
+        this.title = new TranslatableText(optionName);
         this.description = optionName + "_desc";
         this.save = save;
     }
 
     @Override
     public final void render(int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
-        client.textRenderer.drawWithShadow(title.getFormattedText(), rowLeft + 10, rowTop + (height / 4) + (client.textRenderer.fontHeight / 2), 16777215);
+        client.textRenderer.drawWithShadow(title.asFormattedString(), rowLeft + 10, rowTop + (height / 4) + (client.textRenderer.fontHeight / 2), 16777215);
         drawValue(width, height, rowLeft, rowTop, mouseX, mouseY, hovered, deltaTime);
         this.x = rowLeft;
     }
@@ -36,7 +36,7 @@ public abstract class OptionsEntryValue<T> extends OptionsListWidget.Entry {
         return null;
     }
 
-    public Component getTitle() {
+    public Text getTitle() {
         return title;
     }
 

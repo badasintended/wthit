@@ -6,10 +6,7 @@ import com.google.gson.JsonPrimitive;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.fabricmc.loader.api.Version;
-import net.fabricmc.loader.api.metadata.ContactInformation;
-import net.fabricmc.loader.api.metadata.ModDependency;
-import net.fabricmc.loader.api.metadata.ModMetadata;
-import net.fabricmc.loader.api.metadata.Person;
+import net.fabricmc.loader.api.metadata.*;
 import net.fabricmc.loader.metadata.MapBackedContactInformation;
 import net.fabricmc.loader.util.version.StringVersion;
 import net.minecraft.block.Block;
@@ -144,11 +141,23 @@ public class ModIdentification {
         }
 
         @Override
+        public boolean containsCustomValue(String key) {
+            return false;
+        }
+
+        @Override
+        public CustomValue getCustomValue(String key) {
+            return null;
+        }
+
+        @Override
+        @Deprecated
         public boolean containsCustomElement(String key) {
             return false;
         }
 
         @Override
+        @Deprecated
         public JsonElement getCustomElement(String key) {
             return new JsonPrimitive("");
         }

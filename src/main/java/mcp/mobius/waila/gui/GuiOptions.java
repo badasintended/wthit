@@ -8,7 +8,7 @@ import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.resource.language.I18n;
-import net.minecraft.network.chat.Component;
+import net.minecraft.text.Text;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public abstract class GuiOptions extends Screen {
     private final Runnable canceller;
     private OptionsListWidget options;
 
-    public GuiOptions(Screen parent, Component title, Runnable saver, Runnable canceller) {
+    public GuiOptions(Screen parent, Text title, Runnable saver, Runnable canceller) {
         super(title);
 
         this.parent = parent;
@@ -27,7 +27,7 @@ public abstract class GuiOptions extends Screen {
         this.canceller = canceller;
     }
 
-    public GuiOptions(Screen parent, Component title) {
+    public GuiOptions(Screen parent, Text title) {
         this(parent, title, null, null);
     }
 
@@ -61,27 +61,28 @@ public abstract class GuiOptions extends Screen {
     public void render(int mouseX, int mouseY, float partialTicks) {
         renderBackground();
         options.render(mouseX, mouseY, partialTicks);
-        drawCenteredString(font, title.getFormattedText(), width / 2, 12, 16777215);
+        drawCenteredString(font, title.asFormattedString(), width / 2, 12, 16777215);
         super.render(mouseX, mouseY, partialTicks);
 
         if (mouseY < 32 || mouseY > height - 32)
             return;
 
-        OptionsListWidget.Entry entry = options.getSelected();
-        if (entry instanceof OptionsEntryValue) {
-            OptionsEntryValue value = (OptionsEntryValue) entry;
+        options.hoveredElement(mouseX, mouseY).ifPresent(element -> {
+            if (element instanceof OptionsEntryValue) {
+                OptionsEntryValue value = (OptionsEntryValue) element;
 
-            if (I18n.hasTranslation(value.getDescription())) {
-                int valueX = value.getX() + 10;
-                String title = value.getTitle().getFormattedText();
-                if (mouseX < valueX || mouseX > valueX + font.getStringWidth(title))
-                    return;
+                if (I18n.hasTranslation(value.getDescription())) {
+                    int valueX = value.getX() + 10;
+                    String title = value.getTitle().asFormattedString();
+                    if (mouseX < valueX || mouseX > valueX + font.getStringWidth(title))
+                        return;
 
-                List<String> tooltip = Lists.newArrayList(title);
-                tooltip.addAll(font.wrapStringToWidthAsList(I18n.translate(value.getDescription()), 200));
-                renderTooltip(tooltip, mouseX, mouseY);
+                    List<String> tooltip = Lists.newArrayList(title);
+                    tooltip.addAll(font.wrapStringToWidthAsList(I18n.translate(value.getDescription()), 200));
+                    renderTooltip(tooltip, mouseX, mouseY);
+                }
             }
-        }
+        });
     }
 
     @Override

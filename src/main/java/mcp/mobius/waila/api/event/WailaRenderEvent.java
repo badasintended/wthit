@@ -5,6 +5,7 @@ import mcp.mobius.waila.api.ICommonAccessor;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.client.render.GuiLighting;
+import net.minecraft.client.util.math.MatrixStack;
 
 import java.awt.Rectangle;
 import java.lang.invoke.MethodHandle;
@@ -26,7 +27,7 @@ public class WailaRenderEvent {
             listeners -> event -> {
                 for (PreRender listener : listeners) {
                     if (listener.onPreRender(event)) {
-                        GuiLighting.enableForItems();
+                        GuiLighting.enableForItems(new MatrixStack().peek().getModel());
                         GlStateManager.enableRescaleNormal();
                         try {
                             loadGlState_.invoke();

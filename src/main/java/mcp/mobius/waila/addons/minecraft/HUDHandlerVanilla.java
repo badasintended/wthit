@@ -10,11 +10,11 @@ import net.minecraft.block.enums.ComparatorMode;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.state.property.Properties;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 
@@ -41,19 +41,19 @@ public class HUDHandlerVanilla implements IComponentProvider, IServerDataProvide
     }
 
     @Override
-    public void appendHead(List<Component> tooltip, IDataAccessor accessor, IPluginConfig config) {
+    public void appendHead(List<Text> tooltip, IDataAccessor accessor, IPluginConfig config) {
         if (accessor.getBlock() == Blocks.SPAWNER && config.get(PluginMinecraft.CONFIG_SPAWNER_TYPE)) {
             MobSpawnerBlockEntity spawner = (MobSpawnerBlockEntity) accessor.getBlockEntity();
-            ((ITaggableList<Identifier, Component>) tooltip).setTag(OBJECT_NAME_TAG, new TranslatableComponent(accessor.getBlock().getTranslationKey())
-                    .append(new TextComponent(" ("))
+            ((ITaggableList<Identifier, Text>) tooltip).setTag(OBJECT_NAME_TAG, new TranslatableText(accessor.getBlock().getTranslationKey())
+                    .append(new LiteralText(" ("))
                     .append(spawner.getLogic().getRenderedEntity().getDisplayName())
-                    .append(new TextComponent(")"))
+                    .append(new LiteralText(")"))
             );
         }
     }
 
     @Override
-    public void appendBody(List<Component> tooltip, IDataAccessor accessor, IPluginConfig config) {
+    public void appendBody(List<Text> tooltip, IDataAccessor accessor, IPluginConfig config) {
         if (config.get(PluginMinecraft.CONFIG_CROP_PROGRESS)) {
             if (accessor.getBlock() instanceof CropBlock) {
                 CropBlock crop = (CropBlock) accessor.getBlock();
@@ -69,32 +69,32 @@ public class HUDHandlerVanilla implements IComponentProvider, IServerDataProvide
 
         if (config.get(PluginMinecraft.CONFIG_LEVER) && accessor.getBlock() instanceof LeverBlock) {
             boolean active = accessor.getBlockState().get(Properties.POWERED);
-            tooltip.add(new TranslatableComponent("tooltip.waila.state", new TranslatableComponent("tooltip.waila.state_" + (active ? "on" : "off"))));
+            tooltip.add(new TranslatableText("tooltip.waila.state", new TranslatableText("tooltip.waila.state_" + (active ? "on" : "off"))));
             return;
         }
 
         if (config.get(PluginMinecraft.CONFIG_REPEATER) && accessor.getBlock() == Blocks.REPEATER) {
             int delay = accessor.getBlockState().get(Properties.DELAY);
-            tooltip.add(new TranslatableComponent("waila.tooltip.delay", delay));
+            tooltip.add(new TranslatableText("waila.tooltip.delay", delay));
             return;
         }
 
         if (config.get(PluginMinecraft.CONFIG_COMPARATOR) && accessor.getBlock() == Blocks.COMPARATOR) {
             ComparatorMode mode = accessor.getBlockState().get(Properties.COMPARATOR_MODE);
-            tooltip.add(new TranslatableComponent("tooltip.waila.mode", new TranslatableComponent("tooltip.waila.mode_." + (mode == ComparatorMode.COMPARE ? "comparator" : "subtractor"))));
+            tooltip.add(new TranslatableText("tooltip.waila.mode", new TranslatableText("tooltip.waila.mode_." + (mode == ComparatorMode.COMPARE ? "comparator" : "subtractor"))));
             return;
         }
 
         if (config.get(PluginMinecraft.CONFIG_REDSTONE) && accessor.getBlock() == Blocks.REDSTONE_WIRE) {
-            tooltip.add(new TranslatableComponent("tooltip.waila.power", accessor.getBlockState().get(Properties.POWER)));
+            tooltip.add(new TranslatableText("tooltip.waila.power", accessor.getBlockState().get(Properties.POWER)));
             return;
         }
 
         if (config.get(PluginMinecraft.CONFIG_JUKEBOX) && accessor.getBlock() == Blocks.JUKEBOX) {
-            if (accessor.getServerData().containsKey("record"))
-                tooltip.add(new TranslatableComponent("record.nowPlaying", Component.Serializer.fromJsonString(accessor.getServerData().getString("record"))));
+            if (accessor.getServerData().contains("record"))
+                tooltip.add(new TranslatableText("record.nowPlaying", Text.Serializer.fromJson(accessor.getServerData().getString("record"))));
             else
-                tooltip.add(new TranslatableComponent("tooltip.waila.empty"));
+                tooltip.add(new TranslatableText("tooltip.waila.empty"));
         }
     }
 
@@ -102,15 +102,15 @@ public class HUDHandlerVanilla implements IComponentProvider, IServerDataProvide
     public void appendServerData(CompoundTag data, ServerPlayerEntity player, World world, BlockEntity blockEntity) {
         if (blockEntity instanceof JukeboxBlockEntity) {
             JukeboxBlockEntity jukebox = (JukeboxBlockEntity) blockEntity;
-            data.putString("record", Component.Serializer.toJsonString(jukebox.getRecord().toHoverableText()));
+            data.putString("record", Text.Serializer.toJson(jukebox.getRecord().toHoverableText()));
         }
     }
 
-    private static void addMaturityTooltip(List<Component> tooltip, float growthValue) {
+    private static void addMaturityTooltip(List<Text> tooltip, float growthValue) {
         growthValue *= 100.0F;
         if (growthValue < 100.0F)
-            tooltip.add(new TranslatableComponent("tooltip.waila.crop_growth", String.format("%.0f%%", growthValue)));
+            tooltip.add(new TranslatableText("tooltip.waila.crop_growth", String.format("%.0f%%", growthValue)));
         else
-            tooltip.add(new TranslatableComponent("tooltip.waila.crop_growth", new TranslatableComponent("tooltip.waila.crop_mature")));
+            tooltip.add(new TranslatableText("tooltip.waila.crop_growth", new TranslatableText("tooltip.waila.crop_mature")));
     }
 }

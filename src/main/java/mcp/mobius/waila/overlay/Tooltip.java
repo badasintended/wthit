@@ -11,7 +11,7 @@ import mcp.mobius.waila.api.impl.TaggedTextComponent;
 import mcp.mobius.waila.api.impl.config.WailaConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.Window;
-import net.minecraft.network.chat.Component;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
 import java.awt.Dimension;
@@ -25,8 +25,8 @@ public class Tooltip {
     private final boolean showItem;
     private final Dimension totalSize;
 
-    public Tooltip(List<Component> components, boolean showItem) {
-        WailaTooltipEvent event = new WailaTooltipEvent(components, DataAccessor.INSTANCE);
+    public Tooltip(List<Text> Texts, boolean showItem) {
+        WailaTooltipEvent event = new WailaTooltipEvent(Texts, DataAccessor.INSTANCE);
         WailaTooltipEvent.WAILA_HANDLE_TOOLTIP.invoker().onTooltip(event);
 
         this.client = MinecraftClient.getInstance();
@@ -34,19 +34,19 @@ public class Tooltip {
         this.showItem = showItem;
         this.totalSize = new Dimension();
 
-        computeLines(components);
+        computeLines(Texts);
         addPadding();
     }
 
-    public void computeLines(List<Component> components) {
-        components.forEach(c -> {
-            Dimension size = getLineSize(c, components);
+    public void computeLines(List<Text> Texts) {
+        Texts.forEach(c -> {
+            Dimension size = getLineSize(c, Texts);
             totalSize.setSize(Math.max(totalSize.width, size.width), totalSize.height + size.height);
-            Component component = c;
-            if (component instanceof TaggedTextComponent)
-                component = ((ITaggableList<Identifier, Component>) components).getTag(((TaggedTextComponent) component).getTag());
+            Text Text = c;
+            if (Text instanceof TaggedTextComponent)
+                Text = ((ITaggableList<Identifier, Text>) Texts).getTag(((TaggedTextComponent) Text).getTag());
 
-            lines.add(new Line(component, size));
+            lines.add(new Line(Text, size));
         });
     }
 
@@ -64,24 +64,24 @@ public class Tooltip {
         position.y += 6;
 
         for (Line line : lines) {
-            if (line.getComponent() instanceof RenderableTextComponent) {
-                RenderableTextComponent component = (RenderableTextComponent) line.getComponent();
+            if (line.getText() instanceof RenderableTextComponent) {
+                RenderableTextComponent Text = (RenderableTextComponent) line.getText();
                 int xOffset = 0;
-                for (RenderableTextComponent.RenderContainer container : component.getRenderers()) {
+                for (RenderableTextComponent.RenderContainer container : Text.getRenderers()) {
                     Dimension size = container.getRenderer().getSize(container.getData(), DataAccessor.INSTANCE);
                     container.getRenderer().draw(container.getData(), DataAccessor.INSTANCE, position.x + xOffset, position.y);
                     xOffset += size.width;
                 }
             } else {
-                client.textRenderer.drawWithShadow(line.getComponent().getFormattedText(), position.x, position.y, color.getFontColor());
+                client.textRenderer.drawWithShadow(line.getText().asFormattedString(), position.x, position.y, color.getFontColor());
             }
             position.y += line.size.height;
         }
     }
 
-    private Dimension getLineSize(Component component, List<Component> components) {
-        if (component instanceof RenderableTextComponent) {
-            RenderableTextComponent renderable = (RenderableTextComponent) component;
+    private Dimension getLineSize(Text text, List<Text> texts) {
+        if (text instanceof RenderableTextComponent) {
+            RenderableTextComponent renderable = (RenderableTextComponent) text;
             List<RenderableTextComponent.RenderContainer> renderers = renderable.getRenderers();
             if (renderers.isEmpty())
                 return new Dimension(0, 0);
@@ -95,15 +95,15 @@ public class Tooltip {
             }
 
             return new Dimension(width, height);
-        } else if (component instanceof TaggedTextComponent) {
-            TaggedTextComponent tagged = (TaggedTextComponent) component;
-            if (components instanceof TaggableList) {
-                Component taggedLine = ((TaggableList<Identifier, Component>) components).getTag(tagged.getTag());
-                return taggedLine == null ? new Dimension(0, 0) : getLineSize(taggedLine, components);
+        } else if (text instanceof TaggedTextComponent) {
+            TaggedTextComponent tagged = (TaggedTextComponent) text;
+            if (texts instanceof TaggableList) {
+                Text taggedLine = ((TaggableList<Identifier, Text>) texts).getTag(tagged.getTag());
+                return taggedLine == null ? new Dimension(0, 0) : getLineSize(taggedLine, texts);
             }
         }
 
-        return new Dimension(client.textRenderer.getStringWidth(component.getFormattedText()), client.textRenderer.fontHeight + 1);
+        return new Dimension(client.textRenderer.getStringWidth(text.asFormattedString()), client.textRenderer.fontHeight + 1);
     }
 
     public List<Line> getLines() {
@@ -115,7 +115,7 @@ public class Tooltip {
     }
 
     public Rectangle getPosition() {
-        Window window = MinecraftClient.getInstance().window;
+        Window window = MinecraftClient.getInstance().getWindow();
         return new Rectangle(
                 (int) (window.getScaledWidth() * Waila.CONFIG.get().getOverlay().getOverlayPosX() - totalSize.width / 2), // Center it
                 (int) (window.getScaledHeight() * (1.0F - Waila.CONFIG.get().getOverlay().getOverlayPosY())),
@@ -126,16 +126,16 @@ public class Tooltip {
 
     public static class Line {
 
-        private final Component component;
+        private final Text Text;
         private final Dimension size;
 
-        public Line(Component component, Dimension size) {
-            this.component = component;
+        public Line(Text Text, Dimension size) {
+            this.Text = Text;
             this.size = size;
         }
 
-        public Component getComponent() {
-            return component;
+        public Text getText() {
+            return Text;
         }
 
         public Dimension getSize() {

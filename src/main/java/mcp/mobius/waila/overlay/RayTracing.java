@@ -35,8 +35,8 @@ public class RayTracing {
     }
 
     public void fire() {
-        if (mc.hitResult != null && mc.hitResult.getType() == HitResult.Type.ENTITY) {
-            this.target = mc.hitResult;
+        if (mc.crosshairTarget != null && mc.crosshairTarget.getType() == HitResult.Type.ENTITY) {
+            this.target = mc.crosshairTarget;
             return;
         }
 

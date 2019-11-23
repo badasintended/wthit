@@ -5,14 +5,14 @@ import mcp.mobius.waila.api.impl.config.PluginConfig;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.resource.language.I18n;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.text.TranslatableText;
 
 public class GuiConfigHome extends Screen {
 
     private final Screen parent;
 
     public GuiConfigHome(Screen parent) {
-        super(new TranslatableComponent("gui.waila.configuration"));
+        super(new TranslatableText("gui.waila.configuration"));
 
         this.parent = parent;
     }
@@ -35,7 +35,7 @@ public class GuiConfigHome extends Screen {
     @Override
     public void render(int x, int y, float partialTicks) {
         renderBackground();
-        drawCenteredString(font, title.getFormattedText(), width / 2, height / 3, 16777215);
+        drawCenteredString(font, title.asFormattedString(), width / 2, height / 3, 16777215);
         super.render(x, y, partialTicks);
     }
 }

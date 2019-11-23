@@ -5,6 +5,7 @@ import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.ITooltipRenderer;
 import mcp.mobius.waila.overlay.DisplayUtil;
 import net.minecraft.client.render.GuiLighting;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -43,7 +44,7 @@ public class TooltipRendererStack implements ITooltipRenderer {
         if (stackTag != null)
             stack.setTag(stackTag);
 
-        GuiLighting.enableForItems();
+        GuiLighting.enableForItems(new MatrixStack().peek().getModel());
         DisplayUtil.renderStack(x, y, stack);
         GuiLighting.disable();
     }

@@ -3,14 +3,13 @@ package mcp.mobius.waila;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Streams;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import mcp.mobius.waila.addons.core.PluginCore;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.api.impl.config.PluginConfig;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
+import net.fabricmc.loader.api.metadata.CustomValue;
 import net.fabricmc.loader.api.metadata.ModMetadata;
 
 import java.util.List;
@@ -25,29 +24,29 @@ public class WailaPlugins {
 
         FabricLoader.getInstance().getAllMods().stream()
                 .map(ModContainer::getMetadata)
-                .filter(modMetadata -> modMetadata.containsCustomElement("waila:plugins"))
-                .map(m -> new PluginData(m.getId(), m.getCustomElement("waila:plugins"), m))
+                .filter(modMetadata -> modMetadata.containsCustomValue("waila:plugins"))
+                .map(m -> new PluginData(m.getId(), m.getCustomValue("waila:plugins"), m))
                 .filter(d -> {
-                    if (d.json.isJsonObject() || d.json.isJsonArray())
+                    if (d.value.getType() == CustomValue.CvType.OBJECT || d.value.getType() == CustomValue.CvType.ARRAY)
                         return true;
 
                     Waila.LOGGER.error("Plugin data provided by {} must be a JsonObject or a JsonArray.", d.id);
                     return false;
                 })
                 .forEach(d -> {
-                    if (d.json.isJsonObject()) {
-                        handlePluginData(d, d.json.getAsJsonObject());
+                    if (d.value.getType() == CustomValue.CvType.OBJECT) {
+                        handlePluginData(d, d.value.getAsObject());
                     } else {
-                        Streams.stream(d.json.getAsJsonArray())
+                        Streams.stream(d.value.getAsArray())
                                 .filter(e -> {
-                                    if (e.isJsonObject())
+                                    if (e.getType() == CustomValue.CvType.OBJECT)
                                         return true;
 
                                     Waila.LOGGER.error("Plugin data provided by {} must be a JsonObject.", d.id);
                                     return false;
                                 })
-                                .map(JsonElement::getAsJsonObject)
-                                .forEach(jsonObject -> handlePluginData(d, jsonObject));
+                                .map(CustomValue::getAsObject)
+                                .forEach(cvObject -> handlePluginData(d, cvObject));
                     }
                 });
     }
@@ -76,15 +75,15 @@ public class WailaPlugins {
         PluginConfig.INSTANCE.reload();
     }
 
-    private static void handlePluginData(PluginData data, JsonObject json) {
-        if (json.has("required")) {
-            JsonElement required = json.get("required");
-            if (required.isJsonPrimitive() && !FabricLoader.getInstance().isModLoaded(required.getAsJsonPrimitive().getAsString()))
+    private static void handlePluginData(PluginData data, CustomValue.CvObject object) {
+        if (object.containsKey("required")) {
+            CustomValue required = object.get("required");
+            if (required.getType() == CustomValue.CvType.STRING && !FabricLoader.getInstance().isModLoaded(required.getAsString()))
                 return;
 
-            if (required.isJsonArray()) {
-                for (JsonElement element : required.getAsJsonArray()) {
-                    if (!element.isJsonPrimitive())
+            if (required.getType() == CustomValue.CvType.ARRAY) {
+                for (CustomValue element : required.getAsArray()) {
+                    if (element.getType() != CustomValue.CvType.STRING)
                         continue;
 
                     if (!FabricLoader.getInstance().isModLoaded(element.getAsString()))
@@ -94,8 +93,8 @@ public class WailaPlugins {
         }
 
         // TODO Revisit if fabric ever makes language adapters accessible again
-        String id = json.getAsJsonPrimitive("id").getAsString();
-        String initializer = json.getAsJsonPrimitive("initializer").getAsString();
+        String id = object.get("id").getAsString();
+        String initializer = object.get("initializer").getAsString();
         try {
             IWailaPlugin plugin = (IWailaPlugin) Class.forName(initializer).newInstance();
             PLUGINS.put(id, plugin);
@@ -111,12 +110,12 @@ public class WailaPlugins {
 
     public static class PluginData {
         private final String id;
-        private final JsonElement json;
+        private final CustomValue value;
         private final ModMetadata metadata;
 
-        public PluginData(String id, JsonElement json, ModMetadata metadata) {
+        public PluginData(String id, CustomValue value, ModMetadata metadata) {
             this.id = id;
-            this.json = json;
+            this.value = value;
             this.metadata = metadata;
         }
     }

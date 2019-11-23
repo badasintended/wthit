@@ -34,7 +34,7 @@ public interface IRegistrar {
     void registerStackProvider(IComponentProvider dataProvider, Class block);
 
     /**
-     * Registers an {@link IComponentProvider} instance for appending {@link net.minecraft.text.TextComponent} to the tooltip.
+     * Registers an {@link IComponentProvider} instance for appending {@link net.minecraft.text.Text} to the tooltip.
      * A {@link BlockEntity} is also an acceptable class type.
      *
      * @param dataProvider The data provider instance
@@ -69,7 +69,7 @@ public interface IRegistrar {
     void registerEntityStackProvider(IEntityComponentProvider dataProvider, Class entity);
 
     /**
-     * Registers an {@link IEntityComponentProvider} instance for appending {@link net.minecraft.text.TextComponent} to the tooltip.
+     * Registers an {@link IEntityComponentProvider} instance for appending {@link net.minecraft.text.Text} to the tooltip.
      *
      * @param dataProvider The data provider instance
      * @param position The position on the tooltip this applies to
