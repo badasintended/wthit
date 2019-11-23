@@ -34,7 +34,7 @@ dependencies {
 
 task sourcesJar(type: Jar) {
     from sourceSets.main.allJava
-    classifier = 'sources'
+    archiveClassifier.set('sources')
 }
 
 task apiJar(type: Jar) {
@@ -42,7 +42,7 @@ task apiJar(type: Jar) {
     from sourceSets.main.output
     include 'mcp/mobius/waila/api/**/*'
     exclude 'mcp/mobius/waila/api/impl/**/*'
-    classifier = 'api'
+    archiveClassifier.set('api')
 }
 
 publishing {
