@@ -10,8 +10,6 @@ import mcp.mobius.waila.api.impl.config.PluginConfig;
 import mcp.mobius.waila.api.impl.config.WailaConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ChatScreen;
-import net.minecraft.client.render.GuiLighting;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.hit.HitResult;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
@@ -22,8 +20,6 @@ public class OverlayRenderer {
 
     protected static boolean hasLight;
     protected static boolean hasDepthTest;
-    protected static boolean hasLight0;
-    protected static boolean hasLight1;
     protected static boolean hasRescaleNormal;
     protected static boolean hasColorMaterial;
     protected static boolean depthMask;
@@ -71,7 +67,7 @@ public class OverlayRenderer {
         RenderSystem.scalef(Waila.CONFIG.get().getOverlay().getOverlayScale(), Waila.CONFIG.get().getOverlay().getOverlayScale(), 1.0F);
 
         RenderSystem.disableRescaleNormal();
-        GuiLighting.disable();
+
         RenderSystem.disableLighting();
         RenderSystem.disableDepthTest();
 
@@ -86,9 +82,6 @@ public class OverlayRenderer {
         RenderSystem.blendFunc(770, 771);
         tooltip.draw();
         RenderSystem.disableBlend();
-
-        if (tooltip.hasItem())
-            GuiLighting.enableForItems(new MatrixStack().peek().getModel());
 
         RenderSystem.enableRescaleNormal();
         if (tooltip.hasItem())
