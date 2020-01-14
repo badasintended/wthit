@@ -4,6 +4,7 @@ import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.ITooltipRenderer;
 import mcp.mobius.waila.overlay.DisplayUtil;
+import mcp.mobius.waila.overlay.OverlayRenderer;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -43,7 +44,7 @@ public class TooltipRendererStack implements ITooltipRenderer {
         if (stackTag != null)
             stack.setTag(stackTag);
 
-        RenderHelper.enableGUIStandardItemLighting();
+        OverlayRenderer.enableGUIStandardItemLighting();
         DisplayUtil.renderStack(x, y, stack);
         RenderHelper.disableStandardItemLighting();
     }

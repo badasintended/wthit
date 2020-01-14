@@ -89,7 +89,7 @@ public class WailaTickHandler {
     }
 
     private void combinePositions(PlayerEntity player, List<ITextComponent> currentTip, List<ITextComponent> currentTipHead, List<ITextComponent> currentTipBody, List<ITextComponent> currentTipTail) {
-        if (Waila.CONFIG.get().getGeneral().shouldShiftForDetails() && !currentTipBody.isEmpty() && !player.isSneaking()) {
+        if (Waila.CONFIG.get().getGeneral().shouldShiftForDetails() && !currentTipBody.isEmpty() && !player.func_226563_dT_()) {
             currentTipBody.clear();
             currentTipBody.add(new TranslationTextComponent("tooltip.waila.sneak_for_details").setStyle(new Style().setItalic(true)));
         }

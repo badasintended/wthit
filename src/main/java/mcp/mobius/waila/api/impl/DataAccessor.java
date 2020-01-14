@@ -62,9 +62,9 @@ public class DataAccessor implements ICommonAccessor, IDataAccessor, IEntityAcce
         }
 
         if (viewEntity != null) {
-            double px = viewEntity.prevPosX + (viewEntity.posX - viewEntity.prevPosX) * partialTicks;
-            double py = viewEntity.prevPosY + (viewEntity.posY - viewEntity.prevPosY) * partialTicks;
-            double pz = viewEntity.prevPosZ + (viewEntity.posZ - viewEntity.prevPosZ) * partialTicks;
+            double px = viewEntity.prevPosX + (viewEntity.getPositionVec().x - viewEntity.prevPosX) * partialTicks;
+            double py = viewEntity.prevPosY + (viewEntity.getPositionVec().y - viewEntity.prevPosY) * partialTicks;
+            double pz = viewEntity.prevPosZ + (viewEntity.getPositionVec().z - viewEntity.prevPosZ) * partialTicks;
             this.renderingvec = new Vec3d(this.pos.getX() - px, this.pos.getY() - py, this.pos.getZ() - pz);
             this.partialFrame = partialTicks;
         }

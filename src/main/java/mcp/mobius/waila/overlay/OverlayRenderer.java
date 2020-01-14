@@ -1,6 +1,7 @@
 package mcp.mobius.waila.overlay;
 
 import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.addons.core.PluginCore;
@@ -63,25 +64,32 @@ public class OverlayRenderer {
             renderOverlay(WailaTickHandler.instance().tooltip);
     }
 
-    public static void renderOverlay(Tooltip tooltip) {
+    public static void enableGUIStandardItemLighting() {
+        RenderSystem.pushMatrix();
+        RenderSystem.rotatef(-30.0F, 0.0F, 1.0F, 0.0F);
+        RenderSystem.rotatef(165.0F, 1.0F, 0.0F, 0.0F);
+        RenderHelper.func_227780_a_();
+        RenderSystem.popMatrix();
+    }
+        public static void renderOverlay(Tooltip tooltip) {
         Minecraft.getInstance().getProfiler().startSection("Waila Overlay");
-        GlStateManager.pushMatrix();
+        RenderSystem.pushMatrix();
         saveGLState();
 
-        GlStateManager.scalef(Waila.CONFIG.get().getOverlay().getOverlayScale(), Waila.CONFIG.get().getOverlay().getOverlayScale(), 1.0F);
+        RenderSystem.scalef(Waila.CONFIG.get().getOverlay().getOverlayScale(), Waila.CONFIG.get().getOverlay().getOverlayScale(), 1.0F);
 
-        GlStateManager.disableRescaleNormal();
+        RenderSystem.disableRescaleNormal();
         RenderHelper.disableStandardItemLighting();
-        GlStateManager.disableLighting();
-        GlStateManager.disableDepthTest();
+        RenderSystem.disableLighting();
+        RenderSystem.disableDepthTest();
 
         WailaRenderEvent.Pre preEvent = new WailaRenderEvent.Pre(DataAccessor.INSTANCE, tooltip.getPosition());
         if (MinecraftForge.EVENT_BUS.post(preEvent)) {
-            RenderHelper.enableGUIStandardItemLighting();
-            GlStateManager.enableRescaleNormal();
+            enableGUIStandardItemLighting();
+            RenderSystem.enableRescaleNormal();
             loadGLState();
-            GlStateManager.enableDepthTest();
-            GlStateManager.popMatrix();
+            RenderSystem.enableDepthTest();
+            RenderSystem.popMatrix();
             return;
         }
 
@@ -91,15 +99,15 @@ public class OverlayRenderer {
         MinecraftForge.EVENT_BUS.post(colorEvent);
         drawTooltipBox(position.x, position.y, position.width, position.height, colorEvent.getBackground(), colorEvent.getGradientStart(), colorEvent.getGradientEnd());
 
-        GlStateManager.enableBlend();
-        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
+        RenderSystem.enableBlend();
+        RenderSystem.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
         tooltip.draw();
-        GlStateManager.disableBlend();
+        RenderSystem.disableBlend();
 
         if (tooltip.hasItem())
-            RenderHelper.enableGUIStandardItemLighting();
+            enableGUIStandardItemLighting();
 
-        GlStateManager.enableRescaleNormal();
+        RenderSystem.enableRescaleNormal();
         if (tooltip.hasItem())
             DisplayUtil.renderStack(position.x + 5, position.y + position.height / 2 - 8, RayTracing.INSTANCE.getIdentifierStack());
 
@@ -107,8 +115,8 @@ public class OverlayRenderer {
         MinecraftForge.EVENT_BUS.post(postEvent);
 
         loadGLState();
-        GlStateManager.enableDepthTest();
-        GlStateManager.popMatrix();
+        RenderSystem.enableDepthTest();
+        RenderSystem.popMatrix();
         Minecraft.getInstance().getProfiler().endSection();
     }
 
@@ -125,37 +133,37 @@ public class OverlayRenderer {
     }
 
     public static void loadGLState() {
-        GlStateManager.depthMask(depthMask);
-        GlStateManager.depthFunc(depthFunc);
+        RenderSystem.depthMask(depthMask);
+        RenderSystem.depthFunc(depthFunc);
         if (hasLight)
-            GlStateManager.enableLighting();
+            RenderSystem.enableLighting();
         else
-            GlStateManager.disableLighting();
+            RenderSystem.disableLighting();
 
         if (hasLight0)
-            GlStateManager.enableLight(0);
+            GlStateManager.func_227638_a_(0);
         else
-            GlStateManager.disableLight(0);
+            //GlStateManager.disableLight(0);
 
         if (hasLight1)
-            GlStateManager.enableLight(1);
+            GlStateManager.func_227638_a_(1);
         else
-            GlStateManager.disableLight(1);
+            //GlStateManager.disableLight(1);
 
         if (hasDepthTest)
-            GlStateManager.enableDepthTest();
+            RenderSystem.enableDepthTest();
         else
-            GlStateManager.disableDepthTest();
+            RenderSystem.disableDepthTest();
         if (hasRescaleNormal)
-            GlStateManager.enableRescaleNormal();
+            RenderSystem.enableRescaleNormal();
         else
-            GlStateManager.disableRescaleNormal();
+            RenderSystem.disableRescaleNormal();
         if (hasColorMaterial)
-            GlStateManager.enableColorMaterial();
+            RenderSystem.enableColorMaterial();
         else
-            GlStateManager.disableColorMaterial();
+            RenderSystem.disableColorMaterial();
 
-        GlStateManager.popAttributes();
+        RenderSystem.popAttributes();
     }
 
     public static void drawTooltipBox(int x, int y, int w, int h, int bg, int grad1, int grad2) {

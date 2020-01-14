@@ -116,7 +116,7 @@ public class Tooltip {
     }
 
     public Rectangle getPosition() {
-        MainWindow window = Minecraft.getInstance().mainWindow;
+        MainWindow window = Minecraft.getInstance().func_228018_at_();
         return new Rectangle(
                 (int) (window.getScaledWidth() * Waila.CONFIG.get().getOverlay().getOverlayPosX() - totalSize.width / 2), // Center it
                 (int) (window.getScaledHeight() * (1.0F - Waila.CONFIG.get().getOverlay().getOverlayPosY())),
