@@ -55,15 +55,15 @@ public class OptionsListWidget extends AbstractList<OptionsListWidget.Entry> {
         RenderSystem.disableAlphaTest();
         RenderSystem.shadeModel(7425);
         RenderSystem.disableTexture();
-        bufferBuilder_1.begin(7, DefaultVertexFormats.field_227851_o_);
-        bufferBuilder_1.func_225582_a_(this.x0, this.y0 + 4, 0.0D).func_225586_a_(0, 0, 0, 0).func_225583_a_(0.0f, 1.0f).endVertex();
-        bufferBuilder_1.func_225582_a_(this.x1, this.y0 + 4, 0.0D).func_225586_a_(0, 0, 0, 0).func_225583_a_(1.0f, 1.0f).endVertex();
-        bufferBuilder_1.func_225582_a_(this.x1, this.y0, 0.0D).func_225586_a_(0, 0, 0, 255).func_225583_a_(1.0f, 0.0f).endVertex();
-        bufferBuilder_1.func_225582_a_(this.x0, this.y0, 0.0D).func_225586_a_(0, 0, 0, 255).func_225583_a_(0.0f, 0.0f).endVertex();
-        bufferBuilder_1.func_225582_a_(this.x0, this.y1, 0.0D).func_225586_a_(0, 0, 0, 255).func_225583_a_(0.0f, 1.0f).endVertex();
-        bufferBuilder_1.func_225582_a_(this.x1, this.y1, 0.0D).func_225586_a_(0, 0, 0, 255).func_225583_a_(1.0f, 1.0f).endVertex();
-        bufferBuilder_1.func_225582_a_(this.x1, this.y1 - 4, 0.0D).func_225586_a_(0, 0, 0, 0).func_225583_a_(1.0f, 0.0f).endVertex();
-        bufferBuilder_1.func_225582_a_(this.x0, this.y1 - 4, 0.0D).func_225586_a_(0, 0, 0, 0).func_225583_a_(0.0f, 0.0f).endVertex();
+        bufferBuilder_1.begin(7, DefaultVertexFormats.POSITION_COLOR_TEX);
+        bufferBuilder_1.pos(this.x0, this.y0 + 4, 0.0D).color(0, 0, 0, 0).tex(0.0f, 1.0f).endVertex();
+        bufferBuilder_1.pos(this.x1, this.y0 + 4, 0.0D).color(0, 0, 0, 0).tex(1.0f, 1.0f).endVertex();
+        bufferBuilder_1.pos(this.x1, this.y0, 0.0D).color(0, 0, 0, 255).tex(1.0f, 0.0f).endVertex();
+        bufferBuilder_1.pos(this.x0, this.y0, 0.0D).color(0, 0, 0, 255).tex(0.0f, 0.0f).endVertex();
+        bufferBuilder_1.pos(this.x0, this.y1, 0.0D).color(0, 0, 0, 255).tex(0.0f, 1.0f).endVertex();
+        bufferBuilder_1.pos(this.x1, this.y1, 0.0D).color(0, 0, 0, 255).tex(1.0f, 1.0f).endVertex();
+        bufferBuilder_1.pos(this.x1, this.y1 - 4, 0.0D).color(0, 0, 0, 0).tex(1.0f, 0.0f).endVertex();
+        bufferBuilder_1.pos(this.x0, this.y1 - 4, 0.0D).color(0, 0, 0, 0).tex(0.0f, 0.0f).endVertex();
         tessellator_1.draw();
         int int_8 = Math.max(0, this.getMaxPosition() - (this.y1 - this.y0 - 4));
         if (int_8 > 0) {
@@ -74,19 +74,19 @@ public class OptionsListWidget extends AbstractList<OptionsListWidget.Entry> {
                 int_10 = this.y0;
             }
 
-            bufferBuilder_1.begin(7, DefaultVertexFormats.field_227851_o_);
-            bufferBuilder_1.func_225582_a_(int_3, this.y1, 0.0D).func_225586_a_(0, 0, 0, 255).func_225583_a_(0.0f, 1.0f).endVertex();
-            bufferBuilder_1.func_225582_a_(int_4, this.y1, 0.0D).func_225586_a_(0, 0, 0, 255).func_225583_a_(1.0f, 1.0f).endVertex();
-            bufferBuilder_1.func_225582_a_(int_4, this.y0, 0.0D).func_225586_a_(0, 0, 0, 255).func_225583_a_(1.0f, 0.0f).endVertex();
-            bufferBuilder_1.func_225582_a_(int_3, this.y0, 0.0D).func_225586_a_(0, 0, 0, 255).func_225583_a_(0.0f, 0.0f).endVertex();
-            bufferBuilder_1.func_225582_a_(int_3, (int_10 + int_9), 0.0D).func_225586_a_(128, 128, 128, 255).func_225583_a_(0.0f, 1.0f).endVertex();
-            bufferBuilder_1.func_225582_a_(int_4, (int_10 + int_9), 0.0D).func_225586_a_(128, 128, 128, 255).func_225583_a_(1.0f, 1.0f).endVertex();
-            bufferBuilder_1.func_225582_a_(int_4, int_10, 0.0D).func_225586_a_(128, 128, 128, 255).func_225583_a_(1.0f, 0.0f).endVertex();
-            bufferBuilder_1.func_225582_a_(int_3, int_10, 0.0D).func_225586_a_(128, 128, 128, 255).func_225583_a_(0.0f, 0.0f).endVertex();
-            bufferBuilder_1.func_225582_a_(int_3, (int_10 + int_9 - 1), 0.0D).func_225586_a_(192, 192, 192, 255).func_225583_a_(0.0f, 1.0f).endVertex();
-            bufferBuilder_1.func_225582_a_(int_4 - 1, int_10 + int_9 - 1, 0.0D).func_225586_a_(192, 192, 192, 255).func_225583_a_(1.0f, 1.0f).endVertex();
-            bufferBuilder_1.func_225582_a_(int_4 - 1, int_10, 0.0D).func_225586_a_(192, 192, 192, 255).func_225583_a_(1.0f, 0.0f).endVertex();
-            bufferBuilder_1.func_225582_a_(int_3, int_10, 0.0D).func_225586_a_(192, 192, 192, 255).func_225583_a_(0.0f, 0.0f).endVertex();
+            bufferBuilder_1.begin(7, DefaultVertexFormats.POSITION_COLOR_TEX);
+            bufferBuilder_1.pos(int_3, this.y1, 0.0D).color(0, 0, 0, 255).tex(0.0f, 1.0f).endVertex();
+            bufferBuilder_1.pos(int_4, this.y1, 0.0D).color(0, 0, 0, 255).tex(1.0f, 1.0f).endVertex();
+            bufferBuilder_1.pos(int_4, this.y0, 0.0D).color(0, 0, 0, 255).tex(1.0f, 0.0f).endVertex();
+            bufferBuilder_1.pos(int_3, this.y0, 0.0D).color(0, 0, 0, 255).tex(0.0f, 0.0f).endVertex();
+            bufferBuilder_1.pos(int_3, (int_10 + int_9), 0.0D).color(128, 128, 128, 255).tex(0.0f, 1.0f).endVertex();
+            bufferBuilder_1.pos(int_4, (int_10 + int_9), 0.0D).color(128, 128, 128, 255).tex(1.0f, 1.0f).endVertex();
+            bufferBuilder_1.pos(int_4, int_10, 0.0D).color(128, 128, 128, 255).tex(1.0f, 0.0f).endVertex();
+            bufferBuilder_1.pos(int_3, int_10, 0.0D).color(128, 128, 128, 255).tex(0.0f, 0.0f).endVertex();
+            bufferBuilder_1.pos(int_3, (int_10 + int_9 - 1), 0.0D).color(192, 192, 192, 255).tex(0.0f, 1.0f).endVertex();
+            bufferBuilder_1.pos(int_4 - 1, int_10 + int_9 - 1, 0.0D).color(192, 192, 192, 255).tex(1.0f, 1.0f).endVertex();
+            bufferBuilder_1.pos(int_4 - 1, int_10, 0.0D).color(192, 192, 192, 255).tex(1.0f, 0.0f).endVertex();
+            bufferBuilder_1.pos(int_3, int_10, 0.0D).color(192, 192, 192, 255).tex(0.0f, 0.0f).endVertex();
             tessellator_1.draw();
         }
 

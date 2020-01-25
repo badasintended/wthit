@@ -44,6 +44,7 @@ public class OverlayRenderer {
         if ((mc.currentScreen != null && mc.gameSettings.chatVisibility != ChatVisibility.HIDDEN) || mc.world == null)
             return;
 
+        assert mc.player != null;
         boolean isOnServer = !mc.isSingleplayer() || mc.player.connection.getPlayerInfoMap().size() > 1;
         if (Waila.CONFIG.get().getGeneral().shouldHideFromPlayerList() && mc.gameSettings.keyBindPlayerList.isPressed() && isOnServer)
             return;
@@ -141,12 +142,12 @@ public class OverlayRenderer {
             RenderSystem.disableLighting();
 
         if (hasLight0)
-            GlStateManager.func_227638_a_(0);
+            GlStateManager.enableLight(0);
         else
             //GlStateManager.disableLight(0);
 
         if (hasLight1)
-            GlStateManager.func_227638_a_(1);
+            GlStateManager.enableLight(1);
         else
             //GlStateManager.disableLight(1);
 

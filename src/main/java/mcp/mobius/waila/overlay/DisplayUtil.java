@@ -94,10 +94,10 @@ public class DisplayUtil {
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder buffer = tessellator.getBuffer();
         buffer.begin(7, DefaultVertexFormats.POSITION_COLOR);
-        buffer.func_225582_a_(left + right, top, zLevel).func_227885_a_(f1, f2, f3, f).endVertex();
-        buffer.func_225582_a_(left, top, zLevel).func_227885_a_(f1, f2, f3, f).endVertex();
-        buffer.func_225582_a_(left, top + bottom, zLevel).func_227885_a_(f5, f6, f7, f4).endVertex();
-        buffer.func_225582_a_(left + right, top + bottom, zLevel).func_227885_a_(f5, f6, f7, f4).endVertex();
+        buffer.pos(left + right, top, zLevel).color(f1, f2, f3, f).endVertex();
+        buffer.pos(left, top, zLevel).color(f1, f2, f3, f).endVertex();
+        buffer.pos(left, top + bottom, zLevel).color(f5, f6, f7, f4).endVertex();
+        buffer.pos(left + right, top + bottom, zLevel).color(f5, f6, f7, f4).endVertex();
         tessellator.draw();
         RenderSystem.shadeModel(7424);
         RenderSystem.disableBlend();
@@ -112,10 +112,10 @@ public class DisplayUtil {
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder buffer = tessellator.getBuffer();
         buffer.begin(7, DefaultVertexFormats.POSITION_TEX);
-        buffer.func_225582_a_(x, y + height, zLevel).func_225583_a_( ((float) (textureX) * f), ((float) (textureY + th) * f1)).endVertex();
-        buffer.func_225582_a_(x + width, y + height, zLevel).func_225583_a_( ((float) (textureX + tw) * f), ((float) (textureY + th) * f1)).endVertex();
-        buffer.func_225582_a_(x + width, y, zLevel).func_225583_a_( ((float) (textureX + tw) * f), ((float) (textureY) * f1)).endVertex();
-        buffer.func_225582_a_(x, y, zLevel).func_225583_a_( ((float) (textureX) * f), ((float) (textureY) * f1)).endVertex();
+        buffer.pos(x, y + height, zLevel).tex( ((float) (textureX) * f), ((float) (textureY + th) * f1)).endVertex();
+        buffer.pos(x + width, y + height, zLevel).tex( ((float) (textureX + tw) * f), ((float) (textureY + th) * f1)).endVertex();
+        buffer.pos(x + width, y, zLevel).tex( ((float) (textureX + tw) * f), ((float) (textureY) * f1)).endVertex();
+        buffer.pos(x, y, zLevel).tex( ((float) (textureX) * f), ((float) (textureY) * f1)).endVertex();
         tessellator.draw();
     }
 

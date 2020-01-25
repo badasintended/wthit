@@ -65,7 +65,7 @@ public class RenderableTextComponent extends StringTextComponent {
         CompoundNBT container = new CompoundNBT();
         ListNBT renderData = new ListNBT();
         for (RenderableTextComponent component : components)
-            renderData.add(StringNBT.func_229705_a_(component.getFormattedText()));
+            renderData.add(StringNBT.valueOf(component.getFormattedText()));
         container.put("renders", renderData);
         return container.toString();
     }
