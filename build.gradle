@@ -25,7 +25,7 @@ group = "mcp.mobius.waila"
 archivesBaseName = "Hwyla-forge"
 
 minecraft {
-    mappings channel: mapping_channel, version: mapping_version
+    mappings channel: "snapshot", version: "20200125-1.15.1"
 
     runs {
         client {
@@ -66,10 +66,6 @@ processResources {
     from(sourceSets.main.resources.srcDirs) {
         exclude '**/*.toml'
     }
-}
-
-repositories {
-
 }
 
 dependencies {
@@ -164,9 +160,9 @@ curseforge {
         changelog = getChangelogText()
         releaseType = 'release'
 
-        addGameVersion "1.14.2"
-        addGameVersion "1.14.3"
-        addGameVersion "1.14.4"
+        addGameVersion "1.15"
+        addGameVersion "1.15.1"
+        addGameVersion "1.15.2"
 
         addArtifact sourcesJar
         addArtifact apiJar

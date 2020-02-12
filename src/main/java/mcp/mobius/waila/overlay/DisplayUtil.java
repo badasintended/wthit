@@ -146,8 +146,10 @@ public class DisplayUtil {
         if (icon == null)
             return;
 
+        RenderSystem.enableAlphaTest();
         if (icon.bu != -1)
             DisplayUtil.drawTexturedModalRect(x, y, icon.bu, icon.bv, sx, sy, icon.bsu, icon.bsv);
         DisplayUtil.drawTexturedModalRect(x, y, icon.u, icon.v, sx, sy, icon.su, icon.sv);
+        RenderSystem.disableAlphaTest();
     }
 }

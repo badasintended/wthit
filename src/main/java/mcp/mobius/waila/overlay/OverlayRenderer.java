@@ -69,7 +69,7 @@ public class OverlayRenderer {
         RenderSystem.pushMatrix();
         RenderSystem.rotatef(-30.0F, 0.0F, 1.0F, 0.0F);
         RenderSystem.rotatef(165.0F, 1.0F, 0.0F, 0.0F);
-        RenderHelper.func_227780_a_();
+        RenderHelper.enableStandardItemLighting();
         RenderSystem.popMatrix();
     }
         public static void renderOverlay(Tooltip tooltip) {
