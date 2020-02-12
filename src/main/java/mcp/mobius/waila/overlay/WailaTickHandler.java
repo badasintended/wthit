@@ -57,6 +57,7 @@ public class WailaTickHandler {
                 DataAccessor accessor = DataAccessor.INSTANCE;
                 accessor.set(world, player, target);
                 ItemStack targetStack = RayTracing.INSTANCE.getTargetStack(); // Here we get either the proper stack or the override
+                accessor.stack = targetStack;
 
                 if (!targetStack.isEmpty()) {
                     instance().handler.gatherBlockComponents(accessor, currentTipHead, TooltipPosition.HEAD);

@@ -52,6 +52,7 @@ public class PluginMinecraft implements IWailaPlugin {
 
         registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, SilverfishBlock.class);
         registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, CropsBlock.class);
+        registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.HEAD, SilverfishBlock.class);
         registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.HEAD, MobSpawnerTileEntity.class);
         registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.BODY, CropsBlock.class);
         registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.BODY, StemBlock.class);

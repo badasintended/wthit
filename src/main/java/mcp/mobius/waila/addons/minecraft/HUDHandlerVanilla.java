@@ -1,5 +1,6 @@
 package mcp.mobius.waila.addons.minecraft;
 
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.*;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.CropsBlock;
@@ -14,6 +15,7 @@ import net.minecraft.state.properties.ComparatorMode;
 import net.minecraft.tileentity.JukeboxTileEntity;
 import net.minecraft.tileentity.MobSpawnerTileEntity;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -24,6 +26,8 @@ import java.util.List;
 public class HUDHandlerVanilla implements IComponentProvider, IServerDataProvider<TileEntity> {
 
     static final HUDHandlerVanilla INSTANCE = new HUDHandlerVanilla();
+
+    static final ResourceLocation OBJECT_NAME_TAG = new ResourceLocation(Waila.MODID, "object_name");
 
     @Override
     public ItemStack getStack(IDataAccessor accessor, IPluginConfig config) {
@@ -41,9 +45,12 @@ public class HUDHandlerVanilla implements IComponentProvider, IServerDataProvide
 
     @Override
     public void appendHead(List<ITextComponent> tooltip, IDataAccessor accessor, IPluginConfig config) {
+        if (config.get(PluginMinecraft.CONFIG_HIDE_SILVERFISH) && accessor.getBlock() instanceof SilverfishBlock)
+            ((ITaggableList<ResourceLocation, ITextComponent>) tooltip).setTag(OBJECT_NAME_TAG, new StringTextComponent(String.format(Waila.CONFIG.get().getFormatting().getBlockName(), accessor.getStack().getDisplayName().getString())));
+
         if (accessor.getBlock() == Blocks.SPAWNER && config.get(PluginMinecraft.CONFIG_SPAWNER_TYPE)) {
             MobSpawnerTileEntity spawner = (MobSpawnerTileEntity) accessor.getTileEntity();
-            tooltip.set(0, new TranslationTextComponent(accessor.getBlock().getTranslationKey())
+            ((ITaggableList<ResourceLocation, ITextComponent>) tooltip).setTag(OBJECT_NAME_TAG, new TranslationTextComponent(accessor.getBlock().getTranslationKey())
                     .appendSibling(new StringTextComponent(" ("))
                     .appendSibling(spawner.getSpawnerBaseLogic().getCachedEntity().getDisplayName())
                     .appendSibling(new StringTextComponent(")"))
