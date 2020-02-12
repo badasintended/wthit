@@ -80,7 +80,7 @@ public class NetworkHandler {
                 tag.putInt("x", pos.getX());
                 tag.putInt("y", pos.getY());
                 tag.putInt("z", pos.getZ());
-                tag.putString("id", Registry.BLOCK_ENTITY.getId(tile.getType()).toString());
+                tag.putString("id", Registry.BLOCK_ENTITY_TYPE.getId(tile.getType()).toString());
 
                 PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
                 buf.writeCompoundTag(tag);

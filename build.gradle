@@ -78,7 +78,10 @@ curseforge {
 
         relations curseRelations
 
-        addGameVersion "1.14"
+        addGameVersion "1.15-Snapshot"
+        addGameVersion "1.15"
+        addGameVersion "1.15.1"
+        addGameVersion "1.15.2"
         addGameVersion "Java 8"
         addArtifact sourcesJar
         addArtifact apiJar
