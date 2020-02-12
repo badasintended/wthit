@@ -1,4 +1,12 @@
 ------------------------------------------------------
+Version 1.10.8
+------------------------------------------------------
+
+- Updated to 1.15.2
+- Fixed entity health not supporting transparency
+- Fixed infested block names not being hidden when "hide_infestations" is enabled
+
+------------------------------------------------------
 Version 1.10.7
 ------------------------------------------------------
 
