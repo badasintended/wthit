@@ -4,7 +4,7 @@ import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import net.minecraft.entity.decoration.ItemFrameEntity;
-import net.minecraft.entity.decoration.LeadKnotEntity;
+import net.minecraft.entity.decoration.LeashKnotEntity;
 import net.minecraft.entity.decoration.painting.PaintingEntity;
 import net.minecraft.entity.vehicle.AbstractMinecartEntity;
 import net.minecraft.item.ItemStack;
@@ -38,7 +38,7 @@ public class HUDHandlerEntityIcon implements IEntityComponentProvider {
             return held.isEmpty() ? new ItemStack(Items.ITEM_FRAME) : held;
         } else if (accessor.getEntity() instanceof PaintingEntity) {
             return new ItemStack(Items.PAINTING);
-        } else if (accessor.getEntity() instanceof LeadKnotEntity) {
+        } else if (accessor.getEntity() instanceof LeashKnotEntity) {
             return new ItemStack(Items.LEAD);
         }
         return ItemStack.EMPTY;

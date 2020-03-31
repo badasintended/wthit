@@ -10,7 +10,7 @@ import net.minecraft.nbt.ListTag;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
-import net.minecraft.util.DefaultedList;
+import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
@@ -51,9 +51,9 @@ public class HUDHandlerFurnace implements IComponentProvider, IServerDataProvide
     public void appendServerData(CompoundTag data, ServerPlayerEntity player, World world, BlockEntity blockEntity) {
         AbstractFurnaceBlockEntity furnace = (AbstractFurnaceBlockEntity) blockEntity;
         ListTag items = new ListTag();
-        items.add(furnace.getInvStack(0).toTag(new CompoundTag()));
-        items.add(furnace.getInvStack(1).toTag(new CompoundTag()));
-        items.add(furnace.getInvStack(2).toTag(new CompoundTag()));
+        items.add(furnace.getStack(0).toTag(new CompoundTag()));
+        items.add(furnace.getStack(1).toTag(new CompoundTag()));
+        items.add(furnace.getStack(2).toTag(new CompoundTag()));
         data.put("furnace", items);
         CompoundTag furnaceTag = furnace.toTag(new CompoundTag());
         data.putInt("progress", furnaceTag.getInt("CookTime")); // smh

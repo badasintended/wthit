@@ -59,7 +59,7 @@ public class DataAccessor implements ICommonAccessor, IDataAccessor, IEntityAcce
             this.stack = block.getPickStack(world, pos, state);
         } else if (this.hitResult.getType() == HitResult.Type.ENTITY) {
             this.entity = ((EntityHitResult) hit).getEntity();
-            this.pos = new BlockPos(entity);
+            this.pos = new BlockPos(entity.getPos());
             this.state = Blocks.AIR.getDefaultState();
             this.block = Blocks.AIR;
             this.blockEntity = null;

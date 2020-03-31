@@ -12,7 +12,7 @@ import net.minecraft.block.entity.JukeboxBlockEntity;
 import net.minecraft.block.entity.MobSpawnerBlockEntity;
 import net.minecraft.entity.FallingBlockEntity;
 import net.minecraft.entity.decoration.ItemFrameEntity;
-import net.minecraft.entity.decoration.LeadKnotEntity;
+import net.minecraft.entity.decoration.LeashKnotEntity;
 import net.minecraft.entity.decoration.painting.PaintingEntity;
 import net.minecraft.entity.vehicle.AbstractMinecartEntity;
 import net.minecraft.util.Identifier;
@@ -71,7 +71,7 @@ public class PluginMinecraft implements IWailaPlugin {
         registrar.registerEntityStackProvider(HUDHandlerEntityIcon.INSTANCE, AbstractMinecartEntity.class);
         registrar.registerEntityStackProvider(HUDHandlerEntityIcon.INSTANCE, ItemFrameEntity.class);
         registrar.registerEntityStackProvider(HUDHandlerEntityIcon.INSTANCE, PaintingEntity.class);
-        registrar.registerEntityStackProvider(HUDHandlerEntityIcon.INSTANCE, LeadKnotEntity.class);
+        registrar.registerEntityStackProvider(HUDHandlerEntityIcon.INSTANCE, LeashKnotEntity.class);
         registrar.registerComponentProvider(HUDHandlerFurnace.INSTANCE, TooltipPosition.BODY, AbstractFurnaceBlockEntity.class);
         registrar.registerBlockDataProvider(HUDHandlerFurnace.INSTANCE, AbstractFurnaceBlockEntity.class);
     }

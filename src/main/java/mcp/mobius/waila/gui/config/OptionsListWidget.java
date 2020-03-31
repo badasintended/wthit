@@ -39,13 +39,13 @@ public class OptionsListWidget extends ElementListWidget<OptionsListWidget.Entry
 
     public void render(int int_1, int int_2, float float_1) {
         this.renderBackground();
-        int int_3 = this.getScrollbarPosition();
+        int int_3 = this.getScrollbarPositionX();
         int int_4 = int_3 + 6;
         RenderSystem.disableLighting();
         RenderSystem.disableFog();
         Tessellator tessellator_1 = Tessellator.getInstance();
         BufferBuilder bufferBuilder_1 = tessellator_1.getBuffer();
-        this.minecraft.getTextureManager().bindTexture(DrawableHelper.BACKGROUND_LOCATION);
+        this.client.getTextureManager().bindTexture(DrawableHelper.BACKGROUND_TEXTURE);
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         int int_5 = this.getRowLeft();
         int int_6 = this.top + 4 - (int)this.getScrollAmount();

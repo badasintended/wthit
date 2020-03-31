@@ -61,7 +61,7 @@ public abstract class GuiOptions extends Screen {
     public void render(int mouseX, int mouseY, float partialTicks) {
         renderBackground();
         options.render(mouseX, mouseY, partialTicks);
-        drawCenteredString(font, title.asFormattedString(), width / 2, 12, 16777215);
+        drawCenteredString(textRenderer, title.asFormattedString(), width / 2, 12, 16777215);
         super.render(mouseX, mouseY, partialTicks);
 
         if (mouseY < 32 || mouseY > height - 32)
@@ -74,11 +74,11 @@ public abstract class GuiOptions extends Screen {
                 if (I18n.hasTranslation(value.getDescription())) {
                     int valueX = value.getX() + 10;
                     String title = value.getTitle().asFormattedString();
-                    if (mouseX < valueX || mouseX > valueX + font.getStringWidth(title))
+                    if (mouseX < valueX || mouseX > valueX + textRenderer.getStringWidth(title))
                         return;
 
                     List<String> tooltip = Lists.newArrayList(title);
-                    tooltip.addAll(font.wrapStringToWidthAsList(I18n.translate(value.getDescription()), 200));
+                    tooltip.addAll(textRenderer.wrapStringToWidthAsList(I18n.translate(value.getDescription()), 200));
                     renderTooltip(tooltip, mouseX, mouseY);
                 }
             }
@@ -87,7 +87,7 @@ public abstract class GuiOptions extends Screen {
 
     @Override
     public void onClose() {
-        minecraft.openScreen(parent);
+        client.openScreen(parent);
     }
 
     public void addListener(Element listener) {
