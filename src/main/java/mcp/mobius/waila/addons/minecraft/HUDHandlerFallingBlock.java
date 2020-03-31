@@ -35,7 +35,7 @@ public class HUDHandlerFallingBlock implements IEntityComponentProvider {
     @Override
     public void appendHead(List<Text> tooltip, IEntityAccessor accessor, IPluginConfig config) {
         FallingBlockEntity entity = (FallingBlockEntity) accessor.getEntity();
-        ((ITaggableList<Identifier, Text>) tooltip).setTag(OBJECT_NAME_TAG, new LiteralText(String.format(Waila.CONFIG.get().getFormatting().getEntityName(), entity.getBlockState().getBlock().getName())));
+        ((ITaggableList<Identifier, Text>) tooltip).setTag(OBJECT_NAME_TAG, new LiteralText(String.format(Waila.CONFIG.get().getFormatting().getEntityName(), entity.getBlockState().getBlock().getName().asString())));
         if (config.get(CONFIG_SHOW_REGISTRY))
             ((ITaggableList<Identifier, Text>) tooltip).setTag(REGISTRY_NAME_TAG, new LiteralText(Registry.ENTITY_TYPE.getId(accessor.getEntity().getType()).toString()).setStyle(new Style().setColor(Formatting.GRAY)));
     }
