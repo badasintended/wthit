@@ -72,6 +72,7 @@
   "config.waila.plugin_minecraft.comparator": "Comparator Mode",
   "config.waila.plugin_minecraft.redstone": "Power Level",
   "config.waila.plugin_minecraft.jukebox": "Active Record",
+  "config.waila.plugin_minecraft.player_head_name": "Player Head Names",
 
   "config.waila.plugin_waila": "Waila",
   "config.waila.plugin_waila.show_registry": "Show Registry Names",

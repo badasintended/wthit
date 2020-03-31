@@ -6,10 +6,12 @@ import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.JukeboxBlockEntity;
 import net.minecraft.block.entity.MobSpawnerBlockEntity;
+import net.minecraft.block.entity.SkullBlockEntity;
 import net.minecraft.block.enums.ComparatorMode;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtHelper;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.state.property.Properties;
 import net.minecraft.text.LiteralText;
@@ -36,6 +38,17 @@ public class HUDHandlerVanilla implements IComponentProvider, IServerDataProvide
 
         if (accessor.getBlock() == Blocks.BEETROOTS)
             return new ItemStack(Items.BEETROOT);
+
+        if (accessor.getBlockEntity() instanceof SkullBlockEntity) {
+            SkullBlockEntity skull = (SkullBlockEntity) accessor.getBlockEntity();
+            if (skull.getOwner() != null) {
+                ItemStack stack = new ItemStack(Items.PLAYER_HEAD);
+                CompoundTag tag = new CompoundTag();
+                tag.putString("SkullOwner", skull.getOwner().getName());
+                stack.setTag(tag);
+                return stack;
+            }
+        }
 
         return ItemStack.EMPTY;
     }
@@ -100,6 +113,12 @@ public class HUDHandlerVanilla implements IComponentProvider, IServerDataProvide
                 tooltip.add(new TranslatableText("record.nowPlaying", Text.Serializer.fromJson(accessor.getServerData().getString("record"))));
             else
                 tooltip.add(new TranslatableText("tooltip.waila.empty"));
+        }
+
+        if (config.get(PluginMinecraft.CONFIG_PLAYER_HEAD_NAME) && accessor.getBlockEntity() instanceof SkullBlockEntity) {
+            SkullBlockEntity skull = (SkullBlockEntity) accessor.getBlockEntity();
+            if (skull.getOwner() != null)
+                tooltip.add(new LiteralText(skull.getOwner().getName()));
         }
     }
 
