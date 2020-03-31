@@ -116,12 +116,29 @@ public class Tooltip {
 
     public Rectangle getPosition() {
         Window window = MinecraftClient.getInstance().getWindow();
-        return new Rectangle(
-                (int) (window.getScaledWidth() * Waila.CONFIG.get().getOverlay().getOverlayPosX() - totalSize.width / 2), // Center it
-                (int) (window.getScaledHeight() * (1.0F - Waila.CONFIG.get().getOverlay().getOverlayPosY())),
+        WailaConfig.ConfigOverlay.SizeChoice overlaySize = Waila.CONFIG.get().getOverlay().getOverlaySize();
+
+        Rectangle position = new Rectangle(
+                (int) ((window.getScaledWidth() * overlaySize.multiplier) * Waila.CONFIG.get().getOverlay().getOverlayPosX() - totalSize.width / 2), // Center it
+                (int) ((window.getScaledHeight() * overlaySize.multiplier) * (1.0F - Waila.CONFIG.get().getOverlay().getOverlayPosY())),
                 totalSize.width,
                 totalSize.height
         );
+
+        position.x *= overlaySize.multiplier;
+        position.y *= overlaySize.multiplier;
+
+        // Fix position to stay on screen
+        if (position.x - position.width / 2 < 0)
+            position.x = 0;
+
+        if (position.x + position.width > MinecraftClient.getInstance().getWindow().getScaledWidth() * overlaySize.multiplier)
+            position.x = (int) (MinecraftClient.getInstance().getWindow().getScaledWidth() * overlaySize.multiplier - position.width - 1);
+
+        if (position.y + position.height > MinecraftClient.getInstance().getWindow().getScaledHeight())
+            position.y = (int) (MinecraftClient.getInstance().getWindow().getScaledHeight() * overlaySize.multiplier - position.height - 1);
+
+        return position;
     }
 
     public static class Line {

@@ -67,9 +67,9 @@ public class GuiConfigWaila extends GuiOptions {
                     options.add(new OptionsEntryValueInput<>(Util.createTranslationKey("config", new Identifier(Waila.MODID, "overlay_pos_y")), Waila.CONFIG.get().getOverlay().getOverlayPosY(), val ->
                             Waila.CONFIG.get().getOverlay().setOverlayPosY(Math.min(1.0F, Math.max(0.0F, val)))
                             , OptionsEntryValueInput.FLOAT));
-                    options.add(new OptionsEntryValueInput<>(Util.createTranslationKey("config", new Identifier(Waila.MODID, "overlay_scale")), Waila.CONFIG.get().getOverlay().getOverlayScale(), val ->
-                            Waila.CONFIG.get().getOverlay().setOverlayScale(Math.min(2.0F, Math.max(0.1F, val)))
-                            , OptionsEntryValueInput.FLOAT));
+                    options.add(new OptionsEntryValueEnum<>(Util.createTranslationKey("config", new Identifier(Waila.MODID, "overlay_size")), WailaConfig.ConfigOverlay.SizeChoice.values(), Waila.CONFIG.get().getOverlay().getOverlaySize(), val ->
+                            Waila.CONFIG.get().getOverlay().setOverlaySize(val)
+                    ));
                     options.add(new OptionsEntryButton(Util.createTranslationKey("config", new Identifier(Waila.MODID, "overlay_color")), new ButtonWidget(0, 0, 100, 20, null, w -> {
                         minecraft.openScreen(new GuiOptions(GuiConfigWaila.this, new TranslatableText(Util.createTranslationKey("config", new Identifier(Waila.MODID, "overlay_color")))) {
                             @Override

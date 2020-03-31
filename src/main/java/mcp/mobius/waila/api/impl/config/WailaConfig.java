@@ -123,7 +123,7 @@ public class WailaConfig {
     public static class ConfigOverlay {
         private float overlayPosX = 0.5F;
         private float overlayPosY = 0.99F;
-        private float overlayScale = 1.0F;
+        private SizeChoice overlaySize = SizeChoice.NORMAL;
         private ConfigOverlayColor color = new ConfigOverlayColor();
 
         public void setOverlayPosX(float overlayPosX) {
@@ -134,8 +134,8 @@ public class WailaConfig {
             this.overlayPosY = overlayPosY;
         }
 
-        public void setOverlayScale(float overlayScale) {
-            this.overlayScale = overlayScale;
+        public void setOverlaySize(SizeChoice overlaySize) {
+            this.overlaySize = overlaySize;
         }
 
         public float getOverlayPosX() {
@@ -146,12 +146,27 @@ public class WailaConfig {
             return Math.min(Math.max(overlayPosY, 0.0F), 1.0F);
         }
 
-        public float getOverlayScale() {
-            return overlayScale;
+        public SizeChoice getOverlaySize() {
+            return overlaySize;
         }
 
         public ConfigOverlayColor getColor() {
             return color;
+        }
+
+        public enum SizeChoice {
+            HALF(0.5F, 2.0F),
+            NORMAL(1.0F, 1.0F),
+//            DOUBLE(2.0F, 0.5F),
+            ;
+
+            public float scale;
+            public float multiplier;
+
+            SizeChoice(float scale, float multiplier) {
+                this.scale = scale;
+                this.multiplier = multiplier;
+            }
         }
 
         public static class ConfigOverlayColor {
