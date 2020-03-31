@@ -10,6 +10,7 @@ import net.minecraft.block.*;
 import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.block.entity.JukeboxBlockEntity;
 import net.minecraft.block.entity.MobSpawnerBlockEntity;
+import net.minecraft.block.entity.SkullBlockEntity;
 import net.minecraft.entity.FallingBlockEntity;
 import net.minecraft.entity.decoration.ItemFrameEntity;
 import net.minecraft.entity.decoration.LeashKnotEntity;
@@ -32,6 +33,7 @@ public class PluginMinecraft implements IWailaPlugin {
     static final Identifier CONFIG_COMPARATOR = new Identifier("comparator");
     static final Identifier CONFIG_REDSTONE = new Identifier("redstone");
     static final Identifier CONFIG_JUKEBOX = new Identifier("jukebox");
+    static final Identifier CONFIG_PLAYER_HEAD_NAME = new Identifier("player_head_name");
 
     @Override
     public void register(IRegistrar registrar) {
@@ -44,6 +46,7 @@ public class PluginMinecraft implements IWailaPlugin {
         registrar.addConfig(CONFIG_COMPARATOR, true);
         registrar.addConfig(CONFIG_REDSTONE, true);
         registrar.addConfig(CONFIG_JUKEBOX, true);
+        registrar.addConfig(CONFIG_PLAYER_HEAD_NAME, true);
 
         registrar.registerTooltipRenderer(RENDER_ITEM, new TooltipRendererStack());
         registrar.registerTooltipRenderer(RENDER_SPACER, new TooltipRendererSpacer());
@@ -51,6 +54,7 @@ public class PluginMinecraft implements IWailaPlugin {
 
         registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, InfestedBlock.class);
         registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, CropBlock.class);
+        registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, SkullBlockEntity.class);
         registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.HEAD, InfestedBlock.class);
         registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.HEAD, MobSpawnerBlockEntity.class);
         registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.BODY, CropBlock.class);
@@ -63,6 +67,7 @@ public class PluginMinecraft implements IWailaPlugin {
         registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.BODY, ComparatorBlock.class);
         registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.BODY, RedstoneWireBlock.class);
         registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.BODY, JukeboxBlockEntity.class);
+        registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.BODY, SkullBlockEntity.class);
         registrar.registerBlockDataProvider(HUDHandlerVanilla.INSTANCE, JukeboxBlockEntity.class);
 
         registrar.registerComponentProvider(HUDHandlerFallingBlock.INSTANCE, TooltipPosition.HEAD, FallingBlockEntity.class);
