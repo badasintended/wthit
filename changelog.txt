@@ -1,4 +1,19 @@
 ------------------------------------------------------
+Version 1.9.21
+------------------------------------------------------
+
+- Updated to newer 1.16 snapshots
+- Limited overlay scale to 2 (currently) values
+    - 1.0x and 0.5x
+    - These are the 2 values at which the tooltip renders without scaling issues
+    - Allows for the tooltip to be forced to stay on screen rather than overflowing off the edge
+- Fixed falling block display names
+- Fixed Netherwart not having a maturity tooltip
+- Player heads now display the correct texture in the tooltip
+    - The name is also added to the body now
+- Fixed the tooltip for Repeaters and Comparators not being localized properly
+
+------------------------------------------------------
 Version 1.9.20
 ------------------------------------------------------
 
