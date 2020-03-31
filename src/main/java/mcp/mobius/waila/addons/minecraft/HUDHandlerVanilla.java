@@ -67,6 +67,8 @@ public class HUDHandlerVanilla implements IComponentProvider, IServerDataProvide
                 addMaturityTooltip(tooltip, accessor.getBlockState().get(Properties.AGE_2) / 2.0F);
             } else if (accessor.getBlock() == Blocks.SWEET_BERRY_BUSH) {
                 addMaturityTooltip(tooltip, accessor.getBlockState().get(Properties.AGE_3) / 3.0F);
+            } else if (accessor.getBlock() == Blocks.NETHER_WART) {
+                addMaturityTooltip(tooltip, accessor.getBlockState().get(Properties.AGE_3) / 3.0F);
             }
         }
 

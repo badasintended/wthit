@@ -56,6 +56,7 @@ public class PluginMinecraft implements IWailaPlugin {
         registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.BODY, CropBlock.class);
         registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.BODY, StemBlock.class);
         registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.BODY, CocoaBlock.class);
+        registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.BODY, NetherWartBlock.class);
         registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.BODY, SweetBerryBushBlock.class);
         registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.BODY, LeverBlock.class);
         registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.BODY, RepeaterBlock.class);
