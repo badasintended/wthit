@@ -93,13 +93,13 @@ public class HUDHandlerVanilla implements IComponentProvider, IServerDataProvide
 
         if (config.get(PluginMinecraft.CONFIG_REPEATER) && accessor.getBlock() == Blocks.REPEATER) {
             int delay = accessor.getBlockState().get(Properties.DELAY);
-            tooltip.add(new TranslatableText("waila.tooltip.delay", delay));
+            tooltip.add(new TranslatableText("tooltip.waila.delay", delay));
             return;
         }
 
         if (config.get(PluginMinecraft.CONFIG_COMPARATOR) && accessor.getBlock() == Blocks.COMPARATOR) {
             ComparatorMode mode = accessor.getBlockState().get(Properties.COMPARATOR_MODE);
-            tooltip.add(new TranslatableText("tooltip.waila.mode", new TranslatableText("tooltip.waila.mode_." + (mode == ComparatorMode.COMPARE ? "comparator" : "subtractor"))));
+            tooltip.add(new TranslatableText("tooltip.waila.mode", new TranslatableText("tooltip.waila.mode_" + (mode == ComparatorMode.COMPARE ? "comparator" : "subtractor"))));
             return;
         }
 
