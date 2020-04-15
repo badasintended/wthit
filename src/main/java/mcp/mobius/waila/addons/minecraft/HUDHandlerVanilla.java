@@ -19,6 +19,7 @@ import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
@@ -44,7 +45,7 @@ public class HUDHandlerVanilla implements IComponentProvider, IServerDataProvide
             if (skull.getOwner() != null) {
                 ItemStack stack = new ItemStack(Items.PLAYER_HEAD);
                 CompoundTag tag = new CompoundTag();
-                tag.putString("SkullOwner", skull.getOwner().getName());
+                tag.put("SkullOwner", NbtHelper.fromGameProfile(new CompoundTag(), skull.getOwner()));
                 stack.setTag(tag);
                 return stack;
             }
@@ -117,7 +118,7 @@ public class HUDHandlerVanilla implements IComponentProvider, IServerDataProvide
 
         if (config.get(PluginMinecraft.CONFIG_PLAYER_HEAD_NAME) && accessor.getBlockEntity() instanceof SkullBlockEntity) {
             SkullBlockEntity skull = (SkullBlockEntity) accessor.getBlockEntity();
-            if (skull.getOwner() != null)
+            if (skull.getOwner() != null && !StringUtils.isBlank(skull.getOwner().getName()))
                 tooltip.add(new LiteralText(skull.getOwner().getName()));
         }
     }
