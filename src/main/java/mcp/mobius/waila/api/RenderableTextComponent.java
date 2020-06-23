@@ -50,7 +50,7 @@ public class RenderableTextComponent extends LiteralText {
 
     private CompoundTag getData() {
         try {
-            return StringNbtReader.parse(asFormattedString());
+            return StringNbtReader.parse(getString());
         } catch (CommandSyntaxException e) {
             return new CompoundTag();
         }
@@ -67,7 +67,7 @@ public class RenderableTextComponent extends LiteralText {
         CompoundTag container = new CompoundTag();
         ListTag renderData = new ListTag();
         for (RenderableTextComponent component : components)
-            renderData.add(StringTag.of(component.asFormattedString()));
+            renderData.add(StringTag.of(component.getString()));
         container.put("renders", renderData);
         return container.toString();
     }

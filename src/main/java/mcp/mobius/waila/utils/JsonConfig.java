@@ -9,6 +9,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.function.Supplier;
+import mcp.mobius.waila.utils.JsonConfig.CachedSupplier;
 
 public class JsonConfig<T> {
 

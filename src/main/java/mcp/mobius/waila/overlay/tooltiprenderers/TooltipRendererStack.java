@@ -11,6 +11,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.StringNbtReader;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.client.util.math.MatrixStack;
 
 import java.awt.Dimension;
 
@@ -22,7 +23,7 @@ public class TooltipRendererStack implements ITooltipRenderer {
     }
 
     @Override
-    public void draw(CompoundTag tag, ICommonAccessor accessor, int x, int y) {
+    public void draw(MatrixStack matrices, CompoundTag tag, ICommonAccessor accessor, int x, int y) {
         int count = tag.getInt("count");
         if (count <= 0)
             return;
@@ -42,7 +43,7 @@ public class TooltipRendererStack implements ITooltipRenderer {
         if (stackTag != null)
             stack.setTag(stackTag);
 
-        DisplayUtil.renderStack(x, y, stack);
+        DisplayUtil.renderStack(matrices, x, y, stack);
     }
 
 }

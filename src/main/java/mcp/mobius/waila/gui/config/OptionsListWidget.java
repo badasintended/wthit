@@ -11,11 +11,13 @@ import net.minecraft.client.gui.widget.ElementListWidget;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexFormats;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
 
 import java.util.Collections;
 import java.util.List;
 
+// wtf? EntryListWidget
 public class OptionsListWidget extends ElementListWidget<OptionsListWidget.Entry> {
 
     private final GuiOptions owner;
@@ -37,8 +39,8 @@ public class OptionsListWidget extends ElementListWidget<OptionsListWidget.Entry
         return 250;
     }
 
-    public void render(int int_1, int int_2, float float_1) {
-        this.renderBackground();
+    public void render(MatrixStack matrices, int int_1, int int_2, float float_1) {
+        this.renderBackground(matrices);
         int int_3 = this.getScrollbarPositionX();
         int int_4 = int_3 + 6;
         RenderSystem.disableLighting();
@@ -50,10 +52,23 @@ public class OptionsListWidget extends ElementListWidget<OptionsListWidget.Entry
         int int_5 = this.getRowLeft();
         int int_6 = this.top + 4 - (int)this.getScrollAmount();
 
-        this.renderList(int_5, int_6, int_1, int_2, float_1);
+        this.renderList(matrices, int_5, int_6, int_1, int_2, float_1);
         RenderSystem.disableDepthTest();
-        this.renderHoleBackground(0, this.top, 255, 255);
-        this.renderHoleBackground(this.bottom, this.height, 255, 255);
+        RenderSystem.enableDepthTest();
+        RenderSystem.depthFunc(519);
+        float h = 32.0F;
+        int o = -100;
+        bufferBuilder_1.begin(7, VertexFormats.POSITION_TEXTURE_COLOR);
+        bufferBuilder_1.vertex(this.left, this.top, -100.0D).texture(0.0F, this.top / 32.0F).color(64, 64, 64, 255).next();
+        bufferBuilder_1.vertex((this.left + this.width), this.top, -100.0D).texture(this.width / 32.0F, this.top / 32.0F).color(64, 64, 64, 255).next();
+        bufferBuilder_1.vertex((this.left + this.width), 0.0D, -100.0D).texture(this.width / 32.0F, 0.0F).color(64, 64, 64, 255).next();
+        bufferBuilder_1.vertex(this.left, 0.0D, -100.0D).texture(0.0F, 0.0F).color(64, 64, 64, 255).next();
+        bufferBuilder_1.vertex(this.left, this.height, -100.0D).texture(0.0F, this.height / 32.0F).color(64, 64, 64, 255).next();
+        bufferBuilder_1.vertex((this.left + this.width), this.height, -100.0D).texture(this.width / 32.0F, this.height / 32.0F).color(64, 64, 64, 255).next();
+        bufferBuilder_1.vertex((this.left + this.width), this.bottom, -100.0D).texture(this.width / 32.0F, this.bottom / 32.0F).color(64, 64, 64, 255).next();
+        bufferBuilder_1.vertex(this.left, this.bottom, -100.0D).texture(0.0F, this.bottom / 32.0F).color(64, 64, 64, 255).next();
+        tessellator_1.draw();
+        RenderSystem.depthFunc(515);
         RenderSystem.enableBlend();
         RenderSystem.blendFuncSeparate(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SrcFactor.ZERO, GlStateManager.DstFactor.ONE);
         RenderSystem.disableAlphaTest();
@@ -94,7 +109,7 @@ public class OptionsListWidget extends ElementListWidget<OptionsListWidget.Entry
             tessellator_1.draw();
         }
 
-        this.renderDecorations(int_1, int_2);
+        this.renderDecorations(matrices, int_1, int_2);
         RenderSystem.enableTexture();
         RenderSystem.shadeModel(7424);
         RenderSystem.enableAlphaTest();
@@ -134,6 +149,6 @@ public class OptionsListWidget extends ElementListWidget<OptionsListWidget.Entry
         }
 
         @Override
-        public abstract void render(int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime);
+        public abstract void render(MatrixStack matrices, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime);
     }
 }

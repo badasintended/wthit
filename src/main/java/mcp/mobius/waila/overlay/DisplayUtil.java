@@ -28,14 +28,14 @@ public class DisplayUtil {
     private static final int MAX_LENGTH = 4;
     private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
 
-    public static void renderStack(int x, int y, ItemStack stack) {
+    public static void renderStack(MatrixStack matrices, int x, int y, ItemStack stack) {
         enable3DRender();
         try {
             CLIENT.getItemRenderer().renderGuiItemIcon(stack, x, y);
             ItemStack overlayRender = stack.copy();
             overlayRender.setCount(1);
             CLIENT.getItemRenderer().renderGuiItemOverlay(CLIENT.textRenderer, overlayRender, x, y);
-            renderStackSize(CLIENT.textRenderer, stack, x, y);
+            renderStackSize(matrices, CLIENT.textRenderer, stack, x, y);
         } catch (Exception e) {
             String stackStr = stack != null ? stack.toString() : "NullStack";
             WailaExceptionHandler.handleErr(e, "renderStack | " + stackStr, null);
@@ -43,7 +43,7 @@ public class DisplayUtil {
         enable2DRender();
     }
 
-    public static void renderStackSize(TextRenderer fr, ItemStack stack, int xPosition, int yPosition) {
+    public static void renderStackSize(MatrixStack matrices, TextRenderer fr, ItemStack stack, int xPosition, int yPosition) {
         if (!stack.isEmpty() && stack.getCount() != 1) {
             String s = shortHandNumber(stack.getCount());
 
@@ -54,7 +54,7 @@ public class DisplayUtil {
             RenderSystem.disableDepthTest();
             RenderSystem.disableBlend();
             RenderSystem.translated(0, 0, MinecraftClient.getInstance().getItemRenderer().zOffset + 200F);
-            fr.drawWithShadow(s, (float) (xPosition + 19 - 2 - fr.getStringWidth(s)), (float) (yPosition + 6 + 3), 16777215);
+            fr.drawWithShadow(matrices, s, (float) (xPosition + 19 - 2 - fr.getWidth(s)), (float) (yPosition + 6 + 3), 16777215);
             RenderSystem.enableLighting();
             RenderSystem.enableDepthTest();
             RenderSystem.enableBlend();
@@ -146,7 +146,7 @@ public class DisplayUtil {
 
     public static String itemDisplayNameShort(ItemStack itemstack) {
         List<Text> list = itemDisplayNameMultiline(itemstack);
-        return String.format(Waila.CONFIG.get().getFormatting().getBlockName(), list.get(0).asFormattedString());
+        return String.format(Waila.CONFIG.get().getFormatting().getBlockName(), list.get(0).getString());
     }
 
     public static void renderIcon(int x, int y, int sx, int sy, IconUI icon) {

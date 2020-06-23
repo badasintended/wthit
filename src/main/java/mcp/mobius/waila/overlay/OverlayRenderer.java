@@ -10,6 +10,7 @@ import mcp.mobius.waila.api.impl.config.PluginConfig;
 import mcp.mobius.waila.api.impl.config.WailaConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ChatScreen;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.hit.HitResult;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
@@ -25,7 +26,7 @@ public class OverlayRenderer {
     protected static boolean depthMask;
     protected static int depthFunc;
 
-    public static void renderOverlay() {
+    public static void renderOverlay(MatrixStack matrices) {
         if (WailaTickHandler.instance().tooltip == null)
             return;
 
@@ -53,13 +54,13 @@ public class OverlayRenderer {
             return;
 
         if (RayTracing.INSTANCE.getTarget().getType() == HitResult.Type.BLOCK && !RayTracing.INSTANCE.getTargetStack().isEmpty())
-            renderOverlay(WailaTickHandler.instance().tooltip);
+            renderOverlay(matrices, WailaTickHandler.instance().tooltip);
 
         if (RayTracing.INSTANCE.getTarget().getType() == HitResult.Type.ENTITY && PluginConfig.INSTANCE.get(PluginCore.CONFIG_SHOW_ENTITY))
-            renderOverlay(WailaTickHandler.instance().tooltip);
+            renderOverlay(matrices, WailaTickHandler.instance().tooltip);
     }
 
-    public static void renderOverlay(Tooltip tooltip) {
+    public static void renderOverlay(MatrixStack matrices, Tooltip tooltip) {
         MinecraftClient.getInstance().getProfiler().push("Waila Overlay");
         RenderSystem.pushMatrix();
         saveGLState();
@@ -80,12 +81,12 @@ public class OverlayRenderer {
 
         RenderSystem.enableBlend();
         RenderSystem.blendFunc(770, 771);
-        tooltip.draw();
+        tooltip.draw(matrices);
         RenderSystem.disableBlend();
 
         RenderSystem.enableRescaleNormal();
         if (tooltip.hasItem())
-            DisplayUtil.renderStack(position.x + 5, position.y + position.height / 2 - 8, RayTracing.INSTANCE.getIdentifierStack());
+            DisplayUtil.renderStack(matrices, position.x + 5, position.y + position.height / 2 - 8, RayTracing.INSTANCE.getIdentifierStack());
 
         WailaRenderEvent.Post postEvent = new WailaRenderEvent.Post(position);
         WailaRenderEvent.WAILA_RENDER_POST.invoker().onPostRender(postEvent);

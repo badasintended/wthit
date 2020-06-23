@@ -3,6 +3,8 @@ package mcp.mobius.waila.gui.config.value;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.widget.TextFieldWidget;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.LiteralText;
 
 import java.util.function.Consumer;
 import java.util.function.Predicate;
@@ -29,10 +31,10 @@ public class OptionsEntryValueInput<T> extends OptionsEntryValue<T> {
     }
 
     @Override
-    protected void drawValue(int entryWidth, int entryHeight, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks) {
+    protected void drawValue(MatrixStack matrices, int entryWidth, int entryHeight, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks) {
         textField.setX(x + 135);
         textField.y = y + entryHeight / 6;
-        textField.render(mouseX, mouseY, partialTicks);
+        textField.render(matrices, mouseX, mouseY, partialTicks);
     }
 
     @Override
@@ -65,7 +67,7 @@ public class OptionsEntryValueInput<T> extends OptionsEntryValue<T> {
 
     private static class WatchedTextfield extends TextFieldWidget {
         public WatchedTextfield(OptionsEntryValueInput<?> watcher, TextRenderer fontRenderer, int x, int y, int width, int height) {
-            super(fontRenderer, x, y, width, height, "");
+            super(fontRenderer, x, y, width, height, new LiteralText(""));
             this.setChangedListener(watcher::setValue);
         }
     }

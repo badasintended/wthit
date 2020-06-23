@@ -27,9 +27,9 @@ public class HUDHandlerBlocks implements IComponentProvider {
         if (accessor.getBlockState().getMaterial().isLiquid())
             return;
 
-        ((ITaggableList<Identifier, Text>) tooltip).setTag(OBJECT_NAME_TAG, new LiteralText(String.format(Waila.CONFIG.get().getFormatting().getBlockName(), accessor.getBlock().getName().asFormattedString())));
+        ((ITaggableList<Identifier, Text>) tooltip).setTag(OBJECT_NAME_TAG, new LiteralText(String.format(Waila.CONFIG.get().getFormatting().getBlockName(), accessor.getBlock().getName().getString())));
         if (config.get(PluginCore.CONFIG_SHOW_REGISTRY))
-            ((ITaggableList<Identifier, Text>) tooltip).setTag(REGISTRY_NAME_TAG, new LiteralText(Registry.BLOCK.getId(accessor.getBlock()).toString()).setStyle(new Style().setColor(Formatting.GRAY)));
+            ((ITaggableList<Identifier, Text>) tooltip).setTag(REGISTRY_NAME_TAG, new LiteralText(Registry.BLOCK.getId(accessor.getBlock()).toString()).setStyle(Style.EMPTY.withColor(Formatting.GRAY)));
     }
 
     @Override
@@ -38,7 +38,7 @@ public class HUDHandlerBlocks implements IComponentProvider {
             BlockState state = accessor.getBlockState();
             state.getProperties().forEach(p -> {
                 Comparable<?> value = state.get(p);
-                Text valueText = new LiteralText(value.toString()).setStyle(new Style().setColor(p instanceof BooleanProperty ? value == Boolean.TRUE ? Formatting.GREEN : Formatting.RED : Formatting.RESET));
+                Text valueText = new LiteralText(value.toString()).setStyle(Style.EMPTY.withColor(p instanceof BooleanProperty ? value == Boolean.TRUE ? Formatting.GREEN : Formatting.RED : Formatting.RESET));
                 tooltip.add(new LiteralText(p.getName() + ":").append(valueText));
             });
         }

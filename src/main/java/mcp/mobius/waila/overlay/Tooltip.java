@@ -13,6 +13,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.Window;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.minecraft.client.util.math.MatrixStack;
 
 import java.awt.Dimension;
 import java.awt.Rectangle;
@@ -55,7 +56,7 @@ public class Tooltip {
         totalSize.height += 8;
     }
 
-    public void draw() {
+    public void draw(MatrixStack matrices) {
         Rectangle position = getPosition();
         WailaConfig.ConfigOverlay.ConfigOverlayColor color = Waila.CONFIG.get().getOverlay().getColor();
 
@@ -69,11 +70,11 @@ public class Tooltip {
                 int xOffset = 0;
                 for (RenderableTextComponent.RenderContainer container : Text.getRenderers()) {
                     Dimension size = container.getRenderer().getSize(container.getData(), DataAccessor.INSTANCE);
-                    container.getRenderer().draw(container.getData(), DataAccessor.INSTANCE, position.x + xOffset, position.y);
+                    container.getRenderer().draw(matrices, container.getData(), DataAccessor.INSTANCE, position.x + xOffset, position.y);
                     xOffset += size.width;
                 }
             } else {
-                client.textRenderer.drawWithShadow(line.getText().asFormattedString(), position.x, position.y, color.getFontColor());
+                client.textRenderer.drawWithShadow(matrices, line.getText(), position.x, position.y, color.getFontColor());
             }
             position.y += line.size.height;
         }
@@ -103,7 +104,7 @@ public class Tooltip {
             }
         }
 
-        return new Dimension(client.textRenderer.getStringWidth(text.asFormattedString()), client.textRenderer.fontHeight + 1);
+        return new Dimension(client.textRenderer.getWidth(text.getString()), client.textRenderer.fontHeight + 1);
     }
 
     public List<Line> getLines() {

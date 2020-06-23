@@ -4,6 +4,7 @@ import mcp.mobius.waila.gui.config.OptionsListWidget;
 import net.minecraft.client.gui.Element;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.client.util.math.MatrixStack;
 
 import java.util.function.Consumer;
 
@@ -22,9 +23,9 @@ public abstract class OptionsEntryValue<T> extends OptionsListWidget.Entry {
     }
 
     @Override
-    public final void render(int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
-        client.textRenderer.drawWithShadow(title.asFormattedString(), rowLeft + 10, rowTop + (height / 4) + (client.textRenderer.fontHeight / 2), 16777215);
-        drawValue(width, height, rowLeft, rowTop, mouseX, mouseY, hovered, deltaTime);
+    public final void render(MatrixStack matrices, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
+        client.textRenderer.drawWithShadow(matrices, title.getString(), rowLeft + 10, rowTop + (height / 4) + (client.textRenderer.fontHeight / 2), 16777215);
+        drawValue(matrices, width, height, rowLeft, rowTop, mouseX, mouseY, hovered, deltaTime);
         this.x = rowLeft;
     }
 
@@ -48,5 +49,5 @@ public abstract class OptionsEntryValue<T> extends OptionsListWidget.Entry {
         return x;
     }
 
-    protected abstract void drawValue(int entryWidth, int entryHeight, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks);
+    protected abstract void drawValue(MatrixStack matrices, int entryWidth, int entryHeight, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks);
 }

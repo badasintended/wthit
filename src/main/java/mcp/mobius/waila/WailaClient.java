@@ -38,8 +38,8 @@ public class WailaClient implements ClientModInitializer {
 
     private static void enableModMenuConfig() {
         try {
-            Class<?> modMenuApi_ = Class.forName("io.github.prospector.modmenu.api.ModMenuApi");
-            Method addConfigOverride_ = modMenuApi_.getMethod("addConfigOverride", String.class, Runnable.class);
+            Class<?> modMenuApi_ = Class.forName("io.github.prospector.modmenu.ModMenu");
+            Method addConfigOverride_ = modMenuApi_.getMethod("addLegacyConfigScreenTask", String.class, Runnable.class);
             addConfigOverride_.invoke(null, Waila.MODID, (Runnable) () -> MinecraftClient.getInstance().openScreen(new GuiConfigHome(null)));
         } catch (Exception e) {
             Waila.LOGGER.error("Error enabling the Mod Menu config button for Hwyla", e);
