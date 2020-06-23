@@ -6,7 +6,7 @@ import mcp.mobius.waila.command.CommandDumpHandlers;
 import mcp.mobius.waila.network.NetworkHandler;
 import mcp.mobius.waila.utils.JsonConfig;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.registry.CommandRegistry;
+import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -29,7 +29,9 @@ public class Waila implements ModInitializer {
     public void onInitialize() {
         NetworkHandler.init();
 
-        CommandRegistry.INSTANCE.register(false, CommandDumpHandlers::register);
+        CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) -> {
+            CommandDumpHandlers.register(dispatcher);
+        });
 
         WailaPlugins.gatherPlugins();
         WailaPlugins.initializePlugins();

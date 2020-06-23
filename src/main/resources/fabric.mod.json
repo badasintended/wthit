@@ -79,13 +79,15 @@
     "SinusoidalC",
     "viliml",
     "Eracer",
-    "odininon"
+    "odininon",
+    "Artoria2e5",
+    "plusls"
   ],
 
   "depends": {
     "fabric-api-base": "*",
-    "fabric-commands-v0": "*",
-    "fabric-keybindings-v0": "*",
+    "fabric-command-api-v1": "*",
+    "fabric-key-binding-api-v1": "*",
     "fabric-networking-v0": "*",
     "fabric-resource-loader-v0": "*"
   },

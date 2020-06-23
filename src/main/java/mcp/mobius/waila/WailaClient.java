@@ -5,32 +5,28 @@ import mcp.mobius.waila.gui.GuiConfigHome;
 import mcp.mobius.waila.network.ClientNetworkHandler;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
-import net.fabricmc.fabric.api.client.keybinding.FabricKeyBinding;
-import net.fabricmc.fabric.api.client.keybinding.KeyBindingRegistry;
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.options.KeyBinding;
 import net.minecraft.client.util.InputUtil;
-import net.minecraft.util.Identifier;
+import org.lwjgl.glfw.GLFW;
 
 import java.lang.reflect.Method;
 
 public class WailaClient implements ClientModInitializer {
 
-    public static FabricKeyBinding openConfig;
-    public static FabricKeyBinding showOverlay;
-    public static FabricKeyBinding toggleLiquid;
+    public static KeyBinding openConfig;
+    public static KeyBinding showOverlay;
+    public static KeyBinding toggleLiquid;
 
     @Override
     public void onInitializeClient() {
         ClientNetworkHandler.init();
 
-        KeyBindingRegistry.INSTANCE.addCategory(Waila.NAME);
-        openConfig = FabricKeyBinding.Builder.create(new Identifier(Waila.MODID, "config"), InputUtil.Type.KEYSYM, 320, Waila.NAME).build(); // Num 0
-        showOverlay = FabricKeyBinding.Builder.create(new Identifier(Waila.MODID, "show_overlay"), InputUtil.Type.KEYSYM, 321, Waila.NAME).build(); // Num 1
-        toggleLiquid = FabricKeyBinding.Builder.create(new Identifier(Waila.MODID, "toggle_liquid"), InputUtil.Type.KEYSYM, 322, Waila.NAME).build(); // Num 2
-        KeyBindingRegistry.INSTANCE.register(openConfig);
-        KeyBindingRegistry.INSTANCE.register(showOverlay);
-        KeyBindingRegistry.INSTANCE.register(toggleLiquid);
+        openConfig = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.waila.config", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_KP_0, Waila.NAME));
+        openConfig = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.waila.show_overlay", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_KP_1, Waila.NAME));
+        openConfig = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.waila.toggle_liquid", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_KP_2, Waila.NAME));
 
         if (FabricLoader.getInstance().isModLoaded("modmenu") && FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT)
             enableModMenuConfig();

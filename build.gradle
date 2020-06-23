@@ -18,7 +18,7 @@ minecraft {
 }
 
 repositories {
-    maven { url "https://tehnut.info/maven" }
+
 }
 
 dependencies {
@@ -28,8 +28,8 @@ dependencies {
     mappings "net.fabricmc:yarn:${mc_version}+build.${mappings_version}:v2"
     modCompile "net.fabricmc:fabric-loader:${loader_version}"
     modCompile "net.fabricmc.fabric-api:fabric-api-base:${api_version}"
-    modCompile "net.fabricmc.fabric-api:fabric-commands-v0:${api_commands_version}"
-    modCompile "net.fabricmc.fabric-api:fabric-keybindings-v0:${api_keybinding_version}"
+    modCompile "net.fabricmc.fabric-api:fabric-command-api-v1:${api_commands_version}"
+    modCompile "net.fabricmc.fabric-api:fabric-key-binding-api-v1:${api_keybinding_version}"
     modCompile "net.fabricmc.fabric-api:fabric-networking-v0:${api_networking_version}"
     modCompile "net.fabricmc.fabric-api:fabric-resource-loader-v0:${api_resources_version}"
 }
@@ -80,10 +80,7 @@ curseforge {
 
         relations curseRelations
 
-        addGameVersion "1.15-Snapshot"
-        addGameVersion "1.15"
-        addGameVersion "1.15.1"
-        addGameVersion "1.15.2"
+        addGameVersion "1.16"
         addGameVersion "Java 8"
         addArtifact sourcesJar
         addArtifact apiJar
