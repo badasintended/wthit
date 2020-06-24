@@ -7,7 +7,7 @@ plugins {
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
-def build_number = System.getenv('BUILD_NUMBER') != null ? System.getenv('BUILD_NUMBER') : 'CUSTOM'
+def build_number = System.getenv('BUILD_NUMBER') ?: 'CUSTOM'
 
 group = package_group
 archivesBaseName = "${mod_name}-fabric"
@@ -57,8 +57,14 @@ publishing {
         }
     }
     repositories {
-        if (project.hasProperty('maven_repo')) {
-            maven { url maven_repo }
+        if (project.hasProperty('aws_access_key_id') && project.hasProperty('aws_secret_access_key')) {
+            maven {
+                url = "s3://tehnut-mod-maven"
+                credentials(AwsCredentials) {
+                    accessKey = aws_access_key_id
+                    secretKey = aws_secret_access_key
+                }
+            }
         } else {
             mavenLocal()
         }
