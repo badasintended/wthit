@@ -39,77 +39,73 @@ public class OptionsListWidget extends ElementListWidget<OptionsListWidget.Entry
         return 250;
     }
 
-    public void render(MatrixStack matrices, int int_1, int int_2, float float_1) {
-        this.renderBackground(matrices);
-        int int_3 = this.getScrollbarPositionX();
-        int int_4 = int_3 + 6;
-        RenderSystem.disableLighting();
-        RenderSystem.disableFog();
-        Tessellator tessellator_1 = Tessellator.getInstance();
-        BufferBuilder bufferBuilder_1 = tessellator_1.getBuffer();
+    @Override
+    public void render(MatrixStack matrices, int mouseX, int mouseY, float delta) {
+        int scrollPosX = this.getScrollbarPositionX();
+        int j = scrollPosX + 6;
+        Tessellator tessellator = Tessellator.getInstance();
+        BufferBuilder bufferBuilder = tessellator.getBuffer();
         this.client.getTextureManager().bindTexture(DrawableHelper.BACKGROUND_TEXTURE);
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        int int_5 = this.getRowLeft();
-        int int_6 = this.top + 4 - (int)this.getScrollAmount();
+        int rowLeft = this.getRowLeft();
+        int scrollJump = this.top + 4 - (int)this.getScrollAmount();
 
-        this.renderList(matrices, int_5, int_6, int_1, int_2, float_1);
-        RenderSystem.disableDepthTest();
+        this.renderList(matrices, rowLeft, scrollJump, mouseX, mouseY, delta);
+        this.client.getTextureManager().bindTexture(DrawableHelper.BACKGROUND_TEXTURE);
         RenderSystem.enableDepthTest();
         RenderSystem.depthFunc(519);
-        float h = 32.0F;
-        int o = -100;
-        bufferBuilder_1.begin(7, VertexFormats.POSITION_TEXTURE_COLOR);
-        bufferBuilder_1.vertex(this.left, this.top, -100.0D).texture(0.0F, this.top / 32.0F).color(64, 64, 64, 255).next();
-        bufferBuilder_1.vertex((this.left + this.width), this.top, -100.0D).texture(this.width / 32.0F, this.top / 32.0F).color(64, 64, 64, 255).next();
-        bufferBuilder_1.vertex((this.left + this.width), 0.0D, -100.0D).texture(this.width / 32.0F, 0.0F).color(64, 64, 64, 255).next();
-        bufferBuilder_1.vertex(this.left, 0.0D, -100.0D).texture(0.0F, 0.0F).color(64, 64, 64, 255).next();
-        bufferBuilder_1.vertex(this.left, this.height, -100.0D).texture(0.0F, this.height / 32.0F).color(64, 64, 64, 255).next();
-        bufferBuilder_1.vertex((this.left + this.width), this.height, -100.0D).texture(this.width / 32.0F, this.height / 32.0F).color(64, 64, 64, 255).next();
-        bufferBuilder_1.vertex((this.left + this.width), this.bottom, -100.0D).texture(this.width / 32.0F, this.bottom / 32.0F).color(64, 64, 64, 255).next();
-        bufferBuilder_1.vertex(this.left, this.bottom, -100.0D).texture(0.0F, this.bottom / 32.0F).color(64, 64, 64, 255).next();
-        tessellator_1.draw();
+        bufferBuilder.begin(7, VertexFormats.POSITION_TEXTURE_COLOR);
+        bufferBuilder.vertex(this.left, this.top, -100.0D).texture(0.0F, (float)this.top / 32.0F).color(64, 64, 64, 255).next();
+        bufferBuilder.vertex((this.left + this.width), this.top, -100.0D).texture((float)this.width / 32.0F, (float)this.top / 32.0F).color(64, 64, 64, 255).next();
+        bufferBuilder.vertex((this.left + this.width), 0.0D, -100.0D).texture((float)this.width / 32.0F, 0.0F).color(64, 64, 64, 255).next();
+        bufferBuilder.vertex(this.left, 0.0D, -100.0D).texture(0.0F, 0.0F).color(64, 64, 64, 255).next();
+        bufferBuilder.vertex(this.left, this.height, -100.0D).texture(0.0F, (float)this.height / 32.0F).color(64, 64, 64, 255).next();
+        bufferBuilder.vertex((this.left + this.width), this.height, -100.0D).texture((float)this.width / 32.0F, (float)this.height / 32.0F).color(64, 64, 64, 255).next();
+        bufferBuilder.vertex((this.left + this.width), this.bottom, -100.0D).texture((float)this.width / 32.0F, (float)this.bottom / 32.0F).color(64, 64, 64, 255).next();
+        bufferBuilder.vertex(this.left, this.bottom, -100.0D).texture(0.0F, (float)this.bottom / 32.0F).color(64, 64, 64, 255).next();
+        tessellator.draw();
         RenderSystem.depthFunc(515);
+        RenderSystem.disableDepthTest();
         RenderSystem.enableBlend();
         RenderSystem.blendFuncSeparate(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SrcFactor.ZERO, GlStateManager.DstFactor.ONE);
         RenderSystem.disableAlphaTest();
         RenderSystem.shadeModel(7425);
         RenderSystem.disableTexture();
-        bufferBuilder_1.begin(7, VertexFormats.POSITION_COLOR_TEXTURE);
-        bufferBuilder_1.vertex((double)this.left, (double)(this.top + 4), 0.0F).color(0, 0, 0, 0).texture(0.0F, 1.0F).next();
-        bufferBuilder_1.vertex((double)this.right, (double)(this.top + 4), 0.0F).color(0, 0, 0, 0).texture(1.0F, 1.0F).next();
-        bufferBuilder_1.vertex((double)this.right, (double)this.top, 0.0F).color(0, 0, 0, 255).texture(1.0F, 0.0F).next();
-        bufferBuilder_1.vertex((double)this.left, (double)this.top, 0.0F).color(0, 0, 0, 255).texture(0.0F, 0.0F).next();
-        bufferBuilder_1.vertex((double)this.left, (double)this.bottom, 0.0F).color(0, 0, 0, 255).texture(0.0F, 1.0F).next();
-        bufferBuilder_1.vertex((double)this.right, (double)this.bottom, 0.0F).color(0, 0, 0, 255).texture(1.0F, 1.0F).next();
-        bufferBuilder_1.vertex((double)this.right, (double)(this.bottom - 4), 0.0F).color(0, 0, 0, 0).texture(1.0F, 0.0F).next();
-        bufferBuilder_1.vertex((double)this.left, (double)(this.bottom - 4), 0.0F).color(0, 0, 0, 0).texture(0.0F, 0.0F).next();
-        tessellator_1.draw();
-        int int_8 = Math.max(0, this.getMaxPosition() - (this.bottom - this.top - 4));
-        if (int_8 > 0) {
-            int int_9 = (int)((float)((this.bottom - this.top) * (this.bottom - this.top)) / (float)this.getMaxPosition());
-            int_9 = MathHelper.clamp(int_9, 32, this.bottom - this.top - 8);
-            int int_10 = (int)this.getScrollAmount() * (this.bottom - this.top - int_9) / int_8 + this.top;
-            if (int_10 < this.top) {
-                int_10 = this.top;
+        bufferBuilder.begin(7, VertexFormats.POSITION_TEXTURE_COLOR);
+        bufferBuilder.vertex(this.left, (this.top + 4), 0.0D).texture(0.0F, 1.0F).color(0, 0, 0, 0).next();
+        bufferBuilder.vertex(this.right, (this.top + 4), 0.0D).texture(1.0F, 1.0F).color(0, 0, 0, 0).next();
+        bufferBuilder.vertex(this.right, this.top, 0.0D).texture(1.0F, 0.0F).color(0, 0, 0, 255).next();
+        bufferBuilder.vertex(this.left, this.top, 0.0D).texture(0.0F, 0.0F).color(0, 0, 0, 255).next();
+        bufferBuilder.vertex(this.left, this.bottom, 0.0D).texture(0.0F, 1.0F).color(0, 0, 0, 255).next();
+        bufferBuilder.vertex(this.right, this.bottom, 0.0D).texture(1.0F, 1.0F).color(0, 0, 0, 255).next();
+        bufferBuilder.vertex(this.right, (this.bottom - 4), 0.0D).texture(1.0F, 0.0F).color(0, 0, 0, 0).next();
+        bufferBuilder.vertex(this.left, (this.bottom - 4), 0.0D).texture(0.0F, 0.0F).color(0, 0, 0, 0).next();
+        tessellator.draw();
+        int o = Math.max(0, this.getMaxPosition() - (this.bottom - this.top - 4));
+        if (o > 0) {
+            int p = (int)((float)((this.bottom - this.top) * (this.bottom - this.top)) / (float)this.getMaxPosition());
+            p = MathHelper.clamp(p, 32, this.bottom - this.top - 8);
+            int q = (int)this.getScrollAmount() * (this.bottom - this.top - p) / o + this.top;
+            if (q < this.top) {
+                q = this.top;
             }
 
-            bufferBuilder_1.begin(7, VertexFormats.POSITION_COLOR_TEXTURE);
-            bufferBuilder_1.vertex((double)int_3, (double)this.bottom, 0.0F).color(0, 0, 0, 255).texture(0.0F, 1.0F).next();
-            bufferBuilder_1.vertex((double)int_4, (double)this.bottom, 0.0F).color(0, 0, 0, 255).texture(1.0F, 1.0F).next();
-            bufferBuilder_1.vertex((double)int_4, (double)this.top, 0.0F).color(0, 0, 0, 255).texture(1.0F, 0.0F).next();
-            bufferBuilder_1.vertex((double)int_3, (double)this.top, 0.0F).color(0, 0, 0, 255).texture(0.0F, 0.0F).next();
-            bufferBuilder_1.vertex((double)int_3, (double)(int_10 + int_9), 0.0F).color(128, 128, 128, 255).texture(0.0F, 1.0F).next();
-            bufferBuilder_1.vertex((double)int_4, (double)(int_10 + int_9), 0.0F).color(128, 128, 128, 255).texture(1.0F, 1.0F).next();
-            bufferBuilder_1.vertex((double)int_4, (double)int_10, 0.0F).color(128, 128, 128, 255).texture(1.0F, 0.0F).next();
-            bufferBuilder_1.vertex((double)int_3, (double)int_10, 0.0F).color(128, 128, 128, 255).texture(0.0F, 0.0F).next();
-            bufferBuilder_1.vertex((double)int_3, (double)(int_10 + int_9 - 1), 0.0F).color(192, 192, 192, 255).texture(0.0F, 1.0F).next();
-            bufferBuilder_1.vertex((double)(int_4 - 1), (double)(int_10 + int_9 - 1), 0.0F).color(192, 192, 192, 255).texture(1.0F, 1.0F).next();
-            bufferBuilder_1.vertex((double)(int_4 - 1), (double)int_10, 0.0F).color(192, 192, 192, 255).texture(1.0F, 0.0F).next();
-            bufferBuilder_1.vertex((double)int_3, (double)int_10, 0.0F).color(192, 192, 192, 255).texture(0.0F, 0.0F).next();
-            tessellator_1.draw();
+            bufferBuilder.begin(7, VertexFormats.POSITION_TEXTURE_COLOR);
+            bufferBuilder.vertex(scrollPosX, this.bottom, 0.0D).texture(0.0F, 1.0F).color(0, 0, 0, 255).next();
+            bufferBuilder.vertex(j, this.bottom, 0.0D).texture(1.0F, 1.0F).color(0, 0, 0, 255).next();
+            bufferBuilder.vertex(j, this.top, 0.0D).texture(1.0F, 0.0F).color(0, 0, 0, 255).next();
+            bufferBuilder.vertex(scrollPosX, this.top, 0.0D).texture(0.0F, 0.0F).color(0, 0, 0, 255).next();
+            bufferBuilder.vertex(scrollPosX, (q + p), 0.0D).texture(0.0F, 1.0F).color(128, 128, 128, 255).next();
+            bufferBuilder.vertex(j, (q + p), 0.0D).texture(1.0F, 1.0F).color(128, 128, 128, 255).next();
+            bufferBuilder.vertex(j, q, 0.0D).texture(1.0F, 0.0F).color(128, 128, 128, 255).next();
+            bufferBuilder.vertex(scrollPosX, q, 0.0D).texture(0.0F, 0.0F).color(128, 128, 128, 255).next();
+            bufferBuilder.vertex(scrollPosX, (q + p - 1), 0.0D).texture(0.0F, 1.0F).color(192, 192, 192, 255).next();
+            bufferBuilder.vertex((j - 1), (q + p - 1), 0.0D).texture(1.0F, 1.0F).color(192, 192, 192, 255).next();
+            bufferBuilder.vertex((j - 1), q, 0.0D).texture(1.0F, 0.0F).color(192, 192, 192, 255).next();
+            bufferBuilder.vertex(scrollPosX, q, 0.0D).texture(0.0F, 0.0F).color(192, 192, 192, 255).next();
+            tessellator.draw();
         }
 
-        this.renderDecorations(matrices, int_1, int_2);
         RenderSystem.enableTexture();
         RenderSystem.shadeModel(7424);
         RenderSystem.enableAlphaTest();
