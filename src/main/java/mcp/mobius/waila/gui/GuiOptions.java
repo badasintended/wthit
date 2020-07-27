@@ -1,6 +1,7 @@
 package mcp.mobius.waila.gui;
 
 import com.google.common.collect.Lists;
+import com.mojang.blaze3d.matrix.MatrixStack;
 import mcp.mobius.waila.gui.config.OptionsListWidget;
 import mcp.mobius.waila.gui.config.value.OptionsEntryValue;
 import net.minecraft.client.Minecraft;
@@ -8,7 +9,7 @@ import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.util.text.TextComponent;
+import net.minecraft.util.text.*;
 
 import java.util.List;
 
@@ -37,32 +38,32 @@ public abstract class GuiOptions extends Screen {
 
         options = getOptions();
         children.add(options);
-        setFocused(options);
+        setListener(options);
 
         if (saver != null && canceller != null) {
-            addButton(new Button(width / 2 - 100, height - 25, 100, 20, I18n.format("gui.done"), w -> {
+            addButton(new Button(width / 2 - 100, height - 25, 100, 20, new TranslationTextComponent("gui.done"), w -> {
                 options.save();
                 saver.run();
-                onClose();
+                minecraft.displayGuiScreen(parent);
             }));
-            addButton(new Button(width / 2 + 5, height - 25, 100, 20, I18n.format("gui.cancel"), w -> {
+            addButton(new Button(width / 2 + 5, height - 25, 100, 20, new TranslationTextComponent("gui.cancel"), w -> {
                 canceller.run();
-                onClose();
+                minecraft.displayGuiScreen(parent);
             }));
         } else {
-            addButton(new Button(width / 2 - 50, height - 25, 100, 20, I18n.format("gui.done"), w -> {
+            addButton(new Button(width / 2 - 50, height - 25, 100, 20, new TranslationTextComponent("gui.done"), w -> {
                 options.save();
-                onClose();
+                minecraft.displayGuiScreen(parent);
             }));
         }
     }
 
     @Override
-    public void render(int mouseX, int mouseY, float partialTicks) {
-        renderBackground();
-        options.render(mouseX, mouseY, partialTicks);
-        drawCenteredString(font, title.getFormattedText(), width / 2, 12, 16777215);
-        super.render(mouseX, mouseY, partialTicks);
+    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+        renderBackground(matrixStack);
+        options.render(matrixStack, mouseX, mouseY, partialTicks);
+        drawCenteredString(matrixStack, font, title, width / 2, 12, 16777215);
+        super.render(matrixStack, mouseX, mouseY, partialTicks);
 
         if (mouseY < 32 || mouseY > height - 32)
             return;
@@ -73,24 +74,20 @@ public abstract class GuiOptions extends Screen {
 
             if (I18n.hasKey(value.getDescription())) {
                 int valueX = value.getX() + 10;
-                String title = value.getTitle().getFormattedText();
+                String title = value.getTitle().getString();
                 if (mouseX < valueX || mouseX > valueX + font.getStringWidth(title))
                     return;
 
-                List<String> tooltip = Lists.newArrayList(title);
-                tooltip.addAll(font.listFormattedStringToWidth(I18n.format(value.getDescription()), 200));
-                renderTooltip(tooltip, mouseX, mouseY);
+                List<ITextProperties> tooltip = Lists.newArrayList(new StringTextComponent(title));
+                tooltip.addAll(font.func_238425_b_(new TranslationTextComponent(value.getDescription()), 200));
+                renderTooltip(matrixStack, tooltip, mouseX, mouseY);
             }
         }
     }
 
-    @Override
-    public void onClose() {
-        minecraft.displayGuiScreen(parent);
-    }
-
-    public void addListener(IGuiEventListener listener) {
+    public IGuiEventListener addListener(IGuiEventListener listener) {
         children.add(listener);
+        return listener;
     }
 
     public abstract OptionsListWidget getOptions();

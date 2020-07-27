@@ -9,6 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.button.Button;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.text.StringTextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 
 import java.util.Set;
@@ -25,7 +26,7 @@ public class GuiConfigPlugins extends GuiOptions {
         PluginConfig.INSTANCE.getNamespaces().forEach(namespace -> {
             String translationKey = "config.waila.plugin_" + namespace;
             Set<ResourceLocation> keys = PluginConfig.INSTANCE.getKeys(namespace);
-            options.add(new OptionsEntryButton(translationKey, new Button(0, 0, 100, 20, "", w -> {
+            options.add(new OptionsEntryButton(translationKey, new Button(0, 0, 100, 20, new StringTextComponent(""), w -> {
                 minecraft.displayGuiScreen(new GuiOptions(GuiConfigPlugins.this, new TranslationTextComponent(translationKey)) {
                     @Override
                     public OptionsListWidget getOptions() {

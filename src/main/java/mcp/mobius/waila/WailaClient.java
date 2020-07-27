@@ -24,6 +24,7 @@ import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.loading.moddiscovery.ModInfo;
+import net.minecraftforge.forgespi.language.IConfigurable;
 import net.minecraftforge.forgespi.language.IModInfo;
 
 import java.lang.invoke.MethodHandle;
@@ -44,8 +45,12 @@ public class WailaClient {
 
             List<ModInfo> sortedList = (List<ModInfo>) _getSortedList.invokeExact((ModList) ModList.get());
             ModInfo wailaInfo = sortedList.stream().filter(modInfo -> modInfo.getModId().equals(Waila.MODID)).findFirst().get();
-            WailaModInfo modInfo = new WailaModInfo(wailaInfo);
-            sortedList.set(sortedList.indexOf(wailaInfo), new WailaModInfo(wailaInfo));
+
+            Field tempConfig = ModInfo.class.getDeclaredField("config");
+            tempConfig.setAccessible(true);
+            IConfigurable config = (IConfigurable) tempConfig.get(wailaInfo);
+            WailaModInfo modInfo = new WailaModInfo(wailaInfo, config);
+            sortedList.set(sortedList.indexOf(wailaInfo), new WailaModInfo(wailaInfo, config));
 
             ModContainer wailaContainer = ModList.get().getModContainerById(Waila.MODID).get();
             Field _modInfo = ModContainer.class.getDeclaredField("modInfo");
@@ -113,8 +118,8 @@ public class WailaClient {
     }
 
     private static class WailaModInfo extends ModInfo {
-        public WailaModInfo(ModInfo modInfo) {
-            super(modInfo.getOwningFile(), modInfo.getModConfig());
+        public WailaModInfo(ModInfo modInfo, IConfigurable config) {
+            super(modInfo.getOwningFile(), config);
         }
 
         @Override

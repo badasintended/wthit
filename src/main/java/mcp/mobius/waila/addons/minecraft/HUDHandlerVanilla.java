@@ -51,9 +51,9 @@ public class HUDHandlerVanilla implements IComponentProvider, IServerDataProvide
         if (accessor.getBlock() == Blocks.SPAWNER && config.get(PluginMinecraft.CONFIG_SPAWNER_TYPE)) {
             MobSpawnerTileEntity spawner = (MobSpawnerTileEntity) accessor.getTileEntity();
             ((ITaggableList<ResourceLocation, ITextComponent>) tooltip).setTag(OBJECT_NAME_TAG, new TranslationTextComponent(accessor.getBlock().getTranslationKey())
-                    .appendSibling(new StringTextComponent(" ("))
-                    .appendSibling(spawner.getSpawnerBaseLogic().getCachedEntity().getDisplayName())
-                    .appendSibling(new StringTextComponent(")"))
+                    .append(new StringTextComponent(" ("))
+                    .append(spawner.getSpawnerBaseLogic().getCachedEntity().getDisplayName())
+                    .append(new StringTextComponent(")"))
             );
         }
     }
@@ -96,7 +96,7 @@ public class HUDHandlerVanilla implements IComponentProvider, IServerDataProvide
 
         if (config.get(PluginMinecraft.CONFIG_JUKEBOX) && accessor.getBlock() == Blocks.JUKEBOX) {
             if (accessor.getServerData().contains("record"))
-                tooltip.add(new TranslationTextComponent("record.nowPlaying", ITextComponent.Serializer.fromJson(accessor.getServerData().getString("record"))));
+                tooltip.add(new TranslationTextComponent("record.nowPlaying", ITextComponent.Serializer.func_240643_a_(accessor.getServerData().getString("record"))));
             else
                 tooltip.add(new TranslationTextComponent("tooltip.waila.empty"));
         }

@@ -4,7 +4,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 
 /**
@@ -25,7 +25,7 @@ public interface IEntityAccessor {
 
     RayTraceResult getHitResult();
 
-    Vec3d getRenderingPosition();
+    Vector3d getRenderingPosition();
 
      CompoundNBT getServerData();
 

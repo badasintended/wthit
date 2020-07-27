@@ -72,7 +72,8 @@ public class OverlayRenderer {
         RenderHelper.enableStandardItemLighting();
         RenderSystem.popMatrix();
     }
-        public static void renderOverlay(Tooltip tooltip) {
+
+    public static void renderOverlay(Tooltip tooltip) {
         Minecraft.getInstance().getProfiler().startSection("Waila Overlay");
         RenderSystem.pushMatrix();
         saveGLState();

@@ -1,5 +1,6 @@
 package mcp.mobius.waila.overlay;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.client.Minecraft;
@@ -31,7 +32,7 @@ public class DisplayUtil {
             ItemStack overlayRender = stack.copy();
             overlayRender.setCount(1);
             CLIENT.getItemRenderer().renderItemOverlayIntoGUI(CLIENT.fontRenderer, overlayRender, x, y, null);
-            renderStackSize(CLIENT.fontRenderer, stack, x, y);
+            renderStackSize(new MatrixStack(), CLIENT.fontRenderer, stack, x, y);
         } catch (Exception e) {
             String stackStr = stack != null ? stack.toString() : "NullStack";
             WailaExceptionHandler.handleErr(e, "renderStack | " + stackStr, null);
@@ -39,7 +40,7 @@ public class DisplayUtil {
         enable2DRender();
     }
 
-    public static void renderStackSize(FontRenderer fr, ItemStack stack, int xPosition, int yPosition) {
+    public static void renderStackSize(MatrixStack matrixStack, FontRenderer fr, ItemStack stack, int xPosition, int yPosition) {
         if (!stack.isEmpty() && stack.getCount() != 1) {
             String s = shortHandNumber(stack.getCount());
 
@@ -49,7 +50,7 @@ public class DisplayUtil {
             RenderSystem.disableLighting();
             RenderSystem.disableDepthTest();
             RenderSystem.disableBlend();
-            fr.drawStringWithShadow(s, (float) (xPosition + 19 - 2 - fr.getStringWidth(s)), (float) (yPosition + 6 + 3), 16777215);
+            fr.drawStringWithShadow(matrixStack, s, (float) (xPosition + 19 - 2 - fr.getStringWidth(s)), (float) (yPosition + 6 + 3), 16777215);
             RenderSystem.enableLighting();
             RenderSystem.enableDepthTest();
             RenderSystem.enableBlend();

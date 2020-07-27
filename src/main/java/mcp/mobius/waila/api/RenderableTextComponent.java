@@ -4,7 +4,6 @@ import com.google.common.collect.Lists;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
 import net.minecraft.nbt.*;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.StringTextComponent;
 import net.minecraftforge.common.util.Constants;
@@ -48,7 +47,7 @@ public class RenderableTextComponent extends StringTextComponent {
 
     private CompoundNBT getData() {
         try {
-            return JsonToNBT.getTagFromJson(getFormattedText());
+            return JsonToNBT.getTagFromJson(getString());
         } catch (CommandSyntaxException e) {
             return new CompoundNBT();
         }
@@ -65,7 +64,7 @@ public class RenderableTextComponent extends StringTextComponent {
         CompoundNBT container = new CompoundNBT();
         ListNBT renderData = new ListNBT();
         for (RenderableTextComponent component : components)
-            renderData.add(StringNBT.valueOf(component.getFormattedText()));
+            renderData.add(StringNBT.valueOf(component.getString()));
         container.put("renders", renderData);
         return container.toString();
     }

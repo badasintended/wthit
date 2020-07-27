@@ -90,9 +90,9 @@ public class WailaTickHandler {
     }
 
     private void combinePositions(PlayerEntity player, List<ITextComponent> currentTip, List<ITextComponent> currentTipHead, List<ITextComponent> currentTipBody, List<ITextComponent> currentTipTail) {
-        if (Waila.CONFIG.get().getGeneral().shouldShiftForDetails() && !currentTipBody.isEmpty() && !player.func_226563_dT_()) {
+        if (Waila.CONFIG.get().getGeneral().shouldShiftForDetails() && !currentTipBody.isEmpty() && !player.isSecondaryUseActive()) {
             currentTipBody.clear();
-            currentTipBody.add(new TranslationTextComponent("tooltip.waila.sneak_for_details").setStyle(new Style().setItalic(true)));
+            currentTipBody.add(new TranslationTextComponent("tooltip.waila.sneak_for_details").setStyle(Style.EMPTY.setItalic(true)));
         }
 
         ((ITaggableList<ResourceLocation, ITextComponent>) currentTip).absorb((ITaggableList<ResourceLocation, ITextComponent>) currentTipHead);
@@ -124,7 +124,7 @@ public class WailaTickHandler {
         if (event.getAccessor().getBlock() == Blocks.AIR && event.getAccessor().getEntity() == null)
             return;
 
-        String narrate = event.getCurrentTip().get(0).getFormattedText();
+        String narrate = event.getCurrentTip().get(0).getString();
         if (lastNarration.equalsIgnoreCase(narrate))
             return;
 

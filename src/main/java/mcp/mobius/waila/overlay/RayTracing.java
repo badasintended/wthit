@@ -14,6 +14,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.*;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 
 import java.util.Collection;
@@ -55,9 +56,9 @@ public class RayTracing {
     }
 
     public RayTraceResult rayTrace(Entity entity, double playerReach, float partialTicks) {
-        Vec3d eyePosition = entity.getEyePosition(partialTicks);
-        Vec3d lookVector = entity.getLook(partialTicks);
-        Vec3d traceEnd = eyePosition.add(lookVector.x * playerReach, lookVector.y * playerReach, lookVector.z * playerReach);
+        Vector3d eyePosition = entity.getEyePosition(partialTicks);
+        Vector3d lookVector = entity.getLook(partialTicks);
+        Vector3d traceEnd = eyePosition.add(lookVector.x * playerReach, lookVector.y * playerReach, lookVector.z * playerReach);
 
         RayTraceContext.FluidMode fluidView = Waila.CONFIG.get().getGeneral().shouldDisplayFluids() ? RayTraceContext.FluidMode.SOURCE_ONLY : RayTraceContext.FluidMode.NONE;
         RayTraceContext context = new RayTraceContext(eyePosition, traceEnd, RayTraceContext.BlockMode.OUTLINE, fluidView, entity);

@@ -1,5 +1,6 @@
 package mcp.mobius.waila.gui.config.value;
 
+import com.mojang.blaze3d.matrix.MatrixStack;
 import mcp.mobius.waila.gui.config.OptionsListWidget;
 import net.minecraft.client.gui.IGuiEventListener;
 import net.minecraft.util.text.TextComponent;
@@ -22,9 +23,9 @@ public abstract class OptionsEntryValue<T> extends OptionsListWidget.Entry {
     }
 
     @Override
-    public final void render(int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
-        client.fontRenderer.drawStringWithShadow(title.getFormattedText(), rowLeft + 10, rowTop + (height / 4) + (client.fontRenderer.FONT_HEIGHT / 2), 16777215);
-        drawValue(width, height, rowLeft, rowTop, mouseX, mouseY, hovered, deltaTime);
+    public final void render(MatrixStack matrixStack, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
+        client.fontRenderer.drawStringWithShadow(matrixStack, title.getString(), rowLeft + 10, rowTop + (height / 4) + (client.fontRenderer.FONT_HEIGHT / 2), 16777215);
+        drawValue(matrixStack, width, height, rowLeft, rowTop, mouseX, mouseY, hovered, deltaTime);
         this.x = rowLeft;
     }
 
@@ -48,5 +49,5 @@ public abstract class OptionsEntryValue<T> extends OptionsListWidget.Entry {
         return x;
     }
 
-    protected abstract void drawValue(int entryWidth, int entryHeight, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks);
+    protected abstract void drawValue(MatrixStack matrixStack, int entryWidth, int entryHeight, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks);
 }

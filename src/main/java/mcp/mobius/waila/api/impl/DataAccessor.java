@@ -14,6 +14,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.*;
+import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
 
 public class DataAccessor implements ICommonAccessor, IDataAccessor, IEntityAccessor {
@@ -23,7 +24,7 @@ public class DataAccessor implements ICommonAccessor, IDataAccessor, IEntityAcce
     public World world;
     public PlayerEntity player;
     public RayTraceResult hitResult;
-    public Vec3d renderingvec = null;
+    public Vector3d renderingvec = null;
     public Block block = Blocks.AIR;
     public BlockState state = Blocks.AIR.getDefaultState();
     public BlockPos pos = BlockPos.ZERO;
@@ -54,7 +55,7 @@ public class DataAccessor implements ICommonAccessor, IDataAccessor, IEntityAcce
             this.stack = block.getPickBlock(state, hitResult, world, pos, player);
         } else if (this.hitResult.getType() == RayTraceResult.Type.ENTITY) {
             this.entity = ((EntityRayTraceResult) this.hitResult).getEntity();
-            this.pos = new BlockPos(entity);
+            this.pos = new BlockPos(entity.getPositionVec());
             this.state = Blocks.AIR.getDefaultState();
             this.block = Blocks.AIR;
             this.tileEntity = null;
@@ -65,7 +66,7 @@ public class DataAccessor implements ICommonAccessor, IDataAccessor, IEntityAcce
             double px = viewEntity.prevPosX + (viewEntity.getPositionVec().x - viewEntity.prevPosX) * partialTicks;
             double py = viewEntity.prevPosY + (viewEntity.getPositionVec().y - viewEntity.prevPosY) * partialTicks;
             double pz = viewEntity.prevPosZ + (viewEntity.getPositionVec().z - viewEntity.prevPosZ) * partialTicks;
-            this.renderingvec = new Vec3d(this.pos.getX() - px, this.pos.getY() - py, this.pos.getZ() - pz);
+            this.renderingvec = new Vector3d(this.pos.getX() - px, this.pos.getY() - py, this.pos.getZ() - pz);
             this.partialFrame = partialTicks;
         }
     }
@@ -110,7 +111,7 @@ public class DataAccessor implements ICommonAccessor, IDataAccessor, IEntityAcce
     }
 
     @Override
-    public Vec3d getRenderingPosition() {
+    public Vector3d getRenderingPosition() {
         return this.renderingvec;
     }
 
