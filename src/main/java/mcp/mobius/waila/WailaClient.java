@@ -19,55 +19,20 @@ import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ExtensionPoint;
-import net.minecraftforge.fml.ModContainer;
-import net.minecraftforge.fml.ModList;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.loading.moddiscovery.ModInfo;
-import net.minecraftforge.forgespi.language.IConfigurable;
-import net.minecraftforge.forgespi.language.IModInfo;
-
-import java.lang.invoke.MethodHandle;
-import java.lang.invoke.MethodHandles;
-import java.lang.reflect.Field;
-import java.util.List;
 
 @Mod.EventBusSubscriber(modid = Waila.MODID, value = Dist.CLIENT)
 public class WailaClient {
-
-    static {
-        try {
-            MethodHandles.Lookup lookup = MethodHandles.lookup();
-
-            Field _sortedList = ModList.class.getDeclaredField("sortedList");
-            _sortedList.setAccessible(true);
-            MethodHandle _getSortedList = lookup.unreflectGetter(_sortedList);
-
-            List<ModInfo> sortedList = (List<ModInfo>) _getSortedList.invokeExact((ModList) ModList.get());
-            ModInfo wailaInfo = sortedList.stream().filter(modInfo -> modInfo.getModId().equals(Waila.MODID)).findFirst().get();
-
-            Field tempConfig = ModInfo.class.getDeclaredField("config");
-            tempConfig.setAccessible(true);
-            IConfigurable config = (IConfigurable) tempConfig.get(wailaInfo);
-            WailaModInfo modInfo = new WailaModInfo(wailaInfo, config);
-            sortedList.set(sortedList.indexOf(wailaInfo), new WailaModInfo(wailaInfo, config));
-
-            ModContainer wailaContainer = ModList.get().getModContainerById(Waila.MODID).get();
-            Field _modInfo = ModContainer.class.getDeclaredField("modInfo");
-            _modInfo.setAccessible(true);
-            MethodHandle _setModInfo = lookup.unreflectSetter(_modInfo);
-            _setModInfo.invokeExact((ModContainer) wailaContainer, (IModInfo) modInfo);
-        } catch (Throwable e) {
-            e.printStackTrace();
-            Waila.LOGGER.error("Failed to replace ModInfo instance with one that supports the mod list config");
-        }
-    }
 
     public static IForgeKeybinding openConfig;
     public static IForgeKeybinding showOverlay;
     public static IForgeKeybinding toggleLiquid;
 
     public static void initClient() {
+        ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.CONFIGGUIFACTORY, () -> ((minecraft, screen) -> new GuiConfigHome(screen)));
+
         WailaClient.openConfig = new KeyBinding("key.waila.config", KeyConflictContext.IN_GAME, KeyModifier.NONE, InputMappings.Type.KEYSYM.getOrMakeInput(320), Waila.NAME);
         WailaClient.showOverlay = new KeyBinding("key.waila.show_overlay", KeyConflictContext.IN_GAME, KeyModifier.NONE, InputMappings.Type.KEYSYM.getOrMakeInput(321), Waila.NAME);
         WailaClient.toggleLiquid = new KeyBinding("key.waila.toggle_liquid", KeyConflictContext.IN_GAME, KeyModifier.NONE, InputMappings.Type.KEYSYM.getOrMakeInput(322), Waila.NAME);
@@ -75,8 +40,6 @@ public class WailaClient {
         ClientRegistry.registerKeyBinding(WailaClient.openConfig.getKeyBinding());
         ClientRegistry.registerKeyBinding(WailaClient.showOverlay.getKeyBinding());
         ClientRegistry.registerKeyBinding(WailaClient.toggleLiquid.getKeyBinding());
-
-        ModList.get().getModContainerById(Waila.MODID).ifPresent(c -> c.registerExtensionPoint(ExtensionPoint.CONFIGGUIFACTORY, () -> (mc, parent) -> new GuiConfigHome(parent)));
     }
 
     @SubscribeEvent
@@ -115,16 +78,5 @@ public class WailaClient {
     public static void onClientTick(TickEvent.ClientTickEvent event) {
         if (event.phase == TickEvent.Phase.END)
             WailaTickHandler.instance().tickClient();
-    }
-
-    private static class WailaModInfo extends ModInfo {
-        public WailaModInfo(ModInfo modInfo, IConfigurable config) {
-            super(modInfo.getOwningFile(), config);
-        }
-
-        @Override
-        public boolean hasConfigUI() {
-            return true;
-        }
     }
 }
