@@ -76,5 +76,5 @@
   "config.waila.plugin_waila.show_entity_hp": "Show Entity Health",
   "config.waila.plugin_waila.show_states": "Show States",
 
-  "entity.minecraft.villager.none": "Nitwit"
+  "command.dump.success": "Dump successful"
 }
