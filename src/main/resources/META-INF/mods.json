@@ -4,6 +4,7 @@
   "issueTrackerURL": "https://github.com/TehNut/Hwyla/issues",
   "displayURL": "https://github.com/TehNut/Hwyla",
   "authors": "TehNut, ProfMobius",
+  "license": "CC BY-NC-SA 4.0",
   "mods": [
     {
       "modId": "waila",
