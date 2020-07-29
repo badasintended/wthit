@@ -59,12 +59,12 @@ processResources {
     inputs.property "version", project.version
 
     from(sourceSets.main.resources.srcDirs) {
-        include '**/*.toml'
+        include '**/*.json'
 
         expand 'version': project.version
     }
     from(sourceSets.main.resources.srcDirs) {
-        exclude '**/*.toml'
+        exclude '**/*.json'
     }
 }
 
@@ -161,6 +161,7 @@ curseforge {
         releaseType = 'release'
 
         addGameVersion "1.16.1"
+        addGameVersion "Forge"
 
         addArtifact sourcesJar
         addArtifact apiJar
