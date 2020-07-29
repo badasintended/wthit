@@ -44,9 +44,7 @@ public class TooltipRendererStack implements ITooltipRenderer {
         if (stackTag != null)
             stack.setTag(stackTag);
 
-        OverlayRenderer.enableGUIStandardItemLighting();
         DisplayUtil.renderStack(x, y, stack);
-        RenderHelper.disableStandardItemLighting();
     }
 
 }

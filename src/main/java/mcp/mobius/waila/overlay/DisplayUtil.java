@@ -50,6 +50,7 @@ public class DisplayUtil {
             RenderSystem.disableLighting();
             RenderSystem.disableDepthTest();
             RenderSystem.disableBlend();
+            RenderSystem.translated(0, 0, Minecraft.getInstance().getItemRenderer().zLevel + 200F);
             fr.drawStringWithShadow(matrixStack, s, (float) (xPosition + 19 - 2 - fr.getStringWidth(s)), (float) (yPosition + 6 + 3), 16777215);
             RenderSystem.enableLighting();
             RenderSystem.enableDepthTest();
