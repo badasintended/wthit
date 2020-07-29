@@ -54,8 +54,8 @@ public class Waila {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setupClient);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::loadComplete);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::registerCommands);
-        MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.addListener(this::registerCommands);
+        MinecraftForge.EVENT_BUS.addListener(this::playerJoin);
     }
 
     @SubscribeEvent
