@@ -9,9 +9,10 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.OrderedText;
+import net.minecraft.text.StringVisitable;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
-import net.minecraft.text.StringRenderable;
 import net.minecraft.text.LiteralText;
 
 import java.util.List;
@@ -81,9 +82,9 @@ public abstract class GuiOptions extends Screen {
                     if (mouseX < valueX || mouseX > valueX + textRenderer.getWidth(title))
                         return;
 
-                    List<StringRenderable> tooltip = Lists.newArrayList(new LiteralText(title));
+                    List<OrderedText> tooltip = Lists.newArrayList(new LiteralText(title).asOrderedText());
                     tooltip.addAll(textRenderer.wrapLines(new TranslatableText(value.getDescription()), 200));
-                    renderTooltip(matrices, tooltip, mouseX, mouseY);
+                    renderOrderedTooltip(matrices, tooltip, mouseX, mouseY);
                 }
             }
         });

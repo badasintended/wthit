@@ -3,6 +3,7 @@ package mcp.mobius.waila.utils;
 import com.google.common.collect.Maps;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
+import java.util.HashMap;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.fabricmc.loader.api.Version;
@@ -81,6 +82,11 @@ public class ModIdentification {
         }
 
         @Override
+        public ModEnvironment getEnvironment() {
+            return ModEnvironment.UNIVERSAL;
+        }
+
+        @Override
         public Collection<ModDependency> getDepends() {
             return Collections.emptySet();
         }
@@ -148,6 +154,11 @@ public class ModIdentification {
         @Override
         public CustomValue getCustomValue(String key) {
             return null;
+        }
+
+        @Override
+        public Map<String, CustomValue> getCustomValues() {
+            return new HashMap<>();
         }
 
         @Override
