@@ -6,7 +6,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.tileentity.FurnaceTileEntity;
+import net.minecraft.tileentity.AbstractFurnaceTileEntity;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.text.ITextComponent;
@@ -48,7 +48,7 @@ public class HUDHandlerFurnace implements IComponentProvider, IServerDataProvide
 
     @Override
     public void appendServerData(CompoundNBT data, ServerPlayerEntity player, World world, TileEntity blockEntity) {
-        FurnaceTileEntity furnace = (FurnaceTileEntity) blockEntity;
+        AbstractFurnaceTileEntity furnace = (AbstractFurnaceTileEntity) blockEntity;
         ListNBT items = new ListNBT();
         items.add(furnace.getStackInSlot(0).write(new CompoundNBT()));
         items.add(furnace.getStackInSlot(1).write(new CompoundNBT()));

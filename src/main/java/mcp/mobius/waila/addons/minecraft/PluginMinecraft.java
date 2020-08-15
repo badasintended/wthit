@@ -12,7 +12,7 @@ import net.minecraft.entity.item.ItemFrameEntity;
 import net.minecraft.entity.item.LeashKnotEntity;
 import net.minecraft.entity.item.PaintingEntity;
 import net.minecraft.entity.item.minecart.MinecartEntity;
-import net.minecraft.tileentity.FurnaceTileEntity;
+import net.minecraft.tileentity.AbstractFurnaceTileEntity;
 import net.minecraft.tileentity.JukeboxTileEntity;
 import net.minecraft.tileentity.MobSpawnerTileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -68,7 +68,7 @@ public class PluginMinecraft implements IWailaPlugin {
         registrar.registerEntityStackProvider(HUDHandlerEntityIcon.INSTANCE, ItemFrameEntity.class);
         registrar.registerEntityStackProvider(HUDHandlerEntityIcon.INSTANCE, PaintingEntity.class);
         registrar.registerEntityStackProvider(HUDHandlerEntityIcon.INSTANCE, LeashKnotEntity.class);
-        registrar.registerComponentProvider(HUDHandlerFurnace.INSTANCE, TooltipPosition.BODY, FurnaceTileEntity.class);
-        registrar.registerBlockDataProvider(HUDHandlerFurnace.INSTANCE, FurnaceTileEntity.class);
+        registrar.registerComponentProvider(HUDHandlerFurnace.INSTANCE, TooltipPosition.BODY, AbstractFurnaceTileEntity.class);
+        registrar.registerBlockDataProvider(HUDHandlerFurnace.INSTANCE, AbstractFurnaceTileEntity.class);
     }
 }

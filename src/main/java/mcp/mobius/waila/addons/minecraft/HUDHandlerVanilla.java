@@ -51,9 +51,9 @@ public class HUDHandlerVanilla implements IComponentProvider, IServerDataProvide
         if (accessor.getBlock() == Blocks.SPAWNER && config.get(PluginMinecraft.CONFIG_SPAWNER_TYPE)) {
             MobSpawnerTileEntity spawner = (MobSpawnerTileEntity) accessor.getTileEntity();
             ((ITaggableList<ResourceLocation, ITextComponent>) tooltip).setTag(OBJECT_NAME_TAG, new TranslationTextComponent(accessor.getBlock().getTranslationKey())
-                    .append(new StringTextComponent(" ("))
+                    .appendString(" (")
                     .append(spawner.getSpawnerBaseLogic().getCachedEntity().getDisplayName())
-                    .append(new StringTextComponent(")"))
+                    .appendString(")")
             );
         }
     }
@@ -79,7 +79,7 @@ public class HUDHandlerVanilla implements IComponentProvider, IServerDataProvide
 
         if (config.get(PluginMinecraft.CONFIG_REPEATER) && accessor.getBlock() == Blocks.REPEATER) {
             int delay = accessor.getBlockState().get(BlockStateProperties.DELAY_1_4);
-            tooltip.add(new TranslationTextComponent("waila.tooltip.delay", delay));
+            tooltip.add(new TranslationTextComponent("tooltip.waila.delay", delay));
             return;
         }
 
