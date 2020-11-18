@@ -8,6 +8,7 @@ import mcp.mobius.waila.gui.config.value.OptionsEntryValueBoolean;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.text.LiteralText;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 
@@ -25,7 +26,7 @@ public class GuiConfigPlugins extends GuiOptions {
         PluginConfig.INSTANCE.getNamespaces().forEach(namespace -> {
             String translationKey = "config.waila.plugin_" + namespace;
             Set<Identifier> keys = PluginConfig.INSTANCE.getKeys(namespace);
-            options.add(new OptionsEntryButton(translationKey, new ButtonWidget(0, 0, 100, 20, null, w -> {
+            options.add(new OptionsEntryButton(translationKey, new ButtonWidget(0, 0, 100, 20, LiteralText.EMPTY, w -> {
                 client.openScreen(new GuiOptions(GuiConfigPlugins.this, new TranslatableText(translationKey)) {
                     @Override
                     public OptionsListWidget getOptions() {

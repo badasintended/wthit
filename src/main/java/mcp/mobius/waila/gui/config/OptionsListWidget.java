@@ -45,13 +45,13 @@ public class OptionsListWidget extends ElementListWidget<OptionsListWidget.Entry
         int j = scrollPosX + 6;
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder bufferBuilder = tessellator.getBuffer();
-        this.client.getTextureManager().bindTexture(DrawableHelper.BACKGROUND_TEXTURE);
+        this.client.getTextureManager().bindTexture(DrawableHelper.OPTIONS_BACKGROUND_TEXTURE);
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         int rowLeft = this.getRowLeft();
         int scrollJump = this.top + 4 - (int)this.getScrollAmount();
 
         this.renderList(matrices, rowLeft, scrollJump, mouseX, mouseY, delta);
-        this.client.getTextureManager().bindTexture(DrawableHelper.BACKGROUND_TEXTURE);
+        this.client.getTextureManager().bindTexture(DrawableHelper.OPTIONS_BACKGROUND_TEXTURE);
         RenderSystem.enableDepthTest();
         RenderSystem.depthFunc(519);
         bufferBuilder.begin(7, VertexFormats.POSITION_TEXTURE_COLOR);

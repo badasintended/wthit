@@ -18,7 +18,7 @@ import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.RayTraceContext;
+import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
 
 import java.util.Collection;
@@ -64,9 +64,9 @@ public class RayTracing {
         Vec3d lookVector = entity.getRotationVec(partialTicks);
         Vec3d traceEnd = eyePosition.add(lookVector.x * playerReach, lookVector.y * playerReach, lookVector.z * playerReach);
 
-        RayTraceContext.FluidHandling fluidView = Waila.CONFIG.get().getGeneral().shouldDisplayFluids() ? RayTraceContext.FluidHandling.SOURCE_ONLY : RayTraceContext.FluidHandling.NONE;
-        RayTraceContext context = new RayTraceContext(eyePosition, traceEnd, RayTraceContext.ShapeType.OUTLINE, fluidView, entity);
-        return entity.getEntityWorld().rayTrace(context);
+        RaycastContext.FluidHandling fluidView = Waila.CONFIG.get().getGeneral().shouldDisplayFluids() ? RaycastContext.FluidHandling.SOURCE_ONLY : RaycastContext.FluidHandling.NONE;
+        RaycastContext context = new RaycastContext(eyePosition, traceEnd, RaycastContext.ShapeType.OUTLINE, fluidView, entity);
+        return entity.getEntityWorld().raycast(context);
     }
 
     public ItemStack getIdentifierStack() {
