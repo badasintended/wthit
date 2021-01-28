@@ -1,7 +1,7 @@
 # What The Hell Is That?
 [![License](https://img.shields.io/badge/license-CC%20BY--NC--SA%204.0-blue.svg)](https://bit.ly/cc-by-nc-sa-40)
 
-##### **WTHIT** - a fork of [HWYLA](https://minecraft.curseforge.com/projects/waila) by [TehNut](https://www.curseforge.com/members/tehnut) - a fork of [WAILA](https://minecraft.curseforge.com/projects/waila) by [ProfMobius](https://minecraft.curseforge.com/members/ProfMobius).
+##### **WTHIT** - a fork of [HWYLA](https://minecraft.curseforge.com/projects/hwyla) by [TehNut](https://www.curseforge.com/members/tehnut) - a fork of [WAILA](https://minecraft.curseforge.com/projects/waila) by [ProfMobius](https://minecraft.curseforge.com/members/ProfMobius).
 
 ###### *This fork is permitted under the [CC BY-NC-SA 4.0](LICENSE.md) license. Usage of this mod is permitted in all modpacks.*
 
