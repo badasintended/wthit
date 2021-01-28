@@ -1,7 +1,7 @@
-# Here's What You're Looking At
-[![Build Status](http://tehnut.info/jenkins/buildStatus/icon?job=HWYLA/1.10)](http://tehnut.info/jenkins/job/HWYLA/job/1.10/) [![License](https://img.shields.io/badge/license-CC%20BY--NC--SA%204.0-blue.svg)](https://bit.ly/cc-by-nc-sa-40) [![](http://cf.way2muchnoise.eu/HWYLA.svg)](https://minecraft.curseforge.com/projects/HWYLA)
+# What The Hell Is That?
+[![License](https://img.shields.io/badge/license-CC%20BY--NC--SA%204.0-blue.svg)](https://bit.ly/cc-by-nc-sa-40)
 
-##### **HWYLA** (pronounced "Hwhy-la", similar to "Coo-Hwhip") - a fork of [WAILA](https://minecraft.curseforge.com/projects/waila) by [ProfMobius](https://minecraft.curseforge.com/members/ProfMobius).
+##### **WTHIT** - a fork of [HWYLA](https://minecraft.curseforge.com/projects/waila) by [TehNut](https://www.curseforge.com/members/tehnut) - a fork of [WAILA](https://minecraft.curseforge.com/projects/waila) by [ProfMobius](https://minecraft.curseforge.com/members/ProfMobius).
 
 ###### *This fork is permitted under the [CC BY-NC-SA 4.0](LICENSE.md) license. Usage of this mod is permitted in all modpacks.*
 
@@ -15,17 +15,14 @@
 
 ```groovy
 repositories {  
-    maven {url "http://tehnut.info/maven"}
+    maven { url "https://jitpack.io" }
 }
 
 dependencies {
-    deobfCompile "mcp.mobius.waila:Hwyla:<HWYLA_VERSION>"
+    modImplementation 'com.github.badasintended:wthit:VERSION'
 }
 ```
-
-> `HWYLA_VERSION` can be found by browsing through the maven.
-
-> **!!!** Builds 8 through 12 use `mcp.mobius.waila:Waila:<HWYLA_VERSION>`.
+[![](https://jitpack.io/v/badasintended/wthit.svg)](https://jitpack.io/#badasintended/wthit)
 
 As of Fabric Loader 0.4.0, Waila plugins are discovered from the `fabric.mod.json` file. Simply add a `custom` object field
 to that file with the following data:
