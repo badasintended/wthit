@@ -7,18 +7,17 @@ plugins {
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
-def build_number = System.getenv('BUILD_NUMBER') ?: 'CUSTOM'
+def versionEnv = System.getenv("MOD_VERSION")
+if (versionEnv == null || versionEnv.isBlank()) {
+    versionEnv = "local"
+}
 
 group = package_group
-archivesBaseName = "${mod_name}-fabric"
-version = "${mc_version}-${mod_version}-${build_number}"
+archivesBaseName = mod_name
+version = "${versionEnv}+${mc_version}"
 
 minecraft {
     refmapName = mod_name.toLowerCase() + '-refmap.json'
-}
-
-repositories {
-
 }
 
 dependencies {
@@ -26,12 +25,9 @@ dependencies {
 
     minecraft "com.mojang:minecraft:${mc_version}"
     mappings "net.fabricmc:yarn:${mc_version}+build.${mappings_version}:v2"
-    modCompile "net.fabricmc:fabric-loader:${loader_version}"
-    modCompile "net.fabricmc.fabric-api:fabric-api-base:${api_version}"
-    modCompile "net.fabricmc.fabric-api:fabric-command-api-v1:${api_commands_version}"
-    modCompile "net.fabricmc.fabric-api:fabric-key-binding-api-v1:${api_keybinding_version}"
-    modCompile "net.fabricmc.fabric-api:fabric-networking-v0:${api_networking_version}"
-    modCompile "net.fabricmc.fabric-api:fabric-resource-loader-v0:${api_resources_version}"
+
+    modImplementation "net.fabricmc:fabric-loader:${loader_version}"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:${api_version}"
 }
 
 task sourcesJar(type: Jar) {
@@ -47,26 +43,33 @@ task apiJar(type: Jar) {
     archiveClassifier.set('api')
 }
 
+processResources {
+    inputs.property "version", project.version
+
+    from(sourceSets.main.resources.srcDirs) {
+        include "fabric.mod.json"
+        expand "version": project.version
+    }
+
+    from(sourceSets.main.resources.srcDirs) {
+        exclude "fabric.mod.json"
+    }
+}
+
 publishing {
-    tasks.publish.dependsOn 'build'
     publications {
         mavenJava(MavenPublication) {
-            artifact remapJar
-            artifact sourcesJar
-            artifact apiJar
-        }
-    }
-    repositories {
-        if (project.hasProperty('aws_access_key_id') && project.hasProperty('aws_secret_access_key')) {
-            maven {
-                url = "s3://tehnut-mod-maven"
-                credentials(AwsCredentials) {
-                    accessKey = aws_access_key_id
-                    secretKey = aws_secret_access_key
+            afterEvaluate {
+                artifact(jar) {
+                    builtBy remapJar
+                }
+                artifact(remapJar) {
+                    builtBy remapJar
+                }
+                artifact(sourcesJar) {
+                    builtBy remapSourcesJar
                 }
             }
-        } else {
-            mavenLocal()
         }
     }
 }

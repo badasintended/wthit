@@ -77,6 +77,11 @@ public class ModIdentification {
         }
 
         @Override
+        public Collection<String> getProvides() {
+            return Collections.emptySet();
+        }
+
+        @Override
         public Version getVersion() {
             return new StringVersion("1");
         }

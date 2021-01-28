@@ -2,7 +2,7 @@
   "required": true,
   "package": "mcp.mobius.waila.mixin.client",
   "compatibilityLevel": "JAVA_8",
-  "refmap": "hwyla-refmap.json",
+  "refmap": "wthit-refmap.json",
   "mixins": [
     "MixinMinecraftClient",
     "MixinGameRenderer",
