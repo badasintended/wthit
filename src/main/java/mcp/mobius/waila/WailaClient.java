@@ -1,17 +1,19 @@
 package mcp.mobius.waila;
 
-import java.lang.reflect.Method;
-
 import mcp.mobius.waila.api.impl.config.WailaConfig;
 import mcp.mobius.waila.gui.GuiConfigHome;
 import mcp.mobius.waila.network.ClientNetworkHandler;
+import mcp.mobius.waila.overlay.WailaTickHandler;
+import mcp.mobius.waila.utils.ModIdentification;
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.api.EnvType;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
-import net.fabricmc.loader.api.FabricLoader;
+import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.options.KeyBinding;
 import net.minecraft.client.util.InputUtil;
+import net.minecraft.text.LiteralText;
 import org.lwjgl.glfw.GLFW;
 
 public class WailaClient implements ClientModInitializer {
@@ -28,37 +30,27 @@ public class WailaClient implements ClientModInitializer {
         showOverlay = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.waila.show_overlay", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_KP_1, Waila.NAME));
         toggleLiquid = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.waila.toggle_liquid", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_KP_2, Waila.NAME));
 
-        if (FabricLoader.getInstance().isModLoaded("modmenu") && FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT)
-            enableModMenuConfig();
-    }
+        HudRenderCallback.EVENT.register((matrixStack, v) -> WailaTickHandler.instance().renderOverlay(matrixStack));
+        ItemTooltipCallback.EVENT.register((stack, context, list) ->
+            list.add(new LiteralText(String.format(Waila.CONFIG.get().getFormatting().getModName(), ModIdentification.getModInfo(stack.getItem()).getName())))
+        );
 
-    private static void enableModMenuConfig() {
-        try {
-            Class<?> modMenuApi_ = Class.forName("io.github.prospector.modmenu.ModMenu");
-            Method addConfigOverride_ = modMenuApi_.getMethod("addLegacyConfigScreenTask", String.class, Runnable.class);
-            addConfigOverride_.invoke(null, Waila.MODID, (Runnable) () -> MinecraftClient.getInstance().openScreen(new GuiConfigHome(null)));
-        } catch (Exception e) {
-            Waila.LOGGER.error("Error enabling the Mod Menu config button for Hwyla", e);
-        }
-    }
-
-    public static void handleKeybinds() {
-        if (openConfig == null || showOverlay == null || toggleLiquid == null)
-            return;
-
-        while (openConfig.wasPressed()) {
-            MinecraftClient.getInstance().openScreen(new GuiConfigHome(null));
-        }
-
-        while (showOverlay.wasPressed()) {
-            if (Waila.CONFIG.get().getGeneral().getDisplayMode() == WailaConfig.DisplayMode.TOGGLE) {
-                Waila.CONFIG.get().getGeneral().setDisplayTooltip(!Waila.CONFIG.get().getGeneral().shouldDisplayTooltip());
+        ClientTickEvents.END_CLIENT_TICK.register(client -> {
+            WailaTickHandler.instance().tickClient();
+            while (openConfig.wasPressed()) {
+                MinecraftClient.getInstance().openScreen(new GuiConfigHome(null));
             }
-        }
 
-        while (toggleLiquid.wasPressed()) {
-            Waila.CONFIG.get().getGeneral().setDisplayFluids(!Waila.CONFIG.get().getGeneral().shouldDisplayFluids());
-        }
+            while (showOverlay.wasPressed()) {
+                if (Waila.CONFIG.get().getGeneral().getDisplayMode() == WailaConfig.DisplayMode.TOGGLE) {
+                    Waila.CONFIG.get().getGeneral().setDisplayTooltip(!Waila.CONFIG.get().getGeneral().shouldDisplayTooltip());
+                }
+            }
+
+            while (toggleLiquid.wasPressed()) {
+                Waila.CONFIG.get().getGeneral().setDisplayFluids(!Waila.CONFIG.get().getGeneral().shouldDisplayFluids());
+            }
+        });
     }
 
 }

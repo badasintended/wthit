@@ -16,19 +16,10 @@
   },
 
   "entrypoints"  : {
-    "main"  : ["mcp.mobius.waila.Waila"],
-    "client": ["mcp.mobius.waila.WailaClient"]
+    "main"   : ["mcp.mobius.waila.Waila"],
+    "client" : ["mcp.mobius.waila.WailaClient"],
+    "modmenu": ["mcp.mobius.waila.WailaModMenu"]
   },
-  "mixins"       : [
-    {
-      "config"     : "wthit.client.json",
-      "environment": "client"
-    },
-    {
-      "config"     : "wthit.server.json",
-      "environment": "server"
-    }
-  ],
 
   "name"         : "wthit",
   "description"  : "What the hell is that?",
