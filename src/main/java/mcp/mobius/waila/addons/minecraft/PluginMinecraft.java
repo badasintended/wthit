@@ -1,12 +1,21 @@
 package mcp.mobius.waila.addons.minecraft;
 
-import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.api.IRegistrar;
+import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.api.TooltipPosition;
 import mcp.mobius.waila.overlay.tooltiprenderers.TooltipRendererProgressBar;
 import mcp.mobius.waila.overlay.tooltiprenderers.TooltipRendererSpacer;
 import mcp.mobius.waila.overlay.tooltiprenderers.TooltipRendererStack;
-import net.minecraft.block.*;
+import net.minecraft.block.CocoaBlock;
+import net.minecraft.block.ComparatorBlock;
+import net.minecraft.block.CropBlock;
+import net.minecraft.block.InfestedBlock;
+import net.minecraft.block.LeverBlock;
+import net.minecraft.block.NetherWartBlock;
+import net.minecraft.block.RedstoneWireBlock;
+import net.minecraft.block.RepeaterBlock;
+import net.minecraft.block.StemBlock;
+import net.minecraft.block.SweetBerryBushBlock;
 import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.block.entity.JukeboxBlockEntity;
 import net.minecraft.block.entity.MobSpawnerBlockEntity;
@@ -81,4 +90,5 @@ public class PluginMinecraft implements IWailaPlugin {
         registrar.registerComponentProvider(HUDHandlerFurnace.INSTANCE, TooltipPosition.BODY, AbstractFurnaceBlockEntity.class);
         registrar.registerBlockDataProvider(HUDHandlerFurnace.INSTANCE, AbstractFurnaceBlockEntity.class);
     }
+
 }

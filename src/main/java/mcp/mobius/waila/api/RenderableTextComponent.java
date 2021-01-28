@@ -1,5 +1,7 @@
 package mcp.mobius.waila.api;
 
+import java.util.List;
+
 import com.google.common.collect.Lists;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
@@ -10,8 +12,6 @@ import net.minecraft.nbt.StringNbtReader;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.Identifier;
-
-import java.util.List;
 
 public class RenderableTextComponent extends LiteralText {
 
@@ -73,6 +73,7 @@ public class RenderableTextComponent extends LiteralText {
     }
 
     public static class RenderContainer {
+
         private final Identifier id;
         private final CompoundTag data;
         private final ITooltipRenderer renderer;
@@ -94,5 +95,7 @@ public class RenderableTextComponent extends LiteralText {
         public ITooltipRenderer getRenderer() {
             return renderer;
         }
+
     }
+
 }

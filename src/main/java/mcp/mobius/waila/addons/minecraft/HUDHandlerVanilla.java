@@ -1,8 +1,17 @@
 package mcp.mobius.waila.addons.minecraft;
 
+import java.util.List;
+
 import mcp.mobius.waila.Waila;
-import mcp.mobius.waila.api.*;
-import net.minecraft.block.*;
+import mcp.mobius.waila.api.IComponentProvider;
+import mcp.mobius.waila.api.IDataAccessor;
+import mcp.mobius.waila.api.IPluginConfig;
+import mcp.mobius.waila.api.IServerDataProvider;
+import mcp.mobius.waila.api.ITaggableList;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.CropBlock;
+import net.minecraft.block.InfestedBlock;
+import net.minecraft.block.LeverBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.JukeboxBlockEntity;
 import net.minecraft.block.entity.MobSpawnerBlockEntity;
@@ -20,8 +29,6 @@ import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
 import org.apache.commons.lang3.StringUtils;
-
-import java.util.List;
 
 public class HUDHandlerVanilla implements IComponentProvider, IServerDataProvider<BlockEntity> {
 
@@ -62,9 +69,9 @@ public class HUDHandlerVanilla implements IComponentProvider, IServerDataProvide
         if (accessor.getBlock() == Blocks.SPAWNER && config.get(PluginMinecraft.CONFIG_SPAWNER_TYPE)) {
             MobSpawnerBlockEntity spawner = (MobSpawnerBlockEntity) accessor.getBlockEntity();
             ((ITaggableList<Identifier, Text>) tooltip).setTag(OBJECT_NAME_TAG, new TranslatableText(accessor.getBlock().getTranslationKey())
-                    .append(new LiteralText(" ("))
-                    .append(spawner.getLogic().getRenderedEntity().getDisplayName())
-                    .append(new LiteralText(")"))
+                .append(new LiteralText(" ("))
+                .append(spawner.getLogic().getRenderedEntity().getDisplayName())
+                .append(new LiteralText(")"))
             );
         }
     }
@@ -138,4 +145,5 @@ public class HUDHandlerVanilla implements IComponentProvider, IServerDataProvide
         else
             tooltip.add(new TranslatableText("tooltip.waila.crop_growth", new TranslatableText("tooltip.waila.crop_mature")));
     }
+
 }

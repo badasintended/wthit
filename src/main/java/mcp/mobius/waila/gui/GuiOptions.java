@@ -1,5 +1,7 @@
 package mcp.mobius.waila.gui;
 
+import java.util.List;
+
 import com.google.common.collect.Lists;
 import mcp.mobius.waila.gui.config.OptionsListWidget;
 import mcp.mobius.waila.gui.config.value.OptionsEntryValue;
@@ -9,13 +11,10 @@ import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.resource.language.I18n;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.LiteralText;
 import net.minecraft.text.OrderedText;
-import net.minecraft.text.StringVisitable;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
-import net.minecraft.text.LiteralText;
-
-import java.util.List;
 
 public abstract class GuiOptions extends Screen {
 
@@ -100,4 +99,5 @@ public abstract class GuiOptions extends Screen {
     }
 
     public abstract OptionsListWidget getOptions();
+
 }

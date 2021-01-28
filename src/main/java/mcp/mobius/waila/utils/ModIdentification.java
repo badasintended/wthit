@@ -1,13 +1,23 @@
 package mcp.mobius.waila.utils;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
 import com.google.common.collect.Maps;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
-import java.util.HashMap;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.fabricmc.loader.api.Version;
-import net.fabricmc.loader.api.metadata.*;
+import net.fabricmc.loader.api.metadata.ContactInformation;
+import net.fabricmc.loader.api.metadata.CustomValue;
+import net.fabricmc.loader.api.metadata.ModDependency;
+import net.fabricmc.loader.api.metadata.ModEnvironment;
+import net.fabricmc.loader.api.metadata.ModMetadata;
+import net.fabricmc.loader.api.metadata.Person;
 import net.fabricmc.loader.metadata.MapBackedContactInformation;
 import net.fabricmc.loader.util.version.StringVersion;
 import net.minecraft.block.Block;
@@ -15,11 +25,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Map;
-import java.util.Optional;
 
 public class ModIdentification {
 
@@ -34,10 +39,10 @@ public class ModIdentification {
 
     public static ModMetadata getModInfo(String namespace) {
         return CONTAINER_CACHE.computeIfAbsent(namespace, s -> FabricLoader.getInstance().getAllMods().stream()
-                .map(ModContainer::getMetadata)
-                .filter(m -> m.getId().equals(s))
-                .findFirst()
-                .orElse(new DummyModMetadata(s, s)));
+            .map(ModContainer::getMetadata)
+            .filter(m -> m.getId().equals(s))
+            .findFirst()
+            .orElse(new DummyModMetadata(s, s)));
     }
 
     public static ModMetadata getModInfo(Identifier id) {
@@ -58,6 +63,7 @@ public class ModIdentification {
     }
 
     private static class DummyModMetadata implements ModMetadata {
+
         private final String id;
         private final String name;
 
@@ -177,5 +183,7 @@ public class ModIdentification {
         public JsonElement getCustomElement(String key) {
             return new JsonPrimitive("");
         }
+
     }
+
 }

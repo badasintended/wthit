@@ -1,9 +1,11 @@
 package mcp.mobius.waila.network;
 
+import java.util.Set;
+
 import io.netty.buffer.Unpooled;
 import mcp.mobius.waila.Waila;
-import mcp.mobius.waila.api.impl.config.ConfigEntry;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
+import mcp.mobius.waila.api.impl.config.ConfigEntry;
 import mcp.mobius.waila.api.impl.config.PluginConfig;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -23,8 +25,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
-
-import java.util.Set;
 
 public class NetworkHandler {
 
@@ -123,4 +123,5 @@ public class NetworkHandler {
 
         player.networkHandler.sendPacket(new CustomPayloadS2CPacket(ClientNetworkHandler.GET_CONFIG, buf));
     }
+
 }

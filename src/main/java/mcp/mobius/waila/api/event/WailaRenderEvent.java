@@ -1,14 +1,14 @@
 package mcp.mobius.waila.api.event;
 
-import com.mojang.blaze3d.platform.GlStateManager;
-import mcp.mobius.waila.api.ICommonAccessor;
-import net.fabricmc.fabric.api.event.Event;
-import net.fabricmc.fabric.api.event.EventFactory;
-
 import java.awt.Rectangle;
 import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.reflect.Method;
+
+import com.mojang.blaze3d.platform.GlStateManager;
+import mcp.mobius.waila.api.ICommonAccessor;
+import net.fabricmc.fabric.api.event.Event;
+import net.fabricmc.fabric.api.event.EventFactory;
 
 /**
  * The base event for rendering the Waila tooltip. This provides the opportunity to do last minute changes to the tooltip.
@@ -22,29 +22,29 @@ public class WailaRenderEvent {
 
     private static MethodHandle loadGlState_;
     public static final Event<PreRender> WAILA_RENDER_PRE = EventFactory.createArrayBacked(PreRender.class,
-            listeners -> event -> {
-                for (PreRender listener : listeners) {
-                    if (listener.onPreRender(event)) {
-                        GlStateManager.enableRescaleNormal();
-                        try {
-                            loadGlState_.invoke();
-                        } catch (Throwable e) {
-                            // No-op
-                        }
-                        GlStateManager.enableDepthTest();
-                        GlStateManager.popMatrix();
-                        return true;
+        listeners -> event -> {
+            for (PreRender listener : listeners) {
+                if (listener.onPreRender(event)) {
+                    GlStateManager.enableRescaleNormal();
+                    try {
+                        loadGlState_.invoke();
+                    } catch (Throwable e) {
+                        // No-op
                     }
+                    GlStateManager.enableDepthTest();
+                    GlStateManager.popMatrix();
+                    return true;
                 }
-
-                return  false;
             }
+
+            return false;
+        }
     );
     public static final Event<PostRender> WAILA_RENDER_POST = EventFactory.createArrayBacked(PostRender.class,
-            listeners -> event -> {
-                for (PostRender listener : listeners)
-                    listener.onPostRender(event);
-            }
+        listeners -> event -> {
+            for (PostRender listener : listeners)
+                listener.onPostRender(event);
+        }
     );
 
     static {
@@ -58,11 +58,15 @@ public class WailaRenderEvent {
     }
 
     public interface PreRender {
+
         boolean onPreRender(Pre event);
+
     }
 
     public interface PostRender {
+
         void onPostRender(Post event);
+
     }
 
     private final Rectangle position;
@@ -95,6 +99,7 @@ public class WailaRenderEvent {
         public ICommonAccessor getAccessor() {
             return accessor;
         }
+
     }
 
     /**
@@ -109,5 +114,7 @@ public class WailaRenderEvent {
         public Post(Rectangle position) {
             super(position);
         }
+
     }
+
 }

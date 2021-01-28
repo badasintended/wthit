@@ -45,4 +45,5 @@ public interface IDataAccessor {
     Direction getSide();
 
     ItemStack getStack();
+
 }

@@ -1,5 +1,7 @@
 package mcp.mobius.waila.network;
 
+import java.util.Map;
+
 import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import mcp.mobius.waila.Waila;
@@ -8,8 +10,6 @@ import mcp.mobius.waila.api.impl.config.PluginConfig;
 import net.fabricmc.fabric.api.network.ClientSidePacketRegistry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Identifier;
-
-import java.util.Map;
 
 public class ClientNetworkHandler {
 
@@ -40,4 +40,5 @@ public class ClientNetworkHandler {
             });
         });
     }
+
 }

@@ -1,11 +1,11 @@
 package mcp.mobius.waila.gui.config.value;
 
+import java.util.function.Consumer;
+
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.client.util.math.MatrixStack;
-
-import java.util.function.Consumer;
+import net.minecraft.text.TranslatableText;
 
 public class OptionsEntryValueBoolean extends OptionsEntryValue<Boolean> {
 
@@ -32,4 +32,5 @@ public class OptionsEntryValueBoolean extends OptionsEntryValue<Boolean> {
     public Element getListener() {
         return button;
     }
+
 }

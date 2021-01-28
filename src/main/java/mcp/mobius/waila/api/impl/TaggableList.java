@@ -1,12 +1,12 @@
 package mcp.mobius.waila.api.impl;
 
-import com.google.common.base.Preconditions;
-import com.google.common.collect.Maps;
-import mcp.mobius.waila.api.ITaggableList;
-
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.function.Function;
+
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Maps;
+import mcp.mobius.waila.api.ITaggableList;
 
 public class TaggableList<TAG, VALUE> extends ArrayList<VALUE> implements ITaggableList<TAG, VALUE> {
 
@@ -53,4 +53,5 @@ public class TaggableList<TAG, VALUE> extends ArrayList<VALUE> implements ITagga
         this.addAll(other);
         tags.putAll(other.getTags());
     }
+
 }

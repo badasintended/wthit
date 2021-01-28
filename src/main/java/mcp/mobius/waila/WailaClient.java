@@ -1,5 +1,7 @@
 package mcp.mobius.waila;
 
+import java.lang.reflect.Method;
+
 import mcp.mobius.waila.api.impl.config.WailaConfig;
 import mcp.mobius.waila.gui.GuiConfigHome;
 import mcp.mobius.waila.network.ClientNetworkHandler;
@@ -11,8 +13,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.options.KeyBinding;
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
-
-import java.lang.reflect.Method;
 
 public class WailaClient implements ClientModInitializer {
 
@@ -60,4 +60,5 @@ public class WailaClient implements ClientModInitializer {
             Waila.CONFIG.get().getGeneral().setDisplayFluids(!Waila.CONFIG.get().getGeneral().shouldDisplayFluids());
         }
     }
+
 }

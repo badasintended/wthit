@@ -1,65 +1,61 @@
 {
   "schemaVersion": 1,
-  "id": "waila",
-  "version": "${version}",
-  "custom": {
+  "id"           : "waila",
+  "version"      : "${version}",
+  "custom"       : {
     "waila:plugins": [
       {
-        "id": "waila:core",
+        "id"         : "waila:core",
         "initializer": "mcp.mobius.waila.addons.core.PluginCore"
       },
       {
-        "id": "waila:vanilla",
+        "id"         : "waila:vanilla",
         "initializer": "mcp.mobius.waila.addons.minecraft.PluginMinecraft"
       }
     ]
   },
 
-  "entrypoints": {
-    "main": [
-      "mcp.mobius.waila.Waila"
-    ],
-    "client": [
-      "mcp.mobius.waila.WailaClient"
-    ]
+  "entrypoints"  : {
+    "main"  : ["mcp.mobius.waila.Waila"],
+    "client": ["mcp.mobius.waila.WailaClient"]
   },
-  "mixins": [
+  "mixins"       : [
     {
-      "config": "wthit.client.json",
+      "config"     : "wthit.client.json",
       "environment": "client"
     },
     {
-      "config": "wthit.server.json",
+      "config"     : "wthit.server.json",
       "environment": "server"
     }
   ],
 
-  "name": "wthit",
-  "description": "What the hell is that?",
-  "icon": "assets/waila/logo.png",
-  "contact": {
+  "name"         : "wthit",
+  "description"  : "What the hell is that?",
+  "icon"         : "assets/waila/logo.png",
+  "contact"      : {
     "homepage": "https://minecraft.curseforge.com/projects/wthit",
-    "issues": "https://github.com/badasintended/wthit/issues",
-    "sources": "https://github.com/badasintended/wthit"
+    "issues"  : "https://github.com/badasintended/wthit/issues",
+    "sources" : "https://github.com/badasintended/wthit"
   },
-  "license": "CC BY NC SA 4.0",
-  "authors": [
+  "license"      : "CC BY NC SA 4.0",
+  "authors"      : [
     "deirn",
     {
-      "name": "Nicholas \"TehNut\" Ignoffo",
+      "name"   : "Nicholas \"TehNut\" Ignoffo",
       "contact": {
-        "email": "nick@tehnut.info",
+        "email"   : "nick@tehnut.info",
         "homepage": "https://tehnut.info"
       }
     },
     {
-      "name": "ProfMobius",
+      "name"   : "ProfMobius",
       "contact": {
         "homepage": "https://twitter.com/profmobius"
       }
     }
   ],
-  "contributors": [
+  "contributors" : [
     "InsomniaKitten",
     "Girafi",
     "Vexatos",
@@ -85,14 +81,14 @@
     "plusls"
   ],
 
-  "depends": {
-    "fabric-api-base": "*",
-    "fabric-command-api-v1": "*",
+  "depends"      : {
+    "fabric-api-base"          : "*",
+    "fabric-command-api-v1"    : "*",
     "fabric-key-binding-api-v1": "*",
-    "fabric-networking-v0": "*",
+    "fabric-networking-v0"     : "*",
     "fabric-resource-loader-v0": "*"
   },
-  "suggests": {
+  "suggests"     : {
     "modmenu": "*"
   }
 }

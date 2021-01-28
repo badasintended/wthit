@@ -1,15 +1,14 @@
 package mcp.mobius.waila.utils;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import net.fabricmc.loader.api.FabricLoader;
-
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.function.Supplier;
-import mcp.mobius.waila.utils.JsonConfig.CachedSupplier;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import net.fabricmc.loader.api.FabricLoader;
 
 public class JsonConfig<T> {
 
@@ -90,5 +89,7 @@ public class JsonConfig<T> {
         public void invalidate() {
             this.value = null;
         }
+
     }
+
 }

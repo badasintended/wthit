@@ -1,5 +1,7 @@
 package mcp.mobius.waila.mixin.client;
 
+import java.util.List;
+
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.client.item.TooltipContext;
@@ -12,8 +14,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import java.util.List;
-
 @Mixin(ItemStack.class)
 public class MixinItemStack {
 
@@ -23,4 +23,5 @@ public class MixinItemStack {
         ItemStack stack = (ItemStack) (Object) this;
         components.add(new LiteralText(String.format(Waila.CONFIG.get().getFormatting().getModName(), ModIdentification.getModInfo(stack.getItem()).getName())));
     }
+
 }

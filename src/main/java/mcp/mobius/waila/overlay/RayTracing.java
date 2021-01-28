@@ -1,5 +1,9 @@
 package mcp.mobius.waila.overlay;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
 import com.google.common.collect.Lists;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IComponentProvider;
@@ -20,10 +24,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.World;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 
 public class RayTracing {
 
@@ -160,4 +160,5 @@ public class RayTracing {
             }
         }
     }
+
 }

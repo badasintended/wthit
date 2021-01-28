@@ -1,5 +1,9 @@
 package mcp.mobius.waila.api.impl;
 
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IComponentProvider;
 import mcp.mobius.waila.api.IEntityComponentProvider;
@@ -10,10 +14,6 @@ import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.text.Text;
-
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 public class MetaDataProvider {
 
@@ -41,7 +41,7 @@ public class MetaDataProvider {
         bodyBlockProviders.clear();
         tailBlockProviders.clear();
 
-		/* Lookup by class (for blocks)*/
+        /* Lookup by class (for blocks)*/
         if (position == TooltipPosition.HEAD && WailaRegistrar.INSTANCE.hasHeadProviders(block))
             headBlockProviders.putAll(WailaRegistrar.INSTANCE.getHeadProviders(block));
 
@@ -51,8 +51,8 @@ public class MetaDataProvider {
         else if (position == TooltipPosition.TAIL && WailaRegistrar.INSTANCE.hasTailProviders(block))
             tailBlockProviders.putAll(WailaRegistrar.INSTANCE.getTailProviders(block));
 
-		
-		/* Lookup by class (for tileentities)*/
+
+        /* Lookup by class (for tileentities)*/
         if (position == TooltipPosition.HEAD && WailaRegistrar.INSTANCE.hasHeadProviders(accessor.getBlockEntity()))
             headBlockProviders.putAll(WailaRegistrar.INSTANCE.getHeadProviders(accessor.getBlockEntity()));
 
@@ -62,7 +62,7 @@ public class MetaDataProvider {
         else if (position == TooltipPosition.TAIL && WailaRegistrar.INSTANCE.hasTailProviders(accessor.getBlockEntity()))
             tailBlockProviders.putAll(WailaRegistrar.INSTANCE.getTailProviders(accessor.getBlockEntity()));
 
-		/* Apply all collected providers */
+        /* Apply all collected providers */
 
         switch (position) {
             case HEAD: {
@@ -116,7 +116,7 @@ public class MetaDataProvider {
         bodyEntityProviders.clear();
         tailEntityProviders.clear();
 
-		/* Lookup by class (for entities)*/
+        /* Lookup by class (for entities)*/
         if (position == TooltipPosition.HEAD && WailaRegistrar.INSTANCE.hasHeadEntityProviders(entity))
             headEntityProviders.putAll(WailaRegistrar.INSTANCE.getHeadEntityProviders(entity));
 
@@ -165,4 +165,5 @@ public class MetaDataProvider {
             }
         }
     }
+
 }

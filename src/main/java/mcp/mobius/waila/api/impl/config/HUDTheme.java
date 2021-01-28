@@ -50,4 +50,5 @@ public class HUDTheme {
     public int getFontColor() {
         return fontColor;
     }
+
 }

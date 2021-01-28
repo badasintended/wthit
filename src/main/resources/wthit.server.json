@@ -1,12 +1,12 @@
 {
-  "required": true,
-  "package": "mcp.mobius.waila.mixin.server",
+  "required"          : true,
+  "package"           : "mcp.mobius.waila.mixin.server",
   "compatibilityLevel": "JAVA_8",
-  "refmap": "wthit-refmap.json",
-  "mixins": [
+  "refmap"            : "wthit-refmap.json",
+  "mixins"            : [
     "MixinPlayerManager"
   ],
-  "injectors": {
+  "injectors"         : {
     "defaultRequire": 1
   }
 }

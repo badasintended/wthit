@@ -1,12 +1,12 @@
 package mcp.mobius.waila.gui.config.value;
 
+import java.util.function.Consumer;
+
 import mcp.mobius.waila.gui.config.OptionsListWidget;
 import net.minecraft.client.gui.Element;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
-import net.minecraft.client.util.math.MatrixStack;
-
-import java.util.function.Consumer;
 
 public abstract class OptionsEntryValue<T> extends OptionsListWidget.Entry {
 
@@ -50,4 +50,5 @@ public abstract class OptionsEntryValue<T> extends OptionsListWidget.Entry {
     }
 
     protected abstract void drawValue(MatrixStack matrices, int entryWidth, int entryHeight, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks);
+
 }

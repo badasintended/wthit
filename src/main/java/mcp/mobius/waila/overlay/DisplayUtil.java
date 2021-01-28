@@ -1,5 +1,9 @@
 package mcp.mobius.waila.overlay;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import mcp.mobius.waila.Waila;
@@ -10,17 +14,12 @@ import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.Tessellator;
-import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 public class DisplayUtil {
 
@@ -162,4 +161,5 @@ public class DisplayUtil {
         DisplayUtil.drawTexturedModalRect(x, y, icon.u, icon.v, sx, sy, icon.su, icon.sv);
         RenderSystem.disableAlphaTest();
     }
+
 }

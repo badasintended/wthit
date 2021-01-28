@@ -1,15 +1,15 @@
 package mcp.mobius.waila.overlay.tooltiprenderers;
 
+import java.awt.Dimension;
+
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.ITooltipRenderer;
 import mcp.mobius.waila.overlay.DisplayUtil;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Identifier;
-import net.minecraft.client.util.math.MatrixStack;
-
-import java.awt.Dimension;
 
 public class TooltipRendererProgressBar implements ITooltipRenderer {
 
@@ -36,4 +36,5 @@ public class TooltipRendererProgressBar implements ITooltipRenderer {
             DisplayUtil.drawTexturedModalRect(x + 2, y, 0, 0, progress + 1, 16, progress + 1, 16);
         }
     }
+
 }

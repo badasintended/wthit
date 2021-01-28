@@ -11,4 +11,5 @@ public interface IWailaPlugin {
      * @param registrar - An instance of IWailaRegistrar to register your providers with.
      */
     void register(IRegistrar registrar);
+
 }

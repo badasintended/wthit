@@ -43,4 +43,5 @@ public class HUDHandlerEntityIcon implements IEntityComponentProvider {
         }
         return ItemStack.EMPTY;
     }
+
 }

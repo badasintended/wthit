@@ -14,4 +14,5 @@ public interface ITaggableList<TAG, VALUE> extends List<VALUE> {
     Map<TAG, VALUE> getTags();
 
     void absorb(ITaggableList<TAG, VALUE> other);
+
 }

@@ -1,9 +1,11 @@
 package mcp.mobius.waila.addons.core;
 
+import java.util.List;
+
 import mcp.mobius.waila.Waila;
-import mcp.mobius.waila.api.IPluginConfig;
-import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IComponentProvider;
+import mcp.mobius.waila.api.IDataAccessor;
+import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITaggableList;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.ItemStack;
@@ -14,8 +16,6 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
-
-import java.util.List;
 
 public class HUDHandlerFluids implements IComponentProvider {
 
@@ -37,4 +37,5 @@ public class HUDHandlerFluids implements IComponentProvider {
         if (config.get(PluginCore.CONFIG_SHOW_REGISTRY))
             ((ITaggableList<Identifier, Text>) tooltip).setTag(HUDHandlerBlocks.REGISTRY_NAME_TAG, new LiteralText(Registry.BLOCK.getId(accessor.getBlock()).toString()).setStyle(Style.EMPTY.withColor(Formatting.GRAY)));
     }
+
 }

@@ -1,5 +1,8 @@
 package mcp.mobius.waila;
 
+import java.util.List;
+import java.util.Map;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Streams;
@@ -12,9 +15,6 @@ import net.fabricmc.loader.api.ModContainer;
 import net.fabricmc.loader.api.metadata.CustomValue;
 import net.fabricmc.loader.api.metadata.ModMetadata;
 
-import java.util.List;
-import java.util.Map;
-
 public class WailaPlugins {
 
     public static final Map<String, IWailaPlugin> PLUGINS = Maps.newHashMap();
@@ -23,32 +23,32 @@ public class WailaPlugins {
         PLUGINS.clear();
 
         FabricLoader.getInstance().getAllMods().stream()
-                .map(ModContainer::getMetadata)
-                .filter(modMetadata -> modMetadata.containsCustomValue("waila:plugins"))
-                .map(m -> new PluginData(m.getId(), m.getCustomValue("waila:plugins"), m))
-                .filter(d -> {
-                    if (d.value.getType() == CustomValue.CvType.OBJECT || d.value.getType() == CustomValue.CvType.ARRAY)
-                        return true;
+            .map(ModContainer::getMetadata)
+            .filter(modMetadata -> modMetadata.containsCustomValue("waila:plugins"))
+            .map(m -> new PluginData(m.getId(), m.getCustomValue("waila:plugins"), m))
+            .filter(d -> {
+                if (d.value.getType() == CustomValue.CvType.OBJECT || d.value.getType() == CustomValue.CvType.ARRAY)
+                    return true;
 
-                    Waila.LOGGER.error("Plugin data provided by {} must be a JsonObject or a JsonArray.", d.id);
-                    return false;
-                })
-                .forEach(d -> {
-                    if (d.value.getType() == CustomValue.CvType.OBJECT) {
-                        handlePluginData(d, d.value.getAsObject());
-                    } else {
-                        Streams.stream(d.value.getAsArray())
-                                .filter(e -> {
-                                    if (e.getType() == CustomValue.CvType.OBJECT)
-                                        return true;
+                Waila.LOGGER.error("Plugin data provided by {} must be a JsonObject or a JsonArray.", d.id);
+                return false;
+            })
+            .forEach(d -> {
+                if (d.value.getType() == CustomValue.CvType.OBJECT) {
+                    handlePluginData(d, d.value.getAsObject());
+                } else {
+                    Streams.stream(d.value.getAsArray())
+                        .filter(e -> {
+                            if (e.getType() == CustomValue.CvType.OBJECT)
+                                return true;
 
-                                    Waila.LOGGER.error("Plugin data provided by {} must be a JsonObject.", d.id);
-                                    return false;
-                                })
-                                .map(CustomValue::getAsObject)
-                                .forEach(cvObject -> handlePluginData(d, cvObject));
-                    }
-                });
+                            Waila.LOGGER.error("Plugin data provided by {} must be a JsonObject.", d.id);
+                            return false;
+                        })
+                        .map(CustomValue::getAsObject)
+                        .forEach(cvObject -> handlePluginData(d, cvObject));
+                }
+            });
     }
 
     public static void initializePlugins() {
@@ -109,6 +109,7 @@ public class WailaPlugins {
     }
 
     public static class PluginData {
+
         private final String id;
         private final CustomValue value;
         private final ModMetadata metadata;
@@ -118,5 +119,7 @@ public class WailaPlugins {
             this.value = value;
             this.metadata = metadata;
         }
+
     }
+
 }

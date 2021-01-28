@@ -35,4 +35,5 @@ public class OptionsEntryButton extends OptionsListWidget.Entry {
 
         return false;
     }
+
 }

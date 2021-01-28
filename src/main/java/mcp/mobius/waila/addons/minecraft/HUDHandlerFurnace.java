@@ -1,6 +1,12 @@
 package mcp.mobius.waila.addons.minecraft;
 
-import mcp.mobius.waila.api.*;
+import java.util.List;
+
+import mcp.mobius.waila.api.IComponentProvider;
+import mcp.mobius.waila.api.IDataAccessor;
+import mcp.mobius.waila.api.IPluginConfig;
+import mcp.mobius.waila.api.IServerDataProvider;
+import mcp.mobius.waila.api.RenderableTextComponent;
 import net.fabricmc.fabric.api.util.NbtType;
 import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.block.entity.BlockEntity;
@@ -13,8 +19,6 @@ import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
-
-import java.util.List;
 
 public class HUDHandlerFurnace implements IComponentProvider, IServerDataProvider<BlockEntity> {
 
@@ -30,7 +34,7 @@ public class HUDHandlerFurnace implements IComponentProvider, IServerDataProvide
 
         ListTag furnaceItems = accessor.getServerData().getList("furnace", NbtType.COMPOUND);
         DefaultedList<ItemStack> inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
-        for (int i = 0; i <furnaceItems.size(); i++)
+        for (int i = 0; i < furnaceItems.size(); i++)
             inventory.set(i, ItemStack.fromTag(furnaceItems.getCompound(i)));
 
         CompoundTag progress = new CompoundTag();
@@ -38,10 +42,10 @@ public class HUDHandlerFurnace implements IComponentProvider, IServerDataProvide
         progress.putInt("total", accessor.getServerData().getInt("total"));
 
         RenderableTextComponent renderables = new RenderableTextComponent(
-                getRenderable(inventory.get(0)),
-                getRenderable(inventory.get(1)),
-                new RenderableTextComponent(PluginMinecraft.RENDER_FURNACE_PROGRESS, progress),
-                getRenderable(inventory.get(2))
+            getRenderable(inventory.get(0)),
+            getRenderable(inventory.get(1)),
+            new RenderableTextComponent(PluginMinecraft.RENDER_FURNACE_PROGRESS, progress),
+            getRenderable(inventory.get(2))
         );
 
         tooltip.add(renderables);
@@ -74,4 +78,5 @@ public class HUDHandlerFurnace implements IComponentProvider, IServerDataProvide
             return new RenderableTextComponent(PluginMinecraft.RENDER_SPACER, spacerTag);
         }
     }
+
 }

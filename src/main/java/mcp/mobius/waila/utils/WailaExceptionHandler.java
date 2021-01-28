@@ -1,11 +1,5 @@
 package mcp.mobius.waila.utils;
 
-import mcp.mobius.waila.Waila;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.Text;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.exception.ExceptionUtils;
-
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
@@ -13,6 +7,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import mcp.mobius.waila.Waila;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 
 public class WailaExceptionHandler {
 
@@ -35,4 +35,5 @@ public class WailaExceptionHandler {
         if (tooltip != null)
             tooltip.add(new LiteralText("<ERROR>"));
     }
+
 }

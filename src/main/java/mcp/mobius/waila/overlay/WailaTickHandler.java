@@ -1,11 +1,16 @@
 package mcp.mobius.waila.overlay;
 
+import java.util.List;
+
 import com.mojang.text2speech.Narrator;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.ITaggableList;
 import mcp.mobius.waila.api.TooltipPosition;
 import mcp.mobius.waila.api.event.WailaTooltipEvent;
-import mcp.mobius.waila.api.impl.*;
+import mcp.mobius.waila.api.impl.DataAccessor;
+import mcp.mobius.waila.api.impl.MetaDataProvider;
+import mcp.mobius.waila.api.impl.TaggableList;
+import mcp.mobius.waila.api.impl.TaggedTextComponent;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ChatScreen;
@@ -19,8 +24,6 @@ import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.world.World;
-
-import java.util.List;
 
 public class WailaTickHandler {
 
@@ -137,4 +140,5 @@ public class WailaTickHandler {
             INSTANCE = new WailaTickHandler();
         return INSTANCE;
     }
+
 }

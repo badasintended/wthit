@@ -18,12 +18,12 @@ public class Waila implements ModInitializer {
     public static final Logger LOGGER = LogManager.getLogger("Waila");
 
     public static final JsonConfig<WailaConfig> CONFIG = new JsonConfig<>(MODID + "/" + MODID, WailaConfig.class)
-            .withGson(new GsonBuilder()
-                    .setPrettyPrinting()
-                    .registerTypeAdapter(WailaConfig.ConfigOverlay.ConfigOverlayColor.class, new WailaConfig.ConfigOverlay.ConfigOverlayColor.Adapter())
-                    .registerTypeAdapter(Identifier.class, new Identifier.Serializer())
-                    .create()
-            );
+        .withGson(new GsonBuilder()
+            .setPrettyPrinting()
+            .registerTypeAdapter(WailaConfig.ConfigOverlay.ConfigOverlayColor.class, new WailaConfig.ConfigOverlay.ConfigOverlayColor.Adapter())
+            .registerTypeAdapter(Identifier.class, new Identifier.Serializer())
+            .create()
+        );
 
     @Override
     public void onInitialize() {
@@ -36,4 +36,5 @@ public class Waila implements ModInitializer {
         WailaPlugins.gatherPlugins();
         WailaPlugins.initializePlugins();
     }
+
 }

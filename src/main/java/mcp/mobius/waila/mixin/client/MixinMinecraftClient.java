@@ -21,4 +21,5 @@ public class MixinMinecraftClient {
     private void handleKeybinds(CallbackInfo callbackInfo) {
         WailaClient.handleKeybinds();
     }
+
 }

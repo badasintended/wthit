@@ -1,9 +1,9 @@
 package mcp.mobius.waila.api.impl;
 
-import mcp.mobius.waila.api.TooltipPosition;
-
 import java.util.List;
 import java.util.Map;
+
+import mcp.mobius.waila.api.TooltipPosition;
 
 @SuppressWarnings("unchecked")
 public class DumpGenerator {
@@ -40,4 +40,5 @@ public class DumpGenerator {
         });
         builder.append("\n\n");
     }
+
 }

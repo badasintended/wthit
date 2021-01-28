@@ -16,4 +16,5 @@ public class TaggedTextComponent extends LiteralText {
     public Identifier getTag() {
         return tag;
     }
+
 }

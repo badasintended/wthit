@@ -1,13 +1,19 @@
 package mcp.mobius.waila.api.impl.config;
 
-import com.google.common.collect.Maps;
-import com.google.gson.*;
-import net.minecraft.util.Identifier;
-import org.apache.commons.lang3.StringEscapeUtils;
-
 import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.Map;
+
+import com.google.common.collect.Maps;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+import net.minecraft.util.Identifier;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 public class WailaConfig {
 
@@ -28,6 +34,7 @@ public class WailaConfig {
     }
 
     public static class ConfigGeneral {
+
         private boolean displayTooltip = true;
         private boolean shiftForDetails = false;
         private DisplayMode displayMode = DisplayMode.TOGGLE;
@@ -118,9 +125,11 @@ public class WailaConfig {
         public boolean shouldDisplayFluids() {
             return displayFluids;
         }
+
     }
 
     public static class ConfigOverlay {
+
         private float overlayPosX = 0.5F;
         private float overlayPosY = 0.99F;
         private SizeChoice overlaySize = SizeChoice.NORMAL;
@@ -157,7 +166,7 @@ public class WailaConfig {
         public enum SizeChoice {
             HALF(0.5F, 2.0F),
             NORMAL(1.0F, 1.0F),
-//            DOUBLE(2.0F, 0.5F),
+            //            DOUBLE(2.0F, 0.5F),
             ;
 
             public float scale;
@@ -170,6 +179,7 @@ public class WailaConfig {
         }
 
         public static class ConfigOverlayColor {
+
             private int alpha = 80;
             private Map<Identifier, HUDTheme> themes = Maps.newHashMap();
             private Identifier activeTheme = HUDTheme.VANILLA.getId();
@@ -220,6 +230,7 @@ public class WailaConfig {
             }
 
             public static class Adapter implements JsonSerializer<ConfigOverlayColor>, JsonDeserializer<ConfigOverlayColor> {
+
                 @Override
                 public ConfigOverlayColor deserialize(JsonElement element, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
                     JsonObject json = element.getAsJsonObject();
@@ -242,11 +253,15 @@ public class WailaConfig {
                     json.addProperty("activeTheme", src.activeTheme.toString());
                     return json;
                 }
+
             }
+
         }
+
     }
 
     public static class ConfigFormatting {
+
         private String modName = StringEscapeUtils.escapeJava("\u00A79\u00A7o%s");
         private String blockName = StringEscapeUtils.escapeJava("\u00a7f%s");
         private String fluidName = StringEscapeUtils.escapeJava("\u00a7f%s");
@@ -292,10 +307,12 @@ public class WailaConfig {
         public String getRegistryName() {
             return StringEscapeUtils.unescapeJava(registryName);
         }
+
     }
 
     public enum DisplayMode {
         HOLD_KEY,
         TOGGLE
     }
+
 }

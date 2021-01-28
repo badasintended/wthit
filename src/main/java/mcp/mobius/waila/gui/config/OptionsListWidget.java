@@ -1,5 +1,8 @@
 package mcp.mobius.waila.gui.config;
 
+import java.util.Collections;
+import java.util.List;
+
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import mcp.mobius.waila.gui.GuiOptions;
@@ -13,9 +16,6 @@ import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.MathHelper;
-
-import java.util.Collections;
-import java.util.List;
 
 // wtf? EntryListWidget
 public class OptionsListWidget extends ElementListWidget<OptionsListWidget.Entry> {
@@ -48,21 +48,21 @@ public class OptionsListWidget extends ElementListWidget<OptionsListWidget.Entry
         this.client.getTextureManager().bindTexture(DrawableHelper.OPTIONS_BACKGROUND_TEXTURE);
         RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
         int rowLeft = this.getRowLeft();
-        int scrollJump = this.top + 4 - (int)this.getScrollAmount();
+        int scrollJump = this.top + 4 - (int) this.getScrollAmount();
 
         this.renderList(matrices, rowLeft, scrollJump, mouseX, mouseY, delta);
         this.client.getTextureManager().bindTexture(DrawableHelper.OPTIONS_BACKGROUND_TEXTURE);
         RenderSystem.enableDepthTest();
         RenderSystem.depthFunc(519);
         bufferBuilder.begin(7, VertexFormats.POSITION_TEXTURE_COLOR);
-        bufferBuilder.vertex(this.left, this.top, -100.0D).texture(0.0F, (float)this.top / 32.0F).color(64, 64, 64, 255).next();
-        bufferBuilder.vertex((this.left + this.width), this.top, -100.0D).texture((float)this.width / 32.0F, (float)this.top / 32.0F).color(64, 64, 64, 255).next();
-        bufferBuilder.vertex((this.left + this.width), 0.0D, -100.0D).texture((float)this.width / 32.0F, 0.0F).color(64, 64, 64, 255).next();
+        bufferBuilder.vertex(this.left, this.top, -100.0D).texture(0.0F, (float) this.top / 32.0F).color(64, 64, 64, 255).next();
+        bufferBuilder.vertex((this.left + this.width), this.top, -100.0D).texture((float) this.width / 32.0F, (float) this.top / 32.0F).color(64, 64, 64, 255).next();
+        bufferBuilder.vertex((this.left + this.width), 0.0D, -100.0D).texture((float) this.width / 32.0F, 0.0F).color(64, 64, 64, 255).next();
         bufferBuilder.vertex(this.left, 0.0D, -100.0D).texture(0.0F, 0.0F).color(64, 64, 64, 255).next();
-        bufferBuilder.vertex(this.left, this.height, -100.0D).texture(0.0F, (float)this.height / 32.0F).color(64, 64, 64, 255).next();
-        bufferBuilder.vertex((this.left + this.width), this.height, -100.0D).texture((float)this.width / 32.0F, (float)this.height / 32.0F).color(64, 64, 64, 255).next();
-        bufferBuilder.vertex((this.left + this.width), this.bottom, -100.0D).texture((float)this.width / 32.0F, (float)this.bottom / 32.0F).color(64, 64, 64, 255).next();
-        bufferBuilder.vertex(this.left, this.bottom, -100.0D).texture(0.0F, (float)this.bottom / 32.0F).color(64, 64, 64, 255).next();
+        bufferBuilder.vertex(this.left, this.height, -100.0D).texture(0.0F, (float) this.height / 32.0F).color(64, 64, 64, 255).next();
+        bufferBuilder.vertex((this.left + this.width), this.height, -100.0D).texture((float) this.width / 32.0F, (float) this.height / 32.0F).color(64, 64, 64, 255).next();
+        bufferBuilder.vertex((this.left + this.width), this.bottom, -100.0D).texture((float) this.width / 32.0F, (float) this.bottom / 32.0F).color(64, 64, 64, 255).next();
+        bufferBuilder.vertex(this.left, this.bottom, -100.0D).texture(0.0F, (float) this.bottom / 32.0F).color(64, 64, 64, 255).next();
         tessellator.draw();
         RenderSystem.depthFunc(515);
         RenderSystem.disableDepthTest();
@@ -83,9 +83,9 @@ public class OptionsListWidget extends ElementListWidget<OptionsListWidget.Entry
         tessellator.draw();
         int o = Math.max(0, this.getMaxPosition() - (this.bottom - this.top - 4));
         if (o > 0) {
-            int p = (int)((float)((this.bottom - this.top) * (this.bottom - this.top)) / (float)this.getMaxPosition());
+            int p = (int) ((float) ((this.bottom - this.top) * (this.bottom - this.top)) / (float) this.getMaxPosition());
             p = MathHelper.clamp(p, 32, this.bottom - this.top - 8);
-            int q = (int)this.getScrollAmount() * (this.bottom - this.top - p) / o + this.top;
+            int q = (int) this.getScrollAmount() * (this.bottom - this.top - p) / o + this.top;
             if (q < this.top) {
                 q = this.top;
             }
@@ -114,10 +114,10 @@ public class OptionsListWidget extends ElementListWidget<OptionsListWidget.Entry
 
     public void save() {
         children()
-                .stream()
-                .filter(e -> e instanceof OptionsEntryValue)
-                .map(e -> (OptionsEntryValue) e)
-                .forEach(OptionsEntryValue::save);
+            .stream()
+            .filter(e -> e instanceof OptionsEntryValue)
+            .map(e -> (OptionsEntryValue) e)
+            .forEach(OptionsEntryValue::save);
         if (diskWriter != null)
             diskWriter.run();
     }
@@ -146,5 +146,7 @@ public class OptionsListWidget extends ElementListWidget<OptionsListWidget.Entry
 
         @Override
         public abstract void render(MatrixStack matrices, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime);
+
     }
+
 }

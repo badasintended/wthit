@@ -1,8 +1,8 @@
 package mcp.mobius.waila.addons.core;
 
 import mcp.mobius.waila.Waila;
-import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.api.IRegistrar;
+import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.api.TooltipPosition;
 import mcp.mobius.waila.overlay.tooltiprenderers.TooltipRendererHealth;
 import net.minecraft.block.Block;
@@ -45,4 +45,5 @@ public class PluginCore implements IWailaPlugin {
 
         registrar.registerTooltipRenderer(RENDER_ENTITY_HEALTH, new TooltipRendererHealth());
     }
+
 }

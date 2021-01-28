@@ -43,4 +43,5 @@ public interface ICommonAccessor {
     Direction getSide();
 
     ItemStack getStack();
+
 }

@@ -17,4 +17,5 @@ public class MixinPlayerManager {
     private void onPlayerConnect(ClientConnection clientConnection, ServerPlayerEntity player, CallbackInfo callbackInfo) {
         NetworkHandler.sendConfig(PluginConfig.INSTANCE, player);
     }
+
 }

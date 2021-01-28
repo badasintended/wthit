@@ -1,13 +1,13 @@
 package mcp.mobius.waila.gui.config.value;
 
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.widget.TextFieldWidget;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.LiteralText;
-
-import java.util.function.Consumer;
-import java.util.function.Predicate;
 
 public class OptionsEntryValueInput<T> extends OptionsEntryValue<T> {
 
@@ -66,9 +66,12 @@ public class OptionsEntryValueInput<T> extends OptionsEntryValue<T> {
     }
 
     private static class WatchedTextfield extends TextFieldWidget {
+
         public WatchedTextfield(OptionsEntryValueInput<?> watcher, TextRenderer fontRenderer, int x, int y, int width, int height) {
             super(fontRenderer, x, y, width, height, new LiteralText(""));
             this.setChangedListener(watcher::setValue);
         }
+
     }
+
 }

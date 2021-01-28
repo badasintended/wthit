@@ -30,4 +30,5 @@ public interface IEntityAccessor {
     CompoundTag getServerData();
 
     double getPartialFrame();
+
 }

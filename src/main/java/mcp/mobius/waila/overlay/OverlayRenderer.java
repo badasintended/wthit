@@ -1,5 +1,7 @@
 package mcp.mobius.waila.overlay;
 
+import java.awt.Rectangle;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.WailaClient;
@@ -14,8 +16,6 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.hit.HitResult;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
-
-import java.awt.Rectangle;
 
 public class OverlayRenderer {
 
@@ -143,4 +143,5 @@ public class OverlayRenderer {
         DisplayUtil.drawGradientRect(x + 1, y + 1, w - 1, 1, grad1, grad1);
         DisplayUtil.drawGradientRect(x + 1, y + h - 1, w - 1, 1, grad2, grad2);
     }
+
 }

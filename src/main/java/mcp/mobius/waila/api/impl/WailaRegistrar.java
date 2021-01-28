@@ -1,15 +1,25 @@
 package mcp.mobius.waila.api.impl;
 
+import java.util.EnumMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import mcp.mobius.waila.api.*;
+import mcp.mobius.waila.api.IBlockDecorator;
+import mcp.mobius.waila.api.IComponentProvider;
+import mcp.mobius.waila.api.IEntityComponentProvider;
+import mcp.mobius.waila.api.IRegistrar;
+import mcp.mobius.waila.api.IServerDataProvider;
+import mcp.mobius.waila.api.ITooltipRenderer;
+import mcp.mobius.waila.api.TooltipPosition;
 import mcp.mobius.waila.api.impl.config.ConfigEntry;
 import mcp.mobius.waila.api.impl.config.PluginConfig;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Identifier;
-
-import java.util.*;
 
 public class WailaRegistrar implements IRegistrar {
 
@@ -170,7 +180,7 @@ public class WailaRegistrar implements IRegistrar {
         return this.tooltipRenderers.get(id);
     }
 
-    private  <T> Map<Integer, List<T>> getProviders(Object obj, Map<Class, List<T>> target) {
+    private <T> Map<Integer, List<T>> getProviders(Object obj, Map<Class, List<T>> target) {
         Map<Integer, List<T>> returnList = new TreeMap<>();
         Integer index = 0;
 
@@ -245,4 +255,5 @@ public class WailaRegistrar implements IRegistrar {
     public static WailaRegistrar instance() {
         return INSTANCE;
     }
+
 }

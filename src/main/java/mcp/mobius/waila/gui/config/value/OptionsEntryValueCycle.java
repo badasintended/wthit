@@ -1,15 +1,15 @@
 package mcp.mobius.waila.gui.config.value;
 
-import net.minecraft.client.gui.Element;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.TranslatableText;
-import net.minecraft.text.LiteralText;
-
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.function.Consumer;
+
+import net.minecraft.client.gui.Element;
+import net.minecraft.client.gui.widget.ButtonWidget;
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.TranslatableText;
 
 public class OptionsEntryValueCycle extends OptionsEntryValue<String> {
 
@@ -45,4 +45,5 @@ public class OptionsEntryValueCycle extends OptionsEntryValue<String> {
     public Element getListener() {
         return button;
     }
+
 }

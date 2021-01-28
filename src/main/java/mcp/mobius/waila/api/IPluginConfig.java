@@ -1,8 +1,8 @@
 package mcp.mobius.waila.api;
 
-import net.minecraft.util.Identifier;
-
 import java.util.Set;
+
+import net.minecraft.util.Identifier;
 
 /**
  * Read-only interface for Waila internal config storage.<br>
@@ -16,6 +16,7 @@ public interface IPluginConfig {
      * Gets a collection of all the keys for a given namespace.
      *
      * @param namespace The namespace to get keys from
+     *
      * @return all the keys for a given namespace.
      */
     Set<Identifier> getKeys(String namespace);
@@ -37,9 +38,11 @@ public interface IPluginConfig {
     /**
      * Gets a value from the config with the provided default returned if the key is not registered.
      *
-     * @param key The config key
+     * @param key          The config key
      * @param defaultValue The default value
+     *
      * @return The value returned from the config or the default value if none exist.
      */
     boolean get(Identifier key, boolean defaultValue);
+
 }

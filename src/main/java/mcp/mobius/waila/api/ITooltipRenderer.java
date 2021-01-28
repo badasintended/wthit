@@ -1,14 +1,16 @@
 package mcp.mobius.waila.api;
 
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.client.util.math.MatrixStack;
-
 import java.awt.Dimension;
 
+import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.nbt.CompoundTag;
+
 public interface ITooltipRenderer {
+
     /**
      * @param data     The data supplied by the provider
      * @param accessor A global accessor for TileEntities and Entities
+     *
      * @return Dimension of the reserved area
      */
     Dimension getSize(CompoundTag data, ICommonAccessor accessor);
@@ -21,4 +23,5 @@ public interface ITooltipRenderer {
      * @param accessor A global accessor for TileEntities and Entities
      */
     void draw(MatrixStack matrices, CompoundTag data, ICommonAccessor accessor, int x, int y);
+
 }

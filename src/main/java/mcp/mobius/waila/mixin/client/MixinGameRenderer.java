@@ -16,4 +16,5 @@ public class MixinGameRenderer {
     private void renderOverlay(float var1, long nanoTime, boolean var4, CallbackInfo callbackInfo) {
         WailaTickHandler.INSTANCE.renderOverlay(new MatrixStack());
     }
+
 }

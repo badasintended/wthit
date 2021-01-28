@@ -1,14 +1,5 @@
 package mcp.mobius.waila.api.impl.config;
 
-import com.google.common.collect.Maps;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-import mcp.mobius.waila.Waila;
-import mcp.mobius.waila.api.IPluginConfig;
-import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.util.Identifier;
-
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -17,6 +8,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import com.google.common.collect.Maps;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.api.IPluginConfig;
+import net.fabricmc.loader.api.FabricLoader;
+import net.minecraft.util.Identifier;
 
 public class PluginConfig implements IPluginConfig {
 
@@ -73,7 +73,8 @@ public class PluginConfig implements IPluginConfig {
         } else { // Read back from config
             Map<String, Map<String, Boolean>> config;
             try (FileReader reader = new FileReader(configFile)) {
-                config = new Gson().fromJson(reader, new TypeToken<Map<String, Map<String, Boolean>>>(){}.getType());
+                config = new Gson().fromJson(reader, new TypeToken<Map<String, Map<String, Boolean>>>() {
+                }.getType());
             } catch (IOException e) {
                 config = Maps.newHashMap();
             }
@@ -105,4 +106,5 @@ public class PluginConfig implements IPluginConfig {
             e.printStackTrace();
         }
     }
+
 }

@@ -1,5 +1,9 @@
 package mcp.mobius.waila.overlay;
 
+import java.awt.Dimension;
+import java.awt.Rectangle;
+import java.util.List;
+
 import com.google.common.collect.Lists;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.ITaggableList;
@@ -11,13 +15,9 @@ import mcp.mobius.waila.api.impl.TaggedTextComponent;
 import mcp.mobius.waila.api.impl.config.WailaConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.Window;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.minecraft.client.util.math.MatrixStack;
-
-import java.awt.Dimension;
-import java.awt.Rectangle;
-import java.util.List;
 
 public class Tooltip {
 
@@ -120,10 +120,10 @@ public class Tooltip {
         WailaConfig.ConfigOverlay.SizeChoice overlaySize = Waila.CONFIG.get().getOverlay().getOverlaySize();
 
         Rectangle position = new Rectangle(
-                (int) ((window.getScaledWidth() * overlaySize.multiplier) * Waila.CONFIG.get().getOverlay().getOverlayPosX() - totalSize.width / 2), // Center it
-                (int) ((window.getScaledHeight() * overlaySize.multiplier) * (1.0F - Waila.CONFIG.get().getOverlay().getOverlayPosY())),
-                totalSize.width,
-                totalSize.height
+            (int) ((window.getScaledWidth() * overlaySize.multiplier) * Waila.CONFIG.get().getOverlay().getOverlayPosX() - totalSize.width / 2), // Center it
+            (int) ((window.getScaledHeight() * overlaySize.multiplier) * (1.0F - Waila.CONFIG.get().getOverlay().getOverlayPosY())),
+            totalSize.width,
+            totalSize.height
         );
 
         position.x *= overlaySize.multiplier;
@@ -159,5 +159,7 @@ public class Tooltip {
         public Dimension getSize() {
             return size;
         }
+
     }
+
 }

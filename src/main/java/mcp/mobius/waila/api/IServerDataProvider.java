@@ -16,4 +16,5 @@ public interface IServerDataProvider<T> {
      * @param t      The type targeted for synchronization.
      */
     void appendServerData(CompoundTag data, ServerPlayerEntity player, World world, T t);
+
 }

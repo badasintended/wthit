@@ -1,8 +1,8 @@
 package mcp.mobius.waila.overlay;
 
-import com.google.common.collect.Maps;
-
 import java.util.Map;
+
+import com.google.common.collect.Maps;
 
 public enum IconUI {
     HEART(52, 0, 9, 9, 52, 9, 9, 9, "a"),

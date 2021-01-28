@@ -1,9 +1,12 @@
 package mcp.mobius.waila.overlay.tooltiprenderers;
 
+import java.awt.Dimension;
+
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.ITooltipRenderer;
 import mcp.mobius.waila.overlay.DisplayUtil;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -11,9 +14,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.StringNbtReader;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
-import net.minecraft.client.util.math.MatrixStack;
-
-import java.awt.Dimension;
 
 public class TooltipRendererStack implements ITooltipRenderer {
 

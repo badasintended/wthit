@@ -1,5 +1,7 @@
 package mcp.mobius.waila.addons.minecraft;
 
+import java.util.List;
+
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IEntityComponentProvider;
@@ -14,8 +16,6 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
-
-import java.util.List;
 
 public class HUDHandlerFallingBlock implements IEntityComponentProvider {
 
@@ -44,4 +44,5 @@ public class HUDHandlerFallingBlock implements IEntityComponentProvider {
     public void appendTail(List<Text> tooltip, IEntityAccessor accessor, IPluginConfig config) {
         ((ITaggableList<Identifier, Text>) tooltip).setTag(MOD_NAME_TAG, new LiteralText(String.format(Waila.CONFIG.get().getFormatting().getModName(), ModIdentification.getModInfo(accessor.getEntity()).getName())));
     }
+
 }

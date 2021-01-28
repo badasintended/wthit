@@ -1,5 +1,7 @@
 package mcp.mobius.waila.gui;
 
+import java.util.Set;
+
 import mcp.mobius.waila.api.impl.config.ConfigEntry;
 import mcp.mobius.waila.api.impl.config.PluginConfig;
 import mcp.mobius.waila.gui.config.OptionsEntryButton;
@@ -11,8 +13,6 @@ import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
-
-import java.util.Set;
 
 public class GuiConfigPlugins extends GuiOptions {
 
@@ -43,4 +43,5 @@ public class GuiConfigPlugins extends GuiOptions {
         });
         return options;
     }
+
 }

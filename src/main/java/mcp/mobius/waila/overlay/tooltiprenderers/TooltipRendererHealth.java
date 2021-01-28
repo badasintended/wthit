@@ -1,15 +1,15 @@
 package mcp.mobius.waila.overlay.tooltiprenderers;
 
+import java.awt.Dimension;
+
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.ITooltipRenderer;
 import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.overlay.IconUI;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.math.MathHelper;
-import net.minecraft.client.util.math.MatrixStack;
-
-import java.awt.Dimension;
 
 public class TooltipRendererHealth implements ITooltipRenderer {
 
@@ -57,4 +57,5 @@ public class TooltipRendererHealth implements ITooltipRenderer {
 
         }
     }
+
 }
