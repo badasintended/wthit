@@ -1,6 +1,7 @@
 {
   "schemaVersion": 1,
-  "id"           : "waila",
+  "id"           : "wthit",
+  "provides"     : ["waila"],
   "version"      : "${version}",
   "custom"       : {
     "waila:plugins": [
@@ -73,7 +74,8 @@
   ],
 
   "depends"      : {
-    "fabric": "*"
+    "fabricloader": ">=0.11.0",
+    "fabric"      : "*"
   },
   "suggests"     : {
     "modmenu": "*"
