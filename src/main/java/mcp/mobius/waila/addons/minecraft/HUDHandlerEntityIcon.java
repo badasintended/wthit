@@ -1,45 +1,63 @@
 package mcp.mobius.waila.addons.minecraft;
 
+import java.util.Map;
+
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.decoration.ItemFrameEntity;
 import net.minecraft.entity.decoration.LeashKnotEntity;
 import net.minecraft.entity.decoration.painting.PaintingEntity;
 import net.minecraft.entity.vehicle.AbstractMinecartEntity;
+import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.util.Util;
 
 public class HUDHandlerEntityIcon implements IEntityComponentProvider {
 
     public static final IEntityComponentProvider INSTANCE = new HUDHandlerEntityIcon();
 
+    static final Map<AbstractMinecartEntity.Type, ItemStack> MINECART_STACKS = Util.make(new Object2ObjectOpenHashMap<>(), m -> {
+        m.put(AbstractMinecartEntity.Type.RIDEABLE, new ItemStack(Items.MINECART));
+        m.put(AbstractMinecartEntity.Type.CHEST, new ItemStack(Items.CHEST_MINECART));
+        m.put(AbstractMinecartEntity.Type.FURNACE, new ItemStack(Items.FURNACE_MINECART));
+        m.put(AbstractMinecartEntity.Type.HOPPER, new ItemStack(Items.HOPPER_MINECART));
+        m.put(AbstractMinecartEntity.Type.TNT, new ItemStack(Items.CHEST_MINECART));
+        m.put(AbstractMinecartEntity.Type.COMMAND_BLOCK, new ItemStack(Items.COMMAND_BLOCK_MINECART));
+        m.defaultReturnValue(ItemStack.EMPTY);
+    });
+
+    static final Map<BoatEntity.Type, ItemStack> BOAT_STACKS = Util.make(new Object2ObjectOpenHashMap<>(), m -> {
+        m.put(BoatEntity.Type.OAK, new ItemStack(Items.OAK_BOAT));
+        m.put(BoatEntity.Type.SPRUCE, new ItemStack(Items.SPRUCE_BOAT));
+        m.put(BoatEntity.Type.BIRCH, new ItemStack(Items.BIRCH_BOAT));
+        m.put(BoatEntity.Type.JUNGLE, new ItemStack(Items.JUNGLE_BOAT));
+        m.put(BoatEntity.Type.ACACIA, new ItemStack(Items.ACACIA_BOAT));
+        m.put(BoatEntity.Type.DARK_OAK, new ItemStack(Items.DARK_OAK_BOAT));
+        m.defaultReturnValue(ItemStack.EMPTY);
+    });
+
+    static final ItemStack ITEM_FRAME_STACK = new ItemStack(Items.ITEM_FRAME);
+    static final ItemStack PAINTING_STACK = new ItemStack(Items.PAINTING);
+    static final ItemStack LEAD_STACK = new ItemStack(Items.LEAD);
+
     @Override
     public ItemStack getDisplayItem(IEntityAccessor accessor, IPluginConfig config) {
-        if (accessor.getEntity() instanceof AbstractMinecartEntity) {
-            AbstractMinecartEntity minecartEntity = (AbstractMinecartEntity) accessor.getEntity();
-            AbstractMinecartEntity.Type type = minecartEntity.getMinecartType();
-            switch (type) {
-                case RIDEABLE:
-                    return new ItemStack(Items.MINECART);
-                case CHEST:
-                    return new ItemStack(Items.CHEST_MINECART);
-                case FURNACE:
-                    return new ItemStack(Items.FURNACE_MINECART);
-                case HOPPER:
-                    return new ItemStack(Items.HOPPER_MINECART);
-                case TNT:
-                    return new ItemStack(Items.TNT_MINECART);
-                case COMMAND_BLOCK:
-                    return new ItemStack(Items.COMMAND_BLOCK_MINECART);
-            }
-        } else if (accessor.getEntity() instanceof ItemFrameEntity) {
-            ItemStack held = ((ItemFrameEntity) accessor.getEntity()).getHeldItemStack();
-            return held.isEmpty() ? new ItemStack(Items.ITEM_FRAME) : held;
-        } else if (accessor.getEntity() instanceof PaintingEntity) {
-            return new ItemStack(Items.PAINTING);
-        } else if (accessor.getEntity() instanceof LeashKnotEntity) {
-            return new ItemStack(Items.LEAD);
+        Entity entity = accessor.getEntity();
+        if (entity instanceof AbstractMinecartEntity) {
+            return MINECART_STACKS.get(((AbstractMinecartEntity) entity).getMinecartType());
+        } else if (entity instanceof ItemFrameEntity) {
+            ItemStack held = ((ItemFrameEntity) entity).getHeldItemStack();
+            return held.isEmpty() ? ITEM_FRAME_STACK : held;
+        } else if (entity instanceof PaintingEntity) {
+            return PAINTING_STACK;
+        } else if (entity instanceof LeashKnotEntity) {
+            return LEAD_STACK;
+        } else if (entity instanceof BoatEntity) {
+            return BOAT_STACKS.get(((BoatEntity) entity).getBoatType());
         }
         return ItemStack.EMPTY;
     }

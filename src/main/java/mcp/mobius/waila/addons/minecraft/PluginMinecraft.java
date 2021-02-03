@@ -25,6 +25,7 @@ import net.minecraft.entity.decoration.ItemFrameEntity;
 import net.minecraft.entity.decoration.LeashKnotEntity;
 import net.minecraft.entity.decoration.painting.PaintingEntity;
 import net.minecraft.entity.vehicle.AbstractMinecartEntity;
+import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.util.Identifier;
 
 public class PluginMinecraft implements IWailaPlugin {
@@ -87,6 +88,7 @@ public class PluginMinecraft implements IWailaPlugin {
         registrar.registerEntityStackProvider(HUDHandlerEntityIcon.INSTANCE, ItemFrameEntity.class);
         registrar.registerEntityStackProvider(HUDHandlerEntityIcon.INSTANCE, PaintingEntity.class);
         registrar.registerEntityStackProvider(HUDHandlerEntityIcon.INSTANCE, LeashKnotEntity.class);
+        registrar.registerEntityStackProvider(HUDHandlerEntityIcon.INSTANCE, BoatEntity.class);
         registrar.registerComponentProvider(HUDHandlerFurnace.INSTANCE, TooltipPosition.BODY, AbstractFurnaceBlockEntity.class);
         registrar.registerBlockDataProvider(HUDHandlerFurnace.INSTANCE, AbstractFurnaceBlockEntity.class);
     }

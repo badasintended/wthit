@@ -36,25 +36,28 @@ public class HUDHandlerVanilla implements IComponentProvider, IServerDataProvide
 
     static final Identifier OBJECT_NAME_TAG = new Identifier(Waila.MODID, "object_name");
 
+    static final ItemStack WHEAT_STACK = new ItemStack(Items.WHEAT);
+    static final ItemStack BEETROOT_STACK = new ItemStack(Items.BEETROOT);
+    static final ItemStack PLAYER_HEAD_STACK = new ItemStack(Items.PLAYER_HEAD);
+
     @Override
     public ItemStack getStack(IDataAccessor accessor, IPluginConfig config) {
         if (config.get(PluginMinecraft.CONFIG_HIDE_SILVERFISH) && accessor.getBlock() instanceof InfestedBlock)
             return new ItemStack(((InfestedBlock) accessor.getBlock()).getRegularBlock().asItem());
 
         if (accessor.getBlock() == Blocks.WHEAT)
-            return new ItemStack(Items.WHEAT);
+            return WHEAT_STACK;
 
         if (accessor.getBlock() == Blocks.BEETROOTS)
-            return new ItemStack(Items.BEETROOT);
+            return BEETROOT_STACK;
 
         if (accessor.getBlockEntity() instanceof SkullBlockEntity) {
             SkullBlockEntity skull = (SkullBlockEntity) accessor.getBlockEntity();
             if (skull.getOwner() != null) {
-                ItemStack stack = new ItemStack(Items.PLAYER_HEAD);
-                CompoundTag tag = new CompoundTag();
-                tag.put("SkullOwner", NbtHelper.fromGameProfile(new CompoundTag(), skull.getOwner()));
-                stack.setTag(tag);
-                return stack;
+                CompoundTag tag = PLAYER_HEAD_STACK.getOrCreateTag();
+                CompoundTag skullOwner = tag.getCompound("SkullOwner");
+                tag.put("SkullOwner", NbtHelper.fromGameProfile(skullOwner, skull.getOwner()));
+                return PLAYER_HEAD_STACK;
             }
         }
 
