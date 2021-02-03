@@ -44,8 +44,34 @@
   "config.waila.tts_desc"                                 : "Read out block and entity names with the system's text to speech processor",
 
   "config.waila.overlay"                                  : "Overlay",
-  "config.waila.overlay_pos_x"                            : "Horizontal Ratio",
-  "config.waila.overlay_pos_y"                            : "Vertical Ratio",
+  "config.waila.overlay_scale"                            : "Scale",
+  "config.waila.overlay_pos"                              : "Position",
+
+  "config.waila.overlay_pos_x"                            : "X",
+  "config.waila.overlay_pos_x_desc"                       : "X position relative from screen anchor",
+  "config.waila.overlay_pos_y"                            : "Y",
+  "config.waila.overlay_pos_y_desc"                       : "Y position relative from screen anchor",
+
+  "config.waila.overlay_anchor_x"                         : "Horizontal Anchor",
+  "config.waila.overlay_anchor_x_left"                    : "Left",
+  "config.waila.overlay_anchor_x_right"                   : "Right",
+  "config.waila.overlay_anchor_x_center"                  : "Center",
+
+  "config.waila.overlay_anchor_y"                         : "Vertical Anchor",
+  "config.waila.overlay_anchor_y_top"                     : "Top",
+  "config.waila.overlay_anchor_y_bottom"                  : "Bottom",
+  "config.waila.overlay_anchor_y_middle"                  : "Middle",
+
+  "config.waila.overlay_align_x"                          : "Horizontal Alignment",
+  "config.waila.overlay_align_x_left"                     : "Left",
+  "config.waila.overlay_align_x_right"                    : "Right",
+  "config.waila.overlay_align_x_center"                   : "Center",
+
+  "config.waila.overlay_align_y"                          : "Vertical Alignment",
+  "config.waila.overlay_align_y_top"                      : "Top",
+  "config.waila.overlay_align_y_bottom"                   : "Bottom",
+  "config.waila.overlay_align_y_middle"                   : "Middle",
+
   "config.waila.overlay_size"                             : "Display Scale",
   "config.waila.overlay_size_desc"                        : "How much to scale the GUI by.",
   "config.waila.overlay_size_normal"                      : "1.0x",

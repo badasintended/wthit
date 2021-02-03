@@ -19,6 +19,8 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
+import static mcp.mobius.waila.api.impl.config.WailaConfig.ConfigOverlay.Position;
+
 public class Tooltip {
 
     private final MinecraftClient client;
@@ -117,29 +119,62 @@ public class Tooltip {
 
     public Rectangle getPosition() {
         Window window = MinecraftClient.getInstance().getWindow();
-        WailaConfig.ConfigOverlay.SizeChoice overlaySize = Waila.CONFIG.get().getOverlay().getOverlaySize();
 
-        Rectangle position = new Rectangle(
-            (int) ((window.getScaledWidth() * overlaySize.multiplier) * Waila.CONFIG.get().getOverlay().getOverlayPosX() - totalSize.width / 2), // Center it
-            (int) ((window.getScaledHeight() * overlaySize.multiplier) * (1.0F - Waila.CONFIG.get().getOverlay().getOverlayPosY())),
-            totalSize.width,
-            totalSize.height
-        );
+        float scale = Waila.CONFIG.get().getOverlay().getScale();
+        Position pos = Waila.CONFIG.get().getOverlay().getPosition();
 
-        position.x *= overlaySize.multiplier;
-        position.y *= overlaySize.multiplier;
+        int x = 0;
+        int y = 0;
+        int w = totalSize.width;
+        int h = totalSize.height;
+        int scaledW = (int) (window.getScaledWidth() / scale);
+        int scaledH = (int) (window.getScaledHeight() / scale);
 
-        // Fix position to stay on screen
-        if (position.x - position.width / 2 < 0)
-            position.x = 0;
+        switch (pos.getAnchorX()) {
+            case LEFT:
+                break;
+            case CENTER:
+                x = scaledW / 2;
+                break;
+            case RIGHT:
+                x = scaledW;
+                break;
+        }
 
-        if (position.x + position.width > MinecraftClient.getInstance().getWindow().getScaledWidth() * overlaySize.multiplier)
-            position.x = (int) (MinecraftClient.getInstance().getWindow().getScaledWidth() * overlaySize.multiplier - position.width - 1);
+        switch (pos.getAnchorY()) {
+            case TOP:
+                break;
+            case MIDDLE:
+                y = scaledH / 2;
+                break;
+            case BOTTOM:
+                y = scaledH;
+                break;
+        }
 
-        if (position.y + position.height > MinecraftClient.getInstance().getWindow().getScaledHeight())
-            position.y = (int) (MinecraftClient.getInstance().getWindow().getScaledHeight() * overlaySize.multiplier - position.height - 1);
+        switch (pos.getAlignX()) {
+            case LEFT:
+                break;
+            case CENTER:
+                x -= w / 2;
+                break;
+            case RIGHT:
+                x -= w;
+                break;
+        }
 
-        return position;
+        switch (pos.getAlignY()) {
+            case TOP:
+                break;
+            case MIDDLE:
+                y -= h / 2;
+                break;
+            case BOTTOM:
+                y -= h;
+                break;
+        }
+
+        return new Rectangle(x, y, w, h);
     }
 
     public static class Line {

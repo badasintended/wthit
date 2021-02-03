@@ -130,52 +130,95 @@ public class WailaConfig {
 
     public static class ConfigOverlay {
 
-        private float overlayPosX = 0.5F;
-        private float overlayPosY = 0.99F;
-        private SizeChoice overlaySize = SizeChoice.NORMAL;
-        private ConfigOverlayColor color = new ConfigOverlayColor();
+        private final Position position = new Position();
+        private float scale = 1.0F;
+        private final ConfigOverlayColor color = new ConfigOverlayColor();
 
-        public void setOverlayPosX(float overlayPosX) {
-            this.overlayPosX = overlayPosX;
+        public void setScale(float scale) {
+            this.scale = scale;
         }
 
-        public void setOverlayPosY(float overlayPosY) {
-            this.overlayPosY = overlayPosY;
+        public Position getPosition() {
+            return position;
         }
 
-        public void setOverlaySize(SizeChoice overlaySize) {
-            this.overlaySize = overlaySize;
-        }
-
-        public float getOverlayPosX() {
-            return Math.min(Math.max(overlayPosX, 0.0F), 1.0F);
-        }
-
-        public float getOverlayPosY() {
-            return Math.min(Math.max(overlayPosY, 0.0F), 1.0F);
-        }
-
-        public SizeChoice getOverlaySize() {
-            return overlaySize;
+        public float getScale() {
+            return scale;
         }
 
         public ConfigOverlayColor getColor() {
             return color;
         }
 
-        public enum SizeChoice {
-            HALF(0.5F, 2.0F),
-            NORMAL(1.0F, 1.0F),
-            //            DOUBLE(2.0F, 0.5F),
-            ;
+        public static class Position {
 
-            public float scale;
-            public float multiplier;
+            private int x = 0;
+            private int y = 0;
+            private HorizontalAlignment alignX = HorizontalAlignment.CENTER;
+            private VerticalAlignment alignY = VerticalAlignment.TOP;
+            private HorizontalAlignment anchorX = HorizontalAlignment.CENTER;
+            private VerticalAlignment anchorY = VerticalAlignment.TOP;
 
-            SizeChoice(float scale, float multiplier) {
-                this.scale = scale;
-                this.multiplier = multiplier;
+            public void setX(int x) {
+                this.x = x;
             }
+
+            public void setY(int y) {
+                this.y = y;
+            }
+
+            public void setAlignX(HorizontalAlignment alignX) {
+                this.alignX = alignX;
+            }
+
+            public void setAlignY(VerticalAlignment alignY) {
+                this.alignY = alignY;
+            }
+
+            public void setAnchorX(HorizontalAlignment anchorX) {
+                this.anchorX = anchorX;
+            }
+
+            public void setAnchorY(VerticalAlignment anchorY) {
+                this.anchorY = anchorY;
+            }
+
+            public int getX() {
+                return x;
+            }
+
+            public int getY() {
+                return y;
+            }
+
+            public HorizontalAlignment getAlignX() {
+                return alignX;
+            }
+
+            public VerticalAlignment getAlignY() {
+                return alignY;
+            }
+
+            public HorizontalAlignment getAnchorX() {
+                return anchorX;
+            }
+
+            public VerticalAlignment getAnchorY() {
+                return anchorY;
+            }
+
+            public enum VerticalAlignment {
+                TOP,
+                MIDDLE,
+                BOTTOM
+            }
+
+            public enum HorizontalAlignment {
+                LEFT,
+                CENTER,
+                RIGHT
+            }
+
         }
 
         public static class ConfigOverlayColor {

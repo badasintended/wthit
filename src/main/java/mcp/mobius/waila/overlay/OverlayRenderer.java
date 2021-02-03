@@ -65,7 +65,8 @@ public class OverlayRenderer {
         RenderSystem.pushMatrix();
         saveGLState();
 
-        RenderSystem.scalef(Waila.CONFIG.get().getOverlay().getOverlaySize().scale, Waila.CONFIG.get().getOverlay().getOverlaySize().scale, 1.0F);
+        float scale = Waila.CONFIG.get().getOverlay().getScale();
+        RenderSystem.scalef(scale, scale, 1.0F);
 
         RenderSystem.disableRescaleNormal();
 
