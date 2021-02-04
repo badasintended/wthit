@@ -53,7 +53,7 @@ public class OverlayRenderer {
         if (RayTracing.INSTANCE.getTarget() == null)
             return;
 
-        if (RayTracing.INSTANCE.getTarget().getType() == HitResult.Type.BLOCK && !RayTracing.INSTANCE.getTargetStack().isEmpty())
+        if (RayTracing.INSTANCE.getTarget().getType() == HitResult.Type.BLOCK)
             renderOverlay(matrices, WailaTickHandler.instance().tooltip);
 
         if (RayTracing.INSTANCE.getTarget().getType() == HitResult.Type.ENTITY && PluginConfig.INSTANCE.get(PluginCore.CONFIG_SHOW_ENTITY))
