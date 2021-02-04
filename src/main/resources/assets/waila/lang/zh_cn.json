@@ -46,10 +46,6 @@
   "config.waila.overlay"                                  : "覆盖显示",
   "config.waila.overlay_pos_x"                            : "水平比例",
   "config.waila.overlay_pos_y"                            : "垂直比例",
-  "config.waila.overlay_size"                             : "显示比例",
-  "config.waila.overlay_size_desc"                        : "GUI的缩放比例.",
-  "config.waila.overlay_size_normal"                      : "1.0x",
-  "config.waila.overlay_size_half"                        : "0.5x",
 
   "config.waila.overlay_color"                            : "颜色",
   "config.waila.overlay_alpha"                            : "不透明度",

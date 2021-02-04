@@ -17,6 +17,10 @@ public class OptionsEntryButton extends OptionsListWidget.Entry {
         button.setMessage(new LiteralText(this.title));
     }
 
+    public OptionsEntryButton(String title, int width, int height, ButtonWidget.PressAction pressAction) {
+        this(title, new ButtonWidget(0, 0, width, height, LiteralText.EMPTY, pressAction));
+    }
+
     @Override
     public void render(MatrixStack matrices, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
         client.textRenderer.drawWithShadow(matrices, title, rowLeft + 10, rowTop + (height / 4) + (client.textRenderer.fontHeight / 2), 16777215);

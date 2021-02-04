@@ -44,7 +44,6 @@
   "config.waila.overlay"                                  : "Oberfläche",
   "config.waila.overlay_pos_x"                            : "Horizontale Ausrichtung",
   "config.waila.overlay_pos_y"                            : "Vertikale Ausrichtung",
-  "config.waila.overlay_size"                             : "Zeige Skala",
 
   "config.waila.overlay_color"                            : "Farbe",
 

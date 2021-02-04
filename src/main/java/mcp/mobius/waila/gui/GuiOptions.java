@@ -15,6 +15,7 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 
 public abstract class GuiOptions extends Screen {
 
@@ -73,7 +74,7 @@ public abstract class GuiOptions extends Screen {
 
         options.hoveredElement(mouseX, mouseY).ifPresent(element -> {
             if (element instanceof OptionsEntryValue) {
-                OptionsEntryValue value = (OptionsEntryValue) element;
+                OptionsEntryValue<?> value = (OptionsEntryValue<?>) element;
 
                 if (I18n.hasTranslation(value.getDescription())) {
                     int valueX = value.getX() + 10;
@@ -82,7 +83,7 @@ public abstract class GuiOptions extends Screen {
                         return;
 
                     List<OrderedText> tooltip = Lists.newArrayList(new LiteralText(title).asOrderedText());
-                    tooltip.addAll(textRenderer.wrapLines(new TranslatableText(value.getDescription()), 200));
+                    tooltip.addAll(textRenderer.wrapLines(new TranslatableText(value.getDescription()).formatted(Formatting.GRAY), 200));
                     renderOrderedTooltip(matrices, tooltip, mouseX, mouseY);
                 }
             }

@@ -46,10 +46,6 @@
   "config.waila.overlay"                                  : "Оверлей",
   "config.waila.overlay_pos_x"                            : "Горизонтальное соотношение",
   "config.waila.overlay_pos_y"                            : "Вертикальное соотношение",
-  "config.waila.overlay_size"                             : "Масштаб",
-  "config.waila.overlay_size_desc"                        : "Масштабирование оверлея",
-  "config.waila.overlay_size_normal"                      : "1.0x",
-  "config.waila.overlay_size_half"                        : "0.5x",
 
   "config.waila.overlay_color"                            : "Цвет",
   "config.waila.overlay_alpha"                            : "Прозрачность",

@@ -28,6 +28,8 @@ public class Tooltip {
     private final boolean showItem;
     private final Dimension totalSize;
 
+    private int topOffset = 0;
+
     public Tooltip(List<Text> Texts, boolean showItem) {
         WailaTooltipEvent event = new WailaTooltipEvent(Texts, DataAccessor.INSTANCE);
         WailaTooltipEvent.WAILA_HANDLE_TOOLTIP.invoker().onTooltip(event);
@@ -51,6 +53,14 @@ public class Tooltip {
 
             lines.add(new Line(Text, size));
         });
+
+        topOffset = 0;
+        if (showItem) {
+            if (totalSize.height < 16) {
+                topOffset = (16 - totalSize.height) / 2;
+            }
+            totalSize.setSize(Math.max(16, totalSize.width), Math.max(16, totalSize.height));
+        }
     }
 
     public void addPadding() {
@@ -64,7 +74,7 @@ public class Tooltip {
 
         position.x += hasItem() ? 26 : 6;
         position.width += hasItem() ? 24 : 4;
-        position.y += 6;
+        position.y += 6 + topOffset;
 
         for (Line line : lines) {
             if (line.getText() instanceof RenderableTextComponent) {
@@ -123,58 +133,16 @@ public class Tooltip {
         float scale = Waila.CONFIG.get().getOverlay().getScale();
         Position pos = Waila.CONFIG.get().getOverlay().getPosition();
 
-        int x = 0;
-        int y = 0;
         int w = totalSize.width;
         int h = totalSize.height;
-        int scaledW = (int) (window.getScaledWidth() / scale);
-        int scaledH = (int) (window.getScaledHeight() / scale);
+        int windowW = (int) (window.getScaledWidth() / scale);
+        int windowH = (int) (window.getScaledHeight() / scale);
 
-        switch (pos.getAnchorX()) {
-            case LEFT:
-                break;
-            case CENTER:
-                x = scaledW / 2;
-                break;
-            case RIGHT:
-                x = scaledW;
-                break;
-        }
-
-        switch (pos.getAnchorY()) {
-            case TOP:
-                break;
-            case MIDDLE:
-                y = scaledH / 2;
-                break;
-            case BOTTOM:
-                y = scaledH;
-                break;
-        }
-
-        switch (pos.getAlignX()) {
-            case LEFT:
-                break;
-            case CENTER:
-                x -= w / 2;
-                break;
-            case RIGHT:
-                x -= w;
-                break;
-        }
-
-        switch (pos.getAlignY()) {
-            case TOP:
-                break;
-            case MIDDLE:
-                y -= h / 2;
-                break;
-            case BOTTOM:
-                y -= h;
-                break;
-        }
-
-        return new Rectangle(x, y, w, h);
+        return new Rectangle(
+            (int) ((windowW * pos.getAnchorX().multiplier) - (w * pos.getAlignX().multiplier)),
+            (int) ((windowH * pos.getAnchorY().multiplier) - (h * pos.getAlignY().multiplier)),
+            w, h
+        );
     }
 
     public static class Line {

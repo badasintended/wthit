@@ -28,6 +28,7 @@
   "config.waila.display_tooltip_desc"                     : "Collect data and render the tooltip",
   "config.waila.display_fluids"                           : "Display Fluids",
   "config.waila.display_fluids_desc"                      : "Try to show fluids",
+  "config.waila.display_mod_name"                         : "Display Mod Name",
   "config.waila.sneaky_details"                           : "Sneaky Details",
   "config.waila.sneaky_details_desc"                      : "Body text is hidden unless sneaking",
   "config.waila.display_mode"                             : "Display Mode",
@@ -44,41 +45,41 @@
   "config.waila.tts_desc"                                 : "Read out block and entity names with the system's text to speech processor",
 
   "config.waila.overlay"                                  : "Overlay",
-  "config.waila.overlay_scale"                            : "Scale",
-  "config.waila.overlay_pos"                              : "Position",
 
-  "config.waila.overlay_pos_x"                            : "X",
-  "config.waila.overlay_pos_x_desc"                       : "X position relative from screen anchor",
-  "config.waila.overlay_pos_y"                            : "Y",
-  "config.waila.overlay_pos_y_desc"                       : "Y position relative from screen anchor",
+  "config.waila.overlay_pos_x"                            : "X Position",
+  "config.waila.overlay_pos_x_desc"                       : "X position relative from screen anchor\nPosition is affected by scale",
+  "config.waila.overlay_pos_y"                            : "Y Position",
+  "config.waila.overlay_pos_y_desc"                       : "Y position relative from screen anchor\nPosition is affected by scale",
+
+  "config.waila.overlay_scale"                            : "Scale",
+  "config.waila.overlay_scale_desc"                       : "How big the tooltip is\n1.0 is the default",
 
   "config.waila.overlay_anchor_x"                         : "Horizontal Anchor",
+  "config.waila.overlay_anchor_x_desc"                    : "What part of screen the position will be counted from\nTest it by resizing the game's window",
   "config.waila.overlay_anchor_x_left"                    : "Left",
   "config.waila.overlay_anchor_x_right"                   : "Right",
   "config.waila.overlay_anchor_x_center"                  : "Center",
 
   "config.waila.overlay_anchor_y"                         : "Vertical Anchor",
+  "config.waila.overlay_anchor_y_desc"                    : "What part of screen the position will be counted from\nTest it by resizing the game's window",
   "config.waila.overlay_anchor_y_top"                     : "Top",
   "config.waila.overlay_anchor_y_bottom"                  : "Bottom",
   "config.waila.overlay_anchor_y_middle"                  : "Middle",
 
   "config.waila.overlay_align_x"                          : "Horizontal Alignment",
+  "config.waila.overlay_align_x_desc"                     : "How different sized tooltips align with each other",
   "config.waila.overlay_align_x_left"                     : "Left",
   "config.waila.overlay_align_x_right"                    : "Right",
   "config.waila.overlay_align_x_center"                   : "Center",
 
   "config.waila.overlay_align_y"                          : "Vertical Alignment",
+  "config.waila.overlay_align_y_desc"                     : "How different sized tooltips align with each other",
   "config.waila.overlay_align_y_top"                      : "Top",
   "config.waila.overlay_align_y_bottom"                   : "Bottom",
   "config.waila.overlay_align_y_middle"                   : "Middle",
 
-  "config.waila.overlay_size"                             : "Display Scale",
-  "config.waila.overlay_size_desc"                        : "How much to scale the GUI by.",
-  "config.waila.overlay_size_normal"                      : "1.0x",
-  "config.waila.overlay_size_half"                        : "0.5x",
-
   "config.waila.overlay_color"                            : "Color",
-  "config.waila.overlay_alpha"                            : "Alpha",
+  "config.waila.overlay_alpha"                            : "Background Alpha",
   "config.waila.overlay_theme"                            : "Theme",
 
   "config.waila.formatting"                               : "Formatting",

@@ -12,7 +12,6 @@
   "tooltip.waila.power"                                   : "Zasilanie: %d",
   "tooltip.waila.health"                                  : "%s/%s pkt. zdrowia",
   "tooltip.waila.sneak_for_details"                       : "Skradaj się, by wyświetlić szczegóły",
-  "tooltip.waila.villager_profession"                     : "Profesja: %s",
 
   "gui.waila.configuration"                               : "%s — konfiguracja",
   "gui.waila.waila_settings"                              : "%s — ustawienia",
@@ -68,7 +67,6 @@
   "config.waila.plugin_minecraft.comparator"              : "Tryb komparatora",
   "config.waila.plugin_minecraft.redstone"                : "Moc zasilania ",
   "config.waila.plugin_minecraft.jukebox"                 : "Odtwarzana płyta",
-  "config.waila.plugin_minecraft.villager_profession"     : "Profesja osadnika",
 
   "config.waila.plugin_waila"                             : "WAILA",
   "config.waila.plugin_waila.show_registry"               : "Pokaż nazwy rejetrów",

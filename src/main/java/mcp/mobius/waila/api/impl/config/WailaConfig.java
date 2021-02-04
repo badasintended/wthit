@@ -44,7 +44,8 @@ public class WailaConfig {
         private boolean enableTextToSpeech = false;
         private int maxHealthForRender = 40;
         private int maxHeartsPerLine = 10;
-        private boolean displayFluids;
+        private boolean displayFluids = false;
+        private boolean displayModName = true;
 
         public void setDisplayTooltip(boolean displayTooltip) {
             this.displayTooltip = displayTooltip;
@@ -86,6 +87,10 @@ public class WailaConfig {
             this.displayFluids = displayFluids;
         }
 
+        public void setDisplayModName(boolean displayModName) {
+            this.displayModName = displayModName;
+        }
+
         public boolean shouldDisplayTooltip() {
             return displayTooltip;
         }
@@ -124,6 +129,10 @@ public class WailaConfig {
 
         public boolean shouldDisplayFluids() {
             return displayFluids;
+        }
+
+        public boolean shouldDisplayModName() {
+            return displayModName;
         }
 
     }
@@ -208,15 +217,27 @@ public class WailaConfig {
             }
 
             public enum VerticalAlignment {
-                TOP,
-                MIDDLE,
-                BOTTOM
+                TOP(0.0),
+                MIDDLE(0.5),
+                BOTTOM(1.0);
+
+                public final double multiplier;
+
+                VerticalAlignment(double multiplier) {
+                    this.multiplier = multiplier;
+                }
             }
 
             public enum HorizontalAlignment {
-                LEFT,
-                CENTER,
-                RIGHT
+                LEFT(0.0),
+                CENTER(0.5),
+                RIGHT(1.0);
+
+                public final double multiplier;
+
+                HorizontalAlignment(double multiplier) {
+                    this.multiplier = multiplier;
+                }
             }
 
         }
