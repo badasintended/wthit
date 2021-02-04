@@ -34,15 +34,15 @@ public class HUDHandlerEntities implements IEntityComponentProvider {
     public void appendBody(List<Text> tooltip, IEntityAccessor accessor, IPluginConfig config) {
         if (config.get(PluginCore.CONFIG_SHOW_ENTITY_HEALTH) && accessor.getEntity() instanceof LivingEntity) {
             LivingEntity living = (LivingEntity) accessor.getEntity();
-            float health = living.getHealth() / 2.0F;
-            float maxHealth = living.getMaxHealth() / 2.0F;
+            float health = living.getHealth();
+            float maxHealth = living.getMaxHealth();
 
             if (living.getMaxHealth() > Waila.CONFIG.get().getGeneral().getMaxHealthForRender())
                 tooltip.add(new TranslatableText("tooltip.waila.health", String.format("%.2f", health), String.format("%.2f", maxHealth)));
             else {
                 CompoundTag healthData = new CompoundTag();
-                healthData.putFloat("health", health);
-                healthData.putFloat("max", maxHealth);
+                healthData.putFloat("health", health / 2.0F);
+                healthData.putFloat("max", maxHealth / 2.0F);
                 tooltip.add(new RenderableTextComponent(PluginCore.RENDER_ENTITY_HEALTH, healthData));
             }
         }
