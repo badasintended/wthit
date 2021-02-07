@@ -9,6 +9,10 @@ import mcp.mobius.waila.utils.JsonConfig;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
+import net.fabricmc.fabric.api.tag.TagRegistry;
+import net.minecraft.block.Block;
+import net.minecraft.entity.EntityType;
+import net.minecraft.tag.Tag;
 import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,6 +30,9 @@ public class Waila implements ModInitializer {
             .registerTypeAdapter(Identifier.class, new Identifier.Serializer())
             .create()
         );
+
+    public static final Tag<Block> BLOCK_BLACKLIST = TagRegistry.block(new Identifier(MODID, "blacklist"));
+    public static final Tag<EntityType<?>> ENTITY_BLACKLIST = TagRegistry.entityType(new Identifier(MODID, "blacklist"));
 
     @Override
     public void onInitialize() {

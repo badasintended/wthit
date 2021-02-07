@@ -87,6 +87,12 @@ public class WailaTickHandler {
             if (target != null && target.getType() == HitResult.Type.BLOCK) {
                 DataAccessor accessor = DataAccessor.INSTANCE;
                 accessor.set(world, player, target);
+
+                if (accessor.block.isIn(Waila.BLOCK_BLACKLIST)) {
+                    tooltip = null;
+                    return;
+                }
+
                 ItemStack targetStack = RayTracing.INSTANCE.getTargetStack(); // Here we get either the proper stack or the override
                 accessor.stack = targetStack;
 
@@ -100,6 +106,11 @@ public class WailaTickHandler {
             } else if (target != null && target.getType() == HitResult.Type.ENTITY) {
                 DataAccessor accessor = DataAccessor.INSTANCE;
                 accessor.set(world, player, target);
+
+                if (accessor.entity.getType().isIn(Waila.ENTITY_BLACKLIST)) {
+                    tooltip = null;
+                    return;
+                }
 
                 Entity targetEnt = RayTracing.INSTANCE.getTargetEntity(); // This need to be replaced by the override check.
 
