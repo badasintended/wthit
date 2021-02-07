@@ -20,9 +20,9 @@ Note: If this bug occurs in a modpack, please report this to the modpack author.
 ____
 #### Affected Versions (Do *not* use "latest"):
 
-- Hwyla: 
+- WTHIT: 
 - Minecraft: 
-- Forge: 
+- Fabric API: 
 
 #### Possible Conflicting Mods (Provide their version, as well)
 
