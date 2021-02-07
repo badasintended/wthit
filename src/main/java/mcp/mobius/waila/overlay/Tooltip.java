@@ -139,8 +139,8 @@ public class Tooltip {
         int windowH = (int) (window.getScaledHeight() / scale);
 
         return new Rectangle(
-            (int) ((windowW * pos.getAnchorX().multiplier) - (w * pos.getAlignX().multiplier)),
-            (int) ((windowH * pos.getAnchorY().multiplier) - (h * pos.getAlignY().multiplier)),
+            (int) ((windowW * pos.getAnchorX().multiplier) - (w * pos.getAlignX().multiplier)) + pos.getX(),
+            (int) ((windowH * pos.getAnchorY().multiplier) - (h * pos.getAlignY().multiplier)) + pos.getY(),
             w, h
         );
     }
