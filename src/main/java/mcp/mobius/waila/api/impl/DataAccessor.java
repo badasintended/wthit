@@ -167,7 +167,7 @@ public class DataAccessor implements ICommonAccessor, IDataAccessor, IEntityAcce
 
         int id = tag.getInt("WailaEntityID");
 
-        if (id == this.entity.getEntityId())
+        if (id == this.entity.getId())
             return true;
         else {
             this.timeLastUpdate = System.currentTimeMillis() - 250;

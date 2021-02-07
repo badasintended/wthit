@@ -88,7 +88,7 @@ public class WailaTickHandler {
                 DataAccessor accessor = DataAccessor.INSTANCE;
                 accessor.set(world, player, target);
 
-                if (accessor.block.isIn(Waila.BLOCK_BLACKLIST)) {
+                if (accessor.block.getDefaultState().isIn(Waila.BLOCK_BLACKLIST)) {
                     tooltip = null;
                     return;
                 }

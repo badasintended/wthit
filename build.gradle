@@ -20,6 +20,10 @@ minecraft {
     refmapName = mod_name.toLowerCase() + '-refmap.json'
 }
 
+repositories {
+	maven { url "https://maven.terraformersmc.com/releases" }
+}
+
 dependencies {
     compile "com.google.code.findbugs:jsr305:3.0.2"
 
