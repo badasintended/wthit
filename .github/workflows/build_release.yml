@@ -31,3 +31,4 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
         with:
           asset_paths: '["./build/libs/*[0-9.].jar"]'
+      - uses: badasintended/autojitpack@v0
