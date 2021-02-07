@@ -45,7 +45,7 @@ public class NetworkHandler {
                     entity.toTag(tag);
                 }
 
-                tag.putInt("WailaEntityID", entity.getEntityId());
+                tag.putInt("WailaEntityID", entity.getId());
 
                 PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
                 buf.writeCompoundTag(tag);
@@ -92,7 +92,7 @@ public class NetworkHandler {
             return;
 
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
-        buf.writeInt(entity.getEntityId());
+        buf.writeInt(entity.getId());
         MinecraftClient.getInstance().getNetworkHandler().getConnection().send(new CustomPayloadC2SPacket(REQUEST_ENTITY, buf));
     }
 

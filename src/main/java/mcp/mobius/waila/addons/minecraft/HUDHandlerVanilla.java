@@ -17,6 +17,7 @@ import net.minecraft.block.entity.JukeboxBlockEntity;
 import net.minecraft.block.entity.MobSpawnerBlockEntity;
 import net.minecraft.block.entity.SkullBlockEntity;
 import net.minecraft.block.enums.ComparatorMode;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundTag;
@@ -73,7 +74,7 @@ public class HUDHandlerVanilla implements IComponentProvider, IServerDataProvide
             MobSpawnerBlockEntity spawner = (MobSpawnerBlockEntity) accessor.getBlockEntity();
             ((ITaggableList<Identifier, Text>) tooltip).setTag(OBJECT_NAME_TAG, new TranslatableText(accessor.getBlock().getTranslationKey())
                 .append(new LiteralText(" ("))
-                .append(spawner.getLogic().getRenderedEntity().getDisplayName())
+                .append(spawner.getLogic().getRenderedEntity(MinecraftClient.getInstance().world).getDisplayName())
                 .append(new LiteralText(")"))
             );
         }
