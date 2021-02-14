@@ -74,7 +74,5 @@
   "config.waila.plugin_waila.show_registry"               : "显示注册名",
   "config.waila.plugin_waila.show_entities"               : "显示实体",
   "config.waila.plugin_waila.show_entity_hp"              : "显示实体生命值",
-  "config.waila.plugin_waila.show_states"                 : "显示状态",
-
-  "entity.minecraft.villager.none"                        : "无业"
+  "config.waila.plugin_waila.show_states"                 : "显示状态"
 }

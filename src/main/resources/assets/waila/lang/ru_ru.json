@@ -74,7 +74,5 @@
   "config.waila.plugin_waila.show_registry"               : "Показывать название используемое в регистре",
   "config.waila.plugin_waila.show_entities"               : "Показывать сущности",
   "config.waila.plugin_waila.show_entity_hp"              : "Показывать здоровье сущностей",
-  "config.waila.plugin_waila.show_states"                 : "Показывать состояния",
-
-  "entity.minecraft.villager.none"                        : "Nitwit"
+  "config.waila.plugin_waila.show_states"                 : "Показывать состояния"
 }
