@@ -124,7 +124,7 @@ public class Tooltip {
     }
 
     public boolean hasItem() {
-        return showItem && Waila.CONFIG.get().getGeneral().shouldShowItem() && !RayTracing.INSTANCE.getIdentifierStack().isEmpty();
+        return showItem && Waila.CONFIG.get().getGeneral().shouldShowItem() && !RayTracing.INSTANCE.getIdentifierStack().isEmpty() && !RayTracing.INSTANCE.getIdentifierStack().toString().contains("bits_block");
     }
 
     public Rectangle getPosition() {
