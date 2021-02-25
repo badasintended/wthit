@@ -8,14 +8,14 @@ import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITaggableList;
 import mcp.mobius.waila.api.RenderableTextComponent;
+import mcp.mobius.waila.api.impl.config.WailaConfig;
 import mcp.mobius.waila.utils.ModIdentification;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.text.LiteralText;
-import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
-import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
@@ -25,9 +25,11 @@ public class HUDHandlerEntities implements IEntityComponentProvider {
 
     @Override
     public void appendHead(List<Text> tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        ((ITaggableList<Identifier, Text>) tooltip).setTag(HUDHandlerBlocks.OBJECT_NAME_TAG, new LiteralText(String.format(Waila.CONFIG.get().getFormatting().getEntityName(), accessor.getEntity().getDisplayName().getString())));
+        Entity entity = accessor.getEntity();
+        WailaConfig.ConfigFormatting formatting = Waila.CONFIG.get().getFormatting();
+        ((ITaggableList<Identifier, Text>) tooltip).setTag(HUDHandlerBlocks.OBJECT_NAME_TAG, new LiteralText(String.format(formatting.getEntityName(), entity.getDisplayName().getString())));
         if (config.get(PluginCore.CONFIG_SHOW_REGISTRY))
-            ((ITaggableList<Identifier, Text>) tooltip).setTag(HUDHandlerBlocks.REGISTRY_NAME_TAG, new LiteralText(Registry.ENTITY_TYPE.getId(accessor.getEntity().getType()).toString()).setStyle(Style.EMPTY.withColor(Formatting.GRAY)));
+            ((ITaggableList<Identifier, Text>) tooltip).setTag(HUDHandlerBlocks.REGISTRY_NAME_TAG, new LiteralText(String.format(formatting.getRegistryName(), Registry.ENTITY_TYPE.getId(entity.getType()))));
     }
 
     @Override

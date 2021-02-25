@@ -9,7 +9,9 @@ import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataProvider;
 import mcp.mobius.waila.api.ITaggableList;
+import mcp.mobius.waila.api.impl.config.WailaConfig;
 import mcp.mobius.waila.utils.ModIdentification;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.CompoundTag;
@@ -36,14 +38,16 @@ public class HUDHandlerBlocks implements IComponentProvider, IServerDataProvider
         if (accessor.getBlockState().getMaterial().isLiquid())
             return;
 
+        Block block = accessor.getBlock();
         String name = accessor.getBlockEntity() != null ? accessor.getServerData().getString("customName") : "";
         if (name.isEmpty()) {
-            name = accessor.getBlock().getName().getString();
+            name = block.getName().getString();
         }
 
-        ((ITaggableList<Identifier, Text>) tooltip).setTag(OBJECT_NAME_TAG, new LiteralText(String.format(Waila.CONFIG.get().getFormatting().getBlockName(), name)));
+        WailaConfig.ConfigFormatting formatting = Waila.CONFIG.get().getFormatting();
+        ((ITaggableList<Identifier, Text>) tooltip).setTag(OBJECT_NAME_TAG, new LiteralText(String.format(formatting.getBlockName(), name)));
         if (config.get(PluginCore.CONFIG_SHOW_REGISTRY))
-            ((ITaggableList<Identifier, Text>) tooltip).setTag(REGISTRY_NAME_TAG, new LiteralText(Registry.BLOCK.getId(accessor.getBlock()).toString()).setStyle(Style.EMPTY.withColor(Formatting.GRAY)));
+            ((ITaggableList<Identifier, Text>) tooltip).setTag(REGISTRY_NAME_TAG, new LiteralText(String.format(formatting.getRegistryName(), Registry.BLOCK.getId(block))));
     }
 
     @Override
