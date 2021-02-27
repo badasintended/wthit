@@ -1,12 +1,10 @@
 package mcp.mobius.waila.api.event;
 
 import java.awt.Rectangle;
-import java.lang.invoke.MethodHandle;
-import java.lang.invoke.MethodHandles;
-import java.lang.reflect.Method;
 
 import com.mojang.blaze3d.platform.GlStateManager;
 import mcp.mobius.waila.api.ICommonAccessor;
+import mcp.mobius.waila.overlay.OverlayRenderer;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 
@@ -20,17 +18,12 @@ import net.fabricmc.fabric.api.event.EventFactory;
  */
 public class WailaRenderEvent {
 
-    private static MethodHandle loadGlState_;
     public static final Event<PreRender> WAILA_RENDER_PRE = EventFactory.createArrayBacked(PreRender.class,
         listeners -> event -> {
             for (PreRender listener : listeners) {
                 if (listener.onPreRender(event)) {
                     GlStateManager.enableRescaleNormal();
-                    try {
-                        loadGlState_.invoke();
-                    } catch (Throwable e) {
-                        // No-op
-                    }
+                    OverlayRenderer.loadGLState();
                     GlStateManager.enableDepthTest();
                     GlStateManager.popMatrix();
                     return true;
@@ -46,16 +39,6 @@ public class WailaRenderEvent {
                 listener.onPostRender(event);
         }
     );
-
-    static {
-        try {
-            Class overlayRenderer = Class.forName("mcp.mobius.waila.overlay.OverlayRenderer");
-            Method method = overlayRenderer.getMethod("loadGLState");
-            loadGlState_ = MethodHandles.lookup().unreflect(method);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     public interface PreRender {
 
