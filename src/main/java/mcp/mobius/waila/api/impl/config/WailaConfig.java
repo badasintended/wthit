@@ -40,12 +40,9 @@ public class WailaConfig {
         private DisplayMode displayMode = DisplayMode.TOGGLE;
         private boolean hideFromPlayerList = true;
         private boolean hideFromDebug = true;
-        private boolean showItem = true;
         private boolean enableTextToSpeech = false;
         private int maxHealthForRender = 40;
         private int maxHeartsPerLine = 10;
-        private boolean displayFluids = false;
-        private boolean displayModName = true;
 
         public void setDisplayTooltip(boolean displayTooltip) {
             this.displayTooltip = displayTooltip;
@@ -67,10 +64,6 @@ public class WailaConfig {
             this.hideFromDebug = hideFromDebug;
         }
 
-        public void setShowItem(boolean showItem) {
-            this.showItem = showItem;
-        }
-
         public void setEnableTextToSpeech(boolean enableTextToSpeech) {
             this.enableTextToSpeech = enableTextToSpeech;
         }
@@ -81,14 +74,6 @@ public class WailaConfig {
 
         public void setMaxHeartsPerLine(int maxHeartsPerLine) {
             this.maxHeartsPerLine = maxHeartsPerLine;
-        }
-
-        public void setDisplayFluids(boolean displayFluids) {
-            this.displayFluids = displayFluids;
-        }
-
-        public void setDisplayModName(boolean displayModName) {
-            this.displayModName = displayModName;
         }
 
         public boolean shouldDisplayTooltip() {
@@ -111,10 +96,6 @@ public class WailaConfig {
             return hideFromDebug;
         }
 
-        public boolean shouldShowItem() {
-            return showItem;
-        }
-
         public boolean shouldEnableTextToSpeech() {
             return enableTextToSpeech;
         }
@@ -125,14 +106,6 @@ public class WailaConfig {
 
         public int getMaxHeartsPerLine() {
             return maxHeartsPerLine;
-        }
-
-        public boolean shouldDisplayFluids() {
-            return displayFluids;
-        }
-
-        public boolean shouldDisplayModName() {
-            return displayModName;
         }
 
     }

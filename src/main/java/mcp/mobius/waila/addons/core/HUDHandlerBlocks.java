@@ -64,7 +64,7 @@ public class HUDHandlerBlocks implements IComponentProvider, IServerDataProvider
 
     @Override
     public void appendTail(List<Text> tooltip, IDataAccessor accessor, IPluginConfig config) {
-        if (!Waila.CONFIG.get().getGeneral().shouldDisplayModName())
+        if (!config.get(PluginCore.CONFIG_SHOW_MOD_NAME))
             return;
 
         String modName = ModIdentification.getModInfo(accessor.getStack().getItem()).getName();

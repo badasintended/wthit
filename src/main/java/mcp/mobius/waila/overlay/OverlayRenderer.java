@@ -5,15 +5,12 @@ import java.awt.Rectangle;
 import com.mojang.blaze3d.systems.RenderSystem;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.WailaClient;
-import mcp.mobius.waila.addons.core.PluginCore;
 import mcp.mobius.waila.api.event.WailaRenderEvent;
 import mcp.mobius.waila.api.impl.DataAccessor;
-import mcp.mobius.waila.api.impl.config.PluginConfig;
 import mcp.mobius.waila.api.impl.config.WailaConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.util.hit.HitResult;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
@@ -50,17 +47,14 @@ public class OverlayRenderer {
         if (mc.options.debugEnabled && Waila.CONFIG.get().getGeneral().shouldHideFromDebug())
             return;
 
-        if (RayTracing.INSTANCE.getTarget() == null)
-            return;
-
-        if (RayTracing.INSTANCE.getTarget().getType() == HitResult.Type.BLOCK)
-            renderOverlay(matrices, WailaTickHandler.instance().tooltip);
-
-        if (RayTracing.INSTANCE.getTarget().getType() == HitResult.Type.ENTITY && PluginConfig.INSTANCE.get(PluginCore.CONFIG_SHOW_ENTITY))
-            renderOverlay(matrices, WailaTickHandler.instance().tooltip);
+        renderOverlay(matrices, WailaTickHandler.instance().tooltip);
     }
 
     public static void renderOverlay(MatrixStack matrices, Tooltip tooltip) {
+        if (tooltip.getLines().isEmpty()) {
+            return;
+        }
+
         MinecraftClient.getInstance().getProfiler().push("Waila Overlay");
         RenderSystem.pushMatrix();
         saveGLState();

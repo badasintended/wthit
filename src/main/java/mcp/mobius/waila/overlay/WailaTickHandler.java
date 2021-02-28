@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.mojang.text2speech.Narrator;
 import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.addons.core.PluginCore;
 import mcp.mobius.waila.api.ITaggableList;
 import mcp.mobius.waila.api.TooltipPosition;
 import mcp.mobius.waila.api.event.WailaTooltipEvent;
@@ -11,7 +12,10 @@ import mcp.mobius.waila.api.impl.DataAccessor;
 import mcp.mobius.waila.api.impl.MetaDataProvider;
 import mcp.mobius.waila.api.impl.TaggableList;
 import mcp.mobius.waila.api.impl.TaggedTextComponent;
+import mcp.mobius.waila.api.impl.config.PluginConfig;
+import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.FluidBlock;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.util.math.MatrixStack;
@@ -65,6 +69,8 @@ public class WailaTickHandler {
     }
 
     public void tickClient() {
+        tooltip = null;
+
         if (!Waila.CONFIG.get().getGeneral().shouldDisplayTooltip())
             return;
 
@@ -88,8 +94,8 @@ public class WailaTickHandler {
                 DataAccessor accessor = DataAccessor.INSTANCE;
                 accessor.set(world, player, target);
 
-                if (accessor.block.getDefaultState().isIn(Waila.BLOCK_BLACKLIST)) {
-                    tooltip = null;
+                Block block = accessor.block;
+                if ((block instanceof FluidBlock && !PluginConfig.INSTANCE.get(PluginCore.CONFIG_SHOW_FLUID)) || !PluginConfig.INSTANCE.get(PluginCore.CONFIG_SHOW_BLOCK) || Waila.BLOCK_BLACKLIST.contains(block)) {
                     return;
                 }
 
@@ -107,8 +113,7 @@ public class WailaTickHandler {
                 DataAccessor accessor = DataAccessor.INSTANCE;
                 accessor.set(world, player, target);
 
-                if (accessor.entity.getType().isIn(Waila.ENTITY_BLACKLIST)) {
-                    tooltip = null;
+                if (!PluginConfig.INSTANCE.get(PluginCore.CONFIG_SHOW_ENTITY) || accessor.entity.getType().isIn(Waila.ENTITY_BLACKLIST)) {
                     return;
                 }
 
@@ -126,7 +131,6 @@ public class WailaTickHandler {
                 }
             }
         }
-
     }
 
     private void combinePositions(PlayerEntity player, List<Text> currentTip, List<Text> currentTipHead, List<Text> currentTipBody, List<Text> currentTipTail) {

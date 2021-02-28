@@ -81,7 +81,6 @@ public class PluginMinecraft implements IWailaPlugin {
         registrar.registerBlockDataProvider(HUDHandlerVanilla.INSTANCE, JukeboxBlockEntity.class);
 
         registrar.registerComponentProvider(HUDHandlerFallingBlock.INSTANCE, TooltipPosition.HEAD, FallingBlockEntity.class);
-        registrar.registerComponentProvider(HUDHandlerFallingBlock.INSTANCE, TooltipPosition.TAIL, FallingBlockEntity.class);
         registrar.registerEntityStackProvider(HUDHandlerFallingBlock.INSTANCE, FallingBlockEntity.class);
 
         registrar.registerEntityStackProvider(HUDHandlerEntityIcon.INSTANCE, AbstractMinecartEntity.class);

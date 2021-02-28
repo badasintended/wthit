@@ -52,7 +52,7 @@ public class HUDHandlerEntities implements IEntityComponentProvider {
 
     @Override
     public void appendTail(List<Text> tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        if (Waila.CONFIG.get().getGeneral().shouldDisplayModName())
+        if (config.get(PluginCore.CONFIG_SHOW_MOD_NAME))
             ((ITaggableList<Identifier, Text>) tooltip).setTag(HUDHandlerBlocks.MOD_NAME_TAG, new LiteralText(String.format(Waila.CONFIG.get().getFormatting().getModName(), ModIdentification.getModInfo(accessor.getEntity()).getName())));
     }
 
