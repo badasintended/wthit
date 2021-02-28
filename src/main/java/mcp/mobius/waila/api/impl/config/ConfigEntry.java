@@ -12,6 +12,7 @@ public class ConfigEntry {
     public ConfigEntry(Identifier id, boolean defaultValue, boolean synced) {
         this.id = id;
         this.defaultValue = defaultValue;
+        this.value = defaultValue;
         this.synced = synced;
     }
 
