@@ -26,6 +26,8 @@ public class DisplayUtil {
     private static final String[] NUM_SUFFIXES = new String[]{"", "k", "m", "b", "t"};
     private static final int MAX_LENGTH = 4;
     private static final MinecraftClient CLIENT = MinecraftClient.getInstance();
+    private static final DecimalFormat SHORT_HAND = new DecimalFormat("##0E0");
+    private static final LiteralText UNNAMED = new LiteralText("Unnamed");
 
     public static void renderStack(MatrixStack matrices, int x, int y, ItemStack stack) {
         enable3DRender();
@@ -61,7 +63,7 @@ public class DisplayUtil {
     }
 
     private static String shortHandNumber(Number number) {
-        String shorthand = new DecimalFormat("##0E0").format(number);
+        String shorthand = SHORT_HAND.format(number);
         shorthand = shorthand.replaceAll("E[0-9]", NUM_SUFFIXES[Character.getNumericValue(shorthand.charAt(shorthand.length() - 1)) / 3]);
         while (shorthand.length() > MAX_LENGTH || shorthand.matches("[0-9]+\\.[a-z]"))
             shorthand = shorthand.substring(0, shorthand.length() - 2) + shorthand.substring(shorthand.length() - 1);
@@ -134,7 +136,7 @@ public class DisplayUtil {
             namelist = new ArrayList<>();
 
         if (namelist.isEmpty())
-            namelist.add(new LiteralText("Unnamed"));
+            namelist.add(UNNAMED);
 
         namelist.set(0, new LiteralText(itemstack.getRarity().formatting.toString() + namelist.get(0)));
         for (int i = 1; i < namelist.size(); i++)

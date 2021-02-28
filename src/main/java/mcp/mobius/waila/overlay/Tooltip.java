@@ -6,12 +6,14 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.addons.core.PluginCore;
 import mcp.mobius.waila.api.ITaggableList;
 import mcp.mobius.waila.api.RenderableTextComponent;
 import mcp.mobius.waila.api.event.WailaTooltipEvent;
 import mcp.mobius.waila.api.impl.DataAccessor;
 import mcp.mobius.waila.api.impl.TaggableList;
 import mcp.mobius.waila.api.impl.TaggedTextComponent;
+import mcp.mobius.waila.api.impl.config.PluginConfig;
 import mcp.mobius.waila.api.impl.config.WailaConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.Window;
@@ -124,7 +126,7 @@ public class Tooltip {
     }
 
     public boolean hasItem() {
-        return showItem && Waila.CONFIG.get().getGeneral().shouldShowItem() && !RayTracing.INSTANCE.getIdentifierStack().isEmpty();
+        return showItem && PluginConfig.INSTANCE.get(PluginCore.CONFIG_SHOW_ITEM) && !RayTracing.INSTANCE.getIdentifierStack().isEmpty();
     }
 
     public Rectangle getPosition() {

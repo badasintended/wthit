@@ -1,13 +1,13 @@
 package mcp.mobius.waila.api.impl;
 
 import java.util.EnumMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+import it.unimi.dsi.fastutil.objects.Object2ObjectLinkedOpenHashMap;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import mcp.mobius.waila.api.IBlockDecorator;
 import mcp.mobius.waila.api.IComponentProvider;
 import mcp.mobius.waila.api.IEntityComponentProvider;
@@ -34,25 +34,29 @@ public class WailaRegistrar implements IRegistrar {
     final EnumMap<TooltipPosition, Map<Class, List<IEntityComponentProvider>>> entityComponentProviders;
     final Map<Class, List<IServerDataProvider<LivingEntity>>> entityDataProviders;
 
+    final Map<Object, Map<Class, Map<Integer, ?>>> providers;
+
     final Map<Class, List<IBlockDecorator>> blockDecorators;
     final Map<Identifier, ITooltipRenderer> tooltipRenderers;
 
     WailaRegistrar() {
-        blockStackProviders = Maps.newLinkedHashMap();
+        blockStackProviders = new Object2ObjectLinkedOpenHashMap<>();
         blockComponentProviders = new EnumMap<>(TooltipPosition.class);
-        blockDataProviders = Maps.newLinkedHashMap();
+        blockDataProviders = new Object2ObjectLinkedOpenHashMap<>();
 
-        entityOverrideProviders = Maps.newLinkedHashMap();
-        entityStackProviders = Maps.newLinkedHashMap();
+        entityOverrideProviders = new Object2ObjectLinkedOpenHashMap<>();
+        entityStackProviders = new Object2ObjectLinkedOpenHashMap<>();
         entityComponentProviders = new EnumMap<>(TooltipPosition.class);
-        entityDataProviders = Maps.newLinkedHashMap();
+        entityDataProviders = new Object2ObjectLinkedOpenHashMap<>();
 
-        blockDecorators = Maps.newLinkedHashMap();
-        tooltipRenderers = Maps.newLinkedHashMap();
+        providers = new Object2ObjectOpenHashMap<>();
+
+        blockDecorators = new Object2ObjectLinkedOpenHashMap<>();
+        tooltipRenderers = new Object2ObjectLinkedOpenHashMap<>();
 
         for (TooltipPosition position : TooltipPosition.values()) {
-            blockComponentProviders.put(position, new LinkedHashMap<>());
-            entityComponentProviders.put(position, new LinkedHashMap<>());
+            blockComponentProviders.put(position, new Object2ObjectLinkedOpenHashMap<>());
+            entityComponentProviders.put(position, new Object2ObjectLinkedOpenHashMap<>());
         }
     }
 
@@ -181,17 +185,21 @@ public class WailaRegistrar implements IRegistrar {
     }
 
     private <T> Map<Integer, List<T>> getProviders(Object obj, Map<Class, List<T>> target) {
-        Map<Integer, List<T>> returnList = new TreeMap<>();
-        Integer index = 0;
+        return (Map<Integer, List<T>>) providers
+            .computeIfAbsent(target, m -> new Object2ObjectOpenHashMap<>())
+            .computeIfAbsent(obj.getClass(), o -> {
+                Map<Integer, List<T>> returnList = new TreeMap<>();
+                Integer index = 0;
 
-        for (Class clazz : target.keySet()) {
-            if (clazz.isInstance(obj))
-                returnList.put(index, target.get(clazz));
+                for (Class clazz : target.keySet()) {
+                    if (clazz.isAssignableFrom(o))
+                        returnList.put(index, target.get(clazz));
 
-            index++;
-        }
+                    index++;
+                }
 
-        return returnList;
+                return returnList;
+            });
     }
 
     /* HAS METHODS */

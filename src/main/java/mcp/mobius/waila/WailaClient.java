@@ -1,5 +1,7 @@
 package mcp.mobius.waila;
 
+import mcp.mobius.waila.addons.core.PluginCore;
+import mcp.mobius.waila.api.impl.config.PluginConfig;
 import mcp.mobius.waila.api.impl.config.WailaConfig;
 import mcp.mobius.waila.gui.GuiConfigHome;
 import mcp.mobius.waila.network.ClientNetworkHandler;
@@ -48,7 +50,7 @@ public class WailaClient implements ClientModInitializer {
             }
 
             while (toggleLiquid.wasPressed()) {
-                Waila.CONFIG.get().getGeneral().setDisplayFluids(!Waila.CONFIG.get().getGeneral().shouldDisplayFluids());
+                PluginConfig.INSTANCE.set(PluginCore.CONFIG_SHOW_FLUID, PluginConfig.INSTANCE.get(PluginCore.CONFIG_SHOW_FLUID));
             }
         });
     }

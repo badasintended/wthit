@@ -24,8 +24,6 @@
   "config.waila.general"                                  : "Allgemeines",
   "config.waila.display_tooltip"                          : "Tooltip anzeigen",
   "config.waila.display_tooltip_desc"                     : "Sammle Daten und zeige Tooltip an",
-  "config.waila.display_fluids"                           : "Flüssigkeiten anzeigen",
-  "config.waila.display_fluids_desc"                      : "Versuche Flüssigkeiten anzuzeigen",
   "config.waila.sneaky_details"                           : "Schleichende Details",
   "config.waila.sneaky_details_desc"                      : "Text wird beim Schleichen angezeigt",
   "config.waila.display_mode"                             : "Modus anzeigen",
@@ -36,8 +34,7 @@
   "config.waila.hide_from_players_desc"                   : "Verstecke Tooltip, wenn Spielerliste offen ist",
   "config.waila.hide_from_debug"                          : "Verstecke im Debug",
   "config.waila.hide_from_debug_desc"                     : "Verstecke das Tooltip während das Debug Menü offen ist",
-  "config.waila.display_item"                             : "Zeige Item",
-  "config.waila.display_item_desc"                        : "Zeige das Item vom Block",
+
   "config.waila.tts"                                      : "Aktiviere TTS",
   "config.waila.tts_desc"                                 : "Lies den Block- und Kreaturname mit dem Text To Speech Prozessor vom System vor",
 
@@ -65,7 +62,11 @@
   "config.waila.plugin_minecraft.jukebox"                 : "Aufnahme aktiv",
 
   "config.waila.plugin_waila.show_registry"               : "Zeige Registrierungsnamen",
+  "config.waila.plugin_waila.show_fluids"                 : "Flüssigkeiten anzeigen",
+  "config.waila.plugin_waila.show_fluids_desc"            : "Versuche Flüssigkeiten anzuzeigen",
   "config.waila.plugin_waila.show_entities"               : "Zeige Kreaturen",
   "config.waila.plugin_waila.show_entity_hp"              : "Zeige Gesundheit von Kreaturen",
+  "config.waila.plugin_waila.show_item"                   : "Zeige Item",
+  "config.waila.plugin_waila.show_item_desc"              : "Zeige das Item vom Block",
   "config.waila.plugin_waila.show_states"                 : "Zeige Status"
 }

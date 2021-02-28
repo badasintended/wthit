@@ -26,9 +26,6 @@
   "config.waila.general"                                  : "General",
   "config.waila.display_tooltip"                          : "Display Tooltip",
   "config.waila.display_tooltip_desc"                     : "Collect data and render the tooltip",
-  "config.waila.display_fluids"                           : "Display Fluids",
-  "config.waila.display_fluids_desc"                      : "Try to show fluids",
-  "config.waila.display_mod_name"                         : "Display Mod Name",
   "config.waila.sneaky_details"                           : "Sneaky Details",
   "config.waila.sneaky_details_desc"                      : "Body text is hidden unless sneaking",
   "config.waila.display_mode"                             : "Display Mode",
@@ -39,8 +36,9 @@
   "config.waila.hide_from_players_desc"                   : "Hide tooltip while the player list is open",
   "config.waila.hide_from_debug"                          : "Hide from Debug",
   "config.waila.hide_from_debug_desc"                     : "Hide the tooltip while the debug menu is open",
-  "config.waila.display_item"                             : "Display Item",
-  "config.waila.display_item_desc"                        : "Display the item gotten from the block",
+  "config.waila.max_health_for_render"                    : "Max Health for Render",
+  "config.waila.max_hearts_per_line"                      : "Max Hearts Per Line",
+
   "config.waila.tts"                                      : "Enable TTS",
   "config.waila.tts_desc"                                 : "Read out block and entity names with the system's text to speech processor",
 
@@ -101,9 +99,15 @@
   "config.waila.plugin_minecraft.jukebox"                 : "Active Record",
   "config.waila.plugin_minecraft.player_head_name"        : "Player Head Names",
 
-  "config.waila.plugin_waila"                             : "Waila",
+  "config.waila.plugin_waila"                             : "Waila Core",
+  "config.waila.plugin_waila.show_mod_name"               : "Show Mod Names",
   "config.waila.plugin_waila.show_registry"               : "Show Registry Names",
+  "config.waila.plugin_waila.show_blocks"                 : "Show Blocks",
+  "config.waila.plugin_waila.show_fluids"                 : "Show Fluids",
+  "config.waila.plugin_waila.show_fluids_desc"            : "Try to show fluids",
   "config.waila.plugin_waila.show_entities"               : "Show Entities",
+  "config.waila.plugin_waila.show_item"                   : "Show Item",
+  "config.waila.plugin_waila.show_item_desc"              : "Show the item gotten from the block",
   "config.waila.plugin_waila.show_entity_hp"              : "Show Entity Health",
   "config.waila.plugin_waila.show_states"                 : "Show States"
 }

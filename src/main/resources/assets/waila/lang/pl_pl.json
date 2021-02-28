@@ -24,8 +24,6 @@
   "config.waila.general"                                  : "Ogólne",
   "config.waila.display_tooltip"                          : "Pokazuj etykietę",
   "config.waila.display_tooltip_desc"                     : "Zbieraj dane i pokazuj etykietę",
-  "config.waila.display_fluids"                           : "Wyświetlaj ciecze",
-  "config.waila.display_fluids_desc"                      : "Staraj się pokazywać ciecze",
   "config.waila.sneaky_details"                           : "Szczegóły skradania",
   "config.waila.sneaky_details_desc"                      : "Tekst pokazany podczas skradania",
   "config.waila.display_mode"                             : "Tryb wyświetl",
@@ -36,8 +34,6 @@
   "config.waila.hide_from_players_desc"                   : "Ukrywa etykietę po otwarciu listy graczy",
   "config.waila.hide_from_debug"                          : "Ukryj w tr. debugowania",
   "config.waila.hide_from_debug_desc"                     : "Ukrywa etykietę po otwarciu ekranu debugowania",
-  "config.waila.display_item"                             : "Pokazuj przedmiot",
-  "config.waila.display_item_desc"                        : "Pokazuje przedmiot pozyskany z bloku",
   "config.waila.tts"                                      : "Włącz TTS",
   "config.waila.tts_desc"                                 : "Czyta nazwy bloków i bytów, używając modułu zamiany tekstu na mowę",
 
@@ -68,9 +64,12 @@
   "config.waila.plugin_minecraft.redstone"                : "Moc zasilania ",
   "config.waila.plugin_minecraft.jukebox"                 : "Odtwarzana płyta",
 
-  "config.waila.plugin_waila"                             : "WAILA",
   "config.waila.plugin_waila.show_registry"               : "Pokaż nazwy rejetrów",
+  "config.waila.plugin_waila.show_fluids"                 : "Wyświetlaj ciecze",
+  "config.waila.plugin_waila.show_fluids_desc"            : "Staraj się pokazywać ciecze",
   "config.waila.plugin_waila.show_entities"               : "Pokaż byty",
+  "config.waila.plugin_waila.show_item"                   : "Pokazuj przedmiot",
+  "config.waila.plugin_waila.show_item_desc"              : "Pokazuje przedmiot pozyskany z bloku",
   "config.waila.plugin_waila.show_entity_hp"              : "Pokaż zdrowie bytów",
   "config.waila.plugin_waila.show_states"                 : "Pokaż stan"
 }

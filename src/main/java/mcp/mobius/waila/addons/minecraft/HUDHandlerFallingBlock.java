@@ -7,7 +7,6 @@ import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITaggableList;
-import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.entity.FallingBlockEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.LiteralText;
@@ -23,7 +22,6 @@ public class HUDHandlerFallingBlock implements IEntityComponentProvider {
 
     static final Identifier OBJECT_NAME_TAG = new Identifier(Waila.MODID, "object_name");
     static final Identifier REGISTRY_NAME_TAG = new Identifier(Waila.MODID, "registry_name");
-    static final Identifier MOD_NAME_TAG = new Identifier(Waila.MODID, "mod_name");
     static final Identifier CONFIG_SHOW_REGISTRY = new Identifier(Waila.MODID, "show_registry");
 
     @Override
@@ -38,12 +36,6 @@ public class HUDHandlerFallingBlock implements IEntityComponentProvider {
         ((ITaggableList<Identifier, Text>) tooltip).setTag(OBJECT_NAME_TAG, new LiteralText(String.format(Waila.CONFIG.get().getFormatting().getEntityName(), entity.getBlockState().getBlock().getName().asString())));
         if (config.get(CONFIG_SHOW_REGISTRY))
             ((ITaggableList<Identifier, Text>) tooltip).setTag(REGISTRY_NAME_TAG, new LiteralText(Registry.ENTITY_TYPE.getId(accessor.getEntity().getType()).toString()).setStyle(Style.EMPTY.withColor(Formatting.GRAY)));
-    }
-
-    @Override
-    public void appendTail(List<Text> tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        if (Waila.CONFIG.get().getGeneral().shouldDisplayModName())
-            ((ITaggableList<Identifier, Text>) tooltip).setTag(MOD_NAME_TAG, new LiteralText(String.format(Waila.CONFIG.get().getFormatting().getModName(), ModIdentification.getModInfo(accessor.getEntity()).getName())));
     }
 
 }

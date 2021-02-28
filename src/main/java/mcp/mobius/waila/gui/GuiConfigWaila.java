@@ -29,12 +29,6 @@ public class GuiConfigWaila extends GuiOptions {
                         .withBoolean("config.waila.display_tooltip",
                             config().getGeneral().shouldDisplayTooltip(),
                             val -> config().getGeneral().setDisplayTooltip(val))
-                        .withBoolean("config.waila.display_fluids",
-                            config().getGeneral().shouldDisplayFluids(),
-                            val -> config().getGeneral().setDisplayFluids(val))
-                        .withBoolean("config.waila.display_mod_name",
-                            config().getGeneral().shouldDisplayModName(),
-                            val -> config().getGeneral().setDisplayModName(val))
                         .withBoolean("config.waila.sneaky_details",
                             config().getGeneral().shouldShiftForDetails(),
                             val -> config().getGeneral().setShiftForDetails(val))
@@ -48,12 +42,17 @@ public class GuiConfigWaila extends GuiOptions {
                         .withBoolean("config.waila.hide_from_debug",
                             config().getGeneral().shouldHideFromDebug(),
                             val -> config().getGeneral().setHideFromDebug(val))
-                        .withBoolean("config.waila.display_item",
-                            config().getGeneral().shouldShowItem(),
-                            val -> config().getGeneral().setShowItem(val))
                         .withBoolean("config.waila.tts",
                             config().getGeneral().shouldEnableTextToSpeech(),
-                            val -> config().getGeneral().setEnableTextToSpeech(val));
+                            val -> config().getGeneral().setEnableTextToSpeech(val))
+                        .withInput("config.waila.max_health_for_render",
+                            config().getGeneral().getMaxHealthForRender(),
+                            val -> config().getGeneral().setMaxHealthForRender(val),
+                            OptionsEntryValueInput.INTEGER)
+                        .withInput("config.waila.max_hearts_per_line",
+                            config().getGeneral().getMaxHeartsPerLine(),
+                            val -> config().getGeneral().setMaxHeartsPerLine(val),
+                            OptionsEntryValueInput.INTEGER);
                 }
             }))
             .withButton("config.waila.overlay", 100, 20, w -> client.openScreen(new GuiOptions(this, new TranslatableText("config.waila.overlay")) {
