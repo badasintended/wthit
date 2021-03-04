@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
  *
  * @author ProfMobius
  */
+@Deprecated
 public interface IBlockDecorator {
 
     /**

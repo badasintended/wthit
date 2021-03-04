@@ -11,6 +11,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * The Accessor is used to get some basic data out of the game without having to request direct access to the game engine.<br>
@@ -19,7 +20,6 @@ import net.minecraft.world.World;
  *
  * @author ProfMobius
  */
-
 public interface IDataAccessor {
 
     World getWorld();
@@ -30,16 +30,20 @@ public interface IDataAccessor {
 
     BlockState getBlockState();
 
+    @Nullable
     BlockEntity getBlockEntity();
 
     HitResult getHitResult();
 
     BlockPos getPosition();
 
+    @Nullable
+    @Deprecated
     Vec3d getRenderingPosition();
 
     CompoundTag getServerData();
 
+    @Deprecated
     double getPartialFrame();
 
     Direction getSide();

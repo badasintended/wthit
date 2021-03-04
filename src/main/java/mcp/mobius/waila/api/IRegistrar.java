@@ -78,7 +78,7 @@ public interface IRegistrar {
     void registerComponentProvider(IEntityComponentProvider dataProvider, TooltipPosition position, Class entity);
 
     /**
-     * Registers an {@link IEntityComponentProvider} instance for data syncing purposes.
+     * Registers an {@link IServerDataProvider<LivingEntity>} instance for data syncing purposes.
      *
      * @param dataProvider The data provider instance
      * @param entity       The highest level class to apply to
@@ -91,6 +91,7 @@ public interface IRegistrar {
      * @param decorator The decorator instance
      * @param block     The highest level class to apply to
      */
+    @Deprecated
     void registerDecorator(IBlockDecorator decorator, Class block);
 
     /**

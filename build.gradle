@@ -21,8 +21,6 @@ minecraft {
 }
 
 dependencies {
-    compile "com.google.code.findbugs:jsr305:3.0.2"
-
     minecraft "com.mojang:minecraft:${mc_version}"
     mappings "net.fabricmc:yarn:${mc_version}+build.${mappings_version}:v2"
 

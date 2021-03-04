@@ -6,6 +6,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * The Accessor is used to get some basic data out of the game without having to request direct access to the game engine.<br>
@@ -14,7 +15,6 @@ import net.minecraft.world.World;
  *
  * @author ProfMobius
  */
-
 public interface IEntityAccessor {
 
     World getWorld();
@@ -25,10 +25,13 @@ public interface IEntityAccessor {
 
     HitResult getHitResult();
 
+    @Nullable
+    @Deprecated
     Vec3d getRenderingPosition();
 
     CompoundTag getServerData();
 
+    @Deprecated
     double getPartialFrame();
 
 }
