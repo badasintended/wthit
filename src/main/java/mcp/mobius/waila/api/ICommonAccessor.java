@@ -30,7 +30,7 @@ public interface ICommonAccessor {
     Identifier getBlockId();
 
     @Nullable
-    BlockEntity getBlockEntity();
+    BlockEntity getTileEntity();
 
     @Nullable
     Entity getEntity();

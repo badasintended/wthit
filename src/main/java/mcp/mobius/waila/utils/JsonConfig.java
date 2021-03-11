@@ -8,7 +8,7 @@ import java.util.function.Supplier;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import net.fabricmc.loader.api.FabricLoader;
+import net.minecraftforge.fml.loading.FMLPaths;
 
 public class JsonConfig<T> {
 
@@ -19,7 +19,7 @@ public class JsonConfig<T> {
     private Gson gson = DEFAULT_GSON;
 
     public JsonConfig(String fileName, Class<T> configClass, Supplier<T> defaultFactory) {
-        this.configFile = new File(FabricLoader.getInstance().getConfigDirectory(), fileName + (fileName.endsWith(".json") ? "" : ".json"));
+        this.configFile = new File(FMLPaths.CONFIGDIR.get().toFile(), fileName + (fileName.endsWith(".json") ? "" : ".json"));
         this.configGetter = new CachedSupplier<>(() -> {
             if (!configFile.exists()) {
                 T def = defaultFactory.get();

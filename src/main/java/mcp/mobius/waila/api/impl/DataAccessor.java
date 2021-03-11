@@ -96,7 +96,7 @@ public class DataAccessor implements ICommonAccessor, IDataAccessor, IEntityAcce
     }
 
     @Override
-    public BlockEntity getBlockEntity() {
+    public BlockEntity getTileEntity() {
         return this.blockEntity;
     }
 

@@ -5,13 +5,13 @@ import java.util.List;
 import com.google.common.collect.Lists;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
-import net.fabricmc.fabric.api.util.NbtType;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.StringNbtReader;
 import net.minecraft.nbt.StringTag;
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.Identifier;
+import net.minecraftforge.common.util.Constants;
 
 public class RenderableTextComponent extends LiteralText {
 
@@ -27,7 +27,7 @@ public class RenderableTextComponent extends LiteralText {
         List<RenderContainer> renderers = Lists.newArrayList();
         CompoundTag data = getData();
         if (data.contains("renders")) {
-            ListTag list = data.getList("renders", NbtType.STRING);
+            ListTag list = data.getList("renders", Constants.NBT.TAG_STRING);
             list.forEach(t -> {
                 StringTag stringTag = (StringTag) t;
                 try {

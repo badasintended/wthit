@@ -51,8 +51,8 @@ public class HUDHandlerVanilla implements IComponentProvider, IServerDataProvide
         if (accessor.getBlock() == Blocks.BEETROOTS)
             return BEETROOT_STACK;
 
-        if (accessor.getBlockEntity() instanceof SkullBlockEntity) {
-            SkullBlockEntity skull = (SkullBlockEntity) accessor.getBlockEntity();
+        if (accessor.getTileEntity() instanceof SkullBlockEntity) {
+            SkullBlockEntity skull = (SkullBlockEntity) accessor.getTileEntity();
             if (skull.getOwner() != null) {
                 CompoundTag tag = PLAYER_HEAD_STACK.getOrCreateTag();
                 CompoundTag skullOwner = tag.getCompound("SkullOwner");
@@ -70,7 +70,7 @@ public class HUDHandlerVanilla implements IComponentProvider, IServerDataProvide
             ((ITaggableList<Identifier, Text>) tooltip).setTag(OBJECT_NAME_TAG, new LiteralText(String.format(Waila.CONFIG.get().getFormatting().getBlockName(), accessor.getStack().getName().getString())));
 
         if (accessor.getBlock() == Blocks.SPAWNER && config.get(PluginMinecraft.CONFIG_SPAWNER_TYPE)) {
-            MobSpawnerBlockEntity spawner = (MobSpawnerBlockEntity) accessor.getBlockEntity();
+            MobSpawnerBlockEntity spawner = (MobSpawnerBlockEntity) accessor.getTileEntity();
             ((ITaggableList<Identifier, Text>) tooltip).setTag(OBJECT_NAME_TAG, new TranslatableText(accessor.getBlock().getTranslationKey())
                 .append(new LiteralText(" ("))
                 .append(spawner.getLogic().getRenderedEntity().getDisplayName())
@@ -126,8 +126,8 @@ public class HUDHandlerVanilla implements IComponentProvider, IServerDataProvide
                 tooltip.add(new TranslatableText("tooltip.waila.empty"));
         }
 
-        if (config.get(PluginMinecraft.CONFIG_PLAYER_HEAD_NAME) && accessor.getBlockEntity() instanceof SkullBlockEntity) {
-            SkullBlockEntity skull = (SkullBlockEntity) accessor.getBlockEntity();
+        if (config.get(PluginMinecraft.CONFIG_PLAYER_HEAD_NAME) && accessor.getTileEntity() instanceof SkullBlockEntity) {
+            SkullBlockEntity skull = (SkullBlockEntity) accessor.getTileEntity();
             if (skull.getOwner() != null && !StringUtils.isBlank(skull.getOwner().getName()))
                 tooltip.add(new LiteralText(skull.getOwner().getName()));
         }

@@ -3,9 +3,8 @@ package mcp.mobius.waila.api.event;
 import java.util.List;
 
 import mcp.mobius.waila.api.ICommonAccessor;
-import net.fabricmc.fabric.api.event.Event;
-import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.text.Text;
+import net.minecraftforge.eventbus.api.Event;
 
 /**
  * This event is fired just before the Waila tooltip sizes are calculated. This is the last chance to make edits to
@@ -15,14 +14,7 @@ import net.minecraft.text.Text;
  * <p>
  * {@link #currentTip} - The current tooltip to be drawn.
  */
-public class WailaTooltipEvent {
-
-    public static final Event<HandleTooltip> WAILA_HANDLE_TOOLTIP = EventFactory.createArrayBacked(HandleTooltip.class,
-        listeners -> event -> {
-            for (HandleTooltip listener : listeners)
-                listener.onTooltip(event);
-        }
-    );
+public class WailaTooltipEvent extends Event {
 
     private final List<Text> currentTip;
     private final ICommonAccessor accessor;
@@ -38,12 +30,6 @@ public class WailaTooltipEvent {
 
     public ICommonAccessor getAccessor() {
         return accessor;
-    }
-
-    public interface HandleTooltip {
-
-        void onTooltip(WailaTooltipEvent event);
-
     }
 
 }

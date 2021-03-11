@@ -31,7 +31,7 @@ public interface IDataAccessor {
     BlockState getBlockState();
 
     @Nullable
-    BlockEntity getBlockEntity();
+    BlockEntity getTileEntity();
 
     HitResult getHitResult();
 

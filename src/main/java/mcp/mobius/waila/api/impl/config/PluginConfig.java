@@ -15,8 +15,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IPluginConfig;
-import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.util.Identifier;
+import net.minecraftforge.fml.loading.FMLPaths;
 
 public class PluginConfig implements IPluginConfig {
 
@@ -66,7 +66,7 @@ public class PluginConfig implements IPluginConfig {
     }
 
     public void reload() {
-        File configFile = new File(FabricLoader.getInstance().getConfigDirectory(), Waila.MODID + "/" + Waila.MODID + "_plugins.json");
+        File configFile = new File(FMLPaths.CONFIGDIR.get().toFile(), Waila.MODID + "/" + Waila.MODID + "_plugins.json");
 
         if (!configFile.exists()) { // Write defaults, but don't read
             writeConfig(configFile, true);
@@ -84,7 +84,7 @@ public class PluginConfig implements IPluginConfig {
     }
 
     public void save() {
-        File configFile = new File(FabricLoader.getInstance().getConfigDirectory(), Waila.MODID + "/" + Waila.MODID + "_plugins.json");
+        File configFile = new File(FMLPaths.CONFIGDIR.get().toFile(), Waila.MODID + "/" + Waila.MODID + "_plugins.json");
         writeConfig(configFile, false);
     }
 

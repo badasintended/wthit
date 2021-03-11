@@ -39,7 +39,7 @@ public class HUDHandlerBlocks implements IComponentProvider, IServerDataProvider
             return;
 
         Block block = accessor.getBlock();
-        String name = accessor.getBlockEntity() != null ? accessor.getServerData().getString("customName") : "";
+        String name = accessor.getTileEntity() != null ? accessor.getServerData().getString("customName") : "";
         if (name.isEmpty()) {
             name = block.getName().getString();
         }

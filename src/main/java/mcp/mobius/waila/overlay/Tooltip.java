@@ -20,6 +20,7 @@ import net.minecraft.client.util.Window;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.minecraftforge.common.MinecraftForge;
 
 import static mcp.mobius.waila.api.impl.config.WailaConfig.ConfigOverlay.Position;
 
@@ -34,7 +35,7 @@ public class Tooltip {
 
     public Tooltip(List<Text> Texts, boolean showItem) {
         WailaTooltipEvent event = new WailaTooltipEvent(Texts, DataAccessor.INSTANCE);
-        WailaTooltipEvent.WAILA_HANDLE_TOOLTIP.invoker().onTooltip(event);
+        MinecraftForge.EVENT_BUS.post(event);
 
         this.client = MinecraftClient.getInstance();
         this.lines = Lists.newArrayList();

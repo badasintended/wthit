@@ -1,107 +1,97 @@
 ------------------------------------------------------
-Version 1.9.23
+Version 1.10.11
 ------------------------------------------------------
 
 - Updated to 1.16.2
+- Updated Chinese translation
 - Added Polish translation
 
 ------------------------------------------------------
-Version 1.9.22
+Version 1.10.10
 ------------------------------------------------------
 
-- Fixed crash when looking at player heads spawned in with a UUID
+- Fix crash on Forge 31.0.93+
+- List license in mod meta
+- Fix z-index on stack size in the Furnace tooltip
 
 ------------------------------------------------------
-Version 1.9.21
+Version 1.10.9
 ------------------------------------------------------
 
-- Updated to newer 1.16 snapshots
-- Limited overlay scale to 2 (currently) values
-    - 1.0x and 0.5x
-    - These are the 2 values at which the tooltip renders without scaling issues
-    - Allows for the tooltip to be forced to stay on screen rather than overflowing off the edge
-- Fixed falling block display names
-- Fixed Netherwart not having a maturity tooltip
-- Player heads now display the correct texture in the tooltip
-    - The name is also added to the body now
-- Fixed the tooltip for Repeaters and Comparators not being localized properly
+- Updated to 1.16.1
 
 ------------------------------------------------------
-Version 1.9.20
+Version 1.10.8
 ------------------------------------------------------
 
+- Updated to 1.15.2
+- Fixed entity health not supporting transparency
 - Fixed infested block names not being hidden when "hide_infestations" is enabled
 
 ------------------------------------------------------
-Version 1.9.19
+Version 1.10.7
 ------------------------------------------------------
 
-- Updated to support 1.15-pre4
-- Fixed text being rendered behind items
-    - Most noticeable with furnace progress
+- Updated to 1.15.1
 
 ------------------------------------------------------
-Version 1.9.18
+Version 1.10.6
 ------------------------------------------------------
 
-- Updated to support 1.15-pre1 (and higher?)
+- Switched to use `Item#getCreatorModId` to get the owning mod of an item
 
 ------------------------------------------------------
-Version 1.9.17
+Version 1.10.5
 ------------------------------------------------------
 
-- Fixed crash when looking at falling block entities
-- Added support for falling block entities
-- Switched name getting to use the block's dedicated getter
+- Fix crash on recent Forge versions
 
 ------------------------------------------------------
-Version 1.9.16
+Version 1.10.4
 ------------------------------------------------------
 
-- Fixed text input fields not rendering properly in the config GUI
+- Mark as compatible with 1.14.3 and above
+- Updated Russian language
 
 ------------------------------------------------------
-Version 1.9.15
+Version 1.10.3
 ------------------------------------------------------
 
-- Updated to 1.14 Pre Release 3
-- Fixed server crash on startup
-- Added a logo for ModMenu
+- Update to Minecraft 1.14.2 for use on Forge
 
 ------------------------------------------------------
-Version 1.9.14
+Version 1.10.2
 ------------------------------------------------------
 
-- Updated to 1.14 Pre Release 2
-- Updated to Fabric Loader 0.4.0
-- Reworked plugin loading system to make use of new Fabric Loader features
+- Fix server startup crash
 
 ------------------------------------------------------
-Version 1.9.13
+Version 1.10.1
 ------------------------------------------------------
 
-- Updated to 19w12b
-
-Mojang *please* stop breaking buttons, thanks. This is the third snapshot in a row.
+- Recompiled on latest Forge to fix annotation error on launch
 
 ------------------------------------------------------
-Version 1.9.12
+Version 1.10.0
 ------------------------------------------------------
 
-- Updated to 19w12a
-- Enabled the config button in Mod Menu
+- Initial port to 1.13.2 on Forge
+- Modders beware: There are several API changes to bring it up to modern standards. Notable changes include
+    - Tooltips are now backed by `ITextComponent` instead of `String`
+    - `ITaggedList` has been reworked to be much easier to work with
+        - See `HUDHandlerVillager#appendHead(...)` for an example of how to replace an existing tagged line
+    - Config values are now namespaced
+        - See `PluginCore` or `PluginMinecraft` for examples
+    - Tooltip renderers are now namespaced
+        - See `PluginCore` or `PluginMinecraft` for examples
+    - Some classes were renamed to remove the "Waila" identifier
+    - `getNBTData(...)` in `IWailaDataProvider` was moved to `IServerDataProvider`
+        - See `HUDHandlerFurnace` or `HUDHandlerVillager` in the default Minecraft plugin for block/entity examples
+    - Registration methods for data providers have been flattened into a single method (`registerComponentProvider`) with a position parameter
+        - See `PluginCore` or `PluginMinecraft` for examples
+    - There is now a way to display a stack for an entity (`registerEntityStackProvider`)
 
-------------------------------------------------------
-Version 1.9.11
-------------------------------------------------------
-
-- Updated to 19w11b
-
-------------------------------------------------------
-Version 1.9.10
-------------------------------------------------------
-
-- Updated to 19w09a
+When in doubt, check the javadocs.
 
 ------------------------------------------------------
 Version 1.9.9

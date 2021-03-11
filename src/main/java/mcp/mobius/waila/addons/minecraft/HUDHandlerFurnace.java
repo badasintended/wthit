@@ -7,7 +7,6 @@ import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataProvider;
 import mcp.mobius.waila.api.RenderableTextComponent;
-import net.fabricmc.fabric.api.util.NbtType;
 import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.ItemStack;
@@ -19,6 +18,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
+import net.minecraftforge.common.util.Constants;
 
 public class HUDHandlerFurnace implements IComponentProvider, IServerDataProvider<BlockEntity> {
 
@@ -32,7 +32,7 @@ public class HUDHandlerFurnace implements IComponentProvider, IServerDataProvide
         if (!accessor.getBlockState().get(Properties.LIT))
             return;
 
-        ListTag furnaceItems = accessor.getServerData().getList("furnace", NbtType.COMPOUND);
+        ListTag furnaceItems = accessor.getServerData().getList("furnace", Constants.NBT.TAG_COMPOUND);
         DefaultedList<ItemStack> inventory = DefaultedList.ofSize(3, ItemStack.EMPTY);
         for (int i = 0; i < furnaceItems.size(); i++)
             inventory.set(i, ItemStack.fromTag(furnaceItems.getCompound(i)));

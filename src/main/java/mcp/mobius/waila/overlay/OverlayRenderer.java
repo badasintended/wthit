@@ -11,6 +11,7 @@ import mcp.mobius.waila.api.impl.config.WailaConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraftforge.common.MinecraftForge;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
@@ -68,7 +69,13 @@ public class OverlayRenderer {
         RenderSystem.disableDepthTest();
 
         WailaRenderEvent.Pre preEvent = new WailaRenderEvent.Pre(DataAccessor.INSTANCE, tooltip.getPosition());
-        WailaRenderEvent.WAILA_RENDER_PRE.invoker().onPreRender(preEvent);
+        if (MinecraftForge.EVENT_BUS.post(preEvent)) {
+            RenderSystem.enableRescaleNormal();
+            loadGLState();
+            RenderSystem.enableDepthTest();
+            RenderSystem.popMatrix();
+            return;
+        }
 
         Rectangle position = preEvent.getPosition();
         WailaConfig.ConfigOverlay.ConfigOverlayColor color = Waila.CONFIG.get().getOverlay().getColor();
@@ -84,7 +91,7 @@ public class OverlayRenderer {
             DisplayUtil.renderStack(matrices, position.x + 5, position.y + position.height / 2 - 8, RayTracing.INSTANCE.getIdentifierStack());
 
         WailaRenderEvent.Post postEvent = new WailaRenderEvent.Post(position);
-        WailaRenderEvent.WAILA_RENDER_POST.invoker().onPostRender(postEvent);
+        MinecraftForge.EVENT_BUS.post(postEvent);
 
         loadGLState();
         RenderSystem.enableDepthTest();

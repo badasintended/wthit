@@ -2,11 +2,9 @@ package mcp.mobius.waila.api.event;
 
 import java.awt.Rectangle;
 
-import com.mojang.blaze3d.platform.GlStateManager;
 import mcp.mobius.waila.api.ICommonAccessor;
-import mcp.mobius.waila.overlay.OverlayRenderer;
-import net.fabricmc.fabric.api.event.Event;
-import net.fabricmc.fabric.api.event.EventFactory;
+import net.minecraftforge.eventbus.api.Cancelable;
+import net.minecraftforge.eventbus.api.Event;
 
 /**
  * The base event for rendering the Waila tooltip. This provides the opportunity to do last minute changes to the tooltip.
@@ -16,45 +14,11 @@ import net.fabricmc.fabric.api.event.EventFactory;
  * <p>
  * {@link #position} The position and size of the tooltip being rendered
  */
-public class WailaRenderEvent {
-
-    public static final Event<PreRender> WAILA_RENDER_PRE = EventFactory.createArrayBacked(PreRender.class,
-        listeners -> event -> {
-            for (PreRender listener : listeners) {
-                if (listener.onPreRender(event)) {
-                    GlStateManager.enableRescaleNormal();
-                    OverlayRenderer.loadGLState();
-                    GlStateManager.enableDepthTest();
-                    GlStateManager.popMatrix();
-                    return true;
-                }
-            }
-
-            return false;
-        }
-    );
-    public static final Event<PostRender> WAILA_RENDER_POST = EventFactory.createArrayBacked(PostRender.class,
-        listeners -> event -> {
-            for (PostRender listener : listeners)
-                listener.onPostRender(event);
-        }
-    );
-
-    public interface PreRender {
-
-        boolean onPreRender(Pre event);
-
-    }
-
-    public interface PostRender {
-
-        void onPostRender(Post event);
-
-    }
+public class WailaRenderEvent extends Event {
 
     private final Rectangle position;
 
-    private WailaRenderEvent(Rectangle position) {
+    public WailaRenderEvent(Rectangle position) {
         this.position = position;
     }
 
@@ -69,6 +33,7 @@ public class WailaRenderEvent {
      * This event is cancelable.
      * If this event is canceled, the tooltip will not render.
      */
+    @Cancelable
     public static class Pre extends WailaRenderEvent {
 
         private final ICommonAccessor accessor;
@@ -82,7 +47,6 @@ public class WailaRenderEvent {
         public ICommonAccessor getAccessor() {
             return accessor;
         }
-
     }
 
     /**
@@ -100,4 +64,56 @@ public class WailaRenderEvent {
 
     }
 
+    public static class Color extends Event {
+
+        private final int alpha;
+        private int background;
+        private int gradientStart;
+        private int gradientEnd;
+        private boolean reset;
+
+        public Color(int alpha, int background, int gradientStart, int gradientEnd) {
+            this.alpha = alpha;
+            this.background = background;
+            this.gradientStart = gradientStart;
+            this.gradientEnd = gradientEnd;
+        }
+
+        public int getAlpha() {
+            return alpha;
+        }
+
+        public int getBackground() {
+            return background;
+        }
+
+        public void setBackground(int background) {
+            this.background = background;
+        }
+
+        public int getGradientStart() {
+            return gradientStart;
+        }
+
+        public void setGradientStart(int gradientStart) {
+            this.gradientStart = gradientStart;
+        }
+
+        public int getGradientEnd() {
+            return gradientEnd;
+        }
+
+        public void setGradientEnd(int gradientEnd) {
+            this.gradientEnd = gradientEnd;
+        }
+
+        public boolean isReset() {
+            return reset;
+        }
+
+        public void setReset(boolean reset) {
+            this.reset = reset;
+        }
+
+    }
 }

@@ -9,7 +9,8 @@ import mcp.mobius.waila.api.IComponentProvider;
 import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.TooltipPosition;
 import mcp.mobius.waila.api.impl.config.PluginConfig;
-import mcp.mobius.waila.network.NetworkHandler;
+import mcp.mobius.waila.network.MessageRequestEntity;
+import mcp.mobius.waila.network.MessageRequestTile;
 import mcp.mobius.waila.utils.WailaExceptionHandler;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
@@ -30,10 +31,10 @@ public class MetaDataProvider {
     public void gatherBlockComponents(DataAccessor accessor, List<Text> tooltip, TooltipPosition position) {
         Block block = accessor.getBlock();
 
-        if (accessor.getBlockEntity() != null && accessor.isTimeElapsed(rateLimiter) && Waila.CONFIG.get().getGeneral().shouldDisplayTooltip()) {
+        if (accessor.getTileEntity() != null && accessor.isTimeElapsed(rateLimiter) && Waila.CONFIG.get().getGeneral().shouldDisplayTooltip()) {
             accessor.resetTimer();
-            if (WailaRegistrar.INSTANCE.hasNBTProviders(block) || WailaRegistrar.INSTANCE.hasNBTProviders(accessor.getBlockEntity()))
-                NetworkHandler.requestTile(accessor.getBlockEntity());
+            if (WailaRegistrar.INSTANCE.hasNBTProviders(block) || WailaRegistrar.INSTANCE.hasNBTProviders(accessor.getTileEntity()))
+                Waila.NETWORK.sendToServer(new MessageRequestTile(accessor.getTileEntity()));
 
         }
 
@@ -53,14 +54,14 @@ public class MetaDataProvider {
 
 
         /* Lookup by class (for tileentities)*/
-        if (position == TooltipPosition.HEAD && WailaRegistrar.INSTANCE.hasHeadProviders(accessor.getBlockEntity()))
-            headBlockProviders.putAll(WailaRegistrar.INSTANCE.getHeadProviders(accessor.getBlockEntity()));
+        if (position == TooltipPosition.HEAD && WailaRegistrar.INSTANCE.hasHeadProviders(accessor.getTileEntity()))
+            headBlockProviders.putAll(WailaRegistrar.INSTANCE.getHeadProviders(accessor.getTileEntity()));
 
-        else if (position == TooltipPosition.BODY && WailaRegistrar.INSTANCE.hasBodyProviders(accessor.getBlockEntity()))
-            bodyBlockProviders.putAll(WailaRegistrar.INSTANCE.getBodyProviders(accessor.getBlockEntity()));
+        else if (position == TooltipPosition.BODY && WailaRegistrar.INSTANCE.hasBodyProviders(accessor.getTileEntity()))
+            bodyBlockProviders.putAll(WailaRegistrar.INSTANCE.getBodyProviders(accessor.getTileEntity()));
 
-        else if (position == TooltipPosition.TAIL && WailaRegistrar.INSTANCE.hasTailProviders(accessor.getBlockEntity()))
-            tailBlockProviders.putAll(WailaRegistrar.INSTANCE.getTailProviders(accessor.getBlockEntity()));
+        else if (position == TooltipPosition.TAIL && WailaRegistrar.INSTANCE.hasTailProviders(accessor.getTileEntity()))
+            tailBlockProviders.putAll(WailaRegistrar.INSTANCE.getTailProviders(accessor.getTileEntity()));
 
         /* Apply all collected providers */
 
@@ -109,7 +110,7 @@ public class MetaDataProvider {
             accessor.resetTimer();
 
             if (WailaRegistrar.INSTANCE.hasNBTEntityProviders(accessor.getEntity()))
-                NetworkHandler.requestEntity(accessor.getEntity());
+                Waila.NETWORK.sendToServer(new MessageRequestEntity(accessor.getEntity()));
         }
 
         headEntityProviders.clear();

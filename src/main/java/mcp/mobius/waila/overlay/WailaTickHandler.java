@@ -17,7 +17,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FluidBlock;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.ChatScreen;
+import net.minecraft.client.options.ChatVisibility;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -28,7 +28,11 @@ import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.world.World;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 
+@Mod.EventBusSubscriber(modid = Waila.MODID, value = Dist.CLIENT)
 public class WailaTickHandler {
 
     public static WailaTickHandler INSTANCE = new WailaTickHandler();
@@ -36,33 +40,6 @@ public class WailaTickHandler {
     private static String lastNarration = "";
     public Tooltip tooltip = null;
     public MetaDataProvider handler = new MetaDataProvider();
-
-    private WailaTickHandler() {
-        WailaTooltipEvent.WAILA_HANDLE_TOOLTIP.register(event -> {
-            if (!Waila.CONFIG.get().getGeneral().shouldDisplayTooltip())
-                return;
-
-            if (getNarrator().active() || !Waila.CONFIG.get().getGeneral().shouldEnableTextToSpeech())
-                return;
-
-            if (event.getCurrentTip().isEmpty())
-                return;
-
-            if (MinecraftClient.getInstance().currentScreen != null && !(MinecraftClient.getInstance().currentScreen instanceof ChatScreen))
-                return;
-
-            if (event.getAccessor().getBlock() == Blocks.AIR && event.getAccessor().getEntity() == null)
-                return;
-
-            String narrate = event.getCurrentTip().get(0).getString();
-            if (lastNarration.equalsIgnoreCase(narrate))
-                return;
-
-            getNarrator().clear();
-            getNarrator().say(narrate, true);
-            lastNarration = narrate;
-        });
-    }
 
     public void renderOverlay(MatrixStack matrices) {
         OverlayRenderer.renderOverlay(matrices);
@@ -152,6 +129,29 @@ public class WailaTickHandler {
         if (INSTANCE == null)
             INSTANCE = new WailaTickHandler();
         return INSTANCE;
+    }
+
+    @SubscribeEvent
+    public static void onTooltip(WailaTooltipEvent event) {
+        if (!Waila.CONFIG.get().getGeneral().shouldDisplayTooltip())
+            return;
+
+        if (getNarrator().active() || !Waila.CONFIG.get().getGeneral().shouldEnableTextToSpeech())
+            return;
+
+        if (MinecraftClient.getInstance().currentScreen != null && MinecraftClient.getInstance().options.chatVisibility != ChatVisibility.HIDDEN)
+            return;
+
+        if (event.getAccessor().getBlock() == Blocks.AIR && event.getAccessor().getEntity() == null)
+            return;
+
+        String narrate = event.getCurrentTip().get(0).getString();
+        if (lastNarration.equalsIgnoreCase(narrate))
+            return;
+
+        getNarrator().clear();
+        getNarrator().say(narrate, true);
+        lastNarration = narrate;
     }
 
 }
