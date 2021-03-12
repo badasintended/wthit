@@ -12,7 +12,7 @@ if (versionEnv == null || versionEnv.isBlank()) {
     versionEnv = "local"
 }
 if (versionEnv.startsWith("forge-")) {
-    versionEnv.replaceFirst("^forge-", "")
+    versionEnv = versionEnv.replaceFirst("^forge-", "")
 }
 
 group = package_group
