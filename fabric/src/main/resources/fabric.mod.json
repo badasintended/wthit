@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "id"           : "wthit",
+  "provides"     : ["waila"],
+  "version"      : "${version}",
+  "custom"       : {
+    "hermes": true,
+    "waila:plugins": [
+      {
+        "id"         : "waila:core",
+        "initializer": "mcp.mobius.waila.addons.core.PluginCore"
+      },
+      {
+        "id"         : "waila:vanilla",
+        "initializer": "mcp.mobius.waila.addons.minecraft.PluginMinecraft"
+      }
+    ]
+  },
+
+  "entrypoints"  : {
+    "main"   : ["mcp.mobius.waila.WailaFabric"],
+    "client" : ["mcp.mobius.waila.WailaClientFabric"],
+    "modmenu": ["mcp.mobius.waila.WailaModMenu"]
+  },
+
+  "name"         : "wthit",
+  "description"  : "What the hell is that?",
+  "icon"         : "assets/waila/logo.png",
+  "contact"      : {
+    "homepage": "https://minecraft.curseforge.com/projects/wthit",
+    "issues"  : "https://github.com/badasintended/wthit/issues",
+    "sources" : "https://github.com/badasintended/wthit"
+  },
+  "license"      : "CC BY NC SA 4.0",
+  "authors"      : [
+    "deirn",
+    {
+      "name"   : "Nicholas \"TehNut\" Ignoffo",
+      "contact": {
+        "email"   : "nick@tehnut.info",
+        "homepage": "https://tehnut.info"
+      }
+    },
+    {
+      "name"   : "ProfMobius",
+      "contact": {
+        "homepage": "https://twitter.com/profmobius"
+      }
+    }
+  ],
+  "contributors" : [
+    "InsomniaKitten",
+    "Girafi",
+    "Vexatos",
+    "gigabit101",
+    "Lordmau5",
+    "MrNinja93",
+    "tambry",
+    "magik6k",
+    "Parker8283",
+    "Sven792",
+    "3TUSK",
+    "Foxgreat",
+    "josephcsible",
+    "RCXcrafter",
+    "shadowfacts",
+    "X00LA",
+    "crafteverywhere",
+    "SinusoidalC",
+    "viliml",
+    "Eracer",
+    "odininon",
+    "Artoria2e5",
+    "plusls",
+    "Shadows-of-Fire",
+    "Motschen"
+  ],
+
+  "depends"      : {
+    "fabricloader": ">=0.11.0",
+    "fabric"      : "*"
+  },
+  "suggests"     : {
+    "modmenu": "*"
+  }
+}

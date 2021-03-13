@@ -1,0 +1,27 @@
+modLoader = "javafml"
+loaderVersion = "[33,)"
+issueTrackerURL = "https://github.com/badasintended/wthit/issues"
+displayURL = "https://github.com/badasintended/wthita"
+license = "CC BY-NC-SA 4.0"
+
+[[mods]]
+modId = "waila"
+version = "${version}"
+displayName = "WTHIT"
+description = "What the hell is that? Forge Edition"
+authors = "deirn, TehNut, ProfMobius"
+logoFile = "wthit.png"
+
+[[dependencies.waila]]
+modId = "forge"
+mandatory = true
+versionRange = "[33.0.0,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.waila]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.16.2,)"
+ordering = "NONE"
+side = "BOTH"

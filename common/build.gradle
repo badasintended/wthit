@@ -1,0 +1,23 @@
+dependencies {
+    modImplementation "net.fabricmc:fabric-loader:${fabricLoader}"
+}
+
+architectury {
+    common()
+}
+
+java {
+    withSourcesJar()
+}
+
+publishing {
+    publications {
+        mavenCommon(MavenPublication) {
+            artifactId = rootProject.archivesBaseName
+            artifact remapJar
+            artifact(sourcesJar) {
+                builtBy remapSourcesJar
+            }
+        }
+    }
+}

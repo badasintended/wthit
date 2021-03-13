@@ -1,11 +1,14 @@
 pluginManagement {
     repositories {
-        jcenter()
-        maven {
-            name = 'Fabric'
-            url = 'http://maven.fabricmc.net/'
-        }
+        maven { url "https://maven.fabricmc.net/" }
+        maven { url "https://maven.shedaniel.me/" }
+        maven { url "https://files.minecraftforge.net/maven/" }
         gradlePluginPortal()
     }
 }
-rootProject.name = 'wthit'
+
+include "common"
+include "fabric"
+include "forge"
+
+rootProject.name = "wthit"
