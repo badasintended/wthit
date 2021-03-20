@@ -9,8 +9,7 @@ import mcp.mobius.waila.api.IComponentProvider;
 import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.TooltipPosition;
 import mcp.mobius.waila.api.impl.config.PluginConfig;
-import mcp.mobius.waila.network.NetworkHandler;
-import mcp.mobius.waila.utils.WailaExceptionHandler;
+import mcp.mobius.waila.utils.ExceptionHandler;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.text.Text;
@@ -30,10 +29,10 @@ public class MetaDataProvider {
     public void gatherBlockComponents(DataAccessor accessor, List<Text> tooltip, TooltipPosition position) {
         Block block = accessor.getBlock();
 
-        if (accessor.getBlockEntity() != null && accessor.isTimeElapsed(rateLimiter) && Waila.CONFIG.get().getGeneral().shouldDisplayTooltip()) {
+        if (accessor.getBlockEntity() != null && accessor.isTimeElapsed(rateLimiter) && Waila.getConfig().get().getGeneral().shouldDisplayTooltip()) {
             accessor.resetTimer();
             if (WailaRegistrar.INSTANCE.hasNBTProviders(block) || WailaRegistrar.INSTANCE.hasNBTProviders(accessor.getBlockEntity()))
-                NetworkHandler.requestTile(accessor.getBlockEntity());
+                Waila.network.requestBlock(accessor.getBlockEntity());
 
         }
 
@@ -71,7 +70,7 @@ public class MetaDataProvider {
                         try {
                             dataProvider.appendHead(tooltip, accessor, PluginConfig.INSTANCE);
                         } catch (Throwable e) {
-                            WailaExceptionHandler.handleErr(e, dataProvider.getClass().toString(), tooltip);
+                            ExceptionHandler.handleErr(e, dataProvider.getClass().toString(), tooltip);
                         }
                     }
                 }
@@ -83,7 +82,7 @@ public class MetaDataProvider {
                         try {
                             dataProvider.appendBody(tooltip, accessor, PluginConfig.INSTANCE);
                         } catch (Throwable e) {
-                            WailaExceptionHandler.handleErr(e, dataProvider.getClass().toString(), tooltip);
+                            ExceptionHandler.handleErr(e, dataProvider.getClass().toString(), tooltip);
                         }
                     }
                 }
@@ -95,7 +94,7 @@ public class MetaDataProvider {
                         try {
                             dataProvider.appendTail(tooltip, accessor, PluginConfig.INSTANCE);
                         } catch (Throwable e) {
-                            WailaExceptionHandler.handleErr(e, dataProvider.getClass().toString(), tooltip);
+                            ExceptionHandler.handleErr(e, dataProvider.getClass().toString(), tooltip);
                         }
                     }
                 }
@@ -109,7 +108,7 @@ public class MetaDataProvider {
             accessor.resetTimer();
 
             if (WailaRegistrar.INSTANCE.hasNBTEntityProviders(accessor.getEntity()))
-                NetworkHandler.requestEntity(accessor.getEntity());
+                Waila.network.requestEntity(accessor.getEntity());
         }
 
         headEntityProviders.clear();
@@ -133,7 +132,7 @@ public class MetaDataProvider {
                         try {
                             dataProvider.appendHead(tooltip, accessor, PluginConfig.INSTANCE);
                         } catch (Throwable e) {
-                            WailaExceptionHandler.handleErr(e, dataProvider.getClass().toString(), tooltip);
+                            ExceptionHandler.handleErr(e, dataProvider.getClass().toString(), tooltip);
                         }
                     }
                 }
@@ -145,7 +144,7 @@ public class MetaDataProvider {
                         try {
                             dataProvider.appendBody(tooltip, accessor, PluginConfig.INSTANCE);
                         } catch (Throwable e) {
-                            WailaExceptionHandler.handleErr(e, dataProvider.getClass().toString(), tooltip);
+                            ExceptionHandler.handleErr(e, dataProvider.getClass().toString(), tooltip);
                         }
                     }
                 }
@@ -157,7 +156,7 @@ public class MetaDataProvider {
                         try {
                             dataProvider.appendTail(tooltip, accessor, PluginConfig.INSTANCE);
                         } catch (Throwable e) {
-                            WailaExceptionHandler.handleErr(e, dataProvider.getClass().toString(), tooltip);
+                            ExceptionHandler.handleErr(e, dataProvider.getClass().toString(), tooltip);
                         }
                     }
                 }

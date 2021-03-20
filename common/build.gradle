@@ -4,6 +4,7 @@ dependencies {
 
 architectury {
     common()
+    injectInjectables = false
 }
 
 java {

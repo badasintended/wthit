@@ -27,7 +27,7 @@ public class HUDTheme {
     }
 
     public int getAlpha() {
-        int alpha = Waila.CONFIG.get().getOverlay().getColor().getAlpha();
+        int alpha = Waila.getConfig().get().getOverlay().getColor().getAlpha();
         return alpha == 100 ? 255 : alpha == 0 ? (int) (0.4F / 100.0F * 256) << 24 : (int) (alpha / 100.0F * 256) << 24;
     }
 

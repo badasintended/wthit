@@ -2,7 +2,7 @@ package mcp.mobius.waila;
 
 import net.minecraft.client.options.KeyBinding;
 
-public class WailaClient {
+public abstract class WailaClient {
 
     public static KeyBinding openConfig;
     public static KeyBinding showOverlay;

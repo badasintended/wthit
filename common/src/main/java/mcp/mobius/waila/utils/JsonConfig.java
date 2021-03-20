@@ -19,7 +19,7 @@ public class JsonConfig<T> {
     private Gson gson = DEFAULT_GSON;
 
     public JsonConfig(String fileName, Class<T> configClass, Supplier<T> defaultFactory) {
-        this.configFile = Waila.CONFIG_DIR.resolve(fileName + (fileName.endsWith(".json") ? "" : ".json")).toFile();
+        this.configFile = Waila.configDir.resolve(fileName + (fileName.endsWith(".json") ? "" : ".json")).toFile();
         this.configGetter = new CachedSupplier<>(() -> {
             if (!configFile.exists()) {
                 T def = defaultFactory.get();

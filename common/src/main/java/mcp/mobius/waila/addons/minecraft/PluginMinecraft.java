@@ -29,7 +29,7 @@ import net.minecraft.entity.vehicle.AbstractMinecartEntity;
 import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.util.Identifier;
 
-@WailaForgePlugin("waila:minecraft")
+@WailaForgePlugin("waila:vanilla")
 public class PluginMinecraft implements IWailaPlugin {
 
     static final Identifier RENDER_ITEM = new Identifier("item");

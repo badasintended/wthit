@@ -1,20 +1,21 @@
-package mcp.mobius.waila.overlay.fabric;
+package mcp.mobius.waila.forge;
 
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.event.WailaTooltipEvent;
-import mcp.mobius.waila.overlay.WailaTickHandler;
+import mcp.mobius.waila.overlay.TickHandler;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ChatScreen;
+import net.minecraftforge.common.MinecraftForge;
 
-public class WailaTickHandlerImpl extends WailaTickHandler {
+public class ForgeTickHandler extends TickHandler {
 
-    public static void registerInstance() {
-        WailaTooltipEvent.WAILA_HANDLE_TOOLTIP.register(event -> {
-            if (!Waila.CONFIG.get().getGeneral().shouldDisplayTooltip())
+    public static void registerListener() {
+        MinecraftForge.EVENT_BUS.addListener((WailaTooltipEvent event) -> {
+            if (!Waila.getConfig().get().getGeneral().shouldDisplayTooltip())
                 return;
 
-            if (getNarrator().active() || !Waila.CONFIG.get().getGeneral().shouldEnableTextToSpeech())
+            if (getNarrator().active() || !Waila.getConfig().get().getGeneral().shouldEnableTextToSpeech())
                 return;
 
             if (event.getCurrentTip().isEmpty())

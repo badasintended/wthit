@@ -9,22 +9,19 @@ import mcp.mobius.waila.addons.core.PluginCore;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.api.impl.WailaRegistrar;
 import mcp.mobius.waila.api.impl.config.PluginConfig;
-import me.shedaniel.architectury.annotations.ExpectPlatform;
 
-public class WailaPlugins {
+public abstract class WailaPlugins {
 
     public static final Map<String, IWailaPlugin> PLUGINS = Maps.newHashMap();
 
-    public static void gatherPlugins() {
+    public void gatherPlugins() {
         PLUGINS.clear();
         gatherPluginsInner();
     }
 
-    @ExpectPlatform
-    private static void gatherPluginsInner() {
-    }
+    protected abstract void gatherPluginsInner();
 
-    public static void initializePlugins() {
+    public void initializePlugins() {
         Waila.LOGGER.info("Registering plugin at {}", PluginCore.class.getCanonicalName());
         PLUGINS.remove("waila:core").register(WailaRegistrar.INSTANCE); // Handle and clear the core plugin so it's registered first
 

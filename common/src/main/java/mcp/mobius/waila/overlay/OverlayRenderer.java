@@ -1,12 +1,13 @@
 package mcp.mobius.waila.overlay;
 
 import java.awt.Rectangle;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.impl.config.WailaConfig;
-import me.shedaniel.architectury.annotations.ExpectPlatform;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.util.math.MatrixStack;
@@ -22,23 +23,17 @@ public class OverlayRenderer {
     protected static boolean depthMask;
     protected static int depthFunc;
 
-    @ExpectPlatform
-    private static Rectangle onPreRender(Tooltip tooltip) {
-        throw new AssertionError();
-    }
-
-    @ExpectPlatform
-    private static void onPostRender(Rectangle position) {
-    }
+    public static Function<Tooltip, Rectangle> onPreRender;
+    public static Consumer<Rectangle> onPostRender;
 
     public static void renderOverlay(MatrixStack matrices) {
-        if (WailaTickHandler.instance().tooltip == null)
+        if (TickHandler.instance().tooltip == null)
             return;
 
-        if (!Waila.CONFIG.get().getGeneral().shouldDisplayTooltip())
+        if (!Waila.getConfig().get().getGeneral().shouldDisplayTooltip())
             return;
 
-        if (Waila.CONFIG.get().getGeneral().getDisplayMode() == WailaConfig.DisplayMode.HOLD_KEY && !WailaClient.showOverlay.isPressed())
+        if (Waila.getConfig().get().getGeneral().getDisplayMode() == WailaConfig.DisplayMode.HOLD_KEY && !WailaClient.showOverlay.isPressed())
             return;
 
         MinecraftClient mc = MinecraftClient.getInstance();
@@ -46,16 +41,16 @@ public class OverlayRenderer {
             return;
 
         boolean isOnServer = !mc.isInSingleplayer() || mc.player.networkHandler.getPlayerList().size() > 1;
-        if (Waila.CONFIG.get().getGeneral().shouldHideFromPlayerList() && mc.options.keyPlayerList.isPressed() && isOnServer)
+        if (Waila.getConfig().get().getGeneral().shouldHideFromPlayerList() && mc.options.keyPlayerList.isPressed() && isOnServer)
             return;
 
         if (!MinecraftClient.isHudEnabled())
             return;
 
-        if (mc.options.debugEnabled && Waila.CONFIG.get().getGeneral().shouldHideFromDebug())
+        if (mc.options.debugEnabled && Waila.getConfig().get().getGeneral().shouldHideFromDebug())
             return;
 
-        renderOverlay(matrices, WailaTickHandler.instance().tooltip);
+        renderOverlay(matrices, TickHandler.instance().tooltip);
     }
 
     public static void renderOverlay(MatrixStack matrices, Tooltip tooltip) {
@@ -67,7 +62,7 @@ public class OverlayRenderer {
         RenderSystem.pushMatrix();
         saveGLState();
 
-        float scale = Waila.CONFIG.get().getOverlay().getScale();
+        float scale = Waila.getConfig().get().getOverlay().getScale();
         RenderSystem.scalef(scale, scale, 1.0F);
 
         RenderSystem.disableRescaleNormal();
@@ -75,7 +70,7 @@ public class OverlayRenderer {
         RenderSystem.disableLighting();
         RenderSystem.disableDepthTest();
 
-        Rectangle position = onPreRender(tooltip);
+        Rectangle position = onPreRender.apply(tooltip);
 
         if (position == null) {
             RenderSystem.enableRescaleNormal();
@@ -86,7 +81,7 @@ public class OverlayRenderer {
             return;
         }
 
-        WailaConfig.ConfigOverlay.ConfigOverlayColor color = Waila.CONFIG.get().getOverlay().getColor();
+        WailaConfig.ConfigOverlay.ConfigOverlayColor color = Waila.getConfig().get().getOverlay().getColor();
         drawTooltipBox(position.x, position.y, position.width, position.height, color.getBackgroundColor(), color.getGradientStart(), color.getGradientEnd());
 
         RenderSystem.enableBlend();
@@ -98,7 +93,7 @@ public class OverlayRenderer {
         if (tooltip.hasItem())
             DisplayUtil.renderStack(matrices, position.x + 5, position.y + position.height / 2 - 8, RayTracing.INSTANCE.getIdentifierStack());
 
-        onPostRender(position);
+        onPostRender.accept(position);
 
         loadGLState();
         RenderSystem.enableDepthTest();

@@ -12,7 +12,6 @@ import mcp.mobius.waila.api.impl.MetaDataProvider;
 import mcp.mobius.waila.api.impl.TaggableList;
 import mcp.mobius.waila.api.impl.TaggedTextComponent;
 import mcp.mobius.waila.api.impl.config.PluginConfig;
-import me.shedaniel.architectury.annotations.ExpectPlatform;
 import net.minecraft.block.Block;
 import net.minecraft.block.FluidBlock;
 import net.minecraft.client.MinecraftClient;
@@ -27,22 +26,13 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.world.World;
 
-public class WailaTickHandler {
+public class TickHandler {
 
-    public static WailaTickHandler INSTANCE = new WailaTickHandler();
+    public static TickHandler INSTANCE = new TickHandler();
     protected static Narrator narrator;
     protected static String lastNarration = "";
     public Tooltip tooltip = null;
     public MetaDataProvider handler = new MetaDataProvider();
-
-    static {
-        registerInstance();
-    }
-
-    @ExpectPlatform
-    private static void registerInstance() {
-        throw new AssertionError();
-    }
 
     public void renderOverlay(MatrixStack matrices) {
         OverlayRenderer.renderOverlay(matrices);
@@ -51,7 +41,7 @@ public class WailaTickHandler {
     public void tickClient() {
         tooltip = null;
 
-        if (!Waila.CONFIG.get().getGeneral().shouldDisplayTooltip())
+        if (!Waila.getConfig().get().getGeneral().shouldDisplayTooltip())
             return;
 
         MinecraftClient client = MinecraftClient.getInstance();
@@ -75,7 +65,7 @@ public class WailaTickHandler {
                 accessor.set(world, player, target);
 
                 Block block = accessor.block;
-                if ((block instanceof FluidBlock && !PluginConfig.INSTANCE.get(PluginCore.CONFIG_SHOW_FLUID)) || !PluginConfig.INSTANCE.get(PluginCore.CONFIG_SHOW_BLOCK) || block.isIn(Waila.BLOCK_BLACKLIST)) {
+                if ((block instanceof FluidBlock && !PluginConfig.INSTANCE.get(PluginCore.CONFIG_SHOW_FLUID)) || !PluginConfig.INSTANCE.get(PluginCore.CONFIG_SHOW_BLOCK) || block.isIn(Waila.blockBlacklist)) {
                     return;
                 }
 
@@ -93,7 +83,7 @@ public class WailaTickHandler {
                 DataAccessor accessor = DataAccessor.INSTANCE;
                 accessor.set(world, player, target);
 
-                if (!PluginConfig.INSTANCE.get(PluginCore.CONFIG_SHOW_ENTITY) || accessor.entity.getType().isIn(Waila.ENTITY_BLACKLIST)) {
+                if (!PluginConfig.INSTANCE.get(PluginCore.CONFIG_SHOW_ENTITY) || accessor.entity.getType().isIn(Waila.entityBlacklist)) {
                     return;
                 }
 
@@ -114,7 +104,7 @@ public class WailaTickHandler {
     }
 
     private void combinePositions(PlayerEntity player, List<Text> currentTip, List<Text> currentTipHead, List<Text> currentTipBody, List<Text> currentTipTail) {
-        if (Waila.CONFIG.get().getGeneral().shouldShiftForDetails() && !currentTipBody.isEmpty() && !player.isSneaking()) {
+        if (Waila.getConfig().get().getGeneral().shouldShiftForDetails() && !currentTipBody.isEmpty() && !player.isSneaking()) {
             currentTipBody.clear();
             currentTipBody.add(new TranslatableText("tooltip.waila.sneak_for_details").setStyle(Style.EMPTY.withItalic(true)));
         }
@@ -128,9 +118,9 @@ public class WailaTickHandler {
         return narrator == null ? narrator = Narrator.getNarrator() : narrator;
     }
 
-    public static WailaTickHandler instance() {
+    public static TickHandler instance() {
         if (INSTANCE == null)
-            INSTANCE = new WailaTickHandler();
+            INSTANCE = new TickHandler();
         return INSTANCE;
     }
 

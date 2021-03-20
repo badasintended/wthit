@@ -14,7 +14,7 @@ import net.minecraft.text.Text;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
-public class WailaExceptionHandler {
+public class ExceptionHandler {
 
     private static final ArrayList<String> ERRORS = new ArrayList<>();
     private static final File ERROR_OUTPUT = new File("WailaErrorOutput.txt");

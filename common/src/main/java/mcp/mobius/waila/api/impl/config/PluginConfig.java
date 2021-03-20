@@ -21,7 +21,7 @@ public class PluginConfig implements IPluginConfig {
 
     public static final PluginConfig INSTANCE = new PluginConfig();
 
-    static final File CONFIG_FILE = Waila.CONFIG_DIR.resolve(Waila.MODID + "/" + Waila.MODID + "_plugins.json").toFile();
+    static final File CONFIG_FILE = Waila.configDir.resolve(Waila.MODID + "/" + Waila.MODID + "_plugins.json").toFile();
 
     private final Map<Identifier, ConfigEntry> configs;
 
@@ -54,7 +54,12 @@ public class PluginConfig implements IPluginConfig {
     }
 
     public List<String> getNamespaces() {
-        return configs.keySet().stream().sorted((o1, o2) -> o1.getNamespace().compareToIgnoreCase(o2.getNamespace())).map(Identifier::getNamespace).distinct().collect(Collectors.toList());
+        return configs.keySet().stream().sorted((o1, o2) -> o1.getNamespace().equals(Waila.MODID)
+            ? -1
+            : o1.getNamespace().compareToIgnoreCase(o2.getNamespace()))
+            .map(Identifier::getNamespace)
+            .distinct()
+            .collect(Collectors.toList());
     }
 
     public ConfigEntry getEntry(Identifier key) {

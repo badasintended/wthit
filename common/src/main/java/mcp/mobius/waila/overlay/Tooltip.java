@@ -3,6 +3,7 @@ package mcp.mobius.waila.overlay;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.util.List;
+import java.util.function.Consumer;
 
 import com.google.common.collect.Lists;
 import mcp.mobius.waila.Waila;
@@ -14,7 +15,6 @@ import mcp.mobius.waila.api.impl.TaggableList;
 import mcp.mobius.waila.api.impl.TaggedTextComponent;
 import mcp.mobius.waila.api.impl.config.PluginConfig;
 import mcp.mobius.waila.api.impl.config.WailaConfig;
-import me.shedaniel.architectury.annotations.ExpectPlatform;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.Window;
 import net.minecraft.client.util.math.MatrixStack;
@@ -32,12 +32,10 @@ public class Tooltip {
 
     private int topOffset = 0;
 
-    @ExpectPlatform
-    private static void onTooltip(List<Text> texts) {
-    }
+    public static Consumer<List<Text>> onCreate;
 
     public Tooltip(List<Text> texts, boolean showItem) {
-        onTooltip(texts);
+        onCreate.accept(texts);
 
         this.client = MinecraftClient.getInstance();
         this.lines = Lists.newArrayList();
@@ -75,7 +73,7 @@ public class Tooltip {
 
     public void draw(MatrixStack matrices) {
         Rectangle position = getPosition();
-        WailaConfig.ConfigOverlay.ConfigOverlayColor color = Waila.CONFIG.get().getOverlay().getColor();
+        WailaConfig.ConfigOverlay.ConfigOverlayColor color = Waila.getConfig().get().getOverlay().getColor();
 
         position.x += hasItem() ? 26 : 6;
         position.width += hasItem() ? 24 : 4;
@@ -135,8 +133,8 @@ public class Tooltip {
     public Rectangle getPosition() {
         Window window = MinecraftClient.getInstance().getWindow();
 
-        float scale = Waila.CONFIG.get().getOverlay().getScale();
-        Position pos = Waila.CONFIG.get().getOverlay().getPosition();
+        float scale = Waila.getConfig().get().getOverlay().getScale();
+        Position pos = Waila.getConfig().get().getOverlay().getPosition();
 
         int w = totalSize.width;
         int h = totalSize.height;

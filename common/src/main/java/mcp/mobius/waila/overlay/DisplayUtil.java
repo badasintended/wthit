@@ -7,7 +7,7 @@ import java.util.List;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import mcp.mobius.waila.Waila;
-import mcp.mobius.waila.utils.WailaExceptionHandler;
+import mcp.mobius.waila.utils.ExceptionHandler;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawableHelper;
@@ -39,7 +39,7 @@ public class DisplayUtil {
             renderStackSize(matrices, CLIENT.textRenderer, stack, x, y);
         } catch (Exception e) {
             String stackStr = stack != null ? stack.toString() : "NullStack";
-            WailaExceptionHandler.handleErr(e, "renderStack | " + stackStr, null);
+            ExceptionHandler.handleErr(e, "renderStack | " + stackStr, null);
         }
         enable2DRender();
     }
@@ -100,10 +100,10 @@ public class DisplayUtil {
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder buffer = tessellator.getBuffer();
         buffer.begin(7, VertexFormats.POSITION_COLOR);
-        buffer.vertex((double) (left + right), (double) top, (double) zLevel).color(f1, f2, f3, f).next();
-        buffer.vertex((double) left, (double) top, (double) zLevel).color(f1, f2, f3, f).next();
-        buffer.vertex((double) left, (double) (top + bottom), (double) zLevel).color(f5, f6, f7, f4).next();
-        buffer.vertex((double) (left + right), (double) (top + bottom), (double) zLevel).color(f5, f6, f7, f4).next();
+        buffer.vertex(left + right, top, zLevel).color(f1, f2, f3, f).next();
+        buffer.vertex(left, top, zLevel).color(f1, f2, f3, f).next();
+        buffer.vertex(left, top + bottom, zLevel).color(f5, f6, f7, f4).next();
+        buffer.vertex(left + right, top + bottom, zLevel).color(f5, f6, f7, f4).next();
         tessellator.draw();
         RenderSystem.shadeModel(7424);
         RenderSystem.disableBlend();
@@ -147,7 +147,7 @@ public class DisplayUtil {
 
     public static String itemDisplayNameShort(ItemStack itemstack) {
         List<Text> list = itemDisplayNameMultiline(itemstack);
-        return String.format(Waila.CONFIG.get().getFormatting().getBlockName(), list.get(0).getString());
+        return String.format(Waila.getConfig().get().getFormatting().getBlockName(), list.get(0).getString());
     }
 
     public static void renderIcon(int x, int y, int sx, int sy, IconUI icon) {

@@ -1,4 +1,4 @@
-package mcp.mobius.waila.network.forge;
+package mcp.mobius.waila.forge;
 
 import java.util.Map;
 import java.util.Set;
@@ -25,18 +25,16 @@ import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 import org.jetbrains.annotations.Nullable;
 
-import static mcp.mobius.waila.network.forge.ClientNetworkHandlerImpl.ReceiveData;
+public class ForgeNetworkHandler extends NetworkHandler {
 
-public class NetworkHandlerImpl extends NetworkHandler {
-
-    private static final String PROTOCOL = "1.0.0";
-
-    public static final SimpleChannel NETWORK = NetworkRegistry.newSimpleChannel(
+    static final String PROTOCOL = "1.0.0";
+    static final SimpleChannel NETWORK = NetworkRegistry.newSimpleChannel(
         new Identifier(Waila.MODID, "networking"),
         () -> PROTOCOL, p -> true, p -> true
     );
 
-    public static void init() {
+    @Override
+    public void main() {
         int i = 0;
         NETWORK.registerMessage(i++, ReceiveData.class,
             (msg, buf) -> buf.writeCompoundTag(msg.tag),
@@ -137,16 +135,18 @@ public class NetworkHandlerImpl extends NetworkHandler {
         );
     }
 
-    public static void requestEntity(Entity entity) {
-        NETWORK.sendToServer(new RequestEntity(entity.getEntityId()));
-    }
-
-    public static void requestTile(BlockEntity blockEntity) {
-        NETWORK.sendToServer(new RequestBlockEntity(blockEntity.getPos()));
-    }
-
-    public static void sendConfig(PluginConfig config, ServerPlayerEntity player) {
+    public void sendConfig(PluginConfig config, ServerPlayerEntity player) {
         NETWORK.send(PacketDistributor.PLAYER.with(() -> player), new SendConfig(config));
+    }
+
+    @Override
+    public void requestEntity(Entity entity) {
+        ForgeNetworkHandler.NETWORK.sendToServer(new ForgeNetworkHandler.RequestEntity(entity.getEntityId()));
+    }
+
+    @Override
+    public void requestBlock(BlockEntity blockEntity) {
+        ForgeNetworkHandler.NETWORK.sendToServer(new ForgeNetworkHandler.RequestBlockEntity(blockEntity.getPos()));
     }
 
     public static class SendConfig {
@@ -180,6 +180,16 @@ public class NetworkHandlerImpl extends NetworkHandler {
 
         RequestBlockEntity(BlockPos pos) {
             this.pos = pos;
+        }
+
+    }
+
+    public static class ReceiveData {
+
+        public CompoundTag tag;
+
+        public ReceiveData(CompoundTag tag) {
+            this.tag = tag;
         }
 
     }
