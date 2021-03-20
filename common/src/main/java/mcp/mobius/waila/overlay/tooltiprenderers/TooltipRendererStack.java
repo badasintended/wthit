@@ -13,13 +13,16 @@ import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.StringNbtReader;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Lazy;
 import net.minecraft.util.registry.Registry;
 
-public class TooltipRendererStack implements ITooltipRenderer {
+public class TooltipRendererStack extends DisplayUtil implements ITooltipRenderer {
+
+    private static final Lazy<Dimension> DIMENSION = new Lazy<>(() -> new Dimension(18, 18));
 
     @Override
     public Dimension getSize(CompoundTag tag, ICommonAccessor accessor) {
-        return new Dimension(18, 18);
+        return DIMENSION.get();
     }
 
     @Override
@@ -43,7 +46,7 @@ public class TooltipRendererStack implements ITooltipRenderer {
         if (stackTag != null)
             stack.setTag(stackTag);
 
-        DisplayUtil.renderStack(matrices, x, y, stack);
+        renderStack(x, y, stack);
     }
 
 }

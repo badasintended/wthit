@@ -11,7 +11,7 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.math.MathHelper;
 
-public class TooltipRendererHealth implements ITooltipRenderer {
+public class TooltipRendererHealth extends DisplayUtil implements ITooltipRenderer {
 
     @Override
     public Dimension getSize(CompoundTag tag, ICommonAccessor accessor) {
@@ -36,17 +36,17 @@ public class TooltipRendererHealth implements ITooltipRenderer {
         int xOffset = 0;
         for (int i = 1; i <= heartCount; i++) {
             if (i <= MathHelper.floor(health)) {
-                DisplayUtil.renderIcon(x + xOffset, y, 8, 8, IconUI.HEART);
+                renderIcon(matrices, x + xOffset, y, 8, 8, IconUI.HEART);
                 xOffset += 8;
             }
 
             if ((i > health) && (i < health + 1)) {
-                DisplayUtil.renderIcon(x + xOffset, y, 8, 8, IconUI.HALF_HEART);
+                renderIcon(matrices, x + xOffset, y, 8, 8, IconUI.HALF_HEART);
                 xOffset += 8;
             }
 
             if (i >= health + 1) {
-                DisplayUtil.renderIcon(x + xOffset, y, 8, 8, IconUI.EMPTY_HEART);
+                renderIcon(matrices, x + xOffset, y, 8, 8, IconUI.EMPTY_HEART);
                 xOffset += 8;
             }
 

@@ -9,7 +9,7 @@ import mcp.mobius.waila.overlay.IconUI;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.nbt.CompoundTag;
 
-public class TooltipRendererIcon implements ITooltipRenderer {
+public class TooltipRendererIcon extends DisplayUtil implements ITooltipRenderer {
 
     private final String type;
     private final int size = 8;
@@ -25,7 +25,7 @@ public class TooltipRendererIcon implements ITooltipRenderer {
 
     @Override
     public void draw(MatrixStack matrices, CompoundTag tag, ICommonAccessor accessor, int x, int y) {
-        DisplayUtil.renderIcon(x, y, size, size, IconUI.bySymbol(type));
+        renderIcon(matrices, x, y, size, size, IconUI.bySymbol(type));
     }
 
 }

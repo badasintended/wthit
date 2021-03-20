@@ -10,16 +10,14 @@ import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.impl.config.WailaConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ChatScreen;
+import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.util.math.MatrixStack;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.opengl.GL12;
 
-public class OverlayRenderer {
+public class OverlayRenderer extends DisplayUtil {
 
     protected static boolean hasLight;
     protected static boolean hasDepthTest;
-    protected static boolean hasRescaleNormal;
-    protected static boolean hasColorMaterial;
     protected static boolean depthMask;
     protected static int depthFunc;
 
@@ -65,15 +63,11 @@ public class OverlayRenderer {
         float scale = Waila.getConfig().get().getOverlay().getScale();
         RenderSystem.scalef(scale, scale, 1.0F);
 
-        RenderSystem.disableRescaleNormal();
+        enable2DRender();
 
-        RenderSystem.disableLighting();
-        RenderSystem.disableDepthTest();
+        Rectangle rect = onPreRender.apply(tooltip);
 
-        Rectangle position = onPreRender.apply(tooltip);
-
-        if (position == null) {
-            RenderSystem.enableRescaleNormal();
+        if (rect == null) {
             loadGLState();
             RenderSystem.enableDepthTest();
             RenderSystem.popMatrix();
@@ -82,18 +76,16 @@ public class OverlayRenderer {
         }
 
         WailaConfig.ConfigOverlay.ConfigOverlayColor color = Waila.getConfig().get().getOverlay().getColor();
-        drawTooltipBox(position.x, position.y, position.width, position.height, color.getBackgroundColor(), color.getGradientStart(), color.getGradientEnd());
+        drawTooltipBox(matrices, rect.x, rect.y, rect.width, rect.height, color.getBackgroundColor(), color.getGradientStart(), color.getGradientEnd());
 
         RenderSystem.enableBlend();
-        RenderSystem.blendFunc(770, 771);
         tooltip.draw(matrices);
         RenderSystem.disableBlend();
 
-        RenderSystem.enableRescaleNormal();
         if (tooltip.hasItem())
-            DisplayUtil.renderStack(matrices, position.x + 5, position.y + position.height / 2 - 8, RayTracing.INSTANCE.getIdentifierStack());
+            renderStack(rect.x + 5, rect.y + rect.height / 2 - 8, RayTracing.INSTANCE.getIdentifierStack());
 
-        onPostRender.accept(position);
+        onPostRender.accept(rect);
 
         loadGLState();
         RenderSystem.enableDepthTest();
@@ -104,48 +96,35 @@ public class OverlayRenderer {
     public static void saveGLState() {
         hasLight = GL11.glGetBoolean(GL11.GL_LIGHTING);
         hasDepthTest = GL11.glGetBoolean(GL11.GL_DEPTH_TEST);
-        hasRescaleNormal = GL11.glGetBoolean(GL12.GL_RESCALE_NORMAL);
-        hasColorMaterial = GL11.glGetBoolean(GL11.GL_COLOR_MATERIAL);
         depthFunc = GL11.glGetInteger(GL11.GL_DEPTH_FUNC);
         depthMask = GL11.glGetBoolean(GL11.GL_DEPTH_WRITEMASK);
-        GL11.glPushAttrib(GL11.GL_CURRENT_BIT); // Leave me alone :(
     }
 
     public static void loadGLState() {
         RenderSystem.depthMask(depthMask);
         RenderSystem.depthFunc(depthFunc);
         if (hasLight)
-            RenderSystem.enableLighting();
+            DiffuseLighting.enable();
         else
-            RenderSystem.disableLighting();
+            DiffuseLighting.disable();
 
         if (hasDepthTest)
             RenderSystem.enableDepthTest();
         else
             RenderSystem.disableDepthTest();
-        if (hasRescaleNormal)
-            RenderSystem.enableRescaleNormal();
-        else
-            RenderSystem.disableRescaleNormal();
-        if (hasColorMaterial)
-            RenderSystem.enableColorMaterial();
-        else
-            RenderSystem.disableColorMaterial();
-
-        RenderSystem.popAttributes();
     }
 
-    public static void drawTooltipBox(int x, int y, int w, int h, int bg, int grad1, int grad2) {
-        DisplayUtil.drawGradientRect(x + 1, y, w - 1, 1, bg, bg);
-        DisplayUtil.drawGradientRect(x + 1, y + h, w - 1, 1, bg, bg);
-        DisplayUtil.drawGradientRect(x + 1, y + 1, w - 1, h - 1, bg, bg);//center
-        DisplayUtil.drawGradientRect(x, y + 1, 1, h - 1, bg, bg);
-        DisplayUtil.drawGradientRect(x + w, y + 1, 1, h - 1, bg, bg);
-        DisplayUtil.drawGradientRect(x + 1, y + 2, 1, h - 3, grad1, grad2);
-        DisplayUtil.drawGradientRect(x + w - 1, y + 2, 1, h - 3, grad1, grad2);
+    public static void drawTooltipBox(MatrixStack matrices, int x, int y, int w, int h, int bg, int grad1, int grad2) {
+        drawGradientRect(matrices, x + 1, y, w - 1, 1, bg, bg);
+        drawGradientRect(matrices, x + 1, y + h, w - 1, 1, bg, bg);
+        drawGradientRect(matrices, x + 1, y + 1, w - 1, h - 1, bg, bg);
+        drawGradientRect(matrices, x, y + 1, 1, h - 1, bg, bg);
+        drawGradientRect(matrices, x + w, y + 1, 1, h - 1, bg, bg);
+        drawGradientRect(matrices, x + 1, y + 2, 1, h - 3, grad1, grad2);
+        drawGradientRect(matrices, x + w - 1, y + 2, 1, h - 3, grad1, grad2);
 
-        DisplayUtil.drawGradientRect(x + 1, y + 1, w - 1, 1, grad1, grad1);
-        DisplayUtil.drawGradientRect(x + 1, y + h - 1, w - 1, 1, grad2, grad2);
+        drawGradientRect(matrices, x + 1, y + 1, w - 1, 1, grad1, grad1);
+        drawGradientRect(matrices, x + 1, y + h - 1, w - 1, 1, grad2, grad2);
     }
 
 }
