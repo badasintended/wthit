@@ -3,7 +3,7 @@ dependencies {
 }
 
 architectury {
-    common()
+    common(false)
     injectInjectables = false
 }
 

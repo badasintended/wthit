@@ -65,7 +65,7 @@ public class TickHandler {
                 accessor.set(world, player, target);
 
                 Block block = accessor.block;
-                if ((block instanceof FluidBlock && !PluginConfig.INSTANCE.get(PluginCore.CONFIG_SHOW_FLUID)) || !PluginConfig.INSTANCE.get(PluginCore.CONFIG_SHOW_BLOCK) || block.isIn(Waila.blockBlacklist)) {
+                if ((block instanceof FluidBlock && !PluginConfig.INSTANCE.get(PluginCore.CONFIG_SHOW_FLUID)) || !PluginConfig.INSTANCE.get(PluginCore.CONFIG_SHOW_BLOCK) || Waila.blockBlacklist.contains(block)) {
                     return;
                 }
 

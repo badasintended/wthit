@@ -11,6 +11,7 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.client.render.DiffuseLighting;
+import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.LiteralText;
@@ -29,13 +30,14 @@ public class DisplayUtil extends DrawableHelper {
     private static final LiteralText UNNAMED = new LiteralText("Unnamed");
 
     public static void bind(Identifier texture) {
-        CLIENT.getTextureManager().bindTexture(texture);
+        RenderSystem.setShader(GameRenderer::method_34542);
+        RenderSystem.setShaderTexture(0, texture);
     }
 
     public static void renderStack(int x, int y, ItemStack stack) {
         enable3DRender();
         try {
-            CLIENT.getItemRenderer().renderInGui(stack, x, y);
+            CLIENT.getItemRenderer().renderGuiItemIcon(stack, x, y);
             CLIENT.getItemRenderer().renderGuiItemOverlay(CLIENT.textRenderer, stack, x, y, stack.getCount() > 1 ? shortHandNumber(stack.getCount()) : "");
         } catch (Exception e) {
             String stackStr = stack != null ? stack.toString() : "NullStack";
@@ -54,12 +56,12 @@ public class DisplayUtil extends DrawableHelper {
     }
 
     public static void enable3DRender() {
-        DiffuseLighting.enable();
+        DiffuseLighting.enableGuiDepthLighting();
         RenderSystem.enableDepthTest();
     }
 
     public static void enable2DRender() {
-        DiffuseLighting.disable();
+        DiffuseLighting.disableGuiDepthLighting();
         RenderSystem.disableDepthTest();
     }
 
@@ -97,7 +99,7 @@ public class DisplayUtil extends DrawableHelper {
     }
 
     public static void renderIcon(MatrixStack matrices, int x, int y, int sx, int sy, IconUI icon) {
-        RenderSystem.blendColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
         bind(GUI_ICONS_TEXTURE);
 
         if (icon == null)

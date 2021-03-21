@@ -1,6 +1,6 @@
 package mcp.mobius.waila;
 
-import net.minecraft.client.options.KeyBinding;
+import net.minecraft.client.option.KeyBinding;
 
 public abstract class WailaClient {
 

@@ -129,10 +129,10 @@ public class DataAccessor implements ICommonAccessor, IDataAccessor, IEntityAcce
             return serverData;
 
         if (this.blockEntity != null)
-            return blockEntity.toTag(new CompoundTag());
+            return blockEntity.writeNbt(new CompoundTag());
 
         if (this.entity != null)
-            return entity.toTag(new CompoundTag());
+            return entity.writeNbt(new CompoundTag());
 
         return new CompoundTag();
     }
@@ -168,7 +168,7 @@ public class DataAccessor implements ICommonAccessor, IDataAccessor, IEntityAcce
 
         int id = tag.getInt("WailaEntityID");
 
-        if (id == this.entity.getEntityId())
+        if (id == this.entity.getId())
             return true;
         else {
             this.timeLastUpdate = System.currentTimeMillis() - 250;

@@ -10,16 +10,9 @@ import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.impl.config.WailaConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ChatScreen;
-import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.util.math.MatrixStack;
-import org.lwjgl.opengl.GL11;
 
 public class OverlayRenderer extends DisplayUtil {
-
-    protected static boolean hasLight;
-    protected static boolean hasDepthTest;
-    protected static boolean depthMask;
-    protected static int depthFunc;
 
     public static Function<Tooltip, Rectangle> onPreRender;
     public static Consumer<Rectangle> onPostRender;
@@ -57,61 +50,43 @@ public class OverlayRenderer extends DisplayUtil {
         }
 
         MinecraftClient.getInstance().getProfiler().push("Waila Overlay");
-        RenderSystem.pushMatrix();
-        saveGLState();
+        RenderSystem.getModelViewStack().push();
+        RenderSystem.applyModelViewMatrix();
 
         float scale = Waila.getConfig().get().getOverlay().getScale();
-        RenderSystem.scalef(scale, scale, 1.0F);
+        RenderSystem.getModelViewStack().scale(scale, scale, 1.0f);
 
         enable2DRender();
 
         Rectangle rect = onPreRender.apply(tooltip);
 
         if (rect == null) {
-            loadGLState();
             RenderSystem.enableDepthTest();
-            RenderSystem.popMatrix();
+            RenderSystem.getModelViewStack().pop();
             MinecraftClient.getInstance().getProfiler().pop();
             return;
         }
 
+        matrices.push();
+        matrices.scale(scale, scale, 1.0f);
         WailaConfig.ConfigOverlay.ConfigOverlayColor color = Waila.getConfig().get().getOverlay().getColor();
         drawTooltipBox(matrices, rect.x, rect.y, rect.width, rect.height, color.getBackgroundColor(), color.getGradientStart(), color.getGradientEnd());
+        matrices.pop();
+
+        if (tooltip.hasItem())
+            renderStack(rect.x + 5, rect.y + rect.height / 2 - 8, RayTracing.INSTANCE.getIdentifierStack());
 
         RenderSystem.enableBlend();
         tooltip.draw(matrices);
         RenderSystem.disableBlend();
 
-        if (tooltip.hasItem())
-            renderStack(rect.x + 5, rect.y + rect.height / 2 - 8, RayTracing.INSTANCE.getIdentifierStack());
-
         onPostRender.accept(rect);
 
-        loadGLState();
         RenderSystem.enableDepthTest();
-        RenderSystem.popMatrix();
+        RenderSystem.getModelViewStack().pop();
+        RenderSystem.applyModelViewMatrix();
+        matrices.pop();
         MinecraftClient.getInstance().getProfiler().pop();
-    }
-
-    public static void saveGLState() {
-        hasLight = GL11.glGetBoolean(GL11.GL_LIGHTING);
-        hasDepthTest = GL11.glGetBoolean(GL11.GL_DEPTH_TEST);
-        depthFunc = GL11.glGetInteger(GL11.GL_DEPTH_FUNC);
-        depthMask = GL11.glGetBoolean(GL11.GL_DEPTH_WRITEMASK);
-    }
-
-    public static void loadGLState() {
-        RenderSystem.depthMask(depthMask);
-        RenderSystem.depthFunc(depthFunc);
-        if (hasLight)
-            DiffuseLighting.enable();
-        else
-            DiffuseLighting.disable();
-
-        if (hasDepthTest)
-            RenderSystem.enableDepthTest();
-        else
-            RenderSystem.disableDepthTest();
     }
 
     public static void drawTooltipBox(MatrixStack matrices, int x, int y, int w, int h, int bg, int grad1, int grad2) {

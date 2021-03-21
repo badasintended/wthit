@@ -20,8 +20,8 @@ dependencies {
 ext {
     curseforge = [
         id     : "440979",
-        type   : "release",
-        support: ["1.16.2", "1.16.3", "1.16.4", "1.16.5"],
+        type   : "beta",
+        support: ["1.17-Snapshot"],
         require: ["fabric-api"]
     ]
 }

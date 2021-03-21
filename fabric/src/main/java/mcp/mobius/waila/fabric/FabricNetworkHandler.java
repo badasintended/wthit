@@ -49,10 +49,10 @@ public class FabricNetworkHandler extends NetworkHandler {
                 if (WailaRegistrar.INSTANCE.hasNBTEntityProviders(entity)) {
                     WailaRegistrar.INSTANCE.getNBTEntityProviders(entity).values().forEach(l -> l.forEach(p -> p.appendServerData(tag, player, world, (LivingEntity) entity)));
                 } else {
-                    entity.toTag(tag);
+                    entity.writeNbt(tag);
                 }
 
-                tag.putInt("WailaEntityID", entity.getEntityId());
+                tag.putInt("WailaEntityID", entity.getId());
 
                 PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
                 buf.writeCompoundTag(tag);
@@ -78,7 +78,7 @@ public class FabricNetworkHandler extends NetworkHandler {
                     WailaRegistrar.INSTANCE.getNBTProviders(tile).values().forEach(l -> l.forEach(p -> p.appendServerData(tag, player, world, tile)));
                     WailaRegistrar.INSTANCE.getNBTProviders(state.getBlock()).values().forEach(l -> l.forEach(p -> p.appendServerData(tag, player, world, tile)));
                 } else {
-                    tile.toTag(tag);
+                    tile.writeNbt(tag);
                 }
 
                 tag.putInt("x", pos.getX());
@@ -137,7 +137,7 @@ public class FabricNetworkHandler extends NetworkHandler {
     @Environment(EnvType.CLIENT)
     public void requestEntity(Entity entity) {
         PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
-        buf.writeInt(entity.getEntityId());
+        buf.writeInt(entity.getId());
         ClientPlayNetworking.send(REQUEST_ENTITY, buf);
     }
 
