@@ -36,7 +36,7 @@ public class DisplayUtil extends DrawableHelper {
         enable3DRender();
         try {
             CLIENT.getItemRenderer().renderInGui(stack, x, y);
-            CLIENT.getItemRenderer().renderGuiItemOverlay(CLIENT.textRenderer, stack, x, y, shortHandNumber(stack.getCount()));
+            CLIENT.getItemRenderer().renderGuiItemOverlay(CLIENT.textRenderer, stack, x, y, stack.getCount() > 1 ? shortHandNumber(stack.getCount()) : "");
         } catch (Exception e) {
             String stackStr = stack != null ? stack.toString() : "NullStack";
             ExceptionHandler.handleErr(e, "renderStack | " + stackStr, null);
@@ -98,7 +98,7 @@ public class DisplayUtil extends DrawableHelper {
 
     public static void renderIcon(MatrixStack matrices, int x, int y, int sx, int sy, IconUI icon) {
         RenderSystem.blendColor(1.0F, 1.0F, 1.0F, 1.0F);
-        CLIENT.getTextureManager().bindTexture(DrawableHelper.GUI_ICONS_TEXTURE);
+        bind(GUI_ICONS_TEXTURE);
 
         if (icon == null)
             return;
