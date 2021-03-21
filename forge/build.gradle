@@ -22,3 +22,4 @@ ext {
 
 apply from: "../gradle/platform.gradle"
 apply from: "../gradle/gitlab_maven.gradle"
+apply from: "../gradle/curseforge.gradle"
