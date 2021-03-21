@@ -3,6 +3,7 @@ package mcp.mobius.waila.gui.config.value;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+import mcp.mobius.waila.mixin.AccessorTextFieldWidget;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.widget.TextFieldWidget;
@@ -70,6 +71,29 @@ public class OptionsEntryValueInput<T> extends OptionsEntryValue<T> {
         public WatchedTextfield(OptionsEntryValueInput<?> watcher, TextRenderer fontRenderer, int x, int y, int width, int height) {
             super(fontRenderer, x, y, width, height, new LiteralText(""));
             this.setChangedListener(watcher::setValue);
+        }
+
+        @Override
+        public void write(String string) {
+            AccessorTextFieldWidget self = (AccessorTextFieldWidget) this;
+
+            int i = self.getSelectionStart() < self.getSelectionEnd() ? self.getSelectionStart() : self.getSelectionEnd();
+            int j = self.getSelectionStart() < self.getSelectionEnd() ? self.getSelectionEnd() : self.getSelectionStart();
+            int k = self.getMaxLength() - getText().length() - (i - j);
+            String string2 = string;
+            int l = string2.length();
+            if (k < l) {
+                string2 = string2.substring(0, k);
+                l = k;
+            }
+
+            String string3 = (new StringBuilder(getText())).replace(i, j, string2).toString();
+            if (self.getTextPredicate().test(string3)) {
+                self.set(string3);
+                this.setSelectionStart(i + l);
+                this.setSelectionEnd(self.getSelectionStart());
+                self.callOnChanged(getText());
+            }
         }
 
     }

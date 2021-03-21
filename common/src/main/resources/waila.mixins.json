@@ -1,0 +1,12 @@
+{
+  "required"          : true,
+  "minVersion"        : "0.8",
+  "package"           : "mcp.mobius.waila.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "injectors"         : {
+    "defaultRequire": 1
+  },
+  "client"            : [
+    "AccessorTextFieldWidget"
+  ]
+}

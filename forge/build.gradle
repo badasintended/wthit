@@ -2,10 +2,6 @@ architectury {
     forge()
 }
 
-loom {
-    useFabricMixin = true
-}
-
 dependencies {
     forge "net.minecraftforge:forge:${minecraft}-${forge}"
 

@@ -8,6 +8,11 @@ architectury {
     platformSetupLoomIde()
 }
 
+loom {
+    useFabricMixin = true
+    mixinConfig "waila.mixins.json"
+}
+
 dependencies {
     implementation(project(":common")) { transitive = false }
     shadowCommon(project(path: ":common", configuration: "transformProduction${name.capitalize()}")) { transitive = false }
