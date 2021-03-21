@@ -1,0 +1,40 @@
+apply plugin: "com.matthewprenger.cursegradle"
+
+def releaseLink = "https://github.com/badasintended/wthit/releases/tag/${project.version}"
+
+curseforge {
+    if (System.getenv("CURSEFORGE_API") != null) {
+        apiKey = System.getenv("CURSEFORGE_API")
+        project {
+            id = project.ext.curseforge.id
+            releaseType = project.ext.curseforge.type
+
+            changelogType = "html"
+            changelog = "<a href=\"${releaseLink}\">${releaseLink}</a>"
+
+            project.ext.curseforge.support.each {
+                addGameVersion it
+            }
+            addGameVersion project.name.capitalize()
+
+            mainArtifact(remapJar.archivePath) {
+                displayName = "[${project.minecraft}] v${project.version}"
+            }
+
+            relations {
+                if (project.ext.curseforge.containsKey("require")) project.ext.curseforge.require.each {
+                    requiredDependency it
+                }
+            }
+
+            afterEvaluate {
+                uploadTask.dependsOn("build")
+            }
+        }
+    }
+
+    options {
+        forgeGradleIntegration = false
+        javaVersionAutoDetect = false
+    }
+}

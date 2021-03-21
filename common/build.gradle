@@ -7,18 +7,4 @@ architectury {
     injectInjectables = false
 }
 
-java {
-    withSourcesJar()
-}
-
-publishing {
-    publications {
-        mavenCommon(MavenPublication) {
-            artifactId = rootProject.archivesBaseName
-            artifact remapJar
-            artifact(sourcesJar) {
-                builtBy remapSourcesJar
-            }
-        }
-    }
-}
+apply from: "../gradle/gitlab_maven.gradle"

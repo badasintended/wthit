@@ -1,6 +1,8 @@
 plugins {
     id "architectury-plugin" version "3.0-SNAPSHOT"
     id "forgified-fabric-loom" version "0.6-SNAPSHOT" apply false
+    id "com.github.johnrengelman.shadow" version "5.0.0" apply false
+    id "com.matthewprenger.cursegradle" version "1.4.0" apply false
     id "maven-publish"
 }
 

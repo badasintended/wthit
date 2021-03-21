@@ -1,0 +1,47 @@
+apply plugin: "com.github.johnrengelman.shadow"
+
+configurations {
+    shadowCommon
+}
+
+architectury {
+    platformSetupLoomIde()
+}
+
+dependencies {
+    implementation(project(":common")) { transitive = false }
+    shadowCommon(project(path: ":common", configuration: "transformProduction${name.capitalize()}")) { transitive = false }
+}
+
+processResources {
+    inputs.property "version", project.version
+
+    filesMatching("fabric.mod.json") {
+        expand "version": project.version
+    }
+
+    filesMatching("META-INF/mods.toml") {
+        expand "version": project.version
+    }
+}
+
+shadowJar {
+    configurations = [project.configurations.shadowCommon]
+    classifier "dev-shadow"
+}
+
+remapJar {
+    input.set shadowJar.archiveFile
+    dependsOn shadowJar
+    classifier project.name
+}
+
+jar {
+    classifier "dev"
+}
+
+sourcesJar {
+    def commonSources = project(":common").remapSourcesJar
+    dependsOn commonSources
+    from zipTree(commonSources.output)
+}

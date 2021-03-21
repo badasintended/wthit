@@ -1,19 +1,10 @@
-plugins {
-    id "com.github.johnrengelman.shadow" version "5.0.0"
+architectury {
+    fabric()
 }
 
 repositories {
     maven { url "https://maven.terraformersmc.com/releases" }
     maven { url "https://hephaestus.dev/release" }
-}
-
-configurations {
-    shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
-}
-
-architectury {
-    platformSetupLoomIde()
-    fabric()
 }
 
 dependencies {
@@ -23,68 +14,18 @@ dependencies {
     modImplementation "com.terraformersmc:modmenu:$modMenu"
     modImplementation "dev.inkwell:hermes:1.0.0"
 
-    implementation(project(":common")) { transitive = false }
     developmentFabric(project(":common")) { transitive = false }
-    shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive = false }
 }
 
-processResources {
-    inputs.property "version", project.version
-
-    filesMatching("fabric.mod.json") {
-        expand "version": project.version
-    }
+ext {
+    curseforge = [
+        id     : "440979",
+        type   : "release",
+        support: ["1.16.2", "1.16.3", "1.16.4", "1.16.5"],
+        require: ["fabric-api"]
+    ]
 }
 
-shadowJar {
-    configurations = [project.configurations.shadowCommon]
-    classifier "dev-shadow"
-}
-
-remapJar {
-    input.set shadowJar.archiveFile
-    dependsOn shadowJar
-    classifier "fabric"
-}
-
-jar {
-    classifier "dev"
-}
-
-java {
-    withSourcesJar()
-}
-
-sourcesJar {
-    def commonSources = project(":common").remapSourcesJar
-    dependsOn commonSources
-    from zipTree(commonSources.output)
-}
-
-publishing {
-    publications {
-        mavenFabric(MavenPublication) {
-            artifactId = rootProject.archivesBaseName + "-" + project.name
-            artifact(remapJar) {
-                classifier null
-            }
-            artifact(sourcesJar) {
-                builtBy remapSourcesJar
-            }
-        }
-    }
-
-    repositories {
-        maven {
-            url "https://gitlab.com/api/v4/projects/25106863/packages/maven"
-            name "GitLab"
-            credentials(HttpHeaderCredentials) {
-                name = 'Private-Token'
-                value = System.getenv("GITLAB_TOKEN")
-            }
-            authentication {
-                header(HttpHeaderAuthentication)
-            }
-        }
-    }
-}
+apply from: "../gradle/platform.gradle"
+apply from: "../gradle/gitlab_maven.gradle"
+apply from: "../gradle/curseforge.gradle"

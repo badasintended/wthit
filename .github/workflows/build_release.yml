@@ -12,27 +12,28 @@ jobs:
       - uses: actions/checkout@v2
       - uses: actions/setup-java@v1
         with:
-          java-version : 1.15
-      - run : chmod +x gradlew
-      - uses : actions/cache@v2
-        with :
-          path : ~/.gradle/caches
-          key : ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
-          restore-keys : ${{ runner.os }}-gradle
-      - run : ./gradlew build publishToMavenLocal publish
-        env :
-          MOD_VERSION : ${{ steps.vars.outputs.VERSION }}
-          GITLAB_TOKEN : ${{ secrets.GITLAB_MAVEN }}
-      - uses : actions/upload-artifact@v2
-        with :
-          name : fabric ${{ steps.vars.outputs.VERSION }}
-          path : "~/.m2/repository/mcp/mobius/waila/wthit-fabric/${{ steps.vars.outputs.VERSION }}/**.jar"
-      - uses : actions/upload-artifact@v2
-        with :
-          name : forge ${{ steps.vars.outputs.VERSION }}
-          path : "~/.m2/repository/mcp/mobius/waila/wthit-forge/${{ steps.vars.outputs.VERSION }}/**.jar"
-      - uses : alexellis/upload-assets@0.2.2
-        env :
-          GITHUB_TOKEN : ${{ github.token }}
-        with :
-          asset_paths : '["~/.m2/repository/mcp/mobius/waila/wthit-**/${{ steps.vars.outputs.VERSION }}/*[0-9.].jar"]'
+          java-version: 1.15
+      - run: chmod +x gradlew
+      - uses: actions/cache@v2
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+          restore-keys: ${{ runner.os }}-gradle
+      - run: ./gradlew build publish curseforge
+        env:
+          MOD_VERSION: ${{ steps.vars.outputs.VERSION }}
+          GITLAB_TOKEN: ${{ secrets.GITLAB_MAVEN }}
+          CURSEFORGE_API: ${{ secrets.CURSEFORGE_API }}
+      - uses: actions/upload-artifact@v2
+        with:
+          name: fabric ${{ steps.vars.outputs.VERSION }}
+          path: "./fabric/build/libs/wthit-**-fabric.jar"
+      - uses: actions/upload-artifact@v2
+        with:
+          name: forge ${{ steps.vars.outputs.VERSION }}
+          path: "./forge/build/libs/wthit-**-forge.jar"
+      - uses: alexellis/upload-assets@0.2.2
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        with:
+          asset_paths: '["./fabric/build/libs/wthit-**-fabric.jar","./forge/build/libs/wthit-**-forge.jar"]'
