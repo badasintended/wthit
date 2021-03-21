@@ -11,8 +11,7 @@
 
 ```groovy
 repositories {  
-    // blame github for requiring an auth for accessing artifacts
-    maven { url "https://gitlab.com/api/v4/projects/25106863/packages/maven" }
+    maven { url "https://bai.jfrog.io/artifactory/maven" }
 }
 ```
 
