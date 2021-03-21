@@ -21,8 +21,8 @@ curseforge {
                 displayName = "[${project.minecraft}] v${project.version}"
             }
 
-            relations {
-                if (project.ext.curseforge.containsKey("require")) project.ext.curseforge.require.each {
+            if (project.ext.curseforge.containsKey("require")) relations {
+                project.ext.curseforge.require.each {
                     requiredDependency it
                 }
             }
