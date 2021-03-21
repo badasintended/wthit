@@ -4,7 +4,7 @@
   "provides"     : ["waila"],
   "version"      : "${version}",
   "custom"       : {
-    "hermes": true,
+    "hermes"       : true,
     "waila:plugins": [
       {
         "id"         : "waila:core",
@@ -22,6 +22,8 @@
     "client" : ["mcp.mobius.waila.fabric.FabricWailaClient"],
     "modmenu": ["mcp.mobius.waila.fabric.FabricWailaModMenu"]
   },
+
+  "mixins"       : ["waila.mixins.json"],
 
   "name"         : "wthit",
   "description"  : "What the hell is that?",

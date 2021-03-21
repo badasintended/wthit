@@ -7,7 +7,6 @@ import mcp.mobius.waila.gui.config.value.OptionsEntryValueInput;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
-import org.apache.commons.lang3.StringEscapeUtils;
 
 public class GuiConfigWaila extends GuiOptions {
 
@@ -109,19 +108,19 @@ public class GuiConfigWaila extends GuiOptions {
                 public OptionsListWidget getOptions() {
                     return new OptionsListWidget(this, client, width + 45, height, 32, height - 32, 30)
                         .withInput("config.waila.format_mod_name",
-                            StringEscapeUtils.escapeJava(get().getFormatting().getModName()),
+                            get().getFormatting().getModName(),
                             val -> get().getFormatting().setModName(val.isEmpty() || !val.contains("%s") ? get().getFormatting().getModName() : val))
                         .withInput("config.waila.format_block_name",
-                            StringEscapeUtils.escapeJava(get().getFormatting().getBlockName()),
+                            get().getFormatting().getBlockName(),
                             val -> get().getFormatting().setBlockName(val.isEmpty() || !val.contains("%s") ? get().getFormatting().getBlockName() : val))
                         .withInput("config.waila.format_fluid_name",
-                            StringEscapeUtils.escapeJava(get().getFormatting().getFluidName()),
+                            get().getFormatting().getFluidName(),
                             val -> get().getFormatting().setFluidName(val.isEmpty() || !val.contains("%s") ? get().getFormatting().getFluidName() : val))
                         .withInput("config.waila.format_entity_name",
-                            StringEscapeUtils.escapeJava(get().getFormatting().getEntityName()),
+                            get().getFormatting().getEntityName(),
                             val -> get().getFormatting().setEntityName(val.isEmpty() || !val.contains("%s") ? get().getFormatting().getEntityName() : val))
                         .withInput("config.waila.format_registry_name",
-                            StringEscapeUtils.escapeJava(get().getFormatting().getRegistryName()),
+                            get().getFormatting().getRegistryName(),
                             val -> get().getFormatting().setRegistryName(val.isEmpty() || !val.contains("%s") ? get().getFormatting().getRegistryName() : val));
                 }
             }));
