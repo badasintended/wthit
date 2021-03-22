@@ -88,8 +88,8 @@ public class ForgeWailaClient extends WailaClient {
             }
 
             while (showOverlay.isPressed()) {
-                if (Waila.getConfig().get().getGeneral().getDisplayMode() == WailaConfig.DisplayMode.TOGGLE) {
-                    Waila.getConfig().get().getGeneral().setDisplayTooltip(!Waila.getConfig().get().getGeneral().shouldDisplayTooltip());
+                if (Waila.CONFIG.get().getGeneral().getDisplayMode() == WailaConfig.DisplayMode.TOGGLE) {
+                    Waila.CONFIG.get().getGeneral().setDisplayTooltip(!Waila.CONFIG.get().getGeneral().shouldDisplayTooltip());
                 }
             }
 

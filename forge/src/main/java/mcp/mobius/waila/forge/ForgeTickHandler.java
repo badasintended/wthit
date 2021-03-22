@@ -12,10 +12,10 @@ public class ForgeTickHandler extends TickHandler {
 
     public static void registerListener() {
         MinecraftForge.EVENT_BUS.addListener((WailaTooltipEvent event) -> {
-            if (!Waila.getConfig().get().getGeneral().shouldDisplayTooltip())
+            if (!Waila.CONFIG.get().getGeneral().shouldDisplayTooltip())
                 return;
 
-            if (getNarrator().active() || !Waila.getConfig().get().getGeneral().shouldEnableTextToSpeech())
+            if (getNarrator().active() || !Waila.CONFIG.get().getGeneral().shouldEnableTextToSpeech())
                 return;
 
             if (event.getCurrentTip().isEmpty())

@@ -29,7 +29,7 @@ public class MetaDataProvider {
     public void gatherBlockComponents(DataAccessor accessor, List<Text> tooltip, TooltipPosition position) {
         Block block = accessor.getBlock();
 
-        if (accessor.getBlockEntity() != null && accessor.isTimeElapsed(rateLimiter) && Waila.getConfig().get().getGeneral().shouldDisplayTooltip()) {
+        if (accessor.getBlockEntity() != null && accessor.isTimeElapsed(rateLimiter) && Waila.CONFIG.get().getGeneral().shouldDisplayTooltip()) {
             accessor.resetTimer();
             if (WailaRegistrar.INSTANCE.hasNBTProviders(block) || WailaRegistrar.INSTANCE.hasNBTProviders(accessor.getBlockEntity()))
                 Waila.network.requestBlock(accessor.getBlockEntity());

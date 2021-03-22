@@ -17,7 +17,9 @@ public class FabricWaila extends Waila implements ModInitializer {
     public void onInitialize() {
         blockBlacklist = TagRegistry.block(new Identifier(MODID, "blacklist"));
         entityBlacklist = TagRegistry.entityType(new Identifier(MODID, "blacklist"));
+
         configDir = FabricLoader.getInstance().getConfigDir();
+        initConfig();
 
         network = new FabricNetworkHandler();
         network.main();

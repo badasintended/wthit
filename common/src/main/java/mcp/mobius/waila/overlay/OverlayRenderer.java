@@ -25,10 +25,10 @@ public class OverlayRenderer {
         if (TickHandler.instance().tooltip == null)
             return;
 
-        if (!Waila.getConfig().get().getGeneral().shouldDisplayTooltip())
+        if (!Waila.CONFIG.get().getGeneral().shouldDisplayTooltip())
             return;
 
-        if (Waila.getConfig().get().getGeneral().getDisplayMode() == WailaConfig.DisplayMode.HOLD_KEY && !WailaClient.showOverlay.isPressed())
+        if (Waila.CONFIG.get().getGeneral().getDisplayMode() == WailaConfig.DisplayMode.HOLD_KEY && !WailaClient.showOverlay.isPressed())
             return;
 
         MinecraftClient mc = MinecraftClient.getInstance();
@@ -36,13 +36,13 @@ public class OverlayRenderer {
             return;
 
         boolean isOnServer = !mc.isInSingleplayer() || mc.player.networkHandler.getPlayerList().size() > 1;
-        if (Waila.getConfig().get().getGeneral().shouldHideFromPlayerList() && mc.options.keyPlayerList.isPressed() && isOnServer)
+        if (Waila.CONFIG.get().getGeneral().shouldHideFromPlayerList() && mc.options.keyPlayerList.isPressed() && isOnServer)
             return;
 
         if (!MinecraftClient.isHudEnabled())
             return;
 
-        if (mc.options.debugEnabled && Waila.getConfig().get().getGeneral().shouldHideFromDebug())
+        if (mc.options.debugEnabled && Waila.CONFIG.get().getGeneral().shouldHideFromDebug())
             return;
 
         renderOverlay(matrices, TickHandler.instance().tooltip);
@@ -56,7 +56,7 @@ public class OverlayRenderer {
         MinecraftClient.getInstance().getProfiler().push("Waila Overlay");
         RenderSystem.getModelViewStack().push();
 
-        float scale = Waila.getConfig().get().getOverlay().getScale();
+        float scale = Waila.CONFIG.get().getOverlay().getScale();
         RenderSystem.getModelViewStack().scale(scale, scale, 1.0f);
 
         enable2DRender();
@@ -72,7 +72,7 @@ public class OverlayRenderer {
 
         matrices.push();
         matrices.scale(scale, scale, 1.0f);
-        WailaConfig.ConfigOverlay.ConfigOverlayColor color = Waila.getConfig().get().getOverlay().getColor();
+        WailaConfig.ConfigOverlay.ConfigOverlayColor color = Waila.CONFIG.get().getOverlay().getColor();
         drawTooltipBox(matrices, rect.x, rect.y, rect.width, rect.height, color.getBackgroundColor(), color.getGradientStart(), color.getGradientEnd());
         matrices.pop();
 

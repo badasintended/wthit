@@ -41,7 +41,7 @@ public class TickHandler {
     public void tickClient() {
         tooltip = null;
 
-        if (!Waila.getConfig().get().getGeneral().shouldDisplayTooltip())
+        if (!Waila.CONFIG.get().getGeneral().shouldDisplayTooltip())
             return;
 
         MinecraftClient client = MinecraftClient.getInstance();
@@ -104,7 +104,7 @@ public class TickHandler {
     }
 
     private void combinePositions(PlayerEntity player, List<Text> currentTip, List<Text> currentTipHead, List<Text> currentTipBody, List<Text> currentTipTail) {
-        if (Waila.getConfig().get().getGeneral().shouldShiftForDetails() && !currentTipBody.isEmpty() && !player.isSneaking()) {
+        if (Waila.CONFIG.get().getGeneral().shouldShiftForDetails() && !currentTipBody.isEmpty() && !player.isSneaking()) {
             currentTipBody.clear();
             currentTipBody.add(new TranslatableText("tooltip.waila.sneak_for_details").setStyle(Style.EMPTY.withItalic(true)));
         }
