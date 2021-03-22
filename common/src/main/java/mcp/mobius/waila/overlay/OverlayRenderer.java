@@ -55,7 +55,6 @@ public class OverlayRenderer {
 
         MinecraftClient.getInstance().getProfiler().push("Waila Overlay");
         RenderSystem.getModelViewStack().push();
-        RenderSystem.applyModelViewMatrix();
 
         float scale = Waila.getConfig().get().getOverlay().getScale();
         RenderSystem.getModelViewStack().scale(scale, scale, 1.0f);
@@ -88,8 +87,6 @@ public class OverlayRenderer {
 
         RenderSystem.enableDepthTest();
         RenderSystem.getModelViewStack().pop();
-        RenderSystem.applyModelViewMatrix();
-        matrices.pop();
         MinecraftClient.getInstance().getProfiler().pop();
     }
 
