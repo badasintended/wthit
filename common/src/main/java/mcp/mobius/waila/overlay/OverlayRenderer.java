@@ -14,7 +14,11 @@ import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.util.math.MatrixStack;
 import org.lwjgl.opengl.GL11;
 
-public class OverlayRenderer extends DisplayUtil {
+import static mcp.mobius.waila.overlay.DisplayUtil.drawGradientRect;
+import static mcp.mobius.waila.overlay.DisplayUtil.enable2DRender;
+import static mcp.mobius.waila.overlay.DisplayUtil.renderStack;
+
+public class OverlayRenderer {
 
     protected static boolean hasLight;
     protected static boolean hasDepthTest;

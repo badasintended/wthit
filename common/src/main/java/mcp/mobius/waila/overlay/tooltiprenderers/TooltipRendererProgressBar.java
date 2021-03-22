@@ -5,13 +5,15 @@ import java.awt.Dimension;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.ITooltipRenderer;
-import mcp.mobius.waila.overlay.DisplayUtil;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Lazy;
 
-public class TooltipRendererProgressBar extends DisplayUtil implements ITooltipRenderer {
+import static mcp.mobius.waila.overlay.DisplayUtil.bind;
+import static mcp.mobius.waila.overlay.DisplayUtil.drawTexturedModalRect;
+
+public class TooltipRendererProgressBar implements ITooltipRenderer {
 
     private static final Identifier SHEET = new Identifier(Waila.MODID, "textures/sprites.png");
     private static final Lazy<Dimension> DIMENSION = new Lazy<>(() -> new Dimension(26, 16));

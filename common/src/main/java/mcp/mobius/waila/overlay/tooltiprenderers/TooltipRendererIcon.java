@@ -4,12 +4,13 @@ import java.awt.Dimension;
 
 import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.ITooltipRenderer;
-import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.overlay.IconUI;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.nbt.CompoundTag;
 
-public class TooltipRendererIcon extends DisplayUtil implements ITooltipRenderer {
+import static mcp.mobius.waila.overlay.DisplayUtil.renderIcon;
+
+public class TooltipRendererIcon implements ITooltipRenderer {
 
     private final String type;
     private final int size = 8;
