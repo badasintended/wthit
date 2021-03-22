@@ -9,9 +9,12 @@ repositories {
 
 dependencies {
     modImplementation "net.fabricmc:fabric-loader:$fabricLoader"
-    modApi "net.fabricmc.fabric-api:fabric-api:$fabricApi"
 
-    modImplementation "com.terraformersmc:modmenu:$modMenu"
+    modImplementation "net.fabricmc.fabric-api:fabric-api:$fabricApi"
+
+    modCompileOnly "com.terraformersmc:modmenu:$modMenu"
+    modRuntime "com.terraformersmc:modmenu:$modMenu"
+
     modImplementation "dev.inkwell:hermes:1.0.0"
 
     developmentFabric(project(":common")) { transitive = false }
