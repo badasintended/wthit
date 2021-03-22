@@ -18,7 +18,7 @@ import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-public class DisplayUtil extends DrawableHelper {
+public final class DisplayUtil extends DrawableHelper {
 
     // because some function in DrawableHelper are not static
     private static final DisplayUtil DH = new DisplayUtil();

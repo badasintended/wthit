@@ -12,7 +12,11 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.util.math.MatrixStack;
 
-public class OverlayRenderer extends DisplayUtil {
+import static mcp.mobius.waila.overlay.DisplayUtil.drawGradientRect;
+import static mcp.mobius.waila.overlay.DisplayUtil.enable2DRender;
+import static mcp.mobius.waila.overlay.DisplayUtil.renderStack;
+
+public class OverlayRenderer {
 
     public static Function<Tooltip, Rectangle> onPreRender;
     public static Consumer<Rectangle> onPostRender;

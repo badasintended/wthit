@@ -5,13 +5,14 @@ import java.awt.Dimension;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.ITooltipRenderer;
-import mcp.mobius.waila.overlay.DisplayUtil;
 import mcp.mobius.waila.overlay.IconUI;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.math.MathHelper;
 
-public class TooltipRendererHealth extends DisplayUtil implements ITooltipRenderer {
+import static mcp.mobius.waila.overlay.DisplayUtil.renderIcon;
+
+public class TooltipRendererHealth implements ITooltipRenderer {
 
     @Override
     public Dimension getSize(CompoundTag tag, ICommonAccessor accessor) {

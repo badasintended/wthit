@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.ITooltipRenderer;
-import mcp.mobius.waila.overlay.DisplayUtil;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -16,7 +15,9 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Lazy;
 import net.minecraft.util.registry.Registry;
 
-public class TooltipRendererStack extends DisplayUtil implements ITooltipRenderer {
+import static mcp.mobius.waila.overlay.DisplayUtil.renderStack;
+
+public class TooltipRendererStack implements ITooltipRenderer {
 
     private static final Lazy<Dimension> DIMENSION = new Lazy<>(() -> new Dimension(18, 18));
 
