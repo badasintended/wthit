@@ -11,15 +11,15 @@ import net.minecraft.util.Identifier;
 public class GuiConfigWaila extends GuiOptions {
 
     private static WailaConfig get() {
-        return Waila.getConfig().get();
+        return Waila.CONFIG.get();
     }
 
     private static void save() {
-        Waila.getConfig().save();
+        Waila.CONFIG.save();
     }
 
     private static void invalidate() {
-        Waila.getConfig().invalidate();
+        Waila.CONFIG.invalidate();
     }
 
     public GuiConfigWaila(Screen parent) {

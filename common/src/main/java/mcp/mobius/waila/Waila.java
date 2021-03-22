@@ -10,7 +10,6 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.tag.Tag;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.Lazy;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,6 +19,8 @@ public abstract class Waila {
     public static final String NAME = "Waila";
     public static final Logger LOGGER = LogManager.getLogger("Waila");
 
+    public static JsonConfig<WailaConfig> CONFIG;
+
     public static Tag<Block> blockBlacklist;
     public static Tag<EntityType<?>> entityBlacklist;
 
@@ -27,15 +28,13 @@ public abstract class Waila {
     public static WailaPlugins plugins;
     public static Path configDir;
 
-    static final Lazy<JsonConfig<WailaConfig>> CONFIG = new Lazy<>(() -> new JsonConfig<>(MODID + "/" + MODID, WailaConfig.class).withGson(new GsonBuilder()
-        .setPrettyPrinting()
-        .registerTypeAdapter(WailaConfig.ConfigOverlay.ConfigOverlayColor.class, new WailaConfig.ConfigOverlay.ConfigOverlayColor.Adapter())
-        .registerTypeAdapter(Identifier.class, new Identifier.Serializer())
-        .create()
-    ));
-
-    public static JsonConfig<WailaConfig> getConfig() {
-        return CONFIG.get();
+    protected static void initConfig() {
+        CONFIG = new JsonConfig<>(MODID + "/" + MODID, WailaConfig.class).withGson(new GsonBuilder()
+            .setPrettyPrinting()
+            .registerTypeAdapter(WailaConfig.ConfigOverlay.ConfigOverlayColor.class, new WailaConfig.ConfigOverlay.ConfigOverlayColor.Adapter())
+            .registerTypeAdapter(Identifier.class, new Identifier.Serializer())
+            .create()
+        );
     }
 
 }

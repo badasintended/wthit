@@ -73,7 +73,7 @@ public class Tooltip {
 
     public void draw(MatrixStack matrices) {
         Rectangle position = getPosition();
-        WailaConfig.ConfigOverlay.ConfigOverlayColor color = Waila.getConfig().get().getOverlay().getColor();
+        WailaConfig.ConfigOverlay.ConfigOverlayColor color = Waila.CONFIG.get().getOverlay().getColor();
 
         position.x += hasItem() ? 26 : 6;
         position.width += hasItem() ? 24 : 4;
@@ -133,8 +133,8 @@ public class Tooltip {
     public Rectangle getPosition() {
         Window window = MinecraftClient.getInstance().getWindow();
 
-        float scale = Waila.getConfig().get().getOverlay().getScale();
-        Position pos = Waila.getConfig().get().getOverlay().getPosition();
+        float scale = Waila.CONFIG.get().getOverlay().getScale();
+        Position pos = Waila.CONFIG.get().getOverlay().getPosition();
 
         int w = totalSize.width;
         int h = totalSize.height;

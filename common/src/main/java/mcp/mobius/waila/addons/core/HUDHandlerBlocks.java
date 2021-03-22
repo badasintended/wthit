@@ -44,7 +44,7 @@ public class HUDHandlerBlocks implements IComponentProvider, IServerDataProvider
             name = block.getName().getString();
         }
 
-        WailaConfig.ConfigFormatting formatting = Waila.getConfig().get().getFormatting();
+        WailaConfig.ConfigFormatting formatting = Waila.CONFIG.get().getFormatting();
         ((ITaggableList<Identifier, Text>) tooltip).setTag(OBJECT_NAME_TAG, new LiteralText(String.format(formatting.getBlockName(), name)));
         if (config.get(PluginCore.CONFIG_SHOW_REGISTRY))
             ((ITaggableList<Identifier, Text>) tooltip).setTag(REGISTRY_NAME_TAG, new LiteralText(String.format(formatting.getRegistryName(), Registry.BLOCK.getId(block))));
@@ -69,7 +69,7 @@ public class HUDHandlerBlocks implements IComponentProvider, IServerDataProvider
 
         String modName = ModIdentification.getModInfo(accessor.getStack().getItem()).getName();
         if (!Strings.isNullOrEmpty(modName)) {
-            modName = String.format(Waila.getConfig().get().getFormatting().getModName(), modName);
+            modName = String.format(Waila.CONFIG.get().getFormatting().getModName(), modName);
             ((ITaggableList<Identifier, Text>) tooltip).setTag(MOD_NAME_TAG, new LiteralText(modName));
         }
     }

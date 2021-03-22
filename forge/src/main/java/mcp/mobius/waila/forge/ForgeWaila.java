@@ -26,7 +26,9 @@ public class ForgeWaila extends Waila {
     static void setup(FMLCommonSetupEvent event) {
         blockBlacklist = BlockTags.createOptional(new Identifier(MODID, "blacklist"));
         entityBlacklist = EntityTypeTags.createOptional(new Identifier(MODID, "blacklist"));
+
         configDir = FMLPaths.CONFIGDIR.get();
+        initConfig();
 
         network = new ForgeNetworkHandler();
         network.main();

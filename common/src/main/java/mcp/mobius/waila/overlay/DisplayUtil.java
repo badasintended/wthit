@@ -93,7 +93,7 @@ public final class DisplayUtil extends DrawableHelper {
 
     public static String itemDisplayNameShort(ItemStack itemstack) {
         List<Text> list = itemDisplayNameMultiline(itemstack);
-        return String.format(Waila.getConfig().get().getFormatting().getBlockName(), list.get(0).getString());
+        return String.format(Waila.CONFIG.get().getFormatting().getBlockName(), list.get(0).getString());
     }
 
     public static void renderIcon(MatrixStack matrices, int x, int y, int sx, int sy, IconUI icon) {
