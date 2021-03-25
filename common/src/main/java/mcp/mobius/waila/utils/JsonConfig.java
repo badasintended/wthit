@@ -40,14 +40,12 @@ public class JsonConfig<T> {
         this(Waila.configDir.resolve(fileName + (fileName.endsWith(".json") ? "" : ".json")).toFile(), configClass, defaultFactory);
     }
 
+    public JsonConfig(File file, Class<T> configClass) {
+        this(file, configClass, defaultFactory(configClass));
+    }
+
     public JsonConfig(String fileName, Class<T> configClass) {
-        this(fileName, configClass, () -> {
-            try {
-                return configClass.getConstructor().newInstance();
-            } catch (Exception e) {
-                throw new RuntimeException("Failed to create new config instance", e);
-            }
-        });
+        this(fileName, configClass, defaultFactory(configClass));
     }
 
     public JsonConfig<T> withGson(Gson gson) {
@@ -75,6 +73,16 @@ public class JsonConfig<T> {
 
     public void invalidate() {
         configGetter.invalidate();
+    }
+
+    private static <T> Supplier<T> defaultFactory(Class<T> configClass) {
+        return () -> {
+            try {
+                return configClass.getConstructor().newInstance();
+            } catch (Exception e) {
+                throw new RuntimeException("Failed to create new config instance", e);
+            }
+        };
     }
 
     static class CachedSupplier<T> {
