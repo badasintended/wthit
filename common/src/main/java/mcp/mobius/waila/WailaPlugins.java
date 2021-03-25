@@ -47,7 +47,7 @@ public abstract class WailaPlugins {
 
     protected static void createPlugin(String id, String initializer) {
         try {
-            IWailaPlugin plugin = (IWailaPlugin) Class.forName(initializer).newInstance();
+            IWailaPlugin plugin = (IWailaPlugin) Class.forName(initializer).getConstructor().newInstance();
             PLUGINS.put(id, plugin);
             Waila.LOGGER.info("Discovered plugin {} at {}", id, plugin.getClass().getCanonicalName());
         } catch (Exception e) {

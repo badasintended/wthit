@@ -10,20 +10,13 @@ import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.impl.config.WailaConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ChatScreen;
-import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.util.math.MatrixStack;
-import org.lwjgl.opengl.GL11;
 
 import static mcp.mobius.waila.overlay.DisplayUtil.drawGradientRect;
 import static mcp.mobius.waila.overlay.DisplayUtil.enable2DRender;
 import static mcp.mobius.waila.overlay.DisplayUtil.renderStack;
 
 public class OverlayRenderer {
-
-    protected static boolean hasLight;
-    protected static boolean hasDepthTest;
-    protected static boolean depthMask;
-    protected static int depthFunc;
 
     public static Function<Tooltip, Rectangle> onPreRender;
     public static Consumer<Rectangle> onPostRender;
@@ -62,7 +55,6 @@ public class OverlayRenderer {
 
         MinecraftClient.getInstance().getProfiler().push("Waila Overlay");
         RenderSystem.pushMatrix();
-        saveGLState();
 
         float scale = Waila.CONFIG.get().getOverlay().getScale();
         RenderSystem.scalef(scale, scale, 1.0F);
@@ -72,7 +64,6 @@ public class OverlayRenderer {
         Rectangle rect = onPreRender.apply(tooltip);
 
         if (rect == null) {
-            loadGLState();
             RenderSystem.enableDepthTest();
             RenderSystem.popMatrix();
             MinecraftClient.getInstance().getProfiler().pop();
@@ -91,31 +82,9 @@ public class OverlayRenderer {
 
         onPostRender.accept(rect);
 
-        loadGLState();
         RenderSystem.enableDepthTest();
         RenderSystem.popMatrix();
         MinecraftClient.getInstance().getProfiler().pop();
-    }
-
-    public static void saveGLState() {
-        hasLight = GL11.glGetBoolean(GL11.GL_LIGHTING);
-        hasDepthTest = GL11.glGetBoolean(GL11.GL_DEPTH_TEST);
-        depthFunc = GL11.glGetInteger(GL11.GL_DEPTH_FUNC);
-        depthMask = GL11.glGetBoolean(GL11.GL_DEPTH_WRITEMASK);
-    }
-
-    public static void loadGLState() {
-        RenderSystem.depthMask(depthMask);
-        RenderSystem.depthFunc(depthFunc);
-        if (hasLight)
-            DiffuseLighting.enable();
-        else
-            DiffuseLighting.disable();
-
-        if (hasDepthTest)
-            RenderSystem.enableDepthTest();
-        else
-            RenderSystem.disableDepthTest();
     }
 
     public static void drawTooltipBox(MatrixStack matrices, int x, int y, int w, int h, int bg, int grad1, int grad2) {

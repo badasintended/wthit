@@ -10,7 +10,8 @@ repositories {
 dependencies {
     modImplementation "net.fabricmc:fabric-loader:$fabricLoader"
 
-    modImplementation "net.fabricmc.fabric-api:fabric-api:$fabricApi"
+    modCompileOnly "net.fabricmc.fabric-api:fabric-api:$fabricApi"
+    modRuntime "net.fabricmc.fabric-api:fabric-api:$fabricApi"
 
     modCompileOnly "com.terraformersmc:modmenu:$modMenu"
     modRuntime "com.terraformersmc:modmenu:$modMenu"
