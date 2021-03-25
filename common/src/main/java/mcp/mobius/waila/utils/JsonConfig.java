@@ -18,8 +18,8 @@ public class JsonConfig<T> {
     private final CachedSupplier<T> configGetter;
     private Gson gson = DEFAULT_GSON;
 
-    public JsonConfig(String fileName, Class<T> configClass, Supplier<T> defaultFactory) {
-        this.configFile = Waila.configDir.resolve(fileName + (fileName.endsWith(".json") ? "" : ".json")).toFile();
+    public JsonConfig(File file, Class<T> configClass, Supplier<T> defaultFactory) {
+        this.configFile = file;
         this.configGetter = new CachedSupplier<>(() -> {
             if (!configFile.exists()) {
                 T def = defaultFactory.get();
@@ -36,11 +36,15 @@ public class JsonConfig<T> {
         });
     }
 
+    public JsonConfig(String fileName, Class<T> configClass, Supplier<T> defaultFactory) {
+        this(Waila.configDir.resolve(fileName + (fileName.endsWith(".json") ? "" : ".json")).toFile(), configClass, defaultFactory);
+    }
+
     public JsonConfig(String fileName, Class<T> configClass) {
         this(fileName, configClass, () -> {
             try {
-                return configClass.newInstance();
-            } catch (InstantiationException | IllegalAccessException e) {
+                return configClass.getConstructor().newInstance();
+            } catch (Exception e) {
                 throw new RuntimeException("Failed to create new config instance", e);
             }
         });
