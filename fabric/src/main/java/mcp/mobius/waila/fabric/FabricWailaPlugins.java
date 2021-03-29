@@ -18,7 +18,7 @@ import static net.fabricmc.loader.api.metadata.CustomValue.CvType.STRING;
 public class FabricWailaPlugins extends WailaPlugins {
 
     @Override
-    protected void gatherPluginsInner() {
+    protected void gatherPlugins() {
         Set<CvObject> plugins = new ObjectOpenHashSet<>();
         for (ModContainer mod : FabricLoader.getInstance().getAllMods()) {
             ModMetadata data = mod.getMetadata();
@@ -56,6 +56,7 @@ public class FabricWailaPlugins extends WailaPlugins {
 
             String id = plugin.get("id").getAsString();
             String initializer = plugin.get("initializer").getAsString();
+
             createPlugin(id, initializer);
         }
     }

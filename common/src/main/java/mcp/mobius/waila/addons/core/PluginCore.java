@@ -4,7 +4,6 @@ import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.api.TooltipPosition;
-import mcp.mobius.waila.api.WailaForgePlugin;
 import mcp.mobius.waila.overlay.tooltiprenderers.TooltipRendererHealth;
 import net.minecraft.block.Block;
 import net.minecraft.block.FluidBlock;
@@ -16,7 +15,6 @@ import net.minecraft.entity.vehicle.AbstractMinecartEntity;
 import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.util.Identifier;
 
-@WailaForgePlugin("waila:core")
 public class PluginCore implements IWailaPlugin {
 
     static final Identifier RENDER_ENTITY_HEALTH = new Identifier(Waila.MODID, "render_health");

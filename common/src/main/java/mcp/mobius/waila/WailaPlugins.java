@@ -14,14 +14,12 @@ public abstract class WailaPlugins {
 
     public static final Map<String, IWailaPlugin> PLUGINS = Maps.newHashMap();
 
-    public void gatherPlugins() {
+    protected abstract void gatherPlugins();
+
+    public void initialize() {
         PLUGINS.clear();
-        gatherPluginsInner();
-    }
+        gatherPlugins();
 
-    protected abstract void gatherPluginsInner();
-
-    public void initializePlugins() {
         Waila.LOGGER.info("Registering plugin at {}", PluginCore.class.getCanonicalName());
         PLUGINS.remove("waila:core").register(WailaRegistrar.INSTANCE); // Handle and clear the core plugin so it's registered first
 
