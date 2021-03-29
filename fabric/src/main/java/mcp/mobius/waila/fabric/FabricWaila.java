@@ -30,12 +30,11 @@ public class FabricWaila extends Waila implements ModInitializer {
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) ->
             network.sendConfig(PluginConfig.INSTANCE, handler.player));
 
-        plugins = new FabricWailaPlugins();
-        plugins.gatherPlugins();
-        plugins.initializePlugins();
-
         ModIdentification.supplier = namespace -> FabricLoader.getInstance().getModContainer(namespace)
             .map(data -> new ModIdentification.Info(data.getMetadata().getId(), data.getMetadata().getName()));
+
+        plugins = new FabricWailaPlugins();
+        plugins.initialize();
     }
 
 }

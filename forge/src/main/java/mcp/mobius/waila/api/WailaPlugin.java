@@ -6,8 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * <b>Only used on Forge</b>
- * @deprecated use {@link WailaForgePlugin}
+ * @deprecated will be removed in 1.17 release
  */
 @Deprecated
 @Retention(RetentionPolicy.RUNTIME)

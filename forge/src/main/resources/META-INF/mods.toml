@@ -25,3 +25,11 @@ mandatory = true
 versionRange = "[1.16.2,)"
 ordering = "NONE"
 side = "BOTH"
+
+[[wailaPlugins]]
+id = "waila:core"
+initializer = "mcp.mobius.waila.addons.core.PluginCore"
+
+[[wailaPlugins]]
+id = "waila:vanilla"
+initializer = "mcp.mobius.waila.addons.minecraft.PluginMinecraft"

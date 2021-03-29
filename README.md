@@ -7,72 +7,118 @@
 
 ---
 
-- **Add the bad maven to your `build.gradle`**
+## Creating a WTHIT Plugin
+
+### Add the bad maven to your `build.gradle`
 
 ```groovy
 repositories {  
-    maven { url "https://bai.jfrog.io/artifactory/maven" }
+  maven { url "https://bai.jfrog.io/artifactory/maven" }
 }
 ```
 
-### Fabric    
-- **Add WTHIT as a dependency**
+### Add WTHIT as a dependency
+<details>
+  <summary>Fabric</summary>
+
   ```groovy
   dependencies {
     modImplementation "mcp.mobius.waila:wthit-fabric:${wthit_version}"
   }
   ```
+ 
+</details>
+  
+<details>
+  <summary>Forge</summary>
 
-- **Make a class that implements `IWailaPlugin`**
-  ```java
-  public class ExamplePlugin implements IWailaPlugin
-  ```
-
-- **Add `custom` object on `fabric.mod.json` with following data**
-  ```json
-  {
-    "waila:plugins": {
-      "id": "mymod:my_plugin",
-      "initializer": "com.example.ExamplePlugin"
-    }
-  }
-  ```
-  `waila:plugins` can also be an array of objects instead of a singular object.    
-  A `required` field can be added to specify mod ids required.    
-  It can either be a string or an array of strings.    
-
-
-### Forge    
-- **Add WTHIT as a dependency**
   ```groovy
   dependencies {
-    modImplementation "mcp.mobius.waila:wthit-forge:${wthit_version}"
+    compile fg.deobf("mcp.mobius.waila:wthit-forge:${wthit_version}")
   }
   ```
 
-- **Make a class that implements `IWailaPlugin` and annotate it with `WailaForgePlugin`**
-  ```java
-  @WailaForgePlugin("mymod:my_plugin")
-  public class ExamplePlugin implements IWailaPlugin
-  ```
-  `@WailaPlugin` was deprecated to make a value id mandatory and make `requires` accepts an array.
+</details>
 
+<details>
+  <summary>Architectury</summary>
 
-### Architectury
-- **In your common module, add WTHIT as a compile dependency**
+  in common subproject:
   ```groovy
   dependencies {
     modCompileOnly "mcp.mobius.waila:wthit-common:${wthit_version}"
   }
   ```
-
-- **In your platform module, add WTHIT as a runtime dependency**
+  in patform subprojects:
   ```groovy
   dependencies {
     modRuntimeOnly "mcp.mobius.waila:wthit-${name}:${wthit_version}"
   }
   ```
 
-- **Do the same thing as in [Fabric](#fabric) and [Forge](#forge)**    
-  If you need to listen to WTHIT events, do it in your platform modules and
-  replace `modRuntimeOnly` with `modImplementation`
+</details>
+
+### Make a class that implements `IWailaPlugin`
+```java
+public class ExamplePlugin implements IWailaPlugin {
+  @Override
+  public void register(IRegistrar registrar) {
+      // register your component here
+  }
+}
+```
+
+### Register your plugin
+
+<details>
+  <summary>Fabric</summary>
+
+  In your `fabric.mod.json` add a custom value
+  ```json5
+  {
+    "waila:plugins": {
+      "id": "mymod:my_plugin",
+      "initializer": "foo.bar.Baz",
+    }
+  }
+  ```
+  `waila:plugins` can also be an array of objects instead of a singular object.    
+  A required field can be added to specify mods required for that plugin to be loaded.
+  It can either be a single string or an array of strings.
+  ```json5
+  {
+    "waila:plugins": {
+      "id": "mymod:my_plugin",
+      "initializer": "foo.bar.Baz",
+      "required": "mod_a" 
+    }
+  }
+  ```
+
+</details>
+
+<details>
+  <summary>Forge</summary>
+
+  In your `mods.toml`
+  ```toml
+  [[wailaPlugins]]
+  id = "mymod:my_plugin1"
+  initializer = "com.example.MyPlugin1"
+
+  # with dependency
+  [[wailaPlugins]]
+  id = "mymod:my_plugin2"
+  initializer = "com.example.MyPlugin2"
+  required = "mod_a"
+
+  # also accept an array of dependencies
+  [[wailaPlugins]]
+  id = "mymod:my_plugin3"
+  initializer = "com.example.MyPlugin3"
+  required = ["mod_a", "mod_b"]
+  ```
+
+  **`@WailaPlugin` annotation is deprecated and will be removed in 1.17 release**
+
+</details>

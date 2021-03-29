@@ -1,29 +1,43 @@
 package mcp.mobius.waila.forge;
 
-import java.util.Arrays;
+import java.util.List;
 
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.WailaPlugins;
-import mcp.mobius.waila.api.WailaForgePlugin;
 import mcp.mobius.waila.api.WailaPlugin;
 import net.minecraftforge.fml.ModList;
 
 public class ForgeWailaPlugins extends WailaPlugins {
 
-    static final String[] EMPTY = new String[0];
     static final String WAILA_PLUGIN = WailaPlugin.class.getName();
-    static final String WAILA_FORGE_PLUGIN = WailaForgePlugin.class.getName();
 
-    public void gatherPluginsInner() {
-        ModList.get().getAllScanData().forEach(data -> data.getAnnotations().forEach(annotation -> {
-            if (annotation.getAnnotationType().getClassName().equals(WAILA_FORGE_PLUGIN)) {
-                String id = (String) annotation.getAnnotationData().get("value");
-                String[] dep = (String[]) annotation.getAnnotationData().getOrDefault("requires", EMPTY);
-                if (dep.length == 0 || Arrays.stream(dep).allMatch(ModList.get()::isLoaded)) {
-                    createPlugin(id, annotation.getMemberName());
+    public void gatherPlugins() {
+        ModList.get().getModFiles().forEach(modFile ->
+            modFile.getConfigList("wailaPlugins").forEach(map -> {
+                String id = map.<String>getConfigElement("id").get();
+                String initializer = map.<String>getConfigElement("initializer").get();
+
+                final boolean[] satisfied = {true};
+                map.getConfigElement("required").ifPresent(required -> {
+                    if (required instanceof String) {
+                        satisfied[0] = ModList.get().isLoaded((String) required);
+                    } else if (required instanceof List) {
+                        for (String s : ((List<String>) required)) {
+                            satisfied[0] &= ModList.get().isLoaded(s);
+                        }
+                    }
+                });
+
+                if (satisfied[0]) {
+                    createPlugin(id, initializer);
                 }
-            } else if (annotation.getAnnotationType().getClassName().equals(WAILA_PLUGIN)) {
+            }));
+
+        ModList.get().getAllScanData().forEach(data -> data.getAnnotations().forEach(annotation -> {
+            if (annotation.getAnnotationType().getClassName().equals(WAILA_PLUGIN)) {
                 String required = (String) annotation.getAnnotationData().getOrDefault("value", "");
                 if (required.isEmpty() || ModList.get().isLoaded(required)) {
+                    Waila.LOGGER.warn("Waila plugin {} is defined by deprecated method", annotation.getMemberName());
                     createPlugin(annotation.getMemberName(), annotation.getMemberName());
                 }
             }

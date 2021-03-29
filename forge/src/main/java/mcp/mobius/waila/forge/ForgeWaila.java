@@ -8,7 +8,6 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.tag.EntityTypeTags;
 import net.minecraft.util.Identifier;
-import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -35,19 +34,17 @@ public class ForgeWaila extends Waila {
 
         plugins = new ForgeWailaPlugins();
 
-        ModIdentification.supplier = namespace -> ModList.get().getMods().stream()
-            .filter(m -> m.getModId().equals(namespace))
-            .findFirst()
-            .map(data -> new ModIdentification.Info(data.getModId(), data.getDisplayName()));
+        ModIdentification.supplier = namespace -> ModList.get()
+            .getModContainerById(namespace)
+            .map(data -> new ModIdentification.Info(data.getModId(), data.getModInfo().getDisplayName()));
     }
 
     @SubscribeEvent
     static void loadComplete(FMLLoadCompleteEvent event) {
-        plugins.gatherPlugins();
-        plugins.initializePlugins();
+        plugins.initialize();
     }
 
-    @Mod.EventBusSubscriber(modid = Waila.MODID, value = Dist.CLIENT)
+    @Mod.EventBusSubscriber(modid = Waila.MODID)
     static class Subscriber {
 
         @SubscribeEvent
