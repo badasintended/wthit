@@ -41,6 +41,7 @@ public class WailaConfig {
         private boolean hideFromPlayerList = true;
         private boolean hideFromDebug = true;
         private boolean enableTextToSpeech = false;
+        private int rateLimit = 250;
         private int maxHealthForRender = 40;
         private int maxHeartsPerLine = 10;
 
@@ -66,6 +67,10 @@ public class WailaConfig {
 
         public void setEnableTextToSpeech(boolean enableTextToSpeech) {
             this.enableTextToSpeech = enableTextToSpeech;
+        }
+
+        public void setRateLimit(int rateLimit) {
+            this.rateLimit = rateLimit;
         }
 
         public void setMaxHealthForRender(int maxHealthForRender) {
@@ -98,6 +103,10 @@ public class WailaConfig {
 
         public boolean shouldEnableTextToSpeech() {
             return enableTextToSpeech;
+        }
+
+        public int getRateLimit() {
+            return rateLimit;
         }
 
         public int getMaxHealthForRender() {

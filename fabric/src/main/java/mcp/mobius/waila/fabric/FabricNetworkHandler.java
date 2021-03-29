@@ -46,11 +46,9 @@ public class FabricNetworkHandler extends NetworkHandler {
                     return;
 
                 CompoundTag tag = new CompoundTag();
-                if (WailaRegistrar.INSTANCE.hasNBTEntityProviders(entity)) {
-                    WailaRegistrar.INSTANCE.getNBTEntityProviders(entity).values().forEach(l -> l.forEach(p -> p.appendServerData(tag, player, world, (LivingEntity) entity)));
-                } else {
-                    entity.writeNbt(tag);
-                }
+                WailaRegistrar.INSTANCE.getNBTEntityProviders(entity).forEach(provider ->
+                    provider.appendServerData(tag, player, world, (LivingEntity) entity)
+                );
 
                 tag.putInt("WailaEntityID", entity.getId());
 
@@ -64,27 +62,25 @@ public class FabricNetworkHandler extends NetworkHandler {
             BlockPos pos = packetByteBuf.readBlockPos();
 
             server.execute(() -> {
-                if (!world.isChunkLoaded(pos.getX() >> 4, pos.getZ() >> 4))
+                if (!world.isChunkLoaded(pos))
                     return;
 
-                BlockEntity tile = world.getBlockEntity(pos);
-                if (tile == null)
+                BlockEntity blockEntity = world.getBlockEntity(pos);
+                if (blockEntity == null)
                     return;
 
                 BlockState state = world.getBlockState(pos);
 
                 CompoundTag tag = new CompoundTag();
-                if (WailaRegistrar.INSTANCE.hasNBTProviders(tile) || WailaRegistrar.INSTANCE.hasNBTProviders(state.getBlock())) {
-                    WailaRegistrar.INSTANCE.getNBTProviders(tile).values().forEach(l -> l.forEach(p -> p.appendServerData(tag, player, world, tile)));
-                    WailaRegistrar.INSTANCE.getNBTProviders(state.getBlock()).values().forEach(l -> l.forEach(p -> p.appendServerData(tag, player, world, tile)));
-                } else {
-                    tile.writeNbt(tag);
-                }
+                WailaRegistrar.INSTANCE.getNBTProviders(blockEntity).forEach(provider ->
+                    provider.appendServerData(tag, player, world, blockEntity));
+                WailaRegistrar.INSTANCE.getNBTProviders(state.getBlock()).forEach(provider ->
+                    provider.appendServerData(tag, player, world, blockEntity));
 
                 tag.putInt("x", pos.getX());
                 tag.putInt("y", pos.getY());
                 tag.putInt("z", pos.getZ());
-                tag.putString("id", Registry.BLOCK_ENTITY_TYPE.getId(tile.getType()).toString());
+                tag.putString("id", Registry.BLOCK_ENTITY_TYPE.getId(blockEntity.getType()).toString());
 
                 PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
                 buf.writeCompoundTag(tag);

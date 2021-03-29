@@ -36,6 +36,8 @@
   "config.waila.hide_from_players_desc"                   : "Hide tooltip while the player list is open",
   "config.waila.hide_from_debug"                          : "Hide from Debug",
   "config.waila.hide_from_debug_desc"                     : "Hide the tooltip while the debug menu is open",
+  "config.waila.rate_limit"                               : "Rate Limit",
+  "config.waila.rate_limit_desc"                          : "How many milliseconds the delay between each server request",
   "config.waila.max_health_for_render"                    : "Max Health for Render",
   "config.waila.max_hearts_per_line"                      : "Max Hearts Per Line",
 
