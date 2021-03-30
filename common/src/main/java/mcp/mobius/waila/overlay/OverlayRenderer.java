@@ -7,7 +7,7 @@ import java.util.function.Function;
 import com.mojang.blaze3d.systems.RenderSystem;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.WailaClient;
-import mcp.mobius.waila.api.impl.config.WailaConfig;
+import mcp.mobius.waila.config.WailaConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.client.util.math.MatrixStack;
@@ -22,7 +22,7 @@ public class OverlayRenderer {
     public static Consumer<Rectangle> onPostRender;
 
     public static void renderOverlay(MatrixStack matrices) {
-        if (TickHandler.instance().tooltip == null)
+        if (TickHandler.tooltip == null)
             return;
 
         if (!Waila.CONFIG.get().getGeneral().shouldDisplayTooltip())
@@ -45,7 +45,7 @@ public class OverlayRenderer {
         if (mc.options.debugEnabled && Waila.CONFIG.get().getGeneral().shouldHideFromDebug())
             return;
 
-        renderOverlay(matrices, TickHandler.instance().tooltip);
+        renderOverlay(matrices, TickHandler.tooltip);
     }
 
     public static void renderOverlay(MatrixStack matrices, Tooltip tooltip) {
@@ -78,7 +78,7 @@ public class OverlayRenderer {
         RenderSystem.disableBlend();
 
         if (tooltip.hasItem())
-            renderStack(rect.x + 5, rect.y + rect.height / 2 - 8, RayTracing.INSTANCE.getIdentifierStack());
+            renderStack(rect.x + 5, rect.y + rect.height / 2 - 8, Raycast.getIdentifierStack());
 
         onPostRender.accept(rect);
 

@@ -3,8 +3,8 @@ package mcp.mobius.waila;
 import java.nio.file.Path;
 
 import com.google.gson.GsonBuilder;
-import mcp.mobius.waila.api.impl.config.WailaConfig;
-import mcp.mobius.waila.network.NetworkHandler;
+import mcp.mobius.waila.config.WailaConfig;
+import mcp.mobius.waila.network.PacketSender;
 import mcp.mobius.waila.utils.JsonConfig;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
@@ -24,9 +24,13 @@ public abstract class Waila {
     public static Tag<Block> blockBlacklist;
     public static Tag<EntityType<?>> entityBlacklist;
 
-    public static NetworkHandler network;
+    public static PacketSender sender;
     public static WailaPlugins plugins;
     public static Path configDir;
+
+    public static Identifier id(String path) {
+        return new Identifier(MODID, path);
+    }
 
     protected static void initConfig() {
         CONFIG = new JsonConfig<>(MODID + "/" + MODID, WailaConfig.class).withGson(new GsonBuilder()

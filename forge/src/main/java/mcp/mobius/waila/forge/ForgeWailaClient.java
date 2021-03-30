@@ -5,10 +5,10 @@ import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.addons.core.PluginCore;
 import mcp.mobius.waila.api.event.WailaRenderEvent;
 import mcp.mobius.waila.api.event.WailaTooltipEvent;
-import mcp.mobius.waila.api.impl.DataAccessor;
-import mcp.mobius.waila.api.impl.config.PluginConfig;
-import mcp.mobius.waila.api.impl.config.WailaConfig;
+import mcp.mobius.waila.config.PluginConfig;
+import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.gui.GuiConfigHome;
+import mcp.mobius.waila.overlay.DataAccessor;
 import mcp.mobius.waila.overlay.OverlayRenderer;
 import mcp.mobius.waila.overlay.TickHandler;
 import mcp.mobius.waila.overlay.Tooltip;
@@ -69,13 +69,13 @@ public class ForgeWailaClient extends WailaClient {
         @SubscribeEvent
         static void onRenderGameOverlay(RenderGameOverlayEvent.Post event) {
             if (event.getType() == RenderGameOverlayEvent.ElementType.ALL)
-                TickHandler.instance().renderOverlay(event.getMatrixStack());
+                OverlayRenderer.renderOverlay(event.getMatrixStack());
         }
 
         @SubscribeEvent
         static void onClientTick(TickEvent.ClientTickEvent event) {
             if (event.phase == TickEvent.Phase.END)
-                TickHandler.instance().tickClient();
+                TickHandler.tickClient();
         }
 
         @SubscribeEvent

@@ -1,9 +1,10 @@
-package mcp.mobius.waila.api.impl.config;
+package mcp.mobius.waila.config;
 
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -17,17 +18,13 @@ import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IPluginConfig;
 import net.minecraft.util.Identifier;
 
-public class PluginConfig implements IPluginConfig {
+public enum PluginConfig implements IPluginConfig {
 
-    public static final PluginConfig INSTANCE = new PluginConfig();
+    INSTANCE;
 
     static final File CONFIG_FILE = Waila.configDir.resolve(Waila.MODID + "/" + Waila.MODID + "_plugins.json").toFile();
 
-    private final Map<Identifier, ConfigEntry> configs;
-
-    private PluginConfig() {
-        this.configs = Maps.newHashMap();
-    }
+    private final Map<Identifier, ConfigEntry> configs = new HashMap<>();
 
     public void addConfig(ConfigEntry entry) {
         configs.put(entry.getId(), entry);

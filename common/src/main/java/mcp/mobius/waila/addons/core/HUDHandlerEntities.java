@@ -7,8 +7,8 @@ import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITaggableList;
-import mcp.mobius.waila.api.RenderableTextComponent;
-import mcp.mobius.waila.api.impl.config.WailaConfig;
+import mcp.mobius.waila.config.WailaConfig;
+import mcp.mobius.waila.overlay.DrawableText;
 import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -45,7 +45,7 @@ public class HUDHandlerEntities implements IEntityComponentProvider {
                 CompoundTag healthData = new CompoundTag();
                 healthData.putFloat("health", health / 2.0F);
                 healthData.putFloat("max", maxHealth / 2.0F);
-                tooltip.add(new RenderableTextComponent(PluginCore.RENDER_ENTITY_HEALTH, healthData));
+                tooltip.add(new DrawableText(PluginCore.RENDER_ENTITY_HEALTH, healthData));
             }
         }
     }

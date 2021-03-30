@@ -1,13 +1,12 @@
 package mcp.mobius.waila.forge;
 
 import mcp.mobius.waila.Waila;
-import mcp.mobius.waila.api.impl.config.PluginConfig;
 import mcp.mobius.waila.command.CommandDumpHandlers;
+import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.tag.EntityTypeTags;
-import net.minecraft.util.Identifier;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -23,14 +22,14 @@ public class ForgeWaila extends Waila {
 
     @SubscribeEvent
     static void setup(FMLCommonSetupEvent event) {
-        blockBlacklist = BlockTags.createOptional(new Identifier(MODID, "blacklist"));
-        entityBlacklist = EntityTypeTags.createOptional(new Identifier(MODID, "blacklist"));
+        blockBlacklist = BlockTags.createOptional(id("blacklist"));
+        entityBlacklist = EntityTypeTags.createOptional(id("blacklist"));
 
         configDir = FMLPaths.CONFIGDIR.get();
         initConfig();
 
-        network = new ForgeNetworkHandler();
-        network.main();
+        sender = new ForgePacketSender();
+        sender.initMain();
 
         plugins = new ForgeWailaPlugins();
 
@@ -54,7 +53,7 @@ public class ForgeWaila extends Waila {
 
         @SubscribeEvent
         static void playerJoin(PlayerEvent.PlayerLoggedInEvent event) {
-            network.sendConfig(PluginConfig.INSTANCE, (ServerPlayerEntity) event.getPlayer());
+            sender.sendConfig(PluginConfig.INSTANCE, (ServerPlayerEntity) event.getPlayer());
         }
 
     }

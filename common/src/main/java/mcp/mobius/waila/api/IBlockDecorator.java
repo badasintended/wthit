@@ -1,6 +1,7 @@
 package mcp.mobius.waila.api;
 
 import net.minecraft.item.ItemStack;
+import org.jetbrains.annotations.ApiStatus;
 
 /**
  * Callback class interface used to provide Block/TileEntity decorator.<br>
@@ -11,6 +12,7 @@ import net.minecraft.item.ItemStack;
  * @author ProfMobius
  */
 @Deprecated
+@ApiStatus.ScheduledForRemoval
 public interface IBlockDecorator {
 
     /**

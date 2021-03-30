@@ -1,7 +1,7 @@
 package mcp.mobius.waila.gui;
 
 import mcp.mobius.waila.Waila;
-import mcp.mobius.waila.api.impl.config.WailaConfig;
+import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.gui.config.OptionsListWidget;
 import mcp.mobius.waila.gui.config.value.OptionsEntryValueInput;
 import net.minecraft.client.gui.screen.Screen;
@@ -54,7 +54,7 @@ public class GuiConfigWaila extends GuiOptions {
                             val -> get().getGeneral().setEnableTextToSpeech(val))
                         .withInput("config.waila.rate_limit",
                             get().getGeneral().getRateLimit(),
-                            val -> get().getGeneral().setRateLimit(val),
+                            val -> get().getGeneral().setRateLimit(Math.max(val, 250)),
                             OptionsEntryValueInput.INTEGER)
                         .withInput("config.waila.max_health_for_render",
                             get().getGeneral().getMaxHealthForRender(),

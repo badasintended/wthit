@@ -34,7 +34,7 @@ public class HUDHandlerVanilla implements IComponentProvider, IServerDataProvide
 
     static final HUDHandlerVanilla INSTANCE = new HUDHandlerVanilla();
 
-    static final Identifier OBJECT_NAME_TAG = new Identifier(Waila.MODID, "object_name");
+    static final Identifier OBJECT_NAME_TAG = Waila.id("object_name");
 
     static final ItemStack WHEAT_STACK = new ItemStack(Items.WHEAT);
     static final ItemStack BEETROOT_STACK = new ItemStack(Items.BEETROOT);

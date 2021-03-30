@@ -15,7 +15,7 @@ import static mcp.mobius.waila.overlay.DisplayUtil.drawTexturedModalRect;
 
 public class TooltipRendererProgressBar implements ITooltipRenderer {
 
-    private static final Identifier SHEET = new Identifier(Waila.MODID, "textures/sprites.png");
+    private static final Identifier SHEET = Waila.id("textures/sprites.png");
     private static final Lazy<Dimension> DIMENSION = new Lazy<>(() -> new Dimension(26, 16));
 
     @Override
