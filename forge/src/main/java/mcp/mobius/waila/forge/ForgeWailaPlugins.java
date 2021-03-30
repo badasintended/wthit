@@ -11,6 +11,7 @@ public class ForgeWailaPlugins extends WailaPlugins {
 
     static final String WAILA_PLUGIN = WailaPlugin.class.getName();
 
+    @Override
     public void gatherPlugins() {
         ModList.get().getModFiles().forEach(modFile ->
             modFile.getConfigList("wailaPlugins").forEach(map -> {

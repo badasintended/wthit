@@ -17,17 +17,17 @@ import net.minecraft.util.Identifier;
 
 public class PluginCore implements IWailaPlugin {
 
-    static final Identifier RENDER_ENTITY_HEALTH = new Identifier(Waila.MODID, "render_health");
+    static final Identifier RENDER_ENTITY_HEALTH = Waila.id("render_health");
 
-    public static final Identifier CONFIG_SHOW_BLOCK = new Identifier(Waila.MODID, "show_blocks");
-    public static final Identifier CONFIG_SHOW_FLUID = new Identifier(Waila.MODID, "show_fluids");
-    public static final Identifier CONFIG_SHOW_ENTITY = new Identifier(Waila.MODID, "show_entities");
-    public static final Identifier CONFIG_SHOW_ITEM = new Identifier(Waila.MODID, "show_item");
+    public static final Identifier CONFIG_SHOW_BLOCK = Waila.id("show_blocks");
+    public static final Identifier CONFIG_SHOW_FLUID = Waila.id("show_fluids");
+    public static final Identifier CONFIG_SHOW_ENTITY = Waila.id("show_entities");
+    public static final Identifier CONFIG_SHOW_ITEM = Waila.id("show_item");
 
-    static final Identifier CONFIG_SHOW_MOD_NAME = new Identifier(Waila.MODID, "show_mod_name");
-    static final Identifier CONFIG_SHOW_REGISTRY = new Identifier(Waila.MODID, "show_registry");
-    static final Identifier CONFIG_SHOW_ENTITY_HEALTH = new Identifier(Waila.MODID, "show_entity_hp");
-    static final Identifier CONFIG_SHOW_STATES = new Identifier(Waila.MODID, "show_states");
+    static final Identifier CONFIG_SHOW_MOD_NAME = Waila.id("show_mod_name");
+    static final Identifier CONFIG_SHOW_REGISTRY = Waila.id("show_registry");
+    static final Identifier CONFIG_SHOW_ENTITY_HEALTH = Waila.id("show_entity_hp");
+    static final Identifier CONFIG_SHOW_STATES = Waila.id("show_states");
 
     @Override
     public void register(IRegistrar registrar) {

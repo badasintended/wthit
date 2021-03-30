@@ -1,4 +1,4 @@
-package mcp.mobius.waila.api.impl.config;
+package mcp.mobius.waila.config;
 
 import mcp.mobius.waila.Waila;
 import net.minecraft.util.Identifier;
@@ -6,7 +6,7 @@ import net.minecraft.util.Identifier;
 public class HUDTheme {
 
     public static final HUDTheme VANILLA = new HUDTheme();
-    public static final HUDTheme DARK = new HUDTheme(new Identifier(Waila.MODID, "dark"), 0x131313, 0x383838, 0x242424, 0xA0A0A0);
+    public static final HUDTheme DARK = new HUDTheme(Waila.id("dark"), 0x131313, 0x383838, 0x242424, 0xA0A0A0);
 
     private final Identifier id;
     private final int backgroundColor;
@@ -23,7 +23,7 @@ public class HUDTheme {
     }
 
     public HUDTheme() {
-        this(new Identifier(Waila.MODID, "vanilla"), 0x100010, 0x5000ff, 0x28007f, 0xA0A0A0);
+        this(Waila.id("vanilla"), 0x100010, 0x5000ff, 0x28007f, 0xA0A0A0);
     }
 
     public int getAlpha() {

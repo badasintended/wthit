@@ -7,8 +7,8 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import mcp.mobius.waila.addons.core.PluginCore;
 import mcp.mobius.waila.api.IWailaPlugin;
-import mcp.mobius.waila.api.impl.WailaRegistrar;
-import mcp.mobius.waila.api.impl.config.PluginConfig;
+import mcp.mobius.waila.config.PluginConfig;
+import mcp.mobius.waila.overlay.Registrar;
 
 public abstract class WailaPlugins {
 
@@ -21,7 +21,7 @@ public abstract class WailaPlugins {
         gatherPlugins();
 
         Waila.LOGGER.info("Registering plugin at {}", PluginCore.class.getCanonicalName());
-        PLUGINS.remove("waila:core").register(WailaRegistrar.INSTANCE); // Handle and clear the core plugin so it's registered first
+        PLUGINS.remove("waila:core").register(Registrar.INSTANCE); // Handle and clear the core plugin so it's registered first
 
         List<IWailaPlugin> sorted = Lists.newArrayList(PLUGINS.values());
         sorted.sort((o1, o2) -> {
@@ -38,7 +38,7 @@ public abstract class WailaPlugins {
 
         sorted.forEach(p -> {
             Waila.LOGGER.info("Registering plugin at {}", p.getClass().getCanonicalName());
-            p.register(WailaRegistrar.INSTANCE);
+            p.register(Registrar.INSTANCE);
         });
         PluginConfig.INSTANCE.reload();
     }

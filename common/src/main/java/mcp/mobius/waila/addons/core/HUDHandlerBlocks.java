@@ -9,7 +9,7 @@ import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataProvider;
 import mcp.mobius.waila.api.ITaggableList;
-import mcp.mobius.waila.api.impl.config.WailaConfig;
+import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -29,9 +29,9 @@ import net.minecraft.world.World;
 public class HUDHandlerBlocks implements IComponentProvider, IServerDataProvider<BlockEntity> {
 
     static final HUDHandlerBlocks INSTANCE = new HUDHandlerBlocks();
-    static final Identifier OBJECT_NAME_TAG = new Identifier(Waila.MODID, "object_name");
-    static final Identifier REGISTRY_NAME_TAG = new Identifier(Waila.MODID, "registry_name");
-    static final Identifier MOD_NAME_TAG = new Identifier(Waila.MODID, "mod_name");
+    static final Identifier OBJECT_NAME_TAG = Waila.id("object_name");
+    static final Identifier REGISTRY_NAME_TAG = Waila.id("registry_name");
+    static final Identifier MOD_NAME_TAG = Waila.id("mod_name");
 
     @Override
     public void appendHead(List<Text> tooltip, IDataAccessor accessor, IPluginConfig config) {

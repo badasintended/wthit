@@ -4,9 +4,9 @@ import java.util.List;
 
 import mcp.mobius.waila.api.IComponentProvider;
 import mcp.mobius.waila.api.IDataAccessor;
+import mcp.mobius.waila.api.IDrawableText;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataProvider;
-import mcp.mobius.waila.api.RenderableTextComponent;
 import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.ItemStack;
@@ -40,14 +40,14 @@ public class HUDHandlerFurnace implements IComponentProvider, IServerDataProvide
         progress.putInt("progress", accessor.getServerData().getInt("progress"));
         progress.putInt("total", accessor.getServerData().getInt("total"));
 
-        RenderableTextComponent renderables = new RenderableTextComponent(
-            getRenderable(inventory.get(0)),
-            getRenderable(inventory.get(1)),
-            new RenderableTextComponent(PluginMinecraft.RENDER_FURNACE_PROGRESS, progress),
-            getRenderable(inventory.get(2))
+        IDrawableText drawables = IDrawableText.of(
+            getDrawable(inventory.get(0)),
+            getDrawable(inventory.get(1)),
+            IDrawableText.of(PluginMinecraft.RENDER_FURNACE_PROGRESS, progress),
+            getDrawable(inventory.get(2))
         );
 
-        tooltip.add(renderables);
+        tooltip.add(drawables);
     }
 
     @Override
@@ -63,18 +63,18 @@ public class HUDHandlerFurnace implements IComponentProvider, IServerDataProvide
         data.putInt("total", furnaceTag.getInt("CookTimeTotal")); // smh
     }
 
-    private static RenderableTextComponent getRenderable(ItemStack stack) {
+    private static IDrawableText getDrawable(ItemStack stack) {
         if (!stack.isEmpty()) {
             CompoundTag tag = new CompoundTag();
             tag.putString("id", Registry.ITEM.getId(stack.getItem()).toString());
             tag.putInt("count", stack.getCount());
             if (stack.hasTag())
                 tag.putString("nbt", stack.getTag().toString());
-            return new RenderableTextComponent(PluginMinecraft.RENDER_ITEM, tag);
+            return IDrawableText.of(PluginMinecraft.RENDER_ITEM, tag);
         } else {
             CompoundTag spacerTag = new CompoundTag();
             spacerTag.putInt("width", 18);
-            return new RenderableTextComponent(PluginMinecraft.RENDER_SPACER, spacerTag);
+            return IDrawableText.of(PluginMinecraft.RENDER_SPACER, spacerTag);
         }
     }
 

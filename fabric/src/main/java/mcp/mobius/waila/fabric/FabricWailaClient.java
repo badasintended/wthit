@@ -5,10 +5,10 @@ import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.addons.core.PluginCore;
 import mcp.mobius.waila.api.event.WailaRenderEvent;
 import mcp.mobius.waila.api.event.WailaTooltipEvent;
-import mcp.mobius.waila.api.impl.DataAccessor;
-import mcp.mobius.waila.api.impl.config.PluginConfig;
-import mcp.mobius.waila.api.impl.config.WailaConfig;
+import mcp.mobius.waila.config.PluginConfig;
+import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.gui.GuiConfigHome;
+import mcp.mobius.waila.overlay.DataAccessor;
 import mcp.mobius.waila.overlay.OverlayRenderer;
 import mcp.mobius.waila.overlay.TickHandler;
 import mcp.mobius.waila.overlay.Tooltip;
@@ -25,16 +25,16 @@ public class FabricWailaClient extends WailaClient implements ClientModInitializ
 
     @Override
     public void onInitializeClient() {
-        Waila.network.client();
+        Waila.sender.initClient();
 
         openConfig = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.waila.config", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_KP_0, Waila.NAME));
         showOverlay = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.waila.show_overlay", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_KP_1, Waila.NAME));
         toggleLiquid = KeyBindingHelper.registerKeyBinding(new KeyBinding("key.waila.toggle_liquid", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_KP_2, Waila.NAME));
 
-        HudRenderCallback.EVENT.register((matrixStack, v) -> TickHandler.instance().renderOverlay(matrixStack));
+        HudRenderCallback.EVENT.register((matrixStack, v) -> OverlayRenderer.renderOverlay(matrixStack));
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> {
-            TickHandler.instance().tickClient();
+            TickHandler.tickClient();
             while (openConfig.wasPressed()) {
                 MinecraftClient.getInstance().openScreen(new GuiConfigHome(null));
             }

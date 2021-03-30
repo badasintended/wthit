@@ -20,9 +20,9 @@ public class HUDHandlerFallingBlock implements IEntityComponentProvider {
 
     static final HUDHandlerFallingBlock INSTANCE = new HUDHandlerFallingBlock();
 
-    static final Identifier OBJECT_NAME_TAG = new Identifier(Waila.MODID, "object_name");
-    static final Identifier REGISTRY_NAME_TAG = new Identifier(Waila.MODID, "registry_name");
-    static final Identifier CONFIG_SHOW_REGISTRY = new Identifier(Waila.MODID, "show_registry");
+    static final Identifier OBJECT_NAME_TAG = Waila.id("object_name");
+    static final Identifier REGISTRY_NAME_TAG = Waila.id("registry_name");
+    static final Identifier CONFIG_SHOW_REGISTRY = Waila.id("show_registry");
 
     @Override
     public ItemStack getDisplayItem(IEntityAccessor accessor, IPluginConfig config) {

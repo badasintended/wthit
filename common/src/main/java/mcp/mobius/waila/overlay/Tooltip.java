@@ -8,20 +8,19 @@ import java.util.function.Consumer;
 import com.google.common.collect.Lists;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.addons.core.PluginCore;
+import mcp.mobius.waila.api.IDrawableText;
 import mcp.mobius.waila.api.ITaggableList;
-import mcp.mobius.waila.api.RenderableTextComponent;
-import mcp.mobius.waila.api.impl.DataAccessor;
-import mcp.mobius.waila.api.impl.TaggableList;
-import mcp.mobius.waila.api.impl.TaggedTextComponent;
-import mcp.mobius.waila.api.impl.config.PluginConfig;
-import mcp.mobius.waila.api.impl.config.WailaConfig;
+import mcp.mobius.waila.config.PluginConfig;
+import mcp.mobius.waila.config.WailaConfig;
+import mcp.mobius.waila.utils.TaggableList;
+import mcp.mobius.waila.utils.TaggedText;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.util.Window;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-import static mcp.mobius.waila.api.impl.config.WailaConfig.ConfigOverlay.Position;
+import static mcp.mobius.waila.config.WailaConfig.ConfigOverlay.Position;
 
 public class Tooltip {
 
@@ -51,8 +50,8 @@ public class Tooltip {
             Dimension size = getLineSize(c, Texts);
             totalSize.setSize(Math.max(totalSize.width, size.width), totalSize.height + size.height);
             Text Text = c;
-            if (Text instanceof TaggedTextComponent)
-                Text = ((ITaggableList<Identifier, Text>) Texts).getTag(((TaggedTextComponent) Text).getTag());
+            if (Text instanceof TaggedText)
+                Text = ((ITaggableList<Identifier, Text>) Texts).getTag(((TaggedText) Text).getTag());
 
             lines.add(new Line(Text, size));
         });
@@ -80,10 +79,10 @@ public class Tooltip {
         position.y += 6 + topOffset;
 
         for (Line line : lines) {
-            if (line.getText() instanceof RenderableTextComponent) {
-                RenderableTextComponent Text = (RenderableTextComponent) line.getText();
+            if (line.getText() instanceof DrawableText) {
+                DrawableText Text = (DrawableText) line.getText();
                 int xOffset = 0;
-                for (RenderableTextComponent.RenderContainer container : Text.getRenderers()) {
+                for (IDrawableText.RenderContainer container : Text.getRenderers()) {
                     Dimension size = container.getRenderer().getSize(container.getData(), DataAccessor.INSTANCE);
                     container.getRenderer().draw(matrices, container.getData(), DataAccessor.INSTANCE, position.x + xOffset, position.y);
                     xOffset += size.width;
@@ -96,23 +95,23 @@ public class Tooltip {
     }
 
     private Dimension getLineSize(Text text, List<Text> texts) {
-        if (text instanceof RenderableTextComponent) {
-            RenderableTextComponent renderable = (RenderableTextComponent) text;
-            List<RenderableTextComponent.RenderContainer> renderers = renderable.getRenderers();
+        if (text instanceof DrawableText) {
+            DrawableText renderable = (DrawableText) text;
+            List<IDrawableText.RenderContainer> renderers = renderable.getRenderers();
             if (renderers.isEmpty())
                 return new Dimension(0, 0);
 
             int width = 0;
             int height = 0;
-            for (RenderableTextComponent.RenderContainer container : renderers) {
+            for (IDrawableText.RenderContainer container : renderers) {
                 Dimension iconSize = container.getRenderer().getSize(container.getData(), DataAccessor.INSTANCE);
                 width += iconSize.width;
                 height = Math.max(height, iconSize.height);
             }
 
             return new Dimension(width, height);
-        } else if (text instanceof TaggedTextComponent) {
-            TaggedTextComponent tagged = (TaggedTextComponent) text;
+        } else if (text instanceof TaggedText) {
+            TaggedText tagged = (TaggedText) text;
             if (texts instanceof TaggableList) {
                 Text taggedLine = ((TaggableList<Identifier, Text>) texts).getTag(tagged.getTag());
                 return taggedLine == null ? new Dimension(0, 0) : getLineSize(taggedLine, texts);
@@ -127,7 +126,7 @@ public class Tooltip {
     }
 
     public boolean hasItem() {
-        return showItem && PluginConfig.INSTANCE.get(PluginCore.CONFIG_SHOW_ITEM) && !RayTracing.INSTANCE.getIdentifierStack().isEmpty();
+        return showItem && PluginConfig.INSTANCE.get(PluginCore.CONFIG_SHOW_ITEM) && !Raycast.getIdentifierStack().isEmpty();
     }
 
     public Rectangle getPosition() {

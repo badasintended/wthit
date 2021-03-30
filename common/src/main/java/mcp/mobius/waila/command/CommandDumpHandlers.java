@@ -5,7 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import com.mojang.brigadier.CommandDispatcher;
-import mcp.mobius.waila.api.impl.DumpGenerator;
+import mcp.mobius.waila.utils.DumpGenerator;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.LiteralText;

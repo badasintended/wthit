@@ -3,6 +3,7 @@ package mcp.mobius.waila.api;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.ApiStatus;
 
 public interface IRegistrar {
 
@@ -31,7 +32,7 @@ public interface IRegistrar {
      * @param dataProvider The data provider instance
      * @param block        The highest level class to apply to
      */
-    void registerStackProvider(IComponentProvider dataProvider, Class block);
+    <T> void registerStackProvider(IComponentProvider dataProvider, Class<T> block);
 
     /**
      * Registers an {@link IComponentProvider} instance for appending {@link net.minecraft.text.Text} to the tooltip.
@@ -41,7 +42,7 @@ public interface IRegistrar {
      * @param position     The position on the tooltip this applies to
      * @param block        The highest level class to apply to
      */
-    void registerComponentProvider(IComponentProvider dataProvider, TooltipPosition position, Class block);
+    <T> void registerComponentProvider(IComponentProvider dataProvider, TooltipPosition position, Class<T> block);
 
     /**
      * Registers an {@link IServerDataProvider<BlockEntity>} instance for data syncing purposes. A {@link BlockEntity}
@@ -50,7 +51,7 @@ public interface IRegistrar {
      * @param dataProvider The data provider instance
      * @param block        The highest level class to apply to
      */
-    void registerBlockDataProvider(IServerDataProvider<BlockEntity> dataProvider, Class block);
+    <T> void registerBlockDataProvider(IServerDataProvider<BlockEntity> dataProvider, Class<T> block);
 
     /**
      * Registers an {@link IEntityComponentProvider} instance to allow overriding the entity being displayed.
@@ -58,7 +59,7 @@ public interface IRegistrar {
      * @param dataProvider The data provider instance
      * @param entity       The highest level class to apply to
      */
-    void registerOverrideEntityProvider(IEntityComponentProvider dataProvider, Class entity);
+    <T> void registerOverrideEntityProvider(IEntityComponentProvider dataProvider, Class<T> entity);
 
     /**
      * Registers an {@link IEntityComponentProvider} instance to allow displaying an item next to the entity name.
@@ -66,7 +67,7 @@ public interface IRegistrar {
      * @param dataProvider The data provider instance
      * @param entity       The highest level class to apply to
      */
-    void registerEntityStackProvider(IEntityComponentProvider dataProvider, Class entity);
+    <T> void registerEntityStackProvider(IEntityComponentProvider dataProvider, Class<T> entity);
 
     /**
      * Registers an {@link IEntityComponentProvider} instance for appending {@link net.minecraft.text.Text} to the tooltip.
@@ -75,7 +76,7 @@ public interface IRegistrar {
      * @param position     The position on the tooltip this applies to
      * @param entity       The highest level class to apply to
      */
-    void registerComponentProvider(IEntityComponentProvider dataProvider, TooltipPosition position, Class entity);
+    <T> void registerComponentProvider(IEntityComponentProvider dataProvider, TooltipPosition position, Class<T> entity);
 
     /**
      * Registers an {@link IServerDataProvider<LivingEntity>} instance for data syncing purposes.
@@ -83,7 +84,7 @@ public interface IRegistrar {
      * @param dataProvider The data provider instance
      * @param entity       The highest level class to apply to
      */
-    void registerEntityDataProvider(IServerDataProvider<LivingEntity> dataProvider, Class entity);
+    <T> void registerEntityDataProvider(IServerDataProvider<LivingEntity> dataProvider, Class<T> entity);
 
     /**
      * Registers an {@link IBlockDecorator} instance to allow rendering content in the world while looking at the block.
@@ -92,7 +93,8 @@ public interface IRegistrar {
      * @param block     The highest level class to apply to
      */
     @Deprecated
-    void registerDecorator(IBlockDecorator decorator, Class block);
+    @ApiStatus.ScheduledForRemoval
+    <T> void registerDecorator(IBlockDecorator decorator, Class<T> block);
 
     /**
      * Registers an {@link ITooltipRenderer} to allow passing a data string as a component to be rendered as a graphic

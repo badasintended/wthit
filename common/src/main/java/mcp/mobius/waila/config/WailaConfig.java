@@ -1,4 +1,4 @@
-package mcp.mobius.waila.api.impl.config;
+package mcp.mobius.waila.config;
 
 import java.lang.reflect.Type;
 import java.util.Collection;
@@ -106,6 +106,7 @@ public class WailaConfig {
         }
 
         public int getRateLimit() {
+            rateLimit = Math.max(rateLimit, 250);
             return rateLimit;
         }
 

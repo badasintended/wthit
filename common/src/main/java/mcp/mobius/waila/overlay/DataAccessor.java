@@ -1,4 +1,4 @@
-package mcp.mobius.waila.api.impl;
+package mcp.mobius.waila.overlay;
 
 import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.IDataAccessor;
@@ -22,59 +22,24 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public class DataAccessor implements ICommonAccessor, IDataAccessor, IEntityAccessor {
+public enum DataAccessor implements ICommonAccessor, IDataAccessor, IEntityAccessor {
 
-    public static final DataAccessor INSTANCE = new DataAccessor();
+    INSTANCE;
 
-    public World world;
-    public PlayerEntity player;
-    public HitResult hitResult;
-    public Vec3d renderingvec = null;
-    public Block block = Blocks.AIR;
-    public BlockState state = Blocks.AIR.getDefaultState();
-    public BlockPos pos = BlockPos.ORIGIN;
-    public Identifier blockRegistryName = Registry.ITEM.getDefaultId();
-    public BlockEntity blockEntity;
-    public Entity entity;
-    public CompoundTag serverData = null;
-    public long timeLastUpdate = System.currentTimeMillis();
-    public double partialFrame;
-    public ItemStack stack = ItemStack.EMPTY;
-
-    public void set(World world, PlayerEntity player, HitResult hit) {
-        this.set(world, player, hit, null, 0.0);
-    }
-
-    public void set(World world, PlayerEntity player, HitResult hit, Entity viewEntity, double partialTicks) {
-        this.world = world;
-        this.player = player;
-        this.hitResult = hit;
-
-        if (this.hitResult.getType() == HitResult.Type.BLOCK) {
-            this.pos = ((BlockHitResult) hit).getBlockPos();
-            this.state = this.world.getBlockState(this.pos);
-            this.block = this.state.getBlock();
-            this.blockEntity = this.world.getBlockEntity(this.pos);
-            this.entity = null;
-            this.blockRegistryName = Registry.BLOCK.getId(block);
-            this.stack = block.getPickStack(world, pos, state);
-        } else if (this.hitResult.getType() == HitResult.Type.ENTITY) {
-            this.entity = ((EntityHitResult) hit).getEntity();
-            this.pos = new BlockPos(entity.getPos());
-            this.state = Blocks.AIR.getDefaultState();
-            this.block = Blocks.AIR;
-            this.blockEntity = null;
-            this.stack = ItemStack.EMPTY;
-        }
-
-        if (viewEntity != null) {
-            double px = viewEntity.prevX + (viewEntity.getX() - viewEntity.prevX) * partialTicks;
-            double py = viewEntity.prevY + (viewEntity.getY() - viewEntity.prevY) * partialTicks;
-            double pz = viewEntity.prevZ + (viewEntity.getZ() - viewEntity.prevZ) * partialTicks;
-            this.renderingvec = new Vec3d(this.pos.getX() - px, this.pos.getY() - py, this.pos.getZ() - pz);
-            this.partialFrame = partialTicks;
-        }
-    }
+    private World world;
+    private PlayerEntity player;
+    private HitResult hitResult;
+    private Vec3d renderingvec = null;
+    private Block block = Blocks.AIR;
+    private BlockState state = Blocks.AIR.getDefaultState();
+    private BlockPos pos = BlockPos.ORIGIN;
+    private Identifier blockRegistryName = Registry.ITEM.getDefaultId();
+    private BlockEntity blockEntity;
+    private Entity entity;
+    private CompoundTag serverData = null;
+    private long timeLastUpdate = System.currentTimeMillis();
+    private double partialFrame;
+    private ItemStack stack = ItemStack.EMPTY;
 
     @Override
     public World getWorld() {
@@ -111,6 +76,7 @@ public class DataAccessor implements ICommonAccessor, IDataAccessor, IEntityAcce
         return this.pos;
     }
 
+    @Override
     public HitResult getHitResult() {
         return this.hitResult;
     }
@@ -137,8 +103,76 @@ public class DataAccessor implements ICommonAccessor, IDataAccessor, IEntityAcce
         return new CompoundTag();
     }
 
+    @Override
+    public double getPartialFrame() {
+        return this.partialFrame;
+    }
+
+    @Override
+    public Direction getSide() {
+        return hitResult == null ? null : hitResult.getType() == HitResult.Type.ENTITY ? null : ((BlockHitResult) hitResult).getSide();
+    }
+
+    @Override
+    public ItemStack getStack() {
+        return this.stack;
+    }
+
+    @Override
+    public @Nullable BlockEntity getTileEntity() {
+        return getBlockEntity();
+    }
+
+    @Override
+    public Identifier getBlockId() {
+        return blockRegistryName;
+    }
+
+    public void set(World world, PlayerEntity player, HitResult hit) {
+        this.set(world, player, hit, null, 0.0);
+    }
+
+    public void set(World world, PlayerEntity player, HitResult hit, Entity viewEntity, double partialTicks) {
+        this.world = world;
+        this.player = player;
+        this.hitResult = hit;
+
+        if (this.hitResult.getType() == HitResult.Type.BLOCK) {
+            this.pos = ((BlockHitResult) hit).getBlockPos();
+            this.state = this.world.getBlockState(this.pos);
+            this.block = this.state.getBlock();
+            this.blockEntity = this.world.getBlockEntity(this.pos);
+            this.entity = null;
+            this.blockRegistryName = Registry.BLOCK.getId(block);
+            this.stack = block.getPickStack(world, pos, state);
+        } else if (this.hitResult.getType() == HitResult.Type.ENTITY) {
+            this.entity = ((EntityHitResult) hit).getEntity();
+            this.pos = new BlockPos(entity.getPos());
+            this.state = Blocks.AIR.getDefaultState();
+            this.block = Blocks.AIR;
+            this.blockEntity = null;
+            this.stack = ItemStack.EMPTY;
+        }
+
+        if (viewEntity != null) {
+            double px = viewEntity.prevX + (viewEntity.getX() - viewEntity.prevX) * partialTicks;
+            double py = viewEntity.prevY + (viewEntity.getY() - viewEntity.prevY) * partialTicks;
+            double pz = viewEntity.prevZ + (viewEntity.getZ() - viewEntity.prevZ) * partialTicks;
+            this.renderingvec = new Vec3d(this.pos.getX() - px, this.pos.getY() - py, this.pos.getZ() - pz);
+            this.partialFrame = partialTicks;
+        }
+    }
+
+    public void setEntity(Entity entity) {
+        this.entity = entity;
+    }
+
     public void setServerData(CompoundTag tag) {
         this.serverData = tag;
+    }
+
+    public void setStack(ItemStack stack) {
+        this.stack = stack;
     }
 
     private boolean isTagCorrectTileEntity(CompoundTag tag) {
@@ -176,37 +210,12 @@ public class DataAccessor implements ICommonAccessor, IDataAccessor, IEntityAcce
         }
     }
 
-    @Override
-    public double getPartialFrame() {
-        return this.partialFrame;
-    }
-
-    @Override
-    public Direction getSide() {
-        return hitResult == null ? null : hitResult.getType() == HitResult.Type.ENTITY ? null : ((BlockHitResult) hitResult).getSide();
-    }
-
-    @Override
-    public ItemStack getStack() {
-        return this.stack;
-    }
-
-    @Override
-    public @Nullable BlockEntity getTileEntity() {
-        return getBlockEntity();
-    }
-
     public boolean isTimeElapsed(long time) {
         return System.currentTimeMillis() - this.timeLastUpdate >= time;
     }
 
     public void resetTimer() {
         this.timeLastUpdate = System.currentTimeMillis();
-    }
-
-    @Override
-    public Identifier getBlockId() {
-        return blockRegistryName;
     }
 
 }

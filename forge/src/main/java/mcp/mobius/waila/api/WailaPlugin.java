@@ -5,10 +5,13 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import org.jetbrains.annotations.ApiStatus;
+
 /**
  * @deprecated will be removed in 1.17 release
  */
 @Deprecated
+@ApiStatus.ScheduledForRemoval
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface WailaPlugin {

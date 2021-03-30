@@ -1,4 +1,4 @@
-package mcp.mobius.waila.api.impl;
+package mcp.mobius.waila.overlay;
 
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -7,18 +7,17 @@ import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IComponentProvider;
 import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.TooltipPosition;
-import mcp.mobius.waila.api.impl.config.PluginConfig;
+import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.utils.ExceptionHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.text.Text;
 
-public class MetaDataProvider {
+public class ComponentProvider {
 
-    private final WailaRegistrar registrar = WailaRegistrar.INSTANCE;
-
-    public void gatherBlockComponents(DataAccessor accessor, List<Text> tooltip, TooltipPosition position) {
+    public static void gatherBlock(DataAccessor accessor, List<Text> tooltip, TooltipPosition position) {
+        Registrar registrar = Registrar.INSTANCE;
         Block block = accessor.getBlock();
         BlockEntity blockEntity = accessor.getBlockEntity();
 
@@ -26,12 +25,18 @@ public class MetaDataProvider {
 
         if (blockEntity != null && accessor.isTimeElapsed(rate) && Waila.CONFIG.get().getGeneral().shouldDisplayTooltip()) {
             accessor.resetTimer();
-            if (!(WailaRegistrar.INSTANCE.getNBTProviders(block).isEmpty() && WailaRegistrar.INSTANCE.getNBTProviders(blockEntity).isEmpty())) {
-                Waila.network.requestBlock(blockEntity);
+            if (!(registrar.getBlockData(block).isEmpty() && registrar.getBlockData(blockEntity).isEmpty())) {
+                Waila.sender.requestBlock(blockEntity);
             }
         }
 
-        LinkedHashSet<IComponentProvider> providers = WailaRegistrar.INSTANCE.getBlockProviders(block, position);
+        handleBlock(accessor, tooltip, block, position);
+        handleBlock(accessor, tooltip, blockEntity, position);
+    }
+
+    private static void handleBlock(DataAccessor accessor, List<Text> tooltip, Object obj, TooltipPosition position) {
+        Registrar registrar = Registrar.INSTANCE;
+        LinkedHashSet<IComponentProvider> providers = registrar.getBlockComponent(obj, position);
         for (IComponentProvider provider : providers) {
             try {
                 switch (position) {
@@ -51,7 +56,8 @@ public class MetaDataProvider {
         }
     }
 
-    public void gatherEntityComponents(Entity entity, DataAccessor accessor, List<Text> tooltip, TooltipPosition position) {
+    public static void gatherEntity(Entity entity, DataAccessor accessor, List<Text> tooltip, TooltipPosition position) {
+        Registrar registrar = Registrar.INSTANCE;
         Entity trueEntity = accessor.getEntity();
 
         int rate = Waila.CONFIG.get().getGeneral().getRateLimit();
@@ -59,12 +65,12 @@ public class MetaDataProvider {
         if (trueEntity != null && accessor.isTimeElapsed(rate)) {
             accessor.resetTimer();
 
-            if (!WailaRegistrar.INSTANCE.getNBTEntityProviders(trueEntity).isEmpty()) {
-                Waila.network.requestEntity(trueEntity);
+            if (!registrar.getEntityData(trueEntity).isEmpty()) {
+                Waila.sender.requestEntity(trueEntity);
             }
         }
 
-        LinkedHashSet<IEntityComponentProvider> providers = WailaRegistrar.INSTANCE.getEntityProviders(entity, position);
+        LinkedHashSet<IEntityComponentProvider> providers = registrar.getEntityComponent(entity, position);
         for (IEntityComponentProvider provider : providers) {
             try {
                 switch (position) {
