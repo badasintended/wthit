@@ -1,4 +1,4 @@
-package mcp.mobius.waila.config;
+package mcp.mobius.waila.api.impl.config;
 
 import mcp.mobius.waila.Waila;
 import net.minecraft.util.Identifier;

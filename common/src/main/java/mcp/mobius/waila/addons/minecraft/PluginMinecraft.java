@@ -4,7 +4,6 @@ import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.api.TooltipPosition;
 import mcp.mobius.waila.overlay.tooltiprenderers.TooltipRendererProgressBar;
-import mcp.mobius.waila.overlay.tooltiprenderers.TooltipRendererSpacer;
 import mcp.mobius.waila.overlay.tooltiprenderers.TooltipRendererStack;
 import net.minecraft.block.CocoaBlock;
 import net.minecraft.block.ComparatorBlock;
@@ -31,7 +30,6 @@ import net.minecraft.util.Identifier;
 public class PluginMinecraft implements IWailaPlugin {
 
     static final Identifier RENDER_ITEM = new Identifier("item");
-    static final Identifier RENDER_SPACER = new Identifier("spacer");
     static final Identifier RENDER_FURNACE_PROGRESS = new Identifier("furnace_progress");
 
     static final Identifier CONFIG_DISPLAY_FURNACE = new Identifier("display_furnace_contents");
@@ -59,14 +57,13 @@ public class PluginMinecraft implements IWailaPlugin {
         registrar.addConfig(CONFIG_PLAYER_HEAD_NAME, true);
 
         registrar.registerTooltipRenderer(RENDER_ITEM, new TooltipRendererStack());
-        registrar.registerTooltipRenderer(RENDER_SPACER, new TooltipRendererSpacer());
         registrar.registerTooltipRenderer(RENDER_FURNACE_PROGRESS, new TooltipRendererProgressBar());
 
         registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, InfestedBlock.class);
         registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, CropBlock.class);
         registrar.registerStackProvider(HUDHandlerVanilla.INSTANCE, SkullBlockEntity.class);
-        registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.HEAD, InfestedBlock.class);
-        registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.HEAD, MobSpawnerBlockEntity.class);
+        registrar.registerComponentProvider(0, HUDHandlerVanilla.INSTANCE, TooltipPosition.HEAD, InfestedBlock.class);
+        registrar.registerComponentProvider(0, HUDHandlerVanilla.INSTANCE, TooltipPosition.HEAD, MobSpawnerBlockEntity.class);
         registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.BODY, CropBlock.class);
         registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.BODY, StemBlock.class);
         registrar.registerComponentProvider(HUDHandlerVanilla.INSTANCE, TooltipPosition.BODY, CocoaBlock.class);

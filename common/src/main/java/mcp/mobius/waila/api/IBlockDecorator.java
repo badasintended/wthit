@@ -8,8 +8,9 @@ import org.jetbrains.annotations.ApiStatus;
  * All methods in this interface shouldn't to be called by the implementing mod. An instance of the class is to be
  * registered to Waila via the {@link IRegistrar} instance provided in the original registration callback method
  * (cf. {@link IRegistrar} documentation for more information).
+ * TODO: Remove in 1.17 release
  *
- * @author ProfMobius
+ * @deprecated not a feasible feature in modern minecraft
  */
 @Deprecated
 @ApiStatus.ScheduledForRemoval

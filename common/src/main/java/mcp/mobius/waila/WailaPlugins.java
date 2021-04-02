@@ -4,15 +4,15 @@ import java.util.List;
 import java.util.Map;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import mcp.mobius.waila.addons.core.PluginCore;
 import mcp.mobius.waila.api.IWailaPlugin;
-import mcp.mobius.waila.config.PluginConfig;
-import mcp.mobius.waila.overlay.Registrar;
+import mcp.mobius.waila.api.impl.Registrar;
+import mcp.mobius.waila.api.impl.config.PluginConfig;
 
 public abstract class WailaPlugins {
 
-    public static final Map<String, IWailaPlugin> PLUGINS = Maps.newHashMap();
+    public static final Map<String, IWailaPlugin> PLUGINS = new Object2ObjectOpenHashMap<>();
 
     protected abstract void gatherPlugins();
 
@@ -40,6 +40,8 @@ public abstract class WailaPlugins {
             Waila.LOGGER.info("Registering plugin at {}", p.getClass().getCanonicalName());
             p.register(Registrar.INSTANCE);
         });
+
+        Registrar.INSTANCE.lock();
         PluginConfig.INSTANCE.reload();
     }
 

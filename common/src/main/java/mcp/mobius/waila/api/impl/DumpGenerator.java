@@ -1,9 +1,6 @@
-package mcp.mobius.waila.utils;
+package mcp.mobius.waila.api.impl;
 
 import java.util.Map;
-import java.util.Set;
-
-import mcp.mobius.waila.overlay.Registrar;
 
 import static mcp.mobius.waila.api.TooltipPosition.BODY;
 import static mcp.mobius.waila.api.TooltipPosition.HEAD;
@@ -33,7 +30,7 @@ public class DumpGenerator {
         return builder.toString();
     }
 
-    private static <T, S extends Set<T>> void createSection(StringBuilder builder, String subsection, Map<Class<?>, S> providers) {
+    private static <T, S extends Registrar.List<T>> void createSection(StringBuilder builder, String subsection, Map<Class<?>, S> providers) {
         if (providers.isEmpty())
             return;
 

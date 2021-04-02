@@ -1,4 +1,4 @@
-package mcp.mobius.waila.config;
+package mcp.mobius.waila.api.impl.config;
 
 import java.lang.reflect.Type;
 import java.util.Collection;

@@ -14,8 +14,6 @@ import net.minecraft.world.World;
  * All methods in this interface shouldn't to be called by the implementing mod. An instance of the class is to be
  * registered to Waila via the {@link IRegistrar} instance provided in the original registration callback method
  * (cf. {@link IRegistrar} documentation for more information).
- *
- * @author ProfMobius
  */
 public interface IEntityComponentProvider {
 
@@ -61,7 +59,6 @@ public interface IEntityComponentProvider {
      * @param config   Current configuration of Waila.
      */
     default void appendHead(List<Text> tooltip, IEntityAccessor accessor, IPluginConfig config) {
-
     }
 
     /**
@@ -80,7 +77,6 @@ public interface IEntityComponentProvider {
      * @param config   Current configuration of Waila.
      */
     default void appendBody(List<Text> tooltip, IEntityAccessor accessor, IPluginConfig config) {
-
     }
 
     /**
@@ -99,7 +95,6 @@ public interface IEntityComponentProvider {
      * @param config   Current configuration of Waila.
      */
     default void appendTail(List<Text> tooltip, IEntityAccessor accessor, IPluginConfig config) {
-
     }
 
 }

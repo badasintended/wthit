@@ -38,12 +38,10 @@ public interface ICommonAccessor {
     BlockPos getPosition();
 
     @Nullable
-    @Deprecated
     Vec3d getRenderingPosition();
 
     CompoundTag getServerData();
 
-    @Deprecated
     double getPartialFrame();
 
     @Nullable

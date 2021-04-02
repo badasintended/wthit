@@ -5,9 +5,9 @@ import java.util.function.Consumer;
 
 import com.google.gson.Gson;
 import mcp.mobius.waila.Waila;
-import mcp.mobius.waila.config.PluginConfig;
-import mcp.mobius.waila.overlay.DataAccessor;
-import mcp.mobius.waila.overlay.Registrar;
+import mcp.mobius.waila.api.impl.DataAccessor;
+import mcp.mobius.waila.api.impl.Registrar;
+import mcp.mobius.waila.api.impl.config.PluginConfig;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
@@ -42,7 +42,7 @@ public class PacketExecutor {
 
         CompoundTag tag = new CompoundTag();
         registrar.getEntityData(entity).forEach(provider ->
-            provider.appendServerData(tag, player, world, (LivingEntity) entity)
+            provider.get().appendServerData(tag, player, world, (LivingEntity) entity)
         );
 
         tag.putInt("WailaEntityID", entity.getEntityId());
@@ -63,9 +63,9 @@ public class PacketExecutor {
 
         CompoundTag tag = new CompoundTag();
         registrar.getBlockData(blockEntity).forEach(provider ->
-            provider.appendServerData(tag, player, world, blockEntity));
+            provider.get().appendServerData(tag, player, world, blockEntity));
         registrar.getBlockData(state.getBlock()).forEach(provider ->
-            provider.appendServerData(tag, player, world, blockEntity));
+            provider.get().appendServerData(tag, player, world, blockEntity));
 
         tag.putInt("x", pos.getX());
         tag.putInt("y", pos.getY());

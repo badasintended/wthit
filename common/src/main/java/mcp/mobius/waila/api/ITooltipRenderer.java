@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Lazy;
+import org.jetbrains.annotations.ApiStatus;
 
 public interface ITooltipRenderer {
 
@@ -29,12 +30,30 @@ public interface ITooltipRenderer {
     Dimension getSize(CompoundTag data, ICommonAccessor accessor);
 
     /**
-     * Draw method for the renderer. The GL matrice is automatically moved to the top left of the reserved zone.<br>
-     * All calls should be relative to (0,0)
+     * Draw method for the renderer.
      *
      * @param data     The data supplied by the provider
      * @param accessor A global accessor for TileEntities and Entities
+     * @param x        The X position of this renderer
+     * @param y        The Y position of this renderer
      */
-    void draw(MatrixStack matrices, CompoundTag data, ICommonAccessor accessor, int x, int y);
+    default void draw(MatrixStack matrices, CompoundTag data, ICommonAccessor accessor, int x, int y) {
+    }
+
+    /**
+     * Draw method for the renderer.
+     *
+     * TODO: Remove in 1.17 release
+     * @deprecated creating a new matrices every frame is probably bad
+     *
+     * @param data     The data supplied by the provider
+     * @param accessor A global accessor for TileEntities and Entities
+     * @param x        The X position of this renderer
+     * @param y        The Y position of this renderer
+     */
+    @Deprecated
+    @ApiStatus.ScheduledForRemoval
+    default void draw(CompoundTag data, ICommonAccessor accessor, int x, int y) {
+    }
 
 }

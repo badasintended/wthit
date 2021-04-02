@@ -1,4 +1,4 @@
-package mcp.mobius.waila.overlay;
+package mcp.mobius.waila.api.impl;
 
 import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.IDataAccessor;
@@ -126,10 +126,6 @@ public enum DataAccessor implements ICommonAccessor, IDataAccessor, IEntityAcces
     @Override
     public Identifier getBlockId() {
         return blockRegistryName;
-    }
-
-    public void set(World world, PlayerEntity player, HitResult hit) {
-        this.set(world, player, hit, null, 0.0);
     }
 
     public void set(World world, PlayerEntity player, HitResult hit, Entity viewEntity, double partialTicks) {

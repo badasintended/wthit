@@ -8,7 +8,8 @@ import java.lang.annotation.Target;
 import org.jetbrains.annotations.ApiStatus;
 
 /**
- * @deprecated will be removed in 1.17 release
+ * @deprecated define plugins in your mods.toml
+ * TODO: Remove in 1.17 release
  */
 @Deprecated
 @ApiStatus.ScheduledForRemoval

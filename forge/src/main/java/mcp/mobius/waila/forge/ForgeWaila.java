@@ -1,8 +1,8 @@
 package mcp.mobius.waila.forge;
 
 import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.api.impl.config.PluginConfig;
 import mcp.mobius.waila.command.CommandDumpHandlers;
-import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.tag.BlockTags;
@@ -12,12 +12,14 @@ import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
+import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.loading.FMLPaths;
 
 @Mod(Waila.MODID)
-@Mod.EventBusSubscriber(modid = Waila.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = Waila.MODID, bus = Bus.MOD)
 public class ForgeWaila extends Waila {
 
     @SubscribeEvent
@@ -26,10 +28,10 @@ public class ForgeWaila extends Waila {
         entityBlacklist = EntityTypeTags.createOptional(id("blacklist"));
 
         configDir = FMLPaths.CONFIGDIR.get();
-        initConfig();
+        init();
 
-        sender = new ForgePacketSender();
-        sender.initMain();
+        packet = new ForgePacketSender();
+        packet.initMain();
 
         plugins = new ForgeWailaPlugins();
 
@@ -43,7 +45,7 @@ public class ForgeWaila extends Waila {
         plugins.initialize();
     }
 
-    @Mod.EventBusSubscriber(modid = Waila.MODID)
+    @EventBusSubscriber(modid = Waila.MODID)
     static class Subscriber {
 
         @SubscribeEvent
@@ -53,7 +55,7 @@ public class ForgeWaila extends Waila {
 
         @SubscribeEvent
         static void playerJoin(PlayerEvent.PlayerLoggedInEvent event) {
-            sender.sendConfig(PluginConfig.INSTANCE, (ServerPlayerEntity) event.getPlayer());
+            packet.sendConfig(PluginConfig.INSTANCE, (ServerPlayerEntity) event.getPlayer());
         }
 
     }

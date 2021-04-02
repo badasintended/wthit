@@ -1,13 +1,12 @@
-package mcp.mobius.waila.overlay;
+package mcp.mobius.waila.api.impl;
 
-import java.util.LinkedHashSet;
 import java.util.List;
 
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IComponentProvider;
 import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.TooltipPosition;
-import mcp.mobius.waila.config.PluginConfig;
+import mcp.mobius.waila.api.impl.config.PluginConfig;
 import mcp.mobius.waila.utils.ExceptionHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
@@ -26,7 +25,7 @@ public class ComponentProvider {
         if (blockEntity != null && accessor.isTimeElapsed(rate) && Waila.CONFIG.get().getGeneral().shouldDisplayTooltip()) {
             accessor.resetTimer();
             if (!(registrar.getBlockData(block).isEmpty() && registrar.getBlockData(blockEntity).isEmpty())) {
-                Waila.sender.requestBlock(blockEntity);
+                Waila.packet.requestBlock(blockEntity);
             }
         }
 
@@ -36,18 +35,18 @@ public class ComponentProvider {
 
     private static void handleBlock(DataAccessor accessor, List<Text> tooltip, Object obj, TooltipPosition position) {
         Registrar registrar = Registrar.INSTANCE;
-        LinkedHashSet<IComponentProvider> providers = registrar.getBlockComponent(obj, position);
-        for (IComponentProvider provider : providers) {
+        Registrar.List<IComponentProvider> providers = registrar.getBlockComponent(obj, position);
+        for (Registrar.Entry<IComponentProvider> provider : providers) {
             try {
                 switch (position) {
                     case HEAD:
-                        provider.appendHead(tooltip, accessor, PluginConfig.INSTANCE);
+                        provider.get().appendHead(tooltip, accessor, PluginConfig.INSTANCE);
                         break;
                     case BODY:
-                        provider.appendBody(tooltip, accessor, PluginConfig.INSTANCE);
+                        provider.get().appendBody(tooltip, accessor, PluginConfig.INSTANCE);
                         break;
                     case TAIL:
-                        provider.appendTail(tooltip, accessor, PluginConfig.INSTANCE);
+                        provider.get().appendTail(tooltip, accessor, PluginConfig.INSTANCE);
                         break;
                 }
             } catch (Throwable e) {
@@ -66,22 +65,22 @@ public class ComponentProvider {
             accessor.resetTimer();
 
             if (!registrar.getEntityData(trueEntity).isEmpty()) {
-                Waila.sender.requestEntity(trueEntity);
+                Waila.packet.requestEntity(trueEntity);
             }
         }
 
-        LinkedHashSet<IEntityComponentProvider> providers = registrar.getEntityComponent(entity, position);
-        for (IEntityComponentProvider provider : providers) {
+        Registrar.List<IEntityComponentProvider> providers = registrar.getEntityComponent(entity, position);
+        for (Registrar.Entry<IEntityComponentProvider> provider : providers) {
             try {
                 switch (position) {
                     case HEAD:
-                        provider.appendHead(tooltip, accessor, PluginConfig.INSTANCE);
+                        provider.get().appendHead(tooltip, accessor, PluginConfig.INSTANCE);
                         break;
                     case BODY:
-                        provider.appendBody(tooltip, accessor, PluginConfig.INSTANCE);
+                        provider.get().appendBody(tooltip, accessor, PluginConfig.INSTANCE);
                         break;
                     case TAIL:
-                        provider.appendTail(tooltip, accessor, PluginConfig.INSTANCE);
+                        provider.get().appendTail(tooltip, accessor, PluginConfig.INSTANCE);
                         break;
                 }
             } catch (Throwable e) {

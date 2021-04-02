@@ -1,11 +1,11 @@
 package mcp.mobius.waila.overlay;
 
-import java.util.LinkedHashSet;
-
 import mcp.mobius.waila.addons.core.PluginCore;
 import mcp.mobius.waila.api.IComponentProvider;
 import mcp.mobius.waila.api.IEntityComponentProvider;
-import mcp.mobius.waila.config.PluginConfig;
+import mcp.mobius.waila.api.impl.DataAccessor;
+import mcp.mobius.waila.api.impl.Registrar;
+import mcp.mobius.waila.api.impl.config.PluginConfig;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
@@ -27,18 +27,18 @@ public class Raycast {
     private static HitResult target = null;
 
     public static void fire() {
-        MinecraftClient mc = MinecraftClient.getInstance();
+        MinecraftClient client = MinecraftClient.getInstance();
 
-        if (mc.crosshairTarget != null && mc.crosshairTarget.getType() == HitResult.Type.ENTITY) {
-            target = mc.crosshairTarget;
+        if (client.crosshairTarget != null && client.crosshairTarget.getType() == HitResult.Type.ENTITY) {
+            target = client.crosshairTarget;
             return;
         }
 
-        Entity viewpoint = mc.getCameraEntity();
+        Entity viewpoint = client.getCameraEntity();
         if (viewpoint == null)
             return;
 
-        target = rayTrace(viewpoint, mc.interactionManager.getReachDistance(), 0);
+        target = rayTrace(viewpoint, client.interactionManager.getReachDistance(), client.getTickDelta());
     }
 
     public static HitResult getTarget() {
@@ -53,9 +53,9 @@ public class Raycast {
         return target.getType() == HitResult.Type.ENTITY ? getIdentifierEntity() : null;
     }
 
-    public static HitResult rayTrace(Entity entity, double playerReach, float partialTicks) {
-        Vec3d eyePosition = entity.getCameraPosVec(partialTicks);
-        Vec3d lookVector = entity.getRotationVec(partialTicks);
+    public static HitResult rayTrace(Entity entity, double playerReach, float tickDelta) {
+        Vec3d eyePosition = entity.getCameraPosVec(tickDelta);
+        Vec3d lookVector = entity.getRotationVec(tickDelta);
         Vec3d traceEnd = eyePosition.add(lookVector.x * playerReach, lookVector.y * playerReach, lookVector.z * playerReach);
 
         FluidHandling fluidView = PluginConfig.INSTANCE.get(PluginCore.CONFIG_SHOW_FLUID)
@@ -76,9 +76,9 @@ public class Raycast {
         PluginConfig config = PluginConfig.INSTANCE;
 
         if (target.getType() == HitResult.Type.ENTITY) {
-            LinkedHashSet<IEntityComponentProvider> providers = registrar.getEntityStack(((EntityHitResult) target).getEntity());
-            for (IEntityComponentProvider provider : providers) {
-                ItemStack providerStack = provider.getDisplayItem(data, config);
+            Registrar.List<IEntityComponentProvider> providers = registrar.getEntityStack(((EntityHitResult) target).getEntity());
+            for (Registrar.Entry<IEntityComponentProvider> provider : providers) {
+                ItemStack providerStack = provider.get().getDisplayItem(data, config);
                 if (!providerStack.isEmpty()) {
                     return providerStack;
                 }
@@ -90,9 +90,9 @@ public class Raycast {
             if (state.isAir())
                 return ItemStack.EMPTY;
 
-            LinkedHashSet<IComponentProvider> providers = registrar.getBlockStack(state.getBlock());
-            for (IComponentProvider provider : providers) {
-                ItemStack providerStack = provider.getStack(data, config);
+            Registrar.List<IComponentProvider> providers = registrar.getBlockStack(state.getBlock());
+            for (Registrar.Entry<IComponentProvider> provider : providers) {
+                ItemStack providerStack = provider.get().getStack(data, config);
                 if (!providerStack.isEmpty()) {
                     return providerStack;
                 }
@@ -101,8 +101,8 @@ public class Raycast {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity != null) {
                 providers = registrar.getBlockStack(blockEntity);
-                for (IComponentProvider provider : providers) {
-                    ItemStack providerStack = provider.getStack(data, config);
+                for (Registrar.Entry<IComponentProvider> provider : providers) {
+                    ItemStack providerStack = provider.get().getStack(data, config);
                     if (!providerStack.isEmpty()) {
                         return providerStack;
                     }
@@ -128,9 +128,9 @@ public class Raycast {
         Registrar registrar = Registrar.INSTANCE;
         Entity entity = ((EntityHitResult) target).getEntity();
 
-        LinkedHashSet<IEntityComponentProvider> overrideProviders = registrar.getEntityOverride(entity);
-        for (IEntityComponentProvider provider : overrideProviders) {
-            Entity override = provider.getOverride(DataAccessor.INSTANCE, PluginConfig.INSTANCE);
+        Registrar.List<IEntityComponentProvider> overrideProviders = registrar.getEntityOverride(entity);
+        for (Registrar.Entry<IEntityComponentProvider> provider : overrideProviders) {
+            Entity override = provider.get().getOverride(DataAccessor.INSTANCE, PluginConfig.INSTANCE);
             if (override != null) {
                 return override;
             }

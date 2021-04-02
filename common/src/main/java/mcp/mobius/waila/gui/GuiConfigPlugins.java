@@ -2,8 +2,8 @@ package mcp.mobius.waila.gui;
 
 import java.util.Set;
 
-import mcp.mobius.waila.config.ConfigEntry;
-import mcp.mobius.waila.config.PluginConfig;
+import mcp.mobius.waila.api.impl.config.ConfigEntry;
+import mcp.mobius.waila.api.impl.config.PluginConfig;
 import mcp.mobius.waila.gui.config.OptionsListWidget;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.Screen;

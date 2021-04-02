@@ -1,57 +1,63 @@
-package mcp.mobius.waila.utils;
+package mcp.mobius.waila.api.impl;
 
-import java.util.ArrayList;
 import java.util.Map;
 import java.util.function.Function;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Maps;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import mcp.mobius.waila.api.ITaggableList;
 
-public class TaggableList<TAG, VALUE> extends ArrayList<VALUE> implements ITaggableList<TAG, VALUE> {
+public class TaggableList<T, V> extends ObjectArrayList<V> implements ITaggableList<T, V> {
 
-    protected final Map<TAG, VALUE> tags = Maps.newHashMap();
-    private final Function<TAG, VALUE> setProcessor;
+    protected final Map<T, V> tags = Maps.newHashMap();
+    private final Function<T, V> setProcessor;
 
-    public TaggableList(Function<TAG, VALUE> setProcessor) {
+    public TaggableList(Function<T, V> setProcessor) {
         Preconditions.checkNotNull(setProcessor);
 
         this.setProcessor = setProcessor;
     }
 
     @Override
-    public void setTag(TAG tag, VALUE value) {
+    public void setTag(T tag, V value) {
         Preconditions.checkNotNull(tag);
         Preconditions.checkNotNull(value);
 
-        VALUE old = tags.put(tag, value);
+        V old = tags.put(tag, value);
         if (old == null)
             add(setProcessor.apply(tag));
     }
 
     @Override
-    public VALUE removeTag(TAG tag) {
+    public V removeTag(T tag) {
         Preconditions.checkNotNull(tag);
 
         return tags.remove(tag);
     }
 
     @Override
-    public VALUE getTag(TAG tag) {
+    public V getTag(T tag) {
         Preconditions.checkNotNull(tag);
 
         return tags.get(tag);
     }
 
     @Override
-    public Map<TAG, VALUE> getTags() {
+    public Map<T, V> getTags() {
         return tags;
     }
 
     @Override
-    public void absorb(ITaggableList<TAG, VALUE> other) {
+    public void absorb(ITaggableList<T, V> other) {
         this.addAll(other);
         tags.putAll(other.getTags());
+    }
+
+    @Override
+    public void clear() {
+        super.clear();
+        tags.clear();
     }
 
 }

@@ -1,4 +1,4 @@
-package mcp.mobius.waila.utils;
+package mcp.mobius.waila.api.impl;
 
 import net.minecraft.text.LiteralText;
 import net.minecraft.util.Identifier;
