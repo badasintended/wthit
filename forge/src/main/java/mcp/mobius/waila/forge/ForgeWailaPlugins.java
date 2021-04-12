@@ -9,6 +9,7 @@ import net.minecraftforge.fml.ModList;
 
 public class ForgeWailaPlugins extends WailaPlugins {
 
+    // TODO: Remove in 1.17 release
     static final String WAILA_PLUGIN = WailaPlugin.class.getName();
 
     @Override
@@ -34,6 +35,7 @@ public class ForgeWailaPlugins extends WailaPlugins {
                 }
             }));
 
+        // TODO: Remove in 1.17 release
         ModList.get().getAllScanData().forEach(data -> data.getAnnotations().forEach(annotation -> {
             if (annotation.getAnnotationType().getClassName().equals(WAILA_PLUGIN)) {
                 String required = (String) annotation.getAnnotationData().getOrDefault("value", "");

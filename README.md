@@ -119,6 +119,35 @@ public class ExamplePlugin implements IWailaPlugin {
   required = ["mod_a", "mod_b"]
   ```
 
-  **`@WailaPlugin` annotation is deprecated and will be removed in 1.17 release**
+  **`@WailaPlugin` annotation is deprecated and will be removed in future releases**
+
+</details>
+
+### (Optional) Add WTHIT as a mod dependency
+Both on fabric and forge, you can use either `wthit` or `waila` as a dependency in your mod metadata.
+Though if you use any WTHIT specific APIs, I suggest depending on `wthit` instead.
+
+<details>
+  <summary><code>fabric.mod.json</code></summary>
+
+  ```json5
+  "depends": {
+    "wthit": ">=2",
+
+    // or
+    "waila": ">=2"
+  }
+  ```
+
+</details>
+
+<details>
+  <summary><code>mods.toml</code></summary>
+
+  ```toml
+  [[dependencies.examplemod]]
+  modId = "wthit" # or waila
+  versionRange="[2,)"
+  ```
 
 </details>

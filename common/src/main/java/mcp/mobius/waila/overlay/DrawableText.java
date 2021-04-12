@@ -1,82 +1,112 @@
 package mcp.mobius.waila.overlay;
 
+import java.awt.Dimension;
 import java.util.List;
 
-import com.google.common.collect.Lists;
-import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import it.unimi.dsi.fastutil.objects.ObjectLists;
 import mcp.mobius.waila.api.IDrawableText;
 import mcp.mobius.waila.api.ITooltipRenderer;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
-import net.minecraft.nbt.StringNbtReader;
-import net.minecraft.nbt.StringTag;
-import net.minecraft.text.LiteralText;
+import net.minecraft.text.MutableText;
+import net.minecraft.text.OrderedText;
+import net.minecraft.text.Style;
+import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Lazy;
 
-public class DrawableText extends LiteralText implements IDrawableText {
+public class DrawableText implements IDrawableText {
 
-    private List<IDrawableText.RenderContainer> renderers = null;
+    private static final String LMAO = "lmao";
+    private static final Lazy<Dimension> ZERO = new Lazy<>(Dimension::new);
 
-    public DrawableText(Identifier id, CompoundTag data) {
-        super(getRenderString(id, data));
-    }
+    protected final List<RenderContainer> renderers = new ObjectArrayList<>();
 
-    public DrawableText(IDrawableText... components) {
-        super(getRenderString(components));
+    @Override
+    public IDrawableText with(Identifier id, CompoundTag data) {
+        renderers.add(new RenderContainer(id, data));
+        return this;
     }
 
     @Override
-    public List<IDrawableText.RenderContainer> getRenderers() {
-        if (renderers == null) {
-            renderers = Lists.newArrayList();
-            CompoundTag data = getData();
-            if (data.contains("renders")) {
-                ListTag list = data.getList("renders", 8 /* STRING */);
-                list.forEach(t -> {
-                    StringTag stringTag = (StringTag) t;
-                    try {
-                        CompoundTag tag = StringNbtReader.parse(stringTag.asString());
-                        Identifier id = new Identifier(tag.getString("id"));
-                        CompoundTag dataTag = tag.getCompound("data");
-                        renderers.add(new RenderContainer(id, dataTag));
-                    } catch (CommandSyntaxException e) {
-                        // no-op
-                    }
-                });
-            } else {
-                Identifier id = new Identifier(data.getString("id"));
-                CompoundTag dataTag = data.getCompound("data");
-                renderers.add(new RenderContainer(id, dataTag));
-            }
+    public Dimension getSize() {
+        if (renderers.isEmpty())
+            return ZERO.get();
+
+        int width = 0;
+        int height = 0;
+        for (RenderContainer container : renderers) {
+            Dimension iconSize = container.getRenderer().getSize(container.getData(), DataAccessor.INSTANCE);
+            width += iconSize.width;
+            height = Math.max(height, iconSize.height);
         }
-        return renderers;
+
+        return new Dimension(width, height);
     }
 
-    private CompoundTag getData() {
-        try {
-            return StringNbtReader.parse(getString());
-        } catch (CommandSyntaxException e) {
-            return new CompoundTag();
+    @Override
+    public void render(MatrixStack matrices, int x, int y, float delta) {
+        int xOffset = 0;
+        for (RenderContainer container : renderers) {
+            Dimension size = container.getRenderer().getSize(container.getData(), DataAccessor.INSTANCE);
+            container.getRenderer().draw(matrices, container.getData(), DataAccessor.INSTANCE, x + xOffset, y);
+            // TODO: Remove this line in 1.17
+            container.getRenderer().draw(container.data, DataAccessor.INSTANCE, x + xOffset, y);
+            xOffset += size.width;
         }
     }
 
-    private static String getRenderString(Identifier id, CompoundTag data) {
-        CompoundTag renderData = new CompoundTag();
-        renderData.putString("id", id.toString());
-        renderData.put("data", data);
-        return renderData.toString();
+    @Override
+    public Style getStyle() {
+        return Style.EMPTY;
     }
 
-    private static String getRenderString(IDrawableText... components) {
-        CompoundTag container = new CompoundTag();
-        ListTag renderData = new ListTag();
-        for (IDrawableText component : components)
-            renderData.add(StringTag.of(component.getString()));
-        container.put("renders", renderData);
-        return container.toString();
+    @Override
+    public String asString() {
+        return LMAO;
     }
 
-    public static class RenderContainer implements IDrawableText.RenderContainer {
+    @Override
+    public List<Text> getSiblings() {
+        return ObjectLists.emptyList();
+    }
+
+    @Override
+    public MutableText copy() {
+        DrawableText n = new DrawableText();
+        renderers.forEach(r -> n.with(r.id, r.data));
+        return n;
+    }
+
+    @Override
+    public MutableText shallowCopy() {
+        return copy();
+    }
+
+    @Override
+    public OrderedText asOrderedText() {
+        return OrderedText.EMPTY;
+    }
+
+    @Override
+    public MutableText setStyle(Style style) {
+        return this;
+    }
+
+    @Override
+    public MutableText append(Text text) {
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return "DrawableText{" +
+            "renderers=" + renderers +
+            '}';
+    }
+
+    public static class RenderContainer {
 
         private final Identifier id;
         private final CompoundTag data;
@@ -85,22 +115,24 @@ public class DrawableText extends LiteralText implements IDrawableText {
         public RenderContainer(Identifier id, CompoundTag data) {
             this.id = id;
             this.data = data;
-            this.renderer = Registrar.INSTANCE.getRenderer(id);
+            this.renderer = TooltipRegistrar.INSTANCE.renderer.get(id);
         }
 
-        @Override
         public Identifier getId() {
             return id;
         }
 
-        @Override
         public CompoundTag getData() {
             return data;
         }
 
-        @Override
         public ITooltipRenderer getRenderer() {
             return renderer;
+        }
+
+        @Override
+        public String toString() {
+            return id.toString();
         }
 
     }

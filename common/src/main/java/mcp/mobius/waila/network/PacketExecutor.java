@@ -5,13 +5,12 @@ import java.util.function.Consumer;
 
 import com.google.gson.Gson;
 import mcp.mobius.waila.Waila;
-import mcp.mobius.waila.config.PluginConfig;
+import mcp.mobius.waila.api.impl.config.PluginConfig;
 import mcp.mobius.waila.overlay.DataAccessor;
-import mcp.mobius.waila.overlay.Registrar;
+import mcp.mobius.waila.overlay.TooltipRegistrar;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
@@ -33,7 +32,7 @@ public class PacketExecutor {
     }
 
     public static void requestEntity(ServerPlayerEntity player, int entityId, Consumer<CompoundTag> consumer) {
-        Registrar registrar = Registrar.INSTANCE;
+        TooltipRegistrar registrar = TooltipRegistrar.INSTANCE;
         World world = player.world;
         Entity entity = world.getEntityById(entityId);
 
@@ -41,8 +40,8 @@ public class PacketExecutor {
             return;
 
         CompoundTag tag = new CompoundTag();
-        registrar.getEntityData(entity).forEach(provider ->
-            provider.appendServerData(tag, player, world, (LivingEntity) entity)
+        registrar.entityData.get(entity).forEach(provider ->
+            provider.appendServerData(tag, player, world, entity)
         );
 
         tag.putInt("WailaEntityID", entity.getId());
@@ -50,7 +49,7 @@ public class PacketExecutor {
     }
 
     public static void requestBlockEntity(ServerPlayerEntity player, BlockPos pos, Consumer<CompoundTag> consumer) {
-        Registrar registrar = Registrar.INSTANCE;
+        TooltipRegistrar registrar = TooltipRegistrar.INSTANCE;
         World world = player.world;
         if (!world.isChunkLoaded(pos))
             return;
@@ -62,9 +61,9 @@ public class PacketExecutor {
         BlockState state = world.getBlockState(pos);
 
         CompoundTag tag = new CompoundTag();
-        registrar.getBlockData(blockEntity).forEach(provider ->
+        registrar.blockData.get(blockEntity).forEach(provider ->
             provider.appendServerData(tag, player, world, blockEntity));
-        registrar.getBlockData(state.getBlock()).forEach(provider ->
+        registrar.blockData.get(state.getBlock()).forEach(provider ->
             provider.appendServerData(tag, player, world, blockEntity));
 
         tag.putInt("x", pos.getX());

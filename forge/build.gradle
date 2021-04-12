@@ -2,17 +2,28 @@ architectury {
     forge()
 }
 
+repositories {
+    maven { url "https://dvs1.progwml6.com/files/maven/" }
+}
+
 dependencies {
     forge "net.minecraftforge:forge:${minecraft}-${forge}"
 
-    developmentForge(project(":common")) { transitive = false }
+    modCompileOnly "mezz.jei:jei-$minecraft:$jei:api"
+    modRuntime "mezz.jei:jei-$minecraft:$jei"
+
+    developmentForge project(":common")
 }
 
 ext {
     curseforge = [
-        id     : "455982",
-        type   : "release",
-        support: ["1.16.2", "1.16.3", "1.16.4", "1.16.5"]
+        id       : "455982",
+        type     : "release",
+        versions : ["1.16.2", "1.16.3", "1.16.4", "1.16.5"],
+        relations: [
+            optional: ["jei"],
+            breaks  : ["hwyla", "jade"]
+        ]
     ]
 }
 

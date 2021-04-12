@@ -55,7 +55,6 @@ public class TooltipRendererHealth implements ITooltipRenderer {
                 y += 10;
                 xOffset = 0;
             }
-
         }
     }
 

@@ -1,5 +1,6 @@
 package mcp.mobius.waila.overlay;
 
+import mcp.mobius.waila.api.IBlockAccessor;
 import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IEntityAccessor;
@@ -22,7 +23,8 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
-public enum DataAccessor implements ICommonAccessor, IDataAccessor, IEntityAccessor {
+// TODO: Remove IDataAccessor interface
+public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IDataAccessor, IEntityAccessor {
 
     INSTANCE;
 
@@ -118,6 +120,7 @@ public enum DataAccessor implements ICommonAccessor, IDataAccessor, IEntityAcces
         return this.stack;
     }
 
+    // TODO: Remove
     @Override
     public @Nullable BlockEntity getTileEntity() {
         return getBlockEntity();
@@ -128,10 +131,6 @@ public enum DataAccessor implements ICommonAccessor, IDataAccessor, IEntityAcces
         return blockRegistryName;
     }
 
-    public void set(World world, PlayerEntity player, HitResult hit) {
-        this.set(world, player, hit, null, 0.0);
-    }
-
     public void set(World world, PlayerEntity player, HitResult hit, Entity viewEntity, double partialTicks) {
         this.world = world;
         this.player = player;
@@ -139,19 +138,14 @@ public enum DataAccessor implements ICommonAccessor, IDataAccessor, IEntityAcces
 
         if (this.hitResult.getType() == HitResult.Type.BLOCK) {
             this.pos = ((BlockHitResult) hit).getBlockPos();
-            this.state = this.world.getBlockState(this.pos);
-            this.block = this.state.getBlock();
             this.blockEntity = this.world.getBlockEntity(this.pos);
             this.entity = null;
-            this.blockRegistryName = Registry.BLOCK.getId(block);
-            this.stack = block.getPickStack(world, pos, state);
+            setState(world.getBlockState(pos));
         } else if (this.hitResult.getType() == HitResult.Type.ENTITY) {
             this.entity = ((EntityHitResult) hit).getEntity();
             this.pos = new BlockPos(entity.getPos());
-            this.state = Blocks.AIR.getDefaultState();
-            this.block = Blocks.AIR;
             this.blockEntity = null;
-            this.stack = ItemStack.EMPTY;
+            setState(Blocks.AIR.getDefaultState());
         }
 
         if (viewEntity != null) {
@@ -173,6 +167,13 @@ public enum DataAccessor implements ICommonAccessor, IDataAccessor, IEntityAcces
 
     public void setStack(ItemStack stack) {
         this.stack = stack;
+    }
+
+    public void setState(BlockState state) {
+        this.state = state;
+        this.block = state.getBlock();
+        this.stack = block.getPickStack(world, pos, state);
+        this.blockRegistryName = Registry.BLOCK.getId(block);
     }
 
     private boolean isTagCorrectTileEntity(CompoundTag tag) {

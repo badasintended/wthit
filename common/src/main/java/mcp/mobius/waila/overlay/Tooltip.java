@@ -4,167 +4,209 @@ import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
-import com.google.common.collect.Lists;
+import com.google.common.base.Preconditions;
+import com.mojang.blaze3d.systems.RenderSystem;
+import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import mcp.mobius.waila.Waila;
-import mcp.mobius.waila.addons.core.PluginCore;
-import mcp.mobius.waila.api.IDrawableText;
 import mcp.mobius.waila.api.ITaggableList;
-import mcp.mobius.waila.config.PluginConfig;
-import mcp.mobius.waila.config.WailaConfig;
-import mcp.mobius.waila.utils.TaggableList;
-import mcp.mobius.waila.utils.TaggedText;
+import mcp.mobius.waila.api.impl.config.PluginConfig;
+import mcp.mobius.waila.api.impl.config.WailaConfig;
+import mcp.mobius.waila.api.impl.config.WailaConfig.ConfigOverlay.ConfigOverlayColor;
+import mcp.mobius.waila.plugin.core.WailaCore;
+import mcp.mobius.waila.util.TaggedText;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.util.Window;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Lazy;
 
-import static mcp.mobius.waila.config.WailaConfig.ConfigOverlay.Position;
+import static mcp.mobius.waila.api.impl.config.WailaConfig.ConfigOverlay.Position;
+import static mcp.mobius.waila.overlay.DisplayUtil.drawGradientRect;
+import static mcp.mobius.waila.overlay.DisplayUtil.enable2DRender;
+import static mcp.mobius.waila.overlay.DisplayUtil.renderStack;
 
 public class Tooltip {
 
-    private final MinecraftClient client;
-    private final List<Line> lines;
-    private final boolean showItem;
-    private final Dimension totalSize;
-
-    private int topOffset = 0;
-
     public static Consumer<List<Text>> onCreate;
+    public static Function<Rectangle, Rectangle> onPreRender;
+    public static Consumer<Rectangle> onPostRender;
 
-    public Tooltip(List<Text> texts, boolean showItem) {
-        onCreate.accept(texts);
+    static boolean shouldRender = false;
 
-        this.client = MinecraftClient.getInstance();
-        this.lines = Lists.newArrayList();
-        this.showItem = showItem;
-        this.totalSize = new Dimension();
+    private static final List<Text> LINES = new ObjectArrayList<>();
+    private static final Object2IntOpenHashMap<Text> LINE_HEIGHT = new Object2IntOpenHashMap<>();
 
-        computeLines(texts);
-        addPadding();
+    private static final Lazy<Rectangle> RENDER_RECT = new Lazy<>(Rectangle::new);
+    private static final Lazy<Rectangle> RECT = new Lazy<>(Rectangle::new);
+
+    private static boolean showItem;
+    private static int topOffset = 0;
+
+    private static boolean started = false;
+
+    public static void start() {
+        LINES.clear();
+        LINE_HEIGHT.clear();
+        started = true;
     }
 
-    public void computeLines(List<Text> Texts) {
-        Texts.forEach(c -> {
-            Dimension size = getLineSize(c, Texts);
-            totalSize.setSize(Math.max(totalSize.width, size.width), totalSize.height + size.height);
-            Text Text = c;
-            if (Text instanceof TaggedText)
-                Text = ((ITaggableList<Identifier, Text>) Texts).getTag(((TaggedText) Text).getTag());
+    public static void addLines(List<Text> lines) {
+        Preconditions.checkState(started);
+        lines.forEach(c -> {
+            Text text = c;
+            if (text instanceof TaggedText) {
+                text = ((ITaggableList<Identifier, Text>) lines).getTag(((TaggedText) text).getTag());
+            }
 
-            lines.add(new Line(Text, size));
+            LINES.add(text);
         });
-
-        topOffset = 0;
-        if (showItem) {
-            if (totalSize.height < 16) {
-                topOffset = (16 - totalSize.height) / 2;
-            }
-            totalSize.setSize(Math.max(16, totalSize.width), Math.max(16, totalSize.height));
-        }
     }
 
-    public void addPadding() {
-        totalSize.width += hasItem() ? 30 : 10;
-        totalSize.height += 8;
+    public static void addLine(Text line) {
+        LINES.add(line);
     }
 
-    public void draw(MatrixStack matrices) {
-        Rectangle position = getPosition();
-        WailaConfig.ConfigOverlay.ConfigOverlayColor color = Waila.CONFIG.get().getOverlay().getColor();
-
-        position.x += hasItem() ? 26 : 6;
-        position.width += hasItem() ? 24 : 4;
-        position.y += 6 + topOffset;
-
-        for (Line line : lines) {
-            if (line.getText() instanceof DrawableText) {
-                DrawableText Text = (DrawableText) line.getText();
-                int xOffset = 0;
-                for (IDrawableText.RenderContainer container : Text.getRenderers()) {
-                    Dimension size = container.getRenderer().getSize(container.getData(), DataAccessor.INSTANCE);
-                    container.getRenderer().draw(matrices, container.getData(), DataAccessor.INSTANCE, position.x + xOffset, position.y);
-                    xOffset += size.width;
-                }
-            } else {
-                client.textRenderer.drawWithShadow(matrices, line.getText(), position.x, position.y, color.getFontColor());
-            }
-            position.y += line.size.height;
-        }
+    public static void setShowItem(boolean showItem) {
+        Preconditions.checkState(started);
+        Tooltip.showItem = showItem;
     }
 
-    private Dimension getLineSize(Text text, List<Text> texts) {
-        if (text instanceof DrawableText) {
-            DrawableText renderable = (DrawableText) text;
-            List<IDrawableText.RenderContainer> renderers = renderable.getRenderers();
-            if (renderers.isEmpty())
-                return new Dimension(0, 0);
-
-            int width = 0;
-            int height = 0;
-            for (IDrawableText.RenderContainer container : renderers) {
-                Dimension iconSize = container.getRenderer().getSize(container.getData(), DataAccessor.INSTANCE);
-                width += iconSize.width;
-                height = Math.max(height, iconSize.height);
-            }
-
-            return new Dimension(width, height);
-        } else if (text instanceof TaggedText) {
-            TaggedText tagged = (TaggedText) text;
-            if (texts instanceof TaggableList) {
-                Text taggedLine = ((TaggableList<Identifier, Text>) texts).getTag(tagged.getTag());
-                return taggedLine == null ? new Dimension(0, 0) : getLineSize(taggedLine, texts);
-            }
-        }
-
-        return new Dimension(client.textRenderer.getWidth(text.getString()), client.textRenderer.fontHeight + 1);
-    }
-
-    public List<Line> getLines() {
-        return lines;
-    }
-
-    public boolean hasItem() {
-        return showItem && PluginConfig.INSTANCE.get(PluginCore.CONFIG_SHOW_ITEM) && !Raycast.getIdentifierStack().isEmpty();
-    }
-
-    public Rectangle getPosition() {
+    public static void finish() {
+        Preconditions.checkState(started);
+        onCreate.accept(LINES);
         Window window = MinecraftClient.getInstance().getWindow();
 
         float scale = Waila.CONFIG.get().getOverlay().getScale();
         Position pos = Waila.CONFIG.get().getOverlay().getPosition();
 
-        int w = totalSize.width;
-        int h = totalSize.height;
+        int w = 0;
+        int h = 0;
+        for (Text line : LINES) {
+            int lineW;
+            int lineH;
+
+            if (line instanceof DrawableText) {
+                Dimension size = ((DrawableText) line).getSize();
+                lineW = size.width;
+                lineH = size.height;
+            } else {
+                TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
+                lineW = textRenderer.getWidth(line);
+                lineH = textRenderer.fontHeight + 1;
+            }
+
+            w = Math.max(w, lineW);
+            h += lineH;
+            LINE_HEIGHT.put(line, lineH);
+        }
+
+        topOffset = 0;
+        if (hasItem()) {
+            if (h < 16) {
+                topOffset = (16 - h) / 2;
+            }
+
+            w = Math.max(w, 16);
+            h = Math.max(h, 16);
+        }
+
+        w += hasItem() ? 30 : 10;
+        h += 8;
+
         int windowW = (int) (window.getScaledWidth() / scale);
         int windowH = (int) (window.getScaledHeight() / scale);
 
-        return new Rectangle(
+        RECT.get().setRect(
             (int) ((windowW * pos.getAnchorX().multiplier) - (w * pos.getAlignX().multiplier)) + pos.getX(),
             (int) ((windowH * pos.getAnchorY().multiplier) - (h * pos.getAlignY().multiplier)) + pos.getY(),
             w, h
         );
+
+        started = false;
     }
 
-    public static class Line {
+    public static boolean hasItem() {
+        return showItem && PluginConfig.INSTANCE.get(WailaCore.CONFIG_SHOW_ITEM) && !Raycast.getDisplayItem().isEmpty();
+    }
 
-        private final Text Text;
-        private final Dimension size;
-
-        public Line(Text Text, Dimension size) {
-            this.Text = Text;
-            this.size = size;
+    public static void render(MatrixStack matrices, float delta) {
+        if (!shouldRender) {
+            return;
         }
 
-        public Text getText() {
-            return Text;
+        WailaConfig config = Waila.CONFIG.get();
+        MinecraftClient.getInstance().getProfiler().push("Waila Overlay");
+        RenderSystem.pushMatrix();
+
+        float scale = config.getOverlay().getScale();
+        RenderSystem.scalef(scale, scale, 1.0F);
+
+        enable2DRender();
+
+        Rectangle rect = RENDER_RECT.get();
+        rect.setRect(RECT.get());
+
+        rect = onPreRender.apply(rect);
+        if (rect == null) {
+            RenderSystem.enableDepthTest();
+            RenderSystem.popMatrix();
+            MinecraftClient.getInstance().getProfiler().pop();
+            return;
         }
 
-        public Dimension getSize() {
-            return size;
+        int x = rect.x;
+        int y = rect.y;
+        int w = rect.width;
+        int h = rect.height;
+
+        ConfigOverlayColor color = config.getOverlay().getColor();
+        int bg = color.getBackgroundColor();
+        int gradStart = color.getGradientStart();
+        int gradEnd = color.getGradientEnd();
+
+        drawGradientRect(matrices, x + 1, y, w - 1, 1, bg, bg);
+        drawGradientRect(matrices, x + 1, y + h, w - 1, 1, bg, bg);
+        drawGradientRect(matrices, x + 1, y + 1, w - 1, h - 1, bg, bg);
+        drawGradientRect(matrices, x, y + 1, 1, h - 1, bg, bg);
+        drawGradientRect(matrices, x + w, y + 1, 1, h - 1, bg, bg);
+        drawGradientRect(matrices, x + 1, y + 2, 1, h - 3, gradStart, gradEnd);
+        drawGradientRect(matrices, x + w - 1, y + 2, 1, h - 3, gradStart, gradEnd);
+
+        drawGradientRect(matrices, x + 1, y + 1, w - 1, 1, gradStart, gradStart);
+        drawGradientRect(matrices, x + 1, y + h - 1, w - 1, 1, gradEnd, gradEnd);
+
+        if (Tooltip.hasItem()) {
+            renderStack(x + 5, y + h / 2 - 8, Raycast.getDisplayItem());
         }
 
+        RenderSystem.enableBlend();
+
+        x += hasItem() ? 26 : 6;
+        y += 6 + topOffset;
+
+        for (Text line : LINES) {
+            if (line instanceof DrawableText) {
+                ((DrawableText) line).render(matrices, x, y, delta);
+            } else {
+                TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
+                textRenderer.drawWithShadow(matrices, line, x, y, color.getFontColor());
+            }
+
+            y += LINE_HEIGHT.getInt(line);
+        }
+
+        RenderSystem.disableBlend();
+
+        onPostRender.accept(rect);
+
+        RenderSystem.enableDepthTest();
+        RenderSystem.popMatrix();
+        MinecraftClient.getInstance().getProfiler().pop();
     }
 
 }
