@@ -18,15 +18,22 @@ dependencies {
 
     modImplementation "dev.inkwell:hermes:1.0.0"
 
-    developmentFabric(project(":common")) { transitive = false }
+    modCompileOnly "me.shedaniel:RoughlyEnoughItems-api:$rei"
+    modRuntime "me.shedaniel:RoughlyEnoughItems:$rei"
+
+    developmentFabric project(":common")
 }
 
 ext {
     curseforge = [
-        id     : "440979",
-        type   : "release",
-        support: ["1.16.2", "1.16.3", "1.16.4", "1.16.5"],
-        require: ["fabric-api"]
+        id       : "440979",
+        type     : "release",
+        versions : ["1.16.2", "1.16.3", "1.16.4", "1.16.5"],
+        relations: [
+            requires: ["fabric-api"],
+            optional: ["roughly-enough-items", "modmenu"],
+            breaks  : ["hwyla"]
+        ]
     ]
 }
 

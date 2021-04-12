@@ -6,23 +6,32 @@ curseforge {
     if (System.getenv("CURSEFORGE_API") != null) {
         apiKey = System.getenv("CURSEFORGE_API")
         project {
-            id = project.ext.curseforge.id
-            releaseType = project.ext.curseforge.type
+            def cf = project.ext.curseforge
+            id = cf.id
+            releaseType = cf.type
 
             changelogType = "html"
             changelog = "<a href=\"${releaseLink}\">${releaseLink}</a>"
 
-            project.ext.curseforge.support.each {
-                addGameVersion it
-            }
+            cf.versions.each { addGameVersion it }
             addGameVersion project.name.capitalize()
 
             mainArtifact(remapJar.archivePath) {
                 displayName = "[${project.minecraft}] v${project.version}"
             }
 
-            if (project.ext.curseforge.containsKey("require")) relations {
-                project.ext.curseforge.require.each {
+            if (cf.containsKey("relation")) relations {
+                def rel = cf.relation
+
+                rel.requires?.each { requiredDependency it }
+                rel.includes?.each { embeddedLibrary it }
+                rel.optional?.each { optionalDependency it }
+                rel.tools?.each { tool it }
+                rel.breaks?.each { incompatible it }
+            }
+
+            if (cf.containsKey("require")) relations {
+                cf.require.each {
                     requiredDependency it
                 }
             }
