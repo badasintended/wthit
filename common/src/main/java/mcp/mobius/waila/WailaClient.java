@@ -1,5 +1,6 @@
 package mcp.mobius.waila;
 
+import java.util.List;
 import java.util.function.BiFunction;
 
 import mcp.mobius.waila.api.impl.config.PluginConfig;
@@ -8,8 +9,13 @@ import mcp.mobius.waila.api.impl.config.WailaConfig.DisplayMode;
 import mcp.mobius.waila.gui.GuiConfigHome;
 import mcp.mobius.waila.overlay.TickHandler;
 import mcp.mobius.waila.plugin.core.WailaCore;
+import mcp.mobius.waila.util.ModIdentification;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.client.options.KeyBinding;
+import net.minecraft.item.ItemStack;
+import net.minecraft.text.LiteralText;
+import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
 
 public abstract class WailaClient {
@@ -60,6 +66,15 @@ public abstract class WailaClient {
 
         while (showRecipeOutput.wasPressed() && onShowRecipeOutput != null) {
             onShowRecipeOutput.run();
+        }
+    }
+
+    protected static void onItemTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip) {
+        if (PluginConfig.INSTANCE.get(WailaCore.CONFIG_SHOW_MOD_NAME)) {
+            tooltip.add(new LiteralText(String.format(
+                Waila.CONFIG.get().getFormatting().getModName(),
+                ModIdentification.getModInfo(stack.getItem()).getName()
+            )));
         }
     }
 
