@@ -13,7 +13,6 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import net.minecraft.util.Identifier;
-import org.apache.commons.lang3.StringEscapeUtils;
 
 public class WailaConfig {
 
@@ -309,11 +308,11 @@ public class WailaConfig {
 
     public static class ConfigFormatting {
 
-        private String modName = StringEscapeUtils.escapeJava("\u00A79\u00A7o%s");
-        private String blockName = StringEscapeUtils.escapeJava("\u00a7f%s");
-        private String fluidName = StringEscapeUtils.escapeJava("\u00a7f%s");
-        private String entityName = StringEscapeUtils.escapeJava("\u00a7f%s");
-        private String registryName = StringEscapeUtils.escapeJava("\u00a77[%s]");
+        private String modName = "\u00A79\u00A7o%s";
+        private String blockName = "\u00a7f%s";
+        private String fluidName = "\u00a7f%s";
+        private String entityName = "\u00a7f%s";
+        private String registryName = "\u00a77[%s]";
 
         public void setModName(String modName) {
             this.modName = modName;
@@ -336,23 +335,23 @@ public class WailaConfig {
         }
 
         public String getModName() {
-            return StringEscapeUtils.unescapeJava(modName);
+            return modName;
         }
 
         public String getBlockName() {
-            return StringEscapeUtils.unescapeJava(blockName);
+            return blockName;
         }
 
         public String getFluidName() {
-            return StringEscapeUtils.unescapeJava(fluidName);
+            return fluidName;
         }
 
         public String getEntityName() {
-            return StringEscapeUtils.unescapeJava(entityName);
+            return entityName;
         }
 
         public String getRegistryName() {
-            return StringEscapeUtils.unescapeJava(registryName);
+            return registryName;
         }
 
     }

@@ -28,6 +28,7 @@ public class WailaCore implements IWailaPlugin {
     static final Identifier CONFIG_SHOW_REGISTRY = Waila.id("show_registry");
     static final Identifier CONFIG_SHOW_ENTITY_HEALTH = Waila.id("show_entity_hp");
     static final Identifier CONFIG_SHOW_STATES = Waila.id("show_states");
+    static final Identifier CONFIG_SHOW_POS = Waila.id("show_pos");
 
     @Override
     public void register(IRegistrar registrar) {
@@ -52,6 +53,7 @@ public class WailaCore implements IWailaPlugin {
         registrar.addConfig(CONFIG_SHOW_REGISTRY, false);
         registrar.addConfig(CONFIG_SHOW_ENTITY_HEALTH, true);
         registrar.addConfig(CONFIG_SHOW_STATES, false);
+        registrar.addConfig(CONFIG_SHOW_POS, false);
 
         registrar.addRenderer(RENDER_ENTITY_HEALTH, new TooltipRendererHealth());
     }
