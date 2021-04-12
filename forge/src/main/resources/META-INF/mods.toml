@@ -10,7 +10,7 @@ version = "${version}"
 displayName = "wthit"
 description = "What the hell is that? Forge Edition"
 authors = "deirn, TehNut, ProfMobius"
-logoFile = "wthit.png"
+logoFile = "wthit.jpg"
 
 [[mods]]
 modId = "waila"

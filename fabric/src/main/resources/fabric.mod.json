@@ -28,7 +28,7 @@
 
   "name"         : "wthit",
   "description"  : "What the hell is that?",
-  "icon"         : "assets/waila/logo.png",
+  "icon"         : "wthit.jpg",
   "contact"      : {
     "homepage": "https://minecraft.curseforge.com/projects/wthit",
     "issues"  : "https://github.com/badasintended/wthit/issues",
