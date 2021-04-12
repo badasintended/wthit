@@ -1,9 +1,9 @@
-package mcp.mobius.waila.addons.minecraft;
+package mcp.mobius.waila.plugin.vanilla;
 
 import java.util.List;
 
-import mcp.mobius.waila.api.IComponentProvider;
-import mcp.mobius.waila.api.IDataAccessor;
+import mcp.mobius.waila.api.IBlockAccessor;
+import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IDrawableText;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataProvider;
@@ -16,16 +16,16 @@ import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
 
-import static mcp.mobius.waila.addons.minecraft.PluginMinecraft.RENDER_FURNACE_PROGRESS;
-import static mcp.mobius.waila.addons.minecraft.PluginMinecraft.RENDER_ITEM;
+import static mcp.mobius.waila.plugin.vanilla.WailaVanilla.RENDER_FURNACE_PROGRESS;
+import static mcp.mobius.waila.plugin.vanilla.WailaVanilla.RENDER_ITEM;
 
-public class HUDHandlerFurnace implements IComponentProvider, IServerDataProvider<BlockEntity> {
+public enum FurnaceComponent implements IBlockComponentProvider, IServerDataProvider<BlockEntity> {
 
-    static final HUDHandlerFurnace INSTANCE = new HUDHandlerFurnace();
+    INSTANCE;
 
     @Override
-    public void appendBody(List<Text> tooltip, IDataAccessor accessor, IPluginConfig config) {
-        if (!config.get(PluginMinecraft.CONFIG_DISPLAY_FURNACE))
+    public void appendBody(List<Text> tooltip, IBlockAccessor accessor, IPluginConfig config) {
+        if (!config.get(WailaVanilla.CONFIG_DISPLAY_FURNACE))
             return;
 
         if (!accessor.getBlockState().get(Properties.LIT))

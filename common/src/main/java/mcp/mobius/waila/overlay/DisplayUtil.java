@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import mcp.mobius.waila.Waila;
-import mcp.mobius.waila.utils.ExceptionHandler;
+import mcp.mobius.waila.util.ExceptionHandler;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawableHelper;
 import net.minecraft.client.item.TooltipContext;

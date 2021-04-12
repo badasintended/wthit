@@ -1,16 +1,16 @@
-package mcp.mobius.waila.addons.core;
+package mcp.mobius.waila.plugin.core;
 
 import java.util.List;
 
 import com.google.common.base.Strings;
 import mcp.mobius.waila.Waila;
-import mcp.mobius.waila.api.IComponentProvider;
-import mcp.mobius.waila.api.IDataAccessor;
+import mcp.mobius.waila.api.IBlockAccessor;
+import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataProvider;
 import mcp.mobius.waila.api.ITaggableList;
 import mcp.mobius.waila.api.impl.config.WailaConfig;
-import mcp.mobius.waila.utils.ModIdentification;
+import mcp.mobius.waila.util.ModIdentification;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -26,15 +26,16 @@ import net.minecraft.util.Nameable;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 
-public class HUDHandlerBlocks implements IComponentProvider, IServerDataProvider<BlockEntity> {
+public enum BlockComponent implements IBlockComponentProvider, IServerDataProvider<BlockEntity> {
 
-    static final HUDHandlerBlocks INSTANCE = new HUDHandlerBlocks();
+    INSTANCE;
+
     static final Identifier OBJECT_NAME_TAG = Waila.id("object_name");
     static final Identifier REGISTRY_NAME_TAG = Waila.id("registry_name");
     static final Identifier MOD_NAME_TAG = Waila.id("mod_name");
 
     @Override
-    public void appendHead(List<Text> tooltip, IDataAccessor accessor, IPluginConfig config) {
+    public void appendHead(List<Text> tooltip, IBlockAccessor accessor, IPluginConfig config) {
         if (accessor.getBlockState().getMaterial().isLiquid())
             return;
 
@@ -46,13 +47,13 @@ public class HUDHandlerBlocks implements IComponentProvider, IServerDataProvider
 
         WailaConfig.ConfigFormatting formatting = Waila.CONFIG.get().getFormatting();
         ((ITaggableList<Identifier, Text>) tooltip).setTag(OBJECT_NAME_TAG, new LiteralText(String.format(formatting.getBlockName(), name)));
-        if (config.get(PluginCore.CONFIG_SHOW_REGISTRY))
+        if (config.get(WailaCore.CONFIG_SHOW_REGISTRY))
             ((ITaggableList<Identifier, Text>) tooltip).setTag(REGISTRY_NAME_TAG, new LiteralText(String.format(formatting.getRegistryName(), Registry.BLOCK.getId(block))));
     }
 
     @Override
-    public void appendBody(List<Text> tooltip, IDataAccessor accessor, IPluginConfig config) {
-        if (config.get(PluginCore.CONFIG_SHOW_STATES)) {
+    public void appendBody(List<Text> tooltip, IBlockAccessor accessor, IPluginConfig config) {
+        if (config.get(WailaCore.CONFIG_SHOW_STATES)) {
             BlockState state = accessor.getBlockState();
             state.getProperties().forEach(p -> {
                 Comparable<?> value = state.get(p);
@@ -63,8 +64,8 @@ public class HUDHandlerBlocks implements IComponentProvider, IServerDataProvider
     }
 
     @Override
-    public void appendTail(List<Text> tooltip, IDataAccessor accessor, IPluginConfig config) {
-        if (!config.get(PluginCore.CONFIG_SHOW_MOD_NAME))
+    public void appendTail(List<Text> tooltip, IBlockAccessor accessor, IPluginConfig config) {
+        if (!config.get(WailaCore.CONFIG_SHOW_MOD_NAME))
             return;
 
         String modName = ModIdentification.getModInfo(accessor.getStack().getItem()).getName();

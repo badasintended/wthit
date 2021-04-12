@@ -5,7 +5,6 @@ import java.awt.Dimension;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Lazy;
-import org.jetbrains.annotations.ApiStatus;
 
 public interface ITooltipRenderer {
 
@@ -31,6 +30,7 @@ public interface ITooltipRenderer {
 
     /**
      * Draw method for the renderer.
+     * TODO: make it not default
      *
      * @param data     The data supplied by the provider
      * @param accessor A global accessor for TileEntities and Entities
@@ -52,7 +52,6 @@ public interface ITooltipRenderer {
      * @param y        The Y position of this renderer
      */
     @Deprecated
-    @ApiStatus.ScheduledForRemoval
     default void draw(CompoundTag data, ICommonAccessor accessor, int x, int y) {
     }
 

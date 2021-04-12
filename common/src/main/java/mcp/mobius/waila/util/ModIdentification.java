@@ -1,4 +1,4 @@
-package mcp.mobius.waila.utils;
+package mcp.mobius.waila.util;
 
 import java.util.Map;
 import java.util.Optional;

@@ -4,7 +4,6 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import org.jetbrains.annotations.ApiStatus;
 
 public interface IRegistrar {
 
@@ -31,53 +30,78 @@ public interface IRegistrar {
     void addSyncedConfig(Identifier key, boolean defaultValue);
 
     /**
-     * Registers an {@link IComponentProvider} instance to allow overriding the displayed item for a block via the
-     * {@link IComponentProvider#getStack(IDataAccessor, IPluginConfig)} method. A {@link BlockEntity}
-     * is also an acceptable class type.
+     * Registers an {@link IBlockComponentProvider} instance to allow overriding the block being displayed.
+     * A {@link BlockEntity} is also an acceptable class type.
      *
+     * @param provider The data provider instance
+     * @param clazz    The highest level class to apply to
      * @param priority The priority of this provider <b>0 is the minimum, lower number will be called first</b>
+     *
+     * @see #DEFAULT_PRIORITY
+     */
+    <T> void addOverride(IBlockComponentProvider provider, Class<T> clazz, int priority);
+
+    /**
+     * Registers an {@link IBlockComponentProvider} instance with {@link #DEFAULT_PRIORITY} to allow overriding the block being displayed.
+     * A {@link BlockEntity} is also an acceptable class type.
+     *
      * @param provider The data provider instance
      * @param clazz    The highest level class to apply to
      *
      * @see #DEFAULT_PRIORITY
      */
-    <T> void registerStackProvider(int priority, IComponentProvider provider, Class<T> clazz);
-
-    /**
-     * Registers an {@link IComponentProvider} instance with {@link #DEFAULT_PRIORITY} to allow overriding the displayed item for a block via the
-     * {@link IComponentProvider#getStack(IDataAccessor, IPluginConfig)} method. A {@link BlockEntity}
-     * is also an acceptable class type.
-     *
-     * @param provider The data provider instance
-     * @param clazz    The highest level class to apply to
-     */
-    default <T> void registerStackProvider(IComponentProvider provider, Class<T> clazz) {
-        registerStackProvider(DEFAULT_PRIORITY, provider, clazz);
+    default <T> void addOverride(IBlockComponentProvider provider, Class<T> clazz) {
+        addOverride(provider, clazz, DEFAULT_PRIORITY);
     }
 
     /**
-     * Registers an {@link IComponentProvider} instance for appending {@link Text} to the tooltip.
+     * Registers an {@link IBlockComponentProvider} instance to allow overriding the displayed item for a block via the
+     * {@link IBlockComponentProvider#getDisplayItem(IBlockAccessor, IPluginConfig)} method.
      * A {@link BlockEntity} is also an acceptable class type.
      *
-     * @param priority The priority of this provider <b>0 is the minimum, lower number will be called first</b>
      * @param provider The data provider instance
-     * @param position The position on the tooltip this applies to
      * @param clazz    The highest level class to apply to
+     * @param priority The priority of this provider <b>0 is the minimum, lower number will be called first</b>
      *
      * @see #DEFAULT_PRIORITY
      */
-    <T> void registerComponentProvider(int priority, IComponentProvider provider, TooltipPosition position, Class<T> clazz);
+    <T> void addDisplayItem(IBlockComponentProvider provider, Class<T> clazz, int priority);
 
     /**
-     * Registers an {@link IComponentProvider} instance with {@link #DEFAULT_PRIORITY} for appending {@link Text} to the tooltip.
+     * Registers an {@link IBlockComponentProvider} instance with {@link #DEFAULT_PRIORITY} to allow overriding the displayed item for a block via the
+     * {@link IBlockComponentProvider#getDisplayItem(IBlockAccessor, IPluginConfig)} method.
+     * A {@link BlockEntity} is also an acceptable class type.
+     *
+     * @param provider The data provider instance
+     * @param clazz    The highest level class to apply to
+     */
+    default <T> void addDisplayItem(IBlockComponentProvider provider, Class<T> clazz) {
+        addDisplayItem(provider, clazz, DEFAULT_PRIORITY);
+    }
+
+    /**
+     * Registers an {@link IBlockComponentProvider} instance for appending {@link Text} to the tooltip.
+     * A {@link BlockEntity} is also an acceptable class type.
+     *
+     * @param provider The data provider instance
+     * @param position The position on the tooltip this applies to
+     * @param clazz    The highest level class to apply to
+     * @param priority The priority of this provider <b>0 is the minimum, lower number will be called first</b>
+     *
+     * @see #DEFAULT_PRIORITY
+     */
+    <T> void addComponent(IBlockComponentProvider provider, TooltipPosition position, Class<T> clazz, int priority);
+
+    /**
+     * Registers an {@link IBlockComponentProvider} instance with {@link #DEFAULT_PRIORITY} for appending {@link Text} to the tooltip.
      * A {@link BlockEntity} is also an acceptable class type.
      *
      * @param provider The data provider instance
      * @param position The position on the tooltip this applies to
      * @param clazz    The highest level class to apply to
      */
-    default <T> void registerComponentProvider(IComponentProvider provider, TooltipPosition position, Class<T> clazz) {
-        registerComponentProvider(DEFAULT_PRIORITY, provider, position, clazz);
+    default <T> void addComponent(IBlockComponentProvider provider, TooltipPosition position, Class<T> clazz) {
+        addComponent(provider, position, clazz, DEFAULT_PRIORITY);
     }
 
     /**
@@ -85,84 +109,84 @@ public interface IRegistrar {
      * is also an acceptable class type.
      *
      * @param provider The data provider instance
-     * @param block    The highest level class to apply to
+     * @param clazz    The highest level class to apply to
      */
-    <T> void registerBlockDataProvider(IServerDataProvider<BlockEntity> provider, Class<T> block);
+    <T> void addBlockData(IServerDataProvider<BlockEntity> provider, Class<T> clazz);
 
     /**
      * Registers an {@link IEntityComponentProvider} instance to allow overriding the entity being displayed.
      *
-     * @param priority The priority of this provider <b>0 is the minimum, lower number will be called first</b>
      * @param provider The data provider instance
-     * @param entity   The highest level class to apply to
+     * @param clazz    The highest level class to apply to
+     * @param priority The priority of this provider <b>0 is the minimum, lower number will be called first</b>
      *
      * @see #DEFAULT_PRIORITY
      */
-    <T> void registerOverrideEntityProvider(int priority, IEntityComponentProvider provider, Class<T> entity);
+    <T> void addOverride(IEntityComponentProvider provider, Class<T> clazz, int priority);
 
     /**
      * Registers an {@link IEntityComponentProvider} instance with {@link #DEFAULT_PRIORITY} to allow overriding the entity being displayed.
      *
      * @param provider The data provider instance
-     * @param entity   The highest level class to apply to
+     * @param clazz    The highest level class to apply to
      *
      * @see #DEFAULT_PRIORITY
      */
-    default <T> void registerOverrideEntityProvider(IEntityComponentProvider provider, Class<T> entity) {
-        registerOverrideEntityProvider(DEFAULT_PRIORITY, provider, entity);
+    default <T> void addOverride(IEntityComponentProvider provider, Class<T> clazz) {
+        addOverride(provider, clazz, DEFAULT_PRIORITY);
     }
 
     /**
      * Registers an {@link IEntityComponentProvider} instance to allow displaying an item next to the entity name.
      *
-     * @param priority The priority of this provider <b>0 is the minimum, lower number will be called first</b>
      * @param provider The data provider instance
-     * @param entity   The highest level class to apply to
+     * @param clazz    The highest level class to apply to
+     * @param priority The priority of this provider <b>0 is the minimum, lower number will be called first</b>
      *
      * @see #DEFAULT_PRIORITY
      */
-    <T> void registerEntityStackProvider(int priority, IEntityComponentProvider provider, Class<T> entity);
+    <T> void addDisplayItem(IEntityComponentProvider provider, Class<T> clazz, int priority);
 
     /**
      * Registers an {@link IEntityComponentProvider} instance with {@link #DEFAULT_PRIORITY} to allow displaying an item next to the entity name.
      *
      * @param provider The data provider instance
-     * @param entity   The highest level class to apply to
+     * @param clazz    The highest level class to apply to
      */
-    default <T> void registerEntityStackProvider(IEntityComponentProvider provider, Class<T> entity) {
-        registerEntityStackProvider(DEFAULT_PRIORITY, provider, entity);
+    default <T> void addDisplayItem(IEntityComponentProvider provider, Class<T> clazz) {
+        addDisplayItem(provider, clazz, DEFAULT_PRIORITY);
     }
 
     /**
      * Registers an {@link IEntityComponentProvider} instance for appending {@link Text} to the tooltip.
      *
-     * @param priority The priority of this provider <b>0 is the minimum, lower number will be called first</b>
      * @param provider The data provider instance
      * @param position The position on the tooltip this applies to
-     * @param entity   The highest level class to apply to
+     * @param clazz    The highest level class to apply to
+     * @param priority The priority of this provider <b>0 is the minimum, lower number will be called first</b>
      *
      * @see #DEFAULT_PRIORITY
      */
-    <T> void registerComponentProvider(int priority, IEntityComponentProvider provider, TooltipPosition position, Class<T> entity);
+    <T> void addComponent(IEntityComponentProvider provider, TooltipPosition position, Class<T> clazz, int priority);
 
     /**
      * Registers an {@link IEntityComponentProvider} instance with {@link #DEFAULT_PRIORITY} for appending {@link Text} to the tooltip.
      *
      * @param provider The data provider instance
      * @param position The position on the tooltip this applies to
-     * @param entity   The highest level class to apply to
+     * @param clazz    The highest level class to apply to
      */
-    default <T> void registerComponentProvider(IEntityComponentProvider provider, TooltipPosition position, Class<T> entity) {
-        registerComponentProvider(DEFAULT_PRIORITY, provider, position, entity);
+    default <T> void addComponent(IEntityComponentProvider provider, TooltipPosition position, Class<T> clazz) {
+        addComponent(provider, position, clazz, DEFAULT_PRIORITY);
     }
 
     /**
      * Registers an {@link IServerDataProvider<Entity>} instance for data syncing purposes.
      *
      * @param provider The data provider instance
-     * @param entity   The highest level class to apply to
+     * @param clazz    The highest level class to apply to
      */
-    <T> void registerEntityDataProvider(IServerDataProvider<Entity> provider, Class<T> entity);
+    <T> void addEntityData(IServerDataProvider<Entity> provider, Class<T> clazz);
 
     /**
      * Registers an {@link ITooltipRenderer} to allow passing a data string as a component to be rendered as a graphic
@@ -171,18 +195,91 @@ public interface IRegistrar {
      * @param id       The identifier for lookup
      * @param renderer The renderer instance
      */
-    void registerTooltipRenderer(Identifier id, ITooltipRenderer renderer);
+    void addRenderer(Identifier id, ITooltipRenderer renderer);
+
+    // TODO: Remove
+    @Deprecated
+    default <T> void registerDecorator(IBlockDecorator decorator, Class<T> block) {
+    }
 
     /**
-     * Registers an {@link IBlockDecorator} instance to allow rendering content in the world while looking at the block.
-     * TODO: Remove in 1.17 release
+     * TODO: Remove
      *
-     * @param decorator The decorator instance
-     * @param block     The highest level class to apply to
+     * @deprecated use {@link #addDisplayItem(IBlockComponentProvider, Class)}
      */
     @Deprecated
-    @ApiStatus.ScheduledForRemoval
-    default <T> void registerDecorator(IBlockDecorator decorator, Class<T> block) {
+    default <T> void registerStackProvider(IComponentProvider provider, Class<T> clazz) {
+        addDisplayItem(provider, clazz);
+    }
+
+    /**
+     * TODO: Remove
+     *
+     * @deprecated use {@link #addComponent(IBlockComponentProvider, TooltipPosition, Class)}
+     */
+    @Deprecated
+    default <T> void registerComponentProvider(IComponentProvider provider, TooltipPosition position, Class<T> clazz) {
+        addComponent(provider, position, clazz);
+    }
+
+    /**
+     * TODO: Remove
+     *
+     * @deprecated use {@link #addBlockData(IServerDataProvider, Class)}
+     */
+    @Deprecated
+    default <T> void registerBlockDataProvider(IServerDataProvider<BlockEntity> provider, Class<T> clazz) {
+        addBlockData(provider, clazz);
+    }
+
+    /**
+     * TODO: Remove
+     *
+     * @deprecated use {@link #addOverride(IEntityComponentProvider, Class)}
+     */
+    @Deprecated
+    default <T> void registerOverrideEntityProvider(IEntityComponentProvider provider, Class<T> entity) {
+        addOverride(provider, entity);
+    }
+
+    /**
+     * TODO: Remove
+     *
+     * @deprecated use {@link #addDisplayItem(IEntityComponentProvider, Class)}
+     */
+    @Deprecated
+    default <T> void registerEntityStackProvider(IEntityComponentProvider provider, Class<T> entity) {
+        addDisplayItem(provider, entity);
+    }
+
+    /**
+     * TODO: Remove
+     *
+     * @deprecated use {@link #addComponent(IEntityComponentProvider, TooltipPosition, Class)}
+     */
+    @Deprecated
+    default <T> void registerComponentProvider(IEntityComponentProvider provider, TooltipPosition position, Class<T> clazz) {
+        addComponent(provider, position, clazz);
+    }
+
+    /**
+     * TODO: Remove
+     *
+     * @deprecated use {@link #addEntityData(IServerDataProvider, Class)}
+     */
+    @Deprecated
+    default <T> void registerEntityDataProvider(IServerDataProvider<Entity> provider, Class<T> clazz) {
+        addEntityData(provider, clazz);
+    }
+
+    /**
+     * TODO: Remove
+     *
+     * @deprecated use {@link #addRenderer(Identifier, ITooltipRenderer)}
+     */
+    @Deprecated
+    default void registerTooltipRenderer(Identifier id, ITooltipRenderer renderer) {
+        addRenderer(id, renderer);
     }
 
 }

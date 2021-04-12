@@ -1,4 +1,4 @@
-package mcp.mobius.waila.addons.minecraft;
+package mcp.mobius.waila.plugin.vanilla;
 
 import java.util.Map;
 
@@ -16,9 +16,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.Util;
 
-public class HUDHandlerEntityIcon implements IEntityComponentProvider {
+public enum EntityIconComponent implements IEntityComponentProvider {
 
-    public static final IEntityComponentProvider INSTANCE = new HUDHandlerEntityIcon();
+    INSTANCE;
 
     static final Map<AbstractMinecartEntity.Type, ItemStack> MINECART_STACKS = Util.make(new Object2ObjectOpenHashMap<>(), m -> {
         m.put(AbstractMinecartEntity.Type.RIDEABLE, new ItemStack(Items.MINECART));

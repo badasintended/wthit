@@ -36,8 +36,8 @@ side = "BOTH"
 
 [[wailaPlugins]]
 id = "waila:core"
-initializer = "mcp.mobius.waila.addons.core.PluginCore"
+initializer = "mcp.mobius.waila.plugin.core.WailaCore"
 
 [[wailaPlugins]]
 id = "waila:vanilla"
-initializer = "mcp.mobius.waila.addons.minecraft.PluginMinecraft"
+initializer = "mcp.mobius.waila.plugin.vanilla.WailaVanilla"

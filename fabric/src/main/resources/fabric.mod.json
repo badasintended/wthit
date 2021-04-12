@@ -8,11 +8,11 @@
     "waila:plugins": [
       {
         "id"         : "waila:core",
-        "initializer": "mcp.mobius.waila.addons.core.PluginCore"
+        "initializer": "mcp.mobius.waila.plugin.core.WailaCore"
       },
       {
         "id"         : "waila:vanilla",
-        "initializer": "mcp.mobius.waila.addons.minecraft.PluginMinecraft"
+        "initializer": "mcp.mobius.waila.plugin.vanilla.WailaVanilla"
       }
     ]
   },
@@ -51,31 +51,32 @@
     }
   ],
   "contributors" : [
-    "InsomniaKitten",
-    "Girafi",
-    "Vexatos",
-    "gigabit101",
-    "Lordmau5",
-    "MrNinja93",
-    "tambry",
-    "magik6k",
-    "Parker8283",
-    "Sven792",
     "3TUSK",
+    "Artoria2e5",
+    "Eracer",
     "Foxgreat",
-    "josephcsible",
+    "Girafi",
+    "InsomniaKitten",
+    "Lordmau5",
+    "Motschen",
+    "MrNinja93",
+    "Parker8283",
     "RCXcrafter",
-    "shadowfacts",
+    "Shadows-of-Fire",
+    "SinusoidalC",
+    "Sven792",
+    "Vexatos",
     "X00LA",
     "crafteverywhere",
-    "SinusoidalC",
-    "viliml",
-    "Eracer",
+    "gigabit101",
+    "josephcsible",
+    "magik6k",
     "odininon",
-    "Artoria2e5",
     "plusls",
-    "Shadows-of-Fire",
-    "Motschen"
+    "raphydaphy",
+    "shadowfacts",
+    "tambry",
+    "viliml"
   ],
 
   "depends"      : {

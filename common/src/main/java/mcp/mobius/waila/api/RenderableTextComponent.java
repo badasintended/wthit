@@ -1,16 +1,14 @@
 package mcp.mobius.waila.api;
 
-import mcp.mobius.waila.api.impl.DrawableText;
+import mcp.mobius.waila.overlay.DrawableText;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.util.Identifier;
-import org.jetbrains.annotations.ApiStatus;
 
 /**
  * @deprecated use {@link IDrawableText}
  * TODO: Remove in 1.17 release
  */
 @Deprecated
-@ApiStatus.ScheduledForRemoval
 public class RenderableTextComponent extends DrawableText {
 
     /**

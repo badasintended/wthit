@@ -5,12 +5,11 @@ import java.util.List;
 import com.mojang.text2speech.Narrator;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.WailaClient;
-import mcp.mobius.waila.addons.core.PluginCore;
-import mcp.mobius.waila.api.impl.DataAccessor;
-import mcp.mobius.waila.api.impl.TaggableList;
-import mcp.mobius.waila.api.impl.TaggedText;
 import mcp.mobius.waila.api.impl.config.PluginConfig;
 import mcp.mobius.waila.api.impl.config.WailaConfig;
+import mcp.mobius.waila.plugin.core.WailaCore;
+import mcp.mobius.waila.util.TaggableList;
+import mcp.mobius.waila.util.TaggedText;
 import net.minecraft.block.Block;
 import net.minecraft.block.FluidBlock;
 import net.minecraft.client.MinecraftClient;
@@ -26,8 +25,8 @@ import net.minecraft.util.hit.HitResult;
 import static mcp.mobius.waila.api.TooltipPosition.BODY;
 import static mcp.mobius.waila.api.TooltipPosition.HEAD;
 import static mcp.mobius.waila.api.TooltipPosition.TAIL;
-import static mcp.mobius.waila.api.impl.ComponentProvider.gatherBlock;
-import static mcp.mobius.waila.api.impl.ComponentProvider.gatherEntity;
+import static mcp.mobius.waila.overlay.ComponentProvider.gatherBlock;
+import static mcp.mobius.waila.overlay.ComponentProvider.gatherEntity;
 
 public class TickHandler {
 
@@ -70,14 +69,14 @@ public class TickHandler {
 
         if (target.getType() == HitResult.Type.BLOCK) {
             Block block = accessor.getBlock();
-            if (block instanceof FluidBlock && !PluginConfig.INSTANCE.get(PluginCore.CONFIG_SHOW_FLUID)
-                || !PluginConfig.INSTANCE.get(PluginCore.CONFIG_SHOW_BLOCK)
+            if (block instanceof FluidBlock && !PluginConfig.INSTANCE.get(WailaCore.CONFIG_SHOW_FLUID)
+                || !PluginConfig.INSTANCE.get(WailaCore.CONFIG_SHOW_BLOCK)
                 || Waila.blockBlacklist.contains(block)) {
                 return;
             }
 
-            displayItem = Raycast.getTargetStack();
-            accessor.setStack(displayItem);
+            displayItem = Raycast.getDisplayItem();
+            accessor.setState(Raycast.getOverrideBlock());
 
             TIP.clear();
             gatherBlock(accessor, TIP, HEAD);
@@ -95,16 +94,16 @@ public class TickHandler {
             gatherBlock(accessor, TIP, TAIL);
             Tooltip.addLines(TIP);
         } else if (target.getType() == HitResult.Type.ENTITY) {
-            if (!PluginConfig.INSTANCE.get(PluginCore.CONFIG_SHOW_ENTITY)
+            if (!PluginConfig.INSTANCE.get(WailaCore.CONFIG_SHOW_ENTITY)
                 || Waila.entityBlacklist.contains(accessor.getEntity().getType())) {
                 return;
             }
 
-            Entity targetEnt = Raycast.getTargetEntity();
+            Entity targetEnt = Raycast.getOverrideEntity();
             accessor.setEntity(targetEnt);
 
             if (targetEnt != null) {
-                displayItem = Raycast.getIdentifierStack();
+                displayItem = Raycast.getDisplayItem();
 
                 TIP.clear();
                 gatherEntity(targetEnt, accessor, TIP, HEAD);

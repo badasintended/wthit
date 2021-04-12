@@ -1,5 +1,5 @@
 dependencies {
-    modImplementation "net.fabricmc:fabric-loader:${fabricLoader}"
+    modCompileOnly "net.fabricmc:fabric-loader:${fabricLoader}"
 }
 
 architectury {

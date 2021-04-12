@@ -1,12 +1,13 @@
 package mcp.mobius.waila.overlay;
 
-import mcp.mobius.waila.addons.core.PluginCore;
-import mcp.mobius.waila.api.IComponentProvider;
+import java.util.List;
+
+import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IEntityComponentProvider;
-import mcp.mobius.waila.api.impl.DataAccessor;
-import mcp.mobius.waila.api.impl.Registrar;
 import mcp.mobius.waila.api.impl.config.PluginConfig;
+import mcp.mobius.waila.plugin.core.WailaCore;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
@@ -46,11 +47,7 @@ public class Raycast {
     }
 
     public static ItemStack getTargetStack() {
-        return target != null && target.getType() == HitResult.Type.BLOCK ? getIdentifierStack() : ItemStack.EMPTY;
-    }
-
-    public static Entity getTargetEntity() {
-        return target.getType() == HitResult.Type.ENTITY ? getIdentifierEntity() : null;
+        return target != null && target.getType() == HitResult.Type.BLOCK ? getDisplayItem() : ItemStack.EMPTY;
     }
 
     public static HitResult rayTrace(Entity entity, double playerReach, float tickDelta) {
@@ -58,7 +55,7 @@ public class Raycast {
         Vec3d lookVector = entity.getRotationVec(tickDelta);
         Vec3d traceEnd = eyePosition.add(lookVector.x * playerReach, lookVector.y * playerReach, lookVector.z * playerReach);
 
-        FluidHandling fluidView = PluginConfig.INSTANCE.get(PluginCore.CONFIG_SHOW_FLUID)
+        FluidHandling fluidView = PluginConfig.INSTANCE.get(WailaCore.CONFIG_SHOW_FLUID)
             ? FluidHandling.SOURCE_ONLY
             : FluidHandling.NONE;
 
@@ -66,19 +63,19 @@ public class Raycast {
         return entity.getEntityWorld().raycast(context);
     }
 
-    public static ItemStack getIdentifierStack() {
+    public static ItemStack getDisplayItem() {
         if (target == null) {
             return ItemStack.EMPTY;
         }
 
-        Registrar registrar = Registrar.INSTANCE;
+        TooltipRegistrar registrar = TooltipRegistrar.INSTANCE;
         DataAccessor data = DataAccessor.INSTANCE;
         PluginConfig config = PluginConfig.INSTANCE;
 
         if (target.getType() == HitResult.Type.ENTITY) {
-            Registrar.List<IEntityComponentProvider> providers = registrar.getEntityStack(((EntityHitResult) target).getEntity());
-            for (Registrar.Entry<IEntityComponentProvider> provider : providers) {
-                ItemStack providerStack = provider.get().getDisplayItem(data, config);
+            List<IEntityComponentProvider> providers = registrar.entityItem.get(((EntityHitResult) target).getEntity());
+            for (IEntityComponentProvider provider : providers) {
+                ItemStack providerStack = provider.getDisplayItem(data, config);
                 if (!providerStack.isEmpty()) {
                     return providerStack;
                 }
@@ -90,9 +87,9 @@ public class Raycast {
             if (state.isAir())
                 return ItemStack.EMPTY;
 
-            Registrar.List<IComponentProvider> providers = registrar.getBlockStack(state.getBlock());
-            for (Registrar.Entry<IComponentProvider> provider : providers) {
-                ItemStack providerStack = provider.get().getStack(data, config);
+            List<IBlockComponentProvider> providers = registrar.blockItem.get(state.getBlock());
+            for (IBlockComponentProvider provider : providers) {
+                ItemStack providerStack = provider.getDisplayItem(data, config);
                 if (!providerStack.isEmpty()) {
                     return providerStack;
                 }
@@ -100,9 +97,9 @@ public class Raycast {
 
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity != null) {
-                providers = registrar.getBlockStack(blockEntity);
-                for (Registrar.Entry<IComponentProvider> provider : providers) {
-                    ItemStack providerStack = provider.get().getStack(data, config);
+                providers = registrar.blockItem.get(blockEntity);
+                for (IBlockComponentProvider provider : providers) {
+                    ItemStack providerStack = provider.getDisplayItem(data, config);
                     if (!providerStack.isEmpty()) {
                         return providerStack;
                     }
@@ -121,22 +118,54 @@ public class Raycast {
         return ItemStack.EMPTY;
     }
 
-    public static Entity getIdentifierEntity() {
-        if (target == null || target.getType() != HitResult.Type.ENTITY)
+    public static Entity getOverrideEntity() {
+        if (target == null || target.getType() != HitResult.Type.ENTITY) {
             return null;
+        }
 
-        Registrar registrar = Registrar.INSTANCE;
+        TooltipRegistrar registrar = TooltipRegistrar.INSTANCE;
         Entity entity = ((EntityHitResult) target).getEntity();
 
-        Registrar.List<IEntityComponentProvider> overrideProviders = registrar.getEntityOverride(entity);
-        for (Registrar.Entry<IEntityComponentProvider> provider : overrideProviders) {
-            Entity override = provider.get().getOverride(DataAccessor.INSTANCE, PluginConfig.INSTANCE);
+        List<IEntityComponentProvider> overrideProviders = registrar.entityOverride.get(entity);
+        for (IEntityComponentProvider provider : overrideProviders) {
+            Entity override = provider.getOverride(DataAccessor.INSTANCE, PluginConfig.INSTANCE);
             if (override != null) {
                 return override;
             }
         }
 
         return entity;
+    }
+
+    public static BlockState getOverrideBlock() {
+        if (target == null || target.getType() != HitResult.Type.BLOCK) {
+            return Blocks.AIR.getDefaultState();
+        }
+
+        TooltipRegistrar registrar = TooltipRegistrar.INSTANCE;
+
+        World world = MinecraftClient.getInstance().world;
+        BlockPos pos = ((BlockHitResult) target).getBlockPos();
+        BlockState state = world.getBlockState(pos);
+
+        List<IBlockComponentProvider> providers = registrar.blockOverride.get(state.getBlock());
+        for (IBlockComponentProvider provider : providers) {
+            BlockState override = provider.getOverride(DataAccessor.INSTANCE, PluginConfig.INSTANCE);
+            if (override != null) {
+                return override;
+            }
+        }
+
+        BlockEntity blockEntity = world.getBlockEntity(pos);
+        providers = registrar.blockOverride.get(blockEntity);
+        for (IBlockComponentProvider provider : providers) {
+            BlockState override = provider.getOverride(DataAccessor.INSTANCE, PluginConfig.INSTANCE);
+            if (override != null) {
+                return override;
+            }
+        }
+
+        return state;
     }
 
 }

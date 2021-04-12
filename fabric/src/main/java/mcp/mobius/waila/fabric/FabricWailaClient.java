@@ -4,7 +4,7 @@ import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.event.WailaRenderEvent;
 import mcp.mobius.waila.api.event.WailaTooltipEvent;
-import mcp.mobius.waila.api.impl.DataAccessor;
+import mcp.mobius.waila.overlay.DataAccessor;
 import mcp.mobius.waila.overlay.Tooltip;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;

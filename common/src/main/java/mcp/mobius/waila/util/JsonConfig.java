@@ -1,4 +1,4 @@
-package mcp.mobius.waila.utils;
+package mcp.mobius.waila.util;
 
 import java.io.File;
 import java.io.FileReader;

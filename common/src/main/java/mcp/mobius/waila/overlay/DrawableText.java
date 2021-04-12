@@ -1,4 +1,4 @@
-package mcp.mobius.waila.api.impl;
+package mcp.mobius.waila.overlay;
 
 import java.awt.Dimension;
 import java.util.List;
@@ -51,6 +51,7 @@ public class DrawableText implements IDrawableText {
         for (RenderContainer container : renderers) {
             Dimension size = container.getRenderer().getSize(container.getData(), DataAccessor.INSTANCE);
             container.getRenderer().draw(matrices, container.getData(), DataAccessor.INSTANCE, x + xOffset, y);
+            // TODO: Remove this line in 1.17
             container.getRenderer().draw(container.data, DataAccessor.INSTANCE, x + xOffset, y);
             xOffset += size.width;
         }
@@ -114,7 +115,7 @@ public class DrawableText implements IDrawableText {
         public RenderContainer(Identifier id, CompoundTag data) {
             this.id = id;
             this.data = data;
-            this.renderer = Registrar.INSTANCE.getRenderer(id);
+            this.renderer = TooltipRegistrar.INSTANCE.renderer.get(id);
         }
 
         public Identifier getId() {

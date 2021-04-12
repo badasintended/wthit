@@ -5,7 +5,7 @@ import java.nio.file.Path;
 import com.google.gson.GsonBuilder;
 import mcp.mobius.waila.api.impl.config.WailaConfig;
 import mcp.mobius.waila.network.PacketSender;
-import mcp.mobius.waila.utils.JsonConfig;
+import mcp.mobius.waila.util.JsonConfig;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.tag.Tag;

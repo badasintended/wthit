@@ -1,4 +1,4 @@
-package mcp.mobius.waila.addons.minecraft;
+package mcp.mobius.waila.plugin.vanilla;
 
 import java.util.List;
 
@@ -16,9 +16,9 @@ import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
-public class HUDHandlerFallingBlock implements IEntityComponentProvider {
+public enum FallingBlockComponent implements IEntityComponentProvider {
 
-    static final HUDHandlerFallingBlock INSTANCE = new HUDHandlerFallingBlock();
+    INSTANCE;
 
     static final Identifier OBJECT_NAME_TAG = Waila.id("object_name");
     static final Identifier REGISTRY_NAME_TAG = Waila.id("registry_name");

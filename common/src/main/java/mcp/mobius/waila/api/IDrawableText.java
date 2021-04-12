@@ -2,7 +2,7 @@ package mcp.mobius.waila.api;
 
 import java.awt.Dimension;
 
-import mcp.mobius.waila.api.impl.DrawableText;
+import mcp.mobius.waila.overlay.DrawableText;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.text.MutableText;

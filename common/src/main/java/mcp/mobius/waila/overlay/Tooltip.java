@@ -11,13 +11,12 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import mcp.mobius.waila.Waila;
-import mcp.mobius.waila.addons.core.PluginCore;
 import mcp.mobius.waila.api.ITaggableList;
-import mcp.mobius.waila.api.impl.DrawableText;
-import mcp.mobius.waila.api.impl.TaggedText;
 import mcp.mobius.waila.api.impl.config.PluginConfig;
 import mcp.mobius.waila.api.impl.config.WailaConfig;
 import mcp.mobius.waila.api.impl.config.WailaConfig.ConfigOverlay.ConfigOverlayColor;
+import mcp.mobius.waila.plugin.core.WailaCore;
+import mcp.mobius.waila.util.TaggedText;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.util.Window;
@@ -132,7 +131,7 @@ public class Tooltip {
     }
 
     public static boolean hasItem() {
-        return showItem && PluginConfig.INSTANCE.get(PluginCore.CONFIG_SHOW_ITEM) && !Raycast.getIdentifierStack().isEmpty();
+        return showItem && PluginConfig.INSTANCE.get(WailaCore.CONFIG_SHOW_ITEM) && !Raycast.getDisplayItem().isEmpty();
     }
 
     public static void render(MatrixStack matrices, float delta) {
@@ -182,7 +181,7 @@ public class Tooltip {
         drawGradientRect(matrices, x + 1, y + h - 1, w - 1, 1, gradEnd, gradEnd);
 
         if (Tooltip.hasItem()) {
-            renderStack(x + 5, y + h / 2 - 8, Raycast.getIdentifierStack());
+            renderStack(x + 5, y + h / 2 - 8, Raycast.getDisplayItem());
         }
 
         RenderSystem.enableBlend();

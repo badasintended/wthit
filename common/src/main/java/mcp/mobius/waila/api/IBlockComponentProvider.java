@@ -2,7 +2,7 @@ package mcp.mobius.waila.api;
 
 import java.util.List;
 
-import net.minecraft.entity.Entity;
+import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -10,12 +10,12 @@ import net.minecraft.text.Text;
 import net.minecraft.world.World;
 
 /**
- * Callback class interface used to provide Entity tooltip information to Waila.<br>
+ * Callback class interface used to provide Block/TileEntity tooltip informations to Waila.<br>
  * All methods in this interface shouldn't to be called by the implementing mod. An instance of the class is to be
  * registered to Waila via the {@link IRegistrar} instance provided in the original registration callback method
  * (cf. {@link IRegistrar} documentation for more information).
  */
-public interface IEntityComponentProvider {
+public interface IBlockComponentProvider {
 
     /**
      * Callback used to override the default Waila lookup system.</br>
@@ -24,77 +24,87 @@ public interface IEntityComponentProvider {
      * @param accessor Contains most of the relevant information about the current environment.
      * @param config   Current configuration of Waila.
      *
-     * @return null if override is not required, an Entity otherwise.
+     * @return null if override is not required, a BlockState otherwise.
      */
-    default Entity getOverride(IEntityAccessor accessor, IPluginConfig config) {
+    default BlockState getOverride(IBlockAccessor accessor, IPluginConfig config) {
         return null;
     }
 
     /**
-     * Callback used to set an item to display alongside the entity name in the tooltip, similar to how blocks are treated.
-     * Will only be called if the implementing class is registered via {@link}
+     * Callback used to override the default Waila lookup system.</br>
+     * Will only be called if the implementing class is registered via {@link IRegistrar#addDisplayItem}.</br>
+     * <p>
+     * This method is only called on the client side. If you require data from the server, you should also implement
+     * {@link IServerDataProvider#appendServerData(CompoundTag, ServerPlayerEntity, World, Object)} and add the data to the {@link CompoundTag}
+     * there, which can then be read back using {@link IBlockAccessor#getServerData()} ()}. If you rely on the client knowing
+     * the data you need, you are not guaranteed to have the proper values.
      *
      * @param accessor Contains most of the relevant information about the current environment.
      * @param config   Current configuration of Waila.
      *
-     * @return The item to display or {@link ItemStack#EMPTY} to display nothing.
+     * @return {@link ItemStack#EMPTY} if override is not required, a non-empty ItemStack otherwise.
      */
-    default ItemStack getDisplayItem(IEntityAccessor accessor, IPluginConfig config) {
+    default ItemStack getDisplayItem(IBlockAccessor accessor, IPluginConfig config) {
         return ItemStack.EMPTY;
     }
 
     /**
      * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).</br>
-     * Will only be called if the implementing class is registered via {@link IRegistrar#addComponent(IEntityComponentProvider,
+     * Will only be called if the implementing class is registered via {@link IRegistrar#addComponent(IBlockComponentProvider,
      * TooltipPosition, Class)}.</br>
-     * You are supposed to always return the modified input current tip.</br>
+     * You are supposed to always return the modified input tooltip.</br>
      * <p>
      * This method is only called on the client side. If you require data from the server, you should also implement
      * {@link IServerDataProvider#appendServerData(CompoundTag, ServerPlayerEntity, World, Object)} and add the data to the {@link CompoundTag}
-     * there, which can then be read back using {@link IEntityAccessor#getServerData()} ()}. If you rely on the client knowing
+     * there, which can then be read back using {@link IBlockAccessor#getServerData()} ()}. If you rely on the client knowing
      * the data you need, you are not guaranteed to have the proper values.
      *
-     * @param tooltip  Current list of tooltip lines (might have been processed by other providers and might be processed by other providers).
+     * @param tooltip  Current list of tooltip lines (might have been processed by other providers and might be processed
+     *                 by other providers).
      * @param accessor Contains most of the relevant information about the current environment.
      * @param config   Current configuration of Waila.
      */
-    default void appendHead(List<Text> tooltip, IEntityAccessor accessor, IPluginConfig config) {
+    default void appendHead(List<Text> tooltip, IBlockAccessor accessor, IPluginConfig config) {
     }
 
     /**
      * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).</br>
-     * Will only be called if the implementing class is registered via {@link IRegistrar#addComponent(IEntityComponentProvider,
+     * Will only be called if the implementing class is registered via {@link IRegistrar#addComponent(IBlockComponentProvider,
      * TooltipPosition, Class)}.</br>
-     * You are supposed to always return the modified input current tip.</br>
+     * You are supposed to always return the modified input tooltip.</br>
      * <p>
      * This method is only called on the client side. If you require data from the server, you should also implement
      * {@link IServerDataProvider#appendServerData(CompoundTag, ServerPlayerEntity, World, Object)} and add the data to the {@link CompoundTag}
-     * there, which can then be read back using {@link IEntityAccessor#getServerData()} ()}. If you rely on the client knowing
+     * there, which can then be read back using {@link IBlockAccessor#getServerData()} ()}. If you rely on the client knowing
      * the data you need, you are not guaranteed to have the proper values.
      *
-     * @param tooltip  Current list of tooltip lines (might have been processed by other providers and might be processed by other providers).
+     * @param tooltip  Current list of tooltip lines (might have been processed by other providers and might be processed
+     *                 by other providers).
      * @param accessor Contains most of the relevant information about the current environment.
      * @param config   Current configuration of Waila.
      */
-    default void appendBody(List<Text> tooltip, IEntityAccessor accessor, IPluginConfig config) {
+    default void appendBody(List<Text> tooltip, IBlockAccessor accessor, IPluginConfig config) {
     }
 
     /**
      * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).</br>
-     * Will only be called if the implementing class is registered via {@link IRegistrar#addComponent(IEntityComponentProvider,
+     * Will only be called if the implementing class is registered via {@link IRegistrar#addComponent(IBlockComponentProvider,
      * TooltipPosition, Class)}.</br>
-     * You are supposed to always return the modified input current tip.</br>
+     * You are supposed to always return the modified input tooltip.</br>
+     * <p>
+     * You may return null if you have not registered this as a tail provider. However, you should return the provided list
+     * to be safe.
      * <p>
      * This method is only called on the client side. If you require data from the server, you should also implement
      * {@link IServerDataProvider#appendServerData(CompoundTag, ServerPlayerEntity, World, Object)} and add the data to the {@link CompoundTag}
-     * there, which can then be read back using {@link IEntityAccessor#getServerData()} ()}. If you rely on the client knowing
+     * there, which can then be read back using {@link IBlockAccessor#getServerData()} ()}. If you rely on the client knowing
      * the data you need, you are not guaranteed to have the proper values.
      *
      * @param tooltip  Current list of tooltip lines (might have been processed by other providers and might be processed by other providers).
      * @param accessor Contains most of the relevant information about the current environment.
      * @param config   Current configuration of Waila.
      */
-    default void appendTail(List<Text> tooltip, IEntityAccessor accessor, IPluginConfig config) {
+    default void appendTail(List<Text> tooltip, IBlockAccessor accessor, IPluginConfig config) {
     }
 
 }

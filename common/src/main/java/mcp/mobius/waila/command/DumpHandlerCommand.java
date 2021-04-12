@@ -5,16 +5,16 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import com.mojang.brigadier.CommandDispatcher;
-import mcp.mobius.waila.api.impl.DumpGenerator;
+import mcp.mobius.waila.util.DumpGenerator;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.TranslatableText;
 
-public class CommandDumpHandlers {
+public class DumpHandlerCommand {
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
-        dispatcher.register(CommandManager.literal("dumpHandlers")
+        dispatcher.register(CommandManager.literal("wailadumphandler")
             .requires(source -> source.hasPermissionLevel(2))
             .executes(context -> {
                 File file = new File("waila_handlers.md");
