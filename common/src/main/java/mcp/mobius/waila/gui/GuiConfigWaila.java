@@ -1,7 +1,7 @@
 package mcp.mobius.waila.gui;
 
 import mcp.mobius.waila.Waila;
-import mcp.mobius.waila.api.impl.config.WailaConfig;
+import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.gui.config.OptionsListWidget;
 import mcp.mobius.waila.gui.config.value.OptionsEntryValueInput;
 import net.minecraft.client.gui.screen.Screen;

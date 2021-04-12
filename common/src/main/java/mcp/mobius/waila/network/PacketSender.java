@@ -1,6 +1,6 @@
 package mcp.mobius.waila.network;
 
-import mcp.mobius.waila.api.impl.config.PluginConfig;
+import mcp.mobius.waila.config.PluginConfig;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.entity.BlockEntity;

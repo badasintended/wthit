@@ -7,33 +7,33 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 import io.netty.buffer.Unpooled;
-import mcp.mobius.waila.api.impl.config.ConfigEntry;
-import mcp.mobius.waila.api.impl.config.PluginConfig;
+import mcp.mobius.waila.config.ConfigEntry;
+import mcp.mobius.waila.config.PluginConfig;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 
 public abstract class PacketIo<I, O> {
 
-    public static final PacketIo<CompoundTag, CompoundTag> ReceiveData = new PacketIo<CompoundTag, CompoundTag>() {
+    public static final PacketIo<NbtCompound, NbtCompound> ReceiveData = new PacketIo<NbtCompound, NbtCompound>() {
         @Override
-        public void write(PacketByteBuf buf, CompoundTag tag) {
-            buf.writeCompoundTag(tag);
+        public void write(PacketByteBuf buf, NbtCompound tag) {
+            buf.writeNbt(tag);
         }
 
         @Override
-        protected CompoundTag apply(PacketByteBuf buf) {
-            return buf.readCompoundTag();
+        protected NbtCompound apply(PacketByteBuf buf) {
+            return buf.readNbt();
         }
     };
 
     public static final PacketIo<Entity, Integer> RequestEntity = new PacketIo<Entity, Integer>() {
         @Override
         public void write(PacketByteBuf buf, Entity entity) {
-            buf.writeInt(entity.getEntityId());
+            buf.writeInt(entity.getId());
         }
 
         @Override

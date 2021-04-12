@@ -25,7 +25,7 @@ public enum SpawnerComponent implements IBlockComponentProvider {
             MobSpawnerBlockEntity spawner = (MobSpawnerBlockEntity) accessor.getBlockEntity();
             ((ITaggableList<Identifier, Text>) tooltip).setTag(OBJECT_NAME_TAG, new TranslatableText(accessor.getBlock().getTranslationKey())
                 .append(new LiteralText(" ("))
-                .append(spawner.getLogic().getRenderedEntity().getDisplayName())
+                .append(spawner.getLogic().getRenderedEntity(accessor.getWorld()).getDisplayName())
                 .append(new LiteralText(")"))
             );
         }

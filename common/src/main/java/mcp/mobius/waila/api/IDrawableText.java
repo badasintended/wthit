@@ -4,7 +4,7 @@ import java.awt.Dimension;
 
 import mcp.mobius.waila.overlay.DrawableText;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.MutableText;
 import net.minecraft.util.Identifier;
 
@@ -15,9 +15,9 @@ public interface IDrawableText extends MutableText {
 
     /**
      * Create a drawable with this renderer.<br>
-     * Shorthand for {@link #create()} and {@link #with(Identifier, CompoundTag)}
+     * Shorthand for {@link #create()} and {@link #with(Identifier, NbtCompound)}
      */
-    static IDrawableText of(Identifier id, CompoundTag data) {
+    static IDrawableText of(Identifier id, NbtCompound data) {
         return new DrawableText().with(id, data);
     }
 
@@ -34,7 +34,7 @@ public interface IDrawableText extends MutableText {
      * @param id   the id associated with a {@link ITooltipRenderer}
      * @param data the data for that {@link ITooltipRenderer}
      */
-    IDrawableText with(Identifier id, CompoundTag data);
+    IDrawableText with(Identifier id, NbtCompound data);
 
     Dimension getSize();
 

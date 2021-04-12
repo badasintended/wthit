@@ -9,12 +9,12 @@ import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataProvider;
 import mcp.mobius.waila.api.ITaggableList;
-import mcp.mobius.waila.api.impl.config.WailaConfig;
+import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.util.ModIdentification;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.text.LiteralText;
@@ -76,7 +76,7 @@ public enum BlockComponent implements IBlockComponentProvider, IServerDataProvid
     }
 
     @Override
-    public void appendServerData(CompoundTag data, ServerPlayerEntity player, World world, BlockEntity blockEntity) {
+    public void appendServerData(NbtCompound data, ServerPlayerEntity player, World world, BlockEntity blockEntity) {
         if (blockEntity instanceof Nameable) {
             Text name = ((Nameable) blockEntity).getCustomName();
             if (name != null) {

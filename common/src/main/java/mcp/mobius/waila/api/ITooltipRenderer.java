@@ -3,7 +3,7 @@ package mcp.mobius.waila.api;
 import java.awt.Dimension;
 
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Lazy;
 
 public interface ITooltipRenderer {
@@ -26,7 +26,7 @@ public interface ITooltipRenderer {
      *
      * @return Dimension of the reserved area
      */
-    Dimension getSize(CompoundTag data, ICommonAccessor accessor);
+    Dimension getSize(NbtCompound data, ICommonAccessor accessor);
 
     /**
      * Draw method for the renderer.
@@ -37,22 +37,6 @@ public interface ITooltipRenderer {
      * @param x        The X position of this renderer
      * @param y        The Y position of this renderer
      */
-    default void draw(MatrixStack matrices, CompoundTag data, ICommonAccessor accessor, int x, int y) {
-    }
-
-    /**
-     * Draw method for the renderer.
-     *
-     * TODO: Remove in 1.17 release
-     * @deprecated creating a new matrices every frame is probably bad
-     *
-     * @param data     The data supplied by the provider
-     * @param accessor A global accessor for TileEntities and Entities
-     * @param x        The X position of this renderer
-     * @param y        The Y position of this renderer
-     */
-    @Deprecated
-    default void draw(CompoundTag data, ICommonAccessor accessor, int x, int y) {
-    }
+    void draw(MatrixStack matrices, NbtCompound data, ICommonAccessor accessor, int x, int y);
 
 }

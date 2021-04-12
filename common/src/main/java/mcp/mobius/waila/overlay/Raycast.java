@@ -4,7 +4,7 @@ import java.util.List;
 
 import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IEntityComponentProvider;
-import mcp.mobius.waila.api.impl.config.PluginConfig;
+import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.plugin.core.WailaCore;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;

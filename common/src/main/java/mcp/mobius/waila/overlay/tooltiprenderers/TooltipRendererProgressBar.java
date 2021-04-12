@@ -6,7 +6,7 @@ import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.ITooltipRenderer;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Lazy;
 
@@ -19,12 +19,12 @@ public class TooltipRendererProgressBar implements ITooltipRenderer {
     private static final Lazy<Dimension> DIMENSION = new Lazy<>(() -> new Dimension(26, 16));
 
     @Override
-    public Dimension getSize(CompoundTag tag, ICommonAccessor accessor) {
+    public Dimension getSize(NbtCompound tag, ICommonAccessor accessor) {
         return DIMENSION.get();
     }
 
     @Override
-    public void draw(MatrixStack matrices, CompoundTag tag, ICommonAccessor accessor, int x, int y) {
+    public void draw(MatrixStack matrices, NbtCompound tag, ICommonAccessor accessor, int x, int y) {
         int currentValue = tag.getInt("progress");
 
         bind(SHEET);

@@ -8,7 +8,7 @@ import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataProvider;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.JukeboxBlockEntity;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -28,7 +28,7 @@ public enum JukeboxComponent implements IBlockComponentProvider, IServerDataProv
     }
 
     @Override
-    public void appendServerData(CompoundTag data, ServerPlayerEntity player, World world, BlockEntity blockEntity) {
+    public void appendServerData(NbtCompound data, ServerPlayerEntity player, World world, BlockEntity blockEntity) {
         if (blockEntity instanceof JukeboxBlockEntity) {
             JukeboxBlockEntity jukebox = (JukeboxBlockEntity) blockEntity;
             data.putString("record", Text.Serializer.toJson(jukebox.getRecord().toHoverableText()));

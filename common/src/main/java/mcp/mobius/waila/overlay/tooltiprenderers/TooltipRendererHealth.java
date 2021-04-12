@@ -7,7 +7,7 @@ import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.ITooltipRenderer;
 import mcp.mobius.waila.overlay.IconUI;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.math.MathHelper;
 
 import static mcp.mobius.waila.overlay.DisplayUtil.renderIcon;
@@ -15,7 +15,7 @@ import static mcp.mobius.waila.overlay.DisplayUtil.renderIcon;
 public class TooltipRendererHealth implements ITooltipRenderer {
 
     @Override
-    public Dimension getSize(CompoundTag tag, ICommonAccessor accessor) {
+    public Dimension getSize(NbtCompound tag, ICommonAccessor accessor) {
         float maxHearts = Waila.CONFIG.get().getGeneral().getMaxHeartsPerLine();
         float maxHealth = tag.getFloat("max");
 
@@ -26,7 +26,7 @@ public class TooltipRendererHealth implements ITooltipRenderer {
     }
 
     @Override
-    public void draw(MatrixStack matrices, CompoundTag tag, ICommonAccessor accessor, int x, int y) {
+    public void draw(MatrixStack matrices, NbtCompound tag, ICommonAccessor accessor, int x, int y) {
         float maxHearts = Waila.CONFIG.get().getGeneral().getMaxHeartsPerLine();
         float health = tag.getFloat("health");
         float maxHealth = tag.getFloat("max");

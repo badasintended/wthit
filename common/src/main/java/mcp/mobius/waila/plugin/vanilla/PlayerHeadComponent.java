@@ -8,7 +8,7 @@ import mcp.mobius.waila.api.IPluginConfig;
 import net.minecraft.block.entity.SkullBlockEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtHelper;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
@@ -24,9 +24,9 @@ public enum PlayerHeadComponent implements IBlockComponentProvider {
     public ItemStack getDisplayItem(IBlockAccessor accessor, IPluginConfig config) {
         SkullBlockEntity skull = (SkullBlockEntity) accessor.getBlockEntity();
         if (skull.getOwner() != null) {
-            CompoundTag tag = PLAYER_HEAD_STACK.getOrCreateTag();
-            CompoundTag skullOwner = tag.getCompound("SkullOwner");
-            tag.put("SkullOwner", NbtHelper.fromGameProfile(skullOwner, skull.getOwner()));
+            NbtCompound tag = PLAYER_HEAD_STACK.getOrCreateTag();
+            NbtCompound skullOwner = tag.getCompound("SkullOwner");
+            tag.put("SkullOwner", NbtHelper.writeGameProfile(skullOwner, skull.getOwner()));
             return PLAYER_HEAD_STACK;
         }
         return ItemStack.EMPTY;

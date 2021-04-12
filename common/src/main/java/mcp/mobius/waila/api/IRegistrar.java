@@ -197,11 +197,6 @@ public interface IRegistrar {
      */
     void addRenderer(Identifier id, ITooltipRenderer renderer);
 
-    // TODO: Remove
-    @Deprecated
-    default <T> void registerDecorator(IBlockDecorator decorator, Class<T> block) {
-    }
-
     /**
      * TODO: Remove
      *

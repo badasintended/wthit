@@ -8,7 +8,7 @@ import it.unimi.dsi.fastutil.objects.ObjectLists;
 import mcp.mobius.waila.api.IDrawableText;
 import mcp.mobius.waila.api.ITooltipRenderer;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.OrderedText;
 import net.minecraft.text.Style;
@@ -24,7 +24,7 @@ public class DrawableText implements IDrawableText {
     protected final List<RenderContainer> renderers = new ObjectArrayList<>();
 
     @Override
-    public IDrawableText with(Identifier id, CompoundTag data) {
+    public IDrawableText with(Identifier id, NbtCompound data) {
         renderers.add(new RenderContainer(id, data));
         return this;
     }
@@ -51,8 +51,6 @@ public class DrawableText implements IDrawableText {
         for (RenderContainer container : renderers) {
             Dimension size = container.getRenderer().getSize(container.getData(), DataAccessor.INSTANCE);
             container.getRenderer().draw(matrices, container.getData(), DataAccessor.INSTANCE, x + xOffset, y);
-            // TODO: Remove this line in 1.17
-            container.getRenderer().draw(container.data, DataAccessor.INSTANCE, x + xOffset, y);
             xOffset += size.width;
         }
     }
@@ -109,10 +107,10 @@ public class DrawableText implements IDrawableText {
     public static class RenderContainer {
 
         private final Identifier id;
-        private final CompoundTag data;
+        private final NbtCompound data;
         private final ITooltipRenderer renderer;
 
-        public RenderContainer(Identifier id, CompoundTag data) {
+        public RenderContainer(Identifier id, NbtCompound data) {
             this.id = id;
             this.data = data;
             this.renderer = TooltipRegistrar.INSTANCE.renderer.get(id);
@@ -122,7 +120,7 @@ public class DrawableText implements IDrawableText {
             return id;
         }
 
-        public CompoundTag getData() {
+        public NbtCompound getData() {
             return data;
         }
 

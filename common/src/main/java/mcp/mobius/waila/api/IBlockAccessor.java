@@ -5,7 +5,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -33,7 +33,7 @@ public interface IBlockAccessor {
     @Nullable
     Vec3d getRenderingPosition();
 
-    CompoundTag getServerData();
+    NbtCompound getServerData();
 
     double getPartialFrame();
 

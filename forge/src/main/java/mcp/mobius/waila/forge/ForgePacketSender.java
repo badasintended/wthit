@@ -3,7 +3,7 @@ package mcp.mobius.waila.forge;
 import java.util.Map;
 
 import mcp.mobius.waila.Waila;
-import mcp.mobius.waila.api.impl.config.PluginConfig;
+import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.network.PacketExecutor;
 import mcp.mobius.waila.network.PacketSender;
 import net.minecraft.block.entity.BlockEntity;

@@ -6,7 +6,7 @@ import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.ITooltipRenderer;
 import mcp.mobius.waila.overlay.IconUI;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 
 import static mcp.mobius.waila.overlay.DisplayUtil.renderIcon;
 
@@ -20,12 +20,12 @@ public class TooltipRendererIcon implements ITooltipRenderer {
     }
 
     @Override
-    public Dimension getSize(CompoundTag tag, ICommonAccessor accessor) {
+    public Dimension getSize(NbtCompound tag, ICommonAccessor accessor) {
         return new Dimension(size, size);
     }
 
     @Override
-    public void draw(MatrixStack matrices, CompoundTag tag, ICommonAccessor accessor, int x, int y) {
+    public void draw(MatrixStack matrices, NbtCompound tag, ICommonAccessor accessor, int x, int y) {
         renderIcon(matrices, x, y, size, size, IconUI.bySymbol(type));
     }
 

@@ -4,7 +4,7 @@ import java.util.List;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
@@ -50,7 +50,7 @@ public interface IEntityComponentProvider {
      * You are supposed to always return the modified input current tip.</br>
      * <p>
      * This method is only called on the client side. If you require data from the server, you should also implement
-     * {@link IServerDataProvider#appendServerData(CompoundTag, ServerPlayerEntity, World, Object)} and add the data to the {@link CompoundTag}
+     * {@link IServerDataProvider#appendServerData(NbtCompound, ServerPlayerEntity, World, Object)} and add the data to the {@link NbtCompound}
      * there, which can then be read back using {@link IEntityAccessor#getServerData()} ()}. If you rely on the client knowing
      * the data you need, you are not guaranteed to have the proper values.
      *
@@ -68,7 +68,7 @@ public interface IEntityComponentProvider {
      * You are supposed to always return the modified input current tip.</br>
      * <p>
      * This method is only called on the client side. If you require data from the server, you should also implement
-     * {@link IServerDataProvider#appendServerData(CompoundTag, ServerPlayerEntity, World, Object)} and add the data to the {@link CompoundTag}
+     * {@link IServerDataProvider#appendServerData(NbtCompound, ServerPlayerEntity, World, Object)} and add the data to the {@link NbtCompound}
      * there, which can then be read back using {@link IEntityAccessor#getServerData()} ()}. If you rely on the client knowing
      * the data you need, you are not guaranteed to have the proper values.
      *
@@ -86,7 +86,7 @@ public interface IEntityComponentProvider {
      * You are supposed to always return the modified input current tip.</br>
      * <p>
      * This method is only called on the client side. If you require data from the server, you should also implement
-     * {@link IServerDataProvider#appendServerData(CompoundTag, ServerPlayerEntity, World, Object)} and add the data to the {@link CompoundTag}
+     * {@link IServerDataProvider#appendServerData(NbtCompound, ServerPlayerEntity, World, Object)} and add the data to the {@link NbtCompound}
      * there, which can then be read back using {@link IEntityAccessor#getServerData()} ()}. If you rely on the client knowing
      * the data you need, you are not guaranteed to have the proper values.
      *

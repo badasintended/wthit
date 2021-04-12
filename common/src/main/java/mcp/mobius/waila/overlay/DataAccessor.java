@@ -11,7 +11,7 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
@@ -21,7 +21,6 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
-import org.jetbrains.annotations.Nullable;
 
 // TODO: Remove IDataAccessor interface
 public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IDataAccessor, IEntityAccessor {
@@ -38,7 +37,7 @@ public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IDataAccess
     private Identifier blockRegistryName = Registry.ITEM.getDefaultId();
     private BlockEntity blockEntity;
     private Entity entity;
-    private CompoundTag serverData = null;
+    private NbtCompound serverData = null;
     private long timeLastUpdate = System.currentTimeMillis();
     private double partialFrame;
     private ItemStack stack = ItemStack.EMPTY;
@@ -89,7 +88,7 @@ public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IDataAccess
     }
 
     @Override
-    public CompoundTag getServerData() {
+    public NbtCompound getServerData() {
         if ((this.blockEntity != null) && this.isTagCorrectTileEntity(this.serverData))
             return serverData;
 
@@ -97,12 +96,12 @@ public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IDataAccess
             return serverData;
 
         if (this.blockEntity != null)
-            return blockEntity.writeNbt(new CompoundTag());
+            return blockEntity.writeNbt(new NbtCompound());
 
         if (this.entity != null)
-            return entity.writeNbt(new CompoundTag());
+            return entity.writeNbt(new NbtCompound());
 
-        return new CompoundTag();
+        return new NbtCompound();
     }
 
     @Override
@@ -118,12 +117,6 @@ public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IDataAccess
     @Override
     public ItemStack getStack() {
         return this.stack;
-    }
-
-    // TODO: Remove
-    @Override
-    public @Nullable BlockEntity getTileEntity() {
-        return getBlockEntity();
     }
 
     @Override
@@ -161,7 +154,7 @@ public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IDataAccess
         this.entity = entity;
     }
 
-    public void setServerData(CompoundTag tag) {
+    public void setServerData(NbtCompound tag) {
         this.serverData = tag;
     }
 
@@ -176,7 +169,7 @@ public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IDataAccess
         this.blockRegistryName = Registry.BLOCK.getId(block);
     }
 
-    private boolean isTagCorrectTileEntity(CompoundTag tag) {
+    private boolean isTagCorrectTileEntity(NbtCompound tag) {
         if (tag == null) {
             this.timeLastUpdate = System.currentTimeMillis() - 250;
             return false;
@@ -195,7 +188,7 @@ public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IDataAccess
         }
     }
 
-    private boolean isTagCorrectEntity(CompoundTag tag) {
+    private boolean isTagCorrectEntity(NbtCompound tag) {
         if (tag == null || !tag.contains("WailaEntityID")) {
             this.timeLastUpdate = System.currentTimeMillis() - 250;
             return false;

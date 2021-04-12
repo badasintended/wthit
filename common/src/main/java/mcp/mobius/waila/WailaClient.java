@@ -2,14 +2,14 @@ package mcp.mobius.waila;
 
 import java.util.function.BiFunction;
 
-import mcp.mobius.waila.api.impl.config.PluginConfig;
-import mcp.mobius.waila.api.impl.config.WailaConfig;
-import mcp.mobius.waila.api.impl.config.WailaConfig.DisplayMode;
+import mcp.mobius.waila.config.PluginConfig;
+import mcp.mobius.waila.config.WailaConfig;
+import mcp.mobius.waila.config.WailaConfig.DisplayMode;
 import mcp.mobius.waila.gui.GuiConfigHome;
 import mcp.mobius.waila.overlay.TickHandler;
 import mcp.mobius.waila.plugin.core.WailaCore;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.options.KeyBinding;
+import net.minecraft.client.option.KeyBinding;
 import org.lwjgl.glfw.GLFW;
 
 public abstract class WailaClient {

@@ -19,7 +19,7 @@ dependencies {
     modImplementation "dev.inkwell:hermes:1.0.0"
 
     modCompileOnly "me.shedaniel:RoughlyEnoughItems-api:$rei"
-    modRuntime "me.shedaniel:RoughlyEnoughItems:$rei"
+    //modRuntime "me.shedaniel:RoughlyEnoughItems:$rei"
 
     developmentFabric project(":common")
 }

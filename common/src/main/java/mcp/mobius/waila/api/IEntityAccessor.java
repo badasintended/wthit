@@ -2,7 +2,7 @@ package mcp.mobius.waila.api;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
@@ -26,7 +26,7 @@ public interface IEntityAccessor {
     @Nullable
     Vec3d getRenderingPosition();
 
-    CompoundTag getServerData();
+    NbtCompound getServerData();
 
     double getPartialFrame();
 

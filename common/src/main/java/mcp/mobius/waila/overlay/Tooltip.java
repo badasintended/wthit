@@ -12,9 +12,9 @@ import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.ITaggableList;
-import mcp.mobius.waila.api.impl.config.PluginConfig;
-import mcp.mobius.waila.api.impl.config.WailaConfig;
-import mcp.mobius.waila.api.impl.config.WailaConfig.ConfigOverlay.ConfigOverlayColor;
+import mcp.mobius.waila.config.PluginConfig;
+import mcp.mobius.waila.config.WailaConfig;
+import mcp.mobius.waila.config.WailaConfig.ConfigOverlay.ConfigOverlayColor;
 import mcp.mobius.waila.plugin.core.WailaCore;
 import mcp.mobius.waila.util.TaggedText;
 import net.minecraft.client.MinecraftClient;
@@ -25,7 +25,7 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Lazy;
 
-import static mcp.mobius.waila.api.impl.config.WailaConfig.ConfigOverlay.Position;
+import static mcp.mobius.waila.config.WailaConfig.ConfigOverlay.Position;
 import static mcp.mobius.waila.overlay.DisplayUtil.drawGradientRect;
 import static mcp.mobius.waila.overlay.DisplayUtil.enable2DRender;
 import static mcp.mobius.waila.overlay.DisplayUtil.renderStack;
@@ -141,10 +141,10 @@ public class Tooltip {
 
         WailaConfig config = Waila.CONFIG.get();
         MinecraftClient.getInstance().getProfiler().push("Waila Overlay");
-        RenderSystem.pushMatrix();
+        RenderSystem.getModelViewStack().push();
 
         float scale = config.getOverlay().getScale();
-        RenderSystem.scalef(scale, scale, 1.0F);
+        RenderSystem.getModelViewStack().scale(scale, scale, 1.0F);
 
         enable2DRender();
 
@@ -154,7 +154,7 @@ public class Tooltip {
         rect = onPreRender.apply(rect);
         if (rect == null) {
             RenderSystem.enableDepthTest();
-            RenderSystem.popMatrix();
+            RenderSystem.getModelViewStack().pop();
             MinecraftClient.getInstance().getProfiler().pop();
             return;
         }
@@ -169,6 +169,9 @@ public class Tooltip {
         int gradStart = color.getGradientStart();
         int gradEnd = color.getGradientEnd();
 
+        matrices.push();
+        matrices.scale(scale, scale, 1.0f);
+
         drawGradientRect(matrices, x + 1, y, w - 1, 1, bg, bg);
         drawGradientRect(matrices, x + 1, y + h, w - 1, 1, bg, bg);
         drawGradientRect(matrices, x + 1, y + 1, w - 1, h - 1, bg, bg);
@@ -179,6 +182,8 @@ public class Tooltip {
 
         drawGradientRect(matrices, x + 1, y + 1, w - 1, 1, gradStart, gradStart);
         drawGradientRect(matrices, x + 1, y + h - 1, w - 1, 1, gradEnd, gradEnd);
+
+        matrices.pop();
 
         if (Tooltip.hasItem()) {
             renderStack(x + 5, y + h / 2 - 8, Raycast.getDisplayItem());
@@ -205,7 +210,7 @@ public class Tooltip {
         onPostRender.accept(rect);
 
         RenderSystem.enableDepthTest();
-        RenderSystem.popMatrix();
+        RenderSystem.getModelViewStack().pop();
         MinecraftClient.getInstance().getProfiler().pop();
     }
 

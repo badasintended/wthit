@@ -5,13 +5,13 @@ import java.util.function.Consumer;
 
 import com.google.gson.Gson;
 import mcp.mobius.waila.Waila;
-import mcp.mobius.waila.api.impl.config.PluginConfig;
+import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.overlay.DataAccessor;
 import mcp.mobius.waila.overlay.TooltipRegistrar;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -22,7 +22,7 @@ public class PacketExecutor {
 
     private static final Gson GSON = new Gson();
 
-    public static void receiveData(CompoundTag tag) {
+    public static void receiveData(NbtCompound tag) {
         DataAccessor.INSTANCE.setServerData(tag);
     }
 
@@ -31,7 +31,7 @@ public class PacketExecutor {
         Waila.LOGGER.info("Received config from the server: {}", GSON.toJson(map));
     }
 
-    public static void requestEntity(ServerPlayerEntity player, int entityId, Consumer<CompoundTag> consumer) {
+    public static void requestEntity(ServerPlayerEntity player, int entityId, Consumer<NbtCompound> consumer) {
         TooltipRegistrar registrar = TooltipRegistrar.INSTANCE;
         World world = player.world;
         Entity entity = world.getEntityById(entityId);
@@ -39,7 +39,7 @@ public class PacketExecutor {
         if (entity == null)
             return;
 
-        CompoundTag tag = new CompoundTag();
+        NbtCompound tag = new NbtCompound();
         registrar.entityData.get(entity).forEach(provider ->
             provider.appendServerData(tag, player, world, entity)
         );
@@ -48,7 +48,7 @@ public class PacketExecutor {
         consumer.accept(tag);
     }
 
-    public static void requestBlockEntity(ServerPlayerEntity player, BlockPos pos, Consumer<CompoundTag> consumer) {
+    public static void requestBlockEntity(ServerPlayerEntity player, BlockPos pos, Consumer<NbtCompound> consumer) {
         TooltipRegistrar registrar = TooltipRegistrar.INSTANCE;
         World world = player.world;
         if (!world.isChunkLoaded(pos))
@@ -60,7 +60,7 @@ public class PacketExecutor {
 
         BlockState state = world.getBlockState(pos);
 
-        CompoundTag tag = new CompoundTag();
+        NbtCompound tag = new NbtCompound();
         registrar.blockData.get(blockEntity).forEach(provider ->
             provider.appendServerData(tag, player, world, blockEntity));
         registrar.blockData.get(state.getBlock()).forEach(provider ->

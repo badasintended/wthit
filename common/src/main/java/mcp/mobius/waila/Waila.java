@@ -3,7 +3,7 @@ package mcp.mobius.waila;
 import java.nio.file.Path;
 
 import com.google.gson.GsonBuilder;
-import mcp.mobius.waila.api.impl.config.WailaConfig;
+import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.network.PacketSender;
 import mcp.mobius.waila.util.JsonConfig;
 import net.minecraft.block.Block;

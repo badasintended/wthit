@@ -8,11 +8,11 @@ import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITaggableList;
-import mcp.mobius.waila.api.impl.config.WailaConfig;
+import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.util.ModIdentification;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
@@ -42,7 +42,7 @@ public enum EntityComponent implements IEntityComponentProvider {
             if (living.getMaxHealth() > Waila.CONFIG.get().getGeneral().getMaxHealthForRender())
                 tooltip.add(new TranslatableText("tooltip.waila.health", String.format("%.2f", health), String.format("%.2f", maxHealth)));
             else {
-                CompoundTag healthData = new CompoundTag();
+                NbtCompound healthData = new NbtCompound();
                 healthData.putFloat("health", health / 2.0F);
                 healthData.putFloat("max", maxHealth / 2.0F);
                 tooltip.add(IDrawableText.of(WailaCore.RENDER_ENTITY_HEALTH, healthData));

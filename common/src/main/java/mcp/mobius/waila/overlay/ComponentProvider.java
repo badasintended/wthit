@@ -6,7 +6,7 @@ import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.TooltipPosition;
-import mcp.mobius.waila.api.impl.config.PluginConfig;
+import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.util.ExceptionHandler;
 import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;

@@ -30,7 +30,7 @@ public final class DisplayUtil extends DrawableHelper {
     private static final LiteralText UNNAMED = new LiteralText("Unnamed");
 
     public static void bind(Identifier texture) {
-        RenderSystem.setShader(GameRenderer::method_34542);
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderTexture(0, texture);
     }
 

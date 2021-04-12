@@ -5,7 +5,7 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
@@ -40,7 +40,7 @@ public interface ICommonAccessor {
     @Nullable
     Vec3d getRenderingPosition();
 
-    CompoundTag getServerData();
+    NbtCompound getServerData();
 
     double getPartialFrame();
 
@@ -48,12 +48,5 @@ public interface ICommonAccessor {
     Direction getSide();
 
     ItemStack getStack();
-
-    /**
-     * @deprecated use {@link #getBlockEntity()}
-     */
-    @Nullable
-    @Deprecated
-    BlockEntity getTileEntity();
 
 }

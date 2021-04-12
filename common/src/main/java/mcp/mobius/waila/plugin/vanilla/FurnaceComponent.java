@@ -9,8 +9,8 @@ import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataProvider;
 import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
+import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtList;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
@@ -31,7 +31,7 @@ public enum FurnaceComponent implements IBlockComponentProvider, IServerDataProv
         if (!accessor.getBlockState().get(Properties.LIT))
             return;
 
-        ListTag furnaceItems = accessor.getServerData().getList("furnace", 10 /* COMPOUND */);
+        NbtList furnaceItems = accessor.getServerData().getList("furnace", 10 /* COMPOUND */);
 
         tooltip.add(IDrawableText.create()
             .with(RENDER_ITEM, furnaceItems.getCompound(0))
@@ -41,14 +41,14 @@ public enum FurnaceComponent implements IBlockComponentProvider, IServerDataProv
     }
 
     @Override
-    public void appendServerData(CompoundTag data, ServerPlayerEntity player, World world, BlockEntity blockEntity) {
+    public void appendServerData(NbtCompound data, ServerPlayerEntity player, World world, BlockEntity blockEntity) {
         AbstractFurnaceBlockEntity furnace = (AbstractFurnaceBlockEntity) blockEntity;
-        ListTag items = new ListTag();
-        items.add(furnace.getStack(0).toTag(new CompoundTag()));
-        items.add(furnace.getStack(1).toTag(new CompoundTag()));
-        items.add(furnace.getStack(2).toTag(new CompoundTag()));
+        NbtList items = new NbtList();
+        items.add(furnace.getStack(0).writeNbt(new NbtCompound()));
+        items.add(furnace.getStack(1).writeNbt(new NbtCompound()));
+        items.add(furnace.getStack(2).writeNbt(new NbtCompound()));
         data.put("furnace", items);
-        CompoundTag furnaceTag = furnace.toTag(new CompoundTag());
+        NbtCompound furnaceTag = furnace.writeNbt(new NbtCompound());
         data.putInt("progress", furnaceTag.getInt("CookTime")); // smh
         data.putInt("total", furnaceTag.getInt("CookTimeTotal")); // smh
     }
