@@ -20,8 +20,7 @@
   "entrypoints"  : {
     "main"       : ["mcp.mobius.waila.fabric.FabricWaila"],
     "client"     : ["mcp.mobius.waila.fabric.FabricWailaClient"],
-    "modmenu"    : ["mcp.mobius.waila.fabric.FabricWailaModMenu"],
-    "rei_plugins": ["mcp.mobius.waila.fabric.FabricWailaRei"]
+    "modmenu"    : ["mcp.mobius.waila.fabric.FabricWailaModMenu"]
   },
 
   "mixins"       : ["waila.mixins.json"],
