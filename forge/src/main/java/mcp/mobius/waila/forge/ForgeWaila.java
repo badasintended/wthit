@@ -3,7 +3,7 @@ package mcp.mobius.waila.forge;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.impl.config.PluginConfig;
 import mcp.mobius.waila.command.DumpHandlerCommand;
-import mcp.mobius.waila.util.ModIdentification;
+import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.tag.EntityTypeTags;

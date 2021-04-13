@@ -3,9 +3,10 @@ package mcp.mobius.waila;
 import java.nio.file.Path;
 
 import com.google.gson.GsonBuilder;
+import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.api.impl.config.WailaConfig;
 import mcp.mobius.waila.network.PacketSender;
-import mcp.mobius.waila.util.JsonConfig;
+import mcp.mobius.waila.utils.JsonConfig;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.tag.Tag;
@@ -34,12 +35,14 @@ public abstract class Waila {
     }
 
     protected static void init() {
-        CONFIG = new JsonConfig<>(MODID + "/" + MODID, WailaConfig.class).withGson(new GsonBuilder()
-            .setPrettyPrinting()
-            .registerTypeAdapter(WailaConfig.ConfigOverlay.ConfigOverlayColor.class, new WailaConfig.ConfigOverlay.ConfigOverlayColor.Adapter())
-            .registerTypeAdapter(Identifier.class, new Identifier.Serializer())
-            .create()
-        );
+        CONFIG = (JsonConfig<WailaConfig>) IJsonConfig.of(WailaConfig.class)
+            .file(MODID + "/" + MODID)
+            .gson(new GsonBuilder()
+                .setPrettyPrinting()
+                .registerTypeAdapter(WailaConfig.ConfigOverlay.ConfigOverlayColor.class, new WailaConfig.ConfigOverlay.ConfigOverlayColor.Adapter())
+                .registerTypeAdapter(Identifier.class, new Identifier.Serializer())
+                .create())
+            .build();
     }
 
 }

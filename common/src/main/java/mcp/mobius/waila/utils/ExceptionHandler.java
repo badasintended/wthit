@@ -1,4 +1,4 @@
-package mcp.mobius.waila.util;
+package mcp.mobius.waila.utils;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;

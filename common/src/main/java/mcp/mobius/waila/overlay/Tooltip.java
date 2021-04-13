@@ -19,7 +19,7 @@ import mcp.mobius.waila.api.impl.config.WailaConfig.ConfigOverlay.Position.Horiz
 import mcp.mobius.waila.api.impl.config.WailaConfig.ConfigOverlay.Position.VerticalAlignment;
 import mcp.mobius.waila.mixin.AccessorBossBarHud;
 import mcp.mobius.waila.plugin.core.WailaCore;
-import mcp.mobius.waila.util.TaggedText;
+import mcp.mobius.waila.utils.TaggedText;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.util.Window;

@@ -9,7 +9,7 @@ import mcp.mobius.waila.api.impl.config.WailaConfig.DisplayMode;
 import mcp.mobius.waila.gui.GuiConfigHome;
 import mcp.mobius.waila.overlay.TickHandler;
 import mcp.mobius.waila.plugin.core.WailaCore;
-import mcp.mobius.waila.util.ModIdentification;
+import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.client.options.KeyBinding;

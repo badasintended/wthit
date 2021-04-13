@@ -8,8 +8,8 @@ import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.impl.config.PluginConfig;
 import mcp.mobius.waila.api.impl.config.WailaConfig;
 import mcp.mobius.waila.plugin.core.WailaCore;
-import mcp.mobius.waila.util.TaggableList;
-import mcp.mobius.waila.util.TaggedText;
+import mcp.mobius.waila.utils.TaggableList;
+import mcp.mobius.waila.utils.TaggedText;
 import net.minecraft.block.Block;
 import net.minecraft.block.FluidBlock;
 import net.minecraft.client.MinecraftClient;
@@ -44,7 +44,7 @@ public class TickHandler {
 
         if (client.world == null
             || !config.getGeneral().shouldDisplayTooltip()
-            || config.getGeneral().getDisplayMode() == WailaConfig.DisplayMode.HOLD_KEY && WailaClient.showOverlay.wasPressed()
+            || config.getGeneral().getDisplayMode() == WailaConfig.DisplayMode.HOLD_KEY && !WailaClient.showOverlay.isPressed()
             || client.currentScreen != null && !(client.currentScreen instanceof ChatScreen)
             || config.getGeneral().shouldHideFromPlayerList() && client.options.keyPlayerList.wasPressed() && client.getNetworkHandler().getPlayerList().size() > 1
             || config.getGeneral().shouldHideFromDebug() && client.options.debugEnabled) {

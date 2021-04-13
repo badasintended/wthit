@@ -10,7 +10,7 @@ import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataProvider;
 import mcp.mobius.waila.api.ITaggableList;
 import mcp.mobius.waila.api.impl.config.WailaConfig;
-import mcp.mobius.waila.util.ModIdentification;
+import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;

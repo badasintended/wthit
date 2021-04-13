@@ -3,7 +3,7 @@ package mcp.mobius.waila.fabric;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.impl.config.PluginConfig;
 import mcp.mobius.waila.command.DumpHandlerCommand;
-import mcp.mobius.waila.util.ModIdentification;
+import mcp.mobius.waila.utils.ModIdentification;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;

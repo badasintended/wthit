@@ -9,7 +9,7 @@ import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITaggableList;
 import mcp.mobius.waila.api.impl.config.WailaConfig;
-import mcp.mobius.waila.util.ModIdentification;
+import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.CompoundTag;

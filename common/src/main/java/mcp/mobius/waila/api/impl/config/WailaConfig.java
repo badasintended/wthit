@@ -13,6 +13,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import net.minecraft.util.Identifier;
+import org.apache.commons.lang3.StringEscapeUtils;
 
 public class WailaConfig {
 
@@ -319,39 +320,39 @@ public class WailaConfig {
         }
 
         public void setBlockName(String blockName) {
-            this.blockName = blockName;
+            this.blockName = StringEscapeUtils.escapeJava(blockName);
         }
 
         public void setFluidName(String fluidName) {
-            this.fluidName = fluidName;
+            this.fluidName = StringEscapeUtils.escapeJava(fluidName);
         }
 
         public void setEntityName(String entityName) {
-            this.entityName = entityName;
+            this.entityName = StringEscapeUtils.escapeJava(entityName);
         }
 
         public void setRegistryName(String registryName) {
-            this.registryName = registryName;
+            this.registryName = StringEscapeUtils.escapeJava(registryName);
         }
 
         public String getModName() {
-            return modName;
+            return StringEscapeUtils.unescapeJava(modName);
         }
 
         public String getBlockName() {
-            return blockName;
+            return StringEscapeUtils.unescapeJava(blockName);
         }
 
         public String getFluidName() {
-            return fluidName;
+            return StringEscapeUtils.unescapeJava(fluidName);
         }
 
         public String getEntityName() {
-            return entityName;
+            return StringEscapeUtils.unescapeJava(entityName);
         }
 
         public String getRegistryName() {
-            return registryName;
+            return StringEscapeUtils.unescapeJava(registryName);
         }
 
     }
