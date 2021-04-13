@@ -25,6 +25,35 @@ subprojects {
         minecraft "com.mojang:minecraft:${minecraft}"
         mappings "net.fabricmc:yarn:${yarn}:v2"
     }
+
+    afterEvaluate {
+        task apiJar(type: Jar) {
+            dependsOn remapJar
+
+            classifier "api"
+
+            include "fabric.mod.json"
+            include "mcp/mobius/waila/api/**"
+            exclude "mcp/mobius/waila/api/impl/**"
+
+            from zipTree(remapJar.archiveFile)
+        }
+
+        task apiSourcesJar(type: Jar) {
+            dependsOn remapSourcesJar
+
+            classifier "api-sources"
+
+            include "fabric.mod.json"
+            include "mcp/mobius/waila/api/**"
+            exclude "mcp/mobius/waila/api/impl/**"
+
+            from zipTree(remapSourcesJar.output)
+        }
+
+        tasks.build.dependsOn apiJar, apiSourcesJar
+    }
+
 }
 
 allprojects {
