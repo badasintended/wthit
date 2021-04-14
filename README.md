@@ -2,4 +2,4 @@
 
 **WTHIT** - a fork of [HWYLA](https://minecraft.curseforge.com/projects/hwyla) by [TehNut](https://www.curseforge.com/members/tehnut) which is a fork of [WAILA](https://minecraft.curseforge.com/projects/waila) by [ProfMobius](https://minecraft.curseforge.com/members/ProfMobius).
 
-### [See the wiki for how to create your own plugin](https://github.com/badasintended/wthit/wiki)
+### WIP Documentation in [badasintended.github.io/wthit](https://badasintended.github.io/wthit)
