@@ -15,6 +15,9 @@ import mcp.mobius.waila.api.ITaggableList;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.config.WailaConfig.ConfigOverlay.ConfigOverlayColor;
+import mcp.mobius.waila.config.WailaConfig.ConfigOverlay.Position.HorizontalAlignment;
+import mcp.mobius.waila.config.WailaConfig.ConfigOverlay.Position.VerticalAlignment;
+import mcp.mobius.waila.mixin.AccessorBossBarHud;
 import mcp.mobius.waila.plugin.core.WailaCore;
 import mcp.mobius.waila.util.TaggedText;
 import net.minecraft.client.MinecraftClient;
@@ -79,7 +82,9 @@ public class Tooltip {
     public static void finish() {
         Preconditions.checkState(started);
         onCreate.accept(LINES);
-        Window window = MinecraftClient.getInstance().getWindow();
+
+        MinecraftClient client = MinecraftClient.getInstance();
+        Window window = client.getWindow();
 
         float scale = Waila.CONFIG.get().getOverlay().getScale();
         Position pos = Waila.CONFIG.get().getOverlay().getPosition();
@@ -121,11 +126,20 @@ public class Tooltip {
         int windowW = (int) (window.getScaledWidth() / scale);
         int windowH = (int) (window.getScaledHeight() / scale);
 
-        RECT.get().setRect(
-            (int) ((windowW * pos.getAnchorX().multiplier) - (w * pos.getAlignX().multiplier)) + pos.getX(),
-            (int) ((windowH * pos.getAnchorY().multiplier) - (h * pos.getAlignY().multiplier)) + pos.getY(),
-            w, h
-        );
+        HorizontalAlignment anchorX = pos.getAnchorX();
+        VerticalAlignment anchorY = pos.getAnchorY();
+
+        HorizontalAlignment alignX = pos.getAlignX();
+        VerticalAlignment alignY = pos.getAlignY();
+
+        double x = windowW * anchorX.multiplier - w * alignX.multiplier + pos.getX();
+        double y = windowH * anchorY.multiplier - h * alignY.multiplier + pos.getY();
+
+        if (anchorX == HorizontalAlignment.CENTER && anchorY == VerticalAlignment.TOP) {
+            y += ((AccessorBossBarHud) client.inGameHud.getBossBarHud()).getBossBars().size() * 19;
+        }
+
+        RECT.get().setRect(x, y, w, h);
 
         started = false;
     }

@@ -8,6 +8,7 @@ import mcp.mobius.waila.overlay.DataAccessor;
 import mcp.mobius.waila.overlay.Tooltip;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.option.KeyBinding;
@@ -27,6 +28,8 @@ public class FabricWailaClient extends WailaClient implements ClientModInitializ
         HudRenderCallback.EVENT.register(Tooltip::render);
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> onCientTick());
+
+        ItemTooltipCallback.EVENT.register(WailaClient::onItemTooltip);
 
         Tooltip.onCreate = texts ->
             WailaTooltipEvent.WAILA_HANDLE_TOOLTIP.invoker().onTooltip(new WailaTooltipEvent(texts, DataAccessor.INSTANCE));

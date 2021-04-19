@@ -12,6 +12,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -63,15 +64,20 @@ public class ForgeWailaClient extends WailaClient {
     static class Subscriber {
 
         @SubscribeEvent
-        static void onRenderGameOverlay(RenderGameOverlayEvent.Post event) {
+        static void renderGameOverlay(RenderGameOverlayEvent.Post event) {
             if (event.getType() == RenderGameOverlayEvent.ElementType.ALL)
                 Tooltip.render(event.getMatrixStack(), event.getPartialTicks());
         }
 
         @SubscribeEvent
-        static void onClientTick(TickEvent.ClientTickEvent event) {
+        static void clientTick(TickEvent.ClientTickEvent event) {
             if (event.phase == TickEvent.Phase.END)
                 onCientTick();
+        }
+
+        @SubscribeEvent
+        static void itemTooltip(ItemTooltipEvent event) {
+            onItemTooltip(event.getItemStack(), event.getFlags(), event.getToolTip());
         }
 
     }

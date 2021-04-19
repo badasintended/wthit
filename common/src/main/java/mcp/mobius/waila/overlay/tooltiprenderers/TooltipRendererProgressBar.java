@@ -11,7 +11,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Lazy;
 
 import static mcp.mobius.waila.overlay.DisplayUtil.bind;
-import static mcp.mobius.waila.overlay.DisplayUtil.drawTexturedModalRect;
+import static net.minecraft.client.gui.DrawableHelper.drawTexture;
 
 public class TooltipRendererProgressBar implements ITooltipRenderer {
 
@@ -30,13 +30,13 @@ public class TooltipRendererProgressBar implements ITooltipRenderer {
         bind(SHEET);
 
         // Draws the "empty" background arrow
-        drawTexturedModalRect(matrices, x + 2, y, 0, 16, 22, 16, 22, 16);
+        drawTexture(matrices, x + 2, y, 0, 16, 22, 16, 22, 32);
 
         int maxValue = tag.getInt("total");
         if (maxValue > 0) {
             int progress = (currentValue * 22) / maxValue;
             // Draws the "full" foreground arrow based on the progress
-            drawTexturedModalRect(matrices, x + 2, y, 0, 0, progress + 1, 16, progress + 1, 16);
+            drawTexture(matrices, x + 2, y, 0, 0, progress + 1, 16, 22, 32);
         }
     }
 

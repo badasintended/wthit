@@ -20,8 +20,8 @@ curseforge {
                 displayName = "[${project.minecraft}] v${project.version}"
             }
 
-            if (cf.containsKey("relation")) relations {
-                def rel = cf.relation
+            if (cf.containsKey("relations")) relations {
+                def rel = cf.relations
 
                 rel.requires?.each { requiredDependency it }
                 rel.includes?.each { embeddedLibrary it }

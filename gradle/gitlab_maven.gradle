@@ -1,26 +1,39 @@
-publishing {
-    publications {
-        mavenForge(MavenPublication) {
-            artifactId = rootProject.archivesBaseName + "-" + project.name
-            artifact(remapJar) {
-                classifier null
+afterEvaluate {
+    publishing {
+        publications {
+            runtime(MavenPublication) {
+                artifactId = rootProject.archivesBaseName
+                version = "${project.name}-${project.version}"
+                artifact(remapJar) {
+                    classifier null
+                }
+                artifact(sourcesJar) {
+                    builtBy remapSourcesJar
+                }
             }
-            artifact(sourcesJar) {
-                builtBy remapSourcesJar
+            api(MavenPublication) {
+                artifactId = "${rootProject.archivesBaseName}-api"
+                version = "${project.name}-${project.version}"
+                artifact(apiJar) {
+                    classifier null
+                }
+                artifact(apiSourcesJar) {
+                    classifier "sources"
+                }
             }
         }
-    }
 
-    repositories {
-        maven {
-            url "https://gitlab.com/api/v4/projects/25106863/packages/maven"
-            name "GitLab"
-            credentials(HttpHeaderCredentials) {
-                name = 'Private-Token'
-                value = System.getenv("GITLAB_TOKEN")
-            }
-            authentication {
-                header(HttpHeaderAuthentication)
+        repositories {
+            maven {
+                url "https://gitlab.com/api/v4/projects/25106863/packages/maven"
+                name "GitLab"
+                credentials(HttpHeaderCredentials) {
+                    name = 'Private-Token'
+                    value = System.getenv("GITLAB_TOKEN")
+                }
+                authentication {
+                    header(HttpHeaderAuthentication)
+                }
             }
         }
     }

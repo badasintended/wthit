@@ -20,15 +20,14 @@
   "entrypoints"  : {
     "main"       : ["mcp.mobius.waila.fabric.FabricWaila"],
     "client"     : ["mcp.mobius.waila.fabric.FabricWailaClient"],
-    "modmenu"    : ["mcp.mobius.waila.fabric.FabricWailaModMenu"],
-    "rei_plugins": ["mcp.mobius.waila.fabric.FabricWailaRei"]
+    "modmenu"    : ["mcp.mobius.waila.fabric.FabricWailaModMenu"]
   },
 
   "mixins"       : ["waila.mixins.json"],
 
   "name"         : "wthit",
   "description"  : "What the hell is that?",
-  "icon"         : "assets/waila/logo.png",
+  "icon"         : "wthit.jpg",
   "contact"      : {
     "homepage": "https://minecraft.curseforge.com/projects/wthit",
     "issues"  : "https://github.com/badasintended/wthit/issues",

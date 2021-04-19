@@ -44,7 +44,7 @@ public class TickHandler {
 
         if (client.world == null
             || !config.getGeneral().shouldDisplayTooltip()
-            || config.getGeneral().getDisplayMode() == WailaConfig.DisplayMode.HOLD_KEY && WailaClient.showOverlay.wasPressed()
+            || config.getGeneral().getDisplayMode() == WailaConfig.DisplayMode.HOLD_KEY && !WailaClient.showOverlay.isPressed()
             || client.currentScreen != null && !(client.currentScreen instanceof ChatScreen)
             || config.getGeneral().shouldHideFromPlayerList() && client.options.keyPlayerList.wasPressed() && client.getNetworkHandler().getPlayerList().size() > 1
             || config.getGeneral().shouldHideFromDebug() && client.options.debugEnabled) {

@@ -1,7 +1,5 @@
 package mcp.mobius.waila.plugin.core;
 
-import java.util.List;
-
 import com.google.common.base.Strings;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IBlockAccessor;
@@ -23,8 +21,11 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Nameable;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
+
+import java.util.List;
 
 public enum BlockComponent implements IBlockComponentProvider, IServerDataProvider<BlockEntity> {
 
@@ -53,6 +54,11 @@ public enum BlockComponent implements IBlockComponentProvider, IServerDataProvid
 
     @Override
     public void appendBody(List<Text> tooltip, IBlockAccessor accessor, IPluginConfig config) {
+        if (config.get(WailaCore.CONFIG_SHOW_POS)) {
+            BlockPos pos = accessor.getPosition();
+            tooltip.add(new LiteralText("(" + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + ")"));
+        }
+
         if (config.get(WailaCore.CONFIG_SHOW_STATES)) {
             BlockState state = accessor.getBlockState();
             state.getProperties().forEach(p -> {

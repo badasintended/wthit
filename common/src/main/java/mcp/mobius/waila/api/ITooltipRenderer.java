@@ -30,7 +30,6 @@ public interface ITooltipRenderer {
 
     /**
      * Draw method for the renderer.
-     * TODO: make it not default
      *
      * @param data     The data supplied by the provider
      * @param accessor A global accessor for TileEntities and Entities

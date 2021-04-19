@@ -309,30 +309,30 @@ public class WailaConfig {
 
     public static class ConfigFormatting {
 
-        private String modName = StringEscapeUtils.escapeJava("\u00A79\u00A7o%s");
-        private String blockName = StringEscapeUtils.escapeJava("\u00a7f%s");
-        private String fluidName = StringEscapeUtils.escapeJava("\u00a7f%s");
-        private String entityName = StringEscapeUtils.escapeJava("\u00a7f%s");
-        private String registryName = StringEscapeUtils.escapeJava("\u00a77[%s]");
+        private String modName = "\u00A79\u00A7o%s";
+        private String blockName = "\u00a7f%s";
+        private String fluidName = "\u00a7f%s";
+        private String entityName = "\u00a7f%s";
+        private String registryName = "\u00a77[%s]";
 
         public void setModName(String modName) {
             this.modName = modName;
         }
 
         public void setBlockName(String blockName) {
-            this.blockName = blockName;
+            this.blockName = StringEscapeUtils.escapeJava(blockName);
         }
 
         public void setFluidName(String fluidName) {
-            this.fluidName = fluidName;
+            this.fluidName = StringEscapeUtils.escapeJava(fluidName);
         }
 
         public void setEntityName(String entityName) {
-            this.entityName = entityName;
+            this.entityName = StringEscapeUtils.escapeJava(entityName);
         }
 
         public void setRegistryName(String registryName) {
-            this.registryName = registryName;
+            this.registryName = StringEscapeUtils.escapeJava(registryName);
         }
 
         public String getModName() {
