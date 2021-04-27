@@ -40,7 +40,7 @@ public class TickHandler {
         Tooltip.shouldRender = false;
 
         MinecraftClient client = MinecraftClient.getInstance();
-        WailaConfig config = Waila.CONFIG.get();
+        WailaConfig config = Waila.config.get();
 
         if (client.world == null
             || !config.getGeneral().shouldDisplayTooltip()
@@ -84,7 +84,7 @@ public class TickHandler {
 
             TIP.clear();
             gatherBlock(accessor, TIP, BODY);
-            if (Waila.CONFIG.get().getGeneral().shouldShiftForDetails() && !TIP.isEmpty() && !player.isSneaking()) {
+            if (Waila.config.get().getGeneral().shouldShiftForDetails() && !TIP.isEmpty() && !player.isSneaking()) {
                 Tooltip.addLine(SNEAK_DETAIL);
             } else {
                 Tooltip.addLines(TIP);
@@ -111,7 +111,7 @@ public class TickHandler {
 
                 TIP.clear();
                 gatherEntity(targetEnt, accessor, TIP, BODY);
-                if (Waila.CONFIG.get().getGeneral().shouldShiftForDetails() && !TIP.isEmpty() && !player.isSneaking()) {
+                if (Waila.config.get().getGeneral().shouldShiftForDetails() && !TIP.isEmpty() && !player.isSneaking()) {
                     Tooltip.addLine(SNEAK_DETAIL);
                 } else {
                     Tooltip.addLines(TIP);

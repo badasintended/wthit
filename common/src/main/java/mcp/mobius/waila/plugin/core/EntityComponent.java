@@ -26,7 +26,7 @@ public enum EntityComponent implements IEntityComponentProvider {
     @Override
     public void appendHead(List<Text> tooltip, IEntityAccessor accessor, IPluginConfig config) {
         Entity entity = accessor.getEntity();
-        WailaConfig.ConfigFormatting formatting = Waila.CONFIG.get().getFormatting();
+        WailaConfig.ConfigFormatting formatting = Waila.config.get().getFormatting();
         ((ITaggableList<Identifier, Text>) tooltip).setTag(BlockComponent.OBJECT_NAME_TAG, new LiteralText(String.format(formatting.getEntityName(), entity.getDisplayName().getString())));
         if (config.get(WailaCore.CONFIG_SHOW_REGISTRY))
             ((ITaggableList<Identifier, Text>) tooltip).setTag(BlockComponent.REGISTRY_NAME_TAG, new LiteralText(String.format(formatting.getRegistryName(), Registry.ENTITY_TYPE.getId(entity.getType()))));
@@ -39,7 +39,7 @@ public enum EntityComponent implements IEntityComponentProvider {
             float health = living.getHealth();
             float maxHealth = living.getMaxHealth();
 
-            if (living.getMaxHealth() > Waila.CONFIG.get().getGeneral().getMaxHealthForRender())
+            if (living.getMaxHealth() > Waila.config.get().getGeneral().getMaxHealthForRender())
                 tooltip.add(new TranslatableText("tooltip.waila.health", String.format("%.2f", health), String.format("%.2f", maxHealth)));
             else {
                 NbtCompound healthData = new NbtCompound();
@@ -53,7 +53,7 @@ public enum EntityComponent implements IEntityComponentProvider {
     @Override
     public void appendTail(List<Text> tooltip, IEntityAccessor accessor, IPluginConfig config) {
         if (config.get(WailaCore.CONFIG_SHOW_MOD_NAME))
-            ((ITaggableList<Identifier, Text>) tooltip).setTag(BlockComponent.MOD_NAME_TAG, new LiteralText(String.format(Waila.CONFIG.get().getFormatting().getModName(), ModIdentification.getModInfo(accessor.getEntity()).getName())));
+            ((ITaggableList<Identifier, Text>) tooltip).setTag(BlockComponent.MOD_NAME_TAG, new LiteralText(String.format(Waila.config.get().getFormatting().getModName(), ModIdentification.getModInfo(accessor.getEntity()).getName())));
     }
 
 }

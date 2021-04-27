@@ -16,7 +16,7 @@ public class TooltipRendererHealth implements ITooltipRenderer {
 
     @Override
     public Dimension getSize(NbtCompound tag, ICommonAccessor accessor) {
-        float maxHearts = Waila.CONFIG.get().getGeneral().getMaxHeartsPerLine();
+        float maxHearts = Waila.config.get().getGeneral().getMaxHeartsPerLine();
         float maxHealth = tag.getFloat("max");
 
         int heartsPerLine = (int) (Math.min(maxHearts, Math.ceil(maxHealth)));
@@ -27,7 +27,7 @@ public class TooltipRendererHealth implements ITooltipRenderer {
 
     @Override
     public void draw(MatrixStack matrices, NbtCompound tag, ICommonAccessor accessor, int x, int y) {
-        float maxHearts = Waila.CONFIG.get().getGeneral().getMaxHeartsPerLine();
+        float maxHearts = Waila.config.get().getGeneral().getMaxHeartsPerLine();
         float health = tag.getFloat("health");
         float maxHealth = tag.getFloat("max");
 

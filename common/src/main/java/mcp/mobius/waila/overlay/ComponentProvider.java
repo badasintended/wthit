@@ -20,9 +20,9 @@ public class ComponentProvider {
         Block block = accessor.getBlock();
         BlockEntity blockEntity = accessor.getBlockEntity();
 
-        int rate = Waila.CONFIG.get().getGeneral().getRateLimit();
+        int rate = Waila.config.get().getGeneral().getRateLimit();
 
-        if (blockEntity != null && accessor.isTimeElapsed(rate) && Waila.CONFIG.get().getGeneral().shouldDisplayTooltip()) {
+        if (blockEntity != null && accessor.isTimeElapsed(rate) && Waila.config.get().getGeneral().shouldDisplayTooltip()) {
             accessor.resetTimer();
             if (!(registrar.blockData.get(block).isEmpty() && registrar.blockData.get(blockEntity).isEmpty())) {
                 Waila.packet.requestBlock(blockEntity);
@@ -59,7 +59,7 @@ public class ComponentProvider {
         TooltipRegistrar registrar = TooltipRegistrar.INSTANCE;
         Entity trueEntity = accessor.getEntity();
 
-        int rate = Waila.CONFIG.get().getGeneral().getRateLimit();
+        int rate = Waila.config.get().getGeneral().getRateLimit();
 
         if (trueEntity != null && accessor.isTimeElapsed(rate)) {
             accessor.resetTimer();

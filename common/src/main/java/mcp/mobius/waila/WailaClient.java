@@ -1,5 +1,8 @@
 package mcp.mobius.waila;
 
+import java.util.List;
+import java.util.function.BiFunction;
+
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.config.WailaConfig.DisplayMode;
@@ -14,9 +17,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
 import org.lwjgl.glfw.GLFW;
-
-import java.util.List;
-import java.util.function.BiFunction;
 
 public abstract class WailaClient {
 
@@ -41,7 +41,7 @@ public abstract class WailaClient {
 
     protected static void onCientTick() {
         MinecraftClient client = MinecraftClient.getInstance();
-        WailaConfig config = Waila.CONFIG.get();
+        WailaConfig config = Waila.config.get();
 
         TickHandler.tickClient();
 
@@ -72,7 +72,7 @@ public abstract class WailaClient {
     protected static void onItemTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip) {
         if (PluginConfig.INSTANCE.get(WailaCore.CONFIG_SHOW_MOD_NAME)) {
             tooltip.add(new LiteralText(String.format(
-                Waila.CONFIG.get().getFormatting().getModName(),
+                Waila.config.get().getFormatting().getModName(),
                 ModIdentification.getModInfo(stack.getItem()).getName()
             )));
         }

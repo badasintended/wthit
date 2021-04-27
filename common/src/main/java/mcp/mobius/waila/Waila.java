@@ -6,7 +6,6 @@ import com.google.gson.GsonBuilder;
 import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.network.PacketSender;
-import mcp.mobius.waila.util.JsonConfig;
 import net.minecraft.block.Block;
 import net.minecraft.entity.EntityType;
 import net.minecraft.tag.Tag;
@@ -21,7 +20,7 @@ public abstract class Waila {
     public static final String WTHIT = "wthit";
     public static final Logger LOGGER = LogManager.getLogger("Waila");
 
-    public static JsonConfig<WailaConfig> CONFIG;
+    public static IJsonConfig<WailaConfig> config;
 
     public static Tag<Block> blockBlacklist;
     public static Tag<EntityType<?>> entityBlacklist;
@@ -35,7 +34,7 @@ public abstract class Waila {
     }
 
     protected static void init() {
-        CONFIG = (JsonConfig<WailaConfig>) IJsonConfig.of(WailaConfig.class)
+        config = IJsonConfig.of(WailaConfig.class)
             .file(MODID + "/" + MODID)
             .gson(new GsonBuilder()
                 .setPrettyPrinting()

@@ -1,14 +1,15 @@
 package mcp.mobius.waila.overlay.tooltiprenderers;
 
 import java.awt.Dimension;
+import java.util.function.Supplier;
 
+import com.google.common.base.Suppliers;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.ITooltipRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.Lazy;
 
 import static mcp.mobius.waila.overlay.DisplayUtil.bind;
 import static net.minecraft.client.gui.DrawableHelper.drawTexture;
@@ -16,7 +17,7 @@ import static net.minecraft.client.gui.DrawableHelper.drawTexture;
 public class TooltipRendererProgressBar implements ITooltipRenderer {
 
     private static final Identifier SHEET = Waila.id("textures/sprites.png");
-    private static final Lazy<Dimension> DIMENSION = new Lazy<>(() -> new Dimension(26, 16));
+    private static final Supplier<Dimension> DIMENSION = Suppliers.memoize(() -> new Dimension(26, 16));
 
     @Override
     public Dimension getSize(NbtCompound tag, ICommonAccessor accessor) {

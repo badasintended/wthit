@@ -5,8 +5,10 @@ import java.awt.Rectangle;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import com.google.common.base.Preconditions;
+import com.google.common.base.Suppliers;
 import com.mojang.blaze3d.systems.RenderSystem;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
@@ -26,7 +28,6 @@ import net.minecraft.client.util.Window;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.Lazy;
 
 import static mcp.mobius.waila.config.WailaConfig.ConfigOverlay.Position;
 import static mcp.mobius.waila.overlay.DisplayUtil.drawGradientRect;
@@ -44,8 +45,8 @@ public class Tooltip {
     private static final List<Text> LINES = new ObjectArrayList<>();
     private static final Object2IntOpenHashMap<Text> LINE_HEIGHT = new Object2IntOpenHashMap<>();
 
-    private static final Lazy<Rectangle> RENDER_RECT = new Lazy<>(Rectangle::new);
-    private static final Lazy<Rectangle> RECT = new Lazy<>(Rectangle::new);
+    private static final Supplier<Rectangle> RENDER_RECT = Suppliers.memoize(Rectangle::new);
+    private static final Supplier<Rectangle> RECT = Suppliers.memoize(Rectangle::new);
 
     private static boolean showItem;
     private static int topOffset = 0;
@@ -86,8 +87,8 @@ public class Tooltip {
         MinecraftClient client = MinecraftClient.getInstance();
         Window window = client.getWindow();
 
-        float scale = Waila.CONFIG.get().getOverlay().getScale();
-        Position pos = Waila.CONFIG.get().getOverlay().getPosition();
+        float scale = Waila.config.get().getOverlay().getScale();
+        Position pos = Waila.config.get().getOverlay().getPosition();
 
         int w = 0;
         int h = 0;
@@ -153,7 +154,7 @@ public class Tooltip {
             return;
         }
 
-        WailaConfig config = Waila.CONFIG.get();
+        WailaConfig config = Waila.config.get();
         MinecraftClient.getInstance().getProfiler().push("Waila Overlay");
         RenderSystem.getModelViewStack().push();
 

@@ -34,7 +34,7 @@ public enum FluidComponent implements IBlockComponentProvider {
     @Override
     public void appendHead(List<Text> tooltip, IBlockAccessor accessor, IPluginConfig config) {
         Block block = accessor.getBlock();
-        WailaConfig.ConfigFormatting formatting = Waila.CONFIG.get().getFormatting();
+        WailaConfig.ConfigFormatting formatting = Waila.config.get().getFormatting();
         ((ITaggableList<Identifier, Text>) tooltip).setTag(BlockComponent.OBJECT_NAME_TAG, new LiteralText(String.format(formatting.getFluidName(), block.getName().getString())));
         if (config.get(WailaCore.CONFIG_SHOW_REGISTRY))
             ((ITaggableList<Identifier, Text>) tooltip).setTag(BlockComponent.REGISTRY_NAME_TAG, new LiteralText(String.format(formatting.getRegistryName(), Registry.BLOCK.getId(block))));

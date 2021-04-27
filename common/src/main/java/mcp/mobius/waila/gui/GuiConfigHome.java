@@ -26,7 +26,7 @@ public class GuiConfigHome extends Screen {
             client.openScreen(new GuiConfigPlugins(GuiConfigHome.this));
         }));
         addButton(new ButtonWidget(width / 2 - 50, height / 2 + 20, 100, 20, new TranslatableText("gui.done"), w -> {
-            Waila.CONFIG.save();
+            Waila.config.save();
             PluginConfig.INSTANCE.save();
             client.openScreen(parent);
         }));

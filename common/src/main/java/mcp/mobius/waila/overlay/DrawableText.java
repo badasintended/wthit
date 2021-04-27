@@ -2,7 +2,9 @@ package mcp.mobius.waila.overlay;
 
 import java.awt.Dimension;
 import java.util.List;
+import java.util.function.Supplier;
 
+import com.google.common.base.Suppliers;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectLists;
 import mcp.mobius.waila.api.IDrawableText;
@@ -14,12 +16,11 @@ import net.minecraft.text.OrderedText;
 import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.Lazy;
 
 public class DrawableText implements IDrawableText {
 
     private static final String LMAO = "lmao";
-    private static final Lazy<Dimension> ZERO = new Lazy<>(Dimension::new);
+    private static final Supplier<Dimension> ZERO = Suppliers.memoize(Dimension::new);
 
     protected final List<RenderContainer> renderers = new ObjectArrayList<>();
 
