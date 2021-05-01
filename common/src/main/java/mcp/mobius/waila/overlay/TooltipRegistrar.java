@@ -13,7 +13,6 @@ import mcp.mobius.waila.api.ITooltipRenderer;
 import mcp.mobius.waila.api.TooltipPosition;
 import mcp.mobius.waila.api.impl.config.ConfigEntry;
 import mcp.mobius.waila.api.impl.config.PluginConfig;
-import net.minecraft.block.Block;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.Identifier;
@@ -61,7 +60,6 @@ public enum TooltipRegistrar implements IRegistrar {
     public <T> void addOverride(IBlockComponentProvider provider, Class<T> clazz, int priority) {
         assertLock();
         assertPriority(priority);
-        assertBlock(clazz);
         blockOverride.add(clazz, provider, priority);
     }
 
@@ -69,7 +67,6 @@ public enum TooltipRegistrar implements IRegistrar {
     public <T> void addDisplayItem(IBlockComponentProvider provider, Class<T> clazz, int priority) {
         assertLock();
         assertPriority(priority);
-        assertBlock(clazz);
         blockItem.add(clazz, provider, priority);
     }
 
@@ -77,14 +74,12 @@ public enum TooltipRegistrar implements IRegistrar {
     public <T> void addComponent(IBlockComponentProvider provider, TooltipPosition position, Class<T> clazz, int priority) {
         assertLock();
         assertPriority(priority);
-        assertBlock(clazz);
         blockComponent.get(position).add(clazz, provider, priority);
     }
 
     @Override
     public <T> void addBlockData(IServerDataProvider<BlockEntity> provider, Class<T> clazz) {
         assertLock();
-        assertBlock(clazz);
         blockData.add(clazz, provider, 0);
     }
 
@@ -92,7 +87,6 @@ public enum TooltipRegistrar implements IRegistrar {
     public <T> void addOverride(IEntityComponentProvider provider, Class<T> clazz, int priority) {
         assertLock();
         assertPriority(priority);
-        assertEntity(clazz);
         entityOverride.add(clazz, provider, priority);
     }
 
@@ -100,7 +94,6 @@ public enum TooltipRegistrar implements IRegistrar {
     public <T> void addDisplayItem(IEntityComponentProvider provider, Class<T> clazz, int priority) {
         assertLock();
         assertPriority(priority);
-        assertEntity(clazz);
         entityItem.add(clazz, provider, priority);
     }
 
@@ -108,14 +101,12 @@ public enum TooltipRegistrar implements IRegistrar {
     public <T> void addComponent(IEntityComponentProvider provider, TooltipPosition position, Class<T> clazz, int priority) {
         assertLock();
         assertPriority(priority);
-        assertEntity(clazz);
         entityComponent.get(position).add(clazz, provider, priority);
     }
 
     @Override
     public <T> void addEntityData(IServerDataProvider<Entity> provider, Class<T> clazz) {
         assertLock();
-        assertEntity(clazz);
         entityData.add(clazz, provider, 0);
     }
 
@@ -136,16 +127,6 @@ public enum TooltipRegistrar implements IRegistrar {
     private void assertPriority(int priority) {
         Preconditions.checkArgument(priority >= 0,
             "Priority must be equals or more than 0");
-    }
-
-    private <T> void assertBlock(Class<T> clazz) {
-        Preconditions.checkArgument(Block.class.isAssignableFrom(clazz) || BlockEntity.class.isAssignableFrom(clazz),
-            "Class must be a Block or BlockEntity");
-    }
-
-    private <T> void  assertEntity(Class<T> clazz) {
-        Preconditions.checkArgument(Entity.class.isAssignableFrom(clazz),
-            "Class must be an Entity");
     }
 
 }
