@@ -36,7 +36,7 @@ public abstract class Waila {
 
     protected static void init() {
         CONFIG = (JsonConfig<WailaConfig>) IJsonConfig.of(WailaConfig.class)
-            .file(MODID + "/" + MODID)
+            .file(MODID + "/" + WTHIT)
             .gson(new GsonBuilder()
                 .setPrettyPrinting()
                 .registerTypeAdapter(WailaConfig.ConfigOverlay.ConfigOverlayColor.class, new WailaConfig.ConfigOverlay.ConfigOverlayColor.Adapter())

@@ -13,7 +13,6 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import net.minecraft.util.Identifier;
-import org.apache.commons.lang3.StringEscapeUtils;
 
 public class WailaConfig {
 
@@ -313,46 +312,46 @@ public class WailaConfig {
         private String blockName = "\u00a7f%s";
         private String fluidName = "\u00a7f%s";
         private String entityName = "\u00a7f%s";
-        private String registryName = "\u00a77[%s]";
+        private String registryName = "\u00a78%s";
 
         public void setModName(String modName) {
             this.modName = modName;
         }
 
         public void setBlockName(String blockName) {
-            this.blockName = StringEscapeUtils.escapeJava(blockName);
+            this.blockName = blockName;
         }
 
         public void setFluidName(String fluidName) {
-            this.fluidName = StringEscapeUtils.escapeJava(fluidName);
+            this.fluidName = fluidName;
         }
 
         public void setEntityName(String entityName) {
-            this.entityName = StringEscapeUtils.escapeJava(entityName);
+            this.entityName = entityName;
         }
 
         public void setRegistryName(String registryName) {
-            this.registryName = StringEscapeUtils.escapeJava(registryName);
+            this.registryName = registryName;
         }
 
         public String getModName() {
-            return StringEscapeUtils.unescapeJava(modName);
+            return modName;
         }
 
         public String getBlockName() {
-            return StringEscapeUtils.unescapeJava(blockName);
+            return blockName;
         }
 
         public String getFluidName() {
-            return StringEscapeUtils.unescapeJava(fluidName);
+            return fluidName;
         }
 
         public String getEntityName() {
-            return StringEscapeUtils.unescapeJava(entityName);
+            return entityName;
         }
 
         public String getRegistryName() {
-            return StringEscapeUtils.unescapeJava(registryName);
+            return registryName;
         }
 
     }
