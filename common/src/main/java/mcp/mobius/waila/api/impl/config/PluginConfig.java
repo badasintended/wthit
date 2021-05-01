@@ -64,8 +64,10 @@ public enum PluginConfig implements IPluginConfig {
     }
 
     public void set(Identifier key, boolean value) {
-        ConfigEntry entry = configs.computeIfAbsent(key, k -> new ConfigEntry(k, value, true));
-        entry.setValue(value);
+        ConfigEntry entry = configs.get(key);
+        if (entry != null) {
+            entry.setValue(value);
+        }
     }
 
     public void reload() {
