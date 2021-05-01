@@ -18,12 +18,8 @@ import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.block.entity.JukeboxBlockEntity;
 import net.minecraft.block.entity.MobSpawnerBlockEntity;
 import net.minecraft.block.entity.SkullBlockEntity;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.FallingBlockEntity;
-import net.minecraft.entity.decoration.ItemFrameEntity;
-import net.minecraft.entity.decoration.LeashKnotEntity;
-import net.minecraft.entity.decoration.painting.PaintingEntity;
-import net.minecraft.entity.vehicle.AbstractMinecartEntity;
-import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.util.Identifier;
 
 import static mcp.mobius.waila.api.TooltipPosition.BODY;
@@ -86,11 +82,7 @@ public class WailaVanilla implements IWailaPlugin {
         registrar.addComponent(FallingBlockComponent.INSTANCE, HEAD, FallingBlockEntity.class);
         registrar.addDisplayItem(FallingBlockComponent.INSTANCE, FallingBlockEntity.class);
 
-        registrar.addDisplayItem(EntityIconComponent.INSTANCE, AbstractMinecartEntity.class);
-        registrar.addDisplayItem(EntityIconComponent.INSTANCE, ItemFrameEntity.class);
-        registrar.addDisplayItem(EntityIconComponent.INSTANCE, PaintingEntity.class);
-        registrar.addDisplayItem(EntityIconComponent.INSTANCE, LeashKnotEntity.class);
-        registrar.addDisplayItem(EntityIconComponent.INSTANCE, BoatEntity.class);
+        registrar.addDisplayItem(EntityIconComponent.INSTANCE, Entity.class);
 
         registrar.addComponent(FurnaceComponent.INSTANCE, BODY, AbstractFurnaceBlockEntity.class);
         registrar.addBlockData(FurnaceComponent.INSTANCE, AbstractFurnaceBlockEntity.class);

@@ -11,12 +11,14 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.RaycastContext;
 import net.minecraft.world.RaycastContext.FluidHandling;
@@ -30,16 +32,11 @@ public class Raycast {
     public static void fire() {
         MinecraftClient client = MinecraftClient.getInstance();
 
-        if (client.crosshairTarget != null && client.crosshairTarget.getType() == HitResult.Type.ENTITY) {
-            target = client.crosshairTarget;
-            return;
-        }
-
         Entity viewpoint = client.getCameraEntity();
         if (viewpoint == null)
             return;
 
-        target = rayTrace(viewpoint, client.interactionManager.getReachDistance(), client.getTickDelta());
+        target = raycast(viewpoint, client.interactionManager.getReachDistance(), client.getTickDelta());
     }
 
     public static HitResult getTarget() {
@@ -50,17 +47,25 @@ public class Raycast {
         return target != null && target.getType() == HitResult.Type.BLOCK ? getDisplayItem() : ItemStack.EMPTY;
     }
 
-    public static HitResult rayTrace(Entity entity, double playerReach, float tickDelta) {
+    public static HitResult raycast(Entity entity, double playerReach, float tickDelta) {
+        World world = entity.world;
         Vec3d eyePosition = entity.getCameraPosVec(tickDelta);
         Vec3d lookVector = entity.getRotationVec(tickDelta);
         Vec3d traceEnd = eyePosition.add(lookVector.x * playerReach, lookVector.y * playerReach, lookVector.z * playerReach);
+
+        if (PluginConfig.INSTANCE.get(WailaCore.CONFIG_SHOW_ENTITY)) {
+            EntityHitResult result = ProjectileUtil.getEntityCollision(world, entity, eyePosition, traceEnd, new Box(eyePosition, traceEnd), null);
+            if (result != null) {
+                return result;
+            }
+        }
 
         FluidHandling fluidView = PluginConfig.INSTANCE.get(WailaCore.CONFIG_SHOW_FLUID)
             ? FluidHandling.SOURCE_ONLY
             : FluidHandling.NONE;
 
         RaycastContext context = new RaycastContext(eyePosition, traceEnd, ShapeType.OUTLINE, fluidView, entity);
-        return entity.getEntityWorld().raycast(context);
+        return world.raycast(context);
     }
 
     public static ItemStack getDisplayItem() {
