@@ -61,7 +61,6 @@
   "config.waila.plugin_minecraft.redstone"                : "Stärke",
   "config.waila.plugin_minecraft.jukebox"                 : "Aufnahme aktiv",
 
-  "config.waila.plugin_waila.show_registry"               : "Zeige Registrierungsnamen",
   "config.waila.plugin_waila.show_fluids"                 : "Flüssigkeiten anzeigen",
   "config.waila.plugin_waila.show_fluids_desc"            : "Versuche Flüssigkeiten anzuzeigen",
   "config.waila.plugin_waila.show_entities"               : "Zeige Kreaturen",
