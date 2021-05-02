@@ -21,10 +21,12 @@ public abstract class WailaPlugins {
         gatherPlugins();
 
         Waila.LOGGER.info("Registering plugin at {}", WailaCore.class.getCanonicalName());
-        PLUGINS.remove("waila:core").register(TooltipRegistrar.INSTANCE); // Handle and clear the core plugin so it's registered first
 
         List<IWailaPlugin> sorted = Lists.newArrayList(PLUGINS.values());
         sorted.sort((o1, o2) -> {
+            if (o1.getClass() == WailaCore.class)
+                return -1;
+
             // Don't move waila classes when compared to eachother
             if (isWailaClass(o1) && isWailaClass(o2))
                 return 0;

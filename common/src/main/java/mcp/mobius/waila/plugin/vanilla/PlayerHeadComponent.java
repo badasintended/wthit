@@ -23,7 +23,7 @@ public enum PlayerHeadComponent implements IBlockComponentProvider {
     @Override
     public ItemStack getDisplayItem(IBlockAccessor accessor, IPluginConfig config) {
         SkullBlockEntity skull = (SkullBlockEntity) accessor.getBlockEntity();
-        if (skull.getOwner() != null) {
+        if (skull != null && skull.getOwner() != null) {
             NbtCompound tag = PLAYER_HEAD_STACK.getOrCreateTag();
             NbtCompound skullOwner = tag.getCompound("SkullOwner");
             tag.put("SkullOwner", NbtHelper.writeGameProfile(skullOwner, skull.getOwner()));
@@ -36,7 +36,7 @@ public enum PlayerHeadComponent implements IBlockComponentProvider {
     public void appendBody(List<Text> tooltip, IBlockAccessor accessor, IPluginConfig config) {
         if (config.get(WailaVanilla.CONFIG_PLAYER_HEAD_NAME)) {
             SkullBlockEntity skull = (SkullBlockEntity) accessor.getBlockEntity();
-            if (skull.getOwner() != null && !StringUtils.isBlank(skull.getOwner().getName()))
+            if (skull != null && skull.getOwner() != null && !StringUtils.isBlank(skull.getOwner().getName()))
                 tooltip.add(new LiteralText(skull.getOwner().getName()));
         }
     }

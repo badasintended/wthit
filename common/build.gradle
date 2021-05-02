@@ -6,5 +6,3 @@ architectury {
     common(false)
     injectInjectables = false
 }
-
-apply from: "../gradle/gitlab_maven.gradle"

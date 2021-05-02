@@ -14,16 +14,13 @@ import net.minecraft.block.RedstoneWireBlock;
 import net.minecraft.block.RepeaterBlock;
 import net.minecraft.block.StemBlock;
 import net.minecraft.block.SweetBerryBushBlock;
+import net.minecraft.block.TrappedChestBlock;
 import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.block.entity.JukeboxBlockEntity;
 import net.minecraft.block.entity.MobSpawnerBlockEntity;
 import net.minecraft.block.entity.SkullBlockEntity;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.FallingBlockEntity;
-import net.minecraft.entity.decoration.ItemFrameEntity;
-import net.minecraft.entity.decoration.LeashKnotEntity;
-import net.minecraft.entity.decoration.painting.PaintingEntity;
-import net.minecraft.entity.vehicle.AbstractMinecartEntity;
-import net.minecraft.entity.vehicle.BoatEntity;
 import net.minecraft.util.Identifier;
 
 import static mcp.mobius.waila.api.TooltipPosition.BODY;
@@ -36,6 +33,7 @@ public class WailaVanilla implements IWailaPlugin {
 
     static final Identifier CONFIG_DISPLAY_FURNACE = new Identifier("display_furnace_contents");
     static final Identifier CONFIG_HIDE_SILVERFISH = new Identifier("hide_infestations");
+    static final Identifier CONFIG_HIDE_TRAPPED_CHEST = new Identifier("hide_trapped_chest");
     static final Identifier CONFIG_SPAWNER_TYPE = new Identifier("spawner_type");
     static final Identifier CONFIG_CROP_PROGRESS = new Identifier("crop_progress");
     static final Identifier CONFIG_LEVER = new Identifier("lever");
@@ -48,6 +46,7 @@ public class WailaVanilla implements IWailaPlugin {
     @Override
     public void register(IRegistrar registrar) {
         registrar.addSyncedConfig(CONFIG_HIDE_SILVERFISH, true);
+        registrar.addSyncedConfig(CONFIG_HIDE_TRAPPED_CHEST, true);
         registrar.addConfig(CONFIG_DISPLAY_FURNACE, true);
         registrar.addConfig(CONFIG_SPAWNER_TYPE, true);
         registrar.addConfig(CONFIG_CROP_PROGRESS, true);
@@ -62,6 +61,7 @@ public class WailaVanilla implements IWailaPlugin {
         registrar.addRenderer(RENDER_FURNACE_PROGRESS, new TooltipRendererProgressBar());
 
         registrar.addOverride(InfestedBlockComponent.INSTANCE, InfestedBlock.class);
+        registrar.addOverride(TrappedChestComponent.INSTANCE, TrappedChestBlock.class);
 
         registrar.addDisplayItem(PlayerHeadComponent.INSTANCE, SkullBlockEntity.class);
         registrar.addComponent(PlayerHeadComponent.INSTANCE, BODY, SkullBlockEntity.class);
@@ -86,11 +86,7 @@ public class WailaVanilla implements IWailaPlugin {
         registrar.addComponent(FallingBlockComponent.INSTANCE, HEAD, FallingBlockEntity.class);
         registrar.addDisplayItem(FallingBlockComponent.INSTANCE, FallingBlockEntity.class);
 
-        registrar.addDisplayItem(EntityIconComponent.INSTANCE, AbstractMinecartEntity.class);
-        registrar.addDisplayItem(EntityIconComponent.INSTANCE, ItemFrameEntity.class);
-        registrar.addDisplayItem(EntityIconComponent.INSTANCE, PaintingEntity.class);
-        registrar.addDisplayItem(EntityIconComponent.INSTANCE, LeashKnotEntity.class);
-        registrar.addDisplayItem(EntityIconComponent.INSTANCE, BoatEntity.class);
+        registrar.addDisplayItem(EntityIconComponent.INSTANCE, Entity.class);
 
         registrar.addComponent(FurnaceComponent.INSTANCE, BODY, AbstractFurnaceBlockEntity.class);
         registrar.addBlockData(FurnaceComponent.INSTANCE, AbstractFurnaceBlockEntity.class);

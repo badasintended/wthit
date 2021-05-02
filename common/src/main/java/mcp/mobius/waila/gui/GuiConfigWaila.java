@@ -1,10 +1,17 @@
 package mcp.mobius.waila.gui;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.gui.config.OptionsListWidget;
 import mcp.mobius.waila.gui.config.value.OptionsEntryValueInput;
+import mcp.mobius.waila.util.DumpGenerator;
 import net.minecraft.client.gui.screen.Screen;
+import net.minecraft.client.toast.SystemToast;
+import net.minecraft.text.LiteralText;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 
@@ -127,7 +134,16 @@ public class GuiConfigWaila extends GuiOptions {
                             get().getFormatting().getRegistryName(),
                             val -> get().getFormatting().setRegistryName(val.isEmpty() || !val.contains("%s") ? get().getFormatting().getRegistryName() : val));
                 }
-            }));
+            }))
+            .withButton("config.waila.dump", 100, 20, w -> {
+                File file = new File("waila_dump.md");
+                try (FileWriter writer = new FileWriter(file)) {
+                    writer.write(DumpGenerator.generateInfoDump());
+                    SystemToast.show(client.getToastManager(), SystemToast.Type.WORLD_BACKUP, new TranslatableText("command.waila.dump_success"), LiteralText.EMPTY);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
     }
 
 }

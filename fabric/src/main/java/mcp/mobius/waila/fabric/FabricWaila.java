@@ -1,14 +1,16 @@
 package mcp.mobius.waila.fabric;
 
 import mcp.mobius.waila.Waila;
-import mcp.mobius.waila.command.DumpHandlerCommand;
+import mcp.mobius.waila.command.DumpCommand;
 import mcp.mobius.waila.config.PluginConfig;
+import mcp.mobius.waila.util.DumpGenerator;
 import mcp.mobius.waila.util.ModIdentification;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.tag.TagRegistry;
 import net.fabricmc.loader.api.FabricLoader;
+import net.fabricmc.loader.api.ModContainer;
 
 public class FabricWaila extends Waila implements ModInitializer {
 
@@ -24,7 +26,7 @@ public class FabricWaila extends Waila implements ModInitializer {
         packet.initMain();
 
         CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) ->
-            DumpHandlerCommand.register(dispatcher));
+            DumpCommand.register(dispatcher));
 
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) ->
             packet.sendConfig(PluginConfig.INSTANCE, handler.player));
@@ -34,6 +36,14 @@ public class FabricWaila extends Waila implements ModInitializer {
 
         plugins = new FabricWailaPlugins();
         plugins.initialize();
+
+        String[] mods = {"minecraft", "java", "fabricloader", "fabric", "wthit", "roughlyenoughitems"};
+        for (String mod : mods) {
+            FabricLoader.getInstance()
+                .getModContainer(mod)
+                .map(ModContainer::getMetadata)
+                .ifPresent(m -> DumpGenerator.VERSIONS.put(m.getName(), m.getVersion().getFriendlyString()));
+        }
     }
 
 }

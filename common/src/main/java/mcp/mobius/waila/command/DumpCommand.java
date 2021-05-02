@@ -11,13 +11,13 @@ import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.TranslatableText;
 
-public class DumpHandlerCommand {
+public class DumpCommand {
 
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
-        dispatcher.register(CommandManager.literal("wailadumphandler")
+        dispatcher.register(CommandManager.literal("wailadump")
             .requires(source -> source.hasPermissionLevel(2))
             .executes(context -> {
-                File file = new File("waila_handlers.md");
+                File file = new File("waila_dump.md");
                 try (FileWriter writer = new FileWriter(file)) {
                     writer.write(DumpGenerator.generateInfoDump());
                     context.getSource().sendFeedback(new TranslatableText("command.waila.dump_success"), false);

@@ -312,7 +312,7 @@ public class WailaConfig {
         private String blockName = "\u00a7f%s";
         private String fluidName = "\u00a7f%s";
         private String entityName = "\u00a7f%s";
-        private String registryName = "\u00a77[%s]";
+        private String registryName = "\u00a78%s";
 
         public void setModName(String modName) {
             this.modName = modName;
