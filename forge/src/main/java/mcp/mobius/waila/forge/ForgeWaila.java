@@ -2,7 +2,8 @@ package mcp.mobius.waila.forge;
 
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.impl.config.PluginConfig;
-import mcp.mobius.waila.command.DumpHandlerCommand;
+import mcp.mobius.waila.command.DumpCommand;
+import mcp.mobius.waila.utils.DumpGenerator;
 import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.tag.BlockTags;
@@ -10,6 +11,7 @@ import net.minecraft.tag.EntityTypeTags;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -38,6 +40,13 @@ public class ForgeWaila extends Waila {
         ModIdentification.supplier = namespace -> ModList.get()
             .getModContainerById(namespace)
             .map(data -> new ModIdentification.Info(data.getModId(), data.getModInfo().getDisplayName()));
+
+        String[] mods = {"minecraft", "forge", "wthit", "jei"};
+        for (String mod : mods) {
+            ModList.get().getModContainerById(mod)
+                .map(ModContainer::getModInfo)
+                .ifPresent(m -> DumpGenerator.VERSIONS.put(m.getDisplayName(), m.getVersion().toString()));
+        }
     }
 
     @SubscribeEvent
@@ -50,7 +59,7 @@ public class ForgeWaila extends Waila {
 
         @SubscribeEvent
         static void registerCommands(RegisterCommandsEvent event) {
-            DumpHandlerCommand.register(event.getDispatcher());
+            DumpCommand.register(event.getDispatcher());
         }
 
         @SubscribeEvent

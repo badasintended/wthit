@@ -23,7 +23,8 @@
   "key.waila.show_recipe_input"                           : "Show Recipe Usage",
   "key.waila.show_recipe_output"                          : "Show Recipe",
 
-  "command.waila.dump_success"                            : "Dumped all handlers to waila_handlers.md",
+  "command.waila.dump_success"                            : "Successfully dumped to waila_dump.md",
+  "config.waila.dump"                                     : "Dump",
 
   "config.waila.general"                                  : "General",
   "config.waila.display_tooltip"                          : "Display Tooltip",

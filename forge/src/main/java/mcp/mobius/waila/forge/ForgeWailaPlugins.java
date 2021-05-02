@@ -41,7 +41,7 @@ public class ForgeWailaPlugins extends WailaPlugins {
                 String required = (String) annotation.getAnnotationData().getOrDefault("value", "");
                 if (required.isEmpty() || ModList.get().isLoaded(required)) {
                     Waila.LOGGER.warn("Waila plugin {} is defined by deprecated method", annotation.getMemberName());
-                    createPlugin(annotation.getMemberName(), annotation.getMemberName());
+                    createPlugin("legacy:" + annotation.getMemberName(), annotation.getMemberName());
                 }
             }
         }));
