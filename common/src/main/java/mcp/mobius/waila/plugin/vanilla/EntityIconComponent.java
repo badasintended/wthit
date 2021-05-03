@@ -7,7 +7,6 @@ import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.decoration.ItemFrameEntity;
 import net.minecraft.entity.decoration.LeashKnotEntity;
 import net.minecraft.entity.decoration.painting.PaintingEntity;
@@ -59,8 +58,6 @@ public enum EntityIconComponent implements IEntityComponentProvider {
             return LEAD_STACK;
         } else if (entity instanceof BoatEntity) {
             return BOAT_STACKS.get(((BoatEntity) entity).getBoatType());
-        } else if (entity instanceof ItemEntity) {
-            return ((ItemEntity) entity).getStack();
         }
         return ItemStack.EMPTY;
     }
