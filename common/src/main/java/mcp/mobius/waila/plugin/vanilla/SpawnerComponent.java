@@ -11,7 +11,6 @@ import net.minecraft.block.entity.MobSpawnerBlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.text.LiteralText;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Identifier;
 
 public enum SpawnerComponent implements IBlockComponentProvider {
@@ -26,11 +25,9 @@ public enum SpawnerComponent implements IBlockComponentProvider {
             MobSpawnerBlockEntity spawner = (MobSpawnerBlockEntity) accessor.getBlockEntity();
             Entity entity = spawner != null ? spawner.getLogic().getRenderedEntity() : null;
             if (entity != null) {
-                ((ITaggableList<Identifier, Text>) tooltip).setTag(OBJECT_NAME_TAG, new TranslatableText(accessor.getBlock().getTranslationKey())
-                    .append(new LiteralText(" ("))
-                    .append(entity.getDisplayName())
-                    .append(new LiteralText(")"))
-                );
+                String formatting = Waila.CONFIG.get().getFormatting().getBlockName();
+                ((ITaggableList<Identifier, Text>) tooltip).setTag(OBJECT_NAME_TAG, new LiteralText(String.format(formatting,
+                    accessor.getBlock().getName().getString() + " (" + entity.getDisplayName().getString() + ")")));
             }
         }
     }
