@@ -31,18 +31,18 @@ public class WailaCore implements IWailaPlugin {
 
     @Override
     public void register(IRegistrar registrar) {
-        registrar.addComponent(BlockComponent.INSTANCE, HEAD, Block.class, 999);
-        registrar.addComponent(BlockComponent.INSTANCE, BODY, Block.class, 999);
-        registrar.addComponent(BlockComponent.INSTANCE, TAIL, Block.class, 1001);
+        registrar.addComponent(BlockComponent.INSTANCE, HEAD, Block.class, 900);
+        registrar.addComponent(BlockComponent.INSTANCE, BODY, Block.class, 900);
+        registrar.addComponent(BlockComponent.INSTANCE, TAIL, Block.class, 1100);
 
         registrar.addBlockData(BlockComponent.INSTANCE, BlockEntity.class);
 
         registrar.addDisplayItem(FluidComponent.INSTANCE, FluidBlock.class);
-        registrar.addComponent(FluidComponent.INSTANCE, HEAD, FluidBlock.class, 999);
+        registrar.addComponent(FluidComponent.INSTANCE, HEAD, FluidBlock.class, 900);
 
-        registrar.addComponent(EntityComponent.INSTANCE, HEAD, Entity.class, 999);
-        registrar.addComponent(EntityComponent.INSTANCE, BODY, LivingEntity.class, 999);
-        registrar.addComponent(EntityComponent.INSTANCE, TAIL, Entity.class, 1001);
+        registrar.addComponent(EntityComponent.INSTANCE, HEAD, Entity.class, 900);
+        registrar.addComponent(EntityComponent.INSTANCE, BODY, LivingEntity.class, 900);
+        registrar.addComponent(EntityComponent.INSTANCE, TAIL, Entity.class, 1100);
 
         registrar.addConfig(CONFIG_SHOW_BLOCK, true);
         registrar.addConfig(CONFIG_SHOW_FLUID, false);
