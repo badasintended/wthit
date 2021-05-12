@@ -14,7 +14,6 @@ import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.state.property.BooleanProperty;
@@ -49,7 +48,7 @@ public enum BlockComponent implements IBlockComponentProvider, IServerDataProvid
 
         WailaConfig.ConfigFormatting formatting = Waila.CONFIG.get().getFormatting();
         ((ITaggableList<Identifier, Text>) tooltip).setTag(OBJECT_NAME_TAG, new LiteralText(String.format(formatting.getBlockName(), name)));
-        if (MinecraftClient.getInstance().options.advancedItemTooltips)
+        if (config.get(WailaCore.CONFIG_SHOW_REGISTRY))
             ((ITaggableList<Identifier, Text>) tooltip).setTag(REGISTRY_NAME_TAG, new LiteralText(String.format(formatting.getRegistryName(), Registry.BLOCK.getId(block))));
     }
 

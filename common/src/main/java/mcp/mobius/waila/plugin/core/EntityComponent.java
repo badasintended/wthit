@@ -10,7 +10,6 @@ import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITaggableList;
 import mcp.mobius.waila.api.impl.config.WailaConfig;
 import mcp.mobius.waila.utils.ModIdentification;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.CompoundTag;
@@ -29,7 +28,7 @@ public enum EntityComponent implements IEntityComponentProvider {
         Entity entity = accessor.getEntity();
         WailaConfig.ConfigFormatting formatting = Waila.CONFIG.get().getFormatting();
         ((ITaggableList<Identifier, Text>) tooltip).setTag(BlockComponent.OBJECT_NAME_TAG, new LiteralText(String.format(formatting.getEntityName(), entity.getDisplayName().getString())));
-        if (MinecraftClient.getInstance().options.advancedItemTooltips)
+        if (config.get(WailaCore.CONFIG_SHOW_REGISTRY))
             ((ITaggableList<Identifier, Text>) tooltip).setTag(BlockComponent.REGISTRY_NAME_TAG, new LiteralText(String.format(formatting.getRegistryName(), Registry.ENTITY_TYPE.getId(entity.getType()))));
     }
 

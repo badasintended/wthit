@@ -10,7 +10,6 @@ import mcp.mobius.waila.api.ITaggableList;
 import mcp.mobius.waila.api.impl.config.WailaConfig;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.text.LiteralText;
@@ -37,7 +36,7 @@ public enum FluidComponent implements IBlockComponentProvider {
         Block block = accessor.getBlock();
         WailaConfig.ConfigFormatting formatting = Waila.CONFIG.get().getFormatting();
         ((ITaggableList<Identifier, Text>) tooltip).setTag(BlockComponent.OBJECT_NAME_TAG, new LiteralText(String.format(formatting.getFluidName(), block.getName().getString())));
-        if (MinecraftClient.getInstance().options.advancedItemTooltips)
+        if (config.get(WailaCore.CONFIG_SHOW_REGISTRY))
             ((ITaggableList<Identifier, Text>) tooltip).setTag(BlockComponent.REGISTRY_NAME_TAG, new LiteralText(String.format(formatting.getRegistryName(), Registry.BLOCK.getId(block))));
     }
 
