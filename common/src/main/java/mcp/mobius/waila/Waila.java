@@ -20,6 +20,7 @@ public abstract class Waila {
     public static final String NAME = "Waila";
     public static final String WTHIT = "wthit";
     public static final Logger LOGGER = LogManager.getLogger("Waila");
+    public static final int CONFIG_VERSION = 1;
 
     public static JsonConfig<WailaConfig> CONFIG;
 
@@ -37,6 +38,7 @@ public abstract class Waila {
     protected static void init() {
         CONFIG = (JsonConfig<WailaConfig>) IJsonConfig.of(WailaConfig.class)
             .file(MODID + "/" + MODID)
+            .version(CONFIG_VERSION, WailaConfig::getConfigVersion, WailaConfig::setConfigVersion)
             .gson(new GsonBuilder()
                 .setPrettyPrinting()
                 .registerTypeAdapter(WailaConfig.ConfigOverlay.ConfigOverlayColor.class, new WailaConfig.ConfigOverlay.ConfigOverlayColor.Adapter())

@@ -4,7 +4,12 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.function.ObjIntConsumer;
 import java.util.function.Supplier;
+import java.util.function.ToIntFunction;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -13,30 +18,18 @@ import mcp.mobius.waila.api.IJsonConfig;
 
 public class JsonConfig<T> implements IJsonConfig<T> {
 
+    private static final ToIntFunction DEFAULT_VERSION_GETTER = t -> 0;
+    private static final ObjIntConsumer DEFAULT_VERSION_SETTER = (t, v) -> {};
     private static final Gson DEFAULT_GSON = new GsonBuilder().setPrettyPrinting().create();
 
-    private final File configFile;
-    private final CachedSupplier<T> configGetter;
-    private Gson gson = DEFAULT_GSON;
+    private final File file;
+    private final CachedSupplier<T> getter;
+    private Gson gson;
 
     // TODO: Remove
     @Deprecated
     public JsonConfig(File file, Class<T> configClass, Supplier<T> defaultFactory) {
-        this.configFile = file;
-        this.configGetter = new CachedSupplier<>(() -> {
-            if (!configFile.exists()) {
-                T def = defaultFactory.get();
-                write(def, false);
-                return def;
-            }
-            try (FileReader reader = new FileReader(configFile)) {
-                return gson.fromJson(reader, configClass);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            return defaultFactory.get();
-        });
+        this(file, configClass, defaultFactory, DEFAULT_GSON, 0, DEFAULT_VERSION_GETTER, DEFAULT_VERSION_SETTER);
     }
 
     // TODO: Remove
@@ -57,23 +50,45 @@ public class JsonConfig<T> implements IJsonConfig<T> {
         this(fileName, configClass, defaultFactory(configClass));
     }
 
-    JsonConfig(File file, Class<T> clazz, Supplier<T> factory, Gson gson) {
-        this.configFile = file;
-        this.configGetter = new CachedSupplier<>(() -> {
-            if (!configFile.exists()) {
-                T def = factory.get();
-                write(def, false);
-                return def;
-            }
-            try (FileReader reader = new FileReader(configFile)) {
-                return gson.fromJson(reader, clazz);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            return factory.get();
-        });
+    JsonConfig(File file, Class<T> clazz, Supplier<T> factory, Gson gson, int currentVersion, ToIntFunction<T> versionGetter, ObjIntConsumer<T> versionSetter) {
+        this.file = file.getAbsoluteFile();
         this.gson = gson;
+        this.getter = new CachedSupplier<>(() -> {
+            T config;
+            boolean init = true;
+            if (!this.file.exists()) {
+                config = factory.get();
+            } else {
+                try (FileReader reader = new FileReader(this.file)) {
+                    config = this.gson.fromJson(reader, clazz);
+                    int version = versionGetter.applyAsInt(config);
+                    if (version != currentVersion) {
+                        Path old = Paths.get(this.file.getPath() + "_old");
+                        Waila.LOGGER.warn("Config file "
+                            + this.file.getPath()
+                            + " contains different version ("
+                            + version
+                            + ") than required version ("
+                            + currentVersion
+                            + "), this config will be reset. Old config will be placed at "
+                            + old.toString());
+                        Files.deleteIfExists(old);
+                        Files.copy(this.file.toPath(), old);
+                        config = factory.get();
+                    } else {
+                        init = false;
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    config = factory.get();
+                }
+            }
+            if (init) {
+                versionSetter.accept(config, currentVersion);
+                write(config, false);
+            }
+            return config;
+        });
     }
 
     // TODO: Remove
@@ -85,7 +100,7 @@ public class JsonConfig<T> implements IJsonConfig<T> {
 
     @Override
     public T get() {
-        return configGetter.get();
+        return getter.get();
     }
 
     @Override
@@ -95,7 +110,7 @@ public class JsonConfig<T> implements IJsonConfig<T> {
 
     @Override
     public void write(T t, boolean invalidate) {
-        try (FileWriter writer = new FileWriter(configFile)) {
+        try (FileWriter writer = new FileWriter(file)) {
             writer.write(gson.toJson(t));
             if (invalidate)
                 invalidate();
@@ -105,7 +120,7 @@ public class JsonConfig<T> implements IJsonConfig<T> {
     }
 
     public void invalidate() {
-        configGetter.invalidate();
+        getter.invalidate();
     }
 
     private static <T> Supplier<T> defaultFactory(Class<T> configClass) {
@@ -122,12 +137,18 @@ public class JsonConfig<T> implements IJsonConfig<T> {
 
         final Class<T> clazz;
         File file;
-        Supplier<T> factory;
         Gson gson;
+        int currentVersion;
+        ToIntFunction<T> versionGetter;
+        ObjIntConsumer<T> versionSetter;
+        Supplier<T> factory;
 
         public Builder(Class<T> clazz) {
             this.clazz = clazz;
             this.gson = DEFAULT_GSON;
+            this.currentVersion = 0;
+            this.versionGetter = DEFAULT_VERSION_GETTER;
+            this.versionSetter = DEFAULT_VERSION_SETTER;
             this.factory = () -> {
                 try {
                     return clazz.getConstructor().newInstance();
@@ -150,6 +171,14 @@ public class JsonConfig<T> implements IJsonConfig<T> {
         }
 
         @Override
+        public Builder1<T> version(int currentVersion, ToIntFunction<T> versionGetter, ObjIntConsumer<T> versionSetter) {
+            this.currentVersion = currentVersion;
+            this.versionGetter = versionGetter;
+            this.versionSetter = versionSetter;
+            return this;
+        }
+
+        @Override
         public Builder1<T> factory(Supplier<T> factory) {
             this.factory = factory;
             return this;
@@ -163,7 +192,7 @@ public class JsonConfig<T> implements IJsonConfig<T> {
 
         @Override
         public IJsonConfig<T> build() {
-            return new JsonConfig<T>(file, clazz, factory, gson);
+            return new JsonConfig<>(file, clazz, factory, gson, currentVersion, versionGetter, versionSetter);
         }
 
     }
