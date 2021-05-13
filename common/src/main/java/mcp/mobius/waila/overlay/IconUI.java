@@ -1,13 +1,13 @@
 package mcp.mobius.waila.overlay;
 
-import java.util.Map;
-
 import com.google.common.collect.Maps;
 
+import java.util.Map;
+
 public enum IconUI {
-    HEART(52, 0, 9, 9, 52, 9, 9, 9, "a"),
-    HALF_HEART(61, 0, 9, 9, 52, 9, 9, 9, "b"),
-    EMPTY_HEART(52, 9, 9, 9, "c"),
+    HEART(52, 0, 9, 9, 16, 0, 9, 9, "a"),
+    HALF_HEART(61, 0, 9, 9, 16, 0, 9, 9, "b"),
+    EMPTY_HEART(16, 0, 9, 9, "c"),
     EXPERIENCE_BUBBLE(25, 18, 9, 9, "x");
 
     private final static Map<String, IconUI> ELEMENTS = Maps.newHashMap();
