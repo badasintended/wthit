@@ -57,7 +57,15 @@ public class JsonConfig<T> implements IJsonConfig<T> {
         this.getter = new CachedSupplier<>(() -> {
             T config;
             boolean init = true;
-            if (!Files.exists(path)) {
+            if (!Files.exists(this.path)) {
+                Path parent = this.path.getParent();
+                if (!Files.exists(parent)) {
+                    try {
+                        Files.createDirectories(parent);
+                    } catch (IOException e) {
+                        Waila.LOGGER.error("Failed to make directory " + parent, e);
+                    }
+                }
                 config = factory.get();
             } else {
                 try (BufferedReader reader = Files.newBufferedReader(this.path, StandardCharsets.UTF_8)) {
