@@ -1,9 +1,10 @@
 package mcp.mobius.waila.utils;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -22,14 +23,14 @@ public class JsonConfig<T> implements IJsonConfig<T> {
     private static final ObjIntConsumer DEFAULT_VERSION_SETTER = (t, v) -> {};
     private static final Gson DEFAULT_GSON = new GsonBuilder().setPrettyPrinting().create();
 
-    private final File file;
+    private final Path path;
     private final CachedSupplier<T> getter;
     private Gson gson;
 
     // TODO: Remove
     @Deprecated
     public JsonConfig(File file, Class<T> configClass, Supplier<T> defaultFactory) {
-        this(file, configClass, defaultFactory, DEFAULT_GSON, 0, DEFAULT_VERSION_GETTER, DEFAULT_VERSION_SETTER);
+        this(file.toPath(), configClass, defaultFactory, DEFAULT_GSON, 0, DEFAULT_VERSION_GETTER, DEFAULT_VERSION_SETTER);
     }
 
     // TODO: Remove
@@ -50,36 +51,46 @@ public class JsonConfig<T> implements IJsonConfig<T> {
         this(fileName, configClass, defaultFactory(configClass));
     }
 
-    JsonConfig(File file, Class<T> clazz, Supplier<T> factory, Gson gson, int currentVersion, ToIntFunction<T> versionGetter, ObjIntConsumer<T> versionSetter) {
-        this.file = file.getAbsoluteFile();
+    JsonConfig(Path path, Class<T> clazz, Supplier<T> factory, Gson gson, int currentVersion, ToIntFunction<T> versionGetter, ObjIntConsumer<T> versionSetter) {
+        this.path = path.toAbsolutePath();
         this.gson = gson;
         this.getter = new CachedSupplier<>(() -> {
             T config;
             boolean init = true;
-            if (!this.file.exists()) {
+            if (!Files.exists(path)) {
                 config = factory.get();
             } else {
-                try (FileReader reader = new FileReader(this.file)) {
+                try (BufferedReader reader = Files.newBufferedReader(this.path, StandardCharsets.UTF_8)) {
                     config = this.gson.fromJson(reader, clazz);
                     int version = versionGetter.applyAsInt(config);
                     if (version != currentVersion) {
-                        Path old = Paths.get(this.file.getPath() + "_old");
+                        Path old = Paths.get(this.path + "_old");
                         Waila.LOGGER.warn("Config file "
-                            + this.file.getPath()
+                            + this.path
                             + " contains different version ("
                             + version
                             + ") than required version ("
                             + currentVersion
                             + "), this config will be reset. Old config will be placed at "
-                            + old.toString());
+                            + old);
                         Files.deleteIfExists(old);
-                        Files.copy(this.file.toPath(), old);
+                        Files.copy(this.path, old);
                         config = factory.get();
                     } else {
                         init = false;
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
+                } catch (Exception e) {
+                    Path old = Paths.get(this.path + "_old");
+                    Waila.LOGGER.error("Exception when reading config file "
+                        + this.path
+                        + ", this config will be reset. Old config will be placed at "
+                        + old, e);
+                    try {
+                        Files.deleteIfExists(old);
+                        Files.copy(this.path, old);
+                    } catch (IOException e1) {
+                        Waila.LOGGER.error("well this is embarrassing...", e1);
+                    }
                     config = factory.get();
                 }
             }
@@ -110,7 +121,7 @@ public class JsonConfig<T> implements IJsonConfig<T> {
 
     @Override
     public void write(T t, boolean invalidate) {
-        try (FileWriter writer = new FileWriter(file)) {
+        try (BufferedWriter writer = Files.newBufferedWriter(path, StandardCharsets.UTF_8)) {
             writer.write(gson.toJson(t));
             if (invalidate)
                 invalidate();
@@ -136,7 +147,7 @@ public class JsonConfig<T> implements IJsonConfig<T> {
     public static class Builder<T> implements Builder0<T>, Builder1<T> {
 
         final Class<T> clazz;
-        File file;
+        Path path;
         Gson gson;
         int currentVersion;
         ToIntFunction<T> versionGetter;
@@ -160,13 +171,19 @@ public class JsonConfig<T> implements IJsonConfig<T> {
 
         @Override
         public Builder1<T> file(File file) {
-            this.file = file;
+            this.path = file.toPath();
+            return this;
+        }
+
+        @Override
+        public Builder1<T> file(Path path) {
+            this.path = path;
             return this;
         }
 
         @Override
         public Builder1<T> file(String fileName) {
-            this.file = Waila.configDir.resolve(fileName + (fileName.endsWith(".json") ? "" : ".json")).toFile();
+            this.path = Waila.configDir.resolve(fileName + (fileName.endsWith(".json") ? "" : ".json"));
             return this;
         }
 
@@ -192,7 +209,7 @@ public class JsonConfig<T> implements IJsonConfig<T> {
 
         @Override
         public IJsonConfig<T> build() {
-            return new JsonConfig<>(file, clazz, factory, gson, currentVersion, versionGetter, versionSetter);
+            return new JsonConfig<>(path, clazz, factory, gson, currentVersion, versionGetter, versionSetter);
         }
 
     }

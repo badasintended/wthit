@@ -1,6 +1,7 @@
 package mcp.mobius.waila.api;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.function.ObjIntConsumer;
 import java.util.function.Supplier;
 
@@ -44,6 +45,8 @@ public interface IJsonConfig<T> {
     interface Builder0<T> {
 
         Builder1<T> file(File file);
+
+        Builder1<T> file(Path path);
 
         Builder1<T> file(String fileName);
 
