@@ -80,13 +80,17 @@ public enum PluginConfig implements IPluginConfig {
         } else { // Read back from config
             Map<String, Map<String, Boolean>> config;
             try (BufferedReader reader = Files.newBufferedReader(PATH, StandardCharsets.UTF_8)) {
-                config = new Gson().fromJson(reader, new TypeToken<Map<String, Map<String, Boolean>>>() {
+                config = GSON.fromJson(reader, new TypeToken<Map<String, Map<String, Boolean>>>() {
                 }.getType());
             } catch (IOException e) {
                 config = Maps.newHashMap();
             }
 
-            config.forEach((namespace, subMap) -> subMap.forEach((path, value) -> set(new Identifier(namespace, path), value)));
+            if (config == null) {
+                writeConfig(true);
+            } else {
+                config.forEach((namespace, subMap) -> subMap.forEach((path, value) -> set(new Identifier(namespace, path), value)));
+            }
         }
     }
 
@@ -111,6 +115,7 @@ public enum PluginConfig implements IPluginConfig {
             }
             BufferedWriter writer = Files.newBufferedWriter(PATH, StandardCharsets.UTF_8);
             writer.write(json);
+            writer.close();
         } catch (IOException e) {
             e.printStackTrace();
 
