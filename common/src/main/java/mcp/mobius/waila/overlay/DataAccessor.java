@@ -1,5 +1,6 @@
 package mcp.mobius.waila.overlay;
 
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IBlockAccessor;
 import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.IDataAccessor;
@@ -118,6 +119,31 @@ public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IDataAccess
     @Override
     public ItemStack getStack() {
         return this.stack;
+    }
+
+    @Override
+    public String getModNameFormat() {
+        return Waila.CONFIG.get().getFormatting().getModName();
+    }
+
+    @Override
+    public String getBlockNameFormat() {
+        return Waila.CONFIG.get().getFormatting().getBlockName();
+    }
+
+    @Override
+    public String getFluidNameFormat() {
+        return Waila.CONFIG.get().getFormatting().getFluidName();
+    }
+
+    @Override
+    public String getEntityNameFormat() {
+        return Waila.CONFIG.get().getFormatting().getEntityName();
+    }
+
+    @Override
+    public String getRegistryNameFormat() {
+        return Waila.CONFIG.get().getFormatting().getRegistryName();
     }
 
     // TODO: Remove

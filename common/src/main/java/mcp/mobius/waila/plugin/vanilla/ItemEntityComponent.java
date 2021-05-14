@@ -27,9 +27,7 @@ public enum ItemEntityComponent implements IEntityComponentProvider {
     @Override
     public void appendHead(List<Text> tooltip, IEntityAccessor accessor, IPluginConfig config) {
         String name = ((ItemEntity) accessor.getEntity()).getStack().getName().getString();
-        ((ITaggableList<Identifier, Text>) tooltip).setTag(OBJECT_NAME_TAG, new LiteralText(String.format(
-            Waila.CONFIG.get().getFormatting().getEntityName(),
-            name)));
+        ((ITaggableList<Identifier, Text>) tooltip).setTag(OBJECT_NAME_TAG, new LiteralText(String.format(accessor.getEntityNameFormat(), name)));
     }
 
 }

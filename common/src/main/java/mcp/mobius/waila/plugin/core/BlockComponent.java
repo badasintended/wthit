@@ -9,7 +9,6 @@ import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataProvider;
 import mcp.mobius.waila.api.ITaggableList;
-import mcp.mobius.waila.api.impl.config.WailaConfig;
 import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -46,10 +45,9 @@ public enum BlockComponent implements IBlockComponentProvider, IServerDataProvid
             name = block.getName().getString();
         }
 
-        WailaConfig.ConfigFormatting formatting = Waila.CONFIG.get().getFormatting();
-        ((ITaggableList<Identifier, Text>) tooltip).setTag(OBJECT_NAME_TAG, new LiteralText(String.format(formatting.getBlockName(), name)));
+        ((ITaggableList<Identifier, Text>) tooltip).setTag(OBJECT_NAME_TAG, new LiteralText(String.format(accessor.getBlockNameFormat(), name)));
         if (config.get(WailaCore.CONFIG_SHOW_REGISTRY))
-            ((ITaggableList<Identifier, Text>) tooltip).setTag(REGISTRY_NAME_TAG, new LiteralText(String.format(formatting.getRegistryName(), Registry.BLOCK.getId(block))));
+            ((ITaggableList<Identifier, Text>) tooltip).setTag(REGISTRY_NAME_TAG, new LiteralText(String.format(accessor.getRegistryNameFormat(), Registry.BLOCK.getId(block))));
     }
 
     @Override
@@ -76,7 +74,7 @@ public enum BlockComponent implements IBlockComponentProvider, IServerDataProvid
 
         String modName = ModIdentification.getModInfo(accessor.getStack().getItem()).getName();
         if (!Strings.isNullOrEmpty(modName)) {
-            modName = String.format(Waila.CONFIG.get().getFormatting().getModName(), modName);
+            modName = String.format(accessor.getModNameFormat(), modName);
             ((ITaggableList<Identifier, Text>) tooltip).setTag(MOD_NAME_TAG, new LiteralText(modName));
         }
     }
