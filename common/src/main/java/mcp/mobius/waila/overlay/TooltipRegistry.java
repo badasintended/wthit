@@ -20,7 +20,12 @@ public class TooltipRegistry<T> {
             .add(new Entry<>(value, priority));
     }
 
-    private List<T> get(Class<?> clazz, Object obj) {
+    public List<T> get(Object obj) {
+        if (obj == null) {
+            return ObjectLists.emptyList();
+        }
+
+        Class<?> clazz = obj.getClass();
         if (clazz == Object.class) {
             return ObjectLists.emptyList();
         }
@@ -29,31 +34,25 @@ public class TooltipRegistry<T> {
             return cache.get(clazz);
         }
 
-        List<T> list;
-        if (map.containsKey(clazz)) {
-            sorter.clear();
-            map.forEach((k, v) -> {
-                if (k.isInstance(obj)) {
-                    sorter.addAll(v);
-                }
-            });
-            sorter.sort(Comparator.comparingInt(e -> e.priority));
-            list = new ObjectArrayList<>();
-            for (Entry<?> entry : sorter) {
-                list.add((T) entry.value);
+        sorter.clear();
+        map.forEach((k, v) -> {
+            if (k.isInstance(obj)) {
+                sorter.addAll(v);
             }
-            if (list.isEmpty()) {
-                list = ObjectLists.emptyList();
-            }
-        } else {
-            list = get(clazz.getSuperclass(), obj);
+        });
+        sorter.sort(Comparator.comparingInt(e -> e.priority));
+        List<T> list = new ObjectArrayList<>();
+        for (Entry<?> entry : sorter) {
+            list.add((T) entry.value);
         }
+
+        if (list.isEmpty()) {
+            // Discard empty list so it'll GC-ed
+            list = ObjectLists.emptyList();
+        }
+
         cache.put(clazz, list);
         return list;
-    }
-
-    public List<T> get(Object obj) {
-        return obj == null ? ObjectLists.emptyList() : get(obj.getClass(), obj);
     }
 
     public Map<Class<?>, List<Entry<T>>> getMap() {
