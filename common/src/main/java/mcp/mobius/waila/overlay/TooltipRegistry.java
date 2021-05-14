@@ -20,21 +20,20 @@ public class TooltipRegistry<T> {
             .add(new Entry<>(value, priority));
     }
 
-    public List<T> get(Class<?> key) {
-        if (key == Object.class) {
+    private List<T> get(Class<?> clazz, Object obj) {
+        if (clazz == Object.class) {
             return ObjectLists.emptyList();
         }
 
-        if (cache.containsKey(key)) {
-            return cache.get(key);
+        if (cache.containsKey(clazz)) {
+            return cache.get(clazz);
         }
 
         List<T> list;
-        if (map.containsKey(key)) {
+        if (map.containsKey(clazz)) {
             sorter.clear();
-            sorter.addAll(map.get(key));
             map.forEach((k, v) -> {
-                if (k != key && k.isAssignableFrom(key)) {
+                if (k.isInstance(obj)) {
                     sorter.addAll(v);
                 }
             });
@@ -43,15 +42,18 @@ public class TooltipRegistry<T> {
             for (Entry<?> entry : sorter) {
                 list.add((T) entry.value);
             }
+            if (list.isEmpty()) {
+                list = ObjectLists.emptyList();
+            }
         } else {
-            list = get(key.getSuperclass());
+            list = get(clazz.getSuperclass(), obj);
         }
-        cache.put(key, list);
+        cache.put(clazz, list);
         return list;
     }
 
     public List<T> get(Object obj) {
-        return obj == null ? ObjectLists.emptyList() : get(obj.getClass());
+        return obj == null ? ObjectLists.emptyList() : get(obj.getClass(), obj);
     }
 
     public Map<Class<?>, List<Entry<T>>> getMap() {
