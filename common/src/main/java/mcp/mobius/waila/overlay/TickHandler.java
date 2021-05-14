@@ -5,9 +5,9 @@ import java.util.List;
 import com.mojang.text2speech.Narrator;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.WailaClient;
+import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.impl.config.PluginConfig;
 import mcp.mobius.waila.api.impl.config.WailaConfig;
-import mcp.mobius.waila.plugin.core.WailaCore;
 import mcp.mobius.waila.utils.TaggableList;
 import mcp.mobius.waila.utils.TaggedText;
 import net.minecraft.block.Block;
@@ -69,8 +69,8 @@ public class TickHandler {
 
         if (target.getType() == HitResult.Type.BLOCK) {
             Block block = accessor.getBlock();
-            if (block instanceof FluidBlock && !PluginConfig.INSTANCE.get(WailaCore.CONFIG_SHOW_FLUID)
-                || !PluginConfig.INSTANCE.get(WailaCore.CONFIG_SHOW_BLOCK)
+            if (block instanceof FluidBlock && !PluginConfig.INSTANCE.get(WailaConstants.CONFIG_SHOW_FLUID)
+                || !PluginConfig.INSTANCE.get(WailaConstants.CONFIG_SHOW_BLOCK)
                 || Waila.blockBlacklist.contains(block)) {
                 return;
             }
@@ -94,7 +94,7 @@ public class TickHandler {
             gatherBlock(accessor, TIP, TAIL);
             Tooltip.addLines(TIP);
         } else if (target.getType() == HitResult.Type.ENTITY) {
-            if (!PluginConfig.INSTANCE.get(WailaCore.CONFIG_SHOW_ENTITY)
+            if (!PluginConfig.INSTANCE.get(WailaConstants.CONFIG_SHOW_ENTITY)
                 || Waila.entityBlacklist.contains(accessor.getEntity().getType())) {
                 return;
             }

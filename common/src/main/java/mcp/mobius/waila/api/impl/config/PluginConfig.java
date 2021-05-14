@@ -19,13 +19,14 @@ import java.util.stream.Collectors;
 
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IPluginConfig;
+import mcp.mobius.waila.api.WailaConstants;
 import net.minecraft.util.Identifier;
 
 public enum PluginConfig implements IPluginConfig {
 
     INSTANCE;
 
-    static final Path PATH = Waila.configDir.resolve(Waila.MODID + "/" + Waila.MODID + "_plugins.json");
+    static final Path PATH = Waila.configDir.resolve(WailaConstants.WAILA + "/" + WailaConstants.WAILA + "_plugins.json");
     static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
     private final Map<Identifier, ConfigEntry> configs = new HashMap<>();
@@ -55,7 +56,7 @@ public enum PluginConfig implements IPluginConfig {
     }
 
     public List<String> getNamespaces() {
-        return configs.keySet().stream().sorted((o1, o2) -> o1.getNamespace().equals(Waila.MODID)
+        return configs.keySet().stream().sorted((o1, o2) -> o1.getNamespace().equals(WailaConstants.WAILA)
             ? -1
             : o1.getNamespace().compareToIgnoreCase(o2.getNamespace()))
             .map(Identifier::getNamespace)

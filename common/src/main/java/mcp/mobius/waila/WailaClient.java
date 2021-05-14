@@ -3,12 +3,12 @@ package mcp.mobius.waila;
 import java.util.List;
 import java.util.function.BiFunction;
 
+import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.impl.config.PluginConfig;
 import mcp.mobius.waila.api.impl.config.WailaConfig;
 import mcp.mobius.waila.api.impl.config.WailaConfig.DisplayMode;
 import mcp.mobius.waila.gui.GuiConfigHome;
 import mcp.mobius.waila.overlay.TickHandler;
-import mcp.mobius.waila.plugin.core.WailaCore;
 import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.item.TooltipContext;
@@ -56,7 +56,7 @@ public abstract class WailaClient {
         }
 
         while (toggleLiquid.wasPressed()) {
-            PluginConfig.INSTANCE.set(WailaCore.CONFIG_SHOW_FLUID, PluginConfig.INSTANCE.get(WailaCore.CONFIG_SHOW_FLUID));
+            PluginConfig.INSTANCE.set(WailaConstants.CONFIG_SHOW_FLUID, PluginConfig.INSTANCE.get(WailaConstants.CONFIG_SHOW_FLUID));
         }
 
 
@@ -70,7 +70,7 @@ public abstract class WailaClient {
     }
 
     protected static void onItemTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip) {
-        if (PluginConfig.INSTANCE.get(WailaCore.CONFIG_SHOW_MOD_NAME)) {
+        if (PluginConfig.INSTANCE.get(WailaConstants.CONFIG_SHOW_MOD_NAME)) {
             tooltip.add(new LiteralText(String.format(
                 Waila.CONFIG.get().getFormatting().getModName(),
                 ModIdentification.getModInfo(stack.getItem()).getName()

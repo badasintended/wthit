@@ -1,6 +1,7 @@
 package mcp.mobius.waila.gui;
 
 import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.impl.config.PluginConfig;
 import net.minecraft.client.gui.screen.Screen;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -19,7 +20,7 @@ public class GuiConfigHome extends Screen {
 
     @Override
     protected void init() {
-        addButton(new ButtonWidget(width / 2 - 105, height / 2 - 10, 100, 20, new TranslatableText("gui.waila.waila_settings", Waila.NAME), w -> {
+        addButton(new ButtonWidget(width / 2 - 105, height / 2 - 10, 100, 20, new TranslatableText("gui.waila.waila_settings", WailaConstants.MOD_NAME), w -> {
             client.openScreen(new GuiConfigWaila(GuiConfigHome.this));
         }));
         addButton(new ButtonWidget(width / 2 + 5, height / 2 - 10, 100, 20, new TranslatableText("gui.waila.plugin_settings"), w -> {

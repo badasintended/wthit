@@ -3,12 +3,12 @@ package mcp.mobius.waila.plugin.core;
 import java.util.List;
 
 import com.google.common.base.Strings;
-import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IBlockAccessor;
 import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataProvider;
 import mcp.mobius.waila.api.ITaggableList;
+import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -30,10 +30,6 @@ public enum BlockComponent implements IBlockComponentProvider, IServerDataProvid
 
     INSTANCE;
 
-    static final Identifier OBJECT_NAME_TAG = Waila.id("object_name");
-    static final Identifier REGISTRY_NAME_TAG = Waila.id("registry_name");
-    static final Identifier MOD_NAME_TAG = Waila.id("mod_name");
-
     @Override
     public void appendHead(List<Text> tooltip, IBlockAccessor accessor, IPluginConfig config) {
         if (accessor.getBlockState().getMaterial().isLiquid())
@@ -45,9 +41,9 @@ public enum BlockComponent implements IBlockComponentProvider, IServerDataProvid
             name = block.getName().getString();
         }
 
-        ((ITaggableList<Identifier, Text>) tooltip).setTag(OBJECT_NAME_TAG, new LiteralText(String.format(accessor.getBlockNameFormat(), name)));
-        if (config.get(WailaCore.CONFIG_SHOW_REGISTRY))
-            ((ITaggableList<Identifier, Text>) tooltip).setTag(REGISTRY_NAME_TAG, new LiteralText(String.format(accessor.getRegistryNameFormat(), Registry.BLOCK.getId(block))));
+        ((ITaggableList<Identifier, Text>) tooltip).setTag(WailaConstants.OBJECT_NAME_TAG, new LiteralText(String.format(accessor.getBlockNameFormat(), name)));
+        if (config.get(WailaConstants.CONFIG_SHOW_REGISTRY))
+            ((ITaggableList<Identifier, Text>) tooltip).setTag(WailaConstants.REGISTRY_NAME_TAG, new LiteralText(String.format(accessor.getRegistryNameFormat(), Registry.BLOCK.getId(block))));
     }
 
     @Override
@@ -69,13 +65,13 @@ public enum BlockComponent implements IBlockComponentProvider, IServerDataProvid
 
     @Override
     public void appendTail(List<Text> tooltip, IBlockAccessor accessor, IPluginConfig config) {
-        if (!config.get(WailaCore.CONFIG_SHOW_MOD_NAME))
+        if (!config.get(WailaConstants.CONFIG_SHOW_MOD_NAME))
             return;
 
         String modName = ModIdentification.getModInfo(accessor.getStack().getItem()).getName();
         if (!Strings.isNullOrEmpty(modName)) {
             modName = String.format(accessor.getModNameFormat(), modName);
-            ((ITaggableList<Identifier, Text>) tooltip).setTag(MOD_NAME_TAG, new LiteralText(modName));
+            ((ITaggableList<Identifier, Text>) tooltip).setTag(WailaConstants.MOD_NAME_TAG, new LiteralText(modName));
         }
     }
 

@@ -4,8 +4,8 @@ import java.util.List;
 
 import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IEntityComponentProvider;
+import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.impl.config.PluginConfig;
-import mcp.mobius.waila.plugin.core.WailaCore;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
@@ -53,14 +53,14 @@ public class Raycast {
         Vec3d lookVector = entity.getRotationVec(tickDelta);
         Vec3d traceEnd = eyePosition.add(lookVector.x * playerReach, lookVector.y * playerReach, lookVector.z * playerReach);
 
-        if (PluginConfig.INSTANCE.get(WailaCore.CONFIG_SHOW_ENTITY)) {
+        if (PluginConfig.INSTANCE.get(WailaConstants.CONFIG_SHOW_ENTITY)) {
             EntityHitResult result = ProjectileUtil.getEntityCollision(world, entity, eyePosition, traceEnd, new Box(eyePosition, traceEnd), null);
             if (result != null) {
                 return result;
             }
         }
 
-        FluidHandling fluidView = PluginConfig.INSTANCE.get(WailaCore.CONFIG_SHOW_FLUID)
+        FluidHandling fluidView = PluginConfig.INSTANCE.get(WailaConstants.CONFIG_SHOW_FLUID)
             ? FluidHandling.SOURCE_ONLY
             : FluidHandling.NONE;
 
