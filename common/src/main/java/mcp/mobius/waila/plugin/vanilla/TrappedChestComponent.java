@@ -16,11 +16,14 @@ public enum TrappedChestComponent implements IBlockComponentProvider {
 
     @Override
     public BlockState getOverride(IBlockAccessor accessor, IPluginConfig config) {
-        BlockState state = accessor.getBlockState();
-        return Blocks.CHEST.getDefaultState()
-            .with(FACING, state.get(FACING))
-            .with(CHEST_TYPE, state.get(CHEST_TYPE))
-            .with(WATERLOGGED, state.get(WATERLOGGED));
+        if (config.get(WailaVanilla.CONFIG_HIDE_TRAPPED_CHEST)) {
+            BlockState state = accessor.getBlockState();
+            return Blocks.CHEST.getDefaultState()
+                .with(FACING, state.get(FACING))
+                .with(CHEST_TYPE, state.get(CHEST_TYPE))
+                .with(WATERLOGGED, state.get(WATERLOGGED));
+        }
+        return null;
     }
 
 }

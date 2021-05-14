@@ -12,7 +12,9 @@ public enum InfestedBlockComponent implements IBlockComponentProvider {
 
     @Override
     public BlockState getOverride(IBlockAccessor accessor, IPluginConfig config) {
-        return ((InfestedBlock) accessor.getBlock()).getRegularBlock().getDefaultState();
+        return config.get(WailaVanilla.CONFIG_HIDE_SILVERFISH)
+            ? ((InfestedBlock) accessor.getBlock()).getRegularBlock().getDefaultState()
+            : null;
     }
 
 }
