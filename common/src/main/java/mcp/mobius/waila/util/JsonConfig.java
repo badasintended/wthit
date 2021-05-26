@@ -25,31 +25,7 @@ public class JsonConfig<T> implements IJsonConfig<T> {
 
     private final Path path;
     private final CachedSupplier<T> getter;
-    private Gson gson;
-
-    // TODO: Remove
-    @Deprecated
-    public JsonConfig(File file, Class<T> configClass, Supplier<T> defaultFactory) {
-        this(file.toPath(), configClass, defaultFactory, DEFAULT_GSON, 0, DEFAULT_VERSION_GETTER, DEFAULT_VERSION_SETTER);
-    }
-
-    // TODO: Remove
-    @Deprecated
-    public JsonConfig(String fileName, Class<T> configClass, Supplier<T> defaultFactory) {
-        this(Waila.configDir.resolve(fileName + (fileName.endsWith(".json") ? "" : ".json")).toFile(), configClass, defaultFactory);
-    }
-
-    // TODO: Remove
-    @Deprecated
-    public JsonConfig(File file, Class<T> configClass) {
-        this(file, configClass, defaultFactory(configClass));
-    }
-
-    // TODO: Remove
-    @Deprecated
-    public JsonConfig(String fileName, Class<T> configClass) {
-        this(fileName, configClass, defaultFactory(configClass));
-    }
+    private final Gson gson;
 
     JsonConfig(Path path, Class<T> clazz, Supplier<T> factory, Gson gson, int currentVersion, ToIntFunction<T> versionGetter, ObjIntConsumer<T> versionSetter) {
         this.path = path.toAbsolutePath();
@@ -131,18 +107,9 @@ public class JsonConfig<T> implements IJsonConfig<T> {
         }
     }
 
+    @Override
     public void invalidate() {
         getter.invalidate();
-    }
-
-    private static <T> Supplier<T> defaultFactory(Class<T> configClass) {
-        return () -> {
-            try {
-                return configClass.getConstructor().newInstance();
-            } catch (Exception e) {
-                throw new RuntimeException("Failed to create new config instance", e);
-            }
-        };
     }
 
     public static class Builder<T> implements Builder0<T>, Builder1<T> {
