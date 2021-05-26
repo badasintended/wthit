@@ -14,13 +14,13 @@ import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.ITaggableList;
+import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.config.WailaConfig.ConfigOverlay.ConfigOverlayColor;
 import mcp.mobius.waila.config.WailaConfig.ConfigOverlay.Position.HorizontalAlignment;
 import mcp.mobius.waila.config.WailaConfig.ConfigOverlay.Position.VerticalAlignment;
 import mcp.mobius.waila.mixin.AccessorBossBarHud;
-import mcp.mobius.waila.plugin.core.WailaCore;
 import mcp.mobius.waila.util.TaggedText;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
@@ -146,7 +146,7 @@ public class Tooltip {
     }
 
     public static boolean hasItem() {
-        return showItem && PluginConfig.INSTANCE.get(WailaCore.CONFIG_SHOW_ITEM) && !Raycast.getDisplayItem().isEmpty();
+        return showItem && PluginConfig.INSTANCE.get(WailaConstants.CONFIG_SHOW_ITEM) && !Raycast.getDisplayItem().isEmpty();
     }
 
     public static void render(MatrixStack matrices, float delta) {

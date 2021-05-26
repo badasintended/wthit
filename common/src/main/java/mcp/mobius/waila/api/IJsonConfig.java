@@ -1,13 +1,19 @@
 package mcp.mobius.waila.api;
 
 import java.io.File;
+import java.nio.file.Path;
+import java.util.function.ObjIntConsumer;
 import java.util.function.Supplier;
 
 import com.google.gson.Gson;
+
+import java.util.function.ToIntFunction;
+
 import mcp.mobius.waila.util.JsonConfig;
 
 /**
  * An Interface for easy (de)serialization for config classes
+ *
  * @param <T> the config class
  */
 public interface IJsonConfig<T> {
@@ -40,11 +46,15 @@ public interface IJsonConfig<T> {
 
         Builder1<T> file(File file);
 
+        Builder1<T> file(Path path);
+
         Builder1<T> file(String fileName);
 
     }
 
     interface Builder1<T> {
+
+        Builder1<T> version(int currentVersion, ToIntFunction<T> versionGetter, ObjIntConsumer<T> versionSetter);
 
         Builder1<T> gson(Gson gson);
 

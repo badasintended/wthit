@@ -2,6 +2,7 @@ package mcp.mobius.waila.fabric;
 
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.WailaClient;
+import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.event.WailaRenderEvent;
 import mcp.mobius.waila.api.event.WailaTooltipEvent;
 import mcp.mobius.waila.overlay.DataAccessor;
@@ -19,7 +20,7 @@ public class FabricWailaClient extends WailaClient implements ClientModInitializ
     @Override
     public void onInitializeClient() {
         keyBindingBuilder = (id, key) ->
-            KeyBindingHelper.registerKeyBinding(new KeyBinding("key.waila." + id, InputUtil.Type.KEYSYM, key, Waila.NAME));
+            KeyBindingHelper.registerKeyBinding(new KeyBinding("key.waila." + id, InputUtil.Type.KEYSYM, key, WailaConstants.MOD_NAME));
 
         init();
 

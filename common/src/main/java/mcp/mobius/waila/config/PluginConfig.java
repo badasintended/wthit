@@ -1,28 +1,33 @@
 package mcp.mobius.waila.config;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
+import com.google.common.collect.Maps;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.google.common.collect.Maps;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IPluginConfig;
+import mcp.mobius.waila.api.WailaConstants;
 import net.minecraft.util.Identifier;
 
 public enum PluginConfig implements IPluginConfig {
 
     INSTANCE;
 
-    static final File CONFIG_FILE = Waila.configDir.resolve(Waila.MODID + "/" + Waila.MODID + "_plugins.json").toFile();
+    static final Path PATH = Waila.configDir.resolve(WailaConstants.WAILA + "/" + WailaConstants.WAILA + "_plugins.json");
+    static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
     private final Map<Identifier, ConfigEntry> configs = new HashMap<>();
 
@@ -51,7 +56,7 @@ public enum PluginConfig implements IPluginConfig {
     }
 
     public List<String> getNamespaces() {
-        return configs.keySet().stream().sorted((o1, o2) -> o1.getNamespace().equals(Waila.MODID)
+        return configs.keySet().stream().sorted((o1, o2) -> o1.getNamespace().equals(WailaConstants.WAILA)
             ? -1
             : o1.getNamespace().compareToIgnoreCase(o2.getNamespace()))
             .map(Identifier::getNamespace)
@@ -71,18 +76,22 @@ public enum PluginConfig implements IPluginConfig {
     }
 
     public void reload() {
-        if (!CONFIG_FILE.exists()) { // Write defaults, but don't read
+        if (!Files.exists(PATH)) { // Write defaults, but don't read
             writeConfig(true);
         } else { // Read back from config
             Map<String, Map<String, Boolean>> config;
-            try (FileReader reader = new FileReader(CONFIG_FILE)) {
-                config = new Gson().fromJson(reader, new TypeToken<Map<String, Map<String, Boolean>>>() {
+            try (BufferedReader reader = Files.newBufferedReader(PATH, StandardCharsets.UTF_8)) {
+                config = GSON.fromJson(reader, new TypeToken<Map<String, Map<String, Boolean>>>() {
                 }.getType());
             } catch (IOException e) {
                 config = Maps.newHashMap();
             }
 
-            config.forEach((namespace, subMap) -> subMap.forEach((path, value) -> set(new Identifier(namespace, path), value)));
+            if (config == null) {
+                writeConfig(true);
+            } else {
+                config.forEach((namespace, subMap) -> subMap.forEach((path, value) -> set(new Identifier(namespace, path), value)));
+            }
         }
     }
 
@@ -99,13 +108,18 @@ public enum PluginConfig implements IPluginConfig {
             modConfig.put(e.getId().getPath(), e.getValue());
         });
 
-        String json = new GsonBuilder().setPrettyPrinting().create().toJson(config);
-        if (!CONFIG_FILE.getParentFile().exists())
-            CONFIG_FILE.getParentFile().mkdirs();
-        try (FileWriter writer = new FileWriter(PluginConfig.CONFIG_FILE)) {
+        try {
+            String json = GSON.toJson(config);
+            Path parent = PATH.getParent();
+            if (!Files.exists(parent)) {
+                Files.createDirectories(parent);
+            }
+            BufferedWriter writer = Files.newBufferedWriter(PATH, StandardCharsets.UTF_8);
             writer.write(json);
+            writer.close();
         } catch (IOException e) {
             e.printStackTrace();
+
         }
     }
 

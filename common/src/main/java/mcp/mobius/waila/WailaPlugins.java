@@ -20,8 +20,6 @@ public abstract class WailaPlugins {
         PLUGINS.clear();
         gatherPlugins();
 
-        Waila.LOGGER.info("Registering plugin at {}", WailaCore.class.getCanonicalName());
-
         List<IWailaPlugin> sorted = Lists.newArrayList(PLUGINS.values());
         sorted.sort((o1, o2) -> {
             if (o1.getClass() == WailaCore.class)

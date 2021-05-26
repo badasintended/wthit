@@ -49,4 +49,14 @@ public interface ICommonAccessor {
 
     ItemStack getStack();
 
+    String getModNameFormat();
+
+    String getBlockNameFormat();
+
+    String getFluidNameFormat();
+
+    String getEntityNameFormat();
+
+    String getRegistryNameFormat();
+
 }

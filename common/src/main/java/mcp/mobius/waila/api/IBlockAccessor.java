@@ -41,4 +41,12 @@ public interface IBlockAccessor {
 
     ItemStack getStack();
 
+    String getModNameFormat();
+
+    String getBlockNameFormat();
+
+    String getFluidNameFormat();
+
+    String getRegistryNameFormat();
+
 }

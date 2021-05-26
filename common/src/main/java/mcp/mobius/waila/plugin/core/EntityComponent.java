@@ -8,9 +8,8 @@ import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITaggableList;
-import mcp.mobius.waila.config.WailaConfig;
+import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.util.ModIdentification;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -27,10 +26,9 @@ public enum EntityComponent implements IEntityComponentProvider {
     @Override
     public void appendHead(List<Text> tooltip, IEntityAccessor accessor, IPluginConfig config) {
         Entity entity = accessor.getEntity();
-        WailaConfig.ConfigFormatting formatting = Waila.config.get().getFormatting();
-        ((ITaggableList<Identifier, Text>) tooltip).setTag(BlockComponent.OBJECT_NAME_TAG, new LiteralText(String.format(formatting.getEntityName(), entity.getDisplayName().getString())));
-        if (MinecraftClient.getInstance().options.advancedItemTooltips)
-            ((ITaggableList<Identifier, Text>) tooltip).setTag(BlockComponent.REGISTRY_NAME_TAG, new LiteralText(String.format(formatting.getRegistryName(), Registry.ENTITY_TYPE.getId(entity.getType()))));
+        ((ITaggableList<Identifier, Text>) tooltip).setTag(WailaConstants.OBJECT_NAME_TAG, new LiteralText(String.format(accessor.getEntityNameFormat(), entity.getDisplayName().getString())));
+        if (config.get(WailaConstants.CONFIG_SHOW_REGISTRY))
+            ((ITaggableList<Identifier, Text>) tooltip).setTag(WailaConstants.REGISTRY_NAME_TAG, new LiteralText(String.format(accessor.getRegistryNameFormat(), Registry.ENTITY_TYPE.getId(entity.getType()))));
     }
 
     @Override
@@ -53,8 +51,8 @@ public enum EntityComponent implements IEntityComponentProvider {
 
     @Override
     public void appendTail(List<Text> tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        if (config.get(WailaCore.CONFIG_SHOW_MOD_NAME))
-            ((ITaggableList<Identifier, Text>) tooltip).setTag(BlockComponent.MOD_NAME_TAG, new LiteralText(String.format(Waila.config.get().getFormatting().getModName(), ModIdentification.getModInfo(accessor.getEntity()).getName())));
+        if (config.get(WailaConstants.CONFIG_SHOW_MOD_NAME))
+            ((ITaggableList<Identifier, Text>) tooltip).setTag(WailaConstants.MOD_NAME_TAG, new LiteralText(String.format(Waila.config.get().getFormatting().getModName(), ModIdentification.getModInfo(accessor.getEntity()).getName())));
     }
 
 }

@@ -1,7 +1,7 @@
 package mcp.mobius.waila.forge;
 
-import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.WailaClient;
+import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.event.WailaRenderEvent;
 import mcp.mobius.waila.api.event.WailaTooltipEvent;
 import mcp.mobius.waila.gui.GuiConfigHome;
@@ -26,13 +26,13 @@ import static net.minecraftforge.client.settings.KeyConflictContext.IN_GAME;
 import static net.minecraftforge.client.settings.KeyModifier.NONE;
 import static net.minecraftforge.fml.client.registry.ClientRegistry.registerKeyBinding;
 
-@EventBusSubscriber(modid = Waila.MODID, bus = Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = WailaConstants.WAILA, bus = Bus.MOD, value = Dist.CLIENT)
 public class ForgeWailaClient extends WailaClient {
 
     @SubscribeEvent
     static void clientSetup(FMLClientSetupEvent event) {
         keyBindingBuilder = (id, key) -> {
-            KeyBinding keyBinding = new KeyBinding("key.waila." + id, IN_GAME, NONE, KEYSYM, key, Waila.NAME);
+            KeyBinding keyBinding = new KeyBinding("key.waila." + id, IN_GAME, NONE, KEYSYM, key, WailaConstants.MOD_NAME);
             registerKeyBinding(keyBinding);
             return keyBinding;
         };
@@ -60,7 +60,7 @@ public class ForgeWailaClient extends WailaClient {
         ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.CONFIGGUIFACTORY, () -> (mc, screen) -> new GuiConfigHome(screen));
     }
 
-    @EventBusSubscriber(modid = Waila.MODID, value = Dist.CLIENT)
+    @EventBusSubscriber(modid = WailaConstants.WAILA, value = Dist.CLIENT)
     static class Subscriber {
 
         @SubscribeEvent
@@ -82,8 +82,8 @@ public class ForgeWailaClient extends WailaClient {
 
     }
 
-    @Mod(Waila.WTHIT)
-    @EventBusSubscriber(modid = Waila.WTHIT, bus = Bus.MOD, value = Dist.CLIENT)
+    @Mod(WailaConstants.WTHIT)
+    @EventBusSubscriber(modid = WailaConstants.WTHIT, bus = Bus.MOD, value = Dist.CLIENT)
     public static class HahaBorgeGoBrrrr {
 
         @SubscribeEvent

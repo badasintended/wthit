@@ -30,4 +30,10 @@ public interface IEntityAccessor {
 
     double getPartialFrame();
 
+    String getModNameFormat();
+
+    String getEntityNameFormat();
+
+    String getRegistryNameFormat();
+
 }

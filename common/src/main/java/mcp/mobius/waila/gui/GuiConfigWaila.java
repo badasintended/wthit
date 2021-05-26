@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.gui.config.OptionsListWidget;
 import mcp.mobius.waila.gui.config.value.OptionsEntryValueInput;
@@ -30,7 +31,7 @@ public class GuiConfigWaila extends GuiOptions {
     }
 
     public GuiConfigWaila(Screen parent) {
-        super(parent, new TranslatableText("gui.waila.configuration", Waila.NAME), GuiConfigWaila::save, GuiConfigWaila::invalidate);
+        super(parent, new TranslatableText("gui.waila.configuration", WailaConstants.MOD_NAME), GuiConfigWaila::save, GuiConfigWaila::invalidate);
     }
 
     @Override

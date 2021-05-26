@@ -16,9 +16,19 @@ import net.minecraft.util.Identifier;
 
 public class WailaConfig {
 
+    private int configVersion = 0;
+
     private final ConfigGeneral general = new ConfigGeneral();
     private final ConfigOverlay overlay = new ConfigOverlay();
     private final ConfigFormatting formatting = new ConfigFormatting();
+
+    public int getConfigVersion() {
+        return configVersion;
+    }
+
+    public void setConfigVersion(int configVersion) {
+        this.configVersion = configVersion;
+    }
 
     public ConfigGeneral getGeneral() {
         return general;

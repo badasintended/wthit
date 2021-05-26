@@ -4,6 +4,7 @@ import java.nio.file.Path;
 
 import com.google.gson.GsonBuilder;
 import mcp.mobius.waila.api.IJsonConfig;
+import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.network.PacketSender;
 import net.minecraft.block.Block;
@@ -15,9 +16,8 @@ import org.apache.logging.log4j.Logger;
 
 public abstract class Waila {
 
-    public static final String MODID = "waila";
-    public static final String NAME = "Waila";
-    public static final String WTHIT = "wthit";
+    public static final String MODID = WailaConstants.WAILA;
+    public static final String NAME = WailaConstants.MOD_NAME;
     public static final Logger LOGGER = LogManager.getLogger("Waila");
 
     public static IJsonConfig<WailaConfig> config;
@@ -30,12 +30,13 @@ public abstract class Waila {
     public static Path configDir;
 
     public static Identifier id(String path) {
-        return new Identifier(MODID, path);
+        return new Identifier(WailaConstants.WAILA, path);
     }
 
     protected static void init() {
         config = IJsonConfig.of(WailaConfig.class)
-            .file(MODID + "/" + MODID)
+            .file(WailaConstants.WAILA + "/" + WailaConstants.WAILA)
+            .version(WailaConstants.CONFIG_VERSION, WailaConfig::getConfigVersion, WailaConfig::setConfigVersion)
             .gson(new GsonBuilder()
                 .setPrettyPrinting()
                 .registerTypeAdapter(WailaConfig.ConfigOverlay.ConfigOverlayColor.class, new WailaConfig.ConfigOverlay.ConfigOverlayColor.Adapter())

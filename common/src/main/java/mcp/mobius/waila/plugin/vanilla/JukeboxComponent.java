@@ -8,6 +8,8 @@ import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataProvider;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.JukeboxBlockEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.MusicDiscItem;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
@@ -31,7 +33,13 @@ public enum JukeboxComponent implements IBlockComponentProvider, IServerDataProv
     public void appendServerData(NbtCompound data, ServerPlayerEntity player, World world, BlockEntity blockEntity) {
         if (blockEntity instanceof JukeboxBlockEntity) {
             JukeboxBlockEntity jukebox = (JukeboxBlockEntity) blockEntity;
-            data.putString("record", Text.Serializer.toJson(jukebox.getRecord().toHoverableText()));
+            ItemStack stack = jukebox.getRecord();
+            if (!stack.isEmpty()) {
+                Text text = stack.getItem() instanceof MusicDiscItem
+                    ? new TranslatableText(stack.getTranslationKey() + ".desc")
+                    : stack.getName();
+                data.putString("record", Text.Serializer.toJson(text));
+            }
         }
     }
 

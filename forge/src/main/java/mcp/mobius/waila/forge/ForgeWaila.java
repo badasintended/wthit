@@ -1,7 +1,8 @@
 package mcp.mobius.waila.forge;
 
 import mcp.mobius.waila.Waila;
-import mcp.mobius.waila.config.PluginConfig;
+import mcp.mobius.waila.api.WailaConstants;
+import mcp.mobius.waila.api.impl.config.PluginConfig;
 import mcp.mobius.waila.command.DumpCommand;
 import mcp.mobius.waila.util.DumpGenerator;
 import mcp.mobius.waila.util.ModIdentification;
@@ -20,8 +21,8 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.loading.FMLPaths;
 
-@Mod(Waila.MODID)
-@EventBusSubscriber(modid = Waila.MODID, bus = Bus.MOD)
+@Mod(WailaConstants.WAILA)
+@EventBusSubscriber(modid = WailaConstants.WAILA, bus = Bus.MOD)
 public class ForgeWaila extends Waila {
 
     @SubscribeEvent
@@ -54,7 +55,7 @@ public class ForgeWaila extends Waila {
         plugins.initialize();
     }
 
-    @EventBusSubscriber(modid = Waila.MODID)
+    @EventBusSubscriber(modid = WailaConstants.WAILA)
     static class Subscriber {
 
         @SubscribeEvent
