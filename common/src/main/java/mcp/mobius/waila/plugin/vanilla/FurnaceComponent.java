@@ -10,6 +10,7 @@ import mcp.mobius.waila.api.IServerDataProvider;
 import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.state.property.Properties;
@@ -31,7 +32,7 @@ public enum FurnaceComponent implements IBlockComponentProvider, IServerDataProv
         if (!accessor.getBlockState().get(Properties.LIT))
             return;
 
-        NbtList furnaceItems = accessor.getServerData().getList("furnace", 10 /* COMPOUND */);
+        NbtList furnaceItems = accessor.getServerData().getList("furnace", NbtElement.COMPOUND_TYPE);
 
         tooltip.add(IDrawableText.create()
             .with(RENDER_ITEM, furnaceItems.getCompound(0))

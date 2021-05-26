@@ -2,7 +2,7 @@
   "required"          : true,
   "minVersion"        : "0.8",
   "package"           : "mcp.mobius.waila.mixin",
-  "compatibilityLevel": "JAVA_8",
+  "compatibilityLevel": "JAVA_16",
   "injectors"         : {
     "defaultRequire": 1
   },

@@ -71,7 +71,7 @@ public class DumpGenerator {
                 builder.append("\n| `").append(k.getName()).append("` ");
                 int[] i = {0};
                 v.stream()
-                    .map(o -> o.value.getClass().getName())
+                    .map(o -> o.value().getClass().getName())
                     .distinct()
                     .sorted(String::compareToIgnoreCase)
                     .forEachOrdered(s -> {

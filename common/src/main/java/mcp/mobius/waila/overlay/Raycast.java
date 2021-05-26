@@ -14,6 +14,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.ProjectileUtil;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
@@ -54,7 +55,7 @@ public class Raycast {
         Vec3d traceEnd = eyePosition.add(lookVector.x * playerReach, lookVector.y * playerReach, lookVector.z * playerReach);
 
         if (PluginConfig.INSTANCE.get(WailaConstants.CONFIG_SHOW_ENTITY)) {
-            EntityHitResult result = ProjectileUtil.getEntityCollision(world, entity, eyePosition, traceEnd, new Box(eyePosition, traceEnd), null);
+            EntityHitResult result = ProjectileUtil.getEntityCollision(world, entity, eyePosition, traceEnd, new Box(eyePosition, traceEnd), EntityPredicates.VALID_ENTITY);
             if (result != null) {
                 return result;
             }

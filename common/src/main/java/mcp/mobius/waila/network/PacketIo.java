@@ -18,7 +18,7 @@ import net.minecraft.util.math.BlockPos;
 
 public abstract class PacketIo<I, O> {
 
-    public static final PacketIo<NbtCompound, NbtCompound> ReceiveData = new PacketIo<NbtCompound, NbtCompound>() {
+    public static final PacketIo<NbtCompound, NbtCompound> ReceiveData = new PacketIo<>() {
         @Override
         public void write(PacketByteBuf buf, NbtCompound tag) {
             buf.writeNbt(tag);
@@ -30,7 +30,7 @@ public abstract class PacketIo<I, O> {
         }
     };
 
-    public static final PacketIo<Entity, Integer> RequestEntity = new PacketIo<Entity, Integer>() {
+    public static final PacketIo<Entity, Integer> RequestEntity = new PacketIo<>() {
         @Override
         public void write(PacketByteBuf buf, Entity entity) {
             buf.writeInt(entity.getId());
@@ -42,7 +42,7 @@ public abstract class PacketIo<I, O> {
         }
     };
 
-    public static final PacketIo<BlockEntity, BlockPos> RequestBlock = new PacketIo<BlockEntity, BlockPos>() {
+    public static final PacketIo<BlockEntity, BlockPos> RequestBlock = new PacketIo<>() {
         @Override
         public void write(PacketByteBuf buf, BlockEntity blockEntity) {
             buf.writeBlockPos(blockEntity.getPos());
@@ -54,7 +54,7 @@ public abstract class PacketIo<I, O> {
         }
     };
 
-    public static final PacketIo<PluginConfig, Map<Identifier, Boolean>> SendConfig = new PacketIo<PluginConfig, Map<Identifier, Boolean>>() {
+    public static final PacketIo<PluginConfig, Map<Identifier, Boolean>> SendConfig = new PacketIo<>() {
         @Override
         public void write(PacketByteBuf buf, PluginConfig config) {
             Set<ConfigEntry> entries = config.getSyncableConfigs();

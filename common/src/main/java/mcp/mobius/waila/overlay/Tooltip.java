@@ -157,6 +157,7 @@ public class Tooltip {
         WailaConfig config = Waila.config.get();
         MinecraftClient.getInstance().getProfiler().push("Waila Overlay");
         RenderSystem.getModelViewStack().push();
+        RenderSystem.applyModelViewMatrix();
 
         float scale = config.getOverlay().getScale();
         RenderSystem.getModelViewStack().scale(scale, scale, 1.0F);
@@ -198,34 +199,34 @@ public class Tooltip {
         drawGradientRect(matrices, x + 1, y + 1, w - 1, 1, gradStart, gradStart);
         drawGradientRect(matrices, x + 1, y + h - 1, w - 1, 1, gradEnd, gradEnd);
 
-        matrices.pop();
-
-        if (Tooltip.hasItem()) {
-            renderStack(x + 5, y + h / 2 - 8, Raycast.getDisplayItem());
-        }
-
         RenderSystem.enableBlend();
 
-        x += hasItem() ? 26 : 6;
-        y += 6 + topOffset;
+        int textX = x + (hasItem() ? 26 : 6);
+        int textY = y + 6 + topOffset;
 
         for (Text line : LINES) {
             if (line instanceof DrawableText) {
-                ((DrawableText) line).render(matrices, x, y, delta);
+                ((DrawableText) line).render(matrices, textX, textY, delta);
             } else {
                 TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
-                textRenderer.drawWithShadow(matrices, line, x, y, color.getFontColor());
+                textRenderer.drawWithShadow(matrices, line, textX, textY, color.getFontColor());
             }
 
-            y += LINE_HEIGHT.getInt(line);
+            textY += LINE_HEIGHT.getInt(line);
         }
 
         RenderSystem.disableBlend();
+        matrices.pop();
 
         onPostRender.accept(rect);
 
+        if (hasItem()) {
+            renderStack(x + 5, y + h / 2 - 8, Raycast.getDisplayItem());
+        }
+
         RenderSystem.enableDepthTest();
         RenderSystem.getModelViewStack().pop();
+        RenderSystem.applyModelViewMatrix();
         MinecraftClient.getInstance().getProfiler().pop();
     }
 

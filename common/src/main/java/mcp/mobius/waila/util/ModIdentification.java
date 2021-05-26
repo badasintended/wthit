@@ -20,8 +20,8 @@ public class ModIdentification {
     private static final Info COMMON_MOD_INFO = new Info("c", "Common");
 
     static {
-        CONTAINER_CACHE.put(MC_MOD_INFO.getId(), MC_MOD_INFO);
-        CONTAINER_CACHE.put(COMMON_MOD_INFO.getId(), COMMON_MOD_INFO);
+        CONTAINER_CACHE.put(MC_MOD_INFO.id(), MC_MOD_INFO);
+        CONTAINER_CACHE.put(COMMON_MOD_INFO.id(), COMMON_MOD_INFO);
     }
 
     public static Info getModInfo(String namespace) {
@@ -42,27 +42,9 @@ public class ModIdentification {
 
     public static Info getModInfo(Entity entity) {
         Identifier id = Registry.ENTITY_TYPE.getId(entity.getType());
-        return getModInfo(id == null ? new Identifier("nope") : id);
+        return getModInfo(id);
     }
 
-    public static class Info {
-
-        private final String id;
-        private final String name;
-
-        public Info(String id, String name) {
-            this.id = id;
-            this.name = name;
-        }
-
-        public String getId() {
-            return id;
-        }
-
-        public String getName() {
-            return name;
-        }
-
-    }
+    public static record Info(String id, String name) {}
 
 }

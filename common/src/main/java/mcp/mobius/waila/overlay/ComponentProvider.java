@@ -39,15 +39,9 @@ public class ComponentProvider {
         for (IBlockComponentProvider provider : providers) {
             try {
                 switch (position) {
-                    case HEAD:
-                        provider.appendHead(tooltip, accessor, PluginConfig.INSTANCE);
-                        break;
-                    case BODY:
-                        provider.appendBody(tooltip, accessor, PluginConfig.INSTANCE);
-                        break;
-                    case TAIL:
-                        provider.appendTail(tooltip, accessor, PluginConfig.INSTANCE);
-                        break;
+                    case HEAD -> provider.appendHead(tooltip, accessor, PluginConfig.INSTANCE);
+                    case BODY -> provider.appendBody(tooltip, accessor, PluginConfig.INSTANCE);
+                    case TAIL -> provider.appendTail(tooltip, accessor, PluginConfig.INSTANCE);
                 }
             } catch (Throwable e) {
                 ExceptionHandler.handleErr(e, provider.getClass().toString(), tooltip);
@@ -73,15 +67,9 @@ public class ComponentProvider {
         for (IEntityComponentProvider provider : providers) {
             try {
                 switch (position) {
-                    case HEAD:
-                        provider.appendHead(tooltip, accessor, PluginConfig.INSTANCE);
-                        break;
-                    case BODY:
-                        provider.appendBody(tooltip, accessor, PluginConfig.INSTANCE);
-                        break;
-                    case TAIL:
-                        provider.appendTail(tooltip, accessor, PluginConfig.INSTANCE);
-                        break;
+                    case HEAD -> provider.appendHead(tooltip, accessor, PluginConfig.INSTANCE);
+                    case BODY -> provider.appendBody(tooltip, accessor, PluginConfig.INSTANCE);
+                    case TAIL -> provider.appendTail(tooltip, accessor, PluginConfig.INSTANCE);
                 }
             } catch (Throwable e) {
                 ExceptionHandler.handleErr(e, provider.getClass().toString(), tooltip);

@@ -11,6 +11,7 @@ import mcp.mobius.waila.gui.config.value.OptionsEntryValueBoolean;
 import mcp.mobius.waila.gui.config.value.OptionsEntryValueCycle;
 import mcp.mobius.waila.gui.config.value.OptionsEntryValueEnum;
 import mcp.mobius.waila.gui.config.value.OptionsEntryValueInput;
+import net.minecraft.class_6379;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Element;
 import net.minecraft.client.gui.widget.ButtonWidget;
@@ -28,8 +29,7 @@ public class OptionsListWidget extends ElementListWidget<OptionsListWidget.Entry
         this.owner = owner;
         this.diskWriter = diskWriter;
 
-        // remove middle background
-        method_31322(false);
+        setRenderBackground(false);
     }
 
     public OptionsListWidget(GuiOptions owner, MinecraftClient client, int x, int height, int width, int y, int entryHeight) {
@@ -115,6 +115,11 @@ public class OptionsListWidget extends ElementListWidget<OptionsListWidget.Entry
 
         @Override
         public List<? extends Element> children() {
+            return Collections.emptyList();
+        }
+
+        @Override
+        public List<? extends class_6379> method_37025() {
             return Collections.emptyList();
         }
 

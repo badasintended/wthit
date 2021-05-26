@@ -33,8 +33,7 @@ public enum EntityComponent implements IEntityComponentProvider {
 
     @Override
     public void appendBody(List<Text> tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        if (config.get(WailaCore.CONFIG_SHOW_ENTITY_HEALTH) && accessor.getEntity() instanceof LivingEntity) {
-            LivingEntity living = (LivingEntity) accessor.getEntity();
+        if (config.get(WailaCore.CONFIG_SHOW_ENTITY_HEALTH) && accessor.getEntity() instanceof LivingEntity living) {
             float health = living.getHealth();
             float maxHealth = living.getMaxHealth();
 
@@ -52,7 +51,7 @@ public enum EntityComponent implements IEntityComponentProvider {
     @Override
     public void appendTail(List<Text> tooltip, IEntityAccessor accessor, IPluginConfig config) {
         if (config.get(WailaConstants.CONFIG_SHOW_MOD_NAME))
-            ((ITaggableList<Identifier, Text>) tooltip).setTag(WailaConstants.MOD_NAME_TAG, new LiteralText(String.format(Waila.config.get().getFormatting().getModName(), ModIdentification.getModInfo(accessor.getEntity()).getName())));
+            ((ITaggableList<Identifier, Text>) tooltip).setTag(WailaConstants.MOD_NAME_TAG, new LiteralText(String.format(Waila.config.get().getFormatting().getModName(), ModIdentification.getModInfo(accessor.getEntity()).name())));
     }
 
 }

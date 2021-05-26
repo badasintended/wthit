@@ -68,7 +68,7 @@ public enum BlockComponent implements IBlockComponentProvider, IServerDataProvid
         if (!config.get(WailaConstants.CONFIG_SHOW_MOD_NAME))
             return;
 
-        String modName = ModIdentification.getModInfo(accessor.getStack().getItem()).getName();
+        String modName = ModIdentification.getModInfo(accessor.getStack().getItem()).name();
         if (!Strings.isNullOrEmpty(modName)) {
             modName = String.format(accessor.getModNameFormat(), modName);
             ((ITaggableList<Identifier, Text>) tooltip).setTag(WailaConstants.MOD_NAME_TAG, new LiteralText(modName));

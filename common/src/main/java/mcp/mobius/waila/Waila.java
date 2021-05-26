@@ -16,8 +16,6 @@ import org.apache.logging.log4j.Logger;
 
 public abstract class Waila {
 
-    public static final String MODID = WailaConstants.WAILA;
-    public static final String NAME = WailaConstants.MOD_NAME;
     public static final Logger LOGGER = LogManager.getLogger("Waila");
 
     public static IJsonConfig<WailaConfig> config;

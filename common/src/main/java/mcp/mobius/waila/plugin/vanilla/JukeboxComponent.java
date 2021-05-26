@@ -31,8 +31,7 @@ public enum JukeboxComponent implements IBlockComponentProvider, IServerDataProv
 
     @Override
     public void appendServerData(NbtCompound data, ServerPlayerEntity player, World world, BlockEntity blockEntity) {
-        if (blockEntity instanceof JukeboxBlockEntity) {
-            JukeboxBlockEntity jukebox = (JukeboxBlockEntity) blockEntity;
+        if (blockEntity instanceof JukeboxBlockEntity jukebox) {
             ItemStack stack = jukebox.getRecord();
             if (!stack.isEmpty()) {
                 Text text = stack.getItem() instanceof MusicDiscItem

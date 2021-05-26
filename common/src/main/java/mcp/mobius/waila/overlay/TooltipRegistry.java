@@ -59,15 +59,7 @@ public class TooltipRegistry<T> {
         return map;
     }
 
-    public static class Entry<T> {
-
-        public final int priority;
-        public final T value;
-
-        Entry(T value, int priority) {
-            this.value = value;
-            this.priority = priority;
-        }
+    public static record Entry<T>(T value, int priority) {
 
     }
 
