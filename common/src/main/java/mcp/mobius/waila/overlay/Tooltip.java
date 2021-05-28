@@ -24,9 +24,11 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.util.Window;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Lazy;
+import net.minecraft.util.profiler.Profiler;
 
 import static mcp.mobius.waila.api.impl.config.WailaConfig.ConfigOverlay.Position;
 import static mcp.mobius.waila.overlay.DisplayUtil.drawGradientRect;
@@ -47,7 +49,7 @@ public class Tooltip {
     private static final Lazy<Rectangle> RENDER_RECT = new Lazy<>(Rectangle::new);
     private static final Lazy<Rectangle> RECT = new Lazy<>(Rectangle::new);
 
-    private static boolean showItem;
+    private static ItemStack stack = ItemStack.EMPTY;
     private static int topOffset = 0;
 
     private static boolean started = false;
@@ -55,6 +57,8 @@ public class Tooltip {
     public static void start() {
         LINES.clear();
         LINE_HEIGHT.clear();
+        stack = ItemStack.EMPTY;
+        topOffset = 0;
         started = true;
     }
 
@@ -74,9 +78,9 @@ public class Tooltip {
         LINES.add(line);
     }
 
-    public static void setShowItem(boolean showItem) {
+    public static void setStack(ItemStack stack) {
         Preconditions.checkState(started);
-        Tooltip.showItem = showItem;
+        Tooltip.stack = PluginConfig.INSTANCE.get(WailaConstants.CONFIG_SHOW_ITEM) ? stack : ItemStack.EMPTY;
     }
 
     public static void finish() {
@@ -111,16 +115,16 @@ public class Tooltip {
         }
 
         topOffset = 0;
-        if (hasItem()) {
+        if (!stack.isEmpty()) {
             if (h < 16) {
                 topOffset = (16 - h) / 2;
             }
 
-            w = Math.max(w, 16);
+            w = Math.max(w, 16) + 20;
             h = Math.max(h, 16);
         }
 
-        w += hasItem() ? 30 : 10;
+        w += 10;
         h += 8;
 
         int windowW = (int) (window.getScaledWidth() / scale);
@@ -136,7 +140,7 @@ public class Tooltip {
         double y = windowH * anchorY.multiplier - h * alignY.multiplier + pos.getY();
 
         if (anchorX == HorizontalAlignment.CENTER && anchorY == VerticalAlignment.TOP) {
-             y += ((AccessorBossBarHud) client.inGameHud.getBossBarHud()).getBossBars().size() * 19;
+            y += ((AccessorBossBarHud) client.inGameHud.getBossBarHud()).getBossBars().size() * 19;
         }
 
         RECT.get().setRect(x, y, w, h);
@@ -144,17 +148,16 @@ public class Tooltip {
         started = false;
     }
 
-    public static boolean hasItem() {
-        return showItem && PluginConfig.INSTANCE.get(WailaConstants.CONFIG_SHOW_ITEM) && !Raycast.getDisplayItem().isEmpty();
-    }
-
     public static void render(MatrixStack matrices, float delta) {
         if (!shouldRender) {
             return;
         }
 
+        MinecraftClient client = MinecraftClient.getInstance();
+        Profiler profiler = client.getProfiler();
         WailaConfig config = Waila.CONFIG.get();
-        MinecraftClient.getInstance().getProfiler().push("Waila Overlay");
+
+        profiler.push("Waila Overlay");
         RenderSystem.pushMatrix();
 
         float scale = config.getOverlay().getScale();
@@ -169,7 +172,7 @@ public class Tooltip {
         if (rect == null) {
             RenderSystem.enableDepthTest();
             RenderSystem.popMatrix();
-            MinecraftClient.getInstance().getProfiler().pop();
+            profiler.pop();
             return;
         }
 
@@ -194,20 +197,21 @@ public class Tooltip {
         drawGradientRect(matrices, x + 1, y + 1, w - 1, 1, gradStart, gradStart);
         drawGradientRect(matrices, x + 1, y + h - 1, w - 1, 1, gradEnd, gradEnd);
 
-        if (Tooltip.hasItem()) {
-            renderStack(x + 5, y + h / 2 - 8, Raycast.getDisplayItem());
+        if (!stack.isEmpty()) {
+            renderStack(x + 5, y + h / 2 - 8, stack);
+            x += 20;
         }
 
-        RenderSystem.enableBlend();
-
-        x += hasItem() ? 26 : 6;
+        x += 6;
         y += 6 + topOffset;
+
+        RenderSystem.enableBlend();
 
         for (Text line : LINES) {
             if (line instanceof DrawableText) {
                 ((DrawableText) line).render(matrices, x, y, delta);
             } else {
-                TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
+                TextRenderer textRenderer = client.textRenderer;
                 textRenderer.drawWithShadow(matrices, line, x, y, color.getFontColor());
             }
 
@@ -220,7 +224,7 @@ public class Tooltip {
 
         RenderSystem.enableDepthTest();
         RenderSystem.popMatrix();
-        MinecraftClient.getInstance().getProfiler().pop();
+        profiler.pop();
     }
 
 }

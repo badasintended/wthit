@@ -32,7 +32,7 @@ public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IDataAccess
     private World world;
     private PlayerEntity player;
     private HitResult hitResult;
-    private Vec3d renderingvec = null;
+    private Vec3d renderingVec = null;
     private Block block = Blocks.AIR;
     private BlockState state = Blocks.AIR.getDefaultState();
     private BlockPos pos = BlockPos.ORIGIN;
@@ -86,12 +86,12 @@ public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IDataAccess
 
     @Override
     public Vec3d getRenderingPosition() {
-        return this.renderingvec;
+        return this.renderingVec;
     }
 
     @Override
     public CompoundTag getServerData() {
-        if ((this.blockEntity != null) && this.isTagCorrectTileEntity(this.serverData))
+        if ((this.blockEntity != null) && this.isTagCorrectBlockEntity(this.serverData))
             return serverData;
 
         if ((this.entity != null) && this.isTagCorrectEntity(this.serverData))
@@ -178,7 +178,7 @@ public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IDataAccess
             double px = viewEntity.prevX + (viewEntity.getX() - viewEntity.prevX) * partialTicks;
             double py = viewEntity.prevY + (viewEntity.getY() - viewEntity.prevY) * partialTicks;
             double pz = viewEntity.prevZ + (viewEntity.getZ() - viewEntity.prevZ) * partialTicks;
-            this.renderingvec = new Vec3d(this.pos.getX() - px, this.pos.getY() - py, this.pos.getZ() - pz);
+            this.renderingVec = new Vec3d(this.pos.getX() - px, this.pos.getY() - py, this.pos.getZ() - pz);
             this.partialFrame = partialTicks;
         }
     }
@@ -191,10 +191,6 @@ public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IDataAccess
         this.serverData = tag;
     }
 
-    public void setStack(ItemStack stack) {
-        this.stack = stack;
-    }
-
     public void setState(BlockState state) {
         this.state = state;
         this.block = state.getBlock();
@@ -202,7 +198,7 @@ public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IDataAccess
         this.blockRegistryName = Registry.BLOCK.getId(block);
     }
 
-    private boolean isTagCorrectTileEntity(CompoundTag tag) {
+    private boolean isTagCorrectBlockEntity(CompoundTag tag) {
         if (tag == null) {
             this.timeLastUpdate = System.currentTimeMillis() - 250;
             return false;
