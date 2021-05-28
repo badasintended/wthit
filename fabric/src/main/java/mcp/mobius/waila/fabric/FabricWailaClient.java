@@ -28,9 +28,10 @@ public class FabricWailaClient extends WailaClient implements ClientModInitializ
 
         HudRenderCallback.EVENT.register(Tooltip::render);
 
-        ClientTickEvents.END_CLIENT_TICK.register(client -> onCientTick());
+        ClientTickEvents.END_CLIENT_TICK.register(client -> onClientTick());
 
-        ItemTooltipCallback.EVENT.register(WailaClient::onItemTooltip);
+        ItemTooltipCallback.EVENT.register((stack, ctx, tooltip) ->
+            WailaClient.onItemTooltip(stack, tooltip));
 
         Tooltip.onCreate = texts ->
             WailaTooltipEvent.WAILA_HANDLE_TOOLTIP.invoker().onTooltip(new WailaTooltipEvent(texts, DataAccessor.INSTANCE));
@@ -42,7 +43,6 @@ public class FabricWailaClient extends WailaClient implements ClientModInitializ
 
         Tooltip.onPostRender = position ->
             WailaRenderEvent.WAILA_RENDER_POST.invoker().onPostRender(new WailaRenderEvent.Post(position));
-
 
         FabricTickHandler.registerListener();
     }

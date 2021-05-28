@@ -72,12 +72,12 @@ public class ForgeWailaClient extends WailaClient {
         @SubscribeEvent
         static void clientTick(TickEvent.ClientTickEvent event) {
             if (event.phase == TickEvent.Phase.END)
-                onCientTick();
+                onClientTick();
         }
 
         @SubscribeEvent
         static void itemTooltip(ItemTooltipEvent event) {
-            onItemTooltip(event.getItemStack(), event.getFlags(), event.getToolTip());
+            onItemTooltip(event.getItemStack(), event.getToolTip());
         }
 
     }

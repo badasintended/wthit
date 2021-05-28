@@ -11,7 +11,6 @@ import mcp.mobius.waila.gui.GuiConfigHome;
 import mcp.mobius.waila.overlay.TickHandler;
 import mcp.mobius.waila.utils.ModIdentification;
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.item.TooltipContext;
 import net.minecraft.client.options.KeyBinding;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.LiteralText;
@@ -39,7 +38,7 @@ public abstract class WailaClient {
         showRecipeOutput = keyBindingBuilder.apply("show_recipe_output", GLFW.GLFW_KEY_KP_4);
     }
 
-    protected static void onCientTick() {
+    protected static void onClientTick() {
         MinecraftClient client = MinecraftClient.getInstance();
         WailaConfig config = Waila.CONFIG.get();
 
@@ -69,7 +68,7 @@ public abstract class WailaClient {
         }
     }
 
-    protected static void onItemTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip) {
+    protected static void onItemTooltip(ItemStack stack, List<Text> tooltip) {
         if (PluginConfig.INSTANCE.get(WailaConstants.CONFIG_SHOW_MOD_NAME)) {
             tooltip.add(new LiteralText(String.format(
                 Waila.CONFIG.get().getFormatting().getModName(),
