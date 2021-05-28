@@ -11,9 +11,9 @@ import mcp.mobius.waila.gui.config.value.OptionsEntryValueBoolean;
 import mcp.mobius.waila.gui.config.value.OptionsEntryValueCycle;
 import mcp.mobius.waila.gui.config.value.OptionsEntryValueEnum;
 import mcp.mobius.waila.gui.config.value.OptionsEntryValueInput;
-import net.minecraft.class_6379;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.Element;
+import net.minecraft.client.gui.Selectable;
 import net.minecraft.client.gui.widget.ButtonWidget;
 import net.minecraft.client.gui.widget.ElementListWidget;
 import net.minecraft.client.util.math.MatrixStack;
@@ -119,7 +119,7 @@ public class OptionsListWidget extends ElementListWidget<OptionsListWidget.Entry
         }
 
         @Override
-        public List<? extends class_6379> method_37025() {
+        public List<? extends Selectable> method_37025() {
             return Collections.emptyList();
         }
 

@@ -45,17 +45,17 @@ public abstract class GuiOptions extends Screen {
         setFocused(options);
 
         if (saver != null && canceller != null) {
-            method_37063(new ButtonWidget(width / 2 - 100, height - 25, 100, 20, new TranslatableText("gui.done"), w -> {
+            addDrawableChild(new ButtonWidget(width / 2 - 100, height - 25, 100, 20, new TranslatableText("gui.done"), w -> {
                 options.save();
                 saver.run();
                 onClose();
             }));
-            method_37063(new ButtonWidget(width / 2 + 5, height - 25, 100, 20, new TranslatableText("gui.cancel"), w -> {
+            addDrawableChild(new ButtonWidget(width / 2 + 5, height - 25, 100, 20, new TranslatableText("gui.cancel"), w -> {
                 canceller.run();
                 onClose();
             }));
         } else {
-            method_37063(new ButtonWidget(width / 2 - 50, height - 25, 100, 20, new TranslatableText("gui.done"), w -> {
+            addDrawableChild(new ButtonWidget(width / 2 - 50, height - 25, 100, 20, new TranslatableText("gui.done"), w -> {
                 options.save();
                 onClose();
             }));

@@ -15,6 +15,7 @@ import net.minecraft.text.Text;
  * <p>
  * {@link #currentTip} - The current tooltip to be drawn.
  */
+@SuppressWarnings("ClassCanBeRecord")
 public class WailaTooltipEvent {
 
     public static final Event<HandleTooltip> WAILA_HANDLE_TOOLTIP = EventFactory.createArrayBacked(HandleTooltip.class,
