@@ -10,6 +10,7 @@ import net.minecraft.block.CropBlock;
 import net.minecraft.block.InfestedBlock;
 import net.minecraft.block.LeverBlock;
 import net.minecraft.block.NetherWartBlock;
+import net.minecraft.block.PowderSnowBlock;
 import net.minecraft.block.RedstoneWireBlock;
 import net.minecraft.block.RepeaterBlock;
 import net.minecraft.block.StemBlock;
@@ -35,6 +36,7 @@ public class WailaVanilla implements IWailaPlugin {
     static final Identifier CONFIG_DISPLAY_FURNACE = new Identifier("display_furnace_contents");
     static final Identifier CONFIG_HIDE_SILVERFISH = new Identifier("hide_infestations");
     static final Identifier CONFIG_HIDE_TRAPPED_CHEST = new Identifier("hide_trapped_chest");
+    static final Identifier CONFIG_HIDE_POWDER_SNOW = new Identifier("hide_powder_snow");
     static final Identifier CONFIG_SPAWNER_TYPE = new Identifier("spawner_type");
     static final Identifier CONFIG_CROP_PROGRESS = new Identifier("crop_progress");
     static final Identifier CONFIG_LEVER = new Identifier("lever");
@@ -48,6 +50,7 @@ public class WailaVanilla implements IWailaPlugin {
     public void register(IRegistrar registrar) {
         registrar.addSyncedConfig(CONFIG_HIDE_SILVERFISH, true);
         registrar.addSyncedConfig(CONFIG_HIDE_TRAPPED_CHEST, true);
+        registrar.addSyncedConfig(CONFIG_HIDE_POWDER_SNOW, true);
         registrar.addConfig(CONFIG_DISPLAY_FURNACE, true);
         registrar.addConfig(CONFIG_SPAWNER_TYPE, true);
         registrar.addConfig(CONFIG_CROP_PROGRESS, true);
@@ -63,6 +66,7 @@ public class WailaVanilla implements IWailaPlugin {
 
         registrar.addOverride(InfestedBlockComponent.INSTANCE, InfestedBlock.class);
         registrar.addOverride(TrappedChestComponent.INSTANCE, TrappedChestBlock.class);
+        registrar.addOverride(PowderSnowComponent.INSTANCE, PowderSnowBlock.class);
 
         registrar.addDisplayItem(PlayerHeadComponent.INSTANCE, SkullBlockEntity.class);
         registrar.addComponent(PlayerHeadComponent.INSTANCE, BODY, SkullBlockEntity.class);
