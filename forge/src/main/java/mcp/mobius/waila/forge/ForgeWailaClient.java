@@ -7,11 +7,13 @@ import mcp.mobius.waila.api.event.WailaTooltipEvent;
 import mcp.mobius.waila.gui.GuiConfigHome;
 import mcp.mobius.waila.overlay.DataAccessor;
 import mcp.mobius.waila.overlay.Tooltip;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.options.KeyBinding;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ExtensionPoint;
@@ -62,6 +64,13 @@ public class ForgeWailaClient extends WailaClient {
 
     @EventBusSubscriber(modid = WailaConstants.WAILA, value = Dist.CLIENT)
     static class Subscriber {
+
+        @SubscribeEvent
+        static void entityJoinWorld(EntityJoinWorldEvent event) {
+            if (event.getEntity() instanceof ClientPlayerEntity) {
+                onJoinServer();
+            }
+        }
 
         @SubscribeEvent
         static void renderGameOverlay(RenderGameOverlayEvent.Post event) {

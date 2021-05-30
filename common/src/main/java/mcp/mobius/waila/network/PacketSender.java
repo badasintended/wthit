@@ -19,6 +19,9 @@ public abstract class PacketSender {
     public abstract void sendConfig(PluginConfig config, ServerPlayerEntity player);
 
     @Environment(EnvType.CLIENT)
+    public abstract boolean isServerAvailable();
+
+    @Environment(EnvType.CLIENT)
     public abstract void requestEntity(Entity entity);
 
     @Environment(EnvType.CLIENT)

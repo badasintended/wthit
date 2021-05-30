@@ -57,6 +57,12 @@ public class FabricPacketSender extends PacketSender {
 
     @Override
     @Environment(EnvType.CLIENT)
+    public boolean isServerAvailable() {
+        return ClientPlayNetworking.canSend(REQUEST_ENTITY);
+    }
+
+    @Override
+    @Environment(EnvType.CLIENT)
     public void requestEntity(Entity entity) {
         ClientPlayNetworking.send(REQUEST_ENTITY, RequestEntity.create(entity));
     }

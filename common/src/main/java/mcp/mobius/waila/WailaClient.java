@@ -38,6 +38,14 @@ public abstract class WailaClient {
         showRecipeOutput = keyBindingBuilder.apply("show_recipe_output", GLFW.GLFW_KEY_KP_4);
     }
 
+    protected static void onJoinServer() {
+        if (!Waila.packet.isServerAvailable()) {
+            Waila.LOGGER.warn("WTHIT is not found on the server, all syncable config will reset to their default value.");
+            PluginConfig.INSTANCE.getSyncableConfigs().forEach(config ->
+                config.setValue(config.getDefaultValue()));
+        }
+    }
+
     protected static void onClientTick() {
         MinecraftClient client = MinecraftClient.getInstance();
         WailaConfig config = Waila.CONFIG.get();
