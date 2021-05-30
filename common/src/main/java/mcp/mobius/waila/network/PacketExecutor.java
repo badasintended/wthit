@@ -27,7 +27,8 @@ public class PacketExecutor {
     }
 
     public static void sendConfig(Map<Identifier, Boolean> map) {
-        map.forEach(PluginConfig.INSTANCE::set);
+        PluginConfig.INSTANCE.getSyncableConfigs().forEach(config ->
+            config.setValue(map.getOrDefault(config.getId(), config.getDefaultValue())));
         Waila.LOGGER.info("Received config from the server: {}", GSON.toJson(map));
     }
 

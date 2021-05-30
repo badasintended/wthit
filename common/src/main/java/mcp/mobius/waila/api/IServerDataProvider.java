@@ -1,9 +1,13 @@
 package mcp.mobius.waila.api;
 
+import mcp.mobius.waila.api.internal.ApiSide;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.ApiStatus;
 
+@ApiSide.ServerOnly
+@ApiStatus.OverrideOnly
 public interface IServerDataProvider<T> {
 
     /**

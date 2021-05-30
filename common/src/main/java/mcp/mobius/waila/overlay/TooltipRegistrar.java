@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.google.common.base.Preconditions;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.IRegistrar;
@@ -46,8 +47,10 @@ public enum TooltipRegistrar implements IRegistrar {
 
     @Override
     public void addConfig(Identifier key, boolean defaultValue) {
-        assertLock();
-        PluginConfig.INSTANCE.addConfig(new ConfigEntry(key, defaultValue, false));
+        if (Waila.clientSide) {
+            assertLock();
+            PluginConfig.INSTANCE.addConfig(new ConfigEntry(key, defaultValue, false));
+        }
     }
 
     @Override
@@ -58,23 +61,29 @@ public enum TooltipRegistrar implements IRegistrar {
 
     @Override
     public <T> void addOverride(IBlockComponentProvider provider, Class<T> clazz, int priority) {
-        assertLock();
-        assertPriority(priority);
-        blockOverride.add(clazz, provider, priority);
+        if (Waila.clientSide) {
+            assertLock();
+            assertPriority(priority);
+            blockOverride.add(clazz, provider, priority);
+        }
     }
 
     @Override
     public <T> void addDisplayItem(IBlockComponentProvider provider, Class<T> clazz, int priority) {
-        assertLock();
-        assertPriority(priority);
-        blockItem.add(clazz, provider, priority);
+        if (Waila.clientSide) {
+            assertLock();
+            assertPriority(priority);
+            blockItem.add(clazz, provider, priority);
+        }
     }
 
     @Override
     public <T> void addComponent(IBlockComponentProvider provider, TooltipPosition position, Class<T> clazz, int priority) {
-        assertLock();
-        assertPriority(priority);
-        blockComponent.get(position).add(clazz, provider, priority);
+        if (Waila.clientSide) {
+            assertLock();
+            assertPriority(priority);
+            blockComponent.get(position).add(clazz, provider, priority);
+        }
     }
 
     @Override
@@ -85,23 +94,29 @@ public enum TooltipRegistrar implements IRegistrar {
 
     @Override
     public <T> void addOverride(IEntityComponentProvider provider, Class<T> clazz, int priority) {
-        assertLock();
-        assertPriority(priority);
-        entityOverride.add(clazz, provider, priority);
+        if (Waila.clientSide) {
+            assertLock();
+            assertPriority(priority);
+            entityOverride.add(clazz, provider, priority);
+        }
     }
 
     @Override
     public <T> void addDisplayItem(IEntityComponentProvider provider, Class<T> clazz, int priority) {
-        assertLock();
-        assertPriority(priority);
-        entityItem.add(clazz, provider, priority);
+        if (Waila.clientSide) {
+            assertLock();
+            assertPriority(priority);
+            entityItem.add(clazz, provider, priority);
+        }
     }
 
     @Override
     public <T> void addComponent(IEntityComponentProvider provider, TooltipPosition position, Class<T> clazz, int priority) {
-        assertLock();
-        assertPriority(priority);
-        entityComponent.get(position).add(clazz, provider, priority);
+        if (Waila.clientSide) {
+            assertLock();
+            assertPriority(priority);
+            entityComponent.get(position).add(clazz, provider, priority);
+        }
     }
 
     @Override
@@ -112,7 +127,9 @@ public enum TooltipRegistrar implements IRegistrar {
 
     @Override
     public void addRenderer(Identifier id, ITooltipRenderer renderer) {
-        this.renderer.put(id, renderer);
+        if (Waila.clientSide) {
+            this.renderer.put(id, renderer);
+        }
     }
 
     public void lock() {

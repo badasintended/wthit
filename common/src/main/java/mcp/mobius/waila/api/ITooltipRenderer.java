@@ -2,11 +2,15 @@ package mcp.mobius.waila.api;
 
 import java.awt.Dimension;
 
+import mcp.mobius.waila.api.internal.ApiSide;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.nbt.NbtCompound;
+import org.jetbrains.annotations.ApiStatus;
 
+@ApiSide.ClientOnly
+@ApiStatus.OverrideOnly
 public interface ITooltipRenderer {
 
     /**
@@ -23,7 +27,7 @@ public interface ITooltipRenderer {
      * }</pre>
      *
      * @param data     The data supplied by the provider
-     * @param accessor A global accessor for TileEntities and Entities
+     * @param accessor A global accessor for BlockEntities and Entities
      *
      * @return Dimension of the reserved area
      */
@@ -33,7 +37,7 @@ public interface ITooltipRenderer {
      * Draw method for the renderer.
      *
      * @param data     The data supplied by the provider
-     * @param accessor A global accessor for TileEntities and Entities
+     * @param accessor A global accessor for BlockEntities and Entities
      * @param x        The X position of this renderer
      * @param y        The Y position of this renderer
      */

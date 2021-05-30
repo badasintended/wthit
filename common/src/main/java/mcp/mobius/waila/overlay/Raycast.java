@@ -44,10 +44,6 @@ public class Raycast {
         return target;
     }
 
-    public static ItemStack getTargetStack() {
-        return target != null && target.getType() == HitResult.Type.BLOCK ? getDisplayItem() : ItemStack.EMPTY;
-    }
-
     public static HitResult raycast(Entity entity, double playerReach, float tickDelta) {
         World world = entity.world;
         Vec3d eyePosition = entity.getCameraPosVec(tickDelta);
@@ -79,7 +75,7 @@ public class Raycast {
         PluginConfig config = PluginConfig.INSTANCE;
 
         if (target.getType() == HitResult.Type.ENTITY) {
-            List<IEntityComponentProvider> providers = registrar.entityItem.get(((EntityHitResult) target).getEntity());
+            List<IEntityComponentProvider> providers = registrar.entityItem.get(data.getEntity());
             for (IEntityComponentProvider provider : providers) {
                 ItemStack providerStack = provider.getDisplayItem(data, config);
                 if (!providerStack.isEmpty()) {
@@ -89,7 +85,7 @@ public class Raycast {
         } else {
             World world = MinecraftClient.getInstance().world;
             BlockPos pos = ((BlockHitResult) target).getBlockPos();
-            BlockState state = world.getBlockState(pos);
+            BlockState state = data.getBlockState();
             if (state.isAir())
                 return ItemStack.EMPTY;
 
@@ -101,7 +97,7 @@ public class Raycast {
                 }
             }
 
-            BlockEntity blockEntity = world.getBlockEntity(pos);
+            BlockEntity blockEntity = data.getBlockEntity();
             if (blockEntity != null) {
                 providers = registrar.blockItem.get(blockEntity);
                 for (IBlockComponentProvider provider : providers) {

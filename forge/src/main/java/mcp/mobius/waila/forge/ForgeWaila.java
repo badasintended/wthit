@@ -9,6 +9,7 @@ import mcp.mobius.waila.util.ModIdentification;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.tag.BlockTags;
 import net.minecraft.tag.EntityTypeTags;
+import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -19,6 +20,7 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
+import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.fml.loading.FMLPaths;
 
 @Mod(WailaConstants.WAILA)
@@ -27,6 +29,8 @@ public class ForgeWaila extends Waila {
 
     @SubscribeEvent
     static void setup(FMLCommonSetupEvent event) {
+        clientSide = FMLLoader.getDist() == Dist.CLIENT;
+
         blockBlacklist = BlockTags.createOptional(id("blacklist"));
         entityBlacklist = EntityTypeTags.createOptional(id("blacklist"));
 

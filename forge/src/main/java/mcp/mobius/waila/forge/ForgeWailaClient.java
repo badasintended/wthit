@@ -7,11 +7,13 @@ import mcp.mobius.waila.api.event.WailaTooltipEvent;
 import mcp.mobius.waila.gui.GuiConfigHome;
 import mcp.mobius.waila.overlay.DataAccessor;
 import mcp.mobius.waila.overlay.Tooltip;
+import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.options.KeyBinding;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ExtensionPoint;
@@ -64,6 +66,13 @@ public class ForgeWailaClient extends WailaClient {
     static class Subscriber {
 
         @SubscribeEvent
+        static void entityJoinWorld(EntityJoinWorldEvent event) {
+            if (event.getEntity() instanceof ClientPlayerEntity) {
+                onJoinServer();
+            }
+        }
+
+        @SubscribeEvent
         static void renderGameOverlay(RenderGameOverlayEvent.Post event) {
             if (event.getType() == RenderGameOverlayEvent.ElementType.ALL)
                 Tooltip.render(event.getMatrixStack(), event.getPartialTicks());
@@ -72,12 +81,12 @@ public class ForgeWailaClient extends WailaClient {
         @SubscribeEvent
         static void clientTick(TickEvent.ClientTickEvent event) {
             if (event.phase == TickEvent.Phase.END)
-                onCientTick();
+                onClientTick();
         }
 
         @SubscribeEvent
         static void itemTooltip(ItemTooltipEvent event) {
-            onItemTooltip(event.getItemStack(), event.getFlags(), event.getToolTip());
+            onItemTooltip(event.getItemStack(), event.getToolTip());
         }
 
     }

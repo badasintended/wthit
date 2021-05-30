@@ -7,11 +7,14 @@ import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.network.PacketExecutor;
 import mcp.mobius.waila.network.PacketSender;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.NetworkRegistry;
 import net.minecraftforge.fml.network.PacketDistributor;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
@@ -84,11 +87,19 @@ public class ForgePacketSender extends PacketSender {
     }
 
     @Override
+    @OnlyIn(Dist.CLIENT)
+    public boolean isServerAvailable() {
+        return NETWORK.isRemotePresent(MinecraftClient.getInstance().getNetworkHandler().getConnection());
+    }
+
+    @Override
+    @OnlyIn(Dist.CLIENT)
     public void requestEntity(Entity entity) {
         ForgePacketSender.NETWORK.sendToServer(new RequestEntity(entity));
     }
 
     @Override
+    @OnlyIn(Dist.CLIENT)
     public void requestBlock(BlockEntity blockEntity) {
         ForgePacketSender.NETWORK.sendToServer(new RequestBlock(blockEntity));
     }

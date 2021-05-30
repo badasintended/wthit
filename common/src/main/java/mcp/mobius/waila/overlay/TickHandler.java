@@ -11,12 +11,12 @@ import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.util.TaggableList;
 import mcp.mobius.waila.util.TaggedText;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.FluidBlock;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.screen.ChatScreen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
@@ -63,8 +63,6 @@ public class TickHandler {
         DataAccessor accessor = DataAccessor.INSTANCE;
         accessor.set(client.world, player, target, client.cameraEntity, client.getTickDelta());
 
-        ItemStack displayItem = ItemStack.EMPTY;
-
         Tooltip.start();
 
         if (target.getType() == HitResult.Type.BLOCK) {
@@ -75,8 +73,8 @@ public class TickHandler {
                 return;
             }
 
-            displayItem = Raycast.getDisplayItem();
-            accessor.setState(Raycast.getOverrideBlock());
+            BlockState state = Raycast.getOverrideBlock();
+            accessor.setState(state);
 
             TIP.clear();
             gatherBlock(accessor, TIP, HEAD);
@@ -103,8 +101,6 @@ public class TickHandler {
             accessor.setEntity(targetEnt);
 
             if (targetEnt != null) {
-                displayItem = Raycast.getDisplayItem();
-
                 TIP.clear();
                 gatherEntity(targetEnt, accessor, TIP, HEAD);
                 Tooltip.addLines(TIP);
@@ -123,7 +119,10 @@ public class TickHandler {
             }
         }
 
-        Tooltip.setShowItem(!displayItem.isEmpty());
+        if (PluginConfig.INSTANCE.get(WailaConstants.CONFIG_SHOW_ITEM)) {
+            Tooltip.setStack(Raycast.getDisplayItem());
+        }
+
         Tooltip.finish();
 
         Tooltip.shouldRender = true;

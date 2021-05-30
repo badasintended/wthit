@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.WailaPlugins;
 import mcp.mobius.waila.overlay.TooltipRegistrar;
 import mcp.mobius.waila.overlay.TooltipRegistry;
@@ -17,7 +18,7 @@ public class DumpGenerator {
     public static final Map<String, String> VERSIONS = new LinkedHashMap<>();
 
     public static String generateInfoDump() {
-        StringBuilder builder = new StringBuilder("# Waila Dump");
+        StringBuilder builder = new StringBuilder("# Waila "+ (Waila.clientSide ? "Client" : "Server")+" Dump");
 
         TooltipRegistrar registrar = TooltipRegistrar.INSTANCE;
 

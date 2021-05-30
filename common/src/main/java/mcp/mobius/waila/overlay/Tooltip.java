@@ -26,8 +26,10 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.util.Window;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.profiler.Profiler;
 
 import static mcp.mobius.waila.config.WailaConfig.ConfigOverlay.Position;
 import static mcp.mobius.waila.overlay.DisplayUtil.drawGradientRect;
@@ -48,7 +50,7 @@ public class Tooltip {
     private static final Supplier<Rectangle> RENDER_RECT = Suppliers.memoize(Rectangle::new);
     private static final Supplier<Rectangle> RECT = Suppliers.memoize(Rectangle::new);
 
-    private static boolean showItem;
+    private static ItemStack stack = ItemStack.EMPTY;
     private static int topOffset = 0;
 
     private static boolean started = false;
@@ -56,6 +58,8 @@ public class Tooltip {
     public static void start() {
         LINES.clear();
         LINE_HEIGHT.clear();
+        stack = ItemStack.EMPTY;
+        topOffset = 0;
         started = true;
     }
 
@@ -75,9 +79,9 @@ public class Tooltip {
         LINES.add(line);
     }
 
-    public static void setShowItem(boolean showItem) {
+    public static void setStack(ItemStack stack) {
         Preconditions.checkState(started);
-        Tooltip.showItem = showItem;
+        Tooltip.stack = PluginConfig.INSTANCE.get(WailaConstants.CONFIG_SHOW_ITEM) ? stack : ItemStack.EMPTY;
     }
 
     public static void finish() {
@@ -112,16 +116,16 @@ public class Tooltip {
         }
 
         topOffset = 0;
-        if (hasItem()) {
+        if (!stack.isEmpty()) {
             if (h < 16) {
                 topOffset = (16 - h) / 2;
             }
 
-            w = Math.max(w, 16);
+            w = Math.max(w, 16) + 20;
             h = Math.max(h, 16);
         }
 
-        w += hasItem() ? 30 : 10;
+        w += 10;
         h += 8;
 
         int windowW = (int) (window.getScaledWidth() / scale);
@@ -145,19 +149,17 @@ public class Tooltip {
         started = false;
     }
 
-    public static boolean hasItem() {
-        return showItem && PluginConfig.INSTANCE.get(WailaConstants.CONFIG_SHOW_ITEM) && !Raycast.getDisplayItem().isEmpty();
-    }
-
     public static void render(MatrixStack matrices, float delta) {
         if (!shouldRender) {
             return;
         }
 
+        MinecraftClient client = MinecraftClient.getInstance();
+        Profiler profiler = client.getProfiler();
         WailaConfig config = Waila.config.get();
-        MinecraftClient.getInstance().getProfiler().push("Waila Overlay");
+
+        profiler.push("Waila Overlay");
         RenderSystem.getModelViewStack().push();
-        RenderSystem.applyModelViewMatrix();
 
         float scale = config.getOverlay().getScale();
         RenderSystem.getModelViewStack().scale(scale, scale, 1.0F);
@@ -171,7 +173,7 @@ public class Tooltip {
         if (rect == null) {
             RenderSystem.enableDepthTest();
             RenderSystem.getModelViewStack().pop();
-            MinecraftClient.getInstance().getProfiler().pop();
+            profiler.pop();
             return;
         }
 
@@ -201,14 +203,14 @@ public class Tooltip {
 
         RenderSystem.enableBlend();
 
-        int textX = x + (hasItem() ? 26 : 6);
+        int textX = x + (stack.isEmpty() ? 6 : 26);
         int textY = y + 6 + topOffset;
 
         for (Text line : LINES) {
             if (line instanceof DrawableText) {
                 ((DrawableText) line).render(matrices, textX, textY, delta);
             } else {
-                TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
+                TextRenderer textRenderer = client.textRenderer;
                 textRenderer.drawWithShadow(matrices, line, textX, textY, color.getFontColor());
             }
 
@@ -220,7 +222,7 @@ public class Tooltip {
 
         onPostRender.accept(rect);
 
-        if (hasItem()) {
+        if (!stack.isEmpty()) {
             renderStack(x + 5, y + h / 2 - 8, Raycast.getDisplayItem());
         }
 
