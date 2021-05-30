@@ -30,6 +30,8 @@ public abstract class Waila {
     public static WailaPlugins plugins;
     public static Path configDir;
 
+    public static boolean clientSide = false;
+
     public static Identifier id(String path) {
         return new Identifier(WailaConstants.WAILA, path);
     }

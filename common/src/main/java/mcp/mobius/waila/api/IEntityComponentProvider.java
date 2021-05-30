@@ -2,12 +2,14 @@ package mcp.mobius.waila.api;
 
 import java.util.List;
 
+import mcp.mobius.waila.api.internal.ApiSide;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.ApiStatus;
 
 /**
  * Callback class interface used to provide Entity tooltip information to Waila.<br>
@@ -15,6 +17,8 @@ import net.minecraft.world.World;
  * registered to Waila via the {@link IRegistrar} instance provided in the original registration callback method
  * (cf. {@link IRegistrar} documentation for more information).
  */
+@ApiSide.ClientOnly
+@ApiStatus.OverrideOnly
 public interface IEntityComponentProvider {
 
     /**
@@ -51,7 +55,7 @@ public interface IEntityComponentProvider {
      * <p>
      * This method is only called on the client side. If you require data from the server, you should also implement
      * {@link IServerDataProvider#appendServerData(CompoundTag, ServerPlayerEntity, World, Object)} and add the data to the {@link CompoundTag}
-     * there, which can then be read back using {@link IEntityAccessor#getServerData()} ()}. If you rely on the client knowing
+     * there, which can then be read back using {@link IEntityAccessor#getServerData()}. If you rely on the client knowing
      * the data you need, you are not guaranteed to have the proper values.
      *
      * @param tooltip  Current list of tooltip lines (might have been processed by other providers and might be processed by other providers).
@@ -69,7 +73,7 @@ public interface IEntityComponentProvider {
      * <p>
      * This method is only called on the client side. If you require data from the server, you should also implement
      * {@link IServerDataProvider#appendServerData(CompoundTag, ServerPlayerEntity, World, Object)} and add the data to the {@link CompoundTag}
-     * there, which can then be read back using {@link IEntityAccessor#getServerData()} ()}. If you rely on the client knowing
+     * there, which can then be read back using {@link IEntityAccessor#getServerData()}. If you rely on the client knowing
      * the data you need, you are not guaranteed to have the proper values.
      *
      * @param tooltip  Current list of tooltip lines (might have been processed by other providers and might be processed by other providers).
@@ -87,7 +91,7 @@ public interface IEntityComponentProvider {
      * <p>
      * This method is only called on the client side. If you require data from the server, you should also implement
      * {@link IServerDataProvider#appendServerData(CompoundTag, ServerPlayerEntity, World, Object)} and add the data to the {@link CompoundTag}
-     * there, which can then be read back using {@link IEntityAccessor#getServerData()} ()}. If you rely on the client knowing
+     * there, which can then be read back using {@link IEntityAccessor#getServerData()}. If you rely on the client knowing
      * the data you need, you are not guaranteed to have the proper values.
      *
      * @param tooltip  Current list of tooltip lines (might have been processed by other providers and might be processed by other providers).

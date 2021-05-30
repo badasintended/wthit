@@ -1,10 +1,13 @@
 package mcp.mobius.waila.api;
 
+import mcp.mobius.waila.api.internal.ApiSide;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.ApiStatus;
 
+@ApiStatus.NonExtendable
 public interface IRegistrar {
 
     /**
@@ -18,6 +21,7 @@ public interface IRegistrar {
      * @param key          the namespaced key
      * @param defaultValue the default value
      */
+    @ApiSide.ClientOnly
     void addConfig(Identifier key, boolean defaultValue);
 
     /**
@@ -39,6 +43,7 @@ public interface IRegistrar {
      *
      * @see #DEFAULT_PRIORITY
      */
+    @ApiSide.ClientOnly
     <T> void addOverride(IBlockComponentProvider provider, Class<T> clazz, int priority);
 
     /**
@@ -50,6 +55,7 @@ public interface IRegistrar {
      *
      * @see #DEFAULT_PRIORITY
      */
+    @ApiSide.ClientOnly
     default <T> void addOverride(IBlockComponentProvider provider, Class<T> clazz) {
         addOverride(provider, clazz, DEFAULT_PRIORITY);
     }
@@ -65,6 +71,7 @@ public interface IRegistrar {
      *
      * @see #DEFAULT_PRIORITY
      */
+    @ApiSide.ClientOnly
     <T> void addDisplayItem(IBlockComponentProvider provider, Class<T> clazz, int priority);
 
     /**
@@ -75,6 +82,7 @@ public interface IRegistrar {
      * @param provider The data provider instance
      * @param clazz    The highest level class to apply to
      */
+    @ApiSide.ClientOnly
     default <T> void addDisplayItem(IBlockComponentProvider provider, Class<T> clazz) {
         addDisplayItem(provider, clazz, DEFAULT_PRIORITY);
     }
@@ -90,6 +98,7 @@ public interface IRegistrar {
      *
      * @see #DEFAULT_PRIORITY
      */
+    @ApiSide.ClientOnly
     <T> void addComponent(IBlockComponentProvider provider, TooltipPosition position, Class<T> clazz, int priority);
 
     /**
@@ -100,6 +109,7 @@ public interface IRegistrar {
      * @param position The position on the tooltip this applies to
      * @param clazz    The highest level class to apply to
      */
+    @ApiSide.ClientOnly
     default <T> void addComponent(IBlockComponentProvider provider, TooltipPosition position, Class<T> clazz) {
         addComponent(provider, position, clazz, DEFAULT_PRIORITY);
     }
@@ -111,6 +121,7 @@ public interface IRegistrar {
      * @param provider The data provider instance
      * @param clazz    The highest level class to apply to
      */
+    @ApiSide.ServerOnly
     <T> void addBlockData(IServerDataProvider<BlockEntity> provider, Class<T> clazz);
 
     /**
@@ -122,6 +133,7 @@ public interface IRegistrar {
      *
      * @see #DEFAULT_PRIORITY
      */
+    @ApiSide.ClientOnly
     <T> void addOverride(IEntityComponentProvider provider, Class<T> clazz, int priority);
 
     /**
@@ -132,6 +144,7 @@ public interface IRegistrar {
      *
      * @see #DEFAULT_PRIORITY
      */
+    @ApiSide.ClientOnly
     default <T> void addOverride(IEntityComponentProvider provider, Class<T> clazz) {
         addOverride(provider, clazz, DEFAULT_PRIORITY);
     }
@@ -145,6 +158,7 @@ public interface IRegistrar {
      *
      * @see #DEFAULT_PRIORITY
      */
+    @ApiSide.ClientOnly
     <T> void addDisplayItem(IEntityComponentProvider provider, Class<T> clazz, int priority);
 
     /**
@@ -153,6 +167,7 @@ public interface IRegistrar {
      * @param provider The data provider instance
      * @param clazz    The highest level class to apply to
      */
+    @ApiSide.ClientOnly
     default <T> void addDisplayItem(IEntityComponentProvider provider, Class<T> clazz) {
         addDisplayItem(provider, clazz, DEFAULT_PRIORITY);
     }
@@ -167,6 +182,7 @@ public interface IRegistrar {
      *
      * @see #DEFAULT_PRIORITY
      */
+    @ApiSide.ClientOnly
     <T> void addComponent(IEntityComponentProvider provider, TooltipPosition position, Class<T> clazz, int priority);
 
     /**
@@ -176,6 +192,7 @@ public interface IRegistrar {
      * @param position The position on the tooltip this applies to
      * @param clazz    The highest level class to apply to
      */
+    @ApiSide.ClientOnly
     default <T> void addComponent(IEntityComponentProvider provider, TooltipPosition position, Class<T> clazz) {
         addComponent(provider, position, clazz, DEFAULT_PRIORITY);
     }
@@ -186,6 +203,7 @@ public interface IRegistrar {
      * @param provider The data provider instance
      * @param clazz    The highest level class to apply to
      */
+    @ApiSide.ServerOnly
     <T> void addEntityData(IServerDataProvider<Entity> provider, Class<T> clazz);
 
     /**
@@ -195,6 +213,7 @@ public interface IRegistrar {
      * @param id       The identifier for lookup
      * @param renderer The renderer instance
      */
+    @ApiSide.ClientOnly
     void addRenderer(Identifier id, ITooltipRenderer renderer);
 
     // TODO: Remove

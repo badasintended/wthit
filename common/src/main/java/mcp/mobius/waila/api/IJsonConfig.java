@@ -4,18 +4,18 @@ import java.io.File;
 import java.nio.file.Path;
 import java.util.function.ObjIntConsumer;
 import java.util.function.Supplier;
-
-import com.google.gson.Gson;
-
 import java.util.function.ToIntFunction;
 
+import com.google.gson.Gson;
 import mcp.mobius.waila.utils.JsonConfig;
+import org.jetbrains.annotations.ApiStatus;
 
 /**
  * An Interface for easy (de)serialization for config classes
  *
  * @param <T> the config class
  */
+@ApiStatus.NonExtendable
 public interface IJsonConfig<T> {
 
     static <T> Builder0<T> of(Class<T> clazz) {

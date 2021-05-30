@@ -2,15 +2,19 @@ package mcp.mobius.waila.api;
 
 import java.awt.Dimension;
 
+import mcp.mobius.waila.api.internal.ApiSide;
 import mcp.mobius.waila.overlay.DrawableText;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.text.MutableText;
 import net.minecraft.util.Identifier;
+import org.jetbrains.annotations.ApiStatus;
 
 /**
  * A text that will be rendered as graphic instead.
  */
+@ApiSide.ClientOnly
+@ApiStatus.NonExtendable
 public interface IDrawableText extends MutableText {
 
     /**
