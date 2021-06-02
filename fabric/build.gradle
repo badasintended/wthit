@@ -24,18 +24,7 @@ dependencies {
     developmentFabric project(":common")
 }
 
-ext {
-    curseforge = [
-        id       : "440979",
-        type     : "beta",
-        versions : ["1.17-Snapshot"],
-        relations: [
-            requires: ["fabric-api"],
-            optional: ["modmenu"]
-        ]
-    ]
-}
-
 apply from: "../gradle/platform.gradle"
 apply from: "../gradle/maven.gradle"
 apply from: "../gradle/curseforge.gradle"
+apply from: "../gradle/modrinth.gradle"

@@ -3,36 +3,35 @@ apply plugin: "com.matthewprenger.cursegradle"
 def releaseLink = "https://github.com/badasintended/wthit/releases/tag/${project.version}"
 
 curseforge {
-    if (System.getenv("CURSEFORGE_API") != null) {
+    if (System.getenv("CURSEFORGE_API")) {
         apiKey = System.getenv("CURSEFORGE_API")
         project {
-            def cf = project.ext.curseforge
-            id = cf.id
-            releaseType = cf.type
+            id = project.cfProjectId
+            releaseType = project.cfReleaseType
 
             changelogType = "html"
             changelog = "<a href=\"${releaseLink}\">${releaseLink}</a>"
 
-            cf.versions.each { addGameVersion it }
+            project.cfMcVersion.split(", ").each {
+                addGameVersion it
+            }
             addGameVersion project.name.capitalize()
 
-            mainArtifact(remapJar.archivePath) {
+            mainArtifact(remapJar) {
                 displayName = "[${project.minecraft}] v${project.version}"
             }
 
-            if (cf.containsKey("relations")) relations {
-                def rel = cf.relations
-
-                rel.requires?.each { requiredDependency it }
-                rel.includes?.each { embeddedLibrary it }
-                rel.optional?.each { optionalDependency it }
-                rel.tools?.each { tool it }
-                rel.breaks?.each { incompatible it }
-            }
-
-            if (cf.containsKey("require")) relations {
-                cf.require.each {
+            relations {
+                project.cfRequire?.split(", ").each {
                     requiredDependency it
+                }
+
+                project.cfOptional?.split(", ").each {
+                    optionalDependency it
+                }
+
+                project.cfBreak?.split(", ").each {
+                    incompatible it
                 }
             }
 

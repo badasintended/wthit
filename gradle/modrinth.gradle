@@ -1,0 +1,16 @@
+modrinth {
+    onlyIf { System.getenv("MODRINTH_TOKEN") }
+
+    token = System.getenv("MODRINTH_TOKEN")
+    projectId = project.mrProjectId
+    versionName = "${project.name.capitalize()} ${project.version}"
+    versionNumber = "${project.name}-${project.version}"
+    releaseType = project.mrReleaseType
+    uploadFile = remapJar
+    changelog = "https://github.com/badasintended/wthit/releases/tag/${project.version}"
+
+    project.mrMcVersion.split(", ").each {
+        addGameVersion it
+    }
+    addLoader project.name
+}

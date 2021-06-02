@@ -15,18 +15,7 @@ dependencies {
     developmentForge project(":common")
 }
 
-ext {
-    curseforge = [
-        id       : "455982",
-        type     : "release",
-        versions : ["1.16.2", "1.16.3", "1.16.4", "1.16.5"],
-        relations: [
-            optional: ["jei"],
-            breaks  : ["hwyla", "jade"]
-        ]
-    ]
-}
-
 apply from: "../gradle/platform.gradle"
 apply from: "../gradle/maven.gradle"
 apply from: "../gradle/curseforge.gradle"
+apply from: "../gradle/modrinth.gradle"
