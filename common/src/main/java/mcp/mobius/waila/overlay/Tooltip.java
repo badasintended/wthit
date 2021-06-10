@@ -84,6 +84,10 @@ public class Tooltip {
         Tooltip.stack = PluginConfig.INSTANCE.get(WailaConstants.CONFIG_SHOW_ITEM) ? stack : ItemStack.EMPTY;
     }
 
+    public static ItemStack getStack() {
+        return stack;
+    }
+
     public static void finish() {
         Preconditions.checkState(started);
         onCreate.accept(LINES);
@@ -223,7 +227,7 @@ public class Tooltip {
         onPostRender.accept(rect);
 
         if (!stack.isEmpty()) {
-            renderStack(x + 5, y + h / 2 - 8, Raycast.getDisplayItem());
+            renderStack(x + 5, y + h / 2 - 8, stack);
         }
 
         RenderSystem.enableDepthTest();
