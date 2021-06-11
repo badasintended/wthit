@@ -51,7 +51,7 @@ public enum EntityComponent implements IEntityComponentProvider {
     @Override
     public void appendTail(List<Text> tooltip, IEntityAccessor accessor, IPluginConfig config) {
         if (config.get(WailaConstants.CONFIG_SHOW_MOD_NAME))
-            ((ITaggableList<Identifier, Text>) tooltip).setTag(WailaConstants.MOD_NAME_TAG, new LiteralText(String.format(Waila.config.get().getFormatting().getModName(), ModIdentification.getModInfo(accessor.getEntity()).name())));
+            ((ITaggableList<Identifier, Text>) tooltip).setTag(WailaConstants.MOD_NAME_TAG, new LiteralText(String.format(accessor.getEntityNameFormat(), ModIdentification.getModInfo(accessor.getEntity()).name())));
     }
 
 }
