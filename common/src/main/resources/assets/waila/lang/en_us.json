@@ -12,6 +12,7 @@
   "tooltip.waila.power"                                   : "Power: %d",
   "tooltip.waila.health"                                  : "%s/%s Health",
   "tooltip.waila.sneak_for_details"                       : "Sneak for details",
+  "tooltip.waila.honey_level"                             : "Honey Level: %s",
 
   "gui.waila.configuration"                               : "%s Configuration",
   "gui.waila.waila_settings"                              : "%s Settings",
@@ -105,6 +106,7 @@
   "config.waila.plugin_minecraft.redstone"                : "Power Level",
   "config.waila.plugin_minecraft.jukebox"                 : "Active Record",
   "config.waila.plugin_minecraft.player_head_name"        : "Player Head Names",
+  "config.waila.plugin_minecraft.honey_level"             : "Honey Level",
 
   "config.waila.plugin_waila"                             : "Waila Core",
   "config.waila.plugin_waila.show_mod_name"               : "Show Mod Names",

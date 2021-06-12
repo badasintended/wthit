@@ -4,6 +4,7 @@ import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.overlay.tooltiprenderers.TooltipRendererProgressBar;
 import mcp.mobius.waila.overlay.tooltiprenderers.TooltipRendererStack;
+import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.CocoaBlock;
 import net.minecraft.block.ComparatorBlock;
 import net.minecraft.block.CropBlock;
@@ -45,6 +46,7 @@ public class WailaVanilla implements IWailaPlugin {
     static final Identifier CONFIG_REDSTONE = new Identifier("redstone");
     static final Identifier CONFIG_JUKEBOX = new Identifier("jukebox");
     static final Identifier CONFIG_PLAYER_HEAD_NAME = new Identifier("player_head_name");
+    static final Identifier CONFIG_HONEY_LEVEL = new Identifier("honey_level");
 
     @Override
     public void register(IRegistrar registrar) {
@@ -60,6 +62,7 @@ public class WailaVanilla implements IWailaPlugin {
         registrar.addConfig(CONFIG_REDSTONE, true);
         registrar.addConfig(CONFIG_JUKEBOX, true);
         registrar.addConfig(CONFIG_PLAYER_HEAD_NAME, true);
+        registrar.addConfig(CONFIG_HONEY_LEVEL, true);
 
         registrar.addRenderer(RENDER_ITEM, new TooltipRendererStack());
         registrar.addRenderer(RENDER_FURNACE_PROGRESS, new TooltipRendererProgressBar());
@@ -97,6 +100,8 @@ public class WailaVanilla implements IWailaPlugin {
 
         registrar.addComponent(FurnaceComponent.INSTANCE, BODY, AbstractFurnaceBlockEntity.class);
         registrar.addBlockData(FurnaceComponent.INSTANCE, AbstractFurnaceBlockEntity.class);
+
+        registrar.addComponent(BeehiveComponent.INSTANCE, BODY, BeehiveBlock.class);
     }
 
 }
