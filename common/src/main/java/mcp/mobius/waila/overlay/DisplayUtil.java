@@ -33,10 +33,14 @@ public final class DisplayUtil extends DrawableHelper {
     }
 
     public static void renderStack(int x, int y, ItemStack stack) {
+        renderStack(x, y, stack, stack.getCount() > 1 ? shortHandNumber(stack.getCount()) : "");
+    }
+
+    public static void renderStack(int x, int y, ItemStack stack, String countText) {
         enable3DRender();
         try {
             CLIENT.getItemRenderer().renderInGui(stack, x, y);
-            CLIENT.getItemRenderer().renderGuiItemOverlay(CLIENT.textRenderer, stack, x, y, stack.getCount() > 1 ? shortHandNumber(stack.getCount()) : "");
+            CLIENT.getItemRenderer().renderGuiItemOverlay(CLIENT.textRenderer, stack, x, y, countText);
         } catch (Exception e) {
             String stackStr = stack != null ? stack.toString() : "NullStack";
             ExceptionHandler.handleErr(e, "renderStack | " + stackStr, null);

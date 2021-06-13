@@ -198,7 +198,7 @@ public class Tooltip {
         drawGradientRect(matrices, x + 1, y + h - 1, w - 1, 1, gradEnd, gradEnd);
 
         if (!stack.isEmpty()) {
-            renderStack(x + 5, y + h / 2 - 8, stack);
+            renderStack(x + 5, y + h / 2 - 8, stack, "");
             x += 20;
         }
 
