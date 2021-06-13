@@ -1,10 +1,11 @@
 package mcp.mobius.waila.overlay;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.util.ExceptionHandler;
 import net.minecraft.client.MinecraftClient;
@@ -35,10 +36,14 @@ public final class DisplayUtil extends DrawableHelper {
     }
 
     public static void renderStack(int x, int y, ItemStack stack) {
+        renderStack(x, y, stack, stack.getCount() > 1 ? shortHandNumber(stack.getCount()) : "");
+    }
+
+    public static void renderStack(int x, int y, ItemStack stack, String countText) {
         enable3DRender();
         try {
             CLIENT.getItemRenderer().renderGuiItemIcon(stack, x, y);
-            CLIENT.getItemRenderer().renderGuiItemOverlay(CLIENT.textRenderer, stack, x, y, stack.getCount() > 1 ? shortHandNumber(stack.getCount()) : "");
+            CLIENT.getItemRenderer().renderGuiItemOverlay(CLIENT.textRenderer, stack, x, y, countText);
         } catch (Exception e) {
             String stackStr = stack != null ? stack.toString() : "NullStack";
             ExceptionHandler.handleErr(e, "renderStack | " + stackStr, null);

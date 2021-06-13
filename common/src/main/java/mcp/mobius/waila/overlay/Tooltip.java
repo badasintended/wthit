@@ -227,7 +227,7 @@ public class Tooltip {
         onPostRender.accept(rect);
 
         if (!stack.isEmpty()) {
-            renderStack(x + 5, y + h / 2 - 8, stack);
+            renderStack(x + 5, y + h / 2 - 8, stack, "");
         }
 
         RenderSystem.enableDepthTest();
