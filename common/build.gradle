@@ -1,8 +1,0 @@
-dependencies {
-    modCompileOnly "net.fabricmc:fabric-loader:${fabricLoader}"
-}
-
-architectury {
-    common(false)
-    injectInjectables = false
-}

@@ -16,7 +16,7 @@ jobs:
     steps:
       - id: vars
         run: |
-          echo ::set-output name=VERSION::${GITHUB_REF#refs/*/}@${GITHUB_SHA:0:7}
+          echo ::set-output name=VERSION::git-${GITHUB_SHA:0:7}
       - uses: actions/checkout@v2
       - uses: actions/setup-java@v1
         with:
@@ -25,15 +25,15 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: ~/.gradle/caches
-          key: ${{ runner.os }}-${{ hashFiles('**/*.gradle') }}
+          key: ${{ runner.os }}-${{ hashFiles('**/*.gradle.kts') }}
       - run: ./gradlew build
         env:
           MOD_VERSION: ${{ steps.vars.outputs.VERSION }}
       - uses: actions/upload-artifact@v2
         with:
           name: fabric ${{ steps.vars.outputs.VERSION }}
-          path: "./fabric/build/libs/wthit-**-fabric.jar"
+          path: "./fabric/build/libs/**.jar"
       - uses: actions/upload-artifact@v2
         with:
           name: forge ${{ steps.vars.outputs.VERSION }}
-          path: "./forge/build/libs/wthit-**-forge.jar"
+          path: "./forge/build/libs/**.jar"

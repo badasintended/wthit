@@ -17,7 +17,7 @@ jobs:
       - uses: actions/cache@v2
         with:
           path: ~/.gradle/caches
-          key: ${{ runner.os }}-${{ hashFiles('**/*.gradle') }}
+          key: ${{ runner.os }}-${{ hashFiles('**/*.gradle.kts') }}
       - run: ./gradlew build publish curseforge modrinth
         env:
           MOD_VERSION: ${{ steps.vars.outputs.VERSION }}
@@ -27,11 +27,11 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: fabric ${{ steps.vars.outputs.VERSION }}
-          path: "./fabric/build/libs/wthit-**-fabric.jar"
+          path: "./fabric/build/libs/**.jar"
       - uses: actions/upload-artifact@v2
         with:
           name: forge ${{ steps.vars.outputs.VERSION }}
-          path: "./forge/build/libs/wthit-**-forge.jar"
+          path: "./forge/build/libs/**.jar"
       - uses: alexellis/upload-assets@0.2.2
         env:
           GITHUB_TOKEN: ${{ github.token }}
