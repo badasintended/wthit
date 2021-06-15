@@ -54,7 +54,7 @@ public interface IEntityComponentProvider {
      * You are supposed to always return the modified input current tip.</br>
      * <p>
      * This method is only called on the client side. If you require data from the server, you should also implement
-     * {@link IServerDataProvider#appendServerData(NbtCompound, ServerPlayerEntity, World, Object)} and add the data to the {@link CompoundTag}
+     * {@link IServerDataProvider#appendServerData(NbtCompound, ServerPlayerEntity, World, Object)} and add the data to the {@link NbtCompound}
      * there, which can then be read back using {@link IEntityAccessor#getServerData()}. If you rely on the client knowing
      * the data you need, you are not guaranteed to have the proper values.
      *
@@ -72,7 +72,7 @@ public interface IEntityComponentProvider {
      * You are supposed to always return the modified input current tip.</br>
      * <p>
      * This method is only called on the client side. If you require data from the server, you should also implement
-     * {@link IServerDataProvider#appendServerData(NbtCompound, ServerPlayerEntity, World, Object)} and add the data to the {@link CompoundTag}
+     * {@link IServerDataProvider#appendServerData(NbtCompound, ServerPlayerEntity, World, Object)} and add the data to the {@link NbtCompound}
      * there, which can then be read back using {@link IEntityAccessor#getServerData()}. If you rely on the client knowing
      * the data you need, you are not guaranteed to have the proper values.
      *
@@ -90,7 +90,7 @@ public interface IEntityComponentProvider {
      * You are supposed to always return the modified input current tip.</br>
      * <p>
      * This method is only called on the client side. If you require data from the server, you should also implement
-     * {@link IServerDataProvider#appendServerData(NbtCompound, ServerPlayerEntity, World, Object)} and add the data to the {@link CompoundTag}
+     * {@link IServerDataProvider#appendServerData(NbtCompound, ServerPlayerEntity, World, Object)} and add the data to the {@link NbtCompound}
      * there, which can then be read back using {@link IEntityAccessor#getServerData()}. If you rely on the client knowing
      * the data you need, you are not guaranteed to have the proper values.
      *
