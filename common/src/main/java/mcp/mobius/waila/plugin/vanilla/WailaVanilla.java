@@ -11,6 +11,7 @@ import net.minecraft.block.CropBlock;
 import net.minecraft.block.InfestedBlock;
 import net.minecraft.block.LeverBlock;
 import net.minecraft.block.NetherWartBlock;
+import net.minecraft.block.NoteBlock;
 import net.minecraft.block.PowderSnowBlock;
 import net.minecraft.block.RedstoneWireBlock;
 import net.minecraft.block.RepeaterBlock;
@@ -47,12 +48,15 @@ public class WailaVanilla implements IWailaPlugin {
     static final Identifier CONFIG_JUKEBOX = new Identifier("jukebox");
     static final Identifier CONFIG_PLAYER_HEAD_NAME = new Identifier("player_head_name");
     static final Identifier CONFIG_HONEY_LEVEL = new Identifier("honey_level");
+    static final Identifier CONFIG_NOTE_BLOCK = new Identifier("note_block");
+    static final Identifier CONFIG_NOTE_BLOCK_FLAT = new Identifier("note_block_flat");
 
     @Override
     public void register(IRegistrar registrar) {
         registrar.addSyncedConfig(CONFIG_HIDE_SILVERFISH, true);
         registrar.addSyncedConfig(CONFIG_HIDE_TRAPPED_CHEST, true);
         registrar.addSyncedConfig(CONFIG_HIDE_POWDER_SNOW, true);
+
         registrar.addConfig(CONFIG_DISPLAY_FURNACE, true);
         registrar.addConfig(CONFIG_SPAWNER_TYPE, true);
         registrar.addConfig(CONFIG_CROP_PROGRESS, true);
@@ -63,6 +67,8 @@ public class WailaVanilla implements IWailaPlugin {
         registrar.addConfig(CONFIG_JUKEBOX, true);
         registrar.addConfig(CONFIG_PLAYER_HEAD_NAME, true);
         registrar.addConfig(CONFIG_HONEY_LEVEL, true);
+        registrar.addConfig(CONFIG_NOTE_BLOCK, true);
+        registrar.addConfig(CONFIG_NOTE_BLOCK_FLAT, false);
 
         registrar.addRenderer(RENDER_ITEM, new TooltipRendererStack());
         registrar.addRenderer(RENDER_FURNACE_PROGRESS, new TooltipRendererProgressBar());
@@ -102,6 +108,8 @@ public class WailaVanilla implements IWailaPlugin {
         registrar.addBlockData(FurnaceComponent.INSTANCE, AbstractFurnaceBlockEntity.class);
 
         registrar.addComponent(BeehiveComponent.INSTANCE, BODY, BeehiveBlock.class);
+
+        registrar.addComponent(NoteBlockComponent.INSTANCE, BODY, NoteBlock.class);
     }
 
 }
