@@ -1,6 +1,6 @@
 ---
-name: Fabric Bug Report
-about: If you use fabric and have some issue
+name: 'Bug Report: Fabric Edition'
+about: If you use the blessed version.
 title: ''
 labels: bug, fabric
 assignees: ''
@@ -20,6 +20,7 @@ A clear and concise description of what you expected to happen.
 **Setup**
 Do not use Latest
 - Minecraft:
+- WTHIT:
 - Fabric Loader:
 - Fabric API
 

@@ -1,8 +1,8 @@
 ---
-name: Fabric Bug Report
-about: If you use fabric and have some issue
+name: 'Bug Report: Forge Edition'
+about: If you use the cursed version.
 title: ''
-labels: bug, fabric
+labels: bug, forge
 assignees: ''
 
 ---
@@ -20,8 +20,8 @@ A clear and concise description of what you expected to happen.
 **Setup**
 Do not use Latest
 - Minecraft:
-- Fabric Loader:
-- Fabric API
+- WTHIT:
+- Forge:
 
 **Additional context**
 Add any other context about the problem here.

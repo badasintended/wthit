@@ -1,6 +1,6 @@
 ---
 name: API
-about: if you have complaints about the API
+about: Only for plugin authors! If you have complaints about the API.
 title: ''
 labels: api
 assignees: ''
