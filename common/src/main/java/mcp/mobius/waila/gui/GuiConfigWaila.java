@@ -63,15 +63,15 @@ public class GuiConfigWaila extends GuiOptions {
                         .withInput("config.waila.rate_limit",
                             get().getGeneral().getRateLimit(),
                             val -> get().getGeneral().setRateLimit(Math.max(val, 250)),
-                            OptionsEntryValueInput.INTEGER)
+                            OptionsEntryValueInput.POSITIVE_INTEGER)
                         .withInput("config.waila.max_health_for_render",
                             get().getGeneral().getMaxHealthForRender(),
                             val -> get().getGeneral().setMaxHealthForRender(val),
-                            OptionsEntryValueInput.INTEGER)
+                            OptionsEntryValueInput.POSITIVE_INTEGER)
                         .withInput("config.waila.max_hearts_per_line",
                             get().getGeneral().getMaxHeartsPerLine(),
                             val -> get().getGeneral().setMaxHeartsPerLine(val),
-                            OptionsEntryValueInput.INTEGER);
+                            OptionsEntryValueInput.POSITIVE_INTEGER);
                 }
             }))
             .withButton("config.waila.overlay", 100, 20, w -> client.openScreen(new GuiOptions(this, new TranslatableText("config.waila.overlay")) {
@@ -80,7 +80,8 @@ public class GuiConfigWaila extends GuiOptions {
                     return new OptionsListWidget(this, client, width + 45, height, 32, height - 32, 30)
                         .withInput("config.waila.overlay_pos_x",
                             get().getOverlay().getPosition().getX(),
-                            val -> get().getOverlay().getPosition().setX(val), OptionsEntryValueInput.INTEGER)
+                            val -> get().getOverlay().getPosition().setX(val),
+                            OptionsEntryValueInput.INTEGER)
                         .withInput("config.waila.overlay_pos_y",
                             get().getOverlay().getPosition().getY(),
                             val -> get().getOverlay().getPosition().setY(val),
@@ -88,7 +89,7 @@ public class GuiConfigWaila extends GuiOptions {
                         .withInput("config.waila.overlay_scale",
                             get().getOverlay().getScale(),
                             val -> get().getOverlay().setScale(Math.max(val, 0.0F)),
-                            OptionsEntryValueInput.FLOAT)
+                            OptionsEntryValueInput.POSITIVE_FLOAT)
                         .withEnum("config.waila.overlay_anchor_x",
                             WailaConfig.ConfigOverlay.Position.HorizontalAlignment.values(),
                             get().getOverlay().getPosition().getAnchorX(),
@@ -108,7 +109,7 @@ public class GuiConfigWaila extends GuiOptions {
                         .withInput("config.waila.overlay_alpha",
                             get().getOverlay().getColor().getRawAlpha(),
                             val -> get().getOverlay().getColor().setAlpha(Math.min(100, Math.max(0, val))),
-                            OptionsEntryValueInput.INTEGER)
+                            OptionsEntryValueInput.POSITIVE_INTEGER)
                         .withCycle("config.waila.overlay_theme",
                             get().getOverlay().getColor().getThemes().stream().map(t -> t.getId().toString()).sorted(String::compareToIgnoreCase).toArray(String[]::new),
                             get().getOverlay().getColor().getTheme().getId().toString(),

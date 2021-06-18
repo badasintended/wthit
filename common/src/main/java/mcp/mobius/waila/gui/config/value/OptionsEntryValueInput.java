@@ -13,8 +13,10 @@ import net.minecraft.text.LiteralText;
 public class OptionsEntryValueInput<T> extends OptionsEntryValue<T> {
 
     public static final Predicate<String> ANY = s -> true;
-    public static final Predicate<String> INTEGER = s -> s.matches("^[0-9]*$");
-    public static final Predicate<String> FLOAT = s -> s.matches("[-+]?([0-9]*\\.[0-9]+|[0-9]+)") || s.endsWith(".") || s.isEmpty();
+    public static final Predicate<String> INTEGER = s -> s.matches("[-+]?[0-9]*$");
+    public static final Predicate<String> POSITIVE_INTEGER = s -> s.matches("[0-9]*$");
+    public static final Predicate<String> FLOAT = s -> s.matches("[-+]?[0-9]*([.][0-9]*)?");
+    public static final Predicate<String> POSITIVE_FLOAT = s -> s.matches("[0-9]*([.][0-9]*)?");
 
     private final TextFieldWidget textField;
 
