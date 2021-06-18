@@ -20,7 +20,7 @@ fun Project.publishToCurseforge(loader: String) {
                 prop["cf.gameVersion"].split(", ").forEach(this::addGameVersion)
 
                 mainArtifact(remapJar, closureOf<CurseArtifact> {
-                    displayName = "${rootProp["minecraft"]} v${project.version}"
+                    displayName = "[${rootProp["minecraft"]}] ${project.version}"
                 })
 
                 relations(closureOf<CurseRelation> {

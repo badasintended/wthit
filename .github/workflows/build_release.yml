@@ -36,4 +36,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
-          asset_paths: '["./fabric/build/libs/wthit-**-fabric.jar","./forge/build/libs/wthit-**-forge.jar"]'
+          asset_paths: '["./fabric/build/libs/*[0-9.].jar","./forge/build/libs/*[0-9.].jar"]'
