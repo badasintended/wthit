@@ -94,7 +94,7 @@
   "config.waila.overlay_align_x_right"                    : "Право",
   "config.waila.overlay_align_x_center"                   : "Центр",
 
-  "config.waila.overlay_align_y"                          : "Vertical Alignment",
+  "config.waila.overlay_align_y"                          : "Вертикальное выравнивание",
   "config.waila.overlay_align_y_desc"                     : "Как подсказки с различным размером будут выравнены друг с другом",
   "config.waila.overlay_align_y_top"                      : "Вверх",
   "config.waila.overlay_align_y_bottom"                   : "Низ",
@@ -119,7 +119,7 @@
   "config.waila.plugin_minecraft.spawner_type"            : "Тип спавнера",
   "config.waila.plugin_minecraft.crop_progress"           : "Прогресс роста",
   "config.waila.plugin_minecraft.lever"                   : "Состояние рычага",
-  "config.waila.plugin_minecraft.repeater"                : "Задержка Репитера",
+  "config.waila.plugin_minecraft.repeater"                : "Задержка Повторителя",
   "config.waila.plugin_minecraft.comparator"              : "Режим Компаратора",
   "config.waila.plugin_minecraft.redstone"                : "Уровень сигнала",
   "config.waila.plugin_minecraft.jukebox"                 : "Играющая пластинка",
