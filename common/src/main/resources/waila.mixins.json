@@ -6,6 +6,9 @@
   "injectors"         : {
     "defaultRequire": 1
   },
+  "mixins"            : [
+    "AccessorAbstractFurnaceBlockEntity"
+  ],
   "client"            : [
     "AccessorBossBarHud",
     "AccessorTextFieldWidget"

@@ -7,6 +7,7 @@ import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IDrawableText;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataProvider;
+import mcp.mobius.waila.mixin.AccessorAbstractFurnaceBlockEntity;
 import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -49,9 +50,10 @@ public enum FurnaceComponent implements IBlockComponentProvider, IServerDataProv
         items.add(furnace.getStack(1).writeNbt(new NbtCompound()));
         items.add(furnace.getStack(2).writeNbt(new NbtCompound()));
         data.put("furnace", items);
-        NbtCompound furnaceTag = furnace.writeNbt(new NbtCompound());
-        data.putInt("progress", furnaceTag.getInt("CookTime")); // smh
-        data.putInt("total", furnaceTag.getInt("CookTimeTotal")); // smh
+
+        AccessorAbstractFurnaceBlockEntity accessor = ((AccessorAbstractFurnaceBlockEntity) furnace);
+        data.putInt("progress", accessor.getCookTime());
+        data.putInt("total", accessor.getCookTimeTotal());
     }
 
 }
