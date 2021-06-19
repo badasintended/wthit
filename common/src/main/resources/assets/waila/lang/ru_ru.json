@@ -34,7 +34,7 @@
 
   "gui.waila.configuration"                               : "Конфигурация %s",
   "gui.waila.waila_settings"                              : "Настройки %s",
-  "gui.waila.plugin_settings"                             : "Настроки плагинов",
+  "gui.waila.plugin_settings"                             : "Настроки плагина",
 
   "key.waila.config"                                      : "Открыть конфиг",
   "key.waila.show_overlay"                                : "Показывать наложение",
