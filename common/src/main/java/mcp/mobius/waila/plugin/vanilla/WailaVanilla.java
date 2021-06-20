@@ -3,6 +3,7 @@ package mcp.mobius.waila.plugin.vanilla;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.overlay.tooltiprenderers.TooltipRendererProgressBar;
+import mcp.mobius.waila.overlay.tooltiprenderers.TooltipRendererSpacer;
 import mcp.mobius.waila.overlay.tooltiprenderers.TooltipRendererStack;
 import net.minecraft.block.CocoaBlock;
 import net.minecraft.block.ComparatorBlock;
@@ -30,6 +31,7 @@ import static mcp.mobius.waila.api.TooltipPosition.HEAD;
 public class WailaVanilla implements IWailaPlugin {
 
     static final Identifier RENDER_ITEM = new Identifier("item");
+    static final Identifier RENDER_SPACER = new Identifier("spacer");
     static final Identifier RENDER_FURNACE_PROGRESS = new Identifier("furnace_progress");
 
     static final Identifier CONFIG_DISPLAY_FURNACE = new Identifier("display_furnace_contents");
@@ -59,6 +61,7 @@ public class WailaVanilla implements IWailaPlugin {
         registrar.addConfig(CONFIG_PLAYER_HEAD_NAME, true);
 
         registrar.addRenderer(RENDER_ITEM, new TooltipRendererStack());
+        registrar.addRenderer(RENDER_SPACER, new TooltipRendererSpacer());
         registrar.addRenderer(RENDER_FURNACE_PROGRESS, new TooltipRendererProgressBar());
 
         registrar.addOverride(InfestedBlockComponent.INSTANCE, InfestedBlock.class);
