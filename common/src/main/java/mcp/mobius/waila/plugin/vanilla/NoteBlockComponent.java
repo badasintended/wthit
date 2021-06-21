@@ -38,7 +38,7 @@ public enum NoteBlockComponent implements IBlockComponentProvider {
         }
 
         static Note get(int level) {
-            return VALUES[level % (VALUES.length - 1)];
+            return VALUES[level % VALUES.length];
         }
     }
 
