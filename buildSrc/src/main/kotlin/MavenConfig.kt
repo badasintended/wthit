@@ -17,7 +17,7 @@ fun Project.publishToMaven() {
         val apiJar = task<Jar>("apiJar") {
             dependsOn(remapJar)
 
-            classifier = "api"
+            archiveClassifier.set("api")
 
             include("fabric.mod.json")
             include("mcp/mobius/waila/api/**")
@@ -30,7 +30,7 @@ fun Project.publishToMaven() {
         val apiSourcesJar = task<Jar>("apiSourcesJar") {
             dependsOn(remapSourcesJar)
 
-            classifier = "api-sources"
+            archiveClassifier.set("api-sources")
 
             include("fabric.mod.json")
             include("mcp/mobius/waila/api/**")
@@ -50,8 +50,9 @@ fun Project.publishToMaven() {
                     artifact(remapJar) {
                         classifier = null
                     }
-                    artifact(sourcesJar).apply {
+                    artifact(sourcesJar) {
                         builtBy(remapSourcesJar)
+                        classifier = "sources"
                     }
                 }
                 create<MavenPublication>("api") {

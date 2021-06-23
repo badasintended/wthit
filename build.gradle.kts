@@ -8,8 +8,6 @@ plugins {
 
 version = env["MOD_VERSION"] ?: "local"
 
-val rootProp = rootProject.prop
-
 architectury {
     minecraft = rootProp["minecraft"]
 }

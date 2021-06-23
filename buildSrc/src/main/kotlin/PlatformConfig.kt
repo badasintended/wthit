@@ -42,6 +42,7 @@ fun Project.platform(platform: Platform) {
         platform.development(project(":common"))
     }
 
+    @Suppress("UnstableApiUsage")
     tasks.named<ProcessResources>("processResources") {
         inputs.property("version", project.version)
 
@@ -56,7 +57,7 @@ fun Project.platform(platform: Platform) {
 
     tasks.named<ShadowJar>("shadowJar") {
         configurations = listOf(project.configurations["shadowCommon"])
-        classifier = "dev-shadow"
+        archiveClassifier.set("dev-shadow")
     }
 
     tasks.named<RemapJarTask>("remapJar") {
@@ -65,7 +66,7 @@ fun Project.platform(platform: Platform) {
     }
 
     tasks.named<Jar>("jar") {
-        classifier = "dev"
+        archiveClassifier.set("dev")
     }
 
     tasks.named<Jar>("sourcesJar") {
