@@ -16,5 +16,5 @@ dependencies {
 }
 
 publishToMaven()
-publishToCurseforge("fabric")
-publishToModrinth("fabric")
+publishToCurseforge()
+publishToModrinth()

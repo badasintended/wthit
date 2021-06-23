@@ -1,9 +1,12 @@
-import com.matthewprenger.cursegradle.*
+import com.matthewprenger.cursegradle.CurseArtifact
+import com.matthewprenger.cursegradle.CurseExtension
+import com.matthewprenger.cursegradle.CurseProject
+import com.matthewprenger.cursegradle.CurseRelation
 import net.fabricmc.loom.task.RemapJarTask
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.*
 
-fun Project.publishToCurseforge(loader: String) {
+fun Project.publishToCurseforge() {
     apply(plugin = "com.matthewprenger.cursegradle")
 
     val remapJar: RemapJarTask by tasks
@@ -17,6 +20,7 @@ fun Project.publishToCurseforge(loader: String) {
                 changelogType = "markdown"
                 changelog = "https://github.com/badasintended/wthit/releases/tag/${project.version}"
 
+                addGameVersion(project.name)
                 prop["cf.gameVersion"].split(", ").forEach(this::addGameVersion)
 
                 mainArtifact(remapJar, closureOf<CurseArtifact> {
