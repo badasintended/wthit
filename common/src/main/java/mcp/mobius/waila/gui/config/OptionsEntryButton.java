@@ -23,9 +23,9 @@ public class OptionsEntryButton extends OptionsListWidget.Entry {
 
     @Override
     public void render(MatrixStack matrices, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
-        client.textRenderer.drawWithShadow(matrices, title, rowLeft + 10, rowTop + (height / 4) + (client.textRenderer.fontHeight / 2), 16777215);
-        this.button.x = rowLeft + 135;
-        this.button.y = rowTop + height / 6;
+        client.textRenderer.drawWithShadow(matrices, title, rowLeft, rowTop + (height - client.textRenderer.fontHeight) / 2f, 16777215);
+        this.button.x = rowLeft + width - button.getWidth();
+        this.button.y = rowTop + (height - button.getHeight()) / 2;
         this.button.render(matrices, mouseX, mouseY, deltaTime);
     }
 

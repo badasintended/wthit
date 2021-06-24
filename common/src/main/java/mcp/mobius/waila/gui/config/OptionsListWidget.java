@@ -23,8 +23,8 @@ public class OptionsListWidget extends ElementListWidget<OptionsListWidget.Entry
     private final GuiOptions owner;
     private final Runnable diskWriter;
 
-    public OptionsListWidget(GuiOptions owner, MinecraftClient client, int x, int height, int width, int y, int entryHeight, Runnable diskWriter) {
-        super(client, x, height, width, y, entryHeight);
+    public OptionsListWidget(GuiOptions owner, MinecraftClient client, int width, int height, int top, int bottom, int itemHeight, Runnable diskWriter) {
+        super(client, width, height, top, bottom, itemHeight);
 
         this.owner = owner;
         this.diskWriter = diskWriter;
@@ -32,13 +32,18 @@ public class OptionsListWidget extends ElementListWidget<OptionsListWidget.Entry
         setRenderBackground(false);
     }
 
-    public OptionsListWidget(GuiOptions owner, MinecraftClient client, int x, int height, int width, int y, int entryHeight) {
-        this(owner, client, x, height, width, y, entryHeight, null);
+    public OptionsListWidget(GuiOptions owner, MinecraftClient client, int width, int height, int top, int bottom, int itemHeight) {
+        this(owner, client, width, height, top, bottom, itemHeight, null);
     }
 
     @Override
     public int getRowWidth() {
-        return 250;
+        return Math.min(width - 5, 300);
+    }
+
+    @Override
+    protected int getScrollbarPositionX() {
+        return getRowRight() + 5;
     }
 
     public void save() {

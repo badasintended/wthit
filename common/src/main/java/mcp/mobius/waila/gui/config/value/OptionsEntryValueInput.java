@@ -34,9 +34,9 @@ public class OptionsEntryValueInput<T> extends OptionsEntryValue<T> {
     }
 
     @Override
-    protected void drawValue(MatrixStack matrices, int entryWidth, int entryHeight, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks) {
-        textField.setX(x + 135);
-        textField.y = y + entryHeight / 6;
+    protected void drawValue(MatrixStack matrices, int width, int height, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks) {
+        textField.setX(x + width - textField.getWidth());
+        textField.y = y + (height - textField.getHeight()) / 2;
         textField.render(matrices, mouseX, mouseY, partialTicks);
     }
 

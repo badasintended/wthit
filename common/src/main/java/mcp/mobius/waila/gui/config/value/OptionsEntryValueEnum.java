@@ -24,9 +24,9 @@ public class OptionsEntryValueEnum<T extends Enum<T>> extends OptionsEntryValue<
     }
 
     @Override
-    protected void drawValue(MatrixStack matrices, int entryWidth, int entryHeight, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks) {
-        this.button.x = x + 135;
-        this.button.y = y + entryHeight / 6;
+    protected void drawValue(MatrixStack matrices, int width, int height, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks) {
+        this.button.x = x + width - button.getWidth();
+        this.button.y = y + (height - button.getHeight()) / 2;
         this.button.setMessage(new TranslatableText(translationKey + "_" + value.name().toLowerCase(Locale.ROOT)));
         this.button.render(matrices, mouseX, mouseY, partialTicks);
     }

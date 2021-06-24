@@ -36,11 +36,11 @@ public class GuiConfigWaila extends GuiOptions {
 
     @Override
     public OptionsListWidget getOptions() {
-        return new OptionsListWidget(this, client, width + 45, height, 32, height - 32, 30, GuiConfigWaila::save)
+        return new OptionsListWidget(this, client, width, height, 32, height - 32, 30, GuiConfigWaila::save)
             .withButton("config.waila.general", 100, 20, w -> client.openScreen(new GuiOptions(this, new TranslatableText("config.waila.general")) {
                 @Override
                 public OptionsListWidget getOptions() {
-                    return new OptionsListWidget(this, client, width + 45, height, 32, height - 32, 30)
+                    return new OptionsListWidget(this, client, width, height, 32, height - 32, 30)
                         .withBoolean("config.waila.display_tooltip",
                             get().getGeneral().shouldDisplayTooltip(),
                             val -> get().getGeneral().setDisplayTooltip(val))
@@ -77,7 +77,7 @@ public class GuiConfigWaila extends GuiOptions {
             .withButton("config.waila.overlay", 100, 20, w -> client.openScreen(new GuiOptions(this, new TranslatableText("config.waila.overlay")) {
                 @Override
                 public OptionsListWidget getOptions() {
-                    return new OptionsListWidget(this, client, width + 45, height, 32, height - 32, 30)
+                    return new OptionsListWidget(this, client, width, height, 32, height - 32, 30)
                         .withInput("config.waila.overlay_pos_x",
                             get().getOverlay().getPosition().getX(),
                             val -> get().getOverlay().getPosition().setX(val),
@@ -119,7 +119,7 @@ public class GuiConfigWaila extends GuiOptions {
             .withButton("config.waila.formatting", 100, 20, w -> client.openScreen(new GuiOptions(this, new TranslatableText("config.waila.overlay")) {
                 @Override
                 public OptionsListWidget getOptions() {
-                    return new OptionsListWidget(this, client, width + 45, height, 32, height - 32, 30)
+                    return new OptionsListWidget(this, client, width, height, 32, height - 32, 30)
                         .withInput("config.waila.format_mod_name",
                             get().getFormatting().getModName(),
                             val -> get().getFormatting().setModName(val.isEmpty() || !val.contains("%s") ? get().getFormatting().getModName() : val))

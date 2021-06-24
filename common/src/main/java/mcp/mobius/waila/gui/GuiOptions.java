@@ -45,12 +45,12 @@ public abstract class GuiOptions extends Screen {
         setFocused(options);
 
         if (saver != null && canceller != null) {
-            addDrawableChild(new ButtonWidget(width / 2 - 100, height - 25, 100, 20, new TranslatableText("gui.done"), w -> {
+            addDrawableChild(new ButtonWidget(width / 2 - 102, height - 25, 100, 20, new TranslatableText("gui.done"), w -> {
                 options.save();
                 saver.run();
                 onClose();
             }));
-            addDrawableChild(new ButtonWidget(width / 2 + 5, height - 25, 100, 20, new TranslatableText("gui.cancel"), w -> {
+            addDrawableChild(new ButtonWidget(width / 2 + 2, height - 25, 100, 20, new TranslatableText("gui.cancel"), w -> {
                 canceller.run();
                 onClose();
             }));
@@ -76,11 +76,7 @@ public abstract class GuiOptions extends Screen {
             if (element instanceof OptionsEntryValue<?> value) {
 
                 if (I18n.hasTranslation(value.getDescription())) {
-                    int valueX = value.getX() + 10;
                     String title = value.getTitle().getString();
-                    if (mouseX < valueX || mouseX > valueX + textRenderer.getWidth(title))
-                        return;
-
                     List<OrderedText> tooltip = Lists.newArrayList(new LiteralText(title).asOrderedText());
                     tooltip.addAll(textRenderer.wrapLines(new TranslatableText(value.getDescription()).formatted(Formatting.GRAY), 200));
                     renderOrderedTooltip(matrices, tooltip, mouseX, mouseY);
