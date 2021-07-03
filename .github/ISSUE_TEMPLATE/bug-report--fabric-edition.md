@@ -7,22 +7,17 @@ assignees: ''
 
 ---
 
-**Describe the bug**
-A clear and concise description of what the bug is.
-Link to log:
+**Describe the issue**
+A clear and concise description of what your issue is.
+
+**Log**
+Regardless of whether it crashes or not, post your latest log as a [gist](https://gist.github.com/) and copy the link here.
 
 **To Reproduce**
 Steps to reproduce the behavior:
 
 **Expected behavior**
 A clear and concise description of what you expected to happen.
-
-**Setup**
-Do not use Latest
-- Minecraft:
-- WTHIT:
-- Fabric Loader:
-- Fabric API
 
 **Additional context**
 Add any other context about the problem here.
