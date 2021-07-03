@@ -1,8 +1,7 @@
 platform(Platform.FABRIC)
 
 repositories {
-    maven("https://maven.terraformersmc.com/releases")
-    maven("https://hephaestus.dev/release")
+    maven("https://bai.jfrog.io/artifactory/maven")
 }
 
 dependencies {
