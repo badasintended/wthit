@@ -18,9 +18,9 @@ public class WailaConfig {
 
     private int configVersion = 0;
 
-    private final ConfigGeneral general = new ConfigGeneral();
-    private final ConfigOverlay overlay = new ConfigOverlay();
-    private final ConfigFormatting formatting = new ConfigFormatting();
+    private final General general = new General();
+    private final Overlay overlay = new Overlay();
+    private final Formatting formatting = new Formatting();
 
     public int getConfigVersion() {
         return configVersion;
@@ -30,19 +30,19 @@ public class WailaConfig {
         this.configVersion = configVersion;
     }
 
-    public ConfigGeneral getGeneral() {
+    public General getGeneral() {
         return general;
     }
 
-    public ConfigOverlay getOverlay() {
+    public Overlay getOverlay() {
         return overlay;
     }
 
-    public ConfigFormatting getFormatting() {
+    public Formatting getFormatting() {
         return formatting;
     }
 
-    public static class ConfigGeneral {
+    public static class General {
 
         private boolean displayTooltip = true;
         private boolean shiftForDetails = false;
@@ -127,13 +127,18 @@ public class WailaConfig {
             return maxHeartsPerLine;
         }
 
+        public enum DisplayMode {
+            HOLD_KEY,
+            TOGGLE
+        }
+
     }
 
-    public static class ConfigOverlay {
+    public static class Overlay {
 
         private final Position position = new Position();
         private float scale = 1.0F;
-        private final ConfigOverlayColor color = new ConfigOverlayColor();
+        private final Color color = new Color();
 
         public void setScale(float scale) {
             this.scale = scale;
@@ -147,7 +152,7 @@ public class WailaConfig {
             return scale;
         }
 
-        public ConfigOverlayColor getColor() {
+        public Color getColor() {
             return color;
         }
 
@@ -155,10 +160,10 @@ public class WailaConfig {
 
             private int x = 0;
             private int y = 0;
-            private HorizontalAlignment alignX = HorizontalAlignment.CENTER;
-            private VerticalAlignment alignY = VerticalAlignment.TOP;
-            private HorizontalAlignment anchorX = HorizontalAlignment.CENTER;
-            private VerticalAlignment anchorY = VerticalAlignment.TOP;
+            private X alignX = X.CENTER;
+            private Y alignY = Y.TOP;
+            private X anchorX = X.CENTER;
+            private Y anchorY = Y.TOP;
 
             public void setX(int x) {
                 this.x = x;
@@ -168,19 +173,19 @@ public class WailaConfig {
                 this.y = y;
             }
 
-            public void setAlignX(HorizontalAlignment alignX) {
+            public void setAlignX(X alignX) {
                 this.alignX = alignX;
             }
 
-            public void setAlignY(VerticalAlignment alignY) {
+            public void setAlignY(Y alignY) {
                 this.alignY = alignY;
             }
 
-            public void setAnchorX(HorizontalAlignment anchorX) {
+            public void setAnchorX(X anchorX) {
                 this.anchorX = anchorX;
             }
 
-            public void setAnchorY(VerticalAlignment anchorY) {
+            public void setAnchorY(Y anchorY) {
                 this.anchorY = anchorY;
             }
 
@@ -192,57 +197,57 @@ public class WailaConfig {
                 return y;
             }
 
-            public HorizontalAlignment getAlignX() {
+            public X getAlignX() {
                 return alignX;
             }
 
-            public VerticalAlignment getAlignY() {
+            public Y getAlignY() {
                 return alignY;
             }
 
-            public HorizontalAlignment getAnchorX() {
+            public X getAnchorX() {
                 return anchorX;
             }
 
-            public VerticalAlignment getAnchorY() {
+            public Y getAnchorY() {
                 return anchorY;
             }
 
-            public enum VerticalAlignment {
-                TOP(0.0),
-                MIDDLE(0.5),
-                BOTTOM(1.0);
-
-                public final double multiplier;
-
-                VerticalAlignment(double multiplier) {
-                    this.multiplier = multiplier;
-                }
-            }
-
-            public enum HorizontalAlignment {
+            public enum X {
                 LEFT(0.0),
                 CENTER(0.5),
                 RIGHT(1.0);
 
                 public final double multiplier;
 
-                HorizontalAlignment(double multiplier) {
+                X(double multiplier) {
                     this.multiplier = multiplier;
                 }
             }
 
+            public enum Y {
+                TOP(0.0),
+                MIDDLE(0.5),
+                BOTTOM(1.0);
+
+                public final double multiplier;
+                Y(double multiplier) {
+                    this.multiplier = multiplier;
+                }
+
+            }
+
         }
 
-        public static class ConfigOverlayColor {
+        public static class Color {
 
             private int alpha = 80;
-            private Map<Identifier, HUDTheme> themes = Maps.newHashMap();
-            private Identifier activeTheme = HUDTheme.VANILLA.getId();
+            private Map<Identifier, Theme> themes = Maps.newHashMap();
+            private Identifier activeTheme = Theme.VANILLA.getId();
 
-            public ConfigOverlayColor() {
-                themes.put(HUDTheme.VANILLA.getId(), HUDTheme.VANILLA);
-                themes.put(HUDTheme.DARK.getId(), HUDTheme.DARK);
+            public Color() {
+                themes.put(Theme.VANILLA.getId(), Theme.VANILLA);
+                themes.put(Theme.DARK.getId(), Theme.DARK);
             }
 
             public int getAlpha() {
@@ -253,11 +258,11 @@ public class WailaConfig {
                 return alpha;
             }
 
-            public HUDTheme getTheme() {
-                return themes.getOrDefault(activeTheme, HUDTheme.VANILLA);
+            public Theme getTheme() {
+                return themes.getOrDefault(activeTheme, Theme.VANILLA);
             }
 
-            public Collection<HUDTheme> getThemes() {
+            public Collection<Theme> getThemes() {
                 return themes.values();
             }
 
@@ -285,24 +290,24 @@ public class WailaConfig {
                 activeTheme = themes.containsKey(id) ? id : activeTheme;
             }
 
-            public static class Adapter implements JsonSerializer<ConfigOverlayColor>, JsonDeserializer<ConfigOverlayColor> {
+            public static class Adapter implements JsonSerializer<Color>, JsonDeserializer<Color> {
 
                 @Override
-                public ConfigOverlayColor deserialize(JsonElement element, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+                public Color deserialize(JsonElement element, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
                     JsonObject json = element.getAsJsonObject();
-                    ConfigOverlayColor color = new ConfigOverlayColor();
+                    Color color = new Color();
                     color.alpha = json.getAsJsonPrimitive("alpha").getAsInt();
                     color.activeTheme = new Identifier(json.getAsJsonPrimitive("activeTheme").getAsString());
                     color.themes = Maps.newHashMap();
                     json.getAsJsonArray("themes").forEach(e -> {
-                        HUDTheme theme = context.deserialize(e, HUDTheme.class);
+                        Theme theme = context.deserialize(e, Theme.class);
                         color.themes.put(theme.getId(), theme);
                     });
                     return color;
                 }
 
                 @Override
-                public JsonElement serialize(ConfigOverlayColor src, Type typeOfSrc, JsonSerializationContext context) {
+                public JsonElement serialize(Color src, Type typeOfSrc, JsonSerializationContext context) {
                     JsonObject json = new JsonObject();
                     json.addProperty("alpha", src.alpha);
                     json.add("themes", context.serialize(src.themes.values()));
@@ -316,7 +321,7 @@ public class WailaConfig {
 
     }
 
-    public static class ConfigFormatting {
+    public static class Formatting {
 
         private String modName = "\u00A79\u00A7o%s";
         private String blockName = "\u00a7f%s";
@@ -364,11 +369,6 @@ public class WailaConfig {
             return registryName;
         }
 
-    }
-
-    public enum DisplayMode {
-        HOLD_KEY,
-        TOGGLE
     }
 
 }

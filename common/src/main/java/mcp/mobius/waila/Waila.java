@@ -39,7 +39,7 @@ public abstract class Waila {
             .version(WailaConstants.CONFIG_VERSION, WailaConfig::getConfigVersion, WailaConfig::setConfigVersion)
             .gson(new GsonBuilder()
                 .setPrettyPrinting()
-                .registerTypeAdapter(WailaConfig.ConfigOverlay.ConfigOverlayColor.class, new WailaConfig.ConfigOverlay.ConfigOverlayColor.Adapter())
+                .registerTypeAdapter(WailaConfig.Overlay.Color.class, new WailaConfig.Overlay.Color.Adapter())
                 .registerTypeAdapter(Identifier.class, new Identifier.Serializer())
                 .create())
             .build();

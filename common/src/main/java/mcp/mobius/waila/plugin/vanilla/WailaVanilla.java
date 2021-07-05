@@ -2,8 +2,8 @@ package mcp.mobius.waila.plugin.vanilla;
 
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
-import mcp.mobius.waila.overlay.tooltiprenderers.TooltipRendererProgressBar;
-import mcp.mobius.waila.overlay.tooltiprenderers.TooltipRendererStack;
+import mcp.mobius.waila.plugin.vanilla.renderer.ItemRenderer;
+import mcp.mobius.waila.plugin.vanilla.renderer.ProgressRenderer;
 import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.CocoaBlock;
 import net.minecraft.block.ComparatorBlock;
@@ -32,24 +32,26 @@ import static mcp.mobius.waila.api.TooltipPosition.HEAD;
 
 public class WailaVanilla implements IWailaPlugin {
 
-    static final Identifier RENDER_ITEM = new Identifier("item");
+    // @formatter:off
+    static final Identifier RENDER_ITEM             = new Identifier("item");
     static final Identifier RENDER_FURNACE_PROGRESS = new Identifier("furnace_progress");
 
-    static final Identifier CONFIG_DISPLAY_FURNACE = new Identifier("display_furnace_contents");
-    static final Identifier CONFIG_HIDE_SILVERFISH = new Identifier("hide_infestations");
+    static final Identifier CONFIG_DISPLAY_FURNACE    = new Identifier("display_furnace_contents");
+    static final Identifier CONFIG_HIDE_SILVERFISH    = new Identifier("hide_infestations");
     static final Identifier CONFIG_HIDE_TRAPPED_CHEST = new Identifier("hide_trapped_chest");
-    static final Identifier CONFIG_HIDE_POWDER_SNOW = new Identifier("hide_powder_snow");
-    static final Identifier CONFIG_SPAWNER_TYPE = new Identifier("spawner_type");
-    static final Identifier CONFIG_CROP_PROGRESS = new Identifier("crop_progress");
-    static final Identifier CONFIG_LEVER = new Identifier("lever");
-    static final Identifier CONFIG_REPEATER = new Identifier("repeater");
-    static final Identifier CONFIG_COMPARATOR = new Identifier("comparator");
-    static final Identifier CONFIG_REDSTONE = new Identifier("redstone");
-    static final Identifier CONFIG_JUKEBOX = new Identifier("jukebox");
-    static final Identifier CONFIG_PLAYER_HEAD_NAME = new Identifier("player_head_name");
-    static final Identifier CONFIG_HONEY_LEVEL = new Identifier("honey_level");
-    static final Identifier CONFIG_NOTE_BLOCK = new Identifier("note_block");
-    static final Identifier CONFIG_NOTE_BLOCK_FLAT = new Identifier("note_block_flat");
+    static final Identifier CONFIG_HIDE_POWDER_SNOW   = new Identifier("hide_powder_snow");
+    static final Identifier CONFIG_SPAWNER_TYPE       = new Identifier("spawner_type");
+    static final Identifier CONFIG_CROP_PROGRESS      = new Identifier("crop_progress");
+    static final Identifier CONFIG_LEVER              = new Identifier("lever");
+    static final Identifier CONFIG_REPEATER           = new Identifier("repeater");
+    static final Identifier CONFIG_COMPARATOR         = new Identifier("comparator");
+    static final Identifier CONFIG_REDSTONE           = new Identifier("redstone");
+    static final Identifier CONFIG_JUKEBOX            = new Identifier("jukebox");
+    static final Identifier CONFIG_PLAYER_HEAD_NAME   = new Identifier("player_head_name");
+    static final Identifier CONFIG_HONEY_LEVEL        = new Identifier("honey_level");
+    static final Identifier CONFIG_NOTE_BLOCK         = new Identifier("note_block");
+    static final Identifier CONFIG_NOTE_BLOCK_FLAT    = new Identifier("note_block_flat");
+    // @formatter:on
 
     @Override
     public void register(IRegistrar registrar) {
@@ -70,8 +72,8 @@ public class WailaVanilla implements IWailaPlugin {
         registrar.addConfig(CONFIG_NOTE_BLOCK, true);
         registrar.addConfig(CONFIG_NOTE_BLOCK_FLAT, false);
 
-        registrar.addRenderer(RENDER_ITEM, new TooltipRendererStack());
-        registrar.addRenderer(RENDER_FURNACE_PROGRESS, new TooltipRendererProgressBar());
+        registrar.addRenderer(RENDER_ITEM, new ItemRenderer());
+        registrar.addRenderer(RENDER_FURNACE_PROGRESS, new ProgressRenderer());
 
         registrar.addOverride(InfestedBlockComponent.INSTANCE, InfestedBlock.class);
         registrar.addOverride(TrappedChestComponent.INSTANCE, TrappedChestBlock.class);

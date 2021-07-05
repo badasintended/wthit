@@ -6,10 +6,9 @@ import java.util.function.BiFunction;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.config.WailaConfig;
-import mcp.mobius.waila.config.WailaConfig.DisplayMode;
-import mcp.mobius.waila.gui.GuiConfigHome;
-import mcp.mobius.waila.overlay.TickHandler;
-import mcp.mobius.waila.util.ModIdentification;
+import mcp.mobius.waila.gui.screen.HomeConfigScreen;
+import mcp.mobius.waila.hud.HudTickHandler;
+import mcp.mobius.waila.util.ModInfo;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.item.ItemStack;
@@ -50,14 +49,14 @@ public abstract class WailaClient {
         MinecraftClient client = MinecraftClient.getInstance();
         WailaConfig config = Waila.config.get();
 
-        TickHandler.tickClient();
+        HudTickHandler.tickClient();
 
         while (openConfig.wasPressed()) {
-            client.openScreen(new GuiConfigHome(null));
+            client.openScreen(new HomeConfigScreen(null));
         }
 
         while (showOverlay.wasPressed()) {
-            if (config.getGeneral().getDisplayMode() == DisplayMode.TOGGLE) {
+            if (config.getGeneral().getDisplayMode() == WailaConfig.General.DisplayMode.TOGGLE) {
                 config.getGeneral().setDisplayTooltip(!config.getGeneral().shouldDisplayTooltip());
             }
         }
@@ -80,7 +79,7 @@ public abstract class WailaClient {
         if (PluginConfig.INSTANCE.get(WailaConstants.CONFIG_SHOW_MOD_NAME)) {
             tooltip.add(new LiteralText(String.format(
                 Waila.config.get().getFormatting().getModName(),
-                ModIdentification.getModInfo(stack.getItem()).name()
+                ModInfo.get(stack.getItem()).name()
             )));
         }
     }

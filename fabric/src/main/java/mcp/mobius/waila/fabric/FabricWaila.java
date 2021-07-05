@@ -3,8 +3,8 @@ package mcp.mobius.waila.fabric;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.command.DumpCommand;
 import mcp.mobius.waila.config.PluginConfig;
-import mcp.mobius.waila.util.DumpGenerator;
-import mcp.mobius.waila.util.ModIdentification;
+import mcp.mobius.waila.debug.DumpGenerator;
+import mcp.mobius.waila.util.ModInfo;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
@@ -34,8 +34,9 @@ public class FabricWaila extends Waila implements ModInitializer {
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) ->
             packet.sendConfig(PluginConfig.INSTANCE, handler.player));
 
-        ModIdentification.supplier = namespace -> FabricLoader.getInstance().getModContainer(namespace)
-            .map(data -> new ModIdentification.Info(data.getMetadata().getId(), data.getMetadata().getName()));
+        ModInfo.register(new ModInfo("c", "Common"));
+        ModInfo.supplier = namespace -> FabricLoader.getInstance().getModContainer(namespace)
+            .map(data -> new ModInfo(data.getMetadata().getId(), data.getMetadata().getName()));
 
         plugins = new FabricWailaPlugins();
         plugins.initialize();

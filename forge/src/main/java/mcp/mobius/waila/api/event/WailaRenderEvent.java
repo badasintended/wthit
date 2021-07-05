@@ -3,7 +3,7 @@ package mcp.mobius.waila.api.event;
 import java.awt.Rectangle;
 
 import mcp.mobius.waila.api.ICommonAccessor;
-import mcp.mobius.waila.overlay.Tooltip;
+import mcp.mobius.waila.handler.Tooltip;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.Event;

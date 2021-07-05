@@ -9,7 +9,7 @@ import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataProvider;
 import mcp.mobius.waila.api.ITaggableList;
 import mcp.mobius.waila.api.WailaConstants;
-import mcp.mobius.waila.util.ModIdentification;
+import mcp.mobius.waila.util.ModInfo;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -68,7 +68,7 @@ public enum BlockComponent implements IBlockComponentProvider, IServerDataProvid
         if (!config.get(WailaConstants.CONFIG_SHOW_MOD_NAME))
             return;
 
-        String modName = ModIdentification.getModInfo(accessor.getStack().getItem()).name();
+        String modName = ModInfo.get(accessor.getStack().getItem()).name();
         if (!Strings.isNullOrEmpty(modName)) {
             modName = String.format(accessor.getModNameFormat(), modName);
             ((ITaggableList<Identifier, Text>) tooltip).setTag(WailaConstants.MOD_NAME_TAG, new LiteralText(modName));
