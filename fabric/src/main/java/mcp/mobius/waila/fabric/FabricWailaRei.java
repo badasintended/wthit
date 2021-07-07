@@ -1,7 +1,7 @@
 package mcp.mobius.waila.fabric;
 
 import mcp.mobius.waila.WailaClient;
-import mcp.mobius.waila.overlay.Tooltip;
+import mcp.mobius.waila.hud.HudRenderer;
 import me.shedaniel.rei.api.client.ClientHelper;
 import me.shedaniel.rei.api.client.plugins.REIClientPlugin;
 import me.shedaniel.rei.api.client.registry.transfer.TransferHandler;
@@ -28,7 +28,7 @@ public class FabricWailaRei implements REIClientPlugin {
     public void postRegister() {
         WailaClient.onShowRecipeInput = () -> {
             ViewSearchBuilder view = ViewSearchBuilder.builder()
-                .addUsagesFor(EntryStack.of(VanillaEntryTypes.ITEM, Tooltip.getStack()));
+                .addUsagesFor(EntryStack.of(VanillaEntryTypes.ITEM, HudRenderer.getStack()));
             if (!view.buildMap().isEmpty()) {
                 MinecraftClient.getInstance().openScreen(new AutoClosableScreen());
                 ClientHelper.getInstance().openView(view);
@@ -37,7 +37,7 @@ public class FabricWailaRei implements REIClientPlugin {
 
         WailaClient.onShowRecipeOutput = () -> {
             ViewSearchBuilder view = ViewSearchBuilder.builder()
-                .addRecipesFor(EntryStack.of(VanillaEntryTypes.ITEM, Tooltip.getStack()));
+                .addRecipesFor(EntryStack.of(VanillaEntryTypes.ITEM, HudRenderer.getStack()));
             if (!view.buildMap().isEmpty()) {
                 MinecraftClient.getInstance().openScreen(new AutoClosableScreen());
                 ClientHelper.getInstance().openView(view);

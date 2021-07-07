@@ -7,8 +7,8 @@ import com.google.common.collect.Lists;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.config.PluginConfig;
-import mcp.mobius.waila.overlay.TooltipRegistrar;
 import mcp.mobius.waila.plugin.core.WailaCore;
+import mcp.mobius.waila.registry.TooltipRegistrar;
 
 public abstract class WailaPlugins {
 

@@ -3,7 +3,7 @@ package mcp.mobius.waila.api;
 import java.awt.Dimension;
 
 import mcp.mobius.waila.api.internal.ApiSide;
-import mcp.mobius.waila.overlay.DrawableText;
+import mcp.mobius.waila.util.DrawableText;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.text.MutableText;

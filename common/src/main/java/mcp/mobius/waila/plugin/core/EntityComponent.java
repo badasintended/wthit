@@ -9,7 +9,7 @@ import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITaggableList;
 import mcp.mobius.waila.api.WailaConstants;
-import mcp.mobius.waila.util.ModIdentification;
+import mcp.mobius.waila.util.ModInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.nbt.NbtCompound;
@@ -51,7 +51,7 @@ public enum EntityComponent implements IEntityComponentProvider {
     @Override
     public void appendTail(List<Text> tooltip, IEntityAccessor accessor, IPluginConfig config) {
         if (config.get(WailaConstants.CONFIG_SHOW_MOD_NAME))
-            ((ITaggableList<Identifier, Text>) tooltip).setTag(WailaConstants.MOD_NAME_TAG, new LiteralText(String.format(accessor.getModNameFormat(), ModIdentification.getModInfo(accessor.getEntity()).name())));
+            ((ITaggableList<Identifier, Text>) tooltip).setTag(WailaConstants.MOD_NAME_TAG, new LiteralText(String.format(accessor.getModNameFormat(), ModInfo.get(accessor.getEntity()).name())));
     }
 
 }

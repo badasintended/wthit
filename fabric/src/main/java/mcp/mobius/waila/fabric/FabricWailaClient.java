@@ -5,8 +5,8 @@ import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.event.WailaRenderEvent;
 import mcp.mobius.waila.api.event.WailaTooltipEvent;
-import mcp.mobius.waila.overlay.DataAccessor;
-import mcp.mobius.waila.overlay.Tooltip;
+import mcp.mobius.waila.data.DataAccessor;
+import mcp.mobius.waila.hud.HudRenderer;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
@@ -27,7 +27,7 @@ public class FabricWailaClient extends WailaClient implements ClientModInitializ
 
         Waila.packet.initClient();
 
-        HudRenderCallback.EVENT.register(Tooltip::render);
+        HudRenderCallback.EVENT.register(HudRenderer::render);
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> onClientTick());
 
@@ -36,18 +36,18 @@ public class FabricWailaClient extends WailaClient implements ClientModInitializ
         ItemTooltipCallback.EVENT.register((stack, ctx, tooltip) ->
             onItemTooltip(stack, tooltip));
 
-        Tooltip.onCreate = texts ->
+        HudRenderer.onCreate = texts ->
             WailaTooltipEvent.WAILA_HANDLE_TOOLTIP.invoker().onTooltip(new WailaTooltipEvent(texts, DataAccessor.INSTANCE));
 
-        Tooltip.onPreRender = rect -> {
+        HudRenderer.onPreRender = rect -> {
             WailaRenderEvent.Pre event = new WailaRenderEvent.Pre(DataAccessor.INSTANCE, rect);
             return WailaRenderEvent.WAILA_RENDER_PRE.invoker().onPreRender(event) ? null : event.getPosition();
         };
 
-        Tooltip.onPostRender = position ->
+        HudRenderer.onPostRender = position ->
             WailaRenderEvent.WAILA_RENDER_POST.invoker().onPostRender(new WailaRenderEvent.Post(position));
 
-        FabricTickHandler.registerListener();
+        FabricHudTickHandler.registerListener();
     }
 
 }

@@ -7,7 +7,7 @@ import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
 
 import com.google.gson.Gson;
-import mcp.mobius.waila.util.JsonConfig;
+import mcp.mobius.waila.config.JsonConfig;
 import org.jetbrains.annotations.ApiStatus;
 
 /**

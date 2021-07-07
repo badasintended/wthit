@@ -4,7 +4,7 @@ import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.api.WailaConstants;
-import mcp.mobius.waila.overlay.tooltiprenderers.TooltipRendererHealth;
+import mcp.mobius.waila.plugin.core.renderer.HealthRenderer;
 import net.minecraft.block.Block;
 import net.minecraft.block.FluidBlock;
 import net.minecraft.block.entity.BlockEntity;
@@ -18,11 +18,13 @@ import static mcp.mobius.waila.api.TooltipPosition.TAIL;
 
 public class WailaCore implements IWailaPlugin {
 
+    // @formatter:off
     static final Identifier RENDER_ENTITY_HEALTH = Waila.id("render_health");
 
     static final Identifier CONFIG_SHOW_ENTITY_HEALTH = Waila.id("show_entity_hp");
-    static final Identifier CONFIG_SHOW_STATES = Waila.id("show_states");
-    static final Identifier CONFIG_SHOW_POS = Waila.id("show_pos");
+    static final Identifier CONFIG_SHOW_STATES        = Waila.id("show_states");
+    static final Identifier CONFIG_SHOW_POS           = Waila.id("show_pos");
+    // @formatter:on
 
     @Override
     public void register(IRegistrar registrar) {
@@ -49,7 +51,7 @@ public class WailaCore implements IWailaPlugin {
         registrar.addConfig(CONFIG_SHOW_STATES, false);
         registrar.addConfig(CONFIG_SHOW_POS, false);
 
-        registrar.addRenderer(RENDER_ENTITY_HEALTH, new TooltipRendererHealth());
+        registrar.addRenderer(RENDER_ENTITY_HEALTH, new HealthRenderer());
     }
 
 }

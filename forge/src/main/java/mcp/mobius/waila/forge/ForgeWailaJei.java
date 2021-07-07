@@ -2,7 +2,7 @@ package mcp.mobius.waila.forge;
 
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.WailaClient;
-import mcp.mobius.waila.overlay.DataAccessor;
+import mcp.mobius.waila.handler.DataAccessor;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.recipe.IFocus;
