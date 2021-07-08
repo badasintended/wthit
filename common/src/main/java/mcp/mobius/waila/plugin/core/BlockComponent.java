@@ -2,7 +2,6 @@ package mcp.mobius.waila.plugin.core;
 
 import java.util.List;
 
-import com.google.common.base.Strings;
 import mcp.mobius.waila.api.IBlockAccessor;
 import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
@@ -65,12 +64,8 @@ public enum BlockComponent implements IBlockComponentProvider, IServerDataProvid
 
     @Override
     public void appendTail(List<Text> tooltip, IBlockAccessor accessor, IPluginConfig config) {
-        if (!config.get(WailaConstants.CONFIG_SHOW_MOD_NAME))
-            return;
-
-        String modName = ModInfo.get(accessor.getStack().getItem()).name();
-        if (!Strings.isNullOrEmpty(modName)) {
-            modName = String.format(accessor.getModNameFormat(), modName);
+        if (config.get(WailaConstants.CONFIG_SHOW_MOD_NAME)) {
+            String modName = String.format(accessor.getModNameFormat(), ModInfo.get(accessor.getBlock()).name());
             ((ITaggableList<Identifier, Text>) tooltip).setTag(WailaConstants.MOD_NAME_TAG, new LiteralText(modName));
         }
     }
