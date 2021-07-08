@@ -15,6 +15,11 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * The Accessor is used to get some basic data out of the game without having to request direct access to the game engine.
+ * <p>
+ * It will also return things that are unmodified by the overriding systems (like getStack).
+ */
 @ApiSide.ClientOnly
 @ApiStatus.NonExtendable
 public interface IBlockAccessor {
