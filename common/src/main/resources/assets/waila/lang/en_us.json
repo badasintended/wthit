@@ -12,6 +12,7 @@
   "tooltip.waila.power"                                   : "Power: %d",
   "tooltip.waila.health"                                  : "%s/%s Health",
   "tooltip.waila.sneak_for_details"                       : "Sneak for details",
+  "tooltip.waila.compost_level"                           : "Compost Level: %s",
   "tooltip.waila.honey_level"                             : "Honey Level: %s",
   "tooltip.waila.note"                                    : "Note: %s",
 
@@ -124,6 +125,7 @@
   "config.waila.plugin_minecraft.redstone"                : "Power Level",
   "config.waila.plugin_minecraft.jukebox"                 : "Active Record",
   "config.waila.plugin_minecraft.player_head_name"        : "Player Head Names",
+  "config.waila.plugin_minecraft.composter_level"         : "Composter Level",
   "config.waila.plugin_minecraft.honey_level"             : "Honey Level",
   "config.waila.plugin_minecraft.note_block"              : "Note Block",
   "config.waila.plugin_minecraft.note_block_desc"         : "Show note block's instrument and note",

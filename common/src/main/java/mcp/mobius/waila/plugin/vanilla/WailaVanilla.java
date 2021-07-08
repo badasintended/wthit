@@ -7,6 +7,7 @@ import mcp.mobius.waila.plugin.vanilla.renderer.ProgressRenderer;
 import net.minecraft.block.BeehiveBlock;
 import net.minecraft.block.CocoaBlock;
 import net.minecraft.block.ComparatorBlock;
+import net.minecraft.block.ComposterBlock;
 import net.minecraft.block.CropBlock;
 import net.minecraft.block.InfestedBlock;
 import net.minecraft.block.LeverBlock;
@@ -48,6 +49,7 @@ public class WailaVanilla implements IWailaPlugin {
     static final Identifier CONFIG_REDSTONE           = new Identifier("redstone");
     static final Identifier CONFIG_JUKEBOX            = new Identifier("jukebox");
     static final Identifier CONFIG_PLAYER_HEAD_NAME   = new Identifier("player_head_name");
+    static final Identifier CONFIG_COMPOSTER_LEVEL    = new Identifier("composter_level");
     static final Identifier CONFIG_HONEY_LEVEL        = new Identifier("honey_level");
     static final Identifier CONFIG_NOTE_BLOCK         = new Identifier("note_block");
     static final Identifier CONFIG_NOTE_BLOCK_FLAT    = new Identifier("note_block_flat");
@@ -68,6 +70,7 @@ public class WailaVanilla implements IWailaPlugin {
         registrar.addConfig(CONFIG_REDSTONE, true);
         registrar.addConfig(CONFIG_JUKEBOX, true);
         registrar.addConfig(CONFIG_PLAYER_HEAD_NAME, true);
+        registrar.addConfig(CONFIG_COMPOSTER_LEVEL, true);
         registrar.addConfig(CONFIG_HONEY_LEVEL, true);
         registrar.addConfig(CONFIG_NOTE_BLOCK, true);
         registrar.addConfig(CONFIG_NOTE_BLOCK_FLAT, false);
@@ -108,6 +111,8 @@ public class WailaVanilla implements IWailaPlugin {
 
         registrar.addComponent(FurnaceComponent.INSTANCE, BODY, AbstractFurnaceBlockEntity.class);
         registrar.addBlockData(FurnaceComponent.INSTANCE, AbstractFurnaceBlockEntity.class);
+
+        registrar.addComponent(ComposterComponent.INSTANCE, BODY, ComposterBlock.class);
 
         registrar.addComponent(BeehiveComponent.INSTANCE, BODY, BeehiveBlock.class);
 
