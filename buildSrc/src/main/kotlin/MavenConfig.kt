@@ -1,7 +1,5 @@
 import net.fabricmc.loom.task.RemapJarTask
 import net.fabricmc.loom.task.RemapSourcesJarTask
-import org.gradle.api.Project
-import org.gradle.api.Task
 import org.gradle.api.credentials.HttpHeaderCredentials
 import org.gradle.api.publish.PublishingExtension
 import org.gradle.api.publish.maven.MavenPublication
@@ -9,38 +7,13 @@ import org.gradle.api.tasks.bundling.Jar
 import org.gradle.authentication.http.HttpHeaderAuthentication
 import org.gradle.kotlin.dsl.*
 
-fun Project.publishToMaven() {
+val PublishConfig.maven get() = project.run {
     apply(plugin = "maven-publish")
 
     afterEvaluate {
         val remapJar: RemapJarTask by tasks
-        val apiJar = task<Jar>("apiJar") {
-            dependsOn(remapJar)
-
-            archiveClassifier.set("api")
-
-            include("fabric.mod.json")
-            include("mcp/mobius/waila/api/**")
-
-            from(zipTree(remapJar.archiveFile))
-        }
-
         val sourcesJar: Jar by tasks
         val remapSourcesJar: RemapSourcesJarTask by tasks
-        val apiSourcesJar = task<Jar>("apiSourcesJar") {
-            dependsOn(remapSourcesJar)
-
-            archiveClassifier.set("api-sources")
-
-            include("fabric.mod.json")
-            include("mcp/mobius/waila/api/**")
-
-            from(zipTree(remapSourcesJar.output))
-        }
-
-        tasks.named<Task>("build") {
-            dependsOn(apiJar, apiSourcesJar)
-        }
 
         configure<PublishingExtension> {
             publications {
@@ -55,13 +28,14 @@ fun Project.publishToMaven() {
                         classifier = "sources"
                     }
                 }
-                create<MavenPublication>("api") {
+                val apiJar = tasks.findByName("apiJar")
+                if (apiJar != null) create<MavenPublication>("api") {
                     artifactId = "${rootProp["archiveBaseName"]}-api"
                     version = "${project.name}-${project.version}"
                     artifact(apiJar) {
                         classifier = null
                     }
-                    artifact(apiSourcesJar) {
+                    artifact(tasks["apiSourcesJar"]) {
                         classifier = "sources"
                     }
                 }

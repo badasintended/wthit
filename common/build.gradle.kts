@@ -1,6 +1,5 @@
-architectury {
-    common(false)
-    injectInjectables = false
+platform {
+    common
 }
 
 dependencies {

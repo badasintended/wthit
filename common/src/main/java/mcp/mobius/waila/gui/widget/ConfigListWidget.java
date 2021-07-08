@@ -124,7 +124,7 @@ public class ConfigListWidget extends ElementListWidget<ConfigListWidget.Entry> 
         }
 
         @Override
-        public List<? extends Selectable> method_37025() {
+        public List<? extends Selectable> selectableChildren() {
             return Collections.emptyList();
         }
 

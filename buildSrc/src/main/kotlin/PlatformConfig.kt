@@ -8,70 +8,80 @@ import org.gradle.api.tasks.bundling.Jar
 import org.gradle.kotlin.dsl.*
 import org.gradle.language.jvm.tasks.ProcessResources
 
-enum class Platform(
-    val transformProduction: String,
-    val development: String,
-    val config: ArchitectPluginExtension.() -> Unit
-) {
-
-    FABRIC("transformProductionFabric", "developmentFabric", { fabric() }),
-    FORGE("transformProductionForge", "developmentForge", { forge() })
-
+fun Project.platform(config: PlatformConfig.() -> Unit) {
+    config(PlatformConfig(this))
 }
 
-fun Project.platform(platform: Platform) {
-    apply(plugin = "com.github.johnrengelman.shadow")
+@GradleDsl
+class PlatformConfig(
+    private val project: Project
+) {
 
-    configurations {
-        create("shadowCommon")
-    }
-
-    configure<ArchitectPluginExtension> {
-        platformSetupLoomIde()
-        platform.config(this)
-    }
-
-    configure<LoomGradleExtension> {
-        useFabricMixin = true
-        mixinConfig("waila.mixins.json")
-    }
-
-    dependencies {
-        "implementation"(project(":common"))
-        "shadowCommon"(project(path = ":common", configuration = platform.transformProduction))
-        platform.development(project(":common"))
-    }
-
-    @Suppress("UnstableApiUsage")
-    tasks.named<ProcessResources>("processResources") {
-        inputs.property("version", project.version)
-
-        filesMatching("fabric.mod.json") {
-            expand("version" to project.version)
-        }
-
-        filesMatching("META-INF/mods.toml") {
-            expand("version" to project.version)
+    val common get() = project.run {
+        configure<ArchitectPluginExtension> {
+            common(rootProp["forgeEnabled"].toBoolean())
+            injectInjectables = false
         }
     }
 
-    tasks.named<ShadowJar>("shadowJar") {
-        configurations = listOf(project.configurations["shadowCommon"])
-        archiveClassifier.set("dev-shadow")
+    val fabric get() = platform("transformProductionFabric", "developmentFabric") { fabric() }
+    val forge get() = platform("transformProductionForge", "developmentForge") { forge() }
+
+    private fun platform(transformProduction: String, development: String, config: ArchitectPluginExtension.() -> Unit) = project.run {
+        apply(plugin = "com.github.johnrengelman.shadow")
+
+        configurations {
+            create("shadowCommon")
+        }
+
+        configure<ArchitectPluginExtension> {
+            platformSetupLoomIde()
+            config(this)
+        }
+
+        configure<LoomGradleExtension> {
+            useFabricMixin = true
+            mixinConfig("waila.mixins.json")
+        }
+
+        dependencies {
+            "implementation"(project(":common"))
+            "shadowCommon"(project(path = ":common", configuration = transformProduction))
+            development(project(":common"))
+        }
+
+        @Suppress("UnstableApiUsage")
+        tasks.named<ProcessResources>("processResources") {
+            inputs.property("version", project.version)
+
+            filesMatching("fabric.mod.json") {
+                expand("version" to project.version)
+            }
+
+            filesMatching("META-INF/mods.toml") {
+                expand("version" to project.version)
+            }
+        }
+
+        tasks.named<ShadowJar>("shadowJar") {
+            configurations = listOf(project.configurations["shadowCommon"])
+            archiveClassifier.set("dev-shadow")
+        }
+
+        tasks.named<RemapJarTask>("remapJar") {
+            input.set(tasks.named<ShadowJar>("shadowJar").get().archiveFile)
+            dependsOn("shadowJar")
+        }
+
+        tasks.named<Jar>("jar") {
+            archiveClassifier.set("dev")
+        }
+
+        tasks.named<Jar>("sourcesJar") {
+            val commonSources = project(":common").tasks.named<RemapSourcesJarTask>("remapSourcesJar").get()
+            dependsOn(commonSources)
+            from(zipTree(commonSources.output))
+        }
     }
 
-    tasks.named<RemapJarTask>("remapJar") {
-        input.set(tasks.named<ShadowJar>("shadowJar").get().archiveFile)
-        dependsOn("shadowJar")
-    }
-
-    tasks.named<Jar>("jar") {
-        archiveClassifier.set("dev")
-    }
-
-    tasks.named<Jar>("sourcesJar") {
-        val commonSources = project(":common").tasks.named<RemapSourcesJarTask>("remapSourcesJar").get()
-        dependsOn(commonSources)
-        from(zipTree(commonSources.output))
-    }
 }

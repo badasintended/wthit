@@ -15,7 +15,7 @@ class Property internal constructor(
         return project.hasProperty(key)
     }
 
-    fun ifPresent(key: String, func: (String) -> Unit) {
+    inline fun ifPresent(key: String, func: (String) -> Unit) {
         if (has(key)) func(get(key))
     }
 
