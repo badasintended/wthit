@@ -9,7 +9,6 @@ val PublishConfig.curseforge get() = project.run {
     apply(plugin = "com.matthewprenger.cursegradle")
 
     val remapJar: RemapJarTask by tasks
-    val apiJar = tasks.findByPath("apiJar")
     env["CURSEFORGE_API"]?.let { CURSEFORGE_API ->
         configure<CurseExtension> {
             apiKey = CURSEFORGE_API
@@ -26,8 +25,6 @@ val PublishConfig.curseforge get() = project.run {
                 mainArtifact(remapJar, closureOf<CurseArtifact> {
                     displayName = "[${rootProp["minecraft"]}] ${project.version}"
                 })
-
-                if (apiJar != null) addArtifact(apiJar)
 
                 relations(closureOf<CurseRelation> {
                     prop.ifPresent("cf.require") {

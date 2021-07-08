@@ -17,7 +17,6 @@ val PublishConfig.modrinth get() = project.run {
         addLoader(project.name)
 
         uploadFile = tasks["remapJar"]
-        additionalFiles.add(tasks.findByName("apiJar"))
 
         prop["mr.gameVersion"].split(", ").forEach {
             addGameVersion(it)
