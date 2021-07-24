@@ -12,17 +12,17 @@ import mcp.mobius.waila.data.DataAccessor;
 import mcp.mobius.waila.util.RaycastUtil;
 import mcp.mobius.waila.util.TaggableList;
 import mcp.mobius.waila.util.TaggedText;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.FluidBlock;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.ChatScreen;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
-import net.minecraft.util.Formatting;
-import net.minecraft.util.hit.HitResult;
+import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.ChatScreen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.LiquidBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.HitResult;
 
 import static mcp.mobius.waila.api.TooltipPosition.BODY;
 import static mcp.mobius.waila.api.TooltipPosition.HEAD;
@@ -35,21 +35,21 @@ public class HudTickHandler {
     protected static Narrator narrator;
     protected static String lastNarration = "";
 
-    private static final List<Text> TIP = new TaggableList<>(TaggedText::new);
-    private static final Text SNEAK_DETAIL = new TranslatableText("tooltip.waila.sneak_for_details").formatted(Formatting.ITALIC);
+    private static final List<Component> TIP = new TaggableList<>(TaggedText::new);
+    private static final Component SNEAK_DETAIL = new TranslatableComponent("tooltip.waila.sneak_for_details").withStyle(ChatFormatting.ITALIC);
 
     public static void tickClient() {
         HudRenderer.shouldRender = false;
 
-        MinecraftClient client = MinecraftClient.getInstance();
+        Minecraft client = Minecraft.getInstance();
         WailaConfig config = Waila.config.get();
 
-        if (client.world == null
+        if (client.level == null
             || !config.getGeneral().shouldDisplayTooltip()
-            || config.getGeneral().getDisplayMode() == WailaConfig.General.DisplayMode.HOLD_KEY && !WailaClient.showOverlay.isPressed()
-            || client.currentScreen != null && !(client.currentScreen instanceof ChatScreen)
-            || config.getGeneral().shouldHideFromPlayerList() && client.options.keyPlayerList.wasPressed() && client.getNetworkHandler().getPlayerList().size() > 1
-            || config.getGeneral().shouldHideFromDebug() && client.options.debugEnabled) {
+            || config.getGeneral().getDisplayMode() == WailaConfig.General.DisplayMode.HOLD_KEY && !WailaClient.showOverlay.isDown()
+            || client.screen != null && !(client.screen instanceof ChatScreen)
+            || config.getGeneral().shouldHideFromPlayerList() && client.options.keyPlayerList.consumeClick() && client.getConnection().getOnlinePlayers().size() > 1
+            || config.getGeneral().shouldHideFromDebug() && client.options.renderDebug) {
             return;
         }
 
@@ -58,15 +58,15 @@ public class HudTickHandler {
             return;
         }
 
-        PlayerEntity player = client.player;
+        Player player = client.player;
         DataAccessor accessor = DataAccessor.INSTANCE;
-        accessor.set(client.world, player, target, client.cameraEntity, client.getTickDelta());
+        accessor.set(client.level, player, target, client.cameraEntity, client.getFrameTime());
 
         HudRenderer.beginBuild();
 
         if (target.getType() == HitResult.Type.BLOCK) {
             Block block = accessor.getBlock();
-            if (block instanceof FluidBlock && !PluginConfig.INSTANCE.get(WailaConstants.CONFIG_SHOW_FLUID)
+            if (block instanceof LiquidBlock && !PluginConfig.INSTANCE.get(WailaConstants.CONFIG_SHOW_FLUID)
                 || !PluginConfig.INSTANCE.get(WailaConstants.CONFIG_SHOW_BLOCK)
                 || Waila.blockBlacklist.contains(block)) {
                 return;
@@ -81,7 +81,7 @@ public class HudTickHandler {
 
             TIP.clear();
             gatherBlock(accessor, TIP, BODY);
-            if (Waila.config.get().getGeneral().shouldShiftForDetails() && !TIP.isEmpty() && !player.isSneaking()) {
+            if (Waila.config.get().getGeneral().shouldShiftForDetails() && !TIP.isEmpty() && !player.isShiftKeyDown()) {
                 HudRenderer.addLine(SNEAK_DETAIL);
             } else {
                 HudRenderer.addLines(TIP);
@@ -106,7 +106,7 @@ public class HudTickHandler {
 
                 TIP.clear();
                 gatherEntity(targetEnt, accessor, TIP, BODY);
-                if (Waila.config.get().getGeneral().shouldShiftForDetails() && !TIP.isEmpty() && !player.isSneaking()) {
+                if (Waila.config.get().getGeneral().shouldShiftForDetails() && !TIP.isEmpty() && !player.isShiftKeyDown()) {
                     HudRenderer.addLine(SNEAK_DETAIL);
                 } else {
                     HudRenderer.addLines(TIP);

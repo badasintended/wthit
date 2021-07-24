@@ -14,10 +14,10 @@ import mcp.mobius.waila.api.ITooltipRenderer;
 import mcp.mobius.waila.api.TooltipPosition;
 import mcp.mobius.waila.config.ConfigEntry;
 import mcp.mobius.waila.config.PluginConfig;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.Util;
+import net.minecraft.Util;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 public enum TooltipRegistrar implements IRegistrar {
 
@@ -41,12 +41,12 @@ public enum TooltipRegistrar implements IRegistrar {
         }
     });
 
-    public final Map<Identifier, ITooltipRenderer> renderer = new Object2ObjectOpenHashMap<>();
+    public final Map<ResourceLocation, ITooltipRenderer> renderer = new Object2ObjectOpenHashMap<>();
 
     private boolean locked = false;
 
     @Override
-    public void addConfig(Identifier key, boolean defaultValue) {
+    public void addConfig(ResourceLocation key, boolean defaultValue) {
         if (Waila.clientSide) {
             assertLock();
             PluginConfig.INSTANCE.addConfig(new ConfigEntry(key, defaultValue, false));
@@ -54,7 +54,7 @@ public enum TooltipRegistrar implements IRegistrar {
     }
 
     @Override
-    public void addSyncedConfig(Identifier key, boolean defaultValue) {
+    public void addSyncedConfig(ResourceLocation key, boolean defaultValue) {
         assertLock();
         PluginConfig.INSTANCE.addConfig(new ConfigEntry(key, defaultValue, true));
     }
@@ -126,7 +126,7 @@ public enum TooltipRegistrar implements IRegistrar {
     }
 
     @Override
-    public void addRenderer(Identifier id, ITooltipRenderer renderer) {
+    public void addRenderer(ResourceLocation id, ITooltipRenderer renderer) {
         if (Waila.clientSide) {
             this.renderer.put(id, renderer);
         }

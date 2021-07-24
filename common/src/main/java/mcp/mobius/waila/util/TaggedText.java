@@ -1,19 +1,19 @@
 package mcp.mobius.waila.util;
 
-import net.minecraft.text.LiteralText;
-import net.minecraft.util.Identifier;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.resources.ResourceLocation;
 
-public class TaggedText extends LiteralText {
+public class TaggedText extends TextComponent {
 
-    private final Identifier tag;
+    private final ResourceLocation tag;
 
-    public TaggedText(Identifier tag) {
+    public TaggedText(ResourceLocation tag) {
         super(String.format("${%s}", tag.toString()));
 
         this.tag = tag;
     }
 
-    public Identifier getTag() {
+    public ResourceLocation getTag() {
         return tag;
     }
 

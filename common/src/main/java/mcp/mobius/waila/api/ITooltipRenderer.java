@@ -2,11 +2,11 @@ package mcp.mobius.waila.api;
 
 import java.awt.Dimension;
 
-import mcp.mobius.waila.api.internal.ApiSide;
 import com.google.common.base.Supplier;
 import com.google.common.base.Suppliers;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.nbt.NbtCompound;
+import com.mojang.blaze3d.vertex.PoseStack;
+import mcp.mobius.waila.api.internal.ApiSide;
+import net.minecraft.nbt.CompoundTag;
 import org.jetbrains.annotations.ApiStatus;
 
 @ApiSide.ClientOnly
@@ -31,7 +31,7 @@ public interface ITooltipRenderer {
      *
      * @return Dimension of the reserved area
      */
-    Dimension getSize(NbtCompound data, ICommonAccessor accessor);
+    Dimension getSize(CompoundTag data, ICommonAccessor accessor);
 
     /**
      * Draw method for the renderer.
@@ -41,6 +41,6 @@ public interface ITooltipRenderer {
      * @param x        The X position of this renderer
      * @param y        The Y position of this renderer
      */
-    void draw(MatrixStack matrices, NbtCompound data, ICommonAccessor accessor, int x, int y);
+    void draw(PoseStack matrices, CompoundTag data, ICommonAccessor accessor, int x, int y);
 
 }

@@ -2,12 +2,12 @@ package mcp.mobius.waila.api;
 
 import java.awt.Dimension;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.api.internal.ApiSide;
 import mcp.mobius.waila.util.DrawableText;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.text.MutableText;
-import net.minecraft.util.Identifier;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
 
 /**
@@ -15,13 +15,13 @@ import org.jetbrains.annotations.ApiStatus;
  */
 @ApiSide.ClientOnly
 @ApiStatus.NonExtendable
-public interface IDrawableText extends MutableText {
+public interface IDrawableText extends MutableComponent {
 
     /**
      * Create a drawable with this renderer.<br>
-     * Shorthand for {@link #create()} and {@link #with(Identifier, NbtCompound)}
+     * Shorthand for {@link #create()} and {@link #with(ResourceLocation, CompoundTag)}
      */
-    static IDrawableText of(Identifier id, NbtCompound data) {
+    static IDrawableText of(ResourceLocation id, CompoundTag data) {
         return new DrawableText().with(id, data);
     }
 
@@ -38,10 +38,10 @@ public interface IDrawableText extends MutableText {
      * @param id   the id associated with a {@link ITooltipRenderer}
      * @param data the data for that {@link ITooltipRenderer}
      */
-    IDrawableText with(Identifier id, NbtCompound data);
+    IDrawableText with(ResourceLocation id, CompoundTag data);
 
     Dimension getSize();
 
-    void render(MatrixStack matrices, int x, int y, float delta);
+    void render(PoseStack matrices, int x, int y, float delta);
 
 }

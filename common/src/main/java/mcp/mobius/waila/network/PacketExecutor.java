@@ -8,39 +8,39 @@ import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.data.DataAccessor;
 import mcp.mobius.waila.registry.TooltipRegistrar;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.Entity;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.registry.Registry;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 
 public class PacketExecutor {
 
     private static final Gson GSON = new Gson();
 
-    public static void receiveData(NbtCompound tag) {
+    public static void receiveData(CompoundTag tag) {
         DataAccessor.INSTANCE.setServerData(tag);
     }
 
-    public static void sendConfig(Map<Identifier, Boolean> map) {
+    public static void sendConfig(Map<ResourceLocation, Boolean> map) {
         PluginConfig.INSTANCE.getSyncableConfigs().forEach(config ->
             config.setValue(map.getOrDefault(config.getId(), config.getDefaultValue())));
         Waila.LOGGER.info("Received config from the server: {}", GSON.toJson(map));
     }
 
-    public static void requestEntity(ServerPlayerEntity player, int entityId, Consumer<NbtCompound> consumer) {
+    public static void requestEntity(ServerPlayer player, int entityId, Consumer<CompoundTag> consumer) {
         TooltipRegistrar registrar = TooltipRegistrar.INSTANCE;
-        World world = player.world;
-        Entity entity = world.getEntityById(entityId);
+        Level world = player.level;
+        Entity entity = world.getEntity(entityId);
 
         if (entity == null)
             return;
 
-        NbtCompound tag = new NbtCompound();
+        CompoundTag tag = new CompoundTag();
         registrar.entityData.get(entity).forEach(provider ->
             provider.appendServerData(tag, player, world, entity)
         );
@@ -49,10 +49,10 @@ public class PacketExecutor {
         consumer.accept(tag);
     }
 
-    public static void requestBlockEntity(ServerPlayerEntity player, BlockPos pos, Consumer<NbtCompound> consumer) {
+    public static void requestBlockEntity(ServerPlayer player, BlockPos pos, Consumer<CompoundTag> consumer) {
         TooltipRegistrar registrar = TooltipRegistrar.INSTANCE;
-        World world = player.world;
-        if (!world.isChunkLoaded(pos))
+        Level world = player.level;
+        if (!world.hasChunkAt(pos))
             return;
 
         BlockEntity blockEntity = world.getBlockEntity(pos);
@@ -61,7 +61,7 @@ public class PacketExecutor {
 
         BlockState state = world.getBlockState(pos);
 
-        NbtCompound tag = new NbtCompound();
+        CompoundTag tag = new CompoundTag();
         registrar.blockData.get(blockEntity).forEach(provider ->
             provider.appendServerData(tag, player, world, blockEntity));
         registrar.blockData.get(state.getBlock()).forEach(provider ->
@@ -70,7 +70,7 @@ public class PacketExecutor {
         tag.putInt("x", pos.getX());
         tag.putInt("y", pos.getY());
         tag.putInt("z", pos.getZ());
-        tag.putString("id", Registry.BLOCK_ENTITY_TYPE.getId(blockEntity.getType()).toString());
+        tag.putString("id", Registry.BLOCK_ENTITY_TYPE.getKey(blockEntity.getType()).toString());
 
         consumer.accept(tag);
     }

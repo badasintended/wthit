@@ -10,23 +10,23 @@ import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.data.DataAccessor;
 import mcp.mobius.waila.debug.ExceptionHandler;
 import mcp.mobius.waila.registry.TooltipRegistrar;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.entity.Entity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.text.Text;
-import net.minecraft.util.hit.BlockHitResult;
-import net.minecraft.util.hit.EntityHitResult;
-import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
 
 public class HudProviderHandler {
 
-    public static void gatherBlock(DataAccessor accessor, List<Text> tooltip, TooltipPosition position) {
+    public static void gatherBlock(DataAccessor accessor, List<Component> tooltip, TooltipPosition position) {
         TooltipRegistrar registrar = TooltipRegistrar.INSTANCE;
         Block block = accessor.getBlock();
         BlockEntity blockEntity = accessor.getBlockEntity();
@@ -44,7 +44,7 @@ public class HudProviderHandler {
         handleBlock(accessor, tooltip, blockEntity, position);
     }
 
-    private static void handleBlock(DataAccessor accessor, List<Text> tooltip, Object obj, TooltipPosition position) {
+    private static void handleBlock(DataAccessor accessor, List<Component> tooltip, Object obj, TooltipPosition position) {
         TooltipRegistrar registrar = TooltipRegistrar.INSTANCE;
         List<IBlockComponentProvider> providers = registrar.blockComponent.get(position).get(obj);
         for (IBlockComponentProvider provider : providers) {
@@ -60,7 +60,7 @@ public class HudProviderHandler {
         }
     }
 
-    public static void gatherEntity(Entity entity, DataAccessor accessor, List<Text> tooltip, TooltipPosition position) {
+    public static void gatherEntity(Entity entity, DataAccessor accessor, List<Component> tooltip, TooltipPosition position) {
         TooltipRegistrar registrar = TooltipRegistrar.INSTANCE;
         Entity trueEntity = accessor.getEntity();
 
@@ -102,7 +102,7 @@ public class HudProviderHandler {
                 }
             }
         } else {
-            World world = MinecraftClient.getInstance().world;
+            Level world = Minecraft.getInstance().level;
             BlockPos pos = ((BlockHitResult) target).getBlockPos();
             BlockState state = data.getBlockState();
             if (state.isAir())
@@ -127,7 +127,7 @@ public class HudProviderHandler {
                 }
             }
 
-            ItemStack pick = state.getBlock().getPickStack(world, pos, state);
+            ItemStack pick = state.getBlock().getCloneItemStack(world, pos, state);
             if (!pick.isEmpty()) {
                 return pick;
             }
@@ -161,7 +161,7 @@ public class HudProviderHandler {
     public static BlockState getOverrideBlock(HitResult target) {
         TooltipRegistrar registrar = TooltipRegistrar.INSTANCE;
 
-        World world = MinecraftClient.getInstance().world;
+        Level world = Minecraft.getInstance().level;
         BlockPos pos = ((BlockHitResult) target).getBlockPos();
         BlockState state = world.getBlockState(pos);
 

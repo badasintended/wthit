@@ -1,58 +1,57 @@
+import net.minecraftforge.gradle.common.util.RunConfig
+
 plugins {
-    id("fabric-loom").version("0.8-SNAPSHOT")
+    id("net.minecraftforge.gradle").version("5.1.+")
     id("maven-publish")
 }
 
-repositories {
-    maven("https://bai.jfrog.io/artifactory/maven")
-    maven("https://maven.architectury.dev")
+minecraft {
+    mappings("official", rootProp["minecraft"])
+    accessTransformer(file("src/main/resources/META-INF/accesstransformer.cfg"))
+    runs {
+        val runConfig = Action<RunConfig> {
+            workingDirectory(rootProject.file("run"))
+            property("forge.logging.console.level", "debug")
+        }
+        create("client", runConfig)
+        create("server", runConfig)
+    }
 }
 
 dependencies {
-    minecraft("com.mojang:minecraft:${rootProp["minecraft"]}")
-    mappings(loom.officialMojangMappings())
+    minecraft("net.minecraftforge:forge:${rootProp["minecraft"]}-${rootProp["forge"]}")
 
-    modImplementation("net.fabricmc:fabric-loader:${rootProp["fabricLoader"]}")
-
-    modImplementation("dev.inkwell:hermes:1.1.0+1.17")
-
-    modCompileRuntime("net.fabricmc.fabric-api:fabric-api:${rootProp["fabricApi"]}")
-    modCompileRuntime("com.terraformersmc:modmenu:${rootProp["modMenu"]}")
-
-    modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:${rootProp["rei"]}")
-    modRuntime("me.shedaniel:RoughlyEnoughItems-fabric:${rootProp["rei"]}")
-}
-
-loom {
-    accessWidener = project(":common").file("src/main/resources/wthit.accesswidener")
+    implementation("org.jetbrains:annotations:19.0.0")
 }
 
 tasks.processResources {
     inputs.property("version", project.version)
 
-    filesMatching("fabric.mod.json") {
+    filesMatching("META-INF/mods.toml") {
         expand("version" to project.version)
     }
 }
 
+tasks.jar {
+    exclude("wthit.accesswidener")
+    finalizedBy("reobfJar")
+}
+
 afterEvaluate {
-    val remapJar = tasks.remapJar.get()
+    val jar = tasks.jar.get()
     val apiJar = task<Jar>("apiJar") {
-        dependsOn(remapJar)
+        dependsOn(jar)
         archiveClassifier.set("api")
-        include("fabric.mod.json")
         include("mcp/mobius/waila/api/**")
-        from(zipTree(remapJar.archiveFile))
+        from(zipTree(jar.archiveFile))
     }
 
     val sourcesJar = tasks.sourcesJar.get()
-    val remapSourcesJar = tasks.remapSourcesJar.get()
     val apiSourcesJar = task<Jar>("apiSourcesJar") {
-        dependsOn(remapSourcesJar)
+        dependsOn(sourcesJar)
         archiveClassifier.set("api-sources")
-        include("fabric.mod.json")
         include("mcp/mobius/waila/api/**")
-        from(zipTree(remapSourcesJar.output))
+        from(zipTree(sourcesJar.archiveFile))
     }
 
     tasks.build {
@@ -60,8 +59,8 @@ afterEvaluate {
     }
 
     upload {
-        curseforge(remapJar)
-        modrinth(remapJar)
+        curseforge(jar)
+        modrinth(sourcesJar)
     }
 
     publishing {
@@ -73,11 +72,10 @@ afterEvaluate {
             create<MavenPublication>("runtime") {
                 artifactId = rootProp["archiveBaseName"]
                 version = "${project.name}-${project.version}"
-                artifact(remapJar) {
+                artifact(jar) {
                     classifier = null
                 }
                 artifact(sourcesJar) {
-                    builtBy(remapSourcesJar)
                     classifier = "sources"
                 }
             }

@@ -3,8 +3,8 @@ package mcp.mobius.waila.fabric;
 import java.util.Set;
 
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import mcp.mobius.waila.PluginLoader;
 import mcp.mobius.waila.Waila;
-import mcp.mobius.waila.WailaPlugins;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.fabricmc.loader.api.metadata.CustomValue;
@@ -15,7 +15,7 @@ import static net.fabricmc.loader.api.metadata.CustomValue.CvType.ARRAY;
 import static net.fabricmc.loader.api.metadata.CustomValue.CvType.OBJECT;
 import static net.fabricmc.loader.api.metadata.CustomValue.CvType.STRING;
 
-public class FabricWailaPlugins extends WailaPlugins {
+public class FabricPluginLoader extends PluginLoader {
 
     @Override
     protected void gatherPlugins() {

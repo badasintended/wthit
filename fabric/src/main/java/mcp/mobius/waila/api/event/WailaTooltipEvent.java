@@ -5,7 +5,7 @@ import java.util.List;
 import mcp.mobius.waila.api.ICommonAccessor;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
 
 /**
  * This event is fired just before the Waila tooltip sizes are calculated. This is the last chance to make edits to
@@ -25,15 +25,15 @@ public class WailaTooltipEvent {
         }
     );
 
-    private final List<Text> currentTip;
+    private final List<Component> currentTip;
     private final ICommonAccessor accessor;
 
-    public WailaTooltipEvent(List<Text> currentTip, ICommonAccessor accessor) {
+    public WailaTooltipEvent(List<Component> currentTip, ICommonAccessor accessor) {
         this.currentTip = currentTip;
         this.accessor = accessor;
     }
 
-    public List<Text> getCurrentTip() {
+    public List<Component> getCurrentTip() {
         return currentTip;
     }
 

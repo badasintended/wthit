@@ -2,26 +2,26 @@ package mcp.mobius.waila.forge;
 
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.event.WailaTooltipEvent;
-import mcp.mobius.waila.handler.TickHandler;
-import net.minecraft.block.Blocks;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.ChatScreen;
+import mcp.mobius.waila.hud.HudTickHandler;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.ChatScreen;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraftforge.common.MinecraftForge;
 
-public class ForgeTickHandler extends TickHandler {
+public class ForgeHudTickHandler extends HudTickHandler {
 
     public static void registerListener() {
         MinecraftForge.EVENT_BUS.addListener((WailaTooltipEvent event) -> {
-            if (!Waila.CONFIG.get().getGeneral().shouldDisplayTooltip())
+            if (!Waila.config.get().getGeneral().shouldDisplayTooltip())
                 return;
 
-            if (getNarrator().active() || !Waila.CONFIG.get().getGeneral().shouldEnableTextToSpeech())
+            if (getNarrator().active() || !Waila.config.get().getGeneral().shouldEnableTextToSpeech())
                 return;
 
             if (event.getCurrentTip().isEmpty())
                 return;
 
-            if (MinecraftClient.getInstance().currentScreen != null && !(MinecraftClient.getInstance().currentScreen instanceof ChatScreen))
+            if (Minecraft.getInstance().screen != null && !(Minecraft.getInstance().screen instanceof ChatScreen))
                 return;
 
             if (event.getAccessor().getBlock() == Blocks.AIR && event.getAccessor().getEntity() == null)

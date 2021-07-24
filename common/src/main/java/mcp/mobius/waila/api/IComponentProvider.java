@@ -2,8 +2,8 @@ package mcp.mobius.waila.api;
 
 import java.util.List;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
 
 /**
  * TODO: Remove
@@ -19,17 +19,17 @@ public interface IComponentProvider extends IBlockComponentProvider {
     }
 
     @Override
-    default void appendHead(List<Text> tooltip, IBlockAccessor accessor, IPluginConfig config) {
+    default void appendHead(List<Component> tooltip, IBlockAccessor accessor, IPluginConfig config) {
         appendHead(tooltip, ((IDataAccessor) accessor), config);
     }
 
     @Override
-    default void appendBody(List<Text> tooltip, IBlockAccessor accessor, IPluginConfig config) {
+    default void appendBody(List<Component> tooltip, IBlockAccessor accessor, IPluginConfig config) {
         appendBody(tooltip, ((IDataAccessor) accessor), config);
     }
 
     @Override
-    default void appendTail(List<Text> tooltip, IBlockAccessor accessor, IPluginConfig config) {
+    default void appendTail(List<Component> tooltip, IBlockAccessor accessor, IPluginConfig config) {
         appendTail(tooltip, ((IDataAccessor) accessor), config);
     }
 
@@ -39,15 +39,15 @@ public interface IComponentProvider extends IBlockComponentProvider {
     }
 
     @Deprecated
-    default void appendHead(List<Text> tooltip, IDataAccessor accessor, IPluginConfig config) {
+    default void appendHead(List<Component> tooltip, IDataAccessor accessor, IPluginConfig config) {
     }
 
     @Deprecated
-    default void appendBody(List<Text> tooltip, IDataAccessor accessor, IPluginConfig config) {
+    default void appendBody(List<Component> tooltip, IDataAccessor accessor, IPluginConfig config) {
     }
 
     @Deprecated
-    default void appendTail(List<Text> tooltip, IDataAccessor accessor, IPluginConfig config) {
+    default void appendTail(List<Component> tooltip, IDataAccessor accessor, IPluginConfig config) {
     }
 
 }

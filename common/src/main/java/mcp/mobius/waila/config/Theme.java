@@ -1,7 +1,7 @@
 package mcp.mobius.waila.config;
 
 import mcp.mobius.waila.Waila;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 @SuppressWarnings("ClassCanBeRecord")
 public class Theme {
@@ -9,13 +9,13 @@ public class Theme {
     public static final Theme VANILLA = new Theme(Waila.id("vanilla"), 0x100010, 0x5000ff, 0x28007f, 0xA0A0A0);
     public static final Theme DARK = new Theme(Waila.id("dark"), 0x131313, 0x383838, 0x242424, 0xA0A0A0);
 
-    private final Identifier id;
+    private final ResourceLocation id;
     private final int backgroundColor;
     private final int gradientStart;
     private final int gradientEnd;
     private final int fontColor;
 
-    public Theme(Identifier id, int backgroundColor, int gradientStart, int gradientEnd, int fontColor) {
+    public Theme(ResourceLocation id, int backgroundColor, int gradientStart, int gradientEnd, int fontColor) {
         this.id = id;
         this.backgroundColor = backgroundColor;
         this.gradientStart = gradientStart;
@@ -23,7 +23,7 @@ public class Theme {
         this.fontColor = fontColor;
     }
 
-    public Identifier getId() {
+    public ResourceLocation getId() {
         return id;
     }
 

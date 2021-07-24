@@ -10,11 +10,11 @@ import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.debug.DumpGenerator;
 import mcp.mobius.waila.gui.widget.ConfigListWidget;
 import mcp.mobius.waila.gui.widget.value.InputValue;
-import net.minecraft.client.gui.screen.Screen;
-import net.minecraft.client.toast.SystemToast;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.TranslatableText;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.gui.components.toasts.SystemToast;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
 
 public class WailaConfigScreen extends ConfigScreen {
 
@@ -31,16 +31,16 @@ public class WailaConfigScreen extends ConfigScreen {
     }
 
     public WailaConfigScreen(Screen parent) {
-        super(parent, new TranslatableText("gui.waila.configuration", WailaConstants.MOD_NAME), WailaConfigScreen::save, WailaConfigScreen::invalidate);
+        super(parent, new TranslatableComponent("gui.waila.configuration", WailaConstants.MOD_NAME), WailaConfigScreen::save, WailaConfigScreen::invalidate);
     }
 
     @Override
     public ConfigListWidget getOptions() {
-        return new ConfigListWidget(this, client, width, height, 32, height - 32, 30, WailaConfigScreen::save)
-            .withButton("config.waila.general", 100, 20, w -> client.openScreen(new ConfigScreen(this, new TranslatableText("config.waila.general")) {
+        return new ConfigListWidget(this, minecraft, width, height, 32, height - 32, 30, WailaConfigScreen::save)
+            .withButton("config.waila.general", 100, 20, w -> minecraft.setScreen(new ConfigScreen(this, new TranslatableComponent("config.waila.general")) {
                 @Override
                 public ConfigListWidget getOptions() {
-                    return new ConfigListWidget(this, client, width, height, 32, height - 32, 30)
+                    return new ConfigListWidget(this, minecraft, width, height, 32, height - 32, 30)
                         .withBoolean("config.waila.display_tooltip",
                             get().getGeneral().shouldDisplayTooltip(),
                             val -> get().getGeneral().setDisplayTooltip(val))
@@ -74,10 +74,10 @@ public class WailaConfigScreen extends ConfigScreen {
                             InputValue.POSITIVE_INTEGER);
                 }
             }))
-            .withButton("config.waila.overlay", 100, 20, w -> client.openScreen(new ConfigScreen(this, new TranslatableText("config.waila.overlay")) {
+            .withButton("config.waila.overlay", 100, 20, w -> minecraft.setScreen(new ConfigScreen(this, new TranslatableComponent("config.waila.overlay")) {
                 @Override
                 public ConfigListWidget getOptions() {
-                    return new ConfigListWidget(this, client, width, height, 32, height - 32, 30)
+                    return new ConfigListWidget(this, minecraft, width, height, 32, height - 32, 30)
                         .withInput("config.waila.overlay_pos_x",
                             get().getOverlay().getPosition().getX(),
                             val -> get().getOverlay().getPosition().setX(val),
@@ -113,13 +113,13 @@ public class WailaConfigScreen extends ConfigScreen {
                         .withCycle("config.waila.overlay_theme",
                             get().getOverlay().getColor().getThemes().stream().map(t -> t.getId().toString()).sorted(String::compareToIgnoreCase).toArray(String[]::new),
                             get().getOverlay().getColor().getTheme().getId().toString(),
-                            val -> get().getOverlay().getColor().applyTheme(new Identifier(val)));
+                            val -> get().getOverlay().getColor().applyTheme(new ResourceLocation(val)));
                 }
             }))
-            .withButton("config.waila.formatting", 100, 20, w -> client.openScreen(new ConfigScreen(this, new TranslatableText("config.waila.overlay")) {
+            .withButton("config.waila.formatting", 100, 20, w -> minecraft.setScreen(new ConfigScreen(this, new TranslatableComponent("config.waila.overlay")) {
                 @Override
                 public ConfigListWidget getOptions() {
-                    return new ConfigListWidget(this, client, width, height, 32, height - 32, 30)
+                    return new ConfigListWidget(this, minecraft, width, height, 32, height - 32, 30)
                         .withInput("config.waila.format_mod_name",
                             get().getFormatting().getModName(),
                             val -> get().getFormatting().setModName(val.isEmpty() || !val.contains("%s") ? get().getFormatting().getModName() : val))
@@ -141,7 +141,7 @@ public class WailaConfigScreen extends ConfigScreen {
                 File file = new File("waila_dump.md");
                 try (FileWriter writer = new FileWriter(file)) {
                     writer.write(DumpGenerator.generateInfoDump());
-                    SystemToast.show(client.getToastManager(), SystemToast.Type.WORLD_BACKUP, new TranslatableText("command.waila.dump_success"), LiteralText.EMPTY);
+                    SystemToast.addOrUpdate(minecraft.getToasts(), SystemToast.SystemToastIds.WORLD_BACKUP, new TranslatableComponent("command.waila.dump_success"), TextComponent.EMPTY);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

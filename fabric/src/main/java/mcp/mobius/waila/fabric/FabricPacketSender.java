@@ -8,10 +8,10 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.Entity;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 import static mcp.mobius.waila.network.PacketIo.ReceiveData;
 import static mcp.mobius.waila.network.PacketIo.RequestBlock;
@@ -20,10 +20,10 @@ import static mcp.mobius.waila.network.PacketIo.SendConfig;
 
 public class FabricPacketSender extends PacketSender {
 
-    static final Identifier REQUEST_ENTITY = Waila.id("request_entity");
-    static final Identifier REQUEST_BLOCK = Waila.id("request_tile");
-    static final Identifier RECEIVE_DATA = Waila.id("receive_data");
-    static final Identifier SEND_CONFIG = Waila.id("send_config");
+    static final ResourceLocation REQUEST_ENTITY = Waila.id("request_entity");
+    static final ResourceLocation REQUEST_BLOCK = Waila.id("request_tile");
+    static final ResourceLocation RECEIVE_DATA = Waila.id("receive_data");
+    static final ResourceLocation SEND_CONFIG = Waila.id("send_config");
 
     @Override
     public void initMain() {
@@ -51,7 +51,7 @@ public class FabricPacketSender extends PacketSender {
     }
 
     @Override
-    public void sendConfig(PluginConfig config, ServerPlayerEntity player) {
+    public void sendConfig(PluginConfig config, ServerPlayer player) {
         ServerPlayNetworking.send(player, SEND_CONFIG, SendConfig.create(config));
     }
 

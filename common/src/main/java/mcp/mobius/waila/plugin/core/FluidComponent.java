@@ -7,14 +7,14 @@ import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITaggableList;
 import mcp.mobius.waila.api.WailaConstants;
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.core.Registry;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 
 public enum FluidComponent implements IBlockComponentProvider {
 
@@ -31,11 +31,11 @@ public enum FluidComponent implements IBlockComponentProvider {
     }
 
     @Override
-    public void appendHead(List<Text> tooltip, IBlockAccessor accessor, IPluginConfig config) {
+    public void appendHead(List<Component> tooltip, IBlockAccessor accessor, IPluginConfig config) {
         Block block = accessor.getBlock();
-        ((ITaggableList<Identifier, Text>) tooltip).setTag(WailaConstants.OBJECT_NAME_TAG, new LiteralText(String.format(accessor.getFluidNameFormat(), block.getName().getString())));
+        ((ITaggableList<ResourceLocation, Component>) tooltip).setTag(WailaConstants.OBJECT_NAME_TAG, new TextComponent(String.format(accessor.getFluidNameFormat(), block.getName().getString())));
         if (config.get(WailaConstants.CONFIG_SHOW_REGISTRY))
-            ((ITaggableList<Identifier, Text>) tooltip).setTag(WailaConstants.REGISTRY_NAME_TAG, new LiteralText(String.format(accessor.getRegistryNameFormat(), Registry.BLOCK.getId(block))));
+            ((ITaggableList<ResourceLocation, Component>) tooltip).setTag(WailaConstants.REGISTRY_NAME_TAG, new TextComponent(String.format(accessor.getRegistryNameFormat(), Registry.BLOCK.getKey(block))));
     }
 
 }

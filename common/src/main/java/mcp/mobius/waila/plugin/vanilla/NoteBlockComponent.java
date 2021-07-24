@@ -5,16 +5,16 @@ import java.util.List;
 import mcp.mobius.waila.api.IBlockAccessor;
 import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.NoteBlock;
-import net.minecraft.block.enums.Instrument;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
-import net.minecraft.util.Util;
+import net.minecraft.Util;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.level.block.NoteBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 
-import static net.minecraft.util.math.MathHelper.clamp;
-import static net.minecraft.util.math.MathHelper.sin;
+import static net.minecraft.util.Mth.clamp;
+import static net.minecraft.util.Mth.sin;
 
 public enum NoteBlockComponent implements IBlockComponentProvider {
 
@@ -56,15 +56,15 @@ public enum NoteBlockComponent implements IBlockComponentProvider {
     });
 
     @Override
-    public void appendBody(List<Text> tooltip, IBlockAccessor accessor, IPluginConfig config) {
+    public void appendBody(List<Component> tooltip, IBlockAccessor accessor, IPluginConfig config) {
         if (config.get(WailaVanilla.CONFIG_NOTE_BLOCK)) {
             BlockState state = accessor.getBlockState();
-            Instrument instrument = state.get(NoteBlock.INSTRUMENT);
-            int level = state.get(NoteBlock.NOTE);
+            NoteBlockInstrument instrument = state.getValue(NoteBlock.INSTRUMENT);
+            int level = state.getValue(NoteBlock.NOTE);
             Note note = Note.get(level);
-            tooltip.add(new TranslatableText("tooltip.waila.instrument." + instrument.asString())
-                .append(new LiteralText(" (" + (config.get(WailaVanilla.CONFIG_NOTE_BLOCK_FLAT) ? note.flat : note.sharp) + ")")
-                    .styled(style -> style.withColor(COLORS[level]))));
+            tooltip.add(new TranslatableComponent("tooltip.waila.instrument." + instrument.getSerializedName())
+                .append(new TextComponent(" (" + (config.get(WailaVanilla.CONFIG_NOTE_BLOCK_FLAT) ? note.flat : note.sharp) + ")")
+                    .withStyle(style -> style.withColor(COLORS[level]))));
         }
     }
 

@@ -1,5 +1,6 @@
 package mcp.mobius.waila.fabric;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.hud.HudRenderer;
 import me.shedaniel.rei.api.client.ClientHelper;
@@ -9,11 +10,10 @@ import me.shedaniel.rei.api.client.registry.transfer.TransferHandlerRegistry;
 import me.shedaniel.rei.api.client.view.ViewSearchBuilder;
 import me.shedaniel.rei.api.common.entry.EntryStack;
 import me.shedaniel.rei.api.common.entry.type.VanillaEntryTypes;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.ingame.HandledScreen;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.screen.PlayerScreenHandler;
-import net.minecraft.text.LiteralText;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.inventory.InventoryMenu;
 
 public class FabricWailaRei implements REIClientPlugin {
 
@@ -30,7 +30,7 @@ public class FabricWailaRei implements REIClientPlugin {
             ViewSearchBuilder view = ViewSearchBuilder.builder()
                 .addUsagesFor(EntryStack.of(VanillaEntryTypes.ITEM, HudRenderer.getStack()));
             if (!view.buildMap().isEmpty()) {
-                MinecraftClient.getInstance().openScreen(new AutoClosableScreen());
+                Minecraft.getInstance().setScreen(new AutoClosableScreen());
                 ClientHelper.getInstance().openView(view);
             }
         };
@@ -39,7 +39,7 @@ public class FabricWailaRei implements REIClientPlugin {
             ViewSearchBuilder view = ViewSearchBuilder.builder()
                 .addRecipesFor(EntryStack.of(VanillaEntryTypes.ITEM, HudRenderer.getStack()));
             if (!view.buildMap().isEmpty()) {
-                MinecraftClient.getInstance().openScreen(new AutoClosableScreen());
+                Minecraft.getInstance().setScreen(new AutoClosableScreen());
                 ClientHelper.getInstance().openView(view);
             }
         };
@@ -58,23 +58,23 @@ public class FabricWailaRei implements REIClientPlugin {
      * <p>
      * TODO: Remove if fixed
      */
-    static class AutoClosableScreen extends HandledScreen<PlayerScreenHandler> {
+    static class AutoClosableScreen extends AbstractContainerScreen<InventoryMenu> {
 
         private AutoClosableScreen() {
             super(
-                MinecraftClient.getInstance().player.playerScreenHandler,
-                MinecraftClient.getInstance().player.getInventory(),
-                LiteralText.EMPTY);
+                Minecraft.getInstance().player.inventoryMenu,
+                Minecraft.getInstance().player.getInventory(),
+                TextComponent.EMPTY);
         }
 
         @Override
         protected void init() {
             super.init();
-            client.openScreen(null);
+            minecraft.setScreen(null);
         }
 
         @Override
-        protected void drawBackground(MatrixStack matrices, float delta, int mouseX, int mouseY) {
+        protected void renderBg(PoseStack matrices, float delta, int mouseX, int mouseY) {
         }
 
     }

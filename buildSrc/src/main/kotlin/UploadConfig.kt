@@ -1,11 +1,11 @@
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.GradleDsl
 
-fun Project.publish(config: PublishConfig.() -> Unit) {
-    config(PublishConfig(this))
+fun Project.upload(config: UploadConfig.() -> Unit) {
+    config(UploadConfig(this))
 }
 
 @GradleDsl
-class PublishConfig(
+class UploadConfig(
     internal val project: Project
 )

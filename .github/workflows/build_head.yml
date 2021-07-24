@@ -16,11 +16,14 @@ jobs:
     steps:
       - id: vars
         run: |
-          echo ::set-output name=VERSION::git-${GITHUB_SHA:0:7}
+          echo ::set-output name=VERSION::999-${GITHUB_SHA:0:7}
       - uses: actions/checkout@v2
       - uses: actions/setup-java@v1
         with:
           java-version: 16
+      - run: |
+          chmod +x setup_workspace
+          ./setup_workspace
       - run: chmod +x gradlew
       - uses: actions/cache@v2
         with:

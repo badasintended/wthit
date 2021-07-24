@@ -10,7 +10,7 @@ import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.plugin.core.WailaCore;
 import mcp.mobius.waila.registry.TooltipRegistrar;
 
-public abstract class WailaPlugins {
+public abstract class PluginLoader {
 
     public static final Map<String, IWailaPlugin> PLUGINS = new Object2ObjectOpenHashMap<>();
 

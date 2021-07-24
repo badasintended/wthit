@@ -1,10 +1,10 @@
 package mcp.mobius.waila.api;
 
 import mcp.mobius.waila.api.internal.ApiSide;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.Entity;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import org.jetbrains.annotations.ApiStatus;
 
 @ApiStatus.NonExtendable
@@ -22,7 +22,7 @@ public interface IRegistrar {
      * @param defaultValue the default value
      */
     @ApiSide.ClientOnly
-    void addConfig(Identifier key, boolean defaultValue);
+    void addConfig(ResourceLocation key, boolean defaultValue);
 
     /**
      * Registers a namespaced config key to be accessed within data providers. These values are sent from the server to
@@ -31,7 +31,7 @@ public interface IRegistrar {
      * @param key          The namespaced key
      * @param defaultValue The default value
      */
-    void addSyncedConfig(Identifier key, boolean defaultValue);
+    void addSyncedConfig(ResourceLocation key, boolean defaultValue);
 
     /**
      * Registers an {@link IBlockComponentProvider} instance to allow overriding the block being displayed.
@@ -88,7 +88,7 @@ public interface IRegistrar {
     }
 
     /**
-     * Registers an {@link IBlockComponentProvider} instance for appending {@link Text} to the tooltip.
+     * Registers an {@link IBlockComponentProvider} instance for appending {@link Component} to the tooltip.
      * A {@link BlockEntity} is also an acceptable class type.
      *
      * @param provider The data provider instance
@@ -102,7 +102,7 @@ public interface IRegistrar {
     <T> void addComponent(IBlockComponentProvider provider, TooltipPosition position, Class<T> clazz, int priority);
 
     /**
-     * Registers an {@link IBlockComponentProvider} instance with {@link #DEFAULT_PRIORITY} for appending {@link Text} to the tooltip.
+     * Registers an {@link IBlockComponentProvider} instance with {@link #DEFAULT_PRIORITY} for appending {@link Component} to the tooltip.
      * A {@link BlockEntity} is also an acceptable class type.
      *
      * @param provider The data provider instance
@@ -173,7 +173,7 @@ public interface IRegistrar {
     }
 
     /**
-     * Registers an {@link IEntityComponentProvider} instance for appending {@link Text} to the tooltip.
+     * Registers an {@link IEntityComponentProvider} instance for appending {@link Component} to the tooltip.
      *
      * @param provider The data provider instance
      * @param position The position on the tooltip this applies to
@@ -186,7 +186,7 @@ public interface IRegistrar {
     <T> void addComponent(IEntityComponentProvider provider, TooltipPosition position, Class<T> clazz, int priority);
 
     /**
-     * Registers an {@link IEntityComponentProvider} instance with {@link #DEFAULT_PRIORITY} for appending {@link Text} to the tooltip.
+     * Registers an {@link IEntityComponentProvider} instance with {@link #DEFAULT_PRIORITY} for appending {@link Component} to the tooltip.
      *
      * @param provider The data provider instance
      * @param position The position on the tooltip this applies to
@@ -214,7 +214,7 @@ public interface IRegistrar {
      * @param renderer The renderer instance
      */
     @ApiSide.ClientOnly
-    void addRenderer(Identifier id, ITooltipRenderer renderer);
+    void addRenderer(ResourceLocation id, ITooltipRenderer renderer);
 
     /**
      * TODO: Remove
@@ -289,10 +289,10 @@ public interface IRegistrar {
     /**
      * TODO: Remove
      *
-     * @deprecated use {@link #addRenderer(Identifier, ITooltipRenderer)}
+     * @deprecated use {@link #addRenderer(ResourceLocation, ITooltipRenderer)}
      */
     @Deprecated
-    default void registerTooltipRenderer(Identifier id, ITooltipRenderer renderer) {
+    default void registerTooltipRenderer(ResourceLocation id, ITooltipRenderer renderer) {
         addRenderer(id, renderer);
     }
 

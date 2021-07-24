@@ -9,22 +9,22 @@ import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.gui.screen.HomeConfigScreen;
 import mcp.mobius.waila.hud.HudTickHandler;
 import mcp.mobius.waila.util.ModInfo;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.item.ItemStack;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.Text;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.item.ItemStack;
 import org.lwjgl.glfw.GLFW;
 
 public abstract class WailaClient {
 
-    public static KeyBinding openConfig;
-    public static KeyBinding showOverlay;
-    public static KeyBinding toggleLiquid;
-    public static KeyBinding showRecipeInput;
-    public static KeyBinding showRecipeOutput;
+    public static KeyMapping openConfig;
+    public static KeyMapping showOverlay;
+    public static KeyMapping toggleLiquid;
+    public static KeyMapping showRecipeInput;
+    public static KeyMapping showRecipeOutput;
 
-    protected static BiFunction<String, Integer, KeyBinding> keyBindingBuilder;
+    protected static BiFunction<String, Integer, KeyMapping> keyBindingBuilder;
 
     public static Runnable onShowRecipeInput;
     public static Runnable onShowRecipeOutput;
@@ -46,38 +46,38 @@ public abstract class WailaClient {
     }
 
     protected static void onClientTick() {
-        MinecraftClient client = MinecraftClient.getInstance();
+        Minecraft client = Minecraft.getInstance();
         WailaConfig config = Waila.config.get();
 
         HudTickHandler.tickClient();
 
-        while (openConfig.wasPressed()) {
-            client.openScreen(new HomeConfigScreen(null));
+        while (openConfig.consumeClick()) {
+            client.setScreen(new HomeConfigScreen(null));
         }
 
-        while (showOverlay.wasPressed()) {
+        while (showOverlay.consumeClick()) {
             if (config.getGeneral().getDisplayMode() == WailaConfig.General.DisplayMode.TOGGLE) {
                 config.getGeneral().setDisplayTooltip(!config.getGeneral().shouldDisplayTooltip());
             }
         }
 
-        while (toggleLiquid.wasPressed()) {
+        while (toggleLiquid.consumeClick()) {
             PluginConfig.INSTANCE.set(WailaConstants.CONFIG_SHOW_FLUID, PluginConfig.INSTANCE.get(WailaConstants.CONFIG_SHOW_FLUID));
         }
 
 
-        while (showRecipeInput.wasPressed() && onShowRecipeInput != null) {
+        while (showRecipeInput.consumeClick() && onShowRecipeInput != null) {
             onShowRecipeInput.run();
         }
 
-        while (showRecipeOutput.wasPressed() && onShowRecipeOutput != null) {
+        while (showRecipeOutput.consumeClick() && onShowRecipeOutput != null) {
             onShowRecipeOutput.run();
         }
     }
 
-    protected static void onItemTooltip(ItemStack stack, List<Text> tooltip) {
+    protected static void onItemTooltip(ItemStack stack, List<Component> tooltip) {
         if (PluginConfig.INSTANCE.get(WailaConstants.CONFIG_SHOW_MOD_NAME)) {
-            tooltip.add(new LiteralText(String.format(
+            tooltip.add(new TextComponent(String.format(
                 Waila.config.get().getFormatting().getModName(),
                 ModInfo.get(stack.getItem()).name()
             )));

@@ -1,9 +1,9 @@
 import com.modrinth.minotaur.TaskModrinthUpload
+import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.apply
-import org.gradle.kotlin.dsl.get
 import org.gradle.kotlin.dsl.task
 
-val PublishConfig.modrinth get() = project.run {
+fun <T : Jar> UploadConfig.modrinth(task: T) = project.run {
     apply(plugin = "com.modrinth.minotaur")
 
     task<TaskModrinthUpload>("modrinth") {
@@ -16,7 +16,7 @@ val PublishConfig.modrinth get() = project.run {
         versionNumber = "${project.name}-${project.version}"
         addLoader(project.name)
 
-        uploadFile = tasks["remapJar"]
+        uploadFile = task
 
         prop["mr.gameVersion"].split(", ").forEach {
             addGameVersion(it)

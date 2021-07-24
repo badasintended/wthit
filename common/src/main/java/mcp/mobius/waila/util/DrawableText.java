@@ -5,19 +5,19 @@ import java.util.List;
 import java.util.function.Supplier;
 
 import com.google.common.base.Suppliers;
+import com.mojang.blaze3d.vertex.PoseStack;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectLists;
 import mcp.mobius.waila.api.IDrawableText;
 import mcp.mobius.waila.api.ITooltipRenderer;
 import mcp.mobius.waila.data.DataAccessor;
 import mcp.mobius.waila.registry.TooltipRegistrar;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.OrderedText;
-import net.minecraft.text.Style;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.Style;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FormattedCharSequence;
 
 public class DrawableText implements IDrawableText {
 
@@ -27,7 +27,7 @@ public class DrawableText implements IDrawableText {
     protected final List<RenderContainer> renderers = new ObjectArrayList<>();
 
     @Override
-    public IDrawableText with(Identifier id, NbtCompound data) {
+    public IDrawableText with(ResourceLocation id, CompoundTag data) {
         renderers.add(new RenderContainer(id, data));
         return this;
     }
@@ -49,7 +49,7 @@ public class DrawableText implements IDrawableText {
     }
 
     @Override
-    public void render(MatrixStack matrices, int x, int y, float delta) {
+    public void render(PoseStack matrices, int x, int y, float delta) {
         int xOffset = 0;
         for (RenderContainer container : renderers) {
             Dimension size = container.getRenderer().getSize(container.getData(), DataAccessor.INSTANCE);
@@ -64,39 +64,39 @@ public class DrawableText implements IDrawableText {
     }
 
     @Override
-    public String asString() {
+    public String getContents() {
         return LMAO;
     }
 
     @Override
-    public List<Text> getSiblings() {
+    public List<Component> getSiblings() {
         return ObjectLists.emptyList();
     }
 
     @Override
-    public MutableText copy() {
+    public MutableComponent plainCopy() {
         DrawableText n = new DrawableText();
         renderers.forEach(r -> n.with(r.id, r.data));
         return n;
     }
 
     @Override
-    public MutableText shallowCopy() {
-        return copy();
+    public MutableComponent copy() {
+        return plainCopy();
     }
 
     @Override
-    public OrderedText asOrderedText() {
-        return OrderedText.EMPTY;
+    public FormattedCharSequence getVisualOrderText() {
+        return FormattedCharSequence.EMPTY;
     }
 
     @Override
-    public MutableText setStyle(Style style) {
+    public MutableComponent setStyle(Style style) {
         return this;
     }
 
     @Override
-    public MutableText append(Text text) {
+    public MutableComponent append(Component text) {
         return this;
     }
 
@@ -109,21 +109,21 @@ public class DrawableText implements IDrawableText {
 
     public static class RenderContainer {
 
-        private final Identifier id;
-        private final NbtCompound data;
+        private final ResourceLocation id;
+        private final CompoundTag data;
         private final ITooltipRenderer renderer;
 
-        public RenderContainer(Identifier id, NbtCompound data) {
+        public RenderContainer(ResourceLocation id, CompoundTag data) {
             this.id = id;
             this.data = data;
             this.renderer = TooltipRegistrar.INSTANCE.renderer.get(id);
         }
 
-        public Identifier getId() {
+        public ResourceLocation getId() {
             return id;
         }
 
-        public NbtCompound getData() {
+        public CompoundTag getData() {
             return data;
         }
 

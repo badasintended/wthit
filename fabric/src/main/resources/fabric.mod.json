@@ -23,8 +23,7 @@
     "modmenu": ["mcp.mobius.waila.fabric.FabricWailaModMenu"],
     "rei"    : ["mcp.mobius.waila.fabric.FabricWailaRei"]
   },
-
-  "mixins"       : ["waila.mixins.json"],
+  "accessWidener": "wthit.accesswidener",
 
   "name"         : "wthit",
   "description"  : "What the hell is that?",

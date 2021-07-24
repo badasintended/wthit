@@ -1,10 +1,5 @@
 package mcp.mobius.waila.config;
 
-import com.google.common.collect.Maps;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -17,10 +12,14 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import com.google.common.collect.Maps;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.WailaConstants;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 public enum PluginConfig implements IPluginConfig {
 
@@ -29,24 +28,24 @@ public enum PluginConfig implements IPluginConfig {
     static final Path PATH = Waila.configDir.resolve(WailaConstants.WAILA + "/" + WailaConstants.WAILA + "_plugins.json");
     static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
-    private final Map<Identifier, ConfigEntry> configs = new HashMap<>();
+    private final Map<ResourceLocation, ConfigEntry> configs = new HashMap<>();
 
     public void addConfig(ConfigEntry entry) {
         configs.put(entry.getId(), entry);
     }
 
     @Override
-    public Set<Identifier> getKeys(String namespace) {
+    public Set<ResourceLocation> getKeys(String namespace) {
         return getKeys().stream().filter(id -> id.getNamespace().equals(namespace)).collect(Collectors.toSet());
     }
 
     @Override
-    public Set<Identifier> getKeys() {
+    public Set<ResourceLocation> getKeys() {
         return configs.keySet();
     }
 
     @Override
-    public boolean get(Identifier key, boolean defaultValue) {
+    public boolean get(ResourceLocation key, boolean defaultValue) {
         ConfigEntry entry = configs.get(key);
         return entry == null ? defaultValue : entry.getValue();
     }
@@ -59,16 +58,16 @@ public enum PluginConfig implements IPluginConfig {
         return configs.keySet().stream().sorted((o1, o2) -> o1.getNamespace().equals(WailaConstants.WAILA)
             ? -1
             : o1.getNamespace().compareToIgnoreCase(o2.getNamespace()))
-            .map(Identifier::getNamespace)
+            .map(ResourceLocation::getNamespace)
             .distinct()
             .collect(Collectors.toList());
     }
 
-    public ConfigEntry getEntry(Identifier key) {
+    public ConfigEntry getEntry(ResourceLocation key) {
         return configs.get(key);
     }
 
-    public void set(Identifier key, boolean value) {
+    public void set(ResourceLocation key, boolean value) {
         ConfigEntry entry = configs.get(key);
         if (entry != null) {
             entry.setValue(value);
@@ -90,7 +89,7 @@ public enum PluginConfig implements IPluginConfig {
             if (config == null) {
                 writeConfig(true);
             } else {
-                config.forEach((namespace, subMap) -> subMap.forEach((path, value) -> set(new Identifier(namespace, path), value)));
+                config.forEach((namespace, subMap) -> subMap.forEach((path, value) -> set(new ResourceLocation(namespace, path), value)));
             }
         }
     }

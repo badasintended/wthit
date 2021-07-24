@@ -5,13 +5,13 @@ import java.util.List;
 import mcp.mobius.waila.api.IBlockAccessor;
 import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
-import net.minecraft.block.entity.SkullBlockEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtHelper;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.Text;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.NbtUtils;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.entity.SkullBlockEntity;
 import org.apache.commons.lang3.StringUtils;
 
 public enum PlayerHeadComponent implements IBlockComponentProvider {
@@ -23,21 +23,21 @@ public enum PlayerHeadComponent implements IBlockComponentProvider {
     @Override
     public ItemStack getDisplayItem(IBlockAccessor accessor, IPluginConfig config) {
         SkullBlockEntity skull = (SkullBlockEntity) accessor.getBlockEntity();
-        if (skull != null && skull.getOwner() != null) {
-            NbtCompound tag = PLAYER_HEAD_STACK.getOrCreateTag();
-            NbtCompound skullOwner = tag.getCompound("SkullOwner");
-            tag.put("SkullOwner", NbtHelper.writeGameProfile(skullOwner, skull.getOwner()));
+        if (skull != null && skull.getOwnerProfile() != null) {
+            CompoundTag tag = PLAYER_HEAD_STACK.getOrCreateTag();
+            CompoundTag skullOwner = tag.getCompound("SkullOwner");
+            tag.put("SkullOwner", NbtUtils.writeGameProfile(skullOwner, skull.getOwnerProfile()));
             return PLAYER_HEAD_STACK;
         }
         return ItemStack.EMPTY;
     }
 
     @Override
-    public void appendBody(List<Text> tooltip, IBlockAccessor accessor, IPluginConfig config) {
+    public void appendBody(List<Component> tooltip, IBlockAccessor accessor, IPluginConfig config) {
         if (config.get(WailaVanilla.CONFIG_PLAYER_HEAD_NAME)) {
             SkullBlockEntity skull = (SkullBlockEntity) accessor.getBlockEntity();
-            if (skull != null && skull.getOwner() != null && !StringUtils.isBlank(skull.getOwner().getName()))
-                tooltip.add(new LiteralText(skull.getOwner().getName()));
+            if (skull != null && skull.getOwnerProfile() != null && !StringUtils.isBlank(skull.getOwnerProfile().getName()))
+                tooltip.add(new TextComponent(skull.getOwnerProfile().getName()));
         }
     }
 

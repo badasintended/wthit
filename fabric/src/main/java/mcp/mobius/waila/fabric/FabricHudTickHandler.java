@@ -3,9 +3,9 @@ package mcp.mobius.waila.fabric;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.event.WailaTooltipEvent;
 import mcp.mobius.waila.hud.HudTickHandler;
-import net.minecraft.block.Blocks;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.screen.ChatScreen;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.ChatScreen;
+import net.minecraft.world.level.block.Blocks;
 
 public class FabricHudTickHandler extends HudTickHandler {
 
@@ -20,7 +20,7 @@ public class FabricHudTickHandler extends HudTickHandler {
             if (event.getCurrentTip().isEmpty())
                 return;
 
-            if (MinecraftClient.getInstance().currentScreen != null && !(MinecraftClient.getInstance().currentScreen instanceof ChatScreen))
+            if (Minecraft.getInstance().screen != null && !(Minecraft.getInstance().screen instanceof ChatScreen))
                 return;
 
             if (event.getAccessor().getBlock() == Blocks.AIR && event.getAccessor().getEntity() == null)

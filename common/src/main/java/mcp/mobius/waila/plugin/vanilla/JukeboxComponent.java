@@ -6,38 +6,38 @@ import mcp.mobius.waila.api.IBlockAccessor;
 import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataProvider;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.block.entity.JukeboxBlockEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.MusicDiscItem;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
-import net.minecraft.world.World;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.RecordItem;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.JukeboxBlockEntity;
 
 public enum JukeboxComponent implements IBlockComponentProvider, IServerDataProvider<BlockEntity> {
 
     INSTANCE;
 
     @Override
-    public void appendBody(List<Text> tooltip, IBlockAccessor accessor, IPluginConfig config) {
+    public void appendBody(List<Component> tooltip, IBlockAccessor accessor, IPluginConfig config) {
         if (config.get(WailaVanilla.CONFIG_JUKEBOX)) {
             if (accessor.getServerData().contains("record")) {
-                tooltip.add(new TranslatableText("record.nowPlaying", Text.Serializer.fromJson(accessor.getServerData().getString("record"))));
+                tooltip.add(new TranslatableComponent("record.nowPlaying", Component.Serializer.fromJson(accessor.getServerData().getString("record"))));
             }
         }
     }
 
     @Override
-    public void appendServerData(NbtCompound data, ServerPlayerEntity player, World world, BlockEntity blockEntity) {
+    public void appendServerData(CompoundTag data, ServerPlayer player, Level world, BlockEntity blockEntity) {
         if (blockEntity instanceof JukeboxBlockEntity jukebox) {
             ItemStack stack = jukebox.getRecord();
             if (!stack.isEmpty()) {
-                Text text = stack.getItem() instanceof MusicDiscItem
-                    ? new TranslatableText(stack.getTranslationKey() + ".desc")
-                    : stack.getName();
-                data.putString("record", Text.Serializer.toJson(text));
+                Component text = stack.getItem() instanceof RecordItem
+                    ? new TranslatableComponent(stack.getDescriptionId() + ".desc")
+                    : stack.getDisplayName();
+                data.putString("record", Component.Serializer.toJson(text));
             }
         }
     }

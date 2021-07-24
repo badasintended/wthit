@@ -7,24 +7,24 @@ import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITaggableList;
 import mcp.mobius.waila.api.WailaConstants;
-import net.minecraft.block.entity.MobSpawnerBlockEntity;
-import net.minecraft.entity.Entity;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.block.entity.SpawnerBlockEntity;
 
 public enum SpawnerComponent implements IBlockComponentProvider {
 
     INSTANCE;
 
     @Override
-    public void appendHead(List<Text> tooltip, IBlockAccessor accessor, IPluginConfig config) {
+    public void appendHead(List<Component> tooltip, IBlockAccessor accessor, IPluginConfig config) {
         if (config.get(WailaVanilla.CONFIG_SPAWNER_TYPE)) {
-            MobSpawnerBlockEntity spawner = (MobSpawnerBlockEntity) accessor.getBlockEntity();
-            Entity entity = spawner != null ? spawner.getLogic().getRenderedEntity(accessor.getWorld()) : null;
+            SpawnerBlockEntity spawner = (SpawnerBlockEntity) accessor.getBlockEntity();
+            Entity entity = spawner != null ? spawner.getSpawner().getOrCreateDisplayEntity(accessor.getWorld()) : null;
             if (entity != null) {
                 String formatting = accessor.getBlockNameFormat();
-                ((ITaggableList<Identifier, Text>) tooltip).setTag(WailaConstants.OBJECT_NAME_TAG, new LiteralText(String.format(formatting,
+                ((ITaggableList<ResourceLocation, Component>) tooltip).setTag(WailaConstants.OBJECT_NAME_TAG, new TextComponent(String.format(formatting,
                     accessor.getBlock().getName().getString() + " (" + entity.getDisplayName().getString() + ")")));
             }
         }

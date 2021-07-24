@@ -33,11 +33,3 @@ mandatory = true
 versionRange = "[1.16.2,)"
 ordering = "NONE"
 side = "BOTH"
-
-[[wailaPlugins]]
-id = "waila:core"
-initializer = "mcp.mobius.waila.plugin.core.WailaCore"
-
-[[wailaPlugins]]
-id = "waila:vanilla"
-initializer = "mcp.mobius.waila.plugin.vanilla.WailaVanilla"

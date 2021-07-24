@@ -2,13 +2,14 @@ import com.matthewprenger.cursegradle.CurseArtifact
 import com.matthewprenger.cursegradle.CurseExtension
 import com.matthewprenger.cursegradle.CurseProject
 import com.matthewprenger.cursegradle.CurseRelation
-import net.fabricmc.loom.task.RemapJarTask
-import org.gradle.kotlin.dsl.*
+import org.gradle.jvm.tasks.Jar
+import org.gradle.kotlin.dsl.apply
+import org.gradle.kotlin.dsl.closureOf
+import org.gradle.kotlin.dsl.configure
 
-val PublishConfig.curseforge get() = project.run {
+fun <T : Jar> UploadConfig.curseforge(task: T) = project.run {
     apply(plugin = "com.matthewprenger.cursegradle")
 
-    val remapJar: RemapJarTask by tasks
     env["CURSEFORGE_API"]?.let { CURSEFORGE_API ->
         configure<CurseExtension> {
             apiKey = CURSEFORGE_API
@@ -22,7 +23,7 @@ val PublishConfig.curseforge get() = project.run {
                 addGameVersion(project.name.capitalize())
                 prop["cf.gameVersion"].split(", ").forEach(this::addGameVersion)
 
-                mainArtifact(remapJar, closureOf<CurseArtifact> {
+                mainArtifact(task, closureOf<CurseArtifact> {
                     displayName = "[${rootProp["minecraft"]}] ${project.version}"
                 })
 

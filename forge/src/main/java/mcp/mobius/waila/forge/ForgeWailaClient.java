@@ -4,11 +4,11 @@ import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.event.WailaRenderEvent;
 import mcp.mobius.waila.api.event.WailaTooltipEvent;
-import mcp.mobius.waila.gui.GuiConfigHome;
-import mcp.mobius.waila.handler.DataAccessor;
-import mcp.mobius.waila.handler.Tooltip;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.options.KeyBinding;
+import mcp.mobius.waila.data.DataAccessor;
+import mcp.mobius.waila.gui.screen.HomeConfigScreen;
+import mcp.mobius.waila.hud.HudRenderer;
+import net.minecraft.client.KeyMapping;
+import net.minecraft.client.player.LocalPlayer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.common.MinecraftForge;
@@ -16,17 +16,17 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
+import net.minecraftforge.fmlclient.ConfigGuiHandler;
 
-import static net.minecraft.client.util.InputUtil.Type.KEYSYM;
+import static com.mojang.blaze3d.platform.InputConstants.Type.KEYSYM;
 import static net.minecraftforge.client.settings.KeyConflictContext.IN_GAME;
 import static net.minecraftforge.client.settings.KeyModifier.NONE;
-import static net.minecraftforge.fml.client.registry.ClientRegistry.registerKeyBinding;
+import static net.minecraftforge.fmlclient.registry.ClientRegistry.registerKeyBinding;
 
 @EventBusSubscriber(modid = WailaConstants.WAILA, bus = Bus.MOD, value = Dist.CLIENT)
 public class ForgeWailaClient extends WailaClient {
@@ -34,14 +34,14 @@ public class ForgeWailaClient extends WailaClient {
     @SubscribeEvent
     static void clientSetup(FMLClientSetupEvent event) {
         keyBindingBuilder = (id, key) -> {
-            KeyBinding keyBinding = new KeyBinding("key.waila." + id, IN_GAME, NONE, KEYSYM, key, WailaConstants.MOD_NAME);
+            KeyMapping keyBinding = new KeyMapping("key.waila." + id, IN_GAME, NONE, KEYSYM, key, WailaConstants.MOD_NAME);
             registerKeyBinding(keyBinding);
             return keyBinding;
         };
 
         init();
         registerConfigScreen();
-        Tooltip.onPreRender = rect -> {
+        HudRenderer.onPreRender = rect -> {
             WailaRenderEvent.Pre preEvent = new WailaRenderEvent.Pre(DataAccessor.INSTANCE, rect);
             if (MinecraftForge.EVENT_BUS.post(preEvent)) {
                 return null;
@@ -49,17 +49,18 @@ public class ForgeWailaClient extends WailaClient {
             return preEvent.getPosition();
         };
 
-        Tooltip.onPostRender = position ->
+        HudRenderer.onPostRender = position ->
             MinecraftForge.EVENT_BUS.post(new WailaRenderEvent.Post(position));
 
-        Tooltip.onCreate = texts ->
+        HudRenderer.onCreate = texts ->
             MinecraftForge.EVENT_BUS.post(new WailaTooltipEvent(texts, DataAccessor.INSTANCE));
 
-        ForgeTickHandler.registerListener();
+        ForgeHudTickHandler.registerListener();
     }
 
     static void registerConfigScreen() {
-        ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.CONFIGGUIFACTORY, () -> (mc, screen) -> new GuiConfigHome(screen));
+        ModLoadingContext.get().registerExtensionPoint(ConfigGuiHandler.ConfigGuiFactory.class,
+            () -> new ConfigGuiHandler.ConfigGuiFactory((mc, screen) -> new HomeConfigScreen(screen)));
     }
 
     @EventBusSubscriber(modid = WailaConstants.WAILA, value = Dist.CLIENT)
@@ -67,7 +68,7 @@ public class ForgeWailaClient extends WailaClient {
 
         @SubscribeEvent
         static void entityJoinWorld(EntityJoinWorldEvent event) {
-            if (event.getEntity() instanceof ClientPlayerEntity) {
+            if (event.getEntity() instanceof LocalPlayer) {
                 onJoinServer();
             }
         }
@@ -75,7 +76,7 @@ public class ForgeWailaClient extends WailaClient {
         @SubscribeEvent
         static void renderGameOverlay(RenderGameOverlayEvent.Post event) {
             if (event.getType() == RenderGameOverlayEvent.ElementType.ALL)
-                Tooltip.render(event.getMatrixStack(), event.getPartialTicks());
+                HudRenderer.render(event.getMatrixStack(), event.getPartialTicks());
         }
 
         @SubscribeEvent

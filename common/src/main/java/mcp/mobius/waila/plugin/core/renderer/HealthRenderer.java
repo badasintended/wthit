@@ -3,19 +3,19 @@ package mcp.mobius.waila.plugin.core.renderer;
 import java.awt.Dimension;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.ITooltipRenderer;
 import mcp.mobius.waila.util.DisplayUtil;
-import net.minecraft.client.gui.DrawableHelper;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.util.Mth;
 
 public class HealthRenderer implements ITooltipRenderer {
 
     @Override
-    public Dimension getSize(NbtCompound tag, ICommonAccessor accessor) {
+    public Dimension getSize(CompoundTag tag, ICommonAccessor accessor) {
         float maxHearts = Waila.config.get().getGeneral().getMaxHeartsPerLine();
         float maxHealth = tag.getFloat("max");
 
@@ -26,17 +26,17 @@ public class HealthRenderer implements ITooltipRenderer {
     }
 
     @Override
-    public void draw(MatrixStack matrices, NbtCompound tag, ICommonAccessor accessor, int x, int y) {
+    public void draw(PoseStack matrices, CompoundTag tag, ICommonAccessor accessor, int x, int y) {
         float maxHearts = Waila.config.get().getGeneral().getMaxHeartsPerLine();
         float health = tag.getFloat("health");
         float maxHealth = tag.getFloat("max");
 
-        int heartCount = MathHelper.ceil(maxHealth);
+        int heartCount = Mth.ceil(maxHealth);
         int heartsPerLine = (int) (Math.min(maxHearts, Math.ceil(maxHealth)));
 
         int xOffset = 0;
         for (int i = 1; i <= heartCount; i++) {
-            if (i <= MathHelper.floor(health)) {
+            if (i <= Mth.floor(health)) {
                 Texture.HEART.render(matrices, x + xOffset, y);
                 xOffset += 8;
             }
@@ -79,9 +79,9 @@ public class HealthRenderer implements ITooltipRenderer {
             this.symbol = symbol;
         }
 
-        void render(MatrixStack matrices, int x, int y) {
+        void render(PoseStack matrices, int x, int y) {
             RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-            DisplayUtil.bindTexture(DrawableHelper.GUI_ICONS_TEXTURE);
+            DisplayUtil.bindTexture(GuiComponent.GUI_ICONS_LOCATION);
 
             RenderSystem.enableBlend();
             if (bu != -1) {

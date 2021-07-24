@@ -1,12 +1,12 @@
 package mcp.mobius.waila.api;
 
 import mcp.mobius.waila.api.internal.ApiSide;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.util.hit.HitResult;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
@@ -19,18 +19,18 @@ import org.jetbrains.annotations.Nullable;
 @ApiStatus.NonExtendable
 public interface IEntityAccessor {
 
-    World getWorld();
+    Level getWorld();
 
-    PlayerEntity getPlayer();
+    Player getPlayer();
 
     Entity getEntity();
 
     HitResult getHitResult();
 
     @Nullable
-    Vec3d getRenderingPosition();
+    Vec3 getRenderingPosition();
 
-    NbtCompound getServerData();
+    CompoundTag getServerData();
 
     double getPartialFrame();
 

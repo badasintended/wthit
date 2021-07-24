@@ -9,7 +9,9 @@ import java.util.function.Supplier;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Suppliers;
+import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import mcp.mobius.waila.Waila;
@@ -21,17 +23,14 @@ import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.config.WailaConfig.Overlay.Color;
 import mcp.mobius.waila.config.WailaConfig.Overlay.Position.X;
 import mcp.mobius.waila.config.WailaConfig.Overlay.Position.Y;
-import mcp.mobius.waila.mixin.AccessorBossBarHud;
 import mcp.mobius.waila.util.DrawableText;
 import mcp.mobius.waila.util.TaggedText;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.util.Window;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.item.ItemStack;
-import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.profiler.Profiler;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.profiling.ProfilerFiller;
+import net.minecraft.world.item.ItemStack;
 
 import static mcp.mobius.waila.config.WailaConfig.Overlay.Position;
 import static mcp.mobius.waila.util.DisplayUtil.drawGradientRect;
@@ -40,14 +39,14 @@ import static mcp.mobius.waila.util.DisplayUtil.renderStack;
 
 public class HudRenderer {
 
-    public static Consumer<List<Text>> onCreate;
+    public static Consumer<List<Component>> onCreate;
     public static Function<Rectangle, Rectangle> onPreRender;
     public static Consumer<Rectangle> onPostRender;
 
     static boolean shouldRender = false;
 
-    private static final List<Text> LINES = new ObjectArrayList<>();
-    private static final Object2IntOpenHashMap<Text> LINE_HEIGHT = new Object2IntOpenHashMap<>();
+    private static final List<Component> LINES = new ObjectArrayList<>();
+    private static final Object2IntOpenHashMap<Component> LINE_HEIGHT = new Object2IntOpenHashMap<>();
 
     private static final Supplier<Rectangle> RENDER_RECT = Suppliers.memoize(Rectangle::new);
     private static final Supplier<Rectangle> RECT = Suppliers.memoize(Rectangle::new);
@@ -65,19 +64,19 @@ public class HudRenderer {
         started = true;
     }
 
-    public static void addLines(List<Text> lines) {
+    public static void addLines(List<Component> lines) {
         Preconditions.checkState(started);
         lines.forEach(c -> {
-            Text text = c;
+            Component text = c;
             if (text instanceof TaggedText) {
-                text = ((ITaggableList<Identifier, Text>) lines).getTag(((TaggedText) text).getTag());
+                text = ((ITaggableList<ResourceLocation, Component>) lines).getTag(((TaggedText) text).getTag());
             }
 
             LINES.add(text);
         });
     }
 
-    public static void addLine(Text line) {
+    public static void addLine(Component line) {
         LINES.add(line);
     }
 
@@ -94,7 +93,7 @@ public class HudRenderer {
         Preconditions.checkState(started);
         onCreate.accept(LINES);
 
-        MinecraftClient client = MinecraftClient.getInstance();
+        Minecraft client = Minecraft.getInstance();
         Window window = client.getWindow();
 
         float scale = Waila.config.get().getOverlay().getScale();
@@ -102,7 +101,7 @@ public class HudRenderer {
 
         int w = 0;
         int h = 0;
-        for (Text line : LINES) {
+        for (Component line : LINES) {
             int lineW;
             int lineH;
 
@@ -111,9 +110,9 @@ public class HudRenderer {
                 lineW = size.width;
                 lineH = size.height;
             } else {
-                TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
-                lineW = textRenderer.getWidth(line);
-                lineH = textRenderer.fontHeight + 1;
+                Font textRenderer = Minecraft.getInstance().font;
+                lineW = textRenderer.width(line);
+                lineH = textRenderer.lineHeight + 1;
             }
 
             w = Math.max(w, lineW);
@@ -134,8 +133,8 @@ public class HudRenderer {
         w += 10;
         h += 8;
 
-        int windowW = (int) (window.getScaledWidth() / scale);
-        int windowH = (int) (window.getScaledHeight() / scale);
+        int windowW = (int) (window.getGuiScaledWidth() / scale);
+        int windowH = (int) (window.getGuiScaledHeight() / scale);
 
         X anchorX = pos.getAnchorX();
         Y anchorY = pos.getAnchorY();
@@ -147,7 +146,7 @@ public class HudRenderer {
         double y = windowH * anchorY.multiplier - h * alignY.multiplier + pos.getY();
 
         if (anchorX == X.CENTER && anchorY == Y.TOP) {
-            y += ((AccessorBossBarHud) client.inGameHud.getBossBarHud()).getBossBars().size() * 19;
+            y += client.gui.getBossOverlay().events.size() * 19;
         }
 
         RECT.get().setRect(x, y, w, h);
@@ -155,17 +154,17 @@ public class HudRenderer {
         started = false;
     }
 
-    public static void render(MatrixStack matrices, float delta) {
+    public static void render(PoseStack matrices, float delta) {
         if (!shouldRender) {
             return;
         }
 
-        MinecraftClient client = MinecraftClient.getInstance();
-        Profiler profiler = client.getProfiler();
+        Minecraft client = Minecraft.getInstance();
+        ProfilerFiller profiler = client.getProfiler();
         WailaConfig config = Waila.config.get();
 
         profiler.push("Waila Overlay");
-        RenderSystem.getModelViewStack().push();
+        RenderSystem.getModelViewStack().pushPose();
 
         float scale = config.getOverlay().getScale();
         RenderSystem.getModelViewStack().scale(scale, scale, 1.0F);
@@ -178,7 +177,7 @@ public class HudRenderer {
         rect = onPreRender.apply(rect);
         if (rect == null) {
             RenderSystem.enableDepthTest();
-            RenderSystem.getModelViewStack().pop();
+            RenderSystem.getModelViewStack().popPose();
             profiler.pop();
             return;
         }
@@ -193,7 +192,7 @@ public class HudRenderer {
         int gradStart = color.getGradientStart();
         int gradEnd = color.getGradientEnd();
 
-        matrices.push();
+        matrices.pushPose();
         matrices.scale(scale, scale, 1.0f);
 
         drawGradientRect(matrices, x + 1, y, w - 1, 1, bg, bg);
@@ -212,19 +211,19 @@ public class HudRenderer {
         int textX = x + (stack.isEmpty() ? 6 : 26);
         int textY = y + 6 + topOffset;
 
-        for (Text line : LINES) {
+        for (Component line : LINES) {
             if (line instanceof IDrawableText drawable) {
                 drawable.render(matrices, textX, textY, delta);
             } else {
-                TextRenderer textRenderer = client.textRenderer;
-                textRenderer.drawWithShadow(matrices, line, textX, textY, color.getFontColor());
+                Font textRenderer = client.font;
+                textRenderer.drawShadow(matrices, line, textX, textY, color.getFontColor());
             }
 
             textY += LINE_HEIGHT.getInt(line);
         }
 
         RenderSystem.disableBlend();
-        matrices.pop();
+        matrices.popPose();
 
         onPostRender.accept(rect);
 
@@ -233,9 +232,9 @@ public class HudRenderer {
         }
 
         RenderSystem.enableDepthTest();
-        RenderSystem.getModelViewStack().pop();
+        RenderSystem.getModelViewStack().popPose();
         RenderSystem.applyModelViewMatrix();
-        MinecraftClient.getInstance().getProfiler().pop();
+        Minecraft.getInstance().getProfiler().pop();
     }
 
 }

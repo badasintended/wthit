@@ -5,13 +5,13 @@ import java.util.List;
 import mcp.mobius.waila.api.IBlockAccessor;
 import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.CropBlock;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.state.property.Properties;
-import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.CropBlock;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 public enum PlantComponent implements IBlockComponentProvider {
 
@@ -32,28 +32,28 @@ public enum PlantComponent implements IBlockComponentProvider {
     }
 
     @Override
-    public void appendBody(List<Text> tooltip, IBlockAccessor accessor, IPluginConfig config) {
+    public void appendBody(List<Component> tooltip, IBlockAccessor accessor, IPluginConfig config) {
         if (config.get(WailaVanilla.CONFIG_CROP_PROGRESS)) {
             if (accessor.getBlock() instanceof CropBlock crop) {
-                addMaturityTooltip(tooltip, accessor.getBlockState().get(crop.getAgeProperty()) / (float) crop.getMaxAge());
+                addMaturityTooltip(tooltip, accessor.getBlockState().getValue(crop.getAgeProperty()) / (float) crop.getMaxAge());
             } else if (accessor.getBlock() == Blocks.MELON_STEM || accessor.getBlock() == Blocks.PUMPKIN_STEM) {
-                addMaturityTooltip(tooltip, accessor.getBlockState().get(Properties.AGE_7) / 7F);
+                addMaturityTooltip(tooltip, accessor.getBlockState().getValue(BlockStateProperties.AGE_7) / 7F);
             } else if (accessor.getBlock() == Blocks.COCOA) {
-                addMaturityTooltip(tooltip, accessor.getBlockState().get(Properties.AGE_2) / 2.0F);
+                addMaturityTooltip(tooltip, accessor.getBlockState().getValue(BlockStateProperties.AGE_2) / 2.0F);
             } else if (accessor.getBlock() == Blocks.SWEET_BERRY_BUSH) {
-                addMaturityTooltip(tooltip, accessor.getBlockState().get(Properties.AGE_3) / 3.0F);
+                addMaturityTooltip(tooltip, accessor.getBlockState().getValue(BlockStateProperties.AGE_3) / 3.0F);
             } else if (accessor.getBlock() == Blocks.NETHER_WART) {
-                addMaturityTooltip(tooltip, accessor.getBlockState().get(Properties.AGE_3) / 3.0F);
+                addMaturityTooltip(tooltip, accessor.getBlockState().getValue(BlockStateProperties.AGE_3) / 3.0F);
             }
         }
     }
 
-    private static void addMaturityTooltip(List<Text> tooltip, float growthValue) {
+    private static void addMaturityTooltip(List<Component> tooltip, float growthValue) {
         growthValue *= 100.0F;
         if (growthValue < 100.0F)
-            tooltip.add(new TranslatableText("tooltip.waila.crop_growth", String.format("%.0f%%", growthValue)));
+            tooltip.add(new TranslatableComponent("tooltip.waila.crop_growth", String.format("%.0f%%", growthValue)));
         else
-            tooltip.add(new TranslatableText("tooltip.waila.crop_growth", new TranslatableText("tooltip.waila.crop_mature")));
+            tooltip.add(new TranslatableComponent("tooltip.waila.crop_growth", new TranslatableComponent("tooltip.waila.crop_mature")));
     }
 
 }

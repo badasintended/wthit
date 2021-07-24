@@ -13,6 +13,9 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: 16
+      - run: |
+          chmod +x setup_workspace
+          ./setup_workspace
       - run: chmod +x gradlew
       - uses: actions/cache@v2
         with:

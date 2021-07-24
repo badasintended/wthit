@@ -3,12 +3,12 @@ package mcp.mobius.waila.plugin.vanilla;
 import mcp.mobius.waila.api.IBlockAccessor;
 import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.state.BlockState;
 
-import static net.minecraft.block.ChestBlock.CHEST_TYPE;
-import static net.minecraft.block.ChestBlock.FACING;
-import static net.minecraft.block.ChestBlock.WATERLOGGED;
+import static net.minecraft.world.level.block.ChestBlock.FACING;
+import static net.minecraft.world.level.block.ChestBlock.TYPE;
+import static net.minecraft.world.level.block.ChestBlock.WATERLOGGED;
 
 public enum TrappedChestComponent implements IBlockComponentProvider {
 
@@ -18,10 +18,10 @@ public enum TrappedChestComponent implements IBlockComponentProvider {
     public BlockState getOverride(IBlockAccessor accessor, IPluginConfig config) {
         if (config.get(WailaVanilla.CONFIG_HIDE_TRAPPED_CHEST)) {
             BlockState state = accessor.getBlockState();
-            return Blocks.CHEST.getDefaultState()
-                .with(FACING, state.get(FACING))
-                .with(CHEST_TYPE, state.get(CHEST_TYPE))
-                .with(WATERLOGGED, state.get(WATERLOGGED));
+            return Blocks.CHEST.defaultBlockState()
+                .setValue(FACING, state.getValue(FACING))
+                .setValue(TYPE, state.getValue(TYPE))
+                .setValue(WATERLOGGED, state.getValue(WATERLOGGED));
         }
         return null;
     }

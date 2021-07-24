@@ -4,8 +4,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import mcp.mobius.waila.PluginLoader;
 import mcp.mobius.waila.Waila;
-import mcp.mobius.waila.WailaPlugins;
 import mcp.mobius.waila.registry.TooltipRegistrar;
 import mcp.mobius.waila.registry.TooltipRegistry;
 
@@ -30,13 +30,13 @@ public class DumpGenerator {
         builder.append("\n## Plugins");
         builder.append("\n| Plugin ID | Plugin Class |");
         builder.append("\n| - | - |");
-        WailaPlugins.PLUGINS.keySet().stream()
+        PluginLoader.PLUGINS.keySet().stream()
             .sorted(String::compareToIgnoreCase)
             .forEachOrdered(id -> builder
                 .append("\n| `")
                 .append(id)
                 .append("` | `")
-                .append(WailaPlugins.PLUGINS.get(id).getClass().getCanonicalName())
+                .append(PluginLoader.PLUGINS.get(id).getClass().getCanonicalName())
                 .append("` |"));
 
         builder.append("\n## Block");

@@ -1,9 +1,9 @@
 package mcp.mobius.waila.api;
 
 import mcp.mobius.waila.api.internal.ApiSide;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.world.World;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.ApiStatus;
 
 @ApiSide.ServerOnly
@@ -19,6 +19,6 @@ public interface IServerDataProvider<T> {
      * @param world  The world.
      * @param t      The type targeted for synchronization.
      */
-    void appendServerData(NbtCompound data, ServerPlayerEntity player, World world, T t);
+    void appendServerData(CompoundTag data, ServerPlayer player, Level world, T t);
 
 }

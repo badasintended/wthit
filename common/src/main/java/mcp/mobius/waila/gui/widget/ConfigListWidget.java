@@ -5,25 +5,25 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.gui.screen.ConfigScreen;
 import mcp.mobius.waila.gui.widget.value.BooleanValue;
 import mcp.mobius.waila.gui.widget.value.ConfigValue;
 import mcp.mobius.waila.gui.widget.value.CycleValue;
 import mcp.mobius.waila.gui.widget.value.EnumValue;
 import mcp.mobius.waila.gui.widget.value.InputValue;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.gui.Element;
-import net.minecraft.client.gui.Selectable;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.gui.widget.ElementListWidget;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.ContainerObjectSelectionList;
+import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.narration.NarratableEntry;
 
-public class ConfigListWidget extends ElementListWidget<ConfigListWidget.Entry> {
+public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWidget.Entry> {
 
     private final ConfigScreen owner;
     private final Runnable diskWriter;
 
-    public ConfigListWidget(ConfigScreen owner, MinecraftClient client, int width, int height, int top, int bottom, int itemHeight, Runnable diskWriter) {
+    public ConfigListWidget(ConfigScreen owner, Minecraft client, int width, int height, int top, int bottom, int itemHeight, Runnable diskWriter) {
         super(client, width, height, top, bottom, itemHeight);
 
         this.owner = owner;
@@ -32,7 +32,7 @@ public class ConfigListWidget extends ElementListWidget<ConfigListWidget.Entry> 
         setRenderBackground(false);
     }
 
-    public ConfigListWidget(ConfigScreen owner, MinecraftClient client, int width, int height, int top, int bottom, int itemHeight) {
+    public ConfigListWidget(ConfigScreen owner, Minecraft client, int width, int height, int top, int bottom, int itemHeight) {
         this(owner, client, width, height, top, bottom, itemHeight, null);
     }
 
@@ -42,7 +42,7 @@ public class ConfigListWidget extends ElementListWidget<ConfigListWidget.Entry> 
     }
 
     @Override
-    protected int getScrollbarPositionX() {
+    protected int getScrollbarPosition() {
         return getRowRight() + 5;
     }
 
@@ -56,26 +56,26 @@ public class ConfigListWidget extends ElementListWidget<ConfigListWidget.Entry> 
             diskWriter.run();
     }
 
-    public void add(Entry entry) {
+    public void add(mcp.mobius.waila.gui.widget.ConfigListWidget.Entry entry) {
         if (entry instanceof ConfigValue) {
-            Element element = ((ConfigValue<?>) entry).getListener();
+            GuiEventListener element = ((ConfigValue<?>) entry).getListener();
             if (element != null)
                 owner.addListener(element);
         }
         addEntry(entry);
     }
 
-    public ConfigListWidget with(Entry entry) {
+    public ConfigListWidget with(mcp.mobius.waila.gui.widget.ConfigListWidget.Entry entry) {
         add(entry);
         return this;
     }
 
-    public ConfigListWidget withButton(String title, ButtonWidget button) {
+    public ConfigListWidget withButton(String title, Button button) {
         add(new ButtonEntry(title, button));
         return this;
     }
 
-    public ConfigListWidget withButton(String title, int width, int height, ButtonWidget.PressAction pressAction) {
+    public ConfigListWidget withButton(String title, int width, int height, Button.OnPress pressAction) {
         add(new ButtonEntry(title, width, height, pressAction));
         return this;
     }
@@ -110,26 +110,26 @@ public class ConfigListWidget extends ElementListWidget<ConfigListWidget.Entry> 
         return this;
     }
 
-    public abstract static class Entry extends ElementListWidget.Entry<Entry> {
+    public abstract static class Entry extends ContainerObjectSelectionList.Entry<mcp.mobius.waila.gui.widget.ConfigListWidget.Entry> {
 
-        protected final MinecraftClient client;
+        protected final Minecraft client;
 
         public Entry() {
-            this.client = MinecraftClient.getInstance();
+            this.client = Minecraft.getInstance();
         }
 
         @Override
-        public List<? extends Element> children() {
+        public List<? extends GuiEventListener> children() {
             return Collections.emptyList();
         }
 
         @Override
-        public List<? extends Selectable> selectableChildren() {
+        public List<? extends NarratableEntry> narratables() {
             return Collections.emptyList();
         }
 
         @Override
-        public abstract void render(MatrixStack matrices, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime);
+        public abstract void render(PoseStack matrices, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime);
 
     }
 

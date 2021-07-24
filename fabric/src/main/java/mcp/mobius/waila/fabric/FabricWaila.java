@@ -38,8 +38,8 @@ public class FabricWaila extends Waila implements ModInitializer {
         ModInfo.supplier = namespace -> FabricLoader.getInstance().getModContainer(namespace)
             .map(data -> new ModInfo(data.getMetadata().getId(), data.getMetadata().getName()));
 
-        plugins = new FabricWailaPlugins();
-        plugins.initialize();
+        pluginLoader = new FabricPluginLoader();
+        pluginLoader.initialize();
 
         String[] mods = {"minecraft", "java", "fabricloader", "fabric", "wthit", "roughlyenoughitems"};
         for (String mod : mods) {

@@ -5,16 +5,16 @@ import java.util.List;
 import java.util.Locale;
 import java.util.function.Consumer;
 
-import net.minecraft.client.gui.Element;
-import net.minecraft.client.gui.widget.ButtonWidget;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.TranslatableText;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 
 public class CycleValue extends ConfigValue<String> {
 
     private final String translationKey;
-    private final ButtonWidget button;
+    private final Button button;
     private final boolean createLocale;
 
     public CycleValue(String optionName, String[] values, String selected, Consumer<String> save, boolean createLocale) {
@@ -23,10 +23,10 @@ public class CycleValue extends ConfigValue<String> {
         this.translationKey = optionName;
         this.createLocale = createLocale;
         List<String> vals = Arrays.asList(values);
-        this.button = new ButtonWidget(0, 0, 100, 20,
+        this.button = new Button(0, 0, 100, 20,
             createLocale
-                ? new TranslatableText(optionName + "_" + selected.replace(" ", "_").toLowerCase(Locale.ROOT))
-                : new LiteralText(selected),
+                ? new TranslatableComponent(optionName + "_" + selected.replace(" ", "_").toLowerCase(Locale.ROOT))
+                : new TextComponent(selected),
             w -> value = vals.get((vals.indexOf(value) + 1) % vals.size()));
         this.value = selected;
     }
@@ -36,15 +36,15 @@ public class CycleValue extends ConfigValue<String> {
     }
 
     @Override
-    protected void drawValue(MatrixStack matrices, int width, int height, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks) {
+    protected void drawValue(PoseStack matrices, int width, int height, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks) {
         this.button.x = x + width - button.getWidth();
         this.button.y = y + (height - button.getHeight()) / 2;
-        this.button.setMessage(createLocale ? new TranslatableText(translationKey + "_" + value.replace(" ", "_").toLowerCase(Locale.ROOT)) : new LiteralText(value));
+        this.button.setMessage(createLocale ? new TranslatableComponent(translationKey + "_" + value.replace(" ", "_").toLowerCase(Locale.ROOT)) : new TextComponent(value));
         this.button.render(matrices, mouseX, mouseY, partialTicks);
     }
 
     @Override
-    public Element getListener() {
+    public GuiEventListener getListener() {
         return button;
     }
 

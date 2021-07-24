@@ -12,7 +12,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 
 public class WailaConfig {
 
@@ -242,8 +242,8 @@ public class WailaConfig {
         public static class Color {
 
             private int alpha = 80;
-            private Map<Identifier, Theme> themes = Maps.newHashMap();
-            private Identifier activeTheme = Theme.VANILLA.getId();
+            private Map<ResourceLocation, Theme> themes = Maps.newHashMap();
+            private ResourceLocation activeTheme = Theme.VANILLA.getId();
 
             public Color() {
                 themes.put(Theme.VANILLA.getId(), Theme.VANILLA);
@@ -286,7 +286,7 @@ public class WailaConfig {
                 return getTheme().getFontColor();
             }
 
-            public void applyTheme(Identifier id) {
+            public void applyTheme(ResourceLocation id) {
                 activeTheme = themes.containsKey(id) ? id : activeTheme;
             }
 
@@ -297,7 +297,7 @@ public class WailaConfig {
                     JsonObject json = element.getAsJsonObject();
                     Color color = new Color();
                     color.alpha = json.getAsJsonPrimitive("alpha").getAsInt();
-                    color.activeTheme = new Identifier(json.getAsJsonPrimitive("activeTheme").getAsString());
+                    color.activeTheme = new ResourceLocation(json.getAsJsonPrimitive("activeTheme").getAsString());
                     color.themes = Maps.newHashMap();
                     json.getAsJsonArray("themes").forEach(e -> {
                         Theme theme = context.deserialize(e, Theme.class);

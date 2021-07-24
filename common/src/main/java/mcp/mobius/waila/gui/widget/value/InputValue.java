@@ -3,12 +3,11 @@ package mcp.mobius.waila.gui.widget.value;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
-import mcp.mobius.waila.mixin.AccessorTextFieldWidget;
-import net.minecraft.client.font.TextRenderer;
-import net.minecraft.client.gui.Element;
-import net.minecraft.client.gui.widget.TextFieldWidget;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.text.LiteralText;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.network.chat.TextComponent;
 
 public class InputValue<T> extends ConfigValue<T> {
 
@@ -18,15 +17,15 @@ public class InputValue<T> extends ConfigValue<T> {
     public static final Predicate<String> FLOAT = s -> s.matches("[-+]?[0-9]*([.][0-9]*)?");
     public static final Predicate<String> POSITIVE_FLOAT = s -> s.matches("[0-9]*([.][0-9]*)?");
 
-    private final TextFieldWidget textField;
+    private final EditBox textField;
 
     public InputValue(String optionName, T value, Consumer<T> save, Predicate<String> validator) {
         super(optionName, save);
 
         this.value = value;
-        this.textField = new WatchedTextfield(this, client.textRenderer, 0, 0, 98, 18);
-        textField.setText(String.valueOf(value));
-        textField.setTextPredicate(validator);
+        this.textField = new WatchedTextfield(this, client.font, 0, 0, 98, 18);
+        textField.setValue(String.valueOf(value));
+        textField.setFilter(validator);
     }
 
     public InputValue(String optionName, T value, Consumer<T> save) {
@@ -34,14 +33,14 @@ public class InputValue<T> extends ConfigValue<T> {
     }
 
     @Override
-    protected void drawValue(MatrixStack matrices, int width, int height, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks) {
+    protected void drawValue(PoseStack matrices, int width, int height, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks) {
         textField.setX(x + width - textField.getWidth());
         textField.y = y + (height - textField.getHeight()) / 2;
         textField.render(matrices, mouseX, mouseY, partialTicks);
     }
 
     @Override
-    public Element getListener() {
+    public GuiEventListener getListener() {
         return textField;
     }
 
@@ -68,20 +67,18 @@ public class InputValue<T> extends ConfigValue<T> {
         }
     }
 
-    private static class WatchedTextfield extends TextFieldWidget {
+    private static class WatchedTextfield extends EditBox {
 
-        public WatchedTextfield(InputValue<?> watcher, TextRenderer fontRenderer, int x, int y, int width, int height) {
-            super(fontRenderer, x, y, width, height, new LiteralText(""));
-            this.setChangedListener(watcher::setValue);
+        public WatchedTextfield(InputValue<?> watcher, Font fontRenderer, int x, int y, int width, int height) {
+            super(fontRenderer, x, y, width, height, new TextComponent(""));
+            this.setResponder(watcher::setValue);
         }
 
         @Override
-        public void write(String string) {
-            AccessorTextFieldWidget self = (AccessorTextFieldWidget) this;
-
-            int i = self.getSelectionStart() < self.getSelectionEnd() ? self.getSelectionStart() : self.getSelectionEnd();
-            int j = self.getSelectionStart() < self.getSelectionEnd() ? self.getSelectionEnd() : self.getSelectionStart();
-            int k = self.getMaxLength() - getText().length() - (i - j);
+        public void insertText(String string) {
+            int i = Math.min(getCursorPosition(), highlightPos);
+            int j = Math.max(getCursorPosition(), highlightPos);
+            int k = maxLength - getValue().length() - (i - j);
             String string2 = string;
             int l = string2.length();
             if (k < l) {
@@ -89,12 +86,12 @@ public class InputValue<T> extends ConfigValue<T> {
                 l = k;
             }
 
-            String string3 = (new StringBuilder(getText())).replace(i, j, string2).toString();
-            if (self.getTextPredicate().test(string3)) {
-                self.set(string3);
-                this.setSelectionStart(i + l);
-                this.setSelectionEnd(self.getSelectionStart());
-                self.callOnChanged(getText());
+            String string3 = (new StringBuilder(getValue())).replace(i, j, string2).toString();
+            if (filter.test(string3)) {
+                value = string3;
+                this.setCursorPosition(i + l);
+                this.setHighlightPos(getCursorPosition());
+                onValueChange(string3);
             }
         }
 

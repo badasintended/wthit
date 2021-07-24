@@ -12,6 +12,7 @@ bin/
 .settings/
 libs/
 logs/
+*/src/common
 
 *.psd
 *.iml

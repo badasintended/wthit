@@ -1,24 +1,24 @@
 package mcp.mobius.waila.forge;
 
 import java.util.Map;
+import javax.annotation.Nullable;
 
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.network.PacketExecutor;
 import mcp.mobius.waila.network.PacketSender;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.entity.Entity;
+import net.minecraft.client.Minecraft;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.network.NetworkRegistry;
-import net.minecraftforge.fml.network.PacketDistributor;
-import net.minecraftforge.fml.network.simple.SimpleChannel;
-import org.jetbrains.annotations.Nullable;
+import net.minecraftforge.fmllegacy.network.NetworkRegistry;
+import net.minecraftforge.fmllegacy.network.PacketDistributor;
+import net.minecraftforge.fmllegacy.network.simple.SimpleChannel;
 
 import static mcp.mobius.waila.network.PacketIo.ReceiveData;
 import static mcp.mobius.waila.network.PacketIo.RequestBlock;
@@ -59,7 +59,7 @@ public class ForgePacketSender extends PacketSender {
             (     buf) -> RequestEntity.apply(buf, RequestEntity::new),
             (msg, ctx) -> {
                 ctx.get().enqueueWork(() -> {
-                    ServerPlayerEntity player = ctx.get().getSender();
+                    ServerPlayer player = ctx.get().getSender();
                     PacketExecutor.requestEntity(player, msg.entityId, tag ->
                         NETWORK.send(PacketDistributor.PLAYER.with(() -> player), new ReceiveData(tag)));
                 });
@@ -71,7 +71,7 @@ public class ForgePacketSender extends PacketSender {
             (     buf) -> RequestBlock.apply(buf, RequestBlock::new),
             (msg, ctx) -> {
                 ctx.get().enqueueWork(() -> {
-                    ServerPlayerEntity player = ctx.get().getSender();
+                    ServerPlayer player = ctx.get().getSender();
                     PacketExecutor.requestBlockEntity(player, msg.pos, tag ->
                         NETWORK.send(PacketDistributor.PLAYER.with(() -> player), new ReceiveData(tag)));
                 });
@@ -82,14 +82,14 @@ public class ForgePacketSender extends PacketSender {
     }
 
     @Override
-    public void sendConfig(PluginConfig config, ServerPlayerEntity player) {
+    public void sendConfig(PluginConfig config, ServerPlayer player) {
         NETWORK.send(PacketDistributor.PLAYER.with(() -> player), new SendConfig(config));
     }
 
     @Override
     @OnlyIn(Dist.CLIENT)
     public boolean isServerAvailable() {
-        return NETWORK.isRemotePresent(MinecraftClient.getInstance().getNetworkHandler().getConnection());
+        return NETWORK.isRemotePresent(Minecraft.getInstance().getConnection().getConnection());
     }
 
     @Override
@@ -106,10 +106,10 @@ public class ForgePacketSender extends PacketSender {
 
     public static class SendConfig {
 
-        Map<Identifier, Boolean> forcedKeys;
+        Map<ResourceLocation, Boolean> forcedKeys;
         PluginConfig config;
 
-        SendConfig(@Nullable Map<Identifier, Boolean> forcedKeys) {
+        SendConfig(@Nullable Map<ResourceLocation, Boolean> forcedKeys) {
             this.forcedKeys = forcedKeys;
         }
 

@@ -4,29 +4,29 @@ import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.plugin.vanilla.renderer.ItemRenderer;
 import mcp.mobius.waila.plugin.vanilla.renderer.ProgressRenderer;
-import net.minecraft.block.BeehiveBlock;
-import net.minecraft.block.CocoaBlock;
-import net.minecraft.block.ComparatorBlock;
-import net.minecraft.block.ComposterBlock;
-import net.minecraft.block.CropBlock;
-import net.minecraft.block.InfestedBlock;
-import net.minecraft.block.LeverBlock;
-import net.minecraft.block.NetherWartBlock;
-import net.minecraft.block.NoteBlock;
-import net.minecraft.block.PowderSnowBlock;
-import net.minecraft.block.RedstoneWireBlock;
-import net.minecraft.block.RepeaterBlock;
-import net.minecraft.block.StemBlock;
-import net.minecraft.block.SweetBerryBushBlock;
-import net.minecraft.block.TrappedChestBlock;
-import net.minecraft.block.entity.AbstractFurnaceBlockEntity;
-import net.minecraft.block.entity.JukeboxBlockEntity;
-import net.minecraft.block.entity.MobSpawnerBlockEntity;
-import net.minecraft.block.entity.SkullBlockEntity;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.FallingBlockEntity;
-import net.minecraft.entity.ItemEntity;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.item.FallingBlockEntity;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.level.block.BeehiveBlock;
+import net.minecraft.world.level.block.CocoaBlock;
+import net.minecraft.world.level.block.ComparatorBlock;
+import net.minecraft.world.level.block.ComposterBlock;
+import net.minecraft.world.level.block.CropBlock;
+import net.minecraft.world.level.block.InfestedBlock;
+import net.minecraft.world.level.block.LeverBlock;
+import net.minecraft.world.level.block.NetherWartBlock;
+import net.minecraft.world.level.block.NoteBlock;
+import net.minecraft.world.level.block.PowderSnowBlock;
+import net.minecraft.world.level.block.RedStoneWireBlock;
+import net.minecraft.world.level.block.RepeaterBlock;
+import net.minecraft.world.level.block.StemBlock;
+import net.minecraft.world.level.block.SweetBerryBushBlock;
+import net.minecraft.world.level.block.TrappedChestBlock;
+import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
+import net.minecraft.world.level.block.entity.JukeboxBlockEntity;
+import net.minecraft.world.level.block.entity.SkullBlockEntity;
+import net.minecraft.world.level.block.entity.SpawnerBlockEntity;
 
 import static mcp.mobius.waila.api.TooltipPosition.BODY;
 import static mcp.mobius.waila.api.TooltipPosition.HEAD;
@@ -34,25 +34,25 @@ import static mcp.mobius.waila.api.TooltipPosition.HEAD;
 public class WailaVanilla implements IWailaPlugin {
 
     // @formatter:off
-    static final Identifier RENDER_ITEM             = new Identifier("item");
-    static final Identifier RENDER_FURNACE_PROGRESS = new Identifier("furnace_progress");
+    static final ResourceLocation RENDER_ITEM             = new ResourceLocation("item");
+    static final ResourceLocation RENDER_FURNACE_PROGRESS = new ResourceLocation("furnace_progress");
 
-    static final Identifier CONFIG_DISPLAY_FURNACE    = new Identifier("display_furnace_contents");
-    static final Identifier CONFIG_HIDE_SILVERFISH    = new Identifier("hide_infestations");
-    static final Identifier CONFIG_HIDE_TRAPPED_CHEST = new Identifier("hide_trapped_chest");
-    static final Identifier CONFIG_HIDE_POWDER_SNOW   = new Identifier("hide_powder_snow");
-    static final Identifier CONFIG_SPAWNER_TYPE       = new Identifier("spawner_type");
-    static final Identifier CONFIG_CROP_PROGRESS      = new Identifier("crop_progress");
-    static final Identifier CONFIG_LEVER              = new Identifier("lever");
-    static final Identifier CONFIG_REPEATER           = new Identifier("repeater");
-    static final Identifier CONFIG_COMPARATOR         = new Identifier("comparator");
-    static final Identifier CONFIG_REDSTONE           = new Identifier("redstone");
-    static final Identifier CONFIG_JUKEBOX            = new Identifier("jukebox");
-    static final Identifier CONFIG_PLAYER_HEAD_NAME   = new Identifier("player_head_name");
-    static final Identifier CONFIG_COMPOSTER_LEVEL    = new Identifier("composter_level");
-    static final Identifier CONFIG_HONEY_LEVEL        = new Identifier("honey_level");
-    static final Identifier CONFIG_NOTE_BLOCK         = new Identifier("note_block");
-    static final Identifier CONFIG_NOTE_BLOCK_FLAT    = new Identifier("note_block_flat");
+    static final ResourceLocation CONFIG_DISPLAY_FURNACE    = new ResourceLocation("display_furnace_contents");
+    static final ResourceLocation CONFIG_HIDE_SILVERFISH    = new ResourceLocation("hide_infestations");
+    static final ResourceLocation CONFIG_HIDE_TRAPPED_CHEST = new ResourceLocation("hide_trapped_chest");
+    static final ResourceLocation CONFIG_HIDE_POWDER_SNOW   = new ResourceLocation("hide_powder_snow");
+    static final ResourceLocation CONFIG_SPAWNER_TYPE       = new ResourceLocation("spawner_type");
+    static final ResourceLocation CONFIG_CROP_PROGRESS      = new ResourceLocation("crop_progress");
+    static final ResourceLocation CONFIG_LEVER              = new ResourceLocation("lever");
+    static final ResourceLocation CONFIG_REPEATER           = new ResourceLocation("repeater");
+    static final ResourceLocation CONFIG_COMPARATOR         = new ResourceLocation("comparator");
+    static final ResourceLocation CONFIG_REDSTONE           = new ResourceLocation("redstone");
+    static final ResourceLocation CONFIG_JUKEBOX            = new ResourceLocation("jukebox");
+    static final ResourceLocation CONFIG_PLAYER_HEAD_NAME   = new ResourceLocation("player_head_name");
+    static final ResourceLocation CONFIG_COMPOSTER_LEVEL    = new ResourceLocation("composter_level");
+    static final ResourceLocation CONFIG_HONEY_LEVEL        = new ResourceLocation("honey_level");
+    static final ResourceLocation CONFIG_NOTE_BLOCK         = new ResourceLocation("note_block");
+    static final ResourceLocation CONFIG_NOTE_BLOCK_FLAT    = new ResourceLocation("note_block_flat");
     // @formatter:on
 
     @Override
@@ -85,7 +85,7 @@ public class WailaVanilla implements IWailaPlugin {
         registrar.addDisplayItem(PlayerHeadComponent.INSTANCE, SkullBlockEntity.class);
         registrar.addComponent(PlayerHeadComponent.INSTANCE, BODY, SkullBlockEntity.class);
 
-        registrar.addComponent(SpawnerComponent.INSTANCE, HEAD, MobSpawnerBlockEntity.class, 999);
+        registrar.addComponent(SpawnerComponent.INSTANCE, HEAD, SpawnerBlockEntity.class, 999);
 
         registrar.addDisplayItem(PlantComponent.INSTANCE, CropBlock.class);
         registrar.addComponent(PlantComponent.INSTANCE, BODY, CropBlock.class);
@@ -97,7 +97,7 @@ public class WailaVanilla implements IWailaPlugin {
         registrar.addComponent(RedstoneComponent.INSTANCE, BODY, LeverBlock.class);
         registrar.addComponent(RedstoneComponent.INSTANCE, BODY, RepeaterBlock.class);
         registrar.addComponent(RedstoneComponent.INSTANCE, BODY, ComparatorBlock.class);
-        registrar.addComponent(RedstoneComponent.INSTANCE, BODY, RedstoneWireBlock.class);
+        registrar.addComponent(RedstoneComponent.INSTANCE, BODY, RedStoneWireBlock.class);
 
         registrar.addComponent(JukeboxComponent.INSTANCE, BODY, JukeboxBlockEntity.class);
         registrar.addBlockData(JukeboxComponent.INSTANCE, JukeboxBlockEntity.class);

@@ -1,3 +1,4 @@
+/*
 package mcp.mobius.waila.forge;
 
 import mcp.mobius.waila.Waila;
@@ -35,3 +36,4 @@ public class ForgeWailaJei implements IModPlugin {
     }
 
 }
+*/

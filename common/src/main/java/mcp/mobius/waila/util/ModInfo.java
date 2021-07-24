@@ -5,11 +5,11 @@ import java.util.Optional;
 import java.util.function.Function;
 
 import com.google.common.collect.Maps;
-import net.minecraft.block.Block;
-import net.minecraft.entity.Entity;
-import net.minecraft.item.Item;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 
 public record ModInfo(
     String id,
@@ -32,20 +32,20 @@ public record ModInfo(
         return CONTAINER_CACHE.computeIfAbsent(namespace, s -> supplier.apply(namespace).orElse(new ModInfo(s, s)));
     }
 
-    public static ModInfo get(Identifier id) {
+    public static ModInfo get(ResourceLocation id) {
         return get(id.getNamespace());
     }
 
     public static ModInfo get(Block block) {
-        return get(Registry.BLOCK.getId(block));
+        return get(Registry.BLOCK.getKey(block));
     }
 
     public static ModInfo get(Item item) {
-        return get(Registry.ITEM.getId(item));
+        return get(Registry.ITEM.getKey(item));
     }
 
     public static ModInfo get(Entity entity) {
-        Identifier id = Registry.ENTITY_TYPE.getId(entity.getType());
+        ResourceLocation id = Registry.ENTITY_TYPE.getKey(entity.getType());
         return get(id);
     }
 

@@ -9,8 +9,8 @@ import java.util.Date;
 import java.util.List;
 
 import mcp.mobius.waila.Waila;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.Text;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
@@ -20,7 +20,7 @@ public class ExceptionHandler {
     private static final File ERROR_OUTPUT = new File("WailaErrorOutput.txt");
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy - HH:mm:ss");
 
-    public static void handleErr(Throwable e, String className, List<Text> tooltip) {
+    public static void handleErr(Throwable e, String className, List<Component> tooltip) {
         if (!ERRORS.contains(className)) {
             ERRORS.add(className);
 
@@ -33,7 +33,7 @@ public class ExceptionHandler {
             }
         }
         if (tooltip != null)
-            tooltip.add(new LiteralText("<ERROR>"));
+            tooltip.add(new TextComponent("<ERROR>"));
     }
 
 }

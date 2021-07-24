@@ -1,5 +1,6 @@
 package mcp.mobius.waila.fabric;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.WailaConstants;
@@ -13,15 +14,14 @@ import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
-import net.minecraft.client.option.KeyBinding;
-import net.minecraft.client.util.InputUtil;
+import net.minecraft.client.KeyMapping;
 
 public class FabricWailaClient extends WailaClient implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
         keyBindingBuilder = (id, key) ->
-            KeyBindingHelper.registerKeyBinding(new KeyBinding("key.waila." + id, InputUtil.Type.KEYSYM, key, WailaConstants.MOD_NAME));
+            KeyBindingHelper.registerKeyBinding(new KeyMapping("key.waila." + id, InputConstants.Type.KEYSYM, key, WailaConstants.MOD_NAME));
 
         init();
 

@@ -1,7 +1,12 @@
-platform {
-    common
+plugins {
+    id("fabric-loom").version("0.8-SNAPSHOT")
+}
+
+loom {
+    accessWidener = file("src/main/resources/wthit.accesswidener")
 }
 
 dependencies {
-    modCompileOnly("net.fabricmc:fabric-loader:${rootProp["fabricLoader"]}")
+    minecraft("com.mojang:minecraft:${rootProp["minecraft"]}")
+    mappings(loom.officialMojangMappings())
 }

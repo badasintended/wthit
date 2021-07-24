@@ -6,24 +6,24 @@ import java.io.IOException;
 
 import com.mojang.brigadier.CommandDispatcher;
 import mcp.mobius.waila.debug.DumpGenerator;
-import net.minecraft.server.command.CommandManager;
-import net.minecraft.server.command.ServerCommandSource;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.commands.Commands;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 
 public class DumpCommand {
 
-    public static void register(CommandDispatcher<ServerCommandSource> dispatcher) {
-        dispatcher.register(CommandManager.literal("wailadump")
-            .requires(source -> source.hasPermissionLevel(2))
+    public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
+        dispatcher.register(Commands.literal("wailadump")
+            .requires(source -> source.hasPermission(2))
             .executes(context -> {
                 File file = new File("waila_dump.md");
                 try (FileWriter writer = new FileWriter(file)) {
                     writer.write(DumpGenerator.generateInfoDump());
-                    context.getSource().sendFeedback(new TranslatableText("command.waila.dump_success"), false);
+                    context.getSource().sendSuccess(new TranslatableComponent("command.waila.dump_success"), false);
                     return 1;
                 } catch (IOException e) {
-                    context.getSource().sendError(new LiteralText(e.getClass().getSimpleName() + ": " + e.getMessage()));
+                    context.getSource().sendFailure(new TextComponent(e.getClass().getSimpleName() + ": " + e.getMessage()));
                     return 0;
                 }
             })
