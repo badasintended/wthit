@@ -12,3 +12,12 @@ dependencies {
 
     modImplementation("net.fabricmc:fabric-loader:${rootProp["fabricLoader"]}")
 }
+
+tasks.remapJar {
+    enabled = false
+}
+
+tasks.remapSourcesJar {
+    enabled = false
+}
+

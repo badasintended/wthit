@@ -43,7 +43,7 @@ tasks.processResources {
 }
 
 tasks.jar {
-    from(commonProject.sourceSets.main.get().output)
+    from(commonProject.sourceSets.main.get().output.classesDirs)
 }
 
 afterEvaluate {
