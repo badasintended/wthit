@@ -41,8 +41,12 @@ tasks.processResources {
 
 tasks.jar {
     from(commonProject.sourceSets.main.get().output)
-    exclude("wthit.accesswidener")
     finalizedBy("reobfJar")
+}
+
+
+tasks.sourcesJar {
+    from(commonProject.sourceSets.main.get().allSource)
 }
 
 afterEvaluate {

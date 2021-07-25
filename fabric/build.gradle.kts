@@ -46,6 +46,10 @@ tasks.jar {
     from(commonProject.sourceSets.main.get().output.classesDirs)
 }
 
+tasks.sourcesJar {
+    from(commonProject.sourceSets.main.get().allJava)
+}
+
 afterEvaluate {
     val remapJar = tasks.remapJar.get()
     val apiJar = task<Jar>("apiJar") {

@@ -25,3 +25,9 @@ allprojects {
         options.release.set(16)
     }
 }
+
+subprojects {
+    base {
+        archivesName.set("${rootProject.base.archivesName.get()}-${project.name}")
+    }
+}
