@@ -5,16 +5,9 @@ plugins {
     id("maven-publish")
 }
 
-minecraft {
-    mappings("official", rootProp["minecraft"])
-    accessTransformer(file("src/main/resources/META-INF/accesstransformer.cfg"))
-    runs {
-        val runConfig = Action<RunConfig> {
-            workingDirectory(rootProject.file("run"))
-            property("forge.logging.console.level", "debug")
-        }
-        create("client", runConfig)
-        create("server", runConfig)
+sourceSets {
+    main {
+        compileClasspath += commonProject.sourceSets["main"].output
     }
 }
 
@@ -22,6 +15,20 @@ dependencies {
     minecraft("net.minecraftforge:forge:${rootProp["minecraft"]}-${rootProp["forge"]}")
 
     implementation("org.jetbrains:annotations:19.0.0")
+}
+
+minecraft {
+    mappings("official", rootProp["minecraft"])
+    accessTransformer(file("src/main/resources/META-INF/accesstransformer.cfg"))
+    runs {
+        val runConfig = Action<RunConfig> {
+            sources = listOf(sourceSets.main.get(), commonProject.sourceSets.main.get())
+            workingDirectory(rootProject.file("run"))
+            property("forge.logging.console.level", "debug")
+        }
+        create("client", runConfig)
+        create("server", runConfig)
+    }
 }
 
 tasks.processResources {
@@ -33,6 +40,7 @@ tasks.processResources {
 }
 
 tasks.jar {
+    from(commonProject.sourceSets.main.get().output)
     exclude("wthit.accesswidener")
     finalizedBy("reobfJar")
 }

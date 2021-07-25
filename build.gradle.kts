@@ -25,12 +25,3 @@ allprojects {
         options.release.set(16)
     }
 }
-
-subprojects {
-    if (name != "common") sourceSets {
-        main {
-            java.srcDir(file("src/common/java"))
-            resources.srcDir(file("src/common/resources"))
-        }
-    }
-}

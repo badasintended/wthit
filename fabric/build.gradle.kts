@@ -8,10 +8,17 @@ repositories {
     maven("https://maven.architectury.dev")
 }
 
+sourceSets {
+    main {
+        compileClasspath += commonProject.sourceSets["main"].output
+        runtimeClasspath += commonProject.sourceSets["main"].output
+        resources.srcDir(commonProject.sourceSets["main"].resources.srcDirs)
+    }
+}
+
 dependencies {
     minecraft("com.mojang:minecraft:${rootProp["minecraft"]}")
     mappings(loom.officialMojangMappings())
-
     modImplementation("net.fabricmc:fabric-loader:${rootProp["fabricLoader"]}")
 
     modImplementation("dev.inkwell:hermes:1.1.0+1.17")
@@ -24,7 +31,7 @@ dependencies {
 }
 
 loom {
-    accessWidener = project(":common").file("src/main/resources/wthit.accesswidener")
+    accessWidener = file("src/main/resources/wthit.accesswidener")
 }
 
 tasks.processResources {
@@ -33,6 +40,10 @@ tasks.processResources {
     filesMatching("fabric.mod.json") {
         expand("version" to project.version)
     }
+}
+
+tasks.jar {
+    from(commonProject.sourceSets.main.get().output)
 }
 
 afterEvaluate {
