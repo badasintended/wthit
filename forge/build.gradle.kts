@@ -54,16 +54,18 @@ afterEvaluate {
     val apiJar = task<Jar>("apiJar") {
         dependsOn(jar)
         archiveClassifier.set("api")
-        include("mcp/mobius/waila/api/**")
-        from(zipTree(jar.archiveFile))
+        from(zipTree(jar.archiveFile)) {
+            include("mcp/mobius/waila/api/**")
+        }
     }
 
     val sourcesJar = tasks.sourcesJar.get()
     val apiSourcesJar = task<Jar>("apiSourcesJar") {
         dependsOn(sourcesJar)
         archiveClassifier.set("api-sources")
-        include("mcp/mobius/waila/api/**")
-        from(zipTree(sourcesJar.archiveFile))
+        from(zipTree(sourcesJar.archiveFile)) {
+            include("mcp/mobius/waila/api/**")
+        }
     }
 
     tasks.build {

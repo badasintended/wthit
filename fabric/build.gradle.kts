@@ -14,6 +14,7 @@ sourceSets {
         runtimeClasspath += commonProject.sourceSets["main"].output
         resources.srcDir(commonProject.sourceSets["main"].resources.srcDirs)
     }
+    create("fluff")
 }
 
 dependencies {
@@ -55,9 +56,10 @@ afterEvaluate {
     val apiJar = task<Jar>("apiJar") {
         dependsOn(remapJar)
         archiveClassifier.set("api")
-        include("fabric.mod.json")
-        include("mcp/mobius/waila/api/**")
-        from(zipTree(remapJar.archiveFile))
+        from(sourceSets["fluff"].output)
+        from(zipTree(remapJar.archiveFile)) {
+            include("mcp/mobius/waila/api/**")
+        }
     }
 
     val sourcesJar = tasks.sourcesJar.get()
@@ -65,9 +67,10 @@ afterEvaluate {
     val apiSourcesJar = task<Jar>("apiSourcesJar") {
         dependsOn(remapSourcesJar)
         archiveClassifier.set("api-sources")
-        include("fabric.mod.json")
-        include("mcp/mobius/waila/api/**")
-        from(zipTree(remapSourcesJar.output))
+        from(sourceSets["fluff"].output)
+        from(zipTree(remapSourcesJar.output)) {
+            include("mcp/mobius/waila/api/**")
+        }
     }
 
     tasks.build {
