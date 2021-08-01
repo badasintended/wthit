@@ -5,7 +5,7 @@ plugins {
     java
 }
 
-version = env["MOD_VERSION"] ?: "999-local"
+version = env["MOD_VERSION"] ?: "${prop["majorVersion"]}.999-${env["GIT_HASH"] ?: "local"}"
 
 allprojects {
     apply(plugin = "base")

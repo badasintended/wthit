@@ -7,7 +7,6 @@ pluginManagement {
     }
 
     plugins {
-        id("com.github.johnrengelman.shadow").version("7.0.0")
         id("com.matthewprenger.cursegradle").version("1.4.0")
         id("com.modrinth.minotaur").version("1.1.0")
     }
