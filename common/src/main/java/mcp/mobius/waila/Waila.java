@@ -7,6 +7,7 @@ import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.network.PacketSender;
+import mcp.mobius.waila.util.PluginLoader;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.Tag;
 import net.minecraft.world.entity.EntityType;

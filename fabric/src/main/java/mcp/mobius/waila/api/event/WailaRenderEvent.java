@@ -4,14 +4,14 @@ import java.awt.Rectangle;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.api.ICommonAccessor;
-import mcp.mobius.waila.hud.HudRenderer;
+import mcp.mobius.waila.hud.TooltipRenderer;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 
 /**
  * The base event for rendering the Waila tooltip. This provides the opportunity to do last minute changes to the tooltip.
  * <p>
- * All sub-events are fired from {@link HudRenderer#render(PoseStack, float)}.
+ * All sub-events are fired from {@link TooltipRenderer#render(PoseStack, float)}.
  * All sub-events are fired every render tick.
  * <p>
  * {@link #position} The position and size of the tooltip being rendered
@@ -60,7 +60,7 @@ public class WailaRenderEvent {
 
     /**
      * This event is fired just before the Waila tooltip is rendered and right after setting up the GL state in
-     * {@link HudRenderer#render(PoseStack, float)}
+     * {@link TooltipRenderer#render(PoseStack, float)}
      * <p>
      * This event is cancelable.
      * If this event is canceled, the tooltip will not render.
@@ -83,7 +83,7 @@ public class WailaRenderEvent {
 
     /**
      * This event is fired just after the tooltip is rendered and right before the GL state is reset in
-     * {@link HudRenderer#render(PoseStack, float)}
+     * {@link TooltipRenderer#render(PoseStack, float)}
      * This event is only fired if {@link Pre} is not cancelled.
      * <p>
      * This event is not cancelable.

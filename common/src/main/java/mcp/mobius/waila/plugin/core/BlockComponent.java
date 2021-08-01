@@ -1,12 +1,10 @@
 package mcp.mobius.waila.plugin.core;
 
-import java.util.List;
-
 import mcp.mobius.waila.api.IBlockAccessor;
 import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataProvider;
-import mcp.mobius.waila.api.ITaggableList;
+import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.util.ModInfo;
 import net.minecraft.ChatFormatting;
@@ -16,7 +14,6 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Nameable;
 import net.minecraft.world.level.Level;
@@ -30,7 +27,7 @@ public enum BlockComponent implements IBlockComponentProvider, IServerDataProvid
     INSTANCE;
 
     @Override
-    public void appendHead(List<Component> tooltip, IBlockAccessor accessor, IPluginConfig config) {
+    public void appendHead(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
         if (accessor.getBlockState().getMaterial().isLiquid())
             return;
 
@@ -40,13 +37,13 @@ public enum BlockComponent implements IBlockComponentProvider, IServerDataProvid
             name = block.getName().getString();
         }
 
-        ((ITaggableList<ResourceLocation, Component>) tooltip).setTag(WailaConstants.OBJECT_NAME_TAG, new TextComponent(String.format(accessor.getBlockNameFormat(), name)));
+        tooltip.set(WailaConstants.OBJECT_NAME_TAG, new TextComponent(String.format(accessor.getBlockNameFormat(), name)));
         if (config.get(WailaConstants.CONFIG_SHOW_REGISTRY))
-            ((ITaggableList<ResourceLocation, Component>) tooltip).setTag(WailaConstants.REGISTRY_NAME_TAG, new TextComponent(String.format(accessor.getRegistryNameFormat(), Registry.BLOCK.getKey(block))));
+            tooltip.set(WailaConstants.REGISTRY_NAME_TAG, new TextComponent(String.format(accessor.getRegistryNameFormat(), Registry.BLOCK.getKey(block))));
     }
 
     @Override
-    public void appendBody(List<Component> tooltip, IBlockAccessor accessor, IPluginConfig config) {
+    public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
         if (config.get(WailaCore.CONFIG_SHOW_POS)) {
             BlockPos pos = accessor.getPosition();
             tooltip.add(new TextComponent("(" + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + ")"));
@@ -63,10 +60,10 @@ public enum BlockComponent implements IBlockComponentProvider, IServerDataProvid
     }
 
     @Override
-    public void appendTail(List<Component> tooltip, IBlockAccessor accessor, IPluginConfig config) {
+    public void appendTail(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
         if (config.get(WailaConstants.CONFIG_SHOW_MOD_NAME)) {
             String modName = String.format(accessor.getModNameFormat(), ModInfo.get(accessor.getBlock()).name());
-            ((ITaggableList<ResourceLocation, Component>) tooltip).setTag(WailaConstants.MOD_NAME_TAG, new TextComponent(modName));
+            tooltip.set(WailaConstants.MOD_NAME_TAG, new TextComponent(modName));
         }
     }
 

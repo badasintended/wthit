@@ -19,18 +19,18 @@ public interface IComponentProvider extends IBlockComponentProvider {
     }
 
     @Override
-    default void appendHead(List<Component> tooltip, IBlockAccessor accessor, IPluginConfig config) {
-        appendHead(tooltip, ((IDataAccessor) accessor), config);
+    default void appendHead(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
+        appendHead((List<Component>) tooltip, ((IDataAccessor) accessor), config);
     }
 
     @Override
-    default void appendBody(List<Component> tooltip, IBlockAccessor accessor, IPluginConfig config) {
-        appendBody(tooltip, ((IDataAccessor) accessor), config);
+    default void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
+        appendBody((List<Component>) tooltip, ((IDataAccessor) accessor), config);
     }
 
     @Override
-    default void appendTail(List<Component> tooltip, IBlockAccessor accessor, IPluginConfig config) {
-        appendTail(tooltip, ((IDataAccessor) accessor), config);
+    default void appendTail(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
+        appendTail((List<Component>) tooltip, ((IDataAccessor) accessor), config);
     }
 
     @Deprecated

@@ -1,10 +1,11 @@
-package mcp.mobius.waila;
+package mcp.mobius.waila.util;
 
 import java.util.List;
 import java.util.Map;
 
 import com.google.common.collect.Lists;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.plugin.core.WailaCore;

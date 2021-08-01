@@ -4,10 +4,10 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import mcp.mobius.waila.PluginLoader;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.registry.TooltipRegistrar;
 import mcp.mobius.waila.registry.TooltipRegistry;
+import mcp.mobius.waila.util.PluginLoader;
 
 import static mcp.mobius.waila.api.TooltipPosition.BODY;
 import static mcp.mobius.waila.api.TooltipPosition.HEAD;

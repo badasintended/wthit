@@ -24,9 +24,10 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 
-public class HudProviderHandler {
+// TODO: remove deprecated method calls
+public class ComponentHandler {
 
-    public static void gatherBlock(DataAccessor accessor, List<Component> tooltip, TooltipPosition position) {
+    public static void gatherBlock(DataAccessor accessor, Tooltip tooltip, TooltipPosition position) {
         TooltipRegistrar registrar = TooltipRegistrar.INSTANCE;
         Block block = accessor.getBlock();
         BlockEntity blockEntity = accessor.getBlockEntity();
@@ -44,15 +45,24 @@ public class HudProviderHandler {
         handleBlock(accessor, tooltip, blockEntity, position);
     }
 
-    private static void handleBlock(DataAccessor accessor, List<Component> tooltip, Object obj, TooltipPosition position) {
+    private static void handleBlock(DataAccessor accessor, Tooltip tooltip, Object obj, TooltipPosition position) {
         TooltipRegistrar registrar = TooltipRegistrar.INSTANCE;
         List<IBlockComponentProvider> providers = registrar.blockComponent.get(position).get(obj);
         for (IBlockComponentProvider provider : providers) {
             try {
                 switch (position) {
-                    case HEAD -> provider.appendHead(tooltip, accessor, PluginConfig.INSTANCE);
-                    case BODY -> provider.appendBody(tooltip, accessor, PluginConfig.INSTANCE);
-                    case TAIL -> provider.appendTail(tooltip, accessor, PluginConfig.INSTANCE);
+                    case HEAD -> {
+                        provider.appendHead(tooltip, accessor, PluginConfig.INSTANCE);
+                        provider.appendHead((List<Component>) tooltip, accessor, PluginConfig.INSTANCE);
+                    }
+                    case BODY -> {
+                        provider.appendBody(tooltip, accessor, PluginConfig.INSTANCE);
+                        provider.appendBody((List<Component>)tooltip, accessor, PluginConfig.INSTANCE);
+                    }
+                    case TAIL -> {
+                        provider.appendTail(tooltip, accessor, PluginConfig.INSTANCE);
+                        provider.appendTail((List<Component>)tooltip, accessor, PluginConfig.INSTANCE);
+                    }
                 }
             } catch (Throwable e) {
                 ExceptionHandler.handleErr(e, provider.getClass().toString(), tooltip);
@@ -60,7 +70,7 @@ public class HudProviderHandler {
         }
     }
 
-    public static void gatherEntity(Entity entity, DataAccessor accessor, List<Component> tooltip, TooltipPosition position) {
+    public static void gatherEntity(Entity entity, DataAccessor accessor, Tooltip tooltip, TooltipPosition position) {
         TooltipRegistrar registrar = TooltipRegistrar.INSTANCE;
         Entity trueEntity = accessor.getEntity();
 
@@ -78,9 +88,18 @@ public class HudProviderHandler {
         for (IEntityComponentProvider provider : providers) {
             try {
                 switch (position) {
-                    case HEAD -> provider.appendHead(tooltip, accessor, PluginConfig.INSTANCE);
-                    case BODY -> provider.appendBody(tooltip, accessor, PluginConfig.INSTANCE);
-                    case TAIL -> provider.appendTail(tooltip, accessor, PluginConfig.INSTANCE);
+                    case HEAD -> {
+                        provider.appendHead(tooltip, accessor, PluginConfig.INSTANCE);
+                        provider.appendHead((List<Component>) tooltip, accessor, PluginConfig.INSTANCE);
+                    }
+                    case BODY -> {
+                        provider.appendBody(tooltip, accessor, PluginConfig.INSTANCE);
+                        provider.appendBody((List<Component>)tooltip, accessor, PluginConfig.INSTANCE);
+                    }
+                    case TAIL -> {
+                        provider.appendTail(tooltip, accessor, PluginConfig.INSTANCE);
+                        provider.appendTail((List<Component>)tooltip, accessor, PluginConfig.INSTANCE);
+                    }
                 }
             } catch (Throwable e) {
                 ExceptionHandler.handleErr(e, provider.getClass().toString(), tooltip);

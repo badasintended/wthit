@@ -1,15 +1,11 @@
 package mcp.mobius.waila.plugin.vanilla;
 
-import java.util.List;
-
 import mcp.mobius.waila.api.IBlockAccessor;
 import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
-import mcp.mobius.waila.api.ITaggableList;
+import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.WailaConstants;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.entity.SpawnerBlockEntity;
 
@@ -18,13 +14,13 @@ public enum SpawnerComponent implements IBlockComponentProvider {
     INSTANCE;
 
     @Override
-    public void appendHead(List<Component> tooltip, IBlockAccessor accessor, IPluginConfig config) {
+    public void appendHead(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
         if (config.get(WailaVanilla.CONFIG_SPAWNER_TYPE)) {
             SpawnerBlockEntity spawner = (SpawnerBlockEntity) accessor.getBlockEntity();
             Entity entity = spawner != null ? spawner.getSpawner().getOrCreateDisplayEntity(accessor.getWorld()) : null;
             if (entity != null) {
                 String formatting = accessor.getBlockNameFormat();
-                ((ITaggableList<ResourceLocation, Component>) tooltip).setTag(WailaConstants.OBJECT_NAME_TAG, new TextComponent(String.format(formatting,
+                tooltip.set(WailaConstants.OBJECT_NAME_TAG, new TextComponent(String.format(formatting,
                     accessor.getBlock().getName().getString() + " (" + entity.getDisplayName().getString() + ")")));
             }
         }

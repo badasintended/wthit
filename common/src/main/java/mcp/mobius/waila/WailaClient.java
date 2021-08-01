@@ -7,7 +7,7 @@ import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.gui.screen.HomeConfigScreen;
-import mcp.mobius.waila.hud.HudTickHandler;
+import mcp.mobius.waila.hud.ClientTickHandler;
 import mcp.mobius.waila.util.ModInfo;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
@@ -49,7 +49,7 @@ public abstract class WailaClient {
         Minecraft client = Minecraft.getInstance();
         WailaConfig config = Waila.config.get();
 
-        HudTickHandler.tickClient();
+        ClientTickHandler.tick();
 
         while (openConfig.consumeClick()) {
             client.setScreen(new HomeConfigScreen(null));

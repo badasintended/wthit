@@ -1,7 +1,5 @@
 package mcp.mobius.waila.hud;
 
-import java.util.List;
-
 import com.mojang.text2speech.Narrator;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.WailaClient;
@@ -10,8 +8,6 @@ import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.data.DataAccessor;
 import mcp.mobius.waila.util.RaycastUtil;
-import mcp.mobius.waila.util.TaggableList;
-import mcp.mobius.waila.util.TaggedText;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.ChatScreen;
@@ -27,19 +23,19 @@ import net.minecraft.world.phys.HitResult;
 import static mcp.mobius.waila.api.TooltipPosition.BODY;
 import static mcp.mobius.waila.api.TooltipPosition.HEAD;
 import static mcp.mobius.waila.api.TooltipPosition.TAIL;
-import static mcp.mobius.waila.hud.HudProviderHandler.gatherBlock;
-import static mcp.mobius.waila.hud.HudProviderHandler.gatherEntity;
+import static mcp.mobius.waila.hud.ComponentHandler.gatherBlock;
+import static mcp.mobius.waila.hud.ComponentHandler.gatherEntity;
 
-public class HudTickHandler {
+public class ClientTickHandler {
 
     protected static Narrator narrator;
     protected static String lastNarration = "";
 
-    private static final List<Component> TIP = new TaggableList<>(TaggedText::new);
+    private static final Tooltip TOOLTIP = new Tooltip();
     private static final Component SNEAK_DETAIL = new TranslatableComponent("tooltip.waila.sneak_for_details").withStyle(ChatFormatting.ITALIC);
 
-    public static void tickClient() {
-        HudRenderer.shouldRender = false;
+    public static void tick() {
+        TooltipRenderer.shouldRender = false;
 
         Minecraft client = Minecraft.getInstance();
         WailaConfig config = Waila.config.get();
@@ -62,7 +58,7 @@ public class HudTickHandler {
         DataAccessor accessor = DataAccessor.INSTANCE;
         accessor.set(client.level, player, target, client.cameraEntity, client.getFrameTime());
 
-        HudRenderer.beginBuild();
+        TooltipRenderer.beginBuild();
 
         if (target.getType() == HitResult.Type.BLOCK) {
             Block block = accessor.getBlock();
@@ -72,58 +68,58 @@ public class HudTickHandler {
                 return;
             }
 
-            BlockState state = HudProviderHandler.getOverrideBlock(target);
+            BlockState state = ComponentHandler.getOverrideBlock(target);
             accessor.setState(state);
 
-            TIP.clear();
-            gatherBlock(accessor, TIP, HEAD);
-            HudRenderer.addLines(TIP);
+            TOOLTIP.clear();
+            gatherBlock(accessor, TOOLTIP, HEAD);
+            TooltipRenderer.addLines(TOOLTIP);
 
-            TIP.clear();
-            gatherBlock(accessor, TIP, BODY);
-            if (Waila.config.get().getGeneral().shouldShiftForDetails() && !TIP.isEmpty() && !player.isShiftKeyDown()) {
-                HudRenderer.addLine(SNEAK_DETAIL);
+            TOOLTIP.clear();
+            gatherBlock(accessor, TOOLTIP, BODY);
+            if (Waila.config.get().getGeneral().shouldShiftForDetails() && !TOOLTIP.isEmpty() && !player.isShiftKeyDown()) {
+                TooltipRenderer.addLine(SNEAK_DETAIL);
             } else {
-                HudRenderer.addLines(TIP);
+                TooltipRenderer.addLines(TOOLTIP);
             }
 
-            TIP.clear();
-            gatherBlock(accessor, TIP, TAIL);
-            HudRenderer.addLines(TIP);
+            TOOLTIP.clear();
+            gatherBlock(accessor, TOOLTIP, TAIL);
+            TooltipRenderer.addLines(TOOLTIP);
         } else if (target.getType() == HitResult.Type.ENTITY) {
             if (!PluginConfig.INSTANCE.get(WailaConstants.CONFIG_SHOW_ENTITY)
                 || Waila.entityBlacklist.contains(accessor.getEntity().getType())) {
                 return;
             }
 
-            Entity targetEnt = HudProviderHandler.getOverrideEntity(target);
+            Entity targetEnt = ComponentHandler.getOverrideEntity(target);
             accessor.setEntity(targetEnt);
 
             if (targetEnt != null) {
-                TIP.clear();
-                gatherEntity(targetEnt, accessor, TIP, HEAD);
-                HudRenderer.addLines(TIP);
+                TOOLTIP.clear();
+                gatherEntity(targetEnt, accessor, TOOLTIP, HEAD);
+                TooltipRenderer.addLines(TOOLTIP);
 
-                TIP.clear();
-                gatherEntity(targetEnt, accessor, TIP, BODY);
-                if (Waila.config.get().getGeneral().shouldShiftForDetails() && !TIP.isEmpty() && !player.isShiftKeyDown()) {
-                    HudRenderer.addLine(SNEAK_DETAIL);
+                TOOLTIP.clear();
+                gatherEntity(targetEnt, accessor, TOOLTIP, BODY);
+                if (Waila.config.get().getGeneral().shouldShiftForDetails() && !TOOLTIP.isEmpty() && !player.isShiftKeyDown()) {
+                    TooltipRenderer.addLine(SNEAK_DETAIL);
                 } else {
-                    HudRenderer.addLines(TIP);
+                    TooltipRenderer.addLines(TOOLTIP);
                 }
 
-                TIP.clear();
-                gatherEntity(targetEnt, accessor, TIP, TAIL);
-                HudRenderer.addLines(TIP);
+                TOOLTIP.clear();
+                gatherEntity(targetEnt, accessor, TOOLTIP, TAIL);
+                TooltipRenderer.addLines(TOOLTIP);
             }
         }
 
         if (PluginConfig.INSTANCE.get(WailaConstants.CONFIG_SHOW_ITEM)) {
-            HudRenderer.setStack(HudProviderHandler.getDisplayItem(target));
+            TooltipRenderer.setStack(ComponentHandler.getDisplayItem(target));
         }
 
-        HudRenderer.endBuild();
-        HudRenderer.shouldRender = true;
+        TooltipRenderer.endBuild();
+        TooltipRenderer.shouldRender = true;
     }
 
     protected static Narrator getNarrator() {

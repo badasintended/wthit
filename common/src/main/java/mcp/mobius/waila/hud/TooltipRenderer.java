@@ -16,7 +16,6 @@ import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IDrawableText;
-import mcp.mobius.waila.api.ITaggableList;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.config.WailaConfig;
@@ -24,11 +23,9 @@ import mcp.mobius.waila.config.WailaConfig.Overlay.Color;
 import mcp.mobius.waila.config.WailaConfig.Overlay.Position.X;
 import mcp.mobius.waila.config.WailaConfig.Overlay.Position.Y;
 import mcp.mobius.waila.util.DrawableText;
-import mcp.mobius.waila.util.TaggedText;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.ItemStack;
 
@@ -37,7 +34,7 @@ import static mcp.mobius.waila.util.DisplayUtil.drawGradientRect;
 import static mcp.mobius.waila.util.DisplayUtil.enable2DRender;
 import static mcp.mobius.waila.util.DisplayUtil.renderStack;
 
-public class HudRenderer {
+public class TooltipRenderer {
 
     public static Consumer<List<Component>> onCreate;
     public static Function<Rectangle, Rectangle> onPreRender;
@@ -66,14 +63,7 @@ public class HudRenderer {
 
     public static void addLines(List<Component> lines) {
         Preconditions.checkState(started);
-        lines.forEach(c -> {
-            Component text = c;
-            if (text instanceof TaggedText) {
-                text = ((ITaggableList<ResourceLocation, Component>) lines).getTag(((TaggedText) text).getTag());
-            }
-
-            LINES.add(text);
-        });
+        LINES.addAll(lines);
     }
 
     public static void addLine(Component line) {
@@ -82,7 +72,7 @@ public class HudRenderer {
 
     public static void setStack(ItemStack stack) {
         Preconditions.checkState(started);
-        HudRenderer.stack = PluginConfig.INSTANCE.get(WailaConstants.CONFIG_SHOW_ITEM) ? stack : ItemStack.EMPTY;
+        TooltipRenderer.stack = PluginConfig.INSTANCE.get(WailaConstants.CONFIG_SHOW_ITEM) ? stack : ItemStack.EMPTY;
     }
 
     public static ItemStack getStack() {

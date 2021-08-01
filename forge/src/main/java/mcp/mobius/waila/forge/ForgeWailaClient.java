@@ -6,7 +6,7 @@ import mcp.mobius.waila.api.event.WailaRenderEvent;
 import mcp.mobius.waila.api.event.WailaTooltipEvent;
 import mcp.mobius.waila.data.DataAccessor;
 import mcp.mobius.waila.gui.screen.HomeConfigScreen;
-import mcp.mobius.waila.hud.HudRenderer;
+import mcp.mobius.waila.hud.TooltipRenderer;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraftforge.api.distmarker.Dist;
@@ -41,7 +41,7 @@ public class ForgeWailaClient extends WailaClient {
 
         init();
         registerConfigScreen();
-        HudRenderer.onPreRender = rect -> {
+        TooltipRenderer.onPreRender = rect -> {
             WailaRenderEvent.Pre preEvent = new WailaRenderEvent.Pre(DataAccessor.INSTANCE, rect);
             if (MinecraftForge.EVENT_BUS.post(preEvent)) {
                 return null;
@@ -49,13 +49,13 @@ public class ForgeWailaClient extends WailaClient {
             return preEvent.getPosition();
         };
 
-        HudRenderer.onPostRender = position ->
+        TooltipRenderer.onPostRender = position ->
             MinecraftForge.EVENT_BUS.post(new WailaRenderEvent.Post(position));
 
-        HudRenderer.onCreate = texts ->
+        TooltipRenderer.onCreate = texts ->
             MinecraftForge.EVENT_BUS.post(new WailaTooltipEvent(texts, DataAccessor.INSTANCE));
 
-        ForgeHudTickHandler.registerListener();
+        ForgeClientTickHandler.registerListener();
     }
 
     static void registerConfigScreen() {
@@ -76,7 +76,7 @@ public class ForgeWailaClient extends WailaClient {
         @SubscribeEvent
         static void renderGameOverlay(RenderGameOverlayEvent.Post event) {
             if (event.getType() == RenderGameOverlayEvent.ElementType.ALL)
-                HudRenderer.render(event.getMatrixStack(), event.getPartialTicks());
+                TooltipRenderer.render(event.getMatrixStack(), event.getPartialTicks());
         }
 
         @SubscribeEvent

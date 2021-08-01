@@ -1,17 +1,16 @@
-package mcp.mobius.waila.forge;
+package mcp.mobius.waila.fabric;
 
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.event.WailaTooltipEvent;
-import mcp.mobius.waila.hud.HudTickHandler;
+import mcp.mobius.waila.hud.ClientTickHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraftforge.common.MinecraftForge;
 
-public class ForgeHudTickHandler extends HudTickHandler {
+public class FabricClientTickHandler extends ClientTickHandler {
 
     public static void registerListener() {
-        MinecraftForge.EVENT_BUS.addListener((WailaTooltipEvent event) -> {
+        WailaTooltipEvent.WAILA_HANDLE_TOOLTIP.register(event -> {
             if (!Waila.config.get().getGeneral().shouldDisplayTooltip())
                 return;
 

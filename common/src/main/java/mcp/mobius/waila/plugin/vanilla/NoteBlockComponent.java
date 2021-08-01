@@ -1,12 +1,10 @@
 package mcp.mobius.waila.plugin.vanilla;
 
-import java.util.List;
-
 import mcp.mobius.waila.api.IBlockAccessor;
 import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
+import mcp.mobius.waila.api.ITooltip;
 import net.minecraft.Util;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.level.block.NoteBlock;
@@ -56,7 +54,7 @@ public enum NoteBlockComponent implements IBlockComponentProvider {
     });
 
     @Override
-    public void appendBody(List<Component> tooltip, IBlockAccessor accessor, IPluginConfig config) {
+    public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
         if (config.get(WailaVanilla.CONFIG_NOTE_BLOCK)) {
             BlockState state = accessor.getBlockState();
             NoteBlockInstrument instrument = state.getValue(NoteBlock.INSTRUMENT);

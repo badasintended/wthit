@@ -5,6 +5,7 @@ import java.util.List;
 import mcp.mobius.waila.api.internal.ApiSide;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.ApiStatus;
@@ -65,32 +66,14 @@ public interface IBlockComponentProvider {
      * and add the data to the {@link CompoundTag} there, which can then be read back using {@link IBlockAccessor#getServerData}.
      * If you rely on the client knowing the data you need, you are not guaranteed to have the proper values.
      *
-     * @param tooltip  Current list of tooltip lines (might have been processed by other providers and might be processed
-     *                 by other providers).
+     * @param tooltip  Current list of tooltip lines (might have been processed by other providers and might be processed by other providers).
+     *                 Use {@link ITooltip#set(ResourceLocation, Component)} with tags from {@link WailaConstants} to override built-in values.
      * @param accessor Contains most of the relevant information about the current environment.
      * @param config   Current configuration of Waila.
      *
      * @see IRegistrar#addComponent(IBlockComponentProvider, TooltipPosition, Class, int)
      */
-    default void appendHead(List<Component> tooltip, IBlockAccessor accessor, IPluginConfig config) {
-    }
-
-    /**
-     * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).
-     * <p>
-     * This method is only called on the client side.
-     * If you require data from the server, you should also implement {@link IServerDataProvider#appendServerData}
-     * and add the data to the {@link CompoundTag} there, which can then be read back using {@link IBlockAccessor#getServerData}.
-     * If you rely on the client knowing the data you need, you are not guaranteed to have the proper values.
-     *
-     * @param tooltip  Current list of tooltip lines (might have been processed by other providers and might be processed
-     *                 by other providers).
-     * @param accessor Contains most of the relevant information about the current environment.
-     * @param config   Current configuration of Waila.
-     *
-     * @see IRegistrar#addComponent(IBlockComponentProvider, TooltipPosition, Class, int)
-     */
-    default void appendBody(List<Component> tooltip, IBlockAccessor accessor, IPluginConfig config) {
+    default void appendHead(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
     }
 
     /**
@@ -102,11 +85,51 @@ public interface IBlockComponentProvider {
      * If you rely on the client knowing the data you need, you are not guaranteed to have the proper values.
      *
      * @param tooltip  Current list of tooltip lines (might have been processed by other providers and might be processed by other providers).
+     *                 Use {@link ITooltip#set(ResourceLocation, Component)} with tags from {@link WailaConstants} to override built-in values.
      * @param accessor Contains most of the relevant information about the current environment.
      * @param config   Current configuration of Waila.
      *
      * @see IRegistrar#addComponent(IBlockComponentProvider, TooltipPosition, Class, int)
      */
+    default void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
+    }
+
+    /**
+     * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).
+     * <p>
+     * This method is only called on the client side.
+     * If you require data from the server, you should also implement {@link IServerDataProvider#appendServerData}
+     * and add the data to the {@link CompoundTag} there, which can then be read back using {@link IBlockAccessor#getServerData}.
+     * If you rely on the client knowing the data you need, you are not guaranteed to have the proper values.
+     *
+     * @param tooltip  Current list of tooltip lines (might have been processed by other providers and might be processed by other providers).
+     *                 Use {@link ITooltip#set(ResourceLocation, Component)} with tags from {@link WailaConstants} to override built-in values.
+     * @param accessor Contains most of the relevant information about the current environment.
+     * @param config   Current configuration of Waila.
+     *
+     * @see IRegistrar#addComponent(IBlockComponentProvider, TooltipPosition, Class, int)
+     */
+    default void appendTail(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
+    }
+
+    /**
+     * @deprecated use {@link #appendHead(ITooltip, IBlockAccessor, IPluginConfig)}
+     */
+    @Deprecated
+    default void appendHead(List<Component> tooltip, IBlockAccessor accessor, IPluginConfig config) {
+    }
+
+    /**
+     * @deprecated use {@link #appendBody(ITooltip, IBlockAccessor, IPluginConfig)}
+     */
+    @Deprecated
+    default void appendBody(List<Component> tooltip, IBlockAccessor accessor, IPluginConfig config) {
+    }
+
+    /**
+     * @deprecated use {@link #appendTail(ITooltip, IBlockAccessor, IPluginConfig)}
+     */
+    @Deprecated
     default void appendTail(List<Component> tooltip, IBlockAccessor accessor, IPluginConfig config) {
     }
 

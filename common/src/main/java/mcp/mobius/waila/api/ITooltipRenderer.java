@@ -7,8 +7,12 @@ import com.google.common.base.Suppliers;
 import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.api.internal.ApiSide;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
 
+/**
+ * @see IRegistrar#addRenderer(ResourceLocation, ITooltipRenderer)
+ */
 @ApiSide.ClientOnly
 @ApiStatus.OverrideOnly
 public interface ITooltipRenderer {
