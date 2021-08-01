@@ -34,7 +34,7 @@ public class ComponentHandler {
 
         int rate = Waila.config.get().getGeneral().getRateLimit();
 
-        if (blockEntity != null && accessor.isTimeElapsed(rate) && Waila.config.get().getGeneral().shouldDisplayTooltip()) {
+        if (blockEntity != null && accessor.isTimeElapsed(rate) && Waila.config.get().getGeneral().isDisplayTooltip()) {
             accessor.resetTimer();
             if (!(registrar.blockData.get(block).isEmpty() && registrar.blockData.get(blockEntity).isEmpty())) {
                 Waila.packet.requestBlock(blockEntity);

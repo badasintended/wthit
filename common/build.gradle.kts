@@ -13,6 +13,20 @@ dependencies {
     modImplementation("net.fabricmc:fabric-loader:${rootProp["fabricLoader"]}")
 }
 
+sourceSets {
+    val api by creating
+
+    main {
+        compileClasspath += api.output
+        runtimeClasspath += api.output
+    }
+}
+
+configurations {
+    val compileClasspath by getting
+    get("apiImplementation").extendsFrom(compileClasspath)
+}
+
 tasks.remapJar {
     enabled = false
 }

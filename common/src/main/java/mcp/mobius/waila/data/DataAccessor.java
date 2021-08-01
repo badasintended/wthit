@@ -1,10 +1,10 @@
 package mcp.mobius.waila.data;
 
-import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IBlockAccessor;
 import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IEntityAccessor;
+import mcp.mobius.waila.api.IWailaConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.Registry;
@@ -122,27 +122,27 @@ public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IDataAccess
 
     @Override
     public String getModNameFormat() {
-        return Waila.config.get().getFormatting().getModName();
+        return IWailaConfig.getInstance().getFormatting().getModName();
     }
 
     @Override
     public String getBlockNameFormat() {
-        return Waila.config.get().getFormatting().getBlockName();
+        return IWailaConfig.getInstance().getFormatting().getBlockName();
     }
 
     @Override
     public String getFluidNameFormat() {
-        return Waila.config.get().getFormatting().getFluidName();
+        return IWailaConfig.getInstance().getFormatting().getFluidName();
     }
 
     @Override
     public String getEntityNameFormat() {
-        return Waila.config.get().getFormatting().getEntityName();
+        return IWailaConfig.getInstance().getFormatting().getEntityName();
     }
 
     @Override
     public String getRegistryNameFormat() {
-        return Waila.config.get().getFormatting().getRegistryName();
+        return IWailaConfig.getInstance().getFormatting().getRegistryName();
     }
 
     @Override

@@ -2,11 +2,12 @@ package mcp.mobius.waila.plugin.core;
 
 import mcp.mobius.waila.api.IBlockAccessor;
 import mcp.mobius.waila.api.IBlockComponentProvider;
+import mcp.mobius.waila.api.IModInfo;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataProvider;
 import mcp.mobius.waila.api.ITooltip;
+import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
-import mcp.mobius.waila.util.ModInfo;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
@@ -37,9 +38,10 @@ public enum BlockComponent implements IBlockComponentProvider, IServerDataProvid
             name = block.getName().getString();
         }
 
-        tooltip.set(WailaConstants.OBJECT_NAME_TAG, new TextComponent(String.format(accessor.getBlockNameFormat(), name)));
+        IWailaConfig.Formatting formatting = IWailaConfig.getInstance().getFormatting();
+        tooltip.set(WailaConstants.OBJECT_NAME_TAG, new TextComponent(String.format(formatting.getModName(), name)));
         if (config.get(WailaConstants.CONFIG_SHOW_REGISTRY))
-            tooltip.set(WailaConstants.REGISTRY_NAME_TAG, new TextComponent(String.format(accessor.getRegistryNameFormat(), Registry.BLOCK.getKey(block))));
+            tooltip.set(WailaConstants.REGISTRY_NAME_TAG, new TextComponent(String.format(formatting.getRegistryName(), Registry.BLOCK.getKey(block))));
     }
 
     @Override
@@ -62,7 +64,7 @@ public enum BlockComponent implements IBlockComponentProvider, IServerDataProvid
     @Override
     public void appendTail(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
         if (config.get(WailaConstants.CONFIG_SHOW_MOD_NAME)) {
-            String modName = String.format(accessor.getModNameFormat(), ModInfo.get(accessor.getBlock()).name());
+            String modName = String.format(IWailaConfig.getInstance().getFormatting().getModName(), IModInfo.get(accessor.getBlock()).getName());
             tooltip.set(WailaConstants.MOD_NAME_TAG, new TextComponent(modName));
         }
     }

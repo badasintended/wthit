@@ -3,6 +3,7 @@ package mcp.mobius.waila.hud;
 import com.mojang.text2speech.Narrator;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.WailaClient;
+import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.config.WailaConfig;
@@ -41,11 +42,11 @@ public class ClientTickHandler {
         WailaConfig config = Waila.config.get();
 
         if (client.level == null
-            || !config.getGeneral().shouldDisplayTooltip()
-            || config.getGeneral().getDisplayMode() == WailaConfig.General.DisplayMode.HOLD_KEY && !WailaClient.showOverlay.isDown()
+            || !config.getGeneral().isDisplayTooltip()
+            || config.getGeneral().getDisplayMode() == IWailaConfig.General.DisplayMode.HOLD_KEY && !WailaClient.showOverlay.isDown()
             || client.screen != null && !(client.screen instanceof ChatScreen)
-            || config.getGeneral().shouldHideFromPlayerList() && client.options.keyPlayerList.consumeClick() && client.getConnection().getOnlinePlayers().size() > 1
-            || config.getGeneral().shouldHideFromDebug() && client.options.renderDebug) {
+            || config.getGeneral().isHideFromPlayerList() && client.options.keyPlayerList.consumeClick() && client.getConnection().getOnlinePlayers().size() > 1
+            || config.getGeneral().isHideFromDebug() && client.options.renderDebug) {
             return;
         }
 
@@ -77,7 +78,7 @@ public class ClientTickHandler {
 
             TOOLTIP.clear();
             gatherBlock(accessor, TOOLTIP, BODY);
-            if (Waila.config.get().getGeneral().shouldShiftForDetails() && !TOOLTIP.isEmpty() && !player.isShiftKeyDown()) {
+            if (Waila.config.get().getGeneral().isShiftForDetails() && !TOOLTIP.isEmpty() && !player.isShiftKeyDown()) {
                 TooltipRenderer.addLine(SNEAK_DETAIL);
             } else {
                 TooltipRenderer.addLines(TOOLTIP);
@@ -102,7 +103,7 @@ public class ClientTickHandler {
 
                 TOOLTIP.clear();
                 gatherEntity(targetEnt, accessor, TOOLTIP, BODY);
-                if (Waila.config.get().getGeneral().shouldShiftForDetails() && !TOOLTIP.isEmpty() && !player.isShiftKeyDown()) {
+                if (Waila.config.get().getGeneral().isShiftForDetails() && !TOOLTIP.isEmpty() && !player.isShiftKeyDown()) {
                     TooltipRenderer.addLine(SNEAK_DETAIL);
                 } else {
                     TooltipRenderer.addLines(TOOLTIP);

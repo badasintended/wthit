@@ -7,7 +7,9 @@ plugins {
 
 sourceSets {
     main {
-        compileClasspath += commonProject.sourceSets["main"].output
+        commonProject.sourceSets.forEach {
+            compileClasspath += it.output
+        }
     }
 }
 
@@ -22,7 +24,7 @@ minecraft {
     accessTransformer(file("src/main/resources/META-INF/accesstransformer.cfg"))
     runs {
         val runConfig = Action<RunConfig> {
-            sources = listOf(sourceSets.main.get(), commonProject.sourceSets.main.get())
+            sources = listOf(sourceSets.main.get(), *commonProject.sourceSets.toTypedArray())
             workingDirectory(rootProject.file("run"))
             property("forge.logging.console.level", "debug")
         }
@@ -40,13 +42,17 @@ tasks.processResources {
 }
 
 tasks.jar {
-    from(commonProject.sourceSets.main.get().output)
+    commonProject.sourceSets.forEach {
+        from(it.output)
+    }
     finalizedBy("reobfJar")
 }
 
 
 tasks.sourcesJar {
-    from(commonProject.sourceSets.main.get().allSource)
+    commonProject.sourceSets.forEach {
+        from(it.allSource)
+    }
 }
 
 afterEvaluate {

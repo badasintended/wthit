@@ -10,8 +10,10 @@ repositories {
 
 sourceSets {
     main {
-        compileClasspath += commonProject.sourceSets["main"].output
-        runtimeClasspath += commonProject.sourceSets["main"].output
+        commonProject.sourceSets.forEach {
+            compileClasspath += it.output
+            runtimeClasspath += it.output
+        }
         resources.srcDir(commonProject.sourceSets["main"].resources.srcDirs)
     }
     create("fluff")
@@ -44,11 +46,15 @@ tasks.processResources {
 }
 
 tasks.jar {
-    from(commonProject.sourceSets.main.get().output.classesDirs)
+    commonProject.sourceSets.forEach {
+        from(it.output.classesDirs)
+    }
 }
 
 tasks.sourcesJar {
-    from(commonProject.sourceSets.main.get().allJava)
+    commonProject.sourceSets.forEach {
+        from(it.allJava)
+    }
 }
 
 afterEvaluate {

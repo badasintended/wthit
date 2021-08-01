@@ -4,9 +4,9 @@ import java.awt.Dimension;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.ITooltipRenderer;
+import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.util.DisplayUtil;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.nbt.CompoundTag;
@@ -16,7 +16,7 @@ public class HealthRenderer implements ITooltipRenderer {
 
     @Override
     public Dimension getSize(CompoundTag tag, ICommonAccessor accessor) {
-        float maxHearts = Waila.config.get().getGeneral().getMaxHeartsPerLine();
+        float maxHearts = IWailaConfig.getInstance().getGeneral().getMaxHeartsPerLine();
         float maxHealth = tag.getFloat("max");
 
         int heartsPerLine = (int) (Math.min(maxHearts, Math.ceil(maxHealth)));
@@ -27,7 +27,7 @@ public class HealthRenderer implements ITooltipRenderer {
 
     @Override
     public void draw(PoseStack matrices, CompoundTag tag, ICommonAccessor accessor, int x, int y) {
-        float maxHearts = Waila.config.get().getGeneral().getMaxHeartsPerLine();
+        float maxHearts = IWailaConfig.getInstance().getGeneral().getMaxHeartsPerLine();
         float health = tag.getFloat("health");
         float maxHealth = tag.getFloat("max");
 

@@ -1,13 +1,13 @@
 package mcp.mobius.waila.plugin.core;
 
-import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IDrawableText;
 import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IEntityComponentProvider;
+import mcp.mobius.waila.api.IModInfo;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITooltip;
+import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
-import mcp.mobius.waila.util.ModInfo;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TextComponent;
@@ -22,9 +22,10 @@ public enum EntityComponent implements IEntityComponentProvider {
     @Override
     public void appendHead(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
         Entity entity = accessor.getEntity();
-        tooltip.set(WailaConstants.OBJECT_NAME_TAG, new TextComponent(String.format(accessor.getEntityNameFormat(), entity.getDisplayName().getString())));
+        IWailaConfig.Formatting formatting = IWailaConfig.getInstance().getFormatting();
+        tooltip.set(WailaConstants.OBJECT_NAME_TAG, new TextComponent(String.format(formatting.getEntityName(), entity.getDisplayName().getString())));
         if (config.get(WailaConstants.CONFIG_SHOW_REGISTRY))
-            tooltip.set(WailaConstants.REGISTRY_NAME_TAG, new TextComponent(String.format(accessor.getRegistryNameFormat(), Registry.ENTITY_TYPE.getKey(entity.getType()))));
+            tooltip.set(WailaConstants.REGISTRY_NAME_TAG, new TextComponent(String.format(formatting.getRegistryName(), Registry.ENTITY_TYPE.getKey(entity.getType()))));
     }
 
     @Override
@@ -33,7 +34,7 @@ public enum EntityComponent implements IEntityComponentProvider {
             float health = living.getHealth();
             float maxHealth = living.getMaxHealth();
 
-            if (living.getMaxHealth() > Waila.config.get().getGeneral().getMaxHealthForRender())
+            if (living.getMaxHealth() > IWailaConfig.getInstance().getGeneral().getMaxHealthForRender())
                 tooltip.add(new TranslatableComponent("tooltip.waila.health", String.format("%.2f", health), String.format("%.2f", maxHealth)));
             else {
                 CompoundTag healthData = new CompoundTag();
@@ -47,7 +48,7 @@ public enum EntityComponent implements IEntityComponentProvider {
     @Override
     public void appendTail(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
         if (config.get(WailaConstants.CONFIG_SHOW_MOD_NAME))
-            tooltip.set(WailaConstants.MOD_NAME_TAG, new TextComponent(String.format(accessor.getModNameFormat(), ModInfo.get(accessor.getEntity()).name())));
+            tooltip.set(WailaConstants.MOD_NAME_TAG, new TextComponent(String.format(IWailaConfig.getInstance().getFormatting().getModName(), IModInfo.get(accessor.getEntity()).getName())));
     }
 
 }

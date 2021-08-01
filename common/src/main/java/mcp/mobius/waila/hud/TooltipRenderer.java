@@ -16,12 +16,11 @@ import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IDrawableText;
+import mcp.mobius.waila.api.IWailaConfig.Overlay.Position.Align;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.config.WailaConfig.Overlay.Color;
-import mcp.mobius.waila.config.WailaConfig.Overlay.Position.X;
-import mcp.mobius.waila.config.WailaConfig.Overlay.Position.Y;
 import mcp.mobius.waila.util.DrawableText;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -126,16 +125,16 @@ public class TooltipRenderer {
         int windowW = (int) (window.getGuiScaledWidth() / scale);
         int windowH = (int) (window.getGuiScaledHeight() / scale);
 
-        X anchorX = pos.getAnchorX();
-        Y anchorY = pos.getAnchorY();
+        Align.X anchorX = pos.getAnchor().getX();
+        Align.Y anchorY = pos.getAnchor().getY();
 
-        X alignX = pos.getAlignX();
-        Y alignY = pos.getAlignY();
+        Align.X alignX = pos.getAlign().getX();
+        Align.Y alignY = pos.getAlign().getY();
 
         double x = windowW * anchorX.multiplier - w * alignX.multiplier + pos.getX();
         double y = windowH * anchorY.multiplier - h * alignY.multiplier + pos.getY();
 
-        if (anchorX == X.CENTER && anchorY == Y.TOP) {
+        if (anchorX == Align.X.CENTER && anchorY == Align.Y.TOP) {
             y += client.gui.getBossOverlay().events.size() * 19;
         }
 

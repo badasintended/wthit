@@ -12,9 +12,10 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
+import mcp.mobius.waila.api.IWailaConfig;
 import net.minecraft.resources.ResourceLocation;
 
-public class WailaConfig {
+public class WailaConfig implements IWailaConfig {
 
     private int configVersion = 0;
 
@@ -30,19 +31,22 @@ public class WailaConfig {
         this.configVersion = configVersion;
     }
 
+    @Override
     public General getGeneral() {
         return general;
     }
 
+    @Override
     public Overlay getOverlay() {
         return overlay;
     }
 
+    @Override
     public Formatting getFormatting() {
         return formatting;
     }
 
-    public static class General {
+    public static class General implements IWailaConfig.General {
 
         private boolean displayTooltip = true;
         private boolean shiftForDetails = false;
@@ -90,51 +94,55 @@ public class WailaConfig {
             this.maxHeartsPerLine = maxHeartsPerLine;
         }
 
-        public boolean shouldDisplayTooltip() {
+        @Override
+        public boolean isDisplayTooltip() {
             return displayTooltip;
         }
 
-        public boolean shouldShiftForDetails() {
+        @Override
+        public boolean isShiftForDetails() {
             return shiftForDetails;
         }
 
+        @Override
         public DisplayMode getDisplayMode() {
             return displayMode;
         }
 
-        public boolean shouldHideFromPlayerList() {
+        @Override
+        public boolean isHideFromPlayerList() {
             return hideFromPlayerList;
         }
 
-        public boolean shouldHideFromDebug() {
+        @Override
+        public boolean isHideFromDebug() {
             return hideFromDebug;
         }
 
-        public boolean shouldEnableTextToSpeech() {
+        @Override
+        public boolean isEnableTextToSpeech() {
             return enableTextToSpeech;
         }
 
+        @Override
         public int getRateLimit() {
             rateLimit = Math.max(rateLimit, 250);
             return rateLimit;
         }
 
+        @Override
         public int getMaxHealthForRender() {
             return maxHealthForRender;
         }
 
+        @Override
         public int getMaxHeartsPerLine() {
             return maxHeartsPerLine;
         }
 
-        public enum DisplayMode {
-            HOLD_KEY,
-            TOGGLE
-        }
-
     }
 
-    public static class Overlay {
+    public static class Overlay implements IWailaConfig.Overlay {
 
         private final Position position = new Position();
         private float scale = 1.0F;
@@ -144,26 +152,27 @@ public class WailaConfig {
             this.scale = scale;
         }
 
+        @Override
         public Position getPosition() {
             return position;
         }
 
+        @Override
         public float getScale() {
             return scale;
         }
 
+        @Override
         public Color getColor() {
             return color;
         }
 
-        public static class Position {
+        public static class Position implements IWailaConfig.Overlay.Position {
 
             private int x = 0;
             private int y = 0;
-            private X alignX = X.CENTER;
-            private Y alignY = Y.TOP;
-            private X anchorX = X.CENTER;
-            private Y anchorY = Y.TOP;
+            private final Align align = new Align();
+            private final Align anchor = new Align();
 
             public void setX(int x) {
                 this.x = x;
@@ -173,73 +182,54 @@ public class WailaConfig {
                 this.y = y;
             }
 
-            public void setAlignX(X alignX) {
-                this.alignX = alignX;
-            }
-
-            public void setAlignY(Y alignY) {
-                this.alignY = alignY;
-            }
-
-            public void setAnchorX(X anchorX) {
-                this.anchorX = anchorX;
-            }
-
-            public void setAnchorY(Y anchorY) {
-                this.anchorY = anchorY;
-            }
-
+            @Override
             public int getX() {
                 return x;
             }
 
+            @Override
             public int getY() {
                 return y;
             }
 
-            public X getAlignX() {
-                return alignX;
+            @Override
+            public Align getAlign() {
+                return align;
             }
 
-            public Y getAlignY() {
-                return alignY;
+            @Override
+            public Align getAnchor() {
+                return anchor;
             }
 
-            public X getAnchorX() {
-                return anchorX;
-            }
+            public static class Align implements IWailaConfig.Overlay.Position.Align {
 
-            public Y getAnchorY() {
-                return anchorY;
-            }
+                X x = X.CENTER;
+                Y y = Y.TOP;
 
-            public enum X {
-                LEFT(0.0),
-                CENTER(0.5),
-                RIGHT(1.0);
-
-                public final double multiplier;
-
-                X(double multiplier) {
-                    this.multiplier = multiplier;
+                public void setX(X x) {
+                    this.x = x;
                 }
-            }
 
-            public enum Y {
-                TOP(0.0),
-                MIDDLE(0.5),
-                BOTTOM(1.0);
+                public void setY(Y y) {
+                    this.y = y;
+                }
 
-                public final double multiplier;
-                Y(double multiplier) {
-                    this.multiplier = multiplier;
+                @Override
+                public X getX() {
+                    return x;
+                }
+
+                @Override
+                public Y getY() {
+                    return y;
                 }
 
             }
 
         }
 
-        public static class Color {
+        public static class Color implements IWailaConfig.Overlay.Color {
 
             private int alpha = 80;
             private Map<ResourceLocation, Theme> themes = Maps.newHashMap();
@@ -250,19 +240,20 @@ public class WailaConfig {
                 themes.put(Theme.DARK.getId(), Theme.DARK);
             }
 
+            @Override
             public int getAlpha() {
                 return alpha == 100 ? 255 : alpha == 0 ? (int) (0.4F / 100.0F * 256) << 24 : (int) (alpha / 100.0F * 256) << 24;
             }
 
-            public int getRawAlpha() {
+            public int rawAlpha() {
                 return alpha;
             }
 
-            public Theme getTheme() {
+            public Theme theme() {
                 return themes.getOrDefault(activeTheme, Theme.VANILLA);
             }
 
-            public Collection<Theme> getThemes() {
+            public Collection<Theme> themes() {
                 return themes.values();
             }
 
@@ -270,20 +261,24 @@ public class WailaConfig {
                 this.alpha = alpha;
             }
 
+            @Override
             public int getBackgroundColor() {
-                return getAlpha() + getTheme().getBackgroundColor();
+                return getAlpha() + theme().getBackgroundColor();
             }
 
+            @Override
             public int getGradientStart() {
-                return getAlpha() + getTheme().getGradientStart();
+                return getAlpha() + theme().getGradientStart();
             }
 
+            @Override
             public int getGradientEnd() {
-                return getAlpha() + getTheme().getGradientEnd();
+                return getAlpha() + theme().getGradientEnd();
             }
 
+            @Override
             public int getFontColor() {
-                return getTheme().getFontColor();
+                return theme().getFontColor();
             }
 
             public void applyTheme(ResourceLocation id) {
@@ -321,7 +316,7 @@ public class WailaConfig {
 
     }
 
-    public static class Formatting {
+    public static class Formatting implements IWailaConfig.Formatting {
 
         private String modName = "\u00A79\u00A7o%s";
         private String blockName = "\u00a7f%s";
@@ -349,22 +344,27 @@ public class WailaConfig {
             this.registryName = registryName;
         }
 
+        @Override
         public String getModName() {
             return modName;
         }
 
+        @Override
         public String getBlockName() {
             return blockName;
         }
 
+        @Override
         public String getFluidName() {
             return fluidName;
         }
 
+        @Override
         public String getEntityName() {
             return entityName;
         }
 
+        @Override
         public String getRegistryName() {
             return registryName;
         }

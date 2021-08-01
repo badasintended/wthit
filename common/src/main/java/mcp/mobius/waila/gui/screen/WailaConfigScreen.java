@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.debug.DumpGenerator;
@@ -42,23 +43,23 @@ public class WailaConfigScreen extends ConfigScreen {
                 public ConfigListWidget getOptions() {
                     return new ConfigListWidget(this, minecraft, width, height, 32, height - 32, 30)
                         .withBoolean("config.waila.display_tooltip",
-                            get().getGeneral().shouldDisplayTooltip(),
+                            get().getGeneral().isDisplayTooltip(),
                             val -> get().getGeneral().setDisplayTooltip(val))
                         .withBoolean("config.waila.sneaky_details",
-                            get().getGeneral().shouldShiftForDetails(),
+                            get().getGeneral().isShiftForDetails(),
                             val -> get().getGeneral().setShiftForDetails(val))
                         .withEnum("config.waila.display_mode",
-                            WailaConfig.General.DisplayMode.values(),
+                            IWailaConfig.General.DisplayMode.values(),
                             get().getGeneral().getDisplayMode(),
                             val -> get().getGeneral().setDisplayMode(val))
                         .withBoolean("config.waila.hide_from_players",
-                            get().getGeneral().shouldHideFromPlayerList(),
+                            get().getGeneral().isHideFromPlayerList(),
                             val -> get().getGeneral().setHideFromPlayerList(val))
                         .withBoolean("config.waila.hide_from_debug",
-                            get().getGeneral().shouldHideFromDebug(),
+                            get().getGeneral().isHideFromDebug(),
                             val -> get().getGeneral().setHideFromDebug(val))
                         .withBoolean("config.waila.tts",
-                            get().getGeneral().shouldEnableTextToSpeech(),
+                            get().getGeneral().isEnableTextToSpeech(),
                             val -> get().getGeneral().setEnableTextToSpeech(val))
                         .withInput("config.waila.rate_limit",
                             get().getGeneral().getRateLimit(),
@@ -91,28 +92,28 @@ public class WailaConfigScreen extends ConfigScreen {
                             val -> get().getOverlay().setScale(Math.max(val, 0.0F)),
                             InputValue.POSITIVE_FLOAT)
                         .withEnum("config.waila.overlay_anchor_x",
-                            WailaConfig.Overlay.Position.X.values(),
-                            get().getOverlay().getPosition().getAnchorX(),
-                            val -> get().getOverlay().getPosition().setAnchorX(val))
+                            IWailaConfig.Overlay.Position.Align.X.values(),
+                            get().getOverlay().getPosition().getAnchor().getX(),
+                            val -> get().getOverlay().getPosition().getAnchor().setX(val))
                         .withEnum("config.waila.overlay_anchor_y",
-                            WailaConfig.Overlay.Position.Y.values(),
-                            get().getOverlay().getPosition().getAnchorY(),
-                            val -> get().getOverlay().getPosition().setAnchorY(val))
+                            IWailaConfig.Overlay.Position.Align.Y.values(),
+                            get().getOverlay().getPosition().getAnchor().getY(),
+                            val -> get().getOverlay().getPosition().getAnchor().setY(val))
                         .withEnum("config.waila.overlay_align_x",
-                            WailaConfig.Overlay.Position.X.values(),
-                            get().getOverlay().getPosition().getAlignX(),
-                            val -> get().getOverlay().getPosition().setAlignX(val))
+                            IWailaConfig.Overlay.Position.Align.X.values(),
+                            get().getOverlay().getPosition().getAlign().getX(),
+                            val -> get().getOverlay().getPosition().getAlign().setX(val))
                         .withEnum("config.waila.overlay_align_y",
-                            WailaConfig.Overlay.Position.Y.values(),
-                            get().getOverlay().getPosition().getAlignY(),
-                            val -> get().getOverlay().getPosition().setAlignY(val))
+                            IWailaConfig.Overlay.Position.Align.Y.values(),
+                            get().getOverlay().getPosition().getAlign().getY(),
+                            val -> get().getOverlay().getPosition().getAlign().setY(val))
                         .withInput("config.waila.overlay_alpha",
-                            get().getOverlay().getColor().getRawAlpha(),
+                            get().getOverlay().getColor().rawAlpha(),
                             val -> get().getOverlay().getColor().setAlpha(Math.min(100, Math.max(0, val))),
                             InputValue.POSITIVE_INTEGER)
                         .withCycle("config.waila.overlay_theme",
-                            get().getOverlay().getColor().getThemes().stream().map(t -> t.getId().toString()).sorted(String::compareToIgnoreCase).toArray(String[]::new),
-                            get().getOverlay().getColor().getTheme().getId().toString(),
+                            get().getOverlay().getColor().themes().stream().map(t -> t.getId().toString()).sorted(String::compareToIgnoreCase).toArray(String[]::new),
+                            get().getOverlay().getColor().theme().getId().toString(),
                             val -> get().getOverlay().getColor().applyTheme(new ResourceLocation(val)));
                 }
             }))

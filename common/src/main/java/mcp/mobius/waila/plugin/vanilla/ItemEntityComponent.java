@@ -4,6 +4,7 @@ import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITooltip;
+import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -21,7 +22,7 @@ public enum ItemEntityComponent implements IEntityComponentProvider {
     @Override
     public void appendHead(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
         String name = ((ItemEntity) accessor.getEntity()).getItem().getHoverName().getString();
-        tooltip.set(WailaConstants.OBJECT_NAME_TAG, new TextComponent(String.format(accessor.getEntityNameFormat(), name)));
+        tooltip.set(WailaConstants.OBJECT_NAME_TAG, new TextComponent(String.format(IWailaConfig.getInstance().getFormatting().getEntityName(), name)));
     }
 
 }

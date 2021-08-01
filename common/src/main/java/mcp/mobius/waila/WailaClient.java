@@ -3,12 +3,13 @@ package mcp.mobius.waila;
 import java.util.List;
 import java.util.function.BiFunction;
 
+import mcp.mobius.waila.api.IModInfo;
+import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.gui.screen.HomeConfigScreen;
 import mcp.mobius.waila.hud.ClientTickHandler;
-import mcp.mobius.waila.util.ModInfo;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
@@ -56,8 +57,8 @@ public abstract class WailaClient {
         }
 
         while (showOverlay.consumeClick()) {
-            if (config.getGeneral().getDisplayMode() == WailaConfig.General.DisplayMode.TOGGLE) {
-                config.getGeneral().setDisplayTooltip(!config.getGeneral().shouldDisplayTooltip());
+            if (config.getGeneral().getDisplayMode() == IWailaConfig.General.DisplayMode.TOGGLE) {
+                config.getGeneral().setDisplayTooltip(!config.getGeneral().isDisplayTooltip());
             }
         }
 
@@ -78,8 +79,8 @@ public abstract class WailaClient {
     protected static void onItemTooltip(ItemStack stack, List<Component> tooltip) {
         if (PluginConfig.INSTANCE.get(WailaConstants.CONFIG_SHOW_MOD_NAME)) {
             tooltip.add(new TextComponent(String.format(
-                Waila.config.get().getFormatting().getModName(),
-                ModInfo.get(stack.getItem()).name()
+                IWailaConfig.getInstance().getFormatting().getModName(),
+                IModInfo.get(stack.getItem()).getName()
             )));
         }
     }

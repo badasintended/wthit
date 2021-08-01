@@ -11,10 +11,10 @@ public class FabricClientTickHandler extends ClientTickHandler {
 
     public static void registerListener() {
         WailaTooltipEvent.WAILA_HANDLE_TOOLTIP.register(event -> {
-            if (!Waila.config.get().getGeneral().shouldDisplayTooltip())
+            if (!Waila.config.get().getGeneral().isDisplayTooltip())
                 return;
 
-            if (getNarrator().active() || !Waila.config.get().getGeneral().shouldEnableTextToSpeech())
+            if (getNarrator().active() || !Waila.config.get().getGeneral().isEnableTextToSpeech())
                 return;
 
             if (event.getCurrentTip().isEmpty())

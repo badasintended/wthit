@@ -1,15 +1,10 @@
 package mcp.mobius.waila.api;
 
 import mcp.mobius.waila.api.internal.ApiSide;
-import net.minecraft.core.BlockPos;
-import net.minecraft.core.Direction;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.ApiStatus;
@@ -22,22 +17,15 @@ import org.jetbrains.annotations.Nullable;
  */
 @ApiSide.ClientOnly
 @ApiStatus.NonExtendable
-public interface IBlockAccessor {
+public interface IEntityAccessor {
 
     Level getWorld();
 
     Player getPlayer();
 
-    Block getBlock();
-
-    BlockState getBlockState();
-
-    @Nullable
-    BlockEntity getBlockEntity();
+    Entity getEntity();
 
     HitResult getHitResult();
-
-    BlockPos getPosition();
 
     @Nullable
     Vec3 getRenderingPosition();
@@ -46,16 +34,13 @@ public interface IBlockAccessor {
 
     double getPartialFrame();
 
-    Direction getSide();
-
-    ItemStack getStack();
-
+    @Deprecated
     String getModNameFormat();
 
-    String getBlockNameFormat();
+    @Deprecated
+    String getEntityNameFormat();
 
-    String getFluidNameFormat();
-
+    @Deprecated
     String getRegistryNameFormat();
 
 }
