@@ -55,11 +55,10 @@ public enum PluginConfig implements IPluginConfig {
     }
 
     public List<String> getNamespaces() {
-        return configs.keySet().stream().sorted((o1, o2) -> o1.getNamespace().equals(WailaConstants.WAILA)
-            ? -1
-            : o1.getNamespace().compareToIgnoreCase(o2.getNamespace()))
+        return configs.keySet().stream()
             .map(ResourceLocation::getNamespace)
             .distinct()
+            .sorted((o1, o2) -> o1.equals(WailaConstants.WAILA) ? -1 : o2.equals(WailaConstants.WAILA) ? 1 : o1.compareToIgnoreCase(o2))
             .collect(Collectors.toList());
     }
 
