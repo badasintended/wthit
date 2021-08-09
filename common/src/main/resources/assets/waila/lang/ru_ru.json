@@ -42,9 +42,6 @@
   "key.waila.show_recipe_input"                           : "Показывать применение рецепта",
   "key.waila.show_recipe_output"                          : "Показывать рецепт",
 
-  "command.waila.dump_success"                            : "Успешный дамп в waila_dump.md",
-  "config.waila.dump"                                     : "Дамп",
-
   "config.waila.general"                                  : "Основное",
   "config.waila.display_tooltip"                          : "Отображать подсказки",
   "config.waila.display_tooltip_desc"                     : "Собирать данные и отображать подсказки",

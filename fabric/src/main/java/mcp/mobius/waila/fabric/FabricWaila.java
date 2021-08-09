@@ -23,7 +23,8 @@ public class FabricWaila extends Waila implements ModInitializer {
         blockBlacklist = TagRegistry.block(CommonUtil.id("blacklist"));
         entityBlacklist = TagRegistry.entityType(CommonUtil.id("blacklist"));
 
-        configDir = FabricLoader.getInstance().getConfigDir();
+        CommonUtil.gameDir = FabricLoader.getInstance().getGameDir();
+        CommonUtil.configDir = FabricLoader.getInstance().getConfigDir();
         init();
 
         packet = new FabricPacketSender();

@@ -1,4 +1,4 @@
-package mcp.mobius.waila.util;
+package mcp.mobius.waila.plugin;
 
 import java.util.List;
 import java.util.Map;
@@ -8,10 +8,12 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.registry.TooltipRegistrar;
+import mcp.mobius.waila.util.CommonUtil;
+import net.minecraft.resources.ResourceLocation;
 
 public abstract class PluginLoader {
 
-    public static final Map<String, IWailaPlugin> PLUGINS = new Object2ObjectOpenHashMap<>();
+    public static final Map<ResourceLocation, IWailaPlugin> PLUGINS = new Object2ObjectOpenHashMap<>();
 
     protected abstract void gatherPlugins();
 
@@ -44,10 +46,10 @@ public abstract class PluginLoader {
     protected static void createPlugin(String id, String initializer) {
         try {
             IWailaPlugin plugin = (IWailaPlugin) Class.forName(initializer).getConstructor().newInstance();
-            PLUGINS.put(id, plugin);
+            PLUGINS.put(new ResourceLocation(id), plugin);
             CommonUtil.LOGGER.info("Discovered plugin {} at {}", id, plugin.getClass().getCanonicalName());
         } catch (Exception e) {
-            CommonUtil.LOGGER.error("Error creating instance of plugin {}", id);
+            CommonUtil.LOGGER.error("Error creating instance of plugin " + id, e);
         }
     }
 

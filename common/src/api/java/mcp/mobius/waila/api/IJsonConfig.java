@@ -7,7 +7,7 @@ import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
 
 import com.google.gson.Gson;
-import mcp.mobius.waila.impl.ImplFactory;
+import mcp.mobius.waila.impl.Impl;
 import org.jetbrains.annotations.ApiStatus;
 
 /**
@@ -20,7 +20,7 @@ public interface IJsonConfig<T> {
 
     @SuppressWarnings("unchecked")
     static <T> Builder0<T> of(Class<T> clazz) {
-        return ImplFactory.get(IJsonConfig.Builder0.class, clazz);
+        return Impl.get(IJsonConfig.Builder0.class, clazz);
     }
 
     /**

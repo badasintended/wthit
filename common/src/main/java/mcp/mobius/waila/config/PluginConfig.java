@@ -16,16 +16,16 @@ import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
-import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.WailaConstants;
+import mcp.mobius.waila.util.CommonUtil;
 import net.minecraft.resources.ResourceLocation;
 
 public enum PluginConfig implements IPluginConfig {
 
     INSTANCE;
 
-    static final Path PATH = Waila.configDir.resolve(WailaConstants.NAMESPACE + "/" + WailaConstants.WAILA + "_plugins.json");
+    static final Path PATH = CommonUtil.configDir.resolve(WailaConstants.NAMESPACE + "/" + WailaConstants.WAILA + "_plugins.json");
     static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
     private final Map<ResourceLocation, ConfigEntry> configs = new HashMap<>();

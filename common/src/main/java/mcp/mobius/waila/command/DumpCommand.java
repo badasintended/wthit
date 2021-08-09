@@ -1,15 +1,16 @@
 package mcp.mobius.waila.command;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.nio.file.Path;
 
 import com.mojang.brigadier.CommandDispatcher;
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.debug.DumpGenerator;
+import mcp.mobius.waila.util.CommonUtil;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.entity.Entity;
 
 public class DumpCommand {
 
@@ -17,13 +18,16 @@ public class DumpCommand {
         dispatcher.register(Commands.literal("wailadump")
             .requires(source -> source.hasPermission(2))
             .executes(context -> {
-                File file = new File("waila_dump.md");
-                try (FileWriter writer = new FileWriter(file)) {
-                    writer.write(DumpGenerator.generateInfoDump());
-                    context.getSource().sendSuccess(new TranslatableComponent("command.waila.dump_success"), false);
+                CommandSourceStack source = context.getSource();
+                Path path = CommonUtil.gameDir.resolve(".waila/WailaServerDump.md");
+                if (DumpGenerator.generate(path)) {
+                    source.sendSuccess(new TranslatableComponent("command.waila.server_dump_success", path), false);
+                    Entity entity = source.getEntity();
+                    if (entity instanceof ServerPlayer player) {
+                        Waila.packet.generateClientDump(player);
+                    }
                     return 1;
-                } catch (IOException e) {
-                    context.getSource().sendFailure(new TextComponent(e.getClass().getSimpleName() + ": " + e.getMessage()));
+                } else {
                     return 0;
                 }
             })

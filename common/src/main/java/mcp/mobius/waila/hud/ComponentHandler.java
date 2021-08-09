@@ -25,6 +25,7 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 
 // TODO: remove deprecated method calls
+@SuppressWarnings("deprecation")
 public class ComponentHandler {
 
     public static void gatherBlock(DataAccessor accessor, Tooltip tooltip, TooltipPosition position) {
@@ -57,11 +58,11 @@ public class ComponentHandler {
                     }
                     case BODY -> {
                         provider.appendBody(tooltip, accessor, PluginConfig.INSTANCE);
-                        provider.appendBody((List<Component>)tooltip, accessor, PluginConfig.INSTANCE);
+                        provider.appendBody((List<Component>) tooltip, accessor, PluginConfig.INSTANCE);
                     }
                     case TAIL -> {
                         provider.appendTail(tooltip, accessor, PluginConfig.INSTANCE);
-                        provider.appendTail((List<Component>)tooltip, accessor, PluginConfig.INSTANCE);
+                        provider.appendTail((List<Component>) tooltip, accessor, PluginConfig.INSTANCE);
                     }
                 }
             } catch (Throwable e) {
@@ -94,11 +95,11 @@ public class ComponentHandler {
                     }
                     case BODY -> {
                         provider.appendBody(tooltip, accessor, PluginConfig.INSTANCE);
-                        provider.appendBody((List<Component>)tooltip, accessor, PluginConfig.INSTANCE);
+                        provider.appendBody((List<Component>) tooltip, accessor, PluginConfig.INSTANCE);
                     }
                     case TAIL -> {
                         provider.appendTail(tooltip, accessor, PluginConfig.INSTANCE);
-                        provider.appendTail((List<Component>)tooltip, accessor, PluginConfig.INSTANCE);
+                        provider.appendTail((List<Component>) tooltip, accessor, PluginConfig.INSTANCE);
                     }
                 }
             } catch (Throwable e) {
@@ -182,6 +183,7 @@ public class ComponentHandler {
 
         Level world = Minecraft.getInstance().level;
         BlockPos pos = ((BlockHitResult) target).getBlockPos();
+        //noinspection ConstantConditions
         BlockState state = world.getBlockState(pos);
 
         List<IBlockComponentProvider> providers = registrar.blockOverride.get(state.getBlock());

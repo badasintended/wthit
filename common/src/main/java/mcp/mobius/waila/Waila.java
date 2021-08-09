@@ -1,7 +1,5 @@
 package mcp.mobius.waila;
 
-import java.nio.file.Path;
-
 import com.google.gson.GsonBuilder;
 import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.api.IModInfo;
@@ -9,10 +7,10 @@ import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.config.JsonConfig;
 import mcp.mobius.waila.config.WailaConfig;
-import mcp.mobius.waila.impl.ImplFactory;
+import mcp.mobius.waila.impl.Impl;
 import mcp.mobius.waila.network.PacketSender;
+import mcp.mobius.waila.plugin.PluginLoader;
 import mcp.mobius.waila.util.ModInfo;
-import mcp.mobius.waila.util.PluginLoader;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.Tag;
 import net.minecraft.world.entity.EntityType;
@@ -27,7 +25,6 @@ public abstract class Waila {
 
     public static PacketSender packet;
     public static PluginLoader pluginLoader;
-    public static Path configDir;
 
     public static boolean clientSide = false;
 
@@ -44,9 +41,9 @@ public abstract class Waila {
     }
 
     static {
-        ImplFactory.reg(IJsonConfig.Builder0.class, c -> new JsonConfig.Builder<>((Class<?>) c));
-        ImplFactory.reg(IModInfo.class, s -> ModInfo.get((String) s));
-        ImplFactory.reg(IWailaConfig.class, () -> Waila.config.get());
+        Impl.reg(IJsonConfig.Builder0.class, c -> new JsonConfig.Builder<>((Class<?>) c));
+        Impl.reg(IModInfo.class, s -> ModInfo.get((String) s));
+        Impl.reg(IWailaConfig.class, () -> Waila.config.get());
     }
 
 }

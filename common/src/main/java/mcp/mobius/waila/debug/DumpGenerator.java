@@ -1,13 +1,17 @@
 package mcp.mobius.waila.debug;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.plugin.PluginLoader;
 import mcp.mobius.waila.registry.TooltipRegistrar;
 import mcp.mobius.waila.registry.TooltipRegistry;
-import mcp.mobius.waila.util.PluginLoader;
+import mcp.mobius.waila.util.CommonUtil;
+import net.minecraft.resources.ResourceLocation;
 
 import static mcp.mobius.waila.api.TooltipPosition.BODY;
 import static mcp.mobius.waila.api.TooltipPosition.HEAD;
@@ -17,8 +21,8 @@ public class DumpGenerator {
 
     public static final Map<String, String> VERSIONS = new LinkedHashMap<>();
 
-    public static String generateInfoDump() {
-        StringBuilder builder = new StringBuilder("# Waila "+ (Waila.clientSide ? "Client" : "Server")+" Dump");
+    public static boolean generate(Path path) {
+        StringBuilder builder = new StringBuilder("# Waila Dump");
 
         TooltipRegistrar registrar = TooltipRegistrar.INSTANCE;
 
@@ -31,7 +35,7 @@ public class DumpGenerator {
         builder.append("\n| Plugin ID | Plugin Class |");
         builder.append("\n| - | - |");
         PluginLoader.PLUGINS.keySet().stream()
-            .sorted(String::compareToIgnoreCase)
+            .sorted(ResourceLocation::compareTo)
             .forEachOrdered(id -> builder
                 .append("\n| `")
                 .append(id)
@@ -55,7 +59,14 @@ public class DumpGenerator {
         createSection(builder, "Tail Providers", registrar.entityComponent.get(TAIL));
         createSection(builder, "Data Providers", registrar.entityData);
 
-        return builder.toString();
+        try (FileWriter writer = new FileWriter(path.toFile())) {
+            writer.write(builder.toString());
+            CommonUtil.LOGGER.info("Created debug dump at {}", path);
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     private static <T> void createSection(StringBuilder builder, String subsection, TooltipRegistry<T> registry) {

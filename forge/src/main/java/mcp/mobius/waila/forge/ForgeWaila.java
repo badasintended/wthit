@@ -35,7 +35,8 @@ public class ForgeWaila extends Waila {
         blockBlacklist = BlockTags.createOptional(CommonUtil.id("blacklist"));
         entityBlacklist = EntityTypeTags.createOptional(CommonUtil.id("blacklist"));
 
-        configDir = FMLPaths.CONFIGDIR.get();
+        CommonUtil.gameDir = FMLPaths.GAMEDIR.get();
+        CommonUtil.configDir = FMLPaths.CONFIGDIR.get();
         init();
 
         packet = new ForgePacketSender();

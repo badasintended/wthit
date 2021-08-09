@@ -9,7 +9,7 @@ import org.jetbrains.annotations.ApiStatus;
 
 @ApiStatus.Internal
 @SuppressWarnings("unchecked")
-public final class ImplFactory {
+public final class Impl {
 
     private static final Map<Class<?>, Object> MAP = new HashMap<>();
 

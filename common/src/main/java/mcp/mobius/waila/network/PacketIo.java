@@ -30,6 +30,17 @@ public abstract class PacketIo<I, O> {
         }
     };
 
+    public static final PacketIo<Void, Void> GenerateClientDump = new PacketIo<>() {
+        @Override
+        public void write(FriendlyByteBuf buf, Void unused) {
+        }
+
+        @Override
+        protected Void apply(FriendlyByteBuf buf) {
+            return null;
+        }
+    };
+
     public static final PacketIo<Entity, Integer> RequestEntity = new PacketIo<>() {
         @Override
         public void write(FriendlyByteBuf buf, Entity entity) {

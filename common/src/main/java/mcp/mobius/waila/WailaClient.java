@@ -11,7 +11,7 @@ import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.gui.screen.HomeConfigScreen;
 import mcp.mobius.waila.hud.ClientTickHandler;
-import mcp.mobius.waila.impl.ImplFactory;
+import mcp.mobius.waila.impl.Impl;
 import mcp.mobius.waila.util.CommonUtil;
 import mcp.mobius.waila.util.DrawableText;
 import net.minecraft.client.KeyMapping;
@@ -90,7 +90,7 @@ public abstract class WailaClient {
     }
 
     static {
-        ImplFactory.reg(IDrawableText.class, DrawableText::new);
+        Impl.reg(IDrawableText.class, DrawableText::new);
     }
 
 }

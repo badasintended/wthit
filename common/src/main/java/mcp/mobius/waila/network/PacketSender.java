@@ -15,6 +15,8 @@ public abstract class PacketSender {
 
     public abstract void sendConfig(PluginConfig config, ServerPlayer player);
 
+    public abstract void generateClientDump(ServerPlayer player);
+
     public abstract boolean isServerAvailable();
 
     public abstract void requestEntity(Entity entity);

@@ -1,7 +1,7 @@
 package mcp.mobius.waila.forge;
 
 import mcp.mobius.waila.api.WailaPlugin;
-import mcp.mobius.waila.util.PluginLoader;
+import mcp.mobius.waila.plugin.PluginLoader;
 import net.minecraftforge.fml.ModList;
 
 public class ForgePluginLoader extends PluginLoader {

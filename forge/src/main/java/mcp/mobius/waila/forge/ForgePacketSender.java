@@ -20,6 +20,7 @@ import net.minecraftforge.fmllegacy.network.NetworkRegistry;
 import net.minecraftforge.fmllegacy.network.PacketDistributor;
 import net.minecraftforge.fmllegacy.network.simple.SimpleChannel;
 
+import static mcp.mobius.waila.network.PacketIo.GenerateClientDump;
 import static mcp.mobius.waila.network.PacketIo.ReceiveData;
 import static mcp.mobius.waila.network.PacketIo.RequestBlock;
 import static mcp.mobius.waila.network.PacketIo.RequestEntity;
@@ -33,6 +34,7 @@ public class ForgePacketSender extends PacketSender {
         () -> PROTOCOL, p -> true, p -> true
     );
 
+    @SuppressWarnings({"ConstantConditions", "UnusedAssignment"})
     @Override
     public void initMain() {
         int i = 0;
@@ -43,6 +45,14 @@ public class ForgePacketSender extends PacketSender {
             (     buf) -> ReceiveData.apply(buf, ReceiveData::new),
             (msg, ctx) -> {
                 ctx.get().enqueueWork(() -> PacketExecutor.receiveData(msg.tag));
+                ctx.get().setPacketHandled(true);
+            });
+
+        NETWORK.registerMessage(i++, GenerateClientDump.class,
+            (msg, buf) -> GenerateClientDump.write(buf, null),
+            (     buf) -> GenerateClientDump.apply(buf, unused -> new GenerateClientDump()),
+            (msg, ctx) -> {
+                ctx.get().enqueueWork(PacketExecutor::generateClientDump);
                 ctx.get().setPacketHandled(true);
             });
 
@@ -87,7 +97,13 @@ public class ForgePacketSender extends PacketSender {
     }
 
     @Override
+    public void generateClientDump(ServerPlayer player) {
+        NETWORK.send(PacketDistributor.PLAYER.with(() -> player), new GenerateClientDump());
+    }
+
+    @Override
     @OnlyIn(Dist.CLIENT)
+    @SuppressWarnings("ConstantConditions")
     public boolean isServerAvailable() {
         return NETWORK.isRemotePresent(Minecraft.getInstance().getConnection().getConnection());
     }
@@ -116,6 +132,10 @@ public class ForgePacketSender extends PacketSender {
         SendConfig(PluginConfig config) {
             this.config = config;
         }
+
+    }
+
+    public static class GenerateClientDump {
 
     }
 

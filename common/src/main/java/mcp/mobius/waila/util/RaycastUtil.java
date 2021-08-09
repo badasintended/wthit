@@ -15,7 +15,7 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
-public class RaycastUtil {
+public final class RaycastUtil {
 
     private static final HitResult MISS = new HitResult(Vec3.ZERO) {
         @Override
@@ -24,6 +24,7 @@ public class RaycastUtil {
         }
     };
 
+    @SuppressWarnings("ConstantConditions")
     public static HitResult fire() {
         Minecraft client = Minecraft.getInstance();
         Entity camera = client.getCameraEntity();

@@ -21,8 +21,6 @@
   "key.waila.show_overlay"                                : "显示覆盖",
   "key.waila.toggle_liquid"                               : "切换流体",
 
-  "command.waila.dump_success"                            : "Dumped 所有句柄到 waila_handlers.md",
-
   "config.waila.general"                                  : "通用",
   "config.waila.display_tooltip"                          : "显示提示",
   "config.waila.display_tooltip_desc"                     : "收集数据并显示工具提示",

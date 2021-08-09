@@ -1,6 +1,6 @@
 package mcp.mobius.waila.api;
 
-import mcp.mobius.waila.impl.ImplFactory;
+import mcp.mobius.waila.impl.Impl;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -16,7 +16,7 @@ public interface IModInfo {
     String getName();
 
     static IModInfo get(String namespace) {
-        return ImplFactory.get(IModInfo.class, namespace);
+        return Impl.get(IModInfo.class, namespace);
     }
 
     static IModInfo get(ResourceLocation id) {

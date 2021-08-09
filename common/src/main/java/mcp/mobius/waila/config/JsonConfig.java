@@ -14,7 +14,6 @@ import java.util.function.ToIntFunction;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.util.CommonUtil;
 
@@ -161,7 +160,7 @@ public class JsonConfig<T> implements IJsonConfig<T> {
 
         @Override
         public Builder1<T> file(String fileName) {
-            this.path = Waila.configDir.resolve(fileName + (fileName.endsWith(".json") ? "" : ".json"));
+            this.path = CommonUtil.configDir.resolve(fileName + (fileName.endsWith(".json") ? "" : ".json"));
             return this;
         }
 

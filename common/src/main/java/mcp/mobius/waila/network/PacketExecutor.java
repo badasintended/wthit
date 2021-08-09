@@ -1,16 +1,20 @@
 package mcp.mobius.waila.network;
 
+import java.nio.file.Path;
 import java.util.Map;
 import java.util.function.Consumer;
 
 import com.google.gson.Gson;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.data.DataAccessor;
+import mcp.mobius.waila.debug.DumpGenerator;
 import mcp.mobius.waila.registry.TooltipRegistrar;
 import mcp.mobius.waila.util.CommonUtil;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -21,6 +25,14 @@ import net.minecraft.world.level.block.state.BlockState;
 public class PacketExecutor {
 
     private static final Gson GSON = new Gson();
+
+    @SuppressWarnings("ConstantConditions")
+    public static void generateClientDump() {
+        Path path = CommonUtil.gameDir.resolve(".waila/WailaClientDump.md");
+        if (DumpGenerator.generate(path)) {
+            Minecraft.getInstance().player.displayClientMessage(new TranslatableComponent("command.waila.client_dump_success", path), false);
+        }
+    }
 
     public static void receiveData(CompoundTag tag) {
         DataAccessor.INSTANCE.setServerData(tag);
@@ -52,6 +64,7 @@ public class PacketExecutor {
     public static void requestBlockEntity(ServerPlayer player, BlockPos pos, Consumer<CompoundTag> consumer) {
         TooltipRegistrar registrar = TooltipRegistrar.INSTANCE;
         Level world = player.level;
+        //noinspection deprecation
         if (!world.hasChunkAt(pos))
             return;
 
@@ -70,6 +83,7 @@ public class PacketExecutor {
         tag.putInt("x", pos.getX());
         tag.putInt("y", pos.getY());
         tag.putInt("z", pos.getZ());
+        //noinspection ConstantConditions
         tag.putString("id", Registry.BLOCK_ENTITY_TYPE.getKey(blockEntity.getType()).toString());
 
         consumer.accept(tag);

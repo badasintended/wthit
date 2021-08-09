@@ -4,7 +4,7 @@ import java.awt.Dimension;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.api.internal.ApiSide;
-import mcp.mobius.waila.impl.ImplFactory;
+import mcp.mobius.waila.impl.Impl;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -29,7 +29,7 @@ public interface IDrawableText extends MutableComponent {
      * Create an empty drawable.
      */
     static IDrawableText create() {
-        return ImplFactory.get(IDrawableText.class);
+        return Impl.get(IDrawableText.class);
     }
 
     /**

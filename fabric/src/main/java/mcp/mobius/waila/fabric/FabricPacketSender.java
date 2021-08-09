@@ -13,6 +13,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
+import static mcp.mobius.waila.network.PacketIo.GenerateClientDump;
 import static mcp.mobius.waila.network.PacketIo.ReceiveData;
 import static mcp.mobius.waila.network.PacketIo.RequestBlock;
 import static mcp.mobius.waila.network.PacketIo.RequestEntity;
@@ -24,35 +25,45 @@ public class FabricPacketSender extends PacketSender {
     static final ResourceLocation REQUEST_BLOCK = CommonUtil.id("request_tile");
     static final ResourceLocation RECEIVE_DATA = CommonUtil.id("receive_data");
     static final ResourceLocation SEND_CONFIG = CommonUtil.id("send_config");
+    static final ResourceLocation GENERATE_CLIENT_DUMP = CommonUtil.id("generate_client_dump");
 
     @Override
     public void initMain() {
-        ServerPlayNetworking.registerGlobalReceiver(REQUEST_ENTITY, (server, player, handler, buf, sender) ->
+        ServerPlayNetworking.registerGlobalReceiver(REQUEST_ENTITY, (server, player, handler, buf, response) ->
             RequestEntity.consume(buf, entityId ->
                 server.execute(() -> PacketExecutor.requestEntity(player, entityId, tag ->
-                    sender.sendPacket(RECEIVE_DATA, ReceiveData.create(tag))))));
+                    response.sendPacket(RECEIVE_DATA, ReceiveData.create(tag))))));
 
-        ServerPlayNetworking.registerGlobalReceiver(REQUEST_BLOCK, (server, player, handler, buf, sender) ->
+        ServerPlayNetworking.registerGlobalReceiver(REQUEST_BLOCK, (server, player, handler, buf, response) ->
             RequestBlock.consume(buf, pos ->
                 server.execute(() -> PacketExecutor.requestBlockEntity(player, pos, tag ->
-                    sender.sendPacket(RECEIVE_DATA, ReceiveData.create(tag))))));
+                    response.sendPacket(RECEIVE_DATA, ReceiveData.create(tag))))));
     }
 
     @Override
     @Environment(EnvType.CLIENT)
     public void initClient() {
-        ClientPlayNetworking.registerGlobalReceiver(RECEIVE_DATA, (client, handler, buf, responseSender) ->
+        ClientPlayNetworking.registerGlobalReceiver(RECEIVE_DATA, (client, handler, buf, response) ->
             ReceiveData.consume(buf, tag ->
                 client.execute(() -> PacketExecutor.receiveData(tag))));
 
-        ClientPlayNetworking.registerGlobalReceiver(SEND_CONFIG, (client, handler, buf, responseSender) ->
+        ClientPlayNetworking.registerGlobalReceiver(SEND_CONFIG, (client, handler, buf, response) ->
             SendConfig.consume(buf, map ->
                 client.execute(() -> PacketExecutor.sendConfig(map))));
+
+        ClientPlayNetworking.registerGlobalReceiver(GENERATE_CLIENT_DUMP, (client, handler, buf, response) ->
+            GenerateClientDump.consume(buf, unused ->
+                client.execute(PacketExecutor::generateClientDump)));
     }
 
     @Override
     public void sendConfig(PluginConfig config, ServerPlayer player) {
         ServerPlayNetworking.send(player, SEND_CONFIG, SendConfig.create(config));
+    }
+
+    @Override
+    public void generateClientDump(ServerPlayer player) {
+        ServerPlayNetworking.send(player, GENERATE_CLIENT_DUMP, GenerateClientDump.create(null));
     }
 
     @Override

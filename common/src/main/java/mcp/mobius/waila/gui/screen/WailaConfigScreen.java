@@ -1,19 +1,12 @@
 package mcp.mobius.waila.gui.screen;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.config.WailaConfig;
-import mcp.mobius.waila.debug.DumpGenerator;
 import mcp.mobius.waila.gui.widget.ConfigListWidget;
 import mcp.mobius.waila.gui.widget.value.InputValue;
-import net.minecraft.client.gui.components.toasts.SystemToast;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 
@@ -36,6 +29,7 @@ public class WailaConfigScreen extends ConfigScreen {
     }
 
     @Override
+    @SuppressWarnings("ConstantConditions")
     public ConfigListWidget getOptions() {
         return new ConfigListWidget(this, minecraft, width, height, 32, height - 32, 30, WailaConfigScreen::save)
             .withButton("config.waila.general", 100, 20, w -> minecraft.setScreen(new ConfigScreen(this, new TranslatableComponent("config.waila.general")) {
@@ -137,16 +131,7 @@ public class WailaConfigScreen extends ConfigScreen {
                             get().getFormatting().getRegistryName(),
                             val -> get().getFormatting().setRegistryName(val.isEmpty() || !val.contains("%s") ? get().getFormatting().getRegistryName() : val));
                 }
-            }))
-            .withButton("config.waila.dump", 100, 20, w -> {
-                File file = new File("waila_dump.md");
-                try (FileWriter writer = new FileWriter(file)) {
-                    writer.write(DumpGenerator.generateInfoDump());
-                    SystemToast.addOrUpdate(minecraft.getToasts(), SystemToast.SystemToastIds.WORLD_BACKUP, new TranslatableComponent("command.waila.dump_success"), TextComponent.EMPTY);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
+            }));
     }
 
 }
