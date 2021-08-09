@@ -14,17 +14,25 @@ dependencies {
 }
 
 sourceSets {
+    val main by getting
     val api by creating
+    val impl by creating
+    val util by creating
+    val pluginCore by creating
+    val pluginVanilla by creating
 
-    main {
-        compileClasspath += api.output
-        runtimeClasspath += api.output
+    listOf(api, impl, util, pluginCore, pluginVanilla).applyEach {
+        compileClasspath += main.compileClasspath
     }
-}
-
-configurations {
-    val compileClasspath by getting
-    get("apiImplementation").extendsFrom(compileClasspath)
+    listOf(api, main).applyEach {
+        compileClasspath += impl.output
+    }
+    listOf(main, util, pluginCore, pluginVanilla).applyEach {
+        compileClasspath += api.output
+    }
+    listOf(main, pluginCore, pluginVanilla).applyEach {
+        compileClasspath += util.output
+    }
 }
 
 tasks.remapJar {

@@ -5,6 +5,7 @@ import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.command.DumpCommand;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.debug.DumpGenerator;
+import mcp.mobius.waila.util.CommonUtil;
 import mcp.mobius.waila.util.ModInfo;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.BlockTags;
@@ -31,8 +32,8 @@ public class ForgeWaila extends Waila {
     static void setup(FMLCommonSetupEvent event) {
         clientSide = FMLLoader.getDist() == Dist.CLIENT;
 
-        blockBlacklist = BlockTags.createOptional(id("blacklist"));
-        entityBlacklist = EntityTypeTags.createOptional(id("blacklist"));
+        blockBlacklist = BlockTags.createOptional(CommonUtil.id("blacklist"));
+        entityBlacklist = EntityTypeTags.createOptional(CommonUtil.id("blacklist"));
 
         configDir = FMLPaths.CONFIGDIR.get();
         init();

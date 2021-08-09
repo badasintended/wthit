@@ -22,7 +22,7 @@ public enum EntityComponent implements IEntityComponentProvider {
     @Override
     public void appendHead(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
         Entity entity = accessor.getEntity();
-        IWailaConfig.Formatting formatting = IWailaConfig.getInstance().getFormatting();
+        IWailaConfig.Formatting formatting = IWailaConfig.get().getFormatting();
         tooltip.set(WailaConstants.OBJECT_NAME_TAG, new TextComponent(String.format(formatting.getEntityName(), entity.getDisplayName().getString())));
         if (config.get(WailaConstants.CONFIG_SHOW_REGISTRY))
             tooltip.set(WailaConstants.REGISTRY_NAME_TAG, new TextComponent(String.format(formatting.getRegistryName(), Registry.ENTITY_TYPE.getKey(entity.getType()))));
@@ -34,7 +34,7 @@ public enum EntityComponent implements IEntityComponentProvider {
             float health = living.getHealth();
             float maxHealth = living.getMaxHealth();
 
-            if (living.getMaxHealth() > IWailaConfig.getInstance().getGeneral().getMaxHealthForRender())
+            if (living.getMaxHealth() > IWailaConfig.get().getGeneral().getMaxHealthForRender())
                 tooltip.add(new TranslatableComponent("tooltip.waila.health", String.format("%.2f", health), String.format("%.2f", maxHealth)));
             else {
                 CompoundTag healthData = new CompoundTag();
@@ -48,7 +48,7 @@ public enum EntityComponent implements IEntityComponentProvider {
     @Override
     public void appendTail(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
         if (config.get(WailaConstants.CONFIG_SHOW_MOD_NAME))
-            tooltip.set(WailaConstants.MOD_NAME_TAG, new TextComponent(String.format(IWailaConfig.getInstance().getFormatting().getModName(), IModInfo.get(accessor.getEntity()).getName())));
+            tooltip.set(WailaConstants.MOD_NAME_TAG, new TextComponent(String.format(IWailaConfig.get().getFormatting().getModName(), IModInfo.get(accessor.getEntity()).getName())));
     }
 
 }

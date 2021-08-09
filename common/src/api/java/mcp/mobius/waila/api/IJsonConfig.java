@@ -18,8 +18,9 @@ import org.jetbrains.annotations.ApiStatus;
 @ApiStatus.NonExtendable
 public interface IJsonConfig<T> {
 
+    @SuppressWarnings("unchecked")
     static <T> Builder0<T> of(Class<T> clazz) {
-        return ImplFactory.getInstance().createJsonConfigBuilder(clazz);
+        return ImplFactory.get(IJsonConfig.Builder0.class, clazz);
     }
 
     /**

@@ -29,7 +29,7 @@ public interface IDrawableText extends MutableComponent {
      * Create an empty drawable.
      */
     static IDrawableText create() {
-        return ImplFactory.getInstance().createDrawableText();
+        return ImplFactory.get(IDrawableText.class);
     }
 
     /**

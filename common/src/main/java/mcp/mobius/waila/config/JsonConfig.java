@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IJsonConfig;
+import mcp.mobius.waila.util.CommonUtil;
 
 public class JsonConfig<T> implements IJsonConfig<T> {
 
@@ -43,7 +44,7 @@ public class JsonConfig<T> implements IJsonConfig<T> {
                     try {
                         Files.createDirectories(parent);
                     } catch (IOException e) {
-                        Waila.LOGGER.error("Failed to make directory " + parent, e);
+                        CommonUtil.LOGGER.error("Failed to make directory " + parent, e);
                     }
                 }
                 config = factory.get();
@@ -53,7 +54,7 @@ public class JsonConfig<T> implements IJsonConfig<T> {
                     int version = versionGetter.applyAsInt(config);
                     if (version != currentVersion) {
                         Path old = Paths.get(this.path + "_old");
-                        Waila.LOGGER.warn("Config file "
+                        CommonUtil.LOGGER.warn("Config file "
                             + this.path
                             + " contains different version ("
                             + version
@@ -69,7 +70,7 @@ public class JsonConfig<T> implements IJsonConfig<T> {
                     }
                 } catch (Exception e) {
                     Path old = Paths.get(this.path + "_old");
-                    Waila.LOGGER.error("Exception when reading config file "
+                    CommonUtil.LOGGER.error("Exception when reading config file "
                         + this.path
                         + ", this config will be reset. Old config will be placed at "
                         + old, e);
@@ -77,7 +78,7 @@ public class JsonConfig<T> implements IJsonConfig<T> {
                         Files.deleteIfExists(old);
                         Files.copy(this.path, old);
                     } catch (IOException e1) {
-                        Waila.LOGGER.error("well this is embarrassing...", e1);
+                        CommonUtil.LOGGER.error("well this is embarrassing...", e1);
                     }
                     config = factory.get();
                 }
@@ -140,6 +141,10 @@ public class JsonConfig<T> implements IJsonConfig<T> {
                     throw new RuntimeException("Failed to create new config instance", e);
                 }
             };
+        }
+
+        public static <T> Builder<T> create(Class<T> clazz) {
+            return new Builder<>(clazz);
         }
 
         @Override

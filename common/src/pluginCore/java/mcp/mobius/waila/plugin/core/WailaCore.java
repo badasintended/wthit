@@ -1,10 +1,10 @@
 package mcp.mobius.waila.plugin.core;
 
-import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.plugin.core.renderer.HealthRenderer;
+import mcp.mobius.waila.util.CommonUtil;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -19,11 +19,11 @@ import static mcp.mobius.waila.api.TooltipPosition.TAIL;
 public class WailaCore implements IWailaPlugin {
 
     // @formatter:off
-    static final ResourceLocation RENDER_ENTITY_HEALTH = Waila.id("render_health");
+    static final ResourceLocation RENDER_ENTITY_HEALTH = CommonUtil.id("render_health");
 
-    static final ResourceLocation CONFIG_SHOW_ENTITY_HEALTH = Waila.id("show_entity_hp");
-    static final ResourceLocation CONFIG_SHOW_STATES        = Waila.id("show_states");
-    static final ResourceLocation CONFIG_SHOW_POS           = Waila.id("show_pos");
+    static final ResourceLocation CONFIG_SHOW_ENTITY_HEALTH = CommonUtil.id("show_entity_hp");
+    static final ResourceLocation CONFIG_SHOW_STATES        = CommonUtil.id("show_states");
+    static final ResourceLocation CONFIG_SHOW_POS           = CommonUtil.id("show_pos");
     // @formatter:on
 
     @Override

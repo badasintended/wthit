@@ -4,6 +4,7 @@ import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.command.DumpCommand;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.debug.DumpGenerator;
+import mcp.mobius.waila.util.CommonUtil;
 import mcp.mobius.waila.util.ModInfo;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
@@ -19,8 +20,8 @@ public class FabricWaila extends Waila implements ModInitializer {
     public void onInitialize() {
         clientSide = FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT;
 
-        blockBlacklist = TagRegistry.block(id("blacklist"));
-        entityBlacklist = TagRegistry.entityType(id("blacklist"));
+        blockBlacklist = TagRegistry.block(CommonUtil.id("blacklist"));
+        entityBlacklist = TagRegistry.entityType(CommonUtil.id("blacklist"));
 
         configDir = FabricLoader.getInstance().getConfigDir();
         init();

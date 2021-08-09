@@ -8,8 +8,8 @@ import org.jetbrains.annotations.ApiStatus;
 @ApiStatus.NonExtendable
 public interface IWailaConfig {
 
-    static IWailaConfig getInstance() {
-        return ImplFactory.getInstance().getConfig();
+    static IWailaConfig get() {
+        return ImplFactory.get(IWailaConfig.class);
     }
 
     General getGeneral();

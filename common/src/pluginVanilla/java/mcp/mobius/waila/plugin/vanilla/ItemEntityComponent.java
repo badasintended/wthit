@@ -22,7 +22,7 @@ public enum ItemEntityComponent implements IEntityComponentProvider {
     @Override
     public void appendHead(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
         String name = ((ItemEntity) accessor.getEntity()).getItem().getHoverName().getString();
-        tooltip.set(WailaConstants.OBJECT_NAME_TAG, new TextComponent(String.format(IWailaConfig.getInstance().getFormatting().getEntityName(), name)));
+        tooltip.set(WailaConstants.OBJECT_NAME_TAG, new TextComponent(String.format(IWailaConfig.get().getFormatting().getEntityName(), name)));
     }
 
 }

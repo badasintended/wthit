@@ -16,7 +16,7 @@ public interface IModInfo {
     String getName();
 
     static IModInfo get(String namespace) {
-        return ImplFactory.getInstance().getModInfo(namespace);
+        return ImplFactory.get(IModInfo.class, namespace);
     }
 
     static IModInfo get(ResourceLocation id) {

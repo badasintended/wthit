@@ -3,6 +3,7 @@ package mcp.mobius.waila;
 import java.util.List;
 import java.util.function.BiFunction;
 
+import mcp.mobius.waila.api.IDrawableText;
 import mcp.mobius.waila.api.IModInfo;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
@@ -10,6 +11,9 @@ import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.gui.screen.HomeConfigScreen;
 import mcp.mobius.waila.hud.ClientTickHandler;
+import mcp.mobius.waila.impl.ImplFactory;
+import mcp.mobius.waila.util.CommonUtil;
+import mcp.mobius.waila.util.DrawableText;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
@@ -40,7 +44,7 @@ public abstract class WailaClient {
 
     protected static void onJoinServer() {
         if (!Waila.packet.isServerAvailable()) {
-            Waila.LOGGER.warn("WTHIT is not found on the server, all syncable config will reset to their default value.");
+            CommonUtil.LOGGER.warn("WTHIT is not found on the server, all syncable config will reset to their default value.");
             PluginConfig.INSTANCE.getSyncableConfigs().forEach(config ->
                 config.setValue(config.getDefaultValue()));
         }
@@ -79,10 +83,14 @@ public abstract class WailaClient {
     protected static void onItemTooltip(ItemStack stack, List<Component> tooltip) {
         if (PluginConfig.INSTANCE.get(WailaConstants.CONFIG_SHOW_MOD_NAME)) {
             tooltip.add(new TextComponent(String.format(
-                IWailaConfig.getInstance().getFormatting().getModName(),
+                IWailaConfig.get().getFormatting().getModName(),
                 IModInfo.get(stack.getItem()).getName()
             )));
         }
+    }
+
+    static {
+        ImplFactory.reg(IDrawableText.class, DrawableText::new);
     }
 
 }

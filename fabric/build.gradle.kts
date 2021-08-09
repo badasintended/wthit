@@ -4,8 +4,8 @@ plugins {
 }
 
 repositories {
-    maven("https://bai.jfrog.io/artifactory/maven")
-    maven("https://maven.architectury.dev")
+    maven("https://maven.bai.lol")
+    maven("https://maven.shedaniel.me")
 }
 
 sourceSets {

@@ -5,10 +5,11 @@ import net.minecraft.resources.ResourceLocation;
 public class WailaConstants {
 
     // @formatter:off
-    public static final String WAILA    = "waila";
-    public static final String WTHIT    = "wthit";
-    public static final String MOD_ID   = WTHIT;
-    public static final String MOD_NAME = "WTHIT";
+    public static final String WAILA     = "waila";
+    public static final String WTHIT     = "wthit";
+    public static final String NAMESPACE = WAILA;
+    public static final String MOD_ID    = WTHIT;
+    public static final String MOD_NAME  = "WTHIT";
 
     // Used for validating config.
     public static final int CONFIG_VERSION = 1;
@@ -29,7 +30,7 @@ public class WailaConstants {
     // @formatter:on
 
     private static ResourceLocation id(String path) {
-        return new ResourceLocation(WAILA, path);
+        return new ResourceLocation(NAMESPACE, path);
     }
 
 }

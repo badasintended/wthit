@@ -8,8 +8,8 @@ import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.TooltipPosition;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.data.DataAccessor;
-import mcp.mobius.waila.debug.ExceptionHandler;
 import mcp.mobius.waila.registry.TooltipRegistrar;
+import mcp.mobius.waila.util.ExceptionUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
@@ -65,7 +65,7 @@ public class ComponentHandler {
                     }
                 }
             } catch (Throwable e) {
-                ExceptionHandler.handleErr(e, provider.getClass().toString(), tooltip);
+                ExceptionUtil.dump(e, provider.getClass().toString(), tooltip);
             }
         }
     }
@@ -102,7 +102,7 @@ public class ComponentHandler {
                     }
                 }
             } catch (Throwable e) {
-                ExceptionHandler.handleErr(e, provider.getClass().toString(), tooltip);
+                ExceptionUtil.dump(e, provider.getClass().toString(), tooltip);
             }
         }
     }

@@ -4,10 +4,10 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 import com.google.gson.Gson;
-import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.data.DataAccessor;
 import mcp.mobius.waila.registry.TooltipRegistrar;
+import mcp.mobius.waila.util.CommonUtil;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
@@ -29,7 +29,7 @@ public class PacketExecutor {
     public static void sendConfig(Map<ResourceLocation, Boolean> map) {
         PluginConfig.INSTANCE.getSyncableConfigs().forEach(config ->
             config.setValue(map.getOrDefault(config.getId(), config.getDefaultValue())));
-        Waila.LOGGER.info("Received config from the server: {}", GSON.toJson(map));
+        CommonUtil.LOGGER.info("Received config from the server: {}", GSON.toJson(map));
     }
 
     public static void requestEntity(ServerPlayer player, int entityId, Consumer<CompoundTag> consumer) {

@@ -25,7 +25,7 @@ public enum PluginConfig implements IPluginConfig {
 
     INSTANCE;
 
-    static final Path PATH = Waila.configDir.resolve(WailaConstants.WAILA + "/" + WailaConstants.WAILA + "_plugins.json");
+    static final Path PATH = Waila.configDir.resolve(WailaConstants.NAMESPACE + "/" + WailaConstants.WAILA + "_plugins.json");
     static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
     private final Map<ResourceLocation, ConfigEntry> configs = new HashMap<>();
@@ -58,7 +58,7 @@ public enum PluginConfig implements IPluginConfig {
         return configs.keySet().stream()
             .map(ResourceLocation::getNamespace)
             .distinct()
-            .sorted((o1, o2) -> o1.equals(WailaConstants.WAILA) ? -1 : o2.equals(WailaConstants.WAILA) ? 1 : o1.compareToIgnoreCase(o2))
+            .sorted((o1, o2) -> o1.equals(WailaConstants.NAMESPACE) ? -1 : o2.equals(WailaConstants.NAMESPACE) ? 1 : o1.compareToIgnoreCase(o2))
             .collect(Collectors.toList());
     }
 

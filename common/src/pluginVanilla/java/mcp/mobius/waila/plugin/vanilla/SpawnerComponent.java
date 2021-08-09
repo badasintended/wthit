@@ -20,7 +20,7 @@ public enum SpawnerComponent implements IBlockComponentProvider {
             SpawnerBlockEntity spawner = (SpawnerBlockEntity) accessor.getBlockEntity();
             Entity entity = spawner != null ? spawner.getSpawner().getOrCreateDisplayEntity(accessor.getWorld()) : null;
             if (entity != null) {
-                String formatting = IWailaConfig.getInstance().getFormatting().getBlockName();
+                String formatting = IWailaConfig.get().getFormatting().getBlockName();
                 tooltip.set(WailaConstants.OBJECT_NAME_TAG, new TextComponent(String.format(formatting,
                     accessor.getBlock().getName().getString() + " (" + entity.getDisplayName().getString() + ")")));
             }

@@ -3,7 +3,7 @@ package mcp.mobius.waila.fabric;
 import java.util.Set;
 
 import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
-import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.util.CommonUtil;
 import mcp.mobius.waila.util.PluginLoader;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
@@ -32,7 +32,7 @@ public class FabricPluginLoader extends PluginLoader {
             } else if (val.getType() == ARRAY) {
                 val.getAsArray().forEach(o -> plugins.add(o.getAsObject()));
             } else {
-                Waila.LOGGER.error("Plugin data provided by {} must be an object or array of objects.", data.getId());
+                CommonUtil.LOGGER.error("Plugin data provided by {} must be an object or array of objects.", data.getId());
             }
         }
 

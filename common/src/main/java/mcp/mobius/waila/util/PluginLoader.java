@@ -5,10 +5,8 @@ import java.util.Map;
 
 import com.google.common.collect.Lists;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.config.PluginConfig;
-import mcp.mobius.waila.plugin.core.WailaCore;
 import mcp.mobius.waila.registry.TooltipRegistrar;
 
 public abstract class PluginLoader {
@@ -23,9 +21,6 @@ public abstract class PluginLoader {
 
         List<IWailaPlugin> sorted = Lists.newArrayList(PLUGINS.values());
         sorted.sort((o1, o2) -> {
-            if (o1.getClass() == WailaCore.class)
-                return -1;
-
             // Don't move waila classes when compared to eachother
             if (isWailaClass(o1) && isWailaClass(o2))
                 return 0;
@@ -38,7 +33,7 @@ public abstract class PluginLoader {
         });
 
         sorted.forEach(p -> {
-            Waila.LOGGER.info("Registering plugin at {}", p.getClass().getCanonicalName());
+            CommonUtil.LOGGER.info("Registering plugin at {}", p.getClass().getCanonicalName());
             p.register(TooltipRegistrar.INSTANCE);
         });
 
@@ -50,9 +45,9 @@ public abstract class PluginLoader {
         try {
             IWailaPlugin plugin = (IWailaPlugin) Class.forName(initializer).getConstructor().newInstance();
             PLUGINS.put(id, plugin);
-            Waila.LOGGER.info("Discovered plugin {} at {}", id, plugin.getClass().getCanonicalName());
+            CommonUtil.LOGGER.info("Discovered plugin {} at {}", id, plugin.getClass().getCanonicalName());
         } catch (Exception e) {
-            Waila.LOGGER.error("Error creating instance of plugin {}", id);
+            CommonUtil.LOGGER.error("Error creating instance of plugin {}", id);
         }
     }
 

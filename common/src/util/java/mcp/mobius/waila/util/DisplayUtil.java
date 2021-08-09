@@ -5,7 +5,6 @@ import java.text.DecimalFormat;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
-import mcp.mobius.waila.debug.ExceptionHandler;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.renderer.GameRenderer;
@@ -38,7 +37,7 @@ public final class DisplayUtil extends GuiComponent {
             CLIENT.getItemRenderer().renderGuiItemDecorations(CLIENT.font, stack, x, y, countText);
         } catch (Exception e) {
             String stackStr = stack != null ? stack.toString() : "NullStack";
-            ExceptionHandler.handleErr(e, "renderStack | " + stackStr, null);
+            ExceptionUtil.dump(e, "renderStack | " + stackStr, null);
         }
         enable2DRender();
     }

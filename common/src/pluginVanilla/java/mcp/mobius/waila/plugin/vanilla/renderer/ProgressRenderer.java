@@ -5,9 +5,9 @@ import java.util.function.Supplier;
 
 import com.google.common.base.Suppliers;
 import com.mojang.blaze3d.vertex.PoseStack;
-import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.ITooltipRenderer;
+import mcp.mobius.waila.util.CommonUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 
@@ -16,7 +16,7 @@ import static net.minecraft.client.gui.GuiComponent.blit;
 
 public class ProgressRenderer implements ITooltipRenderer {
 
-    private static final ResourceLocation SHEET = Waila.id("textures/sprites.png");
+    private static final ResourceLocation SHEET = CommonUtil.id("textures/sprites.png");
     private static final Supplier<Dimension> DIMENSION = Suppliers.memoize(() -> new Dimension(26, 16));
 
     @Override
