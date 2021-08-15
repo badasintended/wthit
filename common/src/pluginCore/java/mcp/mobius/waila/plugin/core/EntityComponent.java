@@ -24,13 +24,13 @@ public enum EntityComponent implements IEntityComponentProvider {
         Entity entity = accessor.getEntity();
         IWailaConfig.Formatting formatting = IWailaConfig.get().getFormatting();
         tooltip.set(WailaConstants.OBJECT_NAME_TAG, new TextComponent(String.format(formatting.getEntityName(), entity.getDisplayName().getString())));
-        if (config.get(WailaConstants.CONFIG_SHOW_REGISTRY))
+        if (config.getBoolean(WailaConstants.CONFIG_SHOW_REGISTRY))
             tooltip.set(WailaConstants.REGISTRY_NAME_TAG, new TextComponent(String.format(formatting.getRegistryName(), Registry.ENTITY_TYPE.getKey(entity.getType()))));
     }
 
     @Override
     public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        if (config.get(WailaCore.CONFIG_SHOW_ENTITY_HEALTH) && accessor.getEntity() instanceof LivingEntity living) {
+        if (config.getBoolean(WailaCore.CONFIG_SHOW_ENTITY_HEALTH) && accessor.getEntity() instanceof LivingEntity living) {
             float health = living.getHealth();
             float maxHealth = living.getMaxHealth();
 
@@ -47,7 +47,7 @@ public enum EntityComponent implements IEntityComponentProvider {
 
     @Override
     public void appendTail(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        if (config.get(WailaConstants.CONFIG_SHOW_MOD_NAME))
+        if (config.getBoolean(WailaConstants.CONFIG_SHOW_MOD_NAME))
             tooltip.set(WailaConstants.MOD_NAME_TAG, new TextComponent(String.format(IWailaConfig.get().getFormatting().getModName(), IModInfo.get(accessor.getEntity()).getName())));
     }
 

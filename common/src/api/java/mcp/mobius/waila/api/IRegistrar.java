@@ -25,6 +25,42 @@ public interface IRegistrar {
     void addConfig(ResourceLocation key, boolean defaultValue);
 
     /**
+     * Registers a namespaced config key to be accessed within data providers.
+     *
+     * @param key          the namespaced key
+     * @param defaultValue the default value
+     */
+    @ApiSide.ClientOnly
+    void addConfig(ResourceLocation key, int defaultValue);
+
+    /**
+     * Registers a namespaced config key to be accessed within data providers.
+     *
+     * @param key          the namespaced key
+     * @param defaultValue the default value
+     */
+    @ApiSide.ClientOnly
+    void addConfig(ResourceLocation key, double defaultValue);
+
+    /**
+     * Registers a namespaced config key to be accessed within data providers.
+     *
+     * @param key          the namespaced key
+     * @param defaultValue the default value
+     */
+    @ApiSide.ClientOnly
+    void addConfig(ResourceLocation key, String defaultValue);
+
+    /**
+     * Registers a namespaced config key to be accessed within data providers.
+     *
+     * @param key          the namespaced key
+     * @param defaultValue the default value
+     */
+    @ApiSide.ClientOnly
+    <T extends Enum<T>> void addConfig(ResourceLocation key, T defaultValue);
+
+    /**
      * Registers a namespaced config key to be accessed within data providers. These values are sent from the server to
      * the client upon connection.
      *
@@ -32,6 +68,42 @@ public interface IRegistrar {
      * @param defaultValue The default value
      */
     void addSyncedConfig(ResourceLocation key, boolean defaultValue);
+
+    /**
+     * Registers a namespaced config key to be accessed within data providers. These values are sent from the server to
+     * the client upon connection.
+     *
+     * @param key          The namespaced key
+     * @param defaultValue The default value
+     */
+    void addSyncedConfig(ResourceLocation key, int defaultValue);
+
+    /**
+     * Registers a namespaced config key to be accessed within data providers. These values are sent from the server to
+     * the client upon connection.
+     *
+     * @param key          The namespaced key
+     * @param defaultValue The default value
+     */
+    void addSyncedConfig(ResourceLocation key, double defaultValue);
+
+    /**
+     * Registers a namespaced config key to be accessed within data providers. These values are sent from the server to
+     * the client upon connection.
+     *
+     * @param key          The namespaced key
+     * @param defaultValue The default value
+     */
+    void addSyncedConfig(ResourceLocation key, String defaultValue);
+
+    /**
+     * Registers a namespaced config key to be accessed within data providers. These values are sent from the server to
+     * the client upon connection.
+     *
+     * @param key          The namespaced key
+     * @param defaultValue The default value
+     */
+    <T extends Enum<T>> void addSyncedConfig(ResourceLocation key, T defaultValue);
 
     /**
      * Registers an {@link IBlockComponentProvider} instance to allow overriding the block being displayed.

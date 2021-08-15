@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 import com.google.gson.Gson;
+import mcp.mobius.waila.config.ConfigEntry;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.data.DataAccessor;
 import mcp.mobius.waila.debug.DumpGenerator;
@@ -38,9 +39,15 @@ public class PacketExecutor {
         DataAccessor.INSTANCE.setServerData(tag);
     }
 
-    public static void sendConfig(Map<ResourceLocation, Boolean> map) {
-        PluginConfig.INSTANCE.getSyncableConfigs().forEach(config ->
-            config.setValue(map.getOrDefault(config.getId(), config.getDefaultValue())));
+    public static void sendConfig(Map<ResourceLocation, Object> map) {
+        for (ConfigEntry<Object> config : PluginConfig.INSTANCE.getSyncableConfigs()) {
+            ResourceLocation id = config.getId();
+            Object defaultValue = config.getDefaultValue();
+            Object syncedValue = defaultValue instanceof Enum<?> e
+                ? Enum.valueOf(e.getDeclaringClass(), (String) map.getOrDefault(id, e.name()))
+                : map.getOrDefault(id, defaultValue);
+            config.setValue(syncedValue);
+        }
         CommonUtil.LOGGER.info("Received config from the server: {}", GSON.toJson(map));
     }
 

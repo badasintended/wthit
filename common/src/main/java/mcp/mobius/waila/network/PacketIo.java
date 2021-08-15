@@ -65,27 +65,52 @@ public abstract class PacketIo<I, O> {
         }
     };
 
-    public static final PacketIo<PluginConfig, Map<ResourceLocation, Boolean>> SendConfig = new PacketIo<>() {
+    public static final PacketIo<PluginConfig, Map<ResourceLocation, Object>> SendConfig = new PacketIo<>() {
+        static final int BOOL = 0;
+        static final int INT = 1;
+        static final int DOUBLE = 2;
+        static final int STRING = 3;
+
         @Override
         public void write(FriendlyByteBuf buf, PluginConfig config) {
-            Set<ConfigEntry> entries = config.getSyncableConfigs();
-            buf.writeInt(entries.size());
-            entries.forEach(e -> {
-                buf.writeInt(e.getId().toString().length());
-                buf.writeUtf(e.getId().toString());
-                buf.writeBoolean(e.getValue());
-            });
+            Set<ConfigEntry<Object>> entries = config.getSyncableConfigs();
+            buf.writeVarInt(entries.size());
+            for (ConfigEntry<Object> e : entries) {
+                buf.writeResourceLocation(e.getId());
+
+                Object v = e.getValue();
+                if (v instanceof Boolean z) {
+                    buf.writeVarInt(BOOL);
+                    buf.writeBoolean(z);
+                } else if (v instanceof Integer i) {
+                    buf.writeVarInt(INT);
+                    buf.writeVarInt(i);
+                } else if (v instanceof Double d) {
+                    buf.writeVarInt(DOUBLE);
+                    buf.writeDouble(d);
+                } else if (v instanceof String str) {
+                    buf.writeVarInt(STRING);
+                    buf.writeUtf(str);
+                } else if (v instanceof Enum<?> en) {
+                    buf.writeVarInt(STRING);
+                    buf.writeUtf(en.name());
+                }
+            }
         }
 
         @Override
-        protected Map<ResourceLocation, Boolean> apply(FriendlyByteBuf buf) {
-            int size = buf.readInt();
-            Map<ResourceLocation, Boolean> map = new HashMap<>();
+        protected Map<ResourceLocation, Object> apply(FriendlyByteBuf buf) {
+            int size = buf.readVarInt();
+            Map<ResourceLocation, Object> map = new HashMap<>();
             for (int j = 0; j < size; j++) {
-                int idLength = buf.readInt();
-                ResourceLocation id = new ResourceLocation(buf.readUtf(idLength));
-                boolean value = buf.readBoolean();
-                map.put(id, value);
+                ResourceLocation id = buf.readResourceLocation();
+                int type = buf.readVarInt();
+                switch (type) {
+                    case BOOL -> map.put(id, buf.readBoolean());
+                    case INT -> map.put(id, buf.readVarInt());
+                    case DOUBLE -> map.put(id, buf.readDouble());
+                    case STRING -> map.put(id, buf.readUtf());
+                }
             }
             return map;
         }

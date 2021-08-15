@@ -21,6 +21,7 @@ import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.util.CommonUtil;
 import net.minecraft.resources.ResourceLocation;
 
+@SuppressWarnings("unchecked")
 public enum PluginConfig implements IPluginConfig {
 
     INSTANCE;
@@ -28,9 +29,9 @@ public enum PluginConfig implements IPluginConfig {
     static final Path PATH = CommonUtil.configDir.resolve(WailaConstants.NAMESPACE + "/" + WailaConstants.WAILA + "_plugins.json");
     static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
-    private final Map<ResourceLocation, ConfigEntry> configs = new HashMap<>();
+    private final Map<ResourceLocation, ConfigEntry<?>> configs = new HashMap<>();
 
-    public void addConfig(ConfigEntry entry) {
+    public void addConfig(ConfigEntry<?> entry) {
         configs.put(entry.getId(), entry);
     }
 
@@ -45,13 +46,41 @@ public enum PluginConfig implements IPluginConfig {
     }
 
     @Override
-    public boolean get(ResourceLocation key, boolean defaultValue) {
-        ConfigEntry entry = configs.get(key);
-        return entry == null ? defaultValue : entry.getValue();
+    public boolean getBoolean(ResourceLocation key) {
+        return getValue(key);
     }
 
-    public Set<ConfigEntry> getSyncableConfigs() {
-        return configs.values().stream().filter(ConfigEntry::isSynced).collect(Collectors.toSet());
+    @Override
+    public int getInt(ResourceLocation key) {
+        return getValue(key);
+    }
+
+    @Override
+    public double getDouble(ResourceLocation key) {
+        return getValue(key);
+    }
+
+    @Override
+    public String getString(ResourceLocation key) {
+        return getValue(key);
+    }
+
+    @Override
+    public <T extends Enum<T>> T getEnum(ResourceLocation key) {
+        return getValue(key);
+    }
+
+    @Override
+    public boolean get(ResourceLocation key, boolean defaultValue) {
+        ConfigEntry<?> entry = configs.get(key);
+        return entry == null ? defaultValue : (boolean) entry.getValue();
+    }
+
+    public Set<ConfigEntry<Object>> getSyncableConfigs() {
+        return configs.values().stream()
+            .filter(ConfigEntry::isSynced)
+            .map(t -> (ConfigEntry<Object>) t)
+            .collect(Collectors.toSet());
     }
 
     public List<String> getNamespaces() {
@@ -62,12 +91,12 @@ public enum PluginConfig implements IPluginConfig {
             .collect(Collectors.toList());
     }
 
-    public ConfigEntry getEntry(ResourceLocation key) {
-        return configs.get(key);
+    public <T> ConfigEntry<T> getEntry(ResourceLocation key) {
+        return (ConfigEntry<T>) configs.get(key);
     }
 
-    public void set(ResourceLocation key, boolean value) {
-        ConfigEntry entry = configs.get(key);
+    public <T> void set(ResourceLocation key, T value) {
+        ConfigEntry<T> entry = (ConfigEntry<T>) configs.get(key);
         if (entry != null) {
             entry.setValue(value);
         }
@@ -77,9 +106,9 @@ public enum PluginConfig implements IPluginConfig {
         if (!Files.exists(PATH)) { // Write defaults, but don't read
             writeConfig(true);
         } else { // Read back from config
-            Map<String, Map<String, Boolean>> config;
+            Map<String, Map<String, Object>> config;
             try (BufferedReader reader = Files.newBufferedReader(PATH, StandardCharsets.UTF_8)) {
-                config = GSON.fromJson(reader, new TypeToken<Map<String, Map<String, Boolean>>>() {
+                config = GSON.fromJson(reader, new TypeToken<Map<String, Map<String, Object>>>() {
                 }.getType());
             } catch (IOException e) {
                 config = Maps.newHashMap();
@@ -97,14 +126,26 @@ public enum PluginConfig implements IPluginConfig {
         writeConfig(false);
     }
 
+    private <T> T getValue(ResourceLocation key) {
+        return (T) configs.get(key).getValue();
+    }
+
     private void writeConfig(boolean reset) {
-        Map<String, Map<String, Boolean>> config = Maps.newHashMap();
-        configs.values().forEach(e -> {
-            Map<String, Boolean> modConfig = config.computeIfAbsent(e.getId().getNamespace(), k -> Maps.newHashMap());
-            if (reset)
-                e.setValue(e.getDefaultValue());
-            modConfig.put(e.getId().getPath(), e.getValue());
-        });
+        Map<String, Map<String, Object>> config = Maps.newHashMap();
+        for (ConfigEntry<?> e : configs.values()) {
+            ConfigEntry<Object> entry = (ConfigEntry<Object>) e;
+            Map<String, Object> modConfig = config.computeIfAbsent(entry.getId().getNamespace(), k -> new HashMap<>());
+            if (reset) {
+                entry.setValue(entry.getDefaultValue());
+            }
+
+            Object value = entry.getValue();
+            if (value instanceof Enum<?> enumValue) {
+                modConfig.put(entry.getId().getPath(), enumValue.name());
+            } else {
+                modConfig.put(entry.getId().getPath(), entry.getValue());
+            }
+        }
 
         try {
             String json = GSON.toJson(config);

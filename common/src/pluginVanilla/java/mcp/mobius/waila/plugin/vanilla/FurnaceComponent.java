@@ -24,7 +24,7 @@ public enum FurnaceComponent implements IBlockComponentProvider, IServerDataProv
 
     @Override
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
-        if (!config.get(WailaVanilla.CONFIG_DISPLAY_FURNACE))
+        if (!config.getBoolean(WailaVanilla.CONFIG_DISPLAY_FURNACE))
             return;
 
         if (!accessor.getBlockState().getValue(BlockStateProperties.LIT))

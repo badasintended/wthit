@@ -40,14 +40,14 @@ public final class RaycastUtil {
         Vec3 lookVector = camera.getViewVector(tickDelta);
         Vec3 traceEnd = eyePosition.add(lookVector.x * playerReach, lookVector.y * playerReach, lookVector.z * playerReach);
 
-        if (PluginConfig.INSTANCE.get(WailaConstants.CONFIG_SHOW_ENTITY)) {
+        if (PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_ENTITY)) {
             EntityHitResult result = ProjectileUtil.getEntityHitResult(world, camera, eyePosition, traceEnd, new AABB(eyePosition, traceEnd), EntitySelector.ENTITY_STILL_ALIVE);
             if (result != null) {
                 return result;
             }
         }
 
-        Fluid fluidView = PluginConfig.INSTANCE.get(WailaConstants.CONFIG_SHOW_FLUID)
+        Fluid fluidView = PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_FLUID)
             ? Fluid.SOURCE_ONLY
             : Fluid.NONE;
 

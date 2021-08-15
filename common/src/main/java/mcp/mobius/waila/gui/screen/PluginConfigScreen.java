@@ -27,9 +27,9 @@ public class PluginConfigScreen extends ConfigScreen {
                 public ConfigListWidget getOptions() {
                     ConfigListWidget options = new ConfigListWidget(this, minecraft, width, height, 32, height - 32, 30);
                     keys.stream().sorted((o1, o2) -> o1.getPath().compareToIgnoreCase(o2.getPath())).forEach(i -> {
-                        ConfigEntry entry = PluginConfig.INSTANCE.getEntry(i);
+                        ConfigEntry<Object> entry = PluginConfig.INSTANCE.getEntry(i);
                         if (!entry.isSynced() || Minecraft.getInstance().getCurrentServer() == null)
-                            options.withBoolean(translationKey + "." + i.getPath(), entry.getValue(), b -> PluginConfig.INSTANCE.set(i, b));
+                            options.with(entry.getFactory().accept(translationKey + "." + i.getPath(), entry.getValue(), entry::setValue));
                     });
                     return options;
                 }

@@ -71,7 +71,7 @@ public class TooltipRenderer {
 
     public static void setStack(ItemStack stack) {
         Preconditions.checkState(started);
-        TooltipRenderer.stack = PluginConfig.INSTANCE.get(WailaConstants.CONFIG_SHOW_ITEM) ? stack : ItemStack.EMPTY;
+        TooltipRenderer.stack = PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_ITEM) ? stack : ItemStack.EMPTY;
     }
 
     public static ItemStack getStack() {

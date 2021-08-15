@@ -32,7 +32,7 @@ public enum PlayerHeadComponent implements IBlockComponentProvider {
 
     @Override
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
-        if (config.get(WailaVanilla.CONFIG_PLAYER_HEAD_NAME)) {
+        if (config.getBoolean(WailaVanilla.CONFIG_PLAYER_HEAD_NAME)) {
             SkullBlockEntity skull = (SkullBlockEntity) accessor.getBlockEntity();
             if (skull != null && skull.getOwnerProfile() != null && !StringUtils.isBlank(skull.getOwnerProfile().getName()))
                 tooltip.add(new TextComponent(skull.getOwnerProfile().getName()));

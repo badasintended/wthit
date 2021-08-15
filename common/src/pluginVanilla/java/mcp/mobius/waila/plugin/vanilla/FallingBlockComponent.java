@@ -26,7 +26,7 @@ public enum FallingBlockComponent implements IEntityComponentProvider {
         FallingBlockEntity entity = (FallingBlockEntity) accessor.getEntity();
         IWailaConfig.Formatting formatting = IWailaConfig.get().getFormatting();
         tooltip.set(WailaConstants.OBJECT_NAME_TAG, new TextComponent(String.format(formatting.getEntityName(), entity.getBlockState().getBlock().getName().getContents())));
-        if (config.get(WailaConstants.CONFIG_SHOW_REGISTRY))
+        if (config.getBoolean(WailaConstants.CONFIG_SHOW_REGISTRY))
             tooltip.set(WailaConstants.REGISTRY_NAME_TAG, new TextComponent(String.format(formatting.getRegistryName(), Registry.ENTITY_TYPE.getKey(accessor.getEntity().getType()))));
     }
 

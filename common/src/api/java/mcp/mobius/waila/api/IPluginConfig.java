@@ -30,21 +30,28 @@ public interface IPluginConfig {
      */
     Set<ResourceLocation> getKeys();
 
+    boolean getBoolean(ResourceLocation key);
+
+    int getInt(ResourceLocation key);
+
+    double getDouble(ResourceLocation key);
+
+    String getString(ResourceLocation key);
+
+    <T extends Enum<T>> T getEnum(ResourceLocation key);
+
     /**
-     * @see #get(ResourceLocation, boolean)
+     * @deprecated use {@link #getBoolean(ResourceLocation)}
      */
+    @Deprecated
     default boolean get(ResourceLocation key) {
         return get(key, false);
     }
 
     /**
-     * Gets a value from the config with the provided default returned if the key is not registered.
-     *
-     * @param key          The config key
-     * @param defaultValue The default value
-     *
-     * @return The value returned from the config or the default value if none exist.
+     * @deprecated use {@link #getBoolean(ResourceLocation)}
      */
+    @Deprecated
     boolean get(ResourceLocation key, boolean defaultValue);
 
 }

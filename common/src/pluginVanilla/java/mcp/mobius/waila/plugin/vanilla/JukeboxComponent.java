@@ -21,7 +21,7 @@ public enum JukeboxComponent implements IBlockComponentProvider, IServerDataProv
 
     @Override
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
-        if (config.get(WailaVanilla.CONFIG_JUKEBOX)) {
+        if (config.getBoolean(WailaVanilla.CONFIG_JUKEBOX)) {
             if (accessor.getServerData().contains("record")) {
                 tooltip.add(new TranslatableComponent("record.nowPlaying", Component.Serializer.fromJson(accessor.getServerData().getString("record"))));
             }

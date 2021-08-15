@@ -34,7 +34,7 @@ public enum PlantComponent implements IBlockComponentProvider {
 
     @Override
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
-        if (config.get(WailaVanilla.CONFIG_CROP_PROGRESS)) {
+        if (config.getBoolean(WailaVanilla.CONFIG_CROP_PROGRESS)) {
             if (accessor.getBlock() instanceof CropBlock crop) {
                 addMaturityTooltip(tooltip, accessor.getBlockState().getValue(crop.getAgeProperty()) / (float) crop.getMaxAge());
             } else if (accessor.getBlock() == Blocks.MELON_STEM || accessor.getBlock() == Blocks.PUMPKIN_STEM) {

@@ -14,6 +14,9 @@ import mcp.mobius.waila.api.ITooltipRenderer;
 import mcp.mobius.waila.api.TooltipPosition;
 import mcp.mobius.waila.config.ConfigEntry;
 import mcp.mobius.waila.config.PluginConfig;
+import mcp.mobius.waila.gui.widget.value.BooleanValue;
+import mcp.mobius.waila.gui.widget.value.EnumValue;
+import mcp.mobius.waila.gui.widget.value.InputValue;
 import net.minecraft.Util;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -45,18 +48,69 @@ public enum TooltipRegistrar implements IRegistrar {
 
     private boolean locked = false;
 
+    private <T> void addConfig(ResourceLocation key, T defaultValue, boolean synced, ConfigEntry.ConfigValueFactory<T> factory) {
+        assertLock();
+        PluginConfig.INSTANCE.addConfig(new ConfigEntry<>(key, defaultValue, synced, factory));
+    }
+
     @Override
     public void addConfig(ResourceLocation key, boolean defaultValue) {
         if (Waila.clientSide) {
-            assertLock();
-            PluginConfig.INSTANCE.addConfig(new ConfigEntry(key, defaultValue, false));
+            addConfig(key, defaultValue, false, BooleanValue::new);
+        }
+    }
+
+    @Override
+    public void addConfig(ResourceLocation key, int defaultValue) {
+        if (Waila.clientSide) {
+            addConfig(key, defaultValue, false, (n, d, s) -> new InputValue<>(n, d, s, InputValue.INTEGER));
+        }
+    }
+
+    @Override
+    public void addConfig(ResourceLocation key, double defaultValue) {
+        if (Waila.clientSide) {
+            addConfig(key, defaultValue, false, (n, d, s) -> new InputValue<>(n, d, s, InputValue.FLOAT));
+        }
+    }
+
+    @Override
+    public void addConfig(ResourceLocation key, String defaultValue) {
+        if (Waila.clientSide) {
+            addConfig(key, defaultValue, false, InputValue::new);
+        }
+    }
+
+    @Override
+    public <T extends Enum<T>> void addConfig(ResourceLocation key, T defaultValue) {
+        if (Waila.clientSide) {
+            addConfig(key, defaultValue, false, (n, d, s) -> new EnumValue<>(n, d.getDeclaringClass().getEnumConstants(), d, s));
         }
     }
 
     @Override
     public void addSyncedConfig(ResourceLocation key, boolean defaultValue) {
-        assertLock();
-        PluginConfig.INSTANCE.addConfig(new ConfigEntry(key, defaultValue, true));
+        addConfig(key, defaultValue, true, BooleanValue::new);
+    }
+
+    @Override
+    public void addSyncedConfig(ResourceLocation key, int defaultValue) {
+        addConfig(key, defaultValue, true, (n, d, s) -> new InputValue<>(n, d, s, InputValue.INTEGER));
+    }
+
+    @Override
+    public void addSyncedConfig(ResourceLocation key, double defaultValue) {
+        addConfig(key, defaultValue, true, (n, d, s) -> new InputValue<>(n, d, s, InputValue.FLOAT));
+    }
+
+    @Override
+    public void addSyncedConfig(ResourceLocation key, String defaultValue) {
+        addConfig(key, defaultValue, true, InputValue::new);
+    }
+
+    @Override
+    public <T extends Enum<T>> void addSyncedConfig(ResourceLocation key, T defaultValue) {
+        addConfig(key, defaultValue, false, (n, d, s) -> new EnumValue<>(n, d.getDeclaringClass().getEnumConstants(), d, s));
     }
 
     @Override

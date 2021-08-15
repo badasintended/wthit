@@ -14,7 +14,7 @@ public enum BeehiveComponent implements IBlockComponentProvider {
 
     @Override
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
-        if (config.get(WailaVanilla.CONFIG_HONEY_LEVEL)) {
+        if (config.getBoolean(WailaVanilla.CONFIG_HONEY_LEVEL)) {
             BlockState state = accessor.getBlockState();
             tooltip.add(new TranslatableComponent("tooltip.waila.honey_level", state.getValue(BeehiveBlock.HONEY_LEVEL)));
         }

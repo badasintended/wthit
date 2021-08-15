@@ -35,6 +35,20 @@ dependencies {
 
 loom {
     accessWidener = file("src/main/resources/wthit.accesswidener")
+    runs {
+        val client by getting
+        val server by getting
+
+        create("testClient") {
+            inherit(client)
+            vmArgs += "-Dwaila.enableTestPlugin=true"
+        }
+
+        create("testServer") {
+            inherit(server)
+            vmArgs += "-Dwaila.enableTestPlugin=true"
+        }
+    }
 }
 
 tasks.processResources {

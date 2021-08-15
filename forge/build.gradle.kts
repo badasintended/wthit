@@ -30,6 +30,13 @@ minecraft {
         }
         create("client", runConfig)
         create("server", runConfig)
+
+        val testRunConfig = Action<RunConfig> {
+            runConfig(this)
+            property("waila.enableTestPlugin", "true")
+        }
+        create("testClient", testRunConfig)
+        create("testServer", testRunConfig)
     }
 }
 

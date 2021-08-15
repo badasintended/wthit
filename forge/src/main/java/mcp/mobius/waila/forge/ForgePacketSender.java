@@ -122,10 +122,10 @@ public class ForgePacketSender extends PacketSender {
 
     public static class SendConfig {
 
-        Map<ResourceLocation, Boolean> forcedKeys;
+        Map<ResourceLocation, Object> forcedKeys;
         PluginConfig config;
 
-        SendConfig(@Nullable Map<ResourceLocation, Boolean> forcedKeys) {
+        SendConfig(@Nullable Map<ResourceLocation, Object> forcedKeys) {
             this.forcedKeys = forcedKeys;
         }
 

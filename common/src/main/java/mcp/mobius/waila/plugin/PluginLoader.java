@@ -21,6 +21,10 @@ public abstract class PluginLoader {
         PLUGINS.clear();
         gatherPlugins();
 
+        if (Boolean.getBoolean("waila.enableTestPlugin")) {
+            createPlugin("waila:test", "mcp.mobius.waila.plugin.test.WailaTest");
+        }
+
         List<IWailaPlugin> sorted = Lists.newArrayList(PLUGINS.values());
         sorted.sort((o1, o2) -> {
             // Don't move waila classes when compared to eachother

@@ -67,7 +67,7 @@ public abstract class WailaClient {
         }
 
         while (toggleLiquid.consumeClick()) {
-            PluginConfig.INSTANCE.set(WailaConstants.CONFIG_SHOW_FLUID, PluginConfig.INSTANCE.get(WailaConstants.CONFIG_SHOW_FLUID));
+            PluginConfig.INSTANCE.set(WailaConstants.CONFIG_SHOW_FLUID, PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_FLUID));
         }
 
 
@@ -81,7 +81,7 @@ public abstract class WailaClient {
     }
 
     protected static void onItemTooltip(ItemStack stack, List<Component> tooltip) {
-        if (PluginConfig.INSTANCE.get(WailaConstants.CONFIG_SHOW_MOD_NAME)) {
+        if (PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_MOD_NAME)) {
             tooltip.add(new TextComponent(String.format(
                 IWailaConfig.get().getFormatting().getModName(),
                 IModInfo.get(stack.getItem()).getName()

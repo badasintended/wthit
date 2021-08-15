@@ -55,13 +55,13 @@ public enum NoteBlockComponent implements IBlockComponentProvider {
 
     @Override
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
-        if (config.get(WailaVanilla.CONFIG_NOTE_BLOCK)) {
+        if (config.getBoolean(WailaVanilla.CONFIG_NOTE_BLOCK)) {
             BlockState state = accessor.getBlockState();
             NoteBlockInstrument instrument = state.getValue(NoteBlock.INSTRUMENT);
             int level = state.getValue(NoteBlock.NOTE);
             Note note = Note.get(level);
             tooltip.add(new TranslatableComponent("tooltip.waila.instrument." + instrument.getSerializedName())
-                .append(new TextComponent(" (" + (config.get(WailaVanilla.CONFIG_NOTE_BLOCK_FLAT) ? note.flat : note.sharp) + ")")
+                .append(new TextComponent(" (" + (config.getBoolean(WailaVanilla.CONFIG_NOTE_BLOCK_FLAT) ? note.flat : note.sharp) + ")")
                     .withStyle(style -> style.withColor(COLORS[level]))));
         }
     }

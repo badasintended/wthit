@@ -63,8 +63,8 @@ public class ClientTickHandler {
 
         if (target.getType() == HitResult.Type.BLOCK) {
             Block block = accessor.getBlock();
-            if (block instanceof LiquidBlock && !PluginConfig.INSTANCE.get(WailaConstants.CONFIG_SHOW_FLUID)
-                || !PluginConfig.INSTANCE.get(WailaConstants.CONFIG_SHOW_BLOCK)
+            if (block instanceof LiquidBlock && !PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_FLUID)
+                || !PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_BLOCK)
                 || Waila.blockBlacklist.contains(block)) {
                 return;
             }
@@ -88,7 +88,7 @@ public class ClientTickHandler {
             gatherBlock(accessor, TOOLTIP, TAIL);
             TooltipRenderer.addLines(TOOLTIP);
         } else if (target.getType() == HitResult.Type.ENTITY) {
-            if (!PluginConfig.INSTANCE.get(WailaConstants.CONFIG_SHOW_ENTITY)
+            if (!PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_ENTITY)
                 || Waila.entityBlacklist.contains(accessor.getEntity().getType())) {
                 return;
             }
@@ -115,7 +115,7 @@ public class ClientTickHandler {
             }
         }
 
-        if (PluginConfig.INSTANCE.get(WailaConstants.CONFIG_SHOW_ITEM)) {
+        if (PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_ITEM)) {
             TooltipRenderer.setStack(ComponentHandler.getDisplayItem(target));
         }
 

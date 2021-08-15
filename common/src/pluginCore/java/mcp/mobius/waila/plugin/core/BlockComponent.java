@@ -40,18 +40,18 @@ public enum BlockComponent implements IBlockComponentProvider, IServerDataProvid
 
         IWailaConfig.Formatting formatting = IWailaConfig.get().getFormatting();
         tooltip.set(WailaConstants.OBJECT_NAME_TAG, new TextComponent(String.format(formatting.getBlockName(), name)));
-        if (config.get(WailaConstants.CONFIG_SHOW_REGISTRY))
+        if (config.getBoolean(WailaConstants.CONFIG_SHOW_REGISTRY))
             tooltip.set(WailaConstants.REGISTRY_NAME_TAG, new TextComponent(String.format(formatting.getRegistryName(), Registry.BLOCK.getKey(block))));
     }
 
     @Override
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
-        if (config.get(WailaCore.CONFIG_SHOW_POS)) {
+        if (config.getBoolean(WailaCore.CONFIG_SHOW_POS)) {
             BlockPos pos = accessor.getPosition();
             tooltip.add(new TextComponent("(" + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + ")"));
         }
 
-        if (config.get(WailaCore.CONFIG_SHOW_STATES)) {
+        if (config.getBoolean(WailaCore.CONFIG_SHOW_STATES)) {
             BlockState state = accessor.getBlockState();
             state.getProperties().forEach(p -> {
                 Comparable<?> value = state.getValue(p);
@@ -63,7 +63,7 @@ public enum BlockComponent implements IBlockComponentProvider, IServerDataProvid
 
     @Override
     public void appendTail(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
-        if (config.get(WailaConstants.CONFIG_SHOW_MOD_NAME)) {
+        if (config.getBoolean(WailaConstants.CONFIG_SHOW_MOD_NAME)) {
             String modName = String.format(IWailaConfig.get().getFormatting().getModName(), IModInfo.get(accessor.getBlock()).getName());
             tooltip.set(WailaConstants.MOD_NAME_TAG, new TextComponent(modName));
         }
