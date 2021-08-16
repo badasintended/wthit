@@ -8,7 +8,7 @@ import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.TooltipPosition;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.data.DataAccessor;
-import mcp.mobius.waila.registry.TooltipRegistrar;
+import mcp.mobius.waila.registry.Registrar;
 import mcp.mobius.waila.util.ExceptionUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -29,7 +29,7 @@ import net.minecraft.world.phys.HitResult;
 public class ComponentHandler {
 
     public static void gatherBlock(DataAccessor accessor, Tooltip tooltip, TooltipPosition position) {
-        TooltipRegistrar registrar = TooltipRegistrar.INSTANCE;
+        Registrar registrar = Registrar.INSTANCE;
         Block block = accessor.getBlock();
         BlockEntity blockEntity = accessor.getBlockEntity();
 
@@ -47,7 +47,7 @@ public class ComponentHandler {
     }
 
     private static void handleBlock(DataAccessor accessor, Tooltip tooltip, Object obj, TooltipPosition position) {
-        TooltipRegistrar registrar = TooltipRegistrar.INSTANCE;
+        Registrar registrar = Registrar.INSTANCE;
         List<IBlockComponentProvider> providers = registrar.blockComponent.get(position).get(obj);
         for (IBlockComponentProvider provider : providers) {
             try {
@@ -72,7 +72,7 @@ public class ComponentHandler {
     }
 
     public static void gatherEntity(Entity entity, DataAccessor accessor, Tooltip tooltip, TooltipPosition position) {
-        TooltipRegistrar registrar = TooltipRegistrar.INSTANCE;
+        Registrar registrar = Registrar.INSTANCE;
         Entity trueEntity = accessor.getEntity();
 
         int rate = Waila.config.get().getGeneral().getRateLimit();
@@ -109,7 +109,7 @@ public class ComponentHandler {
     }
 
     public static ItemStack getDisplayItem(HitResult target) {
-        TooltipRegistrar registrar = TooltipRegistrar.INSTANCE;
+        Registrar registrar = Registrar.INSTANCE;
         DataAccessor data = DataAccessor.INSTANCE;
         PluginConfig config = PluginConfig.INSTANCE;
 
@@ -164,7 +164,7 @@ public class ComponentHandler {
             return null;
         }
 
-        TooltipRegistrar registrar = TooltipRegistrar.INSTANCE;
+        Registrar registrar = Registrar.INSTANCE;
         Entity entity = ((EntityHitResult) target).getEntity();
 
         List<IEntityComponentProvider> overrideProviders = registrar.entityOverride.get(entity);
@@ -179,7 +179,7 @@ public class ComponentHandler {
     }
 
     public static BlockState getOverrideBlock(HitResult target) {
-        TooltipRegistrar registrar = TooltipRegistrar.INSTANCE;
+        Registrar registrar = Registrar.INSTANCE;
 
         Level world = Minecraft.getInstance().level;
         BlockPos pos = ((BlockHitResult) target).getBlockPos();

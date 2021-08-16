@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 import mcp.mobius.waila.plugin.PluginLoader;
-import mcp.mobius.waila.registry.TooltipRegistrar;
-import mcp.mobius.waila.registry.TooltipRegistry;
+import mcp.mobius.waila.registry.Registrar;
+import mcp.mobius.waila.registry.Registry;
 import mcp.mobius.waila.util.CommonUtil;
 import net.minecraft.resources.ResourceLocation;
 
@@ -24,7 +24,7 @@ public class DumpGenerator {
     public static boolean generate(Path path) {
         StringBuilder builder = new StringBuilder("# Waila Dump");
 
-        TooltipRegistrar registrar = TooltipRegistrar.INSTANCE;
+        Registrar registrar = Registrar.INSTANCE;
 
         builder.append("\n## Versions");
         builder.append("\n| Dependency | Version |");
@@ -69,8 +69,8 @@ public class DumpGenerator {
         }
     }
 
-    private static <T> void createSection(StringBuilder builder, String subsection, TooltipRegistry<T> registry) {
-        Map<Class<?>, List<TooltipRegistry.Entry<T>>> map = registry.getMap();
+    private static <T> void createSection(StringBuilder builder, String subsection, Registry<T> registry) {
+        Map<Class<?>, List<Registry.Entry<T>>> map = registry.getMap();
 
         if (map.isEmpty())
             return;

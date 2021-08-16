@@ -9,7 +9,7 @@ import mcp.mobius.waila.config.ConfigEntry;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.data.DataAccessor;
 import mcp.mobius.waila.debug.DumpGenerator;
-import mcp.mobius.waila.registry.TooltipRegistrar;
+import mcp.mobius.waila.registry.Registrar;
 import mcp.mobius.waila.util.CommonUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
@@ -52,7 +52,7 @@ public class PacketExecutor {
     }
 
     public static void requestEntity(ServerPlayer player, int entityId, Consumer<CompoundTag> consumer) {
-        TooltipRegistrar registrar = TooltipRegistrar.INSTANCE;
+        Registrar registrar = Registrar.INSTANCE;
         Level world = player.level;
         Entity entity = world.getEntity(entityId);
 
@@ -69,7 +69,7 @@ public class PacketExecutor {
     }
 
     public static void requestBlockEntity(ServerPlayer player, BlockPos pos, Consumer<CompoundTag> consumer) {
-        TooltipRegistrar registrar = TooltipRegistrar.INSTANCE;
+        Registrar registrar = Registrar.INSTANCE;
         Level world = player.level;
         //noinspection deprecation
         if (!world.hasChunkAt(pos))

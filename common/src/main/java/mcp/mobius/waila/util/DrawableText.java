@@ -11,7 +11,7 @@ import it.unimi.dsi.fastutil.objects.ObjectLists;
 import mcp.mobius.waila.api.IDrawableText;
 import mcp.mobius.waila.api.ITooltipRenderer;
 import mcp.mobius.waila.data.DataAccessor;
-import mcp.mobius.waila.registry.TooltipRegistrar;
+import mcp.mobius.waila.registry.Registrar;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -116,7 +116,7 @@ public class DrawableText implements IDrawableText {
         public RenderContainer(ResourceLocation id, CompoundTag data) {
             this.id = id;
             this.data = data;
-            this.renderer = TooltipRegistrar.INSTANCE.renderer.get(id);
+            this.renderer = Registrar.INSTANCE.renderer.get(id);
         }
 
         public ResourceLocation getId() {

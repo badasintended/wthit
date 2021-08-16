@@ -14,33 +14,30 @@ import mcp.mobius.waila.api.ITooltipRenderer;
 import mcp.mobius.waila.api.TooltipPosition;
 import mcp.mobius.waila.config.ConfigEntry;
 import mcp.mobius.waila.config.PluginConfig;
-import mcp.mobius.waila.gui.widget.value.BooleanValue;
-import mcp.mobius.waila.gui.widget.value.EnumValue;
-import mcp.mobius.waila.gui.widget.value.InputValue;
 import net.minecraft.Util;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
-public enum TooltipRegistrar implements IRegistrar {
+public enum Registrar implements IRegistrar {
 
     INSTANCE;
 
-    public final TooltipRegistry<IBlockComponentProvider> blockOverride = new TooltipRegistry<>();
-    public final TooltipRegistry<IBlockComponentProvider> blockItem = new TooltipRegistry<>();
-    public final TooltipRegistry<IServerDataProvider<BlockEntity>> blockData = new TooltipRegistry<>();
-    public final Map<TooltipPosition, TooltipRegistry<IBlockComponentProvider>> blockComponent = Util.make(new EnumMap<>(TooltipPosition.class), map -> {
+    public final Registry<IBlockComponentProvider> blockOverride = new Registry<>();
+    public final Registry<IBlockComponentProvider> blockItem = new Registry<>();
+    public final Registry<IServerDataProvider<BlockEntity>> blockData = new Registry<>();
+    public final Map<TooltipPosition, Registry<IBlockComponentProvider>> blockComponent = Util.make(new EnumMap<>(TooltipPosition.class), map -> {
         for (TooltipPosition key : TooltipPosition.values()) {
-            map.put(key, new TooltipRegistry<>());
+            map.put(key, new Registry<>());
         }
     });
 
-    public final TooltipRegistry<IEntityComponentProvider> entityOverride = new TooltipRegistry<>();
-    public final TooltipRegistry<IEntityComponentProvider> entityItem = new TooltipRegistry<>();
-    public final TooltipRegistry<IServerDataProvider<Entity>> entityData = new TooltipRegistry<>();
-    public final Map<TooltipPosition, TooltipRegistry<IEntityComponentProvider>> entityComponent = Util.make(new EnumMap<>(TooltipPosition.class), map -> {
+    public final Registry<IEntityComponentProvider> entityOverride = new Registry<>();
+    public final Registry<IEntityComponentProvider> entityItem = new Registry<>();
+    public final Registry<IServerDataProvider<Entity>> entityData = new Registry<>();
+    public final Map<TooltipPosition, Registry<IEntityComponentProvider>> entityComponent = Util.make(new EnumMap<>(TooltipPosition.class), map -> {
         for (TooltipPosition key : TooltipPosition.values()) {
-            map.put(key, new TooltipRegistry<>());
+            map.put(key, new Registry<>());
         }
     });
 
@@ -49,68 +46,62 @@ public enum TooltipRegistrar implements IRegistrar {
     private boolean locked = false;
 
     private <T> void addConfig(ResourceLocation key, T defaultValue, boolean synced, ConfigEntry.ConfigValueFactory<T> factory) {
+        if (!synced && !Waila.clientSide) {
+            return;
+        }
+
         assertLock();
         PluginConfig.INSTANCE.addConfig(new ConfigEntry<>(key, defaultValue, synced, factory));
     }
 
     @Override
     public void addConfig(ResourceLocation key, boolean defaultValue) {
-        if (Waila.clientSide) {
-            addConfig(key, defaultValue, false, BooleanValue::new);
-        }
+        addConfig(key, defaultValue, false, ConfigEntry.BOOLEAN);
     }
 
     @Override
     public void addConfig(ResourceLocation key, int defaultValue) {
-        if (Waila.clientSide) {
-            addConfig(key, defaultValue, false, (n, d, s) -> new InputValue<>(n, d, s, InputValue.INTEGER));
-        }
+        addConfig(key, defaultValue, false, ConfigEntry.INTEGER);
     }
 
     @Override
     public void addConfig(ResourceLocation key, double defaultValue) {
-        if (Waila.clientSide) {
-            addConfig(key, defaultValue, false, (n, d, s) -> new InputValue<>(n, d, s, InputValue.FLOAT));
-        }
+        addConfig(key, defaultValue, false, ConfigEntry.DOUBLE);
     }
 
     @Override
     public void addConfig(ResourceLocation key, String defaultValue) {
-        if (Waila.clientSide) {
-            addConfig(key, defaultValue, false, InputValue::new);
-        }
+        addConfig(key, defaultValue, false, ConfigEntry.STRING);
     }
 
     @Override
     public <T extends Enum<T>> void addConfig(ResourceLocation key, T defaultValue) {
-        if (Waila.clientSide) {
-            addConfig(key, defaultValue, false, (n, d, s) -> new EnumValue<>(n, d.getDeclaringClass().getEnumConstants(), d, s));
-        }
+        addConfig(key, defaultValue, false, ConfigEntry.ENUM);
     }
 
     @Override
     public void addSyncedConfig(ResourceLocation key, boolean defaultValue) {
-        addConfig(key, defaultValue, true, BooleanValue::new);
+        addConfig(key, defaultValue, true, ConfigEntry.BOOLEAN);
     }
 
     @Override
     public void addSyncedConfig(ResourceLocation key, int defaultValue) {
-        addConfig(key, defaultValue, true, (n, d, s) -> new InputValue<>(n, d, s, InputValue.INTEGER));
+        addConfig(key, defaultValue, true, ConfigEntry.INTEGER);
     }
 
     @Override
     public void addSyncedConfig(ResourceLocation key, double defaultValue) {
-        addConfig(key, defaultValue, true, (n, d, s) -> new InputValue<>(n, d, s, InputValue.FLOAT));
+        addConfig(key, defaultValue, true, ConfigEntry.DOUBLE);
     }
 
     @Override
     public void addSyncedConfig(ResourceLocation key, String defaultValue) {
-        addConfig(key, defaultValue, true, InputValue::new);
+        addConfig(key, defaultValue, true, ConfigEntry.STRING);
     }
 
     @Override
     public <T extends Enum<T>> void addSyncedConfig(ResourceLocation key, T defaultValue) {
-        addConfig(key, defaultValue, false, (n, d, s) -> new EnumValue<>(n, d.getDeclaringClass().getEnumConstants(), d, s));
+        addConfig(key, defaultValue, false, ConfigEntry.ENUM);
     }
 
     @Override

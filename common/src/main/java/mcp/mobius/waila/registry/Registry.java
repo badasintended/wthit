@@ -8,7 +8,7 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectLists;
 
-public class TooltipRegistry<T> {
+public class Registry<T> {
 
     private final Map<Class<?>, List<Entry<T>>> map = new Object2ObjectOpenHashMap<>();
     private final Map<Class<?>, List<T>> cache = new Object2ObjectOpenHashMap<>();

@@ -7,7 +7,7 @@ import com.google.common.collect.Lists;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.config.PluginConfig;
-import mcp.mobius.waila.registry.TooltipRegistrar;
+import mcp.mobius.waila.registry.Registrar;
 import mcp.mobius.waila.util.CommonUtil;
 import net.minecraft.resources.ResourceLocation;
 
@@ -40,10 +40,10 @@ public abstract class PluginLoader {
 
         sorted.forEach(p -> {
             CommonUtil.LOGGER.info("Registering plugin at {}", p.getClass().getCanonicalName());
-            p.register(TooltipRegistrar.INSTANCE);
+            p.register(Registrar.INSTANCE);
         });
 
-        TooltipRegistrar.INSTANCE.lock();
+        Registrar.INSTANCE.lock();
         PluginConfig.INSTANCE.reload();
     }
 
