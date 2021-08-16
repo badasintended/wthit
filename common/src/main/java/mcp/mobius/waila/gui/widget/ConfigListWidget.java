@@ -56,7 +56,7 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
             diskWriter.run();
     }
 
-    public void add(mcp.mobius.waila.gui.widget.ConfigListWidget.Entry entry) {
+    public void add(Entry entry) {
         if (entry instanceof ConfigValue) {
             GuiEventListener element = ((ConfigValue<?>) entry).getListener();
             if (element != null)
@@ -65,7 +65,7 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
         addEntry(entry);
     }
 
-    public ConfigListWidget with(mcp.mobius.waila.gui.widget.ConfigListWidget.Entry entry) {
+    public ConfigListWidget with(Entry entry) {
         add(entry);
         return this;
     }
@@ -110,7 +110,7 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
         return this;
     }
 
-    public abstract static class Entry extends ContainerObjectSelectionList.Entry<mcp.mobius.waila.gui.widget.ConfigListWidget.Entry> {
+    public abstract static class Entry extends ContainerObjectSelectionList.Entry<Entry> {
 
         protected final Minecraft client;
 

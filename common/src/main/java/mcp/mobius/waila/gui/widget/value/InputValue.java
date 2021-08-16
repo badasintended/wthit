@@ -14,8 +14,8 @@ public class InputValue<T> extends ConfigValue<T> {
     public static final Predicate<String> ANY = s -> true;
     public static final Predicate<String> INTEGER = s -> s.matches("[-+]?[0-9]*$");
     public static final Predicate<String> POSITIVE_INTEGER = s -> s.matches("[0-9]*$");
-    public static final Predicate<String> FLOAT = s -> s.matches("[-+]?[0-9]*([.][0-9]*)?");
-    public static final Predicate<String> POSITIVE_FLOAT = s -> s.matches("[0-9]*([.][0-9]*)?");
+    public static final Predicate<String> DECIMAL = s -> s.matches("[-+]?[0-9]*([.][0-9]*)?");
+    public static final Predicate<String> POSITIVE_DECIMAL = s -> s.matches("[0-9]*([.][0-9]*)?");
 
     private final EditBox textField;
 
@@ -29,7 +29,7 @@ public class InputValue<T> extends ConfigValue<T> {
     }
 
     public InputValue(String optionName, T value, Consumer<T> save) {
-        this(optionName, value, save, s -> true);
+        this(optionName, value, save, ANY);
     }
 
     @Override

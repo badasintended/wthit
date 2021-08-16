@@ -84,7 +84,7 @@ public class WailaConfigScreen extends ConfigScreen {
                         .withInput("config.waila.overlay_scale",
                             get().getOverlay().getScale(),
                             val -> get().getOverlay().setScale(Math.max(val, 0.0F)),
-                            InputValue.POSITIVE_FLOAT)
+                            InputValue.POSITIVE_DECIMAL)
                         .withEnum("config.waila.overlay_anchor_x",
                             IWailaConfig.Overlay.Position.Align.X.values(),
                             get().getOverlay().getPosition().getAnchor().getX(),
