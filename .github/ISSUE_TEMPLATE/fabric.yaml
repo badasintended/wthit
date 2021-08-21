@@ -1,0 +1,22 @@
+name: "Fabric Edition Issue"
+description: If you use the fabric version
+labels: [bug, fabric]
+body:
+  - type: textarea
+    id: describe
+    attributes:
+      label: Describe the issue
+      description: Also describe expected behavior and how to reproduce it if you can.
+    validations:
+      required: true
+  - type: input
+    id: logs
+    attributes:
+      label: Log output
+      description: Regardless of whether it crashes or not, post the **ENTIRE** log as a [gist](https://gist.github.com/) and copy the link here. Crash report is **NOT** the full log. You can find it `.minecraft/logs/latest.log`
+    validations:
+      required: true
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional context
