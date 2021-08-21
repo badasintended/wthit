@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Discord Server
+    url: https://k.bai.lol/discord
+    about: "Have a question doesn't really fit on the issue templates? Join the Discord server and ask it there"
