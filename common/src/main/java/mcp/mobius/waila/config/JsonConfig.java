@@ -142,10 +142,6 @@ public class JsonConfig<T> implements IJsonConfig<T> {
             };
         }
 
-        public static <T> Builder<T> create(Class<T> clazz) {
-            return new Builder<>(clazz);
-        }
-
         @Override
         public Builder1<T> file(File file) {
             this.path = file.toPath();

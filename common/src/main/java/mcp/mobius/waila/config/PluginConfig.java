@@ -7,14 +7,16 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonPrimitive;
 import com.google.gson.reflect.TypeToken;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.WailaConstants;
@@ -26,10 +28,13 @@ public enum PluginConfig implements IPluginConfig {
 
     INSTANCE;
 
-    static final Path PATH = CommonUtil.configDir.resolve(WailaConstants.NAMESPACE + "/" + WailaConstants.WAILA + "_plugins.json");
-    static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+    private static final Path PATH = CommonUtil.configDir.resolve(WailaConstants.NAMESPACE + "/" + WailaConstants.WAILA + "_plugins.json");
+    private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
-    private final Map<ResourceLocation, ConfigEntry<?>> configs = new HashMap<>();
+    private static final TypeToken<Map<String, Map<String, JsonPrimitive>>> TYPE_TOKEN = new TypeToken<>() {
+    };
+
+    private final Map<ResourceLocation, ConfigEntry<?>> configs = new LinkedHashMap<>();
 
     public void addConfig(ConfigEntry<?> entry) {
         configs.put(entry.getId(), entry);
@@ -37,7 +42,9 @@ public enum PluginConfig implements IPluginConfig {
 
     @Override
     public Set<ResourceLocation> getKeys(String namespace) {
-        return getKeys().stream().filter(id -> id.getNamespace().equals(namespace)).collect(Collectors.toSet());
+        return getKeys().stream()
+            .filter(id -> id.getNamespace().equals(namespace))
+            .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
     @Override
@@ -106,18 +113,22 @@ public enum PluginConfig implements IPluginConfig {
         if (!Files.exists(PATH)) { // Write defaults, but don't read
             writeConfig(true);
         } else { // Read back from config
-            Map<String, Map<String, Object>> config;
+            Map<String, Map<String, JsonPrimitive>> config;
             try (BufferedReader reader = Files.newBufferedReader(PATH, StandardCharsets.UTF_8)) {
-                config = GSON.fromJson(reader, new TypeToken<Map<String, Map<String, Object>>>() {
-                }.getType());
+                config = GSON.fromJson(reader, TYPE_TOKEN.getType());
             } catch (IOException e) {
-                config = Maps.newHashMap();
+                config = new HashMap<>();
             }
 
             if (config == null) {
                 writeConfig(true);
             } else {
-                config.forEach((namespace, subMap) -> subMap.forEach((path, value) -> set(new ResourceLocation(namespace, path), value)));
+                config.forEach((namespace, subMap) -> subMap.forEach((path, value) -> {
+                    ConfigEntry<Object> entry = (ConfigEntry<Object>) configs.get(new ResourceLocation(namespace, path));
+                    if (entry != null) {
+                        entry.setValue(entry.getType().parseValue(value, entry.getDefaultValue()));
+                    }
+                }));
             }
         }
     }
@@ -131,7 +142,7 @@ public enum PluginConfig implements IPluginConfig {
     }
 
     private void writeConfig(boolean reset) {
-        Map<String, Map<String, Object>> config = Maps.newHashMap();
+        Map<String, Map<String, Object>> config = new HashMap<>();
         for (ConfigEntry<?> e : configs.values()) {
             ConfigEntry<Object> entry = (ConfigEntry<Object>) e;
             Map<String, Object> modConfig = config.computeIfAbsent(entry.getId().getNamespace(), k -> new HashMap<>());

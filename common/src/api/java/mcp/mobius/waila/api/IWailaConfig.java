@@ -38,7 +38,6 @@ public interface IWailaConfig {
 
         int getMaxHeartsPerLine();
 
-
         enum DisplayMode {
             HOLD_KEY,
             TOGGLE

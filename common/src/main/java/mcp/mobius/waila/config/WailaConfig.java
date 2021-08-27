@@ -2,9 +2,9 @@ package mcp.mobius.waila.config;
 
 import java.lang.reflect.Type;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
-import com.google.common.collect.Maps;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -232,7 +232,7 @@ public class WailaConfig implements IWailaConfig {
         public static class Color implements IWailaConfig.Overlay.Color {
 
             private int alpha = 80;
-            private Map<ResourceLocation, Theme> themes = Maps.newHashMap();
+            private Map<ResourceLocation, Theme> themes = new HashMap<>();
             private ResourceLocation activeTheme = Theme.VANILLA.getId();
 
             public Color() {
@@ -293,7 +293,7 @@ public class WailaConfig implements IWailaConfig {
                     Color color = new Color();
                     color.alpha = json.getAsJsonPrimitive("alpha").getAsInt();
                     color.activeTheme = new ResourceLocation(json.getAsJsonPrimitive("activeTheme").getAsString());
-                    color.themes = Maps.newHashMap();
+                    color.themes = new HashMap<>();
                     json.getAsJsonArray("themes").forEach(e -> {
                         Theme theme = context.deserialize(e, Theme.class);
                         color.themes.put(theme.getId(), theme);

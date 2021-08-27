@@ -45,13 +45,13 @@ public enum Registrar implements IRegistrar {
 
     private boolean locked = false;
 
-    private <T> void addConfig(ResourceLocation key, T defaultValue, boolean synced, ConfigEntry.ConfigValueFactory<T> factory) {
+    private <T> void addConfig(ResourceLocation key, T defaultValue, boolean synced, ConfigEntry.Type<T> type) {
         if (!synced && !Waila.clientSide) {
             return;
         }
 
         assertLock();
-        PluginConfig.INSTANCE.addConfig(new ConfigEntry<>(key, defaultValue, synced, factory));
+        PluginConfig.INSTANCE.addConfig(type.create(key, defaultValue, synced));
     }
 
     @Override

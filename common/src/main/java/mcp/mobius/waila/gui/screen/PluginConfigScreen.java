@@ -29,7 +29,7 @@ public class PluginConfigScreen extends ConfigScreen {
                     keys.stream().sorted((o1, o2) -> o1.getPath().compareToIgnoreCase(o2.getPath())).forEach(i -> {
                         ConfigEntry<Object> entry = PluginConfig.INSTANCE.getEntry(i);
                         if (!entry.isSynced() || Minecraft.getInstance().getCurrentServer() == null)
-                            options.with(entry.getFactory().accept(translationKey + "." + i.getPath(), entry.getValue(), entry::setValue));
+                            options.with(entry.getType().createConfigValue(translationKey + "." + i.getPath(), entry.getValue(), entry::setValue));
                     });
                     return options;
                 }
