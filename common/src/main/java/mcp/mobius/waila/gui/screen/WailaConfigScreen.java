@@ -12,6 +12,10 @@ import net.minecraft.resources.ResourceLocation;
 
 public class WailaConfigScreen extends ConfigScreen {
 
+    public WailaConfigScreen(Screen parent) {
+        super(parent, new TranslatableComponent("gui.waila.configuration", WailaConstants.MOD_NAME), WailaConfigScreen::save, WailaConfigScreen::invalidate);
+    }
+
     private static WailaConfig get() {
         return Waila.config.get();
     }
@@ -22,10 +26,6 @@ public class WailaConfigScreen extends ConfigScreen {
 
     private static void invalidate() {
         Waila.config.invalidate();
-    }
-
-    public WailaConfigScreen(Screen parent) {
-        super(parent, new TranslatableComponent("gui.waila.configuration", WailaConstants.MOD_NAME), WailaConfigScreen::save, WailaConfigScreen::invalidate);
     }
 
     @Override

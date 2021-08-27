@@ -11,10 +11,6 @@ import org.jetbrains.annotations.ApiStatus;
 @ApiStatus.NonExtendable
 public interface IModInfo {
 
-    String getId();
-
-    String getName();
-
     static IModInfo get(String namespace) {
         return Impl.get(IModInfo.class, namespace);
     }
@@ -35,5 +31,9 @@ public interface IModInfo {
         ResourceLocation id = Registry.ENTITY_TYPE.getKey(entity.getType());
         return get(id);
     }
+
+    String getId();
+
+    String getName();
 
 }

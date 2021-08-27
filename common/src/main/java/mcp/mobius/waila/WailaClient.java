@@ -29,10 +29,14 @@ public abstract class WailaClient {
     public static KeyMapping showRecipeInput;
     public static KeyMapping showRecipeOutput;
 
-    protected static BiFunction<String, Integer, KeyMapping> keyBindingBuilder;
-
     public static Runnable onShowRecipeInput;
     public static Runnable onShowRecipeOutput;
+
+    protected static BiFunction<String, Integer, KeyMapping> keyBindingBuilder;
+
+    static {
+        Impl.reg(IDrawableText.class, DrawableText::new);
+    }
 
     protected static void init() {
         openConfig = keyBindingBuilder.apply("config", GLFW.GLFW_KEY_KP_0);
@@ -87,10 +91,6 @@ public abstract class WailaClient {
                 IModInfo.get(stack.getItem()).getName()
             )));
         }
-    }
-
-    static {
-        Impl.reg(IDrawableText.class, DrawableText::new);
     }
 
 }

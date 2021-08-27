@@ -35,18 +35,15 @@ import static mcp.mobius.waila.util.DisplayUtil.renderStack;
 
 public class TooltipRenderer {
 
-    public static Consumer<List<Component>> onCreate;
-    public static Function<Rectangle, Rectangle> onPreRender;
-    public static Consumer<Rectangle> onPostRender;
-
-    static boolean shouldRender = false;
-
     private static final List<Component> LINES = new ObjectArrayList<>();
     private static final Object2IntOpenHashMap<Component> LINE_HEIGHT = new Object2IntOpenHashMap<>();
-
     private static final Supplier<Rectangle> RENDER_RECT = Suppliers.memoize(Rectangle::new);
     private static final Supplier<Rectangle> RECT = Suppliers.memoize(Rectangle::new);
 
+    public static Consumer<List<Component>> onCreate;
+    public static Function<Rectangle, Rectangle> onPreRender;
+    public static Consumer<Rectangle> onPostRender;
+    static boolean shouldRender = false;
     private static ItemStack stack = ItemStack.EMPTY;
     private static int topOffset = 0;
 
@@ -69,13 +66,13 @@ public class TooltipRenderer {
         LINES.add(line);
     }
 
+    public static ItemStack getStack() {
+        return stack;
+    }
+
     public static void setStack(ItemStack stack) {
         Preconditions.checkState(started);
         TooltipRenderer.stack = PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_ITEM) ? stack : ItemStack.EMPTY;
-    }
-
-    public static ItemStack getStack() {
-        return stack;
     }
 
     public static void endBuild() {

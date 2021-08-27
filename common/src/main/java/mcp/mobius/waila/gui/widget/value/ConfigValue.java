@@ -10,9 +10,9 @@ import net.minecraft.network.chat.TranslatableComponent;
 
 public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
 
+    protected final Consumer<T> save;
     private final Component title;
     private final String description;
-    protected final Consumer<T> save;
     protected T value;
     private int x;
 

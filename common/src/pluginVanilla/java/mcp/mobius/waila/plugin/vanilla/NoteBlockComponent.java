@@ -18,28 +18,6 @@ public enum NoteBlockComponent implements IBlockComponentProvider {
 
     INSTANCE;
 
-    private enum Note {
-        FS("F♯", "G♭"), G("G"), GS("G♯", "A♭"), A("A"), AS("A♯", "B♭"), B("B"),
-        C("C"), CS("C♯", "D♭"), D("D"), DS("D♯", "E♭"), E("E"), F("F");
-
-        static final Note[] VALUES = values();
-        final String sharp;
-        final String flat;
-
-        Note(String sharp, String flat) {
-            this.sharp = sharp;
-            this.flat = flat;
-        }
-
-        Note(String note) {
-            this(note, note);
-        }
-
-        static Note get(int level) {
-            return VALUES[level % VALUES.length];
-        }
-    }
-
     private static final int[] COLORS = Util.make(new int[25], arr -> {
         float twoPi = (float) (Math.PI * 2);
         float onePerThree = 1f / 3f;
@@ -63,6 +41,28 @@ public enum NoteBlockComponent implements IBlockComponentProvider {
             tooltip.add(new TranslatableComponent("tooltip.waila.instrument." + instrument.getSerializedName())
                 .append(new TextComponent(" (" + (config.getBoolean(WailaVanilla.CONFIG_NOTE_BLOCK_FLAT) ? note.flat : note.sharp) + ")")
                     .withStyle(style -> style.withColor(COLORS[level]))));
+        }
+    }
+
+    private enum Note {
+        FS("F♯", "G♭"), G("G"), GS("G♯", "A♭"), A("A"), AS("A♯", "B♭"), B("B"),
+        C("C"), CS("C♯", "D♭"), D("D"), DS("D♯", "E♭"), E("E"), F("F");
+
+        static final Note[] VALUES = values();
+        final String sharp;
+        final String flat;
+
+        Note(String sharp, String flat) {
+            this.sharp = sharp;
+            this.flat = flat;
+        }
+
+        Note(String note) {
+            this(note, note);
+        }
+
+        static Note get(int level) {
+            return VALUES[level % VALUES.length];
         }
     }
 

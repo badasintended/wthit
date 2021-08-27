@@ -15,6 +15,20 @@ public abstract class PluginLoader {
 
     public static final Map<ResourceLocation, IWailaPlugin> PLUGINS = new Object2ObjectOpenHashMap<>();
 
+    protected static void createPlugin(String id, String initializer) {
+        try {
+            IWailaPlugin plugin = (IWailaPlugin) Class.forName(initializer).getConstructor().newInstance();
+            PLUGINS.put(new ResourceLocation(id), plugin);
+            CommonUtil.LOGGER.info("Discovered plugin {} at {}", id, plugin.getClass().getCanonicalName());
+        } catch (Exception e) {
+            CommonUtil.LOGGER.error("Error creating instance of plugin " + id, e);
+        }
+    }
+
+    private static boolean isWailaClass(Object object) {
+        return object.getClass().getCanonicalName().startsWith("mcp/mobius/waila");
+    }
+
     protected abstract void gatherPlugins();
 
     public void initialize() {
@@ -45,20 +59,6 @@ public abstract class PluginLoader {
 
         Registrar.INSTANCE.lock();
         PluginConfig.INSTANCE.reload();
-    }
-
-    protected static void createPlugin(String id, String initializer) {
-        try {
-            IWailaPlugin plugin = (IWailaPlugin) Class.forName(initializer).getConstructor().newInstance();
-            PLUGINS.put(new ResourceLocation(id), plugin);
-            CommonUtil.LOGGER.info("Discovered plugin {} at {}", id, plugin.getClass().getCanonicalName());
-        } catch (Exception e) {
-            CommonUtil.LOGGER.error("Error creating instance of plugin " + id, e);
-        }
-    }
-
-    private static boolean isWailaClass(Object object) {
-        return object.getClass().getCanonicalName().startsWith("mcp/mobius/waila");
     }
 
 }

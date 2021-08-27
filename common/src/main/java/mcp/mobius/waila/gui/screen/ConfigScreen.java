@@ -21,10 +21,10 @@ public abstract class ConfigScreen extends Screen {
     private final Screen parent;
     private final Runnable saver;
     private final Runnable canceller;
-    private ConfigListWidget options;
 
     @SuppressWarnings("unchecked")
     private final List<GuiEventListener> children = (List<GuiEventListener>) children();
+    private ConfigListWidget options;
 
     public ConfigScreen(Screen parent, Component title, Runnable saver, Runnable canceller) {
         super(title);

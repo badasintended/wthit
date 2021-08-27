@@ -21,6 +21,14 @@ public enum PlantComponent implements IBlockComponentProvider {
     static final ItemStack WHEAT_STACK = new ItemStack(Items.WHEAT);
     static final ItemStack BEETROOT_STACK = new ItemStack(Items.BEETROOT);
 
+    private static void addMaturityTooltip(List<Component> tooltip, float growthValue) {
+        growthValue *= 100.0F;
+        if (growthValue < 100.0F)
+            tooltip.add(new TranslatableComponent("tooltip.waila.crop_growth", String.format("%.0f%%", growthValue)));
+        else
+            tooltip.add(new TranslatableComponent("tooltip.waila.crop_growth", new TranslatableComponent("tooltip.waila.crop_mature")));
+    }
+
     @Override
     public ItemStack getDisplayItem(IBlockAccessor accessor, IPluginConfig config) {
         if (accessor.getBlock() == Blocks.WHEAT)
@@ -47,14 +55,6 @@ public enum PlantComponent implements IBlockComponentProvider {
                 addMaturityTooltip(tooltip, accessor.getBlockState().getValue(BlockStateProperties.AGE_3) / 3.0F);
             }
         }
-    }
-
-    private static void addMaturityTooltip(List<Component> tooltip, float growthValue) {
-        growthValue *= 100.0F;
-        if (growthValue < 100.0F)
-            tooltip.add(new TranslatableComponent("tooltip.waila.crop_growth", String.format("%.0f%%", growthValue)));
-        else
-            tooltip.add(new TranslatableComponent("tooltip.waila.crop_growth", new TranslatableComponent("tooltip.waila.crop_mature")));
     }
 
 }

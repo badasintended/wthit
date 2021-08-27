@@ -29,11 +29,11 @@ import static mcp.mobius.waila.hud.ComponentHandler.gatherEntity;
 
 public class ClientTickHandler {
 
-    protected static Narrator narrator;
-    protected static String lastNarration = "";
-
     private static final Tooltip TOOLTIP = new Tooltip();
     private static final Component SNEAK_DETAIL = new TranslatableComponent("tooltip.waila.sneak_for_details").withStyle(ChatFormatting.ITALIC);
+
+    protected static Narrator narrator;
+    protected static String lastNarration = "";
 
     public static void tick() {
         TooltipRenderer.shouldRender = false;

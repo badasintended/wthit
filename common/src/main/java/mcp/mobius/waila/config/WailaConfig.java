@@ -17,11 +17,10 @@ import net.minecraft.resources.ResourceLocation;
 
 public class WailaConfig implements IWailaConfig {
 
-    private int configVersion = 0;
-
     private final General general = new General();
     private final Overlay overlay = new Overlay();
     private final Formatting formatting = new Formatting();
+    private int configVersion = 0;
 
     public int getConfigVersion() {
         return configVersion;
@@ -58,45 +57,13 @@ public class WailaConfig implements IWailaConfig {
         private int maxHealthForRender = 40;
         private int maxHeartsPerLine = 10;
 
-        public void setDisplayTooltip(boolean displayTooltip) {
-            this.displayTooltip = displayTooltip;
-        }
-
-        public void setShiftForDetails(boolean shiftForDetails) {
-            this.shiftForDetails = shiftForDetails;
-        }
-
-        public void setDisplayMode(DisplayMode displayMode) {
-            this.displayMode = displayMode;
-        }
-
-        public void setHideFromPlayerList(boolean hideFromPlayerList) {
-            this.hideFromPlayerList = hideFromPlayerList;
-        }
-
-        public void setHideFromDebug(boolean hideFromDebug) {
-            this.hideFromDebug = hideFromDebug;
-        }
-
-        public void setEnableTextToSpeech(boolean enableTextToSpeech) {
-            this.enableTextToSpeech = enableTextToSpeech;
-        }
-
-        public void setRateLimit(int rateLimit) {
-            this.rateLimit = rateLimit;
-        }
-
-        public void setMaxHealthForRender(int maxHealthForRender) {
-            this.maxHealthForRender = maxHealthForRender;
-        }
-
-        public void setMaxHeartsPerLine(int maxHeartsPerLine) {
-            this.maxHeartsPerLine = maxHeartsPerLine;
-        }
-
         @Override
         public boolean isDisplayTooltip() {
             return displayTooltip;
+        }
+
+        public void setDisplayTooltip(boolean displayTooltip) {
+            this.displayTooltip = displayTooltip;
         }
 
         @Override
@@ -104,9 +71,17 @@ public class WailaConfig implements IWailaConfig {
             return shiftForDetails;
         }
 
+        public void setShiftForDetails(boolean shiftForDetails) {
+            this.shiftForDetails = shiftForDetails;
+        }
+
         @Override
         public DisplayMode getDisplayMode() {
             return displayMode;
+        }
+
+        public void setDisplayMode(DisplayMode displayMode) {
+            this.displayMode = displayMode;
         }
 
         @Override
@@ -114,14 +89,26 @@ public class WailaConfig implements IWailaConfig {
             return hideFromPlayerList;
         }
 
+        public void setHideFromPlayerList(boolean hideFromPlayerList) {
+            this.hideFromPlayerList = hideFromPlayerList;
+        }
+
         @Override
         public boolean isHideFromDebug() {
             return hideFromDebug;
         }
 
+        public void setHideFromDebug(boolean hideFromDebug) {
+            this.hideFromDebug = hideFromDebug;
+        }
+
         @Override
         public boolean isEnableTextToSpeech() {
             return enableTextToSpeech;
+        }
+
+        public void setEnableTextToSpeech(boolean enableTextToSpeech) {
+            this.enableTextToSpeech = enableTextToSpeech;
         }
 
         @Override
@@ -130,9 +117,17 @@ public class WailaConfig implements IWailaConfig {
             return rateLimit;
         }
 
+        public void setRateLimit(int rateLimit) {
+            this.rateLimit = rateLimit;
+        }
+
         @Override
         public int getMaxHealthForRender() {
             return maxHealthForRender;
+        }
+
+        public void setMaxHealthForRender(int maxHealthForRender) {
+            this.maxHealthForRender = maxHealthForRender;
         }
 
         @Override
@@ -140,17 +135,17 @@ public class WailaConfig implements IWailaConfig {
             return maxHeartsPerLine;
         }
 
+        public void setMaxHeartsPerLine(int maxHeartsPerLine) {
+            this.maxHeartsPerLine = maxHeartsPerLine;
+        }
+
     }
 
     public static class Overlay implements IWailaConfig.Overlay {
 
         private final Position position = new Position();
-        private float scale = 1.0F;
         private final Color color = new Color();
-
-        public void setScale(float scale) {
-            this.scale = scale;
-        }
+        private float scale = 1.0F;
 
         @Override
         public Position getPosition() {
@@ -162,6 +157,10 @@ public class WailaConfig implements IWailaConfig {
             return scale;
         }
 
+        public void setScale(float scale) {
+            this.scale = scale;
+        }
+
         @Override
         public Color getColor() {
             return color;
@@ -169,27 +168,27 @@ public class WailaConfig implements IWailaConfig {
 
         public static class Position implements IWailaConfig.Overlay.Position {
 
-            private int x = 0;
-            private int y = 0;
             private final Align align = new Align();
             private final Align anchor = new Align();
-
-            public void setX(int x) {
-                this.x = x;
-            }
-
-            public void setY(int y) {
-                this.y = y;
-            }
+            private int x = 0;
+            private int y = 0;
 
             @Override
             public int getX() {
                 return x;
             }
 
+            public void setX(int x) {
+                this.x = x;
+            }
+
             @Override
             public int getY() {
                 return y;
+            }
+
+            public void setY(int y) {
+                this.y = y;
             }
 
             @Override
@@ -207,22 +206,22 @@ public class WailaConfig implements IWailaConfig {
                 X x = X.CENTER;
                 Y y = Y.TOP;
 
-                public void setX(X x) {
-                    this.x = x;
-                }
-
-                public void setY(Y y) {
-                    this.y = y;
-                }
-
                 @Override
                 public X getX() {
                     return x;
                 }
 
+                public void setX(X x) {
+                    this.x = x;
+                }
+
                 @Override
                 public Y getY() {
                     return y;
+                }
+
+                public void setY(Y y) {
+                    this.y = y;
                 }
 
             }
@@ -245,6 +244,10 @@ public class WailaConfig implements IWailaConfig {
                 return alpha == 100 ? 255 : alpha == 0 ? (int) (0.4F / 100.0F * 256) << 24 : (int) (alpha / 100.0F * 256) << 24;
             }
 
+            public void setAlpha(int alpha) {
+                this.alpha = alpha;
+            }
+
             public int rawAlpha() {
                 return alpha;
             }
@@ -255,10 +258,6 @@ public class WailaConfig implements IWailaConfig {
 
             public Collection<Theme> themes() {
                 return themes.values();
-            }
-
-            public void setAlpha(int alpha) {
-                this.alpha = alpha;
             }
 
             @Override
@@ -324,29 +323,13 @@ public class WailaConfig implements IWailaConfig {
         private String entityName = "\u00a7f%s";
         private String registryName = "\u00a78%s";
 
-        public void setModName(String modName) {
-            this.modName = modName;
-        }
-
-        public void setBlockName(String blockName) {
-            this.blockName = blockName;
-        }
-
-        public void setFluidName(String fluidName) {
-            this.fluidName = fluidName;
-        }
-
-        public void setEntityName(String entityName) {
-            this.entityName = entityName;
-        }
-
-        public void setRegistryName(String registryName) {
-            this.registryName = registryName;
-        }
-
         @Override
         public String getModName() {
             return modName;
+        }
+
+        public void setModName(String modName) {
+            this.modName = modName;
         }
 
         @Override
@@ -354,9 +337,17 @@ public class WailaConfig implements IWailaConfig {
             return blockName;
         }
 
+        public void setBlockName(String blockName) {
+            this.blockName = blockName;
+        }
+
         @Override
         public String getFluidName() {
             return fluidName;
+        }
+
+        public void setFluidName(String fluidName) {
+            this.fluidName = fluidName;
         }
 
         @Override
@@ -364,9 +355,17 @@ public class WailaConfig implements IWailaConfig {
             return entityName;
         }
 
+        public void setEntityName(String entityName) {
+            this.entityName = entityName;
+        }
+
         @Override
         public String getRegistryName() {
             return registryName;
+        }
+
+        public void setRegistryName(String registryName) {
+            this.registryName = registryName;
         }
 
     }

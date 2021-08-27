@@ -28,6 +28,12 @@ public abstract class Waila {
 
     public static boolean clientSide = false;
 
+    static {
+        Impl.reg(IJsonConfig.Builder0.class, c -> new JsonConfig.Builder<>((Class<?>) c));
+        Impl.reg(IModInfo.class, s -> ModInfo.get((String) s));
+        Impl.reg(IWailaConfig.class, () -> Waila.config.get());
+    }
+
     protected static void init() {
         config = IJsonConfig.of(WailaConfig.class)
             .file(WailaConstants.NAMESPACE + "/" + WailaConstants.WAILA)
@@ -38,12 +44,6 @@ public abstract class Waila {
                 .registerTypeAdapter(ResourceLocation.class, new ResourceLocation.Serializer())
                 .create())
             .build();
-    }
-
-    static {
-        Impl.reg(IJsonConfig.Builder0.class, c -> new JsonConfig.Builder<>((Class<?>) c));
-        Impl.reg(IModInfo.class, s -> ModInfo.get((String) s));
-        Impl.reg(IWailaConfig.class, () -> Waila.config.get());
     }
 
 }

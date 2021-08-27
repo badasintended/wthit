@@ -73,6 +73,10 @@ public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IDataAccess
         return this.entity;
     }
 
+    public void setEntity(Entity entity) {
+        this.entity = entity;
+    }
+
     @Override
     public BlockPos getPosition() {
         return this.pos;
@@ -103,6 +107,10 @@ public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IDataAccess
             return entity.saveWithoutId(new CompoundTag());
 
         return new CompoundTag();
+    }
+
+    public void setServerData(CompoundTag tag) {
+        this.serverData = tag;
     }
 
     @Override
@@ -174,14 +182,6 @@ public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IDataAccess
             this.renderingVec = new Vec3(this.pos.getX() - px, this.pos.getY() - py, this.pos.getZ() - pz);
             this.partialFrame = partialTicks;
         }
-    }
-
-    public void setEntity(Entity entity) {
-        this.entity = entity;
-    }
-
-    public void setServerData(CompoundTag tag) {
-        this.serverData = tag;
     }
 
     public void setState(BlockState state) {
