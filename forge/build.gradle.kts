@@ -87,7 +87,7 @@ afterEvaluate {
 
     upload {
         curseforge(jar)
-        modrinth(sourcesJar)
+        modrinth(jar)
     }
 
     publishing {
