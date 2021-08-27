@@ -13,10 +13,17 @@ sourceSets {
     }
 }
 
+repositories {
+    maven("https://dvs1.progwml6.com/files/maven")
+}
+
 dependencies {
     minecraft("net.minecraftforge:forge:${rootProp["minecraft"]}-${rootProp["forge"]}")
 
     implementation("org.jetbrains:annotations:19.0.0")
+
+    compileOnly(fg.deobf("mezz.jei:jei-${rootProp["minecraft"]}:${rootProp["jei"]}:api"))
+    runtimeOnly(fg.deobf("mezz.jei:jei-${rootProp["minecraft"]}:${rootProp["jei"]}"))
 }
 
 minecraft {

@@ -1,25 +1,24 @@
-/*
 package mcp.mobius.waila.forge;
 
-import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.WailaClient;
-import mcp.mobius.waila.handler.DataAccessor;
+import mcp.mobius.waila.hud.TooltipRenderer;
+import mcp.mobius.waila.util.CommonUtil;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.recipe.IFocus;
 import mezz.jei.api.recipe.IRecipeManager;
 import mezz.jei.api.runtime.IJeiRuntime;
 import mezz.jei.api.runtime.IRecipesGui;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
 @JeiPlugin
 public class ForgeWailaJei implements IModPlugin {
 
-    private static final Identifier ID = Waila.id("jei");
+    private static final ResourceLocation ID = CommonUtil.id("jei");
 
     @Override
-    public @NotNull Identifier getPluginUid() {
+    public @NotNull ResourceLocation getPluginUid() {
         return ID;
     }
 
@@ -29,11 +28,10 @@ public class ForgeWailaJei implements IModPlugin {
         IRecipeManager manager = jei.getRecipeManager();
 
         WailaClient.onShowRecipeInput = () ->
-            gui.show(manager.createFocus(IFocus.Mode.INPUT, DataAccessor.INSTANCE.getStack()));
+            gui.show(manager.createFocus(IFocus.Mode.INPUT, TooltipRenderer.getStack()));
 
         WailaClient.onShowRecipeOutput = () ->
-            gui.show(manager.createFocus(IFocus.Mode.OUTPUT, DataAccessor.INSTANCE.getStack()));
+            gui.show(manager.createFocus(IFocus.Mode.OUTPUT, TooltipRenderer.getStack()));
     }
 
 }
-*/
