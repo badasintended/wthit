@@ -1,4 +1,4 @@
-package mcp.mobius.waila.forge;
+package mcp.mobius.waila.integration.jei;
 
 import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.hud.TooltipRenderer;
@@ -13,7 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
 @JeiPlugin
-public class ForgeWailaJei implements IModPlugin {
+public class JeiRecipeLookup implements IModPlugin {
 
     private static final ResourceLocation ID = CommonUtil.id("jei");
 

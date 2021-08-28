@@ -1,4 +1,4 @@
-package mcp.mobius.waila.fabric;
+package mcp.mobius.waila.integration.rei;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.WailaClient;
@@ -15,7 +15,7 @@ import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.inventory.InventoryMenu;
 
-public class FabricWailaRei implements REIClientPlugin {
+public class ReiRecipeLookup implements REIClientPlugin {
 
     @Override
     public void registerTransferHandlers(TransferHandlerRegistry registry) {

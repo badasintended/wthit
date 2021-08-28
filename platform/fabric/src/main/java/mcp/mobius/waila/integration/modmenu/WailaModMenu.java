@@ -1,10 +1,10 @@
-package mcp.mobius.waila.fabric;
+package mcp.mobius.waila.integration.modmenu;
 
 import com.terraformersmc.modmenu.api.ConfigScreenFactory;
 import com.terraformersmc.modmenu.api.ModMenuApi;
 import mcp.mobius.waila.gui.screen.HomeConfigScreen;
 
-public class FabricWailaModMenu implements ModMenuApi {
+public class WailaModMenu implements ModMenuApi {
 
     @Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
