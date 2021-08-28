@@ -3,7 +3,7 @@ plugins {
 }
 
 loom {
-    accessWidener = project(":fabric").file("src/main/resources/wthit.accesswidener")
+    accessWidener = project(":platform:fabric").file("src/main/resources/wthit.accesswidener")
 }
 
 dependencies {

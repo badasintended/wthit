@@ -21,7 +21,7 @@ pluginManagement {
 }
 
 include("common")
-include("fabric")
-include("forge")
+include("platform:fabric")
+include("platform:forge")
 
 rootProject.name = "wthit"

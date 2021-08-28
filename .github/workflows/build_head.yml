@@ -31,9 +31,9 @@ jobs:
           GIT_HASH: ${{ steps.vars.outputs.git_hash }}
       - uses: actions/upload-artifact@v2
         with:
-          name: fabric ${{ steps.vars.outputs.git_hash }}
-          path: "./fabric/build/libs/**.jar"
+          name: wthit-fabric-${{ steps.vars.outputs.git_hash }}
+          path: "./platform/fabric/build/libs/**.jar"
       - uses: actions/upload-artifact@v2
         with:
-          name: forge ${{ steps.vars.outputs.git_hash }}
-          path: "./forge/build/libs/**.jar"
+          name: wthit-forge-${{ steps.vars.outputs.git_hash }}
+          path: "./platform/forge/build/libs/**.jar"

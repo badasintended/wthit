@@ -9,6 +9,7 @@ sourceSets {
     main {
         commonProject.sourceSets.forEach {
             compileClasspath += it.output
+            runtimeClasspath += it.output
         }
     }
 }
@@ -31,7 +32,7 @@ minecraft {
     accessTransformer(file("src/main/resources/META-INF/accesstransformer.cfg"))
     runs {
         val runConfig = Action<RunConfig> {
-            sources = listOf(sourceSets.main.get(), *commonProject.sourceSets.toTypedArray())
+            sources = listOf(sourceSets.main.get())
             workingDirectory(rootProject.file("run"))
             property("forge.logging.console.level", "debug")
         }
