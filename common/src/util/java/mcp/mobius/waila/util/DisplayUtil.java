@@ -1,7 +1,5 @@
 package mcp.mobius.waila.util;
 
-import java.text.DecimalFormat;
-
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -16,10 +14,8 @@ public final class DisplayUtil extends GuiComponent {
     // because some function in DrawableHelper are not static
     private static final DisplayUtil DH = new DisplayUtil();
 
-    private static final String[] NUM_SUFFIXES = new String[]{"", "k", "m", "b", "t"};
-    private static final int MAX_LENGTH = 4;
+    private static final String NUM_SUFFIXES = "kmbt";
     private static final Minecraft CLIENT = Minecraft.getInstance();
-    private static final DecimalFormat SHORT_HAND = new DecimalFormat("##0E0");
 
     public static void bindTexture(ResourceLocation texture) {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
@@ -42,13 +38,13 @@ public final class DisplayUtil extends GuiComponent {
         enable2DRender();
     }
 
-    private static String shortHandNumber(Number number) {
-        String shorthand = SHORT_HAND.format(number);
-        shorthand = shorthand.replaceAll("E[0-9]", NUM_SUFFIXES[Character.getNumericValue(shorthand.charAt(shorthand.length() - 1)) / 3]);
-        while (shorthand.length() > MAX_LENGTH || shorthand.matches("[0-9]+\\.[a-z]"))
-            shorthand = shorthand.substring(0, shorthand.length() - 2) + shorthand.substring(shorthand.length() - 1);
+    private static String shortHandNumber(int number) {
+        if (number < 1000) {
+            return "" + number;
+        }
 
-        return shorthand;
+        int exp = (int) Math.log(number / 1000.0);
+        return String.format("%.1f%c", number / Math.pow(1000, exp), NUM_SUFFIXES.charAt(exp - 1));
     }
 
     public static void enable3DRender() {
