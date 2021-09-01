@@ -6,6 +6,7 @@ import mcp.mobius.waila.api.IDrawableText;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataProvider;
 import mcp.mobius.waila.api.ITooltip;
+import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.nbt.Tag;
@@ -24,7 +25,7 @@ public enum FurnaceComponent implements IBlockComponentProvider, IServerDataProv
 
     @Override
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
-        if (!config.getBoolean(WailaVanilla.CONFIG_DISPLAY_FURNACE))
+        if (!config.getBoolean(Options.FURNACE_CONTENTS))
             return;
 
         if (!accessor.getBlockState().getValue(BlockStateProperties.LIT))

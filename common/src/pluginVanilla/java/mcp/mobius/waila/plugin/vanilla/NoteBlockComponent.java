@@ -4,6 +4,8 @@ import mcp.mobius.waila.api.IBlockAccessor;
 import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITooltip;
+import mcp.mobius.waila.plugin.vanilla.config.Options;
+import mcp.mobius.waila.plugin.vanilla.config.Options.NoteDisplayMode;
 import net.minecraft.Util;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -33,14 +35,23 @@ public enum NoteBlockComponent implements IBlockComponentProvider {
 
     @Override
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
-        if (config.getBoolean(WailaVanilla.CONFIG_NOTE_BLOCK_TYPE)) {
+        if (config.getBoolean(Options.NOTE_BLOCK_TYPE)) {
             BlockState state = accessor.getBlockState();
             NoteBlockInstrument instrument = state.getValue(NoteBlock.INSTRUMENT);
             int level = state.getValue(NoteBlock.NOTE);
             Note note = Note.get(level);
+            StringBuilder builder = new StringBuilder()
+                .append(" (")
+                .append(config.<NoteDisplayMode>getEnum(Options.NOTE_BLOCK_NOTE) == NoteDisplayMode.SHARP ? note.sharp : note.flat)
+                .append(")");
+            if (config.getBoolean(Options.NOTE_BLOCK_INT_VALUE)) {
+                builder
+                    .append(" (")
+                    .append(level)
+                    .append(")");
+            }
             tooltip.add(new TranslatableComponent("tooltip.waila.instrument." + instrument.getSerializedName())
-                .append(new TextComponent(" (" + (config.getBoolean(WailaVanilla.CONFIG_NOTE_BLOCK_FLAT) ? note.flat : note.sharp) + ")")
-                    .withStyle(style -> style.withColor(COLORS[level]))));
+                .append(new TextComponent(builder.toString()).withStyle(style -> style.withColor(COLORS[level]))));
         }
     }
 

@@ -4,6 +4,7 @@ import mcp.mobius.waila.api.IBlockAccessor;
 import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITooltip;
+import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.TextComponent;
@@ -32,7 +33,7 @@ public enum PlayerHeadComponent implements IBlockComponentProvider {
 
     @Override
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
-        if (config.getBoolean(WailaVanilla.CONFIG_PLAYER_HEAD_NAME)) {
+        if (config.getBoolean(Options.PLAYER_HEAD_NAME)) {
             SkullBlockEntity skull = (SkullBlockEntity) accessor.getBlockEntity();
             if (skull != null && skull.getOwnerProfile() != null && !StringUtils.isBlank(skull.getOwnerProfile().getName()))
                 tooltip.add(new TextComponent(skull.getOwnerProfile().getName()));

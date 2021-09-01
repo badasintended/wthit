@@ -14,7 +14,6 @@
   "tooltip.waila.sneak_for_details"                     : "Sneak for details",
   "tooltip.waila.compost_level"                         : "Compost Level: %s",
   "tooltip.waila.honey_level"                           : "Honey Level: %s",
-  "tooltip.waila.note"                                  : "Note: %s",
 
   "tooltip.waila.instrument.harp"                       : "Harp",
   "tooltip.waila.instrument.basedrum"                   : "Bass Drum",
@@ -137,7 +136,10 @@
   "config.waila.plugin_minecraft.level.honey"           : "Show Honey Level",
   "config.waila.plugin_minecraft.note_block"            : "Note Block",
   "config.waila.plugin_minecraft.note_block.type"       : "Show Instrument and Note",
-  "config.waila.plugin_minecraft.note_block.flat"       : "Use Flat Note",
+  "config.waila.plugin_minecraft.note_block.note"       : "Note Display Mode",
+  "config.waila.plugin_minecraft.note_block.note_sharp" : "Sharp",
+  "config.waila.plugin_minecraft.note_block.note_flat"  : "Flat",
+  "config.waila.plugin_minecraft.note_block.int_value"  : "Show Integer Level Value",
 
   "config.waila.plugin_waila"                           : "Waila Core",
   "config.waila.plugin_waila.show_mod_name"             : "Show Mod Names",

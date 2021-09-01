@@ -3,6 +3,7 @@ package mcp.mobius.waila.plugin.vanilla;
 import mcp.mobius.waila.api.IBlockAccessor;
 import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
+import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
@@ -13,7 +14,7 @@ public enum PowderSnowComponent implements IBlockComponentProvider {
 
     @Override
     public @Nullable BlockState getOverride(IBlockAccessor accessor, IPluginConfig config) {
-        return config.getBoolean(WailaVanilla.CONFIG_OVERRIDE_POWDER_SNOW)
+        return config.getBoolean(Options.OVERRIDE_POWDER_SNOW)
             ? Blocks.SNOW_BLOCK.defaultBlockState()
             : null;
     }

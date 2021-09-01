@@ -13,7 +13,6 @@
   "tooltip.waila.health"                      : "%s/%s здоровья",
   "tooltip.waila.sneak_for_details"           : "Пригнитесь для подробностей",
   "tooltip.waila.honey_level"                 : "Уровень мёда: %s",
-  "tooltip.waila.note"                        : "Нота: %s",
 
   "tooltip.waila.instrument.harp"             : "Арфа",
   "tooltip.waila.instrument.basedrum"         : "Большой барабан",

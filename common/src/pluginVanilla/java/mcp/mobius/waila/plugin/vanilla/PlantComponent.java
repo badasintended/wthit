@@ -6,6 +6,7 @@ import mcp.mobius.waila.api.IBlockAccessor;
 import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITooltip;
+import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.ItemStack;
@@ -42,7 +43,7 @@ public enum PlantComponent implements IBlockComponentProvider {
 
     @Override
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
-        if (config.getBoolean(WailaVanilla.CONFIG_CROP_PROGRESS)) {
+        if (config.getBoolean(Options.CROP_PROGRESS)) {
             if (accessor.getBlock() instanceof CropBlock crop) {
                 addMaturityTooltip(tooltip, accessor.getBlockState().getValue(crop.getAgeProperty()) / (float) crop.getMaxAge());
             } else if (accessor.getBlock() == Blocks.MELON_STEM || accessor.getBlock() == Blocks.PUMPKIN_STEM) {
