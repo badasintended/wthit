@@ -24,6 +24,8 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
 
     @Override
     public final void render(PoseStack matrices, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
+        super.render(matrices, index, rowTop, rowLeft, width, height, mouseX, mouseY, hovered, deltaTime);
+
         client.font.drawShadow(matrices, title.getString(), rowLeft, rowTop + (height - client.font.lineHeight) / 2f, 16777215);
         drawValue(matrices, width, height, rowLeft, rowTop, mouseX, mouseY, hovered, deltaTime);
         this.x = rowLeft;

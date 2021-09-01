@@ -37,42 +37,42 @@ public class WailaVanilla implements IWailaPlugin {
     static final ResourceLocation RENDER_ITEM             = new ResourceLocation("item");
     static final ResourceLocation RENDER_FURNACE_PROGRESS = new ResourceLocation("furnace_progress");
 
-    static final ResourceLocation CONFIG_DISPLAY_FURNACE    = new ResourceLocation("display_furnace_contents");
-    static final ResourceLocation CONFIG_HIDE_SILVERFISH    = new ResourceLocation("hide_infestations");
-    static final ResourceLocation CONFIG_HIDE_TRAPPED_CHEST = new ResourceLocation("hide_trapped_chest");
-    static final ResourceLocation CONFIG_HIDE_POWDER_SNOW   = new ResourceLocation("hide_powder_snow");
-    static final ResourceLocation CONFIG_SPAWNER_TYPE       = new ResourceLocation("spawner_type");
-    static final ResourceLocation CONFIG_CROP_PROGRESS      = new ResourceLocation("crop_progress");
-    static final ResourceLocation CONFIG_LEVER              = new ResourceLocation("lever");
-    static final ResourceLocation CONFIG_REPEATER           = new ResourceLocation("repeater");
-    static final ResourceLocation CONFIG_COMPARATOR         = new ResourceLocation("comparator");
-    static final ResourceLocation CONFIG_REDSTONE           = new ResourceLocation("redstone");
-    static final ResourceLocation CONFIG_JUKEBOX            = new ResourceLocation("jukebox");
-    static final ResourceLocation CONFIG_PLAYER_HEAD_NAME   = new ResourceLocation("player_head_name");
-    static final ResourceLocation CONFIG_COMPOSTER_LEVEL    = new ResourceLocation("composter_level");
-    static final ResourceLocation CONFIG_HONEY_LEVEL        = new ResourceLocation("honey_level");
-    static final ResourceLocation CONFIG_NOTE_BLOCK         = new ResourceLocation("note_block");
-    static final ResourceLocation CONFIG_NOTE_BLOCK_FLAT    = new ResourceLocation("note_block_flat");
+    static final ResourceLocation CONFIG_DISPLAY_FURNACE        = new ResourceLocation("furnace_contents");
+    static final ResourceLocation CONFIG_OVERRIDE_INFESTED      = new ResourceLocation("override.infested");
+    static final ResourceLocation CONFIG_OVERRIDE_TRAPPED_CHEST = new ResourceLocation("override.trapped_chest");
+    static final ResourceLocation CONFIG_OVERRIDE_POWDER_SNOW   = new ResourceLocation("override.powder_snow");
+    static final ResourceLocation CONFIG_SPAWNER_TYPE           = new ResourceLocation("spawner_type");
+    static final ResourceLocation CONFIG_CROP_PROGRESS          = new ResourceLocation("crop_progress");
+    static final ResourceLocation CONFIG_REDSTONE_LEVER         = new ResourceLocation("redstone.lever");
+    static final ResourceLocation CONFIG_REDSTONE_REPEATER      = new ResourceLocation("redstone.repeater");
+    static final ResourceLocation CONFIG_REDSTONE_COMPARATOR    = new ResourceLocation("redstone.comparator");
+    static final ResourceLocation CONFIG_REDSTONE_LEVEL         = new ResourceLocation("redstone.level");
+    static final ResourceLocation CONFIG_JUKEBOX_RECORD         = new ResourceLocation("jukebox.record");
+    static final ResourceLocation CONFIG_PLAYER_HEAD_NAME       = new ResourceLocation("player_head.name");
+    static final ResourceLocation CONFIG_LEVEL_COMPOSTER        = new ResourceLocation("level.composter");
+    static final ResourceLocation CONFIG_LEVEL_HONEY            = new ResourceLocation("level.honey");
+    static final ResourceLocation CONFIG_NOTE_BLOCK_TYPE        = new ResourceLocation("note_block.type");
+    static final ResourceLocation CONFIG_NOTE_BLOCK_FLAT        = new ResourceLocation("note_block.flat");
     // @formatter:on
 
     @Override
     public void register(IRegistrar registrar) {
-        registrar.addSyncedConfig(CONFIG_HIDE_SILVERFISH, true);
-        registrar.addSyncedConfig(CONFIG_HIDE_TRAPPED_CHEST, true);
-        registrar.addSyncedConfig(CONFIG_HIDE_POWDER_SNOW, true);
+        registrar.addSyncedConfig(CONFIG_OVERRIDE_INFESTED, true);
+        registrar.addSyncedConfig(CONFIG_OVERRIDE_TRAPPED_CHEST, true);
+        registrar.addSyncedConfig(CONFIG_OVERRIDE_POWDER_SNOW, true);
 
         registrar.addConfig(CONFIG_DISPLAY_FURNACE, true);
         registrar.addConfig(CONFIG_SPAWNER_TYPE, true);
         registrar.addConfig(CONFIG_CROP_PROGRESS, true);
-        registrar.addConfig(CONFIG_LEVER, true);
-        registrar.addConfig(CONFIG_REPEATER, true);
-        registrar.addConfig(CONFIG_COMPARATOR, true);
-        registrar.addConfig(CONFIG_REDSTONE, true);
-        registrar.addConfig(CONFIG_JUKEBOX, true);
+        registrar.addConfig(CONFIG_REDSTONE_LEVER, true);
+        registrar.addConfig(CONFIG_REDSTONE_REPEATER, true);
+        registrar.addConfig(CONFIG_REDSTONE_COMPARATOR, true);
+        registrar.addConfig(CONFIG_REDSTONE_LEVEL, true);
+        registrar.addConfig(CONFIG_JUKEBOX_RECORD, true);
         registrar.addConfig(CONFIG_PLAYER_HEAD_NAME, true);
-        registrar.addConfig(CONFIG_COMPOSTER_LEVEL, true);
-        registrar.addConfig(CONFIG_HONEY_LEVEL, true);
-        registrar.addConfig(CONFIG_NOTE_BLOCK, true);
+        registrar.addConfig(CONFIG_LEVEL_COMPOSTER, true);
+        registrar.addConfig(CONFIG_LEVEL_HONEY, true);
+        registrar.addConfig(CONFIG_NOTE_BLOCK_TYPE, true);
         registrar.addConfig(CONFIG_NOTE_BLOCK_FLAT, false);
 
         registrar.addRenderer(RENDER_ITEM, new ItemRenderer());

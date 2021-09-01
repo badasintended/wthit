@@ -16,7 +16,7 @@ public enum TrappedChestComponent implements IBlockComponentProvider {
 
     @Override
     public BlockState getOverride(IBlockAccessor accessor, IPluginConfig config) {
-        if (config.getBoolean(WailaVanilla.CONFIG_HIDE_TRAPPED_CHEST)) {
+        if (config.getBoolean(WailaVanilla.CONFIG_OVERRIDE_TRAPPED_CHEST)) {
             BlockState state = accessor.getBlockState();
             return Blocks.CHEST.defaultBlockState()
                 .setValue(FACING, state.getValue(FACING))

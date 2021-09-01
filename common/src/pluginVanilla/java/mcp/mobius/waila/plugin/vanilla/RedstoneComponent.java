@@ -16,25 +16,25 @@ public enum RedstoneComponent implements IBlockComponentProvider {
 
     @Override
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
-        if (config.getBoolean(WailaVanilla.CONFIG_LEVER) && accessor.getBlock() instanceof LeverBlock) {
+        if (config.getBoolean(WailaVanilla.CONFIG_REDSTONE_LEVER) && accessor.getBlock() instanceof LeverBlock) {
             boolean active = accessor.getBlockState().getValue(BlockStateProperties.POWERED);
             tooltip.add(new TranslatableComponent("tooltip.waila.state", new TranslatableComponent("tooltip.waila.state_" + (active ? "on" : "off"))));
             return;
         }
 
-        if (config.getBoolean(WailaVanilla.CONFIG_REPEATER) && accessor.getBlock() == Blocks.REPEATER) {
+        if (config.getBoolean(WailaVanilla.CONFIG_REDSTONE_REPEATER) && accessor.getBlock() == Blocks.REPEATER) {
             int delay = accessor.getBlockState().getValue(BlockStateProperties.DELAY);
             tooltip.add(new TranslatableComponent("tooltip.waila.delay", delay));
             return;
         }
 
-        if (config.getBoolean(WailaVanilla.CONFIG_COMPARATOR) && accessor.getBlock() == Blocks.COMPARATOR) {
+        if (config.getBoolean(WailaVanilla.CONFIG_REDSTONE_COMPARATOR) && accessor.getBlock() == Blocks.COMPARATOR) {
             ComparatorMode mode = accessor.getBlockState().getValue(BlockStateProperties.MODE_COMPARATOR);
             tooltip.add(new TranslatableComponent("tooltip.waila.mode", new TranslatableComponent("tooltip.waila.mode_" + (mode == ComparatorMode.COMPARE ? "comparator" : "subtractor"))));
             return;
         }
 
-        if (config.getBoolean(WailaVanilla.CONFIG_REDSTONE) && accessor.getBlock() == Blocks.REDSTONE_WIRE) {
+        if (config.getBoolean(WailaVanilla.CONFIG_REDSTONE_LEVEL) && accessor.getBlock() == Blocks.REDSTONE_WIRE) {
             tooltip.add(new TranslatableComponent("tooltip.waila.power", accessor.getBlockState().getValue(BlockStateProperties.POWER)));
         }
     }

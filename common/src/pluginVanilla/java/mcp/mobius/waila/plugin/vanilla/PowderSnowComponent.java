@@ -13,7 +13,7 @@ public enum PowderSnowComponent implements IBlockComponentProvider {
 
     @Override
     public @Nullable BlockState getOverride(IBlockAccessor accessor, IPluginConfig config) {
-        return config.getBoolean(WailaVanilla.CONFIG_HIDE_POWDER_SNOW)
+        return config.getBoolean(WailaVanilla.CONFIG_OVERRIDE_POWDER_SNOW)
             ? Blocks.SNOW_BLOCK.defaultBlockState()
             : null;
     }

@@ -13,6 +13,7 @@ import mcp.mobius.waila.gui.widget.value.CycleValue;
 import mcp.mobius.waila.gui.widget.value.EnumValue;
 import mcp.mobius.waila.gui.widget.value.InputValue;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.ContainerObjectSelectionList;
 import net.minecraft.client.gui.components.events.GuiEventListener;
@@ -38,12 +39,12 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
 
     @Override
     public int getRowWidth() {
-        return Math.min(width - 5, 300);
+        return Math.min(width - 20, 450);
     }
 
     @Override
     protected int getScrollbarPosition() {
-        return getRowRight() + 5;
+        return minecraft.getWindow().getGuiScaledWidth() - 5;
     }
 
     public void save() {
@@ -57,16 +58,29 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
     }
 
     public void add(Entry entry) {
+        add(children().size(), entry);
+    }
+
+    public void add(int index, Entry entry) {
         if (entry instanceof ConfigValue) {
             GuiEventListener element = ((ConfigValue<?>) entry).getListener();
             if (element != null)
                 owner.addListener(element);
         }
-        addEntry(entry);
+        children().add(index, entry);
     }
 
     public ConfigListWidget with(Entry entry) {
-        add(entry);
+        return with(children().size(), entry);
+    }
+
+    public ConfigListWidget with(int index, Entry entry) {
+        add(index, entry);
+        return this;
+    }
+
+    public ConfigListWidget withCategory(String title) {
+        add(new CategoryEntry(title));
         return this;
     }
 
@@ -129,7 +143,11 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
         }
 
         @Override
-        public abstract void render(PoseStack matrices, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime);
+        public void render(PoseStack matrices, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
+            if (hovered) {
+                GuiComponent.fill(matrices, 0, rowTop, client.getWindow().getGuiScaledWidth(), rowTop + height, 0x22FFFFFF);
+            }
+        }
 
     }
 

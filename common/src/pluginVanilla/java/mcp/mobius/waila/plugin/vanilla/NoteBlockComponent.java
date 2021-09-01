@@ -33,7 +33,7 @@ public enum NoteBlockComponent implements IBlockComponentProvider {
 
     @Override
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
-        if (config.getBoolean(WailaVanilla.CONFIG_NOTE_BLOCK)) {
+        if (config.getBoolean(WailaVanilla.CONFIG_NOTE_BLOCK_TYPE)) {
             BlockState state = accessor.getBlockState();
             NoteBlockInstrument instrument = state.getValue(NoteBlock.INSTRUMENT);
             int level = state.getValue(NoteBlock.NOTE);

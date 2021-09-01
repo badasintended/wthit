@@ -23,7 +23,7 @@ public class InputValue<T> extends ConfigValue<T> {
         super(optionName, save);
 
         this.value = value;
-        this.textField = new WatchedTextfield(this, client.font, 0, 0, 98, 18);
+        this.textField = new WatchedTextfield(this, client.font, 0, 0, 160, 18);
         textField.setValue(String.valueOf(value));
         textField.setFilter(validator);
     }

@@ -13,7 +13,7 @@ public enum ComposterComponent implements IBlockComponentProvider {
 
     @Override
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
-        if (config.getBoolean(WailaVanilla.CONFIG_COMPOSTER_LEVEL)) {
+        if (config.getBoolean(WailaVanilla.CONFIG_LEVEL_COMPOSTER)) {
             BlockState state = accessor.getBlockState();
             tooltip.add(new TranslatableComponent("tooltip.waila.compost_level", state.getValue(ComposterBlock.LEVEL)));
         }
