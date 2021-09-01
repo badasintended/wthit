@@ -142,10 +142,10 @@ public enum PluginConfig implements IPluginConfig {
     }
 
     private void writeConfig(boolean reset) {
-        Map<String, Map<String, Object>> config = new HashMap<>();
+        Map<String, Map<String, Object>> config = new LinkedHashMap<>();
         for (ConfigEntry<?> e : configs.values()) {
             ConfigEntry<Object> entry = (ConfigEntry<Object>) e;
-            Map<String, Object> modConfig = config.computeIfAbsent(entry.getId().getNamespace(), k -> new HashMap<>());
+            Map<String, Object> modConfig = config.computeIfAbsent(entry.getId().getNamespace(), k -> new LinkedHashMap<>());
             if (reset) {
                 entry.setValue(entry.getDefaultValue());
             }
