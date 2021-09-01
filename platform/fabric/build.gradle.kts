@@ -60,15 +60,11 @@ tasks.processResources {
 }
 
 tasks.jar {
-    commonProject.sourceSets.forEach {
-        from(it.output.classesDirs)
-    }
+    fromCommonOutput()
 }
 
 tasks.sourcesJar {
-    commonProject.sourceSets.forEach {
-        from(it.allJava)
-    }
+    fromCommonSources()
 }
 
 afterEvaluate {

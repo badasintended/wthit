@@ -57,17 +57,12 @@ tasks.processResources {
 }
 
 tasks.jar {
-    commonProject.sourceSets.forEach {
-        from(it.output)
-    }
-    finalizedBy("reobfJar")
+    fromCommonOutput()
 }
 
 
 tasks.sourcesJar {
-    commonProject.sourceSets.forEach {
-        from(it.allSource)
-    }
+    fromCommonSources()
 }
 
 afterEvaluate {
