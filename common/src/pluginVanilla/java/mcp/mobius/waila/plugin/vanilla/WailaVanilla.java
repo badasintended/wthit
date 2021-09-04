@@ -2,11 +2,26 @@ package mcp.mobius.waila.plugin.vanilla;
 
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
+import mcp.mobius.waila.plugin.vanilla.component.BeehiveComponent;
+import mcp.mobius.waila.plugin.vanilla.component.ComposterComponent;
+import mcp.mobius.waila.plugin.vanilla.component.EntityIconComponent;
+import mcp.mobius.waila.plugin.vanilla.component.FallingBlockComponent;
+import mcp.mobius.waila.plugin.vanilla.component.FurnaceComponent;
+import mcp.mobius.waila.plugin.vanilla.component.InfestedBlockComponent;
+import mcp.mobius.waila.plugin.vanilla.component.ItemEntityComponent;
+import mcp.mobius.waila.plugin.vanilla.component.JukeboxComponent;
+import mcp.mobius.waila.plugin.vanilla.component.NoteBlockComponent;
+import mcp.mobius.waila.plugin.vanilla.component.PlantComponent;
+import mcp.mobius.waila.plugin.vanilla.component.PlayerHeadComponent;
+import mcp.mobius.waila.plugin.vanilla.component.PowderSnowComponent;
+import mcp.mobius.waila.plugin.vanilla.component.RedstoneComponent;
+import mcp.mobius.waila.plugin.vanilla.component.SpawnerComponent;
+import mcp.mobius.waila.plugin.vanilla.component.TrappedChestComponent;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import mcp.mobius.waila.plugin.vanilla.config.Options.NoteDisplayMode;
 import mcp.mobius.waila.plugin.vanilla.renderer.ItemRenderer;
 import mcp.mobius.waila.plugin.vanilla.renderer.ProgressRenderer;
-import net.minecraft.resources.ResourceLocation;
+import mcp.mobius.waila.plugin.vanilla.renderer.Renderers;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -35,11 +50,6 @@ import static mcp.mobius.waila.api.TooltipPosition.HEAD;
 
 public class WailaVanilla implements IWailaPlugin {
 
-    // @formatter:off
-    static final ResourceLocation RENDER_ITEM             = new ResourceLocation("item");
-    static final ResourceLocation RENDER_FURNACE_PROGRESS = new ResourceLocation("furnace_progress");
-    // @formatter:on
-
     @Override
     public void register(IRegistrar registrar) {
         registrar.addSyncedConfig(Options.OVERRIDE_INFESTED, true);
@@ -61,8 +71,8 @@ public class WailaVanilla implements IWailaPlugin {
         registrar.addConfig(Options.NOTE_BLOCK_NOTE, NoteDisplayMode.SHARP);
         registrar.addConfig(Options.NOTE_BLOCK_INT_VALUE, false);
 
-        registrar.addRenderer(RENDER_ITEM, new ItemRenderer());
-        registrar.addRenderer(RENDER_FURNACE_PROGRESS, new ProgressRenderer());
+        registrar.addRenderer(Renderers.ITEM, new ItemRenderer());
+        registrar.addRenderer(Renderers.PROGRESS, new ProgressRenderer());
 
         registrar.addOverride(InfestedBlockComponent.INSTANCE, InfestedBlock.class);
         registrar.addOverride(TrappedChestComponent.INSTANCE, TrappedChestBlock.class);

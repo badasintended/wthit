@@ -1,4 +1,4 @@
-package mcp.mobius.waila.plugin.vanilla;
+package mcp.mobius.waila.plugin.vanilla.component;
 
 import mcp.mobius.waila.api.IBlockAccessor;
 import mcp.mobius.waila.api.IBlockComponentProvider;
@@ -16,8 +16,8 @@ import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
-import static mcp.mobius.waila.plugin.vanilla.WailaVanilla.RENDER_FURNACE_PROGRESS;
-import static mcp.mobius.waila.plugin.vanilla.WailaVanilla.RENDER_ITEM;
+import static mcp.mobius.waila.plugin.vanilla.renderer.Renderers.ITEM;
+import static mcp.mobius.waila.plugin.vanilla.renderer.Renderers.PROGRESS;
 
 public enum FurnaceComponent implements IBlockComponentProvider, IServerDataProvider<BlockEntity> {
 
@@ -34,10 +34,10 @@ public enum FurnaceComponent implements IBlockComponentProvider, IServerDataProv
         ListTag furnaceItems = accessor.getServerData().getList("furnace", Tag.TAG_COMPOUND);
 
         tooltip.add(IDrawableText.create()
-            .with(RENDER_ITEM, furnaceItems.getCompound(0))
-            .with(RENDER_ITEM, furnaceItems.getCompound(1))
-            .with(RENDER_FURNACE_PROGRESS, accessor.getServerData())
-            .with(RENDER_ITEM, furnaceItems.getCompound(2)));
+            .with(ITEM, furnaceItems.getCompound(0))
+            .with(ITEM, furnaceItems.getCompound(1))
+            .with(PROGRESS, accessor.getServerData())
+            .with(ITEM, furnaceItems.getCompound(2)));
     }
 
     @Override

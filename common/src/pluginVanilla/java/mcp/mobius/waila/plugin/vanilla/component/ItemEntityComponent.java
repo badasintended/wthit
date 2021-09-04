@@ -1,4 +1,4 @@
-package mcp.mobius.waila.plugin.vanilla;
+package mcp.mobius.waila.plugin.vanilla.component;
 
 import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IEntityComponentProvider;
