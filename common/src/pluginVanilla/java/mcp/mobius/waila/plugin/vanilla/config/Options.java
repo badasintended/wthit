@@ -9,6 +9,8 @@ public final class Options {
     public static final ResourceLocation OVERRIDE_INFESTED      = new ResourceLocation("override.infested");
     public static final ResourceLocation OVERRIDE_TRAPPED_CHEST = new ResourceLocation("override.trapped_chest");
     public static final ResourceLocation OVERRIDE_POWDER_SNOW   = new ResourceLocation("override.powder_snow");
+    public static final ResourceLocation PET_OWNER              = new ResourceLocation("pet.owner");
+    public static final ResourceLocation PET_HIDE_UNKNOWN_OWNER = new ResourceLocation("pet.hide_unknown_owner");
     public static final ResourceLocation SPAWNER_TYPE           = new ResourceLocation("spawner_type");
     public static final ResourceLocation CROP_PROGRESS          = new ResourceLocation("crop_progress");
     public static final ResourceLocation REDSTONE_LEVER         = new ResourceLocation("redstone.lever");

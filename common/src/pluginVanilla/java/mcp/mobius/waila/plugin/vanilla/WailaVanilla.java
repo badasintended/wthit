@@ -11,6 +11,7 @@ import mcp.mobius.waila.plugin.vanilla.component.InfestedBlockComponent;
 import mcp.mobius.waila.plugin.vanilla.component.ItemEntityComponent;
 import mcp.mobius.waila.plugin.vanilla.component.JukeboxComponent;
 import mcp.mobius.waila.plugin.vanilla.component.NoteBlockComponent;
+import mcp.mobius.waila.plugin.vanilla.component.PetOwnerComponent;
 import mcp.mobius.waila.plugin.vanilla.component.PlantComponent;
 import mcp.mobius.waila.plugin.vanilla.component.PlayerHeadComponent;
 import mcp.mobius.waila.plugin.vanilla.component.PowderSnowComponent;
@@ -55,6 +56,7 @@ public class WailaVanilla implements IWailaPlugin {
         registrar.addSyncedConfig(Options.OVERRIDE_INFESTED, true);
         registrar.addSyncedConfig(Options.OVERRIDE_TRAPPED_CHEST, true);
         registrar.addSyncedConfig(Options.OVERRIDE_POWDER_SNOW, true);
+        registrar.addSyncedConfig(Options.PET_OWNER, true);
 
         registrar.addConfig(Options.FURNACE_CONTENTS, true);
         registrar.addConfig(Options.SPAWNER_TYPE, true);
@@ -70,6 +72,7 @@ public class WailaVanilla implements IWailaPlugin {
         registrar.addConfig(Options.NOTE_BLOCK_TYPE, true);
         registrar.addConfig(Options.NOTE_BLOCK_NOTE, NoteDisplayMode.SHARP);
         registrar.addConfig(Options.NOTE_BLOCK_INT_VALUE, false);
+        registrar.addConfig(Options.PET_HIDE_UNKNOWN_OWNER, false);
 
         registrar.addRenderer(Renderers.ITEM, new ItemRenderer());
         registrar.addRenderer(Renderers.PROGRESS, new ProgressRenderer());
@@ -113,6 +116,8 @@ public class WailaVanilla implements IWailaPlugin {
         registrar.addComponent(BeehiveComponent.INSTANCE, BODY, BeehiveBlock.class);
 
         registrar.addComponent(NoteBlockComponent.INSTANCE, BODY, NoteBlock.class);
+
+        registrar.addComponent(PetOwnerComponent.INSTANCE, BODY, Entity.class);
     }
 
 }
