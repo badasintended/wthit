@@ -64,13 +64,15 @@ public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IDataAccess
     }
 
     @Override
-    public BlockEntity getBlockEntity() {
-        return this.blockEntity;
+    @SuppressWarnings("unchecked")
+    public <T extends BlockEntity> T getBlockEntity() {
+        return (T) this.blockEntity;
     }
 
     @Override
-    public Entity getEntity() {
-        return this.entity;
+    @SuppressWarnings("unchecked")
+    public <T extends Entity> T getEntity() {
+        return (T) this.entity;
     }
 
     public void setEntity(Entity entity) {

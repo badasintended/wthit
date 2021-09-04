@@ -33,10 +33,10 @@ public interface ICommonAccessor {
     ResourceLocation getBlockId();
 
     @Nullable
-    BlockEntity getBlockEntity();
+    <T extends BlockEntity> T getBlockEntity();
 
     @Nullable
-    Entity getEntity();
+    <T extends Entity> T getEntity();
 
     BlockPos getPosition();
 

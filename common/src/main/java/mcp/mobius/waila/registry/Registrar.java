@@ -132,9 +132,10 @@ public enum Registrar implements IRegistrar {
     }
 
     @Override
-    public <T> void addBlockData(IServerDataProvider<BlockEntity> provider, Class<T> clazz) {
+    @SuppressWarnings("unchecked")
+    public <T, BE extends BlockEntity> void addBlockData(IServerDataProvider<BE> provider, Class<T> clazz) {
         assertLock();
-        blockData.add(clazz, provider, 0);
+        blockData.add(clazz, (IServerDataProvider<BlockEntity>) provider, 0);
     }
 
     @Override
@@ -165,9 +166,10 @@ public enum Registrar implements IRegistrar {
     }
 
     @Override
-    public <T> void addEntityData(IServerDataProvider<Entity> provider, Class<T> clazz) {
+    @SuppressWarnings("unchecked")
+    public <T, E extends Entity> void addEntityData(IServerDataProvider<E> provider, Class<T> clazz) {
         assertLock();
-        entityData.add(clazz, provider, 0);
+        entityData.add(clazz, (IServerDataProvider<Entity>) provider, 0);
     }
 
     @Override

@@ -13,10 +13,9 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.RecordItem;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.JukeboxBlockEntity;
 
-public enum JukeboxComponent implements IBlockComponentProvider, IServerDataProvider<BlockEntity> {
+public enum JukeboxComponent implements IBlockComponentProvider, IServerDataProvider<JukeboxBlockEntity> {
 
     INSTANCE;
 
@@ -30,15 +29,13 @@ public enum JukeboxComponent implements IBlockComponentProvider, IServerDataProv
     }
 
     @Override
-    public void appendServerData(CompoundTag data, ServerPlayer player, Level world, BlockEntity blockEntity) {
-        if (blockEntity instanceof JukeboxBlockEntity jukebox) {
-            ItemStack stack = jukebox.getRecord();
-            if (!stack.isEmpty()) {
-                Component text = stack.getItem() instanceof RecordItem
-                    ? new TranslatableComponent(stack.getDescriptionId() + ".desc")
-                    : stack.getDisplayName();
-                data.putString("record", Component.Serializer.toJson(text));
-            }
+    public void appendServerData(CompoundTag data, ServerPlayer player, Level world, JukeboxBlockEntity jukeboxBlockEntity) {
+        ItemStack stack = jukeboxBlockEntity.getRecord();
+        if (!stack.isEmpty()) {
+            Component text = stack.getItem() instanceof RecordItem
+                ? new TranslatableComponent(stack.getDescriptionId() + ".desc")
+                : stack.getDisplayName();
+            data.putString("record", Component.Serializer.toJson(text));
         }
     }
 

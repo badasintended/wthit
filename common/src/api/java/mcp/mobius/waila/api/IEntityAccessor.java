@@ -23,7 +23,7 @@ public interface IEntityAccessor {
 
     Player getPlayer();
 
-    Entity getEntity();
+    <T extends Entity> T getEntity();
 
     HitResult getHitResult();
 

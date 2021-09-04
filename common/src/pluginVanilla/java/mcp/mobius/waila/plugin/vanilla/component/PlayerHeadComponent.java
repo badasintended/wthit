@@ -21,7 +21,7 @@ public enum PlayerHeadComponent implements IBlockComponentProvider {
 
     @Override
     public ItemStack getDisplayItem(IBlockAccessor accessor, IPluginConfig config) {
-        SkullBlockEntity skull = (SkullBlockEntity) accessor.getBlockEntity();
+        SkullBlockEntity skull = accessor.getBlockEntity();
         if (skull != null && skull.getOwnerProfile() != null) {
             CompoundTag tag = PLAYER_HEAD_STACK.getOrCreateTag();
             CompoundTag skullOwner = tag.getCompound("SkullOwner");
@@ -34,7 +34,7 @@ public enum PlayerHeadComponent implements IBlockComponentProvider {
     @Override
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
         if (config.getBoolean(Options.PLAYER_HEAD_NAME)) {
-            SkullBlockEntity skull = (SkullBlockEntity) accessor.getBlockEntity();
+            SkullBlockEntity skull = accessor.getBlockEntity();
             if (skull != null && skull.getOwnerProfile() != null && !StringUtils.isBlank(skull.getOwnerProfile().getName()))
                 tooltip.add(new TextComponent(skull.getOwnerProfile().getName()));
         }

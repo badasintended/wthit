@@ -13,13 +13,12 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 import static mcp.mobius.waila.plugin.vanilla.renderer.Renderers.ITEM;
 import static mcp.mobius.waila.plugin.vanilla.renderer.Renderers.PROGRESS;
 
-public enum FurnaceComponent implements IBlockComponentProvider, IServerDataProvider<BlockEntity> {
+public enum FurnaceComponent implements IBlockComponentProvider, IServerDataProvider<AbstractFurnaceBlockEntity> {
 
     INSTANCE;
 
@@ -41,16 +40,15 @@ public enum FurnaceComponent implements IBlockComponentProvider, IServerDataProv
     }
 
     @Override
-    public void appendServerData(CompoundTag data, ServerPlayer player, Level world, BlockEntity blockEntity) {
-        AbstractFurnaceBlockEntity furnace = (AbstractFurnaceBlockEntity) blockEntity;
+    public void appendServerData(CompoundTag data, ServerPlayer player, Level world, AbstractFurnaceBlockEntity furnaceBlockEntity) {
         ListTag items = new ListTag();
-        items.add(furnace.getItem(0).save(new CompoundTag()));
-        items.add(furnace.getItem(1).save(new CompoundTag()));
-        items.add(furnace.getItem(2).save(new CompoundTag()));
+        items.add(furnaceBlockEntity.getItem(0).save(new CompoundTag()));
+        items.add(furnaceBlockEntity.getItem(1).save(new CompoundTag()));
+        items.add(furnaceBlockEntity.getItem(2).save(new CompoundTag()));
         data.put("furnace", items);
 
-        data.putInt("progress", furnace.cookingProgress);
-        data.putInt("total", furnace.cookingTotalTime);
+        data.putInt("progress", furnaceBlockEntity.cookingProgress);
+        data.putInt("total", furnaceBlockEntity.cookingTotalTime);
     }
 
 }

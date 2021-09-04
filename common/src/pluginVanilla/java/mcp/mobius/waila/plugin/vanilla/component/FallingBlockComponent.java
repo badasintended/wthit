@@ -17,13 +17,13 @@ public enum FallingBlockComponent implements IEntityComponentProvider {
 
     @Override
     public ItemStack getDisplayItem(IEntityAccessor accessor, IPluginConfig config) {
-        FallingBlockEntity entity = (FallingBlockEntity) accessor.getEntity();
+        FallingBlockEntity entity = accessor.getEntity();
         return new ItemStack(entity.getBlockState().getBlock().asItem());
     }
 
     @Override
     public void appendHead(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        FallingBlockEntity entity = (FallingBlockEntity) accessor.getEntity();
+        FallingBlockEntity entity = accessor.getEntity();
         IWailaConfig.Formatting formatting = IWailaConfig.get().getFormatting();
         tooltip.set(WailaConstants.OBJECT_NAME_TAG, new TextComponent(formatting.formatEntityName(entity.getBlockState().getBlock().getName().getContents())));
         if (config.getBoolean(WailaConstants.CONFIG_SHOW_REGISTRY))

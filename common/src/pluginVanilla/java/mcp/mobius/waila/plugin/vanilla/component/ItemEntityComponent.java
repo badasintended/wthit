@@ -16,12 +16,12 @@ public enum ItemEntityComponent implements IEntityComponentProvider {
 
     @Override
     public ItemStack getDisplayItem(IEntityAccessor accessor, IPluginConfig config) {
-        return ((ItemEntity) accessor.getEntity()).getItem();
+        return accessor.<ItemEntity>getEntity().getItem();
     }
 
     @Override
     public void appendHead(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        String name = ((ItemEntity) accessor.getEntity()).getItem().getHoverName().getString();
+        String name = accessor.<ItemEntity>getEntity().getItem().getHoverName().getString();
         tooltip.set(WailaConstants.OBJECT_NAME_TAG, new TextComponent(IWailaConfig.get().getFormatting().formatEntityName(name)));
     }
 

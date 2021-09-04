@@ -18,7 +18,7 @@ public enum SpawnerComponent implements IBlockComponentProvider {
     @Override
     public void appendHead(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
         if (config.getBoolean(Options.SPAWNER_TYPE)) {
-            SpawnerBlockEntity spawner = (SpawnerBlockEntity) accessor.getBlockEntity();
+            SpawnerBlockEntity spawner = accessor.getBlockEntity();
             Entity entity = spawner != null ? spawner.getSpawner().getOrCreateDisplayEntity(accessor.getWorld()) : null;
             if (entity != null) {
                 tooltip.set(WailaConstants.OBJECT_NAME_TAG, new TextComponent(IWailaConfig.get().getFormatting().formatBlockName(

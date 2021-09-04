@@ -194,7 +194,7 @@ public interface IRegistrar {
      * @param clazz    The highest level class to apply to
      */
     @ApiSide.ServerOnly
-    <T> void addBlockData(IServerDataProvider<BlockEntity> provider, Class<T> clazz);
+    <T, BE extends BlockEntity> void addBlockData(IServerDataProvider<BE> provider, Class<T> clazz);
 
     /**
      * Registers an {@link IEntityComponentProvider} instance to allow overriding the entity being displayed.
@@ -276,7 +276,7 @@ public interface IRegistrar {
      * @param clazz    The highest level class to apply to
      */
     @ApiSide.ServerOnly
-    <T> void addEntityData(IServerDataProvider<Entity> provider, Class<T> clazz);
+    <T, E extends Entity> void addEntityData(IServerDataProvider<E> provider, Class<T> clazz);
 
     /**
      * Registers an {@link ITooltipRenderer} to allow passing a data string as a component to be rendered as a graphic

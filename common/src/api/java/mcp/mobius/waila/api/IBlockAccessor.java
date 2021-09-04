@@ -33,7 +33,7 @@ public interface IBlockAccessor {
     BlockState getBlockState();
 
     @Nullable
-    BlockEntity getBlockEntity();
+    <T extends BlockEntity> T getBlockEntity();
 
     HitResult getHitResult();
 
