@@ -323,7 +323,6 @@ public class WailaConfig implements IWailaConfig {
         private String entityName = "\u00a7f%s";
         private String registryName = "\u00a78%s";
 
-        @Override
         public String getModName() {
             return modName;
         }
@@ -332,7 +331,6 @@ public class WailaConfig implements IWailaConfig {
             this.modName = modName;
         }
 
-        @Override
         public String getBlockName() {
             return blockName;
         }
@@ -341,7 +339,6 @@ public class WailaConfig implements IWailaConfig {
             this.blockName = blockName;
         }
 
-        @Override
         public String getFluidName() {
             return fluidName;
         }
@@ -350,7 +347,6 @@ public class WailaConfig implements IWailaConfig {
             this.fluidName = fluidName;
         }
 
-        @Override
         public String getEntityName() {
             return entityName;
         }
@@ -359,13 +355,37 @@ public class WailaConfig implements IWailaConfig {
             this.entityName = entityName;
         }
 
-        @Override
         public String getRegistryName() {
             return registryName;
         }
 
         public void setRegistryName(String registryName) {
             this.registryName = registryName;
+        }
+
+        @Override
+        public String formatModName(Object modName) {
+            return String.format(this.modName, modName);
+        }
+
+        @Override
+        public String formatBlockName(Object blockName) {
+            return String.format(this.blockName, blockName);
+        }
+
+        @Override
+        public String formatFluidName(Object fluidName) {
+            return String.format(this.fluidName, fluidName);
+        }
+
+        @Override
+        public String formatEntityName(Object entityName) {
+            return String.format(this.entityName, entityName);
+        }
+
+        @Override
+        public String formatRegistryName(Object registryName) {
+            return String.format(this.registryName, registryName);
         }
 
     }

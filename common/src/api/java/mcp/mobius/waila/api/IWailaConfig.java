@@ -116,15 +116,15 @@ public interface IWailaConfig {
 
     interface Formatting {
 
-        String getModName();
+        String formatModName(Object modName);
 
-        String getBlockName();
+        String formatBlockName(Object blockName);
 
-        String getFluidName();
+        String formatFluidName(Object fluidName);
 
-        String getEntityName();
+        String formatEntityName(Object entityName);
 
-        String getRegistryName();
+        String formatRegistryName(Object registryName);
 
     }
 

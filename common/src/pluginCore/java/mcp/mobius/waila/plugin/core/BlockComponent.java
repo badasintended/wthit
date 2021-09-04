@@ -39,9 +39,9 @@ public enum BlockComponent implements IBlockComponentProvider, IServerDataProvid
         }
 
         IWailaConfig.Formatting formatting = IWailaConfig.get().getFormatting();
-        tooltip.set(WailaConstants.OBJECT_NAME_TAG, new TextComponent(String.format(formatting.getBlockName(), name)));
+        tooltip.set(WailaConstants.OBJECT_NAME_TAG, new TextComponent(formatting.formatBlockName(name)));
         if (config.getBoolean(WailaConstants.CONFIG_SHOW_REGISTRY))
-            tooltip.set(WailaConstants.REGISTRY_NAME_TAG, new TextComponent(String.format(formatting.getRegistryName(), Registry.BLOCK.getKey(block))));
+            tooltip.set(WailaConstants.REGISTRY_NAME_TAG, new TextComponent(formatting.formatRegistryName(Registry.BLOCK.getKey(block))));
     }
 
     @Override
@@ -64,7 +64,7 @@ public enum BlockComponent implements IBlockComponentProvider, IServerDataProvid
     @Override
     public void appendTail(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
         if (config.getBoolean(WailaConstants.CONFIG_SHOW_MOD_NAME)) {
-            String modName = String.format(IWailaConfig.get().getFormatting().getModName(), IModInfo.get(accessor.getBlock()).getName());
+            String modName = IWailaConfig.get().getFormatting().formatModName(IModInfo.get(accessor.getBlock()).getName());
             tooltip.set(WailaConstants.MOD_NAME_TAG, new TextComponent(modName));
         }
     }

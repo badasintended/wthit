@@ -31,9 +31,9 @@ public enum FluidComponent implements IBlockComponentProvider {
     public void appendHead(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
         Block block = accessor.getBlock();
         IWailaConfig.Formatting formatting = IWailaConfig.get().getFormatting();
-        tooltip.set(WailaConstants.OBJECT_NAME_TAG, new TextComponent(String.format(formatting.getFluidName(), block.getName().getString())));
+        tooltip.set(WailaConstants.OBJECT_NAME_TAG, new TextComponent(formatting.formatFluidName(block.getName().getString())));
         if (config.getBoolean(WailaConstants.CONFIG_SHOW_REGISTRY))
-            tooltip.set(WailaConstants.REGISTRY_NAME_TAG, new TextComponent(String.format(formatting.getRegistryName(), Registry.BLOCK.getKey(block))));
+            tooltip.set(WailaConstants.REGISTRY_NAME_TAG, new TextComponent(formatting.formatRegistryName(Registry.BLOCK.getKey(block))));
     }
 
 }
