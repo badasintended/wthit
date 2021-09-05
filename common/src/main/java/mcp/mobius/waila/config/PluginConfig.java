@@ -131,6 +131,7 @@ public enum PluginConfig implements IPluginConfig {
                 }));
             }
         }
+        CommonUtil.LOGGER.info("Plugin config reloaded");
     }
 
     public void save() {

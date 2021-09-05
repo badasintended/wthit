@@ -9,7 +9,7 @@ import org.apache.logging.log4j.Logger;
 
 public final class CommonUtil {
 
-    public static final Logger LOGGER = LogManager.getLogger("Waila");
+    public static final Logger LOGGER = LogManager.getLogger(WailaConstants.MOD_NAME);
 
     public static Path gameDir;
     public static Path configDir;

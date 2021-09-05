@@ -23,6 +23,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.fml.loading.FMLPaths;
+import net.minecraftforge.fmlserverevents.FMLServerStartingEvent;
 
 @Mod(WailaConstants.WAILA)
 @EventBusSubscriber(modid = WailaConstants.WAILA, bus = Bus.MOD)
@@ -63,6 +64,11 @@ public class ForgeWaila extends Waila {
 
     @EventBusSubscriber(modid = WailaConstants.WAILA)
     static class Subscriber {
+
+        @SubscribeEvent
+        static void serverStarting(FMLServerStartingEvent event) {
+            PluginConfig.INSTANCE.reload();
+        }
 
         @SubscribeEvent
         static void registerCommands(RegisterCommandsEvent event) {
