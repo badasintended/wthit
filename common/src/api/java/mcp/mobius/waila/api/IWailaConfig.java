@@ -63,6 +63,8 @@ public interface IWailaConfig {
 
             Align getAnchor();
 
+            boolean isBossBarsOverlap();
+
             interface Align {
 
                 X getX();

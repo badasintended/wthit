@@ -172,6 +172,7 @@ public class WailaConfig implements IWailaConfig {
             private final Align anchor = new Align();
             private int x = 0;
             private int y = 0;
+            private boolean bossBarsOverlap = false;
 
             @Override
             public int getX() {
@@ -199,6 +200,15 @@ public class WailaConfig implements IWailaConfig {
             @Override
             public Align getAnchor() {
                 return anchor;
+            }
+
+            @Override
+            public boolean isBossBarsOverlap() {
+                return bossBarsOverlap;
+            }
+
+            public void setBossBarsOverlap(boolean bossBarsOverlap) {
+                this.bossBarsOverlap = bossBarsOverlap;
             }
 
             public static class Align implements IWailaConfig.Overlay.Position.Align {

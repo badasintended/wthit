@@ -131,8 +131,8 @@ public class TooltipRenderer {
         double x = windowW * anchorX.multiplier - w * alignX.multiplier + pos.getX();
         double y = windowH * anchorY.multiplier - h * alignY.multiplier + pos.getY();
 
-        if (anchorX == Align.X.CENTER && anchorY == Align.Y.TOP) {
-            y += client.gui.getBossOverlay().events.size() * 19;
+        if (!pos.isBossBarsOverlap() && anchorX == Align.X.CENTER && anchorY == Align.Y.TOP) {
+            y += Math.min(client.gui.getBossOverlay().events.size() * 19, window.getGuiScaledHeight() / 3 + 2);
         }
 
         RECT.get().setRect(x, y, w, h);

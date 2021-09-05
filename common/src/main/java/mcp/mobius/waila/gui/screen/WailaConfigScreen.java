@@ -81,6 +81,9 @@ public class WailaConfigScreen extends ConfigScreen {
                             get().getOverlay().getPosition().getY(),
                             val -> get().getOverlay().getPosition().setY(val),
                             InputValue.INTEGER)
+                        .withBoolean("config.waila.boss_bars_overlap",
+                            get().getOverlay().getPosition().isBossBarsOverlap(),
+                            val -> get().getOverlay().getPosition().setBossBarsOverlap(val))
                         .withInput("config.waila.overlay_scale",
                             get().getOverlay().getScale(),
                             val -> get().getOverlay().setScale(Math.max(val, 0.0F)),
