@@ -8,6 +8,7 @@ import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import mcp.mobius.waila.api.ITaggableList;
 import mcp.mobius.waila.api.ITooltip;
+import mcp.mobius.waila.hud.component.PairComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
@@ -16,6 +17,11 @@ import org.jetbrains.annotations.Nullable;
 public class Tooltip extends ObjectArrayList<Component> implements ITooltip, ITaggableList<ResourceLocation, Component> {
 
     private final Object2IntMap<ResourceLocation> tags = new Object2IntOpenHashMap<>();
+
+    @Override
+    public boolean addPair(Component key, Component value) {
+        return add(new PairComponent(key, value));
+    }
 
     @Override
     public void set(ResourceLocation tag, Component component) {

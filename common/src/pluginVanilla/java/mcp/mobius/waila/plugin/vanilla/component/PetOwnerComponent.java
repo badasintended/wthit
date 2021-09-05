@@ -11,6 +11,8 @@ import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.OwnableEntity;
@@ -20,7 +22,8 @@ public enum PetOwnerComponent implements IEntityComponentProvider {
 
     INSTANCE;
 
-    static final Map<UUID, GameProfile> GAME_PROFILES = new HashMap<>();
+    static final Map<UUID, Component> NAMES = new HashMap<>();
+    static final Component UNKNOWN = new TextComponent("???");
 
     @Override
     public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
@@ -37,18 +40,19 @@ public enum PetOwnerComponent implements IEntityComponentProvider {
                 return;
             }
 
-            GameProfile profile;
-            if (GAME_PROFILES.containsKey(uuid)) {
-                profile = GAME_PROFILES.get(uuid);
+            Component name;
+            if (NAMES.containsKey(uuid)) {
+                name = NAMES.get(uuid);
             } else {
-                profile = Minecraft.getInstance().getMinecraftSessionService().fillProfileProperties(new GameProfile(uuid, null), true);
-                GAME_PROFILES.put(uuid, profile);
+                GameProfile profile = Minecraft.getInstance().getMinecraftSessionService().fillProfileProperties(new GameProfile(uuid, null), true);
+                name = profile.getName() == null ? null : new TextComponent(profile.getName());
+                NAMES.put(uuid, name);
             }
 
-            if (profile.getName() != null) {
-                tooltip.add(new TranslatableComponent("tooltip.waila.owner", profile.getName()));
+            if (name != null) {
+                tooltip.addPair(new TranslatableComponent("tooltip.waila.owner"), name);
             } else if (!config.getBoolean(Options.PET_HIDE_UNKNOWN_OWNER)) {
-                tooltip.add(new TranslatableComponent("tooltip.waila.owner", "???"));
+                tooltip.addPair(new TranslatableComponent("tooltip.waila.owner"), UNKNOWN);
             }
         }
     }

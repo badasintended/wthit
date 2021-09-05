@@ -21,9 +21,9 @@ import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.config.WailaConfig.Overlay.Color;
+import mcp.mobius.waila.hud.component.PairComponent;
 import mcp.mobius.waila.util.DrawableText;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.ItemStack;
@@ -40,12 +40,17 @@ public class TooltipRenderer {
     private static final Supplier<Rectangle> RENDER_RECT = Suppliers.memoize(Rectangle::new);
     private static final Supplier<Rectangle> RECT = Suppliers.memoize(Rectangle::new);
 
+    private static final String COLON = ": ";
+
     public static Consumer<List<Component>> onCreate;
     public static Function<Rectangle, Rectangle> onPreRender;
     public static Consumer<Rectangle> onPostRender;
     static boolean shouldRender = false;
     private static ItemStack stack = ItemStack.EMPTY;
-    private static int topOffset = 0;
+    private static int topOffset;
+
+    private static int colonOffset;
+    private static int colonWidth;
 
     private static boolean started = false;
 
@@ -54,16 +59,21 @@ public class TooltipRenderer {
         LINE_HEIGHT.clear();
         stack = ItemStack.EMPTY;
         topOffset = 0;
+        colonOffset = 0;
+        colonWidth = Minecraft.getInstance().font.width(COLON);
         started = true;
     }
 
     public static void addLines(List<Component> lines) {
-        Preconditions.checkState(started);
-        LINES.addAll(lines);
+        lines.forEach(TooltipRenderer::addLine);
     }
 
     public static void addLine(Component line) {
+        Preconditions.checkState(started);
         LINES.add(line);
+        if (line instanceof PairComponent pair) {
+            colonOffset = Math.max(colonOffset, Minecraft.getInstance().font.width(pair.key()));
+        }
     }
 
     public static ItemStack getStack() {
@@ -96,9 +106,10 @@ public class TooltipRenderer {
                 lineW = size.width;
                 lineH = size.height;
             } else {
-                Font textRenderer = Minecraft.getInstance().font;
-                lineW = textRenderer.width(line);
-                lineH = textRenderer.lineHeight + 1;
+                lineW = line instanceof PairComponent pair
+                    ? client.font.width(pair.key()) + colonWidth + client.font.width(pair.value())
+                    : client.font.width(line);
+                lineH = client.font.lineHeight + 1;
             }
 
             w = Math.max(w, lineW);
@@ -196,13 +207,17 @@ public class TooltipRenderer {
 
         int textX = x + (stack.isEmpty() ? 6 : 26);
         int textY = y + 6 + topOffset;
+        int fontColor = color.getFontColor();
 
         for (Component line : LINES) {
             if (line instanceof IDrawableText drawable) {
                 drawable.render(matrices, textX, textY, delta);
+            } else if (line instanceof PairComponent pair) {
+                client.font.drawShadow(matrices, pair.key(), textX, textY, fontColor);
+                client.font.drawShadow(matrices, COLON, textX + colonOffset, textY, fontColor);
+                client.font.drawShadow(matrices, pair.value(), textX + colonOffset + colonWidth, textY, fontColor);
             } else {
-                Font textRenderer = client.font;
-                textRenderer.drawShadow(matrices, line, textX, textY, color.getFontColor());
+                client.font.drawShadow(matrices, line, textX, textY, color.getFontColor());
             }
 
             textY += LINE_HEIGHT.getInt(line);

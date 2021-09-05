@@ -1,13 +1,11 @@
 package mcp.mobius.waila.plugin.vanilla.component;
 
-import java.util.List;
-
 import mcp.mobius.waila.api.IBlockAccessor;
 import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
-import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -22,12 +20,13 @@ public enum PlantComponent implements IBlockComponentProvider {
     static final ItemStack WHEAT_STACK = new ItemStack(Items.WHEAT);
     static final ItemStack BEETROOT_STACK = new ItemStack(Items.BEETROOT);
 
-    private static void addMaturityTooltip(List<Component> tooltip, float growthValue) {
+    private static void addMaturityTooltip(ITooltip tooltip, float growthValue) {
         growthValue *= 100.0F;
-        if (growthValue < 100.0F)
-            tooltip.add(new TranslatableComponent("tooltip.waila.crop_growth", String.format("%.0f%%", growthValue)));
-        else
-            tooltip.add(new TranslatableComponent("tooltip.waila.crop_growth", new TranslatableComponent("tooltip.waila.crop_mature")));
+        if (growthValue < 100.0F) {
+            tooltip.addPair(new TranslatableComponent("tooltip.waila.crop_growth"), new TextComponent(String.format("%.0f%%", growthValue)));
+        } else {
+            tooltip.addPair(new TranslatableComponent("tooltip.waila.crop_growth"), new TranslatableComponent("tooltip.waila.crop_mature"));
+        }
     }
 
     @Override

@@ -12,6 +12,11 @@ import org.jetbrains.annotations.Nullable;
 @ApiStatus.NonExtendable
 public interface ITooltip extends List<Component> {
 
+    /**
+     * Adds a key-value pair that it's value will get aligned with other pair.
+     */
+    boolean addPair(Component key, Component value);
+
     void set(ResourceLocation tag, Component component);
 
     @Nullable

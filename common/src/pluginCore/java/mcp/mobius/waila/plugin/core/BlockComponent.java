@@ -56,7 +56,7 @@ public enum BlockComponent implements IBlockComponentProvider, IServerDataProvid
             state.getProperties().forEach(p -> {
                 Comparable<?> value = state.getValue(p);
                 Component valueText = new TextComponent(value.toString()).setStyle(Style.EMPTY.withColor(p instanceof BooleanProperty ? value == Boolean.TRUE ? ChatFormatting.GREEN : ChatFormatting.RED : ChatFormatting.RESET));
-                tooltip.add(new TextComponent(p.getName() + ":").append(valueText));
+                tooltip.addPair(new TextComponent(p.getName()), valueText);
             });
         }
     }
