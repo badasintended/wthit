@@ -5,8 +5,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 
+import it.unimi.dsi.fastutil.objects.Object2IntLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
-import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import mcp.mobius.waila.config.ConfigEntry;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.gui.widget.ConfigListWidget;
@@ -53,7 +53,7 @@ public class PluginConfigScreen extends ConfigScreen {
                 @Override
                 public ConfigListWidget getOptions() {
                     ConfigListWidget options = new ConfigListWidget(this, minecraft, width, height, 32, height - 32, 30);
-                    Object2IntMap<String> categories = new Object2IntOpenHashMap<>();
+                    Object2IntMap<String> categories = new Object2IntLinkedOpenHashMap<>();
                     categories.put(NO_CATEGORY, 0);
                     for (ResourceLocation key : keys) {
                         ConfigEntry<Object> entry = PluginConfig.INSTANCE.getEntry(key);
@@ -74,7 +74,11 @@ public class PluginConfigScreen extends ConfigScreen {
                             }
                         }
                         int index = categories.getInt(category);
-                        categories.put(category, index + 1);
+                        for (Object2IntMap.Entry<String> e : categories.object2IntEntrySet()) {
+                            if (e.getIntValue() >= index) {
+                                e.setValue(e.getIntValue() + 1);
+                            }
+                        }
                         options.with(index, ENTRY_TO_VALUE.get(entry.getType()).create(translationKey + "." + path, entry.getValue(), entry::setValue));
                     }
                     return options;
