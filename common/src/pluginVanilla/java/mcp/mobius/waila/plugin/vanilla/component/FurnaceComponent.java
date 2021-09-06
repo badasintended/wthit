@@ -2,7 +2,6 @@ package mcp.mobius.waila.plugin.vanilla.component;
 
 import mcp.mobius.waila.api.IBlockAccessor;
 import mcp.mobius.waila.api.IBlockComponentProvider;
-import mcp.mobius.waila.api.IDrawableText;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataProvider;
 import mcp.mobius.waila.api.ITooltip;
@@ -32,11 +31,11 @@ public enum FurnaceComponent implements IBlockComponentProvider, IServerDataProv
 
         ListTag furnaceItems = accessor.getServerData().getList("furnace", Tag.TAG_COMPOUND);
 
-        tooltip.add(IDrawableText.create()
+        tooltip.addDrawable()
             .with(ITEM, furnaceItems.getCompound(0))
             .with(ITEM, furnaceItems.getCompound(1))
             .with(PROGRESS, accessor.getServerData())
-            .with(ITEM, furnaceItems.getCompound(2)));
+            .with(ITEM, furnaceItems.getCompound(2));
     }
 
     @Override

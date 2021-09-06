@@ -1,6 +1,5 @@
 package mcp.mobius.waila.plugin.core.component;
 
-import mcp.mobius.waila.api.IDrawableText;
 import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.IModInfo;
@@ -42,7 +41,7 @@ public enum EntityComponent implements IEntityComponentProvider {
                 CompoundTag healthData = new CompoundTag();
                 healthData.putFloat("health", health / 2.0F);
                 healthData.putFloat("max", maxHealth / 2.0F);
-                tooltip.add(IDrawableText.of(Renderers.RENDER_ENTITY_HEALTH, healthData));
+                tooltip.addDrawable(Renderers.RENDER_ENTITY_HEALTH, healthData);
             }
         }
     }

@@ -5,6 +5,7 @@ import java.util.List;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IEntityComponentProvider;
+import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.TooltipPosition;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.data.DataAccessor;
@@ -53,15 +54,15 @@ public class ComponentHandler {
             try {
                 switch (position) {
                     case HEAD -> {
-                        provider.appendHead(tooltip, accessor, PluginConfig.INSTANCE);
+                        provider.appendHead((ITooltip) tooltip, accessor, PluginConfig.INSTANCE);
                         provider.appendHead((List<Component>) tooltip, accessor, PluginConfig.INSTANCE);
                     }
                     case BODY -> {
-                        provider.appendBody(tooltip, accessor, PluginConfig.INSTANCE);
+                        provider.appendBody((ITooltip) tooltip, accessor, PluginConfig.INSTANCE);
                         provider.appendBody((List<Component>) tooltip, accessor, PluginConfig.INSTANCE);
                     }
                     case TAIL -> {
-                        provider.appendTail(tooltip, accessor, PluginConfig.INSTANCE);
+                        provider.appendTail((ITooltip) tooltip, accessor, PluginConfig.INSTANCE);
                         provider.appendTail((List<Component>) tooltip, accessor, PluginConfig.INSTANCE);
                     }
                 }
@@ -90,15 +91,15 @@ public class ComponentHandler {
             try {
                 switch (position) {
                     case HEAD -> {
-                        provider.appendHead(tooltip, accessor, PluginConfig.INSTANCE);
+                        provider.appendHead((ITooltip) tooltip, accessor, PluginConfig.INSTANCE);
                         provider.appendHead((List<Component>) tooltip, accessor, PluginConfig.INSTANCE);
                     }
                     case BODY -> {
-                        provider.appendBody(tooltip, accessor, PluginConfig.INSTANCE);
+                        provider.appendBody((ITooltip) tooltip, accessor, PluginConfig.INSTANCE);
                         provider.appendBody((List<Component>) tooltip, accessor, PluginConfig.INSTANCE);
                     }
                     case TAIL -> {
-                        provider.appendTail(tooltip, accessor, PluginConfig.INSTANCE);
+                        provider.appendTail((ITooltip) tooltip, accessor, PluginConfig.INSTANCE);
                         provider.appendTail((List<Component>) tooltip, accessor, PluginConfig.INSTANCE);
                     }
                 }

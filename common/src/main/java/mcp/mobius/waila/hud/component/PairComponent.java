@@ -8,7 +8,15 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.network.chat.Style;
 import net.minecraft.util.FormattedCharSequence;
 
-public record PairComponent(Component key, Component value) implements MutableComponent {
+public final class PairComponent implements MutableComponent {
+
+    public final Component key;
+    public final Component value;
+
+    public PairComponent(Component key, Component value) {
+        this.key = key;
+        this.value = value;
+    }
 
     @Override
     public Style getStyle() {

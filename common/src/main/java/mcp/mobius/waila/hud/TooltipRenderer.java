@@ -15,14 +15,13 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import mcp.mobius.waila.Waila;
-import mcp.mobius.waila.api.IDrawableText;
 import mcp.mobius.waila.api.IWailaConfig.Overlay.Position.Align;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.config.WailaConfig.Overlay.Color;
+import mcp.mobius.waila.hud.component.DrawableComponent;
 import mcp.mobius.waila.hud.component.PairComponent;
-import mcp.mobius.waila.util.DrawableText;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.profiling.ProfilerFiller;
@@ -72,7 +71,7 @@ public class TooltipRenderer {
         Preconditions.checkState(started);
         LINES.add(line);
         if (line instanceof PairComponent pair) {
-            colonOffset = Math.max(colonOffset, Minecraft.getInstance().font.width(pair.key()));
+            colonOffset = Math.max(colonOffset, Minecraft.getInstance().font.width(pair.key));
         }
     }
 
@@ -101,13 +100,13 @@ public class TooltipRenderer {
             int lineW;
             int lineH;
 
-            if (line instanceof DrawableText) {
-                Dimension size = ((DrawableText) line).getSize();
+            if (line instanceof DrawableComponent) {
+                Dimension size = ((DrawableComponent) line).getSize();
                 lineW = size.width;
                 lineH = size.height;
             } else {
                 lineW = line instanceof PairComponent pair
-                    ? client.font.width(pair.key()) + colonWidth + client.font.width(pair.value())
+                    ? client.font.width(pair.key) + colonWidth + client.font.width(pair.value)
                     : client.font.width(line);
                 lineH = client.font.lineHeight + 1;
             }
@@ -210,12 +209,12 @@ public class TooltipRenderer {
         int fontColor = color.getFontColor();
 
         for (Component line : LINES) {
-            if (line instanceof IDrawableText drawable) {
+            if (line instanceof DrawableComponent drawable) {
                 drawable.render(matrices, textX, textY, delta);
             } else if (line instanceof PairComponent pair) {
-                client.font.drawShadow(matrices, pair.key(), textX, textY, fontColor);
+                client.font.drawShadow(matrices, pair.key, textX, textY, fontColor);
                 client.font.drawShadow(matrices, COLON, textX + colonOffset, textY, fontColor);
-                client.font.drawShadow(matrices, pair.value(), textX + colonOffset + colonWidth, textY, fontColor);
+                client.font.drawShadow(matrices, pair.value, textX + colonOffset + colonWidth, textY, fontColor);
             } else {
                 client.font.drawShadow(matrices, line, textX, textY, color.getFontColor());
             }

@@ -11,9 +11,9 @@ import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.gui.screen.HomeConfigScreen;
 import mcp.mobius.waila.hud.ClientTickHandler;
+import mcp.mobius.waila.hud.component.DrawableComponent;
 import mcp.mobius.waila.impl.Impl;
 import mcp.mobius.waila.util.CommonUtil;
-import mcp.mobius.waila.util.DrawableText;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
@@ -35,7 +35,7 @@ public abstract class WailaClient {
     protected static BiFunction<String, Integer, KeyMapping> keyBindingBuilder;
 
     static {
-        Impl.reg(IDrawableText.class, DrawableText::new);
+        Impl.reg(IDrawableText.class, DrawableComponent::new);
     }
 
     protected static void init() {
