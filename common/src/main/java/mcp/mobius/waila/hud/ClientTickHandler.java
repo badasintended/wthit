@@ -45,7 +45,7 @@ public class ClientTickHandler {
             || !config.getGeneral().isDisplayTooltip()
             || config.getGeneral().getDisplayMode() == IWailaConfig.General.DisplayMode.HOLD_KEY && !WailaClient.showOverlay.isDown()
             || client.screen != null && !(client.screen instanceof ChatScreen)
-            || config.getGeneral().isHideFromPlayerList() && client.options.keyPlayerList.consumeClick() && client.getConnection().getOnlinePlayers().size() > 1
+            || config.getGeneral().isHideFromPlayerList() && client.gui.getTabList().visible
             || config.getGeneral().isHideFromDebug() && client.options.renderDebug) {
             return;
         }

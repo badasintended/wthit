@@ -5,6 +5,8 @@ accessible field net/minecraft/world/level/block/entity/AbstractFurnaceBlockEnti
 
 accessible field net/minecraft/client/gui/components/BossHealthOverlay events Ljava/util/Map;
 
+accessible field net/minecraft/client/gui/components/PlayerTabOverlay visible Z
+
 accessible field net/minecraft/client/gui/components/EditBox highlightPos I
 accessible field net/minecraft/client/gui/components/EditBox filter Ljava/util/function/Predicate;
 accessible field net/minecraft/client/gui/components/EditBox maxLength I
