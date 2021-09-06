@@ -9,6 +9,8 @@ public class WailaTest implements IWailaPlugin {
 
     @Override
     public void register(IRegistrar registrar) {
+        registrar.addConfig(ConfigTest.ENABLED, true);
+
         registrar.addConfig(ConfigTest.BOOL, true);
         registrar.addConfig(ConfigTest.INT, 69);
         registrar.addConfig(ConfigTest.DOUBLE, 42.0);

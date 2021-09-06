@@ -11,6 +11,8 @@ public enum ConfigTest implements IBlockComponentProvider {
 
     INSTANCE;
 
+    static final ResourceLocation ENABLED = new ResourceLocation("test:enabled");
+
     static final ResourceLocation BOOL = new ResourceLocation("test:bool");
     static final ResourceLocation INT = new ResourceLocation("test:int");
     static final ResourceLocation DOUBLE = new ResourceLocation("test:double");
@@ -25,6 +27,10 @@ public enum ConfigTest implements IBlockComponentProvider {
 
     @Override
     public void appendHead(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
+        if (!config.getBoolean(ENABLED)) {
+            return;
+        }
+
         tooltip.add(new TextComponent(BOOL + "=" + config.getBoolean(BOOL)));
         tooltip.add(new TextComponent(INT + "=" + config.getInt(INT)));
         tooltip.add(new TextComponent(DOUBLE + "=" + config.getDouble(DOUBLE)));
