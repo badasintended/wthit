@@ -1,4 +1,4 @@
-package mcp.mobius.waila.plugin.core;
+package mcp.mobius.waila.plugin.core.component;
 
 import mcp.mobius.waila.api.IBlockAccessor;
 import mcp.mobius.waila.api.IBlockComponentProvider;

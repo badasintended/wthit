@@ -1,4 +1,4 @@
-package mcp.mobius.waila.plugin.core;
+package mcp.mobius.waila.plugin.core.component;
 
 import mcp.mobius.waila.api.IBlockAccessor;
 import mcp.mobius.waila.api.IBlockComponentProvider;
@@ -8,6 +8,7 @@ import mcp.mobius.waila.api.IServerDataProvider;
 import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
+import mcp.mobius.waila.plugin.core.config.Options;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
@@ -46,12 +47,12 @@ public enum BlockComponent implements IBlockComponentProvider, IServerDataProvid
 
     @Override
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
-        if (config.getBoolean(WailaCore.CONFIG_SHOW_POS)) {
+        if (config.getBoolean(Options.POS)) {
             BlockPos pos = accessor.getPosition();
             tooltip.add(new TextComponent("(" + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + ")"));
         }
 
-        if (config.getBoolean(WailaCore.CONFIG_SHOW_STATES)) {
+        if (config.getBoolean(Options.STATES)) {
             BlockState state = accessor.getBlockState();
             state.getProperties().forEach(p -> {
                 Comparable<?> value = state.getValue(p);

@@ -3,9 +3,12 @@ package mcp.mobius.waila.plugin.core;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.api.WailaConstants;
+import mcp.mobius.waila.plugin.core.component.BlockComponent;
+import mcp.mobius.waila.plugin.core.component.EntityComponent;
+import mcp.mobius.waila.plugin.core.component.FluidComponent;
+import mcp.mobius.waila.plugin.core.config.Options;
 import mcp.mobius.waila.plugin.core.renderer.HealthRenderer;
-import mcp.mobius.waila.util.CommonUtil;
-import net.minecraft.resources.ResourceLocation;
+import mcp.mobius.waila.plugin.core.renderer.Renderers;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.block.Block;
@@ -17,14 +20,6 @@ import static mcp.mobius.waila.api.TooltipPosition.HEAD;
 import static mcp.mobius.waila.api.TooltipPosition.TAIL;
 
 public class WailaCore implements IWailaPlugin {
-
-    // @formatter:off
-    static final ResourceLocation RENDER_ENTITY_HEALTH = CommonUtil.id("render_health");
-
-    static final ResourceLocation CONFIG_SHOW_ENTITY_HEALTH = CommonUtil.id("show_entity_hp");
-    static final ResourceLocation CONFIG_SHOW_STATES        = CommonUtil.id("show_states");
-    static final ResourceLocation CONFIG_SHOW_POS           = CommonUtil.id("show_pos");
-    // @formatter:on
 
     @Override
     public void register(IRegistrar registrar) {
@@ -47,11 +42,11 @@ public class WailaCore implements IWailaPlugin {
         registrar.addConfig(WailaConstants.CONFIG_SHOW_ITEM, true);
         registrar.addConfig(WailaConstants.CONFIG_SHOW_MOD_NAME, true);
         registrar.addConfig(WailaConstants.CONFIG_SHOW_REGISTRY, false);
-        registrar.addConfig(CONFIG_SHOW_ENTITY_HEALTH, true);
-        registrar.addConfig(CONFIG_SHOW_STATES, false);
-        registrar.addConfig(CONFIG_SHOW_POS, false);
+        registrar.addConfig(Options.ENTITY_HEALTH, true);
+        registrar.addConfig(Options.STATES, false);
+        registrar.addConfig(Options.POS, false);
 
-        registrar.addRenderer(RENDER_ENTITY_HEALTH, new HealthRenderer());
+        registrar.addRenderer(Renderers.RENDER_ENTITY_HEALTH, new HealthRenderer());
     }
 
 }

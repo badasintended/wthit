@@ -1,4 +1,4 @@
-package mcp.mobius.waila.plugin.core;
+package mcp.mobius.waila.plugin.core.component;
 
 import mcp.mobius.waila.api.IDrawableText;
 import mcp.mobius.waila.api.IEntityAccessor;
@@ -8,6 +8,8 @@ import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
+import mcp.mobius.waila.plugin.core.config.Options;
+import mcp.mobius.waila.plugin.core.renderer.Renderers;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TextComponent;
@@ -30,7 +32,7 @@ public enum EntityComponent implements IEntityComponentProvider {
 
     @Override
     public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        if (config.getBoolean(WailaCore.CONFIG_SHOW_ENTITY_HEALTH) && accessor.getEntity() instanceof LivingEntity living) {
+        if (config.getBoolean(Options.ENTITY_HEALTH) && accessor.getEntity() instanceof LivingEntity living) {
             float health = living.getHealth();
             float maxHealth = living.getMaxHealth();
 
@@ -40,7 +42,7 @@ public enum EntityComponent implements IEntityComponentProvider {
                 CompoundTag healthData = new CompoundTag();
                 healthData.putFloat("health", health / 2.0F);
                 healthData.putFloat("max", maxHealth / 2.0F);
-                tooltip.add(IDrawableText.of(WailaCore.RENDER_ENTITY_HEALTH, healthData));
+                tooltip.add(IDrawableText.of(Renderers.RENDER_ENTITY_HEALTH, healthData));
             }
         }
     }
