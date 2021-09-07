@@ -1,5 +1,5 @@
 plugins {
-    id("fabric-loom").version("0.8-SNAPSHOT")
+    id("fabric-loom")
     id("maven-publish")
 }
 
@@ -10,11 +10,11 @@ repositories {
 
 sourceSets {
     main {
-        commonProject.sourceSets.forEach {
+        rootProject.sourceSets.forEach {
             compileClasspath += it.output
             runtimeClasspath += it.output
         }
-        resources.srcDir(commonProject.sourceSets["main"].resources.srcDirs)
+        resources.srcDir(rootProject.sourceSets["main"].resources.srcDirs)
     }
     create("fluff")
 }

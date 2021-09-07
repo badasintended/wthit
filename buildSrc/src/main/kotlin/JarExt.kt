@@ -4,7 +4,7 @@ import org.gradle.api.tasks.bundling.Jar
 import org.gradle.kotlin.dsl.getByType
 
 fun Jar.fromCommonOutput() {
-    project.commonProject.extensions.getByType<SourceSetContainer>()
+    project.rootProject.extensions.getByType<SourceSetContainer>()
         .filterNot { it.name == "pluginTest" }
         .forEach {
             from(it.output) {
@@ -14,7 +14,7 @@ fun Jar.fromCommonOutput() {
 }
 
 fun Jar.fromCommonSources() {
-    project.commonProject.extensions.getByType<SourceSetContainer>()
+    project.rootProject.extensions.getByType<SourceSetContainer>()
         .filterNot { it.name == "pluginTest" }
         .forEach {
             from(it.allSource) {

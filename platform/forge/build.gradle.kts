@@ -7,7 +7,7 @@ plugins {
 
 sourceSets {
     main {
-        commonProject.sourceSets.forEach {
+        rootProject.sourceSets.forEach {
             compileClasspath += it.output
             runtimeClasspath += it.output
         }

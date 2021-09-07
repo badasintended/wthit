@@ -20,7 +20,6 @@ pluginManagement {
     }
 }
 
-include("common")
 include("platform:fabric")
 include("platform:forge")
 
