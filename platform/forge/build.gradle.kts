@@ -1,18 +1,13 @@
 import net.minecraftforge.gradle.common.util.RunConfig
+import java.text.SimpleDateFormat
+import java.util.*
 
 plugins {
     id("net.minecraftforge.gradle").version("5.1.+")
     id("maven-publish")
 }
 
-sourceSets {
-    main {
-        rootProject.sourceSets.forEach {
-            compileClasspath += it.output
-            runtimeClasspath += it.output
-        }
-    }
-}
+setupPlatform()
 
 repositories {
     maven("https://dvs1.progwml6.com/files/maven")
@@ -57,12 +52,18 @@ tasks.processResources {
 }
 
 tasks.jar {
-    fromCommonOutput()
-}
+    manifest.attributes(
+        "Specification-Title" to "WAILA",
+        "Specification-Vendor" to "ProfMobius",
+        "Specification-Version" to "1",
+        "Implementation-Title" to rootProject.name,
+        "Implementation-Version" to rootProject.version,
+        "Implementation-Vendor" to "deirn, TehNut, ProfMobius",
+        "Implementation-Timestamp" to SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").format(Date()),
+        "Automatic-Module-Name" to "mcp.mobius.waila"
+    )
 
-
-tasks.sourcesJar {
-    fromCommonSources()
+    finalizedBy("reobfJar")
 }
 
 afterEvaluate {

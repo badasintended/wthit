@@ -39,7 +39,7 @@ dependencies {
 }
 
 loom {
-    accessWidener = project(":platform:fabric").file("src/main/resources/wthit.accesswidener")
+    accessWidener = project(":fabric").file("src/main/resources/wthit.accesswidener")
 }
 
 sourceSets {
@@ -65,10 +65,6 @@ sourceSets {
     }
 }
 
-tasks.remapJar {
-    enabled = false
-}
-
-tasks.remapSourcesJar {
+tasks.all {
     enabled = false
 }

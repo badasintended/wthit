@@ -3,19 +3,14 @@ plugins {
     id("maven-publish")
 }
 
+setupPlatform()
+
 repositories {
     maven("https://maven.bai.lol")
     maven("https://maven.shedaniel.me")
 }
 
 sourceSets {
-    main {
-        rootProject.sourceSets.forEach {
-            compileClasspath += it.output
-            runtimeClasspath += it.output
-        }
-        resources.srcDir(rootProject.sourceSets["main"].resources.srcDirs)
-    }
     create("fluff")
 }
 
@@ -36,18 +31,8 @@ dependencies {
 loom {
     accessWidener = file("src/main/resources/wthit.accesswidener")
     runs {
-        val client by getting
-        val server by getting
-
-        create("testClient") {
-            inherit(client)
-            vmArgs += "-Dwaila.enableTestPlugin=true"
-        }
-
-        create("testServer") {
-            inherit(server)
-            vmArgs += "-Dwaila.enableTestPlugin=true"
-        }
+        get("client").vmArgs += "-Dwaila.enableTestPlugin=true"
+        get("server").vmArgs += "-Dwaila.enableTestPlugin=true"
     }
 }
 
@@ -57,14 +42,6 @@ tasks.processResources {
     filesMatching("fabric.mod.json") {
         expand("version" to project.version)
     }
-}
-
-tasks.jar {
-    fromCommonOutput()
-}
-
-tasks.sourcesJar {
-    fromCommonSources()
 }
 
 afterEvaluate {
