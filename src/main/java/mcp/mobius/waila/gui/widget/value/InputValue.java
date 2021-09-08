@@ -8,6 +8,7 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.network.chat.TextComponent;
+import org.jetbrains.annotations.Nullable;
 
 public class InputValue<T> extends ConfigValue<T> {
 
@@ -20,15 +21,19 @@ public class InputValue<T> extends ConfigValue<T> {
     private final EditBox textField;
 
     public InputValue(String optionName, T value, Consumer<T> save, Predicate<String> validator) {
-        super(optionName, value, save);
-
-        this.textField = new WatchedTextfield(this, client.font, 0, 0, 160, 18);
-        textField.setValue(String.valueOf(value));
-        textField.setFilter(validator);
+        this(optionName, value, null, save, validator);
     }
 
     public InputValue(String optionName, T value, Consumer<T> save) {
         this(optionName, value, save, ANY);
+    }
+
+    public InputValue(String optionName, T value, @Nullable T defaultValue, Consumer<T> save, Predicate<String> validator) {
+        super(optionName, value, defaultValue, save);
+
+        this.textField = new WatchedTextfield(this, client.font, 0, 0, 160, 18);
+        textField.setValue(String.valueOf(value));
+        textField.setFilter(validator);
     }
 
     @Override
@@ -41,6 +46,11 @@ public class InputValue<T> extends ConfigValue<T> {
     @Override
     public GuiEventListener getListener() {
         return textField;
+    }
+
+    @Override
+    protected void resetValue() {
+        textField.setValue(String.valueOf(defaultValue));
     }
 
     @SuppressWarnings("unchecked")

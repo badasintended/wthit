@@ -10,6 +10,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
+import org.jetbrains.annotations.Nullable;
 
 public class CycleValue extends ConfigValue<String> {
 
@@ -17,7 +18,15 @@ public class CycleValue extends ConfigValue<String> {
     private final boolean createLocale;
 
     public CycleValue(String optionName, String[] values, String selected, Consumer<String> save, boolean createLocale) {
-        super(optionName, selected, save);
+        this(optionName, values, selected, null, save, createLocale);
+    }
+
+    public CycleValue(String optionName, String[] values, String selected, Consumer<String> save) {
+        this(optionName, values, selected, save, false);
+    }
+
+    public CycleValue(String optionName, String[] values, String selected, @Nullable String defaultValue, Consumer<String> save, boolean createLocale) {
+        super(optionName, selected, defaultValue, save);
 
         this.createLocale = createLocale;
         List<String> vals = Arrays.asList(values);
@@ -26,10 +35,6 @@ public class CycleValue extends ConfigValue<String> {
                 ? new TranslatableComponent(optionName + "_" + selected.replace(" ", "_").toLowerCase(Locale.ROOT))
                 : new TextComponent(selected),
             w -> setValue(vals.get((vals.indexOf(getValue()) + 1) % vals.size())));
-    }
-
-    public CycleValue(String optionName, String[] values, String selected, Consumer<String> save) {
-        this(optionName, values, selected, save, false);
     }
 
     @Override

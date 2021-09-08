@@ -7,13 +7,18 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.network.chat.TranslatableComponent;
+import org.jetbrains.annotations.Nullable;
 
 public class EnumValue<T extends Enum<T>> extends ConfigValue<T> {
 
     private final Button button;
 
     public EnumValue(String optionName, T[] values, T selected, Consumer<T> save) {
-        super(optionName, selected, save);
+        this(optionName, values, selected, null, save);
+    }
+
+    public EnumValue(String optionName, T[] values, T selected, @Nullable T defaultValue, Consumer<T> save) {
+        super(optionName, selected, defaultValue, save);
 
         this.button = new Button(0, 0, 100, 20, new TranslatableComponent(optionName + "_" + selected.name().toLowerCase(Locale.ROOT)), w ->
             setValue(values[(getValue().ordinal() + 1) % values.length]));

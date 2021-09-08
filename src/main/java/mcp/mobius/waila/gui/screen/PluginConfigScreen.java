@@ -30,10 +30,10 @@ public class PluginConfigScreen extends ConfigScreen {
 
     static {
         register(ConfigEntry.BOOLEAN, BooleanValue::new);
-        register(ConfigEntry.INTEGER, (name, value, save) -> new InputValue<>(name, value, save, InputValue.INTEGER));
-        register(ConfigEntry.DOUBLE, (name, value, save) -> new InputValue<>(name, value, save, InputValue.DECIMAL));
-        register(ConfigEntry.STRING, InputValue::new);
-        register(ConfigEntry.ENUM, (name, value, save) -> new EnumValue(name, value.getDeclaringClass().getEnumConstants(), value, save));
+        register(ConfigEntry.INTEGER, (name, value, defaultValue, save) -> new InputValue<>(name, value, defaultValue, save, InputValue.INTEGER));
+        register(ConfigEntry.DOUBLE, (name, value, defaultValue, save) -> new InputValue<>(name, value, defaultValue, save, InputValue.DECIMAL));
+        register(ConfigEntry.STRING, (name, value, defaultValue, save) -> new InputValue<>(name, value, defaultValue, save, InputValue.ANY));
+        register(ConfigEntry.ENUM, (name, value, defaultValue, save) -> new EnumValue(name, value.getDeclaringClass().getEnumConstants(), value, defaultValue, save));
     }
 
     public PluginConfigScreen(Screen parent) {
@@ -81,7 +81,7 @@ public class PluginConfigScreen extends ConfigScreen {
                                 e.setValue(e.getIntValue() + 1);
                             }
                         }
-                        options.with(index, ENTRY_TO_VALUE.get(entry.getType()).create(translationKey + "." + path, entry.getValue(), entry::setValue));
+                        options.with(index, ENTRY_TO_VALUE.get(entry.getType()).create(translationKey + "." + path, entry.getValue(), entry.getDefaultValue(), entry::setValue));
                     }
                     return options;
                 }
@@ -93,7 +93,7 @@ public class PluginConfigScreen extends ConfigScreen {
     @FunctionalInterface
     private interface ConfigValueFunction<T> {
 
-        ConfigValue<T> create(String name, T value, Consumer<T> save);
+        ConfigValue<T> create(String name, T value, T defaultValue, Consumer<T> save);
 
     }
 

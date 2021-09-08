@@ -8,13 +8,18 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
+import org.jetbrains.annotations.Nullable;
 
 public class BooleanValue extends ConfigValue<Boolean> {
 
     private final Button button;
 
     public BooleanValue(String optionName, boolean value, Consumer<Boolean> save) {
-        super(optionName, value, save);
+        this(optionName, value, null, save);
+    }
+
+    public BooleanValue(String optionName, boolean value, @Nullable Boolean defaultValue, Consumer<Boolean> save) {
+        super(optionName, value, defaultValue, save);
 
         this.button = new Button(0, 0, 100, 20, TextComponent.EMPTY, w -> setValue(!getValue()));
         setMessage();

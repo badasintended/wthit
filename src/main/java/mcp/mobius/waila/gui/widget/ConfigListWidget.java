@@ -8,6 +8,7 @@ import mcp.mobius.waila.gui.screen.ConfigScreen;
 import mcp.mobius.waila.gui.widget.value.ConfigValue;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.ContainerObjectSelectionList;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
@@ -55,10 +56,15 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
     }
 
     public void add(int index, Entry entry) {
-        if (entry instanceof ConfigValue) {
-            GuiEventListener element = ((ConfigValue<?>) entry).getListener();
-            if (element != null)
+        if (entry instanceof ConfigValue<?> value) {
+            GuiEventListener element = value.getListener();
+            if (element != null) {
                 owner.addListener(element);
+            }
+            Button resetButton  = value.getResetButton();
+            if (resetButton != null) {
+                owner.addListener(resetButton);
+            }
         }
         children().add(index, entry);
     }
