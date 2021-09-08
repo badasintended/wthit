@@ -45,14 +45,14 @@ public class PluginConfigScreen extends ConfigScreen {
     @Override
     @SuppressWarnings("ConstantConditions")
     public ConfigListWidget getOptions() {
-        ConfigListWidget options = new ConfigListWidget(this, minecraft, width, height, 32, height - 32, 30, PluginConfig.INSTANCE::save);
+        ConfigListWidget options = new ConfigListWidget(this, minecraft, width, height, 32, height - 32, 26, PluginConfig.INSTANCE::save);
         for (String namespace : PluginConfig.INSTANCE.getNamespaces()) {
             String translationKey = "config.waila.plugin_" + namespace;
             Set<ResourceLocation> keys = PluginConfig.INSTANCE.getKeys(namespace);
             options.withButton(translationKey, 100, 20, w -> minecraft.setScreen(new ConfigScreen(PluginConfigScreen.this, new TranslatableComponent(translationKey)) {
                 @Override
                 public ConfigListWidget getOptions() {
-                    ConfigListWidget options = new ConfigListWidget(this, minecraft, width, height, 32, height - 32, 30);
+                    ConfigListWidget options = new ConfigListWidget(this, minecraft, width, height, 32, height - 32, 26);
                     Object2IntMap<String> categories = new Object2IntLinkedOpenHashMap<>();
                     categories.put(NO_CATEGORY, 0);
                     for (ResourceLocation key : keys) {

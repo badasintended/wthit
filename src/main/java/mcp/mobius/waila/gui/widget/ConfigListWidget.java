@@ -25,7 +25,7 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
     private final Runnable diskWriter;
 
     public ConfigListWidget(ConfigScreen owner, Minecraft client, int width, int height, int top, int bottom, int itemHeight, Runnable diskWriter) {
-        super(client, width, height, top, bottom, itemHeight);
+        super(client, width, height, top, bottom, itemHeight - 4);
 
         this.owner = owner;
         this.diskWriter = diskWriter;
@@ -144,8 +144,8 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
 
         @Override
         public void render(PoseStack matrices, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
-            if (hovered) {
-                GuiComponent.fill(matrices, 0, rowTop, client.getWindow().getGuiScaledWidth(), rowTop + height, 0x22FFFFFF);
+            if (rowTop <= mouseY && mouseY < rowTop + height + 4) {
+                GuiComponent.fill(matrices, 0, rowTop - 2, client.getWindow().getGuiScaledWidth(), rowTop + height + 2, 0x22FFFFFF);
             }
         }
 

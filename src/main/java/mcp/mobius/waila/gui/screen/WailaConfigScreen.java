@@ -31,11 +31,11 @@ public class WailaConfigScreen extends ConfigScreen {
     @Override
     @SuppressWarnings("ConstantConditions")
     public ConfigListWidget getOptions() {
-        return new ConfigListWidget(this, minecraft, width, height, 32, height - 32, 30, WailaConfigScreen::save)
+        return new ConfigListWidget(this, minecraft, width, height, 32, height - 32, 26, WailaConfigScreen::save)
             .withButton("config.waila.general", 100, 20, w -> minecraft.setScreen(new ConfigScreen(this, new TranslatableComponent("config.waila.general")) {
                 @Override
                 public ConfigListWidget getOptions() {
-                    return new ConfigListWidget(this, minecraft, width, height, 32, height - 32, 30)
+                    return new ConfigListWidget(this, minecraft, width, height, 32, height - 32, 26)
                         .withBoolean("config.waila.display_tooltip",
                             get().getGeneral().isDisplayTooltip(),
                             val -> get().getGeneral().setDisplayTooltip(val))
@@ -72,7 +72,7 @@ public class WailaConfigScreen extends ConfigScreen {
             .withButton("config.waila.overlay", 100, 20, w -> minecraft.setScreen(new ConfigScreen(this, new TranslatableComponent("config.waila.overlay")) {
                 @Override
                 public ConfigListWidget getOptions() {
-                    return new ConfigListWidget(this, minecraft, width, height, 32, height - 32, 30)
+                    return new ConfigListWidget(this, minecraft, width, height, 32, height - 32, 26)
                         .withInput("config.waila.overlay_pos_x",
                             get().getOverlay().getPosition().getX(),
                             val -> get().getOverlay().getPosition().setX(val),
@@ -117,7 +117,7 @@ public class WailaConfigScreen extends ConfigScreen {
             .withButton("config.waila.formatting", 100, 20, w -> minecraft.setScreen(new ConfigScreen(this, new TranslatableComponent("config.waila.overlay")) {
                 @Override
                 public ConfigListWidget getOptions() {
-                    return new ConfigListWidget(this, minecraft, width, height, 32, height - 32, 30)
+                    return new ConfigListWidget(this, minecraft, width, height, 32, height - 32, 26)
                         .withInput("config.waila.format_mod_name",
                             get().getFormatting().getModName(),
                             val -> get().getFormatting().setModName(val.isEmpty() || !val.contains("%s") ? get().getFormatting().getModName() : val))
