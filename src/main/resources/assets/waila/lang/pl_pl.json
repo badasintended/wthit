@@ -38,8 +38,6 @@
   "config.waila.tts_desc"                      : "Czyta nazwy bloków i bytów, używając modułu zamiany tekstu na mowę",
 
   "config.waila.overlay"                       : "Nakładka",
-  "config.waila.overlay_pos_x"                 : "Stosunek poziomy",
-  "config.waila.overlay_pos_y"                 : "Stosunek pionowy",
   "config.waila.overlay_scale"                 : "Skala wyświetlacza",
 
   "config.waila.overlay_color"                 : "Kolor",

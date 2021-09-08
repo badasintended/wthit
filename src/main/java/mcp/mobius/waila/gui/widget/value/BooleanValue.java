@@ -14,11 +14,9 @@ public class BooleanValue extends ConfigValue<Boolean> {
     private final Button button;
 
     public BooleanValue(String optionName, boolean value, Consumer<Boolean> save) {
-        super(optionName, save);
+        super(optionName, value, save);
 
-        this.button = new Button(0, 0, 100, 20, TextComponent.EMPTY, w -> this.value = !this.value);
-        this.value = value;
-
+        this.button = new Button(0, 0, 100, 20, TextComponent.EMPTY, w -> setValue(!getValue()));
         setMessage();
     }
 
@@ -31,8 +29,8 @@ public class BooleanValue extends ConfigValue<Boolean> {
     }
 
     private void setMessage() {
-        button.setMessage(new TranslatableComponent("config.waila." + value)
-            .withStyle(value ? ChatFormatting.GREEN : ChatFormatting.RED));
+        button.setMessage(new TranslatableComponent("config.waila." + getValue())
+            .withStyle(getValue() ? ChatFormatting.GREEN : ChatFormatting.RED));
     }
 
     @Override

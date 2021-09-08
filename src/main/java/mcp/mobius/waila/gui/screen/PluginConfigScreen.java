@@ -9,6 +9,8 @@ import it.unimi.dsi.fastutil.objects.Object2IntLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import mcp.mobius.waila.config.ConfigEntry;
 import mcp.mobius.waila.config.PluginConfig;
+import mcp.mobius.waila.gui.widget.ButtonEntry;
+import mcp.mobius.waila.gui.widget.CategoryEntry;
 import mcp.mobius.waila.gui.widget.ConfigListWidget;
 import mcp.mobius.waila.gui.widget.value.BooleanValue;
 import mcp.mobius.waila.gui.widget.value.ConfigValue;
@@ -49,7 +51,7 @@ public class PluginConfigScreen extends ConfigScreen {
         for (String namespace : PluginConfig.INSTANCE.getNamespaces()) {
             String translationKey = "config.waila.plugin_" + namespace;
             Set<ResourceLocation> keys = PluginConfig.INSTANCE.getKeys(namespace);
-            options.withButton(translationKey, 100, 20, w -> minecraft.setScreen(new ConfigScreen(PluginConfigScreen.this, new TranslatableComponent(translationKey)) {
+            options.with(new ButtonEntry(translationKey, 100, 20, w -> minecraft.setScreen(new ConfigScreen(PluginConfigScreen.this, new TranslatableComponent(translationKey)) {
                 @Override
                 public ConfigListWidget getOptions() {
                     ConfigListWidget options = new ConfigListWidget(this, minecraft, width, height, 32, height - 32, 26);
@@ -68,7 +70,7 @@ public class PluginConfigScreen extends ConfigScreen {
                             if (I18n.exists(translation)) {
                                 category = c;
                                 if (!categories.containsKey(category)) {
-                                    options.withCategory(translation);
+                                    options.with(new CategoryEntry(translation));
                                     categories.put(category, options.children().size());
                                 }
                             }
@@ -83,7 +85,7 @@ public class PluginConfigScreen extends ConfigScreen {
                     }
                     return options;
                 }
-            }));
+            })));
         }
         return options;
     }

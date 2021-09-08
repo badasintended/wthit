@@ -2,19 +2,12 @@ package mcp.mobius.waila.gui.widget;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Predicate;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.gui.screen.ConfigScreen;
-import mcp.mobius.waila.gui.widget.value.BooleanValue;
 import mcp.mobius.waila.gui.widget.value.ConfigValue;
-import mcp.mobius.waila.gui.widget.value.CycleValue;
-import mcp.mobius.waila.gui.widget.value.EnumValue;
-import mcp.mobius.waila.gui.widget.value.InputValue;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.ContainerObjectSelectionList;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
@@ -76,51 +69,6 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
 
     public ConfigListWidget with(int index, Entry entry) {
         add(index, entry);
-        return this;
-    }
-
-    public ConfigListWidget withCategory(String title) {
-        add(new CategoryEntry(title));
-        return this;
-    }
-
-    public ConfigListWidget withButton(String title, Button button) {
-        add(new ButtonEntry(title, button));
-        return this;
-    }
-
-    public ConfigListWidget withButton(String title, int width, int height, Button.OnPress pressAction) {
-        add(new ButtonEntry(title, width, height, pressAction));
-        return this;
-    }
-
-    public ConfigListWidget withBoolean(String optionName, boolean value, Consumer<Boolean> save) {
-        add(new BooleanValue(optionName, value, save));
-        return this;
-    }
-
-    public ConfigListWidget withCycle(String optionName, String[] values, String selected, Consumer<String> save, boolean createLocale) {
-        add(new CycleValue(optionName, values, selected, save, createLocale));
-        return this;
-    }
-
-    public ConfigListWidget withCycle(String optionName, String[] values, String selected, Consumer<String> save) {
-        add(new CycleValue(optionName, values, selected, save));
-        return this;
-    }
-
-    public <T extends Enum<T>> ConfigListWidget withEnum(String optionName, T[] values, T selected, Consumer<T> save) {
-        add(new EnumValue<>(optionName, values, selected, save));
-        return this;
-    }
-
-    public <T> ConfigListWidget withInput(String optionName, T value, Consumer<T> save, Predicate<String> validator) {
-        add(new InputValue<>(optionName, value, save, validator));
-        return this;
-    }
-
-    public <T> ConfigListWidget withInput(String optionName, T value, Consumer<T> save) {
-        add(new InputValue<>(optionName, value, save));
         return this;
     }
 

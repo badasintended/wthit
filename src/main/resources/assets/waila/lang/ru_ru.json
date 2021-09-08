@@ -64,9 +64,7 @@
 
   "config.waila.overlay"                      : "Наложение",
 
-  "config.waila.overlay_pos_x"                : "Позиция по X",
   "config.waila.overlay_pos_x_desc"           : "Позиция X относительно привязки экрана\nРазмер влияет на позицию",
-  "config.waila.overlay_pos_y"                : "Позиция по Y",
   "config.waila.overlay_pos_y_desc"           : "Позиция Y относительно привязки экрана\nРазмер влияет на позицию",
 
   "config.waila.overlay_scale"                : "Размер",

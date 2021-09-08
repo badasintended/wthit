@@ -11,14 +11,18 @@ import net.minecraft.network.chat.TranslatableComponent;
 public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
 
     protected final Consumer<T> save;
+    protected final String translationKey;
+
     private final Component title;
     private final String description;
-    protected T value;
+    private T value;
     private int x;
 
-    public ConfigValue(String optionName, Consumer<T> save) {
-        this.title = new TranslatableComponent(optionName);
-        this.description = optionName + "_desc";
+    public ConfigValue(String translationKey, T value, Consumer<T> save) {
+        this.translationKey = translationKey;
+        this.title = new TranslatableComponent(translationKey);
+        this.description = translationKey + "_desc";
+        this.value = value;
         this.save = save;
     }
 
@@ -49,6 +53,14 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
 
     public int getX() {
         return x;
+    }
+
+    public final T getValue() {
+        return value;
+    }
+
+    public final void setValue(T value) {
+        this.value = value;
     }
 
     protected abstract void drawValue(PoseStack matrices, int width, int height, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks);

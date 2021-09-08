@@ -39,8 +39,6 @@
   "config.waila.tts_desc"                     : "Lies den Block- und Kreaturname mit dem Text To Speech Prozessor vom System vor",
 
   "config.waila.overlay"                      : "Oberfläche",
-  "config.waila.overlay_pos_x"                : "Horizontale Ausrichtung",
-  "config.waila.overlay_pos_y"                : "Vertikale Ausrichtung",
 
   "config.waila.overlay_color"                : "Farbe",
 

@@ -39,8 +39,6 @@
   "config.waila.tts_desc"                      : "使用系统讲述人读出实体和方块名",
 
   "config.waila.overlay"                       : "覆盖显示",
-  "config.waila.overlay_pos_x"                 : "水平比例",
-  "config.waila.overlay_pos_y"                 : "垂直比例",
 
   "config.waila.overlay_color"                 : "颜色",
   "config.waila.overlay_alpha"                 : "不透明度",

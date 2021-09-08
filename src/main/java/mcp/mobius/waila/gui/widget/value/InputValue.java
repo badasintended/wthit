@@ -20,9 +20,8 @@ public class InputValue<T> extends ConfigValue<T> {
     private final EditBox textField;
 
     public InputValue(String optionName, T value, Consumer<T> save, Predicate<String> validator) {
-        super(optionName, save);
+        super(optionName, value, save);
 
-        this.value = value;
         this.textField = new WatchedTextfield(this, client.font, 0, 0, 160, 18);
         textField.setValue(String.valueOf(value));
         textField.setFilter(validator);
@@ -46,22 +45,23 @@ public class InputValue<T> extends ConfigValue<T> {
 
     @SuppressWarnings("unchecked")
     private void setValue(String text) {
+        final T value = getValue();
         if (value instanceof String)
-            value = (T) text;
+            setValue((T) text);
 
         try {
             if (value instanceof Integer)
-                value = (T) Integer.valueOf(text);
+                setValue((T) Integer.valueOf(text));
             else if (value instanceof Short)
-                value = (T) Short.valueOf(text);
+                setValue((T) Short.valueOf(text));
             else if (value instanceof Byte)
-                value = (T) Byte.valueOf(text);
+                setValue((T) Byte.valueOf(text));
             else if (value instanceof Long)
-                value = (T) Long.valueOf(text);
+                setValue((T) Long.valueOf(text));
             else if (value instanceof Double)
-                value = (T) Double.valueOf(text);
+                setValue((T) Double.valueOf(text));
             else if (value instanceof Float)
-                value = (T) Float.valueOf(text);
+                setValue((T) Float.valueOf(text));
         } catch (NumberFormatException e) {
             // no-op
         }
