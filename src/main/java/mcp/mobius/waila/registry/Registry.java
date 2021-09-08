@@ -15,6 +15,20 @@ public class Registry<T> {
 
     private final List<Entry<?>> sorter = new ObjectArrayList<>();
 
+    private final int order;
+
+    private Registry(int order) {
+        this.order = order;
+    }
+
+    public static <T> Registry<T> create() {
+        return new Registry<>(1);
+    }
+
+    public static <T> Registry<T> createReversed() {
+        return new Registry<>(-1);
+    }
+
     public void add(Class<?> key, T value, int priority) {
         map.computeIfAbsent(key, k -> new ObjectArrayList<>())
             .add(new Entry<>(value, priority));
@@ -40,7 +54,7 @@ public class Registry<T> {
                 sorter.addAll(v);
             }
         });
-        sorter.sort(Comparator.comparingInt(e -> e.priority));
+        sorter.sort(Comparator.comparingInt(e -> e.priority * order));
         List<T> list = new ObjectArrayList<>();
         for (Entry<?> entry : sorter) {
             //noinspection unchecked

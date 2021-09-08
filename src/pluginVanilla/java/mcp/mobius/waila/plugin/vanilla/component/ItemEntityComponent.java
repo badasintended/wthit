@@ -2,6 +2,7 @@ package mcp.mobius.waila.plugin.vanilla.component;
 
 import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IEntityComponentProvider;
+import mcp.mobius.waila.api.IModInfo;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.IWailaConfig;
@@ -25,4 +26,9 @@ public enum ItemEntityComponent implements IEntityComponentProvider {
         tooltip.set(WailaConstants.OBJECT_NAME_TAG, new TextComponent(IWailaConfig.get().getFormatting().formatEntityName(name)));
     }
 
+    @Override
+    public void appendTail(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
+        String mod = IModInfo.get(accessor.<ItemEntity>getEntity().getItem().getItem()).getName();
+        tooltip.set(WailaConstants.MOD_NAME_TAG, new TextComponent(IWailaConfig.get().getFormatting().formatModName(mod)));
+    }
 }

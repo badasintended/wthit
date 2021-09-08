@@ -25,7 +25,7 @@ public class WailaCore implements IWailaPlugin {
     public void register(IRegistrar registrar) {
         registrar.addComponent(BlockComponent.INSTANCE, HEAD, Block.class, 900);
         registrar.addComponent(BlockComponent.INSTANCE, BODY, Block.class, 900);
-        registrar.addComponent(BlockComponent.INSTANCE, TAIL, Block.class, 1100);
+        registrar.addComponent(BlockComponent.INSTANCE, TAIL, Block.class, 900);
 
         registrar.addBlockData(BlockComponent.INSTANCE, BlockEntity.class);
 
@@ -34,7 +34,7 @@ public class WailaCore implements IWailaPlugin {
 
         registrar.addComponent(EntityComponent.INSTANCE, HEAD, Entity.class, 900);
         registrar.addComponent(EntityComponent.INSTANCE, BODY, LivingEntity.class, 900);
-        registrar.addComponent(EntityComponent.INSTANCE, TAIL, Entity.class, 1100);
+        registrar.addComponent(EntityComponent.INSTANCE, TAIL, Entity.class, 900);
 
         registrar.addConfig(WailaConstants.CONFIG_SHOW_BLOCK, true);
         registrar.addConfig(WailaConstants.CONFIG_SHOW_FLUID, false);

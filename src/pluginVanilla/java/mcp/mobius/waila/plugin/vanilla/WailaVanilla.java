@@ -48,6 +48,7 @@ import net.minecraft.world.level.block.entity.SpawnerBlockEntity;
 
 import static mcp.mobius.waila.api.TooltipPosition.BODY;
 import static mcp.mobius.waila.api.TooltipPosition.HEAD;
+import static mcp.mobius.waila.api.TooltipPosition.TAIL;
 
 public class WailaVanilla implements IWailaPlugin {
 
@@ -84,7 +85,7 @@ public class WailaVanilla implements IWailaPlugin {
         registrar.addDisplayItem(PlayerHeadComponent.INSTANCE, SkullBlockEntity.class);
         registrar.addComponent(PlayerHeadComponent.INSTANCE, BODY, SkullBlockEntity.class);
 
-        registrar.addComponent(SpawnerComponent.INSTANCE, HEAD, SpawnerBlockEntity.class, 999);
+        registrar.addComponent(SpawnerComponent.INSTANCE, HEAD, SpawnerBlockEntity.class, 950);
 
         registrar.addDisplayItem(PlantComponent.INSTANCE, CropBlock.class);
         registrar.addComponent(PlantComponent.INSTANCE, BODY, CropBlock.class);
@@ -105,8 +106,10 @@ public class WailaVanilla implements IWailaPlugin {
         registrar.addDisplayItem(FallingBlockComponent.INSTANCE, FallingBlockEntity.class);
 
         registrar.addDisplayItem(EntityIconComponent.INSTANCE, Entity.class);
+
         registrar.addDisplayItem(ItemEntityComponent.INSTANCE, ItemEntity.class);
-        registrar.addComponent(ItemEntityComponent.INSTANCE, HEAD, ItemEntity.class, 999);
+        registrar.addComponent(ItemEntityComponent.INSTANCE, HEAD, ItemEntity.class, 950);
+        registrar.addComponent(ItemEntityComponent.INSTANCE, TAIL, ItemEntity.class, 950);
 
         registrar.addComponent(FurnaceComponent.INSTANCE, BODY, AbstractFurnaceBlockEntity.class);
         registrar.addBlockData(FurnaceComponent.INSTANCE, AbstractFurnaceBlockEntity.class);
