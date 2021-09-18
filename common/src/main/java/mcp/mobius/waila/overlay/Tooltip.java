@@ -9,9 +9,7 @@ import java.util.function.Function;
 import com.google.common.base.Preconditions;
 import com.mojang.blaze3d.systems.RenderSystem;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import mcp.mobius.waila.Waila;
-import mcp.mobius.waila.api.ITaggableList;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.impl.config.PluginConfig;
 import mcp.mobius.waila.api.impl.config.WailaConfig;
@@ -19,6 +17,7 @@ import mcp.mobius.waila.api.impl.config.WailaConfig.ConfigOverlay.ConfigOverlayC
 import mcp.mobius.waila.api.impl.config.WailaConfig.ConfigOverlay.Position.HorizontalAlignment;
 import mcp.mobius.waila.api.impl.config.WailaConfig.ConfigOverlay.Position.VerticalAlignment;
 import mcp.mobius.waila.mixin.AccessorBossBarHud;
+import mcp.mobius.waila.utils.TaggableList;
 import mcp.mobius.waila.utils.TaggedText;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
@@ -43,7 +42,7 @@ public class Tooltip {
 
     static boolean shouldRender = false;
 
-    private static final List<Text> LINES = new ObjectArrayList<>();
+    private static final TaggableList<Identifier, Text> LINES = new TaggableList<>(TaggedText::new);
     private static final Object2IntOpenHashMap<Text> LINE_HEIGHT = new Object2IntOpenHashMap<>();
 
     private static final Lazy<Rectangle> RENDER_RECT = new Lazy<>(Rectangle::new);
@@ -64,13 +63,13 @@ public class Tooltip {
 
     public static void addLines(List<Text> lines) {
         Preconditions.checkState(started);
-        lines.forEach(c -> {
-            Text text = c;
+        lines.forEach(text -> {
             if (text instanceof TaggedText) {
-                text = ((ITaggableList<Identifier, Text>) lines).getTag(((TaggedText) text).getTag());
+                Identifier tag = ((TaggedText) text).getTag();
+                LINES.setTag(tag, ((TaggableList<Identifier, Text>) lines).getTag(tag));
+            } else {
+                LINES.add(text);
             }
-
-            LINES.add(text);
         });
     }
 
@@ -104,8 +103,11 @@ public class Tooltip {
                 lineW = size.width;
                 lineH = size.height;
             } else {
+                Text text = line instanceof TaggedText
+                    ? LINES.getTag(((TaggedText) line).getTag())
+                    : line;
                 TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
-                lineW = textRenderer.getWidth(line);
+                lineW = textRenderer.getWidth(text);
                 lineH = textRenderer.fontHeight + 1;
             }
 
@@ -212,7 +214,10 @@ public class Tooltip {
                 ((DrawableText) line).render(matrices, x, y, delta);
             } else {
                 TextRenderer textRenderer = client.textRenderer;
-                textRenderer.drawWithShadow(matrices, line, x, y, color.getFontColor());
+                Text text = line instanceof TaggedText
+                    ? LINES.getTag(((TaggedText) line).getTag())
+                    : line;
+                textRenderer.drawWithShadow(matrices, text, x, y, color.getFontColor());
             }
 
             y += LINE_HEIGHT.getInt(line);
