@@ -46,6 +46,8 @@ public class ForgeWaila extends Waila {
             .getModContainerById(namespace)
             .map(data -> new ModIdentification.Info(data.getModId(), data.getModInfo().getDisplayName()));
 
+        ModIdentification.itemStackSupplier = stack -> stack.getItem().getCreatorModId(stack);
+
         String[] mods = {"minecraft", "forge", "wthit", "jei"};
         for (String mod : mods) {
             ModList.get().getModContainerById(mod)

@@ -12,6 +12,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.tag.TagRegistry;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
+import net.minecraft.util.registry.Registry;
 
 public class FabricWaila extends Waila implements ModInitializer {
 
@@ -36,6 +37,8 @@ public class FabricWaila extends Waila implements ModInitializer {
 
         ModIdentification.supplier = namespace -> FabricLoader.getInstance().getModContainer(namespace)
             .map(data -> new ModIdentification.Info(data.getMetadata().getId(), data.getMetadata().getName()));
+
+        ModIdentification.itemStackSupplier = stack -> Registry.ITEM.getId(stack.getItem()).getNamespace();
 
         plugins = new FabricWailaPlugins();
         plugins.initialize();

@@ -8,12 +8,14 @@ import com.google.common.collect.Maps;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 public class ModIdentification {
 
     public static Function<String, Optional<Info>> supplier;
+    public static Function<ItemStack, String> itemStackSupplier;
 
     private static final Map<String, Info> CONTAINER_CACHE = Maps.newHashMap();
     private static final Info MC_MOD_INFO = new Info("minecraft", "Minecraft");
@@ -34,6 +36,10 @@ public class ModIdentification {
 
     public static Info getModInfo(Block block) {
         return getModInfo(Registry.BLOCK.getId(block));
+    }
+
+    public static Info getModInfo(ItemStack stack) {
+        return getModInfo(itemStackSupplier.apply(stack));
     }
 
     public static Info getModInfo(Item item) {
