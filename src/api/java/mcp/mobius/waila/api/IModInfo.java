@@ -5,6 +5,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -21,6 +22,10 @@ public interface IModInfo {
 
     static IModInfo get(Block block) {
         return get(Registry.BLOCK.getKey(block));
+    }
+
+    static IModInfo get(ItemStack stack) {
+        return Impl.get(IModInfo.class, stack);
     }
 
     static IModInfo get(Item item) {

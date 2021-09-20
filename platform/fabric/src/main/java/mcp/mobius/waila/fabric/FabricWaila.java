@@ -1,9 +1,11 @@
 package mcp.mobius.waila.fabric;
 
 import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.api.IModInfo;
 import mcp.mobius.waila.command.DumpCommand;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.debug.DumpGenerator;
+import mcp.mobius.waila.impl.Impl;
 import mcp.mobius.waila.util.CommonUtil;
 import mcp.mobius.waila.util.ModInfo;
 import net.fabricmc.api.EnvType;
@@ -14,8 +16,21 @@ import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.tag.TagRegistry;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
+import net.minecraft.core.Registry;
+import net.minecraft.world.item.ItemStack;
 
 public class FabricWaila extends Waila implements ModInitializer {
+
+    static {
+        Impl.reg(IModInfo.class, o -> {
+            if (o instanceof String s) {
+                return ModInfo.get(s);
+            } else if (o instanceof ItemStack i) {
+                return ModInfo.get(Registry.ITEM.getKey(i.getItem()).getNamespace());
+            }
+            throw new IllegalArgumentException();
+        });
+    }
 
     @Override
     public void onInitialize() {

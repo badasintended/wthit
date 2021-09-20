@@ -28,7 +28,7 @@ public enum ItemEntityComponent implements IEntityComponentProvider {
 
     @Override
     public void appendTail(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        String mod = IModInfo.get(accessor.<ItemEntity>getEntity().getItem().getItem()).getName();
+        String mod = IModInfo.get(accessor.<ItemEntity>getEntity().getItem()).getName();
         tooltip.set(WailaConstants.MOD_NAME_TAG, new TextComponent(IWailaConfig.get().getFormatting().formatModName(mod)));
     }
 }

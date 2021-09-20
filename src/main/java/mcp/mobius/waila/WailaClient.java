@@ -86,9 +86,7 @@ public abstract class WailaClient {
 
     protected static void onItemTooltip(ItemStack stack, List<Component> tooltip) {
         if (PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_MOD_NAME)) {
-            tooltip.add(new TextComponent(IWailaConfig.get().getFormatting().formatModName(
-                IModInfo.get(stack.getItem()).getName()
-            )));
+            tooltip.add(new TextComponent(IWailaConfig.get().getFormatting().formatModName(IModInfo.get(stack).getName())));
         }
     }
 

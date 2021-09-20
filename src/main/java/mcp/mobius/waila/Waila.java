@@ -2,7 +2,6 @@ package mcp.mobius.waila;
 
 import com.google.gson.GsonBuilder;
 import mcp.mobius.waila.api.IJsonConfig;
-import mcp.mobius.waila.api.IModInfo;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.config.JsonConfig;
@@ -10,7 +9,6 @@ import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.impl.Impl;
 import mcp.mobius.waila.network.PacketSender;
 import mcp.mobius.waila.plugin.PluginLoader;
-import mcp.mobius.waila.util.ModInfo;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.Tag;
 import net.minecraft.world.entity.EntityType;
@@ -30,7 +28,6 @@ public abstract class Waila {
 
     static {
         Impl.reg(IJsonConfig.Builder0.class, c -> new JsonConfig.Builder<>((Class<?>) c));
-        Impl.reg(IModInfo.class, s -> ModInfo.get((String) s));
         Impl.reg(IWailaConfig.class, () -> Waila.config.get());
     }
 

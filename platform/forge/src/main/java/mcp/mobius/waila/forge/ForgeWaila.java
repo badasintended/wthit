@@ -1,15 +1,18 @@
 package mcp.mobius.waila.forge;
 
 import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.api.IModInfo;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.command.DumpCommand;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.debug.DumpGenerator;
+import mcp.mobius.waila.impl.Impl;
 import mcp.mobius.waila.util.CommonUtil;
 import mcp.mobius.waila.util.ModInfo;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.EntityTypeTags;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
@@ -28,6 +31,17 @@ import net.minecraftforge.fmlserverevents.FMLServerStartingEvent;
 @Mod(WailaConstants.WAILA)
 @EventBusSubscriber(modid = WailaConstants.WAILA, bus = Bus.MOD)
 public class ForgeWaila extends Waila {
+
+    static {
+        Impl.reg(IModInfo.class, o -> {
+            if (o instanceof String s) {
+                return ModInfo.get(s);
+            } else if (o instanceof ItemStack i) {
+                return ModInfo.get(i.getItem().getCreatorModId(i));
+            }
+            throw new IllegalArgumentException();
+        });
+    }
 
     @SubscribeEvent
     static void setup(FMLCommonSetupEvent event) {
