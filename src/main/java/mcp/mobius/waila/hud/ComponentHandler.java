@@ -16,7 +16,6 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -123,8 +122,6 @@ public class ComponentHandler {
                 }
             }
         } else {
-            Level world = Minecraft.getInstance().level;
-            BlockPos pos = ((BlockHitResult) target).getBlockPos();
             BlockState state = data.getBlockState();
             if (state.isAir())
                 return ItemStack.EMPTY;
@@ -147,14 +144,6 @@ public class ComponentHandler {
                     }
                 }
             }
-
-            ItemStack pick = state.getBlock().getCloneItemStack(world, pos, state);
-            if (!pick.isEmpty()) {
-                return pick;
-            }
-
-            if (state.getBlock().asItem() != Items.AIR)
-                return new ItemStack(state.getBlock());
         }
 
         return ItemStack.EMPTY;

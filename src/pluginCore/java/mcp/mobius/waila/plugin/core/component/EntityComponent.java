@@ -15,10 +15,23 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.item.ItemStack;
 
 public enum EntityComponent implements IEntityComponentProvider {
 
     INSTANCE;
+
+    @Override
+    public ItemStack getDisplayItem(IEntityAccessor accessor, IPluginConfig config) {
+        Entity entity = accessor.getEntity();
+        if (entity instanceof Mob) {
+            return ItemStack.EMPTY;
+        }
+
+        ItemStack stack = entity.getPickResult();
+        return stack != null ? stack : ItemStack.EMPTY;
+    }
 
     @Override
     public void appendHead(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {

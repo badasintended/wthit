@@ -3,8 +3,8 @@ package mcp.mobius.waila.plugin.vanilla;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.plugin.vanilla.component.BeehiveComponent;
+import mcp.mobius.waila.plugin.vanilla.component.BoatComponent;
 import mcp.mobius.waila.plugin.vanilla.component.ComposterComponent;
-import mcp.mobius.waila.plugin.vanilla.component.EntityIconComponent;
 import mcp.mobius.waila.plugin.vanilla.component.FallingBlockComponent;
 import mcp.mobius.waila.plugin.vanilla.component.FurnaceComponent;
 import mcp.mobius.waila.plugin.vanilla.component.InfestedBlockComponent;
@@ -26,6 +26,7 @@ import mcp.mobius.waila.plugin.vanilla.renderer.Renderers;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.level.block.BeehiveBlock;
 import net.minecraft.world.level.block.CocoaBlock;
 import net.minecraft.world.level.block.ComparatorBlock;
@@ -105,11 +106,12 @@ public class WailaVanilla implements IWailaPlugin {
         registrar.addComponent(FallingBlockComponent.INSTANCE, HEAD, FallingBlockEntity.class);
         registrar.addDisplayItem(FallingBlockComponent.INSTANCE, FallingBlockEntity.class);
 
-        registrar.addDisplayItem(EntityIconComponent.INSTANCE, Entity.class);
-
         registrar.addDisplayItem(ItemEntityComponent.INSTANCE, ItemEntity.class);
         registrar.addComponent(ItemEntityComponent.INSTANCE, HEAD, ItemEntity.class, 950);
         registrar.addComponent(ItemEntityComponent.INSTANCE, TAIL, ItemEntity.class, 950);
+
+        registrar.addComponent(BoatComponent.INSTANCE, HEAD, Boat.class, 950);
+        registrar.addComponent(BoatComponent.INSTANCE, TAIL, Boat.class, 950);
 
         registrar.addComponent(FurnaceComponent.INSTANCE, BODY, AbstractFurnaceBlockEntity.class);
         registrar.addBlockData(FurnaceComponent.INSTANCE, AbstractFurnaceBlockEntity.class);

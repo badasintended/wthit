@@ -18,6 +18,7 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Nameable;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -27,6 +28,12 @@ import net.minecraft.world.level.block.state.properties.BooleanProperty;
 public enum BlockComponent implements IBlockComponentProvider, IServerDataProvider<BlockEntity> {
 
     INSTANCE;
+
+    @Override
+    public ItemStack getDisplayItem(IBlockAccessor accessor, IPluginConfig config) {
+        BlockState state = accessor.getBlockState();
+        return state.getBlock().getCloneItemStack(accessor.getWorld(), accessor.getPosition(), state);
+    }
 
     @Override
     public void appendHead(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {

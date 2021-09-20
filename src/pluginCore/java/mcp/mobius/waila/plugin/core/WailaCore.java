@@ -21,20 +21,24 @@ import static mcp.mobius.waila.api.TooltipPosition.TAIL;
 
 public class WailaCore implements IWailaPlugin {
 
+    private static final int PRIORITY = 900;
+
     @Override
     public void register(IRegistrar registrar) {
-        registrar.addComponent(BlockComponent.INSTANCE, HEAD, Block.class, 900);
-        registrar.addComponent(BlockComponent.INSTANCE, BODY, Block.class, 900);
-        registrar.addComponent(BlockComponent.INSTANCE, TAIL, Block.class, 900);
+        registrar.addComponent(BlockComponent.INSTANCE, HEAD, Block.class, PRIORITY);
+        registrar.addComponent(BlockComponent.INSTANCE, BODY, Block.class, PRIORITY);
+        registrar.addComponent(BlockComponent.INSTANCE, TAIL, Block.class, PRIORITY);
 
+        registrar.addDisplayItem(BlockComponent.INSTANCE, Block.class, PRIORITY);
         registrar.addBlockData(BlockComponent.INSTANCE, BlockEntity.class);
 
-        registrar.addDisplayItem(FluidComponent.INSTANCE, LiquidBlock.class);
-        registrar.addComponent(FluidComponent.INSTANCE, HEAD, LiquidBlock.class, 900);
+        registrar.addDisplayItem(FluidComponent.INSTANCE, LiquidBlock.class, PRIORITY);
+        registrar.addComponent(FluidComponent.INSTANCE, HEAD, LiquidBlock.class, PRIORITY);
 
-        registrar.addComponent(EntityComponent.INSTANCE, HEAD, Entity.class, 900);
-        registrar.addComponent(EntityComponent.INSTANCE, BODY, LivingEntity.class, 900);
-        registrar.addComponent(EntityComponent.INSTANCE, TAIL, Entity.class, 900);
+        registrar.addDisplayItem(EntityComponent.INSTANCE, Entity.class);
+        registrar.addComponent(EntityComponent.INSTANCE, HEAD, Entity.class, PRIORITY);
+        registrar.addComponent(EntityComponent.INSTANCE, BODY, LivingEntity.class, PRIORITY);
+        registrar.addComponent(EntityComponent.INSTANCE, TAIL, Entity.class, PRIORITY);
 
         registrar.addConfig(WailaConstants.CONFIG_SHOW_BLOCK, true);
         registrar.addConfig(WailaConstants.CONFIG_SHOW_FLUID, false);
