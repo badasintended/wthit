@@ -80,7 +80,7 @@ public abstract class WailaClient {
         if (PluginConfig.INSTANCE.get(WailaConstants.CONFIG_SHOW_MOD_NAME)) {
             tooltip.add(new LiteralText(String.format(
                 Waila.CONFIG.get().getFormatting().getModName(),
-                ModIdentification.getModInfo(stack.getItem()).getName()
+                ModIdentification.getModInfo(stack).getName()
             )));
         }
     }
