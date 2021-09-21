@@ -106,7 +106,7 @@ public class TooltipRenderer {
                 lineH = size.height;
             } else {
                 lineW = line instanceof PairComponent pair
-                    ? client.font.width(pair.key) + colonWidth + client.font.width(pair.value)
+                    ? colonOffset + colonWidth + client.font.width(pair.value)
                     : client.font.width(line);
                 lineH = client.font.lineHeight + 1;
             }
