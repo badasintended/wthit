@@ -65,6 +65,10 @@ sourceSets {
     }
 }
 
-tasks.all {
+tasks.remapJar {
+    enabled = false
+}
+
+tasks.remapSourcesJar {
     enabled = false
 }

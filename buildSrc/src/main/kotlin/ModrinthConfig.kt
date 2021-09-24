@@ -7,6 +7,7 @@ fun <T : Jar> UploadConfig.modrinth(task: T) = project.run {
     apply(plugin = "com.modrinth.minotaur")
 
     task<TaskModrinthUpload>("modrinth") {
+        group = "upload"
         dependsOn("build")
 
         token = env["MODRINTH_TOKEN"]
