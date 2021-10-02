@@ -43,7 +43,7 @@ public final class DisplayUtil extends GuiComponent {
             return "" + number;
         }
 
-        int exp = (int) Math.log(number / 1000.0);
+        int exp = (int) (Math.log(number) / Math.log(1000.0));
         return String.format("%.1f%c", number / Math.pow(1000, exp), NUM_SUFFIXES.charAt(exp - 1));
     }
 
