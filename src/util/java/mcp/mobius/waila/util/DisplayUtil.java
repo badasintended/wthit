@@ -43,7 +43,7 @@ public final class DisplayUtil extends GuiComponent {
             return "" + number;
         }
 
-        int exp = (int) Math.log(number);
+        int exp = (int) Math.log10(number);
         int suffixIndex = exp / 3;
         if (suffixIndex <= NUM_SUFFIXES.length()) {
             return String.format("%.1f%c", number / Math.pow(10, suffixIndex * 3 ), NUM_SUFFIXES.charAt(suffixIndex - 1));
