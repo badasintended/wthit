@@ -20,8 +20,8 @@ public abstract class PluginLoader {
             IWailaPlugin plugin = (IWailaPlugin) Class.forName(initializer).getConstructor().newInstance();
             PLUGINS.put(new ResourceLocation(id), plugin);
             CommonUtil.LOGGER.info("Discovered plugin {} at {}", id, plugin.getClass().getCanonicalName());
-        } catch (Exception e) {
-            CommonUtil.LOGGER.error("Error creating instance of plugin " + id, e);
+        } catch (Throwable t) {
+            CommonUtil.LOGGER.error("Error creating instance of plugin " + id, t);
         }
     }
 
