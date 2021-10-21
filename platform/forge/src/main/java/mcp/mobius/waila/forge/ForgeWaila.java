@@ -91,7 +91,8 @@ public class ForgeWaila extends Waila {
 
         @SubscribeEvent
         static void playerJoin(PlayerEvent.PlayerLoggedInEvent event) {
-            packet.sendConfig(PluginConfig.INSTANCE, (ServerPlayer) event.getPlayer());
+            packet.sendBlacklistConfig(blacklistConfig.get(), (ServerPlayer) event.getPlayer());
+            packet.sendPluginConfig(PluginConfig.INSTANCE, (ServerPlayer) event.getPlayer());
         }
 
     }

@@ -120,6 +120,7 @@
 
   "config.waila.plugin_minecraft"                       : "Minecraft",
   "config.waila.plugin_minecraft.furnace_contents"      : "Show Furnace Contents",
+  "config.waila.plugin_minecraft.item_entity"           : "Show Item Entity",
   "config.waila.plugin_minecraft.override"              : "Overrides",
   "config.waila.plugin_minecraft.override.infested"     : "Show Infested Block as Regular Block",
   "config.waila.plugin_minecraft.override.trapped_chest": "Show Trapped Chest as Regular Chest",

@@ -1,5 +1,6 @@
 package mcp.mobius.waila.network;
 
+import mcp.mobius.waila.config.BlacklistConfig;
 import mcp.mobius.waila.config.PluginConfig;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -13,7 +14,9 @@ public abstract class PacketSender {
     public void initClient() {
     }
 
-    public abstract void sendConfig(PluginConfig config, ServerPlayer player);
+    public abstract void sendPluginConfig(PluginConfig config, ServerPlayer player);
+
+    public abstract void sendBlacklistConfig(BlacklistConfig config, ServerPlayer player);
 
     public abstract void generateClientDump(ServerPlayer player);
 

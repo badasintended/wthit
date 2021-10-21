@@ -1,5 +1,6 @@
 package mcp.mobius.waila.fabric;
 
+import mcp.mobius.waila.config.BlacklistConfig;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.network.PacketExecutor;
 import mcp.mobius.waila.network.PacketSender;
@@ -17,6 +18,7 @@ import static mcp.mobius.waila.network.PacketIo.GenerateClientDump;
 import static mcp.mobius.waila.network.PacketIo.ReceiveData;
 import static mcp.mobius.waila.network.PacketIo.RequestBlock;
 import static mcp.mobius.waila.network.PacketIo.RequestEntity;
+import static mcp.mobius.waila.network.PacketIo.SendBlacklist;
 import static mcp.mobius.waila.network.PacketIo.SendConfig;
 
 public class FabricPacketSender extends PacketSender {
@@ -25,6 +27,7 @@ public class FabricPacketSender extends PacketSender {
     static final ResourceLocation REQUEST_BLOCK = CommonUtil.id("request_tile");
     static final ResourceLocation RECEIVE_DATA = CommonUtil.id("receive_data");
     static final ResourceLocation SEND_CONFIG = CommonUtil.id("send_config");
+    static final ResourceLocation SEND_BLACKLIST = CommonUtil.id("send_blacklist");
     static final ResourceLocation GENERATE_CLIENT_DUMP = CommonUtil.id("generate_client_dump");
 
     @Override
@@ -51,14 +54,23 @@ public class FabricPacketSender extends PacketSender {
             SendConfig.consume(buf, map ->
                 client.execute(() -> PacketExecutor.sendConfig(map))));
 
+        ClientPlayNetworking.registerGlobalReceiver(SEND_BLACKLIST, (client, handler, buf, response) ->
+            SendBlacklist.consume(buf, ids ->
+                client.execute(() -> PacketExecutor.sendBlacklist(ids))));
+
         ClientPlayNetworking.registerGlobalReceiver(GENERATE_CLIENT_DUMP, (client, handler, buf, response) ->
             GenerateClientDump.consume(buf, unused ->
                 client.execute(PacketExecutor::generateClientDump)));
     }
 
     @Override
-    public void sendConfig(PluginConfig config, ServerPlayer player) {
+    public void sendPluginConfig(PluginConfig config, ServerPlayer player) {
         ServerPlayNetworking.send(player, SEND_CONFIG, SendConfig.create(config));
+    }
+
+    @Override
+    public void sendBlacklistConfig(BlacklistConfig config, ServerPlayer player) {
+        ServerPlayNetworking.send(player, SEND_BLACKLIST, SendBlacklist.create(config));
     }
 
     @Override

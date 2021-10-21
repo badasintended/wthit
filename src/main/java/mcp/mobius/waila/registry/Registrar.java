@@ -1,7 +1,10 @@
 package mcp.mobius.waila.registry;
 
+import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.google.common.base.Preconditions;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
@@ -12,36 +15,42 @@ import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IServerDataProvider;
 import mcp.mobius.waila.api.ITooltipRenderer;
 import mcp.mobius.waila.api.TooltipPosition;
+import mcp.mobius.waila.config.BlacklistConfig;
 import mcp.mobius.waila.config.ConfigEntry;
 import mcp.mobius.waila.config.PluginConfig;
 import net.minecraft.Util;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 
 public enum Registrar implements IRegistrar {
 
     INSTANCE;
 
-    public final Registry<IBlockComponentProvider> blockOverride = Registry.create();
-    public final Registry<IBlockComponentProvider> blockItem = Registry.create();
-    public final Registry<IServerDataProvider<BlockEntity>> blockData = Registry.create();
-    public final Map<TooltipPosition, Registry<IBlockComponentProvider>> blockComponent = Util.make(new EnumMap<>(TooltipPosition.class), map -> {
-        map.put(TooltipPosition.HEAD, Registry.create());
-        map.put(TooltipPosition.BODY, Registry.create());
-        map.put(TooltipPosition.TAIL, Registry.createReversed());
+    public final Register<IBlockComponentProvider> blockOverride = Register.create();
+    public final Register<IBlockComponentProvider> blockItem = Register.create();
+    public final Register<IServerDataProvider<BlockEntity>> blockData = Register.create();
+    public final Map<TooltipPosition, Register<IBlockComponentProvider>> blockComponent = Util.make(new EnumMap<>(TooltipPosition.class), map -> {
+        map.put(TooltipPosition.HEAD, Register.create());
+        map.put(TooltipPosition.BODY, Register.create());
+        map.put(TooltipPosition.TAIL, Register.createReversed());
     });
 
-    public final Registry<IEntityComponentProvider> entityOverride = Registry.create();
-    public final Registry<IEntityComponentProvider> entityItem = Registry.create();
-    public final Registry<IServerDataProvider<Entity>> entityData = Registry.create();
-    public final Map<TooltipPosition, Registry<IEntityComponentProvider>> entityComponent = Util.make(new EnumMap<>(TooltipPosition.class), map -> {
+    public final Register<IEntityComponentProvider> entityOverride = Register.create();
+    public final Register<IEntityComponentProvider> entityItem = Register.create();
+    public final Register<IServerDataProvider<Entity>> entityData = Register.create();
+    public final Map<TooltipPosition, Register<IEntityComponentProvider>> entityComponent = Util.make(new EnumMap<>(TooltipPosition.class), map -> {
         for (TooltipPosition key : TooltipPosition.values()) {
-            map.put(key, Registry.create());
+            map.put(key, Register.create());
         }
     });
 
     public final Map<ResourceLocation, ITooltipRenderer> renderer = new Object2ObjectOpenHashMap<>();
+    public final BlacklistConfig blacklist = new BlacklistConfig();
 
     private boolean locked = false;
 
@@ -105,6 +114,17 @@ public enum Registrar implements IRegistrar {
     }
 
     @Override
+    public void addBlacklist(Block... blocks) {
+        assertLock();
+        blacklist.blocks.addAll(Arrays.asList(blocks));
+    }
+
+    @Override
+    public void addBlacklist(BlockEntityType<?>... blockEntityTypes) {
+        blacklist.blockEntityTypes.addAll(Arrays.asList(blockEntityTypes));
+    }
+
+    @Override
     public <T> void addOverride(IBlockComponentProvider provider, Class<T> clazz, int priority) {
         if (Waila.clientSide) {
             assertLock();
@@ -136,6 +156,12 @@ public enum Registrar implements IRegistrar {
     public <T, BE extends BlockEntity> void addBlockData(IServerDataProvider<BE> provider, Class<T> clazz) {
         assertLock();
         blockData.add(clazz, (IServerDataProvider<BlockEntity>) provider, 0);
+    }
+
+    @Override
+    public void addBlacklist(EntityType<?>... entityTypes) {
+        assertLock();
+        blacklist.entityTypes.addAll(Arrays.asList(entityTypes));
     }
 
     @Override
@@ -181,6 +207,21 @@ public enum Registrar implements IRegistrar {
 
     public void lock() {
         locked = true;
+
+        int[] hash = {0, 0, 0};
+        hash[0] = hash(blacklist.blocks, Registry.BLOCK);
+        hash[1] = hash(blacklist.blockEntityTypes, Registry.BLOCK_ENTITY_TYPE);
+        hash[2] = hash(blacklist.entityTypes, Registry.ENTITY_TYPE);
+
+        if (Waila.blacklistConfig.isFileExists() && !Arrays.equals(Waila.blacklistConfig.get().pluginHash, hash)) {
+            Waila.blacklistConfig.backup();
+        }
+
+        BlacklistConfig newBlacklist = Waila.blacklistConfig.get();
+        newBlacklist.pluginHash = hash;
+        newBlacklist.blocks.addAll(blacklist.blocks);
+        newBlacklist.entityTypes.addAll(blacklist.entityTypes);
+        Waila.blacklistConfig.save();
     }
 
     private void assertLock() {
@@ -191,6 +232,10 @@ public enum Registrar implements IRegistrar {
     private void assertPriority(int priority) {
         Preconditions.checkArgument(priority >= 0,
             "Priority must be equals or more than 0");
+    }
+
+    private <T> int hash(Set<T> set, Registry<T> registry) {
+        return set.stream().map(registry::getKey).collect(Collectors.toSet()).hashCode();
     }
 
 }

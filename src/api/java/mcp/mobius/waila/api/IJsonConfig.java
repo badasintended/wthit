@@ -9,6 +9,7 @@ import java.util.function.ToIntFunction;
 import com.google.gson.Gson;
 import mcp.mobius.waila.impl.Impl;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * An Interface for easy (de)serialization for config classes
@@ -42,6 +43,24 @@ public interface IJsonConfig<T> {
      * Invalidate current value and force re-read file on next {@link #get}
      */
     void invalidate();
+
+    /**
+     * @return whether the config file exists.
+     */
+    boolean isFileExists();
+
+    /**
+     * Backup and invalidate current value and force re-read file on next {@link #get}.
+     * The backup will have a time suffix to it's file extension.
+     */
+    void backup(@Nullable String cause);
+
+    /**
+     * @see #backup(String)
+     */
+    default void backup() {
+        this.backup(null);
+    }
 
     interface Builder0<T> {
 

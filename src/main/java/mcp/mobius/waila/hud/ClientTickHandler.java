@@ -3,6 +3,9 @@ package mcp.mobius.waila.hud;
 import com.mojang.text2speech.Narrator;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.WailaClient;
+import mcp.mobius.waila.api.IBlacklistConfig;
+import mcp.mobius.waila.api.IBlockComponentProvider;
+import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.config.PluginConfig;
@@ -18,6 +21,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LiquidBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.HitResult;
 
@@ -63,13 +67,24 @@ public class ClientTickHandler {
 
         if (target.getType() == HitResult.Type.BLOCK) {
             Block block = accessor.getBlock();
-            if (block instanceof LiquidBlock && !PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_FLUID)
-                || !PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_BLOCK)
-                || Waila.blockBlacklist.contains(block)) {
+
+            if (block instanceof LiquidBlock) {
+                if (!PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_FLUID))
+                    return;
+            } else if (!PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_BLOCK))
                 return;
-            }
+
+            if (Waila.blockBlacklist.contains(block) || IBlacklistConfig.get().contains(block))
+                return;
+
+            BlockEntity blockEntity = accessor.getBlockEntity();
+            if (blockEntity != null && IBlacklistConfig.get().contains(blockEntity))
+                return;
 
             BlockState state = ComponentHandler.getOverrideBlock(target);
+            if (state == IBlockComponentProvider.EMPTY_BLOCK_STATE)
+                return;
+
             accessor.setState(state);
 
             TOOLTIP.clear();
@@ -88,12 +103,16 @@ public class ClientTickHandler {
             gatherBlock(accessor, TOOLTIP, TAIL);
             TooltipRenderer.addLines(TOOLTIP);
         } else if (target.getType() == HitResult.Type.ENTITY) {
-            if (!PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_ENTITY)
-                || Waila.entityBlacklist.contains(accessor.getEntity().getType())) {
+            if (!PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_ENTITY))
                 return;
-            }
+
+            if (Waila.entityBlacklist.contains(accessor.getEntity().getType()) || IBlacklistConfig.get().contains(accessor.getEntity()))
+                return;
 
             Entity targetEnt = ComponentHandler.getOverrideEntity(target);
+            if (targetEnt == IEntityComponentProvider.EMPTY_ENTITY)
+                return;
+
             accessor.setEntity(targetEnt);
 
             if (targetEnt != null) {
@@ -103,7 +122,7 @@ public class ClientTickHandler {
 
                 TOOLTIP.clear();
                 gatherEntity(targetEnt, accessor, TOOLTIP, BODY);
-                if (Waila.config.get().getGeneral().isShiftForDetails() && !TOOLTIP.isEmpty() && !player.isShiftKeyDown()) {
+                if (config.getGeneral().isShiftForDetails() && !TOOLTIP.isEmpty() && !player.isShiftKeyDown()) {
                     TooltipRenderer.addLine(SNEAK_DETAIL);
                 } else {
                     TooltipRenderer.addLines(TOOLTIP);

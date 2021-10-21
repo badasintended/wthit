@@ -8,7 +8,7 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectLists;
 
-public class Registry<T> {
+public class Register<T> {
 
     private final Map<Class<?>, List<Entry<T>>> map = new Object2ObjectOpenHashMap<>();
     private final Map<Class<?>, List<T>> cache = new Object2ObjectOpenHashMap<>();
@@ -17,16 +17,16 @@ public class Registry<T> {
 
     private final int order;
 
-    private Registry(int order) {
+    private Register(int order) {
         this.order = order;
     }
 
-    public static <T> Registry<T> create() {
-        return new Registry<>(1);
+    public static <T> Register<T> create() {
+        return new Register<>(1);
     }
 
-    public static <T> Registry<T> createReversed() {
-        return new Registry<>(-1);
+    public static <T> Register<T> createReversed() {
+        return new Register<>(-1);
     }
 
     public void add(Class<?> key, T value, int priority) {

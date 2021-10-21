@@ -52,8 +52,10 @@ public class FabricWaila extends Waila implements ModInitializer {
         ServerLifecycleEvents.SERVER_STARTING.register(server ->
             PluginConfig.INSTANCE.reload());
 
-        ServerPlayConnectionEvents.JOIN.register((handler, sender, server) ->
-            packet.sendConfig(PluginConfig.INSTANCE, handler.player));
+        ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
+            packet.sendBlacklistConfig(blacklistConfig.get(), handler.player);
+            packet.sendPluginConfig(PluginConfig.INSTANCE, handler.player);
+        });
 
         ModInfo.register(new ModInfo("c", "Common"));
         ModInfo.supplier = namespace -> FabricLoader.getInstance().getModContainer(namespace)

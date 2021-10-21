@@ -8,6 +8,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.function.ObjIntConsumer;
 import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
@@ -16,6 +19,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.util.CommonUtil;
+import org.jetbrains.annotations.Nullable;
 
 public class JsonConfig<T> implements IJsonConfig<T> {
 
@@ -26,6 +30,7 @@ public class JsonConfig<T> implements IJsonConfig<T> {
     private static final ObjIntConsumer DEFAULT_VERSION_SETTER = (t, v) -> {};
 
     private static final Gson DEFAULT_GSON = new GsonBuilder().setPrettyPrinting().create();
+    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
 
     private final Path path;
     private final CachedSupplier<T> getter;
@@ -37,7 +42,7 @@ public class JsonConfig<T> implements IJsonConfig<T> {
         this.getter = new CachedSupplier<>(() -> {
             T config;
             boolean init = true;
-            if (!Files.exists(this.path)) {
+            if (!isFileExists()) {
                 Path parent = this.path.getParent();
                 if (!Files.exists(parent)) {
                     try {
@@ -90,6 +95,21 @@ public class JsonConfig<T> implements IJsonConfig<T> {
         });
     }
 
+    private void write(T t, Path path, boolean invalidate) {
+        try (BufferedWriter writer = Files.newBufferedWriter(path, StandardCharsets.UTF_8)) {
+            writer.write(gson.toJson(t));
+            if (invalidate)
+                invalidate();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public boolean isFileExists() {
+        return Files.exists(path);
+    }
+
     @Override
     public T get() {
         return getter.get();
@@ -102,18 +122,25 @@ public class JsonConfig<T> implements IJsonConfig<T> {
 
     @Override
     public void write(T t, boolean invalidate) {
-        try (BufferedWriter writer = Files.newBufferedWriter(path, StandardCharsets.UTF_8)) {
-            writer.write(gson.toJson(t));
-            if (invalidate)
-                invalidate();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        write(t, path, invalidate);
     }
 
     @Override
     public void invalidate() {
         getter.invalidate();
+    }
+
+    @Override
+    public void backup(@Nullable String cause) {
+        if (isFileExists()) {
+            Path backupPath = Paths.get(path + "_" + DATE_FORMAT.format(new Date()));
+            String msg = "Config " + path.getFileName() + " is getting backup to " + backupPath;
+            if (cause != null) {
+                msg += " because of " + cause;
+            }
+            CommonUtil.LOGGER.info(msg);
+            write(get(), backupPath, true);
+        }
     }
 
     public static class Builder<T> implements Builder0<T>, Builder1<T> {

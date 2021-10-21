@@ -1,15 +1,29 @@
 package mcp.mobius.waila.impl;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
 import org.jetbrains.annotations.ApiStatus;
+import sun.misc.Unsafe;
 
 @ApiStatus.Internal
 @SuppressWarnings("unchecked")
 public final class Impl {
+
+    private static final Unsafe UNSAFE;
+
+    static {
+        try {
+            Field field = Unsafe.class.getDeclaredField("theUnsafe");
+            field.setAccessible(true);
+            UNSAFE = (Unsafe) field.get(null);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     private static final Map<Class<?>, Object> MAP = new HashMap<>();
 
@@ -27,6 +41,14 @@ public final class Impl {
 
     public static <T, A> void reg(Class<T> clazz, Function<A, T> func) {
         MAP.put(clazz, func);
+    }
+
+    public static <T> T allocate(Class<T> clazz) {
+        try {
+            return (T) UNSAFE.allocateInstance(clazz);
+        } catch (InstantiationException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

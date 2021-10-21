@@ -3,8 +3,10 @@ package mcp.mobius.waila.forge;
 import java.util.Map;
 import javax.annotation.Nullable;
 
+import mcp.mobius.waila.config.BlacklistConfig;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.network.PacketExecutor;
+import mcp.mobius.waila.network.PacketIo;
 import mcp.mobius.waila.network.PacketSender;
 import mcp.mobius.waila.util.CommonUtil;
 import net.minecraft.client.Minecraft;
@@ -86,14 +88,26 @@ public class ForgePacketSender extends PacketSender {
                         NETWORK.send(PacketDistributor.PLAYER.with(() -> player), new ReceiveData(tag)));
                 });
                 ctx.get().setPacketHandled(true);
-            }
-        );
+            });
+
+        NETWORK.registerMessage(i++, SendBlacklist.class,
+            (msg, buf) -> PacketIo.SendBlacklist.write(buf, msg.config),
+            (     buf) -> PacketIo.SendBlacklist.apply(buf, SendBlacklist::new),
+            (msg, ctx) -> {
+                ctx.get().enqueueWork(() -> PacketExecutor.sendBlacklist(msg.ids));
+                ctx.get().setPacketHandled(true);
+            });
         // @formatter:on
     }
 
     @Override
-    public void sendConfig(PluginConfig config, ServerPlayer player) {
+    public void sendPluginConfig(PluginConfig config, ServerPlayer player) {
         NETWORK.send(PacketDistributor.PLAYER.with(() -> player), new SendConfig(config));
+    }
+
+    @Override
+    public void sendBlacklistConfig(BlacklistConfig config, ServerPlayer player) {
+        NETWORK.send(PacketDistributor.PLAYER.with(() -> player), new SendBlacklist(config));
     }
 
     @Override
@@ -131,6 +145,21 @@ public class ForgePacketSender extends PacketSender {
 
         SendConfig(PluginConfig config) {
             this.config = config;
+        }
+
+    }
+
+    public static class SendBlacklist {
+
+        BlacklistConfig config;
+        int[][] ids;
+
+        SendBlacklist(BlacklistConfig config) {
+            this.config = config;
+        }
+
+        SendBlacklist(int[][] ids) {
+            this.ids = ids;
         }
 
     }

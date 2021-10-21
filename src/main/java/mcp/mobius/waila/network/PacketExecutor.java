@@ -2,9 +2,12 @@ package mcp.mobius.waila.network;
 
 import java.nio.file.Path;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Consumer;
 
 import com.google.gson.Gson;
+import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.config.BlacklistConfig;
 import mcp.mobius.waila.config.ConfigEntry;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.data.DataAccessor;
@@ -51,6 +54,13 @@ public class PacketExecutor {
         CommonUtil.LOGGER.info("Received config from the server: {}", GSON.toJson(map));
     }
 
+    public static void sendBlacklist(int[][] rawIds) {
+        BlacklistConfig blacklist = Waila.blacklistConfig.get();
+        setBlackList(rawIds[0], blacklist.blocks, Registry.BLOCK);
+        setBlackList(rawIds[1], blacklist.blockEntityTypes, Registry.BLOCK_ENTITY_TYPE);
+        setBlackList(rawIds[2], blacklist.entityTypes, Registry.ENTITY_TYPE);
+    }
+
     public static void requestEntity(ServerPlayer player, int entityId, Consumer<CompoundTag> consumer) {
         Registrar registrar = Registrar.INSTANCE;
         Level world = player.level;
@@ -94,6 +104,12 @@ public class PacketExecutor {
         tag.putString("id", Registry.BLOCK_ENTITY_TYPE.getKey(blockEntity.getType()).toString());
 
         consumer.accept(tag);
+    }
+
+    private static <T> void setBlackList(int[] ids, Set<T> set, Registry<T> registry) {
+        for (int id : ids) {
+            set.add(registry.byId(id));
+        }
     }
 
 }

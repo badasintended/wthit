@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 
 import mcp.mobius.waila.plugin.PluginLoader;
+import mcp.mobius.waila.registry.Register;
 import mcp.mobius.waila.registry.Registrar;
-import mcp.mobius.waila.registry.Registry;
 import mcp.mobius.waila.util.CommonUtil;
 import net.minecraft.resources.ResourceLocation;
 
@@ -69,8 +69,8 @@ public class DumpGenerator {
         }
     }
 
-    private static <T> void createSection(StringBuilder builder, String subsection, Registry<T> registry) {
-        Map<Class<?>, List<Registry.Entry<T>>> map = registry.getMap();
+    private static <T> void createSection(StringBuilder builder, String subsection, Register<T> registry) {
+        Map<Class<?>, List<Register.Entry<T>>> map = registry.getMap();
 
         if (map.isEmpty())
             return;

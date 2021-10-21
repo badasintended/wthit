@@ -4,7 +4,10 @@ import mcp.mobius.waila.api.internal.ApiSide;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.jetbrains.annotations.ApiStatus;
 
 @ApiStatus.NonExtendable
@@ -106,6 +109,16 @@ public interface IRegistrar {
     <T extends Enum<T>> void addSyncedConfig(ResourceLocation key, T defaultValue);
 
     /**
+     * Adds the specified entity types to the default blacklist.
+     */
+    void addBlacklist(Block... blocks);
+
+    /**
+     * Adds the specified entity types to the default blacklist.
+     */
+    void addBlacklist(BlockEntityType<?>... blockEntityTypes);
+
+    /**
      * Registers an {@link IBlockComponentProvider} instance to allow overriding the block being displayed.
      * A {@link BlockEntity} is also an acceptable class type.
      *
@@ -195,6 +208,11 @@ public interface IRegistrar {
      */
     @ApiSide.ServerOnly
     <T, BE extends BlockEntity> void addBlockData(IServerDataProvider<BE> provider, Class<T> clazz);
+
+    /**
+     * Adds the specified entity types to the default blacklist.
+     */
+    void addBlacklist(EntityType<?>... entityTypes);
 
     /**
      * Registers an {@link IEntityComponentProvider} instance to allow overriding the entity being displayed.

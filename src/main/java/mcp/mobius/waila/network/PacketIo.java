@@ -7,9 +7,11 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 import io.netty.buffer.Unpooled;
+import mcp.mobius.waila.config.BlacklistConfig;
 import mcp.mobius.waila.config.ConfigEntry;
 import mcp.mobius.waila.config.PluginConfig;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -113,6 +115,24 @@ public abstract class PacketIo<I, O> {
                 }
             }
             return map;
+        }
+    };
+
+    public static final PacketIo<BlacklistConfig, int[][]> SendBlacklist = new PacketIo<>() {
+        private <T> void writeIds(FriendlyByteBuf buf, Set<T> set, Registry<T> registry) {
+            buf.writeVarIntArray(set.stream().mapToInt(registry::getId).toArray());
+        }
+
+        @Override
+        public void write(FriendlyByteBuf buf, BlacklistConfig config) {
+            writeIds(buf, config.blocks, Registry.BLOCK);
+            writeIds(buf, config.blockEntityTypes, Registry.BLOCK_ENTITY_TYPE);
+            writeIds(buf, config.entityTypes, Registry.ENTITY_TYPE);
+        }
+
+        @Override
+        protected int[][] apply(FriendlyByteBuf buf) {
+            return new int[][]{buf.readVarIntArray(), buf.readVarIntArray(), buf.readVarIntArray()};
         }
     };
 

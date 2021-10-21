@@ -6,6 +6,7 @@ public final class Options {
 
     // @formatter:off
     public static final ResourceLocation FURNACE_CONTENTS       = new ResourceLocation("furnace_contents");
+    public static final ResourceLocation ITEM_ENTITY            = new ResourceLocation("item_entity");
     public static final ResourceLocation OVERRIDE_INFESTED      = new ResourceLocation("override.infested");
     public static final ResourceLocation OVERRIDE_TRAPPED_CHEST = new ResourceLocation("override.trapped_chest");
     public static final ResourceLocation OVERRIDE_POWDER_SNOW   = new ResourceLocation("override.powder_snow");

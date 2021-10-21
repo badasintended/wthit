@@ -3,6 +3,7 @@ package mcp.mobius.waila.api;
 import java.util.List;
 
 import mcp.mobius.waila.api.internal.ApiSide;
+import mcp.mobius.waila.impl.Impl;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -25,6 +26,13 @@ import org.jetbrains.annotations.Nullable;
 public interface IBlockComponentProvider {
 
     /**
+     * An "empty" block state to be used with {@link #getOverride}, effectively disabling the tooltip to be displayed.
+     * <p>
+     * <b>Note:</b> Waila will use {@code ==} instead of {@link Object#equals} to check for this.
+     */
+    BlockState EMPTY_BLOCK_STATE = Impl.allocate(BlockState.class);
+
+    /**
      * Callback used to override the default Waila lookup system.
      *
      * @param accessor Contains most of the relevant information about the current environment.
@@ -33,6 +41,7 @@ public interface IBlockComponentProvider {
      * @return null if override is not required, a BlockState otherwise.
      *
      * @see IRegistrar#addOverride(IBlockComponentProvider, Class, int)
+     * @see #EMPTY_BLOCK_STATE
      */
     @Nullable
     default BlockState getOverride(IBlockAccessor accessor, IPluginConfig config) {

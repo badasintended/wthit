@@ -3,9 +3,11 @@ package mcp.mobius.waila.api;
 import java.util.List;
 
 import mcp.mobius.waila.api.internal.ApiSide;
+import mcp.mobius.waila.impl.Impl;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.ApiStatus;
@@ -25,6 +27,13 @@ import org.jetbrains.annotations.Nullable;
 public interface IEntityComponentProvider {
 
     /**
+     * An "empty" entity to be used with {@link #getOverride}, effectively disabling the tooltip to be displayed.
+     * <p>
+     * <b>Note:</b> Waila will use {@code ==} instead of {@link Object#equals} to check for this.
+     */
+    Entity EMPTY_ENTITY = Impl.allocate(AreaEffectCloud.class);
+
+    /**
      * Callback used to override the default Waila lookup system.
      *
      * @param accessor Contains most of the relevant information about the current environment.
@@ -33,6 +42,7 @@ public interface IEntityComponentProvider {
      * @return null if override is not required, an Entity otherwise.
      *
      * @see IRegistrar#addOverride(IEntityComponentProvider, Class, int)
+     * @see #EMPTY_ENTITY
      */
     @Nullable
     default Entity getOverride(IEntityAccessor accessor, IPluginConfig config) {

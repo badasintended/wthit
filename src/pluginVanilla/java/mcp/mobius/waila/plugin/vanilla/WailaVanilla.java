@@ -24,10 +24,12 @@ import mcp.mobius.waila.plugin.vanilla.renderer.ItemRenderer;
 import mcp.mobius.waila.plugin.vanilla.renderer.ProgressRenderer;
 import mcp.mobius.waila.plugin.vanilla.renderer.Renderers;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.level.block.BeehiveBlock;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CocoaBlock;
 import net.minecraft.world.level.block.ComparatorBlock;
 import net.minecraft.world.level.block.ComposterBlock;
@@ -55,6 +57,7 @@ public class WailaVanilla implements IWailaPlugin {
 
     @Override
     public void register(IRegistrar registrar) {
+        registrar.addSyncedConfig(Options.ITEM_ENTITY, true);
         registrar.addSyncedConfig(Options.OVERRIDE_INFESTED, true);
         registrar.addSyncedConfig(Options.OVERRIDE_TRAPPED_CHEST, true);
         registrar.addSyncedConfig(Options.OVERRIDE_POWDER_SNOW, true);
@@ -75,6 +78,17 @@ public class WailaVanilla implements IWailaPlugin {
         registrar.addConfig(Options.NOTE_BLOCK_NOTE, NoteDisplayMode.SHARP);
         registrar.addConfig(Options.NOTE_BLOCK_INT_VALUE, false);
         registrar.addConfig(Options.PET_HIDE_UNKNOWN_OWNER, false);
+
+        registrar.addBlacklist(
+            Blocks.BARRIER,
+            Blocks.STRUCTURE_VOID);
+
+        registrar.addBlacklist(
+            EntityType.AREA_EFFECT_CLOUD,
+            EntityType.EXPERIENCE_ORB,
+            EntityType.FIREBALL,
+            EntityType.FIREWORK_ROCKET,
+            EntityType.SNOWBALL);
 
         registrar.addRenderer(Renderers.ITEM, new ItemRenderer());
         registrar.addRenderer(Renderers.PROGRESS, new ProgressRenderer());
@@ -109,6 +123,7 @@ public class WailaVanilla implements IWailaPlugin {
         registrar.addDisplayItem(ItemEntityComponent.INSTANCE, ItemEntity.class);
         registrar.addComponent(ItemEntityComponent.INSTANCE, HEAD, ItemEntity.class, 950);
         registrar.addComponent(ItemEntityComponent.INSTANCE, TAIL, ItemEntity.class, 950);
+        registrar.addOverride(ItemEntityComponent.INSTANCE, ItemEntity.class);
 
         registrar.addComponent(BoatComponent.INSTANCE, HEAD, Boat.class, 950);
         registrar.addComponent(BoatComponent.INSTANCE, TAIL, Boat.class, 950);
