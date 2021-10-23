@@ -3,5 +3,5 @@ import org.gradle.kotlin.dsl.DependencyHandlerScope
 
 fun DependencyHandlerScope.modCompileRuntime(any: String, config: ExternalModuleDependency.() -> Unit = {}) {
     "modCompileOnly"(any, config)
-    "modRuntime"(any, config)
+    "modRuntimeOnly"(any, config)
 }

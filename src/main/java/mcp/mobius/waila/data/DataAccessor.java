@@ -103,7 +103,7 @@ public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IDataAccess
             return serverData;
 
         if (this.blockEntity != null)
-            return blockEntity.save(new CompoundTag());
+            return blockEntity.saveWithFullMetadata();
 
         if (this.entity != null)
             return entity.saveWithoutId(new CompoundTag());

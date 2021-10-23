@@ -1,7 +1,7 @@
 import java.nio.charset.StandardCharsets
 
 plugins {
-    id("fabric-loom").version("0.8-SNAPSHOT")
+    id("fabric-loom").version("0.10.+")
 }
 
 version = env["MOD_VERSION"] ?: "${prop["majorVersion"]}.999-${env["GIT_HASH"] ?: "local"}"
@@ -39,7 +39,7 @@ dependencies {
 }
 
 loom {
-    accessWidener = project(":fabric").file("src/main/resources/wthit.accesswidener")
+    accessWidenerPath.set(project(":fabric").file("src/main/resources/wthit.accesswidener"))
 }
 
 sourceSets {

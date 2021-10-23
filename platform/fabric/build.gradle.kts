@@ -19,17 +19,17 @@ dependencies {
     mappings(loom.officialMojangMappings())
     modImplementation("net.fabricmc:fabric-loader:${rootProp["fabricLoader"]}")
 
-    modImplementation("dev.inkwell:hermes:1.1.0+1.17")
+    //modImplementation("dev.inkwell:hermes:1.1.0+1.17")
 
     modCompileRuntime("net.fabricmc.fabric-api:fabric-api:${rootProp["fabricApi"]}")
     modCompileRuntime("com.terraformersmc:modmenu:${rootProp["modMenu"]}")
 
-    modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:${rootProp["rei"]}")
-    modRuntime("me.shedaniel:RoughlyEnoughItems-fabric:${rootProp["rei"]}")
+    //modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:${rootProp["rei"]}")
+    //modRuntime("me.shedaniel:RoughlyEnoughItems-fabric:${rootProp["rei"]}")
 }
 
 loom {
-    accessWidener = file("src/main/resources/wthit.accesswidener")
+    accessWidenerPath.set(file("src/main/resources/wthit.accesswidener"))
     runs {
         get("client").vmArgs += "-Dwaila.enableTestPlugin=true"
         get("server").vmArgs += "-Dwaila.enableTestPlugin=true"
