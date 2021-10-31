@@ -15,20 +15,6 @@ public class Register<T> {
 
     private final List<Entry<?>> sorter = new ObjectArrayList<>();
 
-    private final int order;
-
-    private Register(int order) {
-        this.order = order;
-    }
-
-    public static <T> Register<T> create() {
-        return new Register<>(1);
-    }
-
-    public static <T> Register<T> createReversed() {
-        return new Register<>(-1);
-    }
-
     public void add(Class<?> key, T value, int priority) {
         map.computeIfAbsent(key, k -> new ObjectArrayList<>())
             .add(new Entry<>(value, priority));
@@ -54,7 +40,7 @@ public class Register<T> {
                 sorter.addAll(v);
             }
         });
-        sorter.sort(Comparator.comparingInt(e -> e.priority * order));
+        sorter.sort(Comparator.comparingInt(e -> e.priority));
         List<T> list = new ObjectArrayList<>();
         for (Entry<?> entry : sorter) {
             //noinspection unchecked

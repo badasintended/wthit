@@ -31,21 +31,21 @@ public enum Registrar implements IRegistrar {
 
     INSTANCE;
 
-    public final Register<IBlockComponentProvider> blockOverride = Register.create();
-    public final Register<IBlockComponentProvider> blockItem = Register.create();
-    public final Register<IServerDataProvider<BlockEntity>> blockData = Register.create();
+    public final Register<IBlockComponentProvider> blockOverride = new Register<>();
+    public final Register<IBlockComponentProvider> blockItem = new Register<>();
+    public final Register<IServerDataProvider<BlockEntity>> blockData = new Register<>();
     public final Map<TooltipPosition, Register<IBlockComponentProvider>> blockComponent = Util.make(new EnumMap<>(TooltipPosition.class), map -> {
-        map.put(TooltipPosition.HEAD, Register.create());
-        map.put(TooltipPosition.BODY, Register.create());
-        map.put(TooltipPosition.TAIL, Register.createReversed());
+        for (TooltipPosition key : TooltipPosition.values()) {
+            map.put(key, new Register<>());
+        }
     });
 
-    public final Register<IEntityComponentProvider> entityOverride = Register.create();
-    public final Register<IEntityComponentProvider> entityItem = Register.create();
-    public final Register<IServerDataProvider<Entity>> entityData = Register.create();
+    public final Register<IEntityComponentProvider> entityOverride = new Register<>();
+    public final Register<IEntityComponentProvider> entityItem = new Register<>();
+    public final Register<IServerDataProvider<Entity>> entityData = new Register<>();
     public final Map<TooltipPosition, Register<IEntityComponentProvider>> entityComponent = Util.make(new EnumMap<>(TooltipPosition.class), map -> {
         for (TooltipPosition key : TooltipPosition.values()) {
-            map.put(key, Register.create());
+            map.put(key, new Register<>());
         }
     });
 
