@@ -8,6 +8,7 @@ import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
+import net.minecraft.core.Registry;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -31,13 +32,20 @@ public enum ItemEntityComponent implements IEntityComponentProvider {
 
     @Override
     public void appendHead(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        String name = accessor.<ItemEntity>getEntity().getItem().getHoverName().getString();
-        tooltip.set(WailaConstants.OBJECT_NAME_TAG, new TextComponent(IWailaConfig.get().getFormatting().formatEntityName(name)));
+        IWailaConfig.Formatting formatting = IWailaConfig.get().getFormatting();
+
+        ItemStack stack = accessor.<ItemEntity>getEntity().getItem();
+        tooltip.set(WailaConstants.OBJECT_NAME_TAG, new TextComponent(formatting.formatEntityName(stack.getHoverName().getString())));
+
+        if (config.getBoolean(WailaConstants.CONFIG_SHOW_REGISTRY))
+            tooltip.set(WailaConstants.REGISTRY_NAME_TAG, new TextComponent(formatting.formatRegistryName(Registry.ITEM.getKey(stack.getItem()))));
     }
 
     @Override
     public void appendTail(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        String mod = IModInfo.get(accessor.<ItemEntity>getEntity().getItem()).getName();
-        tooltip.set(WailaConstants.MOD_NAME_TAG, new TextComponent(IWailaConfig.get().getFormatting().formatModName(mod)));
+        if (config.getBoolean(WailaConstants.CONFIG_SHOW_MOD_NAME)) {
+            String mod = IModInfo.get(accessor.<ItemEntity>getEntity().getItem()).getName();
+            tooltip.set(WailaConstants.MOD_NAME_TAG, new TextComponent(IWailaConfig.get().getFormatting().formatModName(mod)));
+        }
     }
 }
