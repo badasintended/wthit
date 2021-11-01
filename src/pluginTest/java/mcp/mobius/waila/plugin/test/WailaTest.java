@@ -24,6 +24,9 @@ public class WailaTest implements IWailaPlugin {
         registrar.addSyncedConfig(ConfigTest.SYNC_ENUM, TooltipPosition.HEAD);
 
         registrar.addComponent(ConfigTest.INSTANCE, TooltipPosition.HEAD, Block.class);
+
+        registrar.addConfig(OverrideTest.MOD_NAME, false);
+        registrar.addComponent(OverrideTest.INSTANCE, TooltipPosition.TAIL, Block.class);
     }
 
 }
