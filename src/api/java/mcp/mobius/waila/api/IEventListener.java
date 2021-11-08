@@ -4,8 +4,10 @@ import java.awt.Rectangle;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
+@ApiStatus.OverrideOnly
 public interface IEventListener {
 
     /**
