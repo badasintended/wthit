@@ -2,7 +2,7 @@ package mcp.mobius.waila.integration.rei;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.WailaClient;
-import mcp.mobius.waila.hud.TooltipRenderer;
+import mcp.mobius.waila.hud.TooltipHandler;
 import me.shedaniel.rei.api.client.ClientHelper;
 import me.shedaniel.rei.api.client.plugins.REIClientPlugin;
 import me.shedaniel.rei.api.client.registry.transfer.TransferHandler;
@@ -28,7 +28,7 @@ public class ReiRecipeLookup implements REIClientPlugin {
     public void postRegister() {
         WailaClient.onShowRecipeInput = () -> {
             ViewSearchBuilder view = ViewSearchBuilder.builder()
-                .addUsagesFor(EntryStack.of(VanillaEntryTypes.ITEM, TooltipRenderer.getStack()));
+                .addUsagesFor(EntryStack.of(VanillaEntryTypes.ITEM, TooltipHandler.getStack()));
             if (!view.buildMap().isEmpty()) {
                 Minecraft.getInstance().setScreen(new AutoClosableScreen());
                 ClientHelper.getInstance().openView(view);
@@ -37,7 +37,7 @@ public class ReiRecipeLookup implements REIClientPlugin {
 
         WailaClient.onShowRecipeOutput = () -> {
             ViewSearchBuilder view = ViewSearchBuilder.builder()
-                .addRecipesFor(EntryStack.of(VanillaEntryTypes.ITEM, TooltipRenderer.getStack()));
+                .addRecipesFor(EntryStack.of(VanillaEntryTypes.ITEM, TooltipHandler.getStack()));
             if (!view.buildMap().isEmpty()) {
                 Minecraft.getInstance().setScreen(new AutoClosableScreen());
                 ClientHelper.getInstance().openView(view);
@@ -58,6 +58,7 @@ public class ReiRecipeLookup implements REIClientPlugin {
      * <p>
      * TODO: Remove if fixed
      */
+    @SuppressWarnings("ConstantConditions")
     static class AutoClosableScreen extends AbstractContainerScreen<InventoryMenu> {
 
         private AutoClosableScreen() {

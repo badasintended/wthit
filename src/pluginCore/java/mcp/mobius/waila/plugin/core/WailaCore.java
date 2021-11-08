@@ -7,6 +7,7 @@ import mcp.mobius.waila.plugin.core.component.BlockComponent;
 import mcp.mobius.waila.plugin.core.component.EntityComponent;
 import mcp.mobius.waila.plugin.core.component.FluidComponent;
 import mcp.mobius.waila.plugin.core.config.Options;
+import mcp.mobius.waila.plugin.core.event.CoreEventListener;
 import mcp.mobius.waila.plugin.core.renderer.HealthRenderer;
 import mcp.mobius.waila.plugin.core.renderer.Renderers;
 import net.minecraft.world.entity.Entity;
@@ -28,6 +29,8 @@ public class WailaCore implements IWailaPlugin {
         registrar.addComponent(BlockComponent.INSTANCE, HEAD, Block.class, PRIORITY);
         registrar.addComponent(BlockComponent.INSTANCE, BODY, Block.class, PRIORITY);
         registrar.addComponent(BlockComponent.INSTANCE, TAIL, Block.class, PRIORITY);
+
+        registrar.addEventListener(CoreEventListener.INSTANCE, PRIORITY);
 
         registrar.addDisplayItem(BlockComponent.INSTANCE, Block.class, PRIORITY);
         registrar.addBlockData(BlockComponent.INSTANCE, BlockEntity.class);

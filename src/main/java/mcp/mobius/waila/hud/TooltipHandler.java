@@ -2,9 +2,6 @@ package mcp.mobius.waila.hud;
 
 import java.awt.Dimension;
 import java.awt.Rectangle;
-import java.util.List;
-import java.util.function.Consumer;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 import com.google.common.base.Preconditions;
@@ -12,17 +9,23 @@ import com.google.common.base.Suppliers;
 import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.text2speech.Narrator;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
-import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.api.IEventListener;
 import mcp.mobius.waila.api.IWailaConfig.Overlay.Position.Align;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.config.WailaConfig.Overlay.Color;
+import mcp.mobius.waila.data.DataAccessor;
+import mcp.mobius.waila.event.EventCanceller;
 import mcp.mobius.waila.hud.component.DrawableComponent;
 import mcp.mobius.waila.hud.component.PairComponent;
+import mcp.mobius.waila.hud.component.TaggedComponent;
+import mcp.mobius.waila.registry.Registrar;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.item.ItemStack;
@@ -32,19 +35,20 @@ import static mcp.mobius.waila.util.DisplayUtil.drawGradientRect;
 import static mcp.mobius.waila.util.DisplayUtil.enable2DRender;
 import static mcp.mobius.waila.util.DisplayUtil.renderStack;
 
-public class TooltipRenderer {
+public class TooltipHandler {
 
-    private static final List<Component> LINES = new ObjectArrayList<>();
+    private static final Tooltip TOOLTIP = new Tooltip();
     private static final Object2IntOpenHashMap<Component> LINE_HEIGHT = new Object2IntOpenHashMap<>();
+
     private static final Supplier<Rectangle> RENDER_RECT = Suppliers.memoize(Rectangle::new);
     private static final Supplier<Rectangle> RECT = Suppliers.memoize(Rectangle::new);
+    private static final Supplier<Narrator> NARRATOR = Suppliers.memoize(Narrator::getNarrator);
 
     private static final String COLON = ": ";
 
-    public static Consumer<List<Component>> onCreate;
-    public static Function<Rectangle, Rectangle> onPreRender;
-    public static Consumer<Rectangle> onPostRender;
     static boolean shouldRender = false;
+
+    private static String lastNarration = "";
     private static ItemStack stack = ItemStack.EMPTY;
     private static int topOffset;
 
@@ -54,7 +58,7 @@ public class TooltipRenderer {
     private static boolean started = false;
 
     public static void beginBuild() {
-        LINES.clear();
+        TOOLTIP.clear();
         LINE_HEIGHT.clear();
         stack = ItemStack.EMPTY;
         topOffset = 0;
@@ -63,13 +67,20 @@ public class TooltipRenderer {
         started = true;
     }
 
-    public static void addLines(List<Component> lines) {
-        lines.forEach(TooltipRenderer::addLine);
+    public static void add(Tooltip tooltip) {
+        Preconditions.checkState(started);
+        for (Component component : tooltip) {
+            if (component instanceof TaggedComponent tagged) {
+                TOOLTIP.set(tagged.tag, tagged.value);
+            } else {
+                add(component);
+            }
+        }
     }
 
-    public static void addLine(Component line) {
+    public static void add(Component line) {
         Preconditions.checkState(started);
-        LINES.add(line);
+        TOOLTIP.add(line);
         if (line instanceof PairComponent pair) {
             colonOffset = Math.max(colonOffset, Minecraft.getInstance().font.width(pair.key));
         }
@@ -81,12 +92,16 @@ public class TooltipRenderer {
 
     public static void setStack(ItemStack stack) {
         Preconditions.checkState(started);
-        TooltipRenderer.stack = PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_ITEM) ? stack : ItemStack.EMPTY;
+        TooltipHandler.stack = PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_ITEM) ? stack : ItemStack.EMPTY;
     }
 
     public static void endBuild() {
         Preconditions.checkState(started);
-        onCreate.accept(LINES);
+        for (IEventListener listener : Registrar.INSTANCE.eventListeners.get(Object.class)) {
+            listener.onHandleTooltip(TOOLTIP, DataAccessor.INSTANCE, PluginConfig.INSTANCE);
+        }
+
+        narrateObjectName();
 
         Minecraft client = Minecraft.getInstance();
         Window window = client.getWindow();
@@ -96,7 +111,7 @@ public class TooltipRenderer {
 
         int w = 0;
         int h = 0;
-        for (Component line : LINES) {
+        for (Component line : TOOLTIP) {
             int lineW;
             int lineH;
 
@@ -105,9 +120,12 @@ public class TooltipRenderer {
                 lineW = size.width;
                 lineH = size.height;
             } else {
-                lineW = line instanceof PairComponent pair
-                    ? colonOffset + colonWidth + client.font.width(pair.value)
-                    : client.font.width(line);
+                if (line instanceof PairComponent pair) {
+                    lineW = colonOffset + colonWidth + client.font.width(pair.value);
+                } else {
+                    Component value = line instanceof TaggedComponent tagged ? tagged.value : line;
+                    lineW = client.font.width(value);
+                }
                 lineH = client.font.lineHeight + 1;
             }
 
@@ -170,12 +188,16 @@ public class TooltipRenderer {
         Rectangle rect = RENDER_RECT.get();
         rect.setRect(RECT.get());
 
-        rect = onPreRender.apply(rect);
-        if (rect == null) {
-            RenderSystem.enableDepthTest();
-            RenderSystem.getModelViewStack().popPose();
-            profiler.pop();
-            return;
+        EventCanceller canceller = EventCanceller.INSTANCE;
+        canceller.setCanceled(false);
+        for (IEventListener listener : Registrar.INSTANCE.eventListeners.get(Object.class)) {
+            listener.onBeforeTooltipRender(matrices, rect, DataAccessor.INSTANCE, PluginConfig.INSTANCE, canceller);
+            if (canceller.isCanceled()) {
+                RenderSystem.enableDepthTest();
+                RenderSystem.getModelViewStack().popPose();
+                profiler.pop();
+                return;
+            }
         }
 
         int x = rect.x;
@@ -208,7 +230,7 @@ public class TooltipRenderer {
         int textY = y + 6 + topOffset;
         int fontColor = color.getFontColor();
 
-        for (Component line : LINES) {
+        for (Component line : TOOLTIP) {
             if (line instanceof DrawableComponent drawable) {
                 drawable.render(matrices, textX, textY, delta);
             } else if (line instanceof PairComponent pair) {
@@ -216,7 +238,8 @@ public class TooltipRenderer {
                 client.font.drawShadow(matrices, COLON, textX + colonOffset, textY, fontColor);
                 client.font.drawShadow(matrices, pair.value, textX + colonOffset + colonWidth, textY, fontColor);
             } else {
-                client.font.drawShadow(matrices, line, textX, textY, color.getFontColor());
+                Component value = line instanceof TaggedComponent tagged ? tagged.value : line;
+                client.font.drawShadow(matrices, value, textX, textY, color.getFontColor());
             }
 
             textY += LINE_HEIGHT.getInt(line);
@@ -225,7 +248,9 @@ public class TooltipRenderer {
         RenderSystem.disableBlend();
         matrices.popPose();
 
-        onPostRender.accept(rect);
+        for (IEventListener listener : Registrar.INSTANCE.eventListeners.get(Object.class)) {
+            listener.onAfterTooltipRender(matrices, rect, DataAccessor.INSTANCE, PluginConfig.INSTANCE);
+        }
 
         if (!stack.isEmpty()) {
             renderStack(x + 5, y + h / 2 - 8, stack, "");
@@ -235,6 +260,27 @@ public class TooltipRenderer {
         RenderSystem.getModelViewStack().popPose();
         RenderSystem.applyModelViewMatrix();
         Minecraft.getInstance().getProfiler().pop();
+    }
+
+    private static void narrateObjectName() {
+        if (!shouldRender) {
+            return;
+        }
+
+        Narrator narrator = NARRATOR.get();
+        if (narrator.active() || !Waila.config.get().getGeneral().isEnableTextToSpeech() || Minecraft.getInstance().screen instanceof ChatScreen) {
+            return;
+        }
+
+        Component objectName = TOOLTIP.getTag(WailaConstants.OBJECT_NAME_TAG);
+        if (objectName != null) {
+            String narrate = objectName.getString();
+            if (!lastNarration.equalsIgnoreCase(narrate)) {
+                narrator.clear();
+                narrator.say(narrate, true);
+                lastNarration = narrate;
+            }
+        }
     }
 
 }

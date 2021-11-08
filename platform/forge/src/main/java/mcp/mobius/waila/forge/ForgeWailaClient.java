@@ -2,16 +2,12 @@ package mcp.mobius.waila.forge;
 
 import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.WailaConstants;
-import mcp.mobius.waila.api.event.WailaRenderEvent;
-import mcp.mobius.waila.api.event.WailaTooltipEvent;
-import mcp.mobius.waila.data.DataAccessor;
 import mcp.mobius.waila.gui.screen.HomeConfigScreen;
-import mcp.mobius.waila.hud.TooltipRenderer;
+import mcp.mobius.waila.hud.TooltipHandler;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
@@ -41,21 +37,6 @@ public class ForgeWailaClient extends WailaClient {
 
         init();
         registerConfigScreen();
-        TooltipRenderer.onPreRender = rect -> {
-            WailaRenderEvent.Pre preEvent = new WailaRenderEvent.Pre(DataAccessor.INSTANCE, rect);
-            if (MinecraftForge.EVENT_BUS.post(preEvent)) {
-                return null;
-            }
-            return preEvent.getPosition();
-        };
-
-        TooltipRenderer.onPostRender = position ->
-            MinecraftForge.EVENT_BUS.post(new WailaRenderEvent.Post(position));
-
-        TooltipRenderer.onCreate = texts ->
-            MinecraftForge.EVENT_BUS.post(new WailaTooltipEvent(texts, DataAccessor.INSTANCE));
-
-        ForgeClientTickHandler.registerListener();
     }
 
     static void registerConfigScreen() {
@@ -76,7 +57,7 @@ public class ForgeWailaClient extends WailaClient {
         @SubscribeEvent
         static void renderGameOverlay(RenderGameOverlayEvent.Post event) {
             if (event.getType() == RenderGameOverlayEvent.ElementType.ALL)
-                TooltipRenderer.render(event.getMatrixStack(), event.getPartialTicks());
+                TooltipHandler.render(event.getMatrixStack(), event.getPartialTicks());
         }
 
         @SubscribeEvent

@@ -11,6 +11,7 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IEntityComponentProvider;
+import mcp.mobius.waila.api.IEventListener;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IServerDataProvider;
 import mcp.mobius.waila.api.ITooltipRenderer;
@@ -49,6 +50,7 @@ public enum Registrar implements IRegistrar {
         }
     });
 
+    public final Register<IEventListener> eventListeners = Util.make(new Register<>(), Register::reversed);
     public final Map<ResourceLocation, ITooltipRenderer> renderer = new Object2ObjectOpenHashMap<>();
     public final BlacklistConfig blacklist = new BlacklistConfig();
 
@@ -111,6 +113,12 @@ public enum Registrar implements IRegistrar {
     @Override
     public <T extends Enum<T>> void addSyncedConfig(ResourceLocation key, T defaultValue) {
         addConfig(key, defaultValue, false, ConfigEntry.ENUM);
+    }
+
+    @Override
+    public void addEventListener(IEventListener listener, int priority) {
+        assertLock();
+        eventListeners.add(Object.class, listener, priority);
     }
 
     @Override

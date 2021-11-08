@@ -6,6 +6,7 @@ import mcp.mobius.waila.command.DumpCommand;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.debug.DumpGenerator;
 import mcp.mobius.waila.impl.Impl;
+import mcp.mobius.waila.registry.Registrar;
 import mcp.mobius.waila.util.CommonUtil;
 import mcp.mobius.waila.util.ModInfo;
 import net.fabricmc.api.EnvType;
@@ -60,6 +61,8 @@ public class FabricWaila extends Waila implements ModInitializer {
         ModInfo.register(new ModInfo("c", "Common"));
         ModInfo.supplier = namespace -> FabricLoader.getInstance().getModContainer(namespace)
             .map(data -> new ModInfo(data.getMetadata().getId(), data.getMetadata().getName()));
+
+        Registrar.INSTANCE.addEventListener(FabricLegacyEventListener.INSTANCE, 900);
 
         pluginLoader = new FabricPluginLoader();
         pluginLoader.initialize();
