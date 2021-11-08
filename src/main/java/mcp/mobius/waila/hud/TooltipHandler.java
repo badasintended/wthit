@@ -178,10 +178,14 @@ public class TooltipHandler {
         WailaConfig config = Waila.config.get();
 
         profiler.push("Waila Overlay");
-        RenderSystem.getModelViewStack().pushPose();
 
         float scale = config.getOverlay().getScale();
+
+        RenderSystem.getModelViewStack().pushPose();
         RenderSystem.getModelViewStack().scale(scale, scale, 1.0F);
+        RenderSystem.applyModelViewMatrix();
+
+        matrices.pushPose();
 
         enable2DRender();
 
@@ -193,8 +197,10 @@ public class TooltipHandler {
         for (IEventListener listener : Registrar.INSTANCE.eventListeners.get(Object.class)) {
             listener.onBeforeTooltipRender(matrices, rect, DataAccessor.INSTANCE, PluginConfig.INSTANCE, canceller);
             if (canceller.isCanceled()) {
+                matrices.popPose();
                 RenderSystem.enableDepthTest();
                 RenderSystem.getModelViewStack().popPose();
+                RenderSystem.applyModelViewMatrix();
                 profiler.pop();
                 return;
             }
@@ -209,9 +215,6 @@ public class TooltipHandler {
         int bg = color.getBackgroundColor();
         int gradStart = color.getGradientStart();
         int gradEnd = color.getGradientEnd();
-
-        matrices.pushPose();
-        matrices.scale(scale, scale, 1.0f);
 
         drawGradientRect(matrices, x + 1, y, w - 1, 1, bg, bg);
         drawGradientRect(matrices, x + 1, y + h, w - 1, 1, bg, bg);
@@ -259,7 +262,7 @@ public class TooltipHandler {
         RenderSystem.enableDepthTest();
         RenderSystem.getModelViewStack().popPose();
         RenderSystem.applyModelViewMatrix();
-        Minecraft.getInstance().getProfiler().pop();
+        profiler.pop();
     }
 
     private static void narrateObjectName() {
