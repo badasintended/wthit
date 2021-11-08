@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.function.BiFunction;
 
 import mcp.mobius.waila.api.IDrawableText;
-import mcp.mobius.waila.api.IModInfo;
+import mcp.mobius.waila.api.IEventListener;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.config.PluginConfig;
@@ -13,6 +13,7 @@ import mcp.mobius.waila.gui.screen.HomeConfigScreen;
 import mcp.mobius.waila.hud.ClientTickHandler;
 import mcp.mobius.waila.hud.component.DrawableComponent;
 import mcp.mobius.waila.impl.Impl;
+import mcp.mobius.waila.registry.Registrar;
 import mcp.mobius.waila.util.CommonUtil;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
@@ -35,6 +36,7 @@ public abstract class WailaClient {
     protected static BiFunction<String, Integer, KeyMapping> keyBindingBuilder;
 
     static {
+        //noinspection deprecation
         Impl.reg(IDrawableText.class, DrawableComponent::new);
     }
 
@@ -86,7 +88,13 @@ public abstract class WailaClient {
 
     protected static void onItemTooltip(ItemStack stack, List<Component> tooltip) {
         if (PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_MOD_NAME)) {
-            tooltip.add(new TextComponent(IWailaConfig.get().getFormatting().formatModName(IModInfo.get(stack).getName())));
+            for (IEventListener listener : Registrar.INSTANCE.eventListeners.get(Object.class)) {
+                String name = listener.getHoveredItemModName(stack, PluginConfig.INSTANCE);
+                if (name != null) {
+                    tooltip.add(new TextComponent(IWailaConfig.get().getFormatting().formatModName(name)));
+                    return;
+                }
+            }
         }
     }
 

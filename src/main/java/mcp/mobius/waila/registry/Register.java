@@ -13,7 +13,13 @@ public class Register<T> {
     private final Map<Class<?>, List<Entry<T>>> map = new Object2ObjectOpenHashMap<>();
     private final Map<Class<?>, List<T>> cache = new Object2ObjectOpenHashMap<>();
 
-    private final List<Entry<?>> sorter = new ObjectArrayList<>();
+    private final List<Entry<T>> sorter = new ObjectArrayList<>();
+
+    private boolean reversed = false;
+
+    public void reversed() {
+        reversed = true;
+    }
 
     public void add(Class<?> key, T value, int priority) {
         map.computeIfAbsent(key, k -> new ObjectArrayList<>())
@@ -40,11 +46,16 @@ public class Register<T> {
                 sorter.addAll(v);
             }
         });
-        sorter.sort(Comparator.comparingInt(e -> e.priority));
+
+        Comparator<Entry<T>> comparator = Comparator.comparingInt(e -> e.priority);
+        if (reversed) {
+            comparator = comparator.reversed();
+        }
+
+        sorter.sort(comparator);
         List<T> list = new ObjectArrayList<>();
-        for (Entry<?> entry : sorter) {
-            //noinspection unchecked
-            list.add((T) entry.value);
+        for (Entry<T> entry : sorter) {
+            list.add(entry.value);
         }
 
         if (list.isEmpty()) {

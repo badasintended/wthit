@@ -7,6 +7,7 @@ import mcp.mobius.waila.command.DumpCommand;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.debug.DumpGenerator;
 import mcp.mobius.waila.impl.Impl;
+import mcp.mobius.waila.registry.Registrar;
 import mcp.mobius.waila.util.CommonUtil;
 import mcp.mobius.waila.util.ModInfo;
 import net.minecraft.server.level.ServerPlayer;
@@ -56,6 +57,8 @@ public class ForgeWaila extends Waila {
 
         packet = new ForgePacketSender();
         packet.initMain();
+
+        Registrar.INSTANCE.addEventListener(ForgeLegacyEventListener.INSTANCE, 900);
 
         pluginLoader = new ForgePluginLoader();
 

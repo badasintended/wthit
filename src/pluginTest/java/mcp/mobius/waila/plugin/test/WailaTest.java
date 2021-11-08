@@ -27,6 +27,12 @@ public class WailaTest implements IWailaPlugin {
 
         registrar.addConfig(OverrideTest.MOD_NAME, false);
         registrar.addComponent(OverrideTest.INSTANCE, TooltipPosition.TAIL, Block.class);
+
+        registrar.addConfig(EventListenerTest.HANDLE_TOOLTIP, false);
+        registrar.addConfig(EventListenerTest.BEFORE_RENDER, false);
+        registrar.addConfig(EventListenerTest.AFTER_RENDER, false);
+        registrar.addConfig(EventListenerTest.ITEM_MOD_NAME, false);
+        registrar.addEventListener(EventListenerTest.INSTANCE);
     }
 
 }

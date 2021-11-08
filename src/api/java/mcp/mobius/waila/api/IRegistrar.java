@@ -64,8 +64,8 @@ public interface IRegistrar {
     <T extends Enum<T>> void addConfig(ResourceLocation key, T defaultValue);
 
     /**
-     * Registers a namespaced config key to be accessed within data providers. These values are sent from the server to
-     * the client upon connection.
+     * Registers a namespaced config key to be accessed within data providers.
+     * These values are sent from the server to the client upon connection.
      *
      * @param key          The namespaced key
      * @param defaultValue The default value
@@ -73,8 +73,8 @@ public interface IRegistrar {
     void addSyncedConfig(ResourceLocation key, boolean defaultValue);
 
     /**
-     * Registers a namespaced config key to be accessed within data providers. These values are sent from the server to
-     * the client upon connection.
+     * Registers a namespaced config key to be accessed within data providers.
+     * These values are sent from the server to the client upon connection.
      *
      * @param key          The namespaced key
      * @param defaultValue The default value
@@ -82,8 +82,8 @@ public interface IRegistrar {
     void addSyncedConfig(ResourceLocation key, int defaultValue);
 
     /**
-     * Registers a namespaced config key to be accessed within data providers. These values are sent from the server to
-     * the client upon connection.
+     * Registers a namespaced config key to be accessed within data providers.
+     * These values are sent from the server to the client upon connection.
      *
      * @param key          The namespaced key
      * @param defaultValue The default value
@@ -91,8 +91,8 @@ public interface IRegistrar {
     void addSyncedConfig(ResourceLocation key, double defaultValue);
 
     /**
-     * Registers a namespaced config key to be accessed within data providers. These values are sent from the server to
-     * the client upon connection.
+     * Registers a namespaced config key to be accessed within data providers.
+     * These values are sent from the server to the client upon connection.
      *
      * @param key          The namespaced key
      * @param defaultValue The default value
@@ -100,13 +100,25 @@ public interface IRegistrar {
     void addSyncedConfig(ResourceLocation key, String defaultValue);
 
     /**
-     * Registers a namespaced config key to be accessed within data providers. These values are sent from the server to
-     * the client upon connection.
+     * Registers a namespaced config key to be accessed within data providers.
+     * These values are sent from the server to the client upon connection.
      *
      * @param key          The namespaced key
      * @param defaultValue The default value
      */
     <T extends Enum<T>> void addSyncedConfig(ResourceLocation key, T defaultValue);
+
+    /**
+     * Adds an event listener
+     */
+    void addEventListener(IEventListener listener, int priority);
+
+    /**
+     * Adds an event listener
+     */
+    default void addEventListener(IEventListener listener) {
+        addEventListener(listener, DEFAULT_PRIORITY);
+    }
 
     /**
      * Adds the specified entity types to the default blacklist.

@@ -40,7 +40,7 @@ public class ClientTickHandler {
     protected static String lastNarration = "";
 
     public static void tick() {
-        TooltipRenderer.shouldRender = false;
+        TooltipHandler.shouldRender = false;
 
         Minecraft client = Minecraft.getInstance();
         WailaConfig config = Waila.config.get();
@@ -63,7 +63,7 @@ public class ClientTickHandler {
         DataAccessor accessor = DataAccessor.INSTANCE;
         accessor.set(client.level, player, target, client.cameraEntity, client.getFrameTime());
 
-        TooltipRenderer.beginBuild();
+        TooltipHandler.beginBuild();
 
         if (target.getType() == HitResult.Type.BLOCK) {
             Block block = accessor.getBlock();
@@ -89,19 +89,19 @@ public class ClientTickHandler {
 
             TOOLTIP.clear();
             gatherBlock(accessor, TOOLTIP, HEAD);
-            TooltipRenderer.addLines(TOOLTIP);
+            TooltipHandler.add(TOOLTIP);
 
             TOOLTIP.clear();
             gatherBlock(accessor, TOOLTIP, BODY);
             if (Waila.config.get().getGeneral().isShiftForDetails() && !TOOLTIP.isEmpty() && !player.isShiftKeyDown()) {
-                TooltipRenderer.addLine(SNEAK_DETAIL);
+                TooltipHandler.add(SNEAK_DETAIL);
             } else {
-                TooltipRenderer.addLines(TOOLTIP);
+                TooltipHandler.add(TOOLTIP);
             }
 
             TOOLTIP.clear();
             gatherBlock(accessor, TOOLTIP, TAIL);
-            TooltipRenderer.addLines(TOOLTIP);
+            TooltipHandler.add(TOOLTIP);
         } else if (target.getType() == HitResult.Type.ENTITY) {
             if (!PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_ENTITY))
                 return;
@@ -118,28 +118,28 @@ public class ClientTickHandler {
             if (targetEnt != null) {
                 TOOLTIP.clear();
                 gatherEntity(targetEnt, accessor, TOOLTIP, HEAD);
-                TooltipRenderer.addLines(TOOLTIP);
+                TooltipHandler.add(TOOLTIP);
 
                 TOOLTIP.clear();
                 gatherEntity(targetEnt, accessor, TOOLTIP, BODY);
                 if (config.getGeneral().isShiftForDetails() && !TOOLTIP.isEmpty() && !player.isShiftKeyDown()) {
-                    TooltipRenderer.addLine(SNEAK_DETAIL);
+                    TooltipHandler.add(SNEAK_DETAIL);
                 } else {
-                    TooltipRenderer.addLines(TOOLTIP);
+                    TooltipHandler.add(TOOLTIP);
                 }
 
                 TOOLTIP.clear();
                 gatherEntity(targetEnt, accessor, TOOLTIP, TAIL);
-                TooltipRenderer.addLines(TOOLTIP);
+                TooltipHandler.add(TOOLTIP);
             }
         }
 
         if (PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_ITEM)) {
-            TooltipRenderer.setStack(ComponentHandler.getDisplayItem(target));
+            TooltipHandler.setStack(ComponentHandler.getDisplayItem(target));
         }
 
-        TooltipRenderer.endBuild();
-        TooltipRenderer.shouldRender = true;
+        TooltipHandler.shouldRender = true;
+        TooltipHandler.endBuild();
     }
 
     protected static Narrator getNarrator() {
