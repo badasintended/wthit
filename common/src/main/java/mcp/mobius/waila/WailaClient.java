@@ -63,7 +63,7 @@ public abstract class WailaClient {
         }
 
         while (toggleLiquid.wasPressed()) {
-            PluginConfig.INSTANCE.set(WailaConstants.CONFIG_SHOW_FLUID, PluginConfig.INSTANCE.get(WailaConstants.CONFIG_SHOW_FLUID));
+            PluginConfig.INSTANCE.set(WailaConstants.CONFIG_SHOW_FLUID, !PluginConfig.INSTANCE.get(WailaConstants.CONFIG_SHOW_FLUID));
         }
 
 
