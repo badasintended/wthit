@@ -6,4 +6,7 @@
 
 **WTHIT** - a fork of [HWYLA](https://minecraft.curseforge.com/projects/hwyla) by [TehNut](https://www.curseforge.com/members/tehnut) which is itself is a fork of [WAILA](https://minecraft.curseforge.com/projects/waila) by [ProfMobius](https://minecraft.curseforge.com/members/ProfMobius).
 
+## Branch Status: End of Life
+No new updates will be made on this Minecraft version, unless somehow crashing and it's clear that it's my fault.
+
 ### WIP Documentation at [badasintended.github.io/wthit](https://badasintended.github.io/wthit)
