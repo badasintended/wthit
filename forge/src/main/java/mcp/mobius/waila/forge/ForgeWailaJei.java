@@ -24,14 +24,15 @@ public class ForgeWailaJei implements IModPlugin {
 
     @Override
     public void onRuntimeAvailable(@NotNull IJeiRuntime jei) {
-        IRecipesGui gui = jei.getRecipesGui();
-        IRecipeManager manager = jei.getRecipeManager();
+        WailaClient.onShowRecipeInput = () -> showRecipesGui(jei, IFocus.Mode.INPUT);
+        WailaClient.onShowRecipeOutput = () -> showRecipesGui(jei, IFocus.Mode.OUTPUT);
+    }
 
-        WailaClient.onShowRecipeInput = () ->
-            gui.show(manager.createFocus(IFocus.Mode.INPUT, DataAccessor.INSTANCE.getStack()));
-
-        WailaClient.onShowRecipeOutput = () ->
-            gui.show(manager.createFocus(IFocus.Mode.OUTPUT, DataAccessor.INSTANCE.getStack()));
+    private void showRecipesGui(IJeiRuntime jei, IFocus.Mode mode) {
+        ItemStack stack = DataAccessor.INSTANCE.getStack();
+        if (!stack.isEmpty()) {
+            jei.getRecipesGui().show(jei.getRecipeManager().createFocus(mode, stack));
+        }
     }
 
 }
