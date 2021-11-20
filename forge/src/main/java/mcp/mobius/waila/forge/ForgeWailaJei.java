@@ -6,9 +6,8 @@ import mcp.mobius.waila.overlay.DataAccessor;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.recipe.IFocus;
-import mezz.jei.api.recipe.IRecipeManager;
 import mezz.jei.api.runtime.IJeiRuntime;
-import mezz.jei.api.runtime.IRecipesGui;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 
@@ -24,14 +23,15 @@ public class ForgeWailaJei implements IModPlugin {
 
     @Override
     public void onRuntimeAvailable(@NotNull IJeiRuntime jei) {
-        IRecipesGui gui = jei.getRecipesGui();
-        IRecipeManager manager = jei.getRecipeManager();
+        WailaClient.onShowRecipeInput = () -> showRecipesGui(jei, IFocus.Mode.INPUT);
+        WailaClient.onShowRecipeOutput = () -> showRecipesGui(jei, IFocus.Mode.OUTPUT);
+    }
 
-        WailaClient.onShowRecipeInput = () ->
-            gui.show(manager.createFocus(IFocus.Mode.INPUT, DataAccessor.INSTANCE.getStack()));
-
-        WailaClient.onShowRecipeOutput = () ->
-            gui.show(manager.createFocus(IFocus.Mode.OUTPUT, DataAccessor.INSTANCE.getStack()));
+    private void showRecipesGui(IJeiRuntime jei, IFocus.Mode mode) {
+        ItemStack stack = DataAccessor.INSTANCE.getStack();
+        if (!stack.isEmpty()) {
+            jei.getRecipesGui().show(jei.getRecipeManager().createFocus(mode, stack));
+        }
     }
 
 }
