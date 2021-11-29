@@ -3,7 +3,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 plugins {
-    id("net.minecraftforge.gradle").version("5.1.+")
+    id("net.minecraftforge.gradle")
     id("maven-publish")
 }
 

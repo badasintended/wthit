@@ -24,8 +24,8 @@ dependencies {
     modCompileRuntime("net.fabricmc.fabric-api:fabric-api:${rootProp["fabricApi"]}")
     modCompileRuntime("com.terraformersmc:modmenu:${rootProp["modMenu"]}")
 
-    //modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:${rootProp["rei"]}")
-    //modRuntime("me.shedaniel:RoughlyEnoughItems-fabric:${rootProp["rei"]}")
+    modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:${rootProp["rei"]}")
+    modRuntime("me.shedaniel:RoughlyEnoughItems-fabric:${rootProp["rei"]}")
 }
 
 loom {
