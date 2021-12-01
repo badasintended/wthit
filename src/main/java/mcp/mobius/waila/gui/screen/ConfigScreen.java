@@ -68,7 +68,7 @@ public abstract class ConfigScreen extends Screen {
     public void render(PoseStack matrices, int mouseX, int mouseY, float partialTicks) {
         renderBackground(matrices);
         options.render(matrices, mouseX, mouseY, partialTicks);
-        drawCenteredString(matrices, font, title.getString(), width / 2, 12, 16777215);
+        drawCenteredString(matrices, font, title.getString(), width / 2, 12, 0xFFFFFF);
         super.render(matrices, mouseX, mouseY, partialTicks);
 
         if (mouseY < 32 || mouseY > height - 32)

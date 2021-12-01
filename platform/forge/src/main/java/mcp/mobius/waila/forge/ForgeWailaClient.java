@@ -2,7 +2,7 @@ package mcp.mobius.waila.forge;
 
 import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.WailaConstants;
-import mcp.mobius.waila.gui.screen.HomeConfigScreen;
+import mcp.mobius.waila.gui.screen.HomeScreen;
 import mcp.mobius.waila.hud.TooltipHandler;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.player.LocalPlayer;
@@ -41,7 +41,7 @@ public class ForgeWailaClient extends WailaClient {
 
     static void registerConfigScreen() {
         ModLoadingContext.get().registerExtensionPoint(ConfigGuiHandler.ConfigGuiFactory.class,
-            () -> new ConfigGuiHandler.ConfigGuiFactory((mc, screen) -> new HomeConfigScreen(screen)));
+            () -> new ConfigGuiHandler.ConfigGuiFactory((mc, screen) -> new HomeScreen(screen)));
     }
 
     @EventBusSubscriber(modid = WailaConstants.WAILA, value = Dist.CLIENT)

@@ -37,6 +37,11 @@
   "gui.waila.waila_settings"                            : "%s Settings",
   "gui.waila.plugin_settings"                           : "Plugin Settings",
 
+  "gui.waila.credits"                                   : "Credits",
+  "gui.waila.credits.original_mod_by"                   : "Original \"WAILA\" Mod by",
+  "gui.waila.credits.authors"                           : "Authors",
+  "gui.waila.credits.contributors"                      : "Contributors",
+
   "key.waila.config"                                    : "Open Config",
   "key.waila.show_overlay"                              : "Show Overlay",
   "key.waila.toggle_liquid"                             : "Toggle Liquid",

@@ -79,7 +79,6 @@
 
   "config.waila.boss_bars_overlap"                      : "Superposición de barras de jefe",
   "config.waila.boss_bars_overlap_desc"                 : "Si se pone falso, el tooltip se moverá abajo si hay barras de jefe visibles\nSólo afecta a la alineación centro-arriba",
-  "config.waila.boss_bars_overlap_desc"                 : "If set to false, the tooltip will move down if there are boss bars visible\nOnly affect top-center alignment",
 
   "config.waila.overlay_scale"                          : "Escala",
   "config.waila.overlay_scale_desc"                     : "Cuán grande es el tooltip\n1.0 es el predeterminado",

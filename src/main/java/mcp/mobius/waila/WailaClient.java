@@ -9,7 +9,7 @@ import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.config.WailaConfig;
-import mcp.mobius.waila.gui.screen.HomeConfigScreen;
+import mcp.mobius.waila.gui.screen.HomeScreen;
 import mcp.mobius.waila.hud.ClientTickHandler;
 import mcp.mobius.waila.hud.component.DrawableComponent;
 import mcp.mobius.waila.impl.Impl;
@@ -63,7 +63,7 @@ public abstract class WailaClient {
         ClientTickHandler.tick();
 
         while (openConfig.consumeClick()) {
-            client.setScreen(new HomeConfigScreen(null));
+            client.setScreen(new HomeScreen(null));
         }
 
         while (showOverlay.consumeClick()) {
