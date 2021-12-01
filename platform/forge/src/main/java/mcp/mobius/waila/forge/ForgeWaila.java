@@ -17,6 +17,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
@@ -27,7 +28,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.fml.loading.FMLPaths;
-import net.minecraftforge.fmlserverevents.FMLServerStartingEvent;
 
 @Mod(WailaConstants.WAILA)
 @EventBusSubscriber(modid = WailaConstants.WAILA, bus = Bus.MOD)
@@ -83,7 +83,7 @@ public class ForgeWaila extends Waila {
     static class Subscriber {
 
         @SubscribeEvent
-        static void serverStarting(FMLServerStartingEvent event) {
+        static void serverStarting(ServerStartingEvent event) {
             PluginConfig.INSTANCE.reload();
         }
 

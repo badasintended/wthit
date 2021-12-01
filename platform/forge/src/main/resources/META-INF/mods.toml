@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[33,)"
+loaderVersion = "[38,)"
 issueTrackerURL = "https://github.com/badasintended/wthit/issues"
 displayURL = "https://github.com/badasintended/wthit"
 license = "CC BY-NC-SA 4.0"
@@ -23,13 +23,13 @@ logoFile = "wthit.png"
 [[dependencies.waila]]
 modId = "forge"
 mandatory = true
-versionRange = "[33.0.0,)"
+versionRange = "[38.0.0,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.waila]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.16.2,)"
+versionRange = "[1.18,)"
 ordering = "NONE"
 side = "BOTH"

@@ -6,4 +6,4 @@ fun platform(name: String) {
 }
 
 platform("fabric")
-//platform("forge")
+platform("forge")

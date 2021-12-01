@@ -7,6 +7,7 @@ import mcp.mobius.waila.hud.TooltipHandler;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.ConfigGuiHandler;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
@@ -17,12 +18,11 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fmlclient.ConfigGuiHandler;
 
 import static com.mojang.blaze3d.platform.InputConstants.Type.KEYSYM;
+import static net.minecraftforge.client.ClientRegistry.registerKeyBinding;
 import static net.minecraftforge.client.settings.KeyConflictContext.IN_GAME;
 import static net.minecraftforge.client.settings.KeyModifier.NONE;
-import static net.minecraftforge.fmlclient.registry.ClientRegistry.registerKeyBinding;
 
 @EventBusSubscriber(modid = WailaConstants.WAILA, bus = Bus.MOD, value = Dist.CLIENT)
 public class ForgeWailaClient extends WailaClient {
