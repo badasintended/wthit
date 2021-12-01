@@ -3,15 +3,16 @@ package mcp.mobius.waila.debug;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import mcp.mobius.waila.plugin.PluginLoader;
+import mcp.mobius.waila.api.IPluginInfo;
+import mcp.mobius.waila.plugin.PluginInfo;
 import mcp.mobius.waila.registry.Register;
 import mcp.mobius.waila.registry.Registrar;
 import mcp.mobius.waila.util.CommonUtil;
-import net.minecraft.resources.ResourceLocation;
 
 import static mcp.mobius.waila.api.TooltipPosition.BODY;
 import static mcp.mobius.waila.api.TooltipPosition.HEAD;
@@ -34,13 +35,13 @@ public class DumpGenerator {
         builder.append("\n## Plugins");
         builder.append("\n| Plugin ID | Plugin Class |");
         builder.append("\n| - | - |");
-        PluginLoader.PLUGINS.keySet().stream()
-            .sorted(ResourceLocation::compareTo)
-            .forEachOrdered(id -> builder
+        PluginInfo.getAll().stream()
+            .sorted(Comparator.comparing(IPluginInfo::getPluginId))
+            .forEachOrdered(plugin -> builder
                 .append("\n| `")
-                .append(id)
+                .append(plugin.getPluginId())
                 .append("` | `")
-                .append(PluginLoader.PLUGINS.get(id).getClass().getCanonicalName())
+                .append(plugin.getInitializer().getClass().getCanonicalName())
                 .append("` |"));
 
         builder.append("\n## Block");

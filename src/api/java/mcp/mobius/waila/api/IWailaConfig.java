@@ -9,7 +9,7 @@ import org.jetbrains.annotations.ApiStatus;
 public interface IWailaConfig {
 
     static IWailaConfig get() {
-        return Impl.get(IWailaConfig.class);
+        return Impl.get(IWailaConfig.class, 0);
     }
 
     General getGeneral();

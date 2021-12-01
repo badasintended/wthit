@@ -13,7 +13,7 @@ import org.jetbrains.annotations.ApiStatus;
 public interface IModInfo {
 
     static IModInfo get(String namespace) {
-        return Impl.get(IModInfo.class, namespace);
+        return Impl.get(IModInfo.class, 0, namespace);
     }
 
     static IModInfo get(ResourceLocation id) {
@@ -25,7 +25,7 @@ public interface IModInfo {
     }
 
     static IModInfo get(ItemStack stack) {
-        return Impl.get(IModInfo.class, stack);
+        return Impl.get(IModInfo.class, 1, stack);
     }
 
     static IModInfo get(Item item) {

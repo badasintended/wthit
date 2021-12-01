@@ -19,7 +19,7 @@ public interface IDrawableText extends MutableComponent {
     }
 
     static IDrawableText create() {
-        return Impl.get(IDrawableText.class);
+        return Impl.get(IDrawableText.class, 0);
     }
 
     IDrawableText with(ResourceLocation id, CompoundTag data);

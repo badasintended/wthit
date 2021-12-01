@@ -19,9 +19,8 @@ import org.jetbrains.annotations.Nullable;
 @ApiStatus.NonExtendable
 public interface IJsonConfig<T> {
 
-    @SuppressWarnings("unchecked")
     static <T> Builder0<T> of(Class<T> clazz) {
-        return Impl.get(IJsonConfig.Builder0.class, clazz);
+        return Impl.get(IJsonConfig.Builder0.class, 0, clazz);
     }
 
     /**

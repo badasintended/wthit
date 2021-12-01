@@ -8,7 +8,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 public interface IBlacklistConfig {
 
     static IBlacklistConfig get() {
-        return Impl.get(IBlacklistConfig.class);
+        return Impl.get(IBlacklistConfig.class, 0);
     }
 
     boolean contains(Block block);

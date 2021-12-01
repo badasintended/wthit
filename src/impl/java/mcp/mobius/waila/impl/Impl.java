@@ -1,7 +1,9 @@
 package mcp.mobius.waila.impl;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -25,22 +27,22 @@ public final class Impl {
         }
     }
 
-    private static final Map<Class<?>, Object> MAP = new HashMap<>();
+    private static final Map<Class<?>, List<Object>> MAP = new HashMap<>();
 
-    public static <T> T get(Class<T> clazz) {
-        return ((Supplier<T>) MAP.get(clazz)).get();
+    public static <T> T get(Class<?> clazz, int key) {
+        return ((Supplier<T>) MAP.get(clazz).get(key)).get();
     }
 
-    public static <T, A> T get(Class<T> clazz, A arg) {
-        return ((Function<A, T>) MAP.get(clazz)).apply(arg);
+    public static <T, A> T get(Class<?> clazz, int key, A arg) {
+        return ((Function<A, T>) MAP.get(clazz).get(key)).apply(arg);
     }
 
-    public static <T> void reg(Class<T> clazz, Supplier<T> supplier) {
-        MAP.put(clazz, supplier);
+    public static <T> void reg(Class<?> clazz, Supplier<T> supplier) {
+        MAP.computeIfAbsent(clazz, i -> new ArrayList<>()).add(supplier);
     }
 
-    public static <T, A> void reg(Class<T> clazz, Function<A, T> func) {
-        MAP.put(clazz, func);
+    public static <T, A> void reg(Class<?> clazz, Function<A, T> func) {
+        MAP.computeIfAbsent(clazz, i -> new ArrayList<>()).add(func);
     }
 
     public static <T> T allocate(Class<T> clazz) {

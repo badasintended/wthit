@@ -34,14 +34,9 @@ import net.minecraftforge.fml.loading.FMLPaths;
 public class ForgeWaila extends Waila {
 
     static {
-        Impl.reg(IModInfo.class, o -> {
-            if (o instanceof String s) {
-                return ModInfo.get(s);
-            } else if (o instanceof ItemStack i) {
-                return ModInfo.get(i.getItem().getCreatorModId(i));
-            }
-            throw new IllegalArgumentException();
-        });
+        //noinspection Convert2MethodRef
+        Impl.reg(IModInfo.class, (String s) -> ModInfo.get(s));
+        Impl.reg(IModInfo.class, (ItemStack i) -> ModInfo.get(i.getItem().getCreatorModId(i)));
     }
 
     @SubscribeEvent
@@ -60,8 +55,6 @@ public class ForgeWaila extends Waila {
 
         Registrar.INSTANCE.addEventListener(ForgeLegacyEventListener.INSTANCE, 900);
 
-        pluginLoader = new ForgePluginLoader();
-
         ModInfo.supplier = namespace -> ModList.get()
             .getModContainerById(namespace)
             .map(data -> new ModInfo(data.getModId(), data.getModInfo().getDisplayName()));
@@ -76,7 +69,7 @@ public class ForgeWaila extends Waila {
 
     @SubscribeEvent
     static void loadComplete(FMLLoadCompleteEvent event) {
-        pluginLoader.initialize();
+        new ForgePluginLoader().loadPlugins();
     }
 
     @EventBusSubscriber(modid = WailaConstants.WAILA)

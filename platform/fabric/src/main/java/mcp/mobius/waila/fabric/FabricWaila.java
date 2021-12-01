@@ -14,7 +14,7 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
-import net.fabricmc.fabric.api.tag.TagRegistry;
+import net.fabricmc.fabric.api.tag.TagFactory;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.minecraft.core.Registry;
@@ -23,22 +23,17 @@ import net.minecraft.world.item.ItemStack;
 public class FabricWaila extends Waila implements ModInitializer {
 
     static {
-        Impl.reg(IModInfo.class, o -> {
-            if (o instanceof String s) {
-                return ModInfo.get(s);
-            } else if (o instanceof ItemStack i) {
-                return ModInfo.get(Registry.ITEM.getKey(i.getItem()).getNamespace());
-            }
-            throw new IllegalArgumentException();
-        });
+        //noinspection Convert2MethodRef
+        Impl.reg(IModInfo.class, (String s) -> ModInfo.get(s));
+        Impl.reg(IModInfo.class, (ItemStack i) -> ModInfo.get(Registry.ITEM.getKey(i.getItem()).getNamespace()));
     }
 
     @Override
     public void onInitialize() {
         clientSide = FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT;
 
-        blockBlacklist = TagRegistry.block(CommonUtil.id("blacklist"));
-        entityBlacklist = TagRegistry.entityType(CommonUtil.id("blacklist"));
+        blockBlacklist = TagFactory.BLOCK.create(CommonUtil.id("blacklist"));
+        entityBlacklist = TagFactory.ENTITY_TYPE.create(CommonUtil.id("blacklist"));
 
         CommonUtil.gameDir = FabricLoader.getInstance().getGameDir();
         CommonUtil.configDir = FabricLoader.getInstance().getConfigDir();
@@ -64,9 +59,6 @@ public class FabricWaila extends Waila implements ModInitializer {
 
         Registrar.INSTANCE.addEventListener(FabricLegacyEventListener.INSTANCE, 900);
 
-        pluginLoader = new FabricPluginLoader();
-        pluginLoader.initialize();
-
         String[] mods = {"minecraft", "java", "fabricloader", "fabric", "wthit", "roughlyenoughitems"};
         for (String mod : mods) {
             FabricLoader.getInstance()
@@ -74,6 +66,8 @@ public class FabricWaila extends Waila implements ModInitializer {
                 .map(ModContainer::getMetadata)
                 .ifPresent(m -> DumpGenerator.VERSIONS.put(m.getName(), m.getVersion().getFriendlyString()));
         }
+
+        new FabricPluginLoader().loadPlugins();
     }
 
 }

@@ -25,4 +25,9 @@ public @interface WailaPlugin {
      */
     String[] required() default {};
 
+    /**
+     * The environment in which to load this plugin on.
+     */
+    IPluginInfo.Side side() default IPluginInfo.Side.BOTH;
+
 }

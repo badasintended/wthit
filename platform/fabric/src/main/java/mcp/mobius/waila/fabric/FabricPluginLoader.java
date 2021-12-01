@@ -1,14 +1,19 @@
 package mcp.mobius.waila.fabric;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
+import com.google.common.collect.Streams;
+import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import mcp.mobius.waila.api.IPluginInfo;
+import mcp.mobius.waila.plugin.PluginInfo;
 import mcp.mobius.waila.plugin.PluginLoader;
 import mcp.mobius.waila.util.CommonUtil;
+import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.fabricmc.loader.api.metadata.CustomValue;
-import net.fabricmc.loader.api.metadata.CustomValue.CvObject;
 import net.fabricmc.loader.api.metadata.ModMetadata;
 
 import static net.fabricmc.loader.api.metadata.CustomValue.CvType.ARRAY;
@@ -19,7 +24,7 @@ public class FabricPluginLoader extends PluginLoader {
 
     @Override
     protected void gatherPlugins() {
-        Set<CvObject> plugins = new ObjectOpenHashSet<>();
+        Map<ModContainer, CustomValue.CvObject[]> pluginMap = new Object2ObjectOpenHashMap<>();
         for (ModContainer mod : FabricLoader.getInstance().getAllMods()) {
             ModMetadata data = mod.getMetadata();
 
@@ -28,36 +33,70 @@ public class FabricPluginLoader extends PluginLoader {
 
             CustomValue val = data.getCustomValue("waila:plugins");
             if (val.getType() == OBJECT) {
-                plugins.add(val.getAsObject());
+                pluginMap.put(mod, new CustomValue.CvObject[]{val.getAsObject()});
             } else if (val.getType() == ARRAY) {
-                val.getAsArray().forEach(o -> plugins.add(o.getAsObject()));
+                pluginMap.put(mod, Streams.stream(val.getAsArray()).map(CustomValue::getAsObject).toArray(CustomValue.CvObject[]::new));
             } else {
                 CommonUtil.LOGGER.error("Plugin data provided by {} must be an object or array of objects.", data.getId());
             }
         }
 
-        o:
-        for (CvObject plugin : plugins) {
-            if (plugin.containsKey("required")) {
-                CustomValue required = plugin.get("required");
-                if (required.getType() == STRING && !FabricLoader.getInstance().isModLoaded(required.getAsString()))
-                    continue;
+        for (Map.Entry<ModContainer, CustomValue.CvObject[]> entry : pluginMap.entrySet()) {
+            ModContainer mod = entry.getKey();
+            CustomValue.CvObject[] plugins = entry.getValue();
 
-                if (required.getType() == ARRAY) {
-                    for (CustomValue element : required.getAsArray()) {
-                        if (element.getType() != STRING)
+            o:
+            for (CustomValue.CvObject plugin : plugins) {
+                List<String> requiredDeps = new ArrayList<>();
+                if (plugin.containsKey("required")) {
+                    CustomValue required = plugin.get("required");
+                    if (required.getType() == STRING) {
+                        if (FabricLoader.getInstance().isModLoaded(required.getAsString())) {
+                            requiredDeps.add(required.getAsString());
+                        } else {
                             continue;
+                        }
+                    }
 
-                        if (!FabricLoader.getInstance().isModLoaded(element.getAsString()))
-                            continue o;
+                    if (required.getType() == ARRAY) {
+                        for (CustomValue element : required.getAsArray()) {
+                            if (element.getType() != STRING)
+                                continue;
+
+                            if (FabricLoader.getInstance().isModLoaded(element.getAsString())) {
+                                requiredDeps.add(element.getAsString());
+                            } else {
+                                continue o;
+                            }
+                        }
                     }
                 }
+
+                String id = plugin.get("id").getAsString();
+                String initializer = plugin.get("initializer").getAsString();
+
+                String sideStr = plugin.containsKey("environment") ? plugin.get("environment").getAsString() : "both";
+                IPluginInfo.Side side;
+                switch (sideStr) {
+                    case "client" -> side = IPluginInfo.Side.CLIENT;
+                    case "server" -> side = IPluginInfo.Side.SERVER;
+                    case "both" -> side = IPluginInfo.Side.BOTH;
+                    default -> {
+                        CommonUtil.LOGGER.error("Environment for plugin {} is not valid, must be one of [client, server, both].", id);
+                        continue o;
+                    }
+                }
+
+                if (side == IPluginInfo.Side.CLIENT && FabricLoader.getInstance().getEnvironmentType() != EnvType.CLIENT) {
+                    continue;
+                }
+
+                if (side == IPluginInfo.Side.SERVER && FabricLoader.getInstance().getEnvironmentType() != EnvType.SERVER) {
+                    continue;
+                }
+
+                PluginInfo.register(mod.getMetadata().getId(), id, side, initializer, requiredDeps);
             }
-
-            String id = plugin.get("id").getAsString();
-            String initializer = plugin.get("initializer").getAsString();
-
-            createPlugin(id, initializer);
         }
     }
 
