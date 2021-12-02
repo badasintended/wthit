@@ -27,7 +27,7 @@ fun <T : Jar> UploadConfig.curseforge(task: T) = project.run {
                     displayName = "[${rootProp["minecraft"]}] ${project.version}"
                 })
 
-                relations(closureOf<CurseRelation> {
+                if(listOf("cf.require", "cf.optional", "cf.break").any { prop.has(it) }) relations(closureOf<CurseRelation> {
                     prop.ifPresent("cf.require") {
                         it.split(", ").forEach(this::requiredDependency)
                     }
