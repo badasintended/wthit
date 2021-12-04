@@ -158,7 +158,6 @@
   "config.waila.plugin_waila.show_fluids_desc"          : "流体の表示を試してみる",
   "config.waila.plugin_waila.show_entities"             : "エンティティの表示",
   "config.waila.plugin_waila.show_item"                 : "アイテムのアイコンの表示",
-  "config.waila.plugin_waila.show_item_desc"            : "アイテムやブロックのアイコンを表示することが出来ます",
   "config.waila.plugin_waila.show_entity_hp"            : "エンティティ体力の表示",
   "config.waila.plugin_waila.show_states"               : "状態の表示",
   "config.waila.plugin_waila.show_pos"                  : "ブロック座標の表示"
