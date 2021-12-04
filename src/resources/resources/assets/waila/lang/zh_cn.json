@@ -58,8 +58,6 @@
   "config.waila.plugin_waila.show_fluids"      : "显示流体",
   "config.waila.plugin_waila.show_fluids_desc" : "显示流体数据",
   "config.waila.plugin_waila.show_entities"    : "显示实体",
-  "config.waila.plugin_waila.show_item"        : "显示物品",
-  "config.waila.plugin_waila.show_item_desc"   : "显示从方块中得到的物品",
   "config.waila.plugin_waila.show_entity_hp"   : "显示实体生命值",
   "config.waila.plugin_waila.show_states"      : "显示状态"
 }
