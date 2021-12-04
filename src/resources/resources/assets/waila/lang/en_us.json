@@ -162,8 +162,7 @@
   "config.waila.plugin_waila.show_fluids"               : "Show Fluids",
   "config.waila.plugin_waila.show_fluids_desc"          : "Try to show fluids",
   "config.waila.plugin_waila.show_entities"             : "Show Entities",
-  "config.waila.plugin_waila.show_item"                 : "Show Item",
-  "config.waila.plugin_waila.show_item_desc"            : "Show the item gotten from the block",
+  "config.waila.plugin_waila.show_item"                 : "Show Item Icon",
   "config.waila.plugin_waila.show_entity_hp"            : "Show Entity Health",
   "config.waila.plugin_waila.show_states"               : "Show States",
   "config.waila.plugin_waila.show_pos"                  : "Show Block Position"
