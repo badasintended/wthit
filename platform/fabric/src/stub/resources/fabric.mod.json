@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "id": "wthit_api",
+  "version": "0",
+  "entrypoints": {
+    "main": ["mcp.mobius.waila.api.internal.FabricStub"]
+  }
+}

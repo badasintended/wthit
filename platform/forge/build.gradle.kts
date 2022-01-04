@@ -22,6 +22,13 @@ dependencies {
     runtimeOnly(fg.deobf("mezz.jei:jei-${rootProp["minecraft"]}:${rootProp["jei"]}"))
 }
 
+sourceSets {
+    val main by getting
+    create("stub") {
+        compileClasspath += main.compileClasspath
+    }
+}
+
 minecraft {
     mappings("official", rootProp["minecraft"])
     accessTransformer(file("src/main/resources/META-INF/accesstransformer.cfg"))
@@ -71,6 +78,7 @@ afterEvaluate {
     val apiJar = task<Jar>("apiJar") {
         dependsOn(jar)
         archiveClassifier.set("api")
+        from(sourceSets["stub"].output)
         from(zipTree(jar.archiveFile)) {
             include("mcp/mobius/waila/api/**")
         }
@@ -80,6 +88,7 @@ afterEvaluate {
     val apiSourcesJar = task<Jar>("apiSourcesJar") {
         dependsOn(sourcesJar)
         archiveClassifier.set("api-sources")
+        from(sourceSets["stub"].output)
         from(zipTree(sourcesJar.archiveFile)) {
             include("mcp/mobius/waila/api/**")
         }

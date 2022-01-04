@@ -10,10 +10,6 @@ repositories {
     maven("https://maven.shedaniel.me")
 }
 
-sourceSets {
-    create("fluff")
-}
-
 dependencies {
     minecraft("com.mojang:minecraft:${rootProp["minecraft"]}")
     mappings(loom.officialMojangMappings())
@@ -26,6 +22,13 @@ dependencies {
 
     modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:${rootProp["rei"]}")
     modRuntimeOnly("me.shedaniel:RoughlyEnoughItems-fabric:${rootProp["rei"]}")
+}
+
+sourceSets {
+    val main by getting
+    create("stub") {
+        compileClasspath += main.compileClasspath
+    }
 }
 
 loom {
@@ -49,7 +52,7 @@ afterEvaluate {
     val apiJar = task<Jar>("apiJar") {
         dependsOn(remapJar)
         archiveClassifier.set("api")
-        from(sourceSets["fluff"].output)
+        from(sourceSets["stub"].output)
         from(zipTree(remapJar.archiveFile)) {
             include("mcp/mobius/waila/api/**")
         }
@@ -60,7 +63,7 @@ afterEvaluate {
     val apiSourcesJar = task<Jar>("apiSourcesJar") {
         dependsOn(remapSourcesJar)
         archiveClassifier.set("api-sources")
-        from(sourceSets["fluff"].output)
+        from(sourceSets["stub"].output)
         from(zipTree(remapSourcesJar.output)) {
             include("mcp/mobius/waila/api/**")
         }
