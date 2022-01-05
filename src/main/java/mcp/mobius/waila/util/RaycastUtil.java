@@ -9,10 +9,11 @@ import net.minecraft.world.entity.projectile.ProjectileUtil;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.ClipContext.Block;
 import net.minecraft.world.level.ClipContext.Fluid;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.HitResult.Type;
 import net.minecraft.world.phys.Vec3;
 
 public final class RaycastUtil {
@@ -34,25 +35,33 @@ public final class RaycastUtil {
             : MISS;
     }
 
-    public static HitResult fire(Entity camera, double playerReach, float tickDelta) {
-        Level world = camera.level;
-        Vec3 eyePosition = camera.getEyePosition(tickDelta);
-        Vec3 lookVector = camera.getViewVector(tickDelta);
-        Vec3 traceEnd = eyePosition.add(lookVector.x * playerReach, lookVector.y * playerReach, lookVector.z * playerReach);
+    public static HitResult fire(Entity camera, double reach, float tickDelta) {
+        Vec3 viewVec = camera.getViewVector(tickDelta);
+
+        Vec3 start = camera.getEyePosition(tickDelta);
+        Vec3 end = start.add(viewVec.x * reach, viewVec.y * reach, viewVec.z * reach);
+
+        Fluid fluidContext = PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_FLUID) ? Fluid.SOURCE_ONLY : Fluid.NONE;
+        BlockHitResult blockHit = camera.level.clip(new ClipContext(start, end, Block.OUTLINE, fluidContext, camera));
 
         if (PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_ENTITY)) {
-            EntityHitResult result = ProjectileUtil.getEntityHitResult(world, camera, eyePosition, traceEnd, new AABB(eyePosition, traceEnd), EntitySelector.ENTITY_STILL_ALIVE);
-            if (result != null) {
-                return result;
+            EntityHitResult entityHit = ProjectileUtil.getEntityHitResult(camera, start, end, new AABB(start, end), EntitySelector.ENTITY_STILL_ALIVE, 0f);
+
+            if (entityHit != null) {
+                if (blockHit.getType() == Type.MISS) {
+                    return entityHit;
+                }
+
+                double blockDistance = blockHit.getLocation().distanceToSqr(start);
+                double entityDistance = entityHit.getLocation().distanceToSqr(start);
+
+                if (entityDistance < blockDistance) {
+                    return entityHit;
+                }
             }
         }
 
-        Fluid fluidView = PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_FLUID)
-            ? Fluid.SOURCE_ONLY
-            : Fluid.NONE;
-
-        ClipContext context = new ClipContext(eyePosition, traceEnd, Block.OUTLINE, fluidView, camera);
-        return world.clip(context);
+        return blockHit;
     }
 
 }
