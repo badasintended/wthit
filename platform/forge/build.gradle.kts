@@ -34,19 +34,13 @@ minecraft {
     accessTransformer(file("src/main/resources/META-INF/accesstransformer.cfg"))
     runs {
         val runConfig = Action<RunConfig> {
-            sources = listOf(sourceSets.main.get())
             workingDirectory(rootProject.file("run"))
-            property("forge.logging.console.level", "debug")
+            ideaModule("${rootProject.name}.${project.name}.main")
+            sources(sourceSets["main"])
+            property("waila.enableTestPlugin", "true")
         }
         create("client", runConfig)
         create("server", runConfig)
-
-        val testRunConfig = Action<RunConfig> {
-            runConfig(this)
-            property("waila.enableTestPlugin", "true")
-        }
-        create("testClient", testRunConfig)
-        create("testServer", testRunConfig)
     }
 }
 

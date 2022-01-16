@@ -1,7 +1,8 @@
 import java.nio.charset.StandardCharsets
 
 plugins {
-    id("fabric-loom")
+    java
+    id("org.spongepowered.gradle.vanilla")
 }
 
 version = env["MOD_VERSION"] ?: "${prop["majorVersion"]}.999-${env["GIT_HASH"] ?: "local"}"
@@ -31,15 +32,9 @@ subprojects {
     }
 }
 
-dependencies {
-    minecraft("com.mojang:minecraft:${rootProp["minecraft"]}")
-    mappings(loom.officialMojangMappings())
-
-    modImplementation("net.fabricmc:fabric-loader:${rootProp["fabricLoader"]}")
-}
-
-loom {
-    accessWidenerPath.set(project(":fabric").file("src/main/resources/wthit.accesswidener"))
+minecraft {
+    version(rootProp["minecraft"])
+    accessWideners(project(":fabric").file("src/main/resources/wthit.accesswidener"))
 }
 
 sourceSets {
@@ -63,12 +58,4 @@ sourceSets {
     listOf(main, pluginCore, pluginVanilla, pluginTest).applyEach {
         compileClasspath += util.output
     }
-}
-
-tasks.remapJar {
-    enabled = false
-}
-
-tasks.remapSourcesJar {
-    enabled = false
 }
