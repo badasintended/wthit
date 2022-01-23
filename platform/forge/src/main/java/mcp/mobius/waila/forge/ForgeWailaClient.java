@@ -4,7 +4,6 @@ import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.gui.screen.HomeScreen;
 import mcp.mobius.waila.hud.TooltipHandler;
-import net.minecraft.client.KeyMapping;
 import net.minecraft.client.player.LocalPlayer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.ConfigGuiHandler;
@@ -19,23 +18,11 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
-import static com.mojang.blaze3d.platform.InputConstants.Type.KEYSYM;
-import static net.minecraftforge.client.ClientRegistry.registerKeyBinding;
-import static net.minecraftforge.client.settings.KeyConflictContext.IN_GAME;
-import static net.minecraftforge.client.settings.KeyModifier.NONE;
-
 @EventBusSubscriber(modid = WailaConstants.WAILA, bus = Bus.MOD, value = Dist.CLIENT)
 public class ForgeWailaClient extends WailaClient {
 
     @SubscribeEvent
     static void clientSetup(FMLClientSetupEvent event) {
-        keyBindingBuilder = (id, key) -> {
-            KeyMapping keyBinding = new KeyMapping("key.waila." + id, IN_GAME, NONE, KEYSYM, key, WailaConstants.MOD_NAME);
-            registerKeyBinding(keyBinding);
-            return keyBinding;
-        };
-
-        init();
         registerConfigScreen();
     }
 

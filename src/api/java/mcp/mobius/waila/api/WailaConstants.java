@@ -15,7 +15,7 @@ public class WailaConstants {
     public static final int CONFIG_VERSION = 1;
 
     // Common tooltip tags, to be used for overriding core tooltip values.
-    // To do that, use ITooltip.set(tag, component).
+    // To do that, use ITooltip.setLine(tag, component).
     public static final ResourceLocation OBJECT_NAME_TAG   = id("object_name");   // Block, Fluid, or Entity name
     public static final ResourceLocation REGISTRY_NAME_TAG = id("registry_name");
     public static final ResourceLocation MOD_NAME_TAG      = id("mod_name");

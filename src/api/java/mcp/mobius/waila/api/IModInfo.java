@@ -1,6 +1,6 @@
 package mcp.mobius.waila.api;
 
-import mcp.mobius.waila.impl.Impl;
+import mcp.mobius.waila.api.__internal__.IApiService;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -13,7 +13,7 @@ import org.jetbrains.annotations.ApiStatus;
 public interface IModInfo {
 
     static IModInfo get(String namespace) {
-        return Impl.get(IModInfo.class, 0, namespace);
+        return IApiService.INSTANCE.getModInfo(namespace);
     }
 
     static IModInfo get(ResourceLocation id) {
@@ -25,7 +25,7 @@ public interface IModInfo {
     }
 
     static IModInfo get(ItemStack stack) {
-        return Impl.get(IModInfo.class, 1, stack);
+        return IApiService.INSTANCE.getModInfo(stack);
     }
 
     static IModInfo get(Item item) {
@@ -33,8 +33,7 @@ public interface IModInfo {
     }
 
     static IModInfo get(Entity entity) {
-        ResourceLocation id = Registry.ENTITY_TYPE.getKey(entity.getType());
-        return get(id);
+        return get(Registry.ENTITY_TYPE.getKey(entity.getType()));
     }
 
     String getId();

@@ -13,7 +13,6 @@ import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.data.DataAccessor;
 import mcp.mobius.waila.debug.DumpGenerator;
 import mcp.mobius.waila.registry.Registrar;
-import mcp.mobius.waila.util.CommonUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
@@ -32,7 +31,7 @@ public class PacketExecutor {
 
     @SuppressWarnings("ConstantConditions")
     public static void generateClientDump() {
-        Path path = CommonUtil.gameDir.resolve(".waila/WailaClientDump.md");
+        Path path = Waila.GAME_DIR.resolve(".waila/WailaClientDump.md");
         if (DumpGenerator.generate(path)) {
             Minecraft.getInstance().player.displayClientMessage(new TranslatableComponent("command.waila.client_dump_success", path), false);
         }
@@ -51,11 +50,11 @@ public class PacketExecutor {
                 : map.getOrDefault(id, defaultValue);
             config.setValue(syncedValue);
         }
-        CommonUtil.LOGGER.info("Received config from the server: {}", GSON.toJson(map));
+        Waila.LOGGER.info("Received config from the server: {}", GSON.toJson(map));
     }
 
     public static void sendBlacklist(int[][] rawIds) {
-        BlacklistConfig blacklist = Waila.blacklistConfig.get();
+        BlacklistConfig blacklist = Waila.BLACKLIST_CONFIG.get();
         setBlackList(rawIds[0], blacklist.blocks, Registry.BLOCK);
         setBlackList(rawIds[1], blacklist.blockEntityTypes, Registry.BLOCK_ENTITY_TYPE);
         setBlackList(rawIds[2], blacklist.entityTypes, Registry.ENTITY_TYPE);

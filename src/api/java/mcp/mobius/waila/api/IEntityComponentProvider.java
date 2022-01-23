@@ -2,11 +2,10 @@ package mcp.mobius.waila.api;
 
 import java.util.List;
 
-import mcp.mobius.waila.api.internal.ApiSide;
+import mcp.mobius.waila.api.__internal__.ApiSide;
 import mcp.mobius.waila.impl.Impl;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.ItemStack;
@@ -31,7 +30,7 @@ public interface IEntityComponentProvider {
      * <p>
      * <b>Note:</b> Waila will use {@code ==} instead of {@link Object#equals} to check for this.
      */
-    Entity EMPTY_ENTITY = Impl.allocate(AreaEffectCloud.class);
+    Entity EMPTY_ENTITY = Impl.unsafeAlloc(AreaEffectCloud.class);
 
     /**
      * Callback used to override the default Waila lookup system.
@@ -75,7 +74,7 @@ public interface IEntityComponentProvider {
      * If you rely on the client knowing the data you need, you are not guaranteed to have the proper values.
      *
      * @param tooltip  Current list of tooltip lines (might have been processed by other providers and might be processed by other providers).
-     *                 Use {@link ITooltip#set(ResourceLocation, Component)} with tags from {@link WailaConstants} to override built-in values.
+     *                 Use {@link ITooltip#setLine} with tags from {@link WailaConstants} to override built-in values.
      * @param accessor Contains most of the relevant information about the current environment.
      * @param config   Current configuration of Waila.
      *
@@ -93,7 +92,7 @@ public interface IEntityComponentProvider {
      * If you rely on the client knowing the data you need, you are not guaranteed to have the proper values.
      *
      * @param tooltip  Current list of tooltip lines (might have been processed by other providers and might be processed by other providers).
-     *                 Use {@link ITooltip#set(ResourceLocation, Component)} with tags from {@link WailaConstants} to override built-in values.
+     *                 Use {@link ITooltip#setLine} with tags from {@link WailaConstants} to override built-in values.
      * @param accessor Contains most of the relevant information about the current environment.
      * @param config   Current configuration of Waila.
      *
@@ -111,7 +110,7 @@ public interface IEntityComponentProvider {
      * If you rely on the client knowing the data you need, you are not guaranteed to have the proper values.
      *
      * @param tooltip  Current list of tooltip lines (might have been processed by other providers and might be processed by other providers).
-     *                 Use {@link ITooltip#set(ResourceLocation, Component)} with tags from {@link WailaConstants} to override built-in values.
+     *                 Use {@link ITooltip#setLine} with tags from {@link WailaConstants} to override built-in values.
      * @param accessor Contains most of the relevant information about the current environment.
      * @param config   Current configuration of Waila.
      *

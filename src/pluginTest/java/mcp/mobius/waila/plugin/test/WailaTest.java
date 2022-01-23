@@ -33,6 +33,10 @@ public class WailaTest implements IWailaPlugin {
         registrar.addConfig(EventListenerTest.AFTER_RENDER, false);
         registrar.addConfig(EventListenerTest.ITEM_MOD_NAME, false);
         registrar.addEventListener(EventListenerTest.INSTANCE);
+
+        registrar.addConfig(DeprecatedTest.ENABLED, true);
+        registrar.addRenderer(DeprecatedTest.RENDERER, DeprecatedTest.INSTANCE);
+        registrar.addComponent(DeprecatedTest.INSTANCE, TooltipPosition.HEAD, Block.class);
     }
 
 }

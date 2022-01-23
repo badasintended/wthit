@@ -33,12 +33,12 @@ public class ComponentHandler {
         Block block = accessor.getBlock();
         BlockEntity blockEntity = accessor.getBlockEntity();
 
-        int rate = Waila.config.get().getGeneral().getRateLimit();
+        int rate = Waila.CONFIG.get().getGeneral().getRateLimit();
 
-        if (blockEntity != null && accessor.isTimeElapsed(rate) && Waila.config.get().getGeneral().isDisplayTooltip()) {
+        if (blockEntity != null && accessor.isTimeElapsed(rate) && Waila.CONFIG.get().getGeneral().isDisplayTooltip()) {
             accessor.resetTimer();
             if (!(registrar.blockData.get(block).isEmpty() && registrar.blockData.get(blockEntity).isEmpty())) {
-                Waila.packet.requestBlock(blockEntity);
+                Waila.PACKET.requestBlock(blockEntity);
             }
         }
 
@@ -75,13 +75,13 @@ public class ComponentHandler {
         Registrar registrar = Registrar.INSTANCE;
         Entity trueEntity = accessor.getEntity();
 
-        int rate = Waila.config.get().getGeneral().getRateLimit();
+        int rate = Waila.CONFIG.get().getGeneral().getRateLimit();
 
         if (trueEntity != null && accessor.isTimeElapsed(rate)) {
             accessor.resetTimer();
 
             if (!registrar.entityData.get(trueEntity).isEmpty()) {
-                Waila.packet.requestEntity(trueEntity);
+                Waila.PACKET.requestEntity(trueEntity);
             }
         }
 

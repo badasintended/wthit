@@ -132,27 +132,27 @@ public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IDataAccess
 
     @Override
     public String getModNameFormat() {
-        return Waila.config.get().getFormatting().getModName();
+        return Waila.CONFIG.get().getFormatting().getModName();
     }
 
     @Override
     public String getBlockNameFormat() {
-        return Waila.config.get().getFormatting().getBlockName();
+        return Waila.CONFIG.get().getFormatting().getBlockName();
     }
 
     @Override
     public String getFluidNameFormat() {
-        return Waila.config.get().getFormatting().getFluidName();
+        return Waila.CONFIG.get().getFormatting().getFluidName();
     }
 
     @Override
     public String getEntityNameFormat() {
-        return Waila.config.get().getFormatting().getEntityName();
+        return Waila.CONFIG.get().getFormatting().getEntityName();
     }
 
     @Override
     public String getRegistryNameFormat() {
-        return Waila.config.get().getFormatting().getRegistryName();
+        return Waila.CONFIG.get().getFormatting().getRegistryName();
     }
 
     @Override

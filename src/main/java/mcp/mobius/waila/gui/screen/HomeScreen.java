@@ -28,7 +28,7 @@ public class HomeScreen extends Screen {
         addRenderableWidget(new Button(width / 2 - 100, height / 2, 200, 20, new TranslatableComponent("gui.waila.credits"), w ->
             minecraft.setScreen(new CreditsScreen(this))));
         addRenderableWidget(new Button(width / 2 - 50, height / 2 + 24, 100, 20, new TranslatableComponent("gui.done"), w -> {
-            Waila.config.save();
+            Waila.CONFIG.save();
             PluginConfig.INSTANCE.save();
             minecraft.setScreen(parent);
         }));

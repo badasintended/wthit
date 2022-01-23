@@ -1,6 +1,6 @@
 package mcp.mobius.waila.api;
 
-import mcp.mobius.waila.api.internal.ApiSide;
+import mcp.mobius.waila.api.__internal__.ApiSide;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -9,6 +9,7 @@ import org.jetbrains.annotations.ApiStatus;
 /**
  * @see ITooltip#addDrawable
  */
+@Deprecated
 @ApiSide.ClientOnly
 @ApiStatus.NonExtendable
 public interface IDrawableComponent {

@@ -26,8 +26,8 @@ public enum EventListenerTest implements IEventListener {
     @Override
     public void onHandleTooltip(ITooltip tooltip, ICommonAccessor accessor, IPluginConfig config) {
         if (config.getBoolean(HANDLE_TOOLTIP)) {
-            tooltip.add(new TextComponent("EventListenerTest"));
-            tooltip.set(WailaConstants.MOD_NAME_TAG, new TextComponent("EventListenerTest"));
+            tooltip.addLine(new TextComponent("EventListenerTest"));
+            tooltip.setLine(WailaConstants.MOD_NAME_TAG, new TextComponent("EventListenerTest"));
         }
     }
 

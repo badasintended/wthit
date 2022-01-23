@@ -10,6 +10,7 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectLists;
 import mcp.mobius.waila.api.IDrawableComponent;
 import mcp.mobius.waila.api.IDrawableText;
+import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.ITooltipRenderer;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.data.DataAccessor;
@@ -23,7 +24,8 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
 
-public final class DrawableComponent implements IDrawableComponent, MutableComponent, IDrawableText {
+@Deprecated
+public final class DrawableComponent implements ITooltipComponent, IDrawableComponent, MutableComponent, IDrawableText {
 
     private static final String LMAO = "lmao";
     private static final Supplier<Dimension> ZERO = Suppliers.memoize(Dimension::new);
@@ -56,6 +58,16 @@ public final class DrawableComponent implements IDrawableComponent, MutableCompo
         }
 
         return new Dimension(width, height);
+    }
+
+    @Override
+    public int getWidth() {
+        return getSize().width;
+    }
+
+    @Override
+    public int getHeight() {
+        return getSize().height;
     }
 
     @Override

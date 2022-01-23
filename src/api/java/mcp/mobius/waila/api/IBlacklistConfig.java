@@ -1,6 +1,6 @@
 package mcp.mobius.waila.api;
 
-import mcp.mobius.waila.impl.Impl;
+import mcp.mobius.waila.api.__internal__.IApiService;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -8,7 +8,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 public interface IBlacklistConfig {
 
     static IBlacklistConfig get() {
-        return Impl.get(IBlacklistConfig.class, 0);
+        return IApiService.INSTANCE.getBlacklistConfig();
     }
 
     boolean contains(Block block);

@@ -3,7 +3,7 @@ package mcp.mobius.waila.api;
 import java.util.Collection;
 import java.util.List;
 
-import mcp.mobius.waila.impl.Impl;
+import mcp.mobius.waila.api.__internal__.IApiService;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -11,15 +11,15 @@ import org.jetbrains.annotations.ApiStatus;
 public interface IPluginInfo {
 
     static IPluginInfo get(ResourceLocation pluginId) {
-        return Impl.get(IPluginInfo.class, 0, pluginId);
+        return IApiService.INSTANCE.getPluginInfo(pluginId);
     }
 
     static Collection<IPluginInfo> getAllFromMod(String modId) {
-        return Impl.get(IPluginInfo.class, 1, modId);
+        return IApiService.INSTANCE.getAllPluginInfoFromMod(modId);
     }
 
     static Collection<IPluginInfo> getAll() {
-        return Impl.get(IPluginInfo.class, 2);
+        return IApiService.INSTANCE.getAllPluginInfo();
     }
 
     IModInfo getModInfo();

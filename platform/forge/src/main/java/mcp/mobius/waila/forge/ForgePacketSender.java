@@ -3,12 +3,12 @@ package mcp.mobius.waila.forge;
 import java.util.Map;
 import javax.annotation.Nullable;
 
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.config.BlacklistConfig;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.network.PacketExecutor;
 import mcp.mobius.waila.network.PacketIo;
 import mcp.mobius.waila.network.PacketSender;
-import mcp.mobius.waila.util.CommonUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -32,7 +32,7 @@ public class ForgePacketSender extends PacketSender {
 
     static final String PROTOCOL = "1.0.0";
     static final SimpleChannel NETWORK = NetworkRegistry.newSimpleChannel(
-        CommonUtil.id("networking"),
+        Waila.id("networking"),
         () -> PROTOCOL, p -> true, p -> true
     );
 

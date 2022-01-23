@@ -1,6 +1,6 @@
 package mcp.mobius.waila.api;
 
-import mcp.mobius.waila.api.internal.ApiSide;
+import mcp.mobius.waila.api.__internal__.ApiSide;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;

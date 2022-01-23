@@ -5,7 +5,6 @@ import java.nio.file.Path;
 import com.mojang.brigadier.CommandDispatcher;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.debug.DumpGenerator;
-import mcp.mobius.waila.util.CommonUtil;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -19,12 +18,12 @@ public class DumpCommand {
             .requires(source -> source.hasPermission(2))
             .executes(context -> {
                 CommandSourceStack source = context.getSource();
-                Path path = CommonUtil.gameDir.resolve(".waila/WailaServerDump.md");
+                Path path = Waila.GAME_DIR.resolve(".waila/WailaServerDump.md");
                 if (DumpGenerator.generate(path)) {
                     source.sendSuccess(new TranslatableComponent("command.waila.server_dump_success", path), false);
                     Entity entity = source.getEntity();
                     if (entity instanceof ServerPlayer player) {
-                        Waila.packet.generateClientDump(player);
+                        Waila.PACKET.generateClientDump(player);
                     }
                     return 1;
                 } else {

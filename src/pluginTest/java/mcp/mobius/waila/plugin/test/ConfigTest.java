@@ -31,19 +31,19 @@ public enum ConfigTest implements IBlockComponentProvider {
             return;
         }
 
-        tooltip.add(new TextComponent(BOOL + "=" + config.getBoolean(BOOL)));
-        tooltip.add(new TextComponent(INT + "=" + config.getInt(INT)));
-        tooltip.add(new TextComponent(DOUBLE + "=" + config.getDouble(DOUBLE)));
-        tooltip.add(new TextComponent(STRING + "=" + config.getString(STRING)));
-        tooltip.add(new TextComponent(ENUM + "=" + config.getEnum(ENUM).name()));
+        tooltip.addLine(new TextComponent(BOOL + "=" + config.getBoolean(BOOL)));
+        tooltip.addLine(new TextComponent(INT + "=" + config.getInt(INT)));
+        tooltip.addLine(new TextComponent(DOUBLE + "=" + config.getDouble(DOUBLE)));
+        tooltip.addLine(new TextComponent(STRING + "=" + config.getString(STRING)));
+        tooltip.addLine(new TextComponent(ENUM + "=" + config.getEnum(ENUM).name()));
 
-        tooltip.add(TextComponent.EMPTY);
+        tooltip.addLine(TextComponent.EMPTY);
 
-        tooltip.add(new TextComponent(SYNC_BOOL + "=" + config.getBoolean(SYNC_BOOL)));
-        tooltip.add(new TextComponent(SYNC_INT + "=" + config.getInt(SYNC_INT)));
-        tooltip.add(new TextComponent(SYNC_DOUBLE + "=" + config.getDouble(SYNC_DOUBLE)));
-        tooltip.add(new TextComponent(SYNC_STRING + "=" + config.getString(SYNC_STRING)));
-        tooltip.add(new TextComponent(SYNC_ENUM + "=" + config.getEnum(SYNC_ENUM).name()));
+        tooltip.addLine(new TextComponent(SYNC_BOOL + "=" + config.getBoolean(SYNC_BOOL)));
+        tooltip.addLine(new TextComponent(SYNC_INT + "=" + config.getInt(SYNC_INT)));
+        tooltip.addLine(new TextComponent(SYNC_DOUBLE + "=" + config.getDouble(SYNC_DOUBLE)));
+        tooltip.addLine(new TextComponent(SYNC_STRING + "=" + config.getString(SYNC_STRING)));
+        tooltip.addLine(new TextComponent(SYNC_ENUM + "=" + config.getEnum(SYNC_ENUM).name()));
     }
 
 }

@@ -8,11 +8,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.plugin.PluginInfo;
 import mcp.mobius.waila.registry.Register;
 import mcp.mobius.waila.registry.Registrar;
-import mcp.mobius.waila.util.CommonUtil;
 
 import static mcp.mobius.waila.api.TooltipPosition.BODY;
 import static mcp.mobius.waila.api.TooltipPosition.HEAD;
@@ -62,7 +62,7 @@ public class DumpGenerator {
 
         try (FileWriter writer = new FileWriter(path.toFile())) {
             writer.write(builder.toString());
-            CommonUtil.LOGGER.info("Created debug dump at {}", path);
+            Waila.LOGGER.info("Created debug dump at {}", path);
             return true;
         } catch (IOException e) {
             e.printStackTrace();

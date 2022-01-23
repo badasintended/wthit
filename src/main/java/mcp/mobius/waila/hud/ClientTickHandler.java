@@ -1,6 +1,5 @@
 package mcp.mobius.waila.hud;
 
-import com.mojang.text2speech.Narrator;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.IBlacklistConfig;
@@ -15,7 +14,6 @@ import mcp.mobius.waila.util.RaycastUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.ChatScreen;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -34,20 +32,17 @@ import static mcp.mobius.waila.hud.ComponentHandler.gatherEntity;
 public class ClientTickHandler {
 
     private static final Tooltip TOOLTIP = new Tooltip();
-    private static final Component SNEAK_DETAIL = new TranslatableComponent("tooltip.waila.sneak_for_details").withStyle(ChatFormatting.ITALIC);
-
-    protected static Narrator narrator;
-    protected static String lastNarration = "";
+    private static final Line SNEAK_DETAIL = new Line(null).with(new TranslatableComponent("tooltip.waila.sneak_for_details").withStyle(ChatFormatting.ITALIC));
 
     public static void tick() {
         TooltipHandler.shouldRender = false;
 
         Minecraft client = Minecraft.getInstance();
-        WailaConfig config = Waila.config.get();
+        WailaConfig config = Waila.CONFIG.get();
 
         if (client.level == null
             || !config.getGeneral().isDisplayTooltip()
-            || config.getGeneral().getDisplayMode() == IWailaConfig.General.DisplayMode.HOLD_KEY && !WailaClient.showOverlay.isDown()
+            || config.getGeneral().getDisplayMode() == IWailaConfig.General.DisplayMode.HOLD_KEY && !WailaClient.SHOW_OVERLAY.isDown()
             || client.screen != null && !(client.screen instanceof ChatScreen)
             || config.getGeneral().isHideFromPlayerList() && client.gui.getTabList().visible
             || config.getGeneral().isHideFromDebug() && client.options.renderDebug) {
@@ -74,7 +69,7 @@ public class ClientTickHandler {
             } else if (!PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_BLOCK))
                 return;
 
-            if (Waila.blockBlacklist.contains(block) || IBlacklistConfig.get().contains(block))
+            if (Waila.BLOCK_BLACKLIST_TAG.contains(block) || IBlacklistConfig.get().contains(block))
                 return;
 
             BlockEntity blockEntity = accessor.getBlockEntity();
@@ -93,7 +88,7 @@ public class ClientTickHandler {
 
             TOOLTIP.clear();
             gatherBlock(accessor, TOOLTIP, BODY);
-            if (Waila.config.get().getGeneral().isShiftForDetails() && !TOOLTIP.isEmpty() && !player.isShiftKeyDown()) {
+            if (Waila.CONFIG.get().getGeneral().isShiftForDetails() && !TOOLTIP.isEmpty() && !player.isShiftKeyDown()) {
                 TooltipHandler.add(SNEAK_DETAIL);
             } else {
                 TooltipHandler.add(TOOLTIP);
@@ -106,7 +101,7 @@ public class ClientTickHandler {
             if (!PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_ENTITY))
                 return;
 
-            if (Waila.entityBlacklist.contains(accessor.getEntity().getType()) || IBlacklistConfig.get().contains(accessor.getEntity()))
+            if (Waila.ENTITY_BLACKLIST_TAG.contains(accessor.getEntity().getType()) || IBlacklistConfig.get().contains(accessor.getEntity()))
                 return;
 
             Entity targetEnt = ComponentHandler.getOverrideEntity(target);
@@ -140,10 +135,6 @@ public class ClientTickHandler {
 
         TooltipHandler.shouldRender = true;
         TooltipHandler.endBuild();
-    }
-
-    protected static Narrator getNarrator() {
-        return narrator == null ? narrator = Narrator.getNarrator() : narrator;
     }
 
 }

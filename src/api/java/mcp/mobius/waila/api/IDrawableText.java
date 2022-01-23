@@ -3,7 +3,7 @@ package mcp.mobius.waila.api;
 import java.awt.Dimension;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import mcp.mobius.waila.impl.Impl;
+import mcp.mobius.waila.api.__internal__.IApiService;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -19,7 +19,7 @@ public interface IDrawableText extends MutableComponent {
     }
 
     static IDrawableText create() {
-        return Impl.get(IDrawableText.class, 0);
+        return IApiService.INSTANCE.createDrawableText();
     }
 
     IDrawableText with(ResourceLocation id, CompoundTag data);

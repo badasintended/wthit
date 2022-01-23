@@ -1,6 +1,6 @@
 package mcp.mobius.waila.api;
 
-import mcp.mobius.waila.api.internal.ApiSide;
+import mcp.mobius.waila.api.__internal__.ApiSide;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -309,16 +309,6 @@ public interface IRegistrar {
     <T, E extends Entity> void addEntityData(IServerDataProvider<E> provider, Class<T> clazz);
 
     /**
-     * Registers an {@link ITooltipRenderer} to allow passing a data string as a component to be rendered as a graphic
-     * instead.
-     *
-     * @param id       The identifier for lookup
-     * @param renderer The renderer instance
-     */
-    @ApiSide.ClientOnly
-    void addRenderer(ResourceLocation id, ITooltipRenderer renderer);
-
-    /**
      * TODO: Remove
      *
      * @deprecated use {@link #addDisplayItem(IBlockComponentProvider, Class)}
@@ -337,6 +327,14 @@ public interface IRegistrar {
     default <T> void registerComponentProvider(IComponentProvider provider, TooltipPosition position, Class<T> clazz) {
         addComponent(provider, position, clazz);
     }
+
+    /**
+     * TODO: Remove
+     *
+     * @deprecated use {@link ITooltipComponent}
+     */
+    @Deprecated
+    void addRenderer(ResourceLocation id, ITooltipRenderer renderer);
 
     /**
      * TODO: Remove

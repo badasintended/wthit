@@ -57,7 +57,7 @@ public enum Registrar implements IRegistrar {
     private boolean locked = false;
 
     private <T> void addConfig(ResourceLocation key, T defaultValue, boolean synced, ConfigEntry.Type<T> type) {
-        if (!synced && !Waila.clientSide) {
+        if (!synced && !Waila.CLIENT_SIDE) {
             return;
         }
 
@@ -134,7 +134,7 @@ public enum Registrar implements IRegistrar {
 
     @Override
     public <T> void addOverride(IBlockComponentProvider provider, Class<T> clazz, int priority) {
-        if (Waila.clientSide) {
+        if (Waila.CLIENT_SIDE) {
             assertLock();
             assertPriority(priority);
             blockOverride.add(clazz, provider, priority);
@@ -143,7 +143,7 @@ public enum Registrar implements IRegistrar {
 
     @Override
     public <T> void addDisplayItem(IBlockComponentProvider provider, Class<T> clazz, int priority) {
-        if (Waila.clientSide) {
+        if (Waila.CLIENT_SIDE) {
             assertLock();
             assertPriority(priority);
             blockItem.add(clazz, provider, priority);
@@ -152,7 +152,7 @@ public enum Registrar implements IRegistrar {
 
     @Override
     public <T> void addComponent(IBlockComponentProvider provider, TooltipPosition position, Class<T> clazz, int priority) {
-        if (Waila.clientSide) {
+        if (Waila.CLIENT_SIDE) {
             assertLock();
             assertPriority(priority);
             blockComponent.get(position).add(clazz, provider, priority);
@@ -174,7 +174,7 @@ public enum Registrar implements IRegistrar {
 
     @Override
     public <T> void addOverride(IEntityComponentProvider provider, Class<T> clazz, int priority) {
-        if (Waila.clientSide) {
+        if (Waila.CLIENT_SIDE) {
             assertLock();
             assertPriority(priority);
             entityOverride.add(clazz, provider, priority);
@@ -183,7 +183,7 @@ public enum Registrar implements IRegistrar {
 
     @Override
     public <T> void addDisplayItem(IEntityComponentProvider provider, Class<T> clazz, int priority) {
-        if (Waila.clientSide) {
+        if (Waila.CLIENT_SIDE) {
             assertLock();
             assertPriority(priority);
             entityItem.add(clazz, provider, priority);
@@ -192,7 +192,7 @@ public enum Registrar implements IRegistrar {
 
     @Override
     public <T> void addComponent(IEntityComponentProvider provider, TooltipPosition position, Class<T> clazz, int priority) {
-        if (Waila.clientSide) {
+        if (Waila.CLIENT_SIDE) {
             assertLock();
             assertPriority(priority);
             entityComponent.get(position).add(clazz, provider, priority);
@@ -208,7 +208,7 @@ public enum Registrar implements IRegistrar {
 
     @Override
     public void addRenderer(ResourceLocation id, ITooltipRenderer renderer) {
-        if (Waila.clientSide) {
+        if (Waila.CLIENT_SIDE) {
             this.renderer.put(id, renderer);
         }
     }
@@ -221,15 +221,15 @@ public enum Registrar implements IRegistrar {
         hash[1] = hash(blacklist.blockEntityTypes, Registry.BLOCK_ENTITY_TYPE);
         hash[2] = hash(blacklist.entityTypes, Registry.ENTITY_TYPE);
 
-        if (Waila.blacklistConfig.isFileExists() && !Arrays.equals(Waila.blacklistConfig.get().pluginHash, hash)) {
-            Waila.blacklistConfig.backup();
+        if (Waila.BLACKLIST_CONFIG.isFileExists() && !Arrays.equals(Waila.BLACKLIST_CONFIG.get().pluginHash, hash)) {
+            Waila.BLACKLIST_CONFIG.backup();
         }
 
-        BlacklistConfig newBlacklist = Waila.blacklistConfig.get();
+        BlacklistConfig newBlacklist = Waila.BLACKLIST_CONFIG.get();
         newBlacklist.pluginHash = hash;
         newBlacklist.blocks.addAll(blacklist.blocks);
         newBlacklist.entityTypes.addAll(blacklist.entityTypes);
-        Waila.blacklistConfig.save();
+        Waila.BLACKLIST_CONFIG.save();
     }
 
     private void assertLock() {

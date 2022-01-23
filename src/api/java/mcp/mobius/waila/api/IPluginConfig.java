@@ -2,7 +2,7 @@ package mcp.mobius.waila.api;
 
 import java.util.Set;
 
-import mcp.mobius.waila.api.internal.ApiSide;
+import mcp.mobius.waila.api.__internal__.ApiSide;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
 

@@ -2,27 +2,24 @@ package mcp.mobius.waila.plugin.vanilla;
 
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
-import mcp.mobius.waila.plugin.vanilla.component.BeehiveComponent;
-import mcp.mobius.waila.plugin.vanilla.component.BoatComponent;
-import mcp.mobius.waila.plugin.vanilla.component.ComposterComponent;
-import mcp.mobius.waila.plugin.vanilla.component.FallingBlockComponent;
-import mcp.mobius.waila.plugin.vanilla.component.FurnaceComponent;
-import mcp.mobius.waila.plugin.vanilla.component.InfestedBlockComponent;
-import mcp.mobius.waila.plugin.vanilla.component.ItemEntityComponent;
-import mcp.mobius.waila.plugin.vanilla.component.JukeboxComponent;
-import mcp.mobius.waila.plugin.vanilla.component.NoteBlockComponent;
-import mcp.mobius.waila.plugin.vanilla.component.PetOwnerComponent;
-import mcp.mobius.waila.plugin.vanilla.component.PlantComponent;
-import mcp.mobius.waila.plugin.vanilla.component.PlayerHeadComponent;
-import mcp.mobius.waila.plugin.vanilla.component.PowderSnowComponent;
-import mcp.mobius.waila.plugin.vanilla.component.RedstoneComponent;
-import mcp.mobius.waila.plugin.vanilla.component.SpawnerComponent;
-import mcp.mobius.waila.plugin.vanilla.component.TrappedChestComponent;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import mcp.mobius.waila.plugin.vanilla.config.Options.NoteDisplayMode;
-import mcp.mobius.waila.plugin.vanilla.renderer.ItemRenderer;
-import mcp.mobius.waila.plugin.vanilla.renderer.ProgressRenderer;
-import mcp.mobius.waila.plugin.vanilla.renderer.Renderers;
+import mcp.mobius.waila.plugin.vanilla.provider.BeehiveProvider;
+import mcp.mobius.waila.plugin.vanilla.provider.BoatProvider;
+import mcp.mobius.waila.plugin.vanilla.provider.ComposterProvider;
+import mcp.mobius.waila.plugin.vanilla.provider.FallingBlockProvider;
+import mcp.mobius.waila.plugin.vanilla.provider.FurnaceProvider;
+import mcp.mobius.waila.plugin.vanilla.provider.InfestedBlockProvider;
+import mcp.mobius.waila.plugin.vanilla.provider.ItemEntityProvider;
+import mcp.mobius.waila.plugin.vanilla.provider.JukeboxProvider;
+import mcp.mobius.waila.plugin.vanilla.provider.NoteBlockProvider;
+import mcp.mobius.waila.plugin.vanilla.provider.PetOwnerProvider;
+import mcp.mobius.waila.plugin.vanilla.provider.PlantProvider;
+import mcp.mobius.waila.plugin.vanilla.provider.PlayerHeadProvider;
+import mcp.mobius.waila.plugin.vanilla.provider.PowderSnowProvider;
+import mcp.mobius.waila.plugin.vanilla.provider.RedstoneProvider;
+import mcp.mobius.waila.plugin.vanilla.provider.SpawnerProvider;
+import mcp.mobius.waila.plugin.vanilla.provider.TrappedChestProvider;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.item.FallingBlockEntity;
@@ -90,54 +87,51 @@ public class WailaVanilla implements IWailaPlugin {
             EntityType.FIREWORK_ROCKET,
             EntityType.SNOWBALL);
 
-        registrar.addRenderer(Renderers.ITEM, new ItemRenderer());
-        registrar.addRenderer(Renderers.PROGRESS, new ProgressRenderer());
+        registrar.addOverride(InfestedBlockProvider.INSTANCE, InfestedBlock.class);
+        registrar.addOverride(TrappedChestProvider.INSTANCE, TrappedChestBlock.class);
+        registrar.addOverride(PowderSnowProvider.INSTANCE, PowderSnowBlock.class);
 
-        registrar.addOverride(InfestedBlockComponent.INSTANCE, InfestedBlock.class);
-        registrar.addOverride(TrappedChestComponent.INSTANCE, TrappedChestBlock.class);
-        registrar.addOverride(PowderSnowComponent.INSTANCE, PowderSnowBlock.class);
+        registrar.addDisplayItem(PlayerHeadProvider.INSTANCE, SkullBlockEntity.class);
+        registrar.addComponent(PlayerHeadProvider.INSTANCE, BODY, SkullBlockEntity.class);
 
-        registrar.addDisplayItem(PlayerHeadComponent.INSTANCE, SkullBlockEntity.class);
-        registrar.addComponent(PlayerHeadComponent.INSTANCE, BODY, SkullBlockEntity.class);
+        registrar.addComponent(SpawnerProvider.INSTANCE, HEAD, SpawnerBlockEntity.class, 950);
 
-        registrar.addComponent(SpawnerComponent.INSTANCE, HEAD, SpawnerBlockEntity.class, 950);
+        registrar.addDisplayItem(PlantProvider.INSTANCE, CropBlock.class);
+        registrar.addComponent(PlantProvider.INSTANCE, BODY, CropBlock.class);
+        registrar.addComponent(PlantProvider.INSTANCE, BODY, StemBlock.class);
+        registrar.addComponent(PlantProvider.INSTANCE, BODY, CocoaBlock.class);
+        registrar.addComponent(PlantProvider.INSTANCE, BODY, NetherWartBlock.class);
+        registrar.addComponent(PlantProvider.INSTANCE, BODY, SweetBerryBushBlock.class);
 
-        registrar.addDisplayItem(PlantComponent.INSTANCE, CropBlock.class);
-        registrar.addComponent(PlantComponent.INSTANCE, BODY, CropBlock.class);
-        registrar.addComponent(PlantComponent.INSTANCE, BODY, StemBlock.class);
-        registrar.addComponent(PlantComponent.INSTANCE, BODY, CocoaBlock.class);
-        registrar.addComponent(PlantComponent.INSTANCE, BODY, NetherWartBlock.class);
-        registrar.addComponent(PlantComponent.INSTANCE, BODY, SweetBerryBushBlock.class);
+        registrar.addComponent(RedstoneProvider.INSTANCE, BODY, LeverBlock.class);
+        registrar.addComponent(RedstoneProvider.INSTANCE, BODY, RepeaterBlock.class);
+        registrar.addComponent(RedstoneProvider.INSTANCE, BODY, ComparatorBlock.class);
+        registrar.addComponent(RedstoneProvider.INSTANCE, BODY, RedStoneWireBlock.class);
 
-        registrar.addComponent(RedstoneComponent.INSTANCE, BODY, LeverBlock.class);
-        registrar.addComponent(RedstoneComponent.INSTANCE, BODY, RepeaterBlock.class);
-        registrar.addComponent(RedstoneComponent.INSTANCE, BODY, ComparatorBlock.class);
-        registrar.addComponent(RedstoneComponent.INSTANCE, BODY, RedStoneWireBlock.class);
+        registrar.addComponent(JukeboxProvider.INSTANCE, BODY, JukeboxBlockEntity.class);
+        registrar.addBlockData(JukeboxProvider.INSTANCE, JukeboxBlockEntity.class);
 
-        registrar.addComponent(JukeboxComponent.INSTANCE, BODY, JukeboxBlockEntity.class);
-        registrar.addBlockData(JukeboxComponent.INSTANCE, JukeboxBlockEntity.class);
+        registrar.addComponent(FallingBlockProvider.INSTANCE, HEAD, FallingBlockEntity.class);
+        registrar.addDisplayItem(FallingBlockProvider.INSTANCE, FallingBlockEntity.class);
 
-        registrar.addComponent(FallingBlockComponent.INSTANCE, HEAD, FallingBlockEntity.class);
-        registrar.addDisplayItem(FallingBlockComponent.INSTANCE, FallingBlockEntity.class);
+        registrar.addDisplayItem(ItemEntityProvider.INSTANCE, ItemEntity.class);
+        registrar.addComponent(ItemEntityProvider.INSTANCE, HEAD, ItemEntity.class, 950);
+        registrar.addComponent(ItemEntityProvider.INSTANCE, TAIL, ItemEntity.class, 950);
+        registrar.addOverride(ItemEntityProvider.INSTANCE, ItemEntity.class);
 
-        registrar.addDisplayItem(ItemEntityComponent.INSTANCE, ItemEntity.class);
-        registrar.addComponent(ItemEntityComponent.INSTANCE, HEAD, ItemEntity.class, 950);
-        registrar.addComponent(ItemEntityComponent.INSTANCE, TAIL, ItemEntity.class, 950);
-        registrar.addOverride(ItemEntityComponent.INSTANCE, ItemEntity.class);
+        registrar.addComponent(BoatProvider.INSTANCE, HEAD, Boat.class, 950);
+        registrar.addComponent(BoatProvider.INSTANCE, TAIL, Boat.class, 950);
 
-        registrar.addComponent(BoatComponent.INSTANCE, HEAD, Boat.class, 950);
-        registrar.addComponent(BoatComponent.INSTANCE, TAIL, Boat.class, 950);
+        registrar.addComponent(FurnaceProvider.INSTANCE, BODY, AbstractFurnaceBlockEntity.class);
+        registrar.addBlockData(FurnaceProvider.INSTANCE, AbstractFurnaceBlockEntity.class);
 
-        registrar.addComponent(FurnaceComponent.INSTANCE, BODY, AbstractFurnaceBlockEntity.class);
-        registrar.addBlockData(FurnaceComponent.INSTANCE, AbstractFurnaceBlockEntity.class);
+        registrar.addComponent(ComposterProvider.INSTANCE, BODY, ComposterBlock.class);
 
-        registrar.addComponent(ComposterComponent.INSTANCE, BODY, ComposterBlock.class);
+        registrar.addComponent(BeehiveProvider.INSTANCE, BODY, BeehiveBlock.class);
 
-        registrar.addComponent(BeehiveComponent.INSTANCE, BODY, BeehiveBlock.class);
+        registrar.addComponent(NoteBlockProvider.INSTANCE, BODY, NoteBlock.class);
 
-        registrar.addComponent(NoteBlockComponent.INSTANCE, BODY, NoteBlock.class);
-
-        registrar.addComponent(PetOwnerComponent.INSTANCE, BODY, Entity.class);
+        registrar.addComponent(PetOwnerProvider.INSTANCE, BODY, Entity.class);
     }
 
 }

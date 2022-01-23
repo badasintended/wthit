@@ -2,11 +2,11 @@ package mcp.mobius.waila.plugin;
 
 import java.util.Collections;
 
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.registry.Registrar;
-import mcp.mobius.waila.util.CommonUtil;
 
 public abstract class PluginLoader {
 
@@ -22,7 +22,7 @@ public abstract class PluginLoader {
         }
 
         for (IPluginInfo info : PluginInfo.getAll()) {
-            CommonUtil.LOGGER.info("Registering plugin {} at {}", info.getPluginId(), info.getInitializer().getClass().getCanonicalName());
+            Waila.LOGGER.info("Registering plugin {} at {}", info.getPluginId(), info.getInitializer().getClass().getCanonicalName());
             info.getInitializer().register(Registrar.INSTANCE);
         }
 

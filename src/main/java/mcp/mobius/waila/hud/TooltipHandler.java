@@ -1,6 +1,5 @@
 package mcp.mobius.waila.hud;
 
-import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.util.function.Supplier;
 
@@ -13,16 +12,15 @@ import com.mojang.text2speech.Narrator;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IEventListener;
+import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.IWailaConfig.Overlay.Position.Align;
 import mcp.mobius.waila.api.WailaConstants;
+import mcp.mobius.waila.api.component.PairComponent;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.config.WailaConfig.Overlay.Color;
 import mcp.mobius.waila.data.DataAccessor;
 import mcp.mobius.waila.event.EventCanceller;
-import mcp.mobius.waila.hud.component.DrawableComponent;
-import mcp.mobius.waila.hud.component.PairComponent;
-import mcp.mobius.waila.hud.component.TaggedComponent;
 import mcp.mobius.waila.registry.Registrar;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.ChatScreen;
@@ -38,13 +36,11 @@ import static mcp.mobius.waila.util.DisplayUtil.renderStack;
 public class TooltipHandler {
 
     private static final Tooltip TOOLTIP = new Tooltip();
-    private static final Object2IntOpenHashMap<Component> LINE_HEIGHT = new Object2IntOpenHashMap<>();
+    private static final Object2IntOpenHashMap<Line> LINE_HEIGHT = new Object2IntOpenHashMap<>();
 
     private static final Supplier<Rectangle> RENDER_RECT = Suppliers.memoize(Rectangle::new);
     private static final Supplier<Rectangle> RECT = Suppliers.memoize(Rectangle::new);
     private static final Supplier<Narrator> NARRATOR = Suppliers.memoize(Narrator::getNarrator);
-
-    private static final String COLON = ": ";
 
     static boolean shouldRender = false;
 
@@ -52,8 +48,8 @@ public class TooltipHandler {
     private static ItemStack stack = ItemStack.EMPTY;
     private static int topOffset;
 
-    private static int colonOffset;
-    private static int colonWidth;
+    public static int colonOffset;
+    public static int colonWidth;
 
     private static boolean started = false;
 
@@ -63,26 +59,33 @@ public class TooltipHandler {
         stack = ItemStack.EMPTY;
         topOffset = 0;
         colonOffset = 0;
-        colonWidth = Minecraft.getInstance().font.width(COLON);
+        colonWidth = Minecraft.getInstance().font.width(": ");
         started = true;
     }
 
     public static void add(Tooltip tooltip) {
         Preconditions.checkState(started);
         for (Component component : tooltip) {
-            if (component instanceof TaggedComponent tagged) {
-                TOOLTIP.set(tagged.tag, tagged.value);
+            if (component instanceof Line line) {
+                if (line.tag != null) {
+                    TOOLTIP.setLine(line.tag, line);
+                } else {
+                    add(line);
+                }
             } else {
-                add(component);
+                add(new Line(null).with(component));
             }
         }
     }
 
-    public static void add(Component line) {
+    public static void add(Line line) {
         Preconditions.checkState(started);
         TOOLTIP.add(line);
-        if (line instanceof PairComponent pair) {
-            colonOffset = Math.max(colonOffset, Minecraft.getInstance().font.width(pair.key));
+        for (ITooltipComponent component : line.components) {
+            if (component instanceof PairComponent pair) {
+                colonOffset = Math.max(pair.key.getWidth(), colonOffset);
+                break;
+            }
         }
     }
 
@@ -106,28 +109,16 @@ public class TooltipHandler {
         Minecraft client = Minecraft.getInstance();
         Window window = client.getWindow();
 
-        float scale = Waila.config.get().getOverlay().getScale();
-        Position pos = Waila.config.get().getOverlay().getPosition();
+        float scale = Waila.CONFIG.get().getOverlay().getScale();
+        Position pos = Waila.CONFIG.get().getOverlay().getPosition();
 
         int w = 0;
         int h = 0;
-        for (Component line : TOOLTIP) {
-            int lineW;
-            int lineH;
+        for (Component component : TOOLTIP) {
+            Line line = (Line) component;
 
-            if (line instanceof DrawableComponent) {
-                Dimension size = ((DrawableComponent) line).getSize();
-                lineW = size.width;
-                lineH = size.height;
-            } else {
-                if (line instanceof PairComponent pair) {
-                    lineW = colonOffset + colonWidth + client.font.width(pair.value);
-                } else {
-                    Component value = line instanceof TaggedComponent tagged ? tagged.value : line;
-                    lineW = client.font.width(value);
-                }
-                lineH = client.font.lineHeight + 1;
-            }
+            int lineW = line.getWidth();
+            int lineH = line.getHeight();
 
             w = Math.max(w, lineW);
             h += lineH;
@@ -175,7 +166,7 @@ public class TooltipHandler {
 
         Minecraft client = Minecraft.getInstance();
         ProfilerFiller profiler = client.getProfiler();
-        WailaConfig config = Waila.config.get();
+        WailaConfig config = Waila.CONFIG.get();
 
         profiler.push("Waila Overlay");
 
@@ -231,20 +222,10 @@ public class TooltipHandler {
 
         int textX = x + (stack.isEmpty() ? 6 : 26);
         int textY = y + 6 + topOffset;
-        int fontColor = color.getFontColor();
 
-        for (Component line : TOOLTIP) {
-            if (line instanceof DrawableComponent drawable) {
-                drawable.render(matrices, textX, textY, delta);
-            } else if (line instanceof PairComponent pair) {
-                client.font.drawShadow(matrices, pair.key, textX, textY, fontColor);
-                client.font.drawShadow(matrices, COLON, textX + colonOffset, textY, fontColor);
-                client.font.drawShadow(matrices, pair.value, textX + colonOffset + colonWidth, textY, fontColor);
-            } else {
-                Component value = line instanceof TaggedComponent tagged ? tagged.value : line;
-                client.font.drawShadow(matrices, value, textX, textY, color.getFontColor());
-            }
-
+        for (Component component : TOOLTIP) {
+            Line line = (Line) component;
+            line.render(matrices, textX, textY, delta);
             textY += LINE_HEIGHT.getInt(line);
         }
 
@@ -271,7 +252,7 @@ public class TooltipHandler {
         }
 
         Narrator narrator = NARRATOR.get();
-        if (narrator.active() || !Waila.config.get().getGeneral().isEnableTextToSpeech() || Minecraft.getInstance().screen instanceof ChatScreen) {
+        if (narrator.active() || !Waila.CONFIG.get().getGeneral().isEnableTextToSpeech() || Minecraft.getInstance().screen instanceof ChatScreen) {
             return;
         }
 

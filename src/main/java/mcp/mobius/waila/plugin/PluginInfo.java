@@ -8,10 +8,10 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import com.google.common.base.Suppliers;
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IModInfo;
 import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.api.IWailaPlugin;
-import mcp.mobius.waila.util.CommonUtil;
 import mcp.mobius.waila.util.ModInfo;
 import net.minecraft.resources.ResourceLocation;
 
@@ -43,7 +43,7 @@ public class PluginInfo implements IPluginInfo {
             ResourceLocation rl = new ResourceLocation(pluginIdStr);
             PLUGIN_ID_TO_PLUGIN_INFO.put(rl, new PluginInfo(ModInfo.get(modId), rl, side, initializer, required));
         } catch (Throwable t) {
-            CommonUtil.LOGGER.error("Error creating instance of plugin " + pluginIdStr, t);
+            Waila.LOGGER.error("Error creating instance of plugin " + pluginIdStr, t);
         }
     }
 

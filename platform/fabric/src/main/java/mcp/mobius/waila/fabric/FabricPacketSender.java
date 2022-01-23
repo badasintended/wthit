@@ -1,10 +1,10 @@
 package mcp.mobius.waila.fabric;
 
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.config.BlacklistConfig;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.network.PacketExecutor;
 import mcp.mobius.waila.network.PacketSender;
-import mcp.mobius.waila.util.CommonUtil;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
@@ -23,12 +23,12 @@ import static mcp.mobius.waila.network.PacketIo.SendConfig;
 
 public class FabricPacketSender extends PacketSender {
 
-    static final ResourceLocation REQUEST_ENTITY = CommonUtil.id("request_entity");
-    static final ResourceLocation REQUEST_BLOCK = CommonUtil.id("request_tile");
-    static final ResourceLocation RECEIVE_DATA = CommonUtil.id("receive_data");
-    static final ResourceLocation SEND_CONFIG = CommonUtil.id("send_config");
-    static final ResourceLocation SEND_BLACKLIST = CommonUtil.id("send_blacklist");
-    static final ResourceLocation GENERATE_CLIENT_DUMP = CommonUtil.id("generate_client_dump");
+    static final ResourceLocation REQUEST_ENTITY = Waila.id("request_entity");
+    static final ResourceLocation REQUEST_BLOCK = Waila.id("request_tile");
+    static final ResourceLocation RECEIVE_DATA = Waila.id("receive_data");
+    static final ResourceLocation SEND_CONFIG = Waila.id("send_config");
+    static final ResourceLocation SEND_BLACKLIST = Waila.id("send_blacklist");
+    static final ResourceLocation GENERATE_CLIENT_DUMP = Waila.id("generate_client_dump");
 
     @Override
     public void initMain() {

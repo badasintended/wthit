@@ -2,15 +2,13 @@ package mcp.mobius.waila.util;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
-import java.util.function.Function;
 
 import mcp.mobius.waila.api.IModInfo;
+import mcp.mobius.waila.service.ICommonService;
 
 public final class ModInfo implements IModInfo {
 
     private static final Map<String, ModInfo> CONTAINER_CACHE = new HashMap<>();
-    public static Function<String, Optional<ModInfo>> supplier;
 
     static {
         register(new ModInfo("minecraft", "Minecraft"));
@@ -29,7 +27,7 @@ public final class ModInfo implements IModInfo {
     }
 
     public static ModInfo get(String namespace) {
-        return CONTAINER_CACHE.computeIfAbsent(namespace, s -> supplier.apply(namespace).orElse(new ModInfo(s, s)));
+        return CONTAINER_CACHE.computeIfAbsent(namespace, s -> ICommonService.INSTANCE.createModInfo(namespace).orElse(new ModInfo(s, s)));
     }
 
     @Override

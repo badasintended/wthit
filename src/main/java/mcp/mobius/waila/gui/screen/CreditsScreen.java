@@ -9,7 +9,7 @@ import java.util.List;
 
 import com.google.gson.Gson;
 import com.mojang.blaze3d.vertex.PoseStack;
-import mcp.mobius.waila.util.CommonUtil;
+import mcp.mobius.waila.Waila;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
@@ -36,7 +36,7 @@ public class CreditsScreen extends Screen {
         super.init();
 
         try {
-            CreditMap credits = new Gson().fromJson(new InputStreamReader(minecraft.getResourceManager().getResource(CommonUtil.id("credits.json")).getInputStream(), StandardCharsets.UTF_8), CreditMap.class);
+            CreditMap credits = new Gson().fromJson(new InputStreamReader(minecraft.getResourceManager().getResource(Waila.id("credits.json")).getInputStream(), StandardCharsets.UTF_8), CreditMap.class);
 
             ListWidget listWidget = new ListWidget(minecraft, width, height, 32, height - 32, minecraft.font.lineHeight + 6);
             credits.forEach((key, list) -> {

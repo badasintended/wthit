@@ -1,7 +1,7 @@
 package mcp.mobius.waila.api;
 
-import mcp.mobius.waila.api.internal.ApiSide;
-import mcp.mobius.waila.impl.Impl;
+import mcp.mobius.waila.api.__internal__.ApiSide;
+import mcp.mobius.waila.api.__internal__.IApiService;
 import org.jetbrains.annotations.ApiStatus;
 
 @ApiSide.ClientOnly
@@ -9,7 +9,7 @@ import org.jetbrains.annotations.ApiStatus;
 public interface IWailaConfig {
 
     static IWailaConfig get() {
-        return Impl.get(IWailaConfig.class, 0);
+        return IApiService.INSTANCE.getConfig();
     }
 
     General getGeneral();

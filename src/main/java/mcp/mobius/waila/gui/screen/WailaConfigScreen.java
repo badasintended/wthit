@@ -23,15 +23,15 @@ public class WailaConfigScreen extends ConfigScreen {
     }
 
     private static WailaConfig get() {
-        return Waila.config.get();
+        return Waila.CONFIG.get();
     }
 
     private static void save() {
-        Waila.config.save();
+        Waila.CONFIG.save();
     }
 
     private static void invalidate() {
-        Waila.config.invalidate();
+        Waila.CONFIG.invalidate();
     }
 
     @Override

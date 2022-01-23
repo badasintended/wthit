@@ -7,7 +7,7 @@ import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
 
 import com.google.gson.Gson;
-import mcp.mobius.waila.impl.Impl;
+import mcp.mobius.waila.api.__internal__.IApiService;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 public interface IJsonConfig<T> {
 
     static <T> Builder0<T> of(Class<T> clazz) {
-        return Impl.get(IJsonConfig.Builder0.class, 0, clazz);
+        return IApiService.INSTANCE.createConfigBuilder(clazz);
     }
 
     /**

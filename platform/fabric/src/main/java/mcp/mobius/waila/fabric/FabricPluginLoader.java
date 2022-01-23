@@ -6,10 +6,10 @@ import java.util.Map;
 
 import com.google.common.collect.Streams;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.plugin.PluginInfo;
 import mcp.mobius.waila.plugin.PluginLoader;
-import mcp.mobius.waila.util.CommonUtil;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
@@ -37,7 +37,7 @@ public class FabricPluginLoader extends PluginLoader {
             } else if (val.getType() == ARRAY) {
                 pluginMap.put(mod, Streams.stream(val.getAsArray()).map(CustomValue::getAsObject).toArray(CustomValue.CvObject[]::new));
             } else {
-                CommonUtil.LOGGER.error("Plugin data provided by {} must be an object or array of objects.", data.getId());
+                Waila.LOGGER.error("Plugin data provided by {} must be an object or array of objects.", data.getId());
             }
         }
 
@@ -82,7 +82,7 @@ public class FabricPluginLoader extends PluginLoader {
                     case "server" -> side = IPluginInfo.Side.SERVER;
                     case "both" -> side = IPluginInfo.Side.BOTH;
                     default -> {
-                        CommonUtil.LOGGER.error("Environment for plugin {} is not valid, must be one of [client, server, both].", id);
+                        Waila.LOGGER.error("Environment for plugin {} is not valid, must be one of [client, server, both].", id);
                         continue o;
                     }
                 }
