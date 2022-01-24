@@ -24,10 +24,13 @@ public class WailaConstants {
     public static final ResourceLocation CONFIG_SHOW_BLOCK    = id("show_blocks");
     public static final ResourceLocation CONFIG_SHOW_FLUID    = id("show_fluids");
     public static final ResourceLocation CONFIG_SHOW_ENTITY   = id("show_entities");
-    public static final ResourceLocation CONFIG_SHOW_ITEM     = id("show_item");
+    public static final ResourceLocation CONFIG_SHOW_ICON     = id("show_icon");
     public static final ResourceLocation CONFIG_SHOW_MOD_NAME = id("show_mod_name");
     public static final ResourceLocation CONFIG_SHOW_REGISTRY = id("show_registry");
     // @formatter:on
+
+    @Deprecated
+    public static final ResourceLocation CONFIG_SHOW_ITEM = CONFIG_SHOW_ICON;
 
     private static ResourceLocation id(String path) {
         return new ResourceLocation(NAMESPACE, path);

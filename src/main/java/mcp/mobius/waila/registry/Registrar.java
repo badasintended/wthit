@@ -33,7 +33,7 @@ public enum Registrar implements IRegistrar {
     INSTANCE;
 
     public final Register<IBlockComponentProvider> blockOverride = new Register<>();
-    public final Register<IBlockComponentProvider> blockItem = new Register<>();
+    public final Register<IBlockComponentProvider> blockIcon = new Register<>();
     public final Register<IServerDataProvider<BlockEntity>> blockData = new Register<>();
     public final Map<TooltipPosition, Register<IBlockComponentProvider>> blockComponent = Util.make(new EnumMap<>(TooltipPosition.class), map -> {
         for (TooltipPosition key : TooltipPosition.values()) {
@@ -42,7 +42,7 @@ public enum Registrar implements IRegistrar {
     });
 
     public final Register<IEntityComponentProvider> entityOverride = new Register<>();
-    public final Register<IEntityComponentProvider> entityItem = new Register<>();
+    public final Register<IEntityComponentProvider> entityIcon = new Register<>();
     public final Register<IServerDataProvider<Entity>> entityData = new Register<>();
     public final Map<TooltipPosition, Register<IEntityComponentProvider>> entityComponent = Util.make(new EnumMap<>(TooltipPosition.class), map -> {
         for (TooltipPosition key : TooltipPosition.values()) {
@@ -51,10 +51,12 @@ public enum Registrar implements IRegistrar {
     });
 
     public final Register<IEventListener> eventListeners = Util.make(new Register<>(), Register::reversed);
-    public final Map<ResourceLocation, ITooltipRenderer> renderer = new Object2ObjectOpenHashMap<>();
     public final BlacklistConfig blacklist = new BlacklistConfig();
 
     private boolean locked = false;
+
+    @Deprecated
+    public final Map<ResourceLocation, ITooltipRenderer> renderer = new Object2ObjectOpenHashMap<>();
 
     private <T> void addConfig(ResourceLocation key, T defaultValue, boolean synced, ConfigEntry.Type<T> type) {
         if (!synced && !Waila.CLIENT_SIDE) {
@@ -142,11 +144,20 @@ public enum Registrar implements IRegistrar {
     }
 
     @Override
+    public <T> void addIcon(IBlockComponentProvider provider, Class<T> clazz, int priority) {
+        if (Waila.CLIENT_SIDE) {
+            assertLock();
+            assertPriority(priority);
+            blockIcon.add(clazz, provider, priority);
+        }
+    }
+
+    @Override
     public <T> void addDisplayItem(IBlockComponentProvider provider, Class<T> clazz, int priority) {
         if (Waila.CLIENT_SIDE) {
             assertLock();
             assertPriority(priority);
-            blockItem.add(clazz, provider, priority);
+            blockIcon.add(clazz, provider, priority);
         }
     }
 
@@ -182,11 +193,20 @@ public enum Registrar implements IRegistrar {
     }
 
     @Override
+    public <T> void addIcon(IEntityComponentProvider provider, Class<T> clazz, int priority) {
+        if (Waila.CLIENT_SIDE) {
+            assertLock();
+            assertPriority(priority);
+            entityIcon.add(clazz, provider, priority);
+        }
+    }
+
+    @Override
     public <T> void addDisplayItem(IEntityComponentProvider provider, Class<T> clazz, int priority) {
         if (Waila.CLIENT_SIDE) {
             assertLock();
             assertPriority(priority);
-            entityItem.add(clazz, provider, priority);
+            entityIcon.add(clazz, provider, priority);
         }
     }
 

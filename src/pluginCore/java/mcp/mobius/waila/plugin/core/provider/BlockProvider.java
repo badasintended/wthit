@@ -6,8 +6,10 @@ import mcp.mobius.waila.api.IModInfo;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerDataProvider;
 import mcp.mobius.waila.api.ITooltip;
+import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
+import mcp.mobius.waila.api.component.ItemComponent;
 import mcp.mobius.waila.api.component.PairComponent;
 import mcp.mobius.waila.plugin.core.config.Options;
 import net.minecraft.ChatFormatting;
@@ -19,7 +21,6 @@ import net.minecraft.network.chat.Style;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Nameable;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -31,9 +32,8 @@ public enum BlockProvider implements IBlockComponentProvider, IServerDataProvide
     INSTANCE;
 
     @Override
-    public ItemStack getDisplayItem(IBlockAccessor accessor, IPluginConfig config) {
-        BlockState state = accessor.getBlockState();
-        return state.getBlock().getCloneItemStack(accessor.getWorld(), accessor.getPosition(), state);
+    public ITooltipComponent getIcon(IBlockAccessor accessor, IPluginConfig config) {
+        return new ItemComponent(accessor.getBlock().getCloneItemStack(accessor.getWorld(), accessor.getPosition(), accessor.getBlockState()));
     }
 
     @Override

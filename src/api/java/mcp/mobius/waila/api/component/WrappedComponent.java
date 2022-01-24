@@ -29,7 +29,7 @@ public class WrappedComponent implements ITooltipComponent {
 
     @Override
     public int getHeight() {
-        return getFont().lineHeight + 1;
+        return getFont().lineHeight;
     }
 
     @Override

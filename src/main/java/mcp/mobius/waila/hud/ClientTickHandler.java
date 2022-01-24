@@ -129,8 +129,8 @@ public class ClientTickHandler {
             }
         }
 
-        if (PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_ITEM)) {
-            TooltipHandler.setStack(ComponentHandler.getDisplayItem(target));
+        if (PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_ICON)) {
+            TooltipHandler.setIcon(ComponentHandler.getIcon(target));
         }
 
         TooltipHandler.shouldRender = true;

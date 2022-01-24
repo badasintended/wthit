@@ -1,7 +1,7 @@
 package mcp.mobius.waila.integration.reiwhycheckingforpackagename;
 
 import mcp.mobius.waila.WailaClient;
-import mcp.mobius.waila.hud.TooltipHandler;
+import mcp.mobius.waila.data.DataAccessor;
 import me.shedaniel.rei.api.client.plugins.REIClientPlugin;
 import me.shedaniel.rei.api.client.view.ViewSearchBuilder;
 import me.shedaniel.rei.api.common.entry.EntryStack;
@@ -17,10 +17,10 @@ public class ReiRecipeLookup implements REIClientPlugin {
     @Override
     public void postStage(PluginManager<REIClientPlugin> manager, ReloadStage stage) {
         WailaClient.onShowRecipeInput = () -> openRecipeScreen(ViewSearchBuilder.builder()
-            .addUsagesFor(EntryStack.of(VanillaEntryTypes.ITEM, TooltipHandler.getStack())));
+            .addUsagesFor(EntryStack.of(VanillaEntryTypes.ITEM, DataAccessor.INSTANCE.getStack())));
 
         WailaClient.onShowRecipeOutput = () -> openRecipeScreen(ViewSearchBuilder.builder()
-            .addRecipesFor(EntryStack.of(VanillaEntryTypes.ITEM, TooltipHandler.getStack())));
+            .addRecipesFor(EntryStack.of(VanillaEntryTypes.ITEM, DataAccessor.INSTANCE.getStack())));
     }
 
     @Override

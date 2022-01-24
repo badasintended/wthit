@@ -6,7 +6,10 @@ import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.ITooltip;
+import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.TooltipPosition;
+import mcp.mobius.waila.api.component.EmptyComponent;
+import mcp.mobius.waila.api.component.ItemComponent;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.data.DataAccessor;
 import mcp.mobius.waila.registry.Registrar;
@@ -23,6 +26,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
+import org.jetbrains.annotations.Nullable;
 
 // TODO: remove deprecated method calls
 @SuppressWarnings("deprecation")
@@ -46,6 +50,7 @@ public class ComponentHandler {
         handleBlock(accessor, tooltip, blockEntity, position);
     }
 
+    @SuppressWarnings("DuplicatedCode")
     private static void handleBlock(DataAccessor accessor, Tooltip tooltip, Object obj, TooltipPosition position) {
         Registrar registrar = Registrar.INSTANCE;
         List<IBlockComponentProvider> providers = registrar.blockComponent.get(position).get(obj);
@@ -71,6 +76,7 @@ public class ComponentHandler {
         }
     }
 
+    @SuppressWarnings("DuplicatedCode")
     public static void gatherEntity(Entity entity, DataAccessor accessor, Tooltip tooltip, TooltipPosition position) {
         Registrar registrar = Registrar.INSTANCE;
         Entity trueEntity = accessor.getEntity();
@@ -108,45 +114,59 @@ public class ComponentHandler {
         }
     }
 
-    public static ItemStack getDisplayItem(HitResult target) {
+    public static ITooltipComponent getIcon(HitResult target) {
         Registrar registrar = Registrar.INSTANCE;
         DataAccessor data = DataAccessor.INSTANCE;
         PluginConfig config = PluginConfig.INSTANCE;
 
         if (target.getType() == HitResult.Type.ENTITY) {
-            List<IEntityComponentProvider> providers = registrar.entityItem.get(data.getEntity());
+            List<IEntityComponentProvider> providers = registrar.entityIcon.get(data.getEntity());
             for (IEntityComponentProvider provider : providers) {
+                ITooltipComponent icon = provider.getIcon(data, config);
+                if (icon != null) {
+                    return icon;
+                }
                 ItemStack providerStack = provider.getDisplayItem(data, config);
                 if (!providerStack.isEmpty()) {
-                    return providerStack;
+                    return new ItemComponent(providerStack);
                 }
             }
         } else {
             BlockState state = data.getBlockState();
-            if (state.isAir())
-                return ItemStack.EMPTY;
+            if (state.isAir()) {
+                return EmptyComponent.INSTANCE;
+            }
 
-            List<IBlockComponentProvider> providers = registrar.blockItem.get(state.getBlock());
-            for (IBlockComponentProvider provider : providers) {
-                ItemStack providerStack = provider.getDisplayItem(data, config);
-                if (!providerStack.isEmpty()) {
-                    return providerStack;
-                }
+            ITooltipComponent component = getBlockIcon(registrar.blockIcon.get(state.getBlock()));
+            if (component != null) {
+                return component;
             }
 
             BlockEntity blockEntity = data.getBlockEntity();
             if (blockEntity != null) {
-                providers = registrar.blockItem.get(blockEntity);
-                for (IBlockComponentProvider provider : providers) {
-                    ItemStack providerStack = provider.getDisplayItem(data, config);
-                    if (!providerStack.isEmpty()) {
-                        return providerStack;
-                    }
+                component = getBlockIcon(registrar.blockIcon.get(blockEntity));
+                if (component != null) {
+                    return component;
                 }
             }
         }
 
-        return ItemStack.EMPTY;
+        return EmptyComponent.INSTANCE;
+    }
+
+    @Nullable
+    private static ITooltipComponent getBlockIcon(List<IBlockComponentProvider> providers) {
+        for (IBlockComponentProvider provider : providers) {
+            ITooltipComponent icon = provider.getIcon(DataAccessor.INSTANCE, PluginConfig.INSTANCE);
+            if (icon != null) {
+                return icon;
+            }
+            ItemStack providerStack = provider.getDisplayItem(DataAccessor.INSTANCE, PluginConfig.INSTANCE);
+            if (!providerStack.isEmpty()) {
+                return new ItemComponent(providerStack);
+            }
+        }
+        return null;
     }
 
     public static Entity getOverrideEntity(HitResult target) {

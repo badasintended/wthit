@@ -4,21 +4,22 @@ import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITooltip;
+import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
+import mcp.mobius.waila.api.component.ItemComponent;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.item.FallingBlockEntity;
-import net.minecraft.world.item.ItemStack;
 
 public enum FallingBlockProvider implements IEntityComponentProvider {
 
     INSTANCE;
 
     @Override
-    public ItemStack getDisplayItem(IEntityAccessor accessor, IPluginConfig config) {
+    public ITooltipComponent getIcon(IEntityAccessor accessor, IPluginConfig config) {
         FallingBlockEntity entity = accessor.getEntity();
-        return new ItemStack(entity.getBlockState().getBlock().asItem());
+        return new ItemComponent(entity.getBlockState().getBlock().asItem());
     }
 
     @Override

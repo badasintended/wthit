@@ -2,7 +2,7 @@ package mcp.mobius.waila.integration.jei;
 
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.WailaClient;
-import mcp.mobius.waila.hud.TooltipHandler;
+import mcp.mobius.waila.data.DataAccessor;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.recipe.IFocus;
@@ -28,7 +28,7 @@ public class JeiRecipeLookup implements IModPlugin {
     }
 
     private void showRecipesGui(IJeiRuntime jei, IFocus.Mode mode) {
-        ItemStack stack = TooltipHandler.getStack();
+        ItemStack stack = DataAccessor.INSTANCE.getStack();
         if (!stack.isEmpty()) {
             jei.getRecipesGui().show(jei.getRecipeManager().createFocus(mode, stack));
         }

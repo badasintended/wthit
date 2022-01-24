@@ -5,6 +5,7 @@ import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.__internal__.ApiSide;
 import mcp.mobius.waila.api.__internal__.IApiService;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.ItemLike;
 
 /**
  * A tooltip component that renders an {@link ItemStack}.
@@ -12,25 +13,33 @@ import net.minecraft.world.item.ItemStack;
 @ApiSide.ClientOnly
 public class ItemComponent implements ITooltipComponent {
 
+    public static final ItemComponent EMPTY = new ItemComponent(ItemStack.EMPTY);
+
     public ItemComponent(ItemStack stack) {
         this.stack = stack;
     }
 
-    private final ItemStack stack;
+    public ItemComponent(ItemLike item) {
+        this(new ItemStack(item));
+    }
+
+    public final ItemStack stack;
 
     @Override
     public int getWidth() {
-        return 18;
+        return stack.isEmpty() ? 0 : 18;
     }
 
     @Override
     public int getHeight() {
-        return 19;
+        return stack.isEmpty() ? 0 : 18;
     }
 
     @Override
     public void render(PoseStack matrices, int x, int y, float delta) {
-        IApiService.INSTANCE.renderItem(x + 1, y + 1, stack);
+        if (!stack.isEmpty()) {
+            IApiService.INSTANCE.renderItem(x + 1, y + 1, stack);
+        }
     }
 
 }

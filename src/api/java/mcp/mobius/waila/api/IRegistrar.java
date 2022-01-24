@@ -158,8 +158,8 @@ public interface IRegistrar {
     }
 
     /**
-     * Registers an {@link IBlockComponentProvider} instance to allow overriding the displayed item for a block via the
-     * {@link IBlockComponentProvider#getDisplayItem(IBlockAccessor, IPluginConfig)} method.
+     * Registers an {@link IBlockComponentProvider} instance to allow overriding the displayed icon for a block via the
+     * {@link IBlockComponentProvider#getIcon(IBlockAccessor, IPluginConfig)} method.
      * A {@link BlockEntity} is also an acceptable class type.
      *
      * @param provider The data provider instance
@@ -169,19 +169,19 @@ public interface IRegistrar {
      * @see #DEFAULT_PRIORITY
      */
     @ApiSide.ClientOnly
-    <T> void addDisplayItem(IBlockComponentProvider provider, Class<T> clazz, int priority);
+    <T> void addIcon(IBlockComponentProvider provider, Class<T> clazz, int priority);
 
     /**
-     * Registers an {@link IBlockComponentProvider} instance with {@link #DEFAULT_PRIORITY} to allow overriding the displayed item for a block via the
-     * {@link IBlockComponentProvider#getDisplayItem(IBlockAccessor, IPluginConfig)} method.
+     * Registers an {@link IBlockComponentProvider} instance with {@link #DEFAULT_PRIORITY} to allow overriding the displayed icon for a block via the
+     * {@link IBlockComponentProvider#getIcon(IBlockAccessor, IPluginConfig)} method.
      * A {@link BlockEntity} is also an acceptable class type.
      *
      * @param provider The data provider instance
      * @param clazz    The highest level class to apply to
      */
     @ApiSide.ClientOnly
-    default <T> void addDisplayItem(IBlockComponentProvider provider, Class<T> clazz) {
-        addDisplayItem(provider, clazz, DEFAULT_PRIORITY);
+    default <T> void addIcon(IBlockComponentProvider provider, Class<T> clazz) {
+        addIcon(provider, clazz, DEFAULT_PRIORITY);
     }
 
     /**
@@ -252,7 +252,8 @@ public interface IRegistrar {
     }
 
     /**
-     * Registers an {@link IEntityComponentProvider} instance to allow displaying an item next to the entity name.
+     * Registers an {@link IEntityComponentProvider} instance to allow displaying an icon via the
+     * {@link IEntityComponentProvider#getIcon(IEntityAccessor, IPluginConfig)} method.
      *
      * @param provider The data provider instance
      * @param clazz    The highest level class to apply to
@@ -260,18 +261,17 @@ public interface IRegistrar {
      *
      * @see #DEFAULT_PRIORITY
      */
-    @ApiSide.ClientOnly
-    <T> void addDisplayItem(IEntityComponentProvider provider, Class<T> clazz, int priority);
+    <T> void addIcon(IEntityComponentProvider provider, Class<T> clazz, int priority);
 
     /**
-     * Registers an {@link IEntityComponentProvider} instance with {@link #DEFAULT_PRIORITY} to allow displaying an item next to the entity name.
+     * Registers an {@link IEntityComponentProvider} instance with {@link #DEFAULT_PRIORITY} to allow displaying an icon via the
+     * {@link IEntityComponentProvider#getIcon(IEntityAccessor, IPluginConfig)} method.
      *
      * @param provider The data provider instance
      * @param clazz    The highest level class to apply to
      */
-    @ApiSide.ClientOnly
-    default <T> void addDisplayItem(IEntityComponentProvider provider, Class<T> clazz) {
-        addDisplayItem(provider, clazz, DEFAULT_PRIORITY);
+    default <T> void addIcon(IEntityComponentProvider provider, Class<T> clazz) {
+        addIcon(provider, clazz, DEFAULT_PRIORITY);
     }
 
     /**
@@ -309,6 +309,20 @@ public interface IRegistrar {
     <T, E extends Entity> void addEntityData(IServerDataProvider<E> provider, Class<T> clazz);
 
     /**
+     * @deprecated use {@link #addIcon(IBlockComponentProvider, Class, int)} and {@link IBlockComponentProvider#getIcon(IBlockAccessor, IPluginConfig)}
+     */
+    @Deprecated
+    <T> void addDisplayItem(IBlockComponentProvider provider, Class<T> clazz, int priority);
+
+    /**
+     * @deprecated use {@link #addIcon(IBlockComponentProvider, Class, int)} and {@link IBlockComponentProvider#getIcon(IBlockAccessor, IPluginConfig)}
+     */
+    @Deprecated
+    default <T> void addDisplayItem(IBlockComponentProvider provider, Class<T> clazz) {
+        addDisplayItem(provider, clazz, DEFAULT_PRIORITY);
+    }
+
+    /**
      * TODO: Remove
      *
      * @deprecated use {@link #addDisplayItem(IBlockComponentProvider, Class)}
@@ -344,6 +358,14 @@ public interface IRegistrar {
     @Deprecated
     default <T> void registerBlockDataProvider(IServerDataProvider<BlockEntity> provider, Class<T> clazz) {
         addBlockData(provider, clazz);
+    }
+
+    @Deprecated
+    <T> void addDisplayItem(IEntityComponentProvider provider, Class<T> clazz, int priority);
+
+    @Deprecated
+    default <T> void addDisplayItem(IEntityComponentProvider provider, Class<T> clazz) {
+        addDisplayItem(provider, clazz, DEFAULT_PRIORITY);
     }
 
     /**

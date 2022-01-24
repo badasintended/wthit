@@ -15,6 +15,7 @@ import mcp.mobius.waila.api.IEventListener;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.IWailaConfig.Overlay.Position.Align;
 import mcp.mobius.waila.api.WailaConstants;
+import mcp.mobius.waila.api.component.EmptyComponent;
 import mcp.mobius.waila.api.component.PairComponent;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.config.WailaConfig;
@@ -25,13 +26,12 @@ import mcp.mobius.waila.registry.Registrar;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
 import net.minecraft.util.profiling.ProfilerFiller;
-import net.minecraft.world.item.ItemStack;
 
 import static mcp.mobius.waila.config.WailaConfig.Overlay.Position;
 import static mcp.mobius.waila.util.DisplayUtil.drawGradientRect;
 import static mcp.mobius.waila.util.DisplayUtil.enable2DRender;
-import static mcp.mobius.waila.util.DisplayUtil.renderStack;
 
 public class TooltipHandler {
 
@@ -45,7 +45,7 @@ public class TooltipHandler {
     static boolean shouldRender = false;
 
     private static String lastNarration = "";
-    private static ItemStack stack = ItemStack.EMPTY;
+    private static ITooltipComponent icon = EmptyComponent.INSTANCE;
     private static int topOffset;
 
     public static int colonOffset;
@@ -56,7 +56,7 @@ public class TooltipHandler {
     public static void beginBuild() {
         TOOLTIP.clear();
         LINE_HEIGHT.clear();
-        stack = ItemStack.EMPTY;
+        icon = EmptyComponent.INSTANCE;
         topOffset = 0;
         colonOffset = 0;
         colonWidth = Minecraft.getInstance().font.width(": ");
@@ -89,13 +89,9 @@ public class TooltipHandler {
         }
     }
 
-    public static ItemStack getStack() {
-        return stack;
-    }
-
-    public static void setStack(ItemStack stack) {
+    public static void setIcon(ITooltipComponent icon) {
         Preconditions.checkState(started);
-        TooltipHandler.stack = PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_ITEM) ? stack : ItemStack.EMPTY;
+        TooltipHandler.icon = PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_ICON) ? icon : EmptyComponent.INSTANCE;
     }
 
     public static void endBuild() {
@@ -126,17 +122,16 @@ public class TooltipHandler {
         }
 
         topOffset = 0;
-        if (!stack.isEmpty()) {
-            if (h < 16) {
-                topOffset = (16 - h) / 2;
-            }
-
-            w = Math.max(w, 16) + 20;
-            h = Math.max(h, 16);
+        if (icon.getHeight() > h) {
+            topOffset = Mth.positiveCeilDiv(icon.getHeight() - h, 2);
         }
 
-        w += 10;
-        h += 8;
+        if (icon.getWidth() > 0) {
+            w += icon.getWidth() + 3;
+        }
+
+        w += 6;
+        h = Math.max(h, icon.getHeight()) + TOOLTIP.size() - 1 + 6;
 
         int windowW = (int) (window.getGuiScaledWidth() / scale);
         int windowH = (int) (window.getGuiScaledHeight() / scale);
@@ -220,13 +215,13 @@ public class TooltipHandler {
 
         RenderSystem.enableBlend();
 
-        int textX = x + (stack.isEmpty() ? 6 : 26);
-        int textY = y + 6 + topOffset;
+        int textX = x + (icon.getWidth() > 0 ? icon.getWidth() + 7 : 4);
+        int textY = y + 4 + topOffset;
 
         for (Component component : TOOLTIP) {
             Line line = (Line) component;
             line.render(matrices, textX, textY, delta);
-            textY += LINE_HEIGHT.getInt(line);
+            textY += LINE_HEIGHT.getInt(line) + 1;
         }
 
         RenderSystem.disableBlend();
@@ -236,9 +231,7 @@ public class TooltipHandler {
             listener.onAfterTooltipRender(matrices, rect, DataAccessor.INSTANCE, PluginConfig.INSTANCE);
         }
 
-        if (!stack.isEmpty()) {
-            renderStack(x + 5, y + h / 2 - 8, stack, "");
-        }
+        icon.render(matrices, x + 4, y + Mth.positiveCeilDiv(h - icon.getHeight(), 2), delta);
 
         RenderSystem.enableDepthTest();
         RenderSystem.getModelViewStack().popPose();

@@ -5,8 +5,10 @@ import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.IModInfo;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITooltip;
+import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
+import mcp.mobius.waila.api.component.ItemComponent;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.core.Registry;
 import net.minecraft.network.chat.TextComponent;
@@ -26,8 +28,8 @@ public enum ItemEntityProvider implements IEntityComponentProvider {
     }
 
     @Override
-    public ItemStack getDisplayItem(IEntityAccessor accessor, IPluginConfig config) {
-        return accessor.<ItemEntity>getEntity().getItem();
+    public ITooltipComponent getIcon(IEntityAccessor accessor, IPluginConfig config) {
+        return new ItemComponent(accessor.<ItemEntity>getEntity().getItem());
     }
 
     @Override

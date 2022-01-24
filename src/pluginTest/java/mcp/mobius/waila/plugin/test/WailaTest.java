@@ -37,6 +37,9 @@ public class WailaTest implements IWailaPlugin {
         registrar.addConfig(DeprecatedTest.ENABLED, true);
         registrar.addRenderer(DeprecatedTest.RENDERER, DeprecatedTest.INSTANCE);
         registrar.addComponent(DeprecatedTest.INSTANCE, TooltipPosition.HEAD, Block.class);
+
+        registrar.addConfig(CustomIconTest.ENABLED, true);
+        registrar.addIcon(CustomIconTest.INSTANCE, Block.class);
     }
 
 }

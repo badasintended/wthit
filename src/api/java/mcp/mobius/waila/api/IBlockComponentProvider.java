@@ -48,7 +48,7 @@ public interface IBlockComponentProvider {
     }
 
     /**
-     * Callback used to set an item to display in the tooltip.
+     * Callback used to set an icon to display in the tooltip.
      * <p>
      * This method is only called on the client side.
      * If you require data from the server, you should also implement {@link IServerDataProvider#appendServerData}
@@ -58,12 +58,13 @@ public interface IBlockComponentProvider {
      * @param accessor Contains most of the relevant information about the current environment.
      * @param config   Current configuration of Waila.
      *
-     * @return The item to display or {@link ItemStack#EMPTY} to display nothing.
+     * @return the component to render or null if this provider doesn't decide it.
      *
-     * @see IRegistrar#addDisplayItem(IBlockComponentProvider, Class, int)
+     * @see IRegistrar#addIcon(IEntityComponentProvider, Class, int)
      */
-    default ItemStack getDisplayItem(IBlockAccessor accessor, IPluginConfig config) {
-        return ItemStack.EMPTY;
+    @Nullable
+    default ITooltipComponent getIcon(IBlockAccessor accessor, IPluginConfig config) {
+        return null;
     }
 
     /**
@@ -118,6 +119,14 @@ public interface IBlockComponentProvider {
      * @see IRegistrar#addComponent(IBlockComponentProvider, TooltipPosition, Class, int)
      */
     default void appendTail(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
+    }
+
+    /**
+     * @deprecated use {@link #getIcon(IBlockAccessor, IPluginConfig)}
+     */
+    @Deprecated
+    default ItemStack getDisplayItem(IBlockAccessor accessor, IPluginConfig config) {
+        return ItemStack.EMPTY;
     }
 
     /**

@@ -30,13 +30,13 @@ public class WailaCore implements IWailaPlugin {
 
         registrar.addEventListener(CoreEventListener.INSTANCE, PRIORITY);
 
-        registrar.addDisplayItem(BlockProvider.INSTANCE, Block.class, PRIORITY);
+        registrar.addIcon(BlockProvider.INSTANCE, Block.class, 1100);
         registrar.addBlockData(BlockProvider.INSTANCE, BlockEntity.class);
 
-        registrar.addDisplayItem(FluidProvider.INSTANCE, LiquidBlock.class, PRIORITY);
+        registrar.addIcon(FluidProvider.INSTANCE, LiquidBlock.class, PRIORITY);
         registrar.addComponent(FluidProvider.INSTANCE, HEAD, LiquidBlock.class, PRIORITY);
 
-        registrar.addDisplayItem(EntityProvider.INSTANCE, Entity.class);
+        registrar.addIcon(EntityProvider.INSTANCE, Entity.class, 1100);
         registrar.addComponent(EntityProvider.INSTANCE, HEAD, Entity.class, PRIORITY);
         registrar.addComponent(EntityProvider.INSTANCE, BODY, LivingEntity.class, PRIORITY);
         registrar.addComponent(EntityProvider.INSTANCE, TAIL, Entity.class, PRIORITY);
@@ -44,7 +44,7 @@ public class WailaCore implements IWailaPlugin {
         registrar.addConfig(WailaConstants.CONFIG_SHOW_BLOCK, true);
         registrar.addConfig(WailaConstants.CONFIG_SHOW_FLUID, false);
         registrar.addConfig(WailaConstants.CONFIG_SHOW_ENTITY, true);
-        registrar.addConfig(WailaConstants.CONFIG_SHOW_ITEM, true);
+        registrar.addConfig(WailaConstants.CONFIG_SHOW_ICON, true);
         registrar.addConfig(WailaConstants.CONFIG_SHOW_MOD_NAME, true);
         registrar.addConfig(WailaConstants.CONFIG_SHOW_REGISTRY, false);
         registrar.addConfig(Options.ENTITY_HEALTH, true);

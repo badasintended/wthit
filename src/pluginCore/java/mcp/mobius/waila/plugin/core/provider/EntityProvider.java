@@ -5,8 +5,10 @@ import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.IModInfo;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITooltip;
+import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
+import mcp.mobius.waila.api.component.ItemComponent;
 import mcp.mobius.waila.plugin.core.component.HealthComponent;
 import mcp.mobius.waila.plugin.core.config.Options;
 import net.minecraft.core.Registry;
@@ -16,20 +18,22 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 public enum EntityProvider implements IEntityComponentProvider {
 
     INSTANCE;
 
+    @Nullable
     @Override
-    public ItemStack getDisplayItem(IEntityAccessor accessor, IPluginConfig config) {
+    public ITooltipComponent getIcon(IEntityAccessor accessor, IPluginConfig config) {
         Entity entity = accessor.getEntity();
         if (entity instanceof Mob) {
-            return ItemStack.EMPTY;
+            return null;
         }
 
         ItemStack stack = entity.getPickResult();
-        return stack != null ? stack : ItemStack.EMPTY;
+        return stack != null ? new ItemComponent(stack) : null;
     }
 
     @Override

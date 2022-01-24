@@ -4,22 +4,24 @@ import mcp.mobius.waila.api.IBlockAccessor;
 import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITooltip;
+import mcp.mobius.waila.api.ITooltipComponent;
+import mcp.mobius.waila.api.component.ItemComponent;
 import mcp.mobius.waila.api.component.PairComponent;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import org.jetbrains.annotations.Nullable;
 
 public enum PlantProvider implements IBlockComponentProvider {
 
     INSTANCE;
 
-    static final ItemStack WHEAT_STACK = new ItemStack(Items.WHEAT);
-    static final ItemStack BEETROOT_STACK = new ItemStack(Items.BEETROOT);
+    static final ITooltipComponent WHEAT_STACK = new ItemComponent(Items.WHEAT);
+    static final ITooltipComponent BEETROOT_STACK = new ItemComponent(Items.BEETROOT);
 
     private static void addMaturityTooltip(ITooltip tooltip, float growthValue) {
         growthValue *= 100.0F;
@@ -32,15 +34,16 @@ public enum PlantProvider implements IBlockComponentProvider {
         }
     }
 
+    @Nullable
     @Override
-    public ItemStack getDisplayItem(IBlockAccessor accessor, IPluginConfig config) {
+    public ITooltipComponent getIcon(IBlockAccessor accessor, IPluginConfig config) {
         if (accessor.getBlock() == Blocks.WHEAT)
             return WHEAT_STACK;
 
         if (accessor.getBlock() == Blocks.BEETROOTS)
             return BEETROOT_STACK;
 
-        return ItemStack.EMPTY;
+        return null;
     }
 
     @Override
