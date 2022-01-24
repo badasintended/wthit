@@ -13,10 +13,10 @@ import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
 /**
- * Interface used to provide Block/BlockEntity tooltip information to Waila.
+ * Used to provide {@link Entity} tooltip information to Waila.
  * <p>
- * All methods in this interface shouldn't to be called by the implementing mod. An instance of the class is to be
- * registered to Waila via the {@link IRegistrar} instance provided in the original registration method.
+ * All methods in this interface <b>shouldn't</b> to be called by the implementing mod.
+ * An instance of the class is to be registered via the {@link IRegistrar} instance provided in {@link IWailaPlugin}.
  *
  * @see IWailaPlugin
  * @see IRegistrar
@@ -35,10 +35,10 @@ public interface IEntityComponentProvider {
     /**
      * Callback used to override the default Waila lookup system.
      *
-     * @param accessor Contains most of the relevant information about the current environment.
-     * @param config   Current configuration of Waila.
+     * @param accessor contains most of the relevant information about the current environment
+     * @param config   current plugin configuration
      *
-     * @return null if override is not required, an Entity otherwise.
+     * @return {@code null} if override is not required, an {@link Entity} otherwise
      *
      * @see IRegistrar#addOverride(IEntityComponentProvider, Class, int)
      * @see #EMPTY_ENTITY
@@ -56,10 +56,12 @@ public interface IEntityComponentProvider {
      * and add the data to the {@link CompoundTag} there, which can then be read back using {@link IEntityAccessor#getServerData}.
      * If you rely on the client knowing the data you need, you are not guaranteed to have the proper values.
      *
-     * @param accessor Contains most of the relevant information about the current environment.
-     * @param config   Current configuration of Waila.
+     * @param accessor contains most of the relevant information about the current environment
+     * @param config   current plugin configuration
      *
-     * @return the component to render or null if this provider doesn't decide it
+     * @return the component to render or {@code null} if this provider doesn't decide it
+     *
+     * @see IRegistrar#addIcon(IEntityComponentProvider, Class, int)
      */
     @Nullable
     default ITooltipComponent getIcon(IEntityAccessor accessor, IPluginConfig config) {
@@ -74,10 +76,10 @@ public interface IEntityComponentProvider {
      * and add the data to the {@link CompoundTag} there, which can then be read back using {@link IEntityAccessor#getServerData}.
      * If you rely on the client knowing the data you need, you are not guaranteed to have the proper values.
      *
-     * @param tooltip  Current list of tooltip lines (might have been processed by other providers and might be processed by other providers).
-     *                 Use {@link ITooltip#setLine} with tags from {@link WailaConstants} to override built-in values.
-     * @param accessor Contains most of the relevant information about the current environment.
-     * @param config   Current configuration of Waila.
+     * @param tooltip  current list of tooltip lines (might have been processed by other providers and might be processed by other providers),
+     *                 use {@link ITooltip#setLine} with tags from {@link WailaConstants} to override built-in values
+     * @param accessor contains most of the relevant information about the current environment
+     * @param config   current plugin configuration
      *
      * @see IRegistrar#addComponent(IEntityComponentProvider, TooltipPosition, Class, int)
      */
@@ -92,10 +94,10 @@ public interface IEntityComponentProvider {
      * and add the data to the {@link CompoundTag} there, which can then be read back using {@link IEntityAccessor#getServerData}.
      * If you rely on the client knowing the data you need, you are not guaranteed to have the proper values.
      *
-     * @param tooltip  Current list of tooltip lines (might have been processed by other providers and might be processed by other providers).
-     *                 Use {@link ITooltip#setLine} with tags from {@link WailaConstants} to override built-in values.
-     * @param accessor Contains most of the relevant information about the current environment.
-     * @param config   Current configuration of Waila.
+     * @param tooltip  current list of tooltip lines (might have been processed by other providers and might be processed by other providers),
+     *                 use {@link ITooltip#setLine} with tags from {@link WailaConstants} to override built-in values
+     * @param accessor contains most of the relevant information about the current environment
+     * @param config   current plugin configuration
      *
      * @see IRegistrar#addComponent(IEntityComponentProvider, TooltipPosition, Class, int)
      */
@@ -110,10 +112,10 @@ public interface IEntityComponentProvider {
      * and add the data to the {@link CompoundTag} there, which can then be read back using {@link IEntityAccessor#getServerData}.
      * If you rely on the client knowing the data you need, you are not guaranteed to have the proper values.
      *
-     * @param tooltip  Current list of tooltip lines (might have been processed by other providers and might be processed by other providers).
-     *                 Use {@link ITooltip#setLine} with tags from {@link WailaConstants} to override built-in values.
-     * @param accessor Contains most of the relevant information about the current environment.
-     * @param config   Current configuration of Waila.
+     * @param tooltip  current list of tooltip lines (might have been processed by other providers and might be processed by other providers),
+     *                 use {@link ITooltip#setLine} with tags from {@link WailaConstants} to override built-in values
+     * @param accessor contains most of the relevant information about the current environment
+     * @param config   current plugin configuration
      *
      * @see IRegistrar#addComponent(IEntityComponentProvider, TooltipPosition, Class, int)
      */

@@ -40,6 +40,9 @@ public class WailaTest implements IWailaPlugin {
 
         registrar.addConfig(CustomIconTest.ENABLED, true);
         registrar.addIcon(CustomIconTest.INSTANCE, Block.class);
+
+        registrar.addConfig(OffsetTest.ENABLED, true);
+        registrar.addComponent(OffsetTest.INSTANCE, TooltipPosition.BODY, Block.class);
     }
 
 }

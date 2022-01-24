@@ -23,12 +23,12 @@ public class ProgressComponent implements ITooltipComponent {
 
     @Override
     public int getWidth() {
-        return 26;
+        return 24;
     }
 
     @Override
     public int getHeight() {
-        return 16;
+        return 18;
     }
 
     @Override
@@ -37,12 +37,12 @@ public class ProgressComponent implements ITooltipComponent {
         RenderSystem.setShaderTexture(0, SHEET);
 
         // Draws the "empty" background arrow
-        blit(matrices, x + 2, y, 0, 16, 22, 16, 22, 32);
+        blit(matrices, x + 1, y + 1, 0, 16, 22, 16, 22, 32);
 
         if (maxValue > 0) {
             int progress = (currentValue * 22) / maxValue;
             // Draws the "full" foreground arrow based on the progress
-            blit(matrices, x + 2, y, 0, 0, progress + 1, 16, 22, 32);
+            blit(matrices, x + 1, y + 1, 0, 0, progress + 1, 16, 22, 32);
         }
     }
 

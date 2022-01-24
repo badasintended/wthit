@@ -134,9 +134,9 @@ public interface IRegistrar {
      * Registers an {@link IBlockComponentProvider} instance to allow overriding the block being displayed.
      * A {@link BlockEntity} is also an acceptable class type.
      *
-     * @param provider The data provider instance
-     * @param clazz    The highest level class to apply to
-     * @param priority The priority of this provider <b>0 is the minimum, lower number will be called first</b>
+     * @param provider the data provider instance
+     * @param clazz    the highest level class to apply to
+     * @param priority the priority of this provider <b>0 is the minimum, lower number will be called first</b>
      *
      * @see #DEFAULT_PRIORITY
      */
@@ -147,8 +147,8 @@ public interface IRegistrar {
      * Registers an {@link IBlockComponentProvider} instance with {@link #DEFAULT_PRIORITY} to allow overriding the block being displayed.
      * A {@link BlockEntity} is also an acceptable class type.
      *
-     * @param provider The data provider instance
-     * @param clazz    The highest level class to apply to
+     * @param provider the data provider instance
+     * @param clazz    the highest level class to apply to
      *
      * @see #DEFAULT_PRIORITY
      */
@@ -162,9 +162,9 @@ public interface IRegistrar {
      * {@link IBlockComponentProvider#getIcon(IBlockAccessor, IPluginConfig)} method.
      * A {@link BlockEntity} is also an acceptable class type.
      *
-     * @param provider The data provider instance
-     * @param clazz    The highest level class to apply to
-     * @param priority The priority of this provider <b>0 is the minimum, lower number will be called first</b>
+     * @param provider the data provider instance
+     * @param clazz    the highest level class to apply to
+     * @param priority the priority of this provider <b>0 is the minimum, lower number will be called first</b>
      *
      * @see #DEFAULT_PRIORITY
      */
@@ -176,8 +176,8 @@ public interface IRegistrar {
      * {@link IBlockComponentProvider#getIcon(IBlockAccessor, IPluginConfig)} method.
      * A {@link BlockEntity} is also an acceptable class type.
      *
-     * @param provider The data provider instance
-     * @param clazz    The highest level class to apply to
+     * @param provider the data provider instance
+     * @param clazz    the highest level class to apply to
      */
     @ApiSide.ClientOnly
     default <T> void addIcon(IBlockComponentProvider provider, Class<T> clazz) {
@@ -188,10 +188,10 @@ public interface IRegistrar {
      * Registers an {@link IBlockComponentProvider} instance for appending {@link Component} to the tooltip.
      * A {@link BlockEntity} is also an acceptable class type.
      *
-     * @param provider The data provider instance
-     * @param position The position on the tooltip this applies to
-     * @param clazz    The highest level class to apply to
-     * @param priority The priority of this provider <b>0 is the minimum, lower number will be called first</b>
+     * @param provider the data provider instance
+     * @param position the position on the tooltip this applies to
+     * @param clazz    the highest level class to apply to
+     * @param priority the priority of this provider <b>0 is the minimum, lower number will be called first</b>
      *
      * @see #DEFAULT_PRIORITY
      */
@@ -202,9 +202,9 @@ public interface IRegistrar {
      * Registers an {@link IBlockComponentProvider} instance with {@link #DEFAULT_PRIORITY} for appending {@link Component} to the tooltip.
      * A {@link BlockEntity} is also an acceptable class type.
      *
-     * @param provider The data provider instance
-     * @param position The position on the tooltip this applies to
-     * @param clazz    The highest level class to apply to
+     * @param provider the data provider instance
+     * @param position the position on the tooltip this applies to
+     * @param clazz    the highest level class to apply to
      */
     @ApiSide.ClientOnly
     default <T> void addComponent(IBlockComponentProvider provider, TooltipPosition position, Class<T> clazz) {
@@ -215,8 +215,8 @@ public interface IRegistrar {
      * Registers an {@link IServerDataProvider<BlockEntity>} instance for data syncing purposes. A {@link BlockEntity}
      * is also an acceptable class type.
      *
-     * @param provider The data provider instance
-     * @param clazz    The highest level class to apply to
+     * @param provider the data provider instance
+     * @param clazz    the highest level class to apply to
      */
     @ApiSide.ServerOnly
     <T, BE extends BlockEntity> void addBlockData(IServerDataProvider<BE> provider, Class<T> clazz);
@@ -229,9 +229,9 @@ public interface IRegistrar {
     /**
      * Registers an {@link IEntityComponentProvider} instance to allow overriding the entity being displayed.
      *
-     * @param provider The data provider instance
-     * @param clazz    The highest level class to apply to
-     * @param priority The priority of this provider <b>0 is the minimum, lower number will be called first</b>
+     * @param provider the data provider instance
+     * @param clazz    the highest level class to apply to
+     * @param priority the priority of this provider <b>0 is the minimum, lower number will be called first</b>
      *
      * @see #DEFAULT_PRIORITY
      */
@@ -241,8 +241,8 @@ public interface IRegistrar {
     /**
      * Registers an {@link IEntityComponentProvider} instance with {@link #DEFAULT_PRIORITY} to allow overriding the entity being displayed.
      *
-     * @param provider The data provider instance
-     * @param clazz    The highest level class to apply to
+     * @param provider the data provider instance
+     * @param clazz    the highest level class to apply to
      *
      * @see #DEFAULT_PRIORITY
      */
@@ -255,9 +255,9 @@ public interface IRegistrar {
      * Registers an {@link IEntityComponentProvider} instance to allow displaying an icon via the
      * {@link IEntityComponentProvider#getIcon(IEntityAccessor, IPluginConfig)} method.
      *
-     * @param provider The data provider instance
-     * @param clazz    The highest level class to apply to
-     * @param priority The priority of this provider <b>0 is the minimum, lower number will be called first</b>
+     * @param provider the data provider instance
+     * @param clazz    the highest level class to apply to
+     * @param priority the priority of this provider <b>0 is the minimum, lower number will be called first</b>
      *
      * @see #DEFAULT_PRIORITY
      */
@@ -267,8 +267,8 @@ public interface IRegistrar {
      * Registers an {@link IEntityComponentProvider} instance with {@link #DEFAULT_PRIORITY} to allow displaying an icon via the
      * {@link IEntityComponentProvider#getIcon(IEntityAccessor, IPluginConfig)} method.
      *
-     * @param provider The data provider instance
-     * @param clazz    The highest level class to apply to
+     * @param provider the data provider instance
+     * @param clazz    the highest level class to apply to
      */
     default <T> void addIcon(IEntityComponentProvider provider, Class<T> clazz) {
         addIcon(provider, clazz, DEFAULT_PRIORITY);
@@ -277,10 +277,10 @@ public interface IRegistrar {
     /**
      * Registers an {@link IEntityComponentProvider} instance for appending {@link Component} to the tooltip.
      *
-     * @param provider The data provider instance
-     * @param position The position on the tooltip this applies to
-     * @param clazz    The highest level class to apply to
-     * @param priority The priority of this provider <b>0 is the minimum, lower number will be called first</b>
+     * @param provider the data provider instance
+     * @param position the position on the tooltip this applies to
+     * @param clazz    the highest level class to apply to
+     * @param priority the priority of this provider <b>0 is the minimum, lower number will be called first</b>
      *
      * @see #DEFAULT_PRIORITY
      */
@@ -290,9 +290,9 @@ public interface IRegistrar {
     /**
      * Registers an {@link IEntityComponentProvider} instance with {@link #DEFAULT_PRIORITY} for appending {@link Component} to the tooltip.
      *
-     * @param provider The data provider instance
-     * @param position The position on the tooltip this applies to
-     * @param clazz    The highest level class to apply to
+     * @param provider the data provider instance
+     * @param position the position on the tooltip this applies to
+     * @param clazz    the highest level class to apply to
      */
     @ApiSide.ClientOnly
     default <T> void addComponent(IEntityComponentProvider provider, TooltipPosition position, Class<T> clazz) {
@@ -302,8 +302,8 @@ public interface IRegistrar {
     /**
      * Registers an {@link IServerDataProvider<Entity>} instance for data syncing purposes.
      *
-     * @param provider The data provider instance
-     * @param clazz    The highest level class to apply to
+     * @param provider the data provider instance
+     * @param clazz    the highest level class to apply to
      */
     @ApiSide.ServerOnly
     <T, E extends Entity> void addEntityData(IServerDataProvider<E> provider, Class<T> clazz);

@@ -7,7 +7,8 @@ import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
 
 /**
- * Read-only interface for Waila internal config storage.<br>
+ * Read-only interface for Waila internal config storage.
+ * <p>
  * An instance of this interface is passed to most of Waila callbacks as a way to change the behavior depending on client settings.
  */
 @ApiSide.ClientOnly

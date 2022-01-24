@@ -32,7 +32,7 @@ public class Line implements ITooltipLine, ITooltipComponent, MutableComponent {
     @Override
     public Line with(ITooltipComponent component) {
         components.add(component);
-        width += component.getWidth();
+        width += component.getWidth() + 1;
         height = Math.max(component.getHeight(), height);
         return this;
     }
@@ -56,8 +56,9 @@ public class Line implements ITooltipLine, ITooltipComponent, MutableComponent {
     public void render(PoseStack matrices, int x, int y, float delta) {
         int componentX = x;
         for (ITooltipComponent component : components) {
-            component.render(matrices, componentX, y, delta);
-            componentX += component.getWidth();
+            int offset = component.getHeight() < height ? (height - component.getHeight()) / 2 : 0;
+            component.render(matrices, componentX, y + offset, delta);
+            componentX += component.getWidth() + 1;
         }
     }
 

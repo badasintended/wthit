@@ -6,6 +6,7 @@ import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.__internal__.ApiSide;
 import mcp.mobius.waila.api.__internal__.IApiService;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Font;
 import net.minecraft.network.chat.Component;
 
 /**
@@ -14,32 +15,42 @@ import net.minecraft.network.chat.Component;
 @ApiSide.ClientOnly
 public class PairComponent implements ITooltipComponent {
 
-    public PairComponent(ITooltipComponent key, ITooltipComponent value) {
-        this.key = key;
-        this.value = value;
-    }
-
     public PairComponent(Component key, Component value) {
         this(new WrappedComponent(key), new WrappedComponent(value));
     }
 
+    public PairComponent(ITooltipComponent key, ITooltipComponent value) {
+        this.key = key;
+        this.value = value;
+
+        width = key.getWidth() + getColonOffset() + getColonWidth() + value.getWidth();
+        height = Math.max(key.getHeight(), value.getHeight());
+    }
+
     public final ITooltipComponent key, value;
+    private final int width, height;
 
     @Override
     public int getWidth() {
-        return key.getWidth() + getColonOffset() + getColonWidth() + value.getWidth();
+        return width;
     }
 
     @Override
     public int getHeight() {
-        return Math.max(key.getHeight(), value.getHeight());
+        return height;
     }
 
     @Override
     public void render(PoseStack matrices, int x, int y, float delta) {
-        key.render(matrices, x, y, delta);
-        Minecraft.getInstance().font.drawShadow(matrices, ": ", x + getColonOffset(), y, IWailaConfig.get().getOverlay().getColor().getFontColor());
-        value.render(matrices, x + getColonOffset() + getColonWidth(), y, delta);
+        int offset = key.getHeight() < height ? (height - key.getHeight()) / 2 : 0;
+        key.render(matrices, x, y + offset, delta);
+
+        Font font = Minecraft.getInstance().font;
+        offset = font.lineHeight < height ? (height - font.lineHeight) / 2 : 0;
+        font.drawShadow(matrices, ": ", x + getColonOffset(), y + offset, IWailaConfig.get().getOverlay().getColor().getFontColor());
+
+        offset = value.getHeight() < height ? (height - value.getHeight()) / 2 : 0;
+        value.render(matrices, x + getColonOffset() + getColonWidth(), y + offset, delta);
     }
 
     private int getColonOffset() {
