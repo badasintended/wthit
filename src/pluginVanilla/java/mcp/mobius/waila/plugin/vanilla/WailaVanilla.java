@@ -91,12 +91,12 @@ public class WailaVanilla implements IWailaPlugin {
         registrar.addOverride(TrappedChestProvider.INSTANCE, TrappedChestBlock.class);
         registrar.addOverride(PowderSnowProvider.INSTANCE, PowderSnowBlock.class);
 
-        registrar.addDisplayItem(PlayerHeadProvider.INSTANCE, SkullBlockEntity.class);
+        registrar.addIcon(PlayerHeadProvider.INSTANCE, SkullBlockEntity.class);
         registrar.addComponent(PlayerHeadProvider.INSTANCE, BODY, SkullBlockEntity.class);
 
         registrar.addComponent(SpawnerProvider.INSTANCE, HEAD, SpawnerBlockEntity.class, 950);
 
-        registrar.addDisplayItem(PlantProvider.INSTANCE, CropBlock.class);
+        registrar.addIcon(PlantProvider.INSTANCE, CropBlock.class);
         registrar.addComponent(PlantProvider.INSTANCE, BODY, CropBlock.class);
         registrar.addComponent(PlantProvider.INSTANCE, BODY, StemBlock.class);
         registrar.addComponent(PlantProvider.INSTANCE, BODY, CocoaBlock.class);
@@ -111,10 +111,10 @@ public class WailaVanilla implements IWailaPlugin {
         registrar.addComponent(JukeboxProvider.INSTANCE, BODY, JukeboxBlockEntity.class);
         registrar.addBlockData(JukeboxProvider.INSTANCE, JukeboxBlockEntity.class);
 
+        registrar.addIcon(FallingBlockProvider.INSTANCE, FallingBlockEntity.class);
         registrar.addComponent(FallingBlockProvider.INSTANCE, HEAD, FallingBlockEntity.class);
-        registrar.addDisplayItem(FallingBlockProvider.INSTANCE, FallingBlockEntity.class);
 
-        registrar.addDisplayItem(ItemEntityProvider.INSTANCE, ItemEntity.class);
+        registrar.addIcon(ItemEntityProvider.INSTANCE, ItemEntity.class);
         registrar.addComponent(ItemEntityProvider.INSTANCE, HEAD, ItemEntity.class, 950);
         registrar.addComponent(ItemEntityProvider.INSTANCE, TAIL, ItemEntity.class, 950);
         registrar.addOverride(ItemEntityProvider.INSTANCE, ItemEntity.class);
