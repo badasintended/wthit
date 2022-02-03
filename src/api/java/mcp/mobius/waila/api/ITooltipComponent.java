@@ -5,7 +5,7 @@ import mcp.mobius.waila.api.__internal__.ApiSide;
 import org.jetbrains.annotations.ApiStatus;
 
 /**
- * @see mcp.mobius.waila.api.component
+ * See {@link mcp.mobius.waila.api.component} for default implementations.
  */
 @ApiSide.ClientOnly
 @ApiStatus.OverrideOnly
