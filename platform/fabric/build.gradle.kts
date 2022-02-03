@@ -64,7 +64,7 @@ afterEvaluate {
         dependsOn(remapSourcesJar)
         archiveClassifier.set("api-sources")
         from(sourceSets["stub"].output)
-        from(zipTree(remapSourcesJar.output)) {
+        from(zipTree(remapSourcesJar.archiveFile)) {
             include("mcp/mobius/waila/api/**")
         }
     }

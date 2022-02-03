@@ -27,6 +27,9 @@ sourceSets {
     create("stub") {
         compileClasspath += main.compileClasspath
     }
+
+    // hack to make forgegradle happy
+    rootProject.sourceSets.forEach { maybeCreate(it.name) }
 }
 
 minecraft {
@@ -36,8 +39,9 @@ minecraft {
         val runConfig = Action<RunConfig> {
             workingDirectory(rootProject.file("run"))
             ideaModule("${rootProject.name}.${project.name}.main")
-            sources(sourceSets["main"])
             property("waila.enableTestPlugin", "true")
+            source(sourceSets["main"])
+            rootProject.sourceSets.forEach { source(it) }
         }
         create("client", runConfig)
         create("server", runConfig)

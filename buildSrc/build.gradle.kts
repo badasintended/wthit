@@ -16,6 +16,6 @@ dependencies {
     implementation("gradle.plugin.com.matthewprenger:CurseGradle:1.4.0")
 
     implementation("org.spongepowered:vanillagradle:0.2.1-SNAPSHOT")
-    implementation("fabric-loom:fabric-loom.gradle.plugin:0.10.+")
+    implementation("fabric-loom:fabric-loom.gradle.plugin:0.11.+")
     implementation("net.minecraftforge.gradle:ForgeGradle:5.1.+")
 }
