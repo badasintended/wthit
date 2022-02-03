@@ -5,6 +5,7 @@ import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.api.TooltipPosition;
 import net.minecraft.world.level.block.Block;
 
+@SuppressWarnings("unused")
 public class WailaTest implements IWailaPlugin {
 
     @Override
@@ -35,6 +36,7 @@ public class WailaTest implements IWailaPlugin {
         registrar.addEventListener(EventListenerTest.INSTANCE);
 
         registrar.addConfig(DeprecatedTest.ENABLED, true);
+        // noinspection deprecation
         registrar.addRenderer(DeprecatedTest.RENDERER, DeprecatedTest.INSTANCE);
         registrar.addComponent(DeprecatedTest.INSTANCE, TooltipPosition.HEAD, Block.class);
 
@@ -43,6 +45,9 @@ public class WailaTest implements IWailaPlugin {
 
         registrar.addConfig(OffsetTest.ENABLED, true);
         registrar.addComponent(OffsetTest.INSTANCE, TooltipPosition.BODY, Block.class);
+
+        registrar.addConfig(ErrorTest.ENABLED, false);
+        registrar.addComponent(ErrorTest.INSTANCE, TooltipPosition.BODY, Block.class);
     }
 
 }

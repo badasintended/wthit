@@ -1,38 +1,47 @@
 package mcp.mobius.waila.util;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import mcp.mobius.waila.Waila;
-import net.minecraft.network.chat.Component;
+import mcp.mobius.waila.api.ITooltip;
+import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.TextComponent;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 public final class ExceptionUtil {
 
-    private static final ArrayList<String> ERRORS = new ArrayList<>();
-    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("MM/dd/yyyy - HH:mm:ss");
+    private static final Set<String> ERRORS = new HashSet<>();
+    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd - HH:mm:ss");
+    private static final File ERROR_FILE = Waila.GAME_DIR.resolve("logs/waila_errors.log").toFile();
 
-    public static void dump(Throwable e, String className, List<Component> tooltip) {
-        if (!ERRORS.contains(className)) {
-            ERRORS.add(className);
+    static {
+        // noinspection ResultOfMethodCallIgnored
+        ERROR_FILE.getParentFile().mkdirs();
+    }
 
-            Waila.LOGGER.error("Caught unhandled exception : [{}] {}", className, e);
-            Waila.LOGGER.error("See .waila/WailaErrorOutput.txt for more information");
+    public static void dump(Throwable e, String errorName, ITooltip tooltip) {
+        if (ERRORS.add(errorName)) {
+            Waila.LOGGER.error("Caught unhandled exception : [{}] {}", errorName, e);
+            Waila.LOGGER.error("See {} for more information", ERROR_FILE);
 
-            try (FileWriter writer = new FileWriter(Waila.GAME_DIR.resolve(".waila/WailaErrorOutput.txt").toFile())) {
-                writer.write(DATE_FORMAT.format(new Date()) + "\n" + className + "\n" + ExceptionUtils.getStackTrace(e) + "\n");
+            try (FileWriter writer = new FileWriter(ERROR_FILE, StandardCharsets.UTF_8)) {
+                writer.write(DATE_FORMAT.format(new Date()) + "\n" + errorName + "\n" + ExceptionUtils.getStackTrace(e) + "\n");
             } catch (IOException ioException) {
                 // no-op
             }
         }
-        if (tooltip != null)
-            tooltip.add(new TextComponent("<ERROR>"));
+        if (tooltip != null) {
+            tooltip.addLine(new TextComponent("Error on " + errorName).withStyle(ChatFormatting.RED));
+            tooltip.addLine(new TextComponent("See logs/waila_errors.log for more info").withStyle(ChatFormatting.RED));
+        }
     }
 
 }
