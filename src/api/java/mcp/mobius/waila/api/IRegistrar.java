@@ -328,6 +328,7 @@ public interface IRegistrar {
      * @deprecated use {@link #addDisplayItem(IBlockComponentProvider, Class)}
      */
     @Deprecated
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.19")
     default <T> void registerStackProvider(IComponentProvider provider, Class<T> clazz) {
         addDisplayItem(provider, clazz);
     }
@@ -338,6 +339,7 @@ public interface IRegistrar {
      * @deprecated use {@link #addComponent(IBlockComponentProvider, TooltipPosition, Class)}
      */
     @Deprecated
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.19")
     default <T> void registerComponentProvider(IComponentProvider provider, TooltipPosition position, Class<T> clazz) {
         addComponent(provider, position, clazz);
     }
@@ -348,6 +350,7 @@ public interface IRegistrar {
      * @deprecated use {@link ITooltipComponent}
      */
     @Deprecated
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
     void addRenderer(ResourceLocation id, ITooltipRenderer renderer);
 
     /**
@@ -356,14 +359,17 @@ public interface IRegistrar {
      * @deprecated use {@link #addBlockData(IServerDataProvider, Class)}
      */
     @Deprecated
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.19")
     default <T> void registerBlockDataProvider(IServerDataProvider<BlockEntity> provider, Class<T> clazz) {
         addBlockData(provider, clazz);
     }
 
     @Deprecated
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
     <T> void addDisplayItem(IEntityComponentProvider provider, Class<T> clazz, int priority);
 
     @Deprecated
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
     default <T> void addDisplayItem(IEntityComponentProvider provider, Class<T> clazz) {
         addDisplayItem(provider, clazz, DEFAULT_PRIORITY);
     }
@@ -374,6 +380,7 @@ public interface IRegistrar {
      * @deprecated use {@link #addOverride(IEntityComponentProvider, Class)}
      */
     @Deprecated
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.19")
     default <T> void registerOverrideEntityProvider(IEntityComponentProvider provider, Class<T> entity) {
         addOverride(provider, entity);
     }
@@ -384,6 +391,7 @@ public interface IRegistrar {
      * @deprecated use {@link #addDisplayItem(IEntityComponentProvider, Class)}
      */
     @Deprecated
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.19")
     default <T> void registerEntityStackProvider(IEntityComponentProvider provider, Class<T> entity) {
         addDisplayItem(provider, entity);
     }
@@ -394,6 +402,7 @@ public interface IRegistrar {
      * @deprecated use {@link #addComponent(IEntityComponentProvider, TooltipPosition, Class)}
      */
     @Deprecated
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.19")
     default <T> void registerComponentProvider(IEntityComponentProvider provider, TooltipPosition position, Class<T> clazz) {
         addComponent(provider, position, clazz);
     }
@@ -404,6 +413,7 @@ public interface IRegistrar {
      * @deprecated use {@link #addEntityData(IServerDataProvider, Class)}
      */
     @Deprecated
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.19")
     default <T> void registerEntityDataProvider(IServerDataProvider<Entity> provider, Class<T> clazz) {
         addEntityData(provider, clazz);
     }
@@ -414,6 +424,7 @@ public interface IRegistrar {
      * @deprecated use {@link #addRenderer(ResourceLocation, ITooltipRenderer)}
      */
     @Deprecated
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.19")
     default void registerTooltipRenderer(ResourceLocation id, ITooltipRenderer renderer) {
         addRenderer(id, renderer);
     }

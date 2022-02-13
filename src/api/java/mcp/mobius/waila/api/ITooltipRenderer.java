@@ -13,6 +13,7 @@ import org.jetbrains.annotations.ApiStatus;
 @Deprecated
 @ApiSide.ClientOnly
 @ApiStatus.OverrideOnly
+@ApiStatus.ScheduledForRemoval(inVersion = "1.20")
 public interface ITooltipRenderer {
 
     Dimension getSize(CompoundTag data, ICommonAccessor accessor);

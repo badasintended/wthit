@@ -131,6 +131,7 @@ public interface IBlockComponentProvider {
     /**
      * @deprecated use {@link #getIcon(IBlockAccessor, IPluginConfig)}
      */
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
     @Deprecated
     default ItemStack getDisplayItem(IBlockAccessor accessor, IPluginConfig config) {
         return ItemStack.EMPTY;
@@ -140,6 +141,7 @@ public interface IBlockComponentProvider {
      * @deprecated use {@link #appendHead(ITooltip, IBlockAccessor, IPluginConfig)}
      */
     @Deprecated
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
     default void appendHead(List<Component> tooltip, IBlockAccessor accessor, IPluginConfig config) {
     }
 
@@ -147,6 +149,7 @@ public interface IBlockComponentProvider {
      * @deprecated use {@link #appendBody(ITooltip, IBlockAccessor, IPluginConfig)}
      */
     @Deprecated
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
     default void appendBody(List<Component> tooltip, IBlockAccessor accessor, IPluginConfig config) {
     }
 
@@ -154,6 +157,7 @@ public interface IBlockComponentProvider {
      * @deprecated use {@link #appendTail(ITooltip, IBlockAccessor, IPluginConfig)}
      */
     @Deprecated
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
     default void appendTail(List<Component> tooltip, IBlockAccessor accessor, IPluginConfig config) {
     }
 

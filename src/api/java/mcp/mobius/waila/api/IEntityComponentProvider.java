@@ -126,6 +126,7 @@ public interface IEntityComponentProvider {
      * @deprecated use {@link #getIcon(IEntityAccessor, IPluginConfig)}
      */
     @Deprecated
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
     default ItemStack getDisplayItem(IEntityAccessor accessor, IPluginConfig config) {
         return ItemStack.EMPTY;
     }
@@ -134,6 +135,7 @@ public interface IEntityComponentProvider {
      * @deprecated use {@link #appendHead(ITooltip, IEntityAccessor, IPluginConfig)}
      */
     @Deprecated
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
     default void appendHead(List<Component> tooltip, IEntityAccessor accessor, IPluginConfig config) {
     }
 
@@ -141,6 +143,7 @@ public interface IEntityComponentProvider {
      * @deprecated use {@link #appendBody(ITooltip, IEntityAccessor, IPluginConfig)}
      */
     @Deprecated
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
     default void appendBody(List<Component> tooltip, IEntityAccessor accessor, IPluginConfig config) {
     }
 
@@ -148,6 +151,7 @@ public interface IEntityComponentProvider {
      * @deprecated use {@link #appendTail(ITooltip, IEntityAccessor, IPluginConfig)}
      */
     @Deprecated
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
     default void appendTail(List<Component> tooltip, IEntityAccessor accessor, IPluginConfig config) {
     }
 

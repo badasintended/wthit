@@ -8,8 +8,10 @@ import mcp.mobius.waila.api.IEventListener;
 import mcp.mobius.waila.api.IPluginConfig;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
+import org.jetbrains.annotations.ApiStatus;
 
 @Deprecated
+@ApiStatus.ScheduledForRemoval(inVersion = "1.20")
 @SuppressWarnings("DeprecatedIsStillUsed")
 public class WailaRenderEvent {
 

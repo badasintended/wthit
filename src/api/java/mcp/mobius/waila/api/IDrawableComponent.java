@@ -12,6 +12,7 @@ import org.jetbrains.annotations.ApiStatus;
 @Deprecated
 @ApiSide.ClientOnly
 @ApiStatus.NonExtendable
+@ApiStatus.ScheduledForRemoval(inVersion = "1.20")
 public interface IDrawableComponent {
 
     /**

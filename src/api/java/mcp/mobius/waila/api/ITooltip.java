@@ -59,12 +59,14 @@ public interface ITooltip {
      * @deprecated use {@link ITooltipLine#with(Component)}
      */
     @Deprecated
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
     boolean add(Component component);
 
     /**
      * @deprecated use {@link ITooltipLine#with(ITooltipComponent)}
      */
     @Deprecated
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
     default void addPair(Component key, Component value) {
         addLine(new PairComponent(key, value));
     }
@@ -73,12 +75,14 @@ public interface ITooltip {
      * @deprecated use {@link ITooltipComponent}
      */
     @Deprecated
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
     IDrawableComponent addDrawable();
 
     /**
      * @deprecated use {@link ITooltipComponent}
      */
     @Deprecated
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
     default IDrawableComponent addDrawable(ResourceLocation id, CompoundTag data) {
         return addDrawable().with(id, data);
     }
@@ -87,6 +91,7 @@ public interface ITooltip {
      * @deprecated use {@link #setLine(ResourceLocation, Component)}
      */
     @Deprecated
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
     default void set(ResourceLocation tag, Component component) {
         setLine(tag, component);
     }

@@ -9,8 +9,10 @@ import mcp.mobius.waila.api.ITooltip;
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
 import net.minecraft.network.chat.Component;
+import org.jetbrains.annotations.ApiStatus;
 
 @Deprecated
+@ApiStatus.ScheduledForRemoval(inVersion = "1.20")
 @SuppressWarnings({"ClassCanBeRecord", "DeprecatedIsStillUsed"})
 public class WailaTooltipEvent {
 

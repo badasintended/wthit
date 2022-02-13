@@ -8,11 +8,13 @@ import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITooltip;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.eventbus.api.Event;
+import org.jetbrains.annotations.ApiStatus;
 
 /**
  * @deprecated use {@link IEventListener#onHandleTooltip(ITooltip, ICommonAccessor, IPluginConfig)}
  */
 @Deprecated
+@ApiStatus.ScheduledForRemoval(inVersion = "1.20")
 @SuppressWarnings("DeprecatedIsStillUsed")
 public class WailaTooltipEvent extends Event {
 

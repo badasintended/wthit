@@ -8,8 +8,10 @@ import mcp.mobius.waila.api.IEventListener;
 import mcp.mobius.waila.api.IPluginConfig;
 import net.minecraftforge.eventbus.api.Cancelable;
 import net.minecraftforge.eventbus.api.Event;
+import org.jetbrains.annotations.ApiStatus;
 
 @Deprecated
+@ApiStatus.ScheduledForRemoval(inVersion = "1.20")
 @SuppressWarnings("DeprecatedIsStillUsed")
 public class WailaRenderEvent extends Event {
 

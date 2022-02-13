@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.ApiStatus;
 
 /**
  * TODO: Remove
@@ -11,6 +12,7 @@ import net.minecraft.world.item.ItemStack;
  * @deprecated use {@link IBlockComponentProvider}
  */
 @Deprecated
+@ApiStatus.ScheduledForRemoval(inVersion = "1.19")
 public interface IComponentProvider extends IBlockComponentProvider {
 
     @Override

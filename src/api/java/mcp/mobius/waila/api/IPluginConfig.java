@@ -45,6 +45,7 @@ public interface IPluginConfig {
      * @deprecated use {@link #getBoolean(ResourceLocation)}
      */
     @Deprecated
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
     default boolean get(ResourceLocation key) {
         return get(key, false);
     }
@@ -53,6 +54,7 @@ public interface IPluginConfig {
      * @deprecated use {@link #getBoolean(ResourceLocation)}
      */
     @Deprecated
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
     boolean get(ResourceLocation key, boolean defaultValue);
 
 }
