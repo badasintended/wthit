@@ -11,6 +11,7 @@ import mcp.mobius.waila.plugin.vanilla.provider.FallingBlockProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.FurnaceProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.InfestedBlockProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.ItemEntityProvider;
+import mcp.mobius.waila.plugin.vanilla.provider.ItemFrameProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.JukeboxProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.NoteBlockProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.PetOwnerProvider;
@@ -22,6 +23,7 @@ import mcp.mobius.waila.plugin.vanilla.provider.SpawnerProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.TrappedChestProvider;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.decoration.ItemFrame;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.vehicle.Boat;
@@ -132,6 +134,10 @@ public class WailaVanilla implements IWailaPlugin {
         registrar.addComponent(NoteBlockProvider.INSTANCE, BODY, NoteBlock.class);
 
         registrar.addComponent(PetOwnerProvider.INSTANCE, BODY, Entity.class);
+
+        registrar.addIcon(ItemFrameProvider.INSTANCE, ItemFrame.class);
+        registrar.addComponent(ItemFrameProvider.INSTANCE, HEAD, ItemFrame.class);
+        registrar.addComponent(ItemFrameProvider.INSTANCE, TAIL, ItemFrame.class);
     }
 
 }
