@@ -2,6 +2,7 @@ package mcp.mobius.waila.api;
 
 import mcp.mobius.waila.api.__internal__.ApiSide;
 import mcp.mobius.waila.api.__internal__.IApiService;
+import net.minecraft.network.chat.TextComponent;
 import org.jetbrains.annotations.ApiStatus;
 
 @ApiSide.ClientOnly
@@ -16,6 +17,10 @@ public interface IWailaConfig {
 
     Overlay getOverlay();
 
+    Formatter getFormatter();
+
+    @Deprecated
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
     Formatting getFormatting();
 
     interface General {
@@ -116,6 +121,22 @@ public interface IWailaConfig {
 
     }
 
+    interface Formatter {
+
+        TextComponent modName(Object modName);
+
+        TextComponent blockName(Object blockName);
+
+        TextComponent fluidName(Object fluidName);
+
+        TextComponent entityName(Object entityName);
+
+        TextComponent registryName(Object registryName);
+
+    }
+
+    @Deprecated
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
     interface Formatting {
 
         String formatModName(Object modName);

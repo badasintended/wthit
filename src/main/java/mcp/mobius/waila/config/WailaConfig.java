@@ -13,13 +13,14 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import mcp.mobius.waila.api.IWailaConfig;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 
 public class WailaConfig implements IWailaConfig {
 
     private final General general = new General();
     private final Overlay overlay = new Overlay();
-    private final Formatting formatting = new Formatting();
+    private final Formatter formatter = new Formatter();
     private int configVersion = 0;
 
     public int getConfigVersion() {
@@ -41,8 +42,14 @@ public class WailaConfig implements IWailaConfig {
     }
 
     @Override
-    public Formatting getFormatting() {
-        return formatting;
+    public Formatter getFormatter() {
+        return formatter;
+    }
+
+    @Override
+    @Deprecated
+    public Formatter getFormatting() {
+        return formatter;
     }
 
     public static class General implements IWailaConfig.General {
@@ -325,7 +332,7 @@ public class WailaConfig implements IWailaConfig {
 
     }
 
-    public static class Formatting implements IWailaConfig.Formatting {
+    public static class Formatter implements IWailaConfig.Formatter, IWailaConfig.Formatting {
 
         private String modName = "\u00A79\u00A7o%s";
         private String blockName = "\u00a7f%s";
@@ -396,6 +403,31 @@ public class WailaConfig implements IWailaConfig {
         @Override
         public String formatRegistryName(Object registryName) {
             return String.format(this.registryName, registryName);
+        }
+
+        @Override
+        public TextComponent modName(Object modName) {
+            return new TextComponent(formatModName(modName));
+        }
+
+        @Override
+        public TextComponent blockName(Object blockName) {
+            return new TextComponent(formatBlockName(blockName));
+        }
+
+        @Override
+        public TextComponent fluidName(Object fluidName) {
+            return new TextComponent(formatFluidName(fluidName));
+        }
+
+        @Override
+        public TextComponent entityName(Object entityName) {
+            return new TextComponent(formatEntityName(entityName));
+        }
+
+        @Override
+        public TextComponent registryName(Object registryName) {
+            return new TextComponent(formatRegistryName(registryName));
         }
 
     }

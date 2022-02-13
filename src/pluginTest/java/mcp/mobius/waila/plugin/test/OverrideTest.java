@@ -6,7 +6,6 @@ import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 
 public enum OverrideTest implements IBlockComponentProvider {
@@ -18,7 +17,7 @@ public enum OverrideTest implements IBlockComponentProvider {
     @Override
     public void appendTail(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
         if (config.getBoolean(WailaConstants.CONFIG_SHOW_MOD_NAME) && config.getBoolean(MOD_NAME)) {
-            tooltip.setLine(WailaConstants.MOD_NAME_TAG, new TextComponent(IWailaConfig.get().getFormatting().formatModName("Overrode")));
+            tooltip.setLine(WailaConstants.MOD_NAME_TAG, IWailaConfig.get().getFormatter().modName("Overrode"));
         }
     }
 

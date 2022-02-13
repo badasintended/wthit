@@ -12,7 +12,6 @@ import mcp.mobius.waila.api.component.ItemComponent;
 import mcp.mobius.waila.plugin.core.component.HealthComponent;
 import mcp.mobius.waila.plugin.core.config.Options;
 import net.minecraft.core.Registry;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -39,10 +38,10 @@ public enum EntityProvider implements IEntityComponentProvider {
     @Override
     public void appendHead(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
         Entity entity = accessor.getEntity();
-        IWailaConfig.Formatting formatting = IWailaConfig.get().getFormatting();
-        tooltip.setLine(WailaConstants.OBJECT_NAME_TAG, new TextComponent(formatting.formatEntityName(entity.getDisplayName().getString())));
+        IWailaConfig.Formatter formatter = IWailaConfig.get().getFormatter();
+        tooltip.setLine(WailaConstants.OBJECT_NAME_TAG, formatter.entityName(entity.getDisplayName().getString()));
         if (config.getBoolean(WailaConstants.CONFIG_SHOW_REGISTRY))
-            tooltip.setLine(WailaConstants.REGISTRY_NAME_TAG, new TextComponent(formatting.formatRegistryName(Registry.ENTITY_TYPE.getKey(entity.getType()))));
+            tooltip.setLine(WailaConstants.REGISTRY_NAME_TAG, formatter.registryName(Registry.ENTITY_TYPE.getKey(entity.getType())));
     }
 
     @Override
@@ -61,8 +60,9 @@ public enum EntityProvider implements IEntityComponentProvider {
 
     @Override
     public void appendTail(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        if (config.getBoolean(WailaConstants.CONFIG_SHOW_MOD_NAME))
-            tooltip.setLine(WailaConstants.MOD_NAME_TAG, new TextComponent(IWailaConfig.get().getFormatting().formatModName(IModInfo.get(accessor.getEntity()).getName())));
+        if (config.getBoolean(WailaConstants.CONFIG_SHOW_MOD_NAME)) {
+            tooltip.setLine(WailaConstants.MOD_NAME_TAG, IWailaConfig.get().getFormatter().modName(IModInfo.get(accessor.getEntity()).getName()));
+        }
     }
 
 }

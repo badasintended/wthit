@@ -14,7 +14,6 @@ import mcp.mobius.waila.service.IClientService;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.item.ItemStack;
 import org.lwjgl.glfw.GLFW;
 
@@ -72,7 +71,7 @@ public abstract class WailaClient {
             for (IEventListener listener : Registrar.INSTANCE.eventListeners.get(Object.class)) {
                 String name = listener.getHoveredItemModName(stack, PluginConfig.INSTANCE);
                 if (name != null) {
-                    tooltip.add(new TextComponent(IWailaConfig.get().getFormatting().formatModName(name)));
+                    tooltip.add(IWailaConfig.get().getFormatter().modName(name));
                     return;
                 }
             }

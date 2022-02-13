@@ -132,29 +132,29 @@ public class WailaConfigScreen extends ConfigScreen {
 
         options.with(new CategoryEntry("config.waila.formatting"))
             .with(new InputValue<>("config.waila.format_mod_name",
-                get().getFormatting().getModName(),
-                defaultConfig.getFormatting().getModName(),
-                val -> get().getFormatting().setModName(val.isEmpty() || !val.contains("%s") ? get().getFormatting().getModName() : val),
+                get().getFormatter().getModName(),
+                defaultConfig.getFormatter().getModName(),
+                val -> get().getFormatter().setModName(!val.contains("%s") ? get().getFormatter().getModName() : val),
                 InputValue.ANY))
             .with(new InputValue<>("config.waila.format_block_name",
-                get().getFormatting().getBlockName(),
-                defaultConfig.getFormatting().getBlockName(),
-                val -> get().getFormatting().setBlockName(val.isEmpty() || !val.contains("%s") ? get().getFormatting().getBlockName() : val),
+                get().getFormatter().getBlockName(),
+                defaultConfig.getFormatter().getBlockName(),
+                val -> get().getFormatter().setBlockName(!val.contains("%s") ? get().getFormatter().getBlockName() : val),
                 InputValue.ANY))
             .with(new InputValue<>("config.waila.format_fluid_name",
-                get().getFormatting().getFluidName(),
-                defaultConfig.getFormatting().getFluidName(),
-                val -> get().getFormatting().setFluidName(val.isEmpty() || !val.contains("%s") ? get().getFormatting().getFluidName() : val),
+                get().getFormatter().getFluidName(),
+                defaultConfig.getFormatter().getFluidName(),
+                val -> get().getFormatter().setFluidName(!val.contains("%s") ? get().getFormatter().getFluidName() : val),
                 InputValue.ANY))
             .with(new InputValue<>("config.waila.format_entity_name",
-                get().getFormatting().getEntityName(),
-                defaultConfig.getFormatting().getEntityName(),
-                val -> get().getFormatting().setEntityName(val.isEmpty() || !val.contains("%s") ? get().getFormatting().getEntityName() : val),
+                get().getFormatter().getEntityName(),
+                defaultConfig.getFormatter().getEntityName(),
+                val -> get().getFormatter().setEntityName(!val.contains("%s") ? get().getFormatter().getEntityName() : val),
                 InputValue.ANY))
             .with(new InputValue<>("config.waila.format_registry_name",
-                get().getFormatting().getRegistryName(),
-                defaultConfig.getFormatting().getRegistryName(),
-                val -> get().getFormatting().setRegistryName(val.isEmpty() || !val.contains("%s") ? get().getFormatting().getRegistryName() : val),
+                get().getFormatter().getRegistryName(),
+                defaultConfig.getFormatter().getRegistryName(),
+                val -> get().getFormatter().setRegistryName(!val.contains("%s") ? get().getFormatter().getRegistryName() : val),
                 InputValue.ANY));
 
         return options;

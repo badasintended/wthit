@@ -131,26 +131,31 @@ public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IDataAccess
     }
 
     @Override
+    @Deprecated
     public String getModNameFormat() {
         return Waila.CONFIG.get().getFormatting().getModName();
     }
 
     @Override
+    @Deprecated
     public String getBlockNameFormat() {
         return Waila.CONFIG.get().getFormatting().getBlockName();
     }
 
     @Override
+    @Deprecated
     public String getFluidNameFormat() {
         return Waila.CONFIG.get().getFormatting().getFluidName();
     }
 
     @Override
+    @Deprecated
     public String getEntityNameFormat() {
         return Waila.CONFIG.get().getFormatting().getEntityName();
     }
 
     @Override
+    @Deprecated
     public String getRegistryNameFormat() {
         return Waila.CONFIG.get().getFormatting().getRegistryName();
     }

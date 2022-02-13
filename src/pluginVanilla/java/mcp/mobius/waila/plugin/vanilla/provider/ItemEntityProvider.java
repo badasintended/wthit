@@ -11,7 +11,6 @@ import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.component.ItemComponent;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.core.Registry;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
@@ -34,20 +33,21 @@ public enum ItemEntityProvider implements IEntityComponentProvider {
 
     @Override
     public void appendHead(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        IWailaConfig.Formatting formatting = IWailaConfig.get().getFormatting();
+        IWailaConfig.Formatter formatter = IWailaConfig.get().getFormatter();
 
         ItemStack stack = accessor.<ItemEntity>getEntity().getItem();
-        tooltip.setLine(WailaConstants.OBJECT_NAME_TAG, new TextComponent(formatting.formatEntityName(stack.getHoverName().getString())));
+        tooltip.setLine(WailaConstants.OBJECT_NAME_TAG, formatter.entityName(stack.getHoverName().getString()));
 
-        if (config.getBoolean(WailaConstants.CONFIG_SHOW_REGISTRY))
-            tooltip.setLine(WailaConstants.REGISTRY_NAME_TAG, new TextComponent(formatting.formatRegistryName(Registry.ITEM.getKey(stack.getItem()))));
+        if (config.getBoolean(WailaConstants.CONFIG_SHOW_REGISTRY)) {
+            tooltip.setLine(WailaConstants.REGISTRY_NAME_TAG, formatter.registryName(Registry.ITEM.getKey(stack.getItem())));
+        }
     }
 
     @Override
     public void appendTail(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
         if (config.getBoolean(WailaConstants.CONFIG_SHOW_MOD_NAME)) {
             String mod = IModInfo.get(accessor.<ItemEntity>getEntity().getItem()).getName();
-            tooltip.setLine(WailaConstants.MOD_NAME_TAG, new TextComponent(IWailaConfig.get().getFormatting().formatModName(mod)));
+            tooltip.setLine(WailaConstants.MOD_NAME_TAG, IWailaConfig.get().getFormatter().modName(mod));
         }
     }
 }
