@@ -38,23 +38,40 @@ public class ClientTickHandler {
         TooltipHandler.shouldRender = false;
 
         Minecraft client = Minecraft.getInstance();
-        WailaConfig config = Waila.CONFIG.get();
+        WailaConfig.General config = Waila.CONFIG.get().getGeneral();
 
-        if (client.level == null
-            || !config.getGeneral().isDisplayTooltip()
-            || config.getGeneral().getDisplayMode() == IWailaConfig.General.DisplayMode.HOLD_KEY && !WailaClient.SHOW_OVERLAY.isDown()
-            || client.screen != null && !(client.screen instanceof ChatScreen)
-            || config.getGeneral().isHideFromPlayerList() && client.gui.getTabList().visible
-            || config.getGeneral().isHideFromDebug() && client.options.renderDebug) {
+        if (client.level == null || !config.isDisplayTooltip()) {
+            return;
+        }
+
+        if (config.getDisplayMode() == IWailaConfig.General.DisplayMode.HOLD_KEY && !WailaClient.SHOW_OVERLAY.isDown()) {
+            return;
+        }
+
+        if (client.screen != null && !(client.screen instanceof ChatScreen)) {
+            return;
+        }
+
+        if (config.isHideFromPlayerList() && client.gui.getTabList().visible) {
+            return;
+        }
+
+        if (config.isHideFromDebug() && client.options.renderDebug) {
             return;
         }
 
         HitResult target = RaycastUtil.fire();
+
         if (target.getType() == HitResult.Type.MISS) {
             return;
         }
 
         Player player = client.player;
+
+        if (player == null) {
+            return;
+        }
+
         DataAccessor accessor = DataAccessor.INSTANCE;
         accessor.set(client.level, player, target, client.cameraEntity, client.getFrameTime());
 
@@ -64,21 +81,26 @@ public class ClientTickHandler {
             Block block = accessor.getBlock();
 
             if (block instanceof LiquidBlock) {
-                if (!PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_FLUID))
+                if (!PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_FLUID)) {
                     return;
-            } else if (!PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_BLOCK))
+                }
+            } else if (!PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_BLOCK)) {
                 return;
+            }
 
-            if (Waila.BLOCK_BLACKLIST_TAG.contains(block) || IBlacklistConfig.get().contains(block))
+            if (accessor.getBlockState().is(Waila.BLOCK_BLACKLIST_TAG) || IBlacklistConfig.get().contains(block)) {
                 return;
+            }
 
             BlockEntity blockEntity = accessor.getBlockEntity();
-            if (blockEntity != null && IBlacklistConfig.get().contains(blockEntity))
+            if (blockEntity != null && IBlacklistConfig.get().contains(blockEntity)) {
                 return;
+            }
 
             BlockState state = ComponentHandler.getOverrideBlock(target);
-            if (state == IBlockComponentProvider.EMPTY_BLOCK_STATE)
+            if (state == IBlockComponentProvider.EMPTY_BLOCK_STATE) {
                 return;
+            }
 
             accessor.setState(state);
 
@@ -88,7 +110,8 @@ public class ClientTickHandler {
 
             TOOLTIP.clear();
             gatherBlock(accessor, TOOLTIP, BODY);
-            if (Waila.CONFIG.get().getGeneral().isShiftForDetails() && !TOOLTIP.isEmpty() && !player.isShiftKeyDown()) {
+
+            if (config.isShiftForDetails() && !TOOLTIP.isEmpty() && !player.isShiftKeyDown()) {
                 TooltipHandler.add(SNEAK_DETAIL);
             } else {
                 TooltipHandler.add(TOOLTIP);
@@ -98,15 +121,25 @@ public class ClientTickHandler {
             gatherBlock(accessor, TOOLTIP, TAIL);
             TooltipHandler.add(TOOLTIP);
         } else if (target.getType() == HitResult.Type.ENTITY) {
-            if (!PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_ENTITY))
+            if (!PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_ENTITY)) {
                 return;
+            }
 
-            if (Waila.ENTITY_BLACKLIST_TAG.contains(accessor.getEntity().getType()) || IBlacklistConfig.get().contains(accessor.getEntity()))
+            Entity actualEntity = accessor.getEntity();
+
+            if (actualEntity == null) {
                 return;
+            }
+
+            if (actualEntity.getType().is(Waila.ENTITY_BLACKLIST_TAG) || IBlacklistConfig.get().contains(accessor.getEntity())) {
+                return;
+            }
 
             Entity targetEnt = ComponentHandler.getOverrideEntity(target);
-            if (targetEnt == IEntityComponentProvider.EMPTY_ENTITY)
+
+            if (targetEnt == IEntityComponentProvider.EMPTY_ENTITY) {
                 return;
+            }
 
             accessor.setEntity(targetEnt);
 
@@ -117,7 +150,8 @@ public class ClientTickHandler {
 
                 TOOLTIP.clear();
                 gatherEntity(targetEnt, accessor, TOOLTIP, BODY);
-                if (config.getGeneral().isShiftForDetails() && !TOOLTIP.isEmpty() && !player.isShiftKeyDown()) {
+
+                if (config.isShiftForDetails() && !TOOLTIP.isEmpty() && !player.isShiftKeyDown()) {
                     TooltipHandler.add(SNEAK_DETAIL);
                 } else {
                     TooltipHandler.add(TOOLTIP);

@@ -6,9 +6,6 @@ import java.util.Optional;
 import mcp.mobius.waila.impl.Impl;
 import mcp.mobius.waila.network.PacketSender;
 import mcp.mobius.waila.util.ModInfo;
-import net.minecraft.tags.Tag;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.level.block.Block;
 
 public interface ICommonService {
 
@@ -21,10 +18,6 @@ public interface ICommonService {
     Path getConfigDir();
 
     PacketSender getPacketSender();
-
-    Tag<Block> getBlockBlacklistTag();
-
-    Tag<EntityType<?>> getEntityBlacklistTag();
 
     Optional<ModInfo> createModInfo(String namespace);
 
