@@ -17,13 +17,14 @@ import net.minecraft.util.FormattedCharSequence;
 import org.jetbrains.annotations.Nullable;
 
 // TODO: Remove MutableComponent interface
-public class Line implements ITooltipLine, ITooltipComponent, MutableComponent {
+public class Line implements ITooltipLine, MutableComponent {
 
     @Nullable
     public final ResourceLocation tag;
     public final List<ITooltipComponent> components = new ArrayList<>();
 
-    private int width, height;
+    private int width = -1;
+    private int height;
 
     public Line(@Nullable ResourceLocation tag) {
         this.tag = tag;
@@ -32,7 +33,6 @@ public class Line implements ITooltipLine, ITooltipComponent, MutableComponent {
     @Override
     public Line with(ITooltipComponent component) {
         components.add(component);
-        width += component.getWidth() + 1;
         height = Math.max(component.getHeight(), height);
         return this;
     }
@@ -42,17 +42,18 @@ public class Line implements ITooltipLine, ITooltipComponent, MutableComponent {
         return with(component instanceof DrawableComponent drawable ? drawable : new WrappedComponent(component));
     }
 
-    @Override
     public int getWidth() {
+        if (width == -1) {
+            width = components.stream().mapToInt(c -> c.getWidth() + 1).sum();
+        }
+
         return width;
     }
 
-    @Override
     public int getHeight() {
         return height;
     }
 
-    @Override
     public void render(PoseStack matrices, int x, int y, float delta) {
         int componentX = x;
         for (ITooltipComponent component : components) {
