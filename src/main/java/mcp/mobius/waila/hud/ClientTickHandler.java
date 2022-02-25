@@ -2,6 +2,7 @@ package mcp.mobius.waila.hud;
 
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.WailaClient;
+import mcp.mobius.waila.access.DataAccessor;
 import mcp.mobius.waila.api.IBlacklistConfig;
 import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IEntityComponentProvider;
@@ -9,7 +10,6 @@ import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.config.WailaConfig;
-import mcp.mobius.waila.data.DataAccessor;
 import mcp.mobius.waila.util.RaycastUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;

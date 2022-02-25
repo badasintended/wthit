@@ -1,4 +1,4 @@
-package mcp.mobius.waila.data;
+package mcp.mobius.waila.access;
 
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IBlockAccessor;

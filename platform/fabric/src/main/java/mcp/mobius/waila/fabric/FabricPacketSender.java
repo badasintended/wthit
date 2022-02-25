@@ -1,18 +1,28 @@
 package mcp.mobius.waila.fabric;
 
+import java.util.concurrent.CompletableFuture;
+
 import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.config.BlacklistConfig;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.network.PacketExecutor;
 import mcp.mobius.waila.network.PacketSender;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.fabric.api.client.networking.v1.ClientLoginNetworking;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.ServerLoginConnectionEvents;
+import net.fabricmc.fabric.api.networking.v1.ServerLoginNetworking;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
 
 import static mcp.mobius.waila.network.PacketIo.GenerateClientDump;
 import static mcp.mobius.waila.network.PacketIo.ReceiveData;
@@ -23,6 +33,7 @@ import static mcp.mobius.waila.network.PacketIo.SendConfig;
 
 public class FabricPacketSender extends PacketSender {
 
+    static final ResourceLocation VERSION_CHECK = Waila.id("version_check");
     static final ResourceLocation REQUEST_ENTITY = Waila.id("request_entity");
     static final ResourceLocation REQUEST_BLOCK = Waila.id("request_tile");
     static final ResourceLocation RECEIVE_DATA = Waila.id("receive_data");
@@ -32,6 +43,23 @@ public class FabricPacketSender extends PacketSender {
 
     @Override
     public void initMain() {
+        ServerLoginConnectionEvents.QUERY_START.register((handler, server, sender, synchronizer) ->
+            sender.sendPacket(VERSION_CHECK, PacketByteBufs.empty()));
+
+        ServerLoginNetworking.registerGlobalReceiver(VERSION_CHECK, (server, handler, understood, buf, synchronizer, responseSender) -> {
+            if (understood) {
+                int clientVersion = buf.readVarInt();
+                if (clientVersion != NETWORK_VERSION) {
+                    server.execute(() -> handler.disconnect(new TextComponent(WailaConstants.MOD_NAME + " network version mismatch! " +
+                        "Server version is " + NETWORK_VERSION + " while client version is " + clientVersion)));
+                }
+            } else {
+                server.execute(() -> handler.disconnect(new TextComponent("Your " + WailaConstants.MOD_NAME + " client version is outdated!")));
+            }
+        });
+
+        ServerPlayNetworking.registerGlobalReceiver(VERSION_CHECK, (server, player, handler, buf, responseSender) -> {});
+
         ServerPlayNetworking.registerGlobalReceiver(REQUEST_ENTITY, (server, player, handler, buf, response) ->
             RequestEntity.consume(buf, entityId ->
                 server.execute(() -> PacketExecutor.requestEntity(player, entityId, tag ->
@@ -46,6 +74,18 @@ public class FabricPacketSender extends PacketSender {
     @Override
     @Environment(EnvType.CLIENT)
     public void initClient() {
+        ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
+            if (!ClientPlayNetworking.canSend(VERSION_CHECK)) {
+                handler.getConnection().disconnect(new TextComponent("Server " + WailaConstants.MOD_NAME + " version is outdated!"));
+            }
+        });
+
+        ClientLoginNetworking.registerGlobalReceiver(VERSION_CHECK, (client, handler, buf, listenerAdder) -> {
+            FriendlyByteBuf versionBuf = PacketByteBufs.create();
+            versionBuf.writeVarInt(NETWORK_VERSION);
+            return CompletableFuture.completedFuture(versionBuf);
+        });
+
         ClientPlayNetworking.registerGlobalReceiver(RECEIVE_DATA, (client, handler, buf, response) ->
             ReceiveData.consume(buf, tag ->
                 client.execute(() -> PacketExecutor.receiveData(tag))));
@@ -86,14 +126,14 @@ public class FabricPacketSender extends PacketSender {
 
     @Override
     @Environment(EnvType.CLIENT)
-    public void requestEntity(Entity entity) {
-        ClientPlayNetworking.send(REQUEST_ENTITY, RequestEntity.create(entity));
+    public void requestEntity(EntityHitResult hitResult) {
+        ClientPlayNetworking.send(REQUEST_ENTITY, RequestEntity.create(hitResult));
     }
 
     @Override
     @Environment(EnvType.CLIENT)
-    public void requestBlock(BlockEntity blockEntity) {
-        ClientPlayNetworking.send(REQUEST_BLOCK, RequestBlock.create(blockEntity));
+    public void requestBlock(BlockHitResult hitResult) {
+        ClientPlayNetworking.send(REQUEST_BLOCK, RequestBlock.create(hitResult));
     }
 
 }

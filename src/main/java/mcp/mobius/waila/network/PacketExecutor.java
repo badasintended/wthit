@@ -6,11 +6,15 @@ import java.util.Set;
 import java.util.function.Consumer;
 
 import com.google.gson.Gson;
+import it.unimi.dsi.fastutil.ints.IntObjectPair;
 import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.access.DataAccessor;
+import mcp.mobius.waila.access.ServerAccessor;
+import mcp.mobius.waila.api.IServerAccessor;
+import mcp.mobius.waila.api.IServerDataProvider;
 import mcp.mobius.waila.config.BlacklistConfig;
 import mcp.mobius.waila.config.ConfigEntry;
 import mcp.mobius.waila.config.PluginConfig;
-import mcp.mobius.waila.data.DataAccessor;
 import mcp.mobius.waila.debug.DumpGenerator;
 import mcp.mobius.waila.registry.Registrar;
 import net.minecraft.client.Minecraft;
@@ -24,6 +28,9 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.Vec3;
 
 public class PacketExecutor {
 
@@ -60,49 +67,63 @@ public class PacketExecutor {
         setBlackList(rawIds[2], blacklist.entityTypes, Registry.ENTITY_TYPE);
     }
 
-    public static void requestEntity(ServerPlayer player, int entityId, Consumer<CompoundTag> consumer) {
+    public static void requestEntity(ServerPlayer player, IntObjectPair<Vec3> pair, Consumer<CompoundTag> consumer) {
         Registrar registrar = Registrar.INSTANCE;
         Level world = player.level;
-        Entity entity = world.getEntity(entityId);
+        Entity entity = world.getEntity(pair.leftInt());
 
-        if (entity == null)
+        if (entity == null) {
             return;
+        }
 
-        CompoundTag tag = new CompoundTag();
-        registrar.entityData.get(entity).forEach(provider ->
-            provider.appendServerData(tag, player, world, entity)
-        );
+        CompoundTag data = new CompoundTag();
+        IServerAccessor<Entity> accessor = ServerAccessor.INSTANCE.set(world, player, new EntityHitResult(entity, pair.right()), entity);
 
-        tag.putInt("WailaEntityID", entity.getId());
-        consumer.accept(tag);
+        for (IServerDataProvider<Entity> provider : registrar.entityData.get(entity)) {
+            provider.appendServerData(data, accessor, PluginConfig.INSTANCE);
+            provider.appendServerData(data, player, world, entity);
+        }
+
+        data.putInt("WailaEntityID", entity.getId());
+        consumer.accept(data);
     }
 
-    public static void requestBlockEntity(ServerPlayer player, BlockPos pos, Consumer<CompoundTag> consumer) {
+    public static void requestBlockEntity(ServerPlayer player, BlockHitResult hitResult, Consumer<CompoundTag> consumer) {
         Registrar registrar = Registrar.INSTANCE;
         Level world = player.level;
+        BlockPos pos = hitResult.getBlockPos();
+
         //noinspection deprecation
-        if (!world.hasChunkAt(pos))
+        if (!world.hasChunkAt(pos)) {
             return;
+        }
 
         BlockEntity blockEntity = world.getBlockEntity(pos);
-        if (blockEntity == null)
+        if (blockEntity == null) {
             return;
+        }
 
         BlockState state = world.getBlockState(pos);
+        CompoundTag data = new CompoundTag();
+        IServerAccessor<BlockEntity> accessor = ServerAccessor.INSTANCE.set(world, player, hitResult, blockEntity);
 
-        CompoundTag tag = new CompoundTag();
-        registrar.blockData.get(blockEntity).forEach(provider ->
-            provider.appendServerData(tag, player, world, blockEntity));
-        registrar.blockData.get(state.getBlock()).forEach(provider ->
-            provider.appendServerData(tag, player, world, blockEntity));
+        for (IServerDataProvider<BlockEntity> provider : registrar.blockData.get(blockEntity)) {
+            provider.appendServerData(data, accessor, PluginConfig.INSTANCE);
+            provider.appendServerData(data, player, world, blockEntity);
+        }
 
-        tag.putInt("x", pos.getX());
-        tag.putInt("y", pos.getY());
-        tag.putInt("z", pos.getZ());
+        for (IServerDataProvider<BlockEntity> provider : registrar.blockData.get(state.getBlock())) {
+            provider.appendServerData(data, accessor, PluginConfig.INSTANCE);
+            provider.appendServerData(data, player, world, blockEntity);
+        }
+
+        data.putInt("x", pos.getX());
+        data.putInt("y", pos.getY());
+        data.putInt("z", pos.getZ());
         //noinspection ConstantConditions
-        tag.putString("id", Registry.BLOCK_ENTITY_TYPE.getKey(blockEntity.getType()).toString());
+        data.putString("id", Registry.BLOCK_ENTITY_TYPE.getKey(blockEntity.getType()).toString());
 
-        consumer.accept(tag);
+        consumer.accept(data);
     }
 
     private static <T> void setBlackList(int[] ids, Set<T> set, Registry<T> registry) {

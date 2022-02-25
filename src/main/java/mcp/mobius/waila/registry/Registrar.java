@@ -59,10 +59,6 @@ public enum Registrar implements IRegistrar {
     public final Map<ResourceLocation, ITooltipRenderer> renderer = new Object2ObjectOpenHashMap<>();
 
     private <T> void addConfig(ResourceLocation key, T defaultValue, boolean synced, ConfigEntry.Type<T> type) {
-        if (!synced && !Waila.CLIENT_SIDE) {
-            return;
-        }
-
         assertLock();
         PluginConfig.INSTANCE.addConfig(type.create(key, defaultValue, synced));
     }

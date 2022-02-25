@@ -1,7 +1,7 @@
 package mcp.mobius.waila.integration.reiwhycheckingforpackagename;
 
 import mcp.mobius.waila.WailaClient;
-import mcp.mobius.waila.data.DataAccessor;
+import mcp.mobius.waila.access.DataAccessor;
 import me.shedaniel.rei.api.client.plugins.REIClientPlugin;
 import me.shedaniel.rei.api.client.view.ViewSearchBuilder;
 import me.shedaniel.rei.api.common.entry.EntryStack;

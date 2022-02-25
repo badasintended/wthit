@@ -61,15 +61,15 @@ public class WailaVanilla implements IWailaPlugin {
         registrar.addSyncedConfig(Options.OVERRIDE_TRAPPED_CHEST, true);
         registrar.addSyncedConfig(Options.OVERRIDE_POWDER_SNOW, true);
         registrar.addSyncedConfig(Options.PET_OWNER, true);
+        registrar.addSyncedConfig(Options.FURNACE_CONTENTS, true);
+        registrar.addSyncedConfig(Options.JUKEBOX_RECORD, true);
 
-        registrar.addConfig(Options.FURNACE_CONTENTS, true);
         registrar.addConfig(Options.SPAWNER_TYPE, true);
         registrar.addConfig(Options.CROP_PROGRESS, true);
         registrar.addConfig(Options.REDSTONE_LEVER, true);
         registrar.addConfig(Options.REDSTONE_REPEATER, true);
         registrar.addConfig(Options.REDSTONE_COMPARATOR, true);
         registrar.addConfig(Options.REDSTONE_LEVEL, true);
-        registrar.addConfig(Options.JUKEBOX_RECORD, true);
         registrar.addConfig(Options.PLAYER_HEAD_NAME, true);
         registrar.addConfig(Options.LEVEL_COMPOSTER, true);
         registrar.addConfig(Options.LEVEL_HONEY, true);

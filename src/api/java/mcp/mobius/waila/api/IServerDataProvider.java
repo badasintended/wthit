@@ -11,14 +11,23 @@ import org.jetbrains.annotations.ApiStatus;
 public interface IServerDataProvider<T> {
 
     /**
-     * Callback used server side to return a custom synchronization NBTTagCompound.</br>
+     * Callback used server side to return a custom synchronization {@link CompoundTag}.</br>
      * Will only be called if the implementing class is registered via {@link IRegistrar#addBlockData} or {@link IRegistrar#addEntityData}.</br>
      *
-     * @param data   current synchronization tag (might have been processed by other providers and might be processed by other providers)
-     * @param player the player requesting data synchronization (The owner of the current connection)
-     * @param world  the world
-     * @param t      the type targeted for synchronization
+     * @param data     current synchronization tag (might have been processed by other providers and might be processed by other providers)
+     * @param accessor contains the relevant context of the environment
+     * @param config   current plugin configurations,
+     *                 values <b>could be different</b> from the requesting client unless it was registered via {@link IRegistrar#addSyncedConfig}
      */
-    void appendServerData(CompoundTag data, ServerPlayer player, Level world, T t);
+    default void appendServerData(CompoundTag data, IServerAccessor<T> accessor, IPluginConfig config) {
+    }
+
+    /**
+     * @deprecated use {@link #appendServerData(CompoundTag, IServerAccessor, IPluginConfig)}
+     */
+    @Deprecated
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
+    default void appendServerData(CompoundTag data, ServerPlayer player, Level world, T t) {
+    }
 
 }

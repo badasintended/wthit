@@ -3,10 +3,12 @@ package mcp.mobius.waila.network;
 import mcp.mobius.waila.config.BlacklistConfig;
 import mcp.mobius.waila.config.PluginConfig;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
 
 public abstract class PacketSender {
+
+    public static final int NETWORK_VERSION = 2;
 
     public void initMain() {
     }
@@ -22,8 +24,8 @@ public abstract class PacketSender {
 
     public abstract boolean isServerAvailable();
 
-    public abstract void requestEntity(Entity entity);
+    public abstract void requestEntity(EntityHitResult hitResult);
 
-    public abstract void requestBlock(BlockEntity blockEntity);
+    public abstract void requestBlock(BlockHitResult hitResult);
 
 }

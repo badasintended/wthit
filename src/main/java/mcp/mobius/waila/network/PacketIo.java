@@ -7,16 +7,18 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 
 import io.netty.buffer.Unpooled;
+import it.unimi.dsi.fastutil.ints.IntObjectImmutablePair;
+import it.unimi.dsi.fastutil.ints.IntObjectPair;
 import mcp.mobius.waila.config.BlacklistConfig;
 import mcp.mobius.waila.config.ConfigEntry;
 import mcp.mobius.waila.config.PluginConfig;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.Vec3;
 
 public abstract class PacketIo<I, O> {
 
@@ -43,27 +45,30 @@ public abstract class PacketIo<I, O> {
         }
     };
 
-    public static final PacketIo<Entity, Integer> RequestEntity = new PacketIo<>() {
+    public static final PacketIo<EntityHitResult, IntObjectPair<Vec3>> RequestEntity = new PacketIo<>() {
         @Override
-        public void write(FriendlyByteBuf buf, Entity entity) {
-            buf.writeInt(entity.getId());
+        public void write(FriendlyByteBuf buf, EntityHitResult hitResult) {
+            buf.writeVarInt(hitResult.getEntity().getId());
+            buf.writeDouble(hitResult.getLocation().x);
+            buf.writeDouble(hitResult.getLocation().y);
+            buf.writeDouble(hitResult.getLocation().z);
         }
 
         @Override
-        protected Integer apply(FriendlyByteBuf buf) {
-            return buf.readInt();
+        protected IntObjectPair<Vec3> apply(FriendlyByteBuf buf) {
+            return new IntObjectImmutablePair<>(buf.readVarInt(), new Vec3(buf.readDouble(), buf.readDouble(), buf.readDouble()));
         }
     };
 
-    public static final PacketIo<BlockEntity, BlockPos> RequestBlock = new PacketIo<>() {
+    public static final PacketIo<BlockHitResult, BlockHitResult> RequestBlock = new PacketIo<>() {
         @Override
-        public void write(FriendlyByteBuf buf, BlockEntity blockEntity) {
-            buf.writeBlockPos(blockEntity.getBlockPos());
+        public void write(FriendlyByteBuf buf, BlockHitResult hitResult) {
+            buf.writeBlockHitResult(hitResult);
         }
 
         @Override
-        protected BlockPos apply(FriendlyByteBuf buf) {
-            return buf.readBlockPos();
+        protected BlockHitResult apply(FriendlyByteBuf buf) {
+            return buf.readBlockHitResult();
         }
     };
 

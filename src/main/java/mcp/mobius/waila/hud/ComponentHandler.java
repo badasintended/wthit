@@ -3,6 +3,7 @@ package mcp.mobius.waila.hud;
 import java.util.List;
 
 import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.access.DataAccessor;
 import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.ITooltip;
@@ -11,7 +12,6 @@ import mcp.mobius.waila.api.TooltipPosition;
 import mcp.mobius.waila.api.component.EmptyComponent;
 import mcp.mobius.waila.api.component.ItemComponent;
 import mcp.mobius.waila.config.PluginConfig;
-import mcp.mobius.waila.data.DataAccessor;
 import mcp.mobius.waila.registry.Registrar;
 import mcp.mobius.waila.util.ExceptionUtil;
 import net.minecraft.client.Minecraft;
@@ -42,7 +42,7 @@ public class ComponentHandler {
         if (blockEntity != null && accessor.isTimeElapsed(rate) && Waila.CONFIG.get().getGeneral().isDisplayTooltip()) {
             accessor.resetTimer();
             if (!(registrar.blockData.get(block).isEmpty() && registrar.blockData.get(blockEntity).isEmpty())) {
-                Waila.PACKET.requestBlock(blockEntity);
+                Waila.PACKET.requestBlock((BlockHitResult) accessor.getHitResult());
             }
         }
 
@@ -87,7 +87,7 @@ public class ComponentHandler {
             accessor.resetTimer();
 
             if (!registrar.entityData.get(trueEntity).isEmpty()) {
-                Waila.PACKET.requestEntity(trueEntity);
+                Waila.PACKET.requestEntity((EntityHitResult) accessor.getHitResult());
             }
         }
 

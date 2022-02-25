@@ -24,7 +24,6 @@ public interface IRegistrar {
      * @param key          the namespaced key
      * @param defaultValue the default value
      */
-    @ApiSide.ClientOnly
     void addConfig(ResourceLocation key, boolean defaultValue);
 
     /**
@@ -33,7 +32,6 @@ public interface IRegistrar {
      * @param key          the namespaced key
      * @param defaultValue the default value
      */
-    @ApiSide.ClientOnly
     void addConfig(ResourceLocation key, int defaultValue);
 
     /**
@@ -42,7 +40,6 @@ public interface IRegistrar {
      * @param key          the namespaced key
      * @param defaultValue the default value
      */
-    @ApiSide.ClientOnly
     void addConfig(ResourceLocation key, double defaultValue);
 
     /**
@@ -51,7 +48,6 @@ public interface IRegistrar {
      * @param key          the namespaced key
      * @param defaultValue the default value
      */
-    @ApiSide.ClientOnly
     void addConfig(ResourceLocation key, String defaultValue);
 
     /**
@@ -60,7 +56,6 @@ public interface IRegistrar {
      * @param key          the namespaced key
      * @param defaultValue the default value
      */
-    @ApiSide.ClientOnly
     <T extends Enum<T>> void addConfig(ResourceLocation key, T defaultValue);
 
     /**

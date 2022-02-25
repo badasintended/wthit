@@ -4,6 +4,7 @@ import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.api.TooltipPosition;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.ChestBlock;
 
 @SuppressWarnings("unused")
 public class WailaTest implements IWailaPlugin {
@@ -48,6 +49,10 @@ public class WailaTest implements IWailaPlugin {
 
         registrar.addConfig(ErrorTest.ENABLED, false);
         registrar.addComponent(ErrorTest.INSTANCE, TooltipPosition.BODY, Block.class);
+
+        registrar.addSyncedConfig(HitResultServerDependantTest.ENABLED, false);
+        registrar.addComponent(HitResultServerDependantTest.INSTANCE, TooltipPosition.BODY, ChestBlock.class);
+        registrar.addBlockData(HitResultServerDependantTest.INSTANCE, ChestBlock.class);
     }
 
 }
