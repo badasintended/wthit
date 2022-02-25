@@ -23,16 +23,15 @@ public class PairComponent implements ITooltipComponent {
         this.key = key;
         this.value = value;
 
-        width = key.getWidth() + getColonOffset() + getColonWidth() + value.getWidth();
         height = Math.max(key.getHeight(), value.getHeight());
     }
 
     public final ITooltipComponent key, value;
-    private final int width, height;
+    private final int height;
 
     @Override
     public int getWidth() {
-        return width;
+        return getColonOffset() + getColonWidth() + value.getWidth();
     }
 
     @Override
