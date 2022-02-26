@@ -75,7 +75,7 @@ public class FabricPacketSender extends PacketSender {
     @Environment(EnvType.CLIENT)
     public void initClient() {
         ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
-            if (!ClientPlayNetworking.canSend(VERSION_CHECK)) {
+            if (isServerAvailable() && !ClientPlayNetworking.canSend(VERSION_CHECK)) {
                 handler.getConnection().disconnect(new TextComponent("Server " + WailaConstants.MOD_NAME + " version is outdated!"));
             }
         });
