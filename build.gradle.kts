@@ -3,6 +3,7 @@ import java.nio.charset.StandardCharsets
 plugins {
     java
     id("org.spongepowered.gradle.vanilla")
+    id("maven-publish")
 }
 
 version = env["MOD_VERSION"] ?: "${prop["majorVersion"]}.999-${env["GIT_HASH"] ?: "local"}"
@@ -53,5 +54,34 @@ sourceSets {
     }
     listOf(main, pluginCore, pluginVanilla, pluginTest).applyEach {
         compileClasspath += api.output
+    }
+}
+
+val apiJar = task<Jar>("apiJar") {
+    archiveClassifier.set("api")
+    from(sourceSets["api"].output)
+}
+
+val apiSourcesJar = task<Jar>("apiSourcesJar") {
+    archiveClassifier.set("api-sources")
+    from(sourceSets["api"].allSource)
+}
+
+publishing {
+    repositories {
+        gitlabMaven()
+    }
+
+    publications {
+        create<MavenPublication>("apiMojmap") {
+            artifactId = "${rootProp["archiveBaseName"]}-api"
+            version = "mojmap-${project.version}"
+            artifact(apiJar) {
+                classifier = null
+            }
+            artifact(apiSourcesJar) {
+                classifier = "sources"
+            }
+        }
     }
 }
