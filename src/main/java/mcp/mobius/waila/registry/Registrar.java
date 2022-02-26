@@ -110,7 +110,7 @@ public enum Registrar implements IRegistrar {
 
     @Override
     public <T extends Enum<T>> void addSyncedConfig(ResourceLocation key, T defaultValue) {
-        addConfig(key, defaultValue, false, ConfigEntry.ENUM);
+        addConfig(key, defaultValue, true, ConfigEntry.ENUM);
     }
 
     @Override
