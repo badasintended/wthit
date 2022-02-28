@@ -14,7 +14,7 @@ jobs:
         with:
           java-version: 17
       - run: chmod +x gradlew
-      - run: ./gradlew build publish curseforge
+      - run: ./gradlew build publish curseforge modrinth
         env:
           MOD_VERSION: ${{ steps.vars.outputs.version }}
           GITLAB_TOKEN: ${{ secrets.GITLAB_MAVEN }}
