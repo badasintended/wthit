@@ -21,7 +21,7 @@ dependencies {
     modCompileRuntime("com.terraformersmc:modmenu:${rootProp["modMenu"]}")
 
     modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:${rootProp["rei"]}")
-    //modRuntimeOnly("me.shedaniel:RoughlyEnoughItems-fabric:${rootProp["rei"]}")
+    modRuntimeOnly("me.shedaniel:RoughlyEnoughItems-fabric:${rootProp["rei"]}")
 }
 
 sourceSets {
