@@ -16,6 +16,7 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerLoginConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerLoginNetworking;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.TextComponent;
@@ -45,6 +46,12 @@ public class FabricPacketSender extends PacketSender {
     public void initMain() {
         ServerLoginConnectionEvents.QUERY_START.register((handler, server, sender, synchronizer) ->
             sender.sendPacket(VERSION_CHECK, PacketByteBufs.empty()));
+        
+        ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
+            if (ServerPlayNetworking.canSend(handler.player, RECEIVE_DATA) && !ServerPlayNetworking.canSend(handler.player, VERSION_CHECK)) {
+                handler.disconnect(new TextComponent("Your " + WailaConstants.MOD_NAME + " client version is outdated!"));
+            }
+        });
 
         ServerLoginNetworking.registerGlobalReceiver(VERSION_CHECK, (server, handler, understood, buf, synchronizer, responseSender) -> {
             if (understood) {
@@ -53,8 +60,6 @@ public class FabricPacketSender extends PacketSender {
                     server.execute(() -> handler.disconnect(new TextComponent(WailaConstants.MOD_NAME + " network version mismatch! " +
                         "Server version is " + NETWORK_VERSION + " while client version is " + clientVersion)));
                 }
-            } else {
-                server.execute(() -> handler.disconnect(new TextComponent("Your " + WailaConstants.MOD_NAME + " client version is outdated!")));
             }
         });
 
@@ -85,6 +90,8 @@ public class FabricPacketSender extends PacketSender {
             versionBuf.writeVarInt(NETWORK_VERSION);
             return CompletableFuture.completedFuture(versionBuf);
         });
+        
+        ClientPlayNetworking.registerGlobalReceiver(VERSION_CHECK, (client, handler, buf, response) -> {});
 
         ClientPlayNetworking.registerGlobalReceiver(RECEIVE_DATA, (client, handler, buf, response) ->
             ReceiveData.consume(buf, tag ->
