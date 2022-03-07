@@ -4,7 +4,6 @@ import java.util.*
 
 plugins {
     id("net.minecraftforge.gradle")
-    id("maven-publish")
 }
 
 setupPlatform()
@@ -73,60 +72,19 @@ tasks.jar {
 
 afterEvaluate {
     val jar = tasks.jar.get()
-    val apiJar = task<Jar>("apiJar") {
-        dependsOn(jar)
-        archiveClassifier.set("api")
-        from(sourceSets["stub"].output)
-        from(zipTree(jar.archiveFile)) {
-            include("mcp/mobius/waila/api/**")
-        }
+    val apiJar = task<ApiJarTask>("apiJar") {
+        fullJar(jar)
     }
 
     val sourcesJar = tasks.sourcesJar.get()
-    val apiSourcesJar = task<Jar>("apiSourcesJar") {
-        dependsOn(sourcesJar)
-        archiveClassifier.set("api-sources")
-        from(sourceSets["stub"].output)
-        from(zipTree(sourcesJar.archiveFile)) {
-            include("mcp/mobius/waila/api/**")
-        }
-    }
-
-    tasks.build {
-        dependsOn(apiJar, apiSourcesJar)
+    val apiSourcesJar = task<ApiJarTask>("apiSourcesJar") {
+        fullJar(sourcesJar)
     }
 
     upload {
         curseforge(jar)
         modrinth(jar)
-    }
-
-    publishing {
-        repositories {
-            gitlabMaven()
-        }
-
-        publications {
-            create<MavenPublication>("runtime") {
-                artifactId = rootProp["archiveBaseName"]
-                version = "${project.name}-${project.version}"
-                artifact(jar) {
-                    classifier = null
-                }
-                artifact(sourcesJar) {
-                    classifier = "sources"
-                }
-            }
-            create<MavenPublication>("api") {
-                artifactId = "${rootProp["archiveBaseName"]}-api"
-                version = "${project.name}-${project.version}"
-                artifact(apiJar) {
-                    classifier = null
-                }
-                artifact(apiSourcesJar) {
-                    classifier = "sources"
-                }
-            }
-        }
+        mavenApi(apiJar, apiSourcesJar)
+        mavenRuntime(jar, sourcesJar)
     }
 }

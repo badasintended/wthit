@@ -28,8 +28,26 @@ allprojects {
 }
 
 subprojects {
+    apply(plugin = "maven-publish")
+
     base {
         archivesName.set("${rootProject.base.archivesName.get()}-${project.name}")
+    }
+
+    publishing {
+        repositories {
+            maven {
+                url = uri("https://gitlab.com/api/v4/projects/25106863/packages/maven")
+                name = "GitLab"
+                credentials(HttpHeaderCredentials::class) {
+                    name = "Private-Token"
+                    value = env["GITLAB_TOKEN"]
+                }
+                authentication {
+                    create<HttpHeaderAuthentication>("header")
+                }
+            }
+        }
     }
 }
 
@@ -54,34 +72,5 @@ sourceSets {
     }
     listOf(main, pluginCore, pluginVanilla, pluginTest).applyEach {
         compileClasspath += api.output
-    }
-}
-
-val apiJar = task<Jar>("apiJar") {
-    archiveClassifier.set("api")
-    from(sourceSets["api"].output)
-}
-
-val apiSourcesJar = task<Jar>("apiSourcesJar") {
-    archiveClassifier.set("api-sources")
-    from(sourceSets["api"].allSource)
-}
-
-publishing {
-    repositories {
-        gitlabMaven()
-    }
-
-    publications {
-        create<MavenPublication>("apiMojmap") {
-            artifactId = "${rootProp["archiveBaseName"]}-api"
-            version = "mojmap-${project.version}"
-            artifact(apiJar) {
-                classifier = null
-            }
-            artifact(apiSourcesJar) {
-                classifier = "sources"
-            }
-        }
     }
 }

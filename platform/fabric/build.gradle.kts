@@ -1,6 +1,5 @@
 plugins {
     id("fabric-loom")
-    id("maven-publish")
 }
 
 setupPlatform()
@@ -49,60 +48,19 @@ tasks.processResources {
 
 afterEvaluate {
     val remapJar = tasks.remapJar.get()
-    val apiJar = task<Jar>("apiJar") {
-        dependsOn(remapJar)
-        archiveClassifier.set("api")
-        from(sourceSets["stub"].output)
-        from(zipTree(remapJar.archiveFile)) {
-            include("mcp/mobius/waila/api/**")
-        }
+    val apiJar = task<ApiJarTask>("apiJar") {
+        fullJar(remapJar)
     }
 
     val remapSourcesJar = tasks.remapSourcesJar.get()
-    val apiSourcesJar = task<Jar>("apiSourcesJar") {
-        dependsOn(remapSourcesJar)
-        archiveClassifier.set("api-sources")
-        from(sourceSets["stub"].output)
-        from(zipTree(remapSourcesJar.archiveFile)) {
-            include("mcp/mobius/waila/api/**")
-        }
-    }
-
-    tasks.build {
-        dependsOn(apiJar, apiSourcesJar)
+    val apiSourcesJar = task<ApiJarTask>("apiSourcesJar") {
+        fullJar(remapSourcesJar)
     }
 
     upload {
         curseforge(remapJar)
         modrinth(remapJar)
-    }
-
-    publishing {
-        repositories {
-            gitlabMaven()
-        }
-
-        publications {
-            create<MavenPublication>("runtime") {
-                artifactId = rootProp["archiveBaseName"]
-                version = "${project.name}-${project.version}"
-                artifact(remapJar) {
-                    classifier = null
-                }
-                artifact(remapSourcesJar) {
-                    classifier = "sources"
-                }
-            }
-            create<MavenPublication>("api") {
-                artifactId = "${rootProp["archiveBaseName"]}-api"
-                version = "${project.name}-${project.version}"
-                artifact(apiJar) {
-                    classifier = null
-                }
-                artifact(apiSourcesJar) {
-                    classifier = "sources"
-                }
-            }
-        }
+        mavenApi(apiJar, apiSourcesJar)
+        mavenRuntime(remapJar, remapSourcesJar)
     }
 }
