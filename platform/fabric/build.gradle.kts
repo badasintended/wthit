@@ -58,7 +58,6 @@ afterEvaluate {
         }
     }
 
-    val sourcesJar = tasks.sourcesJar.get()
     val remapSourcesJar = tasks.remapSourcesJar.get()
     val apiSourcesJar = task<Jar>("apiSourcesJar") {
         dependsOn(remapSourcesJar)
@@ -90,8 +89,7 @@ afterEvaluate {
                 artifact(remapJar) {
                     classifier = null
                 }
-                artifact(sourcesJar) {
-                    builtBy(remapSourcesJar)
+                artifact(remapSourcesJar) {
                     classifier = "sources"
                 }
             }
