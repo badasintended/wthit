@@ -10,7 +10,7 @@ abstract class ApiJarTask : Jar() {
         project.tasks["build"].dependsOn(this)
 
         val classifier = fullJar.archiveClassifier.orNull
-        if (classifier == null) {
+        if (classifier.isNullOrEmpty()) {
             archiveClassifier.set("api")
         } else {
             archiveClassifier.set("api-${classifier}")
