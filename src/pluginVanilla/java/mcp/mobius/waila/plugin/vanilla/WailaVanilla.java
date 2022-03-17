@@ -56,13 +56,13 @@ public class WailaVanilla implements IWailaPlugin {
 
     @Override
     public void register(IRegistrar registrar) {
-        registrar.addSyncedConfig(Options.ITEM_ENTITY, true);
-        registrar.addSyncedConfig(Options.OVERRIDE_INFESTED, true);
-        registrar.addSyncedConfig(Options.OVERRIDE_TRAPPED_CHEST, true);
-        registrar.addSyncedConfig(Options.OVERRIDE_POWDER_SNOW, true);
-        registrar.addSyncedConfig(Options.PET_OWNER, true);
-        registrar.addSyncedConfig(Options.FURNACE_CONTENTS, true);
-        registrar.addSyncedConfig(Options.JUKEBOX_RECORD, true);
+        registrar.addSyncedConfig(Options.ITEM_ENTITY, true, true);
+        registrar.addSyncedConfig(Options.OVERRIDE_INFESTED, true, true);
+        registrar.addSyncedConfig(Options.OVERRIDE_TRAPPED_CHEST, true, true);
+        registrar.addSyncedConfig(Options.OVERRIDE_POWDER_SNOW, true, true);
+        registrar.addSyncedConfig(Options.PET_OWNER, true, false);
+        registrar.addSyncedConfig(Options.FURNACE_CONTENTS, true, false);
+        registrar.addSyncedConfig(Options.JUKEBOX_RECORD, true, false);
 
         registrar.addConfig(Options.SPAWNER_TYPE, true);
         registrar.addConfig(Options.CROP_PROGRESS, true);

@@ -30,9 +30,9 @@ public abstract class WailaClient {
 
     protected static void onJoinServer() {
         if (!Waila.PACKET.isServerAvailable()) {
-            Waila.LOGGER.warn("WTHIT is not found on the server, all syncable config will reset to their default value.");
+            Waila.LOGGER.warn("WTHIT is not found on the server, all syncable config will reset to their client-only value.");
             PluginConfig.INSTANCE.getSyncableConfigs().forEach(config ->
-                config.setValue(config.getDefaultValue()));
+                config.setValue(config.getClientOnlyValue()));
         }
     }
 
