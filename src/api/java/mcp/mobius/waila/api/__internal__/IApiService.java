@@ -3,7 +3,6 @@ package mcp.mobius.waila.api.__internal__;
 import java.util.Collection;
 
 import mcp.mobius.waila.api.IBlacklistConfig;
-import mcp.mobius.waila.api.IDrawableText;
 import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.api.IModInfo;
 import mcp.mobius.waila.api.IPluginInfo;
@@ -19,8 +18,6 @@ public interface IApiService {
     IApiService INSTANCE = Impl.loadService(IApiService.class);
 
     IBlacklistConfig getBlacklistConfig();
-
-    IDrawableText createDrawableText();
 
     <T> IJsonConfig.Builder0<T> createConfigBuilder(Class<T> clazz);
 

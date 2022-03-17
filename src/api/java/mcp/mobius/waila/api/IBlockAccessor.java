@@ -48,20 +48,4 @@ public interface IBlockAccessor {
 
     ItemStack getStack();
 
-    @Deprecated
-    @ApiStatus.ScheduledForRemoval(inVersion = "1.19")
-    String getModNameFormat();
-
-    @Deprecated
-    @ApiStatus.ScheduledForRemoval(inVersion = "1.19")
-    String getBlockNameFormat();
-
-    @Deprecated
-    @ApiStatus.ScheduledForRemoval(inVersion = "1.19")
-    String getFluidNameFormat();
-
-    @Deprecated
-    @ApiStatus.ScheduledForRemoval(inVersion = "1.19")
-    String getRegistryNameFormat();
-
 }

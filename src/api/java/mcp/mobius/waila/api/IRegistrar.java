@@ -303,40 +303,22 @@ public interface IRegistrar {
     @ApiSide.ServerOnly
     <T, E extends Entity> void addEntityData(IServerDataProvider<E> provider, Class<T> clazz);
 
+    // DEPRECATED
+
     /**
      * @deprecated use {@link #addIcon(IBlockComponentProvider, Class, int)} and {@link IBlockComponentProvider#getIcon(IBlockAccessor, IPluginConfig)}
      */
     @Deprecated
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
     <T> void addDisplayItem(IBlockComponentProvider provider, Class<T> clazz, int priority);
 
     /**
      * @deprecated use {@link #addIcon(IBlockComponentProvider, Class, int)} and {@link IBlockComponentProvider#getIcon(IBlockAccessor, IPluginConfig)}
      */
     @Deprecated
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
     default <T> void addDisplayItem(IBlockComponentProvider provider, Class<T> clazz) {
         addDisplayItem(provider, clazz, DEFAULT_PRIORITY);
-    }
-
-    /**
-     * TODO: Remove
-     *
-     * @deprecated use {@link #addDisplayItem(IBlockComponentProvider, Class)}
-     */
-    @Deprecated
-    @ApiStatus.ScheduledForRemoval(inVersion = "1.19")
-    default <T> void registerStackProvider(IComponentProvider provider, Class<T> clazz) {
-        addDisplayItem(provider, clazz);
-    }
-
-    /**
-     * TODO: Remove
-     *
-     * @deprecated use {@link #addComponent(IBlockComponentProvider, TooltipPosition, Class)}
-     */
-    @Deprecated
-    @ApiStatus.ScheduledForRemoval(inVersion = "1.19")
-    default <T> void registerComponentProvider(IComponentProvider provider, TooltipPosition position, Class<T> clazz) {
-        addComponent(provider, position, clazz);
     }
 
     /**
@@ -348,17 +330,6 @@ public interface IRegistrar {
     @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
     void addRenderer(ResourceLocation id, ITooltipRenderer renderer);
 
-    /**
-     * TODO: Remove
-     *
-     * @deprecated use {@link #addBlockData(IServerDataProvider, Class)}
-     */
-    @Deprecated
-    @ApiStatus.ScheduledForRemoval(inVersion = "1.19")
-    default <T> void registerBlockDataProvider(IServerDataProvider<BlockEntity> provider, Class<T> clazz) {
-        addBlockData(provider, clazz);
-    }
-
     @Deprecated
     @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
     <T> void addDisplayItem(IEntityComponentProvider provider, Class<T> clazz, int priority);
@@ -367,61 +338,6 @@ public interface IRegistrar {
     @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
     default <T> void addDisplayItem(IEntityComponentProvider provider, Class<T> clazz) {
         addDisplayItem(provider, clazz, DEFAULT_PRIORITY);
-    }
-
-    /**
-     * TODO: Remove
-     *
-     * @deprecated use {@link #addOverride(IEntityComponentProvider, Class)}
-     */
-    @Deprecated
-    @ApiStatus.ScheduledForRemoval(inVersion = "1.19")
-    default <T> void registerOverrideEntityProvider(IEntityComponentProvider provider, Class<T> entity) {
-        addOverride(provider, entity);
-    }
-
-    /**
-     * TODO: Remove
-     *
-     * @deprecated use {@link #addDisplayItem(IEntityComponentProvider, Class)}
-     */
-    @Deprecated
-    @ApiStatus.ScheduledForRemoval(inVersion = "1.19")
-    default <T> void registerEntityStackProvider(IEntityComponentProvider provider, Class<T> entity) {
-        addDisplayItem(provider, entity);
-    }
-
-    /**
-     * TODO: Remove
-     *
-     * @deprecated use {@link #addComponent(IEntityComponentProvider, TooltipPosition, Class)}
-     */
-    @Deprecated
-    @ApiStatus.ScheduledForRemoval(inVersion = "1.19")
-    default <T> void registerComponentProvider(IEntityComponentProvider provider, TooltipPosition position, Class<T> clazz) {
-        addComponent(provider, position, clazz);
-    }
-
-    /**
-     * TODO: Remove
-     *
-     * @deprecated use {@link #addEntityData(IServerDataProvider, Class)}
-     */
-    @Deprecated
-    @ApiStatus.ScheduledForRemoval(inVersion = "1.19")
-    default <T> void registerEntityDataProvider(IServerDataProvider<Entity> provider, Class<T> clazz) {
-        addEntityData(provider, clazz);
-    }
-
-    /**
-     * TODO: Remove
-     *
-     * @deprecated use {@link #addRenderer(ResourceLocation, ITooltipRenderer)}
-     */
-    @Deprecated
-    @ApiStatus.ScheduledForRemoval(inVersion = "1.19")
-    default void registerTooltipRenderer(ResourceLocation id, ITooltipRenderer renderer) {
-        addRenderer(id, renderer);
     }
 
 }

@@ -32,16 +32,4 @@ public interface IEntityAccessor {
 
     double getPartialFrame();
 
-    @Deprecated
-    @ApiStatus.ScheduledForRemoval(inVersion = "1.19")
-    String getModNameFormat();
-
-    @Deprecated
-    @ApiStatus.ScheduledForRemoval(inVersion = "1.19")
-    String getEntityNameFormat();
-
-    @Deprecated
-    @ApiStatus.ScheduledForRemoval(inVersion = "1.19")
-    String getRegistryNameFormat();
-
 }

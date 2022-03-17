@@ -4,7 +4,6 @@ import java.util.Collection;
 
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IBlacklistConfig;
-import mcp.mobius.waila.api.IDrawableText;
 import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.api.IModInfo;
 import mcp.mobius.waila.api.IPluginInfo;
@@ -12,7 +11,6 @@ import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.__internal__.IApiService;
 import mcp.mobius.waila.config.JsonConfig;
 import mcp.mobius.waila.hud.TooltipHandler;
-import mcp.mobius.waila.hud.component.DrawableComponent;
 import mcp.mobius.waila.plugin.PluginInfo;
 import mcp.mobius.waila.util.DisplayUtil;
 import mcp.mobius.waila.util.ModInfo;
@@ -24,11 +22,6 @@ public abstract class ApiService implements IApiService {
     @Override
     public IBlacklistConfig getBlacklistConfig() {
         return Waila.BLACKLIST_CONFIG.get();
-    }
-
-    @Override
-    public IDrawableText createDrawableText() {
-        return new DrawableComponent();
     }
 
     @Override

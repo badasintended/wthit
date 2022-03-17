@@ -1,9 +1,7 @@
 package mcp.mobius.waila.access;
 
-import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IBlockAccessor;
 import mcp.mobius.waila.api.ICommonAccessor;
-import mcp.mobius.waila.api.IDataAccessor;
 import mcp.mobius.waila.api.IEntityAccessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -23,8 +21,7 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
-// TODO: Remove IDataAccessor interface
-public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IDataAccessor, IEntityAccessor {
+public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IEntityAccessor {
 
     INSTANCE;
 
@@ -128,36 +125,6 @@ public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IDataAccess
     @Override
     public ItemStack getStack() {
         return this.stack;
-    }
-
-    @Override
-    @Deprecated
-    public String getModNameFormat() {
-        return Waila.CONFIG.get().getFormatting().getModName();
-    }
-
-    @Override
-    @Deprecated
-    public String getBlockNameFormat() {
-        return Waila.CONFIG.get().getFormatting().getBlockName();
-    }
-
-    @Override
-    @Deprecated
-    public String getFluidNameFormat() {
-        return Waila.CONFIG.get().getFormatting().getFluidName();
-    }
-
-    @Override
-    @Deprecated
-    public String getEntityNameFormat() {
-        return Waila.CONFIG.get().getFormatting().getEntityName();
-    }
-
-    @Override
-    @Deprecated
-    public String getRegistryNameFormat() {
-        return Waila.CONFIG.get().getFormatting().getRegistryName();
     }
 
     @Override

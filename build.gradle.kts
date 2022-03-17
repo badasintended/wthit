@@ -53,7 +53,7 @@ subprojects {
 
 minecraft {
     version(rootProp["minecraft"])
-    accessWideners(project(":fabric").file("src/main/resources/wthit.accesswidener"))
+    accessWideners(file("platform/fabric/src/main/resources/wthit.accesswidener"))
 }
 
 sourceSets {
