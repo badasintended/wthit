@@ -40,8 +40,8 @@ public class JsonConfig<T> implements IJsonConfig<T> {
         this.path = path.toAbsolutePath();
         this.gson = gson;
         this.getter = new CachedSupplier<>(() -> {
-            T config;
-            boolean init = true;
+            T config = null;
+            boolean initializer = true;
             if (!isFileExists()) {
                 Path parent = this.path.getParent();
                 if (!Files.exists(parent)) {
@@ -53,46 +53,53 @@ public class JsonConfig<T> implements IJsonConfig<T> {
                 }
                 config = factory.get();
             } else {
-                try (BufferedReader reader = Files.newBufferedReader(this.path, StandardCharsets.UTF_8)) {
-                    config = this.gson.fromJson(reader, clazz);
-                    int version = versionGetter.applyAsInt(config);
-                    if (version != currentVersion) {
-                        Path old = Paths.get(this.path + "_old");
-                        Waila.LOGGER.warn("Config file "
-                            + this.path
-                            + " contains different version ("
-                            + version
-                            + ") than required version ("
-                            + currentVersion
-                            + "), this config will be reset. Old config will be placed at "
-                            + old);
-                        Files.deleteIfExists(old);
-                        Files.copy(this.path, old);
-                        config = factory.get();
-                    } else {
-                        init = false;
-                    }
-                } catch (Exception e) {
-                    Path old = Paths.get(this.path + "_old");
-                    Waila.LOGGER.error("Exception when reading config file "
-                        + this.path
-                        + ", this config will be reset. Old config will be placed at "
-                        + old, e);
-                    try {
-                        Files.deleteIfExists(old);
-                        Files.copy(this.path, old);
-                    } catch (IOException e1) {
-                        Waila.LOGGER.error("well this is embarrassing...", e1);
-                    }
-                    config = factory.get();
-                }
+
+                config = ConfigFileChecker(clazz, versionGetter, currentVersion, factory, initializer);
             }
-            if (init) {
+            if (initializer) {
                 versionSetter.accept(config, currentVersion);
                 write(config, false);
             }
             return config;
         });
+    }
+
+    private T ConfigFileChecker(Class<T> clazz, ToIntFunction<T> versionGetter, int currentVersion, Supplier<T> factory, boolean initializer) {
+        T config;
+        try (BufferedReader reader = Files.newBufferedReader(this.path, StandardCharsets.UTF_8)) {
+            config = this.gson.fromJson(reader, clazz);
+            int version = versionGetter.applyAsInt(config);
+            if (version != currentVersion) {
+                Path old = Paths.get(this.path + "_old");
+                Waila.LOGGER.warn("Config file "
+                    + this.path
+                    + " contains different version ("
+                    + version
+                    + ") than required version ("
+                    + currentVersion
+                    + "), this config will be reset. Old config will be placed at "
+                    + old);
+                Files.deleteIfExists(old);
+                Files.copy(this.path, old);
+                config = factory.get();
+            } else {
+                initializer = false;
+            }
+        } catch (Exception e) {
+            Path old = Paths.get(this.path + "_old");
+            Waila.LOGGER.error("Exception when reading config file "
+                + this.path
+                + ", this config will be reset. Old config will be placed at "
+                + old, e);
+            try {
+                Files.deleteIfExists(old);
+                Files.copy(this.path, old);
+            } catch (IOException e1) {
+                Waila.LOGGER.error("well this is embarrassing...", e1);
+            }
+            config = factory.get();
+        }
+        return config;
     }
 
     private void write(T t, Path path, boolean invalidate) {

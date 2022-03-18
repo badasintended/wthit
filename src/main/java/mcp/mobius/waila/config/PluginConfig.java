@@ -34,10 +34,10 @@ public enum PluginConfig implements IPluginConfig {
     private static final TypeToken<Map<String, Map<String, JsonPrimitive>>> TYPE_TOKEN = new TypeToken<>() {
     };
 
-    private final Map<ResourceLocation, ConfigEntry<?>> configs = new LinkedHashMap<>();
+    private final Map<ResourceLocation, ConfigEntry<?>> configMap = new LinkedHashMap<>();
 
     public void addConfig(ConfigEntry<?> entry) {
-        configs.put(entry.getId(), entry);
+        configMap.put(entry.getId(), entry);
     }
 
     @Override
@@ -49,7 +49,7 @@ public enum PluginConfig implements IPluginConfig {
 
     @Override
     public Set<ResourceLocation> getKeys() {
-        return configs.keySet();
+        return configMap.keySet();
     }
 
     @Override
@@ -79,19 +79,19 @@ public enum PluginConfig implements IPluginConfig {
 
     @Override
     public boolean get(ResourceLocation key, boolean defaultValue) {
-        ConfigEntry<?> entry = configs.get(key);
+        ConfigEntry<?> entry = configMap.get(key);
         return entry == null ? defaultValue : (boolean) entry.getValue();
     }
 
     public Set<ConfigEntry<Object>> getSyncableConfigs() {
-        return configs.values().stream()
+        return configMap.values().stream()
             .filter(ConfigEntry::isSynced)
             .map(t -> (ConfigEntry<Object>) t)
             .collect(Collectors.toSet());
     }
 
     public List<String> getNamespaces() {
-        return configs.keySet().stream()
+        return configMap.keySet().stream()
             .map(ResourceLocation::getNamespace)
             .distinct()
             .sorted((o1, o2) -> o1.equals(WailaConstants.NAMESPACE) ? -1 : o2.equals(WailaConstants.NAMESPACE) ? 1 : o1.compareToIgnoreCase(o2))
@@ -99,11 +99,11 @@ public enum PluginConfig implements IPluginConfig {
     }
 
     public <T> ConfigEntry<T> getEntry(ResourceLocation key) {
-        return (ConfigEntry<T>) configs.get(key);
+        return (ConfigEntry<T>) configMap.get(key);
     }
 
     public <T> void set(ResourceLocation key, T value) {
-        ConfigEntry<T> entry = (ConfigEntry<T>) configs.get(key);
+        ConfigEntry<T> entry = (ConfigEntry<T>) configMap.get(key);
         if (entry != null) {
             entry.setValue(value);
         }
@@ -124,7 +124,7 @@ public enum PluginConfig implements IPluginConfig {
                 writeConfig(true);
             } else {
                 config.forEach((namespace, subMap) -> subMap.forEach((path, value) -> {
-                    ConfigEntry<Object> entry = (ConfigEntry<Object>) configs.get(new ResourceLocation(namespace, path));
+                    ConfigEntry<Object> entry = (ConfigEntry<Object>) configMap.get(new ResourceLocation(namespace, path));
                     if (entry != null) {
                         entry.setValue(entry.getType().parseValue(value, entry.getDefaultValue()));
                     }
@@ -139,12 +139,12 @@ public enum PluginConfig implements IPluginConfig {
     }
 
     private <T> T getValue(ResourceLocation key) {
-        return (T) configs.get(key).getValue();
+        return (T) configMap.get(key).getValue();
     }
 
     private void writeConfig(boolean reset) {
         Map<String, Map<String, Object>> config = new LinkedHashMap<>();
-        for (ConfigEntry<?> e : configs.values()) {
+        for (ConfigEntry<?> e : configMap.values()) {
             ConfigEntry<Object> entry = (ConfigEntry<Object>) e;
             Map<String, Object> modConfig = config.computeIfAbsent(entry.getId().getNamespace(), k -> new LinkedHashMap<>());
             if (reset) {
