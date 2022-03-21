@@ -23,6 +23,7 @@ public class ForgeWailaClient extends WailaClient {
 
     @SubscribeEvent
     static void clientSetup(FMLClientSetupEvent event) {
+        registerKeyBinds();
         registerConfigScreen();
     }
 

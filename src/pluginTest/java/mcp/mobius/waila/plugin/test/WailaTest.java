@@ -19,11 +19,11 @@ public class WailaTest implements IWailaPlugin {
         registrar.addConfig(ConfigTest.STRING, "<empty>");
         registrar.addConfig(ConfigTest.ENUM, TooltipPosition.HEAD);
 
-        registrar.addSyncedConfig(ConfigTest.SYNC_BOOL, true);
-        registrar.addSyncedConfig(ConfigTest.SYNC_INT, 69);
-        registrar.addSyncedConfig(ConfigTest.SYNC_DOUBLE, 42.0);
-        registrar.addSyncedConfig(ConfigTest.SYNC_STRING, "<empty>");
-        registrar.addSyncedConfig(ConfigTest.SYNC_ENUM, TooltipPosition.HEAD);
+        registrar.addSyncedConfig(ConfigTest.SYNC_BOOL, true, true);
+        registrar.addSyncedConfig(ConfigTest.SYNC_INT, 69, 69);
+        registrar.addSyncedConfig(ConfigTest.SYNC_DOUBLE, 42.0, 42.0);
+        registrar.addSyncedConfig(ConfigTest.SYNC_STRING, "<empty>", "<empty>");
+        registrar.addSyncedConfig(ConfigTest.SYNC_ENUM, TooltipPosition.HEAD, TooltipPosition.HEAD);
 
         registrar.addComponent(ConfigTest.INSTANCE, TooltipPosition.HEAD, Block.class);
 

@@ -15,14 +15,16 @@ public class ConfigEntry<T> {
 
     private final ResourceLocation id;
     private final T defaultValue;
+    private final T clientOnlyValue;
     private final boolean synced;
     private final Type<T> type;
     private T value;
 
-    private ConfigEntry(ResourceLocation id, T defaultValue, boolean synced, Type<T> type) {
+    private ConfigEntry(ResourceLocation id, T defaultValue, T clientOnlyValue, boolean synced, Type<T> type) {
         this.id = id;
         this.defaultValue = defaultValue;
         this.value = defaultValue;
+        this.clientOnlyValue = clientOnlyValue;
         this.synced = synced;
         this.type = type;
     }
@@ -37,6 +39,10 @@ public class ConfigEntry<T> {
 
     public T getDefaultValue() {
         return defaultValue;
+    }
+
+    public T getClientOnlyValue() {
+        return clientOnlyValue;
     }
 
     public boolean isSynced() {
@@ -58,8 +64,8 @@ public class ConfigEntry<T> {
 
         T parseValue(JsonPrimitive element, T defaultValue);
 
-        default ConfigEntry<T> create(ResourceLocation id, T defaultValue, boolean synced) {
-            return new ConfigEntry<>(id, defaultValue, synced, this);
+        default ConfigEntry<T> create(ResourceLocation id, T defaultValue, T clientOnlyValue, boolean synced) {
+            return new ConfigEntry<>(id, defaultValue, clientOnlyValue, synced, this);
         }
 
     }

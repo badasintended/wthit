@@ -58,59 +58,59 @@ public enum Registrar implements IRegistrar {
     @Deprecated
     public final Map<ResourceLocation, ITooltipRenderer> renderer = new Object2ObjectOpenHashMap<>();
 
-    private <T> void addConfig(ResourceLocation key, T defaultValue, boolean synced, ConfigEntry.Type<T> type) {
+    private <T> void addConfig(ResourceLocation key, T defaultValue, T clientOnlyValue, boolean synced, ConfigEntry.Type<T> type) {
         assertLock();
-        PluginConfig.INSTANCE.addConfig(type.create(key, defaultValue, synced));
+        PluginConfig.INSTANCE.addConfig(type.create(key, defaultValue, clientOnlyValue, synced));
     }
 
     @Override
     public void addConfig(ResourceLocation key, boolean defaultValue) {
-        addConfig(key, defaultValue, false, ConfigEntry.BOOLEAN);
+        addConfig(key, defaultValue, defaultValue, false, ConfigEntry.BOOLEAN);
     }
 
     @Override
     public void addConfig(ResourceLocation key, int defaultValue) {
-        addConfig(key, defaultValue, false, ConfigEntry.INTEGER);
+        addConfig(key, defaultValue, defaultValue, false, ConfigEntry.INTEGER);
     }
 
     @Override
     public void addConfig(ResourceLocation key, double defaultValue) {
-        addConfig(key, defaultValue, false, ConfigEntry.DOUBLE);
+        addConfig(key, defaultValue, defaultValue, false, ConfigEntry.DOUBLE);
     }
 
     @Override
     public void addConfig(ResourceLocation key, String defaultValue) {
-        addConfig(key, defaultValue, false, ConfigEntry.STRING);
+        addConfig(key, defaultValue, defaultValue, false, ConfigEntry.STRING);
     }
 
     @Override
     public <T extends Enum<T>> void addConfig(ResourceLocation key, T defaultValue) {
-        addConfig(key, defaultValue, false, ConfigEntry.ENUM);
+        addConfig(key, defaultValue, defaultValue, false, ConfigEntry.ENUM);
     }
 
     @Override
-    public void addSyncedConfig(ResourceLocation key, boolean defaultValue) {
-        addConfig(key, defaultValue, true, ConfigEntry.BOOLEAN);
+    public void addSyncedConfig(ResourceLocation key, boolean defaultValue, boolean clientOnlyValue) {
+        addConfig(key, defaultValue, clientOnlyValue, true, ConfigEntry.BOOLEAN);
     }
 
     @Override
-    public void addSyncedConfig(ResourceLocation key, int defaultValue) {
-        addConfig(key, defaultValue, true, ConfigEntry.INTEGER);
+    public void addSyncedConfig(ResourceLocation key, int defaultValue, int clientOnlyValue) {
+        addConfig(key, defaultValue, clientOnlyValue, true, ConfigEntry.INTEGER);
     }
 
     @Override
-    public void addSyncedConfig(ResourceLocation key, double defaultValue) {
-        addConfig(key, defaultValue, true, ConfigEntry.DOUBLE);
+    public void addSyncedConfig(ResourceLocation key, double defaultValue, double clientOnlyValue) {
+        addConfig(key, defaultValue, clientOnlyValue, true, ConfigEntry.DOUBLE);
     }
 
     @Override
-    public void addSyncedConfig(ResourceLocation key, String defaultValue) {
-        addConfig(key, defaultValue, true, ConfigEntry.STRING);
+    public void addSyncedConfig(ResourceLocation key, String defaultValue, String clientOnlyValue) {
+        addConfig(key, defaultValue, clientOnlyValue, true, ConfigEntry.STRING);
     }
 
     @Override
-    public <T extends Enum<T>> void addSyncedConfig(ResourceLocation key, T defaultValue) {
-        addConfig(key, defaultValue, true, ConfigEntry.ENUM);
+    public <T extends Enum<T>> void addSyncedConfig(ResourceLocation key, T defaultValue, T clientOnlyValue) {
+        addConfig(key, defaultValue, clientOnlyValue, true, ConfigEntry.ENUM);
     }
 
     @Override
