@@ -17,8 +17,8 @@ dependencies {
 
     implementation("org.jetbrains:annotations:19.0.0")
 
-    //compileOnly(fg.deobf("mezz.jei:jei-${rootProp["minecraft"]}:${rootProp["jei"]}:api"))
-    //runtimeOnly(fg.deobf("mezz.jei:jei-${rootProp["minecraft"]}:${rootProp["jei"]}"))
+    compileOnly(fg.deobf("mezz.jei:jei-${rootProp["minecraft"]}:${rootProp["jei"]}:api"))
+    runtimeOnly(fg.deobf("mezz.jei:jei-${rootProp["minecraft"]}:${rootProp["jei"]}"))
 }
 
 sourceSets {
@@ -28,7 +28,14 @@ sourceSets {
     }
 
     // hack to make forgegradle happy
-    rootProject.sourceSets.forEach { maybeCreate(it.name) }
+    rootProject.sourceSets.forEach {
+        if (findByName(it.name) == null) {
+            create(it.name) {
+                java.setSrcDirs(emptyList<Any>())
+                resources.setSrcDirs(emptyList<Any>())
+            }
+        }
+    }
 }
 
 minecraft {
