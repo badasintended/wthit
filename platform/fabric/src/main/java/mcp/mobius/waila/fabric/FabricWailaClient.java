@@ -13,6 +13,8 @@ public class FabricWailaClient extends WailaClient implements ClientModInitializ
 
     @Override
     public void onInitializeClient() {
+        registerKeyBinds();
+
         Waila.PACKET.initClient();
 
         HudRenderCallback.EVENT.register(TooltipHandler::render);
