@@ -44,7 +44,7 @@ public class ClientTickHandler {
             return;
         }
 
-        if (config.getDisplayMode() == IWailaConfig.General.DisplayMode.HOLD_KEY && !WailaClient.SHOW_OVERLAY.isDown()) {
+        if (config.getDisplayMode() == IWailaConfig.General.DisplayMode.HOLD_KEY && !WailaClient.showOverlay.isDown()) {
             return;
         }
 

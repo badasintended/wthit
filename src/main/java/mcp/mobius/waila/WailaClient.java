@@ -19,14 +19,22 @@ import org.lwjgl.glfw.GLFW;
 
 public abstract class WailaClient {
 
-    public static final KeyMapping OPEN_CONFIG = IClientService.INSTANCE.createKeyBind("config", GLFW.GLFW_KEY_KP_0);
-    public static final KeyMapping SHOW_OVERLAY = IClientService.INSTANCE.createKeyBind("show_overlay", GLFW.GLFW_KEY_KP_1);
-    public static final KeyMapping TOGGLE_LIQUID = IClientService.INSTANCE.createKeyBind("toggle_liquid", GLFW.GLFW_KEY_KP_2);
-    public static final KeyMapping SHOW_RECIPE_INPUT = IClientService.INSTANCE.createKeyBind("show_recipe_input", GLFW.GLFW_KEY_KP_3);
-    public static final KeyMapping SHOW_RECIPE_OUTPUT = IClientService.INSTANCE.createKeyBind("show_recipe_output", GLFW.GLFW_KEY_KP_4);
+    public static KeyMapping openConfig;
+    public static KeyMapping showOverlay;
+    public static KeyMapping toggleLiquid;
+    public static KeyMapping showRecipeInput;
+    public static KeyMapping showRecipeOutput;
 
     public static Runnable onShowRecipeInput;
     public static Runnable onShowRecipeOutput;
+
+    protected static void registerKeyBinds() {
+        openConfig = IClientService.INSTANCE.createKeyBind("config", GLFW.GLFW_KEY_KP_0);
+        showOverlay = IClientService.INSTANCE.createKeyBind("show_overlay", GLFW.GLFW_KEY_KP_1);
+        toggleLiquid = IClientService.INSTANCE.createKeyBind("toggle_liquid", GLFW.GLFW_KEY_KP_2);
+        showRecipeInput = IClientService.INSTANCE.createKeyBind("show_recipe_input", GLFW.GLFW_KEY_KP_3);
+        showRecipeOutput = IClientService.INSTANCE.createKeyBind("show_recipe_output", GLFW.GLFW_KEY_KP_4);
+    }
 
     protected static void onJoinServer() {
         if (!Waila.PACKET.isServerAvailable()) {
@@ -42,26 +50,26 @@ public abstract class WailaClient {
 
         ClientTickHandler.tick();
 
-        while (OPEN_CONFIG.consumeClick()) {
+        while (openConfig.consumeClick()) {
             client.setScreen(new HomeScreen(null));
         }
 
-        while (SHOW_OVERLAY.consumeClick()) {
+        while (showOverlay.consumeClick()) {
             if (config.getGeneral().getDisplayMode() == IWailaConfig.General.DisplayMode.TOGGLE) {
                 config.getGeneral().setDisplayTooltip(!config.getGeneral().isDisplayTooltip());
             }
         }
 
-        while (TOGGLE_LIQUID.consumeClick()) {
+        while (toggleLiquid.consumeClick()) {
             PluginConfig.INSTANCE.set(WailaConstants.CONFIG_SHOW_FLUID, !PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_FLUID));
         }
 
 
-        while (SHOW_RECIPE_INPUT.consumeClick() && onShowRecipeInput != null) {
+        while (showRecipeInput.consumeClick() && onShowRecipeInput != null) {
             onShowRecipeInput.run();
         }
 
-        while (SHOW_RECIPE_OUTPUT.consumeClick() && onShowRecipeOutput != null) {
+        while (showRecipeOutput.consumeClick() && onShowRecipeOutput != null) {
             onShowRecipeOutput.run();
         }
     }
