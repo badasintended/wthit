@@ -60,7 +60,7 @@ public class WailaVanilla implements IWailaPlugin {
         registrar.addSyncedConfig(Options.OVERRIDE_INFESTED, true, true);
         registrar.addSyncedConfig(Options.OVERRIDE_TRAPPED_CHEST, true, true);
         registrar.addSyncedConfig(Options.OVERRIDE_POWDER_SNOW, true, true);
-        registrar.addSyncedConfig(Options.PET_OWNER, true, false);
+        registrar.addSyncedConfig(Options.PET_OWNER, true, true);
         registrar.addSyncedConfig(Options.FURNACE_CONTENTS, true, false);
         registrar.addSyncedConfig(Options.JUKEBOX_RECORD, true, false);
 
