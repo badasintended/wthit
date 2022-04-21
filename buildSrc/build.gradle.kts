@@ -18,4 +18,5 @@ dependencies {
     implementation("org.spongepowered:vanillagradle:0.2.1-SNAPSHOT")
     implementation("fabric-loom:fabric-loom.gradle.plugin:0.11.+")
     implementation("net.minecraftforge.gradle:ForgeGradle:5.1.+")
+    implementation("org.spongepowered:mixingradle:0.7.+")
 }

@@ -3,7 +3,6 @@ package mcp.mobius.waila.fabric;
 import java.nio.file.Path;
 import java.util.Optional;
 
-import mcp.mobius.waila.network.PacketSender;
 import mcp.mobius.waila.service.ICommonService;
 import mcp.mobius.waila.util.ModInfo;
 import net.fabricmc.api.EnvType;
@@ -24,11 +23,6 @@ public class FabricCommonService implements ICommonService {
     @Override
     public Path getConfigDir() {
         return FabricLoader.getInstance().getConfigDir();
-    }
-
-    @Override
-    public PacketSender getPacketSender() {
-        return new FabricPacketSender();
     }
 
     @Override
