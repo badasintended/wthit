@@ -24,8 +24,14 @@ jobs:
       - run: chmod +x gradlew
       - uses: actions/cache@v2
         with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-${{ github.ref }}-${{ hashFiles('**/*.gradle.kts') }}
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+            ./.gradle/loom-cache
+            ./.gradle/caches
+            ./platform/forge/build
+            !./platform/forge/build/libs
+          key: ${{ runner.os }}-${{ hashFiles('**/*.gradle.kts', '**/*.kt', '**/gradle-wrapper.properties') }}
       - run: ./gradlew build
         env:
           GIT_HASH: ${{ steps.vars.outputs.git_hash }}
@@ -37,3 +43,4 @@ jobs:
         with:
           name: wthit-forge-${{ steps.vars.outputs.git_hash }}
           path: "./platform/forge/build/libs/**.jar"
+      - run: ./gradlew --stop
