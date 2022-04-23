@@ -12,7 +12,7 @@ repositories {
 }
 
 dependencies {
-    implementation("gradle.plugin.com.modrinth.minotaur:Minotaur:1.1.0")
+    implementation("com.modrinth.minotaur:Minotaur:2.+")
     implementation("gradle.plugin.com.matthewprenger:CurseGradle:1.4.0")
 
     implementation("org.spongepowered:vanillagradle:0.2.1-SNAPSHOT")

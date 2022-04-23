@@ -1,26 +1,38 @@
-import com.modrinth.minotaur.TaskModrinthUpload
+import com.modrinth.minotaur.ModrinthExtension
+import com.modrinth.minotaur.dependencies.DependencyType
+import com.modrinth.minotaur.dependencies.ModDependency
 import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.apply
-import org.gradle.kotlin.dsl.task
+import org.gradle.kotlin.dsl.configure
 
 fun <T : Jar> UploadConfig.modrinth(task: T) = project.run {
     apply(plugin = "com.modrinth.minotaur")
 
-    task<TaskModrinthUpload>("modrinth") {
-        group = "upload"
-        dependsOn("build")
+    env["MODRINTH_TOKEN"]?.let { MODRINTH_TOKEN ->
+        configure<ModrinthExtension> {
+            token.set(MODRINTH_TOKEN)
+            projectId.set(prop["mr.projectId"])
 
-        token = env["MODRINTH_TOKEN"]
-        projectId = prop["mr.projectId"]
-        releaseType = prop["mr.releaseType"]
+            versionNumber.set("${project.name}-${project.version}")
+            versionType.set(prop["mr.releaseType"])
+            changelog.set("https://github.com/badasintended/wthit/releases/tag/${project.version}")
 
-        versionNumber = "${project.name}-${project.version}"
-        addLoader(project.name)
+            uploadFile.set(task)
 
-        uploadFile = task
+            loaders.add(project.name)
+            gameVersions.addAll(prop["mr.gameVersion"].split(", "))
 
-        prop["mr.gameVersion"].split(", ").forEach {
-            addGameVersion(it)
+            fun dependency(key: String, type: DependencyType) {
+                prop.ifPresent("mr.${key}") { value ->
+                    value.split(", ").forEach {
+                        dependencies.add(ModDependency(it, type))
+                    }
+                }
+            }
+
+            dependency("require", DependencyType.REQUIRED)
+            dependency("optional", DependencyType.OPTIONAL)
+            dependency("break", DependencyType.INCOMPATIBLE)
         }
     }
 }
