@@ -59,9 +59,6 @@ public class PluginConfigScreen extends ConfigScreen {
                     categories.put(NO_CATEGORY, 0);
                     for (ResourceLocation key : keys) {
                         ConfigEntry<Object> entry = PluginConfig.INSTANCE.getEntry(key);
-                        if (entry.isSynced() && Minecraft.getInstance().getCurrentServer() != null) {
-                            continue;
-                        }
                         String path = key.getPath();
                         String category = NO_CATEGORY;
                         if (path.contains(".")) {
@@ -81,7 +78,11 @@ public class PluginConfigScreen extends ConfigScreen {
                                 e.setValue(e.getIntValue() + 1);
                             }
                         }
-                        options.with(index, ENTRY_TO_VALUE.get(entry.getType()).create(translationKey + "." + path, entry.getValue(), entry.getDefaultValue(), entry::setValue));
+                        ConfigValue<Object> value = ENTRY_TO_VALUE.get(entry.getType()).create(translationKey + "." + path, entry.getValue(), entry.getDefaultValue(), entry::setValue);
+                        if (entry.isSynced() && Minecraft.getInstance().getCurrentServer() != null) {
+                            value.serverOnly = true;
+                        }
+                        options.with(index, value);
                     }
                     return options;
                 }

@@ -1,8 +1,9 @@
 package mcp.mobius.waila.gui.widget.value;
 
+import com.mojang.blaze3d.vertex.PoseStack;
+
 import java.util.function.Consumer;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
@@ -14,10 +15,6 @@ public class BooleanValue extends ConfigValue<Boolean> {
 
     private final Button button;
 
-    public BooleanValue(String optionName, boolean value, Consumer<Boolean> save) {
-        this(optionName, value, null, save);
-    }
-
     public BooleanValue(String optionName, boolean value, @Nullable Boolean defaultValue, Consumer<Boolean> save) {
         super(optionName, value, defaultValue, save);
 
@@ -28,6 +25,7 @@ public class BooleanValue extends ConfigValue<Boolean> {
     @Override
     protected void drawValue(PoseStack matrices, int width, int height, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks) {
         setMessage();
+        button.active = !serverOnly;
         button.x = x + width - button.getWidth();
         button.y = y + (height - button.getHeight()) / 2;
         button.render(matrices, mouseX, mouseY, partialTicks);
@@ -35,7 +33,9 @@ public class BooleanValue extends ConfigValue<Boolean> {
 
     private void setMessage() {
         button.setMessage(new TranslatableComponent("config.waila." + getValue())
-            .withStyle(getValue() ? ChatFormatting.GREEN : ChatFormatting.RED));
+            .withStyle(!serverOnly
+                ? getValue() ? ChatFormatting.GREEN : ChatFormatting.RED
+                : ChatFormatting.GRAY));
     }
 
     @Override

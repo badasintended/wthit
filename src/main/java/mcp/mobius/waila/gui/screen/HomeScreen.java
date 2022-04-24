@@ -8,6 +8,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
+import org.jetbrains.annotations.NotNull;
 
 public class HomeScreen extends Screen {
 
@@ -20,6 +21,7 @@ public class HomeScreen extends Screen {
     }
 
     @Override
+    @SuppressWarnings("ConstantConditions")
     protected void init() {
         addRenderableWidget(new Button(width / 2 - 100, height / 2 - 48, 200, 20, new TranslatableComponent("gui.waila.waila_settings", WailaConstants.MOD_NAME), w ->
             minecraft.setScreen(new WailaConfigScreen(this))));
@@ -35,7 +37,7 @@ public class HomeScreen extends Screen {
     }
 
     @Override
-    public void render(PoseStack matrices, int x, int y, float partialTicks) {
+    public void render(@NotNull PoseStack matrices, int x, int y, float partialTicks) {
         renderBackground(matrices);
         drawCenteredString(matrices, font, title.getString(), width / 2, height / 2 - 50 - font.lineHeight, 0xFFFFFF);
         super.render(matrices, x, y, partialTicks);

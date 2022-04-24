@@ -20,6 +20,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
+import org.jetbrains.annotations.NotNull;
 
 public class CreditsScreen extends Screen {
 
@@ -32,6 +33,7 @@ public class CreditsScreen extends Screen {
     }
 
     @Override
+    @SuppressWarnings("ConstantConditions")
     protected void init() {
         super.init();
 
@@ -57,13 +59,14 @@ public class CreditsScreen extends Screen {
     }
 
     @Override
-    public void render(PoseStack matrices, int mouseX, int mouseY, float partialTicks) {
+    public void render(@NotNull PoseStack matrices, int mouseX, int mouseY, float partialTicks) {
         renderBackground(matrices);
         super.render(matrices, mouseX, mouseY, partialTicks);
         drawCenteredString(matrices, font, title.getString(), width / 2, 12, 0xFFFFFF);
     }
 
     @Override
+    @SuppressWarnings("ConstantConditions")
     public void onClose() {
         minecraft.setScreen(parent);
     }
@@ -96,17 +99,17 @@ public class CreditsScreen extends Screen {
         }
 
         @Override
-        public List<? extends NarratableEntry> narratables() {
+        public @NotNull List<? extends NarratableEntry> narratables() {
             return Collections.emptyList();
         }
 
         @Override
-        public List<? extends GuiEventListener> children() {
+        public @NotNull List<? extends GuiEventListener> children() {
             return Collections.emptyList();
         }
 
         @Override
-        public void render(PoseStack matrices, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
+        public void render(@NotNull PoseStack matrices, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
             Minecraft.getInstance().font.drawShadow(matrices, component, rowLeft, rowTop + 3, 0xFFFFFF);
         }
 

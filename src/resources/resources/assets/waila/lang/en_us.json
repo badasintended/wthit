@@ -53,6 +53,7 @@
 
   "config.waila.true"                                   : "True",
   "config.waila.false"                                  : "False",
+  "config.waila.server_only"                            : "Only editable on server or singleplayer",
 
   "config.waila.general"                                : "General",
   "config.waila.display_tooltip"                        : "Display Tooltip",

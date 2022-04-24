@@ -12,6 +12,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.ContainerObjectSelectionList;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
+import org.jetbrains.annotations.NotNull;
 
 public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWidget.Entry> {
 
@@ -87,17 +88,17 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
         }
 
         @Override
-        public List<? extends GuiEventListener> children() {
+        public @NotNull List<? extends GuiEventListener> children() {
             return Collections.emptyList();
         }
 
         @Override
-        public List<? extends NarratableEntry> narratables() {
+        public @NotNull List<? extends NarratableEntry> narratables() {
             return Collections.emptyList();
         }
 
         @Override
-        public void render(PoseStack matrices, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
+        public void render(@NotNull PoseStack matrices, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
             if (rowTop <= mouseY && mouseY < rowTop + height + 4) {
                 GuiComponent.fill(matrices, 0, rowTop - 2, client.getWindow().getGuiScaledWidth(), rowTop + height + 2, 0x22FFFFFF);
             }

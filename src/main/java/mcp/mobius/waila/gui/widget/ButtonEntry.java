@@ -5,6 +5,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.TextComponent;
+import org.jetbrains.annotations.NotNull;
 
 public class ButtonEntry extends ConfigListWidget.Entry {
 
@@ -22,7 +23,7 @@ public class ButtonEntry extends ConfigListWidget.Entry {
     }
 
     @Override
-    public void render(PoseStack matrices, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
+    public void render(@NotNull PoseStack matrices, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
         super.render(matrices, index, rowTop, rowLeft, width, height, mouseX, mouseY, hovered, deltaTime);
 
         client.font.drawShadow(matrices, title, rowLeft, rowTop + (height - client.font.lineHeight) / 2f, 16777215);
