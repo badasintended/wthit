@@ -21,17 +21,7 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: 17
-      - run: chmod +x gradlew
-      - uses: actions/cache@v2
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-            ./.gradle/loom-cache
-            ./.gradle/caches
-            ./platform/forge/build
-            !./platform/forge/build/libs
-          key: ${{ runner.os }}-${{ hashFiles('**/*.gradle.kts', '**/*.kt', '**/gradle-wrapper.properties') }}
+      - uses: gradle/gradle-build-action@v2
       - run: ./gradlew build
         env:
           GIT_HASH: ${{ steps.vars.outputs.git_hash }}
