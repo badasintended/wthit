@@ -4,6 +4,7 @@ import java.util.*
 
 plugins {
     id("net.minecraftforge.gradle")
+    id("org.spongepowered.mixin")
 }
 
 setupPlatform()
@@ -19,6 +20,8 @@ dependencies {
 
     compileOnly(fg.deobf("mezz.jei:jei-${rootProp["minecraft"]}:${rootProp["jei"]}:api"))
     runtimeOnly(fg.deobf("mezz.jei:jei-${rootProp["minecraft"]}:${rootProp["jei"]}"))
+
+    runtimeOnly(fg.deobf("lol.bai:badpackets:forge-${rootProp["badpackets"]}"))
 }
 
 sourceSets {
@@ -43,7 +46,7 @@ minecraft {
     accessTransformer(file("src/main/resources/META-INF/accesstransformer.cfg"))
     runs {
         val runConfig = Action<RunConfig> {
-            workingDirectory(rootProject.file("run"))
+            workingDirectory(file("run"))
             ideaModule("${rootProject.name}.${project.name}.main")
             property("waila.enableTestPlugin", "true")
             source(sourceSets["main"])

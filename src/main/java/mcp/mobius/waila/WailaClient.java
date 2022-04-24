@@ -36,14 +36,6 @@ public abstract class WailaClient {
         showRecipeOutput = IClientService.INSTANCE.createKeyBind("show_recipe_output", GLFW.GLFW_KEY_KP_4);
     }
 
-    protected static void onJoinServer() {
-        if (!Waila.PACKET.isServerAvailable()) {
-            Waila.LOGGER.warn("WTHIT is not found on the server, all syncable config will reset to their client-only value.");
-            PluginConfig.INSTANCE.getSyncableConfigs().forEach(config ->
-                config.setValue(config.getClientOnlyValue()));
-        }
-    }
-
     protected static void onClientTick() {
         Minecraft client = Minecraft.getInstance();
         WailaConfig config = Waila.CONFIG.get();

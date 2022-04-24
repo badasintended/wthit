@@ -16,6 +16,10 @@ allprojects {
 
     version = rootProject.version
 
+    repositories {
+        maven("https://maven.bai.lol")
+    }
+
     java {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -72,6 +76,10 @@ subprojects {
 minecraft {
     version(rootProp["minecraft"])
     accessWideners(project(":fabric").file("src/main/resources/wthit.accesswidener"))
+}
+
+dependencies {
+    compileOnly("lol.bai:badpackets:mojmap-${rootProp["badpackets"]}")
 }
 
 sourceSets {

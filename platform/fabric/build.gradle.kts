@@ -5,7 +5,6 @@ plugins {
 setupPlatform()
 
 repositories {
-    maven("https://maven.bai.lol")
     maven("https://maven.shedaniel.me")
 }
 
@@ -21,6 +20,8 @@ dependencies {
 
     modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:${rootProp["rei"]}")
     modRuntimeOnly("me.shedaniel:RoughlyEnoughItems-fabric:${rootProp["rei"]}")
+
+    modRuntimeOnly("lol.bai:badpackets:fabric-${rootProp["badpackets"]}")
 }
 
 sourceSets {
@@ -33,8 +34,10 @@ sourceSets {
 loom {
     accessWidenerPath.set(file("src/main/resources/wthit.accesswidener"))
     runs {
-        get("client").vmArgs += "-Dwaila.enableTestPlugin=true"
-        get("server").vmArgs += "-Dwaila.enableTestPlugin=true"
+        configureEach {
+            isIdeConfigGenerated = true
+            vmArgs += "-Dwaila.enableTestPlugin=true"
+        }
     }
 }
 
