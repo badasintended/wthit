@@ -1,3 +1,5 @@
+import groovy.json.JsonGenerator
+import groovy.json.JsonSlurper
 import java.nio.charset.StandardCharsets
 
 plugins {
@@ -24,6 +26,22 @@ allprojects {
     tasks.withType<JavaCompile> {
         options.encoding = StandardCharsets.UTF_8.name()
         options.release.set(17)
+    }
+
+    tasks.withType<ProcessResources> {
+        doLast {
+            val slurper = JsonSlurper()
+            val json = JsonGenerator.Options()
+                .disableUnicodeEscaping()
+                .build()
+            fileTree(outputs.files.asPath) {
+                include("**/*.json")
+                forEach {
+                    val mini = json.toJson(slurper.parse(it, StandardCharsets.UTF_8.name()))
+                    it.writeText(mini)
+                }
+            }
+        }
     }
 }
 
