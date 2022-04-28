@@ -61,7 +61,9 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
     }
 
     public void save() {
-        save.accept(getValue());
+        if (!serverOnly) {
+            save.accept(getValue());
+        }
     }
 
     public GuiEventListener getListener() {

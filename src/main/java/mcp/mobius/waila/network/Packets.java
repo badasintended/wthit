@@ -191,12 +191,6 @@ public class Packets {
             FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
             buf.writeVarInt(NETWORK_VERSION);
             sender.send(VERSION, buf);
-
-            if (!sender.canSend(VERSION)) {
-                Waila.LOGGER.warn("WTHIT is not found on the server, all syncable config will reset to their client-only value.");
-                PluginConfig.INSTANCE.getSyncableConfigs().forEach(config ->
-                    config.setValue(config.getClientOnlyValue()));
-            }
         });
 
         S2CPacketReceiver.register(VERSION, (client, handler, buf, responseSender) -> {

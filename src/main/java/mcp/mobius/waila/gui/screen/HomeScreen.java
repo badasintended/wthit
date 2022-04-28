@@ -1,9 +1,7 @@
 package mcp.mobius.waila.gui.screen;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.WailaConstants;
-import mcp.mobius.waila.config.PluginConfig;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.TextComponent;
@@ -29,11 +27,8 @@ public class HomeScreen extends Screen {
             minecraft.setScreen(new PluginConfigScreen(this))));
         addRenderableWidget(new Button(width / 2 - 100, height / 2, 200, 20, new TranslatableComponent("gui.waila.credits"), w ->
             minecraft.setScreen(new CreditsScreen(this))));
-        addRenderableWidget(new Button(width / 2 - 50, height / 2 + 24, 100, 20, new TranslatableComponent("gui.done"), w -> {
-            Waila.CONFIG.save();
-            PluginConfig.INSTANCE.save();
-            minecraft.setScreen(parent);
-        }));
+        addRenderableWidget(new Button(width / 2 - 50, height / 2 + 24, 100, 20, new TranslatableComponent("gui.done"), w ->
+            minecraft.setScreen(parent)));
     }
 
     @Override

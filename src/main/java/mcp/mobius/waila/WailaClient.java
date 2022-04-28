@@ -13,6 +13,7 @@ import mcp.mobius.waila.registry.Registrar;
 import mcp.mobius.waila.service.IClientService;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import org.lwjgl.glfw.GLFW;
@@ -75,6 +76,14 @@ public abstract class WailaClient {
                     return;
                 }
             }
+        }
+    }
+
+    protected static void resetSyncablePluginConfigs(Connection connection) {
+        if (!connection.isMemoryConnection()) {
+            Waila.LOGGER.info("Connecting to dedicated server, resetting syncable config to client-only values");
+            PluginConfig.INSTANCE.getSyncableConfigs().forEach(config ->
+                config.setValue(config.getClientOnlyValue()));
         }
     }
 

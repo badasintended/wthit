@@ -36,12 +36,30 @@ public class PluginConfigScreen extends ConfigScreen {
         register(ConfigEntry.ENUM, (name, value, defaultValue, save) -> new EnumValue(name, value.getDeclaringClass().getEnumConstants(), value, defaultValue, save));
     }
 
+    private static final Map<ConfigEntry<Object>, Object> SYNCED_VALUES = new HashMap<>();
+
     public PluginConfigScreen(Screen parent) {
-        super(parent, new TranslatableComponent("gui.waila.plugin_settings"), PluginConfig.INSTANCE::save, PluginConfig.INSTANCE::reload);
+        super(parent, new TranslatableComponent("gui.waila.plugin_settings"), PluginConfigScreen::saveAndRestore, PluginConfigScreen::reloadAndRestore);
+
+        SYNCED_VALUES.clear();
+        if (Minecraft.getInstance().getCurrentServer() != null) {
+            PluginConfig.INSTANCE.getSyncableConfigs().forEach(entry -> SYNCED_VALUES.put(entry, entry.getValue()));
+            PluginConfig.INSTANCE.reload();
+        }
     }
 
     private static <T> void register(ConfigEntry.Type<T> type, ConfigValueFunction<T> function) {
         ENTRY_TO_VALUE.put((ConfigEntry.Type<Object>) type, (ConfigValueFunction<Object>) function);
+    }
+
+    private static void saveAndRestore() {
+        PluginConfig.INSTANCE.save();
+        SYNCED_VALUES.forEach(ConfigEntry::setValue);
+    }
+
+    private static void reloadAndRestore() {
+        PluginConfig.INSTANCE.reload();
+        SYNCED_VALUES.forEach(ConfigEntry::setValue);
     }
 
     @Override
@@ -79,8 +97,9 @@ public class PluginConfigScreen extends ConfigScreen {
                             }
                         }
                         ConfigValue<Object> value = ENTRY_TO_VALUE.get(entry.getType()).create(translationKey + "." + path, entry.getValue(), entry.getDefaultValue(), entry::setValue);
-                        if (entry.isSynced() && Minecraft.getInstance().getCurrentServer() != null) {
+                        if (entry.isSynced() && minecraft.getCurrentServer() != null) {
                             value.serverOnly = true;
+                            value.setValue(SYNCED_VALUES.get(entry));
                         }
                         options.with(index, value);
                     }

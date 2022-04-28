@@ -1,5 +1,7 @@
 package mcp.mobius.waila.forge;
 
+import java.util.Objects;
+
 import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.gui.screen.HomeScreen;
@@ -7,6 +9,7 @@ import mcp.mobius.waila.hud.TooltipHandler;
 import mcp.mobius.waila.network.Packets;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.ConfigGuiHandler;
+import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
@@ -52,6 +55,10 @@ public class ForgeWailaClient extends WailaClient {
             onItemTooltip(event.getItemStack(), event.getToolTip());
         }
 
+        @SubscribeEvent
+        static void loggedIn(ClientPlayerNetworkEvent.LoggedInEvent event) {
+            resetSyncablePluginConfigs(Objects.requireNonNull(event.getConnection()));
+        }
     }
 
     @Mod(WailaConstants.WTHIT)
