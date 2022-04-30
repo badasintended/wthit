@@ -71,6 +71,14 @@ public class InputValue<T> extends ConfigValue<T> {
         }
     }
 
+    @Override
+    public void setValue(T value) {
+        super.setValue(value);
+        textField.value = String.valueOf(value);
+        textField.setCursorPosition(textField.value.length());
+        textField.setHighlightPos(textField.getCursorPosition());
+    }
+
     private static class WatchedTextfield extends EditBox {
 
         public WatchedTextfield(InputValue<?> watcher, Font fontRenderer, int x, int y, int width, int height) {

@@ -91,7 +91,7 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
         return value;
     }
 
-    public final void setValue(T value) {
+    public void setValue(T value) {
         this.value = value;
     }
 
