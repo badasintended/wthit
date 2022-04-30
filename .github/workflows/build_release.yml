@@ -22,12 +22,8 @@ jobs:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
       - uses: actions/upload-artifact@v2
         with:
-          name: wthit-fabric-${{ steps.vars.outputs.version }}
-          path: "./platform/fabric/build/libs/**.jar"
-      - uses: actions/upload-artifact@v2
-        with:
-          name: wthit-forge-${{ steps.vars.outputs.version }}
-          path: "./platform/forge/build/libs/**.jar"
+          name: wthit-${{ steps.vars.outputs.version }}
+          path: "./platform/*/build/libs/**.jar"
       - uses: alexellis/upload-assets@0.2.2
         env:
           GITHUB_TOKEN: ${{ github.token }}
