@@ -85,6 +85,7 @@ dependencies {
 sourceSets {
     val main by getting
     val api by creating
+    val minecraftless by creating
     val impl by creating
     val pluginCore by creating
     val pluginVanilla by creating
@@ -99,4 +100,13 @@ sourceSets {
     listOf(main, pluginCore, pluginVanilla, pluginTest).applyEach {
         compileClasspath += api.output
     }
+    main.apply {
+        compileClasspath += minecraftless.output
+    }
+}
+
+dependencies {
+    val minecraftlessCompileOnly by configurations
+
+    minecraftlessCompileOnly("com.google.code.gson:gson:2.8.9")
 }

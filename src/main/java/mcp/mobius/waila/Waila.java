@@ -28,6 +28,24 @@ public abstract class Waila {
     public static final TagKey<Block> BLOCK_BLACKLIST_TAG = TagKey.create(Registry.BLOCK_REGISTRY, id("blacklist"));
     public static final TagKey<EntityType<?>> ENTITY_BLACKLIST_TAG = TagKey.create(Registry.ENTITY_TYPE_REGISTRY, id("blacklist"));
 
+    public static final Logger LOGGER = LogManager.getLogger(WailaConstants.MOD_NAME, new MessageFactory() {
+        private final String prefix = "[" + WailaConstants.MOD_NAME + "] ";
+
+        public Message newMessage(Object message) {
+            return ParameterizedMessageFactory.INSTANCE.newMessage(prefix + "{}", message);
+        }
+
+        @Override
+        public Message newMessage(String message) {
+            return ParameterizedMessageFactory.INSTANCE.newMessage(prefix + message);
+        }
+
+        @Override
+        public Message newMessage(String message, Object... params) {
+            return ParameterizedMessageFactory.INSTANCE.newMessage(prefix + message, params);
+        }
+    });
+
     public static final IJsonConfig<WailaConfig> CONFIG = IJsonConfig.of(WailaConfig.class)
         .file(WailaConstants.NAMESPACE + "/" + WailaConstants.WAILA)
         .version(WailaConstants.CONFIG_VERSION, WailaConfig::getConfigVersion, WailaConfig::setConfigVersion)
@@ -46,24 +64,6 @@ public abstract class Waila {
             .registerTypeAdapter(BlacklistConfig.class, new BlacklistConfig.Adapter())
             .create())
         .build();
-
-    public static final Logger LOGGER = LogManager.getLogger(WailaConstants.MOD_NAME, new MessageFactory() {
-        private final String prefix = "[" + WailaConstants.MOD_NAME + "] ";
-
-        public Message newMessage(Object message) {
-            return ParameterizedMessageFactory.INSTANCE.newMessage(prefix + "{}", message);
-        }
-
-        @Override
-        public Message newMessage(String message) {
-            return ParameterizedMessageFactory.INSTANCE.newMessage(prefix + message);
-        }
-
-        @Override
-        public Message newMessage(String message, Object... params) {
-            return ParameterizedMessageFactory.INSTANCE.newMessage(prefix + message, params);
-        }
-    });
 
     public static ResourceLocation id(String path) {
         return new ResourceLocation(WailaConstants.NAMESPACE, path);

@@ -79,7 +79,8 @@ public abstract class WailaClient {
         }
     }
 
-    protected static void resetSyncablePluginConfigs(Connection connection) {
+    protected static void onServerLogIn(Connection connection) {
+        Waila.BLACKLIST_CONFIG.invalidate();
         if (!connection.isMemoryConnection()) {
             Waila.LOGGER.info("Connecting to dedicated server, resetting syncable config to client-only values");
             PluginConfig.INSTANCE.getSyncableConfigs().forEach(config ->

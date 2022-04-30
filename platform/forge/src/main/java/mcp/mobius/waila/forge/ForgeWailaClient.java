@@ -57,7 +57,7 @@ public class ForgeWailaClient extends WailaClient {
 
         @SubscribeEvent
         static void loggedIn(ClientPlayerNetworkEvent.LoggedInEvent event) {
-            resetSyncablePluginConfigs(Objects.requireNonNull(event.getConnection()));
+            onServerLogIn(Objects.requireNonNull(event.getConnection()));
         }
     }
 

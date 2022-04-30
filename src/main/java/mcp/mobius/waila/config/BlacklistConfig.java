@@ -32,9 +32,9 @@ public class BlacklistConfig implements IBlacklistConfig {
     public final transient LinkedHashSet<BlockEntityType<?>> blockEntityTypes = new LinkedHashSet<>();
     public final transient LinkedHashSet<EntityType<?>> entityTypes = new LinkedHashSet<>();
 
-    private final LinkedHashSet<ResourceLocation> blockIds = new LinkedHashSet<>();
-    private final LinkedHashSet<ResourceLocation> blockEntityTypeIds = new LinkedHashSet<>();
-    private final LinkedHashSet<ResourceLocation> entityTypeIds = new LinkedHashSet<>();
+    public final LinkedHashSet<ResourceLocation> blockIds = new LinkedHashSet<>();
+    public final LinkedHashSet<ResourceLocation> blockEntityTypeIds = new LinkedHashSet<>();
+    public final LinkedHashSet<ResourceLocation> entityTypeIds = new LinkedHashSet<>();
 
     public int getConfigVersion() {
         return configVersion;

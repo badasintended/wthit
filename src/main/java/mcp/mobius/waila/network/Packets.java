@@ -2,8 +2,11 @@ package mcp.mobius.waila.network;
 
 import java.nio.file.Path;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import com.google.gson.Gson;
 import io.netty.buffer.Unpooled;
@@ -36,9 +39,13 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.Vec3;
 
-public class Packets {
+import static mcp.mobius.waila.mcless.network.NetworkConstants.CONFIG_BOOL;
+import static mcp.mobius.waila.mcless.network.NetworkConstants.CONFIG_DOUBLE;
+import static mcp.mobius.waila.mcless.network.NetworkConstants.CONFIG_INT;
+import static mcp.mobius.waila.mcless.network.NetworkConstants.CONFIG_STRING;
+import static mcp.mobius.waila.mcless.network.NetworkConstants.NETWORK_VERSION;
 
-    static final int NETWORK_VERSION = 3;
+public class Packets {
 
     public static final ResourceLocation VERSION = Waila.id("version");
 
@@ -50,11 +57,6 @@ public class Packets {
     public static final ResourceLocation BLACKLIST = Waila.id("blacklist");
     public static final ResourceLocation GENERATE_CLIENT_DUMP = Waila.id("generate_client_dump");
 
-    static final int CONFIG_BOOL = 0;
-    static final int CONFIG_INT = 1;
-    static final int CONFIG_DOUBLE = 2;
-    static final int CONFIG_STRING = 3;
-
     private static final Gson GSON = new Gson();
 
     public static void initServer() {
@@ -63,37 +65,42 @@ public class Packets {
             versionBuf.writeVarInt(NETWORK_VERSION);
             sender.send(VERSION, versionBuf);
 
+
             FriendlyByteBuf blacklistBuf = new FriendlyByteBuf(Unpooled.buffer());
             BlacklistConfig blacklistConfig = Waila.BLACKLIST_CONFIG.get();
-            writeRawIds(blacklistBuf, blacklistConfig.blocks, Registry.BLOCK);
-            writeRawIds(blacklistBuf, blacklistConfig.blockEntityTypes, Registry.BLOCK_ENTITY_TYPE);
-            writeRawIds(blacklistBuf, blacklistConfig.entityTypes, Registry.ENTITY_TYPE);
+            writeIds(blacklistBuf, blacklistConfig.blockIds);
+            writeIds(blacklistBuf, blacklistConfig.blockEntityTypeIds);
+            writeIds(blacklistBuf, blacklistConfig.entityTypeIds);
             sender.send(BLACKLIST, blacklistBuf);
 
             FriendlyByteBuf configBuf = new FriendlyByteBuf(Unpooled.buffer());
-            Set<ConfigEntry<Object>> entries = PluginConfig.INSTANCE.getSyncableConfigs();
-            configBuf.writeVarInt(entries.size());
-            for (ConfigEntry<Object> e : entries) {
-                configBuf.writeResourceLocation(e.getId());
-
-                Object v = e.getValue();
-                if (v instanceof Boolean z) {
-                    configBuf.writeVarInt(CONFIG_BOOL);
-                    configBuf.writeBoolean(z);
-                } else if (v instanceof Integer i) {
-                    configBuf.writeVarInt(CONFIG_INT);
-                    configBuf.writeVarInt(i);
-                } else if (v instanceof Double d) {
-                    configBuf.writeVarInt(CONFIG_DOUBLE);
-                    configBuf.writeDouble(d);
-                } else if (v instanceof String str) {
-                    configBuf.writeVarInt(CONFIG_STRING);
-                    configBuf.writeUtf(str);
-                } else if (v instanceof Enum<?> en) {
-                    configBuf.writeVarInt(CONFIG_STRING);
-                    configBuf.writeUtf(en.name());
-                }
-            }
+            Map<String, List<ConfigEntry<Object>>> groups = PluginConfig.INSTANCE.getSyncableConfigs().stream()
+                .collect(Collectors.groupingBy(c -> c.getId().getNamespace()));
+            configBuf.writeVarInt(groups.size());
+            groups.forEach((namespace, entries) -> {
+                configBuf.writeUtf(namespace);
+                configBuf.writeVarInt(entries.size());
+                entries.forEach(e -> {
+                    configBuf.writeUtf(e.getId().getPath());
+                    Object v = e.getValue();
+                    if (v instanceof Boolean z) {
+                        configBuf.writeByte(CONFIG_BOOL);
+                        configBuf.writeBoolean(z);
+                    } else if (v instanceof Integer i) {
+                        configBuf.writeByte(CONFIG_INT);
+                        configBuf.writeVarInt(i);
+                    } else if (v instanceof Double d) {
+                        configBuf.writeByte(CONFIG_DOUBLE);
+                        configBuf.writeDouble(d);
+                    } else if (v instanceof String str) {
+                        configBuf.writeByte(CONFIG_STRING);
+                        configBuf.writeUtf(str);
+                    } else if (v instanceof Enum<?> en) {
+                        configBuf.writeByte(CONFIG_STRING);
+                        configBuf.writeUtf(en.name());
+                    }
+                });
+            });
             sender.send(CONFIG, configBuf);
         });
 
@@ -212,26 +219,33 @@ public class Packets {
         });
 
         S2CPacketReceiver.register(CONFIG, (client, handler, buf, responseSender) -> {
-            int size = buf.readVarInt();
             Map<ResourceLocation, Object> map = new HashMap<>();
-            for (int j = 0; j < size; j++) {
-                ResourceLocation id = buf.readResourceLocation();
-                int type = buf.readVarInt();
-                switch (type) {
-                    case CONFIG_BOOL -> map.put(id, buf.readBoolean());
-                    case CONFIG_INT -> map.put(id, buf.readVarInt());
-                    case CONFIG_DOUBLE -> map.put(id, buf.readDouble());
-                    case CONFIG_STRING -> map.put(id, buf.readUtf());
+            int groupSize = buf.readVarInt();
+            for (int i = 0; i < groupSize; i++) {
+                String namespace = buf.readUtf();
+                int groupLen = buf.readVarInt();
+                for (int j = 0; j < groupLen; j++) {
+                    ResourceLocation id = new ResourceLocation(namespace, buf.readUtf());
+                    byte type = buf.readByte();
+                    switch (type) {
+                        case CONFIG_BOOL -> map.put(id, buf.readBoolean());
+                        case CONFIG_INT -> map.put(id, buf.readVarInt());
+                        case CONFIG_DOUBLE -> map.put(id, buf.readDouble());
+                        case CONFIG_STRING -> map.put(id, buf.readUtf());
+                    }
                 }
             }
 
             client.execute(() -> {
                 for (ConfigEntry<Object> config : PluginConfig.INSTANCE.getSyncableConfigs()) {
                     ResourceLocation id = config.getId();
-                    Object defaultValue = config.getDefaultValue();
-                    Object syncedValue = defaultValue instanceof Enum<?> e
+                    Object clientOnlyValue = config.getClientOnlyValue();
+                    Object syncedValue = clientOnlyValue instanceof Enum<?> e
                         ? Enum.valueOf(e.getDeclaringClass(), (String) map.getOrDefault(id, e.name()))
-                        : map.getOrDefault(id, defaultValue);
+                        : map.getOrDefault(id, clientOnlyValue);
+                    if (syncedValue instanceof Double d && clientOnlyValue instanceof Integer) {
+                        syncedValue = d.intValue();
+                    }
                     config.setValue(syncedValue);
                 }
                 Waila.LOGGER.info("Received config from the server: {}", GSON.toJson(map));
@@ -239,9 +253,9 @@ public class Packets {
         });
 
         S2CPacketReceiver.register(BLACKLIST, (client, handler, buf, responseSender) -> {
-            int[] blockIds = buf.readVarIntArray();
-            int[] blockEntityIds = buf.readVarIntArray();
-            int[] entityIds = buf.readVarIntArray();
+            Set<ResourceLocation> blockIds = readIds(buf);
+            Set<ResourceLocation> blockEntityIds = readIds(buf);
+            Set<ResourceLocation> entityIds = readIds(buf);
 
             client.execute(() -> {
                 BlacklistConfig blacklist = Waila.BLACKLIST_CONFIG.get();
@@ -259,14 +273,33 @@ public class Packets {
         }));
     }
 
-    private static <T> void setBlackList(int[] ids, Set<T> set, Registry<T> registry) {
-        for (int id : ids) {
-            set.add(registry.byId(id));
+    private static <T> void setBlackList(Set<ResourceLocation> ids, Set<T> set, Registry<T> registry) {
+        for (ResourceLocation id : ids) {
+            set.add(registry.get(id));
         }
     }
 
-    private static <T> void writeRawIds(FriendlyByteBuf buf, Set<T> set, Registry<T> registry) {
-        buf.writeVarIntArray(set.stream().mapToInt(registry::getId).toArray());
+    private static void writeIds(FriendlyByteBuf buf, Set<ResourceLocation> set) {
+        Map<String, List<ResourceLocation>> groups = set.stream().collect(Collectors.groupingBy(ResourceLocation::getNamespace));
+        buf.writeVarInt(groups.size());
+        groups.forEach((namespace, ids) -> {
+            buf.writeUtf(namespace);
+            buf.writeVarInt(ids.size());
+            ids.forEach(id -> buf.writeUtf(id.getPath()));
+        });
+    }
+
+    private static Set<ResourceLocation> readIds(FriendlyByteBuf buf) {
+        Set<ResourceLocation> set = new HashSet<>();
+        int groupSize = buf.readVarInt();
+        for (int i = 0; i < groupSize; i++) {
+            String namespace = buf.readUtf();
+            int groupLen = buf.readVarInt();
+            for (int j = 0; j < groupLen; j++) {
+                set.add(new ResourceLocation(namespace, buf.readUtf()));
+            }
+        }
+        return set;
     }
 
 }
