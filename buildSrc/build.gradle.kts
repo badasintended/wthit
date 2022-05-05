@@ -9,11 +9,12 @@ repositories {
     maven("https://maven.fabricmc.net")
     maven("https://maven.minecraftforge.net")
     maven("https://repo.spongepowered.org/repository/maven-public")
+    maven("https://jitpack.io")
 }
 
 dependencies {
     implementation("com.modrinth.minotaur:Minotaur:2.+")
-    implementation("gradle.plugin.com.matthewprenger:CurseGradle:1.4.0")
+    implementation("net.darkhax.curseforgegradle:CurseForgeGradle:1.0.10")
 
     implementation("org.spongepowered:vanillagradle:0.2.1-SNAPSHOT")
     implementation("fabric-loom:fabric-loom.gradle.plugin:0.11.+")

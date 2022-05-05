@@ -66,3 +66,13 @@ tasks {
         mainClass.set("io.papermc.paperclip.Main")
     }
 }
+
+afterEvaluate {
+    val jar = tasks.jar.get()
+    val sourcesJar = tasks.sourcesJar.get()
+
+    upload {
+        curseforge(jar)
+        mavenRuntime(jar, sourcesJar)
+    }
+}

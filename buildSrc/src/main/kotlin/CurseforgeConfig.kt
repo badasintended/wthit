@@ -1,48 +1,39 @@
-import com.matthewprenger.cursegradle.CurseArtifact
-import com.matthewprenger.cursegradle.CurseExtension
-import com.matthewprenger.cursegradle.CurseProject
-import com.matthewprenger.cursegradle.CurseRelation
+import net.darkhax.curseforgegradle.Constants
+import net.darkhax.curseforgegradle.TaskPublishCurseForge
 import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.apply
-import org.gradle.kotlin.dsl.closureOf
-import org.gradle.kotlin.dsl.configure
+import org.gradle.kotlin.dsl.create
 
 fun <T : Jar> UploadConfig.curseforge(task: T) = project.run {
-    apply(plugin = "com.matthewprenger.cursegradle")
+    apply(plugin = "net.darkhax.curseforgegradle")
 
-    env["CURSEFORGE_API"]?.let { CURSEFORGE_API ->
-        configure<CurseExtension> {
-            apiKey = CURSEFORGE_API
-            project(closureOf<CurseProject> {
-                id = prop["cf.projectId"]
-                releaseType = prop["cf.releaseType"]
+    tasks.create<TaskPublishCurseForge>("curseforge") {
+        group = "publishing"
+        dependsOn("build")
 
-                changelogType = "markdown"
-                changelog = "https://github.com/badasintended/wthit/releases/tag/${project.version}"
+        apiToken = env["CURSEFORGE_API"]
+        apiEndpoint = "https://${prop["cf.endpoint"]}"
 
-                addGameVersion(project.name.capitalize())
-                prop["cf.gameVersion"].split(", ").forEach(this::addGameVersion)
+        upload(prop["cf.projectId"], task).apply {
+            displayName = "[${rootProp["minecraft"]}] ${project.version}"
+            releaseType = prop["cf.releaseType"]
 
-                mainArtifact(task, closureOf<CurseArtifact> {
-                    displayName = "[${rootProp["minecraft"]}] ${project.version}"
-                })
+            changelogType = "markdown"
+            changelog = "https://github.com/badasintended/wthit/releases/tag/${project.version}"
 
-                if(listOf("cf.require", "cf.optional", "cf.break").any { prop.has(it) }) relations(closureOf<CurseRelation> {
-                    prop.ifPresent("cf.require") {
-                        it.split(", ").forEach(this::requiredDependency)
+            prop["cf.gameVersion"].split(", ").forEach(this::addGameVersion)
+
+            fun relation(key: String, type: String) {
+                prop.ifPresent("cf.${key}") { value ->
+                    value.split(", ").forEach {
+                        addRelation(it, type)
                     }
-                    prop.ifPresent("cf.optional") {
-                        it.split(", ").forEach(this::optionalDependency)
-                    }
-                    prop.ifPresent("cf.break") {
-                        it.split(", ").forEach(this::incompatible)
-                    }
-                })
-
-                afterEvaluate {
-                    uploadTask.dependsOn("build")
                 }
-            })
+            }
+
+            relation("require", Constants.RELATION_REQUIRED);
+            relation("optional", Constants.RELATION_OPTIONAL);
+            relation("break", Constants.RELATION_INCOMPATIBLE);
         }
     }
 }
