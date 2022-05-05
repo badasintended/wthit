@@ -1,9 +1,8 @@
 package mcp.mobius.waila.gui.widget.value;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import java.util.function.Consumer;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;

@@ -62,7 +62,7 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
             if (element != null) {
                 owner.addListener(element);
             }
-            Button resetButton  = value.getResetButton();
+            Button resetButton = value.getResetButton();
             if (resetButton != null) {
                 owner.addListener(resetButton);
             }
