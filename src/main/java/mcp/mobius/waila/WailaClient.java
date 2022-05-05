@@ -13,6 +13,7 @@ import mcp.mobius.waila.registry.Registrar;
 import mcp.mobius.waila.service.IClientService;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import org.lwjgl.glfw.GLFW;
@@ -34,14 +35,6 @@ public abstract class WailaClient {
         toggleLiquid = IClientService.INSTANCE.createKeyBind("toggle_liquid", GLFW.GLFW_KEY_KP_2);
         showRecipeInput = IClientService.INSTANCE.createKeyBind("show_recipe_input", GLFW.GLFW_KEY_KP_3);
         showRecipeOutput = IClientService.INSTANCE.createKeyBind("show_recipe_output", GLFW.GLFW_KEY_KP_4);
-    }
-
-    protected static void onJoinServer() {
-        if (!Waila.PACKET.isServerAvailable()) {
-            Waila.LOGGER.warn("WTHIT is not found on the server, all syncable config will reset to their client-only value.");
-            PluginConfig.INSTANCE.getSyncableConfigs().forEach(config ->
-                config.setValue(config.getClientOnlyValue()));
-        }
     }
 
     protected static void onClientTick() {
@@ -83,6 +76,15 @@ public abstract class WailaClient {
                     return;
                 }
             }
+        }
+    }
+
+    protected static void onServerLogIn(Connection connection) {
+        Waila.BLACKLIST_CONFIG.invalidate();
+        if (!connection.isMemoryConnection()) {
+            Waila.LOGGER.info("Connecting to dedicated server, resetting syncable config to client-only values");
+            PluginConfig.INSTANCE.getSyncableConfigs().forEach(config ->
+                config.setValue(config.getClientOnlyValue()));
         }
     }
 

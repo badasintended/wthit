@@ -1,8 +1,8 @@
 package mcp.mobius.waila.fabric;
 
-import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.hud.TooltipHandler;
+import mcp.mobius.waila.network.Packets;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
@@ -15,16 +15,12 @@ public class FabricWailaClient extends WailaClient implements ClientModInitializ
     public void onInitializeClient() {
         registerKeyBinds();
 
-        Waila.PACKET.initClient();
+        Packets.initClient();
 
         HudRenderCallback.EVENT.register(TooltipHandler::render);
-
         ClientTickEvents.END_CLIENT_TICK.register(client -> onClientTick());
-
-        ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> onJoinServer());
-
-        ItemTooltipCallback.EVENT.register((stack, ctx, tooltip) ->
-            onItemTooltip(stack, tooltip));
+        ItemTooltipCallback.EVENT.register((stack, ctx, tooltip) -> onItemTooltip(stack, tooltip));
+        ClientPlayConnectionEvents.INIT.register((handler, client) -> client.execute(() -> onServerLogIn(handler.getConnection())));
     }
 
 }

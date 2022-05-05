@@ -7,7 +7,6 @@ import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.config.BlacklistConfig;
 import mcp.mobius.waila.config.WailaConfig;
-import mcp.mobius.waila.network.PacketSender;
 import mcp.mobius.waila.service.ICommonService;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
@@ -29,7 +28,23 @@ public abstract class Waila {
     public static final TagKey<Block> BLOCK_BLACKLIST_TAG = TagKey.create(Registry.BLOCK_REGISTRY, id("blacklist"));
     public static final TagKey<EntityType<?>> ENTITY_BLACKLIST_TAG = TagKey.create(Registry.ENTITY_TYPE_REGISTRY, id("blacklist"));
 
-    public static final PacketSender PACKET = ICommonService.INSTANCE.getPacketSender();
+    public static final Logger LOGGER = LogManager.getLogger(WailaConstants.MOD_NAME, new MessageFactory() {
+        private final String prefix = "[" + WailaConstants.MOD_NAME + "] ";
+
+        public Message newMessage(Object message) {
+            return ParameterizedMessageFactory.INSTANCE.newMessage(prefix + "{}", message);
+        }
+
+        @Override
+        public Message newMessage(String message) {
+            return ParameterizedMessageFactory.INSTANCE.newMessage(prefix + message);
+        }
+
+        @Override
+        public Message newMessage(String message, Object... params) {
+            return ParameterizedMessageFactory.INSTANCE.newMessage(prefix + message, params);
+        }
+    });
 
     public static final IJsonConfig<WailaConfig> CONFIG = IJsonConfig.of(WailaConfig.class)
         .file(WailaConstants.NAMESPACE + "/" + WailaConstants.WAILA)
@@ -49,24 +64,6 @@ public abstract class Waila {
             .registerTypeAdapter(BlacklistConfig.class, new BlacklistConfig.Adapter())
             .create())
         .build();
-
-    public static final Logger LOGGER = LogManager.getLogger(WailaConstants.MOD_NAME, new MessageFactory() {
-        private final String prefix = "[" + WailaConstants.MOD_NAME + "] ";
-
-        public Message newMessage(Object message) {
-            return ParameterizedMessageFactory.INSTANCE.newMessage(prefix + "{}", message);
-        }
-
-        @Override
-        public Message newMessage(String message) {
-            return ParameterizedMessageFactory.INSTANCE.newMessage(prefix + message);
-        }
-
-        @Override
-        public Message newMessage(String message, Object... params) {
-            return ParameterizedMessageFactory.INSTANCE.newMessage(prefix + message, params);
-        }
-    });
 
     public static ResourceLocation id(String path) {
         return new ResourceLocation(WailaConstants.NAMESPACE, path);

@@ -5,10 +5,9 @@ import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.command.DumpCommand;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.debug.DumpGenerator;
+import mcp.mobius.waila.network.Packets;
 import mcp.mobius.waila.registry.Registrar;
-import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.event.RegisterCommandsEvent;
-import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModContainer;
@@ -25,7 +24,7 @@ public class ForgeWaila extends Waila {
 
     @SubscribeEvent
     static void setup(FMLCommonSetupEvent event) {
-        PACKET.initMain();
+        Packets.initServer();
 
         Registrar.INSTANCE.addEventListener(ForgeLegacyEventListener.INSTANCE, 900);
 
@@ -53,12 +52,6 @@ public class ForgeWaila extends Waila {
         @SubscribeEvent
         static void registerCommands(RegisterCommandsEvent event) {
             DumpCommand.register(event.getDispatcher());
-        }
-
-        @SubscribeEvent
-        static void playerJoin(PlayerEvent.PlayerLoggedInEvent event) {
-            PACKET.sendBlacklistConfig(BLACKLIST_CONFIG.get(), (ServerPlayer) event.getPlayer());
-            PACKET.sendPluginConfig(PluginConfig.INSTANCE, (ServerPlayer) event.getPlayer());
         }
 
     }

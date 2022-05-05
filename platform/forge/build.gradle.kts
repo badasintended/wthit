@@ -4,6 +4,7 @@ import java.util.*
 
 plugins {
     id("net.minecraftforge.gradle")
+    id("org.spongepowered.mixin")
 }
 
 setupPlatform()
@@ -17,8 +18,10 @@ dependencies {
 
     implementation("org.jetbrains:annotations:19.0.0")
 
-    //compileOnly(fg.deobf("mezz.jei:jei-${rootProp["minecraft"]}:${rootProp["jei"]}:api"))
-    //runtimeOnly(fg.deobf("mezz.jei:jei-${rootProp["minecraft"]}:${rootProp["jei"]}"))
+    compileOnly(fg.deobf("mezz.jei:jei-${rootProp["minecraft"]}:${rootProp["jei"]}:api"))
+    runtimeOnly(fg.deobf("mezz.jei:jei-${rootProp["minecraft"]}:${rootProp["jei"]}"))
+
+    runtimeOnly(fg.deobf("lol.bai:badpackets:forge-${rootProp["badpackets"]}"))
 }
 
 sourceSets {
@@ -28,7 +31,14 @@ sourceSets {
     }
 
     // hack to make forgegradle happy
-    rootProject.sourceSets.forEach { maybeCreate(it.name) }
+    rootProject.sourceSets.forEach {
+        if (findByName(it.name) == null) {
+            create(it.name) {
+                java.setSrcDirs(emptyList<Any>())
+                resources.setSrcDirs(emptyList<Any>())
+            }
+        }
+    }
 }
 
 minecraft {
@@ -36,7 +46,7 @@ minecraft {
     accessTransformer(file("src/main/resources/META-INF/accesstransformer.cfg"))
     runs {
         val runConfig = Action<RunConfig> {
-            workingDirectory(rootProject.file("run"))
+            workingDirectory(file("run"))
             ideaModule("${rootProject.name}.${project.name}.main")
             property("waila.enableTestPlugin", "true")
             source(sourceSets["main"])

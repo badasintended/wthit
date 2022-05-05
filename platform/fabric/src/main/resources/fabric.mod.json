@@ -54,7 +54,8 @@
   "depends"      : {
     "fabricloader": ">=0.13.2",
     "fabric"      : ">=0.47.7",
-    "minecraft"   : ">=1.18.2-0"
+    "minecraft"   : ">=1.18.2-0",
+    "badpackets"  : ">=0.1.2"
   },
   "suggests"     : {
     "modmenu": "*"

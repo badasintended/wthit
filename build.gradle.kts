@@ -1,3 +1,5 @@
+import groovy.json.JsonGenerator
+import groovy.json.JsonSlurper
 import java.nio.charset.StandardCharsets
 
 plugins {
@@ -14,6 +16,10 @@ allprojects {
 
     version = rootProject.version
 
+    repositories {
+        maven("https://maven.bai.lol")
+    }
+
     java {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -24,6 +30,22 @@ allprojects {
     tasks.withType<JavaCompile> {
         options.encoding = StandardCharsets.UTF_8.name()
         options.release.set(17)
+    }
+
+    tasks.withType<ProcessResources> {
+        doLast {
+            val slurper = JsonSlurper()
+            val json = JsonGenerator.Options()
+                .disableUnicodeEscaping()
+                .build()
+            fileTree(outputs.files.asPath) {
+                include("**/*.json")
+                forEach {
+                    val mini = json.toJson(slurper.parse(it, StandardCharsets.UTF_8.name()))
+                    it.writeText(mini)
+                }
+            }
+        }
     }
 }
 
@@ -56,9 +78,14 @@ minecraft {
     accessWideners(file("platform/fabric/src/main/resources/wthit.accesswidener"))
 }
 
+dependencies {
+    compileOnly("lol.bai:badpackets:mojmap-${rootProp["badpackets"]}")
+}
+
 sourceSets {
     val main by getting
     val api by creating
+    val minecraftless by creating
     val impl by creating
     val pluginCore by creating
     val pluginVanilla by creating
@@ -73,4 +100,13 @@ sourceSets {
     listOf(main, pluginCore, pluginVanilla, pluginTest).applyEach {
         compileClasspath += api.output
     }
+    main.apply {
+        compileClasspath += minecraftless.output
+    }
+}
+
+dependencies {
+    val minecraftlessCompileOnly by configurations
+
+    minecraftlessCompileOnly("com.google.code.gson:gson:2.8.9")
 }

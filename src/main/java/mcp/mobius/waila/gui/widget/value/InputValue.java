@@ -8,25 +8,18 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.network.chat.TextComponent;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public class InputValue<T> extends ConfigValue<T> {
 
     public static final Predicate<String> ANY = s -> true;
-    public static final Predicate<String> INTEGER = s -> s.matches("[-+]?[0-9]*$");
-    public static final Predicate<String> POSITIVE_INTEGER = s -> s.matches("[0-9]*$");
-    public static final Predicate<String> DECIMAL = s -> s.matches("[-+]?[0-9]*([.][0-9]*)?");
-    public static final Predicate<String> POSITIVE_DECIMAL = s -> s.matches("[0-9]*([.][0-9]*)?");
+    public static final Predicate<String> INTEGER = s -> s.matches("[-+]?\\d*$");
+    public static final Predicate<String> POSITIVE_INTEGER = s -> s.matches("\\d*$");
+    public static final Predicate<String> DECIMAL = s -> s.matches("[-+]?\\d*([.]\\d*)?");
+    public static final Predicate<String> POSITIVE_DECIMAL = s -> s.matches("\\d*([.]\\d*)?");
 
     private final EditBox textField;
-
-    public InputValue(String optionName, T value, Consumer<T> save, Predicate<String> validator) {
-        this(optionName, value, null, save, validator);
-    }
-
-    public InputValue(String optionName, T value, Consumer<T> save) {
-        this(optionName, value, save, ANY);
-    }
 
     public InputValue(String optionName, T value, @Nullable T defaultValue, Consumer<T> save, Predicate<String> validator) {
         super(optionName, value, defaultValue, save);
@@ -38,6 +31,7 @@ public class InputValue<T> extends ConfigValue<T> {
 
     @Override
     protected void drawValue(PoseStack matrices, int width, int height, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks) {
+        textField.setEditable(!serverOnly);
         textField.setX(x + width - textField.getWidth());
         textField.y = y + (height - textField.getHeight()) / 2;
         textField.render(matrices, mouseX, mouseY, partialTicks);
@@ -77,6 +71,14 @@ public class InputValue<T> extends ConfigValue<T> {
         }
     }
 
+    @Override
+    public void setValue(T value) {
+        super.setValue(value);
+        textField.value = String.valueOf(value);
+        textField.setCursorPosition(textField.value.length());
+        textField.setHighlightPos(textField.getCursorPosition());
+    }
+
     private static class WatchedTextfield extends EditBox {
 
         public WatchedTextfield(InputValue<?> watcher, Font fontRenderer, int x, int y, int width, int height) {
@@ -85,7 +87,7 @@ public class InputValue<T> extends ConfigValue<T> {
         }
 
         @Override
-        public void insertText(String string) {
+        public void insertText(@NotNull String string) {
             int i = Math.min(getCursorPosition(), highlightPos);
             int j = Math.max(getCursorPosition(), highlightPos);
             int k = maxLength - getValue().length() - (i - j);

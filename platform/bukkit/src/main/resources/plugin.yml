@@ -1,0 +1,9 @@
+name: waila
+version: ${version}
+api-version: 1.18
+main: mcp.mobius.waila.bukkit.BukkitWaila
+
+description: Companion plugin for WTHIT that allows clients to access server config
+authors: [deirn, TehNut, ProfMobius]
+website: https://github.com/badasintended/wthit
+prefix: WTHIT

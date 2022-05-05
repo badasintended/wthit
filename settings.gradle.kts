@@ -5,6 +5,7 @@ fun platform(name: String) {
     project(":${name}").projectDir = file("platform/${name}")
 }
 
+//platform("bukkit")
 //platform("fabric")
 //platform("forge")
 platform("mojmap")

@@ -19,24 +19,16 @@ public class WailaConfigScreen extends ConfigScreen {
     private final WailaConfig defaultConfig = new WailaConfig();
 
     public WailaConfigScreen(Screen parent) {
-        super(parent, new TranslatableComponent("gui.waila.configuration", WailaConstants.MOD_NAME), WailaConfigScreen::save, WailaConfigScreen::invalidate);
+        super(parent, new TranslatableComponent("gui.waila.configuration", WailaConstants.MOD_NAME), Waila.CONFIG::save, Waila.CONFIG::invalidate);
     }
 
     private static WailaConfig get() {
         return Waila.CONFIG.get();
     }
 
-    private static void save() {
-        Waila.CONFIG.save();
-    }
-
-    private static void invalidate() {
-        Waila.CONFIG.invalidate();
-    }
-
     @Override
     public ConfigListWidget getOptions() {
-        ConfigListWidget options = new ConfigListWidget(this, minecraft, width, height, 32, height - 32, 26, WailaConfigScreen::save);
+        ConfigListWidget options = new ConfigListWidget(this, minecraft, width, height, 32, height - 32, 26, Waila.CONFIG::save);
         options.with(new CategoryEntry("config.waila.general"))
             .with(new BooleanValue("config.waila.display_tooltip",
                 get().getGeneral().isDisplayTooltip(),

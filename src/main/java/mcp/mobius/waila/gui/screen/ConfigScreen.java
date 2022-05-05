@@ -15,6 +15,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.util.FormattedCharSequence;
+import org.jetbrains.annotations.NotNull;
 
 public abstract class ConfigScreen extends Screen {
 
@@ -65,22 +66,28 @@ public abstract class ConfigScreen extends Screen {
     }
 
     @Override
-    public void render(PoseStack matrices, int mouseX, int mouseY, float partialTicks) {
+    public void render(@NotNull PoseStack matrices, int mouseX, int mouseY, float partialTicks) {
         renderBackground(matrices);
         options.render(matrices, mouseX, mouseY, partialTicks);
         drawCenteredString(matrices, font, title.getString(), width / 2, 12, 0xFFFFFF);
         super.render(matrices, mouseX, mouseY, partialTicks);
 
-        if (mouseY < 32 || mouseY > height - 32)
+        if (mouseY < 32 || mouseY > height - 32) {
             return;
+        }
 
         options.getChildAt(mouseX, mouseY).ifPresent(element -> {
             if (element instanceof ConfigValue<?> value) {
-
-                if (I18n.exists(value.getDescription())) {
+                boolean hasDescTl = I18n.exists(value.getDescription());
+                if (value.serverOnly || hasDescTl) {
                     String title = value.getTitle().getString();
                     List<FormattedCharSequence> tooltip = Lists.newArrayList(new TextComponent(title).getVisualOrderText());
-                    tooltip.addAll(font.split(new TranslatableComponent(value.getDescription()).withStyle(ChatFormatting.GRAY), 200));
+                    if (hasDescTl) {
+                        tooltip.addAll(font.split(new TranslatableComponent(value.getDescription()).withStyle(ChatFormatting.GRAY), 250));
+                    }
+                    if (value.serverOnly) {
+                        tooltip.addAll(font.split(new TranslatableComponent("config.waila.server_only").withStyle(ChatFormatting.RED), 250));
+                    }
                     renderTooltip(matrices, tooltip, mouseX, mouseY);
                 }
             }
@@ -88,6 +95,7 @@ public abstract class ConfigScreen extends Screen {
     }
 
     @Override
+    @SuppressWarnings("ConstantConditions")
     public void onClose() {
         minecraft.setScreen(parent);
     }

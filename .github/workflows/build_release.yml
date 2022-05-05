@@ -13,7 +13,7 @@ jobs:
       - uses: actions/setup-java@v1
         with:
           java-version: 17
-      - run: chmod +x gradlew
+      - uses: gradle/gradle-build-action@v2
       - run: ./gradlew build publish curseforge modrinth
         env:
           MOD_VERSION: ${{ steps.vars.outputs.version }}
@@ -22,12 +22,8 @@ jobs:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
       - uses: actions/upload-artifact@v2
         with:
-          name: wthit-fabric-${{ steps.vars.outputs.version }}
-          path: "./platform/fabric/build/libs/**.jar"
-      - uses: actions/upload-artifact@v2
-        with:
-          name: wthit-forge-${{ steps.vars.outputs.version }}
-          path: "./platform/forge/build/libs/**.jar"
+          name: wthit-${{ steps.vars.outputs.version }}
+          path: "./platform/*/build/libs/**.jar"
       - uses: alexellis/upload-assets@0.2.2
         env:
           GITHUB_TOKEN: ${{ github.token }}
@@ -37,3 +33,4 @@ jobs:
               "./platform/*/build/libs/*[0-9.].jar",
               "./platform/*/build/libs/*[0-9.]-api.jar"
             ]
+      - run: ./gradlew --stop

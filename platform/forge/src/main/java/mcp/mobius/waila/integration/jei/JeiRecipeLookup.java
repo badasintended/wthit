@@ -2,10 +2,11 @@ package mcp.mobius.waila.integration.jei;
 
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.WailaClient;
-import mcp.mobius.waila.data.DataAccessor;
+import mcp.mobius.waila.access.DataAccessor;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
-import mezz.jei.api.recipe.IFocus;
+import mezz.jei.api.constants.VanillaTypes;
+import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.runtime.IJeiRuntime;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -23,14 +24,14 @@ public class JeiRecipeLookup implements IModPlugin {
 
     @Override
     public void onRuntimeAvailable(@NotNull IJeiRuntime jei) {
-        WailaClient.onShowRecipeInput = () -> showRecipesGui(jei, IFocus.Mode.INPUT);
-        WailaClient.onShowRecipeOutput = () -> showRecipesGui(jei, IFocus.Mode.OUTPUT);
+        WailaClient.onShowRecipeInput = () -> showRecipesGui(jei, RecipeIngredientRole.INPUT);
+        WailaClient.onShowRecipeOutput = () -> showRecipesGui(jei, RecipeIngredientRole.OUTPUT);
     }
 
-    private void showRecipesGui(IJeiRuntime jei, IFocus.Mode mode) {
+    private void showRecipesGui(IJeiRuntime jei, RecipeIngredientRole role) {
         ItemStack stack = DataAccessor.INSTANCE.getStack();
         if (!stack.isEmpty()) {
-            jei.getRecipesGui().show(jei.getRecipeManager().createFocus(mode, stack));
+            jei.getRecipesGui().show(jei.getJeiHelpers().getFocusFactory().createFocus(role, VanillaTypes.ITEM, stack));
         }
     }
 

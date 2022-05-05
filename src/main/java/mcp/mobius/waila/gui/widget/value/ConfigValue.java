@@ -4,14 +4,15 @@ import java.util.function.Consumer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.gui.widget.ConfigListWidget;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TranslatableComponent;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
-
 
     protected final Consumer<T> save;
     protected final String translationKey;
@@ -22,6 +23,8 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
     private final Component title;
     private final String description;
     private final Button resetButton;
+
+    public boolean serverOnly = false;
 
     private T value;
     private int x;
@@ -38,17 +41,18 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
     }
 
     @Override
-    public final void render(PoseStack matrices, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
+    public final void render(@NotNull PoseStack matrices, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
         super.render(matrices, index, rowTop, rowLeft, width, height, mouseX, mouseY, hovered, deltaTime);
 
-        client.font.drawShadow(matrices, title.getString(), rowLeft, rowTop + (height - client.font.lineHeight) / 2f, 16777215);
+        Component title = !serverOnly ? this.title : this.title.copy().withStyle(ChatFormatting.STRIKETHROUGH, ChatFormatting.GRAY);
+        client.font.drawShadow(matrices, title, rowLeft, rowTop + (height - client.font.lineHeight) / 2f, 0xFFFFFF);
 
         int w = width;
         if (resetButton != null) {
             w -= resetButton.getWidth() + 2;
             resetButton.x = rowLeft + width - resetButton.getWidth();
             resetButton.y = rowTop + (height - resetButton.getHeight()) / 2;
-            resetButton.active = !getValue().equals(defaultValue);
+            resetButton.active = !serverOnly && !getValue().equals(defaultValue);
             resetButton.render(matrices, mouseX, mouseY, deltaTime);
         }
 
@@ -57,7 +61,9 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
     }
 
     public void save() {
-        save.accept(getValue());
+        if (!serverOnly) {
+            save.accept(getValue());
+        }
     }
 
     public GuiEventListener getListener() {
@@ -85,7 +91,7 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
         return value;
     }
 
-    public final void setValue(T value) {
+    public void setValue(T value) {
         this.value = value;
     }
 

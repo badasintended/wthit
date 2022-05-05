@@ -1,10 +1,6 @@
 package mcp.mobius.waila.config;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -19,6 +15,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IJsonConfig;
+import mcp.mobius.waila.mcless.config.ConfigIo;
 import org.jetbrains.annotations.Nullable;
 
 public class JsonConfig<T> implements IJsonConfig<T> {
@@ -33,75 +30,18 @@ public class JsonConfig<T> implements IJsonConfig<T> {
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
 
     private final Path path;
+    private final ConfigIo<T> io;
     private final CachedSupplier<T> getter;
-    private final Gson gson;
 
     JsonConfig(Path path, Class<T> clazz, Supplier<T> factory, Gson gson, int currentVersion, ToIntFunction<T> versionGetter, ObjIntConsumer<T> versionSetter) {
         this.path = path.toAbsolutePath();
-        this.gson = gson;
-        this.getter = new CachedSupplier<>(() -> {
-            T config;
-            boolean init = true;
-            if (!isFileExists()) {
-                Path parent = this.path.getParent();
-                if (!Files.exists(parent)) {
-                    try {
-                        Files.createDirectories(parent);
-                    } catch (IOException e) {
-                        Waila.LOGGER.error("Failed to make directory " + parent, e);
-                    }
-                }
-                config = factory.get();
-            } else {
-                try (BufferedReader reader = Files.newBufferedReader(this.path, StandardCharsets.UTF_8)) {
-                    config = this.gson.fromJson(reader, clazz);
-                    int version = versionGetter.applyAsInt(config);
-                    if (version != currentVersion) {
-                        Path old = Paths.get(this.path + "_old");
-                        Waila.LOGGER.warn("Config file "
-                            + this.path
-                            + " contains different version ("
-                            + version
-                            + ") than required version ("
-                            + currentVersion
-                            + "), this config will be reset. Old config will be placed at "
-                            + old);
-                        Files.deleteIfExists(old);
-                        Files.copy(this.path, old);
-                        config = factory.get();
-                    } else {
-                        init = false;
-                    }
-                } catch (Exception e) {
-                    Path old = Paths.get(this.path + "_old");
-                    Waila.LOGGER.error("Exception when reading config file "
-                        + this.path
-                        + ", this config will be reset. Old config will be placed at "
-                        + old, e);
-                    try {
-                        Files.deleteIfExists(old);
-                        Files.copy(this.path, old);
-                    } catch (IOException e1) {
-                        Waila.LOGGER.error("well this is embarrassing...", e1);
-                    }
-                    config = factory.get();
-                }
-            }
-            if (init) {
-                versionSetter.accept(config, currentVersion);
-                write(config, false);
-            }
-            return config;
-        });
+        this.io = new ConfigIo<>(Waila.LOGGER::warn, Waila.LOGGER::error, gson, clazz, factory, currentVersion, versionGetter, versionSetter);
+        this.getter = new CachedSupplier<>(() -> io.read(this.path));
     }
 
     private void write(T t, Path path, boolean invalidate) {
-        try (BufferedWriter writer = Files.newBufferedWriter(path, StandardCharsets.UTF_8)) {
-            writer.write(gson.toJson(t));
-            if (invalidate)
-                invalidate();
-        } catch (IOException e) {
-            e.printStackTrace();
+        if (io.write(path, t) && invalidate) {
+            invalidate();
         }
     }
 

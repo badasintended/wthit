@@ -18,18 +18,25 @@ version = "${version}"
 displayName = "waila"
 description = "Actually WTHIT but with \"waila\" as it's id lmao"
 authors = "deirn, TehNut, ProfMobius"
-logoFile = "wthit.png"
+logoFile = "wthit.jpg"
 
-[[dependencies.waila]]
+[[dependencies.wthit]]
 modId = "forge"
 mandatory = true
 versionRange = "[38.0.0,)"
 ordering = "NONE"
 side = "BOTH"
 
-[[dependencies.waila]]
+[[dependencies.wthit]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.18,)"
+versionRange = "[1.18.2,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.wthit]]
+modId = "badpackets"
+mandatory = true
+versionRange = "[0.1.2,)"
 ordering = "NONE"
 side = "BOTH"
