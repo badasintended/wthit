@@ -8,11 +8,9 @@ import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.access.DataAccessor;
 import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IEntityComponentProvider;
-import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.TooltipPosition;
 import mcp.mobius.waila.api.component.EmptyComponent;
-import mcp.mobius.waila.api.component.ItemComponent;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.network.Packets;
 import mcp.mobius.waila.registry.Registrar;
@@ -20,9 +18,7 @@ import mcp.mobius.waila.util.ExceptionUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -33,8 +29,6 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
-// TODO: remove deprecated method calls
-@SuppressWarnings("deprecation")
 public class ComponentHandler {
 
     public static void gatherBlock(DataAccessor accessor, Tooltip tooltip, TooltipPosition position) {
@@ -64,18 +58,9 @@ public class ComponentHandler {
         for (IBlockComponentProvider provider : providers) {
             try {
                 switch (position) {
-                    case HEAD -> {
-                        provider.appendHead((ITooltip) tooltip, accessor, PluginConfig.INSTANCE);
-                        provider.appendHead((List<Component>) tooltip, accessor, PluginConfig.INSTANCE);
-                    }
-                    case BODY -> {
-                        provider.appendBody((ITooltip) tooltip, accessor, PluginConfig.INSTANCE);
-                        provider.appendBody((List<Component>) tooltip, accessor, PluginConfig.INSTANCE);
-                    }
-                    case TAIL -> {
-                        provider.appendTail((ITooltip) tooltip, accessor, PluginConfig.INSTANCE);
-                        provider.appendTail((List<Component>) tooltip, accessor, PluginConfig.INSTANCE);
-                    }
+                    case HEAD -> provider.appendHead(tooltip, accessor, PluginConfig.INSTANCE);
+                    case BODY -> provider.appendBody(tooltip, accessor, PluginConfig.INSTANCE);
+                    case TAIL -> provider.appendTail(tooltip, accessor, PluginConfig.INSTANCE);
                 }
             } catch (Throwable e) {
                 ExceptionUtil.dump(e, provider.getClass().toString(), tooltip);
@@ -108,18 +93,9 @@ public class ComponentHandler {
         for (IEntityComponentProvider provider : providers) {
             try {
                 switch (position) {
-                    case HEAD -> {
-                        provider.appendHead((ITooltip) tooltip, accessor, PluginConfig.INSTANCE);
-                        provider.appendHead((List<Component>) tooltip, accessor, PluginConfig.INSTANCE);
-                    }
-                    case BODY -> {
-                        provider.appendBody((ITooltip) tooltip, accessor, PluginConfig.INSTANCE);
-                        provider.appendBody((List<Component>) tooltip, accessor, PluginConfig.INSTANCE);
-                    }
-                    case TAIL -> {
-                        provider.appendTail((ITooltip) tooltip, accessor, PluginConfig.INSTANCE);
-                        provider.appendTail((List<Component>) tooltip, accessor, PluginConfig.INSTANCE);
-                    }
+                    case HEAD -> provider.appendHead(tooltip, accessor, PluginConfig.INSTANCE);
+                    case BODY -> provider.appendBody(tooltip, accessor, PluginConfig.INSTANCE);
+                    case TAIL -> provider.appendTail(tooltip, accessor, PluginConfig.INSTANCE);
                 }
             } catch (Throwable e) {
                 ExceptionUtil.dump(e, provider.getClass().toString(), tooltip);
@@ -138,10 +114,6 @@ public class ComponentHandler {
                 ITooltipComponent icon = provider.getIcon(data, config);
                 if (icon != null) {
                     return icon;
-                }
-                ItemStack providerStack = provider.getDisplayItem(data, config);
-                if (!providerStack.isEmpty()) {
-                    return new ItemComponent(providerStack);
                 }
             }
         } else {
@@ -173,10 +145,6 @@ public class ComponentHandler {
             ITooltipComponent icon = provider.getIcon(DataAccessor.INSTANCE, PluginConfig.INSTANCE);
             if (icon != null) {
                 return icon;
-            }
-            ItemStack providerStack = provider.getDisplayItem(DataAccessor.INSTANCE, PluginConfig.INSTANCE);
-            if (!providerStack.isEmpty()) {
-                return new ItemComponent(providerStack);
             }
         }
         return null;

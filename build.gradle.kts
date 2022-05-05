@@ -18,6 +18,7 @@ allprojects {
 
     repositories {
         maven("https://maven.bai.lol")
+        mavenCentral()
     }
 
     java {

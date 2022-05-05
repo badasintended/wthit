@@ -4,7 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.resources.language.I18n;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
 
 public class ButtonEntry extends ConfigListWidget.Entry {
@@ -15,11 +15,11 @@ public class ButtonEntry extends ConfigListWidget.Entry {
     public ButtonEntry(String title, Button button) {
         this.title = I18n.get(title);
         this.button = button;
-        button.setMessage(new TextComponent(this.title));
+        button.setMessage(Component.translatable(this.title));
     }
 
     public ButtonEntry(String title, int width, int height, Button.OnPress pressAction) {
-        this(title, new Button(0, 0, width, height, TextComponent.EMPTY, pressAction));
+        this(title, new Button(0, 0, width, height, Component.empty(), pressAction));
     }
 
     @Override

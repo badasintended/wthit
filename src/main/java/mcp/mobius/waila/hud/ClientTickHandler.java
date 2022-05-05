@@ -14,7 +14,7 @@ import mcp.mobius.waila.util.RaycastUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.ChatScreen;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.Block;
@@ -32,7 +32,7 @@ import static mcp.mobius.waila.hud.ComponentHandler.gatherEntity;
 public class ClientTickHandler {
 
     private static final Tooltip TOOLTIP = new Tooltip();
-    private static final Line SNEAK_DETAIL = new Line(null).with(new TranslatableComponent("tooltip.waila.sneak_for_details").withStyle(ChatFormatting.ITALIC));
+    private static final Line SNEAK_DETAIL = new Line(null).with(Component.translatable("tooltip.waila.sneak_for_details").withStyle(ChatFormatting.ITALIC));
 
     public static void tick() {
         TooltipHandler.shouldRender = false;

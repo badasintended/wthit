@@ -19,7 +19,6 @@ import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.Nameable;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -56,15 +55,15 @@ public enum BlockProvider implements IBlockComponentProvider, IServerDataProvide
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
         if (config.getBoolean(Options.POS)) {
             BlockPos pos = accessor.getPosition();
-            tooltip.addLine(new TextComponent("(" + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + ")"));
+            tooltip.addLine(Component.literal("(" + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + ")"));
         }
 
         if (config.getBoolean(Options.STATES)) {
             BlockState state = accessor.getBlockState();
             state.getProperties().forEach(p -> {
                 Comparable<?> value = state.getValue(p);
-                Component valueText = new TextComponent(value.toString()).setStyle(Style.EMPTY.withColor(p instanceof BooleanProperty ? value == Boolean.TRUE ? ChatFormatting.GREEN : ChatFormatting.RED : ChatFormatting.RESET));
-                tooltip.addLine(new PairComponent(new TextComponent(p.getName()), valueText));
+                Component valueText = Component.literal(value.toString()).setStyle(Style.EMPTY.withColor(p instanceof BooleanProperty ? value == Boolean.TRUE ? ChatFormatting.GREEN : ChatFormatting.RED : ChatFormatting.RESET));
+                tooltip.addLine(new PairComponent(Component.literal(p.getName()), valueText));
             });
         }
     }

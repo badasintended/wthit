@@ -7,8 +7,7 @@ import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import mcp.mobius.waila.plugin.vanilla.config.Options.NoteDisplayMode;
 import net.minecraft.Util;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.NoteBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
@@ -51,8 +50,8 @@ public enum NoteBlockProvider implements IBlockComponentProvider {
                     .append(")");
             }
             tooltip.addLine()
-                .with(new TranslatableComponent("tooltip.waila.instrument." + instrument.getSerializedName()))
-                .with(new TextComponent(builder.toString()).withStyle(style -> style.withColor(COLORS[level])));
+                .with(Component.translatable("tooltip.waila.instrument." + instrument.getSerializedName()))
+                .with(Component.literal(builder.toString()).withStyle(style -> style.withColor(COLORS[level])));
         }
     }
 

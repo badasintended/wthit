@@ -1,6 +1,6 @@
 package mcp.mobius.waila.hud;
 
-import java.awt.Rectangle;
+import java.awt.*;
 import java.util.function.Supplier;
 
 import com.google.common.base.Preconditions;
@@ -18,6 +18,7 @@ import mcp.mobius.waila.api.IWailaConfig.Overlay.Position.Align;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.component.EmptyComponent;
 import mcp.mobius.waila.api.component.PairComponent;
+import mcp.mobius.waila.api.component.WrappedComponent;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.config.WailaConfig.Overlay.Color;
@@ -25,7 +26,6 @@ import mcp.mobius.waila.event.EventCanceller;
 import mcp.mobius.waila.registry.Registrar;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.ChatScreen;
-import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.util.profiling.ProfilerFiller;
 
@@ -65,15 +65,11 @@ public class TooltipHandler {
 
     public static void add(Tooltip tooltip) {
         Preconditions.checkState(started);
-        for (Component component : tooltip) {
-            if (component instanceof Line line) {
-                if (line.tag != null) {
-                    TOOLTIP.setLine(line.tag, line);
-                } else {
-                    add(line);
-                }
+        for (Line line : tooltip) {
+            if (line.tag != null) {
+                TOOLTIP.setLine(line.tag, line);
             } else {
-                add(new Line(null).with(component));
+                add(line);
             }
         }
     }
@@ -110,9 +106,7 @@ public class TooltipHandler {
 
         int w = 0;
         int h = 0;
-        for (Component component : TOOLTIP) {
-            Line line = (Line) component;
-
+        for (Line line : TOOLTIP) {
             int lineW = line.getWidth();
             int lineH = line.getHeight();
 
@@ -218,8 +212,7 @@ public class TooltipHandler {
         int textX = x + (icon.getWidth() > 0 ? icon.getWidth() + 7 : 4);
         int textY = y + 4 + topOffset;
 
-        for (Component component : TOOLTIP) {
-            Line line = (Line) component;
+        for (Line line : TOOLTIP) {
             line.render(matrices, textX, textY, delta);
             textY += LINE_HEIGHT.getInt(line) + 1;
         }
@@ -249,9 +242,9 @@ public class TooltipHandler {
             return;
         }
 
-        Component objectName = TOOLTIP.getTag(WailaConstants.OBJECT_NAME_TAG);
-        if (objectName != null) {
-            String narrate = objectName.getString();
+        Line objectName = TOOLTIP.getTag(WailaConstants.OBJECT_NAME_TAG);
+        if (objectName != null && objectName.components.get(0) instanceof WrappedComponent component) {
+            String narrate = component.component.getString();
             if (!lastNarration.equalsIgnoreCase(narrate)) {
                 narrator.clear();
                 narrator.say(narrate, true);

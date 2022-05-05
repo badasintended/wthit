@@ -8,7 +8,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -31,13 +30,13 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
 
     public ConfigValue(String translationKey, T value, @Nullable T defaultValue, Consumer<T> save) {
         this.translationKey = translationKey;
-        this.title = new TranslatableComponent(translationKey);
+        this.title = Component.translatable(translationKey);
         this.description = translationKey + "_desc";
         this.value = value;
         this.save = save;
         this.defaultValue = defaultValue;
         this.resetButton = defaultValue == null ? null
-            : new Button(0, 0, 40, 20, new TranslatableComponent("controls.reset"), button -> resetValue());
+            : new Button(0, 0, 40, 20, Component.translatable("controls.reset"), button -> resetValue());
     }
 
     @Override

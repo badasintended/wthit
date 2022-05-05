@@ -28,8 +28,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
@@ -109,7 +108,7 @@ public class Packets {
 
             server.execute(() -> {
                 if (clientVersion != NETWORK_VERSION) {
-                    handler.disconnect(new TextComponent(
+                    handler.disconnect(Component.literal(
                         WailaConstants.MOD_NAME + " network version mismatch! " +
                             "Server version is " + NETWORK_VERSION + " while client version is " + clientVersion));
                 }
@@ -134,8 +133,6 @@ public class Packets {
 
                 for (IServerDataProvider<Entity> provider : registrar.entityData.get(entity)) {
                     provider.appendServerData(data, accessor, PluginConfig.INSTANCE);
-                    //noinspection deprecation
-                    provider.appendServerData(data, player, world, entity);
                 }
 
                 data.putInt("WailaEntityID", entity.getId());
@@ -170,14 +167,10 @@ public class Packets {
 
                 for (IServerDataProvider<BlockEntity> provider : registrar.blockData.get(blockEntity)) {
                     provider.appendServerData(data, accessor, PluginConfig.INSTANCE);
-                    //noinspection deprecation
-                    provider.appendServerData(data, player, world, blockEntity);
                 }
 
                 for (IServerDataProvider<BlockEntity> provider : registrar.blockData.get(state.getBlock())) {
                     provider.appendServerData(data, accessor, PluginConfig.INSTANCE);
-                    //noinspection deprecation
-                    provider.appendServerData(data, player, world, blockEntity);
                 }
 
                 data.putInt("x", pos.getX());
@@ -205,7 +198,7 @@ public class Packets {
 
             client.execute(() -> {
                 if (serverVersion != NETWORK_VERSION) {
-                    handler.getConnection().disconnect(new TextComponent(
+                    handler.getConnection().disconnect(Component.literal(
                         WailaConstants.MOD_NAME + " network version mismatch! " +
                             "Server version is " + serverVersion + " while client version is " + NETWORK_VERSION));
                 }
@@ -268,7 +261,7 @@ public class Packets {
         S2CPacketReceiver.register(GENERATE_CLIENT_DUMP, (client, handler, buf, responseSender) -> client.execute(() -> {
             Path path = Waila.GAME_DIR.resolve(".waila/WailaClientDump.md");
             if (DumpGenerator.generate(path) && client.player != null) {
-                client.player.displayClientMessage(new TranslatableComponent("command.waila.client_dump_success", path), false);
+                client.player.displayClientMessage(Component.translatable("command.waila.client_dump_success", path), false);
             }
         }));
     }

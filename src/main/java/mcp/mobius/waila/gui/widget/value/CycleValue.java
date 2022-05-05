@@ -8,8 +8,7 @@ import java.util.function.Consumer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
 
 public class CycleValue extends ConfigValue<String> {
@@ -28,8 +27,8 @@ public class CycleValue extends ConfigValue<String> {
         List<String> vals = Arrays.asList(values);
         this.button = new Button(0, 0, 100, 20,
             createLocale
-                ? new TranslatableComponent(optionName + "_" + selected.replace(" ", "_").toLowerCase(Locale.ROOT))
-                : new TextComponent(selected),
+                ? Component.translatable(optionName + "_" + selected.replace(" ", "_").toLowerCase(Locale.ROOT))
+                : Component.literal(selected),
             w -> setValue(vals.get((vals.indexOf(getValue()) + 1) % vals.size())));
     }
 
@@ -39,8 +38,8 @@ public class CycleValue extends ConfigValue<String> {
         button.x = x + width - button.getWidth();
         button.y = y + (height - button.getHeight()) / 2;
         button.setMessage(createLocale
-            ? new TranslatableComponent(translationKey + "_" + getValue().replace(" ", "_").toLowerCase(Locale.ROOT))
-            : new TextComponent(getValue()));
+            ? Component.translatable(translationKey + "_" + getValue().replace(" ", "_").toLowerCase(Locale.ROOT))
+            : Component.literal(getValue()));
         button.render(matrices, mouseX, mouseY, partialTicks);
     }
 

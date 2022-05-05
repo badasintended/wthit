@@ -4,7 +4,7 @@ import mcp.mobius.waila.api.IBlockAccessor;
 import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITooltip;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
 public enum ConfigTest implements IBlockComponentProvider {
@@ -31,19 +31,19 @@ public enum ConfigTest implements IBlockComponentProvider {
             return;
         }
 
-        tooltip.addLine(new TextComponent(BOOL + "=" + config.getBoolean(BOOL)));
-        tooltip.addLine(new TextComponent(INT + "=" + config.getInt(INT)));
-        tooltip.addLine(new TextComponent(DOUBLE + "=" + config.getDouble(DOUBLE)));
-        tooltip.addLine(new TextComponent(STRING + "=" + config.getString(STRING)));
-        tooltip.addLine(new TextComponent(ENUM + "=" + config.getEnum(ENUM).name()));
+        tooltip.addLine(Component.literal(BOOL + "=" + config.getBoolean(BOOL)));
+        tooltip.addLine(Component.literal(INT + "=" + config.getInt(INT)));
+        tooltip.addLine(Component.literal(DOUBLE + "=" + config.getDouble(DOUBLE)));
+        tooltip.addLine(Component.literal(STRING + "=" + config.getString(STRING)));
+        tooltip.addLine(Component.literal(ENUM + "=" + config.getEnum(ENUM).name()));
 
-        tooltip.addLine(TextComponent.EMPTY);
+        tooltip.addLine(Component.empty());
 
-        tooltip.addLine(new TextComponent(SYNC_BOOL + "=" + config.getBoolean(SYNC_BOOL)));
-        tooltip.addLine(new TextComponent(SYNC_INT + "=" + config.getInt(SYNC_INT)));
-        tooltip.addLine(new TextComponent(SYNC_DOUBLE + "=" + config.getDouble(SYNC_DOUBLE)));
-        tooltip.addLine(new TextComponent(SYNC_STRING + "=" + config.getString(SYNC_STRING)));
-        tooltip.addLine(new TextComponent(SYNC_ENUM + "=" + config.getEnum(SYNC_ENUM).name()));
+        tooltip.addLine(Component.literal(SYNC_BOOL + "=" + config.getBoolean(SYNC_BOOL)));
+        tooltip.addLine(Component.literal(SYNC_INT + "=" + config.getInt(SYNC_INT)));
+        tooltip.addLine(Component.literal(SYNC_DOUBLE + "=" + config.getDouble(SYNC_DOUBLE)));
+        tooltip.addLine(Component.literal(SYNC_STRING + "=" + config.getString(SYNC_STRING)));
+        tooltip.addLine(Component.literal(SYNC_ENUM + "=" + config.getEnum(SYNC_ENUM).name()));
     }
 
 }

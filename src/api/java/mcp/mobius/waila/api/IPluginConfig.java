@@ -41,20 +41,4 @@ public interface IPluginConfig {
 
     <T extends Enum<T>> T getEnum(ResourceLocation key);
 
-    /**
-     * @deprecated use {@link #getBoolean(ResourceLocation)}
-     */
-    @Deprecated
-    @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
-    default boolean get(ResourceLocation key) {
-        return get(key, false);
-    }
-
-    /**
-     * @deprecated use {@link #getBoolean(ResourceLocation)}
-     */
-    @Deprecated
-    @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
-    boolean get(ResourceLocation key, boolean defaultValue);
-
 }

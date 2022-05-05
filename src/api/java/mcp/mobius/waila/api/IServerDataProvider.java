@@ -2,8 +2,6 @@ package mcp.mobius.waila.api;
 
 import mcp.mobius.waila.api.__internal__.ApiSide;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.ApiStatus;
 
 @ApiSide.ServerOnly
@@ -19,15 +17,6 @@ public interface IServerDataProvider<T> {
      * @param config   current plugin configurations,
      *                 values <b>could be different</b> from the requesting client unless it was registered via {@link IRegistrar#addSyncedConfig}
      */
-    default void appendServerData(CompoundTag data, IServerAccessor<T> accessor, IPluginConfig config) {
-    }
-
-    /**
-     * @deprecated use {@link #appendServerData(CompoundTag, IServerAccessor, IPluginConfig)}
-     */
-    @Deprecated
-    @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
-    default void appendServerData(CompoundTag data, ServerPlayer player, Level world, T t) {
-    }
+    void appendServerData(CompoundTag data, IServerAccessor<T> accessor, IPluginConfig config);
 
 }

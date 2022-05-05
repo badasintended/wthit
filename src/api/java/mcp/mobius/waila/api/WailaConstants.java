@@ -1,7 +1,6 @@
 package mcp.mobius.waila.api;
 
 import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.ApiStatus;
 
 public class WailaConstants {
 
@@ -29,10 +28,6 @@ public class WailaConstants {
     public static final ResourceLocation CONFIG_SHOW_MOD_NAME = id("show_mod_name");
     public static final ResourceLocation CONFIG_SHOW_REGISTRY = id("show_registry");
     // @formatter:on
-
-    @Deprecated
-    @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
-    public static final ResourceLocation CONFIG_SHOW_ITEM = CONFIG_SHOW_ICON;
 
     private static ResourceLocation id(String path) {
         return new ResourceLocation(NAMESPACE, path);

@@ -1,14 +1,12 @@
 package mcp.mobius.waila.gui.widget.value;
 
-import com.mojang.blaze3d.vertex.PoseStack;
-
 import java.util.function.Consumer;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
 
 public class BooleanValue extends ConfigValue<Boolean> {
@@ -18,7 +16,7 @@ public class BooleanValue extends ConfigValue<Boolean> {
     public BooleanValue(String optionName, boolean value, @Nullable Boolean defaultValue, Consumer<Boolean> save) {
         super(optionName, value, defaultValue, save);
 
-        this.button = new Button(0, 0, 100, 20, TextComponent.EMPTY, w -> setValue(!getValue()));
+        this.button = new Button(0, 0, 100, 20, Component.empty(), w -> setValue(!getValue()));
         setMessage();
     }
 
@@ -32,7 +30,7 @@ public class BooleanValue extends ConfigValue<Boolean> {
     }
 
     private void setMessage() {
-        button.setMessage(new TranslatableComponent("config.waila." + getValue())
+        button.setMessage(Component.translatable("config.waila." + getValue())
             .withStyle(!serverOnly
                 ? getValue() ? ChatFormatting.GREEN : ChatFormatting.RED
                 : ChatFormatting.GRAY));

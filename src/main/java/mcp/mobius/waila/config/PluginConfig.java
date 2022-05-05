@@ -74,12 +74,6 @@ public enum PluginConfig implements IPluginConfig {
         return getValue(key);
     }
 
-    @Override
-    public boolean get(ResourceLocation key, boolean defaultValue) {
-        ConfigEntry<?> entry = configs.get(key);
-        return entry == null ? defaultValue : (boolean) entry.getValue();
-    }
-
     public Set<ConfigEntry<Object>> getSyncableConfigs() {
         return configs.values().stream()
             .filter(ConfigEntry::isSynced)

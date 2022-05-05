@@ -19,7 +19,7 @@ import mcp.mobius.waila.gui.widget.value.InputValue;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
 @SuppressWarnings({"unchecked", "rawtypes"})
@@ -39,7 +39,7 @@ public class PluginConfigScreen extends ConfigScreen {
     private static final Map<ConfigEntry<Object>, Object> SYNCED_VALUES = new HashMap<>();
 
     public PluginConfigScreen(Screen parent) {
-        super(parent, new TranslatableComponent("gui.waila.plugin_settings"), PluginConfigScreen::saveAndRestore, PluginConfigScreen::reloadAndRestore);
+        super(parent, Component.translatable("gui.waila.plugin_settings"), PluginConfigScreen::saveAndRestore, PluginConfigScreen::reloadAndRestore);
 
         SYNCED_VALUES.clear();
         if (Minecraft.getInstance().getCurrentServer() != null) {
@@ -69,7 +69,7 @@ public class PluginConfigScreen extends ConfigScreen {
         for (String namespace : PluginConfig.INSTANCE.getNamespaces()) {
             String translationKey = "config.waila.plugin_" + namespace;
             Set<ResourceLocation> keys = PluginConfig.INSTANCE.getKeys(namespace);
-            options.with(new ButtonEntry(translationKey, 100, 20, w -> minecraft.setScreen(new ConfigScreen(PluginConfigScreen.this, new TranslatableComponent(translationKey)) {
+            options.with(new ButtonEntry(translationKey, 100, 20, w -> minecraft.setScreen(new ConfigScreen(PluginConfigScreen.this, Component.translatable(translationKey)) {
                 @Override
                 public ConfigListWidget getOptions() {
                     ConfigListWidget options = new ConfigListWidget(this, minecraft, width, height, 32, height - 32, 26);

@@ -12,7 +12,7 @@ import mcp.mobius.waila.api.component.ItemComponent;
 import mcp.mobius.waila.plugin.core.component.HealthComponent;
 import mcp.mobius.waila.plugin.core.config.Options;
 import net.minecraft.core.Registry;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Mob;
@@ -51,7 +51,7 @@ public enum EntityProvider implements IEntityComponentProvider {
             float maxHealth = living.getMaxHealth();
 
             if (living.getMaxHealth() > IWailaConfig.get().getGeneral().getMaxHealthForRender())
-                tooltip.addLine(new TranslatableComponent("tooltip.waila.health", String.format("%.2f", health), String.format("%.2f", maxHealth)));
+                tooltip.addLine(Component.translatable("tooltip.waila.health", String.format("%.2f", health), String.format("%.2f", maxHealth)));
             else {
                 tooltip.addLine(new HealthComponent(health / 2.0f, maxHealth / 2.0f));
             }

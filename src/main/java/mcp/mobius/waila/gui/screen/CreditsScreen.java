@@ -1,8 +1,6 @@
 package mcp.mobius.waila.gui.screen;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -18,8 +16,6 @@ import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import org.jetbrains.annotations.NotNull;
 
 public class CreditsScreen extends Screen {
@@ -27,7 +23,7 @@ public class CreditsScreen extends Screen {
     private final Screen parent;
 
     protected CreditsScreen(Screen parent) {
-        super(new TranslatableComponent("gui.waila.credits"));
+        super(Component.translatable("gui.waila.credits"));
 
         this.parent = parent;
     }
@@ -38,16 +34,16 @@ public class CreditsScreen extends Screen {
         super.init();
 
         try {
-            CreditMap credits = new Gson().fromJson(new InputStreamReader(minecraft.getResourceManager().getResource(Waila.id("credits.json")).getInputStream(), StandardCharsets.UTF_8), CreditMap.class);
+            CreditMap credits = new Gson().fromJson(minecraft.getResourceManager().getResource(Waila.id("credits.json")).get().openAsReader(), CreditMap.class);
 
             ListWidget listWidget = new ListWidget(minecraft, width, height, 32, height - 32, minecraft.font.lineHeight + 6);
             credits.forEach((key, list) -> {
                 List<Entry> children = listWidget.children();
-                children.add(new Entry(new TranslatableComponent("gui.waila.credits." + key).withStyle(ChatFormatting.GRAY)));
+                children.add(new Entry(Component.translatable("gui.waila.credits." + key).withStyle(ChatFormatting.GRAY)));
                 for (String person : list) {
-                    children.add(new Entry(new TextComponent("        " + person)));
+                    children.add(new Entry(Component.literal("        " + person)));
                 }
-                children.add(new Entry(TextComponent.EMPTY));
+                children.add(new Entry(Component.empty()));
             });
 
             addRenderableWidget(listWidget);
@@ -55,7 +51,7 @@ public class CreditsScreen extends Screen {
             e.printStackTrace();
         }
 
-        addRenderableWidget(new Button(width / 2 - 50, height - 25, 100, 20, new TranslatableComponent("gui.done"), w -> onClose()));
+        addRenderableWidget(new Button(width / 2 - 50, height - 25, 100, 20, Component.translatable("gui.done"), w -> onClose()));
     }
 
     @Override

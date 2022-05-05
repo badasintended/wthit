@@ -7,7 +7,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.events.GuiEventListener;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -82,7 +82,7 @@ public class InputValue<T> extends ConfigValue<T> {
     private static class WatchedTextfield extends EditBox {
 
         public WatchedTextfield(InputValue<?> watcher, Font fontRenderer, int x, int y, int width, int height) {
-            super(fontRenderer, x, y, width, height, new TextComponent(""));
+            super(fontRenderer, x, y, width, height, Component.empty());
             this.setResponder(watcher::setValue);
         }
 

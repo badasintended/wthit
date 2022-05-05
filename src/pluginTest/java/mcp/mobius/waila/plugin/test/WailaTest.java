@@ -45,7 +45,7 @@ public class WailaTest implements IWailaPlugin {
         registrar.addConfig(ErrorTest.ENABLED, false);
         registrar.addComponent(ErrorTest.INSTANCE, TooltipPosition.BODY, Block.class);
 
-        registrar.addSyncedConfig(HitResultServerDependantTest.ENABLED, false);
+        registrar.addSyncedConfig(HitResultServerDependantTest.ENABLED, false, false);
         registrar.addComponent(HitResultServerDependantTest.INSTANCE, TooltipPosition.BODY, ChestBlock.class);
         registrar.addBlockData(HitResultServerDependantTest.INSTANCE, ChestBlock.class);
     }

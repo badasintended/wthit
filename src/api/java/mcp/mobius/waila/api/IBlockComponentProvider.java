@@ -1,12 +1,8 @@
 package mcp.mobius.waila.api;
 
-import java.util.List;
-
 import mcp.mobius.waila.api.__internal__.ApiSide;
 import mcp.mobius.waila.impl.Impl;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
@@ -126,39 +122,6 @@ public interface IBlockComponentProvider {
      * @see IRegistrar#addComponent(IBlockComponentProvider, TooltipPosition, Class, int)
      */
     default void appendTail(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
-    }
-
-    /**
-     * @deprecated use {@link #getIcon(IBlockAccessor, IPluginConfig)}
-     */
-    @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
-    @Deprecated
-    default ItemStack getDisplayItem(IBlockAccessor accessor, IPluginConfig config) {
-        return ItemStack.EMPTY;
-    }
-
-    /**
-     * @deprecated use {@link #appendHead(ITooltip, IBlockAccessor, IPluginConfig)}
-     */
-    @Deprecated
-    @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
-    default void appendHead(List<Component> tooltip, IBlockAccessor accessor, IPluginConfig config) {
-    }
-
-    /**
-     * @deprecated use {@link #appendBody(ITooltip, IBlockAccessor, IPluginConfig)}
-     */
-    @Deprecated
-    @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
-    default void appendBody(List<Component> tooltip, IBlockAccessor accessor, IPluginConfig config) {
-    }
-
-    /**
-     * @deprecated use {@link #appendTail(ITooltip, IBlockAccessor, IPluginConfig)}
-     */
-    @Deprecated
-    @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
-    default void appendTail(List<Component> tooltip, IBlockAccessor accessor, IPluginConfig config) {
     }
 
 }

@@ -8,7 +8,7 @@ import mcp.mobius.waila.api.IServerDataProvider;
 import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.component.PairComponent;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.BlockHitResult;
@@ -22,7 +22,7 @@ public enum HitResultServerDependantTest implements IBlockComponentProvider, ISe
     @Override
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
         if (config.getBoolean(ENABLED)) {
-            tooltip.addLine(new PairComponent(new TextComponent("hitX"), new TextComponent("" + accessor.getServerData().getDouble("hitX"))));
+            tooltip.addLine(new PairComponent(Component.literal("hitX"), Component.literal("" + accessor.getServerData().getDouble("hitX"))));
         }
     }
 

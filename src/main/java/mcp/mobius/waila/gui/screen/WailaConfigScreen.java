@@ -11,7 +11,7 @@ import mcp.mobius.waila.gui.widget.value.CycleValue;
 import mcp.mobius.waila.gui.widget.value.EnumValue;
 import mcp.mobius.waila.gui.widget.value.InputValue;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
 public class WailaConfigScreen extends ConfigScreen {
@@ -19,7 +19,7 @@ public class WailaConfigScreen extends ConfigScreen {
     private final WailaConfig defaultConfig = new WailaConfig();
 
     public WailaConfigScreen(Screen parent) {
-        super(parent, new TranslatableComponent("gui.waila.configuration", WailaConstants.MOD_NAME), Waila.CONFIG::save, Waila.CONFIG::invalidate);
+        super(parent, Component.translatable("gui.waila.configuration", WailaConstants.MOD_NAME), Waila.CONFIG::save, Waila.CONFIG::invalidate);
     }
 
     private static WailaConfig get() {

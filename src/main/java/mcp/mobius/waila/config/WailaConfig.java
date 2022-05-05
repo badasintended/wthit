@@ -13,7 +13,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import mcp.mobius.waila.api.IWailaConfig;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
 public class WailaConfig implements IWailaConfig {
@@ -43,12 +43,6 @@ public class WailaConfig implements IWailaConfig {
 
     @Override
     public Formatter getFormatter() {
-        return formatter;
-    }
-
-    @Override
-    @Deprecated
-    public Formatter getFormatting() {
         return formatter;
     }
 
@@ -332,7 +326,7 @@ public class WailaConfig implements IWailaConfig {
 
     }
 
-    public static class Formatter implements IWailaConfig.Formatter, IWailaConfig.Formatting {
+    public static class Formatter implements IWailaConfig.Formatter {
 
         private String modName = "\u00A79\u00A7o%s";
         private String blockName = "\u00a7f%s";
@@ -381,53 +375,28 @@ public class WailaConfig implements IWailaConfig {
         }
 
         @Override
-        public String formatModName(Object modName) {
-            return String.format(this.modName, modName);
+        public Component modName(Object modName) {
+            return Component.literal(this.modName.formatted(modName));
         }
 
         @Override
-        public String formatBlockName(Object blockName) {
-            return String.format(this.blockName, blockName);
+        public Component blockName(Object blockName) {
+            return Component.literal(this.blockName.formatted(blockName));
         }
 
         @Override
-        public String formatFluidName(Object fluidName) {
-            return String.format(this.fluidName, fluidName);
+        public Component fluidName(Object fluidName) {
+            return Component.literal(this.fluidName.formatted(fluidName));
         }
 
         @Override
-        public String formatEntityName(Object entityName) {
-            return String.format(this.entityName, entityName);
+        public Component entityName(Object entityName) {
+            return Component.literal(this.entityName.formatted(entityName));
         }
 
         @Override
-        public String formatRegistryName(Object registryName) {
-            return String.format(this.registryName, registryName);
-        }
-
-        @Override
-        public TextComponent modName(Object modName) {
-            return new TextComponent(formatModName(modName));
-        }
-
-        @Override
-        public TextComponent blockName(Object blockName) {
-            return new TextComponent(formatBlockName(blockName));
-        }
-
-        @Override
-        public TextComponent fluidName(Object fluidName) {
-            return new TextComponent(formatFluidName(fluidName));
-        }
-
-        @Override
-        public TextComponent entityName(Object entityName) {
-            return new TextComponent(formatEntityName(entityName));
-        }
-
-        @Override
-        public TextComponent registryName(Object registryName) {
-            return new TextComponent(formatRegistryName(registryName));
+        public Component registryName(Object registryName) {
+            return Component.literal(this.registryName.formatted(registryName));
         }
 
     }

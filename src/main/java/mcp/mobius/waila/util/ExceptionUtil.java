@@ -13,7 +13,7 @@ import java.util.Set;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.ITooltip;
 import net.minecraft.ChatFormatting;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 public final class ExceptionUtil {
@@ -39,8 +39,8 @@ public final class ExceptionUtil {
             }
         }
         if (tooltip != null) {
-            tooltip.addLine(new TextComponent("Error on " + errorName).withStyle(ChatFormatting.RED));
-            tooltip.addLine(new TextComponent("See logs/waila_errors.log for more info").withStyle(ChatFormatting.RED));
+            tooltip.addLine(Component.literal("Error on " + errorName).withStyle(ChatFormatting.RED));
+            tooltip.addLine(Component.literal("See logs/waila_errors.log for more info").withStyle(ChatFormatting.RED));
         }
     }
 

@@ -22,8 +22,6 @@ import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.component.PairComponent;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.OwnableEntity;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
@@ -33,8 +31,8 @@ public enum PetOwnerProvider implements IEntityComponentProvider {
     INSTANCE;
 
     static final Map<UUID, Component> NAMES = new HashMap<>();
-    static final Component UNKNOWN = new TextComponent("???");
-    static final Component KEY = new TranslatableComponent("tooltip.waila.owner");
+    static final Component UNKNOWN = Component.literal("???");
+    static final Component KEY = Component.translatable("tooltip.waila.owner");
 
     @Override
     public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
@@ -72,7 +70,7 @@ public enum PetOwnerProvider implements IEntityComponentProvider {
                             if (element.isJsonPrimitive()) {
                                 String nameStr = element.getAsString();
                                 if (!nameStr.isBlank()) {
-                                    name = new TextComponent(nameStr);
+                                    name = Component.literal(nameStr);
                                 }
                             }
                         }

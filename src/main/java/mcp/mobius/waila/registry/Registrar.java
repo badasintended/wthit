@@ -7,14 +7,12 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.google.common.base.Preconditions;
-import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.IEventListener;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IServerDataProvider;
-import mcp.mobius.waila.api.ITooltipRenderer;
 import mcp.mobius.waila.api.TooltipPosition;
 import mcp.mobius.waila.config.BlacklistConfig;
 import mcp.mobius.waila.config.ConfigEntry;
@@ -54,9 +52,6 @@ public enum Registrar implements IRegistrar {
     public final BlacklistConfig blacklist = new BlacklistConfig();
 
     private boolean locked = false;
-
-    @Deprecated
-    public final Map<ResourceLocation, ITooltipRenderer> renderer = new Object2ObjectOpenHashMap<>();
 
     private <T> void addConfig(ResourceLocation key, T defaultValue, T clientOnlyValue, boolean synced, ConfigEntry.Type<T> type) {
         assertLock();
@@ -149,15 +144,6 @@ public enum Registrar implements IRegistrar {
     }
 
     @Override
-    public <T> void addDisplayItem(IBlockComponentProvider provider, Class<T> clazz, int priority) {
-        if (Waila.CLIENT_SIDE) {
-            assertLock();
-            assertPriority(priority);
-            blockIcon.add(clazz, provider, priority);
-        }
-    }
-
-    @Override
     public <T> void addComponent(IBlockComponentProvider provider, TooltipPosition position, Class<T> clazz, int priority) {
         if (Waila.CLIENT_SIDE) {
             assertLock();
@@ -198,15 +184,6 @@ public enum Registrar implements IRegistrar {
     }
 
     @Override
-    public <T> void addDisplayItem(IEntityComponentProvider provider, Class<T> clazz, int priority) {
-        if (Waila.CLIENT_SIDE) {
-            assertLock();
-            assertPriority(priority);
-            entityIcon.add(clazz, provider, priority);
-        }
-    }
-
-    @Override
     public <T> void addComponent(IEntityComponentProvider provider, TooltipPosition position, Class<T> clazz, int priority) {
         if (Waila.CLIENT_SIDE) {
             assertLock();
@@ -220,13 +197,6 @@ public enum Registrar implements IRegistrar {
     public <T, E extends Entity> void addEntityData(IServerDataProvider<E> provider, Class<T> clazz) {
         assertLock();
         entityData.add(clazz, (IServerDataProvider<Entity>) provider, 0);
-    }
-
-    @Override
-    public void addRenderer(ResourceLocation id, ITooltipRenderer renderer) {
-        if (Waila.CLIENT_SIDE) {
-            this.renderer.put(id, renderer);
-        }
     }
 
     public void lock() {

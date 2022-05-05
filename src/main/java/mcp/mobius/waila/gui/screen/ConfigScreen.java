@@ -12,8 +12,6 @@ import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.util.FormattedCharSequence;
 import org.jetbrains.annotations.NotNull;
 
@@ -48,17 +46,17 @@ public abstract class ConfigScreen extends Screen {
         setFocused(options);
 
         if (saver != null && canceller != null) {
-            addRenderableWidget(new Button(width / 2 - 102, height - 25, 100, 20, new TranslatableComponent("gui.done"), w -> {
+            addRenderableWidget(new Button(width / 2 - 102, height - 25, 100, 20, Component.translatable("gui.done"), w -> {
                 options.save();
                 saver.run();
                 onClose();
             }));
-            addRenderableWidget(new Button(width / 2 + 2, height - 25, 100, 20, new TranslatableComponent("gui.cancel"), w -> {
+            addRenderableWidget(new Button(width / 2 + 2, height - 25, 100, 20, Component.translatable("gui.cancel"), w -> {
                 canceller.run();
                 onClose();
             }));
         } else {
-            addRenderableWidget(new Button(width / 2 - 50, height - 25, 100, 20, new TranslatableComponent("gui.done"), w -> {
+            addRenderableWidget(new Button(width / 2 - 50, height - 25, 100, 20, Component.translatable("gui.done"), w -> {
                 options.save();
                 onClose();
             }));
@@ -81,12 +79,12 @@ public abstract class ConfigScreen extends Screen {
                 boolean hasDescTl = I18n.exists(value.getDescription());
                 if (value.serverOnly || hasDescTl) {
                     String title = value.getTitle().getString();
-                    List<FormattedCharSequence> tooltip = Lists.newArrayList(new TextComponent(title).getVisualOrderText());
+                    List<FormattedCharSequence> tooltip = Lists.newArrayList(Component.literal(title).getVisualOrderText());
                     if (hasDescTl) {
-                        tooltip.addAll(font.split(new TranslatableComponent(value.getDescription()).withStyle(ChatFormatting.GRAY), 250));
+                        tooltip.addAll(font.split(Component.translatable(value.getDescription()).withStyle(ChatFormatting.GRAY), 250));
                     }
                     if (value.serverOnly) {
-                        tooltip.addAll(font.split(new TranslatableComponent("config.waila.server_only").withStyle(ChatFormatting.RED), 250));
+                        tooltip.addAll(font.split(Component.translatable("config.waila.server_only").withStyle(ChatFormatting.RED), 250));
                     }
                     renderTooltip(matrices, tooltip, mouseX, mouseY);
                 }

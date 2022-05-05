@@ -9,7 +9,6 @@ import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.RecordItem;
 import net.minecraft.world.level.block.entity.JukeboxBlockEntity;
@@ -31,7 +30,7 @@ public enum JukeboxProvider implements IBlockComponentProvider, IServerDataProvi
             ItemStack stack = accessor.getTarget().getRecord();
             if (!stack.isEmpty()) {
                 Component text = stack.getItem() instanceof RecordItem
-                    ? new TranslatableComponent(stack.getDescriptionId() + ".desc")
+                    ? Component.translatable(stack.getDescriptionId() + ".desc")
                     : stack.getDisplayName();
                 data.putString("record", Component.Serializer.toJson(text));
             }

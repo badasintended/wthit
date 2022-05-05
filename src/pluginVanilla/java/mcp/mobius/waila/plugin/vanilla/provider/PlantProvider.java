@@ -8,8 +8,7 @@ import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.component.ItemComponent;
 import mcp.mobius.waila.api.component.PairComponent;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
-import net.minecraft.network.chat.TextComponent;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CropBlock;
@@ -27,10 +26,10 @@ public enum PlantProvider implements IBlockComponentProvider {
         growthValue *= 100.0F;
         if (growthValue < 100.0F) {
             tooltip.addLine(new PairComponent(
-                new TranslatableComponent("tooltip.waila.crop_growth"), new TextComponent(String.format("%.0f%%", growthValue))));
+                Component.translatable("tooltip.waila.crop_growth"), Component.literal(String.format("%.0f%%", growthValue))));
         } else {
             tooltip.addLine(new PairComponent(
-                new TranslatableComponent("tooltip.waila.crop_growth"), new TranslatableComponent("tooltip.waila.crop_mature")));
+                Component.translatable("tooltip.waila.crop_growth"), Component.literal("tooltip.waila.crop_mature")));
         }
     }
 

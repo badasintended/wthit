@@ -1,6 +1,6 @@
 package mcp.mobius.waila.plugin.test;
 
-import java.awt.Rectangle;
+import java.awt.*;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.api.ICommonAccessor;
@@ -9,7 +9,7 @@ import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.WailaConstants;
 import net.minecraft.client.gui.GuiComponent;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
@@ -26,8 +26,8 @@ public enum EventListenerTest implements IEventListener {
     @Override
     public void onHandleTooltip(ITooltip tooltip, ICommonAccessor accessor, IPluginConfig config) {
         if (config.getBoolean(HANDLE_TOOLTIP)) {
-            tooltip.addLine(new TextComponent("EventListenerTest"));
-            tooltip.setLine(WailaConstants.MOD_NAME_TAG, new TextComponent("EventListenerTest"));
+            tooltip.addLine(Component.literal("EventListenerTest"));
+            tooltip.setLine(WailaConstants.MOD_NAME_TAG, Component.literal("EventListenerTest"));
         }
     }
 

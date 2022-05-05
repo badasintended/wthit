@@ -5,7 +5,6 @@ import mcp.mobius.waila.command.DumpCommand;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.debug.DumpGenerator;
 import mcp.mobius.waila.network.Packets;
-import mcp.mobius.waila.registry.Registrar;
 import mcp.mobius.waila.util.ModInfo;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
@@ -26,7 +25,6 @@ public class FabricWaila extends Waila implements ModInitializer {
             PluginConfig.INSTANCE.reload());
 
         ModInfo.register(new ModInfo("c", "Common"));
-        Registrar.INSTANCE.addEventListener(FabricLegacyEventListener.INSTANCE, 900);
 
         String[] mods = {"minecraft", "java", "fabricloader", "fabric", "wthit", "roughlyenoughitems"};
         for (String mod : mods) {
