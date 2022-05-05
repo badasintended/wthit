@@ -14,7 +14,7 @@ repositories {
 
 dependencies {
     implementation("com.modrinth.minotaur:Minotaur:2.+")
-    implementation("com.github.deirn:CurseForgeGradle:f84f932e14")
+    implementation("com.github.deirn:CurseForgeGradle:c693018f92")
 
     implementation("org.spongepowered:vanillagradle:0.2.1-SNAPSHOT")
     implementation("fabric-loom:fabric-loom.gradle.plugin:0.11.+")
