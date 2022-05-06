@@ -1,0 +1,45 @@
+site_name: What the hell is that?
+site_url: https://docs.bai.lol/wthit/
+
+theme:
+  name: material
+  features:
+    - navigation.sections
+  icon:
+    repo: fontawesome/brands/github
+  palette:
+    - scheme: slate
+      primary: black
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to dark mode
+    - scheme: default
+      primary: white
+      toggle:
+        icon: material/weather-night
+        name: Switch to light mode
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - pymdownx.details
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true 
+
+repo_name: badasintended/wthit
+repo_url: https://github.com/badasintended/wthit
+
+docs_dir: docs
+edit_uri: blob/dev/master/docs
+
+nav:
+  - Configurations:
+    - config/blacklisting.md
+
+  - Plugin 101:
+    - plugin/getting_started.md
+    - plugin/overrides.md
+    - plugin/disabling_tooltip.md
+    - plugin/adding_to_blacklist.md

@@ -5,6 +5,8 @@ on:
       - '**'
     tags-ignore:
       - '*.*'
+    paths-ignore:
+      - 'docs/**'
   pull_request:
     branches:
       - '**'
