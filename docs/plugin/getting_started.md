@@ -19,16 +19,26 @@ repositories {
 
       // run against the full jar
       modRuntimeOnly "mcp.mobius.waila:wthit:fabric-${wthitVersion}"
+      modRuntimeOnly "lol.bai:badpackets:fabric-0.1.2"
     }
     ```
 === "Forge"
-    ```gradle
+    ```gradle 
+    buildscript {
+      dependencies {
+        classpath "org.spongepowered:mixingradle:0.7.+"
+      }
+    }
+
+    apply plugin: "org.spongepowered.mixin"
+    
     dependencies {
       // compile against the API
       compileOnly fg.deobf("mcp.mobius.waila:wthit-api:forge-${wthitVersion}")
 
       // run against the full jar
       runtimeOnly fg.deobf("mcp.mobius.waila:wthit:forge-${wthitVersion}")
+      runtimeOnly fg.deobf("lol.bai:badpackets:forge-0.1.2")
     }
     ```
 === "Architectury"
@@ -39,7 +49,8 @@ repositories {
     ```
     ```gradle title="Fabric Project"
     dependencies {
-      modRuntimeOnly "mcp.mobius.waila:wthit:fabric-${wthitVersion}" 
+      modRuntimeOnly "mcp.mobius.waila:wthit:fabric-${wthitVersion}"
+      modRuntimeOnly "lol.bai:badpackets:fabric-0.1.2"
     }
     ```
     ```gradle title="Forge Project"
@@ -47,6 +58,7 @@ repositories {
       // needed for @WailaPlugin annotation
       modCompileOnly "mcp.mobius.waila:wthit-api:forge-${wthitVersion}"
       modRuntimeOnly "mcp.mobius.waila:wthit:forge-${wthitVersion}"
+      modRuntimeOnly "lol.bai:badpackets:forge-0.1.2"
     }
     ```
 === "VanillaGradle Multiplatform"
@@ -57,14 +69,24 @@ repositories {
     ```
     ```gradle title="Fabric Project"
     dependencies {
-      modRuntimeOnly "mcp.mobius.waila:wthit:fabric-${wthitVersion}" 
+      modRuntimeOnly "mcp.mobius.waila:wthit:fabric-${wthitVersion}"
+      modRuntimeOnly "lol.bai:badpackets:fabric-0.1.2"
     }
     ```
     ```gradle title="Forge Project"
+    buildscript {
+      dependencies {
+        classpath "org.spongepowered:mixingradle:0.7.+"
+      }
+    }
+
+    apply plugin: "org.spongepowered.mixin"
+    
     dependencies {
       // needed for @WailaPlugin annotation
       compileOnly fg.deobf("mcp.mobius.waila:wthit-api:forge-${wthitVersion}")
       runtimeOnly fg.deobf("mcp.mobius.waila:wthit:forge-${wthitVersion}")
+      runtimeOnly fg.deobf("lol.bai:badpackets:forge-0.1.2")
     }
     ```
 
