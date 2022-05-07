@@ -13,6 +13,9 @@ on:
       - '**'
     tags-ignore:
       - '*.*'
+    - paths-ignore:
+      - 'docs/**'
+      - 'mkdocs.yml'
 jobs:
   build:
     runs-on: ubuntu-latest
