@@ -131,20 +131,4 @@ public interface IWailaConfig {
 
     }
 
-    @Deprecated
-    @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
-    interface Formatting {
-
-        String formatModName(Object modName);
-
-        String formatBlockName(Object blockName);
-
-        String formatFluidName(Object fluidName);
-
-        String formatEntityName(Object entityName);
-
-        String formatRegistryName(Object registryName);
-
-    }
-
 }
