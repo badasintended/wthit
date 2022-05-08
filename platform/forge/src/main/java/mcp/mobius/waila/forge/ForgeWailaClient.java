@@ -59,6 +59,7 @@ public class ForgeWailaClient extends WailaClient {
         static void loggedIn(ClientPlayerNetworkEvent.LoggedInEvent event) {
             onServerLogIn(Objects.requireNonNull(event.getConnection()));
         }
+
     }
 
     @Mod(WailaConstants.WTHIT)

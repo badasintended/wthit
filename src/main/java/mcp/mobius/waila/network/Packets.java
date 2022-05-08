@@ -106,13 +106,11 @@ public class Packets {
         C2SPacketReceiver.register(VERSION, (server, player, handler, buf, responseSender) -> {
             int clientVersion = buf.readVarInt();
 
-            server.execute(() -> {
-                if (clientVersion != NETWORK_VERSION) {
-                    handler.disconnect(Component.literal(
-                        WailaConstants.MOD_NAME + " network version mismatch! " +
-                            "Server version is " + NETWORK_VERSION + " while client version is " + clientVersion));
-                }
-            });
+            if (clientVersion != NETWORK_VERSION) {
+                handler.disconnect(Component.literal(
+                    WailaConstants.MOD_NAME + " network version mismatch! " +
+                        "Server version is " + NETWORK_VERSION + " while client version is " + clientVersion));
+            }
         });
 
         C2SPacketReceiver.register(ENTITY, (server, player, handler, buf, responseSender) -> {
@@ -195,14 +193,11 @@ public class Packets {
 
         S2CPacketReceiver.register(VERSION, (client, handler, buf, responseSender) -> {
             int serverVersion = buf.readVarInt();
-
-            client.execute(() -> {
-                if (serverVersion != NETWORK_VERSION) {
-                    handler.getConnection().disconnect(Component.literal(
-                        WailaConstants.MOD_NAME + " network version mismatch! " +
-                            "Server version is " + serverVersion + " while client version is " + NETWORK_VERSION));
-                }
-            });
+            if (serverVersion != NETWORK_VERSION) {
+                handler.getConnection().disconnect(Component.literal(
+                    WailaConstants.MOD_NAME + " network version mismatch! " +
+                        "Server version is " + serverVersion + " while client version is " + NETWORK_VERSION));
+            }
         });
 
         S2CPacketReceiver.register(DATA, (client, handler, buf, responseSender) -> {
