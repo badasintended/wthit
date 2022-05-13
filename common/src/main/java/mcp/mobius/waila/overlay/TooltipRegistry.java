@@ -3,20 +3,22 @@ package mcp.mobius.waila.overlay;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectLists;
+import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 
 public class TooltipRegistry<T> {
 
-    private final Map<Class<?>, List<Entry<T>>> map = new Object2ObjectOpenHashMap<>();
+    private final Map<Class<?>, Set<Entry<T>>> map = new Object2ObjectOpenHashMap<>();
     private final Map<Class<?>, List<T>> cache = new Object2ObjectOpenHashMap<>();
 
     private final List<Entry<?>> sorter = new ObjectArrayList<>();
 
     public void add(Class<?> key, T value, int priority) {
-        map.computeIfAbsent(key, k -> new ObjectArrayList<>())
+        map.computeIfAbsent(key, k -> new ObjectOpenHashSet<>())
             .add(new Entry<>(value, priority));
     }
 
@@ -55,7 +57,7 @@ public class TooltipRegistry<T> {
         return list;
     }
 
-    public Map<Class<?>, List<Entry<T>>> getMap() {
+    public Map<Class<?>, Set<Entry<T>>> getMap() {
         return map;
     }
 

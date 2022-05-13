@@ -1,8 +1,8 @@
 package mcp.mobius.waila.utils;
 
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.WailaPlugins;
@@ -59,7 +59,7 @@ public class DumpGenerator {
     }
 
     private static <T> void createSection(StringBuilder builder, String subsection, TooltipRegistry<T> registry) {
-        Map<Class<?>, List<TooltipRegistry.Entry<T>>> map = registry.getMap();
+        Map<Class<?>, Set<TooltipRegistry.Entry<T>>> map = registry.getMap();
 
         if (map.isEmpty())
             return;
