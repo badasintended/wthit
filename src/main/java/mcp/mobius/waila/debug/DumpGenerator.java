@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IPluginInfo;
@@ -71,7 +71,7 @@ public class DumpGenerator {
     }
 
     private static <T> void createSection(StringBuilder builder, String subsection, Register<T> registry) {
-        Map<Class<?>, List<Register.Entry<T>>> map = registry.getMap();
+        Map<Class<?>, Set<Register.Entry<T>>> map = registry.getMap();
 
         if (map.isEmpty())
             return;
