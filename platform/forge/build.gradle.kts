@@ -94,7 +94,11 @@ afterEvaluate {
     upload {
         curseforge(jar)
         modrinth(jar)
-        mavenApi(apiJar, apiSourcesJar)
-        mavenRuntime(jar, sourcesJar)
+        maven(apiJar, apiSourcesJar, suffix = "api")
+        maven(jar, sourcesJar) {
+            pom.withDependencies {
+                runtime("lol.bai:badpackets:forge-${rootProp["badpackets"]}")
+            }
+        }
     }
 }

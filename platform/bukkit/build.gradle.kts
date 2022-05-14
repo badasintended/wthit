@@ -73,6 +73,6 @@ afterEvaluate {
 
     upload {
         curseforge(jar)
-        mavenRuntime(jar, sourcesJar)
+        maven(jar, sourcesJar)
     }
 }

@@ -10,6 +10,6 @@ tasks.sourcesJar {
 
 afterEvaluate {
     upload {
-        mavenApi(tasks.jar.get(), tasks.sourcesJar.get())
+        maven(tasks.jar.get(), tasks.sourcesJar.get(), suffix = "api")
     }
 }
