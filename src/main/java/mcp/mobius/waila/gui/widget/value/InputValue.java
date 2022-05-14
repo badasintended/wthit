@@ -21,6 +21,8 @@ public class InputValue<T> extends ConfigValue<T> {
 
     private final EditBox textField;
 
+    private boolean valueFromTextField = false;
+
     public InputValue(String optionName, T value, @Nullable T defaultValue, Consumer<T> save, Predicate<String> validator) {
         super(optionName, value, defaultValue, save);
 
@@ -49,6 +51,8 @@ public class InputValue<T> extends ConfigValue<T> {
 
     @SuppressWarnings("unchecked")
     private void setValue(String text) {
+        valueFromTextField = true;
+
         final T value = getValue();
         if (value instanceof String)
             setValue((T) text);
@@ -74,9 +78,14 @@ public class InputValue<T> extends ConfigValue<T> {
     @Override
     public void setValue(T value) {
         super.setValue(value);
-        textField.value = String.valueOf(value);
-        textField.setCursorPosition(textField.value.length());
-        textField.setHighlightPos(textField.getCursorPosition());
+
+        if (!valueFromTextField) {
+            textField.value = String.valueOf(value);
+            textField.setCursorPosition(textField.value.length());
+            textField.setHighlightPos(textField.getCursorPosition());
+        }
+
+        valueFromTextField = false;
     }
 
     private static class WatchedTextfield extends EditBox {
