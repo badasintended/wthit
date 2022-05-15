@@ -25,12 +25,8 @@ jobs:
           CURSEFORGE_API: ${{ secrets.CURSEFORGE_API }}
       - uses: actions/upload-artifact@v2
         with:
-          name: fabric ${{ steps.vars.outputs.VERSION }}
-          path: "./fabric/build/libs/wthit-**-fabric.jar"
-      - uses: actions/upload-artifact@v2
-        with:
-          name: forge ${{ steps.vars.outputs.VERSION }}
-          path: "./forge/build/libs/wthit-**-forge.jar"
+          name: wthit ${{ steps.vars.outputs.VERSION }}
+          path: "./**/build/libs/**.jar"
       - uses: alexellis/upload-assets@0.2.2
         env:
           GITHUB_TOKEN: ${{ github.token }}
