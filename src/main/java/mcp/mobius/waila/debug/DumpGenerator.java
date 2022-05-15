@@ -46,10 +46,10 @@ public class DumpGenerator {
 
         builder.append("\n## Block");
         createSection(builder, "Override Providers", registrar.blockOverride);
-        createSection(builder, "Display Item Providers", registrar.entityIcon);
-        createSection(builder, "Head Providers", registrar.entityComponent.get(HEAD));
-        createSection(builder, "Body Providers", registrar.entityComponent.get(BODY));
-        createSection(builder, "Tail Providers", registrar.entityComponent.get(TAIL));
+        createSection(builder, "Display Item Providers", registrar.blockIcon);
+        createSection(builder, "Head Providers", registrar.blockComponent.get(HEAD));
+        createSection(builder, "Body Providers", registrar.blockComponent.get(BODY));
+        createSection(builder, "Tail Providers", registrar.blockComponent.get(TAIL));
         createSection(builder, "Data Providers", registrar.blockData);
 
         builder.append("\n## Entity");
