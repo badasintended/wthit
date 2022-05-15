@@ -3,6 +3,7 @@ package mcp.mobius.waila.overlay;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
@@ -69,6 +70,21 @@ public class TooltipRegistry<T> {
         Entry(T value, int priority) {
             this.value = value;
             this.priority = priority;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o)
+                return true;
+            if (o == null || getClass() != o.getClass())
+                return false;
+            Entry<?> entry = (Entry<?>) o;
+            return Objects.equals(value, entry.value);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(value);
         }
 
     }
