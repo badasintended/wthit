@@ -7,7 +7,7 @@ import mcp.mobius.waila.debug.DumpGenerator;
 import mcp.mobius.waila.network.Packets;
 import mcp.mobius.waila.util.ModInfo;
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
@@ -18,7 +18,7 @@ public class FabricWaila extends Waila implements ModInitializer {
     public void onInitialize() {
         Packets.initServer();
 
-        CommandRegistrationCallback.EVENT.register((dispatcher, dedicated) ->
+        CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) ->
             DumpCommand.register(dispatcher));
 
         ServerLifecycleEvents.SERVER_STARTING.register(server ->

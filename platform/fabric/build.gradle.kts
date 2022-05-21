@@ -13,15 +13,14 @@ dependencies {
     mappings(loom.officialMojangMappings())
     modImplementation("net.fabricmc:fabric-loader:${rootProp["fabricLoader"]}")
 
-    //modImplementation("dev.inkwell:hermes:1.1.0+1.17")
-
     modCompileRuntime("net.fabricmc.fabric-api:fabric-api:${rootProp["fabricApi"]}")
     modCompileRuntime("com.terraformersmc:modmenu:${rootProp["modMenu"]}")
 
-    //modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:${rootProp["rei"]}")
-    ///modRuntimeOnly("me.shedaniel:RoughlyEnoughItems-fabric:${rootProp["rei"]}")
+    modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:${rootProp["rei"]}")
+    modRuntimeOnly("me.shedaniel:RoughlyEnoughItems-fabric:${rootProp["rei"]}")
 
     modRuntimeOnly("lol.bai:badpackets:fabric-${rootProp["badpackets"]}")
+    modRuntimeOnly("net.fabricmc.fabric-api:fabric-api-deprecated:${rootProp["fabricApi"]}")
 }
 
 sourceSets {

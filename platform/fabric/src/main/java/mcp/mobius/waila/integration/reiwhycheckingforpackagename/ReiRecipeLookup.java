@@ -10,7 +10,7 @@ import me.shedaniel.rei.api.common.plugins.PluginManager;
 import me.shedaniel.rei.api.common.registry.ReloadStage;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 
 public class ReiRecipeLookup implements REIClientPlugin {
 
@@ -50,7 +50,7 @@ public class ReiRecipeLookup implements REIClientPlugin {
         private int initCount = 0;
 
         public AutoClosableScreen() {
-            super(TextComponent.EMPTY);
+            super(Component.empty());
         }
 
         @Override
