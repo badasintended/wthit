@@ -63,7 +63,11 @@ afterEvaluate {
     upload {
         curseforge(remapJar)
         modrinth(remapJar)
-        mavenApi(apiJar, apiSourcesJar)
-        mavenRuntime(remapJar, remapSourcesJar)
+        maven(apiJar, apiSourcesJar, suffix = "api")
+        maven(remapJar, remapSourcesJar) {
+            pom.withDependencies {
+                runtime("lol.bai:badpackets:fabric-${rootProp["badpackets"]}")
+            }
+        }
     }
 }

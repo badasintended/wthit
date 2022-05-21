@@ -88,4 +88,11 @@ public abstract class WailaClient {
         }
     }
 
+    protected static void onServerLogout(Connection connection) {
+        Waila.BLACKLIST_CONFIG.invalidate();
+        if (!connection.isMemoryConnection()) {
+            PluginConfig.INSTANCE.reload();
+        }
+    }
+
 }

@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IPluginInfo;
@@ -46,10 +46,10 @@ public class DumpGenerator {
 
         builder.append("\n## Block");
         createSection(builder, "Override Providers", registrar.blockOverride);
-        createSection(builder, "Display Item Providers", registrar.entityIcon);
-        createSection(builder, "Head Providers", registrar.entityComponent.get(HEAD));
-        createSection(builder, "Body Providers", registrar.entityComponent.get(BODY));
-        createSection(builder, "Tail Providers", registrar.entityComponent.get(TAIL));
+        createSection(builder, "Display Item Providers", registrar.blockIcon);
+        createSection(builder, "Head Providers", registrar.blockComponent.get(HEAD));
+        createSection(builder, "Body Providers", registrar.blockComponent.get(BODY));
+        createSection(builder, "Tail Providers", registrar.blockComponent.get(TAIL));
         createSection(builder, "Data Providers", registrar.blockData);
 
         builder.append("\n## Entity");
@@ -71,7 +71,7 @@ public class DumpGenerator {
     }
 
     private static <T> void createSection(StringBuilder builder, String subsection, Register<T> registry) {
-        Map<Class<?>, List<Register.Entry<T>>> map = registry.getMap();
+        Map<Class<?>, Set<Register.Entry<T>>> map = registry.getMap();
 
         if (map.isEmpty())
             return;

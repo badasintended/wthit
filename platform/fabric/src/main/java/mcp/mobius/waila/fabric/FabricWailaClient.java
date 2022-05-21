@@ -21,6 +21,7 @@ public class FabricWailaClient extends WailaClient implements ClientModInitializ
         ClientTickEvents.END_CLIENT_TICK.register(client -> onClientTick());
         ItemTooltipCallback.EVENT.register((stack, ctx, tooltip) -> onItemTooltip(stack, tooltip));
         ClientPlayConnectionEvents.INIT.register((handler, client) -> client.execute(() -> onServerLogIn(handler.getConnection())));
+        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> onServerLogout(handler.getConnection()));
     }
 
 }

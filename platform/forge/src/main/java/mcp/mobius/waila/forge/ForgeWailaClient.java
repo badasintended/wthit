@@ -7,6 +7,7 @@ import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.gui.screen.HomeScreen;
 import mcp.mobius.waila.hud.TooltipHandler;
 import mcp.mobius.waila.network.Packets;
+import net.minecraft.network.Connection;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.ConfigGuiHandler;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
@@ -58,6 +59,14 @@ public class ForgeWailaClient extends WailaClient {
         @SubscribeEvent
         static void loggedIn(ClientPlayerNetworkEvent.LoggedInEvent event) {
             onServerLogIn(Objects.requireNonNull(event.getConnection()));
+        }
+
+        @SubscribeEvent
+        static void loggedOut(ClientPlayerNetworkEvent.LoggedOutEvent event) {
+            Connection connection = event.getConnection();
+            if (connection != null) {
+                onServerLogout(connection);
+            }
         }
 
     }

@@ -4,19 +4,11 @@ import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.configure
 import org.gradle.kotlin.dsl.create
 
-fun UploadConfig.mavenApi(jar: Jar, sourceJar: Jar) {
-    maven("api", "${project.rootProp["archiveBaseName"]}-api", jar, sourceJar)
-}
-
-fun UploadConfig.mavenRuntime(jar: Jar, sourceJar: Jar) {
-    maven("runtime", project.rootProp["archiveBaseName"], jar, sourceJar)
-}
-
-private fun UploadConfig.maven(name: String, id: String, jar: Jar, sourceJar: Jar) {
+fun UploadConfig.maven(jar: Jar, sourceJar: Jar, suffix: String? = null, action: MavenPublication.() -> Unit = {}) {
     project.extensions.configure<PublishingExtension> {
         publications {
-            create<MavenPublication>(name) {
-                artifactId = id
+            create<MavenPublication>(suffix ?: "main") {
+                artifactId = project.rootProp["archiveBaseName"] + (if (suffix != null) "-${suffix}" else "")
                 version = "${project.name}-${project.version}"
                 artifact(jar) {
                     classifier = null
@@ -24,6 +16,7 @@ private fun UploadConfig.maven(name: String, id: String, jar: Jar, sourceJar: Ja
                 artifact(sourceJar) {
                     classifier = "sources"
                 }
+                action()
             }
         }
     }
