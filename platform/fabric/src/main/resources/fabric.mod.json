@@ -18,10 +18,10 @@
   },
 
   "entrypoints"  : {
-    "main"   : ["mcp.mobius.waila.fabric.FabricWaila"],
-    "client" : ["mcp.mobius.waila.fabric.FabricWailaClient"],
-    "modmenu": ["mcp.mobius.waila.integration.modmenu.WailaModMenu"],
-    "rei"    : ["mcp.mobius.waila.integration.reiwhycheckingforpackagename.ReiRecipeLookup"]
+    "main"      : ["mcp.mobius.waila.fabric.FabricWaila"],
+    "client"    : ["mcp.mobius.waila.fabric.FabricWailaClient"],
+    "modmenu"   : ["mcp.mobius.waila.integration.modmenu.WailaModMenu"],
+    "rei_client": ["mcp.mobius.waila.integration.reiwhycheckingforpackagename.ReiRecipeLookup"]
   },
   "accessWidener": "wthit.accesswidener",
 
@@ -56,6 +56,9 @@
     "fabric"      : ">=0.52.1",
     "minecraft"   : ">=1.19-0",
     "badpackets"  : ">=0.1.2"
+  },
+  "breaks"       : {
+    "roughlyenoughitems": "<9.0.462"
   },
   "suggests"     : {
     "modmenu": "*"
