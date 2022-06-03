@@ -1,6 +1,6 @@
 package mcp.mobius.waila.hud;
 
-import java.awt.*;
+import java.awt.Rectangle;
 import java.util.function.Supplier;
 
 import com.google.common.base.Preconditions;
