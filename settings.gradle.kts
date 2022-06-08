@@ -7,5 +7,5 @@ fun platform(name: String) {
 
 //platform("bukkit")
 platform("fabric")
-//platform("forge")
+platform("forge")
 platform("mojmap")

@@ -6,7 +6,6 @@ import mcp.mobius.waila.command.DumpCommand;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.debug.DumpGenerator;
 import mcp.mobius.waila.network.Packets;
-import mcp.mobius.waila.registry.Registrar;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -25,8 +24,6 @@ public class ForgeWaila extends Waila {
     @SubscribeEvent
     static void setup(FMLCommonSetupEvent event) {
         Packets.initServer();
-
-        Registrar.INSTANCE.addEventListener(ForgeLegacyEventListener.INSTANCE, 900);
 
         String[] mods = {"minecraft", "forge", "wthit", "jei"};
         for (String mod : mods) {
