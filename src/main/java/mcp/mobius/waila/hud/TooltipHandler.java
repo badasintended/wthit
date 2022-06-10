@@ -7,7 +7,12 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Suppliers;
 import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.math.Matrix4f;
 import com.mojang.text2speech.Narrator;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import mcp.mobius.waila.Waila;
@@ -25,15 +30,16 @@ import mcp.mobius.waila.config.WailaConfig.Overlay.Color;
 import mcp.mobius.waila.event.EventCanceller;
 import mcp.mobius.waila.registry.Registrar;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.ChatScreen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.util.Mth;
 import net.minecraft.util.profiling.ProfilerFiller;
 
 import static mcp.mobius.waila.config.WailaConfig.Overlay.Position;
-import static mcp.mobius.waila.util.DisplayUtil.drawGradientRect;
 import static mcp.mobius.waila.util.DisplayUtil.enable2DRender;
 
-public class TooltipHandler {
+public class TooltipHandler extends GuiComponent {
 
     private static final Tooltip TOOLTIP = new Tooltip();
     private static final Object2IntOpenHashMap<Line> LINE_HEIGHT = new Object2IntOpenHashMap<>();
@@ -196,18 +202,29 @@ public class TooltipHandler {
         int gradStart = color.getGradientStart();
         int gradEnd = color.getGradientEnd();
 
-        drawGradientRect(matrices, x + 1, y, w - 1, 1, bg, bg);
-        drawGradientRect(matrices, x + 1, y + h, w - 1, 1, bg, bg);
-        drawGradientRect(matrices, x + 1, y + 1, w - 1, h - 1, bg, bg);
-        drawGradientRect(matrices, x, y + 1, 1, h - 1, bg, bg);
-        drawGradientRect(matrices, x + w, y + 1, 1, h - 1, bg, bg);
-        drawGradientRect(matrices, x + 1, y + 2, 1, h - 3, gradStart, gradEnd);
-        drawGradientRect(matrices, x + w - 1, y + 2, 1, h - 3, gradStart, gradEnd);
-
-        drawGradientRect(matrices, x + 1, y + 1, w - 1, 1, gradStart, gradStart);
-        drawGradientRect(matrices, x + 1, y + h - 1, w - 1, 1, gradEnd, gradEnd);
-
+        RenderSystem.disableTexture();
         RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+
+        Tesselator tesselator = Tesselator.getInstance();
+        BufferBuilder buf = tesselator.getBuilder();
+        buf.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
+        Matrix4f matrix = matrices.last().pose();
+
+        fillGradient(matrix, buf, x + 1, y, w - 1, 1, bg, bg);
+        fillGradient(matrix, buf, x + 1, y + h, w - 1, 1, bg, bg);
+        fillGradient(matrix, buf, x + 1, y + 1, w - 1, h - 1, bg, bg);
+        fillGradient(matrix, buf, x, y + 1, 1, h - 1, bg, bg);
+        fillGradient(matrix, buf, x + w, y + 1, 1, h - 1, bg, bg);
+        fillGradient(matrix, buf, x + 1, y + 2, 1, h - 3, gradStart, gradEnd);
+        fillGradient(matrix, buf, x + w - 1, y + 2, 1, h - 3, gradStart, gradEnd);
+        fillGradient(matrix, buf, x + 1, y + 1, w - 1, 1, gradStart, gradStart);
+        fillGradient(matrix, buf, x + 1, y + h - 1, w - 1, 1, gradEnd, gradEnd);
+
+        tesselator.end();
+
+        RenderSystem.enableTexture();
 
         int textX = x + (icon.getWidth() > 0 ? icon.getWidth() + 7 : 4);
         int textY = y + 4 + topOffset;
@@ -251,6 +268,10 @@ public class TooltipHandler {
                 lastNarration = narrate;
             }
         }
+    }
+
+    private static void fillGradient(Matrix4f matrix, BufferBuilder buf, int x, int y, int w, int h, int start, int end) {
+        fillGradient(matrix, buf, x, y, x + w, y + h, 0, start, end);
     }
 
 }
