@@ -29,7 +29,7 @@ public enum PlantProvider implements IBlockComponentProvider {
                 Component.translatable("tooltip.waila.crop_growth"), Component.literal(String.format("%.0f%%", growthValue))));
         } else {
             tooltip.addLine(new PairComponent(
-                Component.translatable("tooltip.waila.crop_growth"), Component.literal("tooltip.waila.crop_mature")));
+                Component.translatable("tooltip.waila.crop_growth"), Component.translatable("tooltip.waila.crop_mature")));
         }
     }
 
