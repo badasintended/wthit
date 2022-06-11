@@ -6,6 +6,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
 
 @ApiSide.ClientOnly
 @ApiStatus.NonExtendable
@@ -32,6 +33,14 @@ public interface ITooltip {
      * @see WailaConstants
      */
     ITooltipLine setLine(ResourceLocation tag);
+
+    /**
+     * Returns the line with specified tag, if any.
+     *
+     * @see WailaConstants
+     */
+    @Nullable
+    ITooltipLine getLine(ResourceLocation tag);
 
     /**
      * Add a new line to the tooltip.
