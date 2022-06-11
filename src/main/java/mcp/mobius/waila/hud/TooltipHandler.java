@@ -259,7 +259,7 @@ public class TooltipHandler extends GuiComponent {
             return;
         }
 
-        Line objectName = TOOLTIP.getTag(WailaConstants.OBJECT_NAME_TAG);
+        Line objectName = TOOLTIP.getLine(WailaConstants.OBJECT_NAME_TAG);
         if (objectName != null && objectName.components.get(0) instanceof WrappedComponent component) {
             String narrate = component.component.getString();
             if (!lastNarration.equalsIgnoreCase(narrate)) {

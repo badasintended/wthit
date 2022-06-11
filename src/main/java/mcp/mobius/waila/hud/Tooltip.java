@@ -34,7 +34,8 @@ public class Tooltip extends ObjectArrayList<Line> implements ITooltip {
         return line;
     }
 
-    public Line getTag(ResourceLocation tag) {
+    @Override
+    public Line getLine(ResourceLocation tag) {
         return tags.containsKey(tag)
             ? get(tags.getInt(tag))
             : null;
