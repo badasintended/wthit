@@ -16,6 +16,8 @@ import mcp.mobius.waila.gui.widget.value.BooleanValue;
 import mcp.mobius.waila.gui.widget.value.ConfigValue;
 import mcp.mobius.waila.gui.widget.value.EnumValue;
 import mcp.mobius.waila.gui.widget.value.InputValue;
+import mcp.mobius.waila.gui.widget.value.IntInputValue;
+import mcp.mobius.waila.registry.Registrar;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
@@ -29,11 +31,11 @@ public class PluginConfigScreen extends ConfigScreen {
     private static final Map<ConfigEntry.Type<Object>, ConfigValueFunction<Object>> ENTRY_TO_VALUE = new HashMap<>();
 
     static {
-        register(ConfigEntry.BOOLEAN, BooleanValue::new);
-        register(ConfigEntry.INTEGER, (name, value, defaultValue, save) -> new InputValue<>(name, value, defaultValue, save, InputValue.INTEGER));
-        register(ConfigEntry.DOUBLE, (name, value, defaultValue, save) -> new InputValue<>(name, value, defaultValue, save, InputValue.DECIMAL));
-        register(ConfigEntry.STRING, (name, value, defaultValue, save) -> new InputValue<>(name, value, defaultValue, save, InputValue.ANY));
-        register(ConfigEntry.ENUM, (name, value, defaultValue, save) -> new EnumValue(name, value.getDeclaringClass().getEnumConstants(), value, defaultValue, save));
+        register(ConfigEntry.BOOLEAN, (key, name, value, defaultValue, save) -> new BooleanValue(name, value, defaultValue, save));
+        register(ConfigEntry.INTEGER, (key, name, value, defaultValue, save) -> new IntInputValue(name, value, defaultValue, save, Registrar.INSTANCE.intConfigFormats.get(key)));
+        register(ConfigEntry.DOUBLE, (key, name, value, defaultValue, save) -> new InputValue<>(name, value, defaultValue, save, InputValue.DECIMAL));
+        register(ConfigEntry.STRING, (key, name, value, defaultValue, save) -> new InputValue<>(name, value, defaultValue, save, InputValue.ANY));
+        register(ConfigEntry.ENUM, (key, name, value, defaultValue, save) -> new EnumValue(name, value.getDeclaringClass().getEnumConstants(), value, defaultValue, save));
     }
 
     private static final Map<ConfigEntry<Object>, Object> SYNCED_VALUES = new HashMap<>();
@@ -96,7 +98,7 @@ public class PluginConfigScreen extends ConfigScreen {
                                 e.setValue(e.getIntValue() + 1);
                             }
                         }
-                        ConfigValue<Object> value = ENTRY_TO_VALUE.get(entry.getType()).create(translationKey + "." + path, entry.getValue(), entry.getDefaultValue(), entry::setValue);
+                        ConfigValue<Object> value = ENTRY_TO_VALUE.get(entry.getType()).create(key, translationKey + "." + path, entry.getValue(), entry.getDefaultValue(), entry::setValue);
                         if (entry.isSynced() && minecraft.getCurrentServer() != null) {
                             value.serverOnly = true;
                             value.setValue(SYNCED_VALUES.get(entry));
@@ -113,7 +115,7 @@ public class PluginConfigScreen extends ConfigScreen {
     @FunctionalInterface
     private interface ConfigValueFunction<T> {
 
-        ConfigValue<T> create(String name, T value, T defaultValue, Consumer<T> save);
+        ConfigValue<T> create(ResourceLocation key, String name, T value, T defaultValue, Consumer<T> save);
 
     }
 
