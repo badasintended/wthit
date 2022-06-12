@@ -13,7 +13,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.modrinth.minotaur:Minotaur:2.+")
+    implementation("com.modrinth.minotaur:Minotaur:2.2.1")
     implementation("com.github.deirn:CurseForgeGradle:c693018f92")
 
     implementation("org.spongepowered:vanillagradle:0.2.1-SNAPSHOT")

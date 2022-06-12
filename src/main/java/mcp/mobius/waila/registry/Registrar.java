@@ -2,6 +2,7 @@ package mcp.mobius.waila.registry;
 
 import java.util.Arrays;
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -13,6 +14,7 @@ import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.IEventListener;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IServerDataProvider;
+import mcp.mobius.waila.api.IntFormat;
 import mcp.mobius.waila.api.TooltipPosition;
 import mcp.mobius.waila.config.BlacklistConfig;
 import mcp.mobius.waila.config.ConfigEntry;
@@ -51,6 +53,8 @@ public enum Registrar implements IRegistrar {
     public final Register<IEventListener> eventListeners = Util.make(new Register<>(), Register::reversed);
     public final BlacklistConfig blacklist = new BlacklistConfig();
 
+    public final Map<ResourceLocation, IntFormat> intConfigFormats = new HashMap<>();
+
     private boolean locked = false;
 
     private <T> void addConfig(ResourceLocation key, T defaultValue, T clientOnlyValue, boolean synced, ConfigEntry.Type<T> type) {
@@ -64,7 +68,8 @@ public enum Registrar implements IRegistrar {
     }
 
     @Override
-    public void addConfig(ResourceLocation key, int defaultValue) {
+    public void addConfig(ResourceLocation key, int defaultValue, IntFormat format) {
+        intConfigFormats.put(key, format);
         addConfig(key, defaultValue, defaultValue, false, ConfigEntry.INTEGER);
     }
 
@@ -89,7 +94,8 @@ public enum Registrar implements IRegistrar {
     }
 
     @Override
-    public void addSyncedConfig(ResourceLocation key, int defaultValue, int clientOnlyValue) {
+    public void addSyncedConfig(ResourceLocation key, int defaultValue, int clientOnlyValue, IntFormat format) {
+        intConfigFormats.put(key, format);
         addConfig(key, defaultValue, clientOnlyValue, true, ConfigEntry.INTEGER);
     }
 

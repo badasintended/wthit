@@ -4,7 +4,6 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.network.chat.Component;
@@ -19,15 +18,47 @@ public class InputValue<T> extends ConfigValue<T> {
     public static final Predicate<String> DECIMAL = s -> s.matches("[-+]?\\d*([.]\\d*)?");
     public static final Predicate<String> POSITIVE_DECIMAL = s -> s.matches("\\d*([.]\\d*)?");
 
+    private final Serializer<T> serializer;
     private final EditBox textField;
 
     private boolean valueFromTextField = false;
 
     public InputValue(String optionName, T value, @Nullable T defaultValue, Consumer<T> save, Predicate<String> validator) {
+        this(optionName, value, defaultValue, save, validator, new Serializer<>() {
+            @Override
+            public String serialize(T t) {
+                return String.valueOf(t);
+            }
+
+            @Override
+            @SuppressWarnings("unchecked")
+            public T deserialize(String s) {
+                if (value instanceof String)
+                    return (T) s;
+                if (value instanceof Integer)
+                    return (T) (s.isEmpty() ? Integer.valueOf(0) : Integer.valueOf(s));
+                else if (value instanceof Short)
+                    return (T) (s.isEmpty() ? Short.valueOf((short) 0) : Short.valueOf(s));
+                else if (value instanceof Byte)
+                    return (T) (s.isEmpty() ? Byte.valueOf((byte) 0) : Byte.valueOf(s));
+                else if (value instanceof Long)
+                    return (T) (s.isEmpty() ? Long.valueOf(0L) : Long.valueOf(s));
+                else if (value instanceof Double)
+                    return (T) (s.isEmpty() ? Double.valueOf(0) : Double.valueOf(s));
+                else if (value instanceof Float)
+                    return (T) (s.isEmpty() ? Float.valueOf(0) : Float.valueOf(s));
+
+                throw new UnsupportedOperationException("Unsupported value type");
+            }
+        });
+    }
+
+    public InputValue(String optionName, T value, @Nullable T defaultValue, Consumer<T> save, Predicate<String> validator, Serializer<T> serializer) {
         super(optionName, value, defaultValue, save);
 
-        this.textField = new WatchedTextfield(this, client.font, 0, 0, 160, 18);
-        textField.setValue(String.valueOf(value));
+        this.serializer = serializer;
+        this.textField = new WatchedTextfield();
+        textField.setValue(serializer.serialize(value));
         textField.setFilter(validator);
     }
 
@@ -46,31 +77,14 @@ public class InputValue<T> extends ConfigValue<T> {
 
     @Override
     protected void resetValue() {
-        textField.setValue(String.valueOf(defaultValue));
+        textField.setValue(serializer.serialize(defaultValue));
     }
 
-    @SuppressWarnings("unchecked")
     private void setValue(String text) {
         valueFromTextField = true;
-
-        final T value = getValue();
-        if (value instanceof String)
-            setValue((T) text);
-
         try {
-            if (value instanceof Integer)
-                setValue((T) Integer.valueOf(text));
-            else if (value instanceof Short)
-                setValue((T) Short.valueOf(text));
-            else if (value instanceof Byte)
-                setValue((T) Byte.valueOf(text));
-            else if (value instanceof Long)
-                setValue((T) Long.valueOf(text));
-            else if (value instanceof Double)
-                setValue((T) Double.valueOf(text));
-            else if (value instanceof Float)
-                setValue((T) Float.valueOf(text));
-        } catch (NumberFormatException e) {
+            setValue(serializer.deserialize(text));
+        } catch (Throwable t) {
             // no-op
         }
     }
@@ -80,7 +94,7 @@ public class InputValue<T> extends ConfigValue<T> {
         super.setValue(value);
 
         if (!valueFromTextField) {
-            textField.value = String.valueOf(value);
+            textField.value = serializer.serialize(value);
             textField.setCursorPosition(textField.value.length());
             textField.setHighlightPos(textField.getCursorPosition());
         }
@@ -88,11 +102,11 @@ public class InputValue<T> extends ConfigValue<T> {
         valueFromTextField = false;
     }
 
-    private static class WatchedTextfield extends EditBox {
+    private class WatchedTextfield extends EditBox {
 
-        public WatchedTextfield(InputValue<?> watcher, Font fontRenderer, int x, int y, int width, int height) {
-            super(fontRenderer, x, y, width, height, Component.empty());
-            this.setResponder(watcher::setValue);
+        public WatchedTextfield() {
+            super(client.font, 0, 0, 160, 18, Component.empty());
+            this.setResponder(InputValue.this::setValue);
         }
 
         @Override
@@ -115,6 +129,14 @@ public class InputValue<T> extends ConfigValue<T> {
                 onValueChange(string3);
             }
         }
+
+    }
+
+    public interface Serializer<T> {
+
+        String serialize(T t);
+
+        T deserialize(String s);
 
     }
 
