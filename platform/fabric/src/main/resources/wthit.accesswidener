@@ -12,3 +12,5 @@ accessible field net/minecraft/client/gui/components/EditBox filter Ljava/util/f
 accessible field net/minecraft/client/gui/components/EditBox maxLength I
 accessible field net/minecraft/client/gui/components/EditBox value Ljava/lang/String;
 accessible method net/minecraft/client/gui/components/EditBox onValueChange (Ljava/lang/String;)V
+
+accessible field net/minecraft/client/multiplayer/MultiPlayerGameMode destroyProgress F
