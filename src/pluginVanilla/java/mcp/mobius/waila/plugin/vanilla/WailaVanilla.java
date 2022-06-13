@@ -2,10 +2,12 @@ package mcp.mobius.waila.plugin.vanilla;
 
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
+import mcp.mobius.waila.api.IntFormat;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import mcp.mobius.waila.plugin.vanilla.config.Options.NoteDisplayMode;
 import mcp.mobius.waila.plugin.vanilla.provider.BeehiveProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.BoatProvider;
+import mcp.mobius.waila.plugin.vanilla.provider.BreakingProgressProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.ComposterProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.FallingBlockProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.FurnaceProvider;
@@ -64,6 +66,9 @@ public class WailaVanilla implements IWailaPlugin {
         registrar.addSyncedConfig(Options.FURNACE_CONTENTS, true, false);
         registrar.addSyncedConfig(Options.JUKEBOX_RECORD, true, false);
 
+        registrar.addConfig(Options.BREAKING_PROGRESS, true);
+        registrar.addConfig(Options.BREAKING_PROGRESS_COLOR, 0xAAFFFFFF, IntFormat.HEXADECIMAL);
+        registrar.addConfig(Options.BREAKING_PROGRESS_BOTTOM_ONLY, false);
         registrar.addConfig(Options.SPAWNER_TYPE, true);
         registrar.addConfig(Options.CROP_PROGRESS, true);
         registrar.addConfig(Options.REDSTONE_LEVER, true);
@@ -88,6 +93,8 @@ public class WailaVanilla implements IWailaPlugin {
             EntityType.FIREBALL,
             EntityType.FIREWORK_ROCKET,
             EntityType.SNOWBALL);
+
+        registrar.addEventListener(BreakingProgressProvider.INSTANCE);
 
         registrar.addOverride(InfestedBlockProvider.INSTANCE, InfestedBlock.class);
         registrar.addOverride(TrappedChestProvider.INSTANCE, TrappedChestBlock.class);
