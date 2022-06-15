@@ -9,6 +9,10 @@ repositories {
     maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
 }
 
+configurations.all {
+    resolutionStrategy.cacheChangingModulesFor(0, "seconds")
+}
+
 dependencies {
     compileOnly("org.spigotmc:spigot-api:${rootProp["spigotApi"]}")
 }
