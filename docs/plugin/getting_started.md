@@ -115,25 +115,40 @@ public class MyWailaPlugin implements IWailaPlugin {
 === "Fabric"
     In your `fabric.mod.json` add a custom value
     ```json
-    {
+    "custom": {
       "waila:plugins": {
         "id": "mymod:my_plugin",
-        "initializer": "foo.bar.Baz",
+        "initializer": "mymod.waila.MyModWailaPlugin",
       }
     }
     ```
     `waila:plugins` can also be an array of objects instead of a singular object.    
-    A required field can be added to specify mods required for that plugin to be loaded.
+    
+    A `required` field can be added to specify mods required for that plugin to be loaded.
     It can either be a single string or an array of strings.
     ```json
-    {
+    "custom": {
       "waila:plugins": {
         "id": "mymod:my_plugin",
-        "initializer": "foo.bar.Baz",
+        "initializer": "mymod.waila.MyModWailaPlugin",
         "required": "mod_a" 
       }
     }
     ```
+    
+    An `environment` field can be added to specify what environment the plugin would be loaded.
+    Possible values are `client` for client-only plugin, `server` for **dedicated** server plugin,
+    and `both` for common plugin.
+    ```json
+    "custom": {
+      "waila:plugins": {
+        "id": "mymod:client_only_plugin",
+        "initializer": "mymod.waila.ClientOnlyPlugin",
+        "environment": "client"
+      }
+    }
+    ```
+
 === "Forge"
     Annotate your plugin class with `@WailaPlugin`:
     ```java
@@ -144,6 +159,12 @@ public class MyWailaPlugin implements IWailaPlugin {
     ```java
     @WailaPlugin(id = "mymod:waila_plugin", required = "jei")
     public class MyWailaPlugin implements IWailaPlugin {}
+    ```
+
+    A `side` value can be added to specify what environment the plugin would be loaded.
+    ```java
+    @WailaPlugin(id = "mymod:client_only_plugin", side = IPluginInfo.Side.CLIENT)
+    public class ClientOnlyPlugin implements IWailaPlugin {}
     ```
     !!! warning "For multiplatform projects"
         If you put your plugin class in the common subproject,
