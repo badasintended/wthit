@@ -60,7 +60,7 @@ subprojects {
     publishing {
         repositories {
             maven {
-                url = uri("https://maven.pkg.github.com/badasintended/maven")
+                url = uri("https://maven.pkg.github.com/badasintended/wthit")
                 name = "GitHub"
                 credentials {
                     username = env["GITHUB_ACTOR"]
