@@ -18,7 +18,7 @@ jobs:
       - run: ./gradlew build publish curseforge modrinth
         env:
           MOD_VERSION: ${{ steps.vars.outputs.version }}
-          GITLAB_TOKEN: ${{ secrets.GITLAB_MAVEN }}
+          GITHUB_TOKEN: ${{ github.token }}
           CURSEFORGE_API: ${{ secrets.CURSEFORGE_API }}
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
       - uses: actions/upload-artifact@v2
