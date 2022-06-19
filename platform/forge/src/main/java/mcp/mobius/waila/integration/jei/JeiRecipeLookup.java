@@ -31,7 +31,7 @@ public class JeiRecipeLookup implements IModPlugin {
     private void showRecipesGui(IJeiRuntime jei, RecipeIngredientRole role) {
         ItemStack stack = DataAccessor.INSTANCE.getStack();
         if (!stack.isEmpty()) {
-            jei.getRecipesGui().show(jei.getJeiHelpers().getFocusFactory().createFocus(role, VanillaTypes.ITEM, stack));
+            jei.getRecipesGui().show(jei.getJeiHelpers().getFocusFactory().createFocus(role, VanillaTypes.ITEM_STACK, stack));
         }
     }
 
