@@ -63,8 +63,8 @@ subprojects {
                 url = uri("https://maven.pkg.github.com/badasintended/maven")
                 name = "GitHub"
                 credentials {
-                    username = env["GITHUB_ACTOR"]
-                    password = env["GITHUB_TOKEN"]
+                    username = env["MAVEN_USERNAME"]
+                    password = env["MAVEN_TOKEN"]
                 }
             }
         }
