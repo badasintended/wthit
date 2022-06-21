@@ -7,8 +7,8 @@ import java.util.Set;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
+import it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet;
 import it.unimi.dsi.fastutil.objects.ObjectLists;
-import it.unimi.dsi.fastutil.objects.ObjectOpenHashSet;
 
 public class Register<T> {
 
@@ -24,7 +24,7 @@ public class Register<T> {
     }
 
     public void add(Class<?> key, T value, int priority) {
-        map.computeIfAbsent(key, k -> new ObjectOpenHashSet<>())
+        map.computeIfAbsent(key, k -> new ObjectLinkedOpenHashSet<>())
             .add(new Entry<>(value, priority));
     }
 
