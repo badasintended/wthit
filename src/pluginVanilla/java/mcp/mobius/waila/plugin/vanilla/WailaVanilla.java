@@ -67,7 +67,7 @@ public class WailaVanilla implements IWailaPlugin {
         registrar.addSyncedConfig(Options.JUKEBOX_RECORD, true, false);
 
         registrar.addConfig(Options.BREAKING_PROGRESS, true);
-        registrar.addConfig(Options.BREAKING_PROGRESS_COLOR, 0xAAFFFFFF, IntFormat.HEXADECIMAL);
+        registrar.addConfig(Options.BREAKING_PROGRESS_COLOR, 0xAAFFFFFF, IntFormat.ARGB_HEX);
         registrar.addConfig(Options.BREAKING_PROGRESS_BOTTOM_ONLY, false);
         registrar.addConfig(Options.SPAWNER_TYPE, true);
         registrar.addConfig(Options.CROP_PROGRESS, true);

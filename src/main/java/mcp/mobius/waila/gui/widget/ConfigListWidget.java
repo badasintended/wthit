@@ -8,7 +8,6 @@ import mcp.mobius.waila.gui.screen.ConfigScreen;
 import mcp.mobius.waila.gui.widget.value.ConfigValue;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.ContainerObjectSelectionList;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
@@ -18,12 +17,16 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
 
     private final ConfigScreen owner;
     private final Runnable diskWriter;
+    private final int topOffset;
+    private final int bottomOffset;
 
     public ConfigListWidget(ConfigScreen owner, Minecraft client, int width, int height, int top, int bottom, int itemHeight, Runnable diskWriter) {
         super(client, width, height, top, bottom, itemHeight - 4);
 
         this.owner = owner;
         this.diskWriter = diskWriter;
+        this.topOffset = top;
+        this.bottomOffset = bottom - owner.height;
 
         setRenderBackground(false);
     }
@@ -52,21 +55,19 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
             diskWriter.run();
     }
 
+    public void init() {
+        updateSize(owner.width, owner.height, topOffset, owner.height + bottomOffset);
+        setScrollAmount(getScrollAmount());
+        for (Entry entry : children()) {
+            entry.addToScreen(owner);
+        }
+    }
+
     public void add(Entry entry) {
         add(children().size(), entry);
     }
 
     public void add(int index, Entry entry) {
-        if (entry instanceof ConfigValue<?> value) {
-            GuiEventListener element = value.getListener();
-            if (element != null) {
-                owner.addListener(element);
-            }
-            Button resetButton = value.getResetButton();
-            if (resetButton != null) {
-                owner.addListener(resetButton);
-            }
-        }
         children().add(index, entry);
     }
 
@@ -85,6 +86,9 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
 
         public Entry() {
             this.client = Minecraft.getInstance();
+        }
+
+        public void addToScreen(ConfigScreen screen) {
         }
 
         @Override

@@ -1,8 +1,12 @@
 package mcp.mobius.waila.util;
 
+import java.util.IllegalFormatException;
+
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Matrix4f;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.renderer.GameRenderer;
@@ -63,6 +67,22 @@ public final class DisplayUtil extends GuiComponent {
 
     public static void drawTexturedModalRect(PoseStack matrices, int x, int y, int textureX, int textureY, int width, int height, int tw, int th) {
         blit(matrices, x, y, width, height, textureX, textureY, tw, th, 256, 256);
+    }
+
+    public static void fillGradient(Matrix4f matrix, BufferBuilder buf, int x, int y, int w, int h, int start, int end) {
+        fillGradient(matrix, buf, x, y, x + w, y + h, 0, start, end);
+    }
+
+    public static int getAlphaFromPercentage(int percentage) {
+        return percentage == 100 ? 255 << 24 : percentage == 0 ? (int) (0.4F / 100.0F * 256) << 24 : (int) (percentage / 100.0F * 256) << 24;
+    }
+
+    public static String tryFormat(String format, Object... args) {
+        try {
+            return format.formatted(args);
+        } catch (IllegalFormatException e) {
+            return "FORMATTING ERROR";
+        }
     }
 
 }

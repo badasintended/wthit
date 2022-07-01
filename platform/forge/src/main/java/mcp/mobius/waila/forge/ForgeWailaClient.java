@@ -4,8 +4,8 @@ import java.util.Objects;
 
 import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.WailaConstants;
+import mcp.mobius.waila.gui.hud.TooltipHandler;
 import mcp.mobius.waila.gui.screen.HomeScreen;
-import mcp.mobius.waila.hud.TooltipHandler;
 import mcp.mobius.waila.network.Packets;
 import net.minecraft.network.Connection;
 import net.minecraftforge.api.distmarker.Dist;

@@ -2,19 +2,15 @@ package mcp.mobius.waila.gui.screen;
 
 import java.util.List;
 
-import com.google.common.collect.Lists;
 import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.gui.widget.ConfigListWidget;
 import mcp.mobius.waila.gui.widget.value.ConfigValue;
-import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
-import net.minecraft.util.FormattedCharSequence;
 import org.jetbrains.annotations.NotNull;
 
 public abstract class ConfigScreen extends Screen {
@@ -26,6 +22,8 @@ public abstract class ConfigScreen extends Screen {
     @SuppressWarnings("unchecked")
     private final List<GuiEventListener> children = (List<GuiEventListener>) children();
     private ConfigListWidget options;
+
+    protected boolean cancelled;
 
     public ConfigScreen(Screen parent, Component title, Runnable saver, Runnable canceller) {
         super(title);
@@ -43,9 +41,14 @@ public abstract class ConfigScreen extends Screen {
     public void init() {
         super.init();
 
-        options = getOptions();
+        if (options == null) {
+            options = getOptions();
+        }
+
         children.add(options);
         setFocused(options);
+
+        options.init();
 
         if (saver != null && canceller != null) {
             addRenderableWidget(new Button(width / 2 - 102, height - 25, 100, 20, new TranslatableComponent("gui.done"), w -> {
@@ -54,6 +57,7 @@ public abstract class ConfigScreen extends Screen {
                 onClose();
             }));
             addRenderableWidget(new Button(width / 2 + 2, height - 25, 100, 20, new TranslatableComponent("gui.cancel"), w -> {
+                cancelled = true;
                 canceller.run();
                 onClose();
             }));
@@ -65,12 +69,16 @@ public abstract class ConfigScreen extends Screen {
         }
     }
 
+    protected void renderForeground(PoseStack matrices, int mouseX, int mouseY, float partialTicks) {
+        drawCenteredString(matrices, font, title, width / 2, 12, 0xFFFFFF);
+    }
+
     @Override
     public void render(@NotNull PoseStack matrices, int mouseX, int mouseY, float partialTicks) {
         renderBackground(matrices);
         options.render(matrices, mouseX, mouseY, partialTicks);
-        drawCenteredString(matrices, font, title.getString(), width / 2, 12, 0xFFFFFF);
         super.render(matrices, mouseX, mouseY, partialTicks);
+        renderForeground(matrices, mouseX, mouseY, partialTicks);
 
         if (mouseY < 32 || mouseY > height - 32) {
             return;
@@ -78,20 +86,25 @@ public abstract class ConfigScreen extends Screen {
 
         options.getChildAt(mouseX, mouseY).ifPresent(element -> {
             if (element instanceof ConfigValue<?> value) {
-                boolean hasDescTl = I18n.exists(value.getDescription());
-                if (value.serverOnly || hasDescTl) {
-                    String title = value.getTitle().getString();
-                    List<FormattedCharSequence> tooltip = Lists.newArrayList(new TextComponent(title).getVisualOrderText());
-                    if (hasDescTl) {
-                        tooltip.addAll(font.split(new TranslatableComponent(value.getDescription()).withStyle(ChatFormatting.GRAY), 250));
-                    }
-                    if (value.serverOnly) {
-                        tooltip.addAll(font.split(new TranslatableComponent("config.waila.server_only").withStyle(ChatFormatting.RED), 250));
-                    }
-                    renderTooltip(matrices, tooltip, mouseX, mouseY);
-                }
+                value.renderTooltip(this, matrices, mouseX, mouseY, partialTicks);
             }
         });
+    }
+
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        for (GuiEventListener child : children) {
+            if (child instanceof EditBox editBox) {
+                editBox.setFocus(false);
+            }
+        }
+
+        return super.mouseClicked(mouseX, mouseY, button);
+    }
+
+    @Override
+    public boolean shouldCloseOnEsc() {
+        return false;
     }
 
     @Override
