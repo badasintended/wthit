@@ -1,4 +1,4 @@
-package mcp.mobius.waila.hud;
+package mcp.mobius.waila.gui.hud;
 
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;

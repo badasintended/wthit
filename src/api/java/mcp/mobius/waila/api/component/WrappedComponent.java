@@ -4,8 +4,8 @@ import java.util.Objects;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.api.ITooltipComponent;
-import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.__internal__.ApiSide;
+import mcp.mobius.waila.api.__internal__.IApiService;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.network.chat.Component;
@@ -34,8 +34,7 @@ public class WrappedComponent implements ITooltipComponent {
 
     @Override
     public void render(PoseStack matrices, int x, int y, float delta) {
-        int color = IWailaConfig.get().getOverlay().getColor().getFontColor();
-        getFont().drawShadow(matrices, component, x, y, color);
+        getFont().drawShadow(matrices, component, x, y, IApiService.INSTANCE.getFontColor());
     }
 
     private Font getFont() {

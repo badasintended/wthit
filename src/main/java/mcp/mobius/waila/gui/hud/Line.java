@@ -1,4 +1,4 @@
-package mcp.mobius.waila.hud;
+package mcp.mobius.waila.gui.hud;
 
 import java.util.ArrayList;
 import java.util.List;

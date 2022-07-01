@@ -10,7 +10,7 @@ import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.__internal__.IApiService;
 import mcp.mobius.waila.config.JsonConfig;
-import mcp.mobius.waila.hud.TooltipHandler;
+import mcp.mobius.waila.gui.hud.TooltipRenderer;
 import mcp.mobius.waila.plugin.PluginInfo;
 import mcp.mobius.waila.util.DisplayUtil;
 import mcp.mobius.waila.util.ModInfo;
@@ -61,12 +61,17 @@ public abstract class ApiService implements IApiService {
 
     @Override
     public int getPairComponentColonOffset() {
-        return TooltipHandler.colonOffset;
+        return TooltipRenderer.getCurrent().colonOffset;
     }
 
     @Override
     public int getColonFontWidth() {
-        return TooltipHandler.colonWidth;
+        return TooltipRenderer.getCurrent().colonWidth;
+    }
+
+    @Override
+    public int getFontColor() {
+        return TooltipRenderer.getCurrent().getFontColor();
     }
 
 }

@@ -17,6 +17,7 @@ public class InputValue<T> extends ConfigValue<T> {
     public static final Predicate<String> POSITIVE_INTEGER = s -> s.matches("\\d*$");
     public static final Predicate<String> DECIMAL = s -> s.matches("[-+]?\\d*([.]\\d*)?");
     public static final Predicate<String> POSITIVE_DECIMAL = s -> s.matches("\\d*([.]\\d*)?");
+    public static final Predicate<String> IDENTIFIER = s -> s.matches("^[a-z\\d_./-]*$") || s.matches("^[a-z\\d_.-]*:[a-z\\d_./-]*$");
 
     private final Serializer<T> serializer;
     private final EditBox textField;

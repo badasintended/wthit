@@ -1,13 +1,19 @@
 package mcp.mobius.waila.gui.widget.value;
 
+import java.util.List;
 import java.util.function.Consumer;
 
+import com.google.common.collect.Lists;
 import com.mojang.blaze3d.vertex.PoseStack;
+import mcp.mobius.waila.gui.screen.ConfigScreen;
 import mcp.mobius.waila.gui.widget.ConfigListWidget;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.FormattedCharSequence;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -57,6 +63,34 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
 
         drawValue(matrices, w, height, rowLeft, rowTop, mouseX, mouseY, hovered, deltaTime);
         this.x = rowLeft;
+    }
+
+    public void renderTooltip(Screen screen, PoseStack matrices, int mouseX, int mouseY, float delta) {
+        boolean hasDescTl = I18n.exists(getDescription());
+        if (serverOnly || hasDescTl) {
+            String title = getTitle().getString();
+            List<FormattedCharSequence> tooltip = Lists.newArrayList(Component.literal(title).getVisualOrderText());
+            if (hasDescTl) {
+                tooltip.addAll(client.font.split(Component.translatable(getDescription()).withStyle(ChatFormatting.GRAY), 250));
+            }
+            if (serverOnly) {
+                tooltip.addAll(client.font.split(Component.translatable("config.waila.server_only").withStyle(ChatFormatting.RED), 250));
+            }
+            screen.renderTooltip(matrices, tooltip, mouseX, mouseY);
+        }
+    }
+
+    @Override
+    public void addToScreen(ConfigScreen screen) {
+        GuiEventListener element = getListener();
+        if (element != null) {
+            screen.addListener(element);
+        }
+
+        Button resetButton = getResetButton();
+        if (resetButton != null) {
+            screen.addListener(resetButton);
+        }
     }
 
     public void save() {

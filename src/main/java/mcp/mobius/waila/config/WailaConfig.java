@@ -1,7 +1,6 @@
 package mcp.mobius.waila.config;
 
 import java.lang.reflect.Type;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,6 +12,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import mcp.mobius.waila.api.IWailaConfig;
+import mcp.mobius.waila.util.DisplayUtil;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -252,7 +252,7 @@ public class WailaConfig implements IWailaConfig {
 
             @Override
             public int getAlpha() {
-                return alpha == 100 ? 255 : alpha == 0 ? (int) (0.4F / 100.0F * 256) << 24 : (int) (alpha / 100.0F * 256) << 24;
+                return DisplayUtil.getAlphaFromPercentage(alpha);
             }
 
             public void setAlpha(int alpha) {
@@ -267,8 +267,8 @@ public class WailaConfig implements IWailaConfig {
                 return themes.getOrDefault(activeTheme, Theme.VANILLA);
             }
 
-            public Collection<Theme> themes() {
-                return themes.values();
+            public Map<ResourceLocation, Theme> themes() {
+                return themes;
             }
 
             @Override

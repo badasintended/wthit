@@ -39,4 +39,6 @@ public interface IApiService {
 
     int getColonFontWidth();
 
+    int getFontColor();
+
 }

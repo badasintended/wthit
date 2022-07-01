@@ -1,11 +1,13 @@
 package mcp.mobius.waila.gui.widget.value;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 import java.util.function.Consumer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.Util;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.network.chat.Component;
@@ -15,6 +17,7 @@ public class CycleValue extends ConfigValue<String> {
 
     private final Button button;
     private final boolean createLocale;
+    private final List<String> values;
 
     public CycleValue(String optionName, String[] values, String selected, Consumer<String> save, boolean createLocale) {
         this(optionName, values, selected, null, save, createLocale);
@@ -24,12 +27,26 @@ public class CycleValue extends ConfigValue<String> {
         super(optionName, selected, defaultValue, save);
 
         this.createLocale = createLocale;
-        List<String> vals = Arrays.asList(values);
+        this.values = Util.make(new ArrayList<>(), list -> list.addAll(Arrays.asList(values)));
         this.button = new Button(0, 0, 100, 20,
             createLocale
                 ? Component.translatable(optionName + "_" + selected.replace(" ", "_").toLowerCase(Locale.ROOT))
                 : Component.literal(selected),
-            w -> setValue(vals.get((vals.indexOf(getValue()) + 1) % vals.size())));
+            w -> setValue(this.values.get((this.values.indexOf(getValue()) + 1) % this.values.size())));
+    }
+
+    public void addValue(String value) {
+        if (!values.contains(value)) {
+            values.add(value);
+        }
+    }
+
+    public void removeValue(String value) {
+        int index = values.indexOf(value);
+        if (index > -1) {
+            values.remove(index);
+            setValue(values.get(index % values.size()));
+        }
     }
 
     @Override
