@@ -21,7 +21,7 @@ class ThemeEditorScreen extends ConfigScreen {
     private final WailaConfigScreen parent;
     private final Theme theme;
     private final boolean edit;
-    private final TooltipRenderer previewRenderer;
+    private final TooltipRenderer.State previewState;
 
     private InputValue<String> idVal;
     private InputValue<Integer> bgColorVal;
@@ -35,13 +35,13 @@ class ThemeEditorScreen extends ConfigScreen {
         this.parent = parent;
         this.theme = theme;
         this.edit = edit;
-        this.previewRenderer = new PreviewTooltipRenderer();
+        this.previewState = new PreviewTooltipRendererState();
     }
 
     @Override
     public void init() {
         super.init();
-        parent.buildPreview(previewRenderer);
+        parent.buildPreview(previewState);
     }
 
     @Override
@@ -81,7 +81,7 @@ class ThemeEditorScreen extends ConfigScreen {
 
     @Override
     protected void renderForeground(PoseStack matrices, int mouseX, int mouseY, float partialTicks) {
-        previewRenderer.render(matrices, partialTicks);
+        TooltipRenderer.render(matrices, partialTicks);
     }
 
     @Override
@@ -108,69 +108,75 @@ class ThemeEditorScreen extends ConfigScreen {
         }
     }
 
-    private class PreviewTooltipRenderer extends TooltipRenderer {
+    private class PreviewTooltipRendererState implements TooltipRenderer.State {
 
-        protected PreviewTooltipRenderer() {
-            super(false);
+        @Override
+        public boolean render() {
+            return true;
         }
 
         @Override
-        protected float getScale() {
-            return 2.0f;
-        }
-
-        @Override
-        protected Align.X getXAnchor() {
-            return Align.X.CENTER;
-        }
-
-        @Override
-        protected Align.Y getYAnchor() {
-            return Align.Y.TOP;
-        }
-
-        @Override
-        protected Align.X getXAlign() {
-            return Align.X.CENTER;
-        }
-
-        @Override
-        protected Align.Y getYAlign() {
-            return Align.Y.TOP;
-        }
-
-        @Override
-        protected int getX() {
-            return 0;
-        }
-
-        @Override
-        protected int getY() {
-            return 1;
-        }
-
-        @Override
-        protected boolean bossBarsOverlap() {
+        public boolean fireEvent() {
             return false;
         }
 
         @Override
-        protected int getBg() {
+        public float getScale() {
+            return 2.0f;
+        }
+
+        @Override
+        public Align.X getXAnchor() {
+            return Align.X.CENTER;
+        }
+
+        @Override
+        public Align.Y getYAnchor() {
+            return Align.Y.TOP;
+        }
+
+        @Override
+        public Align.X getXAlign() {
+            return Align.X.CENTER;
+        }
+
+        @Override
+        public Align.Y getYAlign() {
+            return Align.Y.TOP;
+        }
+
+        @Override
+        public int getX() {
+            return 0;
+        }
+
+        @Override
+        public int getY() {
+            return 1;
+        }
+
+        @Override
+        public boolean bossBarsOverlap() {
+            return false;
+        }
+
+        @Override
+        public int getBg() {
             return (0xFF << 24) + bgColorVal.getValue();
         }
 
         @Override
-        protected int getGradStart() {
+        public int getGradStart() {
             return (0xFF << 24) + gradStartVal.getValue();
         }
 
         @Override
-        protected int getGradEnd() {
+        public int getGradEnd() {
             return (0xFF << 24) + gradEndVal.getValue();
         }
 
         @Override
-        protected boolean enableTextToSpeech() {
+        public boolean enableTextToSpeech() {
             return false;
         }
 

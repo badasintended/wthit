@@ -1,7 +1,6 @@
 package mcp.mobius.waila.gui.hud;
 
 import java.awt.Rectangle;
-import java.util.Objects;
 import java.util.function.Supplier;
 
 import com.google.common.base.Preconditions;
@@ -32,82 +31,54 @@ import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.util.Mth;
 import net.minecraft.util.profiling.ProfilerFiller;
-import org.jetbrains.annotations.Nullable;
 
 import static mcp.mobius.waila.util.DisplayUtil.enable2DRender;
 import static mcp.mobius.waila.util.DisplayUtil.fillGradient;
 
-public abstract class TooltipRenderer {
+public class TooltipRenderer {
 
-    @Nullable
-    private static TooltipRenderer current;
+    private static final Tooltip TOOLTIP = new Tooltip();
+    private static final Object2IntOpenHashMap<Line> LINE_HEIGHT = new Object2IntOpenHashMap<>();
 
-    public static TooltipRenderer getCurrent() {
-        return Objects.requireNonNull(current, "Missing current TooltipRenderer");
-    }
+    private static final Supplier<Rectangle> RENDER_RECT = Suppliers.memoize(Rectangle::new);
+    private static final Supplier<Rectangle> RECT = Suppliers.memoize(Rectangle::new);
+    private static final Supplier<Narrator> NARRATOR = Suppliers.memoize(Narrator::getNarrator);
 
-    private final boolean fireEvent;
+    private static boolean started;
+    private static String lastNarration = "";
+    private static ITooltipComponent icon = EmptyComponent.INSTANCE;
+    private static int topOffset;
 
-    private final Tooltip tooltip = new Tooltip();
-    private final Object2IntOpenHashMap<Line> lineHeight = new Object2IntOpenHashMap<>();
+    public static int colonOffset;
+    public static int colonWidth;
 
-    private final Supplier<Rectangle> renderRect = Suppliers.memoize(Rectangle::new);
-    private final Supplier<Rectangle> rect = Suppliers.memoize(Rectangle::new);
-    private final Supplier<Narrator> narrator = Suppliers.memoize(Narrator::getNarrator);
+    public static State state;
 
-    private String lastNarration = "";
-    private ITooltipComponent icon = EmptyComponent.INSTANCE;
-    private int topOffset;
-
-    public boolean shouldRender = false;
-    public int colonOffset;
-    public int colonWidth;
-
-    protected TooltipRenderer(boolean fireEvent) {
-        this.fireEvent = fireEvent;
-    }
-
-    // @formatter:off
-    protected abstract float getScale();
-    protected abstract Align.X getXAnchor();
-    protected abstract Align.Y getYAnchor();
-    protected abstract Align.X getXAlign();
-    protected abstract Align.Y getYAlign();
-    protected abstract int getX();
-    protected abstract int getY();
-    protected abstract boolean bossBarsOverlap();
-    protected abstract int getBg();
-    protected abstract int getGradStart();
-    protected abstract int getGradEnd();
-    protected abstract boolean enableTextToSpeech();
-    public abstract int getFontColor();
-    // @formatter:on
-
-    public void beginBuild() {
-        Preconditions.checkState(current == null);
-        current = this;
-        tooltip.clear();
-        lineHeight.clear();
+    public static void beginBuild(State state) {
+        started = true;
+        TooltipRenderer.state = state;
+        TOOLTIP.clear();
+        LINE_HEIGHT.clear();
         icon = EmptyComponent.INSTANCE;
         topOffset = 0;
         colonOffset = 0;
         colonWidth = Minecraft.getInstance().font.width(": ");
     }
 
-    public void add(Tooltip tooltip) {
-        Preconditions.checkState(current == this);
+    public static void add(Tooltip tooltip) {
+        Preconditions.checkState(started);
         for (Line line : tooltip) {
             if (line.tag != null) {
-                this.tooltip.setLine(line.tag, line);
+                TOOLTIP.setLine(line.tag, line);
             } else {
                 add(line);
             }
         }
     }
 
-    public void add(Line line) {
-        Preconditions.checkState(current == this);
-        tooltip.add(line);
+    public static void add(Line line) {
+        Preconditions.checkState(started);
+        TOOLTIP.add(line);
         for (ITooltipComponent component : line.components) {
             if (component instanceof PairComponent pair) {
                 colonOffset = Math.max(pair.key.getWidth(), colonOffset);
@@ -116,17 +87,17 @@ public abstract class TooltipRenderer {
         }
     }
 
-    public void setIcon(ITooltipComponent icon) {
-        Preconditions.checkState(current == this);
-        this.icon = PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_ICON) ? icon : EmptyComponent.INSTANCE;
+    public static void setIcon(ITooltipComponent icon) {
+        Preconditions.checkState(started);
+        TooltipRenderer.icon = PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_ICON) ? icon : EmptyComponent.INSTANCE;
     }
 
-    public void endBuild() {
-        Preconditions.checkState(current == this);
+    public static void endBuild() {
+        Preconditions.checkState(started);
 
-        if (fireEvent) {
+        if (state.fireEvent()) {
             for (IEventListener listener : Registrar.INSTANCE.eventListeners.get(Object.class)) {
-                listener.onHandleTooltip(tooltip, DataAccessor.INSTANCE, PluginConfig.INSTANCE);
+                listener.onHandleTooltip(TOOLTIP, DataAccessor.INSTANCE, PluginConfig.INSTANCE);
             }
         }
 
@@ -135,17 +106,17 @@ public abstract class TooltipRenderer {
         Minecraft client = Minecraft.getInstance();
         Window window = client.getWindow();
 
-        float scale = getScale();
+        float scale = state.getScale();
 
         int w = 0;
         int h = 0;
-        for (Line line : tooltip) {
+        for (Line line : TOOLTIP) {
             int lineW = line.getWidth();
             int lineH = line.getHeight();
 
             w = Math.max(w, lineW);
             h += lineH;
-            lineHeight.put(line, lineH);
+            LINE_HEIGHT.put(line, lineH);
         }
 
         topOffset = 0;
@@ -158,35 +129,30 @@ public abstract class TooltipRenderer {
         }
 
         w += 6;
-        h = Math.max(h, icon.getHeight()) + tooltip.size() - 1 + 6;
+        h = Math.max(h, icon.getHeight()) + TOOLTIP.size() - 1 + 6;
 
         int windowW = (int) (window.getGuiScaledWidth() / scale);
         int windowH = (int) (window.getGuiScaledHeight() / scale);
 
-        Align.X anchorX = getXAnchor();
-        Align.Y anchorY = getYAnchor();
+        Align.X anchorX = state.getXAnchor();
+        Align.Y anchorY = state.getYAnchor();
 
-        Align.X alignX = getXAlign();
-        Align.Y alignY = getYAlign();
+        Align.X alignX = state.getXAlign();
+        Align.Y alignY = state.getYAlign();
 
-        double x = windowW * anchorX.multiplier - w * alignX.multiplier + getX();
-        double y = windowH * anchorY.multiplier - h * alignY.multiplier + getY();
+        double x = windowW * anchorX.multiplier - w * alignX.multiplier + state.getX();
+        double y = windowH * anchorY.multiplier - h * alignY.multiplier + state.getY();
 
-        if (!bossBarsOverlap() && anchorX == Align.X.CENTER && anchorY == Align.Y.TOP) {
+        if (!state.bossBarsOverlap() && anchorX == Align.X.CENTER && anchorY == Align.Y.TOP) {
             y += Math.min(client.gui.getBossOverlay().events.size() * 19, window.getGuiScaledHeight() / 3 + 2);
         }
 
-        rect.get().setRect(x, y, w, h);
-
-        current = null;
+        RECT.get().setRect(x, y, w, h);
+        started = false;
     }
 
-    public void render(PoseStack matrices, float delta) {
-        TooltipRenderer buildingRenderer = current;
-        current = this;
-
-        if (!shouldRender) {
-            current = buildingRenderer;
+    public static void render(PoseStack matrices, float delta) {
+        if (state == null || !state.render()) {
             return;
         }
 
@@ -195,7 +161,7 @@ public abstract class TooltipRenderer {
 
         profiler.push("Waila Overlay");
 
-        float scale = getScale();
+        float scale = state.getScale();
 
         RenderSystem.getModelViewStack().pushPose();
         RenderSystem.getModelViewStack().scale(scale, scale, 1.0F);
@@ -205,10 +171,10 @@ public abstract class TooltipRenderer {
 
         enable2DRender();
 
-        Rectangle rect = renderRect.get();
-        rect.setRect(this.rect.get());
+        Rectangle rect = RENDER_RECT.get();
+        rect.setRect(TooltipRenderer.RECT.get());
 
-        if (fireEvent) {
+        if (state.fireEvent()) {
             EventCanceller canceller = EventCanceller.INSTANCE;
             canceller.setCanceled(false);
             for (IEventListener listener : Registrar.INSTANCE.eventListeners.get(Object.class)) {
@@ -219,7 +185,6 @@ public abstract class TooltipRenderer {
                     RenderSystem.getModelViewStack().popPose();
                     RenderSystem.applyModelViewMatrix();
                     profiler.pop();
-                    current = buildingRenderer;
                     return;
                 }
             }
@@ -240,9 +205,9 @@ public abstract class TooltipRenderer {
         buf.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
         Matrix4f matrix = matrices.last().pose();
 
-        int background = getBg();
-        int gradStart = getGradStart();
-        int gradEnd = getGradEnd();
+        int background = state.getBg();
+        int gradStart = state.getGradStart();
+        int gradEnd = state.getGradEnd();
 
         fillGradient(matrix, buf, x + 1, y, width - 1, 1, background, background);
         fillGradient(matrix, buf, x + 1, y + height, width - 1, 1, background, background);
@@ -260,15 +225,15 @@ public abstract class TooltipRenderer {
         int textX = x + (icon.getWidth() > 0 ? icon.getWidth() + 7 : 4);
         int textY = y + 4 + topOffset;
 
-        for (Line line : tooltip) {
+        for (Line line : TOOLTIP) {
             line.render(matrices, textX, textY, delta);
-            textY += lineHeight.getInt(line) + 1;
+            textY += LINE_HEIGHT.getInt(line) + 1;
         }
 
         RenderSystem.disableBlend();
         matrices.popPose();
 
-        if (fireEvent) {
+        if (state.fireEvent()) {
             for (IEventListener listener : Registrar.INSTANCE.eventListeners.get(Object.class)) {
                 listener.onAfterTooltipRender(matrices, rect, DataAccessor.INSTANCE, PluginConfig.INSTANCE);
             }
@@ -280,20 +245,19 @@ public abstract class TooltipRenderer {
         RenderSystem.getModelViewStack().popPose();
         RenderSystem.applyModelViewMatrix();
         profiler.pop();
-        current = buildingRenderer;
     }
 
-    private void narrateObjectName() {
-        if (!shouldRender) {
+    private static void narrateObjectName() {
+        if (!state.render()) {
             return;
         }
 
-        Narrator narrator = this.narrator.get();
-        if (narrator.active() || !enableTextToSpeech() || Minecraft.getInstance().screen instanceof ChatScreen) {
+        Narrator narrator = TooltipRenderer.NARRATOR.get();
+        if (narrator.active() || !state.enableTextToSpeech() || Minecraft.getInstance().screen instanceof ChatScreen) {
             return;
         }
 
-        Line objectName = tooltip.getLine(WailaConstants.OBJECT_NAME_TAG);
+        Line objectName = TOOLTIP.getLine(WailaConstants.OBJECT_NAME_TAG);
         if (objectName != null && objectName.components.get(0) instanceof WrappedComponent component) {
             String narrate = component.component.getString();
             if (!lastNarration.equalsIgnoreCase(narrate)) {
@@ -302,6 +266,40 @@ public abstract class TooltipRenderer {
                 lastNarration = narrate;
             }
         }
+    }
+
+    public interface State {
+
+        boolean render();
+
+        boolean fireEvent();
+
+        float getScale();
+
+        Align.X getXAnchor();
+
+        Align.Y getYAnchor();
+
+        Align.X getXAlign();
+
+        Align.Y getYAlign();
+
+        int getX();
+
+        int getY();
+
+        boolean bossBarsOverlap();
+
+        int getBg();
+
+        int getGradStart();
+
+        int getGradEnd();
+
+        boolean enableTextToSpeech();
+
+        int getFontColor();
+
     }
 
 }

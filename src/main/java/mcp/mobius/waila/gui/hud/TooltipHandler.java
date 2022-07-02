@@ -32,16 +32,19 @@ import static mcp.mobius.waila.gui.hud.ComponentHandler.gatherEntity;
 
 public class TooltipHandler {
 
-    public static final TooltipRenderer RENDERER = new ConfigTooltipRenderer();
-
+    private static final ConfigTooltipRendererState STATE = new ConfigTooltipRendererState();
     private static final Tooltip TOOLTIP = new Tooltip();
     private static final Line SNEAK_DETAIL = new Line(null).with(new TranslatableComponent("tooltip.waila.sneak_for_details").withStyle(ChatFormatting.ITALIC));
 
     public static void tick() {
-        RENDERER.shouldRender = false;
+        STATE.render = false;
 
         Minecraft client = Minecraft.getInstance();
         WailaConfig.General config = Waila.CONFIG.get().getGeneral();
+
+        if (client.screen != null && !(client.screen instanceof ChatScreen)) {
+            return;
+        }
 
         if (client.level == null || !config.isDisplayTooltip()) {
             return;
@@ -78,7 +81,7 @@ public class TooltipHandler {
         DataAccessor accessor = DataAccessor.INSTANCE;
         accessor.set(client.level, player, target, client.cameraEntity, client.getFrameTime());
 
-        RENDERER.beginBuild();
+        TooltipRenderer.beginBuild(STATE);
 
         if (target.getType() == HitResult.Type.BLOCK) {
             Block block = accessor.getBlock();
@@ -109,20 +112,20 @@ public class TooltipHandler {
 
             TOOLTIP.clear();
             gatherBlock(accessor, TOOLTIP, HEAD);
-            RENDERER.add(TOOLTIP);
+            TooltipRenderer.add(TOOLTIP);
 
             TOOLTIP.clear();
             gatherBlock(accessor, TOOLTIP, BODY);
 
             if (config.isShiftForDetails() && !TOOLTIP.isEmpty() && !player.isShiftKeyDown()) {
-                RENDERER.add(new Line(null).with(SNEAK_DETAIL));
+                TooltipRenderer.add(new Line(null).with(SNEAK_DETAIL));
             } else {
-                RENDERER.add(TOOLTIP);
+                TooltipRenderer.add(TOOLTIP);
             }
 
             TOOLTIP.clear();
             gatherBlock(accessor, TOOLTIP, TAIL);
-            RENDERER.add(TOOLTIP);
+            TooltipRenderer.add(TOOLTIP);
         } else if (target.getType() == HitResult.Type.ENTITY) {
             if (!PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_ENTITY)) {
                 return;
@@ -149,35 +152,43 @@ public class TooltipHandler {
             if (targetEnt != null) {
                 TOOLTIP.clear();
                 gatherEntity(targetEnt, accessor, TOOLTIP, HEAD);
-                RENDERER.add(TOOLTIP);
+                TooltipRenderer.add(TOOLTIP);
 
                 TOOLTIP.clear();
                 gatherEntity(targetEnt, accessor, TOOLTIP, BODY);
 
                 if (config.isShiftForDetails() && !TOOLTIP.isEmpty() && !player.isShiftKeyDown()) {
-                    RENDERER.add(new Line(null).with(SNEAK_DETAIL));
+                    TooltipRenderer.add(new Line(null).with(SNEAK_DETAIL));
                 } else {
-                    RENDERER.add(TOOLTIP);
+                    TooltipRenderer.add(TOOLTIP);
                 }
 
                 TOOLTIP.clear();
                 gatherEntity(targetEnt, accessor, TOOLTIP, TAIL);
-                RENDERER.add(TOOLTIP);
+                TooltipRenderer.add(TOOLTIP);
             }
         }
 
         if (PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_ICON)) {
-            RENDERER.setIcon(ComponentHandler.getIcon(target));
+            TooltipRenderer.setIcon(ComponentHandler.getIcon(target));
         }
 
-        RENDERER.shouldRender = true;
-        RENDERER.endBuild();
+        STATE.render = true;
+        TooltipRenderer.endBuild();
     }
 
-    private static class ConfigTooltipRenderer extends TooltipRenderer {
+    private static class ConfigTooltipRendererState implements TooltipRenderer.State {
 
-        private ConfigTooltipRenderer() {
-            super(true);
+        private boolean render;
+
+        @Override
+        public boolean render() {
+            return render;
+        }
+
+        @Override
+        public boolean fireEvent() {
+            return true;
         }
 
         private WailaConfig.Overlay getOverlay() {
@@ -185,62 +196,62 @@ public class TooltipHandler {
         }
 
         @Override
-        protected float getScale() {
+        public float getScale() {
             return getOverlay().getScale();
         }
 
         @Override
-        protected Align.X getXAnchor() {
+        public Align.X getXAnchor() {
             return getOverlay().getPosition().getAnchor().getX();
         }
 
         @Override
-        protected Align.Y getYAnchor() {
+        public Align.Y getYAnchor() {
             return getOverlay().getPosition().getAnchor().getY();
         }
 
         @Override
-        protected Align.X getXAlign() {
+        public Align.X getXAlign() {
             return getOverlay().getPosition().getAlign().getX();
         }
 
         @Override
-        protected Align.Y getYAlign() {
+        public Align.Y getYAlign() {
             return getOverlay().getPosition().getAlign().getY();
         }
 
         @Override
-        protected int getX() {
+        public int getX() {
             return getOverlay().getPosition().getX();
         }
 
         @Override
-        protected int getY() {
+        public int getY() {
             return getOverlay().getPosition().getY();
         }
 
         @Override
-        protected boolean bossBarsOverlap() {
+        public boolean bossBarsOverlap() {
             return getOverlay().getPosition().isBossBarsOverlap();
         }
 
         @Override
-        protected int getBg() {
+        public int getBg() {
             return getOverlay().getColor().getBackgroundColor();
         }
 
         @Override
-        protected int getGradStart() {
+        public int getGradStart() {
             return getOverlay().getColor().getGradientStart();
         }
 
         @Override
-        protected int getGradEnd() {
+        public int getGradEnd() {
             return getOverlay().getColor().getGradientEnd();
         }
 
         @Override
-        protected boolean enableTextToSpeech() {
+        public boolean enableTextToSpeech() {
             return Waila.CONFIG.get().getGeneral().isEnableTextToSpeech();
         }
 

@@ -4,7 +4,7 @@ import java.util.Objects;
 
 import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.WailaConstants;
-import mcp.mobius.waila.gui.hud.TooltipHandler;
+import mcp.mobius.waila.gui.hud.TooltipRenderer;
 import mcp.mobius.waila.gui.screen.HomeScreen;
 import mcp.mobius.waila.network.Packets;
 import net.minecraft.network.Connection;
@@ -42,7 +42,7 @@ public class ForgeWailaClient extends WailaClient {
         @SubscribeEvent
         static void renderGameOverlay(RenderGameOverlayEvent.Post event) {
             if (event.getType() == RenderGameOverlayEvent.ElementType.ALL)
-                TooltipHandler.render(event.getMatrixStack(), event.getPartialTicks());
+                TooltipRenderer.render(event.getMatrixStack(), event.getPartialTicks());
         }
 
         @SubscribeEvent
