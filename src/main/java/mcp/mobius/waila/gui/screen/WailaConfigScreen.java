@@ -36,7 +36,7 @@ public class WailaConfigScreen extends ConfigScreen {
     private static final Component PREVIEW_PROMPT = Component.translatable("config.waila.preview_prompt");
 
     private final WailaConfig defaultConfig = new WailaConfig();
-    private final TooltipRenderer previewRenderer = new PreviewTooltipRenderer();
+    private final TooltipRenderer.State previewState = new PreviewTooltipRendererState();
 
     @Nullable
     private Theme theme;
@@ -63,14 +63,13 @@ public class WailaConfigScreen extends ConfigScreen {
         return Waila.CONFIG.get();
     }
 
-    public void buildPreview(TooltipRenderer renderer) {
-        renderer.beginBuild();
-        renderer.setIcon(new ItemComponent(Blocks.GRASS_BLOCK));
-        renderer.add(new Line(null).with(Component.literal(tryFormat(blockNameFormatVal.getValue(), Blocks.GRASS_BLOCK.getName().getString()))));
-        renderer.add(new Line(null).with(Component.literal("never gonna give you up").withStyle(ChatFormatting.OBFUSCATED)));
-        renderer.add(new Line(null).with(Component.literal(tryFormat(modNameFormatVal.getValue(), IModInfo.get(Blocks.GRASS_BLOCK).getName()))));
-        renderer.endBuild();
-        renderer.shouldRender = true;
+    public void buildPreview(TooltipRenderer.State state) {
+        TooltipRenderer.beginBuild(state);
+        TooltipRenderer.setIcon(new ItemComponent(Blocks.GRASS_BLOCK));
+        TooltipRenderer.add(new Line(null).with(Component.literal(tryFormat(blockNameFormatVal.getValue(), Blocks.GRASS_BLOCK.getName().getString()))));
+        TooltipRenderer.add(new Line(null).with(Component.literal("never gonna give you up").withStyle(ChatFormatting.OBFUSCATED)));
+        TooltipRenderer.add(new Line(null).with(Component.literal(tryFormat(modNameFormatVal.getValue(), IModInfo.get(Blocks.GRASS_BLOCK).getName()))));
+        TooltipRenderer.endBuild();
     }
 
     public void addTheme(Theme theme) {
@@ -99,11 +98,11 @@ public class WailaConfigScreen extends ConfigScreen {
         if (InputConstants.isKeyDown(minecraft.getWindow().getWindow(), InputConstants.KEY_F1)) {
             if (!f1held) {
                 f1held = true;
-                buildPreview(previewRenderer);
+                buildPreview(previewState);
             }
 
             renderBackground(matrices);
-            previewRenderer.render(matrices, partialTicks);
+            TooltipRenderer.render(matrices, partialTicks);
         } else {
             f1held = false;
             theme = null;
@@ -286,10 +285,16 @@ public class WailaConfigScreen extends ConfigScreen {
 
     }
 
-    private class PreviewTooltipRenderer extends TooltipRenderer {
+    private class PreviewTooltipRendererState implements TooltipRenderer.State {
 
-        private PreviewTooltipRenderer() {
-            super(false);
+        @Override
+        public boolean render() {
+            return true;
+        }
+
+        @Override
+        public boolean fireEvent() {
+            return false;
         }
 
         private int getAlpha() {
@@ -297,62 +302,62 @@ public class WailaConfigScreen extends ConfigScreen {
         }
 
         @Override
-        protected float getScale() {
+        public float getScale() {
             return scaleValue.getValue();
         }
 
         @Override
-        protected Align.X getXAnchor() {
+        public Align.X getXAnchor() {
             return xAnchorValue.getValue();
         }
 
         @Override
-        protected Align.Y getYAnchor() {
+        public Align.Y getYAnchor() {
             return yAnchorValue.getValue();
         }
 
         @Override
-        protected Align.X getXAlign() {
+        public Align.X getXAlign() {
             return xAlignValue.getValue();
         }
 
         @Override
-        protected Align.Y getYAlign() {
+        public Align.Y getYAlign() {
             return yAlignValue.getValue();
         }
 
         @Override
-        protected int getX() {
+        public int getX() {
             return xPosValue.getValue();
         }
 
         @Override
-        protected int getY() {
+        public int getY() {
             return yPosValue.getValue();
         }
 
         @Override
-        protected boolean bossBarsOverlap() {
+        public boolean bossBarsOverlap() {
             return false;
         }
 
         @Override
-        protected int getBg() {
+        public int getBg() {
             return getAlpha() + getTheme().getBackgroundColor();
         }
 
         @Override
-        protected int getGradStart() {
+        public int getGradStart() {
             return getAlpha() + getTheme().getGradientEnd();
         }
 
         @Override
-        protected int getGradEnd() {
+        public int getGradEnd() {
             return getAlpha() + getTheme().getGradientEnd();
         }
 
         @Override
-        protected boolean enableTextToSpeech() {
+        public boolean enableTextToSpeech() {
             return false;
         }
 

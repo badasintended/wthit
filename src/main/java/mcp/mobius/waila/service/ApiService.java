@@ -61,17 +61,17 @@ public abstract class ApiService implements IApiService {
 
     @Override
     public int getPairComponentColonOffset() {
-        return TooltipRenderer.getCurrent().colonOffset;
+        return TooltipRenderer.colonOffset;
     }
 
     @Override
     public int getColonFontWidth() {
-        return TooltipRenderer.getCurrent().colonWidth;
+        return TooltipRenderer.colonWidth;
     }
 
     @Override
     public int getFontColor() {
-        return TooltipRenderer.getCurrent().getFontColor();
+        return TooltipRenderer.state.getFontColor();
     }
 
 }
