@@ -104,6 +104,7 @@ public class WailaConfigScreen extends ConfigScreen {
             renderBackground(matrices);
             TooltipRenderer.render(matrices, partialTicks);
         } else {
+            TooltipRenderer.resetState();
             f1held = false;
             theme = null;
             super.render(matrices, mouseX, mouseY, partialTicks);
