@@ -29,12 +29,14 @@ public abstract class WailaClient {
     public static Runnable onShowRecipeInput;
     public static Runnable onShowRecipeOutput;
 
-    protected static void registerKeyBinds() {
-        openConfig = IClientService.INSTANCE.createKeyBind("config", GLFW.GLFW_KEY_KP_0);
-        showOverlay = IClientService.INSTANCE.createKeyBind("show_overlay", GLFW.GLFW_KEY_KP_1);
-        toggleLiquid = IClientService.INSTANCE.createKeyBind("toggle_liquid", GLFW.GLFW_KEY_KP_2);
-        showRecipeInput = IClientService.INSTANCE.createKeyBind("show_recipe_input", GLFW.GLFW_KEY_KP_3);
-        showRecipeOutput = IClientService.INSTANCE.createKeyBind("show_recipe_output", GLFW.GLFW_KEY_KP_4);
+    protected static List<KeyMapping> registerKeyBinds() {
+        return List.of(
+            openConfig = IClientService.INSTANCE.createKeyBind("config", GLFW.GLFW_KEY_KP_0),
+            showOverlay = IClientService.INSTANCE.createKeyBind("show_overlay", GLFW.GLFW_KEY_KP_1),
+            toggleLiquid = IClientService.INSTANCE.createKeyBind("toggle_liquid", GLFW.GLFW_KEY_KP_2),
+            showRecipeInput = IClientService.INSTANCE.createKeyBind("show_recipe_input", GLFW.GLFW_KEY_KP_3),
+            showRecipeOutput = IClientService.INSTANCE.createKeyBind("show_recipe_output", GLFW.GLFW_KEY_KP_4)
+        );
     }
 
     protected static void onClientTick() {

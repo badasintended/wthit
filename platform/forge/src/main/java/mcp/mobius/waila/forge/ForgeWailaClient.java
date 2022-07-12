@@ -9,9 +9,10 @@ import mcp.mobius.waila.gui.screen.HomeScreen;
 import mcp.mobius.waila.network.Packets;
 import net.minecraft.network.Connection;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.ConfigGuiHandler;
+import net.minecraftforge.client.ConfigScreenHandler;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
+import net.minecraftforge.client.event.RenderGuiEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -27,28 +28,32 @@ public class ForgeWailaClient extends WailaClient {
     @SubscribeEvent
     static void clientSetup(FMLClientSetupEvent event) {
         Packets.initClient();
-        registerKeyBinds();
         registerConfigScreen();
     }
 
+    @SubscribeEvent
+    static void registerKeyMappings(RegisterKeyMappingsEvent event) {
+        registerKeyBinds().forEach(event::register);
+    }
+
     static void registerConfigScreen() {
-        ModLoadingContext.get().registerExtensionPoint(ConfigGuiHandler.ConfigGuiFactory.class,
-            () -> new ConfigGuiHandler.ConfigGuiFactory((mc, screen) -> new HomeScreen(screen)));
+        ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class,
+            () -> new ConfigScreenHandler.ConfigScreenFactory((mc, screen) -> new HomeScreen(screen)));
     }
 
     @EventBusSubscriber(modid = WailaConstants.WAILA, value = Dist.CLIENT)
     static class Subscriber {
 
         @SubscribeEvent
-        static void renderGameOverlay(RenderGameOverlayEvent.Post event) {
-            if (event.getType() == RenderGameOverlayEvent.ElementType.ALL)
-                TooltipRenderer.render(event.getPoseStack(), event.getPartialTick());
+        static void renderGui(RenderGuiEvent.Post event) {
+            TooltipRenderer.render(event.getPoseStack(), event.getPartialTick());
         }
 
         @SubscribeEvent
         static void clientTick(TickEvent.ClientTickEvent event) {
-            if (event.phase == TickEvent.Phase.END)
+            if (event.phase == TickEvent.Phase.END) {
                 onClientTick();
+            }
         }
 
         @SubscribeEvent
@@ -57,12 +62,12 @@ public class ForgeWailaClient extends WailaClient {
         }
 
         @SubscribeEvent
-        static void loggedIn(ClientPlayerNetworkEvent.LoggedInEvent event) {
+        static void loggingIn(ClientPlayerNetworkEvent.LoggingIn event) {
             onServerLogIn(Objects.requireNonNull(event.getConnection()));
         }
 
         @SubscribeEvent
-        static void loggedOut(ClientPlayerNetworkEvent.LoggedOutEvent event) {
+        static void loggingOut(ClientPlayerNetworkEvent.LoggingOut event) {
             Connection connection = event.getConnection();
             if (connection != null) {
                 onServerLogout(connection);

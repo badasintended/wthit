@@ -23,7 +23,7 @@ logoFile = "wthit.jpg"
 [[dependencies.wthit]]
 modId = "forge"
 mandatory = true
-versionRange = "[41.0.0,)"
+versionRange = "[41.0.94,)"
 ordering = "NONE"
 side = "BOTH"
 

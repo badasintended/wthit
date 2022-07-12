@@ -20,8 +20,8 @@ dependencies {
 
     compileOnly(fg.deobf("mezz.jei:jei-${rootProp["minecraft"]}-common-api:${rootProp["jei"]}"))
     compileOnly(fg.deobf("mezz.jei:jei-${rootProp["minecraft"]}-forge-api:${rootProp["jei"]}"))
-    runtimeOnly(fg.deobf("mezz.jei:jei-${rootProp["minecraft"]}-common:${rootProp["jei"]}"))
-    runtimeOnly(fg.deobf("mezz.jei:jei-${rootProp["minecraft"]}-forge:${rootProp["jei"]}"))
+//    runtimeOnly(fg.deobf("mezz.jei:jei-${rootProp["minecraft"]}-common:${rootProp["jei"]}"))
+//    runtimeOnly(fg.deobf("mezz.jei:jei-${rootProp["minecraft"]}-forge:${rootProp["jei"]}"))
 
     runtimeOnly(fg.deobf("lol.bai:badpackets:forge-${rootProp["badpackets"]}"))
 }
