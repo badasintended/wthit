@@ -7,7 +7,6 @@ import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.api.IModInfo;
 import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.api.IWailaConfig;
-import mcp.mobius.waila.impl.Impl;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.ApiStatus;
@@ -15,7 +14,7 @@ import org.jetbrains.annotations.ApiStatus;
 @ApiStatus.Internal
 public interface IApiService {
 
-    IApiService INSTANCE = Impl.loadService(IApiService.class);
+    IApiService INSTANCE = Internals.loadService(IApiService.class);
 
     IBlacklistConfig getBlacklistConfig();
 
