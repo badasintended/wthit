@@ -1,4 +1,4 @@
-package mcp.mobius.waila.impl;
+package mcp.mobius.waila.api.__internal__;
 
 import java.lang.reflect.Field;
 import java.util.ServiceLoader;
@@ -8,7 +8,7 @@ import sun.misc.Unsafe;
 
 @ApiStatus.Internal
 @SuppressWarnings("unchecked")
-public final class Impl {
+public final class Internals {
 
     private static final Unsafe UNSAFE;
 

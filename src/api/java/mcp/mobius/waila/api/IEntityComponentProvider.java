@@ -3,7 +3,7 @@ package mcp.mobius.waila.api;
 import java.util.List;
 
 import mcp.mobius.waila.api.__internal__.ApiSide;
-import mcp.mobius.waila.impl.Impl;
+import mcp.mobius.waila.api.__internal__.Internals;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.AreaEffectCloud;
@@ -30,7 +30,7 @@ public interface IEntityComponentProvider {
      * <p>
      * <b>Note:</b> Waila will use {@code ==} instead of {@link Object#equals} to check for this.
      */
-    Entity EMPTY_ENTITY = Impl.unsafeAlloc(AreaEffectCloud.class);
+    Entity EMPTY_ENTITY = Internals.unsafeAlloc(AreaEffectCloud.class);
 
     /**
      * Callback used to override the default Waila lookup system.

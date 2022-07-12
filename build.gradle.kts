@@ -83,16 +83,12 @@ sourceSets {
     val main by getting
     val api by creating
     val minecraftless by creating
-    val impl by creating
     val pluginCore by creating
     val pluginVanilla by creating
     val pluginTest by creating
 
-    listOf(api, impl, pluginCore, pluginVanilla, pluginTest).applyEach {
+    listOf(api, pluginCore, pluginVanilla, pluginTest).applyEach {
         compileClasspath += main.compileClasspath
-    }
-    listOf(api, main).applyEach {
-        compileClasspath += impl.output
     }
     listOf(main, pluginCore, pluginVanilla, pluginTest).applyEach {
         compileClasspath += api.output
