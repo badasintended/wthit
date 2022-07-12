@@ -151,6 +151,10 @@ public class TooltipRenderer {
         started = false;
     }
 
+    public static void resetState() {
+        state = null;
+    }
+
     public static void render(PoseStack matrices, float delta) {
         if (state == null || !state.render()) {
             return;

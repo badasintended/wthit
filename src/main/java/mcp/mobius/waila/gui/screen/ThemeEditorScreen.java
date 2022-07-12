@@ -88,6 +88,7 @@ class ThemeEditorScreen extends ConfigScreen {
     @SuppressWarnings("ConstantConditions")
     public void onClose() {
         if (cancelled) {
+            TooltipRenderer.resetState();
             super.onClose();
             return;
         }
@@ -104,6 +105,7 @@ class ThemeEditorScreen extends ConfigScreen {
             }
 
             parent.addTheme(new Theme(id, bgColorVal.getValue(), gradStartVal.getValue(), gradEndVal.getValue(), textColorVal.getValue()));
+            TooltipRenderer.resetState();
             super.onClose();
         }
     }
