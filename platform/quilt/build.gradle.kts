@@ -1,35 +1,27 @@
 plugins {
-    id("fabric-loom") version "0.12.+"
+    id("org.quiltmc.loom") version "0.12.+"
 }
 
 setupPlatform()
 
-repositories {
-    maven("https://maven.shedaniel.me")
-}
-
 dependencies {
     minecraft("com.mojang:minecraft:${rootProp["minecraft"]}")
     mappings(loom.officialMojangMappings())
-    modImplementation("net.fabricmc:fabric-loader:${rootProp["fabricLoader"]}")
+    modImplementation("org.quiltmc:quilt-loader:${rootProp["quiltLoader"]}")
 
-    modCompileRuntime("net.fabricmc.fabric-api:fabric-api:${rootProp["fabricApi"]}")
-    modCompileRuntime("com.terraformersmc:modmenu:${rootProp["modMenu"]}")
-
-    modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:${rootProp["rei"]}")
-    modRuntimeOnly("me.shedaniel:RoughlyEnoughItems-fabric:${rootProp["rei"]}")
+    modImplementation("org.quiltmc:qsl:${rootProp["qsl"]}")
+    modImplementation("org.quiltmc.quilted-fabric-api:fabric-key-binding-api-v1:${rootProp["qfapi"]}")
+    modImplementation("org.quiltmc.quilted-fabric-api:fabric-rendering-v1:${rootProp["qfapi"]}")
 
     modRuntimeOnly("lol.bai:badpackets:fabric-${rootProp["badpackets"]}")
-    modRuntimeOnly("net.fabricmc.fabric-api:fabric-api-deprecated:${rootProp["fabricApi"]}")
+    modRuntimeOnly("com.terraformersmc:modmenu:${rootProp["modMenu"]}")
+    modRuntimeOnly("org.quiltmc.quilted-fabric-api:quilted-fabric-api:${rootProp["qfapi"]}")
 }
 
 setupStub()
 
 sourceSets {
-    val main by getting
-    val modmenu by creating {
-        compileClasspath += main.compileClasspath
-    }
+    val modmenu by project(":fabric").sourceSets
     main {
         compileClasspath += modmenu.output
         runtimeClasspath += modmenu.output
@@ -48,13 +40,13 @@ loom {
 }
 
 tasks.jar {
-    from(sourceSets["modmenu"].output)
+    from(project(":fabric").sourceSets["modmenu"].output)
 }
 
 tasks.processResources {
     inputs.property("version", project.version)
 
-    filesMatching("fabric.mod.json") {
+    filesMatching("quilt.mod.json") {
         expand("version" to project.version)
     }
 }

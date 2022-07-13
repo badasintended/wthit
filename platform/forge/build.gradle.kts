@@ -3,8 +3,8 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 plugins {
-    id("net.minecraftforge.gradle")
-    id("org.spongepowered.mixin")
+    id("net.minecraftforge.gradle") version "5.1.+"
+    id("org.spongepowered.mixin") version "0.7.+"
 }
 
 setupPlatform()
@@ -26,12 +26,9 @@ dependencies {
     runtimeOnly(fg.deobf("lol.bai:badpackets:forge-${rootProp["badpackets"]}"))
 }
 
-sourceSets {
-    val main by getting
-    create("stub") {
-        compileClasspath += main.compileClasspath
-    }
+setupStub()
 
+sourceSets {
     // hack to make forgegradle happy
     rootProject.sourceSets.forEach {
         if (findByName(it.name) == null) {

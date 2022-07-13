@@ -2,7 +2,7 @@ modLoader = "javafml"
 loaderVersion = "[38,)"
 issueTrackerURL = "https://github.com/badasintended/wthit/issues"
 displayURL = "https://github.com/badasintended/wthit"
-license = "CC BY-NC-SA 4.0"
+license = "CC-BY-NC-SA-4.0"
 
 [[mods]]
 modId = "wthit"

@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "quilt_loader"  : {
+    "intermediate_mappings": "net.fabricmc:intermediary",
+    "group"                : "mcp.mobius.waila",
+    "id"                   : "wthit-api",
+    "version"              : "0",
+    "entrypoints"          : {
+      "main": ["mcp.mobius.waila.api.__internal__.QuiltStub"]
+    }
+  }
+}

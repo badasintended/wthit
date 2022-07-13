@@ -11,16 +11,19 @@ fun <T : Jar> UploadConfig.curseforge(task: T) = project.run {
         group = "publishing"
         dependsOn("build")
 
+        disableVersionDetection()
+
         apiToken = env["CURSEFORGE_API"]
         apiEndpoint = "https://${prop["cf.endpoint"]}"
 
         upload(prop["cf.projectId"], task).apply {
-            displayName = "[${rootProp["minecraft"]}] ${project.version}"
+            displayName = "[${project.name.capitalize()} ${rootProp["minecraft"]}] ${project.version}"
             releaseType = prop["cf.releaseType"]
 
             changelogType = "markdown"
             changelog = "https://github.com/badasintended/wthit/releases/tag/${project.version}"
 
+            addModLoader(project.name.capitalize())
             prop["cf.gameVersion"].split(", ").forEach(this::addGameVersion)
 
             fun relation(key: String, type: String) {

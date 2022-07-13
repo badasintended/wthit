@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "quilt_loader"  : {
+    "intermediate_mappings": "net.fabricmc:intermediary",
+    "group"                : "mcp.mobius.waila",
+    "id"                   : "wthit",
+    "provides"             : ["waila"],
+    "version"              : "${version}",
+    "metadata"             : {
+      "name"        : "wthit",
+      "description" : "What the hell is that?",
+      "icon"        : "wthit.jpg",
+      "license"     : "CC-BY-NC-SA-4.0",
+      "contributors": {
+        "deirn"     : "Author",
+        "TehNut"    : "Author",
+        "ProfMobius": "Author"
+      },
+      "contact"     : {
+        "homepage": "https://www.curseforge.com/minecraft/mc-mods/wthit",
+        "issues"  : "https://github.com/badasintended/wthit/issues",
+        "sources" : "https://github.com/badasintended/wthit"
+      }
+    },
+    "entrypoints"          : {
+      "init"       : ["mcp.mobius.waila.quilt.QuiltWaila"],
+      "client_init": ["mcp.mobius.waila.quilt.QuiltWailaClient"],
+      "modmenu"    : ["mcp.mobius.waila.integration.modmenu.WailaModMenu"]
+    },
+    "depends"              : [
+      {
+        "id"      : "quilt_loader",
+        "versions": ">=0.17.0-"
+      },
+      {
+        "id"      : "quilted_fabric_key_binding_api_v1",
+        "versions": ">=2.0.0-"
+      },
+      {
+        "id"      : "quilted_fabric_rendering_v1",
+        "versions": ">=2.0.0-"
+      },
+      {
+        "id"      : "minecraft",
+        "versions": ">=1.19"
+      },
+      {
+        "id"      : "badpackets",
+        "versions": ">=0.1.2"
+      }
+    ]
+  },
+  "access_widener": "wthit.accesswidener",
+  "waila:plugins" : [
+    {
+      "id"         : "waila:core",
+      "initializer": "mcp.mobius.waila.plugin.core.WailaCore"
+    },
+    {
+      "id"         : "waila:vanilla",
+      "initializer": "mcp.mobius.waila.plugin.vanilla.WailaVanilla"
+    }
+  ]
+}

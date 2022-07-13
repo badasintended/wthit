@@ -41,6 +41,17 @@ repositories {
       runtimeOnly fg.deobf("lol.bai:badpackets:forge-0.1.2")
     }
     ```
+=== "Quilt"
+    ```gradle
+    dependencies {
+      // compile against the API
+      modCompileOnly "mcp.mobius.waila:wthit-api:quilt-${wthitVersion}"
+
+      // run against the full jar
+      modRuntimeOnly "mcp.mobius.waila:wthit:quilt-${wthitVersion}"
+      modRuntimeOnly "lol.bai:badpackets:fabric-0.1.2"
+    }
+    ```
 === "Architectury"
     ```gradle title="Common Project"
     dependencies {
@@ -87,6 +98,12 @@ repositories {
       compileOnly fg.deobf("mcp.mobius.waila:wthit-api:forge-${wthitVersion}")
       runtimeOnly fg.deobf("mcp.mobius.waila:wthit:forge-${wthitVersion}")
       runtimeOnly fg.deobf("lol.bai:badpackets:forge-0.1.2")
+    }
+    ```
+    ```gradle title="Quilt Project"
+    dependencies {
+      modRuntimeOnly "mcp.mobius.waila:wthit:quilt-${wthitVersion}"
+      modRuntimeOnly "lol.bai:badpackets:fabric-0.1.2"
     }
     ```
 
@@ -173,3 +190,34 @@ public class MyWailaPlugin implements IWailaPlugin {
         @WailaPlugin(id = "mymod:waila_plugin")
         public class ForgeWailaPlugin extends CommonWailaPlugin {}
         ```
+
+=== "Quilt"
+    In your `quilt.mod.json` add a `waila:plugins` entry
+    ```json
+    "waila:plugins": {
+      "id": "mymod:my_plugin",
+      "initializer": "mymod.waila.MyModWailaPlugin",
+    }
+    ```
+    `waila:plugins` can also be an array of objects instead of a singular object.    
+    
+    A `required` field can be added to specify mods required for that plugin to be loaded.
+    It can either be a single string or an array of strings.
+    ```json
+    "waila:plugins": {
+      "id": "mymod:my_plugin",
+      "initializer": "mymod.waila.MyModWailaPlugin",
+      "required": "mod_a" 
+    }
+    ```
+    
+    An `environment` field can be added to specify what environment the plugin would be loaded.
+    Possible values are `client` for client-only plugin, `server` for **dedicated** server plugin,
+    and `both` for common plugin.
+    ```json
+    "waila:plugins": {
+      "id": "mymod:client_only_plugin",
+      "initializer": "mymod.waila.ClientOnlyPlugin",
+      "environment": "client"
+    }
+    ```

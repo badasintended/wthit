@@ -17,7 +17,12 @@ import mcp.mobius.waila.util.ModInfo;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
-public abstract class ApiService implements IApiService {
+public class ApiService implements IApiService {
+
+    @Override
+    public IModInfo getModInfo(ItemStack stack) {
+        return IModInfo.get(stack.getItem());
+    }
 
     @Override
     public IBlacklistConfig getBlacklistConfig() {

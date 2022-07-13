@@ -83,7 +83,7 @@ public class FabricPluginLoader extends PluginLoader {
                     case "both" -> side = IPluginInfo.Side.BOTH;
                     default -> {
                         Waila.LOGGER.error("Environment for plugin {} is not valid, must be one of [client, server, both].", id);
-                        continue o;
+                        continue;
                     }
                 }
 

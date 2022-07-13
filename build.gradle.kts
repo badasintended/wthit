@@ -4,7 +4,7 @@ import java.nio.charset.StandardCharsets
 
 plugins {
     java
-    id("org.spongepowered.gradle.vanilla")
+    id("org.spongepowered.gradle.vanilla") version "0.2.1-SNAPSHOT"
     id("maven-publish")
 }
 
@@ -73,7 +73,7 @@ subprojects {
 
 minecraft {
     version(rootProp["minecraft"])
-    accessWideners(file("platform/fabric/src/main/resources/wthit.accesswidener"))
+    accessWideners(file("src/accesswidener/resources/wthit.accesswidener"))
 }
 
 dependencies {
