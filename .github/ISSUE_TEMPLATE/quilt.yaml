@@ -1,6 +1,6 @@
 name: "Quilt Edition Issue"
 description: If you use the quilt version
-labels: [bug, fabric]
+labels: [bug, quilt]
 body:
   - type: textarea
     id: describe
