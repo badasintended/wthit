@@ -8,6 +8,7 @@ on:
     paths-ignore:
       - 'docs/**'
       - 'mkdocs.yml'
+      - '.github/ISSUE_TEMPLATE/*'
   pull_request:
     branches:
       - '**'
@@ -16,6 +17,7 @@ on:
     paths-ignore:
       - 'docs/**'
       - 'mkdocs.yml'
+      - '.github/ISSUE_TEMPLATE/*'
 jobs:
   build:
     runs-on: ubuntu-latest

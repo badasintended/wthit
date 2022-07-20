@@ -1,6 +1,6 @@
-name: "Forge Edition Issue"
-description: If you use the forge version
-labels: [bug, forge]
+name: "Quilt Edition Issue"
+description: If you use the fabric version
+labels: [bug, fabric]
 body:
   - type: textarea
     id: describe

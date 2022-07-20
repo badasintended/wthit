@@ -12,8 +12,11 @@ body:
   - type: input
     id: logs
     attributes:
-      label: Log output
-      description: Regardless of whether it crashes or not, post the **ENTIRE** log as a [gist](https://gist.github.com/) and copy the link here. Crash report is **NOT** the full log. You can find it `.minecraft/logs/latest.log`
+      label: Log output and crash report
+      description: |
+        Post the crash report **and** the latest log as a [gist](https://gist.github.com/) and copy the link here.
+        Crash report file is located in `.minecraft/crash-reports` folder. The log is located at `.minecraft/logs/latest.log`.
+        If the game doesn't crash, open a world and hold `F3-C` to force it.
     validations:
       required: true
   - type: textarea
