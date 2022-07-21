@@ -31,11 +31,11 @@ public abstract class WailaClient {
 
     protected static List<KeyMapping> registerKeyBinds() {
         return List.of(
-            openConfig = IClientService.INSTANCE.createKeyBind("config", GLFW.GLFW_KEY_KP_0),
-            showOverlay = IClientService.INSTANCE.createKeyBind("show_overlay", GLFW.GLFW_KEY_KP_1),
-            toggleLiquid = IClientService.INSTANCE.createKeyBind("toggle_liquid", GLFW.GLFW_KEY_KP_2),
-            showRecipeInput = IClientService.INSTANCE.createKeyBind("show_recipe_input", GLFW.GLFW_KEY_KP_3),
-            showRecipeOutput = IClientService.INSTANCE.createKeyBind("show_recipe_output", GLFW.GLFW_KEY_KP_4)
+            openConfig = IClientService.INSTANCE.createKeyBind("config", GLFW.GLFW_KEY_UNKNOWN),
+            showOverlay = IClientService.INSTANCE.createKeyBind("show_overlay", GLFW.GLFW_KEY_UNKNOWN),
+            toggleLiquid = IClientService.INSTANCE.createKeyBind("toggle_liquid", GLFW.GLFW_KEY_UNKNOWN),
+            showRecipeInput = IClientService.INSTANCE.createKeyBind("show_recipe_input", GLFW.GLFW_KEY_UNKNOWN),
+            showRecipeOutput = IClientService.INSTANCE.createKeyBind("show_recipe_output", GLFW.GLFW_KEY_UNKNOWN)
         );
     }
 
