@@ -6,6 +6,7 @@ import java.util.Optional;
 import mcp.mobius.waila.service.ICommonService;
 import mcp.mobius.waila.util.ModInfo;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.FMLLoader;
 import net.minecraftforge.fml.loading.FMLPaths;
@@ -31,7 +32,8 @@ public class ForgeCommonService implements ICommonService {
     public Optional<ModInfo> createModInfo(String namespace) {
         return ModList.get()
             .getModContainerById(namespace)
-            .map(data -> new ModInfo(data.getModId(), data.getModInfo().getDisplayName()));
+            .map(ModContainer::getModInfo)
+            .map(data -> new ModInfo(data.getModId(), data.getDisplayName(), data.getVersion().getQualifier()));
     }
 
 }

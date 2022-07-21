@@ -40,4 +40,6 @@ public interface IModInfo {
 
     String getName();
 
+    String getVersion();
+
 }

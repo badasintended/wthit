@@ -1,7 +1,7 @@
 package mcp.mobius.waila.quilt;
 
 import mcp.mobius.waila.Waila;
-import mcp.mobius.waila.command.DumpCommand;
+import mcp.mobius.waila.command.ServerCommand;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.debug.DumpGenerator;
 import mcp.mobius.waila.network.Packets;
@@ -18,7 +18,7 @@ public class QuiltWaila extends Waila implements ModInitializer {
         Packets.initServer();
 
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) ->
-            DumpCommand.register(dispatcher));
+            ServerCommand.register(dispatcher));
 
         ServerLifecycleEvents.STARTING.register(server -> PluginConfig.INSTANCE.reload());
 

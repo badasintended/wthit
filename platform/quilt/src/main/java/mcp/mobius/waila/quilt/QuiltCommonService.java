@@ -6,6 +6,7 @@ import java.util.Optional;
 import mcp.mobius.waila.service.ICommonService;
 import mcp.mobius.waila.util.ModInfo;
 import net.fabricmc.api.EnvType;
+import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.loader.api.QuiltLoader;
 import org.quiltmc.loader.api.minecraft.MinecraftQuiltLoader;
 
@@ -29,7 +30,8 @@ public class QuiltCommonService implements ICommonService {
     @Override
     public Optional<ModInfo> createModInfo(String namespace) {
         return QuiltLoader.getModContainer(namespace)
-            .map(mod -> new ModInfo(mod.metadata().id(), mod.metadata().name()));
+            .map(ModContainer::metadata)
+            .map(data -> new ModInfo(data.id(), data.name(), data.version().raw()));
     }
 
 }

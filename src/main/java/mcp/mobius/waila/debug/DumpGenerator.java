@@ -13,6 +13,7 @@ import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.plugin.PluginInfo;
 import mcp.mobius.waila.registry.Register;
 import mcp.mobius.waila.registry.Registrar;
+import org.jetbrains.annotations.Nullable;
 
 import static mcp.mobius.waila.api.TooltipPosition.BODY;
 import static mcp.mobius.waila.api.TooltipPosition.HEAD;
@@ -20,9 +21,18 @@ import static mcp.mobius.waila.api.TooltipPosition.TAIL;
 
 public class DumpGenerator {
 
+    public static final String LOCAL = "local_dump";
+    public static final String SERVER = "server_dump";
+    public static final String CLIENT = "client_dump";
     public static final Map<String, String> VERSIONS = new LinkedHashMap<>();
 
-    public static boolean generate(Path path) {
+    @Nullable
+    public static Path generate(String name) {
+        Path path = Waila.GAME_DIR.resolve(".waila/" + name + ".md").toAbsolutePath();
+
+        //noinspection ResultOfMethodCallIgnored
+        path.getParent().toFile().mkdirs();
+
         StringBuilder builder = new StringBuilder("# Waila Dump");
 
         Registrar registrar = Registrar.INSTANCE;
@@ -33,8 +43,8 @@ public class DumpGenerator {
         VERSIONS.forEach((k, v) -> builder.append("\n| ").append(k).append(" | `").append(v).append("` |"));
 
         builder.append("\n## Plugins");
-        builder.append("\n| Plugin ID | Plugin Class |");
-        builder.append("\n| - | - |");
+        builder.append("\n| Plugin ID | Plugin Class | Mod Name | Mod Version |");
+        builder.append("\n| - | - | - | - |");
         PluginInfo.getAll().stream()
             .sorted(Comparator.comparing(IPluginInfo::getPluginId))
             .forEachOrdered(plugin -> builder
@@ -42,11 +52,15 @@ public class DumpGenerator {
                 .append(plugin.getPluginId())
                 .append("` | `")
                 .append(plugin.getInitializer().getClass().getCanonicalName())
+                .append("` | ")
+                .append(plugin.getModInfo().getName())
+                .append(" | `")
+                .append(plugin.getModInfo().getVersion())
                 .append("` |"));
 
         builder.append("\n## Block");
         createSection(builder, "Override Providers", registrar.blockOverride);
-        createSection(builder, "Display Item Providers", registrar.blockIcon);
+        createSection(builder, "Display Icon Providers", registrar.blockIcon);
         createSection(builder, "Head Providers", registrar.blockComponent.get(HEAD));
         createSection(builder, "Body Providers", registrar.blockComponent.get(BODY));
         createSection(builder, "Tail Providers", registrar.blockComponent.get(TAIL));
@@ -54,7 +68,7 @@ public class DumpGenerator {
 
         builder.append("\n## Entity");
         createSection(builder, "Override Providers", registrar.entityOverride);
-        createSection(builder, "Display Item Providers", registrar.entityIcon);
+        createSection(builder, "Display Icon Providers", registrar.entityIcon);
         createSection(builder, "Head Providers", registrar.entityComponent.get(HEAD));
         createSection(builder, "Body Providers", registrar.entityComponent.get(BODY));
         createSection(builder, "Tail Providers", registrar.entityComponent.get(TAIL));
@@ -63,10 +77,10 @@ public class DumpGenerator {
         try (FileWriter writer = new FileWriter(path.toFile())) {
             writer.write(builder.toString());
             Waila.LOGGER.info("Created debug dump at {}", path);
-            return true;
+            return path;
         } catch (IOException e) {
             e.printStackTrace();
-            return false;
+            return null;
         }
     }
 

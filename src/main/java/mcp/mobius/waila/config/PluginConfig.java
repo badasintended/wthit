@@ -31,7 +31,7 @@ public enum PluginConfig implements IPluginConfig {
         }.getType(),
         LinkedHashMap::new);
 
-    private final Map<ResourceLocation, ConfigEntry<?>> configs = new LinkedHashMap<>();
+    public final Map<ResourceLocation, ConfigEntry<?>> configs = new LinkedHashMap<>();
 
     public void addConfig(ConfigEntry<?> entry) {
         configs.put(entry.getId(), entry);
