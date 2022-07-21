@@ -47,8 +47,9 @@ public class ForgeWailaClient extends WailaClient {
 
         @SubscribeEvent
         static void clientTick(TickEvent.ClientTickEvent event) {
-            if (event.phase == TickEvent.Phase.END)
+            if (event.phase == TickEvent.Phase.END) {
                 onClientTick();
+            }
         }
 
         @SubscribeEvent

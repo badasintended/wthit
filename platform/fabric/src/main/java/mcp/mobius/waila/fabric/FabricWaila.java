@@ -1,7 +1,6 @@
 package mcp.mobius.waila.fabric;
 
 import mcp.mobius.waila.Waila;
-import mcp.mobius.waila.command.DumpCommand;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.debug.DumpGenerator;
 import mcp.mobius.waila.network.Packets;

@@ -10,16 +10,14 @@ public final class ModInfo implements IModInfo {
 
     private static final Map<String, ModInfo> CONTAINER_CACHE = new HashMap<>();
 
-    static {
-        register(new ModInfo("minecraft", "Minecraft"));
-    }
-
     private final String id;
     private final String name;
+    private final String version;
 
-    public ModInfo(String id, String name) {
+    public ModInfo(String id, String name, String version) {
         this.id = id;
         this.name = name;
+        this.version = version;
     }
 
     public static void register(ModInfo info) {
@@ -27,7 +25,7 @@ public final class ModInfo implements IModInfo {
     }
 
     public static ModInfo get(String namespace) {
-        return CONTAINER_CACHE.computeIfAbsent(namespace, s -> ICommonService.INSTANCE.createModInfo(namespace).orElse(new ModInfo(s, s)));
+        return CONTAINER_CACHE.computeIfAbsent(namespace, s -> ICommonService.INSTANCE.createModInfo(namespace).orElse(new ModInfo(s, s, "unknown")));
     }
 
     @Override
@@ -38,6 +36,11 @@ public final class ModInfo implements IModInfo {
     @Override
     public String getName() {
         return name;
+    }
+
+    @Override
+    public String getVersion() {
+        return version;
     }
 
 }

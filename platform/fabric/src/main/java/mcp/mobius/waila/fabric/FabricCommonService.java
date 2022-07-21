@@ -7,6 +7,7 @@ import mcp.mobius.waila.service.ICommonService;
 import mcp.mobius.waila.util.ModInfo;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
+import net.fabricmc.loader.api.ModContainer;
 
 public class FabricCommonService implements ICommonService {
 
@@ -28,7 +29,8 @@ public class FabricCommonService implements ICommonService {
     @Override
     public Optional<ModInfo> createModInfo(String namespace) {
         return FabricLoader.getInstance().getModContainer(namespace)
-            .map(data -> new ModInfo(data.getMetadata().getId(), data.getMetadata().getName()));
+            .map(ModContainer::getMetadata)
+            .map(data -> new ModInfo(data.getId(), data.getName(), data.getVersion().getFriendlyString()));
     }
 
 }
