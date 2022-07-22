@@ -42,12 +42,6 @@
   "gui.waila.credits.authors"                                  : "Authors",
   "gui.waila.credits.contributors"                             : "Contributors",
 
-  "key.waila.config"                                           : "Open Config",
-  "key.waila.show_overlay"                                     : "Show Overlay",
-  "key.waila.toggle_liquid"                                    : "Toggle Liquid",
-  "key.waila.show_recipe_input"                                : "Show Recipe Usage",
-  "key.waila.show_recipe_output"                               : "Show Recipe",
-
   "command.waila.server_dump_success"                          : "Successfully dumped dedicated server to %s",
   "command.waila.local_dump_success"                           : "Successfully dumped local server to %s",
   "command.waila.client_dump_success"                          : "Successfully dumped client to %s",
@@ -149,6 +143,13 @@
   "config.waila.format_fluid_name"                             : "Fluid Name",
   "config.waila.format_entity_name"                            : "Entity Name",
   "config.waila.format_registry_name"                          : "Registry Name",
+
+  "config.waila.keybinds"                                      : "Key Binds",
+  "key.waila.config"                                           : "Open Config",
+  "key.waila.show_overlay"                                     : "Show Overlay",
+  "key.waila.toggle_liquid"                                    : "Toggle Liquid",
+  "key.waila.show_recipe_input"                                : "Show Recipe Usage",
+  "key.waila.show_recipe_output"                               : "Show Recipe",
 
   "config.waila.plugin_minecraft"                              : "Minecraft",
   "config.waila.plugin_minecraft.furnace_contents"             : "Show Furnace Contents",

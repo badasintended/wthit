@@ -50,7 +50,7 @@ public class TooltipHandler {
             return;
         }
 
-        if (config.getDisplayMode() == IWailaConfig.General.DisplayMode.HOLD_KEY && !WailaClient.showOverlay.isDown()) {
+        if (config.getDisplayMode() == IWailaConfig.General.DisplayMode.HOLD_KEY && !WailaClient.keyShowOverlay.isDown()) {
             return;
         }
 
