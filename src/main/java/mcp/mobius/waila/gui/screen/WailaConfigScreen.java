@@ -3,6 +3,7 @@ package mcp.mobius.waila.gui.screen;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.IModInfo;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.IWailaConfig.Overlay.Position.Align;
@@ -20,7 +21,9 @@ import mcp.mobius.waila.gui.widget.value.CycleValue;
 import mcp.mobius.waila.gui.widget.value.EnumValue;
 import mcp.mobius.waila.gui.widget.value.InputValue;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.KeyMapping;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -54,6 +57,8 @@ public class WailaConfigScreen extends ConfigScreen {
     private ConfigValue<Integer> alphaVal;
 
     private ThemeValue themeIdVal;
+
+    private KeyBindValue selectedKeyBind;
 
     public WailaConfigScreen(Screen parent) {
         super(parent, Component.translatable("gui.waila.configuration", WailaConstants.MOD_NAME), Waila.CONFIG::save, Waila.CONFIG::invalidate);
@@ -110,11 +115,6 @@ public class WailaConfigScreen extends ConfigScreen {
             super.render(matrices, mouseX, mouseY, partialTicks);
             drawCenteredString(matrices, font, PREVIEW_PROMPT, width / 2, 22, 0xAAAAAA);
         }
-    }
-
-    @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        return f1held || super.mouseClicked(mouseX, mouseY, button);
     }
 
     @Override
@@ -236,7 +236,74 @@ public class WailaConfigScreen extends ConfigScreen {
                 val -> get().getFormatter().setRegistryName(!val.contains("%s") ? get().getFormatter().getRegistryName() : val),
                 InputValue.ANY));
 
+        options.with(new CategoryEntry("config.waila.keybinds"))
+            .with(new KeyBindValue(WailaClient.keyOpenConfig))
+            .with(new KeyBindValue(WailaClient.keyShowOverlay))
+            .with(new KeyBindValue(WailaClient.keyToggleLiquid))
+            .with(new KeyBindValue(WailaClient.keyShowRecipeInput))
+            .with(new KeyBindValue(WailaClient.keyShowRecipeOutput));
+
         return options;
+    }
+
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        if (selectedKeyBind != null) {
+            selectedKeyBind.setValue(InputConstants.Type.MOUSE.getOrCreate(button));
+            selectedKeyBind = null;
+            return true;
+        }
+
+        return f1held || super.mouseClicked(mouseX, mouseY, button);
+    }
+
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if (selectedKeyBind != null) {
+            if (keyCode == InputConstants.KEY_ESCAPE) {
+                selectedKeyBind.setValue(InputConstants.UNKNOWN);
+            } else {
+                selectedKeyBind.setValue(InputConstants.getKey(keyCode, scanCode));
+            }
+
+            selectedKeyBind = null;
+            return true;
+        }
+
+        return super.keyPressed(keyCode, scanCode, modifiers);
+    }
+
+    public class KeyBindValue extends ConfigValue<InputConstants.Key> {
+
+        private final Button button;
+
+        public KeyBindValue(KeyMapping key) {
+            super(key.getName(), key.key, key.getDefaultKey(), value -> {
+                minecraft.options.setKey(key, value);
+                KeyMapping.resetMapping();
+            });
+
+            this.button = new Button(0, 0, 100, 20, Component.empty(), w -> selectedKeyBind = this);
+        }
+
+        @Override
+        public GuiEventListener getListener() {
+            return button;
+        }
+
+        @Override
+        protected void drawValue(PoseStack matrices, int width, int height, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks) {
+            if (selectedKeyBind == this) {
+                button.setMessage(Component.literal("> " + getValue().getDisplayName().getString() + " <").withStyle(ChatFormatting.YELLOW));
+            } else {
+                button.setMessage(getValue().getDisplayName());
+            }
+
+            button.x = x + width - button.getWidth();
+            button.y = y + (height - button.getHeight()) / 2;
+            button.render(matrices, mouseX, mouseY, partialTicks);
+        }
+
     }
 
     private class ThemeValue extends CycleValue {
@@ -368,5 +435,6 @@ public class WailaConfigScreen extends ConfigScreen {
         }
 
     }
+
 
 }

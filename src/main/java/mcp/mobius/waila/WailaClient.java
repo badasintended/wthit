@@ -2,6 +2,7 @@ package mcp.mobius.waila;
 
 import java.util.List;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import mcp.mobius.waila.api.IEventListener;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
@@ -16,26 +17,25 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
-import org.lwjgl.glfw.GLFW;
 
 public abstract class WailaClient {
 
-    public static KeyMapping openConfig;
-    public static KeyMapping showOverlay;
-    public static KeyMapping toggleLiquid;
-    public static KeyMapping showRecipeInput;
-    public static KeyMapping showRecipeOutput;
+    public static KeyMapping keyOpenConfig;
+    public static KeyMapping keyShowOverlay;
+    public static KeyMapping keyToggleLiquid;
+    public static KeyMapping keyShowRecipeInput;
+    public static KeyMapping keyShowRecipeOutput;
 
     public static Runnable onShowRecipeInput;
     public static Runnable onShowRecipeOutput;
 
     protected static List<KeyMapping> registerKeyBinds() {
         return List.of(
-            openConfig = IClientService.INSTANCE.createKeyBind("config", GLFW.GLFW_KEY_UNKNOWN),
-            showOverlay = IClientService.INSTANCE.createKeyBind("show_overlay", GLFW.GLFW_KEY_UNKNOWN),
-            toggleLiquid = IClientService.INSTANCE.createKeyBind("toggle_liquid", GLFW.GLFW_KEY_UNKNOWN),
-            showRecipeInput = IClientService.INSTANCE.createKeyBind("show_recipe_input", GLFW.GLFW_KEY_UNKNOWN),
-            showRecipeOutput = IClientService.INSTANCE.createKeyBind("show_recipe_output", GLFW.GLFW_KEY_UNKNOWN)
+            keyOpenConfig = createKeyBind("config"),
+            keyShowOverlay = createKeyBind("show_overlay"),
+            keyToggleLiquid = createKeyBind("toggle_liquid"),
+            keyShowRecipeInput = createKeyBind("show_recipe_input"),
+            keyShowRecipeOutput = createKeyBind("show_recipe_output")
         );
     }
 
@@ -45,26 +45,26 @@ public abstract class WailaClient {
 
         TooltipHandler.tick();
 
-        while (openConfig.consumeClick()) {
+        while (keyOpenConfig.consumeClick()) {
             client.setScreen(new HomeScreen(null));
         }
 
-        while (showOverlay.consumeClick()) {
+        while (keyShowOverlay.consumeClick()) {
             if (config.getGeneral().getDisplayMode() == IWailaConfig.General.DisplayMode.TOGGLE) {
                 config.getGeneral().setDisplayTooltip(!config.getGeneral().isDisplayTooltip());
             }
         }
 
-        while (toggleLiquid.consumeClick()) {
+        while (keyToggleLiquid.consumeClick()) {
             PluginConfig.INSTANCE.set(WailaConstants.CONFIG_SHOW_FLUID, !PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_FLUID));
         }
 
 
-        while (showRecipeInput.consumeClick() && onShowRecipeInput != null) {
+        while (keyShowRecipeInput.consumeClick() && onShowRecipeInput != null) {
             onShowRecipeInput.run();
         }
 
-        while (showRecipeOutput.consumeClick() && onShowRecipeOutput != null) {
+        while (keyShowRecipeOutput.consumeClick() && onShowRecipeOutput != null) {
             onShowRecipeOutput.run();
         }
     }
@@ -95,6 +95,10 @@ public abstract class WailaClient {
         if (!connection.isMemoryConnection()) {
             PluginConfig.INSTANCE.reload();
         }
+    }
+
+    private static KeyMapping createKeyBind(String id) {
+        return IClientService.INSTANCE.createKeyBind(id, InputConstants.UNKNOWN.getValue());
     }
 
 }
