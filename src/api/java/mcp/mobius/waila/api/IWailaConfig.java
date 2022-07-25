@@ -29,6 +29,8 @@ public interface IWailaConfig {
 
         boolean isShiftForDetails();
 
+        boolean isHideShiftText();
+
         DisplayMode getDisplayMode();
 
         boolean isHideFromPlayerList();

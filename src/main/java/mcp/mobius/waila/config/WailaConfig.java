@@ -56,6 +56,7 @@ public class WailaConfig implements IWailaConfig {
 
         private boolean displayTooltip = true;
         private boolean shiftForDetails = false;
+        private boolean hideShiftText = false;
         private DisplayMode displayMode = DisplayMode.TOGGLE;
         private boolean hideFromPlayerList = true;
         private boolean hideFromDebug = true;
@@ -80,6 +81,15 @@ public class WailaConfig implements IWailaConfig {
 
         public void setShiftForDetails(boolean shiftForDetails) {
             this.shiftForDetails = shiftForDetails;
+        }
+
+        @Override
+        public boolean isHideShiftText() {
+            return hideShiftText;
+        }
+
+        public void setHideShiftText(boolean hideShiftText) {
+            this.hideShiftText = hideShiftText;
         }
 
         @Override

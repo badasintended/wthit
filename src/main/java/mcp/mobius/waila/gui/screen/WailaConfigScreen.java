@@ -129,6 +129,10 @@ public class WailaConfigScreen extends ConfigScreen {
                 get().getGeneral().isShiftForDetails(),
                 defaultConfig.getGeneral().isShiftForDetails(),
                 val -> get().getGeneral().setShiftForDetails(val)))
+            .with(new BooleanValue("config.waila.hide_sneak_text",
+                get().getGeneral().isHideShiftText(),
+                defaultConfig.getGeneral().isHideShiftText(),
+                val -> get().getGeneral().setHideShiftText(val)))
             .with(new EnumValue<>("config.waila.display_mode",
                 IWailaConfig.General.DisplayMode.values(),
                 get().getGeneral().getDisplayMode(),

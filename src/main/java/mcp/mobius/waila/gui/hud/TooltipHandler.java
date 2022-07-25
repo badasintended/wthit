@@ -118,7 +118,9 @@ public class TooltipHandler {
             gatherBlock(accessor, TOOLTIP, BODY);
 
             if (config.isShiftForDetails() && !TOOLTIP.isEmpty() && !player.isShiftKeyDown()) {
-                TooltipRenderer.add(new Line(null).with(SNEAK_DETAIL));
+                if (!config.isHideShiftText()) {
+                    TooltipRenderer.add(new Line(null).with(SNEAK_DETAIL));
+                }
             } else {
                 TooltipRenderer.add(TOOLTIP);
             }
@@ -158,7 +160,9 @@ public class TooltipHandler {
                 gatherEntity(targetEnt, accessor, TOOLTIP, BODY);
 
                 if (config.isShiftForDetails() && !TOOLTIP.isEmpty() && !player.isShiftKeyDown()) {
-                    TooltipRenderer.add(new Line(null).with(SNEAK_DETAIL));
+                    if (!config.isHideShiftText()) {
+                        TooltipRenderer.add(new Line(null).with(SNEAK_DETAIL));
+                    }
                 } else {
                     TooltipRenderer.add(TOOLTIP);
                 }
