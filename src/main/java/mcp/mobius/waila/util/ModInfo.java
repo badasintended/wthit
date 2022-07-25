@@ -10,11 +10,13 @@ public final class ModInfo implements IModInfo {
 
     private static final Map<String, ModInfo> CONTAINER_CACHE = new HashMap<>();
 
+    private final boolean present;
     private final String id;
     private final String name;
     private final String version;
 
-    public ModInfo(String id, String name, String version) {
+    public ModInfo(boolean present, String id, String name, String version) {
+        this.present = present;
         this.id = id;
         this.name = name;
         this.version = version;
@@ -25,7 +27,12 @@ public final class ModInfo implements IModInfo {
     }
 
     public static ModInfo get(String namespace) {
-        return CONTAINER_CACHE.computeIfAbsent(namespace, s -> ICommonService.INSTANCE.createModInfo(namespace).orElse(new ModInfo(s, s, "unknown")));
+        return CONTAINER_CACHE.computeIfAbsent(namespace, s -> ICommonService.INSTANCE.createModInfo(namespace).orElse(new ModInfo(false, s, s, "unknown")));
+    }
+
+    @Override
+    public boolean isPresent() {
+        return present;
     }
 
     @Override

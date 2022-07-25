@@ -33,7 +33,7 @@ public class ForgeCommonService implements ICommonService {
         return ModList.get()
             .getModContainerById(namespace)
             .map(ModContainer::getModInfo)
-            .map(data -> new ModInfo(data.getModId(), data.getDisplayName(), data.getVersion().getQualifier()));
+            .map(data -> new ModInfo(true, data.getModId(), data.getDisplayName(), data.getVersion().getQualifier()));
     }
 
 }

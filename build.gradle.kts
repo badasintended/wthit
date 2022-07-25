@@ -18,6 +18,9 @@ allprojects {
 
     repositories {
         maven("https://maven.bai.lol")
+        maven("https://dvs1.progwml6.com/files/maven/")
+        maven("https://maven.shedaniel.me")
+        maven("https://maven.terraformersmc.com/releases")
         mavenCentral()
     }
 
@@ -78,6 +81,10 @@ minecraft {
 
 dependencies {
     compileOnly("lol.bai:badpackets:mojmap-${rootProp["badpackets"]}")
+
+    rootProp["jei"].split("-").also { (mc, jei) ->
+        compileOnly("mezz.jei:jei-${mc}-common-api:${jei}")
+    }
 }
 
 sourceSets {

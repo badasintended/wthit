@@ -3,6 +3,7 @@ package mcp.mobius.waila;
 import java.util.List;
 
 import com.mojang.blaze3d.platform.InputConstants;
+import mcp.mobius.waila.access.DataAccessor;
 import mcp.mobius.waila.api.IEventListener;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
@@ -10,6 +11,7 @@ import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.gui.hud.TooltipHandler;
 import mcp.mobius.waila.gui.screen.HomeScreen;
+import mcp.mobius.waila.integration.IRecipeAction;
 import mcp.mobius.waila.registry.Registrar;
 import mcp.mobius.waila.service.IClientService;
 import net.minecraft.client.KeyMapping;
@@ -17,6 +19,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 public abstract class WailaClient {
 
@@ -26,8 +29,19 @@ public abstract class WailaClient {
     public static KeyMapping keyShowRecipeInput;
     public static KeyMapping keyShowRecipeOutput;
 
-    public static Runnable onShowRecipeInput;
-    public static Runnable onShowRecipeOutput;
+    @Nullable
+    private static IRecipeAction showRecipeAction;
+
+    public static void setShowRecipeAction(IRecipeAction action) {
+        if (showRecipeAction == null) {
+            Waila.LOGGER.info("Show recipe action set for " + action.getModName());
+        } else if (!showRecipeAction.getModName().equals(action.getModName())) {
+            Waila.LOGGER.warn("Show recipe action is already set for " + showRecipeAction.getModName());
+            Waila.LOGGER.warn("Replaced it with one for " + action.getModName());
+        }
+
+        showRecipeAction = action;
+    }
 
     protected static List<KeyMapping> registerKeyBinds() {
         return List.of(
@@ -59,13 +73,14 @@ public abstract class WailaClient {
             PluginConfig.INSTANCE.set(WailaConstants.CONFIG_SHOW_FLUID, !PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_FLUID));
         }
 
+        if (showRecipeAction != null) {
+            while (keyShowRecipeInput.consumeClick()) {
+                showRecipeAction.showInput(DataAccessor.INSTANCE.getStack());
+            }
 
-        while (keyShowRecipeInput.consumeClick() && onShowRecipeInput != null) {
-            onShowRecipeInput.run();
-        }
-
-        while (keyShowRecipeOutput.consumeClick() && onShowRecipeOutput != null) {
-            onShowRecipeOutput.run();
+            while (keyShowRecipeOutput.consumeClick()) {
+                showRecipeAction.showOutput(DataAccessor.INSTANCE.getStack());
+            }
         }
     }
 

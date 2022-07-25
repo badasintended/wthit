@@ -4,10 +4,6 @@ plugins {
 
 setupPlatform()
 
-repositories {
-    maven("https://maven.shedaniel.me")
-}
-
 dependencies {
     minecraft("com.mojang:minecraft:${rootProp["minecraft"]}")
     mappings(loom.officialMojangMappings())
@@ -17,28 +13,37 @@ dependencies {
     modCompileRuntime("com.terraformersmc:modmenu:${rootProp["modMenu"]}")
 
     modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:${rootProp["rei"]}")
-    modRuntimeOnly("me.shedaniel:RoughlyEnoughItems-fabric:${rootProp["rei"]}")
+    modCompileOnly("dev.emi:emi:${rootProp["emi"]}")
 
     modRuntimeOnly("lol.bai:badpackets:fabric-${rootProp["badpackets"]}")
     modRuntimeOnly("net.fabricmc.fabric-api:fabric-api-deprecated:${rootProp["fabricApi"]}")
+
+    when (rootProp["recipeViewer"]) {
+        "emi" -> modRuntimeOnly("dev.emi:emi:${rootProp["emi"]}")
+        "rei" -> modRuntimeOnly("me.shedaniel:RoughlyEnoughItems-fabric:${rootProp["rei"]}")
+        "jei" -> rootProp["jei"].split("-").also { (mc, jei) ->
+            modRuntimeOnly("mezz.jei:jei-${mc}-fabric:${jei}")
+        }
+    }
 }
 
 setupStub()
 
 sourceSets {
     val main by getting
-    val modmenu by creating {
+    val integration by creating {
         compileClasspath += main.compileClasspath
     }
     main {
-        compileClasspath += modmenu.output
-        runtimeClasspath += modmenu.output
+        compileClasspath += integration.output
+        runtimeClasspath += integration.output
         resources.srcDir(rootProject.file("src/accesswidener/resources"))
     }
 }
 
 loom {
     accessWidenerPath.set(rootProject.file("src/accesswidener/resources/wthit.accesswidener"))
+    interfaceInjection.enableDependencyInterfaceInjection.set(false)
     runs {
         configureEach {
             isIdeConfigGenerated = true
@@ -48,7 +53,7 @@ loom {
 }
 
 tasks.jar {
-    from(sourceSets["modmenu"].output)
+    from(sourceSets["integration"].output)
 }
 
 tasks.processResources {

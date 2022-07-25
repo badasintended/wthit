@@ -36,10 +36,24 @@ public interface IModInfo {
         return get(Registry.ENTITY_TYPE.getKey(entity.getType()));
     }
 
+    /**
+     * Returns whether the mod is actually present in the classpath.
+     */
+    boolean isPresent();
+
+    /**
+     * Returns the id of the mod.
+     */
     String getId();
 
+    /**
+     * Returns the name of the mod.
+     */
     String getName();
 
+    /**
+     * Returns the string representation of the version of the mod.
+     */
     String getVersion();
 
 }

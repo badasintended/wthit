@@ -34,7 +34,7 @@ public class FabricWaila extends Waila implements ModInitializer {
         ServerLifecycleEvents.SERVER_STARTING.register(server ->
             PluginConfig.INSTANCE.reload());
 
-        ModInfo.register(new ModInfo("c", "Common", "0"));
+        ModInfo.register(new ModInfo(false, "c", "Common", "0"));
 
         String[] mods = {"minecraft", "java", "fabricloader", "fabric", "wthit", "roughlyenoughitems"};
         for (String mod : mods) {

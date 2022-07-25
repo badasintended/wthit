@@ -16,15 +16,23 @@ dependencies {
     modRuntimeOnly("lol.bai:badpackets:fabric-${rootProp["badpackets"]}")
     modRuntimeOnly("com.terraformersmc:modmenu:${rootProp["modMenu"]}")
     modRuntimeOnly("org.quiltmc.quilted-fabric-api:quilted-fabric-api:${rootProp["qfapi"]}")
+
+    when (rootProp["recipeViewer"]) {
+        "emi" -> modRuntimeOnly("dev.emi:emi:${rootProp["emi"]}")
+        "rei" -> modRuntimeOnly("me.shedaniel:RoughlyEnoughItems-fabric:${rootProp["rei"]}")
+        "jei" -> rootProp["jei"].split("-").also { (mc, jei) ->
+            modRuntimeOnly("mezz.jei:jei-${mc}-fabric:${jei}")
+        }
+    }
 }
 
 setupStub()
 
 sourceSets {
-    val modmenu by project(":fabric").sourceSets
+    val integration by project(":fabric").sourceSets
     main {
-        compileClasspath += modmenu.output
-        runtimeClasspath += modmenu.output
+        compileClasspath += integration.output
+        runtimeClasspath += integration.output
         resources.srcDir(rootProject.file("src/accesswidener/resources"))
     }
 }
@@ -40,7 +48,7 @@ loom {
 }
 
 tasks.jar {
-    from(project(":fabric").sourceSets["modmenu"].output)
+    from(project(":fabric").sourceSets["integration"].output)
 }
 
 tasks.processResources {

@@ -31,7 +31,7 @@ public class QuiltCommonService implements ICommonService {
     public Optional<ModInfo> createModInfo(String namespace) {
         return QuiltLoader.getModContainer(namespace)
             .map(ModContainer::metadata)
-            .map(data -> new ModInfo(data.id(), data.name(), data.version().raw()));
+            .map(data -> new ModInfo(true, data.id(), data.name(), data.version().raw()));
     }
 
 }

@@ -9,21 +9,24 @@ plugins {
 
 setupPlatform()
 
-repositories {
-    maven("https://dvs1.progwml6.com/files/maven")
-}
-
 dependencies {
     minecraft("net.minecraftforge:forge:${rootProp["minecraft"]}-${rootProp["forge"]}")
 
     implementation("org.jetbrains:annotations:19.0.0")
 
-    compileOnly(fg.deobf("mezz.jei:jei-${rootProp["minecraft"]}-common-api:${rootProp["jei"]}"))
-    compileOnly(fg.deobf("mezz.jei:jei-${rootProp["minecraft"]}-forge-api:${rootProp["jei"]}"))
-//    runtimeOnly(fg.deobf("mezz.jei:jei-${rootProp["minecraft"]}-common:${rootProp["jei"]}"))
-//    runtimeOnly(fg.deobf("mezz.jei:jei-${rootProp["minecraft"]}-forge:${rootProp["jei"]}"))
-
     runtimeOnly(fg.deobf("lol.bai:badpackets:forge-${rootProp["badpackets"]}"))
+    runtimeOnly(fg.deobf("dev.architectury:architectury-forge:${rootProp["architectury"]}"))
+    runtimeOnly(fg.deobf("me.shedaniel.cloth:cloth-config-forge:${rootProp["clothConfig"]}"))
+
+    when (rootProp["recipeViewer"]) {
+        "rei" -> {
+            runtimeOnly(fg.deobf("me.shedaniel:RoughlyEnoughItems-forge:${rootProp["rei"]}"))
+            runtimeOnly(fg.deobf("me.shedaniel:RoughlyEnoughItems-plugin-compatibilities-forge:${rootProp["rei"]}"))
+        }
+        "jei" -> rootProp["jei"].split("-").also { (mc, jei) ->
+            runtimeOnly(fg.deobf("mezz.jei:jei-${mc}-forge:${jei}"))
+        }
+    }
 }
 
 setupStub()

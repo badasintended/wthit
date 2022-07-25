@@ -23,9 +23,12 @@
       }
     },
     "entrypoints"          : {
-      "init"       : ["mcp.mobius.waila.quilt.QuiltWaila"],
-      "client_init": ["mcp.mobius.waila.quilt.QuiltWailaClient"],
-      "modmenu"    : ["mcp.mobius.waila.integration.modmenu.WailaModMenu"]
+      "init"          : ["mcp.mobius.waila.quilt.QuiltWaila"],
+      "client_init"   : ["mcp.mobius.waila.quilt.QuiltWailaClient"],
+      "emi"           : ["mcp.mobius.waila.integration.emi.EmiRecipeAction"],
+      "jei_mod_plugin": ["mcp.mobius.waila.integration.jei.JeiRecipeAction"],
+      "modmenu"       : ["mcp.mobius.waila.integration.modmenu.WailaModMenu"],
+      "rei_client"    : ["mcp.mobius.waila.integration.reiwhycheckingforpackagename.ReiRecipeAction"]
     },
     "depends"              : [
       {

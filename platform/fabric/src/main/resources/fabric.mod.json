@@ -18,10 +18,12 @@
   },
 
   "entrypoints"  : {
-    "main"      : ["mcp.mobius.waila.fabric.FabricWaila"],
-    "client"    : ["mcp.mobius.waila.fabric.FabricWailaClient"],
-    "modmenu"   : ["mcp.mobius.waila.integration.modmenu.WailaModMenu"],
-    "rei_client": ["mcp.mobius.waila.integration.reiwhycheckingforpackagename.ReiRecipeLookup"]
+    "main"          : ["mcp.mobius.waila.fabric.FabricWaila"],
+    "client"        : ["mcp.mobius.waila.fabric.FabricWailaClient"],
+    "emi"           : ["mcp.mobius.waila.integration.emi.EmiRecipeAction"],
+    "jei_mod_plugin": ["mcp.mobius.waila.integration.jei.JeiRecipeAction"],
+    "modmenu"       : ["mcp.mobius.waila.integration.modmenu.WailaModMenu"],
+    "rei_client"    : ["mcp.mobius.waila.integration.reiwhycheckingforpackagename.ReiRecipeAction"]
   },
   "accessWidener": "wthit.accesswidener",
 

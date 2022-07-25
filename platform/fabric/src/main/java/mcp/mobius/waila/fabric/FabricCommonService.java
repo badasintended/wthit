@@ -30,7 +30,7 @@ public class FabricCommonService implements ICommonService {
     public Optional<ModInfo> createModInfo(String namespace) {
         return FabricLoader.getInstance().getModContainer(namespace)
             .map(ModContainer::getMetadata)
-            .map(data -> new ModInfo(data.getId(), data.getName(), data.getVersion().getFriendlyString()));
+            .map(data -> new ModInfo(true, data.getId(), data.getName(), data.getVersion().getFriendlyString()));
     }
 
 }
