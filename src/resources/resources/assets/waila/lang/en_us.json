@@ -70,6 +70,8 @@
   "config.waila.display_tooltip_desc"                          : "Collect data and render the tooltip",
   "config.waila.sneaky_details"                                : "Sneaky Details",
   "config.waila.sneaky_details_desc"                           : "Body text is hidden unless sneaking",
+  "config.waila.hide_sneak_text"                               : "Hide Sneak Text",
+  "config.waila.hide_sneak_text_desc"                          : "Hide \"Sneak for details\" text when sneaky details is enabled",
   "config.waila.display_mode"                                  : "Display Mode",
   "config.waila.display_mode_desc"                             : "Tooltip display behavior\nToggle: Display keybind will toggle it on and off\nMaintained: Display keybind must be held",
   "config.waila.display_mode_toggle"                           : "Toggle",
