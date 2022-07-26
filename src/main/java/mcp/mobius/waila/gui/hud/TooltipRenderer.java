@@ -89,7 +89,7 @@ public class TooltipRenderer {
 
     public static void setIcon(ITooltipComponent icon) {
         Preconditions.checkState(started);
-        TooltipRenderer.icon = PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_ICON) ? icon : EmptyComponent.INSTANCE;
+        TooltipRenderer.icon = PluginConfig.CLIENT.getBoolean(WailaConstants.CONFIG_SHOW_ICON) ? icon : EmptyComponent.INSTANCE;
     }
 
     public static void endBuild() {
@@ -97,7 +97,7 @@ public class TooltipRenderer {
 
         if (state.fireEvent()) {
             for (IEventListener listener : Registrar.INSTANCE.eventListeners.get(Object.class)) {
-                listener.onHandleTooltip(TOOLTIP, DataAccessor.INSTANCE, PluginConfig.INSTANCE);
+                listener.onHandleTooltip(TOOLTIP, DataAccessor.INSTANCE, PluginConfig.CLIENT);
             }
         }
 
@@ -182,7 +182,7 @@ public class TooltipRenderer {
             EventCanceller canceller = EventCanceller.INSTANCE;
             canceller.setCanceled(false);
             for (IEventListener listener : Registrar.INSTANCE.eventListeners.get(Object.class)) {
-                listener.onBeforeTooltipRender(matrices, rect, DataAccessor.INSTANCE, PluginConfig.INSTANCE, canceller);
+                listener.onBeforeTooltipRender(matrices, rect, DataAccessor.INSTANCE, PluginConfig.CLIENT, canceller);
                 if (canceller.isCanceled()) {
                     matrices.popPose();
                     RenderSystem.enableDepthTest();
@@ -239,7 +239,7 @@ public class TooltipRenderer {
 
         if (state.fireEvent()) {
             for (IEventListener listener : Registrar.INSTANCE.eventListeners.get(Object.class)) {
-                listener.onAfterTooltipRender(matrices, rect, DataAccessor.INSTANCE, PluginConfig.INSTANCE);
+                listener.onAfterTooltipRender(matrices, rect, DataAccessor.INSTANCE, PluginConfig.CLIENT);
             }
         }
 

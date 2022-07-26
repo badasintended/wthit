@@ -18,7 +18,6 @@ import mcp.mobius.waila.gui.widget.value.EnumValue;
 import mcp.mobius.waila.gui.widget.value.InputValue;
 import mcp.mobius.waila.gui.widget.value.IntInputValue;
 import mcp.mobius.waila.registry.Registrar;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
@@ -38,39 +37,21 @@ public class PluginConfigScreen extends ConfigScreen {
         register(ConfigEntry.ENUM, (key, name, value, defaultValue, save) -> new EnumValue(name, value.getDeclaringClass().getEnumConstants(), value, defaultValue, save));
     }
 
-    private static final Map<ConfigEntry<Object>, Object> SYNCED_VALUES = new HashMap<>();
-
     public PluginConfigScreen(Screen parent) {
-        super(parent, Component.translatable("gui.waila.plugin_settings"), PluginConfigScreen::saveAndRestore, PluginConfigScreen::reloadAndRestore);
-
-        SYNCED_VALUES.clear();
-        if (Minecraft.getInstance().getCurrentServer() != null) {
-            PluginConfig.INSTANCE.getSyncableConfigs().forEach(entry -> SYNCED_VALUES.put(entry, entry.getValue()));
-            PluginConfig.INSTANCE.reload();
-        }
+        super(parent, Component.translatable("gui.waila.plugin_settings"), PluginConfig::save, PluginConfig::reload);
     }
 
     private static <T> void register(ConfigEntry.Type<T> type, ConfigValueFunction<T> function) {
         ENTRY_TO_VALUE.put((ConfigEntry.Type<Object>) type, (ConfigValueFunction<Object>) function);
     }
 
-    private static void saveAndRestore() {
-        PluginConfig.INSTANCE.save();
-        SYNCED_VALUES.forEach(ConfigEntry::setValue);
-    }
-
-    private static void reloadAndRestore() {
-        PluginConfig.INSTANCE.reload();
-        SYNCED_VALUES.forEach(ConfigEntry::setValue);
-    }
-
     @Override
     @SuppressWarnings("ConstantConditions")
     public ConfigListWidget getOptions() {
-        ConfigListWidget options = new ConfigListWidget(this, minecraft, width, height, 32, height - 32, 26, PluginConfig.INSTANCE::save);
-        for (String namespace : PluginConfig.INSTANCE.getNamespaces()) {
+        ConfigListWidget options = new ConfigListWidget(this, minecraft, width, height, 32, height - 32, 26, PluginConfig::save);
+        for (String namespace : PluginConfig.getNamespaces()) {
             String translationKey = "config.waila.plugin_" + namespace;
-            Set<ResourceLocation> keys = PluginConfig.INSTANCE.getKeys(namespace);
+            Set<ResourceLocation> keys = PluginConfig.getAllKeys(namespace);
             options.with(new ButtonEntry(translationKey, 100, 20, w -> minecraft.setScreen(new ConfigScreen(PluginConfigScreen.this, Component.translatable(translationKey)) {
                 @Override
                 public ConfigListWidget getOptions() {
@@ -78,7 +59,7 @@ public class PluginConfigScreen extends ConfigScreen {
                     Object2IntMap<String> categories = new Object2IntLinkedOpenHashMap<>();
                     categories.put(NO_CATEGORY, 0);
                     for (ResourceLocation key : keys) {
-                        ConfigEntry<Object> entry = PluginConfig.INSTANCE.getEntry(key);
+                        ConfigEntry<Object> entry = PluginConfig.getEntry(key);
                         String path = key.getPath();
                         String category = NO_CATEGORY;
                         if (path.contains(".")) {
@@ -98,10 +79,10 @@ public class PluginConfigScreen extends ConfigScreen {
                                 e.setValue(e.getIntValue() + 1);
                             }
                         }
-                        ConfigValue<Object> value = ENTRY_TO_VALUE.get(entry.getType()).create(key, translationKey + "." + path, entry.getValue(), entry.getDefaultValue(), entry::setValue);
-                        if (entry.isSynced() && minecraft.getCurrentServer() != null) {
+                        ConfigValue<Object> value = ENTRY_TO_VALUE.get(entry.getType()).create(key, translationKey + "." + path, entry.getValue(false), entry.getDefaultValue(), entry::setLocalValue);
+                        if (entry.blocksClientEdit() && minecraft.getCurrentServer() != null) {
                             value.serverOnly = true;
-                            value.setValue(SYNCED_VALUES.get(entry));
+                            value.setValue(entry.getSyncedValue());
                         }
                         options.with(index, value);
                     }

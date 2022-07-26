@@ -21,32 +21,101 @@ import net.minecraft.resources.ResourceLocation;
 @SuppressWarnings("unchecked")
 public enum PluginConfig implements IPluginConfig {
 
-    INSTANCE;
+    CLIENT, SERVER;
 
-    private final Path path = Waila.CONFIG_DIR.resolve(WailaConstants.NAMESPACE + "/" + WailaConstants.WAILA + "_plugins.json");
-    private final ConfigIo<Map<String, Map<String, JsonPrimitive>>> io = new ConfigIo<>(
+    private static final Path path = Waila.CONFIG_DIR.resolve(WailaConstants.NAMESPACE + "/" + WailaConstants.WAILA + "_plugins.json");
+    private static final ConfigIo<Map<String, Map<String, JsonPrimitive>>> io = new ConfigIo<>(
         Waila.LOGGER::warn, Waila.LOGGER::error,
         new GsonBuilder().setPrettyPrinting().create(),
         new TypeToken<Map<String, Map<String, JsonPrimitive>>>() {
         }.getType(),
         LinkedHashMap::new);
 
-    public final Map<ResourceLocation, ConfigEntry<?>> configs = new LinkedHashMap<>();
+    public static final Map<ResourceLocation, ConfigEntry<?>> configs = new LinkedHashMap<>();
 
-    public void addConfig(ConfigEntry<?> entry) {
+    public static <T> ConfigEntry<T> addConfig(ConfigEntry<T> entry) {
         configs.put(entry.getId(), entry);
+        return entry;
     }
 
-    @Override
-    public Set<ResourceLocation> getKeys(String namespace) {
-        return getKeys().stream()
+    public static Set<ResourceLocation> getAllKeys(String namespace) {
+        return getAllKeys().stream()
             .filter(id -> id.getNamespace().equals(namespace))
             .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
+    public static Set<ResourceLocation> getAllKeys() {
+        return configs.keySet();
+    }
+
+    public static Set<ConfigEntry<Object>> getSyncableConfigs() {
+        return configs.values().stream()
+            .filter(ConfigEntry::isSynced)
+            .map(t -> (ConfigEntry<Object>) t)
+            .collect(Collectors.toSet());
+    }
+
+    public static List<String> getNamespaces() {
+        return configs.keySet().stream()
+            .map(ResourceLocation::getNamespace)
+            .distinct()
+            .sorted((o1, o2) -> o1.equals(WailaConstants.NAMESPACE) ? -1 : o2.equals(WailaConstants.NAMESPACE) ? 1 : o1.compareToIgnoreCase(o2))
+            .collect(Collectors.toList());
+    }
+
+    public static <T> ConfigEntry<T> getEntry(ResourceLocation key) {
+        return (ConfigEntry<T>) configs.get(key);
+    }
+
+    public static <T> void set(ResourceLocation key, T value) {
+        ConfigEntry<T> entry = (ConfigEntry<T>) configs.get(key);
+        if (entry != null) {
+            entry.setLocalValue(value);
+        }
+    }
+
+    public static void reload() {
+        if (!Files.exists(path)) {
+            writeConfig();
+        }
+        Map<String, Map<String, JsonPrimitive>> config = io.read(path);
+        config.forEach((namespace, subMap) -> subMap.forEach((path, value) -> {
+            ConfigEntry<Object> entry = (ConfigEntry<Object>) configs.get(new ResourceLocation(namespace, path));
+            if (entry != null) {
+                entry.setLocalValue(entry.getType().parser.apply(value, entry.getDefaultValue()));
+            }
+        }));
+        Waila.LOGGER.info("Plugin config reloaded");
+    }
+
+    public static void save() {
+        writeConfig();
+    }
+
+    private static void writeConfig() {
+        Map<String, Map<String, JsonPrimitive>> config = new LinkedHashMap<>();
+        for (ConfigEntry<?> e : configs.values()) {
+            ConfigEntry<Object> entry = (ConfigEntry<Object>) e;
+            ResourceLocation id = entry.getId();
+            config.computeIfAbsent(id.getNamespace(), k -> new LinkedHashMap<>())
+                .put(id.getPath(), entry.getType().serializer.apply(entry.getLocalValue()));
+        }
+
+        io.write(path, config);
+    }
+
+    private <T> T getValue(ResourceLocation key) {
+        return (T) configs.get(key).getValue(this == SERVER);
+    }
+
     @Override
     public Set<ResourceLocation> getKeys() {
-        return configs.keySet();
+        return getAllKeys();
+    }
+
+    @Override
+    public Set<ResourceLocation> getKeys(String namespace) {
+        return getAllKeys(namespace);
     }
 
     @Override
@@ -72,66 +141,6 @@ public enum PluginConfig implements IPluginConfig {
     @Override
     public <T extends Enum<T>> T getEnum(ResourceLocation key) {
         return getValue(key);
-    }
-
-    public Set<ConfigEntry<Object>> getSyncableConfigs() {
-        return configs.values().stream()
-            .filter(ConfigEntry::isSynced)
-            .map(t -> (ConfigEntry<Object>) t)
-            .collect(Collectors.toSet());
-    }
-
-    public List<String> getNamespaces() {
-        return configs.keySet().stream()
-            .map(ResourceLocation::getNamespace)
-            .distinct()
-            .sorted((o1, o2) -> o1.equals(WailaConstants.NAMESPACE) ? -1 : o2.equals(WailaConstants.NAMESPACE) ? 1 : o1.compareToIgnoreCase(o2))
-            .collect(Collectors.toList());
-    }
-
-    public <T> ConfigEntry<T> getEntry(ResourceLocation key) {
-        return (ConfigEntry<T>) configs.get(key);
-    }
-
-    public <T> void set(ResourceLocation key, T value) {
-        ConfigEntry<T> entry = (ConfigEntry<T>) configs.get(key);
-        if (entry != null) {
-            entry.setValue(value);
-        }
-    }
-
-    public void reload() {
-        if (!Files.exists(path)) {
-            writeConfig();
-        }
-        Map<String, Map<String, JsonPrimitive>> config = io.read(path);
-        config.forEach((namespace, subMap) -> subMap.forEach((path, value) -> {
-            ConfigEntry<Object> entry = (ConfigEntry<Object>) configs.get(new ResourceLocation(namespace, path));
-            if (entry != null) {
-                entry.setValue(entry.getType().parser.apply(value, entry.getDefaultValue()));
-            }
-        }));
-        Waila.LOGGER.info("Plugin config reloaded");
-    }
-
-    public void save() {
-        writeConfig();
-    }
-
-    private <T> T getValue(ResourceLocation key) {
-        return (T) configs.get(key).getValue();
-    }
-
-    private void writeConfig() {
-        Map<String, Map<String, JsonPrimitive>> config = new LinkedHashMap<>();
-        for (ConfigEntry<?> e : configs.values()) {
-            ConfigEntry<Object> entry = (ConfigEntry<Object>) e;
-            ResourceLocation id = entry.getId();
-            config.computeIfAbsent(id.getNamespace(), k -> new LinkedHashMap<>())
-                .put(id.getPath(), entry.getType().serializer.apply(entry.getValue()));
-        }
-
-        io.write(path, config);
     }
 
 }

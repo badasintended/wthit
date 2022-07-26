@@ -50,11 +50,11 @@ public abstract class ClientCommand<S> {
             .then(argument.literal("plugin"))
 
             .then(argument.required("id", ResourceLocationArgument.id()))
-            .suggests((context, builder) -> suggestResource(PluginConfig.INSTANCE.getKeys(), builder))
+            .suggests((context, builder) -> suggestResource(PluginConfig.getAllKeys(), builder))
             .executes(context -> {
                 FeedbackSender feedback = feedback(context.getSource());
                 ResourceLocation id = context.getArgument("id", ResourceLocation.class);
-                ConfigEntry<?> entry = PluginConfig.INSTANCE.getEntry(id);
+                ConfigEntry<?> entry = PluginConfig.getEntry(id);
                 if (entry == null) {
                     feedback.fail(Component.translatable("command.waila.config.unknown_id", id));
                     return 0;
@@ -62,7 +62,7 @@ public abstract class ClientCommand<S> {
 
                 feedback.success(Component.translatable("command.waila.config.get.id", id));
                 feedback.success(Component.translatable("command.waila.config.get.synced", entry.isSynced()));
-                feedback.success(Component.translatable("command.waila.config.get.current_value", entry.getValue().toString()));
+                feedback.success(Component.translatable("command.waila.config.get.current_value", entry.getValue(false).toString()));
                 feedback.success(Component.translatable("command.waila.config.get.default_value", entry.getDefaultValue().toString()));
                 if (entry.isSynced()) {
                     feedback.success(Component.translatable("command.waila.config.get.client_only_value", entry.getClientOnlyValue().toString()));
@@ -73,13 +73,13 @@ public abstract class ClientCommand<S> {
             .then(argument.required("value", StringArgumentType.word()))
             .suggests((context, builder) -> {
                 ResourceLocation id = context.getArgument("id", ResourceLocation.class);
-                ConfigEntry<Object> entry = PluginConfig.INSTANCE.getEntry(id);
+                ConfigEntry<Object> entry = PluginConfig.getEntry(id);
                 if (entry != null) {
                     if (entry.getType().equals(ConfigEntry.BOOLEAN)) {
-                        return suggest(new String[]{String.valueOf(!((boolean) entry.getValue()))}, builder);
+                        return suggest(new String[]{String.valueOf(!((boolean) entry.getValue(false)))}, builder);
                     } else if (entry.getType().equals(ConfigEntry.ENUM)) {
-                        Stream<String> suggestions = Arrays.stream(entry.getValue().getClass().getEnumConstants())
-                            .filter(e -> e != entry.getValue())
+                        Stream<String> suggestions = Arrays.stream(entry.getLocalValue().getClass().getEnumConstants())
+                            .filter(e -> e != entry.getLocalValue())
                             .map(e -> ((Enum<?>) e).name());
                         return suggest(suggestions, builder);
                     }
@@ -89,20 +89,20 @@ public abstract class ClientCommand<S> {
             .executes(context -> {
                 FeedbackSender feedback = feedback(context.getSource());
                 ResourceLocation id = context.getArgument("id", ResourceLocation.class);
-                ConfigEntry<Object> entry = PluginConfig.INSTANCE.getEntry(id);
+                ConfigEntry<Object> entry = PluginConfig.getEntry(id);
                 if (entry == null) {
                     feedback.fail(Component.translatable("command.waila.config.unknown_id", id));
                     return 0;
                 }
 
-                if (entry.isSynced() && Minecraft.getInstance().getCurrentServer() != null) {
+                if (entry.blocksClientEdit() && Minecraft.getInstance().getCurrentServer() != null) {
                     feedback.fail(Component.translatable("command.waila.config.set.synced", id));
                 }
 
                 JsonPrimitive jsonValue = new JsonPrimitive(context.getArgument("value", String.class));
                 try {
-                    entry.setValue(entry.getType().parser.apply(jsonValue, entry.getDefaultValue()));
-                    feedback.success(Component.translatable("command.waila.config.set.success", id, entry.getValue()));
+                    entry.setLocalValue(entry.getType().parser.apply(jsonValue, entry.getDefaultValue()));
+                    feedback.success(Component.translatable("command.waila.config.set.success", id, entry.getLocalValue()));
                     return 1;
                 } catch (Throwable throwable) {
                     feedback.fail(Component.translatable("command.waila.config.set.parse_fail", throwable.getMessage()));

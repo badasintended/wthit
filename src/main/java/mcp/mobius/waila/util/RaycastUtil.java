@@ -15,12 +15,13 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.HitResult.Type;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.NotNull;
 
 public final class RaycastUtil {
 
     private static final HitResult MISS = new HitResult(Vec3.ZERO) {
         @Override
-        public Type getType() {
+        public @NotNull Type getType() {
             return Type.MISS;
         }
     };
@@ -41,10 +42,10 @@ public final class RaycastUtil {
         Vec3 start = camera.getEyePosition(tickDelta);
         Vec3 end = start.add(viewVec.x * reach, viewVec.y * reach, viewVec.z * reach);
 
-        Fluid fluidContext = PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_FLUID) ? Fluid.SOURCE_ONLY : Fluid.NONE;
+        Fluid fluidContext = PluginConfig.CLIENT.getBoolean(WailaConstants.CONFIG_SHOW_FLUID) ? Fluid.SOURCE_ONLY : Fluid.NONE;
         BlockHitResult blockHit = camera.level.clip(new ClipContext(start, end, Block.OUTLINE, fluidContext, camera));
 
-        if (PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_ENTITY)) {
+        if (PluginConfig.CLIENT.getBoolean(WailaConstants.CONFIG_SHOW_ENTITY)) {
             EntityHitResult entityHit = ProjectileUtil.getEntityHitResult(camera, start, end, new AABB(start, end), EntitySelector.ENTITY_STILL_ALIVE, 0f);
 
             if (entityHit != null) {

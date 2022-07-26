@@ -20,7 +20,7 @@ public class QuiltWaila extends Waila implements ModInitializer {
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) ->
             ServerCommand.register(dispatcher));
 
-        ServerLifecycleEvents.STARTING.register(server -> PluginConfig.INSTANCE.reload());
+        ServerLifecycleEvents.STARTING.register(server -> PluginConfig.reload());
 
         String[] mods = {"minecraft", "java", "quilt_loader", "qsl", "quilted_fabric_api", "wthit"};
         for (String modId : mods) {

@@ -73,20 +73,33 @@ public interface IRegistrar {
      * Registers a namespaced config key to be accessed within data providers.
      * These values are sent from the server to the client upon connection.
      *
-     * @param key             The namespaced key
-     * @param defaultValue    The default value
-     * @param clientOnlyValue The value that will be used when the server connected doesn't have waila installed
+     * @param key             the namespaced key
+     * @param defaultValue    the default value
+     * @param clientOnlyValue the value that will be used when the server connected doesn't have waila installed
+     * @param merge           if {@code true}, client will still be able to disable the option only if the server enable it,
+     *                        if {@code false}, client option will get overloaded by server value regardless
      */
-    void addSyncedConfig(ResourceLocation key, boolean defaultValue, boolean clientOnlyValue);
-
+    void addSyncedConfig(ResourceLocation key, boolean defaultValue, boolean clientOnlyValue, boolean merge);
 
     /**
      * Registers a namespaced config key to be accessed within data providers.
      * These values are sent from the server to the client upon connection.
      *
-     * @param key             The namespaced key
-     * @param defaultValue    The default value
-     * @param clientOnlyValue The value that will be used when the server connected doesn't have waila installed
+     * @param key             the namespaced key
+     * @param defaultValue    the default value
+     * @param clientOnlyValue the value that will be used when the server connected doesn't have waila installed
+     */
+    default void addSyncedConfig(ResourceLocation key, boolean defaultValue, boolean clientOnlyValue) {
+        addSyncedConfig(key, defaultValue, clientOnlyValue, false);
+    }
+
+    /**
+     * Registers a namespaced config key to be accessed within data providers.
+     * These values are sent from the server to the client upon connection.
+     *
+     * @param key             the namespaced key
+     * @param defaultValue    the default value
+     * @param clientOnlyValue the value that will be used when the server connected doesn't have waila installed
      * @param format          used for formatting text box in plugin config screen
      */
     void addSyncedConfig(ResourceLocation key, int defaultValue, int clientOnlyValue, IntFormat format);
@@ -95,9 +108,9 @@ public interface IRegistrar {
      * Registers a namespaced config key to be accessed within data providers.
      * These values are sent from the server to the client upon connection.
      *
-     * @param key             The namespaced key
-     * @param defaultValue    The default value
-     * @param clientOnlyValue The value that will be used when the server connected doesn't have waila installed
+     * @param key             the namespaced key
+     * @param defaultValue    the default value
+     * @param clientOnlyValue the value that will be used when the server connected doesn't have waila installed
      */
     default void addSyncedConfig(ResourceLocation key, int defaultValue, int clientOnlyValue) {
         addSyncedConfig(key, defaultValue, clientOnlyValue, IntFormat.DECIMAL);
@@ -107,9 +120,9 @@ public interface IRegistrar {
      * Registers a namespaced config key to be accessed within data providers.
      * These values are sent from the server to the client upon connection.
      *
-     * @param key             The namespaced key
-     * @param defaultValue    The default value
-     * @param clientOnlyValue The value that will be used when the server connected doesn't have waila installed
+     * @param key             the namespaced key
+     * @param defaultValue    the default value
+     * @param clientOnlyValue the value that will be used when the server connected doesn't have waila installed
      */
     void addSyncedConfig(ResourceLocation key, double defaultValue, double clientOnlyValue);
 
@@ -117,9 +130,9 @@ public interface IRegistrar {
      * Registers a namespaced config key to be accessed within data providers.
      * These values are sent from the server to the client upon connection.
      *
-     * @param key             The namespaced key
-     * @param defaultValue    The default value
-     * @param clientOnlyValue The value that will be used when the server connected doesn't have waila installed
+     * @param key             the namespaced key
+     * @param defaultValue    the default value
+     * @param clientOnlyValue the value that will be used when the server connected doesn't have waila installed
      */
     void addSyncedConfig(ResourceLocation key, String defaultValue, String clientOnlyValue);
 
@@ -127,9 +140,9 @@ public interface IRegistrar {
      * Registers a namespaced config key to be accessed within data providers.
      * These values are sent from the server to the client upon connection.
      *
-     * @param key             The namespaced key
-     * @param defaultValue    The default value
-     * @param clientOnlyValue The value that will be used when the server connected doesn't have waila installed
+     * @param key             the namespaced key
+     * @param defaultValue    the default value
+     * @param clientOnlyValue the value that will be used when the server connected doesn't have waila installed
      */
     <T extends Enum<T>> void addSyncedConfig(ResourceLocation key, T defaultValue, T clientOnlyValue);
 

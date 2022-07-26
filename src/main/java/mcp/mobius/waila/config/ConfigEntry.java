@@ -1,11 +1,13 @@
 package mcp.mobius.waila.config;
 
+import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import com.google.common.base.Preconditions;
 import com.google.gson.JsonPrimitive;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings({"rawtypes"})
 public class ConfigEntry<T> {
@@ -21,12 +23,16 @@ public class ConfigEntry<T> {
     private final T clientOnlyValue;
     private final boolean synced;
     private final Type<T> type;
-    private T value;
+
+    private T syncedValue;
+    private T localValue;
+
+    private boolean merged = false;
 
     private ConfigEntry(ResourceLocation id, T defaultValue, T clientOnlyValue, boolean synced, Type<T> type) {
         this.id = id;
         this.defaultValue = defaultValue;
-        this.value = defaultValue;
+        this.localValue = defaultValue;
         this.clientOnlyValue = clientOnlyValue;
         this.synced = synced;
         this.type = type;
@@ -52,15 +58,53 @@ public class ConfigEntry<T> {
         return synced;
     }
 
-    public T getValue() {
-        return value;
+    public T getLocalValue() {
+        return localValue;
     }
 
-    public void setValue(T value) {
+    public T getSyncedValue() {
+        return syncedValue;
+    }
+
+    public void setLocalValue(T localValue) {
+        assertInstance(localValue);
+        this.localValue = localValue;
+    }
+
+    public void setSyncedValue(@Nullable T syncedValue) {
+        if (syncedValue != null) {
+            assertInstance(syncedValue);
+        }
+        this.syncedValue = syncedValue;
+    }
+
+    @SuppressWarnings("unchecked")
+    public T getValue(boolean forceLocal) {
+        if (forceLocal) {
+            return localValue;
+        }
+
+        if (merged && syncedValue instanceof Boolean) {
+            Boolean syncedValue = (Boolean) this.syncedValue;
+            Boolean localValue = (Boolean) this.localValue;
+            return (T) (Object) (syncedValue && localValue);
+        }
+
+        return synced ? Objects.requireNonNullElse(syncedValue, clientOnlyValue) : localValue;
+    }
+
+    public void setMerged(boolean merged) {
+        this.merged = merged;
+    }
+
+    public boolean blocksClientEdit() {
+        return synced && !(merged && syncedValue == Boolean.TRUE);
+    }
+
+    private void assertInstance(T value) {
         Preconditions.checkArgument(
             value.getClass() == defaultValue.getClass(),
             "Tried to assign " + defaultValue.getClass() + " with " + value.getClass());
-        this.value = value;
     }
 
     public static class Type<T> {

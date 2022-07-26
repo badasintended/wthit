@@ -32,7 +32,7 @@ public class FabricWaila extends Waila implements ModInitializer {
             ServerCommand.register(dispatcher));
 
         ServerLifecycleEvents.SERVER_STARTING.register(server ->
-            PluginConfig.INSTANCE.reload());
+            PluginConfig.reload());
 
         ModInfo.register(new ModInfo(false, "c", "Common", "0"));
 
