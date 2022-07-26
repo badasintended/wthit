@@ -15,6 +15,7 @@
   "tooltip.waila.compost_level"                                : "Compost Level",
   "tooltip.waila.honey_level"                                  : "Honey Level",
   "tooltip.waila.owner"                                        : "Owner",
+  "tooltip.waila.owner.loading"                                : "loading...",
 
   "tooltip.waila.instrument.harp"                              : "Harp",
   "tooltip.waila.instrument.basedrum"                          : "Bass Drum",
