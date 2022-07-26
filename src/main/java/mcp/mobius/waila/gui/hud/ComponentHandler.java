@@ -130,7 +130,7 @@ public class ComponentHandler {
     public static ITooltipComponent getIcon(HitResult target) {
         Registrar registrar = Registrar.INSTANCE;
         DataAccessor data = DataAccessor.INSTANCE;
-        PluginConfig config = PluginConfig.INSTANCE;
+        PluginConfig config = PluginConfig.CLIENT;
 
         if (target.getType() == HitResult.Type.ENTITY) {
             List<IEntityComponentProvider> providers = registrar.entityIcon.get(data.getEntity());
@@ -170,7 +170,7 @@ public class ComponentHandler {
     @Nullable
     private static ITooltipComponent getBlockIcon(List<IBlockComponentProvider> providers) {
         for (IBlockComponentProvider provider : providers) {
-            ITooltipComponent icon = provider.getIcon(DataAccessor.INSTANCE, PluginConfig.INSTANCE);
+            ITooltipComponent icon = provider.getIcon(DataAccessor.INSTANCE, PluginConfig.CLIENT);
             if (icon != null) {
                 return icon;
             }
@@ -192,7 +192,7 @@ public class ComponentHandler {
 
         List<IEntityComponentProvider> overrideProviders = registrar.entityOverride.get(entity);
         for (IEntityComponentProvider provider : overrideProviders) {
-            Entity override = provider.getOverride(DataAccessor.INSTANCE, PluginConfig.INSTANCE);
+            Entity override = provider.getOverride(DataAccessor.INSTANCE, PluginConfig.CLIENT);
             if (override != null) {
                 return override;
             }
@@ -211,7 +211,7 @@ public class ComponentHandler {
 
         List<IBlockComponentProvider> providers = registrar.blockOverride.get(state.getBlock());
         for (IBlockComponentProvider provider : providers) {
-            BlockState override = provider.getOverride(DataAccessor.INSTANCE, PluginConfig.INSTANCE);
+            BlockState override = provider.getOverride(DataAccessor.INSTANCE, PluginConfig.CLIENT);
             if (override != null) {
                 return override;
             }
@@ -220,7 +220,7 @@ public class ComponentHandler {
         BlockEntity blockEntity = world.getBlockEntity(pos);
         providers = registrar.blockOverride.get(blockEntity);
         for (IBlockComponentProvider provider : providers) {
-            BlockState override = provider.getOverride(DataAccessor.INSTANCE, PluginConfig.INSTANCE);
+            BlockState override = provider.getOverride(DataAccessor.INSTANCE, PluginConfig.CLIENT);
             if (override != null) {
                 return override;
             }

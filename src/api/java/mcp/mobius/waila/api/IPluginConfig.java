@@ -2,7 +2,6 @@ package mcp.mobius.waila.api;
 
 import java.util.Set;
 
-import mcp.mobius.waila.api.__internal__.ApiSide;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -11,14 +10,13 @@ import org.jetbrains.annotations.ApiStatus;
  * <p>
  * An instance of this interface is passed to most of Waila callbacks as a way to change the behavior depending on client settings.
  */
-@ApiSide.ClientOnly
 @ApiStatus.NonExtendable
 public interface IPluginConfig {
 
     /**
      * Gets a collection of all the keys for a given namespace.
      *
-     * @param namespace The namespace to get keys from
+     * @param namespace the namespace to get keys from
      *
      * @return all the keys for a given namespace.
      */

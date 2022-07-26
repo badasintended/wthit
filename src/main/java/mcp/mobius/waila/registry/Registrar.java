@@ -62,9 +62,9 @@ public enum Registrar implements IRegistrar {
     @Deprecated
     public final Map<ResourceLocation, ITooltipRenderer> renderer = new Object2ObjectOpenHashMap<>();
 
-    private <T> void addConfig(ResourceLocation key, T defaultValue, T clientOnlyValue, boolean synced, ConfigEntry.Type<T> type) {
+    private <T> ConfigEntry<T> addConfig(ResourceLocation key, T defaultValue, T clientOnlyValue, boolean synced, ConfigEntry.Type<T> type) {
         assertLock();
-        PluginConfig.INSTANCE.addConfig(type.create(key, defaultValue, clientOnlyValue, synced));
+        return PluginConfig.addConfig(type.create(key, defaultValue, clientOnlyValue, synced));
     }
 
     @Override
@@ -94,8 +94,9 @@ public enum Registrar implements IRegistrar {
     }
 
     @Override
-    public void addSyncedConfig(ResourceLocation key, boolean defaultValue, boolean clientOnlyValue) {
-        addConfig(key, defaultValue, clientOnlyValue, true, ConfigEntry.BOOLEAN);
+    public void addSyncedConfig(ResourceLocation key, boolean defaultValue, boolean clientOnlyValue, boolean merge) {
+        addConfig(key, defaultValue, clientOnlyValue, true, ConfigEntry.BOOLEAN)
+            .setMerged(merge);
     }
 
     @Override

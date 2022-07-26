@@ -87,10 +87,10 @@ public class TooltipHandler {
             Block block = accessor.getBlock();
 
             if (block instanceof LiquidBlock) {
-                if (!PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_FLUID)) {
+                if (!PluginConfig.CLIENT.getBoolean(WailaConstants.CONFIG_SHOW_FLUID)) {
                     return;
                 }
-            } else if (!PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_BLOCK)) {
+            } else if (!PluginConfig.CLIENT.getBoolean(WailaConstants.CONFIG_SHOW_BLOCK)) {
                 return;
             }
 
@@ -129,7 +129,7 @@ public class TooltipHandler {
             gatherBlock(accessor, TOOLTIP, TAIL);
             TooltipRenderer.add(TOOLTIP);
         } else if (target.getType() == HitResult.Type.ENTITY) {
-            if (!PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_ENTITY)) {
+            if (!PluginConfig.CLIENT.getBoolean(WailaConstants.CONFIG_SHOW_ENTITY)) {
                 return;
             }
 
@@ -173,7 +173,7 @@ public class TooltipHandler {
             }
         }
 
-        if (PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_ICON)) {
+        if (PluginConfig.CLIENT.getBoolean(WailaConstants.CONFIG_SHOW_ICON)) {
             TooltipRenderer.setIcon(ComponentHandler.getIcon(target));
         }
 

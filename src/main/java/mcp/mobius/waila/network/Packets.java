@@ -74,7 +74,7 @@ public class Packets {
             sender.send(BLACKLIST, blacklistBuf);
 
             FriendlyByteBuf configBuf = new FriendlyByteBuf(Unpooled.buffer());
-            Map<String, List<ConfigEntry<Object>>> groups = PluginConfig.INSTANCE.getSyncableConfigs().stream()
+            Map<String, List<ConfigEntry<Object>>> groups = PluginConfig.getSyncableConfigs().stream()
                 .collect(Collectors.groupingBy(c -> c.getId().getNamespace()));
             configBuf.writeVarInt(groups.size());
             groups.forEach((namespace, entries) -> {
@@ -82,7 +82,7 @@ public class Packets {
                 configBuf.writeVarInt(entries.size());
                 entries.forEach(e -> {
                     configBuf.writeUtf(e.getId().getPath());
-                    Object v = e.getValue();
+                    Object v = e.getLocalValue();
                     if (v instanceof Boolean z) {
                         configBuf.writeByte(CONFIG_BOOL);
                         configBuf.writeBoolean(z);
@@ -232,7 +232,7 @@ public class Packets {
             }
 
             client.execute(() -> {
-                for (ConfigEntry<Object> config : PluginConfig.INSTANCE.getSyncableConfigs()) {
+                for (ConfigEntry<Object> config : PluginConfig.getSyncableConfigs()) {
                     ResourceLocation id = config.getId();
                     Object clientOnlyValue = config.getClientOnlyValue();
                     Object syncedValue = clientOnlyValue instanceof Enum<?> e
@@ -241,7 +241,7 @@ public class Packets {
                     if (syncedValue instanceof Double d && clientOnlyValue instanceof Integer) {
                         syncedValue = d.intValue();
                     }
-                    config.setValue(syncedValue);
+                    config.setSyncedValue(syncedValue);
                 }
                 Waila.LOGGER.info("Received config from the server: {}", GSON.toJson(map));
             });

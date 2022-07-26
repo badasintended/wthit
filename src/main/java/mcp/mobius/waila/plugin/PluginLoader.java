@@ -27,7 +27,7 @@ public abstract class PluginLoader {
         }
 
         Registrar.INSTANCE.lock();
-        PluginConfig.INSTANCE.reload();
+        PluginConfig.reload();
     }
 
 }

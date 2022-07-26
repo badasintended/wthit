@@ -56,7 +56,7 @@ public abstract class WailaClient {
         }
 
         while (keyToggleLiquid.consumeClick()) {
-            PluginConfig.INSTANCE.set(WailaConstants.CONFIG_SHOW_FLUID, !PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_FLUID));
+            PluginConfig.set(WailaConstants.CONFIG_SHOW_FLUID, !PluginConfig.CLIENT.getBoolean(WailaConstants.CONFIG_SHOW_FLUID));
         }
 
 
@@ -70,9 +70,9 @@ public abstract class WailaClient {
     }
 
     protected static void onItemTooltip(ItemStack stack, List<Component> tooltip) {
-        if (PluginConfig.INSTANCE.getBoolean(WailaConstants.CONFIG_SHOW_MOD_NAME)) {
+        if (PluginConfig.CLIENT.getBoolean(WailaConstants.CONFIG_SHOW_MOD_NAME)) {
             for (IEventListener listener : Registrar.INSTANCE.eventListeners.get(Object.class)) {
-                String name = listener.getHoveredItemModName(stack, PluginConfig.INSTANCE);
+                String name = listener.getHoveredItemModName(stack, PluginConfig.CLIENT);
                 if (name != null) {
                     tooltip.add(IWailaConfig.get().getFormatter().modName(name));
                     return;
@@ -83,18 +83,14 @@ public abstract class WailaClient {
 
     protected static void onServerLogIn(Connection connection) {
         Waila.BLACKLIST_CONFIG.invalidate();
-        if (!connection.isMemoryConnection()) {
-            Waila.LOGGER.info("Connecting to dedicated server, resetting syncable config to client-only values");
-            PluginConfig.INSTANCE.getSyncableConfigs().forEach(config ->
-                config.setValue(config.getClientOnlyValue()));
-        }
+        PluginConfig.getSyncableConfigs().forEach(config ->
+            config.setSyncedValue(null));
     }
 
     protected static void onServerLogout(Connection connection) {
         Waila.BLACKLIST_CONFIG.invalidate();
-        if (!connection.isMemoryConnection()) {
-            PluginConfig.INSTANCE.reload();
-        }
+        PluginConfig.getSyncableConfigs().forEach(config ->
+            config.setSyncedValue(null));
     }
 
     private static KeyMapping createKeyBind(String id) {

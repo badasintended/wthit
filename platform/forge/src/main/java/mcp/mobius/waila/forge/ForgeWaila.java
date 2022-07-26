@@ -46,7 +46,7 @@ public class ForgeWaila extends Waila {
 
         @SubscribeEvent
         static void serverStarting(ServerStartingEvent event) {
-            PluginConfig.INSTANCE.reload();
+            PluginConfig.reload();
         }
 
         @SubscribeEvent
