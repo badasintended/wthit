@@ -23,18 +23,18 @@ public enum PluginConfig implements IPluginConfig {
 
     CLIENT, SERVER;
 
-    private static final Path path = Waila.CONFIG_DIR.resolve(WailaConstants.NAMESPACE + "/" + WailaConstants.WAILA + "_plugins.json");
-    private static final ConfigIo<Map<String, Map<String, JsonPrimitive>>> io = new ConfigIo<>(
+    private static final Path PATH = Waila.CONFIG_DIR.resolve(WailaConstants.NAMESPACE + "/" + WailaConstants.WAILA + "_plugins.json");
+    private static final ConfigIo<Map<String, Map<String, JsonPrimitive>>> IO = new ConfigIo<>(
         Waila.LOGGER::warn, Waila.LOGGER::error,
         new GsonBuilder().setPrettyPrinting().create(),
         new TypeToken<Map<String, Map<String, JsonPrimitive>>>() {
         }.getType(),
         LinkedHashMap::new);
 
-    public static final Map<ResourceLocation, ConfigEntry<?>> configs = new LinkedHashMap<>();
+    public static final Map<ResourceLocation, ConfigEntry<?>> CONFIGS = new LinkedHashMap<>();
 
     public static <T> ConfigEntry<T> addConfig(ConfigEntry<T> entry) {
-        configs.put(entry.getId(), entry);
+        CONFIGS.put(entry.getId(), entry);
         return entry;
     }
 
@@ -45,18 +45,18 @@ public enum PluginConfig implements IPluginConfig {
     }
 
     public static Set<ResourceLocation> getAllKeys() {
-        return configs.keySet();
+        return CONFIGS.keySet();
     }
 
     public static Set<ConfigEntry<Object>> getSyncableConfigs() {
-        return configs.values().stream()
+        return CONFIGS.values().stream()
             .filter(ConfigEntry::isSynced)
             .map(t -> (ConfigEntry<Object>) t)
             .collect(Collectors.toSet());
     }
 
     public static List<String> getNamespaces() {
-        return configs.keySet().stream()
+        return CONFIGS.keySet().stream()
             .map(ResourceLocation::getNamespace)
             .distinct()
             .sorted((o1, o2) -> o1.equals(WailaConstants.NAMESPACE) ? -1 : o2.equals(WailaConstants.NAMESPACE) ? 1 : o1.compareToIgnoreCase(o2))
@@ -64,23 +64,23 @@ public enum PluginConfig implements IPluginConfig {
     }
 
     public static <T> ConfigEntry<T> getEntry(ResourceLocation key) {
-        return (ConfigEntry<T>) configs.get(key);
+        return (ConfigEntry<T>) CONFIGS.get(key);
     }
 
     public static <T> void set(ResourceLocation key, T value) {
-        ConfigEntry<T> entry = (ConfigEntry<T>) configs.get(key);
+        ConfigEntry<T> entry = (ConfigEntry<T>) CONFIGS.get(key);
         if (entry != null) {
             entry.setLocalValue(value);
         }
     }
 
     public static void reload() {
-        if (!Files.exists(path)) {
+        if (!Files.exists(PATH)) {
             writeConfig();
         }
-        Map<String, Map<String, JsonPrimitive>> config = io.read(path);
+        Map<String, Map<String, JsonPrimitive>> config = IO.read(PATH);
         config.forEach((namespace, subMap) -> subMap.forEach((path, value) -> {
-            ConfigEntry<Object> entry = (ConfigEntry<Object>) configs.get(new ResourceLocation(namespace, path));
+            ConfigEntry<Object> entry = (ConfigEntry<Object>) CONFIGS.get(new ResourceLocation(namespace, path));
             if (entry != null) {
                 entry.setLocalValue(entry.getType().parser.apply(value, entry.getDefaultValue()));
             }
@@ -94,18 +94,18 @@ public enum PluginConfig implements IPluginConfig {
 
     private static void writeConfig() {
         Map<String, Map<String, JsonPrimitive>> config = new LinkedHashMap<>();
-        for (ConfigEntry<?> e : configs.values()) {
+        for (ConfigEntry<?> e : CONFIGS.values()) {
             ConfigEntry<Object> entry = (ConfigEntry<Object>) e;
             ResourceLocation id = entry.getId();
             config.computeIfAbsent(id.getNamespace(), k -> new LinkedHashMap<>())
                 .put(id.getPath(), entry.getType().serializer.apply(entry.getLocalValue()));
         }
 
-        io.write(path, config);
+        IO.write(PATH, config);
     }
 
     private <T> T getValue(ResourceLocation key) {
-        return (T) configs.get(key).getValue(this == SERVER);
+        return (T) CONFIGS.get(key).getValue(this == SERVER);
     }
 
     @Override

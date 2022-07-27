@@ -65,6 +65,9 @@
   "config.waila.new"                                           : "New",
   "config.waila.missing_input"                                 : "Missing Input",
   "config.waila.server_only"                                   : "Only editable on server or singleplayer",
+  "config.waila.server_disabled"                               : "The server disabled this option",
+  "config.waila.server_missing_mod"                            : "Locked because server does not have WTHIT installed",
+  "config.waila.server_missing_option"                         : "Locked because server does not have this option",
 
   "config.waila.general"                                       : "General",
   "config.waila.display_tooltip"                               : "Display Tooltip",
