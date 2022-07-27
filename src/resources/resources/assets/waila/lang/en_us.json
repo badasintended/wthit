@@ -16,6 +16,8 @@
   "tooltip.waila.honey_level"                                  : "Honey Level",
   "tooltip.waila.owner"                                        : "Owner",
   "tooltip.waila.owner.loading"                                : "loading...",
+  "tooltip.waila.timer.grow"                                   : "Growing Timer",
+  "tooltip.waila.timer.breed"                                  : "Breeding Cooldown",
 
   "tooltip.waila.instrument.harp"                              : "Harp",
   "tooltip.waila.instrument.basedrum"                          : "Bass Drum",
@@ -192,6 +194,9 @@
   "config.waila.plugin_minecraft.pet.owner"                    : "Show Pet Owner",
   "config.waila.plugin_minecraft.pet.owner_desc"               : "Only available for registered Minecraft accounts",
   "config.waila.plugin_minecraft.pet.hide_unknown_owner"       : "Hide Unknown Owner",
+  "config.waila.plugin_minecraft.timer"                        : "Timer",
+  "config.waila.plugin_minecraft.timer.grow"                   : "Show Grow Up Timer",
+  "config.waila.plugin_minecraft.timer.breed"                  : "Show Breed Cooldown",
 
   "config.waila.plugin_waila"                                  : "Waila Core",
   "config.waila.plugin_waila.show_mod_name"                    : "Show Mod Names",

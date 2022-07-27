@@ -108,6 +108,12 @@ public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IEntityAcce
         return new CompoundTag();
     }
 
+    @Override
+    public long getServerDataTime() {
+        CompoundTag data = getServerData();
+        return data.contains("WailaTime") ? data.getLong("WailaTime") : System.currentTimeMillis();
+    }
+
     public void setServerData(CompoundTag tag) {
         this.serverData = tag;
     }
