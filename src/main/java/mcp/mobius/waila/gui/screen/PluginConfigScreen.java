@@ -7,6 +7,7 @@ import java.util.function.Consumer;
 
 import it.unimi.dsi.fastutil.objects.Object2IntLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
+import lol.bai.badpackets.api.PacketSender;
 import mcp.mobius.waila.config.ConfigEntry;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.gui.widget.ButtonEntry;
@@ -17,6 +18,7 @@ import mcp.mobius.waila.gui.widget.value.ConfigValue;
 import mcp.mobius.waila.gui.widget.value.EnumValue;
 import mcp.mobius.waila.gui.widget.value.InputValue;
 import mcp.mobius.waila.gui.widget.value.IntInputValue;
+import mcp.mobius.waila.network.Packets;
 import mcp.mobius.waila.registry.Registrar;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
@@ -79,10 +81,20 @@ public class PluginConfigScreen extends ConfigScreen {
                                 e.setValue(e.getIntValue() + 1);
                             }
                         }
-                        ConfigValue<Object> value = ENTRY_TO_VALUE.get(entry.getType()).create(key, translationKey + "." + path, entry.getValue(false), entry.getDefaultValue(), entry::setLocalValue);
+                        ConfigValue<Object> value = ENTRY_TO_VALUE.get(entry.getType()).create(key, translationKey + "." + path, entry.getLocalValue(), entry.getDefaultValue(), entry::setLocalValue);
+                        value.setId(key.toString());
                         if (entry.blocksClientEdit() && minecraft.getCurrentServer() != null) {
-                            value.serverOnly = true;
-                            value.setValue(entry.getSyncedValue());
+                            if (entry.getSyncedValue() == null) {
+                                value.disable(PacketSender.c2s().canSend(Packets.VERSION)
+                                    ? "config.waila.server_missing_option"
+                                    : "config.waila.server_missing_mod");
+                                value.setValue(entry.getClientOnlyValue());
+                            } else {
+                                value.disable(entry.isMerged()
+                                    ? "config.waila.server_disabled"
+                                    : "config.waila.server_only");
+                                value.setValue(entry.getSyncedValue());
+                            }
                         }
                         options.with(index, value);
                     }

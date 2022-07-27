@@ -29,7 +29,11 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
     private final String description;
     private final Button resetButton;
 
-    public boolean serverOnly = false;
+    @Nullable
+    private String disabledReason = null;
+
+    @Nullable
+    private String id;
 
     private T value;
     private int x;
@@ -49,7 +53,7 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
     public final void render(@NotNull PoseStack matrices, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
         super.render(matrices, index, rowTop, rowLeft, width, height, mouseX, mouseY, hovered, deltaTime);
 
-        Component title = !serverOnly ? this.title : this.title.copy().withStyle(ChatFormatting.STRIKETHROUGH, ChatFormatting.GRAY);
+        Component title = !isDisabled() ? this.title : this.title.copy().withStyle(ChatFormatting.STRIKETHROUGH, ChatFormatting.GRAY);
         client.font.drawShadow(matrices, title, rowLeft, rowTop + (height - client.font.lineHeight) / 2f, 0xFFFFFF);
 
         int w = width;
@@ -57,7 +61,7 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
             w -= resetButton.getWidth() + 2;
             resetButton.x = rowLeft + width - resetButton.getWidth();
             resetButton.y = rowTop + (height - resetButton.getHeight()) / 2;
-            resetButton.active = !serverOnly && !getValue().equals(defaultValue);
+            resetButton.active = !isDisabled() && !getValue().equals(defaultValue);
             resetButton.render(matrices, mouseX, mouseY, deltaTime);
         }
 
@@ -67,14 +71,17 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
 
     public void renderTooltip(Screen screen, PoseStack matrices, int mouseX, int mouseY, float delta) {
         boolean hasDescTl = I18n.exists(getDescription());
-        if (serverOnly || hasDescTl) {
+        if (id != null || hasDescTl || isDisabled()) {
             String title = getTitle().getString();
             List<FormattedCharSequence> tooltip = Lists.newArrayList(Component.literal(title).getVisualOrderText());
             if (hasDescTl) {
                 tooltip.addAll(client.font.split(Component.translatable(getDescription()).withStyle(ChatFormatting.GRAY), 250));
             }
-            if (serverOnly) {
-                tooltip.addAll(client.font.split(Component.translatable("config.waila.server_only").withStyle(ChatFormatting.RED), 250));
+            if (isDisabled()) {
+                tooltip.addAll(client.font.split(Component.translatable(disabledReason).withStyle(ChatFormatting.RED), 250));
+            }
+            if (id != null) {
+                tooltip.add(Component.literal(id).withStyle(ChatFormatting.DARK_GRAY).getVisualOrderText());
             }
             screen.renderTooltip(matrices, tooltip, mouseX, mouseY);
         }
@@ -94,7 +101,7 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
     }
 
     public void save() {
-        if (!serverOnly) {
+        if (!isDisabled()) {
             save.accept(getValue());
         }
     }
@@ -130,6 +137,18 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
 
     protected void resetValue() {
         setValue(defaultValue);
+    }
+
+    public void disable(String reason) {
+        this.disabledReason = reason;
+    }
+
+    public final boolean isDisabled() {
+        return disabledReason != null;
+    }
+
+    public void setId(@Nullable String id) {
+        this.id = id;
     }
 
     protected abstract void drawValue(PoseStack matrices, int width, int height, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks);

@@ -85,9 +85,7 @@ public class ConfigEntry<T> {
         }
 
         if (merged && syncedValue instanceof Boolean) {
-            Boolean syncedValue = (Boolean) this.syncedValue;
-            Boolean localValue = (Boolean) this.localValue;
-            return (T) (Object) (syncedValue && localValue);
+            return (T) (Boolean.valueOf(syncedValue == Boolean.TRUE && localValue == Boolean.TRUE));
         }
 
         return synced ? Objects.requireNonNullElse(syncedValue, clientOnlyValue) : localValue;
@@ -99,6 +97,10 @@ public class ConfigEntry<T> {
 
     public boolean blocksClientEdit() {
         return synced && !(merged && syncedValue == Boolean.TRUE);
+    }
+
+    public boolean isMerged() {
+        return merged;
     }
 
     private void assertInstance(T value) {

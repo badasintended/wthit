@@ -23,7 +23,7 @@ public class BooleanValue extends ConfigValue<Boolean> {
     @Override
     protected void drawValue(PoseStack matrices, int width, int height, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks) {
         setMessage();
-        button.active = !serverOnly;
+        button.active = !isDisabled();
         button.x = x + width - button.getWidth();
         button.y = y + (height - button.getHeight()) / 2;
         button.render(matrices, mouseX, mouseY, partialTicks);
@@ -31,9 +31,9 @@ public class BooleanValue extends ConfigValue<Boolean> {
 
     private void setMessage() {
         button.setMessage(Component.translatable("config.waila." + getValue())
-            .withStyle(!serverOnly
-                ? getValue() ? ChatFormatting.GREEN : ChatFormatting.RED
-                : ChatFormatting.GRAY));
+            .withStyle(isDisabled() ?
+                ChatFormatting.GRAY :
+                getValue() ? ChatFormatting.GREEN : ChatFormatting.RED));
     }
 
     @Override
