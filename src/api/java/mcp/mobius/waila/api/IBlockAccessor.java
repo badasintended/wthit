@@ -40,6 +40,8 @@ public interface IBlockAccessor {
     @Nullable
     Vec3 getRenderingPosition();
 
+    long getServerDataTime();
+
     CompoundTag getServerData();
 
     double getPartialFrame();

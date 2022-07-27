@@ -7,7 +7,7 @@ import mcp.mobius.waila.plugin.vanilla.config.Options;
 import mcp.mobius.waila.plugin.vanilla.config.Options.NoteDisplayMode;
 import mcp.mobius.waila.plugin.vanilla.provider.BeehiveProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.BoatProvider;
-import mcp.mobius.waila.plugin.vanilla.provider.BreakingProgressProvider;
+import mcp.mobius.waila.plugin.vanilla.provider.BreakProgressProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.ComposterProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.FallingBlockProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.FurnaceProvider;
@@ -15,6 +15,7 @@ import mcp.mobius.waila.plugin.vanilla.provider.InfestedBlockProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.ItemEntityProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.ItemFrameProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.JukeboxProvider;
+import mcp.mobius.waila.plugin.vanilla.provider.MobTimerProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.NoteBlockProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.PetOwnerProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.PlantProvider;
@@ -23,6 +24,7 @@ import mcp.mobius.waila.plugin.vanilla.provider.PowderSnowProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.RedstoneProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.SpawnerProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.TrappedChestProvider;
+import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.decoration.ItemFrame;
@@ -62,6 +64,8 @@ public class WailaVanilla implements IWailaPlugin {
         registrar.addSyncedConfig(Options.PET_OWNER, true, true, true);
         registrar.addSyncedConfig(Options.FURNACE_CONTENTS, true, false, true);
         registrar.addSyncedConfig(Options.JUKEBOX_RECORD, true, false, true);
+        registrar.addSyncedConfig(Options.TIMER_GROW, true, false, true);
+        registrar.addSyncedConfig(Options.TIMER_BREED, true, false, true);
 
         registrar.addSyncedConfig(Options.OVERRIDE_TRAPPED_CHEST, true, true);
         registrar.addSyncedConfig(Options.OVERRIDE_POWDER_SNOW, true, true);
@@ -95,7 +99,7 @@ public class WailaVanilla implements IWailaPlugin {
             EntityType.FIREWORK_ROCKET,
             EntityType.SNOWBALL);
 
-        registrar.addEventListener(BreakingProgressProvider.INSTANCE);
+        registrar.addEventListener(BreakProgressProvider.INSTANCE);
 
         registrar.addOverride(InfestedBlockProvider.INSTANCE, InfestedBlock.class);
         registrar.addOverride(TrappedChestProvider.INSTANCE, TrappedChestBlock.class);
@@ -146,6 +150,9 @@ public class WailaVanilla implements IWailaPlugin {
         registrar.addIcon(ItemFrameProvider.INSTANCE, ItemFrame.class);
         registrar.addComponent(ItemFrameProvider.INSTANCE, HEAD, ItemFrame.class);
         registrar.addComponent(ItemFrameProvider.INSTANCE, TAIL, ItemFrame.class);
+
+        registrar.addComponent(MobTimerProvider.INSTANCE, BODY, AgeableMob.class);
+        registrar.addEntityData(MobTimerProvider.INSTANCE, AgeableMob.class);
     }
 
 }

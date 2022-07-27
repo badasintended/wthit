@@ -41,6 +41,8 @@ public interface ICommonAccessor {
     @Nullable
     Vec3 getRenderingPosition();
 
+    long getServerDataTime();
+
     CompoundTag getServerData();
 
     double getPartialFrame();

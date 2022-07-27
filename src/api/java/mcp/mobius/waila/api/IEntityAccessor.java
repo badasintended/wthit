@@ -28,6 +28,8 @@ public interface IEntityAccessor {
     @Nullable
     Vec3 getRenderingPosition();
 
+    long getServerDataTime();
+
     CompoundTag getServerData();
 
     double getPartialFrame();

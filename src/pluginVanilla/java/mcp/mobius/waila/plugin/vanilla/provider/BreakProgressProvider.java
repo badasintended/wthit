@@ -12,7 +12,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.multiplayer.MultiPlayerGameMode;
 
-public enum BreakingProgressProvider implements IEventListener {
+public enum BreakProgressProvider implements IEventListener {
 
     INSTANCE;
 

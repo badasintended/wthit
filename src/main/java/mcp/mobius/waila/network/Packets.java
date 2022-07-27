@@ -137,6 +137,7 @@ public class Packets {
                 }
 
                 data.putInt("WailaEntityID", entity.getId());
+                data.putLong("WailaTime", System.currentTimeMillis());
 
                 FriendlyByteBuf dataBuf = new FriendlyByteBuf(Unpooled.buffer());
                 dataBuf.writeNbt(data);
@@ -183,6 +184,7 @@ public class Packets {
                 data.putInt("z", pos.getZ());
                 //noinspection ConstantConditions
                 data.putString("id", Registry.BLOCK_ENTITY_TYPE.getKey(blockEntity.getType()).toString());
+                data.putLong("WailaTime", System.currentTimeMillis());
 
                 FriendlyByteBuf dataBuf = new FriendlyByteBuf(Unpooled.buffer());
                 dataBuf.writeNbt(data);
