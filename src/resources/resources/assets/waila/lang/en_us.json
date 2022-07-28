@@ -194,9 +194,12 @@
   "config.waila.plugin_minecraft.pet.owner"                    : "Show Pet Owner",
   "config.waila.plugin_minecraft.pet.owner_desc"               : "Only available for registered Minecraft accounts",
   "config.waila.plugin_minecraft.pet.hide_unknown_owner"       : "Hide Unknown Owner",
-  "config.waila.plugin_minecraft.timer"                        : "Timer",
+  "config.waila.plugin_minecraft.timer"                        : "Timers",
   "config.waila.plugin_minecraft.timer.grow"                   : "Show Grow Up Timer",
   "config.waila.plugin_minecraft.timer.breed"                  : "Show Breed Cooldown",
+  "config.waila.plugin_minecraft.attribute"                    : "Attributes",
+  "config.waila.plugin_minecraft.attribute.health"             : "Show Health Points",
+  "config.waila.plugin_minecraft.attribute.armor"              : "Show Armor Points",
 
   "config.waila.plugin_waila"                                  : "Waila Core",
   "config.waila.plugin_waila.show_mod_name"                    : "Show Mod Names",
@@ -206,7 +209,6 @@
   "config.waila.plugin_waila.show_fluids_desc"                 : "Try to show fluids",
   "config.waila.plugin_waila.show_entities"                    : "Show Entities",
   "config.waila.plugin_waila.show_icon"                        : "Show Icon",
-  "config.waila.plugin_waila.show_entity_hp"                   : "Show Entity Health",
   "config.waila.plugin_waila.show_states"                      : "Show States",
   "config.waila.plugin_waila.show_pos"                         : "Show Block Position"
 }

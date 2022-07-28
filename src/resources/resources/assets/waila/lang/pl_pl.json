@@ -58,6 +58,5 @@
   "config.waila.plugin_waila.show_fluids"      : "Wyświetlaj ciecze",
   "config.waila.plugin_waila.show_fluids_desc" : "Staraj się pokazywać ciecze",
   "config.waila.plugin_waila.show_entities"    : "Pokaż byty",
-  "config.waila.plugin_waila.show_entity_hp"   : "Pokaż zdrowie bytów",
   "config.waila.plugin_waila.show_states"      : "Pokaż stan"
 }

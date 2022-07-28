@@ -157,7 +157,6 @@
   "config.waila.plugin_waila.show_fluids"               : "Ver fluídos",
   "config.waila.plugin_waila.show_fluids_desc"          : "Trata de mostrar el nombre de fluídos",
   "config.waila.plugin_waila.show_entities"             : "Ver entidades",
-  "config.waila.plugin_waila.show_entity_hp"            : "Ver vida de entidades",
   "config.waila.plugin_waila.show_states"               : "Ver estados",
   "config.waila.plugin_waila.show_pos"                  : "Ver posición de bloques"
 }

@@ -154,16 +154,6 @@ public class WailaConfigScreen extends ConfigScreen {
                 get().getGeneral().getRateLimit(),
                 defaultConfig.getGeneral().getRateLimit(),
                 val -> get().getGeneral().setRateLimit(Math.max(val, 250)),
-                InputValue.POSITIVE_INTEGER))
-            .with(new InputValue<>("config.waila.max_health_for_render",
-                get().getGeneral().getMaxHealthForRender(),
-                defaultConfig.getGeneral().getMaxHealthForRender(),
-                val -> get().getGeneral().setMaxHealthForRender(val),
-                InputValue.POSITIVE_INTEGER))
-            .with(new InputValue<>("config.waila.max_hearts_per_line",
-                get().getGeneral().getMaxHeartsPerLine(),
-                defaultConfig.getGeneral().getMaxHeartsPerLine(),
-                val -> get().getGeneral().setMaxHeartsPerLine(val),
                 InputValue.POSITIVE_INTEGER));
 
         options.with(new CategoryEntry("config.waila.overlay"))

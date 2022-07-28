@@ -62,8 +62,6 @@ public class WailaConfig implements IWailaConfig {
         private boolean hideFromDebug = true;
         private boolean enableTextToSpeech = false;
         private int rateLimit = 250;
-        private int maxHealthForRender = 40;
-        private int maxHeartsPerLine = 10;
 
         @Override
         public boolean isDisplayTooltip() {
@@ -139,21 +137,15 @@ public class WailaConfig implements IWailaConfig {
         }
 
         @Override
+        @SuppressWarnings("removal")
         public int getMaxHealthForRender() {
-            return maxHealthForRender;
-        }
-
-        public void setMaxHealthForRender(int maxHealthForRender) {
-            this.maxHealthForRender = maxHealthForRender;
+            return 40;
         }
 
         @Override
+        @SuppressWarnings("removal")
         public int getMaxHeartsPerLine() {
-            return maxHeartsPerLine;
-        }
-
-        public void setMaxHeartsPerLine(int maxHeartsPerLine) {
-            this.maxHeartsPerLine = maxHeartsPerLine;
+            return 10;
         }
 
     }
