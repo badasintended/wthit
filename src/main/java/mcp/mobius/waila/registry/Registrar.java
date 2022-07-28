@@ -57,62 +57,71 @@ public enum Registrar implements IRegistrar {
 
     private boolean locked = false;
 
-    private <T> ConfigEntry<T> addConfig(ResourceLocation key, T defaultValue, T clientOnlyValue, boolean synced, ConfigEntry.Type<T> type) {
+    private <T> void addConfig(ResourceLocation key, T defaultValue, T clientOnlyValue, boolean serverRequired, boolean merged, ConfigEntry.Type<T> type) {
         assertLock();
-        return PluginConfig.addConfig(type.create(key, defaultValue, clientOnlyValue, synced));
+        PluginConfig.addConfig(type.create(key, defaultValue, clientOnlyValue, serverRequired, merged));
     }
 
     @Override
     public void addConfig(ResourceLocation key, boolean defaultValue) {
-        addConfig(key, defaultValue, defaultValue, false, ConfigEntry.BOOLEAN);
+        addConfig(key, defaultValue, defaultValue, false, false, ConfigEntry.BOOLEAN);
     }
 
     @Override
     public void addConfig(ResourceLocation key, int defaultValue, IntFormat format) {
         intConfigFormats.put(key, format);
-        addConfig(key, defaultValue, defaultValue, false, ConfigEntry.INTEGER);
+        addConfig(key, defaultValue, defaultValue, false, false, ConfigEntry.INTEGER);
     }
 
     @Override
     public void addConfig(ResourceLocation key, double defaultValue) {
-        addConfig(key, defaultValue, defaultValue, false, ConfigEntry.DOUBLE);
+        addConfig(key, defaultValue, defaultValue, false, false, ConfigEntry.DOUBLE);
     }
 
     @Override
     public void addConfig(ResourceLocation key, String defaultValue) {
-        addConfig(key, defaultValue, defaultValue, false, ConfigEntry.STRING);
+        addConfig(key, defaultValue, defaultValue, false, false, ConfigEntry.STRING);
     }
 
     @Override
     public <T extends Enum<T>> void addConfig(ResourceLocation key, T defaultValue) {
-        addConfig(key, defaultValue, defaultValue, false, ConfigEntry.ENUM);
+        addConfig(key, defaultValue, defaultValue, false, false, ConfigEntry.ENUM);
     }
 
     @Override
-    public void addSyncedConfig(ResourceLocation key, boolean defaultValue, boolean clientOnlyValue, boolean merge) {
-        addConfig(key, defaultValue, clientOnlyValue, true, ConfigEntry.BOOLEAN)
-            .setMerged(merge);
+    public void addMergedConfig(ResourceLocation key, boolean defaultValue) {
+        addConfig(key, defaultValue, defaultValue, false, true, ConfigEntry.BOOLEAN);
+    }
+
+    @Override
+    public void addMergedSyncedConfig(ResourceLocation key, boolean defaultValue, boolean clientOnlyValue) {
+        addConfig(key, defaultValue, clientOnlyValue, true, true, ConfigEntry.BOOLEAN);
+    }
+
+    @Override
+    public void addSyncedConfig(ResourceLocation key, boolean defaultValue, boolean clientOnlyValue) {
+        addConfig(key, defaultValue, clientOnlyValue, true, false, ConfigEntry.BOOLEAN);
     }
 
     @Override
     public void addSyncedConfig(ResourceLocation key, int defaultValue, int clientOnlyValue, IntFormat format) {
         intConfigFormats.put(key, format);
-        addConfig(key, defaultValue, clientOnlyValue, true, ConfigEntry.INTEGER);
+        addConfig(key, defaultValue, clientOnlyValue, true, false, ConfigEntry.INTEGER);
     }
 
     @Override
     public void addSyncedConfig(ResourceLocation key, double defaultValue, double clientOnlyValue) {
-        addConfig(key, defaultValue, clientOnlyValue, true, ConfigEntry.DOUBLE);
+        addConfig(key, defaultValue, clientOnlyValue, true, false, ConfigEntry.DOUBLE);
     }
 
     @Override
     public void addSyncedConfig(ResourceLocation key, String defaultValue, String clientOnlyValue) {
-        addConfig(key, defaultValue, clientOnlyValue, true, ConfigEntry.STRING);
+        addConfig(key, defaultValue, clientOnlyValue, true, false, ConfigEntry.STRING);
     }
 
     @Override
     public <T extends Enum<T>> void addSyncedConfig(ResourceLocation key, T defaultValue, T clientOnlyValue) {
-        addConfig(key, defaultValue, clientOnlyValue, true, ConfigEntry.ENUM);
+        addConfig(key, defaultValue, clientOnlyValue, true, false, ConfigEntry.ENUM);
     }
 
     @Override

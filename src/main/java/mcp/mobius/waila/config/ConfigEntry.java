@@ -21,20 +21,21 @@ public class ConfigEntry<T> {
     private final ResourceLocation id;
     private final T defaultValue;
     private final T clientOnlyValue;
-    private final boolean synced;
+    private final boolean serverRequired;
+    private final boolean merged;
+
     private final Type<T> type;
 
-    private T syncedValue;
+    private T serverValue;
     private T localValue;
 
-    private boolean merged = false;
-
-    private ConfigEntry(ResourceLocation id, T defaultValue, T clientOnlyValue, boolean synced, Type<T> type) {
+    private ConfigEntry(ResourceLocation id, T defaultValue, T clientOnlyValue, boolean serverRequired, boolean merged, Type<T> type) {
         this.id = id;
         this.defaultValue = defaultValue;
         this.localValue = defaultValue;
         this.clientOnlyValue = clientOnlyValue;
-        this.synced = synced;
+        this.serverRequired = serverRequired;
+        this.merged = merged;
         this.type = type;
     }
 
@@ -54,16 +55,16 @@ public class ConfigEntry<T> {
         return clientOnlyValue;
     }
 
-    public boolean isSynced() {
-        return synced;
+    public boolean isServerRequired() {
+        return serverRequired;
     }
 
     public T getLocalValue() {
         return localValue;
     }
 
-    public T getSyncedValue() {
-        return syncedValue;
+    public T getServerValue() {
+        return serverValue;
     }
 
     public void setLocalValue(T localValue) {
@@ -71,11 +72,11 @@ public class ConfigEntry<T> {
         this.localValue = localValue;
     }
 
-    public void setSyncedValue(@Nullable T syncedValue) {
-        if (syncedValue != null) {
-            assertInstance(syncedValue);
+    public void setServerValue(@Nullable T serverValue) {
+        if (serverValue != null) {
+            assertInstance(serverValue);
         }
-        this.syncedValue = syncedValue;
+        this.serverValue = serverValue;
     }
 
     @SuppressWarnings("unchecked")
@@ -84,23 +85,26 @@ public class ConfigEntry<T> {
             return localValue;
         }
 
-        if (merged && syncedValue instanceof Boolean) {
-            return (T) (Boolean.valueOf(syncedValue == Boolean.TRUE && localValue == Boolean.TRUE));
+        if (merged && serverValue instanceof Boolean) {
+            return (T) (Boolean.valueOf(serverValue == Boolean.TRUE && localValue == Boolean.TRUE));
         }
 
-        return synced ? Objects.requireNonNullElse(syncedValue, clientOnlyValue) : localValue;
-    }
-
-    public void setMerged(boolean merged) {
-        this.merged = merged;
+        return serverRequired ? Objects.requireNonNullElse(serverValue, clientOnlyValue) : localValue;
     }
 
     public boolean blocksClientEdit() {
-        return synced && !(merged && syncedValue == Boolean.TRUE);
+        if (merged && serverValue instanceof Boolean) {
+            return serverValue == Boolean.FALSE;
+        }
+        return serverRequired;
     }
 
     public boolean isMerged() {
         return merged;
+    }
+
+    public boolean isSynced() {
+        return serverRequired || merged;
     }
 
     private void assertInstance(T value) {
@@ -119,8 +123,8 @@ public class ConfigEntry<T> {
             this.serializer = serializer;
         }
 
-        public ConfigEntry<T> create(ResourceLocation id, T defaultValue, T clientOnlyValue, boolean synced) {
-            return new ConfigEntry<>(id, defaultValue, clientOnlyValue, synced, this);
+        public ConfigEntry<T> create(ResourceLocation id, T defaultValue, T clientOnlyValue, boolean serverRequired, boolean merged) {
+            return new ConfigEntry<>(id, defaultValue, clientOnlyValue, serverRequired, merged, this);
         }
 
     }

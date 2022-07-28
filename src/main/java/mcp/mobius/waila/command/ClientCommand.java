@@ -1,8 +1,5 @@
 package mcp.mobius.waila.command;
 
-import java.util.Arrays;
-import java.util.stream.Stream;
-
 import com.google.gson.JsonPrimitive;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.ArgumentType;
@@ -19,6 +16,9 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.commands.arguments.ResourceLocationArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+
+import java.util.Arrays;
+import java.util.stream.Stream;
 
 import static net.minecraft.commands.SharedSuggestionProvider.suggest;
 import static net.minecraft.commands.SharedSuggestionProvider.suggestResource;
@@ -64,7 +64,7 @@ public abstract class ClientCommand<S> {
                 feedback.success(Component.translatable("command.waila.config.get.synced", entry.isSynced()));
                 feedback.success(Component.translatable("command.waila.config.get.current_value", entry.getValue(false).toString()));
                 feedback.success(Component.translatable("command.waila.config.get.default_value", entry.getDefaultValue().toString()));
-                if (entry.isSynced()) {
+                if (entry.isServerRequired()) {
                     feedback.success(Component.translatable("command.waila.config.get.client_only_value", entry.getClientOnlyValue().toString()));
                 }
                 return 1;
