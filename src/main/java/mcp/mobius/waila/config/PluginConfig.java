@@ -33,9 +33,8 @@ public enum PluginConfig implements IPluginConfig {
 
     public static final Map<ResourceLocation, ConfigEntry<?>> CONFIGS = new LinkedHashMap<>();
 
-    public static <T> ConfigEntry<T> addConfig(ConfigEntry<T> entry) {
+    public static <T> void addConfig(ConfigEntry<T> entry) {
         CONFIGS.put(entry.getId(), entry);
-        return entry;
     }
 
     public static Set<ResourceLocation> getAllKeys(String namespace) {

@@ -84,7 +84,7 @@ public class PluginConfigScreen extends ConfigScreen {
                         ConfigValue<Object> value = ENTRY_TO_VALUE.get(entry.getType()).create(key, translationKey + "." + path, entry.getLocalValue(), entry.getDefaultValue(), entry::setLocalValue);
                         value.setId(key.toString());
                         if (entry.blocksClientEdit() && minecraft.getCurrentServer() != null) {
-                            if (entry.getSyncedValue() == null) {
+                            if (entry.getServerValue() == null) {
                                 value.disable(PacketSender.c2s().canSend(Packets.VERSION)
                                     ? "config.waila.server_missing_option"
                                     : "config.waila.server_missing_mod");
@@ -93,7 +93,7 @@ public class PluginConfigScreen extends ConfigScreen {
                                 value.disable(entry.isMerged()
                                     ? "config.waila.server_disabled"
                                     : "config.waila.server_only");
-                                value.setValue(entry.getSyncedValue());
+                                value.setValue(entry.getServerValue());
                             }
                         }
                         options.with(index, value);

@@ -71,15 +71,22 @@ public interface IRegistrar {
 
     /**
      * Registers a namespaced config key to be accessed within data providers.
-     * These values are sent from the server to the client upon connection.
+     * When the server has waila installed, the server will send its value and it will be merged with client value.
+     *
+     * @param key          the namespaced key
+     * @param defaultValue the default value
+     */
+    void addMergedConfig(ResourceLocation key, boolean defaultValue);
+
+    /**
+     * Registers a namespaced config key to be accessed within data providers.
+     * When the server has waila installed, the server will send its value and it will be merged with client value.
      *
      * @param key             the namespaced key
      * @param defaultValue    the default value
      * @param clientOnlyValue the value that will be used when the server connected doesn't have waila installed
-     * @param merge           if {@code true}, client will still be able to disable the option only if the server enable it,
-     *                        if {@code false}, client option will get overloaded by server value regardless
      */
-    void addSyncedConfig(ResourceLocation key, boolean defaultValue, boolean clientOnlyValue, boolean merge);
+    void addMergedSyncedConfig(ResourceLocation key, boolean defaultValue, boolean clientOnlyValue);
 
     /**
      * Registers a namespaced config key to be accessed within data providers.
@@ -89,9 +96,7 @@ public interface IRegistrar {
      * @param defaultValue    the default value
      * @param clientOnlyValue the value that will be used when the server connected doesn't have waila installed
      */
-    default void addSyncedConfig(ResourceLocation key, boolean defaultValue, boolean clientOnlyValue) {
-        addSyncedConfig(key, defaultValue, clientOnlyValue, false);
-    }
+    void addSyncedConfig(ResourceLocation key, boolean defaultValue, boolean clientOnlyValue);
 
     /**
      * Registers a namespaced config key to be accessed within data providers.

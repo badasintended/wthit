@@ -239,11 +239,11 @@ public class Packets {
                     Object clientOnlyValue = config.getClientOnlyValue();
                     Object syncedValue = clientOnlyValue instanceof Enum<?> e
                         ? Enum.valueOf(e.getDeclaringClass(), (String) map.getOrDefault(id, e.name()))
-                        : map.getOrDefault(id, clientOnlyValue);
+                        : map.get(id);
                     if (syncedValue instanceof Double d && clientOnlyValue instanceof Integer) {
                         syncedValue = d.intValue();
                     }
-                    config.setSyncedValue(syncedValue);
+                    config.setServerValue(syncedValue);
                 }
                 Waila.LOGGER.info("Received config from the server: {}", GSON.toJson(map));
             });

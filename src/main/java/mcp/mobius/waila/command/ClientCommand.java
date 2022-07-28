@@ -64,7 +64,7 @@ public abstract class ClientCommand<S> {
                 feedback.success(Component.translatable("command.waila.config.get.synced", entry.isSynced()));
                 feedback.success(Component.translatable("command.waila.config.get.current_value", entry.getValue(false).toString()));
                 feedback.success(Component.translatable("command.waila.config.get.default_value", entry.getDefaultValue().toString()));
-                if (entry.isSynced()) {
+                if (entry.isServerRequired()) {
                     feedback.success(Component.translatable("command.waila.config.get.client_only_value", entry.getClientOnlyValue().toString()));
                 }
                 return 1;

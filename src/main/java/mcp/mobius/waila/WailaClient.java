@@ -84,13 +84,13 @@ public abstract class WailaClient {
     protected static void onServerLogIn(Connection connection) {
         Waila.BLACKLIST_CONFIG.invalidate();
         PluginConfig.getSyncableConfigs().forEach(config ->
-            config.setSyncedValue(null));
+            config.setServerValue(null));
     }
 
     protected static void onServerLogout(Connection connection) {
         Waila.BLACKLIST_CONFIG.invalidate();
         PluginConfig.getSyncableConfigs().forEach(config ->
-            config.setSyncedValue(null));
+            config.setServerValue(null));
     }
 
     private static KeyMapping createKeyBind(String id) {
