@@ -37,8 +37,12 @@ public interface IWailaConfig {
 
         int getRateLimit();
 
+        @Deprecated(forRemoval = true)
+        @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
         int getMaxHealthForRender();
 
+        @Deprecated(forRemoval = true)
+        @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
         int getMaxHeartsPerLine();
 
         enum DisplayMode {

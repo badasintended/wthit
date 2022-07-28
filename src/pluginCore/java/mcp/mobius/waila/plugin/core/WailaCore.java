@@ -47,7 +47,6 @@ public class WailaCore implements IWailaPlugin {
         registrar.addConfig(WailaConstants.CONFIG_SHOW_ICON, true);
         registrar.addConfig(WailaConstants.CONFIG_SHOW_MOD_NAME, true);
         registrar.addConfig(WailaConstants.CONFIG_SHOW_REGISTRY, false);
-        registrar.addConfig(Options.ENTITY_HEALTH, true);
         registrar.addConfig(Options.STATES, false);
         registrar.addConfig(Options.POS, false);
     }

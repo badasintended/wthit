@@ -30,6 +30,8 @@ public final class Options {
     public static final ResourceLocation NOTE_BLOCK_INT_VALUE          = rl("note_block.int_value");
     public static final ResourceLocation TIMER_GROW                    = rl("timer.grow");
     public static final ResourceLocation TIMER_BREED                   = rl("timer.breed");
+    public static final ResourceLocation ATTRIBUTE_HEALTH              = rl("attribute.health");
+    public static final ResourceLocation ATTRIBUTE_ARMOR               = rl("attribute.armor");
     // @formatter:on
 
     public enum NoteDisplayMode {

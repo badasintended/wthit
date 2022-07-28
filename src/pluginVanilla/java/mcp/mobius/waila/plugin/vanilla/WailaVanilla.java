@@ -9,6 +9,7 @@ import mcp.mobius.waila.plugin.vanilla.provider.BeehiveProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.BoatProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.BreakProgressProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.ComposterProvider;
+import mcp.mobius.waila.plugin.vanilla.provider.EntityAttributesProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.FallingBlockProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.FurnaceProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.InfestedBlockProvider;
@@ -27,6 +28,7 @@ import mcp.mobius.waila.plugin.vanilla.provider.TrappedChestProvider;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.decoration.ItemFrame;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -64,6 +66,8 @@ public class WailaVanilla implements IWailaPlugin {
         registrar.addSyncedConfig(Options.PET_OWNER, true, true, true);
         registrar.addSyncedConfig(Options.FURNACE_CONTENTS, true, false, true);
         registrar.addSyncedConfig(Options.JUKEBOX_RECORD, true, false, true);
+        registrar.addSyncedConfig(Options.ATTRIBUTE_HEALTH, true, true, true);
+        registrar.addSyncedConfig(Options.ATTRIBUTE_ARMOR, true, true, true);
         registrar.addSyncedConfig(Options.TIMER_GROW, true, false, true);
         registrar.addSyncedConfig(Options.TIMER_BREED, true, false, true);
 
@@ -104,6 +108,8 @@ public class WailaVanilla implements IWailaPlugin {
         registrar.addOverride(InfestedBlockProvider.INSTANCE, InfestedBlock.class);
         registrar.addOverride(TrappedChestProvider.INSTANCE, TrappedChestBlock.class);
         registrar.addOverride(PowderSnowProvider.INSTANCE, PowderSnowBlock.class);
+
+        registrar.addComponent(EntityAttributesProvider.INSTANCE, HEAD, LivingEntity.class);
 
         registrar.addIcon(PlayerHeadProvider.INSTANCE, SkullBlockEntity.class);
         registrar.addComponent(PlayerHeadProvider.INSTANCE, BODY, SkullBlockEntity.class);
