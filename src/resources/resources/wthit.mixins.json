@@ -5,9 +5,16 @@
   "compatibilityLevel": "JAVA_16",
   "refmap"            : "wthit.refmap.json",
   "mixins"            : [
-    "AbstractFurnaceBlockEntityAccess"
+    "AbstractFurnaceBlockEntityAccess",
+    "EntityAccess"
   ],
-  "client"            : ["BossHealthOverlayAccess", "EditBoxAccess", "KeyMappingAccess", "MultiPlayerGameModeAccess", "PlayerTabOverlayAccess"],
+  "client"            : [
+    "BossHealthOverlayAccess",
+    "EditBoxAccess",
+    "KeyMappingAccess",
+    "MultiPlayerGameModeAccess",
+    "PlayerTabOverlayAccess"
+  ],
   "injectors"         : {
     "defaultRequire": 1
   }
