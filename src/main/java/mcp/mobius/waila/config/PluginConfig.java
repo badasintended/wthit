@@ -103,8 +103,10 @@ public enum PluginConfig implements IPluginConfig {
         IO.write(PATH, config);
     }
 
-    private <T> T getValue(ResourceLocation key) {
-        return (T) CONFIGS.get(key).getValue(this == SERVER);
+    private <T> T getValue(ResourceLocation key, T defaultValue) {
+        return CONFIGS.containsKey(key)
+            ? (T) CONFIGS.get(key).getValue(this == SERVER)
+            : defaultValue;
     }
 
     @Override
@@ -119,27 +121,27 @@ public enum PluginConfig implements IPluginConfig {
 
     @Override
     public boolean getBoolean(ResourceLocation key) {
-        return getValue(key);
+        return getValue(key, false);
     }
 
     @Override
     public int getInt(ResourceLocation key) {
-        return getValue(key);
+        return getValue(key, 0);
     }
 
     @Override
     public double getDouble(ResourceLocation key) {
-        return getValue(key);
+        return getValue(key, 0);
     }
 
     @Override
     public String getString(ResourceLocation key) {
-        return getValue(key);
+        return getValue(key, "");
     }
 
     @Override
     public <T extends Enum<T>> T getEnum(ResourceLocation key) {
-        return getValue(key);
+        return getValue(key, null);
     }
 
 }
