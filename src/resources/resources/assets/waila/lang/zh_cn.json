@@ -162,7 +162,5 @@
   "config.waila.plugin_waila.show_fluids"               : "显示流体",
   "config.waila.plugin_waila.show_fluids_desc"          : "尝试显示流体",
   "config.waila.plugin_waila.show_entities"             : "显示实体",
-  "config.waila.plugin_waila.show_icon"                 : "显示图标",
-  "config.waila.plugin_waila.show_states"               : "显示状态",
-  "config.waila.plugin_waila.show_pos"                  : "显示方块坐标"
+  "config.waila.plugin_waila.show_icon"                 : "显示图标"
 }

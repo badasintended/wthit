@@ -161,7 +161,5 @@
   "config.waila.plugin_waila.show_blocks"               : "블록 표시",
   "config.waila.plugin_waila.show_fluids"               : "유체 표시",
   "config.waila.plugin_waila.show_fluids_desc"          : "유체를 보여줍니다.",
-  "config.waila.plugin_waila.show_entities"             : "개체 표시",
-  "config.waila.plugin_waila.show_states"               : "상태 표시",
-  "config.waila.plugin_waila.show_pos"                  : "블록 위치 표시"
+  "config.waila.plugin_waila.show_entities"             : "개체 표시"
 }

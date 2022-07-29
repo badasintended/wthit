@@ -156,7 +156,5 @@
   "config.waila.plugin_waila.show_blocks"               : "ブロックの表示",
   "config.waila.plugin_waila.show_fluids"               : "流体の表示",
   "config.waila.plugin_waila.show_fluids_desc"          : "流体の表示を試してみる",
-  "config.waila.plugin_waila.show_entities"             : "エンティティの表示",
-  "config.waila.plugin_waila.show_states"               : "状態の表示",
-  "config.waila.plugin_waila.show_pos"                  : "ブロック座標の表示"
+  "config.waila.plugin_waila.show_entities"             : "エンティティの表示"
 }

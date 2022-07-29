@@ -11,20 +11,12 @@ import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.component.ItemComponent;
-import mcp.mobius.waila.api.component.PairComponent;
-import mcp.mobius.waila.plugin.core.config.Options;
-import net.minecraft.ChatFormatting;
-import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.Style;
-import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.Nameable;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
 
 public enum BlockProvider implements IBlockComponentProvider, IServerDataProvider<BlockEntity> {
 
@@ -50,23 +42,6 @@ public enum BlockProvider implements IBlockComponentProvider, IServerDataProvide
         tooltip.setLine(WailaConstants.OBJECT_NAME_TAG, formatter.blockName(name));
         if (config.getBoolean(WailaConstants.CONFIG_SHOW_REGISTRY))
             tooltip.setLine(WailaConstants.REGISTRY_NAME_TAG, formatter.registryName(Registry.BLOCK.getKey(block)));
-    }
-
-    @Override
-    public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
-        if (config.getBoolean(Options.POS)) {
-            BlockPos pos = accessor.getPosition();
-            tooltip.addLine(new TextComponent("(" + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + ")"));
-        }
-
-        if (config.getBoolean(Options.STATES)) {
-            BlockState state = accessor.getBlockState();
-            state.getProperties().forEach(p -> {
-                Comparable<?> value = state.getValue(p);
-                Component valueText = new TextComponent(value.toString()).setStyle(Style.EMPTY.withColor(p instanceof BooleanProperty ? value == Boolean.TRUE ? ChatFormatting.GREEN : ChatFormatting.RED : ChatFormatting.RESET));
-                tooltip.addLine(new PairComponent(new TextComponent(p.getName()), valueText));
-            });
-        }
     }
 
     @Override

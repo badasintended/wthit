@@ -52,6 +52,5 @@
   "config.waila.plugin_waila.show_registry"   : "Zeige Registrierungsnamen",
   "config.waila.plugin_waila.show_fluids"     : "Flüssigkeiten anzeigen",
   "config.waila.plugin_waila.show_fluids_desc": "Versuche Flüssigkeiten anzuzeigen",
-  "config.waila.plugin_waila.show_entities"   : "Zeige Kreaturen",
-  "config.waila.plugin_waila.show_states"     : "Zeige Status"
+  "config.waila.plugin_waila.show_entities"   : "Zeige Kreaturen"
 }

@@ -198,6 +198,9 @@
   "config.waila.plugin_minecraft.timer.grow"                   : "Show Grow Up Timer",
   "config.waila.plugin_minecraft.timer.breed"                  : "Show Breed Cooldown",
   "config.waila.plugin_minecraft.attribute"                    : "Attributes",
+  "config.waila.plugin_minecraft.attribute.block_position"     : "Show Block Position",
+  "config.waila.plugin_minecraft.attribute.block_state"        : "Show Block State",
+  "config.waila.plugin_minecraft.attribute.entity_position"    : "Show Entity Position",
   "config.waila.plugin_minecraft.attribute.health"             : "Show Health Points",
   "config.waila.plugin_minecraft.attribute.armor"              : "Show Armor Points",
 
@@ -208,7 +211,5 @@
   "config.waila.plugin_waila.show_fluids"                      : "Show Fluids",
   "config.waila.plugin_waila.show_fluids_desc"                 : "Try to show fluids",
   "config.waila.plugin_waila.show_entities"                    : "Show Entities",
-  "config.waila.plugin_waila.show_icon"                        : "Show Icon",
-  "config.waila.plugin_waila.show_states"                      : "Show States",
-  "config.waila.plugin_waila.show_pos"                         : "Show Block Position"
+  "config.waila.plugin_waila.show_icon"                        : "Show Icon"
 }
