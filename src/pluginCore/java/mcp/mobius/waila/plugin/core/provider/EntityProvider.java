@@ -9,7 +9,9 @@ import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.component.ItemComponent;
+import mcp.mobius.waila.mixin.EntityAccess;
 import net.minecraft.core.Registry;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
 import net.minecraft.world.item.ItemStack;
@@ -35,9 +37,19 @@ public enum EntityProvider implements IEntityComponentProvider {
     public void appendHead(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
         Entity entity = accessor.getEntity();
         IWailaConfig.Formatter formatter = IWailaConfig.get().getFormatter();
-        tooltip.setLine(WailaConstants.OBJECT_NAME_TAG, formatter.entityName(entity.getDisplayName().getString()));
-        if (config.getBoolean(WailaConstants.CONFIG_SHOW_REGISTRY))
+
+        String name;
+        Component customName = entity.getCustomName();
+        if (customName != null) {
+            name = customName.getString() + " (" + ((EntityAccess) entity).wthit_getTypeName().getString() + ")";
+        } else {
+            name = entity.getName().getString();
+        }
+
+        tooltip.setLine(WailaConstants.OBJECT_NAME_TAG, formatter.entityName(name));
+        if (config.getBoolean(WailaConstants.CONFIG_SHOW_REGISTRY)) {
             tooltip.setLine(WailaConstants.REGISTRY_NAME_TAG, formatter.registryName(Registry.ENTITY_TYPE.getKey(entity.getType())));
+        }
     }
 
     @Override
