@@ -35,12 +35,14 @@ sourceSets {
     main {
         compileClasspath += integration.output
         runtimeClasspath += integration.output
-        resources.srcDir(rootProject.file("src/accesswidener/resources"))
     }
 }
 
 loom {
-    accessWidenerPath.set(rootProject.file("src/accesswidener/resources/wthit.accesswidener"))
+    mixin {
+        add(sourceSets["main"], "wthit.refmap.json")
+    }
+
     runs {
         configureEach {
             isIdeConfigGenerated = true

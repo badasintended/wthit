@@ -4,6 +4,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import mcp.mobius.waila.mixin.EditBoxAccess;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.network.chat.Component;
@@ -95,8 +96,9 @@ public class InputValue<T> extends ConfigValue<T> {
         super.setValue(value);
 
         if (!valueFromTextField) {
-            textField.value = serializer.serialize(value);
-            textField.setCursorPosition(textField.value.length());
+            EditBoxAccess access = (EditBoxAccess) textField;
+            access.wthit_value(serializer.serialize(value));
+            textField.setCursorPosition(access.wthit_value().length());
             textField.setHighlightPos(textField.getCursorPosition());
         }
 
@@ -112,9 +114,10 @@ public class InputValue<T> extends ConfigValue<T> {
 
         @Override
         public void insertText(@NotNull String string) {
-            int i = Math.min(getCursorPosition(), highlightPos);
-            int j = Math.max(getCursorPosition(), highlightPos);
-            int k = maxLength - getValue().length() - (i - j);
+            EditBoxAccess access = (EditBoxAccess) this;
+            int i = Math.min(getCursorPosition(), access.wthit_highlightPos());
+            int j = Math.max(getCursorPosition(), access.wthit_highlightPos());
+            int k = access.wthit_maxLength() - getValue().length() - (i - j);
             String string2 = string;
             int l = string2.length();
             if (k < l) {
@@ -123,11 +126,11 @@ public class InputValue<T> extends ConfigValue<T> {
             }
 
             String string3 = (new StringBuilder(getValue())).replace(i, j, string2).toString();
-            if (filter.test(string3)) {
-                value = string3;
+            if (access.wthit_filter().test(string3)) {
+                access.wthit_value(string3);
                 this.setCursorPosition(i + l);
                 this.setHighlightPos(getCursorPosition());
-                onValueChange(string3);
+                access.wthit_onValueChange(string3);
             }
         }
 

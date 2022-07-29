@@ -1,6 +1,7 @@
 import org.gradle.api.Project
 import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.api.tasks.bundling.Jar
+import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.kotlin.dsl.*
 
 fun Project.setupPlatform() {
@@ -16,8 +17,13 @@ fun Project.setupPlatform() {
         }
     }
 
+    // mixin ap need to access the classes so it needs to be compiled on each platform
+    tasks.named<JavaCompile>("compileJava") {
+        source(rootSourceSets["mixin"].allJava)
+    }
+
     tasks.named<Jar>("jar") {
-        rootSourceSets.forEach {
+        rootSourceSets.filterNot { it.name == "mixin" }.forEach {
             from(it.output)
         }
     }

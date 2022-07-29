@@ -20,6 +20,7 @@ import mcp.mobius.waila.gui.widget.value.ConfigValue;
 import mcp.mobius.waila.gui.widget.value.CycleValue;
 import mcp.mobius.waila.gui.widget.value.EnumValue;
 import mcp.mobius.waila.gui.widget.value.InputValue;
+import mcp.mobius.waila.mixin.KeyMappingAccess;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.gui.components.Button;
@@ -272,7 +273,7 @@ public class WailaConfigScreen extends ConfigScreen {
         private final Button button;
 
         public KeyBindValue(KeyMapping key) {
-            super(key.getName(), key.key, key.getDefaultKey(), value -> {
+            super(key.getName(), ((KeyMappingAccess) key).wthit_key(), key.getDefaultKey(), value -> {
                 minecraft.options.setKey(key, value);
                 KeyMapping.resetMapping();
             });

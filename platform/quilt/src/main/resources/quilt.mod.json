@@ -53,7 +53,7 @@
       }
     ]
   },
-  "access_widener": "wthit.accesswidener",
+  "mixin"         : "wthit.mixins.json",
   "waila:plugins" : [
     {
       "id"         : "waila:core",

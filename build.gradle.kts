@@ -76,11 +76,11 @@ subprojects {
 
 minecraft {
     version(rootProp["minecraft"])
-    accessWideners(file("src/accesswidener/resources/wthit.accesswidener"))
 }
 
 dependencies {
     compileOnly("lol.bai:badpackets:mojmap-${rootProp["badpackets"]}")
+    compileOnly("org.spongepowered:mixin:0.8.5")
 
     rootProp["jei"].split("-").also { (mc, jei) ->
         compileOnly("mezz.jei:jei-${mc}-common-api:${jei}")
@@ -91,15 +91,16 @@ sourceSets {
     val main by getting
     val api by creating
     val minecraftless by creating
+    val mixin by creating
     val pluginCore by creating
     val pluginVanilla by creating
     val pluginTest by creating
 
-    listOf(api, pluginCore, pluginVanilla, pluginTest).applyEach {
+    listOf(api, mixin, pluginCore, pluginVanilla, pluginTest).applyEach {
         compileClasspath += main.compileClasspath
     }
     listOf(main, pluginCore, pluginVanilla, pluginTest).applyEach {
-        compileClasspath += api.output
+        compileClasspath += api.output + mixin.output
     }
     main.apply {
         compileClasspath += minecraftless.output

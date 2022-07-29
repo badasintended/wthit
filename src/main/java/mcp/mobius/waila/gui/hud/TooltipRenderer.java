@@ -25,6 +25,7 @@ import mcp.mobius.waila.api.component.PairComponent;
 import mcp.mobius.waila.api.component.WrappedComponent;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.event.EventCanceller;
+import mcp.mobius.waila.mixin.BossHealthOverlayAccess;
 import mcp.mobius.waila.registry.Registrar;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.ChatScreen;
@@ -144,7 +145,7 @@ public class TooltipRenderer {
         double y = windowH * anchorY.multiplier - h * alignY.multiplier + state.getY();
 
         if (!state.bossBarsOverlap() && anchorX == Align.X.CENTER && anchorY == Align.Y.TOP) {
-            y += Math.min(client.gui.getBossOverlay().events.size() * 19, window.getGuiScaledHeight() / 3 + 2);
+            y += Math.min(((BossHealthOverlayAccess) client.gui.getBossOverlay()).wthit_events().size() * 19, window.getGuiScaledHeight() / 3 + 2);
         }
 
         RECT.get().setRect(x, y, w, h);

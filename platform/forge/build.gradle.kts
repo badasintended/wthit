@@ -13,6 +13,7 @@ dependencies {
     minecraft("net.minecraftforge:forge:${rootProp["minecraft"]}-${rootProp["forge"]}")
 
     implementation("org.jetbrains:annotations:19.0.0")
+    annotationProcessor("org.spongepowered:mixin:0.8.5:processor")
 
     runtimeOnly(fg.deobf("lol.bai:badpackets:forge-${rootProp["badpackets"]}"))
     runtimeOnly(fg.deobf("dev.architectury:architectury-forge:${rootProp["architectury"]}"))
@@ -45,7 +46,6 @@ sourceSets {
 
 minecraft {
     mappings("official", rootProp["minecraft"])
-    accessTransformer(file("src/main/resources/META-INF/accesstransformer.cfg"))
     runs {
         val runConfig = Action<RunConfig> {
             workingDirectory(file("run"))
@@ -57,6 +57,11 @@ minecraft {
         create("client", runConfig)
         create("server", runConfig)
     }
+}
+
+mixin {
+    add(sourceSets["main"], "wthit.refmap.json")
+    config("wthit.mixins.json")
 }
 
 tasks.processResources {

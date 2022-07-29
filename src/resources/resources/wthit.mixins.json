@@ -1,0 +1,14 @@
+{
+  "required"          : true,
+  "minVersion"        : "0.8",
+  "package"           : "mcp.mobius.waila.mixin",
+  "compatibilityLevel": "JAVA_16",
+  "refmap"            : "wthit.refmap.json",
+  "mixins"            : [
+    "AbstractFurnaceBlockEntityAccess"
+  ],
+  "client"            : ["BossHealthOverlayAccess", "EditBoxAccess", "KeyMappingAccess", "MultiPlayerGameModeAccess", "PlayerTabOverlayAccess"],
+  "injectors"         : {
+    "defaultRequire": 1
+  }
+}

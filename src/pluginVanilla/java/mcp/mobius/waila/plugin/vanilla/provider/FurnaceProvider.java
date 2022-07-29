@@ -7,6 +7,7 @@ import mcp.mobius.waila.api.IServerAccessor;
 import mcp.mobius.waila.api.IServerDataProvider;
 import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.component.ItemComponent;
+import mcp.mobius.waila.mixin.AbstractFurnaceBlockEntityAccess;
 import mcp.mobius.waila.plugin.vanilla.component.ProgressComponent;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.nbt.CompoundTag;
@@ -38,6 +39,7 @@ public enum FurnaceProvider implements IBlockComponentProvider, IServerDataProvi
     public void appendServerData(CompoundTag data, IServerAccessor<AbstractFurnaceBlockEntity> accessor, IPluginConfig config) {
         if (config.getBoolean(Options.FURNACE_CONTENTS)) {
             AbstractFurnaceBlockEntity furnace = accessor.getTarget();
+            AbstractFurnaceBlockEntityAccess access = (AbstractFurnaceBlockEntityAccess) furnace;
             if (furnace.getBlockState().getValue(FurnaceBlock.LIT)) {
                 ListTag items = new ListTag();
                 items.add(furnace.getItem(0).save(new CompoundTag()));
@@ -45,8 +47,8 @@ public enum FurnaceProvider implements IBlockComponentProvider, IServerDataProvi
                 items.add(furnace.getItem(2).save(new CompoundTag()));
                 data.put("furnace", items);
 
-                data.putInt("progress", furnace.cookingProgress);
-                data.putInt("total", furnace.cookingTotalTime);
+                data.putInt("progress", access.wthit_cookingProgress());
+                data.putInt("total", access.wthit_cookingTotalTime());
             }
         }
     }
