@@ -114,7 +114,5 @@
   "config.waila.plugin_waila.show_blocks"     : "Показывать блоки",
   "config.waila.plugin_waila.show_fluids"     : "Показывать жидкости",
   "config.waila.plugin_waila.show_fluids_desc": "Попытается отображать жидкости",
-  "config.waila.plugin_waila.show_entities"   : "Показывать сущности",
-  "config.waila.plugin_waila.show_states"     : "Показывать состояния",
-  "config.waila.plugin_waila.show_pos"        : "Показывать позицию блоков"
+  "config.waila.plugin_waila.show_entities"   : "Показывать сущности"
 }

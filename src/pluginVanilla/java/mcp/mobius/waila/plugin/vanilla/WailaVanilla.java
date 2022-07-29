@@ -6,6 +6,7 @@ import mcp.mobius.waila.api.IntFormat;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import mcp.mobius.waila.plugin.vanilla.config.Options.NoteDisplayMode;
 import mcp.mobius.waila.plugin.vanilla.provider.BeehiveProvider;
+import mcp.mobius.waila.plugin.vanilla.provider.BlockAttributesProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.BoatProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.BreakProgressProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.ComposterProvider;
@@ -28,12 +29,12 @@ import mcp.mobius.waila.plugin.vanilla.provider.TrappedChestProvider;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.decoration.ItemFrame;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.level.block.BeehiveBlock;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CocoaBlock;
 import net.minecraft.world.level.block.ComparatorBlock;
@@ -63,35 +64,92 @@ public class WailaVanilla implements IWailaPlugin {
     @Override
     public void register(IRegistrar registrar) {
         registrar.addMergedConfig(Options.ITEM_ENTITY, true);
+        registrar.addIcon(ItemEntityProvider.INSTANCE, ItemEntity.class);
+        registrar.addComponent(ItemEntityProvider.INSTANCE, HEAD, ItemEntity.class, 950);
+        registrar.addComponent(ItemEntityProvider.INSTANCE, TAIL, ItemEntity.class, 950);
+        registrar.addOverride(ItemEntityProvider.INSTANCE, ItemEntity.class);
+
         registrar.addMergedConfig(Options.PET_OWNER, true);
+        registrar.addConfig(Options.PET_HIDE_UNKNOWN_OWNER, false);
+        registrar.addComponent(PetOwnerProvider.INSTANCE, BODY, Entity.class);
+
+        registrar.addConfig(Options.ATTRIBUTE_BLOCK_POSITION, false);
+        registrar.addConfig(Options.ATTRIBUTE_BLOCK_STATE, false);
+        registrar.addConfig(Options.ATTRIBUTE_ENTITY_POSITION, false);
         registrar.addMergedConfig(Options.ATTRIBUTE_HEALTH, true);
         registrar.addMergedConfig(Options.ATTRIBUTE_ARMOR, true);
+        registrar.addComponent(BlockAttributesProvider.INSTANCE, BODY, Block.class, 950);
+        registrar.addComponent(EntityAttributesProvider.INSTANCE, HEAD, Entity.class, 950);
+        registrar.addComponent(EntityAttributesProvider.INSTANCE, BODY, Entity.class, 950);
 
         registrar.addMergedSyncedConfig(Options.FURNACE_CONTENTS, true, false);
+        registrar.addComponent(FurnaceProvider.INSTANCE, BODY, AbstractFurnaceBlockEntity.class);
+        registrar.addBlockData(FurnaceProvider.INSTANCE, AbstractFurnaceBlockEntity.class);
+
         registrar.addMergedSyncedConfig(Options.JUKEBOX_RECORD, true, false);
+        registrar.addComponent(JukeboxProvider.INSTANCE, BODY, JukeboxBlockEntity.class);
+        registrar.addBlockData(JukeboxProvider.INSTANCE, JukeboxBlockEntity.class);
+
         registrar.addMergedSyncedConfig(Options.TIMER_GROW, true, false);
         registrar.addMergedSyncedConfig(Options.TIMER_BREED, true, false);
+        registrar.addComponent(MobTimerProvider.INSTANCE, BODY, AgeableMob.class);
+        registrar.addEntityData(MobTimerProvider.INSTANCE, AgeableMob.class);
 
         registrar.addSyncedConfig(Options.OVERRIDE_TRAPPED_CHEST, true, true);
         registrar.addSyncedConfig(Options.OVERRIDE_POWDER_SNOW, true, true);
         registrar.addSyncedConfig(Options.OVERRIDE_INFESTED, true, true);
+        registrar.addOverride(InfestedBlockProvider.INSTANCE, InfestedBlock.class);
+        registrar.addOverride(TrappedChestProvider.INSTANCE, TrappedChestBlock.class);
+        registrar.addOverride(PowderSnowProvider.INSTANCE, PowderSnowBlock.class);
 
-        registrar.addConfig(Options.BREAKING_PROGRESS, true);
+        registrar.addMergedConfig(Options.BREAKING_PROGRESS, true);
         registrar.addConfig(Options.BREAKING_PROGRESS_COLOR, 0xAAFFFFFF, IntFormat.ARGB_HEX);
         registrar.addConfig(Options.BREAKING_PROGRESS_BOTTOM_ONLY, false);
-        registrar.addConfig(Options.SPAWNER_TYPE, true);
-        registrar.addConfig(Options.CROP_PROGRESS, true);
-        registrar.addConfig(Options.REDSTONE_LEVER, true);
-        registrar.addConfig(Options.REDSTONE_REPEATER, true);
-        registrar.addConfig(Options.REDSTONE_COMPARATOR, true);
-        registrar.addConfig(Options.REDSTONE_LEVEL, true);
-        registrar.addConfig(Options.PLAYER_HEAD_NAME, true);
-        registrar.addConfig(Options.LEVEL_COMPOSTER, true);
-        registrar.addConfig(Options.LEVEL_HONEY, true);
-        registrar.addConfig(Options.NOTE_BLOCK_TYPE, true);
+        registrar.addEventListener(BreakProgressProvider.INSTANCE);
+
+        registrar.addMergedConfig(Options.SPAWNER_TYPE, true);
+        registrar.addComponent(SpawnerProvider.INSTANCE, HEAD, SpawnerBlockEntity.class, 950);
+
+        registrar.addMergedConfig(Options.CROP_PROGRESS, true);
+        registrar.addIcon(PlantProvider.INSTANCE, CropBlock.class);
+        registrar.addComponent(PlantProvider.INSTANCE, BODY, CropBlock.class);
+        registrar.addComponent(PlantProvider.INSTANCE, BODY, StemBlock.class);
+        registrar.addComponent(PlantProvider.INSTANCE, BODY, CocoaBlock.class);
+        registrar.addComponent(PlantProvider.INSTANCE, BODY, NetherWartBlock.class);
+        registrar.addComponent(PlantProvider.INSTANCE, BODY, SweetBerryBushBlock.class);
+
+        registrar.addMergedConfig(Options.REDSTONE_LEVER, true);
+        registrar.addMergedConfig(Options.REDSTONE_REPEATER, true);
+        registrar.addMergedConfig(Options.REDSTONE_COMPARATOR, true);
+        registrar.addMergedConfig(Options.REDSTONE_LEVEL, true);
+        registrar.addComponent(RedstoneProvider.INSTANCE, BODY, LeverBlock.class);
+        registrar.addComponent(RedstoneProvider.INSTANCE, BODY, RepeaterBlock.class);
+        registrar.addComponent(RedstoneProvider.INSTANCE, BODY, ComparatorBlock.class);
+        registrar.addComponent(RedstoneProvider.INSTANCE, BODY, RedStoneWireBlock.class);
+
+        registrar.addMergedConfig(Options.PLAYER_HEAD_NAME, true);
+        registrar.addIcon(PlayerHeadProvider.INSTANCE, SkullBlockEntity.class);
+        registrar.addComponent(PlayerHeadProvider.INSTANCE, BODY, SkullBlockEntity.class);
+
+        registrar.addMergedConfig(Options.LEVEL_COMPOSTER, true);
+        registrar.addMergedConfig(Options.LEVEL_HONEY, true);
+        registrar.addComponent(ComposterProvider.INSTANCE, BODY, ComposterBlock.class);
+        registrar.addComponent(BeehiveProvider.INSTANCE, BODY, BeehiveBlock.class);
+
+        registrar.addMergedConfig(Options.NOTE_BLOCK_TYPE, true);
         registrar.addConfig(Options.NOTE_BLOCK_NOTE, NoteDisplayMode.SHARP);
         registrar.addConfig(Options.NOTE_BLOCK_INT_VALUE, false);
-        registrar.addConfig(Options.PET_HIDE_UNKNOWN_OWNER, false);
+        registrar.addComponent(NoteBlockProvider.INSTANCE, BODY, NoteBlock.class);
+
+        registrar.addIcon(FallingBlockProvider.INSTANCE, FallingBlockEntity.class);
+        registrar.addComponent(FallingBlockProvider.INSTANCE, HEAD, FallingBlockEntity.class);
+
+        registrar.addComponent(BoatProvider.INSTANCE, HEAD, Boat.class, 950);
+        registrar.addComponent(BoatProvider.INSTANCE, TAIL, Boat.class, 950);
+
+        registrar.addIcon(ItemFrameProvider.INSTANCE, ItemFrame.class);
+        registrar.addComponent(ItemFrameProvider.INSTANCE, HEAD, ItemFrame.class);
+        registrar.addComponent(ItemFrameProvider.INSTANCE, TAIL, ItemFrame.class);
 
         registrar.addBlacklist(
             Blocks.BARRIER,
@@ -103,63 +161,6 @@ public class WailaVanilla implements IWailaPlugin {
             EntityType.FIREBALL,
             EntityType.FIREWORK_ROCKET,
             EntityType.SNOWBALL);
-
-        registrar.addEventListener(BreakProgressProvider.INSTANCE);
-
-        registrar.addOverride(InfestedBlockProvider.INSTANCE, InfestedBlock.class);
-        registrar.addOverride(TrappedChestProvider.INSTANCE, TrappedChestBlock.class);
-        registrar.addOverride(PowderSnowProvider.INSTANCE, PowderSnowBlock.class);
-
-        registrar.addComponent(EntityAttributesProvider.INSTANCE, HEAD, LivingEntity.class);
-
-        registrar.addIcon(PlayerHeadProvider.INSTANCE, SkullBlockEntity.class);
-        registrar.addComponent(PlayerHeadProvider.INSTANCE, BODY, SkullBlockEntity.class);
-
-        registrar.addComponent(SpawnerProvider.INSTANCE, HEAD, SpawnerBlockEntity.class, 950);
-
-        registrar.addIcon(PlantProvider.INSTANCE, CropBlock.class);
-        registrar.addComponent(PlantProvider.INSTANCE, BODY, CropBlock.class);
-        registrar.addComponent(PlantProvider.INSTANCE, BODY, StemBlock.class);
-        registrar.addComponent(PlantProvider.INSTANCE, BODY, CocoaBlock.class);
-        registrar.addComponent(PlantProvider.INSTANCE, BODY, NetherWartBlock.class);
-        registrar.addComponent(PlantProvider.INSTANCE, BODY, SweetBerryBushBlock.class);
-
-        registrar.addComponent(RedstoneProvider.INSTANCE, BODY, LeverBlock.class);
-        registrar.addComponent(RedstoneProvider.INSTANCE, BODY, RepeaterBlock.class);
-        registrar.addComponent(RedstoneProvider.INSTANCE, BODY, ComparatorBlock.class);
-        registrar.addComponent(RedstoneProvider.INSTANCE, BODY, RedStoneWireBlock.class);
-
-        registrar.addComponent(JukeboxProvider.INSTANCE, BODY, JukeboxBlockEntity.class);
-        registrar.addBlockData(JukeboxProvider.INSTANCE, JukeboxBlockEntity.class);
-
-        registrar.addIcon(FallingBlockProvider.INSTANCE, FallingBlockEntity.class);
-        registrar.addComponent(FallingBlockProvider.INSTANCE, HEAD, FallingBlockEntity.class);
-
-        registrar.addIcon(ItemEntityProvider.INSTANCE, ItemEntity.class);
-        registrar.addComponent(ItemEntityProvider.INSTANCE, HEAD, ItemEntity.class, 950);
-        registrar.addComponent(ItemEntityProvider.INSTANCE, TAIL, ItemEntity.class, 950);
-        registrar.addOverride(ItemEntityProvider.INSTANCE, ItemEntity.class);
-
-        registrar.addComponent(BoatProvider.INSTANCE, HEAD, Boat.class, 950);
-        registrar.addComponent(BoatProvider.INSTANCE, TAIL, Boat.class, 950);
-
-        registrar.addComponent(FurnaceProvider.INSTANCE, BODY, AbstractFurnaceBlockEntity.class);
-        registrar.addBlockData(FurnaceProvider.INSTANCE, AbstractFurnaceBlockEntity.class);
-
-        registrar.addComponent(ComposterProvider.INSTANCE, BODY, ComposterBlock.class);
-
-        registrar.addComponent(BeehiveProvider.INSTANCE, BODY, BeehiveBlock.class);
-
-        registrar.addComponent(NoteBlockProvider.INSTANCE, BODY, NoteBlock.class);
-
-        registrar.addComponent(PetOwnerProvider.INSTANCE, BODY, Entity.class);
-
-        registrar.addIcon(ItemFrameProvider.INSTANCE, ItemFrame.class);
-        registrar.addComponent(ItemFrameProvider.INSTANCE, HEAD, ItemFrame.class);
-        registrar.addComponent(ItemFrameProvider.INSTANCE, TAIL, ItemFrame.class);
-
-        registrar.addComponent(MobTimerProvider.INSTANCE, BODY, AgeableMob.class);
-        registrar.addEntityData(MobTimerProvider.INSTANCE, AgeableMob.class);
     }
 
 }
