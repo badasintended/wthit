@@ -23,8 +23,7 @@
     "modmenu": ["mcp.mobius.waila.integration.modmenu.WailaModMenu"],
     "rei"    : ["mcp.mobius.waila.integration.reiwhycheckingforpackagename.ReiRecipeLookup"]
   },
-  "accessWidener": "wthit.accesswidener",
-
+  "mixins"       : ["wthit.mixins.json"],
   "name"         : "wthit",
   "description"  : "What the hell is that?",
   "icon"         : "wthit.jpg",

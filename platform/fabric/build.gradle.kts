@@ -1,19 +1,13 @@
 plugins {
-    id("fabric-loom")
+    id("fabric-loom") version "0.12.+"
 }
 
 setupPlatform()
-
-repositories {
-    maven("https://maven.shedaniel.me")
-}
 
 dependencies {
     minecraft("com.mojang:minecraft:${rootProp["minecraft"]}")
     mappings(loom.officialMojangMappings())
     modImplementation("net.fabricmc:fabric-loader:${rootProp["fabricLoader"]}")
-
-    //modImplementation("dev.inkwell:hermes:1.1.0+1.17")
 
     modCompileRuntime("net.fabricmc.fabric-api:fabric-api:${rootProp["fabricApi"]}")
     modCompileRuntime("com.terraformersmc:modmenu:${rootProp["modMenu"]}")
@@ -24,21 +18,36 @@ dependencies {
     modRuntimeOnly("lol.bai:badpackets:fabric-${rootProp["badpackets"]}")
 }
 
+setupStub()
+
 sourceSets {
     val main by getting
-    create("stub") {
+    val integration by creating {
         compileClasspath += main.compileClasspath
+    }
+    main {
+        compileClasspath += integration.output
+        runtimeClasspath += integration.output
     }
 }
 
 loom {
-    accessWidenerPath.set(file("src/main/resources/wthit.accesswidener"))
+    interfaceInjection.enableDependencyInterfaceInjection.set(false)
+
+    mixin {
+        add(sourceSets["main"], "wthit.refmap.json")
+    }
+
     runs {
         configureEach {
             isIdeConfigGenerated = true
             vmArgs += "-Dwaila.enableTestPlugin=true"
         }
     }
+}
+
+tasks.jar {
+    from(sourceSets["integration"].output)
 }
 
 tasks.processResources {

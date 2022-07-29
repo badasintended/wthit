@@ -11,6 +11,7 @@ import mcp.mobius.waila.api.IWailaConfig.Overlay.Position.Align;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.config.WailaConfig;
+import mcp.mobius.waila.mixin.PlayerTabOverlayAccess;
 import mcp.mobius.waila.util.RaycastUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -58,7 +59,7 @@ public class TooltipHandler {
             return;
         }
 
-        if (config.isHideFromPlayerList() && client.gui.getTabList().visible) {
+        if (config.isHideFromPlayerList() && ((PlayerTabOverlayAccess) client.gui.getTabList()).wthit_isVisible()) {
             return;
         }
 

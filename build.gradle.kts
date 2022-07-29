@@ -4,7 +4,7 @@ import java.nio.charset.StandardCharsets
 
 plugins {
     java
-    id("org.spongepowered.gradle.vanilla")
+    id("org.spongepowered.gradle.vanilla") version "0.2.1-SNAPSHOT"
     id("maven-publish")
 }
 
@@ -18,6 +18,10 @@ allprojects {
 
     repositories {
         maven("https://maven.bai.lol")
+        maven("https://dvs1.progwml6.com/files/maven/")
+        maven("https://maven.shedaniel.me")
+        maven("https://maven.terraformersmc.com/releases")
+        mavenCentral()
     }
 
     java {
@@ -72,7 +76,6 @@ subprojects {
 
 minecraft {
     version(rootProp["minecraft"])
-    accessWideners(project(":fabric").file("src/main/resources/wthit.accesswidener"))
 }
 
 dependencies {
@@ -83,15 +86,16 @@ sourceSets {
     val main by getting
     val api by creating
     val minecraftless by creating
+    val mixin by creating
     val pluginCore by creating
     val pluginVanilla by creating
     val pluginTest by creating
 
-    listOf(api, pluginCore, pluginVanilla, pluginTest).applyEach {
+    listOf(api, mixin, pluginCore, pluginVanilla, pluginTest).applyEach {
         compileClasspath += main.compileClasspath
     }
     listOf(main, pluginCore, pluginVanilla, pluginTest).applyEach {
-        compileClasspath += api.output
+        compileClasspath += api.output + mixin.output
     }
     main.apply {
         compileClasspath += minecraftless.output
