@@ -29,7 +29,7 @@ public class JeiRecipeAction implements IModPlugin, IRecipeAction {
     @Override
     public void onRuntimeAvailable(@NotNull IJeiRuntime jei) {
         this.jei = jei;
-        WailaClient.setShowRecipeAction(this);
+        WailaClient.setRecipeAction(this);
     }
 
     @Override

@@ -30,17 +30,17 @@ public abstract class WailaClient {
     public static KeyMapping keyShowRecipeOutput;
 
     @Nullable
-    private static IRecipeAction showRecipeAction;
+    private static IRecipeAction recipeAction;
 
-    public static void setShowRecipeAction(IRecipeAction action) {
-        if (showRecipeAction == null) {
+    public static void setRecipeAction(IRecipeAction action) {
+        if (recipeAction == null) {
             Waila.LOGGER.info("Show recipe action set for " + action.getModName());
-        } else if (!showRecipeAction.getModName().equals(action.getModName())) {
-            Waila.LOGGER.warn("Show recipe action is already set for " + showRecipeAction.getModName());
+        } else if (!recipeAction.getModName().equals(action.getModName())) {
+            Waila.LOGGER.warn("Show recipe action is already set for " + recipeAction.getModName());
             Waila.LOGGER.warn("Replaced it with one for " + action.getModName());
         }
 
-        showRecipeAction = action;
+        recipeAction = action;
     }
 
     protected static List<KeyMapping> registerKeyBinds() {
@@ -73,13 +73,13 @@ public abstract class WailaClient {
             PluginConfig.set(WailaConstants.CONFIG_SHOW_FLUID, !PluginConfig.CLIENT.getBoolean(WailaConstants.CONFIG_SHOW_FLUID));
         }
 
-        if (showRecipeAction != null) {
+        if (recipeAction != null) {
             while (keyShowRecipeInput.consumeClick()) {
-                showRecipeAction.showInput(DataAccessor.INSTANCE.getStack());
+                recipeAction.showInput(DataAccessor.INSTANCE.getStack());
             }
 
             while (keyShowRecipeOutput.consumeClick()) {
-                showRecipeAction.showOutput(DataAccessor.INSTANCE.getStack());
+                recipeAction.showOutput(DataAccessor.INSTANCE.getStack());
             }
         }
     }

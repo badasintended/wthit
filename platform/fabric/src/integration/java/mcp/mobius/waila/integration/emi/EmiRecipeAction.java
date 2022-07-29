@@ -13,7 +13,7 @@ public class EmiRecipeAction implements EmiPlugin, IRecipeAction {
 
     @Override
     public void register(EmiRegistry registry) {
-        WailaClient.setShowRecipeAction(this);
+        WailaClient.setRecipeAction(this);
     }
 
     @Override

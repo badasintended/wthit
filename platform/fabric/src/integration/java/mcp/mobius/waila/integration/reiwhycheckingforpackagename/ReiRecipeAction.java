@@ -15,7 +15,7 @@ public class ReiRecipeAction implements REIClientPlugin, IRecipeAction {
 
     @Override
     public void postStage(PluginManager<REIClientPlugin> manager, ReloadStage stage) {
-        WailaClient.setShowRecipeAction(this);
+        WailaClient.setRecipeAction(this);
     }
 
     @Override
