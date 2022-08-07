@@ -34,12 +34,13 @@ public final class Options {
     public static final ResourceLocation ATTRIBUTE_BLOCK_STATE         = rl("attribute.block_state");
     public static final ResourceLocation ATTRIBUTE_ENTITY_POSITION     = rl("attribute.entity_position");
     public static final ResourceLocation ATTRIBUTE_HEALTH              = rl("attribute.health");
+    public static final ResourceLocation ATTRIBUTE_ABSORPTION          = rl("attribute.absorption");
     public static final ResourceLocation ATTRIBUTE_ARMOR               = rl("attribute.armor");
+    public static final ResourceLocation ATTRIBUTE_COMPACT             = rl("attribute.compact");
+    public static final ResourceLocation ATTRIBUTE_ICON_PER_LINE       = rl("attribute.icon_per_line");
+    public static final ResourceLocation ATTRIBUTE_LONG_HEALTH_MAX     = rl("attribute.long_health_max");
+    public static final ResourceLocation ATTRIBUTE_LONG_ARMOR_MAX      = rl("attribute.long_armor_max");
     // @formatter:on
-
-    public enum NoteDisplayMode {
-        SHARP, FLAT
-    }
 
     private static ResourceLocation rl(String rl) {
         return new ResourceLocation(rl);
