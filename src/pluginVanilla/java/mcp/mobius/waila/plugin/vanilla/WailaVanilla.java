@@ -3,8 +3,8 @@ package mcp.mobius.waila.plugin.vanilla;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.api.IntFormat;
+import mcp.mobius.waila.plugin.vanilla.config.NoteDisplayMode;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
-import mcp.mobius.waila.plugin.vanilla.config.Options.NoteDisplayMode;
 import mcp.mobius.waila.plugin.vanilla.provider.BeehiveProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.BlockAttributesProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.BoatProvider;
@@ -77,10 +77,16 @@ public class WailaVanilla implements IWailaPlugin {
         registrar.addConfig(Options.ATTRIBUTE_BLOCK_STATE, false);
         registrar.addConfig(Options.ATTRIBUTE_ENTITY_POSITION, false);
         registrar.addMergedConfig(Options.ATTRIBUTE_HEALTH, true);
+        registrar.addMergedSyncedConfig(Options.ATTRIBUTE_ABSORPTION, true, false);
         registrar.addMergedConfig(Options.ATTRIBUTE_ARMOR, true);
+        registrar.addConfig(Options.ATTRIBUTE_COMPACT, false);
+        registrar.addConfig(Options.ATTRIBUTE_ICON_PER_LINE, 25);
+        registrar.addConfig(Options.ATTRIBUTE_LONG_HEALTH_MAX, 100);
+        registrar.addConfig(Options.ATTRIBUTE_LONG_ARMOR_MAX, 100);
         registrar.addComponent(BlockAttributesProvider.INSTANCE, BODY, Block.class, 950);
         registrar.addComponent(EntityAttributesProvider.INSTANCE, HEAD, Entity.class, 950);
         registrar.addComponent(EntityAttributesProvider.INSTANCE, BODY, Entity.class, 950);
+        registrar.addEntityData(EntityAttributesProvider.INSTANCE, Entity.class);
 
         registrar.addMergedSyncedConfig(Options.FURNACE_CONTENTS, true, false);
         registrar.addComponent(FurnaceProvider.INSTANCE, BODY, AbstractFurnaceBlockEntity.class);

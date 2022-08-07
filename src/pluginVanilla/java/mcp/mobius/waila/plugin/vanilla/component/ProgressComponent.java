@@ -4,12 +4,11 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.WailaConstants;
+import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.resources.ResourceLocation;
 
-import static net.minecraft.client.gui.GuiComponent.blit;
-
-public class ProgressComponent implements ITooltipComponent {
+public class ProgressComponent extends GuiComponent implements ITooltipComponent {
 
     private static final ResourceLocation SHEET = new ResourceLocation(WailaConstants.NAMESPACE, "textures/sprites.png");
 
