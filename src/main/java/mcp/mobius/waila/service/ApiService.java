@@ -2,12 +2,14 @@ package mcp.mobius.waila.service;
 
 import java.util.Collection;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IBlacklistConfig;
 import mcp.mobius.waila.api.IDrawableText;
 import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.api.IModInfo;
 import mcp.mobius.waila.api.IPluginInfo;
+import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.__internal__.IApiService;
 import mcp.mobius.waila.config.JsonConfig;
@@ -100,6 +102,11 @@ public class ApiService implements IApiService {
     @Override
     public void renderItem(int x, int y, ItemStack stack) {
         DisplayUtil.renderStack(x, y, stack);
+    }
+
+    @Override
+    public void renderComponent(PoseStack matrices, ITooltipComponent component, int x, int y, float delta) {
+        DisplayUtil.renderComponent(matrices, component, x, y, delta);
     }
 
     @Override

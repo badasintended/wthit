@@ -36,6 +36,7 @@ public class HealthComponent extends GuiComponent implements ITooltipComponent {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderTexture(0, GuiComponent.GUI_ICONS_LOCATION);
         RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
 
         int filled = health / 2 - 1;
         int half = filled + health % 2;

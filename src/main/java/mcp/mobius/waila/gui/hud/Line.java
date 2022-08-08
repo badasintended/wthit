@@ -63,27 +63,29 @@ public class Line implements ITooltipLine, MutableComponent {
     }
 
     public void render(PoseStack matrices, int x, int y, int maxWidth, float delta) {
-        int componentX = x;
+        int cx = x;
         int growingWidth = -1;
         for (ITooltipComponent component : components) {
             if (component instanceof GrowingComponent) {
                 if (growingWidth == -1) {
                     growingWidth = (maxWidth - width) / growingCount;
                     if (growingWidth % 2 == 1) {
-                        componentX++;
+                        cx++;
                     }
                 }
-                componentX += growingWidth;
+                cx += growingWidth;
                 continue;
             }
 
-            if (component.getWidth() <= 0) {
+            int w = component.getWidth();
+            int h = component.getHeight();
+            if (w <= 0) {
                 continue;
             }
 
-            int yOffset = component.getHeight() < height ? (height - component.getHeight()) / 2 : 0;
-            component.render(matrices, componentX, y + yOffset, delta);
-            componentX += component.getWidth() + 1;
+            int cy = y + (h < height ? (height - h) / 2 : 0);
+            DisplayUtil.renderComponent(matrices, component, cx, cy, delta);
+            cx += w + 1;
         }
     }
 

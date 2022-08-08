@@ -36,6 +36,8 @@ import net.minecraft.util.profiling.ProfilerFiller;
 
 import static mcp.mobius.waila.util.DisplayUtil.enable2DRender;
 import static mcp.mobius.waila.util.DisplayUtil.fillGradient;
+import static mcp.mobius.waila.util.DisplayUtil.renderComponent;
+import static mcp.mobius.waila.util.DisplayUtil.renderRectBorder;
 
 public class TooltipRenderer {
 
@@ -227,10 +229,7 @@ public class TooltipRenderer {
         fillGradient(matrix, buf, x            , y + 1, 1        , height - 2, background, background);
         fillGradient(matrix, buf, x + width - 1, y + 1, 1        , height - 2, background, background);
 
-        fillGradient(matrix, buf, x + 1        , y + 1         , width - 2, 1         , gradStart, gradStart);
-        fillGradient(matrix, buf, x + 1        , y + height - 2, width - 2, 1         , gradEnd  , gradEnd);
-        fillGradient(matrix, buf, x + 1        , y + 2         , 1        , height - 4, gradStart, gradEnd);
-        fillGradient(matrix, buf, x + width - 2, y + 2         , 1        , height - 4, gradStart, gradEnd);
+        renderRectBorder(matrix, buf, x + 1, y + 1, width - 2, height - 2 , gradStart, gradEnd);
         // @formatter:on
 
         tesselator.end();
@@ -258,7 +257,7 @@ public class TooltipRenderer {
         if (iconPos == Align.Y.BOTTOM) {
             iconY++;
         }
-        icon.render(matrices, x + 4, iconY, delta);
+        renderComponent(matrices, icon, x + 4, iconY, delta);
 
         RenderSystem.enableDepthTest();
         RenderSystem.getModelViewStack().popPose();

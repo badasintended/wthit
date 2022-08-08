@@ -2,11 +2,13 @@ package mcp.mobius.waila.api.__internal__;
 
 import java.util.Collection;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.api.IBlacklistConfig;
 import mcp.mobius.waila.api.IDrawableText;
 import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.api.IModInfo;
 import mcp.mobius.waila.api.IPluginInfo;
+import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.IWailaConfig;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -36,6 +38,8 @@ public interface IApiService {
     IWailaConfig getConfig();
 
     void renderItem(int x, int y, ItemStack stack);
+
+    void renderComponent(PoseStack matrices, ITooltipComponent component, int x, int y, float delta);
 
     int getPairComponentColonOffset();
 

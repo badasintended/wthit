@@ -42,14 +42,14 @@ public class PairComponent implements ITooltipComponent {
     @Override
     public void render(PoseStack matrices, int x, int y, float delta) {
         int offset = key.getHeight() < height ? (height - key.getHeight()) / 2 : 0;
-        key.render(matrices, x, y + offset, delta);
+        IApiService.INSTANCE.renderComponent(matrices, key, x, y + offset, delta);
 
         Font font = Minecraft.getInstance().font;
         offset = font.lineHeight < height ? (height - font.lineHeight) / 2 : 0;
         font.drawShadow(matrices, ": ", x + getColonOffset(), y + offset, IWailaConfig.get().getOverlay().getColor().getFontColor());
 
         offset = value.getHeight() < height ? (height - value.getHeight()) / 2 : 0;
-        value.render(matrices, x + getColonOffset() + getColonWidth(), y + offset, delta);
+        IApiService.INSTANCE.renderComponent(matrices, value, x + getColonOffset() + getColonWidth(), y + offset, delta);
     }
 
     private int getColonOffset() {
