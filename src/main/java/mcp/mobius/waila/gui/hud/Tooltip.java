@@ -31,6 +31,16 @@ public class Tooltip extends ObjectArrayList<Component> implements ITooltip, ITa
     }
 
     @Override
+    public int getLineCount() {
+        return size;
+    }
+
+    @Override
+    public ITooltipLine getLine(int index) {
+        return get(index);
+    }
+
+    @Override
     public ITooltipLine addLine() {
         Line line = new Line(null);
         add(line);
