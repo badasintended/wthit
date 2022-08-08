@@ -34,6 +34,7 @@ public class ArmorComponent extends GuiComponent implements ITooltipComponent {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderTexture(0, GuiComponent.GUI_ICONS_LOCATION);
         RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
 
         int filled = armor / 2 - 1;
         int half = filled + armor % 2;

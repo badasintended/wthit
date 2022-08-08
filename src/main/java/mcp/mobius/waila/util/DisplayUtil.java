@@ -1,30 +1,30 @@
 package mcp.mobius.waila.util;
 
 import java.util.IllegalFormatException;
+import java.util.Random;
 
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Matrix4f;
+import mcp.mobius.waila.api.ITooltipComponent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 
 public final class DisplayUtil extends GuiComponent {
 
-    // because some function in DrawableHelper are not static
-    private static final DisplayUtil DH = new DisplayUtil();
+    private static final boolean SHOW_COMPONENT_BOUNDS = Boolean.getBoolean("waila.showComponentBounds");
+    private static final Random RANDOM = new Random();
 
     private static final String NUM_SUFFIXES = "kmbt";
     private static final Minecraft CLIENT = Minecraft.getInstance();
-
-    public static void bindTexture(ResourceLocation texture) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderTexture(0, texture);
-    }
 
     public static void renderStack(int x, int y, ItemStack stack) {
         renderStack(x, y, stack, stack.getCount() > 1 ? shortHandNumber(stack.getCount()) : "");
@@ -61,12 +61,40 @@ public final class DisplayUtil extends GuiComponent {
         RenderSystem.disableDepthTest();
     }
 
-    public static void drawGradientRect(PoseStack matrices, int x, int y, int w, int h, int startColor, int endColor) {
-        DH.fillGradient(matrices, x, y, x + w, y + h, startColor, endColor);
+    public static void renderRectBorder(Matrix4f matrix, BufferBuilder buf, int x, int y, int w, int h, int gradStart, int gradEnd) {
+        // @formatter:off
+        fillGradient(matrix, buf, x        , y        , w, 1    , gradStart, gradStart);
+        fillGradient(matrix, buf, x        , y + h - 1, w, 1    , gradEnd  , gradEnd);
+        fillGradient(matrix, buf, x        , y + 1    , 1, h - 2, gradStart, gradEnd);
+        fillGradient(matrix, buf, x + w - 1, y + 1    , 1, h - 2, gradStart, gradEnd);
+        // @formatter:on
     }
 
-    public static void drawTexturedModalRect(PoseStack matrices, int x, int y, int textureX, int textureY, int width, int height, int tw, int th) {
-        blit(matrices, x, y, width, height, textureX, textureY, tw, th, 256, 256);
+    public static void renderComponent(PoseStack matrices, ITooltipComponent component, int x, int y, float delta) {
+        component.render(matrices, x, y, delta);
+
+        if (SHOW_COMPONENT_BOUNDS) {
+            matrices.pushPose();
+            float scale = (float) Minecraft.getInstance().getWindow().getGuiScale();
+            matrices.scale(1 / scale, 1 / scale, 1);
+
+            RenderSystem.disableTexture();
+            RenderSystem.setShader(GameRenderer::getPositionColorShader);
+
+            Tesselator tesselator = Tesselator.getInstance();
+            BufferBuilder buf = tesselator.getBuilder();
+            buf.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
+            int bx = Mth.floor(x * scale + 0.5);
+            int by = Mth.floor(y * scale + 0.5);
+            int bw = Mth.floor(component.getWidth() * scale + 0.5);
+            int bh = Mth.floor(component.getHeight() * scale + 0.5);
+            int color = (0xFF << 24) + Mth.hsvToRgb(RANDOM.nextFloat(), RANDOM.nextFloat(), 1f);
+            renderRectBorder(matrices.last().pose(), buf, bx, by, bw, bh, color, color);
+            tesselator.end();
+
+            RenderSystem.enableTexture();
+            matrices.popPose();
+        }
     }
 
     public static void fillGradient(Matrix4f matrix, BufferBuilder buf, int x, int y, int w, int h, int start, int end) {
