@@ -1,6 +1,7 @@
 package mcp.mobius.waila.gui.hud;
 
 import java.awt.Rectangle;
+import java.util.Iterator;
 import java.util.function.Supplier;
 
 import com.google.common.base.Preconditions;
@@ -49,6 +50,7 @@ public class TooltipRenderer {
     private static String lastNarration = "";
     private static ITooltipComponent icon = EmptyComponent.INSTANCE;
     private static int topOffset;
+    private static int maxLineWidth;
 
     public static int colonOffset;
     public static int colonWidth;
@@ -62,6 +64,7 @@ public class TooltipRenderer {
         LINE_HEIGHT.clear();
         icon = EmptyComponent.INSTANCE;
         topOffset = 0;
+        maxLineWidth = 0;
         colonOffset = 0;
         colonWidth = Minecraft.getInstance().font.width(": ");
     }
@@ -111,12 +114,17 @@ public class TooltipRenderer {
 
         int w = 0;
         int h = 0;
-        for (Line line : TOOLTIP) {
+        Iterator<Line> iterator = TOOLTIP.iterator();
+        while (iterator.hasNext()) {
+            Line line = iterator.next();
             int lineW = line.getWidth();
             int lineH = line.getHeight();
-
-            w = Math.max(w, lineW);
-            h += lineH;
+            if (lineH <= 0) {
+                iterator.remove();
+                continue;
+            }
+            w = maxLineWidth = Math.max(w, lineW);
+            h += lineH + 1;
             LINE_HEIGHT.put(line, lineH);
         }
 
@@ -129,8 +137,8 @@ public class TooltipRenderer {
             w += icon.getWidth() + 3;
         }
 
-        w += 6;
-        h = Math.max(h, icon.getHeight()) + TOOLTIP.size() - 1 + 6;
+        w += 8;
+        h = Math.max(h - 1, icon.getHeight()) + 8;
 
         int windowW = (int) (window.getGuiScaledWidth() / scale);
         int windowH = (int) (window.getGuiScaledHeight() / scale);
@@ -148,7 +156,7 @@ public class TooltipRenderer {
             y += Math.min(((BossHealthOverlayAccess) client.gui.getBossOverlay()).wthit_events().size() * 19, window.getGuiScaledHeight() / 3 + 2);
         }
 
-        RECT.get().setRect(x, y, w, h);
+        RECT.get().setRect(Mth.floor(x + 0.5), Mth.floor(y + 0.5), w, h);
         started = false;
     }
 
@@ -214,15 +222,16 @@ public class TooltipRenderer {
         int gradStart = state.getGradStart();
         int gradEnd = state.getGradEnd();
 
-        fillGradient(matrix, buf, x + 1, y, width - 1, 1, background, background);
-        fillGradient(matrix, buf, x + 1, y + height, width - 1, 1, background, background);
-        fillGradient(matrix, buf, x + 1, y + 1, width - 1, height - 1, background, background);
-        fillGradient(matrix, buf, x, y + 1, 1, height - 1, background, background);
-        fillGradient(matrix, buf, x + width, y + 1, 1, height - 1, background, background);
-        fillGradient(matrix, buf, x + 1, y + 2, 1, height - 3, gradStart, gradEnd);
-        fillGradient(matrix, buf, x + width - 1, y + 2, 1, height - 3, gradStart, gradEnd);
-        fillGradient(matrix, buf, x + 1, y + 1, width - 1, 1, gradStart, gradStart);
-        fillGradient(matrix, buf, x + 1, y + height - 1, width - 1, 1, gradEnd, gradEnd);
+        // @formatter:off
+        fillGradient(matrix, buf, x + 1        , y    , width - 2, height    , background, background);
+        fillGradient(matrix, buf, x            , y + 1, 1        , height - 2, background, background);
+        fillGradient(matrix, buf, x + width - 1, y + 1, 1        , height - 2, background, background);
+
+        fillGradient(matrix, buf, x + 1        , y + 1         , width - 2, 1         , gradStart, gradStart);
+        fillGradient(matrix, buf, x + 1        , y + height - 2, width - 2, 1         , gradEnd  , gradEnd);
+        fillGradient(matrix, buf, x + 1        , y + 2         , 1        , height - 4, gradStart, gradEnd);
+        fillGradient(matrix, buf, x + width - 2, y + 2         , 1        , height - 4, gradStart, gradEnd);
+        // @formatter:on
 
         tesselator.end();
         RenderSystem.enableTexture();
@@ -231,7 +240,7 @@ public class TooltipRenderer {
         int textY = y + 4 + topOffset;
 
         for (Line line : TOOLTIP) {
-            line.render(matrices, textX, textY, delta);
+            line.render(matrices, textX, textY, maxLineWidth, delta);
             textY += LINE_HEIGHT.getInt(line) + 1;
         }
 

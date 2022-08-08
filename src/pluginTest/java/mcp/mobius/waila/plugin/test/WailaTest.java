@@ -60,6 +60,9 @@ public class WailaTest implements IWailaPlugin {
         registrar.addSyncedConfig(HitResultServerDependantTest.ENABLED, false);
         registrar.addComponent(HitResultServerDependantTest.INSTANCE, TooltipPosition.BODY, ChestBlock.class);
         registrar.addBlockData(HitResultServerDependantTest.INSTANCE, ChestBlock.class);
+
+        registrar.addConfig(GrowingTest.ENABLED, false);
+        registrar.addComponent(GrowingTest.INSTANCE, TooltipPosition.HEAD, Block.class, 99999);
     }
 
 }
