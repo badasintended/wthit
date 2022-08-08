@@ -10,6 +10,16 @@ import org.jetbrains.annotations.Nullable;
 @ApiStatus.NonExtendable
 public interface ITooltip {
 
+    int getLineCount();
+
+    /**
+     * Returns the line on this index.
+     * <p>
+     * <b>Note:</b> {@link TooltipPosition position} dependant, you can't access
+     * head tooltip in {@code appendBody}. To access all tooltip, use {@link IEventListener#onHandleTooltip}.
+     */
+    ITooltipLine getLine(int index);
+
     /**
      * Add a new line to the tooltip.
      */
