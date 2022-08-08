@@ -1,8 +1,15 @@
 package mcp.mobius.waila.service;
 
+import java.util.Collection;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.Waila;
-import mcp.mobius.waila.api.*;
+import mcp.mobius.waila.api.IBlacklistConfig;
+import mcp.mobius.waila.api.IJsonConfig;
+import mcp.mobius.waila.api.IModInfo;
+import mcp.mobius.waila.api.IPluginInfo;
+import mcp.mobius.waila.api.ITooltipComponent;
+import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.__internal__.IApiService;
 import mcp.mobius.waila.config.JsonConfig;
 import mcp.mobius.waila.gui.hud.TooltipRenderer;
@@ -13,11 +20,14 @@ import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.*;
+import net.minecraft.world.item.EnchantedBookItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.PotionItem;
+import net.minecraft.world.item.SpawnEggItem;
+import net.minecraft.world.item.TippedArrowItem;
 import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionUtils;
-
-import java.util.Collection;
 
 public class ApiService implements IApiService {
 

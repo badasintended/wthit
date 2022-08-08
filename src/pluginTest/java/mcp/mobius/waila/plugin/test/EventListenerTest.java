@@ -1,6 +1,6 @@
 package mcp.mobius.waila.plugin.test;
 
-import java.awt.*;
+import java.awt.Rectangle;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.api.ICommonAccessor;

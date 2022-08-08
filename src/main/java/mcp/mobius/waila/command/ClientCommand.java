@@ -1,5 +1,8 @@
 package mcp.mobius.waila.command;
 
+import java.util.Arrays;
+import java.util.stream.Stream;
+
 import com.google.gson.JsonPrimitive;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.ArgumentType;
@@ -16,9 +19,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.commands.arguments.ResourceLocationArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-
-import java.util.Arrays;
-import java.util.stream.Stream;
 
 import static net.minecraft.commands.SharedSuggestionProvider.suggest;
 import static net.minecraft.commands.SharedSuggestionProvider.suggestResource;
