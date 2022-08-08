@@ -244,7 +244,12 @@ public class TooltipRenderer {
             }
         }
 
-        icon.render(matrices, x + 4, y + Mth.positiveCeilDiv(height - icon.getHeight(), 2), delta);
+        Align.Y iconPos = PluginConfig.CLIENT.getEnum(WailaConstants.CONFIG_ICON_POSITION);
+        int iconY = y + 4 + Mth.ceil((height - 8 - icon.getHeight()) * iconPos.multiplier);
+        if (iconPos == Align.Y.BOTTOM) {
+            iconY++;
+        }
+        icon.render(matrices, x + 4, iconY, delta);
 
         RenderSystem.enableDepthTest();
         RenderSystem.getModelViewStack().popPose();

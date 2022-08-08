@@ -1,6 +1,7 @@
 package mcp.mobius.waila.plugin.core;
 
 import mcp.mobius.waila.api.IRegistrar;
+import mcp.mobius.waila.api.IWailaConfig.Overlay.Position.Align;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.plugin.core.event.CoreEventListener;
@@ -44,6 +45,7 @@ public class WailaCore implements IWailaPlugin {
         registrar.addConfig(WailaConstants.CONFIG_SHOW_FLUID, false);
         registrar.addConfig(WailaConstants.CONFIG_SHOW_ENTITY, true);
         registrar.addConfig(WailaConstants.CONFIG_SHOW_ICON, true);
+        registrar.addConfig(WailaConstants.CONFIG_ICON_POSITION, Align.Y.MIDDLE);
         registrar.addConfig(WailaConstants.CONFIG_SHOW_MOD_NAME, true);
         registrar.addConfig(WailaConstants.CONFIG_SHOW_REGISTRY, false);
     }
