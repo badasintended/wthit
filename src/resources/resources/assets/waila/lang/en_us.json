@@ -211,7 +211,7 @@
   "config.waila.plugin_minecraft.attribute.long_health_max"     : "Max Health Points to Draw",
   "config.waila.plugin_minecraft.attribute.long_health_max_desc": "The maximum health points that the icon will draw before forcing fraction view",
   "config.waila.plugin_minecraft.attribute.long_armor_max"      : "Max Armor Points to Draw",
-  "config.waila.plugin_minecraft.attribute.long_armor_max_desc" : "The maximum armor points that the icon will draw before forcing fraction view",
+  "config.waila.plugin_minecraft.attribute.long_armor_max_desc" : "The maximum armor points that the icon will draw before forcing numeric view",
 
   "config.waila.plugin_waila"                                   : "Waila Core",
   "config.waila.plugin_waila.show_mod_name"                     : "Show Mod Names",

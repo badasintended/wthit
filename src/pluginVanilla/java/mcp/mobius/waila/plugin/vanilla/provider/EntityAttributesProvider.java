@@ -84,12 +84,13 @@ public enum EntityAttributesProvider implements IEntityComponentProvider, IServe
             int maxPerLine = config.getInt(Options.ATTRIBUTE_ICON_PER_LINE);
 
             if (showHealth) {
-                if (entity.getMaxHealth() > config.getInt(Options.ATTRIBUTE_LONG_HEALTH_MAX)) {
+                float absorption = data.contains("abs") ? data.getFloat("abs") : 0f;
+                if (entity.getMaxHealth() + absorption > config.getInt(Options.ATTRIBUTE_LONG_HEALTH_MAX)) {
                     addHealth(tooltip.addLine(), entity, data, showAbsorption);
                 } else {
                     tooltip.addLine(new HealthComponent(entity.getHealth(), entity.getMaxHealth(), maxPerLine, false));
-                    if (showAbsorption && data.contains("abs")) {
-                        tooltip.addLine(new HealthComponent(data.getFloat("abs"), 0, maxPerLine, true));
+                    if (showAbsorption && absorption > 0) {
+                        tooltip.addLine(new HealthComponent(absorption, 0, maxPerLine, true));
                     }
                 }
             }
