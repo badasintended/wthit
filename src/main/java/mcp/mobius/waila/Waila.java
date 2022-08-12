@@ -21,6 +21,8 @@ import org.apache.logging.log4j.message.ParameterizedMessageFactory;
 
 public abstract class Waila {
 
+    public static final boolean ENABLE_DEBUG_COMMAND = Boolean.getBoolean("waila.debugCommands");
+
     public static final boolean CLIENT_SIDE = ICommonService.INSTANCE.isClientSide();
     public static final Path GAME_DIR = ICommonService.INSTANCE.getGameDir();
     public static final Path CONFIG_DIR = ICommonService.INSTANCE.getConfigDir();

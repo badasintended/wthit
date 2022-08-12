@@ -11,6 +11,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Matrix4f;
+import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.ITooltipComponent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
@@ -20,7 +21,6 @@ import net.minecraft.world.item.ItemStack;
 
 public final class DisplayUtil extends GuiComponent {
 
-    private static final boolean SHOW_COMPONENT_BOUNDS = Boolean.getBoolean("waila.showComponentBounds");
     private static final Random RANDOM = new Random();
 
     private static final String NUM_SUFFIXES = "kmbt";
@@ -73,7 +73,7 @@ public final class DisplayUtil extends GuiComponent {
     public static void renderComponent(PoseStack matrices, ITooltipComponent component, int x, int y, float delta) {
         component.render(matrices, x, y, delta);
 
-        if (SHOW_COMPONENT_BOUNDS) {
+        if (WailaClient.showComponentBounds) {
             matrices.pushPose();
             float scale = (float) Minecraft.getInstance().getWindow().getGuiScale();
             matrices.scale(1 / scale, 1 / scale, 1);

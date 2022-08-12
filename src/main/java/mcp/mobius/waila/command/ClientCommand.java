@@ -11,6 +11,7 @@ import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.config.ConfigEntry;
 import mcp.mobius.waila.config.PluginConfig;
@@ -34,7 +35,7 @@ public abstract class ClientCommand<S> {
     protected abstract FeedbackSender feedback(S source);
 
     public final void register(CommandDispatcher<S> dispatcher) {
-        new ArgumentBuilderBuilder<>(argument.literal(WailaConstants.NAMESPACE + "c"))
+        ArgumentBuilderBuilder<S> command = new ArgumentBuilderBuilder<>(argument.literal(WailaConstants.NAMESPACE + "c"))
 
             .then(argument.literal("config"))
 
@@ -124,9 +125,27 @@ public abstract class ClientCommand<S> {
                 return enabled ? 1 : 0;
             })
 
-            .pop("enabled", "overlay")
+            .pop("enabled", "overlay");
 
-            .register(dispatcher);
+        if (Waila.ENABLE_DEBUG_COMMAND) {
+            command
+                .then(argument.literal("debug"))
+
+                .then(argument.literal("showComponentBounds"))
+                .then(argument.required("enabled", BoolArgumentType.bool()))
+                .suggests((context, builder) -> suggest(new String[]{String.valueOf(!WailaClient.showComponentBounds)}, builder))
+                .executes(context -> {
+                    FeedbackSender feedback = feedback(context.getSource());
+                    boolean enabled = BoolArgumentType.getBool(context, "enabled");
+                    Minecraft.getInstance().execute(() -> WailaClient.showComponentBounds = enabled);
+                    feedback.success(Component.literal((enabled ? "En" : "Dis") + "abled component bounds"));
+                    return enabled ? 1 : 0;
+                })
+
+                .pop("enabled", "showComponentBounds", "debug");
+        }
+
+        command.register(dispatcher);
     }
 
     protected interface ArgumentBuilderFactory<S> {
