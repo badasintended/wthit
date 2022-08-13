@@ -12,8 +12,8 @@ import mcp.mobius.waila.gui.widget.value.InputValue;
 import mcp.mobius.waila.gui.widget.value.IntInputValue;
 import net.minecraft.client.gui.components.toasts.SystemToast;
 import net.minecraft.client.gui.screens.ConfirmScreen;
-import net.minecraft.network.chat.CommonComponents;
-import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 
 class ThemeEditorScreen extends ConfigScreen {
@@ -30,7 +30,7 @@ class ThemeEditorScreen extends ConfigScreen {
     private InputValue<Integer> textColorVal;
 
     public ThemeEditorScreen(WailaConfigScreen parent, Theme theme, boolean edit) {
-        super(parent, CommonComponents.EMPTY, () -> {}, () -> {});
+        super(parent, TextComponent.EMPTY, () -> {}, () -> {});
 
         this.parent = parent;
         this.theme = theme;
@@ -73,7 +73,7 @@ class ThemeEditorScreen extends ConfigScreen {
                 } else {
                     minecraft.setScreen(this);
                 }
-            }, Component.translatable("config.waila.overlay_theme_editor.delete_prompt", theme.getId()), CommonComponents.EMPTY))));
+            }, new TranslatableComponent("config.waila.overlay_theme_editor.delete_prompt", theme.getId()), TextComponent.EMPTY))));
         }
 
         return option;
@@ -96,8 +96,8 @@ class ThemeEditorScreen extends ConfigScreen {
         if (idVal.getValue().isBlank()) {
             minecraft.getToasts().addToast(new SystemToast(
                 SystemToast.SystemToastIds.TUTORIAL_HINT,
-                Component.translatable("config.waila.missing_input"),
-                Component.translatable("config.waila.overlay_theme_editor.id_empty")));
+                new TranslatableComponent("config.waila.missing_input"),
+                new TranslatableComponent("config.waila.overlay_theme_editor.id_empty")));
         } else {
             ResourceLocation id = new ResourceLocation(idVal.getValue());
             if (id.getNamespace().equals(ResourceLocation.DEFAULT_NAMESPACE) && !idVal.getValue().startsWith(ResourceLocation.DEFAULT_NAMESPACE + ":")) {

@@ -11,6 +11,7 @@ import net.minecraft.network.Connection;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.ConfigGuiHandler;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
+import net.minecraftforge.client.event.RegisterClientCommandsEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
@@ -38,6 +39,11 @@ public class ForgeWailaClient extends WailaClient {
 
     @EventBusSubscriber(modid = WailaConstants.WAILA, value = Dist.CLIENT)
     static class Subscriber {
+
+        @SubscribeEvent
+        static void registerClientCommands(RegisterClientCommandsEvent event) {
+            new ForgeClientCommand().register(event.getDispatcher());
+        }
 
         @SubscribeEvent
         static void renderGameOverlay(RenderGameOverlayEvent.Post event) {

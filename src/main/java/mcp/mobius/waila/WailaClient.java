@@ -20,6 +20,8 @@ import net.minecraft.world.item.ItemStack;
 
 public abstract class WailaClient {
 
+    public static boolean showComponentBounds = false;
+
     public static KeyMapping keyOpenConfig;
     public static KeyMapping keyShowOverlay;
     public static KeyMapping keyToggleLiquid;
@@ -29,14 +31,12 @@ public abstract class WailaClient {
     public static Runnable onShowRecipeInput;
     public static Runnable onShowRecipeOutput;
 
-    protected static List<KeyMapping> registerKeyBinds() {
-        return List.of(
-            keyOpenConfig = createKeyBind("config"),
-            keyShowOverlay = createKeyBind("show_overlay"),
-            keyToggleLiquid = createKeyBind("toggle_liquid"),
-            keyShowRecipeInput = createKeyBind("show_recipe_input"),
-            keyShowRecipeOutput = createKeyBind("show_recipe_output")
-        );
+    protected static void registerKeyBinds() {
+        keyOpenConfig = createKeyBind("config");
+        keyShowOverlay = createKeyBind("show_overlay");
+        keyToggleLiquid = createKeyBind("toggle_liquid");
+        keyShowRecipeInput = createKeyBind("show_recipe_input");
+        keyShowRecipeOutput = createKeyBind("show_recipe_output");
     }
 
     protected static void onClientTick() {

@@ -65,16 +65,16 @@ public class ComponentHandler {
             try {
                 switch (position) {
                     case HEAD -> {
-                        provider.appendHead((ITooltip) tooltip, accessor, PluginConfig.INSTANCE);
-                        provider.appendHead((List<Component>) tooltip, accessor, PluginConfig.INSTANCE);
+                        provider.appendHead((ITooltip) tooltip, accessor, PluginConfig.CLIENT);
+                        provider.appendHead((List<Component>) tooltip, accessor, PluginConfig.CLIENT);
                     }
                     case BODY -> {
-                        provider.appendBody((ITooltip) tooltip, accessor, PluginConfig.INSTANCE);
-                        provider.appendBody((List<Component>) tooltip, accessor, PluginConfig.INSTANCE);
+                        provider.appendBody((ITooltip) tooltip, accessor, PluginConfig.CLIENT);
+                        provider.appendBody((List<Component>) tooltip, accessor, PluginConfig.CLIENT);
                     }
                     case TAIL -> {
-                        provider.appendTail((ITooltip) tooltip, accessor, PluginConfig.INSTANCE);
-                        provider.appendTail((List<Component>) tooltip, accessor, PluginConfig.INSTANCE);
+                        provider.appendTail((ITooltip) tooltip, accessor, PluginConfig.CLIENT);
+                        provider.appendTail((List<Component>) tooltip, accessor, PluginConfig.CLIENT);
                     }
                 }
             } catch (Throwable e) {
@@ -109,16 +109,16 @@ public class ComponentHandler {
             try {
                 switch (position) {
                     case HEAD -> {
-                        provider.appendHead((ITooltip) tooltip, accessor, PluginConfig.INSTANCE);
-                        provider.appendHead((List<Component>) tooltip, accessor, PluginConfig.INSTANCE);
+                        provider.appendHead((ITooltip) tooltip, accessor, PluginConfig.CLIENT);
+                        provider.appendHead((List<Component>) tooltip, accessor, PluginConfig.CLIENT);
                     }
                     case BODY -> {
-                        provider.appendBody((ITooltip) tooltip, accessor, PluginConfig.INSTANCE);
-                        provider.appendBody((List<Component>) tooltip, accessor, PluginConfig.INSTANCE);
+                        provider.appendBody((ITooltip) tooltip, accessor, PluginConfig.CLIENT);
+                        provider.appendBody((List<Component>) tooltip, accessor, PluginConfig.CLIENT);
                     }
                     case TAIL -> {
-                        provider.appendTail((ITooltip) tooltip, accessor, PluginConfig.INSTANCE);
-                        provider.appendTail((List<Component>) tooltip, accessor, PluginConfig.INSTANCE);
+                        provider.appendTail((ITooltip) tooltip, accessor, PluginConfig.CLIENT);
+                        provider.appendTail((List<Component>) tooltip, accessor, PluginConfig.CLIENT);
                     }
                 }
             } catch (Throwable e) {
@@ -174,7 +174,7 @@ public class ComponentHandler {
             if (icon != null) {
                 return icon;
             }
-            ItemStack providerStack = provider.getDisplayItem(DataAccessor.INSTANCE, PluginConfig.INSTANCE);
+            ItemStack providerStack = provider.getDisplayItem(DataAccessor.INSTANCE, PluginConfig.CLIENT);
             if (!providerStack.isEmpty()) {
                 return new ItemComponent(providerStack);
             }

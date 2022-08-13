@@ -54,7 +54,7 @@ public class PluginConfigScreen extends ConfigScreen {
         for (String namespace : PluginConfig.getNamespaces()) {
             String translationKey = "config.waila.plugin_" + namespace;
             Set<ResourceLocation> keys = PluginConfig.getAllKeys(namespace);
-            options.with(new ButtonEntry(translationKey, 100, 20, w -> minecraft.setScreen(new ConfigScreen(PluginConfigScreen.this, Component.translatable(translationKey)) {
+            options.with(new ButtonEntry(translationKey, 100, 20, w -> minecraft.setScreen(new ConfigScreen(PluginConfigScreen.this, new TranslatableComponent(translationKey)) {
                 @Override
                 public ConfigListWidget getOptions() {
                     ConfigListWidget options = new ConfigListWidget(this, minecraft, width, height, 32, height - 32, 26);

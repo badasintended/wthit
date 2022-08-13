@@ -13,6 +13,8 @@ import net.minecraft.commands.Commands;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
@@ -29,10 +31,10 @@ public class ServerCommand {
                 boolean dedicated = server.isDedicatedServer();
                 Path path = DumpGenerator.generate(dedicated ? DumpGenerator.SERVER : DumpGenerator.LOCAL);
                 if (path != null) {
-                    Component pathComponent = Component.literal(path.toString()).withStyle(style -> style
+                    Component pathComponent = new TextComponent(path.toString()).withStyle(style -> style
                         .withUnderlined(true)
                         .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, path.toString())));
-                    source.sendSuccess(Component.translatable("command.waila." + (dedicated ? "server" : "local") + "_dump_success", pathComponent), false);
+                    source.sendSuccess(new TranslatableComponent("command.waila." + (dedicated ? "server" : "local") + "_dump_success", pathComponent), false);
                     Entity entity = source.getEntity();
                     if (entity instanceof ServerPlayer player && !server.isSingleplayerOwner(player.getGameProfile())) {
                         PacketSender.s2c(player).send(Packets.GENERATE_CLIENT_DUMP, new FriendlyByteBuf(Unpooled.EMPTY_BUFFER));

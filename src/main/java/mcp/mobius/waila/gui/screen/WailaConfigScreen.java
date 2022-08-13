@@ -26,6 +26,8 @@ import net.minecraft.client.KeyMapping;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Blocks;
@@ -37,7 +39,7 @@ import static mcp.mobius.waila.util.DisplayUtil.tryFormat;
 
 public class WailaConfigScreen extends ConfigScreen {
 
-    private static final Component PREVIEW_PROMPT = Component.translatable("config.waila.preview_prompt");
+    private static final Component PREVIEW_PROMPT = new TranslatableComponent("config.waila.preview_prompt");
 
     private final WailaConfig defaultConfig = new WailaConfig();
     private final TooltipRenderer.State previewState = new PreviewTooltipRendererState();
@@ -72,9 +74,9 @@ public class WailaConfigScreen extends ConfigScreen {
     public void buildPreview(TooltipRenderer.State state) {
         TooltipRenderer.beginBuild(state);
         TooltipRenderer.setIcon(new ItemComponent(Blocks.GRASS_BLOCK));
-        TooltipRenderer.add(new Line(null).with(Component.literal(tryFormat(blockNameFormatVal.getValue(), Blocks.GRASS_BLOCK.getName().getString()))));
-        TooltipRenderer.add(new Line(null).with(Component.literal("never gonna give you up").withStyle(ChatFormatting.OBFUSCATED)));
-        TooltipRenderer.add(new Line(null).with(Component.literal(tryFormat(modNameFormatVal.getValue(), IModInfo.get(Blocks.GRASS_BLOCK).getName()))));
+        TooltipRenderer.add(new Line(null).with(new TextComponent(tryFormat(blockNameFormatVal.getValue(), Blocks.GRASS_BLOCK.getName().getString()))));
+        TooltipRenderer.add(new Line(null).with(new TextComponent("never gonna give you up").withStyle(ChatFormatting.OBFUSCATED)));
+        TooltipRenderer.add(new Line(null).with(new TextComponent(tryFormat(modNameFormatVal.getValue(), IModInfo.get(Blocks.GRASS_BLOCK).getName()))));
         TooltipRenderer.endBuild();
     }
 
@@ -278,7 +280,7 @@ public class WailaConfigScreen extends ConfigScreen {
                 KeyMapping.resetMapping();
             });
 
-            this.button = new Button(0, 0, 100, 20, Component.empty(), w -> selectedKeyBind = this);
+            this.button = new Button(0, 0, 100, 20, TextComponent.EMPTY, w -> selectedKeyBind = this);
         }
 
         @Override
@@ -289,7 +291,7 @@ public class WailaConfigScreen extends ConfigScreen {
         @Override
         protected void drawValue(PoseStack matrices, int width, int height, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks) {
             if (selectedKeyBind == this) {
-                button.setMessage(Component.literal("> " + getValue().getDisplayName().getString() + " <").withStyle(ChatFormatting.YELLOW));
+                button.setMessage(new TextComponent("> " + getValue().getDisplayName().getString() + " <").withStyle(ChatFormatting.YELLOW));
             } else {
                 button.setMessage(getValue().getDisplayName());
             }
@@ -313,9 +315,9 @@ public class WailaConfigScreen extends ConfigScreen {
                 val -> get().getOverlay().getColor().applyTheme(new ResourceLocation(val)),
                 false);
 
-            this.editButton = new Button(0, 0, 40, 20, Component.translatable("config.waila.edit"), button ->
+            this.editButton = new Button(0, 0, 40, 20, new TranslatableComponent("config.waila.edit"), button ->
                 client.setScreen(new ThemeEditorScreen(WailaConfigScreen.this, getTheme(), true)));
-            this.newButton = new Button(0, 0, 40, 20, Component.translatable("config.waila.new"), button ->
+            this.newButton = new Button(0, 0, 40, 20, new TranslatableComponent("config.waila.new"), button ->
                 client.setScreen(new ThemeEditorScreen(WailaConfigScreen.this, getTheme(), false)));
 
             editButton.active = !getValue().startsWith(WailaConstants.NAMESPACE + ":");

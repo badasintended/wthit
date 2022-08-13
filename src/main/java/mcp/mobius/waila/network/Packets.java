@@ -29,7 +29,9 @@ import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.ClickEvent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
@@ -131,7 +133,7 @@ public class Packets {
                 IServerAccessor<Entity> accessor = ServerAccessor.INSTANCE.set(world, player, new EntityHitResult(entity, hitPos), entity);
 
                 for (IServerDataProvider<Entity> provider : registrar.entityData.get(entity)) {
-                    provider.appendServerData(data, accessor, PluginConfig.INSTANCE);
+                    provider.appendServerData(data, accessor, PluginConfig.SERVER);
                     //noinspection deprecation
                     provider.appendServerData(data, player, world, entity);
                 }
@@ -168,13 +170,13 @@ public class Packets {
                 IServerAccessor<BlockEntity> accessor = ServerAccessor.INSTANCE.set(world, player, hitResult, blockEntity);
 
                 for (IServerDataProvider<BlockEntity> provider : registrar.blockData.get(blockEntity)) {
-                    provider.appendServerData(data, accessor, PluginConfig.INSTANCE);
+                    provider.appendServerData(data, accessor, PluginConfig.SERVER);
                     //noinspection deprecation
                     provider.appendServerData(data, player, world, blockEntity);
                 }
 
                 for (IServerDataProvider<BlockEntity> provider : registrar.blockData.get(state.getBlock())) {
-                    provider.appendServerData(data, accessor, PluginConfig.INSTANCE);
+                    provider.appendServerData(data, accessor, PluginConfig.SERVER);
                     //noinspection deprecation
                     provider.appendServerData(data, player, world, blockEntity);
                 }
@@ -265,10 +267,10 @@ public class Packets {
         S2CPacketReceiver.register(GENERATE_CLIENT_DUMP, (client, handler, buf, responseSender) -> client.execute(() -> {
             Path path = DumpGenerator.generate(DumpGenerator.CLIENT);
             if (path != null && client.player != null) {
-                Component pathComponent = Component.literal(path.toString()).withStyle(style -> style
+                Component pathComponent = new TextComponent(path.toString()).withStyle(style -> style
                     .withUnderlined(true)
                     .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, path.toString())));
-                client.player.displayClientMessage(Component.translatable("command.waila.client_dump_success", pathComponent), false);
+                client.player.displayClientMessage(new TranslatableComponent("command.waila.client_dump_success", pathComponent), false);
             }
         }));
     }

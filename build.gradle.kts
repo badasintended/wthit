@@ -4,7 +4,7 @@ import java.nio.charset.StandardCharsets
 
 plugins {
     java
-    id("org.spongepowered.gradle.vanilla") version "0.2.1-SNAPSHOT"
+    id("org.spongepowered.gradle.vanilla")
     id("maven-publish")
 }
 
@@ -80,6 +80,7 @@ minecraft {
 
 dependencies {
     compileOnly("lol.bai:badpackets:mojmap-${rootProp["badpackets"]}")
+    compileOnly("org.spongepowered:mixin:0.8.5")
 }
 
 sourceSets {

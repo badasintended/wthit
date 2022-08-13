@@ -144,4 +144,9 @@ public enum PluginConfig implements IPluginConfig {
         return getValue(key, null);
     }
 
+    @Override
+    public boolean get(ResourceLocation key, boolean defaultValue) {
+        return CONFIGS.containsKey(key) ? CONFIGS.get(key).getValue(this == SERVER) == Boolean.TRUE : defaultValue;
+    }
+
 }

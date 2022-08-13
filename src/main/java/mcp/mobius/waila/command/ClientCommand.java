@@ -19,6 +19,8 @@ import mcp.mobius.waila.gui.screen.HomeScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.commands.arguments.ResourceLocationArgument;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 
 import static net.minecraft.commands.SharedSuggestionProvider.suggest;
@@ -57,16 +59,16 @@ public abstract class ClientCommand<S> {
                 ResourceLocation id = context.getArgument("id", ResourceLocation.class);
                 ConfigEntry<?> entry = PluginConfig.getEntry(id);
                 if (entry == null) {
-                    feedback.fail(Component.translatable("command.waila.config.unknown_id", id));
+                    feedback.fail(new TranslatableComponent("command.waila.config.unknown_id", id));
                     return 0;
                 }
 
-                feedback.success(Component.translatable("command.waila.config.get.id", id));
-                feedback.success(Component.translatable("command.waila.config.get.synced", entry.isSynced()));
-                feedback.success(Component.translatable("command.waila.config.get.current_value", entry.getValue(false).toString()));
-                feedback.success(Component.translatable("command.waila.config.get.default_value", entry.getDefaultValue().toString()));
+                feedback.success(new TranslatableComponent("command.waila.config.get.id", id));
+                feedback.success(new TranslatableComponent("command.waila.config.get.synced", entry.isSynced()));
+                feedback.success(new TranslatableComponent("command.waila.config.get.current_value", entry.getValue(false).toString()));
+                feedback.success(new TranslatableComponent("command.waila.config.get.default_value", entry.getDefaultValue().toString()));
                 if (entry.isServerRequired()) {
-                    feedback.success(Component.translatable("command.waila.config.get.client_only_value", entry.getClientOnlyValue().toString()));
+                    feedback.success(new TranslatableComponent("command.waila.config.get.client_only_value", entry.getClientOnlyValue().toString()));
                 }
                 return 1;
             })
@@ -92,21 +94,21 @@ public abstract class ClientCommand<S> {
                 ResourceLocation id = context.getArgument("id", ResourceLocation.class);
                 ConfigEntry<Object> entry = PluginConfig.getEntry(id);
                 if (entry == null) {
-                    feedback.fail(Component.translatable("command.waila.config.unknown_id", id));
+                    feedback.fail(new TranslatableComponent("command.waila.config.unknown_id", id));
                     return 0;
                 }
 
                 if (entry.blocksClientEdit() && Minecraft.getInstance().getCurrentServer() != null) {
-                    feedback.fail(Component.translatable("command.waila.config.set.synced", id));
+                    feedback.fail(new TranslatableComponent("command.waila.config.set.synced", id));
                 }
 
                 JsonPrimitive jsonValue = new JsonPrimitive(context.getArgument("value", String.class));
                 try {
                     entry.setLocalValue(entry.getType().parser.apply(jsonValue, entry.getDefaultValue()));
-                    feedback.success(Component.translatable("command.waila.config.set.success", id, entry.getLocalValue()));
+                    feedback.success(new TranslatableComponent("command.waila.config.set.success", id, entry.getLocalValue()));
                     return 1;
                 } catch (Throwable throwable) {
-                    feedback.fail(Component.translatable("command.waila.config.set.parse_fail", throwable.getMessage()));
+                    feedback.fail(new TranslatableComponent("command.waila.config.set.parse_fail", throwable.getMessage()));
                     throwable.printStackTrace();
                     return 0;
                 }
@@ -121,7 +123,7 @@ public abstract class ClientCommand<S> {
                 FeedbackSender feedback = feedback(context.getSource());
                 boolean enabled = BoolArgumentType.getBool(context, "enabled");
                 Waila.CONFIG.get().getGeneral().setDisplayTooltip(enabled);
-                feedback.success(Component.translatable("command.waila.overlay." + enabled));
+                feedback.success(new TranslatableComponent("command.waila.overlay." + enabled));
                 return enabled ? 1 : 0;
             })
 
@@ -138,7 +140,7 @@ public abstract class ClientCommand<S> {
                     FeedbackSender feedback = feedback(context.getSource());
                     boolean enabled = BoolArgumentType.getBool(context, "enabled");
                     Minecraft.getInstance().execute(() -> WailaClient.showComponentBounds = enabled);
-                    feedback.success(Component.literal((enabled ? "En" : "Dis") + "abled component bounds"));
+                    feedback.success(new TextComponent((enabled ? "En" : "Dis") + "abled component bounds"));
                     return enabled ? 1 : 0;
                 })
 

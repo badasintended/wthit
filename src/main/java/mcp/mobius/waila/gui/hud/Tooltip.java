@@ -11,9 +11,10 @@ import mcp.mobius.waila.api.ITaggableList;
 import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.ITooltipLine;
-import mcp.mobius.waila.hud.component.DrawableComponent;
+import mcp.mobius.waila.gui.hud.component.DrawableComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.Nullable;
 
 // TODO: remove ITaggableList
 @SuppressWarnings("deprecation")
@@ -37,8 +38,16 @@ public class Tooltip extends ObjectArrayList<Component> implements ITooltip, ITa
 
     @Override
     public ITooltipLine getLine(int index) {
-        return get(index);
+        Component component = get(index);
+        if (component instanceof ITooltipLine line) {
+            return line;
+        } else {
+            Line line = new Line(null).with(component);
+            set(index, line);
+            return line;
+        }
     }
+
 
     @Override
     public ITooltipLine addLine() {
@@ -52,6 +61,12 @@ public class Tooltip extends ObjectArrayList<Component> implements ITooltip, ITa
         Line line = new Line(tag);
         setLine(tag, line);
         return line;
+    }
+
+    @Override
+    @Nullable
+    public ITooltipLine getLine(ResourceLocation tag) {
+        return tags.containsKey(tag) ? getLine(tags.getInt(tag)) : null;
     }
 
     @Override

@@ -13,6 +13,7 @@ import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.util.FormattedCharSequence;
 import org.jetbrains.annotations.NotNull;
@@ -74,15 +75,15 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
         boolean hasDescTl = I18n.exists(getDescription());
         if (id != null || hasDescTl || isDisabled()) {
             String title = getTitle().getString();
-            List<FormattedCharSequence> tooltip = Lists.newArrayList(Component.literal(title).getVisualOrderText());
+            List<FormattedCharSequence> tooltip = Lists.newArrayList(new TextComponent(title).getVisualOrderText());
             if (hasDescTl) {
-                tooltip.addAll(client.font.split(Component.translatable(getDescription()).withStyle(ChatFormatting.GRAY), 250));
+                tooltip.addAll(client.font.split(new TranslatableComponent(getDescription()).withStyle(ChatFormatting.GRAY), 250));
             }
             if (isDisabled()) {
-                tooltip.addAll(client.font.split(Component.translatable(disabledReason).withStyle(ChatFormatting.RED), 250));
+                tooltip.addAll(client.font.split(new TranslatableComponent(disabledReason).withStyle(ChatFormatting.RED), 250));
             }
             if (id != null) {
-                tooltip.add(Component.literal(id).withStyle(ChatFormatting.DARK_GRAY).getVisualOrderText());
+                tooltip.add(new TextComponent(id).withStyle(ChatFormatting.DARK_GRAY).getVisualOrderText());
             }
             screen.renderTooltip(matrices, tooltip, mouseX, mouseY);
         }

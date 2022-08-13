@@ -9,7 +9,8 @@ import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.component.PairComponent;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.entity.AgeableMob;
 
 public enum MobTimerProvider implements IEntityComponentProvider, IServerDataProvider<AgeableMob> {
@@ -41,8 +42,8 @@ public enum MobTimerProvider implements IEntityComponentProvider, IServerDataPro
                 long minutes = seconds / 60;
                 seconds = seconds - (minutes * 60);
                 tooltip.addLine(new PairComponent(
-                    Component.translatable("tooltip.waila.timer.grow"),
-                    Component.literal(TIMER.formatted(minutes, seconds))));
+                    new TranslatableComponent("tooltip.waila.timer.grow"),
+                    new TextComponent(TIMER.formatted(minutes, seconds))));
             }
 
             if (lastAge > 0 && config.getBoolean(Options.TIMER_BREED)) {
@@ -50,8 +51,8 @@ public enum MobTimerProvider implements IEntityComponentProvider, IServerDataPro
                 long minutes = seconds / 60;
                 seconds = seconds - (minutes * 60);
                 tooltip.addLine(new PairComponent(
-                    Component.translatable("tooltip.waila.timer.breed"),
-                    Component.literal(TIMER.formatted(minutes, seconds))));
+                    new TranslatableComponent("tooltip.waila.timer.breed"),
+                    new TextComponent(TIMER.formatted(minutes, seconds))));
             }
 
             if (lastAge < 0) {

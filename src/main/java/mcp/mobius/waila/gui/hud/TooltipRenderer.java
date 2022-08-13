@@ -31,6 +31,7 @@ import mcp.mobius.waila.registry.Registrar;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.util.profiling.ProfilerFiller;
 
@@ -72,12 +73,15 @@ public class TooltipRenderer {
     }
 
     public static void add(Tooltip tooltip) {
-        Preconditions.checkState(started);
-        for (Line line : tooltip) {
-            if (line.tag != null) {
-                TOOLTIP.setLine(line.tag, line);
+        for (Component component : tooltip) {
+            if (component instanceof Line line) {
+                if (line.tag != null) {
+                    TOOLTIP.setLine(line.tag, line);
+                } else {
+                    add(line);
+                }
             } else {
-                add(line);
+                add(new Line(null).with(component));
             }
         }
     }
@@ -116,9 +120,9 @@ public class TooltipRenderer {
 
         int w = 0;
         int h = 0;
-        Iterator<Line> iterator = TOOLTIP.iterator();
+        Iterator<Component> iterator = TOOLTIP.iterator();
         while (iterator.hasNext()) {
-            Line line = iterator.next();
+            Line line = (Line) iterator.next();
             int lineW = line.getWidth();
             int lineH = line.getHeight();
             if (lineH <= 0) {
@@ -238,7 +242,8 @@ public class TooltipRenderer {
         int textX = x + (icon.getWidth() > 0 ? icon.getWidth() + 7 : 4);
         int textY = y + 4 + topOffset;
 
-        for (Line line : TOOLTIP) {
+        for (Component component : TOOLTIP) {
+            Line line = (Line) component;
             line.render(matrices, textX, textY, maxLineWidth, delta);
             textY += LINE_HEIGHT.getInt(line) + 1;
         }
@@ -275,7 +280,7 @@ public class TooltipRenderer {
             return;
         }
 
-        Line objectName = TOOLTIP.getLine(WailaConstants.OBJECT_NAME_TAG);
+        Line objectName = (Line) TOOLTIP.getLine(WailaConstants.OBJECT_NAME_TAG);
         if (objectName != null && objectName.components.get(0) instanceof WrappedComponent component) {
             String narrate = component.component.getString();
             if (!lastNarration.equalsIgnoreCase(narrate)) {

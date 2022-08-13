@@ -1,5 +1,5 @@
 plugins {
-    id("fabric-loom") version "0.12.+"
+    id("fabric-loom")
 }
 
 setupPlatform()

@@ -1,4 +1,4 @@
-package mcp.mobius.waila.hud.component;
+package mcp.mobius.waila.gui.hud.component;
 
 import java.awt.Dimension;
 import java.util.List;

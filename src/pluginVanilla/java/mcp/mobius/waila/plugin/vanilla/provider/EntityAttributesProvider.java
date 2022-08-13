@@ -17,8 +17,8 @@ import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.chat.TextComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
@@ -38,9 +38,9 @@ public enum EntityAttributesProvider implements IEntityComponentProvider, IServe
     }
 
     private void addHealth(ITooltipLine line, LivingEntity entity, CompoundTag data, boolean showAbsorption) {
-        MutableComponent component = Component.literal(DECIMAL.format(entity.getHealth()));
+        MutableComponent component = new TextComponent(DECIMAL.format(entity.getHealth()));
         if (showAbsorption && data.contains("abs")) {
-            component.append(Component.literal("+" + DECIMAL.format(data.getFloat("abs"))).withStyle(ChatFormatting.GOLD));
+            component.append(new TextComponent("+" + DECIMAL.format(data.getFloat("abs"))).withStyle(ChatFormatting.GOLD));
         }
         line.with(new TextureComponent(GuiComponent.GUI_ICONS_LOCATION, 8, 8, 52, 0, 9, 9, 256, 256))
             .with(component.append("/" + DECIMAL.format(entity.getMaxHealth())).withStyle(ChatFormatting.RED));
@@ -48,7 +48,7 @@ public enum EntityAttributesProvider implements IEntityComponentProvider, IServe
 
     private void addArmor(ITooltipLine line, LivingEntity entity) {
         line.with(new TextureComponent(GuiComponent.GUI_ICONS_LOCATION, 8, 8, 34, 9, 9, 9, 256, 256))
-            .with(Component.literal(String.valueOf(entity.getArmorValue())));
+            .with(new TextComponent(String.valueOf(entity.getArmorValue())));
     }
 
     @Override
@@ -109,7 +109,7 @@ public enum EntityAttributesProvider implements IEntityComponentProvider, IServe
     public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
         if (config.getBoolean(Options.ATTRIBUTE_ENTITY_POSITION)) {
             Vec3 pos = accessor.getEntity().position();
-            tooltip.addLine(Component.literal("(" + DECIMAL.format(pos.x) + ", " + DECIMAL.format(pos.y) + ", " + DECIMAL.format(pos.z) + ")"));
+            tooltip.addLine(new TextComponent("(" + DECIMAL.format(pos.x) + ", " + DECIMAL.format(pos.y) + ", " + DECIMAL.format(pos.z) + ")"));
         }
     }
 
