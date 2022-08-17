@@ -15,7 +15,7 @@ jobs:
         with:
           java-version: 17
       - uses: gradle/gradle-build-action@v2
-      - run: ./gradlew build publish curseforge modrinth
+      - run: ./gradlew build publish curseforge modrinth --max-workers=1
         env:
           MOD_VERSION: ${{ steps.vars.outputs.version }}
           GITHUB_TOKEN: ${{ github.token }}

@@ -30,7 +30,7 @@ jobs:
         with:
           java-version: 17
       - uses: gradle/gradle-build-action@v2
-      - run: ./gradlew build
+      - run: ./gradlew build --max-workers=1
         env:
           GIT_HASH: ${{ steps.vars.outputs.git_hash }}
       - uses: actions/upload-artifact@v2
