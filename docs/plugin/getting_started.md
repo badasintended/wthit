@@ -19,7 +19,7 @@ repositories {
 
       // run against the full jar
       modRuntimeOnly "mcp.mobius.waila:wthit:fabric-${wthitVersion}"
-      modRuntimeOnly "lol.bai:badpackets:fabric-0.1.2"
+      modRuntimeOnly "lol.bai:badpackets:fabric-0.2.0"
     }
     ```
 === "Forge"
@@ -38,7 +38,7 @@ repositories {
 
       // run against the full jar
       runtimeOnly fg.deobf("mcp.mobius.waila:wthit:forge-${wthitVersion}")
-      runtimeOnly fg.deobf("lol.bai:badpackets:forge-0.1.2")
+      runtimeOnly fg.deobf("lol.bai:badpackets:forge-0.2.0")
     }
     ```
 === "Quilt"
@@ -49,7 +49,7 @@ repositories {
 
       // run against the full jar
       modRuntimeOnly "mcp.mobius.waila:wthit:quilt-${wthitVersion}"
-      modRuntimeOnly "lol.bai:badpackets:fabric-0.1.2"
+      modRuntimeOnly "lol.bai:badpackets:fabric-0.2.0"
     }
     ```
 === "Architectury"
@@ -61,7 +61,7 @@ repositories {
     ```gradle title="Fabric Project"
     dependencies {
       modRuntimeOnly "mcp.mobius.waila:wthit:fabric-${wthitVersion}"
-      modRuntimeOnly "lol.bai:badpackets:fabric-0.1.2"
+      modRuntimeOnly "lol.bai:badpackets:fabric-0.2.0"
     }
     ```
     ```gradle title="Forge Project"
@@ -69,7 +69,7 @@ repositories {
       // needed for @WailaPlugin annotation
       modCompileOnly "mcp.mobius.waila:wthit-api:forge-${wthitVersion}"
       modRuntimeOnly "mcp.mobius.waila:wthit:forge-${wthitVersion}"
-      modRuntimeOnly "lol.bai:badpackets:forge-0.1.2"
+      modRuntimeOnly "lol.bai:badpackets:forge-0.2.0"
     }
     ```
 === "VanillaGradle Multiplatform"
@@ -81,7 +81,7 @@ repositories {
     ```gradle title="Fabric Project"
     dependencies {
       modRuntimeOnly "mcp.mobius.waila:wthit:fabric-${wthitVersion}"
-      modRuntimeOnly "lol.bai:badpackets:fabric-0.1.2"
+      modRuntimeOnly "lol.bai:badpackets:fabric-0.2.0"
     }
     ```
     ```gradle title="Forge Project"
@@ -97,13 +97,13 @@ repositories {
       // needed for @WailaPlugin annotation
       compileOnly fg.deobf("mcp.mobius.waila:wthit-api:forge-${wthitVersion}")
       runtimeOnly fg.deobf("mcp.mobius.waila:wthit:forge-${wthitVersion}")
-      runtimeOnly fg.deobf("lol.bai:badpackets:forge-0.1.2")
+      runtimeOnly fg.deobf("lol.bai:badpackets:forge-0.2.0")
     }
     ```
     ```gradle title="Quilt Project"
     dependencies {
       modRuntimeOnly "mcp.mobius.waila:wthit:quilt-${wthitVersion}"
-      modRuntimeOnly "lol.bai:badpackets:fabric-0.1.2"
+      modRuntimeOnly "lol.bai:badpackets:fabric-0.2.0"
     }
     ```
 
