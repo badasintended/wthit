@@ -9,11 +9,11 @@ import mcp.mobius.waila.plugin.core.pick.ObjectPicker;
 import mcp.mobius.waila.plugin.core.provider.BlockProvider;
 import mcp.mobius.waila.plugin.core.provider.EntityProvider;
 import mcp.mobius.waila.plugin.core.provider.FluidProvider;
+import net.minecraft.world.Nameable;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LiquidBlock;
-import net.minecraft.world.level.block.entity.BlockEntity;
 
 import static mcp.mobius.waila.api.TooltipPosition.BODY;
 import static mcp.mobius.waila.api.TooltipPosition.HEAD;
@@ -32,7 +32,7 @@ public class WailaCore implements IWailaPlugin {
         registrar.addEventListener(CoreEventListener.INSTANCE, PRIORITY);
 
         registrar.addIcon(BlockProvider.INSTANCE, Block.class, 1100);
-        registrar.addBlockData(BlockProvider.INSTANCE, BlockEntity.class);
+        registrar.addBlockData(BlockProvider.INSTANCE, Nameable.class);
 
         registrar.addIcon(FluidProvider.INSTANCE, LiquidBlock.class, PRIORITY);
         registrar.addComponent(FluidProvider.INSTANCE, HEAD, LiquidBlock.class, PRIORITY);
