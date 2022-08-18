@@ -45,10 +45,13 @@ public class Line implements ITooltipLine {
 
     public void calculateDimension() {
         if (width == -1) {
-            width = components.isEmpty() ? 0 : components.stream().mapToInt(c -> {
+            width = components.stream().mapToInt(c -> {
                 int width = c.getWidth();
                 return width > 0 ? width + 1 : 0;
-            }).sum() - 1;
+            }).sum();
+            if (width > 0) {
+                width--;
+            }
         }
 
         if (height == -1) {
