@@ -15,7 +15,6 @@ import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Matrix4f;
 import com.mojang.text2speech.Narrator;
-import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
 import mcp.mobius.waila.access.DataAccessor;
 import mcp.mobius.waila.api.IEventListener;
 import mcp.mobius.waila.api.ITooltipComponent;
@@ -43,7 +42,6 @@ import static mcp.mobius.waila.util.DisplayUtil.renderRectBorder;
 public class TooltipRenderer {
 
     private static final Tooltip TOOLTIP = new Tooltip();
-    private static final Object2IntOpenHashMap<Line> LINE_HEIGHT = new Object2IntOpenHashMap<>();
 
     private static final Supplier<Rectangle> RENDER_RECT = Suppliers.memoize(Rectangle::new);
     private static final Supplier<Rectangle> RECT = Suppliers.memoize(Rectangle::new);
@@ -64,7 +62,6 @@ public class TooltipRenderer {
         started = true;
         TooltipRenderer.state = state;
         TOOLTIP.clear();
-        LINE_HEIGHT.clear();
         icon = EmptyComponent.INSTANCE;
         topOffset = 0;
         maxLineWidth = 0;
@@ -123,6 +120,7 @@ public class TooltipRenderer {
         Iterator<Component> iterator = TOOLTIP.iterator();
         while (iterator.hasNext()) {
             Line line = (Line) iterator.next();
+            line.calculateDimension();
             int lineW = line.getWidth();
             int lineH = line.getHeight();
             if (lineH <= 0) {
@@ -131,7 +129,10 @@ public class TooltipRenderer {
             }
             w = maxLineWidth = Math.max(w, lineW);
             h += lineH + 1;
-            LINE_HEIGHT.put(line, lineH);
+        }
+
+        if (h > 0) {
+            h--;
         }
 
         topOffset = 0;
@@ -144,7 +145,7 @@ public class TooltipRenderer {
         }
 
         w += 8;
-        h = Math.max(h - 1, icon.getHeight()) + 8;
+        h = Math.max(h, icon.getHeight()) + 8;
 
         int windowW = (int) (window.getGuiScaledWidth() / scale);
         int windowH = (int) (window.getGuiScaledHeight() / scale);
@@ -245,7 +246,7 @@ public class TooltipRenderer {
         for (Component component : TOOLTIP) {
             Line line = (Line) component;
             line.render(matrices, textX, textY, maxLineWidth, delta);
-            textY += LINE_HEIGHT.getInt(line) + 1;
+            textY += line.getHeight() + 1;
         }
 
         RenderSystem.disableBlend();

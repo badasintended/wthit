@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import com.google.common.base.Preconditions;
 import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.ITooltipLine;
@@ -26,7 +27,7 @@ public class Line implements ITooltipLine, MutableComponent {
     public final List<ITooltipComponent> components = new ArrayList<>();
 
     private int width = -1;
-    private int height;
+    private int height = -1;
     private int growingCount = 0;
 
     public Line(@Nullable ResourceLocation tag) {
@@ -48,29 +49,39 @@ public class Line implements ITooltipLine, MutableComponent {
         return with(component instanceof DrawableComponent drawable ? drawable : new WrappedComponent(component));
     }
 
-    public int getWidth() {
+    public void calculateDimension() {
         if (width == -1) {
-            width = components.stream().mapToInt(c -> {
+            width = components.isEmpty() ? 0 : components.stream().mapToInt(c -> {
                 int width = c.getWidth();
                 return width > 0 ? width + 1 : 0;
             }).sum() - 1;
         }
 
+        if (height == -1) {
+            height = components.stream().mapToInt(ITooltipComponent::getHeight).max().orElse(0);
+        }
+    }
+
+    public int getWidth() {
+        assertDimension();
         return width;
     }
 
     public int getHeight() {
+        assertDimension();
         return height;
     }
 
     public void render(PoseStack matrices, int x, int y, int maxWidth, float delta) {
+        assertDimension();
+
         int cx = x;
         int growingWidth = -1;
         for (ITooltipComponent component : components) {
             if (component instanceof GrowingComponent) {
                 if (growingWidth == -1) {
                     growingWidth = (maxWidth - width) / growingCount;
-                    if (growingWidth % 2 == 1) {
+                    if (growingWidth % 2 == 1 && growingCount > 1) {
                         cx++;
                     }
                 }
@@ -88,6 +99,10 @@ public class Line implements ITooltipLine, MutableComponent {
             DisplayUtil.renderComponent(matrices, component, cx, cy, delta);
             cx += w + 1;
         }
+    }
+
+    private void assertDimension() {
+        Preconditions.checkState(width != -1 && height != -1);
     }
 
     // TODO: REMOVE
