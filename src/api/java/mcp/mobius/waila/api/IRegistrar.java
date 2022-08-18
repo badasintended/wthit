@@ -304,6 +304,7 @@ public interface IRegistrar {
      *
      * @see #DEFAULT_PRIORITY
      */
+    @ApiSide.ClientOnly
     <T> void addIcon(IEntityComponentProvider provider, Class<T> clazz, int priority);
 
     /**
@@ -313,6 +314,7 @@ public interface IRegistrar {
      * @param provider the data provider instance
      * @param clazz    the highest level class to apply to
      */
+    @ApiSide.ClientOnly
     default <T> void addIcon(IEntityComponentProvider provider, Class<T> clazz) {
         addIcon(provider, clazz, DEFAULT_PRIORITY);
     }
@@ -350,5 +352,24 @@ public interface IRegistrar {
      */
     @ApiSide.ServerOnly
     <T, E extends Entity> void addEntityData(IServerDataProvider<E> provider, Class<T> clazz);
+
+    /**
+     * Replaces the picker that Waila will use to get the object to show the tooltip to.
+     *
+     * @param picker   the picker replacement
+     * @param priority the replacement priority, if there is picker with higher priority (smaller number) the picker won't get replaced
+     *
+     * @see #DEFAULT_PRIORITY
+     */
+    @ApiSide.ClientOnly
+    void replacePicker(IObjectPicker picker, int priority);
+
+    /**
+     * Replaces the picker that Waila will use to get the object to show the tooltip to.
+     */
+    @ApiSide.ClientOnly
+    default void replacePicker(IObjectPicker picker) {
+        replacePicker(picker, DEFAULT_PRIORITY);
+    }
 
 }

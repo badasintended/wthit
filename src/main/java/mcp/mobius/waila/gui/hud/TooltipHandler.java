@@ -12,7 +12,7 @@ import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.mixin.PlayerTabOverlayAccess;
-import mcp.mobius.waila.util.RaycastUtil;
+import mcp.mobius.waila.registry.Registrar;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.ChatScreen;
@@ -67,7 +67,11 @@ public class TooltipHandler {
             return;
         }
 
-        HitResult target = RaycastUtil.fire();
+        if (client.gameMode == null) {
+            return;
+        }
+
+        HitResult target = Registrar.INSTANCE.picker.pick(client, client.gameMode.getPickRange(), client.getFrameTime(), PluginConfig.CLIENT);
 
         if (target.getType() == HitResult.Type.MISS) {
             return;

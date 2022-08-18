@@ -12,6 +12,7 @@ import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.IEventListener;
+import mcp.mobius.waila.api.IObjectPicker;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IServerDataProvider;
 import mcp.mobius.waila.api.IntFormat;
@@ -54,6 +55,9 @@ public enum Registrar implements IRegistrar {
     public final BlacklistConfig blacklist = new BlacklistConfig();
 
     public final Map<ResourceLocation, IntFormat> intConfigFormats = new HashMap<>();
+
+    private int pickerPriority = Integer.MAX_VALUE;
+    public IObjectPicker picker = null;
 
     private boolean locked = false;
 
@@ -215,8 +219,23 @@ public enum Registrar implements IRegistrar {
         entityData.add(clazz, (IServerDataProvider<Entity>) provider, 0);
     }
 
+    @Override
+    public void replacePicker(IObjectPicker picker, int priority) {
+        if (Waila.CLIENT_SIDE) {
+            assertLock();
+            if (priority <= pickerPriority) {
+                this.picker = picker;
+            }
+        }
+    }
+
     public void lock() {
         locked = true;
+
+        if (Waila.CLIENT_SIDE) {
+            Preconditions.checkState(picker != null, "No object picker registered");
+            Waila.LOGGER.info("Using {} as the object picker", picker.getClass().getName());
+        }
 
         int[] hash = {0, 0, 0};
         hash[0] = hash(blacklist.blocks, Registry.BLOCK);
