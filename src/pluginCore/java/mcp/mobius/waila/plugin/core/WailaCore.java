@@ -5,6 +5,7 @@ import mcp.mobius.waila.api.IWailaConfig.Overlay.Position.Align;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.plugin.core.event.CoreEventListener;
+import mcp.mobius.waila.plugin.core.pick.ObjectPicker;
 import mcp.mobius.waila.plugin.core.provider.BlockProvider;
 import mcp.mobius.waila.plugin.core.provider.EntityProvider;
 import mcp.mobius.waila.plugin.core.provider.FluidProvider;
@@ -40,6 +41,8 @@ public class WailaCore implements IWailaPlugin {
         registrar.addComponent(EntityProvider.INSTANCE, HEAD, Entity.class, PRIORITY);
         registrar.addComponent(EntityProvider.INSTANCE, BODY, LivingEntity.class, PRIORITY);
         registrar.addComponent(EntityProvider.INSTANCE, TAIL, Entity.class, PRIORITY);
+
+        registrar.replacePicker(ObjectPicker.INSTANCE, Integer.MAX_VALUE - 1);
 
         registrar.addConfig(WailaConstants.CONFIG_SHOW_BLOCK, true);
         registrar.addConfig(WailaConstants.CONFIG_SHOW_FLUID, false);
