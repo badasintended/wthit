@@ -246,8 +246,10 @@ public enum Registrar implements IRegistrar {
     public void replacePicker(IObjectPicker picker, int priority) {
         if (Waila.CLIENT_SIDE) {
             assertLock();
+            assertPriority(priority);
             if (priority <= pickerPriority) {
                 this.picker = picker;
+                this.pickerPriority = priority;
             }
         }
     }
