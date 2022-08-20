@@ -225,6 +225,7 @@ public enum Registrar implements IRegistrar {
             assertLock();
             if (priority <= pickerPriority) {
                 this.picker = picker;
+                this.pickerPriority = priority;
             }
         }
     }
