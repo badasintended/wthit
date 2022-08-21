@@ -12,7 +12,7 @@ setupPlatform()
 dependencies {
     minecraft("net.minecraftforge:forge:${rootProp["minecraft"]}-${rootProp["forge"]}")
 
-    implementation("org.jetbrains:annotations:19.0.0")
+    implementation("org.jetbrains:annotations:23.0.0")
     annotationProcessor("org.spongepowered:mixin:0.8.5:processor")
 
     runtimeOnly(fg.deobf("lol.bai:badpackets:forge-${rootProp["badpackets"]}"))
