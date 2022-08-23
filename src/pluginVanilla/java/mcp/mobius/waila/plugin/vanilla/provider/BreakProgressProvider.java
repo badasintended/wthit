@@ -32,39 +32,39 @@ public enum BreakProgressProvider implements IEventListener {
                 lineLenght = (int) (((rect.width + rect.height - 4) * 2) * gameModeAccess.wthit_destroyProgress());
             }
 
-            int innerBoxWidth = rect.width - 2;
-            int innerBoxHeight = rect.height - 2;
+            int hLenght = rect.width - 2;
+            int vLenght = rect.height - 4;
 
             int x = rect.x + 1;
-            int y = rect.y + rect.height - 1;
-            GuiComponent.fill(matrices, x, y, x + Math.min(lineLenght, innerBoxWidth), y + 1, color);
-            lineLenght -= innerBoxWidth;
+            int y = rect.y + rect.height - 2;
+            GuiComponent.fill(matrices, x, y, x + Math.min(lineLenght, hLenght), y + 1, color);
+            lineLenght -= hLenght;
+
+            if (lineLenght <= 0) {
+                return;
+            }
+
+            x = rect.x + rect.width - 2;
+            y = rect.y + rect.height - 2;
+            GuiComponent.fill(matrices, x, y, x + 1, y - Math.min(lineLenght, vLenght), color);
+            lineLenght -= vLenght;
 
             if (lineLenght <= 0) {
                 return;
             }
 
             x = rect.x + rect.width - 1;
-            y = rect.y + rect.height;
-            GuiComponent.fill(matrices, x, y, x + 1, y - Math.min(lineLenght, innerBoxHeight), color);
-            lineLenght -= innerBoxHeight;
-
-            if (lineLenght <= 0) {
-                return;
-            }
-
-            x = rect.x + rect.width;
             y = rect.y + 1;
-            GuiComponent.fill(matrices, x, y, x - Math.min(lineLenght, innerBoxWidth), y + 1, color);
-            lineLenght -= innerBoxWidth;
+            GuiComponent.fill(matrices, x, y, x - Math.min(lineLenght, hLenght), y + 1, color);
+            lineLenght -= hLenght;
 
             if (lineLenght <= 0) {
                 return;
             }
 
             x = rect.x + 1;
-            y = rect.y + 1;
-            GuiComponent.fill(matrices, x, y, x + 1, y + Math.min(lineLenght, innerBoxHeight), color);
+            y = rect.y + 2;
+            GuiComponent.fill(matrices, x, y, x + 1, y + Math.min(lineLenght, vLenght), color);
         }
     }
 
