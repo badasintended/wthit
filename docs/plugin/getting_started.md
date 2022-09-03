@@ -113,6 +113,20 @@ repositories {
 
      If you found yourself needing to touch non API classes, [open an issue on GitHub](https://github.com/badasintended/wthit/issues/new?assignees=&labels=api&template=api.md&title=).
 
+??? note "Available packages"
+    All packages has `mcp.mobius.waila` as their group.
+
+    | Package                       | Description                                                                                   |
+    |:------------------------------|:----------------------------------------------------------------------------------------------|
+    | `wthit-api:fabric-${version}` | Intermediary API jar for Loom projects                                                        |
+    | `wthit-api:forge-${version}`  | SRG API jar for ForgeGradle projects                                                          |
+    | `wthit-api:quilt-${version}`  | Currently intermediary API jar, would be hashed-mojmap when Quilt supports building it        |
+    | `wthit-api:mojmap-${version}` | Mojang Mappings API jar for VanillaGradle projects                                            |
+    | `wthit:fabric-${version}`     | Full runtime jar for Fabric                                                                   |
+    | `wthit:forge-${version}`      | Full runtime jar for Forge                                                                    |
+    | `wthit:quilt-${version}`      | Full runtime jar for Quilt                                                                    |
+    | `wthit:mojmap-${version}`     | Full platform independent jar for strange people that need access to internal implementations |
+    
 
 ## Creating Plugins
 

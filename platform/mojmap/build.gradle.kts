@@ -1,15 +1,28 @@
 tasks.jar {
-    from(rootProject.sourceSets["api"].output)
-    archiveClassifier.set("api")
+    rootProject.sourceSets.forEach {
+        from(it.output)
+    }
 }
 
 tasks.sourcesJar {
-    from(rootProject.sourceSets["api"].allSource)
-    archiveClassifier.set("api-sources")
+    rootProject.sourceSets.forEach {
+        from(it.allSource)
+    }
 }
 
 afterEvaluate {
+    val jar = tasks.jar.get()
+    val apiJar = task<ApiJarTask>("apiJar") {
+        fullJar(jar)
+    }
+
+    val sourcesJar = tasks.sourcesJar.get()
+    val apiSourcesJar = task<ApiJarTask>("apiSourcesJar") {
+        fullJar(sourcesJar)
+    }
+
     upload {
-        maven(tasks.jar.get(), tasks.sourcesJar.get(), suffix = "api")
+        maven(jar, sourcesJar)
+        maven(apiJar, apiSourcesJar, suffix = "api")
     }
 }
