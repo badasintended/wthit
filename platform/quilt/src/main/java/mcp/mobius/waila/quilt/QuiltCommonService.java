@@ -3,19 +3,14 @@ package mcp.mobius.waila.quilt;
 import java.nio.file.Path;
 import java.util.Optional;
 
+import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.service.ICommonService;
 import mcp.mobius.waila.util.ModInfo;
-import net.fabricmc.api.EnvType;
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.loader.api.QuiltLoader;
 import org.quiltmc.loader.api.minecraft.MinecraftQuiltLoader;
 
 public class QuiltCommonService implements ICommonService {
-
-    @Override
-    public boolean isClientSide() {
-        return MinecraftQuiltLoader.getEnvironmentType() == EnvType.CLIENT;
-    }
 
     @Override
     public Path getGameDir() {
@@ -32,6 +27,19 @@ public class QuiltCommonService implements ICommonService {
         return QuiltLoader.getModContainer(namespace)
             .map(ModContainer::metadata)
             .map(data -> new ModInfo(true, data.id(), data.name(), data.version().raw()));
+    }
+
+    @Override
+    public boolean isDev() {
+        return QuiltLoader.isDevelopmentEnvironment();
+    }
+
+    @Override
+    public IPluginInfo.Side getSide() {
+        return switch (MinecraftQuiltLoader.getEnvironmentType()) {
+            case CLIENT -> IPluginInfo.Side.CLIENT;
+            case SERVER -> IPluginInfo.Side.SERVER;
+        };
     }
 
 }

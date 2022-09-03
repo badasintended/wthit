@@ -46,7 +46,11 @@ public interface IPluginInfo {
         /**
          * This plugin loaded on both client and server jar.
          */
-        BOTH
+        BOTH;
+
+        public boolean matches(Side other) {
+            return this == BOTH || other == BOTH || this == other;
+        }
     }
 
 }

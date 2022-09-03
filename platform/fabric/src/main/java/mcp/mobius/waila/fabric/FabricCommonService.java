@@ -3,18 +3,13 @@ package mcp.mobius.waila.fabric;
 import java.nio.file.Path;
 import java.util.Optional;
 
+import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.service.ICommonService;
 import mcp.mobius.waila.util.ModInfo;
-import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 
 public class FabricCommonService implements ICommonService {
-
-    @Override
-    public boolean isClientSide() {
-        return FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT;
-    }
 
     @Override
     public Path getGameDir() {
@@ -31,6 +26,19 @@ public class FabricCommonService implements ICommonService {
         return FabricLoader.getInstance().getModContainer(namespace)
             .map(ModContainer::getMetadata)
             .map(data -> new ModInfo(true, data.getId(), data.getName(), data.getVersion().getFriendlyString()));
+    }
+
+    @Override
+    public boolean isDev() {
+        return FabricLoader.getInstance().isDevelopmentEnvironment();
+    }
+
+    @Override
+    public IPluginInfo.Side getSide() {
+        return switch (FabricLoader.getInstance().getEnvironmentType()) {
+            case CLIENT -> IPluginInfo.Side.CLIENT;
+            case SERVER -> IPluginInfo.Side.SERVER;
+        };
     }
 
 }

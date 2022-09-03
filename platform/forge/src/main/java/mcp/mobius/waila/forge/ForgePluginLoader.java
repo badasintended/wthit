@@ -1,5 +1,7 @@
 package mcp.mobius.waila.forge;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.Arrays;
 
 import mcp.mobius.waila.api.IPluginInfo;
@@ -14,11 +16,17 @@ import net.minecraftforge.forgespi.language.ModFileScanData;
 
 public class ForgePluginLoader extends PluginLoader {
 
+    @SuppressWarnings("deprecation")
     private static final String WAILA_PLUGIN = WailaPlugin.class.getName();
 
     @Override
     protected void gatherPlugins() {
         for (IModFileInfo modFile : ModList.get().getModFiles()) {
+            Path pluginJson = modFile.getFile().findResource(PLUGIN_JSON_PATH);
+            if (Files.exists(pluginJson)) {
+                readPluginsJson(modFile.getMods().get(0).getModId(), pluginJson);
+            }
+
             for (ModFileScanData.AnnotationData annotation : modFile.getFile().getScanResult().getAnnotations()) {
                 if (annotation.annotationType().getClassName().equals(WAILA_PLUGIN)) {
                     String id = (String) annotation.annotationData().get("id");
@@ -39,7 +47,7 @@ public class ForgePluginLoader extends PluginLoader {
                     }
 
                     if (satisfied) {
-                        PluginInfo.register(modFile.getMods().get(0).getModId(), id, side, annotation.memberName(), Arrays.asList(required));
+                        PluginInfo.register(modFile.getMods().get(0).getModId(), id, side, annotation.memberName(), Arrays.asList(required), true);
                     }
                 }
             }

@@ -1,5 +1,7 @@
 package mcp.mobius.waila.quilt;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -27,6 +29,11 @@ public class QuiltPluginLoader extends PluginLoader {
     protected void gatherPlugins() {
         Map<ModContainer, LoaderValue.LObject[]> pluginMap = new Object2ObjectOpenHashMap<>();
         for (ModContainer mod : QuiltLoader.getAllMods()) {
+            Path pluginJson = mod.getPath(PLUGIN_JSON_PATH);
+            if (Files.exists(pluginJson)) {
+                readPluginsJson(mod.metadata().id(), pluginJson);
+            }
+
             ModMetadata data = mod.metadata();
 
             if (!data.containsValue("waila:plugins"))
@@ -96,7 +103,7 @@ public class QuiltPluginLoader extends PluginLoader {
                     continue;
                 }
 
-                PluginInfo.register(mod.metadata().id(), id, side, initializer, requiredDeps);
+                PluginInfo.register(mod.metadata().id(), id, side, initializer, requiredDeps, true);
             }
         }
     }

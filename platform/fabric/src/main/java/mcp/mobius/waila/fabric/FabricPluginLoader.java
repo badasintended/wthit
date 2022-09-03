@@ -26,6 +26,8 @@ public class FabricPluginLoader extends PluginLoader {
     protected void gatherPlugins() {
         Map<ModContainer, CustomValue.CvObject[]> pluginMap = new Object2ObjectOpenHashMap<>();
         for (ModContainer mod : FabricLoader.getInstance().getAllMods()) {
+            mod.findPath(PLUGIN_JSON_PATH).ifPresent(path -> readPluginsJson(mod.getMetadata().getId(), path));
+
             ModMetadata data = mod.getMetadata();
 
             if (!data.containsCustomValue("waila:plugins"))
@@ -95,7 +97,7 @@ public class FabricPluginLoader extends PluginLoader {
                     continue;
                 }
 
-                PluginInfo.register(mod.getMetadata().getId(), id, side, initializer, requiredDeps);
+                PluginInfo.register(mod.getMetadata().getId(), id, side, initializer, requiredDeps, true);
             }
         }
     }

@@ -7,10 +7,17 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.ApiStatus;
 
+/**
+ * @deprecated use {@code waila_plugins.json} file, see {@link IWailaPlugin} javadocs for more info.
+ */
+@Deprecated
 @Documented
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
+@SuppressWarnings("DeprecatedIsStillUsed")
+@ApiStatus.ScheduledForRemoval(inVersion = "1.21")
 public @interface WailaPlugin {
 
     /**

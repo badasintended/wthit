@@ -129,95 +129,25 @@ public class MyWailaPlugin implements IWailaPlugin {
 
 
 ### Registering Plugins
-=== "Fabric"
-    In your `fabric.mod.json` add a custom value
-    ```json
-    "custom": {
-      "waila:plugins": {
-        "id": "mymod:my_plugin",
-        "initializer": "mymod.waila.MyModWailaPlugin",
-      }
-    }
-    ```
-    `waila:plugins` can also be an array of objects instead of a singular object.    
-    
-    A `required` field can be added to specify mods required for that plugin to be loaded.
-    It can either be a single string or an array of strings.
-    ```json
-    "custom": {
-      "waila:plugins": {
-        "id": "mymod:my_plugin",
-        "initializer": "mymod.waila.MyModWailaPlugin",
-        "required": "mod_a" 
-      }
-    }
-    ```
-    
-    An `environment` field can be added to specify what environment the plugin would be loaded.
-    Possible values are `client` for client-only plugin, `server` for **dedicated** server plugin,
-    and `both` for common plugin.
-    ```json
-    "custom": {
-      "waila:plugins": {
-        "id": "mymod:client_only_plugin",
-        "initializer": "mymod.waila.ClientOnlyPlugin",
-        "environment": "client"
-      }
-    }
-    ```
+Create a file called `waila_plugins.json` in the root of your mod, commonly in `src/main/resources` folder on your project.
+```json
+{
+  // the plugin identifier, [namespace:path]
+  "yourmodid:plugin": {
+    // the path to the implementation class
+    "initializer": "package.YourWailaPlugin",
 
-=== "Forge"
-    Annotate your plugin class with `@WailaPlugin`:
-    ```java
-    @WailaPlugin(id = "mymod:waila_plugin")
-    public class MyWailaPlugin implements IWailaPlugin {}
-    ```
-    A `required` array can be added to specify mods required for that plugin to be loaded.
-    ```java
-    @WailaPlugin(id = "mymod:waila_plugin", required = "jei")
-    public class MyWailaPlugin implements IWailaPlugin {}
-    ```
+    // optional, decide the environment the plugin will loaded, options:
+    // client    load plugin only on client and integrated server
+    // server    load plugin only on dedicated server
+    // *         load plugin on both client and dedicated server
+    "side": "*",
 
-    A `side` value can be added to specify what environment the plugin would be loaded.
-    ```java
-    @WailaPlugin(id = "mymod:client_only_plugin", side = IPluginInfo.Side.CLIENT)
-    public class ClientOnlyPlugin implements IWailaPlugin {}
-    ```
-    !!! warning "For multiplatform projects"
-        If you put your plugin class in the common subproject,
-        you'd need to extend your plugin class in the forge project and annotate it:
-        ```java
-        @WailaPlugin(id = "mymod:waila_plugin")
-        public class ForgeWailaPlugin extends CommonWailaPlugin {}
-        ```
+    // optional, the required mods that this plugin needs
+    "required": ["othermodid", "anotherone"]
+  },
 
-=== "Quilt"
-    In your `quilt.mod.json` add a `waila:plugins` entry
-    ```json
-    "waila:plugins": {
-      "id": "mymod:my_plugin",
-      "initializer": "mymod.waila.MyModWailaPlugin",
-    }
-    ```
-    `waila:plugins` can also be an array of objects instead of a singular object.    
-    
-    A `required` field can be added to specify mods required for that plugin to be loaded.
-    It can either be a single string or an array of strings.
-    ```json
-    "waila:plugins": {
-      "id": "mymod:my_plugin",
-      "initializer": "mymod.waila.MyModWailaPlugin",
-      "required": "mod_a" 
-    }
-    ```
-    
-    An `environment` field can be added to specify what environment the plugin would be loaded.
-    Possible values are `client` for client-only plugin, `server` for **dedicated** server plugin,
-    and `both` for common plugin.
-    ```json
-    "waila:plugins": {
-      "id": "mymod:client_only_plugin",
-      "initializer": "mymod.waila.ClientOnlyPlugin",
-      "environment": "client"
-    }
-    ```
+  // register multiple plugins!
+  "yourmodid:another": { /*...*/ }
+}
+```

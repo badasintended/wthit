@@ -4,6 +4,7 @@ import java.nio.file.Path;
 
 import com.google.gson.GsonBuilder;
 import mcp.mobius.waila.api.IJsonConfig;
+import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.config.BlacklistConfig;
 import mcp.mobius.waila.config.WailaConfig;
@@ -21,9 +22,10 @@ import org.apache.logging.log4j.message.ParameterizedMessageFactory;
 
 public abstract class Waila {
 
-    public static final boolean ENABLE_DEBUG_COMMAND = Boolean.getBoolean("waila.debugCommands");
+    public static final boolean DEV = ICommonService.INSTANCE.isDev();
+    public static final boolean CLIENT_SIDE = ICommonService.INSTANCE.getSide().matches(IPluginInfo.Side.CLIENT);
+    public static final boolean ENABLE_DEBUG_COMMAND = DEV || Boolean.getBoolean("waila.debugCommands");
 
-    public static final boolean CLIENT_SIDE = ICommonService.INSTANCE.isClientSide();
     public static final Path GAME_DIR = ICommonService.INSTANCE.getGameDir();
     public static final Path CONFIG_DIR = ICommonService.INSTANCE.getConfigDir();
 

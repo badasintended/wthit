@@ -1,5 +1,5 @@
 plugins {
-    id("org.quiltmc.loom") version "0.12.+"
+    id("org.quiltmc.loom") version "1.0.+"
 }
 
 setupPlatform()
@@ -47,6 +47,7 @@ loom {
         configureEach {
             isIdeConfigGenerated = true
             vmArgs += "-Dwaila.enableTestPlugin=true"
+            vmArgs += "-Dwaila.debugCommands=true"
         }
     }
 }

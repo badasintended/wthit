@@ -26,22 +26,31 @@ public class PluginInfo implements IPluginInfo {
     private final Side side;
     private final IWailaPlugin initializer;
     private final List<String> requiredModIds;
+    private final boolean legacy;
 
-    private PluginInfo(ModInfo modInfo, ResourceLocation pluginId, Side side, IWailaPlugin initializer, List<String> requiredModIds) {
+    private PluginInfo(ModInfo modInfo, ResourceLocation pluginId, Side side, IWailaPlugin initializer, List<String> requiredModIds, boolean legacy) {
         this.modInfo = modInfo;
         this.pluginId = pluginId;
         this.side = side;
         this.initializer = initializer;
         this.requiredModIds = requiredModIds;
-
-        PLUGIN_ID_TO_PLUGIN_INFO.put(pluginId, this);
+        this.legacy = legacy;
     }
 
-    public static void register(String modId, String pluginIdStr, Side side, String initializerStr, List<String> required) {
+    public static void register(String modId, String pluginIdStr, Side side, String initializerStr, List<String> required, boolean legacy) {
         try {
-            IWailaPlugin initializer = (IWailaPlugin) Class.forName(initializerStr).getConstructor().newInstance();
             ResourceLocation rl = new ResourceLocation(pluginIdStr);
-            PLUGIN_ID_TO_PLUGIN_INFO.put(rl, new PluginInfo(ModInfo.get(modId), rl, side, initializer, required));
+            if (PLUGIN_ID_TO_PLUGIN_INFO.containsKey(rl)) {
+                Waila.LOGGER.error("Duplicate plugin id " + rl);
+                return;
+            }
+
+            if (rl.getNamespace().equals(ResourceLocation.DEFAULT_NAMESPACE)) {
+                Waila.LOGGER.warn("Plugin " + initializerStr + " is using the default namespace " + rl);
+            }
+
+            IWailaPlugin initializer = (IWailaPlugin) Class.forName(initializerStr).getConstructor().newInstance();
+            PLUGIN_ID_TO_PLUGIN_INFO.put(rl, new PluginInfo(ModInfo.get(modId), rl, side, initializer, required, legacy));
         } catch (Throwable t) {
             Waila.LOGGER.error("Error creating instance of plugin " + pluginIdStr, t);
         }
@@ -82,6 +91,10 @@ public class PluginInfo implements IPluginInfo {
     @Override
     public List<String> getRequiredModIds() {
         return requiredModIds;
+    }
+
+    public boolean isLegacy() {
+        return legacy;
     }
 
 }

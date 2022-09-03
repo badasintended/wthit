@@ -51,6 +51,7 @@ minecraft {
             workingDirectory(file("run"))
             ideaModule("${rootProject.name}.${project.name}.main")
             property("waila.enableTestPlugin", "true")
+            property("waila.debugCommands", "true")
             source(sourceSets["main"])
             rootProject.sourceSets.forEach { source(it) }
         }

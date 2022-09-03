@@ -53,15 +53,5 @@
       }
     ]
   },
-  "mixin"         : "wthit.mixins.json",
-  "waila:plugins" : [
-    {
-      "id"         : "waila:core",
-      "initializer": "mcp.mobius.waila.plugin.core.WailaCore"
-    },
-    {
-      "id"         : "waila:vanilla",
-      "initializer": "mcp.mobius.waila.plugin.vanilla.WailaVanilla"
-    }
-  ]
+  "mixin"         : "wthit.mixins.json"
 }

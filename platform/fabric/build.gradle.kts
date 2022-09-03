@@ -1,5 +1,5 @@
 plugins {
-    id("fabric-loom") version "0.12.+"
+    id("fabric-loom") version "1.0.+"
 }
 
 setupPlatform()
@@ -53,6 +53,7 @@ loom {
         configureEach {
             isIdeConfigGenerated = true
             vmArgs += "-Dwaila.enableTestPlugin=true"
+            vmArgs += "-Dwaila.debugCommands=true"
         }
     }
 }
