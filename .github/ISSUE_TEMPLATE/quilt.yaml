@@ -2,6 +2,10 @@ name: "Quilt Edition Issue"
 description: If you use the quilt version
 labels: [bug, quilt]
 body:
+  - type: markdown
+    attributes:
+      value: |
+        ### Please make sure you are using the latest version of WTHIT before filing an issue!
   - type: textarea
     id: describe
     attributes:

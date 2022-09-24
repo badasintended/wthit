@@ -2,6 +2,10 @@ name: "Forge Edition Issue"
 description: If you use the forge version
 labels: [bug, forge]
 body:
+  - type: markdown
+    attributes:
+      value: |
+        ### Please make sure you are using the latest version of WTHIT before filing an issue!
   - type: textarea
     id: describe
     attributes:

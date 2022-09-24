@@ -2,6 +2,10 @@ name: "Fabric Edition Issue"
 description: If you use the fabric version
 labels: [bug, fabric]
 body:
+  - type: markdown
+    attributes:
+      value: |
+        ### Please make sure you are using the latest version of WTHIT before filing an issue!
   - type: textarea
     id: describe
     attributes:
