@@ -10,7 +10,6 @@
   "tooltip.waila.state_on"                              : "켜짐",
   "tooltip.waila.state_off"                             : "꺼짐",
   "tooltip.waila.power"                                 : "전력",
-  "tooltip.waila.health"                                : "%s/%s 체력",
   "tooltip.waila.sneak_for_details"                     : "상세 정보를 보려면 앉기를 누르세요",
   "tooltip.waila.compost_level"                         : "퇴비통 레벨",
   "tooltip.waila.honey_level"                           : "꿀 레벨",
@@ -69,8 +68,6 @@
   "config.waila.hide_from_debug_desc"                   : "디버그 메뉴가 열려 있으면 툴팁을 숨깁니다.",
   "config.waila.rate_limit"                             : "속도 제한",
   "config.waila.rate_limit_desc"                        : "각 서버 요청 사이의 지연 시간 밀리 초(ms)를 설정합니다.\n적어도 250ms 이상이어야 합니다.",
-  "config.waila.max_health_for_render"                  : "렌더 최대 체력",
-  "config.waila.max_hearts_per_line"                    : "줄 당 최대 하트 수",
 
   "config.waila.tts"                                    : "TTS 사용",
   "config.waila.tts_desc"                               : "블록과 개체 이름을 시스템의 TTS를 이용해서 읽습니다.r",

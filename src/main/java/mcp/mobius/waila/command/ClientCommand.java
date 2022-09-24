@@ -13,6 +13,7 @@ import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.WailaConstants;
+import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.config.ConfigEntry;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.gui.screen.HomeScreen;
@@ -57,16 +58,16 @@ public abstract class ClientCommand<S> {
                 ResourceLocation id = context.getArgument("id", ResourceLocation.class);
                 ConfigEntry<?> entry = PluginConfig.getEntry(id);
                 if (entry == null) {
-                    feedback.fail(Component.translatable("command.waila.config.unknown_id", id));
+                    feedback.fail(Component.translatable(Tl.Command.Config.UNKNOWN_ID, id));
                     return 0;
                 }
 
-                feedback.success(Component.translatable("command.waila.config.get.id", id));
-                feedback.success(Component.translatable("command.waila.config.get.synced", entry.isSynced()));
-                feedback.success(Component.translatable("command.waila.config.get.current_value", entry.getValue(false).toString()));
-                feedback.success(Component.translatable("command.waila.config.get.default_value", entry.getDefaultValue().toString()));
+                feedback.success(Component.translatable(Tl.Command.Config.Get.ID, id));
+                feedback.success(Component.translatable(Tl.Command.Config.Get.SYNCED, entry.isSynced()));
+                feedback.success(Component.translatable(Tl.Command.Config.Get.CURRENT_VALUE, entry.getValue(false).toString()));
+                feedback.success(Component.translatable(Tl.Command.Config.Get.DEFAULT_VALUE, entry.getDefaultValue().toString()));
                 if (entry.isServerRequired()) {
-                    feedback.success(Component.translatable("command.waila.config.get.client_only_value", entry.getClientOnlyValue().toString()));
+                    feedback.success(Component.translatable(Tl.Command.Config.Get.CLIENT_ONLY_VALUE, entry.getClientOnlyValue().toString()));
                 }
                 return 1;
             })
@@ -92,21 +93,21 @@ public abstract class ClientCommand<S> {
                 ResourceLocation id = context.getArgument("id", ResourceLocation.class);
                 ConfigEntry<Object> entry = PluginConfig.getEntry(id);
                 if (entry == null) {
-                    feedback.fail(Component.translatable("command.waila.config.unknown_id", id));
+                    feedback.fail(Component.translatable(Tl.Command.Config.UNKNOWN_ID, id));
                     return 0;
                 }
 
                 if (entry.blocksClientEdit() && Minecraft.getInstance().getCurrentServer() != null) {
-                    feedback.fail(Component.translatable("command.waila.config.set.synced", id));
+                    feedback.fail(Component.translatable(Tl.Command.Config.Set.SYNCED, id));
                 }
 
                 JsonPrimitive jsonValue = new JsonPrimitive(context.getArgument("value", String.class));
                 try {
                     entry.setLocalValue(entry.getType().parser.apply(jsonValue, entry.getDefaultValue()));
-                    feedback.success(Component.translatable("command.waila.config.set.success", id, entry.getLocalValue()));
+                    feedback.success(Component.translatable(Tl.Command.Config.Set.SUCCESS, id, entry.getLocalValue()));
                     return 1;
                 } catch (Throwable throwable) {
-                    feedback.fail(Component.translatable("command.waila.config.set.parse_fail", throwable.getMessage()));
+                    feedback.fail(Component.translatable(Tl.Command.Config.Set.PARSE_FAIL, throwable.getMessage()));
                     throwable.printStackTrace();
                     return 0;
                 }
@@ -121,7 +122,7 @@ public abstract class ClientCommand<S> {
                 FeedbackSender feedback = feedback(context.getSource());
                 boolean enabled = BoolArgumentType.getBool(context, "enabled");
                 Waila.CONFIG.get().getGeneral().setDisplayTooltip(enabled);
-                feedback.success(Component.translatable("command.waila.overlay." + enabled));
+                feedback.success(Component.translatable(enabled ? Tl.Command.Overlay.TRUE : Tl.Command.Overlay.FALSE));
                 return enabled ? 1 : 0;
             })
 

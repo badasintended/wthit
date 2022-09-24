@@ -4,6 +4,7 @@ import mcp.mobius.waila.api.IBlockAccessor;
 import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITooltip;
+import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.plugin.vanilla.config.NoteDisplayMode;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.Util;
@@ -50,7 +51,7 @@ public enum NoteBlockProvider implements IBlockComponentProvider {
                     .append(")");
             }
             tooltip.addLine()
-                .with(Component.translatable("tooltip.waila.instrument." + instrument.getSerializedName()))
+                .with(Component.translatable(Tl.Tooltip.INSTRUMENT + "." + instrument.getSerializedName()))
                 .with(Component.literal(builder.toString()).withStyle(style -> style.withColor(COLORS[level])));
         }
     }

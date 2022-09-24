@@ -1,13 +1,13 @@
 import org.gradle.api.Project
 
-private val propDelegate = hashMapOf<Project, Property>()
+private val propDelegate = hashMapOf<Project, PropertyAccessor>()
 val Project.prop
-    get() = propDelegate.getOrPut(this) { Property(this) }
+    get() = propDelegate.getOrPut(this) { PropertyAccessor(this) }
 
 val Project.rootProp
     get() = rootProject.prop
 
-class Property internal constructor(
+class PropertyAccessor internal constructor(
     private val project: Project
 ) {
 

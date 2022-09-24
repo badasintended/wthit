@@ -23,13 +23,13 @@ fun Project.setupPlatform() {
     }
 
     tasks.named<Jar>("jar") {
-        rootSourceSets.filterNot { it.name == "mixin" }.forEach {
+        rootSourceSets.filterNot { it.name == "mixin" || it.name == "buildConst" }.forEach {
             from(it.output)
         }
     }
 
     tasks.named<Jar>("sourcesJar") {
-        rootSourceSets.forEach {
+        rootSourceSets.filterNot { it.name == "buildConst" }.forEach {
             from(it.allSource)
         }
     }

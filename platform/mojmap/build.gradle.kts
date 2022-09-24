@@ -1,11 +1,11 @@
 tasks.jar {
-    rootProject.sourceSets.forEach {
+    rootProject.sourceSets.filterNot { it.name=="buildConst" }.forEach {
         from(it.output)
     }
 }
 
 tasks.sourcesJar {
-    rootProject.sourceSets.forEach {
+    rootProject.sourceSets.filterNot { it.name=="buildConst" }.forEach {
         from(it.allSource)
     }
 }

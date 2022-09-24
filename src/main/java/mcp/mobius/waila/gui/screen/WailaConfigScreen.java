@@ -9,6 +9,7 @@ import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.IWailaConfig.Overlay.Position.Align;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.component.ItemComponent;
+import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.config.Theme;
 import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.gui.hud.Line;
@@ -37,7 +38,7 @@ import static mcp.mobius.waila.util.DisplayUtil.tryFormat;
 
 public class WailaConfigScreen extends ConfigScreen {
 
-    private static final Component PREVIEW_PROMPT = Component.translatable("config.waila.preview_prompt");
+    private static final Component PREVIEW_PROMPT = Component.translatable(Tl.Config.PREVIEW_PROMPT);
 
     private final WailaConfig defaultConfig = new WailaConfig();
     private final TooltipRenderer.State previewState = new PreviewTooltipRendererState();
@@ -62,7 +63,7 @@ public class WailaConfigScreen extends ConfigScreen {
     private KeyBindValue selectedKeyBind;
 
     public WailaConfigScreen(Screen parent) {
-        super(parent, Component.translatable("gui.waila.configuration", WailaConstants.MOD_NAME), Waila.CONFIG::save, Waila.CONFIG::invalidate);
+        super(parent, Component.translatable(Tl.Gui.CONFIGURATION, WailaConstants.MOD_NAME), Waila.CONFIG::save, Waila.CONFIG::invalidate);
     }
 
     private static WailaConfig get() {
@@ -121,117 +122,117 @@ public class WailaConfigScreen extends ConfigScreen {
     @Override
     public ConfigListWidget getOptions() {
         ConfigListWidget options = new ConfigListWidget(this, minecraft, width, height, 42, height - 32, 26, Waila.CONFIG::save);
-        options.with(new CategoryEntry("config.waila.general"))
-            .with(new BooleanValue("config.waila.display_tooltip",
+        options.with(new CategoryEntry(Tl.Config.GENERAL))
+            .with(new BooleanValue(Tl.Config.DISPLAY_TOOLTIP,
                 get().getGeneral().isDisplayTooltip(),
                 defaultConfig.getGeneral().isDisplayTooltip(),
                 val -> get().getGeneral().setDisplayTooltip(val)))
-            .with(new BooleanValue("config.waila.sneaky_details",
+            .with(new BooleanValue(Tl.Config.SNEAKY_DETAILS,
                 get().getGeneral().isShiftForDetails(),
                 defaultConfig.getGeneral().isShiftForDetails(),
                 val -> get().getGeneral().setShiftForDetails(val)))
-            .with(new BooleanValue("config.waila.hide_sneak_text",
+            .with(new BooleanValue(Tl.Config.HIDE_SNEAK_TEXT,
                 get().getGeneral().isHideShiftText(),
                 defaultConfig.getGeneral().isHideShiftText(),
                 val -> get().getGeneral().setHideShiftText(val)))
-            .with(new EnumValue<>("config.waila.display_mode",
+            .with(new EnumValue<>(Tl.Config.DISPLAY_MODE,
                 IWailaConfig.General.DisplayMode.values(),
                 get().getGeneral().getDisplayMode(),
                 defaultConfig.getGeneral().getDisplayMode(),
                 val -> get().getGeneral().setDisplayMode(val)))
-            .with(new BooleanValue("config.waila.hide_from_players",
+            .with(new BooleanValue(Tl.Config.HIDE_FROM_PLAYERS,
                 get().getGeneral().isHideFromPlayerList(),
                 defaultConfig.getGeneral().isHideFromPlayerList(),
                 val -> get().getGeneral().setHideFromPlayerList(val)))
-            .with(new BooleanValue("config.waila.hide_from_debug",
+            .with(new BooleanValue(Tl.Config.HIDE_FROM_DEBUG,
                 get().getGeneral().isHideFromDebug(),
                 defaultConfig.getGeneral().isHideFromDebug(),
                 val -> get().getGeneral().setHideFromDebug(val)))
-            .with(new BooleanValue("config.waila.tts",
+            .with(new BooleanValue(Tl.Config.TTS,
                 get().getGeneral().isEnableTextToSpeech(),
                 defaultConfig.getGeneral().isEnableTextToSpeech(),
                 val -> get().getGeneral().setEnableTextToSpeech(val)))
-            .with(new InputValue<>("config.waila.rate_limit",
+            .with(new InputValue<>(Tl.Config.RATE_LIMIT,
                 get().getGeneral().getRateLimit(),
                 defaultConfig.getGeneral().getRateLimit(),
                 val -> get().getGeneral().setRateLimit(Math.max(val, 250)),
                 InputValue.POSITIVE_INTEGER));
 
-        options.with(new CategoryEntry("config.waila.overlay"))
-            .with(xAnchorValue = new EnumValue<>("config.waila.overlay_anchor_x",
+        options.with(new CategoryEntry(Tl.Config.OVERLAY))
+            .with(xAnchorValue = new EnumValue<>(Tl.Config.OVERLAY_ANCHOR_X,
                 Align.X.values(),
                 get().getOverlay().getPosition().getAnchor().getX(),
                 defaultConfig.getOverlay().getPosition().getAnchor().getX(),
                 val -> get().getOverlay().getPosition().getAnchor().setX(val)))
-            .with(yAnchorValue = new EnumValue<>("config.waila.overlay_anchor_y",
+            .with(yAnchorValue = new EnumValue<>(Tl.Config.OVERLAY_ANCHOR_Y,
                 Align.Y.values(),
                 get().getOverlay().getPosition().getAnchor().getY(),
                 defaultConfig.getOverlay().getPosition().getAnchor().getY(),
                 val -> get().getOverlay().getPosition().getAnchor().setY(val)))
-            .with(xAlignValue = new EnumValue<>("config.waila.overlay_align_x",
+            .with(xAlignValue = new EnumValue<>(Tl.Config.OVERLAY_ALIGN_X,
                 Align.X.values(),
                 get().getOverlay().getPosition().getAlign().getX(),
                 defaultConfig.getOverlay().getPosition().getAlign().getX(),
                 val -> get().getOverlay().getPosition().getAlign().setX(val)))
-            .with(yAlignValue = new EnumValue<>("config.waila.overlay_align_y",
+            .with(yAlignValue = new EnumValue<>(Tl.Config.OVERLAY_ALIGN_Y,
                 Align.Y.values(),
                 get().getOverlay().getPosition().getAlign().getY(),
                 defaultConfig.getOverlay().getPosition().getAlign().getY(),
                 val -> get().getOverlay().getPosition().getAlign().setY(val)))
-            .with(xPosValue = new InputValue<>("config.waila.overlay_pos_x",
+            .with(xPosValue = new InputValue<>(Tl.Config.OVERLAY_POS_X,
                 get().getOverlay().getPosition().getX(),
                 defaultConfig.getOverlay().getPosition().getX(),
                 val -> get().getOverlay().getPosition().setX(val),
                 InputValue.INTEGER))
-            .with(yPosValue = new InputValue<>("config.waila.overlay_pos_y",
+            .with(yPosValue = new InputValue<>(Tl.Config.OVERLAY_POS_Y,
                 get().getOverlay().getPosition().getY(),
                 defaultConfig.getOverlay().getPosition().getY(),
                 val -> get().getOverlay().getPosition().setY(val),
                 InputValue.INTEGER))
-            .with(new BooleanValue("config.waila.boss_bars_overlap",
+            .with(new BooleanValue(Tl.Config.BOSS_BARS_OVERLAP,
                 get().getOverlay().getPosition().isBossBarsOverlap(),
                 defaultConfig.getOverlay().getPosition().isBossBarsOverlap(),
                 val -> get().getOverlay().getPosition().setBossBarsOverlap(val)))
-            .with(scaleValue = new InputValue<>("config.waila.overlay_scale",
+            .with(scaleValue = new InputValue<>(Tl.Config.OVERLAY_SCALE,
                 get().getOverlay().getScale(),
                 defaultConfig.getOverlay().getScale(),
                 val -> get().getOverlay().setScale(Math.max(val, 0.0F)),
                 InputValue.POSITIVE_DECIMAL))
-            .with(alphaVal = new InputValue<>("config.waila.overlay_alpha",
+            .with(alphaVal = new InputValue<>(Tl.Config.OVERLAY_ALPHA,
                 get().getOverlay().getColor().rawAlpha(),
                 defaultConfig.getOverlay().getColor().rawAlpha(),
                 val -> get().getOverlay().getColor().setAlpha(Math.min(100, Math.max(0, val))),
                 InputValue.POSITIVE_INTEGER))
             .with(themeIdVal = new ThemeValue());
 
-        options.with(new CategoryEntry("config.waila.formatting"))
-            .with(modNameFormatVal = new InputValue<>("config.waila.format_mod_name",
+        options.with(new CategoryEntry(Tl.Config.FORMATTING))
+            .with(modNameFormatVal = new InputValue<>(Tl.Config.FORMAT_MOD_NAME,
                 get().getFormatter().getModName(),
                 defaultConfig.getFormatter().getModName(),
                 val -> get().getFormatter().setModName(!val.contains("%s") ? get().getFormatter().getModName() : val),
                 InputValue.ANY))
-            .with(blockNameFormatVal = new InputValue<>("config.waila.format_block_name",
+            .with(blockNameFormatVal = new InputValue<>(Tl.Config.FORMAT_BLOCK_NAME,
                 get().getFormatter().getBlockName(),
                 defaultConfig.getFormatter().getBlockName(),
                 val -> get().getFormatter().setBlockName(!val.contains("%s") ? get().getFormatter().getBlockName() : val),
                 InputValue.ANY))
-            .with(new InputValue<>("config.waila.format_fluid_name",
+            .with(new InputValue<>(Tl.Config.FORMAT_FLUID_NAME,
                 get().getFormatter().getFluidName(),
                 defaultConfig.getFormatter().getFluidName(),
                 val -> get().getFormatter().setFluidName(!val.contains("%s") ? get().getFormatter().getFluidName() : val),
                 InputValue.ANY))
-            .with(new InputValue<>("config.waila.format_entity_name",
+            .with(new InputValue<>(Tl.Config.FORMAT_ENTITY_NAME,
                 get().getFormatter().getEntityName(),
                 defaultConfig.getFormatter().getEntityName(),
                 val -> get().getFormatter().setEntityName(!val.contains("%s") ? get().getFormatter().getEntityName() : val),
                 InputValue.ANY))
-            .with(new InputValue<>("config.waila.format_registry_name",
+            .with(new InputValue<>(Tl.Config.FORMAT_REGISTRY_NAME,
                 get().getFormatter().getRegistryName(),
                 defaultConfig.getFormatter().getRegistryName(),
                 val -> get().getFormatter().setRegistryName(!val.contains("%s") ? get().getFormatter().getRegistryName() : val),
                 InputValue.ANY));
 
-        options.with(new CategoryEntry("config.waila.keybinds"))
+        options.with(new CategoryEntry(Tl.Config.KEYBINDS))
             .with(new KeyBindValue(WailaClient.keyOpenConfig))
             .with(new KeyBindValue(WailaClient.keyShowOverlay))
             .with(new KeyBindValue(WailaClient.keyToggleLiquid))
@@ -307,15 +308,15 @@ public class WailaConfigScreen extends ConfigScreen {
         private final Button newButton;
 
         public ThemeValue() {
-            super("config.waila.overlay_theme",
+            super(Tl.Config.OVERLAY_THEME,
                 get().getOverlay().getColor().themes().values().stream().map(t -> t.getId().toString()).sorted(String::compareToIgnoreCase).toArray(String[]::new),
                 get().getOverlay().getColor().theme().getId().toString(),
                 val -> get().getOverlay().getColor().applyTheme(new ResourceLocation(val)),
                 false);
 
-            this.editButton = new Button(0, 0, 40, 20, Component.translatable("config.waila.edit"), button ->
+            this.editButton = new Button(0, 0, 40, 20, Component.translatable(Tl.Config.EDIT), button ->
                 client.setScreen(new ThemeEditorScreen(WailaConfigScreen.this, getTheme(), true)));
-            this.newButton = new Button(0, 0, 40, 20, Component.translatable("config.waila.new"), button ->
+            this.newButton = new Button(0, 0, 40, 20, Component.translatable(Tl.Config.NEW), button ->
                 client.setScreen(new ThemeEditorScreen(WailaConfigScreen.this, getTheme(), false)));
 
             editButton.active = !getValue().startsWith(WailaConstants.NAMESPACE + ":");

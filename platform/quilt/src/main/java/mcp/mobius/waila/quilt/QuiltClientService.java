@@ -10,7 +10,7 @@ public class QuiltClientService implements IClientService {
 
     @Override
     public KeyMapping createKeyBind(String id, int key) {
-        return KeyBindingHelper.registerKeyBinding(new KeyMapping("key.waila." + id, InputConstants.Type.KEYSYM, key, WailaConstants.MOD_NAME));
+        return KeyBindingHelper.registerKeyBinding(new KeyMapping(id, InputConstants.Type.KEYSYM, key, WailaConstants.MOD_NAME));
     }
 
 }

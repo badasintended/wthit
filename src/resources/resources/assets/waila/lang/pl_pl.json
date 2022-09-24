@@ -10,7 +10,6 @@
   "tooltip.waila.state_on"                     : "Wł.",
   "tooltip.waila.state_off"                    : "Wył.",
   "tooltip.waila.power"                        : "Zasilanie",
-  "tooltip.waila.health"                       : "%s/%s pkt. zdrowia",
   "tooltip.waila.sneak_for_details"            : "Skradaj się, by wyświetlić szczegóły",
 
   "gui.waila.configuration"                    : "%s — konfiguracja",

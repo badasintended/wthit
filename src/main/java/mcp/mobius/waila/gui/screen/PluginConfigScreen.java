@@ -8,6 +8,7 @@ import java.util.function.Consumer;
 import it.unimi.dsi.fastutil.objects.Object2IntLinkedOpenHashMap;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import lol.bai.badpackets.api.PacketSender;
+import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.config.ConfigEntry;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.gui.widget.ButtonEntry;
@@ -40,7 +41,7 @@ public class PluginConfigScreen extends ConfigScreen {
     }
 
     public PluginConfigScreen(Screen parent) {
-        super(parent, Component.translatable("gui.waila.plugin_settings"), PluginConfig::save, PluginConfig::reload);
+        super(parent, Component.translatable(Tl.Gui.PLUGIN_SETTINGS), PluginConfig::save, PluginConfig::reload);
     }
 
     private static <T> void register(ConfigEntry.Type<T> type, ConfigValueFunction<T> function) {
@@ -52,7 +53,7 @@ public class PluginConfigScreen extends ConfigScreen {
     public ConfigListWidget getOptions() {
         ConfigListWidget options = new ConfigListWidget(this, minecraft, width, height, 32, height - 32, 26, PluginConfig::save);
         for (String namespace : PluginConfig.getNamespaces()) {
-            String translationKey = "config.waila.plugin_" + namespace;
+            String translationKey = Tl.Config.PLUGIN_ + namespace;
             Set<ResourceLocation> keys = PluginConfig.getAllKeys(namespace);
             options.with(new ButtonEntry(translationKey, 100, 20, w -> minecraft.setScreen(new ConfigScreen(PluginConfigScreen.this, Component.translatable(translationKey)) {
                 @Override
@@ -86,13 +87,13 @@ public class PluginConfigScreen extends ConfigScreen {
                         if (entry.blocksClientEdit() && minecraft.getCurrentServer() != null) {
                             if (entry.getServerValue() == null) {
                                 value.disable(PacketSender.c2s().canSend(Packets.VERSION)
-                                    ? "config.waila.server_missing_option"
-                                    : "config.waila.server_missing_mod");
+                                    ? Tl.Config.SERVER_MISSING_OPTION
+                                    : Tl.Config.SERVER_MISSING_MOD);
                                 value.setValue(entry.getClientOnlyValue());
                             } else {
                                 value.disable(entry.isMerged()
-                                    ? "config.waila.server_disabled"
-                                    : "config.waila.server_only");
+                                    ? Tl.Config.SERVER_DISABLED
+                                    : Tl.Config.SERVER_ONLY);
                                 value.setValue(entry.getServerValue());
                             }
                         }

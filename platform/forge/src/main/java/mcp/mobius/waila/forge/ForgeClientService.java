@@ -11,7 +11,7 @@ public class ForgeClientService implements IClientService {
 
     @Override
     public KeyMapping createKeyBind(String id, int key) {
-        return new KeyMapping("key.waila." + id, KeyConflictContext.IN_GAME, KeyModifier.NONE, InputConstants.Type.KEYSYM, key, WailaConstants.MOD_NAME);
+        return new KeyMapping(id, KeyConflictContext.IN_GAME, KeyModifier.NONE, InputConstants.Type.KEYSYM, key, WailaConstants.MOD_NAME);
     }
 
 }

@@ -10,7 +10,6 @@
   "tooltip.waila.state_on"                              : "开",
   "tooltip.waila.state_off"                             : "关",
   "tooltip.waila.power"                                 : "红石强度",
-  "tooltip.waila.health"                                : "%s/%s 生命值",
   "tooltip.waila.sneak_for_details"                     : "潜行显示详情",
   "tooltip.waila.compost_level"                         : "堆肥等级",
   "tooltip.waila.honey_level"                           : "蜂蜜数量",
@@ -69,8 +68,6 @@
   "config.waila.hide_from_debug_desc"                   : "当调试菜单打开时隐藏提示框",
   "config.waila.rate_limit"                             : "速率限制",
   "config.waila.rate_limit_desc"                        : "每个服务器请求之间的延迟是多少毫秒\n必须至少为250毫秒",
-  "config.waila.max_health_for_render"                  : "渲染最大生命值",
-  "config.waila.max_hearts_per_line"                    : "每行最大生命值",
 
   "config.waila.tts"                                    : "启用TTS",
   "config.waila.tts_desc"                               : "使用系统讲述人读出方块和实体名",

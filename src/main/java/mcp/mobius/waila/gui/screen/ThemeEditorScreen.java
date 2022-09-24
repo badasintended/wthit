@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.api.IWailaConfig.Overlay.Position.Align;
 import mcp.mobius.waila.api.IntFormat;
 import mcp.mobius.waila.api.WailaConstants;
+import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.config.Theme;
 import mcp.mobius.waila.gui.hud.TooltipRenderer;
 import mcp.mobius.waila.gui.widget.ButtonEntry;
@@ -49,31 +50,31 @@ class ThemeEditorScreen extends ConfigScreen {
     public ConfigListWidget getOptions() {
         ConfigListWidget option = new ConfigListWidget(this, minecraft, width, height, 76, height - 32, 26, () -> {});
 
-        idVal = new InputValue<>("config.waila.overlay_theme_editor.id",
+        idVal = new InputValue<>(Tl.Config.OverlayThemeEditor.ID,
             edit ? theme.getId().toString() : "", null, val -> {}, InputValue.IDENTIFIER);
         if (!edit) {
             option.add(idVal);
         }
 
         option
-            .with(bgColorVal = new IntInputValue("config.waila.overlay_theme_editor.background_color",
+            .with(bgColorVal = new IntInputValue(Tl.Config.OverlayThemeEditor.BACKGROUND_COLOR,
                 theme.getBackgroundColor(), null, val -> {}, IntFormat.RGB_HEX))
-            .with(gradStartVal = new IntInputValue("config.waila.overlay_theme_editor.gradient_start",
+            .with(gradStartVal = new IntInputValue(Tl.Config.OverlayThemeEditor.GRADIENT_START,
                 theme.getGradientStart(), null, val -> {}, IntFormat.RGB_HEX))
-            .with(gradEndVal = new IntInputValue("config.waila.overlay_theme_editor.gradient_end",
+            .with(gradEndVal = new IntInputValue(Tl.Config.OverlayThemeEditor.GRADIENT_END,
                 theme.getGradientEnd(), null, val -> {}, IntFormat.RGB_HEX))
-            .with(textColorVal = new IntInputValue("config.waila.overlay_theme_editor.text_color",
+            .with(textColorVal = new IntInputValue(Tl.Config.OverlayThemeEditor.TEXT_COLOR,
                 theme.getFontColor(), null, val -> {}, IntFormat.RGB_HEX));
 
         if (edit && !theme.getId().getNamespace().equals(WailaConstants.NAMESPACE)) {
-            option.add(new ButtonEntry("config.waila.overlay_theme_editor.delete", 100, 20, button -> minecraft.setScreen(new ConfirmScreen(delete -> {
+            option.add(new ButtonEntry(Tl.Config.OverlayThemeEditor.DELETE, 100, 20, button -> minecraft.setScreen(new ConfirmScreen(delete -> {
                 if (delete) {
                     parent.removeTheme(theme.getId());
                     minecraft.setScreen(parent);
                 } else {
                     minecraft.setScreen(this);
                 }
-            }, Component.translatable("config.waila.overlay_theme_editor.delete_prompt", theme.getId()), CommonComponents.EMPTY))));
+            }, Component.translatable(Tl.Config.OverlayThemeEditor.DELETE_PROMPT, theme.getId()), CommonComponents.EMPTY))));
         }
 
         return option;
@@ -96,8 +97,8 @@ class ThemeEditorScreen extends ConfigScreen {
         if (idVal.getValue().isBlank()) {
             minecraft.getToasts().addToast(new SystemToast(
                 SystemToast.SystemToastIds.TUTORIAL_HINT,
-                Component.translatable("config.waila.missing_input"),
-                Component.translatable("config.waila.overlay_theme_editor.id_empty")));
+                Component.translatable(Tl.Config.MISSING_INPUT),
+                Component.translatable(Tl.Config.OverlayThemeEditor.ID_EMPTY)));
         } else {
             ResourceLocation id = new ResourceLocation(idVal.getValue());
             if (id.getNamespace().equals(ResourceLocation.DEFAULT_NAMESPACE) && !idVal.getValue().startsWith(ResourceLocation.DEFAULT_NAMESPACE + ":")) {

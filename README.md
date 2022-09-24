@@ -8,3 +8,9 @@
 **WTHIT** - a fork of [HWYLA](https://minecraft.curseforge.com/projects/hwyla) by [TehNut](https://www.curseforge.com/members/tehnut) which is itself is a fork of [WAILA](https://minecraft.curseforge.com/projects/waila) by [ProfMobius](https://minecraft.curseforge.com/members/ProfMobius).
 
 ### Documentation at [docs.bai.lol/wthit](https://docs.bai.lol/wthit)
+
+## Building Instruction
+To build the project, run `./gradlew build` on *nix or `gradlew.bat build` on Windows.
+
+You can also build it with an IDE. When importing the project for the first time, the IDE may show
+errors about missing class from `buildconst` package. Build the project first to generate them.

@@ -6,6 +6,7 @@ import com.mojang.brigadier.CommandDispatcher;
 import io.netty.buffer.Unpooled;
 import lol.bai.badpackets.api.PacketSender;
 import mcp.mobius.waila.api.WailaConstants;
+import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.debug.DumpGenerator;
 import mcp.mobius.waila.network.Packets;
 import net.minecraft.commands.CommandSourceStack;
@@ -32,7 +33,7 @@ public class ServerCommand {
                     Component pathComponent = Component.literal(path.toString()).withStyle(style -> style
                         .withUnderlined(true)
                         .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, path.toString())));
-                    source.sendSuccess(Component.translatable("command.waila." + (dedicated ? "server" : "local") + "_dump_success", pathComponent), false);
+                    source.sendSuccess(Component.translatable(dedicated ? Tl.Command.SERVER_DUMP_SUCCESS : Tl.Command.LOCAL_DUMP_SUCCESS, pathComponent), false);
                     Entity entity = source.getEntity();
                     if (entity instanceof ServerPlayer player && !server.isSingleplayerOwner(player.getGameProfile())) {
                         PacketSender.s2c(player).send(Packets.GENERATE_CLIENT_DUMP, new FriendlyByteBuf(Unpooled.EMPTY_BUFFER));

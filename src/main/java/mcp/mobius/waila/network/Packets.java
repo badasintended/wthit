@@ -19,6 +19,7 @@ import mcp.mobius.waila.access.ServerAccessor;
 import mcp.mobius.waila.api.IServerAccessor;
 import mcp.mobius.waila.api.IServerDataProvider;
 import mcp.mobius.waila.api.WailaConstants;
+import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.config.BlacklistConfig;
 import mcp.mobius.waila.config.ConfigEntry;
 import mcp.mobius.waila.config.PluginConfig;
@@ -262,7 +263,7 @@ public class Packets {
                 Component pathComponent = Component.literal(path.toString()).withStyle(style -> style
                     .withUnderlined(true)
                     .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, path.toString())));
-                client.player.displayClientMessage(Component.translatable("command.waila.client_dump_success", pathComponent), false);
+                client.player.displayClientMessage(Component.translatable(Tl.Command.CLIENT_DUMP_SUCCESS, pathComponent), false);
             }
         }));
     }

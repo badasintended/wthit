@@ -10,7 +10,6 @@
   "tooltip.waila.state_on"                    : "Вкл.",
   "tooltip.waila.state_off"                   : "Выкл.",
   "tooltip.waila.power"                       : "Мощность",
-  "tooltip.waila.health"                      : "%s/%s здоровья",
   "tooltip.waila.sneak_for_details"           : "Пригнитесь для подробностей",
   "tooltip.waila.honey_level"                 : "Уровень мёда",
 
@@ -56,8 +55,6 @@
   "config.waila.hide_from_debug_desc"         : "Скрывает подсказки во время режима отладки",
   "config.waila.rate_limit"                   : "Лимит запросов",
   "config.waila.rate_limit_desc"              : "Сколько миллисекунд должно пройти до следующего запроса к серверу\nДолжно быть как минимум 250 миллисекунд",
-  "config.waila.max_health_for_render"        : "Макс. здоровье для показа",
-  "config.waila.max_hearts_per_line"          : "Количество сердец на линию",
 
   "config.waila.tts"                          : "Включить TTS",
   "config.waila.tts_desc"                     : "Читает названия блоков и существ используя синтез речи",

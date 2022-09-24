@@ -7,6 +7,7 @@ import mcp.mobius.waila.access.DataAccessor;
 import mcp.mobius.waila.api.IEventListener;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
+import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.gui.hud.TooltipHandler;
@@ -47,11 +48,11 @@ public abstract class WailaClient {
 
     protected static List<KeyMapping> registerKeyBinds() {
         return List.of(
-            keyOpenConfig = createKeyBind("config"),
-            keyShowOverlay = createKeyBind("show_overlay"),
-            keyToggleLiquid = createKeyBind("toggle_liquid"),
-            keyShowRecipeInput = createKeyBind("show_recipe_input"),
-            keyShowRecipeOutput = createKeyBind("show_recipe_output")
+            keyOpenConfig = createKeyBind(Tl.Key.CONFIG),
+            keyShowOverlay = createKeyBind(Tl.Key.SHOW_OVERLAY),
+            keyToggleLiquid = createKeyBind(Tl.Key.TOGGLE_LIQUID),
+            keyShowRecipeInput = createKeyBind(Tl.Key.SHOW_RECIPE_INPUT),
+            keyShowRecipeOutput = createKeyBind(Tl.Key.SHOW_RECIPE_OUTPUT)
         );
     }
 

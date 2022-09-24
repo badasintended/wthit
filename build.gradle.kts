@@ -90,20 +90,24 @@ dependencies {
 sourceSets {
     val main by getting
     val api by creating
+    val buildConst by creating
     val minecraftless by creating
     val mixin by creating
     val pluginCore by creating
     val pluginVanilla by creating
     val pluginTest by creating
 
-    listOf(api, mixin, pluginCore, pluginVanilla, pluginTest).applyEach {
+    listOf(api, buildConst, mixin, pluginCore, pluginVanilla, pluginTest).applyEach {
         compileClasspath += main.compileClasspath
     }
     listOf(main, pluginCore, pluginVanilla, pluginTest).applyEach {
-        compileClasspath += api.output + mixin.output
+        compileClasspath += api.output + mixin.output + buildConst.output
     }
     main.apply {
         compileClasspath += minecraftless.output
+    }
+    buildConst.apply {
+        compiledBy("generateTranslationClass")
     }
 }
 
@@ -111,4 +115,17 @@ dependencies {
     val minecraftlessCompileOnly by configurations
 
     minecraftlessCompileOnly("com.google.code.gson:gson:2.8.9")
+}
+
+task<GenerateTranslationTask>("generateTranslationClass") {
+    group = "build constant"
+
+    input.set(file("src/resources/resources/assets/waila/lang/en_us.json"))
+    output.set(file("src/buildConst/java"))
+    className.set("mcp.mobius.waila.buildconst.Tl")
+    skipPaths.set(setOf("waila"))
+}
+
+tasks.named("compileBuildConstJava") {
+    dependsOn("generateTranslationClass")
 }

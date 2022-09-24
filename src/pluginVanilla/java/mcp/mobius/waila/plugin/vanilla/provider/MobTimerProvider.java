@@ -7,6 +7,7 @@ import mcp.mobius.waila.api.IServerAccessor;
 import mcp.mobius.waila.api.IServerDataProvider;
 import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.component.PairComponent;
+import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -41,7 +42,7 @@ public enum MobTimerProvider implements IEntityComponentProvider, IServerDataPro
                 long minutes = seconds / 60;
                 seconds = seconds - (minutes * 60);
                 tooltip.addLine(new PairComponent(
-                    Component.translatable("tooltip.waila.timer.grow"),
+                    Component.translatable(Tl.Tooltip.Timer.GROW),
                     Component.literal(TIMER.formatted(minutes, seconds))));
             }
 
@@ -50,7 +51,7 @@ public enum MobTimerProvider implements IEntityComponentProvider, IServerDataPro
                 long minutes = seconds / 60;
                 seconds = seconds - (minutes * 60);
                 tooltip.addLine(new PairComponent(
-                    Component.translatable("tooltip.waila.timer.breed"),
+                    Component.translatable(Tl.Tooltip.Timer.BREED),
                     Component.literal(TIMER.formatted(minutes, seconds))));
             }
 

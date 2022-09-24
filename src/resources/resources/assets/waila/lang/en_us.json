@@ -10,7 +10,6 @@
   "tooltip.waila.state_on"                                      : "On",
   "tooltip.waila.state_off"                                     : "Off",
   "tooltip.waila.power"                                         : "Power",
-  "tooltip.waila.health"                                        : "%s/%s Health",
   "tooltip.waila.sneak_for_details"                             : "Sneak for details",
   "tooltip.waila.compost_level"                                 : "Compost Level",
   "tooltip.waila.honey_level"                                   : "Honey Level",
@@ -88,8 +87,6 @@
   "config.waila.hide_from_debug_desc"                           : "Hide the tooltip while the debug menu is open",
   "config.waila.rate_limit"                                     : "Rate Limit",
   "config.waila.rate_limit_desc"                                : "How many milliseconds the delay between each server request\nMust be at least 250ms",
-  "config.waila.max_health_for_render"                          : "Max Health for Render",
-  "config.waila.max_hearts_per_line"                            : "Max Hearts Per Line",
 
   "config.waila.tts"                                            : "Enable TTS",
   "config.waila.tts_desc"                                       : "Read out block and entity names with the system's text to speech processor",
@@ -135,7 +132,6 @@
   "config.waila.overlay_alpha"                                  : "Background Alpha",
 
   "config.waila.overlay_theme"                                  : "Theme",
-  "config.waila.overlay_theme_editor"                           : "Theme Editor",
   "config.waila.overlay_theme_editor.id"                        : "Theme ID",
   "config.waila.overlay_theme_editor.id_empty"                  : "New theme needs an id",
   "config.waila.overlay_theme_editor.background_color"          : "Background Color",
@@ -224,5 +220,8 @@
   "config.waila.plugin_waila.icon_position"                     : "Icon Position",
   "config.waila.plugin_waila.icon_position_top"                 : "Top",
   "config.waila.plugin_waila.icon_position_middle"              : "Middle",
-  "config.waila.plugin_waila.icon_position_bottom"              : "Bottom"
+  "config.waila.plugin_waila.icon_position_bottom"              : "Bottom",
+
+  "tooltip.waila.instrument"                                    : "_DO_NOT_TRANSLATE_",
+  "config.waila.plugin_"                                        : "_DO_NOT_TRANSLATE_"
 }

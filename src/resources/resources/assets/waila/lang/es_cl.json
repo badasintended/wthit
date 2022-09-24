@@ -10,7 +10,6 @@
   "tooltip.waila.state_on"                              : "Activo",
   "tooltip.waila.state_off"                             : "Inactivo",
   "tooltip.waila.power"                                 : "Poder",
-  "tooltip.waila.health"                                : "%s/%s Vida",
   "tooltip.waila.sneak_for_details"                     : "Detalles al agacharse",
   "tooltip.waila.compost_level"                         : "Nivel de composta",
   "tooltip.waila.honey_level"                           : "Nivel de miel",
@@ -64,8 +63,6 @@
   "config.waila.hide_from_debug_desc"                   : "Esconde el tooltip mientras el menú de depuración esté abierto",
   "config.waila.rate_limit"                             : "Tasa límite",
   "config.waila.rate_limit_desc"                        : "Cúantos milisegundos deben pasar entre cada petición al servidor\nEl valor debe ser por lo menos 250ms",
-  "config.waila.max_health_for_render"                  : "Corazones máximos a mostrar",
-  "config.waila.max_hearts_per_line"                    : "Cantidad máxima de corazones por línea",
 
   "config.waila.tts"                                    : "Activar Texto a Voz",
   "config.waila.tts_desc"                               : "Lee los nombres de bloque y entidad usando el procesador TTS del sistema",

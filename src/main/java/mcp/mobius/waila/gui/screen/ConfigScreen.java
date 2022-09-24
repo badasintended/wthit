@@ -9,6 +9,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
 
@@ -50,18 +51,18 @@ public abstract class ConfigScreen extends Screen {
         options.init();
 
         if (saver != null && canceller != null) {
-            addRenderableWidget(new Button(width / 2 - 102, height - 25, 100, 20, Component.translatable("gui.done"), w -> {
+            addRenderableWidget(new Button(width / 2 - 102, height - 25, 100, 20, CommonComponents.GUI_DONE, w -> {
                 options.save();
                 saver.run();
                 onClose();
             }));
-            addRenderableWidget(new Button(width / 2 + 2, height - 25, 100, 20, Component.translatable("gui.cancel"), w -> {
+            addRenderableWidget(new Button(width / 2 + 2, height - 25, 100, 20, CommonComponents.GUI_CANCEL, w -> {
                 cancelled = true;
                 canceller.run();
                 onClose();
             }));
         } else {
-            addRenderableWidget(new Button(width / 2 - 50, height - 25, 100, 20, Component.translatable("gui.done"), w -> {
+            addRenderableWidget(new Button(width / 2 - 50, height - 25, 100, 20, CommonComponents.GUI_DONE, w -> {
                 options.save();
                 onClose();
             }));

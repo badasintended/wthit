@@ -9,6 +9,7 @@ import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.IWailaConfig.Overlay.Position.Align;
 import mcp.mobius.waila.api.WailaConstants;
+import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.mixin.PlayerTabOverlayAccess;
@@ -35,7 +36,7 @@ public class TooltipHandler {
 
     private static final ConfigTooltipRendererState STATE = new ConfigTooltipRendererState();
     private static final Tooltip TOOLTIP = new Tooltip();
-    private static final Component SNEAK_DETAIL = Component.translatable("tooltip.waila.sneak_for_details").withStyle(ChatFormatting.ITALIC);
+    private static final Component SNEAK_DETAIL = Component.translatable(Tl.Tooltip.SNEAK_FOR_DETAILS).withStyle(ChatFormatting.ITALIC);
 
     public static void tick() {
         STATE.render = false;

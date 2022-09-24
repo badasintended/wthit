@@ -8,6 +8,7 @@ import java.util.List;
 import com.google.gson.Gson;
 import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.buildconst.Tl;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
@@ -15,6 +16,7 @@ import net.minecraft.client.gui.components.ContainerObjectSelectionList;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
 
@@ -23,7 +25,7 @@ public class CreditsScreen extends Screen {
     private final Screen parent;
 
     protected CreditsScreen(Screen parent) {
-        super(Component.translatable("gui.waila.credits"));
+        super(Component.translatable(Tl.Gui.CREDITS));
 
         this.parent = parent;
     }
@@ -39,7 +41,7 @@ public class CreditsScreen extends Screen {
             ListWidget listWidget = new ListWidget(minecraft, width, height, 32, height - 32, minecraft.font.lineHeight + 6);
             credits.forEach((key, list) -> {
                 List<Entry> children = listWidget.children();
-                children.add(new Entry(Component.translatable("gui.waila.credits." + key).withStyle(ChatFormatting.GRAY)));
+                children.add(new Entry(Component.translatable(Tl.Gui.CREDITS + "." + key).withStyle(ChatFormatting.GRAY)));
                 for (String person : list) {
                     children.add(new Entry(Component.literal("        " + person)));
                 }
@@ -51,7 +53,7 @@ public class CreditsScreen extends Screen {
             e.printStackTrace();
         }
 
-        addRenderableWidget(new Button(width / 2 - 50, height - 25, 100, 20, Component.translatable("gui.done"), w -> onClose()));
+        addRenderableWidget(new Button(width / 2 - 50, height - 25, 100, 20, CommonComponents.GUI_DONE, w -> onClose()));
     }
 
     @Override

@@ -10,7 +10,6 @@
   "tooltip.waila.state_on"                                     : "開",
   "tooltip.waila.state_off"                                    : "關",
   "tooltip.waila.power"                                        : "訊號強度",
-  "tooltip.waila.health"                                       : "%s/%s 生命值",
   "tooltip.waila.sneak_for_details"                            : "潛行顯示詳細資訊",
   "tooltip.waila.compost_level"                                : "堆肥桶等級",
   "tooltip.waila.honey_level"                                  : "蜂蜜等級",
@@ -70,8 +69,6 @@
   "config.waila.hide_from_debug_desc"                          : "當除錯畫面開啟時隱藏提示框",
   "config.waila.rate_limit"                                    : "速率限制",
   "config.waila.rate_limit_desc"                               : "伺服器請求資料的間距時間（毫秒）\n最少需要 250 毫秒",
-  "config.waila.max_health_for_render"                         : "最大顯示愛心數",
-  "config.waila.max_hearts_per_line"                           : "每列最多愛心數",
 
   "config.waila.tts"                                           : "啟用朗讀功能",
   "config.waila.tts_desc"                                      : "以系統的文字轉語音引擎來讀出方塊及實體的名稱",

@@ -5,6 +5,7 @@ import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.component.PairComponent;
+import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.ComposterBlock;
@@ -19,7 +20,7 @@ public enum ComposterProvider implements IBlockComponentProvider {
         if (config.getBoolean(Options.LEVEL_COMPOSTER)) {
             BlockState state = accessor.getBlockState();
             tooltip.addLine(new PairComponent(
-                Component.translatable("tooltip.waila.compost_level"),
+                Component.translatable(Tl.Tooltip.COMPOST_LEVEL),
                 Component.literal(state.getValue(ComposterBlock.LEVEL).toString())));
         }
     }

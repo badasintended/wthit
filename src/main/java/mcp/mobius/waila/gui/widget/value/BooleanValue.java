@@ -3,6 +3,7 @@ package mcp.mobius.waila.gui.widget.value;
 import java.util.function.Consumer;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import mcp.mobius.waila.buildconst.Tl;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
@@ -30,7 +31,7 @@ public class BooleanValue extends ConfigValue<Boolean> {
     }
 
     private void setMessage() {
-        button.setMessage(Component.translatable("config.waila." + getValue())
+        button.setMessage(Component.translatable(getValue() ? Tl.Config.TRUE : Tl.Config.FALSE)
             .withStyle(isDisabled() ?
                 ChatFormatting.GRAY :
                 getValue() ? ChatFormatting.GREEN : ChatFormatting.RED));
