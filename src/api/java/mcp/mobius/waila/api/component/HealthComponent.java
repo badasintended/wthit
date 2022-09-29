@@ -1,25 +1,36 @@
-package mcp.mobius.waila.plugin.vanilla.component;
+package mcp.mobius.waila.api.component;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.api.ITooltipComponent;
+import mcp.mobius.waila.api.__internal__.ApiSide;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.util.Mth;
 
+/**
+ * A component that renders a health bar.
+ */
+@ApiSide.ClientOnly
 public class HealthComponent extends GuiComponent implements ITooltipComponent {
 
-    private final int health;
-    private final int iconCount;
-    private final int lineWidth;
-    private final boolean absorption;
-
+    /**
+     * @param health     the health point, 1 full icon represent 2 hp
+     * @param maxHealth  the max health point
+     * @param maxPerLine the max icon per line until it get wrapped into multiple
+     * @param absorption indicates if the bar is absorption health bar
+     */
     public HealthComponent(float health, float maxHealth, int maxPerLine, boolean absorption) {
         this.health = Mth.ceil(health);
         this.iconCount = Mth.positiveCeilDiv(Mth.ceil(Math.max(health, maxHealth)), 2);
         this.lineWidth = Math.min(iconCount, maxPerLine);
         this.absorption = absorption;
     }
+
+    private final int health;
+    private final int iconCount;
+    private final int lineWidth;
+    private final boolean absorption;
 
     @Override
     public int getWidth() {

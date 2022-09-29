@@ -1,23 +1,32 @@
-package mcp.mobius.waila.plugin.vanilla.component;
+package mcp.mobius.waila.api.component;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.api.ITooltipComponent;
+import mcp.mobius.waila.api.__internal__.ApiSide;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.util.Mth;
 
+/**
+ * Component that renders an armor bar.
+ */
+@ApiSide.ClientOnly
 public class ArmorComponent extends GuiComponent implements ITooltipComponent {
 
-    private final int armor;
-    private final int iconCount;
-    private final int lineWidth;
-
+    /**
+     * @param armor      the armor points, 1 full icon represent 2 points
+     * @param maxPerLine the max icon per line until it get wrapped into multiple
+     */
     public ArmorComponent(int armor, int maxPerLine) {
         this.armor = armor;
         this.iconCount = Mth.positiveCeilDiv(armor, 2);
         this.lineWidth = Math.min(iconCount, maxPerLine);
     }
+
+    private final int armor;
+    private final int iconCount;
+    private final int lineWidth;
 
     @Override
     public int getWidth() {

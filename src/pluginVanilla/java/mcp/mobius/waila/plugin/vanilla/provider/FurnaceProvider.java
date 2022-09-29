@@ -7,8 +7,8 @@ import mcp.mobius.waila.api.IServerAccessor;
 import mcp.mobius.waila.api.IServerDataProvider;
 import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.component.ItemComponent;
+import mcp.mobius.waila.api.component.ProgressArrowComponent;
 import mcp.mobius.waila.mixin.AbstractFurnaceBlockEntityAccess;
-import mcp.mobius.waila.plugin.vanilla.component.ProgressComponent;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -27,10 +27,13 @@ public enum FurnaceProvider implements IBlockComponentProvider, IServerDataProvi
             CompoundTag tag = accessor.getServerData();
             ListTag furnaceItems = tag.getList("furnace", Tag.TAG_COMPOUND);
 
+            float progress = tag.getInt("progress");
+            float total = tag.getInt("total");
+
             tooltip.addLine()
                 .with(new ItemComponent(ItemStack.of(furnaceItems.getCompound(0))))
                 .with(new ItemComponent(ItemStack.of(furnaceItems.getCompound(1))))
-                .with(new ProgressComponent(tag.getInt("progress"), tag.getInt("total")))
+                .with(new ProgressArrowComponent(progress / total))
                 .with(new ItemComponent(ItemStack.of(furnaceItems.getCompound(2))));
         }
     }
