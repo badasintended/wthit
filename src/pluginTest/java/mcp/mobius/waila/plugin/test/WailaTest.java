@@ -58,6 +58,9 @@ public class WailaTest implements IWailaPlugin {
 
         registrar.addConfig(GrowingTest.ENABLED, false);
         registrar.addComponent(GrowingTest.INSTANCE, TooltipPosition.HEAD, Block.class, 99999);
+
+        registrar.addConfig(BarTest.ENABLED, false);
+        registrar.addComponent(BarTest.INSTANCE, TooltipPosition.BODY, Block.class);
     }
 
 }

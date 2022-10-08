@@ -7,7 +7,6 @@ import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.__internal__.ApiSide;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
 /**
@@ -22,8 +21,6 @@ public class ProgressArrowComponent extends GuiComponent implements ITooltipComp
     public ProgressArrowComponent(float progress) {
         this.progress = Mth.clamp(progress, 0.0f, 1.0f);
     }
-
-    private static final ResourceLocation SHEET = new ResourceLocation(WailaConstants.NAMESPACE, "textures/sprites.png");
 
     private final float progress;
 
@@ -40,14 +37,14 @@ public class ProgressArrowComponent extends GuiComponent implements ITooltipComp
     @Override
     public void render(PoseStack matrices, int x, int y, float delta) {
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderTexture(0, SHEET);
+        RenderSystem.setShaderTexture(0, WailaConstants.COMPONENT_TEXTURE);
 
         // Draws the "empty" background arrow
-        blit(matrices, x, y, 0, 16, 22, 16, 22, 32);
+        blit(matrices, x, y, 0, 16, 22, 16);
 
         if (progress > 0) {
             // Draws the "full" foreground arrow based on the progress
-            blit(matrices, x, y, 0, 0, (int) (progress * 22) + 1, 16, 22, 32);
+            blit(matrices, x, y, 0, 0, (int) (progress * 22) + 1, 16);
         }
     }
 

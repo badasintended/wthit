@@ -16,6 +16,10 @@ import net.minecraft.network.chat.Component;
 @ApiSide.ClientOnly
 public class WrappedComponent implements ITooltipComponent {
 
+    public WrappedComponent(String literal) {
+        this(Component.literal(literal));
+    }
+
     public WrappedComponent(Component component) {
         this.component = component;
     }

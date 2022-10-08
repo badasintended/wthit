@@ -28,6 +28,9 @@ public class WailaConstants {
     public static final ResourceLocation CONFIG_ICON_POSITION = id("icon_position");
     public static final ResourceLocation CONFIG_SHOW_MOD_NAME = id("show_mod_name");
     public static final ResourceLocation CONFIG_SHOW_REGISTRY = id("show_registry");
+
+    // Built-in components texture
+    public static final ResourceLocation COMPONENT_TEXTURE = id("textures/components.png");
     // @formatter:on
 
     private static ResourceLocation id(String path) {

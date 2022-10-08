@@ -13,6 +13,7 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Matrix4f;
 import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.ITooltipComponent;
+import mcp.mobius.waila.api.WailaHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.renderer.GameRenderer;
@@ -23,11 +24,10 @@ public final class DisplayUtil extends GuiComponent {
 
     private static final Random RANDOM = new Random();
 
-    private static final String NUM_SUFFIXES = "kmbt";
     private static final Minecraft CLIENT = Minecraft.getInstance();
 
     public static void renderStack(int x, int y, ItemStack stack) {
-        renderStack(x, y, stack, stack.getCount() > 1 ? shortHandNumber(stack.getCount()) : "");
+        renderStack(x, y, stack, stack.getCount() > 1 ? WailaHelper.suffix(stack.getCount()) : "");
     }
 
     public static void renderStack(int x, int y, ItemStack stack, String countText) {
@@ -40,15 +40,6 @@ public final class DisplayUtil extends GuiComponent {
             ExceptionUtil.dump(e, "renderStack | " + stackStr, null);
         }
         enable2DRender();
-    }
-
-    private static String shortHandNumber(int number) {
-        if (number < 1000) {
-            return "" + number;
-        }
-
-        int exp = (int) (Math.log(number) / Math.log(1000.0));
-        return String.format("%.1f%c", number / Math.pow(1000, exp), NUM_SUFFIXES.charAt(exp - 1));
     }
 
     public static void enable3DRender() {
