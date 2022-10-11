@@ -56,6 +56,10 @@ tasks.jar {
     from(project(":fabric").sourceSets["integration"].output)
 }
 
+tasks.sourcesJar{
+    from(project(":fabric").sourceSets["integration"].allSource)
+}
+
 tasks.processResources {
     inputs.property("version", project.version)
 

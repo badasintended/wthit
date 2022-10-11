@@ -62,6 +62,10 @@ tasks.jar {
     from(sourceSets["integration"].output)
 }
 
+tasks.sourcesJar {
+    from(sourceSets["integration"].allSource)
+}
+
 tasks.processResources {
     inputs.property("version", project.version)
 
