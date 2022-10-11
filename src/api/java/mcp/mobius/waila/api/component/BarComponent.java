@@ -1,12 +1,18 @@
 package mcp.mobius.waila.api.component;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.WailaHelper;
 import mcp.mobius.waila.api.__internal__.ApiSide;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 
@@ -44,13 +50,15 @@ public class BarComponent extends GuiComponent implements ITooltipComponent {
         this.text = text;
     }
 
+    private static final int WIDTH = 100;
+    private static final int HEIGHT = 11;
     private static final float U0 = 22f / 256f;
     private static final float U1 = 122f / 256f;
     private static final float V0_BG = 0f / 256f;
-    private static final float V1_BG = 11f / 256f;
-    private static final float V0_FG = 11f / 256f;
+    private static final float V1_BG = HEIGHT/ 256f;
+    private static final float V0_FG = HEIGHT / 256f;
     private static final float V1_FG = 22f / 256f;
-    private static final float WIDTH = 100f / 256f;
+    private static final float UV_W = WIDTH / 256f;
 
     private final float ratio;
     private final int color;
@@ -58,18 +66,18 @@ public class BarComponent extends GuiComponent implements ITooltipComponent {
 
     @Override
     public int getWidth() {
-        return Math.max(Minecraft.getInstance().font.width(text), 100);
+        return Math.max(Minecraft.getInstance().font.width(text), WIDTH);
     }
 
     @Override
     public int getHeight() {
-        return 11;
+        return HEIGHT;
     }
 
     @Override
     public void render(PoseStack matrices, int x, int y, float delta) {
-        WailaHelper.renderTintedTexture(matrices, WailaConstants.COMPONENT_TEXTURE, x, y, 100, 11, U0, V0_BG, U1, V1_BG, color);
-        WailaHelper.renderTintedTexture(matrices, WailaConstants.COMPONENT_TEXTURE, x, y, 100 * ratio, 11, U0, V0_FG, U0 + (WIDTH * ratio), V1_FG, color);
+        renderBar(matrices, x, y, WIDTH, V0_BG, U1, V1_BG, color);
+        renderBar(matrices, x, y, WIDTH * ratio, V0_FG, U0 + (UV_W * ratio), V1_FG, color);
 
         double luminance = WailaHelper.getLuminance(color);
         int overlay = 0;
@@ -88,13 +96,45 @@ public class BarComponent extends GuiComponent implements ITooltipComponent {
             overlay = 0x40000000;
 
         if (overlay != 0) {
-            fill(matrices, x, y, x + 100, y + 11, overlay);
+            fill(matrices, x, y, x + WIDTH, y + HEIGHT, overlay);
         }
 
         int textWidth = Minecraft.getInstance().font.width(text);
-        float textX = x + Math.max((100 - textWidth) / 2F, 0F);
+        float textX = x + Math.max((WIDTH - textWidth) / 2F, 0F);
         float textY = y + 2;
         Minecraft.getInstance().font.draw(matrices, text, textX, textY, 0xFFAAAAAA);
+    }
+
+    private static void renderBar(
+        PoseStack matrices,
+        int x, int y, float w,
+        float v0, float u1, float v1, int tint
+    ) {
+        matrices.pushPose();
+
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.setShader(GameRenderer::getPositionColorTexShader);
+        RenderSystem.setShaderTexture(0, WailaConstants.COMPONENT_TEXTURE);
+
+        int a = WailaHelper.getAlpha(tint);
+        int r = WailaHelper.getRed(tint);
+        int g = WailaHelper.getGreen(tint);
+        int b = WailaHelper.getBlue(tint);
+
+        Tesselator tessellator = Tesselator.getInstance();
+        BufferBuilder buffer = tessellator.getBuilder();
+
+        buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX);
+
+        buffer.vertex(matrices.last().pose(), x, y + HEIGHT, 0).color(r, g, b, a).uv(U0, v1).endVertex();
+        buffer.vertex(matrices.last().pose(), x + w, y + HEIGHT, 0).color(r, g, b, a).uv(u1, v1).endVertex();
+        buffer.vertex(matrices.last().pose(), x + w, y, 0).color(r, g, b, a).uv(u1, v0).endVertex();
+        buffer.vertex(matrices.last().pose(), x, y, 0).color(r, g, b, a).uv(U0, v0).endVertex();
+
+        tessellator.end();
+        RenderSystem.disableBlend();
+        matrices.popPose();
     }
 
 }
