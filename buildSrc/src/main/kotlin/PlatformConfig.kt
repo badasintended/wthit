@@ -29,7 +29,7 @@ fun Project.setupPlatform() {
     }
 
     tasks.named<Jar>("sourcesJar") {
-        rootSourceSets.filterNot { it.name == "buildConst" }.forEach {
+        rootSourceSets.forEach {
             from(it.allSource)
         }
     }
