@@ -110,7 +110,7 @@
   "config.waila.overlay_align_y_middle"                 : "中间",
 
   "config.waila.overlay_color"                          : "颜色",
-  "config.waila.overlay_alpha"                          : "背景不透明度",
+  "config.waila.overlay_background_alpha"               : "背景不透明度",
   "config.waila.overlay_theme"                          : "主题",
 
   "config.waila.formatting"                             : "格式",

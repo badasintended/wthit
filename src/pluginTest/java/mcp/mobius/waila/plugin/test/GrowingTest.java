@@ -23,7 +23,7 @@ public enum GrowingTest implements IBlockComponentProvider {
 
             if (line != null) {
                 line.with(GrowingComponent.INSTANCE)
-                    .with(new ColorComponent(10, 10, 0xFFFF00FF));
+                    .with(new ColorComponent(10, 10, 0x55FF00FF));
             }
         }
     }

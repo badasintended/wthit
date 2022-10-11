@@ -12,7 +12,6 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import mcp.mobius.waila.api.IWailaConfig;
-import mcp.mobius.waila.util.DisplayUtil;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -243,7 +242,8 @@ public class WailaConfig implements IWailaConfig {
 
         public static class Color implements IWailaConfig.Overlay.Color {
 
-            private int alpha = 80;
+            private int backgroundAlpha = 204;
+            private int foregroundAlpha = 255;
             private Map<ResourceLocation, Theme> themes = new HashMap<>();
             private ResourceLocation activeTheme = Theme.VANILLA.getId();
 
@@ -254,15 +254,25 @@ public class WailaConfig implements IWailaConfig {
 
             @Override
             public int getAlpha() {
-                return DisplayUtil.getAlphaFromPercentage(alpha);
+                return backgroundAlpha;
             }
 
-            public void setAlpha(int alpha) {
-                this.alpha = alpha;
+            @Override
+            public int getBackgroundAlpha() {
+                return backgroundAlpha;
             }
 
-            public int rawAlpha() {
-                return alpha;
+            public void setBackgroundAlpha(int backgroundAlpha) {
+                this.backgroundAlpha = backgroundAlpha;
+            }
+
+            @Override
+            public int getForegroundAlpha() {
+                return foregroundAlpha;
+            }
+
+            public void setForegroundAlpha(int foregroundAlpha) {
+                this.foregroundAlpha = foregroundAlpha;
             }
 
             public Theme theme() {
@@ -303,7 +313,8 @@ public class WailaConfig implements IWailaConfig {
                 public Color deserialize(JsonElement element, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
                     JsonObject json = element.getAsJsonObject();
                     Color color = new Color();
-                    color.alpha = json.getAsJsonPrimitive("alpha").getAsInt();
+                    color.backgroundAlpha = json.getAsJsonPrimitive("backgroundAlpha").getAsInt();
+                    color.foregroundAlpha = json.getAsJsonPrimitive("foregroundAlpha").getAsInt();
                     color.activeTheme = new ResourceLocation(json.getAsJsonPrimitive("activeTheme").getAsString());
                     color.themes = new HashMap<>();
                     json.getAsJsonArray("themes").forEach(e -> {
@@ -316,7 +327,8 @@ public class WailaConfig implements IWailaConfig {
                 @Override
                 public JsonElement serialize(Color src, Type typeOfSrc, JsonSerializationContext context) {
                     JsonObject json = new JsonObject();
-                    json.addProperty("alpha", src.alpha);
+                    json.addProperty("backgroundAlpha", src.backgroundAlpha);
+                    json.addProperty("foregroundAlpha", src.foregroundAlpha);
                     json.add("themes", context.serialize(src.themes.values()));
                     json.addProperty("activeTheme", src.activeTheme.toString());
                     return json;

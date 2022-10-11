@@ -40,7 +40,7 @@
   "config.waila.overlay_scale"                 : "Skala wyświetlacza",
 
   "config.waila.overlay_color"                 : "Kolor",
-  "config.waila.overlay_alpha"                 : "St. alfa",
+  "config.waila.overlay_background_alpha"      : "St. alfa",
   "config.waila.overlay_theme"                 : "Motyw",
 
   "config.waila.formatting"                    : "Formatowanie",

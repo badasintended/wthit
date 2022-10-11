@@ -188,6 +188,11 @@ class ThemeEditorScreen extends ConfigScreen {
             return textColorVal.getValue();
         }
 
+        @Override
+        public int getFgAlpha() {
+            return 255;
+        }
+
     }
 
 }

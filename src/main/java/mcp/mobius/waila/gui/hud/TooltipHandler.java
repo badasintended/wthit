@@ -270,6 +270,11 @@ public class TooltipHandler {
             return getOverlay().getColor().getFontColor();
         }
 
+        @Override
+        public int getFgAlpha() {
+            return getOverlay().getColor().getForegroundAlpha();
+        }
+
     }
 
 }

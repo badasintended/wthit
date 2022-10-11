@@ -110,7 +110,7 @@
   "config.waila.overlay_align_y_middle"                 : "가운데",
 
   "config.waila.overlay_color"                          : "색상",
-  "config.waila.overlay_alpha"                          : "배경 알파",
+  "config.waila.overlay_background_alpha"               : "배경 알파",
   "config.waila.overlay_theme"                          : "테마",
 
   "config.waila.formatting"                             : "서식 설정",

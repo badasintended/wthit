@@ -28,7 +28,7 @@ public enum BarTest implements IBlockComponentProvider {
 
             tooltip.addLine(new PairComponent(
                 new WrappedComponent("bar"),
-                new BarComponent(tick / 500f, 0x88AA0000, WailaHelper.suffix(tick * 10L))));
+                new BarComponent(tick / 500f, 0xFFAA0000, WailaHelper.suffix(tick * 10L))));
         }
     }
 

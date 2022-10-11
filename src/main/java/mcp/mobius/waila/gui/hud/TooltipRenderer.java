@@ -1,11 +1,15 @@
 package mcp.mobius.waila.gui.hud;
 
 import java.awt.Rectangle;
+import java.io.File;
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.function.Supplier;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Suppliers;
+import com.mojang.blaze3d.pipeline.MainTarget;
+import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
@@ -15,6 +19,7 @@ import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Matrix4f;
 import com.mojang.text2speech.Narrator;
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.access.DataAccessor;
 import mcp.mobius.waila.api.IEventListener;
 import mcp.mobius.waila.api.ITooltipComponent;
@@ -32,6 +37,7 @@ import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.util.Mth;
 import net.minecraft.util.profiling.ProfilerFiller;
+import org.jetbrains.annotations.Nullable;
 
 import static mcp.mobius.waila.util.DisplayUtil.enable2DRender;
 import static mcp.mobius.waila.util.DisplayUtil.fillGradient;
@@ -51,6 +57,10 @@ public class TooltipRenderer {
     private static ITooltipComponent icon = EmptyComponent.INSTANCE;
     private static int topOffset;
     private static int maxLineWidth;
+
+    @Nullable
+    private static MainTarget fgFb;
+    private static int fbWidth, fbHeight;
 
     public static int colonOffset;
     public static int colonWidth;
@@ -236,21 +246,15 @@ public class TooltipRenderer {
         tesselator.end();
         RenderSystem.enableTexture();
 
+        MainTarget fgFb = getForegroundFramebuffer();
+        fgFb.bindWrite(true);
+
         int textX = x + (icon.getWidth() > 0 ? icon.getWidth() + 7 : 4);
         int textY = y + 4 + topOffset;
 
         for (Line line : TOOLTIP) {
             line.render(matrices, textX, textY, maxLineWidth, delta);
             textY += line.getHeight() + 1;
-        }
-
-        RenderSystem.disableBlend();
-        matrices.popPose();
-
-        if (state.fireEvent()) {
-            for (IEventListener listener : Registrar.INSTANCE.eventListeners.get(Object.class)) {
-                listener.onAfterTooltipRender(matrices, rect, DataAccessor.INSTANCE, PluginConfig.CLIENT);
-            }
         }
 
         Align.Y iconPos = PluginConfig.CLIENT.getEnum(WailaConstants.CONFIG_ICON_POSITION);
@@ -263,6 +267,56 @@ public class TooltipRenderer {
         RenderSystem.enableDepthTest();
         RenderSystem.getModelViewStack().popPose();
         RenderSystem.applyModelViewMatrix();
+
+        fgFb.unbindWrite();
+        client.getMainRenderTarget().bindWrite(true);
+
+        File out = Waila.GAME_DIR.resolve("aaa.png").toFile();
+        if (!out.exists()) {
+            try (NativeImage image = new NativeImage(fgFb.width, fgFb.height, false)) {
+                RenderSystem.bindTexture(fgFb.getColorTextureId());
+                image.downloadTexture(0, false);
+                image.flipY();
+                image.writeToFile(out);
+            } catch (IOException e) {
+                //
+            }
+        }
+
+        {
+            matrices.pushPose();
+
+            RenderSystem.enableBlend();
+            RenderSystem.defaultBlendFunc();
+            RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
+            RenderSystem.setShaderTexture(0, fgFb.getColorTextureId());
+
+            int a = state.getFgAlpha();
+            int w = client.getWindow().getGuiScaledWidth();
+            int h = client.getWindow().getGuiScaledHeight();
+
+            Tesselator tessellator = Tesselator.getInstance();
+            BufferBuilder buffer = tessellator.getBuilder();
+
+            buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
+
+            buffer.vertex(matrices.last().pose(), 0, h, 0).uv(0f, 0f).color(0xFF, 0xFF, 0xFF, a).endVertex();
+            buffer.vertex(matrices.last().pose(), w, h, 0).uv(1f, 0f).color(0xFF, 0xFF, 0xFF, a).endVertex();
+            buffer.vertex(matrices.last().pose(), w, 0, 0).uv(1f, 1f).color(0xFF, 0xFF, 0xFF, a).endVertex();
+            buffer.vertex(matrices.last().pose(), 0, 0, 0).uv(0f, 1f).color(0xFF, 0xFF, 0xFF, a).endVertex();
+
+            tessellator.end();
+
+            matrices.popPose();
+        }
+        matrices.popPose();
+
+        if (state.fireEvent()) {
+            for (IEventListener listener : Registrar.INSTANCE.eventListeners.get(Object.class)) {
+                listener.onAfterTooltipRender(matrices, rect, DataAccessor.INSTANCE, PluginConfig.CLIENT);
+            }
+        }
+
         profiler.pop();
     }
 
@@ -285,6 +339,24 @@ public class TooltipRenderer {
                 lastNarration = narrate;
             }
         }
+    }
+
+    private static MainTarget getForegroundFramebuffer() {
+        Window window = Minecraft.getInstance().getWindow();
+
+        if (fgFb == null) {
+            fgFb = new MainTarget(window.getWidth(), window.getHeight());
+            fgFb.setClearColor(0f, 0f, 0f, 0f);
+        }
+
+        if (window.getWidth() != fbWidth || window.getHeight() != fbHeight) {
+            fbWidth = window.getWidth();
+            fbHeight = window.getHeight();
+            fgFb.resize(fbWidth, fbHeight, Minecraft.ON_OSX);
+        }
+
+        fgFb.clear(Minecraft.ON_OSX);
+        return fgFb;
     }
 
     public interface State {
@@ -318,6 +390,8 @@ public class TooltipRenderer {
         boolean enableTextToSpeech();
 
         int getFontColor();
+
+        int getFgAlpha();
 
     }
 

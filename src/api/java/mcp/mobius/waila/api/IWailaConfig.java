@@ -109,15 +109,21 @@ public interface IWailaConfig {
 
         interface Color {
 
-            int getAlpha();
+            int getBackgroundAlpha();
 
             int getBackgroundColor();
+
+            int getForegroundAlpha();
 
             int getGradientStart();
 
             int getGradientEnd();
 
             int getFontColor();
+
+            @Deprecated
+            @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
+            int getAlpha();
 
         }
 

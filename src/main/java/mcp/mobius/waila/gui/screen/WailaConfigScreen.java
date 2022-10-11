@@ -33,7 +33,6 @@ import net.minecraft.world.level.block.Blocks;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import static mcp.mobius.waila.util.DisplayUtil.getAlphaFromPercentage;
 import static mcp.mobius.waila.util.DisplayUtil.tryFormat;
 
 public class WailaConfigScreen extends ConfigScreen {
@@ -56,7 +55,8 @@ public class WailaConfigScreen extends ConfigScreen {
     private ConfigValue<Align.Y> yAlignValue;
     private ConfigValue<Integer> yPosValue;
     private ConfigValue<Float> scaleValue;
-    private ConfigValue<Integer> alphaVal;
+    private ConfigValue<Integer> bgAlphaVal;
+    private ConfigValue<Integer> fgAlphaVal;
 
     private ThemeValue themeIdVal;
 
@@ -198,10 +198,15 @@ public class WailaConfigScreen extends ConfigScreen {
                 defaultConfig.getOverlay().getScale(),
                 val -> get().getOverlay().setScale(Math.max(val, 0.0F)),
                 InputValue.POSITIVE_DECIMAL))
-            .with(alphaVal = new InputValue<>(Tl.Config.OVERLAY_ALPHA,
-                get().getOverlay().getColor().rawAlpha(),
-                defaultConfig.getOverlay().getColor().rawAlpha(),
-                val -> get().getOverlay().getColor().setAlpha(Math.min(100, Math.max(0, val))),
+            .with(bgAlphaVal = new InputValue<>(Tl.Config.OVERLAY_BACKGROUND_ALPHA,
+                get().getOverlay().getColor().getBackgroundAlpha(),
+                defaultConfig.getOverlay().getColor().getBackgroundAlpha(),
+                val -> get().getOverlay().getColor().setBackgroundAlpha(Math.min(255, Math.max(0, val))),
+                InputValue.POSITIVE_INTEGER))
+            .with(fgAlphaVal = new InputValue<>(Tl.Config.OVERLAY_FOREGROUND_ALPHA,
+                get().getOverlay().getColor().getForegroundAlpha(),
+                defaultConfig.getOverlay().getColor().getForegroundAlpha(),
+                val -> get().getOverlay().getColor().setForegroundAlpha(Math.min(255, Math.max(0, val))),
                 InputValue.POSITIVE_INTEGER))
             .with(themeIdVal = new ThemeValue());
 
@@ -362,7 +367,7 @@ public class WailaConfigScreen extends ConfigScreen {
         }
 
         private int getAlpha() {
-            return getAlphaFromPercentage(alphaVal.getValue());
+            return bgAlphaVal.getValue();
         }
 
         @Override
@@ -428,6 +433,11 @@ public class WailaConfigScreen extends ConfigScreen {
         @Override
         public int getFontColor() {
             return getTheme().getFontColor();
+        }
+
+        @Override
+        public int getFgAlpha() {
+            return fgAlphaVal.getValue();
         }
 
     }

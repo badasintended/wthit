@@ -53,6 +53,7 @@ public final class WailaHelper {
         matrices.pushPose();
 
         RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
         RenderSystem.setShader(GameRenderer::getPositionColorTexShader);
         RenderSystem.setShaderTexture(0, id);
 

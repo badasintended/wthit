@@ -92,7 +92,6 @@
   "config.waila.overlay_align_y_middle"       : "Центр",
 
   "config.waila.overlay_color"                : "Цвет",
-  "config.waila.overlay_alpha"                : "Прозрачность",
   "config.waila.overlay_theme"                : "Тема",
 
   "config.waila.formatting"                   : "Форматирование",

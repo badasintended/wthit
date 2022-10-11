@@ -105,7 +105,7 @@
   "config.waila.overlay_align_y_middle"                 : "中",
 
   "config.waila.overlay_color"                          : "色",
-  "config.waila.overlay_alpha"                          : "背景の透明",
+  "config.waila.overlay_background_alpha"               : "背景の透明",
   "config.waila.overlay_theme"                          : "テーマ",
 
   "config.waila.formatting"                             : "書式付け",
