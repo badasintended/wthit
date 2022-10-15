@@ -216,7 +216,7 @@
   "config.waila.plugin_waila.show_fluids"                       : "显示流体",
   "config.waila.plugin_waila.show_fluids_desc"                  : "尝试显示流体",
   "config.waila.plugin_waila.show_entities"                     : "显示实体",
-  "config.waila.plugin_waila.show_icon"                         : "显示图标"
+  "config.waila.plugin_waila.show_icon"                         : "显示图标",
   "config.waila.plugin_waila.icon_position"                     : "图标位置",
   "config.waila.plugin_waila.icon_position_top"                 : "顶部",
   "config.waila.plugin_waila.icon_position_middle"              : "中间",
