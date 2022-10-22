@@ -101,9 +101,9 @@ public class WailaVanilla implements IWailaPlugin {
         registrar.addComponent(MobTimerProvider.INSTANCE, BODY, AgeableMob.class);
         registrar.addEntityData(MobTimerProvider.INSTANCE, AgeableMob.class);
 
-        registrar.addSyncedConfig(Options.OVERRIDE_TRAPPED_CHEST, true, true);
-        registrar.addSyncedConfig(Options.OVERRIDE_POWDER_SNOW, true, true);
-        registrar.addSyncedConfig(Options.OVERRIDE_INFESTED, true, true);
+        registrar.addMergedConfig(Options.OVERRIDE_TRAPPED_CHEST, true, true);
+        registrar.addMergedConfig(Options.OVERRIDE_POWDER_SNOW, true, true);
+        registrar.addMergedConfig(Options.OVERRIDE_INFESTED, true, true);
         registrar.addOverride(InfestedBlockProvider.INSTANCE, InfestedBlock.class);
         registrar.addOverride(TrappedChestProvider.INSTANCE, TrappedChestBlock.class);
         registrar.addOverride(PowderSnowProvider.INSTANCE, PowderSnowBlock.class);
