@@ -103,7 +103,7 @@ public class WailaVanilla implements IWailaPlugin {
 
         registrar.addMergedConfig(Options.OVERRIDE_TRAPPED_CHEST, true);
         registrar.addMergedConfig(Options.OVERRIDE_POWDER_SNOW, true);
-        registrar.addMergedConfig(Options.OVERRIDE_INFESTED, true, true);
+        registrar.addMergedConfig(Options.OVERRIDE_INFESTED, true);
         registrar.addOverride(InfestedBlockProvider.INSTANCE, InfestedBlock.class);
         registrar.addOverride(TrappedChestProvider.INSTANCE, TrappedChestBlock.class);
         registrar.addOverride(PowderSnowProvider.INSTANCE, PowderSnowBlock.class);
