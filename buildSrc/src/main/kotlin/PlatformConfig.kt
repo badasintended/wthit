@@ -29,6 +29,7 @@ fun Project.setupPlatform() {
     }
 
     tasks.named<Jar>("sourcesJar") {
+        dependsOn(":generateTranslationClass")
         rootSourceSets.forEach {
             from(it.allSource)
         }
