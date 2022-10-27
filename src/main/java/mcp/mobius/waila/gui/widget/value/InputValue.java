@@ -68,7 +68,7 @@ public class InputValue<T> extends ConfigValue<T> {
     protected void drawValue(PoseStack matrices, int width, int height, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks) {
         textField.setEditable(!isDisabled());
         textField.setX(x + width - textField.getWidth());
-        textField.y = y + (height - textField.getHeight()) / 2;
+        textField.setY(y + (height - textField.getHeight()) / 2);
         textField.render(matrices, mouseX, mouseY, partialTicks);
     }
 

@@ -13,6 +13,8 @@ import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
 
+import static mcp.mobius.waila.util.DisplayUtil.createButton;
+
 public class CycleValue extends ConfigValue<String> {
 
     private final Button button;
@@ -28,7 +30,7 @@ public class CycleValue extends ConfigValue<String> {
 
         this.createLocale = createLocale;
         this.values = Util.make(new ArrayList<>(), list -> list.addAll(Arrays.asList(values)));
-        this.button = new Button(0, 0, 100, 20,
+        this.button = createButton(0, 0, 100, 20,
             createLocale
                 ? Component.translatable(optionName + "_" + selected.replace(" ", "_").toLowerCase(Locale.ROOT))
                 : Component.literal(selected),
@@ -52,8 +54,8 @@ public class CycleValue extends ConfigValue<String> {
     @Override
     protected void drawValue(PoseStack matrices, int width, int height, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks) {
         button.active = !isDisabled();
-        button.x = x + width - button.getWidth();
-        button.y = y + (height - button.getHeight()) / 2;
+        button.setX(x + width - button.getWidth());
+        button.setY(y + (height - button.getHeight()) / 2);
         button.setMessage(createLocale
             ? Component.translatable(translationKey + "_" + getValue().replace(" ", "_").toLowerCase(Locale.ROOT))
             : Component.literal(getValue()));

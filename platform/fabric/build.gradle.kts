@@ -10,15 +10,15 @@ dependencies {
     modImplementation("net.fabricmc:fabric-loader:${rootProp["fabricLoader"]}")
 
     modCompileRuntime("net.fabricmc.fabric-api:fabric-api:${rootProp["fabricApi"]}")
-    modCompileRuntime("com.terraformersmc:modmenu:${rootProp["modMenu"]}")
 
+    modCompileOnly("com.terraformersmc:modmenu:${rootProp["modMenu"]}")
     modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:${rootProp["rei"]}")
     modCompileOnly("dev.emi:emi:${rootProp["emi"]}")
 
     modRuntimeOnly("lol.bai:badpackets:fabric-${rootProp["badpackets"]}")
     modRuntimeOnly("net.fabricmc.fabric-api:fabric-api-deprecated:${rootProp["fabricApi"]}")
-    modRuntimeOnly("dev.architectury:architectury-fabric:${rootProp["architectury"]}")
-    modRuntimeOnly("me.shedaniel.cloth:cloth-config-fabric:${rootProp["clothConfig"]}")
+//    modRuntimeOnly("dev.architectury:architectury-fabric:${rootProp["architectury"]}")
+//    modRuntimeOnly("me.shedaniel.cloth:cloth-config-fabric:${rootProp["clothConfig"]}")
 
     when (rootProp["recipeViewer"]) {
         "emi" -> modRuntimeOnly("dev.emi:emi:${rootProp["emi"]}")

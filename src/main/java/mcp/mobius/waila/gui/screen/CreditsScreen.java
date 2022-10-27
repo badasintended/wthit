@@ -11,7 +11,6 @@ import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.buildconst.Tl;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.ContainerObjectSelectionList;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
@@ -19,6 +18,8 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
+
+import static mcp.mobius.waila.util.DisplayUtil.createButton;
 
 public class CreditsScreen extends Screen {
 
@@ -53,7 +54,7 @@ public class CreditsScreen extends Screen {
             e.printStackTrace();
         }
 
-        addRenderableWidget(new Button(width / 2 - 50, height - 25, 100, 20, CommonComponents.GUI_DONE, w -> onClose()));
+        addRenderableWidget(createButton(width / 2 - 50, height - 25, 100, 20, CommonComponents.GUI_DONE, w -> onClose()));
     }
 
     @Override

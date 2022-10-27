@@ -5,13 +5,14 @@ import java.util.List;
 import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.gui.widget.ConfigListWidget;
 import mcp.mobius.waila.gui.widget.value.ConfigValue;
-import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
+
+import static mcp.mobius.waila.util.DisplayUtil.createButton;
 
 public abstract class ConfigScreen extends Screen {
 
@@ -51,18 +52,18 @@ public abstract class ConfigScreen extends Screen {
         options.init();
 
         if (saver != null && canceller != null) {
-            addRenderableWidget(new Button(width / 2 - 102, height - 25, 100, 20, CommonComponents.GUI_DONE, w -> {
+            addRenderableWidget(createButton(width / 2 - 102, height - 25, 100, 20, CommonComponents.GUI_DONE, w -> {
                 options.save();
                 saver.run();
                 onClose();
             }));
-            addRenderableWidget(new Button(width / 2 + 2, height - 25, 100, 20, CommonComponents.GUI_CANCEL, w -> {
+            addRenderableWidget(createButton(width / 2 + 2, height - 25, 100, 20, CommonComponents.GUI_CANCEL, w -> {
                 cancelled = true;
                 canceller.run();
                 onClose();
             }));
         } else {
-            addRenderableWidget(new Button(width / 2 - 50, height - 25, 100, 20, CommonComponents.GUI_DONE, w -> {
+            addRenderableWidget(createButton(width / 2 - 50, height - 25, 100, 20, CommonComponents.GUI_DONE, w -> {
                 options.save();
                 onClose();
             }));

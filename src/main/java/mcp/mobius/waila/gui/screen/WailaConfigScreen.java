@@ -33,6 +33,7 @@ import net.minecraft.world.level.block.Blocks;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import static mcp.mobius.waila.util.DisplayUtil.createButton;
 import static mcp.mobius.waila.util.DisplayUtil.getAlphaFromPercentage;
 import static mcp.mobius.waila.util.DisplayUtil.tryFormat;
 
@@ -279,7 +280,7 @@ public class WailaConfigScreen extends ConfigScreen {
                 KeyMapping.resetMapping();
             });
 
-            this.button = new Button(0, 0, 100, 20, Component.empty(), w -> selectedKeyBind = this);
+            this.button = createButton(0, 0, 100, 20, Component.empty(), w -> selectedKeyBind = this);
         }
 
         @Override
@@ -295,8 +296,8 @@ public class WailaConfigScreen extends ConfigScreen {
                 button.setMessage(getValue().getDisplayName());
             }
 
-            button.x = x + width - button.getWidth();
-            button.y = y + (height - button.getHeight()) / 2;
+            button.setX(x + width - button.getWidth());
+            button.setY(y + (height - button.getHeight()) / 2);
             button.render(matrices, mouseX, mouseY, partialTicks);
         }
 
@@ -314,9 +315,9 @@ public class WailaConfigScreen extends ConfigScreen {
                 val -> get().getOverlay().getColor().applyTheme(new ResourceLocation(val)),
                 false);
 
-            this.editButton = new Button(0, 0, 40, 20, Component.translatable(Tl.Config.EDIT), button ->
+            this.editButton = createButton(0, 0, 40, 20, Component.translatable(Tl.Config.EDIT), button ->
                 client.setScreen(new ThemeEditorScreen(WailaConfigScreen.this, getTheme(), true)));
-            this.newButton = new Button(0, 0, 40, 20, Component.translatable(Tl.Config.NEW), button ->
+            this.newButton = createButton(0, 0, 40, 20, Component.translatable(Tl.Config.NEW), button ->
                 client.setScreen(new ThemeEditorScreen(WailaConfigScreen.this, getTheme(), false)));
 
             editButton.active = !getValue().startsWith(WailaConstants.NAMESPACE + ":");
@@ -337,10 +338,10 @@ public class WailaConfigScreen extends ConfigScreen {
 
         @Override
         protected void drawValue(PoseStack matrices, int width, int height, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks) {
-            newButton.x = x + width - newButton.getWidth();
-            newButton.y = y + (height - newButton.getHeight()) / 2;
-            editButton.x = newButton.x - newButton.getWidth() - 2;
-            editButton.y = newButton.y;
+            newButton.setX(x + width - newButton.getWidth());
+            newButton.setY(y + (height - newButton.getHeight()) / 2);
+            editButton.setX(newButton.getX() - newButton.getWidth() - 2);
+            editButton.setY(newButton.getY());
             editButton.render(matrices, mouseX, mouseY, partialTicks);
             newButton.render(matrices, mouseX, mouseY, partialTicks);
 

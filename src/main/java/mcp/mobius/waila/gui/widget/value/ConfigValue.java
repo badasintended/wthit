@@ -17,6 +17,8 @@ import net.minecraft.util.FormattedCharSequence;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import static mcp.mobius.waila.util.DisplayUtil.createButton;
+
 public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
 
     protected final Consumer<T> save;
@@ -46,7 +48,7 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
         this.save = save;
         this.defaultValue = defaultValue;
         this.resetButton = defaultValue == null ? null
-            : new Button(0, 0, 40, 20, Component.translatable("controls.reset"), button -> resetValue());
+            : createButton(0, 0, 40, 20, Component.translatable("controls.reset"), button -> resetValue());
     }
 
     @Override
@@ -59,8 +61,8 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
         int w = width;
         if (resetButton != null) {
             w -= resetButton.getWidth() + 2;
-            resetButton.x = rowLeft + width - resetButton.getWidth();
-            resetButton.y = rowTop + (height - resetButton.getHeight()) / 2;
+            resetButton.setX(rowLeft + width - resetButton.getWidth());
+            resetButton.setY(rowTop + (height - resetButton.getHeight()) / 2);
             resetButton.active = !isDisabled() && !getValue().equals(defaultValue);
             resetButton.render(matrices, mouseX, mouseY, deltaTime);
         }

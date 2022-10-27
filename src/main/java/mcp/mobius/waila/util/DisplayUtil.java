@@ -10,15 +10,17 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
-import com.mojang.math.Matrix4f;
 import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.WailaHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
+import org.joml.Matrix4f;
 
 public final class DisplayUtil extends GuiComponent {
 
@@ -102,6 +104,10 @@ public final class DisplayUtil extends GuiComponent {
         } catch (IllegalFormatException e) {
             return "FORMATTING ERROR";
         }
+    }
+
+    public static Button createButton(int x, int y, int width, int height, Component label, Button.OnPress pressAction) {
+        return Button.builder(label, pressAction).bounds(x, y, width, height).build();
     }
 
 }

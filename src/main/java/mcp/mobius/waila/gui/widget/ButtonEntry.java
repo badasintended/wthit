@@ -7,6 +7,8 @@ import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
 
+import static mcp.mobius.waila.util.DisplayUtil.createButton;
+
 public class ButtonEntry extends ConfigListWidget.Entry {
 
     private final String title;
@@ -19,7 +21,7 @@ public class ButtonEntry extends ConfigListWidget.Entry {
     }
 
     public ButtonEntry(String title, int width, int height, Button.OnPress pressAction) {
-        this(title, new Button(0, 0, width, height, Component.empty(), pressAction));
+        this(title, createButton(0, 0, width, height, Component.empty(), pressAction));
     }
 
     @Override
@@ -27,8 +29,8 @@ public class ButtonEntry extends ConfigListWidget.Entry {
         super.render(matrices, index, rowTop, rowLeft, width, height, mouseX, mouseY, hovered, deltaTime);
 
         client.font.drawShadow(matrices, title, rowLeft, rowTop + (height - client.font.lineHeight) / 2f, 16777215);
-        this.button.x = rowLeft + width - button.getWidth();
-        this.button.y = rowTop + (height - button.getHeight()) / 2;
+        this.button.setX(rowLeft + width - button.getWidth());
+        this.button.setY(rowTop + (height - button.getHeight()) / 2);
         this.button.render(matrices, mouseX, mouseY, deltaTime);
     }
 

@@ -94,8 +94,7 @@ public abstract class PluginLoader {
             }
         }
 
-        // TODO: print warning on prod on 1.20
-        if (Waila.DEV && !legacyPlugins.isEmpty()) {
+        if (!legacyPlugins.isEmpty()) {
             Waila.LOGGER.warn("Found plugins registered via legacy platform-dependant method:");
             Waila.LOGGER.warn(legacyPlugins.stream().collect(Collectors.joining(", ", "[", "]")));
             Waila.LOGGER.warn("The method will be removed on Minecraft 1.21");
