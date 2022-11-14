@@ -15,8 +15,6 @@ public class Register<T> {
     private final Map<Class<?>, Set<Entry<T>>> map = new Object2ObjectOpenHashMap<>();
     private final Map<Class<?>, List<T>> cache = new Object2ObjectOpenHashMap<>();
 
-    private final List<Entry<T>> sorter = new ObjectArrayList<>();
-
     private boolean reversed = false;
 
     public void reversed() {
@@ -42,10 +40,10 @@ public class Register<T> {
             return cache.get(clazz);
         }
 
-        sorter.clear();
+        List<Entry<T>> entries = new ObjectArrayList<>();
         map.forEach((k, v) -> {
             if (k.isInstance(obj)) {
-                sorter.addAll(v);
+                entries.addAll(v);
             }
         });
 
@@ -54,19 +52,10 @@ public class Register<T> {
             comparator = comparator.reversed();
         }
 
-        sorter.sort(comparator);
-        List<T> list = new ObjectArrayList<>();
-        for (Entry<T> entry : sorter) {
-            list.add(entry.value);
-        }
-
-        if (list.isEmpty()) {
-            // Discard empty list so it'll GC-ed
-            list = ObjectLists.emptyList();
-        }
-
-        cache.put(clazz, list);
-        return list;
+        entries.sort(comparator);
+        List<T> values = entries.isEmpty() ? ObjectLists.emptyList() : entries.stream().map(Entry::value).toList();
+        cache.put(clazz, values);
+        return values;
     }
 
     public Map<Class<?>, Set<Entry<T>>> getMap() {
