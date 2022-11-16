@@ -11,7 +11,7 @@ import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.component.ItemComponent;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.Nameable;
@@ -44,7 +44,7 @@ public enum BlockProvider implements IBlockComponentProvider, IServerDataProvide
         IWailaConfig.Formatter formatter = IWailaConfig.get().getFormatter();
         tooltip.setLine(WailaConstants.OBJECT_NAME_TAG, formatter.blockName(name));
         if (config.getBoolean(WailaConstants.CONFIG_SHOW_REGISTRY)) {
-            tooltip.setLine(WailaConstants.REGISTRY_NAME_TAG, formatter.registryName(Registry.BLOCK.getKey(block)));
+            tooltip.setLine(WailaConstants.REGISTRY_NAME_TAG, formatter.registryName(BuiltInRegistries.BLOCK.getKey(block)));
         }
     }
 

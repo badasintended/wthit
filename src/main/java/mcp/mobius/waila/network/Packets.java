@@ -27,6 +27,7 @@ import mcp.mobius.waila.debug.DumpGenerator;
 import mcp.mobius.waila.registry.Registrar;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.ClickEvent;
@@ -178,7 +179,7 @@ public class Packets {
                 data.putInt("y", pos.getY());
                 data.putInt("z", pos.getZ());
                 //noinspection ConstantConditions
-                data.putString("id", Registry.BLOCK_ENTITY_TYPE.getKey(blockEntity.getType()).toString());
+                data.putString("id", BuiltInRegistries.BLOCK_ENTITY_TYPE.getKey(blockEntity.getType()).toString());
                 data.putLong("WailaTime", System.currentTimeMillis());
 
                 FriendlyByteBuf dataBuf = new FriendlyByteBuf(Unpooled.buffer());
@@ -251,9 +252,9 @@ public class Packets {
 
             client.execute(() -> {
                 BlacklistConfig blacklist = Waila.BLACKLIST_CONFIG.get();
-                setBlackList(blockIds, blacklist.blocks, Registry.BLOCK);
-                setBlackList(blockEntityIds, blacklist.blockEntityTypes, Registry.BLOCK_ENTITY_TYPE);
-                setBlackList(entityIds, blacklist.entityTypes, Registry.ENTITY_TYPE);
+                setBlackList(blockIds, blacklist.blocks, BuiltInRegistries.BLOCK);
+                setBlackList(blockEntityIds, blacklist.blockEntityTypes, BuiltInRegistries.BLOCK_ENTITY_TYPE);
+                setBlackList(entityIds, blacklist.entityTypes, BuiltInRegistries.ENTITY_TYPE);
             });
         });
 

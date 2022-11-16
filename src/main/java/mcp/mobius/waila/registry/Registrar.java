@@ -22,6 +22,7 @@ import mcp.mobius.waila.config.ConfigEntry;
 import mcp.mobius.waila.config.PluginConfig;
 import net.minecraft.Util;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -240,9 +241,9 @@ public enum Registrar implements IRegistrar {
         }
 
         int[] hash = {0, 0, 0};
-        hash[0] = hash(blacklist.blocks, Registry.BLOCK);
-        hash[1] = hash(blacklist.blockEntityTypes, Registry.BLOCK_ENTITY_TYPE);
-        hash[2] = hash(blacklist.entityTypes, Registry.ENTITY_TYPE);
+        hash[0] = hash(blacklist.blocks, BuiltInRegistries.BLOCK);
+        hash[1] = hash(blacklist.blockEntityTypes, BuiltInRegistries.BLOCK_ENTITY_TYPE);
+        hash[2] = hash(blacklist.entityTypes, BuiltInRegistries.ENTITY_TYPE);
 
         if (Waila.BLACKLIST_CONFIG.isFileExists() && !Arrays.equals(Waila.BLACKLIST_CONFIG.get().pluginHash, hash)) {
             Waila.BLACKLIST_CONFIG.backup();

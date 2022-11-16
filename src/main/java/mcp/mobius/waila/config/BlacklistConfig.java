@@ -14,6 +14,7 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import mcp.mobius.waila.api.IBlacklistConfig;
 import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -87,9 +88,9 @@ public class BlacklistConfig implements IBlacklistConfig {
         public JsonElement serialize(BlacklistConfig src, Type typeOfSrc, JsonSerializationContext context) {
             JsonObject object = new JsonObject();
 
-            serialize(object, "blocks", Registry.BLOCK, src.blockIds, src.blocks);
-            serialize(object, "blockEntityTypes", Registry.BLOCK_ENTITY_TYPE, src.blockEntityTypeIds, src.blockEntityTypes);
-            serialize(object, "entityTypes", Registry.ENTITY_TYPE, src.entityTypeIds, src.entityTypes);
+            serialize(object, "blocks", BuiltInRegistries.BLOCK, src.blockIds, src.blocks);
+            serialize(object, "blockEntityTypes", BuiltInRegistries.BLOCK_ENTITY_TYPE, src.blockEntityTypeIds, src.blockEntityTypes);
+            serialize(object, "entityTypes", BuiltInRegistries.ENTITY_TYPE, src.entityTypeIds, src.entityTypes);
 
             object.addProperty("configVersion", src.configVersion);
             object.add("pluginHash", context.serialize(src.pluginHash));
@@ -103,9 +104,9 @@ public class BlacklistConfig implements IBlacklistConfig {
 
             BlacklistConfig res = new BlacklistConfig();
 
-            deserialize(object, "blocks", Registry.BLOCK, res.blockIds, res.blocks);
-            deserialize(object, "blockEntityTypes", Registry.BLOCK_ENTITY_TYPE, res.blockEntityTypeIds, res.blockEntityTypes);
-            deserialize(object, "entityTypes", Registry.ENTITY_TYPE, res.entityTypeIds, res.entityTypes);
+            deserialize(object, "blocks", BuiltInRegistries.BLOCK, res.blockIds, res.blocks);
+            deserialize(object, "blockEntityTypes", BuiltInRegistries.BLOCK_ENTITY_TYPE, res.blockEntityTypeIds, res.blockEntityTypes);
+            deserialize(object, "entityTypes", BuiltInRegistries.ENTITY_TYPE, res.entityTypeIds, res.entityTypes);
 
             res.configVersion = object.get("configVersion").getAsInt();
             res.pluginHash = context.deserialize(object.get("pluginHash"), int[].class);

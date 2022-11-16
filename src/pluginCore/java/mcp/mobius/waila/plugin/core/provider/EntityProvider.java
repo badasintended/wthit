@@ -10,7 +10,7 @@ import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.component.ItemComponent;
 import mcp.mobius.waila.mixin.EntityAccess;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
@@ -48,7 +48,7 @@ public enum EntityProvider implements IEntityComponentProvider {
 
         tooltip.setLine(WailaConstants.OBJECT_NAME_TAG, formatter.entityName(name));
         if (config.getBoolean(WailaConstants.CONFIG_SHOW_REGISTRY)) {
-            tooltip.setLine(WailaConstants.REGISTRY_NAME_TAG, formatter.registryName(Registry.ENTITY_TYPE.getKey(entity.getType())));
+            tooltip.setLine(WailaConstants.REGISTRY_NAME_TAG, formatter.registryName(BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType())));
         }
     }
 

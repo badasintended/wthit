@@ -8,7 +8,7 @@ import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.component.ItemComponent;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.item.FallingBlockEntity;
 
 public enum FallingBlockProvider implements IEntityComponentProvider {
@@ -28,7 +28,7 @@ public enum FallingBlockProvider implements IEntityComponentProvider {
         tooltip.setLine(WailaConstants.OBJECT_NAME_TAG, formatter.entityName(entity.getBlockState().getBlock().getName().getString()));
 
         if (config.getBoolean(WailaConstants.CONFIG_SHOW_REGISTRY)) {
-            tooltip.setLine(WailaConstants.REGISTRY_NAME_TAG, formatter.registryName(Registry.ENTITY_TYPE.getKey(accessor.getEntity().getType())));
+            tooltip.setLine(WailaConstants.REGISTRY_NAME_TAG, formatter.registryName(BuiltInRegistries.ENTITY_TYPE.getKey(accessor.getEntity().getType())));
         }
     }
 

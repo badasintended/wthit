@@ -5,7 +5,7 @@ import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.IEntityAccessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -32,7 +32,7 @@ public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IEntityAcce
     private Block block = Blocks.AIR;
     private BlockState state = Blocks.AIR.defaultBlockState();
     private BlockPos pos = BlockPos.ZERO;
-    private ResourceLocation blockRegistryName = Registry.ITEM.getDefaultKey();
+    private ResourceLocation blockRegistryName = BuiltInRegistries.ITEM.getDefaultKey();
     private BlockEntity blockEntity;
     private Entity entity;
     private CompoundTag serverData = null;
@@ -168,7 +168,7 @@ public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IEntityAcce
         this.state = state;
         this.block = state.getBlock();
         this.stack = block.getCloneItemStack(world, pos, state);
-        this.blockRegistryName = Registry.BLOCK.getKey(block);
+        this.blockRegistryName = BuiltInRegistries.BLOCK.getKey(block);
     }
 
     private boolean isTagCorrectBlockEntity(CompoundTag tag) {

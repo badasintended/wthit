@@ -7,7 +7,7 @@ import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.item.ItemStack;
 
@@ -31,7 +31,7 @@ public enum BoatProvider implements IEntityComponentProvider {
         tooltip.setLine(WailaConstants.OBJECT_NAME_TAG, formatter.entityName(stack.getHoverName().getString()));
 
         if (config.getBoolean(WailaConstants.CONFIG_SHOW_REGISTRY)) {
-            tooltip.setLine(WailaConstants.REGISTRY_NAME_TAG, (formatter.registryName(Registry.ITEM.getKey(stack.getItem()))));
+            tooltip.setLine(WailaConstants.REGISTRY_NAME_TAG, (formatter.registryName(BuiltInRegistries.ITEM.getKey(stack.getItem()))));
         }
     }
 

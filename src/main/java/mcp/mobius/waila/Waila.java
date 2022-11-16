@@ -9,7 +9,7 @@ import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.config.BlacklistConfig;
 import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.service.ICommonService;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
@@ -29,8 +29,8 @@ public abstract class Waila {
     public static final Path GAME_DIR = ICommonService.INSTANCE.getGameDir();
     public static final Path CONFIG_DIR = ICommonService.INSTANCE.getConfigDir();
 
-    public static final TagKey<Block> BLOCK_BLACKLIST_TAG = TagKey.create(Registry.BLOCK_REGISTRY, id("blacklist"));
-    public static final TagKey<EntityType<?>> ENTITY_BLACKLIST_TAG = TagKey.create(Registry.ENTITY_TYPE_REGISTRY, id("blacklist"));
+    public static final TagKey<Block> BLOCK_BLACKLIST_TAG = TagKey.create(Registries.BLOCK, id("blacklist"));
+    public static final TagKey<EntityType<?>> ENTITY_BLACKLIST_TAG = TagKey.create(Registries.ENTITY_TYPE, id("blacklist"));
 
     public static final Logger LOGGER = LogManager.getLogger(WailaConstants.MOD_NAME, new MessageFactory() {
         private final String prefix = "[" + WailaConstants.MOD_NAME + "] ";

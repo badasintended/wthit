@@ -1,7 +1,7 @@
 package mcp.mobius.waila.api;
 
 import mcp.mobius.waila.api.__internal__.IApiService;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.item.Item;
@@ -21,7 +21,7 @@ public interface IModInfo {
     }
 
     static IModInfo get(Block block) {
-        return get(Registry.BLOCK.getKey(block));
+        return get(BuiltInRegistries.BLOCK.getKey(block));
     }
 
     static IModInfo get(ItemStack stack) {
@@ -29,11 +29,11 @@ public interface IModInfo {
     }
 
     static IModInfo get(Item item) {
-        return get(Registry.ITEM.getKey(item));
+        return get(BuiltInRegistries.ITEM.getKey(item));
     }
 
     static IModInfo get(Entity entity) {
-        return get(Registry.ENTITY_TYPE.getKey(entity.getType()));
+        return get(BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()));
     }
 
     /**
