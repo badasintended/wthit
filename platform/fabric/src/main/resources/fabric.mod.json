@@ -42,7 +42,7 @@
     "fabricloader": ">=0.14.10",
     "fabric"      : ">=0.65.1",
     "minecraft"   : ">=1.19.3-0",
-    "badpackets"  : ">=0.3.1"
+    "badpackets"  : ">=0.3.3"
   },
   "breaks"       : {
     "roughlyenoughitems": "<9.0.462"
