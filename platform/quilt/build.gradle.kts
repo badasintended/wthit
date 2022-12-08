@@ -9,15 +9,16 @@ dependencies {
     mappings(loom.officialMojangMappings())
     modImplementation("org.quiltmc:quilt-loader:${rootProp["quiltLoader"]}")
 
-    modImplementation("org.quiltmc:qsl:${rootProp["qsl"]}")
-    modImplementation("org.quiltmc.quilted-fabric-api:fabric-key-binding-api-v1:${rootProp["qfapi"]}")
-    modImplementation("org.quiltmc.quilted-fabric-api:fabric-rendering-v1:${rootProp["qfapi"]}")
+    modCompileRuntime("org.quiltmc:qsl:${rootProp["qsl"]}")
+    modCompileRuntime("org.quiltmc.quilted-fabric-api:fabric-key-binding-api-v1:${rootProp["qfapi"]}")
+    modCompileRuntime("org.quiltmc.quilted-fabric-api:fabric-rendering-v1:${rootProp["qfapi"]}")
+
+    modCompileOnly("com.terraformersmc:modmenu:${rootProp["modMenu"]}")
 
     modRuntimeOnly("lol.bai:badpackets:fabric-${rootProp["badpackets"]}")
-    modRuntimeOnly("com.terraformersmc:modmenu:${rootProp["modMenu"]}")
     modRuntimeOnly("org.quiltmc.quilted-fabric-api:quilted-fabric-api:${rootProp["qfapi"]}")
-    modRuntimeOnly("dev.architectury:architectury-fabric:${rootProp["architectury"]}")
-    modRuntimeOnly("me.shedaniel.cloth:cloth-config-fabric:${rootProp["clothConfig"]}")
+//    modRuntimeOnly("dev.architectury:architectury-fabric:${rootProp["architectury"]}")
+//    modRuntimeOnly("me.shedaniel.cloth:cloth-config-fabric:${rootProp["clothConfig"]}")
 
     when (rootProp["recipeViewer"]) {
         "emi" -> modRuntimeOnly("dev.emi:emi:${rootProp["emi"]}")

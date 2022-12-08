@@ -26,4 +26,4 @@ fun platform(name: String) {
 platform("fabric")
 //platform("forge")
 platform("mojmap")
-//platform("quilt")
+platform("quilt")

@@ -45,11 +45,11 @@
       },
       {
         "id"      : "minecraft",
-        "versions": ">=1.19"
+        "versions": ">=1.19.3-0"
       },
       {
         "id"      : "badpackets",
-        "versions": ">=0.1.2"
+        "versions": ">=0.3.3"
       }
     ]
   },
