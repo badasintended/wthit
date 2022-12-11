@@ -22,7 +22,7 @@ dependencies {
     when (rootProp["recipeViewer"]) {
         "rei" -> {
             runtimeOnly(fg.deobf("me.shedaniel:RoughlyEnoughItems-forge:${rootProp["rei"]}"))
-            runtimeOnly(fg.deobf("me.shedaniel:RoughlyEnoughItems-plugin-compatibilities-forge:${rootProp["rei"]}"))
+//            runtimeOnly(fg.deobf("me.shedaniel:RoughlyEnoughItems-plugin-compatibilities-forge:${rootProp["rei"]}"))
         }
         "jei" -> rootProp["jei"].split("-").also { (mc, jei) ->
             runtimeOnly(fg.deobf("mezz.jei:jei-${mc}-forge:${jei}"))
