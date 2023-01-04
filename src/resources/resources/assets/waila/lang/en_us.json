@@ -34,6 +34,13 @@
   "tooltip.waila.instrument.bit"                                : "Bit",
   "tooltip.waila.instrument.banjo"                              : "Banjo",
   "tooltip.waila.instrument.pling"                              : "Pling",
+  "tooltip.waila.instrument.zombie"                             : "Zombie",
+  "tooltip.waila.instrument.skeleton"                           : "Skeleton",
+  "tooltip.waila.instrument.creeper"                            : "Creeper",
+  "tooltip.waila.instrument.dragon"                             : "Ender Dragon",
+  "tooltip.waila.instrument.wither_skeleton"                    : "Wither Skeleton",
+  "tooltip.waila.instrument.piglin"                             : "Piglin",
+  "tooltip.waila.instrument.none"                               : "None",
 
   "gui.waila.configuration"                                     : "%s Configuration",
   "gui.waila.waila_settings"                                    : "%s Settings",

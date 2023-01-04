@@ -4,11 +4,15 @@ import mcp.mobius.waila.api.IBlockAccessor;
 import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITooltip;
+import mcp.mobius.waila.api.ITooltipLine;
 import mcp.mobius.waila.buildconst.Tl;
+import mcp.mobius.waila.mixin.NoteBlockAccess;
 import mcp.mobius.waila.plugin.vanilla.config.NoteDisplayMode;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
+import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.NoteBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
@@ -38,21 +42,34 @@ public enum NoteBlockProvider implements IBlockComponentProvider {
         if (config.getBoolean(Options.NOTE_BLOCK_TYPE)) {
             BlockState state = accessor.getBlockState();
             NoteBlockInstrument instrument = state.getValue(NoteBlock.INSTRUMENT);
-            int level = state.getValue(NoteBlock.NOTE);
-            Note note = Note.get(level);
-            StringBuilder builder = new StringBuilder()
-                .append(" (")
-                .append(config.<NoteDisplayMode>getEnum(Options.NOTE_BLOCK_NOTE) == NoteDisplayMode.SHARP ? note.sharp : note.flat)
-                .append(")");
-            if (config.getBoolean(Options.NOTE_BLOCK_INT_VALUE)) {
-                builder
-                    .append(" (")
-                    .append(level)
-                    .append(")");
+            ITooltipLine line = tooltip.addLine();
+
+            Component instrumentText;
+            if (instrument.hasCustomSound()) {
+                ResourceLocation soundId = ((NoteBlockAccess) accessor.getBlock()).wthit_getCustomSoundId(accessor.getWorld(), accessor.getPosition());
+                instrumentText = soundId == null
+                    ? Component.translatable(Tl.Tooltip.Instrument.NONE)
+                    : Component.literal(soundId.toString()).withStyle(ChatFormatting.DARK_PURPLE);
+            } else {
+                instrumentText = Component.translatable(Tl.Tooltip.INSTRUMENT + "." + instrument.getSerializedName());
             }
-            tooltip.addLine()
-                .with(Component.translatable(Tl.Tooltip.INSTRUMENT + "." + instrument.getSerializedName()))
-                .with(Component.literal(builder.toString()).withStyle(style -> style.withColor(COLORS[level])));
+            line.with(instrumentText);
+
+            if (instrument.isTunable()) {
+                int level = state.getValue(NoteBlock.NOTE);
+                Note note = Note.get(level);
+                StringBuilder builder = new StringBuilder()
+                    .append(" (")
+                    .append(config.<NoteDisplayMode>getEnum(Options.NOTE_BLOCK_NOTE) == NoteDisplayMode.SHARP ? note.sharp : note.flat)
+                    .append(")");
+                if (config.getBoolean(Options.NOTE_BLOCK_INT_VALUE)) {
+                    builder
+                        .append(" (")
+                        .append(level)
+                        .append(")");
+                }
+                line.with(Component.literal(builder.toString()).withStyle(style -> style.withColor(COLORS[level])));
+            }
         }
     }
 
