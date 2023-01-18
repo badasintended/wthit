@@ -34,6 +34,13 @@
   "tooltip.waila.instrument.bit"                                : "芯片",
   "tooltip.waila.instrument.banjo"                              : "班卓琴",
   "tooltip.waila.instrument.pling"                              : "扣弦",
+  "tooltip.waila.instrument.zombie"                             : "僵尸",
+  "tooltip.waila.instrument.skeleton"                           : "骷髅",
+  "tooltip.waila.instrument.creeper"                            : "苦力怕",
+  "tooltip.waila.instrument.dragon"                             : "末影龙",
+  "tooltip.waila.instrument.wither_skeleton"                    : "凋灵骷髅",
+  "tooltip.waila.instrument.piglin"                             : "猪灵",
+  "tooltip.waila.instrument.none"                               : "无",
 
   "gui.waila.configuration"                                     : "%s配置",
   "gui.waila.waila_settings"                                    : "%s设置",
