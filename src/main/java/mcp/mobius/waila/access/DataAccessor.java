@@ -102,12 +102,6 @@ public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IDataAccess
         if ((this.entity != null) && this.isTagCorrectEntity(this.serverData))
             return serverData;
 
-        if (this.blockEntity != null)
-            return blockEntity.saveWithFullMetadata();
-
-        if (this.entity != null)
-            return entity.saveWithoutId(new CompoundTag());
-
         return new CompoundTag();
     }
 
