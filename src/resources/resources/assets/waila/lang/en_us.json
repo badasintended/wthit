@@ -218,6 +218,7 @@
 
   "config.waila.plugin_waila"                                   : "Waila Core",
   "config.waila.plugin_waila.show_mod_name"                     : "Show Mod Names",
+  "config.waila.plugin_waila.show_item_mod_name"                : "Show Item Mod Names",
   "config.waila.plugin_waila.show_registry"                     : "Show Registry Names",
   "config.waila.plugin_waila.show_blocks"                       : "Show Blocks",
   "config.waila.plugin_waila.show_fluids"                       : "Show Fluids",

@@ -50,6 +50,7 @@ public class WailaCore implements IWailaPlugin {
         registrar.addConfig(WailaConstants.CONFIG_SHOW_ICON, true);
         registrar.addConfig(WailaConstants.CONFIG_ICON_POSITION, Align.Y.MIDDLE);
         registrar.addConfig(WailaConstants.CONFIG_SHOW_MOD_NAME, true);
+        registrar.addConfig(WailaConstants.CONFIG_SHOW_ITEM_MOD_NAME, true);
         registrar.addConfig(WailaConstants.CONFIG_SHOW_REGISTRY, false);
     }
 
