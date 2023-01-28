@@ -9,25 +9,26 @@ jobs:
     steps:
       - id: vars
         run: |
-          echo ::set-output name=version::${GITHUB_REF#refs/*/}
-      - uses: actions/checkout@v2
-      - uses: actions/setup-java@v1
+          echo "version=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
+      - uses: actions/checkout@v3
+      - uses: actions/setup-java@v3
         with:
           java-version: 17
+          distribution: temurin
       - uses: gradle/gradle-build-action@v2
         with:
           cache-read-only: true
-      - run: ./gradlew build publish curseforge modrinth --max-workers=1
+      - run: ./gradlew build curseforge modrinth publish --max-workers=1
         env:
           MOD_VERSION: ${{ steps.vars.outputs.version }}
           GITHUB_TOKEN: ${{ github.token }}
           CURSEFORGE_API: ${{ secrets.CURSEFORGE_API }}
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v3
         with:
           name: wthit-${{ steps.vars.outputs.version }}
           path: "./platform/*/build/libs/**.jar"
-      - uses: alexellis/upload-assets@0.2.2
+      - uses: alexellis/upload-assets@0.4.0
         env:
           GITHUB_TOKEN: ${{ github.token }}
         with:
