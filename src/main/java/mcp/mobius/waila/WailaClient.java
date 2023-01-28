@@ -88,7 +88,7 @@ public abstract class WailaClient {
     }
 
     protected static void onItemTooltip(ItemStack stack, List<Component> tooltip) {
-        if (PluginConfig.CLIENT.getBoolean(WailaConstants.CONFIG_SHOW_MOD_NAME)) {
+        if (PluginConfig.CLIENT.getBoolean(WailaConstants.CONFIG_SHOW_ITEM_MOD_NAME)) {
             for (IEventListener listener : Registrar.INSTANCE.eventListeners.get(Object.class)) {
                 String name = listener.getHoveredItemModName(stack, PluginConfig.CLIENT);
                 if (name != null) {
