@@ -26,7 +26,9 @@ public class FabricPluginLoader extends PluginLoader {
     protected void gatherPlugins() {
         Map<ModContainer, CustomValue.CvObject[]> pluginMap = new Object2ObjectOpenHashMap<>();
         for (ModContainer mod : FabricLoader.getInstance().getAllMods()) {
-            mod.findPath(PLUGIN_JSON_PATH).ifPresent(path -> readPluginsJson(mod.getMetadata().getId(), path));
+            for (String file : PLUGIN_JSON_FILES) {
+                mod.findPath(file).ifPresent(path -> readPluginsJson(mod.getMetadata().getId(), path));
+            }
 
             ModMetadata data = mod.getMetadata();
 
