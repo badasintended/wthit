@@ -29,9 +29,11 @@ public class QuiltPluginLoader extends PluginLoader {
     protected void gatherPlugins() {
         Map<ModContainer, LoaderValue.LObject[]> pluginMap = new Object2ObjectOpenHashMap<>();
         for (ModContainer mod : QuiltLoader.getAllMods()) {
-            Path pluginJson = mod.getPath(PLUGIN_JSON_PATH);
-            if (Files.exists(pluginJson)) {
-                readPluginsJson(mod.metadata().id(), pluginJson);
+            for (String file : PLUGIN_JSON_FILES) {
+                Path path = mod.getPath(file);
+                if (Files.exists(path)) {
+                    readPluginsJson(mod.metadata().id(), path);
+                }
             }
 
             ModMetadata data = mod.metadata();

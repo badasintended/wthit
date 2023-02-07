@@ -27,7 +27,11 @@ public abstract class PluginLoader {
 
     private static final boolean ENABLE_TEST_PLUGIN = Boolean.getBoolean("waila.enableTestPlugin");
 
-    protected static final String PLUGIN_JSON_PATH = "waila_plugins.json";
+    protected static final String[] PLUGIN_JSON_FILES = {
+        "waila_plugins.json",
+        "wthit_plugins.json"
+    };
+
     protected static final String KEY_INITIALIZER = "initializer";
     protected static final String KEY_SIDE = "side";
     protected static final String KEY_REQUIRED = "required";

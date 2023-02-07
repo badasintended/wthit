@@ -5,7 +5,7 @@ import org.jetbrains.annotations.ApiStatus;
 /**
  * Main interface used for Waila plugins. Provides a valid instance of {@link IRegistrar}.
  * <p>
- * To register the plugin instance, create a file called {@code waila_plugins.json} in the root of your mod. <pre><code>
+ * To register the plugin instance, create a file called {@code waila_plugins.json} or {@code wthit_plugins.json} in the root of your mod. <pre><code>
  * {
  *   // the plugin identifier, [namespace:path]
  *   "yourmodid:plugin": {

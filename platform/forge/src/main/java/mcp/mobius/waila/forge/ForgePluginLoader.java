@@ -22,9 +22,11 @@ public class ForgePluginLoader extends PluginLoader {
     @Override
     protected void gatherPlugins() {
         for (IModFileInfo modFile : ModList.get().getModFiles()) {
-            Path pluginJson = modFile.getFile().findResource(PLUGIN_JSON_PATH);
-            if (Files.exists(pluginJson)) {
-                readPluginsJson(modFile.getMods().get(0).getModId(), pluginJson);
+            for (String file : PLUGIN_JSON_FILES) {
+                Path path = modFile.getFile().findResource(file);
+                if (Files.exists(path)) {
+                    readPluginsJson(modFile.getMods().get(0).getModId(), path);
+                }
             }
 
             for (ModFileScanData.AnnotationData annotation : modFile.getFile().getScanResult().getAnnotations()) {
