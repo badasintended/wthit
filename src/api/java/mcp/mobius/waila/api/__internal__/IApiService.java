@@ -34,7 +34,7 @@ public interface IApiService {
 
     IWailaConfig getConfig();
 
-    void renderItem(int x, int y, ItemStack stack);
+    void renderItem(PoseStack matrices, int x, int y, ItemStack stack);
 
     void renderComponent(PoseStack matrices, ITooltipComponent component, int x, int y, float delta);
 

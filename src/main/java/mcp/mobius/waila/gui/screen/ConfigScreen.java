@@ -96,7 +96,7 @@ public abstract class ConfigScreen extends Screen {
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         for (GuiEventListener child : children) {
             if (child instanceof EditBox editBox) {
-                editBox.setFocus(false);
+                editBox.setFocused(false);
             }
         }
 

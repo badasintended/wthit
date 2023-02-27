@@ -38,7 +38,7 @@ public class ItemComponent implements ITooltipComponent {
     @Override
     public void render(PoseStack matrices, int x, int y, float delta) {
         if (!stack.isEmpty()) {
-            IApiService.INSTANCE.renderItem(x + 1, y + 1, stack);
+            IApiService.INSTANCE.renderItem(matrices, x + 1, y + 1, stack);
         }
     }
 

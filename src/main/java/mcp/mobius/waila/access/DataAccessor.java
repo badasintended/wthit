@@ -144,7 +144,7 @@ public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IEntityAcce
             setState(world.getBlockState(pos));
         } else if (this.hitResult.getType() == HitResult.Type.ENTITY) {
             this.entity = ((EntityHitResult) hit).getEntity();
-            this.pos = new BlockPos(entity.position());
+            this.pos = entity.blockPosition();
             this.blockEntity = null;
             setState(Blocks.AIR.defaultBlockState());
         }

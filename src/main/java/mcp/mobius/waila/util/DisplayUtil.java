@@ -28,15 +28,15 @@ public final class DisplayUtil extends GuiComponent {
 
     private static final Minecraft CLIENT = Minecraft.getInstance();
 
-    public static void renderStack(int x, int y, ItemStack stack) {
-        renderStack(x, y, stack, stack.getCount() > 1 ? WailaHelper.suffix(stack.getCount()) : "");
+    public static void renderStack(PoseStack matrices, int x, int y, ItemStack stack) {
+        renderStack(matrices, x, y, stack, stack.getCount() > 1 ? WailaHelper.suffix(stack.getCount()) : "");
     }
 
-    public static void renderStack(int x, int y, ItemStack stack, String countText) {
+    public static void renderStack(PoseStack matrices, int x, int y, ItemStack stack, String countText) {
         enable3DRender();
         try {
-            CLIENT.getItemRenderer().renderGuiItem(stack, x, y);
-            CLIENT.getItemRenderer().renderGuiItemDecorations(CLIENT.font, stack, x, y, countText);
+            CLIENT.getItemRenderer().renderGuiItem(matrices, stack, x, y);
+            CLIENT.getItemRenderer().renderGuiItemDecorations(matrices, CLIENT.font, stack, x, y, countText);
         } catch (Exception e) {
             String stackStr = stack != null ? stack.toString() : "NullStack";
             ExceptionUtil.dump(e, "renderStack | " + stackStr, null);
@@ -71,7 +71,6 @@ public final class DisplayUtil extends GuiComponent {
             float scale = (float) Minecraft.getInstance().getWindow().getGuiScale();
             matrices.scale(1 / scale, 1 / scale, 1);
 
-            RenderSystem.disableTexture();
             RenderSystem.setShader(GameRenderer::getPositionColorShader);
 
             Tesselator tesselator = Tesselator.getInstance();
@@ -85,7 +84,6 @@ public final class DisplayUtil extends GuiComponent {
             renderRectBorder(matrices.last().pose(), buf, bx, by, bw, bh, color, color);
             tesselator.end();
 
-            RenderSystem.enableTexture();
             matrices.popPose();
         }
     }

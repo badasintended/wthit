@@ -179,11 +179,8 @@ public class TooltipRenderer {
 
         float scale = state.getScale();
 
-        RenderSystem.getModelViewStack().pushPose();
-        RenderSystem.getModelViewStack().scale(scale, scale, 1.0F);
-        RenderSystem.applyModelViewMatrix();
-
         matrices.pushPose();
+        matrices.scale(scale, scale, 1.0f);
 
         enable2DRender();
 
@@ -198,7 +195,6 @@ public class TooltipRenderer {
                 if (canceller.isCanceled()) {
                     matrices.popPose();
                     RenderSystem.enableDepthTest();
-                    RenderSystem.getModelViewStack().popPose();
                     RenderSystem.applyModelViewMatrix();
                     profiler.pop();
                     return;
@@ -211,7 +207,6 @@ public class TooltipRenderer {
         int width = rect.width;
         int height = rect.height;
 
-        RenderSystem.disableTexture();
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.setShader(GameRenderer::getPositionColorShader);
@@ -234,7 +229,6 @@ public class TooltipRenderer {
         // @formatter:on
 
         tesselator.end();
-        RenderSystem.enableTexture();
 
         int textX = x + (icon.getWidth() > 0 ? icon.getWidth() + 7 : 4);
         int textY = y + 4 + topOffset;
@@ -245,7 +239,6 @@ public class TooltipRenderer {
         }
 
         RenderSystem.disableBlend();
-        matrices.popPose();
 
         if (state.fireEvent()) {
             for (IEventListener listener : Registrar.INSTANCE.eventListeners.get(Object.class)) {
@@ -261,8 +254,7 @@ public class TooltipRenderer {
         renderComponent(matrices, icon, x + 4, iconY, delta);
 
         RenderSystem.enableDepthTest();
-        RenderSystem.getModelViewStack().popPose();
-        RenderSystem.applyModelViewMatrix();
+        matrices.popPose();
         profiler.pop();
     }
 

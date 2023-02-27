@@ -27,7 +27,7 @@ public enum JukeboxProvider implements IBlockComponentProvider, IServerDataProvi
     @Override
     public void appendServerData(CompoundTag data, IServerAccessor<JukeboxBlockEntity> accessor, IPluginConfig config) {
         if (config.getBoolean(Options.JUKEBOX_RECORD)) {
-            ItemStack stack = accessor.getTarget().getRecord();
+            ItemStack stack = accessor.getTarget().getFirstItem();
             if (!stack.isEmpty()) {
                 Component text = stack.getItem() instanceof RecordItem
                     ? Component.translatable(stack.getDescriptionId() + ".desc")

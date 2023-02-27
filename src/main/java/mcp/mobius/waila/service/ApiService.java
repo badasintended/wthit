@@ -94,8 +94,8 @@ public class ApiService implements IApiService {
     }
 
     @Override
-    public void renderItem(int x, int y, ItemStack stack) {
-        DisplayUtil.renderStack(x, y, stack);
+    public void renderItem(PoseStack matrices, int x, int y, ItemStack stack) {
+        DisplayUtil.renderStack(matrices, x, y, stack);
     }
 
     @Override
