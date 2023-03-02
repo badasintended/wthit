@@ -210,6 +210,8 @@
   "config.waila.plugin_minecraft.attribute.long_armor_max_desc" : "The maximum armor points that the icon will draw before forcing numeric view",
 
   "config.waila.plugin_waila"                                   : "Waila Core",
+  "config.waila.plugin_waila.pick_through_objects"              : "Pick Through Objects",
+  "config.waila.plugin_waila.pick_through_objects_desc"         : "Whether WTHIT should try to show tooltip for further object if the tooltip for nearer object is disabled for some reason",
   "config.waila.plugin_waila.show_mod_name"                     : "Show Mod Names",
   "config.waila.plugin_waila.show_item_mod_name"                : "Show Item Mod Names",
   "config.waila.plugin_waila.show_registry"                     : "Show Registry Names",

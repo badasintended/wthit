@@ -6,6 +6,8 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.api.IBlacklistConfig;
 import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.api.IModInfo;
+import mcp.mobius.waila.api.IPickerAccessor;
+import mcp.mobius.waila.api.IPickerResults;
 import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.IWailaConfig;
@@ -43,5 +45,11 @@ public interface IApiService {
     int getColonFontWidth();
 
     int getFontColor();
+
+    @Deprecated
+    IPickerAccessor getPickerAccessor();
+
+    @Deprecated
+    IPickerResults getPickerResults();
 
 }
