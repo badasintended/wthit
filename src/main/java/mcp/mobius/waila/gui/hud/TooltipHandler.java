@@ -13,6 +13,8 @@ import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.mixin.PlayerTabOverlayAccess;
+import mcp.mobius.waila.pick.PickerAccessor;
+import mcp.mobius.waila.pick.PickerResults;
 import mcp.mobius.waila.registry.Registrar;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
@@ -72,92 +74,92 @@ public class TooltipHandler {
             return;
         }
 
-        HitResult target = Registrar.INSTANCE.picker.pick(client, client.gameMode.getPickRange(), client.getFrameTime(), PluginConfig.CLIENT);
-
-        if (target.getType() == HitResult.Type.MISS) {
-            return;
-        }
-
         Player player = client.player;
 
         if (player == null) {
             return;
         }
 
-        DataAccessor accessor = DataAccessor.INSTANCE;
-        accessor.set(client.level, player, target, client.cameraEntity, client.getFrameTime());
+        PickerResults results = PickerResults.get();
+        Registrar.INSTANCE.picker.pick(PickerAccessor.of(client, client.cameraEntity, client.gameMode.getPickRange(), client.getFrameTime()), results, PluginConfig.CLIENT);
 
-        TooltipRenderer.beginBuild(STATE);
+        for (HitResult target : results) {
+            DataAccessor accessor = DataAccessor.INSTANCE;
+            accessor.set(client.level, player, target, client.cameraEntity, client.getFrameTime());
 
-        if (target.getType() == HitResult.Type.BLOCK) {
-            Block block = accessor.getBlock();
+            TooltipRenderer.beginBuild(STATE);
 
-            if (block instanceof LiquidBlock) {
-                if (!PluginConfig.CLIENT.getBoolean(WailaConstants.CONFIG_SHOW_FLUID)) {
-                    return;
+            if (target.getType() == HitResult.Type.BLOCK) {
+                Block block = accessor.getBlock();
+
+                if (block instanceof LiquidBlock) {
+                    if (!PluginConfig.CLIENT.getBoolean(WailaConstants.CONFIG_SHOW_FLUID)) {
+                        continue;
+                    }
+                } else if (!PluginConfig.CLIENT.getBoolean(WailaConstants.CONFIG_SHOW_BLOCK)) {
+                    continue;
                 }
-            } else if (!PluginConfig.CLIENT.getBoolean(WailaConstants.CONFIG_SHOW_BLOCK)) {
-                return;
-            }
 
-            if (accessor.getBlockState().is(Waila.BLOCK_BLACKLIST_TAG) || IBlacklistConfig.get().contains(block)) {
-                return;
-            }
-
-            BlockEntity blockEntity = accessor.getBlockEntity();
-            if (blockEntity != null && IBlacklistConfig.get().contains(blockEntity)) {
-                return;
-            }
-
-            BlockState state = ComponentHandler.getOverrideBlock(target);
-            if (state == IBlockComponentProvider.EMPTY_BLOCK_STATE) {
-                return;
-            }
-
-            accessor.setState(state);
-
-            TOOLTIP.clear();
-            gatherBlock(accessor, TOOLTIP, HEAD);
-            TooltipRenderer.add(TOOLTIP);
-
-            TOOLTIP.clear();
-            gatherBlock(accessor, TOOLTIP, BODY);
-
-            if (config.isShiftForDetails() && !TOOLTIP.isEmpty() && !player.isShiftKeyDown()) {
-                if (!config.isHideShiftText()) {
-                    TooltipRenderer.add(new Line(null).with(SNEAK_DETAIL));
+                if (accessor.getBlockState().is(Waila.BLOCK_BLACKLIST_TAG) || IBlacklistConfig.get().contains(block)) {
+                    continue;
                 }
-            } else {
+
+                BlockEntity blockEntity = accessor.getBlockEntity();
+                if (blockEntity != null && IBlacklistConfig.get().contains(blockEntity)) {
+                    continue;
+                }
+
+                BlockState state = ComponentHandler.getOverrideBlock(target);
+                if (state == IBlockComponentProvider.EMPTY_BLOCK_STATE) {
+                    continue;
+                }
+
+                accessor.setState(state);
+
+                TOOLTIP.clear();
+                gatherBlock(accessor, TOOLTIP, HEAD);
                 TooltipRenderer.add(TOOLTIP);
-            }
 
-            TOOLTIP.clear();
-            gatherBlock(accessor, TOOLTIP, TAIL);
-            TooltipRenderer.add(TOOLTIP);
-        } else if (target.getType() == HitResult.Type.ENTITY) {
-            if (!PluginConfig.CLIENT.getBoolean(WailaConstants.CONFIG_SHOW_ENTITY)) {
-                return;
-            }
+                TOOLTIP.clear();
+                gatherBlock(accessor, TOOLTIP, BODY);
 
-            Entity actualEntity = accessor.getEntity();
+                if (config.isShiftForDetails() && !TOOLTIP.isEmpty() && !player.isShiftKeyDown()) {
+                    if (!config.isHideShiftText()) {
+                        TooltipRenderer.add(new Line(null).with(SNEAK_DETAIL));
+                    }
+                } else {
+                    TooltipRenderer.add(TOOLTIP);
+                }
 
-            if (actualEntity == null) {
-                return;
-            }
+                TOOLTIP.clear();
+                gatherBlock(accessor, TOOLTIP, TAIL);
+            } else if (target.getType() == HitResult.Type.ENTITY) {
+                if (!PluginConfig.CLIENT.getBoolean(WailaConstants.CONFIG_SHOW_ENTITY)) {
+                    continue;
+                }
 
-            if (actualEntity.getType().is(Waila.ENTITY_BLACKLIST_TAG) || IBlacklistConfig.get().contains(accessor.getEntity())) {
-                return;
-            }
+                Entity actualEntity = accessor.getEntity();
 
-            Entity targetEnt = ComponentHandler.getOverrideEntity(target);
+                if (actualEntity == null) {
+                    continue;
+                }
 
-            if (targetEnt == IEntityComponentProvider.EMPTY_ENTITY) {
-                return;
-            }
+                if (actualEntity.getType().is(Waila.ENTITY_BLACKLIST_TAG) || IBlacklistConfig.get().contains(accessor.getEntity())) {
+                    continue;
+                }
 
-            accessor.setEntity(targetEnt);
+                Entity targetEnt = ComponentHandler.getOverrideEntity(target);
 
-            if (targetEnt != null) {
+                if (targetEnt == IEntityComponentProvider.EMPTY_ENTITY) {
+                    continue;
+                }
+
+                accessor.setEntity(targetEnt);
+
+                if (targetEnt == null) {
+                    continue;
+                }
+
                 TOOLTIP.clear();
                 gatherEntity(targetEnt, accessor, TOOLTIP, HEAD);
                 TooltipRenderer.add(TOOLTIP);
@@ -175,16 +177,19 @@ public class TooltipHandler {
 
                 TOOLTIP.clear();
                 gatherEntity(targetEnt, accessor, TOOLTIP, TAIL);
-                TooltipRenderer.add(TOOLTIP);
             }
-        }
 
-        if (PluginConfig.CLIENT.getBoolean(WailaConstants.CONFIG_SHOW_ICON)) {
-            TooltipRenderer.setIcon(ComponentHandler.getIcon(target));
-        }
+            TooltipRenderer.add(TOOLTIP);
 
-        STATE.render = true;
-        TooltipRenderer.endBuild();
+            if (PluginConfig.CLIENT.getBoolean(WailaConstants.CONFIG_SHOW_ICON)) {
+                TooltipRenderer.setIcon(ComponentHandler.getIcon(target));
+            }
+
+            STATE.render = true;
+            TooltipRenderer.endBuild();
+
+            break;
+        }
     }
 
     private static class ConfigTooltipRendererState implements TooltipRenderer.State {
