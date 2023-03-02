@@ -24,3 +24,5 @@ logs/
 Thumbs.db
 
 src/buildConst/
+docs/dokka/
+docs/javadocs/
