@@ -10,29 +10,101 @@ public class WailaConstants {
     public static final String NAMESPACE = WAILA;
     public static final String MOD_ID    = WTHIT;
     public static final String MOD_NAME  = "WTHIT";
+    // @formatter:on
 
-    // Used for validating config.
+    /**
+     * Used for validating config.
+     */
     public static final int CONFIG_VERSION = 1;
 
-    // Common tooltip tags, to be used for overriding core tooltip values.
-    // To do that, use ITooltip.setLine(tag, component).
-    public static final ResourceLocation OBJECT_NAME_TAG   = id("object_name");   // Block, Fluid, or Entity name
+    /**
+     * Tooltip tag for block, fluid, and entity name line.
+     *
+     * @see ITooltip#setLine
+     * @see IWailaConfig.Formatter#blockName(Object)
+     * @see IWailaConfig.Formatter#fluidName(Object)
+     * @see IWailaConfig.Formatter#entityName(Object)
+     */
+    public static final ResourceLocation OBJECT_NAME_TAG = id("object_name");
+
+    /**
+     * Tooltip tag for registry name line.
+     *
+     * @see ITooltip#setLine
+     * @see #CONFIG_SHOW_REGISTRY
+     * @see IWailaConfig.Formatter#registryName(Object)
+     */
     public static final ResourceLocation REGISTRY_NAME_TAG = id("registry_name");
-    public static final ResourceLocation MOD_NAME_TAG      = id("mod_name");
 
-    // PluginConfig keys from core plugin
-    public static final ResourceLocation CONFIG_SHOW_BLOCK         = id("show_blocks");
-    public static final ResourceLocation CONFIG_SHOW_FLUID         = id("show_fluids");
-    public static final ResourceLocation CONFIG_SHOW_ENTITY        = id("show_entities");
-    public static final ResourceLocation CONFIG_SHOW_ICON          = id("show_icon");
-    public static final ResourceLocation CONFIG_ICON_POSITION      = id("icon_position");
-    public static final ResourceLocation CONFIG_SHOW_MOD_NAME      = id("show_mod_name");
+    /**
+     * Tooltip tag for mod name line.
+     *
+     * @see ITooltip#setLine
+     * @see #CONFIG_SHOW_MOD_NAME
+     * @see IWailaConfig.Formatter#modName(Object)
+     */
+    public static final ResourceLocation MOD_NAME_TAG = id("mod_name");
+
+    /**
+     * Whether Waila should show tooltip for blocks.
+     * <p>
+     * <b>Default value:</b> {@code true}
+     */
+    public static final ResourceLocation CONFIG_SHOW_BLOCK = id("show_blocks");
+
+    /**
+     * Whether Waila should show tooltip for fluids.
+     * <p>
+     * <b>Default value:</b> {@code false}
+     */
+    public static final ResourceLocation CONFIG_SHOW_FLUID = id("show_fluids");
+
+    /**
+     * Whether Waila should show tooltip for entities.
+     * <p>
+     * <b>Default value:</b> {@code true}
+     */
+    public static final ResourceLocation CONFIG_SHOW_ENTITY = id("show_entities");
+
+    /**
+     * Whether Waila should show icon at the side of the tooltip
+     * <p>
+     * <b>Default value:</b> {@code true}
+     */
+    public static final ResourceLocation CONFIG_SHOW_ICON = id("show_icon");
+
+    /**
+     * Where the tooltip icon should be positioned.
+     * <p>
+     * <b>Default value:</b> {@link IWailaConfig.Overlay.Position.Align.Y#MIDDLE}
+     */
+    public static final ResourceLocation CONFIG_ICON_POSITION = id("icon_position");
+
+    /**
+     * Whether Waila should show the name of the mod the object originated from.
+     * <p>
+     * <b>Default value:</b> {@code true}
+     */
+    public static final ResourceLocation CONFIG_SHOW_MOD_NAME = id("show_mod_name");
+
+    /**
+     * Whether Waila should show the name of the mod the item originated from when hovering it in screen.
+     * <p>
+     * <b>Default value:</b> {@code true}
+     */
     public static final ResourceLocation CONFIG_SHOW_ITEM_MOD_NAME = id("show_item_mod_name");
-    public static final ResourceLocation CONFIG_SHOW_REGISTRY      = id("show_registry");
 
-    // Built-in components texture
+    /**
+     * Whether Waila should show the registry name of the object.
+     * <p>
+     * <b>Default value:</b> {@code false}
+     */
+    public static final ResourceLocation CONFIG_SHOW_REGISTRY = id("show_registry");
+
+    /**
+     * Built-in components texture.
+     */
     public static final ResourceLocation COMPONENT_TEXTURE = id("textures/components.png");
-    // @formatter:on
 
     private static ResourceLocation id(String path) {
         return new ResourceLocation(NAMESPACE, path);
