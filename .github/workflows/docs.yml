@@ -5,6 +5,7 @@ on:
       - 'dev/master'
     paths:
       - 'docs/**'
+      - 'src/api/**'
       - 'mkdocs.yml'
 jobs:
   deploy:
@@ -14,5 +15,16 @@ jobs:
       - uses: actions/setup-python@v3
         with:
           python-version: 3.x
+      - uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: temurin
+      - uses: gradle/gradle-build-action@v2
+        with:
+          cache-read-only: ${{ github.repository != 'badasintended/wthit' }}
+      - run: ./gradlew apiDokka --max-workers=1
+        env:
+          GIT_HASH: ${{ steps.vars.outputs.git_hash }}
       - run: pip install mkdocs-material
       - run: mkdocs gh-deploy --force
+      - run: ./gradlew --stop

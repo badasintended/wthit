@@ -32,7 +32,7 @@ public interface IObjectPicker {
     /**
      * @deprecated not needed on newest API.
      */
-    @Deprecated
+    @Deprecated(forRemoval = true)
     @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
     HitResult MISS = new HitResult(Vec3.ZERO) {
         @Override
@@ -44,7 +44,7 @@ public interface IObjectPicker {
     /**
      * @deprecated override {@link #pick(IPickerAccessor, IPickerResults, IPluginConfig)} instead.
      */
-    @Deprecated
+    @Deprecated(forRemoval = true)
     @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
     @SuppressWarnings({"DeprecatedIsStillUsed", "unused"})
     default HitResult pick(Minecraft client, double maxDistance, float frameDelta, IPluginConfig config) {

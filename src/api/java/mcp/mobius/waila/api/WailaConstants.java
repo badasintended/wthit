@@ -67,7 +67,7 @@ public class WailaConstants {
     public static final ResourceLocation CONFIG_SHOW_ENTITY = id("show_entities");
 
     /**
-     * Whether Waila should show icon at the side of the tooltip
+     * Whether Waila should show icon at the side of the tooltip.
      * <p>
      * <b>Default value:</b> {@code true}
      */
