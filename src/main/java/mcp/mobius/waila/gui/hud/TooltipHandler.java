@@ -46,6 +46,10 @@ public class TooltipHandler {
         Minecraft client = Minecraft.getInstance();
         WailaConfig.General config = Waila.CONFIG.get().getGeneral();
 
+        if (client.options.hideGui) {
+            return;
+        }
+
         if (client.screen != null && !(client.screen instanceof ChatScreen)) {
             return;
         }
@@ -55,10 +59,6 @@ public class TooltipHandler {
         }
 
         if (config.getDisplayMode() == IWailaConfig.General.DisplayMode.HOLD_KEY && !WailaClient.keyShowOverlay.isDown()) {
-            return;
-        }
-
-        if (client.screen != null && !(client.screen instanceof ChatScreen)) {
             return;
         }
 
