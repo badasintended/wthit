@@ -7,4 +7,8 @@
 
 **WTHIT** - a fork of [HWYLA](https://minecraft.curseforge.com/projects/hwyla) by [TehNut](https://www.curseforge.com/members/tehnut) which is itself is a fork of [WAILA](https://minecraft.curseforge.com/projects/waila) by [ProfMobius](https://minecraft.curseforge.com/members/ProfMobius).
 
+## Branch Status: End of Life
+1.18 branch is too different from the master branch I can't be bothered to port new features to it.
+Only game breaking bugs will be fixed.
+
 ### WIP Documentation at [docs.bai.lol/wthit](https://docs.bai.lol/wthit)
