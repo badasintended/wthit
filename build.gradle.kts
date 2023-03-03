@@ -144,6 +144,7 @@ task<Javadoc>("apiJavadoc") {
 }
 
 task<DokkaTask>("apiDokka") {
+    moduleVersion.set("${prop["majorVersion"]}.x")
     outputDirectory.set(file("docs/dokka"))
     suppressInheritedMembers.set(true)
 

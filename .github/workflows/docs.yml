@@ -6,6 +6,7 @@ on:
     paths:
       - 'docs/**'
       - 'src/api/**'
+      - 'build.gradle.kts'
       - 'mkdocs.yml'
 jobs:
   deploy:
@@ -21,7 +22,7 @@ jobs:
           distribution: temurin
       - uses: gradle/gradle-build-action@v2
         with:
-          cache-read-only: ${{ github.repository != 'badasintended/wthit' }}
+          cache-read-only: true
       - run: ./gradlew apiDokka --max-workers=1
         env:
           GIT_HASH: ${{ steps.vars.outputs.git_hash }}
