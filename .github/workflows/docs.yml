@@ -5,14 +5,27 @@ on:
       - 'dev/master'
     paths:
       - 'docs/**'
+      - 'src/api/**'
+      - 'build.gradle.kts'
       - 'mkdocs.yml'
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-python@v3
+      - uses: actions/setup-python@v4
         with:
           python-version: 3.x
+      - uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: temurin
+      - uses: gradle/gradle-build-action@v2
+        with:
+          cache-read-only: true
+      - run: ./gradlew apiDokka --max-workers=1
+        env:
+          GIT_HASH: ${{ steps.vars.outputs.git_hash }}
       - run: pip install mkdocs-material
       - run: mkdocs gh-deploy --force
+      - run: ./gradlew --stop

@@ -9,8 +9,9 @@ import org.jetbrains.annotations.ApiStatus;
 public interface IServerDataProvider<T> {
 
     /**
-     * Callback used server side to return a custom synchronization {@link CompoundTag}.</br>
-     * Will only be called if the implementing class is registered via {@link IRegistrar#addBlockData} or {@link IRegistrar#addEntityData}.</br>
+     * Callback used server side to return a custom synchronization {@link CompoundTag}.
+     * <p>
+     * Will only be called if the implementing class is registered via {@link IRegistrar#addBlockData} or {@link IRegistrar#addEntityData}.
      *
      * @param data     current synchronization tag (might have been processed by other providers and might be processed by other providers)
      * @param accessor contains the relevant context of the environment

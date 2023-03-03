@@ -7,12 +7,16 @@ import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IBlacklistConfig;
 import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.api.IModInfo;
+import mcp.mobius.waila.api.IPickerAccessor;
+import mcp.mobius.waila.api.IPickerResults;
 import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.__internal__.IApiService;
 import mcp.mobius.waila.config.JsonConfig;
 import mcp.mobius.waila.gui.hud.TooltipRenderer;
+import mcp.mobius.waila.pick.PickerAccessor;
+import mcp.mobius.waila.pick.PickerResults;
 import mcp.mobius.waila.plugin.PluginInfo;
 import mcp.mobius.waila.util.DisplayUtil;
 import mcp.mobius.waila.util.ModInfo;
@@ -116,6 +120,16 @@ public class ApiService implements IApiService {
     @Override
     public int getFontColor() {
         return TooltipRenderer.state.getFontColor();
+    }
+
+    @Override
+    public IPickerAccessor getPickerAccessor() {
+        return PickerAccessor.INSTANCE;
+    }
+
+    @Override
+    public IPickerResults getPickerResults() {
+        return PickerResults.INSTANCE;
     }
 
 }

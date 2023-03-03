@@ -1,11 +1,14 @@
 import groovy.json.JsonGenerator
 import groovy.json.JsonSlurper
+import org.jetbrains.dokka.gradle.DokkaTask
+import java.net.URL
 import java.nio.charset.StandardCharsets
 
 plugins {
     java
     id("org.spongepowered.gradle.vanilla") version "0.2.1-SNAPSHOT"
     id("maven-publish")
+    id("org.jetbrains.dokka") version "1.7.20"
 }
 
 version = env["MOD_VERSION"] ?: "${prop["majorVersion"]}.999-${env["GIT_HASH"] ?: "local"}"
@@ -115,6 +118,7 @@ dependencies {
     val minecraftlessCompileOnly by configurations
 
     minecraftlessCompileOnly("com.google.code.gson:gson:2.8.9")
+    dokkaPlugin("org.jetbrains.dokka:kotlin-as-java-plugin:1.7.20")
 }
 
 task<GenerateTranslationTask>("generateTranslationClass") {
@@ -128,4 +132,32 @@ task<GenerateTranslationTask>("generateTranslationClass") {
 
 tasks.named("compileBuildConstJava") {
     dependsOn("generateTranslationClass")
+}
+
+task<Javadoc>("apiJavadoc") {
+    group = "documentation"
+
+    val api by sourceSets
+    source = api.allJava
+    classpath = api.compileClasspath
+    setDestinationDir(file("docs/javadocs"))
+}
+
+task<DokkaTask>("apiDokka") {
+    moduleVersion.set("${prop["majorVersion"]}.x")
+    outputDirectory.set(file("docs/dokka"))
+    suppressInheritedMembers.set(true)
+
+    dokkaSourceSets {
+        create("api") {
+            val api by sourceSets
+            sourceRoots.from(api.allJava)
+            classpath.from(api.compileClasspath)
+
+            sourceLink {
+                localDirectory.set(file("src"))
+                remoteUrl.set(URL("https://github.com/badasintended/wthit/tree/dev/master/src"))
+            }
+        }
+    }
 }
