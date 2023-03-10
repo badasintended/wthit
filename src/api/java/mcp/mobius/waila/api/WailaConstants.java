@@ -106,6 +106,16 @@ public class WailaConstants {
      */
     public static final ResourceLocation COMPONENT_TEXTURE = id("textures/components.png");
 
+    /**
+     * Gradient theme id.
+     */
+    public static final ResourceLocation THEME_TYPE_GRADIENT = id("gradient");
+
+    /**
+     * Nine patch theme id.
+     */
+    public static final ResourceLocation THEME_TYPE_NINE_PATCH = id("nine_patch");
+
     private static ResourceLocation id(String path) {
         return new ResourceLocation(NAMESPACE, path);
     }

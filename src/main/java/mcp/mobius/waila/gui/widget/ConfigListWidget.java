@@ -17,17 +17,17 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
 
     private final ConfigScreen owner;
     private final Runnable diskWriter;
-    private final int topOffset;
-    private final int bottomOffset;
+
+    private int topOffset;
+    private int bottomOffset;
 
     public ConfigListWidget(ConfigScreen owner, Minecraft client, int width, int height, int top, int bottom, int itemHeight, Runnable diskWriter) {
         super(client, width, height, top, bottom, itemHeight - 4);
 
         this.owner = owner;
         this.diskWriter = diskWriter;
-        this.topOffset = top;
-        this.bottomOffset = bottom - owner.height;
 
+        resize(top, bottom);
         setRenderBackground(false);
     }
 
@@ -60,7 +60,7 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
     }
 
     public void init() {
-        updateSize(owner.width, owner.height, topOffset, owner.height + bottomOffset);
+        resize(topOffset, owner.height + bottomOffset);
         setScrollAmount(getScrollAmount());
         for (Entry entry : children()) {
             entry.addToScreen(owner);
@@ -82,6 +82,12 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
     public ConfigListWidget with(int index, Entry entry) {
         add(index, entry);
         return this;
+    }
+
+    public void resize(int top, int bottom) {
+        this.topOffset = top;
+        this.bottomOffset = bottom - owner.height;
+        updateSize(owner.width, owner.height, topOffset, owner.height + bottomOffset);
     }
 
     public abstract static class Entry extends ContainerObjectSelectionList.Entry<Entry> {

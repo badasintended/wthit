@@ -5,6 +5,7 @@ import java.util.Objects;
 import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.gui.hud.TooltipRenderer;
+import mcp.mobius.waila.gui.hud.theme.BuiltinThemeLoader;
 import mcp.mobius.waila.gui.screen.HomeScreen;
 import mcp.mobius.waila.network.Packets;
 import net.minecraft.network.Connection;
@@ -12,6 +13,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.ConfigScreenHandler;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.RegisterClientCommandsEvent;
+import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.client.event.RenderGuiEvent;
 import net.minecraftforge.event.TickEvent;
@@ -35,6 +37,11 @@ public class ForgeWailaClient extends WailaClient {
     @SubscribeEvent
     static void registerKeyMappings(RegisterKeyMappingsEvent event) {
         registerKeyBinds().forEach(event::register);
+    }
+
+    @SubscribeEvent
+    static void addReloadListener(RegisterClientReloadListenersEvent event) {
+        event.registerReloadListener(new BuiltinThemeLoader());
     }
 
     static void registerConfigScreen() {

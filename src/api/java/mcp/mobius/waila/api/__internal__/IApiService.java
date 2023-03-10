@@ -2,13 +2,17 @@ package mcp.mobius.waila.api.__internal__;
 
 import java.util.Collection;
 
+import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Matrix4f;
 import mcp.mobius.waila.api.IBlacklistConfig;
 import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.api.IModInfo;
 import mcp.mobius.waila.api.IPickerAccessor;
 import mcp.mobius.waila.api.IPickerResults;
 import mcp.mobius.waila.api.IPluginInfo;
+import mcp.mobius.waila.api.ITheme;
+import mcp.mobius.waila.api.IThemeType;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.IWailaConfig;
 import net.minecraft.resources.ResourceLocation;
@@ -45,6 +49,12 @@ public interface IApiService {
     int getColonFontWidth();
 
     int getFontColor();
+
+    void fillGradient(Matrix4f matrix, BufferBuilder buf, int x, int y, int w, int h, int start, int end);
+
+    void renderRectBorder(Matrix4f matrix, BufferBuilder buf, int x, int y, int w, int h, int s, int gradStart, int gradEnd);
+
+    <T extends ITheme> IThemeType.Builder<T> createThemeTypeBuilder(Class<T> clazz);
 
     @Deprecated
     IPickerAccessor getPickerAccessor();

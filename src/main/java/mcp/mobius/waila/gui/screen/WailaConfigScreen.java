@@ -1,19 +1,22 @@
 package mcp.mobius.waila.gui.screen;
 
+import java.awt.Rectangle;
+
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.IModInfo;
+import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.IWailaConfig.Overlay.Position.Align;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.component.ItemComponent;
 import mcp.mobius.waila.buildconst.Tl;
-import mcp.mobius.waila.config.Theme;
 import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.gui.hud.Line;
 import mcp.mobius.waila.gui.hud.TooltipRenderer;
+import mcp.mobius.waila.gui.hud.theme.ThemeDefinition;
 import mcp.mobius.waila.gui.widget.CategoryEntry;
 import mcp.mobius.waila.gui.widget.ConfigListWidget;
 import mcp.mobius.waila.gui.widget.value.BooleanValue;
@@ -29,11 +32,11 @@ import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.Blocks;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import static mcp.mobius.waila.util.DisplayUtil.getAlphaFromPercentage;
 import static mcp.mobius.waila.util.DisplayUtil.tryFormat;
 
 public class WailaConfigScreen extends ConfigScreen {
@@ -44,7 +47,7 @@ public class WailaConfigScreen extends ConfigScreen {
     private final TooltipRenderer.State previewState = new PreviewTooltipRendererState();
 
     @Nullable
-    private Theme theme;
+    private ThemeDefinition<?> theme;
     private boolean f1held = false;
 
     private ConfigValue<String> modNameFormatVal;
@@ -56,7 +59,7 @@ public class WailaConfigScreen extends ConfigScreen {
     private ConfigValue<Align.Y> yAlignValue;
     private ConfigValue<Integer> yPosValue;
     private ConfigValue<Float> scaleValue;
-    private ConfigValue<Integer> alphaVal;
+    private ConfigValue<Integer> backgroundAlphaVal;
 
     private ThemeValue themeIdVal;
 
@@ -70,32 +73,37 @@ public class WailaConfigScreen extends ConfigScreen {
         return Waila.CONFIG.get();
     }
 
-    public void buildPreview(TooltipRenderer.State state) {
+    public Rectangle buildPreview(TooltipRenderer.State state) {
         TooltipRenderer.beginBuild(state);
         TooltipRenderer.setIcon(new ItemComponent(Blocks.GRASS_BLOCK));
         TooltipRenderer.add(new Line(null).with(Component.literal(tryFormat(blockNameFormatVal.getValue(), Blocks.GRASS_BLOCK.getName().getString()))));
         TooltipRenderer.add(new Line(null).with(Component.literal("never gonna give you up").withStyle(ChatFormatting.OBFUSCATED)));
         TooltipRenderer.add(new Line(null).with(Component.literal(tryFormat(modNameFormatVal.getValue(), IModInfo.get(Blocks.GRASS_BLOCK).getName()))));
-        TooltipRenderer.endBuild();
+        return TooltipRenderer.endBuild();
     }
 
-    public void addTheme(Theme theme) {
-        String id = theme.getId().toString();
+    public void addTheme(ThemeDefinition<?> theme) {
+        get().getOverlay().getColor().getCustomThemes().put(theme.id, theme);
+        ThemeDefinition.resetAll();
+
+        String id = theme.id.toString();
         themeIdVal.addValue(id);
         themeIdVal.setValue(id);
-        get().getOverlay().getColor().themes().put(theme.getId(), theme);
+
         this.theme = theme;
     }
 
     public void removeTheme(ResourceLocation id) {
+        get().getOverlay().getColor().getCustomThemes().remove(id);
+        ThemeDefinition.resetAll();
+
         themeIdVal.removeValue(id.toString());
-        get().getOverlay().getColor().themes().remove(id);
         this.theme = null;
     }
 
-    private Theme getTheme() {
+    private ThemeDefinition<?> getTheme() {
         if (theme == null) {
-            theme = get().getOverlay().getColor().themes().get(new ResourceLocation(themeIdVal.getValue()));
+            theme = ThemeDefinition.getAll().get(new ResourceLocation(themeIdVal.getValue()));
         }
         return theme;
     }
@@ -198,10 +206,10 @@ public class WailaConfigScreen extends ConfigScreen {
                 defaultConfig.getOverlay().getScale(),
                 val -> get().getOverlay().setScale(Math.max(val, 0.0F)),
                 InputValue.POSITIVE_DECIMAL))
-            .with(alphaVal = new InputValue<>(Tl.Config.OVERLAY_ALPHA,
-                get().getOverlay().getColor().rawAlpha(),
-                defaultConfig.getOverlay().getColor().rawAlpha(),
-                val -> get().getOverlay().getColor().setAlpha(Math.min(100, Math.max(0, val))),
+            .with(backgroundAlphaVal = new InputValue<>(Tl.Config.OVERLAY_BACKGROUND_ALPHA,
+                get().getOverlay().getColor().getBackgroundAlpha(),
+                defaultConfig.getOverlay().getColor().getBackgroundAlpha(),
+                val -> get().getOverlay().getColor().setBackgroundAlpha(Mth.clamp(val, 0x00, 0xFF)),
                 InputValue.POSITIVE_INTEGER))
             .with(themeIdVal = new ThemeValue());
 
@@ -309,8 +317,8 @@ public class WailaConfigScreen extends ConfigScreen {
 
         public ThemeValue() {
             super(Tl.Config.OVERLAY_THEME,
-                get().getOverlay().getColor().themes().values().stream().map(t -> t.getId().toString()).sorted(String::compareToIgnoreCase).toArray(String[]::new),
-                get().getOverlay().getColor().theme().getId().toString(),
+                ThemeDefinition.getAll().values().stream().map(t -> t.id.toString()).sorted(String::compareToIgnoreCase).toArray(String[]::new),
+                get().getOverlay().getColor().getActiveTheme().toString(),
                 val -> get().getOverlay().getColor().applyTheme(new ResourceLocation(val)),
                 false);
 
@@ -319,7 +327,11 @@ public class WailaConfigScreen extends ConfigScreen {
             this.newButton = new Button(0, 0, 40, 20, Component.translatable(Tl.Config.NEW), button ->
                 client.setScreen(new ThemeEditorScreen(WailaConfigScreen.this, getTheme(), false)));
 
-            editButton.active = !getValue().startsWith(WailaConstants.NAMESPACE + ":");
+            reloadEditButton();
+        }
+
+        private void reloadEditButton() {
+            editButton.active = !ThemeDefinition.getAll().get(new ResourceLocation(getValue())).builtin;
         }
 
         @Override
@@ -332,7 +344,7 @@ public class WailaConfigScreen extends ConfigScreen {
         @Override
         public void setValue(String value) {
             super.setValue(value);
-            editButton.active = !value.startsWith(WailaConstants.NAMESPACE + ":");
+            reloadEditButton();
         }
 
         @Override
@@ -361,8 +373,9 @@ public class WailaConfigScreen extends ConfigScreen {
             return false;
         }
 
-        private int getAlpha() {
-            return getAlphaFromPercentage(alphaVal.getValue());
+        @Override
+        public int getBackgroundAlpha() {
+            return backgroundAlphaVal.getValue();
         }
 
         @Override
@@ -406,28 +419,13 @@ public class WailaConfigScreen extends ConfigScreen {
         }
 
         @Override
-        public int getBg() {
-            return getAlpha() + getTheme().getBackgroundColor();
-        }
-
-        @Override
-        public int getGradStart() {
-            return getAlpha() + getTheme().getGradientEnd();
-        }
-
-        @Override
-        public int getGradEnd() {
-            return getAlpha() + getTheme().getGradientEnd();
+        public ITheme getTheme() {
+            return WailaConfigScreen.this.getTheme().getInitializedInstance();
         }
 
         @Override
         public boolean enableTextToSpeech() {
             return false;
-        }
-
-        @Override
-        public int getFontColor() {
-            return getTheme().getFontColor();
         }
 
     }

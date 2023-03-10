@@ -31,6 +31,7 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
 
     @Nullable
     private String disabledReason = null;
+    private boolean disabled = false;
 
     @Nullable
     private String id;
@@ -71,13 +72,13 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
 
     public void renderTooltip(Screen screen, PoseStack matrices, int mouseX, int mouseY, float delta) {
         boolean hasDescTl = I18n.exists(getDescription());
-        if (id != null || hasDescTl || isDisabled()) {
+        if (id != null || hasDescTl || (isDisabled() && disabledReason != null)) {
             String title = getTitle().getString();
             List<FormattedCharSequence> tooltip = Lists.newArrayList(Component.literal(title).getVisualOrderText());
             if (hasDescTl) {
                 tooltip.addAll(client.font.split(Component.translatable(getDescription()).withStyle(ChatFormatting.GRAY), 250));
             }
-            if (isDisabled()) {
+            if (isDisabled() && disabledReason != null) {
                 tooltip.addAll(client.font.split(Component.translatable(disabledReason).withStyle(ChatFormatting.RED), 250));
             }
             if (id != null) {
@@ -139,12 +140,13 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
         setValue(defaultValue);
     }
 
-    public void disable(String reason) {
+    public void disable(@Nullable String reason) {
         this.disabledReason = reason;
+        this.disabled = true;
     }
 
     public final boolean isDisabled() {
-        return disabledReason != null;
+        return disabled;
     }
 
     public void setId(@Nullable String id) {

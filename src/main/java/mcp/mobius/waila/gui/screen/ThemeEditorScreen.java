@@ -1,16 +1,27 @@
 package mcp.mobius.waila.gui.screen;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.mojang.blaze3d.vertex.PoseStack;
+import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.IWailaConfig.Overlay.Position.Align;
-import mcp.mobius.waila.api.IntFormat;
-import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.buildconst.Tl;
-import mcp.mobius.waila.config.Theme;
 import mcp.mobius.waila.gui.hud.TooltipRenderer;
+import mcp.mobius.waila.gui.hud.theme.ThemeAccessor;
+import mcp.mobius.waila.gui.hud.theme.ThemeDefinition;
+import mcp.mobius.waila.gui.hud.theme.ThemeType;
 import mcp.mobius.waila.gui.widget.ButtonEntry;
+import mcp.mobius.waila.gui.widget.CategoryEntry;
 import mcp.mobius.waila.gui.widget.ConfigListWidget;
+import mcp.mobius.waila.gui.widget.value.BooleanValue;
+import mcp.mobius.waila.gui.widget.value.ConfigValue;
+import mcp.mobius.waila.gui.widget.value.CycleValue;
+import mcp.mobius.waila.gui.widget.value.EnumValue;
 import mcp.mobius.waila.gui.widget.value.InputValue;
 import mcp.mobius.waila.gui.widget.value.IntInputValue;
+import mcp.mobius.waila.registry.Registrar;
+import mcp.mobius.waila.util.TypeUtil;
 import net.minecraft.client.gui.components.toasts.SystemToast;
 import net.minecraft.client.gui.screens.ConfirmScreen;
 import net.minecraft.network.chat.CommonComponents;
@@ -20,23 +31,38 @@ import net.minecraft.resources.ResourceLocation;
 class ThemeEditorScreen extends ConfigScreen {
 
     private final WailaConfigScreen parent;
-    private final Theme theme;
+    private final ThemeDefinition<?> template;
     private final boolean edit;
+
     private final TooltipRenderer.State previewState;
 
-    private InputValue<String> idVal;
-    private InputValue<Integer> bgColorVal;
-    private InputValue<Integer> gradStartVal;
-    private InputValue<Integer> gradEndVal;
-    private InputValue<Integer> textColorVal;
+    private ThemeType<?> type;
+    private ITheme theme;
 
-    public ThemeEditorScreen(WailaConfigScreen parent, Theme theme, boolean edit) {
+    private ConfigListWidget options;
+    private InputValue<String> idVal;
+    private CycleValue typeVal;
+
+    private final Map<ThemeType<?>, Map<String, Object>> type2attr = new HashMap<>();
+
+    public ThemeEditorScreen(WailaConfigScreen parent, ThemeDefinition<?> template, boolean edit) {
         super(parent, CommonComponents.EMPTY, () -> {}, () -> {});
 
         this.parent = parent;
-        this.theme = theme;
+        this.template = template;
         this.edit = edit;
         this.previewState = new PreviewTooltipRendererState();
+
+        this.type = template.type;
+        type2attr.put(type, new HashMap<>(type.properties.size()));
+        type.properties.forEach((key, prop) -> type2attr.get(type).put(key, prop.get(template.instance)));
+
+        buildTheme();
+    }
+
+    private void buildTheme() {
+        this.theme = type.create(type2attr.get(type));
+        theme.processProperties(ThemeAccessor.INSTANCE);
     }
 
     @Override
@@ -48,36 +74,88 @@ class ThemeEditorScreen extends ConfigScreen {
     @Override
     @SuppressWarnings("ConstantConditions")
     public ConfigListWidget getOptions() {
-        ConfigListWidget option = new ConfigListWidget(this, minecraft, width, height, 76, height - 32, 26, () -> {});
+        options = new ConfigListWidget(this, minecraft, width, height, parent.buildPreview(previewState).height * 2 + 4, height - 32, 26, () -> {});
 
-        idVal = new InputValue<>(Tl.Config.OverlayThemeEditor.ID,
-            edit ? theme.getId().toString() : "", null, val -> {}, InputValue.IDENTIFIER);
-        if (!edit) {
-            option.add(idVal);
+        if (idVal == null) {
+            idVal = new InputValue<>(Tl.Config.OverlayThemeEditor.ID,
+                edit ? template.id.toString() : "", null, val -> {}, InputValue.IDENTIFIER);
         }
 
-        option
-            .with(bgColorVal = new IntInputValue(Tl.Config.OverlayThemeEditor.BACKGROUND_COLOR,
-                theme.getBackgroundColor(), null, val -> {}, IntFormat.RGB_HEX))
-            .with(gradStartVal = new IntInputValue(Tl.Config.OverlayThemeEditor.GRADIENT_START,
-                theme.getGradientStart(), null, val -> {}, IntFormat.RGB_HEX))
-            .with(gradEndVal = new IntInputValue(Tl.Config.OverlayThemeEditor.GRADIENT_END,
-                theme.getGradientEnd(), null, val -> {}, IntFormat.RGB_HEX))
-            .with(textColorVal = new IntInputValue(Tl.Config.OverlayThemeEditor.TEXT_COLOR,
-                theme.getFontColor(), null, val -> {}, IntFormat.RGB_HEX));
+        if (edit) {
+            idVal.disable(null);
+        }
 
-        if (edit && !theme.getId().getNamespace().equals(WailaConstants.NAMESPACE)) {
-            option.add(new ButtonEntry(Tl.Config.OverlayThemeEditor.DELETE, 100, 20, button -> minecraft.setScreen(new ConfirmScreen(delete -> {
-                if (delete) {
-                    parent.removeTheme(theme.getId());
-                    minecraft.setScreen(parent);
-                } else {
-                    minecraft.setScreen(this);
+        if (typeVal == null) {
+            typeVal = new CycleValue(Tl.Config.OverlayThemeEditor.TYPE,
+                Registrar.INSTANCE.themeTypes.keySet().stream().map(ResourceLocation::toString).sorted(String::compareToIgnoreCase).toArray(String[]::new),
+                type.getId().toString(), val -> {}, false) {
+
+                @Override
+                public void setValue(String value) {
+                    super.setValue(value);
+
+                    type = Registrar.INSTANCE.themeTypes.get(new ResourceLocation(value));
+                    options.save();
+                    rebuildOptions();
                 }
-            }, Component.translatable(Tl.Config.OverlayThemeEditor.DELETE_PROMPT, theme.getId()), CommonComponents.EMPTY))));
+
+            };
         }
 
-        return option;
+        Map<String, ConfigValue<Object>> attrValues = new HashMap<>(type.properties.size());
+
+        options
+            .with(new ButtonEntry(Tl.Config.OverlayThemeEditor.REFRESH, 100, 20, button -> {
+                options.save();
+                buildTheme();
+                options.resize(parent.buildPreview(previewState).height * 2 + 4, height - 32);
+                type.properties.forEach((key, prop) -> attrValues.get(key).setValue(prop.get(theme)));
+            }))
+            .with(idVal)
+            .with(typeVal)
+            .with(new CategoryEntry(Tl.Config.OverlayThemeEditor.ATTRIBUTES));
+
+        type2attr.computeIfAbsent(type, t -> new HashMap<>(t.properties.size()));
+
+        type.properties.forEach((key, prop) -> {
+            Class<?> propType = prop.type;
+            Map<String, Object> attr = type2attr.get(type);
+            Object templateValue = attr.computeIfAbsent(key, k -> prop.defaultValue);
+            ConfigValue<?> value;
+
+            if (propType == int.class) {
+                value = new IntInputValue(prop.getTlKey(), TypeUtil.uncheckedCast(templateValue), null, val -> attr.put(key, val), TypeUtil.uncheckedCast(prop.context));
+            } else if (propType == boolean.class) {
+                value = new BooleanValue(prop.getTlKey(), TypeUtil.uncheckedCast(templateValue), null, val -> attr.put(key, val));
+            } else if (propType == double.class) {
+                value = new InputValue<>(prop.getTlKey(), TypeUtil.uncheckedCast(templateValue), null, val -> attr.put(key, val), InputValue.DECIMAL);
+            } else if (propType == String.class) {
+                value = new InputValue<>(prop.getTlKey(), TypeUtil.uncheckedCast(templateValue), null, val -> attr.put(key, val), InputValue.ANY);
+            } else if (propType.isEnum()) {
+                value = new EnumValue<>(prop.getTlKey(), TypeUtil.uncheckedCast(propType.getEnumConstants()), TypeUtil.uncheckedCast(templateValue), null, val -> attr.put(key, val));
+            } else {
+                throw new IllegalArgumentException("Invalid property type " + propType.getSimpleName());
+            }
+
+            value.setId(key);
+            attrValues.put(key, TypeUtil.uncheckedCast(value));
+            options.add(value);
+        });
+
+        if (edit) {
+            options
+                .with(new CategoryEntry(Tl.Config.OverlayThemeEditor.DELETE))
+                .with(new ButtonEntry(Tl.Config.OverlayThemeEditor.DELETE, 100, 20, button -> minecraft.setScreen(new ConfirmScreen(delete -> {
+                    if (delete) {
+                        parent.removeTheme(template.id);
+                        minecraft.setScreen(parent);
+                    } else {
+                        minecraft.setScreen(this);
+                    }
+                }, Component.translatable(Tl.Config.OverlayThemeEditor.DELETE_PROMPT, template.id), CommonComponents.EMPTY))));
+        }
+
+        return options;
     }
 
     @Override
@@ -105,7 +183,7 @@ class ThemeEditorScreen extends ConfigScreen {
                 id = new ResourceLocation("custom", id.getPath());
             }
 
-            parent.addTheme(new Theme(id, bgColorVal.getValue(), gradStartVal.getValue(), gradEndVal.getValue(), textColorVal.getValue()));
+            parent.addTheme(new ThemeDefinition<>(id, type, false, type2attr.get(type)));
             TooltipRenderer.resetState();
             super.onClose();
         }
@@ -164,28 +242,18 @@ class ThemeEditorScreen extends ConfigScreen {
         }
 
         @Override
-        public int getBg() {
-            return (0xFF << 24) + bgColorVal.getValue();
+        public int getBackgroundAlpha() {
+            return 0xFF;
         }
 
         @Override
-        public int getGradStart() {
-            return (0xFF << 24) + gradStartVal.getValue();
-        }
-
-        @Override
-        public int getGradEnd() {
-            return (0xFF << 24) + gradEndVal.getValue();
+        public ITheme getTheme() {
+            return theme;
         }
 
         @Override
         public boolean enableTextToSpeech() {
             return false;
-        }
-
-        @Override
-        public int getFontColor() {
-            return textColorVal.getValue();
         }
 
     }

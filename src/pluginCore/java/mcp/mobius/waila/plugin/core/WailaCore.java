@@ -9,6 +9,8 @@ import mcp.mobius.waila.plugin.core.pick.ObjectPicker;
 import mcp.mobius.waila.plugin.core.provider.BlockProvider;
 import mcp.mobius.waila.plugin.core.provider.EntityProvider;
 import mcp.mobius.waila.plugin.core.provider.FluidProvider;
+import mcp.mobius.waila.plugin.core.theme.GradientTheme;
+import mcp.mobius.waila.plugin.core.theme.NinePatchTheme;
 import net.minecraft.world.Nameable;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
@@ -52,6 +54,9 @@ public class WailaCore implements IWailaPlugin {
         registrar.addConfig(WailaConstants.CONFIG_SHOW_MOD_NAME, true);
         registrar.addConfig(WailaConstants.CONFIG_SHOW_ITEM_MOD_NAME, true);
         registrar.addConfig(WailaConstants.CONFIG_SHOW_REGISTRY, false);
+
+        registrar.addThemeType(WailaConstants.THEME_TYPE_GRADIENT, GradientTheme.TYPE);
+        registrar.addThemeType(WailaConstants.THEME_TYPE_NINE_PATCH, NinePatchTheme.TYPE);
     }
 
 }
