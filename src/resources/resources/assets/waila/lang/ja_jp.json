@@ -136,10 +136,9 @@
   "config.waila.overlay_align_y_middle"                         : "中",
 
   "config.waila.overlay_color"                                  : "色",
-  "config.waila.overlay_alpha"                                  : "背景の透明",
+  "config.waila.overlay_background_alpha"                       : "背景の透明",
 
   "config.waila.overlay_theme"                                  : "テーマ",
-
 
 
 
@@ -224,6 +223,30 @@
   "config.waila.plugin_waila.show_fluids"                       : "流体の表示",
   "config.waila.plugin_waila.show_fluids_desc"                  : "流体の表示を試してみる",
   "config.waila.plugin_waila.show_entities"                     : "エンティティの表示"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

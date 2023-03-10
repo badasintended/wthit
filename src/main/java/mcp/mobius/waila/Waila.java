@@ -8,6 +8,7 @@ import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.config.BlacklistConfig;
 import mcp.mobius.waila.config.WailaConfig;
+import mcp.mobius.waila.gui.hud.theme.ThemeDefinition;
 import mcp.mobius.waila.service.ICommonService;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
@@ -56,6 +57,7 @@ public abstract class Waila {
         .gson(new GsonBuilder()
             .setPrettyPrinting()
             .registerTypeAdapter(WailaConfig.Overlay.Color.class, new WailaConfig.Overlay.Color.Adapter())
+            .registerTypeAdapter(ThemeDefinition.class, new ThemeDefinition.Adapter())
             .registerTypeAdapter(ResourceLocation.class, new ResourceLocation.Serializer())
             .create())
         .build();

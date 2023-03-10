@@ -8,6 +8,8 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.BiMap;
+import com.google.common.collect.HashBiMap;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IEntityComponentProvider;
@@ -15,11 +17,15 @@ import mcp.mobius.waila.api.IEventListener;
 import mcp.mobius.waila.api.IObjectPicker;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IServerDataProvider;
+import mcp.mobius.waila.api.ITheme;
+import mcp.mobius.waila.api.IThemeType;
 import mcp.mobius.waila.api.IntFormat;
 import mcp.mobius.waila.api.TooltipPosition;
 import mcp.mobius.waila.config.BlacklistConfig;
 import mcp.mobius.waila.config.ConfigEntry;
 import mcp.mobius.waila.config.PluginConfig;
+import mcp.mobius.waila.gui.hud.theme.ThemeType;
+import mcp.mobius.waila.util.TypeUtil;
 import net.minecraft.Util;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -56,6 +62,9 @@ public enum Registrar implements IRegistrar {
     public final BlacklistConfig blacklist = new BlacklistConfig();
 
     public final Map<ResourceLocation, IntFormat> intConfigFormats = new HashMap<>();
+
+    public final BiMap<ResourceLocation, ThemeType<?>> themeTypes = HashBiMap.create();
+    private final Map<Class<? extends ITheme>, ThemeType<?>> themeClass2Type = new HashMap<>();
 
     private int pickerPriority = Integer.MAX_VALUE;
     public IObjectPicker picker = null;
@@ -218,6 +227,16 @@ public enum Registrar implements IRegistrar {
     public <T, E extends Entity> void addEntityData(IServerDataProvider<E> provider, Class<T> clazz) {
         assertLock();
         entityData.add(clazz, (IServerDataProvider<Entity>) provider, 0);
+    }
+
+    @Override
+    public <T extends ITheme> void addThemeType(ResourceLocation id, IThemeType<T> type) {
+        if (Waila.CLIENT_SIDE) {
+            assertLock();
+            ThemeType<T> casted = TypeUtil.uncheckedCast(type);
+            themeTypes.put(id, casted);
+            themeClass2Type.put(casted.clazz, casted);
+        }
     }
 
     @Override

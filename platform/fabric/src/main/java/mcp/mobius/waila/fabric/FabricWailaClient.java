@@ -9,6 +9,8 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
+import net.minecraft.server.packs.PackType;
 
 public class FabricWailaClient extends WailaClient implements ClientModInitializer {
 
@@ -24,6 +26,8 @@ public class FabricWailaClient extends WailaClient implements ClientModInitializ
         ClientPlayConnectionEvents.INIT.register((handler, client) -> client.execute(() -> onServerLogIn(handler.getConnection())));
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> onServerLogout(handler.getConnection()));
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> new FabricClientCommand().register(dispatcher));
+
+        ResourceManagerHelper.get(PackType.CLIENT_RESOURCES).registerReloadListener(new FabricBuiltinThemeLoader());
     }
 
 }

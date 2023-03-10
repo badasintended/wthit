@@ -136,10 +136,9 @@
 
 
   "config.waila.overlay_color"                                  : "Kolor",
-  "config.waila.overlay_alpha"                                  : "St. alfa",
+  "config.waila.overlay_background_alpha"                       : "St. alfa",
 
   "config.waila.overlay_theme"                                  : "Motyw",
-
 
 
 
@@ -224,6 +223,30 @@
   "config.waila.plugin_waila.show_fluids"                       : "Wyświetlaj ciecze",
   "config.waila.plugin_waila.show_fluids_desc"                  : "Staraj się pokazywać ciecze",
   "config.waila.plugin_waila.show_entities"                     : "Pokaż byty"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

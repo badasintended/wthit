@@ -6,6 +6,7 @@ import mcp.mobius.waila.access.DataAccessor;
 import mcp.mobius.waila.api.IBlacklistConfig;
 import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IEntityComponentProvider;
+import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.IWailaConfig.Overlay.Position.Align;
 import mcp.mobius.waila.api.WailaConstants;
@@ -251,28 +252,18 @@ public class TooltipHandler {
         }
 
         @Override
-        public int getBg() {
-            return getOverlay().getColor().getBackgroundColor();
+        public ITheme getTheme() {
+            return getOverlay().getColor().getTheme();
         }
 
         @Override
-        public int getGradStart() {
-            return getOverlay().getColor().getGradientStart();
-        }
-
-        @Override
-        public int getGradEnd() {
-            return getOverlay().getColor().getGradientEnd();
+        public int getBackgroundAlpha() {
+            return getOverlay().getColor().getBackgroundAlpha();
         }
 
         @Override
         public boolean enableTextToSpeech() {
             return Waila.CONFIG.get().getGeneral().isEnableTextToSpeech();
-        }
-
-        @Override
-        public int getFontColor() {
-            return getOverlay().getColor().getFontColor();
         }
 
     }

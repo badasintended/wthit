@@ -136,15 +136,14 @@
   "config.waila.overlay_align_y_middle"                         : "中间",
 
   "config.waila.overlay_color"                                  : "颜色",
-  "config.waila.overlay_alpha"                                  : "背景不透明度",
+  "config.waila.overlay_background_alpha"                       : "背景不透明度",
 
   "config.waila.overlay_theme"                                  : "主题",
+
   "config.waila.overlay_theme_editor.id"                        : "主题ID",
   "config.waila.overlay_theme_editor.id_empty"                  : "新主题需要一个ID",
-  "config.waila.overlay_theme_editor.background_color"          : "背景颜色",
-  "config.waila.overlay_theme_editor.gradient_start"            : "边框渐变开始",
-  "config.waila.overlay_theme_editor.gradient_end"              : "边框渐变结束",
-  "config.waila.overlay_theme_editor.text_color"                : "文本颜色",
+
+
   "config.waila.overlay_theme_editor.delete"                    : "删除主题",
   "config.waila.overlay_theme_editor.delete_prompt"             : "删除%s主题?",
 
@@ -229,6 +228,30 @@
   "config.waila.plugin_waila.icon_position_top"                 : "顶部",
   "config.waila.plugin_waila.icon_position_middle"              : "中间",
   "config.waila.plugin_waila.icon_position_bottom"              : "底部",
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   "tooltip.waila.instrument"                                    : "_DO_NOT_TRANSLATE_",
   "config.waila.plugin_"                                        : "_DO_NOT_TRANSLATE_"

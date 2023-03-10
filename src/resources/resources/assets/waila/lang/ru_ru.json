@@ -136,15 +136,14 @@
   "config.waila.overlay_align_y_middle"                         : "Центр",
 
   "config.waila.overlay_color"                                  : "Цвет",
-  "config.waila.overlay_alpha"                                  : "Прозрачность",
+  "config.waila.overlay_background_alpha"                       : "Прозрачность",
 
   "config.waila.overlay_theme"                                  : "Тема",
+
   "config.waila.overlay_theme_editor.id"                        : "ID темы",
   "config.waila.overlay_theme_editor.id_empty"                  : "Для новой темы нужен уникальный ID",
-  "config.waila.overlay_theme_editor.background_color"          : "Цвет фона",
-  "config.waila.overlay_theme_editor.gradient_start"            : "Начало градиента обводки",
-  "config.waila.overlay_theme_editor.gradient_end"              : "Конец градиента обводки",
-  "config.waila.overlay_theme_editor.text_color"                : "Цвет текста",
+
+
   "config.waila.overlay_theme_editor.delete"                    : "Удалить тему",
   "config.waila.overlay_theme_editor.delete_prompt"             : "Удалить тему %s?",
 
@@ -229,6 +228,30 @@
   "config.waila.plugin_waila.icon_position_top"                 : "Вверху",
   "config.waila.plugin_waila.icon_position_middle"              : "Посередине",
   "config.waila.plugin_waila.icon_position_bottom"              : "Внизу"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -46,7 +46,7 @@ public class PairComponent implements ITooltipComponent {
 
         Font font = Minecraft.getInstance().font;
         offset = font.lineHeight < height ? (height - font.lineHeight) / 2 : 0;
-        font.drawShadow(matrices, ": ", x + getColonOffset(), y + offset, IWailaConfig.get().getOverlay().getColor().getFontColor());
+        font.drawShadow(matrices, ": ", x + getColonOffset(), y + offset, IWailaConfig.get().getOverlay().getColor().getTheme().getDefaultTextColor());
 
         offset = value.getHeight() < height ? (height - value.getHeight()) / 2 : 0;
         IApiService.INSTANCE.renderComponent(matrices, value, x + getColonOffset() + getColonWidth(), y + offset, delta);

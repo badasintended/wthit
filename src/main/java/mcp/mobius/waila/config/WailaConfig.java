@@ -11,8 +11,12 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
+import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.IWailaConfig;
-import mcp.mobius.waila.util.DisplayUtil;
+import mcp.mobius.waila.api.WailaConstants;
+import mcp.mobius.waila.gui.hud.theme.ThemeDefinition;
+import mcp.mobius.waila.util.TypeUtil;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -241,60 +245,93 @@ public class WailaConfig implements IWailaConfig {
 
         }
 
+        @SuppressWarnings("removal")
         public static class Color implements IWailaConfig.Overlay.Color {
 
-            private int alpha = 80;
-            private Map<ResourceLocation, Theme> themes = new HashMap<>();
-            private ResourceLocation activeTheme = Theme.VANILLA.getId();
+            private static final ResourceLocation DEFAULT = Waila.id("vanilla");
+            private static boolean warnDeprecatedColorGetter = true;
 
-            public Color() {
-                themes.put(Theme.VANILLA.getId(), Theme.VANILLA);
-                themes.put(Theme.DARK.getId(), Theme.DARK);
+            private int backgroundAlpha = 204;
+            private ResourceLocation activeTheme = DEFAULT;
+
+            private final Map<ResourceLocation, ThemeDefinition<?>> themes = new HashMap<>();
+
+            private ThemeDefinition<?> getThemeDef() {
+                Map<ResourceLocation, ThemeDefinition<?>> allTheme = ThemeDefinition.getAll();
+
+                if (!allTheme.containsKey(activeTheme)) {
+                    activeTheme = DEFAULT;
+                    Waila.CONFIG.save();
+                }
+
+                return allTheme.get(activeTheme);
+            }
+
+            @Override
+            public int getBackgroundAlpha() {
+                return backgroundAlpha;
+            }
+
+            public void setBackgroundAlpha(int backgroundAlpha) {
+                this.backgroundAlpha = backgroundAlpha;
             }
 
             @Override
             public int getAlpha() {
-                return DisplayUtil.getAlphaFromPercentage(alpha);
+                return backgroundAlpha << 24;
             }
 
-            public void setAlpha(int alpha) {
-                this.alpha = alpha;
+            @Override
+            public ITheme getTheme() {
+                return getThemeDef().getInitializedInstance();
             }
 
-            public int rawAlpha() {
-                return alpha;
-            }
-
-            public Theme theme() {
-                return themes.getOrDefault(activeTheme, Theme.VANILLA);
-            }
-
-            public Map<ResourceLocation, Theme> themes() {
+            public Map<ResourceLocation, ThemeDefinition<?>> getCustomThemes() {
                 return themes;
+            }
+
+            public ResourceLocation getActiveTheme() {
+                return activeTheme;
+            }
+
+            private int tryGetGradientThemeProperty(String name) {
+                if (warnDeprecatedColorGetter) {
+                    warnDeprecatedColorGetter = false;
+                    Waila.LOGGER.error("Found usage of deprecated theme color getter!", new Throwable());
+                }
+
+                ThemeDefinition<?> def = getThemeDef();
+
+                if (def.type.getId() == WailaConstants.THEME_TYPE_GRADIENT) {
+                    return TypeUtil.uncheckedCast(def.type.properties.get(name).get(def.getInitializedInstance()));
+                }
+
+                return 0;
             }
 
             @Override
             public int getBackgroundColor() {
-                return getAlpha() + theme().getBackgroundColor();
+                return tryGetGradientThemeProperty("backgroundColor");
             }
 
             @Override
             public int getGradientStart() {
-                return getAlpha() + theme().getGradientStart();
+                return tryGetGradientThemeProperty("gradientStart");
             }
 
             @Override
             public int getGradientEnd() {
-                return getAlpha() + theme().getGradientEnd();
+                return tryGetGradientThemeProperty("gradientEnd");
             }
 
             @Override
             public int getFontColor() {
-                return theme().getFontColor();
+                return getTheme().getDefaultTextColor();
             }
 
             public void applyTheme(ResourceLocation id) {
-                activeTheme = themes.containsKey(id) ? id : activeTheme;
+                Map<ResourceLocation, ThemeDefinition<?>> allTheme = ThemeDefinition.getAll();
+                activeTheme = allTheme.containsKey(id) ? id : activeTheme;
             }
 
             public static class Adapter implements JsonSerializer<Color>, JsonDeserializer<Color> {
@@ -303,12 +340,11 @@ public class WailaConfig implements IWailaConfig {
                 public Color deserialize(JsonElement element, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
                     JsonObject json = element.getAsJsonObject();
                     Color color = new Color();
-                    color.alpha = json.getAsJsonPrimitive("alpha").getAsInt();
+                    color.backgroundAlpha = json.has("backgroundAlpha") ? json.getAsJsonPrimitive("backgroundAlpha").getAsInt() : 204;
                     color.activeTheme = new ResourceLocation(json.getAsJsonPrimitive("activeTheme").getAsString());
-                    color.themes = new HashMap<>();
                     json.getAsJsonArray("themes").forEach(e -> {
-                        Theme theme = context.deserialize(e, Theme.class);
-                        color.themes.put(theme.getId(), theme);
+                        ThemeDefinition<?> themeDef = context.deserialize(e, ThemeDefinition.class);
+                        color.themes.put(themeDef.id, themeDef);
                     });
                     return color;
                 }
@@ -316,7 +352,7 @@ public class WailaConfig implements IWailaConfig {
                 @Override
                 public JsonElement serialize(Color src, Type typeOfSrc, JsonSerializationContext context) {
                     JsonObject json = new JsonObject();
-                    json.addProperty("alpha", src.alpha);
+                    json.addProperty("backgroundAlpha", src.backgroundAlpha);
                     json.add("themes", context.serialize(src.themes.values()));
                     json.addProperty("activeTheme", src.activeTheme.toString());
                     return json;
@@ -330,11 +366,11 @@ public class WailaConfig implements IWailaConfig {
 
     public static class Formatter implements IWailaConfig.Formatter {
 
-        private String modName = "\u00A79\u00A7o%s";
-        private String blockName = "\u00a7f%s";
-        private String fluidName = "\u00a7f%s";
-        private String entityName = "\u00a7f%s";
-        private String registryName = "\u00a78%s";
+        private String modName = "§9§o%s";
+        private String blockName = "§f%s";
+        private String fluidName = "§f%s";
+        private String entityName = "§f%s";
+        private String registryName = "§8%s";
 
         public String getModName() {
             return modName;
