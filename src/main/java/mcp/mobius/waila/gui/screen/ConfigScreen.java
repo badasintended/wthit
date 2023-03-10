@@ -38,6 +38,11 @@ public abstract class ConfigScreen extends Screen {
         this(parent, title, null, null);
     }
 
+    public void rebuildOptions() {
+        options = null;
+        rebuildWidgets();
+    }
+
     @Override
     public void init() {
         super.init();

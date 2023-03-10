@@ -54,12 +54,16 @@ public final class DisplayUtil extends GuiComponent {
         RenderSystem.disableDepthTest();
     }
 
-    public static void renderRectBorder(Matrix4f matrix, BufferBuilder buf, int x, int y, int w, int h, int gradStart, int gradEnd) {
+    public static void renderRectBorder(Matrix4f matrix, BufferBuilder buf, int x, int y, int w, int h, int s, int gradStart, int gradEnd) {
+        if (s < 0) {
+            return;
+        }
+
         // @formatter:off
-        fillGradient(matrix, buf, x        , y        , w, 1    , gradStart, gradStart);
-        fillGradient(matrix, buf, x        , y + h - 1, w, 1    , gradEnd  , gradEnd);
-        fillGradient(matrix, buf, x        , y + 1    , 1, h - 2, gradStart, gradEnd);
-        fillGradient(matrix, buf, x + w - 1, y + 1    , 1, h - 2, gradStart, gradEnd);
+        fillGradient(matrix, buf, x        , y        , w, s          , gradStart, gradStart);
+        fillGradient(matrix, buf, x        , y + h - s, w, s          , gradEnd  , gradEnd);
+        fillGradient(matrix, buf, x        , y + s    , s, h - (s * 2), gradStart, gradEnd);
+        fillGradient(matrix, buf, x + w - s, y + s    , s, h - (s * 2), gradStart, gradEnd);
         // @formatter:on
     }
 
@@ -82,7 +86,7 @@ public final class DisplayUtil extends GuiComponent {
             int bw = Mth.floor(component.getWidth() * scale + 0.5);
             int bh = Mth.floor(component.getHeight() * scale + 0.5);
             int color = (0xFF << 24) + Mth.hsvToRgb(RANDOM.nextFloat(), RANDOM.nextFloat(), 1f);
-            renderRectBorder(matrices.last().pose(), buf, bx, by, bw, bh, color, color);
+            renderRectBorder(matrices.last().pose(), buf, bx, by, bw, bh, 0, color, color);
             tesselator.end();
 
             RenderSystem.enableTexture();

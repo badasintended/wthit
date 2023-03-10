@@ -136,10 +136,9 @@
   "config.waila.overlay_align_y_middle"                         : "中心",
 
   "config.waila.overlay_color"                                  : "顏色",
-  "config.waila.overlay_alpha"                                  : "背景透明度",
+  "config.waila.overlay_background_alpha"                       : "背景透明度",
 
   "config.waila.overlay_theme"                                  : "主題",
-
 
 
 
@@ -225,6 +224,30 @@
   "config.waila.plugin_waila.show_fluids_desc"                  : "嘗試顯示流體",
   "config.waila.plugin_waila.show_entities"                     : "顯示實體",
   "config.waila.plugin_waila.show_icon"                         : "顯示圖示"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
