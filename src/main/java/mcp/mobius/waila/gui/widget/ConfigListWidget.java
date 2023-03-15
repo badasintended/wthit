@@ -45,6 +45,10 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
         return minecraft.getWindow().getGuiScaledWidth() - 5;
     }
 
+    public void tick() {
+        children().forEach(Entry::tick);
+    }
+
     public void save() {
         children()
             .stream()
@@ -89,6 +93,9 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
         }
 
         public void addToScreen(ConfigScreen screen) {
+        }
+
+        public void tick() {
         }
 
         @Override
