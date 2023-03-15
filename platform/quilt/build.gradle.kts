@@ -13,7 +13,7 @@ dependencies {
     modCompileRuntime("org.quiltmc.quilted-fabric-api:fabric-key-binding-api-v1:${rootProp["qfapi"]}")
     modCompileRuntime("org.quiltmc.quilted-fabric-api:fabric-rendering-v1:${rootProp["qfapi"]}")
 
-    modCompileOnly("com.terraformersmc:modmenu:${rootProp["modMenu"]}")
+    modCompileRuntime("com.terraformersmc:modmenu:${rootProp["modMenu"]}")
 
     modRuntimeOnly("lol.bai:badpackets:fabric-${rootProp["badpackets"]}")
     modRuntimeOnly("org.quiltmc.quilted-fabric-api:quilted-fabric-api:${rootProp["qfapi"]}")

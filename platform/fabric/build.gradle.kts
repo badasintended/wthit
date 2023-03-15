@@ -11,7 +11,8 @@ dependencies {
 
     modCompileRuntime("net.fabricmc.fabric-api:fabric-api:${rootProp["fabricApi"]}")
 
-    modCompileOnly("com.terraformersmc:modmenu:${rootProp["modMenu"]}")
+    modCompileRuntime("com.terraformersmc:modmenu:${rootProp["modMenu"]}")
+
     modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:${rootProp["rei"]}")
     modCompileOnly("dev.emi:emi:${rootProp["emi"]}")
 
