@@ -75,6 +75,11 @@ public abstract class ConfigScreen extends Screen {
     }
 
     @Override
+    public void tick() {
+        options.tick();
+    }
+
+    @Override
     public void render(@NotNull PoseStack matrices, int mouseX, int mouseY, float partialTicks) {
         renderBackground(matrices);
         options.render(matrices, mouseX, mouseY, partialTicks);

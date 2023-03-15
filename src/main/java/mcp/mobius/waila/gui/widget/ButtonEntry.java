@@ -1,7 +1,7 @@
 package mcp.mobius.waila.gui.widget;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import net.minecraft.client.Minecraft;
+import mcp.mobius.waila.gui.screen.ConfigScreen;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
@@ -35,14 +35,8 @@ public class ButtonEntry extends ConfigListWidget.Entry {
     }
 
     @Override
-    public boolean mouseClicked(double mouseY, double mouseX, int button) {
-        if (button == 0 && this.button.isHoveredOrFocused()) {
-            this.button.playDownSound(Minecraft.getInstance().getSoundManager());
-            this.button.onPress();
-            return true;
-        }
-
-        return false;
+    public void addToScreen(ConfigScreen screen) {
+        screen.addListener(button);
     }
 
 }
