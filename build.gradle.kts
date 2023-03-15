@@ -122,7 +122,7 @@ dependencies {
 }
 
 task<GenerateTranslationTask>("generateTranslationClass") {
-    group = "build constant"
+    group = "translation"
 
     input.set(file("src/resources/resources/assets/waila/lang/en_us.json"))
     output.set(file("src/buildConst/java"))
@@ -132,6 +132,19 @@ task<GenerateTranslationTask>("generateTranslationClass") {
 
 tasks.named("compileBuildConstJava") {
     dependsOn("generateTranslationClass")
+}
+
+task<FormatTranslationTask>("formatTranslation") {
+    group = "translation"
+
+    translationDir.set(file("src/resources/resources/assets/waila/lang"))
+}
+
+task<FormatTranslationTask>("validateTranslation") {
+    group = "translation"
+
+    translationDir.set(file("src/resources/resources/assets/waila/lang"))
+    test.set(true)
 }
 
 task<Javadoc>("apiJavadoc") {

@@ -211,6 +211,7 @@
 
   "config.waila.plugin_waila"                                   : "Waila核心",
   "config.waila.plugin_waila.show_mod_name"                     : "显示模组名称",
+
   "config.waila.plugin_waila.show_registry"                     : "显示注册名称",
   "config.waila.plugin_waila.show_blocks"                       : "显示方块",
   "config.waila.plugin_waila.show_fluids"                       : "显示流体",

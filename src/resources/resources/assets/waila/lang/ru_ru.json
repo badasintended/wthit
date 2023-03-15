@@ -45,6 +45,7 @@
   "gui.waila.configuration"                                     : "Конфигурация %s",
   "gui.waila.waila_settings"                                    : "Настройки %s",
   "gui.waila.plugin_settings"                                   : "Настроки плагинов",
+
   "gui.waila.credits"                                           : "Благодарности",
   "gui.waila.credits.original_mod_by"                           : "Оригинальный \"WAILA\" от",
   "gui.waila.credits.authors"                                   : "Авторы",
@@ -75,6 +76,7 @@
   "config.waila.server_disabled"                                : "Сервер выключил этот параметр",
   "config.waila.server_missing_mod"                             : "Заблокировано так как на сервере не установлен WTHIT",
   "config.waila.server_missing_option"                          : "Заблокировано так как на сервере нет этого параметра",
+
   "config.waila.general"                                        : "Основное",
   "config.waila.display_tooltip"                                : "Отображать подсказки",
   "config.waila.display_tooltip_desc"                           : "Собирать данные и отображать подсказки",
@@ -90,7 +92,6 @@
   "config.waila.hide_from_players_desc"                         : "Скрывает подсказки при открытом списке игроков",
   "config.waila.hide_from_debug"                                : "Скрыть при отладке",
   "config.waila.hide_from_debug_desc"                           : "Скрывает подсказки во время режима отладки",
-
   "config.waila.rate_limit"                                     : "Лимит запросов",
   "config.waila.rate_limit_desc"                                : "Сколько миллисекунд должно пройти до следующего запроса к серверу\nДолжно быть как минимум 250 миллисекунд",
 
@@ -98,6 +99,7 @@
   "config.waila.tts_desc"                                       : "Читает названия блоков и существ используя синтез речи",
 
   "config.waila.overlay"                                        : "Наложение",
+
   "config.waila.overlay_pos_x"                                  : "Смещение по X",
   "config.waila.overlay_pos_x_desc"                             : "Позиция X относительно привязки экрана\nРазмер влияет на позицию",
   "config.waila.overlay_pos_y"                                  : "Смещение по Y",
@@ -108,28 +110,34 @@
 
   "config.waila.overlay_scale"                                  : "Размер",
   "config.waila.overlay_scale_desc"                             : "Насколько большой будет подсказка\n1.0 это стандарное значение",
+
   "config.waila.overlay_anchor_x"                               : "Горизонтальная привязка",
   "config.waila.overlay_anchor_x_desc"                          : "От какой части экрана будет выполняться рассчет\nПроверить можно изменяя размер окна игры",
   "config.waila.overlay_anchor_x_left"                          : "Лево",
   "config.waila.overlay_anchor_x_right"                         : "Право",
   "config.waila.overlay_anchor_x_center"                        : "Центр",
+
   "config.waila.overlay_anchor_y"                               : "Вертикальная привязка",
   "config.waila.overlay_anchor_y_desc"                          : "От какой части экрана будет выполняться рассчет\nПроверить можно изменяя размер окна игры",
   "config.waila.overlay_anchor_y_top"                           : "Вверх",
   "config.waila.overlay_anchor_y_bottom"                        : "Низ",
   "config.waila.overlay_anchor_y_middle"                        : "Центр",
+
   "config.waila.overlay_align_x"                                : "Горизонтальное выравнивание",
   "config.waila.overlay_align_x_desc"                           : "Как подсказки с различным размером будут выравнены друг с другом",
   "config.waila.overlay_align_x_left"                           : "Лево",
   "config.waila.overlay_align_x_right"                          : "Право",
   "config.waila.overlay_align_x_center"                         : "Центр",
+
   "config.waila.overlay_align_y"                                : "Вертикальное выравнивание",
   "config.waila.overlay_align_y_desc"                           : "Как подсказки с различным размером будут выравнены друг с другом",
   "config.waila.overlay_align_y_top"                            : "Вверх",
   "config.waila.overlay_align_y_bottom"                         : "Низ",
   "config.waila.overlay_align_y_middle"                         : "Центр",
+
   "config.waila.overlay_color"                                  : "Цвет",
   "config.waila.overlay_alpha"                                  : "Прозрачность",
+
   "config.waila.overlay_theme"                                  : "Тема",
   "config.waila.overlay_theme_editor.id"                        : "ID темы",
   "config.waila.overlay_theme_editor.id_empty"                  : "Для новой темы нужен уникальный ID",
@@ -146,8 +154,8 @@
   "config.waila.format_fluid_name"                              : "Название жидкости",
   "config.waila.format_entity_name"                             : "Название сущности",
   "config.waila.format_registry_name"                           : "Название в регистре",
-  "config.waila.keybinds"                                       : "Привязка клавиш",
 
+  "config.waila.keybinds"                                       : "Привязка клавиш",
   "key.waila.config"                                            : "Открыть конфиг",
   "key.waila.show_overlay"                                      : "Отображать оверлей",
   "key.waila.toggle_liquid"                                     : "Отображать жидкости",
@@ -209,8 +217,8 @@
   "config.waila.plugin_minecraft.attribute.long_armor_max_desc" : "Наибольшее число очков брони для отображения в виде иконок, если у моба или игрока больше чем указано здесь, будут отображены цифры",
 
   "config.waila.plugin_waila"                                   : "Ядро Waila",
-  "config.waila.plugin_waila.show_item_mod_name"                : "Отображать названия мода для предеметов",
   "config.waila.plugin_waila.show_mod_name"                     : "Отображать названия модов",
+  "config.waila.plugin_waila.show_item_mod_name"                : "Отображать названия мода для предеметов",
   "config.waila.plugin_waila.show_registry"                     : "Отображать названия из регистра",
   "config.waila.plugin_waila.show_blocks"                       : "Отображать блоки",
   "config.waila.plugin_waila.show_fluids"                       : "Отображать жидкости",
@@ -221,4 +229,7 @@
   "config.waila.plugin_waila.icon_position_top"                 : "Вверху",
   "config.waila.plugin_waila.icon_position_middle"              : "Посередине",
   "config.waila.plugin_waila.icon_position_bottom"              : "Внизу"
+
+
+
 }
