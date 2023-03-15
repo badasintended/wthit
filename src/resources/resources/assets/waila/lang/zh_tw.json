@@ -1,168 +1,235 @@
 {
-  "tooltip.waila.crop_growth"                                  : "生長進度",
-  "tooltip.waila.crop_mature"                                  : "成熟",
-  "tooltip.waila.empty"                                        : "空",
-  "tooltip.waila.delay"                                        : "延遲",
-  "tooltip.waila.mode"                                         : "模式",
-  "tooltip.waila.mode_comparator"                              : "比較器",
-  "tooltip.waila.mode_subtractor"                              : "減法器",
-  "tooltip.waila.state"                                        : "狀態",
-  "tooltip.waila.state_on"                                     : "開",
-  "tooltip.waila.state_off"                                    : "關",
-  "tooltip.waila.power"                                        : "訊號強度",
-  "tooltip.waila.sneak_for_details"                            : "潛行顯示詳細資訊",
-  "tooltip.waila.compost_level"                                : "堆肥桶等級",
-  "tooltip.waila.honey_level"                                  : "蜂蜜等級",
-  "tooltip.waila.owner"                                        : "主人",
+  "tooltip.waila.crop_growth"                                   : "生長進度",
+  "tooltip.waila.crop_mature"                                   : "成熟",
+  "tooltip.waila.empty"                                         : "空",
+  "tooltip.waila.delay"                                         : "延遲",
+  "tooltip.waila.mode"                                          : "模式",
+  "tooltip.waila.mode_comparator"                               : "比較器",
+  "tooltip.waila.mode_subtractor"                               : "減法器",
+  "tooltip.waila.state"                                         : "狀態",
+  "tooltip.waila.state_on"                                      : "開",
+  "tooltip.waila.state_off"                                     : "關",
+  "tooltip.waila.power"                                         : "訊號強度",
+  "tooltip.waila.sneak_for_details"                             : "潛行顯示詳細資訊",
+  "tooltip.waila.compost_level"                                 : "堆肥桶等級",
+  "tooltip.waila.honey_level"                                   : "蜂蜜等級",
+  "tooltip.waila.owner"                                         : "主人",
 
-  "tooltip.waila.instrument.harp"                              : "豎琴",
-  "tooltip.waila.instrument.basedrum"                          : "大鼓",
-  "tooltip.waila.instrument.snare"                             : "小鼓",
-  "tooltip.waila.instrument.hat"                               : "腳踏鈸",
-  "tooltip.waila.instrument.bass"                              : "貝斯",
-  "tooltip.waila.instrument.flute"                             : "長笛",
-  "tooltip.waila.instrument.bell"                              : "鐘琴",
-  "tooltip.waila.instrument.guitar"                            : "吉他",
-  "tooltip.waila.instrument.chime"                             : "鐘琴",
-  "tooltip.waila.instrument.xylophone"                         : "木琴",
-  "tooltip.waila.instrument.iron_xylophone"                    : "顫音琴",
-  "tooltip.waila.instrument.cow_bell"                          : "牛鈴",
-  "tooltip.waila.instrument.didgeridoo"                        : "迪吉裡杜管",
-  "tooltip.waila.instrument.bit"                               : "方波",
-  "tooltip.waila.instrument.banjo"                             : "班卓琴",
-  "tooltip.waila.instrument.pling"                             : "電鋼琴",
 
-  "gui.waila.configuration"                                    : "%s 組態",
-  "gui.waila.waila_settings"                                   : "%s 設定",
-  "gui.waila.plugin_settings"                                  : "附屬設定",
 
-  "gui.waila.credits"                                          : "銘謝名單",
-  "gui.waila.credits.original_mod_by"                          : "原始模組《WAILA》作者",
-  "gui.waila.credits.authors"                                  : "作者",
-  "gui.waila.credits.contributors"                             : "貢獻者",
 
-  "key.waila.config"                                           : "開啟組態",
-  "key.waila.show_overlay"                                     : "顯示提示框",
-  "key.waila.toggle_liquid"                                    : "開關流體顯示",
-  "key.waila.show_recipe_input"                                : "顯示合成用途",
-  "key.waila.show_recipe_output"                               : "顯示合成配方",
+  "tooltip.waila.instrument.harp"                               : "豎琴",
+  "tooltip.waila.instrument.basedrum"                           : "大鼓",
+  "tooltip.waila.instrument.snare"                              : "小鼓",
+  "tooltip.waila.instrument.hat"                                : "腳踏鈸",
+  "tooltip.waila.instrument.bass"                               : "貝斯",
+  "tooltip.waila.instrument.flute"                              : "長笛",
+  "tooltip.waila.instrument.bell"                               : "鐘琴",
+  "tooltip.waila.instrument.guitar"                             : "吉他",
+  "tooltip.waila.instrument.chime"                              : "鐘琴",
+  "tooltip.waila.instrument.xylophone"                          : "木琴",
+  "tooltip.waila.instrument.iron_xylophone"                     : "顫音琴",
+  "tooltip.waila.instrument.cow_bell"                           : "牛鈴",
+  "tooltip.waila.instrument.didgeridoo"                         : "迪吉裡杜管",
+  "tooltip.waila.instrument.bit"                                : "方波",
+  "tooltip.waila.instrument.banjo"                              : "班卓琴",
+  "tooltip.waila.instrument.pling"                              : "電鋼琴",
 
-  "command.waila.server_dump_success"                          : "成功轉儲伺服器端組態至 %s",
-  "command.waila.client_dump_success"                          : "成功轉儲用戶端組態至 %s",
 
-  "config.waila.true"                                          : "是",
-  "config.waila.false"                                         : "否",
-  "config.waila.server_only"                                   : "僅能在伺服器端或單人遊戲中編輯",
 
-  "config.waila.general"                                       : "一般設定",
-  "config.waila.display_tooltip"                               : "顯示提示框",
-  "config.waila.display_tooltip_desc"                          : "收集資料並顯示提示框",
-  "config.waila.sneaky_details"                                : "潛行詳細資訊",
-  "config.waila.sneaky_details_desc"                           : "除非潛行，否則隱藏詳細資訊",
-  "config.waila.display_mode"                                  : "顯示模式",
-  "config.waila.display_mode_desc"                             : "提示框顯示方式\n切換模式：使用快捷鍵切換是否要顯示提示框\n長按模式：需要按住快捷鍵才會持續顯示提示框",
-  "config.waila.display_mode_toggle"                           : "切換模式",
-  "config.waila.display_mode_hold_key"                         : "長按模式",
-  "config.waila.hide_from_players"                             : "玩家清單開啟時隱藏",
-  "config.waila.hide_from_players_desc"                        : "當玩家清單開啟時隱藏提示框",
-  "config.waila.hide_from_debug"                               : "除錯畫面開啟時隱藏",
-  "config.waila.hide_from_debug_desc"                          : "當除錯畫面開啟時隱藏提示框",
-  "config.waila.rate_limit"                                    : "速率限制",
-  "config.waila.rate_limit_desc"                               : "伺服器請求資料的間距時間（毫秒）\n最少需要 250 毫秒",
 
-  "config.waila.tts"                                           : "啟用朗讀功能",
-  "config.waila.tts_desc"                                      : "以系統的文字轉語音引擎來讀出方塊及實體的名稱",
 
-  "config.waila.overlay"                                       : "提示框",
 
-  "config.waila.overlay_pos_x"                                 : "X 軸偏移量",
-  "config.waila.overlay_pos_x_desc"                            : "相對於畫面錨點的 X 軸位置\n位置會受放大比例影響",
-  "config.waila.overlay_pos_y"                                 : "Y 軸偏移量",
-  "config.waila.overlay_pos_y_desc"                            : "相對於畫面錨點的 Y 軸位置\n位置會受放大比例影響",
 
-  "config.waila.boss_bars_overlap"                             : "Boss 血量條",
-  "config.waila.boss_bars_overlap_desc"                        : "若設為「否」，當 Boss 血量條\n顯示在畫面上時，提示框會向下平移\n只會影響到頂部中心對齊",
 
-  "config.waila.overlay_scale"                                 : "放大比例",
-  "config.waila.overlay_scale_desc"                            : "提示框的比例大小\n預設為 1.0",
+  "gui.waila.configuration"                                     : "%s 組態",
+  "gui.waila.waila_settings"                                    : "%s 設定",
+  "gui.waila.plugin_settings"                                   : "附屬設定",
 
-  "config.waila.overlay_anchor_x"                              : "水平錨點",
-  "config.waila.overlay_anchor_x_desc"                         : "設定從畫面的哪個位置開始計算顯示位置\n透過調整遊戲視窗大小來測試它",
-  "config.waila.overlay_anchor_x_left"                         : "左側",
-  "config.waila.overlay_anchor_x_right"                        : "右側",
-  "config.waila.overlay_anchor_x_center"                       : "中心",
+  "gui.waila.credits"                                           : "銘謝名單",
+  "gui.waila.credits.original_mod_by"                           : "原始模組《WAILA》作者",
+  "gui.waila.credits.authors"                                   : "作者",
+  "gui.waila.credits.contributors"                              : "貢獻者",
 
-  "config.waila.overlay_anchor_y"                              : "垂直錨點",
-  "config.waila.overlay_anchor_y_desc"                         : "設定從畫面的哪個位置開始計算顯示位置\n透過調整遊戲視窗大小來測試它",
-  "config.waila.overlay_anchor_y_top"                          : "頂部",
-  "config.waila.overlay_anchor_y_bottom"                       : "底部",
-  "config.waila.overlay_anchor_y_middle"                       : "中心",
+  "command.waila.server_dump_success"                           : "成功轉儲伺服器端組態至 %s",
 
-  "config.waila.overlay_align_x"                               : "水平對齊",
-  "config.waila.overlay_align_x_desc"                          : "不同長度的提示資訊要如何互相對齊",
-  "config.waila.overlay_align_x_left"                          : "左側",
-  "config.waila.overlay_align_x_right"                         : "右側",
-  "config.waila.overlay_align_x_center"                        : "中心",
+  "command.waila.client_dump_success"                           : "成功轉儲用戶端組態至 %s",
 
-  "config.waila.overlay_align_y"                               : "垂直對齊",
-  "config.waila.overlay_align_y_desc"                          : "不同長度的提示資訊要如何互相對齊",
-  "config.waila.overlay_align_y_top"                           : "頂部",
-  "config.waila.overlay_align_y_bottom"                        : "底部",
-  "config.waila.overlay_align_y_middle"                        : "中心",
 
-  "config.waila.overlay_color"                                 : "顏色",
-  "config.waila.overlay_alpha"                                 : "背景透明度",
-  "config.waila.overlay_theme"                                 : "主題",
 
-  "config.waila.formatting"                                    : "格式",
-  "config.waila.format_mod_name"                               : "模組名稱",
-  "config.waila.format_block_name"                             : "方塊名稱",
-  "config.waila.format_fluid_name"                             : "流體名稱",
-  "config.waila.format_entity_name"                            : "實體名稱",
-  "config.waila.format_registry_name"                          : "註冊名稱",
 
-  "config.waila.plugin_minecraft"                              : "Minecraft",
-  "config.waila.plugin_minecraft.furnace_contents"             : "顯示熔爐內容物",
-  "config.waila.plugin_minecraft.item_entity"                  : "顯示物品實體",
-  "config.waila.plugin_minecraft.breaking_progress"            : "挖掘進度",
-  "config.waila.plugin_minecraft.breaking_progress.enabled"    : "顯示挖掘進度",
-  "config.waila.plugin_minecraft.breaking_progress.color"      : "挖掘進度條顏色",
-  "config.waila.plugin_minecraft.breaking_progress.bottom_only": "僅在提示框底部顯示進度條",
-  "config.waila.plugin_minecraft.override"                     : "覆寫",
-  "config.waila.plugin_minecraft.override.infested"            : "將蛀蝕的方塊顯示為正常的方塊",
-  "config.waila.plugin_minecraft.override.trapped_chest"       : "將陷阱儲物箱顯示為正常的儲物箱",
-  "config.waila.plugin_minecraft.override.powder_snow"         : "將粉雪顯示為正常的雪",
-  "config.waila.plugin_minecraft.spawner_type"                 : "顯示生怪磚類型",
-  "config.waila.plugin_minecraft.crop_progress"                : "顯示作物生長進度",
-  "config.waila.plugin_minecraft.redstone"                     : "紅石",
-  "config.waila.plugin_minecraft.redstone.lever"               : "顯示控制桿狀態",
-  "config.waila.plugin_minecraft.redstone.repeater"            : "顯示中繼器延遲",
-  "config.waila.plugin_minecraft.redstone.comparator"          : "顯示比較器模式",
-  "config.waila.plugin_minecraft.redstone.level"               : "顯示紅石強度",
-  "config.waila.plugin_minecraft.jukebox"                      : "唱片機",
-  "config.waila.plugin_minecraft.jukebox.record"               : "顯示正在播放的唱片",
-  "config.waila.plugin_minecraft.player_head"                  : "玩家頭顱",
-  "config.waila.plugin_minecraft.player_head.name"             : "顯示玩家名稱",
-  "config.waila.plugin_minecraft.level"                        : "等級",
-  "config.waila.plugin_minecraft.level.composter"              : "顯示堆肥桶等級",
-  "config.waila.plugin_minecraft.level.honey"                  : "顯示蜂蜜等級",
-  "config.waila.plugin_minecraft.note_block"                   : "音階盒",
-  "config.waila.plugin_minecraft.note_block.type"              : "顯示樂器和音符",
-  "config.waila.plugin_minecraft.note_block.note"              : "音階盒顯示模式",
-  "config.waila.plugin_minecraft.note_block.note_sharp"        : "升音符",
-  "config.waila.plugin_minecraft.note_block.note_flat"         : "降音符",
-  "config.waila.plugin_minecraft.note_block.int_value"         : "顯示整數等級數值",
-  "config.waila.plugin_minecraft.pet"                          : "寵物",
-  "config.waila.plugin_minecraft.pet.owner"                    : "顯示寵物主人",
-  "config.waila.plugin_minecraft.pet.owner_desc"               : "僅適用於已註冊的 Minecraft 帳戶",
-  "config.waila.plugin_minecraft.pet.hide_unknown_owner"       : "隱藏未知主人",
 
-  "config.waila.plugin_waila"                                  : "Waila 核心",
-  "config.waila.plugin_waila.show_mod_name"                    : "顯示模組名稱",
-  "config.waila.plugin_waila.show_registry"                    : "顯示註冊名稱",
-  "config.waila.plugin_waila.show_blocks"                      : "顯示方塊",
-  "config.waila.plugin_waila.show_fluids"                      : "顯示流體",
-  "config.waila.plugin_waila.show_fluids_desc"                 : "嘗試顯示流體",
-  "config.waila.plugin_waila.show_entities"                    : "顯示實體",
-  "config.waila.plugin_waila.show_icon"                        : "顯示圖示"
+
+
+
+
+
+
+
+  "config.waila.true"                                           : "是",
+  "config.waila.false"                                          : "否",
+
+
+
+
+  "config.waila.server_only"                                    : "僅能在伺服器端或單人遊戲中編輯",
+
+
+
+
+  "config.waila.general"                                        : "一般設定",
+  "config.waila.display_tooltip"                                : "顯示提示框",
+  "config.waila.display_tooltip_desc"                           : "收集資料並顯示提示框",
+  "config.waila.sneaky_details"                                 : "潛行詳細資訊",
+  "config.waila.sneaky_details_desc"                            : "除非潛行，否則隱藏詳細資訊",
+
+
+  "config.waila.display_mode"                                   : "顯示模式",
+  "config.waila.display_mode_desc"                              : "提示框顯示方式\n切換模式：使用快捷鍵切換是否要顯示提示框\n長按模式：需要按住快捷鍵才會持續顯示提示框",
+  "config.waila.display_mode_toggle"                            : "切換模式",
+  "config.waila.display_mode_hold_key"                          : "長按模式",
+  "config.waila.hide_from_players"                              : "玩家清單開啟時隱藏",
+  "config.waila.hide_from_players_desc"                         : "當玩家清單開啟時隱藏提示框",
+  "config.waila.hide_from_debug"                                : "除錯畫面開啟時隱藏",
+  "config.waila.hide_from_debug_desc"                           : "當除錯畫面開啟時隱藏提示框",
+  "config.waila.rate_limit"                                     : "速率限制",
+  "config.waila.rate_limit_desc"                                : "伺服器請求資料的間距時間（毫秒）\n最少需要 250 毫秒",
+
+  "config.waila.tts"                                            : "啟用朗讀功能",
+  "config.waila.tts_desc"                                       : "以系統的文字轉語音引擎來讀出方塊及實體的名稱",
+
+  "config.waila.overlay"                                        : "提示框",
+
+  "config.waila.overlay_pos_x"                                  : "X 軸偏移量",
+  "config.waila.overlay_pos_x_desc"                             : "相對於畫面錨點的 X 軸位置\n位置會受放大比例影響",
+  "config.waila.overlay_pos_y"                                  : "Y 軸偏移量",
+  "config.waila.overlay_pos_y_desc"                             : "相對於畫面錨點的 Y 軸位置\n位置會受放大比例影響",
+
+  "config.waila.boss_bars_overlap"                              : "Boss 血量條",
+  "config.waila.boss_bars_overlap_desc"                         : "若設為「否」，當 Boss 血量條\n顯示在畫面上時，提示框會向下平移\n只會影響到頂部中心對齊",
+
+  "config.waila.overlay_scale"                                  : "放大比例",
+  "config.waila.overlay_scale_desc"                             : "提示框的比例大小\n預設為 1.0",
+
+  "config.waila.overlay_anchor_x"                               : "水平錨點",
+  "config.waila.overlay_anchor_x_desc"                          : "設定從畫面的哪個位置開始計算顯示位置\n透過調整遊戲視窗大小來測試它",
+  "config.waila.overlay_anchor_x_left"                          : "左側",
+  "config.waila.overlay_anchor_x_right"                         : "右側",
+  "config.waila.overlay_anchor_x_center"                        : "中心",
+
+  "config.waila.overlay_anchor_y"                               : "垂直錨點",
+  "config.waila.overlay_anchor_y_desc"                          : "設定從畫面的哪個位置開始計算顯示位置\n透過調整遊戲視窗大小來測試它",
+  "config.waila.overlay_anchor_y_top"                           : "頂部",
+  "config.waila.overlay_anchor_y_bottom"                        : "底部",
+  "config.waila.overlay_anchor_y_middle"                        : "中心",
+
+  "config.waila.overlay_align_x"                                : "水平對齊",
+  "config.waila.overlay_align_x_desc"                           : "不同長度的提示資訊要如何互相對齊",
+  "config.waila.overlay_align_x_left"                           : "左側",
+  "config.waila.overlay_align_x_right"                          : "右側",
+  "config.waila.overlay_align_x_center"                         : "中心",
+
+  "config.waila.overlay_align_y"                                : "垂直對齊",
+  "config.waila.overlay_align_y_desc"                           : "不同長度的提示資訊要如何互相對齊",
+  "config.waila.overlay_align_y_top"                            : "頂部",
+  "config.waila.overlay_align_y_bottom"                         : "底部",
+  "config.waila.overlay_align_y_middle"                         : "中心",
+
+  "config.waila.overlay_color"                                  : "顏色",
+  "config.waila.overlay_alpha"                                  : "背景透明度",
+
+  "config.waila.overlay_theme"                                  : "主題",
+
+
+
+
+
+
+
+
+
+  "config.waila.formatting"                                     : "格式",
+  "config.waila.format_mod_name"                                : "模組名稱",
+  "config.waila.format_block_name"                              : "方塊名稱",
+  "config.waila.format_fluid_name"                              : "流體名稱",
+  "config.waila.format_entity_name"                             : "實體名稱",
+  "config.waila.format_registry_name"                           : "註冊名稱",
+
+
+  "key.waila.config"                                            : "開啟組態",
+  "key.waila.show_overlay"                                      : "顯示提示框",
+  "key.waila.toggle_liquid"                                     : "開關流體顯示",
+  "key.waila.show_recipe_input"                                 : "顯示合成用途",
+  "key.waila.show_recipe_output"                                : "顯示合成配方",
+
+  "config.waila.plugin_minecraft"                               : "Minecraft",
+  "config.waila.plugin_minecraft.furnace_contents"              : "顯示熔爐內容物",
+  "config.waila.plugin_minecraft.item_entity"                   : "顯示物品實體",
+  "config.waila.plugin_minecraft.breaking_progress"             : "挖掘進度",
+  "config.waila.plugin_minecraft.breaking_progress.enabled"     : "顯示挖掘進度",
+  "config.waila.plugin_minecraft.breaking_progress.color"       : "挖掘進度條顏色",
+  "config.waila.plugin_minecraft.breaking_progress.bottom_only" : "僅在提示框底部顯示進度條",
+  "config.waila.plugin_minecraft.override"                      : "覆寫",
+  "config.waila.plugin_minecraft.override.infested"             : "將蛀蝕的方塊顯示為正常的方塊",
+  "config.waila.plugin_minecraft.override.trapped_chest"        : "將陷阱儲物箱顯示為正常的儲物箱",
+  "config.waila.plugin_minecraft.override.powder_snow"          : "將粉雪顯示為正常的雪",
+  "config.waila.plugin_minecraft.spawner_type"                  : "顯示生怪磚類型",
+  "config.waila.plugin_minecraft.crop_progress"                 : "顯示作物生長進度",
+  "config.waila.plugin_minecraft.redstone"                      : "紅石",
+  "config.waila.plugin_minecraft.redstone.lever"                : "顯示控制桿狀態",
+  "config.waila.plugin_minecraft.redstone.repeater"             : "顯示中繼器延遲",
+  "config.waila.plugin_minecraft.redstone.comparator"           : "顯示比較器模式",
+  "config.waila.plugin_minecraft.redstone.level"                : "顯示紅石強度",
+  "config.waila.plugin_minecraft.jukebox"                       : "唱片機",
+  "config.waila.plugin_minecraft.jukebox.record"                : "顯示正在播放的唱片",
+  "config.waila.plugin_minecraft.player_head"                   : "玩家頭顱",
+  "config.waila.plugin_minecraft.player_head.name"              : "顯示玩家名稱",
+  "config.waila.plugin_minecraft.level"                         : "等級",
+  "config.waila.plugin_minecraft.level.composter"               : "顯示堆肥桶等級",
+  "config.waila.plugin_minecraft.level.honey"                   : "顯示蜂蜜等級",
+  "config.waila.plugin_minecraft.note_block"                    : "音階盒",
+  "config.waila.plugin_minecraft.note_block.type"               : "顯示樂器和音符",
+  "config.waila.plugin_minecraft.note_block.note"               : "音階盒顯示模式",
+  "config.waila.plugin_minecraft.note_block.note_sharp"         : "升音符",
+  "config.waila.plugin_minecraft.note_block.note_flat"          : "降音符",
+  "config.waila.plugin_minecraft.note_block.int_value"          : "顯示整數等級數值",
+  "config.waila.plugin_minecraft.pet"                           : "寵物",
+  "config.waila.plugin_minecraft.pet.owner"                     : "顯示寵物主人",
+  "config.waila.plugin_minecraft.pet.owner_desc"                : "僅適用於已註冊的 Minecraft 帳戶",
+  "config.waila.plugin_minecraft.pet.hide_unknown_owner"        : "隱藏未知主人",
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  "config.waila.plugin_waila"                                   : "Waila 核心",
+  "config.waila.plugin_waila.show_mod_name"                     : "顯示模組名稱",
+
+  "config.waila.plugin_waila.show_registry"                     : "顯示註冊名稱",
+  "config.waila.plugin_waila.show_blocks"                       : "顯示方塊",
+  "config.waila.plugin_waila.show_fluids"                       : "顯示流體",
+  "config.waila.plugin_waila.show_fluids_desc"                  : "嘗試顯示流體",
+  "config.waila.plugin_waila.show_entities"                     : "顯示實體",
+  "config.waila.plugin_waila.show_icon"                         : "顯示圖示"
+
+
+
+
+
+
+
 }
