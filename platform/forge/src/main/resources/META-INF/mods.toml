@@ -30,13 +30,13 @@ side = "BOTH"
 [[dependencies.wthit]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.19.3,)"
+versionRange = "[1.19.4,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.wthit]]
 modId = "badpackets"
 mandatory = true
-versionRange = "[0.3.4,)"
+versionRange = "[0.4.1,)"
 ordering = "NONE"
 side = "BOTH"

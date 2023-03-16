@@ -16,8 +16,8 @@ dependencies {
     annotationProcessor("org.spongepowered:mixin:0.8.5:processor")
 
     runtimeOnly(fg.deobf("lol.bai:badpackets:forge-${rootProp["badpackets"]}"))
-    runtimeOnly(fg.deobf("dev.architectury:architectury-forge:${rootProp["architectury"]}"))
-    runtimeOnly(fg.deobf("me.shedaniel.cloth:cloth-config-forge:${rootProp["clothConfig"]}"))
+//    runtimeOnly(fg.deobf("dev.architectury:architectury-forge:${rootProp["architectury"]}"))
+//    runtimeOnly(fg.deobf("me.shedaniel.cloth:cloth-config-forge:${rootProp["clothConfig"]}"))
 
     when (rootProp["recipeViewer"]) {
         "rei" -> {
