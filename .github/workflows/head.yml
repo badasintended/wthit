@@ -9,6 +9,7 @@ on:
       - 'docs/**'
       - 'mkdocs.yml'
       - '.github/ISSUE_TEMPLATE/*'
+      - 'CHANGELOG.txt'
   pull_request:
     branches:
       - '**'
@@ -18,6 +19,7 @@ on:
       - 'docs/**'
       - 'mkdocs.yml'
       - '.github/ISSUE_TEMPLATE/*'
+      - 'CHANGELOG.txt'
 jobs:
   build:
     runs-on: ubuntu-latest

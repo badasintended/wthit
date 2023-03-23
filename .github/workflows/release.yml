@@ -1,40 +1,66 @@
 name: release
 on:
+  workflow_dispatch:
   push:
-    tags:
-      - '**'
+    branches:
+      - 'dev/master'
+    paths:
+      - 'CHANGELOG.txt'
+permissions:
+  contents: write
 jobs:
-  build:
+  get-release-targets:
     runs-on: ubuntu-latest
     steps:
-      - id: vars
-        run: |
-          echo "version=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
       - uses: actions/checkout@v3
+      - id: script
+        run: kotlin .github/workflows/scripts/get-release-targets.main.kts
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+    outputs:
+      empty: ${{ steps.script.outputs.empty }}
+      branches: ${{ steps.script.outputs.branches }}
+      changelogs: ${{ steps.script.outputs.changelogs }}
+  release:
+    needs: get-release-targets
+    if: ${{ needs.get-release-targets.outputs.empty == 'false' }}
+    strategy:
+      max-parallel: 1
+      matrix:
+        branch: ${{ fromJSON(needs.get-release-targets.outputs.branches) }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - id: parse
+        run: kotlin .github/workflows/scripts/parse-changelog.main.kts
+        env:
+          BRANCH: ${{ matrix.branch }}
+          CHANGELOGS: ${{ needs.get-release-targets.outputs.changelogs }}
+      - uses: actions/checkout@v3
+        with:
+          ref: ${{ matrix.branch }}
       - uses: actions/setup-java@v3
         with:
-          java-version: 17
+          java-version: ${{ steps.parse.outputs.java }}
           distribution: temurin
       - uses: gradle/gradle-build-action@v2
         with:
           cache-read-only: true
       - run: ./gradlew build curseforge modrinth publish --max-workers=1
         env:
-          MOD_VERSION: ${{ steps.vars.outputs.version }}
+          MOD_VERSION: ${{ steps.parse.outputs.version }}
           GITHUB_TOKEN: ${{ github.token }}
           CURSEFORGE_API: ${{ secrets.CURSEFORGE_API }}
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
-      - uses: actions/upload-artifact@v3
+      - uses: softprops/action-gh-release@v1
         with:
-          name: wthit-${{ steps.vars.outputs.version }}
-          path: "./platform/*/build/libs/**.jar"
-      - uses: alexellis/upload-assets@0.4.0
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        with:
-          asset_paths: |
-            [
-              "./platform/*/build/libs/*[0-9.].jar",
-              "./platform/*/build/libs/*[0-9.]-api.jar"
-            ]
-      - run: ./gradlew --stop
+          name: "[${{ steps.parse.outputs.minecraft }}] ${{ steps.parse.outputs.version }}"
+          tag_name: ${{ steps.parse.outputs.version }}
+          target_commitish: ${{ matrix.branch }}
+          body: |
+            ${{ fromJSON(steps.parse.outputs.changelog) }}
+          files: |
+            ./platform/*/build/libs/*[0-9.].jar
+            ./platform/*/build/libs/*[0-9.]-api.jar
+            ./fabric/build/libs/wthit-**-fabric.jar
+            ./forge/build/libs/wthit-**-forge.jar

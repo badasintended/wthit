@@ -1,0 +1,740 @@
+7.x - 1.19.4 - dev/master - java 17
+===================================
+7.1.1    - Updated to Minecraft 1.19.4
+         - Updated Russian Translation (#193)
+         - Fixed config text field cursor not blinking (#195)
+         - Fixed plugin config button not accessible via keyboard navigation (#196)
+7.0.0    - Updated to 1.19.4-pre3
+         - Added support for `wthit_plugins.json` as alternate plugin definitions file
+         - Added missing Russian translations (#191)
+         - Changed tooltip to be shown for further object if nearer object has its tooltip disabled (#187)
+         - Changed tooltip to be properly hidden when F1 was pressed (#188)
+
+6.x - 1.19.3 - dev/1.19.3 - java 17
+===================================
+6.2.1    - Updated Russian Translation (#193)
+         - Fixed config text field cursor not blinking (#195)
+         - Fixed plugin config button not accessible via keyboard navigation (#196)
+6.2.0    - [API] Added support for `wthit_plugins.json` as alternate plugin definitions file
+         - Added missing Russian translations (#191)
+         - Changed tooltip to be shown for further object if nearer object has its tooltip disabled (#187)
+         - Changed tooltip to be properly hidden when F1 was pressed (#188)
+6.1.4    - Fixed crash with mods expecting entity data to be serialized only on server side
+         - Added core config option to toggle item mod name individually
+6.1.3    - Updated Simplified Chinese translation (#183)
+6.1.2    - Fixed missing translation on experimental note block instruments (#179)
+6.1.1    - Updated Forge version to 1.19.3
+6.1.0    - Updated to 1.19.3
+         - 1.19.3 is the main version now. 1.19.2 will still be supported for the time being.
+6.0.1    - Updated to 22w46a
+         - Fixed `ArrayIndexOutOfBoundsException` (#173)
+6.0.0    - Updated to 22w43a
+
+5.x - 1.19.2 - dev/1.19.2 - java 17
+===================================
+5.14.1   - Updated Russian Translation (#193)
+         - Fixed config text field cursor not blinking (#195)
+         - Fixed plugin config button not accessible via keyboard navigation (#196)
+5.14.0   - [API] Added support for `wthit_plugins.json` as alternate plugin definitions file
+         - Added missing Russian translations (#191)
+         - Changed tooltip to be shown for further object if nearer object has its tooltip disabled (#187)
+         - Changed tooltip to be properly hidden when F1 was pressed (#188)
+5.13.5   - Fixed crash with mods expecting entity data to be serialized only on server side
+5.13.4   - Fix `ArrayIndexOutOfBoundsException` (#173)
+5.13.3   - Changed override config options to be toggleable on client-only installation (#171)
+5.13.1   - Updated Simplified Chinese translation (#168)
+5.13.0   - [API] Made vanilla plugin components into public API
+         - Added port of [Megane](https://bai.lol/megane)'s bar component
+         - Added some utility methods in `WailaHelper` class
+5.12.0   - [API] Added a platform-independent way to register plugins, [check the docs for how to use it](https://docs.bai.lol/wthit/plugin/getting_started/#registering-plugins).
+           - Old mod.json for Fabric/Quilt and annotation for Forge is deprecated and will be removed on Minecraft 1.21
+           - Added warning for old registration usage when running dev environment, the warning will be enabled in production on Minecraft 1.20
+         - [API] Added warning for plugins that its id is in `minecraft` namespace
+         - Published Mojang Mappings "full" jar that contains platform-independent internal classes
+           - The usage of internal classes is unsupported but relatively stable these days, better open an issue first though
+           - Available at `mcp.mobius.waila:wthit:mojmap-${version}`
+5.11.3   - Fixed block breaking progress indicator sizing
+5.11.2   - Update picker priority when the picker is replaced (#159)
+5.11.1   - Fixed IllegalStateException crash (#157)
+5.11.0   - [API] Added `IObjectPicker` interface to be used to replace default raytracing method
+5.10.0   - [API] Added `GrowingComponent` that will grow its width relative to the overall tooltip width
+         - [API] Added method to get `ITooltipLine` with int index
+         - Added core option to set the icon position
+         - Added health icon bar back, enabled by default
+         - Added armor icon bar, enabled by default
+         - Added absorption health tooltip
+         - Added option to show component bounds
+           - Enable it by adding `-Dwaila.showComponentBounds=true` to the JVM arguments
+5.9.0    - [API] Added option to merge server **boolean** option with client one.
+           - `addMergedConfig` is pretty much a client-sided option, but when the server sends its option, it will get `AND`-ed with client value.
+           - `addMergedSyncedConfig` is server-sided option that requires the server to have the option, but lets the client change the value if the server has the option enabled.
+         - Updated to Minecraft 1.19.1
+           - Should still work with 1.19, make sure you use the correct Bad Packets version (0.1.2 for 1.19, 0.2.0 for 1.19.1)
+         - Added mob grow-up timer and breeding cooldown tooltip (#25)
+         - Added entity armor point tooltip
+         - Added entity position tooltip
+         - Changed health point tooltip to always shows as a fraction
+         - Changed pet owner tooltip to send its request off-thread, which may improve stuttering
+         - Changed block and entity name tooltip to show object type name when custom name exists
+         - Moved block state and position tooltip from core plugin to vanilla plugin
+         - Moved to Mixin
+5.8.0    - Added support for JEI and EMI on Fabric and Quilt for recipe view keybinds
+         - Added option to remove \"Sneak for details\" text
+5.7.0    - Added client commands under `wailac`
+         - Added key binding options to WTHIT settings screen
+         - Changed `wailadump` command to be a sub command of a more generic `waila` command
+         - Disabled all keybinds by default for new users
+5.6.1    - Re-release due to CurseForge was down
+5.6.0    - Added support for Quilt Loader
+           - Would crash the game if you use the Fabric version on Quilt
+         - Changed `IModInfo` to return enchantments, potion, and entity type info for enchantment book, potion, and spawn egg item stack
+5.5.2    - Fixed crash due to Forge [refactor](https://github.com/MinecraftForge/MinecraftForge/pull/8786)
+           - It's not that bad for wthit, but yikes
+         - Fixed tooltip preview still showing after the config screen is closed
+5.5.1    - Fixed crash (#147)
+5.5.0    - Added tooltip preview on WTHIT config screen
+         - Added theme editor screen
+5.4.3    - Changed provider registry to use linked list
+5.4.1    - Publish to GitHub Packages
+5.4.0    - Re-added JEI recipe keybinds on Forge
+5.3.0    - Added Traditional Chinese translation (#143)
+5.2.1    - Fixed falling block tooltip showing broken name
+5.2.0    - [API] Added API to get `ITooltipLine` with the specified tag
+         - [API] Added different formatting modes for integer plugin config
+         - Added block breaking progress indicator
+         - Changed tooltip background rendering to bulk rendering to mimic vanilla tooltip, which may improve performance
+5.1.4    - Fixed mature crop tooltip not getting translated (#140)
+5.1.3    - Updated to Minecraft 1.19
+         - Updated to Forge 1.19
+5.1.2    - Updated to Minecraft 1.19-rc1
+5.1.1    - Updated REI to 9.0.462.
+         - Fixed warning about usage of deprecated `rei` entrypoint (#135).
+5.1.0    - Updated to 1.19-pre1
+           - 1.19 is now the main development version of WTHIT.
+           - 1.18 will be supported until other platforms (Forge, Bukkit) update to 1.19.
+5.0.0    - Updated to 22w18a.
+         - Removed deprecated APIs.
+
+4.x - 1.18.2 - eol/1.18 - java 17
+=================================
+4.13.6   - Fixed crash with mods expecting entity data to be serialized only on server side
+4.13.5   - Fix `ArrayIndexOutOfBoundsException` (#173)
+4.13.4   - Changed override config options to be toggleable on client-only installation
+4.13.3   - Fixed block breaking progress indicator sizing
+4.13.2   - Update picker priority when the picker is replaced (#159)
+4.13.1   - Fixed IllegalStateException crash (#157)
+4.13.0   - [API] Added `IObjectPicker` interface to be used to replace default raytracing method
+4.12.0   - Backported 1.19 changes to 1.18
+4.11.0   - [API] Added different formatting modes for integer plugin config
+         - Added block breaking progress indicator
+         - Changed tooltip background rendering to bulk rendering to mimic vanilla tooltip, which may improve performance
+4.10.4   - Fixed falling block tooltip showing empty name
+4.10.3   - Fixed wailadump command outputting entity component classes on block components part
+4.10.2   - Added Bad Packets to Maven pom runtime dependencies.
+         - Changed component provider registry to use Set instead of List.
+         - Fixed unable to delete first decimal digit on double config input.
+         - Fixed local plugin config getting overwritten by server config if the config screen is opened after disconnected from the server.
+4.10.1   - Disconnect from server when version mismatch directly in Netty network thread, in an attempt to fix #132
+4.10.0   - Bukkit Companion Plugin! (https://www.curseforge.com/minecraft/bukkit-plugins/wthit-bukkit) (pending approval from CF)
+           - This allows bukkit server to send syncable config and blacklist to clients with WTHIT.
+         - Fixed plugin config input showing local values when connected to a server.
+         - Bumped network version to `4`, this means it is incompatible with WTHIT 4.9 and less, sorry.
+4.9.1    - Fixed local plugin config (`waila_plugins.json`) getting overwritten by config sent by the server when opening and closing plugin config screen.
+4.9.0    - Changed packet messaging to use [Bad Packets](https://github.com/badasintended/badpackets)
+           - This means Forge WTHIT client can connect to Fabric WTHIT server (and vice versa) and access server config and features.
+           - This also means that it'll incompatible with server older than 4.9 (I hate how CF approved bad packets right after I released 4.8.2 lol.)
+4.8.2    - Changed plugin config screen to show greyed-out server-only options when on dedicated server
+         - Minified JSON resources
+4.8.1    - Fixed lag when looking at pets owned by bedrock users when using Geyser server. (#109)
+           - Will show `???` instead of erroring.
+         - Added back JEI recipe keybind on Forge.
+4.8.0    - Added client only value to syncable plugin configs.
+           - Will be used if the server doesn't have wthit installed.
+         - Fixed crash when running forge datagen (#122).
+4.7.3    - Fixed fabric full sources jar not getting remapped to intermediary.
+4.7.2    - Updated to Forge 1.18.2
+4.7.1    - Fixed vanilla client cannot connect to server (#114).
+4.7.0    - [API] Exposed `HitResult` and `IPluginConfig` to `IServerDataProvider` through `IServerAccessor`
+         - Incompatible with servers that have WTHIT version less than 4.7 because of changes in network packets because the API changes
+4.6.1    - Updated to 1.18.2-pre3.
+4.6.0    - Updated to 1.18.2-pre1
+4.5.2    - Deprecated `IWailaConfig.Formatting` in favor of `IWailaConfig.Formatter` that formats directly to Minecraft's `Component`.
+         - Annotated deprecated APIs with `@ScheduledForRemoval`
+         - Updated Simplified Chinese translation (#111).
+         - Changed item frame tooltip to show held item's name (#107).
+4.5.1    - Fixed source remapping on Fabric.
+         - Moved tooltip error detail to `logs/waila_error.log`
+4.5.0    - [API] Reworked the API.
+           - Check out the javadoc for full migration guide.
+           - Now it uses custom `ITooltipComponent` that can be implemented directly instead of `ITooltipRenderer`.
+           - Allowed non item-based icon.
+           - Old API still intact, don't worry about compatibility.
+4.4.1    - API jar now crashes the game if you put it as a runtime dependency.
+         - Fixed entity tooltip showing when not looking directly at it. (#90)
+4.4.0    - Updated to 1.18.1
+         - Added Korean translations (#94)
+         - Re-added JEI recipe lookup
+4.3.1    - Renamed \"Show Item\" to \"Show Item Icon\" in Waila Core config screen
+4.3.0    - Updated Forge to 1.18
+         - Added credits screen
+         - Redone plugin loading mechanism
+4.2.0    - Updated to 1.18
+         - Re-added REI recipe lookup
+         - Added Japanese language (#86)
+4.1.2    - Added Spanish languages (#84)
+         - Fixed show fluid toggle not working
+4.1.1    - Fixed broken rendering (#82)
+4.1.0    - Updated to 21w44a
+         - [API] Added `IEventListener`
+           - Deprecated platform specific events
+         - Added tests for `IEventListener`
+4.0.1    - Updated to 21w43a
+         - Fixed mod name override not working properly.
+         - Fixed item entity mod name still showing when the config is disabled.
+         - Added mod name override test.
+4.0.0    - Updated to 21w42a
+
+3.x - 1.17.1 - eol/1.17 - java 16
+=================================
+3.11.3   - Fixed falling block tooltip showing empty name
+3.11.2   - Added Spanish languages (#84)
+         - Fixed show fluid toggle not working
+3.11.1   - Fixed broken rendering (#82)
+3.11.0   - [API] Added `IEventListener`
+           - Deprecated platform specific events
+         - Added tests for `IEventListener`
+3.10.1   - Fixed mod name override not working properly.
+         - Fixed item entity mod name still showing when the config is disabled.
+         - Added mod name override test.
+3.10.0   - [API] Added `IBlacklistConfig`
+         - [API] Added a static blockstate/entity instance in `I*ComponentProvider`.
+           - Can be used in `getOverride` to disable tooltip altogether
+         - Added blacklist config.
+           - Located in `.minecraft/config/waila/blacklist.json`.
+           - Server blacklist will be synced to client.
+           - Blacklist tag still works as expected.
+         - Added Minecraft plugin config option to disable item entity tooltip.
+         - Fixed #79
+3.9.3    - Changed plugin registration to catch all errors
+           - Fixed crash when using incompatible plugin
+3.9.2    - Fixed number formatting (#76)
+3.9.1    - Use boat item to get the object and mod name (#74)
+         - Fixed pair component alignment
+         - Use Forge's method to get the item's mod name (#73)
+3.9.0    - [API] Maven link changed!
+           - Now you can use `https://maven.bai.lol`, fancy :).
+           - It just redirects to the jfrog instance because I don't want to pay for file hosting lmao.
+         - [API] Added `ITooltip`
+           - Contains quality of life methods.
+           - No more casting to `ITaggableList` to override core components.
+           - Deprecated methods on `I*ComponentProvider` that accept `List`, replaced by ones that accept `ITooltip`.
+           - Deprecated `IDrawableText`, replaced by method on `ITooltip`.
+         - [API] Added `IWailaConfig`
+           - Used for accessing general settings.
+           - Deprecated formatting methods on `I*Accessor`.
+         - [API] Added `IModInfo`
+           - Used for getting mod information from objects.
+         - [API] Added support for boolean, int, double, string, and enum plugin config options.
+           - Deprecated `IPluginConfig#get` in favor of a more specific return type.
+         - Added pet owner info
+         - Added integer value to note block info (disabled by default) (#55)
+         - Changed item entity to show the item's mod instead of `Minecraft`
+         - **Changed config keys**.
+         - Added test plugin
+           - Can be enabled with `-Dwaila.enableTestPlugin=true` VM argument
+         - Added category on plugin config screens.
+           - When an option key contains a prefix separated by `.`, it'll get categorized with all keys that have the same prefix.
+           - Only available if there's a language translation with key `config.waila.plugin_${namespace}.${category}`.
+         - Added reset button for config options.
+         - Re-added JEI recipe lookup.
+3.8.1    - Fixed API jar failing Loom because nonexistent access widener file
+3.8.0    - Added support to Forge 1.17.1
+         - Changed to use Mojmap now that Forge actually use Mojang class name
+         - Changed to use access widener/transformer instead of accessor mixins. Maybe reuse mixin if forge readds support?
+         - No longer use Architectury, now it uses upstream Loom and ForgeGradle (say goodbye to build time)
+3.7.0    - Updated to 1.17.1
+         - Added composter level
+         - Changed block mod name to use block's id
+3.6.1    - Fixed note block note tooltip skipping E to F# (#48)
+         - Updated russian translation (#45)
+3.6.0    - Added Note Block note and instrument tooltip
+         - Allow negative integer to be typed on position fields (#43)
+         - Only allow positive scale to be typed
+3.5.3    - Fixed entity mod name using wrong formatting
+         - Changed item icon to not show its count
+3.5.2    - Fixed crash when showing shulker box icon (#38)
+         - Added honey level tooltip to beehive and bee nest
+         - Added REI recipe lookup (look at control options)
+3.5.1    - Updated to 1.17 Pre Release 1
+         - Show powder snow as regular snow block
+         - Fixed obscure `IllegalAccessError` on Java 16 if it built on Windows (#36)
+         - Documented API environment
+         - Reset synced config to its default value if the server doesn't have WTHIT
+           - Also reset if the server doesn't have that specific config value
+3.5.0    - Updated to 21w20a
+         - Added XP Orbs and Area Effect Cloud to blacklisted entities
+         - Exposed formatting options in accessors
+         - Added constant class for easier override of the core plugin
+         - Changed jukebox tooltip to use music disc description if possible
+         - Changed hide infestation and trapped chest to use its config value
+         - Fixed interface not working on provider registry
+         - Fixed PluginConfig crash (#33)
+         - Changed config encoding to UTF-8
+         - Fixed hearts texture not using the correct outline
+         - Fixed core plugin logged twice
+         - Added versioned config that will reset if it doesn't match
+         - Reverted removal of registry config
+3.4.1    - Fixed #28 item tooltip doesn't show it's custom name
+         - Fixed spawner name not using formatting config
+         - Changed core plugin priority to +/- 100 instead of +/- 1
+3.4.0    - Added dropped item tooltip
+         - Added version and plugin info to dump command
+         - Added dump button to settings for debugging purpose
+         - Shows trapped chest as a regular chest
+         - Removed show registry name option. Instead, now it shows it when advanced tooltip (F3+H) is enabled
+3.3.1    - Updated to 21w16a
+         - Fixed components not working because of bad priority sorting
+3.3.0    - [API] Added `IJsonConfig`
+         - Fixed maintained mode is reversed
+         - FIxed unescaped format config
+         - Fixed some crash
+3.2.5    - missingno
+3.2.4    - missingno
+3.2.3    - Fixed another crash (this time client) because I forgot to remove a line :'-)
+3.2.2    - Fixed server crash
+3.2.1    - Updated to 21w11a
+         - Formatting settings input text now shows the section sign (§) and you can input it.
+3.2.0    - Removed inventory mod name tooltip. Just use REI or something idk.
+         - Added `@Nullable` to `I*Accessor`
+         - Added warning for static initializing `java.awt.Dimension` in `ITooltipRenderer` because Mac bad
+         - Deprecated `IBlockDecorator`
+         - Deprecated `getRenderingPosition` in `I*Accessor`, it always return `null`
+         - Deprecated `getPartialFrame` in `I*Accessor`, it always returns `0.0`
+3.1.1    - missingno
+3.1.0    - missingno
+3.0.1    - Fixed #4
+3.0.0    - Ported to 1.17 snapshot
+
+2.x - 1.16.5 - eol/1.16 - java 11
+=================================
+2.10.15  - Fixed falling block tooltip showing empty name
+2.10.14  - missingno
+2.10.13  - Fixed wailadump command outputting entity component classes on block components part
+         - Actually fixed duplicate tooltip when a component provider is registered multiple time (#134)
+2.10.12  - Fixed duplicate tooltip when a component provider is registered multiple time (#134)
+2.10.11  - Fixed crash when pressing recipe keybinds when looking at an entity.
+2.10.10  - Fixed show fluid toggle not working
+2.10.9   - Fixed item's mod name (#73)
+2.10.8   - missingno
+2.10.7   - Fixed crash with Silent's Gems (#72)
+2.10.6   - Fixed crash on plugin config screen because of faulty string comparison (#60)
+2.10.5   - Fixed crash with simple drawers (#46)
+2.10.4   - Allow negative integer to be typed on position fields (#43)
+         - Only allow positive scale to be typed
+2.10.3   - Changed item icon to not show its count
+2.10.2   - Fixed obscure `IllegalAccessError` on Java 16 if it built on Windows (#36)
+         - Documented API environment
+         - Reset synced config to its default value if the server doesn't have WTHIT
+           - Also reset if the server doesn't have that specific config value
+2.10.1   - Added XP Orbs and Area Effect Cloud to blacklisted entities
+2.10.0   - [API] Exposed formatting options in accessors
+         - [API] Added constant class for easier override of the core plugin
+         - Changed jukebox tooltip to use music disc description if possible
+         - Changed hide infestation and trapped chest to use its config value
+         - Fixed interface not working on provider registry
+2.9.2    - Fixed PluginConfig crash (#33)
+2.9.1    - Changed config encoding to UTF-8
+         - Fixed hearts texture not using the correct outline
+         - Fixed core plugin logged twice
+2.9.0    - Added versioned config that will reset if it doesn't match
+         - Reverted removal of registry config
+2.8.1    - Fixed #28 item tooltip doesn't show it's custom name
+         - Fixed spawner name not using formatting config
+         - Changed core plugin priority to +/- 100 instead of +/- 1
+2.8.0    - Added dropped item tooltip
+         - Added version and plugin info to dump command
+         - Added dump button to settings for debugging purpose
+         - Shows trapped chest as a regular chest
+         - Removed show registry name option. Instead, now it shows it when advanced tooltip (F3+H) is enabled
+2.7.1    - Fixed components not working because of bad priority sorting
+2.7.0    - [API] Added `IJsonConfig`
+         - Fixed maintained mode is reversed
+         - FIxed unescaped format config
+         - Fixed some crash
+2.6.0    - [API] Deprecated `RenderableTextComponent` in favor of `IDrawableText`
+         - [API] Deprecated `IComponentProvider` in favor of `IBlockComponentProvider`
+         - [API] Deprecated `IDataAccessor` in favor of `IBlockAccessor`
+         - [API] Deprecated `IRegistrar#registerX`in favor of `IRegistrar#addX`
+         - [API] Added `IRegistrar#addX` accepts an optional priority value
+         - [API] Added an override method for `BlockState` in `IBlockComponentProvider`
+         - Moved top-centered tooltip down when bossbars are visible
+         - Added blockpos tooltip
+         - Added item mod name tooltip back
+         - Added recipe lookup keybind for JEI
+2.5.4    - missingno
+2.5.3    - missingno
+2.5.2    - Fixed server crash
+2.5.1    - Formatting settings input text now shows the section sign (§) and you can input it.
+2.5.0    - Updated Mod Menu version
+         - Compressed the mod logo
+         - Deprecated `I*Accessor`s `getTileEntity`, please use `getBlockEntity`.
+         - Deprecated `@WailaPlugin` in favor of `@WailaForgePlugin` that requires a plugin id. Old plugin will have the class name as it's id.
+2.4.0    - Removed inventory mod name tooltip. Just use REI or something idk.
+         - Added `@Nullable` to `I*Accessor`
+         - Added warning for static initializing `java.awt.Dimension` in `ITooltipRenderer` because Mac bad
+         - Deprecated `IBlockDecorator`
+         - Deprecated `getRenderingPosition` in `I*Accessor`, it always return `null`
+         - Deprecated `getPartialFrame` in `I*Accessor`, it always returns `0.0`
+2.3.1    - missingno
+2.3.0    - missingno
+2.2.1    - Fixed #4
+2.2.0    - Added `waila:blacklist` block and entity type tag that will disable the tooltip altogether
+         - Actually use the X and Y tooltip position
+2.1.1    - Added an option to disable mod name info (it's under general)
+         - Use block entity CustomName tag if present
+         - Fixed numerical display halving health values
+2.1.0    - Fixed boat tooltip
+         - Added manual tooltip anchor and alignment
+2.0.0    - Fixed config screen crash
+         - Nuked mixins in favor of Fabric API events
+         - Use Mod Menu's API instead of reflection (like, bruh)
+
+1.x - legacy - hwyla - java 11
+==============================
+1.9.23   - Updated to 1.16.2
+         - Added Polish translation
+1.9.22   - Fixed crash when looking at player heads spawned in with a UUID
+1.9.21   - Updated to newer 1.16 snapshots
+         - Limited overlay scale to 2 (currently) values
+           - 1.0x and 0.5x
+           - These are the 2 values at which the tooltip renders without scaling issues
+           - Allows for the tooltip to be forced to stay on screen rather than overflowing off the edge
+         - Fixed falling block display names
+         - Fixed Netherwart not having a maturity tooltip
+         - Player heads now display the correct texture in the tooltip
+           - The name is also added to the body now
+         - Fixed the tooltip for Repeaters and Comparators not being localized properly
+1.9.20   - Fixed infested block names not being hidden when "hide_infestations" is enabled
+1.9.19   - Updated to support 1.15-pre4
+         - Fixed text being rendered behind items
+           - Most noticeable with furnace progress
+1.9.18   - Updated to support 1.15-pre1 (and higher?)
+1.9.17   - Fixed crash when looking at falling block entities
+         - Added support for falling block entities
+         - Switched name getting to use the block's dedicated getter
+1.9.16   - Fixed text input fields not rendering properly in the config GUI
+1.9.15   - Updated to 1.14 Pre Release 3
+         - Fixed server crash on startup
+         - Added a logo for ModMenu
+1.9.14   - Updated to 1.14 Pre Release 2
+         - Updated to Fabric Loader 0.4.0
+         - Reworked plugin loading system to make use of new Fabric Loader features
+1.9.13   - Updated to 19w12b
+1.9.12   - Updated to 19w12a
+         - Enabled the config button in Mod Menu
+1.9.11   - Updated to 19w11b
+1.9.10   - Updated to 19w09a
+1.9.9    - Updated to 19w06a
+         - Updated to Fabric API 0.2.0
+         - Added a localization string to the Nitwit since Mojang doesn't have one
+1.9.8    - Added an API feature that allows displaying an item on an entity tooltip
+           - Useful for things like paintings, item frames, and minecarts (which are included by default)
+         - Fixed minecart tooltip being blank
+1.9.7    - Updated to 19w04a
+1.9.6    - Fixed crash on server start
+         - Fixed overlay not being hidden when the player list was open
+         - Fixed server -> client config sending for synced values
+         - Fixed health tooltip over the configured heart max not being translated
+           - Also limited the text display to 2 decimal places
+1.9.5    - Fixed ray trace ignoring non-collidable blocks
+1.9.4    - Fixed entity tooltips displaying data about the last block viewed
+         - Fixed entity health renderer
+           - It allowed up to 40 hearts per line, now it only allows up to 10 by default
+           - Math for newlines was wrong and reset the horizontal positioning
+1.9.3    - Updated to 19w03c
+         - Fixed keybinds not working
+1.9.2    - Fixed crash at startup on 19w02a by switching to Fabric's keybinding API
+1.9.1    - Furnace progress rendering now takes the different burn times into account for the different furnace types
+         - Removed some unnecessary textures from the jar
+         - Added support for the Sweet Berry Bush's maturity
+         - Added description tooltips to some entries int he config GUI
+         - Re-implemented the handler dump command
+         - Fixed spacing on large tooltips
+         - Fixed display for paintings, item frames, etc
+         - Renamed "Configure Aspect" to "Color" in the config GUI
+1.9.0    - Port to 1.14 via Fabric
+1.8.26   - Remove compatibility with 1.12.0 and 1.12.1
+         - Switch to using `getCreatorModId()` to allow mods to override which mod name is shown in the tooltip
+           - This is why 1.12.2 is required
+         - Don't attempt to render the overlay if the tooltip is somehow null
+         - Add a config to render current state values in the tooltip
+           - As seen by the client
+         - Reduced network usage by the villager handler
+           - Rather than writing the entire entity to the tag, we just write the career ID
+           - This is possible thanks to the fix in 1.8.22
+         - Allow hiding the tooltip when the debug menu is open
+1.8.25   - The stack provided in IWailaDataAccessor is not based on the state -> meta conversion anymore
+1.8.24   - Properly blame mods who are returning a null ItemStack in getPickBlock.
+           - This is completely invalid behavior and I will no longer tolerate being blamed for the crashes it causes.
+           - Example blame: `minecraft:cobblestone from mod Minecraft returned a null ItemStack in getPickBlock(...). Please report this to them.`
+         - Fixed tooltip width calculation not taking fully formatted ITextComponents into account
+           - Bold lettering spilled out of the tooltip since it's wider than normal text.
+         - Wrap Waila style plugins in our own plugin system to bring everything closer to the same codebase.
+1.8.23   - Fixed occasional crash when loading a world
+         - Fixed occasional crash when starting up
+1.8.22   - Fixed Entity mod name displaying the modid instead
+         - Moved tooltip rendering back to where it used to be
+           - There were some GL issues causing the hotbar to render oddly
+1.8.21   - Fixed some monster spawn blocks not being hidden properly
+         - A ton of internal cleanup
+           - Mod should now run at least 2.47293451% faster.
+           - Don't quote me on that.
+         - Fixed theme button not drawing
+1.8.20   - Allowed launching on 1.12.1
+         - Removed an unnecessary embedded library
+           - Lower file sizes
+1.8.19   - Added some branding to the main config screen to inform users about how this is a fork
+           - Includes a link to that MC version's CHANGES.md
+         - Recompiled on latest Forge
+         - Make use of some Java 8 features in the API
+         - Removed alternate crop option
+           - Did more harm than good
+         - Fixed sided check for IEnergyHandler
+         - Fixed Villager career display
+1.8.18   - Fixed massive Narrator memory leak
+           - I'm legit blind and completely misread `getNarrator()`
+           - Thanks shadowfacts!
+1.8.17   - Fully moved to GlStateManager
+           - Should cause much less rendering issues with other mods
+         - Fixed Narration config
+           - If you are updating from 1.8.16, you'll need to manually toggle the config
+1.8.16   - Updated to 1.12
+         - Added config to narrate the first line of the tooltip
+           - Only narrates when the tooltip has changed, so looking at different Grass Blocks won't spam you
+           - Still a bit dodgy
+           - John Madden John Madden John Madden John Madden John Madden SOISOISOISOISOI
+1.8.15   - Changed the WailaRenderEvent
+           - Removed tooltip list. Modifying it here just broke everything.
+           - Provided access to ICommonProvider
+         - Added WailaTooltipEvent
+           - Fired right before all the tooltip sizing is calculated
+           - Final chance to modify tooltip before display
+         - Re-enabled Energy and Fluid capability handlers
+           - Still no items for now
+         - Darkhax disturbed my beach episode for this. I hope you're happy.
+1.8.14   - Stack provider check no longer returns an empty list when an empty stack is provided
+           - It now properly continues on to the next stack handler
+           - Thanks for writing a weird plugin Dankhax
+1.8.13   - Fixed furnace display not working
+         - Fixed Jukebox always displaying as empty
+         - Fixed localization for Redstone power level
+         - Added config to stop the item from rendering in the tooltip
+1.8.12   - Server now makes sure a requested block is loaded before attempting to access it
+         - Removed some needless data from the data request packets
+           - Packet size is now much smaller
+         - Added TehNut to mcmod.info author list
+         - Added a short description to the mcmod.info explaining that the user is using Hwyla
+         - [API] Added nullability annotations to almost the entire API
+         - [API] Modified some of the javadocs to be somewhat more informative
+1.8.11   - Fixed alternate crop getter always using a meta of 0
+           - If you continue to have problems with it, disable it.
+         - /dumphandlers now includes NBT handlers
+1.8.10   - Fixed NBT serialization
+         - Temporarily disabled the capability handlers
+           - These were using too much data on the network when looking at large inventories.
+           - They will make a return once I can re-implement them in a way that avoids that
+1.8.9    - Fixed server disconnect when receiving large NBT payloads from TileEntities
+           - Only caused when a payload was >2mb in size (which is really, really big for a packet, to be honest...)
+           - Most notably occurred was when looking at a RefinedStorage Disk Drive on a large network
+1.8.8    - Increased usefulness of WailaExceptionHandler
+           - A full stacktrace is now printed to the root instance directory
+         - Fixed record tooltip
+         - Rewrote packet system
+           - See `CHANGES.md` for more information
+         - Add an alternative way to get a crop's item
+1.8.6    - Lowercased modid in mcmod.info. The file will work properly now.
+         - Moved over to a proper proxy system instead of the possibly buggy side checks.
+         - In-game config now properly respects localization keys.
+         - Added a fallback for when blocks return null in `getPickBlock(...)`
+           - This is a big no-no in 1.11. If you notice this (trust me, you will), please report it to the author of the mod.
+1.8.5    - Fixed some remaining invalid null stack checks
+1.8.4    - Fixed server crash when registering core plugin
+         - Fixed version replacement. Versions aren't treated as all 1.8.0 in-game anymore.
+1.8.3    - Fixed inventory handler (this fix is redundant in newer Forge versions)
+         - Re-implement JEI integration (The Recipe/Usage not found message has been moved to the action area)
+         - Lowercased the modid to "waila" (Was "Waila")
+         - Removed some unnecessary reflection
+         - Added a handler to display items in the Llama and Donkey inventories (and any future mobs that use `AbstractChestHorse`) (#29)
+           - (Added some necessary reflection)
+1.8.2    - Update to Minecraft 1.11
+1.8.1    - Renamed jar file to `Hwyla-*.jar`
+         - Cleaned up some lang files
+         - Fixed JEI handler in newer beta versions
+1.8.0    - Fixed display stack displaying the wrong meta in the majority of cases
+         - Added a new plugin registration system
+           - Use `@WailaPlugin` on an instance of `IWailaPlugin`
+           - The annotation can take a String value for a required modid. Blank for any
+         - If fluid tooltips are enabled, they will now attempt to display the fluid inside a bucket.
+         - Forge Capability support (Information is obtained using a `null` facing. Mods who do not handle this correctly are not supported)
+           - Native support for displaying tank information
+             - Disabled by default so as to not clash with mods adding their own support
+             - Limited to 5 tanks displayed to avoid mishaps where hundreds would get added
+             - Only works on tanks using the Forge Capability system
+           - Native support for displaying inventory contents
+             - Disabled by default so as to not clash with mods adding their own support
+             - Displays up to 5 items. If sneaking, the full inventory will be displayed
+             - Items that are stack-able are condensed down. So if you have 2 stacks of Cobblestone, it will show with a single stack with a count of 128.
+               - When a count reaches a high enough number, it will be condensed down. (eg: `1357` -> `1.3K`)
+             - Works on all blocks that provide `IInventory`, `IItemHandler`, or `instanceof TileEntityEnderChest`
+           - Native support for displaying Forge Energy storage
+             - Disabled by default so as to not clash with mods adding their own support
+             - Only works on energy handlers that provide `IEnergyStorage`
+         - Fixed the Furnace progress handler
+           - Did any of you even know this was a thing? I sure didn't
+         - Maturity tooltips for crops now work correctly if the crop has a different max age.
+         - Added config for the format used to display Block, Entity, and Mod names
+           - You can now wrap custom text around the name, with support for MOTD-like formatting codes.
+           - Due to limitations presented by item rarity, the block name itself will always be a fixed colour, and reset formatting to default after itself.
+           - See image below
+         - Fixed the ID + Meta tooltip
+           - No more `< UNIMPLEMENTED >` in your tooltips
+         - Re-implemented in-game recipe lookups via key-bind
+           - Now with 100% more JEI
+         - Changed the ItemStack lookup method to use `getPickBlock(...)` like everybody has though it's been for a long time
+         - Re-formatted the `/dumphandlers` command
+           - Now prints the dump text to `WailaHandlerDump.md`
+           - Formatted as markdown to increase readability
+         - Re-formatted all core handlers to the plugin format
+           - Registered manually to make sure they are loaded first
+         - Removed lots of Vanilla special casing by fixing things *correctly*
+         - General code cleanup
+         - Removed plugin code for mods that have not updated
+         - Removed NEI handler code
+         - Removed all coremod related code
+           - I think it was completely unused, but still
+
+1.x - legacy - waila - java 8
+=============================
+1.7.0-B3 - Update to 1.9.4 and latest forge.
+1.7.0-B2 - Fixed compilation derpfu
+1.7.0-B1 - Ported to 1.9.0
+1.6.0-B3 - Fixed : Chest rendering is derped.
+1.6.0-B2 - Port of Waila to 1.8.8 based on the most recent 1.7.10 version.
+1.6.0-B1 - First Waila for 1.8.1
+1.5.10   - Fixed NBT syncing. Should remove all flickering observed in 1.5.9 [ Lordmau5 ]
+         - Fixed ExU drums [ Lordmau5 ]
+         - Fixed Thermal Expansion + added data for Caches [ Lordmau5 ]
+         - Added support for Thermal Dynamics [ Lordmau5 ]
+1.5.9    - [Fix] Added proper size hint to icon's custom renderer. Should fix hearts going out of the tooltip.
+         - [Fix] Text vs Hearts display is now based on max health, not current health. Should fix the prb with mobs having incredibly large max hp but low current hp.
+         - [Fix] Protected rendering call. Should solve crashes on load from some mods (Thaumcraft included).
+         - [Fix] Cleanup the internal lists to prevent a whole Waila tooltip corruption happening in some cases.
+         - [Fix] Handler insertion order is now enforced properly.
+         - [API] Returning a stack with a null item from getWailaStack will desactivate the tooltip for a given block. A good way to do that is to return new ItemStack(Blocks.air);
+         - [API] Added custom renderer "waila.health", with arguments "<maxhearts>,<health>,<maxhealth>"
+         - [API] Added custom renderer "waila.stack", with arguments "<type>,<idstring>,<stacksize>,<damage/meta>"
+         - [API] Added custom renderer "waila.progress", with arguments "<currentvalue>,<maxvalue>"
+1.5.8a   - [Fix] Filtering in NEI.
+1.5.8    - [Bugfix] Filtered out aspects with a value of 0 in the thaumcraft module.
+         - [Bugfix] Config option for thaumcraft is now working again.
+         - [Bugfix] Removed more debug print in Redflux handlers
+         - [Feature] Block ID/Meta option is working again, with the added qualified name of the block.
+         - [Feature] Ported to NEI 1.0.4.x
+         - [Feature] Completly NEI independent. You can run Waila without NEI now.
+         - [API] Added a new RENDER tag and registration method for people to do custom rendering directly inside the tooltip. For details, see this page.
+         - [API] accessor.getBlockID() is now returning the proper value again.
+         - [API] Added accessor.getBlockQualifiedName() to return the ResourceLocation string of the block.
+1.5.7a   - Removed debug code that was spamming the server when a mod implementing the older interface is found.
+1.5.7    - [Modules] Thaumcraft module is back in, much simpler thanks to the new API method.
+         - [Modules] Updated RedstoneFlux module to work properly with B7
+         - [Fix] Waila targets the proper block while morphed
+         - [Fix] Fixed reach distance error (Waila should now show even when looking at a block at the nearly max reachable distance).
+         - [Localization] Updated ru_RU (Adapta)
+         - [Localization] Added it_IT (TheVikingWarrior)
+         - [API Fix] Fixed a rare corner case with getNBTData that would be triggered if writeToNBT was called with a different TileEntity then the targeted one.
+         - [API Fix] Updated package-info to superseed all previous versions of the included APIs
+         - [API] IWailDataProvider.getNBTData now has a Player argument to be able to access player data server side.
+         - [API] IWailEntityProvider.getNBTData now has a Player and World argument.
+         - [API] currenttip is now a ITaggedList. It adds tag support for lines, making the tooltip less dumb. Right now, currenttip need to be manually casted to ITaggedList to access the new features. Please check HUDHandlerIEnergyHandler for an example of usage.
+         - [Doc] The javadoc has been done in most of the interfaces. It can be viewed at http://mobiusstrip.eu/waila/doc/.
+1.5.6a   - Temporary desactivation of Thaumcraft module to prevent server side crash.
+1.5.6    - Fixed a memory leak related to the search filters (Many thanks to magik6k)
+         - Fixed a crash on /help due to a null string (Many thanks to Epix Zhang)
+         - Fixed all slow down server and client side due to large NBT tags.
+         - [API] Fixed loading order of the modules. This fixes the "empty list" problem for mods trying to override the head or tail section.
+         - [API] Deprecated registerSyncedNBTKey() in favor of registerNBTProvider()
+         - [API] Added new method  getNBTData() to IWailaDataProvider and IWailaEntityProvider
+         - [API] Added new registration method registerNBTProvider() to register a NBT data provider.
+1.5.5    - License change : switched from Apache 2.0 to CC-BY-NC-SA (Doesn't influence the use of this mod in a modpack or for the normal enduser)
+         - Updated Chinese language file (Thanks to Crafteverywhere)
+         - Small fix for items changing the raytracing distance (Thanks to Vlendvaj)
+         - Updated logger to log4j (Thanks to Parker8283)
+         - Added config option (waila.cfg.newfilters) to turn off the new filtering system as a workaround slowdowns in filtering
+         - Fixed a crash when invalid icons are used in tooltips
+         - Client side NBT lookup is now protected against crashes in case of invalid NBT tag
+         - Fixed concurrent modification errors in the new filters
+         - BC tanks show their content once again
+         - Fixed vanilla leaves showing incorrectly
+         - Thaumcraft module is activated once again. Better handling of aspect-showing items
+         - [API] Added support for default config values (New set of registrar methods with a new boolean argument).
+1.5.4a   - Unbroken default NEI filtering
+1.5.4    - Search by modname is back.
+         - Finally activated the missing network handler. Waila should properly show server side data now.
+         - Thermal Expension is back in.
+         - Some EnderIO is back too.
+         - Added a new filtering option to NEI. You can filter items by oredictionnary by putting #<oredicname> in the NEI search box. (ie : #ore will show all registered ores, #ingotCopper will show all the copper ingots, etc).
+1.5.3a   - Fixed missing ressource files
+         - Fixed tall grass
+         - Fixed Redstone Ore
+         - Fixed Wheat
+         - Fixed Melon/Pumpkin
+1.5.3    - Fixes for 1.7.10
+         - Fixes for EnderIO & Buildcraft
+1.5.2a   - Fixed compatiblility with new official NEI API
+         - Compatibility fix for ThermalExpansion 3.0.0.5
+         - All revealing items in Thaumcraft will show the proper essentias in the tooltip
+         - Added Estonian translations (Thx to Raul Tambre).
+         - Updated German translations (Thx to Vexatos).
+1.5.2    - Ported to 1.7.2
+         - Key tagging is off if NEK is present.
+1.5.1a   - Fixed eye height while morphed
+         - Fixed some crops showing the growth twice
+         - Fixed Thaumcraft module not showing advanced aspects
+         - Added support for TT & Kami to the Thaumcraft module
+1.5.1    - Fixed age old OGL constants bleeding. Should solve a lot of rendering issues (like the sky changing color).
+         - Heart display for entities is fixed.
+         - NBT crash on SSP fixed.
+         - Max number of hearts per line can be setup in the config file (default = 20).
+         - Threshold HP value to switch from icon to text display can be setup in the config file (default = 40).
+         - New General module config. Contains the "Show growth" and "Show entities hp" general configs.
+         - Thaumcraft : When wearing goggles of revealing, blocks that store aspects will show what aspects they hold.
+         - Agriculture : Display crop growth.
+1.5.0    - Added Steve's cart module using the Entity API
+         - Added hidden Secret Doors
+         - Added hidden Carpenter's doors
+         - Added Harvestcraft crop support
+         - Added MagicalCrop crop support
+         - Added Statues support
+         - Added a "Sneak to see" config option. Data will be hidden unless you sneak.
+         - Fixed Project:Red overlay and FMP bugs.
+         - Config file is generated at start when the modules are loaded instead of when the options are changed.
+         - Config file is separated into 3 sections. General, modules and server_forcing
+         - Config can be enforced by the server to a given value by setting the corresponding key in server_forcing to true.
+         - All parts of the tooltip, besides the actual rendering, is now done outside the rendering tick. Should solve the latest slowdowns
+         - Tooltips now support some form of column based display and Left/Right justification
+         - Tooltips can now support displaying icons (the set is limited right now but will be extended)
+         - [API] Waila API is now a @API, so other mods shouldn't be able to mess it up when wrongly implemented.
+         - [API] New entity API. It works like the Block API, with its own dedicated provider and accessor. The registration is done the same way too.
+         - [API] New FMP API.
+         - [API] Deprecated quite a few registration methods to be 1.7 ready.
+         - [API] NBT syncing is not automatic anymore. You have to register the keys you want or "*" to register the whole tag tree. The command is IWailaRegistrar.registerSyncedNBTKey()
+         - [API] Fixed a few bugs in the handling of providers.
+1.4.5a   - Fixed wrong NBT handling in the IC2 module. [CLIENT SIDE : No need to update your server]
+         - Readded the ID:Meta config option (was sure I did release a fix for that...)
+1.4.5    - Complete rework of the detection system to move it in the client tick instead of the rendering tick.
+         - More things are cached for optimization
+         - Removed all dependency on NEI for the ingame tooltip
+         - Removed some BC related energy display because they were not what I thought they were.
+         - NBT with a size > 32k will not crash the client anymore (Fix for OpenComputers).
+         - Redstone wires will now use the redstone dust icon instead of the weird block icon.
+         - The tooltip will not try to render when the UI is hidden. Should fix the magic compass bug.
