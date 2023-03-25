@@ -52,6 +52,8 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
           CURSEFORGE_API: ${{ secrets.CURSEFORGE_API }}
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+          CHANGELOG: |
+            ${{ fromJSON(steps.parse.outputs.changelog) }}
       - uses: softprops/action-gh-release@v1
         with:
           name: "[${{ steps.parse.outputs.minecraft }}] ${{ steps.parse.outputs.version }}"
