@@ -30,8 +30,10 @@ class Output {
     val version = script.changelog.version
     val java = script.changelog.java
     val minecraft = script.changelog.minecraft
-    val changelog = Gson().toJson(script.changelog.changelog)!! +
-            "\n_Full changelog can be seen at <https://github.com/badasintended/wthit/blob/dev/master/CHANGELOG.txt>_"
+    val changelog = Gson().toJson(
+        "${script.changelog.changelog}\n_Full changelog can be seen at <https://github.com/badasintended/wthit/blob/dev/master/CHANGELOG.txt>_"
+    )!!
+
 }
 
 val output = Output()
