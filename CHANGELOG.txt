@@ -1,5 +1,7 @@
 7.x - 1.19.4 - dev/master - java 17
 ===================================
+7.2.0    - [API] Added experimental custom theming format API
+         - Added nine-patch texture based theme format
 7.1.1    - Updated to Minecraft 1.19.4
          - Updated Russian Translation (#193)
          - Fixed config text field cursor not blinking (#195)
@@ -12,6 +14,8 @@
 
 6.x - 1.19.3 - dev/1.19.3 - java 17
 ===================================
+6.3.0    - [API] Added experimental custom theming format API
+         - Added nine-patch texture based theme format
 6.2.1    - Updated Russian Translation (#193)
          - Fixed config text field cursor not blinking (#195)
          - Fixed plugin config button not accessible via keyboard navigation (#196)
@@ -32,6 +36,8 @@
 
 5.x - 1.19.2 - dev/1.19.2 - java 17
 ===================================
+5.15.0   - [API] Added experimental custom theming format API
+         - Added nine-patch texture based theme format
 5.14.1   - Updated Russian Translation (#193)
          - Fixed config text field cursor not blinking (#195)
          - Fixed plugin config button not accessible via keyboard navigation (#196)
