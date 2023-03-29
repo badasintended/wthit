@@ -16,7 +16,7 @@ fun <T : Jar> UploadConfig.modrinth(task: T) = project.run {
             versionNumber.set("${project.name}-${project.version}")
             versionName.set("${project.version}")
             versionType.set(prop["mr.releaseType"])
-            changelog.set("https://github.com/badasintended/wthit/releases/tag/${project.version}")
+            changelog.set(env["CHANGELOG"])
 
             uploadFile.set(task)
 
