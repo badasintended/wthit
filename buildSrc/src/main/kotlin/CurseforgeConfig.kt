@@ -21,7 +21,7 @@ fun <T : Jar> UploadConfig.curseforge(task: T) = project.run {
             releaseType = prop["cf.releaseType"]
 
             changelogType = "markdown"
-            changelog = "https://github.com/badasintended/wthit/releases/tag/${project.version}"
+            changelog = env["CHANGELOG"]
 
             addModLoader(project.name.capitalize())
             prop["cf.gameVersion"].split(", ").forEach(this::addGameVersion)
