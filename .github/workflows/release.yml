@@ -8,6 +8,7 @@ on:
       - 'CHANGELOG.txt'
 permissions:
   contents: write
+  packages: write
 jobs:
   get-release-targets:
     runs-on: ubuntu-latest
