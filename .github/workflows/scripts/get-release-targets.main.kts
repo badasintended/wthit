@@ -41,7 +41,7 @@ data class Version(
     }
 
     override fun compareTo(other: Version): Int {
-        return toInt() compareTo other.toInt()
+        return toInt().compareTo(other.toInt())
     }
 
     override fun toString(): String {

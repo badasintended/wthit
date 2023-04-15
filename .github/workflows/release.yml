@@ -60,6 +60,7 @@ jobs:
           name: "[${{ steps.parse.outputs.minecraft }}] ${{ steps.parse.outputs.version }}"
           tag_name: ${{ steps.parse.outputs.version }}
           target_commitish: ${{ matrix.branch }}
+          prerelease: ${{ fromJSON(steps.parse.outputs.prerelease) }}
           body: |
             ${{ fromJSON(steps.parse.outputs.changelog) }}
           files: |
