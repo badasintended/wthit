@@ -166,6 +166,7 @@ public class WailaVanilla implements IWailaPlugin {
             EntityType.EXPERIENCE_ORB,
             EntityType.FIREBALL,
             EntityType.FIREWORK_ROCKET,
+            EntityType.INTERACTION,
             EntityType.SNOWBALL);
     }
 
