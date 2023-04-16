@@ -3,9 +3,9 @@ package mcp.mobius.waila.gui.widget.value;
 import java.util.List;
 import java.util.function.Consumer;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.mojang.blaze3d.vertex.PoseStack;
-import mcp.mobius.waila.gui.screen.ConfigScreen;
 import mcp.mobius.waila.gui.widget.ConfigListWidget;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.components.Button;
@@ -89,15 +89,15 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
     }
 
     @Override
-    public void addToScreen(ConfigScreen screen) {
+    protected void gatherChildren(ImmutableList.Builder<GuiEventListener> children) {
         GuiEventListener element = getListener();
         if (element != null) {
-            screen.addListener(element);
+            children.add(element);
         }
 
         Button resetButton = getResetButton();
         if (resetButton != null) {
-            screen.addListener(resetButton);
+            children.add(resetButton);
         }
     }
 
@@ -107,6 +107,7 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
         }
     }
 
+    @Nullable
     public GuiEventListener getListener() {
         return null;
     }

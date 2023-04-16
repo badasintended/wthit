@@ -2,6 +2,7 @@ package mcp.mobius.waila.gui.screen;
 
 import java.awt.Rectangle;
 
+import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.Waila;
@@ -335,10 +336,10 @@ public class WailaConfigScreen extends ConfigScreen {
         }
 
         @Override
-        public void addToScreen(ConfigScreen screen) {
-            super.addToScreen(screen);
-            screen.addListener(editButton);
-            screen.addListener(newButton);
+        protected void gatherChildren(ImmutableList.Builder<GuiEventListener> children) {
+            super.gatherChildren(children);
+            children.add(editButton);
+            children.add(newButton);
         }
 
         @Override

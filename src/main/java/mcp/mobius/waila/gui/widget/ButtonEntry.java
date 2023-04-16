@@ -1,8 +1,9 @@
 package mcp.mobius.waila.gui.widget;
 
+import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
-import mcp.mobius.waila.gui.screen.ConfigScreen;
 import net.minecraft.client.gui.components.Button;
+import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
@@ -33,8 +34,8 @@ public class ButtonEntry extends ConfigListWidget.Entry {
     }
 
     @Override
-    public void addToScreen(ConfigScreen screen) {
-        screen.addListener(button);
+    protected void gatherChildren(ImmutableList.Builder<GuiEventListener> children) {
+        children.add(button);
     }
 
 }
