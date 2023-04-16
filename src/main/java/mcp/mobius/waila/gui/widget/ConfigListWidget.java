@@ -1,8 +1,8 @@
 package mcp.mobius.waila.gui.widget;
 
-import java.util.Collections;
 import java.util.List;
 
+import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.gui.screen.ConfigScreen;
 import mcp.mobius.waila.gui.widget.value.ConfigValue;
@@ -12,6 +12,7 @@ import net.minecraft.client.gui.components.ContainerObjectSelectionList;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWidget.Entry> {
 
@@ -62,9 +63,6 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
     public void init() {
         resize(topOffset, owner.height + bottomOffset);
         setScrollAmount(getScrollAmount());
-        for (Entry entry : children()) {
-            entry.addToScreen(owner);
-        }
     }
 
     public void add(Entry entry) {
@@ -93,25 +91,42 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
     public abstract static class Entry extends ContainerObjectSelectionList.Entry<Entry> {
 
         protected final Minecraft client;
+        protected @Nullable List<? extends GuiEventListener> children;
+        protected @Nullable List<? extends NarratableEntry> narratables;
 
         public Entry() {
             this.client = Minecraft.getInstance();
         }
 
-        public void addToScreen(ConfigScreen screen) {
+        public void tick() {
         }
 
-        public void tick() {
+        protected void gatherChildren(ImmutableList.Builder<GuiEventListener> children) {
+        }
+
+        protected void gatherNarratables(ImmutableList.Builder<NarratableEntry> narratables) {
         }
 
         @Override
         public @NotNull List<? extends GuiEventListener> children() {
-            return Collections.emptyList();
+            if (children == null) {
+                ImmutableList.Builder<GuiEventListener> builder = ImmutableList.builder();
+                gatherChildren(builder);
+                children = builder.build();
+            }
+
+            return children;
         }
 
         @Override
         public @NotNull List<? extends NarratableEntry> narratables() {
-            return Collections.emptyList();
+            if (narratables == null) {
+                ImmutableList.Builder<NarratableEntry> builder = ImmutableList.builder();
+                gatherNarratables(builder);
+                narratables = builder.build();
+            }
+
+            return narratables;
         }
 
         @Override
