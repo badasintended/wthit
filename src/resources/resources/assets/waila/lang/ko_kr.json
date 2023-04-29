@@ -177,6 +177,8 @@
   "config.waila.plugin_minecraft.override.infested"             : "벌레 먹은 블록을 일반 블록으로 표시",
   "config.waila.plugin_minecraft.override.trapped_chest"        : "덫 상자를 일반 상자로 표시",
   "config.waila.plugin_minecraft.override.powder_snow"          : "가루눈을 일반 눈으로 표시",
+
+
   "config.waila.plugin_minecraft.spawner_type"                  : "스포너 종류 표시",
   "config.waila.plugin_minecraft.crop_progress"                 : "작물 성장 상태 표시",
   "config.waila.plugin_minecraft.redstone"                      : "레드스톤",

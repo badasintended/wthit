@@ -177,6 +177,8 @@
   "config.waila.plugin_minecraft.override.infested"             : "Show Infested Block as Regular Block",
   "config.waila.plugin_minecraft.override.trapped_chest"        : "Show Trapped Chest as Regular Chest",
   "config.waila.plugin_minecraft.override.powder_snow"          : "Show Powder Snow as Regular Snow",
+  "config.waila.plugin_minecraft.override.vehicle"              : "Hide Mounted Vehicle",
+  "config.waila.plugin_minecraft.override.vehicle_desc"         : "Hide minecart, horse, and other mountable entities when mounted by the player",
   "config.waila.plugin_minecraft.spawner_type"                  : "Show Spawner Type",
   "config.waila.plugin_minecraft.crop_progress"                 : "Show Crop Progress",
   "config.waila.plugin_minecraft.redstone"                      : "Redstone",

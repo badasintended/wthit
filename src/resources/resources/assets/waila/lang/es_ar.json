@@ -177,6 +177,8 @@
   "config.waila.plugin_minecraft.override.infested"             : "Ver bloques infestados como bloques regulares",
   "config.waila.plugin_minecraft.override.trapped_chest"        : "Ver cofres trampa como cofres regulares",
   "config.waila.plugin_minecraft.override.powder_snow"          : "Ver nieve polvo como nieve regular",
+
+
   "config.waila.plugin_minecraft.spawner_type"                  : "Ver tipo de generador",
   "config.waila.plugin_minecraft.crop_progress"                 : "Ver progreso de cultivos",
   "config.waila.plugin_minecraft.redstone"                      : "Redstone",
