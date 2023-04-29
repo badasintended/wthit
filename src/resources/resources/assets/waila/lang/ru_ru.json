@@ -18,6 +18,11 @@
   "tooltip.waila.timer.grow"                                    : "Вырастет через",
   "tooltip.waila.timer.breed"                                   : "Можно размножить через",
 
+
+
+
+
+
   "tooltip.waila.instrument.harp"                               : "Арфа",
   "tooltip.waila.instrument.basedrum"                           : "Большой барабан",
   "tooltip.waila.instrument.snare"                              : "Малый барабан",
@@ -214,6 +219,8 @@
   "config.waila.plugin_minecraft.attribute.long_health_max_desc": "Наибольшее число очков жизни для отображения в виде иконок, если у моба или игрока больше чем указано здесь, будут отображены цифры",
   "config.waila.plugin_minecraft.attribute.long_armor_max"      : "Максимум очков брони для отображения",
   "config.waila.plugin_minecraft.attribute.long_armor_max_desc" : "Наибольшее число очков брони для отображения в виде иконок, если у моба или игрока больше чем указано здесь, будут отображены цифры",
+
+
 
   "config.waila.plugin_waila"                                   : "Ядро Waila",
   "config.waila.plugin_waila.show_mod_name"                     : "Отображать названия модов",

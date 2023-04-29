@@ -18,6 +18,11 @@
   "tooltip.waila.timer.grow"                                    : "成长计时器",
   "tooltip.waila.timer.breed"                                   : "繁殖冷却",
 
+  "tooltip.waila.horse.jump.key"                                : "跳跃",
+  "tooltip.waila.horse.jump.value"                              : "%s 格高",
+  "tooltip.waila.horse.speed.key"                               : "速度",
+  "tooltip.waila.horse.speed.value"                             : "%s 米/秒",
+
   "tooltip.waila.instrument.harp"                               : "竖琴",
   "tooltip.waila.instrument.basedrum"                           : "底鼓",
   "tooltip.waila.instrument.snare"                              : "小军鼓",
@@ -214,6 +219,8 @@
   "config.waila.plugin_minecraft.attribute.long_health_max_desc": "强制分数视图前，图标绘制的最大生命值",
   "config.waila.plugin_minecraft.attribute.long_armor_max"      : "要绘制的最大护甲值",
   "config.waila.plugin_minecraft.attribute.long_armor_max_desc" : "强制数字视图前，图标绘制的最大护甲值",
+
+
 
   "config.waila.plugin_waila"                                   : "Waila核心",
   "config.waila.plugin_waila.show_mod_name"                     : "显示模组名称",

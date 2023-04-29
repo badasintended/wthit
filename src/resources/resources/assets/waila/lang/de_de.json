@@ -42,6 +42,11 @@
 
 
 
+
+
+
+
+
   "gui.waila.configuration"                                     : "%s Konfiguration",
   "gui.waila.waila_settings"                                    : "%s Einstellung",
   "gui.waila.plugin_settings"                                   : "Plugin Einstellungen",
@@ -158,6 +163,8 @@
   "key.waila.config"                                            : "Öffne Einstellungen",
   "key.waila.show_overlay"                                      : "Zeige Oberfläche",
   "key.waila.toggle_liquid"                                     : "Flüssigkeiten anzeigen/verstecken",
+
+
 
 
 
