@@ -40,6 +40,8 @@ public final class Options {
     public static final ResourceLocation ATTRIBUTE_ICON_PER_LINE       = rl("attribute.icon_per_line");
     public static final ResourceLocation ATTRIBUTE_LONG_HEALTH_MAX     = rl("attribute.long_health_max");
     public static final ResourceLocation ATTRIBUTE_LONG_ARMOR_MAX      = rl("attribute.long_armor_max");
+    public static final ResourceLocation ATTRUBUTE_HORSE_JUMP_HEIGHT   = rl("attribute.horse_jump_height");
+    public static final ResourceLocation ATTRUBUTE_HORSE_SPEED         = rl("attribute.horse_speed");
     // @formatter:on
 
     private static ResourceLocation rl(String rl) {

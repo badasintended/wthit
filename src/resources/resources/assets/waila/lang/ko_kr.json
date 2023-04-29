@@ -18,6 +18,11 @@
 
 
 
+
+
+
+
+
   "tooltip.waila.instrument.harp"                               : "하프",
   "tooltip.waila.instrument.basedrum"                           : "베이스 드럼",
   "tooltip.waila.instrument.snare"                              : "작은북",
@@ -196,6 +201,8 @@
   "config.waila.plugin_minecraft.pet.owner"                     : "동물 주인 표시",
   "config.waila.plugin_minecraft.pet.owner_desc"                : "마인크래프트 계정이 등록된 사용자만 사용 가능",
   "config.waila.plugin_minecraft.pet.hide_unknown_owner"        : "알 수 없는 주인 숨김",
+
+
 
 
 
