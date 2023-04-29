@@ -170,6 +170,8 @@
   "config.waila.plugin_minecraft.override.infested"             : "被虫蚀的方块显示为正常方块",
   "config.waila.plugin_minecraft.override.trapped_chest"        : "陷阱箱显示为正常箱子",
   "config.waila.plugin_minecraft.override.powder_snow"          : "细雪显示为正常雪",
+
+
   "config.waila.plugin_minecraft.spawner_type"                  : "显示刷怪笼类型",
   "config.waila.plugin_minecraft.crop_progress"                 : "显示作物生长进度",
   "config.waila.plugin_minecraft.redstone"                      : "红石",

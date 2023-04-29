@@ -13,6 +13,7 @@ public final class Options {
     public static final ResourceLocation OVERRIDE_INFESTED             = rl("override.infested");
     public static final ResourceLocation OVERRIDE_TRAPPED_CHEST        = rl("override.trapped_chest");
     public static final ResourceLocation OVERRIDE_POWDER_SNOW          = rl("override.powder_snow");
+    public static final ResourceLocation OVERRIDE_HIDE_VEHICLE         = rl("override.vehicle");
     public static final ResourceLocation PET_OWNER                     = rl("pet.owner");
     public static final ResourceLocation PET_HIDE_UNKNOWN_OWNER        = rl("pet.hide_unknown_owner");
     public static final ResourceLocation SPAWNER_TYPE                  = rl("spawner_type");
