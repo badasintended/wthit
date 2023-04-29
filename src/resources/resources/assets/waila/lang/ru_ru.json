@@ -177,6 +177,8 @@
   "config.waila.plugin_minecraft.override.infested"             : "Отображать заражённые блоки как обычные",
   "config.waila.plugin_minecraft.override.trapped_chest"        : "Отображать сундук-ловушку как обычный сундук",
   "config.waila.plugin_minecraft.override.powder_snow"          : "Отображать рыхлый снег как обычный",
+
+
   "config.waila.plugin_minecraft.spawner_type"                  : "Отображать тип рассадника",
   "config.waila.plugin_minecraft.crop_progress"                 : "Отображать зрелость урожая",
   "config.waila.plugin_minecraft.redstone"                      : "Редстоун",

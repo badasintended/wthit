@@ -27,6 +27,7 @@ import mcp.mobius.waila.plugin.vanilla.provider.PowderSnowProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.RedstoneProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.SpawnerProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.TrappedChestProvider;
+import mcp.mobius.waila.plugin.vanilla.provider.VehicleProvider;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -109,9 +110,11 @@ public class WailaVanilla implements IWailaPlugin {
         registrar.addMergedConfig(Options.OVERRIDE_TRAPPED_CHEST, true);
         registrar.addMergedConfig(Options.OVERRIDE_POWDER_SNOW, true);
         registrar.addMergedConfig(Options.OVERRIDE_INFESTED, true);
+        registrar.addConfig(Options.OVERRIDE_HIDE_VEHICLE, true);
         registrar.addOverride(InfestedBlockProvider.INSTANCE, InfestedBlock.class);
         registrar.addOverride(TrappedChestProvider.INSTANCE, TrappedChestBlock.class);
         registrar.addOverride(PowderSnowProvider.INSTANCE, PowderSnowBlock.class);
+        registrar.addOverride(VehicleProvider.INSTANCE, Entity.class, 900);
 
         registrar.addMergedConfig(Options.BREAKING_PROGRESS, true);
         registrar.addConfig(Options.BREAKING_PROGRESS_COLOR, 0xAAFFFFFF, IntFormat.ARGB_HEX);

@@ -177,6 +177,8 @@
   "config.waila.plugin_minecraft.override.infested"             : "虫食い石を普通の石に示す",
   "config.waila.plugin_minecraft.override.trapped_chest"        : "トラップチェストを普通のチェストに示す",
   "config.waila.plugin_minecraft.override.powder_snow"          : "粉雪を普通の雪に示す",
+
+
   "config.waila.plugin_minecraft.spawner_type"                  : "スポナー種類の表示",
   "config.waila.plugin_minecraft.crop_progress"                 : "作物の成長の表示",
   "config.waila.plugin_minecraft.redstone"                      : "レッドストーン",
