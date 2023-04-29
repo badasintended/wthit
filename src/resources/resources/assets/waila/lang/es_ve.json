@@ -18,6 +18,11 @@
 
 
 
+
+
+
+
+
   "tooltip.waila.instrument.harp"                               : "Arpa",
   "tooltip.waila.instrument.basedrum"                           : "Bombo",
   "tooltip.waila.instrument.snare"                              : "Caja",
@@ -196,6 +201,8 @@
   "config.waila.plugin_minecraft.pet.owner"                     : "Ver dueño de las mascotas",
   "config.waila.plugin_minecraft.pet.owner_desc"                : "Sólo disponible para cuentas de Minecraft registradas",
   "config.waila.plugin_minecraft.pet.hide_unknown_owner"        : "Ocultar dueño desconocido",
+
+
 
 
 

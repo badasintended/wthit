@@ -18,6 +18,11 @@
 
 
 
+
+
+
+
+
   "tooltip.waila.instrument.harp"                               : "ハープ",
   "tooltip.waila.instrument.basedrum"                           : "バスドラム",
   "tooltip.waila.instrument.snare"                              : "スネアドラム",
@@ -196,6 +201,8 @@
   "config.waila.plugin_minecraft.pet.owner"                     : "飼い主の表示",
   "config.waila.plugin_minecraft.pet.owner_desc"                : "登録したMinecraftアカウントだけに使用可能",
   "config.waila.plugin_minecraft.pet.hide_unknown_owner"        : "不明飼主を隠す",
+
+
 
 
 

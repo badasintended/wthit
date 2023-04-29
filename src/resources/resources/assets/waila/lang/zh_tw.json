@@ -18,6 +18,11 @@
 
 
 
+  "tooltip.waila.horse.jump.key"                                : "跳躍",
+  "tooltip.waila.horse.jump.value"                              : "%s 方格高",
+  "tooltip.waila.horse.speed.key"                               : "速度",
+  "tooltip.waila.horse.speed.value"                             : "%s 公尺/秒",
+
   "tooltip.waila.instrument.harp"                               : "豎琴",
   "tooltip.waila.instrument.basedrum"                           : "大鼓",
   "tooltip.waila.instrument.snare"                              : "小鼓",
@@ -196,6 +201,8 @@
   "config.waila.plugin_minecraft.pet.owner"                     : "顯示寵物主人",
   "config.waila.plugin_minecraft.pet.owner_desc"                : "僅適用於已註冊的 Minecraft 帳戶",
   "config.waila.plugin_minecraft.pet.hide_unknown_owner"        : "隱藏未知主人",
+
+
 
 
 

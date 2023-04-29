@@ -18,6 +18,11 @@
   "tooltip.waila.timer.grow"                                    : "Growing Timer",
   "tooltip.waila.timer.breed"                                   : "Breeding Cooldown",
 
+  "tooltip.waila.horse.jump.key"                                : "Jump",
+  "tooltip.waila.horse.jump.value"                              : "%s block(s)",
+  "tooltip.waila.horse.speed.key"                               : "Speed",
+  "tooltip.waila.horse.speed.value"                             : "%s m/s",
+
   "tooltip.waila.instrument.harp"                               : "Harp",
   "tooltip.waila.instrument.basedrum"                           : "Bass Drum",
   "tooltip.waila.instrument.snare"                              : "Snare Drum",
@@ -207,6 +212,8 @@
   "config.waila.plugin_minecraft.attribute.long_health_max_desc": "The maximum health points that the icon will draw before forcing fraction view",
   "config.waila.plugin_minecraft.attribute.long_armor_max"      : "Max Armor Points to Draw",
   "config.waila.plugin_minecraft.attribute.long_armor_max_desc" : "The maximum armor points that the icon will draw before forcing numeric view",
+  "config.waila.plugin_minecraft.attribute.horse_jump_height"   : "Show Horse Jump Height",
+  "config.waila.plugin_minecraft.attribute.horse_speed"         : "Show Horse Speed",
 
   "config.waila.plugin_waila"                                   : "Waila Core",
   "config.waila.plugin_waila.show_mod_name"                     : "Show Mod Names",
