@@ -100,6 +100,8 @@
   "config.waila.rate_limit"                                     : "速率限制",
   "config.waila.rate_limit_desc"                                : "伺服器請求資料的間距時間（毫秒）\n最少需要 250 毫秒",
 
+
+
   "config.waila.tts"                                            : "啟用朗讀功能",
   "config.waila.tts_desc"                                       : "以系統的文字轉語音引擎來讀出方塊及實體的名稱",
 

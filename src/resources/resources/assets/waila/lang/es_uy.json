@@ -100,6 +100,8 @@
   "config.waila.rate_limit"                                     : "Tasa límite",
   "config.waila.rate_limit_desc"                                : "Cúantos milisegundos deben pasar entre cada petición al servidor\nEl valor debe ser por lo menos 250ms",
 
+
+
   "config.waila.tts"                                            : "Activar Texto a Voz",
   "config.waila.tts_desc"                                       : "Lee los nombres de bloque y entidad usando el procesador TTS del sistema",
 

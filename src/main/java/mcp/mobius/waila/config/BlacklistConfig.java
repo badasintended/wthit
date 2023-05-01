@@ -87,6 +87,11 @@ public class BlacklistConfig implements IBlacklistConfig {
         public JsonElement serialize(BlacklistConfig src, Type typeOfSrc, JsonSerializationContext context) {
             JsonObject object = new JsonObject();
 
+            JsonArray comment = new JsonArray();
+            comment.add("NOTE: The server needs to be restarted for the blacklist to apply.");
+            comment.add("      If you play on single player, simply close and re-enter the world.");
+            object.add("_comment", comment);
+
             serialize(object, "blocks", Registry.BLOCK, src.blockIds, src.blocks);
             serialize(object, "blockEntityTypes", Registry.BLOCK_ENTITY_TYPE, src.blockEntityTypeIds, src.blockEntityTypes);
             serialize(object, "entityTypes", Registry.ENTITY_TYPE, src.entityTypeIds, src.entityTypes);

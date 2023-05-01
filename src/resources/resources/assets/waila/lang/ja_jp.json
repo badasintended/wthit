@@ -100,6 +100,8 @@
   "config.waila.rate_limit"                                     : "速度制限",
   "config.waila.rate_limit_desc"                                : "遅延は各サーバー要求の何ミリ秒で\n少なくとも250ミリ秒以上は必要",
 
+
+
   "config.waila.tts"                                            : "音声読み上げを有効にする",
   "config.waila.tts_desc"                                       : "ブロックやエンティティ名などをシステム音声で読み上げます",
 

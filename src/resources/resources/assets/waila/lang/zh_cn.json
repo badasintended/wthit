@@ -93,6 +93,8 @@
   "config.waila.rate_limit"                                     : "速率限制",
   "config.waila.rate_limit_desc"                                : "每个服务器请求之间的延迟是多少毫秒\n必须至少为250毫秒",
 
+
+
   "config.waila.tts"                                            : "启用TTS",
   "config.waila.tts_desc"                                       : "使用系统讲述人读出方块和实体名",
 
