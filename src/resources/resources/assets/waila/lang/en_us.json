@@ -99,6 +99,8 @@
   "config.waila.hide_from_debug_desc"                           : "Hide the tooltip while the debug menu is open",
   "config.waila.rate_limit"                                     : "Rate Limit",
   "config.waila.rate_limit_desc"                                : "How many milliseconds the delay between each server request\nMust be at least 250ms",
+  "config.waila.blacklist"                                      : "Blacklist",
+  "config.waila.blacklist_open"                                 : "Open Blacklist File",
 
   "config.waila.tts"                                            : "Enable TTS",
   "config.waila.tts_desc"                                       : "Read out block and entity names with the system's text to speech processor",

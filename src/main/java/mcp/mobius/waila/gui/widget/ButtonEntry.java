@@ -16,13 +16,21 @@ public class ButtonEntry extends ConfigListWidget.Entry {
     private final Button button;
 
     public ButtonEntry(String title, Button button) {
-        this.title = I18n.get(title);
-        this.button = button;
-        button.setMessage(Component.translatable(this.title));
+        this(title, title, button);
+    }
+
+    public ButtonEntry(String name, String button, Button buttonWidget) {
+        this.title = I18n.get(name);
+        this.button = buttonWidget;
+        buttonWidget.setMessage(Component.translatable(button));
     }
 
     public ButtonEntry(String title, int width, int height, Button.OnPress pressAction) {
-        this(title, createButton(0, 0, width, height, Component.empty(), pressAction));
+        this(title, title, width, height, pressAction);
+    }
+
+    public ButtonEntry(String name, String button, int width, int height, Button.OnPress pressAction) {
+        this(name, button, createButton(0, 0, width, height, Component.empty(), pressAction));
     }
 
     @Override
