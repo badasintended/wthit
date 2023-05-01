@@ -100,6 +100,8 @@
   "config.waila.rate_limit"                                     : "속도 제한",
   "config.waila.rate_limit_desc"                                : "각 서버 요청 사이의 지연 시간 밀리 초(ms)를 설정합니다.\n적어도 250ms 이상이어야 합니다.",
 
+
+
   "config.waila.tts"                                            : "TTS 사용",
   "config.waila.tts_desc"                                       : "블록과 개체 이름을 시스템의 TTS를 이용해서 읽습니다.r",
 

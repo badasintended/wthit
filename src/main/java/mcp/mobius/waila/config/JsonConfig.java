@@ -51,6 +51,11 @@ public class JsonConfig<T> implements IJsonConfig<T> {
     }
 
     @Override
+    public Path getPath() {
+        return path;
+    }
+
+    @Override
     public T get() {
         return getter.get();
     }
