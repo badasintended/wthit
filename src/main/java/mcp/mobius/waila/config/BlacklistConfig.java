@@ -88,8 +88,8 @@ public class BlacklistConfig implements IBlacklistConfig {
             JsonObject object = new JsonObject();
 
             JsonArray comment = new JsonArray();
-            comment.add("NOTE: The server needs to be restarted for the blacklist to apply.");
-            comment.add("      If you play on single player, simply close and re-enter the world.");
+            comment.add("On the SERVER, changes will be applied after the server is restarted");
+            comment.add("On the CLIENT, changes will be applied after player quit and rejoin a world");
             object.add("_comment", comment);
 
             serialize(object, "blocks", Registry.BLOCK, src.blockIds, src.blocks);
