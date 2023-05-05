@@ -176,6 +176,7 @@
   "config.waila.plugin_minecraft.breaking_progress.color"       : "Цвет индикатора ломания",
   "config.waila.plugin_minecraft.breaking_progress.bottom_only" : "Только снизу",
   "config.waila.plugin_minecraft.override"                      : "Переопределение",
+
   "config.waila.plugin_minecraft.override.infested"             : "Отображать заражённые блоки как обычные",
   "config.waila.plugin_minecraft.override.trapped_chest"        : "Отображать сундук-ловушку как обычный сундук",
   "config.waila.plugin_minecraft.override.powder_snow"          : "Отображать рыхлый снег как обычный",

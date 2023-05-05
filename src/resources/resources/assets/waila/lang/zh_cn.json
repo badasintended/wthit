@@ -169,6 +169,7 @@
   "config.waila.plugin_minecraft.breaking_progress.color"       : "破坏进度颜色",
   "config.waila.plugin_minecraft.breaking_progress.bottom_only" : "仅底部",
   "config.waila.plugin_minecraft.override"                      : "覆盖",
+
   "config.waila.plugin_minecraft.override.infested"             : "被虫蚀的方块显示为正常方块",
   "config.waila.plugin_minecraft.override.trapped_chest"        : "陷阱箱显示为正常箱子",
   "config.waila.plugin_minecraft.override.powder_snow"          : "细雪显示为正常雪",

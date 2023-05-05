@@ -176,6 +176,7 @@
 
 
   "config.waila.plugin_minecraft.override"                      : "オーバーライド",
+
   "config.waila.plugin_minecraft.override.infested"             : "虫食い石を普通の石に示す",
   "config.waila.plugin_minecraft.override.trapped_chest"        : "トラップチェストを普通のチェストに示す",
   "config.waila.plugin_minecraft.override.powder_snow"          : "粉雪を普通の雪に示す",

@@ -176,6 +176,7 @@
 
 
   "config.waila.plugin_minecraft.override"                      : "Casos especiales",
+
   "config.waila.plugin_minecraft.override.infested"             : "Ver bloques infestados como bloques regulares",
   "config.waila.plugin_minecraft.override.trapped_chest"        : "Ver cofres trampa como cofres regulares",
   "config.waila.plugin_minecraft.override.powder_snow"          : "Ver nieve polvo como nieve regular",
