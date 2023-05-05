@@ -1,5 +1,9 @@
 7.x - 1.19.4 - dev/master - java 17
 ===================================
+7.2.4    - Added button to open blacklist config in external editor
+         - Added option to hide invisible entities, enabled by default
+         - Updated Russian translation (#201)
+         - Changed all config to have date suffix when backed up
 7.2.3    - Added horse jump and speed tooltip
          - Added option to hide mounted entities, enabled by default
 7.2.2    - Added interaction entity to default blacklist (#197)
@@ -18,6 +22,10 @@
 
 6.x - 1.19.3 - dev/1.19.3 - java 17
 ===================================
+6.3.4    - Added button to open blacklist config in external editor
+         - Added option to hide invisible entities, enabled by default
+         - Updated Russian translation (#201)
+         - Changed all config to have date suffix when backed up
 6.3.3    - Added horse jump and speed tooltip
          - Added option to hide mounted entities, enabled by default
 6.3.2    - Fixed keyboard navigation doesn't scroll config screens (#198)
@@ -43,6 +51,10 @@
 
 5.x - 1.19.2 - dev/1.19.2 - java 17
 ===================================
+5.15.4   - Added button to open blacklist config in external editor
+         - Added option to hide invisible entities, enabled by default
+         - Updated Russian translation (#201)
+         - Changed all config to have date suffix when backed up
 5.15.3   - Added horse jump and speed tooltip
          - Added option to hide mounted entities, enabled by default
 5.15.2   - Fixed keyboard navigation doesn't scroll config screens (#198)
