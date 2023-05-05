@@ -5,16 +5,25 @@ import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
 import org.jetbrains.annotations.Nullable;
 
-public enum VehicleProvider implements IEntityComponentProvider {
+public enum InvisibleEntityProvider implements IEntityComponentProvider {
 
     INSTANCE;
 
     @Nullable
     @Override
     public Entity getOverride(IEntityAccessor accessor, IPluginConfig config) {
-        return accessor.getPlayer().getVehicle() == accessor.getEntity() && config.getBoolean(Options.OVERRIDE_VEHICLE) ? EMPTY_ENTITY : null;
+        if (config.getBoolean(Options.OVERRIDE_INVISIBLE_ENTITY)) {
+            LivingEntity entity = accessor.getEntity();
+
+            if (entity.isInvisibleTo(accessor.getPlayer())) {
+                return EMPTY_ENTITY;
+            }
+        }
+
+        return null;
     }
 
 }

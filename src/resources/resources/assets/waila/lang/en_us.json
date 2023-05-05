@@ -176,6 +176,7 @@
   "config.waila.plugin_minecraft.breaking_progress.color"       : "Breaking Progress Color",
   "config.waila.plugin_minecraft.breaking_progress.bottom_only" : "Bottom Only",
   "config.waila.plugin_minecraft.override"                      : "Overrides",
+  "config.waila.plugin_minecraft.override.invisible_entity"     : "Hide Invisible Entities",
   "config.waila.plugin_minecraft.override.infested"             : "Show Infested Block as Regular Block",
   "config.waila.plugin_minecraft.override.trapped_chest"        : "Show Trapped Chest as Regular Chest",
   "config.waila.plugin_minecraft.override.powder_snow"          : "Show Powder Snow as Regular Snow",
