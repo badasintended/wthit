@@ -88,6 +88,11 @@ public class BlacklistConfig implements IBlacklistConfig {
         public JsonElement serialize(BlacklistConfig src, Type typeOfSrc, JsonSerializationContext context) {
             JsonObject object = new JsonObject();
 
+            JsonArray comment = new JsonArray();
+            comment.add("On the SERVER, changes will be applied after the server is restarted");
+            comment.add("On the CLIENT, changes will be applied after player quit and rejoin a world");
+            object.add("_comment", comment);
+
             serialize(object, "blocks", BuiltInRegistries.BLOCK, src.blockIds, src.blocks);
             serialize(object, "blockEntityTypes", BuiltInRegistries.BLOCK_ENTITY_TYPE, src.blockEntityTypeIds, src.blockEntityTypes);
             serialize(object, "entityTypes", BuiltInRegistries.ENTITY_TYPE, src.entityTypeIds, src.entityTypes);

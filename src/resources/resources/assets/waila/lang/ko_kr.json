@@ -100,6 +100,8 @@
   "config.waila.rate_limit"                                     : "속도 제한",
   "config.waila.rate_limit_desc"                                : "각 서버 요청 사이의 지연 시간 밀리 초(ms)를 설정합니다.\n적어도 250ms 이상이어야 합니다.",
 
+
+
   "config.waila.tts"                                            : "TTS 사용",
   "config.waila.tts_desc"                                       : "블록과 개체 이름을 시스템의 TTS를 이용해서 읽습니다.r",
 
@@ -174,6 +176,7 @@
 
 
   "config.waila.plugin_minecraft.override"                      : "덮어씌우기",
+
   "config.waila.plugin_minecraft.override.infested"             : "벌레 먹은 블록을 일반 블록으로 표시",
   "config.waila.plugin_minecraft.override.trapped_chest"        : "덫 상자를 일반 상자로 표시",
   "config.waila.plugin_minecraft.override.powder_snow"          : "가루눈을 일반 눈으로 표시",

@@ -100,6 +100,8 @@
 
 
 
+
+
   "config.waila.tts"                                            : "Włącz TTS",
   "config.waila.tts_desc"                                       : "Czyta nazwy bloków i bytów, używając modułu zamiany tekstu na mowę",
 
@@ -167,6 +169,7 @@
 
 
   "config.waila.plugin_minecraft"                               : "Minecraft",
+
 
 
 

@@ -100,6 +100,8 @@
 
 
 
+
+
   "config.waila.tts"                                            : "Aktiviere TTS",
   "config.waila.tts_desc"                                       : "Lies den Block- und Kreaturname mit dem Text To Speech Prozessor vom System vor",
 
@@ -163,6 +165,7 @@
   "key.waila.config"                                            : "Öffne Einstellungen",
   "key.waila.show_overlay"                                      : "Zeige Oberfläche",
   "key.waila.toggle_liquid"                                     : "Flüssigkeiten anzeigen/verstecken",
+
 
 
 

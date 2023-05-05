@@ -49,6 +49,11 @@ public interface IJsonConfig<T> {
     boolean isFileExists();
 
     /**
+     * @return the path to the config file.
+     */
+    Path getPath();
+
+    /**
      * Backup and invalidate current value and force re-read file on next {@link #get}.
      * The backup will have a time suffix to it's file extension.
      */

@@ -18,6 +18,7 @@ import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.gui.hud.Line;
 import mcp.mobius.waila.gui.hud.TooltipRenderer;
 import mcp.mobius.waila.gui.hud.theme.ThemeDefinition;
+import mcp.mobius.waila.gui.widget.ButtonEntry;
 import mcp.mobius.waila.gui.widget.CategoryEntry;
 import mcp.mobius.waila.gui.widget.ConfigListWidget;
 import mcp.mobius.waila.gui.widget.value.BooleanValue;
@@ -27,6 +28,7 @@ import mcp.mobius.waila.gui.widget.value.EnumValue;
 import mcp.mobius.waila.gui.widget.value.InputValue;
 import mcp.mobius.waila.mixin.KeyMappingAccess;
 import net.minecraft.ChatFormatting;
+import net.minecraft.Util;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
@@ -166,7 +168,9 @@ public class WailaConfigScreen extends ConfigScreen {
                 get().getGeneral().getRateLimit(),
                 defaultConfig.getGeneral().getRateLimit(),
                 val -> get().getGeneral().setRateLimit(Math.max(val, 250)),
-                InputValue.POSITIVE_INTEGER));
+                InputValue.POSITIVE_INTEGER))
+            .with(new ButtonEntry(Tl.Config.BLACKLIST, Tl.Config.BLACKLIST_OPEN, 100, 20, w ->
+                Util.getPlatform().openFile(Waila.BLACKLIST_CONFIG.getPath().toFile())));
 
         options.with(new CategoryEntry(Tl.Config.OVERLAY))
             .with(xAnchorValue = new EnumValue<>(Tl.Config.OVERLAY_ANCHOR_X,

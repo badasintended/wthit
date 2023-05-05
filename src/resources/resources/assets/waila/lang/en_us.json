@@ -99,6 +99,8 @@
   "config.waila.hide_from_debug_desc"                           : "Hide the tooltip while the debug menu is open",
   "config.waila.rate_limit"                                     : "Rate Limit",
   "config.waila.rate_limit_desc"                                : "How many milliseconds the delay between each server request\nMust be at least 250ms",
+  "config.waila.blacklist"                                      : "Blacklist",
+  "config.waila.blacklist_open"                                 : "Open Blacklist File",
 
   "config.waila.tts"                                            : "Enable TTS",
   "config.waila.tts_desc"                                       : "Read out block and entity names with the system's text to speech processor",
@@ -174,6 +176,7 @@
   "config.waila.plugin_minecraft.breaking_progress.color"       : "Breaking Progress Color",
   "config.waila.plugin_minecraft.breaking_progress.bottom_only" : "Bottom Only",
   "config.waila.plugin_minecraft.override"                      : "Overrides",
+  "config.waila.plugin_minecraft.override.invisible_entity"     : "Hide Invisible Entities",
   "config.waila.plugin_minecraft.override.infested"             : "Show Infested Block as Regular Block",
   "config.waila.plugin_minecraft.override.trapped_chest"        : "Show Trapped Chest as Regular Chest",
   "config.waila.plugin_minecraft.override.powder_snow"          : "Show Powder Snow as Regular Snow",

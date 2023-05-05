@@ -100,6 +100,8 @@
   "config.waila.rate_limit"                                     : "速率限制",
   "config.waila.rate_limit_desc"                                : "伺服器請求資料的間距時間（毫秒）\n最少需要 250 毫秒",
 
+
+
   "config.waila.tts"                                            : "啟用朗讀功能",
   "config.waila.tts_desc"                                       : "以系統的文字轉語音引擎來讀出方塊及實體的名稱",
 
@@ -174,6 +176,7 @@
   "config.waila.plugin_minecraft.breaking_progress.color"       : "挖掘進度條顏色",
   "config.waila.plugin_minecraft.breaking_progress.bottom_only" : "僅在提示框底部顯示進度條",
   "config.waila.plugin_minecraft.override"                      : "覆寫",
+
   "config.waila.plugin_minecraft.override.infested"             : "將蛀蝕的方塊顯示為正常的方塊",
   "config.waila.plugin_minecraft.override.trapped_chest"        : "將陷阱儲物箱顯示為正常的儲物箱",
   "config.waila.plugin_minecraft.override.powder_snow"          : "將粉雪顯示為正常的雪",
