@@ -8,6 +8,9 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.ObjIntConsumer;
@@ -17,6 +20,8 @@ import java.util.function.ToIntFunction;
 import com.google.gson.Gson;
 
 public class ConfigIo<T> {
+
+    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
 
     private final Consumer<String> warn;
     private final BiConsumer<String, Throwable> error;
@@ -60,7 +65,7 @@ public class ConfigIo<T> {
                 config = gson.fromJson(reader, type);
                 int version = versionGetter.applyAsInt(config);
                 if (version != currentVersion) {
-                    Path old = Paths.get(path + "_old");
+                    Path old = Paths.get(path + "_" + DATE_FORMAT.format(new Date()));
                     warn.accept("Config file "
                         + path
                         + " contains different version ("
@@ -76,7 +81,7 @@ public class ConfigIo<T> {
                     init = false;
                 }
             } catch (Exception e) {
-                Path old = Paths.get(path + "_old");
+                Path old = Paths.get(path + "_" + DATE_FORMAT.format(new Date()));
                 error.accept("Exception when reading config file "
                     + path
                     + ", this config will be reset. Old config will be placed at "
