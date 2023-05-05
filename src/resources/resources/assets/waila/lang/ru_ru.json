@@ -18,10 +18,10 @@
   "tooltip.waila.timer.grow"                                    : "Вырастет через",
   "tooltip.waila.timer.breed"                                   : "Можно размножить через",
 
-
-
-
-
+  "tooltip.waila.horse.jump.key"                                : "Сила прыжка",
+  "tooltip.waila.horse.jump.value"                              : "%s блока(ов)",
+  "tooltip.waila.horse.speed.key"                               : "Скорость",
+  "tooltip.waila.horse.speed.value"                             : "%s м/с",
 
   "tooltip.waila.instrument.harp"                               : "Арфа",
   "tooltip.waila.instrument.basedrum"                           : "Большой барабан",
@@ -224,8 +224,8 @@
   "config.waila.plugin_minecraft.attribute.long_health_max_desc": "Наибольшее число очков жизни для отображения в виде иконок, если у моба или игрока больше чем указано здесь, будут отображены цифры",
   "config.waila.plugin_minecraft.attribute.long_armor_max"      : "Максимум очков брони для отображения",
   "config.waila.plugin_minecraft.attribute.long_armor_max_desc" : "Наибольшее число очков брони для отображения в виде иконок, если у моба или игрока больше чем указано здесь, будут отображены цифры",
-
-
+  "config.waila.plugin_minecraft.attribute.horse_jump_height"   : "Отображать силу прыжка лошади",
+  "config.waila.plugin_minecraft.attribute.horse_speed"         : "Отображать скорость лошади",
 
   "config.waila.plugin_waila"                                   : "Ядро Waila",
   "config.waila.plugin_waila.show_mod_name"                     : "Отображать названия модов",
