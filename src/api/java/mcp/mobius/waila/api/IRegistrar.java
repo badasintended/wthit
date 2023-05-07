@@ -255,14 +255,28 @@ public interface IRegistrar {
     }
 
     /**
-     * Registers an {@link IServerDataProvider<BlockEntity>} instance for data syncing purposes. A {@link BlockEntity}
+     * Registers an {@link IDataProvider<BlockEntity>} instance for data syncing purposes. A {@link BlockEntity}
+     * is also an acceptable class type.
+     *
+     * @param provider the data provider instance
+     * @param clazz    the highest level class to apply to
+     * @param priority the priority of this provider <b>0 is the minimum, lower number will be called first</b>
+     *
+     * @see #DEFAULT_PRIORITY
+     */
+    @ApiSide.ServerOnly
+    <T, BE extends BlockEntity> void addBlockData(IDataProvider<BE> provider, Class<T> clazz, int priority);
+
+    /**
+     * Registers an {@link IDataProvider<BlockEntity>} instance with {@link #DEFAULT_PRIORITY} for data syncing purposes. A {@link BlockEntity}
      * is also an acceptable class type.
      *
      * @param provider the data provider instance
      * @param clazz    the highest level class to apply to
      */
-    @ApiSide.ServerOnly
-    <T, BE extends BlockEntity> void addBlockData(IServerDataProvider<BE> provider, Class<T> clazz);
+    default <T, BE extends BlockEntity> void addBlockData(IDataProvider<BE> provider, Class<T> clazz) {
+        addBlockData(provider, clazz, DEFAULT_PRIORITY);
+    }
 
     /**
      * Adds the specified entity types to the default blacklist.
@@ -345,13 +359,35 @@ public interface IRegistrar {
     }
 
     /**
-     * Registers an {@link IServerDataProvider<Entity>} instance for data syncing purposes.
+     * Registers an {@link IDataProvider<Entity>} instance for data syncing purposes.
+     *
+     * @param provider the data provider instance
+     * @param clazz    the highest level class to apply to
+     * @param priority the priority of this provider <b>0 is the minimum, lower number will be called first</b>
+     *
+     * @see #DEFAULT_PRIORITY
+     */
+    @ApiSide.ServerOnly
+    <T, E extends Entity> void addEntityData(IDataProvider<E> provider, Class<T> clazz, int priority);
+
+    /**
+     * Registers an {@link IDataProvider<Entity>} instance eith {@link #DEFAULT_PRIORITY} for data syncing purposes.
      *
      * @param provider the data provider instance
      * @param clazz    the highest level class to apply to
      */
-    @ApiSide.ServerOnly
-    <T, E extends Entity> void addEntityData(IServerDataProvider<E> provider, Class<T> clazz);
+    default <T, E extends Entity> void addEntityData(IDataProvider<E> provider, Class<T> clazz) {
+        addEntityData(provider, clazz, DEFAULT_PRIORITY);
+    }
+
+    /**
+     * Registers a data type used for syncing data from server to client.
+     *
+     * @param id         the id of the data type
+     * @param type       the type of data
+     * @param serializer the data to buffer serializer
+     */
+    <T extends IData> void addDataType(ResourceLocation id, Class<T> type, IData.Serializer<T> serializer);
 
     /**
      * Registers an {@link IThemeType} instance.
@@ -380,6 +416,29 @@ public interface IRegistrar {
     @ApiSide.ClientOnly
     default void replacePicker(IObjectPicker picker) {
         replacePicker(picker, DEFAULT_PRIORITY);
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------------------------------------
+    // TODO: Remove
+
+    /**
+     * @deprecated use {@link #addBlockData(IDataProvider, Class)}
+     */
+    @SuppressWarnings("removal")
+    @Deprecated(forRemoval = true)
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.21")
+    default <T, BE extends BlockEntity> void addBlockData(IServerDataProvider<BE> provider, Class<T> clazz) {
+        addBlockData((IDataProvider<? extends BlockEntity>) provider, clazz);
+    }
+
+    /**
+     * @deprecated use {@link #addEntityData(IDataProvider, Class)}
+     */
+    @SuppressWarnings("removal")
+    @Deprecated(forRemoval = true)
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.21")
+    default <T, E extends Entity> void addEntityData(IServerDataProvider<E> provider, Class<T> clazz) {
+        addEntityData((IDataProvider<? extends Entity>) provider, clazz);
     }
 
 }
