@@ -64,17 +64,19 @@ public class TooltipRenderer {
     public static void add(Tooltip tooltip) {
         Preconditions.checkState(started);
         for (Line line : tooltip) {
-            if (line.tag != null) {
-                TOOLTIP.setLine(line.tag, line);
-            } else {
-                add(line);
-            }
+            add(line);
         }
     }
 
     public static void add(Line line) {
         Preconditions.checkState(started);
-        TOOLTIP.add(line);
+
+        if (line.tag != null) {
+            TOOLTIP.setLine(line.tag, line);
+        } else {
+            TOOLTIP.add(line);
+        }
+
         for (ITooltipComponent component : line.components) {
             if (component instanceof PairComponent pair) {
                 colonOffset = Math.max(pair.key.getWidth(), colonOffset);
