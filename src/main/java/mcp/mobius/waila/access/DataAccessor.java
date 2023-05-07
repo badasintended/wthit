@@ -2,6 +2,7 @@ package mcp.mobius.waila.access;
 
 import mcp.mobius.waila.api.IBlockAccessor;
 import mcp.mobius.waila.api.ICommonAccessor;
+import mcp.mobius.waila.api.IDataReader;
 import mcp.mobius.waila.api.IEntityAccessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -35,7 +36,6 @@ public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IEntityAcce
     private ResourceLocation blockRegistryName = Registry.ITEM.getDefaultKey();
     private BlockEntity blockEntity;
     private Entity entity;
-    private CompoundTag serverData = null;
     private long timeLastUpdate = System.currentTimeMillis();
     private double partialFrame;
     private ItemStack stack = ItemStack.EMPTY;
@@ -92,24 +92,22 @@ public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IEntityAcce
     }
 
     @Override
+    @SuppressWarnings("removal")
     public CompoundTag getServerData() {
-        if ((this.blockEntity != null) && this.isTagCorrectBlockEntity(this.serverData))
-            return serverData;
+        return getData().raw();
+    }
 
-        if ((this.entity != null) && this.isTagCorrectEntity(this.serverData))
-            return serverData;
-
-        return new CompoundTag();
+    @Override
+    public IDataReader getData() {
+        DataReader data = DataReader.INSTANCE;
+        if (!isTagCorrectBlockEntity() && !isTagCorrectEntity()) data.reset(null);
+        return data;
     }
 
     @Override
     public long getServerDataTime() {
-        CompoundTag data = getServerData();
+        CompoundTag data = getData().raw();
         return data.contains("WailaTime") ? data.getLong("WailaTime") : System.currentTimeMillis();
-    }
-
-    public void setServerData(CompoundTag tag) {
-        this.serverData = tag;
     }
 
     @Override
@@ -165,7 +163,11 @@ public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IEntityAcce
         this.blockRegistryName = Registry.BLOCK.getKey(block);
     }
 
-    private boolean isTagCorrectBlockEntity(CompoundTag tag) {
+    private boolean isTagCorrectBlockEntity() {
+        if (blockEntity == null) return false;
+
+        CompoundTag tag = DataReader.INSTANCE.raw();
+
         if (tag == null) {
             this.timeLastUpdate = System.currentTimeMillis() - 250;
             return false;
@@ -184,7 +186,11 @@ public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IEntityAcce
         }
     }
 
-    private boolean isTagCorrectEntity(CompoundTag tag) {
+    private boolean isTagCorrectEntity() {
+        if (entity == null) return false;
+
+        CompoundTag tag = DataReader.INSTANCE.raw();
+
         if (tag == null || !tag.contains("WailaEntityID")) {
             this.timeLastUpdate = System.currentTimeMillis() - 250;
             return false;

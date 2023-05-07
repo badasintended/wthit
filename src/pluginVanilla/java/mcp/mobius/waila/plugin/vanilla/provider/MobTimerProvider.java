@@ -1,10 +1,11 @@
 package mcp.mobius.waila.plugin.vanilla.provider;
 
+import mcp.mobius.waila.api.IDataProvider;
+import mcp.mobius.waila.api.IDataWriter;
 import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerAccessor;
-import mcp.mobius.waila.api.IServerDataProvider;
 import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.component.PairComponent;
 import mcp.mobius.waila.buildconst.Tl;
@@ -13,7 +14,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.AgeableMob;
 
-public enum MobTimerProvider implements IEntityComponentProvider, IServerDataProvider<AgeableMob> {
+public enum MobTimerProvider implements IEntityComponentProvider, IDataProvider<AgeableMob> {
 
     INSTANCE;
 
@@ -24,7 +25,7 @@ public enum MobTimerProvider implements IEntityComponentProvider, IServerDataPro
 
     @Override
     public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        CompoundTag data = accessor.getServerData();
+        CompoundTag data = accessor.getData().raw();
         if (data.contains("age")) {
             if (lastDataSync != accessor.getServerDataTime()) {
                 lastDataSync = accessor.getServerDataTime();
@@ -64,9 +65,9 @@ public enum MobTimerProvider implements IEntityComponentProvider, IServerDataPro
     }
 
     @Override
-    public void appendServerData(CompoundTag data, IServerAccessor<AgeableMob> accessor, IPluginConfig config) {
+    public void appendData(IDataWriter data, IServerAccessor<AgeableMob> accessor, IPluginConfig config) {
         AgeableMob mob = accessor.getTarget();
-        data.putInt("age", mob.getAge());
+        data.raw().putInt("age", mob.getAge());
     }
 
 }

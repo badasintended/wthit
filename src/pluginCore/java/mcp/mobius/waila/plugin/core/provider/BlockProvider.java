@@ -2,10 +2,11 @@ package mcp.mobius.waila.plugin.core.provider;
 
 import mcp.mobius.waila.api.IBlockAccessor;
 import mcp.mobius.waila.api.IBlockComponentProvider;
+import mcp.mobius.waila.api.IDataProvider;
+import mcp.mobius.waila.api.IDataWriter;
 import mcp.mobius.waila.api.IModInfo;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerAccessor;
-import mcp.mobius.waila.api.IServerDataProvider;
 import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.IWailaConfig;
@@ -18,7 +19,7 @@ import net.minecraft.world.Nameable;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
-public enum BlockProvider implements IBlockComponentProvider, IServerDataProvider<BlockEntity> {
+public enum BlockProvider implements IBlockComponentProvider, IDataProvider<BlockEntity> {
 
     INSTANCE;
 
@@ -34,7 +35,7 @@ public enum BlockProvider implements IBlockComponentProvider, IServerDataProvide
         }
 
         Block block = accessor.getBlock();
-        CompoundTag data = accessor.getServerData();
+        CompoundTag data = accessor.getData().raw();
         String name = block.getName().getString();
 
         if (data.contains("customName")) {
@@ -56,11 +57,11 @@ public enum BlockProvider implements IBlockComponentProvider, IServerDataProvide
     }
 
     @Override
-    public void appendServerData(CompoundTag data, IServerAccessor<BlockEntity> accessor, IPluginConfig config) {
+    public void appendData(IDataWriter data, IServerAccessor<BlockEntity> accessor, IPluginConfig config) {
         if (accessor.getTarget() instanceof Nameable nameable) {
             Component name = nameable.getCustomName();
             if (name != null) {
-                data.putString("customName", name.getString());
+                data.raw().putString("customName", name.getString());
             }
         }
     }
