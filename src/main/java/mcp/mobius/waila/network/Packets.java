@@ -14,10 +14,11 @@ import lol.bai.badpackets.api.C2SPacketReceiver;
 import lol.bai.badpackets.api.S2CPacketReceiver;
 import lol.bai.badpackets.api.event.PacketSenderReadyCallback;
 import mcp.mobius.waila.Waila;
-import mcp.mobius.waila.access.DataAccessor;
+import mcp.mobius.waila.access.DataRW;
 import mcp.mobius.waila.access.ServerAccessor;
+import mcp.mobius.waila.api.IData;
+import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IServerAccessor;
-import mcp.mobius.waila.api.IServerDataProvider;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.config.BlacklistConfig;
@@ -54,7 +55,8 @@ public class Packets {
     public static final ResourceLocation ENTITY = Waila.id("entity");
     public static final ResourceLocation BLOCK = Waila.id("block");
 
-    public static final ResourceLocation DATA = Waila.id("data");
+    public static final ResourceLocation DATA_RAW = Waila.id("data");
+    public static final ResourceLocation DATA_TYPED = Waila.id("data_typed");
     public static final ResourceLocation CONFIG = Waila.id("config");
     public static final ResourceLocation BLACKLIST = Waila.id("blacklist");
     public static final ResourceLocation GENERATE_CLIENT_DUMP = Waila.id("generate_client_dump");
@@ -129,19 +131,21 @@ public class Packets {
                     return;
                 }
 
-                CompoundTag data = new CompoundTag();
+                CompoundTag raw = DataRW.INSTANCE.reset(null);
                 IServerAccessor<Entity> accessor = ServerAccessor.INSTANCE.set(world, player, new EntityHitResult(entity, hitPos), entity);
 
-                for (IServerDataProvider<Entity> provider : registrar.entityData.get(entity)) {
-                    provider.appendServerData(data, accessor, PluginConfig.SERVER);
+                for (IDataProvider<Entity> provider : registrar.entityData.get(entity)) {
+                    provider.appendData(DataRW.INSTANCE, accessor, PluginConfig.SERVER);
                 }
 
-                data.putInt("WailaEntityID", entity.getId());
-                data.putLong("WailaTime", System.currentTimeMillis());
+                raw.putInt("WailaEntityID", entity.getId());
+                raw.putLong("WailaTime", System.currentTimeMillis());
 
-                FriendlyByteBuf dataBuf = new FriendlyByteBuf(Unpooled.buffer());
-                dataBuf.writeNbt(data);
-                responseSender.send(DATA, dataBuf);
+                FriendlyByteBuf rawBuf = new FriendlyByteBuf(Unpooled.buffer());
+                rawBuf.writeNbt(raw);
+                responseSender.send(DATA_RAW, rawBuf);
+
+                DataRW.INSTANCE.sendTypedPackets(responseSender);
             });
         });
 
@@ -164,27 +168,29 @@ public class Packets {
                 }
 
                 BlockState state = world.getBlockState(pos);
-                CompoundTag data = new CompoundTag();
+                CompoundTag raw = DataRW.INSTANCE.reset(null);
                 IServerAccessor<BlockEntity> accessor = ServerAccessor.INSTANCE.set(world, player, hitResult, blockEntity);
 
-                for (IServerDataProvider<BlockEntity> provider : registrar.blockData.get(blockEntity)) {
-                    provider.appendServerData(data, accessor, PluginConfig.SERVER);
+                for (IDataProvider<BlockEntity> provider : registrar.blockData.get(blockEntity)) {
+                    provider.appendData(DataRW.INSTANCE, accessor, PluginConfig.SERVER);
                 }
 
-                for (IServerDataProvider<BlockEntity> provider : registrar.blockData.get(state.getBlock())) {
-                    provider.appendServerData(data, accessor, PluginConfig.SERVER);
+                for (IDataProvider<BlockEntity> provider : registrar.blockData.get(state.getBlock())) {
+                    provider.appendData(DataRW.INSTANCE, accessor, PluginConfig.SERVER);
                 }
 
-                data.putInt("x", pos.getX());
-                data.putInt("y", pos.getY());
-                data.putInt("z", pos.getZ());
+                raw.putInt("x", pos.getX());
+                raw.putInt("y", pos.getY());
+                raw.putInt("z", pos.getZ());
                 //noinspection ConstantConditions
-                data.putString("id", BuiltInRegistries.BLOCK_ENTITY_TYPE.getKey(blockEntity.getType()).toString());
-                data.putLong("WailaTime", System.currentTimeMillis());
+                raw.putString("id", BuiltInRegistries.BLOCK_ENTITY_TYPE.getKey(blockEntity.getType()).toString());
+                raw.putLong("WailaTime", System.currentTimeMillis());
 
-                FriendlyByteBuf dataBuf = new FriendlyByteBuf(Unpooled.buffer());
-                dataBuf.writeNbt(data);
-                responseSender.send(DATA, dataBuf);
+                FriendlyByteBuf rawBuf = new FriendlyByteBuf(Unpooled.buffer());
+                rawBuf.writeNbt(raw);
+                responseSender.send(DATA_RAW, rawBuf);
+
+                DataRW.INSTANCE.sendTypedPackets(responseSender);
             });
         });
     }
@@ -205,10 +211,16 @@ public class Packets {
             }
         });
 
-        S2CPacketReceiver.register(DATA, (client, handler, buf, responseSender) -> {
+        S2CPacketReceiver.register(DATA_RAW, (client, handler, buf, responseSender) -> {
             CompoundTag data = buf.readNbt();
 
-            client.execute(() -> DataAccessor.INSTANCE.setServerData(data));
+            client.execute(() -> DataRW.INSTANCE.reset(data));
+        });
+
+        S2CPacketReceiver.register(DATA_TYPED, (client, handler, buf, responseSender) -> {
+            IData data = DataRW.readTypedPacket(buf);
+
+            client.execute(() -> DataRW.INSTANCE.add(data));
         });
 
         S2CPacketReceiver.register(CONFIG, (client, handler, buf, responseSender) -> {

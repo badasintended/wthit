@@ -61,6 +61,11 @@ public class WailaTest implements IWailaPlugin {
 
         registrar.addConfig(BarTest.ENABLED, false);
         registrar.addComponent(BarTest.INSTANCE, TooltipPosition.BODY, Block.class);
+
+        registrar.addConfig(DataTest.ENABLED, false);
+        registrar.addDataType(DataTest.ENABLED, DataTest.Data.class, DataTest.Data::new);
+        registrar.addComponent(DataTest.INSTANCE, TooltipPosition.BODY, ChestBlock.class);
+        registrar.addBlockData(DataTest.INSTANCE, ChestBlock.class);
     }
 
 }
