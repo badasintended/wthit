@@ -30,32 +30,24 @@ public interface IBlockAccessor {
 
     BlockState getBlockState();
 
-    @Nullable <T extends BlockEntity> T getBlockEntity();
+    @Nullable
+    <T extends BlockEntity> T getBlockEntity();
 
     HitResult getHitResult();
 
     BlockPos getPosition();
 
-    @Nullable Vec3 getRenderingPosition();
+    @Nullable
+    Vec3 getRenderingPosition();
 
     long getServerDataTime();
 
-    IDataReader getData();
+    CompoundTag getServerData();
 
     double getPartialFrame();
 
     Direction getSide();
 
     ItemStack getStack();
-
-    // -----------------------------------------------------------------------------------------------------------------------------------------------
-    // TODO: Remove
-
-    /**
-     * @deprecated use {@link #getData()}, {@link IDataReader#raw()}
-     */
-    @Deprecated(forRemoval = true)
-    @ApiStatus.ScheduledForRemoval(inVersion = "1.21")
-    CompoundTag getServerData();
 
 }

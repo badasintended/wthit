@@ -30,18 +30,8 @@ public interface IEntityAccessor {
 
     long getServerDataTime();
 
-    IDataReader getData();
+    CompoundTag getServerData();
 
     double getPartialFrame();
-
-    // -----------------------------------------------------------------------------------------------------------------------------------------------
-    // TODO: Remove
-
-    /**
-     * @deprecated use {@link #getData()}, {@link IDataReader#raw()}
-     */
-    @Deprecated(forRemoval = true)
-    @ApiStatus.ScheduledForRemoval(inVersion = "1.21")
-    CompoundTag getServerData();
 
 }

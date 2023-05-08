@@ -43,7 +43,7 @@ public interface ICommonAccessor {
 
     long getServerDataTime();
 
-    IDataReader getData();
+    CompoundTag getServerData();
 
     double getPartialFrame();
 
@@ -51,15 +51,5 @@ public interface ICommonAccessor {
     Direction getSide();
 
     ItemStack getStack();
-
-    // -----------------------------------------------------------------------------------------------------------------------------------------------
-    // TODO: Remove
-
-    /**
-     * @deprecated use {@link #getData()}, {@link IDataReader#raw()}
-     */
-    @Deprecated(forRemoval = true)
-    @ApiStatus.ScheduledForRemoval(inVersion = "1.21")
-    CompoundTag getServerData();
 
 }
