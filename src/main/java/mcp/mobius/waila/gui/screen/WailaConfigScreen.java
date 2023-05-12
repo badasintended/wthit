@@ -4,7 +4,6 @@ import java.awt.Rectangle;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.platform.InputConstants;
-import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.IModInfo;
@@ -30,6 +29,7 @@ import mcp.mobius.waila.mixin.KeyMappingAccess;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.client.KeyMapping;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
@@ -113,21 +113,21 @@ public class WailaConfigScreen extends ConfigScreen {
     }
 
     @Override
-    public void render(@NotNull PoseStack matrices, int mouseX, int mouseY, float partialTicks) {
+    public void render(@NotNull GuiGraphics ctx, int mouseX, int mouseY, float partialTicks) {
         if (InputConstants.isKeyDown(minecraft.getWindow().getWindow(), InputConstants.KEY_F1)) {
             if (!f1held) {
                 f1held = true;
                 buildPreview(previewState);
             }
 
-            renderBackground(matrices);
-            TooltipRenderer.render(matrices, partialTicks);
+            renderBackground(ctx);
+            TooltipRenderer.render(ctx, partialTicks);
         } else {
             TooltipRenderer.resetState();
             f1held = false;
             theme = null;
-            super.render(matrices, mouseX, mouseY, partialTicks);
-            drawCenteredString(matrices, font, PREVIEW_PROMPT, width / 2, 22, 0xAAAAAA);
+            super.render(ctx, mouseX, mouseY, partialTicks);
+            ctx.drawCenteredString(font, PREVIEW_PROMPT, width / 2, 22, 0xAAAAAA);
         }
     }
 
@@ -302,7 +302,7 @@ public class WailaConfigScreen extends ConfigScreen {
         }
 
         @Override
-        protected void drawValue(PoseStack matrices, int width, int height, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks) {
+        protected void drawValue(GuiGraphics ctx, int width, int height, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks) {
             if (selectedKeyBind == this) {
                 button.setMessage(Component.literal("> " + getValue().getDisplayName().getString() + " <").withStyle(ChatFormatting.YELLOW));
             } else {
@@ -311,7 +311,7 @@ public class WailaConfigScreen extends ConfigScreen {
 
             button.setX(x + width - button.getWidth());
             button.setY(y + (height - button.getHeight()) / 2);
-            button.render(matrices, mouseX, mouseY, partialTicks);
+            button.render(ctx, mouseX, mouseY, partialTicks);
         }
 
     }
@@ -354,15 +354,15 @@ public class WailaConfigScreen extends ConfigScreen {
         }
 
         @Override
-        protected void drawValue(PoseStack matrices, int width, int height, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks) {
+        protected void drawValue(GuiGraphics ctx, int width, int height, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks) {
             newButton.setX(x + width - newButton.getWidth());
             newButton.setY(y + (height - newButton.getHeight()) / 2);
             editButton.setX(newButton.getX() - newButton.getWidth() - 2);
             editButton.setY(newButton.getY());
-            editButton.render(matrices, mouseX, mouseY, partialTicks);
-            newButton.render(matrices, mouseX, mouseY, partialTicks);
+            editButton.render(ctx, mouseX, mouseY, partialTicks);
+            newButton.render(ctx, mouseX, mouseY, partialTicks);
 
-            super.drawValue(matrices, width - 84, height, x, y, mouseX, mouseY, selected, partialTicks);
+            super.drawValue(ctx, width - 84, height, x, y, mouseX, mouseY, selected, partialTicks);
         }
 
     }

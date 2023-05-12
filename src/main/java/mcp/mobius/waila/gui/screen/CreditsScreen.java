@@ -6,11 +6,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import com.google.gson.Gson;
-import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.buildconst.Tl;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.ContainerObjectSelectionList;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
@@ -58,10 +58,10 @@ public class CreditsScreen extends Screen {
     }
 
     @Override
-    public void render(@NotNull PoseStack matrices, int mouseX, int mouseY, float partialTicks) {
-        renderBackground(matrices);
-        super.render(matrices, mouseX, mouseY, partialTicks);
-        drawCenteredString(matrices, font, title.getString(), width / 2, 12, 0xFFFFFF);
+    public void render(@NotNull GuiGraphics ctx, int mouseX, int mouseY, float partialTicks) {
+        renderBackground(ctx);
+        super.render(ctx, mouseX, mouseY, partialTicks);
+        ctx.drawCenteredString(font, title.getString(), width / 2, 12, 0xFFFFFF);
     }
 
     @Override
@@ -108,8 +108,8 @@ public class CreditsScreen extends Screen {
         }
 
         @Override
-        public void render(@NotNull PoseStack matrices, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
-            Minecraft.getInstance().font.drawShadow(matrices, component, rowLeft, rowTop + 3, 0xFFFFFF);
+        public void render(@NotNull GuiGraphics ctx, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
+            ctx.drawString(Minecraft.getInstance().font, component, rowLeft, rowTop + 3, 0xFFFFFF);
         }
 
     }

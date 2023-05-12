@@ -2,13 +2,12 @@ package mcp.mobius.waila.plugin.test;
 
 import java.awt.Rectangle;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.IEventListener;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.WailaConstants;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -32,17 +31,17 @@ public enum EventListenerTest implements IEventListener {
     }
 
     @Override
-    public void onBeforeTooltipRender(PoseStack matrices, Rectangle rect, ICommonAccessor accessor, IPluginConfig config, Canceller canceller) {
+    public void onBeforeTooltipRender(GuiGraphics ctx, Rectangle rect, ICommonAccessor accessor, IPluginConfig config, Canceller canceller) {
         if (config.getBoolean(BEFORE_RENDER)) {
-            GuiComponent.fill(matrices, rect.x, rect.y, rect.x + 20, rect.y + 20, 0xFF0000FF);
+            ctx.fill(rect.x, rect.y, rect.x + 20, rect.y + 20, 0xFF0000FF);
             rect.setLocation(rect.x + 25, rect.y + 25);
         }
     }
 
     @Override
-    public void onAfterTooltipRender(PoseStack matrices, Rectangle rect, ICommonAccessor accessor, IPluginConfig config) {
+    public void onAfterTooltipRender(GuiGraphics ctx, Rectangle rect, ICommonAccessor accessor, IPluginConfig config) {
         if (config.getBoolean(AFTER_RENDER)) {
-            GuiComponent.fill(matrices, rect.x, rect.y, rect.x + 20, rect.y + 20, 0xFF00FFFF);
+            ctx.fill(rect.x, rect.y, rect.x + 20, rect.y + 20, 0xFF00FFFF);
         }
     }
 

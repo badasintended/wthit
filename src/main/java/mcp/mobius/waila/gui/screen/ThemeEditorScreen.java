@@ -3,7 +3,6 @@ package mcp.mobius.waila.gui.screen;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.IWailaConfig.Overlay.Position.Align;
 import mcp.mobius.waila.buildconst.Tl;
@@ -22,6 +21,7 @@ import mcp.mobius.waila.gui.widget.value.InputValue;
 import mcp.mobius.waila.gui.widget.value.IntInputValue;
 import mcp.mobius.waila.registry.Registrar;
 import mcp.mobius.waila.util.TypeUtil;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.toasts.SystemToast;
 import net.minecraft.client.gui.screens.ConfirmScreen;
 import net.minecraft.network.chat.CommonComponents;
@@ -159,8 +159,8 @@ class ThemeEditorScreen extends ConfigScreen {
     }
 
     @Override
-    protected void renderForeground(PoseStack matrices, int mouseX, int mouseY, float partialTicks) {
-        TooltipRenderer.render(matrices, partialTicks);
+    protected void renderForeground(GuiGraphics ctx, int mouseX, int mouseY, float partialTicks) {
+        TooltipRenderer.render(ctx, partialTicks);
     }
 
     @Override

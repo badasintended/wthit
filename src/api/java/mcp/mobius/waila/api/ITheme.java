@@ -1,7 +1,7 @@
 package mcp.mobius.waila.api;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.api.__internal__.ApiSide;
+import net.minecraft.client.gui.GuiGraphics;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Range;
 
@@ -35,15 +35,15 @@ public interface ITheme {
     /**
      * Render the tooltip background. <b>Padding is already counted in the specified hud dimension.</b>
      *
-     * @param matrices the pose matrices
-     * @param x        the x position of the hud
-     * @param y        the y position of the hud
-     * @param width    the width of the hud
-     * @param height   the height of the hud
-     * @param alpha    the background transparancy of the hud, ranged from {@code 0} to {@code 255}
-     * @param delta    frame time delta
+     * @param ctx    the draw context
+     * @param x      the x position of the hud
+     * @param y      the y position of the hud
+     * @param width  the width of the hud
+     * @param height the height of the hud
+     * @param alpha  the background transparancy of the hud, ranged from {@code 0} to {@code 255}
+     * @param delta  frame time delta
      */
-    void renderTooltipBackground(PoseStack matrices, int x, int y, int width, int height, @Range(from = 0x00, to = 0xFF) int alpha, float delta);
+    void renderTooltipBackground(GuiGraphics ctx, int x, int y, int width, int height, @Range(from = 0x00, to = 0xFF) int alpha, float delta);
 
     @ApiSide.ClientOnly
     @ApiStatus.Experimental

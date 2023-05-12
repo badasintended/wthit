@@ -16,6 +16,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.Nameable;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
 public enum BlockProvider implements IBlockComponentProvider, IServerDataProvider<BlockEntity> {
@@ -29,7 +30,7 @@ public enum BlockProvider implements IBlockComponentProvider, IServerDataProvide
 
     @Override
     public void appendHead(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
-        if (accessor.getBlockState().getMaterial().isLiquid()) {
+        if (accessor.getBlock() instanceof LiquidBlock) {
             return;
         }
 

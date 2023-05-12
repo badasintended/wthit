@@ -2,9 +2,9 @@ package mcp.mobius.waila.gui.widget.value;
 
 import java.util.function.Consumer;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.buildconst.Tl;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.network.chat.Component;
@@ -24,12 +24,12 @@ public class BooleanValue extends ConfigValue<Boolean> {
     }
 
     @Override
-    protected void drawValue(PoseStack matrices, int width, int height, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks) {
+    protected void drawValue(GuiGraphics ctx, int width, int height, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks) {
         setMessage();
         button.active = !isDisabled();
         button.setX(x + width - button.getWidth());
         button.setY(y + (height - button.getHeight()) / 2);
-        button.render(matrices, mouseX, mouseY, partialTicks);
+        button.render(ctx, mouseX, mouseY, partialTicks);
     }
 
     private void setMessage() {

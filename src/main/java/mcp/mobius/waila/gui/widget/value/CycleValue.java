@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.function.Consumer;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.Util;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.network.chat.Component;
@@ -52,14 +52,14 @@ public class CycleValue extends ConfigValue<String> {
     }
 
     @Override
-    protected void drawValue(PoseStack matrices, int width, int height, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks) {
+    protected void drawValue(GuiGraphics ctx, int width, int height, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks) {
         button.active = !isDisabled();
         button.setX(x + width - button.getWidth());
         button.setY(y + (height - button.getHeight()) / 2);
         button.setMessage(createLocale
             ? Component.translatable(translationKey + "_" + getValue().replace(" ", "_").toLowerCase(Locale.ROOT))
             : Component.literal(getValue()));
-        button.render(matrices, mouseX, mouseY, partialTicks);
+        button.render(ctx, mouseX, mouseY, partialTicks);
     }
 
     @Override

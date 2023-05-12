@@ -1,12 +1,7 @@
 package mcp.mobius.waila.api;
 
 import mcp.mobius.waila.api.__internal__.ApiSide;
-import mcp.mobius.waila.api.__internal__.IApiService;
-import net.minecraft.client.Minecraft;
-import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.NotNull;
 
 @ApiSide.ClientOnly
 @ApiStatus.OverrideOnly
@@ -25,36 +20,6 @@ public interface IObjectPicker {
      * @see WailaConstants#CONFIG_SHOW_ENTITY
      * @see WailaConstants#CONFIG_SHOW_FLUID
      */
-    default void pick(IPickerAccessor accessor, IPickerResults results, IPluginConfig config) {
-        results.add(pick(accessor.getClient(), accessor.getMaxDistance(), accessor.getFrameDelta(), config), 0);
-    }
-
-    /**
-     * @deprecated not needed on newest API.
-     */
-    @Deprecated(forRemoval = true)
-    @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
-    HitResult MISS = new HitResult(Vec3.ZERO) {
-        @Override
-        public @NotNull Type getType() {
-            return Type.MISS;
-        }
-    };
-
-    /**
-     * @deprecated override {@link #pick(IPickerAccessor, IPickerResults, IPluginConfig)} instead.
-     */
-    @Deprecated(forRemoval = true)
-    @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
-    @SuppressWarnings({"DeprecatedIsStillUsed", "unused"})
-    default HitResult pick(Minecraft client, double maxDistance, float frameDelta, IPluginConfig config) {
-        pick(IApiService.INSTANCE.getPickerAccessor(), IApiService.INSTANCE.getPickerResults(), config);
-
-        for (HitResult pickerResult : IApiService.INSTANCE.getPickerResults()) {
-            return pickerResult;
-        }
-
-        return MISS;
-    }
+    void pick(IPickerAccessor accessor, IPickerResults results, IPluginConfig config);
 
 }

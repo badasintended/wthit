@@ -2,9 +2,9 @@ package mcp.mobius.waila.gui.screen;
 
 import java.util.List;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.gui.widget.ConfigListWidget;
 import mcp.mobius.waila.gui.widget.value.ConfigValue;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
@@ -75,8 +75,8 @@ public abstract class ConfigScreen extends Screen {
         }
     }
 
-    protected void renderForeground(PoseStack matrices, int mouseX, int mouseY, float partialTicks) {
-        drawCenteredString(matrices, font, title, width / 2, 12, 0xFFFFFF);
+    protected void renderForeground(GuiGraphics ctx, int mouseX, int mouseY, float partialTicks) {
+        ctx.drawCenteredString(font, title, width / 2, 12, 0xFFFFFF);
     }
 
     @Override
@@ -85,11 +85,11 @@ public abstract class ConfigScreen extends Screen {
     }
 
     @Override
-    public void render(@NotNull PoseStack matrices, int mouseX, int mouseY, float partialTicks) {
-        renderBackground(matrices);
-        options.render(matrices, mouseX, mouseY, partialTicks);
-        super.render(matrices, mouseX, mouseY, partialTicks);
-        renderForeground(matrices, mouseX, mouseY, partialTicks);
+    public void render(@NotNull GuiGraphics ctx, int mouseX, int mouseY, float partialTicks) {
+        renderBackground(ctx);
+        options.render(ctx, mouseX, mouseY, partialTicks);
+        super.render(ctx, mouseX, mouseY, partialTicks);
+        renderForeground(ctx, mouseX, mouseY, partialTicks);
 
         if (mouseY < 32 || mouseY > height - 32) {
             return;
@@ -97,7 +97,7 @@ public abstract class ConfigScreen extends Screen {
 
         options.getChildAt(mouseX, mouseY).ifPresent(element -> {
             if (element instanceof ConfigValue<?> value) {
-                value.renderTooltip(this, matrices, mouseX, mouseY, partialTicks);
+                value.renderTooltip(ctx, mouseX, mouseY);
             }
         });
     }

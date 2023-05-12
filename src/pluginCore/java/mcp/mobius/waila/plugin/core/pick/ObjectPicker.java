@@ -48,7 +48,7 @@ public enum ObjectPicker implements IObjectPicker {
         Vec3 start = camera.getEyePosition(frameDelta);
         Vec3 end = start.add(viewVec.x * maxDistance, viewVec.y * maxDistance, viewVec.z * maxDistance);
 
-        Level world = camera.getLevel();
+        Level world = camera.level();
 
         if (showBlock || showFluid) {
             BlockGetter.traverseBlocks(start, end, Unit.INSTANCE, (unit, pos) -> {
@@ -83,7 +83,7 @@ public enum ObjectPicker implements IObjectPicker {
         }
 
         if (showEntity) {
-            List<Entity> entities = camera.level.getEntities(camera, new AABB(start, end), EntitySelector.ENTITY_STILL_ALIVE);
+            List<Entity> entities = camera.level().getEntities(camera, new AABB(start, end), EntitySelector.ENTITY_STILL_ALIVE);
 
             for (Entity entity : entities) {
                 AABB bounds = entity.getBoundingBox();

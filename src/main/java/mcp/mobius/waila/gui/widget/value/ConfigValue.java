@@ -5,12 +5,11 @@ import java.util.function.Consumer;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.gui.widget.ConfigListWidget;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.FormattedCharSequence;
@@ -53,11 +52,11 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
     }
 
     @Override
-    public final void render(@NotNull PoseStack matrices, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
-        super.render(matrices, index, rowTop, rowLeft, width, height, mouseX, mouseY, hovered, deltaTime);
+    public final void render(@NotNull GuiGraphics ctx, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
+        super.render(ctx, index, rowTop, rowLeft, width, height, mouseX, mouseY, hovered, deltaTime);
 
         Component title = !isDisabled() ? this.title : this.title.copy().withStyle(ChatFormatting.STRIKETHROUGH, ChatFormatting.GRAY);
-        client.font.drawShadow(matrices, title, rowLeft, rowTop + (height - client.font.lineHeight) / 2f, 0xFFFFFF);
+        ctx.drawString(client.font, title, rowLeft, rowTop + (height - client.font.lineHeight) / 2, 0xFFFFFF);
 
         int w = width;
         if (resetButton != null) {
@@ -65,14 +64,14 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
             resetButton.setX(rowLeft + width - resetButton.getWidth());
             resetButton.setY(rowTop + (height - resetButton.getHeight()) / 2);
             resetButton.active = !isDisabled() && !getValue().equals(defaultValue);
-            resetButton.render(matrices, mouseX, mouseY, deltaTime);
+            resetButton.render(ctx, mouseX, mouseY, deltaTime);
         }
 
-        drawValue(matrices, w, height, rowLeft, rowTop, mouseX, mouseY, hovered, deltaTime);
+        drawValue(ctx, w, height, rowLeft, rowTop, mouseX, mouseY, hovered, deltaTime);
         this.x = rowLeft;
     }
 
-    public void renderTooltip(Screen screen, PoseStack matrices, int mouseX, int mouseY, float delta) {
+    public void renderTooltip(GuiGraphics ctx, int mouseX, int mouseY) {
         boolean hasDescTl = I18n.exists(getDescription());
         if (id != null || hasDescTl || (isDisabled() && disabledReason != null)) {
             String title = getTitle().getString();
@@ -86,7 +85,7 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
             if (id != null) {
                 tooltip.add(Component.literal(id).withStyle(ChatFormatting.DARK_GRAY).getVisualOrderText());
             }
-            screen.renderTooltip(matrices, tooltip, mouseX, mouseY);
+            ctx.renderTooltip(client.font, tooltip, mouseX, mouseY);
         }
     }
 
@@ -156,6 +155,6 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
         this.id = id;
     }
 
-    protected abstract void drawValue(PoseStack matrices, int width, int height, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks);
+    protected abstract void drawValue(GuiGraphics ctx, int width, int height, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks);
 
 }

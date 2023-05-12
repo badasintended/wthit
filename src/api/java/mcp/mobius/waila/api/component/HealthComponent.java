@@ -1,18 +1,16 @@
 package mcp.mobius.waila.api.component;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.api.ITooltipComponent;
+import mcp.mobius.waila.api.WailaHelper;
 import mcp.mobius.waila.api.__internal__.ApiSide;
-import net.minecraft.client.gui.GuiComponent;
-import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.util.Mth;
 
 /**
  * A component that renders a health bar.
  */
 @ApiSide.ClientOnly
-public class HealthComponent extends GuiComponent implements ITooltipComponent {
+public class HealthComponent implements ITooltipComponent {
 
     /**
      * @param health     the health point, 1 full icon represent 2 hp
@@ -43,12 +41,7 @@ public class HealthComponent extends GuiComponent implements ITooltipComponent {
     }
 
     @Override
-    public void render(PoseStack matrices, int x, int y, float delta) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderTexture(0, GuiComponent.GUI_ICONS_LOCATION);
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
-
+    public void render(GuiGraphics ctx, int x, int y, float delta) {
         int filled = health / 2 - 1;
         int half = filled + health % 2;
 
@@ -56,15 +49,13 @@ public class HealthComponent extends GuiComponent implements ITooltipComponent {
             int ix = x + ((i % lineWidth) * 8);
             int iy = y + ((i / lineWidth) * 3);
 
-            blit(matrices, ix, iy, 16, 0, 9, 9);
+            ctx.blit(WailaHelper.GUI_ICONS_TEXTURE, ix, iy, 16, 0, 9, 9);
             if (i <= filled) {
-                blit(matrices, ix, iy, absorption ? 160 : 52, 0, 9, 9);
+                ctx.blit(WailaHelper.GUI_ICONS_TEXTURE, ix, iy, absorption ? 160 : 52, 0, 9, 9);
             } else if (i == half) {
-                blit(matrices, ix, iy, absorption ? 169 : 61, 0, 9, 9);
+                ctx.blit(WailaHelper.GUI_ICONS_TEXTURE, ix, iy, absorption ? 169 : 61, 0, 9, 9);
             }
         }
-
-        RenderSystem.disableBlend();
     }
 
 }

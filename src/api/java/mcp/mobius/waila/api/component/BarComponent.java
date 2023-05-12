@@ -11,7 +11,7 @@ import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.WailaHelper;
 import mcp.mobius.waila.api.__internal__.ApiSide;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
@@ -20,7 +20,7 @@ import net.minecraft.network.chat.Component;
  * A component that renders a colored bar.
  */
 @ApiSide.ClientOnly
-public class BarComponent extends GuiComponent implements ITooltipComponent {
+public class BarComponent implements ITooltipComponent {
 
     /**
      * @param ratio the ratio of the filled bar between 0.0f and 1.0f
@@ -55,7 +55,7 @@ public class BarComponent extends GuiComponent implements ITooltipComponent {
     private static final float U0 = 22f / 256f;
     private static final float U1 = 122f / 256f;
     private static final float V0_BG = 0f / 256f;
-    private static final float V1_BG = HEIGHT/ 256f;
+    private static final float V1_BG = HEIGHT / 256f;
     private static final float V0_FG = HEIGHT / 256f;
     private static final float V1_FG = 22f / 256f;
     private static final float UV_W = WIDTH / 256f;
@@ -75,9 +75,9 @@ public class BarComponent extends GuiComponent implements ITooltipComponent {
     }
 
     @Override
-    public void render(PoseStack matrices, int x, int y, float delta) {
-        renderBar(matrices, x, y, WIDTH, V0_BG, U1, V1_BG, color);
-        renderBar(matrices, x, y, WIDTH * ratio, V0_FG, U0 + (UV_W * ratio), V1_FG, color);
+    public void render(GuiGraphics ctx, int x, int y, float delta) {
+        renderBar(ctx.pose(), x, y, WIDTH, V0_BG, U1, V1_BG, color);
+        renderBar(ctx.pose(), x, y, WIDTH * ratio, V0_FG, U0 + (UV_W * ratio), V1_FG, color);
 
         double luminance = WailaHelper.getLuminance(color);
         int overlay = 0;
@@ -96,13 +96,13 @@ public class BarComponent extends GuiComponent implements ITooltipComponent {
             overlay = 0x40000000;
 
         if (overlay != 0) {
-            fill(matrices, x, y, x + WIDTH, y + HEIGHT, overlay);
+            ctx.fill(x, y, x + WIDTH, y + HEIGHT, overlay);
         }
 
         int textWidth = Minecraft.getInstance().font.width(text);
-        float textX = x + Math.max((WIDTH - textWidth) / 2F, 0F);
-        float textY = y + 2;
-        Minecraft.getInstance().font.draw(matrices, text, textX, textY, 0xFFAAAAAA);
+        int textX = x + Math.max((WIDTH - textWidth) / 2, 0);
+        int textY = y + 2;
+        ctx.drawString(Minecraft.getInstance().font, text, textX, textY, 0xFFAAAAAA);
     }
 
     private static void renderBar(
