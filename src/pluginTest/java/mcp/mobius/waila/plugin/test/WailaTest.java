@@ -60,9 +60,6 @@ public class WailaTest implements IWailaPlugin {
         registrar.addConfig(GrowingTest.ENABLED, false);
         registrar.addComponent(GrowingTest.INSTANCE, TooltipPosition.HEAD, Block.class, 99999);
 
-        registrar.addConfig(BarTest.ENABLED, false);
-        registrar.addComponent(BarTest.INSTANCE, TooltipPosition.BODY, Block.class);
-
         registrar.addConfig(NbtDataTest.ENABLED, false);
         registrar.addComponent(NbtDataTest.INSTANCE, TooltipPosition.BODY, FurnaceBlock.class);
         registrar.addBlockData(NbtDataTest.INSTANCE, FurnaceBlock.class);
@@ -73,6 +70,11 @@ public class WailaTest implements IWailaPlugin {
         registrar.addDataType(ComplexDataTest.ENABLED, ComplexDataTest.Data.class, ComplexDataTest.Data::new);
         registrar.addComponent(ComplexDataTest.INSTANCE, TooltipPosition.BODY, ChestBlock.class);
         registrar.addBlockData(ComplexDataTest.INSTANCE, ChestBlock.class);
+
+        registrar.addConfig(ExtraTest.ENERGY, false);
+        registrar.addConfig(ExtraTest.ENERGY_INF_STORED, false);
+        registrar.addConfig(ExtraTest.ENERGY_INF_CAPACITY, false);
+        registrar.addBlockData(ExtraTest.INSTANCE, ChestBlock.class);
     }
 
 }

@@ -143,6 +143,11 @@ public class ApiService implements IApiService {
     }
 
     @Override
+    public String getDefaultEnergyUnit() {
+        return "E";
+    }
+
+    @Override
     public IPickerAccessor getPickerAccessor() {
         return PickerAccessor.INSTANCE;
     }

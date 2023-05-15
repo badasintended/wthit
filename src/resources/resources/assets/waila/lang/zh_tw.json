@@ -47,6 +47,8 @@
 
 
 
+
+
   "gui.waila.configuration"                                     : "%s 組態",
   "gui.waila.waila_settings"                                    : "%s 設定",
   "gui.waila.plugin_settings"                                   : "附屬設定",
@@ -239,6 +241,10 @@
   "config.waila.plugin_waila.show_fluids_desc"                  : "嘗試顯示流體",
   "config.waila.plugin_waila.show_entities"                     : "顯示實體",
   "config.waila.plugin_waila.show_icon"                         : "顯示圖示"
+
+
+
+
 
 
 

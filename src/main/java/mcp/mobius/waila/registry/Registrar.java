@@ -190,6 +190,7 @@ public enum Registrar implements IRegistrar {
     @SuppressWarnings("unchecked")
     public <T, BE extends BlockEntity> void addBlockData(IDataProvider<BE> provider, Class<T> clazz, int priority) {
         assertLock();
+        assertPriority(priority);
         blockData.add(clazz, (IDataProvider<BlockEntity>) provider, priority);
     }
 
@@ -230,6 +231,7 @@ public enum Registrar implements IRegistrar {
     @SuppressWarnings("unchecked")
     public <T, E extends Entity> void addEntityData(IDataProvider<E> provider, Class<T> clazz, int priority) {
         assertLock();
+        assertPriority(priority);
         entityData.add(clazz, (IDataProvider<Entity>) provider, priority);
     }
 

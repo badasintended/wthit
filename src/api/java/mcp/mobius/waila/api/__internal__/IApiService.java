@@ -56,6 +56,8 @@ public interface IApiService {
 
     <T extends ITheme> IThemeType.Builder<T> createThemeTypeBuilder(Class<T> clazz);
 
+    String getDefaultEnergyUnit();
+
     @Deprecated
     IPickerAccessor getPickerAccessor();
 

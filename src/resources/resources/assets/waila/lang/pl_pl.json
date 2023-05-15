@@ -47,6 +47,8 @@
 
 
 
+
+
   "gui.waila.configuration"                                     : "%s — konfiguracja",
   "gui.waila.waila_settings"                                    : "%s — ustawienia",
   "gui.waila.plugin_settings"                                   : "Ustawienia pluginu",
@@ -238,6 +240,10 @@
   "config.waila.plugin_waila.show_fluids"                       : "Wyświetlaj ciecze",
   "config.waila.plugin_waila.show_fluids_desc"                  : "Staraj się pokazywać ciecze",
   "config.waila.plugin_waila.show_entities"                     : "Pokaż byty"
+
+
+
+
 
 
 

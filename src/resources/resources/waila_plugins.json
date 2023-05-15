@@ -9,5 +9,11 @@
     "initializer": "mcp.mobius.waila.plugin.vanilla.WailaVanilla",
     "side"       : "*",
     "required"   : ["minecraft"]
+  },
+
+  "waila:extra"  : {
+    "initializer": "mcp.mobius.waila.plugin.extra.WailaExtra",
+    "side"       : "*",
+    "required"   : []
   }
 }
