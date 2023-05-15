@@ -6,7 +6,9 @@ import java.util.function.Consumer;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 
 import static mcp.mobius.waila.util.DisplayUtil.createButton;
@@ -27,13 +29,22 @@ public class EnumValue<T extends Enum<T>> extends ConfigValue<T> {
         button.active = !isDisabled();
         button.setX(x + width - button.getWidth());
         button.setY(y + (height - button.getHeight()) / 2);
-        button.setMessage(Component.translatable(translationKey + "_" + getValue().name().toLowerCase(Locale.ROOT)));
+        button.setMessage(Component.translatable(getValueTlKey()));
         button.render(matrices, mouseX, mouseY, partialTicks);
     }
 
     @Override
     public GuiEventListener getListener() {
         return button;
+    }
+
+    @Override
+    public boolean match(String filter) {
+        return super.match(filter) || StringUtils.containsIgnoreCase(I18n.get(getValueTlKey()), filter);
+    }
+
+    private String getValueTlKey() {
+        return translationKey + "_" + getValue().name().toLowerCase(Locale.ROOT);
     }
 
 }

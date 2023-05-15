@@ -51,9 +51,10 @@ public abstract class ConfigScreen extends Screen {
             options = getOptions();
         }
 
-        children.add(options);
-        setFocused(options);
+        EditBox searchBar = options.getSearchBox();
+        addWidget(searchBar);
 
+        addWidget(options);
         options.init();
 
         if (saver != null && canceller != null) {
@@ -73,10 +74,12 @@ public abstract class ConfigScreen extends Screen {
                 onClose();
             }));
         }
+
+        setInitialFocus(searchBar);
     }
 
-    protected void renderForeground(PoseStack matrices, int mouseX, int mouseY, float partialTicks) {
-        drawCenteredString(matrices, font, title, width / 2, 12, 0xFFFFFF);
+    protected void renderForeground(PoseStack matrices, int rowLeft, int rowWidth, int mouseX, int mouseY, float partialTicks) {
+        drawString(matrices, font, title, rowLeft, 12, 0xFFFFFF);
     }
 
     @Override
@@ -88,8 +91,9 @@ public abstract class ConfigScreen extends Screen {
     public void render(@NotNull PoseStack matrices, int mouseX, int mouseY, float partialTicks) {
         renderBackground(matrices);
         options.render(matrices, mouseX, mouseY, partialTicks);
+        options.getSearchBox().render(matrices, mouseX, mouseY, partialTicks);
         super.render(matrices, mouseX, mouseY, partialTicks);
-        renderForeground(matrices, mouseX, mouseY, partialTicks);
+        renderForeground(matrices, options.getRowLeft(), options.getRowWidth(), mouseX, mouseY, partialTicks);
 
         if (mouseY < 32 || mouseY > height - 32) {
             return;
