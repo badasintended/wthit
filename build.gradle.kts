@@ -101,14 +101,18 @@ sourceSets {
     val minecraftless by creating
     val mixin by creating
     val pluginCore by creating
+    val pluginExtra by creating
     val pluginVanilla by creating
     val pluginTest by creating
 
-    listOf(api, buildConst, mixin, pluginCore, pluginVanilla, pluginTest).applyEach {
+    listOf(api, buildConst, mixin, pluginCore, pluginExtra, pluginVanilla, pluginTest).applyEach {
         compileClasspath += main.compileClasspath
     }
-    listOf(main, pluginCore, pluginVanilla, pluginTest).applyEach {
-        compileClasspath += api.output + mixin.output + buildConst.output
+    listOf(api, main, mixin, pluginCore, pluginExtra, pluginVanilla, pluginTest).applyEach {
+        compileClasspath += buildConst.output
+    }
+    listOf(main, pluginCore, pluginExtra, pluginVanilla, pluginTest).applyEach {
+        compileClasspath += api.output + mixin.output
     }
     main.apply {
         compileClasspath += minecraftless.output

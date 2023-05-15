@@ -40,6 +40,8 @@
   "tooltip.waila.instrument.banjo"                              : "班卓琴",
   "tooltip.waila.instrument.pling"                              : "扣弦",
 
+
+
   "gui.waila.configuration"                                     : "%s配置",
   "gui.waila.waila_settings"                                    : "%s设置",
   "gui.waila.plugin_settings"                                   : "插件设置",
@@ -236,6 +238,10 @@
   "config.waila.plugin_waila.icon_position_top"                 : "顶部",
   "config.waila.plugin_waila.icon_position_middle"              : "中间",
   "config.waila.plugin_waila.icon_position_bottom"              : "底部",
+
+
+
+
 
 
 

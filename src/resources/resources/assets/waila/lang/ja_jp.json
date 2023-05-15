@@ -47,6 +47,8 @@
 
 
 
+
+
   "gui.waila.configuration"                                     : "%s配置",
   "gui.waila.waila_settings"                                    : "%s設定",
   "gui.waila.plugin_settings"                                   : "プラグイン設定",
@@ -238,6 +240,10 @@
   "config.waila.plugin_waila.show_fluids"                       : "流体の表示",
   "config.waila.plugin_waila.show_fluids_desc"                  : "流体の表示を試してみる",
   "config.waila.plugin_waila.show_entities"                     : "エンティティの表示"
+
+
+
+
 
 
 

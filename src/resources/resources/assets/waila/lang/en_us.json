@@ -40,6 +40,8 @@
   "tooltip.waila.instrument.banjo"                              : "Banjo",
   "tooltip.waila.instrument.pling"                              : "Pling",
 
+  "tooltip.waila.extra.energy"                                  : "Energy",
+
   "gui.waila.configuration"                                     : "%s Configuration",
   "gui.waila.waila_settings"                                    : "%s Settings",
   "gui.waila.plugin_settings"                                   : "Plugin Settings",
@@ -236,6 +238,10 @@
   "config.waila.plugin_waila.icon_position_top"                 : "Top",
   "config.waila.plugin_waila.icon_position_middle"              : "Middle",
   "config.waila.plugin_waila.icon_position_bottom"              : "Bottom",
+
+  "config.waila.plugin_wailax"                                  : "Waila Extra",
+  "config.waila.plugin_wailax.energy"                           : "Energy",
+  "config.waila.plugin_wailax.energy.enabled"                   : "Show Energy",
 
   "theme.waila.plugin_waila.gradient.backgroundColor"           : "Background Color",
   "theme.waila.plugin_waila.gradient.gradientStart"             : "Border Gradient Start",
