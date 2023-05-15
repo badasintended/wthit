@@ -1,16 +1,21 @@
 package mcp.mobius.waila.gui.widget;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.vertex.PoseStack;
+import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.gui.screen.ConfigScreen;
 import mcp.mobius.waila.gui.widget.value.ConfigValue;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.ContainerObjectSelectionList;
+import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
+import net.minecraft.network.chat.Component;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -21,6 +26,12 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
 
     private int topOffset;
     private int bottomOffset;
+
+    private String currentCategory;
+
+    @Nullable
+    private EditBox searchBox;
+    private List<Entry> unfilteredChildren;
 
     public ConfigListWidget(ConfigScreen owner, Minecraft client, int width, int height, int top, int bottom, int itemHeight, Runnable diskWriter) {
         super(client, width, height, top, bottom, itemHeight - 4);
@@ -47,6 +58,7 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
     }
 
     public void tick() {
+        if (searchBox != null) searchBox.tick();
         children().forEach(Entry::tick);
     }
 
@@ -60,7 +72,31 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
             diskWriter.run();
     }
 
+    public EditBox getSearchBox() {
+        if (searchBox != null) return searchBox;
+
+        unfilteredChildren = new ArrayList<>(children());
+        searchBox = new EditBox(minecraft.font, 0, 0, 160, 18, Component.empty());
+        searchBox.setHint(Component.translatable(Tl.Config.SEARCH_PROMPT));
+        searchBox.setResponder(filter -> {
+
+            children().clear();
+            if (filter.isBlank()) {
+                children().addAll(unfilteredChildren);
+            } else {
+                children().addAll(unfilteredChildren.stream().filter(it -> it.match(filter)).toList());
+            }
+
+            init();
+        });
+
+        return searchBox;
+    }
+
     public void init() {
+        for (Entry child : children()) {
+            child.setFocused(null);
+        }
         resize(topOffset, owner.height + bottomOffset);
         setScrollAmount(getScrollAmount());
     }
@@ -70,6 +106,12 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
     }
 
     public void add(int index, Entry entry) {
+        if (entry instanceof CategoryEntry category) {
+            currentCategory = category.category;
+        } else {
+            entry.category = currentCategory;
+        }
+
         children().add(index, entry);
     }
 
@@ -86,6 +128,7 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
         this.topOffset = top;
         this.bottomOffset = bottom - owner.height;
         updateSize(owner.width, owner.height, topOffset, owner.height + bottomOffset);
+        if (searchBox != null) searchBox.setPosition(getRowLeft() + getRowWidth() - 160, (top - 18) / 2);
     }
 
     public abstract static class Entry extends ContainerObjectSelectionList.Entry<Entry> {
@@ -93,6 +136,7 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
         protected final Minecraft client;
         protected @Nullable List<? extends GuiEventListener> children;
         protected @Nullable List<? extends NarratableEntry> narratables;
+        protected String category;
 
         public Entry() {
             this.client = Minecraft.getInstance();
@@ -105,6 +149,10 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
         }
 
         protected void gatherNarratables(ImmutableList.Builder<NarratableEntry> narratables) {
+        }
+
+        protected boolean match(String filter) {
+            return StringUtils.containsIgnoreCase(category, filter);
         }
 
         @Override

@@ -71,6 +71,7 @@
   "command.waila.config.set.success"                            : "Настройки плагина %s установлены на %s",
   "command.waila.config.set.parse_fail"                         : "Не удалось разобрать: %s",
 
+
   "config.waila.true"                                           : "Да",
   "config.waila.false"                                          : "Нет",
   "config.waila.preview_prompt"                                 : "Для предпросмотра зажмите §5F1§r",

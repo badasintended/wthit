@@ -159,7 +159,7 @@ class ThemeEditorScreen extends ConfigScreen {
     }
 
     @Override
-    protected void renderForeground(PoseStack matrices, int mouseX, int mouseY, float partialTicks) {
+    protected void renderForeground(PoseStack matrices, int rowLeft, int rowWidth, int mouseX, int mouseY, float partialTicks) {
         TooltipRenderer.render(matrices, partialTicks);
     }
 
