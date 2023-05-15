@@ -10,7 +10,9 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.Util;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 
 public class CycleValue extends ConfigValue<String> {
@@ -55,7 +57,7 @@ public class CycleValue extends ConfigValue<String> {
         button.x = x + width - button.getWidth();
         button.y = y + (height - button.getHeight()) / 2;
         button.setMessage(createLocale
-            ? Component.translatable(translationKey + "_" + getValue().replace(" ", "_").toLowerCase(Locale.ROOT))
+            ? Component.translatable(getValueTlKey())
             : Component.literal(getValue()));
         button.render(matrices, mouseX, mouseY, partialTicks);
     }
@@ -63,6 +65,17 @@ public class CycleValue extends ConfigValue<String> {
     @Override
     public GuiEventListener getListener() {
         return button;
+    }
+
+    @Override
+    public boolean match(String filter) {
+        return super.match(filter) || createLocale
+            ? StringUtils.containsIgnoreCase(I18n.get(getValueTlKey()), filter)
+            : StringUtils.containsIgnoreCase(getValue(), filter);
+    }
+
+    private String getValueTlKey() {
+        return translationKey + "_" + getValue().replace(" ", "_").toLowerCase(Locale.ROOT);
     }
 
 }

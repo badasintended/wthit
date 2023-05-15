@@ -28,4 +28,7 @@ public interface EditBoxAccess {
     @Invoker("onValueChange")
     void wthit_onValueChange(String $$0);
 
+    @Invoker("isEditable")
+    boolean wthit_isEditable();
+
 }

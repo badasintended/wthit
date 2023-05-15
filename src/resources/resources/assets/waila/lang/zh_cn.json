@@ -64,6 +64,7 @@
   "command.waila.config.set.success"                            : "将插件配置%s设置为%s",
   "command.waila.config.set.parse_fail"                         : "解析值失败：%s",
 
+
   "config.waila.true"                                           : "是",
   "config.waila.false"                                          : "否",
   "config.waila.preview_prompt"                                 : "按住§5F1§r预览工具提示",

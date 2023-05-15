@@ -64,6 +64,7 @@
   "command.waila.config.set.success"                            : "Set plugin config %s to %s",
   "command.waila.config.set.parse_fail"                         : "Failed to parse value: %s",
 
+  "config.waila.search_prompt"                                  : "Search...",
   "config.waila.true"                                           : "True",
   "config.waila.false"                                          : "False",
   "config.waila.preview_prompt"                                 : "Hold §5F1§r to preview tooltip",

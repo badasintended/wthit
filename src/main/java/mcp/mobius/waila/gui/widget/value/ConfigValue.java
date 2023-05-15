@@ -14,6 +14,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.FormattedCharSequence;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -86,6 +87,14 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
             }
             screen.renderTooltip(matrices, tooltip, mouseX, mouseY);
         }
+    }
+
+    @Override
+    public boolean match(String filter) {
+        boolean match = super.match(filter) || StringUtils.containsIgnoreCase(title.getString(), filter);
+        if (id != null) match = match || StringUtils.containsIgnoreCase(id, filter);
+        if (I18n.exists(getDescription())) match = match || StringUtils.containsIgnoreCase(I18n.get(getDescription()), filter);
+        return match;
     }
 
     @Override
