@@ -12,4 +12,9 @@ public class ForgeApiService extends ApiService {
         return ModInfo.get(stack.getItem().getCreatorModId(stack));
     }
 
+    @Override
+    public String getDefaultEnergyUnit() {
+        return "FE";
+    }
+
 }
