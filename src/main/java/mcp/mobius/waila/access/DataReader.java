@@ -20,7 +20,7 @@ public enum DataReader implements IDataReader {
     private boolean clean;
 
     public void reset(@Nullable CompoundTag raw) {
-        if (clean) return;
+        if (clean && raw == null) return;
 
         this.raw = raw == null ? new CompoundTag() : raw;
         this.clean = raw == null;
