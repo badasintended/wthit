@@ -28,7 +28,7 @@ public enum DataWriter implements IDataWriter {
     private boolean clean;
 
     public CompoundTag reset(@Nullable CompoundTag raw) {
-        if (clean) return this.raw;
+        if (clean && raw == null) return this.raw;
 
         this.raw = raw == null ? new CompoundTag() : raw;
         this.clean = raw == null;
