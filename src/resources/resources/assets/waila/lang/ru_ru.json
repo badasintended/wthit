@@ -78,6 +78,8 @@
   "config.waila.edit"                                           : "Изменить",
   "config.waila.new"                                            : "Создать",
   "config.waila.missing_input"                                  : "Отсуствует вход",
+
+
   "config.waila.server_only"                                    : "Можно изменить только на сервере или в одиночной игре",
   "config.waila.server_disabled"                                : "Сервер выключил этот параметр",
   "config.waila.server_missing_mod"                             : "Заблокировано так как на сервере не установлен WTHIT",
