@@ -37,11 +37,6 @@ public abstract class ConfigScreen extends Screen {
         this(parent, title, null, null);
     }
 
-    public void rebuildOptions() {
-        options = null;
-        rebuildWidgets();
-    }
-
     @Override
     public void init() {
         super.init();
@@ -50,17 +45,18 @@ public abstract class ConfigScreen extends Screen {
             options = getOptions();
         }
 
-        EditBox searchBar = options.getSearchBox();
-        addWidget(searchBar);
+        EditBox searchBox = options.getSearchBox();
+        if (searchBox.isActive()) addWidget(searchBox);
 
         addWidget(options);
         options.init();
 
         if (saver != null && canceller != null) {
             addRenderableWidget(new Button(width / 2 - 102, height - 25, 100, 20, CommonComponents.GUI_DONE, w -> {
-                options.save();
-                saver.run();
-                onClose();
+                if (options.save(false)) {
+                    saver.run();
+                    onClose();
+                }
             }));
             addRenderableWidget(new Button(width / 2 + 2, height - 25, 100, 20, CommonComponents.GUI_CANCEL, w -> {
                 cancelled = true;
@@ -69,12 +65,13 @@ public abstract class ConfigScreen extends Screen {
             }));
         } else {
             addRenderableWidget(new Button(width / 2 - 50, height - 25, 100, 20, CommonComponents.GUI_DONE, w -> {
-                options.save();
-                onClose();
+                if (options.save(false)) {
+                    onClose();
+                }
             }));
         }
 
-        setInitialFocus(searchBar);
+        if (searchBox.isActive()) setInitialFocus(searchBox);
     }
 
     protected void renderForeground(PoseStack matrices, int rowLeft, int rowWidth, int mouseX, int mouseY, float partialTicks) {
@@ -90,7 +87,10 @@ public abstract class ConfigScreen extends Screen {
     public void render(@NotNull PoseStack matrices, int mouseX, int mouseY, float partialTicks) {
         renderBackground(matrices);
         options.render(matrices, mouseX, mouseY, partialTicks);
-        options.getSearchBox().render(matrices, mouseX, mouseY, partialTicks);
+
+        EditBox searchBox = options.getSearchBox();
+        if (searchBox.isActive()) options.getSearchBox().render(matrices, mouseX, mouseY, partialTicks);
+
         super.render(matrices, mouseX, mouseY, partialTicks);
         renderForeground(matrices, options.getRowLeft(), options.getRowWidth(), mouseX, mouseY, partialTicks);
 

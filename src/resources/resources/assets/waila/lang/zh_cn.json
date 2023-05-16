@@ -71,6 +71,8 @@
   "config.waila.edit"                                           : "编辑",
   "config.waila.new"                                            : "新建",
   "config.waila.missing_input"                                  : "没有输入",
+
+
   "config.waila.server_only"                                    : "只能在服务器或单人游戏中编辑",
   "config.waila.server_disabled"                                : "服务器禁用了此选项",
   "config.waila.server_missing_mod"                             : "锁定，因为服务器没有安装 WTHIT",

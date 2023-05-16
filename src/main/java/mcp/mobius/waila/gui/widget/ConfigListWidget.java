@@ -13,6 +13,7 @@ import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.ContainerObjectSelectionList;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.components.toasts.SystemToast;
 import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.network.chat.Component;
 import org.apache.commons.lang3.StringUtils;
@@ -26,8 +27,6 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
 
     private int topOffset;
     private int bottomOffset;
-
-    private String currentCategory;
 
     @Nullable
     private EditBox searchBox;
@@ -62,31 +61,47 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
         children().forEach(Entry::tick);
     }
 
-    public void save() {
-        children()
+    public boolean save(boolean ignoreErrors) {
+        List<? extends ConfigValue<?>> values = children()
             .stream()
             .filter(e -> e instanceof ConfigValue)
             .map(e -> (ConfigValue<?>) e)
-            .forEach(ConfigValue::save);
-        if (diskWriter != null)
-            diskWriter.run();
+            .toList();
+
+        if (values.stream().allMatch(ConfigValue::isValueValid)) {
+            values.forEach(ConfigValue::save);
+            if (diskWriter != null) diskWriter.run();
+            return true;
+        }
+
+        if (!ignoreErrors) minecraft.getToasts().addToast(new SystemToast(
+            SystemToast.SystemToastIds.TUTORIAL_HINT,
+            Component.translatable(Tl.Config.InvalidInput.TITLE),
+            Component.translatable(Tl.Config.InvalidInput.DESC)));
+
+        return ignoreErrors;
     }
 
     public EditBox getSearchBox() {
         if (searchBox != null) return searchBox;
 
         unfilteredChildren = new ArrayList<>(children());
+
+        String category = "";
+        for (Entry child : unfilteredChildren) {
+            if (child instanceof CategoryEntry) category = child.category;
+            child.category = category;
+        }
+
         searchBox = new EditBox(minecraft.font, 0, 0, 160, 18, Component.empty());
         searchBox.setHint(Component.translatable(Tl.Config.SEARCH_PROMPT));
         searchBox.setResponder(filter -> {
-
             children().clear();
             if (filter.isBlank()) {
                 children().addAll(unfilteredChildren);
             } else {
                 children().addAll(unfilteredChildren.stream().filter(it -> it.match(filter)).toList());
             }
-
             init();
         });
 
@@ -106,12 +121,6 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
     }
 
     public void add(int index, Entry entry) {
-        if (entry instanceof CategoryEntry category) {
-            currentCategory = category.category;
-        } else {
-            entry.category = currentCategory;
-        }
-
         children().add(index, entry);
     }
 
@@ -136,7 +145,7 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
         protected final Minecraft client;
         protected @Nullable List<? extends GuiEventListener> children;
         protected @Nullable List<? extends NarratableEntry> narratables;
-        protected String category;
+        public String category = "";
 
         public Entry() {
             this.client = Minecraft.getInstance();

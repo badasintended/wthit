@@ -12,7 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class InputValue<T> extends ConfigValue<T> {
+public class InputValue<T> extends ConfigValue<@Nullable T> {
 
     public static final Predicate<String> ANY = s -> true;
     public static final Predicate<String> INTEGER = s -> s.matches("[-+]?\\d*$");
@@ -21,10 +21,12 @@ public class InputValue<T> extends ConfigValue<T> {
     public static final Predicate<String> POSITIVE_DECIMAL = s -> s.matches("\\d*([.]\\d*)?");
     public static final Predicate<String> IDENTIFIER = s -> s.matches("^[a-z\\d_./-]*$") || s.matches("^[a-z\\d_.-]*:[a-z\\d_./-]*$");
 
+    private final Predicate<String> validator;
     private final Serializer<T> serializer;
     private final EditBox textField;
 
     private boolean valueFromTextField = false;
+    private boolean valueValid = true;
 
     public InputValue(String optionName, T value, @Nullable T defaultValue, Consumer<T> save, Predicate<String> validator) {
         this(optionName, value, defaultValue, save, validator, new Serializer<>() {
@@ -59,10 +61,10 @@ public class InputValue<T> extends ConfigValue<T> {
     public InputValue(String optionName, T value, @Nullable T defaultValue, Consumer<T> save, Predicate<String> validator, Serializer<T> serializer) {
         super(optionName, value, defaultValue, save);
 
+        this.validator = validator;
         this.serializer = serializer;
         this.textField = new WatchedTextfield();
         textField.setValue(serializer.serialize(value));
-        textField.setFilter(validator);
     }
 
     @Override
@@ -89,11 +91,21 @@ public class InputValue<T> extends ConfigValue<T> {
     }
 
     @Override
+    public boolean isValueValid() {
+        return valueValid;
+    }
+
+    @Override
     public boolean match(String filter) {
         return super.match(filter) || StringUtils.containsIgnoreCase(textField.getValue(), filter);
     }
 
     private void setValue(String text) {
+        if (!validator.test(text)) {
+            valueValid = false;
+            return;
+        }
+
         valueFromTextField = true;
         try {
             setValue(serializer.deserialize(text));
@@ -114,6 +126,7 @@ public class InputValue<T> extends ConfigValue<T> {
         }
 
         valueFromTextField = false;
+        valueValid = true;
     }
 
     private class WatchedTextfield extends EditBox {
@@ -121,6 +134,7 @@ public class InputValue<T> extends ConfigValue<T> {
         public WatchedTextfield() {
             super(client.font, 0, 0, 160, 18, Component.empty());
             this.setResponder(InputValue.this::setValue);
+            this.setMaxLength(Integer.MAX_VALUE);
         }
 
         @Override

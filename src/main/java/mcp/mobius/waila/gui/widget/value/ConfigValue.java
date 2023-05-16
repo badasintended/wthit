@@ -13,6 +13,7 @@ import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.FormattedCharSequence;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
@@ -25,8 +26,9 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
 
     @Nullable
     protected final T defaultValue;
+    protected final T initialValue;
 
-    private final Component title;
+    private final MutableComponent title;
     private final String description;
     private final Button resetButton;
 
@@ -44,6 +46,7 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
         this.translationKey = translationKey;
         this.title = Component.translatable(translationKey);
         this.description = translationKey + "_desc";
+        this.initialValue = value;
         this.value = value;
         this.save = save;
         this.defaultValue = defaultValue;
@@ -55,15 +58,19 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
     public final void render(@NotNull PoseStack matrices, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
         super.render(matrices, index, rowTop, rowLeft, width, height, mouseX, mouseY, hovered, deltaTime);
 
-        Component title = !isDisabled() ? this.title : this.title.copy().withStyle(ChatFormatting.STRIKETHROUGH, ChatFormatting.GRAY);
-        client.font.drawShadow(matrices, title, rowLeft, rowTop + (height - client.font.lineHeight) / 2f, 0xFFFFFF);
+        if (isDisabled()) title.withStyle(ChatFormatting.STRIKETHROUGH, ChatFormatting.GRAY);
+        else if (!isValueValid()) title.withStyle(ChatFormatting.ITALIC, ChatFormatting.RED);
+        else if (!value.equals(initialValue)) title.withStyle(ChatFormatting.ITALIC, ChatFormatting.YELLOW);
+        else title.withStyle(ChatFormatting.RESET);
+
+        client.font.drawShadow(matrices, title.copy(), rowLeft, rowTop + (height - client.font.lineHeight) / 2f, 0xFFFFFF);
 
         int w = width;
         if (resetButton != null) {
             w -= resetButton.getWidth() + 2;
             resetButton.x = rowLeft + width - resetButton.getWidth();
             resetButton.y = rowTop + (height - resetButton.getHeight()) / 2;
-            resetButton.active = !isDisabled() && !getValue().equals(defaultValue);
+            resetButton.active = !isValueValid() || (!isDisabled() && !getValue().equals(defaultValue));
             resetButton.render(matrices, mouseX, mouseY, deltaTime);
         }
 
@@ -87,6 +94,10 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
             }
             screen.renderTooltip(matrices, tooltip, mouseX, mouseY);
         }
+    }
+
+    public boolean isValueValid() {
+        return true;
     }
 
     @Override
