@@ -8,6 +8,7 @@ import com.google.common.collect.Lists;
 import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.gui.widget.ConfigListWidget;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
@@ -79,6 +80,16 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
     }
 
     public void renderTooltip(Screen screen, PoseStack matrices, int mouseX, int mouseY, float delta) {
+        for (GuiEventListener child : children()) {
+            if (child instanceof AbstractWidget widget) {
+                int x1 = widget.getX() - 2;
+                int y1 = widget.getY();
+                int x2 = widget.getX() + widget.getWidth() + 4;
+                int y2 = widget.getY() + widget.getHeight() + 4;
+                if (x1 <= mouseX && mouseX <= x2 && widget.getY() <= y1 && mouseY <= y2) return;
+            }
+        }
+
         boolean hasDescTl = I18n.exists(getDescription());
         if (id != null || hasDescTl || (isDisabled() && disabledReason != null)) {
             String title = getTitle().getString();
