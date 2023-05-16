@@ -33,6 +33,7 @@ import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.OwnableEntity;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.decoration.ItemFrame;
 import net.minecraft.world.entity.item.FallingBlockEntity;
@@ -74,9 +75,10 @@ public class WailaVanilla implements IWailaPlugin {
         registrar.addComponent(ItemEntityProvider.INSTANCE, TAIL, ItemEntity.class, 950);
         registrar.addOverride(ItemEntityProvider.INSTANCE, ItemEntity.class);
 
-        registrar.addMergedConfig(Options.PET_OWNER, true);
+        registrar.addMergedSyncedConfig(Options.PET_OWNER, true, false);
         registrar.addConfig(Options.PET_HIDE_UNKNOWN_OWNER, false);
-        registrar.addComponent(PetOwnerProvider.INSTANCE, BODY, Entity.class);
+        registrar.addComponent(PetOwnerProvider.INSTANCE, BODY, OwnableEntity.class);
+        registrar.addEntityData(PetOwnerProvider.INSTANCE, OwnableEntity.class);
 
         registrar.addConfig(Options.ATTRIBUTE_BLOCK_POSITION, false);
         registrar.addConfig(Options.ATTRIBUTE_BLOCK_STATE, false);

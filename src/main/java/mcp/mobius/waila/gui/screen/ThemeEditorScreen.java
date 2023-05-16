@@ -24,6 +24,7 @@ import mcp.mobius.waila.util.TypeUtil;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.toasts.SystemToast;
 import net.minecraft.client.gui.screens.ConfirmScreen;
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -40,10 +41,12 @@ class ThemeEditorScreen extends ConfigScreen {
     private ITheme theme;
 
     private ConfigListWidget options;
+    private ButtonEntry refreshButton;
     private InputValue<String> idVal;
     private CycleValue typeVal;
 
     private final Map<ThemeType<?>, Map<String, Object>> type2attr = new HashMap<>();
+    private final Map<String, ConfigValue<Object>> attrValues = new HashMap<>();
 
     public ThemeEditorScreen(WailaConfigScreen parent, ThemeDefinition<?> template, boolean edit) {
         super(parent, CommonComponents.EMPTY, () -> {}, () -> {});
@@ -92,29 +95,58 @@ class ThemeEditorScreen extends ConfigScreen {
 
                 @Override
                 public void setValue(String value) {
-                    super.setValue(value);
-
-                    type = Registrar.INSTANCE.themeTypes.get(new ResourceLocation(value));
-                    options.save();
-                    rebuildOptions();
+                    if (options.save(true)) {
+                        super.setValue(value);
+                        type = Registrar.INSTANCE.themeTypes.get(new ResourceLocation(value));
+                        options.children().removeIf(it -> it.category.equals(I18n.get(Tl.Config.OverlayThemeEditor.ATTRIBUTES)));
+                        addTypeProperties(options);
+                        options.init();
+                        options.setFocused(this);
+                        setFocused(getListener());
+                    }
                 }
-
             };
         }
 
-        Map<String, ConfigValue<Object>> attrValues = new HashMap<>(type.properties.size());
-
         options
-            .with(new ButtonEntry(Tl.Config.OverlayThemeEditor.REFRESH, 100, 20, button -> {
-                options.save();
-                buildTheme();
-                options.resize(parent.buildPreview(previewState).height * 2 + 4, height - 32);
-                type.properties.forEach((key, prop) -> attrValues.get(key).setValue(prop.get(theme)));
+            .with(refreshButton = new ButtonEntry(Tl.Config.OverlayThemeEditor.REFRESH, 100, 20, button -> {
+                if (options.save(false)) {
+                    buildTheme();
+                    options.resize(parent.buildPreview(previewState).height * 2 + 4, height - 32);
+                    options.init();
+                    type.properties.forEach((key, prop) -> attrValues.get(key).setValue(prop.get(theme)));
+                    options.setFocused(refreshButton);
+                    refreshButton.setFocused(button);
+                }
             }))
             .with(idVal)
-            .with(typeVal)
-            .with(new CategoryEntry(Tl.Config.OverlayThemeEditor.ATTRIBUTES));
+            .with(typeVal);
 
+        if (edit) {
+            options
+                .with(new CategoryEntry(Tl.Config.OverlayThemeEditor.DELETE))
+                .with(new ButtonEntry(Tl.Config.OverlayThemeEditor.DELETE, 100, 20, button -> minecraft.setScreen(new ConfirmScreen(delete -> {
+                    if (delete) {
+                        parent.removeTheme(template.id);
+                        minecraft.setScreen(parent);
+                    } else {
+                        minecraft.setScreen(this);
+                    }
+                }, Component.translatable(Tl.Config.OverlayThemeEditor.DELETE_PROMPT, template.id), CommonComponents.EMPTY))));
+        }
+
+        addTypeProperties(options);
+
+        options.getSearchBox().active = false;
+        options.getSearchBox().setEditable(false);
+        return options;
+    }
+
+    private void addTypeProperties(ConfigListWidget options) {
+        CategoryEntry category = new CategoryEntry(Tl.Config.OverlayThemeEditor.ATTRIBUTES);
+        options.add(options.children().size() - (edit ? 2 : 0), category);
+
+        attrValues.clear();
         type2attr.computeIfAbsent(type, t -> new HashMap<>(t.properties.size()));
 
         type.properties.forEach((key, prop) -> {
@@ -138,28 +170,15 @@ class ThemeEditorScreen extends ConfigScreen {
             }
 
             value.setId(key);
+            value.category = category.category;
             attrValues.put(key, TypeUtil.uncheckedCast(value));
-            options.add(value);
+
+            options.add(options.children().size() - (edit ? 2 : 0), value);
         });
-
-        if (edit) {
-            options
-                .with(new CategoryEntry(Tl.Config.OverlayThemeEditor.DELETE))
-                .with(new ButtonEntry(Tl.Config.OverlayThemeEditor.DELETE, 100, 20, button -> minecraft.setScreen(new ConfirmScreen(delete -> {
-                    if (delete) {
-                        parent.removeTheme(template.id);
-                        minecraft.setScreen(parent);
-                    } else {
-                        minecraft.setScreen(this);
-                    }
-                }, Component.translatable(Tl.Config.OverlayThemeEditor.DELETE_PROMPT, template.id), CommonComponents.EMPTY))));
-        }
-
-        return options;
     }
 
     @Override
-    protected void renderForeground(GuiGraphics ctx, int mouseX, int mouseY, float partialTicks) {
+    protected void renderForeground(GuiGraphics ctx, int rowLeft, int rowWidth, int mouseX, int mouseY, float partialTicks) {
         TooltipRenderer.render(ctx, partialTicks);
     }
 

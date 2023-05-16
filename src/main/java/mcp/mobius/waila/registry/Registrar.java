@@ -12,11 +12,12 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IBlockComponentProvider;
+import mcp.mobius.waila.api.IData;
+import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.IEventListener;
 import mcp.mobius.waila.api.IObjectPicker;
 import mcp.mobius.waila.api.IRegistrar;
-import mcp.mobius.waila.api.IServerDataProvider;
 import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.IThemeType;
 import mcp.mobius.waila.api.IntFormat;
@@ -42,7 +43,7 @@ public enum Registrar implements IRegistrar {
 
     public final Register<IBlockComponentProvider> blockOverride = new Register<>();
     public final Register<IBlockComponentProvider> blockIcon = new Register<>();
-    public final Register<IServerDataProvider<BlockEntity>> blockData = new Register<>();
+    public final Register<IDataProvider<BlockEntity>> blockData = new Register<>();
     public final Map<TooltipPosition, Register<IBlockComponentProvider>> blockComponent = Util.make(new EnumMap<>(TooltipPosition.class), map -> {
         for (TooltipPosition key : TooltipPosition.values()) {
             map.put(key, new Register<>());
@@ -51,7 +52,7 @@ public enum Registrar implements IRegistrar {
 
     public final Register<IEntityComponentProvider> entityOverride = new Register<>();
     public final Register<IEntityComponentProvider> entityIcon = new Register<>();
-    public final Register<IServerDataProvider<Entity>> entityData = new Register<>();
+    public final Register<IDataProvider<Entity>> entityData = new Register<>();
     public final Map<TooltipPosition, Register<IEntityComponentProvider>> entityComponent = Util.make(new EnumMap<>(TooltipPosition.class), map -> {
         for (TooltipPosition key : TooltipPosition.values()) {
             map.put(key, new Register<>());
@@ -65,6 +66,9 @@ public enum Registrar implements IRegistrar {
 
     public final BiMap<ResourceLocation, ThemeType<?>> themeTypes = HashBiMap.create();
     private final Map<Class<? extends ITheme>, ThemeType<?>> themeClass2Type = new HashMap<>();
+
+    public final Map<Class<? extends IData>, ResourceLocation> dataType2Id = new HashMap<>();
+    public final Map<ResourceLocation, IData.Serializer<?>> dataId2Serializer = new HashMap<>();
 
     private int pickerPriority = Integer.MAX_VALUE;
     public IObjectPicker picker = null;
@@ -184,9 +188,9 @@ public enum Registrar implements IRegistrar {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T, BE extends BlockEntity> void addBlockData(IServerDataProvider<BE> provider, Class<T> clazz) {
+    public <T, BE extends BlockEntity> void addBlockData(IDataProvider<BE> provider, Class<T> clazz, int priority) {
         assertLock();
-        blockData.add(clazz, (IServerDataProvider<BlockEntity>) provider, 0);
+        blockData.add(clazz, (IDataProvider<BlockEntity>) provider, priority);
     }
 
     @Override
@@ -224,9 +228,18 @@ public enum Registrar implements IRegistrar {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T, E extends Entity> void addEntityData(IServerDataProvider<E> provider, Class<T> clazz) {
+    public <T, E extends Entity> void addEntityData(IDataProvider<E> provider, Class<T> clazz, int priority) {
         assertLock();
-        entityData.add(clazz, (IServerDataProvider<Entity>) provider, 0);
+        entityData.add(clazz, (IDataProvider<Entity>) provider, priority);
+    }
+
+    @Override
+    public <T extends IData> void addDataType(ResourceLocation id, Class<T> type, IData.Serializer<T> serializer) {
+        assertLock();
+        Preconditions.checkArgument(!dataId2Serializer.containsKey(id), "Data type with id %s already present", id);
+
+        dataType2Id.put(type, id);
+        dataId2Serializer.put(id, serializer);
     }
 
     @Override

@@ -2,11 +2,12 @@ package mcp.mobius.waila.plugin.vanilla.provider;
 
 import java.text.DecimalFormat;
 
+import mcp.mobius.waila.api.IDataProvider;
+import mcp.mobius.waila.api.IDataWriter;
 import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerAccessor;
-import mcp.mobius.waila.api.IServerDataProvider;
 import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.ITooltipLine;
 import mcp.mobius.waila.api.WailaHelper;
@@ -23,7 +24,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.phys.Vec3;
 
-public enum EntityAttributesProvider implements IEntityComponentProvider, IServerDataProvider<Entity> {
+public enum EntityAttributesProvider implements IEntityComponentProvider, IDataProvider<Entity> {
 
     INSTANCE;
 
@@ -63,7 +64,7 @@ public enum EntityAttributesProvider implements IEntityComponentProvider, IServe
         boolean showAbsorption = config.getBoolean(Options.ATTRIBUTE_ABSORPTION);
         boolean showArmor = config.getBoolean(Options.ATTRIBUTE_ARMOR) && entity.getArmorValue() > 0;
 
-        CompoundTag data = accessor.getServerData();
+        CompoundTag data = accessor.getData().raw();
 
         if (compact) {
             ITooltipLine line = tooltip.addLine();
@@ -114,10 +115,10 @@ public enum EntityAttributesProvider implements IEntityComponentProvider, IServe
     }
 
     @Override
-    public void appendServerData(CompoundTag data, IServerAccessor<Entity> accessor, IPluginConfig config) {
+    public void appendData(IDataWriter data, IServerAccessor<Entity> accessor, IPluginConfig config) {
         if (accessor.getTarget() instanceof LivingEntity living) {
             if (config.getBoolean(Options.ATTRIBUTE_ABSORPTION) && living.getAbsorptionAmount() > 0) {
-                data.putFloat("abs", living.getAbsorptionAmount());
+                data.raw().putFloat("abs", living.getAbsorptionAmount());
             }
         }
     }

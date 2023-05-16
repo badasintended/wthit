@@ -8,11 +8,14 @@ import com.google.common.collect.Lists;
 import mcp.mobius.waila.gui.widget.ConfigListWidget;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.FormattedCharSequence;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -25,8 +28,9 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
 
     @Nullable
     protected final T defaultValue;
+    protected final T initialValue;
 
-    private final Component title;
+    private final MutableComponent title;
     private final String description;
     private final Button resetButton;
 
@@ -44,6 +48,7 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
         this.translationKey = translationKey;
         this.title = Component.translatable(translationKey);
         this.description = translationKey + "_desc";
+        this.initialValue = value;
         this.value = value;
         this.save = save;
         this.defaultValue = defaultValue;
@@ -55,15 +60,19 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
     public final void render(@NotNull GuiGraphics ctx, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
         super.render(ctx, index, rowTop, rowLeft, width, height, mouseX, mouseY, hovered, deltaTime);
 
-        Component title = !isDisabled() ? this.title : this.title.copy().withStyle(ChatFormatting.STRIKETHROUGH, ChatFormatting.GRAY);
-        ctx.drawString(client.font, title, rowLeft, rowTop + (height - client.font.lineHeight) / 2, 0xFFFFFF);
+        if (isDisabled()) title.withStyle(ChatFormatting.STRIKETHROUGH, ChatFormatting.GRAY);
+        else if (!isValueValid()) title.withStyle(ChatFormatting.ITALIC, ChatFormatting.RED);
+        else if (!value.equals(initialValue)) title.withStyle(ChatFormatting.ITALIC, ChatFormatting.YELLOW);
+        else title.withStyle(ChatFormatting.RESET);
+
+        ctx.drawString(client.font, title.copy(), rowLeft, rowTop + (height - client.font.lineHeight) / 2, 0xFFFFFF);
 
         int w = width;
         if (resetButton != null) {
             w -= resetButton.getWidth() + 2;
             resetButton.setX(rowLeft + width - resetButton.getWidth());
             resetButton.setY(rowTop + (height - resetButton.getHeight()) / 2);
-            resetButton.active = !isDisabled() && !getValue().equals(defaultValue);
+            resetButton.active = !isValueValid() || (!isDisabled() && !getValue().equals(defaultValue));
             resetButton.render(ctx, mouseX, mouseY, deltaTime);
         }
 
@@ -72,6 +81,16 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
     }
 
     public void renderTooltip(GuiGraphics ctx, int mouseX, int mouseY) {
+        for (GuiEventListener child : children()) {
+            if (child instanceof AbstractWidget widget) {
+                int x1 = widget.getX() - 2;
+                int y1 = widget.getY();
+                int x2 = widget.getX() + widget.getWidth() + 4;
+                int y2 = widget.getY() + widget.getHeight() + 4;
+                if (x1 <= mouseX && mouseX <= x2 && y1 <= mouseY && mouseY <= y2) return;
+            }
+        }
+
         boolean hasDescTl = I18n.exists(getDescription());
         if (id != null || hasDescTl || (isDisabled() && disabledReason != null)) {
             String title = getTitle().getString();
@@ -87,6 +106,18 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
             }
             ctx.renderTooltip(client.font, tooltip, mouseX, mouseY);
         }
+    }
+
+    public boolean isValueValid() {
+        return true;
+    }
+
+    @Override
+    public boolean match(String filter) {
+        boolean match = super.match(filter) || StringUtils.containsIgnoreCase(title.getString(), filter);
+        if (id != null) match = match || StringUtils.containsIgnoreCase(id, filter);
+        if (I18n.exists(getDescription())) match = match || StringUtils.containsIgnoreCase(I18n.get(getDescription()), filter);
+        return match;
     }
 
     @Override

@@ -127,8 +127,13 @@ public class WailaConfigScreen extends ConfigScreen {
             f1held = false;
             theme = null;
             super.render(ctx, mouseX, mouseY, partialTicks);
-            ctx.drawCenteredString(font, PREVIEW_PROMPT, width / 2, 22, 0xAAAAAA);
         }
+    }
+
+    @Override
+    protected void renderForeground(GuiGraphics ctx, int rowLeft, int rowWidth, int mouseX, int mouseY, float partialTicks) {
+        super.renderForeground(ctx, rowLeft, rowWidth, mouseX, mouseY, partialTicks);
+        ctx.drawString(font, PREVIEW_PROMPT, rowLeft, 22, 0xAAAAAA);
     }
 
     @Override

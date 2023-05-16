@@ -21,6 +21,7 @@ import mcp.mobius.waila.gui.widget.value.InputValue;
 import mcp.mobius.waila.gui.widget.value.IntInputValue;
 import mcp.mobius.waila.network.Packets;
 import mcp.mobius.waila.registry.Registrar;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
@@ -55,7 +56,9 @@ public class PluginConfigScreen extends ConfigScreen {
         for (String namespace : PluginConfig.getNamespaces()) {
             String translationKey = Tl.Config.PLUGIN_ + namespace;
             Set<ResourceLocation> keys = PluginConfig.getAllKeys(namespace);
-            options.with(new ButtonEntry(translationKey, 100, 20, w -> minecraft.setScreen(new ConfigScreen(PluginConfigScreen.this, Component.translatable(translationKey)) {
+            options.with(new ButtonEntry(translationKey, 100, 20, w -> minecraft.setScreen(new ConfigScreen(PluginConfigScreen.this,
+                Component.translatable(Tl.Gui.PLUGIN_SETTINGS).append(" > ").withStyle(ChatFormatting.DARK_GRAY)
+                    .append(Component.translatable(translationKey).withStyle(ChatFormatting.WHITE))) {
                 @Override
                 public ConfigListWidget getOptions() {
                     ConfigListWidget options = new ConfigListWidget(this, minecraft, width, height, 32, height - 32, 26);

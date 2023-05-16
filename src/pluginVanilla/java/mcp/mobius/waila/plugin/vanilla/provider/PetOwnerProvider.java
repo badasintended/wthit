@@ -16,20 +16,23 @@ import com.google.common.util.concurrent.Futures;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import mcp.mobius.waila.api.IDataProvider;
+import mcp.mobius.waila.api.IDataWriter;
 import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
+import mcp.mobius.waila.api.IServerAccessor;
 import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.component.PairComponent;
 import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.ChatFormatting;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.OwnableEntity;
-import net.minecraft.world.entity.animal.horse.AbstractHorse;
 
-public enum PetOwnerProvider implements IEntityComponentProvider {
+public enum PetOwnerProvider implements IEntityComponentProvider, IDataProvider<Entity> {
 
     INSTANCE;
 
@@ -43,17 +46,9 @@ public enum PetOwnerProvider implements IEntityComponentProvider {
     @Override
     public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
         if (config.getBoolean(Options.PET_OWNER)) {
-            Entity entity = accessor.getEntity();
-            UUID uuid = null;
-            if (entity instanceof AbstractHorse horse) {
-                uuid = horse.getOwnerUUID();
-            } else if (entity instanceof OwnableEntity ownableEntity) {
-                uuid = ownableEntity.getOwnerUUID();
-            }
-
-            if (uuid == null) {
-                return;
-            }
+            CompoundTag data = accessor.getData().raw();
+            if (!data.hasUUID("owner")) return;
+            UUID uuid = data.getUUID("owner");
 
             Component name = LOADING;
             if (NAMES.containsKey(uuid)) {
@@ -68,6 +63,14 @@ public enum PetOwnerProvider implements IEntityComponentProvider {
             if (!(name == UNKNOWN || name == LOADING) || !config.getBoolean(Options.PET_HIDE_UNKNOWN_OWNER)) {
                 tooltip.addLine(new PairComponent(KEY, name));
             }
+        }
+    }
+
+    @Override
+    public void appendData(IDataWriter data, IServerAccessor<Entity> accessor, IPluginConfig config) {
+        if (config.getBoolean(Options.PET_OWNER)) {
+            UUID uuid = ((OwnableEntity) accessor.getTarget()).getOwnerUUID();
+            if (uuid != null) data.raw().putUUID("owner", uuid);
         }
     }
 

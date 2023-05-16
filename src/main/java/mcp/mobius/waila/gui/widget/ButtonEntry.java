@@ -6,6 +6,7 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import static mcp.mobius.waila.util.DisplayUtil.createButton;
@@ -46,6 +47,11 @@ public class ButtonEntry extends ConfigListWidget.Entry {
     @Override
     protected void gatherChildren(ImmutableList.Builder<GuiEventListener> children) {
         children.add(button);
+    }
+
+    @Override
+    public boolean match(String filter) {
+        return super.match(filter) || StringUtils.containsIgnoreCase(title, filter);
     }
 
 }

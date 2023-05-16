@@ -2,7 +2,6 @@ package mcp.mobius.waila.api;
 
 import mcp.mobius.waila.api.__internal__.ApiSide;
 import mcp.mobius.waila.api.__internal__.Internals;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.ApiStatus;
@@ -48,8 +47,8 @@ public interface IEntityComponentProvider {
      * Callback used to set an icon to display in the tooltip.
      * <p>
      * This method is only called on the client side.
-     * If you require data from the server, you should also implement {@link IServerDataProvider#appendServerData}
-     * and add the data to the {@link CompoundTag} there, which can then be read back using {@link IEntityAccessor#getServerData}.
+     * If you require data from the server, you should also implement {@link IDataProvider}
+     * and add the data there, which can then be read back using {@link IEntityAccessor#getData()}.
      * If you rely on the client knowing the data you need, you are not guaranteed to have the proper values.
      *
      * @param accessor contains most of the relevant information about the current environment
@@ -68,8 +67,8 @@ public interface IEntityComponentProvider {
      * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).
      * <p>
      * This method is only called on the client side.
-     * If you require data from the server, you should also implement {@link IServerDataProvider#appendServerData}
-     * and add the data to the {@link CompoundTag} there, which can then be read back using {@link IEntityAccessor#getServerData}.
+     * If you require data from the server, you should also implement {@link IDataProvider}
+     * and add the data there, which can then be read back using {@link IEntityAccessor#getData()}.
      * If you rely on the client knowing the data you need, you are not guaranteed to have the proper values.
      *
      * @param tooltip  current list of tooltip lines (might have been processed by other providers and might be processed by other providers),
@@ -86,8 +85,8 @@ public interface IEntityComponentProvider {
      * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).
      * <p>
      * This method is only called on the client side.
-     * If you require data from the server, you should also implement {@link IServerDataProvider#appendServerData}
-     * and add the data to the {@link CompoundTag} there, which can then be read back using {@link IEntityAccessor#getServerData}.
+     * If you require data from the server, you should also implement {@link IDataProvider}
+     * and add the data there, which can then be read back using {@link IEntityAccessor#getData()}.
      * If you rely on the client knowing the data you need, you are not guaranteed to have the proper values.
      *
      * @param tooltip  current list of tooltip lines (might have been processed by other providers and might be processed by other providers),
@@ -104,8 +103,8 @@ public interface IEntityComponentProvider {
      * Callback used to add lines to one of the three sections of the tooltip (Head, Body, Tail).
      * <p>
      * This method is only called on the client side.
-     * If you require data from the server, you should also implement {@link IServerDataProvider#appendServerData}
-     * and add the data to the {@link CompoundTag} there, which can then be read back using {@link IEntityAccessor#getServerData}.
+     * If you require data from the server, you should also implement {@link IDataProvider}
+     * and add the data there, which can then be read back using {@link IEntityAccessor#getData()}.
      * If you rely on the client knowing the data you need, you are not guaranteed to have the proper values.
      *
      * @param tooltip  current list of tooltip lines (might have been processed by other providers and might be processed by other providers),
