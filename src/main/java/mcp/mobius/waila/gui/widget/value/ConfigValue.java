@@ -88,7 +88,7 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
                 int y1 = widget.getY();
                 int x2 = widget.getX() + widget.getWidth() + 4;
                 int y2 = widget.getY() + widget.getHeight() + 4;
-                if (x1 <= mouseX && mouseX <= x2 && widget.getY() <= y1 && mouseY <= y2) return;
+                if (x1 <= mouseX && mouseX <= x2 && y1 <= mouseY && mouseY <= y2) return;
             }
         }
 
