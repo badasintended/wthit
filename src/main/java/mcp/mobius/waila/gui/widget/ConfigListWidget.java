@@ -94,7 +94,6 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
         }
 
         searchBox = new EditBox(minecraft.font, 0, 0, 160, 18, Component.empty());
-        searchBox.setHint(Component.translatable(Tl.Config.SEARCH_PROMPT));
         searchBox.setResponder(filter -> {
             children().clear();
             if (filter.isBlank()) {
@@ -137,7 +136,10 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
         this.topOffset = top;
         this.bottomOffset = bottom - owner.height;
         updateSize(owner.width, owner.height, topOffset, owner.height + bottomOffset);
-        if (searchBox != null) searchBox.setPosition(getRowLeft() + getRowWidth() - 160, (top - 18) / 2);
+        if (searchBox != null) {
+            searchBox.setX(getRowLeft() + getRowWidth() - 160);
+            searchBox.y =  (top - 18) / 2;
+        }
     }
 
     public abstract static class Entry extends ContainerObjectSelectionList.Entry<Entry> {

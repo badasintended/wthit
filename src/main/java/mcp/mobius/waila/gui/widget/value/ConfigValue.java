@@ -82,11 +82,11 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
     public void renderTooltip(Screen screen, PoseStack matrices, int mouseX, int mouseY, float delta) {
         for (GuiEventListener child : children()) {
             if (child instanceof AbstractWidget widget) {
-                int x1 = widget.getX() - 2;
-                int y1 = widget.getY();
-                int x2 = widget.getX() + widget.getWidth() + 4;
-                int y2 = widget.getY() + widget.getHeight() + 4;
-                if (x1 <= mouseX && mouseX <= x2 && widget.getY() <= y1 && mouseY <= y2) return;
+                int x1 = widget.x - 2;
+                int y1 = widget.y;
+                int x2 = widget.x + widget.getWidth() + 4;
+                int y2 = widget.y + widget.getHeight() + 4;
+                if (x1 <= mouseX && mouseX <= x2 && y1 <= mouseY && mouseY <= y2) return;
             }
         }
 
