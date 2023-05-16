@@ -1,6 +1,19 @@
 site_name: What the hell is that?
 site_url: https://docs.bai.lol/wthit/
 
+copyright: What the hell is that?
+
+extra:
+  social:
+    - icon: fontawesome/brands/discord
+      link: https://bai.lol/discord
+    - icon: fontawesome/brands/github
+      link: https://git.bai.lol/wthit
+    - icon: simple/curseforge
+      link: https://www.curseforge.com/minecraft/mc-mods/wthit
+    - icon: simple/modrinth
+      link: https://modrinth.com/mod/wthit
+
 theme:
   name: material
   features:
