@@ -83,6 +83,8 @@
 
 
 
+
+
   "config.waila.general"                                        : "일반",
   "config.waila.display_tooltip"                                : "툴팁 표시",
   "config.waila.display_tooltip_desc"                           : "데이터 수집 및 툴팁 렌더링",
