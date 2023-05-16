@@ -1,5 +1,10 @@
 # Blacklisting Blocks and Entities
 
+## Using Blacklist File
+To blacklist object from WTHIT, edit `.minecraft/config/waila/blacklist.json` file.
+
+## Using Tags
+Datapack tags can also be used to blacklist objects.
 To blacklist some blocks from WTHIT, create a block tag called `waila:blacklist`.
 See an entry about datapack tags on Minecraft Wiki [here](https://minecraft.fandom.com/wiki/Tag).
 
