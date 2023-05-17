@@ -174,7 +174,6 @@
   "key.waila.show_recipe_output"                                : "Отображать рецепты",
 
   "config.waila.plugin_minecraft"                               : "Minecraft",
-  "config.waila.plugin_minecraft.furnace_contents"              : "Отображать содержимое печи",
   "config.waila.plugin_minecraft.item_entity"                   : "Отображать сущности предметов",
   "config.waila.plugin_minecraft.breaking_progress"             : "Прогресс ломания",
   "config.waila.plugin_minecraft.breaking_progress.enabled"     : "Показывать прогресс ломания",
@@ -245,6 +244,8 @@
   "config.waila.plugin_waila.icon_position_top"                 : "Вверху",
   "config.waila.plugin_waila.icon_position_middle"              : "Посередине",
   "config.waila.plugin_waila.icon_position_bottom"              : "Внизу"
+
+
 
 
 
