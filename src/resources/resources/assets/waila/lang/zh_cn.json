@@ -174,7 +174,6 @@
   "key.waila.show_recipe_output"                                : "显示配方",
 
   "config.waila.plugin_minecraft"                               : "Minecraft",
-  "config.waila.plugin_minecraft.furnace_contents"              : "显示熔炉内容",
   "config.waila.plugin_minecraft.item_entity"                   : "显示物品实体",
   "config.waila.plugin_minecraft.breaking_progress"             : "破坏进度",
   "config.waila.plugin_minecraft.breaking_progress.enabled"     : "显示破坏进度",
@@ -245,6 +244,8 @@
   "config.waila.plugin_waila.icon_position_top"                 : "顶部",
   "config.waila.plugin_waila.icon_position_middle"              : "中间",
   "config.waila.plugin_waila.icon_position_bottom"              : "底部",
+
+
 
 
 

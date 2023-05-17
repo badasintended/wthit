@@ -6,7 +6,8 @@ import net.minecraft.resources.ResourceLocation;
 public final class Options {
 
     // @formatter:off
-    public static final ResourceLocation ENERGY = rl("energy.enabled");
+    public static final ResourceLocation ENERGY   = rl("energy.enabled");
+    public static final ResourceLocation PROGRESS = rl("progress.enabled");
     // @formatter:on
 
     private static ResourceLocation rl(String rl) {

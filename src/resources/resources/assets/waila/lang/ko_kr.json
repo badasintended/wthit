@@ -174,7 +174,6 @@
   "key.waila.show_recipe_output"                                : "조합법 표시",
 
   "config.waila.plugin_minecraft"                               : "마인크래프트",
-  "config.waila.plugin_minecraft.furnace_contents"              : "화로 내용물 표시",
   "config.waila.plugin_minecraft.item_entity"                   : "아이템 개체 표시",
 
 
@@ -240,6 +239,8 @@
   "config.waila.plugin_waila.show_fluids"                       : "유체 표시",
   "config.waila.plugin_waila.show_fluids_desc"                  : "유체를 보여줍니다.",
   "config.waila.plugin_waila.show_entities"                     : "개체 표시"
+
+
 
 
 

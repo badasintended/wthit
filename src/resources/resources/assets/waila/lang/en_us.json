@@ -174,7 +174,6 @@
   "key.waila.show_recipe_output"                                : "Show Recipe",
 
   "config.waila.plugin_minecraft"                               : "Minecraft",
-  "config.waila.plugin_minecraft.furnace_contents"              : "Show Furnace Contents",
   "config.waila.plugin_minecraft.item_entity"                   : "Show Item Entity",
   "config.waila.plugin_minecraft.breaking_progress"             : "Breaking Progress",
   "config.waila.plugin_minecraft.breaking_progress.enabled"     : "Show Breaking Progress",
@@ -249,6 +248,8 @@
   "config.waila.plugin_wailax"                                  : "Waila Extra",
   "config.waila.plugin_wailax.energy"                           : "Energy",
   "config.waila.plugin_wailax.energy.enabled"                   : "Show Energy",
+  "config.waila.plugin_wailax.progress"                         : "Crafting Progress",
+  "config.waila.plugin_wailax.progress.enabled"                 : "Show Crafting Progress",
 
   "theme.waila.plugin_waila.gradient.backgroundColor"           : "Background Color",
   "theme.waila.plugin_waila.gradient.gradientStart"             : "Border Gradient Start",

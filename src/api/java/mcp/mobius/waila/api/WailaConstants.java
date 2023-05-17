@@ -46,6 +46,7 @@ public class WailaConstants {
     public static final ResourceLocation MOD_NAME_TAG = id("mod_name");
 
     public static final ResourceLocation ENERGY_TAG = id("energy");
+    public static final ResourceLocation PROGRESS_TAG = id("progress");
 
     /**
      * Whether Waila should show tooltip for blocks.
