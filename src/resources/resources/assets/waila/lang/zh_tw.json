@@ -174,7 +174,6 @@
   "key.waila.show_recipe_output"                                : "顯示合成配方",
 
   "config.waila.plugin_minecraft"                               : "Minecraft",
-  "config.waila.plugin_minecraft.furnace_contents"              : "顯示熔爐內容物",
   "config.waila.plugin_minecraft.item_entity"                   : "顯示物品實體",
   "config.waila.plugin_minecraft.breaking_progress"             : "挖掘進度",
   "config.waila.plugin_minecraft.breaking_progress.enabled"     : "顯示挖掘進度",
@@ -241,6 +240,8 @@
   "config.waila.plugin_waila.show_fluids_desc"                  : "嘗試顯示流體",
   "config.waila.plugin_waila.show_entities"                     : "顯示實體",
   "config.waila.plugin_waila.show_icon"                         : "顯示圖示"
+
+
 
 
 

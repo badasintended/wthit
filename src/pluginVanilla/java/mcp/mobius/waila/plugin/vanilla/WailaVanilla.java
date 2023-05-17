@@ -96,8 +96,6 @@ public class WailaVanilla implements IWailaPlugin {
         registrar.addComponent(HorseProvider.INSTANCE, BODY, AbstractHorse.class);
         registrar.addEntityData(EntityAttributesProvider.INSTANCE, Entity.class);
 
-        registrar.addMergedSyncedConfig(Options.FURNACE_CONTENTS, true, false);
-        registrar.addComponent(FurnaceProvider.INSTANCE, BODY, AbstractFurnaceBlockEntity.class);
         registrar.addBlockData(FurnaceProvider.INSTANCE, AbstractFurnaceBlockEntity.class);
 
         registrar.addMergedSyncedConfig(Options.JUKEBOX_RECORD, true, false);

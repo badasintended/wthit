@@ -8,7 +8,6 @@ public final class Options {
     public static final ResourceLocation BREAKING_PROGRESS             = rl("breaking_progress.enabled");
     public static final ResourceLocation BREAKING_PROGRESS_COLOR       = rl("breaking_progress.color");
     public static final ResourceLocation BREAKING_PROGRESS_BOTTOM_ONLY = rl("breaking_progress.bottom_only");
-    public static final ResourceLocation FURNACE_CONTENTS              = rl("furnace_contents");
     public static final ResourceLocation ITEM_ENTITY                   = rl("item_entity");
     public static final ResourceLocation OVERRIDE_INFESTED             = rl("override.infested");
     public static final ResourceLocation OVERRIDE_TRAPPED_CHEST        = rl("override.trapped_chest");
