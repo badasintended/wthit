@@ -131,7 +131,7 @@ public class Packets {
                     return;
                 }
 
-                CompoundTag raw = DataWriter.INSTANCE.reset(null);
+                CompoundTag raw = DataWriter.INSTANCE.reset();
                 IServerAccessor<Entity> accessor = ServerAccessor.INSTANCE.set(world, player, new EntityHitResult(entity, hitPos), entity);
 
                 for (IDataProvider<Entity> provider : registrar.entityData.get(entity)) {
@@ -168,7 +168,7 @@ public class Packets {
                 }
 
                 BlockState state = world.getBlockState(pos);
-                CompoundTag raw = DataWriter.INSTANCE.reset(null);
+                CompoundTag raw = DataWriter.INSTANCE.reset();
                 IServerAccessor<BlockEntity> accessor = ServerAccessor.INSTANCE.set(world, player, hitResult, blockEntity);
 
                 for (IDataProvider<BlockEntity> provider : registrar.blockData.get(blockEntity)) {

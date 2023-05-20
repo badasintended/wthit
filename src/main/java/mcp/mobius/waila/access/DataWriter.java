@@ -17,7 +17,6 @@ import mcp.mobius.waila.util.TypeUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.Nullable;
 
 public enum DataWriter implements IDataWriter {
 
@@ -27,12 +26,11 @@ public enum DataWriter implements IDataWriter {
     private final Map<Class<IData>, List<Consumer<Result<IData>>>> typed = new HashMap<>();
     private boolean clean;
 
-    public CompoundTag reset(@Nullable CompoundTag raw) {
-        if (clean && raw == null) return this.raw;
+    public CompoundTag reset() {
+        if (clean) return this.raw;
 
-        this.raw = raw == null ? new CompoundTag() : raw;
-        this.clean = raw == null;
-
+        this.raw = new CompoundTag();
+        this.clean = true;
         this.typed.values().forEach(List::clear);
 
         return this.raw;
@@ -77,6 +75,7 @@ public enum DataWriter implements IDataWriter {
 
     @Override
     public CompoundTag raw() {
+        clean = false;
         return raw;
     }
 
