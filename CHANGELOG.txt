@@ -1,4 +1,4 @@
-8.x - 1.20-pre1 - dev/snapshot - java 17
+8.x - 1.20-pre4 - dev/snapshot - java 17
 ===================================
 8.0.2    - Updated to Minecraft 1.20-pre4
          - Fixed server having old data if no provider added data
