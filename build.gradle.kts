@@ -21,7 +21,7 @@ allprojects {
 
     repositories {
         maven("https://maven.bai.lol")
-        maven("https://dvs1.progwml6.com/files/maven/")
+        maven("https://maven.blamejared.com")
         maven("https://maven.shedaniel.me")
         maven("https://maven.terraformersmc.com/releases")
         mavenCentral()
