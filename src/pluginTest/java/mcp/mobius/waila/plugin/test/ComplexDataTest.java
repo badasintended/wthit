@@ -14,13 +14,13 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
 
-public enum DataTest implements IBlockComponentProvider, IDataProvider<ChestBlockEntity> {
+public enum ComplexDataTest implements IBlockComponentProvider, IDataProvider<ChestBlockEntity> {
 
     INSTANCE;
 
-    public static final ResourceLocation ENABLED = new ResourceLocation("test:data");
-    public static final ResourceLocation BLOCK = new ResourceLocation("test:data_block");
-    public static final ResourceLocation MULTIPLE_ADDITION = new ResourceLocation("test:data_multiple_addition");
+    public static final ResourceLocation ENABLED = new ResourceLocation("test:data.complex");
+    public static final ResourceLocation BLOCK = new ResourceLocation("test:data.complex.block");
+    public static final ResourceLocation MULTIPLE_ADDITION = new ResourceLocation("test:data.complex.multiple_addition");
 
     public static class Data implements IData {
 

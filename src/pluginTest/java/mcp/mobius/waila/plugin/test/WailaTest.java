@@ -7,6 +7,7 @@ import mcp.mobius.waila.api.TooltipPosition;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.ChestBlock;
+import net.minecraft.world.level.block.FurnaceBlock;
 
 @SuppressWarnings("unused")
 public class WailaTest implements IWailaPlugin {
@@ -62,12 +63,16 @@ public class WailaTest implements IWailaPlugin {
         registrar.addConfig(BarTest.ENABLED, false);
         registrar.addComponent(BarTest.INSTANCE, TooltipPosition.BODY, Block.class);
 
-        registrar.addConfig(DataTest.ENABLED, false);
-        registrar.addConfig(DataTest.BLOCK, false);
-        registrar.addConfig(DataTest.MULTIPLE_ADDITION, false);
-        registrar.addDataType(DataTest.ENABLED, DataTest.Data.class, DataTest.Data::new);
-        registrar.addComponent(DataTest.INSTANCE, TooltipPosition.BODY, ChestBlock.class);
-        registrar.addBlockData(DataTest.INSTANCE, ChestBlock.class);
+        registrar.addConfig(NbtDataTest.ENABLED, false);
+        registrar.addComponent(NbtDataTest.INSTANCE, TooltipPosition.BODY, FurnaceBlock.class);
+        registrar.addBlockData(NbtDataTest.INSTANCE, FurnaceBlock.class);
+
+        registrar.addConfig(ComplexDataTest.ENABLED, false);
+        registrar.addConfig(ComplexDataTest.BLOCK, false);
+        registrar.addConfig(ComplexDataTest.MULTIPLE_ADDITION, false);
+        registrar.addDataType(ComplexDataTest.ENABLED, ComplexDataTest.Data.class, ComplexDataTest.Data::new);
+        registrar.addComponent(ComplexDataTest.INSTANCE, TooltipPosition.BODY, ChestBlock.class);
+        registrar.addBlockData(ComplexDataTest.INSTANCE, ChestBlock.class);
     }
 
 }
