@@ -3,6 +3,8 @@ package mcp.mobius.waila.plugin.vanilla;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.api.IntFormat;
+import mcp.mobius.waila.api.data.BuiltinData;
+import mcp.mobius.waila.api.data.ProgressData;
 import mcp.mobius.waila.plugin.vanilla.config.NoteDisplayMode;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import mcp.mobius.waila.plugin.vanilla.provider.BeehiveProvider;
@@ -98,6 +100,7 @@ public class WailaVanilla implements IWailaPlugin {
         registrar.addComponent(HorseProvider.INSTANCE, BODY, AbstractHorse.class);
         registrar.addEntityData(EntityAttributesProvider.INSTANCE, Entity.class);
 
+        BuiltinData.bootstrap(ProgressData.class);
         registrar.addBlockData(FurnaceProvider.INSTANCE, AbstractFurnaceBlockEntity.class);
 
         registrar.addMergedSyncedConfig(Options.JUKEBOX_RECORD, true, false);
