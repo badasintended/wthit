@@ -88,11 +88,16 @@ public abstract class PluginLoader {
             PluginInfo.register(WailaConstants.MOD_ID, "waila:test", IPluginInfo.Side.BOTH, "mcp.mobius.waila.plugin.test.WailaTest", Collections.emptyList(), false);
         }
 
+        IPluginInfo extraPlugin = null;
+
         // TODO: remove legacy method on Minecraft 1.21
         List<String> legacyPlugins = new ArrayList<>();
         for (IPluginInfo info : PluginInfo.getAll()) {
-            Waila.LOGGER.info("Registering plugin {} at {}", info.getPluginId(), info.getInitializer().getClass().getCanonicalName());
-            info.getInitializer().register(Registrar.INSTANCE);
+            if (info.getPluginId().equals(Waila.id("extra"))) {
+                extraPlugin = info;
+            } else {
+                register(info);
+            }
 
             if (((PluginInfo) info).isLegacy()) {
                 legacyPlugins.add(info.getPluginId().toString());
@@ -107,6 +112,11 @@ public abstract class PluginLoader {
 
         Registrar.INSTANCE.lock();
         PluginConfig.reload();
+    }
+
+    private void register(IPluginInfo info) {
+        Waila.LOGGER.info("Registering plugin {} at {}", info.getPluginId(), info.getInitializer().getClass().getCanonicalName());
+        info.getInitializer().register(Registrar.INSTANCE);
     }
 
     private static String readError(Path path) {

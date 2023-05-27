@@ -13,7 +13,7 @@ import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IServerAccessor;
 import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.TooltipPosition;
-import mcp.mobius.waila.plugin.extra.config.Options;
+import mcp.mobius.waila.plugin.extra.WailaExtra;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.Block;
@@ -34,6 +34,8 @@ public abstract class DataProvider<T extends IData> implements IBlockComponentPr
     }
 
     public void register(IRegistrar registrar, int priority) {
+        if (!WailaExtra.BOOTSTRAPPED.contains(type)) return;
+
         registrar.addMergedSyncedConfig(option, true, false);
         registrar.addDataType(id, type, serializer);
         registrar.addComponent((IBlockComponentProvider) this, TooltipPosition.BODY, Block.class, priority);
@@ -47,7 +49,7 @@ public abstract class DataProvider<T extends IData> implements IBlockComponentPr
     private void appendBody(ITooltip tooltip, IDataReader reader, IPluginConfig config) {
         T data = reader.get(type);
         if (data == null) return;
-        if (!config.getBoolean(Options.ENERGY)) return;
+        if (!config.getBoolean(option)) return;
 
         appendBody(tooltip, data, config);
     }
