@@ -12,6 +12,7 @@ import mcp.mobius.waila.api.data.FluidData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.ChestBlock;
+import net.minecraft.world.level.block.FurnaceBlock;
 
 @SuppressWarnings("unused")
 public class WailaTest implements IWailaPlugin {
