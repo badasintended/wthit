@@ -1,7 +1,6 @@
 package mcp.mobius.waila.api.data;
 
 import com.google.common.base.Preconditions;
-import mcp.mobius.waila.api.IData;
 import mcp.mobius.waila.api.__internal__.IApiService;
 import mcp.mobius.waila.buildconst.Tl;
 import net.minecraft.network.FriendlyByteBuf;
@@ -10,7 +9,7 @@ import org.jetbrains.annotations.ApiStatus;
 /**
  * Adds an energy information to an object.
  */
-public class EnergyData implements IData {
+public final class EnergyData extends BuiltinData {
 
     /**
      * The default energy name translation key.
