@@ -242,7 +242,7 @@
   "config.waila.plugin_waila.icon_position"                     : "Положение иконки",
   "config.waila.plugin_waila.icon_position_top"                 : "Вверху",
   "config.waila.plugin_waila.icon_position_middle"              : "Посередине",
-  "config.waila.plugin_waila.icon_position_bottom"              : "Внизу"
+  "config.waila.plugin_waila.icon_position_bottom"              : "Внизу",
 
   "theme.waila.plugin_waila.gradient.backgroundColor"           : "Цвет фона",
   "theme.waila.plugin_waila.gradient.gradientStart"             : "Начало градиента обводки",
