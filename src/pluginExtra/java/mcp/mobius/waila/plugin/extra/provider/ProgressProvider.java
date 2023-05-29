@@ -8,6 +8,7 @@ import mcp.mobius.waila.api.component.ItemComponent;
 import mcp.mobius.waila.api.component.ProgressArrowComponent;
 import mcp.mobius.waila.api.data.ProgressData;
 import mcp.mobius.waila.plugin.extra.config.Options;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
 public class ProgressProvider extends DataProvider<ProgressData> {
@@ -19,7 +20,7 @@ public class ProgressProvider extends DataProvider<ProgressData> {
     }
 
     @Override
-    protected void appendBody(ITooltip tooltip, ProgressData progress, IPluginConfig config) {
+    protected void appendBody(ITooltip tooltip, ProgressData progress, IPluginConfig config, ResourceLocation objectId) {
         ITooltipLine line = tooltip.setLine(WailaConstants.PROGRESS_TAG);
 
         for (ItemStack stack : progress.input()) {
