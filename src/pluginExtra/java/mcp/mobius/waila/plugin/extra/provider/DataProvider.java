@@ -14,6 +14,7 @@ import mcp.mobius.waila.api.IServerAccessor;
 import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.TooltipPosition;
 import mcp.mobius.waila.plugin.extra.WailaExtra;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.Block;
@@ -44,24 +45,24 @@ public abstract class DataProvider<T extends IData> implements IBlockComponentPr
         registrar.addEntityData(this, Entity.class, 0);
     }
 
-    protected abstract void appendBody(ITooltip tooltip, T t, IPluginConfig config);
+    protected abstract void appendBody(ITooltip tooltip, T t, IPluginConfig config, ResourceLocation objectId);
 
-    private void appendBody(ITooltip tooltip, IDataReader reader, IPluginConfig config) {
+    private void appendBody(ITooltip tooltip, IDataReader reader, IPluginConfig config, ResourceLocation objectId) {
         T data = reader.get(type);
         if (data == null) return;
         if (!config.getBoolean(option)) return;
 
-        appendBody(tooltip, data, config);
+        appendBody(tooltip, data, config, objectId);
     }
 
     @Override
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
-        appendBody(tooltip, accessor.getData(), config);
+        appendBody(tooltip, accessor.getData(), config, BuiltInRegistries.BLOCK.getKey(accessor.getBlock()));
     }
 
     @Override
     public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        appendBody(tooltip, accessor.getData(), config);
+        appendBody(tooltip, accessor.getData(), config, BuiltInRegistries.ENTITY_TYPE.getKey(accessor.getEntity().getType()));
     }
 
     @Override
