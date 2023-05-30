@@ -65,7 +65,7 @@ public final class DisplayUtil extends GuiComponent {
         // @formatter:on
     }
 
-    public static void renderComponent(PoseStack matrices, ITooltipComponent component, int x, int y, float delta) {
+    public static void renderComponent(PoseStack matrices, ITooltipComponent component, int x, int y, int cw, float delta) {
         component.render(matrices, x, y, delta);
 
         if (WailaClient.showComponentBounds) {
@@ -81,7 +81,7 @@ public final class DisplayUtil extends GuiComponent {
             buf.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
             int bx = Mth.floor(x * scale + 0.5);
             int by = Mth.floor(y * scale + 0.5);
-            int bw = Mth.floor(component.getWidth() * scale + 0.5);
+            int bw = Mth.floor((cw == 0 ? component.getWidth() : cw) * scale + 0.5);
             int bh = Mth.floor(component.getHeight() * scale + 0.5);
             int color = (0xFF << 24) + Mth.hsvToRgb(RANDOM.nextFloat(), RANDOM.nextFloat(), 1f);
             renderRectBorder(matrices.last().pose(), buf, bx, by, bw, bh, 1, color, color);

@@ -109,7 +109,7 @@ public class ApiService implements IApiService {
 
     @Override
     public void renderComponent(PoseStack matrices, ITooltipComponent component, int x, int y, float delta) {
-        DisplayUtil.renderComponent(matrices, component, x, y, delta);
+        DisplayUtil.renderComponent(matrices, component, x, y, 0, delta);
     }
 
     @Override
