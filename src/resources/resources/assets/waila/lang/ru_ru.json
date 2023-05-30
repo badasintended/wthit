@@ -71,15 +71,15 @@
   "command.waila.config.set.success"                            : "Настройки плагина %s установлены на %s",
   "command.waila.config.set.parse_fail"                         : "Не удалось разобрать: %s",
 
-
+  "config.waila.search_prompt"                                  : "Поиск...",
   "config.waila.true"                                           : "Да",
   "config.waila.false"                                          : "Нет",
   "config.waila.preview_prompt"                                 : "Для предпросмотра зажмите §5F1§r",
   "config.waila.edit"                                           : "Изменить",
   "config.waila.new"                                            : "Создать",
   "config.waila.missing_input"                                  : "Отсуствует вход",
-
-
+  "config.waila.invalid_input.title"                            : "Неправильный вход",
+  "config.waila.invalid_input.desc"                             : "Ищите значения подсвеченные красным",
   "config.waila.server_only"                                    : "Можно изменить только на сервере или в одиночной игре",
   "config.waila.server_disabled"                                : "Сервер выключил этот параметр",
   "config.waila.server_missing_mod"                             : "Заблокировано так как на сервере не установлен WTHIT",
@@ -102,8 +102,8 @@
   "config.waila.hide_from_debug_desc"                           : "Скрывает подсказки во время режима отладки",
   "config.waila.rate_limit"                                     : "Лимит запросов",
   "config.waila.rate_limit_desc"                                : "Сколько миллисекунд должно пройти до следующего запроса к серверу\nДолжно быть как минимум 250 миллисекунд",
-
-
+  "config.waila.blacklist"                                      : "Черный список",
+  "config.waila.blacklist_open"                                 : "Открыть файл черного списка",
 
   "config.waila.tts"                                            : "Включить TTS",
   "config.waila.tts_desc"                                       : "Читает названия блоков и существ используя синтез речи",
@@ -149,11 +149,11 @@
   "config.waila.overlay_background_alpha"                       : "Прозрачность",
 
   "config.waila.overlay_theme"                                  : "Тема",
-
-  "config.waila.overlay_theme_editor.id"                        : "ID темы",
-  "config.waila.overlay_theme_editor.id_empty"                  : "Для новой темы нужен уникальный ID",
-
-
+  "config.waila.overlay_theme_editor.refresh"                   : "Обновить предпросмотр",
+  "config.waila.overlay_theme_editor.id"                        : "Идентификатор темы",
+  "config.waila.overlay_theme_editor.id_empty"                  : "Новая тема требует уникальный идентификатор",
+  "config.waila.overlay_theme_editor.type"                      : "Тип темы",
+  "config.waila.overlay_theme_editor.attributes"                : "Свойства темы",
   "config.waila.overlay_theme_editor.delete"                    : "Удалить тему",
   "config.waila.overlay_theme_editor.delete_prompt"             : "Удалить тему %s?",
 
@@ -179,12 +179,12 @@
   "config.waila.plugin_minecraft.breaking_progress.color"       : "Цвет индикатора ломания",
   "config.waila.plugin_minecraft.breaking_progress.bottom_only" : "Только снизу",
   "config.waila.plugin_minecraft.override"                      : "Переопределение",
-
+  "config.waila.plugin_minecraft.override.invisible_entity"     : "Скрывать невидимые сущности",
   "config.waila.plugin_minecraft.override.infested"             : "Отображать заражённые блоки как обычные",
   "config.waila.plugin_minecraft.override.trapped_chest"        : "Отображать сундук-ловушку как обычный сундук",
   "config.waila.plugin_minecraft.override.powder_snow"          : "Отображать рыхлый снег как обычный",
-
-
+  "config.waila.plugin_minecraft.override.vehicle"              : "Скрыть транспорт",
+  "config.waila.plugin_minecraft.override.vehicle_desc"         : "Скрывать вагонетки, лошадей и прочие сущности, если игрок сидит на них",
   "config.waila.plugin_minecraft.spawner_type"                  : "Отображать тип рассадника",
   "config.waila.plugin_minecraft.crop_progress"                 : "Отображать зрелость урожая",
   "config.waila.plugin_minecraft.redstone"                      : "Редстоун",
@@ -242,32 +242,29 @@
   "config.waila.plugin_waila.icon_position"                     : "Положение иконки",
   "config.waila.plugin_waila.icon_position_top"                 : "Вверху",
   "config.waila.plugin_waila.icon_position_middle"              : "Посередине",
-  "config.waila.plugin_waila.icon_position_bottom"              : "Внизу"
+  "config.waila.plugin_waila.icon_position_bottom"              : "Внизу",
 
+  "theme.waila.plugin_waila.gradient.backgroundColor"           : "Цвет фона",
+  "theme.waila.plugin_waila.gradient.gradientStart"             : "Начало градиента обводки",
+  "theme.waila.plugin_waila.gradient.gradientEnd"               : "Конец градиента обводки",
+  "theme.waila.plugin_waila.gradient.borderSize"                : "Размер обводки",
+  "theme.waila.plugin_waila.gradient.borderOffset"              : "Смещение обводки",
+  "theme.waila.plugin_waila.gradient.drawCorner"                : "Угол отрисовки",
+  "theme.waila.plugin_waila.gradient.fontColor"                 : "Цвет текста",
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  "theme.waila.plugin_waila.nine_patch.texture"                 : "Текстура",
+  "theme.waila.plugin_waila.nine_patch.texture_desc"            : "Либо идентификатор текстуры, либо путь относительно текстуры из файла конфигурации",
+  "theme.waila.plugin_waila.nine_patch.useResourcePack"         : "Использовать ресурспаки",
+  "theme.waila.plugin_waila.nine_patch.textColor"               : "Цвет текста",
+  "theme.waila.plugin_waila.nine_patch.textureWidth"            : "Ширина текстуры",
+  "theme.waila.plugin_waila.nine_patch.textureHeight"           : "Высота текстуры",
+  "theme.waila.plugin_waila.nine_patch.regionTop"               : "Регион: верх",
+  "theme.waila.plugin_waila.nine_patch.regionMiddle"            : "Регион: центр",
+  "theme.waila.plugin_waila.nine_patch.regionBottom"            : "Регион: низ",
+  "theme.waila.plugin_waila.nine_patch.regionLeft"              : "Регион: левый",
+  "theme.waila.plugin_waila.nine_patch.regionCenter"            : "Регион: центр",
+  "theme.waila.plugin_waila.nine_patch.regionRight"             : "Регион: правый",
+  "theme.waila.plugin_waila.nine_patch.mode"                    : "Режим отрисовки",
+  "theme.waila.plugin_waila.nine_patch.mode_stretch"            : "Растягивание",
+  "theme.waila.plugin_waila.nine_patch.mode_tile"               : "Плитка"
 }
