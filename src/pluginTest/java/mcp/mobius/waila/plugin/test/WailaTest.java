@@ -73,6 +73,10 @@ public class WailaTest implements IWailaPlugin {
         registrar.addComponent(ComplexDataTest.INSTANCE, TooltipPosition.BODY, ChestBlock.class);
         registrar.addBlockData(ComplexDataTest.INSTANCE, ChestBlock.class);
 
+        registrar.addConfig(LongTest.ENABLED, false);
+        registrar.addConfig(LongTest.WIDTH, 200);
+        registrar.addComponent(LongTest.INSTANCE, TooltipPosition.BODY, Block.class);
+
         BuiltinData.bootstrap(EnergyData.class);
         EnergyData.setDefaultsFor("minecraft").color(0x00FF00);
         registrar.addConfig(ExtraTest.ENERGY, false);
