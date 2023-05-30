@@ -11,13 +11,17 @@ import mcp.mobius.waila.api.__internal__.ApiSide;
  * the available space with how much {@link GrowingComponent}s are in a line.
  */
 @ApiSide.ClientOnly
-public enum GrowingComponent implements ITooltipComponent {
+public enum GrowingComponent implements ITooltipComponent.HorizontalGrowing {
 
     INSTANCE;
 
     @Override
-    public int getWidth() {
+    public int getMinimalWidth() {
         return 0;
+    }
+
+    @Override
+    public void setGrownWidth(int grownWidth) {
     }
 
     @Override
