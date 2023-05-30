@@ -41,13 +41,17 @@ public abstract class DataProvider<T extends IData> implements IBlockComponentPr
         registrar.addDataType(id, type, serializer);
         registrar.addComponent((IBlockComponentProvider) this, TooltipPosition.BODY, Block.class, priority);
         registrar.addComponent((IEntityComponentProvider) this, TooltipPosition.BODY, Entity.class, priority);
-        registrar.addBlockData(this, Block.class, 0);
-        registrar.addEntityData(this, Entity.class, 0);
+        registrar.addBlockData(this, Block.class, priority - 500);
+        registrar.addEntityData(this, Entity.class, priority - 500);
+        register(registrar);
+    }
+
+    protected void register(IRegistrar registrar) {
     }
 
     protected abstract void appendBody(ITooltip tooltip, T t, IPluginConfig config, ResourceLocation objectId);
 
-    private void appendBody(ITooltip tooltip, IDataReader reader, IPluginConfig config, ResourceLocation objectId) {
+    protected void appendBody(ITooltip tooltip, IDataReader reader, IPluginConfig config, ResourceLocation objectId) {
         T data = reader.get(type);
         if (data == null) return;
         if (!config.getBoolean(option)) return;
