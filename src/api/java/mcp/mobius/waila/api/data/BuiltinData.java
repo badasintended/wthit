@@ -6,6 +6,7 @@ import mcp.mobius.waila.api.__internal__.IExtraService;
 
 public abstract sealed class BuiltinData implements IData permits
     EnergyData,
+    ItemData,
     ProgressData {
 
     /**
