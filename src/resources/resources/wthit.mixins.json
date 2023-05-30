@@ -6,7 +6,8 @@
   "refmap"            : "wthit.refmap.json",
   "mixins"            : [
     "AbstractFurnaceBlockEntityAccess",
-    "EntityAccess"
+    "EntityAccess",
+    "RandomizableContainerBlockEntityAccess"
   ],
   "client"            : [
     "BossHealthOverlayAccess",

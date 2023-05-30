@@ -8,6 +8,7 @@ public final class Options {
     // @formatter:off
     public static final ResourceLocation ENERGY   = rl("energy.enabled");
     public static final ResourceLocation PROGRESS = rl("progress.enabled");
+    public static final ResourceLocation ITEM     = rl("item.enabled");
     // @formatter:on
 
     private static ResourceLocation rl(String rl) {
