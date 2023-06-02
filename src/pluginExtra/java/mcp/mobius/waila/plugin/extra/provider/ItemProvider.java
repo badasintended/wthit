@@ -14,7 +14,6 @@ import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.component.ItemListComponent;
 import mcp.mobius.waila.api.data.ItemData;
 import mcp.mobius.waila.api.data.ProgressData;
-import mcp.mobius.waila.plugin.extra.config.Options;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
@@ -26,7 +25,7 @@ public class ItemProvider extends DataProvider<ItemData> {
     private static final CompoundTag EMPTY = new CompoundTag();
 
     protected ItemProvider() {
-        super(WailaConstants.ITEM_TAG, ItemData.class, ItemData::new, Options.ITEM);
+        super(WailaConstants.ITEM_TAG, ItemData.class, ItemData::new);
     }
 
     @Override
