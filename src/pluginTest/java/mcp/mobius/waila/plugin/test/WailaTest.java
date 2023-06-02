@@ -4,6 +4,8 @@ import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.api.IntFormat;
 import mcp.mobius.waila.api.TooltipPosition;
+import mcp.mobius.waila.api.WailaConstants;
+import mcp.mobius.waila.api.__internal__.IApiService;
 import mcp.mobius.waila.api.data.BuiltinData;
 import mcp.mobius.waila.api.data.EnergyData;
 import net.minecraft.resources.ResourceLocation;
@@ -27,6 +29,8 @@ public class WailaTest implements IWailaPlugin {
         registrar.addConfig(new ResourceLocation("test:int_octal"), 0_10122, IntFormat.OCTAL);
         registrar.addConfig(new ResourceLocation("test:int_binary"), 0b1010, IntFormat.BINARY);
         registrar.addConfig(new ResourceLocation("test:int_hex"), 0xACA, IntFormat.HEXADECIMAL);
+
+        registrar.addConfig(new ResourceLocation("test:path"), IApiService.INSTANCE.getConfigDir().resolve(WailaConstants.NAMESPACE + "/blacklist.json"));
 
         registrar.addSyncedConfig(ConfigTest.SYNC_BOOL, true, true);
         registrar.addSyncedConfig(ConfigTest.SYNC_INT, 69, 69);

@@ -1,5 +1,6 @@
 package mcp.mobius.waila.registry;
 
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.HashMap;
@@ -104,6 +105,11 @@ public enum Registrar implements IRegistrar {
     @Override
     public <T extends Enum<T>> void addConfig(ResourceLocation key, T defaultValue) {
         addConfig(key, defaultValue, defaultValue, false, false, ConfigEntry.ENUM);
+    }
+
+    @Override
+    public void addConfig(ResourceLocation key, Path path) {
+        addConfig(key, path, path, false, false, ConfigEntry.PATH);
     }
 
     @Override
