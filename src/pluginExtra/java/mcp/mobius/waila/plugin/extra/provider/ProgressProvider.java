@@ -7,7 +7,6 @@ import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.component.ItemComponent;
 import mcp.mobius.waila.api.component.ProgressArrowComponent;
 import mcp.mobius.waila.api.data.ProgressData;
-import mcp.mobius.waila.plugin.extra.config.Options;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
@@ -16,7 +15,7 @@ public class ProgressProvider extends DataProvider<ProgressData> {
     public static final ProgressProvider INSTANCE = new ProgressProvider();
 
     private ProgressProvider() {
-        super(WailaConstants.PROGRESS_TAG, ProgressData.class, ProgressData::new, Options.PROGRESS);
+        super(WailaConstants.PROGRESS_TAG, ProgressData.class, ProgressData::new);
     }
 
     @Override
