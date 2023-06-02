@@ -8,7 +8,6 @@ import mcp.mobius.waila.api.component.BarComponent;
 import mcp.mobius.waila.api.component.PairComponent;
 import mcp.mobius.waila.api.component.WrappedComponent;
 import mcp.mobius.waila.api.data.EnergyData;
-import mcp.mobius.waila.plugin.extra.config.Options;
 import mcp.mobius.waila.plugin.extra.data.EnergyDefaults;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -20,7 +19,7 @@ public class EnergyProvider extends DataProvider<EnergyData> {
     private static final String INFINITE = "∞";
 
     private EnergyProvider() {
-        super(WailaConstants.ENERGY_TAG, EnergyData.class, EnergyData::new, Options.ENERGY);
+        super(WailaConstants.ENERGY_TAG, EnergyData.class, EnergyData::new);
     }
 
     @Override
