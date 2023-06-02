@@ -78,6 +78,7 @@
   "config.waila.false"                                          : "Нет",
   "config.waila.preview_prompt"                                 : "Для предпросмотра зажмите §5F1§r",
   "config.waila.edit"                                           : "Изменить",
+
   "config.waila.new"                                            : "Создать",
   "config.waila.missing_input"                                  : "Отсуствует вход",
   "config.waila.invalid_input.title"                            : "Неправильный вход",

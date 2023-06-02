@@ -87,6 +87,7 @@
 
 
 
+
   "config.waila.general"                                        : "일반",
   "config.waila.display_tooltip"                                : "툴팁 표시",
   "config.waila.display_tooltip_desc"                           : "데이터 수집 및 툴팁 렌더링",
@@ -239,6 +240,9 @@
   "config.waila.plugin_waila.show_fluids"                       : "유체 표시",
   "config.waila.plugin_waila.show_fluids_desc"                  : "유체를 보여줍니다.",
   "config.waila.plugin_waila.show_entities"                     : "개체 표시"
+
+
+
 
 
 

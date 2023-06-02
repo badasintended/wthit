@@ -71,6 +71,7 @@
   "config.waila.false"                                          : "否",
   "config.waila.preview_prompt"                                 : "按住§5F1§r预览工具提示",
   "config.waila.edit"                                           : "编辑",
+
   "config.waila.new"                                            : "新建",
   "config.waila.missing_input"                                  : "没有输入",
 
@@ -237,6 +238,9 @@
   "config.waila.plugin_waila.icon_position_top"                 : "顶部",
   "config.waila.plugin_waila.icon_position_middle"              : "中间",
   "config.waila.plugin_waila.icon_position_bottom"              : "底部",
+
+
+
 
 
 

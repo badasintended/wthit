@@ -82,6 +82,7 @@
 
 
 
+
   "config.waila.server_only"                                    : "僅能在伺服器端或單人遊戲中編輯",
 
 
@@ -240,6 +241,9 @@
   "config.waila.plugin_waila.show_fluids_desc"                  : "嘗試顯示流體",
   "config.waila.plugin_waila.show_entities"                     : "顯示實體",
   "config.waila.plugin_waila.show_icon"                         : "顯示圖示"
+
+
+
 
 
 
