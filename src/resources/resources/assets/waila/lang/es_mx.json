@@ -87,6 +87,7 @@
 
 
 
+
   "config.waila.general"                                        : "General",
   "config.waila.display_tooltip"                                : "Mostrar tooltip",
   "config.waila.display_tooltip_desc"                           : "Muestra el tooltip con la información",
@@ -239,6 +240,9 @@
   "config.waila.plugin_waila.show_fluids"                       : "Ver fluídos",
   "config.waila.plugin_waila.show_fluids_desc"                  : "Trata de mostrar el nombre de fluídos",
   "config.waila.plugin_waila.show_entities"                     : "Ver entidades"
+
+
+
 
 
 

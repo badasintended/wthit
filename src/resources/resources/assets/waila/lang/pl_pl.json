@@ -87,6 +87,7 @@
 
 
 
+
   "config.waila.general"                                        : "Ogólne",
   "config.waila.display_tooltip"                                : "Pokazuj etykietę",
   "config.waila.display_tooltip_desc"                           : "Zbieraj dane i pokazuj etykietę",
@@ -239,6 +240,9 @@
   "config.waila.plugin_waila.show_fluids"                       : "Wyświetlaj ciecze",
   "config.waila.plugin_waila.show_fluids_desc"                  : "Staraj się pokazywać ciecze",
   "config.waila.plugin_waila.show_entities"                     : "Pokaż byty"
+
+
+
 
 
 

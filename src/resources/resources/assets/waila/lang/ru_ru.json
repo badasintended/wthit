@@ -78,6 +78,7 @@
   "config.waila.false"                                          : "Нет",
   "config.waila.preview_prompt"                                 : "Для предпросмотра зажмите §5F1§r",
   "config.waila.edit"                                           : "Изменить",
+
   "config.waila.new"                                            : "Создать",
   "config.waila.missing_input"                                  : "Отсуствует вход",
 
@@ -244,6 +245,9 @@
   "config.waila.plugin_waila.icon_position_top"                 : "Вверху",
   "config.waila.plugin_waila.icon_position_middle"              : "Посередине",
   "config.waila.plugin_waila.icon_position_bottom"              : "Внизу"
+
+
+
 
 
 
