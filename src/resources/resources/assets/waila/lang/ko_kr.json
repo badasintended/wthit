@@ -49,6 +49,7 @@
 
 
 
+
   "gui.waila.configuration"                                     : "%s 환경설정",
   "gui.waila.waila_settings"                                    : "%s 설정",
   "gui.waila.plugin_settings"                                   : "플러그인 설정",
@@ -240,6 +241,9 @@
   "config.waila.plugin_waila.show_fluids"                       : "유체 표시",
   "config.waila.plugin_waila.show_fluids_desc"                  : "유체를 보여줍니다.",
   "config.waila.plugin_waila.show_entities"                     : "개체 표시"
+
+
+
 
 
 

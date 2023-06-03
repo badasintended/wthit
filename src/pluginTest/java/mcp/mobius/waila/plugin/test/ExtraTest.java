@@ -5,9 +5,11 @@ import mcp.mobius.waila.api.IDataWriter;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerAccessor;
 import mcp.mobius.waila.api.data.EnergyData;
+import mcp.mobius.waila.api.data.FluidData;
 import mcp.mobius.waila.buildconst.Tl;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
+import net.minecraft.world.level.material.Fluids;
 
 public enum ExtraTest implements IDataProvider<ChestBlockEntity> {
 
@@ -17,22 +19,38 @@ public enum ExtraTest implements IDataProvider<ChestBlockEntity> {
     public static final ResourceLocation ENERGY_INF_STORED = new ResourceLocation("test:energy.inf_stored");
     public static final ResourceLocation ENERGY_INF_CAPACITY = new ResourceLocation("test:energy.inf_capacity");
 
-    private int tick = 0;
+    public static final ResourceLocation FLUID = new ResourceLocation("test:fluid");
+
+    private int tickEnergy = 0;
+    private int tickWater = 0;
+    private int tickLava = 0;
 
     @Override
     public void appendData(IDataWriter data, IServerAccessor<ChestBlockEntity> accessor, IPluginConfig config) {
         if (config.getBoolean(ENERGY)) data.add(EnergyData.class, res -> {
-            tick++;
-            if (tick == 500) tick = 0;
+            tickEnergy++;
+            if (tickEnergy == 500) tickEnergy = 0;
 
             if (config.getBoolean(ENERGY_INF_STORED)) res.add(EnergyData.infinite());
-            else if (config.getBoolean(ENERGY_INF_CAPACITY)) res.add(EnergyData.endlessCapacity().stored(tick * 100L));
+            else if (config.getBoolean(ENERGY_INF_CAPACITY)) res.add(EnergyData.endlessCapacity().stored(tickEnergy * 100L));
             else res.add(EnergyData
                     .capacity(50000L)
-                    .stored(tick * 100L)
+                    .stored(tickEnergy * 100L)
                     .nameTraslationKey(Tl.Tooltip.POWER)
                     .color(0xFF00FF)
                     .unit("TEST"));
+        });
+
+        if (config.getBoolean(FLUID)) data.add(FluidData.class, res -> {
+            tickWater++;
+            if (tickWater == 500) tickWater = 0;
+
+            tickLava++;
+            if (tickLava == 250) tickLava = 0;
+
+            res.add(FluidData.of(2)
+                .add(Fluids.WATER, null, tickWater * 100.0, 50000.0)
+                .add(Fluids.LAVA, null, tickLava * 100.0, 25000.0));
         });
     }
 

@@ -1,11 +1,11 @@
 package mcp.mobius.waila.api.data;
 
 import com.google.common.base.Preconditions;
-import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.api.__internal__.IApiService;
 import mcp.mobius.waila.api.__internal__.IExtraService;
 import mcp.mobius.waila.buildconst.Tl;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
@@ -13,6 +13,8 @@ import org.jetbrains.annotations.Nullable;
  * Adds an energy information to an object.
  */
 public final class EnergyData extends BuiltinData {
+
+    public static final ResourceLocation ID = rl("energy");
 
     /**
      * The default energy name translation key.
@@ -33,12 +35,9 @@ public final class EnergyData extends BuiltinData {
 
     /**
      * Sets the default values that will be applied for objects from the specified namespace.
-     * <p>
-     * Call this method inside {@link IWailaPlugin#register} after data
-     * is {@linkplain BuiltinData#bootstrap bootstrapped}.
      */
+    @BootstrapUnneeded
     public static EnergyData.Defaults setDefaultsFor(String namespace) {
-        IExtraService.INSTANCE.assertDataBootstrapped(EnergyData.class);
         return IExtraService.INSTANCE.setEnergyDefaultsFor(namespace);
     }
 

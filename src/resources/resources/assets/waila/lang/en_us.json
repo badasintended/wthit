@@ -41,6 +41,7 @@
   "tooltip.waila.instrument.pling"                              : "Pling",
 
   "tooltip.waila.extra.energy"                                  : "Energy",
+  "tooltip.waila.extra.unknown_fluid"                           : "Unknown Fluid",
 
   "gui.waila.configuration"                                     : "%s Configuration",
   "gui.waila.waila_settings"                                    : "%s Settings",
@@ -250,6 +251,9 @@
   "config.waila.plugin_wailax.item.enabled"                     : "Show Item Contents",
   "config.waila.plugin_wailax.item.nbt"                         : "Sync NBT Data",
   "config.waila.plugin_wailax.item.blacklist"                   : "Item Contents Blacklist",
+  "config.waila.plugin_wailax.fluid"                            : "Fluid",
+  "config.waila.plugin_wailax.fluid.enabled"                    : "Show Fluid Contents",
+  "config.waila.plugin_wailax.fluid.blacklist"                  : "Fluid Contents Blacklist",
 
   "theme.waila.plugin_waila.gradient.backgroundColor"           : "Background Color",
   "theme.waila.plugin_waila.gradient.gradientStart"             : "Border Gradient Start",
