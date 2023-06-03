@@ -4,10 +4,13 @@ import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.api.IntFormat;
 import mcp.mobius.waila.api.data.BuiltinData;
+import mcp.mobius.waila.api.data.FluidData;
 import mcp.mobius.waila.api.data.ItemData;
 import mcp.mobius.waila.api.data.ProgressData;
 import mcp.mobius.waila.plugin.vanilla.config.NoteDisplayMode;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
+import mcp.mobius.waila.plugin.vanilla.fluid.LavaDescriptor;
+import mcp.mobius.waila.plugin.vanilla.fluid.WaterDescriptor;
 import mcp.mobius.waila.plugin.vanilla.provider.BaseContainerProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.BeehiveProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.BlockAttributesProvider;
@@ -73,6 +76,7 @@ import net.minecraft.world.level.block.entity.JukeboxBlockEntity;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.entity.SkullBlockEntity;
 import net.minecraft.world.level.block.entity.SpawnerBlockEntity;
+import net.minecraft.world.level.material.Fluids;
 
 import static mcp.mobius.waila.api.TooltipPosition.BODY;
 import static mcp.mobius.waila.api.TooltipPosition.HEAD;
@@ -181,6 +185,9 @@ public class WailaVanilla implements IWailaPlugin {
         registrar.addComponent(ItemFrameProvider.INSTANCE, TAIL, ItemFrame.class);
 
         BuiltinData.bootstrap(ItemData.class, ProgressData.class);
+        FluidData.describe(Fluids.WATER, WaterDescriptor.INSTANCE);
+        FluidData.describe(Fluids.LAVA, LavaDescriptor.INSTANCE);
+
         registrar.addBlockData(FurnaceProvider.INSTANCE, AbstractFurnaceBlockEntity.class);
         registrar.addBlockData(EnderChestProvider.INSTANCE, EnderChestBlockEntity.class);
 

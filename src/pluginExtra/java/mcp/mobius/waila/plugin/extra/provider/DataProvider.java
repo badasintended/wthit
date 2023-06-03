@@ -28,6 +28,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
@@ -39,6 +40,7 @@ public abstract class DataProvider<T extends IData> implements IBlockComponentPr
     private final Class<T> type;
     private final IData.Serializer<T> serializer;
     private final ResourceLocation enabledOption;
+    private final TagKey<Block> blockBlacklistTag;
     private final TagKey<BlockEntityType<?>> blockEntityBlacklistTag;
     private final TagKey<EntityType<?>> entityBlacklistTag;
     private final IJsonConfig<ExtraBlacklistConfig> blacklistConfig;
@@ -51,6 +53,7 @@ public abstract class DataProvider<T extends IData> implements IBlockComponentPr
         enabledOption = createConfigKey("enabled");
 
         ResourceLocation tagId = new ResourceLocation(WailaConstants.NAMESPACE, "extra/" + id.getPath() + "_blacklist");
+        blockBlacklistTag = TagKey.create(Registries.BLOCK, tagId);
         blockEntityBlacklistTag = TagKey.create(Registries.BLOCK_ENTITY_TYPE, tagId);
         entityBlacklistTag = TagKey.create(Registries.ENTITY_TYPE, tagId);
 
@@ -120,6 +123,7 @@ public abstract class DataProvider<T extends IData> implements IBlockComponentPr
         public void appendData(IDataWriter data, IServerAccessor<BlockEntity> accessor, IPluginConfig config) {
             if (!config.getBoolean(enabledOption)
                 || blacklistConfig.get().blockEntityTypes.contains(accessor.getTarget().getType())
+                || accessor.getTarget().getBlockState().is(blockBlacklistTag)
                 || BuiltInRegistries.BLOCK_ENTITY_TYPE.wrapAsHolder(accessor.getTarget().getType()).is(blockEntityBlacklistTag)) {
                 data.add(type, IDataWriter.Result::block);
             }

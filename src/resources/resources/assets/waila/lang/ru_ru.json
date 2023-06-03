@@ -49,6 +49,7 @@
 
 
 
+
   "gui.waila.configuration"                                     : "Конфигурация %s",
   "gui.waila.waila_settings"                                    : "Настройки %s",
   "gui.waila.plugin_settings"                                   : "Настроки плагинов",
@@ -245,6 +246,9 @@
   "config.waila.plugin_waila.icon_position_top"                 : "Вверху",
   "config.waila.plugin_waila.icon_position_middle"              : "Посередине",
   "config.waila.plugin_waila.icon_position_bottom"              : "Внизу"
+
+
+
 
 
 

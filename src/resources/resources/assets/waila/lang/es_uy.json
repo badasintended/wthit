@@ -49,6 +49,7 @@
 
 
 
+
   "gui.waila.configuration"                                     : "%s — Configuración",
   "gui.waila.waila_settings"                                    : "Opciones de %s",
   "gui.waila.plugin_settings"                                   : "Opciones del plugin",
@@ -240,6 +241,9 @@
   "config.waila.plugin_waila.show_fluids"                       : "Ver fluídos",
   "config.waila.plugin_waila.show_fluids_desc"                  : "Trata de mostrar el nombre de fluídos",
   "config.waila.plugin_waila.show_entities"                     : "Ver entidades"
+
+
+
 
 
 
