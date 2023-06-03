@@ -49,6 +49,7 @@
 
 
 
+
   "gui.waila.configuration"                                     : "%s Konfiguration",
   "gui.waila.waila_settings"                                    : "%s Einstellung",
   "gui.waila.plugin_settings"                                   : "Plugin Einstellungen",
@@ -240,6 +241,9 @@
   "config.waila.plugin_waila.show_fluids"                       : "Flüssigkeiten anzeigen",
   "config.waila.plugin_waila.show_fluids_desc"                  : "Versuche Flüssigkeiten anzuzeigen",
   "config.waila.plugin_waila.show_entities"                     : "Zeige Kreaturen"
+
+
+
 
 
 

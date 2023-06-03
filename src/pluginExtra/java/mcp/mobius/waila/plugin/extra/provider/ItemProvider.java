@@ -10,7 +10,6 @@ import mcp.mobius.waila.api.IDataReader;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.ITooltip;
-import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.component.ItemListComponent;
 import mcp.mobius.waila.api.data.ItemData;
 import mcp.mobius.waila.api.data.ProgressData;
@@ -25,7 +24,7 @@ public class ItemProvider extends DataProvider<ItemData> {
     private static final CompoundTag EMPTY = new CompoundTag();
 
     protected ItemProvider() {
-        super(WailaConstants.ITEM_TAG, ItemData.class, ItemData::new);
+        super(ItemData.ID, ItemData.class, ItemData::new);
     }
 
     @Override
@@ -35,7 +34,9 @@ public class ItemProvider extends DataProvider<ItemData> {
 
     @Override
     protected void appendBody(ITooltip tooltip, IDataReader reader, IPluginConfig config, ResourceLocation objectId) {
-        if (reader.get(ProgressData.class) == null) super.appendBody(tooltip, reader, config, objectId);
+        if (reader.get(ProgressData.class) == null) {
+            super.appendBody(tooltip, reader, config, objectId);
+        }
     }
 
     @Override
@@ -67,7 +68,7 @@ public class ItemProvider extends DataProvider<ItemData> {
 
         if (merged.isEmpty()) return;
 
-        tooltip.setLine(WailaConstants.ITEM_TAG, new ItemListComponent(merged.values().stream()
+        tooltip.setLine(ItemData.ID, new ItemListComponent(merged.values().stream()
             .sorted(Comparator.comparingInt(ItemStack::getCount).reversed())
             .toList()));
     }

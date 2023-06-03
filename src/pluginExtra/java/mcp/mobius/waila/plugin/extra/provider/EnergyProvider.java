@@ -2,7 +2,6 @@ package mcp.mobius.waila.plugin.extra.provider;
 
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITooltip;
-import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.WailaHelper;
 import mcp.mobius.waila.api.component.BarComponent;
 import mcp.mobius.waila.api.component.PairComponent;
@@ -19,7 +18,7 @@ public class EnergyProvider extends DataProvider<EnergyData> {
     private static final String INFINITE = "∞";
 
     private EnergyProvider() {
-        super(WailaConstants.ENERGY_TAG, EnergyData.class, EnergyData::new);
+        super(EnergyData.ID, EnergyData.class, EnergyData::new);
     }
 
     @Override
@@ -48,7 +47,7 @@ public class EnergyProvider extends DataProvider<EnergyData> {
 
         if (!unit.isEmpty()) text += " " + unit;
 
-        tooltip.setLine(WailaConstants.ENERGY_TAG, new PairComponent(
+        tooltip.setLine(EnergyData.ID, new PairComponent(
             new WrappedComponent(Component.translatable(nameTlKey)),
             new BarComponent(ratio, 0xFF000000 | color, text)));
     }

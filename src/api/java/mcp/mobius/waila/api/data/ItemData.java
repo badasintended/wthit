@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.function.IntFunction;
 
 import mcp.mobius.waila.api.IPluginConfig;
-import mcp.mobius.waila.api.WailaConstants;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -17,7 +16,8 @@ import org.jetbrains.annotations.ApiStatus;
 
 public final class ItemData extends BuiltinData {
 
-    public static final ResourceLocation CONFIG_SYNC_NBT = new ResourceLocation(WailaConstants.NAMESPACE + "x", "item.nbt");
+    public static final ResourceLocation ID = rl("item");
+    public static final ResourceLocation CONFIG_SYNC_NBT = rl("item.nbt");
 
     /**
      * Creates an item data based from plugin config.

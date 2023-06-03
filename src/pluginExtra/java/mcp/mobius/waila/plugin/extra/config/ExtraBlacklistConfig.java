@@ -64,9 +64,10 @@ public class ExtraBlacklistConfig {
 
             comment.add("The game needs to be restarted for the changes to apply.");
             comment.add("Along with this file, the server can also use datapack tag to disable the feature for connecting players.");
+            comment.add("Block tag            : data/" + tagId.getNamespace() + "/tags/blocks/" + tagId.getPath() + ".json");
             comment.add("Block entity type tag: data/" + tagId.getNamespace() + "/tags/block_entity_type/" + tagId.getPath() + ".json");
             comment.add("Entity type tag      : data/" + tagId.getNamespace() + "/tags/entity_types/extra/" + tagId.getPath() + ".json");
-            comment.add("Note that block_entity_type is not plural like entity_types, this is not an error.");
+            comment.add("Note that block_entity_type is not plural like blocks and entity_types, this is not an error.");
             object.add("_comment", comment);
 
             serialize(object, "blockEntityTypes", BuiltInRegistries.BLOCK_ENTITY_TYPE, src.blockEntityTypeIds, src.blockEntityTypes);
