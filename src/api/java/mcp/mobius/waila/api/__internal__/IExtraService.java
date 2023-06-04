@@ -15,7 +15,7 @@ public interface IExtraService {
 
     <T extends BuiltinData> void assertDataBootstrapped(Class<T> type);
 
-    EnergyData.Defaults setEnergyDefaultsFor(String namespace);
+    EnergyData.Description setEnergyDescFor(String namespace);
 
     <T extends Fluid> void setFluidDescFor(T fluid, FluidData.Descriptor<T> descriptor);
 

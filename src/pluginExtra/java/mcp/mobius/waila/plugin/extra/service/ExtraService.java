@@ -6,7 +6,7 @@ import mcp.mobius.waila.api.data.BuiltinData;
 import mcp.mobius.waila.api.data.EnergyData;
 import mcp.mobius.waila.api.data.FluidData;
 import mcp.mobius.waila.plugin.extra.WailaExtra;
-import mcp.mobius.waila.plugin.extra.data.EnergyDefaults;
+import mcp.mobius.waila.plugin.extra.data.EnergyDescription;
 import mcp.mobius.waila.plugin.extra.data.FluidDescription;
 import net.minecraft.world.level.material.Fluid;
 
@@ -23,9 +23,9 @@ public class ExtraService implements IExtraService {
     }
 
     @Override
-    public EnergyData.Defaults setEnergyDefaultsFor(String namespace) {
-        EnergyDefaults defaults = new EnergyDefaults();
-        EnergyDefaults.MAP.put(namespace, defaults);
+    public EnergyData.Description setEnergyDescFor(String namespace) {
+        EnergyDescription defaults = new EnergyDescription();
+        EnergyDescription.MAP.put(namespace, defaults);
         return defaults;
     }
 

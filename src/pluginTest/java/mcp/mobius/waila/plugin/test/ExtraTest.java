@@ -6,7 +6,6 @@ import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerAccessor;
 import mcp.mobius.waila.api.data.EnergyData;
 import mcp.mobius.waila.api.data.FluidData;
-import mcp.mobius.waila.buildconst.Tl;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.material.Fluids;
@@ -31,14 +30,9 @@ public enum ExtraTest implements IDataProvider<ChestBlockEntity> {
             tickEnergy++;
             if (tickEnergy == 500) tickEnergy = 0;
 
-            if (config.getBoolean(ENERGY_INF_STORED)) res.add(EnergyData.infinite());
-            else if (config.getBoolean(ENERGY_INF_CAPACITY)) res.add(EnergyData.endlessCapacity().stored(tickEnergy * 100L));
-            else res.add(EnergyData
-                    .capacity(50000L)
-                    .stored(tickEnergy * 100L)
-                    .nameTraslationKey(Tl.Tooltip.POWER)
-                    .color(0xFF00FF)
-                    .unit("TEST"));
+            if (config.getBoolean(ENERGY_INF_STORED)) res.add(EnergyData.of(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY));
+            else if (config.getBoolean(ENERGY_INF_CAPACITY)) res.add(EnergyData.of(tickEnergy * 100L, Double.POSITIVE_INFINITY));
+            else res.add(EnergyData.of(tickEnergy * 100L, 50000L));
         });
 
         if (config.getBoolean(FLUID)) data.add(FluidData.class, res -> {
