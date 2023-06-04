@@ -1,13 +1,14 @@
 package mcp.mobius.waila.api.data;
 
-import com.google.common.base.Preconditions;
+import mcp.mobius.waila.api.__internal__.ApiSide;
 import mcp.mobius.waila.api.__internal__.IApiService;
 import mcp.mobius.waila.api.__internal__.IExtraService;
 import mcp.mobius.waila.buildconst.Tl;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Adds an energy information to an object.
@@ -19,7 +20,7 @@ public final class EnergyData extends BuiltinData {
     /**
      * The default energy name translation key.
      */
-    public static final String DEFAULT_TRANSLATION_KEY = Tl.Tooltip.Extra.ENERGY;
+    public static final Component DEFAULT_NAME = Component.translatable(Tl.Tooltip.Extra.ENERGY);
 
     /**
      * The default energy bar color.
@@ -37,180 +38,83 @@ public final class EnergyData extends BuiltinData {
      * Sets the default values that will be applied for objects from the specified namespace.
      */
     @BootstrapUnneeded
-    public static EnergyData.Defaults setDefaultsFor(String namespace) {
-        return IExtraService.INSTANCE.setEnergyDefaultsFor(namespace);
+    @ApiSide.ClientOnly
+    public static Description describe(String namespace) {
+        return IExtraService.INSTANCE.setEnergyDescFor(namespace);
     }
 
     /**
-     * Creates a data with finite capacity.
+     * Creates a energy data.
      *
-     * @param capacity the maximum capacity of energy storage, must be larger than 1
+     * @param stored   the stored energy, from {@code 0.0} to {@linkplain Double#POSITIVE_INFINITY infinity}
+     * @param capacity the energy storage capacity, from {@code 1.0} to {@linkplain Double#POSITIVE_INFINITY infinity}
      */
-    public static EnergyData capacity(long capacity) {
-        Preconditions.checkArgument(capacity >= 1, "Energy capacity must be larger than 1");
+    public static EnergyData of(double stored, double capacity) {
+        capacity = Math.max(capacity, 0.0);
+        stored = Mth.clamp(stored, 0.0, capacity);
+        if (capacity == 0) capacity = Double.POSITIVE_INFINITY;
 
-        return new EnergyData(capacity);
-    }
-
-    /**
-     * Creates a data that have an infinite capacity.
-     */
-    public static EnergyData endlessCapacity() {
-        return new EnergyData(-1);
-    }
-
-    /**
-     * Creates a data that have infinite capacity and stored energy.
-     */
-    public static EnergyData infinite() {
-        EnergyData data = endlessCapacity();
-        data.stored = -1;
-        return data;
-    }
-
-    /**
-     * Sets the stored energy in the object.
-     *
-     * @param stored must be larger than 0 and less or equal to the capacity.
-     */
-    public EnergyData stored(long stored) {
-        Preconditions.checkState(this.stored != -1, "Stored energy can't be set on infinite data");
-        Preconditions.checkArgument(stored >= 0, "Stored energy must be larger than 0");
-        if (this.capacity != -1) Preconditions.checkArgument(stored <= this.capacity, "Stored energy can't be larger than capacity");
-
-        this.stored = stored;
-        return this;
-    }
-
-    /**
-     * Sets the translation key to be used to name the energy name.
-     *
-     * @see #DEFAULT_TRANSLATION_KEY
-     * @see #setDefaultsFor(String)
-     * @see Defaults#nameTraslationKey(String)
-     */
-    public EnergyData nameTraslationKey(String nameTraslationKey) {
-        this.nameTraslationKey = nameTraslationKey;
-        return this;
-    }
-
-    /**
-     * Sets the color of the bar, in {@code 0xRRGGBB} format.
-     *
-     * @see #DEFAULT_COLOR
-     * @see #setDefaultsFor(String)
-     * @see Defaults#color(int)
-     */
-    public EnergyData color(int rgb) {
-        this.color = 0xFFFFFF & rgb;
-        return this;
-    }
-
-    /**
-     * Sets the unit of energy.
-     *
-     * @see #DEFAULT_UNIT
-     * @see #setDefaultsFor(String)
-     * @see Defaults#unit(String)
-     */
-    public EnergyData unit(String unit) {
-        this.unit = unit;
-        return this;
+        return new EnergyData(stored, capacity);
     }
 
     @ApiStatus.NonExtendable
-    public interface Defaults {
+    public interface Description {
 
         /**
          * Sets the translation key to be used to name the energy name.
          *
-         * @see EnergyData#DEFAULT_TRANSLATION_KEY
+         * @see EnergyData#DEFAULT_NAME
          */
-        Defaults nameTraslationKey(String nameTraslationKey);
+        Description name(Component name);
 
         /**
          * Sets the color of the bar, in {@code 0xRRGGBB} format.
          *
          * @see EnergyData#DEFAULT_COLOR
          */
-        Defaults color(int color);
+        Description color(int color);
 
         /**
          * Sets the unit of energy.
          *
          * @see EnergyData#DEFAULT_UNIT
          */
-        Defaults unit(String unit);
+        Description unit(String unit);
 
     }
 
     // -----------------------------------------------------------------------------------------------------------------------------------------------
 
-    private final long capacity;
-    private long stored;
-
-    private String nameTraslationKey = null;
-    private int color = -1;
-    private String unit = null;
+    private final double stored;
+    private final double capacity;
 
     @ApiStatus.Internal
-    private EnergyData(long capacity) {
+    private EnergyData(double stored, double capacity) {
+        this.stored = stored;
         this.capacity = capacity;
     }
 
     @ApiStatus.Internal
     public EnergyData(FriendlyByteBuf buf) {
-        this.capacity = buf.readVarLong();
-        this.stored = buf.readVarLong();
-        this.nameTraslationKey = buf.readNullable(FriendlyByteBuf::readUtf);
-        this.unit = buf.readNullable(FriendlyByteBuf::readUtf);
-
-        if (buf.readBoolean()) {
-            this.color = buf.readVarInt();
-        }
+        this.stored = buf.readDouble();
+        this.capacity = buf.readDouble();
     }
 
     @Override
     @ApiStatus.Internal
     public void write(FriendlyByteBuf buf) {
-        buf.writeVarLong(capacity);
-        buf.writeVarLong(stored);
-        buf.writeNullable(nameTraslationKey, FriendlyByteBuf::writeUtf);
-        buf.writeNullable(unit, FriendlyByteBuf::writeUtf);
-
-        if (color != -1) {
-            buf.writeBoolean(true);
-            buf.writeVarInt(color);
-        } else {
-            buf.writeBoolean(false);
-        }
+        buf.writeDouble(stored);
+        buf.writeDouble(capacity);
     }
 
     @ApiStatus.Internal
-    public long stored() {
+    public double stored() {
         return stored;
     }
 
     @ApiStatus.Internal
-    public long capacity() {
+    public double capacity() {
         return capacity;
-    }
-
-    @Nullable
-    @ApiStatus.Internal
-    public String nameTraslationKey() {
-        return nameTraslationKey;
-    }
-
-    @ApiStatus.Internal
-    public int color() {
-        return color;
-    }
-
-    @Nullable
-    @ApiStatus.Internal
-    public String unit() {
-        return unit;
     }
 
 }

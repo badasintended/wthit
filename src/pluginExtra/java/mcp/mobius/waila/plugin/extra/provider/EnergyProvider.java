@@ -7,7 +7,7 @@ import mcp.mobius.waila.api.component.BarComponent;
 import mcp.mobius.waila.api.component.PairComponent;
 import mcp.mobius.waila.api.component.WrappedComponent;
 import mcp.mobius.waila.api.data.EnergyData;
-import mcp.mobius.waila.plugin.extra.data.EnergyDefaults;
+import mcp.mobius.waila.plugin.extra.data.EnergyDescription;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -23,32 +23,27 @@ public class EnergyProvider extends DataProvider<EnergyData> {
 
     @Override
     protected void appendBody(ITooltip tooltip, EnergyData energy, IPluginConfig config, ResourceLocation objectId) {
-        EnergyDefaults defaults = EnergyDefaults.get(objectId.getNamespace());
+        EnergyDescription desc = EnergyDescription.get(objectId.getNamespace());
 
-        long stored = energy.stored();
-        long capacity = energy.capacity();
-        float ratio = capacity == -1 ? 1f : (float) stored / capacity;
+        double stored = energy.stored();
+        double capacity = energy.capacity();
+        float ratio = Double.isInfinite(capacity) ? 1f : (float) (stored / capacity);
 
-        String unit = energy.unit();
-        if (unit == null) unit = defaults.unit();
-
-        String nameTlKey = energy.nameTraslationKey();
-        if (nameTlKey == null) nameTlKey = defaults.nameTraslationKey();
-
-        int color = energy.color();
-        if (color == -1) color = defaults.color();
+        String unit = desc.unit();
+        Component name = desc.name();
+        int color = desc.color();
 
         String text;
-        if (stored == -1L) text = INFINITE;
+        if (Double.isInfinite(stored)) text = INFINITE;
         else {
-            text = WailaHelper.suffix(stored);
-            if (capacity != -1L) text += "/" + WailaHelper.suffix(capacity);
+            text = WailaHelper.suffix((long) stored);
+            if (Double.isFinite(capacity)) text += "/" + WailaHelper.suffix((long) capacity);
         }
 
         if (!unit.isEmpty()) text += " " + unit;
 
         tooltip.setLine(EnergyData.ID, new PairComponent(
-            new WrappedComponent(Component.translatable(nameTlKey)),
+            new WrappedComponent(name),
             new BarComponent(ratio, 0xFF000000 | color, text)));
     }
 
