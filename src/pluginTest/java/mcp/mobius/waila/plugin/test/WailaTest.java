@@ -82,7 +82,7 @@ public class WailaTest implements IWailaPlugin {
         registrar.addComponent(LongTest.INSTANCE, TooltipPosition.BODY, Block.class);
 
         BuiltinData.bootstrap(EnergyData.class, FluidData.class);
-        EnergyData.setDefaultsFor("minecraft").color(0x00FF00);
+        EnergyData.describe("minecraft").color(0x00FF00);
         registrar.addConfig(ExtraTest.ENERGY, false);
         registrar.addConfig(ExtraTest.ENERGY_INF_STORED, false);
         registrar.addConfig(ExtraTest.ENERGY_INF_CAPACITY, false);
