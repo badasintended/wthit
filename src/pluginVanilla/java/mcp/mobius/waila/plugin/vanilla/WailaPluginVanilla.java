@@ -82,7 +82,7 @@ import static mcp.mobius.waila.api.TooltipPosition.BODY;
 import static mcp.mobius.waila.api.TooltipPosition.HEAD;
 import static mcp.mobius.waila.api.TooltipPosition.TAIL;
 
-public class WailaVanilla implements IWailaPlugin {
+public class WailaPluginVanilla implements IWailaPlugin {
 
     @Override
     public void register(IRegistrar registrar) {

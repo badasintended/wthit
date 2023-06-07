@@ -1,6 +1,6 @@
 import net.minecraftforge.gradle.common.util.RunConfig
 import java.text.SimpleDateFormat
-import java.util.*
+import java.util.Date
 
 plugins {
     id("net.minecraftforge.gradle") version "5.1.+"
@@ -53,6 +53,7 @@ minecraft {
             property("waila.enableTestPlugin", "true")
             property("waila.debugCommands", "true")
             source(sourceSets["main"])
+            source(sourceSets["plugin"])
             rootProject.sourceSets.forEach { source(it) }
         }
         create("client", runConfig)

@@ -11,7 +11,7 @@ import mcp.mobius.waila.plugin.extra.provider.FluidProvider;
 import mcp.mobius.waila.plugin.extra.provider.ItemProvider;
 import mcp.mobius.waila.plugin.extra.provider.ProgressProvider;
 
-public class WailaExtra implements IWailaPlugin {
+public class WailaPluginExtra implements IWailaPlugin {
 
     public static final Set<Class<? extends IData>> BOOTSTRAPPED = new HashSet<>();
 
