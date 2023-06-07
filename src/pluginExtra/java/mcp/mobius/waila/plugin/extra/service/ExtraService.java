@@ -5,7 +5,7 @@ import mcp.mobius.waila.api.__internal__.IExtraService;
 import mcp.mobius.waila.api.data.BuiltinData;
 import mcp.mobius.waila.api.data.EnergyData;
 import mcp.mobius.waila.api.data.FluidData;
-import mcp.mobius.waila.plugin.extra.WailaExtra;
+import mcp.mobius.waila.plugin.extra.WailaPluginExtra;
 import mcp.mobius.waila.plugin.extra.data.EnergyDescription;
 import mcp.mobius.waila.plugin.extra.data.FluidDescription;
 import net.minecraft.world.level.material.Fluid;
@@ -14,12 +14,12 @@ public class ExtraService implements IExtraService {
 
     @Override
     public <T extends BuiltinData> void bootstrapData(Class<T> type) {
-        WailaExtra.BOOTSTRAPPED.add(type);
+        WailaPluginExtra.BOOTSTRAPPED.add(type);
     }
 
     @Override
     public <T extends BuiltinData> void assertDataBootstrapped(Class<T> type) {
-        Preconditions.checkState(WailaExtra.BOOTSTRAPPED.contains(type));
+        Preconditions.checkState(WailaPluginExtra.BOOTSTRAPPED.contains(type));
     }
 
     @Override

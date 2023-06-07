@@ -70,6 +70,14 @@ public final class ItemData extends BuiltinData {
         return this;
     }
 
+    /**
+     * Ensure the internal list has empty space for the specified amount.
+     */
+    public ItemData ensureSpace(int lenght) {
+        items.ensureCapacity(items.size() + lenght);
+        return this;
+    }
+
     // -----------------------------------------------------------------------------------------------------------------------------------------------
 
     private final IPluginConfig config;
@@ -117,11 +125,6 @@ public final class ItemData extends BuiltinData {
                 if (syncNbt) buf.writeNbt(stack.getTag());
             }
         }
-    }
-
-    @ApiStatus.Internal
-    private void ensureSpace(int toAdd) {
-        items.ensureCapacity(items.size() + toAdd);
     }
 
     @ApiStatus.Internal

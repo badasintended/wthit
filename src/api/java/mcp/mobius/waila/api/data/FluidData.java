@@ -25,6 +25,16 @@ public final class FluidData extends BuiltinData {
 
     /**
      * Describes how the specific fluid will be shown in the client.
+     * <p>
+     * Most platforms likely has API to do this already, so user might not need
+     * to register their own implementation here.
+     * <ul><li>
+     * On Forge, {@code FluidType} will be used for fluid name and
+     * {@code IClientFluidTypeExtensions} for fluid sprite.
+     * </li><li>
+     * On Fabric, {@code FluidVariantAttributeHandler} will be used for fluid name
+     * and {@code FluidVariantRenderHandler} for fluid sprite.
+     * </li></ul>
      *
      * @throws IllegalArgumentException if the fluid is a {@link FlowingFluid} and is not the source fluid instance
      */
@@ -40,6 +50,16 @@ public final class FluidData extends BuiltinData {
 
     /**
      * Describes how the fluids of the specified type will be shown in the client.
+     * <p>
+     * Most platforms likely has API to do this already, so user might not need
+     * to register their own implementation here.
+     * <ul><li>
+     * On Forge, {@code FluidType} will be used for fluid name and
+     * {@code IClientFluidTypeExtensions} for fluid sprite.
+     * </li><li>
+     * On Fabric, {@code FluidVariantAttributeHandler} will be used for fluid name
+     * and {@code FluidVariantRenderHandler} for fluid sprite.
+     * </li></ul>
      */
     @BootstrapUnneeded
     @ApiSide.ClientOnly
