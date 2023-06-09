@@ -55,7 +55,7 @@ jobs:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
           CHANGELOG: |
             ${{ fromJSON(steps.parse.outputs.changelog) }}
-      - uses: deirn/install-b2-cli-action@main
+      - uses: sylwit/install-b2-cli-action@ae80099fa373ec5aef6fa509aa3012fcdd936b6d
         env:
           B2_APPLICATION_KEY_ID: ${{ secrets.B2_APPLICATION_KEY_ID }}
           B2_APPLICATION_KEY: ${{ secrets.B2_APPLICATION_KEY }}

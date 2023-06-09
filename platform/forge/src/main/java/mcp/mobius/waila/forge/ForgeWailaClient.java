@@ -59,7 +59,7 @@ public class ForgeWailaClient extends WailaClient {
 
         @SubscribeEvent
         static void renderGui(RenderGuiEvent.Post event) {
-            TooltipRenderer.render(event.getPoseStack(), event.getPartialTick());
+            TooltipRenderer.render(event.getGuiGraphics(), event.getPartialTick());
         }
 
         @SubscribeEvent

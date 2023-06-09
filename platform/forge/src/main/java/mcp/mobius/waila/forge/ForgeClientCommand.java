@@ -29,7 +29,7 @@ public class ForgeClientCommand extends ClientCommand<CommandSourceStack> {
         return new FeedbackSender() {
             @Override
             public void success(Component message) {
-                source.sendSuccess(message, false);
+                source.sendSuccess(() -> message, false);
             }
 
             @Override

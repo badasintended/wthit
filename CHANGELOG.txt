@@ -1,5 +1,5 @@
-8.x - 1.20-pre4 - dev/snapshot - java 17
-===================================
+8.x - 1.20 - dev/master - java 17
+=================================
 8.0.2    - Updated to Minecraft 1.20-pre4
          - Fixed server having old data if no provider added data
          - Fixed component bounds not showing if debug mode is enabled
@@ -16,7 +16,7 @@
 8.0.0    - Updated to Minecraft 1.20-pre1
          - Fixed pair component not being aligned when in tagged line
 
-7.x - 1.19.4 - dev/master - java 17
+7.x - 1.19.4 - dev/1.19.4 - java 17
 ===================================
 7.3.1    - Fixed server having old data if no provider added data
          - Fixed component bounds not showing if debug mode is enabled

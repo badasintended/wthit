@@ -14,7 +14,7 @@ dependencies {
     modCompileRuntime("com.terraformersmc:modmenu:${rootProp["modMenu"]}")
 
     modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:${rootProp["rei"]}")
-    modCompileOnly("dev.emi:emi:${rootProp["emi"]}")
+    modCompileOnly("dev.emi:emi-fabric:${rootProp["emi"]}")
 
     modRuntimeOnly("lol.bai:badpackets:fabric-${rootProp["badpackets"]}")
     modRuntimeOnly("net.fabricmc.fabric-api:fabric-api-deprecated:${rootProp["fabricApi"]}")

@@ -21,7 +21,7 @@ dependencies {
 //    modRuntimeOnly("me.shedaniel.cloth:cloth-config-fabric:${rootProp["clothConfig"]}")
 
     when (rootProp["recipeViewer"]) {
-        "emi" -> modRuntimeOnly("dev.emi:emi:${rootProp["emi"]}")
+        "emi" -> modRuntimeOnly("dev.emi:emi-fabric:${rootProp["emi"]}")
         "rei" -> modRuntimeOnly("me.shedaniel:RoughlyEnoughItems-fabric:${rootProp["rei"]}")
         "jei" -> rootProp["jei"].split("-").also { (mc, jei) ->
             modRuntimeOnly("mezz.jei:jei-${mc}-fabric:${jei}")
