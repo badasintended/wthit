@@ -6,9 +6,14 @@ To get started making a WTHIT plugin, add the following to your `build.gradle`
 ### Adding Repository
 ```groovy
 repositories {
-  maven { url "https://maven.bai.lol" }
+  maven { url "https://maven2.bai.lol" }
 }
 ```
+??? warning "The old maven is going down"
+    The old maven, `https://maven.bai.lol` will probably go down as the the host, JFrog is 
+    discontinuing its free tier offering. See [#207](https://github.com/badasintended/wthit/issues/207)
+    for more info.
+    
 
 ### Declaring Dependencies
 Mod versions can be found on Modrinth: [WTHIT](https://modrinth.com/mod/wthit/versions), [Bad Packets](https://modrinth.com/mod/badpackets/versions)
