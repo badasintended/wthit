@@ -14,9 +14,7 @@ import com.google.gson.JsonSerializer;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.IWailaConfig;
-import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.gui.hud.theme.ThemeDefinition;
-import mcp.mobius.waila.util.TypeUtil;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -134,18 +132,6 @@ public class WailaConfig implements IWailaConfig {
             this.rateLimit = rateLimit;
         }
 
-        @Override
-        @SuppressWarnings("removal")
-        public int getMaxHealthForRender() {
-            return 40;
-        }
-
-        @Override
-        @SuppressWarnings("removal")
-        public int getMaxHeartsPerLine() {
-            return 10;
-        }
-
     }
 
     public static class Overlay implements IWailaConfig.Overlay {
@@ -245,7 +231,6 @@ public class WailaConfig implements IWailaConfig {
 
         }
 
-        @SuppressWarnings("removal")
         public static class Color implements IWailaConfig.Overlay.Color {
 
             private static final ResourceLocation DEFAULT = Waila.id("vanilla");
@@ -277,11 +262,6 @@ public class WailaConfig implements IWailaConfig {
             }
 
             @Override
-            public int getAlpha() {
-                return backgroundAlpha << 24;
-            }
-
-            @Override
             public ITheme getTheme() {
                 return getThemeDef().getInitializedInstance();
             }
@@ -292,41 +272,6 @@ public class WailaConfig implements IWailaConfig {
 
             public ResourceLocation getActiveTheme() {
                 return activeTheme;
-            }
-
-            private int tryGetGradientThemeProperty(String name) {
-                if (warnDeprecatedColorGetter) {
-                    warnDeprecatedColorGetter = false;
-                    Waila.LOGGER.error("Found usage of deprecated theme color getter!", new Throwable());
-                }
-
-                ThemeDefinition<?> def = getThemeDef();
-
-                if (def.type.getId() == WailaConstants.THEME_TYPE_GRADIENT) {
-                    return TypeUtil.uncheckedCast(def.type.properties.get(name).get(def.getInitializedInstance()));
-                }
-
-                return 0;
-            }
-
-            @Override
-            public int getBackgroundColor() {
-                return tryGetGradientThemeProperty("backgroundColor");
-            }
-
-            @Override
-            public int getGradientStart() {
-                return tryGetGradientThemeProperty("gradientStart");
-            }
-
-            @Override
-            public int getGradientEnd() {
-                return tryGetGradientThemeProperty("gradientEnd");
-            }
-
-            @Override
-            public int getFontColor() {
-                return getTheme().getDefaultTextColor();
             }
 
             public void applyTheme(ResourceLocation id) {

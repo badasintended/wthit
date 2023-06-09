@@ -1,8 +1,8 @@
 package mcp.mobius.waila.gui.screen;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.buildconst.Tl;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
@@ -34,10 +34,10 @@ public class HomeScreen extends Screen {
     }
 
     @Override
-    public void render(@NotNull PoseStack matrices, int x, int y, float partialTicks) {
-        renderBackground(matrices);
-        drawCenteredString(matrices, font, title.getString(), width / 2, height / 2 - 50 - font.lineHeight, 0xFFFFFF);
-        super.render(matrices, x, y, partialTicks);
+    public void render(@NotNull GuiGraphics ctx, int x, int y, float partialTicks) {
+        renderBackground(ctx);
+        ctx.drawCenteredString(font, title.getString(), width / 2, height / 2 - 50 - font.lineHeight, 0xFFFFFF);
+        super.render(ctx, x, y, partialTicks);
     }
 
 }

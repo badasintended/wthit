@@ -8,7 +8,6 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Suppliers;
 import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.text2speech.Narrator;
 import mcp.mobius.waila.access.DataAccessor;
 import mcp.mobius.waila.api.IEventListener;
@@ -24,6 +23,7 @@ import mcp.mobius.waila.event.EventCanceller;
 import mcp.mobius.waila.mixin.BossHealthOverlayAccess;
 import mcp.mobius.waila.registry.Registrar;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.util.Mth;
 import net.minecraft.util.profiling.ProfilerFiller;
@@ -168,7 +168,7 @@ public class TooltipRenderer {
         state = null;
     }
 
-    public static void render(PoseStack matrices, float delta) {
+    public static void render(GuiGraphics ctx, float delta) {
         if (state == null || !state.render()) {
             return;
         }
@@ -180,8 +180,8 @@ public class TooltipRenderer {
 
         float scale = state.getScale();
 
-        matrices.pushPose();
-        matrices.scale(scale, scale, 1.0f);
+        ctx.pose().pushPose();
+        ctx.pose().scale(scale, scale, 1.0f);
 
         enable2DRender();
 
@@ -192,9 +192,9 @@ public class TooltipRenderer {
             EventCanceller canceller = EventCanceller.INSTANCE;
             canceller.setCanceled(false);
             for (IEventListener listener : Registrar.INSTANCE.eventListeners.get(Object.class)) {
-                listener.onBeforeTooltipRender(matrices, rect, DataAccessor.INSTANCE, PluginConfig.CLIENT, canceller);
+                listener.onBeforeTooltipRender(ctx, rect, DataAccessor.INSTANCE, PluginConfig.CLIENT, canceller);
                 if (canceller.isCanceled()) {
-                    matrices.popPose();
+                    ctx.pose().popPose();
                     RenderSystem.enableDepthTest();
                     RenderSystem.applyModelViewMatrix();
                     profiler.pop();
@@ -210,7 +210,7 @@ public class TooltipRenderer {
         Padding padding = Padding.INSTANCE;
 
         if (state.getBackgroundAlpha() > 0) {
-            state.getTheme().renderTooltipBackground(matrices, x, y, width, height, state.getBackgroundAlpha(), delta);
+            state.getTheme().renderTooltipBackground(ctx, x, y, width, height, state.getBackgroundAlpha(), delta);
         }
 
         int textX = x + padding.left;
@@ -221,7 +221,7 @@ public class TooltipRenderer {
         }
 
         for (Line line : TOOLTIP) {
-            line.render(matrices, textX, textY, maxLineWidth, delta);
+            line.render(ctx, textX, textY, maxLineWidth, delta);
             textY += line.getHeight() + 1;
         }
 
@@ -229,7 +229,7 @@ public class TooltipRenderer {
 
         if (state.fireEvent()) {
             for (IEventListener listener : Registrar.INSTANCE.eventListeners.get(Object.class)) {
-                listener.onAfterTooltipRender(matrices, rect, DataAccessor.INSTANCE, PluginConfig.CLIENT);
+                listener.onAfterTooltipRender(ctx, rect, DataAccessor.INSTANCE, PluginConfig.CLIENT);
             }
         }
 
@@ -238,10 +238,10 @@ public class TooltipRenderer {
         if (iconPos == Align.Y.BOTTOM) {
             iconY++;
         }
-        renderComponent(matrices, icon, x + padding.left, iconY, delta);
+        renderComponent(ctx, icon, x + padding.left, iconY, delta);
 
         RenderSystem.enableDepthTest();
-        matrices.popPose();
+        ctx.pose().popPose();
         profiler.pop();
     }
 

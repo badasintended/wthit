@@ -1,7 +1,7 @@
 package mcp.mobius.waila.gui.widget;
 
 import com.google.common.collect.ImmutableList;
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.resources.language.I18n;
@@ -35,13 +35,13 @@ public class ButtonEntry extends ConfigListWidget.Entry {
     }
 
     @Override
-    public void render(@NotNull PoseStack matrices, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
-        super.render(matrices, index, rowTop, rowLeft, width, height, mouseX, mouseY, hovered, deltaTime);
+    public void render(@NotNull GuiGraphics ctx, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
+        super.render(ctx, index, rowTop, rowLeft, width, height, mouseX, mouseY, hovered, deltaTime);
 
-        client.font.drawShadow(matrices, title, rowLeft, rowTop + (height - client.font.lineHeight) / 2f, 16777215);
+        ctx.drawString(client.font, title, rowLeft, rowTop + (height - client.font.lineHeight) / 2, 16777215);
         this.button.setX(rowLeft + width - button.getWidth());
         this.button.setY(rowTop + (height - button.getHeight()) / 2);
-        this.button.render(matrices, mouseX, mouseY, deltaTime);
+        this.button.render(ctx, mouseX, mouseY, deltaTime);
     }
 
     @Override

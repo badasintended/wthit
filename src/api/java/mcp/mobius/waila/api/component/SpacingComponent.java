@@ -1,8 +1,8 @@
 package mcp.mobius.waila.api.component;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.__internal__.ApiSide;
+import net.minecraft.client.gui.GuiGraphics;
 
 /**
  * A tooltip component that "renders" an empty space.
@@ -28,7 +28,7 @@ public class SpacingComponent implements ITooltipComponent {
     }
 
     @Override
-    public void render(PoseStack matrices, int x, int y, float delta) {
+    public void render(GuiGraphics ctx, int x, int y, float delta) {
     }
 
 }

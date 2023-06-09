@@ -1,11 +1,8 @@
 package mcp.mobius.waila.api.component;
 
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.__internal__.ApiSide;
-import net.minecraft.client.gui.GuiComponent;
-import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 
 /**
@@ -80,10 +77,8 @@ public class TextureComponent implements ITooltipComponent {
     }
 
     @Override
-    public void render(PoseStack matrices, int x, int y, float delta) {
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
-        RenderSystem.setShaderTexture(0, textureId);
-        GuiComponent.blit(matrices, x, y, width, height, u, v, regionWidth, regionHeight, textureWidth, textureHeight);
+    public void render(GuiGraphics ctx, int x, int y, float delta) {
+        ctx.blit(textureId, x, y, width, height, u, v, regionWidth, regionHeight, textureWidth, textureHeight);
     }
 
 }

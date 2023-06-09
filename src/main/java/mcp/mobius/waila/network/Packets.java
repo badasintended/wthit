@@ -125,7 +125,7 @@ public class Packets {
 
             server.execute(() -> {
                 Registrar registrar = Registrar.INSTANCE;
-                Level world = player.level;
+                Level world = player.level();
                 Entity entity = world.getEntity(entityId);
 
                 if (entity == null) {
@@ -155,7 +155,7 @@ public class Packets {
 
             server.execute(() -> {
                 Registrar registrar = Registrar.INSTANCE;
-                Level world = player.level;
+                Level world = player.level();
                 BlockPos pos = hitResult.getBlockPos();
 
                 //noinspection deprecation

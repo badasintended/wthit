@@ -3,17 +3,15 @@ package mcp.mobius.waila.api.__internal__;
 import java.util.Collection;
 
 import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.api.IBlacklistConfig;
 import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.api.IModInfo;
-import mcp.mobius.waila.api.IPickerAccessor;
-import mcp.mobius.waila.api.IPickerResults;
 import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.IThemeType;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.IWailaConfig;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.ApiStatus;
@@ -40,9 +38,7 @@ public interface IApiService {
 
     IWailaConfig getConfig();
 
-    void renderItem(PoseStack matrices, int x, int y, ItemStack stack);
-
-    void renderComponent(PoseStack matrices, ITooltipComponent component, int x, int y, float delta);
+    void renderComponent(GuiGraphics ctx, ITooltipComponent component, int x, int y, float delta);
 
     int getPairComponentColonOffset();
 
@@ -56,10 +52,6 @@ public interface IApiService {
 
     <T extends ITheme> IThemeType.Builder<T> createThemeTypeBuilder(Class<T> clazz);
 
-    @Deprecated
-    IPickerAccessor getPickerAccessor();
-
-    @Deprecated
-    IPickerResults getPickerResults();
+    ResourceLocation getGuiIconsTexture();
 
 }

@@ -1,7 +1,7 @@
 package mcp.mobius.waila.api;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.api.__internal__.ApiSide;
+import net.minecraft.client.gui.GuiGraphics;
 import org.jetbrains.annotations.ApiStatus;
 
 /**
@@ -15,6 +15,6 @@ public interface ITooltipComponent {
 
     int getHeight();
 
-    void render(PoseStack matrices, int x, int y, float delta);
+    void render(GuiGraphics ctx, int x, int y, float delta);
 
 }

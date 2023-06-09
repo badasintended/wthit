@@ -10,13 +10,13 @@ import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerAccessor;
 import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.ITooltipLine;
+import mcp.mobius.waila.api.WailaHelper;
 import mcp.mobius.waila.api.component.ArmorComponent;
 import mcp.mobius.waila.api.component.HealthComponent;
 import mcp.mobius.waila.api.component.SpacingComponent;
 import mcp.mobius.waila.api.component.TextureComponent;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -43,12 +43,12 @@ public enum EntityAttributesProvider implements IEntityComponentProvider, IDataP
         if (showAbsorption && data.contains("abs")) {
             component.append(Component.literal("+" + DECIMAL.format(data.getFloat("abs"))).withStyle(ChatFormatting.GOLD));
         }
-        line.with(new TextureComponent(GuiComponent.GUI_ICONS_LOCATION, 8, 8, 52, 0, 9, 9, 256, 256))
+        line.with(new TextureComponent(WailaHelper.GUI_ICONS_TEXTURE, 8, 8, 52, 0, 9, 9, 256, 256))
             .with(component.append("/" + DECIMAL.format(entity.getMaxHealth())).withStyle(ChatFormatting.RED));
     }
 
     private void addArmor(ITooltipLine line, LivingEntity entity) {
-        line.with(new TextureComponent(GuiComponent.GUI_ICONS_LOCATION, 8, 8, 34, 9, 9, 9, 256, 256))
+        line.with(new TextureComponent(WailaHelper.GUI_ICONS_TEXTURE, 8, 8, 34, 9, 9, 9, 256, 256))
             .with(Component.literal(String.valueOf(entity.getArmorValue())));
     }
 

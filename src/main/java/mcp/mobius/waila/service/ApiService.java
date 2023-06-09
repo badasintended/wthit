@@ -3,13 +3,10 @@ package mcp.mobius.waila.service;
 import java.util.Collection;
 
 import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IBlacklistConfig;
 import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.api.IModInfo;
-import mcp.mobius.waila.api.IPickerAccessor;
-import mcp.mobius.waila.api.IPickerResults;
 import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.IThemeType;
@@ -19,11 +16,11 @@ import mcp.mobius.waila.api.__internal__.IApiService;
 import mcp.mobius.waila.config.JsonConfig;
 import mcp.mobius.waila.gui.hud.TooltipRenderer;
 import mcp.mobius.waila.gui.hud.theme.ThemeType;
-import mcp.mobius.waila.pick.PickerAccessor;
-import mcp.mobius.waila.pick.PickerResults;
+import mcp.mobius.waila.mixin.GuiAccess;
 import mcp.mobius.waila.plugin.PluginInfo;
 import mcp.mobius.waila.util.DisplayUtil;
 import mcp.mobius.waila.util.ModInfo;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -103,13 +100,8 @@ public class ApiService implements IApiService {
     }
 
     @Override
-    public void renderItem(PoseStack matrices, int x, int y, ItemStack stack) {
-        DisplayUtil.renderStack(matrices, x, y, stack);
-    }
-
-    @Override
-    public void renderComponent(PoseStack matrices, ITooltipComponent component, int x, int y, float delta) {
-        DisplayUtil.renderComponent(matrices, component, x, y, delta);
+    public void renderComponent(GuiGraphics ctx, ITooltipComponent component, int x, int y, float delta) {
+        DisplayUtil.renderComponent(ctx, component, x, y, delta);
     }
 
     @Override
@@ -143,13 +135,8 @@ public class ApiService implements IApiService {
     }
 
     @Override
-    public IPickerAccessor getPickerAccessor() {
-        return PickerAccessor.INSTANCE;
-    }
-
-    @Override
-    public IPickerResults getPickerResults() {
-        return PickerResults.INSTANCE;
+    public ResourceLocation getGuiIconsTexture() {
+        return GuiAccess.wthit_guiIconsLocation();
     }
 
 }

@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.base.Preconditions;
-import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.ITooltipLine;
 import mcp.mobius.waila.api.component.GrowingComponent;
 import mcp.mobius.waila.api.component.WrappedComponent;
 import mcp.mobius.waila.util.DisplayUtil;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
@@ -69,7 +69,7 @@ public class Line implements ITooltipLine {
         return height;
     }
 
-    public void render(PoseStack matrices, int x, int y, int maxWidth, float delta) {
+    public void render(GuiGraphics ctx, int x, int y, int maxWidth, float delta) {
         assertDimension();
 
         int cx = x;
@@ -93,7 +93,7 @@ public class Line implements ITooltipLine {
             }
 
             int cy = y + (h < height ? (height - h) / 2 : 0);
-            DisplayUtil.renderComponent(matrices, component, cx, cy, delta);
+            DisplayUtil.renderComponent(ctx, component, cx, cy, delta);
             cx += w + 1;
         }
     }

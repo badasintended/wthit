@@ -37,14 +37,6 @@ public interface IWailaConfig {
 
         int getRateLimit();
 
-        @Deprecated(forRemoval = true)
-        @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
-        int getMaxHealthForRender();
-
-        @Deprecated(forRemoval = true)
-        @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
-        int getMaxHeartsPerLine();
-
         enum DisplayMode {
             HOLD_KEY,
             TOGGLE
@@ -112,26 +104,6 @@ public interface IWailaConfig {
             int getBackgroundAlpha();
 
             ITheme getTheme();
-
-            @Deprecated(forRemoval = true)
-            @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
-            int getAlpha();
-
-            @Deprecated(forRemoval = true)
-            @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
-            int getBackgroundColor();
-
-            @Deprecated(forRemoval = true)
-            @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
-            int getGradientStart();
-
-            @Deprecated(forRemoval = true)
-            @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
-            int getGradientEnd();
-
-            @Deprecated(forRemoval = true)
-            @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
-            int getFontColor();
 
         }
 

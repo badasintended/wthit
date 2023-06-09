@@ -2,12 +2,12 @@ package mcp.mobius.waila.api.component;
 
 import java.util.Objects;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.__internal__.ApiSide;
 import mcp.mobius.waila.api.__internal__.IApiService;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 
 /**
@@ -37,8 +37,8 @@ public class WrappedComponent implements ITooltipComponent {
     }
 
     @Override
-    public void render(PoseStack matrices, int x, int y, float delta) {
-        getFont().drawShadow(matrices, component, x, y, IApiService.INSTANCE.getFontColor());
+    public void render(GuiGraphics ctx, int x, int y, float delta) {
+        ctx.drawString(getFont(), component, x, y, IApiService.INSTANCE.getFontColor());
     }
 
     private Font getFont() {

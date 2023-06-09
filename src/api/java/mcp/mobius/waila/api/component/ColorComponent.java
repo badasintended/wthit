@@ -1,9 +1,8 @@
 package mcp.mobius.waila.api.component;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.__internal__.ApiSide;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 
 /**
  * A tooltip component that renders a colored rectangle.
@@ -31,8 +30,8 @@ public class ColorComponent implements ITooltipComponent {
     }
 
     @Override
-    public void render(PoseStack matrices, int x, int y, float delta) {
-        GuiComponent.fill(matrices, x, y, x + width, y + height, argb);
+    public void render(GuiGraphics ctx, int x, int y, float delta) {
+        ctx.fill(x, y, x + width, y + height, argb);
     }
 
 }

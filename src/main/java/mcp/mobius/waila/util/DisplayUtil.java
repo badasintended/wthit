@@ -7,42 +7,24 @@ import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.ITooltipComponent;
-import mcp.mobius.waila.api.WailaHelper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
-import net.minecraft.world.item.ItemStack;
 import org.joml.Matrix4f;
 
-public final class DisplayUtil extends GuiComponent {
+public final class DisplayUtil {
 
     private static final Random RANDOM = new Random();
 
     private static final Minecraft CLIENT = Minecraft.getInstance();
-
-    public static void renderStack(PoseStack matrices, int x, int y, ItemStack stack) {
-        renderStack(matrices, x, y, stack, stack.getCount() > 1 ? WailaHelper.suffix(stack.getCount()) : "");
-    }
-
-    public static void renderStack(PoseStack matrices, int x, int y, ItemStack stack, String countText) {
-        enable3DRender();
-        try {
-            CLIENT.getItemRenderer().renderGuiItem(matrices, stack, x, y);
-            CLIENT.getItemRenderer().renderGuiItemDecorations(matrices, CLIENT.font, stack, x, y, countText);
-        } catch (Exception e) {
-            String stackStr = stack != null ? stack.toString() : "NullStack";
-            ExceptionUtil.dump(e, "renderStack | " + stackStr, null);
-        }
-        enable2DRender();
-    }
 
     public static void enable3DRender() {
         Lighting.setupFor3DItems();
@@ -67,13 +49,13 @@ public final class DisplayUtil extends GuiComponent {
         // @formatter:on
     }
 
-    public static void renderComponent(PoseStack matrices, ITooltipComponent component, int x, int y, float delta) {
-        component.render(matrices, x, y, delta);
+    public static void renderComponent(GuiGraphics ctx, ITooltipComponent component, int x, int y, float delta) {
+        component.render(ctx, x, y, delta);
 
         if (WailaClient.showComponentBounds) {
-            matrices.pushPose();
+            ctx.pose().pushPose();
             float scale = (float) Minecraft.getInstance().getWindow().getGuiScale();
-            matrices.scale(1 / scale, 1 / scale, 1);
+            ctx.pose().scale(1 / scale, 1 / scale, 1);
 
             RenderSystem.setShader(GameRenderer::getPositionColorShader);
 
@@ -85,15 +67,28 @@ public final class DisplayUtil extends GuiComponent {
             int bw = Mth.floor(component.getWidth() * scale + 0.5);
             int bh = Mth.floor(component.getHeight() * scale + 0.5);
             int color = (0xFF << 24) + Mth.hsvToRgb(RANDOM.nextFloat(), RANDOM.nextFloat(), 1f);
-            renderRectBorder(matrices.last().pose(), buf, bx, by, bw, bh, 1, color, color);
+            renderRectBorder(ctx.pose().last().pose(), buf, bx, by, bw, bh, 1, color, color);
             tesselator.end();
 
-            matrices.popPose();
+            ctx.pose().popPose();
         }
     }
 
     public static void fillGradient(Matrix4f matrix, BufferBuilder buf, int x, int y, int w, int h, int start, int end) {
-        fillGradient(matrix, buf, x, y, x + w, y + h, 0, start, end);
+        float sa = FastColor.ARGB32.alpha(start) / 255.0F;
+        float sr = FastColor.ARGB32.red(start) / 255.0F;
+        float sg = FastColor.ARGB32.green(start) / 255.0F;
+        float sb = FastColor.ARGB32.blue(start) / 255.0F;
+
+        float ea = FastColor.ARGB32.alpha(end) / 255.0F;
+        float er = FastColor.ARGB32.red(end) / 255.0F;
+        float eg = FastColor.ARGB32.green(end) / 255.0F;
+        float eb = FastColor.ARGB32.blue(end) / 255.0F;
+
+        buf.vertex(matrix, x, y, 0).color(sr, sg, sb, sa).endVertex();
+        buf.vertex(matrix, x, y + h, 0).color(er, eg, eb, ea).endVertex();
+        buf.vertex(matrix, x + w, y + h, 0).color(er, eg, eb, ea).endVertex();
+        buf.vertex(matrix, x + w, y, 0).color(sr, sg, sb, sa).endVertex();
     }
 
     public static int getAlphaFromPercentage(int percentage) {

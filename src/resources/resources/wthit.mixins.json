@@ -12,6 +12,7 @@
   "client"            : [
     "BossHealthOverlayAccess",
     "EditBoxAccess",
+    "GuiAccess",
     "KeyMappingAccess",
     "MultiPlayerGameModeAccess",
     "PlayerTabOverlayAccess"

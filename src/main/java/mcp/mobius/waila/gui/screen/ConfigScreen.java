@@ -2,9 +2,9 @@ package mcp.mobius.waila.gui.screen;
 
 import java.util.List;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.gui.widget.ConfigListWidget;
 import mcp.mobius.waila.gui.widget.value.ConfigValue;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
@@ -75,8 +75,8 @@ public abstract class ConfigScreen extends Screen {
         if (searchBox.isActive()) setInitialFocus(searchBox);
     }
 
-    protected void renderForeground(PoseStack matrices, int rowLeft, int rowWidth, int mouseX, int mouseY, float partialTicks) {
-        drawString(matrices, font, title, rowLeft, 12, 0xFFFFFF);
+    protected void renderForeground(GuiGraphics ctx, int rowLeft, int rowWidth, int mouseX, int mouseY, float partialTicks) {
+        ctx.drawString(font, title, rowLeft, 12, 0xFFFFFF);
     }
 
     @Override
@@ -85,15 +85,15 @@ public abstract class ConfigScreen extends Screen {
     }
 
     @Override
-    public void render(@NotNull PoseStack matrices, int mouseX, int mouseY, float partialTicks) {
-        renderBackground(matrices);
-        options.render(matrices, mouseX, mouseY, partialTicks);
+    public void render(@NotNull GuiGraphics ctx, int mouseX, int mouseY, float partialTicks) {
+        renderBackground(ctx);
+        options.render(ctx, mouseX, mouseY, partialTicks);
 
         EditBox searchBox = options.getSearchBox();
-        if (searchBox.isActive()) options.getSearchBox().render(matrices, mouseX, mouseY, partialTicks);
+        if (searchBox.isActive()) options.getSearchBox().render(ctx, mouseX, mouseY, partialTicks);
 
-        super.render(matrices, mouseX, mouseY, partialTicks);
-        renderForeground(matrices, options.getRowLeft(), options.getRowWidth(), mouseX, mouseY, partialTicks);
+        super.render(ctx, mouseX, mouseY, partialTicks);
+        renderForeground(ctx, options.getRowLeft(), options.getRowWidth(), mouseX, mouseY, partialTicks);
 
         if (mouseY < 32 || mouseY > height - 32) {
             return;
@@ -101,7 +101,7 @@ public abstract class ConfigScreen extends Screen {
 
         options.getChildAt(mouseX, mouseY).ifPresent(element -> {
             if (element instanceof ConfigValue<?> value) {
-                value.renderTooltip(this, matrices, mouseX, mouseY, partialTicks);
+                value.renderTooltip(ctx, mouseX, mouseY);
             }
         });
     }

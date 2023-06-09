@@ -3,7 +3,7 @@ package mcp.mobius.waila.gui.widget.value;
 import java.util.Locale;
 import java.util.function.Consumer;
 
-import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.resources.language.I18n;
@@ -25,12 +25,12 @@ public class EnumValue<T extends Enum<T>> extends ConfigValue<T> {
     }
 
     @Override
-    protected void drawValue(PoseStack matrices, int width, int height, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks) {
+    protected void drawValue(GuiGraphics ctx, int width, int height, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks) {
         button.active = !isDisabled();
         button.setX(x + width - button.getWidth());
         button.setY(y + (height - button.getHeight()) / 2);
         button.setMessage(Component.translatable(getValueTlKey()));
-        button.render(matrices, mouseX, mouseY, partialTicks);
+        button.render(ctx, mouseX, mouseY, partialTicks);
     }
 
     @Override
