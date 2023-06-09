@@ -20,7 +20,7 @@ allprojects {
     version = rootProject.version
 
     repositories {
-        maven("https://maven.bai.lol")
+        maven("https://maven2.bai.lol")
         maven("https://maven.blamejared.com")
         maven("https://maven.shedaniel.me")
         maven("https://maven.terraformersmc.com/releases")
@@ -72,6 +72,10 @@ subprojects {
                     username = env["GITHUB_ACTOR"]
                     password = env["GITHUB_TOKEN"]
                 }
+            }
+            maven {
+                name = "B2"
+                url = rootProject.projectDir.resolve(".b2").toURI()
             }
         }
     }
