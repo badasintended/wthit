@@ -55,6 +55,13 @@ jobs:
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
           CHANGELOG: |
             ${{ fromJSON(steps.parse.outputs.changelog) }}
+      - uses: deirn/install-b2-cli-action@main
+        env:
+          B2_APPLICATION_KEY_ID: ${{ secrets.B2_APPLICATION_KEY_ID }}
+          B2_APPLICATION_KEY: ${{ secrets.B2_APPLICATION_KEY }}
+      - run: |
+          b2 sync --replaceNewer .b2 b2://maven-bai-lol
+          b2 clear-account
       - uses: softprops/action-gh-release@v1
         with:
           name: "[${{ steps.parse.outputs.minecraft }}] ${{ steps.parse.outputs.version }}"
