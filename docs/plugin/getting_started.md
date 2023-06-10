@@ -6,7 +6,13 @@ To get started making a WTHIT plugin, add the following to your `build.gradle`
 ### Adding Repository
 ```groovy
 repositories {
-  maven { url "https://maven2.bai.lol" }
+  maven {
+    url "https://maven2.bai.lol"
+    content {
+      includeGroup "lol.bai"
+      includeGroup "mcp.mobius.waila"
+    }
+  }
 }
 ```
 ??? warning "The old maven is going down"
