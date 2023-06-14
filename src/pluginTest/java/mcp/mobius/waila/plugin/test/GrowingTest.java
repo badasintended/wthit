@@ -1,6 +1,5 @@
 package mcp.mobius.waila.plugin.test;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.api.IBlockAccessor;
 import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
@@ -8,7 +7,7 @@ import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.ITooltipLine;
 import mcp.mobius.waila.api.WailaConstants;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 
 public enum GrowingTest implements IBlockComponentProvider {
@@ -67,8 +66,8 @@ public enum GrowingTest implements IBlockComponentProvider {
         }
 
         @Override
-        public void render(PoseStack matrices, int x, int y, float delta) {
-            GuiComponent.fill(matrices, x, y, x + width, y + 10, color);
+        public void render(GuiGraphics ctx, int x, int y, float delta) {
+            ctx.fill(x, y, x + width, y + 10, color);
         }
 
     }

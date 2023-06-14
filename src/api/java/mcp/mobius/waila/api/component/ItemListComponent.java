@@ -2,9 +2,9 @@ package mcp.mobius.waila.api.component;
 
 import java.util.List;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.api.ITooltipComponent;
-import mcp.mobius.waila.api.__internal__.IApiService;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 
@@ -35,12 +35,13 @@ public class ItemListComponent implements ITooltipComponent.HorizontalGrowing {
     }
 
     @Override
-    public void render(PoseStack matrices, int x, int y, float delta) {
+    public void render(GuiGraphics ctx, int x, int y, float delta) {
         for (int i = 0; i < items.size(); i++) {
             ItemStack item = items.get(i);
-            int ix = x + (18 * (i % gridWidth));
-            int iy = y + (18 * (i / gridWidth));
-            IApiService.INSTANCE.renderItem(matrices, ix, iy, item);
+            int ix = x + (18 * (i % gridWidth)) + 1;
+            int iy = y + (18 * (i / gridWidth)) + 1;
+            ctx.renderItem(item, ix, iy);
+            ctx.renderItemDecorations(Minecraft.getInstance().font, item, ix, iy);
         }
     }
 

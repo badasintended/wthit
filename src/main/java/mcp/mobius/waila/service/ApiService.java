@@ -102,7 +102,7 @@ public class ApiService implements IApiService {
 
     @Override
     public void renderComponent(GuiGraphics ctx, ITooltipComponent component, int x, int y, float delta) {
-        DisplayUtil.renderComponent(ctx, component, x, y, delta);
+        DisplayUtil.renderComponent(ctx, component, x, y, 0, delta);
     }
 
     @Override

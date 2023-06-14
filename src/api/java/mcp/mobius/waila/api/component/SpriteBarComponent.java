@@ -9,12 +9,12 @@ import com.mojang.blaze3d.vertex.VertexFormat;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.WailaHelper;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
-public class SpriteBarComponent extends GuiComponent implements ITooltipComponent {
+public class SpriteBarComponent implements ITooltipComponent {
 
     public SpriteBarComponent(float ratio, ResourceLocation texture, float u0, float u1, float v0, float v1, int regionWidth, int regionHeight, int tint, Component text) {
         this.ratio = ratio;
@@ -48,7 +48,9 @@ public class SpriteBarComponent extends GuiComponent implements ITooltipComponen
     }
 
     @Override
-    public void render(PoseStack matrices, int x, int y, float delta) {
+    public void render(GuiGraphics ctx, int x, int y, float delta) {
+        PoseStack matrices = ctx.pose();
+
         BarComponent.renderBar(matrices, x, y, BarComponent.WIDTH, BarComponent.V0_BG, BarComponent.U1, BarComponent.V1_BG, 0xFFAAAAAA);
 
         matrices.pushPose();
@@ -60,7 +62,7 @@ public class SpriteBarComponent extends GuiComponent implements ITooltipComponen
         int mx = (int) (x + BarComponent.WIDTH * ratio);
         int my = y + BarComponent.HEIGHT;
 
-        enableScissor(x + 1, y + 1, mx - 1, my - 1);
+        ctx.enableScissor(x + 1, y + 1, mx - 1, my - 1);
 
         int a = WailaHelper.getAlpha(spriteTint);
         int r = WailaHelper.getRed(spriteTint);
@@ -88,7 +90,7 @@ public class SpriteBarComponent extends GuiComponent implements ITooltipComponen
         tessellator.end();
         RenderSystem.disableBlend();
         matrices.popPose();
-        disableScissor();
+        ctx.disableScissor();
 
         BarComponent.renderText(matrices, text, x, y);
     }
