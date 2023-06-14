@@ -59,9 +59,9 @@ public class ItemProvider extends DataProvider<ItemData> {
                 if (nbt == null) nbt = EMPTY;
 
                 if (unique.computeIfAbsent(item, i -> new HashSet<>()).add(nbt)) {
-                    merged.get(new ItemWithNbt(item, nbt)).grow(count);
-                } else {
                     merged.put(new ItemWithNbt(item, nbt), stack.copy());
+                } else {
+                    merged.get(new ItemWithNbt(item, nbt)).grow(count);
                 }
             }
         }
