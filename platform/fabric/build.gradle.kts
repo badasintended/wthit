@@ -23,6 +23,8 @@ dependencies {
 //    modRuntimeOnly("dev.architectury:architectury-fabric:${rootProp["architectury"]}")
 //    modRuntimeOnly("me.shedaniel.cloth:cloth-config-fabric:${rootProp["clothConfig"]}")
 
+    modRuntimeOnly("TechReborn:TechReborn-1.19:5.7.0")
+
     when (rootProp["recipeViewer"]) {
         "emi" -> modRuntimeOnly("dev.emi:emi:${rootProp["emi"]}")
         "rei" -> modRuntimeOnly("me.shedaniel:RoughlyEnoughItems-fabric:${rootProp["rei"]}")
