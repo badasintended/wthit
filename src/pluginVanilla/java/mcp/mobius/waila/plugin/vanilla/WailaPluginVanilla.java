@@ -3,16 +3,26 @@ package mcp.mobius.waila.plugin.vanilla;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.api.IntFormat;
+import mcp.mobius.waila.api.data.BuiltinData;
+import mcp.mobius.waila.api.data.FluidData;
+import mcp.mobius.waila.api.data.ItemData;
+import mcp.mobius.waila.api.data.ProgressData;
 import mcp.mobius.waila.plugin.vanilla.config.NoteDisplayMode;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
+import mcp.mobius.waila.plugin.vanilla.fluid.LavaDescriptor;
+import mcp.mobius.waila.plugin.vanilla.fluid.WaterDescriptor;
+import mcp.mobius.waila.plugin.vanilla.provider.BaseContainerProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.BeehiveProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.BlockAttributesProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.BoatProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.BreakProgressProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.ComposterProvider;
+import mcp.mobius.waila.plugin.vanilla.provider.ContainerEntityProvider;
+import mcp.mobius.waila.plugin.vanilla.provider.EnderChestProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.EntityAttributesProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.FallingBlockProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.FurnaceProvider;
+import mcp.mobius.waila.plugin.vanilla.provider.HopperContainerProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.HorseProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.InfestedBlockProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.InvisibleEntityProvider;
@@ -25,10 +35,12 @@ import mcp.mobius.waila.plugin.vanilla.provider.PetOwnerProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.PlantProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.PlayerHeadProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.PowderSnowProvider;
+import mcp.mobius.waila.plugin.vanilla.provider.RandomizableContainerProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.RedstoneProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.SpawnerProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.TrappedChestProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.VehicleProvider;
+import net.minecraft.world.Container;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -57,15 +69,20 @@ import net.minecraft.world.level.block.StemBlock;
 import net.minecraft.world.level.block.SweetBerryBushBlock;
 import net.minecraft.world.level.block.TrappedChestBlock;
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
+import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.EnderChestBlockEntity;
 import net.minecraft.world.level.block.entity.JukeboxBlockEntity;
+import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.entity.SkullBlockEntity;
 import net.minecraft.world.level.block.entity.SpawnerBlockEntity;
+import net.minecraft.world.level.material.Fluids;
 
 import static mcp.mobius.waila.api.TooltipPosition.BODY;
 import static mcp.mobius.waila.api.TooltipPosition.HEAD;
 import static mcp.mobius.waila.api.TooltipPosition.TAIL;
 
-public class WailaVanilla implements IWailaPlugin {
+public class WailaPluginVanilla implements IWailaPlugin {
 
     @Override
     public void register(IRegistrar registrar) {
@@ -97,10 +114,6 @@ public class WailaVanilla implements IWailaPlugin {
         registrar.addComponent(EntityAttributesProvider.INSTANCE, BODY, Entity.class, 950);
         registrar.addComponent(HorseProvider.INSTANCE, BODY, AbstractHorse.class);
         registrar.addEntityData(EntityAttributesProvider.INSTANCE, Entity.class);
-
-        registrar.addMergedSyncedConfig(Options.FURNACE_CONTENTS, true, false);
-        registrar.addComponent(FurnaceProvider.INSTANCE, BODY, AbstractFurnaceBlockEntity.class);
-        registrar.addBlockData(FurnaceProvider.INSTANCE, AbstractFurnaceBlockEntity.class);
 
         registrar.addMergedSyncedConfig(Options.JUKEBOX_RECORD, true, false);
         registrar.addComponent(JukeboxProvider.INSTANCE, BODY, JukeboxBlockEntity.class);
@@ -170,6 +183,19 @@ public class WailaVanilla implements IWailaPlugin {
         registrar.addIcon(ItemFrameProvider.INSTANCE, ItemFrame.class);
         registrar.addComponent(ItemFrameProvider.INSTANCE, HEAD, ItemFrame.class);
         registrar.addComponent(ItemFrameProvider.INSTANCE, TAIL, ItemFrame.class);
+
+        BuiltinData.bootstrap(ItemData.class, ProgressData.class);
+        FluidData.describe(Fluids.WATER, WaterDescriptor.INSTANCE);
+        FluidData.describe(Fluids.LAVA, LavaDescriptor.INSTANCE);
+
+        registrar.addBlockData(FurnaceProvider.INSTANCE, AbstractFurnaceBlockEntity.class);
+        registrar.addBlockData(EnderChestProvider.INSTANCE, EnderChestBlockEntity.class);
+
+        registrar.addBlockData(RandomizableContainerProvider.INSTANCE, RandomizableContainerBlockEntity.class, 1100);
+        registrar.addBlockData(BaseContainerProvider.INSTANCE, BaseContainerBlockEntity.class, 1200);
+        registrar.addBlockData(HopperContainerProvider.INSTANCE, BlockEntity.class, 1300);
+
+        registrar.addEntityData(ContainerEntityProvider.INSTANCE, Container.class);
 
         registrar.addBlacklist(
             Blocks.BARRIER,

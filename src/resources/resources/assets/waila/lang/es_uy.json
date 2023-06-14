@@ -47,6 +47,9 @@
 
 
 
+
+
+
   "gui.waila.configuration"                                     : "%s — Configuración",
   "gui.waila.waila_settings"                                    : "Opciones de %s",
   "gui.waila.plugin_settings"                                   : "Opciones del plugin",
@@ -74,6 +77,7 @@
 
   "config.waila.true"                                           : "SÍ",
   "config.waila.false"                                          : "NO",
+
 
 
 
@@ -172,7 +176,6 @@
   "key.waila.show_recipe_output"                                : "Ver receta",
 
   "config.waila.plugin_minecraft"                               : "Minecraft",
-  "config.waila.plugin_minecraft.furnace_contents"              : "Ver contenido de hornos",
   "config.waila.plugin_minecraft.item_entity"                   : "Ver entidad de item",
 
 
@@ -238,6 +241,21 @@
   "config.waila.plugin_waila.show_fluids"                       : "Ver fluídos",
   "config.waila.plugin_waila.show_fluids_desc"                  : "Trata de mostrar el nombre de fluídos",
   "config.waila.plugin_waila.show_entities"                     : "Ver entidades"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

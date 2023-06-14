@@ -1,5 +1,6 @@
 package mcp.mobius.waila.config;
 
+import java.nio.file.Path;
 import java.util.Objects;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -17,6 +18,7 @@ public class ConfigEntry<T> {
     public static final Type<Double> DOUBLE = new Type<>((e, d) -> e.getAsDouble(), JsonPrimitive::new);
     public static final Type<String> STRING = new Type<>((e, d) -> e.getAsString(), JsonPrimitive::new);
     public static final Type<Enum<? extends Enum>> ENUM = new Type<>((e, d) -> Enum.valueOf(d.getDeclaringClass(), e.getAsString()), e -> new JsonPrimitive(e.name()));
+    public static final Type<Path> PATH = new Type<>((e, d) -> null, e -> null);
 
     private final ResourceLocation id;
     private final T defaultValue;

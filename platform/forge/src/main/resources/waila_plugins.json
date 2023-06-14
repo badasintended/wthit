@@ -1,0 +1,25 @@
+{
+  "waila:core"   : {
+    "initializer": "mcp.mobius.waila.plugin.core.WailaPluginCore",
+    "side"       : "*",
+    "required"   : []
+  },
+
+  "waila:vanilla": {
+    "initializer": "mcp.mobius.waila.plugin.vanilla.WailaPluginVanilla",
+    "side"       : "*",
+    "required"   : ["minecraft"]
+  },
+
+  "waila:extra"  : {
+    "initializer": "mcp.mobius.waila.plugin.extra.WailaPluginExtra",
+    "side"       : "*",
+    "required"   : []
+  },
+
+  "waila:forge" : {
+    "initializer": "mcp.mobius.waila.plugin.forge.WailaPluginForge",
+    "side"       : "*",
+    "required"   : ["forge"]
+  }
+}

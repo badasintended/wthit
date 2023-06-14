@@ -1,5 +1,7 @@
 package mcp.mobius.waila.api;
 
+import java.nio.file.Path;
+
 import mcp.mobius.waila.api.__internal__.ApiSide;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -68,6 +70,19 @@ public interface IRegistrar {
      * @param defaultValue the default value
      */
     <T extends Enum<T>> void addConfig(ResourceLocation key, T defaultValue);
+
+    /**
+     * Adds an entry to the config screen to open a file with external editor.
+     * <p>
+     * Does <b>NOT</b> handle file parsing, and will <b>NOT</b> available from {@link IPluginConfig}.
+     * Needs to be handled by the user manually.
+     *
+     * @param key  the namespaced key
+     * @param path the path to the file
+     *
+     * @see IJsonConfig
+     */
+    void addConfig(ResourceLocation key, Path path);
 
     /**
      * Registers a namespaced config key to be accessed within data providers.

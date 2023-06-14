@@ -43,7 +43,6 @@ public class TooltipRenderer {
     private static String lastNarration = "";
     private static ITooltipComponent icon = EmptyComponent.INSTANCE;
     private static int topOffset;
-    private static int maxLineWidth;
 
     public static int colonOffset;
     public static int colonWidth;
@@ -56,7 +55,6 @@ public class TooltipRenderer {
         TOOLTIP.clear();
         icon = EmptyComponent.INSTANCE;
         topOffset = 0;
-        maxLineWidth = 0;
         colonOffset = 0;
         colonWidth = Minecraft.getInstance().font.width(": ");
     }
@@ -106,19 +104,26 @@ public class TooltipRenderer {
 
         float scale = state.getScale();
 
+        int fw = 0;
+        for (Line line : TOOLTIP) {
+            line.calculateFixedWidth();
+            fw = Math.max(fw, line.getFixedWidth());
+        }
+
         int w = 0;
         int h = 0;
         Iterator<Line> iterator = TOOLTIP.iterator();
         while (iterator.hasNext()) {
             Line line = iterator.next();
-            line.calculateDimension();
+            line.calculateDynamicWidth(fw);
+            line.calculateHeight();
             int lineW = line.getWidth();
             int lineH = line.getHeight();
             if (lineH <= 0) {
                 iterator.remove();
                 continue;
             }
-            w = maxLineWidth = Math.max(w, lineW);
+            w = Math.max(w, lineW);
             h += lineH + 1;
         }
 
@@ -221,7 +226,7 @@ public class TooltipRenderer {
         }
 
         for (Line line : TOOLTIP) {
-            line.render(matrices, textX, textY, maxLineWidth, delta);
+            line.render(matrices, textX, textY, delta);
             textY += line.getHeight() + 1;
         }
 
@@ -238,7 +243,7 @@ public class TooltipRenderer {
         if (iconPos == Align.Y.BOTTOM) {
             iconY++;
         }
-        renderComponent(matrices, icon, x + padding.left, iconY, delta);
+        renderComponent(matrices, icon, x + padding.left, iconY, 0, delta);
 
         RenderSystem.enableDepthTest();
         matrices.popPose();

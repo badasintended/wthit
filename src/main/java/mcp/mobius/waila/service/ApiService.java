@@ -1,5 +1,6 @@
 package mcp.mobius.waila.service;
 
+import java.nio.file.Path;
 import java.util.Collection;
 
 import com.mojang.blaze3d.vertex.BufferBuilder;
@@ -109,7 +110,7 @@ public class ApiService implements IApiService {
 
     @Override
     public void renderComponent(PoseStack matrices, ITooltipComponent component, int x, int y, float delta) {
-        DisplayUtil.renderComponent(matrices, component, x, y, delta);
+        DisplayUtil.renderComponent(matrices, component, x, y, 0, delta);
     }
 
     @Override
@@ -140,6 +141,16 @@ public class ApiService implements IApiService {
     @Override
     public <T extends ITheme> IThemeType.Builder<T> createThemeTypeBuilder(Class<T> clazz) {
         return new ThemeType<>(clazz);
+    }
+
+    @Override
+    public String getDefaultEnergyUnit() {
+        return "E";
+    }
+
+    @Override
+    public Path getConfigDir() {
+        return Waila.CONFIG_DIR;
     }
 
     @Override

@@ -47,6 +47,9 @@
   "tooltip.waila.instrument.piglin"                             : "Пиглин",
   "tooltip.waila.instrument.none"                               : "Нет",
 
+
+
+
   "gui.waila.configuration"                                     : "Конфигурация %s",
   "gui.waila.waila_settings"                                    : "Настройки %s",
   "gui.waila.plugin_settings"                                   : "Настроки плагинов",
@@ -76,6 +79,7 @@
   "config.waila.false"                                          : "Нет",
   "config.waila.preview_prompt"                                 : "Для предпросмотра зажмите §5F1§r",
   "config.waila.edit"                                           : "Изменить",
+
   "config.waila.new"                                            : "Создать",
   "config.waila.missing_input"                                  : "Отсуствует вход",
   "config.waila.invalid_input.title"                            : "Неправильный вход",
@@ -172,7 +176,6 @@
   "key.waila.show_recipe_output"                                : "Отображать рецепты",
 
   "config.waila.plugin_minecraft"                               : "Minecraft",
-  "config.waila.plugin_minecraft.furnace_contents"              : "Отображать содержимое печи",
   "config.waila.plugin_minecraft.item_entity"                   : "Отображать сущности предметов",
   "config.waila.plugin_minecraft.breaking_progress"             : "Прогресс ломания",
   "config.waila.plugin_minecraft.breaking_progress.enabled"     : "Показывать прогресс ломания",
