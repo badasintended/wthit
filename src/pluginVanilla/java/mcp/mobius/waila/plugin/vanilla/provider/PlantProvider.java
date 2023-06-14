@@ -50,7 +50,7 @@ public enum PlantProvider implements IBlockComponentProvider {
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
         if (config.getBoolean(Options.CROP_PROGRESS)) {
             if (accessor.getBlock() instanceof CropBlock crop) {
-                addMaturityTooltip(tooltip, accessor.getBlockState().getValue(CropBlock.AGE) / (float) crop.getMaxAge());
+                addMaturityTooltip(tooltip, crop.getAge(accessor.getBlockState()) / (float) crop.getMaxAge());
             } else if (accessor.getBlock() == Blocks.MELON_STEM || accessor.getBlock() == Blocks.PUMPKIN_STEM) {
                 addMaturityTooltip(tooltip, accessor.getBlockState().getValue(BlockStateProperties.AGE_7) / 7F);
             } else if (accessor.getBlock() == Blocks.COCOA) {
