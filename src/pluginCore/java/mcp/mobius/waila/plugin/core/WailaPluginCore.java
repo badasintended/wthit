@@ -21,7 +21,7 @@ import static mcp.mobius.waila.api.TooltipPosition.BODY;
 import static mcp.mobius.waila.api.TooltipPosition.HEAD;
 import static mcp.mobius.waila.api.TooltipPosition.TAIL;
 
-public class WailaCore implements IWailaPlugin {
+public class WailaPluginCore implements IWailaPlugin {
 
     private static final int PRIORITY = 900;
 

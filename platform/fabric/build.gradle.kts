@@ -1,3 +1,5 @@
+evaluationDependsOn(":textile")
+
 plugins {
     id("fabric-loom") version "1.0.+"
 }
@@ -21,6 +23,8 @@ dependencies {
 //    modRuntimeOnly("dev.architectury:architectury-fabric:${rootProp["architectury"]}")
 //    modRuntimeOnly("me.shedaniel.cloth:cloth-config-fabric:${rootProp["clothConfig"]}")
 
+    modRuntimeOnly("TechReborn:TechReborn-1.19:5.7.0")
+
     when (rootProp["recipeViewer"]) {
         "emi" -> modRuntimeOnly("dev.emi:emi:${rootProp["emi"]}")
         "rei" -> modRuntimeOnly("me.shedaniel:RoughlyEnoughItems-fabric:${rootProp["rei"]}")
@@ -33,13 +37,21 @@ dependencies {
 setupStub()
 
 sourceSets {
+    val textileSourceSets = project(":textile").sourceSets
     val main by getting
-    val integration by creating {
-        compileClasspath += main.compileClasspath
-    }
+    val plugin by getting
+
     main {
-        compileClasspath += integration.output
-        runtimeClasspath += integration.output
+        compileClasspath += textileSourceSets["main"].output
+        runtimeClasspath += textileSourceSets["main"].output
+    }
+
+    plugin.apply {
+        compileClasspath += textileSourceSets["plugin"].output
+    }
+
+    listOf(main, plugin).applyEach {
+        runtimeClasspath += textileSourceSets["plugin"].output
     }
 }
 
@@ -60,11 +72,15 @@ loom {
 }
 
 tasks.jar {
-    from(sourceSets["integration"].output)
+    val textileSourceSets = project(":textile").sourceSets
+    from(textileSourceSets["main"].output)
+    from(textileSourceSets["plugin"].output)
 }
 
 tasks.sourcesJar {
-    from(sourceSets["integration"].allSource)
+    val textileSourceSets = project(":textile").sourceSets
+    from(textileSourceSets["main"].allSource)
+    from(textileSourceSets["plugin"].allSource)
 }
 
 tasks.processResources {

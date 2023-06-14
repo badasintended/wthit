@@ -1,5 +1,6 @@
 package mcp.mobius.waila.gui.screen;
 
+import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -22,6 +23,7 @@ import mcp.mobius.waila.gui.widget.value.IntInputValue;
 import mcp.mobius.waila.network.Packets;
 import mcp.mobius.waila.registry.Registrar;
 import net.minecraft.ChatFormatting;
+import net.minecraft.Util;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
@@ -53,40 +55,57 @@ public class PluginConfigScreen extends ConfigScreen {
     @SuppressWarnings("ConstantConditions")
     public ConfigListWidget getOptions() {
         ConfigListWidget options = new ConfigListWidget(this, minecraft, width, height, 32, height - 32, 26, PluginConfig::save);
+
         for (String namespace : PluginConfig.getNamespaces()) {
-            String translationKey = Tl.Config.PLUGIN_ + namespace;
+            String namespaceTlKey = Tl.Config.PLUGIN_ + namespace;
             Set<ResourceLocation> keys = PluginConfig.getAllKeys(namespace);
-            options.with(new ButtonEntry(translationKey, 100, 20, w -> minecraft.setScreen(new ConfigScreen(PluginConfigScreen.this,
+
+            options.with(new ButtonEntry(namespaceTlKey, 100, 20, w -> minecraft.setScreen(new ConfigScreen(PluginConfigScreen.this,
                 Component.translatable(Tl.Gui.PLUGIN_SETTINGS).append(" > ").withStyle(ChatFormatting.DARK_GRAY)
-                    .append(Component.translatable(translationKey).withStyle(ChatFormatting.WHITE))) {
+                    .append(Component.translatable(namespaceTlKey).withStyle(ChatFormatting.WHITE))) {
                 @Override
                 public ConfigListWidget getOptions() {
                     ConfigListWidget options = new ConfigListWidget(this, minecraft, width, height, 32, height - 32, 26);
                     Object2IntMap<String> categories = new Object2IntLinkedOpenHashMap<>();
                     categories.put(NO_CATEGORY, 0);
+
                     for (ResourceLocation key : keys) {
                         ConfigEntry<Object> entry = PluginConfig.getEntry(key);
                         String path = key.getPath();
                         String category = NO_CATEGORY;
+
                         if (path.contains(".")) {
                             String c = path.split("[.]", 2)[0];
-                            String translation = translationKey + "." + c;
-                            if (I18n.exists(translation)) {
+                            String categoryTlKey = namespaceTlKey + "." + c;
+
+                            if (I18n.exists(categoryTlKey)) {
                                 category = c;
+
                                 if (!categories.containsKey(category)) {
-                                    options.with(new CategoryEntry(translation));
+                                    options.with(new CategoryEntry(categoryTlKey));
                                     categories.put(category, options.children().size());
                                 }
                             }
                         }
+
                         int index = categories.getInt(category);
+                        String entryTlKey = namespaceTlKey + "." + path;
+
                         for (Object2IntMap.Entry<String> e : categories.object2IntEntrySet()) {
                             if (e.getIntValue() >= index) {
                                 e.setValue(e.getIntValue() + 1);
                             }
                         }
-                        ConfigValue<Object> value = ENTRY_TO_VALUE.get(entry.getType()).create(key, translationKey + "." + path, entry.getLocalValue(), entry.getDefaultValue(), entry::setLocalValue);
+
+                        if (entry.getType().equals(ConfigEntry.PATH)) {
+                            options.with(index, new ButtonEntry(entryTlKey, Tl.Config.OPEN_FILE, 100, 20, b ->
+                                Util.getPlatform().openFile(((Path) entry.getDefaultValue()).toFile())));
+                            continue;
+                        }
+
+                        ConfigValue<Object> value = ENTRY_TO_VALUE.get(entry.getType()).create(key, entryTlKey, entry.getLocalValue(), entry.getDefaultValue(), entry::setLocalValue);
                         value.setId(key.toString());
+
                         if (entry.blocksClientEdit() && minecraft.getCurrentServer() != null) {
                             if (entry.getServerValue() == null) {
                                 value.disable(PacketSender.c2s().canSend(Packets.VERSION)
@@ -100,8 +119,10 @@ public class PluginConfigScreen extends ConfigScreen {
                                 value.setValue(entry.getServerValue());
                             }
                         }
+
                         options.with(index, value);
                     }
+
                     return options;
                 }
             })));

@@ -47,6 +47,9 @@
   "tooltip.waila.instrument.piglin"                             : "猪灵",
   "tooltip.waila.instrument.none"                               : "无",
 
+
+
+
   "gui.waila.configuration"                                     : "%s配置",
   "gui.waila.waila_settings"                                    : "%s设置",
   "gui.waila.plugin_settings"                                   : "插件设置",
@@ -76,6 +79,7 @@
   "config.waila.false"                                          : "否",
   "config.waila.preview_prompt"                                 : "按住§5F1§r预览工具提示",
   "config.waila.edit"                                           : "编辑",
+
   "config.waila.new"                                            : "新建",
   "config.waila.missing_input"                                  : "没有输入",
 
@@ -172,7 +176,6 @@
   "key.waila.show_recipe_output"                                : "显示配方",
 
   "config.waila.plugin_minecraft"                               : "Minecraft",
-  "config.waila.plugin_minecraft.furnace_contents"              : "显示熔炉内容",
   "config.waila.plugin_minecraft.item_entity"                   : "显示物品实体",
   "config.waila.plugin_minecraft.breaking_progress"             : "破坏进度",
   "config.waila.plugin_minecraft.breaking_progress.enabled"     : "显示破坏进度",
@@ -243,6 +246,21 @@
   "config.waila.plugin_waila.icon_position_top"                 : "顶部",
   "config.waila.plugin_waila.icon_position_middle"              : "中间",
   "config.waila.plugin_waila.icon_position_bottom"              : "底部",
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

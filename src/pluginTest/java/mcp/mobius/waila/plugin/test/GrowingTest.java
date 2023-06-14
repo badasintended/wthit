@@ -1,13 +1,14 @@
 package mcp.mobius.waila.plugin.test;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.api.IBlockAccessor;
 import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITooltip;
+import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.ITooltipLine;
 import mcp.mobius.waila.api.WailaConstants;
-import mcp.mobius.waila.api.component.ColorComponent;
-import mcp.mobius.waila.api.component.GrowingComponent;
+import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.resources.ResourceLocation;
 
 public enum GrowingTest implements IBlockComponentProvider {
@@ -22,10 +23,54 @@ public enum GrowingTest implements IBlockComponentProvider {
             ITooltipLine line = tooltip.getLine(WailaConstants.OBJECT_NAME_TAG);
 
             if (line != null) {
-                line.with(GrowingComponent.INSTANCE)
-                    .with(new ColorComponent(10, 10, 0xFFFF00FF));
+                line.with(new Component(0, 0xFF0000FF, 1))
+                    .with(new Component(0, 0xFF00FF00, 2))
+                    .with(new Component(0, 0xFF0000FF, 1))
+                    .with(new Component(0, 0xFF0000FF, 1))
+                    .with(new Component(10, 0xFFFF0000, 1));
             }
         }
+    }
+
+    private static class Component implements ITooltipComponent.HorizontalGrowing {
+
+        private final int minimalWidth;
+        private final int color;
+        private final int weight;
+
+        int width = 0;
+
+        private Component(int minimalWidth, int color, int weight) {
+            this.minimalWidth = minimalWidth;
+            this.color = color;
+            this.weight = weight;
+        }
+
+        @Override
+        public int getMinimalWidth() {
+            return minimalWidth;
+        }
+
+        @Override
+        public void setGrownWidth(int grownWidth) {
+            this.width = grownWidth;
+        }
+
+        @Override
+        public int getHeight() {
+            return 10;
+        }
+
+        @Override
+        public int getWeight() {
+            return weight;
+        }
+
+        @Override
+        public void render(PoseStack matrices, int x, int y, float delta) {
+            GuiComponent.fill(matrices, x, y, x + width, y + 10, color);
+        }
+
     }
 
 }

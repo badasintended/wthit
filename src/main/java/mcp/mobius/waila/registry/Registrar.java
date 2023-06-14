@@ -1,5 +1,6 @@
 package mcp.mobius.waila.registry;
 
+import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.HashMap;
@@ -107,6 +108,11 @@ public enum Registrar implements IRegistrar {
     }
 
     @Override
+    public void addConfig(ResourceLocation key, Path path) {
+        addConfig(key, path, path, false, false, ConfigEntry.PATH);
+    }
+
+    @Override
     public void addMergedConfig(ResourceLocation key, boolean defaultValue) {
         addConfig(key, defaultValue, defaultValue, false, true, ConfigEntry.BOOLEAN);
     }
@@ -190,6 +196,7 @@ public enum Registrar implements IRegistrar {
     @SuppressWarnings("unchecked")
     public <T, BE extends BlockEntity> void addBlockData(IDataProvider<BE> provider, Class<T> clazz, int priority) {
         assertLock();
+        assertPriority(priority);
         blockData.add(clazz, (IDataProvider<BlockEntity>) provider, priority);
     }
 
@@ -230,6 +237,7 @@ public enum Registrar implements IRegistrar {
     @SuppressWarnings("unchecked")
     public <T, E extends Entity> void addEntityData(IDataProvider<E> provider, Class<T> clazz, int priority) {
         assertLock();
+        assertPriority(priority);
         entityData.add(clazz, (IDataProvider<Entity>) provider, priority);
     }
 

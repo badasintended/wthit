@@ -1,5 +1,6 @@
 package mcp.mobius.waila.api.__internal__;
 
+import java.nio.file.Path;
 import java.util.Collection;
 
 import com.mojang.blaze3d.vertex.BufferBuilder;
@@ -51,6 +52,10 @@ public interface IApiService {
     void renderRectBorder(Matrix4f matrix, BufferBuilder buf, int x, int y, int w, int h, int s, int gradStart, int gradEnd);
 
     <T extends ITheme> IThemeType.Builder<T> createThemeTypeBuilder(Class<T> clazz);
+
+    String getDefaultEnergyUnit();
+
+    Path getConfigDir();
 
     ResourceLocation getGuiIconsTexture();
 

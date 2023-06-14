@@ -1,3 +1,5 @@
+evaluationDependsOn(":textile")
+
 plugins {
     id("org.quiltmc.loom") version "1.0.+"
 }
@@ -29,13 +31,25 @@ dependencies {
     }
 }
 
+
 setupStub()
 
 sourceSets {
-    val integration by project(":fabric").sourceSets
+    val textileSourceSets = project(":textile").sourceSets
+    val main by getting
+    val plugin by getting
+
     main {
-        compileClasspath += integration.output
-        runtimeClasspath += integration.output
+        compileClasspath += textileSourceSets["main"].output
+        runtimeClasspath += textileSourceSets["main"].output
+    }
+
+    plugin.apply {
+        compileClasspath += textileSourceSets["plugin"].output
+    }
+
+    listOf(main, plugin).applyEach {
+        runtimeClasspath += textileSourceSets["plugin"].output
     }
 }
 
@@ -54,11 +68,15 @@ loom {
 }
 
 tasks.jar {
-    from(project(":fabric").sourceSets["integration"].output)
+    val textileSourceSets = project(":textile").sourceSets
+    from(textileSourceSets["main"].output)
+    from(textileSourceSets["plugin"].output)
 }
 
-tasks.sourcesJar{
-    from(project(":fabric").sourceSets["integration"].allSource)
+tasks.sourcesJar {
+    val textileSourceSets = project(":textile").sourceSets
+    from(textileSourceSets["main"].allSource)
+    from(textileSourceSets["plugin"].allSource)
 }
 
 tasks.processResources {

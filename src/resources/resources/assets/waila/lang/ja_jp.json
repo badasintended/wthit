@@ -47,6 +47,9 @@
 
 
 
+
+
+
   "gui.waila.configuration"                                     : "%s配置",
   "gui.waila.waila_settings"                                    : "%s設定",
   "gui.waila.plugin_settings"                                   : "プラグイン設定",
@@ -74,6 +77,7 @@
 
   "config.waila.true"                                           : "オン",
   "config.waila.false"                                          : "オフ",
+
 
 
 
@@ -172,7 +176,6 @@
   "key.waila.show_recipe_output"                                : "レシピの表示",
 
   "config.waila.plugin_minecraft"                               : "Minecraft",
-  "config.waila.plugin_minecraft.furnace_contents"              : "かまどの内容を表示",
   "config.waila.plugin_minecraft.item_entity"                   : "アイテムのエンティティの表示",
 
 
@@ -238,6 +241,21 @@
   "config.waila.plugin_waila.show_fluids"                       : "流体の表示",
   "config.waila.plugin_waila.show_fluids_desc"                  : "流体の表示を試してみる",
   "config.waila.plugin_waila.show_entities"                     : "エンティティの表示"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
