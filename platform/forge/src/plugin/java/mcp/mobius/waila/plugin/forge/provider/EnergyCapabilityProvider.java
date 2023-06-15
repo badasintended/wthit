@@ -6,7 +6,7 @@ import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerAccessor;
 import mcp.mobius.waila.api.data.EnergyData;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.energy.CapabilityEnergy;
 
 public enum EnergyCapabilityProvider implements IDataProvider<BlockEntity> {
 
@@ -15,7 +15,7 @@ public enum EnergyCapabilityProvider implements IDataProvider<BlockEntity> {
     @Override
     public void appendData(IDataWriter data, IServerAccessor<BlockEntity> accessor, IPluginConfig config) {
         data.add(EnergyData.class, res ->
-            accessor.getTarget().getCapability(ForgeCapabilities.ENERGY).ifPresent(storage ->
+            accessor.getTarget().getCapability(CapabilityEnergy.ENERGY).ifPresent(storage ->
                 res.add(EnergyData.of(storage.getEnergyStored(), storage.getMaxEnergyStored()))));
     }
 

@@ -12,10 +12,8 @@ import mcp.mobius.waila.api.data.ItemData;
 import net.fabricmc.fabric.api.lookup.v1.block.BlockApiCache;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
-import net.fabricmc.fabric.api.transfer.v1.storage.SlottedStorage;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
-import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleSlotStorage;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -38,19 +36,7 @@ public enum ItemStorageProvider implements IDataProvider<BlockEntity> {
 
             Storage<ItemVariant> storage = cache.find(accessor.getTarget().getBlockState(), null);
 
-            if (storage instanceof SlottedStorage<ItemVariant> slotted) {
-                int size = slotted.getSlotCount();
-                ItemData itemData = ItemData.of(config);
-                itemData.ensureSpace(size);
-                Set<StorageView<ItemVariant>> uniqueViews = new HashSet<>(size);
-
-                for (int i = 0; i < size; i++) {
-                    SingleSlotStorage<ItemVariant> slot = slotted.getSlot(i);
-                    addItem(uniqueViews, itemData, slot);
-                }
-
-                res.add(itemData);
-            } else if (storage != null) {
+            if (storage != null) {
                 Set<StorageView<ItemVariant>> uniqueViews = new HashSet<>();
                 ItemData itemData = ItemData.of(config);
 

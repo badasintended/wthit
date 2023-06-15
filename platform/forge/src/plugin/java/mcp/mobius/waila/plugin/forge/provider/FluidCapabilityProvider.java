@@ -6,8 +6,8 @@ import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerAccessor;
 import mcp.mobius.waila.api.data.FluidData;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 
 public enum FluidCapabilityProvider implements IDataProvider<BlockEntity> {
 
@@ -16,7 +16,7 @@ public enum FluidCapabilityProvider implements IDataProvider<BlockEntity> {
     @Override
     public void appendData(IDataWriter data, IServerAccessor<BlockEntity> accessor, IPluginConfig config) {
         data.add(FluidData.class, res ->
-            accessor.getTarget().getCapability(ForgeCapabilities.FLUID_HANDLER).ifPresent(handler -> {
+            accessor.getTarget().getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(handler -> {
                 int size = handler.getTanks();
                 FluidData fluidData = FluidData.of(size);
 

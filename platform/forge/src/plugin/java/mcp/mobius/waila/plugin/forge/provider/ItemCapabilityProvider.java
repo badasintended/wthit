@@ -6,7 +6,7 @@ import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerAccessor;
 import mcp.mobius.waila.api.data.ItemData;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.items.CapabilityItemHandler;
 
 public enum ItemCapabilityProvider implements IDataProvider<BlockEntity> {
 
@@ -15,7 +15,7 @@ public enum ItemCapabilityProvider implements IDataProvider<BlockEntity> {
     @Override
     public void appendData(IDataWriter data, IServerAccessor<BlockEntity> accessor, IPluginConfig config) {
         data.add(ItemData.class, res ->
-            accessor.getTarget().getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler ->
+            accessor.getTarget().getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler ->
                 res.add(ItemData.of(config).getter(handler::getStackInSlot, handler.getSlots()))));
     }
 
