@@ -16,13 +16,16 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
 public class ExtraBlacklistConfig {
 
+    public final transient LinkedHashSet<Block> blocks = new LinkedHashSet<>();
     public final transient LinkedHashSet<BlockEntityType<?>> blockEntityTypes = new LinkedHashSet<>();
     public final transient LinkedHashSet<EntityType<?>> entityTypes = new LinkedHashSet<>();
 
+    private final LinkedHashSet<ResourceLocation> blockIds = new LinkedHashSet<>();
     private final LinkedHashSet<ResourceLocation> blockEntityTypeIds = new LinkedHashSet<>();
     private final LinkedHashSet<ResourceLocation> entityTypeIds = new LinkedHashSet<>();
 
@@ -70,6 +73,7 @@ public class ExtraBlacklistConfig {
             comment.add("Note that block_entity_type is not plural like blocks and entity_types, this is not an error.");
             object.add("_comment", comment);
 
+            serialize(object, "blocks", BuiltInRegistries.BLOCK, src.blockIds, src.blocks);
             serialize(object, "blockEntityTypes", BuiltInRegistries.BLOCK_ENTITY_TYPE, src.blockEntityTypeIds, src.blockEntityTypes);
             serialize(object, "entityTypes", BuiltInRegistries.ENTITY_TYPE, src.entityTypeIds, src.entityTypes);
 
@@ -81,6 +85,7 @@ public class ExtraBlacklistConfig {
             JsonObject object = json.getAsJsonObject();
             ExtraBlacklistConfig res = new ExtraBlacklistConfig();
 
+            deserialize(object, "blocks", BuiltInRegistries.BLOCK, res.blockIds, res.blocks);
             deserialize(object, "blockEntityTypes", BuiltInRegistries.BLOCK_ENTITY_TYPE, res.blockEntityTypeIds, res.blockEntityTypes);
             deserialize(object, "entityTypes", BuiltInRegistries.ENTITY_TYPE, res.entityTypeIds, res.entityTypes);
 
