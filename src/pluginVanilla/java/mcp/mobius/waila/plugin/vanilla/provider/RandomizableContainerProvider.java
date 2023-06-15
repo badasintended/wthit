@@ -15,7 +15,7 @@ public enum RandomizableContainerProvider implements IDataProvider<RandomizableC
     @Override
     public void appendData(IDataWriter data, IServerAccessor<RandomizableContainerBlockEntity> accessor, IPluginConfig config) {
         if (((RandomizableContainerBlockEntityAccess) accessor.getTarget()).wthit_lootTable() != null) {
-            data.add(ItemData.class, IDataWriter.Result::block);
+            data.blockAll(ItemData.class);
         }
     }
 

@@ -34,6 +34,15 @@ public interface IDataWriter {
      */
     <T extends IData> void add(Class<T> type, Consumer<Result<T>> consumer);
 
+    /**
+     * Blocks all lower priority provider unconditionally.
+     *
+     * @param type the type of the data that wanted to be blocked
+     */
+    default void blockAll(Class<? extends IData> type) {
+        add(type, Result::block);
+    }
+
     @ApiSide.ServerOnly
     @ApiStatus.NonExtendable
     interface Result<T extends IData> {
@@ -42,7 +51,7 @@ public interface IDataWriter {
          * Send the data to client.
          * This also blocks addition from lower priority providers.
          *
-         * @throws NullPointerException if data is null
+         * @throws NullPointerException  if data is null
          * @throws IllegalStateException if called multiple times in the same closure
          */
         Result<T> add(T data);

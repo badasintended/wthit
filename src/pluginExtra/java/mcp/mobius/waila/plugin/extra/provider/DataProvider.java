@@ -127,7 +127,7 @@ public abstract class DataProvider<T extends IData> implements IBlockComponentPr
                 || blacklistConfig.get().blockEntityTypes.contains(accessor.getTarget().getType())
                 || accessor.getTarget().getBlockState().is(blockBlacklistTag)
                 || Registry.BLOCK_ENTITY_TYPE.getOrCreateHolderOrThrow(Registry.BLOCK_ENTITY_TYPE.getResourceKey(accessor.getTarget().getType()).orElseThrow()).is(blockEntityBlacklistTag)) {
-                data.add(type, IDataWriter.Result::block);
+                data.blockAll(type);
             }
         }
 
@@ -140,7 +140,7 @@ public abstract class DataProvider<T extends IData> implements IBlockComponentPr
             if (!config.getBoolean(enabledOption)
                 || blacklistConfig.get().entityTypes.contains(accessor.getTarget().getType())
                 || accessor.getTarget().getType().is(entityBlacklistTag)) {
-                data.add(type, IDataWriter.Result::block);
+                data.blockAll(type);
             }
         }
 
