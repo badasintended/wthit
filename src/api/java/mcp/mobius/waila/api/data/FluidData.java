@@ -13,6 +13,8 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
@@ -40,7 +42,7 @@ public final class FluidData extends BuiltinData {
      */
     @BootstrapUnneeded
     @ApiSide.ClientOnly
-    public static <T extends Fluid> void describe(T fluid, Descriptor<T> descriptor) {
+    public static <T extends Fluid> void describeFluid(T fluid, FluidDescriptor<T> descriptor) {
         if (fluid instanceof FlowingFluid flowing) {
             Preconditions.checkArgument(flowing == flowing.getSource(), "Not a source fluid");
         }
@@ -63,8 +65,42 @@ public final class FluidData extends BuiltinData {
      */
     @BootstrapUnneeded
     @ApiSide.ClientOnly
-    public static <T extends Fluid> void describe(Class<T> clazz, Descriptor<T> descriptor) {
+    public static <T extends Fluid> void describeFluid(Class<T> clazz, FluidDescriptor<T> descriptor) {
         IExtraService.INSTANCE.setFluidDescFor(clazz, descriptor);
+    }
+
+    /**
+     * Describes what fluids are contained in the specified cauldron-like block
+     * that store fluid on its block state.
+     * <p>
+     * Some platforms have API to attach this information, so user might not need
+     * to register their own implementation here.
+     * <ul><li>
+     * On Fabric, {@code CauldronFluidContent} is used to get the information.
+     * </li></ul>
+     *
+     * @throws IllegalStateException if {@link FluidData} is not bootstrapped.
+     */
+    public static void describeCauldron(Block block, CauldronDescriptor descriptor) {
+        IExtraService.INSTANCE.assertDataBootstrapped(FluidData.class);
+        IExtraService.INSTANCE.setCauldronDescFor(block, descriptor);
+    }
+
+    /**
+     * Describes what fluids are contained in the specified cauldron-like block
+     * type that store fluid on its block state.
+     * <p>
+     * Some platforms have API to attach this information, so user might not need
+     * to register their own implementation here.
+     * <ul><li>
+     * On Fabric, {@code CauldronFluidContent} is used to get the information.
+     * </li></ul>
+     *
+     * @throws IllegalStateException if {@link FluidData} is not bootstrapped.
+     */
+    public static void describeCauldron(Class<? extends Block> clazz, CauldronDescriptor descriptor) {
+        IExtraService.INSTANCE.assertDataBootstrapped(FluidData.class);
+        IExtraService.INSTANCE.setCauldronDescFor(clazz, descriptor);
     }
 
     /**
@@ -89,8 +125,8 @@ public final class FluidData extends BuiltinData {
      *
      * @param fluid      the fluid instance, will be normalized as the source fluid if it is a {@link FlowingFluid}
      * @param nbt        the fluid's NBT data, will <b>NOT</b> be modified so it safe to not {@linkplain  CompoundTag#copy() copy} it
-     * @param storedMb   the stored amount of the fluid, in milibuckets
-     * @param capacityMb the maximum capacity of this slot, in milibuckets
+     * @param storedMb   the stored amount of the fluid, in <b>milibuckets</b>
+     * @param capacityMb the maximum capacity of this slot, in <b>milibuckets</b>
      */
     public FluidData add(Fluid fluid, @Nullable CompoundTag nbt, double storedMb, double capacityMb) {
         capacityMb = Math.max(capacityMb, 0.0);
@@ -104,38 +140,38 @@ public final class FluidData extends BuiltinData {
 
     @ApiSide.ClientOnly
     @ApiStatus.OverrideOnly
-    public interface Descriptor<T extends Fluid> {
+    public interface FluidDescriptor<T extends Fluid> {
 
-        void describe(DescriptionContext<T> ctx, Description desc);
+        void describeFluid(FluidDescriptionContext<T> ctx, FluidDescription desc);
 
     }
 
     @ApiSide.ClientOnly
     @ApiStatus.NonExtendable
-    public interface Description {
+    public interface FluidDescription {
 
         /**
          * The text that will be used to name the fluid.
          */
-        Description name(Component name);
+        FluidDescription name(Component name);
 
         /**
          * The sprite that will be used to render the fluid.
          */
-        Description sprite(TextureAtlasSprite sprite);
+        FluidDescription sprite(TextureAtlasSprite sprite);
 
         /**
          * The tint that will be applied to the sprite.
          *
          * @param argb the tint, in 0xAARRGGBB
          */
-        Description tint(int argb);
+        FluidDescription tint(int argb);
 
     }
 
     @ApiSide.ClientOnly
     @ApiStatus.NonExtendable
-    public interface DescriptionContext<T extends Fluid> {
+    public interface FluidDescriptionContext<T extends Fluid> {
 
         /**
          * Returns the fluid instance.
@@ -147,6 +183,14 @@ public final class FluidData extends BuiltinData {
          */
         @Nullable
         CompoundTag nbt();
+
+    }
+
+    @ApiStatus.OverrideOnly
+    public interface CauldronDescriptor {
+
+        @Nullable
+        FluidData getCauldronFluidData(BlockState state);
 
     }
 
@@ -200,7 +244,7 @@ public final class FluidData extends BuiltinData {
     }
 
     @ApiStatus.Internal
-    public static class Entry<T extends Fluid> implements DescriptionContext<T> {
+    public static class Entry<T extends Fluid> implements FluidDescriptionContext<T> {
 
         private final T fluid;
         private final @Nullable CompoundTag nbt;

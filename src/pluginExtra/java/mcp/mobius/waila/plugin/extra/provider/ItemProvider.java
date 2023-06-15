@@ -28,7 +28,7 @@ public class ItemProvider extends DataProvider<ItemData> {
     }
 
     @Override
-    protected void register(IRegistrar registrar) {
+    protected void registerAdditions(IRegistrar registrar, int priority) {
         registrar.addSyncedConfig(ItemData.CONFIG_SYNC_NBT, false, false);
     }
 

@@ -18,7 +18,7 @@ public class WailaPluginForge implements IWailaPlugin {
     @Override
     public void register(IRegistrar registrar) {
         BuiltinData.bootstrap(EnergyData.class, FluidData.class, ItemData.class);
-        FluidData.describe(Fluid.class, ForgeFluidDescriptor.INSTANCE);
+        FluidData.describeFluid(Fluid.class, ForgeFluidDescriptor.INSTANCE);
         registrar.addBlockData(EnergyCapabilityProvider.INSTANCE, BlockEntity.class, 2000);
         registrar.addBlockData(ItemCapabilityProvider.INSTANCE, BlockEntity.class, 2000);
         registrar.addBlockData(FluidCapabilityProvider.INSTANCE, BlockEntity.class, 2000);
