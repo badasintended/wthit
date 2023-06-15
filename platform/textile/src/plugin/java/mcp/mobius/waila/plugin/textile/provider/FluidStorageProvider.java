@@ -11,10 +11,8 @@ import mcp.mobius.waila.api.data.FluidData;
 import net.fabricmc.fabric.api.lookup.v1.block.BlockApiCache;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
-import net.fabricmc.fabric.api.transfer.v1.storage.SlottedStorage;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
-import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleSlotStorage;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -37,18 +35,7 @@ public enum FluidStorageProvider implements IDataProvider<BlockEntity> {
 
             Storage<FluidVariant> storage = cache.find(accessor.getTarget().getBlockState(), null);
 
-            if (storage instanceof SlottedStorage<FluidVariant> slotted) {
-                int size = slotted.getSlotCount();
-                FluidData fluidData = FluidData.of(size);
-                Set<StorageView<FluidVariant>> uniqueViews = new HashSet<>(size);
-
-                for (int i = 0; i < size; i++) {
-                    SingleSlotStorage<FluidVariant> slot = slotted.getSlot(i);
-                    addFluid(uniqueViews, fluidData, slot);
-                }
-
-                res.add(fluidData);
-            } else if (storage != null) {
+            if (storage != null) {
                 Set<StorageView<FluidVariant>> uniqueViews = new HashSet<>();
                 FluidData fluidData = FluidData.of();
 

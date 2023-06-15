@@ -19,8 +19,8 @@ dependencies {
     runtimeOnly(fg.deobf("dev.architectury:architectury-forge:${rootProp["architectury"]}"))
     runtimeOnly(fg.deobf("me.shedaniel.cloth:cloth-config-forge:${rootProp["clothConfig"]}"))
 
-    // https://www.curseforge.com/minecraft/mc-mods/travelers-backpack/files/4570986
-    runtimeOnly(fg.deobf("curse.maven:travelers-backpack-321117:4570986"))
+    // https://www.curseforge.com/minecraft/mc-mods/travelers-backpack/files/4498454
+    runtimeOnly(fg.deobf("curse.maven:travelers-backpack-321117:4498454"))
     
     when (rootProp["recipeViewer"]) {
         "rei" -> {

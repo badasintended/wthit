@@ -104,6 +104,8 @@ public abstract class PluginLoader {
             }
         }
 
+        if (extraPlugin != null) register(extraPlugin);
+
         if (!legacyPlugins.isEmpty()) {
             Waila.LOGGER.warn("Found plugins registered via legacy platform-dependant method:");
             Waila.LOGGER.warn(legacyPlugins.stream().collect(Collectors.joining(", ", "[", "]")));
