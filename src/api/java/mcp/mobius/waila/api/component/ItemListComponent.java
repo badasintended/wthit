@@ -40,7 +40,7 @@ public class ItemListComponent implements ITooltipComponent.HorizontalGrowing {
             ItemStack item = items.get(i);
             int ix = x + (18 * (i % gridWidth));
             int iy = y + (18 * (i / gridWidth));
-            IApiService.INSTANCE.renderItem(matrices, ix, iy, item);
+            IApiService.INSTANCE.renderItem(ix, iy, item);
         }
     }
 

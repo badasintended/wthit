@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.function.IntFunction;
 
 import mcp.mobius.waila.api.IPluginConfig;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
@@ -100,7 +100,7 @@ public final class ItemData extends BuiltinData {
         for (int i = 0; i < size; i++) {
             if (buf.readBoolean()) continue;
 
-            Item item = buf.readById(BuiltInRegistries.ITEM);
+            Item item = buf.readById(Registry.ITEM);
             int count = buf.readVarInt();
             ItemStack stack = new ItemStack(item, count);
             if (syncNbt) stack.setTag(buf.readNbt());
@@ -120,7 +120,7 @@ public final class ItemData extends BuiltinData {
                 buf.writeBoolean(true);
             } else {
                 buf.writeBoolean(false);
-                buf.writeId(BuiltInRegistries.ITEM, stack.getItem());
+                buf.writeId(Registry.ITEM, stack.getItem());
                 buf.writeVarInt(stack.getCount());
                 if (syncNbt) buf.writeNbt(stack.getTag());
             }

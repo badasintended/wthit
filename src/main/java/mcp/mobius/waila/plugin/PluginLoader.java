@@ -104,6 +104,8 @@ public abstract class PluginLoader {
             }
         }
 
+        if (extraPlugin != null) register(extraPlugin);
+
         // TODO: print warning on prod on 1.20
         if (Waila.DEV && !legacyPlugins.isEmpty()) {
             Waila.LOGGER.warn("Found plugins registered via legacy platform-dependant method:");

@@ -13,7 +13,6 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import net.minecraft.core.Registry;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -70,8 +69,8 @@ public class ExtraBlacklistConfig {
             comment.add("Note that block_entity_type is not plural like blocks and entity_types, this is not an error.");
             object.add("_comment", comment);
 
-            serialize(object, "blockEntityTypes", BuiltInRegistries.BLOCK_ENTITY_TYPE, src.blockEntityTypeIds, src.blockEntityTypes);
-            serialize(object, "entityTypes", BuiltInRegistries.ENTITY_TYPE, src.entityTypeIds, src.entityTypes);
+            serialize(object, "blockEntityTypes", Registry.BLOCK_ENTITY_TYPE, src.blockEntityTypeIds, src.blockEntityTypes);
+            serialize(object, "entityTypes", Registry.ENTITY_TYPE, src.entityTypeIds, src.entityTypes);
 
             return object;
         }
@@ -81,8 +80,8 @@ public class ExtraBlacklistConfig {
             JsonObject object = json.getAsJsonObject();
             ExtraBlacklistConfig res = new ExtraBlacklistConfig();
 
-            deserialize(object, "blockEntityTypes", BuiltInRegistries.BLOCK_ENTITY_TYPE, res.blockEntityTypeIds, res.blockEntityTypes);
-            deserialize(object, "entityTypes", BuiltInRegistries.ENTITY_TYPE, res.entityTypeIds, res.entityTypes);
+            deserialize(object, "blockEntityTypes", Registry.BLOCK_ENTITY_TYPE, res.blockEntityTypeIds, res.blockEntityTypes);
+            deserialize(object, "entityTypes", Registry.ENTITY_TYPE, res.entityTypeIds, res.entityTypes);
 
             return res;
         }
