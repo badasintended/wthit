@@ -19,6 +19,8 @@ public class ProgressProvider extends DataProvider<ProgressData> {
 
     @Override
     protected void appendBody(ITooltip tooltip, ProgressData progress, IPluginConfig config, ResourceLocation objectId) {
+        if (progress.ratio() == 0f) return;
+
         ITooltipLine line = tooltip.setLine(ProgressData.ID);
 
         for (ItemStack stack : progress.input()) {
