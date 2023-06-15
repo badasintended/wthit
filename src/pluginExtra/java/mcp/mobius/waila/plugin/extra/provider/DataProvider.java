@@ -38,11 +38,12 @@ public abstract class DataProvider<T extends IData> implements IBlockComponentPr
     private final ResourceLocation id;
     private final Class<T> type;
     private final IData.Serializer<T> serializer;
-    private final ResourceLocation enabledOption;
-    private final TagKey<Block> blockBlacklistTag;
-    private final TagKey<BlockEntityType<?>> blockEntityBlacklistTag;
-    private final TagKey<EntityType<?>> entityBlacklistTag;
-    private final IJsonConfig<ExtraBlacklistConfig> blacklistConfig;
+
+    protected final ResourceLocation enabledOption;
+    protected final TagKey<Block> blockBlacklistTag;
+    protected final TagKey<BlockEntityType<?>> blockEntityBlacklistTag;
+    protected final TagKey<EntityType<?>> entityBlacklistTag;
+    protected final IJsonConfig<ExtraBlacklistConfig> blacklistConfig;
 
     protected DataProvider(ResourceLocation id, Class<T> type, IData.Serializer<T> serializer) {
         this.id = id;
@@ -73,7 +74,7 @@ public abstract class DataProvider<T extends IData> implements IBlockComponentPr
         if (!WailaPluginExtra.BOOTSTRAPPED.contains(type)) return;
 
         registrar.addMergedSyncedConfig(enabledOption, true, false);
-        register(registrar);
+        registerAdditions(registrar, priority);
         registrar.addConfig(createConfigKey("blacklist"), blacklistConfig.getPath());
 
         registrar.addDataType(id, type, serializer);
@@ -87,7 +88,7 @@ public abstract class DataProvider<T extends IData> implements IBlockComponentPr
         return new ResourceLocation(WailaConstants.NAMESPACE + "x", id.getPath() + "." + path);
     }
 
-    protected void register(IRegistrar registrar) {
+    protected void registerAdditions(IRegistrar registrar, int priority) {
     }
 
     protected abstract void appendBody(ITooltip tooltip, T t, IPluginConfig config, ResourceLocation objectId);
@@ -102,6 +103,7 @@ public abstract class DataProvider<T extends IData> implements IBlockComponentPr
 
     @Override
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
+        if (blacklistConfig.get().blocks.contains(accessor.getBlock())) return;
         BlockEntityType<?> blockEntityType = Objects.<BlockEntity>requireNonNull(accessor.getBlockEntity()).getType();
         if (blacklistConfig.get().blockEntityTypes.contains(blockEntityType)) return;
 
@@ -121,6 +123,7 @@ public abstract class DataProvider<T extends IData> implements IBlockComponentPr
         @Override
         public void appendData(IDataWriter data, IServerAccessor<BlockEntity> accessor, IPluginConfig config) {
             if (!config.getBoolean(enabledOption)
+                || blacklistConfig.get().blocks.contains(accessor.getTarget().getBlockState().getBlock())
                 || blacklistConfig.get().blockEntityTypes.contains(accessor.getTarget().getType())
                 || accessor.getTarget().getBlockState().is(blockBlacklistTag)
                 || Registry.BLOCK_ENTITY_TYPE.getOrCreateHolderOrThrow(Registry.BLOCK_ENTITY_TYPE.getResourceKey(accessor.getTarget().getType()).orElseThrow()).is(blockEntityBlacklistTag)) {

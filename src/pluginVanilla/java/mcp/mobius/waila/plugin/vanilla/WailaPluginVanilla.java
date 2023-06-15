@@ -182,9 +182,11 @@ public class WailaPluginVanilla implements IWailaPlugin {
         registrar.addComponent(ItemFrameProvider.INSTANCE, HEAD, ItemFrame.class);
         registrar.addComponent(ItemFrameProvider.INSTANCE, TAIL, ItemFrame.class);
 
-        BuiltinData.bootstrap(ItemData.class, ProgressData.class);
-        FluidData.describe(Fluids.WATER, WaterDescriptor.INSTANCE);
-        FluidData.describe(Fluids.LAVA, LavaDescriptor.INSTANCE);
+        BuiltinData.bootstrap(FluidData.class, ItemData.class, ProgressData.class);
+        FluidData.describeFluid(Fluids.WATER, WaterDescriptor.INSTANCE);
+        FluidData.describeFluid(Fluids.LAVA, LavaDescriptor.INSTANCE);
+        FluidData.describeCauldron(Blocks.WATER_CAULDRON, WaterDescriptor.INSTANCE);
+        FluidData.describeCauldron(Blocks.LAVA_CAULDRON, LavaDescriptor.INSTANCE);
 
         registrar.addBlockData(FurnaceProvider.INSTANCE, AbstractFurnaceBlockEntity.class);
         registrar.addBlockData(EnderChestProvider.INSTANCE, EnderChestBlockEntity.class);
