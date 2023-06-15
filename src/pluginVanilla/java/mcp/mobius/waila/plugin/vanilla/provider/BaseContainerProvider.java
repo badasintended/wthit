@@ -14,7 +14,7 @@ public enum BaseContainerProvider implements IDataProvider<BaseContainerBlockEnt
     @Override
     public void appendData(IDataWriter data, IServerAccessor<BaseContainerBlockEntity> accessor, IPluginConfig config) {
         if (!accessor.getTarget().canOpen(accessor.getPlayer())) {
-            data.add(ItemData.class, IDataWriter.Result::block);
+            data.blockAll(ItemData.class);
         }
     }
 
