@@ -34,7 +34,8 @@ public class ItemProvider extends DataProvider<ItemData> {
 
     @Override
     protected void appendBody(ITooltip tooltip, IDataReader reader, IPluginConfig config, ResourceLocation objectId) {
-        if (reader.get(ProgressData.class) == null) {
+        ProgressData progress = reader.get(ProgressData.class);
+        if (progress == null || progress.ratio() == 0f) {
             super.appendBody(tooltip, reader, config, objectId);
         }
     }
