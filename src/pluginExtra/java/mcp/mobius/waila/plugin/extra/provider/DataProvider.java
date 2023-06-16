@@ -39,7 +39,8 @@ public abstract class DataProvider<T extends IData> implements IBlockComponentPr
     private final Class<T> type;
     private final IData.Serializer<T> serializer;
 
-    protected final ResourceLocation enabledOption;
+    protected final ResourceLocation enabledBlockOption;
+    protected final ResourceLocation enabledEntityOption;
     protected final TagKey<Block> blockBlacklistTag;
     protected final TagKey<BlockEntityType<?>> blockEntityBlacklistTag;
     protected final TagKey<EntityType<?>> entityBlacklistTag;
@@ -50,7 +51,8 @@ public abstract class DataProvider<T extends IData> implements IBlockComponentPr
         this.type = type;
         this.serializer = serializer;
 
-        enabledOption = createConfigKey("enabled");
+        enabledBlockOption = createConfigKey("enabled_block");
+        enabledEntityOption = createConfigKey("enabled_entity");
 
         ResourceLocation tagId = new ResourceLocation(WailaConstants.NAMESPACE, "extra/" + id.getPath() + "_blacklist");
         blockBlacklistTag = TagKey.create(Registry.BLOCK_REGISTRY, tagId);
@@ -73,7 +75,8 @@ public abstract class DataProvider<T extends IData> implements IBlockComponentPr
     public void register(IRegistrar registrar, int priority) {
         if (!WailaPluginExtra.BOOTSTRAPPED.contains(type)) return;
 
-        registrar.addMergedSyncedConfig(enabledOption, true, false);
+        registrar.addMergedSyncedConfig(enabledBlockOption, true, false);
+        registrar.addMergedSyncedConfig(enabledEntityOption, true, false);
         registerAdditions(registrar, priority);
         registrar.addConfig(createConfigKey("blacklist"), blacklistConfig.getPath());
 
@@ -96,13 +99,13 @@ public abstract class DataProvider<T extends IData> implements IBlockComponentPr
     protected void appendBody(ITooltip tooltip, IDataReader reader, IPluginConfig config, ResourceLocation objectId) {
         T data = reader.get(type);
         if (data == null) return;
-        if (!config.getBoolean(enabledOption)) return;
 
         appendBody(tooltip, data, config, objectId);
     }
 
     @Override
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
+        if (!config.getBoolean(enabledBlockOption)) return;
         if (blacklistConfig.get().blocks.contains(accessor.getBlock())) return;
         BlockEntityType<?> blockEntityType = Objects.<BlockEntity>requireNonNull(accessor.getBlockEntity()).getType();
         if (blacklistConfig.get().blockEntityTypes.contains(blockEntityType)) return;
@@ -112,6 +115,7 @@ public abstract class DataProvider<T extends IData> implements IBlockComponentPr
 
     @Override
     public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
+        if (!config.getBoolean(enabledEntityOption)) return;
         EntityType<?> entityType = accessor.getEntity().getType();
         if (blacklistConfig.get().entityTypes.contains(entityType)) return;
 
@@ -122,7 +126,7 @@ public abstract class DataProvider<T extends IData> implements IBlockComponentPr
 
         @Override
         public void appendData(IDataWriter data, IServerAccessor<BlockEntity> accessor, IPluginConfig config) {
-            if (!config.getBoolean(enabledOption)
+            if (!config.getBoolean(enabledBlockOption)
                 || blacklistConfig.get().blocks.contains(accessor.getTarget().getBlockState().getBlock())
                 || blacklistConfig.get().blockEntityTypes.contains(accessor.getTarget().getType())
                 || accessor.getTarget().getBlockState().is(blockBlacklistTag)
@@ -137,7 +141,7 @@ public abstract class DataProvider<T extends IData> implements IBlockComponentPr
 
         @Override
         public void appendData(IDataWriter data, IServerAccessor<Entity> accessor, IPluginConfig config) {
-            if (!config.getBoolean(enabledOption)
+            if (!config.getBoolean(enabledEntityOption)
                 || blacklistConfig.get().entityTypes.contains(accessor.getTarget().getType())
                 || accessor.getTarget().getType().is(entityBlacklistTag)) {
                 data.blockAll(type);
