@@ -66,7 +66,7 @@ public class FluidProvider extends DataProvider<FluidData> {
         @Override
         public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
             if (accessor.getData().get(FluidData.class) != null) return;
-            if (!config.getBoolean(enabledOption)) return;
+            if (!config.getBoolean(enabledBlockOption)) return;
             if (blacklistConfig.get().blocks.contains(accessor.getBlock())) return;
             if (accessor.getBlockState().is(blockBlacklistTag)) return;
 
