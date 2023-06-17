@@ -38,7 +38,11 @@ public enum ItemStorageProvider implements IDataProvider<BlockEntity> {
 
             Storage<ItemVariant> storage = cache.find(accessor.getTarget().getBlockState(), null);
 
-            if (storage instanceof SlottedStorage<ItemVariant> slotted) {
+            if (storage instanceof SingleSlotStorage<ItemVariant> single) {
+                ItemData itemData = ItemData.of(config);
+                addItem(itemData, single);
+                res.add(itemData);
+            } else if (storage instanceof SlottedStorage<ItemVariant> slotted) {
                 int size = slotted.getSlotCount();
                 ItemData itemData = ItemData.of(config);
                 itemData.ensureSpace(size);
@@ -64,12 +68,13 @@ public enum ItemStorageProvider implements IDataProvider<BlockEntity> {
     }
 
     private void addItem(Set<StorageView<ItemVariant>> uniqueViews, ItemData itemData, StorageView<ItemVariant> view) {
-        if (view.isResourceBlank()) return;
-
         StorageView<ItemVariant> uniqueView = view.getUnderlyingView();
-        if (uniqueViews.add(uniqueView)) return;
+        if (uniqueViews.add(uniqueView)) addItem(itemData, view);
+    }
 
-        itemData.add(uniqueView.getResource().toStack(Ints.saturatedCast(uniqueView.getAmount())));
+    private void addItem(ItemData itemData, StorageView<ItemVariant> view) {
+        if (view.isResourceBlank()) return;
+        itemData.add(view.getResource().toStack(Ints.saturatedCast(view.getAmount())));
     }
 
 }
