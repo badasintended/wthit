@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.function.IntFunction;
 
 import com.google.common.base.Preconditions;
+import mcp.mobius.waila.api.IData;
 import mcp.mobius.waila.api.IDataWriter;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -16,9 +17,9 @@ import org.jetbrains.annotations.ApiStatus;
 /**
  * Adds a crafting progress information to an object.
  */
-public final class ProgressData extends BuiltinData {
+public final class ProgressData implements IData {
 
-    public static final ResourceLocation ID = rl("progress");
+    public static final ResourceLocation ID = BuiltinDataUtil.rl("progress");
 
     /**
      * Creates a progress data.

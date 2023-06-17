@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.base.Preconditions;
+import mcp.mobius.waila.api.IData;
 import mcp.mobius.waila.api.__internal__.ApiSide;
 import mcp.mobius.waila.api.__internal__.IExtraService;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
@@ -21,9 +22,9 @@ import net.minecraft.world.level.material.Fluids;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
-public final class FluidData extends BuiltinData {
+public final class FluidData implements IData {
 
-    public static final ResourceLocation ID = rl("fluid");
+    public static final ResourceLocation ID = BuiltinDataUtil.rl("fluid");
 
     /**
      * Describes how the specific fluid will be shown in the client.
@@ -40,7 +41,6 @@ public final class FluidData extends BuiltinData {
      *
      * @throws IllegalArgumentException if the fluid is a {@link FlowingFluid} and is not the source fluid instance
      */
-    @BootstrapUnneeded
     @ApiSide.ClientOnly
     public static <T extends Fluid> void describeFluid(T fluid, FluidDescriptor<T> descriptor) {
         if (fluid instanceof FlowingFluid flowing) {
@@ -63,7 +63,6 @@ public final class FluidData extends BuiltinData {
      * and {@code FluidVariantRenderHandler} for fluid sprite.
      * </li></ul>
      */
-    @BootstrapUnneeded
     @ApiSide.ClientOnly
     public static <T extends Fluid> void describeFluid(Class<T> clazz, FluidDescriptor<T> descriptor) {
         IExtraService.INSTANCE.setFluidDescFor(clazz, descriptor);
@@ -82,7 +81,6 @@ public final class FluidData extends BuiltinData {
      * @throws IllegalStateException if {@link FluidData} is not bootstrapped.
      */
     public static void describeCauldron(Block block, CauldronDescriptor descriptor) {
-        IExtraService.INSTANCE.assertDataBootstrapped(FluidData.class);
         IExtraService.INSTANCE.setCauldronDescFor(block, descriptor);
     }
 
@@ -99,7 +97,6 @@ public final class FluidData extends BuiltinData {
      * @throws IllegalStateException if {@link FluidData} is not bootstrapped.
      */
     public static void describeCauldron(Class<? extends Block> clazz, CauldronDescriptor descriptor) {
-        IExtraService.INSTANCE.assertDataBootstrapped(FluidData.class);
         IExtraService.INSTANCE.setCauldronDescFor(clazz, descriptor);
     }
 
