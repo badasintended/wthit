@@ -3,10 +3,7 @@ package mcp.mobius.waila.plugin.vanilla;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.api.IntFormat;
-import mcp.mobius.waila.api.data.BuiltinData;
 import mcp.mobius.waila.api.data.FluidData;
-import mcp.mobius.waila.api.data.ItemData;
-import mcp.mobius.waila.api.data.ProgressData;
 import mcp.mobius.waila.plugin.vanilla.config.NoteDisplayMode;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import mcp.mobius.waila.plugin.vanilla.fluid.LavaDescriptor;
@@ -182,7 +179,6 @@ public class WailaPluginVanilla implements IWailaPlugin {
         registrar.addComponent(ItemFrameProvider.INSTANCE, HEAD, ItemFrame.class);
         registrar.addComponent(ItemFrameProvider.INSTANCE, TAIL, ItemFrame.class);
 
-        BuiltinData.bootstrap(FluidData.class, ItemData.class, ProgressData.class);
         FluidData.describeFluid(Fluids.WATER, WaterDescriptor.INSTANCE);
         FluidData.describeFluid(Fluids.LAVA, LavaDescriptor.INSTANCE);
         FluidData.describeCauldron(Blocks.WATER_CAULDRON, WaterDescriptor.INSTANCE);

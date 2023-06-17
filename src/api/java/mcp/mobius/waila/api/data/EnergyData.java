@@ -1,5 +1,6 @@
 package mcp.mobius.waila.api.data;
 
+import mcp.mobius.waila.api.IData;
 import mcp.mobius.waila.api.__internal__.ApiSide;
 import mcp.mobius.waila.api.__internal__.IApiService;
 import mcp.mobius.waila.api.__internal__.IExtraService;
@@ -13,9 +14,9 @@ import org.jetbrains.annotations.ApiStatus;
 /**
  * Adds an energy information to an object.
  */
-public final class EnergyData extends BuiltinData {
+public final class EnergyData implements IData {
 
-    public static final ResourceLocation ID = rl("energy");
+    public static final ResourceLocation ID = BuiltinDataUtil.rl("energy");
 
     /**
      * The default energy name translation key.
@@ -37,7 +38,6 @@ public final class EnergyData extends BuiltinData {
     /**
      * Sets the default values that will be applied for objects from the specified namespace.
      */
-    @BootstrapUnneeded
     @ApiSide.ClientOnly
     public static Description describe(String namespace) {
         return IExtraService.INSTANCE.setEnergyDescFor(namespace);
