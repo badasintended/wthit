@@ -20,7 +20,6 @@ import mcp.mobius.waila.api.IServerAccessor;
 import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.TooltipPosition;
 import mcp.mobius.waila.api.WailaConstants;
-import mcp.mobius.waila.plugin.extra.WailaPluginExtra;
 import mcp.mobius.waila.plugin.extra.config.ExtraBlacklistConfig;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -74,8 +73,6 @@ public abstract class DataProvider<T extends IData> implements IBlockComponentPr
     }
 
     public void register(IRegistrar registrar, int priority) {
-        if (!WailaPluginExtra.BOOTSTRAPPED.contains(type)) return;
-
         registrar.addMergedSyncedConfig(enabledBlockOption, true, false);
         registrar.addMergedSyncedConfig(enabledEntityOption, true, false);
         registerAdditions(registrar, priority);

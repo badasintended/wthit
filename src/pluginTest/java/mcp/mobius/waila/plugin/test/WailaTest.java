@@ -6,9 +6,7 @@ import mcp.mobius.waila.api.IntFormat;
 import mcp.mobius.waila.api.TooltipPosition;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.__internal__.IApiService;
-import mcp.mobius.waila.api.data.BuiltinData;
 import mcp.mobius.waila.api.data.EnergyData;
-import mcp.mobius.waila.api.data.FluidData;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.ChestBlock;
@@ -82,7 +80,6 @@ public class WailaTest implements IWailaPlugin {
         registrar.addConfig(LongTest.WIDTH, 200);
         registrar.addComponent(LongTest.INSTANCE, TooltipPosition.BODY, Block.class);
 
-        BuiltinData.bootstrap(EnergyData.class, FluidData.class);
         EnergyData.describe("minecraft").color(0x00FF00);
         registrar.addConfig(ExtraTest.ENERGY, false);
         registrar.addConfig(ExtraTest.ENERGY_INF_STORED, false);
