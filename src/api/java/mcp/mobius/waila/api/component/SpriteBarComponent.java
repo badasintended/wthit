@@ -11,6 +11,7 @@ import mcp.mobius.waila.api.WailaHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -27,6 +28,10 @@ public class SpriteBarComponent implements ITooltipComponent {
         this.regionWidth = regionWidth;
         this.regionHeight = regionHeight;
         this.text = text;
+    }
+
+    public SpriteBarComponent(float ratio, TextureAtlasSprite sprite, int regionWidth, int regionHeight, int tint, Component text) {
+        this(ratio, sprite.atlasLocation(), sprite.getU0(), sprite.getU1(), sprite.getV0(), sprite.getV1(), regionWidth, regionHeight, tint, text);
     }
 
     private final float ratio;
