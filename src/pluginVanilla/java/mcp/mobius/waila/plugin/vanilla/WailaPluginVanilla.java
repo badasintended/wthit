@@ -191,7 +191,7 @@ public class WailaPluginVanilla implements IWailaPlugin {
         registrar.addBlockData(BaseContainerProvider.INSTANCE, BaseContainerBlockEntity.class, 1200);
         registrar.addBlockData(HopperContainerProvider.INSTANCE, BlockEntity.class, 1300);
 
-        registrar.addEntityData(ContainerEntityProvider.INSTANCE, Container.class);
+        registrar.addEntityData(ContainerEntityProvider.INSTANCE, Container.class, 1100);
 
         registrar.addBlacklist(
             Blocks.BARRIER,
