@@ -14,6 +14,7 @@ import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
+import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleSlotStorage;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -36,7 +37,11 @@ public enum ItemStorageProvider implements IDataProvider<BlockEntity> {
 
             Storage<ItemVariant> storage = cache.find(accessor.getTarget().getBlockState(), null);
 
-            if (storage != null) {
+            if (storage instanceof SingleSlotStorage<ItemVariant> single) {
+                ItemData itemData = ItemData.of(config);
+                addItem(itemData, single);
+                res.add(itemData);
+            } else if (storage != null) {
                 Set<StorageView<ItemVariant>> uniqueViews = new HashSet<>();
                 ItemData itemData = ItemData.of(config);
 
@@ -50,12 +55,13 @@ public enum ItemStorageProvider implements IDataProvider<BlockEntity> {
     }
 
     private void addItem(Set<StorageView<ItemVariant>> uniqueViews, ItemData itemData, StorageView<ItemVariant> view) {
-        if (view.isResourceBlank()) return;
-
         StorageView<ItemVariant> uniqueView = view.getUnderlyingView();
-        if (uniqueViews.add(uniqueView)) return;
+        if (uniqueViews.add(uniqueView)) addItem(itemData, view);
+    }
 
-        itemData.add(uniqueView.getResource().toStack(Ints.saturatedCast(uniqueView.getAmount())));
+    private void addItem(ItemData itemData, StorageView<ItemVariant> view) {
+        if (view.isResourceBlank()) return;
+        itemData.add(view.getResource().toStack(Ints.saturatedCast(view.getAmount())));
     }
 
 }

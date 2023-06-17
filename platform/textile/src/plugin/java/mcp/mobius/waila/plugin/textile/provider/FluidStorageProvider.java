@@ -13,6 +13,7 @@ import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
+import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleSlotStorage;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -35,7 +36,11 @@ public enum FluidStorageProvider implements IDataProvider<BlockEntity> {
 
             Storage<FluidVariant> storage = cache.find(accessor.getTarget().getBlockState(), null);
 
-            if (storage != null) {
+            if (storage instanceof SingleSlotStorage<FluidVariant> single) {
+                FluidData fluidData = FluidData.of(1);
+                addFluid(fluidData, single);
+                res.add(fluidData);
+            } else if (storage != null) {
                 Set<StorageView<FluidVariant>> uniqueViews = new HashSet<>();
                 FluidData fluidData = FluidData.of();
 
@@ -49,12 +54,13 @@ public enum FluidStorageProvider implements IDataProvider<BlockEntity> {
     }
 
     private void addFluid(Set<StorageView<FluidVariant>> uniqueViews, FluidData fluidData, StorageView<FluidVariant> view) {
-        if (view.isResourceBlank()) return;
-
         StorageView<FluidVariant> uniqueView = view.getUnderlyingView();
-        if (uniqueViews.add(uniqueView)) return;
+        if (uniqueViews.add(uniqueView)) addFluid(fluidData, view);
+    }
 
-        FluidVariant variant = uniqueView.getResource();
+    private void addFluid(FluidData fluidData, StorageView<FluidVariant> view) {
+        if (view.isResourceBlank()) return;
+        FluidVariant variant = view.getResource();
         fluidData.add(variant.getFluid(), variant.getNbt(), view.getAmount() / 81.0, view.getCapacity() / 81.0);
     }
 
