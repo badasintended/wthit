@@ -57,7 +57,7 @@ public class FluidProvider extends DataProvider<FluidData> {
             TextureAtlasSprite sprite = desc.sprite();
             tooltip.addLine(new PairComponent(
                 new WrappedComponent(desc.name()),
-                new SpriteBarComponent(ratio, sprite.atlasLocation(), sprite.getU0(), sprite.getU1(), sprite.getV0(), sprite.getV1(), 16, 16, desc.tint(), Component.literal(text))));
+                new SpriteBarComponent(ratio, sprite, 16, 16, desc.tint(), Component.literal(text))));
         }
     }
 
