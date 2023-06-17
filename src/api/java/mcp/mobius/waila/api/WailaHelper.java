@@ -10,15 +10,24 @@ public final class WailaHelper {
     public static final ResourceLocation GUI_ICONS_TEXTURE = IApiService.INSTANCE.getGuiIconsTexture();
 
     public static String suffix(long value) {
-        if (value == Long.MIN_VALUE)
-            return suffix(Long.MIN_VALUE + 1);
-        if (value < 0)
-            return "-" + suffix(-value);
-        if (value < 1000)
-            return Long.toString(value);
+        if (value == Long.MIN_VALUE) return suffix(Long.MIN_VALUE + 1);
+        if (value < 0) return "-" + suffix(-value);
+        if (value < 1000) return Long.toString(value);
 
-        int exp = (int) (Math.log(value) / Math.log(1000));
-        return SUFFIXED_FORMAT.format(value / Math.pow(1000, exp)) + "KMGTPE".charAt(exp - 1);
+        int exponent = -1;
+        long divisor = 0;
+
+        for (long decimal : DECIMALS) {
+            if (value < decimal) break;
+            exponent++;
+            divisor = decimal;
+        }
+
+        double truncated = (double) value / divisor;
+        if (truncated >= 100) truncated = Math.round(truncated);
+        else if (truncated >= 10) truncated = Math.round(truncated * 10) / 10d;
+
+        return SUFFIXED_FORMAT.format(truncated) + "KMGTPE".charAt(exponent);
     }
 
     public static int getAlpha(int argb) {
@@ -42,6 +51,17 @@ public final class WailaHelper {
     }
 
     //---------------------------------------------------------------------------------------------------
+
+    // @formatter:off
+    private static final long[] DECIMALS = {
+                            1_000L, // K
+                        1_000_000L, // M
+                    1_000_000_000L, // G
+                1_000_000_000_000L, // T
+            1_000_000_000_000_000L, // P
+        1_000_000_000_000_000_000L  // E
+    };
+    // @formatter:on
 
     private static final DecimalFormat SUFFIXED_FORMAT = new DecimalFormat("0.##");
 
