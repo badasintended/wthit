@@ -44,7 +44,7 @@ public final class ProgressData implements IData {
      * Adds item stacks to the input list.
      */
     public ProgressData input(ItemStack... stacks) {
-        ensureSpace(input, stacks.length);
+        ensureInputSpace(stacks.length);
         Collections.addAll(input, stacks);
         return this;
     }
@@ -74,7 +74,7 @@ public final class ProgressData implements IData {
      */
     public ProgressData input(int... slots) {
         assertInventory();
-        ensureSpace(input, slots.length);
+        ensureInputSpace(slots.length);
         for (int slot : slots) input.add(inventory.apply(slot));
         return this;
     }
@@ -91,7 +91,7 @@ public final class ProgressData implements IData {
      * Adds item stacks to the output list.
      */
     public ProgressData output(ItemStack... stacks) {
-        ensureSpace(output, stacks.length);
+        ensureOutputSpace(stacks.length);
         Collections.addAll(output, stacks);
         return this;
     }
@@ -121,7 +121,7 @@ public final class ProgressData implements IData {
      */
     public ProgressData output(int... slots) {
         assertInventory();
-        ensureSpace(output, slots.length);
+        ensureOutputSpace(slots.length);
         for (int slot : slots) output.add(inventory.apply(slot));
         return this;
     }
@@ -131,6 +131,22 @@ public final class ProgressData implements IData {
      */
     public ProgressData itemGetter(IntFunction<ItemStack> inventory) {
         this.inventory = inventory;
+        return this;
+    }
+
+    /**
+     * Ensure the internal list has empty space for the specified amount.
+     */
+    public ProgressData ensureInputSpace(int length) {
+        ensureSpace(input, length);
+        return this;
+    }
+
+    /**
+     * Ensure the internal list has empty space for the specified amount.
+     */
+    public ProgressData ensureOutputSpace(int length) {
+        ensureSpace(output, length);
         return this;
     }
 

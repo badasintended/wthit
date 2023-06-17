@@ -74,8 +74,8 @@ public final class ItemData implements IData {
     /**
      * Ensure the internal list has empty space for the specified amount.
      */
-    public ItemData ensureSpace(int lenght) {
-        items.ensureCapacity(items.size() + lenght);
+    public ItemData ensureSpace(int length) {
+        items.ensureCapacity(items.size() + length);
         return this;
     }
 
