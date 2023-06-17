@@ -7,6 +7,7 @@ import mcp.mobius.waila.api.IServerAccessor;
 import mcp.mobius.waila.api.data.ItemData;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.vehicle.ContainerEntity;
 
 public enum ContainerEntityProvider implements IDataProvider<Entity> {
 
@@ -14,11 +15,16 @@ public enum ContainerEntityProvider implements IDataProvider<Entity> {
 
     @Override
     public void appendData(IDataWriter data, IServerAccessor<Entity> accessor, IPluginConfig config) {
-        if (accessor.getTarget() instanceof Container container) {
-            data.add(ItemData.class, res -> res.add(ItemData
-                .of(config)
-                .vanilla(container)));
-        }
+        data.add(ItemData.class, res -> {
+            Entity entity = accessor.getTarget();
+
+            if (entity instanceof ContainerEntity container && container.getLootTable() != null) {
+                res.block();
+                return;
+            }
+
+            res.add(ItemData.of(config).vanilla((Container) entity));
+        });
     }
 
 }
