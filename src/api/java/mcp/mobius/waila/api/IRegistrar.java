@@ -16,7 +16,7 @@ import org.jetbrains.annotations.ApiStatus;
 public interface IRegistrar {
 
     /**
-     * The default priority for all component.
+     * The default priority for all component and data provider.
      */
     int DEFAULT_PRIORITY = 1000;
 
