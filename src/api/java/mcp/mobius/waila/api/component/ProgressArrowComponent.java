@@ -10,7 +10,7 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.util.Mth;
 
 /**
- * A component that renders a furnace-like progress arrow.
+ * Component that renders a furnace-like progress arrow.
  */
 @ApiSide.ClientOnly
 public class ProgressArrowComponent extends GuiComponent implements ITooltipComponent {

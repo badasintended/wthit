@@ -5,7 +5,7 @@ import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.__internal__.ApiSide;
 
 /**
- * A tooltip component that "renders" an empty space.
+ * Component that "renders" an empty space.
  */
 @ApiSide.ClientOnly
 public class SpacingComponent implements ITooltipComponent {

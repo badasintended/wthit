@@ -5,7 +5,7 @@ import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.__internal__.ApiSide;
 
 /**
- * A tooltip component that renders nothing.
+ * Component that renders nothing.
  */
 @ApiSide.ClientOnly
 public enum EmptyComponent implements ITooltipComponent {

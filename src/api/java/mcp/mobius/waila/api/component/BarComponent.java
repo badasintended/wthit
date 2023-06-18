@@ -19,7 +19,7 @@ import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 
 /**
- * A component that renders a colored bar.
+ * Component that renders a colored bar.
  */
 @ApiSide.ClientOnly
 public class BarComponent extends GuiComponent implements ITooltipComponent {

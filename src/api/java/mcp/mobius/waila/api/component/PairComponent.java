@@ -10,7 +10,7 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.network.chat.Component;
 
 /**
- * A tooltip component that renders key-value pair that would be aligned at the colon.
+ * Component that renders key-value pair that would be aligned at the colon.
  */
 @ApiSide.ClientOnly
 public class PairComponent implements ITooltipComponent {

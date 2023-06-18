@@ -4,6 +4,9 @@ import mcp.mobius.waila.api.__internal__.ApiSide;
 import net.minecraft.nbt.CompoundTag;
 import org.jetbrains.annotations.ApiStatus;
 
+/**
+ * Used to send server-side data to the client.
+ */
 @ApiSide.ServerOnly
 @ApiStatus.OverrideOnly
 public interface IDataProvider<T> {

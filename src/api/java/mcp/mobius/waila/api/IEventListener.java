@@ -7,6 +7,11 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * Used to listen to generic Waila events.
+ *
+ * Register implementations with {@link IRegistrar#addEventListener}
+ */
 @ApiStatus.OverrideOnly
 public interface IEventListener {
 
