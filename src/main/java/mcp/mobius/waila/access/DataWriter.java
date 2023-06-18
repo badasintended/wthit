@@ -81,7 +81,7 @@ public enum DataWriter implements IDataWriter {
 
     @Override
     public <T extends IData> void add(Class<T> type, Consumer<Result<T>> consumer) {
-        Preconditions.checkArgument(Registrar.INSTANCE.dataType2Id.containsKey(type), "Data type is not registered. If this is a built-in data type, it needs to be bootstrapped with BuiltinData#bootstrap");
+        Preconditions.checkArgument(Registrar.INSTANCE.dataType2Id.containsKey(type), "Data type is not registered");
 
         clean = false;
         typed.computeIfAbsent(TypeUtil.uncheckedCast(type), t -> new ArrayList<>())
