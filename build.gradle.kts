@@ -168,7 +168,17 @@ task<Javadoc>("apiJavadoc") {
     val api by sourceSets
     source = api.allJava
     classpath = api.compileClasspath
-    setDestinationDir(file("docs/javadocs"))
+    title = "WTHIT ${prop["majorVersion"]}.x API"
+    setDestinationDir(file("docs/javadoc"))
+
+    options(closureOf<StandardJavadocDocletOptions> {
+        overview("src/api/javadoc/overview.html")
+
+        links(
+            "https://javadoc.io/doc/org.jetbrains/annotations/latest/",
+            "https://nekoyue.github.io/ForgeJavaDocs-NG/javadoc/1.19.3/"
+        )
+    })
 }
 
 task<DokkaTask>("apiDokka") {

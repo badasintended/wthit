@@ -9,6 +9,9 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.ApiStatus;
 
+/**
+ * Used to guess the mod origin of game objects.
+ */
 @ApiStatus.NonExtendable
 public interface IModInfo {
 

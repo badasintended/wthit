@@ -22,6 +22,9 @@ import net.minecraft.world.level.material.Fluids;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * Adds fluid information to an object.
+ */
 public final class FluidData implements IData {
 
     public static final ResourceLocation ID = BuiltinDataUtil.rl("fluid");
@@ -200,6 +203,7 @@ public final class FluidData implements IData {
         this.entries = entries;
     }
 
+    /** @hidden */
     @ApiStatus.Internal
     public FluidData(FriendlyByteBuf buf) {
         int size = buf.readVarInt();
@@ -217,6 +221,7 @@ public final class FluidData implements IData {
         }
     }
 
+    /** @hidden */
     @Override
     @ApiStatus.Internal
     public void write(FriendlyByteBuf buf) {
@@ -235,11 +240,13 @@ public final class FluidData implements IData {
         }
     }
 
+    /** @hidden */
     @ApiStatus.Internal
     public List<Entry<?>> entries() {
         return entries;
     }
 
+    /** @hidden */
     @ApiStatus.Internal
     public static class Entry<T extends Fluid> implements FluidDescriptionContext<T> {
 

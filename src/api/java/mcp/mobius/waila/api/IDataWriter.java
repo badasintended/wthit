@@ -6,6 +6,9 @@ import mcp.mobius.waila.api.__internal__.ApiSide;
 import net.minecraft.nbt.CompoundTag;
 import org.jetbrains.annotations.ApiStatus;
 
+/**
+ * Used to sync server data to the client.
+ */
 @ApiSide.ServerOnly
 @ApiStatus.NonExtendable
 public interface IDataWriter {
