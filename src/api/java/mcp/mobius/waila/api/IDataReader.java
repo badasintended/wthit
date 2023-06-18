@@ -5,6 +5,9 @@ import net.minecraft.nbt.CompoundTag;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * Used to get data synced from the server to the client.
+ */
 @ApiSide.ClientOnly
 @ApiStatus.NonExtendable
 public interface IDataReader {

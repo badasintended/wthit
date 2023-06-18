@@ -11,7 +11,7 @@ import net.minecraft.client.gui.Font;
 import net.minecraft.network.chat.Component;
 
 /**
- * A tooltip component that renders a vanilla {@link Component}.
+ * Component that renders a vanilla {@link Component}.
  */
 @ApiSide.ClientOnly
 public class WrappedComponent implements ITooltipComponent {

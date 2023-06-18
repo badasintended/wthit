@@ -162,6 +162,7 @@ public final class ProgressData implements IData {
         this.ratio = ratio;
     }
 
+    /** @hidden */
     @ApiStatus.Internal
     public ProgressData(FriendlyByteBuf buf) {
         this.ratio = buf.readFloat();
@@ -179,6 +180,7 @@ public final class ProgressData implements IData {
         }
     }
 
+    /** @hidden */
     @Override
     @ApiStatus.Internal
     public void write(FriendlyByteBuf buf) {
@@ -205,16 +207,19 @@ public final class ProgressData implements IData {
         list.ensureCapacity(list.size() + toAdd);
     }
 
+    /** @hidden */
     @ApiStatus.Internal
     public float ratio() {
         return ratio;
     }
 
+    /** @hidden */
     @ApiStatus.Internal
     public ArrayList<ItemStack> input() {
         return input;
     }
 
+    /** @hidden */
     @ApiStatus.Internal
     public ArrayList<ItemStack> output() {
         return output;

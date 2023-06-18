@@ -10,6 +10,8 @@ import org.jetbrains.annotations.ApiStatus;
  * <p>
  * For simple data, consider using {@linkplain IDataWriter#raw() raw NBT data} instead,
  * as it is easier to do and enough for most purpose.
+ * <p>
+ * See {@link mcp.mobius.waila.api.data} for built-in implementations.
  */
 public interface IData {
 
