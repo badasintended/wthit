@@ -15,6 +15,9 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.ApiStatus;
 
+/**
+ * Adds item information to an object.
+ */
 public final class ItemData implements IData {
 
     public static final ResourceLocation ID = BuiltinDataUtil.rl("item");
@@ -90,6 +93,7 @@ public final class ItemData implements IData {
         this.config = config;
     }
 
+    /** @hidden */
     @ApiStatus.Internal
     public ItemData(FriendlyByteBuf buf) {
         this.config = null;
@@ -109,6 +113,7 @@ public final class ItemData implements IData {
         }
     }
 
+    /** @hidden */
     @Override
     @ApiStatus.Internal
     public void write(FriendlyByteBuf buf) {
@@ -128,11 +133,13 @@ public final class ItemData implements IData {
         }
     }
 
+    /** @hidden */
     @ApiStatus.Internal
     public ArrayList<ItemStack> items() {
         return items;
     }
 
+    /** @hidden */
     @ApiStatus.Internal
     public boolean syncNbt() {
         return syncNbt;

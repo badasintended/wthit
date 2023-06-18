@@ -5,6 +5,9 @@ import net.minecraft.client.gui.GuiGraphics;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Range;
 
+/**
+ * A theme that will be used to render the Waila tooltip.
+ */
 @ApiSide.ClientOnly
 @ApiStatus.OverrideOnly
 @ApiStatus.Experimental

@@ -8,7 +8,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 
 /**
- * A tooltip component that renders an {@link ItemStack}.
+ * Component that renders an {@link ItemStack}.
  */
 @ApiSide.ClientOnly
 public class ItemComponent implements ITooltipComponent {

@@ -5,7 +5,7 @@ import mcp.mobius.waila.api.__internal__.ApiSide;
 import net.minecraft.client.gui.GuiGraphics;
 
 /**
- * A component that will grow in size relative to overall tooltip width.
+ * Component that will grow in size relative to overall tooltip width.
  * <p>
  * The size in which the component will grow is calculated by dividing
  * the available space with how much {@link GrowingComponent}s are in a line.

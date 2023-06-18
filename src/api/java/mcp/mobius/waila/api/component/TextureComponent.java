@@ -6,7 +6,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 
 /**
- * A tooltip component that renders a texture.
+ * Component that renders a texture.
  */
 @ApiSide.ClientOnly
 public class TextureComponent implements ITooltipComponent {

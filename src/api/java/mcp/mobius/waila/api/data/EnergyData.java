@@ -94,12 +94,14 @@ public final class EnergyData implements IData {
         this.capacity = capacity;
     }
 
+    /** @hidden */
     @ApiStatus.Internal
     public EnergyData(FriendlyByteBuf buf) {
         this.stored = buf.readDouble();
         this.capacity = buf.readDouble();
     }
 
+    /** @hidden */
     @Override
     @ApiStatus.Internal
     public void write(FriendlyByteBuf buf) {
@@ -107,11 +109,13 @@ public final class EnergyData implements IData {
         buf.writeDouble(capacity);
     }
 
+    /** @hidden */
     @ApiStatus.Internal
     public double stored() {
         return stored;
     }
 
+    /** @hidden */
     @ApiStatus.Internal
     public double capacity() {
         return capacity;

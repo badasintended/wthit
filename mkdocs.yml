@@ -59,4 +59,4 @@ nav:
     - plugin/disabling_tooltip.md
     - plugin/adding_to_blacklist.md
 
-  - API Docs: dokka/index.html
+  - API Docs: javadoc/index.html

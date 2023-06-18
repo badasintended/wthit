@@ -7,7 +7,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.util.Mth;
 
 /**
- * A component that renders a furnace-like progress arrow.
+ * Component that renders a furnace-like progress arrow.
  */
 @ApiSide.ClientOnly
 public class ProgressArrowComponent implements ITooltipComponent {

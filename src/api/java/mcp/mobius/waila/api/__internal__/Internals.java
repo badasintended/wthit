@@ -6,6 +6,7 @@ import java.util.ServiceLoader;
 import org.jetbrains.annotations.ApiStatus;
 import sun.misc.Unsafe;
 
+/** @hidden */
 @ApiStatus.Internal
 @SuppressWarnings("unchecked")
 public final class Internals {

@@ -8,6 +8,9 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 
+/**
+ * Component that renders items that dynamically grow based on available space.
+ */
 public class ItemListComponent implements ITooltipComponent.HorizontalGrowing {
 
     public ItemListComponent(List<ItemStack> items) {

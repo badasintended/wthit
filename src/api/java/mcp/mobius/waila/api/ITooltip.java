@@ -6,6 +6,9 @@ import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * The tooltip object that Waila will show.
+ */
 @ApiSide.ClientOnly
 @ApiStatus.NonExtendable
 public interface ITooltip {

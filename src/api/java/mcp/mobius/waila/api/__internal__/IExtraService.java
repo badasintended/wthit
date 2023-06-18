@@ -6,6 +6,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 import org.jetbrains.annotations.ApiStatus;
 
+/** @hidden */
 @ApiStatus.Internal
 public interface IExtraService {
 

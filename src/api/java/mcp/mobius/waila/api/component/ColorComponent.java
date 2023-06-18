@@ -5,7 +5,7 @@ import mcp.mobius.waila.api.__internal__.ApiSide;
 import net.minecraft.client.gui.GuiGraphics;
 
 /**
- * A tooltip component that renders a colored rectangle.
+ * Component that renders a colored rectangle.
  */
 @ApiSide.ClientOnly
 public class ColorComponent implements ITooltipComponent {

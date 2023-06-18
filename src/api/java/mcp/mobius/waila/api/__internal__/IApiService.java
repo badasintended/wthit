@@ -18,6 +18,7 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.ApiStatus;
 import org.joml.Matrix4f;
 
+/** @hidden */
 @ApiStatus.Internal
 public interface IApiService {
 

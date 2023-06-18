@@ -5,7 +5,7 @@ import mcp.mobius.waila.api.__internal__.ApiSide;
 import net.minecraft.client.gui.GuiGraphics;
 
 /**
- * A tooltip component that renders nothing.
+ * Component that renders nothing.
  */
 @ApiSide.ClientOnly
 public enum EmptyComponent implements ITooltipComponent {

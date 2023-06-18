@@ -15,6 +15,9 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
+/**
+ * Component that renders a bar with a texture as the foreground.
+ */
 public class SpriteBarComponent implements ITooltipComponent {
 
     public SpriteBarComponent(float ratio, ResourceLocation texture, float u0, float u1, float v0, float v1, int regionWidth, int regionHeight, int tint, Component text) {

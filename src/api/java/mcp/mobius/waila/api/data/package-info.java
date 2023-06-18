@@ -1,5 +1,5 @@
 /**
- * This package contains built-in data types that can be used to display components
+ * Contains built-in data types that can be used to display components
  * in a standarized way.
  * <p>
  * Implement {@link mcp.mobius.waila.api.IDataProvider IDataProvider},

@@ -7,7 +7,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.util.Mth;
 
 /**
- * A component that renders a health bar.
+ * Component that renders a health bar.
  */
 @ApiSide.ClientOnly
 public class HealthComponent implements ITooltipComponent {

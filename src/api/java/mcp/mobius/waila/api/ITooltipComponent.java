@@ -5,6 +5,8 @@ import net.minecraft.client.gui.GuiGraphics;
 import org.jetbrains.annotations.ApiStatus;
 
 /**
+ * The base type of all Waila tooltip components.
+ * <p>
  * See {@link mcp.mobius.waila.api.component} for default implementations.
  */
 @ApiSide.ClientOnly
