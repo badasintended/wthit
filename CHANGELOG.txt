@@ -1,5 +1,6 @@
-8.x - 1.20 - dev/master - java 17
+8.x - 1.20 - release/8.1 - java 17
 =================================
+8.1.1    - Fixed error when showing beetroot age (#210)
 8.1.0    - Re-released to new maven, see #207
          - Updated to Minecraft 1.20
          - Updated Russian translation (#206)
