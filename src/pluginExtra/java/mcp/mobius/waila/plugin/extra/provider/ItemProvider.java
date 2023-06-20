@@ -17,11 +17,15 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 public class ItemProvider extends DataProvider<ItemData> {
 
     public static final ItemProvider INSTANCE = new ItemProvider();
     private static final CompoundTag EMPTY = new CompoundTag();
+
+    private @Nullable ItemData lastData = null;
+    private @Nullable ItemListComponent lastItemsComponent = null;
 
     protected ItemProvider() {
         super(ItemData.ID, ItemData.class, ItemData::new);
@@ -29,7 +33,7 @@ public class ItemProvider extends DataProvider<ItemData> {
 
     @Override
     protected void registerAdditions(IRegistrar registrar, int priority) {
-        registrar.addSyncedConfig(ItemData.CONFIG_SYNC_NBT, false, false);
+        registrar.addSyncedConfig(ItemData.CONFIG_SYNC_NBT, true, false);
     }
 
     @Override
@@ -42,6 +46,14 @@ public class ItemProvider extends DataProvider<ItemData> {
 
     @Override
     protected void appendBody(ITooltip tooltip, ItemData data, IPluginConfig config, ResourceLocation objectId) {
+        if (data == lastData) {
+            if (lastItemsComponent != null) tooltip.setLine(ItemData.ID, lastItemsComponent);
+            return;
+        }
+
+        lastData = data;
+        lastItemsComponent = null;
+
         Map<Object, ItemStack> merged = new HashMap<>();
         Map<Item, Set<CompoundTag>> unique = new HashMap<>();
 
@@ -69,7 +81,7 @@ public class ItemProvider extends DataProvider<ItemData> {
 
         if (merged.isEmpty()) return;
 
-        tooltip.setLine(ItemData.ID, new ItemListComponent(merged.values().stream()
+        tooltip.setLine(ItemData.ID, lastItemsComponent = new ItemListComponent(merged.values().stream()
             .sorted(Comparator.comparingInt(ItemStack::getCount).reversed())
             .toList()));
     }
