@@ -15,11 +15,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.Block;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.message.Message;
-import org.apache.logging.log4j.message.MessageFactory;
-import org.apache.logging.log4j.message.ParameterizedMessageFactory;
 
 public abstract class Waila {
 
@@ -32,24 +27,6 @@ public abstract class Waila {
 
     public static final TagKey<Block> BLOCK_BLACKLIST_TAG = TagKey.create(Registry.BLOCK_REGISTRY, id("blacklist"));
     public static final TagKey<EntityType<?>> ENTITY_BLACKLIST_TAG = TagKey.create(Registry.ENTITY_TYPE_REGISTRY, id("blacklist"));
-
-    public static final Logger LOGGER = LogManager.getLogger(WailaConstants.MOD_NAME, new MessageFactory() {
-        private final String prefix = "[" + WailaConstants.MOD_NAME + "] ";
-
-        public Message newMessage(Object message) {
-            return ParameterizedMessageFactory.INSTANCE.newMessage(prefix + "{}", message);
-        }
-
-        @Override
-        public Message newMessage(String message) {
-            return ParameterizedMessageFactory.INSTANCE.newMessage(prefix + message);
-        }
-
-        @Override
-        public Message newMessage(String message, Object... params) {
-            return ParameterizedMessageFactory.INSTANCE.newMessage(prefix + message, params);
-        }
-    });
 
     public static final IJsonConfig<WailaConfig> CONFIG = IJsonConfig.of(WailaConfig.class)
         .file(WailaConstants.NAMESPACE + "/" + WailaConstants.WAILA)

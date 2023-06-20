@@ -16,9 +16,12 @@ import com.google.gson.GsonBuilder;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.mcless.config.ConfigIo;
+import mcp.mobius.waila.util.Log;
 import org.jetbrains.annotations.Nullable;
 
 public class JsonConfig<T> implements IJsonConfig<T> {
+
+    private static final Log LOG = Log.create();
 
     @SuppressWarnings("rawtypes")
     private static final ToIntFunction DEFAULT_VERSION_GETTER = t -> 0;
@@ -35,7 +38,7 @@ public class JsonConfig<T> implements IJsonConfig<T> {
 
     JsonConfig(Path path, Class<T> clazz, Supplier<T> factory, Gson gson, int currentVersion, ToIntFunction<T> versionGetter, ObjIntConsumer<T> versionSetter) {
         this.path = path.toAbsolutePath();
-        this.io = new ConfigIo<>(Waila.LOGGER::warn, Waila.LOGGER::error, gson, clazz, factory, currentVersion, versionGetter, versionSetter);
+        this.io = new ConfigIo<>(LOG::warn, LOG::error, gson, clazz, factory, currentVersion, versionGetter, versionSetter);
         this.getter = new CachedSupplier<>(() -> io.read(this.path));
     }
 
@@ -83,7 +86,7 @@ public class JsonConfig<T> implements IJsonConfig<T> {
             if (cause != null) {
                 msg += " because of " + cause;
             }
-            Waila.LOGGER.info(msg);
+            LOG.info(msg);
             write(get(), backupPath, true);
         }
     }

@@ -18,6 +18,7 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 
 public final class ExceptionUtil {
 
+    private static final Log LOG = Log.create();
     private static final Set<String> ERRORS = new HashSet<>();
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd - HH:mm:ss");
     private static final File ERROR_FILE = Waila.GAME_DIR.resolve("logs/waila_errors.log").toFile();
@@ -29,8 +30,8 @@ public final class ExceptionUtil {
 
     public static void dump(Throwable e, String errorName, ITooltip tooltip) {
         if (ERRORS.add(errorName)) {
-            Waila.LOGGER.error("Caught unhandled exception : [{}] {}", errorName, e);
-            Waila.LOGGER.error("See {} for more information", ERROR_FILE);
+            LOG.error("Caught unhandled exception : [{}] {}", errorName, e);
+            LOG.error("See {} for more information", ERROR_FILE);
 
             try (FileWriter writer = new FileWriter(ERROR_FILE, StandardCharsets.UTF_8)) {
                 writer.write(DATE_FORMAT.format(new Date()) + "\n" + errorName + "\n" + ExceptionUtils.getStackTrace(e) + "\n");

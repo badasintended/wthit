@@ -8,10 +8,10 @@ import java.util.Map;
 import java.util.Objects;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.plugin.PluginInfo;
 import mcp.mobius.waila.plugin.PluginLoader;
+import mcp.mobius.waila.util.Log;
 import net.fabricmc.api.EnvType;
 import org.quiltmc.loader.api.LoaderValue;
 import org.quiltmc.loader.api.ModContainer;
@@ -24,6 +24,8 @@ import static org.quiltmc.loader.api.LoaderValue.LType.OBJECT;
 import static org.quiltmc.loader.api.LoaderValue.LType.STRING;
 
 public class QuiltPluginLoader extends PluginLoader {
+
+    private static final Log LOG = Log.create();
 
     @Override
     protected void gatherPlugins() {
@@ -47,7 +49,7 @@ public class QuiltPluginLoader extends PluginLoader {
             } else if (val.type() == ARRAY) {
                 pluginMap.put(mod, val.asArray().stream().map(LoaderValue::asObject).toArray(LoaderValue.LObject[]::new));
             } else {
-                Waila.LOGGER.error("Plugin data provided by {} must be an object or array of objects.", data.id());
+                LOG.error("Plugin data provided by {} must be an object or array of objects.", data.id());
             }
         }
 
@@ -92,7 +94,7 @@ public class QuiltPluginLoader extends PluginLoader {
                     case "server" -> side = IPluginInfo.Side.SERVER;
                     case "both" -> side = IPluginInfo.Side.BOTH;
                     default -> {
-                        Waila.LOGGER.error("Environment for plugin {} is not valid, must be one of [client, server, both].", id);
+                        LOG.error("Environment for plugin {} is not valid, must be one of [client, server, both].", id);
                         continue;
                     }
                 }

@@ -27,6 +27,7 @@ import mcp.mobius.waila.config.BlacklistConfig;
 import mcp.mobius.waila.config.ConfigEntry;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.gui.hud.theme.ThemeType;
+import mcp.mobius.waila.util.Log;
 import mcp.mobius.waila.util.TypeUtil;
 import net.minecraft.Util;
 import net.minecraft.core.Registry;
@@ -40,6 +41,8 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 public enum Registrar implements IRegistrar {
 
     INSTANCE;
+
+    private static final Log LOG = Log.create();
 
     public final Register<IBlockComponentProvider> blockOverride = new Register<>();
     public final Register<IBlockComponentProvider> blockIcon = new Register<>();
@@ -276,7 +279,7 @@ public enum Registrar implements IRegistrar {
 
         if (Waila.CLIENT_SIDE) {
             Preconditions.checkState(picker != null, "No object picker registered");
-            Waila.LOGGER.info("Using {} as the object picker", picker.getClass().getName());
+            LOG.info("Using {} as the object picker", picker.getClass().getName());
         }
 
         int[] hash = {0, 0, 0};

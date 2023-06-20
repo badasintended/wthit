@@ -15,6 +15,7 @@ import mcp.mobius.waila.gui.screen.HomeScreen;
 import mcp.mobius.waila.integration.IRecipeAction;
 import mcp.mobius.waila.registry.Registrar;
 import mcp.mobius.waila.service.IClientService;
+import mcp.mobius.waila.util.Log;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.Connection;
@@ -23,6 +24,8 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class WailaClient {
+
+    private static final Log LOG = Log.create();
 
     public static KeyMapping keyOpenConfig;
     public static KeyMapping keyShowOverlay;
@@ -37,10 +40,10 @@ public abstract class WailaClient {
 
     public static void setRecipeAction(IRecipeAction action) {
         if (recipeAction == null) {
-            Waila.LOGGER.info("Show recipe action set for " + action.getModName());
+            LOG.info("Show recipe action set for " + action.getModName());
         } else if (!recipeAction.getModName().equals(action.getModName())) {
-            Waila.LOGGER.warn("Show recipe action is already set for " + recipeAction.getModName());
-            Waila.LOGGER.warn("Replaced it with one for " + action.getModName());
+            LOG.warn("Show recipe action is already set for " + recipeAction.getModName());
+            LOG.warn("Replaced it with one for " + action.getModName());
         }
 
         recipeAction = action;
