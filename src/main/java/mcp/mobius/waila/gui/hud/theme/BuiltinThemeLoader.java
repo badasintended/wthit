@@ -6,6 +6,7 @@ import java.util.Map;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.util.Log;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimpleJsonResourceReloadListener;
@@ -13,6 +14,8 @@ import net.minecraft.util.profiling.ProfilerFiller;
 import org.jetbrains.annotations.NotNull;
 
 public class BuiltinThemeLoader extends SimpleJsonResourceReloadListener {
+
+    private static final Log LOG = Log.create();
 
     public static final Map<ResourceLocation, ThemeDefinition<?>> THEMES = new HashMap<>();
 
@@ -31,7 +34,7 @@ public class BuiltinThemeLoader extends SimpleJsonResourceReloadListener {
                 Waila.CONFIG.get().getOverlay().getColor().getCustomThemes().remove(id);
                 THEMES.put(id, ThemeDefinition.Adapter.deserialize(id, json, true));
             } catch (Exception e) {
-                Waila.LOGGER.error("Couldn't parse builtin theme definition {}", id, e);
+                LOG.error("Couldn't parse builtin theme definition {}", id, e);
             }
         });
 
