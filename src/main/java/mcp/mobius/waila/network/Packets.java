@@ -27,6 +27,7 @@ import mcp.mobius.waila.config.ConfigEntry;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.debug.DumpGenerator;
 import mcp.mobius.waila.registry.Registrar;
+import mcp.mobius.waila.util.Log;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -50,6 +51,8 @@ import static mcp.mobius.waila.mcless.network.NetworkConstants.CONFIG_STRING;
 import static mcp.mobius.waila.mcless.network.NetworkConstants.NETWORK_VERSION;
 
 public class Packets {
+
+    private static final Log LOG = Log.create();
 
     public static final ResourceLocation VERSION = Waila.id("version");
 
@@ -254,7 +257,7 @@ public class Packets {
                     }
                     config.setServerValue(syncedValue);
                 }
-                Waila.LOGGER.info("Received config from the server: {}", GSON.toJson(map));
+                LOG.info("Received config from the server: {}", GSON.toJson(map));
             });
         });
 

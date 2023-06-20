@@ -21,10 +21,12 @@ import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.registry.Registrar;
 import mcp.mobius.waila.service.ICommonService;
+import mcp.mobius.waila.util.Log;
 import mcp.mobius.waila.util.ModInfo;
 
 public abstract class PluginLoader {
 
+    private static final Log LOG = Log.create();
     private static final boolean ENABLE_TEST_PLUGIN = Boolean.getBoolean("waila.enableTestPlugin");
 
     protected static final String[] PLUGIN_JSON_FILES = {
@@ -107,9 +109,9 @@ public abstract class PluginLoader {
         if (extraPlugin != null) register(extraPlugin);
 
         if (!legacyPlugins.isEmpty()) {
-            Waila.LOGGER.warn("Found plugins registered via legacy platform-dependant method:");
-            Waila.LOGGER.warn(legacyPlugins.stream().collect(Collectors.joining(", ", "[", "]")));
-            Waila.LOGGER.warn("The method will be removed on Minecraft 1.21");
+            LOG.warn("Found plugins registered via legacy platform-dependant method:");
+            LOG.warn(legacyPlugins.stream().collect(Collectors.joining(", ", "[", "]")));
+            LOG.warn("The method will be removed on Minecraft 1.21");
         }
 
         Registrar.INSTANCE.lock();
@@ -117,7 +119,7 @@ public abstract class PluginLoader {
     }
 
     private void register(IPluginInfo info) {
-        Waila.LOGGER.info("Registering plugin {} at {}", info.getPluginId(), info.getInitializer().getClass().getCanonicalName());
+        LOG.info("Registering plugin {} at {}", info.getPluginId(), info.getInitializer().getClass().getCanonicalName());
         info.getInitializer().register(Registrar.INSTANCE);
     }
 
