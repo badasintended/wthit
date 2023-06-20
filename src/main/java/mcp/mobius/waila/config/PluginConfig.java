@@ -16,6 +16,7 @@ import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.mcless.config.ConfigIo;
+import mcp.mobius.waila.util.Log;
 import net.minecraft.resources.ResourceLocation;
 
 @SuppressWarnings("unchecked")
@@ -23,9 +24,11 @@ public enum PluginConfig implements IPluginConfig {
 
     CLIENT, SERVER;
 
+    private static final Log LOG = Log.create();
+
     private static final Path PATH = Waila.CONFIG_DIR.resolve(WailaConstants.NAMESPACE + "/" + WailaConstants.WAILA + "_plugins.json");
     private static final ConfigIo<Map<String, Map<String, JsonPrimitive>>> IO = new ConfigIo<>(
-        Waila.LOGGER::warn, Waila.LOGGER::error,
+        LOG::warn, LOG::error,
         new GsonBuilder().setPrettyPrinting().create(),
         new TypeToken<Map<String, Map<String, JsonPrimitive>>>() {
         }.getType(),
@@ -84,7 +87,7 @@ public enum PluginConfig implements IPluginConfig {
                 entry.setLocalValue(entry.getType().parser.apply(value, entry.getDefaultValue()));
             }
         }));
-        Waila.LOGGER.info("Plugin config reloaded");
+        LOG.info("Plugin config reloaded");
     }
 
     public static void save() {

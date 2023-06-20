@@ -8,14 +8,16 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import com.google.common.base.Suppliers;
-import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IModInfo;
 import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.api.IWailaPlugin;
+import mcp.mobius.waila.util.Log;
 import mcp.mobius.waila.util.ModInfo;
 import net.minecraft.resources.ResourceLocation;
 
 public class PluginInfo implements IPluginInfo {
+
+    private static final Log LOG = Log.create();
 
     private static final Map<ResourceLocation, IPluginInfo> PLUGIN_ID_TO_PLUGIN_INFO = new LinkedHashMap<>();
     private static final Supplier<Map<String, List<IPluginInfo>>> MOD_ID_TO_PLUGIN_INFOS = Suppliers.memoize(() ->
@@ -41,18 +43,18 @@ public class PluginInfo implements IPluginInfo {
         try {
             ResourceLocation rl = new ResourceLocation(pluginIdStr);
             if (PLUGIN_ID_TO_PLUGIN_INFO.containsKey(rl)) {
-                Waila.LOGGER.error("Duplicate plugin id " + rl);
+                LOG.error("Duplicate plugin id " + rl);
                 return;
             }
 
             if (rl.getNamespace().equals(ResourceLocation.DEFAULT_NAMESPACE)) {
-                Waila.LOGGER.warn("Plugin " + initializerStr + " is using the default namespace " + rl);
+                LOG.warn("Plugin " + initializerStr + " is using the default namespace " + rl);
             }
 
             IWailaPlugin initializer = (IWailaPlugin) Class.forName(initializerStr).getConstructor().newInstance();
             PLUGIN_ID_TO_PLUGIN_INFO.put(rl, new PluginInfo(ModInfo.get(modId), rl, side, initializer, required, legacy));
         } catch (Throwable t) {
-            Waila.LOGGER.error("Error creating instance of plugin " + pluginIdStr, t);
+            LOG.error("Error creating instance of plugin " + pluginIdStr, t);
         }
     }
 

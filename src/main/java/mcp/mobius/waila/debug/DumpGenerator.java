@@ -13,6 +13,7 @@ import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.plugin.PluginInfo;
 import mcp.mobius.waila.registry.Register;
 import mcp.mobius.waila.registry.Registrar;
+import mcp.mobius.waila.util.Log;
 import org.jetbrains.annotations.Nullable;
 
 import static mcp.mobius.waila.api.TooltipPosition.BODY;
@@ -20,6 +21,8 @@ import static mcp.mobius.waila.api.TooltipPosition.HEAD;
 import static mcp.mobius.waila.api.TooltipPosition.TAIL;
 
 public class DumpGenerator {
+
+    private static final Log LOG = Log.create();
 
     public static final String LOCAL = "local_dump";
     public static final String SERVER = "server_dump";
@@ -76,7 +79,7 @@ public class DumpGenerator {
 
         try (FileWriter writer = new FileWriter(path.toFile())) {
             writer.write(builder.toString());
-            Waila.LOGGER.info("Created debug dump at {}", path);
+            LOG.info("Created debug dump at {}", path);
             return path;
         } catch (IOException e) {
             e.printStackTrace();
