@@ -16,11 +16,14 @@ import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.gui.hud.theme.ThemeDefinition;
+import mcp.mobius.waila.util.Log;
 import mcp.mobius.waila.util.TypeUtil;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
 public class WailaConfig implements IWailaConfig {
+
+    private static final Log LOG = Log.create();
 
     private final General general = new General();
     private final Overlay overlay = new Overlay();
@@ -297,7 +300,7 @@ public class WailaConfig implements IWailaConfig {
             private int tryGetGradientThemeProperty(String name) {
                 if (warnDeprecatedColorGetter) {
                     warnDeprecatedColorGetter = false;
-                    Waila.LOGGER.error("Found usage of deprecated theme color getter!", new Throwable());
+                    LOG.error("Found usage of deprecated theme color getter!", new Throwable());
                 }
 
                 ThemeDefinition<?> def = getThemeDef();
