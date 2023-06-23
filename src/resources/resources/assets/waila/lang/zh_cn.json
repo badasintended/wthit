@@ -74,16 +74,16 @@
   "command.waila.config.set.success"                            : "将插件配置%s设置为%s",
   "command.waila.config.set.parse_fail"                         : "解析值失败：%s",
 
-
+  "config.waila.search_prompt"                                  : "搜索配置项",
   "config.waila.true"                                           : "是",
   "config.waila.false"                                          : "否",
   "config.waila.preview_prompt"                                 : "按住§5F1§r预览工具提示",
   "config.waila.edit"                                           : "编辑",
-
+  "config.waila.open_file"                                      : "打开文件",
   "config.waila.new"                                            : "新建",
   "config.waila.missing_input"                                  : "没有输入",
-
-
+  "config.waila.invalid_input.title"                            : "无效输入",
+  "config.waila.invalid_input.desc"                             : "请检查红色高亮显示的配置项",
   "config.waila.server_only"                                    : "只能在服务器或单人游戏中编辑",
   "config.waila.server_disabled"                                : "服务器禁用了此选项",
   "config.waila.server_missing_mod"                             : "锁定，因为服务器没有安装 WTHIT",
@@ -106,10 +106,10 @@
   "config.waila.hide_from_debug_desc"                           : "当调试菜单打开时隐藏提示框",
   "config.waila.rate_limit"                                     : "速率限制",
   "config.waila.rate_limit_desc"                                : "每个服务器请求之间的延迟是多少毫秒\n必须至少为250毫秒",
+  "config.waila.blacklist"                                      : "屏蔽对象名单",
+  "config.waila.blacklist_open"                                 : "打开配置文件",
 
-
-
-  "config.waila.tts"                                            : "启用TTS",
+  "config.waila.tts"                                            : "启用系统讲述人",
   "config.waila.tts_desc"                                       : "使用系统讲述人读出方块和实体名",
 
   "config.waila.overlay"                                        : "叠加层",
@@ -153,11 +153,11 @@
   "config.waila.overlay_background_alpha"                       : "背景不透明度",
 
   "config.waila.overlay_theme"                                  : "主题",
-
+  "config.waila.overlay_theme_editor.refresh"                   : "刷新预览",
   "config.waila.overlay_theme_editor.id"                        : "主题ID",
   "config.waila.overlay_theme_editor.id_empty"                  : "新主题需要一个ID",
-
-
+  "config.waila.overlay_theme_editor.type"                      : "主题类别",
+  "config.waila.overlay_theme_editor.attributes"                : "主题属性",
   "config.waila.overlay_theme_editor.delete"                    : "删除主题",
   "config.waila.overlay_theme_editor.delete_prompt"             : "删除%s主题?",
 
@@ -168,7 +168,7 @@
   "config.waila.format_entity_name"                             : "实体名称",
   "config.waila.format_registry_name"                           : "注册名称",
 
-  "config.waila.keybinds"                                       : "键绑定",
+  "config.waila.keybinds"                                       : "按键绑定",
   "key.waila.config"                                            : "打开配置",
   "key.waila.show_overlay"                                      : "显示叠加层",
   "key.waila.toggle_liquid"                                     : "切换液体",
@@ -177,17 +177,17 @@
 
   "config.waila.plugin_minecraft"                               : "Minecraft",
   "config.waila.plugin_minecraft.item_entity"                   : "显示物品实体",
-  "config.waila.plugin_minecraft.breaking_progress"             : "破坏进度",
-  "config.waila.plugin_minecraft.breaking_progress.enabled"     : "显示破坏进度",
-  "config.waila.plugin_minecraft.breaking_progress.color"       : "破坏进度颜色",
-  "config.waila.plugin_minecraft.breaking_progress.bottom_only" : "仅底部",
+  "config.waila.plugin_minecraft.breaking_progress"             : "挖掘进度",
+  "config.waila.plugin_minecraft.breaking_progress.enabled"     : "显示挖掘进度",
+  "config.waila.plugin_minecraft.breaking_progress.color"       : "挖掘进度颜色",
+  "config.waila.plugin_minecraft.breaking_progress.bottom_only" : "只在底部边界显示进度条",
   "config.waila.plugin_minecraft.override"                      : "覆盖",
-
+  "config.waila.plugin_minecraft.override.invisible_entity"     : "不显示隐身实体的信息",
   "config.waila.plugin_minecraft.override.infested"             : "被虫蚀的方块显示为正常方块",
   "config.waila.plugin_minecraft.override.trapped_chest"        : "陷阱箱显示为正常箱子",
   "config.waila.plugin_minecraft.override.powder_snow"          : "细雪显示为正常雪",
-
-
+  "config.waila.plugin_minecraft.override.vehicle"              : "不显示搭乘的实体信息",
+  "config.waila.plugin_minecraft.override.vehicle_desc"         : "搭乘矿车、马匹等可搭乘实体时，不显示详细信息",
   "config.waila.plugin_minecraft.spawner_type"                  : "显示刷怪笼类型",
   "config.waila.plugin_minecraft.crop_progress"                 : "显示作物生长进度",
   "config.waila.plugin_minecraft.redstone"                      : "红石",
@@ -230,8 +230,8 @@
   "config.waila.plugin_minecraft.attribute.long_health_max_desc": "强制分数视图前，图标绘制的最大生命值",
   "config.waila.plugin_minecraft.attribute.long_armor_max"      : "要绘制的最大护甲值",
   "config.waila.plugin_minecraft.attribute.long_armor_max_desc" : "强制数字视图前，图标绘制的最大护甲值",
-
-
+  "config.waila.plugin_minecraft.attribute.horse_jump_height"   : "显示马匹跳跃高度",
+  "config.waila.plugin_minecraft.attribute.horse_speed"         : "显示马匹行进速度",
 
   "config.waila.plugin_waila"                                   : "Waila核心",
   "config.waila.plugin_waila.show_mod_name"                     : "显示模组名称",
@@ -266,29 +266,29 @@
 
 
 
+  "theme.waila.plugin_waila.gradient.backgroundColor"           : "背景颜色",
+  "theme.waila.plugin_waila.gradient.gradientStart"             : "边界渐变开始颜色",
+  "theme.waila.plugin_waila.gradient.gradientEnd"               : "边界渐变结束颜色",
+  "theme.waila.plugin_waila.gradient.borderSize"                : "边界粗细",
+  "theme.waila.plugin_waila.gradient.borderOffset"              : "边界偏移量",
+  "theme.waila.plugin_waila.gradient.drawCorner"                : "绘制边角",
+  "theme.waila.plugin_waila.gradient.fontColor"                 : "文本颜色",
+
+  "theme.waila.plugin_waila.nine_patch.texture"                 : "图案文件路径",
+  "theme.waila.plugin_waila.nine_patch.texture_desc"            : "输入图案文件标识ID或者相对于配置文件的文件路径",
+  "theme.waila.plugin_waila.nine_patch.useResourcePack"         : "使用材质包图案",
+  "theme.waila.plugin_waila.nine_patch.textColor"               : "文本颜色",
+  "theme.waila.plugin_waila.nine_patch.textureWidth"            : "图案宽度",
+  "theme.waila.plugin_waila.nine_patch.textureHeight"           : "图案高度",
 
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  "theme.waila.plugin_waila.nine_patch.mode"                    : "图案契合度",
+  "theme.waila.plugin_waila.nine_patch.mode_stretch"            : "拉伸",
+  "theme.waila.plugin_waila.nine_patch.mode_tile"               : "平铺",
 
   "tooltip.waila.instrument"                                    : "_DO_NOT_TRANSLATE_",
   "config.waila.plugin_"                                        : "_DO_NOT_TRANSLATE_"
