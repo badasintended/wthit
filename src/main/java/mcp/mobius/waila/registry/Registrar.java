@@ -283,20 +283,17 @@ public enum Registrar implements IRegistrar {
             LOG.info("Using {} as the object picker", picker.getClass().getName());
         }
 
-        int[] hash = {0, 0, 0};
-        hash[0] = hash(blacklist.blocks, BuiltInRegistries.BLOCK);
-        hash[1] = hash(blacklist.blockEntityTypes, BuiltInRegistries.BLOCK_ENTITY_TYPE);
-        hash[2] = hash(blacklist.entityTypes, BuiltInRegistries.ENTITY_TYPE);
+        blacklist.pluginHash[0] = hash(blacklist.blocks, BuiltInRegistries.BLOCK);
+        blacklist.pluginHash[1] = hash(blacklist.blockEntityTypes, BuiltInRegistries.BLOCK_ENTITY_TYPE);
+        blacklist.pluginHash[2] = hash(blacklist.entityTypes, BuiltInRegistries.ENTITY_TYPE);
 
         boolean doBackup = Waila.BLACKLIST_CONFIG.isFileExists();
-        if (!Arrays.equals(Waila.BLACKLIST_CONFIG.get().pluginHash, hash)) {
+        if (!Arrays.equals(Waila.BLACKLIST_CONFIG.get().pluginHash, blacklist.pluginHash)) {
             if (doBackup) {
                 Waila.BLACKLIST_CONFIG.backup();
             }
-            BlacklistConfig newBlacklist = Waila.BLACKLIST_CONFIG.get();
-            newBlacklist.pluginHash = hash;
-            newBlacklist.blocks.addAll(blacklist.blocks);
-            newBlacklist.entityTypes.addAll(blacklist.entityTypes);
+
+            Waila.BLACKLIST_CONFIG.write(blacklist, true);
         }
 
         Waila.BLACKLIST_CONFIG.save();
