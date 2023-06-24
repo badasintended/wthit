@@ -292,6 +292,7 @@ public enum Registrar implements IRegistrar {
             BlacklistConfig newBlacklist = Waila.BLACKLIST_CONFIG.get();
             newBlacklist.pluginHash = hash;
             newBlacklist.blocks.addAll(blacklist.blocks);
+            newBlacklist.blockEntityTypes.addAll(blacklist.blockEntityTypes);
             newBlacklist.entityTypes.addAll(blacklist.entityTypes);
         }
 
