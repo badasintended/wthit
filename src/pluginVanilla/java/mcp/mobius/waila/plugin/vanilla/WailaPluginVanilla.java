@@ -1,9 +1,13 @@
 package mcp.mobius.waila.plugin.vanilla;
 
+import com.google.gson.GsonBuilder;
+import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.api.IntFormat;
+import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.data.FluidData;
+import mcp.mobius.waila.plugin.vanilla.config.DefaultRollbackBlacklistConfig;
 import mcp.mobius.waila.plugin.vanilla.config.NoteDisplayMode;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import mcp.mobius.waila.plugin.vanilla.fluid.LavaDescriptor;
@@ -37,6 +41,7 @@ import mcp.mobius.waila.plugin.vanilla.provider.RedstoneProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.SpawnerProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.TrappedChestProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.VehicleProvider;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
@@ -68,6 +73,7 @@ import net.minecraft.world.level.block.TrappedChestBlock;
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.entity.EnderChestBlockEntity;
 import net.minecraft.world.level.block.entity.JukeboxBlockEntity;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
@@ -80,6 +86,8 @@ import static mcp.mobius.waila.api.TooltipPosition.HEAD;
 import static mcp.mobius.waila.api.TooltipPosition.TAIL;
 
 public class WailaPluginVanilla implements IWailaPlugin {
+
+    private IJsonConfig<DefaultRollbackBlacklistConfig> defaultRollbackBlacklistConfig;
 
     @Override
     public void register(IRegistrar registrar) {
@@ -195,17 +203,37 @@ public class WailaPluginVanilla implements IWailaPlugin {
 
         registrar.addEntityData(ContainerEntityProvider.INSTANCE, Container.class, 1100);
 
-        registrar.addBlacklist(
-            Blocks.BARRIER,
-            Blocks.STRUCTURE_VOID);
+        defaultRollbackBlacklistConfig = IJsonConfig.of(DefaultRollbackBlacklistConfig.class)
+                .file(WailaConstants.WAILA + "/default_blacklist")
+                .gson(new GsonBuilder()
+                    .setPrettyPrinting()
+                    .registerTypeAdapter(DefaultRollbackBlacklistConfig.class, new DefaultRollbackBlacklistConfig.Adapter())
+                    .create())
+                .build();
+        if (!defaultRollbackBlacklistConfig.isFileExists()) {
+            defaultRollbackBlacklistConfig.get().blocks.add(Blocks.BARRIER);
+            defaultRollbackBlacklistConfig.get().blocks.add(Blocks.STRUCTURE_VOID);
+            defaultRollbackBlacklistConfig.get().entityTypes.add(EntityType.AREA_EFFECT_CLOUD);
+            defaultRollbackBlacklistConfig.get().entityTypes.add(EntityType.SNOWBALL);
+            defaultRollbackBlacklistConfig.get().entityTypes.add(EntityType.EXPERIENCE_ORB);
+            defaultRollbackBlacklistConfig.get().entityTypes.add(EntityType.INTERACTION);
+            defaultRollbackBlacklistConfig.get().entityTypes.add(EntityType.FIREBALL);
+            defaultRollbackBlacklistConfig.get().entityTypes.add(EntityType.FIREWORK_ROCKET);
+        }
+        defaultRollbackBlacklistConfig.save();
+        registrar.addConfig(new ResourceLocation(WailaConstants.WAILA, "default_blacklist"), defaultRollbackBlacklistConfig.getPath());
 
-        registrar.addBlacklist(
-            EntityType.AREA_EFFECT_CLOUD,
-            EntityType.EXPERIENCE_ORB,
-            EntityType.FIREBALL,
-            EntityType.FIREWORK_ROCKET,
-            EntityType.INTERACTION,
-            EntityType.SNOWBALL);
+        for (Block b : defaultRollbackBlacklistConfig.get().blocks) {
+            registrar.addBlacklist(b);
+        }
+
+        for (BlockEntityType<?> e : defaultRollbackBlacklistConfig.get().blockEntityTypes) {
+            registrar.addBlacklist(e);
+        }
+
+        for (EntityType<?> e : defaultRollbackBlacklistConfig.get().entityTypes) {
+            registrar.addBlacklist(e);
+        }
     }
 
 }
