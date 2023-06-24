@@ -288,8 +288,9 @@ public enum Registrar implements IRegistrar {
         hash[1] = hash(blacklist.blockEntityTypes, BuiltInRegistries.BLOCK_ENTITY_TYPE);
         hash[2] = hash(blacklist.entityTypes, BuiltInRegistries.ENTITY_TYPE);
 
+        boolean doBackup = Waila.BLACKLIST_CONFIG.isFileExists();
         if (!Arrays.equals(Waila.BLACKLIST_CONFIG.get().pluginHash, hash)) {
-            if (Waila.BLACKLIST_CONFIG.isFileExists()) {
+            if (doBackup) {
                 Waila.BLACKLIST_CONFIG.backup();
             }
             BlacklistConfig newBlacklist = Waila.BLACKLIST_CONFIG.get();
