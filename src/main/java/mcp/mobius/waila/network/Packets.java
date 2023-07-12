@@ -27,6 +27,7 @@ import mcp.mobius.waila.config.ConfigEntry;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.debug.DumpGenerator;
 import mcp.mobius.waila.registry.Registrar;
+import mcp.mobius.waila.util.ExceptionUtil;
 import mcp.mobius.waila.util.Log;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
@@ -36,6 +37,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -139,7 +141,7 @@ public class Packets {
                 IServerAccessor<Entity> accessor = ServerAccessor.INSTANCE.set(world, player, new EntityHitResult(entity, hitPos), entity);
 
                 for (IDataProvider<Entity> provider : registrar.entityData.get(entity)) {
-                    provider.appendData(DataWriter.INSTANCE, accessor, PluginConfig.SERVER);
+                    tryAppendData(provider, accessor);
                 }
 
                 raw.putInt("WailaEntityID", entity.getId());
@@ -149,7 +151,7 @@ public class Packets {
                 rawBuf.writeNbt(raw);
                 responseSender.send(DATA_RAW, rawBuf);
 
-                DataWriter.INSTANCE.sendTypedPackets(responseSender);
+                DataWriter.INSTANCE.sendTypedPackets(responseSender, player);
             });
         });
 
@@ -176,11 +178,11 @@ public class Packets {
                 IServerAccessor<BlockEntity> accessor = ServerAccessor.INSTANCE.set(world, player, hitResult, blockEntity);
 
                 for (IDataProvider<BlockEntity> provider : registrar.blockData.get(blockEntity)) {
-                    provider.appendData(DataWriter.INSTANCE, accessor, PluginConfig.SERVER);
+                    tryAppendData(provider, accessor);
                 }
 
                 for (IDataProvider<BlockEntity> provider : registrar.blockData.get(state.getBlock())) {
-                    provider.appendData(DataWriter.INSTANCE, accessor, PluginConfig.SERVER);
+                    tryAppendData(provider, accessor);
                 }
 
                 raw.putInt("x", pos.getX());
@@ -194,7 +196,7 @@ public class Packets {
                 rawBuf.writeNbt(raw);
                 responseSender.send(DATA_RAW, rawBuf);
 
-                DataWriter.INSTANCE.sendTypedPackets(responseSender);
+                DataWriter.INSTANCE.sendTypedPackets(responseSender, player);
             });
         });
     }
@@ -312,6 +314,18 @@ public class Packets {
             }
         }
         return set;
+    }
+
+    private static <T> void tryAppendData(IDataProvider<T> provider, IServerAccessor<T> accessor) {
+        try {
+            provider.appendData(DataWriter.INSTANCE, accessor, PluginConfig.SERVER);
+        } catch (Throwable t) {
+            ServerPlayer player = accessor.getPlayer();
+
+            if (ExceptionUtil.dump(t, provider.getClass().toString() + "\nplayer " + player.getScoreboardName(), null)) {
+                player.sendSystemMessage(Component.literal("Error on retrieving server data from provider " + provider.getClass().getName()));
+            }
+        }
     }
 
 }
