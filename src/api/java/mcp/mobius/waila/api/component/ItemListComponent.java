@@ -14,12 +14,20 @@ import net.minecraft.world.item.ItemStack;
 public class ItemListComponent implements ITooltipComponent.HorizontalGrowing {
 
     public ItemListComponent(List<ItemStack> items) {
+        this(items, 3);
+    }
+
+    public ItemListComponent(List<ItemStack> items, int maxHeight) {
         this.items = items;
+        this.maxHeight = maxHeight;
     }
 
     private final List<ItemStack> items;
+    private final int maxHeight;
+
     private int gridWidth;
     private int gridHeight;
+    private int maxIndex;
 
     @Override
     public int getMinimalWidth() {
@@ -29,7 +37,8 @@ public class ItemListComponent implements ITooltipComponent.HorizontalGrowing {
     @Override
     public void setGrownWidth(int grownWidth) {
         gridWidth = grownWidth / 18;
-        gridHeight = items.isEmpty() ? 0 : Mth.positiveCeilDiv(items.size(), gridWidth);
+        gridHeight = items.isEmpty() ? 0 : Math.min(Mth.positiveCeilDiv(items.size(), gridWidth), maxHeight);
+        maxIndex = gridWidth * gridHeight - 1;
     }
 
     @Override
@@ -44,6 +53,8 @@ public class ItemListComponent implements ITooltipComponent.HorizontalGrowing {
             int ix = x + (18 * (i % gridWidth));
             int iy = y + (18 * (i / gridWidth));
             IApiService.INSTANCE.renderItem(ix, iy, item);
+
+            if (i == maxIndex) break;
         }
     }
 
