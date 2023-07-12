@@ -34,6 +34,7 @@ public class ItemProvider extends DataProvider<ItemData> {
     @Override
     protected void registerAdditions(IRegistrar registrar, int priority) {
         registrar.addSyncedConfig(ItemData.CONFIG_SYNC_NBT, true, false);
+        registrar.addConfig(ItemData.CONFIG_MAX_HEIGHT, 3);
     }
 
     @Override
@@ -83,7 +84,7 @@ public class ItemProvider extends DataProvider<ItemData> {
 
         tooltip.setLine(ItemData.ID, lastItemsComponent = new ItemListComponent(merged.values().stream()
             .sorted(Comparator.comparingInt(ItemStack::getCount).reversed())
-            .toList()));
+            .toList(), config.getInt(ItemData.CONFIG_MAX_HEIGHT)));
     }
 
     private record ItemWithNbt(Item item, CompoundTag tag) {
