@@ -44,11 +44,10 @@ public enum FluidStorageProvider implements IDataProvider<BlockEntity> {
             } else if (storage instanceof SlottedStorage<FluidVariant> slotted) {
                 int size = slotted.getSlotCount();
                 FluidData fluidData = FluidData.of(size);
-                Set<StorageView<FluidVariant>> uniqueViews = new HashSet<>(size);
 
                 for (int i = 0; i < size; i++) {
                     SingleSlotStorage<FluidVariant> slot = slotted.getSlot(i);
-                    addFluid(uniqueViews, fluidData, slot);
+                    addFluid(fluidData, slot);
                 }
 
                 res.add(fluidData);
