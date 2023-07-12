@@ -13,8 +13,10 @@ public final class ExceptionUtil {
     private static final Log LOG = Log.create();
     private static final Set<String> ERRORS = new HashSet<>();
 
-    public static void dump(Throwable e, String errorName, ITooltip tooltip) {
-        if (ERRORS.add(errorName)) {
+    public static boolean dump(Throwable e, String errorName, ITooltip tooltip) {
+        boolean log = ERRORS.add(errorName);
+
+        if (log) {
             LOG.error("Caught unhandled exception : [{}] {}", errorName, e);
             LOG.error(ExceptionUtils.getStackTrace(e));
         }
@@ -23,6 +25,8 @@ public final class ExceptionUtil {
             tooltip.addLine(Component.literal("Error on " + errorName).withStyle(ChatFormatting.RED));
             tooltip.addLine(Component.literal("See logs for more info").withStyle(ChatFormatting.RED));
         }
+
+        return log;
     }
 
 }
