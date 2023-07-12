@@ -46,11 +46,10 @@ public enum ItemStorageProvider implements IDataProvider<BlockEntity> {
                 int size = slotted.getSlotCount();
                 ItemData itemData = ItemData.of(config);
                 itemData.ensureSpace(size);
-                Set<StorageView<ItemVariant>> uniqueViews = new HashSet<>(size);
 
                 for (int i = 0; i < size; i++) {
                     SingleSlotStorage<ItemVariant> slot = slotted.getSlot(i);
-                    addItem(uniqueViews, itemData, slot);
+                    addItem(itemData, slot);
                 }
 
                 res.add(itemData);
