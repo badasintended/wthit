@@ -13,10 +13,13 @@ import mcp.mobius.waila.api.IData;
 import mcp.mobius.waila.api.IDataWriter;
 import mcp.mobius.waila.network.Packets;
 import mcp.mobius.waila.registry.Registrar;
+import mcp.mobius.waila.util.ExceptionUtil;
 import mcp.mobius.waila.util.TypeUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerPlayer;
 
 public enum DataWriter implements IDataWriter {
 
@@ -36,37 +39,45 @@ public enum DataWriter implements IDataWriter {
         return this.raw;
     }
 
-    public void sendTypedPackets(PacketSender sender) {
+    public void sendTypedPackets(PacketSender sender, ServerPlayer player) {
         typed.forEach((type, data) -> {
             ResourceLocation id = Registrar.INSTANCE.dataType2Id.get(type);
 
             final boolean[] finished = {false};
             for (Consumer<Result<IData>> consumer : data) {
-                consumer.accept(new Result<>() {
-                    boolean added = false;
+                try {
+                    consumer.accept(new Result<>() {
+                        boolean added = false;
 
-                    @Override
-                    public Result<IData> add(IData data) {
-                        Preconditions.checkState(!added, "Called multiple times in the same closure");
-                        Preconditions.checkNotNull(data, "Data is null");
+                        @Override
+                        public Result<IData> add(IData data) {
+                            Preconditions.checkState(!added, "Called multiple times in the same closure");
+                            Preconditions.checkNotNull(data, "Data is null");
 
-                        FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
-                        buf.writeResourceLocation(id);
-                        data.write(buf);
-                        sender.send(Packets.DATA_TYPED, buf);
+                            FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
+                            buf.writeResourceLocation(id);
+                            data.write(buf);
+                            sender.send(Packets.DATA_TYPED, buf);
 
-                        finished[0] = true;
-                        added = true;
+                            finished[0] = true;
+                            added = true;
 
-                        return this;
+                            return this;
+                        }
+
+                        @Override
+                        public Result<IData> block() {
+                            finished[0] = true;
+                            return this;
+                        }
+                    });
+                } catch (Throwable t) {
+                    if (ExceptionUtil.dump(t, consumer.getClass().toString() + "\nplayer " + player.getScoreboardName(), null)) {
+                        player.sendSystemMessage(Component.literal("Error on retrieving server data from provider " + consumer.getClass().getName()));
                     }
 
-                    @Override
-                    public Result<IData> block() {
-                        finished[0] = true;
-                        return this;
-                    }
-                });
+                    finished[0] = true;
+                }
 
                 if (finished[0]) break;
             }
