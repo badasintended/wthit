@@ -15,10 +15,6 @@ repositories {
   }
 }
 ```
-??? warning "The old maven is going down"
-    The old maven, `https://maven.bai.lol` will probably go down as the the host, JFrog is 
-    discontinuing its free tier offering. See [#207](https://github.com/badasintended/wthit/issues/207)
-    for more info.
     
 
 ### Declaring Dependencies
