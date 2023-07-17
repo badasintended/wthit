@@ -47,8 +47,8 @@
   "tooltip.waila.instrument.piglin"                             : "猪灵",
   "tooltip.waila.instrument.none"                               : "无",
 
-  "tooltip.waila.extra.energy"                                  : "Energy",
-  "tooltip.waila.extra.unknown_fluid"                           : "Unknown Fluid",
+  "tooltip.waila.extra.energy"                                  : "能量",
+  "tooltip.waila.extra.unknown_fluid"                           : "未知流体",
 
   "gui.waila.configuration"                                     : "%s配置",
   "gui.waila.waila_settings"                                    : "%s设置",
