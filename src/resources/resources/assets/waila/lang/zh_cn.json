@@ -19,9 +19,9 @@
   "tooltip.waila.timer.breed"                                   : "繁殖冷却",
 
   "tooltip.waila.horse.jump.key"                                : "跳跃",
-  "tooltip.waila.horse.jump.value"                              : "%s 格高",
+  "tooltip.waila.horse.jump.value"                              : "%s格高",
   "tooltip.waila.horse.speed.key"                               : "速度",
-  "tooltip.waila.horse.speed.value"                             : "%s 米/秒",
+  "tooltip.waila.horse.speed.value"                             : "%s米/秒",
 
   "tooltip.waila.instrument.harp"                               : "竖琴",
   "tooltip.waila.instrument.basedrum"                           : "底鼓",
@@ -47,8 +47,8 @@
   "tooltip.waila.instrument.piglin"                             : "猪灵",
   "tooltip.waila.instrument.none"                               : "无",
 
-
-
+  "tooltip.waila.extra.energy"                                  : "Energy",
+  "tooltip.waila.extra.unknown_fluid"                           : "Unknown Fluid",
 
   "gui.waila.configuration"                                     : "%s配置",
   "gui.waila.waila_settings"                                    : "%s设置",
@@ -60,7 +60,7 @@
   "gui.waila.credits.contributors"                              : "贡献者",
 
   "command.waila.server_dump_success"                           : "成功转存专用服务器到%s",
-  "command.waila.local_dump_success"                            : "成功转存本地服务器到 %s",
+  "command.waila.local_dump_success"                            : "成功转存本地服务器到%s",
   "command.waila.client_dump_success"                           : "成功转存客户到%s",
   "command.waila.overlay.true"                                  : "启用覆盖",
   "command.waila.overlay.false"                                 : "禁用覆盖",
@@ -86,7 +86,7 @@
   "config.waila.invalid_input.desc"                             : "请检查红色高亮显示的配置项",
   "config.waila.server_only"                                    : "只能在服务器或单人游戏中编辑",
   "config.waila.server_disabled"                                : "服务器禁用了此选项",
-  "config.waila.server_missing_mod"                             : "锁定，因为服务器没有安装 WTHIT",
+  "config.waila.server_missing_mod"                             : "锁定，因为服务器没有安装WTHIT",
   "config.waila.server_missing_option"                          : "锁定，因为服务器没有此选项",
 
   "config.waila.general"                                        : "常规",
@@ -95,7 +95,7 @@
   "config.waila.sneaky_details"                                 : "潜行详情",
   "config.waila.sneaky_details_desc"                            : "仅当潜行时显示主体内容",
   "config.waila.hide_sneak_text"                                : "隐藏潜行文本",
-  "config.waila.hide_sneak_text_desc"                           : "隐藏\"潜行显示详情\"文本，当潜行详情启用时",
+  "config.waila.hide_sneak_text_desc"                           : "当潜行详情启用时，隐藏“潜行显示详情”文本",
   "config.waila.display_mode"                                   : "显示模式",
   "config.waila.display_mode_desc"                              : "提示框显示方式\n切换：显示按键会切换开关\n按住：必须按住显示按键",
   "config.waila.display_mode_toggle"                            : "切换",
@@ -235,7 +235,7 @@
 
   "config.waila.plugin_waila"                                   : "Waila核心",
   "config.waila.plugin_waila.show_mod_name"                     : "显示模组名称",
-
+  "config.waila.plugin_waila.show_item_mod_name"                : "Show Item Mod Names",
   "config.waila.plugin_waila.show_registry"                     : "显示注册名称",
   "config.waila.plugin_waila.show_blocks"                       : "显示方块",
   "config.waila.plugin_waila.show_fluids"                       : "显示流体",
@@ -247,24 +247,25 @@
   "config.waila.plugin_waila.icon_position_middle"              : "中间",
   "config.waila.plugin_waila.icon_position_bottom"              : "底部",
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  "config.waila.plugin_wailax"                                  : "Waila Extra",
+  "config.waila.plugin_wailax.energy"                           : "Energy",
+  "config.waila.plugin_wailax.energy.enabled_block"             : "Show Block Energy",
+  "config.waila.plugin_wailax.energy.enabled_entity"            : "Show Entity Energy",
+  "config.waila.plugin_wailax.energy.blacklist"                 : "Energy Blacklist",
+  "config.waila.plugin_wailax.progress"                         : "Crafting Progress",
+  "config.waila.plugin_wailax.progress.enabled_block"           : "Show Block Crafting Progress",
+  "config.waila.plugin_wailax.progress.enabled_entity"          : "Show Entity Crafting Progress",
+  "config.waila.plugin_wailax.progress.blacklist"               : "Crafting Progress Blacklist",
+  "config.waila.plugin_wailax.item"                             : "Item",
+  "config.waila.plugin_wailax.item.enabled_block"               : "Show Block Item Contents",
+  "config.waila.plugin_wailax.item.enabled_entity"              : "Show Entity Item Contents",
+  "config.waila.plugin_wailax.item.nbt"                         : "Sync NBT Data",
+  "config.waila.plugin_wailax.item.max_height"                  : "Max Height",
+  "config.waila.plugin_wailax.item.blacklist"                   : "Item Contents Blacklist",
+  "config.waila.plugin_wailax.fluid"                            : "Fluid",
+  "config.waila.plugin_wailax.fluid.enabled_block"              : "Show Block Fluid Contents",
+  "config.waila.plugin_wailax.fluid.enabled_entity"             : "Show Entity Fluid Contents",
+  "config.waila.plugin_wailax.fluid.blacklist"                  : "Fluid Contents Blacklist",
 
   "theme.waila.plugin_waila.gradient.backgroundColor"           : "背景颜色",
   "theme.waila.plugin_waila.gradient.gradientStart"             : "边界渐变开始颜色",
@@ -280,12 +281,12 @@
   "theme.waila.plugin_waila.nine_patch.textColor"               : "文本颜色",
   "theme.waila.plugin_waila.nine_patch.textureWidth"            : "图案宽度",
   "theme.waila.plugin_waila.nine_patch.textureHeight"           : "图案高度",
-
-
-
-
-
-
+  "theme.waila.plugin_waila.nine_patch.regionTop"               : "Region: Top",
+  "theme.waila.plugin_waila.nine_patch.regionMiddle"            : "Region: Middle",
+  "theme.waila.plugin_waila.nine_patch.regionBottom"            : "Region: Bottom",
+  "theme.waila.plugin_waila.nine_patch.regionLeft"              : "Region: Left",
+  "theme.waila.plugin_waila.nine_patch.regionCenter"            : "Region: Center",
+  "theme.waila.plugin_waila.nine_patch.regionRight"             : "Region: Right",
   "theme.waila.plugin_waila.nine_patch.mode"                    : "图案契合度",
   "theme.waila.plugin_waila.nine_patch.mode_stretch"            : "拉伸",
   "theme.waila.plugin_waila.nine_patch.mode_tile"               : "平铺",
