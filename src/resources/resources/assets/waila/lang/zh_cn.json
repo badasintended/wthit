@@ -247,7 +247,7 @@
   "config.waila.plugin_waila.icon_position_middle"              : "中间",
   "config.waila.plugin_waila.icon_position_bottom"              : "底部",
 
-  "config.waila.plugin_wailax"                                  : "Waila额外",
+  "config.waila.plugin_wailax"                                  : "Waila附加",
   "config.waila.plugin_wailax.energy"                           : "能量",
   "config.waila.plugin_wailax.energy.enabled_block"             : "显示方块能量",
   "config.waila.plugin_wailax.energy.enabled_entity"            : "显示实体能量",
