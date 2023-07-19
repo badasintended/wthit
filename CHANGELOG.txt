@@ -1,4 +1,4 @@
-8.x - 1.20 - dev/master - java 17
+8.x - 1.20.1 - dev/master - java 17
 =================================
 8.2.0    - [API] Added complex data types to show progress, energy, items, and fluids data
            - See the [documentation](https://docs.bai.lol/wthit/plugin/server_data/) for mor info
