@@ -266,6 +266,7 @@
 
 
 
+
   "theme.waila.plugin_waila.gradient.backgroundColor"           : "Цвет фона",
   "theme.waila.plugin_waila.gradient.gradientStart"             : "Начало градиента обводки",
   "theme.waila.plugin_waila.gradient.gradientEnd"               : "Конец градиента обводки",
