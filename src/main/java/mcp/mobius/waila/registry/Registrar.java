@@ -68,7 +68,6 @@ public enum Registrar implements IRegistrar {
     public final Map<ResourceLocation, IntFormat> intConfigFormats = new HashMap<>();
 
     public final BiMap<ResourceLocation, ThemeType<?>> themeTypes = HashBiMap.create();
-    private final Map<Class<? extends ITheme>, ThemeType<?>> themeClass2Type = new HashMap<>();
 
     public final Map<Class<? extends IData>, ResourceLocation> dataType2Id = new HashMap<>();
     public final Map<ResourceLocation, IData.Serializer<?>> dataId2Serializer = new HashMap<>();
@@ -258,7 +257,6 @@ public enum Registrar implements IRegistrar {
             assertLock();
             ThemeType<T> casted = TypeUtil.uncheckedCast(type);
             themeTypes.put(id, casted);
-            themeClass2Type.put(casted.clazz, casted);
         }
     }
 
