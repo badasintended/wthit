@@ -23,8 +23,11 @@ fun <T : Jar> UploadConfig.curseforge(task: T) = project.run {
             changelogType = "markdown"
             changelog = env["CHANGELOG"]
 
-            addModLoader(project.name.capitalize())
             prop["cf.gameVersion"].split(", ").forEach(this::addGameVersion)
+
+            prop["cf.loader"].split(", ").forEach {
+                addModLoader(it)
+            }
 
             fun relation(key: String, type: String) {
                 prop.ifPresent("cf.${key}") { value ->

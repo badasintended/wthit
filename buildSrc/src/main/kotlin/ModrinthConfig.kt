@@ -20,8 +20,11 @@ fun <T : Jar> UploadConfig.modrinth(task: T) = project.run {
 
             uploadFile.set(task)
 
-            loaders.add(project.name)
             gameVersions.addAll(prop["mr.gameVersion"].split(", "))
+
+            prop["mr.loader"].split(", ").forEach {
+                loaders.add(it)
+            }
 
             fun dependency(key: String, type: DependencyType) {
                 prop.ifPresent("mr.${key}") { value ->

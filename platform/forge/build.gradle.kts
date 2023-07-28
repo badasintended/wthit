@@ -3,14 +3,14 @@ import java.text.SimpleDateFormat
 import java.util.Date
 
 plugins {
-    id("net.minecraftforge.gradle") version "5.1.+"
+    id("net.neoforged.gradle") version "[6.0.13, 6.2)"
     id("org.spongepowered.mixin") version "0.7.+"
 }
 
 setupPlatform()
 
 dependencies {
-    minecraft("net.minecraftforge:forge:${rootProp["minecraft"]}-${rootProp["forge"]}")
+    minecraft("net.neoforged:forge:${rootProp["minecraft"]}-${rootProp["forge"]}")
 
     implementation("org.jetbrains:annotations:19.0.0")
     annotationProcessor("org.spongepowered:mixin:0.8.5:processor")
