@@ -16,9 +16,7 @@ Using NBT data is pretty straightforward, in your `IDataProvider` implementation
 ```java
 public class SimpleDataProvider implements IDataProvider<MyBlockEntity> {
     @Override
-    public void appendData(IDataWriter data,
-                           IServerAccessor<MyBlockEntity> accessor,
-                           IPluginConfig config) {
+    public void appendData(IDataWriter data, IServerAccessor<MyBlockEntity> accessor, IPluginConfig config) {
         data.raw().putInt("someInt", accessor.getTarget().getSomeInt());
     }
 }
@@ -28,9 +26,7 @@ Then in your `I*ComponentProvider` implementation, call `IDataReader#raw` to get
 ```java
 public class SimpleComponentProvider implements IBlockComponentProvider {
     @Override
-    public void appendBody(ITooltip tooltip,
-                           IBlockAccessor accessor,
-                           IPluginConfig config) {
+    public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
         CompoundTag data = accessor.getData().raw();
         if (data.contains("someInt")) {
             int someInt = data.getInt("someInt");
@@ -111,9 +107,7 @@ call `IDataWriter#add` with the type that you want to attach.
 ```java
 public class ComplexDataProvider implements IDataProvider<MyBlockEntity> {
     @Override
-    public void appendData(IDataWriter data,
-                           IServerAccessor<MyBlockEntity> accessor,
-                           IPluginConfig config) {
+    public void appendData(IDataWriter data, IServerAccessor<MyBlockEntity> accessor, IPluginConfig config) {
         data.add(EnergyData.class, res -> {
             MyBlockEntity be = accessor.getTarget();
             res.add(EnergyData.of(be.getStoredEnergy(), be.getEnergyCapacity()));
@@ -174,10 +168,11 @@ To get the data on the client, simply call `IDataReader#get` with the type of da
 ```java
 public class SimpleComponentProvider implements IBlockComponentProvider {
     @Override
-    public void appendBody(ITooltip tooltip,
-                           IBlockAccessor accessor,
-                           IPluginConfig config) {
+    public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
         StringData data = accessor.getData().get(StringData.class);
+        if (data != null) {
+            // do something with data
+        }
     }
 }
 ```
