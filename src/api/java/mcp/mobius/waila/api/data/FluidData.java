@@ -80,8 +80,6 @@ public final class FluidData implements IData {
      * <ul><li>
      * On Fabric, {@code CauldronFluidContent} is used to get the information.
      * </li></ul>
-     *
-     * @throws IllegalStateException if {@link FluidData} is not bootstrapped.
      */
     public static void describeCauldron(Block block, CauldronDescriptor descriptor) {
         IExtraService.INSTANCE.setCauldronDescFor(block, descriptor);
@@ -96,8 +94,6 @@ public final class FluidData implements IData {
      * <ul><li>
      * On Fabric, {@code CauldronFluidContent} is used to get the information.
      * </li></ul>
-     *
-     * @throws IllegalStateException if {@link FluidData} is not bootstrapped.
      */
     public static void describeCauldron(Class<? extends Block> clazz, CauldronDescriptor descriptor) {
         IExtraService.INSTANCE.setCauldronDescFor(clazz, descriptor);
