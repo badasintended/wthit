@@ -30,6 +30,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
 
 public abstract class DataProvider<T extends IData> implements IBlockComponentProvider, IEntityComponentProvider {
 
@@ -124,11 +125,15 @@ public abstract class DataProvider<T extends IData> implements IBlockComponentPr
 
         @Override
         public void appendData(IDataWriter data, IServerAccessor<BlockEntity> accessor, IPluginConfig config) {
+            BlockEntity target = accessor.getTarget();
+            BlockState state = target.getBlockState();
+            BlockEntityType<?> blockEntityType = target.getType();
+
             if (!config.getBoolean(enabledBlockOption)
-                || blacklistConfig.get().blocks.contains(accessor.getTarget().getBlockState().getBlock())
-                || blacklistConfig.get().blockEntityTypes.contains(accessor.getTarget().getType())
-                || accessor.getTarget().getBlockState().is(blockBlacklistTag)
-                || BuiltInRegistries.BLOCK_ENTITY_TYPE.wrapAsHolder(accessor.getTarget().getType()).is(blockEntityBlacklistTag)) {
+                || blacklistConfig.get().blocks.contains(state.getBlock())
+                || blacklistConfig.get().blockEntityTypes.contains(blockEntityType)
+                || state.is(blockBlacklistTag)
+                || BuiltInRegistries.BLOCK_ENTITY_TYPE.wrapAsHolder(blockEntityType).is(blockEntityBlacklistTag)) {
                 data.blockAll(type);
             }
         }
@@ -139,9 +144,11 @@ public abstract class DataProvider<T extends IData> implements IBlockComponentPr
 
         @Override
         public void appendData(IDataWriter data, IServerAccessor<Entity> accessor, IPluginConfig config) {
+            EntityType<?> entityType = accessor.getTarget().getType();
+
             if (!config.getBoolean(enabledEntityOption)
-                || blacklistConfig.get().entityTypes.contains(accessor.getTarget().getType())
-                || accessor.getTarget().getType().is(entityBlacklistTag)) {
+                || blacklistConfig.get().entityTypes.contains(entityType)
+                || entityType.is(entityBlacklistTag)) {
                 data.blockAll(type);
             }
         }
