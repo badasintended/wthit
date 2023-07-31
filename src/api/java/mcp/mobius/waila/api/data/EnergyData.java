@@ -1,6 +1,8 @@
 package mcp.mobius.waila.api.data;
 
 import mcp.mobius.waila.api.IData;
+import mcp.mobius.waila.api.IDataProvider;
+import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.__internal__.ApiSide;
 import mcp.mobius.waila.api.__internal__.IApiService;
 import mcp.mobius.waila.api.__internal__.IExtraService;
@@ -34,6 +36,27 @@ public final class EnergyData implements IData {
      * <b>E</b> will be used on Fabric/Quilt and <b>FE</b> on Forge.
      */
     public static final String DEFAULT_UNIT = IApiService.INSTANCE.getDefaultEnergyUnit();
+
+    /**
+     * An infinite energy data.
+     *
+     * @see #newInfiniteProvider()
+     */
+    public static final EnergyData INFINITE = EnergyData.of(Double.POSITIVE_INFINITY, Double.POSITIVE_INFINITY);
+
+    /**
+     * Creates a {@linkplain IDataProvider data provider} that always returns infinite energy data.
+     * <p>
+     * Should probably be used with a higher (lower number) priority than the {@linkplain IRegistrar#DEFAULT_PRIORITY default}.
+     * <p>
+     * Along with this method, Waila also provides {@code waila:extra/infinite_energy}
+     * tag that can be used for marking blocks, block entity types, or entity types to contain infinite energy.
+     *
+     * @see #INFINITE
+     */
+    public static <T> IDataProvider<T> newInfiniteProvider() {
+        return (data, accessor, config) -> data.add(EnergyData.class, res -> res.add(INFINITE));
+    }
 
     /**
      * Sets the default values that will be applied for objects from the specified namespace.
