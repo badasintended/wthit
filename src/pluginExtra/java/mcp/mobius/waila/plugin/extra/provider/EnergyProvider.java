@@ -13,8 +13,7 @@ import mcp.mobius.waila.api.component.PairComponent;
 import mcp.mobius.waila.api.component.WrappedComponent;
 import mcp.mobius.waila.api.data.EnergyData;
 import mcp.mobius.waila.plugin.extra.data.EnergyDescription;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
+import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -31,9 +30,9 @@ public class EnergyProvider extends DataProvider<EnergyData> {
     private static final String INFINITE = "∞";
 
     private static final ResourceLocation INFINITE_TAG_ID = new ResourceLocation(WailaConstants.NAMESPACE, "extra/infinite_energy");
-    private static final TagKey<Block> INFINITE_BLOCK_TAG = TagKey.create(Registries.BLOCK, INFINITE_TAG_ID);
-    private static final TagKey<BlockEntityType<?>> INFINITE_BLOCK_ENTITY_TAG = TagKey.create(Registries.BLOCK_ENTITY_TYPE, INFINITE_TAG_ID);
-    private static final TagKey<EntityType<?>> INFINITE_ENTITY_TAG = TagKey.create(Registries.ENTITY_TYPE, INFINITE_TAG_ID);
+    private static final TagKey<Block> INFINITE_BLOCK_TAG = TagKey.create(Registry.BLOCK_REGISTRY, INFINITE_TAG_ID);
+    private static final TagKey<BlockEntityType<?>> INFINITE_BLOCK_ENTITY_TAG = TagKey.create(Registry.BLOCK_ENTITY_TYPE_REGISTRY, INFINITE_TAG_ID);
+    private static final TagKey<EntityType<?>> INFINITE_ENTITY_TAG = TagKey.create(Registry.ENTITY_TYPE_REGISTRY, INFINITE_TAG_ID);
 
     private EnergyProvider() {
         super(EnergyData.ID, EnergyData.class, EnergyData::new);
@@ -79,7 +78,7 @@ public class EnergyProvider extends DataProvider<EnergyData> {
                 BlockEntity target = accessor.getTarget();
 
                 if (target.getBlockState().is(INFINITE_BLOCK_TAG)
-                    || BuiltInRegistries.BLOCK_ENTITY_TYPE.wrapAsHolder(target.getType()).is(INFINITE_BLOCK_ENTITY_TAG)) {
+                    || Registry.BLOCK_ENTITY_TYPE.getOrCreateHolderOrThrow(Registry.BLOCK_ENTITY_TYPE.getResourceKey(target.getType()).orElseThrow()).is(INFINITE_BLOCK_ENTITY_TAG)) {
                     res.add(EnergyData.INFINITE);
                 }
             });
