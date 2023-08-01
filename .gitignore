@@ -25,5 +25,5 @@ Thumbs.db
 
 src/buildConst/
 docs/dokka/
-docs/javadocs/
+docs/javadoc/
 .b2/
