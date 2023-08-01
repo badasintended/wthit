@@ -22,6 +22,16 @@ public interface IRegistrar {
 
     /**
      * Registers a namespaced config key to be accessed within data providers.
+     * <p>
+     * These translation keys will be used on the plugin config screen:<ul>
+     * <li>{@code config.waila.plugin_[namespace].[path]} for the config name.</li>
+     * <li>{@code config.waila.plugin_[namespace].[path]_desc} for the config description.
+     * This one is optional and can be left missing.</li></ul>
+     * <p>
+     * Config options can also be grouped with the same prefix on its path followed by a period [{@code .}],
+     * e.g. {@code my_plugin:group.option1} and {@code my_plugin:group.option2}.<br>
+     * Then, add a translation for {@code config.waila.plugin_[namespace].[group]} with the group name
+     * for it to be visible in the config screen.
      *
      * @param key          the namespaced key
      * @param defaultValue the default value
@@ -30,6 +40,16 @@ public interface IRegistrar {
 
     /**
      * Registers a namespaced config key to be accessed within data providers.
+     * <p>
+     * These translation keys will be used on the plugin config screen:<ul>
+     * <li>{@code config.waila.plugin_[namespace].[path]} for the config name.</li>
+     * <li>{@code config.waila.plugin_[namespace].[path]_desc} for the config description.
+     * This one is optional and can be left missing.</li></ul>
+     * <p>
+     * Config options can also be grouped with the same prefix on its path followed by a period [{@code .}],
+     * e.g. {@code my_plugin:group.option1} and {@code my_plugin:group.option2}.<br>
+     * Then, add a translation for {@code config.waila.plugin_[namespace].[group]} with the group name
+     * for it to be visible in the config screen.
      *
      * @param key          the namespaced key
      * @param defaultValue the default value
@@ -39,6 +59,16 @@ public interface IRegistrar {
 
     /**
      * Registers a namespaced config key to be accessed within data providers.
+     * <p>
+     * These translation keys will be used on the plugin config screen:<ul>
+     * <li>{@code config.waila.plugin_[namespace].[path]} for the config name.</li>
+     * <li>{@code config.waila.plugin_[namespace].[path]_desc} for the config description.
+     * This one is optional and can be left missing.</li></ul>
+     * <p>
+     * Config options can also be grouped with the same prefix on its path followed by a period [{@code .}],
+     * e.g. {@code my_plugin:group.option1} and {@code my_plugin:group.option2}.<br>
+     * Then, add a translation for {@code config.waila.plugin_[namespace].[group]} with the group name
+     * for it to be visible in the config screen.
      *
      * @param key          the namespaced key
      * @param defaultValue the default value
@@ -49,6 +79,16 @@ public interface IRegistrar {
 
     /**
      * Registers a namespaced config key to be accessed within data providers.
+     * <p>
+     * These translation keys will be used on the plugin config screen:<ul>
+     * <li>{@code config.waila.plugin_[namespace].[path]} for the config name.</li>
+     * <li>{@code config.waila.plugin_[namespace].[path]_desc} for the config description.
+     * This one is optional and can be left missing.</li></ul>
+     * <p>
+     * Config options can also be grouped with the same prefix on its path followed by a period [{@code .}],
+     * e.g. {@code my_plugin:group.option1} and {@code my_plugin:group.option2}.<br>
+     * Then, add a translation for {@code config.waila.plugin_[namespace].[group]} with the group name
+     * for it to be visible in the config screen.
      *
      * @param key          the namespaced key
      * @param defaultValue the default value
@@ -57,6 +97,16 @@ public interface IRegistrar {
 
     /**
      * Registers a namespaced config key to be accessed within data providers.
+     * <p>
+     * These translation keys will be used on the plugin config screen:<ul>
+     * <li>{@code config.waila.plugin_[namespace].[path]} for the config name.</li>
+     * <li>{@code config.waila.plugin_[namespace].[path]_desc} for the config description.
+     * This one is optional and can be left missing.</li></ul>
+     * <p>
+     * Config options can also be grouped with the same prefix on its path followed by a period [{@code .}],
+     * e.g. {@code my_plugin:group.option1} and {@code my_plugin:group.option2}.<br>
+     * Then, add a translation for {@code config.waila.plugin_[namespace].[group]} with the group name
+     * for it to be visible in the config screen.
      *
      * @param key          the namespaced key
      * @param defaultValue the default value
@@ -65,6 +115,16 @@ public interface IRegistrar {
 
     /**
      * Registers a namespaced config key to be accessed within data providers.
+     * <p>
+     * These translation keys will be used on the plugin config screen:<ul>
+     * <li>{@code config.waila.plugin_[namespace].[path]} for the config name.</li>
+     * <li>{@code config.waila.plugin_[namespace].[path]_desc} for the config description.
+     * This one is optional and can be left missing.</li></ul>
+     * <p>
+     * Config options can also be grouped with the same prefix on its path followed by a period [{@code .}],
+     * e.g. {@code my_plugin:group.option1} and {@code my_plugin:group.option2}.<br>
+     * Then, add a translation for {@code config.waila.plugin_[namespace].[group]} with the group name
+     * for it to be visible in the config screen.
      *
      * @param key          the namespaced key
      * @param defaultValue the default value
@@ -76,6 +136,16 @@ public interface IRegistrar {
      * <p>
      * Does <b>NOT</b> handle file parsing, and will <b>NOT</b> available from {@link IPluginConfig}.
      * Needs to be handled by the user manually.
+     * <p>
+     * These translation keys will be used on the plugin config screen:<ul>
+     * <li>{@code config.waila.plugin_[namespace].[path]} for the config name.</li>
+     * <li>{@code config.waila.plugin_[namespace].[path]_desc} for the config description.
+     * This one is optional and can be left missing.</li></ul>
+     * <p>
+     * Config options can also be grouped with the same prefix on its path followed by a period [{@code .}],
+     * e.g. {@code my_plugin:group.option1} and {@code my_plugin:group.option2}.<br>
+     * Then, add a translation for {@code config.waila.plugin_[namespace].[group]} with the group name
+     * for it to be visible in the config screen.
      *
      * @param key  the namespaced key
      * @param path the path to the file
@@ -87,6 +157,16 @@ public interface IRegistrar {
     /**
      * Registers a namespaced config key to be accessed within data providers.
      * When the server has waila installed, the server will send its value and it will be merged with client value.
+     * <p>
+     * These translation keys will be used on the plugin config screen:<ul>
+     * <li>{@code config.waila.plugin_[namespace].[path]} for the config name.</li>
+     * <li>{@code config.waila.plugin_[namespace].[path]_desc} for the config description.
+     * This one is optional and can be left missing.</li></ul>
+     * <p>
+     * Config options can also be grouped with the same prefix on its path followed by a period [{@code .}],
+     * e.g. {@code my_plugin:group.option1} and {@code my_plugin:group.option2}.<br>
+     * Then, add a translation for {@code config.waila.plugin_[namespace].[group]} with the group name
+     * for it to be visible in the config screen.
      *
      * @param key          the namespaced key
      * @param defaultValue the default value
@@ -96,6 +176,16 @@ public interface IRegistrar {
     /**
      * Registers a namespaced config key to be accessed within data providers.
      * When the server has waila installed, the server will send its value and it will be merged with client value.
+     * <p>
+     * These translation keys will be used on the plugin config screen:<ul>
+     * <li>{@code config.waila.plugin_[namespace].[path]} for the config name.</li>
+     * <li>{@code config.waila.plugin_[namespace].[path]_desc} for the config description.
+     * This one is optional and can be left missing.</li></ul>
+     * <p>
+     * Config options can also be grouped with the same prefix on its path followed by a period [{@code .}],
+     * e.g. {@code my_plugin:group.option1} and {@code my_plugin:group.option2}.<br>
+     * Then, add a translation for {@code config.waila.plugin_[namespace].[group]} with the group name
+     * for it to be visible in the config screen.
      *
      * @param key             the namespaced key
      * @param defaultValue    the default value
@@ -106,6 +196,16 @@ public interface IRegistrar {
     /**
      * Registers a namespaced config key to be accessed within data providers.
      * These values are sent from the server to the client upon connection.
+     * <p>
+     * These translation keys will be used on the plugin config screen:<ul>
+     * <li>{@code config.waila.plugin_[namespace].[path]} for the config name.</li>
+     * <li>{@code config.waila.plugin_[namespace].[path]_desc} for the config description.
+     * This one is optional and can be left missing.</li></ul>
+     * <p>
+     * Config options can also be grouped with the same prefix on its path followed by a period [{@code .}],
+     * e.g. {@code my_plugin:group.option1} and {@code my_plugin:group.option2}.<br>
+     * Then, add a translation for {@code config.waila.plugin_[namespace].[group]} with the group name
+     * for it to be visible in the config screen.
      *
      * @param key             the namespaced key
      * @param defaultValue    the default value
@@ -116,6 +216,16 @@ public interface IRegistrar {
     /**
      * Registers a namespaced config key to be accessed within data providers.
      * These values are sent from the server to the client upon connection.
+     * <p>
+     * These translation keys will be used on the plugin config screen:<ul>
+     * <li>{@code config.waila.plugin_[namespace].[path]} for the config name.</li>
+     * <li>{@code config.waila.plugin_[namespace].[path]_desc} for the config description.
+     * This one is optional and can be left missing.</li></ul>
+     * <p>
+     * Config options can also be grouped with the same prefix on its path followed by a period [{@code .}],
+     * e.g. {@code my_plugin:group.option1} and {@code my_plugin:group.option2}.<br>
+     * Then, add a translation for {@code config.waila.plugin_[namespace].[group]} with the group name
+     * for it to be visible in the config screen.
      *
      * @param key             the namespaced key
      * @param defaultValue    the default value
@@ -127,6 +237,16 @@ public interface IRegistrar {
     /**
      * Registers a namespaced config key to be accessed within data providers.
      * These values are sent from the server to the client upon connection.
+     * <p>
+     * These translation keys will be used on the plugin config screen:<ul>
+     * <li>{@code config.waila.plugin_[namespace].[path]} for the config name.</li>
+     * <li>{@code config.waila.plugin_[namespace].[path]_desc} for the config description.
+     * This one is optional and can be left missing.</li></ul>
+     * <p>
+     * Config options can also be grouped with the same prefix on its path followed by a period [{@code .}],
+     * e.g. {@code my_plugin:group.option1} and {@code my_plugin:group.option2}.<br>
+     * Then, add a translation for {@code config.waila.plugin_[namespace].[group]} with the group name
+     * for it to be visible in the config screen.
      *
      * @param key             the namespaced key
      * @param defaultValue    the default value
@@ -139,6 +259,16 @@ public interface IRegistrar {
     /**
      * Registers a namespaced config key to be accessed within data providers.
      * These values are sent from the server to the client upon connection.
+     * <p>
+     * These translation keys will be used on the plugin config screen:<ul>
+     * <li>{@code config.waila.plugin_[namespace].[path]} for the config name.</li>
+     * <li>{@code config.waila.plugin_[namespace].[path]_desc} for the config description.
+     * This one is optional and can be left missing.</li></ul>
+     * <p>
+     * Config options can also be grouped with the same prefix on its path followed by a period [{@code .}],
+     * e.g. {@code my_plugin:group.option1} and {@code my_plugin:group.option2}.<br>
+     * Then, add a translation for {@code config.waila.plugin_[namespace].[group]} with the group name
+     * for it to be visible in the config screen.
      *
      * @param key             the namespaced key
      * @param defaultValue    the default value
@@ -149,6 +279,16 @@ public interface IRegistrar {
     /**
      * Registers a namespaced config key to be accessed within data providers.
      * These values are sent from the server to the client upon connection.
+     * <p>
+     * These translation keys will be used on the plugin config screen:<ul>
+     * <li>{@code config.waila.plugin_[namespace].[path]} for the config name.</li>
+     * <li>{@code config.waila.plugin_[namespace].[path]_desc} for the config description.
+     * This one is optional and can be left missing.</li></ul>
+     * <p>
+     * Config options can also be grouped with the same prefix on its path followed by a period [{@code .}],
+     * e.g. {@code my_plugin:group.option1} and {@code my_plugin:group.option2}.<br>
+     * Then, add a translation for {@code config.waila.plugin_[namespace].[group]} with the group name
+     * for it to be visible in the config screen.
      *
      * @param key             the namespaced key
      * @param defaultValue    the default value
@@ -159,6 +299,16 @@ public interface IRegistrar {
     /**
      * Registers a namespaced config key to be accessed within data providers.
      * These values are sent from the server to the client upon connection.
+     * <p>
+     * These translation keys will be used on the plugin config screen:<ul>
+     * <li>{@code config.waila.plugin_[namespace].[path]} for the config name.</li>
+     * <li>{@code config.waila.plugin_[namespace].[path]_desc} for the config description.
+     * This one is optional and can be left missing.</li></ul>
+     * <p>
+     * Config options can also be grouped with the same prefix on its path followed by a period [{@code .}],
+     * e.g. {@code my_plugin:group.option1} and {@code my_plugin:group.option2}.<br>
+     * Then, add a translation for {@code config.waila.plugin_[namespace].[group]} with the group name
+     * for it to be visible in the config screen.
      *
      * @param key             the namespaced key
      * @param defaultValue    the default value
