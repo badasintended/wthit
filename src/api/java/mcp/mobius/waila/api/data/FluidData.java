@@ -275,6 +275,7 @@ public final class FluidData implements IData {
     }
 
     /** @hidden */
+    @ApiStatus.Internal
     public Unit unit() {
         return unit;
     }
