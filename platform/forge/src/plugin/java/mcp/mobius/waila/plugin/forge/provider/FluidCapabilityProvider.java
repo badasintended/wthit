@@ -18,7 +18,7 @@ public enum FluidCapabilityProvider implements IDataProvider<BlockEntity> {
         data.add(FluidData.class, res ->
             accessor.getTarget().getCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY).ifPresent(handler -> {
                 int size = handler.getTanks();
-                FluidData fluidData = FluidData.of(size);
+                FluidData fluidData = FluidData.of(FluidData.Unit.MILLIBUCKETS, size);
 
                 for (int i = 0; i < size; i++) {
                     FluidStack stack = handler.getFluidInTank(i);

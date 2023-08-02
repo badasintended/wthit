@@ -26,7 +26,8 @@ public enum LavaDescriptor implements FluidDescriptor<FlowingFluid>, CauldronDes
 
     @Override
     public FluidData getCauldronFluidData(BlockState state) {
-        return FluidData.of(1).add(Fluids.LAVA, null, 1000, 1000);
+        return FluidData.of(FluidData.Unit.MILLIBUCKETS, 1)
+            .add(Fluids.LAVA, null, 1000, 1000);
     }
 
 }
