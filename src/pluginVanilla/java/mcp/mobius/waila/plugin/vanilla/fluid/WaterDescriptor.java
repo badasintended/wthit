@@ -28,7 +28,8 @@ public enum WaterDescriptor implements FluidDescriptor<FlowingFluid>, CauldronDe
 
     @Override
     public FluidData getCauldronFluidData(BlockState state) {
-        return FluidData.of(1).add(Fluids.WATER, null, state.getValue(LayeredCauldronBlock.LEVEL) * 1000 / 3.0, 1000);
+        return FluidData.of(FluidData.Unit.MILLIBUCKETS, 1)
+            .add(Fluids.WATER, null, state.getValue(LayeredCauldronBlock.LEVEL) * 1000 / 3.0, 1000);
     }
 
 }

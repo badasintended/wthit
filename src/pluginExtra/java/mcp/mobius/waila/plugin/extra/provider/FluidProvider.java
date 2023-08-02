@@ -29,15 +29,19 @@ public class FluidProvider extends DataProvider<FluidData> {
 
     @Override
     protected void registerAdditions(IRegistrar registrar, int priority) {
+        registrar.addConfig(FluidData.CONFIG_DISPLAY_UNIT, FluidData.Unit.MILLIBUCKETS);
         registrar.addComponent(new CauldronProvider(), TooltipPosition.BODY, Block.class, priority);
     }
 
     @Override
     protected void appendBody(ITooltip tooltip, FluidData data, IPluginConfig config, ResourceLocation objectId) {
-        addFluidTooltip(tooltip, data);
+        addFluidTooltip(tooltip, data, config);
     }
 
-    private void addFluidTooltip(ITooltip tooltip, FluidData data) {
+    private void addFluidTooltip(ITooltip tooltip, FluidData data, IPluginConfig config) {
+        FluidData.Unit displayUnit = config.getEnum(FluidData.CONFIG_DISPLAY_UNIT);
+        FluidData.Unit storedUnit = data.unit();
+
         for (FluidData.Entry<?> entry : data.entries()) {
             FluidDescription desc = FluidDescription.getFluidDesc(entry);
 
@@ -48,11 +52,11 @@ public class FluidProvider extends DataProvider<FluidData> {
             String text;
             if (Double.isInfinite(stored)) text = INFINITE;
             else {
-                text = WailaHelper.suffix((long) stored);
-                if (Double.isFinite(capacity)) text += "/" + WailaHelper.suffix((long) capacity);
+                text = WailaHelper.suffix((long) FluidData.Unit.convert(storedUnit, displayUnit, stored));
+                if (Double.isFinite(capacity)) text += "/" + WailaHelper.suffix((long) FluidData.Unit.convert(storedUnit, displayUnit, capacity));
             }
 
-            text += " mB";
+            text += " " + displayUnit.symbol;
 
             TextureAtlasSprite sprite = desc.sprite();
             tooltip.addLine(new PairComponent(
@@ -71,7 +75,7 @@ public class FluidProvider extends DataProvider<FluidData> {
             if (accessor.getBlockState().is(blockBlacklistTag)) return;
 
             FluidData fluidData = FluidDescription.getCauldronFluidData(accessor.getBlockState());
-            if (fluidData != null) addFluidTooltip(tooltip, fluidData);
+            if (fluidData != null) addFluidTooltip(tooltip, fluidData, config);
         }
 
     }

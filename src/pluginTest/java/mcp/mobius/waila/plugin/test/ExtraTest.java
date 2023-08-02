@@ -42,7 +42,7 @@ public enum ExtraTest implements IDataProvider<ChestBlockEntity> {
             tickLava++;
             if (tickLava == 250) tickLava = 0;
 
-            res.add(FluidData.of(2)
+            res.add(FluidData.of(FluidData.Unit.MILLIBUCKETS, 2)
                 .add(Fluids.WATER, null, tickWater * 100.0, 50000.0)
                 .add(Fluids.LAVA, null, tickLava * 100.0, 25000.0));
         });

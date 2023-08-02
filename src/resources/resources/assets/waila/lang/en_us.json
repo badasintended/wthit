@@ -265,6 +265,9 @@
   "config.waila.plugin_wailax.fluid"                            : "Fluid",
   "config.waila.plugin_wailax.fluid.enabled_block"              : "Show Block Fluid Contents",
   "config.waila.plugin_wailax.fluid.enabled_entity"             : "Show Entity Fluid Contents",
+  "config.waila.plugin_wailax.fluid.display_unit"               : "Display Unit",
+  "config.waila.plugin_wailax.fluid.display_unit_millibuckets"  : "Millibuckets (mB)",
+  "config.waila.plugin_wailax.fluid.display_unit_droplets"      : "Droplets (d)",
   "config.waila.plugin_wailax.fluid.blacklist"                  : "Fluid Contents Blacklist",
 
   "theme.waila.plugin_waila.gradient.backgroundColor"           : "Background Color",
