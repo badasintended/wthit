@@ -37,9 +37,11 @@ public enum TextileFluidDescriptor implements FluidDescriptor<Fluid>, CauldronDe
         CauldronFluidContent content = CauldronFluidContent.getForBlock(state.getBlock());
         if (content == null || content.fluid == Fluids.EMPTY) return null;
 
-        double stored = (content.currentLevel(state) * content.amountPerLevel) / 81.0;
-        double capacity = (content.maxLevel * content.amountPerLevel) / 81.0;
-        return FluidData.of(1).add(content.fluid, null, stored, capacity);
+        double stored = content.currentLevel(state) * content.amountPerLevel;
+        double capacity = content.maxLevel * content.amountPerLevel;
+
+        return FluidData.of(FluidData.Unit.DROPLETS, 1)
+            .add(content.fluid, null, stored, capacity);
     }
 
 }
