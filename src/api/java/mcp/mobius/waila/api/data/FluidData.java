@@ -28,6 +28,7 @@ import org.jetbrains.annotations.Nullable;
 public final class FluidData implements IData {
 
     public static final ResourceLocation ID = BuiltinDataUtil.rl("fluid");
+    public static final ResourceLocation CONFIG_DISPLAY_UNIT = BuiltinDataUtil.rl("fluid.display_unit");
 
     /**
      * Describes how the specific fluid will be shown in the client.
@@ -101,37 +102,69 @@ public final class FluidData implements IData {
 
     /**
      * Creates a fluid data.
+     *
+     * @param unit the fluid unit of measurement
      */
-    public static FluidData of() {
-        return new FluidData(new ArrayList<>());
+    public static FluidData of(Unit unit) {
+        return new FluidData(new ArrayList<>(), unit);
     }
 
     /**
      * Creates a fluid data.
      *
+     * @param unit          the fluid unit of measurement
      * @param slotCountHint hint of how many the slots probably are to minimize growing the list more
      *                      than necessary, the user can call {@link #add} more than the specified count
      */
-    public static FluidData of(int slotCountHint) {
-        return new FluidData(new ArrayList<>(slotCountHint));
+    public static FluidData of(Unit unit, int slotCountHint) {
+        return new FluidData(new ArrayList<>(slotCountHint), unit);
     }
 
     /**
      * Adds a fluid entry.
      *
-     * @param fluid      the fluid instance, will be normalized as the source fluid if it is a {@link FlowingFluid}
-     * @param nbt        the fluid's NBT data, will <b>NOT</b> be modified so it safe to not {@linkplain  CompoundTag#copy() copy} it
-     * @param storedMb   the stored amount of the fluid, in <b>milibuckets</b>
-     * @param capacityMb the maximum capacity of this slot, in <b>milibuckets</b>
+     * @param fluid    the fluid instance, will be normalized as the source fluid if it is a {@link FlowingFluid}
+     * @param nbt      the fluid's NBT data, will <b>NOT</b> be modified so it safe to not {@linkplain  CompoundTag#copy() copy} it
+     * @param stored   the stored amount of the fluid, in the specified unit
+     * @param capacity the maximum capacity of this slot, in the specified unit
      */
-    public FluidData add(Fluid fluid, @Nullable CompoundTag nbt, double storedMb, double capacityMb) {
-        capacityMb = Math.max(capacityMb, 0.0);
-        storedMb = Mth.clamp(storedMb, 0.0, capacityMb);
-        if (capacityMb == 0) capacityMb = Double.POSITIVE_INFINITY;
+    public FluidData add(Fluid fluid, @Nullable CompoundTag nbt, double stored, double capacity) {
+        capacity = Math.max(capacity, 0.0);
+        stored = Mth.clamp(stored, 0.0, capacity);
+        if (capacity == 0) capacity = Double.POSITIVE_INFINITY;
 
         Fluid source = fluid instanceof FlowingFluid flowing ? flowing.getSource() : fluid;
-        entries.add(new Entry<>(source, nbt, storedMb, capacityMb));
+        entries.add(new Entry<>(source, nbt, stored, capacity));
         return this;
+    }
+
+    public enum Unit {
+
+        /**
+         * 1 bucket = 1000 millibuckets. Used in Forge.
+         */
+        MILLIBUCKETS("mB"),
+
+        /**
+         * 1 bucket = 81000 droplets. Used in Fabric.
+         */
+        DROPLETS("d");
+
+        public final String symbol;
+
+        public static double convert(Unit from, Unit to, double amount) {
+            if (from == to) return amount;
+
+            return switch (to) {
+                case MILLIBUCKETS -> amount / 81.0;
+                case DROPLETS -> amount * 81.0;
+            };
+        }
+
+        Unit(String symbol) {
+            this.symbol = symbol;
+        }
+
     }
 
     @ApiSide.ClientOnly
@@ -193,15 +226,19 @@ public final class FluidData implements IData {
     // -----------------------------------------------------------------------------------------------------------------------------------------------
 
     private final List<Entry<?>> entries;
+    private final Unit unit;
 
     @ApiStatus.Internal
-    private FluidData(List<Entry<?>> entries) {
+    private FluidData(List<Entry<?>> entries, Unit unit) {
         this.entries = entries;
+        this.unit = unit;
     }
 
     /** @hidden */
     @ApiStatus.Internal
     public FluidData(FriendlyByteBuf buf) {
+        unit = buf.readEnum(Unit.class);
+
         int size = buf.readVarInt();
         entries = new ArrayList<>(size);
 
@@ -221,6 +258,7 @@ public final class FluidData implements IData {
     @Override
     @ApiStatus.Internal
     public void write(FriendlyByteBuf buf) {
+        buf.writeEnum(unit);
         buf.writeVarInt(entries.size());
 
         for (Entry<?> entry : entries) {
@@ -234,6 +272,11 @@ public final class FluidData implements IData {
                 buf.writeDouble(entry.capacity);
             }
         }
+    }
+
+    /** @hidden */
+    public Unit unit() {
+        return unit;
     }
 
     /** @hidden */
@@ -281,6 +324,27 @@ public final class FluidData implements IData {
             return capacity;
         }
 
+    }
+
+    // -----------------------------------------------------------------------------------------------------------------------------------------------
+    // TODO: Remove
+
+    /**
+     * @deprecated use {@link #of(Unit)}
+     */
+    @Deprecated(forRemoval = true)
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.21")
+    public static FluidData of() {
+        return of(Unit.MILLIBUCKETS);
+    }
+
+    /**
+     * @deprecated use {@link #of(Unit, int)}
+     */
+    @Deprecated(forRemoval = true)
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.21")
+    public static FluidData of(int slotCountHint) {
+        return of(Unit.MILLIBUCKETS, slotCountHint);
     }
 
 }
