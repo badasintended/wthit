@@ -32,7 +32,7 @@ allprojects {
         }
 
         mavenCentral()
-        mavenLocal()
+        maven("https://maven-staging.bai.lol")
     }
 
     java {
