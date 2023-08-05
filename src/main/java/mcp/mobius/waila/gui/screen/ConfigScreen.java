@@ -86,7 +86,7 @@ public abstract class ConfigScreen extends Screen {
 
     @Override
     public void render(@NotNull GuiGraphics ctx, int mouseX, int mouseY, float partialTicks) {
-        renderBackground(ctx);
+        renderBackground(ctx, mouseX, mouseY, partialTicks);
         options.render(ctx, mouseX, mouseY, partialTicks);
 
         EditBox searchBox = options.getSearchBox();

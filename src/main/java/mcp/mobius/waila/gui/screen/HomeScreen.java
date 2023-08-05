@@ -35,7 +35,7 @@ public class HomeScreen extends Screen {
 
     @Override
     public void render(@NotNull GuiGraphics ctx, int x, int y, float partialTicks) {
-        renderBackground(ctx);
+        renderBackground(ctx, x, y, partialTicks);
         ctx.drawCenteredString(font, title.getString(), width / 2, height / 2 - 50 - font.lineHeight, 0xFFFFFF);
         super.render(ctx, x, y, partialTicks);
     }

@@ -7,18 +7,18 @@ import java.util.Map;
 import java.util.function.Consumer;
 
 import com.google.common.base.Preconditions;
-import io.netty.buffer.Unpooled;
 import lol.bai.badpackets.api.PacketSender;
 import mcp.mobius.waila.api.IData;
+import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IDataWriter;
-import mcp.mobius.waila.network.Packets;
+import mcp.mobius.waila.api.IServerAccessor;
+import mcp.mobius.waila.config.PluginConfig;
+import mcp.mobius.waila.network.s2c.TypedDataResponseS2CPacket;
 import mcp.mobius.waila.registry.Registrar;
 import mcp.mobius.waila.util.ExceptionUtil;
 import mcp.mobius.waila.util.TypeUtil;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 
 public enum DataWriter implements IDataWriter {
@@ -41,8 +41,6 @@ public enum DataWriter implements IDataWriter {
 
     public void sendTypedPackets(PacketSender sender, ServerPlayer player) {
         typed.forEach((type, data) -> {
-            ResourceLocation id = Registrar.INSTANCE.dataType2Id.get(type);
-
             final boolean[] finished = {false};
             for (Consumer<Result<IData>> consumer : data) {
                 try {
@@ -54,10 +52,7 @@ public enum DataWriter implements IDataWriter {
                             Preconditions.checkState(!added, "Called multiple times in the same closure");
                             Preconditions.checkNotNull(data, "Data is null");
 
-                            FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
-                            buf.writeResourceLocation(id);
-                            data.write(buf);
-                            sender.send(Packets.DATA_TYPED, buf);
+                            sender.send(new TypedDataResponseS2CPacket.Payload(data));
 
                             finished[0] = true;
                             added = true;
@@ -72,7 +67,7 @@ public enum DataWriter implements IDataWriter {
                         }
                     });
                 } catch (Throwable t) {
-                    if (ExceptionUtil.dump(t, consumer.getClass().toString() + "\nplayer " + player.getScoreboardName(), null)) {
+                    if (ExceptionUtil.dump(t, consumer.getClass() + "\nplayer " + player.getScoreboardName(), null)) {
                         player.sendSystemMessage(Component.literal("Error on retrieving server data from provider " + consumer.getClass().getName()));
                     }
 
@@ -97,6 +92,18 @@ public enum DataWriter implements IDataWriter {
         clean = false;
         typed.computeIfAbsent(TypeUtil.uncheckedCast(type), t -> new ArrayList<>())
             .add(TypeUtil.uncheckedCast(consumer));
+    }
+
+    public <T> void tryAppendData(IDataProvider<T> provider, IServerAccessor<T> accessor) {
+        try {
+            provider.appendData(this, accessor, PluginConfig.SERVER);
+        } catch (Throwable t) {
+            ServerPlayer player = accessor.getPlayer();
+
+            if (ExceptionUtil.dump(t, provider.getClass() + "\nplayer " + player.getScoreboardName(), null)) {
+                player.sendSystemMessage(Component.literal("Error on retrieving server data from provider " + provider.getClass().getName()));
+            }
+        }
     }
 
 }

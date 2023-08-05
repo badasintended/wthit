@@ -32,6 +32,7 @@ allprojects {
         }
 
         mavenCentral()
+        mavenLocal()
     }
 
     java {

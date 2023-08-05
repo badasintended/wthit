@@ -2,7 +2,6 @@ package mcp.mobius.waila.gui.hud;
 
 import java.util.List;
 
-import io.netty.buffer.Unpooled;
 import lol.bai.badpackets.api.PacketSender;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.access.DataAccessor;
@@ -12,12 +11,12 @@ import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.TooltipPosition;
 import mcp.mobius.waila.api.component.EmptyComponent;
 import mcp.mobius.waila.config.PluginConfig;
-import mcp.mobius.waila.network.Packets;
+import mcp.mobius.waila.network.c2s.BlockDataRequestC2SPacket;
+import mcp.mobius.waila.network.c2s.EntityDataRequestC2SPacket;
 import mcp.mobius.waila.registry.Registrar;
 import mcp.mobius.waila.util.ExceptionUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
@@ -26,7 +25,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
 public class ComponentHandler {
@@ -41,9 +39,7 @@ public class ComponentHandler {
         if (blockEntity != null && accessor.isTimeElapsed(rate) && Waila.CONFIG.get().getGeneral().isDisplayTooltip()) {
             accessor.resetTimer();
             if (!(registrar.blockData.get(block).isEmpty() && registrar.blockData.get(blockEntity).isEmpty())) {
-                FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
-                buf.writeBlockHitResult((BlockHitResult) accessor.getHitResult());
-                PacketSender.c2s().send(Packets.BLOCK, buf);
+                PacketSender.c2s().send(new BlockDataRequestC2SPacket.Payload((BlockHitResult) accessor.getHitResult()));
             }
         }
 
@@ -79,13 +75,7 @@ public class ComponentHandler {
             accessor.resetTimer();
 
             if (!registrar.entityData.get(trueEntity).isEmpty()) {
-                FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
-                buf.writeVarInt(entity.getId());
-                Vec3 hitPos = accessor.getHitResult().getLocation();
-                buf.writeDouble(hitPos.x);
-                buf.writeDouble(hitPos.y);
-                buf.writeDouble(hitPos.z);
-                PacketSender.c2s().send(Packets.ENTITY, buf);
+                PacketSender.c2s().send(new EntityDataRequestC2SPacket.Payload(entity.getId(), accessor.getHitResult().getLocation()));
             }
         }
 

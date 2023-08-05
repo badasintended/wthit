@@ -56,7 +56,6 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
     }
 
     public void tick() {
-        if (searchBox != null) searchBox.tick();
         children().forEach(Entry::tick);
     }
 

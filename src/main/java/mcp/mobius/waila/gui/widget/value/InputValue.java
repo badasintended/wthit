@@ -76,11 +76,6 @@ public class InputValue<T> extends ConfigValue<@Nullable T> {
     }
 
     @Override
-    public void tick() {
-        textField.tick();
-    }
-
-    @Override
     public GuiEventListener getListener() {
         return textField;
     }

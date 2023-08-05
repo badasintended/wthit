@@ -120,7 +120,7 @@ public class WailaConfigScreen extends ConfigScreen {
                 buildPreview(previewState);
             }
 
-            renderBackground(ctx);
+            renderBackground(ctx, mouseX, mouseY, partialTicks);
             TooltipRenderer.render(ctx, partialTicks);
         } else {
             TooltipRenderer.resetState();
