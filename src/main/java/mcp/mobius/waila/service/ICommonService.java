@@ -11,6 +11,8 @@ public interface ICommonService {
 
     ICommonService INSTANCE = Internals.loadService(ICommonService.class);
 
+    String getPlatformName();
+
     Path getGameDir();
 
     Path getConfigDir();
