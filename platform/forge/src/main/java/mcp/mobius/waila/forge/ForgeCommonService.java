@@ -14,6 +14,11 @@ import net.minecraftforge.fml.loading.FMLPaths;
 public class ForgeCommonService implements ICommonService {
 
     @Override
+    public String getPlatformName() {
+        return "Forge";
+    }
+
+    @Override
     public Path getGameDir() {
         return FMLPaths.GAMEDIR.get();
     }
