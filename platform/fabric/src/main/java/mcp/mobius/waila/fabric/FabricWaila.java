@@ -16,15 +16,8 @@ public class FabricWaila extends Waila implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        try {
-            Class.forName("org.quiltmc.loader.api.QuiltLoader");
-            throw new IllegalStateException("""
-                Quilt Loader detected.
-                You appear to be using the Fabric version of WTHIT with Quilt, which is unsupported.
-                Please use a version of WTHIT that specifically made for Quilt instead.""");
-        } catch (ClassNotFoundException e) {
-            // no-op
-        }
+        unsupportedPlatform("Quilt", "Quilt Loader", "org.quiltmc.loader.api.QuiltLoader");
+        unsupportedPlatform("Forge", "Forge Mod Loader", "net.minecraftforge.fml.ModList");
 
         Packets.initServer();
 

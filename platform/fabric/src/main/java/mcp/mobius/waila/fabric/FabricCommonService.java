@@ -12,6 +12,11 @@ import net.fabricmc.loader.api.ModContainer;
 public class FabricCommonService implements ICommonService {
 
     @Override
+    public String getPlatformName() {
+        return "Fabric";
+    }
+
+    @Override
     public Path getGameDir() {
         return FabricLoader.getInstance().getGameDir();
     }
