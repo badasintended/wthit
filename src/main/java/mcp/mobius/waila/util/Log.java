@@ -35,6 +35,10 @@ public final class Log {
         logger.warn(PREFIX + msg);
     }
 
+    public void warn(String msg, Object arg) {
+        logger.warn(PREFIX + msg, arg);
+    }
+
     public void error(String msg) {
         logger.error(PREFIX + msg);
     }
