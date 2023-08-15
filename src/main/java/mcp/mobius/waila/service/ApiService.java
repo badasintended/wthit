@@ -12,6 +12,7 @@ import mcp.mobius.waila.api.IModInfo;
 import mcp.mobius.waila.api.IPickerAccessor;
 import mcp.mobius.waila.api.IPickerResults;
 import mcp.mobius.waila.api.IPluginInfo;
+import mcp.mobius.waila.api.IRegistryFilter;
 import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.IThemeType;
 import mcp.mobius.waila.api.ITooltipComponent;
@@ -23,8 +24,10 @@ import mcp.mobius.waila.gui.hud.theme.ThemeType;
 import mcp.mobius.waila.pick.PickerAccessor;
 import mcp.mobius.waila.pick.PickerResults;
 import mcp.mobius.waila.plugin.PluginInfo;
+import mcp.mobius.waila.registry.RegistryFilter;
 import mcp.mobius.waila.util.DisplayUtil;
 import mcp.mobius.waila.util.ModInfo;
+import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -70,7 +73,7 @@ public class ApiService implements IApiService {
 
     @Override
     public IBlacklistConfig getBlacklistConfig() {
-        return Waila.BLACKLIST_CONFIG.get();
+        return Waila.BLACKLIST_CONFIG.get().getView();
     }
 
     @Override
@@ -161,6 +164,11 @@ public class ApiService implements IApiService {
     @Override
     public IPickerResults getPickerResults() {
         return PickerResults.INSTANCE;
+    }
+
+    @Override
+    public <T> IRegistryFilter.Builder<T> createRegistryFilterBuilder(Registry<T> registry) {
+        return new RegistryFilter.Builder<>(registry);
     }
 
 }
