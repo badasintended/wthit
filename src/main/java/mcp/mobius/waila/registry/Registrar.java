@@ -5,8 +5,8 @@ import java.util.Arrays;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.BiMap;
@@ -80,6 +80,15 @@ public enum Registrar implements IRegistrar {
     private <T> void addConfig(ResourceLocation key, T defaultValue, T clientOnlyValue, boolean serverRequired, boolean merged, ConfigEntry.Type<T> type) {
         assertLock();
         PluginConfig.addConfig(type.create(key, defaultValue, clientOnlyValue, serverRequired, merged));
+    }
+
+    @SafeVarargs
+    private <T> void addBlacklist(Set<String> set, Registry<T> registry, T... values) {
+        assertLock();
+
+        for (T value : values) {
+            set.add(Objects.requireNonNull(registry.getKey(value)).toString());
+        }
     }
 
     @Override
@@ -157,13 +166,12 @@ public enum Registrar implements IRegistrar {
 
     @Override
     public void addBlacklist(Block... blocks) {
-        assertLock();
-        blacklist.blocks.addAll(Arrays.asList(blocks));
+        addBlacklist(blacklist.blocks, BuiltInRegistries.BLOCK, blocks);
     }
 
     @Override
     public void addBlacklist(BlockEntityType<?>... blockEntityTypes) {
-        blacklist.blockEntityTypes.addAll(Arrays.asList(blockEntityTypes));
+        addBlacklist(blacklist.blockEntityTypes, BuiltInRegistries.BLOCK_ENTITY_TYPE, blockEntityTypes);
     }
 
     @Override
@@ -203,8 +211,7 @@ public enum Registrar implements IRegistrar {
 
     @Override
     public void addBlacklist(EntityType<?>... entityTypes) {
-        assertLock();
-        blacklist.entityTypes.addAll(Arrays.asList(entityTypes));
+        addBlacklist(blacklist.entityTypes, BuiltInRegistries.ENTITY_TYPE, entityTypes);
     }
 
     @Override
@@ -281,14 +288,14 @@ public enum Registrar implements IRegistrar {
         }
 
         int[] hash = {0, 0, 0};
-        hash[0] = hash(blacklist.blocks, Registry.BLOCK);
-        hash[1] = hash(blacklist.blockEntityTypes, Registry.BLOCK_ENTITY_TYPE);
-        hash[2] = hash(blacklist.entityTypes, Registry.ENTITY_TYPE);
+        hash[0] = blacklist.blocks.hashCode();
+        hash[1] = blacklist.blockEntityTypes.hashCode();
+        hash[2] = blacklist.entityTypes.hashCode();
 
         BlacklistConfig userBlacklist = Waila.BLACKLIST_CONFIG.get();
 
         if (!Arrays.equals(userBlacklist.pluginHash, hash)) {
-            if (!Arrays.equals(userBlacklist.pluginHash, new int[]{0,0,0})) {
+            if (!Arrays.equals(userBlacklist.pluginHash, new int[]{0, 0, 0})) {
                 Waila.BLACKLIST_CONFIG.backup("plugin hash mismatch");
             }
 
@@ -310,10 +317,6 @@ public enum Registrar implements IRegistrar {
     private void assertPriority(int priority) {
         Preconditions.checkArgument(priority >= 0,
             "Priority must be equals or more than 0");
-    }
-
-    private <T> int hash(Set<T> set, Registry<T> registry) {
-        return set.stream().map(registry::getKey).collect(Collectors.toSet()).hashCode();
     }
 
 }
