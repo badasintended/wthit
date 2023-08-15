@@ -9,6 +9,7 @@ import mcp.mobius.waila.api.IBlacklistConfig;
 import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.api.IModInfo;
 import mcp.mobius.waila.api.IPluginInfo;
+import mcp.mobius.waila.api.IRegistryFilter;
 import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.IThemeType;
 import mcp.mobius.waila.api.ITooltipComponent;
@@ -19,9 +20,11 @@ import mcp.mobius.waila.gui.hud.TooltipRenderer;
 import mcp.mobius.waila.gui.hud.theme.ThemeType;
 import mcp.mobius.waila.mixin.GuiAccess;
 import mcp.mobius.waila.plugin.PluginInfo;
+import mcp.mobius.waila.registry.RegistryFilter;
 import mcp.mobius.waila.util.DisplayUtil;
 import mcp.mobius.waila.util.ModInfo;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.ListTag;
@@ -67,7 +70,7 @@ public class ApiService implements IApiService {
 
     @Override
     public IBlacklistConfig getBlacklistConfig() {
-        return Waila.BLACKLIST_CONFIG.get();
+        return Waila.BLACKLIST_CONFIG.get().getView();
     }
 
     @Override
@@ -148,6 +151,11 @@ public class ApiService implements IApiService {
     @Override
     public ResourceLocation getGuiIconsTexture() {
         return GuiAccess.wthit_guiIconsLocation();
+    }
+
+    @Override
+    public <T> IRegistryFilter.Builder<T> createRegistryFilterBuilder(Registry<T> registry) {
+        return new RegistryFilter.Builder<>(registry);
     }
 
 }

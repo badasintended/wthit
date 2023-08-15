@@ -55,4 +55,12 @@ public final class Log {
         logger.error(PREFIX + msg, arg1, arg2);
     }
 
+    public boolean isDebugEnabled() {
+        return logger.isDebugEnabled();
+    }
+
+    public void debug(String msg, Object arg) {
+        logger.debug(PREFIX + msg, arg);
+    }
+
 }

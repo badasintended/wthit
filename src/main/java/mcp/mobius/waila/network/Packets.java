@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -19,6 +20,7 @@ import mcp.mobius.waila.access.DataWriter;
 import mcp.mobius.waila.access.ServerAccessor;
 import mcp.mobius.waila.api.IData;
 import mcp.mobius.waila.api.IDataProvider;
+import mcp.mobius.waila.api.IRegistryFilter;
 import mcp.mobius.waila.api.IServerAccessor;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.buildconst.Tl;
@@ -77,10 +79,10 @@ public class Packets {
 
 
             FriendlyByteBuf blacklistBuf = new FriendlyByteBuf(Unpooled.buffer());
-            BlacklistConfig blacklistConfig = Waila.BLACKLIST_CONFIG.get();
-            writeIds(blacklistBuf, blacklistConfig.blockIds);
-            writeIds(blacklistBuf, blacklistConfig.blockEntityTypeIds);
-            writeIds(blacklistBuf, blacklistConfig.entityTypeIds);
+            BlacklistConfig blacklist = Waila.BLACKLIST_CONFIG.get();
+            blacklistBuf.writeCollection(blacklist.blocks, FriendlyByteBuf::writeUtf);
+            blacklistBuf.writeCollection(blacklist.blockEntityTypes, FriendlyByteBuf::writeUtf);
+            blacklistBuf.writeCollection(blacklist.entityTypes, FriendlyByteBuf::writeUtf);
             sender.send(BLACKLIST, blacklistBuf);
 
             FriendlyByteBuf configBuf = new FriendlyByteBuf(Unpooled.buffer());
@@ -264,16 +266,12 @@ public class Packets {
         });
 
         S2CPacketReceiver.register(BLACKLIST, (client, handler, buf, responseSender) -> {
-            Set<ResourceLocation> blockIds = readIds(buf);
-            Set<ResourceLocation> blockEntityIds = readIds(buf);
-            Set<ResourceLocation> entityIds = readIds(buf);
+            Set<String> blockRules = buf.readCollection(HashSet::new, FriendlyByteBuf::readUtf);
+            Set<String> blockEntityRules = buf.readCollection(HashSet::new, FriendlyByteBuf::readUtf);
+            Set<String> entityRules = buf.readCollection(HashSet::new, FriendlyByteBuf::readUtf);
 
-            client.execute(() -> {
-                BlacklistConfig blacklist = Waila.BLACKLIST_CONFIG.get();
-                setBlackList(blockIds, blacklist.blocks, BuiltInRegistries.BLOCK);
-                setBlackList(blockEntityIds, blacklist.blockEntityTypes, BuiltInRegistries.BLOCK_ENTITY_TYPE);
-                setBlackList(entityIds, blacklist.entityTypes, BuiltInRegistries.ENTITY_TYPE);
-            });
+            client.execute(() ->
+                Waila.BLACKLIST_CONFIG.get().getView().sync(blockRules, blockEntityRules, entityRules));
         });
 
         S2CPacketReceiver.register(GENERATE_CLIENT_DUMP, (client, handler, buf, responseSender) -> client.execute(() -> {
@@ -287,14 +285,11 @@ public class Packets {
         }));
     }
 
-    private static <T> void setBlackList(Set<ResourceLocation> ids, Set<T> set, Registry<T> registry) {
-        for (ResourceLocation id : ids) {
-            set.add(registry.get(id));
-        }
-    }
+    private static <T> void writeIds(FriendlyByteBuf buf, Registry<T> registry, IRegistryFilter<T> filter) {
+        Map<String, List<ResourceLocation>> groups = filter.getValues().stream()
+            .map(it -> Objects.requireNonNull(registry.getKey(it)))
+            .collect(Collectors.groupingBy(ResourceLocation::getNamespace));
 
-    private static void writeIds(FriendlyByteBuf buf, Set<ResourceLocation> set) {
-        Map<String, List<ResourceLocation>> groups = set.stream().collect(Collectors.groupingBy(ResourceLocation::getNamespace));
         buf.writeVarInt(groups.size());
         groups.forEach((namespace, ids) -> {
             buf.writeUtf(namespace);
@@ -322,7 +317,7 @@ public class Packets {
         } catch (Throwable t) {
             ServerPlayer player = accessor.getPlayer();
 
-            if (ExceptionUtil.dump(t, provider.getClass().toString() + "\nplayer " + player.getScoreboardName(), null)) {
+            if (ExceptionUtil.dump(t, provider.getClass() + "\nplayer " + player.getScoreboardName(), null)) {
                 player.sendSystemMessage(Component.literal("Error on retrieving server data from provider " + provider.getClass().getName()));
             }
         }

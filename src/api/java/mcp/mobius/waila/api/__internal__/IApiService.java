@@ -8,11 +8,13 @@ import mcp.mobius.waila.api.IBlacklistConfig;
 import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.api.IModInfo;
 import mcp.mobius.waila.api.IPluginInfo;
+import mcp.mobius.waila.api.IRegistryFilter;
 import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.IThemeType;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.IWailaConfig;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.ApiStatus;
@@ -59,5 +61,7 @@ public interface IApiService {
     Path getConfigDir();
 
     ResourceLocation getGuiIconsTexture();
+
+    <T> IRegistryFilter.Builder<T> createRegistryFilterBuilder(Registry<T> registry);
 
 }
