@@ -275,7 +275,7 @@ public class Packets {
     }
 
     private static <T> void writeIds(FriendlyByteBuf buf, Registry<T> registry, IRegistryFilter<T> filter) {
-        var groups = filter.getValues().stream()
+        var groups = filter.getMatches().stream()
             .map(it -> Objects.requireNonNull(registry.getKey(it)))
             .collect(Collectors.groupingBy(ResourceLocation::getNamespace));
 

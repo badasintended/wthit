@@ -8,10 +8,12 @@
     "AbstractFurnaceBlockEntityAccess",
     "EntityAccess",
     "NoteBlockAccess",
-    "RandomizableContainerBlockEntityAccess"
+    "RandomizableContainerBlockEntityAccess",
+    "ReloadableServerResourcesMixin"
   ],
   "client"            : [
     "BossHealthOverlayAccess",
+    "ClientPacketListenerMixin",
     "EditBoxAccess",
     "KeyMappingAccess",
     "MultiPlayerGameModeAccess",

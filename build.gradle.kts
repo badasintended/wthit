@@ -121,6 +121,9 @@ sourceSets {
     listOf(main, pluginCore, pluginExtra, pluginVanilla, pluginTest).applyEach {
         compileClasspath += api.output + mixin.output
     }
+    mixin.apply {
+        compileClasspath += api.output
+    }
     main.apply {
         compileClasspath += minecraftless.output
     }
