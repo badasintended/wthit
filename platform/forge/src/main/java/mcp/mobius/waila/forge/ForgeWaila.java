@@ -8,6 +8,7 @@ import mcp.mobius.waila.debug.DumpGenerator;
 import mcp.mobius.waila.network.Packets;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
+import net.minecraftforge.event.server.ServerStoppedEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModContainer;
 import net.minecraftforge.fml.ModList;
@@ -44,6 +45,11 @@ public class ForgeWaila extends Waila {
         @SubscribeEvent
         static void serverStarting(ServerStartingEvent event) {
             PluginConfig.reload();
+        }
+
+        @SubscribeEvent
+        static void serverStopped(ServerStoppedEvent event) {
+            onServerStopped();
         }
 
         @SubscribeEvent

@@ -17,7 +17,8 @@ import mcp.mobius.waila.api.IBlacklistConfig;
 import mcp.mobius.waila.api.IRegistryFilter;
 import mcp.mobius.waila.util.Log;
 import net.minecraft.core.Registry;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.Block;
@@ -65,50 +66,43 @@ public class BlacklistConfig {
         private Set<EntityType<?>> syncedEntityFilter = Set.of();
 
         private View() {
-            blockFilter = IRegistryFilter.of(BuiltInRegistries.BLOCK).parse(blocks).build();
-            blockEntityFilter = IRegistryFilter.of(BuiltInRegistries.BLOCK_ENTITY_TYPE).parse(blockEntityTypes).build();
-            entityFilter = IRegistryFilter.of(BuiltInRegistries.ENTITY_TYPE).parse(entityTypes).build();
+            blockFilter = IRegistryFilter.of(Registries.BLOCK).parse(blocks).build();
+            blockEntityFilter = IRegistryFilter.of(Registries.BLOCK_ENTITY_TYPE).parse(blockEntityTypes).build();
+            entityFilter = IRegistryFilter.of(Registries.ENTITY_TYPE).parse(entityTypes).build();
         }
 
         public void sync(Set<String> blockRules, Set<String> blockEntityRules, Set<String> entityRules) {
-            syncedBlockFilter = sync(BuiltInRegistries.BLOCK, blockFilter, blockRules);
-            syncedBlockEntityFilter = sync(BuiltInRegistries.BLOCK_ENTITY_TYPE, blockEntityFilter, blockEntityRules);
-            syncedEntityFilter = sync(BuiltInRegistries.ENTITY_TYPE, entityFilter, entityRules);
+            syncedBlockFilter = sync(Registries.BLOCK, blockFilter, blockRules);
+            syncedBlockEntityFilter = sync(Registries.BLOCK_ENTITY_TYPE, blockEntityFilter, blockEntityRules);
+            syncedEntityFilter = sync(Registries.ENTITY_TYPE, entityFilter, entityRules);
         }
 
-        private static <T> Set<T> sync(Registry<T> registry, IRegistryFilter<T> filter, Set<String> rules) {
-            LOG.debug("Syncing blacklist {}", registry.key().location());
+        private static <T> Set<T> sync(ResourceKey<? extends Registry<T>> registryKey, IRegistryFilter<T> filter, Set<String> rules) {
+            LOG.debug("Syncing blacklist {}", registryKey.location());
 
-            var builder = IRegistryFilter.of(registry);
+            var builder = IRegistryFilter.of(registryKey);
             rules.forEach(builder::parse);
 
-            var set = builder.build().getValues().stream()
-                .filter(it -> !filter.contains(it))
+            return builder.build().getMatches().stream()
+                .filter(it -> !filter.matches(it))
                 .collect(Collectors.toUnmodifiableSet());
-
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("Finished syncing blacklist, total {} distinct entries", set.size());
-                set.forEach(it -> LOG.debug("\t{}", registry.getKey(it)));
-            }
-
-            return set;
         }
 
         @Override
         public boolean contains(Block block) {
-            return blockFilter.contains(block) || syncedBlockFilter.contains(block);
+            return blockFilter.matches(block) || syncedBlockFilter.contains(block);
         }
 
         @Override
         public boolean contains(BlockEntity blockEntity) {
             var type = blockEntity.getType();
-            return blockEntityFilter.contains(type) || syncedBlockEntityFilter.contains(type);
+            return blockEntityFilter.matches(type) || syncedBlockEntityFilter.contains(type);
         }
 
         @Override
         public boolean contains(Entity entity) {
             var type = entity.getType();
-            return entityFilter.contains(type) || syncedEntityFilter.contains(type);
+            return entityFilter.matches(type) || syncedEntityFilter.contains(type);
         }
     }
 
