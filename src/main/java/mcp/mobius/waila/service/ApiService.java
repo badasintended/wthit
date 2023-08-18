@@ -29,6 +29,7 @@ import mcp.mobius.waila.util.DisplayUtil;
 import mcp.mobius.waila.util.ModInfo;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.EnchantedBookItem;
 import net.minecraft.world.item.ItemStack;
@@ -163,8 +164,8 @@ public class ApiService implements IApiService {
     }
 
     @Override
-    public <T> IRegistryFilter.Builder<T> createRegistryFilterBuilder(Registry<T> registry) {
-        return new RegistryFilter.Builder<>(registry);
+    public <T> IRegistryFilter.Builder<T> createRegistryFilterBuilder(ResourceKey<? extends Registry<T>> registryKey) {
+        return new RegistryFilter.Builder<>(registryKey);
     }
 
 }

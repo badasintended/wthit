@@ -17,6 +17,7 @@ import mcp.mobius.waila.api.IThemeType;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.IWailaConfig;
 import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.ApiStatus;
@@ -70,6 +71,6 @@ public interface IApiService {
     @Deprecated
     IPickerResults getPickerResults();
 
-    <T> IRegistryFilter.Builder<T> createRegistryFilterBuilder(Registry<T> registry);
+    <T> IRegistryFilter.Builder<T> createRegistryFilterBuilder(ResourceKey<? extends Registry<T>> registryKey);
 
 }

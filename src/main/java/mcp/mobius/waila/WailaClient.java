@@ -12,6 +12,7 @@ import mcp.mobius.waila.gui.hud.TooltipHandler;
 import mcp.mobius.waila.gui.screen.HomeScreen;
 import mcp.mobius.waila.integration.IRecipeAction;
 import mcp.mobius.waila.registry.Registrar;
+import mcp.mobius.waila.registry.RegistryFilter;
 import mcp.mobius.waila.service.IClientService;
 import mcp.mobius.waila.util.Log;
 import net.minecraft.client.KeyMapping;
@@ -107,6 +108,7 @@ public abstract class WailaClient {
     }
 
     protected static void onServerLogout(Connection connection) {
+        RegistryFilter.attach(null);
         Waila.BLACKLIST_CONFIG.invalidate();
         PluginConfig.getSyncableConfigs().forEach(config ->
             config.setServerValue(null));
