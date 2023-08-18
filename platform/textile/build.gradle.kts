@@ -32,6 +32,7 @@ loom {
 }
 
 tasks.compileJava {
+    exclude("mcp/mobius/waila/mixed/**")
     exclude("mcp/mobius/waila/mixin/**")
 }
 
