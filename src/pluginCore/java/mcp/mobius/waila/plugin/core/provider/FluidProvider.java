@@ -11,7 +11,6 @@ import mcp.mobius.waila.api.component.ItemComponent;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import org.jetbrains.annotations.Nullable;
 
@@ -31,8 +30,8 @@ public enum FluidProvider implements IBlockComponentProvider {
 
     @Override
     public void appendHead(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
-        Block block = accessor.getBlock();
-        IWailaConfig.Formatter formatter = IWailaConfig.get().getFormatter();
+        var block = accessor.getBlock();
+        var formatter = IWailaConfig.get().getFormatter();
         tooltip.setLine(WailaConstants.OBJECT_NAME_TAG, formatter.fluidName(block.getName().getString()));
         if (config.getBoolean(WailaConstants.CONFIG_SHOW_REGISTRY)) {
             tooltip.setLine(WailaConstants.REGISTRY_NAME_TAG, formatter.registryName(BuiltInRegistries.BLOCK.getKey(block)));

@@ -58,25 +58,25 @@ public class RegistryFilter<T> implements IRegistryFilter<T> {
         @Override
         public IRegistryFilter.Builder<T> parse(String rule) {
             LOG.debug("\tParsing {}", rule);
-            char prefix = rule.charAt(0);
+            var prefix = rule.charAt(0);
 
             switch (prefix) {
                 case '@' -> {
-                    String namespace = rule.substring(1);
+                    var namespace = rule.substring(1);
                     registry.keySet().stream()
                         .filter(it -> it.getNamespace().equals(namespace))
                         .forEach(this::addKey);
                 }
                 case '#' -> {
-                    ResourceLocation tagId = new ResourceLocation(rule.substring(1));
-                    TagKey<T> tag = TagKey.create(registry.key(), tagId);
+                    var tagId = new ResourceLocation(rule.substring(1));
+                    var tag = TagKey.create(registry.key(), tagId);
                     registry.holders()
                         .filter(it -> it.is(tag))
                         .forEach(it -> addKey(it.key().location()));
                 }
                 case '/' -> {
                     Preconditions.checkArgument(rule.endsWith("/"), "Regex filter must also ends with /");
-                    Pattern pattern = Pattern.compile(rule.substring(1, rule.length() - 1));
+                    var pattern = Pattern.compile(rule.substring(1, rule.length() - 1));
                     registry.keySet().stream()
                         .filter(it -> pattern.matcher(it.toString()).matches())
                         .forEach(this::addKey);
@@ -95,13 +95,13 @@ public class RegistryFilter<T> implements IRegistryFilter<T> {
 
         @Override
         public IRegistryFilter.Builder<T> parse(String... rules) {
-            for (String filter : rules) parse(filter);
+            for (var filter : rules) parse(filter);
             return this;
         }
 
         @Override
         public IRegistryFilter<T> build() {
-            Set<T> set = keys.stream()
+            var set = keys.stream()
                 .map(registry::get)
                 .filter(Objects::nonNull)
                 .collect(Collectors.toUnmodifiableSet());

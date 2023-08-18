@@ -17,7 +17,7 @@ public enum LongTest implements IBlockComponentProvider {
     @Override
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
         if (config.getBoolean(ENABLED)) {
-            int width = config.getInt(WIDTH);
+            var width = config.getInt(WIDTH);
             tooltip.addLine(new ColorComponent(width, 10, 0xFFFF00FF));
         }
     }

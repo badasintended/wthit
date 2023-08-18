@@ -9,7 +9,6 @@ import mcp.mobius.waila.api.IServerAccessor;
 import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.RecordItem;
 import net.minecraft.world.level.block.entity.JukeboxBlockEntity;
 
@@ -27,9 +26,9 @@ public enum JukeboxProvider implements IBlockComponentProvider, IDataProvider<Ju
     @Override
     public void appendData(IDataWriter data, IServerAccessor<JukeboxBlockEntity> accessor, IPluginConfig config) {
         if (config.getBoolean(Options.JUKEBOX_RECORD)) {
-            ItemStack stack = accessor.getTarget().getFirstItem();
+            var stack = accessor.getTarget().getFirstItem();
             if (!stack.isEmpty()) {
-                Component text = stack.getItem() instanceof RecordItem
+                var text = stack.getItem() instanceof RecordItem
                     ? Component.translatable(stack.getDescriptionId() + ".desc")
                     : stack.getDisplayName();
                 data.raw().putString("record", Component.Serializer.toJson(text));

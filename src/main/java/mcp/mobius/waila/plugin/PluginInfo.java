@@ -41,7 +41,7 @@ public class PluginInfo implements IPluginInfo {
 
     public static void register(String modId, String pluginIdStr, Side side, String initializerStr, List<String> required, boolean legacy) {
         try {
-            ResourceLocation rl = new ResourceLocation(pluginIdStr);
+            var rl = new ResourceLocation(pluginIdStr);
             if (PLUGIN_ID_TO_PLUGIN_INFO.containsKey(rl)) {
                 LOG.error("Duplicate plugin id " + rl);
                 return;
@@ -51,7 +51,7 @@ public class PluginInfo implements IPluginInfo {
                 LOG.warn("Plugin " + initializerStr + " is using the default namespace " + rl);
             }
 
-            IWailaPlugin initializer = (IWailaPlugin) Class.forName(initializerStr).getConstructor().newInstance();
+            var initializer = (IWailaPlugin) Class.forName(initializerStr).getConstructor().newInstance();
             PLUGIN_ID_TO_PLUGIN_INFO.put(rl, new PluginInfo(ModInfo.get(modId), rl, side, initializer, required, legacy));
         } catch (Throwable t) {
             LOG.error("Error creating instance of plugin " + pluginIdStr, t);

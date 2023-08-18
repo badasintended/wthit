@@ -5,7 +5,6 @@ import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.ITooltipComponent;
-import mcp.mobius.waila.api.ITooltipLine;
 import mcp.mobius.waila.api.WailaConstants;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
@@ -19,7 +18,7 @@ public enum GrowingTest implements IBlockComponentProvider {
     @Override
     public void appendHead(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
         if (config.getBoolean(ENABLED)) {
-            ITooltipLine line = tooltip.getLine(WailaConstants.OBJECT_NAME_TAG);
+            var line = tooltip.getLine(WailaConstants.OBJECT_NAME_TAG);
 
             if (line != null) {
                 line.with(new Component(0, 0xFF0000FF, 1))

@@ -10,7 +10,6 @@ import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.component.PairComponent;
 import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.AgeableMob;
 
@@ -25,12 +24,12 @@ public enum MobTimerProvider implements IEntityComponentProvider, IDataProvider<
 
     @Override
     public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        CompoundTag data = accessor.getData().raw();
+        var data = accessor.getData().raw();
         if (data.contains("age")) {
             if (lastDataSync != accessor.getServerDataTime()) {
                 lastDataSync = accessor.getServerDataTime();
                 lastAge = data.getInt("age");
-                long delay = (System.currentTimeMillis() - lastDataSync) / 50;
+                var delay = (System.currentTimeMillis() - lastDataSync) / 50;
                 if (lastAge < 0) {
                     lastAge += delay;
                 } else if (lastAge > 0) {
@@ -39,8 +38,8 @@ public enum MobTimerProvider implements IEntityComponentProvider, IDataProvider<
             }
 
             if (lastAge < 0 && config.getBoolean(Options.TIMER_GROW)) {
-                long seconds = ((-lastAge) / 20) + 1;
-                long minutes = seconds / 60;
+                var seconds = ((-lastAge) / 20) + 1;
+                var minutes = seconds / 60;
                 seconds = seconds - (minutes * 60);
                 tooltip.addLine(new PairComponent(
                     Component.translatable(Tl.Tooltip.Timer.GROW),
@@ -48,8 +47,8 @@ public enum MobTimerProvider implements IEntityComponentProvider, IDataProvider<
             }
 
             if (lastAge > 0 && config.getBoolean(Options.TIMER_BREED)) {
-                long seconds = ((lastAge) / 20) + 1;
-                long minutes = seconds / 60;
+                var seconds = ((lastAge) / 20) + 1;
+                var minutes = seconds / 60;
                 seconds = seconds - (minutes * 60);
                 tooltip.addLine(new PairComponent(
                     Component.translatable(Tl.Tooltip.Timer.BREED),
@@ -66,7 +65,7 @@ public enum MobTimerProvider implements IEntityComponentProvider, IDataProvider<
 
     @Override
     public void appendData(IDataWriter data, IServerAccessor<AgeableMob> accessor, IPluginConfig config) {
-        AgeableMob mob = accessor.getTarget();
+        var mob = accessor.getTarget();
         data.raw().putInt("age", mob.getAge());
     }
 

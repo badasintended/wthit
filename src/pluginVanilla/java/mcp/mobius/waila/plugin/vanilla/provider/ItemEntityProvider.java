@@ -13,7 +13,6 @@ import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 public enum ItemEntityProvider implements IEntityComponentProvider {
@@ -33,9 +32,9 @@ public enum ItemEntityProvider implements IEntityComponentProvider {
 
     @Override
     public void appendHead(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        IWailaConfig.Formatter formatter = IWailaConfig.get().getFormatter();
+        var formatter = IWailaConfig.get().getFormatter();
 
-        ItemStack stack = accessor.<ItemEntity>getEntity().getItem();
+        var stack = accessor.<ItemEntity>getEntity().getItem();
         tooltip.setLine(WailaConstants.OBJECT_NAME_TAG, formatter.entityName(stack.getHoverName().getString()));
 
         if (config.getBoolean(WailaConstants.CONFIG_SHOW_REGISTRY)) {
@@ -46,7 +45,7 @@ public enum ItemEntityProvider implements IEntityComponentProvider {
     @Override
     public void appendTail(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
         if (config.getBoolean(WailaConstants.CONFIG_SHOW_MOD_NAME)) {
-            String mod = IModInfo.get(accessor.<ItemEntity>getEntity().getItem()).getName();
+            var mod = IModInfo.get(accessor.<ItemEntity>getEntity().getItem()).getName();
             tooltip.setLine(WailaConstants.MOD_NAME_TAG, IWailaConfig.get().getFormatter().modName(mod));
         }
     }

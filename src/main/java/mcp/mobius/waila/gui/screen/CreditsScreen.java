@@ -37,13 +37,13 @@ public class CreditsScreen extends Screen {
         super.init();
 
         try {
-            CreditMap credits = new Gson().fromJson(minecraft.getResourceManager().getResource(Waila.id("credits.json")).get().openAsReader(), CreditMap.class);
+            var credits = new Gson().fromJson(minecraft.getResourceManager().getResource(Waila.id("credits.json")).get().openAsReader(), CreditMap.class);
 
-            ListWidget listWidget = new ListWidget(minecraft, width, height, 32, height - 32, minecraft.font.lineHeight + 6);
+            var listWidget = new ListWidget(minecraft, width, height, 32, height - 32, minecraft.font.lineHeight + 6);
             credits.forEach((key, list) -> {
-                List<Entry> children = listWidget.children();
+                var children = listWidget.children();
                 children.add(new Entry(Component.translatable(Tl.Gui.CREDITS + "." + key).withStyle(ChatFormatting.GRAY)));
-                for (String person : list) {
+                for (var person : list) {
                     children.add(new Entry(Component.literal("        " + person)));
                 }
                 children.add(new Entry(Component.empty()));

@@ -67,7 +67,7 @@ public class NinePatchTheme implements ITheme {
             textureId = new ResourceLocation(texture);
         } else {
             try {
-                NativeImage image = NativeImage.read(Files.newInputStream(accessor.getPath(texture)));
+                var image = NativeImage.read(Files.newInputStream(accessor.getPath(texture)));
                 textureId = Minecraft.getInstance().getTextureManager().register("waila_9p", new DynamicTexture(image));
             } catch (Exception e) {
                 textureId = TextureManager.INTENTIONAL_MISSING_TEXTURE;
@@ -99,10 +99,10 @@ public class NinePatchTheme implements ITheme {
         RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
         RenderSystem.setShaderTexture(0, textureId);
 
-        Tesselator tesselator = Tesselator.getInstance();
-        BufferBuilder buf = tesselator.getBuilder();
+        var tesselator = Tesselator.getInstance();
+        var buf = tesselator.getBuilder();
         buf.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
-        Matrix4f matrix = ctx.pose().last().pose();
+        var matrix = ctx.pose().last().pose();
 
         // @formatter:off
         patch(buf, matrix, x        , y         ,   regionLeft,     regionTop,      0f, uCenter,      0f, vMiddle, alpha); // top    left
@@ -111,30 +111,30 @@ public class NinePatchTheme implements ITheme {
         patch(buf, matrix, x + width, y + height, -regionRight, -regionBottom,  uRight,      1f, vBottom,      1f, alpha); // bottom right
         // @formatter:on
 
-        int centerX = x + regionLeft;
-        int centerY = y + regionTop;
-        int centerWidth = width - (regionLeft + regionRight);
-        int centerHeight = height - (regionTop + regionBottom);
+        var centerX = x + regionLeft;
+        var centerY = y + regionTop;
+        var centerWidth = width - (regionLeft + regionRight);
+        var centerHeight = height - (regionTop + regionBottom);
 
         switch (mode) {
             case TILE -> {
-                int regionCenter = textureWidth - (regionLeft + regionRight);
-                int regionMiddle = textureHeight - (regionTop + regionBottom);
-                int maxX = Math.max(x + width - regionRight, 0);
-                int maxY = Math.max(y + height - regionBottom, 0);
+                var regionCenter = textureWidth - (regionLeft + regionRight);
+                var regionMiddle = textureHeight - (regionTop + regionBottom);
+                var maxX = Math.max(x + width - regionRight, 0);
+                var maxY = Math.max(y + height - regionBottom, 0);
 
-                for (int cx = centerX; cx < maxX; cx += regionCenter) {
-                    int clampedCenter = Math.min(regionCenter, maxX - cx);
-                    float uCenter1 = (regionLeft + clampedCenter) / (float) textureWidth;
+                for (var cx = centerX; cx < maxX; cx += regionCenter) {
+                    var clampedCenter = Math.min(regionCenter, maxX - cx);
+                    var uCenter1 = (regionLeft + clampedCenter) / (float) textureWidth;
 
                     // @formatter:off
                     patch(buf, matrix, cx, y   , clampedCenter,    regionTop, uCenter, uCenter1,      0f, vMiddle, alpha); // top    center
                     patch(buf, matrix, cx, maxY, clampedCenter, regionBottom, uCenter, uCenter1, vBottom,      1f, alpha); // bottom center
                     // @formatter:on
 
-                    for (int cy = centerY; cy < maxY; cy += regionMiddle) {
-                        int clampedMiddle = Math.min(regionMiddle, maxY - cy);
-                        float vMiddle1 = (regionTop + clampedMiddle) / (float) textureWidth;
+                    for (var cy = centerY; cy < maxY; cy += regionMiddle) {
+                        var clampedMiddle = Math.min(regionMiddle, maxY - cy);
+                        var vMiddle1 = (regionTop + clampedMiddle) / (float) textureWidth;
 
                         if (cx == centerX) {
                             // @formatter:off
@@ -174,17 +174,17 @@ public class NinePatchTheme implements ITheme {
             return;
         }
 
-        int x1 = x0 + w;
-        int y1 = y0 + h;
+        var x1 = x0 + w;
+        var y1 = y0 + h;
 
         if (x1 < x0) {
-            int x0r = x0;
+            var x0r = x0;
             x0 = x1;
             x1 = x0r;
         }
 
         if (y1 < y0) {
-            int y0r = y0;
+            var y0r = y0;
             y0 = y1;
             y1 = y0r;
         }

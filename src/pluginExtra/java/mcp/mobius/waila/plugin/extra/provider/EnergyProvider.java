@@ -15,7 +15,6 @@ import mcp.mobius.waila.api.data.EnergyData;
 import mcp.mobius.waila.plugin.extra.data.EnergyDescription;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
@@ -47,15 +46,15 @@ public class EnergyProvider extends DataProvider<EnergyData> {
 
     @Override
     protected void appendBody(ITooltip tooltip, EnergyData energy, IPluginConfig config, ResourceLocation objectId) {
-        EnergyDescription desc = EnergyDescription.get(objectId.getNamespace());
+        var desc = EnergyDescription.get(objectId.getNamespace());
 
-        double stored = energy.stored();
-        double capacity = energy.capacity();
-        float ratio = Double.isInfinite(capacity) ? 1f : (float) (stored / capacity);
+        var stored = energy.stored();
+        var capacity = energy.capacity();
+        var ratio = Double.isInfinite(capacity) ? 1f : (float) (stored / capacity);
 
-        String unit = desc.unit();
-        Component name = desc.name();
-        int color = desc.color();
+        var unit = desc.unit();
+        var name = desc.name();
+        var color = desc.color();
 
         String text;
         if (Double.isInfinite(stored)) text = INFINITE;
@@ -76,7 +75,7 @@ public class EnergyProvider extends DataProvider<EnergyData> {
         @Override
         public void appendData(IDataWriter data, IServerAccessor<BlockEntity> accessor, IPluginConfig config) {
             data.add(EnergyData.class, res -> {
-                BlockEntity target = accessor.getTarget();
+                var target = accessor.getTarget();
 
                 if (target.getBlockState().is(INFINITE_BLOCK_TAG)
                     || BuiltInRegistries.BLOCK_ENTITY_TYPE.wrapAsHolder(target.getType()).is(INFINITE_BLOCK_ENTITY_TAG)) {

@@ -11,7 +11,6 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -35,9 +34,9 @@ public final class ItemData implements IData {
      * Adds items from vanilla container.
      */
     public ItemData vanilla(Container container) {
-        int size = container.getContainerSize();
+        var size = container.getContainerSize();
         ensureSpace(size);
-        for (int i = 0; i < size; i++) items.add(container.getItem(i));
+        for (var i = 0; i < size; i++) items.add(container.getItem(i));
         return this;
     }
 
@@ -46,7 +45,7 @@ public final class ItemData implements IData {
      */
     public ItemData getter(IntFunction<ItemStack> getter, int size) {
         ensureSpace(size);
-        for (int i = 0; i < size; i++) items.add(getter.apply(i));
+        for (var i = 0; i < size; i++) items.add(getter.apply(i));
         return this;
     }
 
@@ -100,15 +99,15 @@ public final class ItemData implements IData {
         this.config = null;
 
         syncNbt = buf.readBoolean();
-        int size = buf.readVarInt();
+        var size = buf.readVarInt();
         ensureSpace(size);
 
-        for (int i = 0; i < size; i++) {
+        for (var i = 0; i < size; i++) {
             if (buf.readBoolean()) continue;
 
-            Item item = buf.readById(BuiltInRegistries.ITEM);
-            int count = buf.readVarInt();
-            ItemStack stack = new ItemStack(item, count);
+            var item = buf.readById(BuiltInRegistries.ITEM);
+            var count = buf.readVarInt();
+            var stack = new ItemStack(item, count);
             if (syncNbt) stack.setTag(buf.readNbt());
             add(stack);
         }
@@ -118,11 +117,11 @@ public final class ItemData implements IData {
     @Override
     @ApiStatus.Internal
     public void write(FriendlyByteBuf buf) {
-        boolean syncNbt = config.getBoolean(CONFIG_SYNC_NBT);
+        var syncNbt = config.getBoolean(CONFIG_SYNC_NBT);
         buf.writeBoolean(syncNbt);
         buf.writeVarInt(items.size());
 
-        for (ItemStack stack : items) {
+        for (var stack : items) {
             if (stack.isEmpty()) {
                 buf.writeBoolean(true);
             } else {
