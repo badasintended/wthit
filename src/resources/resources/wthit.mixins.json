@@ -7,10 +7,12 @@
   "mixins"            : [
     "AbstractFurnaceBlockEntityAccess",
     "EntityAccess",
-    "RandomizableContainerBlockEntityAccess"
+    "RandomizableContainerBlockEntityAccess",
+    "ReloadableServerResourcesMixin"
   ],
   "client"            : [
     "BossHealthOverlayAccess",
+    "ClientPacketListenerMixin",
     "EditBoxAccess",
     "KeyMappingAccess",
     "MultiPlayerGameModeAccess",

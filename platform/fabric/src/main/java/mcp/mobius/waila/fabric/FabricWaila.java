@@ -24,8 +24,8 @@ public class FabricWaila extends Waila implements ModInitializer {
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) ->
             ServerCommand.register(dispatcher));
 
-        ServerLifecycleEvents.SERVER_STARTING.register(server ->
-            PluginConfig.reload());
+        ServerLifecycleEvents.SERVER_STARTING.register(server -> PluginConfig.reload());
+        ServerLifecycleEvents.SERVER_STOPPED.register(server -> onServerStopped());
 
         ModInfo.register(new ModInfo(false, "c", "Common", "0"));
 

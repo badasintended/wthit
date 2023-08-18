@@ -9,6 +9,7 @@ import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.config.BlacklistConfig;
 import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.gui.hud.theme.ThemeDefinition;
+import mcp.mobius.waila.registry.RegistryFilter;
 import mcp.mobius.waila.service.ICommonService;
 import mcp.mobius.waila.util.Log;
 import mcp.mobius.waila.util.UnsupportedPlatformException;
@@ -57,6 +58,10 @@ public abstract class Waila {
 
     public static ResourceLocation id(String path) {
         return new ResourceLocation(WailaConstants.NAMESPACE, path);
+    }
+
+    protected static void onServerStopped() {
+        RegistryFilter.attach(null);
     }
 
     protected static void unsupportedPlatform(String platformName, String loaderName, String clazz) {

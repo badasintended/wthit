@@ -4,31 +4,41 @@ import java.util.Collection;
 
 import mcp.mobius.waila.api.__internal__.IApiService;
 import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceKey;
 import org.jetbrains.annotations.ApiStatus;
 
 /**
- * Filters registry object based on set of string operators.
+ * Filters registry object based on set of string rules.
  * <p>
- * <b>Operators:</b><ul>
+ * <b> Rule Operators:</b><ul>
  * <li>{@code @namespace} - Filter objects based on their namespace location.</li>
  * <li>{@code #tag} - Filter objects based on data pack tags.</li>
  * <li>{@code /regex/} - Filter objects based on regular expression.</li>
  * <li>{@code default} - Filter objects with specific ID.</li>
  * </ul>
  * <p>
- * <b>Note:</b> Instances of {@link IRegistryFilter} should only be obtained once,
- * unless the filter list is changed. For dynamic registry, it should be once every server load.
+ * <b>Note:</b> Instances of {@link IRegistryFilter} should only be obtained once, unless the ruleset is changed.
  */
 @ApiStatus.NonExtendable
 public interface IRegistryFilter<T> {
 
-    static <T> Builder<T> of(Registry<T> registry) {
-        return IApiService.INSTANCE.createRegistryFilterBuilder(registry);
+    static <T> Builder<T> of(ResourceKey<? extends Registry<T>> registryKey) {
+        return IApiService.INSTANCE.createRegistryFilterBuilder(registryKey);
     }
 
-    boolean contains(T object);
+    /**
+     * Returns whether the filter matches the object.
+     * <p>
+     * <b>Note:</b> When not in world, this will always return {@code false}.
+     */
+    boolean matches(T object);
 
-    Collection<T> getValues();
+    /**
+     * Returns <b>read-only</b> collection containing all objects that matches the filter.
+     * <p>
+     * <b>Note:</b> When not in world, this will always return empty collection.
+     */
+    Collection<T> getMatches();
 
     @ApiStatus.NonExtendable
     interface Builder<T> {

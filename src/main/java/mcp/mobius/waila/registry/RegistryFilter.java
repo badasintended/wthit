@@ -1,87 +1,154 @@
 package mcp.mobius.waila.registry;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.WeakHashMap;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
-import java.util.stream.Collectors;
 
 import com.google.common.base.Preconditions;
+import com.google.common.base.Stopwatch;
 import mcp.mobius.waila.api.IRegistryFilter;
 import mcp.mobius.waila.util.Log;
+import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
+import net.minecraft.core.RegistryAccess;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
+import org.jetbrains.annotations.Nullable;
 
 public class RegistryFilter<T> implements IRegistryFilter<T> {
 
+    public static final ThreadLocal<@Nullable RegistryAccess> REGISTRY = ThreadLocal.withInitial(() -> null);
+    public static final Set<RegistryFilter<?>> INSTANCES = Collections.newSetFromMap(Collections.synchronizedMap(new WeakHashMap<>()));
+
     private static final Log LOG = Log.create();
 
-    private final Set<T> set;
+    private final ResourceKey<? extends Registry<T>> registryKey;
+    private final Set<Rule<T>> rules;
 
-    public RegistryFilter(Set<T> set) {
-        this.set = set;
+    private final ThreadLocal<@Nullable Registry<T>> registry = ThreadLocal.withInitial(() -> null);
+    private final ThreadLocal<Set<T>> entries = ThreadLocal.withInitial(Set::of);
+    private final ThreadLocal<Boolean> loaded = ThreadLocal.withInitial(() -> true);
+
+    private RegistryFilter(ResourceKey<? extends Registry<T>> registry, Set<Rule<T>> rules) {
+        this.registryKey = registry;
+        this.rules = rules;
+
+        INSTANCES.add(this);
+        attach();
+    }
+
+    public static void attach(@Nullable RegistryAccess registryAccess) {
+        REGISTRY.set(registryAccess);
+        INSTANCES.forEach(RegistryFilter::attach);
+    }
+
+    public void attach() {
+        var access = REGISTRY.get();
+        registry.set(access == null ? null : access.registryOrThrow(registryKey));
+        entries.set(Set.of());
+        loaded.set(false);
+    }
+
+    private void load() {
+        if (loaded.get()) return;
+
+        var registry = this.registry.get();
+        if (registry == null) return;
+
+        Stopwatch stopwatch = null;
+        if (LOG.isDebugEnabled()) {
+            stopwatch = Stopwatch.createStarted();
+            LOG.debug("Attaching registry to filter, id: {}", hashCode());
+        }
+
+        var entries = new HashSet<T>(this.entries.get().size());
+
+        rules.forEach(rule -> registry.holders().forEach(holder -> {
+            if (rule.matches(holder)) entries.add(holder.value());
+        }));
+
+        this.entries.set(Collections.unmodifiableSet(entries));
+
+        if (stopwatch != null) {
+            LOG.debug("Finished in {}ms, {} entries matched", stopwatch.elapsed(TimeUnit.MILLISECONDS), entries.size());
+            entries.stream()
+                .map(it -> Objects.requireNonNull(registry.getKey(it)).toString())
+                .sorted()
+                .forEach(it -> LOG.debug("\t{}", it));
+        }
+
+        loaded.set(true);
     }
 
     @Override
-    public Collection<T> getValues() {
-        return set;
+    public Collection<T> getMatches() {
+        load();
+        return entries.get();
     }
 
     @Override
-    public boolean contains(T object) {
-        return set.contains(object);
+    public boolean matches(T object) {
+        load();
+        return entries.get().contains(object);
+    }
+
+    private interface Rule<T> {
+
+        boolean matches(Holder.Reference<T> holder);
+
     }
 
     public static class Builder<T> implements IRegistryFilter.Builder<T> {
 
-        private final Registry<T> registry;
-        private final Set<ResourceLocation> keys;
+        private final ResourceKey<? extends Registry<T>> registryKey;
+        private final Set<Rule<T>> rules;
 
-        public Builder(Registry<T> registry) {
-            LOG.debug("Start filter for {}", registry.key().location());
+        private final @Nullable Stopwatch stopwatch;
 
-            this.registry = registry;
-            this.keys = new HashSet<>(registry.size());
-        }
+        public Builder(ResourceKey<? extends Registry<T>> registryKey) {
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Start filter for {}", registryKey.location());
+                stopwatch = Stopwatch.createStarted();
+            } else {
+                stopwatch = null;
+            }
 
-        private void debugKey(ResourceLocation key) {
-            LOG.debug("\t\t{}", key);
-        }
-
-        private void addKey(ResourceLocation key) {
-            debugKey(key);
-            keys.add(key);
+            this.registryKey = registryKey;
+            this.rules = new HashSet<>();
         }
 
         @Override
         public IRegistryFilter.Builder<T> parse(String rule) {
-            LOG.debug("\tParsing {}", rule);
             var prefix = rule.charAt(0);
 
             switch (prefix) {
                 case '@' -> {
+                    LOG.debug("\tNamespace: {}", rule);
                     var namespace = rule.substring(1);
-                    registry.keySet().stream()
-                        .filter(it -> it.getNamespace().equals(namespace))
-                        .forEach(this::addKey);
+                    rules.add(it -> it.key().location().getNamespace().equals(namespace));
                 }
                 case '#' -> {
+                    LOG.debug("\tTag      : {}", rule);
                     var tagId = new ResourceLocation(rule.substring(1));
-                    var tag = TagKey.create(registry.key(), tagId);
-                    registry.holders()
-                        .filter(it -> it.is(tag))
-                        .forEach(it -> addKey(it.key().location()));
+                    var tag = TagKey.create(registryKey, tagId);
+                    rules.add(it -> it.is(tag));
                 }
                 case '/' -> {
+                    LOG.debug("\tRegex    : {}", rule);
                     Preconditions.checkArgument(rule.endsWith("/"), "Regex filter must also ends with /");
                     var pattern = Pattern.compile(rule.substring(1, rule.length() - 1));
-                    registry.keySet().stream()
-                        .filter(it -> pattern.matcher(it.toString()).matches())
-                        .forEach(this::addKey);
+                    rules.add(it -> pattern.matcher(it.key().location().toString()).matches());
                 }
-                default -> addKey(new ResourceLocation(rule));
+                default -> {
+                    LOG.debug("\tID       : {}", rule);
+                    rules.add(it -> it.is(new ResourceLocation(rule)));
+                }
             }
 
             return this;
@@ -101,19 +168,13 @@ public class RegistryFilter<T> implements IRegistryFilter<T> {
 
         @Override
         public IRegistryFilter<T> build() {
-            var set = keys.stream()
-                .map(registry::get)
-                .filter(Objects::nonNull)
-                .collect(Collectors.toUnmodifiableSet());
+            var res = new RegistryFilter<>(registryKey, rules);
 
-            if (LOG.isDebugEnabled()) {
-                LOG.debug("\tFinished, total {} entries", keys.size());
-                keys.stream()
-                    .sorted()
-                    .forEach(this::debugKey);
+            if (stopwatch != null) {
+                LOG.debug("Finished in {}ms, id: {}", stopwatch.elapsed(TimeUnit.MILLISECONDS), res.hashCode());
             }
 
-            return new RegistryFilter<>(set);
+            return res;
         }
 
     }
