@@ -43,9 +43,9 @@ public enum PetOwnerProvider implements IEntityComponentProvider, IDataProvider<
     @Override
     public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
         if (config.getBoolean(Options.PET_OWNER)) {
+            OwnableEntity entity = accessor.getEntity();
             var data = accessor.getData().raw();
-            if (!data.hasUUID("owner")) return;
-            var uuid = data.getUUID("owner");
+            var uuid = data.hasUUID("owner") ? data.getUUID("owner") : entity.getOwnerUUID();
 
             var name = LOADING;
             if (NAMES.containsKey(uuid)) {
