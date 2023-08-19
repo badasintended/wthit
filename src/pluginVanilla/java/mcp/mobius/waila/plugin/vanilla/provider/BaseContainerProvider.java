@@ -5,6 +5,7 @@ import mcp.mobius.waila.api.IDataWriter;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerAccessor;
 import mcp.mobius.waila.api.data.ItemData;
+import mcp.mobius.waila.mixin.BaseContainerBlockEntityAccess;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 
 public enum BaseContainerProvider implements IDataProvider<BaseContainerBlockEntity> {
@@ -13,7 +14,8 @@ public enum BaseContainerProvider implements IDataProvider<BaseContainerBlockEnt
 
     @Override
     public void appendData(IDataWriter data, IServerAccessor<BaseContainerBlockEntity> accessor, IPluginConfig config) {
-        if (!accessor.getTarget().canOpen(accessor.getPlayer())) {
+        var target = (BaseContainerBlockEntityAccess) accessor.getTarget();
+        if (!target.wthit_lockKey().unlocksWith(accessor.getPlayer().getMainHandItem())) {
             data.blockAll(ItemData.class);
         }
     }
