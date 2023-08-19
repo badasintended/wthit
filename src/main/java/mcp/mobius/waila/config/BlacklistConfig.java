@@ -1,9 +1,9 @@
 package mcp.mobius.waila.config;
 
 import java.lang.reflect.Type;
+import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
@@ -62,9 +62,9 @@ public class BlacklistConfig {
         public final IRegistryFilter<BlockEntityType<?>> blockEntityFilter;
         public final IRegistryFilter<EntityType<?>> entityFilter;
 
-        private Set<Block> syncedBlockFilter = Set.of();
-        private Set<BlockEntityType<?>> syncedBlockEntityFilter = Set.of();
-        private Set<EntityType<?>> syncedEntityFilter = Set.of();
+        private Collection<Block> syncedBlockFilter = Set.of();
+        private Collection<BlockEntityType<?>> syncedBlockEntityFilter = Set.of();
+        private Collection<EntityType<?>> syncedEntityFilter = Set.of();
 
         private View() {
             blockFilter = IRegistryFilter.of(Registries.BLOCK).parse(blocks).build();
@@ -73,20 +73,20 @@ public class BlacklistConfig {
         }
 
         public void sync(Set<String> blockRules, Set<String> blockEntityRules, Set<String> entityRules) {
-            syncedBlockFilter = sync(Registries.BLOCK, blockFilter, blockRules);
-            syncedBlockEntityFilter = sync(Registries.BLOCK_ENTITY_TYPE, blockEntityFilter, blockEntityRules);
-            syncedEntityFilter = sync(Registries.ENTITY_TYPE, entityFilter, entityRules);
+            syncedBlockFilter = sync(Registries.BLOCK, blocks, blockRules);
+            syncedBlockEntityFilter = sync(Registries.BLOCK_ENTITY_TYPE, blockEntityTypes, blockEntityRules);
+            syncedEntityFilter = sync(Registries.ENTITY_TYPE, entityTypes, entityRules);
         }
 
-        private static <T> Set<T> sync(ResourceKey<? extends Registry<T>> registryKey, IRegistryFilter<T> filter, Set<String> rules) {
+        private static <T> Collection<T> sync(ResourceKey<? extends Registry<T>> registryKey, Set<String> localRules, Set<String> syncedRules) {
             LOG.debug("Syncing blacklist {}", registryKey.location());
 
-            var builder = IRegistryFilter.of(registryKey);
-            rules.forEach(builder::parse);
-
-            return builder.build().getMatches().stream()
-                .filter(it -> !filter.matches(it))
-                .collect(Collectors.toUnmodifiableSet());
+            return IRegistryFilter.of(registryKey)
+                .parse(syncedRules.stream()
+                    .filter(it -> !localRules.contains(it))
+                    .toArray(String[]::new))
+                .build()
+                .getMatches();
         }
 
         @Override
