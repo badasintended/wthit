@@ -13,11 +13,7 @@ import mcp.mobius.waila.registry.RegistryFilter;
 import mcp.mobius.waila.service.ICommonService;
 import mcp.mobius.waila.util.Log;
 import mcp.mobius.waila.util.UnsupportedPlatformException;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.level.block.Block;
 
 public abstract class Waila {
 
@@ -32,9 +28,6 @@ public abstract class Waila {
 
     public static final Path GAME_DIR = ICommonService.INSTANCE.getGameDir();
     public static final Path CONFIG_DIR = ICommonService.INSTANCE.getConfigDir();
-
-    public static final TagKey<Block> BLOCK_BLACKLIST_TAG = TagKey.create(Registries.BLOCK, id("blacklist"));
-    public static final TagKey<EntityType<?>> ENTITY_BLACKLIST_TAG = TagKey.create(Registries.ENTITY_TYPE, id("blacklist"));
 
     public static final IJsonConfig<WailaConfig> CONFIG = IJsonConfig.of(WailaConfig.class)
         .file(WailaConstants.NAMESPACE + "/" + WailaConstants.WAILA)
