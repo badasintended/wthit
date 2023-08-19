@@ -13,6 +13,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IBlacklistConfig;
 import mcp.mobius.waila.api.IRegistryFilter;
 import mcp.mobius.waila.util.Log;
@@ -28,6 +29,7 @@ import org.jetbrains.annotations.Nullable;
 public class BlacklistConfig {
 
     private static final Log LOG = Log.create();
+    private static final String BLACKLIST_TAG = "#" + Waila.id("blacklist");
 
     public static final int VERSION = 0;
 
@@ -103,6 +105,7 @@ public class BlacklistConfig {
             var type = entity.getType();
             return entityFilter.matches(type) || syncedEntityFilter.contains(type);
         }
+
     }
 
     public static class Adapter implements JsonSerializer<BlacklistConfig>, JsonDeserializer<BlacklistConfig> {
@@ -115,11 +118,14 @@ public class BlacklistConfig {
                 On the SERVER, changes will be applied after the server is restarted
                 On the CLIENT, changes will be applied after player quit and rejoin a world
                                 
-                Operators:
+                Rule Operators:
                 @namespace - Filter objects based on their namespace location
                 #tag       - Filter objects based on data pack tags
                 /regex/    - Filter objects based on regular expression
-                default    - Filter objects with specific ID"""
+                default    - Filter objects with specific ID
+                                
+                The %s tag rule can not be removed"""
+                .formatted(BLACKLIST_TAG)
                 .split("\n");
 
             var commentArray = new JsonArray();
@@ -140,6 +146,10 @@ public class BlacklistConfig {
         public BlacklistConfig deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
             var object = json.getAsJsonObject();
             var res = new BlacklistConfig();
+
+            res.blocks.add(BLACKLIST_TAG);
+            res.blockEntityTypes.add(BLACKLIST_TAG);
+            res.entityTypes.add(BLACKLIST_TAG);
 
             deserializeEntries(res.blocks, object.getAsJsonArray("blocks"));
             deserializeEntries(res.blockEntityTypes, object.getAsJsonArray("blockEntityTypes"));

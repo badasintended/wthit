@@ -97,7 +97,7 @@ public class TooltipHandler {
                     continue;
                 }
 
-                if (accessor.getBlockState().is(Waila.BLOCK_BLACKLIST_TAG) || IBlacklistConfig.get().contains(block)) {
+                if (IBlacklistConfig.get().contains(block)) {
                     continue;
                 }
 
@@ -141,7 +141,7 @@ public class TooltipHandler {
                     continue;
                 }
 
-                if (actualEntity.getType().is(Waila.ENTITY_BLACKLIST_TAG) || IBlacklistConfig.get().contains(accessor.getEntity())) {
+                if (IBlacklistConfig.get().contains(actualEntity)) {
                     continue;
                 }
 
