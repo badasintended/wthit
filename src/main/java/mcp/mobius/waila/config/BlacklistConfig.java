@@ -1,7 +1,6 @@
 package mcp.mobius.waila.config;
 
 import java.lang.reflect.Type;
-import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -62,9 +61,9 @@ public class BlacklistConfig {
         public final IRegistryFilter<BlockEntityType<?>> blockEntityFilter;
         public final IRegistryFilter<EntityType<?>> entityFilter;
 
-        private Collection<Block> syncedBlockFilter = Set.of();
-        private Collection<BlockEntityType<?>> syncedBlockEntityFilter = Set.of();
-        private Collection<EntityType<?>> syncedEntityFilter = Set.of();
+        private @Nullable IRegistryFilter<Block> syncedBlockFilter = null;
+        private @Nullable IRegistryFilter<BlockEntityType<?>> syncedBlockEntityFilter = null;
+        private @Nullable IRegistryFilter<EntityType<?>> syncedEntityFilter = null;
 
         private View() {
             blockFilter = IRegistryFilter.of(Registries.BLOCK).parse(blocks).build();
@@ -78,32 +77,31 @@ public class BlacklistConfig {
             syncedEntityFilter = sync(Registries.ENTITY_TYPE, entityTypes, entityRules);
         }
 
-        private static <T> Collection<T> sync(ResourceKey<? extends Registry<T>> registryKey, Set<String> localRules, Set<String> syncedRules) {
+        private static <T> IRegistryFilter<T> sync(ResourceKey<? extends Registry<T>> registryKey, Set<String> localRules, Set<String> syncedRules) {
             LOG.debug("Syncing blacklist {}", registryKey.location());
 
             return IRegistryFilter.of(registryKey)
                 .parse(syncedRules.stream()
                     .filter(it -> !localRules.contains(it))
                     .toArray(String[]::new))
-                .build()
-                .getMatches();
+                .build();
         }
 
         @Override
         public boolean contains(Block block) {
-            return blockFilter.matches(block) || syncedBlockFilter.contains(block);
+            return blockFilter.matches(block) || (syncedBlockFilter != null && syncedBlockFilter.matches(block));
         }
 
         @Override
         public boolean contains(BlockEntity blockEntity) {
             var type = blockEntity.getType();
-            return blockEntityFilter.matches(type) || syncedBlockEntityFilter.contains(type);
+            return blockEntityFilter.matches(type) || (syncedBlockEntityFilter != null && syncedBlockEntityFilter.matches(type));
         }
 
         @Override
         public boolean contains(Entity entity) {
             var type = entity.getType();
-            return entityFilter.matches(type) || syncedEntityFilter.contains(type);
+            return entityFilter.matches(type) || (syncedEntityFilter != null && syncedEntityFilter.matches(type));
         }
 
     }
