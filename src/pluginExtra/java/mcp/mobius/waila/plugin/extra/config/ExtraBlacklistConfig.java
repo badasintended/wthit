@@ -12,6 +12,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import mcp.mobius.waila.api.IRegistryFilter;
+import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.Block;
@@ -39,9 +40,9 @@ public class ExtraBlacklistConfig {
         public final IRegistryFilter<EntityType<?>> entityFilter;
 
         public View() {
-            blockFilter = IRegistryFilter.of(Registries.BLOCK).parse(blocks).build();
-            blockEntityFilter = IRegistryFilter.of(Registries.BLOCK_ENTITY_TYPE).parse(blockEntityTypes).build();
-            entityFilter = IRegistryFilter.of(Registries.ENTITY_TYPE).parse(entityTypes).build();
+            blockFilter = IRegistryFilter.of(Registry.BLOCK_REGISTRY).parse(blocks).build();
+            blockEntityFilter = IRegistryFilter.of(Registry.BLOCK_ENTITY_TYPE_REGISTRY).parse(blockEntityTypes).build();
+            entityFilter = IRegistryFilter.of(Registry.ENTITY_TYPE_REGISTRY).parse(entityTypes).build();
         }
 
     }

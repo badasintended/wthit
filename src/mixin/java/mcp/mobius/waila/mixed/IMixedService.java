@@ -1,8 +1,6 @@
 package mcp.mobius.waila.mixed;
 
 import mcp.mobius.waila.api.__internal__.Internals;
-import net.minecraft.client.multiplayer.ClientRegistryLayer;
-import net.minecraft.core.LayeredRegistryAccess;
 import net.minecraft.core.RegistryAccess;
 
 public interface IMixedService {
@@ -11,6 +9,6 @@ public interface IMixedService {
 
     void ReloadableServerResources_updateRegistryTags(RegistryAccess registryAccess);
 
-    void ClientPacketListener_handleUpdateTags(LayeredRegistryAccess<ClientRegistryLayer> registryAccess);
+    void ClientPacketListener_handleUpdateTags(RegistryAccess.Frozen registryAccess);
 
 }

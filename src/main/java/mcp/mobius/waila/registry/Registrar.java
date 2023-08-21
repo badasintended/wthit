@@ -166,12 +166,12 @@ public enum Registrar implements IRegistrar {
 
     @Override
     public void addBlacklist(Block... blocks) {
-        addBlacklist(blacklist.blocks, BuiltInRegistries.BLOCK, blocks);
+        addBlacklist(blacklist.blocks, Registry.BLOCK, blocks);
     }
 
     @Override
     public void addBlacklist(BlockEntityType<?>... blockEntityTypes) {
-        addBlacklist(blacklist.blockEntityTypes, BuiltInRegistries.BLOCK_ENTITY_TYPE, blockEntityTypes);
+        addBlacklist(blacklist.blockEntityTypes, Registry.BLOCK_ENTITY_TYPE, blockEntityTypes);
     }
 
     @Override
@@ -211,7 +211,7 @@ public enum Registrar implements IRegistrar {
 
     @Override
     public void addBlacklist(EntityType<?>... entityTypes) {
-        addBlacklist(blacklist.entityTypes, BuiltInRegistries.ENTITY_TYPE, entityTypes);
+        addBlacklist(blacklist.entityTypes, Registry.ENTITY_TYPE, entityTypes);
     }
 
     @Override

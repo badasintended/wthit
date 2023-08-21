@@ -66,15 +66,15 @@ public class BlacklistConfig {
         private @Nullable IRegistryFilter<EntityType<?>> syncedEntityFilter = null;
 
         private View() {
-            blockFilter = IRegistryFilter.of(Registries.BLOCK).parse(blocks).build();
-            blockEntityFilter = IRegistryFilter.of(Registries.BLOCK_ENTITY_TYPE).parse(blockEntityTypes).build();
-            entityFilter = IRegistryFilter.of(Registries.ENTITY_TYPE).parse(entityTypes).build();
+            blockFilter = IRegistryFilter.of(Registry.BLOCK_REGISTRY).parse(blocks).build();
+            blockEntityFilter = IRegistryFilter.of(Registry.BLOCK_ENTITY_TYPE_REGISTRY).parse(blockEntityTypes).build();
+            entityFilter = IRegistryFilter.of(Registry.ENTITY_TYPE_REGISTRY).parse(entityTypes).build();
         }
 
         public void sync(Set<String> blockRules, Set<String> blockEntityRules, Set<String> entityRules) {
-            syncedBlockFilter = sync(Registries.BLOCK, blocks, blockRules);
-            syncedBlockEntityFilter = sync(Registries.BLOCK_ENTITY_TYPE, blockEntityTypes, blockEntityRules);
-            syncedEntityFilter = sync(Registries.ENTITY_TYPE, entityTypes, entityRules);
+            syncedBlockFilter = sync(Registry.BLOCK_REGISTRY, blocks, blockRules);
+            syncedBlockEntityFilter = sync(Registry.BLOCK_ENTITY_TYPE_REGISTRY, blockEntityTypes, blockEntityRules);
+            syncedEntityFilter = sync(Registry.ENTITY_TYPE_REGISTRY, entityTypes, entityRules);
         }
 
         private static <T> IRegistryFilter<T> sync(ResourceKey<? extends Registry<T>> registryKey, Set<String> localRules, Set<String> syncedRules) {
