@@ -19,6 +19,7 @@ import org.jetbrains.annotations.ApiStatus;
  * <p>
  * <b>Note:</b> Instances of {@link IRegistryFilter} should only be obtained once, unless the ruleset is changed.
  */
+@ApiStatus.Experimental
 @ApiStatus.NonExtendable
 public interface IRegistryFilter<T> {
 
@@ -40,6 +41,7 @@ public interface IRegistryFilter<T> {
      */
     Collection<T> getMatches();
 
+    @ApiStatus.Experimental
     @ApiStatus.NonExtendable
     interface Builder<T> {
 
