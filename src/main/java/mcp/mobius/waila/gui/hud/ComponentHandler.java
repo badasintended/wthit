@@ -37,7 +37,7 @@ public class ComponentHandler {
             accessor.resetTimer();
             if (!(registrar.blockData.get(block).isEmpty() && registrar.blockData.get(blockEntity).isEmpty())) {
                 var buf = new FriendlyByteBuf(Unpooled.buffer());
-                buf.writeBlockHitResult((BlockHitResult) accessor.getHitResult());
+                buf.writeBlockHitResult(accessor.getBlockHitResult());
                 PacketSender.c2s().send(Packets.BLOCK, buf);
             }
         }
@@ -76,7 +76,7 @@ public class ComponentHandler {
             if (!registrar.entityData.get(trueEntity).isEmpty()) {
                 var buf = new FriendlyByteBuf(Unpooled.buffer());
                 buf.writeVarInt(entity.getId());
-                var hitPos = accessor.getHitResult().getLocation();
+                var hitPos = accessor.getEntityHitResult().getLocation();
                 buf.writeDouble(hitPos.x);
                 buf.writeDouble(hitPos.y);
                 buf.writeDouble(hitPos.z);
