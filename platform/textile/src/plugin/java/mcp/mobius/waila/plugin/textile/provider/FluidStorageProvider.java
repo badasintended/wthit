@@ -34,17 +34,17 @@ public enum FluidStorageProvider implements IDataProvider<BlockEntity> {
                 cache = BlockApiCache.create(FluidStorage.SIDED, (ServerLevel) accessor.getWorld(), accessor.getTarget().getBlockPos());
             }
 
-            Storage<FluidVariant> storage = cache.find(accessor.getTarget().getBlockState(), null);
+            var storage = cache.find(accessor.getTarget().getBlockState(), null);
 
             if (storage instanceof SingleSlotStorage<FluidVariant> single) {
-                FluidData fluidData = FluidData.of(FluidData.Unit.DROPLETS);
+                var fluidData = FluidData.of(FluidData.Unit.DROPLETS);
                 addFluid(fluidData, single);
                 res.add(fluidData);
             } else if (storage != null) {
                 Set<StorageView<FluidVariant>> uniqueViews = new HashSet<>();
-                FluidData fluidData = FluidData.of(FluidData.Unit.DROPLETS);
+                var fluidData = FluidData.of(FluidData.Unit.DROPLETS);
 
-                for (StorageView<FluidVariant> view : storage) {
+                for (var view : storage) {
                     addFluid(uniqueViews, fluidData, view);
                 }
 
@@ -54,13 +54,13 @@ public enum FluidStorageProvider implements IDataProvider<BlockEntity> {
     }
 
     private void addFluid(Set<StorageView<FluidVariant>> uniqueViews, FluidData fluidData, StorageView<FluidVariant> view) {
-        StorageView<FluidVariant> uniqueView = view.getUnderlyingView();
+        var uniqueView = view.getUnderlyingView();
         if (uniqueViews.add(uniqueView)) addFluid(fluidData, view);
     }
 
     private void addFluid(FluidData fluidData, StorageView<FluidVariant> view) {
         if (view.isResourceBlank()) return;
-        FluidVariant variant = view.getResource();
+        var variant = view.getResource();
         fluidData.add(variant.getFluid(), variant.getNbt(), view.getAmount(), view.getCapacity());
     }
 

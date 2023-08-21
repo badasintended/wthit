@@ -10,8 +10,6 @@ import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.Util;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.NoteBlock;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 
 import static net.minecraft.util.Mth.clamp;
 import static net.minecraft.util.Mth.sin;
@@ -21,14 +19,14 @@ public enum NoteBlockProvider implements IBlockComponentProvider {
     INSTANCE;
 
     private static final int[] COLORS = Util.make(new int[25], arr -> {
-        float twoPi = (float) (Math.PI * 2);
-        float onePerThree = 1f / 3f;
-        float twoPerThree = 2f / 3f;
-        for (int i = 0; i < arr.length; i++) {
-            float levelF = i / 24f;
-            int r = (int) (255 * clamp(sin(levelF * twoPi) * 0.65f + 0.35f, 0f, 1f));
-            int g = (int) (255 * clamp(sin((levelF + onePerThree) * twoPi) * 0.65f + 0.35f, 0f, 1f));
-            int b = (int) (255 * clamp(sin((levelF + twoPerThree) * twoPi) * 0.65f + 0.35f, 0f, 1f));
+        var twoPi = (float) (Math.PI * 2);
+        var onePerThree = 1f / 3f;
+        var twoPerThree = 2f / 3f;
+        for (var i = 0; i < arr.length; i++) {
+            var levelF = i / 24f;
+            var r = (int) (255 * clamp(sin(levelF * twoPi) * 0.65f + 0.35f, 0f, 1f));
+            var g = (int) (255 * clamp(sin((levelF + onePerThree) * twoPi) * 0.65f + 0.35f, 0f, 1f));
+            var b = (int) (255 * clamp(sin((levelF + twoPerThree) * twoPi) * 0.65f + 0.35f, 0f, 1f));
             arr[i] = (r << 16) + (g << 8) + b;
         }
     });
@@ -36,11 +34,11 @@ public enum NoteBlockProvider implements IBlockComponentProvider {
     @Override
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
         if (config.getBoolean(Options.NOTE_BLOCK_TYPE)) {
-            BlockState state = accessor.getBlockState();
-            NoteBlockInstrument instrument = state.getValue(NoteBlock.INSTRUMENT);
+            var state = accessor.getBlockState();
+            var instrument = state.getValue(NoteBlock.INSTRUMENT);
             int level = state.getValue(NoteBlock.NOTE);
-            Note note = Note.get(level);
-            StringBuilder builder = new StringBuilder()
+            var note = Note.get(level);
+            var builder = new StringBuilder()
                 .append(" (")
                 .append(config.<NoteDisplayMode>getEnum(Options.NOTE_BLOCK_NOTE) == NoteDisplayMode.SHARP ? note.sharp : note.flat)
                 .append(")");

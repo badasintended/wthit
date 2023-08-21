@@ -14,7 +14,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.fabricmc.loader.api.metadata.CustomValue;
-import net.fabricmc.loader.api.metadata.ModMetadata;
 
 import static net.fabricmc.loader.api.metadata.CustomValue.CvType.ARRAY;
 import static net.fabricmc.loader.api.metadata.CustomValue.CvType.OBJECT;
@@ -27,17 +26,17 @@ public class FabricPluginLoader extends PluginLoader {
     @Override
     protected void gatherPlugins() {
         Map<ModContainer, CustomValue.CvObject[]> pluginMap = new Object2ObjectOpenHashMap<>();
-        for (ModContainer mod : FabricLoader.getInstance().getAllMods()) {
-            for (String file : PLUGIN_JSON_FILES) {
+        for (var mod : FabricLoader.getInstance().getAllMods()) {
+            for (var file : PLUGIN_JSON_FILES) {
                 mod.findPath(file).ifPresent(path -> readPluginsJson(mod.getMetadata().getId(), path));
             }
 
-            ModMetadata data = mod.getMetadata();
+            var data = mod.getMetadata();
 
             if (!data.containsCustomValue("waila:plugins"))
                 continue;
 
-            CustomValue val = data.getCustomValue("waila:plugins");
+            var val = data.getCustomValue("waila:plugins");
             if (val.getType() == OBJECT) {
                 pluginMap.put(mod, new CustomValue.CvObject[]{val.getAsObject()});
             } else if (val.getType() == ARRAY) {
@@ -47,15 +46,15 @@ public class FabricPluginLoader extends PluginLoader {
             }
         }
 
-        for (Map.Entry<ModContainer, CustomValue.CvObject[]> entry : pluginMap.entrySet()) {
-            ModContainer mod = entry.getKey();
-            CustomValue.CvObject[] plugins = entry.getValue();
+        for (var entry : pluginMap.entrySet()) {
+            var mod = entry.getKey();
+            var plugins = entry.getValue();
 
             o:
-            for (CustomValue.CvObject plugin : plugins) {
+            for (var plugin : plugins) {
                 List<String> requiredDeps = new ArrayList<>();
                 if (plugin.containsKey("required")) {
-                    CustomValue required = plugin.get("required");
+                    var required = plugin.get("required");
                     if (required.getType() == STRING) {
                         if (FabricLoader.getInstance().isModLoaded(required.getAsString())) {
                             requiredDeps.add(required.getAsString());
@@ -65,7 +64,7 @@ public class FabricPluginLoader extends PluginLoader {
                     }
 
                     if (required.getType() == ARRAY) {
-                        for (CustomValue element : required.getAsArray()) {
+                        for (var element : required.getAsArray()) {
                             if (element.getType() != STRING)
                                 continue;
 
@@ -78,10 +77,10 @@ public class FabricPluginLoader extends PluginLoader {
                     }
                 }
 
-                String id = plugin.get("id").getAsString();
-                String initializer = plugin.get("initializer").getAsString();
+                var id = plugin.get("id").getAsString();
+                var initializer = plugin.get("initializer").getAsString();
 
-                String sideStr = plugin.containsKey("environment") ? plugin.get("environment").getAsString() : "both";
+                var sideStr = plugin.containsKey("environment") ? plugin.get("environment").getAsString() : "both";
                 IPluginInfo.Side side;
                 switch (sideStr) {
                     case "client" -> side = IPluginInfo.Side.CLIENT;

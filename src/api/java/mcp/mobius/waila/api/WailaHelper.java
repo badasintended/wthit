@@ -9,16 +9,16 @@ public final class WailaHelper {
         if (value < 0) return "-" + suffix(-value);
         if (value < 1000) return Long.toString(value);
 
-        int exponent = -1;
+        var exponent = -1;
         long divisor = 0;
 
-        for (long decimal : DECIMALS) {
+        for (var decimal : DECIMALS) {
             if (value < decimal) break;
             exponent++;
             divisor = decimal;
         }
 
-        double truncated = (double) value / divisor;
+        var truncated = (double) value / divisor;
         if (truncated >= 100) truncated = Math.round(truncated);
         else if (truncated >= 10) truncated = Math.round(truncated * 10) / 10d;
 

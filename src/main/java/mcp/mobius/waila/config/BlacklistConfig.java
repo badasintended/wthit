@@ -78,10 +78,10 @@ public class BlacklistConfig {
         private static <T> Set<T> sync(Registry<T> registry, IRegistryFilter<T> filter, Set<String> rules) {
             LOG.debug("Syncing blacklist {}", registry.key().location());
 
-            IRegistryFilter.Builder<T> builder = IRegistryFilter.of(registry);
+            var builder = IRegistryFilter.of(registry);
             rules.forEach(builder::parse);
 
-            Set<T> set = builder.build().getValues().stream()
+            var set = builder.build().getValues().stream()
                 .filter(it -> !filter.contains(it))
                 .collect(Collectors.toUnmodifiableSet());
 
@@ -100,13 +100,13 @@ public class BlacklistConfig {
 
         @Override
         public boolean contains(BlockEntity blockEntity) {
-            BlockEntityType<?> type = blockEntity.getType();
+            var type = blockEntity.getType();
             return blockEntityFilter.contains(type) || syncedBlockEntityFilter.contains(type);
         }
 
         @Override
         public boolean contains(Entity entity) {
-            EntityType<?> type = entity.getType();
+            var type = entity.getType();
             return entityFilter.contains(type) || syncedEntityFilter.contains(type);
         }
     }
@@ -115,9 +115,9 @@ public class BlacklistConfig {
 
         @Override
         public JsonElement serialize(BlacklistConfig src, Type typeOfSrc, JsonSerializationContext context) {
-            JsonObject object = new JsonObject();
+            var object = new JsonObject();
 
-            String[] comments = """
+            var comments = """
                 On the SERVER, changes will be applied after the server is restarted
                 On the CLIENT, changes will be applied after player quit and rejoin a world
                                 
@@ -128,8 +128,8 @@ public class BlacklistConfig {
                 default    - Filter objects with specific ID"""
                 .split("\n");
 
-            JsonArray commentArray = new JsonArray();
-            for (String line : comments) commentArray.add(line);
+            var commentArray = new JsonArray();
+            for (var line : comments) commentArray.add(line);
             object.add("_comment", commentArray);
 
             object.add("blocks", context.serialize(src.blocks));
@@ -144,8 +144,8 @@ public class BlacklistConfig {
 
         @Override
         public BlacklistConfig deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-            JsonObject object = json.getAsJsonObject();
-            BlacklistConfig res = new BlacklistConfig();
+            var object = json.getAsJsonObject();
+            var res = new BlacklistConfig();
 
             deserializeEntries(res.blocks, object.getAsJsonArray("blocks"));
             deserializeEntries(res.blockEntityTypes, object.getAsJsonArray("blockEntityTypes"));
@@ -158,7 +158,7 @@ public class BlacklistConfig {
         }
 
         private void deserializeEntries(LinkedHashSet<String> set, JsonArray array) {
-            for (JsonElement entry : array) {
+            for (var entry : array) {
                 set.add(entry.getAsString());
             }
         }

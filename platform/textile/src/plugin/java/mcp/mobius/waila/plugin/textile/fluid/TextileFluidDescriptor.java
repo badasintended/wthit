@@ -9,7 +9,6 @@ import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
 import net.fabricmc.fabric.api.transfer.v1.fluid.CauldronFluidContent;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
@@ -22,10 +21,10 @@ public enum TextileFluidDescriptor implements FluidDescriptor<Fluid>, CauldronDe
 
     @Override
     public void describeFluid(FluidDescriptionContext<Fluid> ctx, FluidDescription desc) {
-        FluidVariant variant = FluidVariant.of(ctx.fluid(), ctx.nbt());
+        var variant = FluidVariant.of(ctx.fluid(), ctx.nbt());
         desc.name(FluidVariantAttributes.getName(variant));
 
-        TextureAtlasSprite sprite = FluidVariantRendering.getSprite(variant);
+        var sprite = FluidVariantRendering.getSprite(variant);
         if (sprite != null) {
             desc.sprite(sprite)
                 .tint(FluidVariantRendering.getColor(variant));
@@ -34,7 +33,7 @@ public enum TextileFluidDescriptor implements FluidDescriptor<Fluid>, CauldronDe
 
     @Override
     public @Nullable FluidData getCauldronFluidData(BlockState state) {
-        CauldronFluidContent content = CauldronFluidContent.getForBlock(state.getBlock());
+        var content = CauldronFluidContent.getForBlock(state.getBlock());
         if (content == null || content.fluid == Fluids.EMPTY) return null;
 
         double stored = content.currentLevel(state) * content.amountPerLevel;

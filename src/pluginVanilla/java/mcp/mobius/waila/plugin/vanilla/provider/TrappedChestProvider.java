@@ -18,7 +18,7 @@ public enum TrappedChestProvider implements IBlockComponentProvider {
     @Override
     public BlockState getOverride(IBlockAccessor accessor, IPluginConfig config) {
         if (config.getBoolean(Options.OVERRIDE_TRAPPED_CHEST)) {
-            BlockState state = accessor.getBlockState();
+            var state = accessor.getBlockState();
             return Blocks.CHEST.defaultBlockState()
                 .setValue(FACING, state.getValue(FACING))
                 .setValue(TYPE, state.getValue(TYPE))

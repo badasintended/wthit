@@ -62,7 +62,7 @@ public abstract class Waila {
     protected static void unsupportedPlatform(String platformName, String loaderName, String clazz) {
         try {
             Class.forName(clazz);
-            String runningPlatformName = ICommonService.INSTANCE.getPlatformName();
+            var runningPlatformName = ICommonService.INSTANCE.getPlatformName();
 
             if (ALLOW_UNSUPPORTED_PLATFORMS)
                 LOG.warn("Running on unsupported platform {}, you are on your own.", platformName);

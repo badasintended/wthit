@@ -29,40 +29,36 @@ import mcp.mobius.waila.registry.RegistryFilter;
 import mcp.mobius.waila.util.DisplayUtil;
 import mcp.mobius.waila.util.ModInfo;
 import net.minecraft.core.Registry;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.nbt.ListTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.EnchantedBookItem;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.PotionItem;
 import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.TippedArrowItem;
-import net.minecraft.world.item.alchemy.Potion;
 import net.minecraft.world.item.alchemy.PotionUtils;
 
 public class ApiService implements IApiService {
 
     @Override
     public IModInfo getModInfo(ItemStack stack) {
-        Item item = stack.getItem();
+        var item = stack.getItem();
 
         if (ResourceLocation.DEFAULT_NAMESPACE.equals(Registry.ITEM.getKey(item).getNamespace())) {
             if (item instanceof EnchantedBookItem) {
-                ListTag enchantmentsNbt = EnchantedBookItem.getEnchantments(stack);
+                var enchantmentsNbt = EnchantedBookItem.getEnchantments(stack);
                 if (enchantmentsNbt.size() == 1) {
-                    CompoundTag enchantmentNbt = enchantmentsNbt.getCompound(0);
-                    ResourceLocation id = ResourceLocation.tryParse(enchantmentNbt.getString("id"));
+                    var enchantmentNbt = enchantmentsNbt.getCompound(0);
+                    var id = ResourceLocation.tryParse(enchantmentNbt.getString("id"));
                     if (id != null && Registry.ENCHANTMENT.containsKey(id)) {
                         return IModInfo.get(id.getNamespace());
                     }
                 }
             } else if (item instanceof PotionItem || item instanceof TippedArrowItem) {
-                Potion potionType = PotionUtils.getPotion(stack);
-                ResourceLocation id = Registry.POTION.getKey(potionType);
+                var potionType = PotionUtils.getPotion(stack);
+                var id = Registry.POTION.getKey(potionType);
                 return IModInfo.get(id.getNamespace());
             } else if (item instanceof SpawnEggItem spawnEggItem) {
-                ResourceLocation id = Registry.ENTITY_TYPE.getKey(spawnEggItem.getType(null));
+                var id = Registry.ENTITY_TYPE.getKey(spawnEggItem.getType(null));
                 return IModInfo.get(id.getNamespace());
             }
         }

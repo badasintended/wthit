@@ -13,8 +13,6 @@ import java.util.function.Supplier;
 
 import com.google.common.base.Suppliers;
 import com.google.common.util.concurrent.Futures;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IEntityComponentProvider;
@@ -25,7 +23,6 @@ import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.OwnableEntity;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 
@@ -43,7 +40,7 @@ public enum PetOwnerProvider implements IEntityComponentProvider {
     @Override
     public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
         if (config.getBoolean(Options.PET_OWNER)) {
-            Entity entity = accessor.getEntity();
+            var entity = accessor.getEntity();
             UUID uuid = null;
             if (entity instanceof AbstractHorse horse) {
                 uuid = horse.getOwnerUUID();
@@ -55,9 +52,9 @@ public enum PetOwnerProvider implements IEntityComponentProvider {
                 return;
             }
 
-            Component name = LOADING;
+            var name = LOADING;
             if (NAMES.containsKey(uuid)) {
-                Future<Component> future = NAMES.get(uuid);
+                var future = NAMES.get(uuid);
                 if (future.isDone()) {
                     name = Futures.getUnchecked(future);
                 }
@@ -78,13 +75,13 @@ public enum PetOwnerProvider implements IEntityComponentProvider {
                     .build(),
                 HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8))
             .thenApplyAsync(res -> {
-                JsonElement element = JsonParser.parseString(res.body());
+                var element = JsonParser.parseString(res.body());
                 if (element.isJsonObject()) {
-                    JsonObject object = element.getAsJsonObject();
+                    var object = element.getAsJsonObject();
                     if (object.has("name")) {
                         element = object.get("name");
                         if (element.isJsonPrimitive()) {
-                            String nameStr = element.getAsString();
+                            var nameStr = element.getAsString();
                             if (!nameStr.isBlank()) {
                                 return Component.literal(nameStr);
                             }

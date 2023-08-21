@@ -99,14 +99,14 @@ public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IEntityAcce
 
     @Override
     public IDataReader getData() {
-        DataReader data = DataReader.INSTANCE;
+        var data = DataReader.INSTANCE;
         if (!isTagCorrectBlockEntity() && !isTagCorrectEntity()) data.reset(null);
         return data;
     }
 
     @Override
     public long getServerDataTime() {
-        CompoundTag data = getData().raw();
+        var data = getData().raw();
         return data.contains("WailaTime") ? data.getLong("WailaTime") : System.currentTimeMillis();
     }
 
@@ -148,9 +148,9 @@ public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IEntityAcce
         }
 
         if (viewEntity != null) {
-            double px = viewEntity.xo + (viewEntity.getX() - viewEntity.xo) * partialTicks;
-            double py = viewEntity.yo + (viewEntity.getY() - viewEntity.yo) * partialTicks;
-            double pz = viewEntity.zo + (viewEntity.getZ() - viewEntity.zo) * partialTicks;
+            var px = viewEntity.xo + (viewEntity.getX() - viewEntity.xo) * partialTicks;
+            var py = viewEntity.yo + (viewEntity.getY() - viewEntity.yo) * partialTicks;
+            var pz = viewEntity.zo + (viewEntity.getZ() - viewEntity.zo) * partialTicks;
             this.renderingVec = new Vec3(this.pos.getX() - px, this.pos.getY() - py, this.pos.getZ() - pz);
             this.partialFrame = partialTicks;
         }
@@ -166,18 +166,18 @@ public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IEntityAcce
     private boolean isTagCorrectBlockEntity() {
         if (blockEntity == null) return false;
 
-        CompoundTag tag = DataReader.INSTANCE.raw();
+        var tag = DataReader.INSTANCE.raw();
 
         if (tag == null) {
             this.timeLastUpdate = System.currentTimeMillis() - 250;
             return false;
         }
 
-        int x = tag.getInt("x");
-        int y = tag.getInt("y");
-        int z = tag.getInt("z");
+        var x = tag.getInt("x");
+        var y = tag.getInt("y");
+        var z = tag.getInt("z");
 
-        BlockPos hitPos = ((BlockHitResult) hitResult).getBlockPos();
+        var hitPos = ((BlockHitResult) hitResult).getBlockPos();
         if (x == hitPos.getX() && y == hitPos.getY() && z == hitPos.getZ())
             return true;
         else {
@@ -189,14 +189,14 @@ public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IEntityAcce
     private boolean isTagCorrectEntity() {
         if (entity == null) return false;
 
-        CompoundTag tag = DataReader.INSTANCE.raw();
+        var tag = DataReader.INSTANCE.raw();
 
         if (tag == null || !tag.contains("WailaEntityID")) {
             this.timeLastUpdate = System.currentTimeMillis() - 250;
             return false;
         }
 
-        int id = tag.getInt("WailaEntityID");
+        var id = tag.getInt("WailaEntityID");
 
         if (id == this.entity.getId())
             return true;

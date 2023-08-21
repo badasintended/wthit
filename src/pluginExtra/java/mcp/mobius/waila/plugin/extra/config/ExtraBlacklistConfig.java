@@ -37,12 +37,12 @@ public class ExtraBlacklistConfig {
         }
 
         private <T> void serialize(JsonObject object, String key, Registry<T> registry, Set<ResourceLocation> rlSet, Set<T> tSet) {
-            JsonArray array = new JsonArray();
+            var array = new JsonArray();
 
-            for (T t : tSet) {
+            for (var t : tSet) {
                 rlSet.add(registry.getKey(t));
             }
-            for (ResourceLocation rl : rlSet) {
+            for (var rl : rlSet) {
                 array.add(rl.toString());
             }
 
@@ -50,9 +50,9 @@ public class ExtraBlacklistConfig {
         }
 
         private <T> void deserialize(JsonObject object, String key, Registry<T> registry, Set<ResourceLocation> rlSet, Set<T> tSet) {
-            JsonArray array = object.getAsJsonArray(key);
-            for (JsonElement element : array) {
-                ResourceLocation rl = new ResourceLocation(element.getAsString());
+            var array = object.getAsJsonArray(key);
+            for (var element : array) {
+                var rl = new ResourceLocation(element.getAsString());
                 rlSet.add(rl);
                 registry.getOptional(rl).ifPresent(tSet::add);
             }
@@ -60,9 +60,9 @@ public class ExtraBlacklistConfig {
 
         @Override
         public JsonElement serialize(ExtraBlacklistConfig src, Type typeOfSrc, JsonSerializationContext context) {
-            JsonObject object = new JsonObject();
+            var object = new JsonObject();
 
-            JsonArray comment = new JsonArray();
+            var comment = new JsonArray();
 
             comment.add("The game needs to be restarted for the changes to apply.");
             comment.add("Along with this file, the server can also use datapack tag to disable the feature for connecting players.");
@@ -81,8 +81,8 @@ public class ExtraBlacklistConfig {
 
         @Override
         public ExtraBlacklistConfig deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-            JsonObject object = json.getAsJsonObject();
-            ExtraBlacklistConfig res = new ExtraBlacklistConfig();
+            var object = json.getAsJsonObject();
+            var res = new ExtraBlacklistConfig();
 
             deserialize(object, "blocks", Registry.BLOCK, res.blockIds, res.blocks);
             deserialize(object, "blockEntityTypes", Registry.BLOCK_ENTITY_TYPE, res.blockEntityTypeIds, res.blockEntityTypes);

@@ -34,8 +34,8 @@ public class FluidDescription implements FluidData.FluidDescription {
 
     @SuppressWarnings("unchecked")
     public static FluidDescription getFluidDesc(FluidData.Entry<?> entry) {
-        Fluid fluid = entry.fluid();
-        FluidData.FluidDescriptor<Fluid> descriptor = FLUID_STATIC.get(fluid);
+        var fluid = entry.fluid();
+        var descriptor = FLUID_STATIC.get(fluid);
 
         if (descriptor == null) {
             Class<?> clazz = fluid.getClass();
@@ -67,8 +67,8 @@ public class FluidDescription implements FluidData.FluidDescription {
 
     @Nullable
     public static FluidData getCauldronFluidData(BlockState state) {
-        Block block = state.getBlock();
-        FluidData.CauldronDescriptor getter = CAULDRON_STATIC.get(block);
+        var block = state.getBlock();
+        var getter = CAULDRON_STATIC.get(block);
 
         if (getter == null) {
             Class<?> clazz = block.getClass();

@@ -1,7 +1,6 @@
 package mcp.mobius.waila.quilt;
 
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +14,6 @@ import mcp.mobius.waila.util.Log;
 import net.fabricmc.api.EnvType;
 import org.quiltmc.loader.api.LoaderValue;
 import org.quiltmc.loader.api.ModContainer;
-import org.quiltmc.loader.api.ModMetadata;
 import org.quiltmc.loader.api.QuiltLoader;
 import org.quiltmc.loader.api.minecraft.MinecraftQuiltLoader;
 
@@ -30,20 +28,20 @@ public class QuiltPluginLoader extends PluginLoader {
     @Override
     protected void gatherPlugins() {
         Map<ModContainer, LoaderValue.LObject[]> pluginMap = new Object2ObjectOpenHashMap<>();
-        for (ModContainer mod : QuiltLoader.getAllMods()) {
-            for (String file : PLUGIN_JSON_FILES) {
-                Path path = mod.getPath(file);
+        for (var mod : QuiltLoader.getAllMods()) {
+            for (var file : PLUGIN_JSON_FILES) {
+                var path = mod.getPath(file);
                 if (Files.exists(path)) {
                     readPluginsJson(mod.metadata().id(), path);
                 }
             }
 
-            ModMetadata data = mod.metadata();
+            var data = mod.metadata();
 
             if (!data.containsValue("waila:plugins"))
                 continue;
 
-            LoaderValue val = Objects.requireNonNull(data.value("waila:plugins"));
+            var val = Objects.requireNonNull(data.value("waila:plugins"));
             if (val.type() == OBJECT) {
                 pluginMap.put(mod, new LoaderValue.LObject[]{val.asObject()});
             } else if (val.type() == ARRAY) {
@@ -53,15 +51,15 @@ public class QuiltPluginLoader extends PluginLoader {
             }
         }
 
-        for (Map.Entry<ModContainer, LoaderValue.LObject[]> entry : pluginMap.entrySet()) {
-            ModContainer mod = entry.getKey();
-            LoaderValue.LObject[] plugins = entry.getValue();
+        for (var entry : pluginMap.entrySet()) {
+            var mod = entry.getKey();
+            var plugins = entry.getValue();
 
             o:
-            for (LoaderValue.LObject plugin : plugins) {
+            for (var plugin : plugins) {
                 List<String> requiredDeps = new ArrayList<>();
                 if (plugin.containsKey("required")) {
-                    LoaderValue required = Objects.requireNonNull(plugin.get("required"));
+                    var required = Objects.requireNonNull(plugin.get("required"));
                     if (required.type() == STRING) {
                         if (QuiltLoader.isModLoaded(required.asString())) {
                             requiredDeps.add(required.asString());
@@ -71,7 +69,7 @@ public class QuiltPluginLoader extends PluginLoader {
                     }
 
                     if (required.type() == ARRAY) {
-                        for (LoaderValue element : required.asArray()) {
+                        for (var element : required.asArray()) {
                             if (element.type() != STRING)
                                 continue;
 
@@ -84,10 +82,10 @@ public class QuiltPluginLoader extends PluginLoader {
                     }
                 }
 
-                String id = Objects.requireNonNull(plugin.get("id")).asString();
-                String initializer = Objects.requireNonNull(plugin.get("initializer")).asString();
+                var id = Objects.requireNonNull(plugin.get("id")).asString();
+                var initializer = Objects.requireNonNull(plugin.get("initializer")).asString();
 
-                String sideStr = plugin.containsKey("environment") ? Objects.requireNonNull(plugin.get("environment")).asString() : "both";
+                var sideStr = plugin.containsKey("environment") ? Objects.requireNonNull(plugin.get("environment")).asString() : "both";
                 IPluginInfo.Side side;
                 switch (sideStr) {
                     case "client" -> side = IPluginInfo.Side.CLIENT;

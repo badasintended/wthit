@@ -8,7 +8,6 @@ import mcp.mobius.waila.gui.hud.TooltipRenderer;
 import mcp.mobius.waila.gui.hud.theme.BuiltinThemeLoader;
 import mcp.mobius.waila.gui.screen.HomeScreen;
 import mcp.mobius.waila.network.Packets;
-import net.minecraft.network.Connection;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.ConfigScreenHandler;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
@@ -81,7 +80,7 @@ public class ForgeWailaClient extends WailaClient {
 
         @SubscribeEvent
         static void loggingOut(ClientPlayerNetworkEvent.LoggingOut event) {
-            Connection connection = event.getConnection();
+            var connection = event.getConnection();
             if (connection != null) {
                 onServerLogout(connection);
             }

@@ -66,7 +66,7 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
 
         client.font.drawShadow(matrices, title.copy(), rowLeft, rowTop + (height - client.font.lineHeight) / 2f, 0xFFFFFF);
 
-        int w = width;
+        var w = width;
         if (resetButton != null) {
             w -= resetButton.getWidth() + 2;
             resetButton.x = rowLeft + width - resetButton.getWidth();
@@ -82,17 +82,17 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
     public void renderTooltip(Screen screen, PoseStack matrices, int mouseX, int mouseY, float delta) {
         for (GuiEventListener child : children()) {
             if (child instanceof AbstractWidget widget) {
-                int x1 = widget.x - 2;
-                int y1 = widget.y;
-                int x2 = widget.x + widget.getWidth() + 4;
-                int y2 = widget.y + widget.getHeight() + 4;
+                var x1 = widget.x - 2;
+                var y1 = widget.y;
+                var x2 = widget.x + widget.getWidth() + 4;
+                var y2 = widget.y + widget.getHeight() + 4;
                 if (x1 <= mouseX && mouseX <= x2 && y1 <= mouseY && mouseY <= y2) return;
             }
         }
 
-        boolean hasDescTl = I18n.exists(getDescription());
+        var hasDescTl = I18n.exists(getDescription());
         if (id != null || hasDescTl || (isDisabled() && disabledReason != null)) {
-            String title = getTitle().getString();
+            var title = getTitle().getString();
             List<FormattedCharSequence> tooltip = Lists.newArrayList(Component.literal(title).getVisualOrderText());
             if (hasDescTl) {
                 tooltip.addAll(client.font.split(Component.translatable(getDescription()).withStyle(ChatFormatting.GRAY), 250));
@@ -113,7 +113,7 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
 
     @Override
     public boolean match(String filter) {
-        boolean match = super.match(filter) || StringUtils.containsIgnoreCase(title.getString(), filter);
+        var match = super.match(filter) || StringUtils.containsIgnoreCase(title.getString(), filter);
         if (id != null) match = match || StringUtils.containsIgnoreCase(id, filter);
         if (I18n.exists(getDescription())) match = match || StringUtils.containsIgnoreCase(I18n.get(getDescription()), filter);
         return match;
@@ -121,12 +121,12 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
 
     @Override
     protected void gatherChildren(ImmutableList.Builder<GuiEventListener> children) {
-        GuiEventListener element = getListener();
+        var element = getListener();
         if (element != null) {
             children.add(element);
         }
 
-        Button resetButton = getResetButton();
+        var resetButton = getResetButton();
         if (resetButton != null) {
             children.add(resetButton);
         }

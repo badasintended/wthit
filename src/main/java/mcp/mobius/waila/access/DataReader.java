@@ -8,7 +8,6 @@ import mcp.mobius.waila.api.IDataReader;
 import mcp.mobius.waila.registry.Registrar;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 
 public enum DataReader implements IDataReader {
@@ -30,8 +29,8 @@ public enum DataReader implements IDataReader {
 
     @SuppressWarnings("unchecked")
     public static IData readTypedPacket(FriendlyByteBuf buf) {
-        ResourceLocation id = buf.readResourceLocation();
-        IData.Serializer<IData> serializer = (IData.Serializer<IData>) Registrar.INSTANCE.dataId2Serializer.get(id);
+        var id = buf.readResourceLocation();
+        var serializer = (IData.Serializer<IData>) Registrar.INSTANCE.dataId2Serializer.get(id);
 
         return serializer.read(buf);
     }

@@ -21,12 +21,8 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LiquidBlock;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.HitResult;
 
 import static mcp.mobius.waila.api.TooltipPosition.BODY;
@@ -44,8 +40,8 @@ public class TooltipHandler {
     public static void tick() {
         STATE.render = false;
 
-        Minecraft client = Minecraft.getInstance();
-        WailaConfig.General config = Waila.CONFIG.get().getGeneral();
+        var client = Minecraft.getInstance();
+        var config = Waila.CONFIG.get().getGeneral();
 
         if (client.options.hideGui) {
             return;
@@ -81,17 +77,17 @@ public class TooltipHandler {
             return;
         }
 
-        PickerResults results = PickerResults.get();
+        var results = PickerResults.get();
         Registrar.INSTANCE.picker.pick(PickerAccessor.of(client, client.cameraEntity, client.gameMode.getPickRange(), client.getFrameTime()), results, PluginConfig.CLIENT);
 
-        for (HitResult target : results) {
-            DataAccessor accessor = DataAccessor.INSTANCE;
+        for (var target : results) {
+            var accessor = DataAccessor.INSTANCE;
             accessor.set(client.level, player, target, client.cameraEntity, client.getFrameTime());
 
             TooltipRenderer.beginBuild(STATE);
 
             if (target.getType() == HitResult.Type.BLOCK) {
-                Block block = accessor.getBlock();
+                var block = accessor.getBlock();
 
                 if (block instanceof LiquidBlock) {
                     if (!PluginConfig.CLIENT.getBoolean(WailaConstants.CONFIG_SHOW_FLUID)) {
@@ -105,12 +101,12 @@ public class TooltipHandler {
                     continue;
                 }
 
-                BlockEntity blockEntity = accessor.getBlockEntity();
+                var blockEntity = accessor.getBlockEntity();
                 if (blockEntity != null && IBlacklistConfig.get().contains(blockEntity)) {
                     continue;
                 }
 
-                BlockState state = ComponentHandler.getOverrideBlock(target);
+                var state = ComponentHandler.getOverrideBlock(target);
                 if (state == IBlockComponentProvider.EMPTY_BLOCK_STATE) {
                     continue;
                 }
@@ -139,7 +135,7 @@ public class TooltipHandler {
                     continue;
                 }
 
-                Entity actualEntity = accessor.getEntity();
+                var actualEntity = accessor.getEntity();
 
                 if (actualEntity == null) {
                     continue;
@@ -149,7 +145,7 @@ public class TooltipHandler {
                     continue;
                 }
 
-                Entity targetEnt = ComponentHandler.getOverrideEntity(target);
+                var targetEnt = ComponentHandler.getOverrideEntity(target);
 
                 if (targetEnt == IEntityComponentProvider.EMPTY_ENTITY) {
                     continue;

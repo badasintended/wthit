@@ -81,8 +81,8 @@ public class JsonConfig<T> implements IJsonConfig<T> {
     @Override
     public void backup(@Nullable String cause) {
         if (isFileExists()) {
-            Path backupPath = Paths.get(path + "_" + DATE_FORMAT.format(new Date()));
-            String msg = "Config " + path.getFileName() + " is getting backup to " + backupPath;
+            var backupPath = Paths.get(path + "_" + DATE_FORMAT.format(new Date()));
+            var msg = "Config " + path.getFileName() + " is getting backup to " + backupPath;
             if (cause != null) {
                 msg += " because of " + cause;
             }

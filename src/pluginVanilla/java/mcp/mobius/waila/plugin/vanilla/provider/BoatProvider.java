@@ -27,7 +27,7 @@ public enum BoatProvider implements IEntityComponentProvider {
     @Override
     public void appendHead(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
         stack = accessor.getEntity().getPickResult();
-        IWailaConfig.Formatter formatter = IWailaConfig.get().getFormatter();
+        var formatter = IWailaConfig.get().getFormatter();
         tooltip.setLine(WailaConstants.OBJECT_NAME_TAG, formatter.entityName(stack.getHoverName().getString()));
 
         if (config.getBoolean(WailaConstants.CONFIG_SHOW_REGISTRY)) {

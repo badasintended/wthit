@@ -49,12 +49,12 @@ public class HealthComponent extends GuiComponent implements ITooltipComponent {
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
 
-        int filled = health / 2 - 1;
-        int half = filled + health % 2;
+        var filled = health / 2 - 1;
+        var half = filled + health % 2;
 
-        for (int i = iconCount - 1; i >= 0; i--) {
-            int ix = x + ((i % lineWidth) * 8);
-            int iy = y + ((i / lineWidth) * 3);
+        for (var i = iconCount - 1; i >= 0; i--) {
+            var ix = x + ((i % lineWidth) * 8);
+            var iy = y + ((i / lineWidth) * 3);
 
             blit(matrices, ix, iy, 16, 0, 9, 9);
             if (i <= filled) {

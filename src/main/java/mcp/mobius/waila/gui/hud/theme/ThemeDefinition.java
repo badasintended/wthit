@@ -63,19 +63,19 @@ public final class ThemeDefinition<T extends ITheme> {
     public static class Adapter implements JsonSerializer<ThemeDefinition<?>>, JsonDeserializer<ThemeDefinition<?>> {
 
         public static ThemeDefinition<?> deserialize(ResourceLocation id, JsonElement json, boolean builtin) {
-            JsonObject object = json.getAsJsonObject();
+            var object = json.getAsJsonObject();
 
-            ResourceLocation typeId = object.has("type")
+            var typeId = object.has("type")
                 ? new ResourceLocation(object.get("type").getAsString())
                 : WailaConstants.THEME_TYPE_GRADIENT;
 
-            ThemeType<?> type = Registrar.INSTANCE.themeTypes.get(typeId);
+            var type = Registrar.INSTANCE.themeTypes.get(typeId);
             Map<String, Object> values = new HashMap<>();
 
             type.properties.forEach((key, prop) -> {
                 if (object.has(key)) {
-                    Class<?> propType = prop.type;
-                    JsonElement value = object.get(key);
+                    var propType = prop.type;
+                    var value = object.get(key);
 
                     if (propType == int.class) {
                         values.put(key, value.getAsInt());
@@ -100,21 +100,21 @@ public final class ThemeDefinition<T extends ITheme> {
 
         @Override
         public ThemeDefinition<?> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-            JsonObject object = json.getAsJsonObject();
-            ResourceLocation id = new ResourceLocation(object.get("id").getAsString());
+            var object = json.getAsJsonObject();
+            var id = new ResourceLocation(object.get("id").getAsString());
 
             return deserialize(id, json, false);
         }
 
         @Override
         public JsonElement serialize(ThemeDefinition<?> src, Type typeOfSrc, JsonSerializationContext context) {
-            JsonObject object = new JsonObject();
+            var object = new JsonObject();
             object.addProperty("id", src.id.toString());
             object.addProperty("type", Registrar.INSTANCE.themeTypes.inverse().get(src.type).toString());
 
             src.type.properties.forEach((key, prop) -> {
-                Class<?> propType = prop.type;
-                Object propValue = prop.get(src.instance);
+                var propType = prop.type;
+                var propValue = prop.get(src.instance);
 
                 if (propType == int.class) {
                     object.addProperty(key, TypeUtil.<Integer>uncheckedCast(propValue));

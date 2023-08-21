@@ -11,10 +11,7 @@ import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.component.ItemComponent;
 import mcp.mobius.waila.mixin.EntityAccess;
 import net.minecraft.core.Registry;
-import net.minecraft.network.chat.Component;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.Mob;
-import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 public enum EntityProvider implements IEntityComponentProvider {
@@ -24,22 +21,22 @@ public enum EntityProvider implements IEntityComponentProvider {
     @Nullable
     @Override
     public ITooltipComponent getIcon(IEntityAccessor accessor, IPluginConfig config) {
-        Entity entity = accessor.getEntity();
+        var entity = accessor.getEntity();
         if (entity instanceof Mob) {
             return null;
         }
 
-        ItemStack stack = entity.getPickResult();
+        var stack = entity.getPickResult();
         return stack != null ? new ItemComponent(stack) : null;
     }
 
     @Override
     public void appendHead(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        Entity entity = accessor.getEntity();
-        IWailaConfig.Formatter formatter = IWailaConfig.get().getFormatter();
+        var entity = accessor.getEntity();
+        var formatter = IWailaConfig.get().getFormatter();
 
         String name;
-        Component customName = entity.getCustomName();
+        var customName = entity.getCustomName();
         if (customName != null) {
             name = customName.getString() + " (" + ((EntityAccess) entity).wthit_getTypeName().getString() + ")";
         } else {

@@ -7,7 +7,6 @@ import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.entity.SpawnerBlockEntity;
 
 public enum SpawnerProvider implements IBlockComponentProvider {
@@ -18,7 +17,7 @@ public enum SpawnerProvider implements IBlockComponentProvider {
     public void appendHead(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
         if (config.getBoolean(Options.SPAWNER_TYPE)) {
             SpawnerBlockEntity spawner = accessor.getBlockEntity();
-            Entity entity = spawner != null ? spawner.getSpawner().getOrCreateDisplayEntity(accessor.getWorld()) : null;
+            var entity = spawner != null ? spawner.getSpawner().getOrCreateDisplayEntity(accessor.getWorld()) : null;
             if (entity != null) {
                 tooltip.setLine(WailaConstants.OBJECT_NAME_TAG, IWailaConfig.get().getFormatter().blockName(
                     accessor.getBlock().getName().getString() + " (" + entity.getDisplayName().getString() + ")"));

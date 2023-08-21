@@ -87,8 +87,8 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
 
         unfilteredChildren = new ArrayList<>(children());
 
-        String category = "";
-        for (Entry child : unfilteredChildren) {
+        var category = "";
+        for (var child : unfilteredChildren) {
             if (child instanceof CategoryEntry) category = child.category;
             child.category = category;
         }
@@ -108,7 +108,7 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
     }
 
     public void init() {
-        for (Entry child : children()) {
+        for (var child : children()) {
             child.setFocused(null);
         }
         resize(topOffset, owner.height + bottomOffset);

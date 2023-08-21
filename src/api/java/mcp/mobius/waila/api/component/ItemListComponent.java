@@ -48,10 +48,10 @@ public class ItemListComponent implements ITooltipComponent.HorizontalGrowing {
 
     @Override
     public void render(PoseStack matrices, int x, int y, float delta) {
-        for (int i = 0; i < items.size(); i++) {
-            ItemStack item = items.get(i);
-            int ix = x + (18 * (i % gridWidth));
-            int iy = y + (18 * (i / gridWidth));
+        for (var i = 0; i < items.size(); i++) {
+            var item = items.get(i);
+            var ix = x + (18 * (i % gridWidth));
+            var iy = y + (18 * (i / gridWidth));
             IApiService.INSTANCE.renderItem(ix, iy, item);
 
             if (i == maxIndex) break;
