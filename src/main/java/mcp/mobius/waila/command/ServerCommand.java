@@ -71,7 +71,7 @@ public class ServerCommand {
                     var key = new ItemStack(Items.NAME_TAG);
                     key.setHoverName(Component.literal(lock));
                     player.setItemInHand(InteractionHand.MAIN_HAND, key);
-                    source.sendSuccess(() -> Component.literal("Locked container " + pos.toShortString() + " with lock \"" + lock + "\""), false);
+                    source.sendSuccess(Component.literal("Locked container " + pos.toShortString() + " with lock \"" + lock + "\""), false);
                     return 1;
                 } else {
                     source.sendFailure(Component.literal("Couldn't lock container "+pos.toShortString()));
