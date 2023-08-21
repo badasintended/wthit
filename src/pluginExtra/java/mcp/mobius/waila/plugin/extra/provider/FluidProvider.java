@@ -70,8 +70,7 @@ public class FluidProvider extends DataProvider<FluidData> {
         public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
             if (accessor.getData().get(FluidData.class) != null) return;
             if (!config.getBoolean(enabledBlockOption)) return;
-            if (blacklistConfig.get().blocks.contains(accessor.getBlock())) return;
-            if (accessor.getBlockState().is(blockBlacklistTag)) return;
+            if (blacklistConfig.get().getView().blockFilter.matches(accessor.getBlock())) return;
 
             var fluidData = FluidDescription.getCauldronFluidData(accessor.getBlockState());
             if (fluidData != null) addFluidTooltip(tooltip, fluidData, config);
