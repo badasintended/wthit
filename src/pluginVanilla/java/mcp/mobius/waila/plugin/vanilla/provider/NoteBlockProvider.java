@@ -4,7 +4,6 @@ import mcp.mobius.waila.api.IBlockAccessor;
 import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITooltip;
-import mcp.mobius.waila.api.ITooltipLine;
 import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.mixin.NoteBlockAccess;
 import mcp.mobius.waila.plugin.vanilla.config.NoteDisplayMode;
@@ -12,10 +11,7 @@ import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.NoteBlock;
-import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.block.state.properties.NoteBlockInstrument;
 
 import static net.minecraft.util.Mth.clamp;
 import static net.minecraft.util.Mth.sin;
@@ -25,14 +21,14 @@ public enum NoteBlockProvider implements IBlockComponentProvider {
     INSTANCE;
 
     private static final int[] COLORS = Util.make(new int[25], arr -> {
-        float twoPi = (float) (Math.PI * 2);
-        float onePerThree = 1f / 3f;
-        float twoPerThree = 2f / 3f;
-        for (int i = 0; i < arr.length; i++) {
-            float levelF = i / 24f;
-            int r = (int) (255 * clamp(sin(levelF * twoPi) * 0.65f + 0.35f, 0f, 1f));
-            int g = (int) (255 * clamp(sin((levelF + onePerThree) * twoPi) * 0.65f + 0.35f, 0f, 1f));
-            int b = (int) (255 * clamp(sin((levelF + twoPerThree) * twoPi) * 0.65f + 0.35f, 0f, 1f));
+        var twoPi = (float) (Math.PI * 2);
+        var onePerThree = 1f / 3f;
+        var twoPerThree = 2f / 3f;
+        for (var i = 0; i < arr.length; i++) {
+            var levelF = i / 24f;
+            var r = (int) (255 * clamp(sin(levelF * twoPi) * 0.65f + 0.35f, 0f, 1f));
+            var g = (int) (255 * clamp(sin((levelF + onePerThree) * twoPi) * 0.65f + 0.35f, 0f, 1f));
+            var b = (int) (255 * clamp(sin((levelF + twoPerThree) * twoPi) * 0.65f + 0.35f, 0f, 1f));
             arr[i] = (r << 16) + (g << 8) + b;
         }
     });
@@ -40,13 +36,13 @@ public enum NoteBlockProvider implements IBlockComponentProvider {
     @Override
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
         if (config.getBoolean(Options.NOTE_BLOCK_TYPE)) {
-            BlockState state = accessor.getBlockState();
-            NoteBlockInstrument instrument = state.getValue(NoteBlock.INSTRUMENT);
-            ITooltipLine line = tooltip.addLine();
+            var state = accessor.getBlockState();
+            var instrument = state.getValue(NoteBlock.INSTRUMENT);
+            var line = tooltip.addLine();
 
             Component instrumentText;
             if (instrument.hasCustomSound()) {
-                ResourceLocation soundId = ((NoteBlockAccess) accessor.getBlock()).wthit_getCustomSoundId(accessor.getWorld(), accessor.getPosition());
+                var soundId = ((NoteBlockAccess) accessor.getBlock()).wthit_getCustomSoundId(accessor.getWorld(), accessor.getPosition());
                 instrumentText = soundId == null
                     ? Component.translatable(Tl.Tooltip.Instrument.NONE)
                     : Component.literal(soundId.toString()).withStyle(ChatFormatting.DARK_PURPLE);
@@ -57,8 +53,8 @@ public enum NoteBlockProvider implements IBlockComponentProvider {
 
             if (instrument.isTunable()) {
                 int level = state.getValue(NoteBlock.NOTE);
-                Note note = Note.get(level);
-                StringBuilder builder = new StringBuilder()
+                var note = Note.get(level);
+                var builder = new StringBuilder()
                     .append(" (")
                     .append(config.<NoteDisplayMode>getEnum(Options.NOTE_BLOCK_NOTE) == NoteDisplayMode.SHARP ? note.sharp : note.flat)
                     .append(")");

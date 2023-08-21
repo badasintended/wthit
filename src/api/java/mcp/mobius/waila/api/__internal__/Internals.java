@@ -1,6 +1,5 @@
 package mcp.mobius.waila.api.__internal__;
 
-import java.lang.reflect.Field;
 import java.util.ServiceLoader;
 
 import org.jetbrains.annotations.ApiStatus;
@@ -15,7 +14,7 @@ public final class Internals {
 
     static {
         try {
-            Field field = Unsafe.class.getDeclaredField("theUnsafe");
+            var field = Unsafe.class.getDeclaredField("theUnsafe");
             field.setAccessible(true);
             UNSAFE = (Unsafe) field.get(null);
         } catch (NoSuchFieldException | IllegalAccessException e) {

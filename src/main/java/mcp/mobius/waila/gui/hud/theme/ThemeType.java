@@ -41,7 +41,7 @@ public class ThemeType<T extends ITheme> implements IThemeType<T>, IThemeType.Bu
 
     public T create(Map<String, Object> attr) {
         try {
-            T theme = clazz.getDeclaredConstructor().newInstance();
+            var theme = clazz.getDeclaredConstructor().newInstance();
             properties.forEach((key, prop) ->
                 prop.set(theme, TypeUtil.uncheckedCast(attr.computeIfAbsent(key, k -> Objects.requireNonNull(prop.defaultValue)))));
             return theme;
@@ -128,7 +128,7 @@ public class ThemeType<T extends ITheme> implements IThemeType<T>, IThemeType.Bu
         }
 
         public String getTlKey() {
-            ResourceLocation typeId = getId();
+            var typeId = getId();
             return "theme.waila.plugin_" + typeId.getNamespace() + "." + typeId.getPath() + "." + name;
         }
 

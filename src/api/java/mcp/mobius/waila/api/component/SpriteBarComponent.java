@@ -1,7 +1,6 @@
 package mcp.mobius.waila.api.component;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
@@ -65,26 +64,26 @@ public class SpriteBarComponent extends GuiComponent implements ITooltipComponen
         RenderSystem.setShader(GameRenderer::getPositionColorTexShader);
         RenderSystem.setShaderTexture(0, texture);
 
-        int mx = (int) (x + BarComponent.WIDTH * ratio);
-        int my = y + BarComponent.HEIGHT;
+        var mx = (int) (x + BarComponent.WIDTH * ratio);
+        var my = y + BarComponent.HEIGHT;
 
         enableScissor(x + 1, y + 1, mx - 1, my - 1);
 
-        int a = WailaHelper.getAlpha(spriteTint);
-        int r = WailaHelper.getRed(spriteTint);
-        int g = WailaHelper.getGreen(spriteTint);
-        int b = WailaHelper.getBlue(spriteTint);
+        var a = WailaHelper.getAlpha(spriteTint);
+        var r = WailaHelper.getRed(spriteTint);
+        var g = WailaHelper.getGreen(spriteTint);
+        var b = WailaHelper.getBlue(spriteTint);
 
-        Tesselator tessellator = Tesselator.getInstance();
-        BufferBuilder buffer = tessellator.getBuilder();
+        var tessellator = Tesselator.getInstance();
+        var buffer = tessellator.getBuilder();
 
         buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX);
 
-        for (int px1 = x; px1 < mx; px1 += regionWidth) {
-            int px2 = px1 + regionWidth;
+        for (var px1 = x; px1 < mx; px1 += regionWidth) {
+            var px2 = px1 + regionWidth;
 
-            for (int py1 = y; py1 < my; py1 += regionHeight) {
-                int py2 = py1 + regionHeight;
+            for (var py1 = y; py1 < my; py1 += regionHeight) {
+                var py2 = py1 + regionHeight;
 
                 buffer.vertex(matrices.last().pose(), px1, py2, 0).color(r, g, b, a).uv(u0, v1).endVertex();
                 buffer.vertex(matrices.last().pose(), px2, py2, 0).color(r, g, b, a).uv(u1, v1).endVertex();

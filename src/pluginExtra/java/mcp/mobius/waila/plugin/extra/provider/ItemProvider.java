@@ -39,7 +39,7 @@ public class ItemProvider extends DataProvider<ItemData> {
 
     @Override
     protected void appendBody(ITooltip tooltip, IDataReader reader, IPluginConfig config, ResourceLocation objectId) {
-        ProgressData progress = reader.get(ProgressData.class);
+        var progress = reader.get(ProgressData.class);
         if (progress == null || progress.ratio() == 0f) {
             super.appendBody(tooltip, reader, config, objectId);
         }
@@ -58,9 +58,9 @@ public class ItemProvider extends DataProvider<ItemData> {
         Map<Object, ItemStack> merged = new HashMap<>();
         Map<Item, Set<CompoundTag>> unique = new HashMap<>();
 
-        for (ItemStack stack : data.items()) {
-            Item item = stack.getItem();
-            int count = stack.getCount();
+        for (var stack : data.items()) {
+            var item = stack.getItem();
+            var count = stack.getCount();
 
             if (!data.syncNbt()) {
                 if (unique.put(item, Set.of()) != null) {
@@ -69,7 +69,7 @@ public class ItemProvider extends DataProvider<ItemData> {
                     merged.put(item, stack.copy());
                 }
             } else {
-                CompoundTag nbt = stack.getTag();
+                var nbt = stack.getTag();
                 if (nbt == null) nbt = EMPTY;
 
                 if (unique.computeIfAbsent(item, i -> new HashSet<>()).add(nbt)) {

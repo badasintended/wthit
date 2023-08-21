@@ -49,7 +49,7 @@ public enum Registrar implements IRegistrar {
     public final Register<IBlockComponentProvider> blockIcon = new Register<>();
     public final Register<IDataProvider<BlockEntity>> blockData = new Register<>();
     public final Map<TooltipPosition, Register<IBlockComponentProvider>> blockComponent = Util.make(new EnumMap<>(TooltipPosition.class), map -> {
-        for (TooltipPosition key : TooltipPosition.values()) {
+        for (var key : TooltipPosition.values()) {
             map.put(key, new Register<>());
         }
     });
@@ -58,7 +58,7 @@ public enum Registrar implements IRegistrar {
     public final Register<IEntityComponentProvider> entityIcon = new Register<>();
     public final Register<IDataProvider<Entity>> entityData = new Register<>();
     public final Map<TooltipPosition, Register<IEntityComponentProvider>> entityComponent = Util.make(new EnumMap<>(TooltipPosition.class), map -> {
-        for (TooltipPosition key : TooltipPosition.values()) {
+        for (var key : TooltipPosition.values()) {
             map.put(key, new Register<>());
         }
     });
@@ -87,7 +87,7 @@ public enum Registrar implements IRegistrar {
     private <T> void addBlacklist(Set<String> set, Registry<T> registry, T... values) {
         assertLock();
 
-        for (T value : values) {
+        for (var value : values) {
             set.add(Objects.requireNonNull(registry.getKey(value)).toString());
         }
     }
@@ -288,19 +288,19 @@ public enum Registrar implements IRegistrar {
             LOG.info("Using {} as the object picker", picker.getClass().getName());
         }
 
-        int[] hash = {0, 0, 0};
+        var hash = new int[]{0, 0, 0};
         hash[0] = blacklist.blocks.hashCode();
         hash[1] = blacklist.blockEntityTypes.hashCode();
         hash[2] = blacklist.entityTypes.hashCode();
 
-        BlacklistConfig userBlacklist = Waila.BLACKLIST_CONFIG.get();
+        var userBlacklist = Waila.BLACKLIST_CONFIG.get();
 
         if (!Arrays.equals(userBlacklist.pluginHash, hash)) {
             if (!Arrays.equals(userBlacklist.pluginHash, new int[]{0, 0, 0})) {
                 Waila.BLACKLIST_CONFIG.backup("plugin hash mismatch");
             }
 
-            BlacklistConfig newBlacklist = Waila.BLACKLIST_CONFIG.get();
+            var newBlacklist = Waila.BLACKLIST_CONFIG.get();
             newBlacklist.pluginHash = hash;
             newBlacklist.blocks.addAll(blacklist.blocks);
             newBlacklist.blockEntityTypes.addAll(blacklist.blockEntityTypes);

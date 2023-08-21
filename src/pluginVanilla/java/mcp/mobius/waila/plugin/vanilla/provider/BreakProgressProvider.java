@@ -11,7 +11,6 @@ import mcp.mobius.waila.mixin.MultiPlayerGameModeAccess;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
-import net.minecraft.client.multiplayer.MultiPlayerGameMode;
 
 public enum BreakProgressProvider implements IEventListener {
 
@@ -19,11 +18,11 @@ public enum BreakProgressProvider implements IEventListener {
 
     @Override
     public void onAfterTooltipRender(PoseStack matrices, Rectangle rect, ICommonAccessor accessor, IPluginConfig config) {
-        MultiPlayerGameMode gameMode = Objects.requireNonNull(Minecraft.getInstance().gameMode);
-        MultiPlayerGameModeAccess gameModeAccess = (MultiPlayerGameModeAccess) gameMode;
+        var gameMode = Objects.requireNonNull(Minecraft.getInstance().gameMode);
+        var gameModeAccess = (MultiPlayerGameModeAccess) gameMode;
 
         if (config.getBoolean(Options.BREAKING_PROGRESS) && gameMode.isDestroying()) {
-            int color = config.getInt(Options.BREAKING_PROGRESS_COLOR);
+            var color = config.getInt(Options.BREAKING_PROGRESS_COLOR);
             int lineLenght;
 
             if (config.getBoolean(Options.BREAKING_PROGRESS_BOTTOM_ONLY)) {
@@ -32,11 +31,11 @@ public enum BreakProgressProvider implements IEventListener {
                 lineLenght = (int) (((rect.width + rect.height - 4) * 2) * gameModeAccess.wthit_destroyProgress());
             }
 
-            int hLenght = rect.width - 2;
-            int vLenght = rect.height - 4;
+            var hLenght = rect.width - 2;
+            var vLenght = rect.height - 4;
 
-            int x = rect.x + 1;
-            int y = rect.y + rect.height - 2;
+            var x = rect.x + 1;
+            var y = rect.y + rect.height - 2;
             GuiComponent.fill(matrices, x, y, x + Math.min(lineLenght, hLenght), y + 1, color);
             lineLenght -= hLenght;
 

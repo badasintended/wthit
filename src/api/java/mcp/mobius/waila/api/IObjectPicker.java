@@ -53,7 +53,7 @@ public interface IObjectPicker {
     default HitResult pick(Minecraft client, double maxDistance, float frameDelta, IPluginConfig config) {
         pick(IApiService.INSTANCE.getPickerAccessor(), IApiService.INSTANCE.getPickerResults(), config);
 
-        for (HitResult pickerResult : IApiService.INSTANCE.getPickerResults()) {
+        for (var pickerResult : IApiService.INSTANCE.getPickerResults()) {
             return pickerResult;
         }
 

@@ -11,9 +11,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IPluginInfo;
@@ -48,14 +45,14 @@ public abstract class PluginLoader {
 
     protected void readPluginsJson(String modId, Path path) {
         try (Reader reader = Files.newBufferedReader(path)) {
-            JsonObject object = JsonParser.parseReader(reader).getAsJsonObject();
+            var object = JsonParser.parseReader(reader).getAsJsonObject();
 
             outer:
-            for (String pluginId : object.keySet()) {
-                JsonObject plugin = object.getAsJsonObject(pluginId);
+            for (var pluginId : object.keySet()) {
+                var plugin = object.getAsJsonObject(pluginId);
 
-                String initializer = plugin.getAsJsonPrimitive(KEY_INITIALIZER).getAsString();
-                IPluginInfo.Side side = plugin.has(KEY_SIDE)
+                var initializer = plugin.getAsJsonPrimitive(KEY_INITIALIZER).getAsString();
+                var side = plugin.has(KEY_SIDE)
                     ? Objects.requireNonNull(SIDES.get(plugin.get(KEY_SIDE).getAsString()), () -> readError(path) + ", invalid side, available: " + SIDES.keySet().stream().collect(Collectors.joining(", ", "[", "]")))
                     : IPluginInfo.Side.BOTH;
 
@@ -65,9 +62,9 @@ public abstract class PluginLoader {
 
                 List<String> required = new ArrayList<>();
                 if (plugin.has(KEY_REQUIRED)) {
-                    JsonArray array = plugin.getAsJsonArray(KEY_REQUIRED);
-                    for (JsonElement element : array) {
-                        String requiredModId = element.getAsString();
+                    var array = plugin.getAsJsonArray(KEY_REQUIRED);
+                    for (var element : array) {
+                        var requiredModId = element.getAsString();
                         if (ModInfo.get(requiredModId).isPresent()) {
                             required.add(requiredModId);
                         } else {
@@ -94,7 +91,7 @@ public abstract class PluginLoader {
 
         // TODO: remove legacy method on Minecraft 1.21
         List<String> legacyPlugins = new ArrayList<>();
-        for (IPluginInfo info : PluginInfo.getAll()) {
+        for (var info : PluginInfo.getAll()) {
             if (info.getPluginId().equals(Waila.id("extra"))) {
                 extraPlugin = info;
             } else {

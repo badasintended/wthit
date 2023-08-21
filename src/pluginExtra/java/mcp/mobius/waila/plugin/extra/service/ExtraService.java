@@ -12,7 +12,7 @@ public class ExtraService implements IExtraService {
 
     @Override
     public EnergyData.Description setEnergyDescFor(String namespace) {
-        EnergyDescription defaults = new EnergyDescription();
+        var defaults = new EnergyDescription();
         EnergyDescription.MAP.put(namespace, defaults);
         return defaults;
     }

@@ -30,7 +30,6 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.block.state.BlockState;
 
 public abstract class DataProvider<T extends IData> implements IBlockComponentProvider, IEntityComponentProvider {
 
@@ -55,7 +54,7 @@ public abstract class DataProvider<T extends IData> implements IBlockComponentPr
         enabledBlockOption = createConfigKey("enabled_block");
         enabledEntityOption = createConfigKey("enabled_entity");
 
-        ResourceLocation tagId = new ResourceLocation(WailaConstants.NAMESPACE, "extra/" + id.getPath() + "_blacklist");
+        var tagId = new ResourceLocation(WailaConstants.NAMESPACE, "extra/" + id.getPath() + "_blacklist");
         blockBlacklistTag = TagKey.create(Registries.BLOCK, tagId);
         blockEntityBlacklistTag = TagKey.create(Registries.BLOCK_ENTITY_TYPE, tagId);
         entityBlacklistTag = TagKey.create(Registries.ENTITY_TYPE, tagId);
@@ -96,7 +95,7 @@ public abstract class DataProvider<T extends IData> implements IBlockComponentPr
     protected abstract void appendBody(ITooltip tooltip, T t, IPluginConfig config, ResourceLocation objectId);
 
     protected void appendBody(ITooltip tooltip, IDataReader reader, IPluginConfig config, ResourceLocation objectId) {
-        T data = reader.get(type);
+        var data = reader.get(type);
         if (data == null) return;
 
         appendBody(tooltip, data, config, objectId);
@@ -106,7 +105,7 @@ public abstract class DataProvider<T extends IData> implements IBlockComponentPr
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
         if (!config.getBoolean(enabledBlockOption)) return;
         if (blacklistConfig.get().blocks.contains(accessor.getBlock())) return;
-        BlockEntityType<?> blockEntityType = Objects.<BlockEntity>requireNonNull(accessor.getBlockEntity()).getType();
+        var blockEntityType = Objects.<BlockEntity>requireNonNull(accessor.getBlockEntity()).getType();
         if (blacklistConfig.get().blockEntityTypes.contains(blockEntityType)) return;
 
         appendBody(tooltip, accessor.getData(), config, BuiltInRegistries.BLOCK_ENTITY_TYPE.getKey(blockEntityType));
@@ -115,7 +114,7 @@ public abstract class DataProvider<T extends IData> implements IBlockComponentPr
     @Override
     public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
         if (!config.getBoolean(enabledEntityOption)) return;
-        EntityType<?> entityType = accessor.getEntity().getType();
+        var entityType = accessor.getEntity().getType();
         if (blacklistConfig.get().entityTypes.contains(entityType)) return;
 
         appendBody(tooltip, accessor.getData(), config, BuiltInRegistries.ENTITY_TYPE.getKey(entityType));
@@ -125,9 +124,9 @@ public abstract class DataProvider<T extends IData> implements IBlockComponentPr
 
         @Override
         public void appendData(IDataWriter data, IServerAccessor<BlockEntity> accessor, IPluginConfig config) {
-            BlockEntity target = accessor.getTarget();
-            BlockState state = target.getBlockState();
-            BlockEntityType<?> blockEntityType = target.getType();
+            var target = accessor.getTarget();
+            var state = target.getBlockState();
+            var blockEntityType = target.getType();
 
             if (!config.getBoolean(enabledBlockOption)
                 || blacklistConfig.get().blocks.contains(state.getBlock())
@@ -144,7 +143,7 @@ public abstract class DataProvider<T extends IData> implements IBlockComponentPr
 
         @Override
         public void appendData(IDataWriter data, IServerAccessor<Entity> accessor, IPluginConfig config) {
-            EntityType<?> entityType = accessor.getTarget().getType();
+            var entityType = accessor.getTarget().getType();
 
             if (!config.getBoolean(enabledEntityOption)
                 || blacklistConfig.get().entityTypes.contains(entityType)

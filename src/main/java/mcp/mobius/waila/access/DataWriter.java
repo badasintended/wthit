@@ -18,7 +18,6 @@ import mcp.mobius.waila.util.TypeUtil;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 
 public enum DataWriter implements IDataWriter {
@@ -41,10 +40,10 @@ public enum DataWriter implements IDataWriter {
 
     public void sendTypedPackets(PacketSender sender, ServerPlayer player) {
         typed.forEach((type, data) -> {
-            ResourceLocation id = Registrar.INSTANCE.dataType2Id.get(type);
+            var id = Registrar.INSTANCE.dataType2Id.get(type);
 
-            final boolean[] finished = {false};
-            for (Consumer<Result<IData>> consumer : data) {
+            final var finished = new boolean[]{false};
+            for (var consumer : data) {
                 try {
                     consumer.accept(new Result<>() {
                         boolean added = false;
@@ -54,7 +53,7 @@ public enum DataWriter implements IDataWriter {
                             Preconditions.checkState(!added, "Called multiple times in the same closure");
                             Preconditions.checkNotNull(data, "Data is null");
 
-                            FriendlyByteBuf buf = new FriendlyByteBuf(Unpooled.buffer());
+                            var buf = new FriendlyByteBuf(Unpooled.buffer());
                             buf.writeResourceLocation(id);
                             data.write(buf);
                             sender.send(Packets.DATA_TYPED, buf);

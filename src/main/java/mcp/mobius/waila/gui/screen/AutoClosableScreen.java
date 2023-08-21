@@ -5,7 +5,6 @@ import javax.annotation.ParametersAreNonnullByDefault;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
@@ -23,8 +22,8 @@ public class AutoClosableScreen extends AbstractContainerScreen<AutoClosableScre
     }
 
     public static void inject() {
-        Minecraft client = Minecraft.getInstance();
-        Screen screen = client.screen;
+        var client = Minecraft.getInstance();
+        var screen = client.screen;
         if (!(screen instanceof AutoClosableScreen)) {
             client.setScreen(new AutoClosableScreen());
         }

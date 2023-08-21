@@ -32,14 +32,14 @@ public class Tooltip extends ObjectArrayList<Line> implements ITooltip {
 
     @Override
     public ITooltipLine addLine() {
-        Line line = new Line(null);
+        var line = new Line(null);
         add(line);
         return line;
     }
 
     @Override
     public ITooltipLine setLine(ResourceLocation tag) {
-        Line line = new Line(tag);
+        var line = new Line(tag);
         setLine(tag, line);
         return line;
     }

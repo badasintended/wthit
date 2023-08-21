@@ -9,7 +9,6 @@ import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.BeehiveBlock;
-import net.minecraft.world.level.block.state.BlockState;
 
 public enum BeehiveProvider implements IBlockComponentProvider {
 
@@ -18,7 +17,7 @@ public enum BeehiveProvider implements IBlockComponentProvider {
     @Override
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
         if (config.getBoolean(Options.LEVEL_HONEY)) {
-            BlockState state = accessor.getBlockState();
+            var state = accessor.getBlockState();
             tooltip.addLine(new PairComponent(
                 Component.translatable(Tl.Tooltip.HONEY_LEVEL),
                 Component.literal(state.getValue(BeehiveBlock.HONEY_LEVEL).toString())));
