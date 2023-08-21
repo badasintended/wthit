@@ -82,8 +82,23 @@ public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IEntityAcce
     }
 
     @Override
+    @Deprecated
     public HitResult getHitResult() {
+        return getRawHitResult();
+    }
+
+    public HitResult getRawHitResult() {
         return this.hitResult;
+    }
+
+    @Override
+    public BlockHitResult getBlockHitResult() {
+        return (BlockHitResult) hitResult;
+    }
+
+    @Override
+    public EntityHitResult getEntityHitResult() {
+        return (EntityHitResult) hitResult;
     }
 
     @Override
