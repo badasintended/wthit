@@ -5,6 +5,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.ApiStatus;
@@ -23,7 +24,7 @@ public interface IEntityAccessor {
 
     <T extends Entity> T getEntity();
 
-    HitResult getHitResult();
+    EntityHitResult getEntityHitResult();
 
     @Nullable
     Vec3 getRenderingPosition();
@@ -43,5 +44,12 @@ public interface IEntityAccessor {
     @Deprecated(forRemoval = true)
     @ApiStatus.ScheduledForRemoval(inVersion = "1.21")
     CompoundTag getServerData();
+
+    /**
+     * @deprecated use {@link #getEntityHitResult()}
+     */
+    @Deprecated
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.21")
+    HitResult getHitResult();
 
 }
