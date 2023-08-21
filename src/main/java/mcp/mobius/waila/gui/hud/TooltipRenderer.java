@@ -6,12 +6,10 @@ import java.util.function.Supplier;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Suppliers;
-import com.mojang.blaze3d.platform.Window;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.text2speech.Narrator;
 import mcp.mobius.waila.access.DataAccessor;
-import mcp.mobius.waila.api.IEventListener;
 import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.IWailaConfig.Overlay.Position.Align;
@@ -26,7 +24,6 @@ import mcp.mobius.waila.registry.Registrar;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.util.Mth;
-import net.minecraft.util.profiling.ProfilerFiller;
 
 import static mcp.mobius.waila.util.DisplayUtil.enable2DRender;
 import static mcp.mobius.waila.util.DisplayUtil.renderComponent;
@@ -61,7 +58,7 @@ public class TooltipRenderer {
 
     public static void add(Tooltip tooltip) {
         Preconditions.checkState(started);
-        for (Line line : tooltip) {
+        for (var line : tooltip) {
             add(line);
         }
     }
@@ -75,7 +72,7 @@ public class TooltipRenderer {
             TOOLTIP.add(line);
         }
 
-        for (ITooltipComponent component : line.components) {
+        for (var component : line.components) {
             if (component instanceof PairComponent pair) {
                 colonOffset = Math.max(pair.key.getWidth(), colonOffset);
                 break;
@@ -92,33 +89,33 @@ public class TooltipRenderer {
         Preconditions.checkState(started);
 
         if (state.fireEvent()) {
-            for (IEventListener listener : Registrar.INSTANCE.eventListeners.get(Object.class)) {
+            for (var listener : Registrar.INSTANCE.eventListeners.get(Object.class)) {
                 listener.onHandleTooltip(TOOLTIP, DataAccessor.INSTANCE, PluginConfig.CLIENT);
             }
         }
 
         narrateObjectName();
 
-        Minecraft client = Minecraft.getInstance();
-        Window window = client.getWindow();
+        var client = Minecraft.getInstance();
+        var window = client.getWindow();
 
-        float scale = state.getScale();
+        var scale = state.getScale();
 
-        int fw = 0;
-        for (Line line : TOOLTIP) {
+        var fw = 0;
+        for (var line : TOOLTIP) {
             line.calculateFixedWidth();
             fw = Math.max(fw, line.getFixedWidth());
         }
 
-        int w = 0;
-        int h = 0;
+        var w = 0;
+        var h = 0;
         Iterator<Line> iterator = TOOLTIP.iterator();
         while (iterator.hasNext()) {
-            Line line = iterator.next();
+            var line = iterator.next();
             line.calculateDynamicWidth(fw);
             line.calculateHeight();
-            int lineW = line.getWidth();
-            int lineH = line.getHeight();
+            var lineW = line.getWidth();
+            var lineH = line.getHeight();
             if (lineH <= 0) {
                 iterator.remove();
                 continue;
@@ -140,24 +137,24 @@ public class TooltipRenderer {
             w += icon.getWidth() + 3;
         }
 
-        Padding padding = Padding.INSTANCE;
+        var padding = Padding.INSTANCE;
         padding.set(0);
         state.getTheme().setPadding(padding);
 
         w += padding.left + padding.right;
         h = Math.max(h, icon.getHeight()) + padding.top + padding.bottom;
 
-        int windowW = (int) (window.getGuiScaledWidth() / scale);
-        int windowH = (int) (window.getGuiScaledHeight() / scale);
+        var windowW = (int) (window.getGuiScaledWidth() / scale);
+        var windowH = (int) (window.getGuiScaledHeight() / scale);
 
-        Align.X anchorX = state.getXAnchor();
-        Align.Y anchorY = state.getYAnchor();
+        var anchorX = state.getXAnchor();
+        var anchorY = state.getYAnchor();
 
-        Align.X alignX = state.getXAlign();
-        Align.Y alignY = state.getYAlign();
+        var alignX = state.getXAlign();
+        var alignY = state.getYAlign();
 
-        double x = windowW * anchorX.multiplier - w * alignX.multiplier + state.getX();
-        double y = windowH * anchorY.multiplier - h * alignY.multiplier + state.getY();
+        var x = windowW * anchorX.multiplier - w * alignX.multiplier + state.getX();
+        var y = windowH * anchorY.multiplier - h * alignY.multiplier + state.getY();
 
         if (!state.bossBarsOverlap() && anchorX == Align.X.CENTER && anchorY == Align.Y.TOP) {
             y += Math.min(((BossHealthOverlayAccess) client.gui.getBossOverlay()).wthit_events().size() * 19, window.getGuiScaledHeight() / 3 + 2);
@@ -178,25 +175,25 @@ public class TooltipRenderer {
             return;
         }
 
-        Minecraft client = Minecraft.getInstance();
-        ProfilerFiller profiler = client.getProfiler();
+        var client = Minecraft.getInstance();
+        var profiler = client.getProfiler();
 
         profiler.push("Waila Overlay");
 
-        float scale = state.getScale();
+        var scale = state.getScale();
 
         matrices.pushPose();
         matrices.scale(scale, scale, 1.0f);
 
         enable2DRender();
 
-        Rectangle rect = RENDER_RECT.get();
+        var rect = RENDER_RECT.get();
         rect.setRect(TooltipRenderer.RECT.get());
 
         if (state.fireEvent()) {
-            EventCanceller canceller = EventCanceller.INSTANCE;
+            var canceller = EventCanceller.INSTANCE;
             canceller.setCanceled(false);
-            for (IEventListener listener : Registrar.INSTANCE.eventListeners.get(Object.class)) {
+            for (var listener : Registrar.INSTANCE.eventListeners.get(Object.class)) {
                 listener.onBeforeTooltipRender(matrices, rect, DataAccessor.INSTANCE, PluginConfig.CLIENT, canceller);
                 if (canceller.isCanceled()) {
                     matrices.popPose();
@@ -208,24 +205,24 @@ public class TooltipRenderer {
             }
         }
 
-        int x = rect.x;
-        int y = rect.y;
-        int width = rect.width;
-        int height = rect.height;
-        Padding padding = Padding.INSTANCE;
+        var x = rect.x;
+        var y = rect.y;
+        var width = rect.width;
+        var height = rect.height;
+        var padding = Padding.INSTANCE;
 
         if (state.getBackgroundAlpha() > 0) {
             state.getTheme().renderTooltipBackground(matrices, x, y, width, height, state.getBackgroundAlpha(), delta);
         }
 
-        int textX = x + padding.left;
-        int textY = y + padding.top + topOffset;
+        var textX = x + padding.left;
+        var textY = y + padding.top + topOffset;
 
         if (icon.getWidth() > 0) {
             textX += icon.getWidth() + 3;
         }
 
-        for (Line line : TOOLTIP) {
+        for (var line : TOOLTIP) {
             line.render(matrices, textX, textY, delta);
             textY += line.getHeight() + 1;
         }
@@ -233,13 +230,13 @@ public class TooltipRenderer {
         RenderSystem.disableBlend();
 
         if (state.fireEvent()) {
-            for (IEventListener listener : Registrar.INSTANCE.eventListeners.get(Object.class)) {
+            for (var listener : Registrar.INSTANCE.eventListeners.get(Object.class)) {
                 listener.onAfterTooltipRender(matrices, rect, DataAccessor.INSTANCE, PluginConfig.CLIENT);
             }
         }
 
         Align.Y iconPos = PluginConfig.CLIENT.getEnum(WailaConstants.CONFIG_ICON_POSITION);
-        int iconY = y + padding.top + Mth.ceil((height - (padding.top + padding.bottom) - icon.getHeight()) * iconPos.multiplier);
+        var iconY = y + padding.top + Mth.ceil((height - (padding.top + padding.bottom) - icon.getHeight()) * iconPos.multiplier);
         if (iconPos == Align.Y.BOTTOM) {
             iconY++;
         }
@@ -255,14 +252,14 @@ public class TooltipRenderer {
             return;
         }
 
-        Narrator narrator = TooltipRenderer.NARRATOR.get();
+        var narrator = TooltipRenderer.NARRATOR.get();
         if (narrator.active() || !state.enableTextToSpeech() || Minecraft.getInstance().screen instanceof ChatScreen) {
             return;
         }
 
-        Line objectName = TOOLTIP.getLine(WailaConstants.OBJECT_NAME_TAG);
+        var objectName = TOOLTIP.getLine(WailaConstants.OBJECT_NAME_TAG);
         if (objectName != null && objectName.components.get(0) instanceof WrappedComponent component) {
-            String narrate = component.component.getString();
+            var narrate = component.component.getString();
             if (!lastNarration.equalsIgnoreCase(narrate)) {
                 narrator.clear();
                 narrator.say(narrate, true);

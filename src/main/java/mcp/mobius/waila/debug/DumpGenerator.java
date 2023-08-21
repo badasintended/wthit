@@ -6,7 +6,6 @@ import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Set;
 
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IPluginInfo;
@@ -31,14 +30,14 @@ public class DumpGenerator {
 
     @Nullable
     public static Path generate(String name) {
-        Path path = Waila.GAME_DIR.resolve(".waila/" + name + ".md").toAbsolutePath();
+        var path = Waila.GAME_DIR.resolve(".waila/" + name + ".md").toAbsolutePath();
 
         //noinspection ResultOfMethodCallIgnored
         path.getParent().toFile().mkdirs();
 
-        StringBuilder builder = new StringBuilder("# Waila Dump");
+        var builder = new StringBuilder("# Waila Dump");
 
-        Registrar registrar = Registrar.INSTANCE;
+        var registrar = Registrar.INSTANCE;
 
         builder.append("\n## Versions");
         builder.append("\n| Dependency | Version |");
@@ -77,7 +76,7 @@ public class DumpGenerator {
         createSection(builder, "Tail Providers", registrar.entityComponent.get(TAIL));
         createSection(builder, "Data Providers", registrar.entityData);
 
-        try (FileWriter writer = new FileWriter(path.toFile())) {
+        try (var writer = new FileWriter(path.toFile())) {
             writer.write(builder.toString());
             LOG.info("Created debug dump at {}", path);
             return path;
@@ -88,7 +87,7 @@ public class DumpGenerator {
     }
 
     private static <T> void createSection(StringBuilder builder, String subsection, Register<T> registry) {
-        Map<Class<?>, Set<Register.Entry<T>>> map = registry.getMap();
+        var map = registry.getMap();
 
         if (map.isEmpty())
             return;
@@ -99,7 +98,7 @@ public class DumpGenerator {
         map.forEach((k, v) -> {
             if (!v.isEmpty()) {
                 builder.append("\n| `").append(k.getName()).append("` ");
-                int[] i = {0};
+                var i = new int[]{0};
                 v.stream()
                     .map(o -> o.value().getClass().getName())
                     .distinct()

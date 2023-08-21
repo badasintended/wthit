@@ -7,7 +7,6 @@ import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.component.ItemComponent;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Items;
@@ -26,8 +25,8 @@ public enum PlayerHeadProvider implements IBlockComponentProvider {
     public ITooltipComponent getIcon(IBlockAccessor accessor, IPluginConfig config) {
         SkullBlockEntity skull = accessor.getBlockEntity();
         if (skull != null && skull.getOwnerProfile() != null) {
-            CompoundTag tag = PLAYER_HEAD_STACK.stack.getOrCreateTag();
-            CompoundTag skullOwner = tag.getCompound("SkullOwner");
+            var tag = PLAYER_HEAD_STACK.stack.getOrCreateTag();
+            var skullOwner = tag.getCompound("SkullOwner");
             tag.put("SkullOwner", NbtUtils.writeGameProfile(skullOwner, skull.getOwnerProfile()));
             return PLAYER_HEAD_STACK;
         }

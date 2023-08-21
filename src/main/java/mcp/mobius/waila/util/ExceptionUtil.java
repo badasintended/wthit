@@ -14,7 +14,7 @@ public final class ExceptionUtil {
     private static final Set<String> ERRORS = new HashSet<>();
 
     public static boolean dump(Throwable e, String errorName, ITooltip tooltip) {
-        boolean log = ERRORS.add(errorName);
+        var log = ERRORS.add(errorName);
 
         if (log) {
             LOG.error("Caught unhandled exception : [{}] {}", errorName, e);

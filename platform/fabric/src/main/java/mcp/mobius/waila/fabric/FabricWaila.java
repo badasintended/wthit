@@ -29,8 +29,8 @@ public class FabricWaila extends Waila implements ModInitializer {
 
         ModInfo.register(new ModInfo(false, "c", "Common", "0"));
 
-        String[] mods = {"minecraft", "java", "fabricloader", "fabric", "wthit", "roughlyenoughitems"};
-        for (String mod : mods) {
+        var mods = new String[]{"minecraft", "java", "fabricloader", "fabric", "wthit", "roughlyenoughitems"};
+        for (var mod : mods) {
             FabricLoader.getInstance()
                 .getModContainer(mod)
                 .map(ModContainer::getMetadata)

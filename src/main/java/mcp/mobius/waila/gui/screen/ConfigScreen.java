@@ -46,7 +46,7 @@ public abstract class ConfigScreen extends Screen {
             options = getOptions();
         }
 
-        EditBox searchBox = options.getSearchBox();
+        var searchBox = options.getSearchBox();
         if (searchBox.isActive()) addWidget(searchBox);
 
         addWidget(options);
@@ -89,7 +89,7 @@ public abstract class ConfigScreen extends Screen {
         renderBackground(matrices);
         options.render(matrices, mouseX, mouseY, partialTicks);
 
-        EditBox searchBox = options.getSearchBox();
+        var searchBox = options.getSearchBox();
         if (searchBox.isActive()) options.getSearchBox().render(matrices, mouseX, mouseY, partialTicks);
 
         super.render(matrices, mouseX, mouseY, partialTicks);
@@ -108,7 +108,7 @@ public abstract class ConfigScreen extends Screen {
 
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        for (GuiEventListener child : children) {
+        for (var child : children) {
             if (child instanceof EditBox editBox) {
                 editBox.setFocused(false);
             }

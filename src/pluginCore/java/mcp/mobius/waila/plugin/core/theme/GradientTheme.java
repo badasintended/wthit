@@ -1,7 +1,6 @@
 package mcp.mobius.waila.plugin.core.theme;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
@@ -14,7 +13,6 @@ import mcp.mobius.waila.api.__internal__.IApiService;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.Range;
-import org.joml.Matrix4f;
 
 public class GradientTheme implements ITheme {
 
@@ -62,17 +60,17 @@ public class GradientTheme implements ITheme {
         RenderSystem.defaultBlendFunc();
         RenderSystem.setShader(GameRenderer::getPositionColorShader);
 
-        Tesselator tesselator = Tesselator.getInstance();
-        BufferBuilder buf = tesselator.getBuilder();
+        var tesselator = Tesselator.getInstance();
+        var buf = tesselator.getBuilder();
         buf.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
-        Matrix4f matrix = matrices.last().pose();
+        var matrix = matrices.last().pose();
 
-        int a = alpha << 24;
-        int bg = backgroundColor + a;
-        int gradStart = gradientStart + a;
-        int gradEnd = gradientEnd + a;
-        int bo = borderOffset;
-        int bo2 = borderOffset * 2;
+        var a = alpha << 24;
+        var bg = backgroundColor + a;
+        var gradStart = gradientStart + a;
+        var gradEnd = gradientEnd + a;
+        var bo = borderOffset;
+        var bo2 = borderOffset * 2;
 
         if (drawCorner) {
             IApiService.INSTANCE.fillGradient(matrix, buf, x, y, width, height, bg, bg);

@@ -38,7 +38,7 @@ public final class DisplayUtil extends GuiComponent {
             CLIENT.getItemRenderer().renderGuiItem(matrices, stack, x, y);
             CLIENT.getItemRenderer().renderGuiItemDecorations(matrices, CLIENT.font, stack, x, y, countText);
         } catch (Exception e) {
-            String stackStr = stack != null ? stack.toString() : "NullStack";
+            var stackStr = stack != null ? stack.toString() : "NullStack";
             ExceptionUtil.dump(e, "renderStack | " + stackStr, null);
         }
         enable2DRender();
@@ -72,19 +72,19 @@ public final class DisplayUtil extends GuiComponent {
 
         if (WailaClient.showComponentBounds) {
             matrices.pushPose();
-            float scale = (float) Minecraft.getInstance().getWindow().getGuiScale();
+            var scale = (float) Minecraft.getInstance().getWindow().getGuiScale();
             matrices.scale(1 / scale, 1 / scale, 1);
 
             RenderSystem.setShader(GameRenderer::getPositionColorShader);
 
-            Tesselator tesselator = Tesselator.getInstance();
-            BufferBuilder buf = tesselator.getBuilder();
+            var tesselator = Tesselator.getInstance();
+            var buf = tesselator.getBuilder();
             buf.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
-            int bx = Mth.floor(x * scale + 0.5);
-            int by = Mth.floor(y * scale + 0.5);
-            int bw = Mth.floor((cw == 0 ? component.getWidth() : cw) * scale + 0.5);
-            int bh = Mth.floor(component.getHeight() * scale + 0.5);
-            int color = (0xFF << 24) + Mth.hsvToRgb(RANDOM.nextFloat(), RANDOM.nextFloat(), 1f);
+            var bx = Mth.floor(x * scale + 0.5);
+            var by = Mth.floor(y * scale + 0.5);
+            var bw = Mth.floor((cw == 0 ? component.getWidth() : cw) * scale + 0.5);
+            var bh = Mth.floor(component.getHeight() * scale + 0.5);
+            var color = (0xFF << 24) + Mth.hsvToRgb(RANDOM.nextFloat(), RANDOM.nextFloat(), 1f);
             renderRectBorder(matrices.last().pose(), buf, bx, by, bw, bh, 1, color, color);
             tesselator.end();
 

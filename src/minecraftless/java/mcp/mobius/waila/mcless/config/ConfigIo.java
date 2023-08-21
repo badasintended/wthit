@@ -1,7 +1,5 @@
 package mcp.mobius.waila.mcless.config;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.nio.charset.StandardCharsets;
@@ -49,9 +47,9 @@ public class ConfigIo<T> {
 
     public T read(Path path) {
         T config;
-        boolean init = true;
+        var init = true;
         if (!Files.exists(path)) {
-            Path parent = path.getParent();
+            var parent = path.getParent();
             if (!Files.exists(parent)) {
                 try {
                     Files.createDirectories(parent);
@@ -61,11 +59,11 @@ public class ConfigIo<T> {
             }
             config = factory.get();
         } else {
-            try (BufferedReader reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
+            try (var reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
                 config = gson.fromJson(reader, type);
-                int version = versionGetter.applyAsInt(config);
+                var version = versionGetter.applyAsInt(config);
                 if (version != currentVersion) {
-                    Path old = Paths.get(path + "_" + DATE_FORMAT.format(new Date()));
+                    var old = Paths.get(path + "_" + DATE_FORMAT.format(new Date()));
                     warn.accept("Config file "
                         + path
                         + " contains different version ("
@@ -81,7 +79,7 @@ public class ConfigIo<T> {
                     init = false;
                 }
             } catch (Exception e) {
-                Path old = Paths.get(path + "_" + DATE_FORMAT.format(new Date()));
+                var old = Paths.get(path + "_" + DATE_FORMAT.format(new Date()));
                 error.accept("Exception when reading config file "
                     + path
                     + ", this config will be reset. Old config will be placed at "
@@ -103,7 +101,7 @@ public class ConfigIo<T> {
     }
 
     public boolean write(Path path, T value) {
-        try (BufferedWriter writer = Files.newBufferedWriter(path, StandardCharsets.UTF_8)) {
+        try (var writer = Files.newBufferedWriter(path, StandardCharsets.UTF_8)) {
             writer.write(gson.toJson(value));
             return true;
         } catch (IOException e) {

@@ -1,7 +1,6 @@
 package mcp.mobius.waila.command;
 
 import java.util.Arrays;
-import java.util.stream.Stream;
 
 import com.google.gson.JsonPrimitive;
 import com.mojang.brigadier.CommandDispatcher;
@@ -36,13 +35,13 @@ public abstract class ClientCommand<S> {
     protected abstract FeedbackSender feedback(S source);
 
     public final void register(CommandDispatcher<S> dispatcher) {
-        ArgumentBuilderBuilder<S> command = new ArgumentBuilderBuilder<>(argument.literal(WailaConstants.NAMESPACE + "c"))
+        var command = new ArgumentBuilderBuilder<>(argument.literal(WailaConstants.NAMESPACE + "c"))
 
             .then(argument.literal("config"))
 
             .then(argument.literal("open"))
             .executes(context -> {
-                Minecraft client = Minecraft.getInstance();
+                var client = Minecraft.getInstance();
                 client.tell(() -> client.setScreen(new HomeScreen(client.screen)));
                 return 1;
             })
@@ -54,8 +53,8 @@ public abstract class ClientCommand<S> {
             .then(argument.required("id", ResourceLocationArgument.id()))
             .suggests((context, builder) -> suggestResource(PluginConfig.getAllKeys(), builder))
             .executes(context -> {
-                FeedbackSender feedback = feedback(context.getSource());
-                ResourceLocation id = context.getArgument("id", ResourceLocation.class);
+                var feedback = feedback(context.getSource());
+                var id = context.getArgument("id", ResourceLocation.class);
                 ConfigEntry<?> entry = PluginConfig.getEntry(id);
                 if (entry == null) {
                     feedback.fail(Component.translatable(Tl.Command.Config.UNKNOWN_ID, id));
@@ -74,13 +73,13 @@ public abstract class ClientCommand<S> {
 
             .then(argument.required("value", StringArgumentType.word()))
             .suggests((context, builder) -> {
-                ResourceLocation id = context.getArgument("id", ResourceLocation.class);
-                ConfigEntry<Object> entry = PluginConfig.getEntry(id);
+                var id = context.getArgument("id", ResourceLocation.class);
+                var entry = PluginConfig.getEntry(id);
                 if (entry != null) {
                     if (entry.getType().equals(ConfigEntry.BOOLEAN)) {
                         return suggest(new String[]{String.valueOf(!((boolean) entry.getValue(false)))}, builder);
                     } else if (entry.getType().equals(ConfigEntry.ENUM)) {
-                        Stream<String> suggestions = Arrays.stream(entry.getLocalValue().getClass().getEnumConstants())
+                        var suggestions = Arrays.stream(entry.getLocalValue().getClass().getEnumConstants())
                             .filter(e -> e != entry.getLocalValue())
                             .map(e -> ((Enum<?>) e).name());
                         return suggest(suggestions, builder);
@@ -89,9 +88,9 @@ public abstract class ClientCommand<S> {
                 return suggest(new String[0], builder);
             })
             .executes(context -> {
-                FeedbackSender feedback = feedback(context.getSource());
-                ResourceLocation id = context.getArgument("id", ResourceLocation.class);
-                ConfigEntry<Object> entry = PluginConfig.getEntry(id);
+                var feedback = feedback(context.getSource());
+                var id = context.getArgument("id", ResourceLocation.class);
+                var entry = PluginConfig.getEntry(id);
                 if (entry == null) {
                     feedback.fail(Component.translatable(Tl.Command.Config.UNKNOWN_ID, id));
                     return 0;
@@ -101,7 +100,7 @@ public abstract class ClientCommand<S> {
                     feedback.fail(Component.translatable(Tl.Command.Config.Set.SYNCED, id));
                 }
 
-                JsonPrimitive jsonValue = new JsonPrimitive(context.getArgument("value", String.class));
+                var jsonValue = new JsonPrimitive(context.getArgument("value", String.class));
                 try {
                     entry.setLocalValue(entry.getType().parser.apply(jsonValue, entry.getDefaultValue()));
                     feedback.success(Component.translatable(Tl.Command.Config.Set.SUCCESS, id, entry.getLocalValue()));
@@ -119,8 +118,8 @@ public abstract class ClientCommand<S> {
             .then(argument.required("enabled", BoolArgumentType.bool()))
             .suggests((context, builder) -> suggest(new String[]{String.valueOf(!Waila.CONFIG.get().getGeneral().isDisplayTooltip())}, builder))
             .executes(context -> {
-                FeedbackSender feedback = feedback(context.getSource());
-                boolean enabled = BoolArgumentType.getBool(context, "enabled");
+                var feedback = feedback(context.getSource());
+                var enabled = BoolArgumentType.getBool(context, "enabled");
                 Waila.CONFIG.get().getGeneral().setDisplayTooltip(enabled);
                 feedback.success(Component.translatable(enabled ? Tl.Command.Overlay.TRUE : Tl.Command.Overlay.FALSE));
                 return enabled ? 1 : 0;
@@ -136,8 +135,8 @@ public abstract class ClientCommand<S> {
                 .then(argument.required("enabled", BoolArgumentType.bool()))
                 .suggests((context, builder) -> suggest(new String[]{String.valueOf(!WailaClient.showComponentBounds)}, builder))
                 .executes(context -> {
-                    FeedbackSender feedback = feedback(context.getSource());
-                    boolean enabled = BoolArgumentType.getBool(context, "enabled");
+                    var feedback = feedback(context.getSource());
+                    var enabled = BoolArgumentType.getBool(context, "enabled");
                     Minecraft.getInstance().execute(() -> WailaClient.showComponentBounds = enabled);
                     feedback.success(Component.literal((enabled ? "En" : "Dis") + "abled component bounds"));
                     return enabled ? 1 : 0;

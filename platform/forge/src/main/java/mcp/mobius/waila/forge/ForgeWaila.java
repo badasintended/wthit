@@ -25,8 +25,8 @@ public class ForgeWaila extends Waila {
     static void setup(FMLCommonSetupEvent event) {
         Packets.initServer();
 
-        String[] mods = {"minecraft", "forge", "wthit", "jei"};
-        for (String mod : mods) {
+        var mods = new String[]{"minecraft", "forge", "wthit", "jei"};
+        for (var mod : mods) {
             ModList.get().getModContainerById(mod)
                 .map(ModContainer::getModInfo)
                 .ifPresent(m -> DumpGenerator.VERSIONS.put(m.getDisplayName(), m.getVersion().toString()));

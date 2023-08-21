@@ -19,10 +19,8 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.phys.Vec3;
 
 public enum EntityAttributesProvider implements IEntityComponentProvider, IDataProvider<Entity> {
 
@@ -39,7 +37,7 @@ public enum EntityAttributesProvider implements IEntityComponentProvider, IDataP
     }
 
     private void addHealth(ITooltipLine line, LivingEntity entity, CompoundTag data, boolean showAbsorption) {
-        MutableComponent component = Component.literal(DECIMAL.format(entity.getHealth()));
+        var component = Component.literal(DECIMAL.format(entity.getHealth()));
         if (showAbsorption && data.contains("abs")) {
             component.append(Component.literal("+" + DECIMAL.format(data.getFloat("abs"))).withStyle(ChatFormatting.GOLD));
         }
@@ -59,16 +57,16 @@ public enum EntityAttributesProvider implements IEntityComponentProvider, IDataP
             return;
         }
 
-        boolean compact = config.getBoolean(Options.ATTRIBUTE_COMPACT);
-        boolean showHealth = config.getBoolean(Options.ATTRIBUTE_HEALTH);
-        boolean showAbsorption = config.getBoolean(Options.ATTRIBUTE_ABSORPTION);
-        boolean showArmor = config.getBoolean(Options.ATTRIBUTE_ARMOR) && entity.getArmorValue() > 0;
+        var compact = config.getBoolean(Options.ATTRIBUTE_COMPACT);
+        var showHealth = config.getBoolean(Options.ATTRIBUTE_HEALTH);
+        var showAbsorption = config.getBoolean(Options.ATTRIBUTE_ABSORPTION);
+        var showArmor = config.getBoolean(Options.ATTRIBUTE_ARMOR) && entity.getArmorValue() > 0;
 
-        CompoundTag data = accessor.getData().raw();
+        var data = accessor.getData().raw();
 
         if (compact) {
-            ITooltipLine line = tooltip.addLine();
-            int i = 0;
+            var line = tooltip.addLine();
+            var i = 0;
 
             if (showHealth) {
                 i = addSpacing(line, i);
@@ -82,10 +80,10 @@ public enum EntityAttributesProvider implements IEntityComponentProvider, IDataP
                 i++;
             }
         } else {
-            int maxPerLine = config.getInt(Options.ATTRIBUTE_ICON_PER_LINE);
+            var maxPerLine = config.getInt(Options.ATTRIBUTE_ICON_PER_LINE);
 
             if (showHealth) {
-                float absorption = data.contains("abs") ? data.getFloat("abs") : 0f;
+                var absorption = data.contains("abs") ? data.getFloat("abs") : 0f;
                 if (entity.getMaxHealth() + absorption > config.getInt(Options.ATTRIBUTE_LONG_HEALTH_MAX)) {
                     addHealth(tooltip.addLine(), entity, data, showAbsorption);
                 } else {
@@ -109,7 +107,7 @@ public enum EntityAttributesProvider implements IEntityComponentProvider, IDataP
     @Override
     public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
         if (config.getBoolean(Options.ATTRIBUTE_ENTITY_POSITION)) {
-            Vec3 pos = accessor.getEntity().position();
+            var pos = accessor.getEntity().position();
             tooltip.addLine(Component.literal("(" + DECIMAL.format(pos.x) + ", " + DECIMAL.format(pos.y) + ", " + DECIMAL.format(pos.z) + ")"));
         }
     }

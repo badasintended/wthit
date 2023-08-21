@@ -16,7 +16,7 @@ public enum ContainerEntityProvider implements IDataProvider<Entity> {
     @Override
     public void appendData(IDataWriter data, IServerAccessor<Entity> accessor, IPluginConfig config) {
         data.add(ItemData.class, res -> {
-            Entity entity = accessor.getTarget();
+            var entity = accessor.getTarget();
 
             if (entity instanceof ContainerEntity container && container.getLootTable() != null) {
                 res.block();

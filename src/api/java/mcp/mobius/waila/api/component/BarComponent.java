@@ -1,7 +1,6 @@
 package mcp.mobius.waila.api.component;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
@@ -11,7 +10,6 @@ import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.WailaHelper;
 import mcp.mobius.waila.api.__internal__.ApiSide;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -95,13 +93,13 @@ public class BarComponent extends GuiComponent implements ITooltipComponent {
         RenderSystem.setShader(GameRenderer::getPositionColorTexShader);
         RenderSystem.setShaderTexture(0, WailaConstants.COMPONENT_TEXTURE);
 
-        int a = WailaHelper.getAlpha(tint);
-        int r = WailaHelper.getRed(tint);
-        int g = WailaHelper.getGreen(tint);
-        int b = WailaHelper.getBlue(tint);
+        var a = WailaHelper.getAlpha(tint);
+        var r = WailaHelper.getRed(tint);
+        var g = WailaHelper.getGreen(tint);
+        var b = WailaHelper.getBlue(tint);
 
-        Tesselator tessellator = Tesselator.getInstance();
-        BufferBuilder buffer = tessellator.getBuilder();
+        var tessellator = Tesselator.getInstance();
+        var buffer = tessellator.getBuilder();
 
         buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX);
 
@@ -116,12 +114,12 @@ public class BarComponent extends GuiComponent implements ITooltipComponent {
     }
 
     static void renderText(PoseStack matrices, Component text, int x, int y) {
-        Font font = Minecraft.getInstance().font;
-        int textWidth = font.width(text);
-        float textX = x + Math.max((BarComponent.WIDTH - textWidth) / 2F, 0F);
+        var font = Minecraft.getInstance().font;
+        var textWidth = font.width(text);
+        var textX = x + Math.max((BarComponent.WIDTH - textWidth) / 2F, 0F);
         float textY = y + 2;
 
-        MultiBufferSource.BufferSource textBuf = MultiBufferSource.immediate(Tesselator.getInstance().getBuilder());
+        var textBuf = MultiBufferSource.immediate(Tesselator.getInstance().getBuilder());
         font.drawInBatch8xOutline(text.getVisualOrderText(), textX, textY, 0xAAAAAA, 0x292929, matrices.last().pose(), textBuf, 0xf000f0);
         textBuf.endBatch();
     }
