@@ -39,6 +39,7 @@ public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IEntityAcce
     private long timeLastUpdate = System.currentTimeMillis();
     private double partialFrame;
     private ItemStack stack = ItemStack.EMPTY;
+    private int updateId;
 
     @Override
     public Level getWorld() {
@@ -145,7 +146,15 @@ public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IEntityAcce
         return blockRegistryName;
     }
 
+    @Override
+    public int getUpdateId() {
+        return updateId;
+    }
+
     public void set(Level world, Player player, HitResult hit, Entity viewEntity, double partialTicks) {
+        this.updateId++;
+        if (updateId == 0) updateId++;
+
         this.world = world;
         this.player = player;
         this.hitResult = hit;
