@@ -35,6 +35,8 @@ public interface IEntityAccessor {
 
     double getPartialFrame();
 
+    int getUpdateId();
+
     // -----------------------------------------------------------------------------------------------------------------------------------------------
     // TODO: Remove
 
