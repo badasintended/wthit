@@ -4,6 +4,7 @@ import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.api.IntFormat;
 import mcp.mobius.waila.api.data.FluidData;
+import mcp.mobius.waila.plugin.vanilla.config.EnchantmentDisplayMode;
 import mcp.mobius.waila.plugin.vanilla.config.NoteDisplayMode;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import mcp.mobius.waila.plugin.vanilla.fluid.LavaDescriptor;
@@ -13,6 +14,7 @@ import mcp.mobius.waila.plugin.vanilla.provider.BeehiveProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.BlockAttributesProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.BoatProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.BreakProgressProvider;
+import mcp.mobius.waila.plugin.vanilla.provider.ChiseledBookShelfProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.ComposterProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.ContainerEntityProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.EnderChestProvider;
@@ -51,6 +53,7 @@ import net.minecraft.world.entity.vehicle.Boat;
 import net.minecraft.world.level.block.BeehiveBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.ChiseledBookShelfBlock;
 import net.minecraft.world.level.block.CocoaBlock;
 import net.minecraft.world.level.block.ComparatorBlock;
 import net.minecraft.world.level.block.ComposterBlock;
@@ -68,6 +71,7 @@ import net.minecraft.world.level.block.TrappedChestBlock;
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.ChiseledBookShelfBlockEntity;
 import net.minecraft.world.level.block.entity.EnderChestBlockEntity;
 import net.minecraft.world.level.block.entity.JukeboxBlockEntity;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
@@ -86,6 +90,7 @@ public class WailaPluginVanilla implements IWailaPlugin {
         registrar.addMergedConfig(Options.ITEM_ENTITY, true);
         registrar.addIcon(ItemEntityProvider.INSTANCE, ItemEntity.class);
         registrar.addComponent(ItemEntityProvider.INSTANCE, HEAD, ItemEntity.class, 950);
+        registrar.addComponent(ItemEntityProvider.INSTANCE, BODY, ItemEntity.class, 950);
         registrar.addComponent(ItemEntityProvider.INSTANCE, TAIL, ItemEntity.class, 950);
         registrar.addOverride(ItemEntityProvider.INSTANCE, ItemEntity.class);
 
@@ -179,7 +184,19 @@ public class WailaPluginVanilla implements IWailaPlugin {
 
         registrar.addIcon(ItemFrameProvider.INSTANCE, ItemFrame.class);
         registrar.addComponent(ItemFrameProvider.INSTANCE, HEAD, ItemFrame.class);
+        registrar.addComponent(ItemFrameProvider.INSTANCE, BODY, ItemFrame.class);
         registrar.addComponent(ItemFrameProvider.INSTANCE, TAIL, ItemFrame.class);
+
+        registrar.addMergedSyncedConfig(Options.BOOK_BOOKSHELF, true, false);
+        registrar.addConfig(Options.BOOK_ENCHANTMENT_DISPLAY_MODE, EnchantmentDisplayMode.CYCLE);
+        registrar.addConfig(Options.BOOK_ENCHANTMENT_CYCLE_TIMING, 500);
+        registrar.addConfig(Options.BOOK_WRITTEN, true);
+        registrar.addDataType(ChiseledBookShelfProvider.DATA, ChiseledBookShelfProvider.Data.class, ChiseledBookShelfProvider.Data::new);
+        registrar.addIcon(ChiseledBookShelfProvider.INSTANCE, ChiseledBookShelfBlock.class);
+        registrar.addComponent(ChiseledBookShelfProvider.INSTANCE, HEAD, ChiseledBookShelfBlock.class);
+        registrar.addComponent(ChiseledBookShelfProvider.INSTANCE, BODY, ChiseledBookShelfBlock.class);
+        registrar.addComponent(ChiseledBookShelfProvider.INSTANCE, TAIL, ChiseledBookShelfBlock.class);
+        registrar.addBlockData(ChiseledBookShelfProvider.INSTANCE, ChiseledBookShelfBlockEntity.class);
 
         FluidData.describeFluid(Fluids.WATER, WaterDescriptor.INSTANCE);
         FluidData.describeFluid(Fluids.LAVA, LavaDescriptor.INSTANCE);

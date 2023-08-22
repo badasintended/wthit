@@ -39,6 +39,12 @@ public enum ItemFrameProvider implements IEntityComponentProvider {
     }
 
     @Override
+    public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
+        var stack = accessor.<ItemFrame>getEntity().getItem();
+        ItemEntityProvider.appendBookProperties(tooltip, stack, config);
+    }
+
+    @Override
     public void appendTail(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
         var stack = accessor.<ItemFrame>getEntity().getItem();
 
