@@ -109,8 +109,8 @@ public class WailaPluginVanilla implements IWailaPlugin {
         registrar.addConfig(Options.ATTRIBUTE_ICON_PER_LINE, 25);
         registrar.addConfig(Options.ATTRIBUTE_LONG_HEALTH_MAX, 100);
         registrar.addConfig(Options.ATTRIBUTE_LONG_ARMOR_MAX, 100);
-        registrar.addMergedConfig(Options.ATTRUBUTE_HORSE_JUMP_HEIGHT, true);
-        registrar.addMergedConfig(Options.ATTRUBUTE_HORSE_SPEED, true);
+        registrar.addMergedConfig(Options.ATTRIBUTE_HORSE_JUMP_HEIGHT, true);
+        registrar.addMergedConfig(Options.ATTRIBUTE_HORSE_SPEED, true);
         registrar.addComponent(BlockAttributesProvider.INSTANCE, BODY, Block.class, 950);
         registrar.addComponent(EntityAttributesProvider.INSTANCE, HEAD, Entity.class, 950);
         registrar.addComponent(EntityAttributesProvider.INSTANCE, BODY, Entity.class, 950);
