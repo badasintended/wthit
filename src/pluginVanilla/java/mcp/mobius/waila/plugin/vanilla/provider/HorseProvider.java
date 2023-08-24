@@ -24,7 +24,7 @@ public enum HorseProvider implements IEntityComponentProvider {
 
     @Override
     public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        if (config.getBoolean(Options.ATTRUBUTE_HORSE_JUMP_HEIGHT)) {
+        if (config.getBoolean(Options.ATTRIBUTE_HORSE_JUMP_HEIGHT)) {
             AbstractHorse horse = accessor.getEntity();
 
             var jumpStrength = horse.getCustomJump();
@@ -42,7 +42,7 @@ public enum HorseProvider implements IEntityComponentProvider {
                 Component.translatable(Tl.Tooltip.Horse.Jump.VALUE, FORMAT.format(jumpHeight)).withStyle(format)));
         }
 
-        if (config.getBoolean(Options.ATTRUBUTE_HORSE_SPEED)) {
+        if (config.getBoolean(Options.ATTRIBUTE_HORSE_SPEED)) {
             AbstractHorse horse = accessor.getEntity();
             var speed = horse.getAttribute(Attributes.MOVEMENT_SPEED).getBaseValue() * 42.157787584f;
 
