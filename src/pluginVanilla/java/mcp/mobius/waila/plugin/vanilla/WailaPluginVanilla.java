@@ -30,6 +30,7 @@ import mcp.mobius.waila.plugin.vanilla.provider.ItemFrameProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.JukeboxProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.MobTimerProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.NoteBlockProvider;
+import mcp.mobius.waila.plugin.vanilla.provider.PandaProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.PetOwnerProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.PlantProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.PlayerHeadProvider;
@@ -44,6 +45,7 @@ import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.animal.Panda;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.decoration.ItemFrame;
 import net.minecraft.world.entity.item.FallingBlockEntity;
@@ -109,10 +111,12 @@ public class WailaPluginVanilla implements IWailaPlugin {
         registrar.addConfig(Options.ATTRIBUTE_LONG_ARMOR_MAX, 100);
         registrar.addMergedConfig(Options.ATTRIBUTE_HORSE_JUMP_HEIGHT, true);
         registrar.addMergedConfig(Options.ATTRIBUTE_HORSE_SPEED, true);
+        registrar.addMergedConfig(Options.ATTRIBUTE_PANDA_GENES, true);
         registrar.addComponent(BlockAttributesProvider.INSTANCE, BODY, Block.class, 950);
         registrar.addComponent(EntityAttributesProvider.INSTANCE, HEAD, Entity.class, 950);
         registrar.addComponent(EntityAttributesProvider.INSTANCE, BODY, Entity.class, 950);
         registrar.addComponent(HorseProvider.INSTANCE, BODY, AbstractHorse.class);
+        registrar.addComponent(PandaProvider.INSTANCE, BODY, Panda.class);
         registrar.addEntityData(EntityAttributesProvider.INSTANCE, Entity.class);
 
         registrar.addMergedSyncedConfig(Options.JUKEBOX_RECORD, true, false);
