@@ -23,6 +23,16 @@
   "tooltip.waila.horse.speed.key"                               : "Speed",
   "tooltip.waila.horse.speed.value"                             : "%s m/s",
 
+  "tooltip.waila.panda.personality"                             : "Personality",
+  "tooltip.waila.panda.traits"                                  : "Traits",
+  "tooltip.waila.panda.gene.normal"                             : "Normal",
+  "tooltip.waila.panda.gene.lazy"                               : "Lazy",
+  "tooltip.waila.panda.gene.worried"                            : "Worried",
+  "tooltip.waila.panda.gene.playful"                            : "Playful",
+  "tooltip.waila.panda.gene.brown"                              : "Brown",
+  "tooltip.waila.panda.gene.weak"                               : "Weak",
+  "tooltip.waila.panda.gene.aggressive"                         : "Aggressive",
+
   "tooltip.waila.instrument.harp"                               : "Harp",
   "tooltip.waila.instrument.basedrum"                           : "Bass Drum",
   "tooltip.waila.instrument.snare"                              : "Snare Drum",
@@ -232,6 +242,7 @@
   "config.waila.plugin_minecraft.attribute.long_armor_max_desc" : "The maximum armor points that the icon will draw before forcing numeric view",
   "config.waila.plugin_minecraft.attribute.horse_jump_height"   : "Show Horse Jump Height",
   "config.waila.plugin_minecraft.attribute.horse_speed"         : "Show Horse Speed",
+  "config.waila.plugin_minecraft.attribute.panda_genes"         : "Show Panda Genes",
   "config.waila.plugin_minecraft.book"                          : "Book",
   "config.waila.plugin_minecraft.book.bookshelf"                : "Show Chiseled Bookshelf Books",
   "config.waila.plugin_minecraft.book.written"                  : "Show Written Book Author and Generation",
@@ -304,5 +315,6 @@
   "theme.waila.plugin_waila.nine_patch.mode_tile"               : "Tile",
 
   "tooltip.waila.instrument"                                    : "_DO_NOT_TRANSLATE_",
+  "tooltip.waila.panda.gene"                                    : "_DO_NOT_TRANSLATE_",
   "config.waila.plugin_"                                        : "_DO_NOT_TRANSLATE_"
 }
