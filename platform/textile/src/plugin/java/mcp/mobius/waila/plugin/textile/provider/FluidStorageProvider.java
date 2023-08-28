@@ -34,7 +34,7 @@ public enum FluidStorageProvider implements IDataProvider<BlockEntity> {
                 cache = BlockApiCache.create(FluidStorage.SIDED, (ServerLevel) accessor.getWorld(), accessor.getTarget().getBlockPos());
             }
 
-            var storage = cache.find(accessor.getTarget().getBlockState(), null);
+            var storage = cache.find(accessor.getTarget().getBlockState(), Direction.UP);
 
             if (storage instanceof SingleSlotStorage<FluidVariant> single) {
                 var fluidData = FluidData.of(FluidData.Unit.DROPLETS);
