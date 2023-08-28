@@ -7,8 +7,6 @@
   "mixins"            : [
     "AbstractFurnaceBlockEntityAccess",
     "BaseContainerBlockEntityAccess",
-    "ChiseledBookShelfBlockAccess",
-    "ChiseledBookShelfBlockEntityAccess",
     "EntityAccess",
     "RandomizableContainerBlockEntityAccess",
     "ReloadableServerResourcesMixin"
