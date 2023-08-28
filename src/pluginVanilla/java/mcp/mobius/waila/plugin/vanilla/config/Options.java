@@ -44,7 +44,6 @@ public final class Options {
     public static final ResourceLocation ATTRIBUTE_HORSE_JUMP_HEIGHT   = rl("attribute.horse_jump_height");
     public static final ResourceLocation ATTRIBUTE_HORSE_SPEED         = rl("attribute.horse_speed");
     public static final ResourceLocation ATTRIBUTE_PANDA_GENES         = rl("attribute.panda_genes");
-    public static final ResourceLocation BOOK_BOOKSHELF                = rl("book.bookshelf");
     public static final ResourceLocation BOOK_WRITTEN                  = rl("book.written");
     public static final ResourceLocation BOOK_ENCHANTMENT_DISPLAY_MODE = rl("book.enchantment");
     public static final ResourceLocation BOOK_ENCHANTMENT_CYCLE_TIMING = rl("book.enchantment_cycle_timing");

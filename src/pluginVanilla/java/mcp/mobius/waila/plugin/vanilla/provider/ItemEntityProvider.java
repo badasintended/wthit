@@ -88,7 +88,7 @@ public enum ItemEntityProvider implements IEntityComponentProvider {
 
                 for (var i = 0; i < enchantmentsTag.size(); i++) {
                     var enchantmentTag = enchantmentsTag.getCompound(i);
-                    var enchantment = BuiltInRegistries.ENCHANTMENT.get(EnchantmentHelper.getEnchantmentId(enchantmentTag));
+                    var enchantment = Registry.ENCHANTMENT.get(EnchantmentHelper.getEnchantmentId(enchantmentTag));
                     if (enchantment == null) continue;
 
                     var level = EnchantmentHelper.getEnchantmentLevel(enchantmentTag);
