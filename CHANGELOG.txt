@@ -1,5 +1,14 @@
 8.x - 1.20.1 - dev/master - java 17
 ===================================
+8.4.0    - [API] Experimental: added `IRegistryFilter`
+         - [API] Added method that return `BlockHitResult`/`EntityHitResult` to `IBlockAccessor`/`IEntityAccessor`
+         - [API] Added `getUpdateId` method to `IBlockAccessor` and `IEntityAccessor`
+           - Can be used to memoize computation for `append*` methods
+         - Added `@namespace`, `#tag`, and `/regex/` operator to blacklist config
+         - Added Chiseled Bookshelf tooltip (#208)
+         - Added Panda genes tooltip (#178)
+         - Added back client-only pet owner tooltip (doesn't work with horses) (#227)
+         - Fixed chest spamming opening sound when looking to locked chest (#228)
 8.3.1    - Made it crash if the Fabric version is used on Forge
            - Using WTHIT with any sort of compatibility layer, be it Fabric-on-Quilt or Fabric-on-Forge (with [Sinytra](https://github.com/Sinytra/Connector/discussions/11)) is unsupported, use the Quilt or Forge jar
            - Run with `-Dwaila.allowUnsupportedPlatforms=true` JVM argument if you really want to use it (actually works, which is impressive)
@@ -35,6 +44,15 @@
 
 7.x - 1.19.4 - dev/1.19.4 - java 17
 ===================================
+7.6.0    - [API] Experimental: added `IRegistryFilter`
+         - [API] Added method that return `BlockHitResult`/`EntityHitResult` to `IBlockAccessor`/`IEntityAccessor`
+         - [API] Added `getUpdateId` method to `IBlockAccessor` and `IEntityAccessor`
+           - Can be used to memoize computation for `append*` methods
+         - Added `@namespace`, `#tag`, and `/regex/` operator to blacklist config
+         - Added Chiseled Bookshelf tooltip (#208)
+         - Added Panda genes tooltip (#178)
+         - Added back client-only pet owner tooltip (doesn't work with horses) (#227)
+         - Fixed chest spamming opening sound when looking to locked chest (#228)
 7.5.1    - Made it crash if the Fabric version is used on Forge
            - Using WTHIT with any sort of compatibility layer, be it Fabric-on-Quilt or Fabric-on-Forge (with [Sinytra](https://github.com/Sinytra/Connector/discussions/11)) is unsupported, use the Quilt or Forge jar
            - Run with `-Dwaila.allowUnsupportedPlatforms=true` JVM argument if you really want to use it (actually works, which is impressive)
@@ -85,6 +103,14 @@
 
 6.x - 1.19.3 - dev/1.19.3 - java 17
 ===================================
+6.7.0    - [API] Experimental: added `IRegistryFilter`
+         - [API] Added method that return `BlockHitResult`/`EntityHitResult` to `IBlockAccessor`/`IEntityAccessor`
+         - [API] Added `getUpdateId` method to `IBlockAccessor` and `IEntityAccessor`
+           - Can be used to memoize computation for `append*` methods
+         - Added `@namespace`, `#tag`, and `/regex/` operator to blacklist config
+         - Added Chiseled Bookshelf tooltip (#208)
+         - Added Panda genes tooltip (#178)
+         - Fixed chest spamming opening sound when looking to locked chest (#228)
 6.6.1    - Made it crash if the Fabric version is used on Forge
            - Using WTHIT with any sort of compatibility layer, be it Fabric-on-Quilt or Fabric-on-Forge (with [Sinytra](https://github.com/Sinytra/Connector/discussions/11)) is unsupported, use the Quilt or Forge jar
            - Run with `-Dwaila.allowUnsupportedPlatforms=true` JVM argument if you really want to use it (actually works, which is impressive)
@@ -139,6 +165,13 @@
 
 5.x - 1.19.2 - dev/1.19.2 - java 17
 ===================================
+5.19.0   - [API] Experimental: added `IRegistryFilter`
+         - [API] Added method that return `BlockHitResult`/`EntityHitResult` to `IBlockAccessor`/`IEntityAccessor`
+         - [API] Added `getUpdateId` method to `IBlockAccessor` and `IEntityAccessor`
+           - Can be used to memoize computation for `append*` methods
+         - Added `@namespace`, `#tag`, and `/regex/` operator to blacklist config
+         - Added Panda genes tooltip (#178)
+         - Fixed chest spamming opening sound when looking to locked chest (#228)
 5.18.1   - Made it crash if the Fabric version is used on Forge
            - Using WTHIT with any sort of compatibility layer, be it Fabric-on-Quilt or Fabric-on-Forge (with [Sinytra](https://github.com/Sinytra/Connector/discussions/11)) is unsupported, use the Quilt or Forge jar
            - Run with `-Dwaila.allowUnsupportedPlatforms=true` JVM argument if you really want to use it (actually works, which is impressive)
