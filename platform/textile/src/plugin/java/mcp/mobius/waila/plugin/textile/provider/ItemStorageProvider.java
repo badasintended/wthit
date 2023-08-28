@@ -35,7 +35,7 @@ public enum ItemStorageProvider implements IDataProvider<BlockEntity> {
                 cache = BlockApiCache.create(ItemStorage.SIDED, (ServerLevel) accessor.getWorld(), accessor.getTarget().getBlockPos());
             }
 
-            var storage = cache.find(accessor.getTarget().getBlockState(), null);
+            var storage = cache.find(accessor.getTarget().getBlockState(), Direction.UP);
 
             if (storage instanceof SingleSlotStorage<ItemVariant> single) {
                 var itemData = ItemData.of(config);
