@@ -34,7 +34,7 @@ public enum PandaProvider implements IEntityComponentProvider {
     }
 
     private static MutableComponent geneText(Panda.Gene gene) {
-        var text = Component.translatable(Tl.Tooltip.Panda.GENE + "." + gene.getSerializedName());
+        var text = Component.translatable(Tl.Tooltip.Panda.GENE + "." + gene.getName());
         if (gene.isRecessive()) text.withStyle(ChatFormatting.RED);
         return text;
     }
