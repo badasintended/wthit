@@ -27,7 +27,7 @@ public final class BlockingDataProvider<T> implements IDataProvider<T> {
 
     @Override
     public void appendData(IDataWriter data, IServerAccessor<T> accessor, IPluginConfig config) {
-        for (Class<? extends IData> type : types) {
+        for (var type : types) {
             data.blockAll(type);
         }
     }

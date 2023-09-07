@@ -24,11 +24,11 @@ public enum HorseProvider implements IEntityComponentProvider {
 
     @Override
     public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        if (config.getBoolean(Options.ATTRUBUTE_HORSE_JUMP_HEIGHT)) {
+        if (config.getBoolean(Options.ATTRIBUTE_HORSE_JUMP_HEIGHT)) {
             AbstractHorse horse = accessor.getEntity();
 
-            double jumpStrength = horse.getCustomJump();
-            double jumpHeight = -0.1817584952f * Math.pow(jumpStrength, 3) + 3.689713992f * Math.pow(jumpStrength, 2) + 2.128599134f * jumpStrength - 0.343930367f;
+            var jumpStrength = horse.getCustomJump();
+            var jumpHeight = -0.1817584952f * Math.pow(jumpStrength, 3) + 3.689713992f * Math.pow(jumpStrength, 2) + 2.128599134f * jumpStrength - 0.343930367f;
 
             ChatFormatting format;
             if (jumpHeight < 2.0f)
@@ -42,9 +42,9 @@ public enum HorseProvider implements IEntityComponentProvider {
                 Component.translatable(Tl.Tooltip.Horse.Jump.VALUE, FORMAT.format(jumpHeight)).withStyle(format)));
         }
 
-        if (config.getBoolean(Options.ATTRUBUTE_HORSE_SPEED)) {
+        if (config.getBoolean(Options.ATTRIBUTE_HORSE_SPEED)) {
             AbstractHorse horse = accessor.getEntity();
-            double speed = horse.getAttribute(Attributes.MOVEMENT_SPEED).getBaseValue() * 42.157787584f;
+            var speed = horse.getAttribute(Attributes.MOVEMENT_SPEED).getBaseValue() * 42.157787584f;
 
             ChatFormatting format;
             if (speed < 7.0f)

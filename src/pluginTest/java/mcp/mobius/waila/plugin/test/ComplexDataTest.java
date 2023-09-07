@@ -43,7 +43,7 @@ public enum ComplexDataTest implements IBlockComponentProvider, IDataProvider<Ch
 
     @Override
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
-        Data data = accessor.getData().get(Data.class);
+        var data = accessor.getData().get(Data.class);
         if (data != null) tooltip.addLine(new PairComponent(Component.literal("data"), Component.literal(data.value)));
     }
 

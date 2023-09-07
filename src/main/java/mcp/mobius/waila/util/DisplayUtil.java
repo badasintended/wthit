@@ -54,19 +54,19 @@ public final class DisplayUtil {
 
         if (WailaClient.showComponentBounds) {
             ctx.pose().pushPose();
-            float scale = (float) Minecraft.getInstance().getWindow().getGuiScale();
+            var scale = (float) Minecraft.getInstance().getWindow().getGuiScale();
             ctx.pose().scale(1 / scale, 1 / scale, 1);
 
             RenderSystem.setShader(GameRenderer::getPositionColorShader);
 
-            Tesselator tesselator = Tesselator.getInstance();
-            BufferBuilder buf = tesselator.getBuilder();
+            var tesselator = Tesselator.getInstance();
+            var buf = tesselator.getBuilder();
             buf.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
-            int bx = Mth.floor(x * scale + 0.5);
-            int by = Mth.floor(y * scale + 0.5);
-            int bw = Mth.floor((cw == 0 ? component.getWidth() : cw) * scale + 0.5);
-            int bh = Mth.floor(component.getHeight() * scale + 0.5);
-            int color = (0xFF << 24) + Mth.hsvToRgb(RANDOM.nextFloat(), RANDOM.nextFloat(), 1f);
+            var bx = Mth.floor(x * scale + 0.5);
+            var by = Mth.floor(y * scale + 0.5);
+            var bw = Mth.floor((cw == 0 ? component.getWidth() : cw) * scale + 0.5);
+            var bh = Mth.floor(component.getHeight() * scale + 0.5);
+            var color = (0xFF << 24) + Mth.hsvToRgb(RANDOM.nextFloat(), RANDOM.nextFloat(), 1f);
             renderRectBorder(ctx.pose().last().pose(), buf, bx, by, bw, bh, 1, color, color);
             tesselator.end();
 
@@ -75,15 +75,15 @@ public final class DisplayUtil {
     }
 
     public static void fillGradient(Matrix4f matrix, BufferBuilder buf, int x, int y, int w, int h, int start, int end) {
-        float sa = FastColor.ARGB32.alpha(start) / 255.0F;
-        float sr = FastColor.ARGB32.red(start) / 255.0F;
-        float sg = FastColor.ARGB32.green(start) / 255.0F;
-        float sb = FastColor.ARGB32.blue(start) / 255.0F;
+        var sa = FastColor.ARGB32.alpha(start) / 255.0F;
+        var sr = FastColor.ARGB32.red(start) / 255.0F;
+        var sg = FastColor.ARGB32.green(start) / 255.0F;
+        var sb = FastColor.ARGB32.blue(start) / 255.0F;
 
-        float ea = FastColor.ARGB32.alpha(end) / 255.0F;
-        float er = FastColor.ARGB32.red(end) / 255.0F;
-        float eg = FastColor.ARGB32.green(end) / 255.0F;
-        float eb = FastColor.ARGB32.blue(end) / 255.0F;
+        var ea = FastColor.ARGB32.alpha(end) / 255.0F;
+        var er = FastColor.ARGB32.red(end) / 255.0F;
+        var eg = FastColor.ARGB32.green(end) / 255.0F;
+        var eb = FastColor.ARGB32.blue(end) / 255.0F;
 
         buf.vertex(matrix, x, y, 0).color(sr, sg, sb, sa).endVertex();
         buf.vertex(matrix, x, y + h, 0).color(er, eg, eb, ea).endVertex();

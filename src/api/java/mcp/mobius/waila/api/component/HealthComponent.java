@@ -42,12 +42,12 @@ public class HealthComponent implements ITooltipComponent {
 
     @Override
     public void render(GuiGraphics ctx, int x, int y, float delta) {
-        int filled = health / 2 - 1;
-        int half = filled + health % 2;
+        var filled = health / 2 - 1;
+        var half = filled + health % 2;
 
-        for (int i = iconCount - 1; i >= 0; i--) {
-            int ix = x + ((i % lineWidth) * 8);
-            int iy = y + ((i / lineWidth) * 3);
+        for (var i = iconCount - 1; i >= 0; i--) {
+            var ix = x + ((i % lineWidth) * 8);
+            var iy = y + ((i / lineWidth) * 3);
 
             ctx.blit(WailaHelper.GUI_ICONS_TEXTURE, ix, iy, 16, 0, 9, 9);
             if (i <= filled) {

@@ -41,8 +41,8 @@ public enum DataWriter implements IDataWriter {
 
     public void sendTypedPackets(PacketSender sender, ServerPlayer player) {
         typed.forEach((type, data) -> {
-            final boolean[] finished = {false};
-            for (Consumer<Result<IData>> consumer : data) {
+            final var finished = new boolean[]{false};
+            for (var consumer : data) {
                 try {
                     consumer.accept(new Result<>() {
                         boolean added = false;

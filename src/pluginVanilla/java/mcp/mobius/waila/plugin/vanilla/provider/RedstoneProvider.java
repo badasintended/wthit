@@ -36,7 +36,7 @@ public enum RedstoneProvider implements IBlockComponentProvider {
         }
 
         if (config.getBoolean(Options.REDSTONE_COMPARATOR) && accessor.getBlock() == Blocks.COMPARATOR) {
-            ComparatorMode mode = accessor.getBlockState().getValue(BlockStateProperties.MODE_COMPARATOR);
+            var mode = accessor.getBlockState().getValue(BlockStateProperties.MODE_COMPARATOR);
             tooltip.addLine(new PairComponent(
                 Component.translatable(Tl.Tooltip.MODE),
                 Component.translatable(mode == ComparatorMode.COMPARE ? Tl.Tooltip.MODE_COMPARATOR : Tl.Tooltip.MODE_SUBTRACTOR)));

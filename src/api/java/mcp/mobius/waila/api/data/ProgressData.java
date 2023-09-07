@@ -75,7 +75,7 @@ public final class ProgressData implements IData {
     public ProgressData input(int... slots) {
         assertInventory();
         ensureInputSpace(slots.length);
-        for (int slot : slots) input.add(inventory.apply(slot));
+        for (var slot : slots) input.add(inventory.apply(slot));
         return this;
     }
 
@@ -122,7 +122,7 @@ public final class ProgressData implements IData {
     public ProgressData output(int... slots) {
         assertInventory();
         ensureOutputSpace(slots.length);
-        for (int slot : slots) output.add(inventory.apply(slot));
+        for (var slot : slots) output.add(inventory.apply(slot));
         return this;
     }
 
@@ -167,15 +167,15 @@ public final class ProgressData implements IData {
     public ProgressData(FriendlyByteBuf buf) {
         this.ratio = buf.readFloat();
 
-        int inputSize = buf.readVarInt();
+        var inputSize = buf.readVarInt();
         input.ensureCapacity(inputSize);
-        for (int i = 0; i < inputSize; i++) {
+        for (var i = 0; i < inputSize; i++) {
             input.add(buf.readItem());
         }
 
-        int outputSize = buf.readVarInt();
+        var outputSize = buf.readVarInt();
         output.ensureCapacity(outputSize);
-        for (int i = 0; i < outputSize; i++) {
+        for (var i = 0; i < outputSize; i++) {
             output.add(buf.readItem());
         }
     }
@@ -187,12 +187,12 @@ public final class ProgressData implements IData {
         buf.writeFloat(ratio);
 
         buf.writeVarInt(input.size());
-        for (ItemStack stack : input) {
+        for (var stack : input) {
             buf.writeItem(stack);
         }
 
         buf.writeVarInt(output.size());
-        for (ItemStack stack : output) {
+        for (var stack : output) {
             buf.writeItem(stack);
         }
     }

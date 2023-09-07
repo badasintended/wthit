@@ -6,12 +6,17 @@
   "refmap"            : "wthit.refmap.json",
   "mixins"            : [
     "AbstractFurnaceBlockEntityAccess",
+    "BaseContainerBlockEntityAccess",
+    "ChiseledBookShelfBlockAccess",
+    "ChiseledBookShelfBlockEntityAccess",
     "EntityAccess",
     "NoteBlockAccess",
-    "RandomizableContainerBlockEntityAccess"
+    "RandomizableContainerBlockEntityAccess",
+    "ReloadableServerResourcesMixin"
   ],
   "client"            : [
     "BossHealthOverlayAccess",
+    "ClientPacketListenerMixin",
     "EditBoxAccess",
     "GuiAccess",
     "KeyMappingAccess",

@@ -6,7 +6,6 @@ import lol.bai.badpackets.api.PacketSender;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.access.DataAccessor;
 import mcp.mobius.waila.api.IBlockComponentProvider;
-import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.TooltipPosition;
 import mcp.mobius.waila.api.component.EmptyComponent;
@@ -19,8 +18,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
@@ -30,11 +27,11 @@ import org.jetbrains.annotations.Nullable;
 public class ComponentHandler {
 
     public static void gatherBlock(DataAccessor accessor, Tooltip tooltip, TooltipPosition position) {
-        Registrar registrar = Registrar.INSTANCE;
-        Block block = accessor.getBlock();
-        BlockEntity blockEntity = accessor.getBlockEntity();
+        var registrar = Registrar.INSTANCE;
+        var block = accessor.getBlock();
+        var blockEntity = accessor.getBlockEntity();
 
-        int rate = Waila.CONFIG.get().getGeneral().getRateLimit();
+        var rate = Waila.CONFIG.get().getGeneral().getRateLimit();
 
         if (blockEntity != null && accessor.isTimeElapsed(rate) && Waila.CONFIG.get().getGeneral().isDisplayTooltip()) {
             accessor.resetTimer();
@@ -49,9 +46,9 @@ public class ComponentHandler {
 
     @SuppressWarnings("DuplicatedCode")
     private static void handleBlock(DataAccessor accessor, Tooltip tooltip, Object obj, TooltipPosition position) {
-        Registrar registrar = Registrar.INSTANCE;
-        List<IBlockComponentProvider> providers = registrar.blockComponent.get(position).get(obj);
-        for (IBlockComponentProvider provider : providers) {
+        var registrar = Registrar.INSTANCE;
+        var providers = registrar.blockComponent.get(position).get(obj);
+        for (var provider : providers) {
             try {
                 switch (position) {
                     case HEAD -> provider.appendHead(tooltip, accessor, PluginConfig.CLIENT);
@@ -66,10 +63,10 @@ public class ComponentHandler {
 
     @SuppressWarnings("DuplicatedCode")
     public static void gatherEntity(Entity entity, DataAccessor accessor, Tooltip tooltip, TooltipPosition position) {
-        Registrar registrar = Registrar.INSTANCE;
-        Entity trueEntity = accessor.getEntity();
+        var registrar = Registrar.INSTANCE;
+        var trueEntity = accessor.getEntity();
 
-        int rate = Waila.CONFIG.get().getGeneral().getRateLimit();
+        var rate = Waila.CONFIG.get().getGeneral().getRateLimit();
 
         if (trueEntity != null && accessor.isTimeElapsed(rate)) {
             accessor.resetTimer();
@@ -79,8 +76,8 @@ public class ComponentHandler {
             }
         }
 
-        List<IEntityComponentProvider> providers = registrar.entityComponent.get(position).get(entity);
-        for (IEntityComponentProvider provider : providers) {
+        var providers = registrar.entityComponent.get(position).get(entity);
+        for (var provider : providers) {
             try {
                 switch (position) {
                     case HEAD -> provider.appendHead(tooltip, accessor, PluginConfig.CLIENT);
@@ -94,30 +91,30 @@ public class ComponentHandler {
     }
 
     public static ITooltipComponent getIcon(HitResult target) {
-        Registrar registrar = Registrar.INSTANCE;
-        DataAccessor data = DataAccessor.INSTANCE;
-        PluginConfig config = PluginConfig.CLIENT;
+        var registrar = Registrar.INSTANCE;
+        var data = DataAccessor.INSTANCE;
+        var config = PluginConfig.CLIENT;
 
         if (target.getType() == HitResult.Type.ENTITY) {
-            List<IEntityComponentProvider> providers = registrar.entityIcon.get(data.getEntity());
-            for (IEntityComponentProvider provider : providers) {
-                ITooltipComponent icon = provider.getIcon(data, config);
+            var providers = registrar.entityIcon.get(data.getEntity());
+            for (var provider : providers) {
+                var icon = provider.getIcon(data, config);
                 if (icon != null) {
                     return icon;
                 }
             }
         } else {
-            BlockState state = data.getBlockState();
+            var state = data.getBlockState();
             if (state.isAir()) {
                 return EmptyComponent.INSTANCE;
             }
 
-            ITooltipComponent component = getBlockIcon(registrar.blockIcon.get(state.getBlock()));
+            var component = getBlockIcon(registrar.blockIcon.get(state.getBlock()));
             if (component != null) {
                 return component;
             }
 
-            BlockEntity blockEntity = data.getBlockEntity();
+            var blockEntity = data.getBlockEntity();
             if (blockEntity != null) {
                 component = getBlockIcon(registrar.blockIcon.get(blockEntity));
                 if (component != null) {
@@ -131,8 +128,8 @@ public class ComponentHandler {
 
     @Nullable
     private static ITooltipComponent getBlockIcon(List<IBlockComponentProvider> providers) {
-        for (IBlockComponentProvider provider : providers) {
-            ITooltipComponent icon = provider.getIcon(DataAccessor.INSTANCE, PluginConfig.CLIENT);
+        for (var provider : providers) {
+            var icon = provider.getIcon(DataAccessor.INSTANCE, PluginConfig.CLIENT);
             if (icon != null) {
                 return icon;
             }
@@ -145,12 +142,12 @@ public class ComponentHandler {
             return null;
         }
 
-        Registrar registrar = Registrar.INSTANCE;
-        Entity entity = ((EntityHitResult) target).getEntity();
+        var registrar = Registrar.INSTANCE;
+        var entity = ((EntityHitResult) target).getEntity();
 
-        List<IEntityComponentProvider> overrideProviders = registrar.entityOverride.get(entity);
-        for (IEntityComponentProvider provider : overrideProviders) {
-            Entity override = provider.getOverride(DataAccessor.INSTANCE, PluginConfig.CLIENT);
+        var overrideProviders = registrar.entityOverride.get(entity);
+        for (var provider : overrideProviders) {
+            var override = provider.getOverride(DataAccessor.INSTANCE, PluginConfig.CLIENT);
             if (override != null) {
                 return override;
             }
@@ -160,25 +157,25 @@ public class ComponentHandler {
     }
 
     public static BlockState getOverrideBlock(HitResult target) {
-        Registrar registrar = Registrar.INSTANCE;
+        var registrar = Registrar.INSTANCE;
 
         Level world = Minecraft.getInstance().level;
-        BlockPos pos = ((BlockHitResult) target).getBlockPos();
+        var pos = ((BlockHitResult) target).getBlockPos();
         //noinspection ConstantConditions
-        BlockState state = world.getBlockState(pos);
+        var state = world.getBlockState(pos);
 
-        List<IBlockComponentProvider> providers = registrar.blockOverride.get(state.getBlock());
-        for (IBlockComponentProvider provider : providers) {
-            BlockState override = provider.getOverride(DataAccessor.INSTANCE, PluginConfig.CLIENT);
+        var providers = registrar.blockOverride.get(state.getBlock());
+        for (var provider : providers) {
+            var override = provider.getOverride(DataAccessor.INSTANCE, PluginConfig.CLIENT);
             if (override != null) {
                 return override;
             }
         }
 
-        BlockEntity blockEntity = world.getBlockEntity(pos);
+        var blockEntity = world.getBlockEntity(pos);
         providers = registrar.blockOverride.get(blockEntity);
-        for (IBlockComponentProvider provider : providers) {
-            BlockState override = provider.getOverride(DataAccessor.INSTANCE, PluginConfig.CLIENT);
+        for (var provider : providers) {
+            var override = provider.getOverride(DataAccessor.INSTANCE, PluginConfig.CLIENT);
             if (override != null) {
                 return override;
             }

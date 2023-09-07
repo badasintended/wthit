@@ -133,7 +133,7 @@ public final class FluidData implements IData {
         stored = Mth.clamp(stored, 0.0, capacity);
         if (capacity == 0) capacity = Double.POSITIVE_INFINITY;
 
-        Fluid source = fluid instanceof FlowingFluid flowing ? flowing.getSource() : fluid;
+        var source = fluid instanceof FlowingFluid flowing ? flowing.getSource() : fluid;
         entries.add(new Entry<>(source, nbt, stored, capacity));
         return this;
     }
@@ -239,17 +239,17 @@ public final class FluidData implements IData {
     public FluidData(FriendlyByteBuf buf) {
         unit = buf.readEnum(Unit.class);
 
-        int size = buf.readVarInt();
+        var size = buf.readVarInt();
         entries = new ArrayList<>(size);
 
-        for (int i = 0; i < size; i++) {
+        for (var i = 0; i < size; i++) {
             if (buf.readBoolean()) continue;
 
-            int id = buf.readVarInt();
-            Fluid fluid = BuiltInRegistries.FLUID.byId(id);
-            CompoundTag nbt = buf.readNbt();
-            double stored = buf.readDouble();
-            double capacity = buf.readDouble();
+            var id = buf.readVarInt();
+            var fluid = BuiltInRegistries.FLUID.byId(id);
+            var nbt = buf.readNbt();
+            var stored = buf.readDouble();
+            var capacity = buf.readDouble();
             add(fluid, nbt, stored, capacity);
         }
     }
@@ -261,7 +261,7 @@ public final class FluidData implements IData {
         buf.writeEnum(unit);
         buf.writeVarInt(entries.size());
 
-        for (Entry<?> entry : entries) {
+        for (var entry : entries) {
             if (entry.isEmpty()) {
                 buf.writeBoolean(true);
             } else {

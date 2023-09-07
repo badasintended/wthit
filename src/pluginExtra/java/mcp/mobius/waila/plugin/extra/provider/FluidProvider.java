@@ -12,7 +12,6 @@ import mcp.mobius.waila.api.component.SpriteBarComponent;
 import mcp.mobius.waila.api.component.WrappedComponent;
 import mcp.mobius.waila.api.data.FluidData;
 import mcp.mobius.waila.plugin.extra.data.FluidDescription;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
@@ -40,14 +39,14 @@ public class FluidProvider extends DataProvider<FluidData> {
 
     private void addFluidTooltip(ITooltip tooltip, FluidData data, IPluginConfig config) {
         FluidData.Unit displayUnit = config.getEnum(FluidData.CONFIG_DISPLAY_UNIT);
-        FluidData.Unit storedUnit = data.unit();
+        var storedUnit = data.unit();
 
-        for (FluidData.Entry<?> entry : data.entries()) {
-            FluidDescription desc = FluidDescription.getFluidDesc(entry);
+        for (var entry : data.entries()) {
+            var desc = FluidDescription.getFluidDesc(entry);
 
-            double stored = entry.stored();
-            double capacity = entry.capacity();
-            float ratio = Double.isInfinite(capacity) ? 1f : (float) (stored / capacity);
+            var stored = entry.stored();
+            var capacity = entry.capacity();
+            var ratio = Double.isInfinite(capacity) ? 1f : (float) (stored / capacity);
 
             String text;
             if (Double.isInfinite(stored)) text = INFINITE;
@@ -58,7 +57,7 @@ public class FluidProvider extends DataProvider<FluidData> {
 
             text += " " + displayUnit.symbol;
 
-            TextureAtlasSprite sprite = desc.sprite();
+            var sprite = desc.sprite();
             tooltip.addLine(new PairComponent(
                 new WrappedComponent(desc.name().getString()),
                 new SpriteBarComponent(ratio, sprite, 16, 16, desc.tint(), Component.literal(text))));
@@ -71,10 +70,9 @@ public class FluidProvider extends DataProvider<FluidData> {
         public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
             if (accessor.getData().get(FluidData.class) != null) return;
             if (!config.getBoolean(enabledBlockOption)) return;
-            if (blacklistConfig.get().blocks.contains(accessor.getBlock())) return;
-            if (accessor.getBlockState().is(blockBlacklistTag)) return;
+            if (blacklistConfig.get().getView().blockFilter.matches(accessor.getBlock())) return;
 
-            FluidData fluidData = FluidDescription.getCauldronFluidData(accessor.getBlockState());
+            var fluidData = FluidDescription.getCauldronFluidData(accessor.getBlockState());
             if (fluidData != null) addFluidTooltip(tooltip, fluidData, config);
         }
 

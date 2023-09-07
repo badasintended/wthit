@@ -10,6 +10,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.ApiStatus;
@@ -32,7 +33,7 @@ public interface IBlockAccessor {
 
     @Nullable <T extends BlockEntity> T getBlockEntity();
 
-    HitResult getHitResult();
+    BlockHitResult getBlockHitResult();
 
     BlockPos getPosition();
 
@@ -48,6 +49,8 @@ public interface IBlockAccessor {
 
     ItemStack getStack();
 
+    int getUpdateId();
+
     // -----------------------------------------------------------------------------------------------------------------------------------------------
     // TODO: Remove
 
@@ -57,5 +60,12 @@ public interface IBlockAccessor {
     @Deprecated(forRemoval = true)
     @ApiStatus.ScheduledForRemoval(inVersion = "1.21")
     CompoundTag getServerData();
+
+    /**
+     * @deprecated use {@link #getBlockHitResult()}
+     */
+    @Deprecated
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.21")
+    HitResult getHitResult();
 
 }

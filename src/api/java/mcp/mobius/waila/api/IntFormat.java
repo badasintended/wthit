@@ -69,7 +69,7 @@ public enum IntFormat implements Predicate<String> {
     }
 
     private static String serializeHex(int integer, int lenght) {
-        String res = Integer.toHexString(integer).toUpperCase(Locale.ROOT);
+        var res = Integer.toHexString(integer).toUpperCase(Locale.ROOT);
         if (res.length() < lenght) {
             res = StringUtils.repeat('0', lenght - res.length()) + res;
         }

@@ -1,7 +1,6 @@
 package mcp.mobius.waila.forge;
 
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Arrays;
 
 import mcp.mobius.waila.api.IPluginInfo;
@@ -11,8 +10,6 @@ import mcp.mobius.waila.plugin.PluginLoader;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.FMLLoader;
-import net.minecraftforge.forgespi.language.IModFileInfo;
-import net.minecraftforge.forgespi.language.ModFileScanData;
 
 public class ForgePluginLoader extends PluginLoader {
 
@@ -21,22 +18,22 @@ public class ForgePluginLoader extends PluginLoader {
 
     @Override
     protected void gatherPlugins() {
-        for (IModFileInfo modFile : ModList.get().getModFiles()) {
-            for (String file : PLUGIN_JSON_FILES) {
-                Path path = modFile.getFile().findResource(file);
+        for (var modFile : ModList.get().getModFiles()) {
+            for (var file : PLUGIN_JSON_FILES) {
+                var path = modFile.getFile().findResource(file);
                 if (Files.exists(path)) {
                     readPluginsJson(modFile.getMods().get(0).getModId(), path);
                 }
             }
 
-            for (ModFileScanData.AnnotationData annotation : modFile.getFile().getScanResult().getAnnotations()) {
+            for (var annotation : modFile.getFile().getScanResult().getAnnotations()) {
                 if (annotation.annotationType().getClassName().equals(WAILA_PLUGIN)) {
-                    String id = (String) annotation.annotationData().get("id");
-                    String[] required = (String[]) annotation.annotationData().getOrDefault("required", new String[0]);
-                    IPluginInfo.Side side = (IPluginInfo.Side) annotation.annotationData().get("side");
+                    var id = (String) annotation.annotationData().get("id");
+                    var required = (String[]) annotation.annotationData().getOrDefault("required", new String[0]);
+                    var side = (IPluginInfo.Side) annotation.annotationData().get("side");
 
-                    boolean satisfied = true;
-                    for (String dep : required) {
+                    var satisfied = true;
+                    for (var dep : required) {
                         satisfied &= ModList.get().isLoaded(dep);
                     }
 

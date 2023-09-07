@@ -46,7 +46,7 @@ public class CycleValue extends ConfigValue<String> {
     }
 
     public void removeValue(String value) {
-        int index = values.indexOf(value);
+        var index = values.indexOf(value);
         if (index > -1) {
             values.remove(index);
             setValue(values.get(index % values.size()));

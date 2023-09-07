@@ -48,10 +48,10 @@ public class ItemListComponent implements ITooltipComponent.HorizontalGrowing {
 
     @Override
     public void render(GuiGraphics ctx, int x, int y, float delta) {
-        for (int i = 0; i < items.size(); i++) {
-            ItemStack item = items.get(i);
-            int ix = x + (18 * (i % gridWidth)) + 1;
-            int iy = y + (18 * (i / gridWidth)) + 1;
+        for (var i = 0; i < items.size(); i++) {
+            var item = items.get(i);
+            var ix = x + (18 * (i % gridWidth)) + 1;
+            var iy = y + (18 * (i / gridWidth)) + 1;
             ctx.renderItem(item, ix, iy);
             ctx.renderItemDecorations(Minecraft.getInstance().font, item, ix, iy);
 

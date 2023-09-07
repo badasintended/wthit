@@ -1,7 +1,6 @@
 package mcp.mobius.waila.gui.hud;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -55,7 +54,7 @@ public class Line implements ITooltipLine {
         if (fixedWidth != -1) return;
 
         fixedWidth = components.stream().mapToInt(c -> {
-            int width = c.getWidth();
+            var width = c.getWidth();
             if (c instanceof HorizontalGrowing) growingMinWidth += width;
             widths.put(c, width);
             return width;
@@ -68,8 +67,8 @@ public class Line implements ITooltipLine {
         if (width != -1) return;
 
         if (growingWeight > 0) {
-            int fixedWidth = this.fixedWidth - growingMinWidth;
-            int unfrozenWeight = growingWeight;
+            var fixedWidth = this.fixedWidth - growingMinWidth;
+            var unfrozenWeight = growingWeight;
 
             List<HorizontalGrowing> calculate = components.stream()
                 .filter(it -> it instanceof HorizontalGrowing)
@@ -77,17 +76,17 @@ public class Line implements ITooltipLine {
                 .collect(Collectors.toCollection(ArrayList::new));
 
             while (!calculate.isEmpty()) {
-                float growingWidth = -1f;
-                boolean success = true;
+                var growingWidth = -1f;
+                var success = true;
 
-                Iterator<HorizontalGrowing> iterator = calculate.iterator();
+                var iterator = calculate.iterator();
                 while (iterator.hasNext()) {
-                    HorizontalGrowing growing = iterator.next();
+                    var growing = iterator.next();
                     if (growingWidth == -1) {
                         growingWidth = (float) (maxWidth - fixedWidth) / unfrozenWeight;
                     }
 
-                    int weightedWidth = (int) (growingWidth * growing.getWeight());
+                    var weightedWidth = (int) (growingWidth * growing.getWeight());
                     int newWidth;
                     if (weightedWidth > growing.getMinimalWidth()) {
                         newWidth = weightedWidth;
@@ -108,7 +107,7 @@ public class Line implements ITooltipLine {
         }
 
         width = components.stream().mapToInt(c -> {
-            int width = widths.getInt(c);
+            var width = widths.getInt(c);
             return width > 0 ? width + 1 : 0;
         }).sum();
 
@@ -119,7 +118,7 @@ public class Line implements ITooltipLine {
         if (height != -1) return;
 
         height = components.stream().mapToInt(c -> {
-            int height = c.getHeight();
+            var height = c.getHeight();
             heights.put(c, height);
             return height;
         }).max().orElse(0);
@@ -143,13 +142,13 @@ public class Line implements ITooltipLine {
     public void render(GuiGraphics ctx, int x, int y, float delta) {
         Preconditions.checkState(width != -1 && height != -1);
 
-        int cx = x;
-        for (ITooltipComponent component : components) {
-            int w = widths.getInt(component);
+        var cx = x;
+        for (var component : components) {
+            var w = widths.getInt(component);
             if (w <= 0) continue;
-            int h = heights.getInt(component);
+            var h = heights.getInt(component);
 
-            int cy = y + (h < height ? (height - h) / 2 : 0);
+            var cy = y + (h < height ? (height - h) / 2 : 0);
             DisplayUtil.renderComponent(ctx, component, cx, cy, w, delta);
             cx += w + 1;
         }

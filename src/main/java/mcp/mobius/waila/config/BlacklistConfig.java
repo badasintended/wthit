@@ -12,30 +12,36 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IBlacklistConfig;
+import mcp.mobius.waila.api.IRegistryFilter;
+import mcp.mobius.waila.util.Log;
 import net.minecraft.core.Registry;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import org.jetbrains.annotations.Nullable;
 
-public class BlacklistConfig implements IBlacklistConfig {
+public class BlacklistConfig {
+
+    private static final Log LOG = Log.create();
+    private static final String BLACKLIST_TAG = "#" + Waila.id("blacklist");
 
     public static final int VERSION = 0;
+
+    public final LinkedHashSet<String> blocks = new LinkedHashSet<>();
+    public final LinkedHashSet<String> blockEntityTypes = new LinkedHashSet<>();
+    public final LinkedHashSet<String> entityTypes = new LinkedHashSet<>();
 
     private int configVersion = 0;
     public int[] pluginHash = {0, 0, 0};
 
-    public final transient LinkedHashSet<Block> blocks = new LinkedHashSet<>();
-    public final transient LinkedHashSet<BlockEntityType<?>> blockEntityTypes = new LinkedHashSet<>();
-    public final transient LinkedHashSet<EntityType<?>> entityTypes = new LinkedHashSet<>();
-
-    public final LinkedHashSet<ResourceLocation> blockIds = new LinkedHashSet<>();
-    public final LinkedHashSet<ResourceLocation> blockEntityTypeIds = new LinkedHashSet<>();
-    public final LinkedHashSet<ResourceLocation> entityTypeIds = new LinkedHashSet<>();
+    @Nullable
+    private transient View view;
 
     public int getConfigVersion() {
         return configVersion;
@@ -45,57 +51,89 @@ public class BlacklistConfig implements IBlacklistConfig {
         this.configVersion = configVersion;
     }
 
-    @Override
-    public boolean contains(Block block) {
-        return blocks.contains(block);
+    public View getView() {
+        if (view == null) view = new View();
+        return view;
     }
 
-    @Override
-    public boolean contains(BlockEntity blockEntity) {
-        return blockEntityTypes.contains(blockEntity.getType());
-    }
+    public class View implements IBlacklistConfig {
 
-    @Override
-    public boolean contains(Entity entity) {
-        return entityTypes.contains(entity.getType());
+        public final IRegistryFilter<Block> blockFilter;
+        public final IRegistryFilter<BlockEntityType<?>> blockEntityFilter;
+        public final IRegistryFilter<EntityType<?>> entityFilter;
+
+        private @Nullable IRegistryFilter<Block> syncedBlockFilter = null;
+        private @Nullable IRegistryFilter<BlockEntityType<?>> syncedBlockEntityFilter = null;
+        private @Nullable IRegistryFilter<EntityType<?>> syncedEntityFilter = null;
+
+        private View() {
+            blockFilter = IRegistryFilter.of(Registries.BLOCK).parse(blocks).build();
+            blockEntityFilter = IRegistryFilter.of(Registries.BLOCK_ENTITY_TYPE).parse(blockEntityTypes).build();
+            entityFilter = IRegistryFilter.of(Registries.ENTITY_TYPE).parse(entityTypes).build();
+        }
+
+        public void sync(Set<String> blockRules, Set<String> blockEntityRules, Set<String> entityRules) {
+            syncedBlockFilter = sync(Registries.BLOCK, blocks, blockRules);
+            syncedBlockEntityFilter = sync(Registries.BLOCK_ENTITY_TYPE, blockEntityTypes, blockEntityRules);
+            syncedEntityFilter = sync(Registries.ENTITY_TYPE, entityTypes, entityRules);
+        }
+
+        private static <T> IRegistryFilter<T> sync(ResourceKey<? extends Registry<T>> registryKey, Set<String> localRules, Set<String> syncedRules) {
+            LOG.debug("Syncing blacklist {}", registryKey.location());
+
+            return IRegistryFilter.of(registryKey)
+                .parse(syncedRules.stream()
+                    .filter(it -> !localRules.contains(it))
+                    .toArray(String[]::new))
+                .build();
+        }
+
+        @Override
+        public boolean contains(Block block) {
+            return blockFilter.matches(block) || (syncedBlockFilter != null && syncedBlockFilter.matches(block));
+        }
+
+        @Override
+        public boolean contains(BlockEntity blockEntity) {
+            var type = blockEntity.getType();
+            return blockEntityFilter.matches(type) || (syncedBlockEntityFilter != null && syncedBlockEntityFilter.matches(type));
+        }
+
+        @Override
+        public boolean contains(Entity entity) {
+            var type = entity.getType();
+            return entityFilter.matches(type) || (syncedEntityFilter != null && syncedEntityFilter.matches(type));
+        }
+
     }
 
     public static class Adapter implements JsonSerializer<BlacklistConfig>, JsonDeserializer<BlacklistConfig> {
 
-        private <T> void serialize(JsonObject object, String key, Registry<T> registry, Set<ResourceLocation> rlSet, Set<T> tSet) {
-            JsonArray array = new JsonArray();
-
-            for (T t : tSet) {
-                rlSet.add(registry.getKey(t));
-            }
-            for (ResourceLocation rl : rlSet) {
-                array.add(rl.toString());
-            }
-
-            object.add(key, array);
-        }
-
-        private <T> void deserialize(JsonObject object, String key, Registry<T> registry, Set<ResourceLocation> rlSet, Set<T> tSet) {
-            JsonArray array = object.getAsJsonArray(key);
-            for (JsonElement element : array) {
-                ResourceLocation rl = new ResourceLocation(element.getAsString());
-                rlSet.add(rl);
-                registry.getOptional(rl).ifPresent(tSet::add);
-            }
-        }
-
         @Override
         public JsonElement serialize(BlacklistConfig src, Type typeOfSrc, JsonSerializationContext context) {
-            JsonObject object = new JsonObject();
+            var object = new JsonObject();
 
-            JsonArray comment = new JsonArray();
-            comment.add("On the SERVER, changes will be applied after the server is restarted");
-            comment.add("On the CLIENT, changes will be applied after player quit and rejoin a world");
-            object.add("_comment", comment);
+            var comments = """
+                On the SERVER, changes will be applied after the server is restarted
+                On the CLIENT, changes will be applied after player quit and rejoin a world
+                                
+                Rule Operators:
+                @namespace - Filter objects based on their namespace location
+                #tag       - Filter objects based on data pack tags
+                /regex/    - Filter objects based on regular expression
+                default    - Filter objects with specific ID
+                                
+                The %s tag rule can not be removed"""
+                .formatted(BLACKLIST_TAG)
+                .split("\n");
 
-            serialize(object, "blocks", BuiltInRegistries.BLOCK, src.blockIds, src.blocks);
-            serialize(object, "blockEntityTypes", BuiltInRegistries.BLOCK_ENTITY_TYPE, src.blockEntityTypeIds, src.blockEntityTypes);
-            serialize(object, "entityTypes", BuiltInRegistries.ENTITY_TYPE, src.entityTypeIds, src.entityTypes);
+            var commentArray = new JsonArray();
+            for (var line : comments) commentArray.add(line);
+            object.add("_comment", commentArray);
+
+            object.add("blocks", context.serialize(src.blocks));
+            object.add("blockEntityTypes", context.serialize(src.blockEntityTypes));
+            object.add("entityTypes", context.serialize(src.entityTypes));
 
             object.addProperty("configVersion", src.configVersion);
             object.add("pluginHash", context.serialize(src.pluginHash));
@@ -105,18 +143,27 @@ public class BlacklistConfig implements IBlacklistConfig {
 
         @Override
         public BlacklistConfig deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-            JsonObject object = json.getAsJsonObject();
+            var object = json.getAsJsonObject();
+            var res = new BlacklistConfig();
 
-            BlacklistConfig res = new BlacklistConfig();
+            res.blocks.add(BLACKLIST_TAG);
+            res.blockEntityTypes.add(BLACKLIST_TAG);
+            res.entityTypes.add(BLACKLIST_TAG);
 
-            deserialize(object, "blocks", BuiltInRegistries.BLOCK, res.blockIds, res.blocks);
-            deserialize(object, "blockEntityTypes", BuiltInRegistries.BLOCK_ENTITY_TYPE, res.blockEntityTypeIds, res.blockEntityTypes);
-            deserialize(object, "entityTypes", BuiltInRegistries.ENTITY_TYPE, res.entityTypeIds, res.entityTypes);
+            deserializeEntries(res.blocks, object.getAsJsonArray("blocks"));
+            deserializeEntries(res.blockEntityTypes, object.getAsJsonArray("blockEntityTypes"));
+            deserializeEntries(res.entityTypes, object.getAsJsonArray("entityTypes"));
 
             res.configVersion = object.get("configVersion").getAsInt();
             res.pluginHash = context.deserialize(object.get("pluginHash"), int[].class);
 
             return res;
+        }
+
+        private void deserializeEntries(LinkedHashSet<String> set, JsonArray array) {
+            for (var entry : array) {
+                set.add(entry.getAsString());
+            }
         }
 
     }

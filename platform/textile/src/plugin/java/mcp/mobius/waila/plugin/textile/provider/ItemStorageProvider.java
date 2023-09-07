@@ -36,28 +36,28 @@ public enum ItemStorageProvider implements IDataProvider<BlockEntity> {
                 cache = BlockApiCache.create(ItemStorage.SIDED, (ServerLevel) accessor.getWorld(), accessor.getTarget().getBlockPos());
             }
 
-            Storage<ItemVariant> storage = cache.find(accessor.getTarget().getBlockState(), null);
+            var storage = cache.find(accessor.getTarget().getBlockState(), null);
 
             if (storage instanceof SingleSlotStorage<ItemVariant> single) {
-                ItemData itemData = ItemData.of(config);
+                var itemData = ItemData.of(config);
                 addItem(itemData, single);
                 res.add(itemData);
             } else if (storage instanceof SlottedStorage<ItemVariant> slotted) {
-                int size = slotted.getSlotCount();
-                ItemData itemData = ItemData.of(config);
+                var size = slotted.getSlotCount();
+                var itemData = ItemData.of(config);
                 itemData.ensureSpace(size);
 
-                for (int i = 0; i < size; i++) {
-                    SingleSlotStorage<ItemVariant> slot = slotted.getSlot(i);
+                for (var i = 0; i < size; i++) {
+                    var slot = slotted.getSlot(i);
                     addItem(itemData, slot);
                 }
 
                 res.add(itemData);
             } else if (storage != null) {
                 Set<StorageView<ItemVariant>> uniqueViews = new HashSet<>();
-                ItemData itemData = ItemData.of(config);
+                var itemData = ItemData.of(config);
 
-                for (StorageView<ItemVariant> view : storage) {
+                for (var view : storage) {
                     addItem(uniqueViews, itemData, view);
                 }
 
@@ -67,7 +67,7 @@ public enum ItemStorageProvider implements IDataProvider<BlockEntity> {
     }
 
     private void addItem(Set<StorageView<ItemVariant>> uniqueViews, ItemData itemData, StorageView<ItemVariant> view) {
-        StorageView<ItemVariant> uniqueView = view.getUnderlyingView();
+        var uniqueView = view.getUnderlyingView();
         if (uniqueViews.add(uniqueView)) addItem(itemData, view);
     }
 

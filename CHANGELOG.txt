@@ -1,5 +1,13 @@
 8.x - 1.20.1 - dev/master - java 17
-=================================
+===================================
+8.3.1    - Made it crash if the Fabric version is used on Forge
+           - Using WTHIT with any sort of compatibility layer, be it Fabric-on-Quilt or Fabric-on-Forge (with [Sinytra](https://github.com/Sinytra/Connector/discussions/11)) is unsupported, use the Quilt or Forge jar
+           - Run with `-Dwaila.allowUnsupportedPlatforms=true` JVM argument if you really want to use it (actually works, which is impressive)
+8.3.0    - [API] Added ways to easily mark object containing infinite energy
+         - [API] Changed FluidData to require explicit unit parameter
+         - [API] Improved docs
+         - Added config option to show fluid amount in other unit
+         - Bumped network version to `5`
 8.2.0    - [API] Added complex data types to show progress, energy, items, and fluids data
            - See the [documentation](https://docs.bai.lol/wthit/plugin/server_data/) for mor info
          - Fixed blacklist config rolling back to default when changed (#216)
@@ -27,6 +35,14 @@
 
 7.x - 1.19.4 - dev/1.19.4 - java 17
 ===================================
+7.5.1    - Made it crash if the Fabric version is used on Forge
+           - Using WTHIT with any sort of compatibility layer, be it Fabric-on-Quilt or Fabric-on-Forge (with [Sinytra](https://github.com/Sinytra/Connector/discussions/11)) is unsupported, use the Quilt or Forge jar
+           - Run with `-Dwaila.allowUnsupportedPlatforms=true` JVM argument if you really want to use it (actually works, which is impressive)
+7.5.0    - [API] Added ways to easily mark object containing infinite energy
+         - [API] Changed FluidData to require explicit unit parameter
+         - [API] Improved docs
+         - Added config option to show fluid amount in other unit
+         - Bumped network version to `5`
 7.4.0    - [API] Added complex data types to show progress, energy, items, and fluids data
            - See the [documentation](https://docs.bai.lol/wthit/plugin/server_data/) for mor info
          - Fixed blacklist config rolling back to default when changed (#216)
@@ -69,6 +85,14 @@
 
 6.x - 1.19.3 - dev/1.19.3 - java 17
 ===================================
+6.6.1    - Made it crash if the Fabric version is used on Forge
+           - Using WTHIT with any sort of compatibility layer, be it Fabric-on-Quilt or Fabric-on-Forge (with [Sinytra](https://github.com/Sinytra/Connector/discussions/11)) is unsupported, use the Quilt or Forge jar
+           - Run with `-Dwaila.allowUnsupportedPlatforms=true` JVM argument if you really want to use it (actually works, which is impressive)
+6.6.0    - [API] Added ways to easily mark object containing infinite energy
+         - [API] Changed FluidData to require explicit unit parameter
+         - [API] Improved docs
+         - Added config option to show fluid amount in other unit
+         - Bumped network version to `5`
 6.5.0    - [API] Added complex data types to show progress, energy, items, and fluids data
            - See the [documentation](https://docs.bai.lol/wthit/plugin/server_data/) for mor info
          - Fixed blacklist config rolling back to default when changed (#216)
@@ -115,6 +139,14 @@
 
 5.x - 1.19.2 - dev/1.19.2 - java 17
 ===================================
+5.18.1   - Made it crash if the Fabric version is used on Forge
+           - Using WTHIT with any sort of compatibility layer, be it Fabric-on-Quilt or Fabric-on-Forge (with [Sinytra](https://github.com/Sinytra/Connector/discussions/11)) is unsupported, use the Quilt or Forge jar
+           - Run with `-Dwaila.allowUnsupportedPlatforms=true` JVM argument if you really want to use it (actually works, which is impressive)
+5.18.0   - [API] Added ways to easily mark object containing infinite energy
+         - [API] Changed FluidData to require explicit unit parameter
+         - [API] Improved docs
+         - Added config option to show fluid amount in other unit
+         - Bumped network version to `5`
 5.17.0   - [API] Added complex data types to show progress, energy, items, and fluids data
            - See the [documentation](https://docs.bai.lol/wthit/plugin/server_data/) for mor info
          - Fixed blacklist config rolling back to default when changed (#216)

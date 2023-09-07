@@ -70,7 +70,7 @@ public enum PluginConfig implements IPluginConfig {
     }
 
     public static <T> void set(ResourceLocation key, T value) {
-        ConfigEntry<T> entry = (ConfigEntry<T>) CONFIGS.get(key);
+        var entry = (ConfigEntry<T>) CONFIGS.get(key);
         if (entry != null) {
             entry.setLocalValue(value);
         }
@@ -80,9 +80,9 @@ public enum PluginConfig implements IPluginConfig {
         if (!Files.exists(PATH)) {
             writeConfig();
         }
-        Map<String, Map<String, JsonPrimitive>> config = IO.read(PATH);
+        var config = IO.read(PATH);
         config.forEach((namespace, subMap) -> subMap.forEach((path, value) -> {
-            ConfigEntry<Object> entry = (ConfigEntry<Object>) CONFIGS.get(new ResourceLocation(namespace, path));
+            var entry = (ConfigEntry<Object>) CONFIGS.get(new ResourceLocation(namespace, path));
             if (entry != null) {
                 entry.setLocalValue(entry.getType().parser.apply(value, entry.getDefaultValue()));
             }
@@ -96,9 +96,9 @@ public enum PluginConfig implements IPluginConfig {
 
     private static void writeConfig() {
         Map<String, Map<String, JsonPrimitive>> config = new LinkedHashMap<>();
-        for (ConfigEntry<?> e : CONFIGS.values()) {
-            ConfigEntry<Object> entry = (ConfigEntry<Object>) e;
-            ResourceLocation id = entry.getId();
+        for (var e : CONFIGS.values()) {
+            var entry = (ConfigEntry<Object>) e;
+            var id = entry.getId();
             config.computeIfAbsent(id.getNamespace(), k -> new LinkedHashMap<>())
                 .put(id.getPath(), entry.getType().serializer.apply(entry.getLocalValue()));
         }

@@ -4,16 +4,15 @@ import java.util.List;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import mcp.mobius.waila.access.DataAccessor;
-import mcp.mobius.waila.api.IEventListener;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.config.PluginConfig;
-import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.gui.hud.TooltipHandler;
 import mcp.mobius.waila.gui.screen.HomeScreen;
 import mcp.mobius.waila.integration.IRecipeAction;
 import mcp.mobius.waila.registry.Registrar;
+import mcp.mobius.waila.registry.RegistryFilter;
 import mcp.mobius.waila.service.IClientService;
 import mcp.mobius.waila.util.Log;
 import net.minecraft.client.KeyMapping;
@@ -60,8 +59,8 @@ public abstract class WailaClient {
     }
 
     protected static void onClientTick() {
-        Minecraft client = Minecraft.getInstance();
-        WailaConfig config = Waila.CONFIG.get();
+        var client = Minecraft.getInstance();
+        var config = Waila.CONFIG.get();
 
         TooltipHandler.tick();
 
@@ -92,8 +91,8 @@ public abstract class WailaClient {
 
     protected static void onItemTooltip(ItemStack stack, List<Component> tooltip) {
         if (PluginConfig.CLIENT.getBoolean(WailaConstants.CONFIG_SHOW_ITEM_MOD_NAME)) {
-            for (IEventListener listener : Registrar.INSTANCE.eventListeners.get(Object.class)) {
-                String name = listener.getHoveredItemModName(stack, PluginConfig.CLIENT);
+            for (var listener : Registrar.INSTANCE.eventListeners.get(Object.class)) {
+                var name = listener.getHoveredItemModName(stack, PluginConfig.CLIENT);
                 if (name != null) {
                     tooltip.add(IWailaConfig.get().getFormatter().modName(name));
                     return;
@@ -109,6 +108,7 @@ public abstract class WailaClient {
     }
 
     protected static void onServerLogout(Connection connection) {
+        RegistryFilter.attach(null);
         Waila.BLACKLIST_CONFIG.invalidate();
         PluginConfig.getSyncableConfigs().forEach(config ->
             config.setServerValue(null));

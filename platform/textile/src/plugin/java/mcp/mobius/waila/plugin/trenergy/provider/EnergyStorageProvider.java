@@ -26,7 +26,7 @@ public enum EnergyStorageProvider implements IDataProvider<BlockEntity> {
                 cache = BlockApiCache.create(EnergyStorage.SIDED, (ServerLevel) accessor.getWorld(), accessor.getTarget().getBlockPos());
             }
 
-            EnergyStorage storage = cache.find(accessor.getTarget().getBlockState(), null);
+            var storage = cache.find(accessor.getTarget().getBlockState(), null);
 
             if (storage != null) {
                 res.add(EnergyData.of(storage.getAmount(), storage.getCapacity()));

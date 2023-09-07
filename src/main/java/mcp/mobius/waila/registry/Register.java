@@ -31,7 +31,7 @@ public class Register<T> {
             return ObjectLists.emptyList();
         }
 
-        Class<?> clazz = obj.getClass();
+        var clazz = obj.getClass();
         if (clazz == Object.class) {
             return ObjectLists.emptyList();
         }

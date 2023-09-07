@@ -13,10 +13,7 @@ import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.component.ItemComponent;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.Nameable;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
@@ -35,15 +32,15 @@ public enum BlockProvider implements IBlockComponentProvider, IDataProvider<Bloc
             return;
         }
 
-        Block block = accessor.getBlock();
-        CompoundTag data = accessor.getData().raw();
-        String name = block.getName().getString();
+        var block = accessor.getBlock();
+        var data = accessor.getData().raw();
+        var name = block.getName().getString();
 
         if (data.contains("customName")) {
             name = data.getString("customName") + " (" + name + ")";
         }
 
-        IWailaConfig.Formatter formatter = IWailaConfig.get().getFormatter();
+        var formatter = IWailaConfig.get().getFormatter();
         tooltip.setLine(WailaConstants.OBJECT_NAME_TAG, formatter.blockName(name));
         if (config.getBoolean(WailaConstants.CONFIG_SHOW_REGISTRY)) {
             tooltip.setLine(WailaConstants.REGISTRY_NAME_TAG, formatter.registryName(BuiltInRegistries.BLOCK.getKey(block)));
@@ -60,7 +57,7 @@ public enum BlockProvider implements IBlockComponentProvider, IDataProvider<Bloc
     @Override
     public void appendData(IDataWriter data, IServerAccessor<BlockEntity> accessor, IPluginConfig config) {
         if (accessor.getTarget() instanceof Nameable nameable) {
-            Component name = nameable.getCustomName();
+            var name = nameable.getCustomName();
             if (name != null) {
                 data.raw().putString("customName", name.getString());
             }

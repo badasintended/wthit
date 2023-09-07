@@ -16,8 +16,8 @@ public enum FurnaceProvider implements IDataProvider<AbstractFurnaceBlockEntity>
     @Override
     public void appendData(IDataWriter data, IServerAccessor<AbstractFurnaceBlockEntity> accessor, IPluginConfig config) {
         data.add(ProgressData.class, res -> {
-            AbstractFurnaceBlockEntity furnace = accessor.getTarget();
-            AbstractFurnaceBlockEntityAccess access = (AbstractFurnaceBlockEntityAccess) furnace;
+            var furnace = accessor.getTarget();
+            var access = (AbstractFurnaceBlockEntityAccess) furnace;
 
             if (furnace.getBlockState().getValue(FurnaceBlock.LIT)) res.add(ProgressData
                 .ratio((float) access.wthit_cookingProgress() / access.wthit_cookingTotalTime())

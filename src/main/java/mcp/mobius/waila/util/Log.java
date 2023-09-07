@@ -35,6 +35,10 @@ public final class Log {
         logger.warn(PREFIX + msg);
     }
 
+    public void warn(String msg, Object arg) {
+        logger.warn(PREFIX + msg, arg);
+    }
+
     public void error(String msg) {
         logger.error(PREFIX + msg);
     }
@@ -49,6 +53,18 @@ public final class Log {
 
     public void error(String msg, Object arg1, Object arg2) {
         logger.error(PREFIX + msg, arg1, arg2);
+    }
+
+    public boolean isDebugEnabled() {
+        return logger.isDebugEnabled();
+    }
+
+    public void debug(String msg, Object arg) {
+        logger.debug(PREFIX + msg, arg);
+    }
+
+    public void debug(String msg, Object arg1, Object arg2) {
+        logger.debug(PREFIX + msg, arg1, arg2);
     }
 
 }

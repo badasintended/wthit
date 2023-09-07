@@ -9,24 +9,25 @@ import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.config.BlacklistConfig;
 import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.gui.hud.theme.ThemeDefinition;
+import mcp.mobius.waila.registry.RegistryFilter;
 import mcp.mobius.waila.service.ICommonService;
-import net.minecraft.core.registries.Registries;
+import mcp.mobius.waila.util.Log;
+import mcp.mobius.waila.util.UnsupportedPlatformException;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.TagKey;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.level.block.Block;
 
 public abstract class Waila {
+
+    private static final Log LOG = Log.create();
 
     public static final boolean DEV = ICommonService.INSTANCE.isDev();
     public static final boolean CLIENT_SIDE = ICommonService.INSTANCE.getSide().matches(IPluginInfo.Side.CLIENT);
     public static final boolean ENABLE_DEBUG_COMMAND = DEV || Boolean.getBoolean("waila.debugCommands");
 
+    private static final String ALLOW_UNSUPPORTED_PLATFORMS_KEY = "waila.allowUnsupportedPlatforms";
+    public static final boolean ALLOW_UNSUPPORTED_PLATFORMS = Boolean.getBoolean(ALLOW_UNSUPPORTED_PLATFORMS_KEY);
+
     public static final Path GAME_DIR = ICommonService.INSTANCE.getGameDir();
     public static final Path CONFIG_DIR = ICommonService.INSTANCE.getConfigDir();
-
-    public static final TagKey<Block> BLOCK_BLACKLIST_TAG = TagKey.create(Registries.BLOCK, id("blacklist"));
-    public static final TagKey<EntityType<?>> ENTITY_BLACKLIST_TAG = TagKey.create(Registries.ENTITY_TYPE, id("blacklist"));
 
     public static final IJsonConfig<WailaConfig> CONFIG = IJsonConfig.of(WailaConfig.class)
         .file(WailaConstants.NAMESPACE + "/" + WailaConstants.WAILA)
@@ -50,6 +51,30 @@ public abstract class Waila {
 
     public static ResourceLocation id(String path) {
         return new ResourceLocation(WailaConstants.NAMESPACE, path);
+    }
+
+    protected static void onServerStopped() {
+        RegistryFilter.attach(null);
+    }
+
+    protected static void unsupportedPlatform(String platformName, String loaderName, String clazz) {
+        try {
+            Class.forName(clazz);
+            var runningPlatformName = ICommonService.INSTANCE.getPlatformName();
+
+            if (ALLOW_UNSUPPORTED_PLATFORMS)
+                LOG.warn("Running on unsupported platform {}, you are on your own.", platformName);
+            else {
+                throw new UnsupportedPlatformException("""
+                    %1$s detected.
+                    \t\tYou appear to be using the %3$s version of %4$s with %2$s, which is unsupported.
+                    \t\tPlease use a version of %4$s that specifically made for %2$s instead.
+                    \t\tRun with -D%5$s=true JVM arg if you know what you are doing."""
+                    .formatted(loaderName, platformName, runningPlatformName, WailaConstants.MOD_NAME, ALLOW_UNSUPPORTED_PLATFORMS_KEY));
+            }
+        } catch (ClassNotFoundException e) {
+            // no-op
+        }
     }
 
 }

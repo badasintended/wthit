@@ -13,6 +13,11 @@ import org.quiltmc.loader.api.minecraft.MinecraftQuiltLoader;
 public class QuiltCommonService implements ICommonService {
 
     @Override
+    public String getPlatformName() {
+        return "Quilt";
+    }
+
+    @Override
     public Path getGameDir() {
         return QuiltLoader.getGameDir();
     }

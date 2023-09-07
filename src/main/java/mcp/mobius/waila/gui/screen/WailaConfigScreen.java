@@ -90,7 +90,7 @@ public class WailaConfigScreen extends ConfigScreen {
         get().getOverlay().getColor().getCustomThemes().put(theme.id, theme);
         ThemeDefinition.resetAll();
 
-        String id = theme.id.toString();
+        var id = theme.id.toString();
         themeIdVal.addValue(id);
         themeIdVal.setValue(id);
 
@@ -138,7 +138,7 @@ public class WailaConfigScreen extends ConfigScreen {
 
     @Override
     public ConfigListWidget getOptions() {
-        ConfigListWidget options = new ConfigListWidget(this, minecraft, width, height, 42, height - 32, 26, Waila.CONFIG::save);
+        var options = new ConfigListWidget(this, minecraft, width, height, 42, height - 32, 26, Waila.CONFIG::save);
         options.with(new CategoryEntry(Tl.Config.GENERAL))
             .with(new BooleanValue(Tl.Config.DISPLAY_TOOLTIP,
                 get().getGeneral().isDisplayTooltip(),

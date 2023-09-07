@@ -51,7 +51,7 @@ public class WrappedComponent implements ITooltipComponent {
             return true;
         if (o == null || getClass() != o.getClass())
             return false;
-        WrappedComponent that = (WrappedComponent) o;
+        var that = (WrappedComponent) o;
         return component.equals(that.component);
     }
 

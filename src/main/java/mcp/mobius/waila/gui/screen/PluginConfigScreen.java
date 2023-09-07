@@ -3,7 +3,6 @@ package mcp.mobius.waila.gui.screen;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.function.Consumer;
 
 import it.unimi.dsi.fastutil.objects.Object2IntLinkedOpenHashMap;
@@ -54,29 +53,29 @@ public class PluginConfigScreen extends ConfigScreen {
     @Override
     @SuppressWarnings("ConstantConditions")
     public ConfigListWidget getOptions() {
-        ConfigListWidget options = new ConfigListWidget(this, minecraft, width, height, 32, height - 32, 26, PluginConfig::save);
+        var options = new ConfigListWidget(this, minecraft, width, height, 32, height - 32, 26, PluginConfig::save);
 
-        for (String namespace : PluginConfig.getNamespaces()) {
-            String namespaceTlKey = Tl.Config.PLUGIN_ + namespace;
-            Set<ResourceLocation> keys = PluginConfig.getAllKeys(namespace);
+        for (var namespace : PluginConfig.getNamespaces()) {
+            var namespaceTlKey = Tl.Config.PLUGIN_ + namespace;
+            var keys = PluginConfig.getAllKeys(namespace);
 
             options.with(new ButtonEntry(namespaceTlKey, 100, 20, w -> minecraft.setScreen(new ConfigScreen(PluginConfigScreen.this,
                 Component.translatable(Tl.Gui.PLUGIN_SETTINGS).append(" > ").withStyle(ChatFormatting.DARK_GRAY)
                     .append(Component.translatable(namespaceTlKey).withStyle(ChatFormatting.WHITE))) {
                 @Override
                 public ConfigListWidget getOptions() {
-                    ConfigListWidget options = new ConfigListWidget(this, minecraft, width, height, 32, height - 32, 26);
+                    var options = new ConfigListWidget(this, minecraft, width, height, 32, height - 32, 26);
                     Object2IntMap<String> categories = new Object2IntLinkedOpenHashMap<>();
                     categories.put(NO_CATEGORY, 0);
 
-                    for (ResourceLocation key : keys) {
-                        ConfigEntry<Object> entry = PluginConfig.getEntry(key);
-                        String path = key.getPath();
-                        String category = NO_CATEGORY;
+                    for (var key : keys) {
+                        var entry = PluginConfig.getEntry(key);
+                        var path = key.getPath();
+                        var category = NO_CATEGORY;
 
                         if (path.contains(".")) {
-                            String c = path.split("[.]", 2)[0];
-                            String categoryTlKey = namespaceTlKey + "." + c;
+                            var c = path.split("[.]", 2)[0];
+                            var categoryTlKey = namespaceTlKey + "." + c;
 
                             if (I18n.exists(categoryTlKey)) {
                                 category = c;
@@ -88,10 +87,10 @@ public class PluginConfigScreen extends ConfigScreen {
                             }
                         }
 
-                        int index = categories.getInt(category);
-                        String entryTlKey = namespaceTlKey + "." + path;
+                        var index = categories.getInt(category);
+                        var entryTlKey = namespaceTlKey + "." + path;
 
-                        for (Object2IntMap.Entry<String> e : categories.object2IntEntrySet()) {
+                        for (var e : categories.object2IntEntrySet()) {
                             if (e.getIntValue() >= index) {
                                 e.setValue(e.getIntValue() + 1);
                             }
@@ -103,7 +102,7 @@ public class PluginConfigScreen extends ConfigScreen {
                             continue;
                         }
 
-                        ConfigValue<Object> value = ENTRY_TO_VALUE.get(entry.getType()).create(key, entryTlKey, entry.getLocalValue(), entry.getDefaultValue(), entry::setLocalValue);
+                        var value = ENTRY_TO_VALUE.get(entry.getType()).create(key, entryTlKey, entry.getLocalValue(), entry.getDefaultValue(), entry::setLocalValue);
                         value.setId(key.toString());
 
                         if (entry.blocksClientEdit() && minecraft.getCurrentServer() != null) {
