@@ -1,6 +1,9 @@
 package mcp.mobius.waila.network;
 
-import lol.bai.badpackets.api.PacketReceiver;
+import lol.bai.badpackets.api.config.ClientConfigPacketReceiver;
+import lol.bai.badpackets.api.config.ServerConfigPacketReceiver;
+import lol.bai.badpackets.api.play.ClientPlayPacketReceiver;
+import lol.bai.badpackets.api.play.ServerPlayPacketReceiver;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
@@ -16,33 +19,19 @@ public sealed interface Packet<P extends CustomPacketPayload> extends FriendlyBy
         return read(buf);
     }
 
-    void register();
-
-    non-sealed interface C2S<P extends CustomPacketPayload> extends Packet<P>, PacketReceiver.C2S<P> {
-
-        @Override
-        default void register() {
-            PacketReceiver.registerC2S(id(), this, this);
-        }
+    non-sealed interface ConfigC2S<P extends CustomPacketPayload> extends Packet<P>, ServerConfigPacketReceiver<P> {
 
     }
 
-    non-sealed interface S2C<P extends CustomPacketPayload> extends Packet<P>, PacketReceiver.S2C<P> {
-
-        @Override
-        default void register() {
-            PacketReceiver.registerS2C(id(), this, this);
-        }
+    non-sealed interface ConfigS2C<P extends CustomPacketPayload> extends Packet<P>, ClientConfigPacketReceiver<P> {
 
     }
 
-    interface Common<P extends CustomPacketPayload> extends C2S<P>, S2C<P> {
+    non-sealed interface PlayC2S<P extends CustomPacketPayload> extends Packet<P>, ServerPlayPacketReceiver<P> {
 
-        @Override
-        default void register() {
-            C2S.super.register();
-            S2C.super.register();
-        }
+    }
+
+    non-sealed interface PlayS2C<P extends CustomPacketPayload> extends Packet<P>, ClientPlayPacketReceiver<P> {
 
     }
 

@@ -1,9 +1,9 @@
 package mcp.mobius.waila.api.component;
 
 import mcp.mobius.waila.api.ITooltipComponent;
-import mcp.mobius.waila.api.WailaHelper;
 import mcp.mobius.waila.api.__internal__.ApiSide;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
 /**
@@ -11,6 +11,12 @@ import net.minecraft.util.Mth;
  */
 @ApiSide.ClientOnly
 public class HealthComponent implements ITooltipComponent {
+
+    private static final ResourceLocation SPRITE_CONTAINER = new ResourceLocation("hud/heart/container");
+    private static final ResourceLocation SPRITE_NORMAL_FULL = new ResourceLocation("hud/heart/full");
+    private static final ResourceLocation SPRITE_NORMAL_HALF = new ResourceLocation("hud/heart/half");
+    private static final ResourceLocation SPRITE_ABSORBING_FULL = new ResourceLocation("hud/heart/absorbing_full");
+    private static final ResourceLocation SPRITE_ABSORBING_HALF = new ResourceLocation("hud/heart/absorbing_half");
 
     /**
      * @param health     the health point, 1 full icon represent 2 hp
@@ -49,11 +55,11 @@ public class HealthComponent implements ITooltipComponent {
             var ix = x + ((i % lineWidth) * 8);
             var iy = y + ((i / lineWidth) * 3);
 
-            ctx.blit(WailaHelper.GUI_ICONS_TEXTURE, ix, iy, 16, 0, 9, 9);
+            ctx.blitSprite(SPRITE_CONTAINER, ix, iy, 9, 9);
             if (i <= filled) {
-                ctx.blit(WailaHelper.GUI_ICONS_TEXTURE, ix, iy, absorption ? 160 : 52, 0, 9, 9);
+                ctx.blitSprite(absorption ? SPRITE_ABSORBING_FULL : SPRITE_NORMAL_FULL, ix, iy, 9, 9);
             } else if (i == half) {
-                ctx.blit(WailaHelper.GUI_ICONS_TEXTURE, ix, iy, absorption ? 169 : 61, 0, 9, 9);
+                ctx.blitSprite(absorption ? SPRITE_ABSORBING_HALF : SPRITE_NORMAL_HALF, ix, iy, 9, 9);
             }
         }
     }

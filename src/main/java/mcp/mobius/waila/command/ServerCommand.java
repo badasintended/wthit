@@ -3,10 +3,12 @@ package mcp.mobius.waila.command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import lol.bai.badpackets.api.PacketSender;
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.debug.DumpGenerator;
-import mcp.mobius.waila.network.s2c.GenerateClientDumpS2CPacket;
+import mcp.mobius.waila.mixin.BaseContainerBlockEntityAccess;
+import mcp.mobius.waila.network.play.s2c.GenerateClientDumpPlayS2CPacket;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
@@ -36,7 +38,7 @@ public class ServerCommand {
                     source.sendSuccess(() -> Component.translatable(dedicated ? Tl.Command.SERVER_DUMP_SUCCESS : Tl.Command.LOCAL_DUMP_SUCCESS, pathComponent), false);
                     var entity = source.getEntity();
                     if (entity instanceof ServerPlayer player && !server.isSingleplayerOwner(player.getGameProfile())) {
-                        PacketSender.s2c(player).send(new GenerateClientDumpS2CPacket.Payload());
+                        PacketSender.s2c(player).send(new GenerateClientDumpPlayS2CPacket.Payload());
                     }
                     return 1;
                 } else {

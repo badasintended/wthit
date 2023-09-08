@@ -1,9 +1,9 @@
 package mcp.mobius.waila.api.component;
 
 import mcp.mobius.waila.api.ITooltipComponent;
-import mcp.mobius.waila.api.WailaHelper;
 import mcp.mobius.waila.api.__internal__.ApiSide;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
 /**
@@ -11,6 +11,9 @@ import net.minecraft.util.Mth;
  */
 @ApiSide.ClientOnly
 public class ArmorComponent implements ITooltipComponent {
+
+    private static final ResourceLocation SPRITE_FULL = new ResourceLocation("hud/armor_full");
+    private static final ResourceLocation SPRITE_HALF = new ResourceLocation("hud/armor_half");
 
     /**
      * @param armor      the armor points, 1 full icon represent 2 points
@@ -46,9 +49,9 @@ public class ArmorComponent implements ITooltipComponent {
             var iy = y + ((i / lineWidth) * 3);
 
             if (i <= filled) {
-                ctx.blit(WailaHelper.GUI_ICONS_TEXTURE, ix, iy, 34, 9, 9, 9);
+                ctx.blitSprite(SPRITE_FULL, ix, iy, 9, 9);
             } else if (i == half) {
-                ctx.blit(WailaHelper.GUI_ICONS_TEXTURE, ix, iy, 25, 9, 9, 9);
+                ctx.blitSprite(SPRITE_HALF, ix, iy, 9, 9);
             }
         }
     }

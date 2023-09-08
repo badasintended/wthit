@@ -13,7 +13,7 @@ import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IDataWriter;
 import mcp.mobius.waila.api.IServerAccessor;
 import mcp.mobius.waila.config.PluginConfig;
-import mcp.mobius.waila.network.s2c.TypedDataResponseS2CPacket;
+import mcp.mobius.waila.network.play.s2c.TypedDataResponsePlayS2CPacket;
 import mcp.mobius.waila.registry.Registrar;
 import mcp.mobius.waila.util.ExceptionUtil;
 import mcp.mobius.waila.util.TypeUtil;
@@ -52,7 +52,7 @@ public enum DataWriter implements IDataWriter {
                             Preconditions.checkState(!added, "Called multiple times in the same closure");
                             Preconditions.checkNotNull(data, "Data is null");
 
-                            sender.send(new TypedDataResponseS2CPacket.Payload(data));
+                            sender.send(new TypedDataResponsePlayS2CPacket.Payload(data));
 
                             finished[0] = true;
                             added = true;
@@ -98,7 +98,7 @@ public enum DataWriter implements IDataWriter {
         try {
             provider.appendData(this, accessor, PluginConfig.SERVER);
         } catch (Throwable t) {
-            ServerPlayer player = accessor.getPlayer();
+            var player = accessor.getPlayer();
 
             if (ExceptionUtil.dump(t, provider.getClass() + "\nplayer " + player.getScoreboardName(), null)) {
                 player.sendSystemMessage(Component.literal("Error on retrieving server data from provider " + provider.getClass().getName()));

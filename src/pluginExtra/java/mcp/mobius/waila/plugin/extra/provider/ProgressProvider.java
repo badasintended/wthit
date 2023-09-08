@@ -22,12 +22,14 @@ public class ProgressProvider extends DataProvider<ProgressData> {
         var line = tooltip.setLine(ProgressData.ID);
 
         for (var stack : progress.input()) {
+            if (stack.isEmpty()) continue;
             line.with(new ItemComponent(stack));
         }
 
         line.with(new ProgressArrowComponent(progress.ratio()));
 
         for (var stack : progress.output()) {
+            if (stack.isEmpty()) continue;
             line.with(new ItemComponent(stack));
         }
     }

@@ -10,12 +10,11 @@ import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.TooltipPosition;
 import mcp.mobius.waila.api.component.EmptyComponent;
 import mcp.mobius.waila.config.PluginConfig;
-import mcp.mobius.waila.network.c2s.BlockDataRequestC2SPacket;
-import mcp.mobius.waila.network.c2s.EntityDataRequestC2SPacket;
+import mcp.mobius.waila.network.play.c2s.BlockDataRequestPlayC2SPacket;
+import mcp.mobius.waila.network.play.c2s.EntityDataRequestPlayC2SPacket;
 import mcp.mobius.waila.registry.Registrar;
 import mcp.mobius.waila.util.ExceptionUtil;
 import net.minecraft.client.Minecraft;
-import net.minecraft.core.BlockPos;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -36,7 +35,7 @@ public class ComponentHandler {
         if (blockEntity != null && accessor.isTimeElapsed(rate) && Waila.CONFIG.get().getGeneral().isDisplayTooltip()) {
             accessor.resetTimer();
             if (!(registrar.blockData.get(block).isEmpty() && registrar.blockData.get(blockEntity).isEmpty())) {
-                PacketSender.c2s().send(new BlockDataRequestC2SPacket.Payload((BlockHitResult) accessor.getHitResult()));
+                PacketSender.c2s().send(new BlockDataRequestPlayC2SPacket.Payload((BlockHitResult) accessor.getHitResult()));
             }
         }
 
@@ -72,7 +71,7 @@ public class ComponentHandler {
             accessor.resetTimer();
 
             if (!registrar.entityData.get(trueEntity).isEmpty()) {
-                PacketSender.c2s().send(new EntityDataRequestC2SPacket.Payload(entity.getId(), accessor.getHitResult().getLocation()));
+                PacketSender.c2s().send(new EntityDataRequestPlayC2SPacket.Payload(entity.getId(), accessor.getHitResult().getLocation()));
             }
         }
 

@@ -63,7 +63,7 @@ public class TooltipHandler {
             return;
         }
 
-        if (config.isHideFromDebug() && client.options.renderDebug) {
+        if (config.isHideFromDebug() && client.getDebugOverlay().showDebugScreen()) {
             return;
         }
 

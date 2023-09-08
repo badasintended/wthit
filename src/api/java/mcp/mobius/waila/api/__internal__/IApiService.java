@@ -21,7 +21,9 @@ import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.ApiStatus;
 import org.joml.Matrix4f;
 
-/** @hidden */
+/**
+ * @hidden
+ */
 @ApiStatus.Internal
 public interface IApiService {
 
@@ -60,8 +62,6 @@ public interface IApiService {
     String getDefaultEnergyUnit();
 
     Path getConfigDir();
-
-    ResourceLocation getGuiIconsTexture();
 
     <T> IRegistryFilter.Builder<T> createRegistryFilterBuilder(ResourceKey<? extends Registry<T>> registryKey);
 

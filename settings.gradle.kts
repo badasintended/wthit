@@ -23,8 +23,8 @@ fun platform(name: String) {
 }
 
 //platform("bukkit")
-//platform("fabric")
+platform("fabric")
 //platform("forge")
-//platform("mojmap")
-//platform("textile")
+platform("mojmap")
+platform("textile")
 //platform("quilt")

@@ -59,7 +59,6 @@ public class CreditsScreen extends Screen {
 
     @Override
     public void render(@NotNull GuiGraphics ctx, int mouseX, int mouseY, float partialTicks) {
-        renderBackground(ctx, mouseX, mouseY, partialTicks);
         super.render(ctx, mouseX, mouseY, partialTicks);
         ctx.drawCenteredString(font, title.getString(), width / 2, 12, 0xFFFFFF);
     }

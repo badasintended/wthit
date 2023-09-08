@@ -2,12 +2,7 @@ package mcp.mobius.waila.api;
 
 import java.text.DecimalFormat;
 
-import mcp.mobius.waila.api.__internal__.IApiService;
-import net.minecraft.resources.ResourceLocation;
-
 public final class WailaHelper {
-
-    public static final ResourceLocation GUI_ICONS_TEXTURE = IApiService.INSTANCE.getGuiIconsTexture();
 
     public static String suffix(long value) {
         if (value == Long.MIN_VALUE) return suffix(Long.MIN_VALUE + 1);

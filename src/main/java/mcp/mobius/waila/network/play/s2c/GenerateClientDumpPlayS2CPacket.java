@@ -1,6 +1,4 @@
-package mcp.mobius.waila.network.s2c;
-
-import java.nio.file.Path;
+package mcp.mobius.waila.network.play.s2c;
 
 import lol.bai.badpackets.api.PacketSender;
 import mcp.mobius.waila.Waila;
@@ -16,7 +14,7 @@ import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
-public class GenerateClientDumpS2CPacket implements Packet.S2C<GenerateClientDumpS2CPacket.Payload> {
+public class GenerateClientDumpPlayS2CPacket implements Packet.PlayS2C<GenerateClientDumpPlayS2CPacket.Payload> {
 
     public static final ResourceLocation ID = Waila.id("generate_client_dump");
 
@@ -32,7 +30,7 @@ public class GenerateClientDumpS2CPacket implements Packet.S2C<GenerateClientDum
 
     @Override
     public void receive(Minecraft client, ClientPacketListener handler, Payload payload, PacketSender responseSender) {
-        Path path = DumpGenerator.generate(DumpGenerator.CLIENT);
+        var path = DumpGenerator.generate(DumpGenerator.CLIENT);
         if (path != null && client.player != null) {
             Component pathComponent = Component.literal(path.toString()).withStyle(style -> style
                 .withUnderlined(true)

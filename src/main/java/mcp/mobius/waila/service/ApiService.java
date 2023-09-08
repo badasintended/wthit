@@ -18,7 +18,6 @@ import mcp.mobius.waila.api.__internal__.IApiService;
 import mcp.mobius.waila.config.JsonConfig;
 import mcp.mobius.waila.gui.hud.TooltipRenderer;
 import mcp.mobius.waila.gui.hud.theme.ThemeType;
-import mcp.mobius.waila.mixin.GuiAccess;
 import mcp.mobius.waila.plugin.PluginInfo;
 import mcp.mobius.waila.registry.RegistryFilter;
 import mcp.mobius.waila.util.DisplayUtil;
@@ -145,10 +144,6 @@ public class ApiService implements IApiService {
         return Waila.CONFIG_DIR;
     }
 
-    @Override
-    public ResourceLocation getGuiIconsTexture() {
-        return GuiAccess.wthit_guiIconsLocation();
-    }
 
     @Override
     public <T> IRegistryFilter.Builder<T> createRegistryFilterBuilder(ResourceKey<? extends Registry<T>> registryKey) {

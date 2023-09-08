@@ -32,7 +32,6 @@ allprojects {
         }
 
         mavenCentral()
-        maven("https://maven-staging.bai.lol")
     }
 
     java {
