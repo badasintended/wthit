@@ -1,8 +1,8 @@
-9.x - 1.20.2-pre2 - dev/snapshot - java 17
-==========================================
+9.x - 1.20.2-pre2 - dev/master - java 17
+========================================
 9.0.0    - Updated to Minecraft 1.20.2-pre2
 
-8.x - 1.20.1 - dev/master - java 17
+8.x - 1.20.1 - dev/1.20.1 - java 17
 ===================================
 8.4.0    - [API] Experimental: added `IRegistryFilter`
          - [API] Added method that return `BlockHitResult`/`EntityHitResult` to `IBlockAccessor`/`IEntityAccessor`
