@@ -2,7 +2,6 @@ package mcp.mobius.waila.gui.hud;
 
 import java.util.List;
 
-import io.netty.buffer.Unpooled;
 import lol.bai.badpackets.api.PacketSender;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.access.DataAccessor;
@@ -11,11 +10,11 @@ import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.TooltipPosition;
 import mcp.mobius.waila.api.component.EmptyComponent;
 import mcp.mobius.waila.config.PluginConfig;
-import mcp.mobius.waila.network.Packets;
+import mcp.mobius.waila.network.play.c2s.BlockDataRequestPlayC2SPacket;
+import mcp.mobius.waila.network.play.c2s.EntityDataRequestPlayC2SPacket;
 import mcp.mobius.waila.registry.Registrar;
 import mcp.mobius.waila.util.ExceptionUtil;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
@@ -36,9 +35,7 @@ public class ComponentHandler {
         if (blockEntity != null && accessor.isTimeElapsed(rate) && Waila.CONFIG.get().getGeneral().isDisplayTooltip()) {
             accessor.resetTimer();
             if (!(registrar.blockData.get(block).isEmpty() && registrar.blockData.get(blockEntity).isEmpty())) {
-                var buf = new FriendlyByteBuf(Unpooled.buffer());
-                buf.writeBlockHitResult(accessor.getBlockHitResult());
-                PacketSender.c2s().send(Packets.BLOCK, buf);
+                PacketSender.c2s().send(new BlockDataRequestPlayC2SPacket.Payload((BlockHitResult) accessor.getHitResult()));
             }
         }
 
@@ -74,13 +71,7 @@ public class ComponentHandler {
             accessor.resetTimer();
 
             if (!registrar.entityData.get(trueEntity).isEmpty()) {
-                var buf = new FriendlyByteBuf(Unpooled.buffer());
-                buf.writeVarInt(entity.getId());
-                var hitPos = accessor.getEntityHitResult().getLocation();
-                buf.writeDouble(hitPos.x);
-                buf.writeDouble(hitPos.y);
-                buf.writeDouble(hitPos.z);
-                PacketSender.c2s().send(Packets.ENTITY, buf);
+                PacketSender.c2s().send(new EntityDataRequestPlayC2SPacket.Payload(entity.getId(), accessor.getHitResult().getLocation()));
             }
         }
 

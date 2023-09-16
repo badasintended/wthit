@@ -86,13 +86,13 @@ public abstract class ConfigScreen extends Screen {
 
     @Override
     public void render(@NotNull GuiGraphics ctx, int mouseX, int mouseY, float partialTicks) {
-        renderBackground(ctx);
+        super.render(ctx, mouseX, mouseY, partialTicks);
+
         options.render(ctx, mouseX, mouseY, partialTicks);
 
         var searchBox = options.getSearchBox();
         if (searchBox.isActive()) options.getSearchBox().render(ctx, mouseX, mouseY, partialTicks);
 
-        super.render(ctx, mouseX, mouseY, partialTicks);
         renderForeground(ctx, options.getRowLeft(), options.getRowWidth(), mouseX, mouseY, partialTicks);
 
         if (mouseY < 32 || mouseY > height - 32) {

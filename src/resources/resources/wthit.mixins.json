@@ -16,9 +16,10 @@
   ],
   "client"            : [
     "BossHealthOverlayAccess",
+    "ClientCommonPacketListenerImplMixin",
+    "ClientConfigurationPacketListenerImplMixin",
     "ClientPacketListenerMixin",
     "EditBoxAccess",
-    "GuiAccess",
     "KeyMappingAccess",
     "MultiPlayerGameModeAccess",
     "PlayerTabOverlayAccess"

@@ -13,7 +13,7 @@ dependencies {
 
     modCompileRuntime("net.fabricmc.fabric-api:fabric-api:${rootProp["fabricApi"]}")
 
-    modCompileRuntime("com.terraformersmc:modmenu:${rootProp["modMenu"]}")
+    modCompileOnly("com.terraformersmc:modmenu:${rootProp["modMenu"]}")
 
     modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:${rootProp["rei"]}")
     modCompileOnly("dev.emi:emi-fabric:${rootProp["emi"]}")
@@ -23,7 +23,7 @@ dependencies {
 //    modRuntimeOnly("dev.architectury:architectury-fabric:${rootProp["architectury"]}")
 //    modRuntimeOnly("me.shedaniel.cloth:cloth-config-fabric:${rootProp["clothConfig"]}")
 
-    modRuntimeOnly("TechReborn:TechReborn-1.20:5.8.1")
+//    modRuntimeOnly("TechReborn:TechReborn-1.20:5.8.1")
 
     when (rootProp["recipeViewer"]) {
         "emi" -> modRuntimeOnly("dev.emi:emi:${rootProp["emi"]}")

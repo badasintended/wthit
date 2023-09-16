@@ -1,315 +1,88 @@
 package mcp.mobius.waila.network;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.google.gson.Gson;
-import io.netty.buffer.Unpooled;
-import lol.bai.badpackets.api.C2SPacketReceiver;
-import lol.bai.badpackets.api.S2CPacketReceiver;
-import lol.bai.badpackets.api.event.PacketSenderReadyCallback;
+import lol.bai.badpackets.api.PacketSender;
+import lol.bai.badpackets.api.config.ConfigPackets;
+import lol.bai.badpackets.api.play.PlayPackets;
 import mcp.mobius.waila.Waila;
-import mcp.mobius.waila.access.DataReader;
-import mcp.mobius.waila.access.DataWriter;
-import mcp.mobius.waila.access.ServerAccessor;
-import mcp.mobius.waila.api.IDataProvider;
-import mcp.mobius.waila.api.IRegistryFilter;
-import mcp.mobius.waila.api.IServerAccessor;
-import mcp.mobius.waila.api.WailaConstants;
-import mcp.mobius.waila.buildconst.Tl;
+import mcp.mobius.waila.config.ConfigEntry;
 import mcp.mobius.waila.config.PluginConfig;
-import mcp.mobius.waila.debug.DumpGenerator;
-import mcp.mobius.waila.registry.Registrar;
-import mcp.mobius.waila.util.ExceptionUtil;
-import mcp.mobius.waila.util.Log;
-import net.minecraft.core.Registry;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.chat.ClickEvent;
-import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.world.phys.Vec3;
+import mcp.mobius.waila.network.Packet.ConfigC2S;
+import mcp.mobius.waila.network.Packet.ConfigS2C;
+import mcp.mobius.waila.network.Packet.PlayC2S;
+import mcp.mobius.waila.network.Packet.PlayS2C;
+import mcp.mobius.waila.network.common.VersionPayload;
+import mcp.mobius.waila.network.common.c2s.VersionCommonC2SPacket;
+import mcp.mobius.waila.network.config.s2c.BlacklistSyncConfigS2CPacket;
+import mcp.mobius.waila.network.config.s2c.ConfigSyncConfigS2CPacket;
+import mcp.mobius.waila.network.config.s2c.VersionConfigS2CPacket;
+import mcp.mobius.waila.network.play.c2s.BlockDataRequestPlayC2SPacket;
+import mcp.mobius.waila.network.play.c2s.EntityDataRequestPlayC2SPacket;
+import mcp.mobius.waila.network.play.s2c.GenerateClientDumpPlayS2CPacket;
+import mcp.mobius.waila.network.play.s2c.RawDataResponsePlayS2CPacket;
+import mcp.mobius.waila.network.play.s2c.TypedDataResponsePlayS2CPacket;
 
-import static mcp.mobius.waila.mcless.network.NetworkConstants.CONFIG_BOOL;
-import static mcp.mobius.waila.mcless.network.NetworkConstants.CONFIG_DOUBLE;
-import static mcp.mobius.waila.mcless.network.NetworkConstants.CONFIG_INT;
-import static mcp.mobius.waila.mcless.network.NetworkConstants.CONFIG_STRING;
 import static mcp.mobius.waila.mcless.network.NetworkConstants.NETWORK_VERSION;
 
 public class Packets {
 
-    private static final Log LOG = Log.create();
-
-    public static final ResourceLocation VERSION = Waila.id("version");
-
-    public static final ResourceLocation ENTITY = Waila.id("entity");
-    public static final ResourceLocation BLOCK = Waila.id("block");
-
-    public static final ResourceLocation DATA_RAW = Waila.id("data");
-    public static final ResourceLocation DATA_TYPED = Waila.id("data_typed");
-    public static final ResourceLocation CONFIG = Waila.id("config");
-    public static final ResourceLocation BLACKLIST = Waila.id("blacklist");
-    public static final ResourceLocation GENERATE_CLIENT_DUMP = Waila.id("generate_client_dump");
-
-    private static final Gson GSON = new Gson();
-
     public static void initServer() {
-        PacketSenderReadyCallback.registerServer((handler, sender, server) -> {
-            var versionBuf = new FriendlyByteBuf(Unpooled.buffer());
-            versionBuf.writeVarInt(NETWORK_VERSION);
-            sender.send(VERSION, versionBuf);
+        // Common
+        register(new VersionCommonC2SPacket());
 
+        // Play
+        register(new BlockDataRequestPlayC2SPacket());
+        register(new EntityDataRequestPlayC2SPacket());
 
-            var blacklistBuf = new FriendlyByteBuf(Unpooled.buffer());
-            var blacklist = Waila.BLACKLIST_CONFIG.get();
-            blacklistBuf.writeCollection(blacklist.blocks, FriendlyByteBuf::writeUtf);
-            blacklistBuf.writeCollection(blacklist.blockEntityTypes, FriendlyByteBuf::writeUtf);
-            blacklistBuf.writeCollection(blacklist.entityTypes, FriendlyByteBuf::writeUtf);
-            sender.send(BLACKLIST, blacklistBuf);
+        ConfigPackets.registerServerReadyCallback((handler, sender, server) ->
+            sendS2CHandshakePackets(sender));
 
-            var configBuf = new FriendlyByteBuf(Unpooled.buffer());
-            var groups = PluginConfig.getSyncableConfigs().stream()
-                .collect(Collectors.groupingBy(c -> c.getId().getNamespace()));
-            configBuf.writeVarInt(groups.size());
-            groups.forEach((namespace, entries) -> {
-                configBuf.writeUtf(namespace);
-                configBuf.writeVarInt(entries.size());
-                entries.forEach(e -> {
-                    configBuf.writeUtf(e.getId().getPath());
-                    var v = e.getLocalValue();
-                    if (v instanceof Boolean z) {
-                        configBuf.writeByte(CONFIG_BOOL);
-                        configBuf.writeBoolean(z);
-                    } else if (v instanceof Integer i) {
-                        configBuf.writeByte(CONFIG_INT);
-                        configBuf.writeVarInt(i);
-                    } else if (v instanceof Double d) {
-                        configBuf.writeByte(CONFIG_DOUBLE);
-                        configBuf.writeDouble(d);
-                    } else if (v instanceof String str) {
-                        configBuf.writeByte(CONFIG_STRING);
-                        configBuf.writeUtf(str);
-                    } else if (v instanceof Enum<?> en) {
-                        configBuf.writeByte(CONFIG_STRING);
-                        configBuf.writeUtf(en.name());
-                    }
-                });
-            });
-            sender.send(CONFIG, configBuf);
-        });
-
-        C2SPacketReceiver.register(VERSION, (server, player, handler, buf, responseSender) -> {
-            var clientVersion = buf.readVarInt();
-
-            if (clientVersion != NETWORK_VERSION) {
-                handler.disconnect(Component.literal(
-                    WailaConstants.MOD_NAME + " network version mismatch! " +
-                        "Server version is " + NETWORK_VERSION + " while client version is " + clientVersion));
+        // Older vanilla version doesn't have config stage and instead handshake happens on play stage
+        PlayPackets.registerServerReadyCallback((handler, sender, server) -> {
+            if (sender.canSend(VersionPayload.ID)) {
+                sendS2CHandshakePackets(sender);
             }
-        });
-
-        C2SPacketReceiver.register(ENTITY, (server, player, handler, buf, responseSender) -> {
-            var entityId = buf.readVarInt();
-            var hitPos = new Vec3(buf.readDouble(), buf.readDouble(), buf.readDouble());
-
-            server.execute(() -> {
-                var registrar = Registrar.INSTANCE;
-                var world = player.level();
-                var entity = world.getEntity(entityId);
-
-                if (entity == null) {
-                    return;
-                }
-
-                var raw = DataWriter.INSTANCE.reset();
-                IServerAccessor<Entity> accessor = ServerAccessor.INSTANCE.set(world, player, new EntityHitResult(entity, hitPos), entity);
-
-                for (var provider : registrar.entityData.get(entity)) {
-                    tryAppendData(provider, accessor);
-                }
-
-                raw.putInt("WailaEntityID", entity.getId());
-                raw.putLong("WailaTime", System.currentTimeMillis());
-
-                var rawBuf = new FriendlyByteBuf(Unpooled.buffer());
-                rawBuf.writeNbt(raw);
-                responseSender.send(DATA_RAW, rawBuf);
-
-                DataWriter.INSTANCE.sendTypedPackets(responseSender, player);
-            });
-        });
-
-        C2SPacketReceiver.register(BLOCK, (server, player, handler, buf, responseSender) -> {
-            var hitResult = buf.readBlockHitResult();
-
-            server.execute(() -> {
-                var registrar = Registrar.INSTANCE;
-                var world = player.level();
-                var pos = hitResult.getBlockPos();
-
-                //noinspection deprecation
-                if (!world.hasChunkAt(pos)) {
-                    return;
-                }
-
-                var blockEntity = world.getBlockEntity(pos);
-                if (blockEntity == null) {
-                    return;
-                }
-
-                var state = world.getBlockState(pos);
-                var raw = DataWriter.INSTANCE.reset();
-                IServerAccessor<BlockEntity> accessor = ServerAccessor.INSTANCE.set(world, player, hitResult, blockEntity);
-
-                for (var provider : registrar.blockData.get(blockEntity)) {
-                    tryAppendData(provider, accessor);
-                }
-
-                for (var provider : registrar.blockData.get(state.getBlock())) {
-                    tryAppendData(provider, accessor);
-                }
-
-                raw.putInt("x", pos.getX());
-                raw.putInt("y", pos.getY());
-                raw.putInt("z", pos.getZ());
-                //noinspection ConstantConditions
-                raw.putString("id", BuiltInRegistries.BLOCK_ENTITY_TYPE.getKey(blockEntity.getType()).toString());
-                raw.putLong("WailaTime", System.currentTimeMillis());
-
-                var rawBuf = new FriendlyByteBuf(Unpooled.buffer());
-                rawBuf.writeNbt(raw);
-                responseSender.send(DATA_RAW, rawBuf);
-
-                DataWriter.INSTANCE.sendTypedPackets(responseSender, player);
-            });
         });
     }
 
     public static void initClient() {
-        PacketSenderReadyCallback.registerClient((handler, sender, client) -> {
-            var buf = new FriendlyByteBuf(Unpooled.buffer());
-            buf.writeVarInt(NETWORK_VERSION);
-            sender.send(VERSION, buf);
-        });
+        // Config
+        register(new VersionConfigS2CPacket());
+        register(new ConfigSyncConfigS2CPacket());
+        register(new BlacklistSyncConfigS2CPacket());
 
-        S2CPacketReceiver.register(VERSION, (client, handler, buf, responseSender) -> {
-            var serverVersion = buf.readVarInt();
-            if (serverVersion != NETWORK_VERSION) {
-                handler.getConnection().disconnect(Component.literal(
-                    WailaConstants.MOD_NAME + " network version mismatch! " +
-                        "Server version is " + serverVersion + " while client version is " + NETWORK_VERSION));
-            }
-        });
+        // Play
+        register(new GenerateClientDumpPlayS2CPacket());
+        register(new RawDataResponsePlayS2CPacket());
+        register(new TypedDataResponsePlayS2CPacket());
 
-        S2CPacketReceiver.register(DATA_RAW, (client, handler, buf, responseSender) -> {
-            var data = buf.readNbt();
-
-            client.execute(() -> DataReader.INSTANCE.reset(data));
-        });
-
-        S2CPacketReceiver.register(DATA_TYPED, (client, handler, buf, responseSender) -> {
-            var data = DataReader.readTypedPacket(buf);
-
-            client.execute(() -> DataReader.INSTANCE.add(data));
-        });
-
-        S2CPacketReceiver.register(CONFIG, (client, handler, buf, responseSender) -> {
-            Map<ResourceLocation, Object> map = new HashMap<>();
-            var groupSize = buf.readVarInt();
-            for (var i = 0; i < groupSize; i++) {
-                var namespace = buf.readUtf();
-                var groupLen = buf.readVarInt();
-                for (var j = 0; j < groupLen; j++) {
-                    var id = new ResourceLocation(namespace, buf.readUtf());
-                    var type = buf.readByte();
-                    switch (type) {
-                        case CONFIG_BOOL -> map.put(id, buf.readBoolean());
-                        case CONFIG_INT -> map.put(id, buf.readVarInt());
-                        case CONFIG_DOUBLE -> map.put(id, buf.readDouble());
-                        case CONFIG_STRING -> map.put(id, buf.readUtf());
-                    }
-                }
-            }
-
-            client.execute(() -> {
-                for (var config : PluginConfig.getSyncableConfigs()) {
-                    var id = config.getId();
-                    var clientOnlyValue = config.getClientOnlyValue();
-                    var syncedValue = clientOnlyValue instanceof Enum<?> e
-                        ? Enum.valueOf(e.getDeclaringClass(), (String) map.getOrDefault(id, e.name()))
-                        : map.get(id);
-                    if (syncedValue instanceof Double d && clientOnlyValue instanceof Integer) {
-                        syncedValue = d.intValue();
-                    }
-                    config.setServerValue(syncedValue);
-                }
-                LOG.info("Received config from the server: {}", GSON.toJson(map));
-            });
-        });
-
-        S2CPacketReceiver.register(BLACKLIST, (client, handler, buf, responseSender) -> {
-            Set<String> blockRules = buf.readCollection(HashSet::new, FriendlyByteBuf::readUtf);
-            Set<String> blockEntityRules = buf.readCollection(HashSet::new, FriendlyByteBuf::readUtf);
-            Set<String> entityRules = buf.readCollection(HashSet::new, FriendlyByteBuf::readUtf);
-
-            client.execute(() ->
-                Waila.BLACKLIST_CONFIG.get().getView().sync(blockRules, blockEntityRules, entityRules));
-        });
-
-        S2CPacketReceiver.register(GENERATE_CLIENT_DUMP, (client, handler, buf, responseSender) -> client.execute(() -> {
-            var path = DumpGenerator.generate(DumpGenerator.CLIENT);
-            if (path != null && client.player != null) {
-                Component pathComponent = Component.literal(path.toString()).withStyle(style -> style
-                    .withUnderlined(true)
-                    .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, path.toString())));
-                client.player.displayClientMessage(Component.translatable(Tl.Command.CLIENT_DUMP_SUCCESS, pathComponent), false);
-            }
-        }));
+        ConfigPackets.registerClientReadyCallback((handler, sender, client) ->
+            sendVersionPacket(sender));
     }
 
-    private static <T> void writeIds(FriendlyByteBuf buf, Registry<T> registry, IRegistryFilter<T> filter) {
-        var groups = filter.getMatches().stream()
-            .map(it -> Objects.requireNonNull(registry.getKey(it)))
-            .collect(Collectors.groupingBy(ResourceLocation::getNamespace));
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    private static void register(Packet<?> packet) {
+        if (packet instanceof ConfigC2S config) ConfigPackets.registerServerReceiver(config.id(), config, config);
+        if (packet instanceof ConfigS2C config) ConfigPackets.registerClientReceiver(config.id(), config, config);
 
-        buf.writeVarInt(groups.size());
-        groups.forEach((namespace, ids) -> {
-            buf.writeUtf(namespace);
-            buf.writeVarInt(ids.size());
-            ids.forEach(id -> buf.writeUtf(id.getPath()));
-        });
+        if (packet instanceof PlayC2S play) PlayPackets.registerServerReceiver(play.id(), play, play);
+        if (packet instanceof PlayS2C play) PlayPackets.registerClientReceiver(play.id(), play, play);
     }
 
-    private static Set<ResourceLocation> readIds(FriendlyByteBuf buf) {
-        Set<ResourceLocation> set = new HashSet<>();
-        var groupSize = buf.readVarInt();
-        for (var i = 0; i < groupSize; i++) {
-            var namespace = buf.readUtf();
-            var groupLen = buf.readVarInt();
-            for (var j = 0; j < groupLen; j++) {
-                set.add(new ResourceLocation(namespace, buf.readUtf()));
-            }
-        }
-        return set;
+    private static void sendVersionPacket(PacketSender sender) {
+        sender.send(new VersionPayload(NETWORK_VERSION));
     }
 
-    private static <T> void tryAppendData(IDataProvider<T> provider, IServerAccessor<T> accessor) {
-        try {
-            provider.appendData(DataWriter.INSTANCE, accessor, PluginConfig.SERVER);
-        } catch (Throwable t) {
-            var player = accessor.getPlayer();
+    private static void sendS2CHandshakePackets(PacketSender sender) {
+        sendVersionPacket(sender);
 
-            if (ExceptionUtil.dump(t, provider.getClass() + "\nplayer " + player.getScoreboardName(), null)) {
-                player.sendSystemMessage(Component.literal("Error on retrieving server data from provider " + provider.getClass().getName()));
-            }
-        }
+        var blacklistConfig = Waila.BLACKLIST_CONFIG.get();
+        sender.send(new BlacklistSyncConfigS2CPacket.Payload(
+            blacklistConfig.blocks, blacklistConfig.blockEntityTypes, blacklistConfig.entityTypes));
+
+        sender.send(new ConfigSyncConfigS2CPacket.Payload(PluginConfig.getSyncableConfigs().stream()
+            .collect(Collectors.toMap(ConfigEntry::getId, ConfigEntry::getLocalValue))));
     }
 
 }

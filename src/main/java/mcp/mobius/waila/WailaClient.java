@@ -17,7 +17,6 @@ import mcp.mobius.waila.service.IClientService;
 import mcp.mobius.waila.util.Log;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.Connection;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
@@ -101,13 +100,13 @@ public abstract class WailaClient {
         }
     }
 
-    protected static void onServerLogIn(Connection connection) {
+    protected static void onServerLogIn() {
         Waila.BLACKLIST_CONFIG.invalidate();
         PluginConfig.getSyncableConfigs().forEach(config ->
             config.setServerValue(null));
     }
 
-    protected static void onServerLogout(Connection connection) {
+    protected static void onServerLogout() {
         RegistryFilter.attach(null);
         Waila.BLACKLIST_CONFIG.invalidate();
         PluginConfig.getSyncableConfigs().forEach(config ->

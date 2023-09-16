@@ -42,6 +42,8 @@ public class FluidProvider extends DataProvider<FluidData> {
         var storedUnit = data.unit();
 
         for (var entry : data.entries()) {
+            if (entry.isEmpty()) continue;
+
             var desc = FluidDescription.getFluidDesc(entry);
 
             var stored = entry.stored();

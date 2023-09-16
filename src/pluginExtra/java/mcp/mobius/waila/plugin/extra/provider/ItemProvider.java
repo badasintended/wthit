@@ -59,6 +59,8 @@ public class ItemProvider extends DataProvider<ItemData> {
         Map<Item, Set<CompoundTag>> unique = new HashMap<>();
 
         for (var stack : data.items()) {
+            if (stack.isEmpty()) continue;
+
             var item = stack.getItem();
             var count = stack.getCount();
 
