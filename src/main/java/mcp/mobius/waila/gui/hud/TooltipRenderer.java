@@ -6,9 +6,14 @@ import java.util.function.Supplier;
 
 import com.google.common.base.Preconditions;
 import com.google.common.base.Suppliers;
+import com.mojang.blaze3d.pipeline.MainTarget;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.text2speech.Narrator;
+import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.access.DataAccessor;
 import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.ITooltipComponent;
@@ -20,12 +25,15 @@ import mcp.mobius.waila.api.component.WrappedComponent;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.event.EventCanceller;
 import mcp.mobius.waila.mixin.BossHealthOverlayAccess;
+import mcp.mobius.waila.mixin.MinecraftAccess;
 import mcp.mobius.waila.registry.Registrar;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.ChatScreen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.util.Mth;
+import org.jetbrains.annotations.Nullable;
 
-import static mcp.mobius.waila.util.DisplayUtil.enable2DRender;
 import static mcp.mobius.waila.util.DisplayUtil.renderComponent;
 
 public class TooltipRenderer {
@@ -45,6 +53,10 @@ public class TooltipRenderer {
     public static int colonWidth;
 
     public static State state;
+
+    private static long lastFrame = System.nanoTime();
+    private static @Nullable MainTarget framebuffer = null;
+    private static int fbWidth, fbHeight;
 
     public static void beginBuild(State state) {
         started = true;
@@ -171,11 +183,76 @@ public class TooltipRenderer {
     }
 
     public static void render(PoseStack matrices, float delta) {
-        if (state == null || !state.render()) {
+        var client = Minecraft.getInstance();
+
+        if (WailaClient.showFps) {
+            var fpsString = ((MinecraftAccess) client).wthit_getFps() + " FPS";
+            var x1 = client.font.width(fpsString) + 2;
+            var y0 = client.getWindow().getGuiScaledHeight() - client.font.lineHeight - 1;
+            var y1 = y0 + client.font.lineHeight + 2;
+            GuiComponent.fill(matrices, 0, y0, x1, y1, 0x90505050);
+            client.font.draw(matrices, fpsString, 1, y0 + 1, 0xE0E0E0);
+        }
+
+        if (state == null || !state.render()) return;
+
+        var fps = state.getFps();
+
+        if (fps == 0) {
+            render0(client, matrices, delta);
             return;
         }
 
-        var client = Minecraft.getInstance();
+        var nspf = 1_000_000_000f / fps;
+        var now = System.nanoTime();
+
+        if (framebuffer == null || (now - lastFrame) >= nspf) {
+            var window = client.getWindow();
+
+            if (framebuffer == null) {
+                framebuffer = new MainTarget(window.getWidth(), window.getHeight());
+                framebuffer.setClearColor(0f, 0f, 0f, 0f);
+            }
+
+            if (window.getWidth() != fbWidth || window.getHeight() != fbHeight) {
+                fbWidth = window.getWidth();
+                fbHeight = window.getHeight();
+                framebuffer.resize(fbWidth, fbHeight, Minecraft.ON_OSX);
+            }
+
+            framebuffer.clear(Minecraft.ON_OSX);
+            framebuffer.bindWrite(true);
+            render0(client, matrices, delta);
+            framebuffer.unbindWrite();
+            client.getMainRenderTarget().bindWrite(true);
+            lastFrame = now;
+        }
+
+        RenderSystem.enableBlend();
+        RenderSystem.defaultBlendFunc();
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderTexture(0, framebuffer.getColorTextureId());
+
+        var w = client.getWindow().getGuiScaledWidth();
+        var h = client.getWindow().getGuiScaledHeight();
+
+        var tesselator = Tesselator.getInstance();
+        var buffer = tesselator.getBuilder();
+
+        buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+
+        var pose = matrices.last().pose();
+        buffer.vertex(pose, 0, h, 0).uv(0f, 0f).endVertex();
+        buffer.vertex(pose, w, h, 0).uv(1f, 0f).endVertex();
+        buffer.vertex(pose, w, 0, 0).uv(1f, 1f).endVertex();
+        buffer.vertex(pose, 0, 0, 0).uv(0f, 1f).endVertex();
+
+        tesselator.end();
+
+        RenderSystem.disableBlend();
+    }
+
+    private static void render0(Minecraft client, PoseStack matrices, float delta) {
         var profiler = client.getProfiler();
 
         profiler.push("Waila Overlay");
@@ -187,8 +264,6 @@ public class TooltipRenderer {
         RenderSystem.applyModelViewMatrix();
 
         matrices.pushPose();
-
-        enable2DRender();
 
         var rect = RENDER_RECT.get();
         rect.setRect(TooltipRenderer.RECT.get());
@@ -310,6 +385,8 @@ public class TooltipRenderer {
         boolean render();
 
         boolean fireEvent();
+
+        int getFps();
 
         float getScale();
 

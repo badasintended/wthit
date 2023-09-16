@@ -221,6 +221,11 @@ class ThemeEditorScreen extends ConfigScreen {
         }
 
         @Override
+        public int getFps() {
+            return 0;
+        }
+
+        @Override
         public float getScale() {
             return 2.0f;
         }

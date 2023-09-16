@@ -127,23 +127,34 @@ public abstract class ClientCommand<S> {
 
             .pop("enabled", "overlay");
 
-        if (Waila.ENABLE_DEBUG_COMMAND) {
-            command
-                .then(argument.literal("debug"))
+        if (Waila.ENABLE_DEBUG_COMMAND) command
+            .then(argument.literal("debug"))
 
-                .then(argument.literal("showComponentBounds"))
-                .then(argument.required("enabled", BoolArgumentType.bool()))
-                .suggests((context, builder) -> suggest(new String[]{String.valueOf(!WailaClient.showComponentBounds)}, builder))
-                .executes(context -> {
-                    var feedback = feedback(context.getSource());
-                    var enabled = BoolArgumentType.getBool(context, "enabled");
-                    Minecraft.getInstance().execute(() -> WailaClient.showComponentBounds = enabled);
-                    feedback.success(Component.literal((enabled ? "En" : "Dis") + "abled component bounds"));
-                    return enabled ? 1 : 0;
-                })
+            .then(argument.literal("showComponentBounds"))
+            .then(argument.required("enabled", BoolArgumentType.bool()))
+            .suggests((context, builder) -> suggest(new String[]{String.valueOf(!WailaClient.showComponentBounds)}, builder))
+            .executes(context -> {
+                var feedback = feedback(context.getSource());
+                var enabled = BoolArgumentType.getBool(context, "enabled");
+                Minecraft.getInstance().execute(() -> WailaClient.showComponentBounds = enabled);
+                feedback.success(Component.literal((enabled ? "En" : "Dis") + "abled component bounds"));
+                return enabled ? 1 : 0;
+            })
+            .pop("enabled", "showComponentBounds")
 
-                .pop("enabled", "showComponentBounds", "debug");
-        }
+            .then(argument.literal("showFps"))
+            .then(argument.required("enabled", BoolArgumentType.bool()))
+            .suggests((context, builder) -> suggest(new String[]{String.valueOf(!WailaClient.showFps)}, builder))
+            .executes(context -> {
+                var feedback = feedback(context.getSource());
+                var enabled = BoolArgumentType.getBool(context, "enabled");
+                Minecraft.getInstance().execute(() -> WailaClient.showFps = enabled);
+                feedback.success(Component.literal((enabled ? "En" : "Dis") + "abled FPS display"));
+                return enabled ? 1 : 0;
+            })
+            .pop("enabled", "showFps")
+
+            .pop("debug");
 
         command.register(dispatcher);
     }
