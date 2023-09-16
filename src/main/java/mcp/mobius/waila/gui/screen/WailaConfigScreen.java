@@ -56,6 +56,7 @@ public class WailaConfigScreen extends ConfigScreen {
 
     private ConfigValue<String> modNameFormatVal;
     private ConfigValue<String> blockNameFormatVal;
+    private ConfigValue<Integer> fpsVal;
     private ConfigValue<Integer> xPosValue;
     private ConfigValue<Align.X> xAnchorValue;
     private ConfigValue<Align.Y> yAnchorValue;
@@ -178,6 +179,11 @@ public class WailaConfigScreen extends ConfigScreen {
                 Util.getPlatform().openFile(Waila.BLACKLIST_CONFIG.getPath().toFile())));
 
         options.with(new CategoryEntry(Tl.Config.OVERLAY))
+            .with(fpsVal = new InputValue<>(Tl.Config.OVERLAY_FPS,
+                get().getOverlay().getFps(),
+                defaultConfig.getOverlay().getFps(),
+                val -> get().getOverlay().setFps(val),
+                InputValue.POSITIVE_INTEGER))
             .with(xAnchorValue = new EnumValue<>(Tl.Config.OVERLAY_ANCHOR_X,
                 Align.X.values(),
                 get().getOverlay().getPosition().getAnchor().getX(),
@@ -382,6 +388,11 @@ public class WailaConfigScreen extends ConfigScreen {
         @Override
         public boolean fireEvent() {
             return false;
+        }
+
+        @Override
+        public int getFps() {
+            return fpsVal.getValue();
         }
 
         @Override

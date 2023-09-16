@@ -139,6 +139,7 @@ public class WailaConfig implements IWailaConfig {
         private final Position position = new Position();
         private final Color color = new Color();
         private float scale = 1.0F;
+        private int fps = 30;
 
         @Override
         public Position getPosition() {
@@ -157,6 +158,14 @@ public class WailaConfig implements IWailaConfig {
         @Override
         public Color getColor() {
             return color;
+        }
+
+        public int getFps() {
+            return fps;
+        }
+
+        public void setFps(int fps) {
+            this.fps = fps;
         }
 
         public static class Position implements IWailaConfig.Overlay.Position {

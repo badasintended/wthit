@@ -208,6 +208,11 @@ public class TooltipHandler {
         }
 
         @Override
+        public int getFps() {
+            return getOverlay().getFps();
+        }
+
+        @Override
         public float getScale() {
             return getOverlay().getScale();
         }
