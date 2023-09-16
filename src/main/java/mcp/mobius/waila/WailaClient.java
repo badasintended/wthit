@@ -33,6 +33,7 @@ public abstract class WailaClient {
     public static KeyMapping keyShowRecipeOutput;
 
     public static boolean showComponentBounds = false;
+    public static boolean showFps = false;
 
     @Nullable
     private static IRecipeAction recipeAction;

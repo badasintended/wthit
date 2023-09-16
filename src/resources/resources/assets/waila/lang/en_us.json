@@ -124,6 +124,9 @@
 
   "config.waila.overlay"                                        : "Overlay",
 
+  "config.waila.overlay_fps"                                    : "Overlay FPS",
+  "config.waila.overlay_fps_desc"                               : "Lowering the overlay FPS might improve the overall game FPS\nSet to 0 to unlock",
+
   "config.waila.overlay_pos_x"                                  : "X Offset",
   "config.waila.overlay_pos_x_desc"                             : "X position relative from screen anchor\nPosition is affected by scale",
   "config.waila.overlay_pos_y"                                  : "Y Offset",
