@@ -13,6 +13,7 @@ public class CategoryEntry extends ConfigListWidget.Entry {
 
     @Override
     public void render(@NotNull PoseStack matrices, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
+//        ctx.drawString(client.font, category, rowLeft, rowTop + height - client.font.lineHeight, 0xFFFFFF);
         GuiComponent.drawCenteredString(matrices, client.font, category, rowLeft + width / 2, rowTop + height - client.font.lineHeight, 0xFFFFFF);
     }
 

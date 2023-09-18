@@ -5,12 +5,14 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.buildconst.Tl;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.ContainerObjectSelectionList;
 import net.minecraft.client.gui.components.events.GuiEventListener;
@@ -18,6 +20,7 @@ import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
 import org.jetbrains.annotations.NotNull;
 
 public class CreditsScreen extends Screen {
@@ -37,17 +40,21 @@ public class CreditsScreen extends Screen {
 
         try {
             var credits = new Gson().fromJson(minecraft.getResourceManager().getResource(Waila.id("credits.json")).get().openAsReader(), CreditMap.class);
-
             var listWidget = new ListWidget(minecraft, width, height, 32, height - 32, minecraft.font.lineHeight + 6);
-            credits.forEach((key, list) -> {
+
+            credits.forEach((key, category) -> {
                 var children = listWidget.children();
-                children.add(new Entry(Component.translatable(Tl.Gui.CREDITS + "." + key).withStyle(ChatFormatting.GRAY)));
-                for (var person : list) {
-                    children.add(new Entry(Component.literal("        " + person)));
+
+                children.add(new CreditLine(1, List.of(Component.translatable(Tl.Gui.CREDITS + "." + key).withStyle(ChatFormatting.GRAY))));
+
+                for (var chunk : Lists.partition(category.values.stream().map(Component::literal).toList(), category.width)) {
+                    children.add(new CreditLine(category.width, chunk));
                 }
-                children.add(new Entry(Component.empty()));
+
+                children.add(new CreditLine(1, List.of()));
             });
 
+            listWidget.init();
             addRenderableWidget(listWidget);
         } catch (IOException e) {
             e.printStackTrace();
@@ -69,16 +76,35 @@ public class CreditsScreen extends Screen {
         minecraft.setScreen(parent);
     }
 
-    private static class CreditMap extends LinkedHashMap<String, List<String>> {
+    private static class CreditMap extends LinkedHashMap<String, CreditCategory> {
 
     }
 
-    private static class ListWidget extends ContainerObjectSelectionList<Entry> {
+    private static class CreditCategory {
+
+        int width = 0;
+        List<String> values = List.of();
+
+    }
+
+    private static class ListWidget extends ContainerObjectSelectionList<CreditLine> {
 
         private ListWidget(Minecraft client, int width, int height, int top, int bottom, int itemHeight) {
             super(client, width, height, top, bottom, itemHeight);
+        }
 
+        private void init() {
             setRenderBackground(false);
+
+            var totalHeight = (children().size() - 1) * itemHeight;
+            if (totalHeight < height) {
+                setRenderHeader(true, (height - totalHeight) / 2 - y0);
+            }
+        }
+
+        @Override
+        public int getRowWidth() {
+            return Math.min(width - 20, 360);
         }
 
         @Override
@@ -88,12 +114,14 @@ public class CreditsScreen extends Screen {
 
     }
 
-    private static class Entry extends ContainerObjectSelectionList.Entry<Entry> {
+    private class CreditLine extends ContainerObjectSelectionList.Entry<CreditLine> {
 
-        private final Component component;
+        private final int column;
+        private final List<MutableComponent> components;
 
-        private Entry(Component component) {
-            this.component = component;
+        private CreditLine(int column, List<MutableComponent> components) {
+            this.column = column;
+            this.components = components;
         }
 
         @Override
@@ -108,7 +136,14 @@ public class CreditsScreen extends Screen {
 
         @Override
         public void render(@NotNull PoseStack matrices, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
-            Minecraft.getInstance().font.drawShadow(matrices, component, rowLeft, rowTop + 3, 0xFFFFFF);
+            if (components.isEmpty()) return;
+
+            var columnWidth = width / column;
+
+            for (var i = 0; i < components.size(); i++) {
+                var component = components.get(i);
+                GuiComponent.drawCenteredString(matrices, minecraft.font, component, rowLeft + (columnWidth * i) + (columnWidth / 2), rowTop + 3, 0xFFFFFF);
+            }
         }
 
     }
