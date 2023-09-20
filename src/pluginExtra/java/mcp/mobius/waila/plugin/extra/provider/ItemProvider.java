@@ -3,6 +3,7 @@ package mcp.mobius.waila.plugin.extra.provider;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -35,6 +36,7 @@ public class ItemProvider extends DataProvider<ItemData> {
     protected void registerAdditions(IRegistrar registrar, int priority) {
         registrar.addSyncedConfig(ItemData.CONFIG_SYNC_NBT, true, false);
         registrar.addConfig(ItemData.CONFIG_MAX_HEIGHT, 3);
+        registrar.addConfig(ItemData.CONFIG_SORT_BY_COUNT, true);
     }
 
     @Override
@@ -55,7 +57,7 @@ public class ItemProvider extends DataProvider<ItemData> {
         lastData = data;
         lastItemsComponent = null;
 
-        Map<Object, ItemStack> merged = new HashMap<>();
+        Map<Object, ItemStack> merged = new LinkedHashMap<>();
         Map<Item, Set<CompoundTag>> unique = new HashMap<>();
 
         for (var stack : data.items()) {
@@ -82,9 +84,12 @@ public class ItemProvider extends DataProvider<ItemData> {
 
         if (merged.isEmpty()) return;
 
-        tooltip.setLine(ItemData.ID, lastItemsComponent = new ItemListComponent(merged.values().stream()
-            .sorted(Comparator.comparingInt(ItemStack::getCount).reversed())
-            .toList(), config.getInt(ItemData.CONFIG_MAX_HEIGHT)));
+        var stream = merged.values().stream();
+        if (config.getBoolean(ItemData.CONFIG_SORT_BY_COUNT)) {
+            stream = stream.sorted(Comparator.comparingInt(ItemStack::getCount).reversed());
+        }
+
+        tooltip.setLine(ItemData.ID, lastItemsComponent = new ItemListComponent(stream.toList(), config.getInt(ItemData.CONFIG_MAX_HEIGHT)));
     }
 
     private record ItemWithNbt(Item item, CompoundTag tag) {
