@@ -291,7 +291,7 @@
   "config.waila.plugin_wailax.fluid.enabled_entity"             : "Жидкости в сущностях",
   "config.waila.plugin_wailax.fluid.display_unit"               : "Единицы измерения",
   "config.waila.plugin_wailax.fluid.display_unit_millibuckets"  : "Милливедра (мВ)",
-  "config.waila.plugin_wailax.fluid.display_unit_droplets"      : "Дроплеты (d)",
+  "config.waila.plugin_wailax.fluid.display_unit_droplets"      : "Капли (кп.)",
   "config.waila.plugin_wailax.fluid.blacklist"                  : "Черный список",
 
   "theme.waila.plugin_waila.gradient.backgroundColor"           : "Цвет фона",
