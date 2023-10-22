@@ -123,13 +123,8 @@ public enum Registrar implements IRegistrar {
     }
 
     @Override
-    public void addMergedConfig(ResourceLocation key, boolean defaultValue) {
-        addConfig(key, defaultValue, defaultValue, false, true, ConfigEntry.BOOLEAN);
-    }
-
-    @Override
-    public void addMergedSyncedConfig(ResourceLocation key, boolean defaultValue, boolean clientOnlyValue) {
-        addConfig(key, defaultValue, clientOnlyValue, true, true, ConfigEntry.BOOLEAN);
+    public void addFeatureConfig(ResourceLocation key, boolean clientOnly) {
+        addConfig(key, true, clientOnly, !clientOnly, true, ConfigEntry.BOOLEAN);
     }
 
     @Override

@@ -62,8 +62,8 @@ public abstract class DataProvider<T extends IData> implements IBlockComponentPr
     }
 
     public void register(IRegistrar registrar, int priority) {
-        registrar.addMergedSyncedConfig(enabledBlockOption, true, false);
-        registrar.addMergedSyncedConfig(enabledEntityOption, true, false);
+        registrar.addFeatureConfig(enabledBlockOption, false);
+        registrar.addFeatureConfig(enabledEntityOption, false);
         registerAdditions(registrar, priority);
         registrar.addConfig(createConfigKey("blacklist"), blacklistConfig.getPath());
 

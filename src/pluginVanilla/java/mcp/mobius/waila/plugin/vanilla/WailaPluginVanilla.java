@@ -85,30 +85,30 @@ public class WailaPluginVanilla implements IWailaPlugin {
 
     @Override
     public void register(IRegistrar registrar) {
-        registrar.addMergedConfig(Options.ITEM_ENTITY, true);
+        registrar.addFeatureConfig(Options.ITEM_ENTITY, true);
         registrar.addIcon(ItemEntityProvider.INSTANCE, ItemEntity.class);
         registrar.addComponent(ItemEntityProvider.INSTANCE, HEAD, ItemEntity.class, 950);
         registrar.addComponent(ItemEntityProvider.INSTANCE, BODY, ItemEntity.class, 950);
         registrar.addComponent(ItemEntityProvider.INSTANCE, TAIL, ItemEntity.class, 950);
         registrar.addOverride(ItemEntityProvider.INSTANCE, ItemEntity.class);
 
-        registrar.addMergedConfig(Options.PET_OWNER, true);
+        registrar.addFeatureConfig(Options.PET_OWNER, true);
         registrar.addConfig(Options.PET_HIDE_UNKNOWN_OWNER, false);
         registrar.addComponent(PetOwnerProvider.INSTANCE, BODY, Entity.class);
 
         registrar.addConfig(Options.ATTRIBUTE_BLOCK_POSITION, false);
         registrar.addConfig(Options.ATTRIBUTE_BLOCK_STATE, false);
         registrar.addConfig(Options.ATTRIBUTE_ENTITY_POSITION, false);
-        registrar.addMergedConfig(Options.ATTRIBUTE_HEALTH, true);
-        registrar.addMergedSyncedConfig(Options.ATTRIBUTE_ABSORPTION, true, false);
-        registrar.addMergedConfig(Options.ATTRIBUTE_ARMOR, true);
+        registrar.addFeatureConfig(Options.ATTRIBUTE_HEALTH, true);
+        registrar.addFeatureConfig(Options.ATTRIBUTE_ABSORPTION, false);
+        registrar.addFeatureConfig(Options.ATTRIBUTE_ARMOR, true);
         registrar.addConfig(Options.ATTRIBUTE_COMPACT, false);
         registrar.addConfig(Options.ATTRIBUTE_ICON_PER_LINE, 25);
         registrar.addConfig(Options.ATTRIBUTE_LONG_HEALTH_MAX, 100);
         registrar.addConfig(Options.ATTRIBUTE_LONG_ARMOR_MAX, 100);
-        registrar.addMergedConfig(Options.ATTRIBUTE_HORSE_JUMP_HEIGHT, true);
-        registrar.addMergedConfig(Options.ATTRIBUTE_HORSE_SPEED, true);
-        registrar.addMergedConfig(Options.ATTRIBUTE_PANDA_GENES, true);
+        registrar.addFeatureConfig(Options.ATTRIBUTE_HORSE_JUMP_HEIGHT, true);
+        registrar.addFeatureConfig(Options.ATTRIBUTE_HORSE_SPEED, true);
+        registrar.addFeatureConfig(Options.ATTRIBUTE_PANDA_GENES, true);
         registrar.addComponent(BlockAttributesProvider.INSTANCE, BODY, Block.class, 950);
         registrar.addComponent(EntityAttributesProvider.INSTANCE, HEAD, Entity.class, 950);
         registrar.addComponent(EntityAttributesProvider.INSTANCE, BODY, Entity.class, 950);
@@ -116,19 +116,19 @@ public class WailaPluginVanilla implements IWailaPlugin {
         registrar.addComponent(PandaProvider.INSTANCE, BODY, Panda.class);
         registrar.addEntityData(EntityAttributesProvider.INSTANCE, Entity.class);
 
-        registrar.addMergedSyncedConfig(Options.JUKEBOX_RECORD, true, false);
+        registrar.addFeatureConfig(Options.JUKEBOX_RECORD, false);
         registrar.addComponent(JukeboxProvider.INSTANCE, BODY, JukeboxBlockEntity.class);
         registrar.addBlockData(JukeboxProvider.INSTANCE, JukeboxBlockEntity.class);
 
-        registrar.addMergedSyncedConfig(Options.TIMER_GROW, true, false);
-        registrar.addMergedSyncedConfig(Options.TIMER_BREED, true, false);
+        registrar.addFeatureConfig(Options.TIMER_GROW, false);
+        registrar.addFeatureConfig(Options.TIMER_BREED, false);
         registrar.addComponent(MobTimerProvider.INSTANCE, BODY, AgeableMob.class);
         registrar.addEntityData(MobTimerProvider.INSTANCE, AgeableMob.class);
 
-        registrar.addMergedConfig(Options.OVERRIDE_INVISIBLE_ENTITY, true);
-        registrar.addMergedConfig(Options.OVERRIDE_TRAPPED_CHEST, true);
-        registrar.addMergedConfig(Options.OVERRIDE_POWDER_SNOW, true);
-        registrar.addMergedConfig(Options.OVERRIDE_INFESTED, true);
+        registrar.addFeatureConfig(Options.OVERRIDE_INVISIBLE_ENTITY, true);
+        registrar.addFeatureConfig(Options.OVERRIDE_TRAPPED_CHEST, true);
+        registrar.addFeatureConfig(Options.OVERRIDE_POWDER_SNOW, true);
+        registrar.addFeatureConfig(Options.OVERRIDE_INFESTED, true);
         registrar.addConfig(Options.OVERRIDE_VEHICLE, true);
         registrar.addOverride(InvisibleEntityProvider.INSTANCE, LivingEntity.class);
         registrar.addOverride(InfestedBlockProvider.INSTANCE, InfestedBlock.class);
@@ -136,15 +136,15 @@ public class WailaPluginVanilla implements IWailaPlugin {
         registrar.addOverride(PowderSnowProvider.INSTANCE, PowderSnowBlock.class);
         registrar.addOverride(VehicleProvider.INSTANCE, Entity.class, 900);
 
-        registrar.addMergedConfig(Options.BREAKING_PROGRESS, true);
+        registrar.addFeatureConfig(Options.BREAKING_PROGRESS, true);
         registrar.addConfig(Options.BREAKING_PROGRESS_COLOR, 0xAAFFFFFF, IntFormat.ARGB_HEX);
         registrar.addConfig(Options.BREAKING_PROGRESS_BOTTOM_ONLY, false);
         registrar.addEventListener(BreakProgressProvider.INSTANCE);
 
-        registrar.addMergedConfig(Options.SPAWNER_TYPE, true);
+        registrar.addFeatureConfig(Options.SPAWNER_TYPE, true);
         registrar.addComponent(SpawnerProvider.INSTANCE, HEAD, SpawnerBlockEntity.class, 950);
 
-        registrar.addMergedConfig(Options.CROP_PROGRESS, true);
+        registrar.addFeatureConfig(Options.CROP_PROGRESS, true);
         registrar.addIcon(PlantProvider.INSTANCE, CropBlock.class);
         registrar.addComponent(PlantProvider.INSTANCE, BODY, CropBlock.class);
         registrar.addComponent(PlantProvider.INSTANCE, BODY, StemBlock.class);
@@ -152,25 +152,25 @@ public class WailaPluginVanilla implements IWailaPlugin {
         registrar.addComponent(PlantProvider.INSTANCE, BODY, NetherWartBlock.class);
         registrar.addComponent(PlantProvider.INSTANCE, BODY, SweetBerryBushBlock.class);
 
-        registrar.addMergedConfig(Options.REDSTONE_LEVER, true);
-        registrar.addMergedConfig(Options.REDSTONE_REPEATER, true);
-        registrar.addMergedConfig(Options.REDSTONE_COMPARATOR, true);
-        registrar.addMergedConfig(Options.REDSTONE_LEVEL, true);
+        registrar.addFeatureConfig(Options.REDSTONE_LEVER, true);
+        registrar.addFeatureConfig(Options.REDSTONE_REPEATER, true);
+        registrar.addFeatureConfig(Options.REDSTONE_COMPARATOR, true);
+        registrar.addFeatureConfig(Options.REDSTONE_LEVEL, true);
         registrar.addComponent(RedstoneProvider.INSTANCE, BODY, LeverBlock.class);
         registrar.addComponent(RedstoneProvider.INSTANCE, BODY, RepeaterBlock.class);
         registrar.addComponent(RedstoneProvider.INSTANCE, BODY, ComparatorBlock.class);
         registrar.addComponent(RedstoneProvider.INSTANCE, BODY, RedStoneWireBlock.class);
 
-        registrar.addMergedConfig(Options.PLAYER_HEAD_NAME, true);
+        registrar.addFeatureConfig(Options.PLAYER_HEAD_NAME, true);
         registrar.addIcon(PlayerHeadProvider.INSTANCE, SkullBlockEntity.class);
         registrar.addComponent(PlayerHeadProvider.INSTANCE, BODY, SkullBlockEntity.class);
 
-        registrar.addMergedConfig(Options.LEVEL_COMPOSTER, true);
-        registrar.addMergedConfig(Options.LEVEL_HONEY, true);
+        registrar.addFeatureConfig(Options.LEVEL_COMPOSTER, true);
+        registrar.addFeatureConfig(Options.LEVEL_HONEY, true);
         registrar.addComponent(ComposterProvider.INSTANCE, BODY, ComposterBlock.class);
         registrar.addComponent(BeehiveProvider.INSTANCE, BODY, BeehiveBlock.class);
 
-        registrar.addMergedConfig(Options.NOTE_BLOCK_TYPE, true);
+        registrar.addFeatureConfig(Options.NOTE_BLOCK_TYPE, true);
         registrar.addConfig(Options.NOTE_BLOCK_NOTE, NoteDisplayMode.SHARP);
         registrar.addConfig(Options.NOTE_BLOCK_INT_VALUE, false);
         registrar.addComponent(NoteBlockProvider.INSTANCE, BODY, NoteBlock.class);
