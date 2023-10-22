@@ -23,6 +23,16 @@
   "tooltip.waila.horse.speed.key"                               : "Hastighet",
   "tooltip.waila.horse.speed.value"                             : "%s m/s",
 
+
+
+
+
+
+
+
+
+
+
   "tooltip.waila.instrument.harp"                               : "Harpa",
   "tooltip.waila.instrument.basedrum"                           : "Bastrumma",
   "tooltip.waila.instrument.snare"                              : "Virveltrumma",
@@ -113,6 +123,9 @@
   "config.waila.tts_desc"                                       : "Läs upp namnet på block och entiteter med systemets text-till-tal-motor",
 
   "config.waila.overlay"                                        : "Överlägg",
+
+
+
 
   "config.waila.overlay_pos_x"                                  : "X-förskjutning",
   "config.waila.overlay_pos_x_desc"                             : "X-position relativt från skärmankaret\nPositionen påverkas av skalan",
@@ -233,6 +246,16 @@
   "config.waila.plugin_minecraft.attribute.horse_jump_height"   : "Visa hästens hoppstyrka",
   "config.waila.plugin_minecraft.attribute.horse_speed"         : "Visa hästens hastighet",
 
+
+
+
+
+
+
+
+
+
+
   "config.waila.plugin_waila"                                   : "Waila Core",
   "config.waila.plugin_waila.show_mod_name"                     : "Visa modnamn",
   "config.waila.plugin_waila.show_item_mod_name"                : "Visa modnamn för föremål",
@@ -261,10 +284,14 @@
   "config.waila.plugin_wailax.item.enabled_entity"              : "Visa entitetföremålsinnehåll",
   "config.waila.plugin_wailax.item.nbt"                         : "Synka NBT-data",
   "config.waila.plugin_wailax.item.max_height"                  : "Max. höjd",
+
   "config.waila.plugin_wailax.item.blacklist"                   : "Svartlista för föremålsinnehåll",
   "config.waila.plugin_wailax.fluid"                            : "Vätska",
   "config.waila.plugin_wailax.fluid.enabled_block"              : "Visa blockvätskeinnehåll",
   "config.waila.plugin_wailax.fluid.enabled_entity"             : "Visa entitetvätskeinnehåll",
+
+
+
   "config.waila.plugin_wailax.fluid.blacklist"                  : "Svartlista för vätskeinnehåll",
 
   "theme.waila.plugin_waila.gradient.backgroundColor"           : "Bakgrundsfärg",
@@ -292,5 +319,6 @@
   "theme.waila.plugin_waila.nine_patch.mode_tile"               : "Upprepa",
 
   "tooltip.waila.instrument"                                    : "_DO_NOT_TRANSLATE_",
+
   "config.waila.plugin_"                                        : "_DO_NOT_TRANSLATE_"
 }

@@ -23,6 +23,16 @@
   "tooltip.waila.horse.speed.key"                               : "速度",
   "tooltip.waila.horse.speed.value"                             : "%s米/秒",
 
+
+
+
+
+
+
+
+
+
+
   "tooltip.waila.instrument.harp"                               : "竖琴",
   "tooltip.waila.instrument.basedrum"                           : "底鼓",
   "tooltip.waila.instrument.snare"                              : "小军鼓",
@@ -113,6 +123,9 @@
   "config.waila.tts_desc"                                       : "使用系统讲述人读出方块和实体名",
 
   "config.waila.overlay"                                        : "叠加层",
+
+
+
 
   "config.waila.overlay_pos_x"                                  : "X轴偏移",
   "config.waila.overlay_pos_x_desc"                             : "相对于屏幕锚点的X坐标\n坐标受尺寸影响",
@@ -233,6 +246,16 @@
   "config.waila.plugin_minecraft.attribute.horse_jump_height"   : "显示马匹跳跃高度",
   "config.waila.plugin_minecraft.attribute.horse_speed"         : "显示马匹行进速度",
 
+
+
+
+
+
+
+
+
+
+
   "config.waila.plugin_waila"                                   : "Waila核心",
   "config.waila.plugin_waila.show_mod_name"                     : "显示模组名称",
   "config.waila.plugin_waila.show_item_mod_name"                : "显示物品模组名称",
@@ -261,10 +284,14 @@
   "config.waila.plugin_wailax.item.enabled_entity"              : "显示实体物品内容",
   "config.waila.plugin_wailax.item.nbt"                         : "同步NBT数据",
   "config.waila.plugin_wailax.item.max_height"                  : "最大高度",
+
   "config.waila.plugin_wailax.item.blacklist"                   : "物品内容黑名单",
   "config.waila.plugin_wailax.fluid"                            : "流体",
   "config.waila.plugin_wailax.fluid.enabled_block"              : "显示方块流体内容",
   "config.waila.plugin_wailax.fluid.enabled_entity"             : "显示实体流体内容",
+
+
+
   "config.waila.plugin_wailax.fluid.blacklist"                  : "流体内容黑名单",
 
   "theme.waila.plugin_waila.gradient.backgroundColor"           : "背景颜色",
@@ -292,5 +319,6 @@
   "theme.waila.plugin_waila.nine_patch.mode_tile"               : "平铺",
 
   "tooltip.waila.instrument"                                    : "_DO_NOT_TRANSLATE_",
+
   "config.waila.plugin_"                                        : "_DO_NOT_TRANSLATE_"
 }

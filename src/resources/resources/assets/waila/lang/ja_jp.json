@@ -23,6 +23,16 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
   "tooltip.waila.instrument.harp"                               : "ハープ",
   "tooltip.waila.instrument.basedrum"                           : "バスドラム",
   "tooltip.waila.instrument.snare"                              : "スネアドラム",
@@ -113,6 +123,9 @@
   "config.waila.tts_desc"                                       : "ブロックやエンティティ名などをシステム音声で読み上げます",
 
   "config.waila.overlay"                                        : "オーバーレイ",
+
+
+
 
   "config.waila.overlay_pos_x"                                  : "xオフセット",
   "config.waila.overlay_pos_x_desc"                             : "xは画面アンカーから比較的にある\n位置はスケールに寄って違う",
@@ -233,6 +246,16 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
   "config.waila.plugin_waila"                                   : "Wailaコア",
   "config.waila.plugin_waila.show_mod_name"                     : "mod名の表示",
 
@@ -241,6 +264,11 @@
   "config.waila.plugin_waila.show_fluids"                       : "流体の表示",
   "config.waila.plugin_waila.show_fluids_desc"                  : "流体の表示を試してみる",
   "config.waila.plugin_waila.show_entities"                     : "エンティティの表示"
+
+
+
+
+
 
 
 

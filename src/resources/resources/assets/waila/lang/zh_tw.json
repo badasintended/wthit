@@ -23,6 +23,16 @@
   "tooltip.waila.horse.speed.key"                               : "速度",
   "tooltip.waila.horse.speed.value"                             : "%s 公尺/秒",
 
+
+
+
+
+
+
+
+
+
+
   "tooltip.waila.instrument.harp"                               : "豎琴",
   "tooltip.waila.instrument.basedrum"                           : "大鼓",
   "tooltip.waila.instrument.snare"                              : "小鼓",
@@ -113,6 +123,9 @@
   "config.waila.tts_desc"                                       : "以系統的文字轉語音引擎來讀出方塊及實體的名稱",
 
   "config.waila.overlay"                                        : "提示框",
+
+
+
 
   "config.waila.overlay_pos_x"                                  : "X 軸偏移量",
   "config.waila.overlay_pos_x_desc"                             : "相對於畫面錨點的 X 軸位置\n位置會受放大比例影響",
@@ -233,6 +246,16 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
   "config.waila.plugin_waila"                                   : "Waila 核心",
   "config.waila.plugin_waila.show_mod_name"                     : "顯示模組名稱",
 
@@ -242,6 +265,11 @@
   "config.waila.plugin_waila.show_fluids_desc"                  : "嘗試顯示流體",
   "config.waila.plugin_waila.show_entities"                     : "顯示實體",
   "config.waila.plugin_waila.show_icon"                         : "顯示圖示"
+
+
+
+
+
 
 
 

@@ -23,6 +23,16 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
   "tooltip.waila.instrument.harp"                               : "Arpa",
   "tooltip.waila.instrument.basedrum"                           : "Bombo",
   "tooltip.waila.instrument.snare"                              : "Caja",
@@ -113,6 +123,9 @@
   "config.waila.tts_desc"                                       : "Lee los nombres de bloque y entidad usando el procesador TTS del sistema",
 
   "config.waila.overlay"                                        : "Overlay",
+
+
+
 
   "config.waila.overlay_pos_x"                                  : "Desplazamiento en X",
   "config.waila.overlay_pos_x_desc"                             : "Posición en X relativa al anclaje de pantalla\nLa posición es afectada por la escala",
@@ -233,6 +246,16 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
   "config.waila.plugin_waila"                                   : "Waila Base",
   "config.waila.plugin_waila.show_mod_name"                     : "Ver nombre de mods",
 
@@ -241,6 +264,11 @@
   "config.waila.plugin_waila.show_fluids"                       : "Ver fluídos",
   "config.waila.plugin_waila.show_fluids_desc"                  : "Trata de mostrar el nombre de fluídos",
   "config.waila.plugin_waila.show_entities"                     : "Ver entidades"
+
+
+
+
+
 
 
 
