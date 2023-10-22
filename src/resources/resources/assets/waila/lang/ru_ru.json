@@ -23,6 +23,16 @@
   "tooltip.waila.horse.speed.key"                               : "Скорость",
   "tooltip.waila.horse.speed.value"                             : "%s м/с",
 
+  "tooltip.waila.panda.personality"                             : "Особая черта",
+  "tooltip.waila.panda.traits"                                  : "Характер",
+  "tooltip.waila.panda.gene.normal"                             : "Обычная",
+  "tooltip.waila.panda.gene.lazy"                               : "Ленивая",
+  "tooltip.waila.panda.gene.worried"                            : "Грустная",
+  "tooltip.waila.panda.gene.playful"                            : "Игривая",
+  "tooltip.waila.panda.gene.brown"                              : "Коричневая",
+  "tooltip.waila.panda.gene.weak"                               : "Уставшая",
+  "tooltip.waila.panda.gene.aggressive"                         : "Злая",
+
   "tooltip.waila.instrument.harp"                               : "Арфа",
   "tooltip.waila.instrument.basedrum"                           : "Большой барабан",
   "tooltip.waila.instrument.snare"                              : "Малый барабан",
@@ -47,8 +57,8 @@
   "tooltip.waila.instrument.piglin"                             : "Пиглин",
   "tooltip.waila.instrument.none"                               : "Нет",
 
-
-
+  "tooltip.waila.extra.energy"                                  : "Энергия",
+  "tooltip.waila.extra.unknown_fluid"                           : "Неизвестная жидкость",
 
   "gui.waila.configuration"                                     : "Конфигурация %s",
   "gui.waila.waila_settings"                                    : "Настройки %s",
@@ -113,6 +123,9 @@
   "config.waila.tts_desc"                                       : "Читает названия блоков и существ используя синтез речи",
 
   "config.waila.overlay"                                        : "Наложение",
+
+  "config.waila.overlay_fps"                                    : "Лимит FPS для подсказки",
+  "config.waila.overlay_fps_desc"                               : "Снижает частоту отрисовки подсказки для общего увеличения FPS\nУстановите 0 чтобы снять лимит",
 
   "config.waila.overlay_pos_x"                                  : "Смещение по X",
   "config.waila.overlay_pos_x_desc"                             : "Позиция X относительно привязки экрана\nРазмер влияет на позицию",
@@ -232,6 +245,16 @@
   "config.waila.plugin_minecraft.attribute.long_armor_max_desc" : "Наибольшее число очков брони для отображения в виде иконок, если у моба или игрока больше чем указано здесь, будут отображены цифры",
   "config.waila.plugin_minecraft.attribute.horse_jump_height"   : "Отображать силу прыжка лошади",
   "config.waila.plugin_minecraft.attribute.horse_speed"         : "Отображать скорость лошади",
+  "config.waila.plugin_minecraft.attribute.panda_genes"         : "Показывать характер панд",
+  "config.waila.plugin_minecraft.book"                          : "Книги",
+  "config.waila.plugin_minecraft.book.bookshelf"                : "Показывать число книг на полке",
+  "config.waila.plugin_minecraft.book.written"                  : "Показывать автора и дату записанных книг",
+  "config.waila.plugin_minecraft.book.enchantment"              : "Отображение зачарований",
+  "config.waila.plugin_minecraft.book.enchantment_separate"     : "Раздельный",
+  "config.waila.plugin_minecraft.book.enchantment_combined"     : "Комбинированый",
+  "config.waila.plugin_minecraft.book.enchantment_cycle"        : "Циклический",
+  "config.waila.plugin_minecraft.book.enchantment_disabled"     : "Выключено",
+  "config.waila.plugin_minecraft.book.enchantment_cycle_timing" : "Время цикла (в миллисекундах)",
 
   "config.waila.plugin_waila"                                   : "Ядро Waila",
   "config.waila.plugin_waila.show_mod_name"                     : "Отображать названия модов",
@@ -247,25 +270,29 @@
   "config.waila.plugin_waila.icon_position_middle"              : "Посередине",
   "config.waila.plugin_waila.icon_position_bottom"              : "Внизу",
 
+  "config.waila.plugin_wailax"                                  : "Waila Extra",
+  "config.waila.plugin_wailax.energy"                           : "Энергия",
+  "config.waila.plugin_wailax.energy.enabled_block"             : "Энергия блоков",
+  "config.waila.plugin_wailax.energy.enabled_entity"            : "Энергию сущностей",
+  "config.waila.plugin_wailax.energy.blacklist"                 : "Черный список",
+  "config.waila.plugin_wailax.progress"                         : "Процесс крафта",
+  "config.waila.plugin_wailax.progress.enabled_block"           : "Процесс крафта блоков",
+  "config.waila.plugin_wailax.progress.enabled_entity"          : "Процесс крафта сущностей",
+  "config.waila.plugin_wailax.progress.blacklist"               : "Черный список",
+  "config.waila.plugin_wailax.item"                             : "Предметы",
+  "config.waila.plugin_wailax.item.enabled_block"               : "Содержание блоков",
+  "config.waila.plugin_wailax.item.enabled_entity"              : "Содержимое сущностей",
+  "config.waila.plugin_wailax.item.nbt"                         : "Синхронизировать NBT данные",
+  "config.waila.plugin_wailax.item.max_height"                  : "Максимальная высота",
+  "config.waila.plugin_wailax.item.sort_by_count"               : "Сортировать по количеству",
+  "config.waila.plugin_wailax.item.blacklist"                   : "Черный список",
+  "config.waila.plugin_wailax.fluid"                            : "Жидкости",
+  "config.waila.plugin_wailax.fluid.enabled_block"              : "Жидкости в блоках",
+  "config.waila.plugin_wailax.fluid.enabled_entity"             : "Жидкости в сущностях",
+  "config.waila.plugin_wailax.fluid.display_unit"               : "Единицы измерения",
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  "config.waila.plugin_wailax.fluid.blacklist"                  : "Черный список",
 
   "theme.waila.plugin_waila.gradient.backgroundColor"           : "Цвет фона",
   "theme.waila.plugin_waila.gradient.gradientStart"             : "Начало градиента обводки",
@@ -290,6 +317,7 @@
   "theme.waila.plugin_waila.nine_patch.mode"                    : "Режим отрисовки",
   "theme.waila.plugin_waila.nine_patch.mode_stretch"            : "Растягивание",
   "theme.waila.plugin_waila.nine_patch.mode_tile"               : "Плитка"
+
 
 
 
