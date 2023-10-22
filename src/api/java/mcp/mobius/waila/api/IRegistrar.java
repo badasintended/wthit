@@ -156,7 +156,10 @@ public interface IRegistrar {
 
     /**
      * Registers a namespaced config key to be accessed within data providers.
-     * When the server has waila installed, the server will send its value and it will be merged with client value.
+     * <p>
+     * The main purpose of this method is for toggling feature that enabled by default.
+     * This method allows server to disable the option remotely for all connected clients,
+     * the clients can then toggle the option for their own side only if it is enabled on the server.
      * <p>
      * These translation keys will be used on the plugin config screen:<ul>
      * <li>{@code config.waila.plugin_[namespace].[path]} for the config name.</li>
@@ -168,30 +171,10 @@ public interface IRegistrar {
      * Then, add a translation for {@code config.waila.plugin_[namespace].[group]} with the group name
      * for it to be visible in the config screen.
      *
-     * @param key          the namespaced key
-     * @param defaultValue the default value
+     * @param key        the namespaced key to be used with {@link IPluginConfig#getBoolean(ResourceLocation)}
+     * @param clientOnly whether the feature available on client-only, e.g. not using {@linkplain IDataProvider server data}
      */
-    void addMergedConfig(ResourceLocation key, boolean defaultValue);
-
-    /**
-     * Registers a namespaced config key to be accessed within data providers.
-     * When the server has waila installed, the server will send its value and it will be merged with client value.
-     * <p>
-     * These translation keys will be used on the plugin config screen:<ul>
-     * <li>{@code config.waila.plugin_[namespace].[path]} for the config name.</li>
-     * <li>{@code config.waila.plugin_[namespace].[path]_desc} for the config description.
-     * This one is optional and can be left missing.</li></ul>
-     * <p>
-     * Config options can also be grouped with the same prefix on its path followed by a period [{@code .}],
-     * e.g. {@code my_plugin:group.option1} and {@code my_plugin:group.option2}.<br>
-     * Then, add a translation for {@code config.waila.plugin_[namespace].[group]} with the group name
-     * for it to be visible in the config screen.
-     *
-     * @param key             the namespaced key
-     * @param defaultValue    the default value
-     * @param clientOnlyValue the value that will be used when the server connected doesn't have waila installed
-     */
-    void addMergedSyncedConfig(ResourceLocation key, boolean defaultValue, boolean clientOnlyValue);
+    void addFeatureConfig(ResourceLocation key, boolean clientOnly);
 
     /**
      * Registers a namespaced config key to be accessed within data providers.
@@ -604,6 +587,24 @@ public interface IRegistrar {
     @ApiStatus.ScheduledForRemoval(inVersion = "1.21")
     default <T, E extends Entity> void addEntityData(IServerDataProvider<E> provider, Class<T> clazz) {
         addEntityData((IDataProvider<? extends Entity>) provider, clazz);
+    }
+
+    /**
+     * @deprecated use {@link #addFeatureConfig(ResourceLocation, boolean)}
+     */
+    @Deprecated(forRemoval = true)
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.22")
+    default void addMergedConfig(ResourceLocation key, boolean defaultValue) {
+        addFeatureConfig(key, true);
+    }
+
+    /**
+     * @deprecated use {@link #addFeatureConfig(ResourceLocation, boolean)}
+     */
+    @Deprecated(forRemoval = true)
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.22")
+    default void addMergedSyncedConfig(ResourceLocation key, boolean defaultValue, boolean clientOnlyValue) {
+        addFeatureConfig(key, false);
     }
 
 }
