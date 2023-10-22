@@ -148,7 +148,7 @@ public final class FluidData implements IData {
         /**
          * 1 bucket = 81000 droplets. Used in Fabric.
          */
-        DROPLETS("d");
+        DROPLETS("dp");
 
         public final String symbol;
 
