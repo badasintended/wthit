@@ -23,6 +23,16 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
   "tooltip.waila.instrument.harp"                               : "하프",
   "tooltip.waila.instrument.basedrum"                           : "베이스 드럼",
   "tooltip.waila.instrument.snare"                              : "작은북",
@@ -113,6 +123,9 @@
   "config.waila.tts_desc"                                       : "블록과 개체 이름을 시스템의 TTS를 이용해서 읽습니다.r",
 
   "config.waila.overlay"                                        : "오버레이",
+
+
+
 
   "config.waila.overlay_pos_x"                                  : "X 오프셋",
   "config.waila.overlay_pos_x_desc"                             : "화면 고정 값 기준 X 좌표\n위치는 크기에 영향을 받습니다.",
@@ -233,6 +246,16 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
   "config.waila.plugin_waila"                                   : "Waila Core",
   "config.waila.plugin_waila.show_mod_name"                     : "모드 이름 표시",
 
@@ -241,6 +264,11 @@
   "config.waila.plugin_waila.show_fluids"                       : "유체 표시",
   "config.waila.plugin_waila.show_fluids_desc"                  : "유체를 보여줍니다.",
   "config.waila.plugin_waila.show_entities"                     : "개체 표시"
+
+
+
+
+
 
 
 
