@@ -17,7 +17,7 @@ fun <T : Jar> UploadConfig.curseforge(task: T) = project.run {
         apiEndpoint = "https://${prop["cf.endpoint"]}"
 
         upload(prop["cf.projectId"], task).apply {
-            displayName = "[${project.name.capitalize()} ${rootProp["minecraft"]}] ${project.version}"
+            displayName = "[${prop["cf.loader"]} ${rootProp["minecraft"]}] ${project.version}"
             releaseType = prop["cf.releaseType"]
 
             changelogType = "markdown"
@@ -37,9 +37,9 @@ fun <T : Jar> UploadConfig.curseforge(task: T) = project.run {
                 }
             }
 
-            relation("require", Constants.RELATION_REQUIRED);
-            relation("optional", Constants.RELATION_OPTIONAL);
-            relation("break", Constants.RELATION_INCOMPATIBLE);
+            relation("require", Constants.RELATION_REQUIRED)
+            relation("optional", Constants.RELATION_OPTIONAL)
+            relation("break", Constants.RELATION_INCOMPATIBLE)
         }
     }
 }

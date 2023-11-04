@@ -13,7 +13,6 @@ import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.server.packs.PackType;
 
-@SuppressWarnings("UnstableApiUsage")
 public class FabricWailaClient extends WailaClient implements ClientModInitializer {
 
     @Override
@@ -26,7 +25,6 @@ public class FabricWailaClient extends WailaClient implements ClientModInitializ
         ClientTickEvents.END_CLIENT_TICK.register(client -> onClientTick());
         ItemTooltipCallback.EVENT.register((stack, ctx, tooltip) -> onItemTooltip(stack, tooltip));
 
-        ClientConfigurationConnectionEvents.INIT.register((handler, client) -> client.execute(WailaClient::onServerLogIn));
         ClientConfigurationConnectionEvents.DISCONNECT.register((handler, client) -> client.execute(WailaClient::onServerLogout));
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> client.execute(WailaClient::onServerLogout));
 

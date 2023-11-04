@@ -9,4 +9,6 @@ public interface IMixedService {
 
     void attachRegistryFilter(RegistryAccess registryAccess);
 
+    void onServerLogin();
+
 }

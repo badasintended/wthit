@@ -101,7 +101,7 @@ public abstract class WailaClient {
         }
     }
 
-    protected static void onServerLogIn() {
+    public static void onServerLogIn() {
         Waila.BLACKLIST_CONFIG.invalidate();
         PluginConfig.getSyncableConfigs().forEach(config ->
             config.setServerValue(null));

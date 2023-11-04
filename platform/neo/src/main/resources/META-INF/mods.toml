@@ -1,8 +1,11 @@
 modLoader = "javafml"
-loaderVersion = "[38,)"
+loaderVersion = "[1,)"
 issueTrackerURL = "https://github.com/badasintended/wthit/issues"
 displayURL = "https://github.com/badasintended/wthit"
 license = "CC-BY-NC-SA-4.0"
+
+[[mixins]]
+config = "wthit.mixins.json"
 
 [[mods]]
 modId = "wthit"
@@ -21,9 +24,9 @@ authors = "deirn, TehNut, ProfMobius"
 logoFile = "wthit.jpg"
 
 [[dependencies.wthit]]
-modId = "forge"
+modId = "neoforge"
 mandatory = true
-versionRange = "[48.0.34,)"
+versionRange = "[20.2,)"
 ordering = "NONE"
 side = "BOTH"
 

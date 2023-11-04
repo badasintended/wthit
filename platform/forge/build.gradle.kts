@@ -1,16 +1,16 @@
 import net.minecraftforge.gradle.common.util.RunConfig
 import java.text.SimpleDateFormat
-import java.util.Date
+import java.util.*
 
 plugins {
-    id("net.neoforged.gradle") version "[6.0.13, 6.2)"
+    id("net.minecraftforge.gradle") version "[6.0.13, 6.2)"
     id("org.spongepowered.mixin") version "0.7.+"
 }
 
 setupPlatform()
 
 dependencies {
-    minecraft("net.neoforged:forge:${rootProp["minecraft"]}-${rootProp["forge"]}")
+    minecraft("net.minecraftforge:forge:${rootProp["minecraft"]}-${rootProp["forge"]}")
 
     implementation("org.jetbrains:annotations:19.0.0")
     annotationProcessor("org.spongepowered:mixin:0.8.5:processor")
@@ -20,7 +20,7 @@ dependencies {
 //    runtimeOnly(fg.deobf("me.shedaniel.cloth:cloth-config-forge:${rootProp["clothConfig"]}"))
 
     // https://www.curseforge.com/minecraft/mc-mods/travelers-backpack/files/4584396
-    runtimeOnly(fg.deobf("curse.maven:travelers-backpack-321117:4584396"))
+//    runtimeOnly(fg.deobf("curse.maven:travelers-backpack-321117:4584396"))
     
     when (rootProp["recipeViewer"]) {
         "rei" -> {

@@ -22,9 +22,11 @@ fun platform(name: String) {
     project(":${name}").projectDir = file("platform/${name}")
 }
 
+platform("mojmap")
+
 //platform("bukkit")
 platform("fabric")
-//platform("forge")
-platform("mojmap")
+platform("forge")
+platform("neo")
 platform("textile")
 //platform("quilt")
