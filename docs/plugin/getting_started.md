@@ -50,6 +50,17 @@ Mod versions can be found on Modrinth: [WTHIT](https://modrinth.com/mod/wthit/ve
       runtimeOnly fg.deobf("lol.bai:badpackets:forge-${badpacketsVersion}")
     }
     ```
+=== "NeoForge"
+    ```gradle
+    dependencies {
+      // compile against the API
+      compileOnly "mcp.mobius.waila:wthit-api:neo-${wthitVersion}"
+
+      // run against the full jar
+      runtimeOnly "mcp.mobius.waila:wthit:neo-${wthitVersion}"
+      runtimeOnly "lol.bai:badpackets:neo-${badpacketsVersion}"
+    }
+    ```
 === "Quilt"
     ```gradle
     dependencies {
@@ -75,10 +86,14 @@ Mod versions can be found on Modrinth: [WTHIT](https://modrinth.com/mod/wthit/ve
     ```
     ```gradle title="Forge Project"
     dependencies {
-      // needed for @WailaPlugin annotation
-      modCompileOnly "mcp.mobius.waila:wthit-api:forge-${wthitVersion}"
       modRuntimeOnly "mcp.mobius.waila:wthit:forge-${wthitVersion}"
       modRuntimeOnly "lol.bai:badpackets:forge-${badpacketsVersion}"
+    }
+    ```
+    ```gradle title="Quilt Project"
+    dependencies {
+      modRuntimeOnly "mcp.mobius.waila:wthit:quilt-${wthitVersion}"
+      modRuntimeOnly "lol.bai:badpackets:fabric-${badpacketsVersion}"
     }
     ```
 === "VanillaGradle Multiplatform"
@@ -103,10 +118,14 @@ Mod versions can be found on Modrinth: [WTHIT](https://modrinth.com/mod/wthit/ve
     apply plugin: "org.spongepowered.mixin"
     
     dependencies {
-      // needed for @WailaPlugin annotation
-      compileOnly fg.deobf("mcp.mobius.waila:wthit-api:forge-${wthitVersion}")
       runtimeOnly fg.deobf("mcp.mobius.waila:wthit:forge-${wthitVersion}")
       runtimeOnly fg.deobf("lol.bai:badpackets:forge-${badpacketsVersion}")
+    }
+    ```
+    ```gradle title="NeoForge Project"
+    dependencies {
+      runtimeOnly "mcp.mobius.waila:wthit:neo-${wthitVersion}"
+      runtimeOnly "lol.bai:badpackets:neo-${badpacketsVersion}"
     }
     ```
     ```gradle title="Quilt Project"
@@ -125,16 +144,18 @@ Mod versions can be found on Modrinth: [WTHIT](https://modrinth.com/mod/wthit/ve
 ??? note "Available packages"
     All packages has `mcp.mobius.waila` as their group.
 
-    | Package                       | Description                                                                                   |
-    |:------------------------------|:----------------------------------------------------------------------------------------------|
-    | `wthit-api:fabric-${version}` | Intermediary API jar for Loom projects                                                        |
-    | `wthit-api:forge-${version}`  | SRG API jar for ForgeGradle projects                                                          |
-    | `wthit-api:quilt-${version}`  | Currently intermediary API jar, would be hashed-mojmap when Quilt supports building it        |
-    | `wthit-api:mojmap-${version}` | Mojang Mappings API jar for VanillaGradle projects                                            |
-    | `wthit:fabric-${version}`     | Full runtime jar for Fabric                                                                   |
-    | `wthit:forge-${version}`      | Full runtime jar for Forge                                                                    |
-    | `wthit:quilt-${version}`      | Full runtime jar for Quilt                                                                    |
-    | `wthit:mojmap-${version}`     | Full platform independent jar for strange people that need access to internal implementations |
+    | Package                       | Description                                                      |
+    |:------------------------------|:-----------------------------------------------------------------|
+    | `wthit-api:fabric-${version}` | Intermediary API jar for Loom projects                           |
+    | `wthit-api:forge-${version}`  | SRG API jar for ForgeGradle projects                             |
+    | `wthit-api:neo-${version}`    | Mojang Mappings API jar for NeoGradle projects                   |
+    | `wthit-api:quilt-${version}`  | Intermediary API jar for Quilt-Loom projects                     |
+    | `wthit-api:mojmap-${version}` | Mojang Mappings API jar for VanillaGradle projects               |
+    | `wthit:fabric-${version}`     | Full runtime jar for Fabric                                      |
+    | `wthit:forge-${version}`      | Full runtime jar for Forge                                       |
+    | `wthit:neo-${version}`        | Full runtime jar for NeoForge                                    |
+    | `wthit:quilt-${version}`      | Full runtime jar for Quilt                                       |
+    | `wthit:mojmap-${version}`     | Full platform independent jar for internal implementation access |
     
 
 ## Creating Plugins
@@ -152,7 +173,7 @@ public class MyWailaPlugin implements IWailaPlugin {
 
 
 ### Registering Plugins
-Create a file called `waila_plugins.json` in the root of your mod, commonly in `src/main/resources` folder on your project.
+Create a file called `waila_plugins.json` or `wthit_plugins.json` in the root of your mod, commonly in `src/main/resources` folder on your project.
 ```json
 {
   // the plugin identifier, [namespace:path]
