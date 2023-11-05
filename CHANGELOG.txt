@@ -1,5 +1,7 @@
 9.x - 1.20.2 - dev/master - java 17
 ===================================
+9.1.0    - Added NeoForge platform
+         - Updated Forge platform
 9.0.1    - [API] Added `IRegistrar#addFeatureConfig`
            - Deprecated `addMergedConfig` and `addMergedSyncedConfig`
          - Added option to render the tooltip overlay at lower FPS than the rest of the game. Defaults to 30 FPS
