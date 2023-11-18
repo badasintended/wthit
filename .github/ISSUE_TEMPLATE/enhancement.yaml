@@ -1,0 +1,15 @@
+name: "Enhancement"
+description: Suggest an epic idea, or complain about current features, I guess.
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### Mod compatibility request, whether it's for Fabric or Forge should go to the [Megane](https://github.com/badasintended/megane) project instead!
+  - type: textarea
+    id: enhancement
+    attributes:
+      label: Enhancement
+      description: "Who's your waifu?"
+    validations:
+      required: true
