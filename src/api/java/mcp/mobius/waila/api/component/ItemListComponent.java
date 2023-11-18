@@ -3,7 +3,6 @@ package mcp.mobius.waila.api.component;
 import java.util.List;
 
 import mcp.mobius.waila.api.ITooltipComponent;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
@@ -53,7 +52,7 @@ public class ItemListComponent implements ITooltipComponent.HorizontalGrowing {
             var ix = x + (18 * (i % gridWidth)) + 1;
             var iy = y + (18 * (i / gridWidth)) + 1;
             ctx.renderItem(item, ix, iy);
-            ctx.renderItemDecorations(Minecraft.getInstance().font, item, ix, iy);
+            ItemComponent.renderItemDecorations(ctx, item, ix, iy);
 
             if (i == maxIndex) break;
         }
