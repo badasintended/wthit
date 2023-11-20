@@ -1,5 +1,9 @@
 9.x - 1.20.2 - dev/master - java 17
 ===================================
+9.1.1    - Fixed blockstate override for BlockEntity class not evaluated if it has override from Block class
+           - Fixed player head skin always showing as Steve's
+         - Changed item tooltip to show item number as suffixed form (1000 -> 1K)
+           - Automatically scale down the text if its width exceeds 16px
 9.1.0    - Added NeoForge platform
          - Updated Forge platform
 9.0.1    - [API] Added `IRegistrar#addFeatureConfig`
@@ -12,6 +16,10 @@
 
 8.x - 1.20.1 - dev/1.20.1 - java 17
 ===================================
+8.4.2    - Fixed blockstate override for BlockEntity class not evaluated if it has override from Block class
+           - Fixed player head skin always showing as Steve's
+         - Changed item tooltip to show item number as suffixed form (1000 -> 1K)
+           - Automatically scale down the text if its width exceeds 16px
 8.4.1    - [API] Added `IRegistrar#addFeatureConfig`
            - Deprecated `addMergedConfig` and `addMergedSyncedConfig`
          - Added option to render the tooltip overlay at lower FPS than the rest of the game. Defaults to 30 FPS
@@ -183,6 +191,8 @@
 
 5.x - 1.19.2 - dev/1.19.2 - java 17
 ===================================
+5.19.2   - Fixed blockstate override for BlockEntity class not evaluated if it has override from Block class
+           - Fixed player head skin always showing as Steve's
 5.19.1   - [API] Added `IRegistrar#addFeatureConfig`
            - Deprecated `addMergedConfig` and `addMergedSyncedConfig`
          - Added option to render the tooltip overlay at lower FPS than the rest of the game. Defaults to 30 FPS
