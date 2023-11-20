@@ -13,7 +13,7 @@ import it.unimi.dsi.fastutil.objects.ObjectLists;
 public class Register<T> {
 
     private final Map<Class<?>, Set<Entry<T>>> map = new Object2ObjectOpenHashMap<>();
-    private final Map<Class<?>, List<T>> cache = new Object2ObjectOpenHashMap<>();
+    private final Map<Class<?>, List<Entry<T>>> cache = new Object2ObjectOpenHashMap<>();
 
     private boolean reversed = false;
 
@@ -26,7 +26,7 @@ public class Register<T> {
             .add(new Entry<>(value, priority));
     }
 
-    public List<T> get(Object obj) {
+    public List<Entry<T>> get(Object obj) {
         if (obj == null) {
             return ObjectLists.emptyList();
         }
@@ -53,9 +53,10 @@ public class Register<T> {
         }
 
         entries.sort(comparator);
-        List<T> values = entries.isEmpty() ? ObjectLists.emptyList() : entries.stream().map(Entry::value).toList();
-        cache.put(clazz, values);
-        return values;
+
+        List<Entry<T>> result = entries.isEmpty() ? ObjectLists.emptyList() : entries;
+        cache.put(clazz, result);
+        return result;
     }
 
     public Map<Class<?>, Set<Entry<T>>> getMap() {
