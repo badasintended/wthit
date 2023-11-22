@@ -3,6 +3,7 @@ package mcp.mobius.waila.api.component;
 import java.util.List;
 
 import mcp.mobius.waila.api.ITooltipComponent;
+import mcp.mobius.waila.api.__internal__.ApiSide;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
@@ -10,6 +11,7 @@ import net.minecraft.world.item.ItemStack;
 /**
  * Component that renders items that dynamically grow based on available space.
  */
+@ApiSide.ClientOnly
 public class ItemListComponent implements ITooltipComponent.HorizontalGrowing {
 
     public ItemListComponent(List<ItemStack> items) {

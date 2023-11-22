@@ -144,7 +144,6 @@ public class ApiService implements IApiService {
         return Waila.CONFIG_DIR;
     }
 
-
     @Override
     public <T> IRegistryFilter.Builder<T> createRegistryFilterBuilder(ResourceKey<? extends Registry<T>> registryKey) {
         return new RegistryFilter.Builder<>(registryKey);
