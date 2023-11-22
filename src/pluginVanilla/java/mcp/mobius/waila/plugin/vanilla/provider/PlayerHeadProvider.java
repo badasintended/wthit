@@ -9,6 +9,7 @@ import mcp.mobius.waila.api.component.ItemComponent;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.entity.SkullBlockEntity;
 import org.apache.commons.lang3.StringUtils;
@@ -18,17 +19,17 @@ public enum PlayerHeadProvider implements IBlockComponentProvider {
 
     INSTANCE;
 
-    static final ItemComponent PLAYER_HEAD_STACK = new ItemComponent(Items.PLAYER_HEAD);
+    static final ItemStack PLAYER_HEAD_STACK = new ItemStack(Items.PLAYER_HEAD);
 
     @Nullable
     @Override
     public ITooltipComponent getIcon(IBlockAccessor accessor, IPluginConfig config) {
         SkullBlockEntity skull = accessor.getBlockEntity();
         if (skull != null && skull.getOwnerProfile() != null) {
-            var tag = PLAYER_HEAD_STACK.stack.getOrCreateTag();
+            var tag = PLAYER_HEAD_STACK.getOrCreateTag();
             var skullOwner = tag.getCompound("SkullOwner");
             tag.put("SkullOwner", NbtUtils.writeGameProfile(skullOwner, skull.getOwnerProfile()));
-            return PLAYER_HEAD_STACK;
+            return new ItemComponent(PLAYER_HEAD_STACK);
         }
         return null;
     }

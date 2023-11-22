@@ -20,9 +20,6 @@ public enum PlantProvider implements IBlockComponentProvider {
 
     INSTANCE;
 
-    static final ITooltipComponent WHEAT_STACK = new ItemComponent(Items.WHEAT);
-    static final ITooltipComponent BEETROOT_STACK = new ItemComponent(Items.BEETROOT);
-
     private static void addMaturityTooltip(ITooltip tooltip, float growthValue) {
         growthValue *= 100.0F;
         if (growthValue < 100.0F) {
@@ -38,10 +35,10 @@ public enum PlantProvider implements IBlockComponentProvider {
     @Override
     public ITooltipComponent getIcon(IBlockAccessor accessor, IPluginConfig config) {
         if (accessor.getBlock() == Blocks.WHEAT)
-            return WHEAT_STACK;
+            return new ItemComponent(Items.WHEAT);
 
         if (accessor.getBlock() == Blocks.BEETROOTS)
-            return BEETROOT_STACK;
+            return new ItemComponent(Items.BEETROOT);
 
         return null;
     }
