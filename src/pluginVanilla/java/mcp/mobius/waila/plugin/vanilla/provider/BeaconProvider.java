@@ -50,7 +50,7 @@ public enum BeaconProvider implements IBlockComponentProvider, IDataProvider<Bea
     public void appendData(IDataWriter data, IServerAccessor<BeaconBlockEntity> accessor, IPluginConfig config) {
         if (config.getBoolean(Options.ATTRIBUTE_BEACON_EFFECTS)) data.add(Data.class, res -> {
             var beacon = (BeaconBlockEntity & BeaconBlockEntityAccess) accessor.getTarget();
-            res.add(new Data(beacon.wthit_primaryPower(), beacon.wthit_secondaryPower()));
+            res.add(new Data(beacon.wthit_primaryPower(), beacon.wthit_levels() >= 4 ? beacon.wthit_secondaryPower() : null));
         });
     }
 

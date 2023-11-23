@@ -17,4 +17,7 @@ public interface BeaconBlockEntityAccess {
     @Accessor("secondaryPower")
     MobEffect wthit_secondaryPower();
 
+    @Accessor("levels")
+    int wthit_levels();
+
 }
