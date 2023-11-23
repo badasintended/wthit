@@ -239,6 +239,7 @@
   "config.waila.plugin_minecraft.attribute.horse_jump_height"   : "Show Horse Jump Height",
   "config.waila.plugin_minecraft.attribute.horse_speed"         : "Show Horse Speed",
   "config.waila.plugin_minecraft.attribute.panda_genes"         : "Show Panda Genes",
+  "config.waila.plugin_minecraft.attribute.beacon_effects"      : "Show Beacon Effects",
   "config.waila.plugin_minecraft.book"                          : "Book",
   "config.waila.plugin_minecraft.book.bookshelf"                : "Show Chiseled Bookshelf Books",
   "config.waila.plugin_minecraft.book.written"                  : "Show Written Book Author and Generation",

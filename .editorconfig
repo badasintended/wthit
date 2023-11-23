@@ -471,6 +471,7 @@ ij_json_space_before_comma = false
 ij_json_spaces_within_braces = false
 ij_json_spaces_within_brackets = false
 ij_json_wrap_long_lines = false
+ij_json_property_alignment = align_on_colon
 
 [{*.yaml, *.yml}]
 indent_size = 2
