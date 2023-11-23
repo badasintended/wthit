@@ -28,6 +28,7 @@ import mcp.mobius.waila.plugin.vanilla.provider.InvisibleEntityProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.ItemEntityProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.ItemFrameProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.JukeboxProvider;
+import mcp.mobius.waila.plugin.vanilla.provider.MobEffectProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.MobTimerProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.NoteBlockProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.PandaProvider;
@@ -112,15 +113,20 @@ public class WailaPluginVanilla implements IWailaPlugin {
         registrar.addFeatureConfig(Options.ATTRIBUTE_HORSE_SPEED, true);
         registrar.addFeatureConfig(Options.ATTRIBUTE_PANDA_GENES, true);
         registrar.addFeatureConfig(Options.ATTRIBUTE_BEACON_EFFECTS, false);
+        registrar.addFeatureConfig(Options.ATTRIBUTE_MOB_EFFECTS, false);
+        registrar.addSyncedConfig(Options.ATTRIBUTE_HIDDEN_MOB_EFFECTS, false, false);
         registrar.addComponent(BlockAttributesProvider.INSTANCE, BODY, Block.class, 950);
         registrar.addComponent(EntityAttributesProvider.INSTANCE, HEAD, Entity.class, 950);
         registrar.addComponent(EntityAttributesProvider.INSTANCE, BODY, Entity.class, 950);
         registrar.addComponent(HorseProvider.INSTANCE, BODY, AbstractHorse.class);
         registrar.addComponent(PandaProvider.INSTANCE, BODY, Panda.class);
         registrar.addComponent(BeaconProvider.INSTANCE, BODY, BeaconBlockEntity.class);
+        registrar.addComponent(MobEffectProvider.INSTANCE, BODY, LivingEntity.class);
         registrar.addDataType(BeaconProvider.DATA, BeaconProvider.Data.class, BeaconProvider.Data::new);
+        registrar.addDataType(MobEffectProvider.DATA, MobEffectProvider.Data.class, MobEffectProvider.Data::new);
         registrar.addBlockData(BeaconProvider.INSTANCE, BeaconBlockEntity.class);
         registrar.addEntityData(EntityAttributesProvider.INSTANCE, Entity.class);
+        registrar.addEntityData(MobEffectProvider.INSTANCE, LivingEntity.class);
 
         registrar.addFeatureConfig(Options.JUKEBOX_RECORD, false);
         registrar.addComponent(JukeboxProvider.INSTANCE, BODY, JukeboxBlockEntity.class);
