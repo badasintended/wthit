@@ -183,6 +183,7 @@ public enum Registrar implements IRegistrar {
         if (Waila.CLIENT_SIDE) {
             assertLock();
             assertPriority(priority);
+            warnTargetClass(provider, clazz);
             blockIcon.add(clazz, provider, priority);
         }
     }
@@ -192,6 +193,7 @@ public enum Registrar implements IRegistrar {
         if (Waila.CLIENT_SIDE) {
             assertLock();
             assertPriority(priority);
+            warnTargetClass(provider, clazz);
             blockComponent.get(position).add(clazz, provider, priority);
         }
     }
@@ -201,6 +203,7 @@ public enum Registrar implements IRegistrar {
     public <T, BE extends BlockEntity> void addBlockData(IDataProvider<BE> provider, Class<T> clazz, int priority) {
         assertLock();
         assertPriority(priority);
+        warnTargetClass(provider, clazz);
         blockData.add(clazz, (IDataProvider<BlockEntity>) provider, priority);
     }
 
@@ -214,6 +217,7 @@ public enum Registrar implements IRegistrar {
         if (Waila.CLIENT_SIDE) {
             assertLock();
             assertPriority(priority);
+            warnTargetClass(provider, clazz);
             entityOverride.add(clazz, provider, priority);
         }
     }
@@ -223,6 +227,7 @@ public enum Registrar implements IRegistrar {
         if (Waila.CLIENT_SIDE) {
             assertLock();
             assertPriority(priority);
+            warnTargetClass(provider, clazz);
             entityIcon.add(clazz, provider, priority);
         }
     }
@@ -232,6 +237,7 @@ public enum Registrar implements IRegistrar {
         if (Waila.CLIENT_SIDE) {
             assertLock();
             assertPriority(priority);
+            warnTargetClass(provider, clazz);
             entityComponent.get(position).add(clazz, provider, priority);
         }
     }
@@ -241,6 +247,7 @@ public enum Registrar implements IRegistrar {
     public <T, E extends Entity> void addEntityData(IDataProvider<E> provider, Class<T> clazz, int priority) {
         assertLock();
         assertPriority(priority);
+        warnTargetClass(provider, clazz);
         entityData.add(clazz, (IDataProvider<Entity>) provider, priority);
     }
 
@@ -312,6 +319,12 @@ public enum Registrar implements IRegistrar {
     private void assertPriority(int priority) {
         Preconditions.checkArgument(priority >= 0,
             "Priority must be equals or more than 0");
+    }
+
+    private void warnTargetClass(Object object, Class<?> clazz) {
+        if (Waila.DEV && clazz.isInstance(object)) {
+            LOG.warn("The target class {} is the same as the provider class, this is probably an error", clazz.getSimpleName());
+        }
     }
 
 }
