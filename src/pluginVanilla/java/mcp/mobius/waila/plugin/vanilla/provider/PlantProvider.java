@@ -31,6 +31,13 @@ public enum PlantProvider implements IBlockComponentProvider {
         }
     }
 
+    private static void addGrowableTooltip(ITooltip tooltip, int lightLevel) {
+        tooltip.addLine(new PairComponent(
+            Component.translatable(Tl.Tooltip.CROP_GROWABLE), lightLevel >= 9
+            ? Component.translatable(Tl.Tooltip.TRUE)
+            : Component.translatable(Tl.Tooltip.FALSE)));
+    }
+
     @Nullable
     @Override
     public ITooltipComponent getIcon(IBlockAccessor accessor, IPluginConfig config) {
@@ -57,6 +64,10 @@ public enum PlantProvider implements IBlockComponentProvider {
             } else if (accessor.getBlock() == Blocks.NETHER_WART) {
                 addMaturityTooltip(tooltip, accessor.getBlockState().getValue(BlockStateProperties.AGE_3) / 3.0F);
             }
+        }
+
+        if (config.getBoolean(Options.CROP_GROWABLE) && accessor.getBlock() != Blocks.COCOA && accessor.getBlock() != Blocks.NETHER_WART) {
+            addGrowableTooltip(tooltip, accessor.getWorld().getRawBrightness(accessor.getPosition(), 0));
         }
     }
 

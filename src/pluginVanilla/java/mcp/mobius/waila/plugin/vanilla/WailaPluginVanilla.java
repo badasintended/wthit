@@ -162,6 +162,7 @@ public class WailaPluginVanilla implements IWailaPlugin {
         registrar.addComponent(SpawnerProvider.INSTANCE, HEAD, SpawnerBlockEntity.class, 950);
 
         registrar.addFeatureConfig(Options.CROP_PROGRESS, true);
+        registrar.addFeatureConfig(Options.CROP_GROWABLE, true);
         registrar.addIcon(PlantProvider.INSTANCE, CropBlock.class);
         registrar.addComponent(PlantProvider.INSTANCE, BODY, CropBlock.class);
         registrar.addComponent(PlantProvider.INSTANCE, BODY, StemBlock.class);
