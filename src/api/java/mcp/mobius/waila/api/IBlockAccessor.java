@@ -33,6 +33,12 @@ public interface IBlockAccessor {
 
     @Nullable <T extends BlockEntity> T getBlockEntity();
 
+    Vec3 getCastOrigin();
+
+    Vec3 getViewVector();
+
+    double getMaxCastDistance();
+
     BlockHitResult getBlockHitResult();
 
     BlockPos getPosition();
