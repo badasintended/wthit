@@ -77,12 +77,13 @@ public class TooltipHandler {
             return;
         }
 
+        var pickerAccessor = PickerAccessor.of(client, client.cameraEntity, client.gameMode.getPickRange(), client.getFrameTime());
         var results = PickerResults.get();
-        Registrar.INSTANCE.picker.pick(PickerAccessor.of(client, client.cameraEntity, client.gameMode.getPickRange(), client.getFrameTime()), results, PluginConfig.CLIENT);
+        Registrar.INSTANCE.picker.pick(pickerAccessor, results, PluginConfig.CLIENT);
 
         for (var target : results) {
             var accessor = DataAccessor.INSTANCE;
-            accessor.set(client.level, player, target, client.cameraEntity, client.getFrameTime());
+            accessor.set(client.level, player, results.getOrigin(target), results.getViewVector(target), pickerAccessor.getMaxDistance(), target, client.cameraEntity, client.getFrameTime());
 
             TooltipRenderer.beginBuild(STATE);
 
