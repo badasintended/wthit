@@ -24,6 +24,12 @@ public interface IEntityAccessor {
 
     <T extends Entity> T getEntity();
 
+    Vec3 getCastOrigin();
+
+    Vec3 getViewVector();
+
+    double getMaxCastDistance();
+
     EntityHitResult getEntityHitResult();
 
     @Nullable

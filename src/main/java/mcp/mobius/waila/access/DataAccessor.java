@@ -28,6 +28,9 @@ public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IEntityAcce
 
     private Level world;
     private Player player;
+    private Vec3 castOrigin;
+    private Vec3 viewVector;
+    private double maxCastDistance;
     private HitResult hitResult;
     private Vec3 renderingVec = null;
     private Block block = Blocks.AIR;
@@ -65,6 +68,21 @@ public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IEntityAcce
     @SuppressWarnings("unchecked")
     public <T extends BlockEntity> T getBlockEntity() {
         return (T) this.blockEntity;
+    }
+
+    @Override
+    public Vec3 getCastOrigin() {
+        return castOrigin;
+    }
+
+    @Override
+    public Vec3 getViewVector() {
+        return viewVector;
+    }
+
+    @Override
+    public double getMaxCastDistance() {
+        return maxCastDistance;
     }
 
     @Override
@@ -151,12 +169,15 @@ public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IEntityAcce
         return updateId;
     }
 
-    public void set(Level world, Player player, HitResult hit, Entity viewEntity, double partialTicks) {
+    public void set(Level world, Player player, Vec3 castOrigin, Vec3 viewVector, double maxCastDistance, HitResult hit, Entity viewEntity, double partialTicks) {
         this.updateId++;
         if (updateId == 0) updateId++;
 
         this.world = world;
         this.player = player;
+        this.castOrigin = castOrigin;
+        this.viewVector = viewVector;
+        this.maxCastDistance = maxCastDistance;
         this.hitResult = hit;
 
         if (this.hitResult.getType() == HitResult.Type.BLOCK) {
