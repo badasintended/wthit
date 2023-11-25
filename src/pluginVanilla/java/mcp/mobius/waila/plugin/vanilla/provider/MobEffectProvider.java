@@ -14,7 +14,7 @@ import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.resources.language.I18n;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -69,7 +69,7 @@ public enum MobEffectProvider implements IEntityComponentProvider, IDataProvider
 
         public Data(FriendlyByteBuf buf) {
             this(buf.readList(b -> {
-                var effect = b.readById(BuiltInRegistries.MOB_EFFECT);
+                var effect = b.readById(Registry.MOB_EFFECT);
                 var amplifier = b.readVarInt();
                 return new MobEffectInstance(Objects.requireNonNull(effect), -1, amplifier);
             }));
@@ -78,7 +78,7 @@ public enum MobEffectProvider implements IEntityComponentProvider, IDataProvider
         @Override
         public void write(FriendlyByteBuf buf) {
             buf.writeCollection(list, (b, m) -> {
-                b.writeId(BuiltInRegistries.MOB_EFFECT, m.getEffect());
+                b.writeId(Registry.MOB_EFFECT, m.getEffect());
                 b.writeVarInt(m.getAmplifier());
             });
         }

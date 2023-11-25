@@ -10,7 +10,7 @@ import mcp.mobius.waila.api.IServerAccessor;
 import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.mixin.BeaconBlockEntityAccess;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.ResourceLocation;
@@ -61,14 +61,14 @@ public enum BeaconProvider implements IBlockComponentProvider, IDataProvider<Bea
 
         public Data(FriendlyByteBuf buf) {
             this(
-                buf.readNullable(b -> b.readById(BuiltInRegistries.MOB_EFFECT)),
-                buf.readNullable(b -> b.readById(BuiltInRegistries.MOB_EFFECT)));
+                buf.readNullable(b -> b.readById(Registry.MOB_EFFECT)),
+                buf.readNullable(b -> b.readById(Registry.MOB_EFFECT)));
         }
 
         @Override
         public void write(FriendlyByteBuf buf) {
-            buf.writeNullable(primary, (b, m) -> b.writeId(BuiltInRegistries.MOB_EFFECT, m));
-            buf.writeNullable(secondary, (b, m) -> b.writeId(BuiltInRegistries.MOB_EFFECT, m));
+            buf.writeNullable(primary, (b, m) -> b.writeId(Registry.MOB_EFFECT, m));
+            buf.writeNullable(secondary, (b, m) -> b.writeId(Registry.MOB_EFFECT, m));
         }
 
     }
