@@ -29,6 +29,19 @@ public interface IBlockComponentProvider {
     BlockState EMPTY_BLOCK_STATE = Internals.unsafeAlloc(BlockState.class);
 
     /**
+     * Callback used to send additional context to {@link IDataProvider}s.
+     *
+     * @param ctx      the context writer
+     * @param accessor contains most of the relevant information about the current environment.
+     *                 Note that {@link IBlockAccessor#getData()} will always be empty at this time
+     * @param config   current plugin configuration
+     *
+     * @see IRegistrar#addDataContext(IBlockComponentProvider, Class)
+     */
+    default void appendDataContext(IDataWriter ctx, IBlockAccessor accessor, IPluginConfig config) {
+    }
+
+    /**
      * Callback used to override the default Waila lookup system.
      * <p>
      * This method is only called on the client side.

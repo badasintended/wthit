@@ -22,7 +22,7 @@ import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 
-public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IEntityAccessor {
+public enum ClientAccessor implements ICommonAccessor, IBlockAccessor, IEntityAccessor {
 
     INSTANCE;
 
@@ -43,6 +43,7 @@ public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IEntityAcce
     private double partialFrame;
     private ItemStack stack = ItemStack.EMPTY;
     private int updateId;
+    private boolean dataAccess = true;
 
     @Override
     public Level getWorld() {
@@ -133,7 +134,9 @@ public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IEntityAcce
 
     @Override
     public IDataReader getData() {
-        var data = DataReader.INSTANCE;
+        if (!dataAccess) return DataReader.NOOP;
+
+        var data = DataReader.CLIENT;
         if (!isTagCorrectBlockEntity() && !isTagCorrectEntity()) data.reset(null);
         return data;
     }
@@ -208,10 +211,14 @@ public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IEntityAcce
         this.blockRegistryName = Registry.BLOCK.getKey(block);
     }
 
+    public void setDataAccess(boolean dataAccess) {
+        this.dataAccess = dataAccess;
+    }
+
     private boolean isTagCorrectBlockEntity() {
         if (blockEntity == null) return false;
 
-        var tag = DataReader.INSTANCE.raw();
+        var tag = DataReader.CLIENT.raw();
 
         if (tag == null) {
             this.timeLastUpdate = System.currentTimeMillis() - 250;
@@ -234,7 +241,7 @@ public enum DataAccessor implements ICommonAccessor, IBlockAccessor, IEntityAcce
     private boolean isTagCorrectEntity() {
         if (entity == null) return false;
 
-        var tag = DataReader.INSTANCE.raw();
+        var tag = DataReader.CLIENT.raw();
 
         if (tag == null || !tag.contains("WailaEntityID")) {
             this.timeLastUpdate = System.currentTimeMillis() - 250;

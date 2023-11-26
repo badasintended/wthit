@@ -1,5 +1,6 @@
 package mcp.mobius.waila.access;
 
+import mcp.mobius.waila.api.IDataReader;
 import mcp.mobius.waila.api.IServerAccessor;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.level.Level;
@@ -43,6 +44,11 @@ public enum ServerAccessor implements IServerAccessor<Object> {
     @Override
     public Object getTarget() {
         return target;
+    }
+
+    @Override
+    public IDataReader getContext() {
+        return DataReader.SERVER;
     }
 
 }
