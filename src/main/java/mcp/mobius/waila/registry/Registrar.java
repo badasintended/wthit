@@ -47,6 +47,7 @@ public enum Registrar implements IRegistrar {
 
     public final Register<IBlockComponentProvider> blockOverride = new Register<>();
     public final Register<IBlockComponentProvider> blockIcon = new Register<>();
+    public final Register<IBlockComponentProvider> blockDataCtx = new Register<>();
     public final Register<IDataProvider<BlockEntity>> blockData = new Register<>();
     public final Map<TooltipPosition, Register<IBlockComponentProvider>> blockComponent = Util.make(new EnumMap<>(TooltipPosition.class), map -> {
         for (var key : TooltipPosition.values()) {
@@ -56,6 +57,7 @@ public enum Registrar implements IRegistrar {
 
     public final Register<IEntityComponentProvider> entityOverride = new Register<>();
     public final Register<IEntityComponentProvider> entityIcon = new Register<>();
+    public final Register<IEntityComponentProvider> entityDataCtx = new Register<>();
     public final Register<IDataProvider<Entity>> entityData = new Register<>();
     public final Map<TooltipPosition, Register<IEntityComponentProvider>> entityComponent = Util.make(new EnumMap<>(TooltipPosition.class), map -> {
         for (var key : TooltipPosition.values()) {
@@ -200,6 +202,15 @@ public enum Registrar implements IRegistrar {
     }
 
     @Override
+    public <T> void addDataContext(IBlockComponentProvider provider, Class<T> clazz) {
+        if (Waila.CLIENT_SIDE) {
+            assertLock();
+            warnTargetClass(provider, clazz);
+            blockDataCtx.add(clazz, provider, 0);
+        }
+    }
+
+    @Override
     @SuppressWarnings("unchecked")
     public <T, BE extends BlockEntity> void addBlockData(IDataProvider<BE> provider, Class<T> clazz, int priority) {
         assertLock();
@@ -240,6 +251,15 @@ public enum Registrar implements IRegistrar {
             assertPriority(priority);
             warnTargetClass(provider, clazz);
             entityComponent.get(position).add(clazz, provider, priority);
+        }
+    }
+
+    @Override
+    public <T> void addDataContext(IEntityComponentProvider provider, Class<T> clazz) {
+        if (Waila.CLIENT_SIDE) {
+            assertLock();
+            warnTargetClass(provider, clazz);
+            entityDataCtx.add(clazz, provider, 0);
         }
     }
 

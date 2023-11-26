@@ -19,6 +19,8 @@ import mcp.mobius.waila.network.config.s2c.ConfigSyncConfigS2CPacket;
 import mcp.mobius.waila.network.config.s2c.VersionConfigS2CPacket;
 import mcp.mobius.waila.network.play.c2s.BlockDataRequestPlayC2SPacket;
 import mcp.mobius.waila.network.play.c2s.EntityDataRequestPlayC2SPacket;
+import mcp.mobius.waila.network.play.c2s.RawDataRequestContextPlayC2SPacket;
+import mcp.mobius.waila.network.play.c2s.TypedDataRequestContextPlayC2SPacket;
 import mcp.mobius.waila.network.play.s2c.GenerateClientDumpPlayS2CPacket;
 import mcp.mobius.waila.network.play.s2c.RawDataResponsePlayS2CPacket;
 import mcp.mobius.waila.network.play.s2c.TypedDataResponsePlayS2CPacket;
@@ -34,6 +36,8 @@ public class Packets {
         // Play
         register(new BlockDataRequestPlayC2SPacket());
         register(new EntityDataRequestPlayC2SPacket());
+        register(new RawDataRequestContextPlayC2SPacket());
+        register(new TypedDataRequestContextPlayC2SPacket());
 
         ConfigPackets.registerServerReadyCallback((handler, sender, server) ->
             sendS2CHandshakePackets(sender));

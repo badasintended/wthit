@@ -2,19 +2,17 @@ package mcp.mobius.waila.api;
 
 import java.util.function.Consumer;
 
-import mcp.mobius.waila.api.__internal__.ApiSide;
 import net.minecraft.nbt.CompoundTag;
 import org.jetbrains.annotations.ApiStatus;
 
 /**
- * Used to sync server data to the client.
+ * Used to sync data.
  */
-@ApiSide.ServerOnly
 @ApiStatus.NonExtendable
 public interface IDataWriter {
 
     /**
-     * Modify raw NBT data to be synced to client.
+     * Modify raw NBT data to be synced.
      * <p>
      * <b>Note:</b> use a unique property name, as it can conflict with data from other plugins.
      * <p>
@@ -38,6 +36,17 @@ public interface IDataWriter {
     <T extends IData> void add(Class<T> type, Consumer<Result<T>> consumer);
 
     /**
+     * Immediately adds a typed data.
+     * <p>
+     * Use this method only for internal data that only you use, otherwise use {@link #add(Class, Consumer)} instead.
+     *
+     * @param data the data to add
+     *
+     * @throws IllegalStateException if the data is already added, whether with {@link #add(Class, Consumer)} or this method
+     */
+    void addImmediate(IData data);
+
+    /**
      * Blocks all lower priority provider unconditionally.
      *
      * @param type the type of the data that wanted to be blocked
@@ -46,12 +55,11 @@ public interface IDataWriter {
         add(type, Result::block);
     }
 
-    @ApiSide.ServerOnly
     @ApiStatus.NonExtendable
     interface Result<T extends IData> {
 
         /**
-         * Send the data to client.
+         * Send the data.
          * This also blocks addition from lower priority providers.
          *
          * @throws NullPointerException  if data is null

@@ -11,6 +11,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.FurnaceBlock;
+import net.minecraft.world.level.block.entity.BarrelBlockEntity;
 
 @SuppressWarnings("unused")
 public class WailaTest implements IWailaPlugin {
@@ -86,6 +87,15 @@ public class WailaTest implements IWailaPlugin {
         registrar.addConfig(ExtraTest.ENERGY_INF_CAPACITY, false);
         registrar.addConfig(ExtraTest.FLUID, false);
         registrar.addBlockData(ExtraTest.INSTANCE, ChestBlock.class);
+
+        registrar.addConfig(RequestDataTest.ENABLED, false);
+        registrar.addConfig(RequestDataTest.RAW, false);
+        registrar.addConfig(RequestDataTest.TYPED, false);
+        registrar.addDataType(RequestDataTest.CTX, RequestDataTest.Ctx.class, RequestDataTest.Ctx::new);
+        registrar.addDataType(RequestDataTest.DATA, RequestDataTest.Data.class, RequestDataTest.Data::new);
+        registrar.addDataContext(RequestDataTest.INSTANCE, BarrelBlockEntity.class);
+        registrar.addBlockData(RequestDataTest.INSTANCE, BarrelBlockEntity.class);
+        registrar.addComponent(RequestDataTest.INSTANCE, TooltipPosition.BODY, BarrelBlockEntity.class);
     }
 
 }

@@ -403,6 +403,15 @@ public interface IRegistrar {
     }
 
     /**
+     * Registers an {@link IBlockComponentProvider} instance for appending data context that get sent to the server.
+     * A {@link BlockEntity} is also an acceptable class type.
+     *
+     * @param provider the data provider instance
+     * @param clazz    the highest level class to apply to
+     */
+    <T> void addDataContext(IBlockComponentProvider provider, Class<T> clazz);
+
+    /**
      * Registers an {@link IDataProvider<BlockEntity>} instance for data syncing purposes. A {@link BlockEntity}
      * is also an acceptable class type.
      *
@@ -505,6 +514,14 @@ public interface IRegistrar {
     default <T> void addComponent(IEntityComponentProvider provider, TooltipPosition position, Class<T> clazz) {
         addComponent(provider, position, clazz, DEFAULT_PRIORITY);
     }
+
+    /**
+     * Registers an {@link IEntityComponentProvider} instance for appending data context that get sent to the server.
+     *
+     * @param provider the data provider instance
+     * @param clazz    the highest level class to apply to
+     */
+    <T> void addDataContext(IEntityComponentProvider provider, Class<T> clazz);
 
     /**
      * Registers an {@link IDataProvider<Entity>} instance for data syncing purposes.

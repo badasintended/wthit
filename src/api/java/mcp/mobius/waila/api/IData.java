@@ -4,7 +4,7 @@ import net.minecraft.network.FriendlyByteBuf;
 import org.jetbrains.annotations.ApiStatus;
 
 /**
- * A typed data for syncing complex data from server to client.
+ * A typed data for syncing complex data.
  * <p>
  * Register data types with {@link IRegistrar#addDataType}
  * <p>

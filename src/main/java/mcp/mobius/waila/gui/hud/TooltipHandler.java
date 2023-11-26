@@ -2,7 +2,7 @@ package mcp.mobius.waila.gui.hud;
 
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.WailaClient;
-import mcp.mobius.waila.access.DataAccessor;
+import mcp.mobius.waila.access.ClientAccessor;
 import mcp.mobius.waila.api.IBlacklistConfig;
 import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IEntityComponentProvider;
@@ -30,6 +30,8 @@ import static mcp.mobius.waila.api.TooltipPosition.HEAD;
 import static mcp.mobius.waila.api.TooltipPosition.TAIL;
 import static mcp.mobius.waila.gui.hud.ComponentHandler.gatherBlock;
 import static mcp.mobius.waila.gui.hud.ComponentHandler.gatherEntity;
+import static mcp.mobius.waila.gui.hud.ComponentHandler.requestBlockData;
+import static mcp.mobius.waila.gui.hud.ComponentHandler.requestEntityData;
 
 public class TooltipHandler {
 
@@ -82,7 +84,7 @@ public class TooltipHandler {
         Registrar.INSTANCE.picker.pick(pickerAccessor, results, PluginConfig.CLIENT);
 
         for (var target : results) {
-            var accessor = DataAccessor.INSTANCE;
+            var accessor = ClientAccessor.INSTANCE;
             accessor.set(client.level, player, results.getOrigin(target), results.getViewVector(target), pickerAccessor.getMaxDistance(), target, client.cameraEntity, client.getFrameTime());
 
             TooltipRenderer.beginBuild(STATE);
@@ -113,6 +115,8 @@ public class TooltipHandler {
                 }
 
                 accessor.setState(state);
+
+                requestBlockData(accessor);
 
                 TOOLTIP.clear();
                 gatherBlock(accessor, TOOLTIP, HEAD);
@@ -157,6 +161,8 @@ public class TooltipHandler {
                 if (targetEnt == null) {
                     continue;
                 }
+
+                requestEntityData(targetEnt, accessor);
 
                 TOOLTIP.clear();
                 gatherEntity(targetEnt, accessor, TOOLTIP, HEAD);

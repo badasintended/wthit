@@ -18,4 +18,12 @@ public interface IServerAccessor<T> {
 
     T getTarget();
 
+    /**
+     * Returns additional context synced from the client.
+     *
+     * @see IBlockComponentProvider#appendDataContext(IDataWriter, IBlockAccessor, IPluginConfig)
+     * @see IEntityComponentProvider#appendDataContext(IDataWriter, IEntityAccessor, IPluginConfig)
+     */
+    IDataReader getContext();
+
 }

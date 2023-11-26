@@ -2,11 +2,13 @@ package mcp.mobius.waila.network.play.c2s;
 
 import lol.bai.badpackets.api.PacketSender;
 import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.access.DataReader;
 import mcp.mobius.waila.access.DataWriter;
 import mcp.mobius.waila.access.ServerAccessor;
+import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IServerAccessor;
+import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.network.Packet;
-import mcp.mobius.waila.network.play.s2c.RawDataResponsePlayS2CPacket;
 import mcp.mobius.waila.registry.Registrar;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
@@ -46,18 +48,18 @@ public class EntityDataRequestPlayC2SPacket implements Packet.PlayC2S<EntityData
             return;
         }
 
-        var raw = DataWriter.INSTANCE.reset();
+        var raw = DataWriter.SERVER.reset();
         IServerAccessor<Entity> accessor = ServerAccessor.INSTANCE.set(world, player, new EntityHitResult(entity, hitPos), entity);
 
         for (var provider : registrar.entityData.get(entity)) {
-            DataWriter.INSTANCE.tryAppendData(provider.value(), accessor);
+            DataWriter.SERVER.tryAppend(player, provider.value(), accessor, PluginConfig.SERVER, IDataProvider::appendData);
         }
 
         raw.putInt("WailaEntityID", entity.getId());
         raw.putLong("WailaTime", System.currentTimeMillis());
 
-        responseSender.send(new RawDataResponsePlayS2CPacket.Payload(raw));
-        DataWriter.INSTANCE.sendTypedPackets(responseSender, player);
+        DataWriter.SERVER.send(responseSender, player);
+        DataReader.SERVER.reset(null);
     }
 
     public record Payload(

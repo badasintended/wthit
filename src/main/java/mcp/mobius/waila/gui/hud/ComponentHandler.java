@@ -2,7 +2,10 @@ package mcp.mobius.waila.gui.hud;
 
 import lol.bai.badpackets.api.PacketSender;
 import mcp.mobius.waila.Waila;
-import mcp.mobius.waila.access.DataAccessor;
+import mcp.mobius.waila.access.ClientAccessor;
+import mcp.mobius.waila.access.DataWriter;
+import mcp.mobius.waila.api.IBlockComponentProvider;
+import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.TooltipPosition;
 import mcp.mobius.waila.api.component.EmptyComponent;
@@ -21,26 +24,44 @@ import net.minecraft.world.phys.HitResult;
 
 public class ComponentHandler {
 
-    public static void gatherBlock(DataAccessor accessor, Tooltip tooltip, TooltipPosition position) {
+    public static void requestBlockData(ClientAccessor accessor) {
         var registrar = Registrar.INSTANCE;
         var block = accessor.getBlock();
         var blockEntity = accessor.getBlockEntity();
 
         var rate = Waila.CONFIG.get().getGeneral().getRateLimit();
 
-        if (blockEntity != null && accessor.isTimeElapsed(rate) && Waila.CONFIG.get().getGeneral().isDisplayTooltip()) {
-            accessor.resetTimer();
-            if (!(registrar.blockData.get(block).isEmpty() && registrar.blockData.get(blockEntity).isEmpty())) {
-                PacketSender.c2s().send(new BlockDataRequestPlayC2SPacket.Payload(accessor.getBlockHitResult()));
-            }
+        if (blockEntity == null || !accessor.isTimeElapsed(rate) || !Waila.CONFIG.get().getGeneral().isDisplayTooltip()) return;
+        if (registrar.blockData.get(block).isEmpty() && registrar.blockData.get(blockEntity).isEmpty()) return;
+
+        accessor.resetTimer();
+        accessor.setDataAccess(false);
+        DataWriter.CLIENT.reset();
+        var player = Minecraft.getInstance().player;
+
+        for (var entry : registrar.blockDataCtx.get(block)) {
+            DataWriter.CLIENT.tryAppend(player, entry.value(), accessor, PluginConfig.CLIENT, IBlockComponentProvider::appendDataContext);
         }
+
+        for (var entry : registrar.blockDataCtx.get(blockEntity)) {
+            DataWriter.CLIENT.tryAppend(player, entry.value(), accessor, PluginConfig.CLIENT, IBlockComponentProvider::appendDataContext);
+        }
+
+        DataWriter.CLIENT.send(PacketSender.c2s(), player);
+        PacketSender.c2s().send(new BlockDataRequestPlayC2SPacket.Payload(accessor.getBlockHitResult()));
+        accessor.setDataAccess(true);
+    }
+
+    public static void gatherBlock(ClientAccessor accessor, Tooltip tooltip, TooltipPosition position) {
+        var block = accessor.getBlock();
+        var blockEntity = accessor.getBlockEntity();
 
         handleBlock(accessor, tooltip, block, position);
         handleBlock(accessor, tooltip, blockEntity, position);
     }
 
     @SuppressWarnings("DuplicatedCode")
-    private static void handleBlock(DataAccessor accessor, Tooltip tooltip, Object obj, TooltipPosition position) {
+    private static void handleBlock(ClientAccessor accessor, Tooltip tooltip, Object obj, TooltipPosition position) {
         var registrar = Registrar.INSTANCE;
         var providers = registrar.blockComponent.get(position).get(obj);
         for (var entry : providers) {
@@ -57,20 +78,33 @@ public class ComponentHandler {
         }
     }
 
-    @SuppressWarnings("DuplicatedCode")
-    public static void gatherEntity(Entity entity, DataAccessor accessor, Tooltip tooltip, TooltipPosition position) {
+    public static void requestEntityData(Entity entity, ClientAccessor accessor) {
         var registrar = Registrar.INSTANCE;
         var trueEntity = accessor.getEntity();
 
         var rate = Waila.CONFIG.get().getGeneral().getRateLimit();
 
-        if (trueEntity != null && accessor.isTimeElapsed(rate)) {
-            accessor.resetTimer();
+        if (trueEntity == null || !accessor.isTimeElapsed(rate)) return;
+        if (registrar.entityData.get(trueEntity).isEmpty()) return;
 
-            if (!registrar.entityData.get(trueEntity).isEmpty()) {
-                PacketSender.c2s().send(new EntityDataRequestPlayC2SPacket.Payload(entity.getId(), accessor.getEntityHitResult().getLocation()));
-            }
+        accessor.resetTimer();
+        accessor.setDataAccess(false);
+        DataWriter.CLIENT.reset();
+        var player = Minecraft.getInstance().player;
+
+        for (var entry : registrar.entityDataCtx.get(entity)) {
+            DataWriter.CLIENT.tryAppend(player, entry.value(), accessor, PluginConfig.CLIENT, IEntityComponentProvider::appendDataContext);
+            entry.value().appendDataContext(DataWriter.CLIENT, accessor, PluginConfig.CLIENT);
         }
+
+        DataWriter.CLIENT.send(PacketSender.c2s(), player);
+        PacketSender.c2s().send(new EntityDataRequestPlayC2SPacket.Payload(entity.getId(), accessor.getEntityHitResult().getLocation()));
+        accessor.setDataAccess(true);
+    }
+
+    @SuppressWarnings("DuplicatedCode")
+    public static void gatherEntity(Entity entity, ClientAccessor accessor, Tooltip tooltip, TooltipPosition position) {
+        var registrar = Registrar.INSTANCE;
 
         var providers = registrar.entityComponent.get(position).get(entity);
         for (var entry : providers) {
@@ -89,7 +123,7 @@ public class ComponentHandler {
 
     public static ITooltipComponent getIcon(HitResult target) {
         var registrar = Registrar.INSTANCE;
-        var data = DataAccessor.INSTANCE;
+        var data = ClientAccessor.INSTANCE;
         var config = PluginConfig.CLIENT;
 
         if (target.getType() == HitResult.Type.ENTITY) {
@@ -108,7 +142,7 @@ public class ComponentHandler {
             var priority = 0;
 
             for (var provider : registrar.blockIcon.get(state.getBlock())) {
-                var icon = provider.value().getIcon(DataAccessor.INSTANCE, PluginConfig.CLIENT);
+                var icon = provider.value().getIcon(ClientAccessor.INSTANCE, PluginConfig.CLIENT);
                 if (icon != null) {
                     result = icon;
                     priority = provider.priority();
@@ -121,7 +155,7 @@ public class ComponentHandler {
                 for (var provider : registrar.blockIcon.get(blockEntity)) {
                     if (provider.priority() >= priority) break;
 
-                    var icon = provider.value().getIcon(DataAccessor.INSTANCE, PluginConfig.CLIENT);
+                    var icon = provider.value().getIcon(ClientAccessor.INSTANCE, PluginConfig.CLIENT);
                     if (icon != null) {
                         result = icon;
                         break;
@@ -145,7 +179,7 @@ public class ComponentHandler {
 
         var overrideProviders = registrar.entityOverride.get(entity);
         for (var provider : overrideProviders) {
-            var override = provider.value().getOverride(DataAccessor.INSTANCE, PluginConfig.CLIENT);
+            var override = provider.value().getOverride(ClientAccessor.INSTANCE, PluginConfig.CLIENT);
             if (override != null) {
                 return override;
             }
@@ -168,7 +202,7 @@ public class ComponentHandler {
 
         var providers = registrar.blockOverride.get(state.getBlock());
         for (var provider : providers) {
-            var blockOverride = provider.value().getOverride(DataAccessor.INSTANCE, PluginConfig.CLIENT);
+            var blockOverride = provider.value().getOverride(ClientAccessor.INSTANCE, PluginConfig.CLIENT);
             if (blockOverride != null) {
                 override = blockOverride;
                 priority = provider.priority();
@@ -181,7 +215,7 @@ public class ComponentHandler {
         for (var provider : providers) {
             if (provider.priority() >= priority) break;
 
-            var beOverride = provider.value().getOverride(DataAccessor.INSTANCE, PluginConfig.CLIENT);
+            var beOverride = provider.value().getOverride(ClientAccessor.INSTANCE, PluginConfig.CLIENT);
             if (beOverride != null) {
                 override = beOverride;
                 break;
