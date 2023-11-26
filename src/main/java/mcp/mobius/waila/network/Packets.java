@@ -3,7 +3,6 @@ package mcp.mobius.waila.network;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -17,7 +16,6 @@ import mcp.mobius.waila.access.DataReader;
 import mcp.mobius.waila.access.DataWriter;
 import mcp.mobius.waila.access.ServerAccessor;
 import mcp.mobius.waila.api.IDataProvider;
-import mcp.mobius.waila.api.IRegistryFilter;
 import mcp.mobius.waila.api.IServerAccessor;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.buildconst.Tl;
@@ -26,7 +24,6 @@ import mcp.mobius.waila.debug.DumpGenerator;
 import mcp.mobius.waila.registry.Registrar;
 import mcp.mobius.waila.util.ExceptionUtil;
 import mcp.mobius.waila.util.Log;
-import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.ClickEvent;
@@ -51,6 +48,8 @@ public class Packets {
 
     public static final ResourceLocation ENTITY = Waila.id("entity");
     public static final ResourceLocation BLOCK = Waila.id("block");
+    public static final ResourceLocation CTX_RAW = Waila.id("ctx");
+    public static final ResourceLocation CTX_TYPED = Waila.id("ctx_typed");
 
     public static final ResourceLocation DATA_RAW = Waila.id("data");
     public static final ResourceLocation DATA_TYPED = Waila.id("data_typed");
@@ -115,6 +114,18 @@ public class Packets {
             }
         });
 
+        C2SPacketReceiver.register(CTX_RAW, (server, player, handler, buf, responseSender) -> {
+            var ctx = buf.readNbt();
+
+            server.execute(() -> DataReader.SERVER.reset(ctx));
+        });
+
+        C2SPacketReceiver.register(CTX_TYPED, (server, player, handler, buf, responseSender) -> {
+            var ctx = DataReader.readTypedPacket(buf);
+
+            server.execute(() -> DataReader.SERVER.add(ctx));
+        });
+
         C2SPacketReceiver.register(ENTITY, (server, player, handler, buf, responseSender) -> {
             var entityId = buf.readVarInt();
             var hitPos = new Vec3(buf.readDouble(), buf.readDouble(), buf.readDouble());
@@ -128,7 +139,7 @@ public class Packets {
                     return;
                 }
 
-                var raw = DataWriter.INSTANCE.reset();
+                var raw = DataWriter.SERVER.reset();
                 IServerAccessor<Entity> accessor = ServerAccessor.INSTANCE.set(world, player, new EntityHitResult(entity, hitPos), entity);
 
                 for (var provider : registrar.entityData.get(entity)) {
@@ -138,11 +149,7 @@ public class Packets {
                 raw.putInt("WailaEntityID", entity.getId());
                 raw.putLong("WailaTime", System.currentTimeMillis());
 
-                var rawBuf = new FriendlyByteBuf(Unpooled.buffer());
-                rawBuf.writeNbt(raw);
-                responseSender.send(DATA_RAW, rawBuf);
-
-                DataWriter.INSTANCE.sendTypedPackets(responseSender, player);
+                DataWriter.SERVER.send(responseSender, player);
             });
         });
 
@@ -165,7 +172,7 @@ public class Packets {
                 }
 
                 var state = world.getBlockState(pos);
-                var raw = DataWriter.INSTANCE.reset();
+                var raw = DataWriter.SERVER.reset();
                 IServerAccessor<BlockEntity> accessor = ServerAccessor.INSTANCE.set(world, player, hitResult, blockEntity);
 
                 for (var provider : registrar.blockData.get(blockEntity)) {
@@ -183,11 +190,7 @@ public class Packets {
                 raw.putString("id", BuiltInRegistries.BLOCK_ENTITY_TYPE.getKey(blockEntity.getType()).toString());
                 raw.putLong("WailaTime", System.currentTimeMillis());
 
-                var rawBuf = new FriendlyByteBuf(Unpooled.buffer());
-                rawBuf.writeNbt(raw);
-                responseSender.send(DATA_RAW, rawBuf);
-
-                DataWriter.INSTANCE.sendTypedPackets(responseSender, player);
+                DataWriter.SERVER.send(responseSender, player);
             });
         });
     }
@@ -211,13 +214,13 @@ public class Packets {
         S2CPacketReceiver.register(DATA_RAW, (client, handler, buf, responseSender) -> {
             var data = buf.readNbt();
 
-            client.execute(() -> DataReader.INSTANCE.reset(data));
+            client.execute(() -> DataReader.CLIENT.reset(data));
         });
 
         S2CPacketReceiver.register(DATA_TYPED, (client, handler, buf, responseSender) -> {
             var data = DataReader.readTypedPacket(buf);
 
-            client.execute(() -> DataReader.INSTANCE.add(data));
+            client.execute(() -> DataReader.CLIENT.add(data));
         });
 
         S2CPacketReceiver.register(CONFIG, (client, handler, buf, responseSender) -> {
@@ -274,35 +277,9 @@ public class Packets {
         }));
     }
 
-    private static <T> void writeIds(FriendlyByteBuf buf, Registry<T> registry, IRegistryFilter<T> filter) {
-        var groups = filter.getMatches().stream()
-            .map(it -> Objects.requireNonNull(registry.getKey(it)))
-            .collect(Collectors.groupingBy(ResourceLocation::getNamespace));
-
-        buf.writeVarInt(groups.size());
-        groups.forEach((namespace, ids) -> {
-            buf.writeUtf(namespace);
-            buf.writeVarInt(ids.size());
-            ids.forEach(id -> buf.writeUtf(id.getPath()));
-        });
-    }
-
-    private static Set<ResourceLocation> readIds(FriendlyByteBuf buf) {
-        Set<ResourceLocation> set = new HashSet<>();
-        var groupSize = buf.readVarInt();
-        for (var i = 0; i < groupSize; i++) {
-            var namespace = buf.readUtf();
-            var groupLen = buf.readVarInt();
-            for (var j = 0; j < groupLen; j++) {
-                set.add(new ResourceLocation(namespace, buf.readUtf()));
-            }
-        }
-        return set;
-    }
-
     private static <T> void tryAppendData(IDataProvider<T> provider, IServerAccessor<T> accessor) {
         try {
-            provider.appendData(DataWriter.INSTANCE, accessor, PluginConfig.SERVER);
+            provider.appendData(DataWriter.SERVER, accessor, PluginConfig.SERVER);
         } catch (Throwable t) {
             var player = accessor.getPlayer();
 

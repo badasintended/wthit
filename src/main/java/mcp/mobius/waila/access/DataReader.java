@@ -12,11 +12,29 @@ import org.jetbrains.annotations.Nullable;
 
 public enum DataReader implements IDataReader {
 
-    INSTANCE;
+    SERVER, CLIENT;
+
+    public static final IDataReader NOOP = new IDataReader() {
+        private static final CompoundTag TAG = new CompoundTag();
+
+        @Override
+        public CompoundTag raw() {
+            return TAG;
+        }
+
+        @Override
+        public <T extends IData> @Nullable T get(Class<T> type) {
+            return null;
+        }
+    };
 
     private CompoundTag raw;
     private final Map<Class<? extends IData>, IData> typed = new HashMap<>();
     private boolean clean;
+
+    DataReader() {
+        reset(null);
+    }
 
     public void reset(@Nullable CompoundTag raw) {
         if (clean && raw == null) return;

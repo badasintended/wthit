@@ -13,7 +13,7 @@ import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.text2speech.Narrator;
 import mcp.mobius.waila.WailaClient;
-import mcp.mobius.waila.access.DataAccessor;
+import mcp.mobius.waila.access.ClientAccessor;
 import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.IWailaConfig.Overlay.Position.Align;
@@ -100,7 +100,7 @@ public class TooltipRenderer {
 
         if (state.fireEvent()) {
             for (var listener : Registrar.INSTANCE.eventListeners.get(Object.class)) {
-                listener.value().onHandleTooltip(TOOLTIP, DataAccessor.INSTANCE, PluginConfig.CLIENT);
+                listener.value().onHandleTooltip(TOOLTIP, ClientAccessor.INSTANCE, PluginConfig.CLIENT);
             }
         }
 
@@ -267,7 +267,7 @@ public class TooltipRenderer {
             var canceller = EventCanceller.INSTANCE;
             canceller.setCanceled(false);
             for (var listener : Registrar.INSTANCE.eventListeners.get(Object.class)) {
-                listener.value().onBeforeTooltipRender(ctx, rect, DataAccessor.INSTANCE, PluginConfig.CLIENT, canceller);
+                listener.value().onBeforeTooltipRender(ctx, rect, ClientAccessor.INSTANCE, PluginConfig.CLIENT, canceller);
                 if (canceller.isCanceled()) {
                     ctx.pose().popPose();
                     RenderSystem.enableDepthTest();
@@ -304,7 +304,7 @@ public class TooltipRenderer {
 
         if (state.fireEvent()) {
             for (var listener : Registrar.INSTANCE.eventListeners.get(Object.class)) {
-                listener.value().onAfterTooltipRender(ctx, rect, DataAccessor.INSTANCE, PluginConfig.CLIENT);
+                listener.value().onAfterTooltipRender(ctx, rect, ClientAccessor.INSTANCE, PluginConfig.CLIENT);
             }
         }
 

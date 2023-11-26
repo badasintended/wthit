@@ -3,7 +3,7 @@ package mcp.mobius.waila;
 import java.util.List;
 
 import com.mojang.blaze3d.platform.InputConstants;
-import mcp.mobius.waila.access.DataAccessor;
+import mcp.mobius.waila.access.ClientAccessor;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.buildconst.Tl;
@@ -81,11 +81,11 @@ public abstract class WailaClient {
 
         if (recipeAction != null) {
             while (keyShowRecipeInput.consumeClick()) {
-                recipeAction.showInput(DataAccessor.INSTANCE.getStack());
+                recipeAction.showInput(ClientAccessor.INSTANCE.getStack());
             }
 
             while (keyShowRecipeOutput.consumeClick()) {
-                recipeAction.showOutput(DataAccessor.INSTANCE.getStack());
+                recipeAction.showOutput(ClientAccessor.INSTANCE.getStack());
             }
         }
     }

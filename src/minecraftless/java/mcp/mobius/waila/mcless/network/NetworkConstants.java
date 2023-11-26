@@ -2,7 +2,7 @@ package mcp.mobius.waila.mcless.network;
 
 public class NetworkConstants {
 
-    public static final int NETWORK_VERSION = 6;
+    public static final int NETWORK_VERSION = 7;
 
     public static final byte CONFIG_BOOL = 0;
     public static final byte CONFIG_INT = 1;

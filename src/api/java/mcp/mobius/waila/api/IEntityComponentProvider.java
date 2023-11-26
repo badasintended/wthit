@@ -28,6 +28,19 @@ public interface IEntityComponentProvider {
     Entity EMPTY_ENTITY = Internals.unsafeAlloc(AreaEffectCloud.class);
 
     /**
+     * Callback used to send additional context to {@link IDataProvider}s.
+     *
+     * @param ctx      the context writer
+     * @param accessor contains most of the relevant information about the current environment.
+     *                 Note that {@link IEntityAccessor#getData()} will always be empty at this time
+     * @param config   current plugin configuration
+     *
+     * @see IRegistrar#addDataContext(IEntityComponentProvider, Class)
+     */
+    default void appendDataContext(IDataWriter ctx, IEntityAccessor accessor, IPluginConfig config) {
+    }
+
+    /**
      * Callback used to override the default Waila lookup system.
      *
      * @param accessor contains most of the relevant information about the current environment
