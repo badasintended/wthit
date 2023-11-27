@@ -94,7 +94,6 @@ public class ComponentHandler {
 
         for (var entry : registrar.entityDataCtx.get(entity)) {
             DataWriter.CLIENT.tryAppend(player, entry.value(), accessor, PluginConfig.CLIENT, IEntityComponentProvider::appendDataContext);
-            entry.value().appendDataContext(DataWriter.CLIENT, accessor, PluginConfig.CLIENT);
         }
 
         DataWriter.CLIENT.send(PacketSender.c2s(), player);
