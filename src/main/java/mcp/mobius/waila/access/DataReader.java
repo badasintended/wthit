@@ -26,6 +26,10 @@ public enum DataReader implements IDataReader {
         public <T extends IData> @Nullable T get(Class<T> type) {
             return null;
         }
+
+        @Override
+        public <T extends IData> void invalidate(Class<T> type) {
+        }
     };
 
     private CompoundTag raw;
@@ -62,6 +66,11 @@ public enum DataReader implements IDataReader {
     @SuppressWarnings("unchecked")
     public <T extends IData> @Nullable T get(Class<T> type) {
         return (T) typed.get(type);
+    }
+
+    @Override
+    public <T extends IData> void invalidate(Class<T> type) {
+        typed.remove(type);
     }
 
     public void add(IData data) {
