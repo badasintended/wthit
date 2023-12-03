@@ -319,7 +319,7 @@
   "theme.waila.plugin_waila.nine_patch.regionRight"             : "Регион: правый",
   "theme.waila.plugin_waila.nine_patch.mode"                    : "Режим отрисовки",
   "theme.waila.plugin_waila.nine_patch.mode_stretch"            : "Растягивание",
-  "theme.waila.plugin_waila.nine_patch.mode_tile"               : "Плитка"
+  "theme.waila.plugin_waila.nine_patch.mode_tile"               : "Плитка",
 
   "tooltip.waila.instrument"                                    : "_DO_NOT_TRANSLATE_",
   "tooltip.waila.panda.gene"                                    : "_DO_NOT_TRANSLATE_",
