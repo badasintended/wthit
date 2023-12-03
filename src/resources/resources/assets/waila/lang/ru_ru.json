@@ -89,7 +89,7 @@
   "config.waila.false"                                          : "Нет",
   "config.waila.preview_prompt"                                 : "Для предпросмотра зажмите §5F1§r",
   "config.waila.edit"                                           : "Изменить",
-
+  "config.waila.open_file"                                      : "Открыть файл",
   "config.waila.new"                                            : "Создать",
   "config.waila.missing_input"                                  : "Отсуствует вход",
   "config.waila.invalid_input.title"                            : "Неправильный вход",
@@ -246,6 +246,9 @@
   "config.waila.plugin_minecraft.attribute.horse_jump_height"   : "Отображать силу прыжка лошади",
   "config.waila.plugin_minecraft.attribute.horse_speed"         : "Отображать скорость лошади",
   "config.waila.plugin_minecraft.attribute.panda_genes"         : "Показывать характер панд",
+  "config.waila.plugin_minecraft.attribute.beacon_effects"      : "Показать эффекты маяков",
+  "config.waila.plugin_minecraft.attribute.mob_effects"         : "Показать эффекты мобов",
+  "config.waila.plugin_minecraft.attribute.hidden_mob_effects"  : "Показать скрытые эффекты мобов",
   "config.waila.plugin_minecraft.book"                          : "Книги",
   "config.waila.plugin_minecraft.book.bookshelf"                : "Показывать число книг на полке",
   "config.waila.plugin_minecraft.book.written"                  : "Показывать автора и дату записанных книг",
@@ -290,8 +293,8 @@
   "config.waila.plugin_wailax.fluid.enabled_block"              : "Жидкости в блоках",
   "config.waila.plugin_wailax.fluid.enabled_entity"             : "Жидкости в сущностях",
   "config.waila.plugin_wailax.fluid.display_unit"               : "Единицы измерения",
-
-
+  "config.waila.plugin_wailax.fluid.display_unit_millibuckets"  : "МиллиВедра (mB)",
+  "config.waila.plugin_wailax.fluid.display_unit_droplets"      : "Капли (dp)",
   "config.waila.plugin_wailax.fluid.blacklist"                  : "Черный список",
 
   "theme.waila.plugin_waila.gradient.backgroundColor"           : "Цвет фона",
@@ -316,9 +319,9 @@
   "theme.waila.plugin_waila.nine_patch.regionRight"             : "Регион: правый",
   "theme.waila.plugin_waila.nine_patch.mode"                    : "Режим отрисовки",
   "theme.waila.plugin_waila.nine_patch.mode_stretch"            : "Растягивание",
-  "theme.waila.plugin_waila.nine_patch.mode_tile"               : "Плитка"
+  "theme.waila.plugin_waila.nine_patch.mode_tile"               : "Плитка",
 
-
-
-
+  "tooltip.waila.instrument"                                    : "_DO_NOT_TRANSLATE_",
+  "tooltip.waila.panda.gene"                                    : "_DO_NOT_TRANSLATE_",
+  "config.waila.plugin_"                                        : "_DO_NOT_TRANSLATE_"
 }
