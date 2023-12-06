@@ -14,7 +14,6 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import org.jetbrains.annotations.Nullable;
 
-@SuppressWarnings("UnstableApiUsage")
 public enum TextileFluidDescriptor implements FluidDescriptor<Fluid>, CauldronDescriptor {
 
     INSTANCE;

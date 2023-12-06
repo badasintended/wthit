@@ -32,7 +32,7 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
     private List<Entry> unfilteredChildren;
 
     public ConfigListWidget(ConfigScreen owner, Minecraft client, int width, int height, int top, int bottom, int itemHeight, Runnable diskWriter) {
-        super(client, width, height, top, bottom, itemHeight - 4);
+        super(client, width, height, top, itemHeight - 4);
 
         this.owner = owner;
         this.diskWriter = diskWriter;
@@ -73,7 +73,7 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
         }
 
         if (!ignoreErrors) minecraft.getToasts().addToast(new SystemToast(
-            SystemToast.SystemToastIds.TUTORIAL_HINT,
+            SystemToast.SystemToastId.PACK_COPY_FAILURE,
             Component.translatable(Tl.Config.InvalidInput.TITLE),
             Component.translatable(Tl.Config.InvalidInput.DESC)));
 
@@ -134,7 +134,7 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
     public void resize(int top, int bottom) {
         this.topOffset = top;
         this.bottomOffset = bottom - owner.height;
-        updateSize(owner.width, owner.height, topOffset, owner.height + bottomOffset);
+        setSize(owner.width, owner.height - (topOffset - bottomOffset));
         if (searchBox != null) searchBox.setPosition(getRowLeft() + getRowWidth() - 160, (top - 18) / 2);
     }
 

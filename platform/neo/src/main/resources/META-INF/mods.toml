@@ -13,7 +13,7 @@ version = "${version}"
 displayName = "wthit"
 description = "What the hell is that? Forge Edition"
 authors = "deirn, TehNut, ProfMobius"
-logoFile = "wthit.jpg"
+logoFile = "wthit.png"
 
 [[mods]]
 modId = "waila"
@@ -21,19 +21,19 @@ version = "${version}"
 displayName = "waila"
 description = "Actually WTHIT but with \"waila\" as it's id lmao"
 authors = "deirn, TehNut, ProfMobius"
-logoFile = "wthit.jpg"
+logoFile = "wthit.png"
 
 [[dependencies.wthit]]
 modId = "neoforge"
 mandatory = true
-versionRange = "[20.2,)"
+versionRange = "[20.3,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.wthit]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.20.2,)"
+versionRange = "[1.20.3,)"
 ordering = "NONE"
 side = "BOTH"
 

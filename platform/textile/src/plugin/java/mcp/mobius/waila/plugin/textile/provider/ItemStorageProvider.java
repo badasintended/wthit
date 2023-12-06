@@ -21,7 +21,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import org.jetbrains.annotations.Nullable;
 
-@SuppressWarnings("UnstableApiUsage")
 public enum ItemStorageProvider implements IDataProvider<BlockEntity> {
 
     INSTANCE;
