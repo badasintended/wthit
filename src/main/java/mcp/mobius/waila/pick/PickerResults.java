@@ -1,8 +1,8 @@
 package mcp.mobius.waila.pick;
 
 import java.util.Comparator;
-import java.util.IdentityHashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import mcp.mobius.waila.api.IPickerResults;
@@ -13,7 +13,7 @@ public enum PickerResults implements IPickerResults {
 
     INSTANCE;
 
-    private final Map<HitResult, Entry> map = new IdentityHashMap<>();
+    private final Map<HitResult, Entry> map = new LinkedHashMap<>();
 
     @Override
     public void add(HitResult result, Vec3 origin, Vec3 viewVector) {
