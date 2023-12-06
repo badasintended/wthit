@@ -10,7 +10,7 @@ version = "${version}"
 displayName = "wthit"
 description = "What the hell is that? Forge Edition"
 authors = "deirn, TehNut, ProfMobius"
-logoFile = "wthit.jpg"
+logoFile = "wthit.png"
 
 [[mods]]
 modId = "waila"
@@ -18,7 +18,7 @@ version = "${version}"
 displayName = "waila"
 description = "Actually WTHIT but with \"waila\" as it's id lmao"
 authors = "deirn, TehNut, ProfMobius"
-logoFile = "wthit.jpg"
+logoFile = "wthit.png"
 
 [[dependencies.wthit]]
 modId = "forge"

@@ -5,27 +5,45 @@ import mcp.mobius.waila.api.IDataWriter;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerAccessor;
 import mcp.mobius.waila.api.data.FluidData;
+import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.neoforged.neoforge.common.capabilities.Capabilities;
+import net.neoforged.neoforge.capabilities.BlockCapabilityCache;
+import net.neoforged.neoforge.capabilities.Capabilities;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import org.jetbrains.annotations.Nullable;
 
 public enum FluidCapabilityProvider implements IDataProvider<BlockEntity> {
 
     INSTANCE;
 
+    @Nullable
+    private BlockCapabilityCache<IFluidHandler, @Nullable Direction> cache;
+
     @Override
     public void appendData(IDataWriter data, IServerAccessor<BlockEntity> accessor, IPluginConfig config) {
-        data.add(FluidData.class, res ->
-            accessor.getTarget().getCapability(Capabilities.FLUID_HANDLER).ifPresent(handler -> {
-                var size = handler.getTanks();
-                var fluidData = FluidData.of(FluidData.Unit.MILLIBUCKETS, size);
+        data.add(FluidData.class, res -> {
+            var world = (ServerLevel) accessor.getWorld();
+            var target = accessor.getTarget();
+            var pos = target.getBlockPos();
 
-                for (var i = 0; i < size; i++) {
-                    var stack = handler.getFluidInTank(i);
-                    fluidData.add(stack.getFluid(), stack.getTag(), stack.getAmount(), handler.getTankCapacity(i));
-                }
+            if (cache == null || (cache.level() != world && !cache.pos().equals(pos))) {
+                cache = BlockCapabilityCache.create(Capabilities.FluidHandler.BLOCK, world, pos, null);
+            }
 
-                res.add(fluidData);
-            }));
+            var handler = cache.getCapability();
+            if (handler == null) return;
+
+            var size = handler.getTanks();
+            var fluidData = FluidData.of(FluidData.Unit.MILLIBUCKETS, size);
+
+            for (var i = 0; i < size; i++) {
+                var stack = handler.getFluidInTank(i);
+                fluidData.add(stack.getFluid(), stack.getTag(), stack.getAmount(), handler.getTankCapacity(i));
+            }
+
+            res.add(fluidData);
+        });
     }
 
 }

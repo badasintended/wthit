@@ -193,7 +193,7 @@ class ThemeEditorScreen extends ConfigScreen {
 
         if (idVal.getValue().isBlank()) {
             minecraft.getToasts().addToast(new SystemToast(
-                SystemToast.SystemToastIds.TUTORIAL_HINT,
+                SystemToast.SystemToastId.PACK_COPY_FAILURE,
                 Component.translatable(Tl.Config.MISSING_INPUT),
                 Component.translatable(Tl.Config.OverlayThemeEditor.ID_EMPTY)));
         } else {

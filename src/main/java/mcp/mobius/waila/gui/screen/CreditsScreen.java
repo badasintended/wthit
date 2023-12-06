@@ -40,7 +40,7 @@ public class CreditsScreen extends Screen {
 
         try {
             var credits = new Gson().fromJson(minecraft.getResourceManager().getResource(Waila.id("credits.json")).get().openAsReader(), CreditMap.class);
-            var listWidget = new ListWidget(minecraft, width, height, 32, height - 32, minecraft.font.lineHeight + 6);
+            var listWidget = new ListWidget(minecraft, width, height - 64, 32, minecraft.font.lineHeight + 6);
 
             credits.forEach((key, category) -> {
                 var children = listWidget.children();
@@ -88,8 +88,8 @@ public class CreditsScreen extends Screen {
 
     private static class ListWidget extends ContainerObjectSelectionList<CreditLine> {
 
-        private ListWidget(Minecraft client, int width, int height, int top, int bottom, int itemHeight) {
-            super(client, width, height, top, bottom, itemHeight);
+        private ListWidget(Minecraft client, int width, int height, int top, int itemHeight) {
+            super(client, width, height, top, itemHeight);
         }
 
         private void init() {
@@ -97,7 +97,7 @@ public class CreditsScreen extends Screen {
 
             var totalHeight = (children().size() - 1) * itemHeight;
             if (totalHeight < height) {
-                setRenderHeader(true, (height - totalHeight) / 2 - y0);
+                setRenderHeader(true, (height - totalHeight) / 2 - getY());
             }
         }
 

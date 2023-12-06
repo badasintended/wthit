@@ -14,7 +14,7 @@
   "mixins"       : ["wthit.mixins.json"],
   "name"         : "wthit",
   "description"  : "What the hell is that?",
-  "icon"         : "wthit.jpg",
+  "icon"         : "wthit.png",
   "contact"      : {
     "homepage": "https://www.curseforge.com/minecraft/mc-mods/wthit",
     "issues"  : "https://github.com/badasintended/wthit/issues",
@@ -41,7 +41,7 @@
   "depends"      : {
     "fabricloader": ">=0.14.22",
     "fabric"      : ">=0.88.3",
-    "minecraft"   : ">=1.20.2-0",
+    "minecraft"   : ">=1.20.3-0",
     "badpackets"  : ">=0.5-0"
   },
   "breaks"       : {
