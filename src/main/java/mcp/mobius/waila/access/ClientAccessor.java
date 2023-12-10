@@ -37,10 +37,13 @@ public enum ClientAccessor implements ICommonAccessor, IBlockAccessor, IEntityAc
     private BlockEntity blockEntity;
     private Entity entity;
     private long timeLastUpdate = System.currentTimeMillis();
-    private double partialFrame;
     private ItemStack stack = ItemStack.EMPTY;
     private int updateId;
     private boolean dataAccess = true;
+    private Vec3 rayCastOrigin;
+    private Vec3 rayCastDirection;
+    private double rayCastMaxDistance;
+    private float frameTime;
 
     @Override
     public Level getWorld() {
@@ -131,7 +134,7 @@ public enum ClientAccessor implements ICommonAccessor, IBlockAccessor, IEntityAc
 
     @Override
     public double getPartialFrame() {
-        return this.partialFrame;
+        return this.frameTime;
     }
 
     @Override
@@ -154,13 +157,37 @@ public enum ClientAccessor implements ICommonAccessor, IBlockAccessor, IEntityAc
         return updateId;
     }
 
-    public void set(Level world, Player player, HitResult hit, Entity viewEntity, double partialTicks) {
+    @Override
+    public Vec3 getRayCastOrigin() {
+        return rayCastOrigin;
+    }
+
+    @Override
+    public Vec3 getRayCastDirection() {
+        return rayCastDirection;
+    }
+
+    @Override
+    public double getRayCastMaxDistance() {
+        return rayCastMaxDistance;
+    }
+
+    @Override
+    public float getFrameTime() {
+        return frameTime;
+    }
+
+    public void set(Level world, Player player, HitResult hit, Entity viewEntity, Vec3 rayCastOrigin, Vec3 rayCastDirection, double rayCastMaxDistance, float frameTime) {
         this.updateId++;
         if (updateId == 0) updateId++;
 
         this.world = world;
         this.player = player;
         this.hitResult = hit;
+        this.rayCastMaxDistance = rayCastMaxDistance;
+        this.rayCastOrigin = rayCastOrigin;
+        this.rayCastDirection = rayCastDirection;
+        this.frameTime = frameTime;
 
         if (this.hitResult.getType() == HitResult.Type.BLOCK) {
             this.pos = ((BlockHitResult) hit).getBlockPos();
@@ -175,11 +202,10 @@ public enum ClientAccessor implements ICommonAccessor, IBlockAccessor, IEntityAc
         }
 
         if (viewEntity != null) {
-            var px = viewEntity.xo + (viewEntity.getX() - viewEntity.xo) * partialTicks;
-            var py = viewEntity.yo + (viewEntity.getY() - viewEntity.yo) * partialTicks;
-            var pz = viewEntity.zo + (viewEntity.getZ() - viewEntity.zo) * partialTicks;
+            var px = viewEntity.xo + (viewEntity.getX() - viewEntity.xo) * frameTime;
+            var py = viewEntity.yo + (viewEntity.getY() - viewEntity.yo) * frameTime;
+            var pz = viewEntity.zo + (viewEntity.getZ() - viewEntity.zo) * frameTime;
             this.renderingVec = new Vec3(this.pos.getX() - px, this.pos.getY() - py, this.pos.getZ() - pz);
-            this.partialFrame = partialTicks;
         }
     }
 

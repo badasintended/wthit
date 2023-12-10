@@ -18,6 +18,7 @@ import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.IEventListener;
 import mcp.mobius.waila.api.IObjectPicker;
+import mcp.mobius.waila.api.IRayCastVectorProvider;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.IThemeType;
@@ -38,6 +39,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import org.jetbrains.annotations.Nullable;
 
 public enum Registrar implements IRegistrar {
 
@@ -66,6 +68,8 @@ public enum Registrar implements IRegistrar {
     });
 
     public final Register<IEventListener> eventListeners = Util.make(new Register<>(), Register::reversed);
+    public final Register<IRayCastVectorProvider> raycastVectorProviders = new Register<>();
+
     public final BlacklistConfig blacklist = new BlacklistConfig();
 
     public final Map<ResourceLocation, IntFormat> intConfigFormats = new HashMap<>();
@@ -75,8 +79,9 @@ public enum Registrar implements IRegistrar {
     public final Map<Class<? extends IData>, ResourceLocation> dataType2Id = new HashMap<>();
     public final Map<ResourceLocation, IData.Serializer<?>> dataId2Serializer = new HashMap<>();
 
-    private int pickerPriority = Integer.MAX_VALUE;
+    @Nullable
     public IObjectPicker picker = null;
+    private int pickerPriority = Integer.MAX_VALUE;
 
     private boolean locked = false;
 
@@ -291,6 +296,14 @@ public enum Registrar implements IRegistrar {
     }
 
     @Override
+    public void addRayCastVector(IRayCastVectorProvider provider, int priority) {
+        if (Waila.CLIENT_SIDE) {
+            assertLock();
+            raycastVectorProviders.add(Object.class, provider, priority);
+        }
+    }
+
+    @Override
     public void replacePicker(IObjectPicker picker, int priority) {
         if (Waila.CLIENT_SIDE) {
             assertLock();
@@ -306,8 +319,11 @@ public enum Registrar implements IRegistrar {
         locked = true;
 
         if (Waila.CLIENT_SIDE) {
-            Preconditions.checkState(picker != null, "No object picker registered");
-            LOG.info("Using {} as the object picker", picker.getClass().getName());
+            if (picker != null) {
+                LOG.info("Using {} as the object picker", picker.getClass().getName());
+            } else {
+                Preconditions.checkState(!raycastVectorProviders.get(Object.class).isEmpty(), "No raycast vector provider found");
+            }
         }
 
         var hash = new int[]{0, 0, 0};

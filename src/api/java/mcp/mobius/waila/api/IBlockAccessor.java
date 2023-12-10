@@ -43,13 +43,19 @@ public interface IBlockAccessor {
 
     IDataReader getData();
 
-    double getPartialFrame();
-
     Direction getSide();
 
     ItemStack getStack();
 
     int getUpdateId();
+
+    Vec3 getRayCastOrigin();
+
+    Vec3 getRayCastDirection();
+
+    double getRayCastMaxDistance();
+
+    float getFrameTime();
 
     // -----------------------------------------------------------------------------------------------------------------------------------------------
     // TODO: Remove
@@ -67,5 +73,12 @@ public interface IBlockAccessor {
     @Deprecated
     @ApiStatus.ScheduledForRemoval(inVersion = "1.21")
     HitResult getHitResult();
+
+    /**
+     * @deprecated use {@link #getFrameTime()}
+     */
+    @Deprecated
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.21")
+    double getPartialFrame();
 
 }
