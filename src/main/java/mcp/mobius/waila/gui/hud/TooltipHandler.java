@@ -24,6 +24,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec3;
 
 import static mcp.mobius.waila.api.TooltipPosition.BODY;
 import static mcp.mobius.waila.api.TooltipPosition.HEAD;
@@ -45,46 +46,48 @@ public class TooltipHandler {
         var client = Minecraft.getInstance();
         var config = Waila.CONFIG.get().getGeneral();
 
-        if (client.options.hideGui) {
-            return;
-        }
-
-        if (client.screen != null && !(client.screen instanceof ChatScreen)) {
-            return;
-        }
-
-        if (client.level == null || !config.isDisplayTooltip()) {
-            return;
-        }
-
-        if (config.getDisplayMode() == IWailaConfig.General.DisplayMode.HOLD_KEY && !WailaClient.keyShowOverlay.isDown()) {
-            return;
-        }
-
-        if (config.isHideFromPlayerList() && ((PlayerTabOverlayAccess) client.gui.getTabList()).wthit_isVisible()) {
-            return;
-        }
-
-        if (config.isHideFromDebug() && client.getDebugOverlay().showDebugScreen()) {
-            return;
-        }
-
-        if (client.gameMode == null) {
-            return;
-        }
+        if (client.options.hideGui) return;
+        if (client.screen != null && !(client.screen instanceof ChatScreen)) return;
+        if (client.level == null || !config.isDisplayTooltip()) return;
+        if (config.getDisplayMode() == IWailaConfig.General.DisplayMode.HOLD_KEY && !WailaClient.keyShowOverlay.isDown()) return;
+        if (config.isHideFromPlayerList() && ((PlayerTabOverlayAccess) client.gui.getTabList()).wthit_isVisible()) return;
+        if (config.isHideFromDebug() && client.getDebugOverlay().showDebugScreen()) return;
+        if (client.gameMode == null) return;
 
         Player player = client.player;
+        if (player == null) return;
 
-        if (player == null) {
-            return;
+        var camera = client.cameraEntity;
+        if (camera == null) return;
+
+        var frameTime = client.getFrameTime();
+        var pickRange = client.gameMode.getPickRange();
+        var results = PickerResults.get();
+        Vec3 castOrigin = null;
+        Vec3 castDirection = null;
+
+        var picker = Registrar.INSTANCE.picker;
+        if (picker != null) {
+            // TODO: remove
+            castOrigin = camera.getEyePosition(frameTime);
+            castDirection = camera.getViewVector(frameTime);
+            picker.pick(PickerAccessor.of(client, camera, pickRange, frameTime), results, PluginConfig.CLIENT);
+        } else {
+            for (var entry : Registrar.INSTANCE.raycastVectorProviders.get(Object.class)) {
+                var provider = entry.value();
+                if (!provider.isEnabled(PluginConfig.CLIENT)) continue;
+
+                castOrigin = provider.getOrigin(frameTime);
+                castDirection = provider.getDirection(frameTime);
+                RayCaster.cast(client.level, camera, castOrigin, castDirection, pickRange, results);
+            }
         }
 
-        var results = PickerResults.get();
-        Registrar.INSTANCE.picker.pick(PickerAccessor.of(client, client.cameraEntity, client.gameMode.getPickRange(), client.getFrameTime()), results, PluginConfig.CLIENT);
+        if (castOrigin == null) return;
 
         for (var target : results) {
             var accessor = ClientAccessor.INSTANCE;
-            accessor.set(client.level, player, target, client.cameraEntity, client.getFrameTime());
+            accessor.set(client.level, player, target, client.cameraEntity, castOrigin, castDirection, pickRange, client.getFrameTime());
 
             TooltipRenderer.beginBuild(STATE);
 
@@ -92,26 +95,18 @@ public class TooltipHandler {
                 var block = accessor.getBlock();
 
                 if (block instanceof LiquidBlock) {
-                    if (!PluginConfig.CLIENT.getBoolean(WailaConstants.CONFIG_SHOW_FLUID)) {
-                        continue;
-                    }
+                    if (!PluginConfig.CLIENT.getBoolean(WailaConstants.CONFIG_SHOW_FLUID)) continue;
                 } else if (!PluginConfig.CLIENT.getBoolean(WailaConstants.CONFIG_SHOW_BLOCK)) {
                     continue;
                 }
 
-                if (IBlacklistConfig.get().contains(block)) {
-                    continue;
-                }
+                if (IBlacklistConfig.get().contains(block)) continue;
 
                 var blockEntity = accessor.getBlockEntity();
-                if (blockEntity != null && IBlacklistConfig.get().contains(blockEntity)) {
-                    continue;
-                }
+                if (blockEntity != null && IBlacklistConfig.get().contains(blockEntity)) continue;
 
                 var state = ComponentHandler.getOverrideBlock(target);
-                if (state == IBlockComponentProvider.EMPTY_BLOCK_STATE) {
-                    continue;
-                }
+                if (state == IBlockComponentProvider.EMPTY_BLOCK_STATE) continue;
 
                 accessor.setState(state);
 
@@ -135,31 +130,17 @@ public class TooltipHandler {
                 TOOLTIP.clear();
                 gatherBlock(accessor, TOOLTIP, TAIL);
             } else if (target.getType() == HitResult.Type.ENTITY) {
-                if (!PluginConfig.CLIENT.getBoolean(WailaConstants.CONFIG_SHOW_ENTITY)) {
-                    continue;
-                }
+                if (!PluginConfig.CLIENT.getBoolean(WailaConstants.CONFIG_SHOW_ENTITY)) continue;
 
                 var actualEntity = accessor.getEntity();
-
-                if (actualEntity == null) {
-                    continue;
-                }
-
-                if (IBlacklistConfig.get().contains(actualEntity)) {
-                    continue;
-                }
+                if (actualEntity == null) continue;
+                if (IBlacklistConfig.get().contains(actualEntity)) continue;
 
                 var targetEnt = ComponentHandler.getOverrideEntity(target);
-
-                if (targetEnt == IEntityComponentProvider.EMPTY_ENTITY) {
-                    continue;
-                }
+                if (targetEnt == IEntityComponentProvider.EMPTY_ENTITY) continue;
 
                 accessor.setEntity(targetEnt);
-
-                if (targetEnt == null) {
-                    continue;
-                }
+                if (targetEnt == null) continue;
 
                 requestEntityData(targetEnt, accessor);
 

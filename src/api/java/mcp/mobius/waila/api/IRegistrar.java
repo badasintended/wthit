@@ -565,22 +565,24 @@ public interface IRegistrar {
     <T extends ITheme> void addThemeType(ResourceLocation id, IThemeType<T> type);
 
     /**
-     * Replaces the picker that Waila will use to get the object to show the tooltip to.
+     * Registers an {@link IRayCastVectorProvider} instance
      *
-     * @param picker   the picker replacement
-     * @param priority the replacement priority, if there is picker with higher priority (smaller number) the picker won't get replaced
-     *
-     * @see #DEFAULT_PRIORITY
+     * @param provider the vector provider
+     * @param priority the priority of this provider <b>0 is the minimum, lower number will be called first</b>
      */
     @ApiSide.ClientOnly
-    void replacePicker(IObjectPicker picker, int priority);
+    @ApiStatus.Experimental
+    void addRayCastVector(IRayCastVectorProvider provider, int priority);
 
     /**
-     * Replaces the picker that Waila will use to get the object to show the tooltip to.
+     * Registers an {@link IRayCastVectorProvider} instance with {@link #DEFAULT_PRIORITY}
+     *
+     * @param provider the vector provider
      */
     @ApiSide.ClientOnly
-    default void replacePicker(IObjectPicker picker) {
-        replacePicker(picker, DEFAULT_PRIORITY);
+    @ApiStatus.Experimental
+    default void addRayCastVector(IRayCastVectorProvider provider) {
+        addRayCastVector(provider, DEFAULT_PRIORITY);
     }
 
     // -----------------------------------------------------------------------------------------------------------------------------------------------
@@ -622,6 +624,24 @@ public interface IRegistrar {
     @ApiStatus.ScheduledForRemoval(inVersion = "1.22")
     default void addMergedSyncedConfig(ResourceLocation key, boolean defaultValue, boolean clientOnlyValue) {
         addFeatureConfig(key, false);
+    }
+
+    /**
+     * @deprecated use {@link #addRayCastVector(IRayCastVectorProvider, int)}
+     */
+    @Deprecated
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.21")
+    @ApiSide.ClientOnly
+    void replacePicker(IObjectPicker picker, int priority);
+
+    /**
+     * @deprecated use {@link #addRayCastVector(IRayCastVectorProvider, int)}
+     */
+    @Deprecated
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.21")
+    @ApiSide.ClientOnly
+    default void replacePicker(IObjectPicker picker) {
+        replacePicker(picker, DEFAULT_PRIORITY);
     }
 
 }

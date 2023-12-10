@@ -45,14 +45,20 @@ public interface ICommonAccessor {
 
     IDataReader getData();
 
-    double getPartialFrame();
-
     @Nullable
     Direction getSide();
 
     ItemStack getStack();
 
     int getUpdateId();
+
+    Vec3 getRayCastOrigin();
+
+    Vec3 getRayCastDirection();
+
+    double getRayCastMaxDistance();
+
+    float getFrameTime();
 
     // -----------------------------------------------------------------------------------------------------------------------------------------------
     // TODO: Remove
@@ -63,5 +69,12 @@ public interface ICommonAccessor {
     @Deprecated(forRemoval = true)
     @ApiStatus.ScheduledForRemoval(inVersion = "1.21")
     CompoundTag getServerData();
+
+    /**
+     * @deprecated use {@link #getFrameTime()}
+     */
+    @Deprecated
+    @ApiStatus.ScheduledForRemoval(inVersion = "1.21")
+    double getPartialFrame();
 
 }
