@@ -3,13 +3,14 @@ package mcp.mobius.waila.pick;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.function.ObjDoubleConsumer;
 
 import it.unimi.dsi.fastutil.objects.Object2DoubleArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2DoubleMap;
 import mcp.mobius.waila.api.IPickerResults;
 import net.minecraft.world.phys.HitResult;
 
-public enum PickerResults implements IPickerResults {
+public enum PickerResults implements IPickerResults, ObjDoubleConsumer<HitResult> {
 
     INSTANCE;
 
@@ -41,4 +42,8 @@ public enum PickerResults implements IPickerResults {
         return INSTANCE;
     }
 
+    @Override
+    public void accept(HitResult hitResult, double value) {
+        add(hitResult, value);
+    }
 }

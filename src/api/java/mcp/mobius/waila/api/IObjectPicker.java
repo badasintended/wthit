@@ -9,32 +9,19 @@ import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 
 /**
- * Used to get objects that Waila will show the tooltip to.
+ * @deprecated use {@link IRayCastVectorProvider}
  */
+// TODO: Remove
+@Deprecated
+@ApiStatus.ScheduledForRemoval(inVersion = "1.21")
 @ApiSide.ClientOnly
 @ApiStatus.OverrideOnly
 public interface IObjectPicker {
 
-    /**
-     * Returns the object that Waila will show the tooltip to, typically by raycasting from the camera's eye.
-     * <p>
-     * <b>Note:</b> {@linkplain IPickerResults#add return} all objects in a line from cast origin up until
-     * {@linkplain IPickerAccessor#getMaxDistance() max distance}, that way Waila can try to show tooltip
-     * for further object if the tooltip for nearer object is disabled for some reason.
-     * <p>
-     * Check for config value to save some processing time.
-     *
-     * @see WailaConstants#CONFIG_SHOW_BLOCK
-     * @see WailaConstants#CONFIG_SHOW_ENTITY
-     * @see WailaConstants#CONFIG_SHOW_FLUID
-     */
     default void pick(IPickerAccessor accessor, IPickerResults results, IPluginConfig config) {
         results.add(pick(accessor.getClient(), accessor.getMaxDistance(), accessor.getFrameDelta(), config), 0);
     }
 
-    /**
-     * @deprecated not needed on newest API.
-     */
     @Deprecated(forRemoval = true)
     @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
     HitResult MISS = new HitResult(Vec3.ZERO) {
@@ -44,9 +31,6 @@ public interface IObjectPicker {
         }
     };
 
-    /**
-     * @deprecated override {@link #pick(IPickerAccessor, IPickerResults, IPluginConfig)} instead.
-     */
     @Deprecated(forRemoval = true)
     @ApiStatus.ScheduledForRemoval(inVersion = "1.20")
     @SuppressWarnings({"DeprecatedIsStillUsed", "unused"})
