@@ -52,7 +52,7 @@ public enum ObjectPicker implements IObjectPicker {
                         var blockHit = world.clipWithInteractionOverride(start, end, pos.immutable(), blockShape, blockState);
 
                         if (blockHit != null) {
-                            results.add(blockHit, start, viewVec);
+                            results.add(blockHit, start.distanceToSqr(blockHit.getLocation()));
                         }
                     }
                 }
@@ -65,7 +65,7 @@ public enum ObjectPicker implements IObjectPicker {
                         var fluidHit = fluidShape.clip(start, end, pos);
 
                         if (fluidHit != null) {
-                            results.add(fluidHit, start, viewVec);
+                            results.add(fluidHit, start.distanceToSqr(fluidHit.getLocation()));
                         }
                     }
                 }
@@ -86,7 +86,7 @@ public enum ObjectPicker implements IObjectPicker {
                 }
 
                 if (clip != null) {
-                    results.add(new EntityHitResult(entity, clip), start, viewVec);
+                    results.add(new EntityHitResult(entity, clip), start.distanceToSqr(clip));
                 }
             }
         }
