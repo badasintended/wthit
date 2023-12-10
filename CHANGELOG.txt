@@ -1,5 +1,6 @@
 10.x - 1.20.3 - dev/1.20.3 - java 17
 ====================================
+10.0.1   - Updated to Forge 1.20.3
 10.0.0   - Updated to Minecraft 1.20.3
 
 9.x - 1.20.2 - dev/master - java 17
