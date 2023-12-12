@@ -1,0 +1,29 @@
+name: "NeoForge Edition Issue"
+description: If you use the neoforge version
+labels: [bug, neoforge]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ### Please make sure you are using the latest version of WTHIT before filing an issue!
+  - type: textarea
+    id: describe
+    attributes:
+      label: Describe the issue
+      description: Also describe expected behavior and how to reproduce it if you can.
+    validations:
+      required: true
+  - type: input
+    id: logs
+    attributes:
+      label: Log output and crash report
+      description: |
+        Post the crash report **and** the latest log as a [gist](https://gist.github.com/) and copy the link here.
+        Crash report file is located in `.minecraft/crash-reports` folder. The log is located at `.minecraft/logs/latest.log`.
+        If the game doesn't crash, open a world and hold `F3-C` to force it.
+    validations:
+      required: true
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional context
