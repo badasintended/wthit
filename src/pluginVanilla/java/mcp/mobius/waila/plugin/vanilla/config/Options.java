@@ -19,6 +19,7 @@ public final class Options {
     public static final ResourceLocation SPAWNER_TYPE                  = rl("spawner_type");
     public static final ResourceLocation CROP_PROGRESS                 = rl("crop_progress");
     public static final ResourceLocation CROP_GROWABLE                 = rl("crop_growable");
+    public static final ResourceLocation TREE_GROWABLE                 = rl("tree_growable");
     public static final ResourceLocation REDSTONE_LEVER                = rl("redstone.lever");
     public static final ResourceLocation REDSTONE_REPEATER             = rl("redstone.repeater");
     public static final ResourceLocation REDSTONE_COMPARATOR           = rl("redstone.comparator");

@@ -1,6 +1,7 @@
 {
   "tooltip.waila.crop_growth"                                   : "Growth",
   "tooltip.waila.crop_growable"                                 : "Can Grow",
+  "tooltip.waila.tree_growable"                                 : "Can Grow",
   "tooltip.waila.crop_mature"                                   : "Mature",
   "tooltip.waila.empty"                                         : "Empty",
   "tooltip.waila.delay"                                         : "Delay",
@@ -207,6 +208,7 @@
   "config.waila.plugin_minecraft.spawner_type"                  : "Show Spawner Type",
   "config.waila.plugin_minecraft.crop_progress"                 : "Show Crop Progress",
   "config.waila.plugin_minecraft.crop_growable"                 : "Show Crop Growability",
+  "config.waila.plugin_minecraft.tree_growable"                 : "Show Tree Growability",
   "config.waila.plugin_minecraft.redstone"                      : "Redstone",
   "config.waila.plugin_minecraft.redstone.lever"                : "Show Lever State",
   "config.waila.plugin_minecraft.redstone.repeater"             : "Show Repeater Delay",

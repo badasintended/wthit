@@ -69,6 +69,7 @@ import net.minecraft.world.level.block.NoteBlock;
 import net.minecraft.world.level.block.PowderSnowBlock;
 import net.minecraft.world.level.block.RedStoneWireBlock;
 import net.minecraft.world.level.block.RepeaterBlock;
+import net.minecraft.world.level.block.SaplingBlock;
 import net.minecraft.world.level.block.StemBlock;
 import net.minecraft.world.level.block.SweetBerryBushBlock;
 import net.minecraft.world.level.block.TrappedChestBlock;
@@ -163,12 +164,14 @@ public class WailaPluginVanilla implements IWailaPlugin {
 
         registrar.addFeatureConfig(Options.CROP_PROGRESS, true);
         registrar.addFeatureConfig(Options.CROP_GROWABLE, true);
+        registrar.addFeatureConfig(Options.TREE_GROWABLE, true);
         registrar.addIcon(PlantProvider.INSTANCE, CropBlock.class);
         registrar.addComponent(PlantProvider.INSTANCE, BODY, CropBlock.class);
         registrar.addComponent(PlantProvider.INSTANCE, BODY, StemBlock.class);
         registrar.addComponent(PlantProvider.INSTANCE, BODY, CocoaBlock.class);
         registrar.addComponent(PlantProvider.INSTANCE, BODY, NetherWartBlock.class);
         registrar.addComponent(PlantProvider.INSTANCE, BODY, SweetBerryBushBlock.class);
+        registrar.addComponent(PlantProvider.INSTANCE, BODY, SaplingBlock.class);
 
         registrar.addFeatureConfig(Options.REDSTONE_LEVER, true);
         registrar.addFeatureConfig(Options.REDSTONE_REPEATER, true);

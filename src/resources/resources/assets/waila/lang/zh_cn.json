@@ -1,7 +1,8 @@
 {
   "tooltip.waila.crop_growth"                                   : "生长状态",
-  "tooltip.waila.crop_mature"                                   : "成熟",
   "tooltip.waila.crop_growable"                                 : "可生长",
+  "tooltip.waila.tree_growable"                                 : "可生长",
+  "tooltip.waila.crop_mature"                                   : "成熟",
   "tooltip.waila.empty"                                         : "空",
   "tooltip.waila.delay"                                         : "延迟",
   "tooltip.waila.mode"                                          : "模式",
@@ -207,6 +208,7 @@
   "config.waila.plugin_minecraft.spawner_type"                  : "显示刷怪笼类型",
   "config.waila.plugin_minecraft.crop_progress"                 : "显示作物生长进度",
   "config.waila.plugin_minecraft.crop_growable"                 : "显示作物是否可生长",
+  "config.waila.plugin_minecraft.tree_growable"                 : "显示树木是否可生长",
   "config.waila.plugin_minecraft.redstone"                      : "红石",
   "config.waila.plugin_minecraft.redstone.lever"                : "显示拉杆状态",
   "config.waila.plugin_minecraft.redstone.repeater"             : "显示中继器延迟",
