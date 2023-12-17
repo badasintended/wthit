@@ -2,6 +2,7 @@ package mcp.mobius.waila.plugin.vanilla.provider;
 
 import mcp.mobius.waila.api.IBlockAccessor;
 import mcp.mobius.waila.api.IBlockComponentProvider;
+import mcp.mobius.waila.api.IModInfo;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.ITooltipComponent;
@@ -13,6 +14,8 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CropBlock;
+import net.minecraft.world.level.block.StemBlock;
+import net.minecraft.world.level.block.SweetBerryBushBlock;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import org.jetbrains.annotations.Nullable;
 
@@ -31,7 +34,8 @@ public enum PlantProvider implements IBlockComponentProvider {
         }
     }
 
-    private static void addGrowableTooltip(ITooltip tooltip, int lightLevel) {
+    private static void addGrowableTooltip(ITooltip tooltip, IBlockAccessor accessor) {
+        int lightLevel = accessor.getWorld().getRawBrightness(accessor.getPosition(), 0);
         tooltip.addLine(new PairComponent(
             Component.translatable(Tl.Tooltip.CROP_GROWABLE), lightLevel >= 9
             ? Component.translatable(Tl.Tooltip.TRUE)
@@ -66,8 +70,12 @@ public enum PlantProvider implements IBlockComponentProvider {
             }
         }
 
-        if (config.getBoolean(Options.CROP_GROWABLE) && accessor.getBlock() != Blocks.COCOA && accessor.getBlock() != Blocks.NETHER_WART) {
-            addGrowableTooltip(tooltip, accessor.getWorld().getRawBrightness(accessor.getPosition(), 0));
+        if (config.getBoolean(Options.CROP_GROWABLE)) {
+            if (IModInfo.get(accessor.getBlock()).getId().equals("minecraft")) {
+                if (accessor.getBlock() instanceof CropBlock || accessor.getBlock() instanceof StemBlock) {
+                    addGrowableTooltip(tooltip, accessor);
+                }
+            }
         }
     }
 
