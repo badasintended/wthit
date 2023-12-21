@@ -35,27 +35,25 @@ public enum PlantProvider implements IBlockComponentProvider {
         }
     }
 
+    private static void addGrowableTooltip(ITooltip tooltip, String translationKey, boolean growable) {
+        tooltip.addLine(new PairComponent(Component.translatable(translationKey),
+            growable ? Component.translatable(Tl.Tooltip.TRUE) : Component.translatable(Tl.Tooltip.FALSE)));
+    }
+
     private static void addCropGrowableTooltip(ITooltip tooltip, IBlockAccessor accessor) {
-        int lightLevel = accessor.getWorld().getRawBrightness(accessor.getPosition(), 0);
-        tooltip.addLine(new PairComponent(Component.translatable(Tl.Tooltip.CROP_GROWABLE), lightLevel >= 9
-            ? Component.translatable(Tl.Tooltip.TRUE)
-            : Component.translatable(Tl.Tooltip.FALSE)));
+        var lightLevel = accessor.getWorld().getRawBrightness(accessor.getPosition(), 0);
+        addGrowableTooltip(tooltip, Tl.Tooltip.CROP_GROWABLE, lightLevel >= 9);
     }
 
     private static void addTreeGrowableTooltip(ITooltip tooltip, IBlockAccessor accessor) {
-        int lightLevel = accessor.getWorld().getRawBrightness(accessor.getPosition(), 0);
-        boolean mangrovePropaguleHanging;
-        boolean growable = lightLevel >= 9;
-        if (accessor.getBlock() instanceof MangrovePropaguleBlock) {
-            if (accessor.getBlockState().getValue(MangrovePropaguleBlock.HANGING)) {
-                growable = false;
-            }
+        var lightLevel = accessor.getWorld().getRawBrightness(accessor.getPosition(), 0);
+        var growable = lightLevel >= 9;
+        if (accessor.getBlock() instanceof MangrovePropaguleBlock
+            && accessor.getBlockState().getValue(MangrovePropaguleBlock.HANGING)) {
+            growable = false;
         }
 
-        tooltip.addLine(new PairComponent(
-            Component.translatable(Tl.Tooltip.TREE_GROWABLE), growable
-            ? Component.translatable(Tl.Tooltip.TRUE)
-            : Component.translatable(Tl.Tooltip.FALSE)));
+        addGrowableTooltip(tooltip, Tl.Tooltip.TREE_GROWABLE, growable);
     }
 
     @Nullable
@@ -87,18 +85,15 @@ public enum PlantProvider implements IBlockComponentProvider {
         }
 
         if (config.getBoolean(Options.CROP_GROWABLE)) {
-            if (IModInfo.get(accessor.getBlock()).getId().equals("minecraft")) {
-                if (accessor.getBlock() instanceof CropBlock || accessor.getBlock() instanceof StemBlock) {
-                    addCropGrowableTooltip(tooltip, accessor);
-                }
+            if ((accessor.getBlock() instanceof CropBlock || accessor.getBlock() instanceof StemBlock)
+                && IModInfo.get(accessor.getBlock()).getId().equals("minecraft")) {
+                addCropGrowableTooltip(tooltip, accessor);
             }
         }
 
         if (config.getBoolean(Options.TREE_GROWABLE)) {
-            if (IModInfo.get(accessor.getBlock()).getId().equals("minecraft")) {
-                if (accessor.getBlock() instanceof SaplingBlock) {
-                    addTreeGrowableTooltip(tooltip, accessor);
-                }
+            if (accessor.getBlock() instanceof SaplingBlock && IModInfo.get(accessor.getBlock()).getId().equals("minecraft")) {
+                addTreeGrowableTooltip(tooltip, accessor);
             }
         }
     }
