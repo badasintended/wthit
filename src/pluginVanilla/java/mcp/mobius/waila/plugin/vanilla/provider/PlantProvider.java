@@ -37,8 +37,7 @@ public enum PlantProvider implements IBlockComponentProvider {
 
     private static void addCropGrowableTooltip(ITooltip tooltip, IBlockAccessor accessor) {
         int lightLevel = accessor.getWorld().getRawBrightness(accessor.getPosition(), 0);
-        tooltip.addLine(new PairComponent(
-            Component.translatable(Tl.Tooltip.CROP_GROWABLE), lightLevel >= 9
+        tooltip.addLine(new PairComponent(Component.translatable(Tl.Tooltip.CROP_GROWABLE), lightLevel >= 9
             ? Component.translatable(Tl.Tooltip.TRUE)
             : Component.translatable(Tl.Tooltip.FALSE)));
     }
@@ -48,8 +47,7 @@ public enum PlantProvider implements IBlockComponentProvider {
         boolean mangrovePropaguleHanging;
         boolean growable = lightLevel >= 9;
         if (accessor.getBlock() instanceof MangrovePropaguleBlock) {
-            mangrovePropaguleHanging = accessor.getBlockState().getValue(MangrovePropaguleBlock.HANGING);
-            if (mangrovePropaguleHanging) {
+            if (accessor.getBlockState().getValue(MangrovePropaguleBlock.HANGING)) {
                 growable = false;
             }
         }
