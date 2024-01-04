@@ -1,5 +1,6 @@
 {
   "tooltip.waila.crop_growth"                                   : "Gewachsen",
+  "tooltip.waila.crop_growable"                                 : "Kann wachsen",
   "tooltip.waila.crop_mature"                                   : "Ausgewachsen",
   "tooltip.waila.empty"                                         : "Leer",
   "tooltip.waila.delay"                                         : "Verzögerung",
@@ -9,6 +10,8 @@
   "tooltip.waila.state"                                         : "Status",
   "tooltip.waila.state_on"                                      : "Ein",
   "tooltip.waila.state_off"                                     : "Aus",
+  "tooltip.waila.true"                                          : "Wahr",
+  "tooltip.waila.false"                                         : "Falsch",
   "tooltip.waila.power"                                         : "Stärke",
   "tooltip.waila.sneak_for_details"                             : "Schleiche für Details",
 
