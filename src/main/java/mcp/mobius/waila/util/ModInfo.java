@@ -28,10 +28,9 @@ public final class ModInfo implements IModInfo {
     }
 
     public static ModInfo get(String namespace) {
-        return CONTAINER_CACHE.computeIfAbsent(namespace, s ->
-            ICommonService.INSTANCE.createModInfo(namespace)
-            .or(() -> ICommonService.INSTANCE.createModInfo(namespace.replace('_', '-')))
-            .orElse(new ModInfo(false, s, WordUtils.capitalizeFully(namespace.replace("_", " ")), "unknown")));
+        return CONTAINER_CACHE.computeIfAbsent(namespace, s -> ICommonService.INSTANCE.createModInfo(s)
+            .or(() -> ICommonService.INSTANCE.createModInfo(s.replace('_', '-')))
+            .orElse(new ModInfo(false, s, WordUtils.capitalizeFully(s.replace("_", " ")), "unknown")));
     }
 
     @Override
