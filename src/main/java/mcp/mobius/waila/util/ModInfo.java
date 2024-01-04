@@ -31,8 +31,7 @@ public final class ModInfo implements IModInfo {
         return CONTAINER_CACHE.computeIfAbsent(namespace, s ->
             ICommonService.INSTANCE.createModInfo(namespace)
             .or(() -> ICommonService.INSTANCE.createModInfo(namespace.replace('_', '-')))
-            .orElse(new ModInfo(false, s, WordUtils.capitalizeFully(namespace.replace("_", " ")), "unknown"))
-        );
+            .orElse(new ModInfo(false, s, WordUtils.capitalizeFully(namespace.replace("_", " ")), "unknown")));
     }
 
     @Override
