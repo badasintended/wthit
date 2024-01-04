@@ -134,7 +134,7 @@ public enum PluginConfig implements IPluginConfig {
 
     @Override
     public double getDouble(ResourceLocation key) {
-        return getValue(key, 0);
+        return getValue(key, 0.0);
     }
 
     @Override
