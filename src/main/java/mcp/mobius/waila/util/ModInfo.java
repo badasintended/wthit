@@ -5,6 +5,7 @@ import java.util.Map;
 
 import mcp.mobius.waila.api.IModInfo;
 import mcp.mobius.waila.service.ICommonService;
+import org.apache.commons.lang3.text.WordUtils;
 
 public final class ModInfo implements IModInfo {
 
@@ -27,7 +28,11 @@ public final class ModInfo implements IModInfo {
     }
 
     public static ModInfo get(String namespace) {
-        return CONTAINER_CACHE.computeIfAbsent(namespace, s -> ICommonService.INSTANCE.createModInfo(namespace).orElse(new ModInfo(false, s, s, "unknown")));
+        return CONTAINER_CACHE.computeIfAbsent(namespace, s ->
+            ICommonService.INSTANCE.createModInfo(namespace)
+            .or(() -> ICommonService.INSTANCE.createModInfo(namespace.replace('_', '-')))
+            .orElse(new ModInfo(false, s, WordUtils.capitalizeFully(namespace.replace("_", " ")), "unknown"))
+        );
     }
 
     @Override
