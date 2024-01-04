@@ -30,6 +30,7 @@ public class QuiltCommonService implements ICommonService {
     @Override
     public Optional<ModInfo> createModInfo(String namespace) {
         return QuiltLoader.getModContainer(namespace)
+            .or(() -> QuiltLoader.getModContainer(namespace.replace('_', '-')))
             .map(ModContainer::metadata)
             .map(data -> new ModInfo(true, data.id(), data.name(), data.version().raw()));
     }

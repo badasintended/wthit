@@ -30,8 +30,8 @@ public class NeoCommonService implements ICommonService {
 
     @Override
     public Optional<ModInfo> createModInfo(String namespace) {
-        return ModList.get()
-            .getModContainerById(namespace)
+        return ((Optional<ModContainer>) ModList.get().getModContainerById(namespace))
+            .or(() -> ModList.get().getModContainerById(namespace.replace('_', '-')))
             .map(ModContainer::getModInfo)
             .map(data -> new ModInfo(true, data.getModId(), data.getDisplayName(), data.getVersion().getQualifier()));
     }
