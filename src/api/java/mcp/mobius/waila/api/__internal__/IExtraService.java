@@ -1,7 +1,10 @@
 package mcp.mobius.waila.api.__internal__;
 
+import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.data.EnergyData;
 import mcp.mobius.waila.api.data.FluidData;
+import mcp.mobius.waila.api.data.ItemData;
+import mcp.mobius.waila.api.data.ProgressData;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 import org.jetbrains.annotations.ApiStatus;
@@ -21,5 +24,13 @@ public interface IExtraService {
     void setCauldronDescFor(Block block, FluidData.CauldronDescriptor getter);
 
     void setCauldronDescFor(Class<? extends Block> clazz, FluidData.CauldronDescriptor getter);
+
+    EnergyData createEnergyData(double stored, double capacity);
+
+    FluidData createFluidData(FluidData.Unit unit, int slotCountHint);
+
+    ItemData createItemData(IPluginConfig config);
+
+    ProgressData createProgressData(float ratio);
 
 }
