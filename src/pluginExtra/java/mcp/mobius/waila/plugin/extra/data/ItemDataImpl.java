@@ -5,7 +5,7 @@ import java.util.Objects;
 
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.data.ItemData;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.item.ItemStack;
 
@@ -28,7 +28,7 @@ public class ItemDataImpl extends ItemData {
         for (var i = 0; i < size; i++) {
             if (buf.readBoolean()) continue;
 
-            var item = buf.readById(BuiltInRegistries.ITEM);
+            var item = buf.readById(Registry.ITEM);
             var count = buf.readVarInt();
             var stack = new ItemStack(Objects.requireNonNull(item), count);
             if (syncNbt) stack.setTag(buf.readNbt());
@@ -47,7 +47,7 @@ public class ItemDataImpl extends ItemData {
                 buf.writeBoolean(true);
             } else {
                 buf.writeBoolean(false);
-                buf.writeId(BuiltInRegistries.ITEM, stack.getItem());
+                buf.writeId(Registry.ITEM, stack.getItem());
                 buf.writeVarInt(stack.getCount());
                 if (syncNbt) buf.writeNbt(stack.getTag());
             }

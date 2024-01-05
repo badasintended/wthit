@@ -9,7 +9,7 @@ import mcp.mobius.waila.api.data.FluidData;
 import mcp.mobius.waila.buildconst.Tl;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -40,7 +40,7 @@ public class FluidDataImpl extends FluidData {
             if (buf.readBoolean()) continue;
 
             var id = buf.readVarInt();
-            var fluid = BuiltInRegistries.FLUID.byId(id);
+            var fluid = Registry.FLUID.byId(id);
             var nbt = buf.readNbt();
             var stored = buf.readDouble();
             var capacity = buf.readDouble();
@@ -63,7 +63,7 @@ public class FluidDataImpl extends FluidData {
                 buf.writeBoolean(true);
             } else {
                 buf.writeBoolean(false);
-                buf.writeId(BuiltInRegistries.FLUID, entry.fluid);
+                buf.writeId(Registry.FLUID, entry.fluid);
                 buf.writeNbt(entry.nbt);
                 buf.writeDouble(entry.stored);
                 buf.writeDouble(entry.capacity);
