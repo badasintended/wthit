@@ -20,17 +20,20 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import org.jetbrains.annotations.Nullable;
 
-public class FluidDataImpl extends FluidData {
+public class FluidDataImpl extends FluidData.PlatformDependant<Object> {
 
     private final List<Entry<?>> entries;
+    private final PlatformTranslator<Object> proxy;
     private final Unit unit;
 
-    public FluidDataImpl(Unit unit, int slotCountHint) {
+    public FluidDataImpl(@Nullable FluidData.PlatformTranslator<Object> proxy, Unit unit, int slotCountHint) {
         this.entries = slotCountHint == -1 ? new ArrayList<>() : new ArrayList<>(slotCountHint);
+        this.proxy = proxy;
         this.unit = unit;
     }
 
     public FluidDataImpl(FriendlyByteBuf buf) {
+        proxy = null;
         unit = buf.readEnum(Unit.class);
 
         var size = buf.readVarInt();
@@ -51,6 +54,11 @@ public class FluidDataImpl extends FluidData {
     @Override
     protected void implAdd(Fluid fluid, @Nullable CompoundTag nbt, double stored, double capacity) {
         entries.add(new Entry<>(fluid, nbt, stored, capacity));
+    }
+
+    @Override
+    protected PlatformTranslator<Object> translator() {
+        return proxy;
     }
 
     @Override

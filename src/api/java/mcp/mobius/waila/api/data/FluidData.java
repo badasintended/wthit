@@ -99,9 +99,14 @@ public abstract class FluidData implements IData {
      * Creates a fluid data.
      *
      * @param unit the fluid unit of measurement
+     *
+     * @see mcp.mobius.waila.api.fabric.FabricFluidData#of()
+     * @see mcp.mobius.waila.api.forge.ForgeFluidData#of()
+     * @see mcp.mobius.waila.api.neo.NeoFluidData#of()
      */
+    @SuppressWarnings("JavadocReference")
     public static FluidData of(Unit unit) {
-        return IExtraService.INSTANCE.createFluidData(unit, -1);
+        return IExtraService.INSTANCE.createFluidData(null, unit, -1);
     }
 
     /**
@@ -110,9 +115,48 @@ public abstract class FluidData implements IData {
      * @param unit          the fluid unit of measurement
      * @param slotCountHint hint of how many the slots probably are to minimize growing the list more
      *                      than necessary, the user can call {@link #add} more than the specified count
+     *
+     * @see mcp.mobius.waila.api.fabric.FabricFluidData#of()
+     * @see mcp.mobius.waila.api.forge.ForgeFluidData#of()
+     * @see mcp.mobius.waila.api.neo.NeoFluidData#of()
      */
+    @SuppressWarnings("JavadocReference")
     public static FluidData of(Unit unit, int slotCountHint) {
-        return IExtraService.INSTANCE.createFluidData(unit, slotCountHint);
+        return IExtraService.INSTANCE.createFluidData(null, unit, slotCountHint);
+    }
+
+    /**
+     * Creates a fluid data with platform-specific translator.
+     * <p>
+     * Use the helper methods from the platform specific API package.
+     *
+     * @param translator the translator that gets the fluid, nbt, and (optionally) amount from a platform-specific object
+     *
+     * @see mcp.mobius.waila.api.fabric.FabricFluidData#of()
+     * @see mcp.mobius.waila.api.forge.ForgeFluidData#of()
+     * @see mcp.mobius.waila.api.neo.NeoFluidData#of()
+     */
+    @SuppressWarnings("JavadocReference")
+    public static <S> PlatformDependant<S> of(PlatformTranslator<S> translator) {
+        return IExtraService.INSTANCE.createFluidData(translator, translator.unit(), -1);
+    }
+
+    /**
+     * Creates a fluid data with platform-specific translator.
+     * <p>
+     * Use the helper methods from the platform specific API package.
+     *
+     * @param translator    the translator that gets the fluid, nbt, and (optionally) amount from a platform-specific object
+     * @param slotCountHint hint of how many the slots probably are to minimize growing the list more
+     *                      than necessary, the user can call {@link #add} more than the specified count
+     *
+     * @see mcp.mobius.waila.api.fabric.FabricFluidData#of(int)
+     * @see mcp.mobius.waila.api.forge.ForgeFluidData#of(int)
+     * @see mcp.mobius.waila.api.neo.NeoFluidData#of(int)
+     */
+    @SuppressWarnings("JavadocReference")
+    public static <S> PlatformDependant<S> of(PlatformTranslator<S> translator, int slotCountHint) {
+        return IExtraService.INSTANCE.createFluidData(translator, translator.unit(), slotCountHint);
     }
 
     /**
@@ -131,6 +175,40 @@ public abstract class FluidData implements IData {
         var source = fluid instanceof FlowingFluid flowing ? flowing.getSource() : fluid;
         implAdd(source, nbt, stored, capacity);
         return this;
+    }
+
+    @ApiStatus.NonExtendable
+    public static abstract class PlatformDependant<T> extends FluidData {
+
+        /**
+         * Adds a fluid entry.
+         *
+         * @param stack    the platform-specific object
+         * @param capacity the maximum capacity of this slot, in the platform's unit
+         */
+        public PlatformDependant<T> add(T stack, double capacity) {
+            var translator = translator();
+            return add(translator.fluid(stack), translator.nbt(stack), translator.amount(stack), capacity);
+        }
+
+        /**
+         * Adds a fluid entry.
+         *
+         * @param variant  the platform-specific object
+         * @param stored   the stored amount of the fluid, in the platform's unit
+         * @param capacity the maximum capacity of this slot, in the platform's unit
+         */
+        public PlatformDependant<T> add(T variant, double stored, double capacity) {
+            var translator = translator();
+            return add(translator.fluid(variant), translator.nbt(variant), stored, capacity);
+        }
+
+        @Override
+        public PlatformDependant<T> add(Fluid fluid, @Nullable CompoundTag nbt, double stored, double capacity) {
+            super.add(fluid, nbt, stored, capacity);
+            return this;
+        }
+
     }
 
     public enum Unit {
@@ -205,20 +283,49 @@ public abstract class FluidData implements IData {
         /**
          * Returns the fluid's NBT data.
          */
-        @Nullable
-        CompoundTag nbt();
+        @Nullable CompoundTag nbt();
 
     }
 
     @ApiStatus.OverrideOnly
     public interface CauldronDescriptor {
 
-        @Nullable
-        FluidData getCauldronFluidData(BlockState state);
+        @Nullable FluidData getCauldronFluidData(BlockState state);
+
+    }
+
+    @ApiStatus.Experimental
+    @ApiStatus.OverrideOnly
+    public interface PlatformTranslator<T> {
+
+        /**
+         * Returns the unit of this platform.
+         */
+        Unit unit();
+
+        /**
+         * Returns the fluid of the platform object.
+         */
+        Fluid fluid(T t);
+
+        /**
+         * Returns the nbt of the platform object.
+         */
+        @Nullable CompoundTag nbt(T t);
+
+        /**
+         * Returns the amount of the platform object.
+         *
+         * @throws UnsupportedOperationException if the platform doesn't store amount information on this type,
+         *                                       forcing user to use {@link PlatformDependant#add(Object, double, double)}
+         */
+        double amount(T t) throws UnsupportedOperationException;
 
     }
 
     // -----------------------------------------------------------------------------------------------------------------------------------------------
+
+    protected abstract PlatformTranslator<Object> translator();
 
     protected abstract void implAdd(Fluid fluid, @Nullable CompoundTag nbt, double stored, double capacity);
 

@@ -8,6 +8,7 @@ import mcp.mobius.waila.api.data.ProgressData;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
 
 /** @hidden */
 @ApiStatus.Internal
@@ -27,7 +28,7 @@ public interface IExtraService {
 
     EnergyData createEnergyData(double stored, double capacity);
 
-    FluidData createFluidData(FluidData.Unit unit, int slotCountHint);
+    <S> FluidData.PlatformDependant<S> createFluidData(@Nullable FluidData.PlatformTranslator<S> proxy, FluidData.Unit unit, int slotCountHint);
 
     ItemData createItemData(IPluginConfig config);
 
