@@ -12,7 +12,7 @@ import mcp.mobius.waila.api.component.BarComponent;
 import mcp.mobius.waila.api.component.PairComponent;
 import mcp.mobius.waila.api.component.WrappedComponent;
 import mcp.mobius.waila.api.data.EnergyData;
-import mcp.mobius.waila.plugin.extra.data.EnergyDescription;
+import mcp.mobius.waila.plugin.extra.data.EnergyDataImpl;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
@@ -23,7 +23,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
-public class EnergyProvider extends DataProvider<EnergyData> {
+public class EnergyProvider extends DataProvider<EnergyData, EnergyDataImpl> {
 
     public static final EnergyProvider INSTANCE = new EnergyProvider();
 
@@ -35,7 +35,7 @@ public class EnergyProvider extends DataProvider<EnergyData> {
     private static final TagKey<EntityType<?>> INFINITE_ENTITY_TAG = TagKey.create(Registries.ENTITY_TYPE, INFINITE_TAG_ID);
 
     private EnergyProvider() {
-        super(EnergyData.ID, EnergyData.class, EnergyData::new);
+        super(EnergyData.ID, EnergyData.class, EnergyDataImpl.class, EnergyDataImpl::new);
     }
 
     @Override
@@ -45,8 +45,8 @@ public class EnergyProvider extends DataProvider<EnergyData> {
     }
 
     @Override
-    protected void appendBody(ITooltip tooltip, EnergyData energy, IPluginConfig config, ResourceLocation objectId) {
-        var desc = EnergyDescription.get(objectId.getNamespace());
+    protected void appendBody(ITooltip tooltip, EnergyDataImpl energy, IPluginConfig config, ResourceLocation objectId) {
+        var desc = EnergyDataImpl.Description.get(objectId.getNamespace());
 
         var stored = energy.stored();
         var capacity = energy.capacity();
