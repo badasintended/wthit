@@ -198,7 +198,9 @@ public class TooltipRenderer {
 
         var fps = state.getFps();
 
-        if (fps == 0) {
+        // TODO: Figure out why opacity not working properly
+        //noinspection ConstantValue
+        if (true) {
             render0(client, matrices, delta);
             return;
         }
