@@ -12,6 +12,7 @@ import mcp.mobius.waila.plugin.extra.data.ItemDataImpl;
 import mcp.mobius.waila.plugin.extra.data.ProgressDataImpl;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
+import org.jetbrains.annotations.Nullable;
 
 public class ExtraService implements IExtraService {
 
@@ -50,8 +51,9 @@ public class ExtraService implements IExtraService {
     }
 
     @Override
-    public FluidData createFluidData(FluidData.Unit unit, int slotCountHint) {
-        return new FluidDataImpl(unit, slotCountHint);
+    @SuppressWarnings("unchecked")
+    public <S> FluidData.PlatformDependant<S> createFluidData(@Nullable FluidData.PlatformTranslator<S> proxy, FluidData.Unit unit, int slotCountHint) {
+        return (FluidData.PlatformDependant<S>) new FluidDataImpl((FluidData.PlatformTranslator<Object>) proxy, unit, slotCountHint);
     }
 
     @Override
