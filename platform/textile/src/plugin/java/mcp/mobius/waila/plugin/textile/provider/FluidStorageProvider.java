@@ -8,6 +8,7 @@ import mcp.mobius.waila.api.IDataWriter;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerAccessor;
 import mcp.mobius.waila.api.data.FluidData;
+import mcp.mobius.waila.api.fabric.FabricFluidData;
 import net.fabricmc.fabric.api.lookup.v1.block.BlockApiCache;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
@@ -37,12 +38,12 @@ public enum FluidStorageProvider implements IDataProvider<BlockEntity> {
             var storage = cache.find(accessor.getTarget().getBlockState(), Direction.UP);
 
             if (storage instanceof SingleSlotStorage<FluidVariant> single) {
-                var fluidData = FluidData.of(FluidData.Unit.DROPLETS);
+                var fluidData = FabricFluidData.of();
                 addFluid(fluidData, single);
                 res.add(fluidData);
             } else if (storage != null) {
                 Set<StorageView<FluidVariant>> uniqueViews = new HashSet<>();
-                var fluidData = FluidData.of(FluidData.Unit.DROPLETS);
+                var fluidData = FabricFluidData.of();
 
                 for (var view : storage) {
                     addFluid(uniqueViews, fluidData, view);
@@ -53,15 +54,14 @@ public enum FluidStorageProvider implements IDataProvider<BlockEntity> {
         });
     }
 
-    private void addFluid(Set<StorageView<FluidVariant>> uniqueViews, FluidData fluidData, StorageView<FluidVariant> view) {
+    private void addFluid(Set<StorageView<FluidVariant>> uniqueViews, FluidData.PlatformDependant<FluidVariant> fluidData, StorageView<FluidVariant> view) {
         var uniqueView = view.getUnderlyingView();
         if (uniqueViews.add(uniqueView)) addFluid(fluidData, view);
     }
 
-    private void addFluid(FluidData fluidData, StorageView<FluidVariant> view) {
+    private void addFluid(FluidData.PlatformDependant<FluidVariant> fluidData, StorageView<FluidVariant> view) {
         if (view.isResourceBlank()) return;
-        var variant = view.getResource();
-        fluidData.add(variant.getFluid(), variant.getNbt(), view.getAmount(), view.getCapacity());
+        fluidData.add(view.getResource(), view.getAmount(), view.getCapacity());
     }
 
 }

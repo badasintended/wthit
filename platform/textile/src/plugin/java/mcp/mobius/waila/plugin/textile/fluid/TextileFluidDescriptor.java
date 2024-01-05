@@ -5,6 +5,7 @@ import mcp.mobius.waila.api.data.FluidData.CauldronDescriptor;
 import mcp.mobius.waila.api.data.FluidData.FluidDescription;
 import mcp.mobius.waila.api.data.FluidData.FluidDescriptionContext;
 import mcp.mobius.waila.api.data.FluidData.FluidDescriptor;
+import mcp.mobius.waila.api.fabric.FabricFluidData;
 import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
 import net.fabricmc.fabric.api.transfer.v1.fluid.CauldronFluidContent;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
@@ -39,7 +40,7 @@ public enum TextileFluidDescriptor implements FluidDescriptor<Fluid>, CauldronDe
         double stored = content.currentLevel(state) * content.amountPerLevel;
         double capacity = content.maxLevel * content.amountPerLevel;
 
-        return FluidData.of(FluidData.Unit.DROPLETS, 1)
+        return FabricFluidData.of(1)
             .add(content.fluid, null, stored, capacity);
     }
 

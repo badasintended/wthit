@@ -2,24 +2,23 @@ import org.gradle.api.Project
 import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.api.tasks.bundling.Jar
 import org.gradle.api.tasks.compile.JavaCompile
-import org.gradle.kotlin.dsl.configure
-import org.gradle.kotlin.dsl.creating
-import org.gradle.kotlin.dsl.get
-import org.gradle.kotlin.dsl.getByType
-import org.gradle.kotlin.dsl.getValue
-import org.gradle.kotlin.dsl.getting
-import org.gradle.kotlin.dsl.named
+import org.gradle.kotlin.dsl.*
 
 fun Project.setupPlatform() {
     val rootSourceSets = rootProject.extensions.getByType<SourceSetContainer>()
     val sourceSets = extensions.getByType<SourceSetContainer>()
 
     sourceSets.apply {
+        val api by creating
         val main by getting
         val plugin by creating
 
-        plugin.apply {
+        listOf(api, plugin).applyEach {
             compileClasspath += main.compileClasspath + rootSourceSets["api"].output
+        }
+
+        listOf(plugin, main).applyEach {
+            compileClasspath += api.output
         }
 
         main.apply {
@@ -28,6 +27,7 @@ fun Project.setupPlatform() {
                 compileClasspath += it.output
                 runtimeClasspath += it.output
             }
+            runtimeClasspath += api.output
             runtimeClasspath += plugin.output
         }
     }
@@ -38,6 +38,7 @@ fun Project.setupPlatform() {
     }
 
     tasks.named<Jar>("jar") {
+        from(sourceSets["api"].output)
         from(sourceSets["plugin"].output)
         rootSourceSets.filterNot { it.name == "mixin" || it.name == "buildConst" }.forEach {
             from(it.output)
@@ -46,6 +47,7 @@ fun Project.setupPlatform() {
 
     tasks.named<Jar>("sourcesJar") {
         dependsOn(":generateTranslationClass")
+        from(sourceSets["api"].allSource)
         from(sourceSets["plugin"].allSource)
         rootSourceSets.forEach {
             from(it.allSource)
