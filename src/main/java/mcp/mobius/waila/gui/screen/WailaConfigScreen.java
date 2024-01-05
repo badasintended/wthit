@@ -179,11 +179,12 @@ public class WailaConfigScreen extends ConfigScreen {
                 Util.getPlatform().openFile(Waila.BLACKLIST_CONFIG.getPath().toFile())));
 
         options.with(new CategoryEntry(Tl.Config.OVERLAY))
-            .with(fpsVal = new InputValue<>(Tl.Config.OVERLAY_FPS,
-                get().getOverlay().getFps(),
-                defaultConfig.getOverlay().getFps(),
-                val -> get().getOverlay().setFps(val),
-                InputValue.POSITIVE_INTEGER))
+            .with(fpsVal = Util.make(new InputValue<>(Tl.Config.OVERLAY_FPS,
+                    get().getOverlay().getFps(),
+                    defaultConfig.getOverlay().getFps(),
+                    val -> get().getOverlay().setFps(val),
+                    InputValue.POSITIVE_INTEGER),
+                it -> it.disable(Tl.Config.OverlayFps.DISABLED_REASON)))
             .with(xAnchorValue = new EnumValue<>(Tl.Config.OVERLAY_ANCHOR_X,
                 Align.X.values(),
                 get().getOverlay().getPosition().getAnchor().getX(),
