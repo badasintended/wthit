@@ -11,19 +11,19 @@ import mcp.mobius.waila.api.component.PairComponent;
 import mcp.mobius.waila.api.component.SpriteBarComponent;
 import mcp.mobius.waila.api.component.WrappedComponent;
 import mcp.mobius.waila.api.data.FluidData;
-import mcp.mobius.waila.plugin.extra.data.FluidDescription;
+import mcp.mobius.waila.plugin.extra.data.FluidDataImpl;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
 
-public class FluidProvider extends DataProvider<FluidData> {
+public class FluidProvider extends DataProvider<FluidData, FluidDataImpl> {
 
     public static final FluidProvider INSTANCE = new FluidProvider();
 
     private static final String INFINITE = "∞";
 
     private FluidProvider() {
-        super(FluidData.ID, FluidData.class, FluidData::new);
+        super(FluidData.ID, FluidData.class, FluidDataImpl.class, FluidDataImpl::new);
     }
 
     @Override
@@ -33,16 +33,18 @@ public class FluidProvider extends DataProvider<FluidData> {
     }
 
     @Override
-    protected void appendBody(ITooltip tooltip, FluidData data, IPluginConfig config, ResourceLocation objectId) {
+    protected void appendBody(ITooltip tooltip, FluidDataImpl data, IPluginConfig config, ResourceLocation objectId) {
         addFluidTooltip(tooltip, data, config);
     }
 
-    private void addFluidTooltip(ITooltip tooltip, FluidData data, IPluginConfig config) {
+    private void addFluidTooltip(ITooltip tooltip, FluidDataImpl data, IPluginConfig config) {
         FluidData.Unit displayUnit = config.getEnum(FluidData.CONFIG_DISPLAY_UNIT);
         var storedUnit = data.unit();
 
         for (var entry : data.entries()) {
-            var desc = FluidDescription.getFluidDesc(entry);
+            if (entry.isEmpty()) continue;
+
+            var desc = FluidDataImpl.FluidDescription.getFluidDesc(entry);
 
             var stored = entry.stored();
             var capacity = entry.capacity();
@@ -72,8 +74,8 @@ public class FluidProvider extends DataProvider<FluidData> {
             if (!config.getBoolean(enabledBlockOption)) return;
             if (blacklistConfig.get().getView().blockFilter.matches(accessor.getBlock())) return;
 
-            var fluidData = FluidDescription.getCauldronFluidData(accessor.getBlockState());
-            if (fluidData != null) addFluidTooltip(tooltip, fluidData, config);
+            var fluidData = FluidDataImpl.FluidDescription.getCauldronFluidData(accessor.getBlockState());
+            if (fluidData != null) addFluidTooltip(tooltip, (FluidDataImpl) fluidData, config);
         }
 
     }

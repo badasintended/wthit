@@ -26,21 +26,23 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
-public abstract class DataProvider<T extends IData> implements IBlockComponentProvider, IEntityComponentProvider {
+public abstract class DataProvider<A extends IData, I extends A> implements IBlockComponentProvider, IEntityComponentProvider {
 
-    public static final Map<ResourceLocation, DataProvider<?>> INSTANCES = new HashMap<>();
+    public static final Map<ResourceLocation, DataProvider<?, ?>> INSTANCES = new HashMap<>();
 
     private final ResourceLocation id;
-    private final Class<T> type;
-    private final IData.Serializer<T> serializer;
+    private final Class<A> apiType;
+    private final Class<I> implType;
+    private final IData.Serializer<I> serializer;
 
     protected final ResourceLocation enabledBlockOption;
     protected final ResourceLocation enabledEntityOption;
     protected final IJsonConfig<ExtraBlacklistConfig> blacklistConfig;
 
-    protected DataProvider(ResourceLocation id, Class<T> type, IData.Serializer<T> serializer) {
+    protected DataProvider(ResourceLocation id, Class<A> apiType, Class<I> implType, IData.Serializer<I> serializer) {
         this.id = id;
-        this.type = type;
+        this.apiType = apiType;
+        this.implType = implType;
         this.serializer = serializer;
 
         enabledBlockOption = createConfigKey("enabled_block");
@@ -67,7 +69,7 @@ public abstract class DataProvider<T extends IData> implements IBlockComponentPr
         registerAdditions(registrar, priority);
         registrar.addConfig(createConfigKey("blacklist"), blacklistConfig.getPath());
 
-        registrar.addDataType(id, type, serializer);
+        registrar.addDataType(id, apiType, implType, serializer);
         registrar.addComponent((IBlockComponentProvider) this, TooltipPosition.BODY, BlockEntity.class, priority);
         registrar.addComponent((IEntityComponentProvider) this, TooltipPosition.BODY, Entity.class, priority);
         registrar.addBlockData(new BlockDataProvider(), BlockEntity.class, 0);
@@ -81,10 +83,11 @@ public abstract class DataProvider<T extends IData> implements IBlockComponentPr
     protected void registerAdditions(IRegistrar registrar, int priority) {
     }
 
-    protected abstract void appendBody(ITooltip tooltip, T t, IPluginConfig config, ResourceLocation objectId);
+    protected abstract void appendBody(ITooltip tooltip, I i, IPluginConfig config, ResourceLocation objectId);
 
+    @SuppressWarnings("unchecked")
     protected void appendBody(ITooltip tooltip, IDataReader reader, IPluginConfig config, ResourceLocation objectId) {
-        var data = reader.get(type);
+        var data = (I) reader.get(apiType);
         if (data == null) return;
 
         appendBody(tooltip, data, config, objectId);
@@ -120,7 +123,7 @@ public abstract class DataProvider<T extends IData> implements IBlockComponentPr
             if (!config.getBoolean(enabledBlockOption)
                 || blacklistConfig.get().getView().blockFilter.matches(state.getBlock())
                 || blacklistConfig.get().getView().blockEntityFilter.matches(blockEntityType)) {
-                data.blockAll(type);
+                data.blockAll(apiType);
             }
         }
 
@@ -133,7 +136,7 @@ public abstract class DataProvider<T extends IData> implements IBlockComponentPr
             var entityType = accessor.getTarget().getType();
 
             if (!config.getBoolean(enabledEntityOption) || blacklistConfig.get().getView().entityFilter.matches(entityType)) {
-                data.blockAll(type);
+                data.blockAll(apiType);
             }
         }
 

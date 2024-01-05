@@ -7,8 +7,7 @@ import java.util.function.IntFunction;
 
 import mcp.mobius.waila.api.IData;
 import mcp.mobius.waila.api.IPluginConfig;
-import net.minecraft.core.Registry;
-import net.minecraft.network.FriendlyByteBuf;
+import mcp.mobius.waila.api.__internal__.IExtraService;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
@@ -17,7 +16,8 @@ import org.jetbrains.annotations.ApiStatus;
 /**
  * Adds item information to an object.
  */
-public final class ItemData implements IData {
+@ApiStatus.NonExtendable
+public abstract class ItemData implements IData {
 
     public static final ResourceLocation ID = BuiltinDataUtil.rl("item");
     public static final ResourceLocation CONFIG_SYNC_NBT = BuiltinDataUtil.rl("item.nbt");
@@ -28,7 +28,7 @@ public final class ItemData implements IData {
      * Creates an item data based from plugin config.
      */
     public static ItemData of(IPluginConfig config) {
-        return new ItemData(config);
+        return IExtraService.INSTANCE.createItemData(config);
     }
 
     /**
@@ -85,65 +85,6 @@ public final class ItemData implements IData {
 
     // -----------------------------------------------------------------------------------------------------------------------------------------------
 
-    private final IPluginConfig config;
-    private final ArrayList<ItemStack> items = new ArrayList<>();
-    private boolean syncNbt;
-
-    @ApiStatus.Internal
-    private ItemData(IPluginConfig config) {
-        this.config = config;
-    }
-
-    /** @hidden */
-    @ApiStatus.Internal
-    public ItemData(FriendlyByteBuf buf) {
-        this.config = null;
-
-        syncNbt = buf.readBoolean();
-        var size = buf.readVarInt();
-        ensureSpace(size);
-
-        for (var i = 0; i < size; i++) {
-            if (buf.readBoolean()) continue;
-
-            var item = buf.readById(Registry.ITEM);
-            var count = buf.readVarInt();
-            var stack = new ItemStack(item, count);
-            if (syncNbt) stack.setTag(buf.readNbt());
-            add(stack);
-        }
-    }
-
-    /** @hidden */
-    @Override
-    @ApiStatus.Internal
-    public void write(FriendlyByteBuf buf) {
-        var syncNbt = config.getBoolean(CONFIG_SYNC_NBT);
-        buf.writeBoolean(syncNbt);
-        buf.writeVarInt(items.size());
-
-        for (var stack : items) {
-            if (stack.isEmpty()) {
-                buf.writeBoolean(true);
-            } else {
-                buf.writeBoolean(false);
-                buf.writeId(Registry.ITEM, stack.getItem());
-                buf.writeVarInt(stack.getCount());
-                if (syncNbt) buf.writeNbt(stack.getTag());
-            }
-        }
-    }
-
-    /** @hidden */
-    @ApiStatus.Internal
-    public ArrayList<ItemStack> items() {
-        return items;
-    }
-
-    /** @hidden */
-    @ApiStatus.Internal
-    public boolean syncNbt() {
-        return syncNbt;
-    }
+    protected final ArrayList<ItemStack> items = new ArrayList<>();
 
 }

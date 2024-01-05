@@ -8,7 +8,7 @@ import java.util.function.IntFunction;
 import com.google.common.base.Preconditions;
 import mcp.mobius.waila.api.IData;
 import mcp.mobius.waila.api.IDataWriter;
-import net.minecraft.network.FriendlyByteBuf;
+import mcp.mobius.waila.api.__internal__.IExtraService;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
@@ -17,7 +17,8 @@ import org.jetbrains.annotations.ApiStatus;
 /**
  * Adds a crafting progress information to an object.
  */
-public final class ProgressData implements IData {
+@ApiStatus.NonExtendable
+public abstract class ProgressData implements IData {
 
     public static final ResourceLocation ID = BuiltinDataUtil.rl("progress");
 
@@ -29,7 +30,7 @@ public final class ProgressData implements IData {
      * @param ratio the ratio of the progress ranging from {@code 0.0f} to {@code 1.0f}
      */
     public static ProgressData ratio(float ratio) {
-        return new ProgressData(Mth.clamp(ratio, 0f, 1f));
+        return IExtraService.INSTANCE.createProgressData(Mth.clamp(ratio, 0f, 1f));
     }
 
     /**
@@ -152,50 +153,9 @@ public final class ProgressData implements IData {
 
     // -----------------------------------------------------------------------------------------------------------------------------------------------
 
-    private final float ratio;
-    private final ArrayList<ItemStack> input = new ArrayList<>();
-    private final ArrayList<ItemStack> output = new ArrayList<>();
-    private IntFunction<ItemStack> inventory;
-
-    @ApiStatus.Internal
-    private ProgressData(float ratio) {
-        this.ratio = ratio;
-    }
-
-    /** @hidden */
-    @ApiStatus.Internal
-    public ProgressData(FriendlyByteBuf buf) {
-        this.ratio = buf.readFloat();
-
-        var inputSize = buf.readVarInt();
-        input.ensureCapacity(inputSize);
-        for (var i = 0; i < inputSize; i++) {
-            input.add(buf.readItem());
-        }
-
-        var outputSize = buf.readVarInt();
-        output.ensureCapacity(outputSize);
-        for (var i = 0; i < outputSize; i++) {
-            output.add(buf.readItem());
-        }
-    }
-
-    /** @hidden */
-    @Override
-    @ApiStatus.Internal
-    public void write(FriendlyByteBuf buf) {
-        buf.writeFloat(ratio);
-
-        buf.writeVarInt(input.size());
-        for (var stack : input) {
-            buf.writeItem(stack);
-        }
-
-        buf.writeVarInt(output.size());
-        for (var stack : output) {
-            buf.writeItem(stack);
-        }
-    }
+    protected final ArrayList<ItemStack> input = new ArrayList<>();
+    protected final ArrayList<ItemStack> output = new ArrayList<>();
+    protected IntFunction<ItemStack> inventory;
 
     @ApiStatus.Internal
     private void assertInventory() {
@@ -205,24 +165,6 @@ public final class ProgressData implements IData {
     @ApiStatus.Internal
     private void ensureSpace(ArrayList<ItemStack> list, int toAdd) {
         list.ensureCapacity(list.size() + toAdd);
-    }
-
-    /** @hidden */
-    @ApiStatus.Internal
-    public float ratio() {
-        return ratio;
-    }
-
-    /** @hidden */
-    @ApiStatus.Internal
-    public ArrayList<ItemStack> input() {
-        return input;
-    }
-
-    /** @hidden */
-    @ApiStatus.Internal
-    public ArrayList<ItemStack> output() {
-        return output;
     }
 
 }

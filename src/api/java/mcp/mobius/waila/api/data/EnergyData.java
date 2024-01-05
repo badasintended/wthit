@@ -7,7 +7,6 @@ import mcp.mobius.waila.api.__internal__.ApiSide;
 import mcp.mobius.waila.api.__internal__.IApiService;
 import mcp.mobius.waila.api.__internal__.IExtraService;
 import mcp.mobius.waila.buildconst.Tl;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -16,7 +15,8 @@ import org.jetbrains.annotations.ApiStatus;
 /**
  * Adds an energy information to an object.
  */
-public final class EnergyData implements IData {
+@ApiStatus.NonExtendable
+public abstract class EnergyData implements IData {
 
     public static final ResourceLocation ID = BuiltinDataUtil.rl("energy");
 
@@ -77,7 +77,7 @@ public final class EnergyData implements IData {
         stored = Mth.clamp(stored, 0.0, capacity);
         if (capacity == 0) capacity = Double.POSITIVE_INFINITY;
 
-        return new EnergyData(stored, capacity);
+        return IExtraService.INSTANCE.createEnergyData(stored, capacity);
     }
 
     @ApiStatus.NonExtendable
@@ -104,44 +104,6 @@ public final class EnergyData implements IData {
          */
         Description unit(String unit);
 
-    }
-
-    // -----------------------------------------------------------------------------------------------------------------------------------------------
-
-    private final double stored;
-    private final double capacity;
-
-    @ApiStatus.Internal
-    private EnergyData(double stored, double capacity) {
-        this.stored = stored;
-        this.capacity = capacity;
-    }
-
-    /** @hidden */
-    @ApiStatus.Internal
-    public EnergyData(FriendlyByteBuf buf) {
-        this.stored = buf.readDouble();
-        this.capacity = buf.readDouble();
-    }
-
-    /** @hidden */
-    @Override
-    @ApiStatus.Internal
-    public void write(FriendlyByteBuf buf) {
-        buf.writeDouble(stored);
-        buf.writeDouble(capacity);
-    }
-
-    /** @hidden */
-    @ApiStatus.Internal
-    public double stored() {
-        return stored;
-    }
-
-    /** @hidden */
-    @ApiStatus.Internal
-    public double capacity() {
-        return capacity;
     }
 
 }

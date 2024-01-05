@@ -75,6 +75,7 @@ public enum Registrar implements IRegistrar {
 
     public final BiMap<ResourceLocation, ThemeType<?>> themeTypes = HashBiMap.create();
 
+    public final Map<Class<? extends IData>, Class<? extends IData>> impl2ApiDataType = new HashMap<>();
     public final Map<Class<? extends IData>, ResourceLocation> dataType2Id = new HashMap<>();
     public final Map<ResourceLocation, IData.Serializer<?>> dataId2Serializer = new HashMap<>();
 
@@ -276,12 +277,15 @@ public enum Registrar implements IRegistrar {
         entityData.add(clazz, (IDataProvider<Entity>) provider, priority);
     }
 
+
     @Override
-    public <T extends IData> void addDataType(ResourceLocation id, Class<T> type, IData.Serializer<T> serializer) {
+    public <A extends IData, I extends A> void addDataType(ResourceLocation id, Class<A> apiType, Class<I> implType, IData.Serializer<I> serializer) {
         assertLock();
         Preconditions.checkArgument(!dataId2Serializer.containsKey(id), "Data type with id %s already present", id);
 
-        dataType2Id.put(type, id);
+        impl2ApiDataType.put(implType, apiType);
+        dataType2Id.put(apiType, id);
+        dataType2Id.put(implType, id);
         dataId2Serializer.put(id, serializer);
     }
 
