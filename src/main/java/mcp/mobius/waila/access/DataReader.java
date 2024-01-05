@@ -75,7 +75,8 @@ public enum DataReader implements IDataReader {
 
     public void add(IData data) {
         clean = false;
-        typed.put(data.getClass(), data);
+
+        typed.put(Registrar.INSTANCE.impl2ApiDataType.get(data.getClass()), data);
     }
 
 }

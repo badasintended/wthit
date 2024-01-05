@@ -14,13 +14,15 @@ import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.component.ItemListComponent;
 import mcp.mobius.waila.api.data.ItemData;
 import mcp.mobius.waila.api.data.ProgressData;
+import mcp.mobius.waila.plugin.extra.data.ItemDataImpl;
+import mcp.mobius.waila.plugin.extra.data.ProgressDataImpl;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
-public class ItemProvider extends DataProvider<ItemData> {
+public class ItemProvider extends DataProvider<ItemData, ItemDataImpl> {
 
     public static final ItemProvider INSTANCE = new ItemProvider();
     private static final CompoundTag EMPTY = new CompoundTag();
@@ -29,7 +31,7 @@ public class ItemProvider extends DataProvider<ItemData> {
     private @Nullable ItemListComponent lastItemsComponent = null;
 
     protected ItemProvider() {
-        super(ItemData.ID, ItemData.class, ItemData::new);
+        super(ItemData.ID, ItemData.class, ItemDataImpl.class, ItemDataImpl::new);
     }
 
     @Override
@@ -41,14 +43,14 @@ public class ItemProvider extends DataProvider<ItemData> {
 
     @Override
     protected void appendBody(ITooltip tooltip, IDataReader reader, IPluginConfig config, ResourceLocation objectId) {
-        var progress = reader.get(ProgressData.class);
+        var progress = (ProgressDataImpl) reader.get(ProgressData.class);
         if (progress == null || progress.ratio() == 0f) {
             super.appendBody(tooltip, reader, config, objectId);
         }
     }
 
     @Override
-    protected void appendBody(ITooltip tooltip, ItemData data, IPluginConfig config, ResourceLocation objectId) {
+    protected void appendBody(ITooltip tooltip, ItemDataImpl data, IPluginConfig config, ResourceLocation objectId) {
         if (data == lastData) {
             if (lastItemsComponent != null) tooltip.setLine(ItemData.ID, lastItemsComponent);
             return;

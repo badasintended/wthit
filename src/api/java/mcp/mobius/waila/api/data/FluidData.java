@@ -1,16 +1,11 @@
 package mcp.mobius.waila.api.data;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.common.base.Preconditions;
 import mcp.mobius.waila.api.IData;
 import mcp.mobius.waila.api.__internal__.ApiSide;
 import mcp.mobius.waila.api.__internal__.IExtraService;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -18,14 +13,14 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.Fluids;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
 /**
  * Adds fluid information to an object.
  */
-public final class FluidData implements IData {
+@ApiStatus.NonExtendable
+public abstract class FluidData implements IData {
 
     public static final ResourceLocation ID = BuiltinDataUtil.rl("fluid");
     public static final ResourceLocation CONFIG_DISPLAY_UNIT = BuiltinDataUtil.rl("fluid.display_unit");
@@ -106,7 +101,7 @@ public final class FluidData implements IData {
      * @param unit the fluid unit of measurement
      */
     public static FluidData of(Unit unit) {
-        return new FluidData(new ArrayList<>(), unit);
+        return IExtraService.INSTANCE.createFluidData(unit, -1);
     }
 
     /**
@@ -117,7 +112,7 @@ public final class FluidData implements IData {
      *                      than necessary, the user can call {@link #add} more than the specified count
      */
     public static FluidData of(Unit unit, int slotCountHint) {
-        return new FluidData(new ArrayList<>(slotCountHint), unit);
+        return IExtraService.INSTANCE.createFluidData(unit, slotCountHint);
     }
 
     /**
@@ -134,7 +129,7 @@ public final class FluidData implements IData {
         if (capacity == 0) capacity = Double.POSITIVE_INFINITY;
 
         var source = fluid instanceof FlowingFluid flowing ? flowing.getSource() : fluid;
-        entries.add(new Entry<>(source, nbt, stored, capacity));
+        implAdd(source, nbt, stored, capacity);
         return this;
     }
 
@@ -225,107 +220,7 @@ public final class FluidData implements IData {
 
     // -----------------------------------------------------------------------------------------------------------------------------------------------
 
-    private final List<Entry<?>> entries;
-    private final Unit unit;
-
-    @ApiStatus.Internal
-    private FluidData(List<Entry<?>> entries, Unit unit) {
-        this.entries = entries;
-        this.unit = unit;
-    }
-
-    /** @hidden */
-    @ApiStatus.Internal
-    public FluidData(FriendlyByteBuf buf) {
-        unit = buf.readEnum(Unit.class);
-
-        var size = buf.readVarInt();
-        entries = new ArrayList<>(size);
-
-        for (var i = 0; i < size; i++) {
-            if (buf.readBoolean()) continue;
-
-            var id = buf.readVarInt();
-            var fluid = BuiltInRegistries.FLUID.byId(id);
-            var nbt = buf.readNbt();
-            var stored = buf.readDouble();
-            var capacity = buf.readDouble();
-            add(fluid, nbt, stored, capacity);
-        }
-    }
-
-    /** @hidden */
-    @Override
-    @ApiStatus.Internal
-    public void write(FriendlyByteBuf buf) {
-        buf.writeEnum(unit);
-        buf.writeVarInt(entries.size());
-
-        for (var entry : entries) {
-            if (entry.isEmpty()) {
-                buf.writeBoolean(true);
-            } else {
-                buf.writeBoolean(false);
-                buf.writeId(BuiltInRegistries.FLUID, entry.fluid);
-                buf.writeNbt(entry.nbt);
-                buf.writeDouble(entry.stored);
-                buf.writeDouble(entry.capacity);
-            }
-        }
-    }
-
-    /** @hidden */
-    @ApiStatus.Internal
-    public Unit unit() {
-        return unit;
-    }
-
-    /** @hidden */
-    @ApiStatus.Internal
-    public List<Entry<?>> entries() {
-        return entries;
-    }
-
-    /** @hidden */
-    @ApiStatus.Internal
-    public static class Entry<T extends Fluid> implements FluidDescriptionContext<T> {
-
-        private final T fluid;
-        private final @Nullable CompoundTag nbt;
-        private final double stored;
-        private final double capacity;
-
-        private Entry(T fluid, @Nullable CompoundTag nbt, double stored, double capacity) {
-            this.fluid = fluid;
-            this.nbt = nbt;
-            this.stored = stored;
-            this.capacity = capacity;
-        }
-
-        public boolean isEmpty() {
-            return fluid == Fluids.EMPTY || stored <= 0;
-        }
-
-        @Override
-        public T fluid() {
-            return fluid;
-        }
-
-        @Override
-        @Nullable
-        public CompoundTag nbt() {
-            return nbt;
-        }
-
-        public double stored() {
-            return stored;
-        }
-
-        public double capacity() {
-            return capacity;
-        }
-
-    }
+    protected abstract void implAdd(Fluid fluid, @Nullable CompoundTag nbt, double stored, double capacity);
 
     // -----------------------------------------------------------------------------------------------------------------------------------------------
     // TODO: Remove

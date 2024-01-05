@@ -549,10 +549,22 @@ public interface IRegistrar {
      * Registers a data type used for syncing data from server to client.
      *
      * @param id         the id of the data type
+     * @param apiType    the public type of data, to be used when {@linkplain IDataReader#get(Class) getting} it
+     * @param implType   the actual type of data that get sent
+     * @param serializer the data to buffer serializer
+     */
+    <A extends IData, I extends A> void addDataType(ResourceLocation id, Class<A> apiType, Class<I> implType, IData.Serializer<I> serializer);
+
+    /**
+     * Registers a data type used for syncing data from server to client.
+     *
+     * @param id         the id of the data type
      * @param type       the type of data
      * @param serializer the data to buffer serializer
      */
-    <T extends IData> void addDataType(ResourceLocation id, Class<T> type, IData.Serializer<T> serializer);
+    default <T extends IData> void addDataType(ResourceLocation id, Class<T> type, IData.Serializer<T> serializer) {
+        addDataType(id, type, type, serializer);
+    }
 
     /**
      * Registers an {@link IThemeType} instance.
