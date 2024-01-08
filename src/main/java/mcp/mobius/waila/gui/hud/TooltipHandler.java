@@ -80,6 +80,7 @@ public class TooltipHandler {
                 castOrigin = provider.getOrigin(frameTime);
                 castDirection = provider.getDirection(frameTime);
                 RayCaster.cast(client.level, camera, castOrigin, castDirection, pickRange, results);
+                break;
             }
         }
 
