@@ -37,6 +37,6 @@ side = "BOTH"
 [[dependencies.wthit]]
 modId = "badpackets"
 mandatory = true
-versionRange = "[0.5.4,)"
+versionRange = "[0.6,)"
 ordering = "NONE"
 side = "BOTH"
