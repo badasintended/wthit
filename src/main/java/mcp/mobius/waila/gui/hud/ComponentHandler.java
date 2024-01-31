@@ -41,11 +41,11 @@ public class ComponentHandler {
         var player = Minecraft.getInstance().player;
 
         for (var entry : registrar.blockDataCtx.get(block)) {
-            DataWriter.CLIENT.tryAppend(player, entry.value(), accessor, PluginConfig.CLIENT, IBlockComponentProvider::appendDataContext);
+            DataWriter.CLIENT.tryAppend(player, entry.instance(), accessor, PluginConfig.CLIENT, IBlockComponentProvider::appendDataContext);
         }
 
         for (var entry : registrar.blockDataCtx.get(blockEntity)) {
-            DataWriter.CLIENT.tryAppend(player, entry.value(), accessor, PluginConfig.CLIENT, IBlockComponentProvider::appendDataContext);
+            DataWriter.CLIENT.tryAppend(player, entry.instance(), accessor, PluginConfig.CLIENT, IBlockComponentProvider::appendDataContext);
         }
 
         DataWriter.CLIENT.send(PacketSender.c2s(), player);
@@ -70,7 +70,7 @@ public class ComponentHandler {
         var registrar = Registrar.INSTANCE;
         var providers = registrar.blockComponent.get(position).get(obj);
         for (var entry : providers) {
-            var provider = entry.value();
+            var provider = entry.instance();
             try {
                 switch (position) {
                     case HEAD -> provider.appendHead(tooltip, accessor, PluginConfig.CLIENT);
@@ -98,7 +98,7 @@ public class ComponentHandler {
         var player = Minecraft.getInstance().player;
 
         for (var entry : registrar.entityDataCtx.get(entity)) {
-            DataWriter.CLIENT.tryAppend(player, entry.value(), accessor, PluginConfig.CLIENT, IEntityComponentProvider::appendDataContext);
+            DataWriter.CLIENT.tryAppend(player, entry.instance(), accessor, PluginConfig.CLIENT, IEntityComponentProvider::appendDataContext);
         }
 
         DataWriter.CLIENT.send(PacketSender.c2s(), player);
@@ -120,7 +120,7 @@ public class ComponentHandler {
 
         var providers = registrar.entityComponent.get(position).get(entity);
         for (var entry : providers) {
-            var provider = entry.value();
+            var provider = entry.instance();
             try {
                 switch (position) {
                     case HEAD -> provider.appendHead(tooltip, accessor, PluginConfig.CLIENT);
@@ -141,7 +141,7 @@ public class ComponentHandler {
         if (target.getType() == HitResult.Type.ENTITY) {
             var providers = registrar.entityIcon.get(data.getEntity());
             for (var provider : providers) {
-                var icon = provider.value().getIcon(data, config);
+                var icon = provider.instance().getIcon(data, config);
                 if (icon != null) {
                     return icon;
                 }
@@ -154,7 +154,7 @@ public class ComponentHandler {
             var priority = 0;
 
             for (var provider : registrar.blockIcon.get(state.getBlock())) {
-                var icon = provider.value().getIcon(ClientAccessor.INSTANCE, PluginConfig.CLIENT);
+                var icon = provider.instance().getIcon(ClientAccessor.INSTANCE, PluginConfig.CLIENT);
                 if (icon != null) {
                     result = icon;
                     priority = provider.priority();
@@ -167,7 +167,7 @@ public class ComponentHandler {
                 for (var provider : registrar.blockIcon.get(blockEntity)) {
                     if (provider.priority() >= priority) break;
 
-                    var icon = provider.value().getIcon(ClientAccessor.INSTANCE, PluginConfig.CLIENT);
+                    var icon = provider.instance().getIcon(ClientAccessor.INSTANCE, PluginConfig.CLIENT);
                     if (icon != null) {
                         result = icon;
                         break;
@@ -191,7 +191,7 @@ public class ComponentHandler {
 
         var overrideProviders = registrar.entityOverride.get(entity);
         for (var provider : overrideProviders) {
-            var override = provider.value().getOverride(ClientAccessor.INSTANCE, PluginConfig.CLIENT);
+            var override = provider.instance().getOverride(ClientAccessor.INSTANCE, PluginConfig.CLIENT);
             if (override != null) {
                 return override;
             }
@@ -214,7 +214,7 @@ public class ComponentHandler {
 
         var providers = registrar.blockOverride.get(state.getBlock());
         for (var provider : providers) {
-            var blockOverride = provider.value().getOverride(ClientAccessor.INSTANCE, PluginConfig.CLIENT);
+            var blockOverride = provider.instance().getOverride(ClientAccessor.INSTANCE, PluginConfig.CLIENT);
             if (blockOverride != null) {
                 override = blockOverride;
                 priority = provider.priority();
@@ -227,7 +227,7 @@ public class ComponentHandler {
         for (var provider : providers) {
             if (provider.priority() >= priority) break;
 
-            var beOverride = provider.value().getOverride(ClientAccessor.INSTANCE, PluginConfig.CLIENT);
+            var beOverride = provider.instance().getOverride(ClientAccessor.INSTANCE, PluginConfig.CLIENT);
             if (beOverride != null) {
                 override = beOverride;
                 break;

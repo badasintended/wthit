@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import mcp.mobius.waila.api.IBlacklistConfig;
+import mcp.mobius.waila.api.IInstanceRegistry;
 import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.api.IModInfo;
 import mcp.mobius.waila.api.IPluginInfo;
@@ -64,5 +65,7 @@ public interface IApiService {
     ResourceLocation getGuiIconsTexture();
 
     <T> IRegistryFilter.Builder<T> createRegistryFilterBuilder(ResourceKey<? extends Registry<T>> registryKey);
+
+    <T> IInstanceRegistry<T> createInstanceRegistry(boolean reversed);
 
 }

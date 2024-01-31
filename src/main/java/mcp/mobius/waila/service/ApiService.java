@@ -6,6 +6,7 @@ import java.util.Collection;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IBlacklistConfig;
+import mcp.mobius.waila.api.IInstanceRegistry;
 import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.api.IModInfo;
 import mcp.mobius.waila.api.IPluginInfo;
@@ -20,6 +21,7 @@ import mcp.mobius.waila.gui.hud.TooltipRenderer;
 import mcp.mobius.waila.gui.hud.theme.ThemeType;
 import mcp.mobius.waila.mixin.GuiAccess;
 import mcp.mobius.waila.plugin.PluginInfo;
+import mcp.mobius.waila.registry.InstanceRegistry;
 import mcp.mobius.waila.registry.RegistryFilter;
 import mcp.mobius.waila.util.DisplayUtil;
 import mcp.mobius.waila.util.ModInfo;
@@ -153,6 +155,13 @@ public class ApiService implements IApiService {
     @Override
     public <T> IRegistryFilter.Builder<T> createRegistryFilterBuilder(ResourceKey<? extends Registry<T>> registryKey) {
         return new RegistryFilter.Builder<>(registryKey);
+    }
+
+    @Override
+    public <T> IInstanceRegistry<T> createInstanceRegistry(boolean reversed) {
+        var registry = new InstanceRegistry<T>();
+        if (reversed) registry.reversed();
+        return registry;
     }
 
 }

@@ -9,10 +9,11 @@ import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet;
 import it.unimi.dsi.fastutil.objects.ObjectLists;
+import mcp.mobius.waila.api.IInstanceRegistry;
 
-public class Register<T> {
+public class InstanceRegistry<T> implements IInstanceRegistry<T> {
 
-    private final Map<Class<?>, Set<Entry<T>>> map = new Object2ObjectOpenHashMap<>();
+    private final Map<Class<?>, Set<EntryImpl<T>>> map = new Object2ObjectOpenHashMap<>();
     private final Map<Class<?>, List<Entry<T>>> cache = new Object2ObjectOpenHashMap<>();
 
     private boolean reversed = false;
@@ -21,17 +22,19 @@ public class Register<T> {
         reversed = true;
     }
 
-    public void add(Class<?> key, T value, int priority) {
+    @Override
+    public void add(Class<?> key, T instance, int priority) {
         map.computeIfAbsent(key, k -> new ObjectLinkedOpenHashSet<>())
-            .add(new Entry<>(value, priority));
+            .add(new EntryImpl<>(instance, priority));
     }
 
-    public List<Entry<T>> get(Object obj) {
-        if (obj == null) {
+    @Override
+    public List<Entry<T>> get(Object target) {
+        if (target == null) {
             return ObjectLists.emptyList();
         }
 
-        var clazz = obj.getClass();
+        var clazz = target.getClass();
         if (clazz == Object.class) {
             return ObjectLists.emptyList();
         }
@@ -42,12 +45,12 @@ public class Register<T> {
 
         List<Entry<T>> entries = new ObjectArrayList<>();
         map.forEach((k, v) -> {
-            if (k.isInstance(obj)) {
+            if (k.isInstance(target)) {
                 entries.addAll(v);
             }
         });
 
-        Comparator<Entry<T>> comparator = Comparator.comparingInt(e -> e.priority);
+        Comparator<Entry<T>> comparator = Comparator.comparingInt(Entry::priority);
         if (reversed) {
             comparator = comparator.reversed();
         }
@@ -59,11 +62,11 @@ public class Register<T> {
         return result;
     }
 
-    public Map<Class<?>, Set<Entry<T>>> getMap() {
+    public Map<Class<?>, Set<EntryImpl<T>>> getMap() {
         return map;
     }
 
-    public record Entry<T>(T value, int priority) {
+    public record EntryImpl<T>(T instance, int priority) implements Entry<T> {
 
     }
 
