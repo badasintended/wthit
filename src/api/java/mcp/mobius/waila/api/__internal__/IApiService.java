@@ -7,6 +7,7 @@ import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Matrix4f;
 import mcp.mobius.waila.api.IBlacklistConfig;
+import mcp.mobius.waila.api.IInstanceRegistry;
 import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.api.IModInfo;
 import mcp.mobius.waila.api.IPickerAccessor;
@@ -72,5 +73,7 @@ public interface IApiService {
     IPickerResults getPickerResults();
 
     <T> IRegistryFilter.Builder<T> createRegistryFilterBuilder(ResourceKey<? extends Registry<T>> registryKey);
+
+    <T> IInstanceRegistry<T> createInstanceRegistry(boolean reversed);
 
 }

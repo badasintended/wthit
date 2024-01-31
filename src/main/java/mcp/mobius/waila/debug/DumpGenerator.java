@@ -10,7 +10,7 @@ import java.util.Map;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.plugin.PluginInfo;
-import mcp.mobius.waila.registry.Register;
+import mcp.mobius.waila.registry.InstanceRegistry;
 import mcp.mobius.waila.registry.Registrar;
 import mcp.mobius.waila.util.Log;
 import org.jetbrains.annotations.Nullable;
@@ -86,7 +86,7 @@ public class DumpGenerator {
         }
     }
 
-    private static <T> void createSection(StringBuilder builder, String subsection, Register<T> registry) {
+    private static <T> void createSection(StringBuilder builder, String subsection, InstanceRegistry<T> registry) {
         var map = registry.getMap();
 
         if (map.isEmpty())
@@ -100,7 +100,7 @@ public class DumpGenerator {
                 builder.append("\n| `").append(k.getName()).append("` ");
                 var i = new int[]{0};
                 v.stream()
-                    .map(o -> o.value().getClass().getName())
+                    .map(o -> o.instance().getClass().getName())
                     .distinct()
                     .sorted(String::compareToIgnoreCase)
                     .forEachOrdered(s -> {

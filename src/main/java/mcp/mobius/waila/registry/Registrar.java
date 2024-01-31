@@ -46,28 +46,28 @@ public enum Registrar implements IRegistrar {
 
     private static final Log LOG = Log.create();
 
-    public final Register<IBlockComponentProvider> blockOverride = new Register<>();
-    public final Register<IBlockComponentProvider> blockIcon = new Register<>();
-    public final Register<IBlockComponentProvider> blockDataCtx = new Register<>();
-    public final Register<IDataProvider<BlockEntity>> blockData = new Register<>();
-    public final Map<TooltipPosition, Register<IBlockComponentProvider>> blockComponent = Util.make(new EnumMap<>(TooltipPosition.class), map -> {
+    public final InstanceRegistry<IBlockComponentProvider> blockOverride = new InstanceRegistry<>();
+    public final InstanceRegistry<IBlockComponentProvider> blockIcon = new InstanceRegistry<>();
+    public final InstanceRegistry<IBlockComponentProvider> blockDataCtx = new InstanceRegistry<>();
+    public final InstanceRegistry<IDataProvider<BlockEntity>> blockData = new InstanceRegistry<>();
+    public final Map<TooltipPosition, InstanceRegistry<IBlockComponentProvider>> blockComponent = Util.make(new EnumMap<>(TooltipPosition.class), map -> {
         for (var key : TooltipPosition.values()) {
-            map.put(key, new Register<>());
+            map.put(key, new InstanceRegistry<>());
         }
     });
 
-    public final Register<IEntityComponentProvider> entityOverride = new Register<>();
-    public final Register<IEntityComponentProvider> entityIcon = new Register<>();
-    public final Register<IEntityComponentProvider> entityDataCtx = new Register<>();
-    public final Register<IDataProvider<Entity>> entityData = new Register<>();
-    public final Map<TooltipPosition, Register<IEntityComponentProvider>> entityComponent = Util.make(new EnumMap<>(TooltipPosition.class), map -> {
+    public final InstanceRegistry<IEntityComponentProvider> entityOverride = new InstanceRegistry<>();
+    public final InstanceRegistry<IEntityComponentProvider> entityIcon = new InstanceRegistry<>();
+    public final InstanceRegistry<IEntityComponentProvider> entityDataCtx = new InstanceRegistry<>();
+    public final InstanceRegistry<IDataProvider<Entity>> entityData = new InstanceRegistry<>();
+    public final Map<TooltipPosition, InstanceRegistry<IEntityComponentProvider>> entityComponent = Util.make(new EnumMap<>(TooltipPosition.class), map -> {
         for (var key : TooltipPosition.values()) {
-            map.put(key, new Register<>());
+            map.put(key, new InstanceRegistry<>());
         }
     });
 
-    public final Register<IEventListener> eventListeners = Util.make(new Register<>(), Register::reversed);
-    public final Register<IRayCastVectorProvider> raycastVectorProviders = new Register<>();
+    public final InstanceRegistry<IEventListener> eventListeners = Util.make(new InstanceRegistry<>(), InstanceRegistry::reversed);
+    public final InstanceRegistry<IRayCastVectorProvider> raycastVectorProviders = new InstanceRegistry<>();
 
     public final BlacklistConfig blacklist = new BlacklistConfig();
 
@@ -349,6 +349,7 @@ public enum Registrar implements IRegistrar {
         }
 
         Waila.BLACKLIST_CONFIG.save();
+
     }
 
     private void assertLock() {

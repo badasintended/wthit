@@ -102,7 +102,7 @@ public class TooltipRenderer {
 
         if (state.fireEvent()) {
             for (var listener : Registrar.INSTANCE.eventListeners.get(Object.class)) {
-                listener.value().onHandleTooltip(TOOLTIP, ClientAccessor.INSTANCE, PluginConfig.CLIENT);
+                listener.instance().onHandleTooltip(TOOLTIP, ClientAccessor.INSTANCE, PluginConfig.CLIENT);
             }
         }
 
@@ -274,7 +274,7 @@ public class TooltipRenderer {
             var canceller = EventCanceller.INSTANCE;
             canceller.setCanceled(false);
             for (var listener : Registrar.INSTANCE.eventListeners.get(Object.class)) {
-                listener.value().onBeforeTooltipRender(matrices, rect, ClientAccessor.INSTANCE, PluginConfig.CLIENT, canceller);
+                listener.instance().onBeforeTooltipRender(matrices, rect, ClientAccessor.INSTANCE, PluginConfig.CLIENT, canceller);
                 if (canceller.isCanceled()) {
                     matrices.popPose();
                     RenderSystem.enableDepthTest();
@@ -313,7 +313,7 @@ public class TooltipRenderer {
 
         if (state.fireEvent()) {
             for (var listener : Registrar.INSTANCE.eventListeners.get(Object.class)) {
-                listener.value().onAfterTooltipRender(matrices, rect, ClientAccessor.INSTANCE, PluginConfig.CLIENT);
+                listener.instance().onAfterTooltipRender(matrices, rect, ClientAccessor.INSTANCE, PluginConfig.CLIENT);
             }
         }
 
