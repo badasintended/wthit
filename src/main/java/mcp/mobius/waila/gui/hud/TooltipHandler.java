@@ -74,7 +74,7 @@ public class TooltipHandler {
             picker.pick(PickerAccessor.of(client, camera, pickRange, frameTime), results, PluginConfig.CLIENT);
         } else {
             for (var entry : Registrar.INSTANCE.raycastVectorProviders.get(Object.class)) {
-                var provider = entry.value();
+                var provider = entry.instance();
                 if (!provider.isEnabled(PluginConfig.CLIENT)) continue;
 
                 castOrigin = provider.getOrigin(frameTime);

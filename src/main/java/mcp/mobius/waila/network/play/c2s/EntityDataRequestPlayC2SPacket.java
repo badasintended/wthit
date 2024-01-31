@@ -52,7 +52,7 @@ public class EntityDataRequestPlayC2SPacket implements Packet.PlayC2S<EntityData
         IServerAccessor<Entity> accessor = ServerAccessor.INSTANCE.set(world, player, new EntityHitResult(entity, hitPos), entity);
 
         for (var provider : registrar.entityData.get(entity)) {
-            DataWriter.SERVER.tryAppend(player, provider.value(), accessor, PluginConfig.SERVER, IDataProvider::appendData);
+            DataWriter.SERVER.tryAppend(player, provider.instance(), accessor, PluginConfig.SERVER, IDataProvider::appendData);
         }
 
         raw.putInt("WailaEntityID", entity.getId());

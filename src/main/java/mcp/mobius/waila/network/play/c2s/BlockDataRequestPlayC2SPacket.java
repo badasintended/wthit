@@ -58,11 +58,11 @@ public class BlockDataRequestPlayC2SPacket implements Packet.PlayC2S<BlockDataRe
         IServerAccessor<BlockEntity> accessor = ServerAccessor.INSTANCE.set(world, player, hitResult, blockEntity);
 
         for (var provider : registrar.blockData.get(blockEntity)) {
-            DataWriter.SERVER.tryAppend(player, provider.value(), accessor, PluginConfig.SERVER, IDataProvider::appendData);
+            DataWriter.SERVER.tryAppend(player, provider.instance(), accessor, PluginConfig.SERVER, IDataProvider::appendData);
         }
 
         for (var provider : registrar.blockData.get(state.getBlock())) {
-            DataWriter.SERVER.tryAppend(player, provider.value(), accessor, PluginConfig.SERVER, IDataProvider::appendData);
+            DataWriter.SERVER.tryAppend(player, provider.instance(), accessor, PluginConfig.SERVER, IDataProvider::appendData);
         }
 
         raw.putInt("x", pos.getX());
