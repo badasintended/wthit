@@ -8,7 +8,7 @@ import org.jetbrains.annotations.ApiStatus;
 /**
  * Registry for attaching object instances to a type and its subtypes.
  *
- * @param <T> the provider type
+ * @param <T> the instance type
  */
 @ApiStatus.NonExtendable
 public interface IInstanceRegistry<T> {
