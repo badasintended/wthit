@@ -1,5 +1,6 @@
 10.x - 1.20.4 - dev/master - java 17
 ====================================
+10.2.0   - [API] Added `IInstanceRegistry`
 10.1.0   - [API] Added `I*ComponentProvider#appendDataContext` that allows client do send additional context to server data provider
          - [API] Added `IDataReader#invalidate` that allows the client to invalidate synced data
          - [API] Added ray cast vector getter to `I*Acessor`s
@@ -15,6 +16,8 @@
 
 9.x - 1.20.2 - dev/1.20.2 - java 17
 ===================================
+9.2.0    - [API] Added `IInstanceRegistry`
+         - Updated Quilt version
 9.2.0    - [API] Added `I*ComponentProvider#appendDataContext` that allows client do send additional context to server data provider
          - [API] Added `IDataReader#invalidate` that allows the client to invalidate synced data
          - [API] Added ray cast vector getter to `I*Acessor`s
@@ -42,6 +45,7 @@
 
 8.x - 1.20.1 - dev/1.20.1 - java 17
 ===================================
+8.6.0    - [API] Added `IInstanceRegistry`
 8.5.0    - [API] Added `I*ComponentProvider#appendDataContext` that allows client do send additional context to server data provider
          - [API] Added `IDataReader#invalidate` that allows the client to invalidate synced data
          - [API] Added ray cast vector getter to `I*Acessor`s
@@ -228,6 +232,7 @@
 
 5.x - 1.19.2 - dev/1.19.2 - java 17
 ===================================
+5.21.0   - [API] Added `IInstanceRegistry`
 5.20.0   - [API] Added `I*ComponentProvider#appendDataContext` that allows client do send additional context to server data provider
          - [API] Added `IDataReader#invalidate` that allows the client to invalidate synced data
          - [API] Added ray cast vector getter to `I*Acessor`s
