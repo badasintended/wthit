@@ -143,7 +143,7 @@ public class Packets {
                 IServerAccessor<Entity> accessor = ServerAccessor.INSTANCE.set(world, player, new EntityHitResult(entity, hitPos), entity);
 
                 for (var provider : registrar.entityData.get(entity)) {
-                    tryAppendData(provider.value(), accessor);
+                    tryAppendData(provider.instance(), accessor);
                 }
 
                 raw.putInt("WailaEntityID", entity.getId());
@@ -176,11 +176,11 @@ public class Packets {
                 IServerAccessor<BlockEntity> accessor = ServerAccessor.INSTANCE.set(world, player, hitResult, blockEntity);
 
                 for (var provider : registrar.blockData.get(blockEntity)) {
-                    tryAppendData(provider.value(), accessor);
+                    tryAppendData(provider.instance(), accessor);
                 }
 
                 for (var provider : registrar.blockData.get(state.getBlock())) {
-                    tryAppendData(provider.value(), accessor);
+                    tryAppendData(provider.instance(), accessor);
                 }
 
                 raw.putInt("x", pos.getX());
