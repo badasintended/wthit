@@ -64,6 +64,13 @@
   "tooltip.waila.extra.energy"                                  : "Energy",
   "tooltip.waila.extra.unknown_fluid"                           : "Unknown Fluid",
 
+  "tooltip.waila.harvest.tool.minecraft.pickaxe"                : "Pickaxe",
+  "tooltip.waila.harvest.tool.minecraft.shovel"                 : "Shovel",
+  "tooltip.waila.harvest.tool.minecraft.axe"                    : "Axe",
+  "tooltip.waila.harvest.tool.minecraft.hoe"                    : "Hoe",
+  "tooltip.waila.harvest.tool.minecraft.sword"                  : "Sword",
+  "tooltip.waila.harvest.tool.minecraft.shears"                 : "Shears",
+
   "gui.waila.configuration"                                     : "%s Configuration",
   "gui.waila.waila_settings"                                    : "%s Settings",
   "gui.waila.plugin_settings"                                   : "Plugin Settings",

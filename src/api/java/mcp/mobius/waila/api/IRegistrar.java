@@ -3,6 +3,7 @@ package mcp.mobius.waila.api;
 import java.nio.file.Path;
 
 import mcp.mobius.waila.api.__internal__.ApiSide;
+import mcp.mobius.waila.api.__internal__.IHarvestService;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
@@ -595,6 +596,18 @@ public interface IRegistrar {
     @ApiStatus.Experimental
     default void addRayCastVector(IRayCastVectorProvider provider) {
         addRayCastVector(provider, DEFAULT_PRIORITY);
+    }
+
+    /**
+     * Registers a tool type, to be used for the harvestability tooltip.
+     *
+     * @param id       the tool type id, also used as the translation key as {@code tooltip.waila.harvest.tool.[namespace].[path]}
+     * @param toolType the tool type
+     */
+    @ApiSide.ClientOnly
+    @ApiStatus.Experimental
+    default void addToolType(ResourceLocation id, IToolType toolType) {
+        IHarvestService.INSTANCE.addToolType(id, toolType);
     }
 
     // -----------------------------------------------------------------------------------------------------------------------------------------------
