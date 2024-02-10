@@ -11,6 +11,7 @@ public class WailaPluginHarvest implements IWailaPlugin {
     @Override
     public void register(IRegistrar registrar) {
         registrar.addComponent(HarvestProvider.INSTANCE, TooltipPosition.BODY, Block.class);
+        registrar.addEventListener(HarvestProvider.INSTANCE);
     }
 
 }

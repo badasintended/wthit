@@ -25,6 +25,7 @@ public class ToolType implements IToolType, IToolType.Builder0, IToolType.Builde
 
     public static final Map<ResourceLocation, ToolType> MAP = new HashMap<>();
 
+    public ResourceLocation id;
     public ItemStack lowestTierStack;
     public Predicate<BlockState> blockPredicate;
     public Predicate<ItemStack> itemPredicate;

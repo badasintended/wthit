@@ -14,4 +14,6 @@ public interface IHarvestService {
 
     IToolType.Builder0 createToolTypeBuilder();
 
+    void resetCache();
+
 }
