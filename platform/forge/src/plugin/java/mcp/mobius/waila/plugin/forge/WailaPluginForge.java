@@ -11,6 +11,7 @@ import mcp.mobius.waila.plugin.forge.provider.ItemCapabilityProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.common.IForgeShearable;
@@ -57,7 +58,7 @@ public class WailaPluginForge implements IWailaPlugin {
 
         registrar.addToolType(new ResourceLocation("shears"), IToolType.builder()
             .lowestTierItem(Items.SHEARS)
-            .blockPredicate(it -> it instanceof IForgeShearable)
+            .blockPredicate(it -> it.getBlock() instanceof IForgeShearable || it.getBlock() instanceof DoublePlantBlock)
             .itemPredicate(it -> it.canPerformAction(ToolActions.SHEARS_DIG))
             .build());
     }

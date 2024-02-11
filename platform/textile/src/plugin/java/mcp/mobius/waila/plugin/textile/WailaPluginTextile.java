@@ -12,6 +12,7 @@ import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -56,9 +57,12 @@ public abstract class WailaPluginTextile implements IWailaPlugin {
             .itemTag(ItemTags.SWORDS)
             .build());
 
+        // TODO: not actually working for blocks that instamine, like short grass
+        //       maybe look to currently used plugin (cimtb) implementation
+        var shearsStack = new ItemStack(Items.SHEARS);
         registrar.addToolType(new ResourceLocation("shears"), IToolType.builder()
-            .lowestTierItem(Items.SHEARS)
-            .blockTag(FabricMineableTags.SHEARS_MINEABLE)
+            .lowestTierStack(shearsStack)
+            .blockPredicate(it -> it.is(FabricMineableTags.SHEARS_MINEABLE) || shearsStack.getDestroySpeed(it) > 1.0F)
             .itemTag(ConventionalItemTags.SHEARS)
             .build());
     }

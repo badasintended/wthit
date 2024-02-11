@@ -14,10 +14,9 @@ import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.__internal__.IApiService;
 import mcp.mobius.waila.api.component.GrowingComponent;
 import mcp.mobius.waila.plugin.harvest.component.ToolComponent;
+import mcp.mobius.waila.plugin.harvest.tool.ToolTier;
 import mcp.mobius.waila.plugin.harvest.tool.ToolType;
-import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.TieredItem;
-import net.minecraft.world.item.Tiers;
 import net.minecraft.world.level.block.state.BlockState;
 
 public enum HarvestProvider implements IBlockComponentProvider, IEventListener {
@@ -25,22 +24,17 @@ public enum HarvestProvider implements IBlockComponentProvider, IEventListener {
     INSTANCE;
 
     public final Map<BlockState, List<ToolType>> toolsCache = new Reference2ObjectOpenHashMap<>();
-    public final Map<BlockState, Tier> tierCache = new Reference2ObjectOpenHashMap<>();
+    public final Map<BlockState, ToolTier> tierCache = new Reference2ObjectOpenHashMap<>();
 
     private int updateId = 0;
     private BlockState state;
-    private List<ToolType> tools;
-    private Tier highestTier;
 
     @Override
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
         updateId = accessor.getUpdateId();
         state = accessor.getBlockState();
 
-        var destroySpeed = state.getDestroySpeed(accessor.getWorld(), accessor.getPosition());
-        if (destroySpeed <= 0) return;
-
-        tools = toolsCache.get(state);
+        var tools = toolsCache.get(state);
         if (tools == null) {
             tools = new ArrayList<>();
             for (var entry : ToolType.MAP.entrySet()) {
@@ -55,11 +49,11 @@ public enum HarvestProvider implements IBlockComponentProvider, IEventListener {
 
         if (tools.isEmpty()) return;
 
-        highestTier = tierCache.get(state);
+        var highestTier = tierCache.get(state);
         if (highestTier == null) {
-            highestTier = Tiers.WOOD;
-            for (var tier : IApiService.INSTANCE.getTiers()) {
-                var tag = IApiService.INSTANCE.getTierTag(tier);
+            highestTier = ToolTier.NONE;
+            for (var tier : ToolTier.all()) {
+                var tag = IApiService.INSTANCE.getTierTag(tier.tier());
                 if (tag != null && state.is(tag)) {
                     highestTier = tier;
                 }
@@ -71,7 +65,10 @@ public enum HarvestProvider implements IBlockComponentProvider, IEventListener {
     @Override
     public void onHandleTooltip(ITooltip tooltip, ICommonAccessor accessor, IPluginConfig config) {
         if (updateId != accessor.getUpdateId()) return;
-        if (tools.isEmpty()) return;
+
+        var tools = toolsCache.get(state);
+        var highestTier = tierCache.get(state);
+        if (tools == null || highestTier == null || tools.isEmpty()) return;
 
         var heldStack = accessor.getPlayer().getInventory().getSelected();
 
@@ -79,12 +76,12 @@ public enum HarvestProvider implements IBlockComponentProvider, IEventListener {
         line.with(GrowingComponent.INSTANCE);
 
         for (var tool : tools) {
-            var icon = tool.icons.get().get(highestTier);
+            var icon = tool.getIcon(highestTier);
             Boolean matches = null;
             if (state.requiresCorrectToolForDrops()) {
                 matches = tool.itemPredicate.test(heldStack);
-                if (highestTier != Tiers.WOOD && heldStack.getItem() instanceof TieredItem tiered) {
-                    matches = matches && tiered.getTier() == highestTier;
+                if (highestTier != ToolTier.NONE && heldStack.getItem() instanceof TieredItem tiered) {
+                    matches = matches && ToolTier.get(tiered.getTier()).index() >= highestTier.index();
                 }
             }
             line.with(new ToolComponent(icon, matches));

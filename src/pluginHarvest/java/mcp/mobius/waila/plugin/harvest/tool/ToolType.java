@@ -6,16 +6,14 @@ import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 import com.google.common.base.Suppliers;
-import com.google.common.collect.ImmutableMap;
+import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
 import mcp.mobius.waila.api.IToolType;
-import mcp.mobius.waila.api.__internal__.IApiService;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.TieredItem;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
@@ -30,15 +28,15 @@ public class ToolType implements IToolType, IToolType.Builder0, IToolType.Builde
     public Predicate<BlockState> blockPredicate;
     public Predicate<ItemStack> itemPredicate;
 
-    public final Supplier<Map<Tier, ItemStack>> icons = Suppliers.memoize(() -> {
-        var tiers = IApiService.INSTANCE.getTiers();
-        var map = new HashMap<Tier, ItemStack>();
+    private final Supplier<Map<ToolTier, ItemStack>> icons = Suppliers.memoize(() -> {
+        var tiers = ToolTier.all();
+        var map = new Reference2ObjectOpenHashMap<ToolTier, ItemStack>();
 
         for (var item : BuiltInRegistries.ITEM) {
             var stack = item.getDefaultInstance();
             if (itemPredicate.test(stack)) {
                 for (var tier : tiers) {
-                    if (!map.containsKey(tier) && item instanceof TieredItem tiered && tiered.getTier() == tier) {
+                    if (!map.containsKey(tier) && item instanceof TieredItem tiered && tiered.getTier() == tier.tier()) {
                         map.put(tier, stack);
                     }
                 }
@@ -51,8 +49,13 @@ public class ToolType implements IToolType, IToolType.Builder0, IToolType.Builde
             }
         }
 
-        return ImmutableMap.copyOf(map);
+        return map;
     });
+
+    public ItemStack getIcon(ToolTier tier) {
+        if (tier == ToolTier.NONE) return lowestTierStack;
+        else return icons.get().get(tier);
+    }
 
     @Override
     public Builder1 lowestTierStack(ItemStack stack) {
