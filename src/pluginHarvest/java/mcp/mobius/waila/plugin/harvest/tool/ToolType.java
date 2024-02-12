@@ -1,6 +1,7 @@
 package mcp.mobius.waila.plugin.harvest.tool;
 
-import java.util.HashMap;
+import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
@@ -8,8 +9,10 @@ import java.util.function.Supplier;
 import com.google.common.base.Suppliers;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
 import mcp.mobius.waila.api.IToolType;
+import mcp.mobius.waila.buildconst.Tl;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
@@ -21,12 +24,13 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class ToolType implements IToolType, IToolType.Builder0, IToolType.Builder1, IToolType.Builder2, IToolType.Builder3 {
 
-    public static final Map<ResourceLocation, ToolType> MAP = new HashMap<>();
+    private static final Map<ResourceLocation, ToolType> MAP = new LinkedHashMap<>();
 
     public ResourceLocation id;
     public ItemStack lowestTierStack;
     public Predicate<BlockState> blockPredicate;
     public Predicate<ItemStack> itemPredicate;
+    public Component text;
 
     private final Supplier<Map<ToolTier, ItemStack>> icons = Suppliers.memoize(() -> {
         var tiers = ToolTier.all();
@@ -36,7 +40,7 @@ public class ToolType implements IToolType, IToolType.Builder0, IToolType.Builde
             var stack = item.getDefaultInstance();
             if (itemPredicate.test(stack)) {
                 for (var tier : tiers) {
-                    if (!map.containsKey(tier) && item instanceof TieredItem tiered && tiered.getTier() == tier.tier()) {
+                    if (!map.containsKey(tier) && item instanceof TieredItem tiered && tiered.getTier() == tier.tier) {
                         map.put(tier, stack);
                     }
                 }
@@ -55,6 +59,17 @@ public class ToolType implements IToolType, IToolType.Builder0, IToolType.Builde
     public ItemStack getIcon(ToolTier tier) {
         if (tier == ToolTier.NONE) return lowestTierStack;
         else return icons.get().get(tier);
+    }
+
+    public void bind(ResourceLocation id) {
+        this.id = id;
+        this.text = Component.translatable(Tl.Tooltip.Harvest.TOOL + "." + id.toLanguageKey());
+
+        MAP.put(id, this);
+    }
+
+    public static Collection<ToolType> all() {
+        return MAP.values();
     }
 
     @Override

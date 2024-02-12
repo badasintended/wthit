@@ -10,9 +10,7 @@ public class HarvestService implements IHarvestService {
 
     @Override
     public void addToolType(ResourceLocation id, IToolType toolType) {
-        var impl = (ToolType) toolType;
-        impl.id = id;
-        ToolType.MAP.put(id, impl);
+        ((ToolType) toolType).bind(id);
     }
 
     @Override
