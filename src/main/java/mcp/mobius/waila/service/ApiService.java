@@ -2,7 +2,13 @@ package mcp.mobius.waila.service;
 
 import java.nio.file.Path;
 import java.util.Collection;
+import java.util.Comparator;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.function.Supplier;
 
+import com.google.common.base.Suppliers;
+import com.google.common.collect.Streams;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IBlacklistConfig;
@@ -33,11 +39,14 @@ import net.minecraft.world.item.EnchantedBookItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.PotionItem;
 import net.minecraft.world.item.SpawnEggItem;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.TieredItem;
+import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.TippedArrowItem;
 import net.minecraft.world.item.alchemy.PotionUtils;
 import org.joml.Matrix4f;
 
-public class ApiService implements IApiService {
+public abstract class ApiService implements IApiService {
 
     @Override
     public IModInfo getModInfo(ItemStack stack) {
@@ -156,6 +165,24 @@ public class ApiService implements IApiService {
         var registry = new InstanceRegistry<T>();
         if (reversed) registry.reversed();
         return registry;
+    }
+
+    public static final Supplier<List<Tier>> TIERS = Suppliers.memoize(() -> {
+        var vanilla = List.of(Tiers.values());
+        var custom = new LinkedHashSet<Tier>();
+
+        for (var item : BuiltInRegistries.ITEM) {
+            if (item instanceof TieredItem tiered && !(tiered.getTier() instanceof Tiers)) {
+                custom.add(tiered.getTier());
+            }
+        }
+
+        return Streams.concat(vanilla.stream(), custom.stream()).sorted(Comparator.comparingInt(Tier::getLevel)).toList();
+    });
+
+    @Override
+    public List<Tier> getTiers() {
+        return TIERS.get();
     }
 
 }
