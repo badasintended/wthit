@@ -1,5 +1,6 @@
 package mcp.mobius.waila.plugin.harvest.provider;
 
+import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +21,7 @@ import mcp.mobius.waila.plugin.harvest.config.Options;
 import mcp.mobius.waila.plugin.harvest.tool.ToolTier;
 import mcp.mobius.waila.plugin.harvest.tool.ToolType;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -32,11 +34,16 @@ public enum HarvestProvider implements IBlockComponentProvider, IEventListener {
 
     INSTANCE;
 
+    private static final ToolType UNBREAKABLE = new ToolType();
+
     public final Map<BlockState, List<ToolType>> toolsCache = new Reference2ObjectOpenHashMap<>();
     public final Map<BlockState, ToolTier> tierCache = new Reference2ObjectOpenHashMap<>();
 
     private int updateId = 0;
     private BlockState state;
+
+    private final List<ToolComponent> toolComponents = new ArrayList<>();
+    private boolean renderComponents = false;
 
     @Override
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
@@ -45,15 +52,22 @@ public enum HarvestProvider implements IBlockComponentProvider, IEventListener {
         updateId = accessor.getUpdateId();
         state = accessor.getBlockState();
 
+        var unbreakable = state.getDestroySpeed(accessor.getWorld(), accessor.getPosition()) < 0;
+
         var tools = toolsCache.get(state);
         if (tools == null) {
             tools = new ArrayList<>();
-            for (var tool : ToolType.all()) {
-                if (tool.blockPredicate.test(state)) {
-                    tools.add(tool);
+
+            if (unbreakable) {
+                tools.add(UNBREAKABLE);
+            } else {
+                for (var tool : ToolType.all()) {
+                    if (tool.blockPredicate.test(state)) {
+                        tools.add(tool);
+                    }
                 }
+                if (tools.isEmpty()) tools = List.of();
             }
-            if (tools.isEmpty()) tools = List.of();
             toolsCache.put(state, tools);
         }
 
@@ -74,9 +88,12 @@ public enum HarvestProvider implements IBlockComponentProvider, IEventListener {
         var heldStack = accessor.getPlayer().getInventory().getSelected();
 
         if (displayMode == HarvestDisplayMode.CLASSIC) {
-            tooltip.addLine(Component.empty().append(getHarvestableSymbol(accessor)).append(" ").append(Component.translatable(Tl.Tooltip.Harvest.HARVESTABLE)));
+            tooltip.addLine(Component.empty()
+                .append(getHarvestableSymbol(accessor, unbreakable))
+                .append(" ")
+                .append(Component.translatable(Tl.Tooltip.Harvest.HARVESTABLE)));
 
-            if (!tools.isEmpty()) tooltip.addLine(new PairComponent(
+            if (!tools.isEmpty() && !unbreakable) tooltip.addLine(new PairComponent(
                 Component.translatable(Tl.Tooltip.Harvest.EFFECTIVE_TOOL),
                 getToolText(tools, heldStack)));
 
@@ -85,9 +102,9 @@ public enum HarvestProvider implements IBlockComponentProvider, IEventListener {
                 getTierText(highestTier, heldStack)));
         } else if (displayMode == HarvestDisplayMode.CLASSIC_MINIMAL) {
             var text = Component.empty();
-            text.append(getHarvestableSymbol(accessor));
+            text.append(getHarvestableSymbol(accessor, unbreakable));
 
-            if (!tools.isEmpty()) {
+            if (!tools.isEmpty() && !unbreakable) {
                 text.append(" | ").append(getToolText(tools, heldStack));
                 if (highestTier != ToolTier.NONE) {
                     text.append(" | ");
@@ -104,6 +121,8 @@ public enum HarvestProvider implements IBlockComponentProvider, IEventListener {
 
     @Override
     public void onHandleTooltip(ITooltip tooltip, ICommonAccessor accessor, IPluginConfig config) {
+        renderComponents = false;
+
         if (!config.getBoolean(Options.ENABLED)) return;
 
         HarvestDisplayMode displayMode = config.getEnum(Options.DISPLAY_MODE);
@@ -120,26 +139,45 @@ public enum HarvestProvider implements IBlockComponentProvider, IEventListener {
         var line = tooltip.getLine(tooltip.getLineCount() - 1);
         line.with(GrowingComponent.INSTANCE);
 
+        toolComponents.clear();
         for (var tool : tools) {
-            var icon = tool.getIcon(highestTier);
-            Boolean matches = null;
-            if (state.requiresCorrectToolForDrops()) {
-                matches = tool.itemPredicate.test(heldStack);
-                if (highestTier != ToolTier.NONE && heldStack.getItem() instanceof TieredItem tiered) {
-                    var heldTier = ToolTier.get(tiered.getTier());
-                    matches = matches && heldTier.index >= highestTier.index;
+            ToolComponent component;
+            if (tool == UNBREAKABLE) {
+                component = new ToolComponent(null, false);
+            } else {
+                var icon = tool.getIcon(highestTier);
+                Boolean matches = null;
+                if (state.requiresCorrectToolForDrops()) {
+                    matches = tool.itemPredicate.test(heldStack);
+                    if (highestTier != ToolTier.NONE && heldStack.getItem() instanceof TieredItem tiered) {
+                        var heldTier = ToolTier.get(tiered.getTier());
+                        matches = matches && heldTier.index >= highestTier.index;
+                    }
                 }
+                component = new ToolComponent(icon, matches);
             }
-            line.with(new ToolComponent(icon, matches));
+            line.with(component);
+            toolComponents.add(component);
+        }
+
+        renderComponents = true;
+    }
+
+    @Override
+    public void onAfterTooltipRender(GuiGraphics ctx, Rectangle rect, ICommonAccessor accessor, IPluginConfig config) {
+        if (!renderComponents) return;
+
+        for (var component : toolComponents) {
+            component.actuallyRender(ctx, rect.y + rect.height - 13);
         }
     }
 
     @NotNull
     @SuppressWarnings("UnnecessaryUnicodeEscape")
-    private MutableComponent getHarvestableSymbol(IBlockAccessor accessor) {
-        return accessor.getPlayer().hasCorrectToolForDrops(state) && state.getDestroySpeed(accessor.getWorld(), accessor.getPosition()) > 0
-            ? Component.literal("\u2714").withStyle(ChatFormatting.GREEN)
-            : Component.literal("\u2718").withStyle(ChatFormatting.RED);
+    private MutableComponent getHarvestableSymbol(IBlockAccessor accessor, boolean unbreakable) {
+        return unbreakable || !accessor.getPlayer().hasCorrectToolForDrops(state)
+            ? Component.literal("\u2718").withStyle(ChatFormatting.RED)
+            : Component.literal("\u2714").withStyle(ChatFormatting.GREEN);
     }
 
     @NotNull
@@ -148,6 +186,8 @@ public enum HarvestProvider implements IBlockComponentProvider, IEventListener {
         var toolIter = tools.iterator();
         while (toolIter.hasNext()) {
             var tool = toolIter.next();
+            if (tool == UNBREAKABLE) continue;
+
             toolText.append(tool.text.copy().withStyle(tool.itemPredicate.test(heldStack) ? ChatFormatting.GREEN : ChatFormatting.RED));
             if (toolIter.hasNext()) toolText.append(", ");
         }

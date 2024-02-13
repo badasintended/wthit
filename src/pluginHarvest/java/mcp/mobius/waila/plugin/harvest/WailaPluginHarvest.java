@@ -15,7 +15,7 @@ public class WailaPluginHarvest implements IWailaPlugin {
         registrar.addFeatureConfig(Options.ENABLED, true);
         registrar.addConfig(Options.DISPLAY_MODE, HarvestDisplayMode.MODERN);
         registrar.addComponent(HarvestProvider.INSTANCE, TooltipPosition.BODY, Block.class);
-        registrar.addEventListener(HarvestProvider.INSTANCE);
+        registrar.addEventListener(HarvestProvider.INSTANCE, 3000);
     }
 
 }
