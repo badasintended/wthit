@@ -8,6 +8,7 @@ import mcp.mobius.waila.network.Packets;
 import mcp.mobius.waila.util.ModInfo;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
+import net.fabricmc.fabric.api.event.lifecycle.v1.CommonLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
@@ -27,6 +28,7 @@ public class FabricWaila extends Waila implements ModInitializer {
 
         ServerLifecycleEvents.SERVER_STARTING.register(server -> PluginConfig.reload());
         ServerLifecycleEvents.SERVER_STOPPED.register(server -> onServerStopped());
+        CommonLifecycleEvents.TAGS_LOADED.register((registries, client) -> onTagReload());
 
         ModInfo.register(new ModInfo(false, "c", "Common", "0"));
 

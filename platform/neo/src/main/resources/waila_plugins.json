@@ -11,6 +11,12 @@
     "required"   : ["minecraft"]
   },
 
+  "waila:harvest"           : {
+    "initializer": "mcp.mobius.waila.plugin.harvest.WailaPluginHarvest",
+    "side"       : "*",
+    "required"   : []
+  },
+
   "waila:extra"  : {
     "initializer": "mcp.mobius.waila.plugin.extra.WailaPluginExtra",
     "side"       : "*",

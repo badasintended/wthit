@@ -108,16 +108,17 @@ sourceSets {
     val mixin by creating
     val pluginCore by creating
     val pluginExtra by creating
+    val pluginHarvest by creating
     val pluginVanilla by creating
     val pluginTest by creating
 
-    listOf(api, buildConst, mixin, pluginCore, pluginExtra, pluginVanilla, pluginTest).applyEach {
+    listOf(api, buildConst, mixin, pluginCore, pluginExtra, pluginHarvest, pluginVanilla, pluginTest).applyEach {
         compileClasspath += main.compileClasspath
     }
-    listOf(api, main, mixin, pluginCore, pluginExtra, pluginVanilla, pluginTest).applyEach {
+    listOf(api, main, mixin, pluginCore, pluginExtra, pluginHarvest, pluginVanilla, pluginTest).applyEach {
         compileClasspath += buildConst.output
     }
-    listOf(main, pluginCore, pluginExtra, pluginVanilla, pluginTest).applyEach {
+    listOf(main, pluginCore, pluginExtra, pluginHarvest, pluginVanilla, pluginTest).applyEach {
         compileClasspath += api.output + mixin.output
     }
     mixin.apply {

@@ -15,6 +15,7 @@ import net.neoforged.fml.common.Mod.EventBusSubscriber.Bus;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
+import net.neoforged.neoforge.event.TagsUpdatedEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.neoforged.neoforge.event.server.ServerStoppedEvent;
 
@@ -50,6 +51,11 @@ public class NeoWaila extends Waila {
         @SubscribeEvent
         static void serverStopped(ServerStoppedEvent event) {
             onServerStopped();
+        }
+
+        @SubscribeEvent
+        static void tagReload(TagsUpdatedEvent event) {
+            onTagReload();
         }
 
         @SubscribeEvent
