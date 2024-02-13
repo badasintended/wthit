@@ -6,6 +6,7 @@ import com.google.gson.GsonBuilder;
 import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.api.WailaConstants;
+import mcp.mobius.waila.api.__internal__.IHarvestService;
 import mcp.mobius.waila.config.BlacklistConfig;
 import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.gui.hud.theme.ThemeDefinition;
@@ -55,6 +56,10 @@ public abstract class Waila {
 
     protected static void onServerStopped() {
         RegistryFilter.attach(null);
+    }
+
+    protected static void onTagReload() {
+        IHarvestService.INSTANCE.resetCache();
     }
 
     protected static void unsupportedPlatform(String platformName, String loaderName, String clazz) {

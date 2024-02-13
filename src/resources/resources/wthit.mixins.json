@@ -13,7 +13,8 @@
     "EntityAccess",
     "NoteBlockAccess",
     "RandomizableContainerBlockEntityAccess",
-    "ReloadableServerResourcesMixin"
+    "ReloadableServerResourcesMixin",
+    "ShearableBlocksMixin"
   ],
   "client"            : [
     "BossHealthOverlayAccess",
