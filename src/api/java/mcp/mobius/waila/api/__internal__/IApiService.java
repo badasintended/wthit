@@ -2,6 +2,7 @@ package mcp.mobius.waila.api.__internal__;
 
 import java.nio.file.Path;
 import java.util.Collection;
+import java.util.List;
 
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -21,7 +22,10 @@ import mcp.mobius.waila.api.IWailaConfig;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Tier;
+import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.ApiStatus;
 
 /** @hidden */
@@ -75,5 +79,10 @@ public interface IApiService {
     <T> IRegistryFilter.Builder<T> createRegistryFilterBuilder(ResourceKey<? extends Registry<T>> registryKey);
 
     <T> IInstanceRegistry<T> createInstanceRegistry(boolean reversed);
+
+    @Nullable
+    TagKey<Block> getTierTag(Tier tier);
+
+    List<Tier> getTiers();
 
 }

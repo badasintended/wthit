@@ -10,7 +10,8 @@
     "BeaconBlockEntityAccess",
     "EntityAccess",
     "RandomizableContainerBlockEntityAccess",
-    "ReloadableServerResourcesMixin"
+    "ReloadableServerResourcesMixin",
+    "ShearableBlocksMixin"
   ],
   "client"            : [
     "BossHealthOverlayAccess",

@@ -29,6 +29,8 @@
 
   "tooltip.waila.panda.personality"                             : "Personality",
   "tooltip.waila.panda.traits"                                  : "Traits",
+
+  "tooltip.waila.panda.gene"                                    : "_DO_NOT_TRANSLATE_",
   "tooltip.waila.panda.gene.normal"                             : "Normal",
   "tooltip.waila.panda.gene.lazy"                               : "Lazy",
   "tooltip.waila.panda.gene.worried"                            : "Worried",
@@ -37,6 +39,7 @@
   "tooltip.waila.panda.gene.weak"                               : "Weak",
   "tooltip.waila.panda.gene.aggressive"                         : "Aggressive",
 
+  "tooltip.waila.instrument"                                    : "_DO_NOT_TRANSLATE_",
   "tooltip.waila.instrument.harp"                               : "Harp",
   "tooltip.waila.instrument.basedrum"                           : "Bass Drum",
   "tooltip.waila.instrument.snare"                              : "Snare Drum",
@@ -56,6 +59,26 @@
 
   "tooltip.waila.extra.energy"                                  : "Energy",
   "tooltip.waila.extra.unknown_fluid"                           : "Unknown Fluid",
+
+  "tooltip.waila.harvest.harvestable"                           : "Currently Harvestable",
+  "tooltip.waila.harvest.effective_tool"                        : "Effective Tool",
+  "tooltip.waila.harvest.level"                                 : "Harvest Level",
+
+  "tooltip.waila.harvest.tool"                                  : "_DO_NOT_TRANSLATE_",
+  "tooltip.waila.harvest.tool.minecraft.pickaxe"                : "Pickaxe",
+  "tooltip.waila.harvest.tool.minecraft.shovel"                 : "Shovel",
+  "tooltip.waila.harvest.tool.minecraft.axe"                    : "Axe",
+  "tooltip.waila.harvest.tool.minecraft.hoe"                    : "Hoe",
+  "tooltip.waila.harvest.tool.minecraft.sword"                  : "Sword",
+  "tooltip.waila.harvest.tool.minecraft.shears"                 : "Shears",
+
+  "tooltip.waila.harvest.tier"                                  : "_DO_NOT_TRANSLATE_",
+  "tooltip.waila.harvest.tier.wood"                             : "Wood",
+  "tooltip.waila.harvest.tier.stone"                            : "Stone",
+  "tooltip.waila.harvest.tier.iron"                             : "Iron",
+  "tooltip.waila.harvest.tier.gold"                             : "Gold",
+  "tooltip.waila.harvest.tier.diamond"                          : "Diamond",
+  "tooltip.waila.harvest.tier.netherite"                        : "Netherite",
 
   "gui.waila.configuration"                                     : "%s Configuration",
   "gui.waila.waila_settings"                                    : "%s Settings",
@@ -186,6 +209,8 @@
   "key.waila.show_recipe_input"                                 : "Show Recipe Usage",
   "key.waila.show_recipe_output"                                : "Show Recipe",
 
+  "config.waila.plugin_"                                        : "_DO_NOT_TRANSLATE_",
+
   "config.waila.plugin_minecraft"                               : "Minecraft",
   "config.waila.plugin_minecraft.item_entity"                   : "Show Item Entity",
   "config.waila.plugin_minecraft.breaking_progress"             : "Breaking Progress",
@@ -273,6 +298,13 @@
   "config.waila.plugin_waila.icon_position_middle"              : "Middle",
   "config.waila.plugin_waila.icon_position_bottom"              : "Bottom",
 
+  "config.waila.plugin_harvest"                                 : "Harvest",
+  "config.waila.plugin_harvest.enabled"                         : "Show Harvestability",
+  "config.waila.plugin_harvest.display_mode"                    : "Display Mode",
+  "config.waila.plugin_harvest.display_mode_modern"             : "Modern",
+  "config.waila.plugin_harvest.display_mode_classic"            : "Classic",
+  "config.waila.plugin_harvest.display_mode_classic_minimal"    : "Classic Minimal",
+
   "config.waila.plugin_wailax"                                  : "Waila Extra",
   "config.waila.plugin_wailax.energy"                           : "Energy",
   "config.waila.plugin_wailax.energy.enabled_block"             : "Show Block Energy",
@@ -319,9 +351,5 @@
   "theme.waila.plugin_waila.nine_patch.regionRight"             : "Region: Right",
   "theme.waila.plugin_waila.nine_patch.mode"                    : "Draw Mode",
   "theme.waila.plugin_waila.nine_patch.mode_stretch"            : "Stretch",
-  "theme.waila.plugin_waila.nine_patch.mode_tile"               : "Tile",
-
-  "tooltip.waila.instrument"                                    : "_DO_NOT_TRANSLATE_",
-  "tooltip.waila.panda.gene"                                    : "_DO_NOT_TRANSLATE_",
-  "config.waila.plugin_"                                        : "_DO_NOT_TRANSLATE_"
+  "theme.waila.plugin_waila.nine_patch.mode_tile"               : "Tile"
 }

@@ -18,7 +18,7 @@ fun Project.setupPlatform() {
         }
 
         listOf(plugin, main).applyEach {
-            compileClasspath += api.output
+            compileClasspath += api.output + rootSourceSets["mixin"].output
         }
 
         main.apply {
