@@ -1,6 +1,7 @@
 package mcp.mobius.waila.plugin.harvest.tool;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -10,6 +11,7 @@ import com.google.common.collect.ImmutableMap;
 import mcp.mobius.waila.api.__internal__.IApiService;
 import mcp.mobius.waila.api.__internal__.Internals;
 import mcp.mobius.waila.buildconst.Tl;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.Tiers;
@@ -30,22 +32,39 @@ public final class ToolTier {
         return builder.build();
     });
 
+    private static final Supplier<Map<ResourceLocation, String>> VANILLA_TIER_TL_KEYS = Suppliers.memoize(() -> {
+        var map = new HashMap<ResourceLocation, String>();
+        for (var tier : Tiers.values()) {
+            var tag = IApiService.INSTANCE.getTierTag(tier);
+            if (tag == null) continue;
+            map.put(tag.location(), tier.name().toLowerCase(Locale.ROOT));
+        }
+        return map;
+    });
+
     public final Tier tier;
     public final int index;
     public final @Nullable TagKey<Block> tag;
-    public final String tlKey;
+
+    private final Supplier<String> tlKey;
 
     public ToolTier(Tier tier, int index) {
         this.tier = tier;
         this.index = index;
         this.tag = IApiService.INSTANCE.getTierTag(tier);
 
-        if (tier instanceof Tiers vanilla)
-            this.tlKey = Tl.Tooltip.Harvest.TIER + "." + vanilla.name().toLowerCase(Locale.ROOT);
-        else if (tag != null)
-            this.tlKey = Tl.Tooltip.Harvest.TIER + "." + tag.location().toLanguageKey();
-        else
-            this.tlKey = Tl.Tooltip.Harvest.TIER + "." + tier.getLevel();
+        this.tlKey = Suppliers.memoize(() -> {
+            String key;
+
+            if (tag != null) {
+                var vanilla = VANILLA_TIER_TL_KEYS.get().get(tag.location());
+                key = vanilla != null ? vanilla : tag.location().toLanguageKey();
+            } else {
+                key = String.valueOf(tier.getLevel());
+            }
+
+            return Tl.Tooltip.Harvest.TIER + "." + key;
+        });
     }
 
     public static Collection<ToolTier> all() {
@@ -54,6 +73,21 @@ public final class ToolTier {
 
     public static ToolTier get(Tier tier) {
         return TIERS.get().get(tier);
+    }
+
+    public String tlKey() {
+        return tlKey.get();
+    }
+
+    public boolean isEqualTo(ToolTier other) {
+        if (this == other) return true;
+        if (this.tier == other.tier) return true;
+        if (this.tag != null && other.tag != null) return this.tag.location().equals(other.tag.location());
+        return false;
+    }
+
+    public boolean isBetterThanOrEqualTo(ToolTier other) {
+        return isEqualTo(other) || this.index >= other.index;
     }
 
 }

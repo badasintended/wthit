@@ -40,7 +40,7 @@ public class ToolType implements IToolType, IToolType.Builder0, IToolType.Builde
             var stack = item.getDefaultInstance();
             if (itemPredicate.test(stack)) {
                 for (var tier : tiers) {
-                    if (!map.containsKey(tier) && item instanceof TieredItem tiered && tiered.getTier() == tier.tier) {
+                    if (!map.containsKey(tier) && item instanceof TieredItem tiered && ToolTier.get(tiered.getTier()).isEqualTo(tier)) {
                         map.put(tier, stack);
                     }
                 }
