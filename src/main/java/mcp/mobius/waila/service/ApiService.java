@@ -5,9 +5,7 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.function.Supplier;
 
-import com.google.common.base.Suppliers;
 import com.google.common.collect.Streams;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -185,7 +183,8 @@ public abstract class ApiService implements IApiService {
         return registry;
     }
 
-    public static final Supplier<List<Tier>> TIERS = Suppliers.memoize(() -> {
+    @Override
+    public List<Tier> getTiers() {
         var vanilla = List.of(Tiers.values());
         var custom = new LinkedHashSet<Tier>();
 
@@ -196,11 +195,6 @@ public abstract class ApiService implements IApiService {
         }
 
         return Streams.concat(vanilla.stream(), custom.stream()).sorted(Comparator.comparingInt(Tier::getLevel)).toList();
-    });
-
-    @Override
-    public List<Tier> getTiers() {
-        return TIERS.get();
     }
 
 }
