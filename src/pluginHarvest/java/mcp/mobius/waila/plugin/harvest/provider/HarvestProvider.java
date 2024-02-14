@@ -151,7 +151,7 @@ public enum HarvestProvider implements IBlockComponentProvider, IEventListener {
                     matches = tool.itemPredicate.test(heldStack);
                     if (highestTier != ToolTier.NONE && heldStack.getItem() instanceof TieredItem tiered) {
                         var heldTier = ToolTier.get(tiered.getTier());
-                        matches = matches && heldTier.index >= highestTier.index;
+                        matches = matches && heldTier.isBetterThanOrEqualTo(highestTier);
                     }
                 }
                 component = new ToolComponent(icon, matches);
@@ -196,12 +196,12 @@ public enum HarvestProvider implements IBlockComponentProvider, IEventListener {
 
     @NotNull
     private static MutableComponent getTierText(ToolTier highestTier, ItemStack heldStack) {
-        var tierText = I18n.exists(highestTier.tlKey)
-            ? Component.translatable(highestTier.tlKey)
+        var tierText = I18n.exists(highestTier.tlKey())
+            ? Component.translatable(highestTier.tlKey())
             : Component.literal(String.valueOf(highestTier.index));
         if (heldStack.getItem() instanceof TieredItem tiered) {
             var heldTier = ToolTier.get(tiered.getTier());
-            tierText.withStyle(heldTier.index >= highestTier.index ? ChatFormatting.GREEN : ChatFormatting.RED);
+            tierText.withStyle(heldTier.isBetterThanOrEqualTo(highestTier) ? ChatFormatting.GREEN : ChatFormatting.RED);
         } else {
             tierText.withStyle(ChatFormatting.RED);
         }
