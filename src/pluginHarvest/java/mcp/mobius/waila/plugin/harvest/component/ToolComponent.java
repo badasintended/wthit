@@ -59,8 +59,10 @@ public class ToolComponent extends GuiComponent implements ITooltipComponent {
             itemMatrices.translate(-2, -2, 0);
             itemMatrices.scale(0.85f, 0.85f, 1f);
             itemMatrices.translate(x / 0.85f, y / 0.85f, 0);
+            RenderSystem.applyModelViewMatrix();
             Minecraft.getInstance().getItemRenderer().renderGuiItem(icon, 0, 0);
             itemMatrices.popPose();
+            RenderSystem.applyModelViewMatrix();
         }
 
         if (v0 == -1) return;
