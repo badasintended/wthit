@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
 import mcp.mobius.waila.api.IBlockAccessor;
 import mcp.mobius.waila.api.IBlockComponentProvider;
@@ -21,7 +22,6 @@ import mcp.mobius.waila.plugin.harvest.config.Options;
 import mcp.mobius.waila.plugin.harvest.tool.ToolTier;
 import mcp.mobius.waila.plugin.harvest.tool.ToolType;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -164,11 +164,11 @@ public enum HarvestProvider implements IBlockComponentProvider, IEventListener {
     }
 
     @Override
-    public void onAfterTooltipRender(GuiGraphics ctx, Rectangle rect, ICommonAccessor accessor, IPluginConfig config) {
+    public void onAfterTooltipRender(PoseStack matrices, Rectangle rect, ICommonAccessor accessor, IPluginConfig config) {
         if (!renderComponents) return;
 
         for (var component : toolComponents) {
-            component.actuallyRender(ctx, rect.y + rect.height - 13);
+            component.actuallyRender(matrices, rect.y + rect.height - 13);
         }
     }
 

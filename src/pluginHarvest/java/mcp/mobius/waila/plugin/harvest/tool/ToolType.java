@@ -10,8 +10,7 @@ import com.google.common.base.Suppliers;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectOpenHashMap;
 import mcp.mobius.waila.api.IToolType;
 import mcp.mobius.waila.buildconst.Tl;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.core.registries.Registries;
+import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
@@ -36,7 +35,7 @@ public class ToolType implements IToolType, IToolType.Builder0, IToolType.Builde
         var tiers = ToolTier.all();
         var map = new Reference2ObjectOpenHashMap<ToolTier, ItemStack>();
 
-        for (var item : BuiltInRegistries.ITEM) {
+        for (var item : Registry.ITEM) {
             var stack = item.getDefaultInstance();
             if (itemPredicate.test(stack)) {
                 for (var tier : tiers) {
@@ -98,7 +97,7 @@ public class ToolType implements IToolType, IToolType.Builder0, IToolType.Builde
 
     @Override
     public Builder2 blockTag(ResourceLocation tag) {
-        return blockTag(TagKey.create(Registries.BLOCK, tag));
+        return blockTag(TagKey.create(Registry.BLOCK_REGISTRY, tag));
     }
 
     @Override
@@ -115,7 +114,7 @@ public class ToolType implements IToolType, IToolType.Builder0, IToolType.Builde
 
     @Override
     public Builder3 itemTag(ResourceLocation tag) {
-        return itemTag(TagKey.create(Registries.ITEM, tag));
+        return itemTag(TagKey.create(Registry.ITEM_REGISTRY, tag));
     }
 
     @Override

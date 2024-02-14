@@ -189,7 +189,7 @@ public abstract class ApiService implements IApiService {
         var vanilla = List.of(Tiers.values());
         var custom = new LinkedHashSet<Tier>();
 
-        for (var item : BuiltInRegistries.ITEM) {
+        for (var item : Registry.ITEM) {
             if (item instanceof TieredItem tiered && !(tiered.getTier() instanceof Tiers)) {
                 custom.add(tiered.getTier());
             }
