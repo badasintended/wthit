@@ -38,9 +38,12 @@ public class ToolType implements IToolType, IToolType.Builder0, IToolType.Builde
         for (var item : Registry.ITEM) {
             var stack = item.getDefaultInstance();
             if (itemPredicate.test(stack)) {
-                for (var tier : tiers) {
-                    if (!map.containsKey(tier) && item instanceof TieredItem tiered && ToolTier.get(tiered.getTier()).isEqualTo(tier)) {
-                        map.put(tier, stack);
+                for (var registeredTier : tiers) {
+                    if (!map.containsKey(registeredTier) && item instanceof TieredItem tiered) {
+                        var itemTier = ToolTier.get(tiered.getTier());
+                        if (itemTier != null && itemTier.isEqualTo(registeredTier)) {
+                            map.put(registeredTier, stack);
+                        }
                     }
                 }
             }
