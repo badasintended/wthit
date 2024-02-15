@@ -33,6 +33,8 @@ public class ToolType implements IToolType, IToolType.Builder0, IToolType.Builde
     public Component text;
 
     private final Supplier<Map<ToolTier, ItemStack>> icons = Suppliers.memoize(() -> {
+        System.out.println("Tool Type: " + id);
+
         var tiers = ToolTier.all();
         var map = new Reference2ObjectOpenHashMap<ToolTier, ItemStack>();
 
@@ -40,8 +42,12 @@ public class ToolType implements IToolType, IToolType.Builder0, IToolType.Builde
             var stack = item.getDefaultInstance();
             if (itemPredicate.test(stack)) {
                 for (var tier : tiers) {
-                    if (!map.containsKey(tier) && item instanceof TieredItem tiered && ToolTier.get(tiered.getTier()).isEqualTo(tier)) {
-                        map.put(tier, stack);
+                    if (!map.containsKey(tier) && item instanceof TieredItem tiered) {
+                        System.out.println(item.builtInRegistryHolder().key().location());
+
+                        if (ToolTier.get(tiered.getTier()).isEqualTo(tier)) {
+                            map.put(tier, stack);
+                        }
                     }
                 }
             }
@@ -57,6 +63,8 @@ public class ToolType implements IToolType, IToolType.Builder0, IToolType.Builde
     });
 
     public ItemStack getIcon(ToolTier tier) {
+        MAP.forEach((k, v) -> v.icons.get());
+
         if (tier == ToolTier.NONE) return lowestTierStack;
         else return icons.get().get(tier);
     }
