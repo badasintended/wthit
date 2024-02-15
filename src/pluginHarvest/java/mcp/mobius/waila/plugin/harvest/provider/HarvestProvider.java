@@ -151,7 +151,7 @@ public enum HarvestProvider implements IBlockComponentProvider, IEventListener {
                     matches = tool.itemPredicate.test(heldStack);
                     if (highestTier != ToolTier.NONE && heldStack.getItem() instanceof TieredItem tiered) {
                         var heldTier = ToolTier.get(tiered.getTier());
-                        matches = matches && heldTier.isBetterThanOrEqualTo(highestTier);
+                        matches = matches && heldTier != null && heldTier.isBetterThanOrEqualTo(highestTier);
                     }
                 }
                 component = new ToolComponent(icon, matches);
@@ -201,7 +201,7 @@ public enum HarvestProvider implements IBlockComponentProvider, IEventListener {
             : Component.literal(String.valueOf(highestTier.index));
         if (heldStack.getItem() instanceof TieredItem tiered) {
             var heldTier = ToolTier.get(tiered.getTier());
-            tierText.withStyle(heldTier.isBetterThanOrEqualTo(highestTier) ? ChatFormatting.GREEN : ChatFormatting.RED);
+            tierText.withStyle(heldTier != null && heldTier.isBetterThanOrEqualTo(highestTier) ? ChatFormatting.GREEN : ChatFormatting.RED);
         } else {
             tierText.withStyle(ChatFormatting.RED);
         }

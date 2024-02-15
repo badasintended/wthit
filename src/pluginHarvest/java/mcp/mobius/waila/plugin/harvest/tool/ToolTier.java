@@ -71,6 +71,7 @@ public final class ToolTier {
         return TIERS.get().values();
     }
 
+    @Nullable
     public static ToolTier get(Tier tier) {
         return TIERS.get().get(tier);
     }
