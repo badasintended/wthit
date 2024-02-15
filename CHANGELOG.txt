@@ -1,5 +1,6 @@
 10.x - 1.20.4 - dev/master - java 17
 ====================================
+10.3.2   - Fixed missing API classes on Quilt
 10.3.1   - Fixed crash (#249)
 10.3.0   - [API] Experimental: Added `IToolType` to register other tool types for the harvestability plugin
          - Added built-in harvestability plugin
@@ -19,6 +20,7 @@
 
 9.x - 1.20.2 - dev/1.20.2 - java 17
 ===================================
+9.4.2    - Fixed missing API classes on Quilt
 9.4.1    - Fixed crash (#249)
 9.4.0    - [API] Added `IToolType` to register other tool types for the harvestability plugin
          - Added built-in harvestability plugin
@@ -51,6 +53,7 @@
 
 8.x - 1.20.1 - dev/1.20.1 - java 17
 ===================================
+8.7.1    - Fixed missing API classes on Quilt
 8.7.1    - Fixed crash (#249)
 8.7.0    - [API] Added `IToolType` to register other tool types for the harvestability plugin
          - Added built-in harvestability plugin
@@ -241,6 +244,7 @@
 
 5.x - 1.19.2 - dev/1.19.2 - java 17
 ===================================
+5.22.2   - Fixed missing API classes on Quilt
 5.22.1   - Fixed crash (#249)
 5.22.0   - [API] Added `IToolType` to register other tool types for the harvestability plugin
          - Added built-in harvestability plugin
