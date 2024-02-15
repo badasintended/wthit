@@ -70,12 +70,14 @@ loom {
 tasks.jar {
     val textileSourceSets = project(":textile").sourceSets
     from(textileSourceSets["main"].output)
+    from(textileSourceSets["api"].output)
     from(textileSourceSets["plugin"].output)
 }
 
 tasks.sourcesJar {
     val textileSourceSets = project(":textile").sourceSets
     from(textileSourceSets["main"].allSource)
+    from(textileSourceSets["api"].allSource)
     from(textileSourceSets["plugin"].allSource)
 }
 
