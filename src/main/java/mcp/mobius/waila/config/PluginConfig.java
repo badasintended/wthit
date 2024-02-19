@@ -83,8 +83,11 @@ public enum PluginConfig implements IPluginConfig {
         var config = IO.read(PATH);
         config.forEach((namespace, subMap) -> subMap.forEach((path, value) -> {
             var entry = (ConfigEntry<Object>) CONFIGS.get(new ResourceLocation(namespace, path));
-            if (entry != null) {
+            if (entry != null) try {
                 entry.setLocalValue(entry.getType().parser.apply(value, entry.getDefaultValue()));
+            } catch (Throwable throwable) {
+                entry.setLocalValue(entry.getDefaultValue());
+                LOG.error("Failed to parse config value for {}: {}, defaulting.", entry.getId(), throwable);
             }
         }));
         LOG.info("Plugin config reloaded");
