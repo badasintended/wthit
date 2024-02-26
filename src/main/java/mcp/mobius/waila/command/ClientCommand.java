@@ -9,6 +9,7 @@ import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
+import lol.bai.badpackets.api.PacketSender;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.WailaConstants;
@@ -16,6 +17,8 @@ import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.config.ConfigEntry;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.gui.screen.HomeScreen;
+import mcp.mobius.waila.network.play.c2s.ConfigSyncRequestPlayC2SPacket;
+import mcp.mobius.waila.plugin.PluginLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.commands.arguments.ResourceLocationArgument;
 import net.minecraft.network.chat.Component;
@@ -36,6 +39,21 @@ public abstract class ClientCommand<S> {
 
     public final void register(CommandDispatcher<S> dispatcher) {
         var command = new ArgumentBuilderBuilder<>(argument.literal(WailaConstants.NAMESPACE + "c"))
+            .then(argument.literal("reload"))
+            .executes(context -> {
+                Minecraft.getInstance().execute(() -> {
+                    PluginLoader.INSTANCE.loadPlugins();
+                    Waila.BLACKLIST_CONFIG.invalidate();
+                    PluginConfig.reload();
+
+                    if (PacketSender.c2s().canSend(ConfigSyncRequestPlayC2SPacket.ID)) {
+                        PacketSender.c2s().send(new ConfigSyncRequestPlayC2SPacket.Payload());
+                    }
+                });
+
+                return 1;
+            })
+
 
             .then(argument.literal("config"))
 

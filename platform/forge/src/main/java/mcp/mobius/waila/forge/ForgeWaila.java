@@ -6,6 +6,7 @@ import mcp.mobius.waila.command.ServerCommand;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.debug.DumpGenerator;
 import mcp.mobius.waila.network.Packets;
+import mcp.mobius.waila.plugin.PluginLoader;
 import net.minecraftforge.event.RegisterCommandsEvent;
 import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -37,7 +38,7 @@ public class ForgeWaila extends Waila {
 
     @SubscribeEvent
     static void loadComplete(FMLLoadCompleteEvent event) {
-        new ForgePluginLoader().loadPlugins();
+        PluginLoader.INSTANCE.loadPlugins();
     }
 
     @EventBusSubscriber(modid = WailaConstants.WAILA)

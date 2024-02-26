@@ -16,6 +16,7 @@ import com.google.gson.GsonBuilder;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.mcless.config.ConfigIo;
+import mcp.mobius.waila.util.CachedSupplier;
 import mcp.mobius.waila.util.Log;
 import org.jetbrains.annotations.Nullable;
 
@@ -158,25 +159,6 @@ public class JsonConfig<T> implements IJsonConfig<T> {
         @Override
         public IJsonConfig<T> build() {
             return new JsonConfig<>(path, clazz, factory, gson, currentVersion, versionGetter, versionSetter);
-        }
-
-    }
-
-    static class CachedSupplier<T> {
-
-        private final Supplier<T> supplier;
-        private T value;
-
-        public CachedSupplier(Supplier<T> supplier) {
-            this.supplier = supplier;
-        }
-
-        public T get() {
-            return value == null ? value = supplier.get() : value;
-        }
-
-        public void invalidate() {
-            this.value = null;
         }
 
     }

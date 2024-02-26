@@ -4,13 +4,12 @@ import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import com.google.common.base.Suppliers;
 import mcp.mobius.waila.api.IModInfo;
 import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.api.IWailaPlugin;
+import mcp.mobius.waila.util.CachedSupplier;
 import mcp.mobius.waila.util.Log;
 import mcp.mobius.waila.util.ModInfo;
 import net.minecraft.resources.ResourceLocation;
@@ -20,7 +19,7 @@ public class PluginInfo implements IPluginInfo {
     private static final Log LOG = Log.create();
 
     private static final Map<ResourceLocation, IPluginInfo> PLUGIN_ID_TO_PLUGIN_INFO = new LinkedHashMap<>();
-    private static final Supplier<Map<String, List<IPluginInfo>>> MOD_ID_TO_PLUGIN_INFOS = Suppliers.memoize(() ->
+    private static final CachedSupplier<Map<String, List<IPluginInfo>>> MOD_ID_TO_PLUGIN_INFOS = new CachedSupplier<>(() ->
         PLUGIN_ID_TO_PLUGIN_INFO.values().stream().collect(Collectors.groupingBy(p -> p.getModInfo().getId())));
 
     private final ModInfo modInfo;
@@ -56,6 +55,11 @@ public class PluginInfo implements IPluginInfo {
         } catch (Throwable t) {
             LOG.error("Error creating instance of plugin " + pluginIdStr, t);
         }
+    }
+
+    public static void clear() {
+        PLUGIN_ID_TO_PLUGIN_INFO.clear();
+        MOD_ID_TO_PLUGIN_INFOS.invalidate();
     }
 
     public static IPluginInfo get(ResourceLocation pluginId) {

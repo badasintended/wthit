@@ -6,9 +6,14 @@ import lol.bai.badpackets.api.PacketSender;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.buildconst.Tl;
+import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.debug.DumpGenerator;
 import mcp.mobius.waila.mixin.BaseContainerBlockEntityAccess;
+import mcp.mobius.waila.network.common.s2c.BlacklistSyncCommonS2CPacket;
+import mcp.mobius.waila.network.common.s2c.ConfigSyncCommonS2CPacket;
 import mcp.mobius.waila.network.play.s2c.GenerateClientDumpPlayS2CPacket;
+import mcp.mobius.waila.network.play.s2c.ReloadPluginsPlayS2CPacket;
+import mcp.mobius.waila.plugin.PluginLoader;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
@@ -24,6 +29,30 @@ public class ServerCommand {
 
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         var command = new ArgumentBuilderBuilder<>(Commands.literal(WailaConstants.NAMESPACE))
+            .then(Commands.literal("reload"))
+            .requires(source -> source.hasPermission(Commands.LEVEL_ADMINS))
+            .executes(context -> {
+                var server = context.getSource().getServer();
+
+                server.execute(() -> {
+                    PluginLoader.INSTANCE.loadPlugins();
+                    Waila.BLACKLIST_CONFIG.invalidate();
+                    PluginConfig.reload();
+                });
+
+                server.getPlayerList().getPlayers().forEach(player -> {
+                    if (!server.isSingleplayerOwner(player.getGameProfile())) {
+                        PacketSender.s2c(player).send(new ReloadPluginsPlayS2CPacket.Payload());
+                    }
+
+                    PacketSender.s2c(player).send(new BlacklistSyncCommonS2CPacket.Payload());
+                    PacketSender.s2c(player).send(new ConfigSyncCommonS2CPacket.Payload());
+                });
+
+                return 1;
+            })
+            .pop("reload")
+
             .then(Commands.literal("dump"))
             .requires(source -> source.hasPermission(Commands.LEVEL_ADMINS))
             .executes(context -> {
@@ -45,7 +74,6 @@ public class ServerCommand {
                     return 0;
                 }
             })
-
             .pop("dump");
 
         if (Waila.ENABLE_DEBUG_COMMAND) command
@@ -72,7 +100,7 @@ public class ServerCommand {
                     source.sendSuccess(() -> Component.literal("Locked container " + pos.toShortString() + " with lock \"" + lock + "\""), false);
                     return 1;
                 } else {
-                    source.sendFailure(Component.literal("Couldn't lock container "+pos.toShortString()));
+                    source.sendFailure(Component.literal("Couldn't lock container " + pos.toShortString()));
                 }
 
                 return 0;

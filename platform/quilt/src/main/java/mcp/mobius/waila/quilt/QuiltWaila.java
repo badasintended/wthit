@@ -5,6 +5,7 @@ import mcp.mobius.waila.command.ServerCommand;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.debug.DumpGenerator;
 import mcp.mobius.waila.network.Packets;
+import mcp.mobius.waila.plugin.PluginLoader;
 import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.loader.api.QuiltLoader;
 import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
@@ -30,7 +31,7 @@ public class QuiltWaila extends Waila implements ModInitializer {
                 .ifPresent(m -> DumpGenerator.VERSIONS.put(m.name(), m.version().raw()));
         }
 
-        new QuiltPluginLoader().loadPlugins();
+        PluginLoader.INSTANCE.loadPlugins();
     }
 
 }

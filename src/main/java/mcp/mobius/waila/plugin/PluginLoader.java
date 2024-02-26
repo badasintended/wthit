@@ -15,6 +15,7 @@ import com.google.gson.JsonParser;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.api.WailaConstants;
+import mcp.mobius.waila.api.__internal__.Internals;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.registry.Registrar;
 import mcp.mobius.waila.service.ICommonService;
@@ -22,6 +23,8 @@ import mcp.mobius.waila.util.Log;
 import mcp.mobius.waila.util.ModInfo;
 
 public abstract class PluginLoader {
+
+    public static final PluginLoader INSTANCE = Internals.loadService(PluginLoader.class);
 
     private static final Log LOG = Log.create();
     private static final boolean ENABLE_TEST_PLUGIN = Boolean.getBoolean("waila.enableTestPlugin");
@@ -80,7 +83,8 @@ public abstract class PluginLoader {
         }
     }
 
-    public void loadPlugins() {
+    public final void loadPlugins() {
+        PluginInfo.clear();
         gatherPlugins();
 
         if (ENABLE_TEST_PLUGIN) {

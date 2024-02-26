@@ -1,28 +1,25 @@
 package mcp.mobius.waila.network;
 
-import java.util.stream.Collectors;
-
 import lol.bai.badpackets.api.PacketSender;
 import lol.bai.badpackets.api.config.ConfigPackets;
 import lol.bai.badpackets.api.play.PlayPackets;
-import mcp.mobius.waila.Waila;
-import mcp.mobius.waila.config.ConfigEntry;
-import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.network.Packet.ConfigC2S;
 import mcp.mobius.waila.network.Packet.ConfigS2C;
 import mcp.mobius.waila.network.Packet.PlayC2S;
 import mcp.mobius.waila.network.Packet.PlayS2C;
 import mcp.mobius.waila.network.common.VersionPayload;
 import mcp.mobius.waila.network.common.c2s.VersionCommonC2SPacket;
-import mcp.mobius.waila.network.config.s2c.BlacklistSyncConfigS2CPacket;
-import mcp.mobius.waila.network.config.s2c.ConfigSyncConfigS2CPacket;
+import mcp.mobius.waila.network.common.s2c.BlacklistSyncCommonS2CPacket;
+import mcp.mobius.waila.network.common.s2c.ConfigSyncCommonS2CPacket;
 import mcp.mobius.waila.network.config.s2c.VersionConfigS2CPacket;
 import mcp.mobius.waila.network.play.c2s.BlockDataRequestPlayC2SPacket;
+import mcp.mobius.waila.network.play.c2s.ConfigSyncRequestPlayC2SPacket;
 import mcp.mobius.waila.network.play.c2s.EntityDataRequestPlayC2SPacket;
 import mcp.mobius.waila.network.play.c2s.RawDataRequestContextPlayC2SPacket;
 import mcp.mobius.waila.network.play.c2s.TypedDataRequestContextPlayC2SPacket;
 import mcp.mobius.waila.network.play.s2c.GenerateClientDumpPlayS2CPacket;
 import mcp.mobius.waila.network.play.s2c.RawDataResponsePlayS2CPacket;
+import mcp.mobius.waila.network.play.s2c.ReloadPluginsPlayS2CPacket;
 import mcp.mobius.waila.network.play.s2c.TypedDataResponsePlayS2CPacket;
 
 import static mcp.mobius.waila.mcless.network.NetworkConstants.NETWORK_VERSION;
@@ -35,6 +32,7 @@ public class Packets {
 
         // Play
         register(new BlockDataRequestPlayC2SPacket());
+        register(new ConfigSyncRequestPlayC2SPacket());
         register(new EntityDataRequestPlayC2SPacket());
         register(new RawDataRequestContextPlayC2SPacket());
         register(new TypedDataRequestContextPlayC2SPacket());
@@ -51,14 +49,17 @@ public class Packets {
     }
 
     public static void initClient() {
+        // Common
+        register(new ConfigSyncCommonS2CPacket());
+        register(new BlacklistSyncCommonS2CPacket());
+
         // Config
         register(new VersionConfigS2CPacket());
-        register(new ConfigSyncConfigS2CPacket());
-        register(new BlacklistSyncConfigS2CPacket());
 
         // Play
         register(new GenerateClientDumpPlayS2CPacket());
         register(new RawDataResponsePlayS2CPacket());
+        register(new ReloadPluginsPlayS2CPacket());
         register(new TypedDataResponsePlayS2CPacket());
 
         ConfigPackets.registerClientReadyCallback((handler, sender, client) ->
@@ -81,12 +82,8 @@ public class Packets {
     private static void sendS2CHandshakePackets(PacketSender sender) {
         sendVersionPacket(sender);
 
-        var blacklistConfig = Waila.BLACKLIST_CONFIG.get();
-        sender.send(new BlacklistSyncConfigS2CPacket.Payload(
-            blacklistConfig.blocks, blacklistConfig.blockEntityTypes, blacklistConfig.entityTypes));
-
-        sender.send(new ConfigSyncConfigS2CPacket.Payload(PluginConfig.getSyncableConfigs().stream()
-            .collect(Collectors.toMap(ConfigEntry::getId, ConfigEntry::getLocalValue))));
+        sender.send(new BlacklistSyncCommonS2CPacket.Payload());
+        sender.send(new ConfigSyncCommonS2CPacket.Payload());
     }
 
 }
