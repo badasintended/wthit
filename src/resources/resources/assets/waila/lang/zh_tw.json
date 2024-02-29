@@ -62,7 +62,7 @@
 
   "gui.waila.configuration"                                     : "%s 組態",
   "gui.waila.waila_settings"                                    : "%s 設定",
-  "gui.waila.plugin_settings"                                   : "附屬設定",
+  "gui.waila.plugin_settings.title"                                   : "附屬設定",
 
   "gui.waila.credits"                                           : "銘謝名單",
   "gui.waila.credits.original_mod_by"                           : "原始模組《WAILA》作者",

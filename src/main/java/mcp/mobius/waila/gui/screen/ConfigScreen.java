@@ -14,7 +14,7 @@ import org.jetbrains.annotations.NotNull;
 
 import static mcp.mobius.waila.util.DisplayUtil.createButton;
 
-public abstract class ConfigScreen extends Screen {
+public abstract class ConfigScreen extends YesIAmSureTheClientInstanceIsPresentByTheTimeIUseItScreen {
 
     private final Screen parent;
     private final Runnable saver;
@@ -123,7 +123,6 @@ public abstract class ConfigScreen extends Screen {
     }
 
     @Override
-    @SuppressWarnings("ConstantConditions")
     public void onClose() {
         minecraft.setScreen(parent);
     }

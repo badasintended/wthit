@@ -28,6 +28,7 @@ import mcp.mobius.waila.config.BlacklistConfig;
 import mcp.mobius.waila.config.ConfigEntry;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.gui.hud.theme.ThemeType;
+import mcp.mobius.waila.util.CachedSupplier;
 import mcp.mobius.waila.util.Log;
 import mcp.mobius.waila.util.TypeUtil;
 import net.minecraft.Util;
@@ -41,9 +42,9 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.jetbrains.annotations.Nullable;
 
-public enum Registrar implements IRegistrar {
+public class Registrar implements IRegistrar {
 
-    INSTANCE;
+    private static final CachedSupplier<Registrar> instance = new CachedSupplier<>(Registrar::new);
 
     private static final Log LOG = Log.create();
 
@@ -85,6 +86,14 @@ public enum Registrar implements IRegistrar {
     private int pickerPriority = Integer.MAX_VALUE;
 
     private boolean locked = false;
+
+    public static Registrar get() {
+        return instance.get();
+    }
+
+    public static void destroy() {
+        instance.invalidate();
+    }
 
     private <T> void addConfig(ResourceLocation key, T defaultValue, T clientOnlyValue, boolean serverRequired, boolean merged, ConfigEntry.Type<T> type) {
         assertLock();

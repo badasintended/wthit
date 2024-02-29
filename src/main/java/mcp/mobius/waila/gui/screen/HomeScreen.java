@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 import static mcp.mobius.waila.util.DisplayUtil.createButton;
 
-public class HomeScreen extends Screen {
+public class HomeScreen extends YesIAmSureTheClientInstanceIsPresentByTheTimeIUseItScreen {
 
     private final Screen parent;
 
@@ -21,11 +21,12 @@ public class HomeScreen extends Screen {
     }
 
     @Override
-    @SuppressWarnings("ConstantConditions")
     protected void init() {
+        super.init();
+
         addRenderableWidget(createButton(width / 2 - 100, height / 2 - 48, 200, 20, Component.translatable(Tl.Gui.WAILA_SETTINGS, WailaConstants.MOD_NAME), w ->
             minecraft.setScreen(new WailaConfigScreen(this))));
-        addRenderableWidget(createButton(width / 2 - 100, height / 2 - 24, 200, 20, Component.translatable(Tl.Gui.PLUGIN_SETTINGS), w ->
+        addRenderableWidget(createButton(width / 2 - 100, height / 2 - 24, 200, 20, Component.translatable(Tl.Gui.PluginSettings.TITLE), w ->
             minecraft.setScreen(new PluginConfigScreen(this))));
         addRenderableWidget(createButton(width / 2 - 100, height / 2, 200, 20, Component.translatable(Tl.Gui.CREDITS), w ->
             minecraft.setScreen(new CreditsScreen(this))));

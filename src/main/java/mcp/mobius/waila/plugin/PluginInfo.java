@@ -29,6 +29,9 @@ public class PluginInfo implements IPluginInfo {
     private final List<String> requiredModIds;
     private final boolean legacy;
 
+    // TODO: toggleable plugins
+    private boolean enabled = true;
+
     private PluginInfo(ModInfo modInfo, ResourceLocation pluginId, Side side, IWailaPlugin initializer, List<String> requiredModIds, boolean legacy) {
         this.modInfo = modInfo;
         this.pluginId = pluginId;
@@ -97,6 +100,11 @@ public class PluginInfo implements IPluginInfo {
     @Override
     public List<String> getRequiredModIds() {
         return requiredModIds;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
     }
 
     public boolean isLegacy() {

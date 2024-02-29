@@ -62,7 +62,7 @@
 
   "gui.waila.configuration"                                     : "Konfiguration för %s",
   "gui.waila.waila_settings"                                    : "Inställningar för %s",
-  "gui.waila.plugin_settings"                                   : "Inställningar för insticksprogram",
+  "gui.waila.plugin_settings.title"                                   : "Inställningar för insticksprogram",
 
   "gui.waila.credits"                                           : "Erkännande",
   "gui.waila.credits.original_mod_by"                           : "Originalmodden \"WAILA\" av",

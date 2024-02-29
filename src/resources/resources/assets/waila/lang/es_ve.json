@@ -62,7 +62,7 @@
 
   "gui.waila.configuration"                                     : "%s — Configuración",
   "gui.waila.waila_settings"                                    : "Opciones de %s",
-  "gui.waila.plugin_settings"                                   : "Opciones del plugin",
+  "gui.waila.plugin_settings.title"                                   : "Opciones del plugin",
 
 
 

@@ -62,7 +62,7 @@
 
   "gui.waila.configuration"                                     : "%s 환경설정",
   "gui.waila.waila_settings"                                    : "%s 설정",
-  "gui.waila.plugin_settings"                                   : "플러그인 설정",
+  "gui.waila.plugin_settings.title"                                   : "플러그인 설정",
 
   "gui.waila.credits"                                           : "크레딧",
   "gui.waila.credits.original_mod_by"                           : "원본 \"WAILA\" 모드 제작",

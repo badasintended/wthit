@@ -6,19 +6,19 @@ import lol.bai.badpackets.api.PacketSender;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.buildconst.Tl;
-import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.debug.DumpGenerator;
 import mcp.mobius.waila.mixin.BaseContainerBlockEntityAccess;
-import mcp.mobius.waila.network.common.s2c.BlacklistSyncCommonS2CPacket;
-import mcp.mobius.waila.network.common.s2c.ConfigSyncCommonS2CPacket;
 import mcp.mobius.waila.network.play.s2c.GenerateClientDumpPlayS2CPacket;
-import mcp.mobius.waila.network.play.s2c.ReloadPluginsPlayS2CPacket;
+import mcp.mobius.waila.plugin.PluginInfo;
 import mcp.mobius.waila.plugin.PluginLoader;
+import net.minecraft.ChatFormatting;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.ComponentUtils;
+import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.LockCode;
@@ -27,28 +27,48 @@ import net.minecraft.world.item.Items;
 
 public class ServerCommand {
 
+    private static int listPlugins(CommandSourceStack source, boolean enabled) {
+        var plugins = PluginInfo.getAll().stream().filter(it -> enabled == it.isEnabled()).toList();
+
+        if (plugins.isEmpty()) source.sendSuccess(() -> Component.translatable(
+            enabled ? Tl.Command.Plugin.List.Enabled.NONE : Tl.Command.Plugin.List.Available.NONE), false);
+        else source.sendSuccess(() -> Component.translatable(
+            enabled ? Tl.Command.Plugin.List.Enabled.SUCCESS : Tl.Command.Plugin.List.Available.SUCCESS,
+            plugins.size(),
+            ComponentUtils.formatList(plugins, p -> ComponentUtils.wrapInSquareBrackets(Component.literal(p.getPluginId().toString())).withStyle(s -> s
+                .withColor(enabled ? ChatFormatting.GREEN : ChatFormatting.RED)
+                .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.empty().append(p.getModInfo().getName()))))
+            )), false);
+
+        return plugins.size();
+    }
+
     public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
         var command = new ArgumentBuilderBuilder<>(Commands.literal(WailaConstants.NAMESPACE))
+            .then(Commands.literal("plugin"))
+            .requires(source -> source.hasPermission(Commands.LEVEL_ADMINS))
+
+            .then(Commands.literal("list"))
+            .executes(context -> {
+                var source = context.getSource();
+                return listPlugins(source, true) + listPlugins(source, false);
+            })
+
+            .then(Commands.literal("enabled"))
+            .executes(context -> listPlugins(context.getSource(), true))
+            .pop("enabled")
+
+            .then(Commands.literal("available"))
+            .executes(context -> listPlugins(context.getSource(), false))
+            .pop("available")
+            .pop("list")
+            .pop("plugin")
+
             .then(Commands.literal("reload"))
             .requires(source -> source.hasPermission(Commands.LEVEL_ADMINS))
             .executes(context -> {
                 var server = context.getSource().getServer();
-
-                server.execute(() -> {
-                    PluginLoader.INSTANCE.loadPlugins();
-                    Waila.BLACKLIST_CONFIG.invalidate();
-                    PluginConfig.reload();
-                });
-
-                server.getPlayerList().getPlayers().forEach(player -> {
-                    if (!server.isSingleplayerOwner(player.getGameProfile())) {
-                        PacketSender.s2c(player).send(new ReloadPluginsPlayS2CPacket.Payload());
-                    }
-
-                    PacketSender.s2c(player).send(new BlacklistSyncCommonS2CPacket.Payload());
-                    PacketSender.s2c(player).send(new ConfigSyncCommonS2CPacket.Payload());
-                });
-
+                server.execute(() -> PluginLoader.reloadServerPlugins(server));
                 return 1;
             })
             .pop("reload")

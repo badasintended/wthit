@@ -39,7 +39,7 @@ public class TypedDataRequestContextPlayC2SPacket implements Packet.PlayC2S<Type
 
         @Override
         public void write(FriendlyByteBuf buf) {
-            buf.writeResourceLocation(Registrar.INSTANCE.dataType2Id.get(ctx.getClass()));
+            buf.writeResourceLocation(Registrar.get().dataType2Id.get(ctx.getClass()));
             ctx.write(buf);
         }
 

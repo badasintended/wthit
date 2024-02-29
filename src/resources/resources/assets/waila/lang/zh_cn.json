@@ -66,7 +66,7 @@
 
   "gui.waila.configuration"                                     : "%s配置",
   "gui.waila.waila_settings"                                    : "%s设置",
-  "gui.waila.plugin_settings"                                   : "插件设置",
+  "gui.waila.plugin_settings.title"                                   : "插件设置",
 
   "gui.waila.credits"                                           : "致谢名单",
   "gui.waila.credits.original_mod_by"                           : "“WAILA”模组原作者",

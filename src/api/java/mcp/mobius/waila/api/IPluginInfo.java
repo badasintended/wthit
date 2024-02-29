@@ -32,6 +32,8 @@ public interface IPluginInfo {
 
     List<String> getRequiredModIds();
 
+    boolean isEnabled();
+
     enum Side {
         /**
          * This plugin only loaded on the client jar.
