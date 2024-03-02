@@ -1,6 +1,6 @@
 10.x - 1.20.4 - dev/master - java 17
 ====================================
-10.3.1   - Fixed plugin not registered when earlier plugin definition didn't match the current environment
+10.3.3   - Fixed plugin not registered when earlier plugin definition didn't match the current environment
 10.3.2   - Fixed missing API classes on Quilt
 10.3.1   - Fixed crash (#249)
 10.3.0   - [API] Experimental: Added `IToolType` to register other tool types for the harvestability plugin
