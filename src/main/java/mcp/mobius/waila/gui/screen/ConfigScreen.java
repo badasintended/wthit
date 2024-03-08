@@ -2,23 +2,32 @@ package mcp.mobius.waila.gui.screen;
 
 import java.util.List;
 
+import com.mojang.blaze3d.platform.InputConstants;
+import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.gui.widget.ConfigListWidget;
 import mcp.mobius.waila.gui.widget.value.ConfigValue;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.components.toasts.SystemToast;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import static mcp.mobius.waila.util.DisplayUtil.createButton;
 
 public abstract class ConfigScreen extends YesIAmSureTheClientInstanceIsPresentByTheTimeIUseItScreen {
 
     private final Screen parent;
-    private final Runnable saver;
-    private final Runnable canceller;
+    private final @Nullable Runnable saver;
+    private final @Nullable Runnable canceller;
+
+    private boolean showEscWarning = true;
+    private long lastEscPressTime = 0;
+    private int escPressed = 0;
 
     @SuppressWarnings("unchecked")
     private final List<GuiEventListener> children = (List<GuiEventListener>) children();
@@ -26,7 +35,7 @@ public abstract class ConfigScreen extends YesIAmSureTheClientInstanceIsPresentB
 
     protected boolean cancelled;
 
-    public ConfigScreen(Screen parent, Component title, Runnable saver, Runnable canceller) {
+    public ConfigScreen(Screen parent, Component title, @Nullable Runnable saver, @Nullable Runnable canceller) {
         super(title);
 
         this.parent = parent;
@@ -119,7 +128,37 @@ public abstract class ConfigScreen extends YesIAmSureTheClientInstanceIsPresentB
 
     @Override
     public boolean shouldCloseOnEsc() {
+        if (showEscWarning) {
+            var now = System.currentTimeMillis();
+            if ((now - lastEscPressTime) > 2 * 1000) {
+                escPressed = 0;
+            }
+
+            lastEscPressTime = now;
+            escPressed++;
+            if (escPressed > 5) {
+                minecraft.getToasts().addToast(new SystemToast(
+                    SystemToast.SystemToastId.PACK_COPY_FAILURE,
+                    Component.translatable(Tl.Gui.EscWarning.UMM),
+                    Component.translatable(Tl.Gui.EscWarning.LMAO,
+                        CommonComponents.GUI_DONE.copy().withStyle(ChatFormatting.GOLD),
+                        CommonComponents.GUI_CANCEL.copy().withStyle(ChatFormatting.DARK_PURPLE))
+                ));
+                showEscWarning = false;
+                escPressed = 0;
+            }
+        }
+
         return false;
+    }
+
+    @Override
+    public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
+        if (keyCode == InputConstants.KEY_ESCAPE) {
+            showEscWarning = true;
+        }
+
+        return super.keyReleased(keyCode, scanCode, modifiers);
     }
 
     @Override

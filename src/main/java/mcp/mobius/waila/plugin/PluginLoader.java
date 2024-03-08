@@ -5,7 +5,6 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -15,7 +14,6 @@ import com.google.gson.JsonParser;
 import lol.bai.badpackets.api.PacketSender;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IPluginInfo;
-import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.__internal__.Internals;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.network.common.s2c.BlacklistSyncCommonS2CPacket;
@@ -34,7 +32,6 @@ public abstract class PluginLoader {
     public static final PluginLoader INSTANCE = Internals.loadService(PluginLoader.class);
 
     private static final Log LOG = Log.create();
-    private static final boolean ENABLE_TEST_PLUGIN = Boolean.getBoolean("waila.enableTestPlugin");
 
     protected static final String[] PLUGIN_JSON_FILES = {
         "waila_plugins.json",
@@ -44,6 +41,7 @@ public abstract class PluginLoader {
     protected static final String KEY_INITIALIZER = "initializer";
     protected static final String KEY_SIDE = "side";
     protected static final String KEY_REQUIRED = "required";
+    protected static final String KEY_DEFAULT_ENABLED = "defaultEnabled";
     protected static final Map<String, IPluginInfo.Side> SIDES = Map.of(
         "client", IPluginInfo.Side.CLIENT,
         "server", IPluginInfo.Side.SERVER,
@@ -111,7 +109,9 @@ public abstract class PluginLoader {
                     }
                 }
 
-                PluginInfo.register(modId, pluginId, side, initializer, required, false);
+                var defaultEnabled = !plugin.has(KEY_DEFAULT_ENABLED) || plugin.get(KEY_DEFAULT_ENABLED).getAsBoolean();
+
+                PluginInfo.register(modId, pluginId, side, initializer, required, defaultEnabled, false);
             }
         } catch (IOException e) {
             throw new RuntimeException(readError(path), e);
@@ -122,10 +122,7 @@ public abstract class PluginLoader {
         Registrar.destroy();
         PluginInfo.clear();
         gatherPlugins();
-
-        if (ENABLE_TEST_PLUGIN) {
-            PluginInfo.register(WailaConstants.MOD_ID, "waila:test", IPluginInfo.Side.BOTH, "mcp.mobius.waila.plugin.test.WailaTest", Collections.emptyList(), false);
-        }
+        PluginInfo.saveToggleConfig();
 
         IPluginInfo extraPlugin = null;
 
@@ -135,7 +132,7 @@ public abstract class PluginLoader {
             if (info.getPluginId().equals(Waila.id("extra"))) {
                 extraPlugin = info;
             } else {
-                register(info);
+                initialize(info);
             }
 
             if (((PluginInfo) info).isLegacy()) {
@@ -143,7 +140,7 @@ public abstract class PluginLoader {
             }
         }
 
-        if (extraPlugin != null) register(extraPlugin);
+        if (extraPlugin != null) initialize(extraPlugin);
 
         if (!legacyPlugins.isEmpty()) {
             LOG.warn("Found plugins registered via legacy platform-dependant method:");
@@ -155,9 +152,17 @@ public abstract class PluginLoader {
         PluginConfig.reload();
     }
 
-    private void register(IPluginInfo info) {
-        LOG.info("Registering plugin {} at {}", info.getPluginId(), info.getInitializer().getClass().getCanonicalName());
+    private void initialize(IPluginInfo info) {
+        Registrar.get().attach(info);
+
+        if (info.isEnabled()) {
+            LOG.info("Initializing plugin {} at {}", info.getPluginId(), info.getInitializer().getClass().getCanonicalName());
+        } else {
+            LOG.info("Skipping disabled plugin {}", info.getPluginId());
+        }
+
         info.getInitializer().register(Registrar.get());
+        Registrar.get().attach(null);
     }
 
     private static String readError(Path path) {

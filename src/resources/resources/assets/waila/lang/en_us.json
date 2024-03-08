@@ -90,8 +90,12 @@
   "gui.waila.configuration"                                     : "%s Configuration",
   "gui.waila.waila_settings"                                    : "%s Settings",
 
-  "gui.waila.plugin_settings.title"                             : "Plugin Settings",
-  "gui.waila.plugin_settings.reload"                            : "Reload Plugins",
+  "gui.waila.esc_warning.umm"                                   : "Umm...",
+  "gui.waila.esc_warning.lmao"                                  : "Press the %s or %s button to close",
+
+  "gui.waila.plugin.toggle"                                     : "Plugin Toggles",
+  "gui.waila.plugin.toggle.locked"                              : "Can't disable this plugin",
+  "gui.waila.plugin.settings"                                   : "Plugin Settings",
 
   "gui.waila.credits"                                           : "Credits",
   "gui.waila.credits.original_mod_by"                           : "Original \"WAILA\" Mod by",
@@ -102,10 +106,15 @@
   "command.waila.local_dump_success"                            : "Successfully dumped local server to %s",
   "command.waila.client_dump_success"                           : "Successfully dumped client to %s",
 
+  "command.waila.plugin.reload"                                 : "Plugins reloaded",
   "command.waila.plugin.list.available.none"                    : "There are no more plugins available",
-  "command.waila.plugin.list.available.success"                 : "There are %s data plugin(s) available: %s",
+  "command.waila.plugin.list.available.success"                 : "There are %s plugin(s) available: %s",
   "command.waila.plugin.list.enabled.none"                      : "There are no plugins enabled",
   "command.waila.plugin.list.enabled.success"                   : "There are %s plugin(s) enabled: %s",
+  "command.waila.plugin.modify.disable"                         : "Disabling plugin %s",
+  "command.waila.plugin.modify.enable"                          : "Enabling plugin %s",
+  "command.waila.plugin.unknown"                                : "Unknown plugin '%s'",
+  "command.waila.plugin.locked"                                 : "Locked plugin '%s'",
 
   "command.waila.overlay.true"                                  : "Overlay enabled",
   "command.waila.overlay.false"                                 : "Overlay disabled",

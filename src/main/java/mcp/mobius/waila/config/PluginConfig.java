@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonPrimitive;
@@ -34,20 +35,25 @@ public enum PluginConfig implements IPluginConfig {
         }.getType(),
         LinkedHashMap::new);
 
-    public static final Map<ResourceLocation, ConfigEntry<?>> CONFIGS = new LinkedHashMap<>();
+    private static final Map<ResourceLocation, ConfigEntry<?>> CONFIGS = new LinkedHashMap<>();
 
     public static <T> void addConfig(ConfigEntry<T> entry) {
         CONFIGS.put(entry.getId(), entry);
     }
 
+    private static Stream<ResourceLocation> getKeyStream() {
+        return CONFIGS.keySet().stream()
+            .filter(it -> getEntry(it).getOrigin().isEnabled());
+    }
+
     public static Set<ResourceLocation> getAllKeys(String namespace) {
-        return getAllKeys().stream()
+        return getKeyStream()
             .filter(id -> id.getNamespace().equals(namespace))
             .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
     public static Set<ResourceLocation> getAllKeys() {
-        return CONFIGS.keySet();
+        return getKeyStream().collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
     public static Set<ConfigEntry<Object>> getSyncableConfigs() {
@@ -110,9 +116,11 @@ public enum PluginConfig implements IPluginConfig {
     }
 
     private <T> T getValue(ResourceLocation key, T defaultValue) {
-        return CONFIGS.containsKey(key)
-            ? (T) CONFIGS.get(key).getValue(this == SERVER)
-            : defaultValue;
+        var entry = CONFIGS.get(key);
+        if (entry != null && entry.getOrigin().isEnabled()) {
+            return (T) entry.getValue(this == SERVER);
+        }
+        return defaultValue;
     }
 
     @Override

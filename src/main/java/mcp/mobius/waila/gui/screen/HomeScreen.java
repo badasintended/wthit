@@ -24,19 +24,21 @@ public class HomeScreen extends YesIAmSureTheClientInstanceIsPresentByTheTimeIUs
     protected void init() {
         super.init();
 
-        addRenderableWidget(createButton(width / 2 - 100, height / 2 - 48, 200, 20, Component.translatable(Tl.Gui.WAILA_SETTINGS, WailaConstants.MOD_NAME), w ->
+        addRenderableWidget(createButton(width / 2 - 100, height / 2 - 60, 200, 20, Component.translatable(Tl.Gui.WAILA_SETTINGS, WailaConstants.MOD_NAME), w ->
             minecraft.setScreen(new WailaConfigScreen(this))));
-        addRenderableWidget(createButton(width / 2 - 100, height / 2 - 24, 200, 20, Component.translatable(Tl.Gui.PluginSettings.TITLE), w ->
+        addRenderableWidget(createButton(width / 2 - 100, height / 2 - 36, 200, 20, Component.translatable(Tl.Gui.Plugin.TOGGLE), w ->
+            minecraft.setScreen(new PluginToggleScreen(this))));
+        addRenderableWidget(createButton(width / 2 - 100, height / 2 - 12, 200, 20, Component.translatable(Tl.Gui.Plugin.SETTINGS), w ->
             minecraft.setScreen(new PluginConfigScreen(this))));
-        addRenderableWidget(createButton(width / 2 - 100, height / 2, 200, 20, Component.translatable(Tl.Gui.CREDITS), w ->
+        addRenderableWidget(createButton(width / 2 - 100, height / 2 + 12, 200, 20, Component.translatable(Tl.Gui.CREDITS), w ->
             minecraft.setScreen(new CreditsScreen(this))));
-        addRenderableWidget(createButton(width / 2 - 50, height / 2 + 24, 100, 20, CommonComponents.GUI_DONE, w ->
+        addRenderableWidget(createButton(width / 2 - 50, height / 2 + 36, 100, 20, CommonComponents.GUI_DONE, w ->
             minecraft.setScreen(parent)));
     }
 
     @Override
     public void render(@NotNull GuiGraphics ctx, int x, int y, float partialTicks) {
-        ctx.drawCenteredString(font, title.getString(), width / 2, height / 2 - 50 - font.lineHeight, 0xFFFFFF);
+        ctx.drawCenteredString(font, title.getString(), width / 2, height / 2 - 62 - font.lineHeight, 0xFFFFFF);
         super.render(ctx, x, y, partialTicks);
     }
 

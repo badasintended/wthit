@@ -20,9 +20,7 @@ import mcp.mobius.waila.gui.widget.value.EnumValue;
 import mcp.mobius.waila.gui.widget.value.InputValue;
 import mcp.mobius.waila.gui.widget.value.IntInputValue;
 import mcp.mobius.waila.network.common.VersionPayload;
-import mcp.mobius.waila.plugin.PluginLoader;
 import mcp.mobius.waila.registry.Registrar;
-import mcp.mobius.waila.util.DisplayUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.client.gui.screens.Screen;
@@ -46,27 +44,12 @@ public class PluginConfigScreen extends ConfigScreen {
     }
 
     public PluginConfigScreen(Screen parent) {
-        super(parent, Component.translatable(Tl.Gui.PluginSettings.TITLE), PluginConfig::save, PluginConfig::reload);
+        super(parent, Component.translatable(Tl.Gui.Plugin.SETTINGS), PluginConfig::save, PluginConfig::reload);
     }
 
     @SuppressWarnings("unchecked")
     private static <T> void register(ConfigEntry.Type<T> type, ConfigValueFunction<T> function) {
         ENTRY_TO_VALUE.put((ConfigEntry.Type<Object>) type, (ConfigValueFunction<Object>) function);
-    }
-
-    @Override
-    public void init() {
-        super.init();
-
-        addRenderableWidget(DisplayUtil.createButton(width - (100 + 10), 10, 100, 20, Component.translatable(Tl.Gui.PluginSettings.RELOAD), button -> {
-            var integratedServer = minecraft.getSingleplayerServer();
-
-            if (integratedServer != null) {
-                PluginLoader.reloadServerPlugins(integratedServer);
-            } else {
-                PluginLoader.reloadClientPlugins();
-            }
-        }));
     }
 
     @Override
@@ -76,9 +59,10 @@ public class PluginConfigScreen extends ConfigScreen {
         for (var namespace : PluginConfig.getNamespaces()) {
             var namespaceTlKey = Tl.Config.PLUGIN_ + namespace;
             var keys = PluginConfig.getAllKeys(namespace);
+            if (keys.isEmpty()) continue;
 
             options.with(new ButtonEntry(namespaceTlKey, 100, 20, w -> minecraft.setScreen(new ConfigScreen(PluginConfigScreen.this,
-                Component.translatable(Tl.Gui.PluginSettings.TITLE).append(" > ").withStyle(ChatFormatting.DARK_GRAY)
+                Component.translatable(Tl.Gui.Plugin.SETTINGS).append(" > ").withStyle(ChatFormatting.DARK_GRAY)
                     .append(Component.translatable(namespaceTlKey).withStyle(ChatFormatting.WHITE))) {
                 @Override
                 public ConfigListWidget getOptions() {

@@ -105,7 +105,7 @@ public class QuiltPluginLoader extends PluginLoader {
                     continue;
                 }
 
-                PluginInfo.register(mod.metadata().id(), id, side, initializer, requiredDeps, true);
+                PluginInfo.register(mod.metadata().id(), id, side, initializer, requiredDeps, true, true);
             }
         }
     }

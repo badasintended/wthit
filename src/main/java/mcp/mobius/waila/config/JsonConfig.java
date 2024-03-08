@@ -1,6 +1,7 @@
 package mcp.mobius.waila.config;
 
 import java.io.File;
+import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -11,6 +12,7 @@ import java.util.function.ObjIntConsumer;
 import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
 
+import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import mcp.mobius.waila.Waila;
@@ -37,7 +39,7 @@ public class JsonConfig<T> implements IJsonConfig<T> {
     private final ConfigIo<T> io;
     private final CachedSupplier<T> getter;
 
-    JsonConfig(Path path, Class<T> clazz, Supplier<T> factory, Gson gson, int currentVersion, ToIntFunction<T> versionGetter, ObjIntConsumer<T> versionSetter) {
+    JsonConfig(Path path, Type clazz, Supplier<T> factory, Gson gson, int currentVersion, ToIntFunction<T> versionGetter, ObjIntConsumer<T> versionSetter) {
         this.path = path.toAbsolutePath();
         this.io = new ConfigIo<>(LOG::warn, LOG::error, gson, clazz, factory, currentVersion, versionGetter, versionSetter);
         this.getter = new CachedSupplier<>(() -> io.read(this.path));
@@ -94,7 +96,7 @@ public class JsonConfig<T> implements IJsonConfig<T> {
 
     public static class Builder<T> implements Builder0<T>, Builder1<T> {
 
-        final Class<T> clazz;
+        final Type type;
         Path path;
         Gson gson;
         int currentVersion;
@@ -103,15 +105,16 @@ public class JsonConfig<T> implements IJsonConfig<T> {
         Supplier<T> factory;
 
         @SuppressWarnings("unchecked")
-        public Builder(Class<T> clazz) {
-            this.clazz = clazz;
+        public Builder(Type type) {
+            this.type = type;
             this.gson = DEFAULT_GSON;
             this.currentVersion = 0;
             this.versionGetter = DEFAULT_VERSION_GETTER;
             this.versionSetter = DEFAULT_VERSION_SETTER;
-            this.factory = () -> {
+
+            if (type instanceof Class<?> clazz) this.factory = () -> {
                 try {
-                    return clazz.getConstructor().newInstance();
+                    return (T) clazz.getConstructor().newInstance();
                 } catch (Exception e) {
                     throw new RuntimeException("Failed to create new config instance", e);
                 }
@@ -158,7 +161,8 @@ public class JsonConfig<T> implements IJsonConfig<T> {
 
         @Override
         public IJsonConfig<T> build() {
-            return new JsonConfig<>(path, clazz, factory, gson, currentVersion, versionGetter, versionSetter);
+            Preconditions.checkNotNull(factory, "Default value factory must not be null");
+            return new JsonConfig<>(path, type, factory, gson, currentVersion, versionGetter, versionSetter);
         }
 
     }

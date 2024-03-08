@@ -7,6 +7,7 @@ import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import mcp.mobius.waila.api.__internal__.IApiService;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
@@ -19,8 +20,20 @@ import org.jetbrains.annotations.Nullable;
 @ApiStatus.NonExtendable
 public interface IJsonConfig<T> {
 
+    /**
+     * Creates a builder for concrete config type.
+     */
     static <T> Builder0<T> of(Class<T> clazz) {
         return IApiService.INSTANCE.createConfigBuilder(clazz);
+    }
+
+    /**
+     * Creates a builder for generic config type.
+     * <p>
+     * <b>Note</b>: the {@linkplain Builder1#factory(Supplier) object factory} must be specified.
+     */
+    static <T> Builder0<T> of(TypeToken<T> type) {
+        return IApiService.INSTANCE.createConfigBuilder(type.getType());
     }
 
     /**

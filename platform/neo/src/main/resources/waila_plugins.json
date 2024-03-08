@@ -27,5 +27,10 @@
     "initializer": "mcp.mobius.waila.plugin.neo.WailaPluginNeo",
     "side"       : "*",
     "required"   : ["neoforge"]
+  },
+
+  "waila:test"              : {
+    "initializer"   : "mcp.mobius.waila.plugin.test.WailaPluginTest",
+    "defaultEnabled": false
   }
 }
