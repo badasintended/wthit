@@ -95,7 +95,7 @@ public abstract class PluginLoader {
                     : IPluginInfo.Side.BOTH;
 
                 if (!side.matches(ICommonService.INSTANCE.getSide())) {
-                    break;
+                    continue;
                 }
 
                 List<String> required = new ArrayList<>();
@@ -106,7 +106,7 @@ public abstract class PluginLoader {
                         if (ModInfo.get(requiredModId).isPresent()) {
                             required.add(requiredModId);
                         } else {
-                            break outer;
+                            continue outer;
                         }
                     }
                 }
