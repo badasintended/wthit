@@ -19,7 +19,7 @@ public class QuiltWaila extends Waila implements ModInitializer {
         Packets.initServer();
 
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) ->
-            ServerCommand.register(dispatcher));
+            new ServerCommand().register(dispatcher));
 
         ServerLifecycleEvents.STARTING.register(server -> PluginConfig.reload());
         ServerLifecycleEvents.STOPPED.register(server -> onServerStopped());

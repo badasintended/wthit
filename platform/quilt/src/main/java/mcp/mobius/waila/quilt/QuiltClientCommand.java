@@ -10,33 +10,24 @@ import org.quiltmc.qsl.command.api.client.QuiltClientCommandSource;
 
 public class QuiltClientCommand extends ClientCommand<QuiltClientCommandSource> {
 
-    public QuiltClientCommand() {
-        super(new ArgumentBuilderFactory<>() {
-            @Override
-            public LiteralArgumentBuilder<QuiltClientCommandSource> literal(String name) {
-                return ClientCommandManager.literal(name);
-            }
-
-            @Override
-            public <T> RequiredArgumentBuilder<QuiltClientCommandSource, T> required(String name, ArgumentType<T> type) {
-                return ClientCommandManager.argument(name, type);
-            }
-        });
+    @Override
+    protected LiteralArgumentBuilder<QuiltClientCommandSource> literal(String name) {
+        return ClientCommandManager.literal(name);
     }
 
     @Override
-    protected FeedbackSender feedback(QuiltClientCommandSource source) {
-        return new FeedbackSender() {
-            @Override
-            public void success(Component message) {
-                source.sendFeedback(message);
-            }
+    protected <T> RequiredArgumentBuilder<QuiltClientCommandSource, T> argument(String name, ArgumentType<T> type) {
+        return ClientCommandManager.argument(name, type);
+    }
 
-            @Override
-            public void fail(Component message) {
-                source.sendError(message);
-            }
-        };
+    @Override
+    protected void success(QuiltClientCommandSource source, Supplier<Component> msg) {
+        source.sendFeedback(msg.get());
+    }
+
+    @Override
+    protected void fail(QuiltClientCommandSource source, Component msg) {
+        source.sendError(msg);
     }
 
 }

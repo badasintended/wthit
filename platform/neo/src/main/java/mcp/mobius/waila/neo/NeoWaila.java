@@ -61,7 +61,7 @@ public class NeoWaila extends Waila {
 
         @SubscribeEvent
         static void registerCommands(RegisterCommandsEvent event) {
-            ServerCommand.register(event.getDispatcher());
+            new ServerCommand().register(event.getDispatcher());
         }
 
     }
