@@ -100,7 +100,7 @@ public class FabricPluginLoader extends PluginLoader {
                     continue;
                 }
 
-                PluginInfo.register(mod.getMetadata().getId(), id, side, initializer, requiredDeps, true);
+                PluginInfo.register(mod.getMetadata().getId(), id, side, initializer, requiredDeps, true, true);
             }
         }
     }

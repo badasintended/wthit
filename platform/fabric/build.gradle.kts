@@ -63,10 +63,13 @@ loom {
     }
 
     runs {
+        getByName("client") {
+            programArgs("--username", "A")
+        }
+
         configureEach {
             isIdeConfigGenerated = true
-            vmArgs += "-Dwaila.enableTestPlugin=true"
-            vmArgs += "-Dwaila.debugCommands=true"
+            runDir = "run/${namer.determineName(this)}"
         }
     }
 }

@@ -27,5 +27,10 @@
     "initializer": "mcp.mobius.waila.plugin.forge.WailaPluginForge",
     "side"       : "*",
     "required"   : ["forge"]
+  },
+
+  "waila:test"              : {
+    "initializer"   : "mcp.mobius.waila.plugin.test.WailaPluginTest",
+    "defaultEnabled": false
   }
 }

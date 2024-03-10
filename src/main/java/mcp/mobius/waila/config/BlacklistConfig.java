@@ -114,8 +114,8 @@ public class BlacklistConfig {
             var object = new JsonObject();
 
             var comments = """
-                On the SERVER, changes will be applied after the server is restarted
-                On the CLIENT, changes will be applied after player quit and rejoin a world
+                Run /waila reload to apply changes server-wide.
+                Run /wailac reload to apply changes to only your client.
                                 
                 Rule Operators:
                 @namespace - Filter objects based on their namespace location

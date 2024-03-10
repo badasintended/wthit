@@ -6,6 +6,7 @@ import mcp.mobius.waila.command.ServerCommand;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.debug.DumpGenerator;
 import mcp.mobius.waila.network.Packets;
+import mcp.mobius.waila.plugin.PluginLoader;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModList;
@@ -37,7 +38,7 @@ public class NeoWaila extends Waila {
 
     @SubscribeEvent
     static void loadComplete(FMLLoadCompleteEvent event) {
-        new NeoPluginLoader().loadPlugins();
+        PluginLoader.INSTANCE.loadPlugins();
     }
 
     @EventBusSubscriber(modid = WailaConstants.WAILA)
@@ -60,7 +61,7 @@ public class NeoWaila extends Waila {
 
         @SubscribeEvent
         static void registerCommands(RegisterCommandsEvent event) {
-            ServerCommand.register(event.getDispatcher());
+            new ServerCommand().register(event.getDispatcher());
         }
 
     }

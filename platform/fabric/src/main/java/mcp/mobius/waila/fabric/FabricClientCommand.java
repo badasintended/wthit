@@ -1,5 +1,7 @@
 package mcp.mobius.waila.fabric;
 
+import java.util.function.Supplier;
+
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
@@ -10,33 +12,24 @@ import net.minecraft.network.chat.Component;
 
 public class FabricClientCommand extends ClientCommand<FabricClientCommandSource> {
 
-    public FabricClientCommand() {
-        super(new ArgumentBuilderFactory<>() {
-            @Override
-            public LiteralArgumentBuilder<FabricClientCommandSource> literal(String name) {
-                return ClientCommandManager.literal(name);
-            }
-
-            @Override
-            public <T> RequiredArgumentBuilder<FabricClientCommandSource, T> required(String name, ArgumentType<T> type) {
-                return ClientCommandManager.argument(name, type);
-            }
-        });
+    @Override
+    protected LiteralArgumentBuilder<FabricClientCommandSource> literal(String name) {
+        return ClientCommandManager.literal(name);
     }
 
     @Override
-    protected FeedbackSender feedback(FabricClientCommandSource source) {
-        return new FeedbackSender() {
-            @Override
-            public void success(Component message) {
-                source.sendFeedback(message);
-            }
+    protected <T> RequiredArgumentBuilder<FabricClientCommandSource, T> argument(String name, ArgumentType<T> type) {
+        return ClientCommandManager.argument(name, type);
+    }
 
-            @Override
-            public void fail(Component message) {
-                source.sendError(message);
-            }
-        };
+    @Override
+    protected void success(FabricClientCommandSource source, Supplier<Component> msg) {
+        source.sendFeedback(msg.get());
+    }
+
+    @Override
+    protected void fail(FabricClientCommandSource source, Component msg) {
+        source.sendError(msg);
     }
 
 }

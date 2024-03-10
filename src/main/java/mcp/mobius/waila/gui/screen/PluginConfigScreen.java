@@ -28,7 +28,6 @@ import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
-@SuppressWarnings({"unchecked", "rawtypes"})
 public class PluginConfigScreen extends ConfigScreen {
 
     private static final String NO_CATEGORY = "no_category";
@@ -36,31 +35,34 @@ public class PluginConfigScreen extends ConfigScreen {
 
     static {
         register(ConfigEntry.BOOLEAN, (key, name, value, defaultValue, save) -> new BooleanValue(name, value, defaultValue, save));
-        register(ConfigEntry.INTEGER, (key, name, value, defaultValue, save) -> new IntInputValue(name, value, defaultValue, save, Registrar.INSTANCE.intConfigFormats.get(key)));
+        register(ConfigEntry.INTEGER, (key, name, value, defaultValue, save) -> new IntInputValue(name, value, defaultValue, save, Registrar.get().intConfigFormats.get(key)));
         register(ConfigEntry.DOUBLE, (key, name, value, defaultValue, save) -> new InputValue<>(name, value, defaultValue, save, InputValue.DECIMAL));
         register(ConfigEntry.STRING, (key, name, value, defaultValue, save) -> new InputValue<>(name, value, defaultValue, save, InputValue.ANY));
+
+        //noinspection rawtypes,unchecked
         register(ConfigEntry.ENUM, (key, name, value, defaultValue, save) -> new EnumValue(name, value.getDeclaringClass().getEnumConstants(), value, defaultValue, save));
     }
 
     public PluginConfigScreen(Screen parent) {
-        super(parent, Component.translatable(Tl.Gui.PLUGIN_SETTINGS), PluginConfig::save, PluginConfig::reload);
+        super(parent, Component.translatable(Tl.Gui.Plugin.SETTINGS), PluginConfig::save, PluginConfig::reload);
     }
 
+    @SuppressWarnings("unchecked")
     private static <T> void register(ConfigEntry.Type<T> type, ConfigValueFunction<T> function) {
         ENTRY_TO_VALUE.put((ConfigEntry.Type<Object>) type, (ConfigValueFunction<Object>) function);
     }
 
     @Override
-    @SuppressWarnings("ConstantConditions")
     public ConfigListWidget getOptions() {
         var options = new ConfigListWidget(this, minecraft, width, height, 32, height - 32, 26, PluginConfig::save);
 
         for (var namespace : PluginConfig.getNamespaces()) {
             var namespaceTlKey = Tl.Config.PLUGIN_ + namespace;
             var keys = PluginConfig.getAllKeys(namespace);
+            if (keys.isEmpty()) continue;
 
             options.with(new ButtonEntry(namespaceTlKey, 100, 20, w -> minecraft.setScreen(new ConfigScreen(PluginConfigScreen.this,
-                Component.translatable(Tl.Gui.PLUGIN_SETTINGS).append(" > ").withStyle(ChatFormatting.DARK_GRAY)
+                Component.translatable(Tl.Gui.Plugin.SETTINGS).append(" > ").withStyle(ChatFormatting.DARK_GRAY)
                     .append(Component.translatable(namespaceTlKey).withStyle(ChatFormatting.WHITE))) {
                 @Override
                 public ConfigListWidget getOptions() {

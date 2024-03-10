@@ -51,7 +51,7 @@ public class ThemeType<T extends ITheme> implements IThemeType<T>, IThemeType.Bu
     }
 
     public ResourceLocation getId() {
-        return Objects.requireNonNull(Registrar.INSTANCE.themeTypes.inverse().get(this));
+        return Objects.requireNonNull(Registrar.get().themeTypes.inverse().get(this));
     }
 
     private <V, C> ThemeType<T> property(String name, Class<V> type, V exampleValue, C context) {

@@ -75,7 +75,6 @@ class ThemeEditorScreen extends ConfigScreen {
     }
 
     @Override
-    @SuppressWarnings("ConstantConditions")
     public ConfigListWidget getOptions() {
         options = new ConfigListWidget(this, minecraft, width, height, parent.buildPreview(previewState).height * 2 + 4, height - 32, 26, () -> {});
 
@@ -90,14 +89,14 @@ class ThemeEditorScreen extends ConfigScreen {
 
         if (typeVal == null) {
             typeVal = new CycleValue(Tl.Config.OverlayThemeEditor.TYPE,
-                Registrar.INSTANCE.themeTypes.keySet().stream().map(ResourceLocation::toString).sorted(String::compareToIgnoreCase).toArray(String[]::new),
+                Registrar.get().themeTypes.keySet().stream().map(ResourceLocation::toString).sorted(String::compareToIgnoreCase).toArray(String[]::new),
                 type.getId().toString(), val -> {}, false) {
 
                 @Override
                 public void setValue(String value) {
                     if (options.save(true)) {
                         super.setValue(value);
-                        type = Registrar.INSTANCE.themeTypes.get(new ResourceLocation(value));
+                        type = Registrar.get().themeTypes.get(new ResourceLocation(value));
                         options.children().removeIf(it -> it.category.equals(I18n.get(Tl.Config.OverlayThemeEditor.ATTRIBUTES)));
                         addTypeProperties(options);
                         options.init();
@@ -183,7 +182,6 @@ class ThemeEditorScreen extends ConfigScreen {
     }
 
     @Override
-    @SuppressWarnings("ConstantConditions")
     public void onClose() {
         if (cancelled) {
             TooltipRenderer.resetState();

@@ -38,7 +38,7 @@ public class TypedDataResponsePlayS2CPacket implements Packet.PlayS2C<TypedDataR
 
         @Override
         public void write(FriendlyByteBuf buf) {
-            buf.writeResourceLocation(Registrar.INSTANCE.dataType2Id.get(data.getClass()));
+            buf.writeResourceLocation(Registrar.get().dataType2Id.get(data.getClass()));
             data.write(buf);
         }
 

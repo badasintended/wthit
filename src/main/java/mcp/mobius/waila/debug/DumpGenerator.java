@@ -37,7 +37,7 @@ public class DumpGenerator {
 
         var builder = new StringBuilder("# Waila Dump");
 
-        var registrar = Registrar.INSTANCE;
+        var registrar = Registrar.get();
 
         builder.append("\n## Versions");
         builder.append("\n| Dependency | Version |");

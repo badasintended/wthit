@@ -69,7 +69,7 @@ public final class ThemeDefinition<T extends ITheme> {
                 ? new ResourceLocation(object.get("type").getAsString())
                 : WailaConstants.THEME_TYPE_GRADIENT;
 
-            var type = Registrar.INSTANCE.themeTypes.get(typeId);
+            var type = Registrar.get().themeTypes.get(typeId);
             Map<String, Object> values = new HashMap<>();
 
             type.properties.forEach((key, prop) -> {
@@ -110,7 +110,7 @@ public final class ThemeDefinition<T extends ITheme> {
         public JsonElement serialize(ThemeDefinition<?> src, Type typeOfSrc, JsonSerializationContext context) {
             var object = new JsonObject();
             object.addProperty("id", src.id.toString());
-            object.addProperty("type", Registrar.INSTANCE.themeTypes.inverse().get(src.type).toString());
+            object.addProperty("type", Registrar.get().themeTypes.inverse().get(src.type).toString());
 
             src.type.properties.forEach((key, prop) -> {
                 var propType = prop.type;
