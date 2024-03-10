@@ -1,5 +1,7 @@
 {
   "tooltip.waila.crop_growth"                                   : "Зрелость",
+
+
   "tooltip.waila.crop_mature"                                   : "Созрело",
   "tooltip.waila.empty"                                         : "Пусто",
   "tooltip.waila.delay"                                         : "Задержка",
@@ -9,6 +11,8 @@
   "tooltip.waila.state"                                         : "Состояние",
   "tooltip.waila.state_on"                                      : "Вкл.",
   "tooltip.waila.state_off"                                     : "Выкл.",
+
+
   "tooltip.waila.power"                                         : "Мощность",
   "tooltip.waila.sneak_for_details"                             : "Присядьте для подробностей",
   "tooltip.waila.compost_level"                                 : "Уровень компоста",
@@ -25,6 +29,8 @@
 
   "tooltip.waila.panda.personality"                             : "Особая черта",
   "tooltip.waila.panda.traits"                                  : "Характер",
+
+  "tooltip.waila.panda.gene"                                    : "_DO_NOT_TRANSLATE_",
   "tooltip.waila.panda.gene.normal"                             : "Обычная",
   "tooltip.waila.panda.gene.lazy"                               : "Ленивая",
   "tooltip.waila.panda.gene.worried"                            : "Грустная",
@@ -33,6 +39,7 @@
   "tooltip.waila.panda.gene.weak"                               : "Уставшая",
   "tooltip.waila.panda.gene.aggressive"                         : "Злая",
 
+  "tooltip.waila.instrument"                                    : "_DO_NOT_TRANSLATE_",
   "tooltip.waila.instrument.harp"                               : "Арфа",
   "tooltip.waila.instrument.basedrum"                           : "Большой барабан",
   "tooltip.waila.instrument.snare"                              : "Малый барабан",
@@ -60,9 +67,36 @@
   "tooltip.waila.extra.energy"                                  : "Энергия",
   "tooltip.waila.extra.unknown_fluid"                           : "Неизвестная жидкость",
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   "gui.waila.configuration"                                     : "Конфигурация %s",
   "gui.waila.waila_settings"                                    : "Настройки %s",
-  "gui.waila.plugin_settings.title"                                   : "Настроки плагинов",
+
+
+
+
+
+
+
+
 
   "gui.waila.credits"                                           : "Благодарности",
   "gui.waila.credits.original_mod_by"                           : "Оригинальный \"WAILA\" от",
@@ -72,8 +106,21 @@
   "command.waila.server_dump_success"                           : "Выделенный сервер успешно сброшен до %s",
   "command.waila.local_dump_success"                            : "Локальный сервер успешно сброшен до %s",
   "command.waila.client_dump_success"                           : "Клиент успешно сброшен до %s",
+
+
+
+
+
+
+
+
+
+
+
+
   "command.waila.overlay.true"                                  : "Оверлей включен",
   "command.waila.overlay.false"                                 : "Оверлей выключен",
+
   "command.waila.config.unknown_id"                             : "ID конфигурации неизвестного плагина %s",
   "command.waila.config.get.id"                                 : "ID конфигурации плагина: %s",
   "command.waila.config.get.synced"                             : "Синхронизировано: %s",
@@ -126,6 +173,7 @@
 
   "config.waila.overlay_fps"                                    : "Лимит FPS для подсказки",
   "config.waila.overlay_fps_desc"                               : "Снижает частоту отрисовки подсказки для общего увеличения FPS\nУстановите 0 чтобы снять лимит",
+
 
   "config.waila.overlay_pos_x"                                  : "Смещение по X",
   "config.waila.overlay_pos_x_desc"                             : "Позиция X относительно привязки экрана\nРазмер влияет на позицию",
@@ -188,6 +236,8 @@
   "key.waila.show_recipe_input"                                 : "Отображать применение в рецептах",
   "key.waila.show_recipe_output"                                : "Отображать рецепты",
 
+  "config.waila.plugin_"                                        : "_DO_NOT_TRANSLATE_",
+
   "config.waila.plugin_minecraft"                               : "Minecraft",
   "config.waila.plugin_minecraft.item_entity"                   : "Отображать сущности предметов",
   "config.waila.plugin_minecraft.breaking_progress"             : "Прогресс ломания",
@@ -203,6 +253,8 @@
   "config.waila.plugin_minecraft.override.vehicle_desc"         : "Скрывать вагонетки, лошадей и прочие сущности, если игрок сидит на них",
   "config.waila.plugin_minecraft.spawner_type"                  : "Отображать тип рассадника",
   "config.waila.plugin_minecraft.crop_progress"                 : "Отображать зрелость урожая",
+
+
   "config.waila.plugin_minecraft.redstone"                      : "Редстоун",
   "config.waila.plugin_minecraft.redstone.lever"                : "Отображать положение рычага",
   "config.waila.plugin_minecraft.redstone.repeater"             : "Отображать задержку повторителя",
@@ -273,6 +325,13 @@
   "config.waila.plugin_waila.icon_position_middle"              : "Посередине",
   "config.waila.plugin_waila.icon_position_bottom"              : "Внизу",
 
+
+
+
+
+
+
+
   "config.waila.plugin_wailax"                                  : "Waila Extra",
   "config.waila.plugin_wailax.energy"                           : "Энергия",
   "config.waila.plugin_wailax.energy.enabled_block"             : "Энергия блоков",
@@ -319,9 +378,5 @@
   "theme.waila.plugin_waila.nine_patch.regionRight"             : "Регион: правый",
   "theme.waila.plugin_waila.nine_patch.mode"                    : "Режим отрисовки",
   "theme.waila.plugin_waila.nine_patch.mode_stretch"            : "Растягивание",
-  "theme.waila.plugin_waila.nine_patch.mode_tile"               : "Плитка",
-
-  "tooltip.waila.instrument"                                    : "_DO_NOT_TRANSLATE_",
-  "tooltip.waila.panda.gene"                                    : "_DO_NOT_TRANSLATE_",
-  "config.waila.plugin_"                                        : "_DO_NOT_TRANSLATE_"
+  "theme.waila.plugin_waila.nine_patch.mode_tile"               : "Плитка"
 }

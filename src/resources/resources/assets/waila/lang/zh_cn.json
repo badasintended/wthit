@@ -37,6 +37,9 @@
 
 
 
+
+
+  "tooltip.waila.instrument"                                    : "_DO_NOT_TRANSLATE_",
   "tooltip.waila.instrument.harp"                               : "竖琴",
   "tooltip.waila.instrument.basedrum"                           : "底鼓",
   "tooltip.waila.instrument.snare"                              : "小军鼓",
@@ -64,9 +67,36 @@
   "tooltip.waila.extra.energy"                                  : "能量",
   "tooltip.waila.extra.unknown_fluid"                           : "未知流体",
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   "gui.waila.configuration"                                     : "%s配置",
   "gui.waila.waila_settings"                                    : "%s设置",
-  "gui.waila.plugin_settings.title"                                   : "插件设置",
+
+
+
+
+
+
+
+
 
   "gui.waila.credits"                                           : "致谢名单",
   "gui.waila.credits.original_mod_by"                           : "“WAILA”模组原作者",
@@ -76,8 +106,21 @@
   "command.waila.server_dump_success"                           : "成功转存专用服务器到%s",
   "command.waila.local_dump_success"                            : "成功转存本地服务器到%s",
   "command.waila.client_dump_success"                           : "成功转存客户到%s",
+
+
+
+
+
+
+
+
+
+
+
+
   "command.waila.overlay.true"                                  : "启用覆盖",
   "command.waila.overlay.false"                                 : "禁用覆盖",
+
   "command.waila.config.unknown_id"                             : "未知的插件配置ID：%s",
   "command.waila.config.get.id"                                 : "插件配置ID：%s",
   "command.waila.config.get.synced"                             : "同步：%s",
@@ -127,6 +170,7 @@
   "config.waila.tts_desc"                                       : "使用系统讲述人读出方块和实体名",
 
   "config.waila.overlay"                                        : "叠加层",
+
 
 
 
@@ -191,6 +235,8 @@
   "key.waila.toggle_liquid"                                     : "切换液体",
   "key.waila.show_recipe_input"                                 : "显示配方用途",
   "key.waila.show_recipe_output"                                : "显示配方",
+
+  "config.waila.plugin_"                                        : "_DO_NOT_TRANSLATE_",
 
   "config.waila.plugin_minecraft"                               : "Minecraft",
   "config.waila.plugin_minecraft.item_entity"                   : "显示物品实体",
@@ -262,6 +308,9 @@
 
 
 
+
+
+
   "config.waila.plugin_waila"                                   : "Waila核心",
   "config.waila.plugin_waila.show_mod_name"                     : "显示模组名称",
   "config.waila.plugin_waila.show_item_mod_name"                : "显示物品模组名称",
@@ -275,6 +324,13 @@
   "config.waila.plugin_waila.icon_position_top"                 : "顶部",
   "config.waila.plugin_waila.icon_position_middle"              : "中间",
   "config.waila.plugin_waila.icon_position_bottom"              : "底部",
+
+
+
+
+
+
+
 
   "config.waila.plugin_wailax"                                  : "Waila附加",
   "config.waila.plugin_wailax.energy"                           : "能量",
@@ -322,9 +378,5 @@
   "theme.waila.plugin_waila.nine_patch.regionRight"             : "区域：右侧",
   "theme.waila.plugin_waila.nine_patch.mode"                    : "图案契合度",
   "theme.waila.plugin_waila.nine_patch.mode_stretch"            : "拉伸",
-  "theme.waila.plugin_waila.nine_patch.mode_tile"               : "平铺",
-
-  "tooltip.waila.instrument"                                    : "_DO_NOT_TRANSLATE_",
-
-  "config.waila.plugin_"                                        : "_DO_NOT_TRANSLATE_"
+  "theme.waila.plugin_waila.nine_patch.mode_tile"               : "平铺"
 }

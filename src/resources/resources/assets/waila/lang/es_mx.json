@@ -1,5 +1,7 @@
 {
   "tooltip.waila.crop_growth"                                   : "Desarrollo",
+
+
   "tooltip.waila.crop_mature"                                   : "Maduro",
   "tooltip.waila.empty"                                         : "Vacío",
   "tooltip.waila.delay"                                         : "Demora",
@@ -9,11 +11,16 @@
   "tooltip.waila.state"                                         : "Estado",
   "tooltip.waila.state_on"                                      : "Activo",
   "tooltip.waila.state_off"                                     : "Inactivo",
+
+
   "tooltip.waila.power"                                         : "Poder",
   "tooltip.waila.sneak_for_details"                             : "Detalles al agacharse",
   "tooltip.waila.compost_level"                                 : "Nivel de composta",
   "tooltip.waila.honey_level"                                   : "Nivel de miel",
   "tooltip.waila.owner"                                         : "Dueño",
+
+
+
 
 
 
@@ -60,9 +67,36 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   "gui.waila.configuration"                                     : "%s — Configuración",
   "gui.waila.waila_settings"                                    : "Opciones de %s",
-  "gui.waila.plugin_settings.title"                                   : "Opciones del plugin",
+
+
+
+
+
+
+
+
 
 
 
@@ -72,6 +106,19 @@
   "command.waila.server_dump_success"                           : "Se ha volcado el servidor con éxito a %s",
 
   "command.waila.client_dump_success"                           : "Se ha volcado el cliente con éxito a %s",
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -123,6 +170,7 @@
   "config.waila.tts_desc"                                       : "Lee los nombres de bloque y entidad usando el procesador TTS del sistema",
 
   "config.waila.overlay"                                        : "Overlay",
+
 
 
 
@@ -188,6 +236,8 @@
   "key.waila.show_recipe_input"                                 : "Ver uso de receta",
   "key.waila.show_recipe_output"                                : "Ver receta",
 
+
+
   "config.waila.plugin_minecraft"                               : "Minecraft",
   "config.waila.plugin_minecraft.item_entity"                   : "Ver entidad de item",
 
@@ -203,6 +253,8 @@
 
   "config.waila.plugin_minecraft.spawner_type"                  : "Ver tipo de generador",
   "config.waila.plugin_minecraft.crop_progress"                 : "Ver progreso de cultivos",
+
+
   "config.waila.plugin_minecraft.redstone"                      : "Redstone",
   "config.waila.plugin_minecraft.redstone.lever"                : "Ver estado de palanca",
   "config.waila.plugin_minecraft.redstone.repeater"             : "Ver demora de repetidor",
@@ -256,6 +308,9 @@
 
 
 
+
+
+
   "config.waila.plugin_waila"                                   : "Waila Base",
   "config.waila.plugin_waila.show_mod_name"                     : "Ver nombre de mods",
 
@@ -264,6 +319,9 @@
   "config.waila.plugin_waila.show_fluids"                       : "Ver fluídos",
   "config.waila.plugin_waila.show_fluids_desc"                  : "Trata de mostrar el nombre de fluídos",
   "config.waila.plugin_waila.show_entities"                     : "Ver entidades"
+
+
+
 
 
 

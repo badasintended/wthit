@@ -1,5 +1,7 @@
 {
   "tooltip.waila.crop_growth"                                   : "Tillväxt",
+
+
   "tooltip.waila.crop_mature"                                   : "Fullvuxen",
   "tooltip.waila.empty"                                         : "Tom",
   "tooltip.waila.delay"                                         : "Fördröjning",
@@ -9,6 +11,8 @@
   "tooltip.waila.state"                                         : "Tillstånd",
   "tooltip.waila.state_on"                                      : "PÅ",
   "tooltip.waila.state_off"                                     : "AV",
+
+
   "tooltip.waila.power"                                         : "Styrka",
   "tooltip.waila.sneak_for_details"                             : "Smyg för information",
   "tooltip.waila.compost_level"                                 : "Kompostnivå",
@@ -33,6 +37,9 @@
 
 
 
+
+
+  "tooltip.waila.instrument"                                    : "_DO_NOT_TRANSLATE_",
   "tooltip.waila.instrument.harp"                               : "Harpa",
   "tooltip.waila.instrument.basedrum"                           : "Bastrumma",
   "tooltip.waila.instrument.snare"                              : "Virveltrumma",
@@ -60,9 +67,36 @@
   "tooltip.waila.extra.energy"                                  : "Energi",
   "tooltip.waila.extra.unknown_fluid"                           : "Okänd vätska",
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   "gui.waila.configuration"                                     : "Konfiguration för %s",
   "gui.waila.waila_settings"                                    : "Inställningar för %s",
-  "gui.waila.plugin_settings.title"                                   : "Inställningar för insticksprogram",
+
+
+
+
+
+
+
+
 
   "gui.waila.credits"                                           : "Erkännande",
   "gui.waila.credits.original_mod_by"                           : "Originalmodden \"WAILA\" av",
@@ -72,8 +106,21 @@
   "command.waila.server_dump_success"                           : "Dedikerad server dumpades till %s",
   "command.waila.local_dump_success"                            : "Lokal server dumpades till %s",
   "command.waila.client_dump_success"                           : "Klient dumpades till %s",
+
+
+
+
+
+
+
+
+
+
+
+
   "command.waila.overlay.true"                                  : "Överlägg har aktiverats",
   "command.waila.overlay.false"                                 : "Överlägg har inaktiverats",
+
   "command.waila.config.unknown_id"                             : "Insticksprogrammets konfigurerings-ID %s är okänt",
   "command.waila.config.get.id"                                 : "Konfigurerings-ID för insticksprogram: %s",
   "command.waila.config.get.synced"                             : "Synkad: %s",
@@ -123,6 +170,7 @@
   "config.waila.tts_desc"                                       : "Läs upp namnet på block och entiteter med systemets text-till-tal-motor",
 
   "config.waila.overlay"                                        : "Överlägg",
+
 
 
 
@@ -188,6 +236,8 @@
   "key.waila.show_recipe_input"                                 : "Visa receptanvändning",
   "key.waila.show_recipe_output"                                : "Visa recept",
 
+  "config.waila.plugin_"                                        : "_DO_NOT_TRANSLATE_",
+
   "config.waila.plugin_minecraft"                               : "Minecraft",
   "config.waila.plugin_minecraft.item_entity"                   : "Visa föremålsentiteter",
   "config.waila.plugin_minecraft.breaking_progress"             : "Blockbrytningsförlopp",
@@ -203,6 +253,8 @@
   "config.waila.plugin_minecraft.override.vehicle_desc"         : "Dölj gruvvagnar, hästar och andra färdmedelsentiteter när spelar färdas på den",
   "config.waila.plugin_minecraft.spawner_type"                  : "Visa typ av monsterskapare",
   "config.waila.plugin_minecraft.crop_progress"                 : "Visa grödförlopp",
+
+
   "config.waila.plugin_minecraft.redstone"                      : "Redstone",
   "config.waila.plugin_minecraft.redstone.lever"                : "Visa spaktillstånd",
   "config.waila.plugin_minecraft.redstone.repeater"             : "Visa uppreparfördröjning",
@@ -256,6 +308,9 @@
 
 
 
+
+
+
   "config.waila.plugin_waila"                                   : "Waila Core",
   "config.waila.plugin_waila.show_mod_name"                     : "Visa modnamn",
   "config.waila.plugin_waila.show_item_mod_name"                : "Visa modnamn för föremål",
@@ -269,6 +324,13 @@
   "config.waila.plugin_waila.icon_position_top"                 : "Överkant",
   "config.waila.plugin_waila.icon_position_middle"              : "Mitten",
   "config.waila.plugin_waila.icon_position_bottom"              : "Underkant",
+
+
+
+
+
+
+
 
   "config.waila.plugin_wailax"                                  : "Waila Extra",
   "config.waila.plugin_wailax.energy"                           : "Energi",
@@ -316,9 +378,5 @@
   "theme.waila.plugin_waila.nine_patch.regionRight"             : "Region: Högerkant",
   "theme.waila.plugin_waila.nine_patch.mode"                    : "Ritningsläge",
   "theme.waila.plugin_waila.nine_patch.mode_stretch"            : "Sträck ut",
-  "theme.waila.plugin_waila.nine_patch.mode_tile"               : "Upprepa",
-
-  "tooltip.waila.instrument"                                    : "_DO_NOT_TRANSLATE_",
-
-  "config.waila.plugin_"                                        : "_DO_NOT_TRANSLATE_"
+  "theme.waila.plugin_waila.nine_patch.mode_tile"               : "Upprepa"
 }

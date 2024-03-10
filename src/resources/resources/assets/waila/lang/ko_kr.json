@@ -1,5 +1,7 @@
 {
   "tooltip.waila.crop_growth"                                   : "성장 상태",
+
+
   "tooltip.waila.crop_mature"                                   : "다 자람",
   "tooltip.waila.empty"                                         : "비어 있음",
   "tooltip.waila.delay"                                         : "지연 시간",
@@ -9,11 +11,16 @@
   "tooltip.waila.state"                                         : "상태",
   "tooltip.waila.state_on"                                      : "켜짐",
   "tooltip.waila.state_off"                                     : "꺼짐",
+
+
   "tooltip.waila.power"                                         : "전력",
   "tooltip.waila.sneak_for_details"                             : "상세 정보를 보려면 앉기를 누르세요",
   "tooltip.waila.compost_level"                                 : "퇴비통 레벨",
   "tooltip.waila.honey_level"                                   : "꿀 레벨",
   "tooltip.waila.owner"                                         : "주인",
+
+
+
 
 
 
@@ -60,9 +67,36 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   "gui.waila.configuration"                                     : "%s 환경설정",
   "gui.waila.waila_settings"                                    : "%s 설정",
-  "gui.waila.plugin_settings.title"                                   : "플러그인 설정",
+
+
+
+
+
+
+
+
 
   "gui.waila.credits"                                           : "크레딧",
   "gui.waila.credits.original_mod_by"                           : "원본 \"WAILA\" 모드 제작",
@@ -72,6 +106,19 @@
   "command.waila.server_dump_success"                           : "%s 서버 덤프 성공",
 
   "command.waila.client_dump_success"                           : "%s 클라이언트 덤프 성공",
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -123,6 +170,7 @@
   "config.waila.tts_desc"                                       : "블록과 개체 이름을 시스템의 TTS를 이용해서 읽습니다.r",
 
   "config.waila.overlay"                                        : "오버레이",
+
 
 
 
@@ -188,6 +236,8 @@
   "key.waila.show_recipe_input"                                 : "조합법 사용처 표시",
   "key.waila.show_recipe_output"                                : "조합법 표시",
 
+
+
   "config.waila.plugin_minecraft"                               : "마인크래프트",
   "config.waila.plugin_minecraft.item_entity"                   : "아이템 개체 표시",
 
@@ -203,6 +253,8 @@
 
   "config.waila.plugin_minecraft.spawner_type"                  : "스포너 종류 표시",
   "config.waila.plugin_minecraft.crop_progress"                 : "작물 성장 상태 표시",
+
+
   "config.waila.plugin_minecraft.redstone"                      : "레드스톤",
   "config.waila.plugin_minecraft.redstone.lever"                : "레버 상태 표시",
   "config.waila.plugin_minecraft.redstone.repeater"             : "중계기 딜레이 표시",
@@ -256,6 +308,9 @@
 
 
 
+
+
+
   "config.waila.plugin_waila"                                   : "Waila Core",
   "config.waila.plugin_waila.show_mod_name"                     : "모드 이름 표시",
 
@@ -264,6 +319,9 @@
   "config.waila.plugin_waila.show_fluids"                       : "유체 표시",
   "config.waila.plugin_waila.show_fluids_desc"                  : "유체를 보여줍니다.",
   "config.waila.plugin_waila.show_entities"                     : "개체 표시"
+
+
+
 
 
 

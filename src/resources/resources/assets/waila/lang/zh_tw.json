@@ -1,5 +1,7 @@
 {
   "tooltip.waila.crop_growth"                                   : "生長進度",
+
+
   "tooltip.waila.crop_mature"                                   : "成熟",
   "tooltip.waila.empty"                                         : "空",
   "tooltip.waila.delay"                                         : "延遲",
@@ -9,6 +11,8 @@
   "tooltip.waila.state"                                         : "狀態",
   "tooltip.waila.state_on"                                      : "開",
   "tooltip.waila.state_off"                                     : "關",
+
+
   "tooltip.waila.power"                                         : "訊號強度",
   "tooltip.waila.sneak_for_details"                             : "潛行顯示詳細資訊",
   "tooltip.waila.compost_level"                                 : "堆肥桶等級",
@@ -22,6 +26,9 @@
   "tooltip.waila.horse.jump.value"                              : "%s 方格高",
   "tooltip.waila.horse.speed.key"                               : "速度",
   "tooltip.waila.horse.speed.value"                             : "%s 公尺/秒",
+
+
+
 
 
 
@@ -60,9 +67,36 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   "gui.waila.configuration"                                     : "%s 組態",
   "gui.waila.waila_settings"                                    : "%s 設定",
-  "gui.waila.plugin_settings.title"                                   : "附屬設定",
+
+
+
+
+
+
+
+
 
   "gui.waila.credits"                                           : "銘謝名單",
   "gui.waila.credits.original_mod_by"                           : "原始模組《WAILA》作者",
@@ -72,6 +106,19 @@
   "command.waila.server_dump_success"                           : "成功轉儲伺服器端組態至 %s",
 
   "command.waila.client_dump_success"                           : "成功轉儲用戶端組態至 %s",
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -123,6 +170,7 @@
   "config.waila.tts_desc"                                       : "以系統的文字轉語音引擎來讀出方塊及實體的名稱",
 
   "config.waila.overlay"                                        : "提示框",
+
 
 
 
@@ -188,6 +236,8 @@
   "key.waila.show_recipe_input"                                 : "顯示合成用途",
   "key.waila.show_recipe_output"                                : "顯示合成配方",
 
+
+
   "config.waila.plugin_minecraft"                               : "Minecraft",
   "config.waila.plugin_minecraft.item_entity"                   : "顯示物品實體",
   "config.waila.plugin_minecraft.breaking_progress"             : "挖掘進度",
@@ -203,6 +253,8 @@
 
   "config.waila.plugin_minecraft.spawner_type"                  : "顯示生怪磚類型",
   "config.waila.plugin_minecraft.crop_progress"                 : "顯示作物生長進度",
+
+
   "config.waila.plugin_minecraft.redstone"                      : "紅石",
   "config.waila.plugin_minecraft.redstone.lever"                : "顯示控制桿狀態",
   "config.waila.plugin_minecraft.redstone.repeater"             : "顯示中繼器延遲",
@@ -256,6 +308,9 @@
 
 
 
+
+
+
   "config.waila.plugin_waila"                                   : "Waila 核心",
   "config.waila.plugin_waila.show_mod_name"                     : "顯示模組名稱",
 
@@ -265,6 +320,9 @@
   "config.waila.plugin_waila.show_fluids_desc"                  : "嘗試顯示流體",
   "config.waila.plugin_waila.show_entities"                     : "顯示實體",
   "config.waila.plugin_waila.show_icon"                         : "顯示圖示"
+
+
+
 
 
 
