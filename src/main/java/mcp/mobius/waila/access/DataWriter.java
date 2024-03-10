@@ -62,7 +62,7 @@ public enum DataWriter implements IDataWriter {
         immediate.forEach((type, data) -> {
             try {
                 var buf = new FriendlyByteBuf(Unpooled.buffer());
-                buf.writeResourceLocation(Registrar.INSTANCE.dataType2Id.get(type));
+                buf.writeResourceLocation(Registrar.get().dataType2Id.get(type));
                 data.write(buf);
                 sender.send(typedPacket, buf);
             } catch (Throwable t) {
@@ -73,7 +73,7 @@ public enum DataWriter implements IDataWriter {
         });
 
         lazy.forEach((type, data) -> {
-            var id = Registrar.INSTANCE.dataType2Id.get(type);
+            var id = Registrar.get().dataType2Id.get(type);
 
             final var finished = new boolean[]{false};
             for (var consumer : data) {
