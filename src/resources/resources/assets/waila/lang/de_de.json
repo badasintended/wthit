@@ -1,6 +1,7 @@
 {
   "tooltip.waila.crop_growth"                                   : "Gewachsen",
   "tooltip.waila.crop_growable"                                 : "Kann wachsen",
+
   "tooltip.waila.crop_mature"                                   : "Ausgewachsen",
   "tooltip.waila.empty"                                         : "Leer",
   "tooltip.waila.delay"                                         : "Verzögerung",
@@ -63,9 +64,52 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   "gui.waila.configuration"                                     : "%s Konfiguration",
   "gui.waila.waila_settings"                                    : "%s Einstellung",
-  "gui.waila.plugin_settings"                                   : "Plugin Einstellungen",
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -126,6 +170,7 @@
   "config.waila.tts_desc"                                       : "Lies den Block- und Kreaturname mit dem Text To Speech Prozessor vom System vor",
 
   "config.waila.overlay"                                        : "Oberfläche",
+
 
 
 
@@ -262,11 +307,21 @@
 
 
 
+
+
+
+
+
+
+
   "config.waila.plugin_waila.show_registry"                     : "Zeige Registrierungsnamen",
 
   "config.waila.plugin_waila.show_fluids"                       : "Flüssigkeiten anzeigen",
   "config.waila.plugin_waila.show_fluids_desc"                  : "Versuche Flüssigkeiten anzuzeigen",
   "config.waila.plugin_waila.show_entities"                     : "Zeige Kreaturen"
+
+
+
 
 
 

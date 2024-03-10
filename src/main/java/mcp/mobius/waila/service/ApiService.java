@@ -1,5 +1,6 @@
 package mcp.mobius.waila.service;
 
+import java.lang.reflect.Type;
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.Comparator;
@@ -82,8 +83,8 @@ public abstract class ApiService implements IApiService {
     }
 
     @Override
-    public <T> IJsonConfig.Builder0<T> createConfigBuilder(Class<T> clazz) {
-        return new JsonConfig.Builder<>(clazz);
+    public <T> IJsonConfig.Builder0<T> createConfigBuilder(Type type) {
+        return new JsonConfig.Builder<>(type);
     }
 
     @Override

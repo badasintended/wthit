@@ -1,5 +1,6 @@
 package mcp.mobius.waila.api.__internal__;
 
+import java.lang.reflect.Type;
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.List;
@@ -37,7 +38,7 @@ public interface IApiService {
 
     IBlacklistConfig getBlacklistConfig();
 
-    <T> IJsonConfig.Builder0<T> createConfigBuilder(Class<T> clazz);
+    <T> IJsonConfig.Builder0<T> createConfigBuilder(Type type);
 
     IModInfo getModInfo(String namespace);
 

@@ -18,6 +18,7 @@ import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.IEventListener;
 import mcp.mobius.waila.api.IObjectPicker;
+import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.api.IRayCastVectorProvider;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.ITheme;
@@ -28,6 +29,7 @@ import mcp.mobius.waila.config.BlacklistConfig;
 import mcp.mobius.waila.config.ConfigEntry;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.gui.hud.theme.ThemeType;
+import mcp.mobius.waila.util.CachedSupplier;
 import mcp.mobius.waila.util.Log;
 import mcp.mobius.waila.util.TypeUtil;
 import net.minecraft.Util;
@@ -40,9 +42,9 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.jetbrains.annotations.Nullable;
 
-public enum Registrar implements IRegistrar {
+public class Registrar implements IRegistrar {
 
-    INSTANCE;
+    private static final CachedSupplier<Registrar> INSTANCE = new CachedSupplier<>(Registrar::new);
 
     private static final Log LOG = Log.create();
 
@@ -83,11 +85,24 @@ public enum Registrar implements IRegistrar {
     public IObjectPicker picker = null;
     private int pickerPriority = Integer.MAX_VALUE;
 
+    private @Nullable IPluginInfo plugin;
     private boolean locked = false;
+
+    public static Registrar get() {
+        return INSTANCE.get();
+    }
+
+    public static void destroy() {
+        INSTANCE.invalidate();
+    }
+
+    public void attach(@Nullable IPluginInfo plugin) {
+        this.plugin = plugin;
+    }
 
     private <T> void addConfig(ResourceLocation key, T defaultValue, T clientOnlyValue, boolean serverRequired, boolean merged, ConfigEntry.Type<T> type) {
         assertLock();
-        PluginConfig.addConfig(type.create(key, defaultValue, clientOnlyValue, serverRequired, merged));
+        PluginConfig.addConfig(type.create(plugin, key, defaultValue, clientOnlyValue, serverRequired, merged));
     }
 
     @SafeVarargs
@@ -163,6 +178,7 @@ public enum Registrar implements IRegistrar {
 
     @Override
     public void addEventListener(IEventListener listener, int priority) {
+        if (skip()) return;
         assertLock();
         eventListeners.add(Object.class, listener, priority);
     }
@@ -179,6 +195,7 @@ public enum Registrar implements IRegistrar {
 
     @Override
     public <T> void addOverride(IBlockComponentProvider provider, Class<T> clazz, int priority) {
+        if (skip()) return;
         if (Waila.CLIENT_SIDE) {
             assertLock();
             assertPriority(priority);
@@ -188,6 +205,7 @@ public enum Registrar implements IRegistrar {
 
     @Override
     public <T> void addIcon(IBlockComponentProvider provider, Class<T> clazz, int priority) {
+        if (skip()) return;
         if (Waila.CLIENT_SIDE) {
             assertLock();
             assertPriority(priority);
@@ -198,6 +216,7 @@ public enum Registrar implements IRegistrar {
 
     @Override
     public <T> void addComponent(IBlockComponentProvider provider, TooltipPosition position, Class<T> clazz, int priority) {
+        if (skip()) return;
         if (Waila.CLIENT_SIDE) {
             assertLock();
             assertPriority(priority);
@@ -208,6 +227,7 @@ public enum Registrar implements IRegistrar {
 
     @Override
     public <T> void addDataContext(IBlockComponentProvider provider, Class<T> clazz) {
+        if (skip()) return;
         if (Waila.CLIENT_SIDE) {
             assertLock();
             warnTargetClass(provider, clazz);
@@ -218,6 +238,7 @@ public enum Registrar implements IRegistrar {
     @Override
     @SuppressWarnings("unchecked")
     public <T, BE extends BlockEntity> void addBlockData(IDataProvider<BE> provider, Class<T> clazz, int priority) {
+        if (skip()) return;
         assertLock();
         assertPriority(priority);
         warnTargetClass(provider, clazz);
@@ -231,6 +252,7 @@ public enum Registrar implements IRegistrar {
 
     @Override
     public <T> void addOverride(IEntityComponentProvider provider, Class<T> clazz, int priority) {
+        if (skip()) return;
         if (Waila.CLIENT_SIDE) {
             assertLock();
             assertPriority(priority);
@@ -241,6 +263,7 @@ public enum Registrar implements IRegistrar {
 
     @Override
     public <T> void addIcon(IEntityComponentProvider provider, Class<T> clazz, int priority) {
+        if (skip()) return;
         if (Waila.CLIENT_SIDE) {
             assertLock();
             assertPriority(priority);
@@ -251,6 +274,7 @@ public enum Registrar implements IRegistrar {
 
     @Override
     public <T> void addComponent(IEntityComponentProvider provider, TooltipPosition position, Class<T> clazz, int priority) {
+        if (skip()) return;
         if (Waila.CLIENT_SIDE) {
             assertLock();
             assertPriority(priority);
@@ -261,6 +285,7 @@ public enum Registrar implements IRegistrar {
 
     @Override
     public <T> void addDataContext(IEntityComponentProvider provider, Class<T> clazz) {
+        if (skip()) return;
         if (Waila.CLIENT_SIDE) {
             assertLock();
             warnTargetClass(provider, clazz);
@@ -271,6 +296,7 @@ public enum Registrar implements IRegistrar {
     @Override
     @SuppressWarnings("unchecked")
     public <T, E extends Entity> void addEntityData(IDataProvider<E> provider, Class<T> clazz, int priority) {
+        if (skip()) return;
         assertLock();
         assertPriority(priority);
         warnTargetClass(provider, clazz);
@@ -300,6 +326,7 @@ public enum Registrar implements IRegistrar {
 
     @Override
     public void addRayCastVector(IRayCastVectorProvider provider, int priority) {
+        if (skip()) return;
         if (Waila.CLIENT_SIDE) {
             assertLock();
             raycastVectorProviders.add(Object.class, provider, priority);
@@ -308,6 +335,7 @@ public enum Registrar implements IRegistrar {
 
     @Override
     public void replacePicker(IObjectPicker picker, int priority) {
+        if (skip()) return;
         if (Waila.CLIENT_SIDE) {
             assertLock();
             assertPriority(priority);
@@ -352,14 +380,22 @@ public enum Registrar implements IRegistrar {
 
     }
 
+    private void assertPlugin() {
+        Preconditions.checkNotNull(plugin, "Tried to register things outside the register method");
+    }
+
+    private boolean skip() {
+        assertPlugin();
+        return !plugin.isEnabled();
+    }
+
     private void assertLock() {
-        Preconditions.checkState(!locked,
-            "Tried to register new component after the registrar is locked");
+        assertPlugin();
+        Preconditions.checkState(!locked, "Tried to register new component after the registrar is locked");
     }
 
     private void assertPriority(int priority) {
-        Preconditions.checkArgument(priority >= 0,
-            "Priority must be equals or more than 0");
+        Preconditions.checkArgument(priority >= 0, "Priority must be equals or more than 0");
     }
 
     private void warnTargetClass(Object object, Class<?> clazz) {

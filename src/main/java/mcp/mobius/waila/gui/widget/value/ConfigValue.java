@@ -59,6 +59,8 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
     public final void render(@NotNull PoseStack matrices, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
         super.render(matrices, index, rowTop, rowLeft, width, height, mouseX, mouseY, hovered, deltaTime);
 
+        var title = getTitle();
+
         if (isDisabled()) title.withStyle(ChatFormatting.STRIKETHROUGH, ChatFormatting.GRAY);
         else if (!isValueValid()) title.withStyle(ChatFormatting.ITALIC, ChatFormatting.RED);
         else if (!value.equals(initialValue)) title.withStyle(ChatFormatting.ITALIC, ChatFormatting.YELLOW);
@@ -90,12 +92,12 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
             }
         }
 
-        var hasDescTl = I18n.exists(getDescription());
-        if (id != null || hasDescTl || (isDisabled() && disabledReason != null)) {
+        var desc = getDescription();
+        if (id != null || desc != null || (isDisabled() && disabledReason != null)) {
             var title = getTitle().getString();
             List<FormattedCharSequence> tooltip = Lists.newArrayList(Component.literal(title).getVisualOrderText());
-            if (hasDescTl) {
-                tooltip.addAll(client.font.split(Component.translatable(getDescription()).withStyle(ChatFormatting.GRAY), 250));
+            if (desc != null) {
+                tooltip.addAll(client.font.split(desc, 250));
             }
             if (isDisabled() && disabledReason != null) {
                 tooltip.addAll(client.font.split(Component.translatable(disabledReason).withStyle(ChatFormatting.RED), 250));
@@ -113,9 +115,11 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
 
     @Override
     public boolean match(String filter) {
-        var match = super.match(filter) || StringUtils.containsIgnoreCase(title.getString(), filter);
+        var match = super.match(filter) || StringUtils.containsIgnoreCase(getTitle().getString(), filter);
         if (id != null) match = match || StringUtils.containsIgnoreCase(id, filter);
-        if (I18n.exists(getDescription())) match = match || StringUtils.containsIgnoreCase(I18n.get(getDescription()), filter);
+
+        var desc = getDescription();
+        if (desc != null) match = match || StringUtils.containsIgnoreCase(desc.getString(), filter);
         return match;
     }
 
@@ -148,12 +152,13 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
         return resetButton;
     }
 
-    public Component getTitle() {
+    public MutableComponent getTitle() {
         return title;
     }
 
-    public String getDescription() {
-        return description;
+    @Nullable
+    public Component getDescription() {
+        return I18n.exists(description) ? Component.translatable(description).withStyle(ChatFormatting.GRAY) : null;
     }
 
     public int getX() {
@@ -170,6 +175,11 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
 
     protected void resetValue() {
         setValue(defaultValue);
+    }
+
+    public void enable() {
+        this.disabledReason = null;
+        this.disabled = false;
     }
 
     public void disable(@Nullable String reason) {

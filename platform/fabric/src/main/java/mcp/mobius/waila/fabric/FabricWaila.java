@@ -5,6 +5,7 @@ import mcp.mobius.waila.command.ServerCommand;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.debug.DumpGenerator;
 import mcp.mobius.waila.network.Packets;
+import mcp.mobius.waila.plugin.PluginLoader;
 import mcp.mobius.waila.util.ModInfo;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
@@ -23,7 +24,7 @@ public class FabricWaila extends Waila implements ModInitializer {
         Packets.initServer();
 
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) ->
-            ServerCommand.register(dispatcher));
+            new ServerCommand().register(dispatcher));
 
         ServerLifecycleEvents.SERVER_STARTING.register(server -> PluginConfig.reload());
         ServerLifecycleEvents.SERVER_STOPPED.register(server -> onServerStopped());
@@ -39,7 +40,7 @@ public class FabricWaila extends Waila implements ModInitializer {
                 .ifPresent(m -> DumpGenerator.VERSIONS.put(m.getName(), m.getVersion().getFriendlyString()));
         }
 
-        new FabricPluginLoader().loadPlugins();
+        PluginLoader.INSTANCE.loadPlugins();
     }
 
 }

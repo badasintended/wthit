@@ -14,7 +14,7 @@ import net.minecraft.world.level.block.FurnaceBlock;
 import net.minecraft.world.level.block.entity.BarrelBlockEntity;
 
 @SuppressWarnings("unused")
-public class WailaTest implements IWailaPlugin {
+public class WailaPluginTest implements IWailaPlugin {
 
     @Override
     public void register(IRegistrar registrar) {

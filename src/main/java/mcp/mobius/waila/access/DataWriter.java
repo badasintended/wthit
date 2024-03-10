@@ -153,7 +153,7 @@ public enum DataWriter implements IDataWriter {
     }
 
     private void assertType(Class<? extends IData> type) {
-        Preconditions.checkArgument(Registrar.INSTANCE.dataType2Id.containsKey(type), "Data type is not registered");
+        Preconditions.checkArgument(Registrar.get().dataType2Id.containsKey(type), "Data type is not registered");
         Preconditions.checkState(!immediate.containsKey(type), "Data is already immediately added");
     }
 

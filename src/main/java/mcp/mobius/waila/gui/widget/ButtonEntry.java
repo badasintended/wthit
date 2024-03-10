@@ -36,7 +36,7 @@ public class ButtonEntry extends ConfigListWidget.Entry {
     public void render(@NotNull PoseStack matrices, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
         super.render(matrices, index, rowTop, rowLeft, width, height, mouseX, mouseY, hovered, deltaTime);
 
-        client.font.drawShadow(matrices, title, rowLeft, rowTop + (height - client.font.lineHeight) / 2f, 16777215);
+        client.font.drawShadow(matrices, title, rowLeft, rowTop + (height - client.font.lineHeight) / 2f, 0xFFFFFF);
         this.button.x = rowLeft + width - button.getWidth();
         this.button.y = rowTop + (height - button.getHeight()) / 2;
         this.button.render(matrices, mouseX, mouseY, deltaTime);

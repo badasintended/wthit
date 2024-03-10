@@ -23,7 +23,7 @@ import org.jetbrains.annotations.Nullable;
 public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWidget.Entry> {
 
     private final ConfigScreen owner;
-    private final Runnable diskWriter;
+    private final @Nullable Runnable diskWriter;
 
     private int topOffset;
     private int bottomOffset;
@@ -32,7 +32,7 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
     private EditBox searchBox;
     private List<Entry> unfilteredChildren;
 
-    public ConfigListWidget(ConfigScreen owner, Minecraft client, int width, int height, int top, int bottom, int itemHeight, Runnable diskWriter) {
+    public ConfigListWidget(ConfigScreen owner, Minecraft client, int width, int height, int top, int bottom, int itemHeight, @Nullable Runnable diskWriter) {
         super(client, width, height, top, bottom, itemHeight - 4);
 
         this.owner = owner;
