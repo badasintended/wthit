@@ -111,7 +111,7 @@ public class ServerCommand extends CommonCommand<CommandSourceStack, MinecraftSe
 
     @Override
     protected void success(CommandSourceStack source, Supplier<Component> msg) {
-        source.sendSuccess(msg, false);
+        source.sendSuccess(msg.get(), false);
     }
 
     @Override

@@ -11,20 +11,19 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import com.google.gson.JsonParser;
+import io.netty.buffer.Unpooled;
 import lol.bai.badpackets.api.PacketSender;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.api.__internal__.Internals;
 import mcp.mobius.waila.config.PluginConfig;
-import mcp.mobius.waila.network.common.s2c.BlacklistSyncCommonS2CPacket;
-import mcp.mobius.waila.network.common.s2c.ConfigSyncCommonS2CPacket;
-import mcp.mobius.waila.network.common.s2c.PluginSyncCommonS2CPacket;
-import mcp.mobius.waila.network.play.c2s.ConfigSyncRequestPlayC2SPacket;
+import mcp.mobius.waila.network.Packets;
 import mcp.mobius.waila.registry.Registrar;
 import mcp.mobius.waila.service.ICommonService;
 import mcp.mobius.waila.util.Log;
 import mcp.mobius.waila.util.ModInfo;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.MinecraftServer;
 
 public abstract class PluginLoader {
@@ -57,22 +56,26 @@ public abstract class PluginLoader {
 
         server.getPlayerList().getPlayers().forEach(player -> {
             var sender = PacketSender.s2c(player);
-            if (!sender.canSend(PluginSyncCommonS2CPacket.ID)) return;
+            if (!sender.canSend(Packets.PLUGIN)) return;
 
             if (!server.isSingleplayerOwner(player.getGameProfile())) {
-                sender.send(new PluginSyncCommonS2CPacket.Payload());
+                var buf = new FriendlyByteBuf(Unpooled.buffer());
+                buf.writeCollection(PluginInfo.getAll().stream()
+                    .filter(it -> !it.isEnabled())
+                    .map(IPluginInfo::getPluginId)
+                    .toList(), FriendlyByteBuf::writeResourceLocation);
+                sender.send(Packets.PLUGIN, buf);
             }
 
-            sender.send(new BlacklistSyncCommonS2CPacket.Payload());
-            sender.send(new ConfigSyncCommonS2CPacket.Payload());
+            Packets.sendConfig(sender);
         });
     }
 
     public static void reloadClientPlugins() {
         INSTANCE.loadPlugins();
 
-        if (Minecraft.getInstance().getConnection() != null && PacketSender.c2s().canSend(ConfigSyncRequestPlayC2SPacket.ID)) {
-            PacketSender.c2s().send(new ConfigSyncRequestPlayC2SPacket.Payload());
+        if (Minecraft.getInstance().getConnection() != null && PacketSender.c2s().canSend(Packets.CONFIG_SYNC_REQ)) {
+            PacketSender.c2s().send(Packets.CONFIG_SYNC_REQ, new FriendlyByteBuf(Unpooled.buffer()));
         }
     }
 
