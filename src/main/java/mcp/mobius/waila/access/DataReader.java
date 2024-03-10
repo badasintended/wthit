@@ -52,7 +52,7 @@ public enum DataReader implements IDataReader {
     @SuppressWarnings("unchecked")
     public static IData readTypedPacket(FriendlyByteBuf buf) {
         var id = buf.readResourceLocation();
-        var serializer = (IData.Serializer<IData>) Registrar.INSTANCE.dataId2Serializer.get(id);
+        var serializer = (IData.Serializer<IData>) Registrar.get().dataId2Serializer.get(id);
 
         return serializer.read(buf);
     }
@@ -76,7 +76,7 @@ public enum DataReader implements IDataReader {
     public void add(IData data) {
         clean = false;
 
-        typed.put(Registrar.INSTANCE.impl2ApiDataType.get(data.getClass()), data);
+        typed.put(Registrar.get().impl2ApiDataType.get(data.getClass()), data);
     }
 
 }

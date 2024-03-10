@@ -23,7 +23,7 @@ import org.jetbrains.annotations.NotNull;
 
 import static mcp.mobius.waila.util.DisplayUtil.createButton;
 
-public class CreditsScreen extends Screen {
+public class CreditsScreen extends YesIAmSureTheClientInstanceIsPresentByTheTimeIUseItScreen {
 
     private final Screen parent;
 
@@ -34,7 +34,6 @@ public class CreditsScreen extends Screen {
     }
 
     @Override
-    @SuppressWarnings("ConstantConditions")
     protected void init() {
         super.init();
 
@@ -71,7 +70,6 @@ public class CreditsScreen extends Screen {
     }
 
     @Override
-    @SuppressWarnings("ConstantConditions")
     public void onClose() {
         minecraft.setScreen(parent);
     }

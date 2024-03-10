@@ -46,7 +46,7 @@ public class ForgePluginLoader extends PluginLoader {
                     }
 
                     if (satisfied) {
-                        PluginInfo.register(modFile.getMods().get(0).getModId(), id, side, annotation.memberName(), Arrays.asList(required), true);
+                        PluginInfo.register(modFile.getMods().get(0).getModId(), id, side, annotation.memberName(), Arrays.asList(required), true, true);
                     }
                 }
             }

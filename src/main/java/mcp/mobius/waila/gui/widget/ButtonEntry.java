@@ -38,7 +38,7 @@ public class ButtonEntry extends ConfigListWidget.Entry {
     public void render(@NotNull GuiGraphics ctx, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
         super.render(ctx, index, rowTop, rowLeft, width, height, mouseX, mouseY, hovered, deltaTime);
 
-        ctx.drawString(client.font, title, rowLeft, rowTop + (height - client.font.lineHeight) / 2, 16777215);
+        ctx.drawString(client.font, title, rowLeft, rowTop + (height - client.font.lineHeight) / 2, 0xFFFFFF);
         this.button.setX(rowLeft + width - button.getWidth());
         this.button.setY(rowTop + (height - button.getHeight()) / 2);
         this.button.render(ctx, mouseX, mouseY, deltaTime);

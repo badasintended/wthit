@@ -2,6 +2,7 @@ package mcp.mobius.waila.command;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import com.google.common.base.Preconditions;
@@ -21,6 +22,11 @@ public class ArgumentBuilderBuilder<S> {
     public ArgumentBuilderBuilder(LiteralArgumentBuilder<S> root) {
         this.root = root;
         deque.push(root);
+    }
+
+    public ArgumentBuilderBuilder<S> then(Consumer<ArgumentBuilderBuilder<S>> builder) {
+        builder.accept(this);
+        return this;
     }
 
     public ArgumentBuilderBuilder<S> then(ArgumentBuilder<S, ?> builder) {

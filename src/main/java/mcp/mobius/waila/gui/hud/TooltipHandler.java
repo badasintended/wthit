@@ -66,14 +66,14 @@ public class TooltipHandler {
         Vec3 castOrigin = null;
         Vec3 castDirection = null;
 
-        var picker = Registrar.INSTANCE.picker;
+        var picker = Registrar.get().picker;
         if (picker != null) {
             // TODO: remove
             castOrigin = camera.getEyePosition(frameTime);
             castDirection = camera.getViewVector(frameTime);
             picker.pick(PickerAccessor.of(client, camera, pickRange, frameTime), results, PluginConfig.CLIENT);
         } else {
-            for (var entry : Registrar.INSTANCE.raycastVectorProviders.get(Object.class)) {
+            for (var entry : Registrar.get().raycastVectorProviders.get(Object.class)) {
                 var provider = entry.instance();
                 if (!provider.isEnabled(PluginConfig.CLIENT)) continue;
 

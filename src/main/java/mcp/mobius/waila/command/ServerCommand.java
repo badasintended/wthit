@@ -1,7 +1,11 @@
 package mcp.mobius.waila.command;
 
-import com.mojang.brigadier.CommandDispatcher;
+import java.util.function.Supplier;
+
+import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.brigadier.builder.LiteralArgumentBuilder;
+import com.mojang.brigadier.builder.RequiredArgumentBuilder;
 import io.netty.buffer.Unpooled;
 import lol.bai.badpackets.api.PacketSender;
 import mcp.mobius.waila.Waila;
@@ -10,22 +14,34 @@ import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.debug.DumpGenerator;
 import mcp.mobius.waila.mixin.BaseContainerBlockEntityAccess;
 import mcp.mobius.waila.network.Packets;
+import mcp.mobius.waila.plugin.PluginLoader;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.LockCode;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 
-public class ServerCommand {
+public class ServerCommand extends CommonCommand<CommandSourceStack, MinecraftServer> {
 
-    public static void register(CommandDispatcher<CommandSourceStack> dispatcher) {
-        var command = new ArgumentBuilderBuilder<>(Commands.literal(WailaConstants.NAMESPACE))
+    public ServerCommand() {
+        super(WailaConstants.NAMESPACE);
+    }
+
+    @Override
+    protected boolean pluginCommandRequirement(CommandSourceStack source) {
+        return source.hasPermission(Commands.LEVEL_ADMINS);
+    }
+
+    @Override
+    protected void register(ArgumentBuilderBuilder<CommandSourceStack> command) {
+        command
             .then(Commands.literal("dump"))
             .requires(source -> source.hasPermission(Commands.LEVEL_ADMINS))
             .executes(context -> {
@@ -47,7 +63,6 @@ public class ServerCommand {
                     return 0;
                 }
             })
-
             .pop("dump");
 
         if (Waila.ENABLE_DEBUG_COMMAND) command
@@ -74,7 +89,7 @@ public class ServerCommand {
                     source.sendSuccess(() -> Component.literal("Locked container " + pos.toShortString() + " with lock \"" + lock + "\""), false);
                     return 1;
                 } else {
-                    source.sendFailure(Component.literal("Couldn't lock container "+pos.toShortString()));
+                    source.sendFailure(Component.literal("Couldn't lock container " + pos.toShortString()));
                 }
 
                 return 0;
@@ -82,8 +97,36 @@ public class ServerCommand {
             .pop("lock", "pos", "lockContainer")
 
             .pop("debug");
+    }
 
-        command.register(dispatcher);
+    @Override
+    protected LiteralArgumentBuilder<CommandSourceStack> literal(String name) {
+        return Commands.literal(name);
+    }
+
+    @Override
+    protected <T> RequiredArgumentBuilder<CommandSourceStack, T> argument(String name, ArgumentType<T> type) {
+        return Commands.argument(name, type);
+    }
+
+    @Override
+    protected void success(CommandSourceStack source, Supplier<Component> msg) {
+        source.sendSuccess(msg, false);
+    }
+
+    @Override
+    protected void fail(CommandSourceStack source, Component msg) {
+        source.sendFailure(msg);
+    }
+
+    @Override
+    protected MinecraftServer getExecutor(CommandSourceStack source) {
+        return source.getServer();
+    }
+
+    @Override
+    protected void reloadPlugins(MinecraftServer executor) {
+        PluginLoader.reloadServerPlugins(executor);
     }
 
 }
