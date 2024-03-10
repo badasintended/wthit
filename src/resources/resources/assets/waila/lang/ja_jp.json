@@ -1,5 +1,7 @@
 {
   "tooltip.waila.crop_growth"                                   : "成長",
+
+
   "tooltip.waila.crop_mature"                                   : "完全",
   "tooltip.waila.empty"                                         : "空",
   "tooltip.waila.delay"                                         : "遅延",
@@ -9,11 +11,16 @@
   "tooltip.waila.state"                                         : "状態",
   "tooltip.waila.state_on"                                      : "入",
   "tooltip.waila.state_off"                                     : "切",
+
+
   "tooltip.waila.power"                                         : "動力",
   "tooltip.waila.sneak_for_details"                             : "スニークすることで詳細",
   "tooltip.waila.compost_level"                                 : "堆肥レベル",
   "tooltip.waila.honey_level"                                   : "蜜レベル",
   "tooltip.waila.owner"                                         : "飼主",
+
+
+
 
 
 
@@ -60,9 +67,36 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   "gui.waila.configuration"                                     : "%s配置",
   "gui.waila.waila_settings"                                    : "%s設定",
-  "gui.waila.plugin_settings"                                   : "プラグイン設定",
+
+
+
+
+
+
+
+
 
 
 
@@ -72,6 +106,19 @@
   "command.waila.server_dump_success"                           : "サーバーは正常にダンプされました。ファイル場所: %s",
 
   "command.waila.client_dump_success"                           : "クライアントは正常にダンプされました。ファイル場所: %s",
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -123,6 +170,7 @@
   "config.waila.tts_desc"                                       : "ブロックやエンティティ名などをシステム音声で読み上げます",
 
   "config.waila.overlay"                                        : "オーバーレイ",
+
 
 
 
@@ -188,6 +236,8 @@
   "key.waila.show_recipe_input"                                 : "レシピ使用の表示",
   "key.waila.show_recipe_output"                                : "レシピの表示",
 
+
+
   "config.waila.plugin_minecraft"                               : "Minecraft",
   "config.waila.plugin_minecraft.item_entity"                   : "アイテムのエンティティの表示",
 
@@ -203,6 +253,8 @@
 
   "config.waila.plugin_minecraft.spawner_type"                  : "スポナー種類の表示",
   "config.waila.plugin_minecraft.crop_progress"                 : "作物の成長の表示",
+
+
   "config.waila.plugin_minecraft.redstone"                      : "レッドストーン",
   "config.waila.plugin_minecraft.redstone.lever"                : "レバーの状態を表示",
   "config.waila.plugin_minecraft.redstone.repeater"             : "リピーター遅延の表示",
@@ -256,6 +308,9 @@
 
 
 
+
+
+
   "config.waila.plugin_waila"                                   : "Wailaコア",
   "config.waila.plugin_waila.show_mod_name"                     : "mod名の表示",
 
@@ -264,6 +319,9 @@
   "config.waila.plugin_waila.show_fluids"                       : "流体の表示",
   "config.waila.plugin_waila.show_fluids_desc"                  : "流体の表示を試してみる",
   "config.waila.plugin_waila.show_entities"                     : "エンティティの表示"
+
+
+
 
 
 

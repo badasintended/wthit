@@ -1,5 +1,7 @@
 {
   "tooltip.waila.crop_growth"                                   : "Stadium rozwoju",
+
+
   "tooltip.waila.crop_mature"                                   : "Dojrzałe",
   "tooltip.waila.empty"                                         : "Puste",
   "tooltip.waila.delay"                                         : "Opóźnienie",
@@ -9,6 +11,8 @@
   "tooltip.waila.state"                                         : "Stan",
   "tooltip.waila.state_on"                                      : "Wł.",
   "tooltip.waila.state_off"                                     : "Wył.",
+
+
   "tooltip.waila.power"                                         : "Zasilanie",
   "tooltip.waila.sneak_for_details"                             : "Skradaj się, by wyświetlić szczegóły",
 
@@ -60,9 +64,52 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   "gui.waila.configuration"                                     : "%s — konfiguracja",
   "gui.waila.waila_settings"                                    : "%s — ustawienia",
-  "gui.waila.plugin_settings"                                   : "Ustawienia pluginu",
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -135,6 +182,7 @@
 
 
 
+
   "config.waila.overlay_scale"                                  : "Skala wyświetlacza",
 
 
@@ -185,6 +233,8 @@
   "key.waila.config"                                            : "Otwórz konfigurację",
   "key.waila.show_overlay"                                      : "Pokazuj nakładkę",
   "key.waila.toggle_liquid"                                     : "Przełącz ciecz",
+
+
 
 
 
@@ -259,11 +309,19 @@
 
 
 
+
+
+
+
+
   "config.waila.plugin_waila.show_registry"                     : "Pokaż nazwy rejetrów",
 
   "config.waila.plugin_waila.show_fluids"                       : "Wyświetlaj ciecze",
   "config.waila.plugin_waila.show_fluids_desc"                  : "Staraj się pokazywać ciecze",
   "config.waila.plugin_waila.show_entities"                     : "Pokaż byty"
+
+
+
 
 
 

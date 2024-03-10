@@ -25,7 +25,7 @@ import net.minecraft.world.phys.HitResult;
 public class ComponentHandler {
 
     public static void requestBlockData(ClientAccessor accessor) {
-        var registrar = Registrar.INSTANCE;
+        var registrar = Registrar.get();
         var block = accessor.getBlock();
         var blockEntity = accessor.getBlockEntity();
 
@@ -62,7 +62,7 @@ public class ComponentHandler {
 
     @SuppressWarnings("DuplicatedCode")
     private static void handleBlock(ClientAccessor accessor, Tooltip tooltip, Object obj, TooltipPosition position) {
-        var registrar = Registrar.INSTANCE;
+        var registrar = Registrar.get();
         var providers = registrar.blockComponent.get(position).get(obj);
         for (var entry : providers) {
             var provider = entry.instance();
@@ -79,7 +79,7 @@ public class ComponentHandler {
     }
 
     public static void requestEntityData(Entity entity, ClientAccessor accessor) {
-        var registrar = Registrar.INSTANCE;
+        var registrar = Registrar.get();
         var trueEntity = accessor.getEntity();
 
         var rate = Waila.CONFIG.get().getGeneral().getRateLimit();
@@ -103,7 +103,7 @@ public class ComponentHandler {
 
     @SuppressWarnings("DuplicatedCode")
     public static void gatherEntity(Entity entity, ClientAccessor accessor, Tooltip tooltip, TooltipPosition position) {
-        var registrar = Registrar.INSTANCE;
+        var registrar = Registrar.get();
 
         var providers = registrar.entityComponent.get(position).get(entity);
         for (var entry : providers) {
@@ -121,7 +121,7 @@ public class ComponentHandler {
     }
 
     public static ITooltipComponent getIcon(HitResult target) {
-        var registrar = Registrar.INSTANCE;
+        var registrar = Registrar.get();
         var data = ClientAccessor.INSTANCE;
         var config = PluginConfig.CLIENT;
 
@@ -173,7 +173,7 @@ public class ComponentHandler {
             return null;
         }
 
-        var registrar = Registrar.INSTANCE;
+        var registrar = Registrar.get();
         var entity = ((EntityHitResult) target).getEntity();
 
         var overrideProviders = registrar.entityOverride.get(entity);
@@ -188,7 +188,7 @@ public class ComponentHandler {
     }
 
     public static BlockState getOverrideBlock(HitResult target) {
-        var registrar = Registrar.INSTANCE;
+        var registrar = Registrar.get();
 
         Level world = Minecraft.getInstance().level;
         if (world == null) return null;

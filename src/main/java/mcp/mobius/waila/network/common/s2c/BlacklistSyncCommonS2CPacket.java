@@ -1,4 +1,4 @@
-package mcp.mobius.waila.network.config.s2c;
+package mcp.mobius.waila.network.common.s2c;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -8,12 +8,15 @@ import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.network.Packet;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientConfigurationPacketListenerImpl;
+import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
-public class BlacklistSyncConfigS2CPacket implements Packet.ConfigS2C<BlacklistSyncConfigS2CPacket.Payload> {
+public class BlacklistSyncCommonS2CPacket implements
+    Packet.ConfigS2C<BlacklistSyncCommonS2CPacket.Payload>,
+    Packet.PlayS2C<BlacklistSyncCommonS2CPacket.Payload> {
 
     public static final ResourceLocation ID = Waila.id("blacklist");
 
@@ -30,9 +33,18 @@ public class BlacklistSyncConfigS2CPacket implements Packet.ConfigS2C<BlacklistS
             buf.readCollection(HashSet::new, FriendlyByteBuf::readUtf));
     }
 
+    private static void receive(Payload payload) {
+        Waila.BLACKLIST_CONFIG.get().getView().sync(payload.blockRules, payload.blockEntityRules, payload.entityRules);
+    }
+
     @Override
     public void receive(Minecraft client, ClientConfigurationPacketListenerImpl handler, Payload payload, PacketSender responseSender) {
-        Waila.BLACKLIST_CONFIG.get().getView().sync(payload.blockRules, payload.blockEntityRules, payload.entityRules);
+        receive(payload);
+    }
+
+    @Override
+    public void receive(Minecraft client, ClientPacketListener handler, Payload payload, PacketSender responseSender) {
+        receive(payload);
     }
 
     public record Payload(
@@ -40,6 +52,10 @@ public class BlacklistSyncConfigS2CPacket implements Packet.ConfigS2C<BlacklistS
         Set<String> blockEntityRules,
         Set<String> entityRules
     ) implements CustomPacketPayload {
+
+        public Payload() {
+            this(Waila.BLACKLIST_CONFIG.get().blocks, Waila.BLACKLIST_CONFIG.get().blockEntityTypes, Waila.BLACKLIST_CONFIG.get().entityTypes);
+        }
 
         @Override
         public void write(@NotNull FriendlyByteBuf buf) {

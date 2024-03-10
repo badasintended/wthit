@@ -39,7 +39,7 @@ public class BlockDataRequestPlayC2SPacket implements Packet.PlayC2S<BlockDataRe
     public void receive(MinecraftServer server, ServerPlayer player, ServerGamePacketListenerImpl handler, Payload payload, PacketSender responseSender) {
         var hitResult = payload.hitResult;
 
-        var registrar = Registrar.INSTANCE;
+        var registrar = Registrar.get();
         var world = player.level();
         var pos = hitResult.getBlockPos();
 

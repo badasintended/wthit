@@ -1,8 +1,5 @@
 package mcp.mobius.waila.gui.screen;
 
-import javax.annotation.ParametersAreNonnullByDefault;
-
-import net.minecraft.MethodsReturnNonnullByDefault;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
@@ -11,9 +8,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.item.ItemStack;
 
-@MethodsReturnNonnullByDefault
-@ParametersAreNonnullByDefault
-@SuppressWarnings("ConstantConditions")
+@SuppressWarnings("DataFlowIssue")
 public class AutoClosableScreen extends AbstractContainerScreen<AutoClosableScreen.Menu> {
 
     private AutoClosableScreen() {

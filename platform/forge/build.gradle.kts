@@ -1,4 +1,3 @@
-import net.minecraftforge.gradle.common.util.RunConfig
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -21,12 +20,13 @@ dependencies {
 
     // https://www.curseforge.com/minecraft/mc-mods/travelers-backpack/files/4584396
 //    runtimeOnly(fg.deobf("curse.maven:travelers-backpack-321117:4584396"))
-    
+
     when (rootProp["recipeViewer"]) {
         "rei" -> {
             runtimeOnly(fg.deobf("me.shedaniel:RoughlyEnoughItems-forge:${rootProp["rei"]}"))
 //            runtimeOnly(fg.deobf("me.shedaniel:RoughlyEnoughItems-plugin-compatibilities-forge:${rootProp["rei"]}"))
         }
+
         "jei" -> rootProp["jei"].split("-").also { (mc, jei) ->
             runtimeOnly(fg.deobf("mezz.jei:jei-${mc}-forge:${jei}"))
         }
@@ -50,17 +50,19 @@ sourceSets {
 minecraft {
     mappings("official", rootProp["minecraft"])
     runs {
-        val runConfig = Action<RunConfig> {
-            workingDirectory(file("run"))
+        create("server")
+        create("client") {
+            args("--username", "A")
+        }
+
+        configureEach {
+            workingDirectory(file("run/${namer.determineName(this)}"))
             ideaModule("${rootProject.name}.${project.name}.main")
-            property("waila.enableTestPlugin", "true")
-            property("waila.debugCommands", "true")
+
             source(sourceSets["main"])
             source(sourceSets["plugin"])
             rootProject.sourceSets.forEach { source(it) }
         }
-        create("client", runConfig)
-        create("server", runConfig)
     }
 }
 

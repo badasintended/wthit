@@ -1,4 +1,4 @@
-package mcp.mobius.waila.network.config.s2c;
+package mcp.mobius.waila.network.common.s2c;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -7,11 +7,13 @@ import java.util.stream.Collectors;
 import com.google.gson.Gson;
 import lol.bai.badpackets.api.PacketSender;
 import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.config.ConfigEntry;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.network.Packet;
 import mcp.mobius.waila.util.Log;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientConfigurationPacketListenerImpl;
+import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
@@ -22,7 +24,9 @@ import static mcp.mobius.waila.mcless.network.NetworkConstants.CONFIG_DOUBLE;
 import static mcp.mobius.waila.mcless.network.NetworkConstants.CONFIG_INT;
 import static mcp.mobius.waila.mcless.network.NetworkConstants.CONFIG_STRING;
 
-public class ConfigSyncConfigS2CPacket implements Packet.ConfigS2C<ConfigSyncConfigS2CPacket.Payload> {
+public class ConfigSyncCommonS2CPacket implements
+    Packet.ConfigS2C<ConfigSyncCommonS2CPacket.Payload>,
+    Packet.PlayS2C<ConfigSyncCommonS2CPacket.Payload> {
 
     public static final ResourceLocation ID = Waila.id("config");
 
@@ -56,8 +60,7 @@ public class ConfigSyncConfigS2CPacket implements Packet.ConfigS2C<ConfigSyncCon
         return new Payload(map);
     }
 
-    @Override
-    public void receive(Minecraft client, ClientConfigurationPacketListenerImpl handler, Payload payload, PacketSender responseSender) {
+    private static void receive(Payload payload) {
         var map = payload.map;
 
         for (var config : PluginConfig.getSyncableConfigs()) {
@@ -79,9 +82,25 @@ public class ConfigSyncConfigS2CPacket implements Packet.ConfigS2C<ConfigSyncCon
         LOG.info("Received config from the server: {}", GSON.toJson(map));
     }
 
+    @Override
+    public void receive(Minecraft client, ClientConfigurationPacketListenerImpl handler, Payload payload, PacketSender responseSender) {
+        receive(payload);
+    }
+
+    @Override
+    public void receive(Minecraft client, ClientPacketListener handler, Payload payload, PacketSender responseSender) {
+        receive(payload);
+    }
+
     public record Payload(
-         Map<ResourceLocation, Object> map
+        Map<ResourceLocation, Object> map
     ) implements CustomPacketPayload {
+
+        public Payload() {
+            this(PluginConfig.getSyncableConfigs().stream()
+                .filter(it -> it.getOrigin().isEnabled())
+                .collect(Collectors.toMap(ConfigEntry::getId, ConfigEntry::getLocalValue)));
+        }
 
         @Override
         public void write(@NotNull FriendlyByteBuf buf) {

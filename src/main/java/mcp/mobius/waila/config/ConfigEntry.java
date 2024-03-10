@@ -7,6 +7,7 @@ import java.util.function.Function;
 
 import com.google.common.base.Preconditions;
 import com.google.gson.JsonPrimitive;
+import mcp.mobius.waila.api.IPluginInfo;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 
@@ -20,6 +21,7 @@ public class ConfigEntry<T> {
     public static final Type<Enum<? extends Enum>> ENUM = new Type<>((e, d) -> Enum.valueOf(d.getDeclaringClass(), e.getAsString()), e -> new JsonPrimitive(e.name()));
     public static final Type<Path> PATH = new Type<>((e, d) -> null, e -> null);
 
+    private final IPluginInfo origin;
     private final ResourceLocation id;
     private final T defaultValue;
     private final T clientOnlyValue;
@@ -31,7 +33,8 @@ public class ConfigEntry<T> {
     private T serverValue;
     private T localValue;
 
-    private ConfigEntry(ResourceLocation id, T defaultValue, T clientOnlyValue, boolean serverRequired, boolean merged, Type<T> type) {
+    private ConfigEntry(IPluginInfo origin, ResourceLocation id, T defaultValue, T clientOnlyValue, boolean serverRequired, boolean merged, Type<T> type) {
+        this.origin = origin;
         this.id = id;
         this.defaultValue = defaultValue;
         this.localValue = defaultValue;
@@ -43,6 +46,10 @@ public class ConfigEntry<T> {
 
     public Type<T> getType() {
         return type;
+    }
+
+    public IPluginInfo getOrigin() {
+        return origin;
     }
 
     public ResourceLocation getId() {
@@ -125,8 +132,8 @@ public class ConfigEntry<T> {
             this.serializer = serializer;
         }
 
-        public ConfigEntry<T> create(ResourceLocation id, T defaultValue, T clientOnlyValue, boolean serverRequired, boolean merged) {
-            return new ConfigEntry<>(id, defaultValue, clientOnlyValue, serverRequired, merged, this);
+        public ConfigEntry<T> create(IPluginInfo origin, ResourceLocation id, T defaultValue, T clientOnlyValue, boolean serverRequired, boolean merged) {
+            return new ConfigEntry<>(origin, id, defaultValue, clientOnlyValue, serverRequired, merged, this);
         }
 
     }
