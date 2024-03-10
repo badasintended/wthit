@@ -1,5 +1,7 @@
 package mcp.mobius.waila.quilt;
 
+import java.util.function.Supplier;
+
 import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
