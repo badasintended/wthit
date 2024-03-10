@@ -1,5 +1,3 @@
-import net.neoforged.gradle.dsl.common.runs.run.Run
-
 plugins {
     id("net.neoforged.gradle.userdev") version "7.0.+"
 }
@@ -26,18 +24,18 @@ sourceSets {
 }
 
 runs {
-    val runConfig = Action<Run> {
-        workingDirectory(file("run"))
-        jvmArgument("-Dwaila.enableTestPlugin=true")
-        jvmArgument("-Dwaila.debugCommands=true")
+    create("server")
+    create("client") {
+        programArguments("--username", "A")
+    }
+
+    configureEach {
+        workingDirectory(file("run/${namer.determineName(this)}"))
 
         modSource(sourceSets["main"])
         modSource(sourceSets["plugin"])
         modSource(sourceSets["dummy"])
     }
-
-    create("client", runConfig)
-    create("server", runConfig)
 }
 
 tasks.processResources {

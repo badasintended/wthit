@@ -45,7 +45,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class Registrar implements IRegistrar {
 
-    private static final CachedSupplier<Registrar> instance = new CachedSupplier<>(Registrar::new);
+    private static final CachedSupplier<Registrar> INSTANCE = new CachedSupplier<>(Registrar::new);
 
     private static final Log LOG = Log.create();
 
@@ -90,11 +90,11 @@ public class Registrar implements IRegistrar {
     private boolean locked = false;
 
     public static Registrar get() {
-        return instance.get();
+        return INSTANCE.get();
     }
 
     public static void destroy() {
-        instance.invalidate();
+        INSTANCE.invalidate();
     }
 
     public void attach(@Nullable IPluginInfo plugin) {

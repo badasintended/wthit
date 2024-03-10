@@ -46,6 +46,10 @@ public abstract class CommonCommand<S, E extends Executor> {
 
     protected abstract boolean pluginCommandRequirement(S source);
 
+    protected boolean isPluginDisabledOnServer(PluginInfo plugin) {
+        return false;
+    }
+
     public final void register(CommandDispatcher<S> dispatcher) {
         new ArgumentBuilderBuilder<>(literal(root))
             .then(literal("plugin"))
@@ -117,7 +121,8 @@ public abstract class CommonCommand<S, E extends Executor> {
 
     private SuggestionProvider<S> suggestPlugins(boolean enabled) {
         return (context, builder) -> suggestResource(getPlugins(enabled)
-            .filter(it -> !((PluginInfo) it).isLocked())
+            .map(it -> (PluginInfo) it)
+            .filter(it -> !it.isLocked() && !isPluginDisabledOnServer(it))
             .map(IPluginInfo::getPluginId), builder);
     }
 
@@ -125,8 +130,10 @@ public abstract class CommonCommand<S, E extends Executor> {
         var source = context.getSource();
         var executor = getExecutor(source);
 
-        var name = context.getArgument("name", ResourceLocation.class);
-        var plugin = (PluginInfo) PluginInfo.get(name);
+        var id = context.getArgument("name", ResourceLocation.class);
+        var name = id.toString();
+
+        var plugin = (PluginInfo) PluginInfo.get(id);
         if (plugin == null) {
             fail(source, Component.translatable(Tl.Command.Plugin.UNKNOWN, name));
             return 0;
@@ -134,6 +141,11 @@ public abstract class CommonCommand<S, E extends Executor> {
 
         if (plugin.isLocked()) {
             fail(source, Component.translatable(Tl.Command.Plugin.LOCKED, name));
+            return 0;
+        }
+
+        if (isPluginDisabledOnServer(plugin)) {
+            fail(source, Component.translatable(Tl.Command.Plugin.DISABLED_ON_SERVER, name));
             return 0;
         }
 

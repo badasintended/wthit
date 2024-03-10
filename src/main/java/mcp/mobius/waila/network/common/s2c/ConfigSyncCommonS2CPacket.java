@@ -98,6 +98,7 @@ public class ConfigSyncCommonS2CPacket implements
 
         public Payload() {
             this(PluginConfig.getSyncableConfigs().stream()
+                .filter(it -> it.getOrigin().isEnabled())
                 .collect(Collectors.toMap(ConfigEntry::getId, ConfigEntry::getLocalValue)));
         }
 

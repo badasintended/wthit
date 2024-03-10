@@ -12,6 +12,7 @@ import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.config.ConfigEntry;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.gui.screen.HomeScreen;
+import mcp.mobius.waila.plugin.PluginInfo;
 import mcp.mobius.waila.plugin.PluginLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.commands.arguments.ResourceLocationArgument;
@@ -30,6 +31,11 @@ public abstract class ClientCommand<S> extends CommonCommand<S, Minecraft> {
     @Override
     protected boolean pluginCommandRequirement(S source) {
         return !Minecraft.getInstance().hasSingleplayerServer();
+    }
+
+    @Override
+    protected boolean isPluginDisabledOnServer(PluginInfo plugin) {
+        return plugin.isDisabledOnServer();
     }
 
     @Override

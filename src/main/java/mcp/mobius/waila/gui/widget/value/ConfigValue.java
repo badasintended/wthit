@@ -178,6 +178,11 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
         setValue(defaultValue);
     }
 
+    public void enable() {
+        this.disabledReason = null;
+        this.disabled = false;
+    }
+
     public void disable(@Nullable String reason) {
         this.disabledReason = reason;
         this.disabled = true;

@@ -94,6 +94,7 @@
   "gui.waila.esc_warning.lmao"                                  : "Press the %s or %s button to close",
 
   "gui.waila.plugin.toggle"                                     : "Plugin Toggles",
+  "gui.waila.plugin.toggle.disabled_on_server"                  : "This plugin is disabled on the server",
   "gui.waila.plugin.toggle.locked"                              : "Can't disable this plugin",
   "gui.waila.plugin.settings"                                   : "Plugin Settings",
 
@@ -115,6 +116,7 @@
   "command.waila.plugin.modify.enable"                          : "Enabling plugin %s",
   "command.waila.plugin.unknown"                                : "Unknown plugin '%s'",
   "command.waila.plugin.locked"                                 : "Locked plugin '%s'",
+  "command.waila.plugin.disabled_on_server"                     : "Plugin '%s' is disabled on server",
 
   "command.waila.overlay.true"                                  : "Overlay enabled",
   "command.waila.overlay.false"                                 : "Overlay disabled",

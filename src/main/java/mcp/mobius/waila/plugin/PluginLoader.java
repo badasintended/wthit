@@ -18,8 +18,8 @@ import mcp.mobius.waila.api.__internal__.Internals;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.network.common.s2c.BlacklistSyncCommonS2CPacket;
 import mcp.mobius.waila.network.common.s2c.ConfigSyncCommonS2CPacket;
+import mcp.mobius.waila.network.common.s2c.PluginSyncCommonS2CPacket;
 import mcp.mobius.waila.network.play.c2s.ConfigSyncRequestPlayC2SPacket;
-import mcp.mobius.waila.network.play.s2c.ReloadPluginsPlayS2CPacket;
 import mcp.mobius.waila.registry.Registrar;
 import mcp.mobius.waila.service.ICommonService;
 import mcp.mobius.waila.util.Log;
@@ -49,17 +49,18 @@ public abstract class PluginLoader {
         "*", IPluginInfo.Side.BOTH
     );
 
+    private boolean gathered = false;
+
     public static void reloadServerPlugins(MinecraftServer server) {
+        PluginInfo.refresh();
         INSTANCE.loadPlugins();
-        Waila.BLACKLIST_CONFIG.invalidate();
-        PluginConfig.reload();
 
         server.getPlayerList().getPlayers().forEach(player -> {
             var sender = PacketSender.s2c(player);
-            if (!sender.canSend(ReloadPluginsPlayS2CPacket.ID)) return;
+            if (!sender.canSend(PluginSyncCommonS2CPacket.ID)) return;
 
             if (!server.isSingleplayerOwner(player.getGameProfile())) {
-                sender.send(new ReloadPluginsPlayS2CPacket.Payload());
+                sender.send(new PluginSyncCommonS2CPacket.Payload());
             }
 
             sender.send(new BlacklistSyncCommonS2CPacket.Payload());
@@ -69,8 +70,6 @@ public abstract class PluginLoader {
 
     public static void reloadClientPlugins() {
         INSTANCE.loadPlugins();
-        Waila.BLACKLIST_CONFIG.invalidate();
-        PluginConfig.reload();
 
         if (Minecraft.getInstance().getConnection() != null && PacketSender.c2s().canSend(ConfigSyncRequestPlayC2SPacket.ID)) {
             PacketSender.c2s().send(new ConfigSyncRequestPlayC2SPacket.Payload());
@@ -120,10 +119,13 @@ public abstract class PluginLoader {
 
     public final void loadPlugins() {
         Registrar.destroy();
-        PluginInfo.clear();
-        gatherPlugins();
-        PluginInfo.saveToggleConfig();
 
+        if (!gathered) {
+            gathered = true;
+            gatherPlugins();
+        }
+
+        PluginInfo.saveToggleConfig();
         IPluginInfo extraPlugin = null;
 
         // TODO: remove legacy method on Minecraft 1.21

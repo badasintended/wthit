@@ -24,7 +24,8 @@ public class PluginInfo implements IPluginInfo {
     private static final Log LOG = Log.create();
     private static final ResourceLocation CORE = Waila.id("core");
 
-    private static final IJsonConfig<Map<ResourceLocation, Boolean>> TOGGLE = IJsonConfig.of(new TypeToken<Map<ResourceLocation, Boolean>>() {})
+    private static final IJsonConfig<Map<ResourceLocation, Boolean>> TOGGLE = IJsonConfig.of(new TypeToken<Map<ResourceLocation, Boolean>>() {
+        })
         .file(WailaConstants.NAMESPACE + "/" + "plugin_toggle")
         .factory(LinkedHashMap::new)
         .gson(new GsonBuilder()
@@ -43,6 +44,8 @@ public class PluginInfo implements IPluginInfo {
     private final IWailaPlugin initializer;
     private final List<String> requiredModIds;
     private final boolean legacy;
+
+    private boolean disabledOnServer;
 
     private PluginInfo(ModInfo modInfo, ResourceLocation pluginId, Side side, IWailaPlugin initializer, List<String> requiredModIds, boolean legacy) {
         this.modInfo = modInfo;
@@ -71,11 +74,6 @@ public class PluginInfo implements IPluginInfo {
         } catch (Throwable t) {
             LOG.error("Error creating instance of plugin " + pluginIdStr, t);
         }
-    }
-
-    public static void clear() {
-        PLUGIN_ID_TO_PLUGIN_INFO.clear();
-        MOD_ID_TO_PLUGIN_INFOS.invalidate();
     }
 
     public static IPluginInfo get(ResourceLocation pluginId) {
@@ -117,6 +115,7 @@ public class PluginInfo implements IPluginInfo {
 
     @Override
     public boolean isEnabled() {
+        if (disabledOnServer) return false;
         return isLocked() || TOGGLE.get().get(getPluginId());
     }
 
@@ -128,8 +127,21 @@ public class PluginInfo implements IPluginInfo {
         return pluginId.equals(CORE);
     }
 
+    public boolean isDisabledOnServer() {
+        return disabledOnServer;
+    }
+
+    public void setDisabledOnServer(boolean disabledOnServer) {
+        this.disabledOnServer = disabledOnServer;
+    }
+
     public void setEnabled(boolean enabled) {
         TOGGLE.get().put(getPluginId(), enabled);
+    }
+
+    public static void refresh() {
+        TOGGLE.invalidate();
+        getAll().forEach(it -> ((PluginInfo) it).disabledOnServer = false);
     }
 
     public static void saveToggleConfig() {
