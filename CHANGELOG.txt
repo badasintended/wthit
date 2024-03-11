@@ -1,5 +1,9 @@
 10.x - 1.20.4 - dev/master - java 17
 ====================================
+10.4.0   - Changed network version to `8`
+         - Changed plugins to be reload/toggle-able
+           - Allows server to disable and lock plugins on connected clients
+           - Added commands to for toggling and reloading plugins, `/waila plugin` for server-wide `/wailac plugin` for client-side
 10.3.3   - Fixed plugin not registered when earlier plugin definition didn't match the current environment
 10.3.2   - Fixed missing API classes on Quilt
 10.3.1   - Fixed crash (#249)
@@ -21,6 +25,10 @@
 
 9.x - 1.20.2 - dev/1.20.2 - java 17
 ===================================
+9.5.0    - Changed network version to `8`
+         - Changed plugins to be reload/toggle-able
+           - Allows server to disable and lock plugins on connected clients
+           - Added commands to for toggling and reloading plugins, `/waila plugin` for server-wide `/wailac plugin` for client-side
 9.4.3    - Fixed plugin not registered when earlier plugin definition didn't match the current environment
 9.4.2    - Fixed missing API classes on Quilt
 9.4.1    - Fixed crash (#249)
@@ -55,6 +63,10 @@
 
 8.x - 1.20.1 - dev/1.20.1 - java 17
 ===================================
+8.8.0    - Changed network version to `8`
+         - Changed plugins to be reload/toggle-able
+           - Allows server to disable and lock plugins on connected clients
+           - Added commands to for toggling and reloading plugins, `/waila plugin` for server-wide `/wailac plugin` for client-side
 8.7.3    - Fixed plugin not registered when earlier plugin definition didn't match the current environment
 8.7.2    - Fixed missing API classes on Quilt
 8.7.1    - Fixed crash (#249)
@@ -249,6 +261,10 @@
 
 5.x - 1.19.2 - dev/1.19.2 - java 17
 ===================================
+5.23.0   - Changed network version to `8`
+         - Changed plugins to be reload/toggle-able
+           - Allows server to disable and lock plugins on connected clients
+           - Added commands to for toggling and reloading plugins, `/waila plugin` for server-wide `/wailac plugin` for client-side
 5.22.3   - Fixed plugin not registered when earlier plugin definition didn't match the current environment
 5.22.2   - Fixed missing API classes on Quilt
 5.22.1   - Fixed crash (#249)
