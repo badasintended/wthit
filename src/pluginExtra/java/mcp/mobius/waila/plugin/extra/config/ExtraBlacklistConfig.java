@@ -62,14 +62,10 @@ public class ExtraBlacklistConfig {
             var comments = """
                 The game needs to be restarted for the changes to apply.
                                 
-                Operators:
-                @namespace - Filter objects based on their namespace location
-                #tag       - Filter objects based on data pack tags
-                /regex/    - Filter objects based on regular expression
-                default    - Filter objects with specific ID
-                
+                %s
+                                
                 The %s tag rule can not be removed"""
-                .formatted(tagRule)
+                .formatted(IRegistryFilter.getHeader(), tagRule)
                 .split("\n");
 
             var commentArray = new JsonArray();
