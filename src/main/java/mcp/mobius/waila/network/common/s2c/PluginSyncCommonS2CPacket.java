@@ -38,7 +38,7 @@ public class PluginSyncCommonS2CPacket implements
             ((PluginInfo) IPluginInfo.get(plugin)).setDisabledOnServer(true);
         }
 
-        PluginLoader.INSTANCE.loadPlugins();
+        PluginLoader.load();
     }
 
     @Override

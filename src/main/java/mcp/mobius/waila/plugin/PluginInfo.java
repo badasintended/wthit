@@ -11,6 +11,7 @@ import com.google.gson.reflect.TypeToken;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.api.IModInfo;
+import mcp.mobius.waila.api.IPluginDiscoverer;
 import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.api.IWailaPlugin;
 import mcp.mobius.waila.api.WailaConstants;
@@ -38,41 +39,41 @@ public class PluginInfo implements IPluginInfo {
     private static final CachedSupplier<Map<String, List<IPluginInfo>>> MOD_ID_TO_PLUGIN_INFOS = new CachedSupplier<>(() ->
         PLUGIN_ID_TO_PLUGIN_INFO.values().stream().collect(Collectors.groupingBy(p -> p.getModInfo().getId())));
 
+    private final ResourceLocation discoverer;
     private final ModInfo modInfo;
     private final ResourceLocation pluginId;
     private final Side side;
     private final IWailaPlugin initializer;
     private final List<String> requiredModIds;
-    private final boolean legacy;
 
     private boolean disabledOnServer;
 
-    private PluginInfo(ModInfo modInfo, ResourceLocation pluginId, Side side, IWailaPlugin initializer, List<String> requiredModIds, boolean legacy) {
+    private PluginInfo(ResourceLocation discoverer, ModInfo modInfo, ResourceLocation pluginId, Side side, IWailaPlugin initializer, List<String> requiredModIds) {
+        this.discoverer = discoverer;
         this.modInfo = modInfo;
         this.pluginId = pluginId;
         this.side = side;
         this.initializer = initializer;
         this.requiredModIds = requiredModIds;
-        this.legacy = legacy;
     }
 
-    public static void register(String modId, String pluginIdStr, Side side, String initializerStr, List<String> required, boolean defaultEnabled, boolean legacy) {
+    public static void register(ResourceLocation discoverer, String modId, ResourceLocation pluginId, Side side, List<String> required, boolean defaultEnabled, IPluginDiscoverer.Factory factory) {
         try {
-            var rl = new ResourceLocation(pluginIdStr);
-            if (PLUGIN_ID_TO_PLUGIN_INFO.containsKey(rl)) {
-                LOG.error("Duplicate plugin id " + rl);
+            if (PLUGIN_ID_TO_PLUGIN_INFO.containsKey(pluginId)) {
+                LOG.error("Duplicate plugin id " + pluginId);
                 return;
             }
 
-            if (rl.getNamespace().equals(ResourceLocation.DEFAULT_NAMESPACE)) {
-                LOG.warn("Plugin " + initializerStr + " is using the default namespace " + rl);
+            LOG.info("Registered plugin {} from mod {} via discoverer {}", pluginId, modId, discoverer);
+
+            if (pluginId.getNamespace().equals(ResourceLocation.DEFAULT_NAMESPACE)) {
+                LOG.warn("Plugin " + pluginId.getPath() + " is using the default namespace " + pluginId);
             }
 
-            var initializer = (IWailaPlugin) Class.forName(initializerStr).getConstructor().newInstance();
-            PLUGIN_ID_TO_PLUGIN_INFO.put(rl, new PluginInfo(ModInfo.get(modId), rl, side, initializer, required, legacy));
-            TOGGLE.get().putIfAbsent(rl, defaultEnabled);
+            PLUGIN_ID_TO_PLUGIN_INFO.put(pluginId, new PluginInfo(discoverer, ModInfo.get(modId), pluginId, side, factory.get(), required));
+            TOGGLE.get().putIfAbsent(pluginId, defaultEnabled);
         } catch (Throwable t) {
-            LOG.error("Error creating instance of plugin " + pluginIdStr, t);
+            LOG.error("Error creating instance of plugin " + pluginId, t);
         }
     }
 
@@ -119,8 +120,8 @@ public class PluginInfo implements IPluginInfo {
         return isLocked() || TOGGLE.get().get(getPluginId());
     }
 
-    public boolean isLegacy() {
-        return legacy;
+    public ResourceLocation getDiscoverer() {
+        return discoverer;
     }
 
     public boolean isLocked() {

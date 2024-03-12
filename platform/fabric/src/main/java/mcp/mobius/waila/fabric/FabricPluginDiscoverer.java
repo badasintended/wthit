@@ -6,29 +6,37 @@ import java.util.Map;
 
 import com.google.common.collect.Streams;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IPluginInfo;
-import mcp.mobius.waila.plugin.PluginInfo;
-import mcp.mobius.waila.plugin.PluginLoader;
+import mcp.mobius.waila.plugin.DefaultPluginDiscoverer;
 import mcp.mobius.waila.util.Log;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 import net.fabricmc.loader.api.metadata.CustomValue;
+import net.minecraft.resources.ResourceLocation;
 
 import static net.fabricmc.loader.api.metadata.CustomValue.CvType.ARRAY;
 import static net.fabricmc.loader.api.metadata.CustomValue.CvType.OBJECT;
 import static net.fabricmc.loader.api.metadata.CustomValue.CvType.STRING;
 
-public class FabricPluginLoader extends PluginLoader {
+public class FabricPluginDiscoverer extends DefaultPluginDiscoverer {
+
+    public static final ResourceLocation ID = Waila.id("fabric");
 
     private static final Log LOG = Log.create();
 
     @Override
-    protected void gatherPlugins() {
+    public ResourceLocation getDiscovererId() {
+        return ID;
+    }
+
+    @Override
+    public void discover(Candidates candidates) {
         Map<ModContainer, CustomValue.CvObject[]> pluginMap = new Object2ObjectOpenHashMap<>();
         for (var mod : FabricLoader.getInstance().getAllMods()) {
             for (var file : PLUGIN_JSON_FILES) {
-                mod.findPath(file).ifPresent(path -> readPluginsJson(mod.getMetadata().getId(), path));
+                mod.findPath(file).ifPresent(path -> readPluginsJson(candidates, mod.getMetadata().getId(), path));
             }
 
             var data = mod.getMetadata();
@@ -100,7 +108,7 @@ public class FabricPluginLoader extends PluginLoader {
                     continue;
                 }
 
-                PluginInfo.register(mod.getMetadata().getId(), id, side, initializer, requiredDeps, true, true);
+                registerLegacy(mod.getMetadata().getId(), id, side, requiredDeps, initializer);
             }
         }
     }

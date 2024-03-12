@@ -3,26 +3,34 @@ package mcp.mobius.waila.forge;
 import java.nio.file.Files;
 import java.util.Arrays;
 
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.api.WailaPlugin;
-import mcp.mobius.waila.plugin.PluginInfo;
-import mcp.mobius.waila.plugin.PluginLoader;
+import mcp.mobius.waila.plugin.DefaultPluginDiscoverer;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.FMLLoader;
 
-public class ForgePluginLoader extends PluginLoader {
+public class ForgePluginDiscoverer extends DefaultPluginDiscoverer {
+
+    public static final ResourceLocation ID = Waila.id("forge");
 
     @SuppressWarnings("deprecation")
     private static final String WAILA_PLUGIN = WailaPlugin.class.getName();
 
     @Override
-    protected void gatherPlugins() {
+    public ResourceLocation getDiscovererId() {
+        return ID;
+    }
+
+    @Override
+    public void discover(Candidates candidates) {
         for (var modFile : ModList.get().getModFiles()) {
             for (var file : PLUGIN_JSON_FILES) {
                 var path = modFile.getFile().findResource(file);
                 if (Files.exists(path)) {
-                    readPluginsJson(modFile.getMods().get(0).getModId(), path);
+                    readPluginsJson(candidates, modFile.getMods().get(0).getModId(), path);
                 }
             }
 
@@ -46,7 +54,7 @@ public class ForgePluginLoader extends PluginLoader {
                     }
 
                     if (satisfied) {
-                        PluginInfo.register(modFile.getMods().get(0).getModId(), id, side, annotation.memberName(), Arrays.asList(required), true, true);
+                        registerLegacy(modFile.getMods().get(0).getModId(), id, side, Arrays.asList(required), annotation.memberName());
                     }
                 }
             }

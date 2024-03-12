@@ -22,9 +22,9 @@ public class PluginToggleScreen extends ConfigScreen {
             var integratedServer = minecraft.getSingleplayerServer();
 
             if (integratedServer != null) {
-                PluginLoader.reloadServerPlugins(integratedServer);
+                PluginLoader.reloadServer(integratedServer);
             } else {
-                PluginLoader.reloadClientPlugins();
+                PluginLoader.reloadClient();
             }
         });
 

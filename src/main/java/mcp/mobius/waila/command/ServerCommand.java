@@ -124,7 +124,7 @@ public class ServerCommand extends CommonCommand<CommandSourceStack, MinecraftSe
 
     @Override
     protected void reloadPlugins(MinecraftServer executor) {
-        PluginLoader.reloadServerPlugins(executor);
+        PluginLoader.reloadServer(executor);
     }
 
 }

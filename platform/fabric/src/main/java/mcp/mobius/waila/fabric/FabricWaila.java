@@ -41,7 +41,7 @@ public class FabricWaila extends Waila implements ModInitializer {
                 .ifPresent(m -> DumpGenerator.VERSIONS.put(m.getName(), m.getVersion().getFriendlyString()));
         }
 
-        PluginLoader.INSTANCE.loadPlugins();
+        PluginLoader.load();
     }
 
 }

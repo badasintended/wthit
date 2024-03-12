@@ -168,7 +168,7 @@ public abstract class ClientCommand<S> extends CommonCommand<S, Minecraft> {
 
     @Override
     protected void reloadPlugins(Minecraft executor) {
-        PluginLoader.reloadClientPlugins();
+        PluginLoader.reloadClient();
     }
 
 }

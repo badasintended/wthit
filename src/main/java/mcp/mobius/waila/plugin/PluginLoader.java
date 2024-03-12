@@ -1,20 +1,14 @@
 package mcp.mobius.waila.plugin;
 
-import java.io.IOException;
-import java.io.Reader;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.ServiceLoader;
 import java.util.stream.Collectors;
 
-import com.google.gson.JsonParser;
 import lol.bai.badpackets.api.PacketSender;
 import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.api.IPluginDiscoverer;
 import mcp.mobius.waila.api.IPluginInfo;
-import mcp.mobius.waila.api.__internal__.Internals;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.network.common.s2c.BlacklistSyncCommonS2CPacket;
 import mcp.mobius.waila.network.common.s2c.ConfigSyncCommonS2CPacket;
@@ -27,33 +21,15 @@ import mcp.mobius.waila.util.ModInfo;
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.MinecraftServer;
 
-public abstract class PluginLoader {
-
-    public static final PluginLoader INSTANCE = Internals.loadService(PluginLoader.class);
+public final class PluginLoader {
 
     private static final Log LOG = Log.create();
 
-    protected static final String[] PLUGIN_JSON_FILES = {
-        "waila_plugins.json",
-        "wthit_plugins.json"
-    };
+    private static boolean discovered = false;
 
-    protected static final String KEY_INITIALIZER = "initializer";
-    protected static final String KEY_SIDE = "side";
-    protected static final String KEY_REQUIRED = "required";
-    protected static final String KEY_DEFAULT_ENABLED = "defaultEnabled";
-    protected static final Map<String, IPluginInfo.Side> SIDES = Map.of(
-        "client", IPluginInfo.Side.CLIENT,
-        "server", IPluginInfo.Side.SERVER,
-        "both", IPluginInfo.Side.BOTH,
-        "*", IPluginInfo.Side.BOTH
-    );
-
-    private boolean gathered = false;
-
-    public static void reloadServerPlugins(MinecraftServer server) {
+    public static void reloadServer(MinecraftServer server) {
         PluginInfo.refresh();
-        INSTANCE.loadPlugins();
+        load();
 
         server.getPlayerList().getPlayers().forEach(player -> {
             var sender = PacketSender.s2c(player);
@@ -68,61 +44,27 @@ public abstract class PluginLoader {
         });
     }
 
-    public static void reloadClientPlugins() {
-        INSTANCE.loadPlugins();
+    public static void reloadClient() {
+        load();
 
         if (Minecraft.getInstance().getConnection() != null && PacketSender.c2s().canSend(ConfigSyncRequestPlayC2SPacket.ID)) {
             PacketSender.c2s().send(new ConfigSyncRequestPlayC2SPacket.Payload());
         }
     }
 
-    protected abstract void gatherPlugins();
-
-    protected void readPluginsJson(String modId, Path path) {
-        try (Reader reader = Files.newBufferedReader(path)) {
-            var object = JsonParser.parseReader(reader).getAsJsonObject();
-
-            outer:
-            for (var pluginId : object.keySet()) {
-                var plugin = object.getAsJsonObject(pluginId);
-
-                var initializer = plugin.getAsJsonPrimitive(KEY_INITIALIZER).getAsString();
-                var side = plugin.has(KEY_SIDE)
-                    ? Objects.requireNonNull(SIDES.get(plugin.get(KEY_SIDE).getAsString()), () -> readError(path) + ", invalid side, available: " + SIDES.keySet().stream().collect(Collectors.joining(", ", "[", "]")))
-                    : IPluginInfo.Side.BOTH;
-
-                if (!side.matches(ICommonService.INSTANCE.getSide())) {
-                    continue;
-                }
-
-                List<String> required = new ArrayList<>();
-                if (plugin.has(KEY_REQUIRED)) {
-                    var array = plugin.getAsJsonArray(KEY_REQUIRED);
-                    for (var element : array) {
-                        var requiredModId = element.getAsString();
-                        if (ModInfo.get(requiredModId).isPresent()) {
-                            required.add(requiredModId);
-                        } else {
-                            continue outer;
-                        }
-                    }
-                }
-
-                var defaultEnabled = !plugin.has(KEY_DEFAULT_ENABLED) || plugin.get(KEY_DEFAULT_ENABLED).getAsBoolean();
-
-                PluginInfo.register(modId, pluginId, side, initializer, required, defaultEnabled, false);
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(readError(path), e);
-        }
-    }
-
-    public final void loadPlugins() {
+    public static void load() {
         Registrar.destroy();
 
-        if (!gathered) {
-            gathered = true;
-            gatherPlugins();
+        if (!discovered) {
+            discovered = true;
+
+            for (var discoverer : ServiceLoader.load(IPluginDiscoverer.class)) {
+                discoverer.discover((modId, pluginId, side, requiredModIds, defaultEnabled, factory) -> {
+                    if (!side.matches(ICommonService.INSTANCE.getSide())) return;
+                    if (!requiredModIds.stream().allMatch(it -> ModInfo.get(it).isPresent())) return;
+                    PluginInfo.register(discoverer.getDiscovererId(), modId, pluginId, side, requiredModIds, defaultEnabled, factory);
+                });
+            }
         }
 
         PluginInfo.saveToggleConfig();
@@ -137,7 +79,7 @@ public abstract class PluginLoader {
                 initialize(info);
             }
 
-            if (((PluginInfo) info).isLegacy()) {
+            if (((PluginInfo) info).getDiscoverer().equals(DefaultPluginDiscoverer.LEGACY)) {
                 legacyPlugins.add(info.getPluginId().toString());
             }
         }
@@ -154,7 +96,7 @@ public abstract class PluginLoader {
         PluginConfig.reload();
     }
 
-    private void initialize(IPluginInfo info) {
+    private static void initialize(IPluginInfo info) {
         Registrar.get().attach(info);
 
         if (info.isEnabled()) {
@@ -165,10 +107,6 @@ public abstract class PluginLoader {
 
         info.getInitializer().register(Registrar.get());
         Registrar.get().attach(null);
-    }
-
-    private static String readError(Path path) {
-        return "Failed to read [" + path + "]";
     }
 
 }

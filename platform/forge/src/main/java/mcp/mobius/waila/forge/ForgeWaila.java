@@ -38,7 +38,7 @@ public class ForgeWaila extends Waila {
 
     @SubscribeEvent
     static void loadComplete(FMLLoadCompleteEvent event) {
-        PluginLoader.INSTANCE.loadPlugins();
+        PluginLoader.load();
     }
 
     @EventBusSubscriber(modid = WailaConstants.WAILA)
