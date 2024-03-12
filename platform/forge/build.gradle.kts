@@ -31,6 +31,8 @@ dependencies {
             runtimeOnly(fg.deobf("mezz.jei:jei-${mc}-forge:${jei}"))
         }
     }
+
+    implementation(fg.deobf("curse.maven:jade-324717:5109393"))
 }
 
 setupStub()
@@ -59,6 +61,7 @@ minecraft {
             workingDirectory(file("run/${namer.determineName(this)}"))
             ideaModule("${rootProject.name}.${project.name}.main")
 
+            source(sourceSets["api"])
             source(sourceSets["main"])
             source(sourceSets["plugin"])
             rootProject.sourceSets.forEach { source(it) }
@@ -69,6 +72,7 @@ minecraft {
 mixin {
     add(sourceSets["main"], "wthit.refmap.json")
     config("wthit.mixins.json")
+    config("wthit-jade-compat.mixins.json")
 }
 
 tasks.processResources {

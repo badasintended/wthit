@@ -7,6 +7,9 @@ license = "CC-BY-NC-SA-4.0"
 [[mixins]]
 config = "wthit.mixins.json"
 
+[[mixins]]
+config = "wthit-jade-compat.mixins.json"
+
 [[mods]]
 modId = "wthit"
 version = "${version}"

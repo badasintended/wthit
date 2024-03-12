@@ -8,6 +8,8 @@ dependencies {
     implementation("net.neoforged:neoforge:${rootProp["neo"]}")
     implementation("lol.bai:badpackets:neo-${rootProp["badpackets"]}")
 
+    implementation("curse.maven:jade-324717:5109393")
+
     rootProp["jei"].split("-").also { (mc, jei) ->
         compileOnly("mezz.jei:jei-${mc}-common-api:${jei}")
     }
