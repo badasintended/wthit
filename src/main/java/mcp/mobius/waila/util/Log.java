@@ -59,6 +59,10 @@ public final class Log {
         return logger.isDebugEnabled();
     }
 
+    public void debug(String msg) {
+        logger.debug(PREFIX + msg);
+    }
+
     public void debug(String msg, Object arg) {
         logger.debug(PREFIX + msg, arg);
     }
