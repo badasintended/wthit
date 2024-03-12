@@ -3,10 +3,12 @@ package mcp.mobius.waila.registry;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Objects;
 import java.util.Set;
 import java.util.WeakHashMap;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Predicate;
 import java.util.regex.Pattern;
 
 import com.google.common.base.Preconditions;
@@ -70,7 +72,13 @@ public class RegistryFilter<T> implements IRegistryFilter<T> {
         var entries = new HashSet<T>(this.entries.get().size());
 
         rules.forEach(rule -> registry.holders().forEach(holder -> {
-            if (rule.matches(holder)) entries.add(holder.value());
+            if (rule.predicate.test(holder)) {
+                if (rule.negate) {
+                    entries.remove(holder.value());
+                } else {
+                    entries.add(holder.value());
+                }
+            }
         }));
 
         this.entries.set(Collections.unmodifiableSet(entries));
@@ -98,9 +106,9 @@ public class RegistryFilter<T> implements IRegistryFilter<T> {
         return entries.get().contains(object);
     }
 
-    private interface Rule<T> {
-
-        boolean matches(Holder.Reference<T> holder);
+    private record Rule<T>(
+        boolean negate,
+        Predicate<Holder.Reference<T>> predicate) {
 
     }
 
@@ -120,38 +128,44 @@ public class RegistryFilter<T> implements IRegistryFilter<T> {
             }
 
             this.registryKey = registryKey;
-            this.rules = new HashSet<>();
+            this.rules = new LinkedHashSet<>();
         }
 
         @Override
         public IRegistryFilter.Builder<T> parse(String rule) {
-            var prefix = rule.charAt(0);
-
-            switch (prefix) {
-                case '@' -> {
-                    LOG.debug("\tNamespace: {}", rule);
-                    var namespace = rule.substring(1);
-                    rules.add(it -> it.key().location().getNamespace().equals(namespace));
-                }
-                case '#' -> {
-                    LOG.debug("\tTag      : {}", rule);
-                    var tagId = new ResourceLocation(rule.substring(1));
-                    var tag = TagKey.create(registryKey, tagId);
-                    rules.add(it -> it.is(tag));
-                }
-                case '/' -> {
-                    LOG.debug("\tRegex    : {}", rule);
-                    Preconditions.checkArgument(rule.endsWith("/"), "Regex filter must also ends with /");
-                    var pattern = Pattern.compile(rule.substring(1, rule.length() - 1));
-                    rules.add(it -> pattern.matcher(it.key().location().toString()).matches());
-                }
-                default -> {
-                    LOG.debug("\tID       : {}", rule);
-                    rules.add(it -> it.is(new ResourceLocation(rule)));
-                }
+            if (rule.charAt(0) == '!') {
+                parse0(rule.substring(1), true);
+            } else {
+                parse0(rule, false);
             }
 
             return this;
+        }
+
+        private void parse0(String rule, boolean negate) {
+            switch (rule.charAt(0)) {
+                case '@' -> {
+                    LOG.debug("\tNegate: {}, Namespace: {}", negate, rule);
+                    var namespace = rule.substring(1);
+                    rules.add(new Rule<>(negate, it -> it.key().location().getNamespace().equals(namespace)));
+                }
+                case '#' -> {
+                    LOG.debug("\tNegate: {}, Tag      : {}", negate, rule);
+                    var tagId = new ResourceLocation(rule.substring(1));
+                    var tag = TagKey.create(registryKey, tagId);
+                    rules.add(new Rule<>(negate, it -> it.is(tag)));
+                }
+                case '/' -> {
+                    LOG.debug("\tNegate: {}, Regex    : {}", negate, rule);
+                    Preconditions.checkArgument(rule.endsWith("/"), "Regex filter must also ends with /");
+                    var pattern = Pattern.compile(rule.substring(1, rule.length() - 1));
+                    rules.add(new Rule<>(negate, it -> pattern.matcher(it.key().location().toString()).matches()));
+                }
+                default -> {
+                    LOG.debug("\tNegate: {}, ID       : {}", negate, rule);
+                    rules.add(new Rule<>(negate, it -> it.is(new ResourceLocation(rule))));
+                }
+            }
         }
 
         @Override
