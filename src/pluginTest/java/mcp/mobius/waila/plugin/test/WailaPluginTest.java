@@ -96,6 +96,9 @@ public class WailaPluginTest implements IWailaPlugin {
         registrar.addDataContext(RequestDataTest.INSTANCE, BarrelBlockEntity.class);
         registrar.addBlockData(RequestDataTest.INSTANCE, BarrelBlockEntity.class);
         registrar.addComponent(RequestDataTest.INSTANCE, TooltipPosition.BODY, BarrelBlockEntity.class);
+
+        registrar.addConfig(RedirectTest.TARGET, RedirectTest.Target.NONE);
+        registrar.addRedirect(RedirectTest.INSTANCE, Block.class);
     }
 
 }
