@@ -48,6 +48,7 @@ public class Registrar implements IRegistrar {
 
     private static final Log LOG = Log.create();
 
+    public final InstanceRegistry<IBlockComponentProvider> blockRedirect = new InstanceRegistry<>();
     public final InstanceRegistry<IBlockComponentProvider> blockOverride = new InstanceRegistry<>();
     public final InstanceRegistry<IBlockComponentProvider> blockIcon = new InstanceRegistry<>();
     public final InstanceRegistry<IBlockComponentProvider> blockDataCtx = new InstanceRegistry<>();
@@ -58,6 +59,7 @@ public class Registrar implements IRegistrar {
         }
     });
 
+    public final InstanceRegistry<IEntityComponentProvider> entityRedirect = new InstanceRegistry<>();
     public final InstanceRegistry<IEntityComponentProvider> entityOverride = new InstanceRegistry<>();
     public final InstanceRegistry<IEntityComponentProvider> entityIcon = new InstanceRegistry<>();
     public final InstanceRegistry<IEntityComponentProvider> entityDataCtx = new InstanceRegistry<>();
@@ -194,6 +196,16 @@ public class Registrar implements IRegistrar {
     }
 
     @Override
+    public <T> void addRedirect(IBlockComponentProvider provider, Class<T> clazz, int priority) {
+        if (skip()) return;
+        if (Waila.CLIENT_SIDE) {
+            assertLock();
+            assertPriority(priority);
+            blockRedirect.add(clazz, provider, priority);
+        }
+    }
+
+    @Override
     public <T> void addOverride(IBlockComponentProvider provider, Class<T> clazz, int priority) {
         if (skip()) return;
         if (Waila.CLIENT_SIDE) {
@@ -248,6 +260,16 @@ public class Registrar implements IRegistrar {
     @Override
     public void addBlacklist(EntityType<?>... entityTypes) {
         addBlacklist(blacklist.entityTypes, Registry.ENTITY_TYPE, entityTypes);
+    }
+
+    @Override
+    public <T> void addRedirect(IEntityComponentProvider provider, Class<T> clazz, int priority) {
+        if (skip()) return;
+        if (Waila.CLIENT_SIDE) {
+            assertLock();
+            assertPriority(priority);
+            entityRedirect.add(clazz, provider, priority);
+        }
     }
 
     @Override

@@ -6,6 +6,7 @@ import mcp.mobius.waila.access.ClientAccessor;
 import mcp.mobius.waila.api.IBlacklistConfig;
 import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IEntityComponentProvider;
+import mcp.mobius.waila.api.ITargetRedirector;
 import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.IWailaConfig.Overlay.Position.Align;
@@ -25,6 +26,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.Nullable;
 
 import static mcp.mobius.waila.api.TooltipPosition.BODY;
 import static mcp.mobius.waila.api.TooltipPosition.HEAD;
@@ -39,6 +41,10 @@ public class TooltipHandler {
     private static final ConfigTooltipRendererState STATE = new ConfigTooltipRendererState();
     private static final Tooltip TOOLTIP = new Tooltip();
     private static final Component SNEAK_DETAIL = Component.translatable(Tl.Tooltip.SNEAK_FOR_DETAILS).withStyle(ChatFormatting.ITALIC);
+
+    private enum ProcessResult {
+        CONTINUE, BREAK
+    }
 
     public static void tick() {
         STATE.render = false;
@@ -87,94 +93,149 @@ public class TooltipHandler {
         if (castOrigin == null) return;
 
         for (var target : results) {
-            var accessor = ClientAccessor.INSTANCE;
-            accessor.set(client.level, player, target, client.cameraEntity, castOrigin, castDirection, pickRange, client.getFrameTime());
+            if (processTarget(target, client, player, castOrigin, castDirection, pickRange, config) == ProcessResult.BREAK) break;
+        }
+    }
 
-            TooltipRenderer.beginBuild(STATE);
+    private static ProcessResult redirectTarget(HitResult target, TargetRedirector redirector, Minecraft client, Player player, Vec3 castOrigin, Vec3 castDirection, float pickRange, WailaConfig.General config) {
+        if (redirector.nowhere) return ProcessResult.BREAK;
+        if (redirector.behind) return ProcessResult.CONTINUE;
 
-            if (target.getType() == HitResult.Type.BLOCK) {
-                var block = accessor.getBlock();
+        var redirect = redirector.to;
+        if (redirect == null) return ProcessResult.CONTINUE;
+        if (redirect.getType() == HitResult.Type.MISS) return ProcessResult.CONTINUE;
 
-                if (block instanceof LiquidBlock) {
-                    if (!PluginConfig.CLIENT.getBoolean(WailaConstants.CONFIG_SHOW_FLUID)) continue;
-                } else if (!PluginConfig.CLIENT.getBoolean(WailaConstants.CONFIG_SHOW_BLOCK)) {
-                    continue;
-                }
+        return processTarget(
+            redirect, client, player,
+            castOrigin.subtract(target.getLocation().subtract(redirect.getLocation())),
+            castDirection, pickRange, config);
+    }
 
-                if (IBlacklistConfig.get().contains(block)) continue;
+    private static ProcessResult processTarget(HitResult target, Minecraft client, Player player, Vec3 castOrigin, Vec3 castDirection, float pickRange, WailaConfig.General config) {
+        var accessor = ClientAccessor.INSTANCE;
+        accessor.set(client.level, player, target, client.cameraEntity, castOrigin, castDirection, pickRange, client.getFrameTime());
 
-                var blockEntity = accessor.getBlockEntity();
-                if (blockEntity != null && IBlacklistConfig.get().contains(blockEntity)) continue;
+        TooltipRenderer.beginBuild(STATE);
 
-                var state = ComponentHandler.getOverrideBlock(target);
-                if (state == IBlockComponentProvider.EMPTY_BLOCK_STATE) continue;
+        if (target.getType() == HitResult.Type.BLOCK) {
+            var block = accessor.getBlock();
+            var blockEntity = accessor.getBlockEntity();
 
-                accessor.setState(state);
+            var redirector = TargetRedirector.get();
+            var redirectPriority = Integer.MAX_VALUE;
+            @Nullable ITargetRedirector.Result redirectResult = null;
 
-                requestBlockData(accessor);
-
-                TOOLTIP.clear();
-                gatherBlock(accessor, TOOLTIP, HEAD);
-                TooltipRenderer.add(TOOLTIP);
-
-                TOOLTIP.clear();
-                gatherBlock(accessor, TOOLTIP, BODY);
-
-                if (config.isShiftForDetails() && !TOOLTIP.isEmpty() && !player.isShiftKeyDown()) {
-                    if (!config.isHideShiftText()) {
-                        TooltipRenderer.add(new Line(null).with(SNEAK_DETAIL));
-                    }
-                } else {
-                    TooltipRenderer.add(TOOLTIP);
-                }
-
-                TOOLTIP.clear();
-                gatherBlock(accessor, TOOLTIP, TAIL);
-            } else if (target.getType() == HitResult.Type.ENTITY) {
-                if (!PluginConfig.CLIENT.getBoolean(WailaConstants.CONFIG_SHOW_ENTITY)) continue;
-
-                var actualEntity = accessor.getEntity();
-                if (actualEntity == null) continue;
-                if (IBlacklistConfig.get().contains(actualEntity)) continue;
-
-                var targetEnt = ComponentHandler.getOverrideEntity(target);
-                if (targetEnt == IEntityComponentProvider.EMPTY_ENTITY) continue;
-
-                accessor.setEntity(targetEnt);
-                if (targetEnt == null) continue;
-
-                requestEntityData(targetEnt, accessor);
-
-                TOOLTIP.clear();
-                gatherEntity(targetEnt, accessor, TOOLTIP, HEAD);
-                TooltipRenderer.add(TOOLTIP);
-
-                TOOLTIP.clear();
-                gatherEntity(targetEnt, accessor, TOOLTIP, BODY);
-
-                if (config.isShiftForDetails() && !TOOLTIP.isEmpty() && !player.isShiftKeyDown()) {
-                    if (!config.isHideShiftText()) {
-                        TooltipRenderer.add(new Line(null).with(SNEAK_DETAIL));
-                    }
-                } else {
-                    TooltipRenderer.add(TOOLTIP);
-                }
-
-                TOOLTIP.clear();
-                gatherEntity(targetEnt, accessor, TOOLTIP, TAIL);
+            for (var entry : Registrar.get().blockRedirect.get(block)) {
+                redirectResult = entry.instance().redirect(redirector, accessor, PluginConfig.CLIENT);
+                redirectPriority = entry.priority();
+                if (redirectResult != null) break;
             }
 
+            var hasBeRedirector = false;
+            for (var entry : Registrar.get().blockRedirect.get(blockEntity)) {
+                if (entry.priority() >= redirectPriority) break;
+                if (!hasBeRedirector) {
+                    hasBeRedirector = true;
+                    redirector = TargetRedirector.get();
+                }
+                redirectResult = entry.instance().redirect(redirector, accessor, PluginConfig.CLIENT);
+                if (redirectResult != null) break;
+            }
+
+            if (redirectResult != null && !redirector.self) {
+                return redirectTarget(target, redirector, client, player, castOrigin, castDirection, pickRange, config);
+            }
+
+            if (block instanceof LiquidBlock) {
+                if (!PluginConfig.CLIENT.getBoolean(WailaConstants.CONFIG_SHOW_FLUID)) return ProcessResult.CONTINUE;
+            } else if (!PluginConfig.CLIENT.getBoolean(WailaConstants.CONFIG_SHOW_BLOCK)) {
+                return ProcessResult.CONTINUE;
+            }
+
+            if (IBlacklistConfig.get().contains(block)) return ProcessResult.CONTINUE;
+
+            if (blockEntity != null && IBlacklistConfig.get().contains(blockEntity)) return ProcessResult.CONTINUE;
+
+            var state = ComponentHandler.getOverrideBlock(target);
+            if (state == IBlockComponentProvider.EMPTY_BLOCK_STATE) return ProcessResult.CONTINUE;
+
+            accessor.setState(state);
+
+            requestBlockData(accessor);
+
+            TOOLTIP.clear();
+            gatherBlock(accessor, TOOLTIP, HEAD);
             TooltipRenderer.add(TOOLTIP);
 
-            if (PluginConfig.CLIENT.getBoolean(WailaConstants.CONFIG_SHOW_ICON)) {
-                TooltipRenderer.setIcon(ComponentHandler.getIcon(target));
+            TOOLTIP.clear();
+            gatherBlock(accessor, TOOLTIP, BODY);
+
+            if (config.isShiftForDetails() && !TOOLTIP.isEmpty() && !player.isShiftKeyDown()) {
+                if (!config.isHideShiftText()) {
+                    TooltipRenderer.add(new Line(null).with(SNEAK_DETAIL));
+                }
+            } else {
+                TooltipRenderer.add(TOOLTIP);
             }
 
-            STATE.render = true;
-            TooltipRenderer.endBuild();
+            TOOLTIP.clear();
+            gatherBlock(accessor, TOOLTIP, TAIL);
+        } else if (target.getType() == HitResult.Type.ENTITY) {
+            var actualEntity = accessor.getEntity();
 
-            break;
+            var redirector = TargetRedirector.get();
+            @Nullable ITargetRedirector.Result redirectResult = null;
+
+            for (var entry : Registrar.get().entityRedirect.get(actualEntity)) {
+                redirectResult = entry.instance().redirect(redirector, accessor, PluginConfig.CLIENT);
+                if (redirectResult != null) break;
+            }
+
+            if (redirectResult != null && !redirector.self) {
+                return redirectTarget(target, redirector, client, player, castOrigin, castDirection, pickRange, config);
+            }
+
+            if (!PluginConfig.CLIENT.getBoolean(WailaConstants.CONFIG_SHOW_ENTITY)) return ProcessResult.CONTINUE;
+
+            if (actualEntity == null) return ProcessResult.CONTINUE;
+            if (IBlacklistConfig.get().contains(actualEntity)) return ProcessResult.CONTINUE;
+
+            var targetEnt = ComponentHandler.getOverrideEntity(target);
+            if (targetEnt == IEntityComponentProvider.EMPTY_ENTITY) return ProcessResult.CONTINUE;
+
+            accessor.setEntity(targetEnt);
+            if (targetEnt == null) return ProcessResult.CONTINUE;
+
+            requestEntityData(targetEnt, accessor);
+
+            TOOLTIP.clear();
+            gatherEntity(targetEnt, accessor, TOOLTIP, HEAD);
+            TooltipRenderer.add(TOOLTIP);
+
+            TOOLTIP.clear();
+            gatherEntity(targetEnt, accessor, TOOLTIP, BODY);
+
+            if (config.isShiftForDetails() && !TOOLTIP.isEmpty() && !player.isShiftKeyDown()) {
+                if (!config.isHideShiftText()) {
+                    TooltipRenderer.add(new Line(null).with(SNEAK_DETAIL));
+                }
+            } else {
+                TooltipRenderer.add(TOOLTIP);
+            }
+
+            TOOLTIP.clear();
+            gatherEntity(targetEnt, accessor, TOOLTIP, TAIL);
         }
+
+        TooltipRenderer.add(TOOLTIP);
+
+        if (PluginConfig.CLIENT.getBoolean(WailaConstants.CONFIG_SHOW_ICON)) {
+            TooltipRenderer.setIcon(ComponentHandler.getIcon(target));
+        }
+
+        STATE.render = true;
+        TooltipRenderer.endBuild();
+        return ProcessResult.BREAK;
     }
 
     private static class ConfigTooltipRendererState implements TooltipRenderer.State {
