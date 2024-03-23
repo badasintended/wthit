@@ -323,6 +323,33 @@ public interface IRegistrar {
     void addBlacklist(BlockEntityType<?>... blockEntityTypes);
 
     /**
+     * Registers an {@link IBlockComponentProvider} instance to allow redirecting the object being displayed.
+     * A {@link BlockEntity} is also an acceptable class type.
+     *
+     * @param provider the data provider instance
+     * @param clazz    the highest level class to apply to
+     * @param priority the priority of this provider <b>0 is the minimum, lower number will be called first</b>
+     *
+     * @see #DEFAULT_PRIORITY
+     */
+    @ApiStatus.Experimental
+    <T> void addRedirect(IBlockComponentProvider provider, Class<T> clazz, int priority);
+
+    /**
+     * Registers an {@link IBlockComponentProvider} instance to allow redirecting the object being displayed.
+     * A {@link BlockEntity} is also an acceptable class type.
+     *
+     * @param provider the data provider instance
+     * @param clazz    the highest level class to apply to
+     *
+     * @see #DEFAULT_PRIORITY
+     */
+    @ApiStatus.Experimental
+    default <T> void addRedirect(IBlockComponentProvider provider, Class<T> clazz) {
+        addRedirect(provider, clazz, DEFAULT_PRIORITY);
+    }
+
+    /**
      * Registers an {@link IBlockComponentProvider} instance to allow overriding the block being displayed.
      * A {@link BlockEntity} is also an acceptable class type.
      *
@@ -440,6 +467,31 @@ public interface IRegistrar {
      * Adds the specified entity types to the default blacklist.
      */
     void addBlacklist(EntityType<?>... entityTypes);
+
+    /**
+     * Registers an {@link IEntityComponentProvider} instance to allow redirecting the object being displayed.
+     *
+     * @param provider the data provider instance
+     * @param clazz    the highest level class to apply to
+     * @param priority the priority of this provider <b>0 is the minimum, lower number will be called first</b>
+     *
+     * @see #DEFAULT_PRIORITY
+     */
+    @ApiStatus.Experimental
+    <T> void addRedirect(IEntityComponentProvider provider, Class<T> clazz, int priority);
+
+    /**
+     * Registers an {@link IEntityComponentProvider} instance to allow redirecting the object being displayed.
+     *
+     * @param provider the data provider instance
+     * @param clazz    the highest level class to apply to
+     *
+     * @see #DEFAULT_PRIORITY
+     */
+    @ApiStatus.Experimental
+    default <T> void addRedirect(IEntityComponentProvider provider, Class<T> clazz) {
+        addRedirect(provider, clazz, DEFAULT_PRIORITY);
+    }
 
     /**
      * Registers an {@link IEntityComponentProvider} instance to allow overriding the entity being displayed.
