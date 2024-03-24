@@ -1,5 +1,5 @@
 plugins {
-    id("fabric-loom") version "1.0.+"
+    id("fabric-loom") version "1.3.10"
 }
 
 setupPlatform()
@@ -41,10 +41,6 @@ tasks.remapJar {
 }
 
 tasks.remapSourcesJar {
-    enabled = false
-}
-
-tasks.prepareRemapJar {
     enabled = false
 }
 
