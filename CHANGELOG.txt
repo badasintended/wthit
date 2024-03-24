@@ -1,5 +1,8 @@
 10.x - 1.20.4 - dev/master - java 17
 ====================================
+10.5.0   - Changed network version to `9`
+         - [API] Added target redirector API
+         - [API] Added negation rule for registry filter with `!` prefix
 10.4.0   - Changed network version to `8`
          - Changed plugins to be reload/toggle-able
            - Allows server to disable and lock plugins on connected clients
@@ -25,6 +28,9 @@
 
 9.x - 1.20.2 - dev/1.20.2 - java 17
 ===================================
+9.6.0    - Changed network version to `9`
+         - [API] Added target redirector API
+         - [API] Added negation rule for registry filter with `!` prefix
 9.5.0    - Changed network version to `8`
          - Changed plugins to be reload/toggle-able
            - Allows server to disable and lock plugins on connected clients
@@ -63,6 +69,9 @@
 
 8.x - 1.20.1 - dev/1.20.1 - java 17
 ===================================
+8.9.0    - Changed network version to `9`
+         - [API] Added target redirector API
+         - [API] Added negation rule for registry filter with `!` prefix
 8.8.0    - Changed network version to `8`
          - Changed plugins to be reload/toggle-able
            - Allows server to disable and lock plugins on connected clients
@@ -261,6 +270,9 @@
 
 5.x - 1.19.2 - dev/1.19.2 - java 17
 ===================================
+5.24.0   - Changed network version to `9`
+         - [API] Added target redirector API
+         - [API] Added negation rule for registry filter with `!` prefix
 5.23.0   - Changed network version to `8`
          - Changed plugins to be reload/toggle-able
            - Allows server to disable and lock plugins on connected clients
