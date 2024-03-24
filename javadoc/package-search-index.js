@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"mcp.mobius.waila.api"},{"l":"mcp.mobius.waila.api.__internal__"},{"l":"mcp.mobius.waila.api.component"},{"l":"mcp.mobius.waila.api.data"},{"l":"mcp.mobius.waila.api.fabric"},{"l":"mcp.mobius.waila.api.forge"},{"l":"mcp.mobius.waila.api.neo"}];updateSearchResults();
