@@ -60,6 +60,14 @@ allprojects {
             }
         }
     }
+
+    task("listPluginVersions") {
+        doLast {
+            project.plugins.forEach {
+                println("$it -> ${it.javaClass.protectionDomain.codeSource.location.toURI().toString().lowercase()}")
+            }
+        }
+    }
 }
 
 subprojects {

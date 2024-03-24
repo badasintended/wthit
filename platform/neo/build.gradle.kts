@@ -1,5 +1,5 @@
 plugins {
-    id("net.neoforged.gradle.userdev") version "7.0.+"
+    id("net.neoforged.gradle.userdev") version "7.0.100"
 }
 
 setupPlatform()
