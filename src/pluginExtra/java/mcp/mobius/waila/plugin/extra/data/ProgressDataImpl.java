@@ -2,47 +2,49 @@ package mcp.mobius.waila.plugin.extra.data;
 
 import java.util.ArrayList;
 
+import mcp.mobius.waila.api.IData;
 import mcp.mobius.waila.api.data.ProgressData;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 
 public class ProgressDataImpl extends ProgressData {
+
+    public static final StreamCodec<RegistryFriendlyByteBuf, ProgressDataImpl> CODEC = StreamCodec.ofMember((d, buf) -> {
+        buf.writeFloat(d.ratio);
+
+        buf.writeVarInt(d.input.size());
+        for (var stack : d.input) {
+            ItemStack.STREAM_CODEC.encode(buf, stack);
+        }
+
+        buf.writeVarInt(d.output.size());
+        for (var stack : d.output) {
+            ItemStack.STREAM_CODEC.encode(buf, stack);
+        }
+    }, buf -> {
+        var ratio = buf.readFloat();
+        var d = new ProgressDataImpl(ratio);
+
+        var inputSize = buf.readVarInt();
+        d.input.ensureCapacity(inputSize);
+        for (var i = 0; i < inputSize; i++) {
+            d.input.add(ItemStack.STREAM_CODEC.decode(buf));
+        }
+
+        var outputSize = buf.readVarInt();
+        d.output.ensureCapacity(outputSize);
+        for (var i = 0; i < outputSize; i++) {
+            d.output.add(ItemStack.STREAM_CODEC.decode(buf));
+        }
+
+        return d;
+    });
 
     private final float ratio;
 
     public ProgressDataImpl(float ratio) {
         this.ratio = ratio;
-    }
-
-    public ProgressDataImpl(FriendlyByteBuf buf) {
-        this.ratio = buf.readFloat();
-
-        var inputSize = buf.readVarInt();
-        input.ensureCapacity(inputSize);
-        for (var i = 0; i < inputSize; i++) {
-            input.add(buf.readItem());
-        }
-
-        var outputSize = buf.readVarInt();
-        output.ensureCapacity(outputSize);
-        for (var i = 0; i < outputSize; i++) {
-            output.add(buf.readItem());
-        }
-    }
-
-    @Override
-    public void write(FriendlyByteBuf buf) {
-        buf.writeFloat(ratio);
-
-        buf.writeVarInt(input.size());
-        for (var stack : input) {
-            buf.writeItem(stack);
-        }
-
-        buf.writeVarInt(output.size());
-        for (var stack : output) {
-            buf.writeItem(stack);
-        }
     }
 
     public float ratio() {
@@ -55,6 +57,11 @@ public class ProgressDataImpl extends ProgressData {
 
     public ArrayList<ItemStack> output() {
         return output;
+    }
+
+    @Override
+    public Type<? extends IData> type() {
+        return TYPE;
     }
 
 }

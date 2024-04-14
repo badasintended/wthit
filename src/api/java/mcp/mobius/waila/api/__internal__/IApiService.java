@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import mcp.mobius.waila.api.IBlacklistConfig;
+import mcp.mobius.waila.api.IData;
 import mcp.mobius.waila.api.IInstanceRegistry;
 import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.api.IModInfo;
@@ -20,12 +21,9 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Tier;
-import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 
 /**
@@ -74,9 +72,10 @@ public interface IApiService {
 
     <T> IInstanceRegistry<T> createInstanceRegistry(boolean reversed);
 
-    @Nullable
-    TagKey<Block> getTierTag(Tier tier);
-
     List<Tier> getTiers();
+
+    <D extends IData> IData.Type<D> createDataType(ResourceLocation id);
+
+    boolean isDevEnv();
 
 }

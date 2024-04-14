@@ -17,7 +17,7 @@ import net.minecraft.world.phys.Vec3;
 
 public class RayCaster {
 
-    public static void cast(Level world, Entity camera, Vec3 origin, Vec3 direction, float maxDistance, ObjDoubleConsumer<HitResult> results) {
+    public static void cast(Level world, Entity camera, Vec3 origin, Vec3 direction, double maxDistance, ObjDoubleConsumer<HitResult> results) {
         var showBlock = PluginConfig.CLIENT.getBoolean(WailaConstants.CONFIG_SHOW_BLOCK);
         var showFluid = PluginConfig.CLIENT.getBoolean(WailaConstants.CONFIG_SHOW_FLUID);
         var showEntity = PluginConfig.CLIENT.getBoolean(WailaConstants.CONFIG_SHOW_ENTITY);

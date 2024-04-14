@@ -23,7 +23,7 @@ public class FabricWailaClient extends WailaClient implements ClientModInitializ
 
         HudRenderCallback.EVENT.register(TooltipRenderer::render);
         ClientTickEvents.END_CLIENT_TICK.register(client -> onClientTick());
-        ItemTooltipCallback.EVENT.register((stack, ctx, tooltip) -> onItemTooltip(stack, tooltip));
+        ItemTooltipCallback.EVENT.register((stack, ctx, flag, tooltip) -> onItemTooltip(stack, tooltip));
 
         ClientConfigurationConnectionEvents.DISCONNECT.register((handler, client) -> client.execute(WailaClient::onServerLogout));
         ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> client.execute(WailaClient::onServerLogout));

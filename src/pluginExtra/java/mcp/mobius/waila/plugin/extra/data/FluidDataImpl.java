@@ -5,14 +5,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import mcp.mobius.waila.api.IData;
 import mcp.mobius.waila.api.data.FluidData;
 import mcp.mobius.waila.buildconst.Tl;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -21,6 +23,40 @@ import net.minecraft.world.level.material.Fluids;
 import org.jetbrains.annotations.Nullable;
 
 public class FluidDataImpl extends FluidData.PlatformDependant<Object> {
+
+    public static final StreamCodec<RegistryFriendlyByteBuf, FluidDataImpl> CODEC = StreamCodec.ofMember((d, buf) -> {
+        buf.writeEnum(d.unit);
+        buf.writeVarInt(d.entries.size());
+
+        for (var entry : d.entries) {
+            if (entry.isEmpty()) {
+                buf.writeBoolean(true);
+            } else {
+                buf.writeBoolean(false);
+                buf.writeById(BuiltInRegistries.FLUID::getId, entry.fluid);
+                DataComponentPatch.STREAM_CODEC.encode(buf, entry.data);
+                buf.writeDouble(entry.stored);
+                buf.writeDouble(entry.capacity);
+            }
+        }
+    }, buf -> {
+        var unit = buf.readEnum(Unit.class);
+        var size = buf.readVarInt();
+
+        var d = new FluidDataImpl(null, unit, size);
+        for (var i = 0; i < size; i++) {
+            if (buf.readBoolean()) continue;
+
+            var id = buf.readVarInt();
+            var fluid = BuiltInRegistries.FLUID.byId(id);
+            var data = DataComponentPatch.STREAM_CODEC.decode(buf);
+            var stored = buf.readDouble();
+            var capacity = buf.readDouble();
+            d.add(fluid, data, stored, capacity);
+        }
+
+        return d;
+    });
 
     private final List<Entry<?>> entries;
     private final PlatformTranslator<Object> proxy;
@@ -32,28 +68,9 @@ public class FluidDataImpl extends FluidData.PlatformDependant<Object> {
         this.unit = unit;
     }
 
-    public FluidDataImpl(FriendlyByteBuf buf) {
-        proxy = null;
-        unit = buf.readEnum(Unit.class);
-
-        var size = buf.readVarInt();
-        entries = new ArrayList<>(size);
-
-        for (var i = 0; i < size; i++) {
-            if (buf.readBoolean()) continue;
-
-            var id = buf.readVarInt();
-            var fluid = BuiltInRegistries.FLUID.byId(id);
-            var nbt = buf.readNbt();
-            var stored = buf.readDouble();
-            var capacity = buf.readDouble();
-            add(fluid, nbt, stored, capacity);
-        }
-    }
-
     @Override
-    protected void implAdd(Fluid fluid, @Nullable CompoundTag nbt, double stored, double capacity) {
-        entries.add(new Entry<>(fluid, nbt, stored, capacity));
+    protected void implAdd(Fluid fluid, DataComponentPatch data, double stored, double capacity) {
+        entries.add(new Entry<>(fluid, data, stored, capacity));
     }
 
     @Override
@@ -62,21 +79,8 @@ public class FluidDataImpl extends FluidData.PlatformDependant<Object> {
     }
 
     @Override
-    public void write(FriendlyByteBuf buf) {
-        buf.writeEnum(unit);
-        buf.writeVarInt(entries.size());
-
-        for (var entry : entries) {
-            if (entry.isEmpty()) {
-                buf.writeBoolean(true);
-            } else {
-                buf.writeBoolean(false);
-                buf.writeId(BuiltInRegistries.FLUID, entry.fluid);
-                buf.writeNbt(entry.nbt);
-                buf.writeDouble(entry.stored);
-                buf.writeDouble(entry.capacity);
-            }
-        }
+    public Type<? extends IData> type() {
+        return TYPE;
     }
 
     public Unit unit() {
@@ -90,13 +94,13 @@ public class FluidDataImpl extends FluidData.PlatformDependant<Object> {
     public static class Entry<T extends Fluid> implements FluidDescriptionContext<T> {
 
         private final T fluid;
-        private final @Nullable CompoundTag nbt;
+        private final DataComponentPatch data;
         private final double stored;
         private final double capacity;
 
-        private Entry(T fluid, @Nullable CompoundTag nbt, double stored, double capacity) {
+        private Entry(T fluid, DataComponentPatch data, double stored, double capacity) {
             this.fluid = fluid;
-            this.nbt = nbt;
+            this.data = data;
             this.stored = stored;
             this.capacity = capacity;
         }
@@ -111,9 +115,8 @@ public class FluidDataImpl extends FluidData.PlatformDependant<Object> {
         }
 
         @Override
-        @Nullable
-        public CompoundTag nbt() {
-            return nbt;
+        public DataComponentPatch data() {
+            return data;
         }
 
         public double stored() {
@@ -137,7 +140,8 @@ public class FluidDataImpl extends FluidData.PlatformDependant<Object> {
 
         private static final Component UNKNOWN_FLUID_NAME = Component.translatable(Tl.Tooltip.Extra.UNKNOWN_FLUID);
 
-        private static final FluidDescriptor<Fluid> UNKNOWN_FLUID_DESC = (ctx, desc) -> {};
+        private static final FluidDescriptor<Fluid> UNKNOWN_FLUID_DESC = (ctx, desc) -> {
+        };
         private static final CauldronDescriptor NULL_CAULDRON_DESC = state -> null;
 
         private TextureAtlasSprite sprite;

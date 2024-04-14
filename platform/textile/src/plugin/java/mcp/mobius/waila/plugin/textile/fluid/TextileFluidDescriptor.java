@@ -21,7 +21,7 @@ public enum TextileFluidDescriptor implements FluidDescriptor<Fluid>, CauldronDe
 
     @Override
     public void describeFluid(FluidDescriptionContext<Fluid> ctx, FluidDescription desc) {
-        var variant = FluidVariant.of(ctx.fluid(), ctx.nbt());
+        var variant = FluidVariant.of(ctx.fluid(), ctx.data());
         desc.name(FluidVariantAttributes.getName(variant));
 
         var sprite = FluidVariantRendering.getSprite(variant);

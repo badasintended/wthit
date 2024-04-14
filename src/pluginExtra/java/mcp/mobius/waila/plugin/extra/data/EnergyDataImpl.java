@@ -3,11 +3,19 @@ package mcp.mobius.waila.plugin.extra.data;
 import java.util.HashMap;
 import java.util.Map;
 
+import mcp.mobius.waila.api.IData;
 import mcp.mobius.waila.api.data.EnergyData;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 
 public class EnergyDataImpl extends EnergyData {
+
+    public static final StreamCodec<RegistryFriendlyByteBuf, EnergyDataImpl> CODEC = StreamCodec.composite(
+        ByteBufCodecs.DOUBLE, EnergyDataImpl::stored,
+        ByteBufCodecs.DOUBLE, EnergyDataImpl::capacity,
+        EnergyDataImpl::new);
 
     private final double stored;
     private final double capacity;
@@ -17,15 +25,9 @@ public class EnergyDataImpl extends EnergyData {
         this.capacity = capacity;
     }
 
-    public EnergyDataImpl(FriendlyByteBuf buf) {
-        this.stored = buf.readDouble();
-        this.capacity = buf.readDouble();
-    }
-
     @Override
-    public void write(FriendlyByteBuf buf) {
-        buf.writeDouble(stored);
-        buf.writeDouble(capacity);
+    public Type<? extends IData> type() {
+        return TYPE;
     }
 
     public double stored() {

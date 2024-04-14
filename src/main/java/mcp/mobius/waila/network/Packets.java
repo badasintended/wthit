@@ -1,18 +1,14 @@
 package mcp.mobius.waila.network;
 
+import java.util.List;
+
 import lol.bai.badpackets.api.PacketSender;
 import lol.bai.badpackets.api.config.ConfigPackets;
 import lol.bai.badpackets.api.play.PlayPackets;
-import mcp.mobius.waila.network.Packet.ConfigC2S;
-import mcp.mobius.waila.network.Packet.ConfigS2C;
-import mcp.mobius.waila.network.Packet.PlayC2S;
-import mcp.mobius.waila.network.Packet.PlayS2C;
-import mcp.mobius.waila.network.common.VersionPayload;
-import mcp.mobius.waila.network.common.c2s.VersionCommonC2SPacket;
+import mcp.mobius.waila.network.common.VersionCommonPacket;
 import mcp.mobius.waila.network.common.s2c.BlacklistSyncCommonS2CPacket;
 import mcp.mobius.waila.network.common.s2c.ConfigSyncCommonS2CPacket;
 import mcp.mobius.waila.network.common.s2c.PluginSyncCommonS2CPacket;
-import mcp.mobius.waila.network.config.s2c.VersionConfigS2CPacket;
 import mcp.mobius.waila.network.play.c2s.BlockDataRequestPlayC2SPacket;
 import mcp.mobius.waila.network.play.c2s.ConfigSyncRequestPlayC2SPacket;
 import mcp.mobius.waila.network.play.c2s.EntityDataRequestPlayC2SPacket;
@@ -26,57 +22,45 @@ import static mcp.mobius.waila.mcless.network.NetworkConstants.NETWORK_VERSION;
 
 public class Packets {
 
+    private static final List<Packet> PACKETS = List.of(
+        new VersionCommonPacket(),
+
+        new BlacklistSyncCommonS2CPacket(),
+        new ConfigSyncCommonS2CPacket(),
+        new PluginSyncCommonS2CPacket(),
+
+        new BlockDataRequestPlayC2SPacket(),
+        new ConfigSyncRequestPlayC2SPacket(),
+        new EntityDataRequestPlayC2SPacket(),
+        new RawDataRequestContextPlayC2SPacket(),
+        new TypedDataRequestContextPlayC2SPacket(),
+
+        new GenerateClientDumpPlayS2CPacket(),
+        new RawDataResponsePlayS2CPacket(),
+        new TypedDataResponsePlayS2CPacket()
+    );
+
     public static void initServer() {
-        // Common
-        register(new VersionCommonC2SPacket());
+        PACKETS.forEach(Packet::common);
 
-        // Play
-        register(new BlockDataRequestPlayC2SPacket());
-        register(new ConfigSyncRequestPlayC2SPacket());
-        register(new EntityDataRequestPlayC2SPacket());
-        register(new RawDataRequestContextPlayC2SPacket());
-        register(new TypedDataRequestContextPlayC2SPacket());
-
-        ConfigPackets.registerServerReadyCallback((handler, sender, server) ->
-            sendS2CHandshakePackets(sender));
+        ConfigPackets.registerServerReadyCallback(Packets::sendS2CHandshakePackets);
 
         // Older vanilla version doesn't have config stage and instead handshake happens on play stage
-        PlayPackets.registerServerReadyCallback((handler, sender, server) -> {
-            if (sender.canSend(VersionPayload.ID)) {
-                sendS2CHandshakePackets(sender);
+        PlayPackets.registerServerReadyCallback(context -> {
+            if (context.canSend(VersionCommonPacket.TYPE)) {
+                sendS2CHandshakePackets(context);
             }
         });
     }
 
     public static void initClient() {
-        // Common
-        register(new PluginSyncCommonS2CPacket());
-        register(new ConfigSyncCommonS2CPacket());
-        register(new BlacklistSyncCommonS2CPacket());
+        PACKETS.forEach(Packet::client);
 
-        // Config
-        register(new VersionConfigS2CPacket());
-
-        // Play
-        register(new GenerateClientDumpPlayS2CPacket());
-        register(new RawDataResponsePlayS2CPacket());
-        register(new TypedDataResponsePlayS2CPacket());
-
-        ConfigPackets.registerClientReadyCallback((handler, sender, client) ->
-            sendVersionPacket(sender));
-    }
-
-    @SuppressWarnings({"rawtypes", "unchecked"})
-    private static void register(Packet<?> packet) {
-        if (packet instanceof ConfigC2S config) ConfigPackets.registerServerReceiver(config.id(), config, config);
-        if (packet instanceof ConfigS2C config) ConfigPackets.registerClientReceiver(config.id(), config, config);
-
-        if (packet instanceof PlayC2S play) PlayPackets.registerServerReceiver(play.id(), play, play);
-        if (packet instanceof PlayS2C play) PlayPackets.registerClientReceiver(play.id(), play, play);
+        ConfigPackets.registerClientReadyCallback(Packets::sendVersionPacket);
     }
 
     private static void sendVersionPacket(PacketSender sender) {
-        sender.send(new VersionPayload(NETWORK_VERSION));
+        sender.send(new VersionCommonPacket.Payload(NETWORK_VERSION));
     }
 
     private static void sendS2CHandshakePackets(PacketSender sender) {

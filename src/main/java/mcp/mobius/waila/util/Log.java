@@ -55,6 +55,10 @@ public final class Log {
         logger.error(PREFIX + msg, arg1, arg2);
     }
 
+    public void error(String msg, Object... arg) {
+        logger.error(PREFIX + msg, arg);
+    }
+
     public boolean isDebugEnabled() {
         return logger.isDebugEnabled();
     }

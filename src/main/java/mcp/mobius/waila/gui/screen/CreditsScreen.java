@@ -91,8 +91,6 @@ public class CreditsScreen extends YesIAmSureTheClientInstanceIsPresentByTheTime
         }
 
         private void init() {
-            setRenderBackground(false);
-
             var totalHeight = (children().size() - 1) * itemHeight;
             if (totalHeight < height) {
                 setRenderHeader(true, (height - totalHeight) / 2 - getY());

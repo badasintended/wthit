@@ -17,6 +17,7 @@ import mcp.mobius.waila.plugin.PluginLoader;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
@@ -54,7 +55,7 @@ public class ServerCommand extends CommonCommand<CommandSourceStack, MinecraftSe
                     source.sendSuccess(() -> Component.translatable(dedicated ? Tl.Command.SERVER_DUMP_SUCCESS : Tl.Command.LOCAL_DUMP_SUCCESS, pathComponent), false);
                     var entity = source.getEntity();
                     if (entity instanceof ServerPlayer player && !server.isSingleplayerOwner(player.getGameProfile())) {
-                        PacketSender.s2c(player).send(new GenerateClientDumpPlayS2CPacket.Payload());
+                        PacketSender.s2c(player).send(GenerateClientDumpPlayS2CPacket.PAYLOAD);
                     }
                     return 1;
                 } else {
@@ -82,7 +83,7 @@ public class ServerCommand extends CommonCommand<CommandSourceStack, MinecraftSe
                 } else if (world.getBlockEntity(pos) instanceof BaseContainerBlockEntityAccess container) {
                     container.wthit_lockKey(new LockCode(lock));
                     var key = new ItemStack(Items.NAME_TAG);
-                    key.setHoverName(Component.literal(lock));
+                    key.set(DataComponents.CUSTOM_NAME, Component.literal(lock));
                     player.setItemInHand(InteractionHand.MAIN_HAND, key);
                     source.sendSuccess(() -> Component.literal("Locked container " + pos.toShortString() + " with lock \"" + lock + "\""), false);
                     return 1;

@@ -23,7 +23,7 @@ public class FluidProvider extends DataProvider<FluidData, FluidDataImpl> {
     private static final String INFINITE = "∞";
 
     private FluidProvider() {
-        super(FluidData.ID, FluidData.class, FluidDataImpl.class, FluidDataImpl::new);
+        super(FluidData.TYPE, FluidDataImpl.CODEC);
     }
 
     @Override
@@ -70,7 +70,7 @@ public class FluidProvider extends DataProvider<FluidData, FluidDataImpl> {
 
         @Override
         public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
-            if (accessor.getData().get(FluidData.class) != null) return;
+            if (accessor.getData().get(FluidData.TYPE) != null) return;
             if (!config.getBoolean(enabledBlockOption)) return;
             if (blacklistConfig.get().getView().blockFilter.matches(accessor.getBlock())) return;
 

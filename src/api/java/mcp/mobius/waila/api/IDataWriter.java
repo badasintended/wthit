@@ -33,16 +33,16 @@ public interface IDataWriter {
      *
      * @see IData
      */
-    <T extends IData> void add(Class<T> type, Consumer<Result<T>> consumer);
+    <D extends IData> void add(IData.Type<D> type, Consumer<Result<D>> consumer);
 
     /**
      * Immediately adds a typed data.
      * <p>
-     * Use this method only for internal data that only you use, otherwise use {@link #add(Class, Consumer)} instead.
+     * Use this method only for internal data that only you use, otherwise use {@link #add(IData.Type, Consumer)} instead.
      *
      * @param data the data to add
      *
-     * @throws IllegalStateException if the data is already added, whether with {@link #add(Class, Consumer)} or this method
+     * @throws IllegalStateException if the data is already added, whether with {@link #add(IData.Type, Consumer)} or this method
      */
     void addImmediate(IData data);
 
@@ -51,7 +51,7 @@ public interface IDataWriter {
      *
      * @param type the type of the data that wanted to be blocked
      */
-    default void blockAll(Class<? extends IData> type) {
+    default void blockAll(IData.Type<? extends IData> type) {
         add(type, Result::block);
     }
 

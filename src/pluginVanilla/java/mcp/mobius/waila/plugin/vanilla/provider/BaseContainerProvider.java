@@ -16,7 +16,7 @@ public enum BaseContainerProvider implements IDataProvider<BaseContainerBlockEnt
     public void appendData(IDataWriter data, IServerAccessor<BaseContainerBlockEntity> accessor, IPluginConfig config) {
         var target = (BaseContainerBlockEntityAccess) accessor.getTarget();
         if (!target.wthit_lockKey().unlocksWith(accessor.getPlayer().getMainHandItem())) {
-            data.blockAll(ItemData.class);
+            data.blockAll(ItemData.TYPE);
         }
     }
 

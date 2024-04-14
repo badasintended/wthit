@@ -13,7 +13,7 @@ public class ProgressProvider extends DataProvider<ProgressData, ProgressDataImp
     public static final ProgressProvider INSTANCE = new ProgressProvider();
 
     private ProgressProvider() {
-        super(ProgressData.ID, ProgressData.class, ProgressDataImpl.class, ProgressDataImpl::new);
+        super(ProgressData.TYPE, ProgressDataImpl.CODEC);
     }
 
     @Override

@@ -1,34 +1,30 @@
 package mcp.mobius.waila.network.play.s2c;
 
-import lol.bai.badpackets.api.PacketSender;
+import lol.bai.badpackets.api.play.PlayPackets;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.access.DataReader;
 import mcp.mobius.waila.network.Packet;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.NotNull;
 
-public class RawDataResponsePlayS2CPacket implements Packet.PlayS2C<RawDataResponsePlayS2CPacket.Payload> {
+public class RawDataResponsePlayS2CPacket implements Packet {
 
-    public static final ResourceLocation ID = Waila.id("data");
+    public static final CustomPacketPayload.Type<Payload> TYPE = new CustomPacketPayload.Type<>(Waila.id("data"));
+    public static final StreamCodec<FriendlyByteBuf, Payload> CODEC = StreamCodec.composite(
+        ByteBufCodecs.COMPOUND_TAG, Payload::data,
+        Payload::new);
 
     @Override
-    public ResourceLocation id() {
-        return ID;
+    public void common() {
+        PlayPackets.registerClientChannel(TYPE, CODEC);
     }
 
     @Override
-    public Payload read(FriendlyByteBuf buf) {
-        return new Payload(buf.readNbt());
-    }
-
-    @Override
-    public void receive(Minecraft client, ClientPacketListener handler, Payload payload, PacketSender responseSender) {
-        DataReader.CLIENT.reset(payload.data);
+    public void client() {
+        PlayPackets.registerClientReceiver(TYPE, (context, payload) -> DataReader.CLIENT.reset(payload.data));
     }
 
     public record Payload(
@@ -36,13 +32,8 @@ public class RawDataResponsePlayS2CPacket implements Packet.PlayS2C<RawDataRespo
     ) implements CustomPacketPayload {
 
         @Override
-        public void write(FriendlyByteBuf buf) {
-            buf.writeNbt(data);
-        }
-
-        @Override
-        public @NotNull ResourceLocation id() {
-            return ID;
+        public Type<? extends CustomPacketPayload> type() {
+            return TYPE;
         }
 
     }

@@ -19,6 +19,7 @@ import org.jetbrains.annotations.ApiStatus;
 public abstract class EnergyData implements IData {
 
     public static final ResourceLocation ID = BuiltinDataUtil.rl("energy");
+    public static final Type<EnergyData> TYPE = IData.createType(ID);
 
     /**
      * The default energy name translation key.
@@ -55,7 +56,7 @@ public abstract class EnergyData implements IData {
      * @see #INFINITE
      */
     public static <T> IDataProvider<T> newInfiniteProvider() {
-        return (data, accessor, config) -> data.add(EnergyData.class, res -> res.add(INFINITE));
+        return (data, accessor, config) -> data.add(TYPE, res -> res.add(INFINITE));
     }
 
     /**

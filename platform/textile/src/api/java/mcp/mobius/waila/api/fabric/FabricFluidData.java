@@ -4,9 +4,8 @@ import mcp.mobius.waila.api.data.FluidData;
 import mcp.mobius.waila.api.data.FluidData.PlatformDependant;
 import mcp.mobius.waila.api.data.FluidData.PlatformTranslator;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.world.level.material.Fluid;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Fabric-specific helper for creating {@link FluidData}.
@@ -45,8 +44,8 @@ public final class FabricFluidData {
             }
 
             @Override
-            public @Nullable CompoundTag nbt(FluidVariant t) {
-                return t.getNbt();
+            public DataComponentPatch data(FluidVariant t) {
+                return t.getComponents();
             }
 
             @Override

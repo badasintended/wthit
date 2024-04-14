@@ -12,13 +12,11 @@
     "ChiseledBookShelfBlockEntityAccess",
     "EntityAccess",
     "NoteBlockAccess",
-    "RandomizableContainerBlockEntityAccess",
     "ReloadableServerResourcesMixin",
     "ShearableBlocksMixin"
   ],
   "client"            : [
     "BossHealthOverlayAccess",
-    "ClientCommonPacketListenerImplMixin",
     "ClientConfigurationPacketListenerImplMixin",
     "ClientPacketListenerMixin",
     "EditBoxAccess",

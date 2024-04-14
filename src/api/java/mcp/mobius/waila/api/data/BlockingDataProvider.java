@@ -19,11 +19,11 @@ public final class BlockingDataProvider<T> implements IDataProvider<T> {
      * @param types data types to block
      */
     @SafeVarargs
-    public BlockingDataProvider(Class<? extends IData>... types) {
+    public BlockingDataProvider(IData.Type<? extends IData>... types) {
         this.types = types;
     }
 
-    private final Class<? extends IData>[] types;
+    private final IData.Type<? extends IData>[] types;
 
     @Override
     public void appendData(IDataWriter data, IServerAccessor<T> accessor, IPluginConfig config) {

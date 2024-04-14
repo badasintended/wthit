@@ -1,5 +1,6 @@
 package mcp.mobius.waila.plugin.vanilla.provider;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import mcp.mobius.waila.api.IBlockAccessor;
@@ -20,10 +21,11 @@ import mcp.mobius.waila.mixin.ChiseledBookShelfBlockAccess;
 import mcp.mobius.waila.mixin.ChiseledBookShelfBlockEntityAccess;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.entity.ChiseledBookShelfBlockEntity;
 import org.jetbrains.annotations.Nullable;
 
@@ -31,7 +33,10 @@ public enum ChiseledBookShelfProvider implements IBlockComponentProvider, IDataP
 
     INSTANCE;
 
-    public static final ResourceLocation DATA = new ResourceLocation("chiseled_bookshelf");
+    public static final IData.Type<Data> DATA = IData.createType(new ResourceLocation("chiseled_bookshelf"));
+    public static final StreamCodec<RegistryFriendlyByteBuf, Data> DATA_CODEC = StreamCodec.composite(
+        ByteBufCodecs.collection(ArrayList::new, ItemStack.STREAM_CODEC), Data::items,
+        Data::new);
 
     private int lastUpdateId = 0;
     private ItemStack hitItem = ItemStack.EMPTY;
@@ -43,16 +48,14 @@ public enum ChiseledBookShelfProvider implements IBlockComponentProvider, IDataP
         hitItem = ItemStack.EMPTY;
         if (!config.getBoolean(Options.BOOK_BOOKSHELF)) return;
 
-        var data = accessor.getData().get(Data.class);
+        var data = accessor.getData().get(DATA);
         if (data == null) return;
 
-        var blockstate = accessor.getBlockState();
-        var facing = blockstate.getValue(HorizontalDirectionalBlock.FACING);
-        var relativeHit = ChiseledBookShelfBlockAccess.wthit_getRelativeHitCoordinatesForBlockFace(accessor.getBlockHitResult(), facing);
-        if (relativeHit.isEmpty()) return;
+        var block = ((ChiseledBookShelfBlockAccess) accessor.getBlock());
+        var hitSlot = block.wthit_getHitSlot(accessor.getBlockHitResult(), accessor.getBlockState());
+        if (hitSlot.isEmpty()) return;
 
-        var hitSlot = ChiseledBookShelfBlockAccess.wthit_getHitSlot(relativeHit.get());
-        hitItem = data.items.get(hitSlot);
+        hitItem = data.items.get(hitSlot.getAsInt());
     }
 
     @Override
@@ -95,9 +98,9 @@ public enum ChiseledBookShelfProvider implements IBlockComponentProvider, IDataP
 
     @Override
     public void appendData(IDataWriter data, IServerAccessor<ChiseledBookShelfBlockEntity> accessor, IPluginConfig config) {
-        data.blockAll(ItemData.class);
+        data.blockAll(ItemData.TYPE);
 
-        if (config.getBoolean(Options.BOOK_BOOKSHELF)) data.add(Data.class, res -> {
+        if (config.getBoolean(Options.BOOK_BOOKSHELF)) data.add(DATA, res -> {
             var bookshelf = (ChiseledBookShelfBlockEntityAccess) accessor.getTarget();
             res.add(new Data(bookshelf.wthit_items()));
         });
@@ -107,13 +110,9 @@ public enum ChiseledBookShelfProvider implements IBlockComponentProvider, IDataP
         List<ItemStack> items
     ) implements IData {
 
-        public Data(FriendlyByteBuf buf) {
-            this(buf.readList(FriendlyByteBuf::readItem));
-        }
-
         @Override
-        public void write(FriendlyByteBuf buf) {
-            buf.writeCollection(items, FriendlyByteBuf::writeItem);
+        public Type<? extends IData> type() {
+            return DATA;
         }
 
     }

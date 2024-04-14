@@ -30,7 +30,7 @@ public enum FluidStorageProvider implements IDataProvider<BlockEntity> {
 
     @Override
     public void appendData(IDataWriter data, IServerAccessor<BlockEntity> accessor, IPluginConfig config) {
-        data.add(FluidData.class, res -> {
+        data.add(FluidData.TYPE, res -> {
             if (cache == null || cache.getBlockEntity() != accessor.getTarget()) {
                 cache = BlockApiCache.create(FluidStorage.SIDED, (ServerLevel) accessor.getWorld(), accessor.getTarget().getBlockPos());
             }

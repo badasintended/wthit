@@ -13,7 +13,7 @@ public enum EnderChestProvider implements IDataProvider<EnderChestBlockEntity> {
 
     @Override
     public void appendData(IDataWriter data, IServerAccessor<EnderChestBlockEntity> accessor, IPluginConfig config) {
-        data.add(ItemData.class, res -> res.add(ItemData
+        data.add(ItemData.TYPE, res -> res.add(ItemData
             .of(config)
             .vanilla(accessor.getPlayer().getEnderChestInventory())));
     }

@@ -22,58 +22,58 @@ public final class ToolTier {
 
     public static final ToolTier NONE = Internals.unsafeAlloc(ToolTier.class);
 
-    private static final Supplier<Map<Tier, ToolTier>> TIERS = Suppliers.memoize(() -> {
-        var builder = ImmutableMap.<Tier, ToolTier>builder();
-        var tiers = IApiService.INSTANCE.getTiers();
-        for (var i = 0; i < tiers.size(); i++) {
-            var tier = tiers.get(i);
-            builder.put(tier, new ToolTier(tier, i));
-        }
-        return builder.build();
-    });
-
     private static final Supplier<Map<ResourceLocation, String>> VANILLA_TIER_TL_KEYS = Suppliers.memoize(() -> {
         var map = new HashMap<ResourceLocation, String>();
         for (var tier : Tiers.values()) {
-            var tag = IApiService.INSTANCE.getTierTag(tier);
-            if (tag == null) continue;
-            map.put(tag.location(), tier.name().toLowerCase(Locale.ROOT));
+            map.put(tier.getIncorrectBlocksForDrops().location(), tier.name().toLowerCase(Locale.ROOT));
         }
         return map;
     });
 
+    private static Supplier<Map<Tier, ToolTier>> tiers;
+
     public final Tier tier;
     public final int index;
-    public final @Nullable TagKey<Block> tag;
+    public final TagKey<Block> incorrect;
 
     private final Supplier<String> tlKey;
 
     public ToolTier(Tier tier, int index) {
         this.tier = tier;
         this.index = index;
-        this.tag = IApiService.INSTANCE.getTierTag(tier);
+        this.incorrect = tier.getIncorrectBlocksForDrops();
 
         this.tlKey = Suppliers.memoize(() -> {
-            String key;
-
-            if (tag != null) {
-                var vanilla = VANILLA_TIER_TL_KEYS.get().get(tag.location());
-                key = vanilla != null ? vanilla : tag.location().toLanguageKey();
-            } else {
-                key = String.valueOf(tier.getLevel());
-            }
+            var vanilla = VANILLA_TIER_TL_KEYS.get().get(incorrect.location());
+            var key = vanilla != null ? vanilla : incorrect.location().toLanguageKey();
 
             return Tl.Tooltip.Harvest.TIER + "." + key;
         });
     }
 
+    static {
+        resetMap();
+    }
+
+    public static void resetMap() {
+        tiers = Suppliers.memoize(() -> {
+            var builder = ImmutableMap.<Tier, ToolTier>builder();
+            var tiers = IApiService.INSTANCE.getTiers();
+            for (var i = 0; i < tiers.size(); i++) {
+                var tier = tiers.get(i);
+                builder.put(tier, new ToolTier(tier, i));
+            }
+            return builder.build();
+        });
+    }
+
     public static Collection<ToolTier> all() {
-        return TIERS.get().values();
+        return tiers.get().values();
     }
 
     @Nullable
     public static ToolTier get(Tier tier) {
-        return TIERS.get().get(tier);
+        return tiers.get().get(tier);
     }
 
     public String tlKey() {
@@ -83,7 +83,7 @@ public final class ToolTier {
     public boolean isEqualTo(ToolTier other) {
         if (this == other) return true;
         if (this.tier == other.tier) return true;
-        if (this.tag != null && other.tag != null) return this.tag.location().equals(other.tag.location());
+        if (this.incorrect != null && other.incorrect != null) return this.incorrect.location().equals(other.incorrect.location());
         return false;
     }
 

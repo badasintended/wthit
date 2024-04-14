@@ -5,6 +5,7 @@ import mcp.mobius.waila.api.IData;
 import mcp.mobius.waila.api.__internal__.ApiSide;
 import mcp.mobius.waila.api.__internal__.IExtraService;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -23,6 +24,8 @@ import org.jetbrains.annotations.Nullable;
 public abstract class FluidData implements IData {
 
     public static final ResourceLocation ID = BuiltinDataUtil.rl("fluid");
+    public static final Type<FluidData> TYPE = IData.createType(ID);
+
     public static final ResourceLocation CONFIG_DISPLAY_UNIT = BuiltinDataUtil.rl("fluid.display_unit");
 
     /**
@@ -163,17 +166,17 @@ public abstract class FluidData implements IData {
      * Adds a fluid entry.
      *
      * @param fluid    the fluid instance, will be normalized as the source fluid if it is a {@link FlowingFluid}
-     * @param nbt      the fluid's NBT data, will <b>NOT</b> be modified so it safe to not {@linkplain  CompoundTag#copy() copy} it
+     * @param data     the fluid's NBT data, will <b>NOT</b> be modified so it safe to not {@linkplain  CompoundTag#copy() copy} it
      * @param stored   the stored amount of the fluid, in the specified unit
      * @param capacity the maximum capacity of this slot, in the specified unit
      */
-    public FluidData add(Fluid fluid, @Nullable CompoundTag nbt, double stored, double capacity) {
+    public FluidData add(Fluid fluid, DataComponentPatch data, double stored, double capacity) {
         capacity = Math.max(capacity, 0.0);
         stored = Mth.clamp(stored, 0.0, capacity);
         if (capacity == 0) capacity = Double.POSITIVE_INFINITY;
 
         var source = fluid instanceof FlowingFluid flowing ? flowing.getSource() : fluid;
-        implAdd(source, nbt, stored, capacity);
+        implAdd(source, data, stored, capacity);
         return this;
     }
 
@@ -188,7 +191,7 @@ public abstract class FluidData implements IData {
          */
         public PlatformDependant<T> add(T stack, double capacity) {
             var translator = translator();
-            return add(translator.fluid(stack), translator.nbt(stack), translator.amount(stack), capacity);
+            return add(translator.fluid(stack), translator.data(stack), translator.amount(stack), capacity);
         }
 
         /**
@@ -200,12 +203,12 @@ public abstract class FluidData implements IData {
          */
         public PlatformDependant<T> add(T variant, double stored, double capacity) {
             var translator = translator();
-            return add(translator.fluid(variant), translator.nbt(variant), stored, capacity);
+            return add(translator.fluid(variant), translator.data(variant), stored, capacity);
         }
 
         @Override
-        public PlatformDependant<T> add(Fluid fluid, @Nullable CompoundTag nbt, double stored, double capacity) {
-            super.add(fluid, nbt, stored, capacity);
+        public PlatformDependant<T> add(Fluid fluid, DataComponentPatch data, double stored, double capacity) {
+            super.add(fluid, data, stored, capacity);
             return this;
         }
 
@@ -283,7 +286,7 @@ public abstract class FluidData implements IData {
         /**
          * Returns the fluid's NBT data.
          */
-        @Nullable CompoundTag nbt();
+        DataComponentPatch data();
 
     }
 
@@ -311,7 +314,7 @@ public abstract class FluidData implements IData {
         /**
          * Returns the nbt of the platform object.
          */
-        @Nullable CompoundTag nbt(T t);
+        DataComponentPatch data(T t);
 
         /**
          * Returns the amount of the platform object.
@@ -327,7 +330,7 @@ public abstract class FluidData implements IData {
 
     protected abstract PlatformTranslator<Object> translator();
 
-    protected abstract void implAdd(Fluid fluid, @Nullable CompoundTag nbt, double stored, double capacity);
+    protected abstract void implAdd(Fluid fluid, DataComponentPatch data, double stored, double capacity);
 
     // -----------------------------------------------------------------------------------------------------------------------------------------------
     // TODO: Remove
