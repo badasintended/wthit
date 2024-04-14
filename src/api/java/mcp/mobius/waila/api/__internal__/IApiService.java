@@ -76,4 +76,6 @@ public interface IApiService {
 
     <D extends IData> IData.Type<D> createDataType(ResourceLocation id);
 
+    boolean isDevEnv();
+
 }

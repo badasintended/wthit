@@ -29,6 +29,7 @@ import mcp.mobius.waila.plugin.PluginInfo;
 import mcp.mobius.waila.registry.InstanceRegistry;
 import mcp.mobius.waila.registry.RegistryFilter;
 import mcp.mobius.waila.util.DisplayUtil;
+import mcp.mobius.waila.util.Log;
 import mcp.mobius.waila.util.ModInfo;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.Registry;
@@ -49,6 +50,8 @@ import net.minecraft.world.item.enchantment.ItemEnchantments;
 import org.joml.Matrix4f;
 
 public abstract class ApiService implements IApiService {
+
+    private static final Log LOG = Log.create();
 
     @Override
     public IModInfo getModInfo(ItemStack stack) {
@@ -180,12 +183,52 @@ public abstract class ApiService implements IApiService {
             }
         }
 
-        return Streams.concat(vanilla.stream(), custom.stream()).toList();
+        return Streams.concat(vanilla.stream(), custom.stream())
+            .sorted((tier1, tier2) -> {
+                var tag1 = tier1.getIncorrectBlocksForDrops();
+                var tag2 = tier2.getIncorrectBlocksForDrops();
+
+                var opt1 = BuiltInRegistries.BLOCK.getTag(tag1);
+                var opt2 = BuiltInRegistries.BLOCK.getTag(tag2);
+
+                if (opt1.isEmpty() && opt2.isEmpty()) return 0;
+                if (opt1.isEmpty()) return -1;
+                if (opt2.isEmpty()) return +1;
+
+                var blocks1 = opt1.get();
+                var blocks2 = opt2.get();
+
+                var size1 = blocks1.size();
+                var size2 = blocks2.size();
+                if (size1 == 0 && size2 == 0) return 0;
+                if (size1 == 0) return +1;
+                if (size2 == 0) return -1;
+
+                var b1inB2 = blocks1.stream().allMatch(blocks2::contains);
+                var b2inB1 = blocks2.stream().allMatch(blocks1::contains);
+                if (b1inB2 && b2inB1) return 0;
+                if (b1inB2) return +1;
+                if (b2inB1) return -1;
+
+                LOG.error("""
+                    Unsolvable tier comparison!
+                    Either one of [{}] or [{}] does not contain all entries from the other one.
+                    The comparison is based on the assumption that lower tier's incorrect block tag contains all entries from higher tier's tag.
+                    This was fine for Vanilla, but might be not match modded behavior.
+                    Please open an issue at {}""",
+                    tag1.location(), tag2.location(), Waila.ISSUE_URL);
+                return 0;
+            }).toList();
     }
 
     @Override
     public <D extends IData> IData.Type<D> createDataType(ResourceLocation id) {
         return new DataType<>(id);
+    }
+
+    @Override
+    public boolean isDevEnv() {
+        return Waila.DEV;
     }
 
 }

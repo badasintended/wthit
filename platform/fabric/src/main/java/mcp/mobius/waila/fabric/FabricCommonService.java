@@ -4,6 +4,7 @@ import java.nio.file.Path;
 import java.util.Optional;
 
 import mcp.mobius.waila.api.IPluginInfo;
+import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.service.ICommonService;
 import mcp.mobius.waila.util.ModInfo;
 import net.fabricmc.loader.api.FabricLoader;
@@ -44,6 +45,12 @@ public class FabricCommonService implements ICommonService {
             case CLIENT -> IPluginInfo.Side.CLIENT;
             case SERVER -> IPluginInfo.Side.SERVER;
         };
+    }
+
+    @Override
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
+    public String getIssueUrl() {
+        return FabricLoader.getInstance().getModContainer(WailaConstants.MOD_ID).get().getMetadata().getContact().get("issues").get();
     }
 
 }

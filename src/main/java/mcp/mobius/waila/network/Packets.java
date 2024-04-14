@@ -15,6 +15,7 @@ import mcp.mobius.waila.network.play.c2s.EntityDataRequestPlayC2SPacket;
 import mcp.mobius.waila.network.play.c2s.RawDataRequestContextPlayC2SPacket;
 import mcp.mobius.waila.network.play.c2s.TypedDataRequestContextPlayC2SPacket;
 import mcp.mobius.waila.network.play.s2c.GenerateClientDumpPlayS2CPacket;
+import mcp.mobius.waila.network.play.s2c.RawDataResponsePlayS2CPacket;
 import mcp.mobius.waila.network.play.s2c.TypedDataResponsePlayS2CPacket;
 
 import static mcp.mobius.waila.mcless.network.NetworkConstants.NETWORK_VERSION;
@@ -25,7 +26,7 @@ public class Packets {
         new VersionCommonPacket(),
 
         new BlacklistSyncCommonS2CPacket(),
-        new ConfigSyncRequestPlayC2SPacket(),
+        new ConfigSyncCommonS2CPacket(),
         new PluginSyncCommonS2CPacket(),
 
         new BlockDataRequestPlayC2SPacket(),
@@ -35,7 +36,7 @@ public class Packets {
         new TypedDataRequestContextPlayC2SPacket(),
 
         new GenerateClientDumpPlayS2CPacket(),
-        new RawDataRequestContextPlayC2SPacket(),
+        new RawDataResponsePlayS2CPacket(),
         new TypedDataResponsePlayS2CPacket()
     );
 

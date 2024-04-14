@@ -24,6 +24,8 @@ public abstract class Waila {
     public static final boolean CLIENT_SIDE = ICommonService.INSTANCE.getSide().matches(IPluginInfo.Side.CLIENT);
     public static final boolean ENABLE_DEBUG_COMMAND = DEV || Boolean.getBoolean("waila.debugCommands");
 
+    public static final String ISSUE_URL = ICommonService.INSTANCE.getIssueUrl();
+
     private static final String ALLOW_UNSUPPORTED_PLATFORMS_KEY = "waila.allowUnsupportedPlatforms";
     public static final boolean ALLOW_UNSUPPORTED_PLATFORMS = Boolean.getBoolean(ALLOW_UNSUPPORTED_PLATFORMS_KEY);
 

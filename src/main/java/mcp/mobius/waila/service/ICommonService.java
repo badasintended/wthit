@@ -23,4 +23,6 @@ public interface ICommonService {
 
     IPluginInfo.Side getSide();
 
+    String getIssueUrl();
+
 }

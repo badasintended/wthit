@@ -12,6 +12,7 @@ import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.IEventListener;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITooltip;
+import mcp.mobius.waila.api.__internal__.IApiService;
 import mcp.mobius.waila.api.component.GrowingComponent;
 import mcp.mobius.waila.api.component.PairComponent;
 import mcp.mobius.waila.buildconst.Tl;
@@ -49,6 +50,11 @@ public enum HarvestProvider implements IBlockComponentProvider, IEventListener {
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
         if (!config.getBoolean(Options.ENABLED)) return;
 
+        if (IApiService.INSTANCE.isDevEnv() && config.getBoolean(Options.DEV_DISABLE_CACHE)) {
+            toolsCache.clear();
+            tierCache.clear();
+        }
+
         updateId = accessor.getUpdateId();
         state = accessor.getBlockState();
 
@@ -75,9 +81,9 @@ public enum HarvestProvider implements IBlockComponentProvider, IEventListener {
         if (highestTier == null) {
             highestTier = ToolTier.NONE;
             for (var tier : ToolTier.all()) {
-                if (tier.incorrect != null && state.is(tier.incorrect)) {
-                    highestTier = tier;
-                }
+                if (state.is(tier.incorrect)) continue;
+                highestTier = tier;
+                break;
             }
             tierCache.put(state, highestTier);
         }

@@ -22,16 +22,6 @@ public final class ToolTier {
 
     public static final ToolTier NONE = Internals.unsafeAlloc(ToolTier.class);
 
-    private static final Supplier<Map<Tier, ToolTier>> TIERS = Suppliers.memoize(() -> {
-        var builder = ImmutableMap.<Tier, ToolTier>builder();
-        var tiers = IApiService.INSTANCE.getTiers();
-        for (var i = 0; i < tiers.size(); i++) {
-            var tier = tiers.get(i);
-            builder.put(tier, new ToolTier(tier, i));
-        }
-        return builder.build();
-    });
-
     private static final Supplier<Map<ResourceLocation, String>> VANILLA_TIER_TL_KEYS = Suppliers.memoize(() -> {
         var map = new HashMap<ResourceLocation, String>();
         for (var tier : Tiers.values()) {
@@ -40,9 +30,11 @@ public final class ToolTier {
         return map;
     });
 
+    private static Supplier<Map<Tier, ToolTier>> tiers;
+
     public final Tier tier;
     public final int index;
-    public final @Nullable TagKey<Block> incorrect;
+    public final TagKey<Block> incorrect;
 
     private final Supplier<String> tlKey;
 
@@ -59,13 +51,29 @@ public final class ToolTier {
         });
     }
 
+    static {
+        resetMap();
+    }
+
+    public static void resetMap() {
+        tiers = Suppliers.memoize(() -> {
+            var builder = ImmutableMap.<Tier, ToolTier>builder();
+            var tiers = IApiService.INSTANCE.getTiers();
+            for (var i = 0; i < tiers.size(); i++) {
+                var tier = tiers.get(i);
+                builder.put(tier, new ToolTier(tier, i));
+            }
+            return builder.build();
+        });
+    }
+
     public static Collection<ToolTier> all() {
-        return TIERS.get().values();
+        return tiers.get().values();
     }
 
     @Nullable
     public static ToolTier get(Tier tier) {
-        return TIERS.get().get(tier);
+        return tiers.get().get(tier);
     }
 
     public String tlKey() {

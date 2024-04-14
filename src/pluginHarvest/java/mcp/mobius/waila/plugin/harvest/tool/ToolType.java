@@ -32,32 +32,40 @@ public class ToolType implements IToolType, IToolType.Builder0, IToolType.Builde
     public Predicate<ItemStack> itemPredicate;
     public Component text;
 
-    private final Supplier<Map<ToolTier, ItemStack>> icons = Suppliers.memoize(() -> {
-        var tiers = ToolTier.all();
-        var map = new Reference2ObjectOpenHashMap<ToolTier, ItemStack>();
+    private Supplier<Map<ToolTier, ItemStack>> icons;
 
-        for (var item : BuiltInRegistries.ITEM) {
-            var stack = item.getDefaultInstance();
-            if (itemPredicate.test(stack)) {
-                for (var registeredTier : tiers) {
-                    if (!map.containsKey(registeredTier) && item instanceof TieredItem tiered) {
-                        var itemTier = ToolTier.get(tiered.getTier());
-                        if (itemTier != null && itemTier.isEqualTo(registeredTier)) {
-                            map.put(registeredTier, stack);
+    public ToolType() {
+        resetIcons();
+    }
+
+    public void resetIcons() {
+        icons = Suppliers.memoize(() -> {
+            var tiers = ToolTier.all();
+            var map = new Reference2ObjectOpenHashMap<ToolTier, ItemStack>();
+
+            for (var item : BuiltInRegistries.ITEM) {
+                var stack = item.getDefaultInstance();
+                if (itemPredicate.test(stack)) {
+                    for (var registeredTier : tiers) {
+                        if (!map.containsKey(registeredTier) && item instanceof TieredItem tiered) {
+                            var itemTier = ToolTier.get(tiered.getTier());
+                            if (itemTier != null && itemTier.isEqualTo(registeredTier)) {
+                                map.put(registeredTier, stack);
+                            }
                         }
                     }
                 }
             }
-        }
 
-        if (map.size() < tiers.size()) {
-            for (var tier : tiers) {
-                map.putIfAbsent(tier, lowestTierStack);
+            if (map.size() < tiers.size()) {
+                for (var tier : tiers) {
+                    map.putIfAbsent(tier, lowestTierStack);
+                }
             }
-        }
 
-        return map;
-    });
+            return map;
+        });
+    }
 
     public ItemStack getIcon(ToolTier tier) {
         if (tier == ToolTier.NONE) return lowestTierStack;
