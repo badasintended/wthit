@@ -11,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(ReloadableServerResources.class)
 public class ReloadableServerResourcesMixin {
 
-    @Inject(method = "updateRegistryTags(Lnet/minecraft/core/RegistryAccess;)V", at = @At("TAIL"))
+    @Inject(method = "updateRegistryTags()V", at = @At("TAIL"))
     private void wthit_onUpdateRegistryTags(RegistryAccess registryAccess, CallbackInfo ci) {
         IMixedService.INSTANCE.attachRegistryFilter(registryAccess);
     }
