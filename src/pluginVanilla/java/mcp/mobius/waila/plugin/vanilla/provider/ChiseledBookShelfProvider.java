@@ -26,7 +26,6 @@ import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.HorizontalDirectionalBlock;
 import net.minecraft.world.level.block.entity.ChiseledBookShelfBlockEntity;
 import org.jetbrains.annotations.Nullable;
 
@@ -52,13 +51,11 @@ public enum ChiseledBookShelfProvider implements IBlockComponentProvider, IDataP
         var data = accessor.getData().get(DATA);
         if (data == null) return;
 
-        var blockstate = accessor.getBlockState();
-        var facing = blockstate.getValue(HorizontalDirectionalBlock.FACING);
-        var relativeHit = ChiseledBookShelfBlockAccess.wthit_getRelativeHitCoordinatesForBlockFace(accessor.getBlockHitResult(), facing);
-        if (relativeHit.isEmpty()) return;
+        var block = ((ChiseledBookShelfBlockAccess) accessor.getBlock());
+        var hitSlot = block.wthit_getHitSlot(accessor.getBlockHitResult(), accessor.getBlockState());
+        if (hitSlot.isEmpty()) return;
 
-        var hitSlot = ChiseledBookShelfBlockAccess.wthit_getHitSlot(relativeHit.get());
-        hitItem = data.items.get(hitSlot);
+        hitItem = data.items.get(hitSlot.getAsInt());
     }
 
     @Override

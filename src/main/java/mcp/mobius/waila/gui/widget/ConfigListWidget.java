@@ -38,7 +38,6 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
         this.diskWriter = diskWriter;
 
         resize(top, bottom);
-        setRenderBackground(false);
     }
 
     public ConfigListWidget(ConfigScreen owner, Minecraft client, int width, int height, int top, int bottom, int itemHeight) {

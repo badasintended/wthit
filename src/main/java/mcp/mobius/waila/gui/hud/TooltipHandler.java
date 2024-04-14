@@ -67,7 +67,7 @@ public class TooltipHandler {
         if (camera == null) return;
 
         var frameTime = client.getFrameTime();
-        var pickRange = client.gameMode.getPickRange();
+        var pickRange = Math.max(player.blockInteractionRange(), player.entityInteractionRange());
         var results = PickerResults.get();
         Vec3 castOrigin = null;
         Vec3 castDirection = null;
@@ -97,7 +97,7 @@ public class TooltipHandler {
         }
     }
 
-    private static ProcessResult redirectTarget(HitResult target, TargetRedirector redirector, Minecraft client, Player player, Vec3 castOrigin, Vec3 castDirection, float pickRange, WailaConfig.General config) {
+    private static ProcessResult redirectTarget(HitResult target, TargetRedirector redirector, Minecraft client, Player player, Vec3 castOrigin, Vec3 castDirection, double pickRange, WailaConfig.General config) {
         if (redirector.nowhere) return ProcessResult.BREAK;
         if (redirector.behind) return ProcessResult.CONTINUE;
 
@@ -111,7 +111,7 @@ public class TooltipHandler {
             castDirection, pickRange, config);
     }
 
-    private static ProcessResult processTarget(HitResult target, Minecraft client, Player player, Vec3 castOrigin, Vec3 castDirection, float pickRange, WailaConfig.General config) {
+    private static ProcessResult processTarget(HitResult target, Minecraft client, Player player, Vec3 castOrigin, Vec3 castDirection, double pickRange, WailaConfig.General config) {
         var accessor = ClientAccessor.INSTANCE;
         accessor.set(client.level, player, target, client.cameraEntity, castOrigin, castDirection, pickRange, client.getFrameTime());
 

@@ -5,16 +5,16 @@ import mcp.mobius.waila.api.IDataWriter;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerAccessor;
 import mcp.mobius.waila.api.data.ItemData;
-import mcp.mobius.waila.mixin.RandomizableContainerBlockEntityAccess;
-import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
+import net.minecraft.world.RandomizableContainer;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
-public enum RandomizableContainerProvider implements IDataProvider<RandomizableContainerBlockEntity> {
+public enum RandomizableContainerProvider implements IDataProvider<BlockEntity> {
 
     INSTANCE;
 
     @Override
-    public void appendData(IDataWriter data, IServerAccessor<RandomizableContainerBlockEntity> accessor, IPluginConfig config) {
-        if (((RandomizableContainerBlockEntityAccess) accessor.getTarget()).wthit_lootTable() != null) {
+    public void appendData(IDataWriter data, IServerAccessor<BlockEntity> accessor, IPluginConfig config) {
+        if (((RandomizableContainer) accessor.getTarget()).getLootTable() != null) {
             data.blockAll(ItemData.TYPE);
         }
     }

@@ -35,9 +35,7 @@ public final class ToolTier {
     private static final Supplier<Map<ResourceLocation, String>> VANILLA_TIER_TL_KEYS = Suppliers.memoize(() -> {
         var map = new HashMap<ResourceLocation, String>();
         for (var tier : Tiers.values()) {
-            var tag = IApiService.INSTANCE.getTierTag(tier);
-            if (tag == null) continue;
-            map.put(tag.location(), tier.name().toLowerCase(Locale.ROOT));
+            map.put(tier.getIncorrectBlocksForDrops().location(), tier.name().toLowerCase(Locale.ROOT));
         }
         return map;
     });

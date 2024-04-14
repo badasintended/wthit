@@ -109,7 +109,7 @@ public class PluginConfigScreen extends ConfigScreen {
 
                         if (entry.blocksClientEdit() && minecraft.getCurrentServer() != null) {
                             if (entry.getServerValue() == null) {
-                                value.disable(PacketSender.c2s().canSend(VersionCommonPacket.Payload.ID)
+                                value.disable(PacketSender.c2s().canSend(VersionCommonPacket.TYPE)
                                     ? Tl.Config.SERVER_MISSING_OPTION
                                     : Tl.Config.SERVER_MISSING_MOD);
                                 value.setValue(entry.getClientOnlyValue());

@@ -43,6 +43,7 @@ import mcp.mobius.waila.plugin.vanilla.provider.SpawnerProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.TrappedChestProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.VehicleProvider;
 import net.minecraft.world.Container;
+import net.minecraft.world.RandomizableContainer;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -80,7 +81,6 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.ChiseledBookShelfBlockEntity;
 import net.minecraft.world.level.block.entity.EnderChestBlockEntity;
 import net.minecraft.world.level.block.entity.JukeboxBlockEntity;
-import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 import net.minecraft.world.level.block.entity.SkullBlockEntity;
 import net.minecraft.world.level.block.entity.SpawnerBlockEntity;
 import net.minecraft.world.level.material.Fluids;
@@ -226,7 +226,7 @@ public class WailaPluginVanilla implements IWailaPlugin {
         registrar.addBlockData(FurnaceProvider.INSTANCE, AbstractFurnaceBlockEntity.class);
         registrar.addBlockData(EnderChestProvider.INSTANCE, EnderChestBlockEntity.class);
 
-        registrar.addBlockData(RandomizableContainerProvider.INSTANCE, RandomizableContainerBlockEntity.class, 1100);
+        registrar.addBlockData(RandomizableContainerProvider.INSTANCE, RandomizableContainer.class, 1100);
         registrar.addBlockData(BaseContainerProvider.INSTANCE, BaseContainerBlockEntity.class, 1200);
         registrar.addBlockData(HopperContainerProvider.INSTANCE, BlockEntity.class, 1300);
 

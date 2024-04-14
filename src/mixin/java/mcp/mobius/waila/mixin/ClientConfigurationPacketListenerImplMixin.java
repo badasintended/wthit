@@ -3,6 +3,7 @@ package mcp.mobius.waila.mixin;
 import mcp.mobius.waila.mixed.IMixedService;
 import net.minecraft.client.multiplayer.ClientConfigurationPacketListenerImpl;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.network.protocol.common.ClientboundUpdateTagsPacket;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -10,7 +11,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ClientConfigurationPacketListenerImpl.class)
-public class ClientConfigurationPacketListenerImplMixin extends ClientCommonPacketListenerImplMixin {
+public class ClientConfigurationPacketListenerImplMixin {
 
     @Shadow
     private RegistryAccess.Frozen receivedRegistries;
@@ -20,8 +21,8 @@ public class ClientConfigurationPacketListenerImplMixin extends ClientCommonPack
         IMixedService.INSTANCE.onServerLogin();
     }
 
-    @Override
-    protected void wthit_onHandleUpdateTags() {
+    @Inject(method = "handleUpdateTags", at = @At("TAIL"))
+    private void wthit_onHandleUpdateTags(ClientboundUpdateTagsPacket $$0, CallbackInfo ci) {
         IMixedService.INSTANCE.attachRegistryFilter(receivedRegistries);
     }
 
