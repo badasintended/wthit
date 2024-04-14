@@ -3,14 +3,15 @@ package mcp.mobius.waila.service;
 import java.lang.reflect.Type;
 import java.nio.file.Path;
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.List;
 
 import com.google.common.collect.Streams;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.access.DataType;
 import mcp.mobius.waila.api.IBlacklistConfig;
+import mcp.mobius.waila.api.IData;
 import mcp.mobius.waila.api.IInstanceRegistry;
 import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.api.IModInfo;
@@ -31,6 +32,7 @@ import mcp.mobius.waila.util.DisplayUtil;
 import mcp.mobius.waila.util.ModInfo;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.Registry;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -42,7 +44,8 @@ import net.minecraft.world.item.Tier;
 import net.minecraft.world.item.TieredItem;
 import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.TippedArrowItem;
-import net.minecraft.world.item.alchemy.PotionUtils;
+import net.minecraft.world.item.alchemy.PotionContents;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 import org.joml.Matrix4f;
 
 public abstract class ApiService implements IApiService {
@@ -53,20 +56,20 @@ public abstract class ApiService implements IApiService {
 
         if (ResourceLocation.DEFAULT_NAMESPACE.equals(BuiltInRegistries.ITEM.getKey(item).getNamespace())) {
             if (item instanceof EnchantedBookItem) {
-                var enchantmentsNbt = EnchantedBookItem.getEnchantments(stack);
-                if (enchantmentsNbt.size() == 1) {
-                    var enchantmentNbt = enchantmentsNbt.getCompound(0);
-                    var id = ResourceLocation.tryParse(enchantmentNbt.getString("id"));
-                    if (id != null && BuiltInRegistries.ENCHANTMENT.containsKey(id)) {
-                        return IModInfo.get(id.getNamespace());
-                    }
+                var enchantments = stack.getOrDefault(DataComponents.STORED_ENCHANTMENTS, ItemEnchantments.EMPTY);
+                if (enchantments.size() == 1) for (var entry : enchantments.entrySet()) {
+                    var id = BuiltInRegistries.ENCHANTMENT.getKey(entry.getKey().value());
+                    if (id != null) return IModInfo.get(id);
+                    break;
                 }
             } else if (item instanceof PotionItem || item instanceof TippedArrowItem) {
-                var potionType = PotionUtils.getPotion(stack);
-                var id = BuiltInRegistries.POTION.getKey(potionType);
-                return IModInfo.get(id.getNamespace());
+                var potion = stack.getOrDefault(DataComponents.POTION_CONTENTS, PotionContents.EMPTY).potion().orElse(null);
+                if (potion != null) {
+                    var id = BuiltInRegistries.POTION.getKey(potion.value());
+                    if (id != null) return IModInfo.get(id);
+                }
             } else if (item instanceof SpawnEggItem spawnEggItem) {
-                var id = BuiltInRegistries.ENTITY_TYPE.getKey(spawnEggItem.getType(null));
+                var id = BuiltInRegistries.ENTITY_TYPE.getKey(spawnEggItem.getType(stack));
                 return IModInfo.get(id.getNamespace());
             }
         }
@@ -177,7 +180,12 @@ public abstract class ApiService implements IApiService {
             }
         }
 
-        return Streams.concat(vanilla.stream(), custom.stream()).sorted(Comparator.comparingInt(Tier::getLevel)).toList();
+        return Streams.concat(vanilla.stream(), custom.stream()).toList();
+    }
+
+    @Override
+    public <D extends IData> IData.Type<D> createDataType(ResourceLocation id) {
+        return new DataType<>(id);
     }
 
 }

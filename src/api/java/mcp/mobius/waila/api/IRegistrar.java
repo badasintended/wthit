@@ -4,7 +4,9 @@ import java.nio.file.Path;
 
 import mcp.mobius.waila.api.__internal__.ApiSide;
 import mcp.mobius.waila.api.__internal__.IHarvestService;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -601,23 +603,10 @@ public interface IRegistrar {
     /**
      * Registers a data type used for syncing data from server to client.
      *
-     * @param id         the id of the data type
-     * @param apiType    the public type of data, to be used when {@linkplain IDataReader#get(Class) getting} it
-     * @param implType   the actual type of data that get sent
-     * @param serializer the data to buffer serializer
+     * @param type  the data type
+     * @param codec the data-to-buffer codec
      */
-    <A extends IData, I extends A> void addDataType(ResourceLocation id, Class<A> apiType, Class<I> implType, IData.Serializer<I> serializer);
-
-    /**
-     * Registers a data type used for syncing data from server to client.
-     *
-     * @param id         the id of the data type
-     * @param type       the type of data
-     * @param serializer the data to buffer serializer
-     */
-    default <T extends IData> void addDataType(ResourceLocation id, Class<T> type, IData.Serializer<T> serializer) {
-        addDataType(id, type, type, serializer);
-    }
+    <D extends IData> void addDataType(IData.Type<D> type, StreamCodec<? super RegistryFriendlyByteBuf, ? extends D> codec);
 
     /**
      * Registers an {@link IThemeType} instance.

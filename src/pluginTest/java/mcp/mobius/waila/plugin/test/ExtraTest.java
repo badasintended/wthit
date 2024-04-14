@@ -26,7 +26,7 @@ public enum ExtraTest implements IDataProvider<ChestBlockEntity> {
 
     @Override
     public void appendData(IDataWriter data, IServerAccessor<ChestBlockEntity> accessor, IPluginConfig config) {
-        if (config.getBoolean(ENERGY)) data.add(EnergyData.class, res -> {
+        if (config.getBoolean(ENERGY)) data.add(EnergyData.TYPE, res -> {
             tickEnergy++;
             if (tickEnergy == 500) tickEnergy = 0;
 
@@ -35,7 +35,7 @@ public enum ExtraTest implements IDataProvider<ChestBlockEntity> {
             else res.add(EnergyData.of(tickEnergy * 100L, 50000L));
         });
 
-        if (config.getBoolean(FLUID)) data.add(FluidData.class, res -> {
+        if (config.getBoolean(FLUID)) data.add(FluidData.TYPE, res -> {
             tickWater++;
             if (tickWater == 500) tickWater = 0;
 

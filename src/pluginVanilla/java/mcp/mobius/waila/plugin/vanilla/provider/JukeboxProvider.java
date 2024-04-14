@@ -19,7 +19,7 @@ public enum JukeboxProvider implements IBlockComponentProvider, IDataProvider<Ju
     @Override
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
         if (config.getBoolean(Options.JUKEBOX_RECORD) && accessor.getData().raw().contains("record")) {
-            tooltip.addLine(Component.Serializer.fromJson(accessor.getData().raw().getString("record")));
+            tooltip.addLine(Component.Serializer.fromJson(accessor.getData().raw().getString("record"), accessor.getWorld().registryAccess()));
         }
     }
 
@@ -31,7 +31,7 @@ public enum JukeboxProvider implements IBlockComponentProvider, IDataProvider<Ju
                 var text = stack.getItem() instanceof RecordItem
                     ? Component.translatable(stack.getDescriptionId() + ".desc")
                     : stack.getDisplayName();
-                data.raw().putString("record", Component.Serializer.toJson(text));
+                data.raw().putString("record", Component.Serializer.toJson(text, accessor.getWorld().registryAccess()));
             }
         }
     }

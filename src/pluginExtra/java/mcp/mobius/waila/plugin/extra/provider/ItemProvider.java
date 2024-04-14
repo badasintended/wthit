@@ -16,7 +16,7 @@ import mcp.mobius.waila.api.data.ItemData;
 import mcp.mobius.waila.api.data.ProgressData;
 import mcp.mobius.waila.plugin.extra.data.ItemDataImpl;
 import mcp.mobius.waila.plugin.extra.data.ProgressDataImpl;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -25,13 +25,12 @@ import org.jetbrains.annotations.Nullable;
 public class ItemProvider extends DataProvider<ItemData, ItemDataImpl> {
 
     public static final ItemProvider INSTANCE = new ItemProvider();
-    private static final CompoundTag EMPTY = new CompoundTag();
 
     private @Nullable ItemData lastData = null;
     private @Nullable ItemListComponent lastItemsComponent = null;
 
     protected ItemProvider() {
-        super(ItemData.ID, ItemData.class, ItemDataImpl.class, ItemDataImpl::new);
+        super(ItemData.TYPE, ItemDataImpl.CODEC);
     }
 
     @Override
@@ -43,7 +42,7 @@ public class ItemProvider extends DataProvider<ItemData, ItemDataImpl> {
 
     @Override
     protected void appendBody(ITooltip tooltip, IDataReader reader, IPluginConfig config, ResourceLocation objectId) {
-        var progress = (ProgressDataImpl) reader.get(ProgressData.class);
+        var progress = (ProgressDataImpl) reader.get(ProgressData.TYPE);
         if (progress == null || progress.ratio() == 0f) {
             super.appendBody(tooltip, reader, config, objectId);
         }
@@ -60,7 +59,7 @@ public class ItemProvider extends DataProvider<ItemData, ItemDataImpl> {
         lastItemsComponent = null;
 
         Map<Object, ItemStack> merged = new LinkedHashMap<>();
-        Map<Item, Set<CompoundTag>> unique = new HashMap<>();
+        Map<Item, Set<DataComponentPatch>> unique = new HashMap<>();
 
         for (var stack : data.items()) {
             if (stack.isEmpty()) continue;
@@ -75,8 +74,7 @@ public class ItemProvider extends DataProvider<ItemData, ItemDataImpl> {
                     merged.put(item, stack.copy());
                 }
             } else {
-                var nbt = stack.getTag();
-                if (nbt == null) nbt = EMPTY;
+                var nbt = stack.getComponentsPatch();
 
                 if (unique.computeIfAbsent(item, i -> new HashSet<>()).add(nbt)) {
                     merged.put(new ItemWithNbt(item, nbt), stack.copy());
@@ -96,7 +94,7 @@ public class ItemProvider extends DataProvider<ItemData, ItemDataImpl> {
         tooltip.setLine(ItemData.ID, lastItemsComponent = new ItemListComponent(stream.toList(), config.getInt(ItemData.CONFIG_MAX_HEIGHT)));
     }
 
-    private record ItemWithNbt(Item item, CompoundTag tag) {
+    private record ItemWithNbt(Item item, DataComponentPatch tag) {
 
     }
 

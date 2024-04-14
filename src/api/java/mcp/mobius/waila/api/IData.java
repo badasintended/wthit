@@ -1,6 +1,7 @@
 package mcp.mobius.waila.api;
 
-import net.minecraft.network.FriendlyByteBuf;
+import mcp.mobius.waila.api.__internal__.IApiService;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
 
 /**
@@ -16,26 +17,32 @@ import org.jetbrains.annotations.ApiStatus;
 public interface IData {
 
     /**
-     * Write current data to the buffer.
+     * Creates a data type.
+     * <p>
+     * Save the returned value to a static final variable.
      *
-     * @param buf the buffer
+     * @param id the data id
      */
-    @ApiStatus.OverrideOnly
-    void write(FriendlyByteBuf buf);
+    static <D extends IData> Type<D> createType(ResourceLocation id) {
+        return IApiService.INSTANCE.createDataType(id);
+    }
 
     /**
-     * A byte buffer to data serializer, should be implemented as a reference to data constructor.
+     * Returns the type of the data, should be a constant variable.
+     *
+     * @see #createType(ResourceLocation)
      */
-    @FunctionalInterface
-    @ApiStatus.OverrideOnly
-    interface Serializer<T extends IData> {
+    Type<? extends IData> type();
 
-        /**
-         * Read data from the buffer.
-         *
-         * @param buf the buffer
-         */
-        T read(FriendlyByteBuf buf);
+
+    /**
+     * @see #createType(ResourceLocation)
+     */
+    @SuppressWarnings("unused")
+    @ApiStatus.NonExtendable
+    interface Type<D extends IData> {
+
+        ResourceLocation id();
 
     }
 

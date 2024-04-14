@@ -27,7 +27,8 @@ public enum HorseProvider implements IEntityComponentProvider {
         if (config.getBoolean(Options.ATTRIBUTE_HORSE_JUMP_HEIGHT)) {
             AbstractHorse horse = accessor.getEntity();
 
-            var jumpStrength = horse.getCustomJump();
+            // TODO: validate
+            var jumpStrength = horse.getAttribute(Attributes.JUMP_STRENGTH).getBaseValue();
             var jumpHeight = -0.1817584952f * Math.pow(jumpStrength, 3) + 3.689713992f * Math.pow(jumpStrength, 2) + 2.128599134f * jumpStrength - 0.343930367f;
 
             ChatFormatting format;

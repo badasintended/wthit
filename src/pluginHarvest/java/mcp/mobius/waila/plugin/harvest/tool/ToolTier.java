@@ -44,24 +44,18 @@ public final class ToolTier {
 
     public final Tier tier;
     public final int index;
-    public final @Nullable TagKey<Block> tag;
+    public final @Nullable TagKey<Block> incorrect;
 
     private final Supplier<String> tlKey;
 
     public ToolTier(Tier tier, int index) {
         this.tier = tier;
         this.index = index;
-        this.tag = IApiService.INSTANCE.getTierTag(tier);
+        this.incorrect = tier.getIncorrectBlocksForDrops();
 
         this.tlKey = Suppliers.memoize(() -> {
-            String key;
-
-            if (tag != null) {
-                var vanilla = VANILLA_TIER_TL_KEYS.get().get(tag.location());
-                key = vanilla != null ? vanilla : tag.location().toLanguageKey();
-            } else {
-                key = String.valueOf(tier.getLevel());
-            }
+            var vanilla = VANILLA_TIER_TL_KEYS.get().get(incorrect.location());
+            var key = vanilla != null ? vanilla : incorrect.location().toLanguageKey();
 
             return Tl.Tooltip.Harvest.TIER + "." + key;
         });
@@ -83,7 +77,7 @@ public final class ToolTier {
     public boolean isEqualTo(ToolTier other) {
         if (this == other) return true;
         if (this.tier == other.tier) return true;
-        if (this.tag != null && other.tag != null) return this.tag.location().equals(other.tag.location());
+        if (this.incorrect != null && other.incorrect != null) return this.incorrect.location().equals(other.incorrect.location());
         return false;
     }
 

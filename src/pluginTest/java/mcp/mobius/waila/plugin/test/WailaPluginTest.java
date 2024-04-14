@@ -73,7 +73,7 @@ public class WailaPluginTest implements IWailaPlugin {
         registrar.addConfig(ComplexDataTest.ENABLED, false);
         registrar.addConfig(ComplexDataTest.BLOCK, false);
         registrar.addConfig(ComplexDataTest.MULTIPLE_ADDITION, false);
-        registrar.addDataType(ComplexDataTest.ENABLED, ComplexDataTest.Data.class, ComplexDataTest.Data::new);
+        registrar.addDataType(ComplexDataTest.DATA, ComplexDataTest.DATA_CODEC);
         registrar.addComponent(ComplexDataTest.INSTANCE, TooltipPosition.BODY, ChestBlock.class);
         registrar.addBlockData(ComplexDataTest.INSTANCE, ChestBlock.class);
 
@@ -91,8 +91,8 @@ public class WailaPluginTest implements IWailaPlugin {
         registrar.addConfig(RequestDataTest.ENABLED, false);
         registrar.addConfig(RequestDataTest.RAW, false);
         registrar.addConfig(RequestDataTest.TYPED, false);
-        registrar.addDataType(RequestDataTest.CTX, RequestDataTest.Ctx.class, RequestDataTest.Ctx::new);
-        registrar.addDataType(RequestDataTest.DATA, RequestDataTest.Data.class, RequestDataTest.Data::new);
+        registrar.addDataType(RequestDataTest.CTX, RequestDataTest.CTX_CODEC);
+        registrar.addDataType(RequestDataTest.DATA, RequestDataTest.DATA_CODEC);
         registrar.addDataContext(RequestDataTest.INSTANCE, BarrelBlockEntity.class);
         registrar.addBlockData(RequestDataTest.INSTANCE, BarrelBlockEntity.class);
         registrar.addComponent(RequestDataTest.INSTANCE, TooltipPosition.BODY, BarrelBlockEntity.class);

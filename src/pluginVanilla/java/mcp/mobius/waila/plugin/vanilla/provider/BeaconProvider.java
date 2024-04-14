@@ -10,9 +10,11 @@ import mcp.mobius.waila.api.IServerAccessor;
 import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.mixin.BeaconBlockEntityAccess;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.level.block.entity.BeaconBlockEntity;
@@ -22,7 +24,11 @@ public enum BeaconProvider implements IBlockComponentProvider, IDataProvider<Bea
 
     INSTANCE;
 
-    public static final ResourceLocation DATA = new ResourceLocation("beacon");
+    public static final IData.Type<Data> DATA = IData.createType(new ResourceLocation("beacon"));
+    public static final StreamCodec<RegistryFriendlyByteBuf, Data> DATA_CODEC = StreamCodec.composite(
+        ByteBufCodecs.registry(Registries.MOB_EFFECT), Data::primary,
+        ByteBufCodecs.registry(Registries.MOB_EFFECT), Data::secondary,
+        Data::new);
 
     private MutableComponent getText(MobEffect effect) {
         return effect.getDisplayName().copy();
@@ -32,7 +38,7 @@ public enum BeaconProvider implements IBlockComponentProvider, IDataProvider<Bea
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
         if (!config.getBoolean(Options.ATTRIBUTE_BEACON_EFFECTS)) return;
 
-        var data = accessor.getData().get(Data.class);
+        var data = accessor.getData().get(DATA);
         if (data == null) return;
 
         if (data.primary != null) {
@@ -48,7 +54,7 @@ public enum BeaconProvider implements IBlockComponentProvider, IDataProvider<Bea
 
     @Override
     public void appendData(IDataWriter data, IServerAccessor<BeaconBlockEntity> accessor, IPluginConfig config) {
-        if (config.getBoolean(Options.ATTRIBUTE_BEACON_EFFECTS)) data.add(Data.class, res -> {
+        if (config.getBoolean(Options.ATTRIBUTE_BEACON_EFFECTS)) data.add(DATA, res -> {
             var beacon = (BeaconBlockEntity & BeaconBlockEntityAccess) accessor.getTarget();
             res.add(new Data(beacon.wthit_primaryPower(), beacon.wthit_levels() >= 4 ? beacon.wthit_secondaryPower() : null));
         });
@@ -59,16 +65,9 @@ public enum BeaconProvider implements IBlockComponentProvider, IDataProvider<Bea
         @Nullable MobEffect secondary
     ) implements IData {
 
-        public Data(FriendlyByteBuf buf) {
-            this(
-                buf.readNullable(b -> b.readById(BuiltInRegistries.MOB_EFFECT)),
-                buf.readNullable(b -> b.readById(BuiltInRegistries.MOB_EFFECT)));
-        }
-
         @Override
-        public void write(FriendlyByteBuf buf) {
-            buf.writeNullable(primary, (b, m) -> b.writeId(BuiltInRegistries.MOB_EFFECT, m));
-            buf.writeNullable(secondary, (b, m) -> b.writeId(BuiltInRegistries.MOB_EFFECT, m));
+        public Type<? extends IData> type() {
+            return DATA;
         }
 
     }

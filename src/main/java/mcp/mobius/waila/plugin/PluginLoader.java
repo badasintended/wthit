@@ -57,7 +57,7 @@ public abstract class PluginLoader {
 
         server.getPlayerList().getPlayers().forEach(player -> {
             var sender = PacketSender.s2c(player);
-            if (!sender.canSend(PluginSyncCommonS2CPacket.ID)) return;
+            if (!sender.canSend(PluginSyncCommonS2CPacket.TYPE)) return;
 
             if (!server.isSingleplayerOwner(player.getGameProfile())) {
                 sender.send(new PluginSyncCommonS2CPacket.Payload());
@@ -71,8 +71,8 @@ public abstract class PluginLoader {
     public static void reloadClientPlugins() {
         INSTANCE.loadPlugins();
 
-        if (Minecraft.getInstance().getConnection() != null && PacketSender.c2s().canSend(ConfigSyncRequestPlayC2SPacket.ID)) {
-            PacketSender.c2s().send(new ConfigSyncRequestPlayC2SPacket.Payload());
+        if (Minecraft.getInstance().getConnection() != null && PacketSender.c2s().canSend(ConfigSyncRequestPlayC2SPacket.TYPE)) {
+            PacketSender.c2s().send(ConfigSyncRequestPlayC2SPacket.PAYLOAD);
         }
     }
 

@@ -19,7 +19,7 @@ import mcp.mobius.waila.gui.widget.value.ConfigValue;
 import mcp.mobius.waila.gui.widget.value.EnumValue;
 import mcp.mobius.waila.gui.widget.value.InputValue;
 import mcp.mobius.waila.gui.widget.value.IntInputValue;
-import mcp.mobius.waila.network.common.VersionPayload;
+import mcp.mobius.waila.network.common.VersionCommonPacket;
 import mcp.mobius.waila.registry.Registrar;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
@@ -109,7 +109,7 @@ public class PluginConfigScreen extends ConfigScreen {
 
                         if (entry.blocksClientEdit() && minecraft.getCurrentServer() != null) {
                             if (entry.getServerValue() == null) {
-                                value.disable(PacketSender.c2s().canSend(VersionPayload.ID)
+                                value.disable(PacketSender.c2s().canSend(VersionCommonPacket.Payload.ID)
                                     ? Tl.Config.SERVER_MISSING_OPTION
                                     : Tl.Config.SERVER_MISSING_MOD);
                                 value.setValue(entry.getClientOnlyValue());

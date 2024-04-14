@@ -14,7 +14,7 @@ public enum HopperContainerProvider implements IDataProvider<BlockEntity> {
 
     @Override
     public void appendData(IDataWriter data, IServerAccessor<BlockEntity> accessor, IPluginConfig config) {
-        data.add(ItemData.class, res -> {
+        data.add(ItemData.TYPE, res -> {
             var container = HopperBlockEntity.getContainerAt(accessor.getWorld(), accessor.getTarget().getBlockPos());
             if (container != null) res.add(ItemData.of(config).vanilla(container));
         });

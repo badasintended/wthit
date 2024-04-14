@@ -7,7 +7,8 @@ import mcp.mobius.waila.api.IData;
 import mcp.mobius.waila.api.IDataReader;
 import mcp.mobius.waila.registry.Registrar;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 
 public enum DataReader implements IDataReader {
@@ -23,17 +24,17 @@ public enum DataReader implements IDataReader {
         }
 
         @Override
-        public <T extends IData> @Nullable T get(Class<T> type) {
+        public <D extends IData> @Nullable D get(IData.Type<D> type) {
             return null;
         }
 
         @Override
-        public <T extends IData> void invalidate(Class<T> type) {
+        public <D extends IData> void invalidate(IData.Type<D> type) {
         }
     };
 
     private CompoundTag raw;
-    private final Map<Class<? extends IData>, IData> typed = new HashMap<>();
+    private final Map<ResourceLocation, IData> typed = new HashMap<>();
     private boolean clean;
 
     DataReader() {
@@ -49,12 +50,10 @@ public enum DataReader implements IDataReader {
         this.typed.clear();
     }
 
-    @SuppressWarnings("unchecked")
-    public static IData readTypedPacket(FriendlyByteBuf buf) {
+    public static IData readTypedPacket(RegistryFriendlyByteBuf buf) {
         var id = buf.readResourceLocation();
-        var serializer = (IData.Serializer<IData>) Registrar.get().dataId2Serializer.get(id);
-
-        return serializer.read(buf);
+        var serializer = Registrar.get().dataCodecs.get(id);
+        return serializer.decode(buf);
     }
 
     @Override
@@ -64,19 +63,18 @@ public enum DataReader implements IDataReader {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T extends IData> @Nullable T get(Class<T> type) {
-        return (T) typed.get(type);
+    public <D extends IData> @Nullable D get(IData.Type<D> type) {
+        return (D) typed.get(type.id());
     }
 
     @Override
-    public <T extends IData> void invalidate(Class<T> type) {
-        typed.remove(type);
+    public <D extends IData> void invalidate(IData.Type<D> type) {
+        typed.remove(type.id());
     }
 
     public void add(IData data) {
         clean = false;
-
-        typed.put(Registrar.get().impl2ApiDataType.get(data.getClass()), data);
+        typed.put(data.type().id(), data);
     }
 
 }

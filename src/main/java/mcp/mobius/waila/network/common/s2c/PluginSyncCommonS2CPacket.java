@@ -1,34 +1,38 @@
 package mcp.mobius.waila.network.common.s2c;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import lol.bai.badpackets.api.PacketSender;
+import lol.bai.badpackets.api.config.ConfigPackets;
+import lol.bai.badpackets.api.play.PlayPackets;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.network.Packet;
 import mcp.mobius.waila.plugin.PluginInfo;
 import mcp.mobius.waila.plugin.PluginLoader;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientConfigurationPacketListenerImpl;
-import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
 
-public class PluginSyncCommonS2CPacket implements
-    Packet.ConfigS2C<PluginSyncCommonS2CPacket.Payload>,
-    Packet.PlayS2C<PluginSyncCommonS2CPacket.Payload> {
+public class PluginSyncCommonS2CPacket implements Packet {
 
-    public static final ResourceLocation ID = Waila.id("plugin");
+    public static final CustomPacketPayload.Type<Payload> TYPE = new CustomPacketPayload.Type<>(Waila.id("plugin"));
+    public static final StreamCodec<FriendlyByteBuf, Payload> CODEC = StreamCodec.composite(
+        ByteBufCodecs.collection(ArrayList::new, ResourceLocation.STREAM_CODEC), Payload::plugins,
+        Payload::new);
 
     @Override
-    public ResourceLocation id() {
-        return ID;
+    public void common() {
+        ConfigPackets.registerClientChannel(TYPE, CODEC);
+        PlayPackets.registerClientChannel(TYPE, CODEC);
     }
 
     @Override
-    public Payload read(FriendlyByteBuf buf) {
-        return new Payload(buf.readList(FriendlyByteBuf::readResourceLocation));
+    public void client() {
+        ConfigPackets.registerClientReceiver(TYPE, (context, payload) -> receive(payload));
+        PlayPackets.registerClientReceiver(TYPE, (context, payload) -> receive(payload));
     }
 
     private static void receive(Payload payload) {
@@ -39,16 +43,6 @@ public class PluginSyncCommonS2CPacket implements
         }
 
         PluginLoader.INSTANCE.loadPlugins();
-    }
-
-    @Override
-    public void receive(Minecraft client, ClientConfigurationPacketListenerImpl handler, Payload payload, PacketSender responseSender) {
-        receive(payload);
-    }
-
-    @Override
-    public void receive(Minecraft client, ClientPacketListener handler, Payload payload, PacketSender responseSender) {
-        receive(payload);
     }
 
     public record Payload(
@@ -63,13 +57,8 @@ public class PluginSyncCommonS2CPacket implements
         }
 
         @Override
-        public void write(FriendlyByteBuf buf) {
-            buf.writeCollection(plugins, FriendlyByteBuf::writeResourceLocation);
-        }
-
-        @Override
-        public ResourceLocation id() {
-            return ID;
+        public Type<? extends CustomPacketPayload> type() {
+            return TYPE;
         }
 
     }

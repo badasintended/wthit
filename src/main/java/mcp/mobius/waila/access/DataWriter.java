@@ -32,8 +32,8 @@ public enum DataWriter implements IDataWriter {
     private final Function<CompoundTag, CustomPacketPayload> rawPacket;
     private final Function<IData, CustomPacketPayload> typedPacket;
 
-    private final Map<Class<IData>, IData> immediate = new HashMap<>();
-    private final Map<Class<IData>, List<Consumer<Result<IData>>>> lazy = new HashMap<>();
+    private final Map<IData.Type<IData>, IData> immediate = new HashMap<>();
+    private final Map<IData.Type<IData>, List<Consumer<Result<IData>>>> lazy = new HashMap<>();
 
     private CompoundTag raw;
     private boolean clean;
@@ -113,7 +113,7 @@ public enum DataWriter implements IDataWriter {
     }
 
     @Override
-    public <T extends IData> void add(Class<T> type, Consumer<Result<T>> consumer) {
+    public <D extends IData> void add(IData.Type<D> type, Consumer<Result<D>> consumer) {
         assertType(type);
 
         clean = false;
@@ -123,7 +123,7 @@ public enum DataWriter implements IDataWriter {
 
     @Override
     public void addImmediate(IData data) {
-        var type = data.getClass();
+        var type = data.type();
 
         assertType(type);
         if (lazy.containsKey(type) && !lazy.get(type).isEmpty()) throw new IllegalStateException("Data is already lazily added");
@@ -142,8 +142,8 @@ public enum DataWriter implements IDataWriter {
         }
     }
 
-    private void assertType(Class<? extends IData> type) {
-        Preconditions.checkArgument(Registrar.get().dataType2Id.containsKey(type), "Data type is not registered");
+    private void assertType(IData.Type<? extends IData> type) {
+        Preconditions.checkArgument(Registrar.get().dataCodecs.containsKey(type.id()), "Data type is not registered");
         Preconditions.checkState(!immediate.containsKey(type), "Data is already immediately added");
     }
 

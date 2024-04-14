@@ -5,41 +5,58 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import com.google.gson.Gson;
-import lol.bai.badpackets.api.PacketSender;
+import lol.bai.badpackets.api.config.ConfigPackets;
+import lol.bai.badpackets.api.play.PlayPackets;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.config.ConfigEntry;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.network.Packet;
 import mcp.mobius.waila.util.Log;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientConfigurationPacketListenerImpl;
-import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.resources.ResourceLocation;
-import org.jetbrains.annotations.NotNull;
 
 import static mcp.mobius.waila.mcless.network.NetworkConstants.CONFIG_BOOL;
 import static mcp.mobius.waila.mcless.network.NetworkConstants.CONFIG_DOUBLE;
 import static mcp.mobius.waila.mcless.network.NetworkConstants.CONFIG_INT;
 import static mcp.mobius.waila.mcless.network.NetworkConstants.CONFIG_STRING;
 
-public class ConfigSyncCommonS2CPacket implements
-    Packet.ConfigS2C<ConfigSyncCommonS2CPacket.Payload>,
-    Packet.PlayS2C<ConfigSyncCommonS2CPacket.Payload> {
-
-    public static final ResourceLocation ID = Waila.id("config");
+public class ConfigSyncCommonS2CPacket implements Packet {
 
     private static final Log LOG = Log.create();
     private static final Gson GSON = new Gson();
+    public static final CustomPacketPayload.Type<Payload> TYPE = new CustomPacketPayload.Type<>(Waila.id("config"));
+    public static final StreamCodec<FriendlyByteBuf, Payload> CODEC = StreamCodec.ofMember((p, buf) -> {
+        var groups = p.map.keySet().stream()
+            .collect(Collectors.groupingBy(ResourceLocation::getNamespace));
 
-    @Override
-    public ResourceLocation id() {
-        return ID;
-    }
-
-    @Override
-    public Payload read(FriendlyByteBuf buf) {
+        buf.writeVarInt(groups.size());
+        groups.forEach((namespace, entries) -> {
+            buf.writeUtf(namespace);
+            buf.writeVarInt(entries.size());
+            entries.forEach(e -> {
+                buf.writeUtf(e.getPath());
+                var v = p.map.get(e);
+                if (v instanceof Boolean z) {
+                    buf.writeByte(CONFIG_BOOL);
+                    buf.writeBoolean(z);
+                } else if (v instanceof Integer i) {
+                    buf.writeByte(CONFIG_INT);
+                    buf.writeVarInt(i);
+                } else if (v instanceof Double d) {
+                    buf.writeByte(CONFIG_DOUBLE);
+                    buf.writeDouble(d);
+                } else if (v instanceof String str) {
+                    buf.writeByte(CONFIG_STRING);
+                    buf.writeUtf(str);
+                } else if (v instanceof Enum<?> en) {
+                    buf.writeByte(CONFIG_STRING);
+                    buf.writeUtf(en.name());
+                }
+            });
+        });
+    }, buf -> {
         Map<ResourceLocation, Object> map = new HashMap<>();
         var groupSize = buf.readVarInt();
         for (var i = 0; i < groupSize; i++) {
@@ -58,6 +75,18 @@ public class ConfigSyncCommonS2CPacket implements
         }
 
         return new Payload(map);
+    });
+
+    @Override
+    public void common() {
+        ConfigPackets.registerClientChannel(TYPE, CODEC);
+        PlayPackets.registerClientChannel(TYPE, CODEC);
+    }
+
+    @Override
+    public void client() {
+        ConfigPackets.registerClientReceiver(TYPE, (context, payload) -> receive(payload));
+        PlayPackets.registerClientReceiver(TYPE, (context, payload) -> receive(payload));
     }
 
     private static void receive(Payload payload) {
@@ -82,16 +111,6 @@ public class ConfigSyncCommonS2CPacket implements
         LOG.info("Received config from the server: {}", GSON.toJson(map));
     }
 
-    @Override
-    public void receive(Minecraft client, ClientConfigurationPacketListenerImpl handler, Payload payload, PacketSender responseSender) {
-        receive(payload);
-    }
-
-    @Override
-    public void receive(Minecraft client, ClientPacketListener handler, Payload payload, PacketSender responseSender) {
-        receive(payload);
-    }
-
     public record Payload(
         Map<ResourceLocation, Object> map
     ) implements CustomPacketPayload {
@@ -103,40 +122,8 @@ public class ConfigSyncCommonS2CPacket implements
         }
 
         @Override
-        public void write(@NotNull FriendlyByteBuf buf) {
-            var groups = map.keySet().stream()
-                .collect(Collectors.groupingBy(ResourceLocation::getNamespace));
-
-            buf.writeVarInt(groups.size());
-            groups.forEach((namespace, entries) -> {
-                buf.writeUtf(namespace);
-                buf.writeVarInt(entries.size());
-                entries.forEach(e -> {
-                    buf.writeUtf(e.getPath());
-                    var v = map.get(e);
-                    if (v instanceof Boolean z) {
-                        buf.writeByte(CONFIG_BOOL);
-                        buf.writeBoolean(z);
-                    } else if (v instanceof Integer i) {
-                        buf.writeByte(CONFIG_INT);
-                        buf.writeVarInt(i);
-                    } else if (v instanceof Double d) {
-                        buf.writeByte(CONFIG_DOUBLE);
-                        buf.writeDouble(d);
-                    } else if (v instanceof String str) {
-                        buf.writeByte(CONFIG_STRING);
-                        buf.writeUtf(str);
-                    } else if (v instanceof Enum<?> en) {
-                        buf.writeByte(CONFIG_STRING);
-                        buf.writeUtf(en.name());
-                    }
-                });
-            });
-        }
-
-        @Override
-        public @NotNull ResourceLocation id() {
-            return ID;
+        public Type<? extends CustomPacketPayload> type() {
+            return TYPE;
         }
 
     }

@@ -35,7 +35,7 @@ public class EnergyProvider extends DataProvider<EnergyData, EnergyDataImpl> {
     private static final TagKey<EntityType<?>> INFINITE_ENTITY_TAG = TagKey.create(Registries.ENTITY_TYPE, INFINITE_TAG_ID);
 
     private EnergyProvider() {
-        super(EnergyData.ID, EnergyData.class, EnergyDataImpl.class, EnergyDataImpl::new);
+        super(EnergyData.TYPE, EnergyDataImpl.CODEC);
     }
 
     @Override
@@ -74,7 +74,7 @@ public class EnergyProvider extends DataProvider<EnergyData, EnergyDataImpl> {
 
         @Override
         public void appendData(IDataWriter data, IServerAccessor<BlockEntity> accessor, IPluginConfig config) {
-            data.add(EnergyData.class, res -> {
+            data.add(EnergyData.TYPE, res -> {
                 var target = accessor.getTarget();
 
                 if (target.getBlockState().is(INFINITE_BLOCK_TAG)
@@ -90,7 +90,7 @@ public class EnergyProvider extends DataProvider<EnergyData, EnergyDataImpl> {
 
         @Override
         public void appendData(IDataWriter data, IServerAccessor<Entity> accessor, IPluginConfig config) {
-            data.add(EnergyData.class, res -> {
+            data.add(EnergyData.TYPE, res -> {
                 if (accessor.getTarget().getType().is(INFINITE_ENTITY_TAG)) {
                     res.add(EnergyData.INFINITE);
                 }

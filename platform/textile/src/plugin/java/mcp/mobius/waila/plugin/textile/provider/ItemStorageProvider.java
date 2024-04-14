@@ -30,7 +30,7 @@ public enum ItemStorageProvider implements IDataProvider<BlockEntity> {
 
     @Override
     public void appendData(IDataWriter data, IServerAccessor<BlockEntity> accessor, IPluginConfig config) {
-        data.add(ItemData.class, res -> {
+        data.add(ItemData.TYPE, res -> {
             if (cache == null || cache.getBlockEntity() != accessor.getTarget()) {
                 cache = BlockApiCache.create(ItemStorage.SIDED, (ServerLevel) accessor.getWorld(), accessor.getTarget().getBlockPos());
             }

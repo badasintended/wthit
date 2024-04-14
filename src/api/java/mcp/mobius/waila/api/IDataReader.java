@@ -20,14 +20,14 @@ public interface IDataReader {
      *
      * @param type the type of the data.
      */
-    @Nullable <T extends IData> T get(Class<T> type);
+    @Nullable <D extends IData> D get(IData.Type<D> type);
 
     /**
-     * Invalidate the current data instance of type {@code T},
-     * making {@link #get(Class)} returns {@code null} until a new instance is synced.
+     * Invalidate the current data instance of type {@code D},
+     * making {@link #get(IData.Type)} returns {@code null} until a new instance is synced.
      *
      * @param type the type of the data
      */
-    <T extends IData> void invalidate(Class<T> type);
+    <D extends IData> void invalidate(IData.Type<D> type);
 
 }

@@ -21,6 +21,7 @@ import org.jetbrains.annotations.ApiStatus;
 public abstract class ProgressData implements IData {
 
     public static final ResourceLocation ID = BuiltinDataUtil.rl("progress");
+    public static final Type<ProgressData> TYPE = IData.createType(ID);
 
     /**
      * Creates a progress data.

@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import mcp.mobius.waila.api.IBlacklistConfig;
+import mcp.mobius.waila.api.IData;
 import mcp.mobius.waila.api.IInstanceRegistry;
 import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.api.IModInfo;
@@ -78,5 +79,7 @@ public interface IApiService {
     TagKey<Block> getTierTag(Tier tier);
 
     List<Tier> getTiers();
+
+    <D extends IData> IData.Type<D> createDataType(ResourceLocation id);
 
 }

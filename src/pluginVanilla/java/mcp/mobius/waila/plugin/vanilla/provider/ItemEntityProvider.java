@@ -1,7 +1,6 @@
 package mcp.mobius.waila.plugin.vanilla.provider;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IEntityComponentProvider;
@@ -14,18 +13,17 @@ import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.component.ItemComponent;
 import mcp.mobius.waila.plugin.vanilla.config.EnchantmentDisplayMode;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.StringUtil;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
-import net.minecraft.world.item.EnchantedBookItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.item.WrittenBookItem;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.EnchantmentInstance;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
 import org.jetbrains.annotations.Nullable;
 
 public enum ItemEntityProvider implements IEntityComponentProvider {
@@ -80,18 +78,15 @@ public enum ItemEntityProvider implements IEntityComponentProvider {
 
             if (mode == EnchantmentDisplayMode.CYCLE) {
                 var enchantmentTiming = config.getInt(Options.BOOK_ENCHANTMENT_CYCLE_TIMING);
-                var enchantmentsTag = EnchantedBookItem.getEnchantments(stack);
+                var enchantmentsComponent = stack.getOrDefault(DataComponents.STORED_ENCHANTMENTS, ItemEnchantments.EMPTY);
                 var now = System.currentTimeMillis();
 
                 var enchantments = new ArrayList<EnchantmentInstance>();
                 var curses = new ArrayList<EnchantmentInstance>();
 
-                for (var i = 0; i < enchantmentsTag.size(); i++) {
-                    var enchantmentTag = enchantmentsTag.getCompound(i);
-                    var enchantment = BuiltInRegistries.ENCHANTMENT.get(EnchantmentHelper.getEnchantmentId(enchantmentTag));
-                    if (enchantment == null) continue;
-
-                    var level = EnchantmentHelper.getEnchantmentLevel(enchantmentTag);
+                for (var entry : enchantmentsComponent.entrySet()) {
+                    var enchantment = entry.getKey().value();
+                    var level = entry.getIntValue();
                     var instance = new EnchantmentInstance(enchantment, level);
 
                     if (enchantment.isCurse()) curses.add(instance);
@@ -117,15 +112,15 @@ public enum ItemEntityProvider implements IEntityComponentProvider {
                     tooltip.addLine(instance.enchantment.getFullname(instance.level));
                 }
             } else {
-                var enchantments = EnchantmentHelper.getEnchantments(stack);
+                var enchantments = stack.getOrDefault(DataComponents.STORED_ENCHANTMENTS, ItemEnchantments.EMPTY);
 
                 if (mode == EnchantmentDisplayMode.COMBINED) {
                     MutableComponent enchantmentLine = null;
                     MutableComponent curseLine = null;
 
                     for (var entry : enchantments.entrySet()) {
-                        var enchantment = entry.getKey();
-                        int level = entry.getValue();
+                        var enchantment = entry.getKey().value();
+                        var level = entry.getIntValue();
                         var name = enchantment.getFullname(level);
 
                         if (enchantment.isCurse()) {
@@ -146,21 +141,22 @@ public enum ItemEntityProvider implements IEntityComponentProvider {
                     if (enchantmentLine != null) tooltip.addLine(enchantmentLine);
                     if (curseLine != null) tooltip.addLine(curseLine);
                 } else {
-                    enchantments.forEach((enchantment, level) -> tooltip.addLine(enchantment.getFullname(level)));
+                    for (var entry : enchantments.entrySet()) {
+                        tooltip.addLine(entry.getKey().value().getFullname(entry.getIntValue()));
+                    }
                 }
             }
         } else if (stack.is(Items.WRITTEN_BOOK)) {
-            if (!config.getBoolean(Options.BOOK_WRITTEN) || !stack.hasTag()) return;
+            if (!config.getBoolean(Options.BOOK_WRITTEN)) return;
 
-            var tag = Objects.requireNonNull(stack.getTag());
-            var author = tag.getString(WrittenBookItem.TAG_AUTHOR);
-            var generation = WrittenBookItem.getGeneration(stack);
+            var tag = stack.get(DataComponents.WRITTEN_BOOK_CONTENT);
+            if (tag == null) return;
 
-            if (!StringUtil.isNullOrEmpty(author)) {
-                tooltip.addLine(Component.translatable("book.byAuthor", author));
+            if (!StringUtil.isNullOrEmpty(tag.author())) {
+                tooltip.addLine(Component.translatable("book.byAuthor", tag.author()));
             }
 
-            tooltip.addLine(Component.translatable("book.generation." + generation));
+            tooltip.addLine(Component.translatable("book.generation." + tag.generation()));
 
         }
     }

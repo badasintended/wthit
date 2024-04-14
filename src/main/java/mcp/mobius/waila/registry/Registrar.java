@@ -35,6 +35,8 @@ import mcp.mobius.waila.util.TypeUtil;
 import net.minecraft.Util;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -80,9 +82,7 @@ public class Registrar implements IRegistrar {
 
     public final BiMap<ResourceLocation, ThemeType<?>> themeTypes = HashBiMap.create();
 
-    public final Map<Class<? extends IData>, Class<? extends IData>> impl2ApiDataType = new HashMap<>();
-    public final Map<Class<? extends IData>, ResourceLocation> dataType2Id = new HashMap<>();
-    public final Map<ResourceLocation, IData.Serializer<?>> dataId2Serializer = new HashMap<>();
+    public final Map<ResourceLocation, StreamCodec<RegistryFriendlyByteBuf, ? extends IData>> dataCodecs = new HashMap<>();
 
     @Nullable
     public IObjectPicker picker = null;
@@ -328,14 +328,11 @@ public class Registrar implements IRegistrar {
 
 
     @Override
-    public <A extends IData, I extends A> void addDataType(ResourceLocation id, Class<A> apiType, Class<I> implType, IData.Serializer<I> serializer) {
+    @SuppressWarnings("unchecked")
+    public <D extends IData> void addDataType(IData.Type<D> type, StreamCodec<? super RegistryFriendlyByteBuf, ? extends D> codec) {
         assertLock();
-        Preconditions.checkArgument(!dataId2Serializer.containsKey(id), "Data type with id %s already present", id);
-
-        impl2ApiDataType.put(implType, apiType);
-        dataType2Id.put(apiType, id);
-        dataType2Id.put(implType, id);
-        dataId2Serializer.put(id, serializer);
+        Preconditions.checkArgument(!dataCodecs.containsKey(type.id()), "Data type with id %s already present", type.id());
+        dataCodecs.put(type.id(), (StreamCodec<RegistryFriendlyByteBuf, ? extends IData>) codec);
     }
 
     @Override

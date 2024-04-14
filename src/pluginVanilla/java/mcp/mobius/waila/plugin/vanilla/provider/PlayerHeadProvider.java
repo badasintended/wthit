@@ -7,7 +7,7 @@ import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.component.ItemComponent;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
-import net.minecraft.nbt.NbtUtils;
+import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -26,9 +26,7 @@ public enum PlayerHeadProvider implements IBlockComponentProvider {
     public ITooltipComponent getIcon(IBlockAccessor accessor, IPluginConfig config) {
         SkullBlockEntity skull = accessor.getBlockEntity();
         if (skull != null && skull.getOwnerProfile() != null) {
-            var tag = PLAYER_HEAD_STACK.getOrCreateTag();
-            var skullOwner = tag.getCompound("SkullOwner");
-            tag.put("SkullOwner", NbtUtils.writeGameProfile(skullOwner, skull.getOwnerProfile()));
+            PLAYER_HEAD_STACK.set(DataComponents.PROFILE, skull.getOwnerProfile());
             return new ItemComponent(PLAYER_HEAD_STACK);
         }
         return null;
@@ -38,8 +36,8 @@ public enum PlayerHeadProvider implements IBlockComponentProvider {
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
         if (config.getBoolean(Options.PLAYER_HEAD_NAME)) {
             SkullBlockEntity skull = accessor.getBlockEntity();
-            if (skull != null && skull.getOwnerProfile() != null && !StringUtils.isBlank(skull.getOwnerProfile().getName())) {
-                tooltip.addLine(Component.translatable(skull.getOwnerProfile().getName()));
+            if (skull != null && skull.getOwnerProfile() != null && !StringUtils.isBlank(skull.getOwnerProfile().gameProfile().getName())) {
+                tooltip.addLine(Component.translatable(skull.getOwnerProfile().gameProfile().getName()));
             }
         }
     }

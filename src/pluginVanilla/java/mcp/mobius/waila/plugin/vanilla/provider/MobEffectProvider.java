@@ -1,7 +1,7 @@
 package mcp.mobius.waila.plugin.vanilla.provider;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import mcp.mobius.waila.api.IData;
 import mcp.mobius.waila.api.IDataProvider;
@@ -14,9 +14,10 @@ import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.resources.language.I18n;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.effect.MobEffectCategory;
 import net.minecraft.world.effect.MobEffectInstance;
@@ -26,13 +27,16 @@ public enum MobEffectProvider implements IEntityComponentProvider, IDataProvider
 
     INSTANCE;
 
-    public static final ResourceLocation DATA = new ResourceLocation("mob_effects");
+    public static final IData.Type<Data> DATA = IData.createType(new ResourceLocation("mob_effects"));
+    public static final StreamCodec<RegistryFriendlyByteBuf, Data> DATA_CODEC = StreamCodec.composite(
+        ByteBufCodecs.collection(ArrayList::new, MobEffectInstance.STREAM_CODEC), Data::list,
+        Data::new);
 
     @Override
     public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
         if (!config.getBoolean(Options.ATTRIBUTE_MOB_EFFECTS)) return;
 
-        var data = accessor.getData().get(Data.class);
+        var data = accessor.getData().get(DATA);
         if (data == null) return;
 
         data.list.forEach(it -> {
@@ -47,7 +51,7 @@ public enum MobEffectProvider implements IEntityComponentProvider, IDataProvider
                 }
             }
 
-            if (it.getEffect().getCategory() == MobEffectCategory.HARMFUL) text.withStyle(ChatFormatting.RED);
+            if (it.getEffect().value().getCategory() == MobEffectCategory.HARMFUL) text.withStyle(ChatFormatting.RED);
 
             tooltip.addLine(text);
         });
@@ -55,7 +59,7 @@ public enum MobEffectProvider implements IEntityComponentProvider, IDataProvider
 
     @Override
     public void appendData(IDataWriter data, IServerAccessor<LivingEntity> accessor, IPluginConfig config) {
-        if (config.getBoolean(Options.ATTRIBUTE_MOB_EFFECTS)) data.add(Data.class, res -> res.add(new Data(accessor
+        if (config.getBoolean(Options.ATTRIBUTE_MOB_EFFECTS)) data.add(DATA, res -> res.add(new Data(accessor
             .getTarget()
             .getActiveEffects()
             .stream()
@@ -67,20 +71,9 @@ public enum MobEffectProvider implements IEntityComponentProvider, IDataProvider
         List<MobEffectInstance> list
     ) implements IData {
 
-        public Data(FriendlyByteBuf buf) {
-            this(buf.readList(b -> {
-                var effect = b.readById(BuiltInRegistries.MOB_EFFECT);
-                var amplifier = b.readVarInt();
-                return new MobEffectInstance(Objects.requireNonNull(effect), -1, amplifier);
-            }));
-        }
-
         @Override
-        public void write(FriendlyByteBuf buf) {
-            buf.writeCollection(list, (b, m) -> {
-                b.writeId(BuiltInRegistries.MOB_EFFECT, m.getEffect());
-                b.writeVarInt(m.getAmplifier());
-            });
+        public Type<? extends IData> type() {
+            return DATA;
         }
 
     }

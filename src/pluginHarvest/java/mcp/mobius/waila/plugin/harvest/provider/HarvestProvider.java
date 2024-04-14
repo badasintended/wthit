@@ -75,7 +75,7 @@ public enum HarvestProvider implements IBlockComponentProvider, IEventListener {
         if (highestTier == null) {
             highestTier = ToolTier.NONE;
             for (var tier : ToolTier.all()) {
-                if (tier.tag != null && state.is(tier.tag)) {
+                if (tier.incorrect != null && state.is(tier.incorrect)) {
                     highestTier = tier;
                 }
             }
