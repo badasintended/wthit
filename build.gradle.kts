@@ -189,6 +189,8 @@ val apiJavadoc by tasks.creating(Javadoc::class) {
             "https://javadoc.io/doc/org.jetbrains/annotations/latest/",
             "https://nekoyue.github.io/ForgeJavaDocs-NG/javadoc/1.19.3/"
         )
+
+        addStringOption("Xdoclint:none", "-quiet")
     })
 }
 
