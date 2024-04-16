@@ -2,7 +2,6 @@ import me.modmuss50.mpp.ModPublishExtension
 import me.modmuss50.mpp.ReleaseType
 import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.apply
-import org.gradle.kotlin.dsl.assign
 import org.gradle.kotlin.dsl.configure
 
 fun <T : Jar> UploadConfig.curseforge(task: T) = project.run {
@@ -10,18 +9,18 @@ fun <T : Jar> UploadConfig.curseforge(task: T) = project.run {
 
     configure<ModPublishExtension> {
         curseforge {
-            apiEndpoint = "https://${prop["cf.endpoint"]}"
-            accessToken = env["CURSEFORGE_API"]
-            dryRun = env["CURSEFORGE_API"] == null
+            apiEndpoint.set("https://${prop["cf.endpoint"]}")
+            accessToken.set(env["CURSEFORGE_API"])
+            dryRun.set(env["CURSEFORGE_API"] == null)
 
-            projectId = prop["cf.projectId"]
+            projectId.set(prop["cf.projectId"])
 
-            file = task.archiveFile
-            version = "${project.name}-${project.version}"
-            displayName = "[${prop["cf.loader"]} ${rootProp["minecraft"]}] ${project.version}"
-            type = ReleaseType.of(prop["cf.releaseType"])
+            file.set(task.archiveFile)
+            version.set("${project.name}-${project.version}")
+            displayName.set("[${prop["cf.loader"]} ${rootProp["minecraft"]}] ${project.version}")
+            type.set(ReleaseType.of(prop["cf.releaseType"]))
 
-            changelog = env["CHANGELOG"] ?: "DRY RUN"
+            changelog.set(env["CHANGELOG"] ?: "DRY RUN")
 
             minecraftVersions.addAll(prop["cf.gameVersion"].split(", "))
             modLoaders.addAll(prop["cf.loader"].split(", "))

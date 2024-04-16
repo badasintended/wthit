@@ -2,7 +2,6 @@ import me.modmuss50.mpp.ModPublishExtension
 import me.modmuss50.mpp.ReleaseType
 import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.apply
-import org.gradle.kotlin.dsl.assign
 import org.gradle.kotlin.dsl.configure
 
 fun <T : Jar> UploadConfig.modrinth(task: T) = project.run {
@@ -10,15 +9,15 @@ fun <T : Jar> UploadConfig.modrinth(task: T) = project.run {
 
     configure<ModPublishExtension> {
         modrinth {
-            accessToken = env["MODRINTH_TOKEN"]
-            dryRun = env["MODRINTH_TOKEN"] == null
+            accessToken.set(env["MODRINTH_TOKEN"])
+            dryRun.set(env["MODRINTH_TOKEN"] == null)
 
-            projectId = prop["mr.projectId"]
-            file = task.archiveFile
-            displayName = "${project.version}"
-            version = "${project.name}-${project.version}"
-            type = ReleaseType.of(prop["mr.releaseType"])
-            changelog = env["CHANGELOG"] ?: "DRY RUN"
+            projectId.set(prop["mr.projectId"])
+            file.set(task.archiveFile)
+            displayName.set("${project.version}")
+            version.set("${project.name}-${project.version}")
+            type.set(ReleaseType.of(prop["mr.releaseType"]))
+            changelog.set(env["CHANGELOG"] ?: "DRY RUN")
 
             modLoaders.addAll(prop["mr.loader"].split(", "))
             minecraftVersions.addAll(prop["mr.gameVersion"].split(", "))
