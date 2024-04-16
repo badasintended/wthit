@@ -14,6 +14,7 @@ dependencies {
     modCompileRuntime("org.quiltmc:qsl:${rootProp["qsl"]}")
     modCompileRuntime("org.quiltmc.quilted-fabric-api:fabric-key-binding-api-v1:${rootProp["qfapi"]}")
     modCompileRuntime("org.quiltmc.quilted-fabric-api:fabric-rendering-v1:${rootProp["qfapi"]}")
+    modCompileRuntime("org.quiltmc.quilted-fabric-api:fabric-lifecycle-events-v1:${rootProp["qfapi"]}")
 
     modCompileRuntime("com.terraformersmc:modmenu:${rootProp["modMenu"]}")
 
