@@ -1,4 +1,11 @@
-10.x - 1.20.4 - dev/master - java 17
+11.x - 1.20.5-pre1 - dev/master - java 21
+=========================================
+11.0.0   - Updated to Minecraft 1.20.5-pre1
+         - [API] Changed APIs around complex `IData` types, making it more in line to vanilla's `CustomPacketPayload`
+           - Now it requires a `StreamCodec` instead of serializer method
+           - Now it uses a `IData.Type` instance to set/get, instead of direct data class
+
+10.x - 1.20.4 - dev/1.20.4 - java 17
 ====================================
 10.5.0   - Changed network version to `9`
          - [API] Added target redirector API
