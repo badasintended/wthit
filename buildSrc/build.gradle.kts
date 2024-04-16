@@ -10,8 +10,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.modrinth.minotaur:Minotaur:2.2.1")
-    implementation("com.github.deirn:CurseForgeGradle:c693018f92")
+    implementation("me.modmuss50:mod-publish-plugin:0.5.1")
 
     implementation("de.undercouch:gradle-download-task:5.0.5")
 
