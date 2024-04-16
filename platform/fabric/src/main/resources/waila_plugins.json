@@ -32,7 +32,9 @@
   "waila:team_reborn_energy": {
     "initializer": "mcp.mobius.waila.plugin.trenergy.WailaPluginTeamRebornEnergy",
     "side"       : "*",
-    "required"   : ["team_reborn_energy"]
+    "required"   : {
+      "team_reborn_energy": "(1.2.3)||(2.3.4)"
+    }
   },
 
   "waila:test"              : {

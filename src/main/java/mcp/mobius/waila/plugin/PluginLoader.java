@@ -97,13 +97,23 @@ public abstract class PluginLoader {
 
                 List<String> required = new ArrayList<>();
                 if (plugin.has(KEY_REQUIRED)) {
-                    var array = plugin.getAsJsonArray(KEY_REQUIRED);
-                    for (var element : array) {
-                        var requiredModId = element.getAsString();
-                        if (ModInfo.get(requiredModId).isPresent()) {
-                            required.add(requiredModId);
-                        } else {
-                            continue outer;
+                    var requiredElement = plugin.get(KEY_REQUIRED);
+
+                    if (requiredElement.isJsonArray()) {
+                        var array = requiredElement.getAsJsonArray();
+                        for (var element : array) {
+                            var requiredModId = element.getAsString();
+                            if (ModInfo.get(requiredModId).isPresent()) {
+                                required.add(requiredModId);
+                            } else {
+                                continue outer;
+                            }
+                        }
+                    } else if (requiredElement.isJsonObject()) {
+                        var requiredObj = requiredElement.getAsJsonObject();
+                        for (var requiredModId : requiredObj.keySet()) {
+                            var versionSpec = requiredObj.getAsJsonPrimitive(requiredModId).getAsString();
+
                         }
                     }
                 }
