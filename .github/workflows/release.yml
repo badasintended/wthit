@@ -13,7 +13,7 @@ jobs:
   get-release-targets:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - id: script
         run: kotlin .github/workflows/scripts/get-release-targets.main.kts
         env:
@@ -31,20 +31,20 @@ jobs:
         branch: ${{ fromJSON(needs.get-release-targets.outputs.branches) }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - id: parse
         run: kotlin .github/workflows/scripts/parse-changelog.main.kts
         env:
           BRANCH: ${{ matrix.branch }}
           CHANGELOGS: ${{ needs.get-release-targets.outputs.changelogs }}
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: ${{ matrix.branch }}
-      - uses: actions/setup-java@v3
+      - uses: actions/setup-java@v4
         with:
           java-version: ${{ steps.parse.outputs.java }}
           distribution: temurin
-      - uses: gradle/gradle-build-action@v2
+      - uses: gradle/actions/setup-gradle@v3
         with:
           cache-read-only: true
       - run: ./gradlew build curseforge modrinth publish --max-workers=1
@@ -62,7 +62,7 @@ jobs:
       - run: |
           b2 sync --replaceNewer .b2 b2://maven-bai-lol
           b2 clear-account
-      - uses: softprops/action-gh-release@v1
+      - uses: softprops/action-gh-release@v2
         with:
           name: "[${{ steps.parse.outputs.minecraft }}] ${{ steps.parse.outputs.version }}"
           tag_name: ${{ steps.parse.outputs.version }}
