@@ -1,42 +1,37 @@
-import com.modrinth.minotaur.ModrinthExtension
-import com.modrinth.minotaur.dependencies.DependencyType
-import com.modrinth.minotaur.dependencies.ModDependency
+import me.modmuss50.mpp.ModPublishExtension
+import me.modmuss50.mpp.ReleaseType
 import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.apply
+import org.gradle.kotlin.dsl.assign
 import org.gradle.kotlin.dsl.configure
 
 fun <T : Jar> UploadConfig.modrinth(task: T) = project.run {
-    apply(plugin = "com.modrinth.minotaur")
+    apply(plugin = "me.modmuss50.mod-publish-plugin")
 
-    env["MODRINTH_TOKEN"]?.let { MODRINTH_TOKEN ->
-        configure<ModrinthExtension> {
-            token.set(MODRINTH_TOKEN)
-            projectId.set(prop["mr.projectId"])
+    configure<ModPublishExtension> {
+        modrinth {
+            accessToken = env["MODRINTH_TOKEN"]
+            dryRun = env["MODRINTH_TOKEN"] == null
 
-            versionNumber.set("${project.name}-${project.version}")
-            versionName.set("${project.version}")
-            versionType.set(prop["mr.releaseType"])
-            changelog.set(env["CHANGELOG"])
+            projectId = prop["mr.projectId"]
+            file = task.archiveFile
+            displayName = "${project.version}"
+            version = "${project.name}-${project.version}"
+            type = ReleaseType.of(prop["mr.releaseType"])
+            changelog = env["CHANGELOG"] ?: "DRY RUN"
 
-            uploadFile.set(task)
+            modLoaders.addAll(prop["mr.loader"].split(", "))
+            minecraftVersions.addAll(prop["mr.gameVersion"].split(", "))
 
-            gameVersions.addAll(prop["mr.gameVersion"].split(", "))
-
-            prop["mr.loader"].split(", ").forEach {
-                loaders.add(it)
-            }
-
-            fun dependency(key: String, type: DependencyType) {
+            fun relation(key: String, fn: (Array<String>) -> Unit) {
                 prop.ifPresent("mr.${key}") { value ->
-                    value.split(", ").forEach {
-                        dependencies.add(ModDependency(it, type))
-                    }
+                    fn(value.split(", ").toTypedArray())
                 }
             }
 
-            dependency("require", DependencyType.REQUIRED)
-            dependency("optional", DependencyType.OPTIONAL)
-            dependency("break", DependencyType.INCOMPATIBLE)
+            relation("require", this::requires)
+            relation("optional", this::optional)
+            relation("break", this::incompatible)
         }
     }
 }

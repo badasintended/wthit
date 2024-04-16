@@ -1,45 +1,40 @@
-import net.darkhax.curseforgegradle.Constants
-import net.darkhax.curseforgegradle.TaskPublishCurseForge
+import me.modmuss50.mpp.ModPublishExtension
+import me.modmuss50.mpp.ReleaseType
 import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.apply
-import org.gradle.kotlin.dsl.create
+import org.gradle.kotlin.dsl.assign
+import org.gradle.kotlin.dsl.configure
 
 fun <T : Jar> UploadConfig.curseforge(task: T) = project.run {
-    apply(plugin = "net.darkhax.curseforgegradle")
+    apply(plugin = "me.modmuss50.mod-publish-plugin")
 
-    tasks.create<TaskPublishCurseForge>("curseforge") {
-        group = "publishing"
-        dependsOn("build")
+    configure<ModPublishExtension> {
+        curseforge {
+            apiEndpoint = "https://${prop["cf.endpoint"]}"
+            accessToken = env["CURSEFORGE_API"]
+            dryRun = env["CURSEFORGE_API"] == null
 
-        disableVersionDetection()
+            projectId = prop["cf.projectId"]
 
-        apiToken = env["CURSEFORGE_API"]
-        apiEndpoint = "https://${prop["cf.endpoint"]}"
-
-        upload(prop["cf.projectId"], task).apply {
+            file = task.archiveFile
+            version = "${project.name}-${project.version}"
             displayName = "[${prop["cf.loader"]} ${rootProp["minecraft"]}] ${project.version}"
-            releaseType = prop["cf.releaseType"]
+            type = ReleaseType.of(prop["cf.releaseType"])
 
-            changelogType = "markdown"
-            changelog = env["CHANGELOG"]
+            changelog = env["CHANGELOG"] ?: "DRY RUN"
 
-            prop["cf.gameVersion"].split(", ").forEach(this::addGameVersion)
+            minecraftVersions.addAll(prop["cf.gameVersion"].split(", "))
+            modLoaders.addAll(prop["cf.loader"].split(", "))
 
-            prop["cf.loader"].split(", ").forEach {
-                addModLoader(it)
-            }
-
-            fun relation(key: String, type: String) {
+            fun relation(key: String, fn: (Array<String>) -> Unit) {
                 prop.ifPresent("cf.${key}") { value ->
-                    value.split(", ").forEach {
-                        addRelation(it, type)
-                    }
+                    fn(value.split(", ").toTypedArray())
                 }
             }
 
-            relation("require", Constants.RELATION_REQUIRED)
-            relation("optional", Constants.RELATION_OPTIONAL)
-            relation("break", Constants.RELATION_INCOMPATIBLE)
+            relation("require", this::requires)
+            relation("optional", this::optional)
+            relation("break", this::incompatible)
         }
     }
 }
