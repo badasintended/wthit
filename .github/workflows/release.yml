@@ -47,7 +47,7 @@ jobs:
       - uses: gradle/actions/setup-gradle@v3
         with:
           cache-read-only: true
-      - run: ./gradlew build curseforge modrinth publish --max-workers=1
+      - run: ./gradlew build publishMods publish --max-workers=1
         env:
           MOD_VERSION: ${{ steps.parse.outputs.version }}
           GITHUB_TOKEN: ${{ github.token }}
