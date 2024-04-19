@@ -1,6 +1,7 @@
 // This file is part of FlexVer by unascribed
 // https://github.com/unascribed/FlexVer
 // License: CC0-1.0
+// Commit: 6a95e08b8f6853a1df78092edf4835cfd16533e2
 
 /*
  * To the extent possible under law, the author has dedicated all copyright
@@ -10,7 +11,7 @@
  * See <http://creativecommons.org/publicdomain/zero/1.0/>
  */
 
-package mcp.mobius.waila.external.flexver;
+package mcp.mobius.waila.mcless.version;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,7 +27,7 @@ import java.util.List;
  * will be parsed in a logical fashion.
  */
 @SuppressWarnings("RedundantExplicitVariableType")
-public class FlexVerComparator {
+/*package-private*/ class FlexVerComparator {
 
     /**
      * Parse the given strings as freeform version strings, and compare them according to FlexVer.

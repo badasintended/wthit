@@ -16,6 +16,7 @@ import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.api.__internal__.Internals;
 import mcp.mobius.waila.config.PluginConfig;
+import mcp.mobius.waila.mcless.version.VersionRanges;
 import mcp.mobius.waila.network.common.s2c.BlacklistSyncCommonS2CPacket;
 import mcp.mobius.waila.network.common.s2c.ConfigSyncCommonS2CPacket;
 import mcp.mobius.waila.network.common.s2c.PluginSyncCommonS2CPacket;
@@ -82,7 +83,7 @@ public abstract class PluginLoader {
         try (Reader reader = Files.newBufferedReader(path)) {
             var object = JsonParser.parseReader(reader).getAsJsonObject();
 
-            outer:
+            otherPlugin:
             for (var pluginId : object.keySet()) {
                 var plugin = object.getAsJsonObject(pluginId);
 
@@ -106,14 +107,19 @@ public abstract class PluginLoader {
                             if (ModInfo.get(requiredModId).isPresent()) {
                                 required.add(requiredModId);
                             } else {
-                                continue outer;
+                                continue otherPlugin;
                             }
                         }
                     } else if (requiredElement.isJsonObject()) {
                         var requiredObj = requiredElement.getAsJsonObject();
                         for (var requiredModId : requiredObj.keySet()) {
+                            var requiredMod = ModInfo.get(requiredModId);
                             var versionSpec = requiredObj.getAsJsonPrimitive(requiredModId).getAsString();
-
+                            if (requiredMod.isPresent() && VersionRanges.parse(versionSpec).match(requiredMod.getVersion())) {
+                                required.add(requiredModId);
+                            } else {
+                                continue otherPlugin;
+                            }
                         }
                     }
                 }
