@@ -7,6 +7,7 @@
 
 10.x - 1.20.4 - dev/1.20.4 - java 17
 ====================================
+10.5.1   - Updated Quilt version to 1.20.4
 10.5.0   - Changed network version to `9`
          - [API] Added target redirector API
          - [API] Added negation rule for registry filter with `!` prefix
