@@ -17,6 +17,7 @@ import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.api.__internal__.Internals;
 import mcp.mobius.waila.config.PluginConfig;
+import mcp.mobius.waila.mcless.version.VersionRanges;
 import mcp.mobius.waila.network.Packets;
 import mcp.mobius.waila.registry.Registrar;
 import mcp.mobius.waila.service.ICommonService;
@@ -85,7 +86,7 @@ public abstract class PluginLoader {
         try (Reader reader = Files.newBufferedReader(path)) {
             var object = JsonParser.parseReader(reader).getAsJsonObject();
 
-            outer:
+            otherPlugin:
             for (var pluginId : object.keySet()) {
                 var plugin = object.getAsJsonObject(pluginId);
 
@@ -100,13 +101,28 @@ public abstract class PluginLoader {
 
                 List<String> required = new ArrayList<>();
                 if (plugin.has(KEY_REQUIRED)) {
-                    var array = plugin.getAsJsonArray(KEY_REQUIRED);
-                    for (var element : array) {
-                        var requiredModId = element.getAsString();
-                        if (ModInfo.get(requiredModId).isPresent()) {
-                            required.add(requiredModId);
-                        } else {
-                            continue outer;
+                    var requiredElement = plugin.get(KEY_REQUIRED);
+
+                    if (requiredElement.isJsonArray()) {
+                        var array = requiredElement.getAsJsonArray();
+                        for (var element : array) {
+                            var requiredModId = element.getAsString();
+                            if (ModInfo.get(requiredModId).isPresent()) {
+                                required.add(requiredModId);
+                            } else {
+                                continue otherPlugin;
+                            }
+                        }
+                    } else if (requiredElement.isJsonObject()) {
+                        var requiredObj = requiredElement.getAsJsonObject();
+                        for (var requiredModId : requiredObj.keySet()) {
+                            var requiredMod = ModInfo.get(requiredModId);
+                            var versionSpec = requiredObj.getAsJsonPrimitive(requiredModId).getAsString();
+                            if (requiredMod.isPresent() && VersionRanges.parse(versionSpec).match(requiredMod.getVersion())) {
+                                required.add(requiredModId);
+                            } else {
+                                continue otherPlugin;
+                            }
                         }
                     }
                 }

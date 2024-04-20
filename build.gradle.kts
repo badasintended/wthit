@@ -118,6 +118,7 @@ sourceSets {
     val pluginHarvest by creating
     val pluginVanilla by creating
     val pluginTest by creating
+    val test by getting
 
     listOf(api, buildConst, mixin, pluginCore, pluginExtra, pluginHarvest, pluginVanilla, pluginTest).applyEach {
         compileClasspath += main.compileClasspath
@@ -137,12 +138,27 @@ sourceSets {
     buildConst.apply {
         compiledBy("generateTranslationClass")
     }
+    test.apply {
+        compileClasspath -= main.output
+        runtimeClasspath -= main.output
+        compileClasspath += minecraftless.output + minecraftless.compileClasspath
+        runtimeClasspath += minecraftless.output + minecraftless.runtimeClasspath
+    }
 }
 
 dependencies {
-    val minecraftlessCompileOnly by configurations
+    val minecraftlessImplementation by configurations
 
-    minecraftlessCompileOnly("com.google.code.gson:gson:2.8.9")
+    minecraftlessImplementation("com.google.code.gson:gson:2.8.9")
+    minecraftlessImplementation("org.jetbrains:annotations:24.1.0")
+
+    testImplementation(platform("org.junit:junit-bom:5.10.2"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
+}
+
+tasks.test {
+
+    useJUnitPlatform()
 }
 
 task<GenerateTranslationTask>("generateTranslationClass") {
