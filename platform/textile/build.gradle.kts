@@ -44,10 +44,6 @@ tasks.remapSourcesJar {
     enabled = false
 }
 
-tasks.prepareRemapJar {
-    enabled = false
-}
-
 tasks.generateRemapClasspath {
     enabled = false
 }
