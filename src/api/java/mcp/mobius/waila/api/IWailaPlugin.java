@@ -5,6 +5,8 @@ import org.jetbrains.annotations.ApiStatus;
 /**
  * Main interface used for Waila plugins. Provides a valid instance of {@link IRegistrar}.
  * <p>
+ * <h3>Plugin Definitions</h3>
+ * <p>
  * To register the plugin instance, create a file called {@code waila_plugins.json} or {@code wthit_plugins.json} in the root of your mod. <pre><code>
  * {
  *   // the plugin identifier, [namespace:path]
@@ -19,13 +21,27 @@ import org.jetbrains.annotations.ApiStatus;
  *      "side": "*",
  *
  *      // optional, the required mods that this plugin needs
- *      "required": ["othermodid"]
+ *      "required": {
+ *          "othermodid": "*",    // match any version
+ *          "another_one": ">1.2" // match versions newer than 1.2, see below for more details
+ *      },
+ *
+ *      // optional, whether the plugin is enabled by default. defaults to true
+ *      "defaultEnabled": true
  *   }
  *
  *   // register multiple plugins!
  *   "yourmodid:another": {...}
  * }
  * </code></pre>
+ *
+ * <p>
+ * <h3>Version Ranges</h3>
+ * <p>
+ * Waila only implements primitive operator ({@code <, <=, >, >=, =}) alongside logical and ({@code &&}) and or ({@code ||})
+ * for its version ranges.
+ *
+ * @see <a href="https://github.com/unascribed/FlexVer">FlexVer project</a>
  */
 @ApiStatus.OverrideOnly
 public interface IWailaPlugin {
