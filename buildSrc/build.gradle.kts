@@ -10,6 +10,7 @@ repositories {
 
     // https://github.com/MinecraftForge/ForgeGradle/issues/919
     maven("https://maven.neoforged.net/releases")
+    maven("https://maven.minecraftforge.net/")
 }
 
 dependencies {
