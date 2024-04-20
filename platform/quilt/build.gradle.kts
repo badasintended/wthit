@@ -1,7 +1,7 @@
 evaluationDependsOn(":textile")
 
 plugins {
-    id("org.quiltmc.loom") version "1.0.+"
+    id("org.quiltmc.loom") version "1.3.4"
 }
 
 setupPlatform()
