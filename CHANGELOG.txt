@@ -1,5 +1,5 @@
-11.x - 1.20.5-pre1 - dev/master - java 21
-=========================================
+11.x - 1.20.5 - dev/master - java 21
+====================================
 11.1.0   - Updated to Minecraft 1.20.5
          - [API] Added version range support to plugin dependency requirement in `waila_plugins.json`
            - Use a object containing mod id to version pairs instead of array
