@@ -3,10 +3,9 @@ package mcp.mobius.waila.api.neo;
 import mcp.mobius.waila.api.data.FluidData;
 import mcp.mobius.waila.api.data.FluidData.PlatformDependant;
 import mcp.mobius.waila.api.data.FluidData.PlatformTranslator;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * NeoForge-specific helper for creating {@link FluidData}.
@@ -45,8 +44,8 @@ public class NeoFluidData {
             }
 
             @Override
-            public @Nullable CompoundTag nbt(FluidStack t) {
-                return t.getTag();
+            public DataComponentPatch data(FluidStack t) {
+                return t.getComponentsPatch();
             }
 
             @Override

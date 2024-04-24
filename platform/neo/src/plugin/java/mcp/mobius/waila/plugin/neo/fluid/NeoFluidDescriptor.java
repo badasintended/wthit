@@ -15,7 +15,7 @@ public enum NeoFluidDescriptor implements FluidDescriptor<Fluid> {
 
     @Override
     public void describeFluid(FluidDescriptionContext<Fluid> ctx, FluidDescription desc) {
-        var stack = new FluidStack(ctx.fluid(), 1, ctx.nbt());
+        var stack = new FluidStack(ctx.fluid().builtInRegistryHolder(), 1, ctx.data());
         var type = ctx.fluid().getFluidType();
         var extensions = IClientFluidTypeExtensions.of(type);
 

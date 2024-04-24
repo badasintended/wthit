@@ -4,6 +4,7 @@ import java.nio.file.Path;
 import java.util.Optional;
 
 import mcp.mobius.waila.api.IPluginInfo;
+import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.service.ICommonService;
 import mcp.mobius.waila.util.ModInfo;
 import net.neoforged.fml.ModContainer;
@@ -47,6 +48,12 @@ public class NeoCommonService implements ICommonService {
             case CLIENT -> IPluginInfo.Side.CLIENT;
             case DEDICATED_SERVER -> IPluginInfo.Side.SERVER;
         };
+    }
+
+    @Override
+    @SuppressWarnings("OptionalGetWithoutIsPresent")
+    public String getIssueUrl() {
+        return ModList.get().getModContainerById(WailaConstants.MOD_ID).get().getModInfo().getOwningFile().getConfig().<String>getConfigElement("issueTrackerURL").get();
     }
 
 }

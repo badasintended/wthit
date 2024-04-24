@@ -1,5 +1,5 @@
 plugins {
-    id("net.neoforged.gradle.userdev") version "7.0.100"
+    id("net.neoforged.gradle.userdev") version "7.0.107"
 }
 
 setupPlatform()
@@ -41,7 +41,7 @@ runs {
 tasks.processResources {
     inputs.property("version", project.version)
 
-    filesMatching("META-INF/mods.toml") {
+    filesMatching("META-INF/neoforge.mods.toml") {
         expand("version" to project.version)
     }
 }
@@ -49,7 +49,7 @@ tasks.processResources {
 tasks.named<JavaCompile>("compileDummyJava") {
     dependsOn(":generateTranslationClass")
 
-    rootProject.sourceSets.forEach {
+    rootProject.sourceSets.filterNot { it.name == "test" }.forEach {
         source(it.allJava)
     }
 }

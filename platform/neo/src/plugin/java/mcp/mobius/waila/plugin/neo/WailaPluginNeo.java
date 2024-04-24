@@ -52,7 +52,7 @@ public class WailaPluginNeo implements IWailaPlugin {
 
         registrar.addToolType(new ResourceLocation("sword"), IToolType.builder()
             .lowestTierItem(Items.WOODEN_SWORD)
-            .blockTag(new ResourceLocation("forge:mineable/sword"))
+            .blockTag(BlockTags.SWORD_EFFICIENT)
             .itemPredicate(it -> it.canPerformAction(ToolActions.SWORD_DIG))
             .build());
 

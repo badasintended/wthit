@@ -10,9 +10,8 @@ import mcp.mobius.waila.plugin.PluginLoader;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModList;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.fml.common.Mod.EventBusSubscriber;
-import net.neoforged.fml.common.Mod.EventBusSubscriber.Bus;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.fml.event.lifecycle.FMLLoadCompleteEvent;
 import net.neoforged.neoforge.event.RegisterCommandsEvent;
@@ -21,7 +20,7 @@ import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.neoforged.neoforge.event.server.ServerStoppedEvent;
 
 @Mod(WailaConstants.WAILA)
-@EventBusSubscriber(modid = WailaConstants.WAILA, bus = Bus.MOD)
+@EventBusSubscriber(modid = WailaConstants.WAILA, bus = EventBusSubscriber.Bus.MOD)
 public class NeoWaila extends Waila {
 
     @SubscribeEvent

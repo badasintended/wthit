@@ -22,7 +22,7 @@ public enum ItemCapabilityProvider implements IDataProvider<BlockEntity> {
 
     @Override
     public void appendData(IDataWriter data, IServerAccessor<BlockEntity> accessor, IPluginConfig config) {
-        data.add(ItemData.class, res -> {
+        data.add(ItemData.TYPE, res -> {
             var world = (ServerLevel) accessor.getWorld();
             var target = accessor.getTarget();
             var pos = target.getBlockPos();

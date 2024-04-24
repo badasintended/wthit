@@ -22,7 +22,7 @@ public enum EnergyCapabilityProvider implements IDataProvider<BlockEntity> {
 
     @Override
     public void appendData(IDataWriter data, IServerAccessor<BlockEntity> accessor, IPluginConfig config) {
-        data.add(EnergyData.class, res -> {
+        data.add(EnergyData.TYPE, res -> {
             var world = (ServerLevel) accessor.getWorld();
             var target = accessor.getTarget();
             var pos = target.getBlockPos();

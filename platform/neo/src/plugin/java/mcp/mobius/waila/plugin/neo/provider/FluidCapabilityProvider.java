@@ -23,7 +23,7 @@ public enum FluidCapabilityProvider implements IDataProvider<BlockEntity> {
 
     @Override
     public void appendData(IDataWriter data, IServerAccessor<BlockEntity> accessor, IPluginConfig config) {
-        data.add(FluidData.class, res -> {
+        data.add(FluidData.TYPE, res -> {
             var world = (ServerLevel) accessor.getWorld();
             var target = accessor.getTarget();
             var pos = target.getBlockPos();
