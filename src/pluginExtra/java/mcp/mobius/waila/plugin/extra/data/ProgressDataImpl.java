@@ -15,12 +15,12 @@ public class ProgressDataImpl extends ProgressData {
 
         buf.writeVarInt(d.input.size());
         for (var stack : d.input) {
-            ItemStack.STREAM_CODEC.encode(buf, stack);
+            ItemStack.OPTIONAL_STREAM_CODEC.encode(buf, stack);
         }
 
         buf.writeVarInt(d.output.size());
         for (var stack : d.output) {
-            ItemStack.STREAM_CODEC.encode(buf, stack);
+            ItemStack.OPTIONAL_STREAM_CODEC.encode(buf, stack);
         }
     }, buf -> {
         var ratio = buf.readFloat();
@@ -29,13 +29,13 @@ public class ProgressDataImpl extends ProgressData {
         var inputSize = buf.readVarInt();
         d.input.ensureCapacity(inputSize);
         for (var i = 0; i < inputSize; i++) {
-            d.input.add(ItemStack.STREAM_CODEC.decode(buf));
+            d.input.add(ItemStack.OPTIONAL_STREAM_CODEC.decode(buf));
         }
 
         var outputSize = buf.readVarInt();
         d.output.ensureCapacity(outputSize);
         for (var i = 0; i < outputSize; i++) {
-            d.output.add(ItemStack.STREAM_CODEC.decode(buf));
+            d.output.add(ItemStack.OPTIONAL_STREAM_CODEC.decode(buf));
         }
 
         return d;
