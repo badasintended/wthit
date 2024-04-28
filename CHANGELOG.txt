@@ -1,5 +1,6 @@
 11.x - 1.20.5 - dev/master - java 21
 ====================================
+11.1.2   - Updated to NeoForge 20.5.20-beta (#258)
 11.1.1   - Updated to NeoForge 20.5.0-beta
          - Fixed disconnect when looking into a chiseled bookshelf or object with progress tooltip
 11.1.0   - Updated to Minecraft 1.20.5
