@@ -26,7 +26,7 @@ logoFile = "wthit.png"
 [[dependencies.wthit]]
 modId = "neoforge"
 type = "required"
-versionRange = "[20.5,)"
+versionRange = "[20.5.20-beta,)"
 ordering = "NONE"
 side = "BOTH"
 

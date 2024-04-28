@@ -14,12 +14,12 @@ import net.neoforged.fml.common.EventBusSubscriber.Bus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
+import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.RegisterClientCommandsEvent;
 import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.event.RenderGuiEvent;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
-import net.neoforged.neoforge.event.TickEvent;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 
 @EventBusSubscriber(modid = WailaConstants.WAILA, bus = Bus.MOD, value = Dist.CLIENT)
@@ -60,10 +60,8 @@ public class NeoWailaClient extends WailaClient {
         }
 
         @SubscribeEvent
-        static void clientTick(TickEvent.ClientTickEvent event) {
-            if (event.phase == TickEvent.Phase.END) {
-                onClientTick();
-            }
+        static void clientTick(ClientTickEvent.Post event) {
+            onClientTick();
         }
 
         @SubscribeEvent
