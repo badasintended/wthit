@@ -179,7 +179,15 @@ public abstract class ApiService implements IApiService {
 
         for (var item : BuiltInRegistries.ITEM) {
             if (item instanceof TieredItem tiered && !(tiered.getTier() instanceof Tiers)) {
-                custom.add(tiered.getTier());
+                var tier = tiered.getTier();
+
+                //noinspection ConstantValue
+                if (tier.getIncorrectBlocksForDrops() == null) {
+                    LOG.warn("Found tier of class [{}] with null inverse tag, skipping", tier.getClass().getName());
+                    continue;
+                }
+
+                custom.add(tier);
             }
         }
 
