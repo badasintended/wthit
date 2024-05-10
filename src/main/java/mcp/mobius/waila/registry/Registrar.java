@@ -179,6 +179,15 @@ public class Registrar implements IRegistrar {
     }
 
     @Override
+    public void addConfigAlias(ResourceLocation actual, ResourceLocation... aliases) {
+        assertLock();
+
+        for (var alias : aliases) {
+            PluginConfig.addConfig(PluginConfig.getEntry(actual).createAlias(alias));
+        }
+    }
+
+    @Override
     public void addEventListener(IEventListener listener, int priority) {
         if (skip()) return;
         assertLock();

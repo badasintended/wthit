@@ -18,7 +18,7 @@ public enum PandaProvider implements IEntityComponentProvider {
 
     @Override
     public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        if (!config.getBoolean(Options.ATTRIBUTE_PANDA_GENES)) return;
+        if (!config.getBoolean(Options.PANDA_GENES)) return;
 
         Panda panda = accessor.getEntity();
         var personality = panda.getVariant();

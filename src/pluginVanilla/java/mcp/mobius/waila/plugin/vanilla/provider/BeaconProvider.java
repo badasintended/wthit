@@ -30,7 +30,7 @@ public enum BeaconProvider implements IBlockComponentProvider, IDataProvider<Bea
 
     @Override
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
-        if (!config.getBoolean(Options.ATTRIBUTE_BEACON_EFFECTS)) return;
+        if (!config.getBoolean(Options.EFFECT_BEACON)) return;
 
         var data = accessor.getData().get(Data.class);
         if (data == null) return;
@@ -48,7 +48,7 @@ public enum BeaconProvider implements IBlockComponentProvider, IDataProvider<Bea
 
     @Override
     public void appendData(IDataWriter data, IServerAccessor<BeaconBlockEntity> accessor, IPluginConfig config) {
-        if (config.getBoolean(Options.ATTRIBUTE_BEACON_EFFECTS)) data.add(Data.class, res -> {
+        if (config.getBoolean(Options.EFFECT_BEACON)) data.add(Data.class, res -> {
             var beacon = (BeaconBlockEntity & BeaconBlockEntityAccess) accessor.getTarget();
             res.add(new Data(beacon.wthit_primaryPower(), beacon.wthit_levels() >= 4 ? beacon.wthit_secondaryPower() : null));
         });

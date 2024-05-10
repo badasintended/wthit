@@ -1,31 +1,31 @@
 {
-  "tooltip.waila.crop_growth"                                   : "Tillväxt",
+  "tooltip.waila.crop_growth"                                  : "Tillväxt",
 
 
-  "tooltip.waila.crop_mature"                                   : "Fullvuxen",
-  "tooltip.waila.empty"                                         : "Tom",
-  "tooltip.waila.delay"                                         : "Fördröjning",
-  "tooltip.waila.mode"                                          : "Läge",
-  "tooltip.waila.mode_comparator"                               : "Jämförelse",
-  "tooltip.waila.mode_subtractor"                               : "Subtraktion",
-  "tooltip.waila.state"                                         : "Tillstånd",
-  "tooltip.waila.state_on"                                      : "PÅ",
-  "tooltip.waila.state_off"                                     : "AV",
+  "tooltip.waila.crop_mature"                                  : "Fullvuxen",
+  "tooltip.waila.empty"                                        : "Tom",
+  "tooltip.waila.delay"                                        : "Fördröjning",
+  "tooltip.waila.mode"                                         : "Läge",
+  "tooltip.waila.mode_comparator"                              : "Jämförelse",
+  "tooltip.waila.mode_subtractor"                              : "Subtraktion",
+  "tooltip.waila.state"                                        : "Tillstånd",
+  "tooltip.waila.state_on"                                     : "PÅ",
+  "tooltip.waila.state_off"                                    : "AV",
 
 
-  "tooltip.waila.power"                                         : "Styrka",
-  "tooltip.waila.sneak_for_details"                             : "Smyg för information",
-  "tooltip.waila.compost_level"                                 : "Kompostnivå",
-  "tooltip.waila.honey_level"                                   : "Honungsnivå",
-  "tooltip.waila.owner"                                         : "Ägare",
-  "tooltip.waila.owner.loading"                                 : "läser in...",
-  "tooltip.waila.timer.grow"                                    : "Växttimer",
-  "tooltip.waila.timer.breed"                                   : "Väntetid för parning",
+  "tooltip.waila.power"                                        : "Styrka",
+  "tooltip.waila.sneak_for_details"                            : "Smyg för information",
+  "tooltip.waila.compost_level"                                : "Kompostnivå",
+  "tooltip.waila.honey_level"                                  : "Honungsnivå",
+  "tooltip.waila.owner"                                        : "Ägare",
+  "tooltip.waila.owner.loading"                                : "läser in...",
+  "tooltip.waila.timer.grow"                                   : "Växttimer",
+  "tooltip.waila.timer.breed"                                  : "Väntetid för parning",
 
-  "tooltip.waila.horse.jump.key"                                : "Hoppstyrka",
-  "tooltip.waila.horse.jump.value"                              : "%s block",
-  "tooltip.waila.horse.speed.key"                               : "Hastighet",
-  "tooltip.waila.horse.speed.value"                             : "%s m/s",
+  "tooltip.waila.horse.jump.key"                               : "Hoppstyrka",
+  "tooltip.waila.horse.jump.value"                             : "%s block",
+  "tooltip.waila.horse.speed.key"                              : "Hastighet",
+  "tooltip.waila.horse.speed.value"                            : "%s m/s",
 
 
 
@@ -39,33 +39,33 @@
 
 
 
-  "tooltip.waila.instrument"                                    : "_DO_NOT_TRANSLATE_",
-  "tooltip.waila.instrument.harp"                               : "Harpa",
-  "tooltip.waila.instrument.basedrum"                           : "Bastrumma",
-  "tooltip.waila.instrument.snare"                              : "Virveltrumma",
-  "tooltip.waila.instrument.hat"                                : "Hi-hat",
-  "tooltip.waila.instrument.bass"                               : "Basgitarr",
-  "tooltip.waila.instrument.flute"                              : "Flöjt",
-  "tooltip.waila.instrument.bell"                               : "Klockspel",
-  "tooltip.waila.instrument.guitar"                             : "Gitarr",
-  "tooltip.waila.instrument.chime"                              : "Rörklockor",
-  "tooltip.waila.instrument.xylophone"                          : "Xylofon",
-  "tooltip.waila.instrument.iron_xylophone"                     : "Vibrafon",
-  "tooltip.waila.instrument.cow_bell"                           : "Kobjällra",
-  "tooltip.waila.instrument.didgeridoo"                         : "Didjeridu",
-  "tooltip.waila.instrument.bit"                                : "Bit",
-  "tooltip.waila.instrument.banjo"                              : "Banjo",
-  "tooltip.waila.instrument.pling"                              : "Pling",
-  "tooltip.waila.instrument.zombie"                             : "Zombie",
-  "tooltip.waila.instrument.skeleton"                           : "Skelett",
-  "tooltip.waila.instrument.creeper"                            : "Creeper",
-  "tooltip.waila.instrument.dragon"                             : "Enderdrake",
-  "tooltip.waila.instrument.wither_skeleton"                    : "Witherskelett",
-  "tooltip.waila.instrument.piglin"                             : "Piglin",
-  "tooltip.waila.instrument.none"                               : "Inget",
+  "tooltip.waila.instrument"                                   : "_DO_NOT_TRANSLATE_",
+  "tooltip.waila.instrument.harp"                              : "Harpa",
+  "tooltip.waila.instrument.basedrum"                          : "Bastrumma",
+  "tooltip.waila.instrument.snare"                             : "Virveltrumma",
+  "tooltip.waila.instrument.hat"                               : "Hi-hat",
+  "tooltip.waila.instrument.bass"                              : "Basgitarr",
+  "tooltip.waila.instrument.flute"                             : "Flöjt",
+  "tooltip.waila.instrument.bell"                              : "Klockspel",
+  "tooltip.waila.instrument.guitar"                            : "Gitarr",
+  "tooltip.waila.instrument.chime"                             : "Rörklockor",
+  "tooltip.waila.instrument.xylophone"                         : "Xylofon",
+  "tooltip.waila.instrument.iron_xylophone"                    : "Vibrafon",
+  "tooltip.waila.instrument.cow_bell"                          : "Kobjällra",
+  "tooltip.waila.instrument.didgeridoo"                        : "Didjeridu",
+  "tooltip.waila.instrument.bit"                               : "Bit",
+  "tooltip.waila.instrument.banjo"                             : "Banjo",
+  "tooltip.waila.instrument.pling"                             : "Pling",
+  "tooltip.waila.instrument.zombie"                            : "Zombie",
+  "tooltip.waila.instrument.skeleton"                          : "Skelett",
+  "tooltip.waila.instrument.creeper"                           : "Creeper",
+  "tooltip.waila.instrument.dragon"                            : "Enderdrake",
+  "tooltip.waila.instrument.wither_skeleton"                   : "Witherskelett",
+  "tooltip.waila.instrument.piglin"                            : "Piglin",
+  "tooltip.waila.instrument.none"                              : "Inget",
 
-  "tooltip.waila.extra.energy"                                  : "Energi",
-  "tooltip.waila.extra.unknown_fluid"                           : "Okänd vätska",
+  "tooltip.waila.extra.energy"                                 : "Energi",
+  "tooltip.waila.extra.unknown_fluid"                          : "Okänd vätska",
 
 
 
@@ -87,8 +87,8 @@
 
 
 
-  "gui.waila.configuration"                                     : "Konfiguration för %s",
-  "gui.waila.waila_settings"                                    : "Inställningar för %s",
+  "gui.waila.configuration"                                    : "Konfiguration för %s",
+  "gui.waila.waila_settings"                                   : "Inställningar för %s",
 
 
 
@@ -98,14 +98,14 @@
 
 
 
-  "gui.waila.credits"                                           : "Erkännande",
-  "gui.waila.credits.original_mod_by"                           : "Originalmodden \"WAILA\" av",
-  "gui.waila.credits.authors"                                   : "Författare",
-  "gui.waila.credits.contributors"                              : "Bidragsgivare",
+  "gui.waila.credits"                                          : "Erkännande",
+  "gui.waila.credits.original_mod_by"                          : "Originalmodden \"WAILA\" av",
+  "gui.waila.credits.authors"                                  : "Författare",
+  "gui.waila.credits.contributors"                             : "Bidragsgivare",
 
-  "command.waila.server_dump_success"                           : "Dedikerad server dumpades till %s",
-  "command.waila.local_dump_success"                            : "Lokal server dumpades till %s",
-  "command.waila.client_dump_success"                           : "Klient dumpades till %s",
+  "command.waila.server_dump_success"                          : "Dedikerad server dumpades till %s",
+  "command.waila.local_dump_success"                           : "Lokal server dumpades till %s",
+  "command.waila.client_dump_success"                          : "Klient dumpades till %s",
 
 
 
@@ -118,265 +118,271 @@
 
 
 
-  "command.waila.overlay.true"                                  : "Överlägg har aktiverats",
-  "command.waila.overlay.false"                                 : "Överlägg har inaktiverats",
+  "command.waila.overlay.true"                                 : "Överlägg har aktiverats",
+  "command.waila.overlay.false"                                : "Överlägg har inaktiverats",
 
-  "command.waila.config.unknown_id"                             : "Insticksprogrammets konfigurerings-ID %s är okänt",
-  "command.waila.config.get.id"                                 : "Konfigurerings-ID för insticksprogram: %s",
-  "command.waila.config.get.synced"                             : "Synkad: %s",
-  "command.waila.config.get.current_value"                      : "Nuvarande värde: %s",
-  "command.waila.config.get.default_value"                      : "Standardvärde: %s",
-  "command.waila.config.get.client_only_value"                  : "Klientexklusivt värde: %s",
-  "command.waila.config.set.synced"                             : "Kunde inte ändra insticksprogrammets synkade konfigurering %s",
-  "command.waila.config.set.success"                            : "Ändra insticksprogrammets konfigurering %s till %s",
-  "command.waila.config.set.parse_fail"                         : "Misslyckades att tolka värde: %s",
+  "command.waila.config.unknown_id"                            : "Insticksprogrammets konfigurerings-ID %s är okänt",
+  "command.waila.config.get.id"                                : "Konfigurerings-ID för insticksprogram: %s",
+  "command.waila.config.get.synced"                            : "Synkad: %s",
+  "command.waila.config.get.current_value"                     : "Nuvarande värde: %s",
+  "command.waila.config.get.default_value"                     : "Standardvärde: %s",
+  "command.waila.config.get.client_only_value"                 : "Klientexklusivt värde: %s",
+  "command.waila.config.set.synced"                            : "Kunde inte ändra insticksprogrammets synkade konfigurering %s",
+  "command.waila.config.set.success"                           : "Ändra insticksprogrammets konfigurering %s till %s",
+  "command.waila.config.set.parse_fail"                        : "Misslyckades att tolka värde: %s",
 
-  "config.waila.search_prompt"                                  : "Sök...",
-  "config.waila.true"                                           : "Sant",
-  "config.waila.false"                                          : "Falskt",
-  "config.waila.preview_prompt"                                 : "Håll ned §5F1§r för att visa inforuta",
-  "config.waila.edit"                                           : "Redigera",
-  "config.waila.open_file"                                      : "Öppna fil",
-  "config.waila.new"                                            : "Ny",
-  "config.waila.missing_input"                                  : "Inmatning saknas",
-  "config.waila.invalid_input.title"                            : "Ogiltig inmatning",
-  "config.waila.invalid_input.desc"                             : "Sök efter värde med rött namn",
-  "config.waila.server_only"                                    : "Kan endast redigeras på servern eller under enspelarläge",
-  "config.waila.server_disabled"                                : "Servern har inaktiverat detta alternativ",
-  "config.waila.server_missing_mod"                             : "Låst eftersom servern inte har installerat WTHIT",
-  "config.waila.server_missing_option"                          : "Låst eftersom servern saknar detta alternativ",
-
-  "config.waila.general"                                        : "Allmänt",
-  "config.waila.display_tooltip"                                : "Visa inforuta",
-  "config.waila.display_tooltip_desc"                           : "Samla in data och rendera inforutan",
-  "config.waila.sneaky_details"                                 : "Smyginformation",
-  "config.waila.sneaky_details_desc"                            : "Innehållstext visas endast när man smyger",
-  "config.waila.hide_sneak_text"                                : "Dölj smygtext",
-  "config.waila.hide_sneak_text_desc"                           : "Dölj texten \"Smyg för information\" när smyginformation är aktiverat",
-  "config.waila.display_mode"                                   : "Visningsläge",
-  "config.waila.display_mode_desc"                              : "Visningsbeteende för inforutor\nVäxla mellan på/av: Kortkommandot aktiverar och inaktiverar\nHåll ned: Kortkommandot måste hållas ned",
-  "config.waila.display_mode_toggle"                            : "Växla mellan på/av",
-  "config.waila.display_mode_hold_key"                          : "Håll ned",
-  "config.waila.hide_from_players"                              : "Dölj från spelarlistan",
-  "config.waila.hide_from_players_desc"                         : "Dölj inforuta när spelarlistan är öppen",
-  "config.waila.hide_from_debug"                                : "Dölj vid felsökning",
-  "config.waila.hide_from_debug_desc"                           : "Dölj inforutan när felsökningsmenyn är öppen",
-  "config.waila.rate_limit"                                     : "Hastighetsbegränsning",
-  "config.waila.rate_limit_desc"                                : "Hur många millisekunder fördröjningen mellan varje serverbegäran\nMåste vara minst 250ms",
-  "config.waila.blacklist"                                      : "Svartlista",
-  "config.waila.blacklist_open"                                 : "Öppna svartlistfil",
-
-  "config.waila.tts"                                            : "Aktivera text-till-tal",
-  "config.waila.tts_desc"                                       : "Läs upp namnet på block och entiteter med systemets text-till-tal-motor",
-
-  "config.waila.overlay"                                        : "Överlägg",
-
-
-
-
-
-  "config.waila.overlay_pos_x"                                  : "X-förskjutning",
-  "config.waila.overlay_pos_x_desc"                             : "X-position relativt från skärmankaret\nPositionen påverkas av skalan",
-  "config.waila.overlay_pos_y"                                  : "Y-förskjutning",
-  "config.waila.overlay_pos_y_desc"                             : "Y-position relativt från skärmankaret\nPositionen påverkas av skalan",
-
-  "config.waila.boss_bars_overlap"                              : "Överlappande bossmätare",
-  "config.waila.boss_bars_overlap_desc"                         : "Om detta är \"false\" kommer inforutan flyttas ned om någon bossmätare är synlig\nPåverkas endast vid centrerad överkantsjustering",
-
-  "config.waila.overlay_scale"                                  : "Skala",
-  "config.waila.overlay_scale_desc"                             : "Hur stor inforutan ska vara\n1.0 är standard",
-
-  "config.waila.overlay_anchor_x"                               : "Horisontellt ankare",
-  "config.waila.overlay_anchor_x_desc"                          : "Vilken del av skärmen som positionen ska beräknas ifrån\nTesta genom att storleksändra spelfönstret",
-  "config.waila.overlay_anchor_x_left"                          : "Vänsterkant",
-  "config.waila.overlay_anchor_x_right"                         : "Högerkant",
-  "config.waila.overlay_anchor_x_center"                        : "Center",
-
-  "config.waila.overlay_anchor_y"                               : "Vertikalt ankare",
-  "config.waila.overlay_anchor_y_desc"                          : "Vilken del av skärmen som positionen ska beräknas ifrån\nTesta genom att storleksändra spelfönstret",
-  "config.waila.overlay_anchor_y_top"                           : "Överkant",
-  "config.waila.overlay_anchor_y_bottom"                        : "Nederkant",
-  "config.waila.overlay_anchor_y_middle"                        : "Mitten",
-
-  "config.waila.overlay_align_x"                                : "Horisontell justering",
-  "config.waila.overlay_align_x_desc"                           : "Hur inforutor med olika storlekar ska justeras mot varandra",
-  "config.waila.overlay_align_x_left"                           : "Vänsterkant",
-  "config.waila.overlay_align_x_right"                          : "Högerkant",
-  "config.waila.overlay_align_x_center"                         : "Center",
-
-  "config.waila.overlay_align_y"                                : "Vertikal justering",
-  "config.waila.overlay_align_y_desc"                           : "Hur inforutor med olika storlekar ska justeras mot varandra",
-  "config.waila.overlay_align_y_top"                            : "Överkant",
-  "config.waila.overlay_align_y_bottom"                         : "Nederkant",
-  "config.waila.overlay_align_y_middle"                         : "Mitten",
-
-  "config.waila.overlay_color"                                  : "Färg",
-  "config.waila.overlay_background_alpha"                       : "Bakgrundgenomskinlighet",
-
-  "config.waila.overlay_theme"                                  : "Tema",
-  "config.waila.overlay_theme_editor.refresh"                   : "Uppdatera förhandsvisning",
-  "config.waila.overlay_theme_editor.id"                        : "Tema-ID",
-  "config.waila.overlay_theme_editor.id_empty"                  : "Det nya temat behöver ett ID",
-  "config.waila.overlay_theme_editor.type"                      : "Tematyp",
-  "config.waila.overlay_theme_editor.attributes"                : "Temaattribut",
-  "config.waila.overlay_theme_editor.delete"                    : "Radera tema",
-  "config.waila.overlay_theme_editor.delete_prompt"             : "Radera temat %s?",
-
-  "config.waila.formatting"                                     : "Formatering",
-  "config.waila.format_mod_name"                                : "Modnamn",
-  "config.waila.format_block_name"                              : "Blocknamn",
-  "config.waila.format_fluid_name"                              : "Vätskenamn",
-  "config.waila.format_entity_name"                             : "Entitetsnamn",
-  "config.waila.format_registry_name"                           : "Registersnamn",
-
-  "config.waila.keybinds"                                       : "Kortkommandon",
-  "key.waila.config"                                            : "Öppna konfigurering",
-  "key.waila.show_overlay"                                      : "Visa överlägg",
-  "key.waila.toggle_liquid"                                     : "Visa/dölj vätskor",
-  "key.waila.show_recipe_input"                                 : "Visa receptanvändning",
-  "key.waila.show_recipe_output"                                : "Visa recept",
+  "config.waila.search_prompt"                                 : "Sök...",
+  "config.waila.true"                                          : "Sant",
+  "config.waila.false"                                         : "Falskt",
+  "config.waila.preview_prompt"                                : "Håll ned §5F1§r för att visa inforuta",
+  "config.waila.edit"                                          : "Redigera",
+  "config.waila.open_file"                                     : "Öppna fil",
+  "config.waila.new"                                           : "Ny",
+  "config.waila.missing_input"                                 : "Inmatning saknas",
+  "config.waila.invalid_input.title"                           : "Ogiltig inmatning",
+  "config.waila.invalid_input.desc"                            : "Sök efter värde med rött namn",
+  "config.waila.server_only"                                   : "Kan endast redigeras på servern eller under enspelarläge",
+  "config.waila.server_disabled"                               : "Servern har inaktiverat detta alternativ",
+  "config.waila.server_missing_mod"                            : "Låst eftersom servern inte har installerat WTHIT",
+  "config.waila.server_missing_option"                         : "Låst eftersom servern saknar detta alternativ",
+
+  "config.waila.general"                                       : "Allmänt",
+  "config.waila.display_tooltip"                               : "Visa inforuta",
+  "config.waila.display_tooltip_desc"                          : "Samla in data och rendera inforutan",
+  "config.waila.sneaky_details"                                : "Smyginformation",
+  "config.waila.sneaky_details_desc"                           : "Innehållstext visas endast när man smyger",
+  "config.waila.hide_sneak_text"                               : "Dölj smygtext",
+  "config.waila.hide_sneak_text_desc"                          : "Dölj texten \"Smyg för information\" när smyginformation är aktiverat",
+  "config.waila.display_mode"                                  : "Visningsläge",
+  "config.waila.display_mode_desc"                             : "Visningsbeteende för inforutor\nVäxla mellan på/av: Kortkommandot aktiverar och inaktiverar\nHåll ned: Kortkommandot måste hållas ned",
+  "config.waila.display_mode_toggle"                           : "Växla mellan på/av",
+  "config.waila.display_mode_hold_key"                         : "Håll ned",
+  "config.waila.hide_from_players"                             : "Dölj från spelarlistan",
+  "config.waila.hide_from_players_desc"                        : "Dölj inforuta när spelarlistan är öppen",
+  "config.waila.hide_from_debug"                               : "Dölj vid felsökning",
+  "config.waila.hide_from_debug_desc"                          : "Dölj inforutan när felsökningsmenyn är öppen",
+  "config.waila.rate_limit"                                    : "Hastighetsbegränsning",
+  "config.waila.rate_limit_desc"                               : "Hur många millisekunder fördröjningen mellan varje serverbegäran\nMåste vara minst 250ms",
+  "config.waila.blacklist"                                     : "Svartlista",
+  "config.waila.blacklist_open"                                : "Öppna svartlistfil",
+
+  "config.waila.tts"                                           : "Aktivera text-till-tal",
+  "config.waila.tts_desc"                                      : "Läs upp namnet på block och entiteter med systemets text-till-tal-motor",
+
+  "config.waila.overlay"                                       : "Överlägg",
+
+
+
+
+
+  "config.waila.overlay_pos_x"                                 : "X-förskjutning",
+  "config.waila.overlay_pos_x_desc"                            : "X-position relativt från skärmankaret\nPositionen påverkas av skalan",
+  "config.waila.overlay_pos_y"                                 : "Y-förskjutning",
+  "config.waila.overlay_pos_y_desc"                            : "Y-position relativt från skärmankaret\nPositionen påverkas av skalan",
+
+  "config.waila.boss_bars_overlap"                             : "Överlappande bossmätare",
+  "config.waila.boss_bars_overlap_desc"                        : "Om detta är \"false\" kommer inforutan flyttas ned om någon bossmätare är synlig\nPåverkas endast vid centrerad överkantsjustering",
+
+  "config.waila.overlay_scale"                                 : "Skala",
+  "config.waila.overlay_scale_desc"                            : "Hur stor inforutan ska vara\n1.0 är standard",
+
+  "config.waila.overlay_anchor_x"                              : "Horisontellt ankare",
+  "config.waila.overlay_anchor_x_desc"                         : "Vilken del av skärmen som positionen ska beräknas ifrån\nTesta genom att storleksändra spelfönstret",
+  "config.waila.overlay_anchor_x_left"                         : "Vänsterkant",
+  "config.waila.overlay_anchor_x_right"                        : "Högerkant",
+  "config.waila.overlay_anchor_x_center"                       : "Center",
+
+  "config.waila.overlay_anchor_y"                              : "Vertikalt ankare",
+  "config.waila.overlay_anchor_y_desc"                         : "Vilken del av skärmen som positionen ska beräknas ifrån\nTesta genom att storleksändra spelfönstret",
+  "config.waila.overlay_anchor_y_top"                          : "Överkant",
+  "config.waila.overlay_anchor_y_bottom"                       : "Nederkant",
+  "config.waila.overlay_anchor_y_middle"                       : "Mitten",
+
+  "config.waila.overlay_align_x"                               : "Horisontell justering",
+  "config.waila.overlay_align_x_desc"                          : "Hur inforutor med olika storlekar ska justeras mot varandra",
+  "config.waila.overlay_align_x_left"                          : "Vänsterkant",
+  "config.waila.overlay_align_x_right"                         : "Högerkant",
+  "config.waila.overlay_align_x_center"                        : "Center",
+
+  "config.waila.overlay_align_y"                               : "Vertikal justering",
+  "config.waila.overlay_align_y_desc"                          : "Hur inforutor med olika storlekar ska justeras mot varandra",
+  "config.waila.overlay_align_y_top"                           : "Överkant",
+  "config.waila.overlay_align_y_bottom"                        : "Nederkant",
+  "config.waila.overlay_align_y_middle"                        : "Mitten",
+
+  "config.waila.overlay_color"                                 : "Färg",
+  "config.waila.overlay_background_alpha"                      : "Bakgrundgenomskinlighet",
+
+  "config.waila.overlay_theme"                                 : "Tema",
+  "config.waila.overlay_theme_editor.refresh"                  : "Uppdatera förhandsvisning",
+  "config.waila.overlay_theme_editor.id"                       : "Tema-ID",
+  "config.waila.overlay_theme_editor.id_empty"                 : "Det nya temat behöver ett ID",
+  "config.waila.overlay_theme_editor.type"                     : "Tematyp",
+  "config.waila.overlay_theme_editor.attributes"               : "Temaattribut",
+  "config.waila.overlay_theme_editor.delete"                   : "Radera tema",
+  "config.waila.overlay_theme_editor.delete_prompt"            : "Radera temat %s?",
 
-  "config.waila.plugin_"                                        : "_DO_NOT_TRANSLATE_",
-
-  "config.waila.plugin_minecraft"                               : "Minecraft",
-  "config.waila.plugin_minecraft.item_entity"                   : "Visa föremålsentiteter",
-  "config.waila.plugin_minecraft.breaking_progress"             : "Blockbrytningsförlopp",
-  "config.waila.plugin_minecraft.breaking_progress.enabled"     : "Visa blockbrytningsförlopp",
-  "config.waila.plugin_minecraft.breaking_progress.color"       : "Färg på blockbrytningsförlopp",
-  "config.waila.plugin_minecraft.breaking_progress.bottom_only" : "Endast nederkant",
-  "config.waila.plugin_minecraft.override"                      : "Åsidosättningar",
-  "config.waila.plugin_minecraft.override.invisible_entity"     : "Dölj osynliga entiteter",
-  "config.waila.plugin_minecraft.override.infested"             : "Visa angripna block som vanliga block",
-  "config.waila.plugin_minecraft.override.trapped_chest"        : "Visa kistfällor som vanliga kistor",
-  "config.waila.plugin_minecraft.override.powder_snow"          : "Visa pudersnö som vanlig snö",
-  "config.waila.plugin_minecraft.override.vehicle"              : "Dölj spelarens färdmedel",
-  "config.waila.plugin_minecraft.override.vehicle_desc"         : "Dölj gruvvagnar, hästar och andra färdmedelsentiteter när spelar färdas på den",
-  "config.waila.plugin_minecraft.spawner_type"                  : "Visa typ av monsterskapare",
-  "config.waila.plugin_minecraft.crop_progress"                 : "Visa grödförlopp",
-
-
-  "config.waila.plugin_minecraft.redstone"                      : "Redstone",
-  "config.waila.plugin_minecraft.redstone.lever"                : "Visa spaktillstånd",
-  "config.waila.plugin_minecraft.redstone.repeater"             : "Visa uppreparfördröjning",
-  "config.waila.plugin_minecraft.redstone.comparator"           : "Visa jämförarläge",
-  "config.waila.plugin_minecraft.redstone.level"                : "Visa kraftnivå",
-  "config.waila.plugin_minecraft.jukebox"                       : "Jukebox",
-  "config.waila.plugin_minecraft.jukebox.record"                : "Visa aktiv skiva",
-  "config.waila.plugin_minecraft.player_head"                   : "Spelarhuvud",
-  "config.waila.plugin_minecraft.player_head.name"              : "Visa spelarens namn",
-  "config.waila.plugin_minecraft.level"                         : "Nivå",
-  "config.waila.plugin_minecraft.level.composter"               : "Visa kompostnivå",
-  "config.waila.plugin_minecraft.level.honey"                   : "Visa honungsnivå",
-  "config.waila.plugin_minecraft.note_block"                    : "Notblock",
-  "config.waila.plugin_minecraft.note_block.type"               : "Visa instrument och tonart",
-  "config.waila.plugin_minecraft.note_block.note"               : "Visningsläge för tonart",
-  "config.waila.plugin_minecraft.note_block.note_sharp"         : "Höjningstecken",
-  "config.waila.plugin_minecraft.note_block.note_flat"          : "Sänkningstecken",
-  "config.waila.plugin_minecraft.note_block.int_value"          : "Visa nivåvärdet i sifferformat",
-  "config.waila.plugin_minecraft.pet"                           : "Tamdjur",
-  "config.waila.plugin_minecraft.pet.owner"                     : "Visa ägare av tamdjur",
-  "config.waila.plugin_minecraft.pet.owner_desc"                : "Endast tillgänglig för registrerade Minecraft-konton",
-  "config.waila.plugin_minecraft.pet.hide_unknown_owner"        : "Dölj vid okänd ägare",
-  "config.waila.plugin_minecraft.timer"                         : "Timers",
-  "config.waila.plugin_minecraft.timer.grow"                    : "Visa timer för uppväxt",
-  "config.waila.plugin_minecraft.timer.breed"                   : "Visa väntetid för parning",
-  "config.waila.plugin_minecraft.attribute"                     : "Attribut",
-  "config.waila.plugin_minecraft.attribute.block_position"      : "Visa blockposition",
-  "config.waila.plugin_minecraft.attribute.block_state"         : "Visa blocktillstånd",
-  "config.waila.plugin_minecraft.attribute.entity_position"     : "Visa entitetsposition",
-  "config.waila.plugin_minecraft.attribute.health"              : "Visa hälsopoäng",
-  "config.waila.plugin_minecraft.attribute.absorption"          : "Visa absorberande hälsopoäng",
-  "config.waila.plugin_minecraft.attribute.armor"               : "Visa rustningspoäng",
-  "config.waila.plugin_minecraft.attribute.compact"             : "Kompakt läge",
-  "config.waila.plugin_minecraft.attribute.compact_desc"        : "Visa hälso- och rustningspoäng på en rad med en siffra istället för ikoner",
-  "config.waila.plugin_minecraft.attribute.icon_per_line"       : "Max. antal ikoner per rad",
-  "config.waila.plugin_minecraft.attribute.icon_per_line_desc"  : "Det maximala antalet ikoner för hälso- och rustningspoäng innan radbrytning sker",
-  "config.waila.plugin_minecraft.attribute.long_health_max"     : "Max. antal hälsopoäng att visa",
-  "config.waila.plugin_minecraft.attribute.long_health_max_desc": "Det maximala antalet ikoner för hälsopoäng att visa innan sifferformat används",
-  "config.waila.plugin_minecraft.attribute.long_armor_max"      : "Max. antal rustningspoäng att visa",
-  "config.waila.plugin_minecraft.attribute.long_armor_max_desc" : "Det maximala antalet ikoner för rustningspoäng som visas innan sifferformat används",
-  "config.waila.plugin_minecraft.attribute.horse_jump_height"   : "Visa hästens hoppstyrka",
-  "config.waila.plugin_minecraft.attribute.horse_speed"         : "Visa hästens hastighet",
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  "config.waila.plugin_waila"                                   : "Waila Core",
-  "config.waila.plugin_waila.show_mod_name"                     : "Visa modnamn",
-  "config.waila.plugin_waila.show_item_mod_name"                : "Visa modnamn för föremål",
-  "config.waila.plugin_waila.show_registry"                     : "Visa registernamn",
-  "config.waila.plugin_waila.show_blocks"                       : "Visa block",
-  "config.waila.plugin_waila.show_fluids"                       : "Visa vätskor",
-  "config.waila.plugin_waila.show_fluids_desc"                  : "Försök visa vätskor",
-  "config.waila.plugin_waila.show_entities"                     : "Visa entiteter",
-  "config.waila.plugin_waila.show_icon"                         : "Visa ikoner",
-  "config.waila.plugin_waila.icon_position"                     : "Ikonposition",
-  "config.waila.plugin_waila.icon_position_top"                 : "Överkant",
-  "config.waila.plugin_waila.icon_position_middle"              : "Mitten",
-  "config.waila.plugin_waila.icon_position_bottom"              : "Underkant",
-
-
-
-
-
-
-
-
-  "config.waila.plugin_wailax"                                  : "Waila Extra",
-  "config.waila.plugin_wailax.energy"                           : "Energi",
-  "config.waila.plugin_wailax.energy.enabled_block"             : "Visa blockenergi",
-  "config.waila.plugin_wailax.energy.enabled_entity"            : "Visa entitetenergi",
-  "config.waila.plugin_wailax.energy.blacklist"                 : "Svartlista för energi",
-  "config.waila.plugin_wailax.progress"                         : "Tillverkningsförlopp",
-  "config.waila.plugin_wailax.progress.enabled_block"           : "Visa blocktillverkningsförlopp",
-  "config.waila.plugin_wailax.progress.enabled_entity"          : "Visa entitettillverkningsförlopp",
-  "config.waila.plugin_wailax.progress.blacklist"               : "Svartlista för tillverkningsförlopp",
-  "config.waila.plugin_wailax.item"                             : "Föremål",
-  "config.waila.plugin_wailax.item.enabled_block"               : "Visa blockföremålsinnehåll",
-  "config.waila.plugin_wailax.item.enabled_entity"              : "Visa entitetföremålsinnehåll",
-  "config.waila.plugin_wailax.item.nbt"                         : "Synka NBT-data",
-  "config.waila.plugin_wailax.item.max_height"                  : "Max. höjd",
-
-  "config.waila.plugin_wailax.item.blacklist"                   : "Svartlista för föremålsinnehåll",
-  "config.waila.plugin_wailax.fluid"                            : "Vätska",
-  "config.waila.plugin_wailax.fluid.enabled_block"              : "Visa blockvätskeinnehåll",
-  "config.waila.plugin_wailax.fluid.enabled_entity"             : "Visa entitetvätskeinnehåll",
-
-
-
-  "config.waila.plugin_wailax.fluid.blacklist"                  : "Svartlista för vätskeinnehåll",
-
-  "theme.waila.plugin_waila.gradient.backgroundColor"           : "Bakgrundsfärg",
-  "theme.waila.plugin_waila.gradient.gradientStart"             : "Kantgradients början",
-  "theme.waila.plugin_waila.gradient.gradientEnd"               : "Kantgradients slut",
-  "theme.waila.plugin_waila.gradient.borderSize"                : "Kantstorlek",
-  "theme.waila.plugin_waila.gradient.borderOffset"              : "Kantförskjutning",
-  "theme.waila.plugin_waila.gradient.drawCorner"                : "Rita hörn",
-  "theme.waila.plugin_waila.gradient.fontColor"                 : "Textfärg",
-
-  "theme.waila.plugin_waila.nine_patch.texture"                 : "Textur",
-  "theme.waila.plugin_waila.nine_patch.texture_desc"            : "Antingen texturidentifieraren eller sökvägen till texturen relativt från konfigureringsfilen",
-  "theme.waila.plugin_waila.nine_patch.useResourcePack"         : "Använd resurspaket",
-  "theme.waila.plugin_waila.nine_patch.textColor"               : "Textfärg",
-  "theme.waila.plugin_waila.nine_patch.textureWidth"            : "Texturbredd",
-  "theme.waila.plugin_waila.nine_patch.textureHeight"           : "Texturhöjd",
-  "theme.waila.plugin_waila.nine_patch.regionTop"               : "Region: Överkant",
-  "theme.waila.plugin_waila.nine_patch.regionMiddle"            : "Region: Mitten",
-  "theme.waila.plugin_waila.nine_patch.regionBottom"            : "Region: Nederkant",
-  "theme.waila.plugin_waila.nine_patch.regionLeft"              : "Region: Vänsterkant",
-  "theme.waila.plugin_waila.nine_patch.regionCenter"            : "Region: Center",
-  "theme.waila.plugin_waila.nine_patch.regionRight"             : "Region: Högerkant",
-  "theme.waila.plugin_waila.nine_patch.mode"                    : "Ritningsläge",
-  "theme.waila.plugin_waila.nine_patch.mode_stretch"            : "Sträck ut",
-  "theme.waila.plugin_waila.nine_patch.mode_tile"               : "Upprepa"
+  "config.waila.formatting"                                    : "Formatering",
+  "config.waila.format_mod_name"                               : "Modnamn",
+  "config.waila.format_block_name"                             : "Blocknamn",
+  "config.waila.format_fluid_name"                             : "Vätskenamn",
+  "config.waila.format_entity_name"                            : "Entitetsnamn",
+  "config.waila.format_registry_name"                          : "Registersnamn",
+
+  "config.waila.keybinds"                                      : "Kortkommandon",
+  "key.waila.config"                                           : "Öppna konfigurering",
+  "key.waila.show_overlay"                                     : "Visa överlägg",
+  "key.waila.toggle_liquid"                                    : "Visa/dölj vätskor",
+  "key.waila.show_recipe_input"                                : "Visa receptanvändning",
+  "key.waila.show_recipe_output"                               : "Visa recept",
+
+  "config.waila.plugin_"                                       : "_DO_NOT_TRANSLATE_",
+
+  "config.waila.plugin_minecraft"                              : "Minecraft",
+  "config.waila.plugin_minecraft.breaking_progress"            : "Blockbrytningsförlopp",
+  "config.waila.plugin_minecraft.breaking_progress.enabled"    : "Visa blockbrytningsförlopp",
+  "config.waila.plugin_minecraft.breaking_progress.color"      : "Färg på blockbrytningsförlopp",
+  "config.waila.plugin_minecraft.breaking_progress.bottom_only": "Endast nederkant",
+  "config.waila.plugin_minecraft.override"                     : "Åsidosättningar",
+  "config.waila.plugin_minecraft.override.invisible_entity"    : "Dölj osynliga entiteter",
+  "config.waila.plugin_minecraft.override.infested"            : "Visa angripna block som vanliga block",
+  "config.waila.plugin_minecraft.override.trapped_chest"       : "Visa kistfällor som vanliga kistor",
+  "config.waila.plugin_minecraft.override.powder_snow"         : "Visa pudersnö som vanlig snö",
+  "config.waila.plugin_minecraft.override.vehicle"             : "Dölj spelarens färdmedel",
+  "config.waila.plugin_minecraft.override.vehicle_desc"        : "Dölj gruvvagnar, hästar och andra färdmedelsentiteter när spelar färdas på den",
+
+  "config.waila.plugin_minecraft.spawner.type"                 : "Visa typ av monsterskapare",
+
+  "config.waila.plugin_minecraft.plant.crop_progress"          : "Visa grödförlopp",
+
+
+  "config.waila.plugin_minecraft.redstone"                     : "Redstone",
+  "config.waila.plugin_minecraft.redstone.lever"               : "Visa spaktillstånd",
+  "config.waila.plugin_minecraft.redstone.repeater"            : "Visa uppreparfördröjning",
+  "config.waila.plugin_minecraft.redstone.comparator"          : "Visa jämförarläge",
+  "config.waila.plugin_minecraft.redstone.level"               : "Visa kraftnivå",
+  "config.waila.plugin_minecraft.jukebox"                      : "Jukebox",
+  "config.waila.plugin_minecraft.jukebox.record"               : "Visa aktiv skiva",
+  "config.waila.plugin_minecraft.player_head"                  : "Spelarhuvud",
+  "config.waila.plugin_minecraft.player_head.name"             : "Visa spelarens namn",
+  "config.waila.plugin_minecraft.level"                        : "Nivå",
+  "config.waila.plugin_minecraft.level.composter"              : "Visa kompostnivå",
+  "config.waila.plugin_minecraft.level.honey"                  : "Visa honungsnivå",
+  "config.waila.plugin_minecraft.note_block"                   : "Notblock",
+  "config.waila.plugin_minecraft.note_block.type"              : "Visa instrument och tonart",
+  "config.waila.plugin_minecraft.note_block.note"              : "Visningsläge för tonart",
+  "config.waila.plugin_minecraft.note_block.note_sharp"        : "Höjningstecken",
+  "config.waila.plugin_minecraft.note_block.note_flat"         : "Sänkningstecken",
+  "config.waila.plugin_minecraft.note_block.int_value"         : "Visa nivåvärdet i sifferformat",
+  "config.waila.plugin_minecraft.pet"                          : "Tamdjur",
+  "config.waila.plugin_minecraft.pet.owner"                    : "Visa ägare av tamdjur",
+  "config.waila.plugin_minecraft.pet.owner_desc"               : "Endast tillgänglig för registrerade Minecraft-konton",
+  "config.waila.plugin_minecraft.pet.hide_unknown_owner"       : "Dölj vid okänd ägare",
+  "config.waila.plugin_minecraft.timer"                        : "Timers",
+  "config.waila.plugin_minecraft.timer.grow"                   : "Visa timer för uppväxt",
+  "config.waila.plugin_minecraft.timer.breed"                  : "Visa väntetid för parning",
+
+  "config.waila.plugin_minecraft.block.position"               : "Visa blockposition",
+  "config.waila.plugin_minecraft.block.state"                  : "Visa blocktillstånd",
+
+  "config.waila.plugin_minecraft.entity.item_entity"           : "Visa föremålsentiteter",
+  "config.waila.plugin_minecraft.entity.position"              : "Visa entitetsposition",
+  "config.waila.plugin_minecraft.entity.health"                : "Visa hälsopoäng",
+  "config.waila.plugin_minecraft.entity.absorption"            : "Visa absorberande hälsopoäng",
+  "config.waila.plugin_minecraft.entity.armor"                 : "Visa rustningspoäng",
+  "config.waila.plugin_minecraft.entity.compact"               : "Kompakt läge",
+  "config.waila.plugin_minecraft.entity.compact_desc"          : "Visa hälso- och rustningspoäng på en rad med en siffra istället för ikoner",
+  "config.waila.plugin_minecraft.entity.icon_per_line"         : "Max. antal ikoner per rad",
+  "config.waila.plugin_minecraft.entity.icon_per_line_desc"    : "Det maximala antalet ikoner för hälso- och rustningspoäng innan radbrytning sker",
+  "config.waila.plugin_minecraft.entity.long_health_max"       : "Max. antal hälsopoäng att visa",
+  "config.waila.plugin_minecraft.entity.long_health_max_desc"  : "Det maximala antalet ikoner för hälsopoäng att visa innan sifferformat används",
+  "config.waila.plugin_minecraft.entity.long_armor_max"        : "Max. antal rustningspoäng att visa",
+  "config.waila.plugin_minecraft.entity.long_armor_max_desc"   : "Det maximala antalet ikoner för rustningspoäng som visas innan sifferformat används",
+
+  "config.waila.plugin_minecraft.horse.jump_height"            : "Visa hästens hoppstyrka",
+  "config.waila.plugin_minecraft.horse.speed"                  : "Visa hästens hastighet",
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  "config.waila.plugin_waila"                                  : "Waila Core",
+  "config.waila.plugin_waila.show_mod_name"                    : "Visa modnamn",
+  "config.waila.plugin_waila.show_item_mod_name"               : "Visa modnamn för föremål",
+  "config.waila.plugin_waila.show_registry"                    : "Visa registernamn",
+  "config.waila.plugin_waila.show_blocks"                      : "Visa block",
+  "config.waila.plugin_waila.show_fluids"                      : "Visa vätskor",
+  "config.waila.plugin_waila.show_fluids_desc"                 : "Försök visa vätskor",
+  "config.waila.plugin_waila.show_entities"                    : "Visa entiteter",
+  "config.waila.plugin_waila.show_icon"                        : "Visa ikoner",
+  "config.waila.plugin_waila.icon_position"                    : "Ikonposition",
+  "config.waila.plugin_waila.icon_position_top"                : "Överkant",
+  "config.waila.plugin_waila.icon_position_middle"             : "Mitten",
+  "config.waila.plugin_waila.icon_position_bottom"             : "Underkant",
+
+
+
+
+
+
+
+
+  "config.waila.plugin_wailax"                                 : "Waila Extra",
+  "config.waila.plugin_wailax.energy"                          : "Energi",
+  "config.waila.plugin_wailax.energy.enabled_block"            : "Visa blockenergi",
+  "config.waila.plugin_wailax.energy.enabled_entity"           : "Visa entitetenergi",
+  "config.waila.plugin_wailax.energy.blacklist"                : "Svartlista för energi",
+  "config.waila.plugin_wailax.progress"                        : "Tillverkningsförlopp",
+  "config.waila.plugin_wailax.progress.enabled_block"          : "Visa blocktillverkningsförlopp",
+  "config.waila.plugin_wailax.progress.enabled_entity"         : "Visa entitettillverkningsförlopp",
+  "config.waila.plugin_wailax.progress.blacklist"              : "Svartlista för tillverkningsförlopp",
+  "config.waila.plugin_wailax.item"                            : "Föremål",
+  "config.waila.plugin_wailax.item.enabled_block"              : "Visa blockföremålsinnehåll",
+  "config.waila.plugin_wailax.item.enabled_entity"             : "Visa entitetföremålsinnehåll",
+  "config.waila.plugin_wailax.item.nbt"                        : "Synka NBT-data",
+  "config.waila.plugin_wailax.item.max_height"                 : "Max. höjd",
+
+  "config.waila.plugin_wailax.item.blacklist"                  : "Svartlista för föremålsinnehåll",
+  "config.waila.plugin_wailax.fluid"                           : "Vätska",
+  "config.waila.plugin_wailax.fluid.enabled_block"             : "Visa blockvätskeinnehåll",
+  "config.waila.plugin_wailax.fluid.enabled_entity"            : "Visa entitetvätskeinnehåll",
+
+
+
+  "config.waila.plugin_wailax.fluid.blacklist"                 : "Svartlista för vätskeinnehåll",
+
+  "theme.waila.plugin_waila.gradient.backgroundColor"          : "Bakgrundsfärg",
+  "theme.waila.plugin_waila.gradient.gradientStart"            : "Kantgradients början",
+  "theme.waila.plugin_waila.gradient.gradientEnd"              : "Kantgradients slut",
+  "theme.waila.plugin_waila.gradient.borderSize"               : "Kantstorlek",
+  "theme.waila.plugin_waila.gradient.borderOffset"             : "Kantförskjutning",
+  "theme.waila.plugin_waila.gradient.drawCorner"               : "Rita hörn",
+  "theme.waila.plugin_waila.gradient.fontColor"                : "Textfärg",
+
+  "theme.waila.plugin_waila.nine_patch.texture"                : "Textur",
+  "theme.waila.plugin_waila.nine_patch.texture_desc"           : "Antingen texturidentifieraren eller sökvägen till texturen relativt från konfigureringsfilen",
+  "theme.waila.plugin_waila.nine_patch.useResourcePack"        : "Använd resurspaket",
+  "theme.waila.plugin_waila.nine_patch.textColor"              : "Textfärg",
+  "theme.waila.plugin_waila.nine_patch.textureWidth"           : "Texturbredd",
+  "theme.waila.plugin_waila.nine_patch.textureHeight"          : "Texturhöjd",
+  "theme.waila.plugin_waila.nine_patch.regionTop"              : "Region: Överkant",
+  "theme.waila.plugin_waila.nine_patch.regionMiddle"           : "Region: Mitten",
+  "theme.waila.plugin_waila.nine_patch.regionBottom"           : "Region: Nederkant",
+  "theme.waila.plugin_waila.nine_patch.regionLeft"             : "Region: Vänsterkant",
+  "theme.waila.plugin_waila.nine_patch.regionCenter"           : "Region: Center",
+  "theme.waila.plugin_waila.nine_patch.regionRight"            : "Region: Högerkant",
+  "theme.waila.plugin_waila.nine_patch.mode"                   : "Ritningsläge",
+  "theme.waila.plugin_waila.nine_patch.mode_stretch"           : "Sträck ut",
+  "theme.waila.plugin_waila.nine_patch.mode_tile"              : "Upprepa"
 }

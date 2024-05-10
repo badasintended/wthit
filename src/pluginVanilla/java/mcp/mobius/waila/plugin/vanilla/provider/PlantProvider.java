@@ -70,7 +70,7 @@ public enum PlantProvider implements IBlockComponentProvider {
 
     @Override
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
-        if (config.getBoolean(Options.CROP_PROGRESS)) {
+        if (config.getBoolean(Options.PLANT_CROP_PROGRESS)) {
             if (accessor.getBlock() instanceof CropBlock crop) {
                 addMaturityTooltip(tooltip, accessor.getBlockState().getValue(crop.getAgeProperty()) / (float) crop.getMaxAge());
             } else if (accessor.getBlock() == Blocks.MELON_STEM || accessor.getBlock() == Blocks.PUMPKIN_STEM) {
@@ -84,14 +84,14 @@ public enum PlantProvider implements IBlockComponentProvider {
             }
         }
 
-        if (config.getBoolean(Options.CROP_GROWABLE)) {
+        if (config.getBoolean(Options.PLANT_CROP_GROWABLE)) {
             if ((accessor.getBlock() instanceof CropBlock || accessor.getBlock() instanceof StemBlock)
                 && IModInfo.get(accessor.getBlock()).getId().equals("minecraft")) {
                 addCropGrowableTooltip(tooltip, accessor);
             }
         }
 
-        if (config.getBoolean(Options.TREE_GROWABLE)) {
+        if (config.getBoolean(Options.PLANT_TREE_GROWABLE)) {
             if (accessor.getBlock() instanceof SaplingBlock && IModInfo.get(accessor.getBlock()).getId().equals("minecraft")) {
                 addTreeGrowableTooltip(tooltip, accessor);
             }
