@@ -1,20 +1,20 @@
 {
-  "tooltip.waila.crop_growth"                                   : "Gewachsen",
-  "tooltip.waila.crop_growable"                                 : "Kann wachsen",
+  "tooltip.waila.crop_growth"                                  : "Gewachsen",
+  "tooltip.waila.crop_growable"                                : "Kann wachsen",
 
-  "tooltip.waila.crop_mature"                                   : "Ausgewachsen",
-  "tooltip.waila.empty"                                         : "Leer",
-  "tooltip.waila.delay"                                         : "Verzögerung",
-  "tooltip.waila.mode"                                          : "Modus",
-  "tooltip.waila.mode_comparator"                               : "Vergleichen",
-  "tooltip.waila.mode_subtractor"                               : "Subtrahieren",
-  "tooltip.waila.state"                                         : "Status",
-  "tooltip.waila.state_on"                                      : "Ein",
-  "tooltip.waila.state_off"                                     : "Aus",
-  "tooltip.waila.true"                                          : "Wahr",
-  "tooltip.waila.false"                                         : "Falsch",
-  "tooltip.waila.power"                                         : "Stärke",
-  "tooltip.waila.sneak_for_details"                             : "Schleiche für Details",
+  "tooltip.waila.crop_mature"                                  : "Ausgewachsen",
+  "tooltip.waila.empty"                                        : "Leer",
+  "tooltip.waila.delay"                                        : "Verzögerung",
+  "tooltip.waila.mode"                                         : "Modus",
+  "tooltip.waila.mode_comparator"                              : "Vergleichen",
+  "tooltip.waila.mode_subtractor"                              : "Subtrahieren",
+  "tooltip.waila.state"                                        : "Status",
+  "tooltip.waila.state_on"                                     : "Ein",
+  "tooltip.waila.state_off"                                    : "Aus",
+  "tooltip.waila.true"                                         : "Wahr",
+  "tooltip.waila.false"                                        : "Falsch",
+  "tooltip.waila.power"                                        : "Stärke",
+  "tooltip.waila.sneak_for_details"                            : "Schleiche für Details",
 
 
 
@@ -87,8 +87,8 @@
 
 
 
-  "gui.waila.configuration"                                     : "%s Konfiguration",
-  "gui.waila.waila_settings"                                    : "%s Einstellung",
+  "gui.waila.configuration"                                    : "%s Konfiguration",
+  "gui.waila.waila_settings"                                   : "%s Einstellung",
 
 
 
@@ -146,30 +146,30 @@
 
 
 
-  "config.waila.general"                                        : "Allgemeines",
-  "config.waila.display_tooltip"                                : "Tooltip anzeigen",
-  "config.waila.display_tooltip_desc"                           : "Sammle Daten und zeige Tooltip an",
-  "config.waila.sneaky_details"                                 : "Schleichende Details",
-  "config.waila.sneaky_details_desc"                            : "Text wird beim Schleichen angezeigt",
+  "config.waila.general"                                       : "Allgemeines",
+  "config.waila.display_tooltip"                               : "Tooltip anzeigen",
+  "config.waila.display_tooltip_desc"                          : "Sammle Daten und zeige Tooltip an",
+  "config.waila.sneaky_details"                                : "Schleichende Details",
+  "config.waila.sneaky_details_desc"                           : "Text wird beim Schleichen angezeigt",
 
 
-  "config.waila.display_mode"                                   : "Modus anzeigen",
-  "config.waila.display_mode_desc"                              : "Tooltip Anzeigeverhalten\nUmschalten: Zugewiesene Tasten schalten es ein und aus\nHalten: Zugewiesene Tasten müssen gehalten werden",
-  "config.waila.display_mode_toggle"                            : "Umschalten",
-  "config.waila.display_mode_hold_key"                          : "Halten",
-  "config.waila.hide_from_players"                              : "Von Spielerliste verstecken",
-  "config.waila.hide_from_players_desc"                         : "Verstecke Tooltip, wenn Spielerliste offen ist",
-  "config.waila.hide_from_debug"                                : "Verstecke im Debug",
-  "config.waila.hide_from_debug_desc"                           : "Verstecke das Tooltip während das Debug Menü offen ist",
+  "config.waila.display_mode"                                  : "Modus anzeigen",
+  "config.waila.display_mode_desc"                             : "Tooltip Anzeigeverhalten\nUmschalten: Zugewiesene Tasten schalten es ein und aus\nHalten: Zugewiesene Tasten müssen gehalten werden",
+  "config.waila.display_mode_toggle"                           : "Umschalten",
+  "config.waila.display_mode_hold_key"                         : "Halten",
+  "config.waila.hide_from_players"                             : "Von Spielerliste verstecken",
+  "config.waila.hide_from_players_desc"                        : "Verstecke Tooltip, wenn Spielerliste offen ist",
+  "config.waila.hide_from_debug"                               : "Verstecke im Debug",
+  "config.waila.hide_from_debug_desc"                          : "Verstecke das Tooltip während das Debug Menü offen ist",
 
 
 
 
 
-  "config.waila.tts"                                            : "Aktiviere TTS",
-  "config.waila.tts_desc"                                       : "Lies den Block- und Kreaturname mit dem Text To Speech Prozessor vom System vor",
+  "config.waila.tts"                                           : "Aktiviere TTS",
+  "config.waila.tts_desc"                                      : "Lies den Block- und Kreaturname mit dem Text To Speech Prozessor vom System vor",
 
-  "config.waila.overlay"                                        : "Oberfläche",
+  "config.waila.overlay"                                       : "Oberfläche",
 
 
 
@@ -210,7 +210,7 @@
 
 
 
-  "config.waila.overlay_color"                                  : "Farbe",
+  "config.waila.overlay_color"                                 : "Farbe",
 
 
 
@@ -222,17 +222,17 @@
 
 
 
-  "config.waila.formatting"                                     : "Formation",
-  "config.waila.format_mod_name"                                : "Modname",
-  "config.waila.format_block_name"                              : "Blockname",
-  "config.waila.format_fluid_name"                              : "Flüssigkeitsname",
-  "config.waila.format_entity_name"                             : "Kreaturname",
-  "config.waila.format_registry_name"                           : "Registrierungsname",
+  "config.waila.formatting"                                    : "Formation",
+  "config.waila.format_mod_name"                               : "Modname",
+  "config.waila.format_block_name"                             : "Blockname",
+  "config.waila.format_fluid_name"                             : "Flüssigkeitsname",
+  "config.waila.format_entity_name"                            : "Kreaturname",
+  "config.waila.format_registry_name"                          : "Registrierungsname",
 
 
-  "key.waila.config"                                            : "Öffne Einstellungen",
-  "key.waila.show_overlay"                                      : "Zeige Oberfläche",
-  "key.waila.toggle_liquid"                                     : "Flüssigkeiten anzeigen/verstecken",
+  "key.waila.config"                                           : "Öffne Einstellungen",
+  "key.waila.show_overlay"                                     : "Zeige Oberfläche",
+  "key.waila.toggle_liquid"                                    : "Flüssigkeiten anzeigen/verstecken",
 
 
 
@@ -314,11 +314,17 @@
 
 
 
-  "config.waila.plugin_waila.show_registry"                     : "Zeige Registrierungsnamen",
 
-  "config.waila.plugin_waila.show_fluids"                       : "Flüssigkeiten anzeigen",
-  "config.waila.plugin_waila.show_fluids_desc"                  : "Versuche Flüssigkeiten anzuzeigen",
-  "config.waila.plugin_waila.show_entities"                     : "Zeige Kreaturen"
+
+
+
+
+
+  "config.waila.plugin_waila.show_registry"                    : "Zeige Registrierungsnamen",
+
+  "config.waila.plugin_waila.show_fluids"                      : "Flüssigkeiten anzeigen",
+  "config.waila.plugin_waila.show_fluids_desc"                 : "Versuche Flüssigkeiten anzuzeigen",
+  "config.waila.plugin_waila.show_entities"                    : "Zeige Kreaturen"
 
 
 
