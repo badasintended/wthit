@@ -17,7 +17,6 @@ import mcp.mobius.waila.api.IData;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.IEventListener;
-import mcp.mobius.waila.api.IObjectPicker;
 import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.api.IRayCastVectorProvider;
 import mcp.mobius.waila.api.IRegistrar;
@@ -83,10 +82,6 @@ public class Registrar implements IRegistrar {
     public final BiMap<ResourceLocation, ThemeType<?>> themeTypes = HashBiMap.create();
 
     public final Map<ResourceLocation, StreamCodec<RegistryFriendlyByteBuf, ? extends IData>> dataCodecs = new HashMap<>();
-
-    @Nullable
-    public IObjectPicker picker = null;
-    private int pickerPriority = Integer.MAX_VALUE;
 
     private @Nullable IPluginInfo plugin;
     private boolean locked = false;
@@ -362,28 +357,11 @@ public class Registrar implements IRegistrar {
         }
     }
 
-    @Override
-    public void replacePicker(IObjectPicker picker, int priority) {
-        if (skip()) return;
-        if (Waila.CLIENT_SIDE) {
-            assertLock();
-            assertPriority(priority);
-            if (priority <= pickerPriority) {
-                this.picker = picker;
-                this.pickerPriority = priority;
-            }
-        }
-    }
-
     public void lock() {
         locked = true;
 
         if (Waila.CLIENT_SIDE) {
-            if (picker != null) {
-                LOG.info("Using {} as the object picker", picker.getClass().getName());
-            } else {
-                Preconditions.checkState(!raycastVectorProviders.get(Object.class).isEmpty(), "No raycast vector provider found");
-            }
+            Preconditions.checkState(!raycastVectorProviders.get(Object.class).isEmpty(), "No raycast vector provider found");
         }
 
         var hash = new int[]{0, 0, 0};

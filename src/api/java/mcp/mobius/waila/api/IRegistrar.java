@@ -662,26 +662,6 @@ public interface IRegistrar {
     // TODO: Remove
 
     /**
-     * @deprecated use {@link #addBlockData(IDataProvider, Class)}
-     */
-    @SuppressWarnings("removal")
-    @Deprecated(forRemoval = true)
-    @ApiStatus.ScheduledForRemoval(inVersion = "1.21")
-    default <T, BE extends BlockEntity> void addBlockData(IServerDataProvider<BE> provider, Class<T> clazz) {
-        addBlockData((IDataProvider<? extends BlockEntity>) provider, clazz);
-    }
-
-    /**
-     * @deprecated use {@link #addEntityData(IDataProvider, Class)}
-     */
-    @SuppressWarnings("removal")
-    @Deprecated(forRemoval = true)
-    @ApiStatus.ScheduledForRemoval(inVersion = "1.21")
-    default <T, E extends Entity> void addEntityData(IServerDataProvider<E> provider, Class<T> clazz) {
-        addEntityData((IDataProvider<? extends Entity>) provider, clazz);
-    }
-
-    /**
      * @deprecated use {@link #addFeatureConfig(ResourceLocation, boolean)}
      */
     @Deprecated(forRemoval = true)
@@ -697,24 +677,6 @@ public interface IRegistrar {
     @ApiStatus.ScheduledForRemoval(inVersion = "1.22")
     default void addMergedSyncedConfig(ResourceLocation key, boolean defaultValue, boolean clientOnlyValue) {
         addFeatureConfig(key, false);
-    }
-
-    /**
-     * @deprecated use {@link #addRayCastVector(IRayCastVectorProvider, int)}
-     */
-    @Deprecated
-    @ApiStatus.ScheduledForRemoval(inVersion = "1.21")
-    @ApiSide.ClientOnly
-    void replacePicker(IObjectPicker picker, int priority);
-
-    /**
-     * @deprecated use {@link #addRayCastVector(IRayCastVectorProvider, int)}
-     */
-    @Deprecated
-    @ApiStatus.ScheduledForRemoval(inVersion = "1.21")
-    @ApiSide.ClientOnly
-    default void replacePicker(IObjectPicker picker) {
-        replacePicker(picker, DEFAULT_PRIORITY);
     }
 
 }

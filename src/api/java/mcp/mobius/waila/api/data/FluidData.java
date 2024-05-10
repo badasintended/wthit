@@ -332,25 +332,4 @@ public abstract class FluidData implements IData {
 
     protected abstract void implAdd(Fluid fluid, DataComponentPatch data, double stored, double capacity);
 
-    // -----------------------------------------------------------------------------------------------------------------------------------------------
-    // TODO: Remove
-
-    /**
-     * @deprecated use {@link #of(Unit)}
-     */
-    @Deprecated(forRemoval = true)
-    @ApiStatus.ScheduledForRemoval(inVersion = "1.21")
-    public static FluidData of() {
-        return of(Unit.MILLIBUCKETS);
-    }
-
-    /**
-     * @deprecated use {@link #of(Unit, int)}
-     */
-    @Deprecated(forRemoval = true)
-    @ApiStatus.ScheduledForRemoval(inVersion = "1.21")
-    public static FluidData of(int slotCountHint) {
-        return of(Unit.MILLIBUCKETS, slotCountHint);
-    }
-
 }

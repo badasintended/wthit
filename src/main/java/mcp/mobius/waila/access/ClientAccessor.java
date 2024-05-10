@@ -7,7 +7,6 @@ import mcp.mobius.waila.api.IEntityAccessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
@@ -86,12 +85,6 @@ public enum ClientAccessor implements ICommonAccessor, IBlockAccessor, IEntityAc
         return this.pos;
     }
 
-    @Override
-    @Deprecated
-    public HitResult getHitResult() {
-        return getRawHitResult();
-    }
-
     public HitResult getRawHitResult() {
         return this.hitResult;
     }
@@ -112,12 +105,6 @@ public enum ClientAccessor implements ICommonAccessor, IBlockAccessor, IEntityAc
     }
 
     @Override
-    @SuppressWarnings("removal")
-    public CompoundTag getServerData() {
-        return getData().raw();
-    }
-
-    @Override
     public IDataReader getData() {
         if (!dataAccess) return DataReader.NOOP;
 
@@ -130,11 +117,6 @@ public enum ClientAccessor implements ICommonAccessor, IBlockAccessor, IEntityAc
     public long getServerDataTime() {
         var data = getData().raw();
         return data.contains("WailaTime") ? data.getLong("WailaTime") : System.currentTimeMillis();
-    }
-
-    @Override
-    public double getPartialFrame() {
-        return this.frameTime;
     }
 
     @Override

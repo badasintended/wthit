@@ -15,7 +15,6 @@ import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.mixin.PlayerTabOverlayAccess;
-import mcp.mobius.waila.pick.PickerAccessor;
 import mcp.mobius.waila.pick.PickerResults;
 import mcp.mobius.waila.registry.Registrar;
 import net.minecraft.ChatFormatting;
@@ -72,22 +71,14 @@ public class TooltipHandler {
         Vec3 castOrigin = null;
         Vec3 castDirection = null;
 
-        var picker = Registrar.get().picker;
-        if (picker != null) {
-            // TODO: remove
-            castOrigin = camera.getEyePosition(frameTime);
-            castDirection = camera.getViewVector(frameTime);
-            picker.pick(PickerAccessor.of(client, camera, pickRange, frameTime), results, PluginConfig.CLIENT);
-        } else {
-            for (var entry : Registrar.get().raycastVectorProviders.get(Object.class)) {
-                var provider = entry.instance();
-                if (!provider.isEnabled(PluginConfig.CLIENT)) continue;
+        for (var entry : Registrar.get().raycastVectorProviders.get(Object.class)) {
+            var provider = entry.instance();
+            if (!provider.isEnabled(PluginConfig.CLIENT)) continue;
 
-                castOrigin = provider.getOrigin(frameTime);
-                castDirection = provider.getDirection(frameTime);
-                RayCaster.cast(client.level, camera, castOrigin, castDirection, pickRange, results);
-                break;
-            }
+            castOrigin = provider.getOrigin(frameTime);
+            castDirection = provider.getDirection(frameTime);
+            RayCaster.cast(client.level, camera, castOrigin, castDirection, pickRange, results);
+            break;
         }
 
         if (castOrigin == null) return;

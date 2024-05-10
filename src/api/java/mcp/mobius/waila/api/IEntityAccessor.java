@@ -1,12 +1,10 @@
 package mcp.mobius.waila.api;
 
 import mcp.mobius.waila.api.__internal__.ApiSide;
-import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.EntityHitResult;
-import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
@@ -42,29 +40,5 @@ public interface IEntityAccessor {
     double getRayCastMaxDistance();
 
     float getFrameTime();
-
-    // -----------------------------------------------------------------------------------------------------------------------------------------------
-    // TODO: Remove
-
-    /**
-     * @deprecated use {@link #getData()}, {@link IDataReader#raw()}
-     */
-    @Deprecated(forRemoval = true)
-    @ApiStatus.ScheduledForRemoval(inVersion = "1.21")
-    CompoundTag getServerData();
-
-    /**
-     * @deprecated use {@link #getEntityHitResult()}
-     */
-    @Deprecated
-    @ApiStatus.ScheduledForRemoval(inVersion = "1.21")
-    HitResult getHitResult();
-
-    /**
-     * @deprecated use {@link #getFrameTime()}
-     */
-    @Deprecated
-    @ApiStatus.ScheduledForRemoval(inVersion = "1.21")
-    double getPartialFrame();
 
 }
