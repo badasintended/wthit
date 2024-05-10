@@ -33,7 +33,7 @@ abstract class FormatTranslationTask : DefaultTask() {
         translationDir.get().listFiles { _, name -> name != "en_us.json" }?.forEach { file ->
             println("Formatting ${file.nameWithoutExtension}")
 
-            val language = JsonParser.parseReader(file.reader()) as JsonObject
+            val language = JsonParser.parseString(file.readText()) as JsonObject
             val output = lines.toMutableList()
 
             for (key in language.keySet()) {
