@@ -93,45 +93,50 @@ public class WailaPluginVanilla implements IWailaPlugin {
 
     @Override
     public void register(IRegistrar registrar) {
-        registrar.addFeatureConfig(Options.ITEM_ENTITY, true);
+        registrar.addConfig(Options.BLOCK_POSITION, false);
+        registrar.addConfig(Options.BLOCK_STATE, false);
+        registrar.addComponent(BlockAttributesProvider.INSTANCE, BODY, Block.class, 950);
+
+        registrar.addFeatureConfig(Options.ENTITY_ITEM_ENTITY, true);
         registrar.addIcon(ItemEntityProvider.INSTANCE, ItemEntity.class);
         registrar.addComponent(ItemEntityProvider.INSTANCE, HEAD, ItemEntity.class, 950);
         registrar.addComponent(ItemEntityProvider.INSTANCE, BODY, ItemEntity.class, 950);
         registrar.addComponent(ItemEntityProvider.INSTANCE, TAIL, ItemEntity.class, 950);
         registrar.addOverride(ItemEntityProvider.INSTANCE, ItemEntity.class);
 
+        registrar.addConfig(Options.ENTITY_POSITION, false);
+        registrar.addFeatureConfig(Options.ENTITY_HEALTH, true);
+        registrar.addFeatureConfig(Options.ENTITY_ABSORPTION, false);
+        registrar.addFeatureConfig(Options.ENTITY_ARMOR, true);
+        registrar.addConfig(Options.ENTITY_COMPACT, false);
+        registrar.addConfig(Options.ENTITY_ICON_PER_LINE, 25);
+        registrar.addConfig(Options.ENTITY_LONG_HEALTH_MAX, 100);
+        registrar.addConfig(Options.ENTITY_LONG_ARMOR_MAX, 100);
+        registrar.addComponent(EntityAttributesProvider.INSTANCE, HEAD, Entity.class, 950);
+        registrar.addComponent(EntityAttributesProvider.INSTANCE, BODY, Entity.class, 950);
+        registrar.addEntityData(EntityAttributesProvider.INSTANCE, Entity.class);
+
         registrar.addFeatureConfig(Options.PET_OWNER, false);
         registrar.addConfig(Options.PET_HIDE_UNKNOWN_OWNER, false);
         registrar.addComponent(PetOwnerProvider.INSTANCE, BODY, OwnableEntity.class);
         registrar.addEntityData(PetOwnerProvider.INSTANCE, OwnableEntity.class);
 
-        registrar.addConfig(Options.ATTRIBUTE_BLOCK_POSITION, false);
-        registrar.addConfig(Options.ATTRIBUTE_BLOCK_STATE, false);
-        registrar.addConfig(Options.ATTRIBUTE_ENTITY_POSITION, false);
-        registrar.addFeatureConfig(Options.ATTRIBUTE_HEALTH, true);
-        registrar.addFeatureConfig(Options.ATTRIBUTE_ABSORPTION, false);
-        registrar.addFeatureConfig(Options.ATTRIBUTE_ARMOR, true);
-        registrar.addConfig(Options.ATTRIBUTE_COMPACT, false);
-        registrar.addConfig(Options.ATTRIBUTE_ICON_PER_LINE, 25);
-        registrar.addConfig(Options.ATTRIBUTE_LONG_HEALTH_MAX, 100);
-        registrar.addConfig(Options.ATTRIBUTE_LONG_ARMOR_MAX, 100);
-        registrar.addFeatureConfig(Options.ATTRIBUTE_HORSE_JUMP_HEIGHT, true);
-        registrar.addFeatureConfig(Options.ATTRIBUTE_HORSE_SPEED, true);
-        registrar.addFeatureConfig(Options.ATTRIBUTE_PANDA_GENES, true);
-        registrar.addFeatureConfig(Options.ATTRIBUTE_BEACON_EFFECTS, false);
-        registrar.addFeatureConfig(Options.ATTRIBUTE_MOB_EFFECTS, false);
-        registrar.addSyncedConfig(Options.ATTRIBUTE_HIDDEN_MOB_EFFECTS, false, false);
-        registrar.addComponent(BlockAttributesProvider.INSTANCE, BODY, Block.class, 950);
-        registrar.addComponent(EntityAttributesProvider.INSTANCE, HEAD, Entity.class, 950);
-        registrar.addComponent(EntityAttributesProvider.INSTANCE, BODY, Entity.class, 950);
+        registrar.addFeatureConfig(Options.HORSE_JUMP_HEIGHT, true);
+        registrar.addFeatureConfig(Options.HORSE_SPEED, true);
         registrar.addComponent(HorseProvider.INSTANCE, BODY, AbstractHorse.class);
+
+        registrar.addFeatureConfig(Options.PANDA_GENES, true);
         registrar.addComponent(PandaProvider.INSTANCE, BODY, Panda.class);
-        registrar.addComponent(BeaconProvider.INSTANCE, BODY, BeaconBlockEntity.class);
-        registrar.addComponent(MobEffectProvider.INSTANCE, BODY, LivingEntity.class);
+
+        registrar.addFeatureConfig(Options.EFFECT_BEACON, false);
         registrar.addDataType(BeaconProvider.DATA, BeaconProvider.DATA_CODEC);
-        registrar.addDataType(MobEffectProvider.DATA, MobEffectProvider.DATA_CODEC);
+        registrar.addComponent(BeaconProvider.INSTANCE, BODY, BeaconBlockEntity.class);
         registrar.addBlockData(BeaconProvider.INSTANCE, BeaconBlockEntity.class);
-        registrar.addEntityData(EntityAttributesProvider.INSTANCE, Entity.class);
+
+        registrar.addFeatureConfig(Options.EFFECT_MOB, false);
+        registrar.addSyncedConfig(Options.EFFECT_HIDDEN_MOB, false, false);
+        registrar.addDataType(MobEffectProvider.DATA, MobEffectProvider.DATA_CODEC);
+        registrar.addComponent(MobEffectProvider.INSTANCE, BODY, LivingEntity.class);
         registrar.addEntityData(MobEffectProvider.INSTANCE, LivingEntity.class);
 
         registrar.addFeatureConfig(Options.JUKEBOX_RECORD, false);
@@ -162,9 +167,9 @@ public class WailaPluginVanilla implements IWailaPlugin {
         registrar.addFeatureConfig(Options.SPAWNER_TYPE, true);
         registrar.addComponent(SpawnerProvider.INSTANCE, HEAD, SpawnerBlockEntity.class, 950);
 
-        registrar.addFeatureConfig(Options.CROP_PROGRESS, true);
-        registrar.addFeatureConfig(Options.CROP_GROWABLE, true);
-        registrar.addFeatureConfig(Options.TREE_GROWABLE, true);
+        registrar.addFeatureConfig(Options.PLANT_CROP_PROGRESS, true);
+        registrar.addFeatureConfig(Options.PLANT_CROP_GROWABLE, true);
+        registrar.addFeatureConfig(Options.PLANT_TREE_GROWABLE, true);
         registrar.addIcon(PlantProvider.INSTANCE, CropBlock.class);
         registrar.addComponent(PlantProvider.INSTANCE, BODY, CropBlock.class);
         registrar.addComponent(PlantProvider.INSTANCE, BODY, StemBlock.class);
@@ -243,6 +248,8 @@ public class WailaPluginVanilla implements IWailaPlugin {
             EntityType.FIREWORK_ROCKET,
             EntityType.INTERACTION,
             EntityType.SNOWBALL);
+
+        Options.ALIASES.forEach(registrar::addConfigAlias);
     }
 
 }

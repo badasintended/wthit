@@ -72,6 +72,8 @@ public class PluginConfigScreen extends ConfigScreen {
 
                     for (var key : keys) {
                         var entry = PluginConfig.getEntry(key);
+                        if (entry.isAlias()) continue;
+
                         var path = key.getPath();
                         var category = NO_CATEGORY;
 

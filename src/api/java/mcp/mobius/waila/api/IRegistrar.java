@@ -303,6 +303,13 @@ public interface IRegistrar {
     <T extends Enum<T>> void addSyncedConfig(ResourceLocation key, T defaultValue, T clientOnlyValue);
 
     /**
+     * Registers config key aliases that will be migrated gracefully to the actual key.
+     * <p>
+     * Also sync the value using aliased keys, so outdated client can still get the correct value.
+     */
+    void addConfigAlias(ResourceLocation actual, ResourceLocation... aliases);
+
+    /**
      * Adds an event listener
      */
     void addEventListener(IEventListener listener, int priority);

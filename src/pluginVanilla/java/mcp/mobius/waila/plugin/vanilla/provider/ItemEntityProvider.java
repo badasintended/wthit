@@ -37,7 +37,7 @@ public enum ItemEntityProvider implements IEntityComponentProvider {
     @Nullable
     @Override
     public Entity getOverride(IEntityAccessor accessor, IPluginConfig config) {
-        return !config.getBoolean(Options.ITEM_ENTITY) ? EMPTY_ENTITY : null;
+        return !config.getBoolean(Options.ENTITY_ITEM_ENTITY) ? EMPTY_ENTITY : null;
     }
 
     @Override

@@ -60,10 +60,10 @@ public enum EntityAttributesProvider implements IEntityComponentProvider, IDataP
             return;
         }
 
-        var compact = config.getBoolean(Options.ATTRIBUTE_COMPACT);
-        var showHealth = config.getBoolean(Options.ATTRIBUTE_HEALTH);
-        var showAbsorption = config.getBoolean(Options.ATTRIBUTE_ABSORPTION);
-        var showArmor = config.getBoolean(Options.ATTRIBUTE_ARMOR) && entity.getArmorValue() > 0;
+        var compact = config.getBoolean(Options.ENTITY_COMPACT);
+        var showHealth = config.getBoolean(Options.ENTITY_HEALTH);
+        var showAbsorption = config.getBoolean(Options.ENTITY_ABSORPTION);
+        var showArmor = config.getBoolean(Options.ENTITY_ARMOR) && entity.getArmorValue() > 0;
 
         var data = accessor.getData().raw();
 
@@ -83,11 +83,11 @@ public enum EntityAttributesProvider implements IEntityComponentProvider, IDataP
                 i++;
             }
         } else {
-            var maxPerLine = config.getInt(Options.ATTRIBUTE_ICON_PER_LINE);
+            var maxPerLine = config.getInt(Options.ENTITY_ICON_PER_LINE);
 
             if (showHealth) {
                 var absorption = data.contains("abs") ? data.getFloat("abs") : 0f;
-                if (entity.getMaxHealth() + absorption > config.getInt(Options.ATTRIBUTE_LONG_HEALTH_MAX)) {
+                if (entity.getMaxHealth() + absorption > config.getInt(Options.ENTITY_LONG_HEALTH_MAX)) {
                     addHealth(tooltip.addLine(), entity, data, showAbsorption);
                 } else {
                     tooltip.addLine(new HealthComponent(entity.getHealth(), entity.getMaxHealth(), maxPerLine, false));
@@ -98,7 +98,7 @@ public enum EntityAttributesProvider implements IEntityComponentProvider, IDataP
             }
 
             if (showArmor) {
-                if (entity.getArmorValue() > config.getInt(Options.ATTRIBUTE_LONG_ARMOR_MAX)) {
+                if (entity.getArmorValue() > config.getInt(Options.ENTITY_LONG_ARMOR_MAX)) {
                     addArmor(tooltip.addLine(), entity);
                 } else {
                     tooltip.addLine(new ArmorComponent(entity.getArmorValue(), maxPerLine));
@@ -109,7 +109,7 @@ public enum EntityAttributesProvider implements IEntityComponentProvider, IDataP
 
     @Override
     public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        if (config.getBoolean(Options.ATTRIBUTE_ENTITY_POSITION)) {
+        if (config.getBoolean(Options.ENTITY_POSITION)) {
             var pos = accessor.getEntity().position();
             tooltip.addLine(Component.literal("(" + DECIMAL.format(pos.x) + ", " + DECIMAL.format(pos.y) + ", " + DECIMAL.format(pos.z) + ")"));
         }
@@ -118,7 +118,7 @@ public enum EntityAttributesProvider implements IEntityComponentProvider, IDataP
     @Override
     public void appendData(IDataWriter data, IServerAccessor<Entity> accessor, IPluginConfig config) {
         if (accessor.getTarget() instanceof LivingEntity living) {
-            if (config.getBoolean(Options.ATTRIBUTE_ABSORPTION) && living.getAbsorptionAmount() > 0) {
+            if (config.getBoolean(Options.ENTITY_ABSORPTION) && living.getAbsorptionAmount() > 0) {
                 data.raw().putFloat("abs", living.getAbsorptionAmount());
             }
         }

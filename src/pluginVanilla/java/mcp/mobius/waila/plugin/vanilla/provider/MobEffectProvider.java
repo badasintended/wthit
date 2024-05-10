@@ -34,7 +34,7 @@ public enum MobEffectProvider implements IEntityComponentProvider, IDataProvider
 
     @Override
     public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        if (!config.getBoolean(Options.ATTRIBUTE_MOB_EFFECTS)) return;
+        if (!config.getBoolean(Options.EFFECT_MOB)) return;
 
         var data = accessor.getData().get(DATA);
         if (data == null) return;
@@ -59,11 +59,11 @@ public enum MobEffectProvider implements IEntityComponentProvider, IDataProvider
 
     @Override
     public void appendData(IDataWriter data, IServerAccessor<LivingEntity> accessor, IPluginConfig config) {
-        if (config.getBoolean(Options.ATTRIBUTE_MOB_EFFECTS)) data.add(DATA, res -> res.add(new Data(accessor
+        if (config.getBoolean(Options.EFFECT_MOB)) data.add(DATA, res -> res.add(new Data(accessor
             .getTarget()
             .getActiveEffects()
             .stream()
-            .filter(it -> it.isVisible() || config.getBoolean(Options.ATTRIBUTE_HIDDEN_MOB_EFFECTS))
+            .filter(it -> it.isVisible() || config.getBoolean(Options.EFFECT_HIDDEN_MOB))
             .toList())));
     }
 
