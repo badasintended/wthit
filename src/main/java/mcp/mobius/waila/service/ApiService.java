@@ -61,8 +61,8 @@ public abstract class ApiService implements IApiService {
             if (item instanceof EnchantedBookItem) {
                 var enchantments = stack.getOrDefault(DataComponents.STORED_ENCHANTMENTS, ItemEnchantments.EMPTY);
                 if (enchantments.size() == 1) for (var entry : enchantments.entrySet()) {
-                    var id = BuiltInRegistries.ENCHANTMENT.getKey(entry.getKey().value());
-                    if (id != null) return IModInfo.get(id);
+                    var key = entry.getKey().unwrapKey().orElse(null);
+                    if (key != null) return IModInfo.get(key.location());
                     break;
                 }
             } else if (item instanceof PotionItem || item instanceof TippedArrowItem) {

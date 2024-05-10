@@ -17,11 +17,13 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.tags.EnchantmentTags;
 import net.minecraft.util.StringUtil;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentInstance;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import org.jetbrains.annotations.Nullable;
@@ -85,11 +87,11 @@ public enum ItemEntityProvider implements IEntityComponentProvider {
                 var curses = new ArrayList<EnchantmentInstance>();
 
                 for (var entry : enchantmentsComponent.entrySet()) {
-                    var enchantment = entry.getKey().value();
+                    var enchantment = entry.getKey();
                     var level = entry.getIntValue();
                     var instance = new EnchantmentInstance(enchantment, level);
 
-                    if (enchantment.isCurse()) curses.add(instance);
+                    if (enchantment.is(EnchantmentTags.CURSE)) curses.add(instance);
                     else enchantments.add(instance);
                 }
 
@@ -104,12 +106,12 @@ public enum ItemEntityProvider implements IEntityComponentProvider {
 
                 if (!enchantments.isEmpty()) {
                     var instance = enchantments.get(enchantmentIndex);
-                    tooltip.addLine(instance.enchantment.getFullname(instance.level));
+                    tooltip.addLine(Enchantment.getFullname(instance.enchantment, instance.level));
                 }
 
                 if (!curses.isEmpty()) {
                     var instance = curses.get(curseIndex);
-                    tooltip.addLine(instance.enchantment.getFullname(instance.level));
+                    tooltip.addLine(Enchantment.getFullname(instance.enchantment, instance.level));
                 }
             } else {
                 var enchantments = stack.getOrDefault(DataComponents.STORED_ENCHANTMENTS, ItemEnchantments.EMPTY);
@@ -119,11 +121,11 @@ public enum ItemEntityProvider implements IEntityComponentProvider {
                     MutableComponent curseLine = null;
 
                     for (var entry : enchantments.entrySet()) {
-                        var enchantment = entry.getKey().value();
+                        var enchantment = entry.getKey();
                         var level = entry.getIntValue();
-                        var name = enchantment.getFullname(level);
+                        var name = Enchantment.getFullname(enchantment, level);
 
-                        if (enchantment.isCurse()) {
+                        if (enchantment.is(EnchantmentTags.CURSE)) {
                             if (curseLine == null) {
                                 curseLine = Component.empty().append(name);
                             } else {
@@ -142,7 +144,7 @@ public enum ItemEntityProvider implements IEntityComponentProvider {
                     if (curseLine != null) tooltip.addLine(curseLine);
                 } else {
                     for (var entry : enchantments.entrySet()) {
-                        tooltip.addLine(entry.getKey().value().getFullname(entry.getIntValue()));
+                        tooltip.addLine(Enchantment.getFullname(entry.getKey(), entry.getIntValue()));
                     }
                 }
             }
