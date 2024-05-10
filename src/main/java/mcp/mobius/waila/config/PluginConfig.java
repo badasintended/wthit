@@ -35,10 +35,10 @@ public enum PluginConfig implements IPluginConfig {
         }.getType(),
         LinkedHashMap::new);
 
-    private static final Map<ResourceLocation, ConfigEntry<?>> CONFIGS = new LinkedHashMap<>();
+    private static final Map<ResourceLocation, ConfigEntry<Object>> CONFIGS = new LinkedHashMap<>();
 
     public static <T> void addConfig(ConfigEntry<T> entry) {
-        CONFIGS.put(entry.getId(), entry);
+        CONFIGS.put(entry.getId(), (ConfigEntry<Object>) entry);
     }
 
     private static Stream<ResourceLocation> getKeyStream() {
@@ -59,7 +59,6 @@ public enum PluginConfig implements IPluginConfig {
     public static Set<ConfigEntry<Object>> getSyncableConfigs() {
         return CONFIGS.values().stream()
             .filter(ConfigEntry::isSynced)
-            .map(t -> (ConfigEntry<Object>) t)
             .collect(Collectors.toSet());
     }
 
@@ -102,8 +101,9 @@ public enum PluginConfig implements IPluginConfig {
 
     private static void writeConfig() {
         Map<String, Map<String, JsonPrimitive>> config = new LinkedHashMap<>();
-        for (var e : CONFIGS.values()) {
-            var entry = (ConfigEntry<Object>) e;
+        for (var entry : CONFIGS.values()) {
+            if (entry.isAlias()) continue;
+
             var id = entry.getId();
             config.computeIfAbsent(id.getNamespace(), k -> new LinkedHashMap<>())
                 .put(id.getPath(), entry.getType().serializer.apply(entry.getLocalValue()));
@@ -117,6 +117,8 @@ public enum PluginConfig implements IPluginConfig {
         if (entry != null && entry.getOrigin().isEnabled()) {
             return (T) entry.getValue(this == SERVER);
         }
+
+        if (Waila.DEV) LOG.error("Unknown plugin config key {}", key);
         return defaultValue;
     }
 

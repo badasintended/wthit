@@ -16,12 +16,12 @@ public enum BlockAttributesProvider implements IBlockComponentProvider {
 
     @Override
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
-        if (config.getBoolean(Options.ATTRIBUTE_BLOCK_POSITION)) {
+        if (config.getBoolean(Options.BLOCK_POSITION)) {
             var pos = accessor.getPosition();
             tooltip.addLine(Component.literal("(" + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + ")"));
         }
 
-        if (config.getBoolean(Options.ATTRIBUTE_BLOCK_STATE)) {
+        if (config.getBoolean(Options.BLOCK_STATE)) {
             var state = accessor.getBlockState();
             state.getProperties().forEach(property -> {
                 Comparable<?> value = state.getValue(property);

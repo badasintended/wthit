@@ -116,6 +116,18 @@ public class ConfigEntry<T> {
         return serverRequired || merged;
     }
 
+    public ConfigEntry<T> getActual() {
+        return this;
+    }
+
+    public Alias<T> createAlias(ResourceLocation id) {
+        return new Alias<>(id, getActual());
+    }
+
+    public boolean isAlias() {
+        return false;
+    }
+
     private void assertInstance(T value) {
         Preconditions.checkArgument(
             value.getClass() == defaultValue.getClass(),
@@ -134,6 +146,47 @@ public class ConfigEntry<T> {
 
         public ConfigEntry<T> create(IPluginInfo origin, ResourceLocation id, T defaultValue, T clientOnlyValue, boolean serverRequired, boolean merged) {
             return new ConfigEntry<>(origin, id, defaultValue, clientOnlyValue, serverRequired, merged, this);
+        }
+
+    }
+
+    public static class Alias<T> extends ConfigEntry<T> {
+
+        public final ConfigEntry<T> delegate;
+
+        private Alias(ResourceLocation id, ConfigEntry<T> delegate) {
+            super(delegate.origin, id, delegate.defaultValue, delegate.clientOnlyValue, delegate.serverRequired, delegate.merged, delegate.type);
+            this.delegate = delegate;
+        }
+
+        @Override
+        public T getServerValue() {
+            return delegate.getServerValue();
+        }
+
+        @Override
+        public void setServerValue(@Nullable T serverValue) {
+            delegate.setServerValue(serverValue);
+        }
+
+        @Override
+        public T getLocalValue() {
+            return delegate.getLocalValue();
+        }
+
+        @Override
+        public void setLocalValue(T localValue) {
+            delegate.setLocalValue(localValue);
+        }
+
+        @Override
+        public ConfigEntry<T> getActual() {
+            return delegate.getActual();
+        }
+
+        @Override
+        public boolean isAlias() {
+            return true;
         }
 
     }

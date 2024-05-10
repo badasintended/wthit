@@ -1,23 +1,23 @@
 {
-  "tooltip.waila.crop_growth"                                   : "Desarrollo",
+  "tooltip.waila.crop_growth"                                  : "Desarrollo",
 
 
-  "tooltip.waila.crop_mature"                                   : "Maduro",
-  "tooltip.waila.empty"                                         : "Vacío",
-  "tooltip.waila.delay"                                         : "Demora",
-  "tooltip.waila.mode"                                          : "Modo",
-  "tooltip.waila.mode_comparator"                               : "Comparador",
-  "tooltip.waila.mode_subtractor"                               : "Substracción",
-  "tooltip.waila.state"                                         : "Estado",
-  "tooltip.waila.state_on"                                      : "Activo",
-  "tooltip.waila.state_off"                                     : "Inactivo",
+  "tooltip.waila.crop_mature"                                  : "Maduro",
+  "tooltip.waila.empty"                                        : "Vacío",
+  "tooltip.waila.delay"                                        : "Demora",
+  "tooltip.waila.mode"                                         : "Modo",
+  "tooltip.waila.mode_comparator"                              : "Comparador",
+  "tooltip.waila.mode_subtractor"                              : "Substracción",
+  "tooltip.waila.state"                                        : "Estado",
+  "tooltip.waila.state_on"                                     : "Activo",
+  "tooltip.waila.state_off"                                    : "Inactivo",
 
 
-  "tooltip.waila.power"                                         : "Poder",
-  "tooltip.waila.sneak_for_details"                             : "Detalles al agacharse",
-  "tooltip.waila.compost_level"                                 : "Nivel de composta",
-  "tooltip.waila.honey_level"                                   : "Nivel de miel",
-  "tooltip.waila.owner"                                         : "Dueño",
+  "tooltip.waila.power"                                        : "Poder",
+  "tooltip.waila.sneak_for_details"                            : "Detalles al agacharse",
+  "tooltip.waila.compost_level"                                : "Nivel de composta",
+  "tooltip.waila.honey_level"                                  : "Nivel de miel",
+  "tooltip.waila.owner"                                        : "Dueño",
 
 
 
@@ -40,22 +40,22 @@
 
 
 
-  "tooltip.waila.instrument.harp"                               : "Arpa",
-  "tooltip.waila.instrument.basedrum"                           : "Bombo",
-  "tooltip.waila.instrument.snare"                              : "Caja",
-  "tooltip.waila.instrument.hat"                                : "Pandereta",
-  "tooltip.waila.instrument.bass"                               : "Contrabajo",
-  "tooltip.waila.instrument.flute"                              : "Flauta",
-  "tooltip.waila.instrument.bell"                               : "Campana (bell)",
-  "tooltip.waila.instrument.guitar"                             : "Guitarra",
-  "tooltip.waila.instrument.chime"                              : "Campana (chime)",
-  "tooltip.waila.instrument.xylophone"                          : "Xilófono",
-  "tooltip.waila.instrument.iron_xylophone"                     : "Xilófono de hierro",
-  "tooltip.waila.instrument.cow_bell"                           : "Cencerro",
-  "tooltip.waila.instrument.didgeridoo"                         : "Guitarra eléctrica",
-  "tooltip.waila.instrument.bit"                                : "Bit",
-  "tooltip.waila.instrument.banjo"                              : "Ukelele",
-  "tooltip.waila.instrument.pling"                              : "Pling",
+  "tooltip.waila.instrument.harp"                              : "Arpa",
+  "tooltip.waila.instrument.basedrum"                          : "Bombo",
+  "tooltip.waila.instrument.snare"                             : "Caja",
+  "tooltip.waila.instrument.hat"                               : "Pandereta",
+  "tooltip.waila.instrument.bass"                              : "Contrabajo",
+  "tooltip.waila.instrument.flute"                             : "Flauta",
+  "tooltip.waila.instrument.bell"                              : "Campana (bell)",
+  "tooltip.waila.instrument.guitar"                            : "Guitarra",
+  "tooltip.waila.instrument.chime"                             : "Campana (chime)",
+  "tooltip.waila.instrument.xylophone"                         : "Xilófono",
+  "tooltip.waila.instrument.iron_xylophone"                    : "Xilófono de hierro",
+  "tooltip.waila.instrument.cow_bell"                          : "Cencerro",
+  "tooltip.waila.instrument.didgeridoo"                        : "Guitarra eléctrica",
+  "tooltip.waila.instrument.bit"                               : "Bit",
+  "tooltip.waila.instrument.banjo"                             : "Ukelele",
+  "tooltip.waila.instrument.pling"                             : "Pling",
 
 
 
@@ -87,8 +87,8 @@
 
 
 
-  "gui.waila.configuration"                                     : "%s — Configuración",
-  "gui.waila.waila_settings"                                    : "Opciones de %s",
+  "gui.waila.configuration"                                    : "%s — Configuración",
+  "gui.waila.waila_settings"                                   : "Opciones de %s",
 
 
 
@@ -103,9 +103,9 @@
 
 
 
-  "command.waila.server_dump_success"                           : "Se ha volcado el servidor con éxito a %s",
+  "command.waila.server_dump_success"                          : "Se ha volcado el servidor con éxito a %s",
 
-  "command.waila.client_dump_success"                           : "Se ha volcado el cliente con éxito a %s",
+  "command.waila.client_dump_success"                          : "Se ha volcado el cliente con éxito a %s",
 
 
 
@@ -132,8 +132,8 @@
 
 
 
-  "config.waila.true"                                           : "SÍ",
-  "config.waila.false"                                          : "NO",
+  "config.waila.true"                                          : "SÍ",
+  "config.waila.false"                                         : "NO",
 
 
 
@@ -146,74 +146,74 @@
 
 
 
-  "config.waila.general"                                        : "General",
-  "config.waila.display_tooltip"                                : "Mostrar tooltip",
-  "config.waila.display_tooltip_desc"                           : "Muestra el tooltip con la información",
-  "config.waila.sneaky_details"                                 : "Detalles al agacharse",
-  "config.waila.sneaky_details_desc"                            : "El texto adicional está oculto a menos que estés agachado",
+  "config.waila.general"                                       : "General",
+  "config.waila.display_tooltip"                               : "Mostrar tooltip",
+  "config.waila.display_tooltip_desc"                          : "Muestra el tooltip con la información",
+  "config.waila.sneaky_details"                                : "Detalles al agacharse",
+  "config.waila.sneaky_details_desc"                           : "El texto adicional está oculto a menos que estés agachado",
 
 
-  "config.waila.display_mode"                                   : "Modo de visualización",
-  "config.waila.display_mode_desc"                              : "Comportamiento de visualización del tooltip\nAlternar: El atajo para mostrar lo activa y desactiva\nMantener: El atajo para mostrar debe permanecer mantenido",
-  "config.waila.display_mode_toggle"                            : "Alternar",
-  "config.waila.display_mode_hold_key"                          : "Mantener",
-  "config.waila.hide_from_players"                              : "Ocultar de la lista de jugadores",
-  "config.waila.hide_from_players_desc"                         : "Esconde el tooltip mientras la lista de jugadores esté abierta",
-  "config.waila.hide_from_debug"                                : "Ocultar al depurar",
-  "config.waila.hide_from_debug_desc"                           : "Esconde el tooltip mientras el menú de depuración esté abierto",
-  "config.waila.rate_limit"                                     : "Tasa límite",
-  "config.waila.rate_limit_desc"                                : "Cúantos milisegundos deben pasar entre cada petición al servidor\nEl valor debe ser por lo menos 250ms",
+  "config.waila.display_mode"                                  : "Modo de visualización",
+  "config.waila.display_mode_desc"                             : "Comportamiento de visualización del tooltip\nAlternar: El atajo para mostrar lo activa y desactiva\nMantener: El atajo para mostrar debe permanecer mantenido",
+  "config.waila.display_mode_toggle"                           : "Alternar",
+  "config.waila.display_mode_hold_key"                         : "Mantener",
+  "config.waila.hide_from_players"                             : "Ocultar de la lista de jugadores",
+  "config.waila.hide_from_players_desc"                        : "Esconde el tooltip mientras la lista de jugadores esté abierta",
+  "config.waila.hide_from_debug"                               : "Ocultar al depurar",
+  "config.waila.hide_from_debug_desc"                          : "Esconde el tooltip mientras el menú de depuración esté abierto",
+  "config.waila.rate_limit"                                    : "Tasa límite",
+  "config.waila.rate_limit_desc"                               : "Cúantos milisegundos deben pasar entre cada petición al servidor\nEl valor debe ser por lo menos 250ms",
 
 
 
-  "config.waila.tts"                                            : "Activar Texto a Voz",
-  "config.waila.tts_desc"                                       : "Lee los nombres de bloque y entidad usando el procesador TTS del sistema",
+  "config.waila.tts"                                           : "Activar Texto a Voz",
+  "config.waila.tts_desc"                                      : "Lee los nombres de bloque y entidad usando el procesador TTS del sistema",
 
-  "config.waila.overlay"                                        : "Overlay",
+  "config.waila.overlay"                                       : "Overlay",
 
 
 
 
 
-  "config.waila.overlay_pos_x"                                  : "Desplazamiento en X",
-  "config.waila.overlay_pos_x_desc"                             : "Posición en X relativa al anclaje de pantalla\nLa posición es afectada por la escala",
-  "config.waila.overlay_pos_y"                                  : "Desplazamiento en Y",
-  "config.waila.overlay_pos_y_desc"                             : "Posición en Y relativa al anclaje de pantalla\nLa posición es afectada por la escala",
+  "config.waila.overlay_pos_x"                                 : "Desplazamiento en X",
+  "config.waila.overlay_pos_x_desc"                            : "Posición en X relativa al anclaje de pantalla\nLa posición es afectada por la escala",
+  "config.waila.overlay_pos_y"                                 : "Desplazamiento en Y",
+  "config.waila.overlay_pos_y_desc"                            : "Posición en Y relativa al anclaje de pantalla\nLa posición es afectada por la escala",
 
-  "config.waila.boss_bars_overlap"                              : "Superposición de barras de jefe",
-  "config.waila.boss_bars_overlap_desc"                         : "Si se pone falso, el tooltip se moverá abajo si hay barras de jefe visibles\nSólo afecta a la alineación centro-arriba",
+  "config.waila.boss_bars_overlap"                             : "Superposición de barras de jefe",
+  "config.waila.boss_bars_overlap_desc"                        : "Si se pone falso, el tooltip se moverá abajo si hay barras de jefe visibles\nSólo afecta a la alineación centro-arriba",
 
-  "config.waila.overlay_scale"                                  : "Escala",
-  "config.waila.overlay_scale_desc"                             : "Cuán grande es el tooltip\n1.0 es el predeterminado",
+  "config.waila.overlay_scale"                                 : "Escala",
+  "config.waila.overlay_scale_desc"                            : "Cuán grande es el tooltip\n1.0 es el predeterminado",
 
-  "config.waila.overlay_anchor_x"                               : "Anclaje horizontal",
-  "config.waila.overlay_anchor_x_desc"                          : "A partir de que posición en pantalla se comenzará a contar\nPruébalo cambiando el tamaño de la ventana del juego",
-  "config.waila.overlay_anchor_x_left"                          : "Izquierda",
-  "config.waila.overlay_anchor_x_right"                         : "Derecha",
-  "config.waila.overlay_anchor_x_center"                        : "En medio",
+  "config.waila.overlay_anchor_x"                              : "Anclaje horizontal",
+  "config.waila.overlay_anchor_x_desc"                         : "A partir de que posición en pantalla se comenzará a contar\nPruébalo cambiando el tamaño de la ventana del juego",
+  "config.waila.overlay_anchor_x_left"                         : "Izquierda",
+  "config.waila.overlay_anchor_x_right"                        : "Derecha",
+  "config.waila.overlay_anchor_x_center"                       : "En medio",
 
-  "config.waila.overlay_anchor_y"                               : "Anclaje vertical",
-  "config.waila.overlay_anchor_y_desc"                          : "A partir de que posición en pantalla se comenzará a contar\nPruébalo cambiando el tamaño de la ventana del juego",
-  "config.waila.overlay_anchor_y_top"                           : "Arriba",
-  "config.waila.overlay_anchor_y_bottom"                        : "Abajo",
-  "config.waila.overlay_anchor_y_middle"                        : "En medio",
+  "config.waila.overlay_anchor_y"                              : "Anclaje vertical",
+  "config.waila.overlay_anchor_y_desc"                         : "A partir de que posición en pantalla se comenzará a contar\nPruébalo cambiando el tamaño de la ventana del juego",
+  "config.waila.overlay_anchor_y_top"                          : "Arriba",
+  "config.waila.overlay_anchor_y_bottom"                       : "Abajo",
+  "config.waila.overlay_anchor_y_middle"                       : "En medio",
 
-  "config.waila.overlay_align_x"                                : "Alineación horizontal",
-  "config.waila.overlay_align_x_desc"                           : "Cómo se alinean tooltips de diferentes tamaños unos con los otros",
-  "config.waila.overlay_align_x_left"                           : "Izquierda",
-  "config.waila.overlay_align_x_right"                          : "Derecha",
-  "config.waila.overlay_align_x_center"                         : "En medio",
+  "config.waila.overlay_align_x"                               : "Alineación horizontal",
+  "config.waila.overlay_align_x_desc"                          : "Cómo se alinean tooltips de diferentes tamaños unos con los otros",
+  "config.waila.overlay_align_x_left"                          : "Izquierda",
+  "config.waila.overlay_align_x_right"                         : "Derecha",
+  "config.waila.overlay_align_x_center"                        : "En medio",
 
-  "config.waila.overlay_align_y"                                : "Alineación vertical",
-  "config.waila.overlay_align_y_desc"                           : "Cómo se alinean tooltips de diferentes tamaños unos con los otros",
-  "config.waila.overlay_align_y_top"                            : "Arriba",
-  "config.waila.overlay_align_y_bottom"                         : "Abajo",
-  "config.waila.overlay_align_y_middle"                         : "En medio",
+  "config.waila.overlay_align_y"                               : "Alineación vertical",
+  "config.waila.overlay_align_y_desc"                          : "Cómo se alinean tooltips de diferentes tamaños unos con los otros",
+  "config.waila.overlay_align_y_top"                           : "Arriba",
+  "config.waila.overlay_align_y_bottom"                        : "Abajo",
+  "config.waila.overlay_align_y_middle"                        : "En medio",
 
-  "config.waila.overlay_color"                                  : "Color",
-  "config.waila.overlay_background_alpha"                       : "Transparencia de fondo",
+  "config.waila.overlay_color"                                 : "Color",
+  "config.waila.overlay_background_alpha"                      : "Transparencia de fondo",
 
-  "config.waila.overlay_theme"                                  : "Tema",
+  "config.waila.overlay_theme"                                 : "Tema",
 
 
 
@@ -222,63 +222,62 @@
 
 
 
-  "config.waila.formatting"                                     : "Formato",
-  "config.waila.format_mod_name"                                : "Nombre de mod",
-  "config.waila.format_block_name"                              : "Nombre de bloque",
-  "config.waila.format_fluid_name"                              : "Nombre de fluído",
-  "config.waila.format_entity_name"                             : "Nombre de entidad",
-  "config.waila.format_registry_name"                           : "Nombre de registro",
+  "config.waila.formatting"                                    : "Formato",
+  "config.waila.format_mod_name"                               : "Nombre de mod",
+  "config.waila.format_block_name"                             : "Nombre de bloque",
+  "config.waila.format_fluid_name"                             : "Nombre de fluído",
+  "config.waila.format_entity_name"                            : "Nombre de entidad",
+  "config.waila.format_registry_name"                          : "Nombre de registro",
 
 
-  "key.waila.config"                                            : "Abrir configuración",
-  "key.waila.show_overlay"                                      : "Mostrar overlay",
-  "key.waila.toggle_liquid"                                     : "Alternar líquidos",
-  "key.waila.show_recipe_input"                                 : "Ver uso de receta",
-  "key.waila.show_recipe_output"                                : "Ver receta",
+  "key.waila.config"                                           : "Abrir configuración",
+  "key.waila.show_overlay"                                     : "Mostrar overlay",
+  "key.waila.toggle_liquid"                                    : "Alternar líquidos",
+  "key.waila.show_recipe_input"                                : "Ver uso de receta",
+  "key.waila.show_recipe_output"                               : "Ver receta",
 
 
 
-  "config.waila.plugin_minecraft"                               : "Minecraft",
-  "config.waila.plugin_minecraft.item_entity"                   : "Ver entidad de item",
+  "config.waila.plugin_minecraft"                              : "Minecraft",
 
 
 
 
-  "config.waila.plugin_minecraft.override"                      : "Casos especiales",
+  "config.waila.plugin_minecraft.override"                     : "Casos especiales",
 
-  "config.waila.plugin_minecraft.override.infested"             : "Ver bloques infestados como bloques regulares",
-  "config.waila.plugin_minecraft.override.trapped_chest"        : "Ver cofres trampa como cofres regulares",
-  "config.waila.plugin_minecraft.override.powder_snow"          : "Ver nieve polvo como nieve regular",
+  "config.waila.plugin_minecraft.override.infested"            : "Ver bloques infestados como bloques regulares",
+  "config.waila.plugin_minecraft.override.trapped_chest"       : "Ver cofres trampa como cofres regulares",
+  "config.waila.plugin_minecraft.override.powder_snow"         : "Ver nieve polvo como nieve regular",
 
 
-  "config.waila.plugin_minecraft.spawner_type"                  : "Ver tipo de generador",
-  "config.waila.plugin_minecraft.crop_progress"                 : "Ver progreso de cultivos",
 
+  "config.waila.plugin_minecraft.spawner.type"                 : "Ver tipo de generador",
 
-  "config.waila.plugin_minecraft.redstone"                      : "Redstone",
-  "config.waila.plugin_minecraft.redstone.lever"                : "Ver estado de palanca",
-  "config.waila.plugin_minecraft.redstone.repeater"             : "Ver demora de repetidor",
-  "config.waila.plugin_minecraft.redstone.comparator"           : "Ver modo de comparador",
-  "config.waila.plugin_minecraft.redstone.level"                : "Ver intensidad de señal",
-  "config.waila.plugin_minecraft.jukebox"                       : "Tocadiscos",
-  "config.waila.plugin_minecraft.jukebox.record"                : "Ver la reproducción actual",
-  "config.waila.plugin_minecraft.player_head"                   : "Cabeza de jugador",
-  "config.waila.plugin_minecraft.player_head.name"              : "Ver nombre de jugador",
-  "config.waila.plugin_minecraft.level"                         : "Niveles",
-  "config.waila.plugin_minecraft.level.composter"               : "Ver niveles de composta",
-  "config.waila.plugin_minecraft.level.honey"                   : "Ver niveles de miel",
-  "config.waila.plugin_minecraft.note_block"                    : "Bloque musical",
-  "config.waila.plugin_minecraft.note_block.type"               : "Ver instrumento y nota",
-  "config.waila.plugin_minecraft.note_block.note"               : "Modo de visualización de nota",
-  "config.waila.plugin_minecraft.note_block.note_sharp"         : "Sostenido",
-  "config.waila.plugin_minecraft.note_block.note_flat"          : "Bemol",
-  "config.waila.plugin_minecraft.note_block.int_value"          : "Ver nivel como valor numérico",
-  "config.waila.plugin_minecraft.pet"                           : "Mascotas",
-  "config.waila.plugin_minecraft.pet.owner"                     : "Ver dueño de las mascotas",
-  "config.waila.plugin_minecraft.pet.owner_desc"                : "Sólo disponible para cuentas de Minecraft registradas",
-  "config.waila.plugin_minecraft.pet.hide_unknown_owner"        : "Ocultar dueño desconocido",
+  "config.waila.plugin_minecraft.plant.crop_progress"          : "Ver progreso de cultivos",
 
 
+  "config.waila.plugin_minecraft.redstone"                     : "Redstone",
+  "config.waila.plugin_minecraft.redstone.lever"               : "Ver estado de palanca",
+  "config.waila.plugin_minecraft.redstone.repeater"            : "Ver demora de repetidor",
+  "config.waila.plugin_minecraft.redstone.comparator"          : "Ver modo de comparador",
+  "config.waila.plugin_minecraft.redstone.level"               : "Ver intensidad de señal",
+  "config.waila.plugin_minecraft.jukebox"                      : "Tocadiscos",
+  "config.waila.plugin_minecraft.jukebox.record"               : "Ver la reproducción actual",
+  "config.waila.plugin_minecraft.player_head"                  : "Cabeza de jugador",
+  "config.waila.plugin_minecraft.player_head.name"             : "Ver nombre de jugador",
+  "config.waila.plugin_minecraft.level"                        : "Niveles",
+  "config.waila.plugin_minecraft.level.composter"              : "Ver niveles de composta",
+  "config.waila.plugin_minecraft.level.honey"                  : "Ver niveles de miel",
+  "config.waila.plugin_minecraft.note_block"                   : "Bloque musical",
+  "config.waila.plugin_minecraft.note_block.type"              : "Ver instrumento y nota",
+  "config.waila.plugin_minecraft.note_block.note"              : "Modo de visualización de nota",
+  "config.waila.plugin_minecraft.note_block.note_sharp"        : "Sostenido",
+  "config.waila.plugin_minecraft.note_block.note_flat"         : "Bemol",
+  "config.waila.plugin_minecraft.note_block.int_value"         : "Ver nivel como valor numérico",
+  "config.waila.plugin_minecraft.pet"                          : "Mascotas",
+  "config.waila.plugin_minecraft.pet.owner"                    : "Ver dueño de las mascotas",
+  "config.waila.plugin_minecraft.pet.owner_desc"               : "Sólo disponible para cuentas de Minecraft registradas",
+  "config.waila.plugin_minecraft.pet.hide_unknown_owner"       : "Ocultar dueño desconocido",
 
 
 
@@ -286,6 +285,7 @@
 
 
 
+  "config.waila.plugin_minecraft.entity.item_entity"           : "Ver entidad de item",
 
 
 
@@ -311,14 +311,20 @@
 
 
 
-  "config.waila.plugin_waila"                                   : "Waila Base",
-  "config.waila.plugin_waila.show_mod_name"                     : "Ver nombre de mods",
 
-  "config.waila.plugin_waila.show_registry"                     : "Ver nombres de registro",
-  "config.waila.plugin_waila.show_blocks"                       : "Ver bloques",
-  "config.waila.plugin_waila.show_fluids"                       : "Ver fluídos",
-  "config.waila.plugin_waila.show_fluids_desc"                  : "Trata de mostrar el nombre de fluídos",
-  "config.waila.plugin_waila.show_entities"                     : "Ver entidades"
+
+
+
+
+
+  "config.waila.plugin_waila"                                  : "Waila Base",
+  "config.waila.plugin_waila.show_mod_name"                    : "Ver nombre de mods",
+
+  "config.waila.plugin_waila.show_registry"                    : "Ver nombres de registro",
+  "config.waila.plugin_waila.show_blocks"                      : "Ver bloques",
+  "config.waila.plugin_waila.show_fluids"                      : "Ver fluídos",
+  "config.waila.plugin_waila.show_fluids_desc"                 : "Trata de mostrar el nombre de fluídos",
+  "config.waila.plugin_waila.show_entities"                    : "Ver entidades"
 
 
 
