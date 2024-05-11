@@ -8,6 +8,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -23,7 +24,7 @@ public class InputValue<T> extends ConfigValue<@Nullable T> {
 
     private final Predicate<String> validator;
     private final Serializer<T> serializer;
-    private final EditBox textField;
+    protected final EditBox textField;
 
     private boolean valueFromTextField = false;
     private boolean valueValid = true;
@@ -127,9 +128,24 @@ public class InputValue<T> extends ConfigValue<@Nullable T> {
     private class WatchedTextfield extends EditBox {
 
         public WatchedTextfield() {
-            super(client.font, 0, 0, 160, 18, Component.empty());
+            super(client.font, 0, 0, 100, 18, Component.empty());
             this.setResponder(InputValue.this::setValue);
             this.setMaxLength(Integer.MAX_VALUE);
+        }
+
+        private void recalculateWidth(boolean reset) {
+            if (reset) setWidth(100);
+            else setWidth(Mth.clamp(client.font.width(getValue()) + 8, 100, 300));
+
+            var cursor = getCursorPosition();
+            moveCursorTo(0, false);
+            moveCursorTo(cursor, false);
+        }
+
+        @Override
+        public void setFocused(boolean focused) {
+            super.setFocused(focused);
+            recalculateWidth(!focused);
         }
 
         @Override
@@ -151,6 +167,7 @@ public class InputValue<T> extends ConfigValue<@Nullable T> {
                 this.setCursorPosition(i + l);
                 this.setHighlightPos(getCursorPosition());
                 access.wthit_onValueChange(string3);
+                recalculateWidth(false);
             }
         }
 
