@@ -32,11 +32,6 @@ public class ForgeWailaClient extends WailaClient {
     }
 
     @SubscribeEvent
-    static void registerKeyMappings(RegisterKeyMappingsEvent event) {
-        registerKeyBinds().forEach(event::register);
-    }
-
-    @SubscribeEvent
     static void addReloadListener(RegisterClientReloadListenersEvent event) {
         event.registerReloadListener(new BuiltinThemeLoader());
     }
