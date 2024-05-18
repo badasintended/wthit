@@ -23,6 +23,7 @@ public class WailaConfig implements IWailaConfig {
     private final General general = new General();
     private final Overlay overlay = new Overlay();
     private final Formatter formatter = new Formatter();
+    private final KeyBindings keyBindings = new KeyBindings();
     private int configVersion = 0;
 
     public int getConfigVersion() {
@@ -46,6 +47,10 @@ public class WailaConfig implements IWailaConfig {
     @Override
     public Formatter getFormatter() {
         return formatter;
+    }
+
+    public KeyBindings getKeyBindings() {
+        return keyBindings;
     }
 
     public static class General implements IWailaConfig.General {
@@ -389,6 +394,56 @@ public class WailaConfig implements IWailaConfig {
         @Override
         public Component registryName(Object registryName) {
             return Component.literal(this.registryName.formatted(registryName));
+        }
+
+    }
+
+    public static class KeyBindings {
+
+        private KeyBinding openConfig = KeyBinding.UNKNOWN;
+        private KeyBinding showOverlay = KeyBinding.UNKNOWN;
+        private KeyBinding toggleLiquid = KeyBinding.UNKNOWN;
+        private KeyBinding showRecipeInput = KeyBinding.UNKNOWN;
+        private KeyBinding showRecipeOutput = KeyBinding.UNKNOWN;
+
+        public KeyBinding getOpenConfig() {
+            return openConfig;
+        }
+
+        public void setOpenConfig(KeyBinding openConfig) {
+            this.openConfig = openConfig;
+        }
+
+        public KeyBinding getShowOverlay() {
+            return showOverlay;
+        }
+
+        public void setShowOverlay(KeyBinding showOverlay) {
+            this.showOverlay = showOverlay;
+        }
+
+        public KeyBinding getToggleLiquid() {
+            return toggleLiquid;
+        }
+
+        public void setToggleLiquid(KeyBinding toggleLiquid) {
+            this.toggleLiquid = toggleLiquid;
+        }
+
+        public KeyBinding getShowRecipeInput() {
+            return showRecipeInput;
+        }
+
+        public void setShowRecipeInput(KeyBinding showRecipeInput) {
+            this.showRecipeInput = showRecipeInput;
+        }
+
+        public KeyBinding getShowRecipeOutput() {
+            return showRecipeOutput;
+        }
+
+        public void setShowRecipeOutput(KeyBinding showRecipeOutput) {
+            this.showRecipeOutput = showRecipeOutput;
         }
 
     }

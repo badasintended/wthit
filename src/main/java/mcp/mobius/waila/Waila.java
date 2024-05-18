@@ -8,6 +8,7 @@ import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.__internal__.IHarvestService;
 import mcp.mobius.waila.config.BlacklistConfig;
+import mcp.mobius.waila.config.KeyBinding;
 import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.gui.hud.theme.ThemeDefinition;
 import mcp.mobius.waila.registry.RegistryFilter;
@@ -40,6 +41,7 @@ public abstract class Waila {
             .registerTypeAdapter(WailaConfig.Overlay.Color.class, new WailaConfig.Overlay.Color.Adapter())
             .registerTypeAdapter(ThemeDefinition.class, new ThemeDefinition.Adapter())
             .registerTypeAdapter(ResourceLocation.class, new ResourceLocation.Serializer())
+            .registerTypeAdapter(KeyBinding.class, new KeyBinding.Adapter())
             .create())
         .build();
 
