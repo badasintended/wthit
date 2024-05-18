@@ -57,7 +57,7 @@ jobs:
             ${{ fromJSON(steps.parse.outputs.changelog) }}
       - uses: sylwit/install-b2-cli-action@ae80099fa373ec5aef6fa509aa3012fcdd936b6d
         with:
-          version: v3.19.1
+          version: '3.19.1'
         env:
           B2_APPLICATION_KEY_ID: ${{ secrets.B2_APPLICATION_KEY_ID }}
           B2_APPLICATION_KEY: ${{ secrets.B2_APPLICATION_KEY }}
