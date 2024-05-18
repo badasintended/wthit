@@ -2,6 +2,12 @@ package mcp.mobius.waila.api;
 
 import java.text.DecimalFormat;
 
+import io.netty.buffer.ByteBuf;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import org.jetbrains.annotations.Nullable;
+
 public final class WailaHelper {
 
     public static String suffix(long value) {
@@ -43,6 +49,23 @@ public final class WailaHelper {
 
     public static double getLuminance(int rgb) {
         return (0.299 * getRed(rgb) + 0.587 * getGreen(rgb) + 0.114 * getBlue(rgb)) / 255.0;
+    }
+
+    /**
+     * @see ByteBufCodecs#optional(StreamCodec)
+     */
+    public static <B extends ByteBuf, V> StreamCodec<B, @Nullable V> nullable(final StreamCodec<B, V> codec) {
+        return new StreamCodec<>() {
+            @Override
+            public V decode(B b) {
+                return FriendlyByteBuf.readNullable(b, codec);
+            }
+
+            @Override
+            public void encode(B o, V v) {
+                FriendlyByteBuf.writeNullable(o, v, codec);
+            }
+        };
     }
 
     //---------------------------------------------------------------------------------------------------

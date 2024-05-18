@@ -8,6 +8,7 @@ import mcp.mobius.waila.api.IDataWriter;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerAccessor;
 import mcp.mobius.waila.api.ITooltip;
+import mcp.mobius.waila.api.WailaHelper;
 import mcp.mobius.waila.mixin.BeaconBlockEntityAccess;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.core.Holder;
@@ -27,8 +28,8 @@ public enum BeaconProvider implements IBlockComponentProvider, IDataProvider<Bea
 
     public static final IData.Type<Data> DATA = IData.createType(new ResourceLocation("beacon"));
     public static final StreamCodec<RegistryFriendlyByteBuf, Data> DATA_CODEC = StreamCodec.composite(
-        ByteBufCodecs.holderRegistry(Registries.MOB_EFFECT), Data::primary,
-        ByteBufCodecs.holderRegistry(Registries.MOB_EFFECT), Data::secondary,
+        WailaHelper.nullable(ByteBufCodecs.holderRegistry(Registries.MOB_EFFECT)), Data::primary,
+        WailaHelper.nullable(ByteBufCodecs.holderRegistry(Registries.MOB_EFFECT)), Data::secondary,
         Data::new);
 
     private MutableComponent getText(Holder<MobEffect> effect) {
