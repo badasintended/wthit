@@ -18,6 +18,8 @@ public class QuiltWailaClient extends WailaClient implements ClientModInitialize
 
     @Override
     public void onInitializeClient(ModContainer mod) {
+        registerKeyBinds();
+
         Packets.initClient();
 
         HudRenderCallback.EVENT.register(TooltipRenderer::render);

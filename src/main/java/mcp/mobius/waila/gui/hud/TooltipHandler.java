@@ -1,6 +1,7 @@
 package mcp.mobius.waila.gui.hud;
 
 import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.access.ClientAccessor;
 import mcp.mobius.waila.api.IBlacklistConfig;
 import mcp.mobius.waila.api.IBlockComponentProvider;
@@ -50,12 +51,11 @@ public class TooltipHandler {
 
         var client = Minecraft.getInstance();
         var config = Waila.CONFIG.get().getGeneral();
-        var bindings = Waila.CONFIG.get().getKeyBindings();
 
         if (client.options.hideGui) return;
         if (client.screen != null && !(client.screen instanceof ChatScreen)) return;
         if (client.level == null || !config.isDisplayTooltip()) return;
-        if (config.getDisplayMode() == IWailaConfig.General.DisplayMode.HOLD_KEY && client.screen == null && !bindings.getShowOverlay().isDown()) return;
+        if (config.getDisplayMode() == IWailaConfig.General.DisplayMode.HOLD_KEY && !WailaClient.keyShowOverlay.isDown()) return;
         if (config.isHideFromPlayerList() && ((PlayerTabOverlayAccess) client.gui.getTabList()).wthit_isVisible()) return;
         if (config.isHideFromDebug() && client.getDebugOverlay().showDebugScreen()) return;
         if (client.gameMode == null) return;
