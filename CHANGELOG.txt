@@ -1,5 +1,7 @@
 11.x - 1.20.6 - dev/master - java 21
 ====================================
+11.1.6   - Fixed disconnect when looking to beacon (#263)
+         - Rereleased (2)
 11.1.5   - Fixed disconnect when looking to beacon (#263)
          - Rereleased
 11.1.4   - Fixed disconnect when looking to beacon (#263)
