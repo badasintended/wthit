@@ -82,7 +82,7 @@ public class Registrar implements IRegistrar {
 
     public final BiMap<ResourceLocation, ThemeType<?>> themeTypes = HashBiMap.create();
 
-    public final Map<ResourceLocation, StreamCodec<RegistryFriendlyByteBuf, ? extends IData>> dataCodecs = new HashMap<>();
+    public final Map<ResourceLocation, StreamCodec<RegistryFriendlyByteBuf, IData>> dataCodecs = new HashMap<>();
 
     @Nullable
     public IObjectPicker picker = null;
@@ -341,7 +341,7 @@ public class Registrar implements IRegistrar {
     public <D extends IData> void addDataType(IData.Type<D> type, StreamCodec<? super RegistryFriendlyByteBuf, ? extends D> codec) {
         assertLock();
         Preconditions.checkArgument(!dataCodecs.containsKey(type.id()), "Data type with id %s already present", type.id());
-        dataCodecs.put(type.id(), (StreamCodec<RegistryFriendlyByteBuf, ? extends IData>) codec);
+        dataCodecs.put(type.id(), (StreamCodec<RegistryFriendlyByteBuf, IData>) codec);
     }
 
     @Override
