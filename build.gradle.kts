@@ -77,9 +77,14 @@ subprojects {
                     password = env["GITHUB_TOKEN"]
                 }
             }
+
             maven {
-                name = "B2"
-                url = rootProject.projectDir.resolve(".b2").toURI()
+                url = uri("https://maven4.bai.lol")
+                name = "Badasintended"
+                credentials {
+                    username = env["MAVEN_USERNAME"]
+                    password = env["MAVEN_PASSWORD"]
+                }
             }
         }
     }
