@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.BiMap;
@@ -74,6 +77,7 @@ public class Registrar implements IRegistrar {
     public final InstanceRegistry<IRayCastVectorProvider> raycastVectorProviders = new InstanceRegistry<>();
 
     public final BlacklistConfig blacklist = new BlacklistConfig();
+    public final InstanceRegistry<Consumer<BlacklistConfig>> blacklistModifiers = Util.make(new InstanceRegistry<>(), InstanceRegistry::reversed);
 
     public final Map<ResourceLocation, IntFormat> intConfigFormats = new HashMap<>();
 
@@ -108,12 +112,14 @@ public class Registrar implements IRegistrar {
     }
 
     @SafeVarargs
-    private <T> void addBlacklist(Set<String> set, Registry<T> registry, T... values) {
+    private <T> void modifyBlacklist(int priority, Function<BlacklistConfig, Set<String>> getter, BiConsumer<Set<String>, String> modifier, Registry<T> registry, T... values) {
         assertLock();
 
-        for (var value : values) {
-            set.add(Objects.requireNonNull(registry.getKey(value)).toString());
-        }
+        blacklistModifiers.add(Object.class, blacklist -> {
+            for (var value : values) {
+                modifier.accept(getter.apply(blacklist), Objects.requireNonNull(registry.getKey(value)).toString());
+            }
+        }, priority);
     }
 
     @Override
@@ -195,13 +201,23 @@ public class Registrar implements IRegistrar {
     }
 
     @Override
-    public void addBlacklist(Block... blocks) {
-        addBlacklist(blacklist.blocks, Registry.BLOCK, blocks);
+    public void addBlacklist(int priority, Block... blocks) {
+        modifyBlacklist(priority, it -> it.blocks, Set::add, Registry.BLOCK, blocks);
     }
 
     @Override
-    public void addBlacklist(BlockEntityType<?>... blockEntityTypes) {
-        addBlacklist(blacklist.blockEntityTypes, Registry.BLOCK_ENTITY_TYPE, blockEntityTypes);
+    public void addBlacklist(int priority, BlockEntityType<?>... blockEntityTypes) {
+        modifyBlacklist(priority, it -> it.blockEntityTypes, Set::add, Registry.BLOCK_ENTITY_TYPE, blockEntityTypes);
+    }
+
+    @Override
+    public void removeBlacklist(int priority, Block... blocks) {
+        modifyBlacklist(priority, it -> it.blocks, Set::remove, Registry.BLOCK, blocks);
+    }
+
+    @Override
+    public void removeBlacklist(int priority, BlockEntityType<?>... blockEntityTypes) {
+        modifyBlacklist(priority, it -> it.blockEntityTypes, Set::remove, Registry.BLOCK_ENTITY_TYPE, blockEntityTypes);
     }
 
     @Override
@@ -267,8 +283,13 @@ public class Registrar implements IRegistrar {
     }
 
     @Override
-    public void addBlacklist(EntityType<?>... entityTypes) {
-        addBlacklist(blacklist.entityTypes, Registry.ENTITY_TYPE, entityTypes);
+    public void addBlacklist(int priority, EntityType<?>... entityTypes) {
+        modifyBlacklist(priority, it -> it.entityTypes, Set::add, Registry.ENTITY_TYPE, entityTypes);
+    }
+
+    @Override
+    public void removeBlacklist(int priority, EntityType<?>... entityTypes) {
+        modifyBlacklist(priority, it -> it.entityTypes, Set::remove, Registry.ENTITY_TYPE, entityTypes);
     }
 
     @Override
@@ -388,11 +409,15 @@ public class Registrar implements IRegistrar {
             }
         }
 
+        blacklistModifiers.get(Object.class).forEach(it -> it.instance().accept(blacklist));
+        blacklist.addBlacklistTags();
+
         var hash = new int[]{0, 0, 0};
         hash[0] = blacklist.blocks.hashCode();
         hash[1] = blacklist.blockEntityTypes.hashCode();
         hash[2] = blacklist.entityTypes.hashCode();
 
+        Waila.BLACKLIST_CONFIG.invalidate();
         var userBlacklist = Waila.BLACKLIST_CONFIG.get();
 
         if (!Arrays.equals(userBlacklist.pluginHash, hash)) {
@@ -402,8 +427,14 @@ public class Registrar implements IRegistrar {
 
             var newBlacklist = Waila.BLACKLIST_CONFIG.get();
             newBlacklist.pluginHash = hash;
+
+            newBlacklist.blocks.clear();
             newBlacklist.blocks.addAll(blacklist.blocks);
+
+            newBlacklist.blockEntityTypes.clear();
             newBlacklist.blockEntityTypes.addAll(blacklist.blockEntityTypes);
+
+            newBlacklist.entityTypes.clear();
             newBlacklist.entityTypes.addAll(blacklist.entityTypes);
         }
 

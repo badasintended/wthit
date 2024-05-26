@@ -225,11 +225,11 @@ public class WailaPluginVanilla implements IWailaPlugin {
 
         registrar.addEntityData(ContainerEntityProvider.INSTANCE, Container.class, 1100);
 
-        registrar.addBlacklist(
+        registrar.addBlacklist(1100,
             Blocks.BARRIER,
             Blocks.STRUCTURE_VOID);
 
-        registrar.addBlacklist(
+        registrar.addBlacklist(1100,
             EntityType.AREA_EFFECT_CLOUD,
             EntityType.EXPERIENCE_ORB,
             EntityType.FIREBALL,

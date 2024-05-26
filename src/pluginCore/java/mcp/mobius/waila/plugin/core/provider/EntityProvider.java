@@ -1,9 +1,11 @@
 package mcp.mobius.waila.plugin.core.provider;
 
+import mcp.mobius.waila.api.IBlacklistConfig;
 import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.IModInfo;
 import mcp.mobius.waila.api.IPluginConfig;
+import mcp.mobius.waila.api.ITargetRedirector;
 import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.IWailaConfig;
@@ -17,6 +19,13 @@ import org.jetbrains.annotations.Nullable;
 public enum EntityProvider implements IEntityComponentProvider {
 
     INSTANCE;
+
+    @Override
+    public @Nullable ITargetRedirector.Result redirect(ITargetRedirector redirect, IEntityAccessor accessor, IPluginConfig config) {
+        if (IBlacklistConfig.get().contains(accessor.getEntity())) return redirect.toBehind();
+
+        return null;
+    }
 
     @Nullable
     @Override

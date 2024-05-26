@@ -50,6 +50,12 @@ public class BlacklistConfig {
         this.configVersion = configVersion;
     }
 
+    public void addBlacklistTags() {
+        blocks.add(BLACKLIST_TAG);
+        blockEntityTypes.add(BLACKLIST_TAG);
+        entityTypes.add(BLACKLIST_TAG);
+    }
+
     public View getView() {
         if (view == null) view = new View();
         return view;
@@ -126,6 +132,8 @@ public class BlacklistConfig {
             for (var line : comments) commentArray.add(line);
             object.add("_comment", commentArray);
 
+            src.addBlacklistTags();
+
             object.add("blocks", context.serialize(src.blocks));
             object.add("blockEntityTypes", context.serialize(src.blockEntityTypes));
             object.add("entityTypes", context.serialize(src.entityTypes));
@@ -141,13 +149,11 @@ public class BlacklistConfig {
             var object = json.getAsJsonObject();
             var res = new BlacklistConfig();
 
-            res.blocks.add(BLACKLIST_TAG);
-            res.blockEntityTypes.add(BLACKLIST_TAG);
-            res.entityTypes.add(BLACKLIST_TAG);
-
             deserializeEntries(res.blocks, object.getAsJsonArray("blocks"));
             deserializeEntries(res.blockEntityTypes, object.getAsJsonArray("blockEntityTypes"));
             deserializeEntries(res.entityTypes, object.getAsJsonArray("entityTypes"));
+
+            res.addBlacklistTags();
 
             res.configVersion = object.get("configVersion").getAsInt();
             res.pluginHash = context.deserialize(object.get("pluginHash"), int[].class);

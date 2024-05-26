@@ -1,5 +1,6 @@
 package mcp.mobius.waila.plugin.core.provider;
 
+import mcp.mobius.waila.api.IBlacklistConfig;
 import mcp.mobius.waila.api.IBlockAccessor;
 import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IDataProvider;
@@ -7,6 +8,7 @@ import mcp.mobius.waila.api.IDataWriter;
 import mcp.mobius.waila.api.IModInfo;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerAccessor;
+import mcp.mobius.waila.api.ITargetRedirector;
 import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.IWailaConfig;
@@ -15,10 +17,22 @@ import mcp.mobius.waila.api.component.ItemComponent;
 import net.minecraft.core.Registry;
 import net.minecraft.world.Nameable;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import org.jetbrains.annotations.Nullable;
 
 public enum BlockProvider implements IBlockComponentProvider, IDataProvider<BlockEntity> {
 
     INSTANCE;
+
+    @Override
+    public @Nullable ITargetRedirector.Result redirect(ITargetRedirector redirect, IBlockAccessor accessor, IPluginConfig config) {
+        var blacklist = IBlacklistConfig.get();
+        if (blacklist.contains(accessor.getBlock())) return redirect.toBehind();
+
+        var blockEntity = accessor.getBlockEntity();
+        if (blockEntity != null && blacklist.contains(blockEntity)) return redirect.toBehind();
+
+        return null;
+    }
 
     @Override
     public ITooltipComponent getIcon(IBlockAccessor accessor, IPluginConfig config) {
