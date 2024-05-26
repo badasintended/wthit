@@ -46,6 +46,9 @@ public class WailaPluginCore implements IWailaPlugin {
         registrar.addComponent(EntityProvider.INSTANCE, BODY, LivingEntity.class, PRIORITY);
         registrar.addComponent(EntityProvider.INSTANCE, TAIL, Entity.class, PRIORITY);
 
+        registrar.addRedirect(BlockProvider.INSTANCE, Block.class, 500);
+        registrar.addRedirect(EntityProvider.INSTANCE, Entity.class, 500);
+
         registrar.addConfig(WailaConstants.CONFIG_SHOW_BLOCK, true);
         registrar.addConfig(WailaConstants.CONFIG_SHOW_FLUID, false);
         registrar.addConfig(WailaConstants.CONFIG_SHOW_ENTITY, true);
