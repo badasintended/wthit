@@ -118,7 +118,7 @@ public class WailaPluginTest implements IWailaPlugin {
             BlockEntityType.BED);
 
         registrar.addBlacklist(9000,
-            EntityType.ARMADILLO,
+            EntityType.CREEPER,
             EntityType.BLAZE);
 
         registrar.removeBlacklist(8900,
