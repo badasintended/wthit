@@ -8,10 +8,13 @@ import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.__internal__.IApiService;
 import mcp.mobius.waila.api.data.EnergyData;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.FurnaceBlock;
 import net.minecraft.world.level.block.entity.BarrelBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 
 @SuppressWarnings("unused")
 public class WailaPluginTest implements IWailaPlugin {
@@ -99,6 +102,39 @@ public class WailaPluginTest implements IWailaPlugin {
 
         registrar.addConfig(RedirectTest.TARGET, RedirectTest.Target.NONE);
         registrar.addRedirect(RedirectTest.INSTANCE, Block.class);
+
+        registrar.addBlacklist(9000,
+            Blocks.GRASS_BLOCK,
+            Blocks.GRANITE);
+
+        registrar.removeBlacklist(8900,
+            Blocks.GRASS_BLOCK);
+
+        registrar.addBlacklist(9000,
+            BlockEntityType.BED,
+            BlockEntityType.BELL);
+
+        registrar.removeBlacklist(8900,
+            BlockEntityType.BED);
+
+        registrar.addBlacklist(9000,
+            EntityType.ARMADILLO,
+            EntityType.BLAZE);
+
+        registrar.removeBlacklist(8900,
+            EntityType.BLAZE);
+
+//        registrar.removeBlacklist(
+//            Blocks.BARRIER,
+//            Blocks.STRUCTURE_VOID);
+//
+//        registrar.removeBlacklist(
+//            EntityType.AREA_EFFECT_CLOUD,
+//            EntityType.EXPERIENCE_ORB,
+//            EntityType.FIREBALL,
+//            EntityType.FIREWORK_ROCKET,
+//            EntityType.INTERACTION,
+//            EntityType.SNOWBALL);
     }
 
 }
