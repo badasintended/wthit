@@ -53,17 +53,10 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
           CURSEFORGE_API: ${{ secrets.CURSEFORGE_API }}
           MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+          MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
+          MAVEN_PASSWORD: ${{ secrets.MAVEN_PASSWORD }}
           CHANGELOG: |
             ${{ fromJSON(steps.parse.outputs.changelog) }}
-      - uses: sylwit/install-b2-cli-action@ae80099fa373ec5aef6fa509aa3012fcdd936b6d
-        with:
-          version: '3.19.1'
-        env:
-          B2_APPLICATION_KEY_ID: ${{ secrets.B2_APPLICATION_KEY_ID }}
-          B2_APPLICATION_KEY: ${{ secrets.B2_APPLICATION_KEY }}
-      - run: |
-          b2 sync --replaceNewer .b2 b2://maven-bai-lol
-          b2 clear-account
       - uses: softprops/action-gh-release@v2
         with:
           name: "[${{ steps.parse.outputs.minecraft }}] ${{ steps.parse.outputs.version }}"
