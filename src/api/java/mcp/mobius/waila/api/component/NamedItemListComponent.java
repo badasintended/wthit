@@ -6,6 +6,7 @@ import java.util.List;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.__internal__.ApiSide;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 
 /**
@@ -14,7 +15,7 @@ import net.minecraft.world.item.ItemStack;
 @ApiSide.ClientOnly
 public class NamedItemListComponent implements ITooltipComponent {
 
-    private static final More MORE = new More();
+    private static final NamedItemComponent MORE = new NamedItemComponent(ItemStack.EMPTY.setHoverName(Component.literal("...")));;
 
     public NamedItemListComponent(List<ItemStack> items, int maxHeight) {
         this.items = items;
@@ -59,18 +60,6 @@ public class NamedItemListComponent implements ITooltipComponent {
             var component = getComponents().get(i);
             var iy = y + (i * NamedItemComponent.HEIGHT);
             component.render(ctx, x, iy, delta);
-        }
-    }
-
-    private static class More extends NamedItemComponent {
-
-        public More() {
-            super(ItemStack.EMPTY);
-        }
-
-        @Override
-        protected String getText() {
-            return "...";
         }
     }
 

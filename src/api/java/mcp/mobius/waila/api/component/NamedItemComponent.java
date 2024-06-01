@@ -30,7 +30,7 @@ public class NamedItemComponent implements ITooltipComponent {
 
     public final ItemStack stack;
 
-    protected String getText() {
+    private String getText() {
         var count = stack.getCount();
         var name = stack.getHoverName().getString();
         return count > 1 ? count + "x " + name : name;
