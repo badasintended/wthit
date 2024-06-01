@@ -11,7 +11,7 @@ import mcp.mobius.waila.api.IDataReader;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.ITooltip;
-import mcp.mobius.waila.api.component.ItemListComponent;
+import mcp.mobius.waila.api.component.NamedItemListComponent;
 import mcp.mobius.waila.api.data.ItemData;
 import mcp.mobius.waila.api.data.ProgressData;
 import mcp.mobius.waila.plugin.extra.data.ItemDataImpl;
@@ -28,7 +28,7 @@ public class ItemProvider extends DataProvider<ItemData, ItemDataImpl> {
     private static final CompoundTag EMPTY = new CompoundTag();
 
     private @Nullable ItemData lastData = null;
-    private @Nullable ItemListComponent lastItemsComponent = null;
+    private @Nullable NamedItemListComponent lastItemsComponent = null;
 
     protected ItemProvider() {
         super(ItemData.ID, ItemData.class, ItemDataImpl.class, ItemDataImpl::new);
@@ -91,7 +91,7 @@ public class ItemProvider extends DataProvider<ItemData, ItemDataImpl> {
             stream = stream.sorted(Comparator.comparingInt(ItemStack::getCount).reversed());
         }
 
-        tooltip.setLine(ItemData.ID, lastItemsComponent = new ItemListComponent(stream.toList(), config.getInt(ItemData.CONFIG_MAX_HEIGHT)));
+        tooltip.setLine(ItemData.ID, lastItemsComponent = new NamedItemListComponent(stream.toList(), config.getInt(ItemData.CONFIG_MAX_HEIGHT)));
     }
 
     private record ItemWithNbt(Item item, CompoundTag tag) {
