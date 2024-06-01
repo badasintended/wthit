@@ -1,6 +1,7 @@
 package mcp.mobius.waila.api.component;
 
 import mcp.mobius.waila.api.ITooltipComponent;
+import mcp.mobius.waila.api.WailaHelper;
 import mcp.mobius.waila.api.__internal__.ApiSide;
 import mcp.mobius.waila.api.__internal__.IApiService;
 import net.minecraft.client.Minecraft;
@@ -33,7 +34,7 @@ public class NamedItemComponent implements ITooltipComponent {
     private String getText() {
         var count = stack.getCount();
         var name = stack.getHoverName().getString();
-        return count > 1 ? count + "x " + name : name;
+        return count > 1 ? WailaHelper.suffix(count) + " " + name : name;
     }
 
     @Override
