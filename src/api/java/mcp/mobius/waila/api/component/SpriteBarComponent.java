@@ -1,6 +1,7 @@
 package mcp.mobius.waila.api.component;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.BufferUploader;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.Tesselator;
@@ -77,7 +78,7 @@ public class SpriteBarComponent implements ITooltipComponent {
         var g = WailaHelper.getGreen(spriteTint);
         var b = WailaHelper.getBlue(spriteTint);
 
-        var buffer = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
+        BufferBuilder buffer = null;
 
         for (var px1 = x; px1 < mx; px1 += regionWidth) {
             var px2 = px1 + regionWidth;
@@ -85,6 +86,7 @@ public class SpriteBarComponent implements ITooltipComponent {
             for (var py1 = y; py1 < my; py1 += regionHeight) {
                 var py2 = py1 + regionHeight;
 
+                if (buffer == null) buffer = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
                 buffer.addVertex(matrices.last().pose(), px1, py2, 0).setUv(u0, v1).setColor(r, g, b, a);
                 buffer.addVertex(matrices.last().pose(), px2, py2, 0).setUv(u1, v1).setColor(r, g, b, a);
                 buffer.addVertex(matrices.last().pose(), px2, py1, 0).setUv(u1, v0).setColor(r, g, b, a);
@@ -92,7 +94,7 @@ public class SpriteBarComponent implements ITooltipComponent {
             }
         }
 
-        BufferUploader.drawWithShader(buffer.buildOrThrow());
+        if (buffer != null) BufferUploader.drawWithShader(buffer.buildOrThrow());
         RenderSystem.disableBlend();
         matrices.popPose();
         ctx.disableScissor();
