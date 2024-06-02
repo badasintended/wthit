@@ -20,6 +20,7 @@
     "BossHealthOverlayAccess",
     "ClientPacketListenerMixin",
     "EditBoxAccess",
+    "GameNarratorAccess",
     "GuiAccess",
     "KeyMappingAccess",
     "MultiPlayerGameModeAccess",
