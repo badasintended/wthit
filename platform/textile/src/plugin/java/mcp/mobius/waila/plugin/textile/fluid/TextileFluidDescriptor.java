@@ -10,6 +10,7 @@ import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
 import net.fabricmc.fabric.api.transfer.v1.fluid.CauldronFluidContent;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
+import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
@@ -40,7 +41,7 @@ public enum TextileFluidDescriptor implements FluidDescriptor<Fluid>, CauldronDe
         double capacity = content.maxLevel * content.amountPerLevel;
 
         return FabricFluidData.of(1)
-            .add(content.fluid, null, stored, capacity);
+            .add(content.fluid, DataComponentPatch.EMPTY, stored, capacity);
     }
 
 }

@@ -6,6 +6,7 @@ import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerAccessor;
 import mcp.mobius.waila.api.data.EnergyData;
 import mcp.mobius.waila.api.data.FluidData;
+import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.material.Fluids;
@@ -43,8 +44,8 @@ public enum ExtraTest implements IDataProvider<ChestBlockEntity> {
             if (tickLava == 250) tickLava = 0;
 
             res.add(FluidData.of(FluidData.Unit.MILLIBUCKETS, 2)
-                .add(Fluids.WATER, null, tickWater * 100.0, 50000.0)
-                .add(Fluids.LAVA, null, tickLava * 100.0, 25000.0));
+                .add(Fluids.WATER, DataComponentPatch.EMPTY, tickWater * 100.0, 50000.0)
+                .add(Fluids.LAVA, DataComponentPatch.EMPTY, tickLava * 100.0, 25000.0));
         });
     }
 
