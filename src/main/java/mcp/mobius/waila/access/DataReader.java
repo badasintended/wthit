@@ -5,9 +5,7 @@ import java.util.Map;
 
 import mcp.mobius.waila.api.IData;
 import mcp.mobius.waila.api.IDataReader;
-import mcp.mobius.waila.registry.Registrar;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 
@@ -48,12 +46,6 @@ public enum DataReader implements IDataReader {
         this.clean = raw == null;
 
         this.typed.clear();
-    }
-
-    public static IData readTypedPacket(RegistryFriendlyByteBuf buf) {
-        var id = buf.readResourceLocation();
-        var serializer = Registrar.get().dataCodecs.get(id);
-        return serializer.decode(buf);
     }
 
     @Override

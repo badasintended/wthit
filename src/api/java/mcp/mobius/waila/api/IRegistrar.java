@@ -323,13 +323,59 @@ public interface IRegistrar {
 
     /**
      * Adds the specified entity types to the default blacklist.
+     *
+     * @param priority the modifier priority, lower number will be called last
      */
-    void addBlacklist(Block... blocks);
+    void addBlacklist(int priority, Block... blocks);
+
+    /**
+     * Adds the specified entity types to the default blacklist.
+     *
+     * @param priority the modifier priority, lower number will be called last
+     */
+    void addBlacklist(int priority, BlockEntityType<?>... blockEntityTypes);
 
     /**
      * Adds the specified entity types to the default blacklist.
      */
-    void addBlacklist(BlockEntityType<?>... blockEntityTypes);
+    default void addBlacklist(Block... blocks) {
+        addBlacklist(DEFAULT_PRIORITY, blocks);
+    }
+
+    /**
+     * Adds the specified entity types to the default blacklist.
+     */
+    default void addBlacklist(BlockEntityType<?>... blockEntityTypes) {
+        addBlacklist(DEFAULT_PRIORITY, blockEntityTypes);
+    }
+
+    /**
+     * Removes the specified entity types to the default blacklist.
+     *
+     * @param priority the modifier priority, lower number will be called last
+     */
+    void removeBlacklist(int priority, Block... blocks);
+
+    /**
+     * Removes the specified entity types to the default blacklist.
+     *
+     * @param priority the modifier priority, lower number will be called last
+     */
+    void removeBlacklist(int priority, BlockEntityType<?>... blockEntityTypes);
+
+    /**
+     * Removes the specified entity types to the default blacklist.
+     */
+    default void removeBlacklist(Block... blocks) {
+        removeBlacklist(DEFAULT_PRIORITY, blocks);
+    }
+
+    /**
+     * Removes the specified entity types to the default blacklist.
+     */
+    default void removeBlacklist(BlockEntityType<?>... blockEntityTypes) {
+        removeBlacklist(DEFAULT_PRIORITY, blockEntityTypes);
+    }
 
     /**
      * Registers an {@link IBlockComponentProvider} instance to allow redirecting the object being displayed.
@@ -474,8 +520,31 @@ public interface IRegistrar {
 
     /**
      * Adds the specified entity types to the default blacklist.
+     *
+     * @param priority the modifier priority, lower number will be called last
      */
-    void addBlacklist(EntityType<?>... entityTypes);
+    void addBlacklist(int priority, EntityType<?>... entityTypes);
+
+    /**
+     * Adds the specified entity types to the default blacklist.
+     */
+    default void addBlacklist(EntityType<?>... entityTypes) {
+        addBlacklist(DEFAULT_PRIORITY, entityTypes);
+    }
+
+    /**
+     * Removes the specified entity types to the default blacklist.
+     *
+     * @param priority the modifier priority, lower number will be called last
+     */
+    void removeBlacklist(int priority, EntityType<?>... entityTypes);
+
+    /**
+     * Removes the specified entity types to the default blacklist.
+     */
+    default void removeBlacklist(EntityType<?>... entityTypes) {
+        removeBlacklist(DEFAULT_PRIORITY, entityTypes);
+    }
 
     /**
      * Registers an {@link IEntityComponentProvider} instance to allow redirecting the object being displayed.

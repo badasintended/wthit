@@ -3,7 +3,6 @@ package mcp.mobius.waila.gui.hud;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.access.ClientAccessor;
-import mcp.mobius.waila.api.IBlacklistConfig;
 import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.ITargetRedirector;
@@ -143,10 +142,6 @@ public class TooltipHandler {
                 return ProcessResult.CONTINUE;
             }
 
-            if (IBlacklistConfig.get().contains(block)) return ProcessResult.CONTINUE;
-
-            if (blockEntity != null && IBlacklistConfig.get().contains(blockEntity)) return ProcessResult.CONTINUE;
-
             var state = ComponentHandler.getOverrideBlock(target);
             if (state == IBlockComponentProvider.EMPTY_BLOCK_STATE) return ProcessResult.CONTINUE;
 
@@ -189,7 +184,6 @@ public class TooltipHandler {
             if (!PluginConfig.CLIENT.getBoolean(WailaConstants.CONFIG_SHOW_ENTITY)) return ProcessResult.CONTINUE;
 
             if (actualEntity == null) return ProcessResult.CONTINUE;
-            if (IBlacklistConfig.get().contains(actualEntity)) return ProcessResult.CONTINUE;
 
             var targetEnt = ComponentHandler.getOverrideEntity(target);
             if (targetEnt == IEntityComponentProvider.EMPTY_ENTITY) return ProcessResult.CONTINUE;
