@@ -18,11 +18,12 @@ public class NamedItemComponent implements ITooltipComponent {
 
     public static final NamedItemComponent EMPTY = new NamedItemComponent(ItemStack.EMPTY);
 
-    private static final Font FONT = Minecraft.getInstance().font;
-    public static final int HEIGHT = FONT.lineHeight;
-
     public NamedItemComponent(ItemStack stack) {
         this.stack = stack;
+
+        var count = stack.getCount();
+        var name = stack.getHoverName().getString();
+        this.label = count > 1 ? WailaHelper.suffix(count) + " " + name : name;
     }
 
     public NamedItemComponent(ItemLike item) {
@@ -30,21 +31,16 @@ public class NamedItemComponent implements ITooltipComponent {
     }
 
     public final ItemStack stack;
-
-    private String getText() {
-        var count = stack.getCount();
-        var name = stack.getHoverName().getString();
-        return count > 1 ? WailaHelper.suffix(count) + " " + name : name;
-    }
+    public final String label;
 
     @Override
     public int getWidth() {
-        return FONT.width(getText()) + 10;
+        return getFont().width(label) + 10;
     }
 
     @Override
     public int getHeight() {
-        return HEIGHT;
+        return getFont().lineHeight;
     }
 
     @Override
@@ -56,7 +52,11 @@ public class NamedItemComponent implements ITooltipComponent {
         ctx.renderItem(stack, 0, 0);
         pose.popPose();
 
-        ctx.drawString(FONT, getText(), x + 10, y, IApiService.INSTANCE.getFontColor());
+        ctx.drawString(getFont(), label, x + 10, y, IApiService.INSTANCE.getFontColor());
+    }
+
+    private Font getFont() {
+        return Minecraft.getInstance().font;
     }
 
 }
