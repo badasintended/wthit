@@ -328,15 +328,14 @@ public class TooltipRenderer {
         }
 
         var narrator = TooltipRenderer.NARRATOR.get();
-        if (narrator.active() || !state.enableTextToSpeech() || Minecraft.getInstance().screen instanceof ChatScreen) {
+        if (!narrator.active() || !state.enableTextToSpeech() || Minecraft.getInstance().screen instanceof ChatScreen) {
             return;
         }
 
         var objectName = TOOLTIP.getLine(WailaConstants.OBJECT_NAME_TAG);
         if (objectName != null && objectName.components.get(0) instanceof WrappedComponent component) {
-            var narrate = component.component.getString();
+            var narrate = component.component.getString().replaceAll("§[a-z0-9]", "");
             if (!lastNarration.equalsIgnoreCase(narrate)) {
-                narrator.clear();
                 narrator.say(narrate, true);
                 lastNarration = narrate;
             }
