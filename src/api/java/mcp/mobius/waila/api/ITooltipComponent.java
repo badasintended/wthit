@@ -1,6 +1,7 @@
 package mcp.mobius.waila.api;
 
 import mcp.mobius.waila.api.__internal__.ApiSide;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -32,7 +33,7 @@ public interface ITooltipComponent {
     /**
      * Renders the component.
      */
-    void render(GuiGraphics ctx, int x, int y, float delta);
+    void render(GuiGraphics ctx, int x, int y, DeltaTracker delta);
 
     /**
      * A component that will grow in size relative to overall tooltip width.

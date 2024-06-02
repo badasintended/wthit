@@ -295,7 +295,7 @@ public class WailaConfig implements IWailaConfig {
                     var json = element.getAsJsonObject();
                     var color = new Color();
                     color.backgroundAlpha = json.has("backgroundAlpha") ? json.getAsJsonPrimitive("backgroundAlpha").getAsInt() : 204;
-                    color.activeTheme = new ResourceLocation(json.getAsJsonPrimitive("activeTheme").getAsString());
+                    color.activeTheme = ResourceLocation.parse(json.getAsJsonPrimitive("activeTheme").getAsString());
                     json.getAsJsonArray("themes").forEach(e -> {
                         ThemeDefinition<?> themeDef = context.deserialize(e, ThemeDefinition.class);
                         color.themes.put(themeDef.id, themeDef);

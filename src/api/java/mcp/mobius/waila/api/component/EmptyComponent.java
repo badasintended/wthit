@@ -2,6 +2,7 @@ package mcp.mobius.waila.api.component;
 
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.__internal__.ApiSide;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 
 /**
@@ -23,7 +24,7 @@ public enum EmptyComponent implements ITooltipComponent {
     }
 
     @Override
-    public void render(GuiGraphics ctx, int x, int y, float delta) {
+    public void render(GuiGraphics ctx, int x, int y, DeltaTracker delta) {
     }
 
 }

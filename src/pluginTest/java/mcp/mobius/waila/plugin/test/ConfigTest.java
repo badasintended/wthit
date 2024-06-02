@@ -11,19 +11,19 @@ public enum ConfigTest implements IBlockComponentProvider {
 
     INSTANCE;
 
-    static final ResourceLocation ENABLED = new ResourceLocation("test:enabled");
+    static final ResourceLocation ENABLED = ResourceLocation.parse("test:enabled");
 
-    static final ResourceLocation BOOL = new ResourceLocation("test:bool");
-    static final ResourceLocation INT = new ResourceLocation("test:int");
-    static final ResourceLocation DOUBLE = new ResourceLocation("test:double");
-    static final ResourceLocation STRING = new ResourceLocation("test:string");
-    static final ResourceLocation ENUM = new ResourceLocation("test:enum");
+    static final ResourceLocation BOOL = ResourceLocation.parse("test:bool");
+    static final ResourceLocation INT = ResourceLocation.parse("test:int");
+    static final ResourceLocation DOUBLE = ResourceLocation.parse("test:double");
+    static final ResourceLocation STRING = ResourceLocation.parse("test:string");
+    static final ResourceLocation ENUM = ResourceLocation.parse("test:enum");
 
-    static final ResourceLocation SYNC_BOOL = new ResourceLocation("test:sync_bool");
-    static final ResourceLocation SYNC_INT = new ResourceLocation("test:sync_int");
-    static final ResourceLocation SYNC_DOUBLE = new ResourceLocation("test:sync_double");
-    static final ResourceLocation SYNC_STRING = new ResourceLocation("test:sync_string");
-    static final ResourceLocation SYNC_ENUM = new ResourceLocation("test:sync_enum");
+    static final ResourceLocation SYNC_BOOL = ResourceLocation.parse("test:sync_bool");
+    static final ResourceLocation SYNC_INT = ResourceLocation.parse("test:sync_int");
+    static final ResourceLocation SYNC_DOUBLE = ResourceLocation.parse("test:sync_double");
+    static final ResourceLocation SYNC_STRING = ResourceLocation.parse("test:sync_string");
+    static final ResourceLocation SYNC_ENUM = ResourceLocation.parse("test:sync_enum");
 
     @Override
     public void appendHead(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {

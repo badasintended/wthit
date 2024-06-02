@@ -3,6 +3,7 @@ package mcp.mobius.waila.api.component;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.__internal__.ApiSide;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.util.Mth;
 
@@ -32,7 +33,7 @@ public class ProgressArrowComponent implements ITooltipComponent {
     }
 
     @Override
-    public void render(GuiGraphics ctx, int x, int y, float delta) {
+    public void render(GuiGraphics ctx, int x, int y, DeltaTracker delta) {
         // Draws the "empty" background arrow
         ctx.blit(WailaConstants.COMPONENT_TEXTURE, x, y, 0, 16, 22, 16);
 

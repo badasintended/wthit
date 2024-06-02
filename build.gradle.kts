@@ -28,7 +28,13 @@ allprojects {
             }
         }
 
-        mavenCentral()
+        mavenCentral {
+            content {
+                excludeGroupByRegex("org.lwjgl")
+            }
+        }
+
+        maven("https://libraries.minecraft.net")
     }
 
     java {

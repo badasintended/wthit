@@ -4,6 +4,7 @@ import java.util.List;
 
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.__internal__.ApiSide;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
@@ -48,7 +49,7 @@ public class ItemListComponent implements ITooltipComponent.HorizontalGrowing {
     }
 
     @Override
-    public void render(GuiGraphics ctx, int x, int y, float delta) {
+    public void render(GuiGraphics ctx, int x, int y, DeltaTracker delta) {
         for (var i = 0; i < items.size(); i++) {
             var item = items.get(i);
             var ix = x + (18 * (i % gridWidth)) + 1;

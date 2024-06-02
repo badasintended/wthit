@@ -10,7 +10,7 @@ public enum ErrorTest implements IBlockComponentProvider {
 
     INSTANCE;
 
-    public static final ResourceLocation ENABLED = new ResourceLocation("test:error.enabled");
+    public static final ResourceLocation ENABLED = ResourceLocation.parse("test:error.enabled");
 
     @Override
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {

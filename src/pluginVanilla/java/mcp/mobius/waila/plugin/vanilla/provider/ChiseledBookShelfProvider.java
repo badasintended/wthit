@@ -33,7 +33,7 @@ public enum ChiseledBookShelfProvider implements IBlockComponentProvider, IDataP
 
     INSTANCE;
 
-    public static final IData.Type<Data> DATA = IData.createType(new ResourceLocation("chiseled_bookshelf"));
+    public static final IData.Type<Data> DATA = IData.createType(ResourceLocation.withDefaultNamespace("chiseled_bookshelf"));
     public static final StreamCodec<RegistryFriendlyByteBuf, Data> DATA_CODEC = StreamCodec.composite(
         ByteBufCodecs.collection(ArrayList::new, ItemStack.OPTIONAL_STREAM_CODEC), Data::items,
         Data::new);

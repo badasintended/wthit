@@ -58,7 +58,7 @@ public class PluginInfo implements IPluginInfo {
 
     public static void register(String modId, String pluginIdStr, Side side, String initializerStr, List<String> required, boolean defaultEnabled, boolean legacy) {
         try {
-            var rl = new ResourceLocation(pluginIdStr);
+            var rl = ResourceLocation.parse(pluginIdStr);
             if (PLUGIN_ID_TO_PLUGIN_INFO.containsKey(rl)) {
                 LOG.error("Duplicate plugin id " + rl);
                 return;

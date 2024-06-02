@@ -151,7 +151,7 @@ public class RegistryFilter<T> implements IRegistryFilter<T> {
                 }
                 case '#' -> {
                     LOG.debug("\tNegate: {}, Tag      : {}", negate, rule);
-                    var tagId = new ResourceLocation(rule.substring(1));
+                    var tagId = ResourceLocation.parse(rule.substring(1));
                     var tag = TagKey.create(registryKey, tagId);
                     rules.add(new Rule<>(negate, it -> it.is(tag)));
                 }
@@ -163,7 +163,7 @@ public class RegistryFilter<T> implements IRegistryFilter<T> {
                 }
                 default -> {
                     LOG.debug("\tNegate: {}, ID       : {}", negate, rule);
-                    rules.add(new Rule<>(negate, it -> it.is(new ResourceLocation(rule))));
+                    rules.add(new Rule<>(negate, it -> it.is(ResourceLocation.parse(rule))));
                 }
             }
         }

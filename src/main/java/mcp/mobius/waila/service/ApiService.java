@@ -31,6 +31,7 @@ import mcp.mobius.waila.registry.RegistryFilter;
 import mcp.mobius.waila.util.DisplayUtil;
 import mcp.mobius.waila.util.Log;
 import mcp.mobius.waila.util.ModInfo;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponents;
@@ -116,7 +117,7 @@ public abstract class ApiService implements IApiService {
     }
 
     @Override
-    public void renderComponent(GuiGraphics ctx, ITooltipComponent component, int x, int y, float delta) {
+    public void renderComponent(GuiGraphics ctx, ITooltipComponent component, int x, int y, DeltaTracker delta) {
         DisplayUtil.renderComponent(ctx, component, x, y, 0, delta);
     }
 

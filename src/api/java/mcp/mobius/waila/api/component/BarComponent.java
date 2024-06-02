@@ -1,6 +1,7 @@
 package mcp.mobius.waila.api.component;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.BufferUploader;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
@@ -9,10 +10,10 @@ import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.WailaHelper;
 import mcp.mobius.waila.api.__internal__.ApiSide;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 
@@ -75,10 +76,10 @@ public class BarComponent implements ITooltipComponent {
     }
 
     @Override
-    public void render(GuiGraphics ctx, int x, int y, float delta) {
+    public void render(GuiGraphics ctx, int x, int y, DeltaTracker delta) {
         renderBar(ctx.pose(), x, y, WIDTH, V0_BG, U1, V1_BG, color);
         renderBar(ctx.pose(), x, y, WIDTH * ratio, V0_FG, U0 + (UV_W * ratio), V1_FG, color);
-        renderText(ctx.pose(), text, x, y);
+        renderText(ctx, text, x, y);
     }
 
     static void renderBar(
@@ -90,7 +91,7 @@ public class BarComponent implements ITooltipComponent {
 
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
-        RenderSystem.setShader(GameRenderer::getPositionColorTexShader);
+        RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
         RenderSystem.setShaderTexture(0, WailaConstants.COMPONENT_TEXTURE);
 
         var a = WailaHelper.getAlpha(tint);
@@ -99,29 +100,26 @@ public class BarComponent implements ITooltipComponent {
         var b = WailaHelper.getBlue(tint);
 
         var tessellator = Tesselator.getInstance();
-        var buffer = tessellator.getBuilder();
+        var buffer = tessellator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
 
-        buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX);
+        buffer.addVertex(matrices.last().pose(), x, y + HEIGHT, 0).setUv(U0, v1).setColor(r, g, b, a);
+        buffer.addVertex(matrices.last().pose(), x + w, y + HEIGHT, 0).setUv(u1, v1).setColor(r, g, b, a);
+        buffer.addVertex(matrices.last().pose(), x + w, y, 0).setUv(u1, v0).setColor(r, g, b, a);
+        buffer.addVertex(matrices.last().pose(), x, y, 0).setUv(U0, v0).setColor(r, g, b, a);
 
-        buffer.vertex(matrices.last().pose(), x, y + HEIGHT, 0).color(r, g, b, a).uv(U0, v1).endVertex();
-        buffer.vertex(matrices.last().pose(), x + w, y + HEIGHT, 0).color(r, g, b, a).uv(u1, v1).endVertex();
-        buffer.vertex(matrices.last().pose(), x + w, y, 0).color(r, g, b, a).uv(u1, v0).endVertex();
-        buffer.vertex(matrices.last().pose(), x, y, 0).color(r, g, b, a).uv(U0, v0).endVertex();
-
-        tessellator.end();
+        BufferUploader.drawWithShader(buffer.buildOrThrow());
         RenderSystem.disableBlend();
         matrices.popPose();
     }
 
-    static void renderText(PoseStack matrices, Component text, int x, int y) {
+    static void renderText(GuiGraphics ctx, Component text, int x, int y) {
         var font = Minecraft.getInstance().font;
         var textWidth = font.width(text);
         var textX = x + Math.max((BarComponent.WIDTH - textWidth) / 2F, 0F);
         float textY = y + 2;
 
-        var textBuf = MultiBufferSource.immediate(Tesselator.getInstance().getBuilder());
-        font.drawInBatch8xOutline(text.getVisualOrderText(), textX, textY, 0xAAAAAA, 0x292929, matrices.last().pose(), textBuf, 0xf000f0);
-        textBuf.endBatch();
+        font.drawInBatch8xOutline(text.getVisualOrderText(), textX, textY, 0xAAAAAA, 0x292929, ctx.pose().last().pose(), ctx.bufferSource(), 0xf000f0);
+        ctx.bufferSource().endBatch();
     }
 
 }

@@ -8,7 +8,7 @@ import org.jetbrains.annotations.ApiStatus;
 
     @ApiStatus.Internal
     static ResourceLocation rl(String path) {
-        return new ResourceLocation(WailaConstants.NAMESPACE + "x", path);
+        return ResourceLocation.fromNamespaceAndPath(WailaConstants.NAMESPACE + "x", path);
     }
 
     private BuiltinDataUtil() {

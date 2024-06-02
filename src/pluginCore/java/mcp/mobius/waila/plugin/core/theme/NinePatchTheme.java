@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.BufferUploader;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
@@ -12,6 +13,7 @@ import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.IThemeAccessor;
 import mcp.mobius.waila.api.IThemeType;
 import mcp.mobius.waila.api.IntFormat;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
@@ -64,7 +66,7 @@ public class NinePatchTheme implements ITheme {
         regionRight = Mth.clamp(regionRight, 0, textureWidth - regionLeft);
 
         if (useResourcePack) {
-            textureId = new ResourceLocation(texture);
+            textureId = ResourceLocation.parse(texture);
         } else {
             try {
                 var image = NativeImage.read(Files.newInputStream(accessor.getPath(texture)));
@@ -93,15 +95,13 @@ public class NinePatchTheme implements ITheme {
     }
 
     @Override
-    public void renderTooltipBackground(GuiGraphics ctx, int x, int y, int width, int height, @Range(from = 0x00, to = 0xFF) int alpha, float delta) {
+    public void renderTooltipBackground(GuiGraphics ctx, int x, int y, int width, int height, @Range(from = 0x00, to = 0xFF) int alpha, DeltaTracker delta) {
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
         RenderSystem.setShaderTexture(0, textureId);
 
-        var tesselator = Tesselator.getInstance();
-        var buf = tesselator.getBuilder();
-        buf.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
+        var buf = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
         var matrix = ctx.pose().last().pose();
 
         // @formatter:off
@@ -166,7 +166,7 @@ public class NinePatchTheme implements ITheme {
             }
         }
 
-        tesselator.end();
+        BufferUploader.drawWithShader(buf.buildOrThrow());
     }
 
     private void patch(BufferBuilder buf, Matrix4f matrix, int x0, int y0, int w, int h, float u0, float u1, float v0, float v1, int alpha) {
@@ -189,10 +189,10 @@ public class NinePatchTheme implements ITheme {
             y1 = y0r;
         }
 
-        buf.vertex(matrix, x0, y1, 0).uv(u0, v1).color(0xFF, 0xFF, 0xFF, alpha).endVertex();
-        buf.vertex(matrix, x1, y1, 0).uv(u1, v1).color(0xFF, 0xFF, 0xFF, alpha).endVertex();
-        buf.vertex(matrix, x1, y0, 0).uv(u1, v0).color(0xFF, 0xFF, 0xFF, alpha).endVertex();
-        buf.vertex(matrix, x0, y0, 0).uv(u0, v0).color(0xFF, 0xFF, 0xFF, alpha).endVertex();
+        buf.addVertex(matrix, x0, y1, 0).setUv(u0, v1).setColor(0xFF, 0xFF, 0xFF, alpha);
+        buf.addVertex(matrix, x1, y1, 0).setUv(u1, v1).setColor(0xFF, 0xFF, 0xFF, alpha);
+        buf.addVertex(matrix, x1, y0, 0).setUv(u1, v0).setColor(0xFF, 0xFF, 0xFF, alpha);
+        buf.addVertex(matrix, x0, y0, 0).setUv(u0, v0).setColor(0xFF, 0xFF, 0xFF, alpha);
     }
 
 }

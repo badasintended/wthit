@@ -64,7 +64,7 @@ public class TooltipHandler {
         var camera = client.cameraEntity;
         if (camera == null) return;
 
-        var frameTime = client.getFrameTime();
+        var frameTime = client.getTimer().getGameTimeDeltaPartialTick(true);
         var pickRange = Math.max(player.blockInteractionRange(), player.entityInteractionRange());
         var results = PickerResults.get();
         Vec3 castOrigin = null;
@@ -103,7 +103,7 @@ public class TooltipHandler {
 
     private static ProcessResult processTarget(HitResult target, Minecraft client, Player player, Vec3 castOrigin, Vec3 castDirection, double pickRange, WailaConfig.General config) {
         var accessor = ClientAccessor.INSTANCE;
-        accessor.set(client.level, player, target, client.cameraEntity, castOrigin, castDirection, pickRange, client.getFrameTime());
+        accessor.set(client.level, player, target, client.cameraEntity, castOrigin, castDirection, pickRange, client.getTimer().getGameTimeDeltaPartialTick(true));
 
         TooltipRenderer.beginBuild(STATE);
 

@@ -30,11 +30,11 @@ public class WailaPluginTest implements IWailaPlugin {
         registrar.addConfig(ConfigTest.ENUM, TooltipPosition.HEAD);
 
         //noinspection OctalInteger
-        registrar.addConfig(new ResourceLocation("test:int_octal"), 0_10122, IntFormat.OCTAL);
-        registrar.addConfig(new ResourceLocation("test:int_binary"), 0b1010, IntFormat.BINARY);
-        registrar.addConfig(new ResourceLocation("test:int_hex"), 0xACA, IntFormat.HEXADECIMAL);
+        registrar.addConfig(ResourceLocation.parse("test:int_octal"), 0_10122, IntFormat.OCTAL);
+        registrar.addConfig(ResourceLocation.parse("test:int_binary"), 0b1010, IntFormat.BINARY);
+        registrar.addConfig(ResourceLocation.parse("test:int_hex"), 0xACA, IntFormat.HEXADECIMAL);
 
-        registrar.addConfig(new ResourceLocation("test:path"), IApiService.INSTANCE.getConfigDir().resolve(WailaConstants.NAMESPACE + "/blacklist.json"));
+        registrar.addConfig(ResourceLocation.parse("test:path"), IApiService.INSTANCE.getConfigDir().resolve(WailaConstants.NAMESPACE + "/blacklist.json"));
 
         registrar.addSyncedConfig(ConfigTest.SYNC_BOOL, true, true);
         registrar.addSyncedConfig(ConfigTest.SYNC_INT, 69, 69);

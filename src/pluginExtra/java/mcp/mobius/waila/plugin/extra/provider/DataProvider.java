@@ -46,7 +46,7 @@ public abstract class DataProvider<A extends IData, I extends A> implements IBlo
         enabledBlockOption = createConfigKey("enabled_block");
         enabledEntityOption = createConfigKey("enabled_entity");
 
-        var tagId = new ResourceLocation(WailaConstants.NAMESPACE, "extra/" + type.id().getPath() + "_blacklist");
+        var tagId = ResourceLocation.fromNamespaceAndPath(WailaConstants.NAMESPACE, "extra/" + type.id().getPath() + "_blacklist");
 
         blacklistConfig = IJsonConfig.of(ExtraBlacklistConfig.class)
             .file(WailaConstants.NAMESPACE + "/extra/" + type.id().getPath() + "_blacklist")
@@ -75,7 +75,7 @@ public abstract class DataProvider<A extends IData, I extends A> implements IBlo
     }
 
     protected final ResourceLocation createConfigKey(String path) {
-        return new ResourceLocation(WailaConstants.NAMESPACE + "x", type.id().getPath() + "." + path);
+        return ResourceLocation.fromNamespaceAndPath(WailaConstants.NAMESPACE + "x", type.id().getPath() + "." + path);
     }
 
     protected void registerAdditions(IRegistrar registrar, int priority) {

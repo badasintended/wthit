@@ -96,7 +96,7 @@ class ThemeEditorScreen extends ConfigScreen {
                 public void setValue(String value) {
                     if (options.save(true)) {
                         super.setValue(value);
-                        type = Registrar.get().themeTypes.get(new ResourceLocation(value));
+                        type = Registrar.get().themeTypes.get(ResourceLocation.parse(value));
                         options.children().removeIf(it -> it.category.equals(I18n.get(Tl.Config.OverlayThemeEditor.ATTRIBUTES)));
                         addTypeProperties(options);
                         options.init();
@@ -178,7 +178,7 @@ class ThemeEditorScreen extends ConfigScreen {
 
     @Override
     protected void renderForeground(GuiGraphics ctx, int rowLeft, int rowWidth, int mouseX, int mouseY, float partialTicks) {
-        TooltipRenderer.render(ctx, partialTicks);
+        TooltipRenderer.render(ctx, minecraft.getTimer());
     }
 
     @Override
@@ -195,9 +195,9 @@ class ThemeEditorScreen extends ConfigScreen {
                 Component.translatable(Tl.Config.MISSING_INPUT),
                 Component.translatable(Tl.Config.OverlayThemeEditor.ID_EMPTY)));
         } else {
-            var id = new ResourceLocation(idVal.getValue());
+            var id = ResourceLocation.parse(idVal.getValue());
             if (id.getNamespace().equals(ResourceLocation.DEFAULT_NAMESPACE) && !idVal.getValue().startsWith(ResourceLocation.DEFAULT_NAMESPACE + ":")) {
-                id = new ResourceLocation("custom", id.getPath());
+                id = ResourceLocation.fromNamespaceAndPath("custom", id.getPath());
             }
 
             parent.addTheme(new ThemeDefinition<>(id, type, false, type2attr.get(type)));

@@ -8,6 +8,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.base.Suppliers;
 import com.mojang.blaze3d.pipeline.MainTarget;
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.BufferUploader;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
@@ -25,6 +26,7 @@ import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.event.EventCanceller;
 import mcp.mobius.waila.mixin.BossHealthOverlayAccess;
 import mcp.mobius.waila.registry.Registrar;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.ChatScreen;
@@ -180,7 +182,7 @@ public class TooltipRenderer {
         state = null;
     }
 
-    public static void render(GuiGraphics ctx, float delta) {
+    public static void render(GuiGraphics ctx, DeltaTracker delta) {
         var client = Minecraft.getInstance();
 
         if (WailaClient.showFps) {
@@ -236,23 +238,20 @@ public class TooltipRenderer {
         var w = client.getWindow().getGuiScaledWidth();
         var h = client.getWindow().getGuiScaledHeight();
 
-        var tesselator = Tesselator.getInstance();
-        var buffer = tesselator.getBuilder();
-
-        buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+        var buffer = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
 
         var pose = ctx.pose().last().pose();
-        buffer.vertex(pose, 0, h, 0).uv(0f, 0f).endVertex();
-        buffer.vertex(pose, w, h, 0).uv(1f, 0f).endVertex();
-        buffer.vertex(pose, w, 0, 0).uv(1f, 1f).endVertex();
-        buffer.vertex(pose, 0, 0, 0).uv(0f, 1f).endVertex();
+        buffer.addVertex(pose, 0, h, 0).setUv(0f, 0f);
+        buffer.addVertex(pose, w, h, 0).setUv(1f, 0f);
+        buffer.addVertex(pose, w, 0, 0).setUv(1f, 1f);
+        buffer.addVertex(pose, 0, 0, 0).setUv(0f, 1f);
 
-        tesselator.end();
+        BufferUploader.drawWithShader(buffer.buildOrThrow());
 
         RenderSystem.disableBlend();
     }
 
-    private static void render0(Minecraft client, GuiGraphics ctx, float delta) {
+    private static void render0(Minecraft client, GuiGraphics ctx, DeltaTracker delta) {
         var profiler = client.getProfiler();
 
         profiler.push("Waila Overlay");

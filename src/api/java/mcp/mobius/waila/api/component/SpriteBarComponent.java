@@ -1,11 +1,13 @@
 package mcp.mobius.waila.api.component;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.BufferUploader;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.WailaHelper;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.GameRenderer;
@@ -54,7 +56,7 @@ public class SpriteBarComponent implements ITooltipComponent {
     }
 
     @Override
-    public void render(GuiGraphics ctx, int x, int y, float delta) {
+    public void render(GuiGraphics ctx, int x, int y, DeltaTracker delta) {
         var matrices = ctx.pose();
 
         BarComponent.renderBar(matrices, x, y, BarComponent.WIDTH, BarComponent.V0_BG, BarComponent.U1, BarComponent.V1_BG, 0xFFAAAAAA);
@@ -62,7 +64,7 @@ public class SpriteBarComponent implements ITooltipComponent {
         matrices.pushPose();
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
-        RenderSystem.setShader(GameRenderer::getPositionColorTexShader);
+        RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
         RenderSystem.setShaderTexture(0, texture);
 
         var mx = (int) (x + BarComponent.WIDTH * ratio);
@@ -75,10 +77,7 @@ public class SpriteBarComponent implements ITooltipComponent {
         var g = WailaHelper.getGreen(spriteTint);
         var b = WailaHelper.getBlue(spriteTint);
 
-        var tessellator = Tesselator.getInstance();
-        var buffer = tessellator.getBuilder();
-
-        buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR_TEX);
+        var buffer = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
 
         for (var px1 = x; px1 < mx; px1 += regionWidth) {
             var px2 = px1 + regionWidth;
@@ -86,19 +85,19 @@ public class SpriteBarComponent implements ITooltipComponent {
             for (var py1 = y; py1 < my; py1 += regionHeight) {
                 var py2 = py1 + regionHeight;
 
-                buffer.vertex(matrices.last().pose(), px1, py2, 0).color(r, g, b, a).uv(u0, v1).endVertex();
-                buffer.vertex(matrices.last().pose(), px2, py2, 0).color(r, g, b, a).uv(u1, v1).endVertex();
-                buffer.vertex(matrices.last().pose(), px2, py1, 0).color(r, g, b, a).uv(u1, v0).endVertex();
-                buffer.vertex(matrices.last().pose(), px1, py1, 0).color(r, g, b, a).uv(u0, v0).endVertex();
+                buffer.addVertex(matrices.last().pose(), px1, py2, 0).setUv(u0, v1).setColor(r, g, b, a);
+                buffer.addVertex(matrices.last().pose(), px2, py2, 0).setUv(u1, v1).setColor(r, g, b, a);
+                buffer.addVertex(matrices.last().pose(), px2, py1, 0).setUv(u1, v0).setColor(r, g, b, a);
+                buffer.addVertex(matrices.last().pose(), px1, py1, 0).setUv(u0, v0).setColor(r, g, b, a);
             }
         }
 
-        tessellator.end();
+        BufferUploader.drawWithShader(buffer.buildOrThrow());
         RenderSystem.disableBlend();
         matrices.popPose();
         ctx.disableScissor();
 
-        BarComponent.renderText(matrices, text, x, y);
+        BarComponent.renderText(ctx, text, x, y);
     }
 
 }

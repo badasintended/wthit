@@ -17,7 +17,7 @@ public enum HitResultServerDependantTest implements IBlockComponentProvider, IDa
 
     INSTANCE;
 
-    static final ResourceLocation ENABLED = new ResourceLocation("test:hit_result.enabled");
+    static final ResourceLocation ENABLED = ResourceLocation.parse("test:hit_result.enabled");
 
     @Override
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {

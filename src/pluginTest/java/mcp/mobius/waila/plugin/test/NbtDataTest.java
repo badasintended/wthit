@@ -16,7 +16,7 @@ public enum NbtDataTest implements IBlockComponentProvider, IDataProvider<Furnac
 
     INSTANCE;
 
-    public static final ResourceLocation ENABLED = new ResourceLocation("test:data.nbt");
+    public static final ResourceLocation ENABLED = ResourceLocation.parse("test:data.nbt");
 
     @Override
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {

@@ -108,7 +108,7 @@ public class WailaConfigScreen extends ConfigScreen {
 
     private ThemeDefinition<?> getTheme() {
         if (theme == null) {
-            theme = ThemeDefinition.getAll().get(new ResourceLocation(themeIdVal.getValue()));
+            theme = ThemeDefinition.getAll().get(ResourceLocation.parse(themeIdVal.getValue()));
         }
         return theme;
     }
@@ -122,7 +122,7 @@ public class WailaConfigScreen extends ConfigScreen {
             }
 
             renderBackground(ctx, mouseX, mouseY, partialTicks);
-            TooltipRenderer.render(ctx, partialTicks);
+            TooltipRenderer.render(ctx, minecraft.getTimer());
         } else {
             TooltipRenderer.resetState();
             f1held = false;
@@ -337,7 +337,7 @@ public class WailaConfigScreen extends ConfigScreen {
             super(Tl.Config.OVERLAY_THEME,
                 ThemeDefinition.getAll().values().stream().map(t -> t.id.toString()).sorted(String::compareToIgnoreCase).toArray(String[]::new),
                 get().getOverlay().getColor().getActiveTheme().toString(),
-                val -> get().getOverlay().getColor().applyTheme(new ResourceLocation(val)),
+                val -> get().getOverlay().getColor().applyTheme(ResourceLocation.parse(val)),
                 false);
 
             this.editButton = createButton(0, 0, 40, 20, Component.translatable(Tl.Config.EDIT), button ->
@@ -349,7 +349,7 @@ public class WailaConfigScreen extends ConfigScreen {
         }
 
         private void reloadEditButton() {
-            editButton.active = !ThemeDefinition.getAll().get(new ResourceLocation(getValue())).builtin;
+            editButton.active = !ThemeDefinition.getAll().get(ResourceLocation.parse(getValue())).builtin;
         }
 
         @Override

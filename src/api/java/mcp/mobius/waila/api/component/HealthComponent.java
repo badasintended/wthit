@@ -2,6 +2,7 @@ package mcp.mobius.waila.api.component;
 
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.__internal__.ApiSide;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -12,11 +13,11 @@ import net.minecraft.util.Mth;
 @ApiSide.ClientOnly
 public class HealthComponent implements ITooltipComponent {
 
-    private static final ResourceLocation SPRITE_CONTAINER = new ResourceLocation("hud/heart/container");
-    private static final ResourceLocation SPRITE_NORMAL_FULL = new ResourceLocation("hud/heart/full");
-    private static final ResourceLocation SPRITE_NORMAL_HALF = new ResourceLocation("hud/heart/half");
-    private static final ResourceLocation SPRITE_ABSORBING_FULL = new ResourceLocation("hud/heart/absorbing_full");
-    private static final ResourceLocation SPRITE_ABSORBING_HALF = new ResourceLocation("hud/heart/absorbing_half");
+    private static final ResourceLocation SPRITE_CONTAINER = ResourceLocation.withDefaultNamespace("hud/heart/container");
+    private static final ResourceLocation SPRITE_NORMAL_FULL = ResourceLocation.withDefaultNamespace("hud/heart/full");
+    private static final ResourceLocation SPRITE_NORMAL_HALF = ResourceLocation.withDefaultNamespace("hud/heart/half");
+    private static final ResourceLocation SPRITE_ABSORBING_FULL = ResourceLocation.withDefaultNamespace("hud/heart/absorbing_full");
+    private static final ResourceLocation SPRITE_ABSORBING_HALF = ResourceLocation.withDefaultNamespace("hud/heart/absorbing_half");
 
     /**
      * @param health     the health point, 1 full icon represent 2 hp
@@ -47,7 +48,7 @@ public class HealthComponent implements ITooltipComponent {
     }
 
     @Override
-    public void render(GuiGraphics ctx, int x, int y, float delta) {
+    public void render(GuiGraphics ctx, int x, int y, DeltaTracker delta) {
         var filled = health / 2 - 1;
         var half = filled + health % 2;
 

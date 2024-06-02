@@ -117,7 +117,7 @@ public class WailaConstants {
     public static final ResourceLocation THEME_TYPE_NINE_PATCH = id("nine_patch");
 
     private static ResourceLocation id(String path) {
-        return new ResourceLocation(NAMESPACE, path);
+        return ResourceLocation.fromNamespaceAndPath(NAMESPACE, path);
     }
 
 }

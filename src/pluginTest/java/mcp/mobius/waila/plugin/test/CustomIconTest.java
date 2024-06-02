@@ -13,7 +13,7 @@ public enum CustomIconTest implements IBlockComponentProvider {
 
     INSTANCE;
 
-    public static final ResourceLocation ENABLED = new ResourceLocation("test:custom_icon.enabled");
+    public static final ResourceLocation ENABLED = ResourceLocation.parse("test:custom_icon.enabled");
 
     @Nullable
     @Override

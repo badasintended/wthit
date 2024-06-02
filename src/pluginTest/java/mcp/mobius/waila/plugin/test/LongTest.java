@@ -11,8 +11,8 @@ public enum LongTest implements IBlockComponentProvider {
 
     INSTANCE;
 
-    static final ResourceLocation ENABLED = new ResourceLocation("test:long.enabled");
-    static final ResourceLocation WIDTH = new ResourceLocation("test:long.width");
+    static final ResourceLocation ENABLED = ResourceLocation.parse("test:long.enabled");
+    static final ResourceLocation WIDTH = ResourceLocation.parse("test:long.width");
 
     @Override
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {

@@ -27,38 +27,38 @@ public abstract class WailaPluginTextile implements IWailaPlugin {
         registrar.addBlockData(ItemStorageProvider.INSTANCE, BlockEntity.class, 2000);
         registrar.addBlockData(FluidStorageProvider.INSTANCE, BlockEntity.class, 2000);
 
-        registrar.addToolType(new ResourceLocation("pickaxe"), IToolType.builder()
+        registrar.addToolType(ResourceLocation.withDefaultNamespace("pickaxe"), IToolType.builder()
             .lowestTierItem(Items.WOODEN_PICKAXE)
             .blockTag(BlockTags.MINEABLE_WITH_PICKAXE)
             .itemTag(ItemTags.PICKAXES)
             .build());
 
-        registrar.addToolType(new ResourceLocation("shovel"), IToolType.builder()
+        registrar.addToolType(ResourceLocation.withDefaultNamespace("shovel"), IToolType.builder()
             .lowestTierItem(Items.WOODEN_SHOVEL)
             .blockTag(BlockTags.MINEABLE_WITH_SHOVEL)
             .itemTag(ItemTags.SHOVELS)
             .build());
 
-        registrar.addToolType(new ResourceLocation("axe"), IToolType.builder()
+        registrar.addToolType(ResourceLocation.withDefaultNamespace("axe"), IToolType.builder()
             .lowestTierItem(Items.WOODEN_AXE)
             .blockTag(BlockTags.MINEABLE_WITH_AXE)
             .itemTag(ItemTags.AXES)
             .build());
 
-        registrar.addToolType(new ResourceLocation("hoe"), IToolType.builder()
+        registrar.addToolType(ResourceLocation.withDefaultNamespace("hoe"), IToolType.builder()
             .lowestTierItem(Items.WOODEN_HOE)
             .blockTag(BlockTags.MINEABLE_WITH_HOE)
             .itemTag(ItemTags.HOES)
             .build());
 
-        registrar.addToolType(new ResourceLocation("sword"), IToolType.builder()
+        registrar.addToolType(ResourceLocation.withDefaultNamespace("sword"), IToolType.builder()
             .lowestTierItem(Items.WOODEN_SWORD)
             .blockTag(BlockTags.SWORD_EFFICIENT)
             .itemTag(ItemTags.SWORDS)
             .build());
 
         // TODO
-        registrar.addToolType(new ResourceLocation("shears"), IToolType.builder()
+        registrar.addToolType(ResourceLocation.withDefaultNamespace("shears"), IToolType.builder()
             .lowestTierItem(Items.SHEARS)
             .blockPredicate(it -> /*it.is(BlockTags.SHEARS_MINEABLE) ||*/ it.getBlock() instanceof IShearable || it.getBlock() instanceof DoublePlantBlock)
             .itemTag(ConventionalItemTags.SHEARS)

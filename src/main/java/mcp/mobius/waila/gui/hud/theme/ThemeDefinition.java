@@ -66,7 +66,7 @@ public final class ThemeDefinition<T extends ITheme> {
             var object = json.getAsJsonObject();
 
             var typeId = object.has("type")
-                ? new ResourceLocation(object.get("type").getAsString())
+                ? ResourceLocation.parse(object.get("type").getAsString())
                 : WailaConstants.THEME_TYPE_GRADIENT;
 
             var type = Registrar.get().themeTypes.get(typeId);
@@ -101,7 +101,7 @@ public final class ThemeDefinition<T extends ITheme> {
         @Override
         public ThemeDefinition<?> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
             var object = json.getAsJsonObject();
-            var id = new ResourceLocation(object.get("id").getAsString());
+            var id = ResourceLocation.parse(object.get("id").getAsString());
 
             return deserialize(id, json, false);
         }

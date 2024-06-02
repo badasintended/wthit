@@ -12,7 +12,7 @@ public enum OffsetTest implements IBlockComponentProvider {
 
     INSTANCE;
 
-    public static final ResourceLocation ENABLED = new ResourceLocation("test:offset.enabled");
+    public static final ResourceLocation ENABLED = ResourceLocation.parse("test:offset.enabled");
 
     @Override
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {

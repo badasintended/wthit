@@ -63,7 +63,7 @@ public class ConfigSyncCommonS2CPacket implements Packet {
             var namespace = buf.readUtf();
             var groupLen = buf.readVarInt();
             for (var j = 0; j < groupLen; j++) {
-                var id = new ResourceLocation(namespace, buf.readUtf());
+                var id = ResourceLocation.fromNamespaceAndPath(namespace, buf.readUtf());
                 var type = buf.readByte();
                 switch (type) {
                     case CONFIG_BOOL -> map.put(id, buf.readBoolean());

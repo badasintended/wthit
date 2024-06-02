@@ -6,11 +6,13 @@ import java.util.Random;
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.BufferUploader;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.ITooltipComponent;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -49,7 +51,7 @@ public final class DisplayUtil {
         // @formatter:on
     }
 
-    public static void renderComponent(GuiGraphics ctx, ITooltipComponent component, int x, int y, int cw, float delta) {
+    public static void renderComponent(GuiGraphics ctx, ITooltipComponent component, int x, int y, int cw, DeltaTracker delta) {
         component.render(ctx, x, y, delta);
 
         if (WailaClient.showComponentBounds) {
@@ -59,16 +61,14 @@ public final class DisplayUtil {
 
             RenderSystem.setShader(GameRenderer::getPositionColorShader);
 
-            var tesselator = Tesselator.getInstance();
-            var buf = tesselator.getBuilder();
-            buf.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
+            var buf = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
             var bx = Mth.floor(x * scale + 0.5);
             var by = Mth.floor(y * scale + 0.5);
             var bw = Mth.floor((cw == 0 ? component.getWidth() : cw) * scale + 0.5);
             var bh = Mth.floor(component.getHeight() * scale + 0.5);
             var color = (0xFF << 24) + Mth.hsvToRgb(RANDOM.nextFloat(), RANDOM.nextFloat(), 1f);
             renderRectBorder(ctx.pose().last().pose(), buf, bx, by, bw, bh, 1, color, color);
-            tesselator.end();
+            BufferUploader.drawWithShader(buf.buildOrThrow());
 
             ctx.pose().popPose();
         }
@@ -85,10 +85,10 @@ public final class DisplayUtil {
         var eg = FastColor.ARGB32.green(end) / 255.0F;
         var eb = FastColor.ARGB32.blue(end) / 255.0F;
 
-        buf.vertex(matrix, x, y, 0).color(sr, sg, sb, sa).endVertex();
-        buf.vertex(matrix, x, y + h, 0).color(er, eg, eb, ea).endVertex();
-        buf.vertex(matrix, x + w, y + h, 0).color(er, eg, eb, ea).endVertex();
-        buf.vertex(matrix, x + w, y, 0).color(sr, sg, sb, sa).endVertex();
+        buf.addVertex(matrix, x, y, 0).setColor(sr, sg, sb, sa);
+        buf.addVertex(matrix, x, y + h, 0).setColor(er, eg, eb, ea);
+        buf.addVertex(matrix, x + w, y + h, 0).setColor(er, eg, eb, ea);
+        buf.addVertex(matrix, x + w, y, 0).setColor(sr, sg, sb, sa);
     }
 
     public static int getAlphaFromPercentage(int percentage) {

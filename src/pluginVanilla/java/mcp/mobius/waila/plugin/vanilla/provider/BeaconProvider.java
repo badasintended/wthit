@@ -26,7 +26,7 @@ public enum BeaconProvider implements IBlockComponentProvider, IDataProvider<Bea
 
     INSTANCE;
 
-    public static final IData.Type<Data> DATA = IData.createType(new ResourceLocation("beacon"));
+    public static final IData.Type<Data> DATA = IData.createType(ResourceLocation.withDefaultNamespace("beacon"));
     public static final StreamCodec<RegistryFriendlyByteBuf, Data> DATA_CODEC = StreamCodec.composite(
         WailaHelper.nullable(ByteBufCodecs.holderRegistry(Registries.MOB_EFFECT)), Data::primary,
         WailaHelper.nullable(ByteBufCodecs.holderRegistry(Registries.MOB_EFFECT)), Data::secondary,

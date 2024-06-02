@@ -17,6 +17,7 @@ import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.IThemeType;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.IWailaConfig;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
@@ -50,7 +51,7 @@ public interface IApiService {
 
     IWailaConfig getConfig();
 
-    void renderComponent(GuiGraphics ctx, ITooltipComponent component, int x, int y, float delta);
+    void renderComponent(GuiGraphics ctx, ITooltipComponent component, int x, int y, DeltaTracker delta);
 
     int getPairComponentColonOffset();
 

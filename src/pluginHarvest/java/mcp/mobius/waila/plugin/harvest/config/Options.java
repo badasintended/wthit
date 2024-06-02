@@ -12,7 +12,7 @@ public class Options {
     // @formatter:on
 
     public static ResourceLocation rl(String path) {
-        return new ResourceLocation("harvest", path);
+        return ResourceLocation.fromNamespaceAndPath("harvest", path);
     }
 
 }

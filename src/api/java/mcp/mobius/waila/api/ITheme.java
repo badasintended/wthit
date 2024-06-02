@@ -1,6 +1,7 @@
 package mcp.mobius.waila.api;
 
 import mcp.mobius.waila.api.__internal__.ApiSide;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Range;
@@ -46,7 +47,7 @@ public interface ITheme {
      * @param alpha  the background transparancy of the hud, ranged from {@code 0} to {@code 255}
      * @param delta  frame time delta
      */
-    void renderTooltipBackground(GuiGraphics ctx, int x, int y, int width, int height, @Range(from = 0x00, to = 0xFF) int alpha, float delta);
+    void renderTooltipBackground(GuiGraphics ctx, int x, int y, int width, int height, @Range(from = 0x00, to = 0xFF) int alpha, DeltaTracker delta);
 
     @ApiSide.ClientOnly
     @ApiStatus.Experimental

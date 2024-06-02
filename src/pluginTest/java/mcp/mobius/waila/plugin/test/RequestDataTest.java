@@ -20,14 +20,14 @@ public enum RequestDataTest implements IBlockComponentProvider, IDataProvider<Ba
 
     INSTANCE;
 
-    public static final ResourceLocation ENABLED = new ResourceLocation("test:data.ctx");
-    public static final ResourceLocation RAW = new ResourceLocation("test:data.ctx.raw");
-    public static final ResourceLocation TYPED = new ResourceLocation("test:data.ctx.typed");
+    public static final ResourceLocation ENABLED = ResourceLocation.parse("test:data.ctx");
+    public static final ResourceLocation RAW = ResourceLocation.parse("test:data.ctx.raw");
+    public static final ResourceLocation TYPED = ResourceLocation.parse("test:data.ctx.typed");
 
-    public static final IData.Type<Ctx> CTX = IData.createType(new ResourceLocation("test:data.ctx.ctx"));
+    public static final IData.Type<Ctx> CTX = IData.createType(ResourceLocation.parse("test:data.ctx.ctx"));
     public static final StreamCodec<ByteBuf, Ctx> CTX_CODEC = ByteBufCodecs.STRING_UTF8.map(Ctx::new, Ctx::msg);
 
-    public static final IData.Type<Data> DATA = IData.createType(new ResourceLocation("test:data.ctx.data"));
+    public static final IData.Type<Data> DATA = IData.createType(ResourceLocation.parse("test:data.ctx.data"));
     public static final StreamCodec<ByteBuf, Data> DATA_CODEC = ByteBufCodecs.STRING_UTF8.map(Data::new, Data::msg);
 
     @Override

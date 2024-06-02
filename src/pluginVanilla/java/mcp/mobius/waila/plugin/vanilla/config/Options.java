@@ -78,14 +78,14 @@ public final class Options {
         .put(HORSE_JUMP_HEIGHT     , rl("attribute.horse_jump_height"))
         .put(HORSE_SPEED           , rl("attribute.horse_speed"))
         .put(PANDA_GENES           , rl("attribute.panda_genes"))
-        .put(EFFECT_BEACON        , rl("attribute.beacon_effects"))
-        .put(EFFECT_MOB           , rl("attribute.mob_effects"))
-        .put(EFFECT_HIDDEN_MOB    , rl("attribute.hidden_mob_effects"))
+        .put(EFFECT_BEACON         , rl("attribute.beacon_effects"))
+        .put(EFFECT_MOB            , rl("attribute.mob_effects"))
+        .put(EFFECT_HIDDEN_MOB     , rl("attribute.hidden_mob_effects"))
         .build();
     // @formatter:on
 
     private static ResourceLocation rl(String rl) {
-        return new ResourceLocation(rl);
+        return ResourceLocation.withDefaultNamespace(rl);
     }
 
 }

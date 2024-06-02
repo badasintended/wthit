@@ -17,10 +17,10 @@ public enum EventListenerTest implements IEventListener {
 
     INSTANCE;
 
-    static final ResourceLocation HANDLE_TOOLTIP = new ResourceLocation("test:event.handle_tooltip");
-    static final ResourceLocation BEFORE_RENDER = new ResourceLocation("test:event.before_render");
-    static final ResourceLocation AFTER_RENDER = new ResourceLocation("test:event.after_render");
-    static final ResourceLocation ITEM_MOD_NAME = new ResourceLocation("test:event.item_mod_name");
+    static final ResourceLocation HANDLE_TOOLTIP = ResourceLocation.parse("test:event.handle_tooltip");
+    static final ResourceLocation BEFORE_RENDER = ResourceLocation.parse("test:event.before_render");
+    static final ResourceLocation AFTER_RENDER = ResourceLocation.parse("test:event.after_render");
+    static final ResourceLocation ITEM_MOD_NAME = ResourceLocation.parse("test:event.item_mod_name");
 
     @Override
     public void onHandleTooltip(ITooltip tooltip, ICommonAccessor accessor, IPluginConfig config) {

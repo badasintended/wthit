@@ -29,7 +29,7 @@ public class EnergyProvider extends DataProvider<EnergyData, EnergyDataImpl> {
 
     private static final String INFINITE = "∞";
 
-    private static final ResourceLocation INFINITE_TAG_ID = new ResourceLocation(WailaConstants.NAMESPACE, "extra/infinite_energy");
+    private static final ResourceLocation INFINITE_TAG_ID = ResourceLocation.fromNamespaceAndPath(WailaConstants.NAMESPACE, "extra/infinite_energy");
     private static final TagKey<Block> INFINITE_BLOCK_TAG = TagKey.create(Registries.BLOCK, INFINITE_TAG_ID);
     private static final TagKey<BlockEntityType<?>> INFINITE_BLOCK_ENTITY_TAG = TagKey.create(Registries.BLOCK_ENTITY_TYPE, INFINITE_TAG_ID);
     private static final TagKey<EntityType<?>> INFINITE_ENTITY_TAG = TagKey.create(Registries.ENTITY_TYPE, INFINITE_TAG_ID);

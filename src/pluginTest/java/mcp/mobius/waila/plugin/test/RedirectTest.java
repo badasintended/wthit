@@ -12,7 +12,7 @@ public enum RedirectTest implements IBlockComponentProvider {
 
     INSTANCE;
 
-    public static final ResourceLocation TARGET = new ResourceLocation("test:redirect.target");
+    public static final ResourceLocation TARGET = ResourceLocation.parse("test:redirect.target");
 
     public enum Target {
         NONE, SELF, BEHIND, HIT, NOWHERE

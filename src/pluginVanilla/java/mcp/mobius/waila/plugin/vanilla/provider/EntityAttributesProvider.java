@@ -26,8 +26,8 @@ public enum EntityAttributesProvider implements IEntityComponentProvider, IDataP
 
     INSTANCE;
 
-    private static final ResourceLocation SPRITE_HEART = new ResourceLocation("hud/heart/full");
-    private static final ResourceLocation SPRITE_ARMOR = new ResourceLocation("hud/armor_full");
+    private static final ResourceLocation SPRITE_HEART = ResourceLocation.withDefaultNamespace("hud/heart/full");
+    private static final ResourceLocation SPRITE_ARMOR = ResourceLocation.withDefaultNamespace("hud/armor_full");
 
     private static final DecimalFormat DECIMAL = new DecimalFormat("0.##");
 

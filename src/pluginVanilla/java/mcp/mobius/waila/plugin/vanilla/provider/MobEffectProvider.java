@@ -27,7 +27,7 @@ public enum MobEffectProvider implements IEntityComponentProvider, IDataProvider
 
     INSTANCE;
 
-    public static final IData.Type<Data> DATA = IData.createType(new ResourceLocation("mob_effects"));
+    public static final IData.Type<Data> DATA = IData.createType(ResourceLocation.withDefaultNamespace("mob_effects"));
     public static final StreamCodec<RegistryFriendlyByteBuf, Data> DATA_CODEC = StreamCodec.composite(
         ByteBufCodecs.collection(ArrayList::new, MobEffectInstance.STREAM_CODEC), Data::list,
         Data::new);

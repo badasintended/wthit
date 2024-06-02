@@ -12,7 +12,7 @@ public enum OverrideTest implements IBlockComponentProvider {
 
     INSTANCE;
 
-    static final ResourceLocation MOD_NAME = new ResourceLocation("test:override_mod_name");
+    static final ResourceLocation MOD_NAME = ResourceLocation.parse("test:override_mod_name");
 
     @Override
     public void appendTail(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {

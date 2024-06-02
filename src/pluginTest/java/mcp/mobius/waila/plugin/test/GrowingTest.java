@@ -6,6 +6,7 @@ import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.WailaConstants;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
 
@@ -13,7 +14,7 @@ public enum GrowingTest implements IBlockComponentProvider {
 
     INSTANCE;
 
-    public static final ResourceLocation ENABLED = new ResourceLocation("test:grow");
+    public static final ResourceLocation ENABLED = ResourceLocation.parse("test:grow");
 
     @Override
     public void appendHead(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
@@ -65,7 +66,7 @@ public enum GrowingTest implements IBlockComponentProvider {
         }
 
         @Override
-        public void render(GuiGraphics ctx, int x, int y, float delta) {
+        public void render(GuiGraphics ctx, int x, int y, DeltaTracker delta) {
             ctx.fill(x, y, x + width, y + 10, color);
         }
 

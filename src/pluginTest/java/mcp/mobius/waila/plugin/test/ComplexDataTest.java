@@ -20,9 +20,9 @@ public enum ComplexDataTest implements IBlockComponentProvider, IDataProvider<Ch
 
     INSTANCE;
 
-    public static final ResourceLocation ENABLED = new ResourceLocation("test:data.complex");
-    public static final ResourceLocation BLOCK = new ResourceLocation("test:data.complex.block");
-    public static final ResourceLocation MULTIPLE_ADDITION = new ResourceLocation("test:data.complex.multiple_addition");
+    public static final ResourceLocation ENABLED = ResourceLocation.parse("test:data.complex");
+    public static final ResourceLocation BLOCK = ResourceLocation.parse("test:data.complex.block");
+    public static final ResourceLocation MULTIPLE_ADDITION = ResourceLocation.parse("test:data.complex.multiple_addition");
 
     public static final IData.Type<Data> DATA = IData.createType(ENABLED);
     public static final StreamCodec<RegistryFriendlyByteBuf, Data> DATA_CODEC = StreamCodec.composite(

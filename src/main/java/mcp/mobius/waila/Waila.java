@@ -53,7 +53,7 @@ public abstract class Waila {
         .build();
 
     public static ResourceLocation id(String path) {
-        return new ResourceLocation(WailaConstants.NAMESPACE, path);
+        return ResourceLocation.fromNamespaceAndPath(WailaConstants.NAMESPACE, path);
     }
 
     protected static void onServerStopped() {
