@@ -2,6 +2,7 @@ package mcp.mobius.waila.gui.hud;
 
 import java.awt.Rectangle;
 import java.util.Iterator;
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
 import com.google.common.base.Preconditions;
@@ -12,7 +13,6 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
-import com.mojang.text2speech.Narrator;
 import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.access.ClientAccessor;
 import mcp.mobius.waila.api.ITheme;
@@ -25,6 +25,7 @@ import mcp.mobius.waila.api.component.WrappedComponent;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.event.EventCanceller;
 import mcp.mobius.waila.mixin.BossHealthOverlayAccess;
+import mcp.mobius.waila.mixin.GameNarratorAccess;
 import mcp.mobius.waila.mixin.MinecraftAccess;
 import mcp.mobius.waila.registry.Registrar;
 import net.minecraft.client.Minecraft;
@@ -42,7 +43,6 @@ public class TooltipRenderer {
 
     private static final Supplier<Rectangle> RENDER_RECT = Suppliers.memoize(Rectangle::new);
     private static final Supplier<Rectangle> RECT = Suppliers.memoize(Rectangle::new);
-    private static final Supplier<Narrator> NARRATOR = Suppliers.memoize(Narrator::getNarrator);
 
     private static boolean started;
     private static String lastNarration = "";
@@ -106,10 +106,10 @@ public class TooltipRenderer {
             }
         }
 
-        narrateObjectName();
-
         var client = Minecraft.getInstance();
         var window = client.getWindow();
+
+        narrateObjectName(client);
 
         var scale = state.getScale();
 
@@ -330,12 +330,12 @@ public class TooltipRenderer {
         profiler.pop();
     }
 
-    private static void narrateObjectName() {
+    private static void narrateObjectName(Minecraft client) {
         if (!state.render()) {
             return;
         }
 
-        var narrator = TooltipRenderer.NARRATOR.get();
+        var narrator = ((GameNarratorAccess) client.getNarrator()).wthit_narrator();
         if (!narrator.active() || !state.enableTextToSpeech() || Minecraft.getInstance().screen instanceof ChatScreen) {
             return;
         }
@@ -344,7 +344,7 @@ public class TooltipRenderer {
         if (objectName != null && objectName.components.get(0) instanceof WrappedComponent component) {
             var narrate = component.component.getString().replaceAll("§[a-z0-9]", "");
             if (!lastNarration.equalsIgnoreCase(narrate)) {
-                narrator.say(narrate, true);
+                CompletableFuture.runAsync(() -> narrator.say(narrate, true));
                 lastNarration = narrate;
             }
         }

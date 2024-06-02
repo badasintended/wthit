@@ -17,6 +17,7 @@
     "BossHealthOverlayAccess",
     "ClientPacketListenerMixin",
     "EditBoxAccess",
+    "GameNarratorAccess",
     "KeyMappingAccess",
     "MinecraftAccess",
     "MultiPlayerGameModeAccess",
