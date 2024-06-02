@@ -352,6 +352,7 @@
   "config.waila.plugin_wailax.item.enabled_entity"             : "Show Entity Item Contents",
   "config.waila.plugin_wailax.item.nbt"                        : "Sync NBT Data",
   "config.waila.plugin_wailax.item.max_height"                 : "Max Height",
+  "config.waila.plugin_wailax.item.show_names"                 : "Show Item Names",
   "config.waila.plugin_wailax.item.sort_by_count"              : "Sort by Count",
   "config.waila.plugin_wailax.item.blacklist"                  : "Item Contents Blacklist",
   "config.waila.plugin_wailax.fluid"                           : "Fluid",

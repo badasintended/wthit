@@ -24,6 +24,7 @@ public abstract class ItemData implements IData {
 
     public static final ResourceLocation CONFIG_SYNC_NBT = BuiltinDataUtil.rl("item.nbt");
     public static final ResourceLocation CONFIG_MAX_HEIGHT = BuiltinDataUtil.rl("item.max_height");
+    public static final ResourceLocation CONFIG_SHOW_NAMES = BuiltinDataUtil.rl("item.show_names");
     public static final ResourceLocation CONFIG_SORT_BY_COUNT = BuiltinDataUtil.rl("item.sort_by_count");
 
     /**
