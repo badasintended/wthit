@@ -4,9 +4,12 @@ import java.util.List;
 
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.__internal__.ApiSide;
+import mcp.mobius.waila.buildconst.Tl;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Component that renders items that dynamically grow based on available space.
@@ -40,6 +43,19 @@ public class ItemListComponent implements ITooltipComponent.HorizontalGrowing {
         gridWidth = grownWidth / 18;
         gridHeight = items.isEmpty() ? 0 : Math.min(Mth.positiveCeilDiv(items.size(), gridWidth), maxHeight);
         maxIndex = gridWidth * gridHeight - 1;
+    }
+
+    @Override
+    public @Nullable Component getNarration() {
+        if (items.isEmpty()) return null;
+
+        var narration = Component.empty();
+        for (var item : items) {
+            narration.append(Component.translatable(Tl.Tts.Component.ITEM, item.getCount(), item.getDisplayName()));
+            narration.append("\n");
+        }
+        narration.getSiblings().removeLast();
+        return narration;
     }
 
     @Override

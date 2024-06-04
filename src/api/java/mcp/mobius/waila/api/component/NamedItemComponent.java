@@ -4,11 +4,14 @@ import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.WailaHelper;
 import mcp.mobius.waila.api.__internal__.ApiSide;
 import mcp.mobius.waila.api.__internal__.IApiService;
+import mcp.mobius.waila.buildconst.Tl;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Component that renders an {@link ItemStack} with its name.
@@ -41,6 +44,11 @@ public class NamedItemComponent implements ITooltipComponent {
     @Override
     public int getHeight() {
         return getFont().lineHeight;
+    }
+
+    @Override
+    public @Nullable Component getNarration() {
+        return Component.translatable(Tl.Tts.Component.ITEM, stack.getCount(), stack.getDisplayName());
     }
 
     @Override

@@ -2,9 +2,12 @@ package mcp.mobius.waila.api.component;
 
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.__internal__.ApiSide;
+import mcp.mobius.waila.buildconst.Tl;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Component that renders an armor bar.
@@ -37,6 +40,11 @@ public class ArmorComponent implements ITooltipComponent {
     @Override
     public int getHeight() {
         return (Mth.positiveCeilDiv(iconCount, lineWidth) * 3) + 6;
+    }
+
+    @Override
+    public @Nullable Component getNarration() {
+        return Component.translatable(Tl.Tts.Component.ARMOR, armor);
     }
 
     @Override

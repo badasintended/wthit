@@ -12,6 +12,7 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Component that renders a bar with a texture as the foreground.
@@ -51,6 +52,11 @@ public class SpriteBarComponent implements ITooltipComponent {
     @Override
     public int getHeight() {
         return BarComponent.HEIGHT;
+    }
+
+    @Override
+    public @Nullable Component getNarration() {
+        return text;
     }
 
     @Override

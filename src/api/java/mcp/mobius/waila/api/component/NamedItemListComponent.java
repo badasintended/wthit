@@ -9,7 +9,9 @@ import mcp.mobius.waila.api.__internal__.IApiService;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Component that renders items with their names.
@@ -54,6 +56,21 @@ public class NamedItemListComponent implements ITooltipComponent {
             height += getFont().lineHeight;
         }
         return height;
+    }
+
+    @Override
+    public @Nullable Component getNarration() {
+        if (components.isEmpty()) return null;
+
+        var narration = Component.empty();
+        for (var component : components) {
+            var childNarration = component.getNarration();
+            if (childNarration == null) continue;
+            narration.append(childNarration);
+            narration.append("\n");
+        }
+        narration.getSiblings().removeLast();
+        return narration;
     }
 
     @Override

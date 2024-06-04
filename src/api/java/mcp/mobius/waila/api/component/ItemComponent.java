@@ -3,11 +3,14 @@ package mcp.mobius.waila.api.component;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.WailaHelper;
 import mcp.mobius.waila.api.__internal__.ApiSide;
+import mcp.mobius.waila.buildconst.Tl;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Component that renders an {@link ItemStack}.
@@ -35,6 +38,11 @@ public class ItemComponent implements ITooltipComponent {
     @Override
     public int getHeight() {
         return stack.isEmpty() ? 0 : 18;
+    }
+
+    @Override
+    public @Nullable Component getNarration() {
+        return Component.translatable(Tl.Tts.Component.ITEM, stack.getCount(), stack.getDisplayName());
     }
 
     @Override

@@ -87,6 +87,10 @@
   "tooltip.waila.harvest.tier.diamond"                         : "Diamond",
   "tooltip.waila.harvest.tier.netherite"                       : "Netherite",
 
+  "tts.waila.component.armor"                                  : "Armor: %s",
+  "tts.waila.component.health"                                 : "Health: %s/%s",
+  "tts.waila.component.item"                                   : "%s of %s",
+
   "gui.waila.configuration"                                    : "%s Configuration",
   "gui.waila.waila_settings"                                   : "%s Settings",
 

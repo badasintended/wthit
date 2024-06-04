@@ -2,9 +2,12 @@ package mcp.mobius.waila.api.component;
 
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.__internal__.ApiSide;
+import mcp.mobius.waila.buildconst.Tl;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Component that renders a health bar.
@@ -26,12 +29,13 @@ public class HealthComponent implements ITooltipComponent {
      */
     public HealthComponent(float health, float maxHealth, int maxPerLine, boolean absorption) {
         this.health = Mth.ceil(health);
+        this.maxHealth = Mth.ceil(maxHealth);
         this.iconCount = Mth.positiveCeilDiv(Mth.ceil(Math.max(health, maxHealth)), 2);
         this.lineWidth = Math.min(iconCount, maxPerLine);
         this.absorption = absorption;
     }
 
-    private final int health;
+    private final int health, maxHealth;
     private final int iconCount;
     private final int lineWidth;
     private final boolean absorption;
@@ -44,6 +48,11 @@ public class HealthComponent implements ITooltipComponent {
     @Override
     public int getHeight() {
         return (Mth.positiveCeilDiv(iconCount, lineWidth) * 3) + 6;
+    }
+
+    @Override
+    public @Nullable Component getNarration() {
+        return Component.translatable(Tl.Tts.Component.HEALTH, health, maxHealth);
     }
 
     @Override

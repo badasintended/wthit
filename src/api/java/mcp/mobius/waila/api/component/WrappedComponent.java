@@ -9,6 +9,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Component that renders a vanilla {@link Component}.
@@ -34,6 +35,11 @@ public class WrappedComponent implements ITooltipComponent {
     @Override
     public int getHeight() {
         return getFont().lineHeight;
+    }
+
+    @Override
+    public @Nullable Component getNarration() {
+        return component;
     }
 
     @Override

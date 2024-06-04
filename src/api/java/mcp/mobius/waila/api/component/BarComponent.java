@@ -15,6 +15,7 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Component that renders a colored bar.
@@ -72,6 +73,11 @@ public class BarComponent implements ITooltipComponent {
     @Override
     public int getHeight() {
         return HEIGHT;
+    }
+
+    @Override
+    public @Nullable Component getNarration() {
+        return text;
     }
 
     @Override

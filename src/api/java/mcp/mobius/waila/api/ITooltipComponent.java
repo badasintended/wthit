@@ -2,7 +2,9 @@ package mcp.mobius.waila.api;
 
 import mcp.mobius.waila.api.__internal__.ApiSide;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * The base type of all Waila tooltip components.
@@ -33,6 +35,13 @@ public interface ITooltipComponent {
      * Renders the component.
      */
     void render(GuiGraphics ctx, int x, int y, float delta);
+
+    /**
+     * Returns the message that will be read out loud when TTS is enabled.
+     */
+    default @Nullable Component getNarration() {
+        return null;
+    }
 
     /**
      * A component that will grow in size relative to overall tooltip width.

@@ -20,7 +20,6 @@ import mcp.mobius.waila.api.IWailaConfig.Overlay.Position.Align;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.component.EmptyComponent;
 import mcp.mobius.waila.api.component.PairComponent;
-import mcp.mobius.waila.api.component.WrappedComponent;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.event.EventCanceller;
 import mcp.mobius.waila.mixin.BossHealthOverlayAccess;
@@ -43,6 +42,7 @@ public class TooltipRenderer {
     private static final Supplier<Rectangle> RECT = Suppliers.memoize(Rectangle::new);
 
     private static boolean started;
+    private static StringBuilder narrationBuilder = new StringBuilder();
     private static String lastNarration = "";
     private static ITooltipComponent icon = EmptyComponent.INSTANCE;
     private static int topOffset;
@@ -60,6 +60,7 @@ public class TooltipRenderer {
         started = true;
         TooltipRenderer.state = state;
         TOOLTIP.clear();
+        narrationBuilder = new StringBuilder();
         icon = EmptyComponent.INSTANCE;
         topOffset = 0;
         colonOffset = 0;
@@ -83,6 +84,11 @@ public class TooltipRenderer {
         }
 
         for (var component : line.components) {
+            if (state.enableTextToSpeech() && !WailaConstants.MOD_NAME_TAG.equals(line.tag)) {
+                var narration = component.getNarration();
+                if (narration != null) narrationBuilder.append("\n").append(narration.getString().replaceAll("§[a-z0-9]", ""));
+            }
+
             if (component instanceof PairComponent pair) {
                 colonOffset = Math.max(pair.key.getWidth(), colonOffset);
                 break;
@@ -332,13 +338,10 @@ public class TooltipRenderer {
             return;
         }
 
-        var objectName = TOOLTIP.getLine(WailaConstants.OBJECT_NAME_TAG);
-        if (objectName != null && objectName.components.get(0) instanceof WrappedComponent component) {
-            var narrate = component.component.getString().replaceAll("§[a-z0-9]", "");
-            if (!lastNarration.equalsIgnoreCase(narrate)) {
-                CompletableFuture.runAsync(() -> narrator.say(narrate, true));
-                lastNarration = narrate;
-            }
+        var narration = narrationBuilder.toString();
+        if (!lastNarration.equalsIgnoreCase(narration)) {
+            CompletableFuture.runAsync(() -> narrator.say(narration, true));
+            lastNarration = narration;
         }
     }
 

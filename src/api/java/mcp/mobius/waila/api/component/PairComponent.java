@@ -7,6 +7,7 @@ import mcp.mobius.waila.api.__internal__.IApiService;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Component that renders key-value pair that would be aligned at the colon.
@@ -36,6 +37,17 @@ public class PairComponent implements ITooltipComponent {
     @Override
     public int getHeight() {
         return height;
+    }
+
+    @Override
+    public @Nullable Component getNarration() {
+        var keyNarration = key.getNarration();
+        var valueNarration = value.getNarration();
+        if (keyNarration != null) {
+            if (valueNarration != null) return keyNarration.copy().append(valueNarration);
+            else return keyNarration;
+        }
+        return valueNarration;
     }
 
     @Override
