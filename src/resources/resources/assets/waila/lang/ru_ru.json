@@ -352,6 +352,7 @@
   "config.waila.plugin_wailax.item.enabled_entity"             : "Содержимое сущностей",
   "config.waila.plugin_wailax.item.nbt"                        : "Синхронизировать NBT данные",
   "config.waila.plugin_wailax.item.max_height"                 : "Максимальная высота",
+
   "config.waila.plugin_wailax.item.sort_by_count"              : "Сортировать по количеству",
   "config.waila.plugin_wailax.item.blacklist"                  : "Черный список",
   "config.waila.plugin_wailax.fluid"                           : "Жидкости",

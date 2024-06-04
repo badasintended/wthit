@@ -353,6 +353,7 @@
   "config.waila.plugin_wailax.item.nbt"                        : "Synka NBT-data",
   "config.waila.plugin_wailax.item.max_height"                 : "Max. höjd",
 
+
   "config.waila.plugin_wailax.item.blacklist"                  : "Svartlista för föremålsinnehåll",
   "config.waila.plugin_wailax.fluid"                           : "Vätska",
   "config.waila.plugin_wailax.fluid.enabled_block"             : "Visa blockvätskeinnehåll",

@@ -353,6 +353,7 @@
   "config.waila.plugin_wailax.item.nbt"                        : "同步NBT数据",
   "config.waila.plugin_wailax.item.max_height"                 : "最大高度",
 
+
   "config.waila.plugin_wailax.item.blacklist"                  : "物品内容黑名单",
   "config.waila.plugin_wailax.fluid"                           : "流体",
   "config.waila.plugin_wailax.fluid.enabled_block"             : "显示方块流体内容",
