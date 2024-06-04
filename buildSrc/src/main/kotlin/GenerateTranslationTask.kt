@@ -33,7 +33,7 @@ abstract class GenerateTranslationTask : DefaultTask() {
 
     @TaskAction
     fun generate() {
-        val json = JsonParser.parseReader(input.get().reader()) as JsonObject
+        val json = JsonParser.parseString(input.get().readText()) as JsonObject
 
         val types = hashMapOf<String, TypeSpec.Builder>()
 
