@@ -1,12 +1,9 @@
-import java.text.SimpleDateFormat
-import java.util.*
-
 plugins {
-    id("net.minecraftforge.gradle") version "6.0.21"
+    id("net.minecraftforge.gradle") version "6.0.24"
     id("org.spongepowered.mixin") version "0.7.38"
 }
 
-setupPlatform()
+setupPlatform(setRuntimeClasspath = false)
 
 dependencies {
     minecraft("net.minecraftforge:forge:${rootProp["minecraft"]}-${rootProp["forge"]}")
@@ -14,7 +11,7 @@ dependencies {
     implementation("org.jetbrains:annotations:19.0.0")
     annotationProcessor("org.spongepowered:mixin:0.8.5:processor")
 
-    runtimeOnly(fg.deobf("lol.bai:badpackets:forge-${rootProp["badpackets"]}"))
+    runtimeOnly("lol.bai:badpackets:forge-${rootProp["badpackets"]}")
 //    runtimeOnly(fg.deobf("dev.architectury:architectury-forge:${rootProp["architectury"]}"))
 //    runtimeOnly(fg.deobf("me.shedaniel.cloth:cloth-config-forge:${rootProp["clothConfig"]}"))
 
@@ -31,24 +28,46 @@ dependencies {
             runtimeOnly(fg.deobf("mezz.jei:jei-${mc}-forge:${jei}"))
         }
     }
+
+    implementation("net.sf.jopt-simple:jopt-simple:5.0.4") { version { strictly("5.0.4") } }
 }
 
 setupStub()
 
 sourceSets {
-    // hack to make forgegradle happy
-    rootProject.sourceSets.forEach {
-        if (findByName(it.name) == null) {
-            create(it.name) {
-                java.setSrcDirs(emptyList<Any>())
-                resources.setSrcDirs(emptyList<Any>())
-            }
-        }
+    val main by getting
+    val run by creating {
+        java.setSrcDirs(emptyList<Any>())
+        resources.setSrcDirs(emptyList<Any>())
+
+        compileClasspath += main.compileClasspath + rootProject.sourceSets.main.get().compileClasspath
+        runtimeClasspath += main.runtimeClasspath
+
+        val dir = layout.buildDirectory.dir("run")
+        java.destinationDirectory = dir
+        output.setResourcesDir(dir)
     }
+}
+
+tasks.named<JavaCompile>("compileRunJava") {
+    val excluded = setOf("run", "stub", "test")
+
+    sourceSets.filterNot { excluded.contains(it.name) }.forEach { source(it.allJava) }
+    rootProject.sourceSets.filterNot { excluded.contains(it.name) }.forEach { source(it.allJava) }
+}
+
+tasks.named<ProcessResources>("processRunResources") {
+    val excluded = setOf("run", "stub", "test")
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    sourceSets.filterNot { excluded.contains(it.name) }.forEach { from(it.resources) }
+    rootProject.sourceSets.filterNot { excluded.contains(it.name) }.forEach { from(it.resources) }
 }
 
 minecraft {
     mappings("official", rootProp["minecraft"])
+    reobf = false
+
     runs {
         create("server")
         create("client") {
@@ -57,11 +76,9 @@ minecraft {
 
         configureEach {
             workingDirectory(file("run/${namer.determineName(this)}"))
-            ideaModule("${rootProject.name}.${project.name}.main")
+            ideaModule("${rootProject.name}.${project.name}.run")
 
-            source(sourceSets["main"])
-            source(sourceSets["plugin"])
-            rootProject.sourceSets.forEach { source(it) }
+            source(sourceSets["run"])
         }
     }
 }
@@ -71,27 +88,18 @@ mixin {
     config("wthit.mixins.json")
 }
 
-tasks.processResources {
+tasks.jar {
+    manifest.attributes(mapOf(
+        "MixinConfigs" to "wthit.mixins.json"
+    ))
+}
+
+tasks.withType<ProcessResources> {
     inputs.property("version", project.version)
 
     filesMatching("META-INF/mods.toml") {
         expand("version" to project.version)
     }
-}
-
-tasks.jar {
-    manifest.attributes(
-        "Specification-Title" to "WAILA",
-        "Specification-Vendor" to "ProfMobius",
-        "Specification-Version" to "1",
-        "Implementation-Title" to rootProject.name,
-        "Implementation-Version" to rootProject.version,
-        "Implementation-Vendor" to "deirn, TehNut, ProfMobius",
-        "Implementation-Timestamp" to SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").format(Date()),
-        "Automatic-Module-Name" to "mcp.mobius.waila"
-    )
-
-    finalizedBy("reobfJar")
 }
 
 afterEvaluate {

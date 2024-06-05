@@ -21,6 +21,7 @@
     "ClientPacketListenerMixin",
     "EditBoxAccess",
     "GameNarratorAccess",
+    "GuiMixin",
     "KeyMappingAccess",
     "MultiPlayerGameModeAccess",
     "PlayerTabOverlayAccess"

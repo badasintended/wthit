@@ -2,7 +2,6 @@ package mcp.mobius.waila.forge;
 
 import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.WailaConstants;
-import mcp.mobius.waila.gui.hud.TooltipRenderer;
 import mcp.mobius.waila.gui.hud.theme.BuiltinThemeLoader;
 import mcp.mobius.waila.gui.screen.HomeScreen;
 import mcp.mobius.waila.network.Packets;
@@ -12,7 +11,6 @@ import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.RegisterClientCommandsEvent;
 import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
-import net.minecraftforge.client.event.RenderGuiEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -52,11 +50,6 @@ public class ForgeWailaClient extends WailaClient {
         @SubscribeEvent
         static void registerClientCommands(RegisterClientCommandsEvent event) {
             new ForgeClientCommand().register(event.getDispatcher());
-        }
-
-        @SubscribeEvent
-        static void renderGui(RenderGuiEvent.Post event) {
-            TooltipRenderer.render(event.getGuiGraphics(), event.getPartialTick());
         }
 
         @SubscribeEvent

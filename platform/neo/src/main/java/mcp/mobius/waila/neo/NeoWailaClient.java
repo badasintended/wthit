@@ -2,7 +2,6 @@ package mcp.mobius.waila.neo;
 
 import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.WailaConstants;
-import mcp.mobius.waila.gui.hud.TooltipRenderer;
 import mcp.mobius.waila.gui.hud.theme.BuiltinThemeLoader;
 import mcp.mobius.waila.gui.screen.HomeScreen;
 import mcp.mobius.waila.network.Packets;
@@ -18,7 +17,6 @@ import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.RegisterClientCommandsEvent;
 import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
-import net.neoforged.neoforge.client.event.RenderGuiEvent;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 
@@ -52,11 +50,6 @@ public class NeoWailaClient extends WailaClient {
         @SubscribeEvent
         static void registerClientCommands(RegisterClientCommandsEvent event) {
             new NeoClientCommand().register(event.getDispatcher());
-        }
-
-        @SubscribeEvent
-        static void renderGui(RenderGuiEvent.Post event) {
-            TooltipRenderer.render(event.getGuiGraphics(), event.getPartialTick());
         }
 
         @SubscribeEvent

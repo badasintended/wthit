@@ -4,7 +4,7 @@ import org.gradle.api.tasks.bundling.Jar
 import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.kotlin.dsl.*
 
-fun Project.setupPlatform() {
+fun Project.setupPlatform(setRuntimeClasspath: Boolean = true) {
     val rootSourceSets = rootProject.extensions.getByType<SourceSetContainer>()
     val sourceSets = extensions.getByType<SourceSetContainer>()
 
@@ -25,10 +25,13 @@ fun Project.setupPlatform() {
             resources.srcDir(rootProject.file("src/resources/resources"))
             rootSourceSets.forEach {
                 compileClasspath += it.output
-                runtimeClasspath += it.output
+                if (setRuntimeClasspath) runtimeClasspath += it.output
             }
-            runtimeClasspath += api.output
-            runtimeClasspath += plugin.output
+
+            if (setRuntimeClasspath) {
+                runtimeClasspath += api.output
+                runtimeClasspath += plugin.output
+            }
         }
     }
 

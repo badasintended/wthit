@@ -3,10 +3,11 @@ package mcp.mobius.waila.api.forge;
 import mcp.mobius.waila.api.data.FluidData;
 import mcp.mobius.waila.api.data.FluidData.PlatformDependant;
 import mcp.mobius.waila.api.data.FluidData.PlatformTranslator;
-import net.minecraft.nbt.CompoundTag;
+import net.minecraft.core.component.DataComponentPatch;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.fluids.FluidStack;
-import org.jetbrains.annotations.Nullable;
 
 /**
  * Forge-specific helper for creating {@link FluidData}.
@@ -45,8 +46,11 @@ public final class ForgeFluidData {
             }
 
             @Override
-            public @Nullable CompoundTag nbt(FluidStack t) {
-                return t.getTag();
+            public DataComponentPatch data(FluidStack t) {
+                var nbt = t.getTag();
+                return nbt != null
+                    ? DataComponentPatch.builder().set(DataComponents.CUSTOM_DATA, CustomData.of(nbt)).build()
+                    : DataComponentPatch.EMPTY;
             }
 
             @Override

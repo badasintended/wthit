@@ -27,7 +27,7 @@ platform("mojmap")
 
 //platform("bukkit")
 platform("fabric")
-//platform("forge")
+platform("forge")
 platform("neo")
 platform("textile")
 //platform("quilt")

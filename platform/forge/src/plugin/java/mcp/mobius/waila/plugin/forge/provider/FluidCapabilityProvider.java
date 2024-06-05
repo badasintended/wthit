@@ -15,7 +15,7 @@ public enum FluidCapabilityProvider implements IDataProvider<BlockEntity> {
 
     @Override
     public void appendData(IDataWriter data, IServerAccessor<BlockEntity> accessor, IPluginConfig config) {
-        data.add(FluidData.class, res ->
+        data.add(FluidData.TYPE, res ->
             accessor.getTarget().getCapability(ForgeCapabilities.FLUID_HANDLER).ifPresent(handler -> {
                 var size = handler.getTanks();
                 var fluidData = ForgeFluidData.of(size);
