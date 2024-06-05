@@ -1,5 +1,18 @@
-11.x - 1.20.6 - dev/master - java 21
+12.x - 1.21-pre3 - dev/master - java 21
+=======================================
+12.0.0   - Updated to 1.21-pre3
+         - [API] Removed previously deprecated APIs
+         - [API] Added `NamedItemComponent` and `NamedItemListComponent` that show item alongside its name inline (#267)
+         - Fixed TTS not working
+         - Changed item tooltip to show as named item list for a small amount of types, default to 3
+           - Can be changed to the previous behavior in the plugin config
+
+11.x - 1.20.6 - dev/1.20.6 - java 21
 ====================================
+11.3.0   - [API] Added `NamedItemComponent` and `NamedItemListComponent` that show item alongside its name inline (#267)
+         - Fixed TTS not working
+         - Changed item tooltip to show as named item list for a small amount of types, default to 3
+           - Can be changed to the previous behavior in the plugin config
 11.2.0   - [API] Added API to remove objects from the default blacklist
          - Adjusted blacklist implementation so that plugins can bypass it
 11.1.6   - Fixed disconnect when looking to beacon (#263)
@@ -21,6 +34,10 @@
 
 10.x - 1.20.4 - dev/1.20.4 - java 17
 ====================================
+10.8.0   - [API] Added `NamedItemComponent` and `NamedItemListComponent` that show item alongside its name inline (#267)
+         - Fixed TTS not working
+         - Changed item tooltip to show as named item list for a small amount of types, default to 3
+           - Can be changed to the previous behavior in the plugin config
 10.7.0   - [API] Added API to remove objects from the default blacklist
          - Adjusted blacklist implementation so that plugins can bypass it
 10.6.0   - [API] Added version range support to plugin dependency requirement in `waila_plugins.json`
@@ -55,6 +72,10 @@
 
 9.x - 1.20.2 - dev/1.20.2 - java 17
 ===================================
+9.9.0    - [API] Added `NamedItemComponent` and `NamedItemListComponent` that show item alongside its name inline (#267)
+         - Fixed TTS not working
+         - Changed item tooltip to show as named item list for a small amount of types, default to 3
+           - Can be changed to the previous behavior in the plugin config
 9.8.0    - [API] Added API to remove objects from the default blacklist
          - Adjusted blacklist implementation so that plugins can bypass it
 9.7.0    - [API] Added version range support to plugin dependency requirement in `waila_plugins.json`
@@ -100,6 +121,10 @@
 
 8.x - 1.20.1 - dev/1.20.1 - java 17
 ===================================
+8.12.0   - [API] Added `NamedItemComponent` and `NamedItemListComponent` that show item alongside its name inline (#267)
+         - Fixed TTS not working
+         - Changed item tooltip to show as named item list for a small amount of types, default to 3
+           - Can be changed to the previous behavior in the plugin config
 8.11.0   - [API] Added API to remove objects from the default blacklist
          - Adjusted blacklist implementation so that plugins can bypass it
 8.10.0   - [API] Added version range support to plugin dependency requirement in `waila_plugins.json`
@@ -305,6 +330,10 @@
 
 5.x - 1.19.2 - dev/1.19.2 - java 17
 ===================================
+5.27.0   - [API] Added `NamedItemComponent` and `NamedItemListComponent` that show item alongside its name inline (#267)
+         - Fixed TTS not working
+         - Changed item tooltip to show as named item list for a small amount of types, default to 3
+           - Can be changed to the previous behavior in the plugin config
 5.26.0   - [API] Added API to remove objects from the default blacklist
          - Adjusted blacklist implementation so that plugins can bypass it
 5.25.0   - [API] Added version range support to plugin dependency requirement in `waila_plugins.json`
