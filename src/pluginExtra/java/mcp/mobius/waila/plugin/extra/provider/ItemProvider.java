@@ -11,7 +11,9 @@ import mcp.mobius.waila.api.IDataReader;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.ITooltip;
+import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.component.ItemListComponent;
+import mcp.mobius.waila.api.component.NamedItemListComponent;
 import mcp.mobius.waila.api.data.ItemData;
 import mcp.mobius.waila.api.data.ProgressData;
 import mcp.mobius.waila.plugin.extra.data.ItemDataImpl;
@@ -27,7 +29,7 @@ public class ItemProvider extends DataProvider<ItemData, ItemDataImpl> {
     public static final ItemProvider INSTANCE = new ItemProvider();
 
     private @Nullable ItemData lastData = null;
-    private @Nullable ItemListComponent lastItemsComponent = null;
+    private @Nullable ITooltipComponent lastItemsComponent = null;
 
     protected ItemProvider() {
         super(ItemData.TYPE, ItemDataImpl.CODEC);
@@ -36,6 +38,7 @@ public class ItemProvider extends DataProvider<ItemData, ItemDataImpl> {
     @Override
     protected void registerAdditions(IRegistrar registrar, int priority) {
         registrar.addSyncedConfig(ItemData.CONFIG_SYNC_NBT, true, false);
+        registrar.addConfig(ItemData.CONFIG_DISPLAY_MODE, ItemData.ItemDisplayMode.DYNAMIC);
         registrar.addConfig(ItemData.CONFIG_MAX_HEIGHT, 3);
         registrar.addConfig(ItemData.CONFIG_SORT_BY_COUNT, true);
     }
@@ -91,7 +94,18 @@ public class ItemProvider extends DataProvider<ItemData, ItemDataImpl> {
             stream = stream.sorted(Comparator.comparingInt(ItemStack::getCount).reversed());
         }
 
-        tooltip.setLine(ItemData.ID, lastItemsComponent = new ItemListComponent(stream.toList(), config.getInt(ItemData.CONFIG_MAX_HEIGHT)));
+        var list = stream.toList();
+        var maxHeight = config.getInt(ItemData.CONFIG_MAX_HEIGHT);
+
+        lastItemsComponent = switch (config.<ItemData.ItemDisplayMode>getEnum(ItemData.CONFIG_DISPLAY_MODE)) {
+            case DYNAMIC -> list.size() <= maxHeight
+                ? new NamedItemListComponent(list, maxHeight)
+                : new ItemListComponent(list, maxHeight);
+            case GRID -> new ItemListComponent(list, maxHeight);
+            case LIST -> new NamedItemListComponent(list, maxHeight);
+        };
+
+        tooltip.setLine(ItemData.ID, lastItemsComponent);
     }
 
     private record ItemWithNbt(Item item, DataComponentPatch tag) {

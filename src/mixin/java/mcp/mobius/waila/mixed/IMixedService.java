@@ -1,6 +1,7 @@
 package mcp.mobius.waila.mixed;
 
 import mcp.mobius.waila.api.__internal__.Internals;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.RegistryAccess;
 
 public interface IMixedService {
@@ -10,5 +11,7 @@ public interface IMixedService {
     void attachRegistryFilter(RegistryAccess registryAccess);
 
     void onServerLogin();
+
+    void onGuiRender(GuiGraphics ctx, float tickDelta);
 
 }

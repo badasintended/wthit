@@ -14,7 +14,7 @@ public enum ItemCapabilityProvider implements IDataProvider<BlockEntity> {
 
     @Override
     public void appendData(IDataWriter data, IServerAccessor<BlockEntity> accessor, IPluginConfig config) {
-        data.add(ItemData.class, res ->
+        data.add(ItemData.TYPE, res ->
             accessor.getTarget().getCapability(ForgeCapabilities.ITEM_HANDLER).ifPresent(handler ->
                 res.add(ItemData.of(config).getter(handler::getStackInSlot, handler.getSlots()))));
     }

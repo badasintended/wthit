@@ -1,5 +1,7 @@
 package mcp.mobius.waila.api.data;
 
+import java.util.Objects;
+
 import com.google.common.base.Preconditions;
 import mcp.mobius.waila.api.IData;
 import mcp.mobius.waila.api.__internal__.ApiSide;
@@ -171,6 +173,9 @@ public abstract class FluidData implements IData {
      * @param capacity the maximum capacity of this slot, in the specified unit
      */
     public FluidData add(Fluid fluid, DataComponentPatch data, double stored, double capacity) {
+        Objects.requireNonNull(fluid, "Fluid can't be null");
+        Objects.requireNonNull(data, "Data can't be null, use EMPTY");
+
         capacity = Math.max(capacity, 0.0);
         stored = Mth.clamp(stored, 0.0, capacity);
         if (capacity == 0) capacity = Double.POSITIVE_INFINITY;

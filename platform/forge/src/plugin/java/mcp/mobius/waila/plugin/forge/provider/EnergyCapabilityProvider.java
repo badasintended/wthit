@@ -14,7 +14,7 @@ public enum EnergyCapabilityProvider implements IDataProvider<BlockEntity> {
 
     @Override
     public void appendData(IDataWriter data, IServerAccessor<BlockEntity> accessor, IPluginConfig config) {
-        data.add(EnergyData.class, res ->
+        data.add(EnergyData.TYPE, res ->
             accessor.getTarget().getCapability(ForgeCapabilities.ENERGY).ifPresent(storage ->
                 res.add(EnergyData.of(storage.getEnergyStored(), storage.getMaxEnergyStored()))));
     }

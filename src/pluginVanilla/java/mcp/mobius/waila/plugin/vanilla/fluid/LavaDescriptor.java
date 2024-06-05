@@ -6,6 +6,7 @@ import mcp.mobius.waila.api.data.FluidData.FluidDescription;
 import mcp.mobius.waila.api.data.FluidData.FluidDescriptionContext;
 import mcp.mobius.waila.api.data.FluidData.FluidDescriptor;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
@@ -27,7 +28,7 @@ public enum LavaDescriptor implements FluidDescriptor<FlowingFluid>, CauldronDes
     @Override
     public FluidData getCauldronFluidData(BlockState state) {
         return FluidData.of(FluidData.Unit.MILLIBUCKETS, 1)
-            .add(Fluids.LAVA, null, 1000, 1000);
+            .add(Fluids.LAVA, DataComponentPatch.EMPTY, 1000, 1000);
     }
 
 }
