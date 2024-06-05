@@ -6,9 +6,6 @@
 import com.google.gson.Gson
 import org.kohsuke.github.GitHubBuilder
 import java.io.File
-import kotlin.reflect.full.memberProperties
-
-val script = this
 
 class Environment {
     val github = Github()
@@ -130,14 +127,12 @@ env.github.workspace.resolve("CHANGELOG.txt").reader().forEachLine l@{ line ->
     }
 }
 
-class Output {
-    val empty = script.branches.isEmpty().toString()
-    val branches = script.branches.keys.sorted().joinToString(separator = "\", \"", prefix = "[\"", postfix = "\"]") { script.branches[it]!! }
-    val changelogs = Gson().toJson(script.changelogs)!!
-}
+val output = mapOf(
+    "empty" to branches.isEmpty().toString(),
+    "branches" to branches.keys.sorted().joinToString(separator = "\", \"", prefix = "[\"", postfix = "\"]") { branches[it]!! },
+    "changelogs" to Gson().toJson(changelogs),
+)
 
-val output = Output()
-
-Output::class.memberProperties.forEach { property ->
-    env.github.output.appendText("${property.name}=${property.get(output)}\n")
+output.forEach { (key, value) ->
+    env.github.output.appendText("${key}=${value}\n")
 }

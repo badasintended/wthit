@@ -5,9 +5,6 @@
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import java.io.File
-import kotlin.reflect.full.memberProperties
-
-val script = this
 
 class Environment {
     val githubOutput = File(System.getenv("GITHUB_OUTPUT"))
@@ -26,18 +23,16 @@ class Changelog(
 val env = Environment()
 val changelog = env.changelogs[env.branch]!!
 
-class Output {
-    val version = script.changelog.version
-    val java = script.changelog.java
-    val minecraft = script.changelog.minecraft
-    val prerelease = env.branch == "dev/snapshot"
-    val changelog = Gson().toJson(
-        "${script.changelog.changelog}\n_Full changelog can be seen at <https://raw.githubusercontent.com/badasintended/wthit/dev/master/CHANGELOG.txt>_"
-    )!!
-}
+val output = mapOf(
+    "version" to changelog.version,
+    "java" to changelog.java,
+    "minecraft" to changelog.minecraft,
+    "prerelease" to (env.branch == "dev/snapshot"),
+    "changelog" to Gson().toJson(
+        "${changelog.changelog}\n_Full changelog can be seen at <https://raw.githubusercontent.com/badasintended/wthit/dev/master/CHANGELOG.txt>_"
+    )
+)
 
-val output = Output()
-
-Output::class.memberProperties.forEach { property ->
-    env.githubOutput.appendText("${property.name}=${property.get(output)}\n")
+output.forEach { (key, value) ->
+    env.githubOutput.appendText("${key}=${value}\n")
 }
