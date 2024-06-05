@@ -4,6 +4,7 @@ import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.gui.hud.TooltipRenderer;
 import mcp.mobius.waila.mixed.IMixedService;
 import mcp.mobius.waila.registry.RegistryFilter;
+import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.RegistryAccess;
 
@@ -20,8 +21,8 @@ public class MixedService implements IMixedService {
     }
 
     @Override
-    public void onGuiRender(GuiGraphics ctx, float tickDelta) {
-        TooltipRenderer.render(ctx, tickDelta);
+    public void onGuiRender(GuiGraphics ctx, DeltaTracker delta) {
+        TooltipRenderer.render(ctx, delta);
     }
 
 }
