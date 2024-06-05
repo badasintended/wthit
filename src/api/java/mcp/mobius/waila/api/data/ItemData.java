@@ -21,9 +21,13 @@ public abstract class ItemData implements IData {
 
     public static final ResourceLocation ID = BuiltinDataUtil.rl("item");
     public static final ResourceLocation CONFIG_SYNC_NBT = BuiltinDataUtil.rl("item.nbt");
+    public static final ResourceLocation CONFIG_DISPLAY_MODE = BuiltinDataUtil.rl("item.display_mode");
     public static final ResourceLocation CONFIG_MAX_HEIGHT = BuiltinDataUtil.rl("item.max_height");
-    public static final ResourceLocation CONFIG_SHOW_NAMES = BuiltinDataUtil.rl("item.show_names");
     public static final ResourceLocation CONFIG_SORT_BY_COUNT = BuiltinDataUtil.rl("item.sort_by_count");
+
+    public enum ItemDisplayMode {
+        GRID, LIST, DYNAMIC
+    }
 
     /**
      * Creates an item data based from plugin config.
