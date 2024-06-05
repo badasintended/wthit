@@ -161,9 +161,9 @@ public abstract class PluginLoader {
         if (extraPlugin != null) initialize(extraPlugin);
 
         if (!legacyPlugins.isEmpty()) {
-            LOG.warn("Found plugins registered via legacy platform-dependant method:");
-            LOG.warn(legacyPlugins.stream().collect(Collectors.joining(", ", "[", "]")));
-            LOG.warn("The method will be removed on Minecraft 1.21");
+            LOG.error("Found plugins registered via legacy platform-dependant method:");
+            LOG.error(legacyPlugins.stream().collect(Collectors.joining(", ", "[", "]")));
+            if (Waila.DEV) throw new UnsupportedOperationException("Found legacy plugins");
         }
 
         Registrar.get().lock();
