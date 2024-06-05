@@ -3,12 +3,12 @@ package mcp.mobius.waila.api.component;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.__internal__.ApiSide;
 import mcp.mobius.waila.api.__internal__.IApiService;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.item.ItemStack;
 
 /**
@@ -57,16 +57,16 @@ public class NamedItemListComponent implements ITooltipComponent {
     }
 
     @Override
-    public void render(GuiGraphics ctx, int x, int y, float delta) {
+    public void render(PoseStack matrices, int x, int y, float delta) {
         var iy = y;
 
         for (var component : components) {
-            component.render(ctx, x, iy, delta);
+            component.render(matrices, x, iy, delta);
             iy += component.getHeight();
         }
 
         if (hasOverflow) {
-            ctx.drawString(getFont(), MORE, x + 10, iy, IApiService.INSTANCE.getFontColor());
+            getFont().drawShadow(matrices, MORE, x + 10, iy, IApiService.INSTANCE.getFontColor());
         }
     }
 

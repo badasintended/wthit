@@ -1,12 +1,13 @@
 package mcp.mobius.waila.api.component;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.WailaHelper;
 import mcp.mobius.waila.api.__internal__.ApiSide;
 import mcp.mobius.waila.api.__internal__.IApiService;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 
@@ -44,15 +45,17 @@ public class NamedItemComponent implements ITooltipComponent {
     }
 
     @Override
-    public void render(GuiGraphics ctx, int x, int y, float delta) {
-        var pose = ctx.pose();
+    public void render(PoseStack matrices, int x, int y, float delta) {
+        var pose = RenderSystem.getModelViewStack();
         pose.pushPose();
         pose.translate(x, y, 0);
         pose.scale(0.5f, 0.5f, 0.5f);
-        ctx.renderItem(stack, 0, 0);
+        RenderSystem.applyModelViewMatrix();
+        Minecraft.getInstance().getItemRenderer().renderGuiItem(stack, 0, 0);
         pose.popPose();
+        RenderSystem.applyModelViewMatrix();
 
-        ctx.drawString(getFont(), label, x + 10, y, IApiService.INSTANCE.getFontColor());
+        getFont().drawShadow(matrices, label, x + 10, y, IApiService.INSTANCE.getFontColor());
     }
 
     private Font getFont() {
