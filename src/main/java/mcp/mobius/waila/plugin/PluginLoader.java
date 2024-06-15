@@ -52,6 +52,7 @@ public abstract class PluginLoader {
     private boolean gathered = false;
 
     public static void reloadServerPlugins(MinecraftServer server) {
+        PluginInfo.saveToggleConfig();
         PluginInfo.refresh();
         INSTANCE.loadPlugins();
 
