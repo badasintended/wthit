@@ -115,6 +115,7 @@ public class Registrar implements IRegistrar {
     @SafeVarargs
     private <T> void modifyBlacklist(int priority, Function<BlacklistConfig, Set<String>> getter, BiConsumer<Set<String>, String> modifier, Registry<T> registry, T... values) {
         assertLock();
+        if (skip()) return;
 
         blacklistModifiers.add(Object.class, blacklist -> {
             for (var value : values) {
