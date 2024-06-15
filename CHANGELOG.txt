@@ -1,5 +1,6 @@
-12.x - 1.21-pre3 - dev/master - java 21
-=======================================
+12.x - 1.21 - dev/master - java 21
+==================================
+12.1.0   - Updated to Minecraft 1.21
 12.0.0   - Updated to 1.21-pre3
          - [API] Removed previously deprecated APIs
          - [API] Added `NamedItemComponent` and `NamedItemListComponent` that show item alongside its name inline (#267)
