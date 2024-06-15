@@ -96,6 +96,7 @@
   "gui.waila.plugin.toggle"                                    : "Plugin Toggles",
   "gui.waila.plugin.toggle.disabled_on_server"                 : "This plugin is disabled on the server",
   "gui.waila.plugin.toggle.locked"                             : "Can't disable this plugin",
+  "gui.waila.plugin.toggle.confirm"                            : "Toggling plugins may reset WTHIT configurations!\nThe old configuration files will be backup in the same folder with time suffix.\nSee the log output for more info.",
   "gui.waila.plugin.settings"                                  : "Plugin Settings",
 
   "gui.waila.credits"                                          : "Credits",
