@@ -1,14 +1,17 @@
 package mcp.mobius.waila.gui.screen;
 
+import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.gui.widget.ConfigListWidget;
 import mcp.mobius.waila.gui.widget.value.BooleanValue;
 import mcp.mobius.waila.plugin.PluginInfo;
 import mcp.mobius.waila.plugin.PluginLoader;
+import net.minecraft.client.gui.screens.ConfirmScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.ResourceLocation;
 
 public class PluginToggleScreen extends ConfigScreen {
 
@@ -18,19 +21,44 @@ public class PluginToggleScreen extends ConfigScreen {
 
     @Override
     public ConfigListWidget getOptions() {
-        var options = new ConfigListWidget(this, minecraft, width, height, 32, height - 32, 26, () -> {
-            var integratedServer = minecraft.getSingleplayerServer();
+        var initialValues = new Object2BooleanOpenHashMap<ResourceLocation>();
+        var updatedValues = new Object2BooleanOpenHashMap<ResourceLocation>();
 
-            if (integratedServer != null) {
-                PluginLoader.reloadServerPlugins(integratedServer);
-            } else {
-                PluginLoader.reloadClientPlugins();
+        var options = new ConfigListWidget(this, minecraft, width, height, 32, height - 32, 26, () -> {
+            if (initialValues.equals(updatedValues)) {
+                super.onClose();
+                return;
             }
+
+            minecraft.setScreen(new ConfirmScreen(accepted -> {
+                if (!accepted) {
+                    super.onClose();
+                    return;
+                }
+
+                updatedValues.forEach((k, v) -> ((PluginInfo) PluginInfo.get(k)).setEnabled(v));
+                var integratedServer = minecraft.getSingleplayerServer();
+
+                if (integratedServer != null) {
+                    PluginLoader.reloadServerPlugins(integratedServer);
+                } else {
+                    PluginLoader.reloadClientPlugins();
+                }
+
+                super.onClose();
+            }, Component.translatable(Tl.Gui.Plugin.TOGGLE), Component.translatable(Tl.Gui.Plugin.Toggle.CONFIRM)));
+
         });
 
         for (var plugin : PluginInfo.getAll()) {
             var impl = (PluginInfo) plugin;
-            var toggle = new BooleanValue(null, plugin.isEnabled(), null, impl::setEnabled) {
+            var id = plugin.getPluginId();
+            var enabled = plugin.isEnabled();
+
+            initialValues.put(id, enabled);
+            updatedValues.put(id, enabled);
+
+            var toggle = new BooleanValue(null, enabled, null, val -> updatedValues.put(id, val.booleanValue())) {
                 @Override
                 public MutableComponent getTitle() {
                     return Component.literal(plugin.getPluginId().toString());
@@ -50,6 +78,10 @@ public class PluginToggleScreen extends ConfigScreen {
         }
 
         return options;
+    }
+
+    @Override
+    public void onClose() {
     }
 
 }
