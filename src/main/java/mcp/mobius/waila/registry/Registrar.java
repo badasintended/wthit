@@ -411,17 +411,24 @@ public class Registrar implements IRegistrar {
         blacklistModifiers.get(Object.class).forEach(it -> it.instance().accept(blacklist));
         blacklist.addBlacklistTags();
 
-        var hash = new int[]{0, 0, 0};
-        hash[0] = blacklist.blocks.hashCode();
-        hash[1] = blacklist.blockEntityTypes.hashCode();
-        hash[2] = blacklist.entityTypes.hashCode();
+        var hash = new int[]{
+            blacklist.blocks.hashCode(),
+            blacklist.blockEntityTypes.hashCode(),
+            blacklist.entityTypes.hashCode()};
 
         Waila.BLACKLIST_CONFIG.invalidate();
         var userBlacklist = Waila.BLACKLIST_CONFIG.get();
 
         if (!Arrays.equals(userBlacklist.pluginHash, hash)) {
             if (!Arrays.equals(userBlacklist.pluginHash, new int[]{0, 0, 0})) {
-                Waila.BLACKLIST_CONFIG.backup("plugin hash mismatch");
+                var userHash = new int[]{
+                    userBlacklist.blocks.hashCode(),
+                    userBlacklist.blockEntityTypes.hashCode(),
+                    userBlacklist.entityTypes.hashCode()};
+
+                if (!Arrays.equals(userBlacklist.pluginHash, userHash)) {
+                    Waila.BLACKLIST_CONFIG.backup("plugin hash mismatch");
+                }
             }
 
             var newBlacklist = Waila.BLACKLIST_CONFIG.get();
