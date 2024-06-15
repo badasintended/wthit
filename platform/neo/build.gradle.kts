@@ -1,5 +1,5 @@
 plugins {
-    id("net.neoforged.gradle.userdev") version "7.0.107"
+    id("net.neoforged.gradle.userdev") version "7.0.142"
 }
 
 setupPlatform()
@@ -24,8 +24,7 @@ sourceSets {
 }
 
 runs {
-    create("server")
-    create("client") {
+    named("client") {
         programArguments("--username", "A")
     }
 

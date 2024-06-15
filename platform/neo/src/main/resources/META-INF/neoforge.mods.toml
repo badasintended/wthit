@@ -26,20 +26,20 @@ logoFile = "wthit.png"
 [[dependencies.wthit]]
 modId = "neoforge"
 type = "required"
-versionRange = "[20.5.20-beta,)"
+versionRange = "[21.0.8-beta,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.wthit]]
 modId = "minecraft"
 type = "required"
-versionRange = "[1.20.5,)"
+versionRange = "[1.21,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.wthit]]
 modId = "badpackets"
 type = "required"
-versionRange = "[0.7,)"
+versionRange = "[0.8.1,)"
 ordering = "NONE"
 side = "BOTH"

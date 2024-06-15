@@ -16,6 +16,10 @@ pluginManagement {
     }
 }
 
+plugins {
+    id("org.gradle.toolchains.foojay-resolver-convention") version "0.8.0"
+}
+
 rootProject.name = "wthit"
 
 fun platform(name: String) {
@@ -27,7 +31,7 @@ platform("mojmap")
 
 //platform("bukkit")
 platform("fabric")
-//platform("forge")
-//platform("neo")
+platform("forge")
+platform("neo")
 platform("textile")
 //platform("quilt")
