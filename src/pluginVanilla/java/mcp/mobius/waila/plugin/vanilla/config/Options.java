@@ -29,7 +29,6 @@ public final class Options {
     public static final ResourceLocation JUKEBOX_RECORD                = rl("jukebox.record");
     public static final ResourceLocation PLAYER_HEAD_NAME              = rl("player_head.name");
     public static final ResourceLocation LEVEL_COMPOSTER               = rl("level.composter");
-    public static final ResourceLocation LEVEL_HONEY                   = rl("level.honey");
     public static final ResourceLocation NOTE_BLOCK_TYPE               = rl("note_block.type");
     public static final ResourceLocation NOTE_BLOCK_NOTE               = rl("note_block.note");
     public static final ResourceLocation NOTE_BLOCK_INT_VALUE          = rl("note_block.int_value");
@@ -46,6 +45,8 @@ public final class Options {
     public static final ResourceLocation ENTITY_ICON_PER_LINE          = rl("entity.icon_per_line");
     public static final ResourceLocation ENTITY_LONG_HEALTH_MAX        = rl("entity.long_health_max");
     public static final ResourceLocation ENTITY_LONG_ARMOR_MAX         = rl("entity.long_armor_max");
+    public static final ResourceLocation BEE_HIVE_HONEY_LEVEL          = rl("bee.hive_honey_level");
+    public static final ResourceLocation BEE_HIVE_OCCUPANTS            = rl("bee.hive_occupants");
     public static final ResourceLocation HORSE_JUMP_HEIGHT             = rl("horse.jump_height");
     public static final ResourceLocation HORSE_SPEED                   = rl("horse.speed");
     public static final ResourceLocation PANDA_GENES                   = rl("panda.genes");
@@ -74,6 +75,7 @@ public final class Options {
         .put(ENTITY_ICON_PER_LINE  , rl("attribute.icon_per_line"))
         .put(ENTITY_LONG_HEALTH_MAX, rl("attribute.long_health_max"))
         .put(ENTITY_LONG_ARMOR_MAX , rl("attribute.long_armor_max"))
+        .put(BEE_HIVE_HONEY_LEVEL  , rl("level.honey"))
         .put(HORSE_JUMP_HEIGHT     , rl("attribute.horse_jump_height"))
         .put(HORSE_SPEED           , rl("attribute.horse_speed"))
         .put(PANDA_GENES           , rl("attribute.panda_genes"))

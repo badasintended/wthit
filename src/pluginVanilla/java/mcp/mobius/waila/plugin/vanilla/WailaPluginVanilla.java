@@ -73,6 +73,7 @@ import net.minecraft.world.level.block.TrappedChestBlock;
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
 import net.minecraft.world.level.block.entity.BeaconBlockEntity;
+import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.EnderChestBlockEntity;
 import net.minecraft.world.level.block.entity.JukeboxBlockEntity;
@@ -122,6 +123,12 @@ public class WailaPluginVanilla implements IWailaPlugin {
 
         registrar.addFeatureConfig(Options.PANDA_GENES, true);
         registrar.addComponent(PandaProvider.INSTANCE, BODY, Panda.class);
+
+        registrar.addFeatureConfig(Options.BEE_HIVE_HONEY_LEVEL, true);
+        registrar.addFeatureConfig(Options.BEE_HIVE_OCCUPANTS, false);
+        registrar.addComponent(BeehiveProvider.INSTANCE, BODY, BeehiveBlock.class);
+        registrar.addDataType(BeehiveProvider.OCCUPANTS_DATA, BeehiveProvider.OCCUPANTS_DATA_CODEC);
+        registrar.addBlockData(BeehiveProvider.INSTANCE, BeehiveBlockEntity.class);
 
         registrar.addFeatureConfig(Options.EFFECT_BEACON, false);
         registrar.addDataType(BeaconProvider.DATA, BeaconProvider.Data.class, BeaconProvider.Data::new);
@@ -187,9 +194,7 @@ public class WailaPluginVanilla implements IWailaPlugin {
         registrar.addComponent(PlayerHeadProvider.INSTANCE, BODY, SkullBlockEntity.class);
 
         registrar.addFeatureConfig(Options.LEVEL_COMPOSTER, true);
-        registrar.addFeatureConfig(Options.LEVEL_HONEY, true);
         registrar.addComponent(ComposterProvider.INSTANCE, BODY, ComposterBlock.class);
-        registrar.addComponent(BeehiveProvider.INSTANCE, BODY, BeehiveBlock.class);
 
         registrar.addFeatureConfig(Options.NOTE_BLOCK_TYPE, true);
         registrar.addConfig(Options.NOTE_BLOCK_NOTE, NoteDisplayMode.SHARP);
