@@ -5,15 +5,9 @@
   "compatibilityLevel": "JAVA_16",
   "refmap"            : "wthit.refmap.json",
   "mixins"            : [
-    "AbstractFurnaceBlockEntityAccess",
-    "BaseContainerBlockEntityAccess",
-    "BeaconBlockEntityAccess",
-    "ChiseledBookShelfBlockAccess",
-    "ChiseledBookShelfBlockEntityAccess",
-    "EntityAccess",
-    "NoteBlockAccess",
-    "ReloadableServerResourcesMixin",
-    "ShearableBlocksMixin"
+    "AbstractFurnaceBlockEntityAccess", "BaseContainerBlockEntityAccess", "BeaconBlockEntityAccess", "BeehiveBlockEntity$BeeDataAccess",
+    "BeehiveBlockEntityAccess", "ChiseledBookShelfBlockAccess", "ChiseledBookShelfBlockEntityAccess", "EntityAccess", "NoteBlockAccess",
+    "ReloadableServerResourcesMixin", "ShearableBlocksMixin"
   ],
   "client"            : [
     "BossHealthOverlayAccess",
