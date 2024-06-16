@@ -8,6 +8,8 @@
     "AbstractFurnaceBlockEntityAccess",
     "BaseContainerBlockEntityAccess",
     "BeaconBlockEntityAccess",
+    "BeehiveBlockEntity$BeeDataAccess",
+    "BeehiveBlockEntityAccess",
     "ChiseledBookShelfBlockAccess",
     "ChiseledBookShelfBlockEntityAccess",
     "EntityAccess",
