@@ -2,6 +2,7 @@ package mcp.mobius.waila.gui.screen;
 
 import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
 import mcp.mobius.waila.api.IWailaConfig;
+import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.gui.widget.ConfigListWidget;
 import mcp.mobius.waila.gui.widget.value.BooleanValue;
@@ -50,7 +51,17 @@ public class PluginToggleScreen extends ConfigScreen {
 
         });
 
-        for (var plugin : PluginInfo.getAll()) {
+        var sorted = PluginInfo.getAll().stream().sorted((a, b) -> {
+            var aId = a.getPluginId();
+            var bId = b.getPluginId();
+
+            var aIsWaila = aId.getNamespace().equals(WailaConstants.NAMESPACE);
+            var bIsWaila = bId.getNamespace().equals(WailaConstants.NAMESPACE);
+            if (aIsWaila == bIsWaila) return aId.compareTo(bId);
+            return aIsWaila ? +1 : -1;
+        }).toList();
+
+        for (var plugin : sorted) {
             var impl = (PluginInfo) plugin;
             var id = plugin.getPluginId();
             var enabled = plugin.isEnabled();
