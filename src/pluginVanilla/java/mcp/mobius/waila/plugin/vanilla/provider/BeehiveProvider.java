@@ -33,7 +33,7 @@ public enum BeehiveProvider implements IBlockComponentProvider, IDataProvider<Be
 
     INSTANCE;
 
-    public static final IData.Type<OccupantsData> OCCUPANTS_DATA = IData.createType(ResourceLocation.withDefaultNamespace("bee.occupants"));
+    public static final IData.Type<OccupantsData> OCCUPANTS_DATA = IData.createType(new ResourceLocation("bee.occupants"));
     public static final StreamCodec<RegistryFriendlyByteBuf, OccupantsData> OCCUPANTS_DATA_CODEC = StreamCodec.composite(
         StreamCodec.composite(
             ByteBufCodecs.registry(Registries.ENTITY_TYPE), OccupantsData.Occupant::entityType,

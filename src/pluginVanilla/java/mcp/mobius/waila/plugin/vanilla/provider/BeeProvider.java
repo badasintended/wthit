@@ -24,7 +24,7 @@ public enum BeeProvider implements IEntityComponentProvider, IDataProvider<Bee> 
 
     INSTANCE;
 
-    public static final IData.Type<HivePosData> HIVE_POS_DATA = IData.createType(ResourceLocation.withDefaultNamespace("bee.hive_pos"));
+    public static final IData.Type<HivePosData> HIVE_POS_DATA = IData.createType(new ResourceLocation("bee.hive_pos"));
     public static final StreamCodec<RegistryFriendlyByteBuf, HivePosData> HIVE_POS_DATA_CODEC = StreamCodec.composite(
         BlockPos.STREAM_CODEC, HivePosData::pos,
         HivePosData::new);
