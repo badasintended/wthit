@@ -49,6 +49,7 @@ public enum HarvestProvider implements IBlockComponentProvider, IEventListener {
     @Override
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
         if (!config.getBoolean(Options.ENABLED)) return;
+        if (accessor.getPlayer().isCreative() && !config.getBoolean(Options.CREATIVE)) return;
 
         if (IApiService.INSTANCE.isDevEnv() && config.getBoolean(Options.DEV_DISABLE_CACHE)) {
             toolsCache.clear();
