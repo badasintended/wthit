@@ -29,6 +29,7 @@ allprojects {
         }
 
         mavenCentral()
+        maven("https://maven.minecraftforge.net")
     }
 
     java {
@@ -222,3 +223,4 @@ subprojects {
         }
     }
 }
+
