@@ -12,6 +12,7 @@ import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.ITooltipLine;
 import mcp.mobius.waila.api.component.ArmorComponent;
 import mcp.mobius.waila.api.component.HealthComponent;
+import mcp.mobius.waila.api.component.PositionComponent;
 import mcp.mobius.waila.api.component.SpacingComponent;
 import mcp.mobius.waila.api.component.TextureComponent;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
@@ -107,8 +108,7 @@ public enum EntityAttributesProvider implements IEntityComponentProvider, IDataP
     @Override
     public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
         if (config.getBoolean(Options.ENTITY_POSITION)) {
-            var pos = accessor.getEntity().position();
-            tooltip.addLine(Component.literal("(" + DECIMAL.format(pos.x) + ", " + DECIMAL.format(pos.y) + ", " + DECIMAL.format(pos.z) + ")"));
+            tooltip.addLine(new PositionComponent(accessor.getEntity().position()));
         }
     }
 
