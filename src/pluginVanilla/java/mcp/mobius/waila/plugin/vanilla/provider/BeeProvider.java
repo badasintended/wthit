@@ -14,9 +14,8 @@ import mcp.mobius.waila.api.component.WrappedComponent;
 import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.core.BlockPos;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.animal.Bee;
 
@@ -24,14 +23,11 @@ public enum BeeProvider implements IEntityComponentProvider, IDataProvider<Bee> 
 
     INSTANCE;
 
-    public static final IData.Type<HivePosData> HIVE_POS_DATA = IData.createType(ResourceLocation.withDefaultNamespace("bee.hive_pos"));
-    public static final StreamCodec<RegistryFriendlyByteBuf, HivePosData> HIVE_POS_DATA_CODEC = StreamCodec.composite(
-        BlockPos.STREAM_CODEC, HivePosData::pos,
-        HivePosData::new);
+    public static final ResourceLocation HIVE_POS_DATA = new ResourceLocation("bee.hive_pos");
 
     @Override
     public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        var hivePos = accessor.getData().get(HIVE_POS_DATA);
+        var hivePos = accessor.getData().get(HivePosData.class);
         if (hivePos != null && config.getBoolean(Options.BEE_HIVE_POS)) {
             tooltip.addLine(new PairComponent(
                 new WrappedComponent(Component.translatable(Tl.Tooltip.Bee.HIVE)),
@@ -51,9 +47,13 @@ public enum BeeProvider implements IEntityComponentProvider, IDataProvider<Bee> 
 
     public record HivePosData(BlockPos pos) implements IData {
 
+        public HivePosData(FriendlyByteBuf buf) {
+            this(buf.readBlockPos());
+        }
+
         @Override
-        public Type<? extends IData> type() {
-            return HIVE_POS_DATA;
+        public void write(FriendlyByteBuf buf) {
+            buf.writeBlockPos(pos);
         }
 
     }

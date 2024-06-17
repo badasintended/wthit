@@ -12,17 +12,14 @@ import mcp.mobius.waila.api.IDataWriter;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerAccessor;
 import mcp.mobius.waila.api.ITooltip;
-import mcp.mobius.waila.api.WailaHelper;
 import mcp.mobius.waila.api.component.PairComponent;
 import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.mixin.BeehiveBlockEntityAccess;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
-import net.minecraft.core.registries.Registries;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.Tag;
-import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.codec.ByteBufCodecs;
-import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.BeehiveBlock;
@@ -33,23 +30,17 @@ public enum BeehiveProvider implements IBlockComponentProvider, IDataProvider<Be
 
     INSTANCE;
 
-    public static final IData.Type<OccupantsData> OCCUPANTS_DATA = IData.createType(ResourceLocation.withDefaultNamespace("bee.occupants"));
-    public static final StreamCodec<RegistryFriendlyByteBuf, OccupantsData> OCCUPANTS_DATA_CODEC = StreamCodec.composite(
-        StreamCodec.composite(
-            ByteBufCodecs.registry(Registries.ENTITY_TYPE), OccupantsData.Occupant::entityType,
-            WailaHelper.nullable(ByteBufCodecs.STRING_UTF8), OccupantsData.Occupant::customName,
-            OccupantsData.Occupant::new).apply(ByteBufCodecs.list()), OccupantsData::occupants,
-        OccupantsData::new);
+    public static final ResourceLocation OCCUPANTS_DATA = new ResourceLocation("bee.occupants");
 
     @Override
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
-        var occupants = accessor.getData().get(OCCUPANTS_DATA);
+        var occupants = accessor.getData().get(OccupantsData.class);
         if (occupants != null && config.getBoolean(Options.BEE_HIVE_OCCUPANTS)) {
             var names = new Object2IntLinkedOpenHashMap<String>(occupants.occupants.size());
 
             for (var occupant : occupants.occupants) {
                 Component component = null;
-                if (occupant.customName != null) component = Component.Serializer.fromJson(occupant.customName, accessor.getWorld().registryAccess());
+                if (occupant.customName != null) component = Component.Serializer.fromJson(occupant.customName);
                 if (component == null) component = occupant.entityType.getDescription();
 
                 var name = component.getString();
@@ -80,7 +71,7 @@ public enum BeehiveProvider implements IBlockComponentProvider, IDataProvider<Be
                 var occupants = new ArrayList<OccupantsData.Occupant>(stored.size());
 
                 for (var beeData : stored) {
-                    var beeNbt = beeData.wthit_occupant().entityData().getUnsafe();
+                    var beeNbt = beeData.wthit_entityData();
 
                     var entityType = EntityType.by(beeNbt);
                     if (entityType.isEmpty()) continue;
@@ -99,13 +90,22 @@ public enum BeehiveProvider implements IBlockComponentProvider, IDataProvider<Be
 
     public record OccupantsData(List<Occupant> occupants) implements IData {
 
-        public record Occupant(EntityType<?> entityType, @Nullable String customName) {
-
+        public OccupantsData(FriendlyByteBuf buf) {
+            this(buf.readList(b -> new Occupant(
+                b.readById(BuiltInRegistries.ENTITY_TYPE),
+                b.readUtf())));
         }
 
         @Override
-        public Type<? extends IData> type() {
-            return OCCUPANTS_DATA;
+        public void write(FriendlyByteBuf buf) {
+            buf.writeCollection(occupants, (b, occupant) -> {
+                b.writeId(BuiltInRegistries.ENTITY_TYPE, occupant.entityType);
+                b.writeNullable(occupant.customName, FriendlyByteBuf::writeUtf);
+            });
+        }
+
+        public record Occupant(EntityType<?> entityType, @Nullable String customName) {
+
         }
 
     }
