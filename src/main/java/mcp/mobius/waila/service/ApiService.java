@@ -32,6 +32,7 @@ import mcp.mobius.waila.util.DisplayUtil;
 import mcp.mobius.waila.util.Log;
 import mcp.mobius.waila.util.ModInfo;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -47,6 +48,7 @@ import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.TippedArrowItem;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
+import net.minecraft.world.level.block.Block;
 import org.joml.Matrix4f;
 
 public abstract class ApiService implements IApiService {
@@ -199,31 +201,27 @@ public abstract class ApiService implements IApiService {
                 var opt1 = BuiltInRegistries.BLOCK.getTag(tag1);
                 var opt2 = BuiltInRegistries.BLOCK.getTag(tag2);
 
-                if (opt1.isEmpty() && opt2.isEmpty()) return 0;
-                if (opt1.isEmpty()) return -1;
-                if (opt2.isEmpty()) return +1;
-
-                var blocks1 = opt1.get();
-                var blocks2 = opt2.get();
+                var blocks1 = opt1.isPresent() ? opt1.get() : HolderSet.<Block>empty();
+                var blocks2 = opt2.isPresent() ? opt2.get() : HolderSet.<Block>empty();
 
                 var size1 = blocks1.size();
                 var size2 = blocks2.size();
-                if (size1 == 0 && size2 == 0) return 0;
-                if (size1 == 0) return +1;
-                if (size2 == 0) return -1;
+                if (size1 == 0 && size2 == 0) return 0; // equals if both empty
+                if (size1 == 0) return +1;              // 1 is greater than 2 if 1 empty and 2 filled
+                if (size2 == 0) return -1;              // 2 is greater than 1 if 2 empty and 1 filled
 
                 var b1inB2 = blocks1.stream().allMatch(blocks2::contains);
                 var b2inB1 = blocks2.stream().allMatch(blocks1::contains);
-                if (b1inB2 && b2inB1) return 0;
-                if (b1inB2) return +1;
-                if (b2inB1) return -1;
+                if (b1inB2 && b2inB1) return 0; // equals if both has the same entries
+                if (b1inB2) return +1;          // 1 is greater than 2 if 2 contains all of 1
+                if (b2inB1) return -1;          // 2 is greater than 1 if 1 contains all of 2
 
                 LOG.error("""
-                    Unsolvable tier comparison!
-                    Either one of [{}] or [{}] does not contain all entries from the other one.
-                    The comparison is based on the assumption that lower tier's incorrect block tag contains all entries from higher tier's tag.
-                    This was fine for Vanilla, but might be not match modded behavior.
-                    Please open an issue at {}""",
+                        Unsolvable tier comparison!
+                        Either one of [{}] or [{}] does not contain all entries from the other one.
+                        The comparison is based on the assumption that lower tier's incorrect block tag contains all entries from higher tier's tag.
+                        This was fine for Vanilla, but might be not match modded behavior.
+                        Please open an issue at {}""",
                     tag1.location(), tag2.location(), Waila.ISSUE_URL);
                 return 0;
             }).toList();
