@@ -5,6 +5,7 @@ import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.component.PairComponent;
+import mcp.mobius.waila.api.component.PositionComponent;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -17,8 +18,7 @@ public enum BlockAttributesProvider implements IBlockComponentProvider {
     @Override
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
         if (config.getBoolean(Options.BLOCK_POSITION)) {
-            var pos = accessor.getPosition();
-            tooltip.addLine(Component.literal("(" + pos.getX() + ", " + pos.getY() + ", " + pos.getZ() + ")"));
+            tooltip.addLine(new PositionComponent(accessor.getPosition()));
         }
 
         if (config.getBoolean(Options.BLOCK_STATE)) {
