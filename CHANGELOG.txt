@@ -1,5 +1,12 @@
 12.x - 1.21 - dev/master - java 21
 ==================================
+12.2.0   - [API] Added `PositionComponent`
+         - Added bee's beehive position tooltip
+         - Added beehive occupants tooltip
+         - Added option to show harvest tooltip on creative mode, now it is hidden by default
+         - Changed plugin toggle screen to sort the plugin IDs
+         - Fixed title on the configuration screen getting drawn behind the background blur (#268)
+         - Fixed incorrect comparison for tool tier that has its tag missing
 12.1.2   - Fixed disabled plugins' blacklist getting added to the default config
          - Fixed unable to toggle plugin while on singleplayer
          - Added warning about config reset on plugin toggle screen
@@ -13,6 +20,13 @@
 
 11.x - 1.20.6 - dev/1.20.6 - java 21
 ====================================
+11.4.0   - [API] Added `PositionComponent`
+         - Added bee's beehive position tooltip
+         - Added beehive occupants tooltip
+         - Added option to show harvest tooltip on creative mode, now it is hidden by default
+         - Changed plugin toggle screen to sort the plugin IDs
+         - Fixed title on the configuration screen getting drawn behind the background blur (#268)
+         - Fixed incorrect comparison for tool tier that has its tag missing
 11.3.1   - Fixed disabled plugins' blacklist getting added to the default config
          - Fixed unable to toggle plugin while on singleplayer
          - Added warning about config reset on plugin toggle screen
@@ -41,6 +55,13 @@
 
 10.x - 1.20.4 - dev/1.20.4 - java 17
 ====================================
+10.9.0   - [API] Added `PositionComponent`
+         - Added bee's beehive position tooltip
+         - Added beehive occupants tooltip
+         - Added option to show harvest tooltip on creative mode, now it is hidden by default
+         - Changed plugin toggle screen to sort the plugin IDs
+         - Fixed title on the configuration screen getting drawn behind the background blur (#268)
+         - Fixed incorrect comparison for tool tier that has its tag missing
 10.8.1   - Fixed disabled plugins' blacklist getting added to the default config
          - Fixed unable to toggle plugin while on singleplayer
          - Added warning about config reset on plugin toggle screen
@@ -82,6 +103,13 @@
 
 9.x - 1.20.2 - dev/1.20.2 - java 17
 ===================================
+9.10.0   - [API] Added `PositionComponent`
+         - Added bee's beehive position tooltip
+         - Added beehive occupants tooltip
+         - Added option to show harvest tooltip on creative mode, now it is hidden by default
+         - Changed plugin toggle screen to sort the plugin IDs
+         - Fixed title on the configuration screen getting drawn behind the background blur (#268)
+         - Fixed incorrect comparison for tool tier that has its tag missing
 9.9.1    - Fixed disabled plugins' blacklist getting added to the default config
          - Fixed unable to toggle plugin while on singleplayer
          - Added warning about config reset on plugin toggle screen
@@ -134,6 +162,13 @@
 
 8.x - 1.20.1 - dev/1.20.1 - java 17
 ===================================
+8.13.0   - [API] Added `PositionComponent`
+         - Added bee's beehive position tooltip
+         - Added beehive occupants tooltip
+         - Added option to show harvest tooltip on creative mode, now it is hidden by default
+         - Changed plugin toggle screen to sort the plugin IDs
+         - Fixed title on the configuration screen getting drawn behind the background blur (#268)
+         - Fixed incorrect comparison for tool tier that has its tag missing
 8.12.1   - Fixed disabled plugins' blacklist getting added to the default config
          - Fixed unable to toggle plugin while on singleplayer
          - Added warning about config reset on plugin toggle screen
@@ -346,6 +381,13 @@
 
 5.x - 1.19.2 - dev/1.19.2 - java 17
 ===================================
+5.28.0   - [API] Added `PositionComponent`
+         - Added bee's beehive position tooltip
+         - Added beehive occupants tooltip
+         - Added option to show harvest tooltip on creative mode, now it is hidden by default
+         - Changed plugin toggle screen to sort the plugin IDs
+         - Fixed title on the configuration screen getting drawn behind the background blur (#268)
+         - Fixed incorrect comparison for tool tier that has its tag missing
 5.27.1   - Fixed disabled plugins' blacklist getting added to the default config
          - Fixed unable to toggle plugin while on singleplayer
          - Added warning about config reset on plugin toggle screen
