@@ -22,6 +22,8 @@
   "tooltip.waila.timer.grow"                                   : "Growing Timer",
   "tooltip.waila.timer.breed"                                  : "Breeding Cooldown",
 
+  "tooltip.waila.bee.hive"                                     : "Beehive",
+
   "tooltip.waila.horse.jump.key"                               : "Jump",
   "tooltip.waila.horse.jump.value"                             : "%s block(s)",
   "tooltip.waila.horse.speed.key"                              : "Speed",
@@ -299,8 +301,9 @@
   "config.waila.plugin_minecraft.entity.long_armor_max"        : "Max Armor Points to Draw",
   "config.waila.plugin_minecraft.entity.long_armor_max_desc"   : "The maximum armor points that the icon will draw before forcing numeric view",
   "config.waila.plugin_minecraft.bee"                          : "Bee",
-  "config.waila.plugin_minecraft.bee.hive_honey_level"         : "Show Hive Honey Level",
-  "config.waila.plugin_minecraft.bee.hive_occupants"           : "Show Hive Occupants",
+  "config.waila.plugin_minecraft.bee.hive_pos"                 : "Show Beehive Position",
+  "config.waila.plugin_minecraft.bee.hive_honey_level"         : "Show Beehive Honey Level",
+  "config.waila.plugin_minecraft.bee.hive_occupants"           : "Show Beehive Occupants",
   "config.waila.plugin_minecraft.horse"                        : "Horse",
   "config.waila.plugin_minecraft.horse.jump_height"            : "Show Horse Jump Height",
   "config.waila.plugin_minecraft.horse.speed"                  : "Show Horse Speed",
