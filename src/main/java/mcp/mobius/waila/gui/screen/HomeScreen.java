@@ -38,8 +38,8 @@ public class HomeScreen extends YesIAmSureTheClientInstanceIsPresentByTheTimeIUs
 
     @Override
     public void render(@NotNull GuiGraphics ctx, int x, int y, float partialTicks) {
-        ctx.drawCenteredString(font, title.getString(), width / 2, height / 2 - 62 - font.lineHeight, 0xFFFFFF);
         super.render(ctx, x, y, partialTicks);
+        ctx.drawCenteredString(font, title.getString(), width / 2, height / 2 - 62 - font.lineHeight, 0xFFFFFF);
     }
 
 }
