@@ -45,6 +45,7 @@ public final class Options {
     public static final ResourceLocation ENTITY_ICON_PER_LINE          = rl("entity.icon_per_line");
     public static final ResourceLocation ENTITY_LONG_HEALTH_MAX        = rl("entity.long_health_max");
     public static final ResourceLocation ENTITY_LONG_ARMOR_MAX         = rl("entity.long_armor_max");
+    public static final ResourceLocation BEE_HIVE_POS                  = rl("bee.hive_pos");
     public static final ResourceLocation BEE_HIVE_HONEY_LEVEL          = rl("bee.hive_honey_level");
     public static final ResourceLocation BEE_HIVE_OCCUPANTS            = rl("bee.hive_occupants");
     public static final ResourceLocation HORSE_JUMP_HEIGHT             = rl("horse.jump_height");
