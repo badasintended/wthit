@@ -136,8 +136,8 @@ public class WailaPluginVanilla implements IWailaPlugin {
         registrar.addFeatureConfig(Options.BEE_HIVE_OCCUPANTS, false);
         registrar.addComponent(BeehiveProvider.INSTANCE, BODY, BeehiveBlock.class);
         registrar.addComponent(BeeProvider.INSTANCE, BODY, Bee.class);
-        registrar.addDataType(BeehiveProvider.OCCUPANTS_DATA, BeehiveProvider.OCCUPANTS_DATA_CODEC);
-        registrar.addDataType(BeeProvider.HIVE_POS_DATA, BeeProvider.HIVE_POS_DATA_CODEC);
+        registrar.addDataType(BeehiveProvider.OCCUPANTS_DATA, BeehiveProvider.OccupantsData.class, BeehiveProvider.OccupantsData::new);
+        registrar.addDataType(BeeProvider.HIVE_POS_DATA, BeeProvider.HivePosData.class, BeeProvider.HivePosData::new);
         registrar.addBlockData(BeehiveProvider.INSTANCE, BeehiveBlockEntity.class);
         registrar.addEntityData(BeeProvider.INSTANCE, Bee.class);
 
