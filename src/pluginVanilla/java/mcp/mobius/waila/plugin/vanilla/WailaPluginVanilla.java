@@ -11,6 +11,7 @@ import mcp.mobius.waila.plugin.vanilla.fluid.LavaDescriptor;
 import mcp.mobius.waila.plugin.vanilla.fluid.WaterDescriptor;
 import mcp.mobius.waila.plugin.vanilla.provider.BaseContainerProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.BeaconProvider;
+import mcp.mobius.waila.plugin.vanilla.provider.BeeProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.BeehiveProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.BlockAttributesProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.BoatProvider;
@@ -46,6 +47,7 @@ import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.animal.Panda;
 import net.minecraft.world.entity.animal.horse.AbstractHorse;
 import net.minecraft.world.entity.decoration.ItemFrame;
@@ -124,11 +126,15 @@ public class WailaPluginVanilla implements IWailaPlugin {
         registrar.addFeatureConfig(Options.PANDA_GENES, true);
         registrar.addComponent(PandaProvider.INSTANCE, BODY, Panda.class);
 
+        registrar.addFeatureConfig(Options.BEE_HIVE_POS, false);
         registrar.addFeatureConfig(Options.BEE_HIVE_HONEY_LEVEL, true);
         registrar.addFeatureConfig(Options.BEE_HIVE_OCCUPANTS, false);
         registrar.addComponent(BeehiveProvider.INSTANCE, BODY, BeehiveBlock.class);
+        registrar.addComponent(BeeProvider.INSTANCE, BODY, Bee.class);
         registrar.addDataType(BeehiveProvider.OCCUPANTS_DATA, BeehiveProvider.OCCUPANTS_DATA_CODEC);
+        registrar.addDataType(BeeProvider.HIVE_POS_DATA, BeeProvider.HIVE_POS_DATA_CODEC);
         registrar.addBlockData(BeehiveProvider.INSTANCE, BeehiveBlockEntity.class);
+        registrar.addEntityData(BeeProvider.INSTANCE, Bee.class);
 
         registrar.addFeatureConfig(Options.EFFECT_BEACON, false);
         registrar.addDataType(BeaconProvider.DATA, BeaconProvider.Data.class, BeaconProvider.Data::new);
