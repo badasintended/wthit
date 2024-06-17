@@ -343,6 +343,7 @@
   "config.waila.plugin_harvest.display_mode_modern"            : "Modern",
   "config.waila.plugin_harvest.display_mode_classic"           : "Classic",
   "config.waila.plugin_harvest.display_mode_classic_minimal"   : "Classic Minimal",
+  "config.waila.plugin_harvest.creative"                       : "Show on Creative",
 
   "config.waila.plugin_wailax"                                 : "Waila Extra",
   "config.waila.plugin_wailax.energy"                          : "Energy",
