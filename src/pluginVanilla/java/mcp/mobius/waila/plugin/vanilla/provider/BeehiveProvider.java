@@ -16,7 +16,7 @@ import mcp.mobius.waila.api.component.PairComponent;
 import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.mixin.BeehiveBlockEntityAccess;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.Tag;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -92,14 +92,14 @@ public enum BeehiveProvider implements IBlockComponentProvider, IDataProvider<Be
 
         public OccupantsData(FriendlyByteBuf buf) {
             this(buf.readList(b -> new Occupant(
-                b.readById(BuiltInRegistries.ENTITY_TYPE),
+                b.readById(Registry.ENTITY_TYPE),
                 b.readUtf())));
         }
 
         @Override
         public void write(FriendlyByteBuf buf) {
             buf.writeCollection(occupants, (b, occupant) -> {
-                b.writeId(BuiltInRegistries.ENTITY_TYPE, occupant.entityType);
+                b.writeId(Registry.ENTITY_TYPE, occupant.entityType);
                 b.writeNullable(occupant.customName, FriendlyByteBuf::writeUtf);
             });
         }
