@@ -57,8 +57,8 @@ public class PluginToggleScreen extends ConfigScreen {
 
             var aIsWaila = aId.getNamespace().equals(WailaConstants.NAMESPACE);
             var bIsWaila = bId.getNamespace().equals(WailaConstants.NAMESPACE);
-            if (aIsWaila == bIsWaila) return aId.compareTo(bId);
-            return aIsWaila ? +1 : -1;
+            if (aIsWaila == bIsWaila) return aId.toString().compareTo(bId.toString());
+            return aIsWaila ? -1 : +1;
         }).toList();
 
         for (var plugin : sorted) {
