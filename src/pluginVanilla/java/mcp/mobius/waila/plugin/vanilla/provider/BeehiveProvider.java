@@ -93,7 +93,7 @@ public enum BeehiveProvider implements IBlockComponentProvider, IDataProvider<Be
         public OccupantsData(FriendlyByteBuf buf) {
             this(buf.readList(b -> new Occupant(
                 b.readById(BuiltInRegistries.ENTITY_TYPE),
-                b.readUtf())));
+                b.readNullable(FriendlyByteBuf::readUtf))));
         }
 
         @Override
