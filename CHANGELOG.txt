@@ -1,5 +1,6 @@
 12.x - 1.21 - dev/master - java 21
 ==================================
+12.2.1   - Fixed toggle plugins screen sorting
 12.2.0   - [API] Added `PositionComponent`
          - Added bee's beehive position tooltip
          - Added beehive occupants tooltip
@@ -20,6 +21,7 @@
 
 11.x - 1.20.6 - dev/1.20.6 - java 21
 ====================================
+11.4.1   - Fixed toggle plugins screen sorting
 11.4.0   - [API] Added `PositionComponent`
          - Added bee's beehive position tooltip
          - Added beehive occupants tooltip
@@ -55,6 +57,8 @@
 
 10.x - 1.20.4 - dev/1.20.4 - java 17
 ====================================
+10.9.1   - Fixed toggle plugins screen sorting
+         - Fixed error on beehive (#269)
 10.9.0   - [API] Added `PositionComponent`
          - Added bee's beehive position tooltip
          - Added beehive occupants tooltip
@@ -103,6 +107,8 @@
 
 9.x - 1.20.2 - dev/1.20.2 - java 17
 ===================================
+9.10.1   - Fixed toggle plugins screen sorting
+         - Fixed error on beehive (#269)
 9.10.0   - [API] Added `PositionComponent`
          - Added bee's beehive position tooltip
          - Added beehive occupants tooltip
@@ -162,6 +168,8 @@
 
 8.x - 1.20.1 - dev/1.20.1 - java 17
 ===================================
+8.13.1   - Fixed toggle plugins screen sorting
+         - Fixed error on beehive (#269)
 8.13.0   - [API] Added `PositionComponent`
          - Added bee's beehive position tooltip
          - Added beehive occupants tooltip
@@ -381,6 +389,8 @@
 
 5.x - 1.19.2 - dev/1.19.2 - java 17
 ===================================
+5.28.1   - Fixed toggle plugins screen sorting
+         - Fixed error on beehive (#269)
 5.28.0   - [API] Added `PositionComponent`
          - Added bee's beehive position tooltip
          - Added beehive occupants tooltip
