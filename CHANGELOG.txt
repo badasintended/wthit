@@ -57,7 +57,7 @@
 
 10.x - 1.20.4 - dev/1.20.4 - java 17
 ====================================
-10.9.1   - Fixed toggle plugins screen sorting
+10.9.2   - Fixed toggle plugins screen sorting
          - Fixed error on beehive (#269)
 10.9.0   - [API] Added `PositionComponent`
          - Added bee's beehive position tooltip
