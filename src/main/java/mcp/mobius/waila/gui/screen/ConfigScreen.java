@@ -55,11 +55,11 @@ public abstract class ConfigScreen extends YesIAmSureTheClientInstanceIsPresentB
             options = getOptions();
         }
 
+        options.init();
         var searchBox = options.getSearchBox();
         if (searchBox.isActive()) addWidget(searchBox);
 
         addWidget(options);
-        options.init();
 
         if (saver != null && canceller != null) {
             addRenderableWidget(createButton(width / 2 - 102, height - 25, 100, 20, CommonComponents.GUI_DONE, w -> {
