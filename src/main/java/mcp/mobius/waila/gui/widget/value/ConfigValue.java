@@ -117,18 +117,6 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
         if (desc != null) sb.append(" ").append(desc.getString());
     }
 
-    // TODO
-//
-//    @Override
-//    public boolean match(String filter) {
-//        var match = super.match(filter) || StringUtils.containsIgnoreCase(getTitle().getString(), filter);
-//        if (id != null) match = match || StringUtils.containsIgnoreCase(id, filter);
-//
-//        var desc = getDescription();
-//        if (desc != null) match = match || StringUtils.containsIgnoreCase(desc.getString(), filter);
-//        return match;
-//    }
-
     @Override
     protected void gatherChildren(ImmutableList.Builder<GuiEventListener> children) {
         var element = getListener();

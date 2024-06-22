@@ -96,12 +96,6 @@ public class InputValue<T> extends ConfigValue<@Nullable T> {
         sb.append(" ").append(textField.getValue());
     }
 
-    // TODO
-//    @Override
-//    public boolean match(String filter) {
-//        return super.match(filter) || StringUtils.containsIgnoreCase(textField.getValue(), filter);
-//    }
-
     private void setValue(String text) {
         if (!validator.test(text)) {
             valueValid = false;

@@ -77,14 +77,6 @@ public class CycleValue extends ConfigValue<String> {
         else sb.append(getValue());
     }
 
-    // TODO
-//    @Override
-//    public boolean match(String filter) {
-//        return super.match(filter) || createLocale
-//            ? StringUtils.containsIgnoreCase(I18n.get(getValueTlKey()), filter)
-//            : StringUtils.containsIgnoreCase(getValue(), filter);
-//    }
-
     private String getValueTlKey() {
         return translationKey + "_" + getValue().replace(" ", "_").toLowerCase(Locale.ROOT);
     }

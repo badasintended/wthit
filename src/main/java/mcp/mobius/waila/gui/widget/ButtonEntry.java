@@ -50,10 +50,4 @@ public class ButtonEntry extends ConfigListWidget.Entry {
         sb.append(title);
     }
 
-    // TODO
-//    @Override
-//    protected List<ConfigListWidget.Entry> match(String filter) {
-//        return StringUtils.containsIgnoreCase(title, filter) ? List.of(this): List.of();
-//    }
-
 }

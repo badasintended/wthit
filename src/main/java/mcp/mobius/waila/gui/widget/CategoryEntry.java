@@ -132,28 +132,4 @@ public class CategoryEntry extends ConfigListWidget.Entry {
         }
     }
 
-    // TODO
-    //    private void recursiveAdd(List<ConfigListWidget.Entry> list) {
-    //        for (var child : children) {
-    //            list.add(child);
-    //            if (child instanceof CategoryEntry nest) nest.recursiveAdd(list);
-    //        }
-    //    }
-    //
-    //    @Override
-    //    protected List<ConfigListWidget.Entry> match(String filter) {
-    //        var list = new ArrayList<ConfigListWidget.Entry>();
-    //        list.add(this);
-    //
-    //        if (StringUtils.containsIgnoreCase(title.getString(), filter)) {
-    //            recursiveAdd(children);
-    //        } else {
-    //            for (var child : children) {
-    //                list.addAll(child.match(filter));
-    //            }
-    //        }
-    //
-    //        return list.size() == 1 ? List.of() : list;
-    //    }
-
 }

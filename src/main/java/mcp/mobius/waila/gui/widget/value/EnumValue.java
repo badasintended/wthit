@@ -43,12 +43,6 @@ public class EnumValue<T extends Enum<T>> extends ConfigValue<T> {
         sb.append(" ").append(I18n.get(getValueTlKey()));
     }
 
-    // TODO
-//    @Override
-//    public boolean match(String filter) {
-//        return super.match(filter) || StringUtils.containsIgnoreCase(I18n.get(getValueTlKey()), filter);
-//    }
-
     private String getValueTlKey() {
         return translationKey + "_" + getValue().name().toLowerCase(Locale.ROOT);
     }
