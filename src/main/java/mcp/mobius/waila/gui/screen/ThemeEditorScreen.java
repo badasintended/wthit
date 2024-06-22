@@ -135,8 +135,7 @@ class ThemeEditorScreen extends ConfigScreen {
 
         addTypeProperties(options);
 
-        options.getSearchBox().active = false;
-        options.getSearchBox().setEditable(false);
+        options.enableSearchBox = false;
         return options;
     }
 

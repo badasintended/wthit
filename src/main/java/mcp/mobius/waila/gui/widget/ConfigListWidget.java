@@ -28,8 +28,8 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
     private int topOffset;
     private int bottomOffset;
 
-    @Nullable
-    private EditBox searchBox;
+    public boolean enableSearchBox = true;
+    private @Nullable EditBox searchBox;
 
     public @Nullable String filter = null;
     public @Nullable String[] splitFilter = null;
@@ -83,6 +83,7 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
     }
 
     public EditBox getSearchBox() {
+        Preconditions.checkState(enableSearchBox);
         return Objects.requireNonNull(searchBox);
     }
 
@@ -102,12 +103,16 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
             child.setFocused(null);
         }
 
-        if (searchBox == null) {
+        if (enableSearchBox && searchBox == null) {
             searchBox = new EditBox(minecraft.font, 0, 0, 160, 18, Component.empty());
             searchBox.setHint(Component.translatable(Tl.Config.SEARCH_PROMPT));
             searchBox.setResponder(filter -> {
+                var isBlank = filter.isBlank();
+                if ((isBlank && this.filter == null) || (filter.equals(this.filter))) return;
+
                 children().clear();
-                if (filter.isBlank()) {
+                if (isBlank) {
+                    this.filter = null;
                     this.splitFilter = null;
                     children().addAll(rootChildren);
                 } else {

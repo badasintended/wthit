@@ -56,8 +56,12 @@ public abstract class ConfigScreen extends YesIAmSureTheClientInstanceIsPresentB
         }
 
         options.init();
-        var searchBox = options.getSearchBox();
-        if (searchBox.isActive()) addWidget(searchBox);
+
+        if (options.enableSearchBox) {
+            var searchBox = options.getSearchBox();
+            addWidget(searchBox);
+            setInitialFocus(searchBox);
+        }
 
         addWidget(options);
 
@@ -80,8 +84,6 @@ public abstract class ConfigScreen extends YesIAmSureTheClientInstanceIsPresentB
                 }
             }));
         }
-
-        if (searchBox.isActive()) setInitialFocus(searchBox);
     }
 
     protected void renderForeground(GuiGraphics ctx, int rowLeft, int rowWidth, int mouseX, int mouseY, float partialTicks) {
@@ -99,8 +101,9 @@ public abstract class ConfigScreen extends YesIAmSureTheClientInstanceIsPresentB
 
         options.render(ctx, mouseX, mouseY, partialTicks);
 
-        var searchBox = options.getSearchBox();
-        if (searchBox.isActive()) options.getSearchBox().render(ctx, mouseX, mouseY, partialTicks);
+        if (options.enableSearchBox) {
+            options.getSearchBox().render(ctx, mouseX, mouseY, partialTicks);
+        }
 
         renderForeground(ctx, options.getRowLeft(), options.getRowWidth(), mouseX, mouseY, partialTicks);
 

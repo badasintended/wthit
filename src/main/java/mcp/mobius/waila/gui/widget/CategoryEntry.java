@@ -1,9 +1,14 @@
 package mcp.mobius.waila.gui.widget;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gson.reflect.TypeToken;
+import mcp.mobius.waila.api.IJsonConfig;
+import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.util.DisplayUtil;
 import net.minecraft.ChatFormatting;
@@ -17,16 +22,25 @@ import org.apache.commons.lang3.StringUtils;
 
 public class CategoryEntry extends ConfigListWidget.Entry {
 
+    private static final IJsonConfig<Map<String, Boolean>> STATES = IJsonConfig.of(new TypeToken<Map<String, Boolean>>() {
+        })
+        .file(WailaConstants.NAMESPACE + "/category_entries")
+        .factory(HashMap::new)
+        .build();
+
     public final Component title;
+
+    private final String key;
     private final Button collapseButton;
     private final Button expandAllButton;
     private final List<ConfigListWidget.Entry> children = new ArrayList<>();
 
+    private boolean collapsed;
     private boolean hasNested = false;
-    private boolean collapsed = false;
     private boolean filterMatchParent = false;
 
     public CategoryEntry(String title) {
+        this.key = title;
         this.title = Component.translatable(title).withStyle(ChatFormatting.BOLD);
         this.collapseButton = DisplayUtil.createButton(0, 0, 12, 12, CommonComponents.EMPTY, b -> toggleCollapse());
         this.expandAllButton = DisplayUtil.createButton(0, 0, 20, 12, Component.literal("++"), b -> {
@@ -37,6 +51,8 @@ public class CategoryEntry extends ConfigListWidget.Entry {
         });
 
         expandAllButton.setTooltip(Tooltip.create(Component.translatable(Tl.Config.EXPAND_ALL)));
+        collapsed = Boolean.TRUE.equals(STATES.get().putIfAbsent(key, false));
+        STATES.save();
     }
 
     public CategoryEntry with(ConfigListWidget.Entry child) {
@@ -49,13 +65,14 @@ public class CategoryEntry extends ConfigListWidget.Entry {
 
     @Override
     public int init() {
-        collapseButton.setMessage(Component.literal(collapsed ? "+" : "-"));
+        var expand = !collapsed || list.filter != null;
+        collapseButton.setMessage(Component.literal(!expand ? "+" : "-"));
 
         var added = 1;
         var matchCategory = StringUtils.containsIgnoreCase(title.getString(), list.filter);
         if (category != null) matchCategory = matchCategory || filterMatchParent;
 
-        if (!collapsed) {
+        if (expand) {
             for (var child : children) {
                 if (child instanceof CategoryEntry nest) {
                     nest.filterMatchParent = matchCategory;
@@ -83,6 +100,8 @@ public class CategoryEntry extends ConfigListWidget.Entry {
 
     private void setCollapse(boolean collapsed, boolean deep) {
         this.collapsed = collapsed;
+        STATES.get().put(key, collapsed);
+        STATES.save();
 
         if (deep) for (var child : children) {
             if (child instanceof CategoryEntry entry) entry.setCollapse(collapsed, true);
@@ -107,14 +126,16 @@ public class CategoryEntry extends ConfigListWidget.Entry {
     @Override
     protected void drawEntry(GuiGraphics ctx, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
         var buttonY = rowTop + (height - collapseButton.getHeight()) / 2;
+        var hasFilter = list.filter != null;
 
+        collapseButton.active = !hasFilter;
         collapseButton.setX(rowLeft);
         collapseButton.setY(buttonY);
         collapseButton.render(ctx, mouseX, mouseY, deltaTime);
         ctx.drawString(client.font, title, rowLeft + collapseButton.getWidth() + 4, rowTop + ((height - client.font.lineHeight) / 2) + 1, 0xFFFFFF);
 
-        expandAllButton.active = hasNested;
-        if (hasNested) {
+        expandAllButton.active = hasNested && !hasFilter;
+        if (expandAllButton.active) {
             expandAllButton.setX(rowLeft + width - expandAllButton.getWidth());
             expandAllButton.setY(buttonY);
             expandAllButton.render(ctx, mouseX, mouseY, deltaTime);
