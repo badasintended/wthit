@@ -17,6 +17,7 @@ import mcp.mobius.waila.network.Packets;
 import mcp.mobius.waila.plugin.PluginLoader;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
+import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.ClickEvent;
@@ -68,6 +69,42 @@ public class ServerCommand extends CommonCommand<CommandSourceStack, MinecraftSe
         if (Waila.ENABLE_DEBUG_COMMAND) command
             .then(Commands.literal("debug"))
             .requires(source -> source.hasPermission(Commands.LEVEL_ADMINS))
+
+            .then(Commands.literal("getBlockInfo"))
+            .then(Commands.argument("pos", BlockPosArgument.blockPos()))
+            .executes(context -> {
+                var source = context.getSource();
+                var world = source.getLevel();
+                var pos = BlockPosArgument.getLoadedBlockPos(context, "pos");
+                var block = world.getBlockState(pos).getBlock();
+
+                //noinspection deprecation
+                source.sendSuccess(Component.literal("Block ID: " + block.builtInRegistryHolder().key().location()), false);
+                source.sendSuccess(Component.literal("Block class: " + block.getClass().getName()), false);
+
+                var blockEntity = world.getBlockEntity(pos);
+                if (blockEntity != null) {
+                    //noinspection DataFlowIssue
+                    source.sendSuccess(Component.literal("Block entity type ID: " + blockEntity.getType().builtInRegistryHolder().key().location()), false);
+                    source.sendSuccess(Component.literal("Block entity class: " + blockEntity.getClass().getName()), false);
+                }
+
+                return 1;
+            })
+            .pop("pos", "getBlockInfo")
+
+            .then(Commands.literal("getEntityInfo"))
+            .then(Commands.argument("target", EntityArgument.entity()))
+            .executes(context -> {
+                var source = context.getSource();
+                var entity = EntityArgument.getEntity(context, "target");
+
+                //noinspection deprecation
+                source.sendSuccess(Component.literal("Entity type ID: " + entity.getType().builtInRegistryHolder().key().location()), false);
+                source.sendSuccess(Component.literal("Entity class: " + entity.getClass().getName()), false);
+                return 1;
+            })
+            .pop("target", "getEntityInfo")
 
             .then(Commands.literal("lockContainer"))
             .then(Commands.argument("pos", BlockPosArgument.blockPos()))
