@@ -85,7 +85,7 @@ public class ServerCommand extends CommonCommand<CommandSourceStack, MinecraftSe
                 var blockEntity = world.getBlockEntity(pos);
                 if (blockEntity != null) {
                     //noinspection DataFlowIssue
-                    source.sendSuccess(() -> Component.literal("Block entity type ID: " + blockEntity.getType().builtInRegistryHolder().key().location()), false);
+                    source.sendSuccess(() -> Component.literal("Block entity type ID: " + BuiltInRegistries.BLOCK_ENTITY_TYPE.getKey(blockEntity.getType())), false);
                     source.sendSuccess(() -> Component.literal("Block entity class: " + blockEntity.getClass().getName()), false);
                 }
 
