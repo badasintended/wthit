@@ -8,7 +8,7 @@ import mcp.mobius.waila.mixed.IShearable;
 import mcp.mobius.waila.plugin.textile.fluid.TextileFluidDescriptor;
 import mcp.mobius.waila.plugin.textile.provider.FluidStorageProvider;
 import mcp.mobius.waila.plugin.textile.provider.ItemStorageProvider;
-import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
+import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
@@ -61,7 +61,7 @@ public abstract class WailaPluginTextile implements IWailaPlugin {
         registrar.addToolType(ResourceLocation.withDefaultNamespace("shears"), IToolType.builder()
             .lowestTierItem(Items.SHEARS)
             .blockPredicate(it -> /*it.is(BlockTags.SHEARS_MINEABLE) ||*/ it.getBlock() instanceof IShearable || it.getBlock() instanceof DoublePlantBlock)
-            .itemTag(ConventionalItemTags.SHEARS)
+            .itemTag(ConventionalItemTags.SHEARS_TOOLS)
             .build());
     }
 
