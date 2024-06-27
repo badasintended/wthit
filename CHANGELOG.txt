@@ -1,6 +1,6 @@
 12.x - 1.21 - dev/master - java 21
 ==================================
-12.2.1   - Updated to NeoForge 21.0.40-beta
+12.2.2   - Updated to NeoForge 21.0.40-beta
          - Added debug commands to get block and entity info
 12.2.1   - Fixed toggle plugins screen sorting
 12.2.0   - [API] Added `PositionComponent`
