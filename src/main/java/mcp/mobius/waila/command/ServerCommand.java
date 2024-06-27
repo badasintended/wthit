@@ -19,6 +19,7 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
+import net.minecraft.core.Registry;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
@@ -84,8 +85,7 @@ public class ServerCommand extends CommonCommand<CommandSourceStack, MinecraftSe
 
                 var blockEntity = world.getBlockEntity(pos);
                 if (blockEntity != null) {
-                    //noinspection DataFlowIssue
-                    source.sendSuccess(Component.literal("Block entity type ID: " + blockEntity.getType().builtInRegistryHolder().key().location()), false);
+                    source.sendSuccess(Component.literal("Block entity type ID: " + Registry.BLOCK_ENTITY_TYPE.getKey(blockEntity.getType())), false);
                     source.sendSuccess(Component.literal("Block entity class: " + blockEntity.getClass().getName()), false);
                 }
 
