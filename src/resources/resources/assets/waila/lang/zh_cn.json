@@ -22,22 +22,24 @@
   "tooltip.waila.timer.grow"                                   : "成长计时器",
   "tooltip.waila.timer.breed"                                  : "繁殖冷却",
 
+  "tooltip.waila.bee.hive"                                     : "Beehive",
+
   "tooltip.waila.horse.jump.key"                               : "跳跃",
   "tooltip.waila.horse.jump.value"                             : "%s格高",
   "tooltip.waila.horse.speed.key"                              : "速度",
   "tooltip.waila.horse.speed.value"                            : "%s米/秒",
 
+  "tooltip.waila.panda.personality"                            : "Personality",
+  "tooltip.waila.panda.traits"                                 : "Traits",
 
-
-
-
-
-
-
-
-
-
-
+  "tooltip.waila.panda.gene"                                   : "_DO_NOT_TRANSLATE_",
+  "tooltip.waila.panda.gene.normal"                            : "Normal",
+  "tooltip.waila.panda.gene.lazy"                              : "Lazy",
+  "tooltip.waila.panda.gene.worried"                           : "Worried",
+  "tooltip.waila.panda.gene.playful"                           : "Playful",
+  "tooltip.waila.panda.gene.brown"                             : "Brown",
+  "tooltip.waila.panda.gene.weak"                              : "Weak",
+  "tooltip.waila.panda.gene.aggressive"                        : "Aggressive",
 
   "tooltip.waila.instrument"                                   : "_DO_NOT_TRANSLATE_",
   "tooltip.waila.instrument.harp"                              : "竖琴",
@@ -67,36 +69,37 @@
   "tooltip.waila.extra.energy"                                 : "能量",
   "tooltip.waila.extra.unknown_fluid"                          : "未知流体",
 
+  "tooltip.waila.harvest.harvestable"                          : "Currently Harvestable",
+  "tooltip.waila.harvest.effective_tool"                       : "Effective Tool",
+  "tooltip.waila.harvest.level"                                : "Harvest Level",
 
+  "tooltip.waila.harvest.tool"                                 : "_DO_NOT_TRANSLATE_",
+  "tooltip.waila.harvest.tool.minecraft.pickaxe"               : "Pickaxe",
+  "tooltip.waila.harvest.tool.minecraft.shovel"                : "Shovel",
+  "tooltip.waila.harvest.tool.minecraft.axe"                   : "Axe",
+  "tooltip.waila.harvest.tool.minecraft.hoe"                   : "Hoe",
+  "tooltip.waila.harvest.tool.minecraft.sword"                 : "Sword",
+  "tooltip.waila.harvest.tool.minecraft.shears"                : "Shears",
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  "tooltip.waila.harvest.tier"                                 : "_DO_NOT_TRANSLATE_",
+  "tooltip.waila.harvest.tier.wood"                            : "Wood",
+  "tooltip.waila.harvest.tier.stone"                           : "Stone",
+  "tooltip.waila.harvest.tier.iron"                            : "Iron",
+  "tooltip.waila.harvest.tier.gold"                            : "Gold",
+  "tooltip.waila.harvest.tier.diamond"                         : "Diamond",
+  "tooltip.waila.harvest.tier.netherite"                       : "Netherite",
 
   "gui.waila.configuration"                                    : "%s配置",
   "gui.waila.waila_settings"                                   : "%s设置",
 
+  "gui.waila.esc_warning.umm"                                  : "Umm...",
+  "gui.waila.esc_warning.lmao"                                 : "Press the %s or %s button to close",
 
-
-
-
-
-
-
+  "gui.waila.plugin.toggle"                                    : "Plugin Toggles",
+  "gui.waila.plugin.toggle.disabled_on_server"                 : "This plugin is disabled on the server",
+  "gui.waila.plugin.toggle.locked"                             : "Can't disable this plugin",
+  "gui.waila.plugin.toggle.confirm"                            : "Toggling plugins may reset WTHIT configurations!\nThe old configuration files will be backup in the same folder with time suffix.\nSee the log output for more info.",
+  "gui.waila.plugin.settings"                                  : "Plugin Settings",
 
   "gui.waila.credits"                                          : "致谢名单",
   "gui.waila.credits.original_mod_by"                          : "“WAILA”模组原作者",
@@ -107,16 +110,16 @@
   "command.waila.local_dump_success"                           : "成功转存本地服务器到%s",
   "command.waila.client_dump_success"                          : "成功转存客户到%s",
 
-
-
-
-
-
-
-
-
-
-
+  "command.waila.plugin.reload"                                : "Plugins reloaded",
+  "command.waila.plugin.list.available.none"                   : "There are no more plugins available",
+  "command.waila.plugin.list.available.success"                : "There are %s plugin(s) available: %s",
+  "command.waila.plugin.list.enabled.none"                     : "There are no plugins enabled",
+  "command.waila.plugin.list.enabled.success"                  : "There are %s plugin(s) enabled: %s",
+  "command.waila.plugin.modify.disable"                        : "Disabling plugin %s",
+  "command.waila.plugin.modify.enable"                         : "Enabling plugin %s",
+  "command.waila.plugin.unknown"                               : "Unknown plugin '%s'",
+  "command.waila.plugin.locked"                                : "Locked plugin '%s'",
+  "command.waila.plugin.disabled_on_server"                    : "Plugin '%s' is disabled on server",
 
   "command.waila.overlay.true"                                 : "启用覆盖",
   "command.waila.overlay.false"                                : "禁用覆盖",
@@ -171,9 +174,9 @@
 
   "config.waila.overlay"                                       : "叠加层",
 
-
-
-
+  "config.waila.overlay_fps"                                   : "Overlay FPS",
+  "config.waila.overlay_fps_desc"                              : "Lowering the overlay FPS might improve the overall game FPS\nSet to 0 to unlock",
+  "config.waila.overlay_fps.disabled_reason"                   : "This option is currently disabled because it caused a rendering issue",
 
   "config.waila.overlay_pos_x"                                 : "X轴偏移",
   "config.waila.overlay_pos_x_desc"                            : "相对于屏幕锚点的X坐标\n坐标受尺寸影响",
@@ -250,9 +253,9 @@
   "config.waila.plugin_minecraft.override.powder_snow"         : "细雪显示为正常雪",
   "config.waila.plugin_minecraft.override.vehicle"             : "不显示搭乘的实体信息",
   "config.waila.plugin_minecraft.override.vehicle_desc"        : "搭乘矿车、马匹等可搭乘实体时，不显示详细信息",
-
+  "config.waila.plugin_minecraft.spawner"                      : "Spawner",
   "config.waila.plugin_minecraft.spawner.type"                 : "显示刷怪笼类型",
-
+  "config.waila.plugin_minecraft.plant"                        : "Plant",
   "config.waila.plugin_minecraft.plant.crop_progress"          : "显示作物生长进度",
   "config.waila.plugin_minecraft.plant.crop_growable"          : "显示作物是否可生长",
   "config.waila.plugin_minecraft.plant.tree_growable"          : "显示树木是否可生长",
@@ -267,7 +270,6 @@
   "config.waila.plugin_minecraft.player_head.name"             : "显示玩家名称",
   "config.waila.plugin_minecraft.level"                        : "等级",
   "config.waila.plugin_minecraft.level.composter"              : "显示堆肥等级",
-  "config.waila.plugin_minecraft.level.honey"                  : "显示蜂蜜数量",
   "config.waila.plugin_minecraft.note_block"                   : "音符盒",
   "config.waila.plugin_minecraft.note_block.type"              : "显示乐器与音符",
   "config.waila.plugin_minecraft.note_block.note"              : "音符显示模式",
@@ -281,10 +283,10 @@
   "config.waila.plugin_minecraft.timer"                        : "计时器",
   "config.waila.plugin_minecraft.timer.grow"                   : "显示成长计时器",
   "config.waila.plugin_minecraft.timer.breed"                  : "显示繁殖冷却时间",
-
+  "config.waila.plugin_minecraft.block"                        : "Block",
   "config.waila.plugin_minecraft.block.position"               : "显示方块位置",
   "config.waila.plugin_minecraft.block.state"                  : "显示方块状态",
-
+  "config.waila.plugin_minecraft.entity"                       : "Entity",
   "config.waila.plugin_minecraft.entity.item_entity"           : "显示物品实体",
   "config.waila.plugin_minecraft.entity.position"              : "显示实体位置",
   "config.waila.plugin_minecraft.entity.health"                : "显示生命值",
@@ -298,24 +300,28 @@
   "config.waila.plugin_minecraft.entity.long_health_max_desc"  : "强制分数视图前，图标绘制的最大生命值",
   "config.waila.plugin_minecraft.entity.long_armor_max"        : "要绘制的最大护甲值",
   "config.waila.plugin_minecraft.entity.long_armor_max_desc"   : "强制数字视图前，图标绘制的最大护甲值",
-
+  "config.waila.plugin_minecraft.bee"                          : "Bee",
+  "config.waila.plugin_minecraft.bee.hive_pos"                 : "Show Beehive Position",
+  "config.waila.plugin_minecraft.bee.hive_honey_level"         : "Show Beehive Honey Level",
+  "config.waila.plugin_minecraft.bee.hive_occupants"           : "Show Beehive Occupants",
+  "config.waila.plugin_minecraft.horse"                        : "Horse",
   "config.waila.plugin_minecraft.horse.jump_height"            : "显示马匹跳跃高度",
   "config.waila.plugin_minecraft.horse.speed"                  : "显示马匹行进速度",
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  "config.waila.plugin_minecraft.panda"                        : "Panda",
+  "config.waila.plugin_minecraft.panda.genes"                  : "Show Panda Genes",
+  "config.waila.plugin_minecraft.effect"                       : "Effect",
+  "config.waila.plugin_minecraft.effect.beacon"                : "Show Beacon Effects",
+  "config.waila.plugin_minecraft.effect.mob"                   : "Show Mob Effects",
+  "config.waila.plugin_minecraft.effect.hidden_mob"            : "Show Hidden Mob Effects",
+  "config.waila.plugin_minecraft.book"                         : "Book",
+  "config.waila.plugin_minecraft.book.bookshelf"               : "Show Chiseled Bookshelf Books",
+  "config.waila.plugin_minecraft.book.written"                 : "Show Written Book Author and Generation",
+  "config.waila.plugin_minecraft.book.enchantment"             : "Enchantment Display Mode",
+  "config.waila.plugin_minecraft.book.enchantment_separate"    : "Separate",
+  "config.waila.plugin_minecraft.book.enchantment_combined"    : "Combined",
+  "config.waila.plugin_minecraft.book.enchantment_cycle"       : "Cycle Through",
+  "config.waila.plugin_minecraft.book.enchantment_disabled"    : "Disabled",
+  "config.waila.plugin_minecraft.book.enchantment_cycle_timing": "Enchantment Cycle Timing (Milliseconds)",
 
   "config.waila.plugin_waila"                                  : "Waila核心",
   "config.waila.plugin_waila.show_mod_name"                    : "显示模组名称",
@@ -331,12 +337,13 @@
   "config.waila.plugin_waila.icon_position_middle"             : "中间",
   "config.waila.plugin_waila.icon_position_bottom"             : "底部",
 
-
-
-
-
-
-
+  "config.waila.plugin_harvest"                                : "Harvest",
+  "config.waila.plugin_harvest.enabled"                        : "Show Harvestability",
+  "config.waila.plugin_harvest.display_mode"                   : "Display Mode",
+  "config.waila.plugin_harvest.display_mode_modern"            : "Modern",
+  "config.waila.plugin_harvest.display_mode_classic"           : "Classic",
+  "config.waila.plugin_harvest.display_mode_classic_minimal"   : "Classic Minimal",
+  "config.waila.plugin_harvest.creative"                       : "Show on Creative",
 
   "config.waila.plugin_wailax"                                 : "Waila附加",
   "config.waila.plugin_wailax.energy"                          : "能量",
@@ -351,16 +358,20 @@
   "config.waila.plugin_wailax.item.enabled_block"              : "显示方块物品内容",
   "config.waila.plugin_wailax.item.enabled_entity"             : "显示实体物品内容",
   "config.waila.plugin_wailax.item.nbt"                        : "同步NBT数据",
+  "config.waila.plugin_wailax.item.display_mode"               : "Display Mode",
+  "config.waila.plugin_wailax.item.display_mode_desc"          : "Grid: show as a grid, like how the inventory works\nList: show as a vertical list with inline name\nDynamic: switch from list to grid when max height exceeded",
+  "config.waila.plugin_wailax.item.display_mode_grid"          : "Grid",
+  "config.waila.plugin_wailax.item.display_mode_list"          : "List",
+  "config.waila.plugin_wailax.item.display_mode_dynamic"       : "Dynamic",
   "config.waila.plugin_wailax.item.max_height"                 : "最大高度",
-
-
+  "config.waila.plugin_wailax.item.sort_by_count"              : "Sort by Count",
   "config.waila.plugin_wailax.item.blacklist"                  : "物品内容黑名单",
   "config.waila.plugin_wailax.fluid"                           : "流体",
   "config.waila.plugin_wailax.fluid.enabled_block"             : "显示方块流体内容",
   "config.waila.plugin_wailax.fluid.enabled_entity"            : "显示实体流体内容",
-
-
-
+  "config.waila.plugin_wailax.fluid.display_unit"              : "Display Unit",
+  "config.waila.plugin_wailax.fluid.display_unit_millibuckets" : "Millibuckets (mB)",
+  "config.waila.plugin_wailax.fluid.display_unit_droplets"     : "Droplets (dp)",
   "config.waila.plugin_wailax.fluid.blacklist"                 : "流体内容黑名单",
 
   "theme.waila.plugin_waila.gradient.backgroundColor"          : "背景颜色",
