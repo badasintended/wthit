@@ -339,7 +339,7 @@
 
   "config.waila.plugin_harvest"                                : "Harvest",
   "config.waila.plugin_harvest.enabled"                        : "Show Harvestability",
-  "config.waila.plugin_harvest.display_mode"                   : "Display Mode",
+  "config.waila.plugin_harvest.display_mode"                   : "显示模式",
   "config.waila.plugin_harvest.display_mode_modern"            : "Modern",
   "config.waila.plugin_harvest.display_mode_classic"           : "Classic",
   "config.waila.plugin_harvest.display_mode_classic_minimal"   : "Classic Minimal",
@@ -358,7 +358,7 @@
   "config.waila.plugin_wailax.item.enabled_block"              : "显示方块物品内容",
   "config.waila.plugin_wailax.item.enabled_entity"             : "显示实体物品内容",
   "config.waila.plugin_wailax.item.nbt"                        : "同步NBT数据",
-  "config.waila.plugin_wailax.item.display_mode"               : "Display Mode",
+  "config.waila.plugin_wailax.item.display_mode"               : "显示模式",
   "config.waila.plugin_wailax.item.display_mode_desc"          : "Grid: show as a grid, like how the inventory works\nList: show as a vertical list with inline name\nDynamic: switch from list to grid when max height exceeded",
   "config.waila.plugin_wailax.item.display_mode_grid"          : "Grid",
   "config.waila.plugin_wailax.item.display_mode_list"          : "List",
