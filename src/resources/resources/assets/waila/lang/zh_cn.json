@@ -21,24 +21,26 @@
   "tooltip.waila.owner.loading"                                : "加载中……",
   "tooltip.waila.timer.grow"                                   : "成长计时器",
   "tooltip.waila.timer.breed"                                  : "繁殖冷却",
-
+    
+  "tooltip.waila.bee.hive"                                     : "蜂巢",
+  
   "tooltip.waila.horse.jump.key"                               : "跳跃",
   "tooltip.waila.horse.jump.value"                             : "%s格高",
   "tooltip.waila.horse.speed.key"                              : "速度",
   "tooltip.waila.horse.speed.value"                            : "%s米/秒",
-
-
-
-
-
-
-
-
-
-
-
-
-
+  
+  "tooltip.waila.panda.personality"                            : "性格",
+  "tooltip.waila.panda.traits"                                 : "特征",
+  
+  "tooltip.waila.panda.gene"                                   : "_DO_NOT_TRANSLATE_",
+  "tooltip.waila.panda.gene.normal"                            : "正常",
+  "tooltip.waila.panda.gene.lazy"                              : "懒惰",
+  "tooltip.waila.panda.gene.worried"                           : "担心",
+  "tooltip.waila.panda.gene.playful"                           : "好玩",
+  "tooltip.waila.panda.gene.brown"                             : "棕色",
+  "tooltip.waila.panda.gene.weak"                              : "虚弱",
+  "tooltip.waila.panda.gene.aggressive"                        : "好斗",
+  
   "tooltip.waila.instrument"                                   : "_DO_NOT_TRANSLATE_",
   "tooltip.waila.instrument.harp"                              : "竖琴",
   "tooltip.waila.instrument.basedrum"                          : "底鼓",
@@ -63,64 +65,65 @@
   "tooltip.waila.instrument.wither_skeleton"                   : "凋灵骷髅",
   "tooltip.waila.instrument.piglin"                            : "猪灵",
   "tooltip.waila.instrument.none"                              : "无",
-
+  
   "tooltip.waila.extra.energy"                                 : "能量",
   "tooltip.waila.extra.unknown_fluid"                          : "未知流体",
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  
+  "tooltip.waila.harvest.harvestable"                          : "当前可收割",
+  "tooltip.waila.harvest.effective_tool"                       : "有效的工具",
+  "tooltip.waila.harvest.level"                                : "收获等级",
+  
+  "tooltip.waila.harvest.tool"                                 : "_DO_NOT_TRANSLATE_",
+  "tooltip.waila.harvest.tool.minecraft.pickaxe"               : "镐",
+  "tooltip.waila.harvest.tool.minecraft.shovel"                : "铲",
+  "tooltip.waila.harvest.tool.minecraft.axe"                   : "斧",
+  "tooltip.waila.harvest.tool.minecraft.hoe"                   : "锄",
+  "tooltip.waila.harvest.tool.minecraft.sword"                 : "剑",
+  "tooltip.waila.harvest.tool.minecraft.shears"                : "剪",
+  
+  "tooltip.waila.harvest.tier"                                 : "_DO_NOT_TRANSLATE_",
+  "tooltip.waila.harvest.tier.wood"                            : "木",
+  "tooltip.waila.harvest.tier.stone"                           : "石",
+  "tooltip.waila.harvest.tier.iron"                            : "铁",
+  "tooltip.waila.harvest.tier.gold"                            : "金",
+  "tooltip.waila.harvest.tier.diamond"                         : "钻石",
+  "tooltip.waila.harvest.tier.netherite"                       : "下届合金",
+  
   "gui.waila.configuration"                                    : "%s配置",
   "gui.waila.waila_settings"                                   : "%s设置",
-
-
-
-
-
-
-
-
-
+  
+  "gui.waila.esc_warning.umm"                                  : "嗯…",
+  "gui.waila.esc_warning.lmao"                                 : "按%s或%s按钮关闭",
+  
+  "gui.waila.plugin.toggle"                                    : "插件切换",
+  "gui.waila.plugin.toggle.disabled_on_server"                 : "此插件在服务器上被禁用",
+  "gui.waila.plugin.toggle.locked"                             : "无法禁用此插件",
+  "gui.waila.plugin.toggle.confirm"                            : "切换插件可能会重置WTHIT配置！\n的配置文件将备份到带有时间后缀的同一文件夹中。\n有关详细信息，请参阅日志输出。",
+  "gui.waila.plugin.settings"                                  : "插件设置",
+  
   "gui.waila.credits"                                          : "致谢名单",
   "gui.waila.credits.original_mod_by"                          : "“WAILA”模组原作者",
   "gui.waila.credits.authors"                                  : "作者",
   "gui.waila.credits.contributors"                             : "贡献者",
-
+  
   "command.waila.server_dump_success"                          : "成功转存专用服务器到%s",
   "command.waila.local_dump_success"                           : "成功转存本地服务器到%s",
   "command.waila.client_dump_success"                          : "成功转存客户到%s",
-
-
-
-
-
-
-
-
-
-
-
-
+  
+  "command.waila.plugin.reload"                                : "插件已重新加载",
+  "command.waila.plugin.list.available.none"                   : "没有更多的插件可用",
+  "command.waila.plugin.list.available.success"                : "有%s个插件可用：%s",
+  "command.waila.plugin.list.enabled.none"                     : "没有启用插件",
+  "command.waila.plugin.list.enabled.success"                  : "已启用%s个插件：%s",
+  "command.waila.plugin.modify.disable"                        : "正在禁用插件%s",
+  "command.waila.plugin.modify.enable"                         : "正在启用插件%s",
+  "command.waila.plugin.unknown"                               : "未知插件‘%s’",
+  "command.waila.plugin.locked"                                : "锁定的插件‘%s’",
+  "command.waila.plugin.disabled_on_server"                    : "插件‘%s’在服务器上被禁用",
+  
   "command.waila.overlay.true"                                 : "启用覆盖",
   "command.waila.overlay.false"                                : "禁用覆盖",
-
+  
   "command.waila.config.unknown_id"                            : "未知的插件配置ID：%s",
   "command.waila.config.get.id"                                : "插件配置ID：%s",
   "command.waila.config.get.synced"                            : "同步：%s",
@@ -130,7 +133,7 @@
   "command.waila.config.set.synced"                            : "无法设置同步的插件配置%s",
   "command.waila.config.set.success"                           : "将插件配置%s设置为%s",
   "command.waila.config.set.parse_fail"                        : "解析值失败：%s",
-
+  
   "config.waila.search_prompt"                                 : "搜索配置项",
   "config.waila.true"                                          : "是",
   "config.waila.false"                                         : "否",
@@ -145,7 +148,7 @@
   "config.waila.server_disabled"                               : "服务器禁用了此选项",
   "config.waila.server_missing_mod"                            : "锁定，因为服务器没有安装WTHIT",
   "config.waila.server_missing_option"                         : "锁定，因为服务器没有此选项",
-
+  
   "config.waila.general"                                       : "常规",
   "config.waila.display_tooltip"                               : "显示提示框",
   "config.waila.display_tooltip_desc"                          : "收集数据并渲染提示框",
@@ -165,54 +168,54 @@
   "config.waila.rate_limit_desc"                               : "每个服务器请求之间的延迟是多少毫秒\n必须至少为250毫秒",
   "config.waila.blacklist"                                     : "黑名单",
   "config.waila.blacklist_open"                                : "打开黑名单文件",
-
+  
   "config.waila.tts"                                           : "启用系统讲述人",
   "config.waila.tts_desc"                                      : "使用系统讲述人读出方块和实体名",
-
+  
   "config.waila.overlay"                                       : "叠加层",
-
-
-
-
-
+  
+  "config.waila.overlay_fps"                                   : "叠加FPS",
+  "config.waila.overlay_fps_desc"                              : "降低叠加FPS可能会提高整个游戏的FPS\n设置为0以解锁",
+  "config.waila.overlay_fps.disabled_reason"                   : "此选项当前被禁用，因为它导致了渲染问题",
+  
   "config.waila.overlay_pos_x"                                 : "X轴偏移",
   "config.waila.overlay_pos_x_desc"                            : "相对于屏幕锚点的X坐标\n坐标受尺寸影响",
   "config.waila.overlay_pos_y"                                 : "Y轴偏移",
   "config.waila.overlay_pos_y_desc"                            : "相对于屏幕锚点的Y坐标\n坐标受尺寸影响",
-
+  
   "config.waila.boss_bars_overlap"                             : "Boss栏重叠",
   "config.waila.boss_bars_overlap_desc"                        : "如果设为否，当Boss栏可见时工具框将向下移动\n仅影响顶部中心对齐",
-
+  
   "config.waila.overlay_scale"                                 : "尺寸",
   "config.waila.overlay_scale_desc"                            : "提示框的尺寸是多少\n默认为1.0",
-
+  
   "config.waila.overlay_anchor_x"                              : "水平锚点",
   "config.waila.overlay_anchor_x_desc"                         : "该位置将从屏幕的哪个部分开始计算\n可调整游戏窗口大小来测试",
   "config.waila.overlay_anchor_x_left"                         : "左边",
   "config.waila.overlay_anchor_x_right"                        : "右边",
   "config.waila.overlay_anchor_x_center"                       : "中心",
-
+  
   "config.waila.overlay_anchor_y"                              : "垂直锚点",
   "config.waila.overlay_anchor_y_desc"                         : "该位置将从屏幕的哪个部分开始计算\n可调整游戏窗口大小来测试",
   "config.waila.overlay_anchor_y_top"                          : "顶部",
   "config.waila.overlay_anchor_y_bottom"                       : "底部",
   "config.waila.overlay_anchor_y_middle"                       : "中间",
-
+  
   "config.waila.overlay_align_x"                               : "水平对齐",
   "config.waila.overlay_align_x_desc"                          : "不同大小的提示框如何相互对齐",
   "config.waila.overlay_align_x_left"                          : "左边",
   "config.waila.overlay_align_x_right"                         : "右边",
   "config.waila.overlay_align_x_center"                        : "中心",
-
+  
   "config.waila.overlay_align_y"                               : "垂直对齐",
   "config.waila.overlay_align_y_desc"                          : "不同大小的提示框如何相互对齐",
   "config.waila.overlay_align_y_top"                           : "顶部",
   "config.waila.overlay_align_y_bottom"                        : "底部",
   "config.waila.overlay_align_y_middle"                        : "中间",
-
+  
   "config.waila.overlay_color"                                 : "颜色",
   "config.waila.overlay_background_alpha"                      : "背景不透明度",
-
+  
   "config.waila.overlay_theme"                                 : "主题",
   "config.waila.overlay_theme_editor.refresh"                  : "刷新预览",
   "config.waila.overlay_theme_editor.id"                       : "主题ID",
@@ -221,23 +224,23 @@
   "config.waila.overlay_theme_editor.attributes"               : "主题属性",
   "config.waila.overlay_theme_editor.delete"                   : "删除主题",
   "config.waila.overlay_theme_editor.delete_prompt"            : "删除%s主题?",
-
+  
   "config.waila.formatting"                                    : "格式化",
   "config.waila.format_mod_name"                               : "模组名称",
   "config.waila.format_block_name"                             : "方块名称",
   "config.waila.format_fluid_name"                             : "流体名称",
   "config.waila.format_entity_name"                            : "实体名称",
   "config.waila.format_registry_name"                          : "注册名称",
-
+  
   "config.waila.keybinds"                                      : "按键绑定",
   "key.waila.config"                                           : "打开配置",
   "key.waila.show_overlay"                                     : "显示叠加层",
   "key.waila.toggle_liquid"                                    : "切换液体",
   "key.waila.show_recipe_input"                                : "显示配方用途",
   "key.waila.show_recipe_output"                               : "显示配方",
-
+  
   "config.waila.plugin_"                                       : "_DO_NOT_TRANSLATE_",
-
+  
   "config.waila.plugin_minecraft"                              : "Minecraft",
   "config.waila.plugin_minecraft.breaking_progress"            : "挖掘进度",
   "config.waila.plugin_minecraft.breaking_progress.enabled"    : "显示挖掘进度",
@@ -250,9 +253,9 @@
   "config.waila.plugin_minecraft.override.powder_snow"         : "细雪显示为正常雪",
   "config.waila.plugin_minecraft.override.vehicle"             : "不显示搭乘的实体信息",
   "config.waila.plugin_minecraft.override.vehicle_desc"        : "搭乘矿车、马匹等可搭乘实体时，不显示详细信息",
-
+  "config.waila.plugin_minecraft.spawner"                      : "刷怪笼",
   "config.waila.plugin_minecraft.spawner.type"                 : "显示刷怪笼类型",
-
+  "config.waila.plugin_minecraft.plant"                        : "植物",
   "config.waila.plugin_minecraft.plant.crop_progress"          : "显示作物生长进度",
   "config.waila.plugin_minecraft.plant.crop_growable"          : "显示作物是否可生长",
   "config.waila.plugin_minecraft.plant.tree_growable"          : "显示树木是否可生长",
@@ -267,7 +270,6 @@
   "config.waila.plugin_minecraft.player_head.name"             : "显示玩家名称",
   "config.waila.plugin_minecraft.level"                        : "等级",
   "config.waila.plugin_minecraft.level.composter"              : "显示堆肥等级",
-  "config.waila.plugin_minecraft.level.honey"                  : "显示蜂蜜数量",
   "config.waila.plugin_minecraft.note_block"                   : "音符盒",
   "config.waila.plugin_minecraft.note_block.type"              : "显示乐器与音符",
   "config.waila.plugin_minecraft.note_block.note"              : "音符显示模式",
@@ -281,10 +283,10 @@
   "config.waila.plugin_minecraft.timer"                        : "计时器",
   "config.waila.plugin_minecraft.timer.grow"                   : "显示成长计时器",
   "config.waila.plugin_minecraft.timer.breed"                  : "显示繁殖冷却时间",
-
+  "config.waila.plugin_minecraft.block"                        : "方块",
   "config.waila.plugin_minecraft.block.position"               : "显示方块位置",
   "config.waila.plugin_minecraft.block.state"                  : "显示方块状态",
-
+  "config.waila.plugin_minecraft.entity"                       : "实体",
   "config.waila.plugin_minecraft.entity.item_entity"           : "显示物品实体",
   "config.waila.plugin_minecraft.entity.position"              : "显示实体位置",
   "config.waila.plugin_minecraft.entity.health"                : "显示生命值",
@@ -298,25 +300,29 @@
   "config.waila.plugin_minecraft.entity.long_health_max_desc"  : "强制分数视图前，图标绘制的最大生命值",
   "config.waila.plugin_minecraft.entity.long_armor_max"        : "要绘制的最大护甲值",
   "config.waila.plugin_minecraft.entity.long_armor_max_desc"   : "强制数字视图前，图标绘制的最大护甲值",
-
+  "config.waila.plugin_minecraft.bee"                          : "蜜蜂",
+  "config.waila.plugin_minecraft.bee.hive_pos"                 : "显示蜂巢位置",
+  "config.waila.plugin_minecraft.bee.hive_honey_level"         : "显示蜂巢蜂蜜等级",
+  "config.waila.plugin_minecraft.bee.hive_occupants"           : "显示蜂巢占领者",
+  "config.waila.plugin_minecraft.horse"                        : "马",
   "config.waila.plugin_minecraft.horse.jump_height"            : "显示马匹跳跃高度",
   "config.waila.plugin_minecraft.horse.speed"                  : "显示马匹行进速度",
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  "config.waila.plugin_minecraft.panda"                        : "熊猫",
+  "config.waila.plugin_minecraft.panda.genes"                  : "显示熊猫基因",
+  "config.waila.plugin_minecraft.effect"                       : "效果",
+  "config.waila.plugin_minecraft.effect.beacon"                : "显示信标效果",
+  "config.waila.plugin_minecraft.effect.mob"                   : "显示怪物效果",
+  "config.waila.plugin_minecraft.effect.hidden_mob"            : "显示隐藏的怪物效果",
+  "config.waila.plugin_minecraft.book"                         : "书",
+  "config.waila.plugin_minecraft.book.bookshelf"               : "展示凿过的书架书籍",
+  "config.waila.plugin_minecraft.book.written"                 : "展示书面书籍的作者和时间",
+  "config.waila.plugin_minecraft.book.enchantment"             : "附魔显示模式",
+  "config.waila.plugin_minecraft.book.enchantment_separate"    : "分离",
+  "config.waila.plugin_minecraft.book.enchantment_combined"    : "联合",
+  "config.waila.plugin_minecraft.book.enchantment_cycle"       : "循环通过",
+  "config.waila.plugin_minecraft.book.enchantment_disabled"    : "禁用",
+  "config.waila.plugin_minecraft.book.enchantment_cycle_timing": "附魔循环计时（毫秒）",
+  
   "config.waila.plugin_waila"                                  : "Waila核心",
   "config.waila.plugin_waila.show_mod_name"                    : "显示模组名称",
   "config.waila.plugin_waila.show_item_mod_name"               : "显示物品模组名称",
@@ -330,14 +336,15 @@
   "config.waila.plugin_waila.icon_position_top"                : "顶部",
   "config.waila.plugin_waila.icon_position_middle"             : "中间",
   "config.waila.plugin_waila.icon_position_bottom"             : "底部",
-
-
-
-
-
-
-
-
+  
+  "config.waila.plugin_harvest"                                : "收获",
+  "config.waila.plugin_harvest.enabled"                        : "显示收获物品",
+  "config.waila.plugin_harvest.display_mode"                   : "显示模式",
+  "config.waila.plugin_harvest.display_mode_modern"            : "现代",
+  "config.waila.plugin_harvest.display_mode_classic"           : "经典",
+  "config.waila.plugin_harvest.display_mode_classic_minimal"   : "经典简约",
+  "config.waila.plugin_harvest.creative"                       : "在创意上显示",
+  
   "config.waila.plugin_wailax"                                 : "Waila附加",
   "config.waila.plugin_wailax.energy"                          : "能量",
   "config.waila.plugin_wailax.energy.enabled_block"            : "显示方块能量",
@@ -351,18 +358,22 @@
   "config.waila.plugin_wailax.item.enabled_block"              : "显示方块物品内容",
   "config.waila.plugin_wailax.item.enabled_entity"             : "显示实体物品内容",
   "config.waila.plugin_wailax.item.nbt"                        : "同步NBT数据",
+  "config.waila.plugin_wailax.item.display_mode"               : "显示模式",
+  "config.waila.plugin_wailax.item.display_mode_desc"          : "网格: 显示为网格，就像库存的工作原理一样\n列表：显示为带内联名称的垂直列表\n动态：超过最大高度时从列表切换到网格",
+  "config.waila.plugin_wailax.item.display_mode_grid"          : "网格",
+  "config.waila.plugin_wailax.item.display_mode_list"          : "列表",
+  "config.waila.plugin_wailax.item.display_mode_dynamic"       : "动态",
   "config.waila.plugin_wailax.item.max_height"                 : "最大高度",
-
-
+  "config.waila.plugin_wailax.item.sort_by_count"              : "按计数排序",
   "config.waila.plugin_wailax.item.blacklist"                  : "物品内容黑名单",
   "config.waila.plugin_wailax.fluid"                           : "流体",
   "config.waila.plugin_wailax.fluid.enabled_block"             : "显示方块流体内容",
   "config.waila.plugin_wailax.fluid.enabled_entity"            : "显示实体流体内容",
-
-
-
+  "config.waila.plugin_wailax.fluid.display_unit"              : "显示装置",
+  "config.waila.plugin_wailax.fluid.display_unit_millibuckets" : "Milibuckets (mB)",
+  "config.waila.plugin_wailax.fluid.display_unit_droplets"     : "Droplets (dp)",
   "config.waila.plugin_wailax.fluid.blacklist"                 : "流体内容黑名单",
-
+  
   "theme.waila.plugin_waila.gradient.backgroundColor"          : "背景颜色",
   "theme.waila.plugin_waila.gradient.gradientStart"            : "边界渐变开始颜色",
   "theme.waila.plugin_waila.gradient.gradientEnd"              : "边界渐变结束颜色",
@@ -370,7 +381,7 @@
   "theme.waila.plugin_waila.gradient.borderOffset"             : "边界偏移量",
   "theme.waila.plugin_waila.gradient.drawCorner"               : "绘制边角",
   "theme.waila.plugin_waila.gradient.fontColor"                : "文本颜色",
-
+  
   "theme.waila.plugin_waila.nine_patch.texture"                : "图案文件路径",
   "theme.waila.plugin_waila.nine_patch.texture_desc"           : "输入图案文件标识ID或者相对于配置文件的文件路径",
   "theme.waila.plugin_waila.nine_patch.useResourcePack"        : "使用材质包图案",
