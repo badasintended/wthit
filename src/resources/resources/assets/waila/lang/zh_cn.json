@@ -75,15 +75,15 @@
   
   "tooltip.waila.harvest.tool"                                 : "_DO_NOT_TRANSLATE_",
   "tooltip.waila.harvest.tool.minecraft.pickaxe"               : "镐",
-  "tooltip.waila.harvest.tool.minecraft.shovel"                : "铲子",
-  "tooltip.waila.harvest.tool.minecraft.axe"                   : "斧子",
-  "tooltip.waila.harvest.tool.minecraft.hoe"                   : "锄头",
+  "tooltip.waila.harvest.tool.minecraft.shovel"                : "铲",
+  "tooltip.waila.harvest.tool.minecraft.axe"                   : "斧",
+  "tooltip.waila.harvest.tool.minecraft.hoe"                   : "锄",
   "tooltip.waila.harvest.tool.minecraft.sword"                 : "剑",
-  "tooltip.waila.harvest.tool.minecraft.shears"                : "剪刀",
+  "tooltip.waila.harvest.tool.minecraft.shears"                : "剪",
   
   "tooltip.waila.harvest.tier"                                 : "_DO_NOT_TRANSLATE_",
-  "tooltip.waila.harvest.tier.wood"                            : "木材",
-  "tooltip.waila.harvest.tier.stone"                           : "石头",
+  "tooltip.waila.harvest.tier.wood"                            : "木",
+  "tooltip.waila.harvest.tier.stone"                           : "石",
   "tooltip.waila.harvest.tier.iron"                            : "铁",
   "tooltip.waila.harvest.tier.gold"                            : "金",
   "tooltip.waila.harvest.tier.diamond"                         : "钻石",
@@ -92,8 +92,8 @@
   "gui.waila.configuration"                                    : "%s配置",
   "gui.waila.waila_settings"                                   : "%s设置",
   
-  "gui.waila.esc_warning.umm"                                  : "嗯。。。",
-  "gui.waila.esc_warning.lmao"                                 : "按 %s 或 %s 按钮关闭",
+  "gui.waila.esc_warning.umm"                                  : "嗯…",
+  "gui.waila.esc_warning.lmao"                                 : "按%s或%s按钮关闭",
   
   "gui.waila.plugin.toggle"                                    : "插件切换",
   "gui.waila.plugin.toggle.disabled_on_server"                 : "此插件在服务器上被禁用",
@@ -112,14 +112,14 @@
   
   "command.waila.plugin.reload"                                : "插件已重新加载",
   "command.waila.plugin.list.available.none"                   : "没有更多的插件可用",
-  "command.waila.plugin.list.available.success"                : "有 %s 个插件可用: %s",
+  "command.waila.plugin.list.available.success"                : "有%s个插件可用：%s",
   "command.waila.plugin.list.enabled.none"                     : "没有启用插件",
-  "command.waila.plugin.list.enabled.success"                  : "已启用 %s 个插件: %s",
-  "command.waila.plugin.modify.disable"                        : "正在禁用插件 %s",
-  "command.waila.plugin.modify.enable"                         : "正在启用插件 %s",
-  "command.waila.plugin.unknown"                               : "未知插件 '%s'",
-  "command.waila.plugin.locked"                                : "锁定的插件 '%s'",
-  "command.waila.plugin.disabled_on_server"                    : "插件 “%s”在服务器上被禁用",
+  "command.waila.plugin.list.enabled.success"                  : "已启用%s个插件：%s",
+  "command.waila.plugin.modify.disable"                        : "正在禁用插件%s",
+  "command.waila.plugin.modify.enable"                         : "正在启用插件%s",
+  "command.waila.plugin.unknown"                               : "未知插件‘%s’",
+  "command.waila.plugin.locked"                                : "锁定的插件‘%s’",
+  "command.waila.plugin.disabled_on_server"                    : "插件‘%s’在服务器上被禁用",
   
   "command.waila.overlay.true"                                 : "启用覆盖",
   "command.waila.overlay.false"                                : "禁用覆盖",
@@ -175,7 +175,7 @@
   "config.waila.overlay"                                       : "叠加层",
   
   "config.waila.overlay_fps"                                   : "叠加FPS",
-  "config.waila.overlay_fps_desc"                              : "降低 叠加FPS可能会提高整个游戏的FPS \n设置为 0 以解锁",
+  "config.waila.overlay_fps_desc"                              : "降低叠加FPS可能会提高整个游戏的FPS\n设置为0以解锁",
   "config.waila.overlay_fps.disabled_reason"                   : "此选项当前被禁用，因为它导致了渲染问题",
   
   "config.waila.overlay_pos_x"                                 : "X轴偏移",
