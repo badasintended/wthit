@@ -370,8 +370,8 @@
     "config.waila.plugin_wailax.fluid.enabled_block"             : "显示方块流体内容",
     "config.waila.plugin_wailax.fluid.enabled_entity"            : "显示实体流体内容",
     "config.waila.plugin_wailax.fluid.display_unit"              : "显示装置",
-    "config.waila.plugin_wailax.fluid.display_unit_millibuckets" : "毫桶？ (mB)",
-    "config.waila.plugin_wailax.fluid.display_unit_droplets"     : "水滴？ (dp)",
+    "config.waila.plugin_wailax.fluid.display_unit_millibuckets" : "Milibuckets (mB)",
+    "config.waila.plugin_wailax.fluid.display_unit_droplets"     : "Droplets (dp)",
     "config.waila.plugin_wailax.fluid.blacklist"                 : "流体内容黑名单",
   
     "theme.waila.plugin_waila.gradient.backgroundColor"          : "背景颜色",
