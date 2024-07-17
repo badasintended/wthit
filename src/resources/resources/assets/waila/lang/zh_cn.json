@@ -98,7 +98,7 @@
   "gui.waila.plugin.toggle"                                    : "插件切换",
   "gui.waila.plugin.toggle.disabled_on_server"                 : "此插件在服务器上被禁用",
   "gui.waila.plugin.toggle.locked"                             : "无法禁用此插件",
-  "gui.waila.plugin.toggle.confirm"                            : "切换插件可能会重置WTHIT配置！\n的配置文件将备份到带有时间后缀的同一文件夹中。\n有关详细信息，请参阅日志输出。",
+  "gui.waila.plugin.toggle.confirm"                            : "切换插件可能会重置WTHIT配置！\n旧的配置文件将备份到带有时间后缀的同一文件夹中。\n有关详细信息，请参阅日志输出。",
   "gui.waila.plugin.settings"                                  : "插件设置",
   
   "gui.waila.credits"                                          : "致谢名单",
