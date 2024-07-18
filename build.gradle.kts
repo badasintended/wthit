@@ -4,7 +4,7 @@ import java.nio.charset.StandardCharsets
 
 plugins {
     java
-    id("org.spongepowered.gradle.vanilla") version "0.2.1-SNAPSHOT"
+    id("fabric-loom") version "1.7.2"
     id("maven-publish")
 }
 
@@ -106,13 +106,12 @@ subprojects {
     }
 }
 
-minecraft {
-    version(rootProp["minecraft"])
-}
-
 dependencies {
+    minecraft("com.mojang:minecraft:${rootProp["minecraft"]}")
+    mappings(loom.officialMojangMappings())
+    modCompileOnly("net.fabricmc:fabric-loader:${rootProp["fabricLoader"]}")
+
     compileOnly("lol.bai:badpackets:mojmap-${rootProp["badpackets"]}")
-    compileOnly("org.spongepowered:mixin:0.8.5")
 
     rootProp["jei"].split("-").also { (mc, jei) ->
         compileOnly("mezz.jei:jei-${mc}-common-api:${jei}")
@@ -168,35 +167,49 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter")
 }
 
-tasks.test {
-
-    useJUnitPlatform()
+loom {
+    interfaceInjection.enableDependencyInterfaceInjection.set(false)
+    runs {
+        configureEach {
+            isIdeConfigGenerated = false
+        }
+    }
 }
 
-task<GenerateTranslationTask>("generateTranslationClass") {
-    group = "translation"
+tasks {
+    test {
+        useJUnitPlatform()
+    }
 
-    input.set(file("src/resources/resources/assets/waila/lang/en_us.json"))
-    output.set(file("src/buildConst/java"))
-    className.set("mcp.mobius.waila.buildconst.Tl")
-    skipPaths.set(setOf("waila"))
-}
+    create<GenerateTranslationTask>("generateTranslationClass") {
+        group = "translation"
 
-tasks.named("compileBuildConstJava") {
-    dependsOn("generateTranslationClass")
-}
+        input.set(file("src/resources/resources/assets/waila/lang/en_us.json"))
+        output.set(file("src/buildConst/java"))
+        className.set("mcp.mobius.waila.buildconst.Tl")
+        skipPaths.set(setOf("waila"))
+    }
 
-task<FormatTranslationTask>("formatTranslation") {
-    group = "translation"
+    named("compileBuildConstJava") {
+        dependsOn("generateTranslationClass")
+    }
 
-    translationDir.set(file("src/resources/resources/assets/waila/lang"))
-}
+    create<FormatTranslationTask>("formatTranslation") {
+        group = "translation"
 
-task<FormatTranslationTask>("validateTranslation") {
-    group = "translation"
+        translationDir.set(file("src/resources/resources/assets/waila/lang"))
+    }
 
-    translationDir.set(file("src/resources/resources/assets/waila/lang"))
-    test.set(true)
+    create<FormatTranslationTask>("validateTranslation") {
+        group = "translation"
+
+        translationDir.set(file("src/resources/resources/assets/waila/lang"))
+        test.set(true)
+    }
+
+    listOf(remapJar, remapSourcesJar, generateRemapClasspath, generateDLIConfig).applyEach {
+        configure { enabled = false }
+    }
 }
 
 val apiJavadoc by tasks.creating(Javadoc::class) {
