@@ -16,8 +16,6 @@ import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.FormattedCharSequence;
-import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
@@ -114,13 +112,10 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
     }
 
     @Override
-    public boolean match(String filter) {
-        var match = super.match(filter) || StringUtils.containsIgnoreCase(getTitle().getString(), filter);
-        if (id != null) match = match || StringUtils.containsIgnoreCase(id, filter);
-
+    protected void buildSearchKey(StringBuilder sb) {
+        sb.append(title.getString());
         var desc = getDescription();
-        if (desc != null) match = match || StringUtils.containsIgnoreCase(desc.getString(), filter);
-        return match;
+        if (desc != null) sb.append(" ").append(desc.getString());
     }
 
     @Override

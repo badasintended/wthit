@@ -12,7 +12,6 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
-import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 
 public class CycleValue extends ConfigValue<String> {
@@ -68,10 +67,12 @@ public class CycleValue extends ConfigValue<String> {
     }
 
     @Override
-    public boolean match(String filter) {
-        return super.match(filter) || createLocale
-            ? StringUtils.containsIgnoreCase(I18n.get(getValueTlKey()), filter)
-            : StringUtils.containsIgnoreCase(getValue(), filter);
+    protected void buildSearchKey(StringBuilder sb) {
+        super.buildSearchKey(sb);
+
+        sb.append(" ");
+        if (createLocale) sb.append(I18n.get(getValueTlKey()));
+        else sb.append(getValue());
     }
 
     private String getValueTlKey() {

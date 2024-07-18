@@ -54,11 +54,15 @@ public abstract class ConfigScreen extends YesIAmSureTheClientInstanceIsPresentB
             options = getOptions();
         }
 
-        var searchBox = options.getSearchBox();
-        if (searchBox.isActive()) addWidget(searchBox);
+        options.init();
+
+        if (options.enableSearchBox) {
+            var searchBox = options.getSearchBox();
+            addWidget(searchBox);
+            setInitialFocus(searchBox);
+        }
 
         addWidget(options);
-        options.init();
 
         if (saver != null && canceller != null) {
             addRenderableWidget(new Button(width / 2 - 102, height - 25, 100, 20, CommonComponents.GUI_DONE, w -> {
@@ -79,8 +83,6 @@ public abstract class ConfigScreen extends YesIAmSureTheClientInstanceIsPresentB
                 }
             }));
         }
-
-        if (searchBox.isActive()) setInitialFocus(searchBox);
     }
 
     protected void renderForeground(PoseStack matrices, int rowLeft, int rowWidth, int mouseX, int mouseY, float partialTicks) {
@@ -97,8 +99,9 @@ public abstract class ConfigScreen extends YesIAmSureTheClientInstanceIsPresentB
         renderBackground(matrices);
         options.render(matrices, mouseX, mouseY, partialTicks);
 
-        var searchBox = options.getSearchBox();
-        if (searchBox.isActive()) options.getSearchBox().render(matrices, mouseX, mouseY, partialTicks);
+        if (options.enableSearchBox) {
+            options.getSearchBox().render(ctx, mouseX, mouseY, partialTicks);
+        }
 
         super.render(matrices, mouseX, mouseY, partialTicks);
         renderForeground(matrices, options.getRowLeft(), options.getRowWidth(), mouseX, mouseY, partialTicks);

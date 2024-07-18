@@ -135,6 +135,7 @@
   "command.waila.config.set.parse_fail"                        : "Failed to parse value: %s",
 
   "config.waila.search_prompt"                                 : "Search...",
+  "config.waila.expand_all"                                    : "Expand All",
   "config.waila.true"                                          : "True",
   "config.waila.false"                                         : "False",
   "config.waila.preview_prompt"                                : "Hold §5F1§r to preview tooltip",

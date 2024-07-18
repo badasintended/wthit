@@ -38,6 +38,12 @@ public class BooleanValue extends ConfigValue<Boolean> {
     }
 
     @Override
+    protected void buildSearchKey(StringBuilder sb) {
+        super.buildSearchKey(sb);
+        sb.append(" ").append(getValue());
+    }
+
+    @Override
     public GuiEventListener getListener() {
         return button;
     }
