@@ -18,7 +18,9 @@ public class FabricWaila extends Waila implements ModInitializer {
 
     @Override
     public void onInitialize() {
-        unsupportedPlatform("Quilt", "Quilt Loader", "org.quiltmc.loader.api.QuiltLoader");
+        // TODO: Revisit if Quilt will ever release full QSL again
+        // unsupportedPlatform("Quilt", "Quilt Loader", "org.quiltmc.loader.api.QuiltLoader");
+
         unsupportedPlatform("Forge", "Forge Mod Loader", "net.minecraftforge.fml.ModList");
         unsupportedPlatform("NeoForge", "Fancy Mod Loader", "net.neoforged.fml.ModList");
 
