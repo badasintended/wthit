@@ -1,11 +1,10 @@
 plugins {
-    id("net.neoforged.gradle.userdev") version "7.0.142"
+    id("net.neoforged.moddev") version "1.0.13"
 }
 
-setupPlatform()
+setupPlatform(setRuntimeClasspath = false)
 
 dependencies {
-    implementation("net.neoforged:neoforge:${rootProp["neo"]}")
     implementation("lol.bai:badpackets:neo-${rootProp["badpackets"]}")
 
     rootProp["jei"].split("-").also { (mc, jei) ->
@@ -15,25 +14,29 @@ dependencies {
 
 setupStub()
 
-sourceSets {
-    val main by getting
+neoForge {
+    version = rootProp["neo"]
 
-    val dummy by creating {
-        compileClasspath += main.compileClasspath
+    runs {
+        create("server") { server() }
+        create("client") {
+            client()
+            programArguments.addAll("--username", "A")
+        }
+
+        configureEach {
+            gameDirectory = file("run/${namer.determineName(this)}")
+        }
     }
-}
 
-runs {
-    named("client") {
-        programArguments("--username", "A")
-    }
+    mods {
+        create("wthit") {
+            sourceSet(sourceSets["main"])
+            sourceSet(sourceSets["plugin"])
 
-    configureEach {
-        workingDirectory(file("run/${namer.determineName(this)}"))
-
-        modSource(sourceSets["main"])
-        modSource(sourceSets["plugin"])
-        modSource(sourceSets["dummy"])
+            val excluded = setOf("test")
+            rootProject.sourceSets.filterNot { excluded.contains(it.name) }.forEach { sourceSet(it) }
+        }
     }
 }
 
@@ -42,14 +45,6 @@ tasks.processResources {
 
     filesMatching("META-INF/neoforge.mods.toml") {
         expand("version" to project.version)
-    }
-}
-
-tasks.named<JavaCompile>("compileDummyJava") {
-    dependsOn(":generateTranslationClass")
-
-    rootProject.sourceSets.filterNot { it.name == "test" }.forEach {
-        source(it.allJava)
     }
 }
 
