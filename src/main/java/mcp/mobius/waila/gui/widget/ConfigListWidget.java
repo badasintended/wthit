@@ -1,8 +1,9 @@
 package mcp.mobius.waila.gui.widget;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.gui.screen.ConfigScreen;
@@ -27,9 +28,11 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
     private int topOffset;
     private int bottomOffset;
 
-    @Nullable
-    private EditBox searchBox;
-    private List<Entry> unfilteredChildren;
+    public boolean enableSearchBox = true;
+    private @Nullable EditBox searchBox;
+
+    public @Nullable String filter = null;
+    public @Nullable String[] splitFilter = null;
 
     public ConfigListWidget(ConfigScreen owner, Minecraft client, int width, int height, int top, int bottom, int itemHeight, @Nullable Runnable diskWriter) {
         super(client, width, height, top, bottom, itemHeight - 4);
@@ -82,35 +85,47 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
     }
 
     public EditBox getSearchBox() {
-        if (searchBox != null) return searchBox;
-
-        unfilteredChildren = new ArrayList<>(children());
-
-        var category = "";
-        for (var child : unfilteredChildren) {
-            if (child instanceof CategoryEntry) category = child.category;
-            child.category = category;
-        }
-
-        searchBox = new EditBox(minecraft.font, 0, 0, 160, 18, Component.empty());
-        searchBox.setHint(Component.translatable(Tl.Config.SEARCH_PROMPT));
-        searchBox.setResponder(filter -> {
-            children().clear();
-            if (filter.isBlank()) {
-                children().addAll(unfilteredChildren);
-            } else {
-                children().addAll(unfilteredChildren.stream().filter(it -> it.match(filter)).toList());
-            }
-            init();
-        });
-
-        return searchBox;
+        Preconditions.checkState(enableSearchBox);
+        return Objects.requireNonNull(searchBox);
     }
 
     public void init() {
+        var dirtyChildren = List.copyOf(children());
+        for (var child : dirtyChildren) {
+            child.clear(this);
+        }
+
+        var rootChildren = List.copyOf(children());
+        var index = 0;
+        for (var child : rootChildren) {
+            index += child.init(this, index);
+        }
+
         for (var child : children()) {
             child.setFocused(null);
         }
+
+        if (enableSearchBox && searchBox == null) {
+            searchBox = new EditBox(minecraft.font, 0, 0, 160, 18, Component.empty());
+            searchBox.setHint(Component.translatable(Tl.Config.SEARCH_PROMPT));
+            searchBox.setResponder(filter -> {
+                var isBlank = filter.isBlank();
+                if ((isBlank && this.filter == null) || (filter.equals(this.filter))) return;
+
+                children().clear();
+                if (isBlank) {
+                    this.filter = null;
+                    this.splitFilter = null;
+                    children().addAll(rootChildren);
+                } else {
+                    this.filter = filter;
+                    this.splitFilter = filter.split("\\s");
+                    children().addAll(rootChildren.stream().filter(it -> it.match(this.splitFilter)).toList());
+                }
+                init();
+            });
+        }
+
         resize(topOffset, owner.height + bottomOffset);
         setScrollAmount(getScrollAmount());
     }
@@ -144,7 +159,12 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
         protected final Minecraft client;
         protected @Nullable List<? extends GuiEventListener> children;
         protected @Nullable List<? extends NarratableEntry> narratables;
-        public String category = "";
+
+        protected ConfigListWidget list;
+        protected int index;
+
+        public @Nullable CategoryEntry category;
+        public int categoryDepth;
 
         public Entry() {
             this.client = Minecraft.getInstance();
@@ -153,14 +173,40 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
         public void tick() {
         }
 
+        public final int init(ConfigListWidget list, int index) {
+            Preconditions.checkState(list.children().get(index) == this);
+
+            this.list = list;
+            this.index = index;
+            return init();
+        }
+
+        public int init() {
+            return 1;
+        }
+
+        public void clear(ConfigListWidget list) {
+        }
+
         protected void gatherChildren(ImmutableList.Builder<GuiEventListener> children) {
         }
 
         protected void gatherNarratables(ImmutableList.Builder<NarratableEntry> narratables) {
         }
 
-        protected boolean match(String filter) {
-            return StringUtils.containsIgnoreCase(category, filter);
+        protected abstract void buildSearchKey(StringBuilder sb);
+
+        public final boolean match(String[] filter) {
+            var sb = new StringBuilder();
+            buildSearchKey(sb);
+
+            for (var s : filter) {
+                if (StringUtils.containsIgnoreCase(sb.toString(), s)) {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         @Override
@@ -186,11 +232,30 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
         }
 
         @Override
-        public void render(@NotNull GuiGraphics ctx, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
-            if (rowTop <= mouseY && mouseY < rowTop + height + 4) {
-                ctx.fill(0, rowTop - 2, client.getWindow().getGuiScaledWidth(), rowTop + height + 2, 0x22FFFFFF);
+        public final void render(@NotNull GuiGraphics ctx, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
+            if (category != null) {
+                for (var i = 0; i < categoryDepth; i++) {
+                    var lineX1 = rowLeft + 5 + i * 16;
+                    var lineX2 = lineX1 + 2;
+                    var lineY1 = rowTop - height / 2 - 4;
+                    var lineY2 = lineY1 + height + 4;
+
+                    if (i == (categoryDepth - 1) && (index - category.index) == 1) {
+                        lineY1 += 8;
+                    }
+
+                    ctx.fill(lineX1, lineY1, lineX2, lineY2, 0x22FAFAFA);
+                }
+
+                var offset = categoryDepth * 16;
+                rowLeft += offset;
+                width -= offset;
             }
+
+            drawEntry(ctx, index, rowTop, rowLeft, width, height, mouseX, mouseY, hovered, deltaTime);
         }
+
+        protected abstract void drawEntry(GuiGraphics ctx, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime);
 
     }
 

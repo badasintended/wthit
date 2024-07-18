@@ -5,8 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import it.unimi.dsi.fastutil.objects.Object2IntLinkedOpenHashMap;
-import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import lol.bai.badpackets.api.PacketSender;
 import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.config.ConfigEntry;
@@ -21,7 +19,6 @@ import mcp.mobius.waila.gui.widget.value.InputValue;
 import mcp.mobius.waila.gui.widget.value.IntInputValue;
 import mcp.mobius.waila.network.Packets;
 import mcp.mobius.waila.registry.Registrar;
-import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
@@ -61,53 +58,47 @@ public class PluginConfigScreen extends ConfigScreen {
             var keys = PluginConfig.getAllKeys(namespace);
             if (keys.isEmpty()) continue;
 
-            options.with(new ButtonEntry(namespaceTlKey, 100, 20, w -> minecraft.setScreen(new ConfigScreen(PluginConfigScreen.this,
-                Component.translatable(Tl.Gui.Plugin.SETTINGS).append(" > ").withStyle(ChatFormatting.DARK_GRAY)
-                    .append(Component.translatable(namespaceTlKey).withStyle(ChatFormatting.WHITE))) {
-                @Override
-                public ConfigListWidget getOptions() {
-                    var options = new ConfigListWidget(this, minecraft, width, height, 32, height - 32, 26);
-                    Object2IntMap<String> categories = new Object2IntLinkedOpenHashMap<>();
-                    categories.put(NO_CATEGORY, 0);
+            var namespaceCategory = new CategoryEntry(namespaceTlKey);
+            options.with(namespaceCategory);
 
-                    for (var key : keys) {
-                        var entry = PluginConfig.getEntry(key);
-                        if (entry.isAlias()) continue;
+            var categories = new HashMap<String, CategoryEntry>();
+            categories.put(NO_CATEGORY, namespaceCategory);
 
-                        var path = key.getPath();
-                        var category = NO_CATEGORY;
+            for (var key : keys) {
+                var entry = PluginConfig.getEntry(key);
+                if (entry.isAlias()) continue;
 
-                        if (path.contains(".")) {
-                            var c = path.split("[.]", 2)[0];
-                            var categoryTlKey = namespaceTlKey + "." + c;
+                var path = key.getPath();
+                var categoryKey = NO_CATEGORY;
 
-                            if (I18n.exists(categoryTlKey)) {
-                                category = c;
+                if (path.contains(".")) {
+                    var c = path.split("[.]", 2)[0];
+                    var categoryTlKey = namespaceTlKey + "." + c;
 
-                                if (!categories.containsKey(category)) {
-                                    options.with(new CategoryEntry(categoryTlKey));
-                                    categories.put(category, options.children().size());
-                                }
-                            }
+                    if (I18n.exists(categoryTlKey)) {
+                        categoryKey = c;
+
+                        if (!categories.containsKey(categoryKey)) {
+                            var category = new CategoryEntry(categoryTlKey);
+                            namespaceCategory.with(category);
+                            categories.put(categoryKey, category);
                         }
+                    }
+                }
 
-                        var index = categories.getInt(category);
-                        var entryTlKey = namespaceTlKey + "." + path;
+                var category = categories.get(categoryKey);
+                var entryTlKey = namespaceTlKey + "." + path;
 
-                        for (var e : categories.object2IntEntrySet()) {
-                            if (e.getIntValue() >= index) {
-                                e.setValue(e.getIntValue() + 1);
-                            }
-                        }
+                if (entry.getType().equals(ConfigEntry.PATH)) {
+                    var button = new ButtonEntry(entryTlKey, Tl.Config.OPEN_FILE, 100, 20, b ->
+                        Util.getPlatform().openFile(((Path) entry.getDefaultValue()).toFile()));
 
-                        if (entry.getType().equals(ConfigEntry.PATH)) {
-                            options.with(index, new ButtonEntry(entryTlKey, Tl.Config.OPEN_FILE, 100, 20, b ->
-                                Util.getPlatform().openFile(((Path) entry.getDefaultValue()).toFile())));
-                            continue;
-                        }
+                    category.with(button);
+                    continue;
+                }
 
-                        var value = ENTRY_TO_VALUE.get(entry.getType()).create(key, entryTlKey, entry.getLocalValue(), entry.getDefaultValue(), entry::setLocalValue);
-                        value.setId(key.toString());
+                var value = ENTRY_TO_VALUE.get(entry.getType()).create(key, entryTlKey, entry.getLocalValue(), entry.getDefaultValue(), entry::setLocalValue);
+                value.setId(key.toString());
 
                         if (entry.blocksClientEdit() && minecraft.getCurrentServer() != null) {
                             if (entry.getServerValue() == null) {
@@ -123,12 +114,8 @@ public class PluginConfigScreen extends ConfigScreen {
                             }
                         }
 
-                        options.with(index, value);
-                    }
-
-                    return options;
-                }
-            })));
+                category.with(value);
+            }
         }
         return options;
     }
