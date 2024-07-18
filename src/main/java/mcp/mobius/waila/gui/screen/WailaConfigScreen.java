@@ -140,7 +140,7 @@ public class WailaConfigScreen extends ConfigScreen {
     @Override
     public ConfigListWidget getOptions() {
         var options = new ConfigListWidget(this, minecraft, width, height, 42, height - 32, 26, Waila.CONFIG::save);
-        options.with(new CategoryEntry(Tl.Config.GENERAL))
+        options.with(new CategoryEntry(Tl.Config.GENERAL)
             .with(new BooleanValue(Tl.Config.DISPLAY_TOOLTIP,
                 get().getGeneral().isDisplayTooltip(),
                 defaultConfig.getGeneral().isDisplayTooltip(),
@@ -176,9 +176,9 @@ public class WailaConfigScreen extends ConfigScreen {
                 val -> get().getGeneral().setRateLimit(Math.max(val, 250)),
                 InputValue.POSITIVE_INTEGER))
             .with(new ButtonEntry(Tl.Config.BLACKLIST, Tl.Config.BLACKLIST_OPEN, 100, 20, w ->
-                Util.getPlatform().openFile(Waila.BLACKLIST_CONFIG.getPath().toFile())));
+                Util.getPlatform().openFile(Waila.BLACKLIST_CONFIG.getPath().toFile()))));
 
-        options.with(new CategoryEntry(Tl.Config.OVERLAY))
+        options.with(new CategoryEntry(Tl.Config.OVERLAY)
             .with(fpsVal = Util.make(new InputValue<>(Tl.Config.OVERLAY_FPS,
                     get().getOverlay().getFps(),
                     defaultConfig.getOverlay().getFps(),
@@ -229,9 +229,9 @@ public class WailaConfigScreen extends ConfigScreen {
                 defaultConfig.getOverlay().getColor().getBackgroundAlpha(),
                 val -> get().getOverlay().getColor().setBackgroundAlpha(Mth.clamp(val, 0x00, 0xFF)),
                 InputValue.POSITIVE_INTEGER))
-            .with(themeIdVal = new ThemeValue());
+            .with(themeIdVal = new ThemeValue()));
 
-        options.with(new CategoryEntry(Tl.Config.FORMATTING))
+        options.with(new CategoryEntry(Tl.Config.FORMATTING)
             .with(modNameFormatVal = new InputValue<>(Tl.Config.FORMAT_MOD_NAME,
                 get().getFormatter().getModName(),
                 defaultConfig.getFormatter().getModName(),
@@ -256,14 +256,14 @@ public class WailaConfigScreen extends ConfigScreen {
                 get().getFormatter().getRegistryName(),
                 defaultConfig.getFormatter().getRegistryName(),
                 val -> get().getFormatter().setRegistryName(!val.contains("%s") ? get().getFormatter().getRegistryName() : val),
-                InputValue.ANY));
+                InputValue.ANY)));
 
-        options.with(new CategoryEntry(Tl.Config.KEYBINDS))
+        options.with(new CategoryEntry(Tl.Config.KEYBINDS)
             .with(new KeyBindValue(WailaClient.keyOpenConfig))
             .with(new KeyBindValue(WailaClient.keyShowOverlay))
             .with(new KeyBindValue(WailaClient.keyToggleLiquid))
             .with(new KeyBindValue(WailaClient.keyShowRecipeInput))
-            .with(new KeyBindValue(WailaClient.keyShowRecipeOutput));
+            .with(new KeyBindValue(WailaClient.keyShowRecipeOutput)));
 
         return options;
     }

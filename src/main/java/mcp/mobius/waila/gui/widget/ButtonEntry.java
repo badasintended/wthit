@@ -6,8 +6,6 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
-import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
 
 import static mcp.mobius.waila.util.DisplayUtil.createButton;
 
@@ -35,9 +33,7 @@ public class ButtonEntry extends ConfigListWidget.Entry {
     }
 
     @Override
-    public void render(@NotNull GuiGraphics ctx, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
-        super.render(ctx, index, rowTop, rowLeft, width, height, mouseX, mouseY, hovered, deltaTime);
-
+    protected void drawEntry(GuiGraphics ctx, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
         ctx.drawString(client.font, title, rowLeft, rowTop + (height - client.font.lineHeight) / 2, 0xFFFFFF);
         this.button.setX(rowLeft + width - button.getWidth());
         this.button.setY(rowTop + (height - button.getHeight()) / 2);
@@ -50,8 +46,8 @@ public class ButtonEntry extends ConfigListWidget.Entry {
     }
 
     @Override
-    public boolean match(String filter) {
-        return super.match(filter) || StringUtils.containsIgnoreCase(title, filter);
+    protected void buildSearchKey(StringBuilder sb) {
+        sb.append(title);
     }
 
 }

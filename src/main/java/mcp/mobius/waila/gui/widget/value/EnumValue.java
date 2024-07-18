@@ -8,7 +8,6 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
-import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.Nullable;
 
 import static mcp.mobius.waila.util.DisplayUtil.createButton;
@@ -39,8 +38,9 @@ public class EnumValue<T extends Enum<T>> extends ConfigValue<T> {
     }
 
     @Override
-    public boolean match(String filter) {
-        return super.match(filter) || StringUtils.containsIgnoreCase(I18n.get(getValueTlKey()), filter);
+    protected void buildSearchKey(StringBuilder sb) {
+        super.buildSearchKey(sb);
+        sb.append(" ").append(I18n.get(getValueTlKey()));
     }
 
     private String getValueTlKey() {

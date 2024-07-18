@@ -15,8 +15,6 @@ import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.FormattedCharSequence;
-import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import static mcp.mobius.waila.util.DisplayUtil.createButton;
@@ -57,9 +55,7 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
     }
 
     @Override
-    public final void render(@NotNull GuiGraphics ctx, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
-        super.render(ctx, index, rowTop, rowLeft, width, height, mouseX, mouseY, hovered, deltaTime);
-
+    protected void drawEntry(GuiGraphics ctx, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
         var title = getTitle();
 
         if (isDisabled()) title.withStyle(ChatFormatting.STRIKETHROUGH, ChatFormatting.GRAY);
@@ -115,13 +111,10 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
     }
 
     @Override
-    public boolean match(String filter) {
-        var match = super.match(filter) || StringUtils.containsIgnoreCase(getTitle().getString(), filter);
-        if (id != null) match = match || StringUtils.containsIgnoreCase(id, filter);
-
+    protected void buildSearchKey(StringBuilder sb) {
+        sb.append(title.getString());
         var desc = getDescription();
-        if (desc != null) match = match || StringUtils.containsIgnoreCase(desc.getString(), filter);
-        return match;
+        if (desc != null) sb.append(" ").append(desc.getString());
     }
 
     @Override

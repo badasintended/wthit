@@ -9,7 +9,6 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
-import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -92,8 +91,9 @@ public class InputValue<T> extends ConfigValue<@Nullable T> {
     }
 
     @Override
-    public boolean match(String filter) {
-        return super.match(filter) || StringUtils.containsIgnoreCase(textField.getValue(), filter);
+    protected void buildSearchKey(StringBuilder sb) {
+        super.buildSearchKey(sb);
+        sb.append(" ").append(textField.getValue());
     }
 
     private void setValue(String text) {

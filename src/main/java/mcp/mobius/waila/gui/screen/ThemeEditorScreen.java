@@ -24,7 +24,6 @@ import mcp.mobius.waila.util.TypeUtil;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.toasts.SystemToast;
 import net.minecraft.client.gui.screens.ConfirmScreen;
-import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -97,7 +96,7 @@ class ThemeEditorScreen extends ConfigScreen {
                     if (options.save(true)) {
                         super.setValue(value);
                         type = Registrar.get().themeTypes.get(ResourceLocation.parse(value));
-                        options.children().removeIf(it -> it.category.equals(I18n.get(Tl.Config.OverlayThemeEditor.ATTRIBUTES)));
+                        options.children().removeIf(it -> it.category == typeVal.category);
                         addTypeProperties(options);
                         options.init();
                         options.setFocused(this);
@@ -123,21 +122,20 @@ class ThemeEditorScreen extends ConfigScreen {
 
         if (edit) {
             options
-                .with(new CategoryEntry(Tl.Config.OverlayThemeEditor.DELETE))
-                .with(new ButtonEntry(Tl.Config.OverlayThemeEditor.DELETE, 100, 20, button -> minecraft.setScreen(new ConfirmScreen(delete -> {
-                    if (delete) {
-                        parent.removeTheme(template.id);
-                        minecraft.setScreen(parent);
-                    } else {
-                        minecraft.setScreen(this);
-                    }
-                }, Component.translatable(Tl.Config.OverlayThemeEditor.DELETE_PROMPT, template.id), CommonComponents.EMPTY))));
+                .with(new CategoryEntry(Tl.Config.OverlayThemeEditor.DELETE)
+                    .with(new ButtonEntry(Tl.Config.OverlayThemeEditor.DELETE, 100, 20, button -> minecraft.setScreen(new ConfirmScreen(delete -> {
+                        if (delete) {
+                            parent.removeTheme(template.id);
+                            minecraft.setScreen(parent);
+                        } else {
+                            minecraft.setScreen(this);
+                        }
+                    }, Component.translatable(Tl.Config.OverlayThemeEditor.DELETE_PROMPT, template.id), CommonComponents.EMPTY)))));
         }
 
         addTypeProperties(options);
 
-        options.getSearchBox().active = false;
-        options.getSearchBox().setEditable(false);
+        options.enableSearchBox = false;
         return options;
     }
 
@@ -169,10 +167,9 @@ class ThemeEditorScreen extends ConfigScreen {
             }
 
             value.setId(key);
-            value.category = category.category;
             attrValues.put(key, TypeUtil.uncheckedCast(value));
 
-            options.add(options.children().size() - (edit ? 2 : 0), value);
+            category.with(value);
         });
     }
 
