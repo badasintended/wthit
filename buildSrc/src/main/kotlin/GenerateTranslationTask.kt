@@ -5,21 +5,24 @@ import com.squareup.javapoet.FieldSpec
 import com.squareup.javapoet.JavaFile
 import com.squareup.javapoet.TypeSpec
 import org.gradle.api.DefaultTask
+import org.gradle.api.file.DirectoryProperty
+import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.provider.SetProperty
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputFile
 import org.gradle.api.tasks.OutputDirectory
 import org.gradle.api.tasks.TaskAction
+import org.gradle.internal.enterprise.test.FileProperty
 import java.io.File
 import javax.lang.model.element.Modifier
 
 abstract class GenerateTranslationTask : DefaultTask() {
     @get:InputFile
-    abstract val input: Property<File>
+    abstract val input: RegularFileProperty
 
     @get:OutputDirectory
-    abstract val output: Property<File>
+    abstract val output: DirectoryProperty
 
     @get:Input
     abstract val className: Property<String>
@@ -33,7 +36,7 @@ abstract class GenerateTranslationTask : DefaultTask() {
 
     @TaskAction
     fun generate() {
-        val json = JsonParser.parseString(input.get().readText()) as JsonObject
+        val json = JsonParser.parseString(input.get().asFile.readText()) as JsonObject
 
         val types = hashMapOf<String, TypeSpec.Builder>()
 
@@ -79,7 +82,7 @@ abstract class GenerateTranslationTask : DefaultTask() {
 
         JavaFile.builder(this.className.get().substringBeforeLast('.'), types[""]!!.build())
             .build()
-            .writeTo(output.get().toPath(), Charsets.UTF_8)
+            .writeTo(output.get().asFile.toPath(), Charsets.UTF_8)
     }
 
 
