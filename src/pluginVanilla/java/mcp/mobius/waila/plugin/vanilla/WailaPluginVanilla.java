@@ -28,7 +28,7 @@ import mcp.mobius.waila.plugin.vanilla.provider.HorseProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.InfestedBlockProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.InvisibleEntityProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.ItemEntityProvider;
-import mcp.mobius.waila.plugin.vanilla.provider.ItemFrameProvider;
+import mcp.mobius.waila.plugin.vanilla.provider.ItemHolderProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.JukeboxProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.MobEffectProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.MobTimerProvider;
@@ -49,6 +49,7 @@ import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.OminousItemSpawner;
 import net.minecraft.world.entity.OwnableEntity;
 import net.minecraft.world.entity.animal.Bee;
 import net.minecraft.world.entity.animal.Panda;
@@ -218,10 +219,15 @@ public class WailaPluginVanilla implements IWailaPlugin {
         registrar.addComponent(BoatProvider.INSTANCE, HEAD, Boat.class, 950);
         registrar.addComponent(BoatProvider.INSTANCE, TAIL, Boat.class, 950);
 
-        registrar.addIcon(ItemFrameProvider.INSTANCE, ItemFrame.class);
-        registrar.addComponent(ItemFrameProvider.INSTANCE, HEAD, ItemFrame.class);
-        registrar.addComponent(ItemFrameProvider.INSTANCE, BODY, ItemFrame.class);
-        registrar.addComponent(ItemFrameProvider.INSTANCE, TAIL, ItemFrame.class);
+        registrar.addIcon(ItemHolderProvider.ITEM_FRAME, ItemFrame.class);
+        registrar.addComponent(ItemHolderProvider.ITEM_FRAME, HEAD, ItemFrame.class);
+        registrar.addComponent(ItemHolderProvider.ITEM_FRAME, BODY, ItemFrame.class);
+        registrar.addComponent(ItemHolderProvider.ITEM_FRAME, TAIL, ItemFrame.class);
+
+        registrar.addIcon(ItemHolderProvider.OMINOUS_ITEM_SPAWNER, OminousItemSpawner.class);
+        registrar.addComponent(ItemHolderProvider.OMINOUS_ITEM_SPAWNER, HEAD, OminousItemSpawner.class);
+        registrar.addComponent(ItemHolderProvider.OMINOUS_ITEM_SPAWNER, BODY, OminousItemSpawner.class);
+        registrar.addComponent(ItemHolderProvider.OMINOUS_ITEM_SPAWNER, TAIL, OminousItemSpawner.class);
 
         registrar.addFeatureConfig(Options.BOOK_BOOKSHELF, false);
         registrar.addConfig(Options.BOOK_ENCHANTMENT_DISPLAY_MODE, EnchantmentDisplayMode.CYCLE);
