@@ -31,7 +31,9 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
     private @Nullable EditBox searchBox;
 
     public @Nullable String filter = null;
-    public @Nullable String[] splitFilter = null;
+
+    // the fuck? apparently @Nullable String[] means a non-null array containing nullable string
+    public String @Nullable [] splitFilter = null;
 
     public ConfigListWidget(ConfigScreen owner, Minecraft client, int width, int height, int top, int bottom, int itemHeight, @Nullable Runnable diskWriter) {
         super(client, width, height, top, bottom, itemHeight - 4);

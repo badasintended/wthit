@@ -21,6 +21,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
+import org.jetbrains.annotations.Nullable;
 
 public enum ClientAccessor implements ICommonAccessor, IBlockAccessor, IEntityAccessor {
 
@@ -34,8 +35,8 @@ public enum ClientAccessor implements ICommonAccessor, IBlockAccessor, IEntityAc
     private BlockState state = Blocks.AIR.defaultBlockState();
     private BlockPos pos = BlockPos.ZERO;
     private ResourceLocation blockRegistryName = Registry.ITEM.getDefaultKey();
-    private BlockEntity blockEntity;
-    private Entity entity;
+    private @Nullable BlockEntity blockEntity;
+    private @Nullable Entity entity;
     private long timeLastUpdate = System.currentTimeMillis();
     private ItemStack stack = ItemStack.EMPTY;
     private int updateId;
@@ -77,7 +78,7 @@ public enum ClientAccessor implements ICommonAccessor, IBlockAccessor, IEntityAc
         return (T) this.entity;
     }
 
-    public void setEntity(Entity entity) {
+    public void setEntity(@Nullable Entity entity) {
         this.entity = entity;
     }
 
@@ -138,7 +139,7 @@ public enum ClientAccessor implements ICommonAccessor, IBlockAccessor, IEntityAc
     }
 
     @Override
-    public Direction getSide() {
+    public @Nullable Direction getSide() {
         return hitResult == null ? null : hitResult.getType() == HitResult.Type.ENTITY ? null : ((BlockHitResult) hitResult).getDirection();
     }
 

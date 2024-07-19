@@ -67,7 +67,7 @@ public class WailaConfigScreen extends ConfigScreen {
 
     private ThemeValue themeIdVal;
 
-    private KeyBindValue selectedKeyBind;
+    private @Nullable KeyBindValue selectedKeyBind;
 
     public WailaConfigScreen(Screen parent) {
         super(parent, Component.translatable(Tl.Gui.CONFIGURATION, WailaConstants.MOD_NAME), Waila.CONFIG::save, Waila.CONFIG::invalidate);

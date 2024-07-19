@@ -106,6 +106,7 @@ public class Registrar implements IRegistrar {
         this.plugin = plugin;
     }
 
+    @SuppressWarnings("DataFlowIssue")
     private <T> void addConfig(ResourceLocation key, T defaultValue, T clientOnlyValue, boolean serverRequired, boolean merged, ConfigEntry.Type<T> type) {
         assertLock();
         PluginConfig.addConfig(type.create(plugin, key, defaultValue, clientOnlyValue, serverRequired, merged));
@@ -454,6 +455,7 @@ public class Registrar implements IRegistrar {
         Preconditions.checkNotNull(plugin, "Tried to register things outside the register method");
     }
 
+    @SuppressWarnings("DataFlowIssue")
     private boolean skip() {
         assertPlugin();
         return !plugin.isEnabled();
