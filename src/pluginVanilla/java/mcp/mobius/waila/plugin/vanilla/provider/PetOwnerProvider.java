@@ -46,6 +46,7 @@ public enum PetOwnerProvider implements IEntityComponentProvider, IDataProvider<
             OwnableEntity entity = accessor.getEntity();
             var data = accessor.getData().raw();
             var uuid = data.hasUUID("owner") ? data.getUUID("owner") : entity.getOwnerUUID();
+            if (uuid == null) return;
 
             var name = LOADING;
             if (NAMES.containsKey(uuid)) {

@@ -1,5 +1,7 @@
 package mcp.mobius.waila.gui.hud;
 
+import java.util.Objects;
+
 import lol.bai.badpackets.api.PacketSender;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.access.ClientAccessor;
@@ -16,11 +18,11 @@ import mcp.mobius.waila.registry.Registrar;
 import mcp.mobius.waila.util.ExceptionUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
+import org.jetbrains.annotations.Nullable;
 
 public class ComponentHandler {
 
@@ -37,7 +39,7 @@ public class ComponentHandler {
         accessor.resetTimer();
         accessor.setDataAccess(false);
         DataWriter.CLIENT.reset();
-        var player = Minecraft.getInstance().player;
+        var player = accessor.getPlayer();
 
         for (var entry : registrar.blockDataCtx.get(block)) {
             DataWriter.CLIENT.tryAppend(player, entry.instance(), accessor, PluginConfig.CLIENT, IBlockComponentProvider::appendDataContext);
@@ -57,7 +59,7 @@ public class ComponentHandler {
         var blockEntity = accessor.getBlockEntity();
 
         handleBlock(accessor, tooltip, block, position);
-        handleBlock(accessor, tooltip, blockEntity, position);
+        if (blockEntity != null) handleBlock(accessor, tooltip, blockEntity, position);
     }
 
     @SuppressWarnings("DuplicatedCode")
@@ -90,7 +92,7 @@ public class ComponentHandler {
         accessor.resetTimer();
         accessor.setDataAccess(false);
         DataWriter.CLIENT.reset();
-        var player = Minecraft.getInstance().player;
+        var player = accessor.getPlayer();
 
         for (var entry : registrar.entityDataCtx.get(entity)) {
             DataWriter.CLIENT.tryAppend(player, entry.instance(), accessor, PluginConfig.CLIENT, IEntityComponentProvider::appendDataContext);
@@ -168,7 +170,7 @@ public class ComponentHandler {
         return EmptyComponent.INSTANCE;
     }
 
-    public static Entity getOverrideEntity(HitResult target) {
+    public static @Nullable Entity getOverrideEntity(HitResult target) {
         if (target == null || target.getType() != HitResult.Type.ENTITY) {
             return null;
         }
@@ -190,9 +192,7 @@ public class ComponentHandler {
     public static BlockState getOverrideBlock(HitResult target) {
         var registrar = Registrar.get();
 
-        Level world = Minecraft.getInstance().level;
-        if (world == null) return null;
-
+        var world = Objects.requireNonNull(Minecraft.getInstance().level);
         var pos = ((BlockHitResult) target).getBlockPos();
         final var state = world.getBlockState(pos);
 

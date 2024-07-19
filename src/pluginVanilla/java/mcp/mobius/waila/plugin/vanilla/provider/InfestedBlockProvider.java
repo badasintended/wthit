@@ -6,13 +6,14 @@ import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.world.level.block.InfestedBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.Nullable;
 
 public enum InfestedBlockProvider implements IBlockComponentProvider {
 
     INSTANCE;
 
     @Override
-    public BlockState getOverride(IBlockAccessor accessor, IPluginConfig config) {
+    public @Nullable BlockState getOverride(IBlockAccessor accessor, IPluginConfig config) {
         return config.getBoolean(Options.OVERRIDE_INFESTED)
             ? ((InfestedBlock) accessor.getBlock()).getHostBlock().defaultBlockState()
             : null;
