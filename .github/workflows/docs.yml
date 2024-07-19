@@ -24,7 +24,7 @@ jobs:
       - uses: gradle/actions/setup-gradle@v3
         with:
           cache-read-only: true
-      - run: ./gradlew apiJavadoc --max-workers=1
+      - run: ./gradlew apiJavadoc
         env:
           GIT_HASH: ${{ steps.vars.outputs.git_hash }}
       - run: pip install mkdocs-material
