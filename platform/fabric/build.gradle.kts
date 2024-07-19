@@ -1,7 +1,7 @@
 evaluationDependsOn(":textile")
 
 plugins {
-    id("fabric-loom") version "1.6.12"
+    id("fabric-loom")
 }
 
 setupPlatform()

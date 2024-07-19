@@ -35,7 +35,7 @@ jobs:
       - uses: gradle/actions/setup-gradle@v3
         with:
           cache-read-only: ${{ github.repository != 'badasintended/wthit' }}
-      - run: ./gradlew build --max-workers=1
+      - run: ./gradlew build
         env:
           GIT_HASH: ${{ steps.vars.outputs.git_hash }}
       - uses: actions/upload-artifact@v4
