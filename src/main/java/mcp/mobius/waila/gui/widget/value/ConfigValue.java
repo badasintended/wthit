@@ -15,6 +15,7 @@ import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.FormattedCharSequence;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import static mcp.mobius.waila.util.DisplayUtil.createButton;
@@ -112,7 +113,7 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
 
     @Override
     protected void buildSearchKey(StringBuilder sb) {
-        sb.append(title.getString());
+        sb.append(getTitle().getString());
         var desc = getDescription();
         if (desc != null) sb.append(" ").append(desc.getString());
     }
@@ -159,7 +160,7 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
         return x;
     }
 
-    public final T getValue() {
+    public final @NotNull T getValue() {
         return value;
     }
 
@@ -167,6 +168,7 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
         this.value = value;
     }
 
+    @SuppressWarnings("DataFlowIssue")
     protected void resetValue() {
         setValue(defaultValue);
     }

@@ -100,7 +100,8 @@ public abstract class DataProvider<A extends IData, I extends A> implements IBlo
         var blockEntityType = Objects.<BlockEntity>requireNonNull(accessor.getBlockEntity()).getType();
         if (blacklistConfig.get().getView().blockEntityFilter.matches(blockEntityType)) return;
 
-        appendBody(tooltip, accessor.getData(), config, BuiltInRegistries.BLOCK_ENTITY_TYPE.getKey(blockEntityType));
+        var blockEntityId = Objects.requireNonNull(BuiltInRegistries.BLOCK_ENTITY_TYPE.getKey(blockEntityType));
+        appendBody(tooltip, accessor.getData(), config, blockEntityId);
     }
 
     @Override

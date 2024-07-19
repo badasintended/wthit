@@ -19,8 +19,11 @@ public enum SpawnerProvider implements IBlockComponentProvider {
             SpawnerBlockEntity spawner = accessor.getBlockEntity();
             var entity = spawner != null ? spawner.getSpawner().getOrCreateDisplayEntity(accessor.getWorld(), accessor.getWorld().random, spawner.getBlockPos()) : null;
             if (entity != null) {
+                //noinspection DataFlowIssue
+                var name = entity.getDisplayName().getString();
+
                 tooltip.setLine(WailaConstants.OBJECT_NAME_TAG, IWailaConfig.get().getFormatter().blockName(
-                    accessor.getBlock().getName().getString() + " (" + entity.getDisplayName().getString() + ")"));
+                    accessor.getBlock().getName().getString() + " (" + name + ")"));
             }
         }
     }
