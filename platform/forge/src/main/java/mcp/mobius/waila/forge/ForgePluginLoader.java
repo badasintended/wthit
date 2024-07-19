@@ -34,7 +34,7 @@ public class ForgePluginLoader extends PluginLoader {
 
                     var satisfied = true;
                     for (var dep : required) {
-                        satisfied &= ModList.get().isLoaded(dep);
+                        satisfied = satisfied && ModList.get().isLoaded(dep);
                     }
 
                     if (side == IPluginInfo.Side.CLIENT && FMLLoader.getDist() != Dist.CLIENT) {

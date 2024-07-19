@@ -69,7 +69,7 @@ public class PluginToggleScreen extends ConfigScreen {
             initialValues.put(id, enabled);
             updatedValues.put(id, enabled);
 
-            var toggle = new BooleanValue(null, enabled, null, val -> updatedValues.put(id, val.booleanValue())) {
+            var toggle = new BooleanValue("", enabled, null, val -> updatedValues.put(id, val.booleanValue())) {
                 @Override
                 public MutableComponent getTitle() {
                     return Component.literal(plugin.getPluginId().toString());

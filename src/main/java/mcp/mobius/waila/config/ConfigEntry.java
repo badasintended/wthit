@@ -30,7 +30,7 @@ public class ConfigEntry<T> {
 
     private final Type<T> type;
 
-    private T serverValue;
+    private @Nullable T serverValue;
     private T localValue;
 
     private ConfigEntry(IPluginInfo origin, ResourceLocation id, T defaultValue, T clientOnlyValue, boolean serverRequired, boolean merged, Type<T> type) {
@@ -72,7 +72,7 @@ public class ConfigEntry<T> {
         return localValue;
     }
 
-    public T getServerValue() {
+    public @Nullable T getServerValue() {
         return serverValue;
     }
 

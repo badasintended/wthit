@@ -6,7 +6,7 @@ import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerAccessor;
 import mcp.mobius.waila.api.data.ProgressData;
 import mcp.mobius.waila.mixin.AbstractFurnaceBlockEntityAccess;
-import net.minecraft.world.level.block.FurnaceBlock;
+import net.minecraft.world.level.block.AbstractFurnaceBlock;
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 
 public enum FurnaceProvider implements IDataProvider<AbstractFurnaceBlockEntity> {
@@ -19,7 +19,7 @@ public enum FurnaceProvider implements IDataProvider<AbstractFurnaceBlockEntity>
             var furnace = accessor.getTarget();
             var access = (AbstractFurnaceBlockEntityAccess) furnace;
 
-            if (furnace.getBlockState().getValue(FurnaceBlock.LIT)) res.add(ProgressData
+            if (furnace.getBlockState().getValue(AbstractFurnaceBlock.LIT)) res.add(ProgressData
                 .ratio((float) access.wthit_cookingProgress() / access.wthit_cookingTotalTime())
                 .itemGetter(furnace::getItem)
                 .input(0, 1)

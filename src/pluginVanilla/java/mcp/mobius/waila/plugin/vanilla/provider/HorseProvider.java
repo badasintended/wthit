@@ -44,7 +44,7 @@ public enum HorseProvider implements IEntityComponentProvider {
 
         if (config.getBoolean(Options.HORSE_SPEED)) {
             AbstractHorse horse = accessor.getEntity();
-            var speed = horse.getAttribute(Attributes.MOVEMENT_SPEED).getBaseValue() * 42.157787584f;
+            var speed = horse.getAttributeBaseValue(Attributes.MOVEMENT_SPEED) * 42.157787584f;
 
             ChatFormatting format;
             if (speed < 7.0f)

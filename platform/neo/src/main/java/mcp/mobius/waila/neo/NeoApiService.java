@@ -15,6 +15,7 @@ import org.jetbrains.annotations.Nullable;
 public class NeoApiService extends ApiService {
 
     @Override
+    @SuppressWarnings("DataFlowIssue")
     public IModInfo getModInfo(ItemStack stack) {
         return ModInfo.get(stack.getItem().getCreatorModId(stack));
     }

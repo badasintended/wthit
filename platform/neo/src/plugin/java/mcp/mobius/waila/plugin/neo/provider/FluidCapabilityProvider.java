@@ -29,6 +29,7 @@ public enum FluidCapabilityProvider implements IDataProvider<BlockEntity> {
             var pos = target.getBlockPos();
 
             if (cache == null || (cache.level() != world && !cache.pos().equals(pos))) {
+                //noinspection DataFlowIssue
                 cache = BlockCapabilityCache.create(Capabilities.FluidHandler.BLOCK, world, pos, null);
             }
 
