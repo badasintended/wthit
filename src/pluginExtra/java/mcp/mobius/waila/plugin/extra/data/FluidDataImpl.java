@@ -11,9 +11,10 @@ import mcp.mobius.waila.buildconst.Tl;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.component.DataComponentPatch;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -24,6 +25,7 @@ import org.jetbrains.annotations.Nullable;
 
 public class FluidDataImpl extends FluidData.PlatformDependant<Object> {
 
+    private static final StreamCodec<RegistryFriendlyByteBuf, Fluid> FLUID_CODEC = ByteBufCodecs.registry(Registries.FLUID);
     public static final StreamCodec<RegistryFriendlyByteBuf, FluidDataImpl> CODEC = StreamCodec.ofMember((d, buf) -> {
         buf.writeEnum(d.unit);
         buf.writeVarInt(d.entries.size());
@@ -33,7 +35,7 @@ public class FluidDataImpl extends FluidData.PlatformDependant<Object> {
                 buf.writeBoolean(true);
             } else {
                 buf.writeBoolean(false);
-                buf.writeById(BuiltInRegistries.FLUID::getId, entry.fluid);
+                FLUID_CODEC.encode(buf, entry.fluid);
                 DataComponentPatch.STREAM_CODEC.encode(buf, entry.data);
                 buf.writeDouble(entry.stored);
                 buf.writeDouble(entry.capacity);
@@ -47,8 +49,7 @@ public class FluidDataImpl extends FluidData.PlatformDependant<Object> {
         for (var i = 0; i < size; i++) {
             if (buf.readBoolean()) continue;
 
-            var id = buf.readVarInt();
-            var fluid = BuiltInRegistries.FLUID.byId(id);
+            var fluid = FLUID_CODEC.decode(buf);
             var data = DataComponentPatch.STREAM_CODEC.decode(buf);
             var stored = buf.readDouble();
             var capacity = buf.readDouble();
