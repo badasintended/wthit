@@ -33,6 +33,7 @@ public class ItemDataImpl extends ItemData {
             }
         }
     }, buf -> {
+        //noinspection DataFlowIssue
         var d = new ItemDataImpl(null);
 
         d.syncNbt = buf.readBoolean();

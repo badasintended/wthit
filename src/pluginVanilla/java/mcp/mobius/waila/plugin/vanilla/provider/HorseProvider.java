@@ -27,7 +27,7 @@ public enum HorseProvider implements IEntityComponentProvider {
         if (config.getBoolean(Options.HORSE_JUMP_HEIGHT)) {
             AbstractHorse horse = accessor.getEntity();
 
-            var jumpStrength = horse.getAttribute(Attributes.JUMP_STRENGTH).getBaseValue();
+            var jumpStrength = horse.getAttributeBaseValue(Attributes.JUMP_STRENGTH);
             var jumpHeight = -0.1817584952f * Math.pow(jumpStrength, 3) + 3.689713992f * Math.pow(jumpStrength, 2) + 2.128599134f * jumpStrength - 0.343930367f;
 
             ChatFormatting format;
@@ -44,7 +44,7 @@ public enum HorseProvider implements IEntityComponentProvider {
 
         if (config.getBoolean(Options.HORSE_SPEED)) {
             AbstractHorse horse = accessor.getEntity();
-            var speed = horse.getAttribute(Attributes.MOVEMENT_SPEED).getBaseValue() * 42.157787584f;
+            var speed = horse.getAttributeBaseValue(Attributes.MOVEMENT_SPEED) * 42.157787584f;
 
             ChatFormatting format;
             if (speed < 7.0f)

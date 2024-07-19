@@ -75,6 +75,7 @@ public class FluidDataImpl extends FluidData.PlatformDependant<Object> {
     }
 
     @Override
+    @SuppressWarnings("DataFlowIssue")
     protected PlatformTranslator<Object> translator() {
         return proxy;
     }

@@ -178,6 +178,7 @@ public class TooltipRenderer {
         return RECT.get();
     }
 
+    @SuppressWarnings("DataFlowIssue")
     public static void resetState() {
         state = null;
     }

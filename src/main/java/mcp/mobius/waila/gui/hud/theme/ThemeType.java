@@ -54,7 +54,7 @@ public class ThemeType<T extends ITheme> implements IThemeType<T>, IThemeType.Bu
         return Objects.requireNonNull(Registrar.get().themeTypes.inverse().get(this));
     }
 
-    private <V, C> ThemeType<T> property(String name, Class<V> type, V exampleValue, C context) {
+    private <V, C> ThemeType<T> property(String name, Class<V> type, V exampleValue, @Nullable C context) {
         Preconditions.checkState(!built);
         Preconditions.checkArgument(!INVALID_NAMES.contains(name), INVALID_NAME_ERROR_MSG);
         properties.put(name, new Property<>(name, type, exampleValue, context));

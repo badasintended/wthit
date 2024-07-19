@@ -18,10 +18,11 @@ import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.registry.Registrar;
 import mcp.mobius.waila.util.TypeUtil;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.Nullable;
 
 public final class ThemeDefinition<T extends ITheme> {
 
-    private static Map<ResourceLocation, ThemeDefinition<?>> all;
+    private static @Nullable Map<ResourceLocation, ThemeDefinition<?>> all;
 
     public final ResourceLocation id;
     public final ThemeType<T> type;

@@ -38,7 +38,7 @@ public class CreditsScreen extends YesIAmSureTheClientInstanceIsPresentByTheTime
         super.init();
 
         try {
-            var credits = new Gson().fromJson(minecraft.getResourceManager().getResource(Waila.id("credits.json")).get().openAsReader(), CreditMap.class);
+            var credits = new Gson().fromJson(minecraft.getResourceManager().getResource(Waila.id("credits.json")).orElseThrow().openAsReader(), CreditMap.class);
             var listWidget = new ListWidget(minecraft, width, height - 64, 32, minecraft.font.lineHeight + 6);
 
             credits.forEach((key, category) -> {

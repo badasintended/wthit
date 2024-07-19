@@ -6,6 +6,7 @@ import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.Nullable;
 
 import static net.minecraft.world.level.block.ChestBlock.FACING;
 import static net.minecraft.world.level.block.ChestBlock.TYPE;
@@ -16,7 +17,7 @@ public enum TrappedChestProvider implements IBlockComponentProvider {
     INSTANCE;
 
     @Override
-    public BlockState getOverride(IBlockAccessor accessor, IPluginConfig config) {
+    public @Nullable BlockState getOverride(IBlockAccessor accessor, IPluginConfig config) {
         if (config.getBoolean(Options.OVERRIDE_TRAPPED_CHEST)) {
             var state = accessor.getBlockState();
             return Blocks.CHEST.defaultBlockState()

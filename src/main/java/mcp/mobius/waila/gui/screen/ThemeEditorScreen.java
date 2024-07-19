@@ -153,6 +153,7 @@ class ThemeEditorScreen extends ConfigScreen {
             ConfigValue<?> value;
 
             if (propType == int.class) {
+                //noinspection DataFlowIssue
                 value = new IntInputValue(prop.getTlKey(), TypeUtil.uncheckedCast(templateValue), null, val -> attr.put(key, val), TypeUtil.uncheckedCast(prop.context));
             } else if (propType == boolean.class) {
                 value = new BooleanValue(prop.getTlKey(), TypeUtil.uncheckedCast(templateValue), null, val -> attr.put(key, val));

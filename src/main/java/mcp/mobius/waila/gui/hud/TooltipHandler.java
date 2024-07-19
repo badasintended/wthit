@@ -103,6 +103,8 @@ public class TooltipHandler {
 
     private static ProcessResult processTarget(HitResult target, Minecraft client, Player player, Vec3 castOrigin, Vec3 castDirection, double pickRange, WailaConfig.General config) {
         var accessor = ClientAccessor.INSTANCE;
+
+        //noinspection DataFlowIssue
         accessor.set(client.level, player, target, client.cameraEntity, castOrigin, castDirection, pickRange, client.getTimer().getGameTimeDeltaPartialTick(true));
 
         TooltipRenderer.beginBuild(STATE);
