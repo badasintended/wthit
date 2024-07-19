@@ -10,6 +10,7 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectLinkedOpenHashSet;
 import it.unimi.dsi.fastutil.objects.ObjectLists;
 import mcp.mobius.waila.api.IInstanceRegistry;
+import org.jetbrains.annotations.Nullable;
 
 public class InstanceRegistry<T> implements IInstanceRegistry<T> {
 
@@ -29,7 +30,7 @@ public class InstanceRegistry<T> implements IInstanceRegistry<T> {
     }
 
     @Override
-    public List<Entry<T>> get(Object target) {
+    public List<Entry<T>> get(@Nullable Object target) {
         if (target == null) {
             return ObjectLists.emptyList();
         }

@@ -7,14 +7,15 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import static mcp.mobius.waila.util.DisplayUtil.createButton;
 
 public class HomeScreen extends YesIAmSureTheClientInstanceIsPresentByTheTimeIUseItScreen {
 
-    private final Screen parent;
+    private final @Nullable Screen parent;
 
-    public HomeScreen(Screen parent) {
+    public HomeScreen(@Nullable Screen parent) {
         super(Component.literal(WailaConstants.MOD_NAME));
 
         this.parent = parent;

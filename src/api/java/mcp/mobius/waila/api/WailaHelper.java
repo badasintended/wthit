@@ -57,7 +57,8 @@ public final class WailaHelper {
     public static <B extends ByteBuf, V> StreamCodec<B, @Nullable V> nullable(final StreamCodec<B, V> codec) {
         return new StreamCodec<>() {
             @Override
-            public V decode(B b) {
+            @SuppressWarnings("NullableProblems")
+            public @Nullable V decode(B b) {
                 return FriendlyByteBuf.readNullable(b, codec);
             }
 

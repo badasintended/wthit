@@ -7,13 +7,14 @@ import mcp.mobius.waila.api.ITooltip;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.jetbrains.annotations.Nullable;
 
 public final class ExceptionUtil {
 
     private static final Log LOG = Log.create();
     private static final Set<String> ERRORS = new HashSet<>();
 
-    public static boolean dump(Throwable e, String errorName, ITooltip tooltip) {
+    public static boolean dump(Throwable e, String errorName, @Nullable ITooltip tooltip) {
         var log = ERRORS.add(errorName);
 
         if (log) {

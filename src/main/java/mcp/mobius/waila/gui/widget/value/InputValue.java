@@ -81,6 +81,7 @@ public class InputValue<T> extends ConfigValue<@Nullable T> {
     }
 
     @Override
+    @SuppressWarnings("DataFlowIssue")
     protected void resetValue() {
         textField.setValue(serializer.serialize(defaultValue));
     }

@@ -156,6 +156,7 @@ public enum PluginConfig implements IPluginConfig {
     }
 
     @Override
+    @SuppressWarnings("DataFlowIssue")
     public <T extends Enum<T>> T getEnum(ResourceLocation key) {
         return getValue(key, null);
     }
