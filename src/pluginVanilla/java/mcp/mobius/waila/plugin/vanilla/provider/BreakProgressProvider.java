@@ -55,32 +55,32 @@ public enum BreakProgressProvider implements IEventListener {
         }
 
         if (lineLength > 0) {
-            var hLenght = rect.width - 2;
-            var vLenght = rect.height - 4;
+            var hLength = rect.width - 2;
+            var vLength = rect.height - 4;
 
             var x = rect.x + 1;
             var y = rect.y + rect.height - 2;
 
             var color = config.getInt(Options.BREAKING_PROGRESS_COLOR);
-            fill(ctx, x, y, x + Math.min(lineLength, hLenght), y + 1, color);
-            lineLength -= hLenght;
+            fill(ctx, x, y, x + Math.min(lineLength, hLength), y + 1, color);
+            lineLength -= hLength;
 
             if (lineLength > 0) {
                 x = rect.x + rect.width - 2;
                 y = rect.y + rect.height - 2;
-                fill(ctx, x, y, x + 1, y - Math.min(lineLength, vLenght), color);
-                lineLength -= vLenght;
+                fill(ctx, x, y, x + 1, y - Math.min(lineLength, vLength), color);
+                lineLength -= vLength;
 
                 if (lineLength > 0) {
                     x = rect.x + rect.width - 1;
                     y = rect.y + 1;
-                    fill(ctx, x, y, x - Math.min(lineLength, hLenght), y + 1, color);
-                    lineLength -= hLenght;
+                    fill(ctx, x, y, x - Math.min(lineLength, hLength), y + 1, color);
+                    lineLength -= hLength;
 
                     if (lineLength > 0) {
                         x = rect.x + 1;
                         y = rect.y + 2;
-                        fill(ctx, x, y, x + 1, y + Math.min(lineLength, vLenght), color);
+                        fill(ctx, x, y, x + 1, y + Math.min(lineLength, vLength), color);
                     }
                 }
             }
