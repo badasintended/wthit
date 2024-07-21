@@ -6,7 +6,6 @@ import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.gui.widget.ConfigListWidget;
-import mcp.mobius.waila.gui.widget.value.ConfigValue;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
@@ -100,7 +99,7 @@ public abstract class ConfigScreen extends YesIAmSureTheClientInstanceIsPresentB
         options.render(matrices, mouseX, mouseY, partialTicks);
 
         if (options.enableSearchBox) {
-            options.getSearchBox().render(ctx, mouseX, mouseY, partialTicks);
+            options.getSearchBox().render(matrices, mouseX, mouseY, partialTicks);
         }
 
         super.render(matrices, mouseX, mouseY, partialTicks);
@@ -111,8 +110,8 @@ public abstract class ConfigScreen extends YesIAmSureTheClientInstanceIsPresentB
         }
 
         options.getChildAt(mouseX, mouseY).ifPresent(element -> {
-            if (element instanceof ConfigValue<?> value) {
-                value.renderTooltip(this, matrices, mouseX, mouseY, partialTicks);
+            if (element instanceof ConfigListWidget.Entry entry) {
+                entry.renderTooltip(this, matrices, mouseX, mouseY, partialTicks);
             }
         });
     }

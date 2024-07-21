@@ -5,6 +5,7 @@ import java.util.Objects;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
+import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.gui.screen.ConfigScreen;
 import mcp.mobius.waila.gui.widget.value.ConfigValue;
@@ -14,6 +15,7 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.components.toasts.SystemToast;
 import net.minecraft.client.gui.narration.NarratableEntry;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
@@ -107,8 +109,7 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
         }
 
         if (enableSearchBox && searchBox == null) {
-            searchBox = new EditBox(minecraft.font, 0, 0, 160, 18, Component.empty());
-            searchBox.setHint(Component.translatable(Tl.Config.SEARCH_PROMPT));
+            searchBox = new EditBox(minecraft.font, 0, 0, 160, 18, Component.translatable(Tl.Config.SEARCH_PROMPT));
             searchBox.setResponder(filter -> {
                 var isBlank = filter.isBlank();
                 if ((isBlank && this.filter == null) || (filter.equals(this.filter))) return;
@@ -154,7 +155,7 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
         updateSize(owner.width, owner.height, topOffset, owner.height + bottomOffset);
         if (searchBox != null) {
             searchBox.setX(getRowLeft() + getRowWidth() - 160);
-            searchBox.y =  (top - 18) / 2;
+            searchBox.y = (top - 18) / 2;
         }
     }
 
@@ -236,7 +237,7 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
         }
 
         @Override
-        public final void render(@NotNull GuiGraphics ctx, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
+        public final void render(@NotNull PoseStack matrices, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
             if (category != null) {
                 for (var i = 0; i < categoryDepth; i++) {
                     var lineX1 = rowLeft + 5 + i * 16;
@@ -248,7 +249,7 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
                         lineY1 += 8;
                     }
 
-                    ctx.fill(lineX1, lineY1, lineX2, lineY2, 0x22FAFAFA);
+                    fill(matrices, lineX1, lineY1, lineX2, lineY2, 0x22FAFAFA);
                 }
 
                 var offset = categoryDepth * 16;
@@ -256,10 +257,14 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
                 width -= offset;
             }
 
-            drawEntry(ctx, index, rowTop, rowLeft, width, height, mouseX, mouseY, hovered, deltaTime);
+            drawEntry(matrices, index, rowTop, rowLeft, width, height, mouseX, mouseY, hovered, deltaTime);
         }
 
-        protected abstract void drawEntry(GuiGraphics ctx, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime);
+        protected abstract void drawEntry(PoseStack matrices, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime);
+
+        public void renderTooltip(Screen screen, PoseStack matrices, int mouseX, int mouseY, float delta) {
+        }
+
 
     }
 

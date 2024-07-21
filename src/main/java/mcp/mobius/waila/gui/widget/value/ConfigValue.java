@@ -55,9 +55,7 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
     }
 
     @Override
-    public final void render(@NotNull PoseStack matrices, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
-        super.render(matrices, index, rowTop, rowLeft, width, height, mouseX, mouseY, hovered, deltaTime);
-
+    protected void drawEntry(PoseStack matrices, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
         var title = getTitle();
 
         if (isDisabled()) title.withStyle(ChatFormatting.STRIKETHROUGH, ChatFormatting.GRAY);
@@ -80,6 +78,7 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
         this.x = rowLeft;
     }
 
+    @Override
     public void renderTooltip(Screen screen, PoseStack matrices, int mouseX, int mouseY, float delta) {
         for (GuiEventListener child : children()) {
             if (child instanceof AbstractWidget widget) {

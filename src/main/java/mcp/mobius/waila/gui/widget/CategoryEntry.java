@@ -7,15 +7,14 @@ import java.util.Map;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gson.reflect.TypeToken;
+import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.buildconst.Tl;
-import mcp.mobius.waila.util.DisplayUtil;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.components.events.GuiEventListener;
+import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import org.apache.commons.lang3.StringUtils;
@@ -42,15 +41,14 @@ public class CategoryEntry extends ConfigListWidget.Entry {
     public CategoryEntry(String title) {
         this.key = title;
         this.title = Component.translatable(title).withStyle(ChatFormatting.BOLD);
-        this.collapseButton = DisplayUtil.createButton(0, 0, 12, 12, CommonComponents.EMPTY, b -> toggleCollapse());
-        this.expandAllButton = DisplayUtil.createButton(0, 0, 20, 12, Component.literal("++"), b -> {
+        this.collapseButton = new Button(0, 0, 12, 12, CommonComponents.EMPTY, b -> toggleCollapse());
+        this.expandAllButton = new Button(0, 0, 20, 12, Component.literal("++"), b -> {
             setCollapse(false, true);
             list.init();
             list.setFocused(this);
             setFocused(b);
         });
 
-        expandAllButton.setTooltip(Tooltip.create(Component.translatable(Tl.Config.EXPAND_ALL)));
         collapsed = Boolean.TRUE.equals(STATES.get().putIfAbsent(key, false));
         STATES.save();
     }
@@ -124,21 +122,28 @@ public class CategoryEntry extends ConfigListWidget.Entry {
     }
 
     @Override
-    protected void drawEntry(GuiGraphics ctx, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
+    public void renderTooltip(Screen screen, PoseStack matrices, int mouseX, int mouseY, float delta) {
+        if (expandAllButton.isMouseOver(mouseX, mouseY)) {
+            screen.renderTooltip(matrices, Component.translatable(Tl.Config.EXPAND_ALL), mouseX, mouseY);
+        }
+    }
+
+    @Override
+    protected void drawEntry(PoseStack matrices, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
         var buttonY = rowTop + (height - collapseButton.getHeight()) / 2;
         var hasFilter = list.filter != null;
 
         collapseButton.active = !hasFilter;
-        collapseButton.setX(rowLeft);
-        collapseButton.setY(buttonY);
-        collapseButton.render(ctx, mouseX, mouseY, deltaTime);
-        ctx.drawString(client.font, title, rowLeft + collapseButton.getWidth() + 4, rowTop + ((height - client.font.lineHeight) / 2) + 1, 0xFFFFFF);
+        collapseButton.x = rowLeft;
+        collapseButton.y = buttonY;
+        collapseButton.render(matrices, mouseX, mouseY, deltaTime);
+        client.font.drawShadow(matrices, title, rowLeft + collapseButton.getWidth() + 4, rowTop + ((height - client.font.lineHeight) / 2f) + 1, 0xFFFFFF);
 
         expandAllButton.active = hasNested && !hasFilter;
         if (expandAllButton.active) {
-            expandAllButton.setX(rowLeft + width - expandAllButton.getWidth());
-            expandAllButton.setY(buttonY);
-            expandAllButton.render(ctx, mouseX, mouseY, deltaTime);
+            expandAllButton.x = rowLeft + width - expandAllButton.getWidth();
+            expandAllButton.y = buttonY;
+            expandAllButton.render(matrices, mouseX, mouseY, deltaTime);
         }
     }
 
