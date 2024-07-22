@@ -40,6 +40,8 @@ class ThemeEditorScreen extends ConfigScreen {
     private ITheme theme;
 
     private ConfigListWidget options;
+    private CategoryEntry themeAttrCategory;
+
     private ButtonEntry refreshButton;
     private InputValue<String> idVal;
     private CycleValue typeVal;
@@ -96,7 +98,8 @@ class ThemeEditorScreen extends ConfigScreen {
                     if (options.save(true)) {
                         super.setValue(value);
                         type = Registrar.get().themeTypes.get(new ResourceLocation(value));
-                        options.children().removeIf(it -> it.category == typeVal.category);
+                        themeAttrCategory.clear(options);
+                        options.children().remove(themeAttrCategory);
                         addTypeProperties(options);
                         options.init();
                         options.setFocused(this);
@@ -140,8 +143,8 @@ class ThemeEditorScreen extends ConfigScreen {
     }
 
     private void addTypeProperties(ConfigListWidget options) {
-        var category = new CategoryEntry(Tl.Config.OverlayThemeEditor.ATTRIBUTES);
-        options.add(options.children().size() - (edit ? 2 : 0), category);
+        themeAttrCategory = new CategoryEntry(Tl.Config.OverlayThemeEditor.ATTRIBUTES);
+        options.add(options.children().size() - (edit ? 2 : 0), themeAttrCategory);
 
         attrValues.clear();
         type2attr.computeIfAbsent(type, t -> new HashMap<>(t.properties.size()));
@@ -170,7 +173,7 @@ class ThemeEditorScreen extends ConfigScreen {
             value.setId(key);
             attrValues.put(key, TypeUtil.uncheckedCast(value));
 
-            category.with(value);
+            themeAttrCategory.with(value);
         });
     }
 
