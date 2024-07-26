@@ -29,7 +29,7 @@ public enum BreakProgressProvider implements IEventListener {
         var gameMode = Objects.requireNonNull(Minecraft.getInstance().gameMode);
         var gameModeAccess = (MultiPlayerGameModeAccess) gameMode;
 
-        var dt = Minecraft.getInstance().getTimer().getRealtimeDeltaTicks();
+        var dt = Minecraft.getInstance().getDeltaFrameTime();
 
         var isBreaking = gameMode.isDestroying();
         var targetProgress = gameModeAccess.wthit_destroyProgress();
@@ -109,10 +109,10 @@ public enum BreakProgressProvider implements IEventListener {
         }
 
         var vertexConsumer = ctx.bufferSource().getBuffer(RenderType.gui());
-        vertexConsumer.addVertex(matrix4f, x1, y1, 0f).setColor(color);
-        vertexConsumer.addVertex(matrix4f, x1, y2, 0f).setColor(color);
-        vertexConsumer.addVertex(matrix4f, x2, y2, 0f).setColor(color);
-        vertexConsumer.addVertex(matrix4f, x2, y1, 0f).setColor(color);
+        vertexConsumer.vertex(matrix4f, x1, y1, 0f).color(color).endVertex();
+        vertexConsumer.vertex(matrix4f, x1, y2, 0f).color(color).endVertex();
+        vertexConsumer.vertex(matrix4f, x2, y2, 0f).color(color).endVertex();
+        vertexConsumer.vertex(matrix4f, x2, y1, 0f).color(color).endVertex();
     }
 
 }
