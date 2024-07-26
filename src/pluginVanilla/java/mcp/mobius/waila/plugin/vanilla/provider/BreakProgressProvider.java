@@ -3,14 +3,19 @@ package mcp.mobius.waila.plugin.vanilla.provider;
 import java.awt.Rectangle;
 import java.util.Objects;
 
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.IEventListener;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.mixin.MultiPlayerGameModeAccess;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.util.Mth;
 
 public enum BreakProgressProvider implements IEventListener {
@@ -23,13 +28,13 @@ public enum BreakProgressProvider implements IEventListener {
     float lastTargetProgress = 0;
 
     @Override
-    public void onAfterTooltipRender(GuiGraphics ctx, Rectangle rect, ICommonAccessor accessor, IPluginConfig config) {
+    public void onAfterTooltipRender(PoseStack matrices, Rectangle rect, ICommonAccessor accessor, IPluginConfig config) {
         if (!config.getBoolean(Options.BREAKING_PROGRESS)) return;
 
         var gameMode = Objects.requireNonNull(Minecraft.getInstance().gameMode);
         var gameModeAccess = (MultiPlayerGameModeAccess) gameMode;
 
-        var dt = Minecraft.getInstance().getTimer().getRealtimeDeltaTicks();
+        var dt = Minecraft.getInstance().getDeltaFrameTime();
 
         var isBreaking = gameMode.isDestroying();
         var targetProgress = gameModeAccess.wthit_destroyProgress();
@@ -61,31 +66,42 @@ public enum BreakProgressProvider implements IEventListener {
             var x = rect.x + 1;
             var y = rect.y + rect.height - 2;
 
+            var tesselator = Tesselator.getInstance();
+            var buffer = tesselator.getBuilder();
+            RenderSystem.enableBlend();
+            RenderSystem.disableTexture();
+            RenderSystem.defaultBlendFunc();
+            RenderSystem.setShader(GameRenderer::getPositionColorShader);
+
+            buffer.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
+
             var color = config.getInt(Options.BREAKING_PROGRESS_COLOR);
-            fill(ctx, x, y, x + Math.min(lineLength, hLength), y + 1, color);
+            fill(matrices, buffer, x, y, x + Math.min(lineLength, hLength), y + 1, color);
             lineLength -= hLength;
 
             if (lineLength > 0) {
                 x = rect.x + rect.width - 2;
                 y = rect.y + rect.height - 2;
-                fill(ctx, x, y, x + 1, y - Math.min(lineLength, vLength), color);
+                fill(matrices, buffer, x, y, x + 1, y - Math.min(lineLength, vLength), color);
                 lineLength -= vLength;
 
                 if (lineLength > 0) {
                     x = rect.x + rect.width - 1;
                     y = rect.y + 1;
-                    fill(ctx, x, y, x - Math.min(lineLength, hLength), y + 1, color);
+                    fill(matrices, buffer, x, y, x - Math.min(lineLength, hLength), y + 1, color);
                     lineLength -= hLength;
 
                     if (lineLength > 0) {
                         x = rect.x + 1;
                         y = rect.y + 2;
-                        fill(ctx, x, y, x + 1, y + Math.min(lineLength, vLength), color);
+                        fill(matrices, buffer, x, y, x + 1, y + Math.min(lineLength, vLength), color);
                     }
                 }
             }
 
-            ctx.flush();
+            tesselator.end();
+            RenderSystem.disableBlend();
+            RenderSystem.enableTexture();
         }
 
         wasBreaking = isBreaking;
@@ -94,8 +110,8 @@ public enum BreakProgressProvider implements IEventListener {
         if (isInDelay) progressDelayTimer -= dt;
     }
 
-    private void fill(GuiGraphics ctx, float x1, float y1, float x2, float y2, int color) {
-        var matrix4f = ctx.pose().last().pose();
+    private void fill(PoseStack matrices, VertexConsumer vertexConsumer, float x1, float y1, float x2, float y2, int color) {
+        var matrix4f = matrices.last().pose();
         if (x1 < x2) {
             var o = x1;
             x1 = x2;
@@ -108,11 +124,10 @@ public enum BreakProgressProvider implements IEventListener {
             y2 = o;
         }
 
-        var vertexConsumer = ctx.bufferSource().getBuffer(RenderType.gui());
-        vertexConsumer.addVertex(matrix4f, x1, y1, 0f).setColor(color);
-        vertexConsumer.addVertex(matrix4f, x1, y2, 0f).setColor(color);
-        vertexConsumer.addVertex(matrix4f, x2, y2, 0f).setColor(color);
-        vertexConsumer.addVertex(matrix4f, x2, y1, 0f).setColor(color);
+        vertexConsumer.vertex(matrix4f, x1, y1, 0f).color(color).endVertex();
+        vertexConsumer.vertex(matrix4f, x1, y2, 0f).color(color).endVertex();
+        vertexConsumer.vertex(matrix4f, x2, y2, 0f).color(color).endVertex();
+        vertexConsumer.vertex(matrix4f, x2, y1, 0f).color(color).endVertex();
     }
 
 }
