@@ -1,5 +1,14 @@
 12.x - 1.21 - dev/master - java 21
 ==================================
+12.2.3   - Updated Simplified Chinese translations
+         - Added ominous item spawner's item (#274)
+         - Fixed crash when clicking plugin toggles screen (#273)
+         - Fixed incompatibility with Polymer items (#273)
+         - Changed break progress animation to be smoother
+         - Changed config screen entries to be collapsible
+           - Merged all plugin configs into one screen
+         - Removed Quilt Loader check on Fabric version
+           - Now the Fabric jar also supports Quilt Loader, since it doesn't make sense to make a separate jar [anymore](https://quiltmc.org/en/blog/2024-07-03-qfapi-moving-forward/)
 12.2.2   - Updated to NeoForge 21.0.40-beta
          - Added debug commands to get block and entity info
 12.2.1   - Fixed toggle plugins screen sorting
@@ -23,6 +32,15 @@
 
 11.x - 1.20.6 - dev/1.20.6 - java 21
 ====================================
+11.4.3   - Updated Simplified Chinese translations
+         - Added ominous item spawner's item (#274)
+         - Fixed crash when clicking plugin toggles screen (#273)
+         - Fixed incompatibility with Polymer items (#273)
+         - Changed break progress animation to be smoother
+         - Changed config screen entries to be collapsible
+           - Merged all plugin configs into one screen
+         - Removed Quilt Loader check on Fabric version
+           - Now the Fabric jar also supports Quilt Loader, since it doesn't make sense to make a separate jar [anymore](https://quiltmc.org/en/blog/2024-07-03-qfapi-moving-forward/)
 11.4.2   - Added debug commands to get block and entity info
 11.4.1   - Fixed toggle plugins screen sorting
 11.4.0   - [API] Added `PositionComponent`
@@ -60,6 +78,11 @@
 
 10.x - 1.20.4 - dev/1.20.4 - java 17
 ====================================
+10.9.4   - Updated Simplified Chinese translations
+         - Fixed crash when clicking plugin toggles screen (#273)
+         - Changed break progress animation to be smoother
+         - Changed config screen entries to be collapsible
+           - Merged all plugin configs into one screen
 10.9.3   - Added debug commands to get block and entity info
 10.9.2   - Fixed toggle plugins screen sorting
          - Fixed error on beehive (#269)
@@ -111,6 +134,11 @@
 
 9.x - 1.20.2 - dev/1.20.2 - java 17
 ===================================
+9.10.3   - Updated Simplified Chinese translations
+         - Fixed crash when clicking plugin toggles screen (#273)
+         - Changed break progress animation to be smoother
+         - Changed config screen entries to be collapsible
+           - Merged all plugin configs into one screen
 9.10.2   - Added debug commands to get block and entity info
 9.10.1   - Fixed toggle plugins screen sorting
          - Fixed error on beehive (#269)
@@ -173,6 +201,11 @@
 
 8.x - 1.20.1 - dev/1.20.1 - java 17
 ===================================
+8.13.3   - Updated Simplified Chinese translations
+         - Fixed crash when clicking plugin toggles screen (#273)
+         - Changed break progress animation to be smoother
+         - Changed config screen entries to be collapsible
+           - Merged all plugin configs into one screen
 8.13.2   - Added debug commands to get block and entity info
 8.13.1   - Fixed toggle plugins screen sorting
          - Fixed error on beehive (#269)
@@ -395,6 +428,11 @@
 
 5.x - 1.19.2 - dev/1.19.2 - java 17
 ===================================
+5.28.3   - Updated Simplified Chinese translations
+         - Fixed crash when clicking plugin toggles screen (#273)
+         - Changed break progress animation to be smoother
+         - Changed config screen entries to be collapsible
+           - Merged all plugin configs into one screen
 5.28.2   - Added debug commands to get block and entity info
 5.28.1   - Fixed toggle plugins screen sorting
          - Fixed error on beehive (#269)
