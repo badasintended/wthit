@@ -154,8 +154,13 @@ public abstract class ProgressData implements IData {
 
     // -----------------------------------------------------------------------------------------------------------------------------------------------
 
+    /** @hidden */
     protected final ArrayList<ItemStack> input = new ArrayList<>();
+
+    /** @hidden */
     protected final ArrayList<ItemStack> output = new ArrayList<>();
+
+    /** @hidden */
     protected IntFunction<ItemStack> inventory;
 
     @ApiStatus.Internal
