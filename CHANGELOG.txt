@@ -430,7 +430,7 @@
 
 5.x - 1.19.2 - dev/1.19.2 - java 17
 ===================================
-5.28.5   - Added Vietnamese translation (284)
+5.28.6   - Added Vietnamese translation (284)
 5.28.3   - Updated Simplified Chinese translations
          - Fixed crash when clicking plugin toggles screen (#273)
          - Changed break progress animation to be smoother
