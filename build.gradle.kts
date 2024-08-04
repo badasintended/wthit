@@ -78,14 +78,14 @@ subprojects {
 
     publishing {
         repositories {
-            maven {
-                url = uri("https://maven.pkg.github.com/badasintended/wthit")
-                name = "GitHub"
-                credentials {
-                    username = env["GITHUB_ACTOR"]
-                    password = env["GITHUB_TOKEN"]
-                }
-            }
+            // maven {
+            //     url = uri("https://maven.pkg.github.com/badasintended/wthit")
+            //     name = "GitHub"
+            //     credentials {
+            //         username = env["GITHUB_ACTOR"]
+            //         password = env["GITHUB_TOKEN"]
+            //     }
+            // }
 
             maven {
                 url = uri("https://maven4.bai.lol")
