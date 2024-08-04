@@ -90,6 +90,7 @@ public abstract class ItemData implements IData {
 
     // -----------------------------------------------------------------------------------------------------------------------------------------------
 
+    /** @hidden */
     protected final ArrayList<ItemStack> items = new ArrayList<>();
 
 }

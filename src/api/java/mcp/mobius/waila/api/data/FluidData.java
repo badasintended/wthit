@@ -290,7 +290,8 @@ public abstract class FluidData implements IData {
     @ApiStatus.OverrideOnly
     public interface CauldronDescriptor {
 
-        @Nullable FluidData getCauldronFluidData(BlockState state);
+        @Nullable
+        FluidData getCauldronFluidData(BlockState state);
 
     }
 
@@ -325,8 +326,10 @@ public abstract class FluidData implements IData {
 
     // -----------------------------------------------------------------------------------------------------------------------------------------------
 
+    /** @hidden */
     protected abstract PlatformTranslator<Object> translator();
 
+    /** @hidden */
     protected abstract void implAdd(Fluid fluid, @Nullable CompoundTag nbt, double stored, double capacity);
 
     // -----------------------------------------------------------------------------------------------------------------------------------------------
