@@ -79,4 +79,6 @@ public interface IApiService {
 
     boolean isDevEnv();
 
+    boolean isStackNbtBlacklisted(ItemStack stack);
+
 }

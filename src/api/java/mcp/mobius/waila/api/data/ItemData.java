@@ -7,6 +7,7 @@ import java.util.function.IntFunction;
 
 import mcp.mobius.waila.api.IData;
 import mcp.mobius.waila.api.IPluginConfig;
+import mcp.mobius.waila.api.__internal__.IApiService;
 import mcp.mobius.waila.api.__internal__.IExtraService;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.Container;
@@ -44,7 +45,7 @@ public abstract class ItemData implements IData {
     public ItemData vanilla(Container container) {
         var size = container.getContainerSize();
         ensureSpace(size);
-        for (var i = 0; i < size; i++) items.add(container.getItem(i));
+        for (var i = 0; i < size; i++) add(container.getItem(i));
         return this;
     }
 
@@ -53,7 +54,7 @@ public abstract class ItemData implements IData {
      */
     public ItemData getter(IntFunction<ItemStack> getter, int size) {
         ensureSpace(size);
-        for (var i = 0; i < size; i++) items.add(getter.apply(i));
+        for (var i = 0; i < size; i++) add(getter.apply(i));
         return this;
     }
 
@@ -61,6 +62,10 @@ public abstract class ItemData implements IData {
      * Adds a single item stack.
      */
     public ItemData add(ItemStack stack) {
+        if (IExtraService.INSTANCE.isItemNbtBlacklisted(stack.getItem()) || IApiService.INSTANCE.isStackNbtBlacklisted(stack)) {
+            stack = new ItemStack(stack.getItemHolder(), stack.getCount());
+        }
+
         items.add(stack);
         return this;
     }
@@ -78,7 +83,8 @@ public abstract class ItemData implements IData {
      * Adds multiple item stacks.
      */
     public ItemData add(Collection<ItemStack> stacks) {
-        items.addAll(stacks);
+        ensureSpace(stacks.size());
+        stacks.forEach(this::add);
         return this;
     }
 
@@ -94,5 +100,6 @@ public abstract class ItemData implements IData {
 
     /** @hidden */
     protected final ArrayList<ItemStack> items = new ArrayList<>();
+
 
 }

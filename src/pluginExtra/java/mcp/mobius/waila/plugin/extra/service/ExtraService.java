@@ -6,10 +6,12 @@ import mcp.mobius.waila.api.data.EnergyData;
 import mcp.mobius.waila.api.data.FluidData;
 import mcp.mobius.waila.api.data.ItemData;
 import mcp.mobius.waila.api.data.ProgressData;
+import mcp.mobius.waila.plugin.extra.config.ItemNbtBlacklistConfig;
 import mcp.mobius.waila.plugin.extra.data.EnergyDataImpl;
 import mcp.mobius.waila.plugin.extra.data.FluidDataImpl;
 import mcp.mobius.waila.plugin.extra.data.ItemDataImpl;
 import mcp.mobius.waila.plugin.extra.data.ProgressDataImpl;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 import org.jetbrains.annotations.Nullable;
@@ -64,6 +66,11 @@ public class ExtraService implements IExtraService {
     @Override
     public ProgressData createProgressData(float ratio) {
         return new ProgressDataImpl(ratio);
+    }
+
+    @Override
+    public boolean isItemNbtBlacklisted(ItemLike item) {
+        return ItemNbtBlacklistConfig.get().matches(item.asItem());
     }
 
 }

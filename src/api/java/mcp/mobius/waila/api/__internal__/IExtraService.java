@@ -5,6 +5,7 @@ import mcp.mobius.waila.api.data.EnergyData;
 import mcp.mobius.waila.api.data.FluidData;
 import mcp.mobius.waila.api.data.ItemData;
 import mcp.mobius.waila.api.data.ProgressData;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
 import org.jetbrains.annotations.ApiStatus;
@@ -33,5 +34,7 @@ public interface IExtraService {
     ItemData createItemData(IPluginConfig config);
 
     ProgressData createProgressData(float ratio);
+
+    boolean isItemNbtBlacklisted(ItemLike item);
 
 }

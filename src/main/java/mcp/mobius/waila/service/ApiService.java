@@ -238,4 +238,9 @@ public abstract class ApiService implements IApiService {
         return Waila.DEV;
     }
 
+    @Override
+    public boolean isStackNbtBlacklisted(ItemStack stack) {
+        return false;
+    }
+
 }

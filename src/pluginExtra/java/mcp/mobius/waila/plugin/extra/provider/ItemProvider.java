@@ -16,6 +16,7 @@ import mcp.mobius.waila.api.component.ItemListComponent;
 import mcp.mobius.waila.api.component.NamedItemListComponent;
 import mcp.mobius.waila.api.data.ItemData;
 import mcp.mobius.waila.api.data.ProgressData;
+import mcp.mobius.waila.plugin.extra.config.ItemNbtBlacklistConfig;
 import mcp.mobius.waila.plugin.extra.data.ItemDataImpl;
 import mcp.mobius.waila.plugin.extra.data.ProgressDataImpl;
 import net.minecraft.core.component.DataComponentPatch;
@@ -33,11 +34,14 @@ public class ItemProvider extends DataProvider<ItemData, ItemDataImpl> {
 
     protected ItemProvider() {
         super(ItemData.TYPE, ItemDataImpl.CODEC);
+
+        ItemNbtBlacklistConfig.CONFIG.save();
     }
 
     @Override
     protected void registerAdditions(IRegistrar registrar, int priority) {
         registrar.addSyncedConfig(ItemData.CONFIG_SYNC_NBT, true, false);
+        registrar.addConfig(createConfigKey("nbt_blacklist"), ItemNbtBlacklistConfig.CONFIG.getPath());
         registrar.addConfig(ItemData.CONFIG_DISPLAY_MODE, ItemData.ItemDisplayMode.DYNAMIC);
         registrar.addConfig(ItemData.CONFIG_MAX_HEIGHT, 3);
         registrar.addConfig(ItemData.CONFIG_SORT_BY_COUNT, true);

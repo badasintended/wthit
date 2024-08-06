@@ -61,9 +61,9 @@ public class ExtraBlacklistConfig {
 
             var comments = """
                 The game needs to be restarted for the changes to apply.
-                                
+
                 %s
-                                
+
                 The %s tag rule can not be removed"""
                 .formatted(IRegistryFilter.getHeader(), tagRule)
                 .split("\n");
