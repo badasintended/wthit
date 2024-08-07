@@ -51,11 +51,11 @@ public interface IRegistryFilter<T> {
             #tag       - include objects based on data pack tags
             /regex/    - include objects based on regular expression
             default    - include objects with specific ID
-                    
+
             An exclamation mark (!) prefix can be added which negates the pattern.
             Any entries matching previous rules will be removed from it.
             Can be combined with other rule to exclude what matches the rule.
-            
+
             Example:
             @aether              - include all block from the aether namespace
             #minecraft:planks    - include all blocks in the planks tag

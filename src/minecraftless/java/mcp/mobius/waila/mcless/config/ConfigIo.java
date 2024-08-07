@@ -96,6 +96,9 @@ public class ConfigIo<T> {
         if (init) {
             versionSetter.accept(config, currentVersion);
             write(path, config);
+
+            config = read(path);
+            write(path, config);
         }
         return config;
     }
@@ -105,7 +108,7 @@ public class ConfigIo<T> {
             writer.write(gson.toJson(value));
             return true;
         } catch (IOException e) {
-            e.printStackTrace();
+            error.accept("Exception when writing config file " + path, e);
             return false;
         }
     }

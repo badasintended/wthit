@@ -7,7 +7,10 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
+import java.util.Set;
+import java.util.WeakHashMap;
 import java.util.function.ObjIntConsumer;
 import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
@@ -24,13 +27,9 @@ import org.jetbrains.annotations.Nullable;
 
 public class JsonConfig<T> implements IJsonConfig<T> {
 
+    public static final Set<JsonConfig<Object>> INSTANCES = Collections.newSetFromMap(Collections.synchronizedMap(new WeakHashMap<>()));
+
     private static final Log LOG = Log.create();
-
-    @SuppressWarnings("rawtypes")
-    private static final ToIntFunction DEFAULT_VERSION_GETTER = t -> 0;
-
-    @SuppressWarnings("rawtypes")
-    private static final ObjIntConsumer DEFAULT_VERSION_SETTER = (t, v) -> {};
 
     private static final Gson DEFAULT_GSON = new GsonBuilder().setPrettyPrinting().create();
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
@@ -39,10 +38,13 @@ public class JsonConfig<T> implements IJsonConfig<T> {
     private final ConfigIo<T> io;
     private final CachedSupplier<T> getter;
 
+    @SuppressWarnings("unchecked")
     JsonConfig(Path path, Type clazz, Supplier<T> factory, Gson gson, int currentVersion, ToIntFunction<T> versionGetter, ObjIntConsumer<T> versionSetter) {
         this.path = path.toAbsolutePath();
         this.io = new ConfigIo<>(LOG::warn, LOG::error, gson, clazz, factory, currentVersion, versionGetter, versionSetter);
         this.getter = new CachedSupplier<>(() -> io.read(this.path));
+
+        INSTANCES.add((JsonConfig<Object>) this);
     }
 
     private void write(T t, Path path, boolean invalidate) {
@@ -109,8 +111,8 @@ public class JsonConfig<T> implements IJsonConfig<T> {
             this.type = type;
             this.gson = DEFAULT_GSON;
             this.currentVersion = 0;
-            this.versionGetter = DEFAULT_VERSION_GETTER;
-            this.versionSetter = DEFAULT_VERSION_SETTER;
+            this.versionGetter = t -> 0;
+            this.versionSetter = (t, v) -> {};
 
             if (type instanceof Class<?> clazz) this.factory = () -> {
                 try {
