@@ -60,10 +60,11 @@ public class ExtraBlacklistConfig {
             var object = new JsonObject();
 
             var comments = """
-                The game needs to be restarted for the changes to apply.
-                                
+                Run /waila reload to apply changes server-wide.
+                Run /wailac reload to apply changes to only your client.
+
                 %s
-                                
+
                 The %s tag rule can not be removed"""
                 .formatted(IRegistryFilter.getHeader(), tagRule)
                 .split("\n");

@@ -122,9 +122,9 @@ public class BlacklistConfig {
             var comments = """
                 Run /waila reload to apply changes server-wide.
                 Run /wailac reload to apply changes to only your client.
-                                
+
                 %s
-                                
+
                 The %s tag rule can not be removed"""
                 .formatted(IRegistryFilter.getHeader(), BLACKLIST_TAG)
                 .split("\n");
