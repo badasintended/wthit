@@ -15,6 +15,7 @@ import lol.bai.badpackets.api.PacketSender;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.api.__internal__.Internals;
+import mcp.mobius.waila.config.JsonConfig;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.mcless.version.VersionRanges;
 import mcp.mobius.waila.network.common.s2c.BlacklistSyncCommonS2CPacket;
@@ -169,6 +170,8 @@ public abstract class PluginLoader {
 
         Registrar.get().lock();
         PluginConfig.reload();
+
+        JsonConfig.INSTANCES.forEach(it -> it.write(it.get(), true));
     }
 
     private void initialize(IPluginInfo info) {
