@@ -93,6 +93,8 @@ public interface IJsonConfig<T> {
 
         Builder1<T> version(int currentVersion, ToIntFunction<T> versionGetter, ObjIntConsumer<T> versionSetter);
 
+        Builder1<T> json5();
+
         Builder1<T> gson(Gson gson);
 
         Builder1<T> factory(Supplier<T> factory);

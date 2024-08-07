@@ -22,9 +22,9 @@ import org.apache.commons.lang3.StringUtils;
 
 public class CategoryEntry extends ConfigListWidget.Entry {
 
-    private static final IJsonConfig<Map<String, Boolean>> STATES = IJsonConfig.of(new TypeToken<Map<String, Boolean>>() {
-        })
+    private static final IJsonConfig<Map<String, Boolean>> STATES = IJsonConfig.of(new TypeToken<Map<String, Boolean>>() {})
         .file(WailaConstants.NAMESPACE + "/category_entries")
+        .json5()
         .factory(HashMap::new)
         .build();
 

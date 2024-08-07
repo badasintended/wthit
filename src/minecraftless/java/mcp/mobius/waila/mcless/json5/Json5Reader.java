@@ -1,4 +1,5 @@
-// This file was a part of Quilt Parsers, modified to remove unused members.
+// This file was a part of Quilt Parsers, modified to remove unused members,
+// and to directly extends GSON's JsonReader.
 // https://github.com/QuiltMC/quilt-parsers/blob/00803c4e70fb0cf93765593eaae5c781b1505bee/json/src/main/java/org/quiltmc/parsers/json/JsonReader.java
 // @formatter:off
 
@@ -19,16 +20,15 @@
  * limitations under the License.
  */
 
-package mcp.mobius.waila.mcless.json5.stream;
+package mcp.mobius.waila.mcless.json5;
 
 import java.io.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Objects;
 
+import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.MalformedJsonException;
 
@@ -206,7 +206,7 @@ import com.google.gson.stream.MalformedJsonException;
  * of this class are not thread safe.
  */
 @SuppressWarnings({"JavadocBlankLines", "RedundantExplicitVariableType", "CommentedOutCode", "JavadocReference", "EnhancedSwitchMigration", "DataFlowIssue"})
-public final class Json5Reader implements Closeable {
+public final class Json5Reader extends JsonReader {
 	private static final int PEEKED_NONE = 0;
 	private static final int PEEKED_BEGIN_OBJECT = 1;
 	private static final int PEEKED_END_OBJECT = 2;
@@ -293,15 +293,8 @@ public final class Json5Reader implements Closeable {
 
 	// API methods
 
-	public Json5Reader(String in) {
-		this(new StringReader(Objects.requireNonNull(in, "Input string cannot be null")));
-	}
-
-	public Json5Reader(Path in) throws IOException {
-		this(Files.newBufferedReader(Objects.requireNonNull(in, "Path cannot be null")));
-	}
-
 	public Json5Reader(Reader in) {
+		super(Reader.nullReader());
 		Objects.requireNonNull(in, "Reader cannot be null");
 		this.in = in;
 	}
@@ -1563,23 +1556,6 @@ public final class Json5Reader implements Closeable {
 
 	/**
 	 * Returns a <a href="https://goessner.net/articles/JsonPath/">JSONPath</a>
-	 * in <i>dot-notation</i> to the previous (or current) location in the JSON document:
-	 * <ul>
-	 *   <li>For JSON arrays the path points to the index of the previous element.<br>
-	 *   If no element has been consumed yet it uses the index 0 (even if there are no elements).</li>
-	 *   <li>For JSON objects the path points to the last property, or to the current
-	 *   property if its name has already been consumed.</li>
-	 * </ul>
-	 *
-	 * <p>This method can be useful to add additional context to exception messages
-	 * <i>after</i> a value has been consumed.
-	 */
-	public String getPreviousPath() {
-		return getPath(true);
-	}
-
-	/**
-	 * Returns a <a href="https://goessner.net/articles/JsonPath/">JSONPath</a>
 	 * in <i>dot-notation</i> to the next (or current) location in the JSON document:
 	 * <ul>
 	 *   <li>For JSON arrays the path points to the index of the next element (even
@@ -1602,5 +1578,21 @@ public final class Json5Reader implements Closeable {
 	 */
 	private IOException syntaxError(String message) throws IOException {
 		throw new MalformedJsonException(message + locationString());
+	}
+
+	void promoteNameToValue() throws IOException {
+		int p = peeked;
+		if (p == PEEKED_NONE) {
+			p = doPeek();
+		}
+		if (p == PEEKED_DOUBLE_QUOTED_NAME) {
+			peeked = PEEKED_DOUBLE_QUOTED;
+		} else if (p == PEEKED_SINGLE_QUOTED_NAME) {
+			peeked = PEEKED_SINGLE_QUOTED;
+		} else if (p == PEEKED_UNQUOTED_NAME) {
+			peeked = PEEKED_UNQUOTED;
+		} else {
+			throw new IllegalStateException("Expected a name but was " + peek() + locationString());
+		}
 	}
 }

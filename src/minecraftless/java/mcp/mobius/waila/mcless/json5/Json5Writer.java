@@ -1,4 +1,5 @@
-// This file was a part of Quilt Parsers, modified to remove unused members.
+// This file was a part of Quilt Parsers, modified to remove unused members,
+// and to directly extends GSON's JsonWriter.
 // https://github.com/QuiltMC/quilt-parsers/blob/00803c4e70fb0cf93765593eaae5c781b1505bee/json/src/main/java/org/quiltmc/parsers/json/JsonWriter.java
 // @formatter:off
 
@@ -19,16 +20,14 @@
  * limitations under the License.
  */
 
-package mcp.mobius.waila.mcless.json5.stream;
-
-
-import org.jetbrains.annotations.Nullable;
+package mcp.mobius.waila.mcless.json5;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Objects;
+
+import com.google.gson.stream.JsonWriter;
+import org.jetbrains.annotations.Nullable;
 
 /*
  *
@@ -136,7 +135,7 @@ import java.util.Objects;
  * malformed JSON string will fail with an {@link IllegalStateException}.
  */
 @SuppressWarnings({"RedundantExplicitVariableType", "DataFlowIssue"})
-public final class Json5Writer implements Closeable, Flushable {
+public final class Json5Writer extends JsonWriter {
 	/*
 	 * From RFC 7159, "All Unicode characters may be placed within the
 	 * quotation marks except for the characters that must be escaped:
@@ -148,7 +147,6 @@ public final class Json5Writer implements Closeable, Flushable {
 	 * error. http://code.google.com/p/google-gson/issues/detail?id=341
 	 */
 	private static final String[] REPLACEMENT_CHARS;
-	private static final String[] HTML_SAFE_REPLACEMENT_CHARS;
 	static {
 		REPLACEMENT_CHARS = new String[128];
 		for (int i = 0; i <= 0x1f; i++) {
@@ -161,12 +159,6 @@ public final class Json5Writer implements Closeable, Flushable {
 		REPLACEMENT_CHARS['\n'] = "\\n";
 		REPLACEMENT_CHARS['\r'] = "\\r";
 		REPLACEMENT_CHARS['\f'] = "\\f";
-		HTML_SAFE_REPLACEMENT_CHARS = REPLACEMENT_CHARS.clone();
-		HTML_SAFE_REPLACEMENT_CHARS['<'] = "\\u003c";
-		HTML_SAFE_REPLACEMENT_CHARS['>'] = "\\u003e";
-		HTML_SAFE_REPLACEMENT_CHARS['&'] = "\\u0026";
-		HTML_SAFE_REPLACEMENT_CHARS['='] = "\\u003d";
-		HTML_SAFE_REPLACEMENT_CHARS['\''] = "\\u0027";
 	}
 
 	/** The output data, containing at most one top-level array or object. */
@@ -182,108 +174,17 @@ public final class Json5Writer implements Closeable, Flushable {
 	 * A string containing a full set of spaces for a single level of
 	 * indentation, or null for no pretty printing.
 	 */
-	private String indent = "\t";
-
-	/**
-	 * The name/value separator; either ":" or ": ".
-	 */
-	private String separator = ": ";
-
-	private boolean htmlSafe;
+	private final String indent = "  ";
 
 	private String deferredName;
-
 	private String deferredComment;
-	boolean inlineWaited = false;
-
-	private boolean compact = false;
-
-	private boolean serializeNulls = true;
 
 	// API methods
 
-	public static Json5Writer create(Path out) throws IOException {
-		return new Json5Writer(Files.newBufferedWriter(Objects.requireNonNull(out, "Path cannot be null")) );
-	}
-
-	public static Json5Writer create(Writer out) {
-		return new Json5Writer(out);
-	}
-
-	private Json5Writer(Writer out) {
+	public Json5Writer(Writer out) {
+		super(Writer.nullWriter());
 		Objects.requireNonNull(out, "Writer cannot be null");
 		this.out = out;
-	}
-
-	/**
-	 * Sets the indentation string to be repeated for each level of indentation
-	 * in the encoded document. If {@code indent.isEmpty()} the encoded document
-	 * will be compact. Otherwise the encoded document will be more
-	 * human-readable.
-	 *
-	 * @param indent a string containing only whitespace.
-	 */
-	public void setIndent(String indent) {
-		if (indent.length() == 0) {
-			this.compact = true;
-			this.indent = null;
-			this.separator = ":";
-		} else {
-			this.compact = false;
-			this.indent = indent;
-			this.separator = ": ";
-		}
-	}
-
-
-	/**
-	 * Shortcut for {@code setIndent("")} that makes the encoded document significantly more compact.
-	 */
-	public void setCompact() {
-		setIndent("");
-	}
-
-	/**
-	 * Returns true if the output will be compact (entirely one line) and false if it will be human-readable with newlines and indentation.
-	 * The default is false.
-	 */
-	public boolean isCompact() {
-		return indent == null;
-	}
-
-	/**
-	 * Configure this writer to emit JSON that's safe for direct inclusion in HTML
-	 * and XML documents. This escapes the HTML characters {@code <}, {@code >},
-	 * {@code &} and {@code =} before writing them to the stream. Without this
-	 * setting, your XML/HTML encoder should replace these characters with the
-	 * corresponding escape sequences.
-	 */
-	public final void setHtmlSafe(boolean htmlSafe) {
-		this.htmlSafe = htmlSafe;
-	}
-
-	/**
-	 * Returns true if this writer writes JSON that's safe for inclusion in HTML
-	 * and XML documents.
-	 */
-	public final boolean isHtmlSafe() {
-		return htmlSafe;
-	}
-
-	/**
-	 * Sets whether object members are serialized when their value is null.
-	 * This has no impact on array elements. The default is true.
-	 */
-	public void setSerializeNulls(boolean serializeNulls) {
-		this.serializeNulls = serializeNulls;
-	}
-
-	/**
-	 * Returns true if object members are serialized when their value is null.
-	 * This has no impact on array elements. The default is true.
-	 */
-	public boolean getSerializeNulls() {
-		return serializeNulls;
 	}
 
 	/**
@@ -441,12 +342,7 @@ public final class Json5Writer implements Closeable, Flushable {
 	 */
 	public Json5Writer nullValue() throws IOException {
 		if (deferredName != null) {
-			if (serializeNulls) {
-				writeDeferredName();
-			} else {
-				deferredName = null;
-				return this; // skip the name and the value
-			}
+			writeDeferredName();
 		}
 		beforeValue();
 		out.write("null");
@@ -476,7 +372,7 @@ public final class Json5Writer implements Closeable, Flushable {
 	 * @param comment the comment to write, or null to encode nothing.
 	 */
 	public Json5Writer comment(String comment) throws IOException {
-		if (compact || comment == null) {
+		if (comment == null) {
 			return this;
 		}
 
@@ -493,14 +389,6 @@ public final class Json5Writer implements Closeable, Flushable {
 		}
 
 		return this;
-	}
-
-	/**
-	 * This has not been implemented yet.
-	 */
-	public Json5Writer blockComment(@Nullable String comment) throws IOException {
-		// TODO implement me!
-		return comment(comment);
 	}
 
 	/**
@@ -631,7 +519,7 @@ public final class Json5Writer implements Closeable, Flushable {
 	}
 
 	private void string(String value, boolean quotes, boolean escapeQuotes) throws IOException {
-		String[] replacements = htmlSafe ? HTML_SAFE_REPLACEMENT_CHARS : REPLACEMENT_CHARS;
+		String[] replacements = REPLACEMENT_CHARS;
 		if (quotes) {
 			out.write('\"');
 		}
@@ -674,10 +562,6 @@ public final class Json5Writer implements Closeable, Flushable {
 	}
 
 	private void commentAndNewline() throws IOException {
-		if (indent == null) {
-			return;
-		}
-
 		out.write('\n');
 		writeDeferredComment();
 
@@ -730,7 +614,7 @@ public final class Json5Writer implements Closeable, Flushable {
 				break;
 
 			case Json5Scope.DANGLING_NAME: // value for name
-				out.append(separator);
+				out.append(": ");
 				replaceTop(Json5Scope.NONEMPTY_OBJECT);
 				break;
 

@@ -30,6 +30,7 @@ public enum PluginConfig implements IPluginConfig {
     private static final Path PATH = Waila.CONFIG_DIR.resolve(WailaConstants.NAMESPACE + "/" + WailaConstants.WAILA + "_plugins.json");
     private static final ConfigIo<Map<String, Map<String, JsonPrimitive>>> IO = new ConfigIo<>(
         LOG::warn, LOG::error,
+        true,
         new GsonBuilder().setPrettyPrinting().create(),
         new TypeToken<Map<String, Map<String, JsonPrimitive>>>() {}.getType(),
         LinkedHashMap::new);

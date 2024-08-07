@@ -39,9 +39,9 @@ public class JsonConfig<T> implements IJsonConfig<T> {
     private final CachedSupplier<T> getter;
 
     @SuppressWarnings("unchecked")
-    JsonConfig(Path path, Type clazz, Supplier<T> factory, Gson gson, int currentVersion, ToIntFunction<T> versionGetter, ObjIntConsumer<T> versionSetter) {
+    JsonConfig(Path path, Type clazz, Supplier<T> factory, boolean json5, Gson gson, int currentVersion, ToIntFunction<T> versionGetter, ObjIntConsumer<T> versionSetter) {
         this.path = path.toAbsolutePath();
-        this.io = new ConfigIo<>(LOG::warn, LOG::error, gson, clazz, factory, currentVersion, versionGetter, versionSetter);
+        this.io = new ConfigIo<>(LOG::warn, LOG::error, json5, gson, clazz, factory, currentVersion, versionGetter, versionSetter);
         this.getter = new CachedSupplier<>(() -> io.read(this.path));
 
         INSTANCES.add((JsonConfig<Object>) this);
@@ -100,6 +100,7 @@ public class JsonConfig<T> implements IJsonConfig<T> {
 
         final Type type;
         Path path;
+        boolean json5;
         Gson gson;
         int currentVersion;
         ToIntFunction<T> versionGetter;
@@ -109,6 +110,7 @@ public class JsonConfig<T> implements IJsonConfig<T> {
         @SuppressWarnings("unchecked")
         public Builder(Type type) {
             this.type = type;
+            this.json5 = false;
             this.gson = DEFAULT_GSON;
             this.currentVersion = 0;
             this.versionGetter = t -> 0;
@@ -156,6 +158,12 @@ public class JsonConfig<T> implements IJsonConfig<T> {
         }
 
         @Override
+        public Builder1<T> json5() {
+            this.json5 = true;
+            return this;
+        }
+
+        @Override
         public Builder1<T> gson(Gson gson) {
             this.gson = gson;
             return this;
@@ -164,7 +172,7 @@ public class JsonConfig<T> implements IJsonConfig<T> {
         @Override
         public IJsonConfig<T> build() {
             Preconditions.checkNotNull(factory, "Default value factory must not be null");
-            return new JsonConfig<>(path, type, factory, gson, currentVersion, versionGetter, versionSetter);
+            return new JsonConfig<>(path, type, factory, json5, gson, currentVersion, versionGetter, versionSetter);
         }
 
     }

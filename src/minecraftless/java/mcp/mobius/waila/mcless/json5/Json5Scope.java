@@ -1,4 +1,4 @@
-// This file was a part of Quilt Parsers, modified to remove unused members.
+// This file was a part of Quilt Parsers, directly copied with no changes.
 // https://github.com/QuiltMC/quilt-parsers/blob/00803c4e70fb0cf93765593eaae5c781b1505bee/json/src/main/java/org/quiltmc/parsers/json/JsonScope.java
 // @formatter:off
 
@@ -19,7 +19,7 @@
  * limitations under the License.
  */
 
-package mcp.mobius.waila.mcless.json5.stream;
+package mcp.mobius.waila.mcless.json5;
 
 /*
  * This is a carbon-copy of Gson's JsonScope.
