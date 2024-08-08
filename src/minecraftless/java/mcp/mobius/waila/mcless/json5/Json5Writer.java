@@ -2,6 +2,7 @@
 // - Remove unused members
 // - Directly extends GSON's JsonWriter
 // - Added generic commenter function
+// - Fixed issue with character replacement table (https://github.com/QuiltMC/quilt-parsers/pull/5)
 // https://github.com/QuiltMC/quilt-parsers/blob/00803c4e70fb0cf93765593eaae5c781b1505bee/json/src/main/java/org/quiltmc/parsers/json/JsonWriter.java
 // @formatter:off
 
@@ -182,8 +183,8 @@ public final class Json5Writer extends JsonWriter {
 	private String deferredName;
 	private String deferredComment;
 
-    private final Function<String, @Nullable String> commenter;
-    private String[] pathNames = new String[32];
+	private final Function<String, @Nullable String> commenter;
+	private String[] pathNames = new String[32];
 
 	// API methods
 
@@ -191,7 +192,7 @@ public final class Json5Writer extends JsonWriter {
 		super(Writer.nullWriter());
 		Objects.requireNonNull(out, "Writer cannot be null");
 		this.out = out;
-        this.commenter = commenter;
+		this.commenter = commenter;
 	}
 
 	/**
@@ -211,8 +212,8 @@ public final class Json5Writer extends JsonWriter {
 			throw new IllegalStateException("JsonWriter is closed.");
 		}
 		deferredName = name;
-        pathNames[stackSize - 1] = name;
-        comment(commenter.apply(getPath()));
+		pathNames[stackSize - 1] = name;
+		comment(commenter.apply(getPath()));
 		return this;
 	}
 
@@ -455,7 +456,7 @@ public final class Json5Writer extends JsonWriter {
 		}
 
 		stackSize--;
-        pathNames[stackSize] = null;
+		pathNames[stackSize] = null;
 		if (context == nonempty) {
 			commentAndNewline();
 		}
@@ -465,9 +466,9 @@ public final class Json5Writer extends JsonWriter {
 
 	private void push(int newTop) {
 		if (stackSize == stack.length) {
-            int newLength = stackSize * 2;
+			int newLength = stackSize * 2;
 			stack = Arrays.copyOf(stack, newLength);
-            pathNames = Arrays.copyOf(pathNames, newLength);
+			pathNames = Arrays.copyOf(pathNames, newLength);
 		}
 		stack[stackSize++] = newTop;
 	}
@@ -536,10 +537,6 @@ public final class Json5Writer extends JsonWriter {
 			out.write('\"');
 		}
 
-		if (!escapeQuotes) {
-			replacements['\"'] = null;
-		}
-
 		int last = 0;
 		int length = value.length();
 
@@ -547,6 +544,9 @@ public final class Json5Writer extends JsonWriter {
 			char c = value.charAt(i);
 			String replacement;
 			if (c < 128) {
+				if (c == '"' && !escapeQuotes) {
+					continue;
+				}
 				replacement = replacements[c];
 				if (replacement == null) {
 					continue;
@@ -611,7 +611,7 @@ public final class Json5Writer extends JsonWriter {
 						"JSON must have only one top-level value.");
 				// fall-through
 			case Json5Scope.EMPTY_DOCUMENT: // first in document
-                comment(commenter.apply("$"));
+				comment(commenter.apply("$"));
 				writeDeferredComment();
 				replaceTop(Json5Scope.NONEMPTY_DOCUMENT);
 				break;
@@ -636,29 +636,29 @@ public final class Json5Writer extends JsonWriter {
 		}
 	}
 
-    public String getPath() {
-        StringBuilder result = new StringBuilder().append('$');
-        for (int i = 0; i < stackSize; i++) {
-            switch (stack[i]) {
-                case Json5Scope.EMPTY_ARRAY:
-                case Json5Scope.NONEMPTY_ARRAY:
-                    break;
+	public String getPath() {
+		StringBuilder result = new StringBuilder().append('$');
+		for (int i = 0; i < stackSize; i++) {
+			switch (stack[i]) {
+				case Json5Scope.EMPTY_ARRAY:
+				case Json5Scope.NONEMPTY_ARRAY:
+					break;
 
-                case Json5Scope.EMPTY_OBJECT:
-                case Json5Scope.DANGLING_NAME:
-                case Json5Scope.NONEMPTY_OBJECT:
-                    result.append('.');
-                    if (pathNames[i] != null) {
-                        result.append(pathNames[i]);
-                    }
-                    break;
+				case Json5Scope.EMPTY_OBJECT:
+				case Json5Scope.DANGLING_NAME:
+				case Json5Scope.NONEMPTY_OBJECT:
+					result.append('.');
+					if (pathNames[i] != null) {
+						result.append(pathNames[i]);
+					}
+					break;
 
-                case Json5Scope.NONEMPTY_DOCUMENT:
-                case Json5Scope.EMPTY_DOCUMENT:
-                case Json5Scope.CLOSED:
-                    break;
-            }
-        }
-        return result.toString();
-    }
+				case Json5Scope.NONEMPTY_DOCUMENT:
+				case Json5Scope.EMPTY_DOCUMENT:
+				case Json5Scope.CLOSED:
+					break;
+			}
+		}
+		return result.toString();
+	}
 }

@@ -48,6 +48,7 @@ public abstract class Waila {
         .file(WailaConstants.NAMESPACE + "/blacklist")
         .version(BlacklistConfig.VERSION, BlacklistConfig::getConfigVersion, BlacklistConfig::setConfigVersion)
         .json5()
+        .commenter(BlacklistConfig.COMMENTER)
         .gson(new GsonBuilder()
             .setPrettyPrinting()
             .registerTypeAdapter(BlacklistConfig.class, new BlacklistConfig.Adapter())

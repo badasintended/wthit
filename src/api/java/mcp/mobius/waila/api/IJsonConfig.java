@@ -6,7 +6,6 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.nio.file.Path;
-import java.util.function.Function;
 import java.util.function.ObjIntConsumer;
 import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
@@ -87,7 +86,7 @@ public interface IJsonConfig<T> {
     /**
      * Adds comment for this value.
      *
-     * @see Builder1#commenter(Function)
+     * @see Builder1#commenter(Commenter)
      */
     @Target({ElementType.TYPE, ElementType.FIELD})
     @Retention(RetentionPolicy.RUNTIME)
@@ -97,6 +96,13 @@ public interface IJsonConfig<T> {
          * The comment.
          */
         String value();
+
+    }
+
+    interface Commenter {
+
+        @Nullable
+        String getComment(String path);
 
     }
 
@@ -116,7 +122,7 @@ public interface IJsonConfig<T> {
 
         Builder1<T> json5();
 
-        Builder1<T> commenter(Function<String, @Nullable String> commenter);
+        Builder1<T> commenter(Commenter commenter);
 
         Builder1<T> gson(Gson gson);
 

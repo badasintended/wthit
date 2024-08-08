@@ -11,7 +11,6 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Set;
 import java.util.WeakHashMap;
-import java.util.function.Function;
 import java.util.function.ObjIntConsumer;
 import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
@@ -24,7 +23,6 @@ import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.mcless.config.ConfigIo;
 import mcp.mobius.waila.util.CachedSupplier;
 import mcp.mobius.waila.util.Log;
-import org.apache.commons.io.FilenameUtils;
 import org.jetbrains.annotations.Nullable;
 
 public class JsonConfig<T> implements IJsonConfig<T> {
@@ -41,9 +39,11 @@ public class JsonConfig<T> implements IJsonConfig<T> {
     private final CachedSupplier<T> getter;
 
     @SuppressWarnings("unchecked")
-    JsonConfig(Path path, Type type, Supplier<T> factory, boolean json5, Function<String, @Nullable String> commenter, Gson gson, int currentVersion, ToIntFunction<T> versionGetter, ObjIntConsumer<T> versionSetter) {
+    JsonConfig(Path path, Type type, Supplier<T> factory, boolean json5, Commenter commenter, Gson gson, int currentVersion, ToIntFunction<T> versionGetter, ObjIntConsumer<T> versionSetter) {
         this.path = path.toAbsolutePath();
-        this.io = new ConfigIo<>(LOG::warn, LOG::error, json5, new AnnotationCommenter(type, gson, commenter), gson, type, factory, currentVersion, versionGetter, versionSetter);
+
+        var annotationCommenter = new AnnotationCommenter(type, gson, commenter);
+        this.io = new ConfigIo<>(LOG::warn, LOG::error, json5, annotationCommenter::getComment, gson, type, factory, currentVersion, versionGetter, versionSetter);
         this.getter = new CachedSupplier<>(() -> io.read(this.path));
 
         INSTANCES.add((JsonConfig<Object>) this);
@@ -103,7 +103,7 @@ public class JsonConfig<T> implements IJsonConfig<T> {
         final Type type;
         Supplier<Path> path;
         boolean json5;
-        Function<String, @Nullable String> commenter;
+        Commenter commenter;
         Gson gson;
         int currentVersion;
         ToIntFunction<T> versionGetter;
@@ -178,7 +178,7 @@ public class JsonConfig<T> implements IJsonConfig<T> {
         }
 
         @Override
-        public Builder1<T> commenter(Function<String, @Nullable String> commenter) {
+        public Builder1<T> commenter(Commenter commenter) {
             this.commenter = commenter;
             return this;
         }

@@ -4,7 +4,6 @@ import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.function.Function;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
@@ -14,11 +13,11 @@ import org.jetbrains.annotations.Nullable;
 public record AnnotationCommenter(
     Type type,
     Gson gson,
-    Function<String, @Nullable String> extra
-) implements Function<String, @Nullable String> {
+    IJsonConfig.Commenter extra
+) implements IJsonConfig.Commenter {
 
     @Override
-    public @Nullable String apply(String path) {
+    public @Nullable String getComment(String path) {
         String annotationComment = null;
         if (type instanceof Class<?> cls) {
             AnnotatedElement element = null;
@@ -53,7 +52,7 @@ public record AnnotationCommenter(
             }
         }
 
-        var extraComment = extra.apply(path);
+        var extraComment = extra.getComment(path);
 
         if (annotationComment == null) return extraComment;
         if (extraComment == null) return annotationComment;

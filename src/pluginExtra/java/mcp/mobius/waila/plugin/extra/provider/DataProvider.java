@@ -51,6 +51,7 @@ public abstract class DataProvider<A extends IData, I extends A> implements IBlo
         blacklistConfig = IJsonConfig.of(ExtraBlacklistConfig.class)
             .file(WailaConstants.NAMESPACE + "/extra/" + type.id().getPath() + "_blacklist")
             .json5()
+            .commenter(ExtraBlacklistConfig.commenter(tagId))
             .gson(new GsonBuilder()
                 .setPrettyPrinting()
                 .registerTypeAdapter(ExtraBlacklistConfig.class, new ExtraBlacklistConfig.Adapter(tagId))
