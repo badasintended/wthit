@@ -9,6 +9,7 @@ import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -28,7 +29,7 @@ public class ConfigIo<T> {
     private final Consumer<String> warn;
     private final BiConsumer<String, Throwable> error;
     private final boolean json5;
-    private final Supplier<Function<String, @Nullable String>> commenter;
+    private final Supplier<Function<List<String>, @Nullable String>> commenter;
     private final Gson gson;
     private final Type type;
     private final Supplier<T> factory;
@@ -36,7 +37,7 @@ public class ConfigIo<T> {
     private final ToIntFunction<T> versionGetter;
     private final ObjIntConsumer<T> versionSetter;
 
-    public ConfigIo(Consumer<String> warn, BiConsumer<String, Throwable> error, boolean json5, Supplier<Function<String, @Nullable String>> commenter, Gson gson, Type type, Supplier<T> factory, int currentVersion, ToIntFunction<T> versionGetter, ObjIntConsumer<T> versionSetter) {
+    public ConfigIo(Consumer<String> warn, BiConsumer<String, Throwable> error, boolean json5, Supplier<Function<List<String>, @Nullable String>> commenter, Gson gson, Type type, Supplier<T> factory, int currentVersion, ToIntFunction<T> versionGetter, ObjIntConsumer<T> versionSetter) {
         this.warn = warn;
         this.error = error;
         this.json5 = json5;
@@ -49,7 +50,7 @@ public class ConfigIo<T> {
         this.versionSetter = versionSetter;
     }
 
-    public ConfigIo(Consumer<String> warn, BiConsumer<String, Throwable> error, boolean json5, Supplier<Function<String, @Nullable String>> commenter, Gson gson, Type type, Supplier<T> factory) {
+    public ConfigIo(Consumer<String> warn, BiConsumer<String, Throwable> error, boolean json5, Supplier<Function<List<String>, @Nullable String>> commenter, Gson gson, Type type, Supplier<T> factory) {
         this(warn, error, json5, commenter, gson, type, factory, 0, t -> 0, (a, b) -> {});
     }
 

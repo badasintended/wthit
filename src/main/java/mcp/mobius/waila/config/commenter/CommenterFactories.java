@@ -7,7 +7,7 @@ import java.util.function.Supplier;
 import mcp.mobius.waila.api.IJsonConfig;
 import org.jetbrains.annotations.Nullable;
 
-public class CommenterFactories implements Supplier<Function<String, @Nullable String>> {
+public class CommenterFactories implements Supplier<Function<List<String>, @Nullable String>> {
 
     private final List<Supplier<IJsonConfig.Commenter>> factories;
 
@@ -16,7 +16,7 @@ public class CommenterFactories implements Supplier<Function<String, @Nullable S
     }
 
     @Override
-    public Function<String, @Nullable String> get() {
+    public Function<List<String>, @Nullable String> get() {
         var commenters = factories.stream().map(Supplier::get).toList();
 
         return path -> {

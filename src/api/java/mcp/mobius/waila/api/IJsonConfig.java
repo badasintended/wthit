@@ -6,6 +6,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.function.ObjIntConsumer;
 import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
@@ -107,10 +108,10 @@ public interface IJsonConfig<T> {
         /**
          * Returns the comment for the specified path.
          *
-         * @param path a <a href="http://goessner.net/articles/JsonPath/">JsonPath</a> for the current entry
+         * @param path a list containing the nested path of the entry, empty list means the root object
          */
         @Nullable
-        String getComment(String path);
+        String getComment(List<String> path);
 
     }
 

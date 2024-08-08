@@ -33,7 +33,7 @@ public class BlacklistConfig {
     private static final String BLACKLIST_TAG = "#" + Waila.id("blacklist");
 
     public static final int VERSION = 0;
-    public static final IJsonConfig.Commenter COMMENTER = path -> !path.equals("$") ? null : """
+    public static final IJsonConfig.Commenter COMMENTER = p -> !p.isEmpty() ? null : """
         Run `/waila reload` to apply changes server-wide.
         Run `/wailac reload` to apply changes to only your client.
 

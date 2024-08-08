@@ -26,7 +26,10 @@
 package mcp.mobius.waila.mcless.json5;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
 
@@ -183,12 +186,13 @@ public final class Json5Writer extends JsonWriter {
 	private String deferredName;
 	private String deferredComment;
 
-	private final Function<String, @Nullable String> commenter;
-	private String[] pathNames = new String[32];
+	private final Function<List<String>, @Nullable String> commenter;
+	private final ArrayList<String> pathNames = new ArrayList<>(32);
+	private final List<String> pathNamesView = Collections.unmodifiableList(pathNames);
 
 	// API methods
 
-	public Json5Writer(Writer out, Function<String, @Nullable String> commenter) {
+	public Json5Writer(Writer out, Function<List<String>, @Nullable String> commenter) {
 		super(Writer.nullWriter());
 		Objects.requireNonNull(out, "Writer cannot be null");
 		this.out = out;
@@ -212,8 +216,8 @@ public final class Json5Writer extends JsonWriter {
 			throw new IllegalStateException("JsonWriter is closed.");
 		}
 		deferredName = name;
-		pathNames[stackSize - 1] = name;
-		comment(commenter.apply(getPath()));
+		pathNames.set(stackSize - 1, name);
+		comment(commenter.apply(pathNamesView));
 		return this;
 	}
 
@@ -456,7 +460,7 @@ public final class Json5Writer extends JsonWriter {
 		}
 
 		stackSize--;
-		pathNames[stackSize] = null;
+		pathNames.remove(stackSize);
 		if (context == nonempty) {
 			commentAndNewline();
 		}
@@ -468,7 +472,7 @@ public final class Json5Writer extends JsonWriter {
 		if (stackSize == stack.length) {
 			int newLength = stackSize * 2;
 			stack = Arrays.copyOf(stack, newLength);
-			pathNames = Arrays.copyOf(pathNames, newLength);
+			pathNames.ensureCapacity(newLength);
 		}
 		stack[stackSize++] = newTop;
 	}
@@ -610,7 +614,7 @@ public final class Json5Writer extends JsonWriter {
 						"JSON must have only one top-level value.");
 				// fall-through
 			case Json5Scope.EMPTY_DOCUMENT: // first in document
-				comment(commenter.apply("$"));
+				comment(commenter.apply(List.of()));
 				writeDeferredComment();
 				replaceTop(Json5Scope.NONEMPTY_DOCUMENT);
 				break;
@@ -633,31 +637,5 @@ public final class Json5Writer extends JsonWriter {
 			default:
 				throw new IllegalStateException("Nesting problem.");
 		}
-	}
-
-	public String getPath() {
-		StringBuilder result = new StringBuilder().append('$');
-		for (int i = 0; i < stackSize; i++) {
-			switch (stack[i]) {
-				case Json5Scope.EMPTY_ARRAY:
-				case Json5Scope.NONEMPTY_ARRAY:
-					break;
-
-				case Json5Scope.EMPTY_OBJECT:
-				case Json5Scope.DANGLING_NAME:
-				case Json5Scope.NONEMPTY_OBJECT:
-					result.append('.');
-					if (pathNames[i] != null) {
-						result.append(pathNames[i]);
-					}
-					break;
-
-				case Json5Scope.NONEMPTY_DOCUMENT:
-				case Json5Scope.EMPTY_DOCUMENT:
-				case Json5Scope.CLOSED:
-					break;
-			}
-		}
-		return result.toString();
 	}
 }

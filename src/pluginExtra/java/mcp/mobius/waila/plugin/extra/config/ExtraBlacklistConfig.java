@@ -35,7 +35,7 @@ public class ExtraBlacklistConfig {
     }
 
     public static IJsonConfig.Commenter commenter(ResourceLocation tag) {
-        return p -> !p.equals("$") ? null : """
+        return p -> !p.isEmpty() ? null : """
             Run `/waila reload` to apply changes server-wide.
             Run `/wailac reload` to apply changes to only your client.
 

@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 
 import com.google.gson.Gson;
@@ -26,15 +27,14 @@ public final class AnnotationCommenter implements IJsonConfig.Commenter {
     }
 
     @Override
-    public @Nullable String getComment(String path) {
+    public @Nullable String getComment(List<String> path) {
         AnnotatedElement element = null;
 
-        if (path.equals("$")) {
+        if (path.isEmpty()) {
             element = cls;
         } else {
-            var split = path.substring(2).split("\\.");
             var parent = cls;
-            for (var part : split) {
+            for (var part : path) {
                 var fields = this.fields.computeIfAbsent(parent, Class::getDeclaredFields);
                 for (var field : fields) {
                     var possibleFieldNames = this.possibleFieldNames.computeIfAbsent(field, f -> {
