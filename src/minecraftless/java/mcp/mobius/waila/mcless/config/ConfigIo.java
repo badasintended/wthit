@@ -17,8 +17,6 @@ import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
 
 import com.google.gson.Gson;
-import mcp.mobius.waila.mcless.json5.Json5MapTypeAdapterFactory;
-import mcp.mobius.waila.mcless.json5.Json5Reader;
 import mcp.mobius.waila.mcless.json5.Json5Writer;
 import org.apache.commons.io.FilenameUtils;
 import org.jetbrains.annotations.Nullable;
@@ -41,17 +39,14 @@ public class ConfigIo<T> {
     public ConfigIo(Consumer<String> warn, BiConsumer<String, Throwable> error, boolean json5, Function<String, @Nullable String> commenter, Gson gson, Type type, Supplier<T> factory, int currentVersion, ToIntFunction<T> versionGetter, ObjIntConsumer<T> versionSetter) {
         this.warn = warn;
         this.error = error;
+        this.json5 = json5;
         this.commenter = commenter;
+        this.gson = gson;
         this.type = type;
         this.factory = factory;
         this.currentVersion = currentVersion;
         this.versionGetter = versionGetter;
         this.versionSetter = versionSetter;
-
-        this.json5 = json5;
-        this.gson = !json5 ? gson : gson.newBuilder()
-            .registerTypeAdapterFactory(new Json5MapTypeAdapterFactory())
-            .create();
     }
 
     public ConfigIo(Consumer<String> warn, BiConsumer<String, Throwable> error, boolean json5, Function<String, @Nullable String> commenter, Gson gson, Type type, Supplier<T> factory) {
@@ -87,7 +82,9 @@ public class ConfigIo<T> {
             config = factory.get();
         } else {
             try (var reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
-                config = gson.fromJson(json5 ? new Json5Reader(reader) : gson.newJsonReader(reader), type);
+                var jsonReader = gson.newJsonReader(reader);
+                jsonReader.setLenient(true);
+                config = gson.fromJson(jsonReader, type);
                 var version = versionGetter.applyAsInt(config);
                 if (version != currentVersion) {
                     var old = Paths.get(path + "_" + DATE_FORMAT.format(new Date()));

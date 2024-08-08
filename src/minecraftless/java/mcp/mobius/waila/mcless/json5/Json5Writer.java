@@ -532,7 +532,6 @@ public final class Json5Writer extends JsonWriter {
 	}
 
 	private void string(String value, boolean quotes, boolean escapeQuotes) throws IOException {
-		String[] replacements = REPLACEMENT_CHARS;
 		if (quotes) {
 			out.write('\"');
 		}
@@ -547,7 +546,7 @@ public final class Json5Writer extends JsonWriter {
 				if (c == '"' && !escapeQuotes) {
 					continue;
 				}
-				replacement = replacements[c];
+				replacement = REPLACEMENT_CHARS[c];
 				if (replacement == null) {
 					continue;
 				}
