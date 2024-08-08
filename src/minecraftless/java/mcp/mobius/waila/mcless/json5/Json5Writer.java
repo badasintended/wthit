@@ -25,7 +25,8 @@
 
 package mcp.mobius.waila.mcless.json5;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -216,7 +217,7 @@ public final class Json5Writer extends JsonWriter {
 			throw new IllegalStateException("JsonWriter is closed.");
 		}
 		deferredName = name;
-		pathNames.set(stackSize - 1, name);
+		pathNames.set(pathNames.size() - 1, name);
 		comment(commenter.apply(pathNamesView));
 		return this;
 	}
@@ -440,6 +441,7 @@ public final class Json5Writer extends JsonWriter {
 	 */
 	private Json5Writer open(int empty, char openBracket) throws IOException {
 		beforeValue();
+        pathNames.addLast("NULL");
 		push(empty);
 		out.write(openBracket);
 		return this;
@@ -460,7 +462,7 @@ public final class Json5Writer extends JsonWriter {
 		}
 
 		stackSize--;
-		pathNames.remove(stackSize);
+		if (!pathNames.isEmpty()) pathNames.removeLast();
 		if (context == nonempty) {
 			commentAndNewline();
 		}

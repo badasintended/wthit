@@ -1,12 +1,16 @@
 package mcp.mobius.waila.config;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -14,11 +18,16 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.WailaConstants;
+import mcp.mobius.waila.buildconst.Tl;
+import mcp.mobius.waila.config.commenter.CommenterFactories;
 import mcp.mobius.waila.mcless.config.ConfigIo;
 import mcp.mobius.waila.util.Log;
+import net.minecraft.locale.Language;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("unchecked")
 public enum PluginConfig implements IPluginConfig {
@@ -28,10 +37,59 @@ public enum PluginConfig implements IPluginConfig {
     private static final Log LOG = Log.create();
 
     private static final Path PATH = Waila.CONFIG_DIR.resolve(WailaConstants.NAMESPACE + "/" + WailaConstants.WAILA + "_plugins.json5");
+
+    private static final Supplier<IJsonConfig.Commenter> COMMENTER = () -> {
+        var translation = new HashMap<String, String>();
+        try (var stream = PluginConfig.class.getResourceAsStream("/assets/waila/lang/en_us.json")) {
+            Language.loadFromJson(Objects.requireNonNull(stream), translation::put);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return p -> {
+            if (p.size() < 2) return null;
+
+            var namespace = p.get(0);
+            var path = p.get(1);
+            var entry = getEntry(ResourceLocation.fromNamespaceAndPath(namespace, path));
+            var type = entry.getType();
+
+            var sb = new StringBuilder();
+
+            var tlKey = Tl.Config.PLUGIN_ + namespace + "." + path;
+            sb.append(translation.getOrDefault(tlKey, tlKey));
+
+            var descKey = tlKey + "_desc";
+            if (translation.containsKey(descKey)) sb.append('\n').append(translation.get(descKey));
+
+            if (type.equals(ConfigEntry.PATH)) {
+                sb.append("\nCustom config, open the following file\n").append(entry.getDefaultValue());
+                return sb.toString();
+            }
+
+            if (entry.isServerRequired()) sb.append("\nRequire server to have WTHIT installed, if not, will be locked to ").append(entry.getClientOnlyValue());
+            else if (entry.isMerged()) sb.append("\nThis value will get merged with the value from the server");
+            else if (entry.isSynced()) sb.append("\nThis value will get overridden by the server");
+
+            sb.append("\nDefault value: ").append(entry.getDefaultValue().toString());
+            if (type.equals(ConfigEntry.ENUM)) {
+                sb.append("\nAvailable values: ");
+                var enums = ((Enum<?>) entry.getDefaultValue()).getDeclaringClass().getEnumConstants();
+                sb.append(enums[0].name());
+                for (var i = 1; i < enums.length; i++) {
+                    var anEnum = enums[i];
+                    sb.append(", ").append(anEnum.name());
+                }
+            }
+
+            return sb.toString();
+        };
+    };
+
     private static final ConfigIo<Map<String, Map<String, JsonElement>>> IO = new ConfigIo<>(
         LOG::warn, LOG::error,
         true,
-        () -> p -> null,
+        new CommenterFactories(List.of(COMMENTER)),
         new GsonBuilder().setPrettyPrinting().create(),
         new TypeToken<Map<String, Map<String, JsonElement>>>() {}.getType(),
         LinkedHashMap::new);
