@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.ObjIntConsumer;
 import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
@@ -19,6 +20,7 @@ import com.google.gson.Gson;
 import mcp.mobius.waila.mcless.json5.Json5MapTypeAdapterFactory;
 import mcp.mobius.waila.mcless.json5.Json5Reader;
 import mcp.mobius.waila.mcless.json5.Json5Writer;
+import org.jetbrains.annotations.Nullable;
 
 public class ConfigIo<T> {
 
@@ -27,6 +29,7 @@ public class ConfigIo<T> {
     private final Consumer<String> warn;
     private final BiConsumer<String, Throwable> error;
     private final boolean json5;
+    private final Function<String, @Nullable String> commenter;
     private final Gson gson;
     private final Type type;
     private final Supplier<T> factory;
@@ -34,9 +37,10 @@ public class ConfigIo<T> {
     private final ToIntFunction<T> versionGetter;
     private final ObjIntConsumer<T> versionSetter;
 
-    public ConfigIo(Consumer<String> warn, BiConsumer<String, Throwable> error, boolean json5, Gson gson, Type type, Supplier<T> factory, int currentVersion, ToIntFunction<T> versionGetter, ObjIntConsumer<T> versionSetter) {
+    public ConfigIo(Consumer<String> warn, BiConsumer<String, Throwable> error, boolean json5, Function<String, @Nullable String> commenter, Gson gson, Type type, Supplier<T> factory, int currentVersion, ToIntFunction<T> versionGetter, ObjIntConsumer<T> versionSetter) {
         this.warn = warn;
         this.error = error;
+        this.commenter = commenter;
         this.type = type;
         this.factory = factory;
         this.currentVersion = currentVersion;
@@ -49,8 +53,8 @@ public class ConfigIo<T> {
             .create();
     }
 
-    public ConfigIo(Consumer<String> warn, BiConsumer<String, Throwable> error, boolean json5, Gson gson, Type type, Supplier<T> factory) {
-        this(warn, error, json5, gson, type, factory, 0, t -> 0, (a, b) -> {});
+    public ConfigIo(Consumer<String> warn, BiConsumer<String, Throwable> error, boolean json5, Function<String, @Nullable String> commenter, Gson gson, Type type, Supplier<T> factory) {
+        this(warn, error, json5, commenter, gson, type, factory, 0, t -> 0, (a, b) -> {});
     }
 
     public T read(Path path) {
@@ -113,7 +117,7 @@ public class ConfigIo<T> {
 
     public boolean write(Path path, T value) {
         try (var writer = Files.newBufferedWriter(path, StandardCharsets.UTF_8)) {
-            gson.toJson(value, type, json5 ? new Json5Writer(writer) : gson.newJsonWriter(writer));
+            gson.toJson(value, type, json5 ? new Json5Writer(writer, commenter) : gson.newJsonWriter(writer));
             return true;
         } catch (IOException e) {
             error.accept("Exception when writing config file " + path, e);

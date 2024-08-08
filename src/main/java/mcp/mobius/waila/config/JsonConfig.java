@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.Set;
 import java.util.WeakHashMap;
+import java.util.function.Function;
 import java.util.function.ObjIntConsumer;
 import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
@@ -39,9 +40,9 @@ public class JsonConfig<T> implements IJsonConfig<T> {
     private final CachedSupplier<T> getter;
 
     @SuppressWarnings("unchecked")
-    JsonConfig(Path path, Type clazz, Supplier<T> factory, boolean json5, Gson gson, int currentVersion, ToIntFunction<T> versionGetter, ObjIntConsumer<T> versionSetter) {
+    JsonConfig(Path path, Type type, Supplier<T> factory, boolean json5, Function<String, @Nullable String> commenter, Gson gson, int currentVersion, ToIntFunction<T> versionGetter, ObjIntConsumer<T> versionSetter) {
         this.path = path.toAbsolutePath();
-        this.io = new ConfigIo<>(LOG::warn, LOG::error, json5, gson, clazz, factory, currentVersion, versionGetter, versionSetter);
+        this.io = new ConfigIo<>(LOG::warn, LOG::error, json5, new AnnotationCommenter(type, gson, commenter), gson, type, factory, currentVersion, versionGetter, versionSetter);
         this.getter = new CachedSupplier<>(() -> io.read(this.path));
 
         INSTANCES.add((JsonConfig<Object>) this);
@@ -101,6 +102,7 @@ public class JsonConfig<T> implements IJsonConfig<T> {
         final Type type;
         Path path;
         boolean json5;
+        Function<String, @Nullable String> commenter;
         Gson gson;
         int currentVersion;
         ToIntFunction<T> versionGetter;
@@ -111,6 +113,7 @@ public class JsonConfig<T> implements IJsonConfig<T> {
         public Builder(Type type) {
             this.type = type;
             this.json5 = false;
+            this.commenter = s -> null;
             this.gson = DEFAULT_GSON;
             this.currentVersion = 0;
             this.versionGetter = t -> 0;
@@ -164,6 +167,12 @@ public class JsonConfig<T> implements IJsonConfig<T> {
         }
 
         @Override
+        public Builder1<T> commenter(Function<String, @Nullable String> commenter) {
+            this.commenter = commenter;
+            return this;
+        }
+
+        @Override
         public Builder1<T> gson(Gson gson) {
             this.gson = gson;
             return this;
@@ -172,7 +181,7 @@ public class JsonConfig<T> implements IJsonConfig<T> {
         @Override
         public IJsonConfig<T> build() {
             Preconditions.checkNotNull(factory, "Default value factory must not be null");
-            return new JsonConfig<>(path, type, factory, json5, gson, currentVersion, versionGetter, versionSetter);
+            return new JsonConfig<>(path, type, factory, json5, commenter, gson, currentVersion, versionGetter, versionSetter);
         }
 
     }

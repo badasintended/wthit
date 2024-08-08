@@ -707,36 +707,6 @@ public final class Json5Reader extends JsonReader {
 	}
 
 	/**
-	 * @return a <a href="http://goessner.net/articles/JsonPath/">JsonPath</a> to the current location in the input JSON.
-	 */
-	public String path() {
-		StringBuilder result = new StringBuilder().append('$');
-		for (int i = 0, size = stackSize; i < size; i++) {
-			switch (stack[i]) {
-				case Json5Scope.EMPTY_ARRAY:
-				case Json5Scope.NONEMPTY_ARRAY:
-					result.append('[').append(pathIndices[i]).append(']');
-					break;
-
-				case Json5Scope.EMPTY_OBJECT:
-				case Json5Scope.DANGLING_NAME:
-				case Json5Scope.NONEMPTY_OBJECT:
-					result.append('.');
-					if (pathNames[i] != null) {
-						result.append(pathNames[i]);
-					}
-					break;
-
-				case Json5Scope.NONEMPTY_DOCUMENT:
-				case Json5Scope.EMPTY_DOCUMENT:
-				case Json5Scope.CLOSED:
-					break;
-			}
-		}
-		return result.toString();
-	}
-
-	/**
 	 * Closes this JSON reader and the underlying {@link Reader}.
 	 */
 	public void close() throws IOException {
@@ -753,7 +723,6 @@ public final class Json5Reader extends JsonReader {
 
 	// Implementation methods
 	// Everything below here should be package-private or private
-
 	int doPeek() throws IOException {
 		int peekStack = stack[stackSize - 1];
 		if (peekStack == Json5Scope.EMPTY_ARRAY) {
@@ -1453,7 +1422,7 @@ public final class Json5Reader extends JsonReader {
 	public String locationString() {
 		int line = lineNumber + 1;
 		int column = pos - lineStart + 1;
-		return " at line " + line + " column " + column + " path " + path();
+		return " at line " + line + " column " + column + " path " + getPath();
 	}
 
 	/**
@@ -1524,35 +1493,6 @@ public final class Json5Reader extends JsonReader {
 				throw syntaxError("Invalid escape sequence " + (int) escaped);
 		}
 	}
-	private String getPath(boolean usePreviousPath) {
-		StringBuilder result = new StringBuilder().append('$');
-		for (int i = 0; i < stackSize; i++) {
-			switch (stack[i]) {
-				case Json5Scope.EMPTY_ARRAY:
-				case Json5Scope.NONEMPTY_ARRAY:
-					int pathIndex = pathIndices[i];
-					// If index is last path element it points to next array element; have to decrement
-					if (usePreviousPath && pathIndex > 0 && i == stackSize - 1) {
-						pathIndex--;
-					}
-					result.append('[').append(pathIndex).append(']');
-					break;
-				case Json5Scope.EMPTY_OBJECT:
-				case Json5Scope.DANGLING_NAME:
-				case Json5Scope.NONEMPTY_OBJECT:
-					result.append('.');
-					if (pathNames[i] != null) {
-						result.append(pathNames[i]);
-					}
-					break;
-				case Json5Scope.NONEMPTY_DOCUMENT:
-				case Json5Scope.EMPTY_DOCUMENT:
-				case Json5Scope.CLOSED:
-					break;
-			}
-		}
-		return result.toString();
-	}
 
 	/**
 	 * Returns a <a href="https://goessner.net/articles/JsonPath/">JSONPath</a>
@@ -1569,7 +1509,31 @@ public final class Json5Reader extends JsonReader {
 	 * token is unexpected.
 	 */
 	public String getPath() {
-		return getPath(false);
+		StringBuilder result = new StringBuilder().append('$');
+		for (int i = 0; i < stackSize; i++) {
+			switch (stack[i]) {
+				case Json5Scope.EMPTY_ARRAY:
+				case Json5Scope.NONEMPTY_ARRAY:
+					int pathIndex = pathIndices[i];
+					result.append('[').append(pathIndex).append(']');
+					break;
+
+				case Json5Scope.EMPTY_OBJECT:
+				case Json5Scope.DANGLING_NAME:
+				case Json5Scope.NONEMPTY_OBJECT:
+					result.append('.');
+					if (pathNames[i] != null) {
+						result.append(pathNames[i]);
+					}
+					break;
+
+				case Json5Scope.NONEMPTY_DOCUMENT:
+				case Json5Scope.EMPTY_DOCUMENT:
+				case Json5Scope.CLOSED:
+					break;
+			}
+		}
+		return result.toString();
 	}
 
 	/**

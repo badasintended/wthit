@@ -1,5 +1,7 @@
-// This file was a part of Quilt Parsers, modified to remove unused members,
-// and to directly extends GSON's JsonWriter.
+// This file was a part of Quilt Parsers, modified as follows:
+// - Remove unused members
+// - Directly extends GSON's JsonWriter
+// - Added generic commenter function
 // https://github.com/QuiltMC/quilt-parsers/blob/00803c4e70fb0cf93765593eaae5c781b1505bee/json/src/main/java/org/quiltmc/parsers/json/JsonWriter.java
 // @formatter:off
 
@@ -25,6 +27,7 @@ package mcp.mobius.waila.mcless.json5;
 import java.io.*;
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.function.Function;
 
 import com.google.gson.stream.JsonWriter;
 import org.jetbrains.annotations.Nullable;
@@ -179,12 +182,16 @@ public final class Json5Writer extends JsonWriter {
 	private String deferredName;
 	private String deferredComment;
 
+    private final Function<String, @Nullable String> commenter;
+    private String[] pathNames = new String[32];
+
 	// API methods
 
-	public Json5Writer(Writer out) {
+	public Json5Writer(Writer out, Function<String, @Nullable String> commenter) {
 		super(Writer.nullWriter());
 		Objects.requireNonNull(out, "Writer cannot be null");
 		this.out = out;
+        this.commenter = commenter;
 	}
 
 	/**
@@ -204,6 +211,8 @@ public final class Json5Writer extends JsonWriter {
 			throw new IllegalStateException("JsonWriter is closed.");
 		}
 		deferredName = name;
+        pathNames[stackSize - 1] = name;
+        comment(commenter.apply(getPath()));
 		return this;
 	}
 
@@ -446,6 +455,7 @@ public final class Json5Writer extends JsonWriter {
 		}
 
 		stackSize--;
+        pathNames[stackSize] = null;
 		if (context == nonempty) {
 			commentAndNewline();
 		}
@@ -455,7 +465,9 @@ public final class Json5Writer extends JsonWriter {
 
 	private void push(int newTop) {
 		if (stackSize == stack.length) {
-			stack = Arrays.copyOf(stack, stackSize * 2);
+            int newLength = stackSize * 2;
+			stack = Arrays.copyOf(stack, newLength);
+            pathNames = Arrays.copyOf(pathNames, newLength);
 		}
 		stack[stackSize++] = newTop;
 	}
@@ -599,6 +611,7 @@ public final class Json5Writer extends JsonWriter {
 						"JSON must have only one top-level value.");
 				// fall-through
 			case Json5Scope.EMPTY_DOCUMENT: // first in document
+                comment(commenter.apply("$"));
 				writeDeferredComment();
 				replaceTop(Json5Scope.NONEMPTY_DOCUMENT);
 				break;
@@ -622,4 +635,30 @@ public final class Json5Writer extends JsonWriter {
 				throw new IllegalStateException("Nesting problem.");
 		}
 	}
+
+    public String getPath() {
+        StringBuilder result = new StringBuilder().append('$');
+        for (int i = 0; i < stackSize; i++) {
+            switch (stack[i]) {
+                case Json5Scope.EMPTY_ARRAY:
+                case Json5Scope.NONEMPTY_ARRAY:
+                    break;
+
+                case Json5Scope.EMPTY_OBJECT:
+                case Json5Scope.DANGLING_NAME:
+                case Json5Scope.NONEMPTY_OBJECT:
+                    result.append('.');
+                    if (pathNames[i] != null) {
+                        result.append(pathNames[i]);
+                    }
+                    break;
+
+                case Json5Scope.NONEMPTY_DOCUMENT:
+                case Json5Scope.EMPTY_DOCUMENT:
+                case Json5Scope.CLOSED:
+                    break;
+            }
+        }
+        return result.toString();
+    }
 }

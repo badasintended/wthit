@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IPluginConfig;
@@ -28,11 +28,12 @@ public enum PluginConfig implements IPluginConfig {
     private static final Log LOG = Log.create();
 
     private static final Path PATH = Waila.CONFIG_DIR.resolve(WailaConstants.NAMESPACE + "/" + WailaConstants.WAILA + "_plugins.json");
-    private static final ConfigIo<Map<String, Map<String, JsonPrimitive>>> IO = new ConfigIo<>(
+    private static final ConfigIo<Map<String, Map<String, JsonElement>>> IO = new ConfigIo<>(
         LOG::warn, LOG::error,
         true,
+        p -> null,
         new GsonBuilder().setPrettyPrinting().create(),
-        new TypeToken<Map<String, Map<String, JsonPrimitive>>>() {}.getType(),
+        new TypeToken<Map<String, Map<String, JsonElement>>>() {}.getType(),
         LinkedHashMap::new);
 
     private static final Map<ResourceLocation, ConfigEntry<Object>> CONFIGS = new LinkedHashMap<>();
@@ -103,7 +104,7 @@ public enum PluginConfig implements IPluginConfig {
     }
 
     private static void writeConfig() {
-        Map<String, Map<String, JsonPrimitive>> config = new LinkedHashMap<>();
+        var config = new LinkedHashMap<String, Map<String, JsonElement>>();
         for (var entry : CONFIGS.values()) {
             if (entry.isAlias()) continue;
 
