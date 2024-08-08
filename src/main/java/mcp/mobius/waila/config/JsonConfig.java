@@ -24,6 +24,7 @@ import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.mcless.config.ConfigIo;
 import mcp.mobius.waila.util.CachedSupplier;
 import mcp.mobius.waila.util.Log;
+import org.apache.commons.io.FilenameUtils;
 import org.jetbrains.annotations.Nullable;
 
 public class JsonConfig<T> implements IJsonConfig<T> {
@@ -100,7 +101,7 @@ public class JsonConfig<T> implements IJsonConfig<T> {
     public static class Builder<T> implements Builder0<T>, Builder1<T> {
 
         final Type type;
-        Path path;
+        Supplier<Path> path;
         boolean json5;
         Function<String, @Nullable String> commenter;
         Gson gson;
@@ -130,19 +131,29 @@ public class JsonConfig<T> implements IJsonConfig<T> {
 
         @Override
         public Builder1<T> file(File file) {
-            this.path = file.toPath();
+            this.path = file::toPath;
             return this;
         }
 
         @Override
         public Builder1<T> file(Path path) {
-            this.path = path;
+            this.path = () -> path;
             return this;
         }
 
         @Override
         public Builder1<T> file(String fileName) {
-            this.path = Waila.CONFIG_DIR.resolve(fileName + (fileName.endsWith(".json") ? "" : ".json"));
+            this.path = () -> {
+                var path = fileName;
+                if (json5) {
+                    if (!path.endsWith(".json5")) path += ".json5";
+                } else {
+                    if (!path.endsWith(".json")) path += ".json";
+                }
+
+                return Waila.CONFIG_DIR.resolve(path);
+            };
+
             return this;
         }
 
@@ -181,7 +192,7 @@ public class JsonConfig<T> implements IJsonConfig<T> {
         @Override
         public IJsonConfig<T> build() {
             Preconditions.checkNotNull(factory, "Default value factory must not be null");
-            return new JsonConfig<>(path, type, factory, json5, commenter, gson, currentVersion, versionGetter, versionSetter);
+            return new JsonConfig<>(path.get(), type, factory, json5, commenter, gson, currentVersion, versionGetter, versionSetter);
         }
 
     }

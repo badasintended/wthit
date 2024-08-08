@@ -27,7 +27,7 @@ public enum PluginConfig implements IPluginConfig {
 
     private static final Log LOG = Log.create();
 
-    private static final Path PATH = Waila.CONFIG_DIR.resolve(WailaConstants.NAMESPACE + "/" + WailaConstants.WAILA + "_plugins.json");
+    private static final Path PATH = Waila.CONFIG_DIR.resolve(WailaConstants.NAMESPACE + "/" + WailaConstants.WAILA + "_plugins.json5");
     private static final ConfigIo<Map<String, Map<String, JsonElement>>> IO = new ConfigIo<>(
         LOG::warn, LOG::error,
         true,

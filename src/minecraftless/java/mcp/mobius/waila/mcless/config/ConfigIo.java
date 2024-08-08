@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 import mcp.mobius.waila.mcless.json5.Json5MapTypeAdapterFactory;
 import mcp.mobius.waila.mcless.json5.Json5Reader;
 import mcp.mobius.waila.mcless.json5.Json5Writer;
+import org.apache.commons.io.FilenameUtils;
 import org.jetbrains.annotations.Nullable;
 
 public class ConfigIo<T> {
@@ -61,6 +62,20 @@ public class ConfigIo<T> {
         T config;
         var init = true;
         if (!Files.exists(path)) {
+            if (json5) {
+                var pathString = path.toString();
+                if (FilenameUtils.getExtension(pathString).equals("json5")) {
+                    var jsonPath = path.resolveSibling(FilenameUtils.getBaseName(pathString) + ".json");
+                    try {
+                        Files.copy(jsonPath, path);
+                        Files.delete(jsonPath);
+                        return read(path);
+                    } catch (IOException e) {
+                        error.accept("Failed to move " + path + " to " + jsonPath, e);
+                    }
+                }
+            }
+
             var parent = path.getParent();
             if (!Files.exists(parent)) {
                 try {

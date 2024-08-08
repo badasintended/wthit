@@ -26,6 +26,10 @@ public class CategoryEntry extends ConfigListWidget.Entry {
         .file(WailaConstants.NAMESPACE + "/category_entries")
         .json5()
         .factory(HashMap::new)
+        .commenter(p -> !p.equals("$") ? null : """
+            This config controls the category entries collapsed state.
+            You shouldn't edit this config by hand.
+            """)
         .build();
 
     public final Component title;
