@@ -86,7 +86,7 @@ public interface IJsonConfig<T> {
     /**
      * Adds comment for this value.
      *
-     * @see Builder1#commenter(Commenter)
+     * @see Builder1#commenter(Supplier)
      */
     @Target({ElementType.TYPE, ElementType.FIELD})
     @Retention(RetentionPolicy.RUNTIME)
@@ -99,8 +99,16 @@ public interface IJsonConfig<T> {
 
     }
 
+    /**
+     * A custom commenter.
+     */
     interface Commenter {
 
+        /**
+         * Returns the comment for the specified path.
+         *
+         * @param path a <a href="http://goessner.net/articles/JsonPath/">JsonPath</a> for the current entry
+         */
         @Nullable
         String getComment(String path);
 
@@ -122,7 +130,7 @@ public interface IJsonConfig<T> {
 
         Builder1<T> json5();
 
-        Builder1<T> commenter(Commenter commenter);
+        Builder1<T> commenter(Supplier<Commenter> commenter);
 
         Builder1<T> gson(Gson gson);
 

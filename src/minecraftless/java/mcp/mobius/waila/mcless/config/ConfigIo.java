@@ -28,7 +28,7 @@ public class ConfigIo<T> {
     private final Consumer<String> warn;
     private final BiConsumer<String, Throwable> error;
     private final boolean json5;
-    private final Function<String, @Nullable String> commenter;
+    private final Supplier<Function<String, @Nullable String>> commenter;
     private final Gson gson;
     private final Type type;
     private final Supplier<T> factory;
@@ -36,7 +36,7 @@ public class ConfigIo<T> {
     private final ToIntFunction<T> versionGetter;
     private final ObjIntConsumer<T> versionSetter;
 
-    public ConfigIo(Consumer<String> warn, BiConsumer<String, Throwable> error, boolean json5, Function<String, @Nullable String> commenter, Gson gson, Type type, Supplier<T> factory, int currentVersion, ToIntFunction<T> versionGetter, ObjIntConsumer<T> versionSetter) {
+    public ConfigIo(Consumer<String> warn, BiConsumer<String, Throwable> error, boolean json5, Supplier<Function<String, @Nullable String>> commenter, Gson gson, Type type, Supplier<T> factory, int currentVersion, ToIntFunction<T> versionGetter, ObjIntConsumer<T> versionSetter) {
         this.warn = warn;
         this.error = error;
         this.json5 = json5;
@@ -49,7 +49,7 @@ public class ConfigIo<T> {
         this.versionSetter = versionSetter;
     }
 
-    public ConfigIo(Consumer<String> warn, BiConsumer<String, Throwable> error, boolean json5, Function<String, @Nullable String> commenter, Gson gson, Type type, Supplier<T> factory) {
+    public ConfigIo(Consumer<String> warn, BiConsumer<String, Throwable> error, boolean json5, Supplier<Function<String, @Nullable String>> commenter, Gson gson, Type type, Supplier<T> factory) {
         this(warn, error, json5, commenter, gson, type, factory, 0, t -> 0, (a, b) -> {});
     }
 
@@ -129,7 +129,7 @@ public class ConfigIo<T> {
 
     public boolean write(Path path, T value) {
         try (var writer = Files.newBufferedWriter(path, StandardCharsets.UTF_8)) {
-            gson.toJson(value, type, json5 ? new Json5Writer(writer, commenter) : gson.newJsonWriter(writer));
+            gson.toJson(value, type, json5 ? new Json5Writer(writer, commenter.get()) : gson.newJsonWriter(writer));
             return true;
         } catch (IOException e) {
             error.accept("Exception when writing config file " + path, e);

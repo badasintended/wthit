@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Set;
@@ -20,6 +21,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IJsonConfig;
+import mcp.mobius.waila.config.commenter.AnnotationCommenter;
+import mcp.mobius.waila.config.commenter.CommenterFactories;
 import mcp.mobius.waila.mcless.config.ConfigIo;
 import mcp.mobius.waila.util.CachedSupplier;
 import mcp.mobius.waila.util.Log;
@@ -39,11 +42,14 @@ public class JsonConfig<T> implements IJsonConfig<T> {
     private final CachedSupplier<T> getter;
 
     @SuppressWarnings("unchecked")
-    JsonConfig(Path path, Type type, Supplier<T> factory, boolean json5, Commenter commenter, Gson gson, int currentVersion, ToIntFunction<T> versionGetter, ObjIntConsumer<T> versionSetter) {
+    JsonConfig(Path path, Type type, Supplier<T> factory, boolean json5, Supplier<Commenter> commenter, Gson gson, int currentVersion, ToIntFunction<T> versionGetter, ObjIntConsumer<T> versionSetter) {
         this.path = path.toAbsolutePath();
 
-        var annotationCommenter = new AnnotationCommenter(type, gson, commenter);
-        this.io = new ConfigIo<>(LOG::warn, LOG::error, json5, annotationCommenter::getComment, gson, type, factory, currentVersion, versionGetter, versionSetter);
+        var commenterFactories = new ArrayList<Supplier<Commenter>>();
+        if (type instanceof Class<?> cls) commenterFactories.add(() -> new AnnotationCommenter(cls, gson));
+        commenterFactories.add(commenter);
+
+        this.io = new ConfigIo<>(LOG::warn, LOG::error, json5, new CommenterFactories(commenterFactories), gson, type, factory, currentVersion, versionGetter, versionSetter);
         this.getter = new CachedSupplier<>(() -> io.read(this.path));
 
         INSTANCES.add((JsonConfig<Object>) this);
@@ -103,7 +109,7 @@ public class JsonConfig<T> implements IJsonConfig<T> {
         final Type type;
         Supplier<Path> path;
         boolean json5;
-        Commenter commenter;
+        Supplier<Commenter> commenter;
         Gson gson;
         int currentVersion;
         ToIntFunction<T> versionGetter;
@@ -114,7 +120,7 @@ public class JsonConfig<T> implements IJsonConfig<T> {
         public Builder(Type type) {
             this.type = type;
             this.json5 = false;
-            this.commenter = s -> null;
+            this.commenter = () -> s -> null;
             this.gson = DEFAULT_GSON;
             this.currentVersion = 0;
             this.versionGetter = t -> 0;
@@ -178,7 +184,7 @@ public class JsonConfig<T> implements IJsonConfig<T> {
         }
 
         @Override
-        public Builder1<T> commenter(Commenter commenter) {
+        public Builder1<T> commenter(Supplier<Commenter> commenter) {
             this.commenter = commenter;
             return this;
         }

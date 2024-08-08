@@ -12,6 +12,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.gui.hud.theme.ThemeDefinition;
@@ -23,6 +24,8 @@ public class WailaConfig implements IWailaConfig {
     private final General general = new General();
     private final Overlay overlay = new Overlay();
     private final Formatter formatter = new Formatter();
+
+    @IJsonConfig.Comment("Internal value, DO NOT TOUCH!")
     private int configVersion = 0;
 
     public int getConfigVersion() {

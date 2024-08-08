@@ -31,7 +31,7 @@ public enum PluginConfig implements IPluginConfig {
     private static final ConfigIo<Map<String, Map<String, JsonElement>>> IO = new ConfigIo<>(
         LOG::warn, LOG::error,
         true,
-        p -> null,
+        () -> p -> null,
         new GsonBuilder().setPrettyPrinting().create(),
         new TypeToken<Map<String, Map<String, JsonElement>>>() {}.getType(),
         LinkedHashMap::new);
