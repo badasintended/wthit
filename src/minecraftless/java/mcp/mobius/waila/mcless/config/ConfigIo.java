@@ -62,12 +62,12 @@ public class ConfigIo<T> {
                 var pathString = path.toString();
                 if (FilenameUtils.getExtension(pathString).equals("json5")) {
                     var jsonPath = path.resolveSibling(FilenameUtils.getBaseName(pathString) + ".json");
-                    try {
+                    if (Files.exists(jsonPath)) try {
                         Files.copy(jsonPath, path);
                         Files.delete(jsonPath);
                         return read(path);
                     } catch (IOException e) {
-                        error.accept("Failed to move " + path + " to " + jsonPath, e);
+                        error.accept("Failed to move " + jsonPath + " to " + path, e);
                     }
                 }
             }
