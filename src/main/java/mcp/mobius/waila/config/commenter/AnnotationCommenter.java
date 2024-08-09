@@ -13,7 +13,7 @@ import com.google.gson.annotations.SerializedName;
 import mcp.mobius.waila.api.IJsonConfig;
 import org.jetbrains.annotations.Nullable;
 
-public final class AnnotationCommenter implements IJsonConfig.Commenter {
+public class AnnotationCommenter implements IJsonConfig.Commenter {
 
     private final Class<?> cls;
     private final Gson gson;

@@ -36,6 +36,7 @@ public abstract class Waila {
         .file(WailaConstants.NAMESPACE + "/" + WailaConstants.WAILA)
         .version(WailaConstants.CONFIG_VERSION, WailaConfig::getConfigVersion, WailaConfig::setConfigVersion)
         .json5()
+        .commenter(WailaConfig.COMMENTER)
         .gson(new GsonBuilder()
             .setPrettyPrinting()
             .registerTypeAdapter(WailaConfig.Overlay.Color.class, new WailaConfig.Overlay.Color.Adapter())
