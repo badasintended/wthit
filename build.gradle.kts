@@ -35,6 +35,11 @@ allprojects {
         }
 
         maven("https://libraries.minecraft.net")
+        maven("https://repo.spongepowered.org/repository/maven-public") {
+            content {
+                includeGroup("org.spongepowered")
+            }
+        }
     }
 
     java {
@@ -109,9 +114,9 @@ subprojects {
 dependencies {
     minecraft("com.mojang:minecraft:${rootProp["minecraft"]}")
     mappings(loom.officialMojangMappings())
-    modCompileOnly("net.fabricmc:fabric-loader:${rootProp["fabricLoader"]}")
 
     compileOnly("lol.bai:badpackets:mojmap-${rootProp["badpackets"]}")
+    compileOnly("org.spongepowered:mixin:0.8.5")
 
     rootProp["jei"].split("-").also { (mc, jei) ->
         compileOnly("mezz.jei:jei-${mc}-common-api:${jei}")

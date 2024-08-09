@@ -41,7 +41,7 @@ sourceSets {
         resources.setSrcDirs(emptyList<Any>())
 
         compileClasspath += main.compileClasspath + rootProject.sourceSets.main.get().compileClasspath
-        runtimeClasspath += main.runtimeClasspath
+        runtimeClasspath += main.runtimeClasspath - main.output
 
         val dir = layout.buildDirectory.dir("run")
         java.destinationDirectory = dir
@@ -80,6 +80,12 @@ minecraft {
 
             sources = listOf(sourceSets["run"])
         }
+    }
+}
+
+afterEvaluate {
+    minecraft.runs.configureEach {
+        jvmArgs("-classpath", sourceSets["run"].runtimeClasspath.asPath)
     }
 }
 
