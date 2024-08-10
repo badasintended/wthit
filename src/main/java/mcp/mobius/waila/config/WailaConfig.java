@@ -93,8 +93,11 @@ public class WailaConfig implements IWailaConfig {
     private final General general = new General();
     private final Overlay overlay = new Overlay();
 
-    @IJsonConfig.Comment("Text Formatter")
+    @IJsonConfig.Comment("Text formatters")
     private final Formatter formatter = new Formatter();
+
+    @IJsonConfig.Comment("Debug options, restart the game to apply")
+    public final Debug debug = new Debug();
 
     @IJsonConfig.Comment("Internal value, DO NOT TOUCH!")
     private int configVersion = 0;
@@ -467,6 +470,11 @@ public class WailaConfig implements IWailaConfig {
             return Component.literal(this.registryName.formatted(registryName));
         }
 
+    }
+
+    public static class Debug implements Nested {
+        @IJsonConfig.Comment("Show test plugin on plugin toggle screen")
+        public boolean showTestPluginToggle = false;
     }
 
 }
