@@ -8,6 +8,7 @@ import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.__internal__.IHarvestService;
 import mcp.mobius.waila.config.BlacklistConfig;
+import mcp.mobius.waila.config.DebugConfig;
 import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.gui.hud.theme.ThemeDefinition;
 import mcp.mobius.waila.registry.RegistryFilter;
@@ -54,6 +55,11 @@ public abstract class Waila {
             .setPrettyPrinting()
             .registerTypeAdapter(BlacklistConfig.class, new BlacklistConfig.Adapter())
             .create())
+        .build();
+
+    public static final IJsonConfig<DebugConfig> DEBUG_CONFIG = IJsonConfig.of(DebugConfig.class)
+        .file(WailaConstants.NAMESPACE + "/debug")
+        .json5()
         .build();
 
     public static ResourceLocation id(String path) {

@@ -144,7 +144,7 @@ public abstract class PluginLoader {
             gathered = true;
             gatherPlugins();
 
-            if (Waila.CONFIG.get().debug.showTestPluginToggle) {
+            if (Waila.DEBUG_CONFIG.get().showTestPluginToggle) {
                 PluginInfo.register(WailaConstants.MOD_ID, Waila.id("test").toString(), IPluginInfo.Side.BOTH, "mcp.mobius.waila.plugin.test.WailaPluginTest", List.of(), false, false);
             }
         }
