@@ -1,8 +1,9 @@
 // This file was a part of Quilt Parsers, modified as follows:
-// - Remove unused members
+// - Removed unused members
 // - Directly extends GSON's JsonWriter
 // - Added generic commenter function
 // - Fixed issue with character replacement table (https://github.com/QuiltMC/quilt-parsers/pull/5)
+// - Disabled backspace escape on comments
 // https://github.com/QuiltMC/quilt-parsers/blob/00803c4e70fb0cf93765593eaae5c781b1505bee/json/src/main/java/org/quiltmc/parsers/json/JsonWriter.java
 // @formatter:off
 
@@ -537,7 +538,7 @@ public final class Json5Writer extends JsonWriter {
 		deferredComment = null;
 	}
 
-	private void string(String value, boolean quotes, boolean escapeQuotes) throws IOException {
+	private void string(String value, boolean quotes, boolean escapeQuotesAndBackspace) throws IOException {
 		if (quotes) {
 			out.write('\"');
 		}
@@ -549,9 +550,9 @@ public final class Json5Writer extends JsonWriter {
 			char c = value.charAt(i);
 			String replacement;
 			if (c < 128) {
-				if (c == '"' && !escapeQuotes) {
-					continue;
-				}
+                if (!escapeQuotesAndBackspace) {
+                    if (c == '"' || c == '\\') continue;
+                }
 				replacement = REPLACEMENT_CHARS[c];
 				if (replacement == null) {
 					continue;
