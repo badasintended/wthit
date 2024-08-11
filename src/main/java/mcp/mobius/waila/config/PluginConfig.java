@@ -39,7 +39,7 @@ public enum PluginConfig implements IPluginConfig {
 
         var namespace = p.get(0);
         var path = p.get(1);
-        var entry = getEntry(ResourceLocation.fromNamespaceAndPath(namespace, path));
+        var entry = getEntry(new ResourceLocation(namespace, path));
         var type = entry.getType();
 
         var sb = new StringBuilder();
