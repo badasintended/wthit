@@ -8,6 +8,7 @@ import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.__internal__.IHarvestService;
 import mcp.mobius.waila.config.BlacklistConfig;
+import mcp.mobius.waila.config.DebugConfig;
 import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.gui.hud.theme.ThemeDefinition;
 import mcp.mobius.waila.registry.RegistryFilter;
@@ -33,6 +34,8 @@ public abstract class Waila {
     public static final IJsonConfig<WailaConfig> CONFIG = IJsonConfig.of(WailaConfig.class)
         .file(WailaConstants.NAMESPACE + "/" + WailaConstants.WAILA)
         .version(WailaConstants.CONFIG_VERSION, WailaConfig::getConfigVersion, WailaConfig::setConfigVersion)
+        .json5()
+        .commenter(WailaConfig.COMMENTER)
         .gson(new GsonBuilder()
             .setPrettyPrinting()
             .registerTypeAdapter(WailaConfig.Overlay.Color.class, new WailaConfig.Overlay.Color.Adapter())
@@ -44,10 +47,17 @@ public abstract class Waila {
     public static final IJsonConfig<BlacklistConfig> BLACKLIST_CONFIG = IJsonConfig.of(BlacklistConfig.class)
         .file(WailaConstants.NAMESPACE + "/blacklist")
         .version(BlacklistConfig.VERSION, BlacklistConfig::getConfigVersion, BlacklistConfig::setConfigVersion)
+        .json5()
+        .commenter(() -> BlacklistConfig.COMMENTER)
         .gson(new GsonBuilder()
             .setPrettyPrinting()
             .registerTypeAdapter(BlacklistConfig.class, new BlacklistConfig.Adapter())
             .create())
+        .build();
+
+    public static final IJsonConfig<DebugConfig> DEBUG_CONFIG = IJsonConfig.of(DebugConfig.class)
+        .file(WailaConstants.NAMESPACE + "/debug")
+        .json5()
         .build();
 
     public static ResourceLocation id(String path) {

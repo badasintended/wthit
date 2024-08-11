@@ -7,15 +7,20 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.WailaConstants;
+import mcp.mobius.waila.buildconst.Tl;
+import mcp.mobius.waila.config.commenter.CommenterFactories;
+import mcp.mobius.waila.config.commenter.LanguageCommenter;
 import mcp.mobius.waila.mcless.config.ConfigIo;
 import mcp.mobius.waila.util.Log;
 import net.minecraft.resources.ResourceLocation;
@@ -27,11 +32,57 @@ public enum PluginConfig implements IPluginConfig {
 
     private static final Log LOG = Log.create();
 
-    private static final Path PATH = Waila.CONFIG_DIR.resolve(WailaConstants.NAMESPACE + "/" + WailaConstants.WAILA + "_plugins.json");
-    private static final ConfigIo<Map<String, Map<String, JsonPrimitive>>> IO = new ConfigIo<>(
+    private static final Path PATH = Waila.CONFIG_DIR.resolve(WailaConstants.NAMESPACE + "/" + WailaConstants.WAILA + "_plugins.json5");
+
+    private static final Supplier<IJsonConfig.Commenter> COMMENTER = () -> new LanguageCommenter((translation, p) -> {
+        if (p.size() < 2) return null;
+
+        var namespace = p.get(0);
+        var path = p.get(1);
+        var entry = getEntry(ResourceLocation.fromNamespaceAndPath(namespace, path));
+        var type = entry.getType();
+
+        var sb = new StringBuilder();
+
+        var tlKey = Tl.Config.PLUGIN_ + namespace + "." + path;
+        sb.append(translation.getOrDefault(tlKey, tlKey));
+
+        var descKey = tlKey + "_desc";
+        if (translation.containsKey(descKey)) sb.append('\n').append(translation.get(descKey));
+
+        if (type.equals(ConfigEntry.PATH)) {
+            sb.append("\nCustom config, open the following file\n").append(entry.getDefaultValue());
+            return sb.toString();
+        }
+
+        if (entry.isServerRequired()) {
+            sb.append("\nRequire server to have WTHIT installed, if not, will be locked to ").append(entry.getClientOnlyValue());
+        } else if (entry.isMerged()) {
+            sb.append("\nThis value will get merged with the value from the server");
+        } else if (entry.isSynced()) {
+            sb.append("\nThis value will get overridden by the server");
+        }
+
+        sb.append("\nDefault value: ").append(entry.getDefaultValue().toString());
+        if (type.equals(ConfigEntry.ENUM)) {
+            sb.append("\nAvailable values: ");
+            var enums = ((Enum<?>) entry.getDefaultValue()).getDeclaringClass().getEnumConstants();
+            sb.append(enums[0].name());
+            for (var i = 1; i < enums.length; i++) {
+                var anEnum = enums[i];
+                sb.append(", ").append(anEnum.name());
+            }
+        }
+
+        return sb.toString();
+    });
+
+    private static final ConfigIo<Map<String, Map<String, JsonElement>>> IO = new ConfigIo<>(
         LOG::warn, LOG::error,
+        true,
+        new CommenterFactories(List.of(COMMENTER)),
         new GsonBuilder().setPrettyPrinting().create(),
-        new TypeToken<Map<String, Map<String, JsonPrimitive>>>() {}.getType(),
+        new TypeToken<Map<String, Map<String, JsonElement>>>() {}.getType(),
         LinkedHashMap::new);
 
     private static final Map<ResourceLocation, ConfigEntry<Object>> CONFIGS = new LinkedHashMap<>();
@@ -81,9 +132,10 @@ public enum PluginConfig implements IPluginConfig {
     }
 
     public static void reload() {
-        if (!Files.exists(PATH)) {
-            writeConfig();
+        if (!Files.exists(PATH) && !IO.migrateJson5(PATH)) {
+            write();
         }
+
         var config = IO.read(PATH);
         config.forEach((namespace, subMap) -> subMap.forEach((path, value) -> {
             var entry = (ConfigEntry<Object>) CONFIGS.get(new ResourceLocation(namespace, path));
@@ -91,15 +143,13 @@ public enum PluginConfig implements IPluginConfig {
                 entry.setLocalValue(entry.getType().parser.apply(value, entry.getDefaultValue()));
             }
         }));
+
+        write();
         LOG.info("Plugin config reloaded");
     }
 
-    public static void save() {
-        writeConfig();
-    }
-
-    private static void writeConfig() {
-        Map<String, Map<String, JsonPrimitive>> config = new LinkedHashMap<>();
+    public static void write() {
+        var config = new LinkedHashMap<String, Map<String, JsonElement>>();
         for (var entry : CONFIGS.values()) {
             if (entry.isAlias()) continue;
 

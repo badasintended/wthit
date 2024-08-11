@@ -1,8 +1,14 @@
 package mcp.mobius.waila.config;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Type;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
+import java.util.function.Supplier;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -12,9 +18,12 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
+import mcp.mobius.waila.buildconst.Tl;
+import mcp.mobius.waila.config.commenter.LanguageCommenter;
 import mcp.mobius.waila.gui.hud.theme.ThemeDefinition;
 import mcp.mobius.waila.util.Log;
 import mcp.mobius.waila.util.TypeUtil;
@@ -25,9 +34,76 @@ public class WailaConfig implements IWailaConfig {
 
     private static final Log LOG = Log.create();
 
+    interface Nested {}
+
+    @Retention(RetentionPolicy.RUNTIME)
+    @interface T {
+
+        String value();
+
+    }
+
+    public static final Supplier<IJsonConfig.Commenter> COMMENTER = () -> {
+        var defaultValue = new WailaConfig();
+
+        return new LanguageCommenter((translation, path) -> {
+            if (path.isEmpty()) return null;
+
+            AnnotatedElement element = null;
+            Object value = defaultValue;
+            Class<?> parentCls = WailaConfig.class;
+            for (var part : path) {
+                try {
+                    var field = parentCls.getDeclaredField(part);
+                    field.setAccessible(true);
+                    value = field.get(value);
+
+                    element = field;
+                    parentCls = field.getType();
+                } catch (NoSuchFieldException ignored) {
+                } catch (IllegalAccessException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+            if (element == null) return null;
+            if (value instanceof Nested) return null;
+
+            var sb = new StringBuilder();
+
+            var tlKey = element.getAnnotation(T.class);
+            if (tlKey != null) {
+                sb.append(Objects.requireNonNull(translation.get(tlKey.value())));
+
+                var descKey = tlKey.value() + "_desc";
+                if (translation.containsKey(descKey)) sb.append('\n').append(translation.get(descKey));
+
+                sb.append('\n');
+            }
+
+            if (value instanceof Enum<?> e) {
+                sb.append("Default value: ").append(e.name()).append("\nAvailable values: ");
+                var enums = e.getDeclaringClass().getEnumConstants();
+                sb.append(enums[0].name());
+                for (var i = 1; i < enums.length; i++) {
+                    var anEnum = enums[i];
+                    sb.append(", ").append(anEnum.name());
+                }
+            } else if (!(value instanceof Map<?, ?> || value instanceof Collection<?>)) {
+                sb.append("Default value: ").append(value);
+            }
+
+            return sb.toString();
+        });
+    };
+
     private final General general = new General();
     private final Overlay overlay = new Overlay();
+
+    @IJsonConfig.Comment("Text formatters")
     private final Formatter formatter = new Formatter();
+
+    @IJsonConfig.Comment("Internal value, DO NOT TOUCH!")
     private int configVersion = 0;
 
     public int getConfigVersion() {
@@ -53,16 +129,16 @@ public class WailaConfig implements IWailaConfig {
         return formatter;
     }
 
-    public static class General implements IWailaConfig.General {
+    public static class General implements IWailaConfig.General, Nested {
 
-        private boolean displayTooltip = true;
-        private boolean shiftForDetails = false;
-        private boolean hideShiftText = false;
-        private DisplayMode displayMode = DisplayMode.TOGGLE;
-        private boolean hideFromPlayerList = true;
-        private boolean hideFromDebug = true;
-        private boolean enableTextToSpeech = false;
-        private int rateLimit = 250;
+        private @T(Tl.Config.DISPLAY_TOOLTIP) boolean displayTooltip = true;
+        private @T(Tl.Config.SNEAKY_DETAILS) boolean shiftForDetails = false;
+        private @T(Tl.Config.HIDE_SNEAK_TEXT) boolean hideShiftText = false;
+        private @T(Tl.Config.DISPLAY_MODE) DisplayMode displayMode = DisplayMode.TOGGLE;
+        private @T(Tl.Config.HIDE_FROM_PLAYERS) boolean hideFromPlayerList = true;
+        private @T(Tl.Config.HIDE_FROM_DEBUG) boolean hideFromDebug = true;
+        private @T(Tl.Config.TTS) boolean enableTextToSpeech = false;
+        private @T(Tl.Config.RATE_LIMIT) int rateLimit = 250;
 
         @Override
         public boolean isDisplayTooltip() {
@@ -151,12 +227,13 @@ public class WailaConfig implements IWailaConfig {
 
     }
 
-    public static class Overlay implements IWailaConfig.Overlay {
+    public static class Overlay implements IWailaConfig.Overlay, Nested {
 
         private final Position position = new Position();
         private final Color color = new Color();
-        private float scale = 1.0F;
-        private int fps = 30;
+
+        private @T(Tl.Config.OVERLAY_SCALE) float scale = 1.0F;
+        private @T(Tl.Config.OVERLAY_FPS) int fps = 30;
 
         @Override
         public Position getPosition() {
@@ -185,13 +262,14 @@ public class WailaConfig implements IWailaConfig {
             this.fps = fps;
         }
 
-        public static class Position implements IWailaConfig.Overlay.Position {
+        public static class Position implements IWailaConfig.Overlay.Position, Nested {
 
             private final Align align = new Align();
             private final Align anchor = new Align();
-            private int x = 0;
-            private int y = 0;
-            private boolean bossBarsOverlap = false;
+
+            private @T(Tl.Config.OVERLAY_POS_X) int x = 0;
+            private @T(Tl.Config.OVERLAY_POS_Y) int y = 0;
+            private @T(Tl.Config.BOSS_BARS_OVERLAP) boolean bossBarsOverlap = false;
 
             @Override
             public int getX() {
@@ -230,7 +308,7 @@ public class WailaConfig implements IWailaConfig {
                 this.bossBarsOverlap = bossBarsOverlap;
             }
 
-            public static class Align implements IWailaConfig.Overlay.Position.Align {
+            public static class Align implements IWailaConfig.Overlay.Position.Align, Nested {
 
                 X x = X.CENTER;
                 Y y = Y.TOP;
@@ -258,14 +336,14 @@ public class WailaConfig implements IWailaConfig {
         }
 
         @SuppressWarnings("removal")
-        public static class Color implements IWailaConfig.Overlay.Color {
+        public static class Color implements IWailaConfig.Overlay.Color, Nested {
 
             private static final ResourceLocation DEFAULT = Waila.id("vanilla");
-            private static boolean warnDeprecatedColorGetter = true;
 
-            private int backgroundAlpha = 204;
-            private ResourceLocation activeTheme = DEFAULT;
+            private @T(Tl.Config.OVERLAY_BACKGROUND_ALPHA) int backgroundAlpha = 204;
+            private @T(Tl.Config.OVERLAY_THEME) ResourceLocation activeTheme = DEFAULT;
 
+            @IJsonConfig.Comment("Custom Themes")
             private final Map<ResourceLocation, ThemeDefinition<?>> themes = new HashMap<>();
 
             private ThemeDefinition<?> getThemeDef() {
@@ -376,7 +454,7 @@ public class WailaConfig implements IWailaConfig {
 
     }
 
-    public static class Formatter implements IWailaConfig.Formatter {
+    public static class Formatter implements IWailaConfig.Formatter, Nested {
 
         private String modName = "§9§o%s";
         private String blockName = "§f%s";

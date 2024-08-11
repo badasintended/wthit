@@ -146,6 +146,7 @@ dependencies {
     val minecraftlessImplementation by configurations
 
     minecraftlessImplementation("com.google.code.gson:gson:2.8.9")
+    minecraftlessImplementation("commons-io:commons-io:2.11.0")
     minecraftlessImplementation("org.jetbrains:annotations:24.1.0")
 
     testImplementation(platform("org.junit:junit-bom:5.10.2"))

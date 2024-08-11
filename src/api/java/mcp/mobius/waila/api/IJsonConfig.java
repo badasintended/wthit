@@ -1,7 +1,12 @@
 package mcp.mobius.waila.api;
 
 import java.io.File;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.nio.file.Path;
+import java.util.List;
 import java.util.function.ObjIntConsumer;
 import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
@@ -79,6 +84,37 @@ public interface IJsonConfig<T> {
         this.backup(null);
     }
 
+    /**
+     * Adds comment for this value.
+     *
+     * @see Builder1#commenter(Supplier)
+     */
+    @Target({ElementType.TYPE, ElementType.FIELD})
+    @Retention(RetentionPolicy.RUNTIME)
+    @interface Comment {
+
+        /**
+         * The comment.
+         */
+        String value();
+
+    }
+
+    /**
+     * A custom commenter.
+     */
+    interface Commenter {
+
+        /**
+         * Returns the comment for the specified path.
+         *
+         * @param path a list containing the nested path of the entry, empty list means the root object
+         */
+        @Nullable
+        String getComment(List<String> path);
+
+    }
+
     interface Builder0<T> {
 
         Builder1<T> file(File file);
@@ -92,6 +128,10 @@ public interface IJsonConfig<T> {
     interface Builder1<T> {
 
         Builder1<T> version(int currentVersion, ToIntFunction<T> versionGetter, ObjIntConsumer<T> versionSetter);
+
+        Builder1<T> json5();
+
+        Builder1<T> commenter(Supplier<Commenter> commenter);
 
         Builder1<T> gson(Gson gson);
 

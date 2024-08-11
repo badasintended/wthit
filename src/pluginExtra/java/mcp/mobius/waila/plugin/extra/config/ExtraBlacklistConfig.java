@@ -11,6 +11,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
+import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.api.IRegistryFilter;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceLocation;
@@ -31,6 +32,17 @@ public class ExtraBlacklistConfig {
     public View getView() {
         if (view == null) view = new View();
         return view;
+    }
+
+    public static IJsonConfig.Commenter commenter(ResourceLocation tag) {
+        return p -> !p.isEmpty() ? null : """
+            Run `/waila reload` to apply changes server-wide.
+            Run `/wailac reload` to apply changes to only your client.
+
+            %s
+
+            The #%s tag rule can not be removed"""
+            .formatted(IRegistryFilter.getHeader(), tag);
     }
 
     public class View {
@@ -58,20 +70,6 @@ public class ExtraBlacklistConfig {
         @Override
         public JsonElement serialize(ExtraBlacklistConfig src, Type typeOfSrc, JsonSerializationContext context) {
             var object = new JsonObject();
-
-            var comments = """
-                Run /waila reload to apply changes server-wide.
-                Run /wailac reload to apply changes to only your client.
-
-                %s
-
-                The %s tag rule can not be removed"""
-                .formatted(IRegistryFilter.getHeader(), tagRule)
-                .split("\n");
-
-            var commentArray = new JsonArray();
-            for (var line : comments) commentArray.add(line);
-            object.add("_comment", commentArray);
 
             object.add("blocks", context.serialize(src.blocks));
             object.add("blockEntityTypes", context.serialize(src.blockEntityTypes));
