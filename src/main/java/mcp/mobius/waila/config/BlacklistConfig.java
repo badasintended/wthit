@@ -14,6 +14,7 @@ import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IBlacklistConfig;
+import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.api.IRegistryFilter;
 import mcp.mobius.waila.util.Log;
 import net.minecraft.core.Registry;
@@ -32,11 +33,20 @@ public class BlacklistConfig {
     private static final String BLACKLIST_TAG = "#" + Waila.id("blacklist");
 
     public static final int VERSION = 0;
+    public static final IJsonConfig.Commenter COMMENTER = p -> !p.isEmpty() ? null : """
+        Run `/waila reload` to apply changes server-wide.
+        Run `/wailac reload` to apply changes to only your client.
+
+        %s
+
+        The `%s` tag rule can not be removed"""
+        .formatted(IRegistryFilter.getHeader(), BLACKLIST_TAG);
 
     public final LinkedHashSet<String> blocks = new LinkedHashSet<>();
     public final LinkedHashSet<String> blockEntityTypes = new LinkedHashSet<>();
     public final LinkedHashSet<String> entityTypes = new LinkedHashSet<>();
 
+    @IJsonConfig.Comment("\nThe values below are used internally by WTHIT, you SHOULD NOT modify it!")
     private int configVersion = 0;
     public int[] pluginHash = {0, 0, 0};
 
@@ -118,20 +128,6 @@ public class BlacklistConfig {
         @Override
         public JsonElement serialize(BlacklistConfig src, Type typeOfSrc, JsonSerializationContext context) {
             var object = new JsonObject();
-
-            var comments = """
-                Run /waila reload to apply changes server-wide.
-                Run /wailac reload to apply changes to only your client.
-
-                %s
-
-                The %s tag rule can not be removed"""
-                .formatted(IRegistryFilter.getHeader(), BLACKLIST_TAG)
-                .split("\n");
-
-            var commentArray = new JsonArray();
-            for (var line : comments) commentArray.add(line);
-            object.add("_comment", commentArray);
 
             src.addBlacklistTags();
 

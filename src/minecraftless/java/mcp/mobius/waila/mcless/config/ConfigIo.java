@@ -9,13 +9,18 @@ import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.ObjIntConsumer;
 import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
 
 import com.google.gson.Gson;
+import mcp.mobius.waila.mcless.json5.Json5Writer;
+import org.apache.commons.io.FilenameUtils;
+import org.jetbrains.annotations.Nullable;
 
 public class ConfigIo<T> {
 
@@ -23,6 +28,8 @@ public class ConfigIo<T> {
 
     private final Consumer<String> warn;
     private final BiConsumer<String, Throwable> error;
+    private final boolean json5;
+    private final Supplier<Function<List<String>, @Nullable String>> commenter;
     private final Gson gson;
     private final Type type;
     private final Supplier<T> factory;
@@ -30,9 +37,11 @@ public class ConfigIo<T> {
     private final ToIntFunction<T> versionGetter;
     private final ObjIntConsumer<T> versionSetter;
 
-    public ConfigIo(Consumer<String> warn, BiConsumer<String, Throwable> error, Gson gson, Type type, Supplier<T> factory, int currentVersion, ToIntFunction<T> versionGetter, ObjIntConsumer<T> versionSetter) {
+    public ConfigIo(Consumer<String> warn, BiConsumer<String, Throwable> error, boolean json5, Supplier<Function<List<String>, @Nullable String>> commenter, Gson gson, Type type, Supplier<T> factory, int currentVersion, ToIntFunction<T> versionGetter, ObjIntConsumer<T> versionSetter) {
         this.warn = warn;
         this.error = error;
+        this.json5 = json5;
+        this.commenter = commenter;
         this.gson = gson;
         this.type = type;
         this.factory = factory;
@@ -41,14 +50,34 @@ public class ConfigIo<T> {
         this.versionSetter = versionSetter;
     }
 
-    public ConfigIo(Consumer<String> warn, BiConsumer<String, Throwable> error, Gson gson, Type type, Supplier<T> factory) {
-        this(warn, error, gson, type, factory, 0, t -> 0, (a, b) -> {});
+    public ConfigIo(Consumer<String> warn, BiConsumer<String, Throwable> error, boolean json5, Supplier<Function<List<String>, @Nullable String>> commenter, Gson gson, Type type, Supplier<T> factory) {
+        this(warn, error, json5, commenter, gson, type, factory, 0, t -> 0, (a, b) -> {});
+    }
+
+    public boolean migrateJson5(Path path) {
+        if (!json5) return false;
+
+        var pathString = path.toString();
+        if (FilenameUtils.getExtension(pathString).equals("json5")) {
+            var jsonPath = path.resolveSibling(FilenameUtils.getBaseName(pathString) + ".json");
+            if (Files.exists(jsonPath)) try {
+                Files.copy(jsonPath, path);
+                Files.delete(jsonPath);
+                warn.accept("Migrated from " + jsonPath + " to " + path);
+                return true;
+            } catch (IOException e) {
+                error.accept("Failed to move " + jsonPath + " to " + path, e);
+            }
+        }
+        return false;
     }
 
     public T read(Path path) {
         T config;
         var init = true;
         if (!Files.exists(path)) {
+            if (migrateJson5(path)) return read(path);
+
             var parent = path.getParent();
             if (!Files.exists(parent)) {
                 try {
@@ -60,7 +89,9 @@ public class ConfigIo<T> {
             config = factory.get();
         } else {
             try (var reader = Files.newBufferedReader(path, StandardCharsets.UTF_8)) {
-                config = gson.fromJson(reader, type);
+                var jsonReader = gson.newJsonReader(reader);
+                jsonReader.setLenient(true);
+                config = gson.fromJson(jsonReader, type);
                 var version = versionGetter.applyAsInt(config);
                 if (version != currentVersion) {
                     var old = Paths.get(path + "_" + DATE_FORMAT.format(new Date()));
@@ -105,7 +136,7 @@ public class ConfigIo<T> {
 
     public boolean write(Path path, T value) {
         try (var writer = Files.newBufferedWriter(path, StandardCharsets.UTF_8)) {
-            writer.write(gson.toJson(value));
+            gson.toJson(value, type, json5 ? new Json5Writer(writer, commenter.get()) : gson.newJsonWriter(writer));
             return true;
         } catch (IOException e) {
             error.accept("Exception when writing config file " + path, e);

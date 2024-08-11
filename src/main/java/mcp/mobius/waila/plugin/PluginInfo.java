@@ -24,10 +24,10 @@ public class PluginInfo implements IPluginInfo {
     private static final Log LOG = Log.create();
     private static final ResourceLocation CORE = Waila.id("core");
 
-    private static final IJsonConfig<Map<ResourceLocation, Boolean>> TOGGLE = IJsonConfig.of(new TypeToken<Map<ResourceLocation, Boolean>>() {
-        })
+    private static final IJsonConfig<Map<ResourceLocation, Boolean>> TOGGLE = IJsonConfig.of(new TypeToken<Map<ResourceLocation, Boolean>>() {})
         .file(WailaConstants.NAMESPACE + "/" + "plugin_toggle")
         .factory(LinkedHashMap::new)
+        .json5()
         .gson(new GsonBuilder()
             .setPrettyPrinting()
             .registerTypeAdapter(ResourceLocation.class, new ResourceLocation.Serializer())

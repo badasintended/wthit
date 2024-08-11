@@ -41,7 +41,7 @@ public class PluginConfigScreen extends ConfigScreen {
     }
 
     public PluginConfigScreen(Screen parent) {
-        super(parent, Component.translatable(Tl.Gui.Plugin.SETTINGS), PluginConfig::save, PluginConfig::reload);
+        super(parent, Component.translatable(Tl.Gui.Plugin.SETTINGS), PluginConfig::write, PluginConfig::reload);
     }
 
     @SuppressWarnings("unchecked")
@@ -51,7 +51,7 @@ public class PluginConfigScreen extends ConfigScreen {
 
     @Override
     public ConfigListWidget getOptions() {
-        var options = new ConfigListWidget(this, minecraft, width, height, 32, height - 32, 26, PluginConfig::save);
+        var options = new ConfigListWidget(this, minecraft, width, height, 32, height - 32, 26, PluginConfig::write);
 
         for (var namespace : PluginConfig.getNamespaces()) {
             var namespaceTlKey = Tl.Config.PLUGIN_ + namespace;

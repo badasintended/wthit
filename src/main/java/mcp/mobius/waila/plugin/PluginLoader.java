@@ -15,6 +15,7 @@ import io.netty.buffer.Unpooled;
 import lol.bai.badpackets.api.PacketSender;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IPluginInfo;
+import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.__internal__.Internals;
 import mcp.mobius.waila.config.JsonConfig;
 import mcp.mobius.waila.config.PluginConfig;
@@ -144,6 +145,10 @@ public abstract class PluginLoader {
         if (!gathered) {
             gathered = true;
             gatherPlugins();
+
+            if (Waila.DEBUG_CONFIG.get().showTestPluginToggle) {
+                PluginInfo.register(WailaConstants.MOD_ID, Waila.id("test").toString(), IPluginInfo.Side.BOTH, "mcp.mobius.waila.plugin.test.WailaPluginTest", List.of(), false, false);
+            }
         }
 
         PluginInfo.saveToggleConfig();
