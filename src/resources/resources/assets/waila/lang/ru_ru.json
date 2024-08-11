@@ -1,7 +1,7 @@
 {
   "tooltip.waila.crop_growth"                                  : "Зрелость",
-
-
+  "tooltip.waila.crop_growable"                                : "Благоприятные условия",
+  "tooltip.waila.tree_growable"                                : "Благоприятные условия",
   "tooltip.waila.crop_mature"                                  : "Созрело",
   "tooltip.waila.empty"                                        : "Пусто",
   "tooltip.waila.delay"                                        : "Задержка",
@@ -11,8 +11,8 @@
   "tooltip.waila.state"                                        : "Состояние",
   "tooltip.waila.state_on"                                     : "Вкл.",
   "tooltip.waila.state_off"                                    : "Выкл.",
-
-
+  "tooltip.waila.true"                                         : "Да",
+  "tooltip.waila.false"                                        : "Нет",
   "tooltip.waila.power"                                        : "Мощность",
   "tooltip.waila.sneak_for_details"                            : "Присядьте для подробностей",
   "tooltip.waila.compost_level"                                : "Уровень компоста",
@@ -22,6 +22,8 @@
   "tooltip.waila.timer.grow"                                   : "Вырастет через",
   "tooltip.waila.timer.breed"                                  : "Можно размножить через",
 
+  "tooltip.waila.bee.hive"                                     : "Улей",
+  
   "tooltip.waila.horse.jump.key"                               : "Сила прыжка",
   "tooltip.waila.horse.jump.value"                             : "%s блока(ов)",
   "tooltip.waila.horse.speed.key"                              : "Скорость",
@@ -67,36 +69,37 @@
   "tooltip.waila.extra.energy"                                 : "Энергия",
   "tooltip.waila.extra.unknown_fluid"                          : "Неизвестная жидкость",
 
+  "tooltip.waila.harvest.harvestable"                          : "Можно добыть",
+  "tooltip.waila.harvest.effective_tool"                       : "Эффективный инструмент",
+  "tooltip.waila.harvest.level"                                : "Уровень добычи",
 
+  "tooltip.waila.harvest.tool"                                 : "_DO_NOT_TRANSLATE_",
+  "tooltip.waila.harvest.tool.minecraft.pickaxe"               : "кирка",
+  "tooltip.waila.harvest.tool.minecraft.shovel"                : "лопата",
+  "tooltip.waila.harvest.tool.minecraft.axe"                   : "топор",
+  "tooltip.waila.harvest.tool.minecraft.hoe"                   : "мотыга",
+  "tooltip.waila.harvest.tool.minecraft.sword"                 : "меч",
+  "tooltip.waila.harvest.tool.minecraft.shears"                : "ножницы",
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  "tooltip.waila.harvest.tier"                                 : "_DO_NOT_TRANSLATE_",
+  "tooltip.waila.harvest.tier.wood"                            : "дерево",
+  "tooltip.waila.harvest.tier.stone"                           : "камень",
+  "tooltip.waila.harvest.tier.iron"                            : "железо",
+  "tooltip.waila.harvest.tier.gold"                            : "золото",
+  "tooltip.waila.harvest.tier.diamond"                         : "алмаз",
+  "tooltip.waila.harvest.tier.netherite"                       : "незерит",
 
   "gui.waila.configuration"                                    : "Конфигурация %s",
   "gui.waila.waila_settings"                                   : "Настройки %s",
 
+  "gui.waila.esc_warning.umm"                                  : "Хм...",
+  "gui.waila.esc_warning.lmao"                                 : "Нажмите %s или %s чтобы закрыть",
 
-
-
-
-
-
-
+  "gui.waila.plugin.toggle"                                    : "Управление плагинами",
+  "gui.waila.plugin.toggle.disabled_on_server"                 : "Этот плагин выключен на сервере",
+  "gui.waila.plugin.toggle.locked"                             : "Невозможно выключить этот плагин",
+  "gui.waila.plugin.toggle.confirm"                            : "Включение или выключение плагинов может сбросить настройки WTHIT !\nСтарые конфиги будут сохранены в соответствующей папке с приставкой  о времени.\nСмотрите логи для дополнительной информации.",
+  "gui.waila.plugin.settings"                                  : "Настройки плагинов",
 
   "gui.waila.credits"                                          : "Благодарности",
   "gui.waila.credits.original_mod_by"                          : "Оригинальный \"WAILA\" от",
@@ -107,16 +110,16 @@
   "command.waila.local_dump_success"                           : "Локальный сервер успешно сброшен до %s",
   "command.waila.client_dump_success"                          : "Клиент успешно сброшен до %s",
 
-
-
-
-
-
-
-
-
-
-
+  "command.waila.plugin.reload"                                : "Плагины перезагружены",
+  "command.waila.plugin.list.available.none"                   : "Отсуствуют доступные плагины",
+  "command.waila.plugin.list.available.success"                : "Из %s плагинов доступно: %s",
+  "command.waila.plugin.list.enabled.none"                     : "Доступные плагины выключены",
+  "command.waila.plugin.list.enabled.success"                  : "Из %s плагинов включено: %s",
+  "command.waila.plugin.modify.disable"                        : "Отключение плагина %s",
+  "command.waila.plugin.modify.enable"                         : "Включение плагина %s",
+  "command.waila.plugin.unknown"                               : "Неизвестный плагин '%s'",
+  "command.waila.plugin.locked"                                : "Заблокированный плагин '%s'",
+  "command.waila.plugin.disabled_on_server"                    : "Плагин '%s' выключен на сервере",
 
   "command.waila.overlay.true"                                 : "Оверлей включен",
   "command.waila.overlay.false"                                : "Оверлей выключен",
@@ -132,6 +135,7 @@
   "command.waila.config.set.parse_fail"                        : "Не удалось разобрать: %s",
 
   "config.waila.search_prompt"                                 : "Поиск...",
+  "config.waila.expand_all"                                    : "Раскрыть всё",
   "config.waila.true"                                          : "Да",
   "config.waila.false"                                         : "Нет",
   "config.waila.preview_prompt"                                : "Для предпросмотра зажмите §5F1§r",
@@ -173,7 +177,7 @@
 
   "config.waila.overlay_fps"                                   : "Лимит FPS для подсказки",
   "config.waila.overlay_fps_desc"                              : "Снижает частоту отрисовки подсказки для общего увеличения FPS\nУстановите 0 чтобы снять лимит",
-
+  "config.waila.overlay_fps.disabled_reason"                   : "Сейчас этот параметр принудительно выключен так как вызывает ошибки рендеринга",
 
   "config.waila.overlay_pos_x"                                 : "Смещение по X",
   "config.waila.overlay_pos_x_desc"                            : "Позиция X относительно привязки экрана\nРазмер влияет на позицию",
@@ -250,12 +254,12 @@
   "config.waila.plugin_minecraft.override.powder_snow"         : "Отображать рыхлый снег как обычный",
   "config.waila.plugin_minecraft.override.vehicle"             : "Скрыть транспорт",
   "config.waila.plugin_minecraft.override.vehicle_desc"        : "Скрывать вагонетки, лошадей и прочие сущности, если игрок сидит на них",
-
-  "config.waila.plugin_minecraft.spawner.type"                 : "Отображать тип рассадника",
-
+  "config.waila.plugin_minecraft.spawner"                      : "Спаунеры",
+  "config.waila.plugin_minecraft.spawner.type"                 : "Отображать тип спаунера",
+  "config.waila.plugin_minecraft.plant"                        : "Растения",
   "config.waila.plugin_minecraft.plant.crop_progress"          : "Отображать зрелость урожая",
-
-
+  "config.waila.plugin_minecraft.plant.crop_growable"          : "Отображать возможность роста культур",
+  "config.waila.plugin_minecraft.plant.tree_growable"          : "Отображать возможность роста деревьев",
   "config.waila.plugin_minecraft.redstone"                     : "Редстоун",
   "config.waila.plugin_minecraft.redstone.lever"               : "Отображать положение рычага",
   "config.waila.plugin_minecraft.redstone.repeater"            : "Отображать задержку повторителя",
@@ -267,8 +271,7 @@
   "config.waila.plugin_minecraft.player_head.name"             : "Отображать никнейм",
   "config.waila.plugin_minecraft.level"                        : "Уровни",
   "config.waila.plugin_minecraft.level.composter"              : "Отображать уровень компоста",
-  "config.waila.plugin_minecraft.level.honey"                  : "Отображать уровень мёда",
-  "config.waila.plugin_minecraft.note_block"                   : "Тип ноты",
+  "config.waila.plugin_minecraft.note_block"                   : "Нотный блок",
   "config.waila.plugin_minecraft.note_block.type"              : "Отображать инструмент и ноту",
   "config.waila.plugin_minecraft.note_block.note"              : "Режим отображения нот",
   "config.waila.plugin_minecraft.note_block.note_sharp"        : "Резкий",
@@ -281,10 +284,10 @@
   "config.waila.plugin_minecraft.timer"                        : "Таймеры",
   "config.waila.plugin_minecraft.timer.grow"                   : "Отображать таймер роста мобов",
   "config.waila.plugin_minecraft.timer.breed"                  : "Отображать таймер размножения",
-
+  "config.waila.plugin_minecraft.block"                        : "Блоки",
   "config.waila.plugin_minecraft.block.position"               : "Отображать позицию блока",
   "config.waila.plugin_minecraft.block.state"                  : "Отображать состояние блока",
-
+  "config.waila.plugin_minecraft.entity"                       : "Сущности",
   "config.waila.plugin_minecraft.entity.item_entity"           : "Отображать сущности предметов",
   "config.waila.plugin_minecraft.entity.position"              : "Отображать сущности",
   "config.waila.plugin_minecraft.entity.health"                : "Отображать очки жизни",
@@ -298,12 +301,16 @@
   "config.waila.plugin_minecraft.entity.long_health_max_desc"  : "Наибольшее число очков жизни для отображения в виде иконок, если у моба или игрока больше чем указано здесь, будут отображены цифры",
   "config.waila.plugin_minecraft.entity.long_armor_max"        : "Максимум очков брони для отображения",
   "config.waila.plugin_minecraft.entity.long_armor_max_desc"   : "Наибольшее число очков брони для отображения в виде иконок, если у моба или игрока больше чем указано здесь, будут отображены цифры",
-
+  "config.waila.plugin_minecraft.bee"                          : "Пчелы",
+  "config.waila.plugin_minecraft.bee.hive_pos"                 : "Отображать координаты улья",
+  "config.waila.plugin_minecraft.bee.hive_honey_level"         : "Отображать уровень мёда",
+  "config.waila.plugin_minecraft.bee.hive_occupants"           : "Отображать количество пчел в улье и пасеке",
+  "config.waila.plugin_minecraft.horse"                        : "Лошади",
   "config.waila.plugin_minecraft.horse.jump_height"            : "Отображать силу прыжка лошади",
   "config.waila.plugin_minecraft.horse.speed"                  : "Отображать скорость лошади",
-
+  "config.waila.plugin_minecraft.panda"                        : "Панды",
   "config.waila.plugin_minecraft.panda.genes"                  : "Показывать характер панд",
-
+  "config.waila.plugin_minecraft.effect"                       : "Эффекты",
   "config.waila.plugin_minecraft.effect.beacon"                : "Показать эффекты маяков",
   "config.waila.plugin_minecraft.effect.mob"                   : "Показать эффекты мобов",
   "config.waila.plugin_minecraft.effect.hidden_mob"            : "Показать скрытые эффекты мобов",
@@ -331,14 +338,15 @@
   "config.waila.plugin_waila.icon_position_middle"             : "Посередине",
   "config.waila.plugin_waila.icon_position_bottom"             : "Внизу",
 
+  "config.waila.plugin_harvest"                                : "Добыча",
+  "config.waila.plugin_harvest.enabled"                        : "Отображать информацию для добычи",
+  "config.waila.plugin_harvest.display_mode"                   : "Режим отображения",
+  "config.waila.plugin_harvest.display_mode_modern"            : "современный",
+  "config.waila.plugin_harvest.display_mode_classic"           : "классический",
+  "config.waila.plugin_harvest.display_mode_classic_minimal"   : "минимальный классический",
+  "config.waila.plugin_harvest.creative"                       : "Отображать в творческом режиме",
 
-
-
-
-
-
-
-  "config.waila.plugin_wailax"                                 : "Waila Extra",
+  "config.waila.plugin_wailax"                                 : "WTHIT Extra",
   "config.waila.plugin_wailax.energy"                          : "Энергия",
   "config.waila.plugin_wailax.energy.enabled_block"            : "Энергия блоков",
   "config.waila.plugin_wailax.energy.enabled_entity"           : "Энергию сущностей",
@@ -351,8 +359,12 @@
   "config.waila.plugin_wailax.item.enabled_block"              : "Содержание блоков",
   "config.waila.plugin_wailax.item.enabled_entity"             : "Содержимое сущностей",
   "config.waila.plugin_wailax.item.nbt"                        : "Синхронизировать NBT данные",
+  "config.waila.plugin_wailax.item.display_mode"               : "Режим отображения",
+  "config.waila.plugin_wailax.item.display_mode_desc"          : "Сетка: отображение подобно интерфейсу контейнера\nСписок: отображение в виде списка\nДинамически: до заданной высоты отображение в виде сетки, дальше, в виде списка",
+  "config.waila.plugin_wailax.item.display_mode_grid"          : "сетка",
+  "config.waila.plugin_wailax.item.display_mode_list"          : "список",
+  "config.waila.plugin_wailax.item.display_mode_dynamic"       : "динамический",
   "config.waila.plugin_wailax.item.max_height"                 : "Максимальная высота",
-
   "config.waila.plugin_wailax.item.sort_by_count"              : "Сортировать по количеству",
   "config.waila.plugin_wailax.item.blacklist"                  : "Черный список",
   "config.waila.plugin_wailax.fluid"                           : "Жидкости",
