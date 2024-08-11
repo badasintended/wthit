@@ -4,10 +4,10 @@ import java.awt.Rectangle;
 import java.util.Objects;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.IEventListener;
@@ -110,7 +110,7 @@ public enum BreakProgressProvider implements IEventListener {
         if (isInDelay) progressDelayTimer -= dt;
     }
 
-    private void fill(PoseStack matrices, VertexConsumer vertexConsumer, float x1, float y1, float x2, float y2, int color) {
+    private void fill(PoseStack matrices, BufferBuilder vertexConsumer, float x1, float y1, float x2, float y2, int color) {
         var matrix4f = matrices.last().pose();
         if (x1 < x2) {
             var o = x1;
