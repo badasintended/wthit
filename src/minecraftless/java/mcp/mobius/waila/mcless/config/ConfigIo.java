@@ -54,23 +54,29 @@ public class ConfigIo<T> {
         this(warn, error, json5, commenter, gson, type, factory, 0, t -> 0, (a, b) -> {});
     }
 
+    public boolean migrateJson5(Path path) {
+        if (!json5) return false;
+
+        var pathString = path.toString();
+        if (FilenameUtils.getExtension(pathString).equals("json5")) {
+            var jsonPath = path.resolveSibling(FilenameUtils.getBaseName(pathString) + ".json");
+            if (Files.exists(jsonPath)) try {
+                Files.copy(jsonPath, path);
+                Files.delete(jsonPath);
+                warn.accept("Migrated from " + jsonPath + " to " + path);
+                return true;
+            } catch (IOException e) {
+                error.accept("Failed to move " + jsonPath + " to " + path, e);
+            }
+        }
+        return false;
+    }
+
     public T read(Path path) {
         T config;
         var init = true;
         if (!Files.exists(path)) {
-            if (json5) {
-                var pathString = path.toString();
-                if (FilenameUtils.getExtension(pathString).equals("json5")) {
-                    var jsonPath = path.resolveSibling(FilenameUtils.getBaseName(pathString) + ".json");
-                    if (Files.exists(jsonPath)) try {
-                        Files.copy(jsonPath, path);
-                        Files.delete(jsonPath);
-                        return read(path);
-                    } catch (IOException e) {
-                        error.accept("Failed to move " + jsonPath + " to " + path, e);
-                    }
-                }
-            }
+            if (migrateJson5(path)) return read(path);
 
             var parent = path.getParent();
             if (!Files.exists(parent)) {

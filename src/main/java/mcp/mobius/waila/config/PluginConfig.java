@@ -132,9 +132,10 @@ public enum PluginConfig implements IPluginConfig {
     }
 
     public static void reload() {
-        if (!Files.exists(PATH)) {
-            writeConfig();
+        if (!Files.exists(PATH) && !IO.migrateJson5(PATH)) {
+            write();
         }
+
         var config = IO.read(PATH);
         config.forEach((namespace, subMap) -> subMap.forEach((path, value) -> {
             var entry = (ConfigEntry<Object>) CONFIGS.get(ResourceLocation.fromNamespaceAndPath(namespace, path));
@@ -145,14 +146,12 @@ public enum PluginConfig implements IPluginConfig {
                 LOG.error("Failed to parse config value for {}: {}, defaulting.", entry.getId(), throwable);
             }
         }));
+
+        write();
         LOG.info("Plugin config reloaded");
     }
 
-    public static void save() {
-        writeConfig();
-    }
-
-    private static void writeConfig() {
+    public static void write() {
         var config = new LinkedHashMap<String, Map<String, JsonElement>>();
         for (var entry : CONFIGS.values()) {
             if (entry.isAlias()) continue;
