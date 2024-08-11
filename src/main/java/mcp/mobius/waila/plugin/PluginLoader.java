@@ -18,7 +18,6 @@ import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.__internal__.Internals;
 import mcp.mobius.waila.config.JsonConfig;
 import mcp.mobius.waila.config.PluginConfig;
-import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.mcless.version.VersionRanges;
 import mcp.mobius.waila.network.common.s2c.BlacklistSyncCommonS2CPacket;
 import mcp.mobius.waila.network.common.s2c.ConfigSyncCommonS2CPacket;
