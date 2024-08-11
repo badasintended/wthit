@@ -339,6 +339,7 @@ public class WailaConfig implements IWailaConfig {
         public static class Color implements IWailaConfig.Overlay.Color, Nested {
 
             private static final ResourceLocation DEFAULT = Waila.id("vanilla");
+            private static boolean warnDeprecatedColorGetter = true;
 
             private @T(Tl.Config.OVERLAY_BACKGROUND_ALPHA) int backgroundAlpha = 204;
             private @T(Tl.Config.OVERLAY_THEME) ResourceLocation activeTheme = DEFAULT;

@@ -442,7 +442,7 @@ public final class Json5Writer extends JsonWriter {
 	 */
 	private Json5Writer open(int empty, char openBracket) throws IOException {
 		beforeValue();
-        pathNames.addLast("NULL");
+        pathNames.add("NULL");
 		push(empty);
 		out.write(openBracket);
 		return this;
@@ -463,7 +463,7 @@ public final class Json5Writer extends JsonWriter {
 		}
 
 		stackSize--;
-		if (!pathNames.isEmpty()) pathNames.removeLast();
+		if (!pathNames.isEmpty()) pathNames.remove(pathNames.size() - 1);
 		if (context == nonempty) {
 			commentAndNewline();
 		}
