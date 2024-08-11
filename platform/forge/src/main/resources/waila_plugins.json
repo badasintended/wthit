@@ -11,7 +11,7 @@
     "required"   : ["minecraft"]
   },
 
-  "waila:harvest"           : {
+  "waila:harvest": {
     "initializer": "mcp.mobius.waila.plugin.harvest.WailaPluginHarvest",
     "side"       : "*",
     "required"   : []
@@ -23,14 +23,9 @@
     "required"   : []
   },
 
-  "waila:forge" : {
+  "waila:forge"  : {
     "initializer": "mcp.mobius.waila.plugin.forge.WailaPluginForge",
     "side"       : "*",
     "required"   : ["forge"]
-  },
-
-  "waila:test"              : {
-    "initializer"   : "mcp.mobius.waila.plugin.test.WailaPluginTest",
-    "defaultEnabled": false
   }
 }
