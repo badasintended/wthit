@@ -1,4 +1,4 @@
-package mcp.mobius.waila.plugin.vanilla.provider;
+package mcp.mobius.waila.plugin.vanilla.provider.data;
 
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IDataWriter;
@@ -9,7 +9,7 @@ import net.minecraft.world.Container;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.vehicle.ContainerEntity;
 
-public enum ContainerEntityProvider implements IDataProvider<Entity> {
+public enum ContainerEntityDataProvider implements IDataProvider<Entity> {
 
     INSTANCE;
 

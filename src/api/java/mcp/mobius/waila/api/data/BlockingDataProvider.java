@@ -4,14 +4,14 @@ import mcp.mobius.waila.api.IData;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IDataWriter;
 import mcp.mobius.waila.api.IPluginConfig;
-import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IServerAccessor;
+import mcp.mobius.waila.api.WailaConstants;
 
 /**
  * Implementation of {@link IDataProvider} that blocks specified data types.
  * <p>
  * Usage of this class should probably be accompanied by a higher (lower number)
- * priority than the {@linkplain IRegistrar#DEFAULT_PRIORITY default}.
+ * priority than the {@linkplain WailaConstants#DEFAULT_PRIORITY default}.
  */
 public final class BlockingDataProvider<T> implements IDataProvider<T> {
 

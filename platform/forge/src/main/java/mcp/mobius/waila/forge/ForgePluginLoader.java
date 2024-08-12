@@ -7,6 +7,7 @@ import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.api.WailaPlugin;
 import mcp.mobius.waila.plugin.PluginInfo;
 import mcp.mobius.waila.plugin.PluginLoader;
+import mcp.mobius.waila.plugin.PluginSide;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.fml.ModList;
 import net.minecraftforge.fml.loading.FMLLoader;
@@ -30,23 +31,27 @@ public class ForgePluginLoader extends PluginLoader {
                 if (annotation.annotationType().getClassName().equals(WAILA_PLUGIN)) {
                     var id = (String) annotation.annotationData().get("id");
                     var required = (String[]) annotation.annotationData().getOrDefault("required", new String[0]);
-                    var side = (IPluginInfo.Side) annotation.annotationData().get("side");
+                    var side = switch ((IPluginInfo.Side) annotation.annotationData().get("side")) {
+                        case CLIENT -> PluginSide.CLIENT;
+                        case SERVER -> PluginSide.DEDICATED_SERVER;
+                        case BOTH -> PluginSide.COMMON;
+                    };
 
                     var satisfied = true;
                     for (var dep : required) {
                         satisfied = satisfied && ModList.get().isLoaded(dep);
                     }
 
-                    if (side == IPluginInfo.Side.CLIENT && FMLLoader.getDist() != Dist.CLIENT) {
+                    if (side == PluginSide.CLIENT && FMLLoader.getDist() != Dist.CLIENT) {
                         satisfied = false;
                     }
 
-                    if (side == IPluginInfo.Side.SERVER && FMLLoader.getDist() != Dist.DEDICATED_SERVER) {
+                    if (side == PluginSide.DEDICATED_SERVER && FMLLoader.getDist() != Dist.DEDICATED_SERVER) {
                         satisfied = false;
                     }
 
                     if (satisfied) {
-                        PluginInfo.register(modFile.getMods().get(0).getModId(), id, side, annotation.memberName(), Arrays.asList(required), true, true);
+                        PluginInfo.registerDeprecated(modFile.getMods().get(0).getModId(), id, side, annotation.memberName(), Arrays.asList(required), true, true);
                     }
                 }
             }

@@ -18,6 +18,11 @@ public class WailaConstants {
     public static final int CONFIG_VERSION = 1;
 
     /**
+     * The default priority for all component and data provider.
+     */
+    public static final int DEFAULT_PRIORITY = 1000;
+
+    /**
      * Tooltip tag for block, fluid, and entity name line.
      *
      * @see ITooltip#setLine

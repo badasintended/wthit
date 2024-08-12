@@ -97,14 +97,16 @@ public abstract class ApiService implements IApiService {
         return PluginInfo.get(pluginId);
     }
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     public Collection<IPluginInfo> getAllPluginInfoFromMod(String modId) {
-        return PluginInfo.getAllFromMod(modId);
+        return (Collection) PluginInfo.getAllFromMod(modId);
     }
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     public Collection<IPluginInfo> getAllPluginInfo() {
-        return PluginInfo.getAll();
+        return (Collection) PluginInfo.getAll();
     }
 
     @Override

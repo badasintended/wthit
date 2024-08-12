@@ -1,36 +1,53 @@
 {
   "waila:core"              : {
-    "initializer": "mcp.mobius.waila.plugin.core.WailaPluginCore",
+    "entrypoints": {
+      "common": "mcp.mobius.waila.plugin.core.CoreCommonPlugin",
+      "client": "mcp.mobius.waila.plugin.core.CoreClientPlugin"
+    },
     "side"       : "*",
     "required"   : []
   },
 
   "waila:vanilla"           : {
-    "initializer": "mcp.mobius.waila.plugin.vanilla.WailaPluginVanilla",
+    "entrypoints": {
+      "common": "mcp.mobius.waila.plugin.vanilla.VanillaCommonPlugin",
+      "client": "mcp.mobius.waila.plugin.vanilla.VanillaClientPlugin"
+    },
     "side"       : "*",
     "required"   : ["minecraft"]
   },
 
   "waila:harvest"           : {
-    "initializer": "mcp.mobius.waila.plugin.harvest.WailaPluginHarvest",
+    "entrypoints": {
+      "common": "mcp.mobius.waila.plugin.harvest.HarvestCommonPlugin",
+      "client": "mcp.mobius.waila.plugin.harvest.HarvestClientPlugin"
+    },
     "side"       : "*",
     "required"   : []
   },
 
   "waila:extra"             : {
-    "initializer": "mcp.mobius.waila.plugin.extra.WailaPluginExtra",
+    "entrypoints": {
+      "common": "mcp.mobius.waila.plugin.extra.ExtraPlugin",
+      "client": "mcp.mobius.waila.plugin.extra.ExtraPlugin"
+    },
     "side"       : "*",
     "required"   : []
   },
 
-  "waila:quilt"             : {
-    "initializer": "mcp.mobius.waila.plugin.quilt.WailaPluginQuilt",
+  "waila:fabric"            : {
+    "entrypoints": {
+      "common": "mcp.mobius.waila.plugin.quilt.QuiltCommonPlugin",
+      "client": "mcp.mobius.waila.plugin.quilt.QuiltClientPlugin"
+    },
     "side"       : "*",
     "required"   : ["quilted_fabric_api"]
   },
 
   "waila:team_reborn_energy": {
-    "initializer": "mcp.mobius.waila.plugin.trenergy.WailaPluginTeamRebornEnergy",
+    "entrypoints": {
+      "common": "mcp.mobius.waila.plugin.trenergy.TeamRebornCommonPlugin"
+    },
     "side"       : "*",
     "required"   : ["team_reborn_energy"]
   }

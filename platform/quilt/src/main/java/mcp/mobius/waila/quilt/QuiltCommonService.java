@@ -3,7 +3,7 @@ package mcp.mobius.waila.quilt;
 import java.nio.file.Path;
 import java.util.Optional;
 
-import mcp.mobius.waila.api.IPluginInfo;
+import mcp.mobius.waila.plugin.PluginSide;
 import mcp.mobius.waila.service.ICommonService;
 import mcp.mobius.waila.util.ModInfo;
 import org.quiltmc.loader.api.ModContainer;
@@ -40,10 +40,10 @@ public class QuiltCommonService implements ICommonService {
     }
 
     @Override
-    public IPluginInfo.Side getSide() {
+    public PluginSide getSide() {
         return switch (MinecraftQuiltLoader.getEnvironmentType()) {
-            case CLIENT -> IPluginInfo.Side.CLIENT;
-            case SERVER -> IPluginInfo.Side.SERVER;
+            case CLIENT -> PluginSide.CLIENT;
+            case SERVER -> PluginSide.DEDICATED_SERVER;
         };
     }
 

@@ -11,10 +11,10 @@ import org.jetbrains.annotations.Nullable;
  * Used to provide {@link Entity} tooltip information to Waila.
  * <p>
  * All methods in this interface <b>shouldn't</b> to be called by the implementing mod.
- * An instance of the class is to be registered via the {@link IRegistrar} instance provided in {@link IWailaPlugin}.
+ * An instance of the class is to be registered via the {@link IClientRegistrar} instance provided in {@link IWailaClientPlugin}.
  *
- * @see IWailaPlugin
- * @see IRegistrar
+ * @see IWailaClientPlugin
+ * @see IClientRegistrar
  */
 @ApiSide.ClientOnly
 @ApiStatus.OverrideOnly
@@ -38,7 +38,7 @@ public interface IEntityComponentProvider {
      * @return {@code null} if this method doesn't redirect to anything,
      * any result from one of {@link ITargetRedirector}'s methods otherwise
      *
-     * @see IRegistrar#addRedirect(IEntityComponentProvider, Class)
+     * @see IClientRegistrar#addRedirect(IEntityComponentProvider, Class)
      */
     @Nullable
     @ApiStatus.Experimental
@@ -54,7 +54,7 @@ public interface IEntityComponentProvider {
      *                 Note that {@link IEntityAccessor#getData()} will always be empty at this time
      * @param config   current plugin configuration
      *
-     * @see IRegistrar#addDataContext(IEntityComponentProvider, Class)
+     * @see IClientRegistrar#addDataContext(IEntityComponentProvider, Class)
      */
     default void appendDataContext(IDataWriter ctx, IEntityAccessor accessor, IPluginConfig config) {
     }
@@ -67,7 +67,7 @@ public interface IEntityComponentProvider {
      *
      * @return {@code null} if override is not required, an {@link Entity} otherwise
      *
-     * @see IRegistrar#addOverride(IEntityComponentProvider, Class, int)
+     * @see IClientRegistrar#addOverride(IEntityComponentProvider, Class, int)
      * @see #EMPTY_ENTITY
      */
     @Nullable
@@ -88,7 +88,7 @@ public interface IEntityComponentProvider {
      *
      * @return the component to render or {@code null} if this provider doesn't decide it
      *
-     * @see IRegistrar#addIcon(IEntityComponentProvider, Class, int)
+     * @see IClientRegistrar#addIcon(IEntityComponentProvider, Class, int)
      */
     @Nullable
     default ITooltipComponent getIcon(IEntityAccessor accessor, IPluginConfig config) {
@@ -108,7 +108,7 @@ public interface IEntityComponentProvider {
      * @param accessor contains most of the relevant information about the current environment
      * @param config   current plugin configuration
      *
-     * @see IRegistrar#addComponent(IEntityComponentProvider, TooltipPosition, Class, int)
+     * @see IClientRegistrar#addComponent(IEntityComponentProvider, TooltipPosition, Class, int)
      */
     default void appendHead(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
     }
@@ -126,7 +126,7 @@ public interface IEntityComponentProvider {
      * @param accessor contains most of the relevant information about the current environment
      * @param config   current plugin configuration
      *
-     * @see IRegistrar#addComponent(IEntityComponentProvider, TooltipPosition, Class, int)
+     * @see IClientRegistrar#addComponent(IEntityComponentProvider, TooltipPosition, Class, int)
      */
     default void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
     }
@@ -144,7 +144,7 @@ public interface IEntityComponentProvider {
      * @param accessor contains most of the relevant information about the current environment
      * @param config   current plugin configuration
      *
-     * @see IRegistrar#addComponent(IEntityComponentProvider, TooltipPosition, Class, int)
+     * @see IClientRegistrar#addComponent(IEntityComponentProvider, TooltipPosition, Class, int)
      */
     default void appendTail(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
     }

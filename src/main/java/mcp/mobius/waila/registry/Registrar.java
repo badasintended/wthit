@@ -16,6 +16,8 @@ import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IBlockComponentProvider;
+import mcp.mobius.waila.api.IClientRegistrar;
+import mcp.mobius.waila.api.ICommonRegistrar;
 import mcp.mobius.waila.api.IData;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IEntityComponentProvider;
@@ -45,7 +47,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import org.jetbrains.annotations.Nullable;
 
-public class Registrar implements IRegistrar {
+@SuppressWarnings("deprecation")
+public class Registrar implements ICommonRegistrar, IClientRegistrar, IRegistrar {
 
     private static final CachedSupplier<Registrar> INSTANCE = new CachedSupplier<>(Registrar::new);
 
