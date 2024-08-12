@@ -2,12 +2,9 @@ package mcp.mobius.waila.plugin.vanilla.provider;
 
 import java.text.DecimalFormat;
 
-import mcp.mobius.waila.api.IDataProvider;
-import mcp.mobius.waila.api.IDataWriter;
 import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
-import mcp.mobius.waila.api.IServerAccessor;
 import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.ITooltipLine;
 import mcp.mobius.waila.api.component.ArmorComponent;
@@ -20,10 +17,9 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 
-public enum EntityAttributesProvider implements IEntityComponentProvider, IDataProvider<Entity> {
+public enum EntityAttributesProvider implements IEntityComponentProvider {
 
     INSTANCE;
 
@@ -112,15 +108,6 @@ public enum EntityAttributesProvider implements IEntityComponentProvider, IDataP
     public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
         if (config.getBoolean(Options.ENTITY_POSITION)) {
             tooltip.addLine(new PositionComponent(accessor.getEntity().position()));
-        }
-    }
-
-    @Override
-    public void appendData(IDataWriter data, IServerAccessor<Entity> accessor, IPluginConfig config) {
-        if (accessor.getTarget() instanceof LivingEntity living) {
-            if (config.getBoolean(Options.ENTITY_ABSORPTION) && living.getAbsorptionAmount() > 0) {
-                data.raw().putFloat("abs", living.getAbsorptionAmount());
-            }
         }
     }
 

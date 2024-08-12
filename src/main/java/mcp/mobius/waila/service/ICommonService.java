@@ -3,8 +3,8 @@ package mcp.mobius.waila.service;
 import java.nio.file.Path;
 import java.util.Optional;
 
-import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.api.__internal__.Internals;
+import mcp.mobius.waila.plugin.PluginSide;
 import mcp.mobius.waila.util.ModInfo;
 
 public interface ICommonService {
@@ -21,7 +21,7 @@ public interface ICommonService {
 
     boolean isDev();
 
-    IPluginInfo.Side getSide();
+    PluginSide getSide();
 
     String getIssueUrl();
 

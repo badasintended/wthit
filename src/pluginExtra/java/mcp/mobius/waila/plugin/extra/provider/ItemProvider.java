@@ -7,9 +7,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
+import mcp.mobius.waila.api.ICommonRegistrar;
 import mcp.mobius.waila.api.IDataReader;
 import mcp.mobius.waila.api.IPluginConfig;
-import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.component.ItemListComponent;
@@ -36,7 +36,7 @@ public class ItemProvider extends DataProvider<ItemData, ItemDataImpl> {
     }
 
     @Override
-    protected void registerAdditions(IRegistrar registrar, int priority) {
+    protected void registerAdditions(ICommonRegistrar registrar, int priority) {
         registrar.addSyncedConfig(ItemData.CONFIG_SYNC_NBT, true, false);
         registrar.addConfig(ItemData.CONFIG_DISPLAY_MODE, ItemData.ItemDisplayMode.DYNAMIC);
         registrar.addConfig(ItemData.CONFIG_MAX_HEIGHT, 3);

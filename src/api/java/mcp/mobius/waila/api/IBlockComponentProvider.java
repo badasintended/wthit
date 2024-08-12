@@ -12,10 +12,10 @@ import org.jetbrains.annotations.Nullable;
  * Used to provide {@link Block}/{@link BlockEntity} tooltip information to Waila.
  * <p>
  * All methods in this interface <b>shouldn't</b> to be called by the implementing mod.
- * An instance of the class is to be registered via the {@link IRegistrar} instance provided in {@link IWailaPlugin}.
+ * An instance of the class is to be registered via the {@link IClientRegistrar} instance provided in {@link IWailaClientPlugin}.
  *
- * @see IWailaPlugin
- * @see IRegistrar
+ * @see IWailaClientPlugin
+ * @see IClientRegistrar
  */
 @ApiSide.ClientOnly
 @ApiStatus.OverrideOnly
@@ -39,7 +39,7 @@ public interface IBlockComponentProvider {
      * @return {@code null} if this method doesn't redirect to anything,
      * any result from one of {@link ITargetRedirector}'s methods otherwise
      *
-     * @see IRegistrar#addRedirect(IBlockComponentProvider, Class)
+     * @see IClientRegistrar#addRedirect(IBlockComponentProvider, Class)
      */
     @Nullable
     @ApiStatus.Experimental
@@ -55,7 +55,7 @@ public interface IBlockComponentProvider {
      *                 Note that {@link IBlockAccessor#getData()} will always be empty at this time
      * @param config   current plugin configuration
      *
-     * @see IRegistrar#addDataContext(IBlockComponentProvider, Class)
+     * @see IClientRegistrar#addDataContext(IBlockComponentProvider, Class)
      */
     default void appendDataContext(IDataWriter ctx, IBlockAccessor accessor, IPluginConfig config) {
     }
@@ -73,7 +73,7 @@ public interface IBlockComponentProvider {
      *
      * @return {@code null} if override is not required, a {@link BlockState} otherwise
      *
-     * @see IRegistrar#addOverride(IBlockComponentProvider, Class, int)
+     * @see IClientRegistrar#addOverride(IBlockComponentProvider, Class, int)
      * @see #EMPTY_BLOCK_STATE
      */
     @Nullable
@@ -94,7 +94,7 @@ public interface IBlockComponentProvider {
      *
      * @return the component to render or {@code null} if this provider doesn't decide it
      *
-     * @see IRegistrar#addIcon(IEntityComponentProvider, Class, int)
+     * @see IClientRegistrar#addIcon(IEntityComponentProvider, Class, int)
      */
     @Nullable
     default ITooltipComponent getIcon(IBlockAccessor accessor, IPluginConfig config) {
@@ -114,7 +114,7 @@ public interface IBlockComponentProvider {
      * @param accessor contains most of the relevant information about the current environment
      * @param config   current plugin configuration
      *
-     * @see IRegistrar#addComponent(IBlockComponentProvider, TooltipPosition, Class, int)
+     * @see IClientRegistrar#addComponent(IBlockComponentProvider, TooltipPosition, Class, int)
      */
     default void appendHead(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
     }
@@ -132,7 +132,7 @@ public interface IBlockComponentProvider {
      * @param accessor contains most of the relevant information about the current environment
      * @param config   current plugin configuration
      *
-     * @see IRegistrar#addComponent(IBlockComponentProvider, TooltipPosition, Class, int)
+     * @see IClientRegistrar#addComponent(IBlockComponentProvider, TooltipPosition, Class, int)
      */
     default void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
     }
@@ -150,7 +150,7 @@ public interface IBlockComponentProvider {
      * @param accessor contains most of the relevant information about the current environment
      * @param config   current plugin configuration
      *
-     * @see IRegistrar#addComponent(IBlockComponentProvider, TooltipPosition, Class, int)
+     * @see IClientRegistrar#addComponent(IBlockComponentProvider, TooltipPosition, Class, int)
      */
     default void appendTail(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
     }

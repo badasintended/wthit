@@ -7,6 +7,10 @@ import mcp.mobius.waila.api.__internal__.IApiService;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
 
+/**
+ * @deprecated no replacement. In practice, plugin should never require this.
+ */
+@Deprecated
 @ApiStatus.NonExtendable
 public interface IPluginInfo {
 
@@ -28,6 +32,7 @@ public interface IPluginInfo {
 
     Side getSide();
 
+    @Deprecated
     IWailaPlugin getInitializer();
 
     List<String> getRequiredModIds();

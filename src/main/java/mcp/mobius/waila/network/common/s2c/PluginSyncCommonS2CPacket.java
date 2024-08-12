@@ -6,7 +6,6 @@ import java.util.List;
 import lol.bai.badpackets.api.config.ConfigPackets;
 import lol.bai.badpackets.api.play.PlayPackets;
 import mcp.mobius.waila.Waila;
-import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.network.Packet;
 import mcp.mobius.waila.plugin.PluginInfo;
 import mcp.mobius.waila.plugin.PluginLoader;
@@ -39,7 +38,7 @@ public class PluginSyncCommonS2CPacket implements Packet {
         PluginInfo.refresh();
 
         for (var plugin : payload.plugins) {
-            ((PluginInfo) IPluginInfo.get(plugin)).setDisabledOnServer(true);
+            PluginInfo.get(plugin).setDisabledOnServer(true);
         }
 
         PluginLoader.INSTANCE.loadPlugins();
@@ -52,7 +51,7 @@ public class PluginSyncCommonS2CPacket implements Packet {
         public Payload() {
             this(PluginInfo.getAll().stream()
                 .filter(it -> !it.isEnabled())
-                .map(IPluginInfo::getPluginId)
+                .map(PluginInfo::getPluginId)
                 .toList());
         }
 

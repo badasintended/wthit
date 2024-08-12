@@ -1,30 +1,23 @@
 package mcp.mobius.waila.plugin.forge;
 
-import mcp.mobius.waila.api.IRegistrar;
+import mcp.mobius.waila.api.IClientRegistrar;
 import mcp.mobius.waila.api.IToolType;
-import mcp.mobius.waila.api.IWailaPlugin;
+import mcp.mobius.waila.api.IWailaClientPlugin;
 import mcp.mobius.waila.api.data.FluidData;
 import mcp.mobius.waila.plugin.forge.fluid.ForgeFluidDescriptor;
-import mcp.mobius.waila.plugin.forge.provider.EnergyCapabilityProvider;
-import mcp.mobius.waila.plugin.forge.provider.FluidCapabilityProvider;
-import mcp.mobius.waila.plugin.forge.provider.ItemCapabilityProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.DoublePlantBlock;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.common.IForgeShearable;
 import net.minecraftforge.common.ToolActions;
 
-public class WailaPluginForge implements IWailaPlugin {
+public class ForgeClientPlugin implements IWailaClientPlugin {
 
     @Override
-    public void register(IRegistrar registrar) {
+    public void register(IClientRegistrar registrar) {
         FluidData.describeFluid(Fluid.class, ForgeFluidDescriptor.INSTANCE);
-        registrar.addBlockData(EnergyCapabilityProvider.INSTANCE, BlockEntity.class, 2000);
-        registrar.addBlockData(ItemCapabilityProvider.INSTANCE, BlockEntity.class, 2000);
-        registrar.addBlockData(FluidCapabilityProvider.INSTANCE, BlockEntity.class, 2000);
 
         registrar.addToolType(ResourceLocation.withDefaultNamespace("pickaxe"), IToolType.builder()
             .lowestTierItem(Items.WOODEN_PICKAXE)

@@ -2,7 +2,7 @@ package mcp.mobius.waila.api.data;
 
 import mcp.mobius.waila.api.IData;
 import mcp.mobius.waila.api.IDataProvider;
-import mcp.mobius.waila.api.IRegistrar;
+import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.__internal__.ApiSide;
 import mcp.mobius.waila.api.__internal__.IApiService;
 import mcp.mobius.waila.api.__internal__.IExtraService;
@@ -48,7 +48,7 @@ public abstract class EnergyData implements IData {
     /**
      * Creates a {@linkplain IDataProvider data provider} that always returns infinite energy data.
      * <p>
-     * Should probably be used with a higher (lower number) priority than the {@linkplain IRegistrar#DEFAULT_PRIORITY default}.
+     * Should probably be used with a higher (lower number) priority than the {@linkplain WailaConstants#DEFAULT_PRIORITY default}.
      * <p>
      * Along with this method, Waila also provides {@code waila:extra/infinite_energy}
      * tag that can be used for marking blocks, block entity types, or entity types to contain infinite energy.

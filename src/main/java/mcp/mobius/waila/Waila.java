@@ -4,13 +4,13 @@ import java.nio.file.Path;
 
 import com.google.gson.GsonBuilder;
 import mcp.mobius.waila.api.IJsonConfig;
-import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.__internal__.IHarvestService;
 import mcp.mobius.waila.config.BlacklistConfig;
 import mcp.mobius.waila.config.DebugConfig;
 import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.gui.hud.theme.ThemeDefinition;
+import mcp.mobius.waila.plugin.PluginSide;
 import mcp.mobius.waila.registry.RegistryFilter;
 import mcp.mobius.waila.service.ICommonService;
 import mcp.mobius.waila.util.Log;
@@ -22,7 +22,7 @@ public abstract class Waila {
     private static final Log LOG = Log.create();
 
     public static final boolean DEV = ICommonService.INSTANCE.isDev();
-    public static final boolean CLIENT_SIDE = ICommonService.INSTANCE.getSide().matches(IPluginInfo.Side.CLIENT);
+    public static final boolean CLIENT_SIDE = ICommonService.INSTANCE.getSide().matches(PluginSide.CLIENT);
     public static final boolean ENABLE_DEBUG_COMMAND = DEV || Boolean.getBoolean("waila.debugCommands");
 
     public static final String ISSUE_URL = ICommonService.INSTANCE.getIssueUrl();

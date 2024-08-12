@@ -3,8 +3,8 @@ package mcp.mobius.waila.fabric;
 import java.nio.file.Path;
 import java.util.Optional;
 
-import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.api.WailaConstants;
+import mcp.mobius.waila.plugin.PluginSide;
 import mcp.mobius.waila.service.ICommonService;
 import mcp.mobius.waila.util.ModInfo;
 import net.fabricmc.loader.api.FabricLoader;
@@ -40,10 +40,10 @@ public class FabricCommonService implements ICommonService {
     }
 
     @Override
-    public IPluginInfo.Side getSide() {
+    public PluginSide getSide() {
         return switch (FabricLoader.getInstance().getEnvironmentType()) {
-            case CLIENT -> IPluginInfo.Side.CLIENT;
-            case SERVER -> IPluginInfo.Side.SERVER;
+            case CLIENT -> PluginSide.CLIENT;
+            case SERVER -> PluginSide.DEDICATED_SERVER;
         };
     }
 

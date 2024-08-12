@@ -1,6 +1,5 @@
 package mcp.mobius.waila.api;
 
-import com.google.common.base.Preconditions;
 import net.minecraft.resources.ResourceLocation;
 
 public class WailaConstants {
@@ -17,6 +16,11 @@ public class WailaConstants {
      * Used for validating config.
      */
     public static final int CONFIG_VERSION = 1;
+
+    /**
+     * The default priority for all component and data provider.
+     */
+    public static final int DEFAULT_PRIORITY = 1000;
 
     /**
      * Tooltip tag for block, fluid, and entity name line.
