@@ -1,4 +1,4 @@
-package mcp.mobius.waila.plugin.vanilla.provider;
+package mcp.mobius.waila.plugin.vanilla.provider.data;
 
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IDataWriter;
@@ -8,7 +8,7 @@ import mcp.mobius.waila.api.data.ItemData;
 import mcp.mobius.waila.mixin.RandomizableContainerBlockEntityAccess;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 
-public enum RandomizableContainerProvider implements IDataProvider<RandomizableContainerBlockEntity> {
+public enum RandomizableContainerDataProvider implements IDataProvider<RandomizableContainerBlockEntity> {
 
     INSTANCE;
 

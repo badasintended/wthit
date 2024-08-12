@@ -3,7 +3,7 @@ package mcp.mobius.waila.forge;
 import java.nio.file.Path;
 import java.util.Optional;
 
-import mcp.mobius.waila.api.IPluginInfo;
+import mcp.mobius.waila.plugin.PluginSide;
 import mcp.mobius.waila.service.ICommonService;
 import mcp.mobius.waila.util.ModInfo;
 import net.minecraftforge.fml.ModContainer;
@@ -42,10 +42,10 @@ public class ForgeCommonService implements ICommonService {
     }
 
     @Override
-    public IPluginInfo.Side getSide() {
+    public PluginSide getSide() {
         return switch (FMLLoader.getDist()) {
-            case CLIENT -> IPluginInfo.Side.CLIENT;
-            case DEDICATED_SERVER -> IPluginInfo.Side.SERVER;
+            case CLIENT -> PluginSide.CLIENT;
+            case DEDICATED_SERVER -> PluginSide.DEDICATED_SERVER;
         };
     }
 

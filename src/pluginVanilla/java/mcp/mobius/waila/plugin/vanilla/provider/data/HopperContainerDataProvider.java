@@ -1,4 +1,4 @@
-package mcp.mobius.waila.plugin.vanilla.provider;
+package mcp.mobius.waila.plugin.vanilla.provider.data;
 
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IDataWriter;
@@ -8,7 +8,7 @@ import mcp.mobius.waila.api.data.ItemData;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.HopperBlockEntity;
 
-public enum HopperContainerProvider implements IDataProvider<BlockEntity> {
+public enum HopperContainerDataProvider implements IDataProvider<BlockEntity> {
 
     INSTANCE;
 

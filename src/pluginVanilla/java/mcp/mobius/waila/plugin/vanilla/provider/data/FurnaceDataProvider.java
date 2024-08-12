@@ -1,4 +1,4 @@
-package mcp.mobius.waila.plugin.vanilla.provider;
+package mcp.mobius.waila.plugin.vanilla.provider.data;
 
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IDataWriter;
@@ -9,7 +9,7 @@ import mcp.mobius.waila.mixin.AbstractFurnaceBlockEntityAccess;
 import net.minecraft.world.level.block.AbstractFurnaceBlock;
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 
-public enum FurnaceProvider implements IDataProvider<AbstractFurnaceBlockEntity> {
+public enum FurnaceDataProvider implements IDataProvider<AbstractFurnaceBlockEntity> {
 
     INSTANCE;
 

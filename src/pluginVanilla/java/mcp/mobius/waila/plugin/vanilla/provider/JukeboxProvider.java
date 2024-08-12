@@ -12,7 +12,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.RecordItem;
 import net.minecraft.world.level.block.entity.JukeboxBlockEntity;
 
-public enum JukeboxProvider implements IBlockComponentProvider, IDataProvider<JukeboxBlockEntity> {
+public enum JukeboxProvider implements IBlockComponentProvider {
 
     INSTANCE;
 
@@ -20,19 +20,6 @@ public enum JukeboxProvider implements IBlockComponentProvider, IDataProvider<Ju
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
         if (config.getBoolean(Options.JUKEBOX_RECORD) && accessor.getData().raw().contains("record")) {
             tooltip.addLine(Component.Serializer.fromJson(accessor.getData().raw().getString("record")));
-        }
-    }
-
-    @Override
-    public void appendData(IDataWriter data, IServerAccessor<JukeboxBlockEntity> accessor, IPluginConfig config) {
-        if (config.getBoolean(Options.JUKEBOX_RECORD)) {
-            var stack = accessor.getTarget().getFirstItem();
-            if (!stack.isEmpty()) {
-                var text = stack.getItem() instanceof RecordItem
-                    ? Component.translatable(stack.getDescriptionId() + ".desc")
-                    : stack.getDisplayName();
-                data.raw().putString("record", Component.Serializer.toJson(text));
-            }
         }
     }
 

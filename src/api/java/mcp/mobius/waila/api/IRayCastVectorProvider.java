@@ -8,7 +8,7 @@ import org.jetbrains.annotations.ApiStatus;
 /**
  * Decides where Waila will start ray casting for objects.
  *
- * @see IRegistrar#addRayCastVector(IRayCastVectorProvider, int)
+ * @see IClientRegistrar#addRayCastVector(IRayCastVectorProvider, int)
  */
 @ApiSide.ClientOnly
 @ApiStatus.Experimental

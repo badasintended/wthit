@@ -6,7 +6,7 @@ import org.jetbrains.annotations.ApiStatus;
 /**
  * A typed data for syncing complex data.
  * <p>
- * Register data types with {@link IRegistrar#addDataType}
+ * Register data types with {@link ICommonRegistrar#addDataType}
  * <p>
  * For simple data, consider using {@linkplain IDataWriter#raw() raw NBT data} instead,
  * as it is easier to do and enough for most purpose.

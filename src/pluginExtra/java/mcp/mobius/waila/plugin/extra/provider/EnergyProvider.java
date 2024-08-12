@@ -1,9 +1,9 @@
 package mcp.mobius.waila.plugin.extra.provider;
 
+import mcp.mobius.waila.api.ICommonRegistrar;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IDataWriter;
 import mcp.mobius.waila.api.IPluginConfig;
-import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IServerAccessor;
 import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.WailaConstants;
@@ -39,7 +39,7 @@ public class EnergyProvider extends DataProvider<EnergyData, EnergyDataImpl> {
     }
 
     @Override
-    protected void registerAdditions(IRegistrar registrar, int priority) {
+    protected void registerAdditions(ICommonRegistrar registrar, int priority) {
         registrar.addBlockData(new InfiniteEnergyBlockProvider(), BlockEntity.class, 1);
         registrar.addEntityData(new InfiniteEnergyEntityProvider(), Entity.class, 1);
     }

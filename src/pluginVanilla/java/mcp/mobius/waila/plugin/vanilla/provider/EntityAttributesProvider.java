@@ -23,7 +23,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 
-public enum EntityAttributesProvider implements IEntityComponentProvider, IDataProvider<Entity> {
+public enum EntityAttributesProvider implements IEntityComponentProvider {
 
     INSTANCE;
 
@@ -109,15 +109,6 @@ public enum EntityAttributesProvider implements IEntityComponentProvider, IDataP
     public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
         if (config.getBoolean(Options.ENTITY_POSITION)) {
             tooltip.addLine(new PositionComponent(accessor.getEntity().position()));
-        }
-    }
-
-    @Override
-    public void appendData(IDataWriter data, IServerAccessor<Entity> accessor, IPluginConfig config) {
-        if (accessor.getTarget() instanceof LivingEntity living) {
-            if (config.getBoolean(Options.ENTITY_ABSORPTION) && living.getAbsorptionAmount() > 0) {
-                data.raw().putFloat("abs", living.getAbsorptionAmount());
-            }
         }
     }
 
