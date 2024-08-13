@@ -19,10 +19,9 @@ import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.buildconst.Tl;
-import mcp.mobius.waila.config.commenter.CommenterFactories;
-import mcp.mobius.waila.config.commenter.LanguageCommenter;
 import mcp.mobius.waila.mcless.config.ConfigIo;
 import mcp.mobius.waila.util.Log;
+import net.minecraft.locale.Language;
 import net.minecraft.resources.ResourceLocation;
 
 @SuppressWarnings("unchecked")
@@ -34,48 +33,54 @@ public enum PluginConfig implements IPluginConfig {
 
     private static final Path PATH = Waila.CONFIG_DIR.resolve(WailaConstants.NAMESPACE + "/" + WailaConstants.WAILA + "_plugins.json5");
 
-    private static final Supplier<IJsonConfig.Commenter> COMMENTER = () -> new LanguageCommenter((translation, p) -> {
-        if (p.size() < 2) return null;
+    private static final Supplier<IJsonConfig.Commenter> COMMENTER = () -> {
+        var language = Language.getInstance();
 
-        var namespace = p.get(0);
-        var path = p.get(1);
-        var entry = getEntry(ResourceLocation.fromNamespaceAndPath(namespace, path));
-        var type = entry.getType();
+        return p -> {
+            if (p.size() < 2) return null;
 
-        var sb = new StringBuilder();
+            var namespace = p.get(0);
+            var path = p.get(1);
+            var entry = getEntry(ResourceLocation.fromNamespaceAndPath(namespace, path));
+            var type = entry.getType();
 
-        var tlKey = Tl.Config.PLUGIN_ + namespace + "." + path;
-        sb.append(translation.getOrDefault(tlKey, tlKey));
+            var sb = new StringBuilder();
 
-        var descKey = tlKey + "_desc";
-        if (translation.containsKey(descKey)) sb.append('\n').append(translation.get(descKey));
+            var tlKey = Tl.Config.PLUGIN_ + namespace + "." + path;
+            sb.append(language.getOrDefault(tlKey));
 
-        if (type.equals(ConfigEntry.PATH)) {
-            sb.append("\nCustom config, open the following file\n").append(entry.getDefaultValue());
-            return sb.toString();
-        }
+            var descKey = tlKey + "_desc";
+            if (language.has(descKey)) sb.append('\n').append(language.getOrDefault(descKey));
 
-        if (entry.isServerRequired()) {
-            sb.append("\nRequire server to have WTHIT installed, if not, will be locked to ").append(entry.getClientOnlyValue());
-        } else if (entry.isMerged()) {
-            sb.append("\nThis value will get merged with the value from the server");
-        } else if (entry.isSynced()) {
-            sb.append("\nThis value will get overridden by the server");
-        }
-
-        sb.append("\nDefault value: ").append(entry.getDefaultValue().toString());
-        if (type.equals(ConfigEntry.ENUM)) {
-            sb.append("\nAvailable values: ");
-            var enums = ((Enum<?>) entry.getDefaultValue()).getDeclaringClass().getEnumConstants();
-            sb.append(enums[0].name());
-            for (var i = 1; i < enums.length; i++) {
-                var anEnum = enums[i];
-                sb.append(", ").append(anEnum.name());
+            if (type.equals(ConfigEntry.PATH)) {
+                sb.append("\n").append(language.getOrDefault(Tl.Json5.Config.Plugin.CUSTOM_FILE));
+                sb.append("\n").append(entry.getDefaultValue());
+                return sb.toString();
             }
-        }
 
-        return sb.toString();
-    });
+            if (entry.isServerRequired()) {
+                sb.append("\n").append(language.getOrDefault(Tl.Json5.Config.Plugin.SERVER_REQUIRED).formatted(entry.getClientOnlyValue()));
+            } else if (entry.isMerged()) {
+                sb.append("\n").append(language.getOrDefault(Tl.Json5.Config.Plugin.MERGED));
+            } else if (entry.isSynced()) {
+                sb.append("\n").append(language.getOrDefault(Tl.Json5.Config.Plugin.SYNCED));
+            }
+
+            sb.append("\n").append(language.getOrDefault(Tl.Json5.Config.DEFAULT_VALUE).formatted(entry.getDefaultValue()));
+            if (type.equals(ConfigEntry.ENUM)) {
+                var valuesSb = new StringBuilder();
+                var enums = ((Enum<?>) entry.getDefaultValue()).getDeclaringClass().getEnumConstants();
+                valuesSb.append(enums[0].name());
+                for (var i = 1; i < enums.length; i++) {
+                    var anEnum = enums[i];
+                    valuesSb.append(", ").append(anEnum.name());
+                }
+                sb.append("\n").append(language.getOrDefault(Tl.Json5.Config.AVAILABLE_VALUES).formatted(valuesSb));
+            }
+
+            return sb.toString();
+        };
+    };
 
     private static final ConfigIo<Map<String, Map<String, JsonElement>>> IO = new ConfigIo<>(
         LOG::warn, LOG::error,

@@ -21,8 +21,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IJsonConfig;
-import mcp.mobius.waila.config.commenter.AnnotationCommenter;
-import mcp.mobius.waila.config.commenter.CommenterFactories;
 import mcp.mobius.waila.mcless.config.ConfigIo;
 import mcp.mobius.waila.util.CachedSupplier;
 import mcp.mobius.waila.util.Log;
@@ -53,6 +51,10 @@ public class JsonConfig<T> implements IJsonConfig<T> {
         this.getter = new CachedSupplier<>(() -> io.read(this.path));
 
         INSTANCES.add((JsonConfig<Object>) this);
+    }
+
+    public static void reloadAllInstances() {
+        INSTANCES.forEach(it -> it.write(it.get(), true));
     }
 
     private void write(T t, Path path, boolean invalidate) {

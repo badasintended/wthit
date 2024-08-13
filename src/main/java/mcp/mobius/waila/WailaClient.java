@@ -59,6 +59,8 @@ public abstract class WailaClient {
     }
 
     protected static void onClientTick() {
+        Waila.onAnyTick();
+
         var client = Minecraft.getInstance();
         var config = Waila.CONFIG.get();
 

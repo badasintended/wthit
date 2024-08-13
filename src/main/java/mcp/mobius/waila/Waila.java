@@ -8,6 +8,8 @@ import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.__internal__.IHarvestService;
 import mcp.mobius.waila.config.BlacklistConfig;
 import mcp.mobius.waila.config.DebugConfig;
+import mcp.mobius.waila.config.JsonConfig;
+import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.gui.hud.theme.ThemeDefinition;
 import mcp.mobius.waila.plugin.PluginSide;
@@ -62,8 +64,18 @@ public abstract class Waila {
         .json5()
         .build();
 
+    private static volatile boolean firstTicked = false;
+
     public static ResourceLocation id(String path) {
         return ResourceLocation.fromNamespaceAndPath(WailaConstants.NAMESPACE, path);
+    }
+
+    static void onAnyTick() {
+        if (!firstTicked) {
+            firstTicked = true;
+            JsonConfig.reloadAllInstances();
+            PluginConfig.write();
+        }
     }
 
     protected static void onServerStopped() {
