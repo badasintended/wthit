@@ -40,6 +40,8 @@
 
 
 
+
+
   "tooltip.waila.instrument.harp"                              : "ハープ",
   "tooltip.waila.instrument.basedrum"                          : "バスドラム",
   "tooltip.waila.instrument.snare"                             : "スネアドラム",
@@ -103,9 +105,19 @@
 
 
 
+
+
+
+
+
+
+
+
+
   "command.waila.server_dump_success"                          : "サーバーは正常にダンプされました。ファイル場所: %s",
 
   "command.waila.client_dump_success"                          : "クライアントは正常にダンプされました。ファイル場所: %s",
+
 
 
 
@@ -267,7 +279,6 @@
   "config.waila.plugin_minecraft.player_head.name"             : "プレイヤー名の表示",
   "config.waila.plugin_minecraft.level"                        : "レベル",
   "config.waila.plugin_minecraft.level.composter"              : "堆肥レベルの表示",
-  "config.waila.plugin_minecraft.level.honey"                  : "蜜レベルの表示",
   "config.waila.plugin_minecraft.note_block"                   : "音符ブロック",
   "config.waila.plugin_minecraft.note_block.type"              : "楽器と音符の表示",
   "config.waila.plugin_minecraft.note_block.note"              : "音符の表示モード",
@@ -317,6 +328,10 @@
 
 
 
+
+
+
+
   "config.waila.plugin_waila"                                  : "Wailaコア",
   "config.waila.plugin_waila.show_mod_name"                    : "mod名の表示",
 
@@ -325,6 +340,11 @@
   "config.waila.plugin_waila.show_fluids"                      : "流体の表示",
   "config.waila.plugin_waila.show_fluids_desc"                 : "流体の表示を試してみる",
   "config.waila.plugin_waila.show_entities"                    : "エンティティの表示"
+
+
+
+
+
 
 
 
