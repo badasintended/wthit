@@ -7,7 +7,6 @@ import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.function.Supplier;
 
 import com.google.gson.JsonDeserializationContext;
@@ -22,8 +21,8 @@ import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.buildconst.Tl;
-import mcp.mobius.waila.config.commenter.LanguageCommenter;
 import mcp.mobius.waila.gui.hud.theme.ThemeDefinition;
+import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
@@ -40,8 +39,9 @@ public class WailaConfig implements IWailaConfig {
 
     public static final Supplier<IJsonConfig.Commenter> COMMENTER = () -> {
         var defaultValue = new WailaConfig();
+        var language = Language.getInstance();
 
-        return new LanguageCommenter((translation, path) -> {
+        return path -> {
             if (path.isEmpty()) return null;
 
             AnnotatedElement element = null;
@@ -68,28 +68,31 @@ public class WailaConfig implements IWailaConfig {
 
             var tlKey = element.getAnnotation(T.class);
             if (tlKey != null) {
-                sb.append(Objects.requireNonNull(translation.get(tlKey.value())));
+                sb.append(language.getOrDefault(tlKey.value()));
 
                 var descKey = tlKey.value() + "_desc";
-                if (translation.containsKey(descKey)) sb.append('\n').append(translation.get(descKey));
+                if (language.has(descKey)) sb.append('\n').append(language.getOrDefault(descKey));
 
                 sb.append('\n');
             }
 
             if (value instanceof Enum<?> e) {
-                sb.append("Default value: ").append(e.name()).append("\nAvailable values: ");
+                sb.append(language.getOrDefault(Tl.Json5.Config.DEFAULT_VALUE).formatted(e.name()));
+
+                var valuesSb = new StringBuilder();
                 var enums = e.getDeclaringClass().getEnumConstants();
-                sb.append(enums[0].name());
+                valuesSb.append(enums[0].name());
                 for (var i = 1; i < enums.length; i++) {
                     var anEnum = enums[i];
-                    sb.append(", ").append(anEnum.name());
+                    valuesSb.append(", ").append(anEnum.name());
                 }
+                sb.append("\n").append(language.getOrDefault(Tl.Json5.Config.AVAILABLE_VALUES).formatted(valuesSb));
             } else if (!(value instanceof Map<?, ?> || value instanceof Collection<?>)) {
-                sb.append("Default value: ").append(value);
+                sb.append(language.getOrDefault(Tl.Json5.Config.DEFAULT_VALUE).formatted(value));
             }
 
             return sb.toString();
-        });
+        };
     };
 
     private final General general = new General();

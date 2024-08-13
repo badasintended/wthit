@@ -197,7 +197,7 @@ public abstract class PluginLoader {
         Registrar.get().lock();
         PluginConfig.reload();
 
-        JsonConfig.INSTANCES.forEach(it -> it.write(it.get(), true));
+        JsonConfig.reloadAllInstances();
     }
 
     private void initialize(PluginInfo info) {
