@@ -22,6 +22,8 @@
 
 
 
+
+
   "tooltip.waila.horse.jump.key"                               : "跳躍",
   "tooltip.waila.horse.jump.value"                             : "%s 方格高",
   "tooltip.waila.horse.speed.key"                              : "速度",
@@ -98,14 +100,24 @@
 
 
 
+
   "gui.waila.credits"                                          : "銘謝名單",
   "gui.waila.credits.original_mod_by"                          : "原始模組《WAILA》作者",
   "gui.waila.credits.authors"                                  : "作者",
   "gui.waila.credits.contributors"                             : "貢獻者",
 
+
+
+
+
+
+
+
+
   "command.waila.server_dump_success"                          : "成功轉儲伺服器端組態至 %s",
 
   "command.waila.client_dump_success"                          : "成功轉儲用戶端組態至 %s",
+
 
 
 
@@ -267,7 +279,6 @@
   "config.waila.plugin_minecraft.player_head.name"             : "顯示玩家名稱",
   "config.waila.plugin_minecraft.level"                        : "等級",
   "config.waila.plugin_minecraft.level.composter"              : "顯示堆肥桶等級",
-  "config.waila.plugin_minecraft.level.honey"                  : "顯示蜂蜜等級",
   "config.waila.plugin_minecraft.note_block"                   : "音階盒",
   "config.waila.plugin_minecraft.note_block.type"              : "顯示樂器和音符",
   "config.waila.plugin_minecraft.note_block.note"              : "音階盒顯示模式",
@@ -317,6 +328,10 @@
 
 
 
+
+
+
+
   "config.waila.plugin_waila"                                  : "Waila 核心",
   "config.waila.plugin_waila.show_mod_name"                    : "顯示模組名稱",
 
@@ -326,6 +341,11 @@
   "config.waila.plugin_waila.show_fluids_desc"                 : "嘗試顯示流體",
   "config.waila.plugin_waila.show_entities"                    : "顯示實體",
   "config.waila.plugin_waila.show_icon"                        : "顯示圖示"
+
+
+
+
+
 
 
 

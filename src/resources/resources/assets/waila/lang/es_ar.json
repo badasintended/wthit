@@ -40,6 +40,8 @@
 
 
 
+
+
   "tooltip.waila.instrument.harp"                              : "Arpa",
   "tooltip.waila.instrument.basedrum"                          : "Bombo",
   "tooltip.waila.instrument.snare"                             : "Caja",
@@ -103,9 +105,19 @@
 
 
 
+
+
+
+
+
+
+
+
+
   "command.waila.server_dump_success"                          : "Se ha volcado el servidor con éxito a %s",
 
   "command.waila.client_dump_success"                          : "Se ha volcado el cliente con éxito a %s",
+
 
 
 
@@ -267,7 +279,6 @@
   "config.waila.plugin_minecraft.player_head.name"             : "Ver nombre de jugador",
   "config.waila.plugin_minecraft.level"                        : "Niveles",
   "config.waila.plugin_minecraft.level.composter"              : "Ver niveles de composta",
-  "config.waila.plugin_minecraft.level.honey"                  : "Ver niveles de miel",
   "config.waila.plugin_minecraft.note_block"                   : "Bloque musical",
   "config.waila.plugin_minecraft.note_block.type"              : "Ver instrumento y nota",
   "config.waila.plugin_minecraft.note_block.note"              : "Modo de visualización de nota",
@@ -317,6 +328,10 @@
 
 
 
+
+
+
+
   "config.waila.plugin_waila"                                  : "Waila Base",
   "config.waila.plugin_waila.show_mod_name"                    : "Ver nombre de mods",
 
@@ -325,6 +340,11 @@
   "config.waila.plugin_waila.show_fluids"                      : "Ver fluídos",
   "config.waila.plugin_waila.show_fluids_desc"                 : "Trata de mostrar el nombre de fluídos",
   "config.waila.plugin_waila.show_entities"                    : "Ver entidades"
+
+
+
+
+
 
 
 

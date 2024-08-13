@@ -106,6 +106,14 @@
   "gui.waila.credits.authors"                                  : "Tác Giả",
   "gui.waila.credits.contributors"                             : "Người Đóng Góp",
 
+
+
+
+
+
+
+
+
   "command.waila.server_dump_success"                          : "Đã xuất bản thành công máy chủ chuyên dụng ra %s",
   "command.waila.local_dump_success"                           : "Đã xuất bản thành công máy chủ địa phương ra %s",
   "command.waila.client_dump_success"                          : "Đã xuất bản thành công máy khách ra %s",
