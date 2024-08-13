@@ -22,6 +22,8 @@
   "tooltip.waila.timer.grow"                                   : "Växttimer",
   "tooltip.waila.timer.breed"                                  : "Väntetid för parning",
 
+
+
   "tooltip.waila.horse.jump.key"                               : "Hoppstyrka",
   "tooltip.waila.horse.jump.value"                             : "%s block",
   "tooltip.waila.horse.speed.key"                              : "Hastighet",
@@ -98,10 +100,19 @@
 
 
 
+
   "gui.waila.credits"                                          : "Erkännande",
   "gui.waila.credits.original_mod_by"                          : "Originalmodden \"WAILA\" av",
   "gui.waila.credits.authors"                                  : "Författare",
   "gui.waila.credits.contributors"                             : "Bidragsgivare",
+
+
+
+
+
+
+
+
 
   "command.waila.server_dump_success"                          : "Dedikerad server dumpades till %s",
   "command.waila.local_dump_success"                           : "Lokal server dumpades till %s",
@@ -132,6 +143,7 @@
   "command.waila.config.set.parse_fail"                        : "Misslyckades att tolka värde: %s",
 
   "config.waila.search_prompt"                                 : "Sök...",
+
   "config.waila.true"                                          : "Sant",
   "config.waila.false"                                         : "Falskt",
   "config.waila.preview_prompt"                                : "Håll ned §5F1§r för att visa inforuta",
@@ -267,7 +279,6 @@
   "config.waila.plugin_minecraft.player_head.name"             : "Visa spelarens namn",
   "config.waila.plugin_minecraft.level"                        : "Nivå",
   "config.waila.plugin_minecraft.level.composter"              : "Visa kompostnivå",
-  "config.waila.plugin_minecraft.level.honey"                  : "Visa honungsnivå",
   "config.waila.plugin_minecraft.note_block"                   : "Notblock",
   "config.waila.plugin_minecraft.note_block.type"              : "Visa instrument och tonart",
   "config.waila.plugin_minecraft.note_block.note"              : "Visningsläge för tonart",
@@ -298,6 +309,10 @@
   "config.waila.plugin_minecraft.entity.long_health_max_desc"  : "Det maximala antalet ikoner för hälsopoäng att visa innan sifferformat används",
   "config.waila.plugin_minecraft.entity.long_armor_max"        : "Max. antal rustningspoäng att visa",
   "config.waila.plugin_minecraft.entity.long_armor_max_desc"   : "Det maximala antalet ikoner för rustningspoäng som visas innan sifferformat används",
+
+
+
+
 
   "config.waila.plugin_minecraft.horse.jump_height"            : "Visa hästens hoppstyrka",
   "config.waila.plugin_minecraft.horse.speed"                  : "Visa hästens hastighet",
@@ -338,6 +353,7 @@
 
 
 
+
   "config.waila.plugin_wailax"                                 : "Waila Extra",
   "config.waila.plugin_wailax.energy"                          : "Energi",
   "config.waila.plugin_wailax.energy.enabled_block"            : "Visa blockenergi",
@@ -351,8 +367,12 @@
   "config.waila.plugin_wailax.item.enabled_block"              : "Visa blockföremålsinnehåll",
   "config.waila.plugin_wailax.item.enabled_entity"             : "Visa entitetföremålsinnehåll",
   "config.waila.plugin_wailax.item.nbt"                        : "Synka NBT-data",
-  "config.waila.plugin_wailax.item.max_height"                 : "Max. höjd",
 
+
+
+
+
+  "config.waila.plugin_wailax.item.max_height"                 : "Max. höjd",
 
   "config.waila.plugin_wailax.item.blacklist"                  : "Svartlista för föremålsinnehåll",
   "config.waila.plugin_wailax.fluid"                           : "Vätska",

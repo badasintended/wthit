@@ -23,7 +23,7 @@
   "tooltip.waila.timer.breed"                                  : "Можно размножить через",
 
   "tooltip.waila.bee.hive"                                     : "Улей",
-  
+
   "tooltip.waila.horse.jump.key"                               : "Сила прыжка",
   "tooltip.waila.horse.jump.value"                             : "%s блока(ов)",
   "tooltip.waila.horse.speed.key"                              : "Скорость",
@@ -105,6 +105,14 @@
   "gui.waila.credits.original_mod_by"                          : "Оригинальный \"WAILA\" от",
   "gui.waila.credits.authors"                                  : "Авторы",
   "gui.waila.credits.contributors"                             : "Участники",
+
+
+
+
+
+
+
+
 
   "command.waila.server_dump_success"                          : "Выделенный сервер успешно сброшен до %s",
   "command.waila.local_dump_success"                           : "Локальный сервер успешно сброшен до %s",
