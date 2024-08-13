@@ -1,4 +1,4 @@
-package mcp.mobius.waila.config.commenter;
+package mcp.mobius.waila.config;
 
 import java.util.List;
 import java.util.function.Function;

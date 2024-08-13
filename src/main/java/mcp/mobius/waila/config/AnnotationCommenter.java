@@ -1,4 +1,4 @@
-package mcp.mobius.waila.config.commenter;
+package mcp.mobius.waila.config;
 
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;

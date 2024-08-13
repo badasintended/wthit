@@ -106,6 +106,14 @@
   "gui.waila.credits.authors"                                  : "Authors",
   "gui.waila.credits.contributors"                             : "Contributors",
 
+  "json5.waila.config.default_value"                           : "Default value: [%s]",
+  "json5.waila.config.available_values"                        : "Available values: [%s]",
+
+  "json5.waila.config.plugin.custom_file"                      : "Custom config, open the following file",
+  "json5.waila.config.plugin.server_required"                  : "Require server to have WTHIT installed, if not, will be locked to [%s]",
+  "json5.waila.config.plugin.merged"                           : "This value will get merged with the value from the server",
+  "json5.waila.config.plugin.synced"                           : "This value will get overridden by the server",
+
   "command.waila.server_dump_success"                          : "Successfully dumped dedicated server to %s",
   "command.waila.local_dump_success"                           : "Successfully dumped local server to %s",
   "command.waila.client_dump_success"                          : "Successfully dumped client to %s",

@@ -27,6 +27,7 @@ public final class ModInfo implements IModInfo {
         CONTAINER_CACHE.put(info.getId(), info);
     }
 
+    @SuppressWarnings("deprecation")
     public static ModInfo get(String namespace) {
         return CONTAINER_CACHE.computeIfAbsent(namespace, s -> ICommonService.INSTANCE.createModInfo(s)
             .or(() -> ICommonService.INSTANCE.createModInfo(s.replace('_', '-')))
