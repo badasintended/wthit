@@ -9,7 +9,6 @@ import mcp.mobius.waila.access.DataWriter;
 import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.ITooltipComponent;
-import mcp.mobius.waila.api.TooltipPosition;
 import mcp.mobius.waila.api.component.EmptyComponent;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.network.play.c2s.BlockDataRequestPlayC2SPacket;

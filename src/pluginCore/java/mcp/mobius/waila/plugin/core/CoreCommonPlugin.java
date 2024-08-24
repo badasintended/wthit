@@ -11,16 +11,16 @@ public class CoreCommonPlugin implements IWailaCommonPlugin {
 
     @Override
     public void register(ICommonRegistrar registrar) {
-        registrar.addConfig(WailaConstants.CONFIG_SHOW_BLOCK, true);
-        registrar.addConfig(WailaConstants.CONFIG_SHOW_FLUID, false);
-        registrar.addConfig(WailaConstants.CONFIG_SHOW_ENTITY, true);
-        registrar.addConfig(WailaConstants.CONFIG_SHOW_ICON, true);
-        registrar.addConfig(WailaConstants.CONFIG_ICON_POSITION, Align.Y.MIDDLE);
-        registrar.addConfig(WailaConstants.CONFIG_SHOW_MOD_NAME, true);
-        registrar.addConfig(WailaConstants.CONFIG_SHOW_ITEM_MOD_NAME, true);
-        registrar.addConfig(WailaConstants.CONFIG_SHOW_REGISTRY, false);
+        registrar.localConfig(WailaConstants.CONFIG_SHOW_BLOCK, true);
+        registrar.localConfig(WailaConstants.CONFIG_SHOW_FLUID, false);
+        registrar.localConfig(WailaConstants.CONFIG_SHOW_ENTITY, true);
+        registrar.localConfig(WailaConstants.CONFIG_SHOW_ICON, true);
+        registrar.localConfig(WailaConstants.CONFIG_ICON_POSITION, Align.Y.MIDDLE);
+        registrar.localConfig(WailaConstants.CONFIG_SHOW_MOD_NAME, true);
+        registrar.localConfig(WailaConstants.CONFIG_SHOW_ITEM_MOD_NAME, true);
+        registrar.localConfig(WailaConstants.CONFIG_SHOW_REGISTRY, false);
 
-        registrar.addBlockData(NameableBlockDataProvider.INSTANCE, Nameable.class);
+        registrar.blockData(NameableBlockDataProvider.INSTANCE, Nameable.class);
     }
 
 }

@@ -6,7 +6,6 @@ import mcp.mobius.waila.api.IClientRegistrar;
 import mcp.mobius.waila.api.ICommonRegistrar;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITooltip;
-import mcp.mobius.waila.api.TooltipPosition;
 import mcp.mobius.waila.api.WailaHelper;
 import mcp.mobius.waila.api.component.PairComponent;
 import mcp.mobius.waila.api.component.SpriteBarComponent;
@@ -29,12 +28,12 @@ public class FluidProvider extends DataProvider<FluidData, FluidDataImpl> {
 
     @Override
     protected void registerAdditions(ICommonRegistrar registrar, int priority) {
-        registrar.addConfig(FluidData.CONFIG_DISPLAY_UNIT, FluidData.Unit.MILLIBUCKETS);
+        registrar.localConfig(FluidData.CONFIG_DISPLAY_UNIT, FluidData.Unit.MILLIBUCKETS);
     }
 
     @Override
     protected void registerAdditions(IClientRegistrar registrar, int priority) {
-        registrar.addComponent(new CauldronProvider(), TooltipPosition.BODY, Block.class, priority);
+        registrar.body(new CauldronProvider(), Block.class, priority);
     }
 
     @Override

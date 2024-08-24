@@ -39,7 +39,7 @@ public interface IBlockComponentProvider {
      * @return {@code null} if this method doesn't redirect to anything,
      * any result from one of {@link ITargetRedirector}'s methods otherwise
      *
-     * @see IClientRegistrar#addRedirect(IBlockComponentProvider, Class)
+     * @see IClientRegistrar#redirect(IBlockComponentProvider, Class)
      */
     @Nullable
     @ApiStatus.Experimental
@@ -55,7 +55,7 @@ public interface IBlockComponentProvider {
      *                 Note that {@link IBlockAccessor#getData()} will always be empty at this time
      * @param config   current plugin configuration
      *
-     * @see IClientRegistrar#addDataContext(IBlockComponentProvider, Class)
+     * @see IClientRegistrar#dataContext(IBlockComponentProvider, Class)
      */
     default void appendDataContext(IDataWriter ctx, IBlockAccessor accessor, IPluginConfig config) {
     }
@@ -73,7 +73,7 @@ public interface IBlockComponentProvider {
      *
      * @return {@code null} if override is not required, a {@link BlockState} otherwise
      *
-     * @see IClientRegistrar#addOverride(IBlockComponentProvider, Class, int)
+     * @see IClientRegistrar#override(IBlockComponentProvider, Class, int)
      * @see #EMPTY_BLOCK_STATE
      */
     @Nullable
@@ -94,7 +94,7 @@ public interface IBlockComponentProvider {
      *
      * @return the component to render or {@code null} if this provider doesn't decide it
      *
-     * @see IClientRegistrar#addIcon(IEntityComponentProvider, Class, int)
+     * @see IClientRegistrar#icon(IEntityComponentProvider, Class, int)
      */
     @Nullable
     default ITooltipComponent getIcon(IBlockAccessor accessor, IPluginConfig config) {
@@ -114,7 +114,7 @@ public interface IBlockComponentProvider {
      * @param accessor contains most of the relevant information about the current environment
      * @param config   current plugin configuration
      *
-     * @see IClientRegistrar#addComponent(IBlockComponentProvider, TooltipPosition, Class, int)
+     * @see IClientRegistrar#head(IBlockComponentProvider, Class, int)
      */
     default void appendHead(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
     }
@@ -132,7 +132,7 @@ public interface IBlockComponentProvider {
      * @param accessor contains most of the relevant information about the current environment
      * @param config   current plugin configuration
      *
-     * @see IClientRegistrar#addComponent(IBlockComponentProvider, TooltipPosition, Class, int)
+     * @see IClientRegistrar#body(IBlockComponentProvider, Class, int)
      */
     default void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
     }
@@ -150,7 +150,7 @@ public interface IBlockComponentProvider {
      * @param accessor contains most of the relevant information about the current environment
      * @param config   current plugin configuration
      *
-     * @see IClientRegistrar#addComponent(IBlockComponentProvider, TooltipPosition, Class, int)
+     * @see IClientRegistrar#tail(IBlockComponentProvider, Class, int)
      */
     default void appendTail(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
     }

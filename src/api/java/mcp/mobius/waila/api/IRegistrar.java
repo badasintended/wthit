@@ -3,7 +3,6 @@ package mcp.mobius.waila.api;
 import java.nio.file.Path;
 
 import mcp.mobius.waila.api.__internal__.ApiSide;
-import mcp.mobius.waila.api.__internal__.IHarvestService;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.ResourceLocation;
@@ -23,240 +22,254 @@ public interface IRegistrar extends ICommonRegistrar, IClientRegistrar {
 
     int DEFAULT_PRIORITY = WailaConstants.DEFAULT_PRIORITY;
 
-    @Override
-    void addConfig(ResourceLocation key, boolean defaultValue);
+    default void addConfig(ResourceLocation key, boolean defaultValue) {
+        localConfig(key, defaultValue);
+    }
 
-    @Override
-    void addConfig(ResourceLocation key, int defaultValue, IntFormat format);
+    default void addConfig(ResourceLocation key, int defaultValue, IntFormat format) {
+        localConfig(key, defaultValue, format);
+    }
 
-    @Override
     default void addConfig(ResourceLocation key, int defaultValue) {
         addConfig(key, defaultValue, IntFormat.DECIMAL);
     }
 
-    @Override
-    void addConfig(ResourceLocation key, double defaultValue);
+    default void addConfig(ResourceLocation key, double defaultValue) {
+        localConfig(key, defaultValue);
+    }
 
-    @Override
-    void addConfig(ResourceLocation key, String defaultValue);
+    default void addConfig(ResourceLocation key, String defaultValue) {
+        localConfig(key, defaultValue);
+    }
 
-    @Override
-    <T extends Enum<T>> void addConfig(ResourceLocation key, T defaultValue);
+    default <T extends Enum<T>> void addConfig(ResourceLocation key, T defaultValue) {
+        localConfig(key, defaultValue);
+    }
 
-    @Override
-    void addConfig(ResourceLocation key, Path path);
+    default void addConfig(ResourceLocation key, Path path) {
+        externalConfig(key, path);
+    }
 
-    @Override
-    void addFeatureConfig(ResourceLocation key, boolean clientOnly);
+    default void addFeatureConfig(ResourceLocation key, boolean clientOnly) {
+        featureConfig(key, clientOnly);
+    }
 
-    @Override
-    void addSyncedConfig(ResourceLocation key, boolean defaultValue, boolean clientOnlyValue);
+    default void addSyncedConfig(ResourceLocation key, boolean defaultValue, boolean clientOnlyValue) {
+        syncedConfig(key, defaultValue, clientOnlyValue);
+    }
 
-    @Override
-    void addSyncedConfig(ResourceLocation key, int defaultValue, int clientOnlyValue, IntFormat format);
+    default void addSyncedConfig(ResourceLocation key, int defaultValue, int clientOnlyValue, IntFormat format) {
+        syncedConfig(key, defaultValue, clientOnlyValue, format);
+    }
 
-    @Override
     default void addSyncedConfig(ResourceLocation key, int defaultValue, int clientOnlyValue) {
         addSyncedConfig(key, defaultValue, clientOnlyValue, IntFormat.DECIMAL);
     }
 
-    @Override
-    void addSyncedConfig(ResourceLocation key, double defaultValue, double clientOnlyValue);
+    default void addSyncedConfig(ResourceLocation key, double defaultValue, double clientOnlyValue) {
+        syncedConfig(key, defaultValue, clientOnlyValue);
+    }
 
-    @Override
-    void addSyncedConfig(ResourceLocation key, String defaultValue, String clientOnlyValue);
+    default void addSyncedConfig(ResourceLocation key, String defaultValue, String clientOnlyValue) {
+        syncedConfig(key, defaultValue, clientOnlyValue);
+    }
 
-    @Override
-    <T extends Enum<T>> void addSyncedConfig(ResourceLocation key, T defaultValue, T clientOnlyValue);
+    default <T extends Enum<T>> void addSyncedConfig(ResourceLocation key, T defaultValue, T clientOnlyValue) {
+        syncedConfig(key, defaultValue, clientOnlyValue);
+    }
 
-    @Override
-    void addConfigAlias(ResourceLocation actual, ResourceLocation... aliases);
+    default void addConfigAlias(ResourceLocation actual, ResourceLocation... aliases) {
+        configAlias(actual, aliases);
+    }
 
-    @Override
-    void addEventListener(IEventListener listener, int priority);
+    default void addEventListener(IEventListener listener, int priority) {
+        eventListener(listener, priority);
+    }
 
-    @Override
     default void addEventListener(IEventListener listener) {
         addEventListener(listener, DEFAULT_PRIORITY);
     }
 
-    @Override
-    void addBlacklist(int priority, Block... blocks);
+    default void addBlacklist(int priority, Block... blocks) {
+        blacklist(priority, blocks);
+    }
 
-    @Override
-    void addBlacklist(int priority, BlockEntityType<?>... blockEntityTypes);
+    default void addBlacklist(int priority, BlockEntityType<?>... blockEntityTypes) {
+        blacklist(priority, blockEntityTypes);
+    }
 
-    @Override
     default void addBlacklist(Block... blocks) {
         addBlacklist(DEFAULT_PRIORITY, blocks);
     }
 
-    @Override
     default void addBlacklist(BlockEntityType<?>... blockEntityTypes) {
         addBlacklist(DEFAULT_PRIORITY, blockEntityTypes);
     }
 
-    @Override
     void removeBlacklist(int priority, Block... blocks);
 
-    @Override
     void removeBlacklist(int priority, BlockEntityType<?>... blockEntityTypes);
 
-    @Override
     default void removeBlacklist(Block... blocks) {
         removeBlacklist(DEFAULT_PRIORITY, blocks);
     }
 
-    @Override
     default void removeBlacklist(BlockEntityType<?>... blockEntityTypes) {
         removeBlacklist(DEFAULT_PRIORITY, blockEntityTypes);
     }
 
-    @Override
     @ApiStatus.Experimental
-    <T> void addRedirect(IBlockComponentProvider provider, Class<T> clazz, int priority);
+    default <T> void addRedirect(IBlockComponentProvider provider, Class<T> clazz, int priority) {
+        redirect(provider, clazz, priority);
+    }
 
-    @Override
     @ApiStatus.Experimental
     default <T> void addRedirect(IBlockComponentProvider provider, Class<T> clazz) {
         addRedirect(provider, clazz, DEFAULT_PRIORITY);
     }
 
-    @Override
     @ApiSide.ClientOnly
-    <T> void addOverride(IBlockComponentProvider provider, Class<T> clazz, int priority);
+    default <T> void addOverride(IBlockComponentProvider provider, Class<T> clazz, int priority) {
+        override(provider, clazz, priority);
+    }
 
-    @Override
     @ApiSide.ClientOnly
     default <T> void addOverride(IBlockComponentProvider provider, Class<T> clazz) {
         addOverride(provider, clazz, DEFAULT_PRIORITY);
     }
 
-    @Override
     @ApiSide.ClientOnly
-    <T> void addIcon(IBlockComponentProvider provider, Class<T> clazz, int priority);
+    default <T> void addIcon(IBlockComponentProvider provider, Class<T> clazz, int priority) {
+        icon(provider, clazz, priority);
+    }
 
-    @Override
     @ApiSide.ClientOnly
     default <T> void addIcon(IBlockComponentProvider provider, Class<T> clazz) {
         addIcon(provider, clazz, DEFAULT_PRIORITY);
     }
 
-    @Override
     @ApiSide.ClientOnly
-    <T> void addComponent(IBlockComponentProvider provider, TooltipPosition position, Class<T> clazz, int priority);
+    default <T> void addComponent(IBlockComponentProvider provider, TooltipPosition position, Class<T> clazz, int priority) {
+        switch (position) {
+            case HEAD -> head(provider, clazz, priority);
+            case BODY -> body(provider, clazz, priority);
+            case TAIL -> tail(provider, clazz, priority);
+        }
+    }
 
-    @Override
     @ApiSide.ClientOnly
     default <T> void addComponent(IBlockComponentProvider provider, TooltipPosition position, Class<T> clazz) {
         addComponent(provider, position, clazz, DEFAULT_PRIORITY);
     }
 
-    @Override
-    <T> void addDataContext(IBlockComponentProvider provider, Class<T> clazz);
+    default <T> void addDataContext(IBlockComponentProvider provider, Class<T> clazz) {
+        dataContext(provider, clazz);
+    }
 
-    @Override
-    @ApiSide.ServerOnly
-    <T, BE extends BlockEntity> void addBlockData(IDataProvider<BE> provider, Class<T> clazz, int priority);
+    default <T, BE extends BlockEntity> void addBlockData(IDataProvider<BE> provider, Class<T> clazz, int priority) {
+        blockData(provider, clazz, priority);
+    }
 
-    @Override
     default <T, BE extends BlockEntity> void addBlockData(IDataProvider<BE> provider, Class<T> clazz) {
         addBlockData(provider, clazz, DEFAULT_PRIORITY);
     }
 
-    @Override
-    void addBlacklist(int priority, EntityType<?>... entityTypes);
+    default void addBlacklist(int priority, EntityType<?>... entityTypes) {
+        blacklist(priority, entityTypes);
+    }
 
-    @Override
     default void addBlacklist(EntityType<?>... entityTypes) {
         addBlacklist(DEFAULT_PRIORITY, entityTypes);
     }
 
-    @Override
     void removeBlacklist(int priority, EntityType<?>... entityTypes);
 
-    @Override
     default void removeBlacklist(EntityType<?>... entityTypes) {
         removeBlacklist(DEFAULT_PRIORITY, entityTypes);
     }
 
-    @Override
     @ApiStatus.Experimental
-    <T> void addRedirect(IEntityComponentProvider provider, Class<T> clazz, int priority);
+    default <T> void addRedirect(IEntityComponentProvider provider, Class<T> clazz, int priority) {
+        redirect(provider, clazz, priority);
+    }
 
-    @Override
     @ApiStatus.Experimental
     default <T> void addRedirect(IEntityComponentProvider provider, Class<T> clazz) {
         addRedirect(provider, clazz, DEFAULT_PRIORITY);
     }
 
-    @Override
     @ApiSide.ClientOnly
-    <T> void addOverride(IEntityComponentProvider provider, Class<T> clazz, int priority);
+    default <T> void addOverride(IEntityComponentProvider provider, Class<T> clazz, int priority) {
+        override(provider, clazz, priority);
+    }
 
-    @Override
     @ApiSide.ClientOnly
     default <T> void addOverride(IEntityComponentProvider provider, Class<T> clazz) {
         addOverride(provider, clazz, DEFAULT_PRIORITY);
     }
 
-    @Override
     @ApiSide.ClientOnly
-    <T> void addIcon(IEntityComponentProvider provider, Class<T> clazz, int priority);
+    default <T> void addIcon(IEntityComponentProvider provider, Class<T> clazz, int priority) {
+        icon(provider, clazz, priority);
+    }
 
-    @Override
     @ApiSide.ClientOnly
     default <T> void addIcon(IEntityComponentProvider provider, Class<T> clazz) {
         addIcon(provider, clazz, DEFAULT_PRIORITY);
     }
 
-    @Override
     @ApiSide.ClientOnly
-    <T> void addComponent(IEntityComponentProvider provider, TooltipPosition position, Class<T> clazz, int priority);
+    default <T> void addComponent(IEntityComponentProvider provider, TooltipPosition position, Class<T> clazz, int priority) {
+        switch (position) {
+            case HEAD -> head(provider, clazz, priority);
+            case BODY -> body(provider, clazz, priority);
+            case TAIL -> tail(provider, clazz, priority);
+        }
+    }
 
-    @Override
     @ApiSide.ClientOnly
     default <T> void addComponent(IEntityComponentProvider provider, TooltipPosition position, Class<T> clazz) {
         addComponent(provider, position, clazz, DEFAULT_PRIORITY);
     }
 
-    @Override
-    <T> void addDataContext(IEntityComponentProvider provider, Class<T> clazz);
+    default <T> void addDataContext(IEntityComponentProvider provider, Class<T> clazz) {
+        dataContext(provider, clazz);
+    }
 
-    @Override
-    @ApiSide.ServerOnly
-    <T, E extends Entity> void addEntityData(IDataProvider<E> provider, Class<T> clazz, int priority);
+    default <T, E extends Entity> void addEntityData(IDataProvider<E> provider, Class<T> clazz, int priority) {
+        entityData(provider, clazz, priority);
+    }
 
-    @Override
     default <T, E extends Entity> void addEntityData(IDataProvider<E> provider, Class<T> clazz) {
         addEntityData(provider, clazz, DEFAULT_PRIORITY);
     }
 
-    @Override
-    <D extends IData> void addDataType(IData.Type<D> type, StreamCodec<? super RegistryFriendlyByteBuf, ? extends D> codec);
+    default <D extends IData> void addDataType(IData.Type<D> type, StreamCodec<? super RegistryFriendlyByteBuf, ? extends D> codec) {
+        dataType(type, codec);
+    }
 
-    @Override
     @ApiSide.ClientOnly
     @ApiStatus.Experimental
-    <T extends ITheme> void addThemeType(ResourceLocation id, IThemeType<T> type);
+    default <T extends ITheme> void addThemeType(ResourceLocation id, IThemeType<T> type) {
+        themeType(id, type);
+    }
 
-    @Override
     @ApiSide.ClientOnly
     @ApiStatus.Experimental
-    void addRayCastVector(IRayCastVectorProvider provider, int priority);
+    default void addRayCastVector(IRayCastVectorProvider provider, int priority) {
+        rayCastVector(provider, priority);
+    }
 
-    @Override
     @ApiSide.ClientOnly
     @ApiStatus.Experimental
     default void addRayCastVector(IRayCastVectorProvider provider) {
         addRayCastVector(provider, DEFAULT_PRIORITY);
     }
 
-    @Override
     @ApiSide.ClientOnly
     @ApiStatus.Experimental
     default void addToolType(ResourceLocation id, IToolType toolType) {
-        IHarvestService.INSTANCE.addToolType(id, toolType);
+        toolType(id, toolType);
     }
 
     // -----------------------------------------------------------------------------------------------------------------------------------------------

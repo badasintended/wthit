@@ -26,13 +26,13 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
-import static mcp.mobius.waila.api.TooltipPosition.BODY;
-import static mcp.mobius.waila.api.TooltipPosition.HEAD;
-import static mcp.mobius.waila.api.TooltipPosition.TAIL;
 import static mcp.mobius.waila.gui.hud.ComponentHandler.gatherBlock;
 import static mcp.mobius.waila.gui.hud.ComponentHandler.gatherEntity;
 import static mcp.mobius.waila.gui.hud.ComponentHandler.requestBlockData;
 import static mcp.mobius.waila.gui.hud.ComponentHandler.requestEntityData;
+import static mcp.mobius.waila.gui.hud.TooltipPosition.BODY;
+import static mcp.mobius.waila.gui.hud.TooltipPosition.HEAD;
+import static mcp.mobius.waila.gui.hud.TooltipPosition.TAIL;
 
 public class TooltipHandler {
 

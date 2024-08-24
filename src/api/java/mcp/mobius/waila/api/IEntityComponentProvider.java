@@ -38,7 +38,7 @@ public interface IEntityComponentProvider {
      * @return {@code null} if this method doesn't redirect to anything,
      * any result from one of {@link ITargetRedirector}'s methods otherwise
      *
-     * @see IClientRegistrar#addRedirect(IEntityComponentProvider, Class)
+     * @see IClientRegistrar#redirect(IEntityComponentProvider, Class)
      */
     @Nullable
     @ApiStatus.Experimental
@@ -54,7 +54,7 @@ public interface IEntityComponentProvider {
      *                 Note that {@link IEntityAccessor#getData()} will always be empty at this time
      * @param config   current plugin configuration
      *
-     * @see IClientRegistrar#addDataContext(IEntityComponentProvider, Class)
+     * @see IClientRegistrar#dataContext(IEntityComponentProvider, Class)
      */
     default void appendDataContext(IDataWriter ctx, IEntityAccessor accessor, IPluginConfig config) {
     }
@@ -67,7 +67,7 @@ public interface IEntityComponentProvider {
      *
      * @return {@code null} if override is not required, an {@link Entity} otherwise
      *
-     * @see IClientRegistrar#addOverride(IEntityComponentProvider, Class, int)
+     * @see IClientRegistrar#override(IEntityComponentProvider, Class, int)
      * @see #EMPTY_ENTITY
      */
     @Nullable
@@ -88,7 +88,7 @@ public interface IEntityComponentProvider {
      *
      * @return the component to render or {@code null} if this provider doesn't decide it
      *
-     * @see IClientRegistrar#addIcon(IEntityComponentProvider, Class, int)
+     * @see IClientRegistrar#icon(IEntityComponentProvider, Class, int)
      */
     @Nullable
     default ITooltipComponent getIcon(IEntityAccessor accessor, IPluginConfig config) {
@@ -108,7 +108,7 @@ public interface IEntityComponentProvider {
      * @param accessor contains most of the relevant information about the current environment
      * @param config   current plugin configuration
      *
-     * @see IClientRegistrar#addComponent(IEntityComponentProvider, TooltipPosition, Class, int)
+     * @see IClientRegistrar#head(IEntityComponentProvider, Class, int)
      */
     default void appendHead(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
     }
@@ -126,7 +126,7 @@ public interface IEntityComponentProvider {
      * @param accessor contains most of the relevant information about the current environment
      * @param config   current plugin configuration
      *
-     * @see IClientRegistrar#addComponent(IEntityComponentProvider, TooltipPosition, Class, int)
+     * @see IClientRegistrar#body(IEntityComponentProvider, Class, int)
      */
     default void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
     }
@@ -144,7 +144,7 @@ public interface IEntityComponentProvider {
      * @param accessor contains most of the relevant information about the current environment
      * @param config   current plugin configuration
      *
-     * @see IClientRegistrar#addComponent(IEntityComponentProvider, TooltipPosition, Class, int)
+     * @see IClientRegistrar#tail(IEntityComponentProvider, Class, int)
      */
     default void appendTail(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
     }

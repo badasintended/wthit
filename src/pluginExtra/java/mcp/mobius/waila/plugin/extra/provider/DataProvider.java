@@ -19,7 +19,6 @@ import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerAccessor;
 import mcp.mobius.waila.api.ITooltip;
-import mcp.mobius.waila.api.TooltipPosition;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.plugin.extra.config.ExtraBlacklistConfig;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -65,21 +64,21 @@ public abstract class DataProvider<A extends IData, I extends A> implements IBlo
     }
 
     public void register(ICommonRegistrar registrar, int priority) {
-        registrar.addFeatureConfig(enabledBlockOption, false);
-        registrar.addFeatureConfig(enabledEntityOption, false);
+        registrar.featureConfig(enabledBlockOption, false);
+        registrar.featureConfig(enabledEntityOption, false);
         registerAdditions(registrar, priority);
-        registrar.addConfig(createConfigKey("blacklist"), blacklistConfig.getPath());
+        registrar.externalConfig(createConfigKey("blacklist"), blacklistConfig.getPath());
 
-        registrar.addDataType(type, codec);
-        registrar.addBlockData(new BlockDataProvider(), BlockEntity.class, 0);
-        registrar.addEntityData(new EntityDataProvider(), Entity.class, 0);
+        registrar.dataType(type, codec);
+        registrar.blockData(new BlockDataProvider(), BlockEntity.class, 0);
+        registrar.entityData(new EntityDataProvider(), Entity.class, 0);
     }
 
     public void register(IClientRegistrar registrar, int priority) {
         registerAdditions(registrar, priority);
 
-        registrar.addComponent((IBlockComponentProvider) this, TooltipPosition.BODY, BlockEntity.class, priority);
-        registrar.addComponent((IEntityComponentProvider) this, TooltipPosition.BODY, Entity.class, priority);
+        registrar.body((IBlockComponentProvider) this, BlockEntity.class, priority);
+        registrar.body((IEntityComponentProvider) this, Entity.class, priority);
     }
 
     protected final ResourceLocation createConfigKey(String path) {

@@ -10,8 +10,8 @@ public abstract class TextileCommonPlugin implements IWailaCommonPlugin {
 
     @Override
     public void register(ICommonRegistrar registrar) {
-        registrar.addBlockData(ItemStorageProvider.INSTANCE, BlockEntity.class, 2000);
-        registrar.addBlockData(FluidStorageProvider.INSTANCE, BlockEntity.class, 2000);
+        registrar.blockData(ItemStorageProvider.INSTANCE, BlockEntity.class, 2000);
+        registrar.blockData(FluidStorageProvider.INSTANCE, BlockEntity.class, 2000);
     }
 
 }
