@@ -6,6 +6,9 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import org.jetbrains.annotations.ApiStatus;
 
+/**
+ * The registrar for client-sided objects.
+ */
 @ApiSide.ClientOnly
 @ApiStatus.NonExtendable
 public interface IClientRegistrar {
@@ -13,12 +16,14 @@ public interface IClientRegistrar {
     /**
      * Adds an event listener
      */
-    void addEventListener(IEventListener listener, int priority);
+    void eventListener(IEventListener listener, int priority);
 
     /**
      * Adds an event listener
      */
-    void addEventListener(IEventListener listener);
+    default void eventListener(IEventListener listener) {
+        eventListener(listener, WailaConstants.DEFAULT_PRIORITY);
+    }
 
     /**
      * Registers an {@link IBlockComponentProvider} instance to allow redirecting the object being displayed.
@@ -31,7 +36,7 @@ public interface IClientRegistrar {
      * @see WailaConstants#DEFAULT_PRIORITY
      */
     @ApiStatus.Experimental
-    <T> void addRedirect(IBlockComponentProvider provider, Class<T> clazz, int priority);
+    <T> void redirect(IBlockComponentProvider provider, Class<T> clazz, int priority);
 
     /**
      * Registers an {@link IBlockComponentProvider} instance to allow redirecting the object being displayed.
@@ -43,7 +48,9 @@ public interface IClientRegistrar {
      * @see WailaConstants#DEFAULT_PRIORITY
      */
     @ApiStatus.Experimental
-    <T> void addRedirect(IBlockComponentProvider provider, Class<T> clazz);
+    default <T> void redirect(IBlockComponentProvider provider, Class<T> clazz) {
+        redirect(provider, clazz, WailaConstants.DEFAULT_PRIORITY);
+    }
 
     /**
      * Registers an {@link IBlockComponentProvider} instance to allow overriding the block being displayed.
@@ -55,7 +62,7 @@ public interface IClientRegistrar {
      *
      * @see WailaConstants#DEFAULT_PRIORITY
      */
-    <T> void addOverride(IBlockComponentProvider provider, Class<T> clazz, int priority);
+    <T> void override(IBlockComponentProvider provider, Class<T> clazz, int priority);
 
     /**
      * Registers an {@link IBlockComponentProvider} instance with
@@ -67,7 +74,9 @@ public interface IClientRegistrar {
      *
      * @see WailaConstants#DEFAULT_PRIORITY
      */
-    <T> void addOverride(IBlockComponentProvider provider, Class<T> clazz);
+    default <T> void override(IBlockComponentProvider provider, Class<T> clazz) {
+        override(provider, clazz, WailaConstants.DEFAULT_PRIORITY);
+    }
 
     /**
      * Registers an {@link IBlockComponentProvider} instance to allow overriding the displayed icon for a block via the
@@ -80,7 +89,7 @@ public interface IClientRegistrar {
      *
      * @see WailaConstants#DEFAULT_PRIORITY
      */
-    <T> void addIcon(IBlockComponentProvider provider, Class<T> clazz, int priority);
+    <T> void icon(IBlockComponentProvider provider, Class<T> clazz, int priority);
 
     /**
      * Registers an {@link IBlockComponentProvider} instance with
@@ -91,31 +100,84 @@ public interface IClientRegistrar {
      * @param provider the data provider instance
      * @param clazz    the highest level class to apply to
      */
-    <T> void addIcon(IBlockComponentProvider provider, Class<T> clazz);
+    default <T> void icon(IBlockComponentProvider provider, Class<T> clazz) {
+        icon(provider, clazz, WailaConstants.DEFAULT_PRIORITY);
+    }
 
     /**
      * Registers an {@link IBlockComponentProvider} instance for appending {@link Component} to the tooltip.
      * A {@link BlockEntity} is also an acceptable class type.
      *
      * @param provider the data provider instance
-     * @param position the position on the tooltip this applies to
      * @param clazz    the highest level class to apply to
      * @param priority the priority of this provider <b>0 is the minimum, lower number will be called first</b>
      *
      * @see WailaConstants#DEFAULT_PRIORITY
      */
-    <T> void addComponent(IBlockComponentProvider provider, TooltipPosition position, Class<T> clazz, int priority);
+    <T> void head(IBlockComponentProvider provider, Class<T> clazz, int priority);
 
     /**
-     * Registers an {@link IBlockComponentProvider} instance with
-     * {@linkplain WailaConstants#DEFAULT_PRIORITY default priority} for appending {@link Component} to the tooltip.
+     * Registers an {@link IBlockComponentProvider} instance for appending {@link Component} to the tooltip.
      * A {@link BlockEntity} is also an acceptable class type.
      *
      * @param provider the data provider instance
-     * @param position the position on the tooltip this applies to
      * @param clazz    the highest level class to apply to
+     *
+     * @see WailaConstants#DEFAULT_PRIORITY
      */
-    <T> void addComponent(IBlockComponentProvider provider, TooltipPosition position, Class<T> clazz);
+    default <T> void head(IBlockComponentProvider provider, Class<T> clazz) {
+        head(provider, clazz, WailaConstants.DEFAULT_PRIORITY);
+    }
+
+    /**
+     * Registers an {@link IBlockComponentProvider} instance for appending {@link Component} to the tooltip.
+     * A {@link BlockEntity} is also an acceptable class type.
+     *
+     * @param provider the data provider instance
+     * @param clazz    the highest level class to apply to
+     * @param priority the priority of this provider <b>0 is the minimum, lower number will be called first</b>
+     *
+     * @see WailaConstants#DEFAULT_PRIORITY
+     */
+    <T> void body(IBlockComponentProvider provider, Class<T> clazz, int priority);
+
+    /**
+     * Registers an {@link IBlockComponentProvider} instance for appending {@link Component} to the tooltip.
+     * A {@link BlockEntity} is also an acceptable class type.
+     *
+     * @param provider the data provider instance
+     * @param clazz    the highest level class to apply to
+     *
+     * @see WailaConstants#DEFAULT_PRIORITY
+     */
+    default <T> void body(IBlockComponentProvider provider, Class<T> clazz) {
+        body(provider, clazz, WailaConstants.DEFAULT_PRIORITY);
+    }
+
+    /**
+     * Registers an {@link IBlockComponentProvider} instance for appending {@link Component} to the tooltip.
+     * A {@link BlockEntity} is also an acceptable class type.
+     *
+     * @param provider the data provider instance
+     * @param clazz    the highest level class to apply to
+     * @param priority the priority of this provider <b>0 is the minimum, lower number will be called first</b>
+     *
+     * @see WailaConstants#DEFAULT_PRIORITY
+     */
+    <T> void tail(IBlockComponentProvider provider, Class<T> clazz, int priority);
+
+    /**
+     * Registers an {@link IBlockComponentProvider} instance for appending {@link Component} to the tooltip.
+     * A {@link BlockEntity} is also an acceptable class type.
+     *
+     * @param provider the data provider instance
+     * @param clazz    the highest level class to apply to
+     *
+     * @see WailaConstants#DEFAULT_PRIORITY
+     */
+    default <T> void tail(IBlockComponentProvider provider, Class<T> clazz) {
+        tail(provider, clazz, WailaConstants.DEFAULT_PRIORITY);
+    }
 
     /**
      * Registers an {@link IBlockComponentProvider} instance for appending data context that get sent to the server.
@@ -124,7 +186,7 @@ public interface IClientRegistrar {
      * @param provider the data provider instance
      * @param clazz    the highest level class to apply to
      */
-    <T> void addDataContext(IBlockComponentProvider provider, Class<T> clazz);
+    <T> void dataContext(IBlockComponentProvider provider, Class<T> clazz);
 
     /**
      * Registers an {@link IEntityComponentProvider} instance to allow redirecting the object being displayed.
@@ -136,7 +198,7 @@ public interface IClientRegistrar {
      * @see WailaConstants#DEFAULT_PRIORITY
      */
     @ApiStatus.Experimental
-    <T> void addRedirect(IEntityComponentProvider provider, Class<T> clazz, int priority);
+    <T> void redirect(IEntityComponentProvider provider, Class<T> clazz, int priority);
 
     /**
      * Registers an {@link IEntityComponentProvider} instance to allow redirecting the object being displayed.
@@ -147,7 +209,9 @@ public interface IClientRegistrar {
      * @see WailaConstants#DEFAULT_PRIORITY
      */
     @ApiStatus.Experimental
-    <T> void addRedirect(IEntityComponentProvider provider, Class<T> clazz);
+    default <T> void redirect(IEntityComponentProvider provider, Class<T> clazz) {
+        redirect(provider, clazz, WailaConstants.DEFAULT_PRIORITY);
+    }
 
     /**
      * Registers an {@link IEntityComponentProvider} instance to allow overriding the entity being displayed.
@@ -158,7 +222,7 @@ public interface IClientRegistrar {
      *
      * @see WailaConstants#DEFAULT_PRIORITY
      */
-    <T> void addOverride(IEntityComponentProvider provider, Class<T> clazz, int priority);
+    <T> void override(IEntityComponentProvider provider, Class<T> clazz, int priority);
 
     /**
      * Registers an {@link IEntityComponentProvider} instance with
@@ -169,7 +233,9 @@ public interface IClientRegistrar {
      *
      * @see WailaConstants#DEFAULT_PRIORITY
      */
-    <T> void addOverride(IEntityComponentProvider provider, Class<T> clazz);
+    default <T> void override(IEntityComponentProvider provider, Class<T> clazz) {
+        override(provider, clazz, WailaConstants.DEFAULT_PRIORITY);
+    }
 
     /**
      * Registers an {@link IEntityComponentProvider} instance to allow displaying an icon via the
@@ -181,7 +247,7 @@ public interface IClientRegistrar {
      *
      * @see WailaConstants#DEFAULT_PRIORITY
      */
-    <T> void addIcon(IEntityComponentProvider provider, Class<T> clazz, int priority);
+    <T> void icon(IEntityComponentProvider provider, Class<T> clazz, int priority);
 
     /**
      * Registers an {@link IEntityComponentProvider} instance with
@@ -191,29 +257,75 @@ public interface IClientRegistrar {
      * @param provider the data provider instance
      * @param clazz    the highest level class to apply to
      */
-    <T> void addIcon(IEntityComponentProvider provider, Class<T> clazz);
+    default <T> void icon(IEntityComponentProvider provider, Class<T> clazz) {
+        icon(provider, clazz, WailaConstants.DEFAULT_PRIORITY);
+    }
 
     /**
      * Registers an {@link IEntityComponentProvider} instance for appending {@link Component} to the tooltip.
      *
      * @param provider the data provider instance
-     * @param position the position on the tooltip this applies to
      * @param clazz    the highest level class to apply to
      * @param priority the priority of this provider <b>0 is the minimum, lower number will be called first</b>
      *
      * @see WailaConstants#DEFAULT_PRIORITY
      */
-    <T> void addComponent(IEntityComponentProvider provider, TooltipPosition position, Class<T> clazz, int priority);
+    <T> void head(IEntityComponentProvider provider, Class<T> clazz, int priority);
 
     /**
      * Registers an {@link IEntityComponentProvider} instance with
      * {@linkplain WailaConstants#DEFAULT_PRIORITY default priority} for appending {@link Component} to the tooltip.
      *
      * @param provider the data provider instance
-     * @param position the position on the tooltip this applies to
      * @param clazz    the highest level class to apply to
      */
-    <T> void addComponent(IEntityComponentProvider provider, TooltipPosition position, Class<T> clazz);
+    default <T> void head(IEntityComponentProvider provider, Class<T> clazz) {
+        head(provider, clazz, WailaConstants.DEFAULT_PRIORITY);
+    }
+
+    /**
+     * Registers an {@link IEntityComponentProvider} instance for appending {@link Component} to the tooltip.
+     *
+     * @param provider the data provider instance
+     * @param clazz    the highest level class to apply to
+     * @param priority the priority of this provider <b>0 is the minimum, lower number will be called first</b>
+     *
+     * @see WailaConstants#DEFAULT_PRIORITY
+     */
+    <T> void body(IEntityComponentProvider provider, Class<T> clazz, int priority);
+
+    /**
+     * Registers an {@link IEntityComponentProvider} instance with
+     * {@linkplain WailaConstants#DEFAULT_PRIORITY default priority} for appending {@link Component} to the tooltip.
+     *
+     * @param provider the data provider instance
+     * @param clazz    the highest level class to apply to
+     */
+    default <T> void body(IEntityComponentProvider provider, Class<T> clazz) {
+        body(provider, clazz, WailaConstants.DEFAULT_PRIORITY);
+    }
+
+    /**
+     * Registers an {@link IEntityComponentProvider} instance for appending {@link Component} to the tooltip.
+     *
+     * @param provider the data provider instance
+     * @param clazz    the highest level class to apply to
+     * @param priority the priority of this provider <b>0 is the minimum, lower number will be called first</b>
+     *
+     * @see WailaConstants#DEFAULT_PRIORITY
+     */
+    <T> void tail(IEntityComponentProvider provider, Class<T> clazz, int priority);
+
+    /**
+     * Registers an {@link IEntityComponentProvider} instance with
+     * {@linkplain WailaConstants#DEFAULT_PRIORITY default priority} for appending {@link Component} to the tooltip.
+     *
+     * @param provider the data provider instance
+     * @param clazz    the highest level class to apply to
+     */
+    default <T> void tail(IEntityComponentProvider provider, Class<T> clazz) {
+        tail(provider, clazz, WailaConstants.DEFAULT_PRIORITY);
+    }
 
     /**
      * Registers an {@link IEntityComponentProvider} instance for appending data context that get sent to the server.
@@ -221,7 +333,7 @@ public interface IClientRegistrar {
      * @param provider the data provider instance
      * @param clazz    the highest level class to apply to
      */
-    <T> void addDataContext(IEntityComponentProvider provider, Class<T> clazz);
+    <T> void dataContext(IEntityComponentProvider provider, Class<T> clazz);
 
     /**
      * Registers an {@link IThemeType} instance.
@@ -230,7 +342,7 @@ public interface IClientRegistrar {
      * @param type the theme type
      */
     @ApiStatus.Experimental
-    <T extends ITheme> void addThemeType(ResourceLocation id, IThemeType<T> type);
+    <T extends ITheme> void themeType(ResourceLocation id, IThemeType<T> type);
 
     /**
      * Registers an {@link IRayCastVectorProvider} instance
@@ -239,7 +351,7 @@ public interface IClientRegistrar {
      * @param priority the priority of this provider <b>0 is the minimum, lower number will be called first</b>
      */
     @ApiStatus.Experimental
-    void addRayCastVector(IRayCastVectorProvider provider, int priority);
+    void rayCastVector(IRayCastVectorProvider provider, int priority);
 
     /**
      * Registers an {@link IRayCastVectorProvider} instance with
@@ -248,7 +360,9 @@ public interface IClientRegistrar {
      * @param provider the vector provider
      */
     @ApiStatus.Experimental
-    void addRayCastVector(IRayCastVectorProvider provider);
+    default void rayCastVector(IRayCastVectorProvider provider) {
+        rayCastVector(provider, WailaConstants.DEFAULT_PRIORITY);
+    }
 
     /**
      * Registers a tool type, to be used for the harvestability tooltip.
@@ -257,6 +371,6 @@ public interface IClientRegistrar {
      * @param toolType the tool type
      */
     @ApiStatus.Experimental
-    void addToolType(ResourceLocation id, IToolType toolType);
+    void toolType(ResourceLocation id, IToolType toolType);
 
 }

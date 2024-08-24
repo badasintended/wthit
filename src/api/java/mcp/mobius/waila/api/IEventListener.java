@@ -10,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
 /**
  * Used to listen to generic Waila events.
  * <p>
- * Register implementations with {@link IClientRegistrar#addEventListener}
+ * Register implementations with {@link IClientRegistrar#eventListener}
  */
 @ApiStatus.OverrideOnly
 public interface IEventListener {

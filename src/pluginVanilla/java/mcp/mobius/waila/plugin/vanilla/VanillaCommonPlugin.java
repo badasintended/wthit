@@ -41,108 +41,108 @@ public class VanillaCommonPlugin implements IWailaCommonPlugin {
 
     @Override
     public void register(ICommonRegistrar registrar) {
-        registrar.addConfig(Options.BLOCK_POSITION, false);
-        registrar.addConfig(Options.BLOCK_STATE, false);
+        registrar.localConfig(Options.BLOCK_POSITION, false);
+        registrar.localConfig(Options.BLOCK_STATE, false);
 
-        registrar.addFeatureConfig(Options.ENTITY_ITEM_ENTITY, true);
+        registrar.featureConfig(Options.ENTITY_ITEM_ENTITY, true);
 
-        registrar.addConfig(Options.ENTITY_POSITION, false);
-        registrar.addFeatureConfig(Options.ENTITY_HEALTH, true);
-        registrar.addFeatureConfig(Options.ENTITY_ABSORPTION, false);
-        registrar.addFeatureConfig(Options.ENTITY_ARMOR, true);
-        registrar.addConfig(Options.ENTITY_COMPACT, false);
-        registrar.addConfig(Options.ENTITY_ICON_PER_LINE, 25);
-        registrar.addConfig(Options.ENTITY_LONG_HEALTH_MAX, 100);
-        registrar.addConfig(Options.ENTITY_LONG_ARMOR_MAX, 100);
-        registrar.addEntityData(EntityAttributesDataProvider.INSTANCE, Entity.class);
+        registrar.localConfig(Options.ENTITY_POSITION, false);
+        registrar.featureConfig(Options.ENTITY_HEALTH, true);
+        registrar.featureConfig(Options.ENTITY_ABSORPTION, false);
+        registrar.featureConfig(Options.ENTITY_ARMOR, true);
+        registrar.localConfig(Options.ENTITY_COMPACT, false);
+        registrar.localConfig(Options.ENTITY_ICON_PER_LINE, 25);
+        registrar.localConfig(Options.ENTITY_LONG_HEALTH_MAX, 100);
+        registrar.localConfig(Options.ENTITY_LONG_ARMOR_MAX, 100);
+        registrar.entityData(EntityAttributesDataProvider.INSTANCE, Entity.class);
 
-        registrar.addFeatureConfig(Options.PET_OWNER, false);
-        registrar.addConfig(Options.PET_HIDE_UNKNOWN_OWNER, false);
-        registrar.addEntityData(PetOwnerDataProvider.INSTANCE, OwnableEntity.class);
+        registrar.featureConfig(Options.PET_OWNER, false);
+        registrar.localConfig(Options.PET_HIDE_UNKNOWN_OWNER, false);
+        registrar.entityData(PetOwnerDataProvider.INSTANCE, OwnableEntity.class);
 
-        registrar.addFeatureConfig(Options.HORSE_JUMP_HEIGHT, true);
-        registrar.addFeatureConfig(Options.HORSE_SPEED, true);
+        registrar.featureConfig(Options.HORSE_JUMP_HEIGHT, true);
+        registrar.featureConfig(Options.HORSE_SPEED, true);
 
-        registrar.addFeatureConfig(Options.PANDA_GENES, true);
+        registrar.featureConfig(Options.PANDA_GENES, true);
 
-        registrar.addFeatureConfig(Options.BEE_HIVE_POS, false);
-        registrar.addFeatureConfig(Options.BEE_HIVE_HONEY_LEVEL, true);
-        registrar.addFeatureConfig(Options.BEE_HIVE_OCCUPANTS, false);
-        registrar.addDataType(BeehiveDataProvider.OCCUPANTS, BeehiveDataProvider.OccupantsData.class, BeehiveDataProvider.OccupantsData::new);
-        registrar.addDataType(BeeDataProvider.HIVE_POS, BeeDataProvider.HivePosData.class, BeeDataProvider.HivePosData::new);
-        registrar.addBlockData(BeehiveDataProvider.INSTANCE, BeehiveBlockEntity.class);
-        registrar.addEntityData(BeeDataProvider.INSTANCE, Bee.class);
+        registrar.featureConfig(Options.BEE_HIVE_POS, false);
+        registrar.featureConfig(Options.BEE_HIVE_HONEY_LEVEL, true);
+        registrar.featureConfig(Options.BEE_HIVE_OCCUPANTS, false);
+        registrar.dataType(BeehiveDataProvider.OCCUPANTS, BeehiveDataProvider.OccupantsData.class, BeehiveDataProvider.OccupantsData::new);
+        registrar.dataType(BeeDataProvider.HIVE_POS, BeeDataProvider.HivePosData.class, BeeDataProvider.HivePosData::new);
+        registrar.blockData(BeehiveDataProvider.INSTANCE, BeehiveBlockEntity.class);
+        registrar.entityData(BeeDataProvider.INSTANCE, Bee.class);
 
-        registrar.addFeatureConfig(Options.EFFECT_BEACON, false);
-        registrar.addDataType(BeaconDataProvider.DATA, BeaconDataProvider.Data.class, BeaconDataProvider.Data::new);
-        registrar.addBlockData(BeaconDataProvider.INSTANCE, BeaconBlockEntity.class);
+        registrar.featureConfig(Options.EFFECT_BEACON, false);
+        registrar.dataType(BeaconDataProvider.DATA, BeaconDataProvider.Data.class, BeaconDataProvider.Data::new);
+        registrar.blockData(BeaconDataProvider.INSTANCE, BeaconBlockEntity.class);
 
-        registrar.addFeatureConfig(Options.EFFECT_MOB, false);
-        registrar.addSyncedConfig(Options.EFFECT_HIDDEN_MOB, false, false);
-        registrar.addDataType(MobEffectDataProvider.DATA, MobEffectDataProvider.Data.class, MobEffectDataProvider.Data::new);
-        registrar.addEntityData(MobEffectDataProvider.INSTANCE, LivingEntity.class);
+        registrar.featureConfig(Options.EFFECT_MOB, false);
+        registrar.syncedConfig(Options.EFFECT_HIDDEN_MOB, false, false);
+        registrar.dataType(MobEffectDataProvider.DATA, MobEffectDataProvider.Data.class, MobEffectDataProvider.Data::new);
+        registrar.entityData(MobEffectDataProvider.INSTANCE, LivingEntity.class);
 
-        registrar.addFeatureConfig(Options.JUKEBOX_RECORD, false);
-        registrar.addBlockData(JukeboxDataProvider.INSTANCE, JukeboxBlockEntity.class);
+        registrar.featureConfig(Options.JUKEBOX_RECORD, false);
+        registrar.blockData(JukeboxDataProvider.INSTANCE, JukeboxBlockEntity.class);
 
-        registrar.addFeatureConfig(Options.TIMER_GROW, false);
-        registrar.addFeatureConfig(Options.TIMER_BREED, false);
-        registrar.addEntityData(MobTimerDataProvider.INSTANCE, AgeableMob.class);
+        registrar.featureConfig(Options.TIMER_GROW, false);
+        registrar.featureConfig(Options.TIMER_BREED, false);
+        registrar.entityData(MobTimerDataProvider.INSTANCE, AgeableMob.class);
 
-        registrar.addFeatureConfig(Options.OVERRIDE_INVISIBLE_ENTITY, true);
-        registrar.addFeatureConfig(Options.OVERRIDE_TRAPPED_CHEST, true);
-        registrar.addFeatureConfig(Options.OVERRIDE_POWDER_SNOW, true);
-        registrar.addFeatureConfig(Options.OVERRIDE_INFESTED, true);
-        registrar.addConfig(Options.OVERRIDE_VEHICLE, true);
+        registrar.featureConfig(Options.OVERRIDE_INVISIBLE_ENTITY, true);
+        registrar.featureConfig(Options.OVERRIDE_TRAPPED_CHEST, true);
+        registrar.featureConfig(Options.OVERRIDE_POWDER_SNOW, true);
+        registrar.featureConfig(Options.OVERRIDE_INFESTED, true);
+        registrar.localConfig(Options.OVERRIDE_VEHICLE, true);
 
-        registrar.addFeatureConfig(Options.BREAKING_PROGRESS, true);
-        registrar.addConfig(Options.BREAKING_PROGRESS_COLOR, 0xAAFFFFFF, IntFormat.ARGB_HEX);
-        registrar.addConfig(Options.BREAKING_PROGRESS_BOTTOM_ONLY, false);
+        registrar.featureConfig(Options.BREAKING_PROGRESS, true);
+        registrar.localConfig(Options.BREAKING_PROGRESS_COLOR, 0xAAFFFFFF, IntFormat.ARGB_HEX);
+        registrar.localConfig(Options.BREAKING_PROGRESS_BOTTOM_ONLY, false);
 
-        registrar.addFeatureConfig(Options.SPAWNER_TYPE, true);
+        registrar.featureConfig(Options.SPAWNER_TYPE, true);
 
-        registrar.addFeatureConfig(Options.PLANT_CROP_PROGRESS, true);
-        registrar.addFeatureConfig(Options.PLANT_CROP_GROWABLE, true);
-        registrar.addFeatureConfig(Options.PLANT_TREE_GROWABLE, true);
+        registrar.featureConfig(Options.PLANT_CROP_PROGRESS, true);
+        registrar.featureConfig(Options.PLANT_CROP_GROWABLE, true);
+        registrar.featureConfig(Options.PLANT_TREE_GROWABLE, true);
 
-        registrar.addFeatureConfig(Options.REDSTONE_LEVER, true);
-        registrar.addFeatureConfig(Options.REDSTONE_REPEATER, true);
-        registrar.addFeatureConfig(Options.REDSTONE_COMPARATOR, true);
-        registrar.addFeatureConfig(Options.REDSTONE_LEVEL, true);
+        registrar.featureConfig(Options.REDSTONE_LEVER, true);
+        registrar.featureConfig(Options.REDSTONE_REPEATER, true);
+        registrar.featureConfig(Options.REDSTONE_COMPARATOR, true);
+        registrar.featureConfig(Options.REDSTONE_LEVEL, true);
 
-        registrar.addFeatureConfig(Options.PLAYER_HEAD_NAME, true);
+        registrar.featureConfig(Options.PLAYER_HEAD_NAME, true);
 
-        registrar.addFeatureConfig(Options.LEVEL_COMPOSTER, true);
+        registrar.featureConfig(Options.LEVEL_COMPOSTER, true);
 
-        registrar.addFeatureConfig(Options.NOTE_BLOCK_TYPE, true);
-        registrar.addConfig(Options.NOTE_BLOCK_NOTE, NoteDisplayMode.SHARP);
-        registrar.addConfig(Options.NOTE_BLOCK_INT_VALUE, false);
+        registrar.featureConfig(Options.NOTE_BLOCK_TYPE, true);
+        registrar.localConfig(Options.NOTE_BLOCK_NOTE, NoteDisplayMode.SHARP);
+        registrar.localConfig(Options.NOTE_BLOCK_INT_VALUE, false);
 
-        registrar.addConfig(Options.BOOK_ENCHANTMENT_DISPLAY_MODE, EnchantmentDisplayMode.CYCLE);
-        registrar.addConfig(Options.BOOK_ENCHANTMENT_CYCLE_TIMING, 500);
-        registrar.addConfig(Options.BOOK_WRITTEN, true);
+        registrar.localConfig(Options.BOOK_ENCHANTMENT_DISPLAY_MODE, EnchantmentDisplayMode.CYCLE);
+        registrar.localConfig(Options.BOOK_ENCHANTMENT_CYCLE_TIMING, 500);
+        registrar.localConfig(Options.BOOK_WRITTEN, true);
 
-        registrar.addBlockData(FurnaceDataProvider.INSTANCE, AbstractFurnaceBlockEntity.class);
-        registrar.addBlockData(EnderChestDataProvider.INSTANCE, EnderChestBlockEntity.class);
+        registrar.blockData(FurnaceDataProvider.INSTANCE, AbstractFurnaceBlockEntity.class);
+        registrar.blockData(EnderChestDataProvider.INSTANCE, EnderChestBlockEntity.class);
 
-        registrar.addBlockData(RandomizableContainerDataProvider.INSTANCE, RandomizableContainerBlockEntity.class, 1100);
-        registrar.addBlockData(BaseContainerDataProvider.INSTANCE, BaseContainerBlockEntity.class, 1200);
-        registrar.addBlockData(HopperContainerDataProvider.INSTANCE, BlockEntity.class, 1300);
+        registrar.blockData(RandomizableContainerDataProvider.INSTANCE, RandomizableContainerBlockEntity.class, 1100);
+        registrar.blockData(BaseContainerDataProvider.INSTANCE, BaseContainerBlockEntity.class, 1200);
+        registrar.blockData(HopperContainerDataProvider.INSTANCE, BlockEntity.class, 1300);
 
-        registrar.addEntityData(ContainerEntityDataProvider.INSTANCE, Container.class, 1100);
+        registrar.entityData(ContainerEntityDataProvider.INSTANCE, Container.class, 1100);
 
-        registrar.addBlacklist(1100,
+        registrar.blacklist(1100,
             Blocks.BARRIER,
             Blocks.STRUCTURE_VOID);
 
-        registrar.addBlacklist(1100,
+        registrar.blacklist(1100,
             EntityType.AREA_EFFECT_CLOUD,
             EntityType.EXPERIENCE_ORB,
             EntityType.FIREBALL,
             EntityType.FIREWORK_ROCKET,
             EntityType.SNOWBALL);
 
-        Options.ALIASES.forEach(registrar::addConfigAlias);
+        Options.ALIASES.forEach(registrar::configAlias);
     }
 
 }

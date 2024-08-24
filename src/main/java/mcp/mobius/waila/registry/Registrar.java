@@ -28,11 +28,13 @@ import mcp.mobius.waila.api.IRayCastVectorProvider;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.IThemeType;
+import mcp.mobius.waila.api.IToolType;
 import mcp.mobius.waila.api.IntFormat;
-import mcp.mobius.waila.api.TooltipPosition;
+import mcp.mobius.waila.api.__internal__.IHarvestService;
 import mcp.mobius.waila.config.BlacklistConfig;
 import mcp.mobius.waila.config.ConfigEntry;
 import mcp.mobius.waila.config.PluginConfig;
+import mcp.mobius.waila.gui.hud.TooltipPosition;
 import mcp.mobius.waila.gui.hud.theme.ThemeType;
 import mcp.mobius.waila.util.CachedSupplier;
 import mcp.mobius.waila.util.Log;
@@ -128,69 +130,69 @@ public class Registrar implements ICommonRegistrar, IClientRegistrar, IRegistrar
     }
 
     @Override
-    public void addConfig(ResourceLocation key, boolean defaultValue) {
+    public void localConfig(ResourceLocation key, boolean defaultValue) {
         addConfig(key, defaultValue, defaultValue, false, false, ConfigEntry.BOOLEAN);
     }
 
     @Override
-    public void addConfig(ResourceLocation key, int defaultValue, IntFormat format) {
+    public void localConfig(ResourceLocation key, int defaultValue, IntFormat format) {
         intConfigFormats.put(key, format);
         addConfig(key, defaultValue, defaultValue, false, false, ConfigEntry.INTEGER);
     }
 
     @Override
-    public void addConfig(ResourceLocation key, double defaultValue) {
+    public void localConfig(ResourceLocation key, double defaultValue) {
         addConfig(key, defaultValue, defaultValue, false, false, ConfigEntry.DOUBLE);
     }
 
     @Override
-    public void addConfig(ResourceLocation key, String defaultValue) {
+    public void localConfig(ResourceLocation key, String defaultValue) {
         addConfig(key, defaultValue, defaultValue, false, false, ConfigEntry.STRING);
     }
 
     @Override
-    public <T extends Enum<T>> void addConfig(ResourceLocation key, T defaultValue) {
+    public <T extends Enum<T>> void localConfig(ResourceLocation key, T defaultValue) {
         addConfig(key, defaultValue, defaultValue, false, false, ConfigEntry.ENUM);
     }
 
     @Override
-    public void addConfig(ResourceLocation key, Path path) {
+    public void externalConfig(ResourceLocation key, Path path) {
         addConfig(key, path, path, false, false, ConfigEntry.PATH);
     }
 
     @Override
-    public void addFeatureConfig(ResourceLocation key, boolean clientOnly) {
+    public void featureConfig(ResourceLocation key, boolean clientOnly) {
         addConfig(key, true, clientOnly, !clientOnly, true, ConfigEntry.BOOLEAN);
     }
 
     @Override
-    public void addSyncedConfig(ResourceLocation key, boolean defaultValue, boolean clientOnlyValue) {
+    public void syncedConfig(ResourceLocation key, boolean defaultValue, boolean clientOnlyValue) {
         addConfig(key, defaultValue, clientOnlyValue, true, false, ConfigEntry.BOOLEAN);
     }
 
     @Override
-    public void addSyncedConfig(ResourceLocation key, int defaultValue, int clientOnlyValue, IntFormat format) {
+    public void syncedConfig(ResourceLocation key, int defaultValue, int clientOnlyValue, IntFormat format) {
         intConfigFormats.put(key, format);
         addConfig(key, defaultValue, clientOnlyValue, true, false, ConfigEntry.INTEGER);
     }
 
     @Override
-    public void addSyncedConfig(ResourceLocation key, double defaultValue, double clientOnlyValue) {
+    public void syncedConfig(ResourceLocation key, double defaultValue, double clientOnlyValue) {
         addConfig(key, defaultValue, clientOnlyValue, true, false, ConfigEntry.DOUBLE);
     }
 
     @Override
-    public void addSyncedConfig(ResourceLocation key, String defaultValue, String clientOnlyValue) {
+    public void syncedConfig(ResourceLocation key, String defaultValue, String clientOnlyValue) {
         addConfig(key, defaultValue, clientOnlyValue, true, false, ConfigEntry.STRING);
     }
 
     @Override
-    public <T extends Enum<T>> void addSyncedConfig(ResourceLocation key, T defaultValue, T clientOnlyValue) {
+    public <T extends Enum<T>> void syncedConfig(ResourceLocation key, T defaultValue, T clientOnlyValue) {
         addConfig(key, defaultValue, clientOnlyValue, true, false, ConfigEntry.ENUM);
     }
 
     @Override
-    public void addConfigAlias(ResourceLocation actual, ResourceLocation... aliases) {
+    public void configAlias(ResourceLocation actual, ResourceLocation... aliases) {
         assertLock();
 
         for (var alias : aliases) {
@@ -199,19 +201,19 @@ public class Registrar implements ICommonRegistrar, IClientRegistrar, IRegistrar
     }
 
     @Override
-    public void addEventListener(IEventListener listener, int priority) {
+    public void eventListener(IEventListener listener, int priority) {
         if (skip()) return;
         assertLock();
         eventListeners.add(Object.class, listener, priority);
     }
 
     @Override
-    public void addBlacklist(int priority, Block... blocks) {
+    public void blacklist(int priority, Block... blocks) {
         modifyBlacklist(priority, it -> it.blocks, Set::add, Registry.BLOCK, blocks);
     }
 
     @Override
-    public void addBlacklist(int priority, BlockEntityType<?>... blockEntityTypes) {
+    public void blacklist(int priority, BlockEntityType<?>... blockEntityTypes) {
         modifyBlacklist(priority, it -> it.blockEntityTypes, Set::add, Registry.BLOCK_ENTITY_TYPE, blockEntityTypes);
     }
 
@@ -226,7 +228,7 @@ public class Registrar implements ICommonRegistrar, IClientRegistrar, IRegistrar
     }
 
     @Override
-    public <T> void addRedirect(IBlockComponentProvider provider, Class<T> clazz, int priority) {
+    public <T> void redirect(IBlockComponentProvider provider, Class<T> clazz, int priority) {
         if (skip()) return;
         if (Waila.CLIENT_SIDE) {
             assertLock();
@@ -236,7 +238,7 @@ public class Registrar implements ICommonRegistrar, IClientRegistrar, IRegistrar
     }
 
     @Override
-    public <T> void addOverride(IBlockComponentProvider provider, Class<T> clazz, int priority) {
+    public <T> void override(IBlockComponentProvider provider, Class<T> clazz, int priority) {
         if (skip()) return;
         if (Waila.CLIENT_SIDE) {
             assertLock();
@@ -246,7 +248,7 @@ public class Registrar implements ICommonRegistrar, IClientRegistrar, IRegistrar
     }
 
     @Override
-    public <T> void addIcon(IBlockComponentProvider provider, Class<T> clazz, int priority) {
+    public <T> void icon(IBlockComponentProvider provider, Class<T> clazz, int priority) {
         if (skip()) return;
         if (Waila.CLIENT_SIDE) {
             assertLock();
@@ -256,8 +258,7 @@ public class Registrar implements ICommonRegistrar, IClientRegistrar, IRegistrar
         }
     }
 
-    @Override
-    public <T> void addComponent(IBlockComponentProvider provider, TooltipPosition position, Class<T> clazz, int priority) {
+    private <T> void component(IBlockComponentProvider provider, TooltipPosition position, Class<T> clazz, int priority) {
         if (skip()) return;
         if (Waila.CLIENT_SIDE) {
             assertLock();
@@ -268,7 +269,22 @@ public class Registrar implements ICommonRegistrar, IClientRegistrar, IRegistrar
     }
 
     @Override
-    public <T> void addDataContext(IBlockComponentProvider provider, Class<T> clazz) {
+    public <T> void head(IBlockComponentProvider provider, Class<T> clazz, int priority) {
+        component(provider, TooltipPosition.HEAD, clazz, priority);
+    }
+
+    @Override
+    public <T> void body(IBlockComponentProvider provider, Class<T> clazz, int priority) {
+        component(provider, TooltipPosition.BODY, clazz, priority);
+    }
+
+    @Override
+    public <T> void tail(IBlockComponentProvider provider, Class<T> clazz, int priority) {
+        component(provider, TooltipPosition.TAIL, clazz, priority);
+    }
+
+    @Override
+    public <T> void dataContext(IBlockComponentProvider provider, Class<T> clazz) {
         if (skip()) return;
         if (Waila.CLIENT_SIDE) {
             assertLock();
@@ -279,7 +295,7 @@ public class Registrar implements ICommonRegistrar, IClientRegistrar, IRegistrar
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T, BE extends BlockEntity> void addBlockData(IDataProvider<BE> provider, Class<T> clazz, int priority) {
+    public <T, BE extends BlockEntity> void blockData(IDataProvider<BE> provider, Class<T> clazz, int priority) {
         if (skip()) return;
         assertLock();
         assertPriority(priority);
@@ -288,7 +304,7 @@ public class Registrar implements ICommonRegistrar, IClientRegistrar, IRegistrar
     }
 
     @Override
-    public void addBlacklist(int priority, EntityType<?>... entityTypes) {
+    public void blacklist(int priority, EntityType<?>... entityTypes) {
         modifyBlacklist(priority, it -> it.entityTypes, Set::add, Registry.ENTITY_TYPE, entityTypes);
     }
 
@@ -298,7 +314,7 @@ public class Registrar implements ICommonRegistrar, IClientRegistrar, IRegistrar
     }
 
     @Override
-    public <T> void addRedirect(IEntityComponentProvider provider, Class<T> clazz, int priority) {
+    public <T> void redirect(IEntityComponentProvider provider, Class<T> clazz, int priority) {
         if (skip()) return;
         if (Waila.CLIENT_SIDE) {
             assertLock();
@@ -308,7 +324,7 @@ public class Registrar implements ICommonRegistrar, IClientRegistrar, IRegistrar
     }
 
     @Override
-    public <T> void addOverride(IEntityComponentProvider provider, Class<T> clazz, int priority) {
+    public <T> void override(IEntityComponentProvider provider, Class<T> clazz, int priority) {
         if (skip()) return;
         if (Waila.CLIENT_SIDE) {
             assertLock();
@@ -319,7 +335,7 @@ public class Registrar implements ICommonRegistrar, IClientRegistrar, IRegistrar
     }
 
     @Override
-    public <T> void addIcon(IEntityComponentProvider provider, Class<T> clazz, int priority) {
+    public <T> void icon(IEntityComponentProvider provider, Class<T> clazz, int priority) {
         if (skip()) return;
         if (Waila.CLIENT_SIDE) {
             assertLock();
@@ -329,8 +345,7 @@ public class Registrar implements ICommonRegistrar, IClientRegistrar, IRegistrar
         }
     }
 
-    @Override
-    public <T> void addComponent(IEntityComponentProvider provider, TooltipPosition position, Class<T> clazz, int priority) {
+    private <T> void component(IEntityComponentProvider provider, TooltipPosition position, Class<T> clazz, int priority) {
         if (skip()) return;
         if (Waila.CLIENT_SIDE) {
             assertLock();
@@ -341,7 +356,22 @@ public class Registrar implements ICommonRegistrar, IClientRegistrar, IRegistrar
     }
 
     @Override
-    public <T> void addDataContext(IEntityComponentProvider provider, Class<T> clazz) {
+    public <T> void head(IEntityComponentProvider provider, Class<T> clazz, int priority) {
+        component(provider, TooltipPosition.HEAD, clazz, priority);
+    }
+
+    @Override
+    public <T> void body(IEntityComponentProvider provider, Class<T> clazz, int priority) {
+        component(provider, TooltipPosition.BODY, clazz, priority);
+    }
+
+    @Override
+    public <T> void tail(IEntityComponentProvider provider, Class<T> clazz, int priority) {
+        component(provider, TooltipPosition.TAIL, clazz, priority);
+    }
+
+    @Override
+    public <T> void dataContext(IEntityComponentProvider provider, Class<T> clazz) {
         if (skip()) return;
         if (Waila.CLIENT_SIDE) {
             assertLock();
@@ -352,7 +382,7 @@ public class Registrar implements ICommonRegistrar, IClientRegistrar, IRegistrar
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T, E extends Entity> void addEntityData(IDataProvider<E> provider, Class<T> clazz, int priority) {
+    public <T, E extends Entity> void entityData(IDataProvider<E> provider, Class<T> clazz, int priority) {
         if (skip()) return;
         assertLock();
         assertPriority(priority);
@@ -362,7 +392,7 @@ public class Registrar implements ICommonRegistrar, IClientRegistrar, IRegistrar
 
 
     @Override
-    public <A extends IData, I extends A> void addDataType(ResourceLocation id, Class<A> apiType, Class<I> implType, IData.Serializer<I> serializer) {
+    public <A extends IData, I extends A> void dataType(ResourceLocation id, Class<A> apiType, Class<I> implType, IData.Serializer<I> serializer) {
         assertLock();
         Preconditions.checkArgument(!dataId2Serializer.containsKey(id), "Data type with id %s already present", id);
 
@@ -373,7 +403,7 @@ public class Registrar implements ICommonRegistrar, IClientRegistrar, IRegistrar
     }
 
     @Override
-    public <T extends ITheme> void addThemeType(ResourceLocation id, IThemeType<T> type) {
+    public <T extends ITheme> void themeType(ResourceLocation id, IThemeType<T> type) {
         if (Waila.CLIENT_SIDE) {
             assertLock();
             ThemeType<T> casted = TypeUtil.uncheckedCast(type);
@@ -382,7 +412,7 @@ public class Registrar implements ICommonRegistrar, IClientRegistrar, IRegistrar
     }
 
     @Override
-    public void addRayCastVector(IRayCastVectorProvider provider, int priority) {
+    public void rayCastVector(IRayCastVectorProvider provider, int priority) {
         if (skip()) return;
         if (Waila.CLIENT_SIDE) {
             assertLock();
@@ -401,6 +431,11 @@ public class Registrar implements ICommonRegistrar, IClientRegistrar, IRegistrar
                 this.pickerPriority = priority;
             }
         }
+    }
+
+    @Override
+    public void toolType(ResourceLocation id, IToolType toolType) {
+        IHarvestService.INSTANCE.addToolType(id, toolType);
     }
 
     public void lock() {

@@ -11,9 +11,9 @@ public class ForgeCommonPlugin implements IWailaCommonPlugin {
 
     @Override
     public void register(ICommonRegistrar registrar) {
-        registrar.addBlockData(EnergyCapabilityProvider.INSTANCE, BlockEntity.class, 2000);
-        registrar.addBlockData(ItemCapabilityProvider.INSTANCE, BlockEntity.class, 2000);
-        registrar.addBlockData(FluidCapabilityProvider.INSTANCE, BlockEntity.class, 2000);
+        registrar.blockData(EnergyCapabilityProvider.INSTANCE, BlockEntity.class, 2000);
+        registrar.blockData(ItemCapabilityProvider.INSTANCE, BlockEntity.class, 2000);
+        registrar.blockData(FluidCapabilityProvider.INSTANCE, BlockEntity.class, 2000);
     }
 
 }

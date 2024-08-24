@@ -39,8 +39,8 @@ public class EnergyProvider extends DataProvider<EnergyData, EnergyDataImpl> {
 
     @Override
     protected void registerAdditions(ICommonRegistrar registrar, int priority) {
-        registrar.addBlockData(new InfiniteEnergyBlockProvider(), BlockEntity.class, 1);
-        registrar.addEntityData(new InfiniteEnergyEntityProvider(), Entity.class, 1);
+        registrar.blockData(new InfiniteEnergyBlockProvider(), BlockEntity.class, 1);
+        registrar.entityData(new InfiniteEnergyEntityProvider(), Entity.class, 1);
     }
 
     @Override
