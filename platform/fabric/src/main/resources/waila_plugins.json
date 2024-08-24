@@ -46,7 +46,7 @@
 
   "waila:team_reborn_energy": {
     "entrypoints": {
-      "common": "mcp.mobius.waila.plugin.trenergy.TeamRebornCommonPlugin"
+      "common": "mcp.mobius.waila.plugin.trenergy.TeamRebornEnergyCommonPlugin"
     },
     "side"       : "*",
     "required"   : ["team_reborn_energy"]
