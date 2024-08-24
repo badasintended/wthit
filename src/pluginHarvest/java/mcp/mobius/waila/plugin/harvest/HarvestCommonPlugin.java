@@ -9,9 +9,9 @@ public class HarvestCommonPlugin implements IWailaCommonPlugin {
 
     @Override
     public void register(ICommonRegistrar registrar) {
-        registrar.addFeatureConfig(Options.ENABLED, true);
-        registrar.addConfig(Options.DISPLAY_MODE, HarvestDisplayMode.MODERN);
-        registrar.addConfig(Options.CREATIVE, false);
+        registrar.featureConfig(Options.ENABLED, true);
+        registrar.localConfig(Options.DISPLAY_MODE, HarvestDisplayMode.MODERN);
+        registrar.localConfig(Options.CREATIVE, false);
     }
 
 }

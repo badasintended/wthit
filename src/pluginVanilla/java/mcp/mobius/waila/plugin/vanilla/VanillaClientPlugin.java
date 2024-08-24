@@ -69,87 +69,83 @@ import net.minecraft.world.level.block.entity.SkullBlockEntity;
 import net.minecraft.world.level.block.entity.SpawnerBlockEntity;
 import net.minecraft.world.level.material.Fluids;
 
-import static mcp.mobius.waila.api.TooltipPosition.BODY;
-import static mcp.mobius.waila.api.TooltipPosition.HEAD;
-import static mcp.mobius.waila.api.TooltipPosition.TAIL;
-
 public class VanillaClientPlugin implements IWailaClientPlugin {
 
     @Override
     public void register(IClientRegistrar registrar) {
-        registrar.addComponent(BlockAttributesProvider.INSTANCE, BODY, Block.class, 950);
+        registrar.body(BlockAttributesProvider.INSTANCE, Block.class, 950);
 
-        registrar.addIcon(ItemEntityProvider.INSTANCE, ItemEntity.class);
-        registrar.addComponent(ItemEntityProvider.INSTANCE, HEAD, ItemEntity.class, 950);
-        registrar.addComponent(ItemEntityProvider.INSTANCE, BODY, ItemEntity.class, 950);
-        registrar.addComponent(ItemEntityProvider.INSTANCE, TAIL, ItemEntity.class, 950);
-        registrar.addOverride(ItemEntityProvider.INSTANCE, ItemEntity.class);
+        registrar.icon(ItemEntityProvider.INSTANCE, ItemEntity.class);
+        registrar.head(ItemEntityProvider.INSTANCE, ItemEntity.class, 950);
+        registrar.body(ItemEntityProvider.INSTANCE, ItemEntity.class, 950);
+        registrar.tail(ItemEntityProvider.INSTANCE, ItemEntity.class, 950);
+        registrar.override(ItemEntityProvider.INSTANCE, ItemEntity.class);
 
-        registrar.addComponent(EntityAttributesProvider.INSTANCE, HEAD, Entity.class, 950);
-        registrar.addComponent(EntityAttributesProvider.INSTANCE, BODY, Entity.class, 950);
+        registrar.head(EntityAttributesProvider.INSTANCE, Entity.class, 950);
+        registrar.body(EntityAttributesProvider.INSTANCE, Entity.class, 950);
 
-        registrar.addComponent(PetOwnerProvider.INSTANCE, BODY, OwnableEntity.class);
+        registrar.body(PetOwnerProvider.INSTANCE, OwnableEntity.class);
 
-        registrar.addComponent(HorseProvider.INSTANCE, BODY, AbstractHorse.class);
+        registrar.body(HorseProvider.INSTANCE, AbstractHorse.class);
 
-        registrar.addComponent(PandaProvider.INSTANCE, BODY, Panda.class);
+        registrar.body(PandaProvider.INSTANCE, Panda.class);
 
-        registrar.addComponent(BeehiveProvider.INSTANCE, BODY, BeehiveBlock.class);
-        registrar.addComponent(BeeProvider.INSTANCE, BODY, Bee.class);
+        registrar.body(BeehiveProvider.INSTANCE, BeehiveBlock.class);
+        registrar.body(BeeProvider.INSTANCE, Bee.class);
 
-        registrar.addComponent(BeaconProvider.INSTANCE, BODY, BeaconBlockEntity.class);
+        registrar.body(BeaconProvider.INSTANCE, BeaconBlockEntity.class);
 
-        registrar.addComponent(MobEffectProvider.INSTANCE, BODY, LivingEntity.class);
+        registrar.body(MobEffectProvider.INSTANCE, LivingEntity.class);
 
-        registrar.addComponent(JukeboxProvider.INSTANCE, BODY, JukeboxBlockEntity.class);
+        registrar.body(JukeboxProvider.INSTANCE, JukeboxBlockEntity.class);
 
-        registrar.addComponent(MobTimerProvider.INSTANCE, BODY, AgeableMob.class);
+        registrar.body(MobTimerProvider.INSTANCE, AgeableMob.class);
 
-        registrar.addOverride(InvisibleEntityProvider.INSTANCE, LivingEntity.class);
-        registrar.addOverride(InfestedBlockProvider.INSTANCE, InfestedBlock.class);
-        registrar.addOverride(TrappedChestProvider.INSTANCE, TrappedChestBlock.class);
-        registrar.addOverride(PowderSnowProvider.INSTANCE, PowderSnowBlock.class);
-        registrar.addOverride(VehicleProvider.INSTANCE, Entity.class, 900);
+        registrar.override(InvisibleEntityProvider.INSTANCE, LivingEntity.class);
+        registrar.override(InfestedBlockProvider.INSTANCE, InfestedBlock.class);
+        registrar.override(TrappedChestProvider.INSTANCE, TrappedChestBlock.class);
+        registrar.override(PowderSnowProvider.INSTANCE, PowderSnowBlock.class);
+        registrar.override(VehicleProvider.INSTANCE, Entity.class, 900);
 
-        registrar.addEventListener(BreakProgressProvider.INSTANCE);
+        registrar.eventListener(BreakProgressProvider.INSTANCE);
 
-        registrar.addComponent(SpawnerProvider.INSTANCE, HEAD, SpawnerBlockEntity.class, 950);
+        registrar.head(SpawnerProvider.INSTANCE, SpawnerBlockEntity.class, 950);
 
-        registrar.addIcon(PlantProvider.INSTANCE, CropBlock.class);
-        registrar.addComponent(PlantProvider.INSTANCE, BODY, CropBlock.class);
-        registrar.addComponent(PlantProvider.INSTANCE, BODY, StemBlock.class);
-        registrar.addComponent(PlantProvider.INSTANCE, BODY, CocoaBlock.class);
-        registrar.addComponent(PlantProvider.INSTANCE, BODY, NetherWartBlock.class);
-        registrar.addComponent(PlantProvider.INSTANCE, BODY, SweetBerryBushBlock.class);
-        registrar.addComponent(PlantProvider.INSTANCE, BODY, SaplingBlock.class);
+        registrar.icon(PlantProvider.INSTANCE, CropBlock.class);
+        registrar.body(PlantProvider.INSTANCE, CropBlock.class);
+        registrar.body(PlantProvider.INSTANCE, StemBlock.class);
+        registrar.body(PlantProvider.INSTANCE, CocoaBlock.class);
+        registrar.body(PlantProvider.INSTANCE, NetherWartBlock.class);
+        registrar.body(PlantProvider.INSTANCE, SweetBerryBushBlock.class);
+        registrar.body(PlantProvider.INSTANCE, SaplingBlock.class);
 
-        registrar.addComponent(RedstoneProvider.INSTANCE, BODY, LeverBlock.class);
-        registrar.addComponent(RedstoneProvider.INSTANCE, BODY, RepeaterBlock.class);
-        registrar.addComponent(RedstoneProvider.INSTANCE, BODY, ComparatorBlock.class);
-        registrar.addComponent(RedstoneProvider.INSTANCE, BODY, RedStoneWireBlock.class);
+        registrar.body(RedstoneProvider.INSTANCE, LeverBlock.class);
+        registrar.body(RedstoneProvider.INSTANCE, RepeaterBlock.class);
+        registrar.body(RedstoneProvider.INSTANCE, ComparatorBlock.class);
+        registrar.body(RedstoneProvider.INSTANCE, RedStoneWireBlock.class);
 
-        registrar.addIcon(PlayerHeadProvider.INSTANCE, SkullBlockEntity.class);
-        registrar.addComponent(PlayerHeadProvider.INSTANCE, BODY, SkullBlockEntity.class);
+        registrar.icon(PlayerHeadProvider.INSTANCE, SkullBlockEntity.class);
+        registrar.body(PlayerHeadProvider.INSTANCE, SkullBlockEntity.class);
 
-        registrar.addComponent(ComposterProvider.INSTANCE, BODY, ComposterBlock.class);
+        registrar.body(ComposterProvider.INSTANCE, ComposterBlock.class);
 
-        registrar.addComponent(NoteBlockProvider.INSTANCE, BODY, NoteBlock.class);
+        registrar.body(NoteBlockProvider.INSTANCE, NoteBlock.class);
 
-        registrar.addIcon(FallingBlockProvider.INSTANCE, FallingBlockEntity.class);
-        registrar.addComponent(FallingBlockProvider.INSTANCE, HEAD, FallingBlockEntity.class);
+        registrar.icon(FallingBlockProvider.INSTANCE, FallingBlockEntity.class);
+        registrar.head(FallingBlockProvider.INSTANCE, FallingBlockEntity.class);
 
-        registrar.addComponent(BoatProvider.INSTANCE, HEAD, Boat.class, 950);
-        registrar.addComponent(BoatProvider.INSTANCE, TAIL, Boat.class, 950);
+        registrar.head(BoatProvider.INSTANCE, Boat.class, 950);
+        registrar.tail(BoatProvider.INSTANCE, Boat.class, 950);
 
-        registrar.addIcon(ItemFrameProvider.INSTANCE, ItemFrame.class);
-        registrar.addComponent(ItemFrameProvider.INSTANCE, HEAD, ItemFrame.class);
-        registrar.addComponent(ItemFrameProvider.INSTANCE, BODY, ItemFrame.class);
-        registrar.addComponent(ItemFrameProvider.INSTANCE, TAIL, ItemFrame.class);
+        registrar.icon(ItemFrameProvider.INSTANCE, ItemFrame.class);
+        registrar.head(ItemFrameProvider.INSTANCE, ItemFrame.class);
+        registrar.body(ItemFrameProvider.INSTANCE, ItemFrame.class);
+        registrar.tail(ItemFrameProvider.INSTANCE, ItemFrame.class);
 
-        registrar.addIcon(ChiseledBookShelfProvider.INSTANCE, ChiseledBookShelfBlock.class);
-        registrar.addComponent(ChiseledBookShelfProvider.INSTANCE, HEAD, ChiseledBookShelfBlock.class);
-        registrar.addComponent(ChiseledBookShelfProvider.INSTANCE, BODY, ChiseledBookShelfBlock.class);
-        registrar.addComponent(ChiseledBookShelfProvider.INSTANCE, TAIL, ChiseledBookShelfBlock.class);
+        registrar.icon(ChiseledBookShelfProvider.INSTANCE, ChiseledBookShelfBlock.class);
+        registrar.head(ChiseledBookShelfProvider.INSTANCE, ChiseledBookShelfBlock.class);
+        registrar.body(ChiseledBookShelfProvider.INSTANCE, ChiseledBookShelfBlock.class);
+        registrar.tail(ChiseledBookShelfProvider.INSTANCE, ChiseledBookShelfBlock.class);
 
         FluidData.describeFluid(Fluids.WATER, WaterDescriptor.INSTANCE);
         FluidData.describeFluid(Fluids.LAVA, LavaDescriptor.INSTANCE);

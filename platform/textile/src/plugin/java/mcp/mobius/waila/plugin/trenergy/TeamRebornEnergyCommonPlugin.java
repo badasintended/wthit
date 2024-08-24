@@ -9,7 +9,7 @@ public class TeamRebornEnergyCommonPlugin implements IWailaCommonPlugin {
 
     @Override
     public void register(ICommonRegistrar registrar) {
-        registrar.addBlockData(EnergyStorageProvider.INSTANCE, BlockEntity.class, 2000);
+        registrar.blockData(EnergyStorageProvider.INSTANCE, BlockEntity.class, 2000);
     }
 
 }

@@ -17,10 +17,10 @@ public interface IDataProvider<T> {
      * @param accessor contains the relevant context of the environment
      * @param config   current plugin configurations,
      *                 values <b>could be different</b> from the requesting client unless it was registered via
-     *                 {@link ICommonRegistrar#addSyncedConfig}
+     *                 {@link ICommonRegistrar#syncedConfig}
      *
-     * @see ICommonRegistrar#addBlockData(IDataProvider, Class, int)
-     * @see ICommonRegistrar#addEntityData(IDataProvider, Class)
+     * @see ICommonRegistrar#blockData(IDataProvider, Class, int)
+     * @see ICommonRegistrar#entityData(IDataProvider, Class)
      * @see IBlockComponentProvider#appendDataContext(IDataWriter, IBlockAccessor, IPluginConfig)
      * @see IEntityComponentProvider#appendDataContext(IDataWriter, IEntityAccessor, IPluginConfig)
      */
