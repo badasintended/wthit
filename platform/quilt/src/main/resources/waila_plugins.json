@@ -35,7 +35,7 @@
     "required"   : []
   },
 
-  "waila:fabric"            : {
+  "waila:quilt"            : {
     "entrypoints": {
       "common": "mcp.mobius.waila.plugin.quilt.QuiltCommonPlugin",
       "client": "mcp.mobius.waila.plugin.quilt.QuiltClientPlugin"
