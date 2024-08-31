@@ -31,7 +31,7 @@ public class ForgePluginLoader extends PluginLoader {
                 if (annotation.annotationType().getClassName().equals(WAILA_PLUGIN)) {
                     var id = (String) annotation.annotationData().get("id");
                     var required = (String[]) annotation.annotationData().getOrDefault("required", new String[0]);
-                    var side = switch ((IPluginInfo.Side) annotation.annotationData().get("side")) {
+                    var side = switch ((IPluginInfo.Side) annotation.annotationData().getOrDefault("side", IPluginInfo.Side.BOTH)) {
                         case CLIENT -> PluginSide.CLIENT;
                         case SERVER -> PluginSide.DEDICATED_SERVER;
                         case BOTH -> PluginSide.COMMON;
