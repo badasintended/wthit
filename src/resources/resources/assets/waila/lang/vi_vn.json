@@ -106,13 +106,13 @@
   "gui.waila.credits.authors"                                  : "Tác Giả",
   "gui.waila.credits.contributors"                             : "Người Đóng Góp",
 
+  "json5.waila.config.default_value"                           : "Giá trị mặc định: [%s]",
+  "json5.waila.config.available_values"                        : "Các giá trị có sẵn: [%s]",
 
-
-
-
-
-
-
+  "json5.waila.config.plugin.custom_file"                      : "Tệp cấu hình tùy chỉnh, mở tệp sau",
+  "json5.waila.config.plugin.server_required"                  : "Yêu cầu máy chủ phải cài đặt WTHIT, nếu không sẽ bị khóa ở [%s]",
+  "json5.waila.config.plugin.merged"                           : "Giá trị này sẽ được hợp nhất với giá trị từ máy chủ",
+  "json5.waila.config.plugin.synced"                           : "Giá trị này sẽ bị máy chủ ghi đè",
 
   "command.waila.server_dump_success"                          : "Đã xuất bản thành công máy chủ chuyên dụng ra %s",
   "command.waila.local_dump_success"                           : "Đã xuất bản thành công máy chủ địa phương ra %s",
