@@ -1,409 +1,409 @@
 {
-  "tooltip.waila.crop_growth"                                  : "成長",
-
-
-  "tooltip.waila.crop_mature"                                  : "完全",
-  "tooltip.waila.empty"                                        : "空",
-  "tooltip.waila.delay"                                        : "遅延",
-  "tooltip.waila.mode"                                         : "モード",
-  "tooltip.waila.mode_comparator"                              : "比較",
-  "tooltip.waila.mode_subtractor"                              : "減算",
-  "tooltip.waila.state"                                        : "状態",
-  "tooltip.waila.state_on"                                     : "入",
-  "tooltip.waila.state_off"                                    : "切",
-
-
-  "tooltip.waila.power"                                        : "動力",
-  "tooltip.waila.sneak_for_details"                            : "スニークすることで詳細",
-  "tooltip.waila.compost_level"                                : "堆肥レベル",
-  "tooltip.waila.honey_level"                                  : "蜜レベル",
-  "tooltip.waila.owner"                                        : "飼主",
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  "tooltip.waila.instrument.harp"                              : "ハープ",
-  "tooltip.waila.instrument.basedrum"                          : "バスドラム",
-  "tooltip.waila.instrument.snare"                             : "スネアドラム",
-  "tooltip.waila.instrument.hat"                               : "ハイハット",
-  "tooltip.waila.instrument.bass"                              : "ベース",
-  "tooltip.waila.instrument.flute"                             : "フルート",
-  "tooltip.waila.instrument.bell"                              : "グロッケンシュピール",
-  "tooltip.waila.instrument.guitar"                            : "ギター",
-  "tooltip.waila.instrument.chime"                             : "チャイム",
-  "tooltip.waila.instrument.xylophone"                         : "シロフォン",
-  "tooltip.waila.instrument.iron_xylophone"                    : "ヴィブラフォン",
-  "tooltip.waila.instrument.cow_bell"                          : "カウベル",
-  "tooltip.waila.instrument.didgeridoo"                        : "ディジュリドゥ",
-  "tooltip.waila.instrument.bit"                               : "矩形波",
-  "tooltip.waila.instrument.banjo"                             : "バンジョー",
-  "tooltip.waila.instrument.pling"                             : "エレクトリックピアノ",
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  "gui.waila.configuration"                                    : "%s配置",
-  "gui.waila.waila_settings"                                   : "%s設定",
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  "command.waila.server_dump_success"                          : "サーバーは正常にダンプされました。ファイル場所: %s",
-
-  "command.waila.client_dump_success"                          : "クライアントは正常にダンプされました。ファイル場所: %s",
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  "config.waila.true"                                          : "オン",
-  "config.waila.false"                                         : "オフ",
-
-
-
-
-
-
-
-
-
-
-
-
-  "config.waila.general"                                       : "一般",
-  "config.waila.display_tooltip"                               : "ツールヒントの表示",
-  "config.waila.display_tooltip_desc"                          : "ツールヒントを示す",
-  "config.waila.sneaky_details"                                : "スニークの詳細",
-  "config.waila.sneaky_details_desc"                           : "スニークしなかったら詳細が隠す",
-
-
-  "config.waila.display_mode"                                  : "表示モード",
-  "config.waila.display_mode_desc"                             : "ツールヒントの表示行動\n切り替え: 表示のキーボードショートカットで切り替え\n固定: 表示のキーボードショートカットを固定するのは必要",
-  "config.waila.display_mode_toggle"                           : "切り替え",
-  "config.waila.display_mode_hold_key"                         : "固定",
-  "config.waila.hide_from_players"                             : "プレイヤーリストから非表示",
-  "config.waila.hide_from_players_desc"                        : "ツールヒントはプレイヤーリストを表しながら隠す",
-  "config.waila.hide_from_debug"                               : "デバッグ画面から非表示",
-  "config.waila.hide_from_debug_desc"                          : "ツールヒントはデバッグ画面を表しながら隠す",
-  "config.waila.rate_limit"                                    : "速度制限",
-  "config.waila.rate_limit_desc"                               : "遅延は各サーバー要求の何ミリ秒で\n少なくとも250ミリ秒以上は必要",
-
-
-
-  "config.waila.tts"                                           : "音声読み上げを有効にする",
-  "config.waila.tts_desc"                                      : "ブロックやエンティティ名などをシステム音声で読み上げます",
-
-  "config.waila.overlay"                                       : "オーバーレイ",
-
-
-
-
-
-  "config.waila.overlay_pos_x"                                 : "xオフセット",
-  "config.waila.overlay_pos_x_desc"                            : "xは画面アンカーから比較的にある\n位置はスケールに寄って違う",
-  "config.waila.overlay_pos_y"                                 : "ｙオフセット",
-  "config.waila.overlay_pos_y_desc"                            : "yは画面アンカーから比較的にある\n位置はスケールに寄って違う",
-
-  "config.waila.boss_bars_overlap"                             : "ボスバーの重ね合わせ",
-  "config.waila.boss_bars_overlap_desc"                        : "オフにしたらツールヒントはボスバーのある場合下に動かす\n上中配置に限る",
-
-  "config.waila.overlay_scale"                                 : "スケール",
-  "config.waila.overlay_scale_desc"                            : "ツールヒントの大きさはどのように大きくか\n初期値は1.0",
-
-  "config.waila.overlay_anchor_x"                              : "水平方向のアンカー",
-  "config.waila.overlay_anchor_x_desc"                         : "画面のどの部分から原点が始まる\nマインクラフトのウィンドウをリサイズすればテストすることが出来る",
-  "config.waila.overlay_anchor_x_left"                         : "左",
-  "config.waila.overlay_anchor_x_right"                        : "右",
-  "config.waila.overlay_anchor_x_center"                       : "中",
-
-  "config.waila.overlay_anchor_y"                              : "垂直方向のアンカー",
-  "config.waila.overlay_anchor_y_desc"                         : "画面のどの部分から原点が始まる\nマインクラフトのウィンドウをリサイズすればテストすることが出来る",
-  "config.waila.overlay_anchor_y_top"                          : "上",
-  "config.waila.overlay_anchor_y_bottom"                       : "下",
-  "config.waila.overlay_anchor_y_middle"                       : "中",
-
-  "config.waila.overlay_align_x"                               : "水平方向の配置",
-  "config.waila.overlay_align_x_desc"                          : "違う大きさによってツールヒントはどこに配置する",
-  "config.waila.overlay_align_x_left"                          : "左",
-  "config.waila.overlay_align_x_right"                         : "右",
-  "config.waila.overlay_align_x_center"                        : "中",
-
-  "config.waila.overlay_align_y"                               : "垂直方向の配置",
-  "config.waila.overlay_align_y_desc"                          : "違う大きさによってツールヒントはどこに配置する",
-  "config.waila.overlay_align_y_top"                           : "上",
-  "config.waila.overlay_align_y_bottom"                        : "下",
-  "config.waila.overlay_align_y_middle"                        : "中",
-
-  "config.waila.overlay_color"                                 : "色",
-  "config.waila.overlay_background_alpha"                      : "背景の透明",
-
-  "config.waila.overlay_theme"                                 : "テーマ",
-
-
-
-
-
-
-
-
-  "config.waila.formatting"                                    : "書式付け",
-  "config.waila.format_mod_name"                               : "mod名",
-  "config.waila.format_block_name"                             : "ブロック名",
-  "config.waila.format_fluid_name"                             : "流体名",
-  "config.waila.format_entity_name"                            : "エンティティ名",
-  "config.waila.format_registry_name"                          : "id名",
-
-
-  "key.waila.config"                                           : "設定を開く",
-  "key.waila.show_overlay"                                     : "オーバーレイ表示",
-  "key.waila.toggle_liquid"                                    : "液体の切り替え",
-  "key.waila.show_recipe_input"                                : "レシピ使用の表示",
-  "key.waila.show_recipe_output"                               : "レシピの表示",
-
-
-
-  "config.waila.plugin_minecraft"                              : "Minecraft",
-
-
-
-
-  "config.waila.plugin_minecraft.override"                     : "オーバーライド",
-
-  "config.waila.plugin_minecraft.override.infested"            : "虫食い石を普通の石に示す",
-  "config.waila.plugin_minecraft.override.trapped_chest"       : "トラップチェストを普通のチェストに示す",
-  "config.waila.plugin_minecraft.override.powder_snow"         : "粉雪を普通の雪に示す",
-
-
-
-  "config.waila.plugin_minecraft.spawner.type"                 : "スポナー種類の表示",
-
-  "config.waila.plugin_minecraft.plant.crop_progress"          : "作物の成長の表示",
-
-
-  "config.waila.plugin_minecraft.redstone"                     : "レッドストーン",
-  "config.waila.plugin_minecraft.redstone.lever"               : "レバーの状態を表示",
-  "config.waila.plugin_minecraft.redstone.repeater"            : "リピーター遅延の表示",
-  "config.waila.plugin_minecraft.redstone.comparator"          : "コンパレーターモードの表示",
-  "config.waila.plugin_minecraft.redstone.level"               : "動力レベルの表示",
-  "config.waila.plugin_minecraft.jukebox"                      : "ジュークボックス",
-  "config.waila.plugin_minecraft.jukebox.record"               : "レコードの再生を表示",
-  "config.waila.plugin_minecraft.player_head"                  : "プレイヤーの頭",
-  "config.waila.plugin_minecraft.player_head.name"             : "プレイヤー名の表示",
-  "config.waila.plugin_minecraft.level"                        : "レベル",
-  "config.waila.plugin_minecraft.level.composter"              : "堆肥レベルの表示",
-  "config.waila.plugin_minecraft.note_block"                   : "音符ブロック",
-  "config.waila.plugin_minecraft.note_block.type"              : "楽器と音符の表示",
-  "config.waila.plugin_minecraft.note_block.note"              : "音符の表示モード",
-  "config.waila.plugin_minecraft.note_block.note_sharp"        : "シャープ",
-  "config.waila.plugin_minecraft.note_block.note_flat"         : "フラット",
-  "config.waila.plugin_minecraft.note_block.int_value"         : "整数値の表示",
-  "config.waila.plugin_minecraft.pet"                          : "ペット",
-  "config.waila.plugin_minecraft.pet.owner"                    : "飼い主の表示",
-  "config.waila.plugin_minecraft.pet.owner_desc"               : "登録したMinecraftアカウントだけに使用可能",
-  "config.waila.plugin_minecraft.pet.hide_unknown_owner"       : "不明飼主を隠す",
-
-
-
-
-
-
-
-  "config.waila.plugin_minecraft.entity.item_entity"           : "アイテムのエンティティの表示",
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  "config.waila.plugin_waila"                                  : "Wailaコア",
-  "config.waila.plugin_waila.show_mod_name"                    : "mod名の表示",
-
-  "config.waila.plugin_waila.show_registry"                    : "id名の表示",
-  "config.waila.plugin_waila.show_blocks"                      : "ブロックの表示",
-  "config.waila.plugin_waila.show_fluids"                      : "流体の表示",
-  "config.waila.plugin_waila.show_fluids_desc"                 : "流体の表示を試してみる",
-  "config.waila.plugin_waila.show_entities"                    : "エンティティの表示"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    "tooltip.waila.crop_growth"                                  : "成長",
+    "tooltip.waila.crop_growable"                                : "成長可能",
+    "tooltip.waila.tree_growable"                                : "成長可能",
+    "tooltip.waila.crop_mature"                                  : "完全",
+    "tooltip.waila.empty"                                        : "空",
+    "tooltip.waila.delay"                                        : "遅延",
+    "tooltip.waila.mode"                                         : "モード",
+    "tooltip.waila.mode_comparator"                              : "比較",
+    "tooltip.waila.mode_subtractor"                              : "減算",
+    "tooltip.waila.state"                                        : "状態",
+    "tooltip.waila.state_on"                                     : "入",
+    "tooltip.waila.state_off"                                    : "切",
+    "tooltip.waila.true"                                         : "True",
+    "tooltip.waila.false"                                        : "False",
+    "tooltip.waila.power"                                        : "動力",
+    "tooltip.waila.sneak_for_details"                            : "スニークすることで詳細",
+    "tooltip.waila.compost_level"                                : "堆肥レベル",
+    "tooltip.waila.honey_level"                                  : "蜜レベル",
+    "tooltip.waila.owner"                                        : "飼主",
+    "tooltip.waila.owner.loading"                                : "読込中...",
+    "tooltip.waila.timer.grow"                                   : "成長タイマー",
+    "tooltip.waila.timer.breed"                                  : "繁殖クールダウン",
+
+    "tooltip.waila.bee.hive"                                     : "養蜂箱",
+
+    "tooltip.waila.horse.jump.key"                               : "ジャンプ",
+    "tooltip.waila.horse.jump.value"                             : "%s ブロック",
+    "tooltip.waila.horse.speed.key"                              : "速度",
+    "tooltip.waila.horse.speed.value"                            : "%s m/s",
+
+    "tooltip.waila.panda.personality"                            : "個性",
+    "tooltip.waila.panda.traits"                                 : "特徴",
+
+    "tooltip.waila.panda.gene"                                   : "_DO_NOT_TRANSLATE_",
+    "tooltip.waila.panda.gene.normal"                            : "普通",
+    "tooltip.waila.panda.gene.lazy"                              : "怠け",
+    "tooltip.waila.panda.gene.worried"                           : "臆病",
+    "tooltip.waila.panda.gene.playful"                           : "やんちゃ",
+    "tooltip.waila.panda.gene.brown"                             : "茶色",
+    "tooltip.waila.panda.gene.weak"                              : "弱い",
+    "tooltip.waila.panda.gene.aggressive"                        : "やんちゃ",
+
+    "tooltip.waila.instrument"                                   : "_DO_NOT_TRANSLATE_",
+    "tooltip.waila.instrument.harp"                              : "ハープ",
+    "tooltip.waila.instrument.basedrum"                          : "バスドラム",
+    "tooltip.waila.instrument.snare"                             : "スネアドラム",
+    "tooltip.waila.instrument.hat"                               : "ハイハット",
+    "tooltip.waila.instrument.bass"                              : "ベース",
+    "tooltip.waila.instrument.flute"                             : "フルート",
+    "tooltip.waila.instrument.bell"                              : "グロッケンシュピール",
+    "tooltip.waila.instrument.guitar"                            : "ギター",
+    "tooltip.waila.instrument.chime"                             : "チャイム",
+    "tooltip.waila.instrument.xylophone"                         : "シロフォン",
+    "tooltip.waila.instrument.iron_xylophone"                    : "ヴィブラフォン",
+    "tooltip.waila.instrument.cow_bell"                          : "カウベル",
+    "tooltip.waila.instrument.didgeridoo"                        : "ディジュリドゥ",
+    "tooltip.waila.instrument.bit"                               : "矩形波",
+    "tooltip.waila.instrument.banjo"                             : "バンジョー",
+    "tooltip.waila.instrument.pling"                             : "エレクトリックピアノ",
+    "tooltip.waila.instrument.zombie"                            : "ゾンビ",
+    "tooltip.waila.instrument.skeleton"                          : "スケルトン",
+    "tooltip.waila.instrument.creeper"                           : "クリーパー",
+    "tooltip.waila.instrument.dragon"                            : "エンダードラゴン",
+    "tooltip.waila.instrument.wither_skeleton"                   : "ウィザースケルトン",
+    "tooltip.waila.instrument.piglin"                            : "ピグリン",
+    "tooltip.waila.instrument.none"                              : "なし",
+
+    "tooltip.waila.extra.energy"                                 : "エネルギー",
+    "tooltip.waila.extra.unknown_fluid"                          : "未知の液体",
+
+    "tooltip.waila.harvest.harvestable"                          : "現在収穫可能",
+    "tooltip.waila.harvest.effective_tool"                       : "効果的な道具",
+    "tooltip.waila.harvest.level"                                : "収穫レベル",
+
+    "tooltip.waila.harvest.tool"                                 : "_DO_NOT_TRANSLATE_",
+    "tooltip.waila.harvest.tool.minecraft.pickaxe"               : "ツルハシ",
+    "tooltip.waila.harvest.tool.minecraft.shovel"                : "シャベル",
+    "tooltip.waila.harvest.tool.minecraft.axe"                   : "斧",
+    "tooltip.waila.harvest.tool.minecraft.hoe"                   : "クワ",
+    "tooltip.waila.harvest.tool.minecraft.sword"                 : "剣",
+    "tooltip.waila.harvest.tool.minecraft.shears"                : "ハサミ",
+
+    "tooltip.waila.harvest.tier"                                 : "_DO_NOT_TRANSLATE_",
+    "tooltip.waila.harvest.tier.wood"                            : "木",
+    "tooltip.waila.harvest.tier.stone"                           : "石",
+    "tooltip.waila.harvest.tier.iron"                            : "鉄",
+    "tooltip.waila.harvest.tier.gold"                            : "金",
+    "tooltip.waila.harvest.tier.diamond"                         : "ダイヤ",
+    "tooltip.waila.harvest.tier.netherite"                       : "ネザライト",
+
+    "gui.waila.configuration"                                    : "%s配置",
+    "gui.waila.waila_settings"                                   : "%s設定",
+
+    "gui.waila.esc_warning.umm"                                  : "うーん...",
+    "gui.waila.esc_warning.lmao"                                 : "%sまたは%sボタンを押して閉じる",
+
+    "gui.waila.plugin.toggle"                                    : "プラグイン切り替え",
+    "gui.waila.plugin.toggle.disabled_on_server"                 : "このプラグインはサーバー上で無効になっています",
+    "gui.waila.plugin.toggle.locked"                             : "このプラグインを無効にできません",
+    "gui.waila.plugin.toggle.confirm"                            : "プラグインを切り替えると、WTHITの設定がリセットされることがあります!\n古い設定ファイルは、同じフォルダに時間サフィックスをつけてバックアップされます。\n詳細はログ出力を参照。",
+    "gui.waila.plugin.settings"                                  : "プラグイン設定",
+
+    "gui.waila.credits"                                          : "クレジット",
+    "gui.waila.credits.original_mod_by"                          : "オリジナルの\"WAILA\" MOD作成者: ",
+    "gui.waila.credits.authors"                                  : "作成者",
+    "gui.waila.credits.contributors"                             : "貢献者",
+
+    "json5.waila.config.default_value"                           : "標準値: [%s]",
+    "json5.waila.config.available_values"                        : "利用可能な値: [%s]",
+
+    "json5.waila.config.plugin.custom_file"                      : "カスタムコンフィグで、以下のファイルを開きます",
+    "json5.waila.config.plugin.server_required"                  : "サーバーにWTHITがインストールされている必要があります。インストールされていない場合、[%s]に固定されます。",
+    "json5.waila.config.plugin.merged"                           : "この値はサーバーからの値と統合されます。",
+    "json5.waila.config.plugin.synced"                           : "この値はサーバーによって上書きされます。",
+
+    "command.waila.server_dump_success"                          : "サーバーは正常にダンプされました。ファイル場所: %s",
+    "command.waila.local_dump_success"                           : "専用サーバーは正常にダンプされました。ファイル場所: %s",
+    "command.waila.client_dump_success"                          : "クライアントは正常にダンプされました。ファイル場所: %s",
+
+    "command.waila.plugin.reload"                                : "プラグイン再読み込み",
+    "command.waila.plugin.list.available.none"                   : "利用可能なプラグインはありません",
+    "command.waila.plugin.list.available.success"                : "利用可能なプラグインが%s個あります: %s",
+    "command.waila.plugin.list.enabled.none"                     : "有効なプラグインはありません",
+    "command.waila.plugin.list.enabled.success"                  : "有効なプラグインが%s個あります: %s",
+    "command.waila.plugin.modify.disable"                        : "プラグインを無効化 %s",
+    "command.waila.plugin.modify.enable"                         : "プラグインを有効化 %s",
+    "command.waila.plugin.unknown"                               : "不明なプラグイン '%s'",
+    "command.waila.plugin.locked"                                : "ロックされたプラグイン '%s'",
+    "command.waila.plugin.disabled_on_server"                    : "サーバでプラグイン '%s' が無効になっています。",
+
+    "command.waila.overlay.true"                                 : "オーバーレイ有効",
+    "command.waila.overlay.false"                                : "オーバーレイ無効",
+
+    "command.waila.config.unknown_id"                            : "不明なプラグイン設定ID %s",
+    "command.waila.config.get.id"                                : "プラグイン設定ID: %s",
+    "command.waila.config.get.synced"                            : "同期完了: %s",
+    "command.waila.config.get.current_value"                     : "現在値: %s",
+    "command.waila.config.get.default_value"                     : "規定値: %s",
+    "command.waila.config.get.client_only_value"                 : "クライアントのみの値: %s",
+    "command.waila.config.set.synced"                            : "以下のプラグイン設定を同期できません: %s",
+    "command.waila.config.set.success"                           : "プラグイン構成を %s から %s に設定します。",
+    "command.waila.config.set.parse_fail"                        : "値の解析に失敗しました: %s",
+
+    "config.waila.search_prompt"                                 : "検索...",
+    "config.waila.expand_all"                                    : "全て展開",
+    "config.waila.true"                                          : "オン",
+    "config.waila.false"                                         : "オフ",
+    "config.waila.preview_prompt"                                : "§5F1§rを押してツールチップをプレビューする",
+    "config.waila.edit"                                          : "編集",
+    "config.waila.open_file"                                     : "ファイルを開く",
+    "config.waila.new"                                           : "新規",
+    "config.waila.missing_input"                                 : "入力がありません",
+    "config.waila.invalid_input.title"                           : "無効な入力",
+    "config.waila.invalid_input.desc"                            : "赤い名前で値を検索",
+    "config.waila.server_only"                                   : "サーバーまたはシングルプレイでのみ編集可能",
+    "config.waila.server_disabled"                               : "サーバー側でこのオプションはを無効になっています",
+    "config.waila.server_missing_mod"                            : "サーバーにWTHITがインストールされていないため、ロックされました",
+    "config.waila.server_missing_option"                         : "サーバーにこのオプションがないため、ロックさされました",
+
+    "config.waila.general"                                       : "一般",
+    "config.waila.display_tooltip"                               : "ツールヒントの表示",
+    "config.waila.display_tooltip_desc"                          : "ツールヒントを示す",
+    "config.waila.sneaky_details"                                : "スニークで詳細を表示",
+    "config.waila.sneaky_details_desc"                           : "スニークしていないときは詳細を隠す",
+    "config.waila.hide_sneak_text"                               : "スニークテキストを隠す",
+    "config.waila.hide_sneak_text_desc"                          : "スニーク時の詳細表示が有効な場合に\"スニーク時の詳細表示\"を隠す",
+    "config.waila.display_mode"                                  : "表示モード",
+    "config.waila.display_mode_desc"                             : "ツールヒントの表示行動\n切り替え: 表示のキーボードショートカットで切り替え\n固定: 表示のキーボードショートカットを固定するのは必要",
+    "config.waila.display_mode_toggle"                           : "切り替え",
+    "config.waila.display_mode_hold_key"                         : "固定",
+    "config.waila.hide_from_players"                             : "プレイヤーリストから非表示",
+    "config.waila.hide_from_players_desc"                        : "ツールヒントはプレイヤーリストを表しながら隠す",
+    "config.waila.hide_from_debug"                               : "デバッグ画面から非表示",
+    "config.waila.hide_from_debug_desc"                          : "ツールヒントはデバッグ画面を表しながら隠す",
+    "config.waila.rate_limit"                                    : "速度制限",
+    "config.waila.rate_limit_desc"                               : "各サーバーリクエスト間の遅延を何ミリ秒にするか\n少なくとも250msが必要",
+    "config.waila.blacklist"                                     : "ブラックリスト",
+    "config.waila.blacklist_open"                                : "ブラックリストファイルを開く",
+
+    "config.waila.tts"                                           : "音声読み上げを有効にする",
+    "config.waila.tts_desc"                                      : "ブロックやエンティティ名などをシステム音声で読み上げます",
+
+    "config.waila.overlay"                                       : "オーバーレイ",
+
+    "config.waila.overlay_fps"                                   : "オーバーレイのFPS",
+    "config.waila.overlay_fps_desc"                              : "オーバーレイのFPSを下げれば、ゲーム全体のFPSが向上することがある\nロックを解除するには 0 を設定する",
+    "config.waila.overlay_fps.disabled_reason"                   : "このオプションはレンダリングの問題を引き起こしたため、現在無効になっています。",
+
+    "config.waila.overlay_pos_x"                                 : "Xオフセット",
+    "config.waila.overlay_pos_x_desc"                            : "スクリーンアンカーからの相対X位置\n位置はスケールによって変化します",
+    "config.waila.overlay_pos_y"                                 : "Yオフセット",
+    "config.waila.overlay_pos_y_desc"                            : "スクリーンアンカーからの相対Y位置\n位置はスケールによって変化します",
+
+    "config.waila.boss_bars_overlap"                             : "ボスバーの重ね合わせ",
+    "config.waila.boss_bars_overlap_desc"                        : "オフした場合、ボスバーのある時にツールヒントを下に動かす\n上-中配置の時に限る",
+
+    "config.waila.overlay_scale"                                 : "スケール",
+    "config.waila.overlay_scale_desc"                            : "ツールヒントの大きさはどのように大きくか\n初期値は1.0",
+
+    "config.waila.overlay_anchor_x"                              : "水平方向のアンカー",
+    "config.waila.overlay_anchor_x_desc"                         : "画面のどの部分から原点が始まるか\nマインクラフトのウィンドウをリサイズすれば確認可能です",
+    "config.waila.overlay_anchor_x_left"                         : "左",
+    "config.waila.overlay_anchor_x_right"                        : "右",
+    "config.waila.overlay_anchor_x_center"                       : "中",
+
+    "config.waila.overlay_anchor_y"                              : "垂直方向のアンカー",
+    "config.waila.overlay_anchor_y_desc"                         : "画面のどの部分から原点が始まるか\nマインクラフトのウィンドウをリサイズすれば確認可能です",
+    "config.waila.overlay_anchor_y_top"                          : "上",
+    "config.waila.overlay_anchor_y_bottom"                       : "下",
+    "config.waila.overlay_anchor_y_middle"                       : "中",
+
+    "config.waila.overlay_align_x"                               : "水平方向の配置",
+    "config.waila.overlay_align_x_desc"                          : "異なるサイズのツールチップをどのように整列させるか",
+    "config.waila.overlay_align_x_left"                          : "左",
+    "config.waila.overlay_align_x_right"                         : "右",
+    "config.waila.overlay_align_x_center"                        : "中",
+
+    "config.waila.overlay_align_y"                               : "垂直方向の配置",
+    "config.waila.overlay_align_y_desc"                          : "異なるサイズのツールチップをどのように整列させるか",
+    "config.waila.overlay_align_y_top"                           : "上",
+    "config.waila.overlay_align_y_bottom"                        : "下",
+    "config.waila.overlay_align_y_middle"                        : "中",
+
+    "config.waila.overlay_color"                                 : "色",
+    "config.waila.overlay_background_alpha"                      : "背景の透明",
+
+    "config.waila.overlay_theme"                                 : "テーマ",
+    "config.waila.overlay_theme_editor.refresh"                  : "プレビューを更新",
+    "config.waila.overlay_theme_editor.id"                       : "テーマID",
+    "config.waila.overlay_theme_editor.id_empty"                 : "新しいテーマにはIDが必要",
+    "config.waila.overlay_theme_editor.type"                     : "テーマタイプ",
+    "config.waila.overlay_theme_editor.attributes"               : "テーマ属性",
+    "config.waila.overlay_theme_editor.delete"                   : "テーマを削除",
+    "config.waila.overlay_theme_editor.delete_prompt"            : "%s テーマを削除しますか?",
+
+    "config.waila.formatting"                                    : "フォーマット",
+    "config.waila.format_mod_name"                               : "MOD名",
+    "config.waila.format_block_name"                             : "ブロック名",
+    "config.waila.format_fluid_name"                             : "流体名",
+    "config.waila.format_entity_name"                            : "エンティティ名",
+    "config.waila.format_registry_name"                          : "レジストリ名",
+
+    "config.waila.keybinds"                                      : "キーバインド",
+    "key.waila.config"                                           : "設定を開く",
+    "key.waila.show_overlay"                                     : "オーバーレイ表示",
+    "key.waila.toggle_liquid"                                    : "液体の切り替え",
+    "key.waila.show_recipe_input"                                : "レシピ使用の表示",
+    "key.waila.show_recipe_output"                               : "レシピの表示",
+
+    "config.waila.plugin_"                                       : "_DO_NOT_TRANSLATE_",
+
+    "config.waila.plugin_minecraft"                              : "Minecraft",
+    "config.waila.plugin_minecraft.breaking_progress"            : "破壊進捗",
+    "config.waila.plugin_minecraft.breaking_progress.enabled"    : "破壊進捗を表示する",
+    "config.waila.plugin_minecraft.breaking_progress.color"      : "破壊進捗の色",
+    "config.waila.plugin_minecraft.breaking_progress.bottom_only": "中央のみ",
+    "config.waila.plugin_minecraft.override"                     : "オーバーライド",
+    "config.waila.plugin_minecraft.override.invisible_entity"    : "不可視のエンティティを表示しない",
+    "config.waila.plugin_minecraft.override.infested"            : "虫食い石を普通の石として表示",
+    "config.waila.plugin_minecraft.override.trapped_chest"       : "トラップチェストを普通のチェストとして表示",
+    "config.waila.plugin_minecraft.override.powder_snow"         : "粉雪を普通の雪として表示",
+    "config.waila.plugin_minecraft.override.vehicle"             : "騎乗時に表示しない",
+    "config.waila.plugin_minecraft.override.vehicle_desc"        : "トロッコ、馬、その他の騎乗可能なエンティティにプレイヤーが騎乗した際に隠す",
+    "config.waila.plugin_minecraft.spawner"                      : "スポナー",
+    "config.waila.plugin_minecraft.spawner.type"                 : "スポナー種類の表示",
+    "config.waila.plugin_minecraft.plant"                        : "植物",
+    "config.waila.plugin_minecraft.plant.crop_progress"          : "植物の成長の表示",
+    "config.waila.plugin_minecraft.plant.crop_growable"          : "植物が成長可能かを表示",
+    "config.waila.plugin_minecraft.plant.tree_growable"          : "苗木が成長可能かを表示",
+    "config.waila.plugin_minecraft.redstone"                     : "レッドストーン",
+    "config.waila.plugin_minecraft.redstone.lever"               : "レバーの状態を表示",
+    "config.waila.plugin_minecraft.redstone.repeater"            : "リピーター遅延の表示",
+    "config.waila.plugin_minecraft.redstone.comparator"          : "コンパレーターモードの表示",
+    "config.waila.plugin_minecraft.redstone.level"               : "動力レベルの表示",
+    "config.waila.plugin_minecraft.jukebox"                      : "ジュークボックス",
+    "config.waila.plugin_minecraft.jukebox.record"               : "レコードの再生を表示",
+    "config.waila.plugin_minecraft.player_head"                  : "プレイヤーの頭",
+    "config.waila.plugin_minecraft.player_head.name"             : "プレイヤー名の表示",
+    "config.waila.plugin_minecraft.level"                        : "レベル",
+    "config.waila.plugin_minecraft.level.composter"              : "堆肥レベルの表示",
+    "config.waila.plugin_minecraft.note_block"                   : "音符ブロック",
+    "config.waila.plugin_minecraft.note_block.type"              : "楽器と音符の表示",
+    "config.waila.plugin_minecraft.note_block.note"              : "音符の表示モード",
+    "config.waila.plugin_minecraft.note_block.note_sharp"        : "シャープ",
+    "config.waila.plugin_minecraft.note_block.note_flat"         : "フラット",
+    "config.waila.plugin_minecraft.note_block.int_value"         : "整数値の表示",
+    "config.waila.plugin_minecraft.pet"                          : "ペット",
+    "config.waila.plugin_minecraft.pet.owner"                    : "飼い主の表示",
+    "config.waila.plugin_minecraft.pet.owner_desc"               : "登録したMinecraftアカウントだけに使用可能",
+    "config.waila.plugin_minecraft.pet.hide_unknown_owner"       : "不明な飼主を表示しない",
+    "config.waila.plugin_minecraft.timer"                        : "タイマー",
+    "config.waila.plugin_minecraft.timer.grow"                   : "成長タイマーを表示",
+    "config.waila.plugin_minecraft.timer.breed"                  : "繁殖クールダウンを表示",
+    "config.waila.plugin_minecraft.block"                        : "ブロック",
+    "config.waila.plugin_minecraft.block.position"               : "ブロックの向きを表示",
+    "config.waila.plugin_minecraft.block.state"                  : "ブロックの状態を表示",
+    "config.waila.plugin_minecraft.entity"                       : "エンティティ",
+    "config.waila.plugin_minecraft.entity.item_entity"           : "アイテムのエンティティの表示",
+    "config.waila.plugin_minecraft.entity.position"              : "エンティティの一を表示",
+    "config.waila.plugin_minecraft.entity.health"                : "HPを表示",
+    "config.waila.plugin_minecraft.entity.absorption"            : "吸収したHPを表示",
+    "config.waila.plugin_minecraft.entity.armor"                 : "アーマーポイントを表示",
+    "config.waila.plugin_minecraft.entity.compact"               : "コンパクトモード",
+    "config.waila.plugin_minecraft.entity.compact_desc"          : "HPとアーマーポイントをアイコンの代わりに1行の数字として表示。",
+    "config.waila.plugin_minecraft.entity.icon_per_line"         : "ラインごとの最大アイコン数",
+    "config.waila.plugin_minecraft.entity.icon_per_line_desc"    : "新しい行を開始する前のHPとアーマーのアイコンの最大数",
+    "config.waila.plugin_minecraft.entity.long_health_max"       : "最大描画HP",
+    "config.waila.plugin_minecraft.entity.long_health_max_desc"  : "分数表示に切り替わる前にアイコンが描画するヘルスポイントの最大値",
+    "config.waila.plugin_minecraft.entity.long_armor_max"        : "最大描画アーマーポイント",
+    "config.waila.plugin_minecraft.entity.long_armor_max_desc"   : "数値表示に切り替わる前にアイコンが描画するアーマーポイントの最大値",
+    "config.waila.plugin_minecraft.bee"                          : "ミツバチ",
+    "config.waila.plugin_minecraft.bee.hive_pos"                 : "ミツバチの巣の場所を示す",
+    "config.waila.plugin_minecraft.bee.hive_honey_level"         : "ミツバチの巣の段階を示す",
+    "config.waila.plugin_minecraft.bee.hive_occupants"           : "蜂の巣の中のミツバチの数を表示",
+    "config.waila.plugin_minecraft.horse"                        : "ウマ",
+    "config.waila.plugin_minecraft.horse.jump_height"            : "ウマのジャンプ高さを表示する",
+    "config.waila.plugin_minecraft.horse.speed"                  : "ウマの速度を表示する",
+    "config.waila.plugin_minecraft.panda"                        : "パンダ",
+    "config.waila.plugin_minecraft.panda.genes"                  : "パンダの遺伝子を表示する",
+    "config.waila.plugin_minecraft.effect"                       : "効果",
+    "config.waila.plugin_minecraft.effect.beacon"                : "ビーコンの効果を表示する",
+    "config.waila.plugin_minecraft.effect.mob"                   : "モブの効果を表示する",
+    "config.waila.plugin_minecraft.effect.hidden_mob"            : "隠れているモブの効果を表示する",
+    "config.waila.plugin_minecraft.book"                         : "本",
+    "config.waila.plugin_minecraft.book.bookshelf"               : "模様入りの本棚の本を表示する",
+    "config.waila.plugin_minecraft.book.written"                 : "書かれた本の著者と世代を表示する",
+    "config.waila.plugin_minecraft.book.enchantment"             : "エンチャント表示モード",
+    "config.waila.plugin_minecraft.book.enchantment_separate"    : "分離",
+    "config.waila.plugin_minecraft.book.enchantment_combined"    : "結合",
+    "config.waila.plugin_minecraft.book.enchantment_cycle"       : "サイクル表示",
+    "config.waila.plugin_minecraft.book.enchantment_disabled"    : "非表示",
+    "config.waila.plugin_minecraft.book.enchantment_cycle_timing": "エンチャントサイクル表示のタイミング(ミリ秒)",
+
+    "config.waila.plugin_waila"                                  : "Wailaコア",
+    "config.waila.plugin_waila.show_mod_name"                    : "MOD名の表示",
+    "config.waila.plugin_waila.show_item_mod_name"               : "アイテムのMOD名を表示",
+    "config.waila.plugin_waila.show_registry"                    : "レジストリ名の表示",
+    "config.waila.plugin_waila.show_blocks"                      : "ブロックの表示",
+    "config.waila.plugin_waila.show_fluids"                      : "流体の表示",
+    "config.waila.plugin_waila.show_fluids_desc"                 : "流体の表示を試みる",
+    "config.waila.plugin_waila.show_entities"                    : "エンティティの表示",
+    "config.waila.plugin_waila.show_icon"                        : "アイコンを表示",
+    "config.waila.plugin_waila.icon_position"                    : "アイコン一",
+    "config.waila.plugin_waila.icon_position_top"                : "上",
+    "config.waila.plugin_waila.icon_position_middle"             : "中",
+    "config.waila.plugin_waila.icon_position_bottom"             : "下",
+
+    "config.waila.plugin_harvest"                                : "Harvest",
+    "config.waila.plugin_harvest.enabled"                        : "収穫可能性の表示",
+    "config.waila.plugin_harvest.display_mode"                   : "表示モード",
+    "config.waila.plugin_harvest.display_mode_modern"            : "モダン",
+    "config.waila.plugin_harvest.display_mode_classic"           : "クラシック",
+    "config.waila.plugin_harvest.display_mode_classic_minimal"   : "クラシック・ミニマル",
+    "config.waila.plugin_harvest.creative"                       : "クリエイティブモードで表示する",
+
+    "config.waila.plugin_wailax"                                 : "Waila Extra",
+    "config.waila.plugin_wailax.energy"                          : "エネルギー",
+    "config.waila.plugin_wailax.energy.enabled_block"            : "ブロックのエネルギー",
+    "config.waila.plugin_wailax.energy.enabled_entity"           : "エンティティのエネルギー",
+    "config.waila.plugin_wailax.energy.blacklist"                : "エネルギーブラックリスト",
+    "config.waila.plugin_wailax.progress"                        : "作業進捗",
+    "config.waila.plugin_wailax.progress.enabled_block"          : "ブロックの作業進捗を表示",
+    "config.waila.plugin_wailax.progress.enabled_entity"         : "エンティティの作業進捗を表示",
+    "config.waila.plugin_wailax.progress.blacklist"              : "作業進捗ブラックリスト",
+    "config.waila.plugin_wailax.item"                            : "アイテム",
+    "config.waila.plugin_wailax.item.enabled_block"              : "ブロック内のアイテムを表示",
+    "config.waila.plugin_wailax.item.enabled_entity"             : "エンティティ内のアイテムを表示",
+    "config.waila.plugin_wailax.item.nbt"                        : "NBTデータを同期",
+    "config.waila.plugin_wailax.item.display_mode"               : "表示モード",
+    "config.waila.plugin_wailax.item.display_mode_desc"          : "グリッド: インベントリーのようにグリッドで表示する\nリスト:インラインの縦書きリストとして表示\n動的: 最大高さを超えるとリストからグリッドに切り替わる",
+    "config.waila.plugin_wailax.item.display_mode_grid"          : "グリッド",
+    "config.waila.plugin_wailax.item.display_mode_list"          : "リスト",
+    "config.waila.plugin_wailax.item.display_mode_dynamic"       : "ダイナミック",
+    "config.waila.plugin_wailax.item.max_height"                 : "最大高さ",
+    "config.waila.plugin_wailax.item.sort_by_count"              : "個数でソートする",
+    "config.waila.plugin_wailax.item.blacklist"                  : "アイテム表示ブラックリスト",
+    "config.waila.plugin_wailax.fluid"                           : "流体",
+    "config.waila.plugin_wailax.fluid.enabled_block"             : "ブロック内の流体を表示する",
+    "config.waila.plugin_wailax.fluid.enabled_entity"            : "エンティティ内の流体を表示する",
+    "config.waila.plugin_wailax.fluid.display_unit"              : "表示単位",
+    "config.waila.plugin_wailax.fluid.display_unit_millibuckets" : "ミリバケツ (mB)",
+    "config.waila.plugin_wailax.fluid.display_unit_droplets"     : "ドロップレット (dp)",
+    "config.waila.plugin_wailax.fluid.blacklist"                 : "流体表示ブラックリスト",
+
+    "theme.waila.plugin_waila.gradient.backgroundColor"          : "背景色",
+    "theme.waila.plugin_waila.gradient.gradientStart"            : "境界グラデーション開始",
+    "theme.waila.plugin_waila.gradient.gradientEnd"              : "境界グラデーション終了",
+    "theme.waila.plugin_waila.gradient.borderSize"               : "境界サイズ",
+    "theme.waila.plugin_waila.gradient.borderOffset"             : "境界オフセット",
+    "theme.waila.plugin_waila.gradient.drawCorner"               : "角を描画",
+    "theme.waila.plugin_waila.gradient.fontColor"                : "文字色",
+
+    "theme.waila.plugin_waila.nine_patch.texture"                : "テクスチャ",
+    "theme.waila.plugin_waila.nine_patch.texture_desc"           : "テクスチャの識別子または設定ファイルからの相対パス。",
+    "theme.waila.plugin_waila.nine_patch.useResourcePack"        : "リソースパックを使用",
+    "theme.waila.plugin_waila.nine_patch.textColor"              : "文字色",
+    "theme.waila.plugin_waila.nine_patch.textureWidth"           : "テクスチャ幅",
+    "theme.waila.plugin_waila.nine_patch.textureHeight"          : "テクスチャ高さ",
+    "theme.waila.plugin_waila.nine_patch.regionTop"              : "範囲: 上",
+    "theme.waila.plugin_waila.nine_patch.regionMiddle"           : "範囲: 中",
+    "theme.waila.plugin_waila.nine_patch.regionBottom"           : "範囲: 下",
+    "theme.waila.plugin_waila.nine_patch.regionLeft"             : "範囲: 左",
+    "theme.waila.plugin_waila.nine_patch.regionCenter"           : "範囲: 中",
+    "theme.waila.plugin_waila.nine_patch.regionRight"            : "範囲: 右",
+    "theme.waila.plugin_waila.nine_patch.mode"                   : "描画モード",
+    "theme.waila.plugin_waila.nine_patch.mode_stretch"           : "伸縮",
+    "theme.waila.plugin_waila.nine_patch.mode_tile"              : "タイル"
 }
