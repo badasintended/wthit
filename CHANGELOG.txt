@@ -1,5 +1,7 @@
 12.x - 1.21.1 - dev/master - java 21
 ====================================
+12.4.2   - Updated Vietnamese translation (#289)
+         - Updated Japanese translation (#295)
 12.4.1   - Fixed crash on Forge if plugin annotation missing the side value
 12.4.0   - [API] Added separate common and client-side entrypoints, `IWailaCommonPlugin` and `IWailaClientPlugin`
            - Added `ICommonRegistrar` and `IClientRegistrar`
@@ -213,6 +215,9 @@
 
 8.x - 1.20.1 - dev/1.20.1 - java 17
 ===================================
+8.15.2   - Fixed incompatibility with tiers that has level less than 0 (#292)
+         - Updated Vietnamese translation (#289)
+         - Updated Japanese translation (#295)
 8.15.1   - Fixed crash on Forge if plugin annotation missing the side value
 8.15.0   - [API] Added separate common and client-side entrypoints, `IWailaCommonPlugin` and `IWailaClientPlugin`
            - Added `ICommonRegistrar` and `IClientRegistrar`
@@ -450,6 +455,9 @@
 
 5.x - 1.19.2 - dev/1.19.2 - java 17
 ===================================
+5.30.2   - Fixed incompatibility with tiers that has level less than 0 (#292)
+         - Updated Vietnamese translation (#289)
+         - Updated Japanese translation (#295)
 5.30.1   - Fixed crash on Forge if plugin annotation missing the side value
 5.30.0   - [API] Added separate common and client-side entrypoints, `IWailaCommonPlugin` and `IWailaClientPlugin`
            - Added `ICommonRegistrar` and `IClientRegistrar`
