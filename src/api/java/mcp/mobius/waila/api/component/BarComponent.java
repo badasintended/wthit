@@ -13,7 +13,6 @@ import mcp.mobius.waila.api.__internal__.ApiSide;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 
@@ -91,7 +90,8 @@ public class BarComponent implements ITooltipComponent {
 
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
-        RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
+        // TODO
+//        RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
         RenderSystem.setShaderTexture(0, WailaConstants.COMPONENT_TEXTURE);
 
         var a = WailaHelper.getAlpha(tint);
@@ -113,13 +113,14 @@ public class BarComponent implements ITooltipComponent {
     }
 
     static void renderText(GuiGraphics ctx, Component text, int x, int y) {
-        var font = Minecraft.getInstance().font;
-        var textWidth = font.width(text);
-        var textX = x + Math.max((BarComponent.WIDTH - textWidth) / 2F, 0F);
-        float textY = y + 2;
+        ctx.drawSpecial(bufferSource -> {
+            var font = Minecraft.getInstance().font;
+            var textWidth = font.width(text);
+            var textX = x + Math.max((BarComponent.WIDTH - textWidth) / 2F, 0F);
+            float textY = y + 2;
 
-        font.drawInBatch8xOutline(text.getVisualOrderText(), textX, textY, 0xAAAAAA, 0x292929, ctx.pose().last().pose(), ctx.bufferSource(), 0xf000f0);
-        ctx.bufferSource().endBatch();
+            font.drawInBatch8xOutline(text.getVisualOrderText(), textX, textY, 0xAAAAAA, 0x292929, ctx.pose().last().pose(), bufferSource, 0xf000f0);
+        });
     }
 
 }

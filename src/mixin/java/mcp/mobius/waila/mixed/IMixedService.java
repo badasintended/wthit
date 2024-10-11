@@ -4,6 +4,7 @@ import mcp.mobius.waila.api.__internal__.Internals;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.world.item.ToolMaterial;
 
 public interface IMixedService {
 
@@ -14,5 +15,7 @@ public interface IMixedService {
     void onServerLogin();
 
     void onGuiRender(GuiGraphics ctx, DeltaTracker delta);
+
+    void addToolMaterialInstance(ToolMaterial material);
 
 }

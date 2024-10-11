@@ -140,7 +140,7 @@ public abstract class ConfigScreen extends YesIAmSureTheClientInstanceIsPresentB
             lastEscPressTime = now;
             escPressed++;
             if (escPressed > 5) {
-                minecraft.getToasts().addToast(new SystemToast(
+                minecraft.getToastManager().addToast(new SystemToast(
                     SystemToast.SystemToastId.PACK_COPY_FAILURE,
                     Component.translatable(Tl.Gui.EscWarning.UMM),
                     Component.translatable(Tl.Gui.EscWarning.LMAO,

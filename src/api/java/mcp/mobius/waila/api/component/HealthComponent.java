@@ -4,6 +4,7 @@ import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.__internal__.ApiSide;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 
@@ -56,11 +57,11 @@ public class HealthComponent implements ITooltipComponent {
             var ix = x + ((i % lineWidth) * 8);
             var iy = y + ((i / lineWidth) * 3);
 
-            ctx.blitSprite(SPRITE_CONTAINER, ix, iy, 9, 9);
+            ctx.blitSprite(RenderType::guiTextured, SPRITE_CONTAINER, ix, iy, 9, 9);
             if (i <= filled) {
-                ctx.blitSprite(absorption ? SPRITE_ABSORBING_FULL : SPRITE_NORMAL_FULL, ix, iy, 9, 9);
+                ctx.blitSprite(RenderType::guiTextured, absorption ? SPRITE_ABSORBING_FULL : SPRITE_NORMAL_FULL, ix, iy, 9, 9);
             } else if (i == half) {
-                ctx.blitSprite(absorption ? SPRITE_ABSORBING_HALF : SPRITE_NORMAL_HALF, ix, iy, 9, 9);
+                ctx.blitSprite(RenderType::guiTextured, absorption ? SPRITE_ABSORBING_HALF : SPRITE_NORMAL_HALF, ix, iy, 9, 9);
             }
         }
     }

@@ -52,7 +52,7 @@ public class RegistryFilter<T> implements IRegistryFilter<T> {
 
     public void attach() {
         var access = REGISTRY.get();
-        registry.set(access == null ? null : access.registryOrThrow(registryKey));
+        registry.set(access == null ? null : access.lookupOrThrow(registryKey));
         entries.set(Set.of());
         loaded.set(false);
     }
@@ -71,7 +71,7 @@ public class RegistryFilter<T> implements IRegistryFilter<T> {
 
         var entries = new HashSet<T>(this.entries.get().size());
 
-        rules.forEach(rule -> registry.holders().forEach(holder -> {
+        rules.forEach(rule -> registry.listElements().forEach(holder -> {
             if (rule.predicate.test(holder)) {
                 if (rule.negate) {
                     entries.remove(holder.value());

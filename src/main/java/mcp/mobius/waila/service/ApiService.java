@@ -3,10 +3,8 @@ package mcp.mobius.waila.service;
 import java.lang.reflect.Type;
 import java.nio.file.Path;
 import java.util.Collection;
-import java.util.LinkedHashSet;
 import java.util.List;
 
-import com.google.common.collect.Streams;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.access.DataType;
@@ -39,14 +37,11 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.EnchantedBookItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.PotionItem;
 import net.minecraft.world.item.SpawnEggItem;
-import net.minecraft.world.item.Tier;
-import net.minecraft.world.item.TieredItem;
-import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.TippedArrowItem;
+import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.block.Block;
@@ -61,9 +56,10 @@ public abstract class ApiService implements IApiService {
         var item = stack.getItem();
 
         if (ResourceLocation.DEFAULT_NAMESPACE.equals(BuiltInRegistries.ITEM.getKey(item).getNamespace())) {
-            if (item instanceof EnchantedBookItem) {
-                var enchantments = stack.getOrDefault(DataComponents.STORED_ENCHANTMENTS, ItemEnchantments.EMPTY);
-                if (enchantments.size() == 1) for (var entry : enchantments.entrySet()) {
+            var enchantments = stack.getOrDefault(DataComponents.STORED_ENCHANTMENTS, ItemEnchantments.EMPTY);
+
+            if (enchantments.size() == 1) {
+                for (var entry : enchantments.entrySet()) {
                     var key = entry.getKey().unwrapKey().orElse(null);
                     if (key != null) return IModInfo.get(key.location());
                     break;
@@ -178,31 +174,21 @@ public abstract class ApiService implements IApiService {
     }
 
     @Override
-    public List<Tier> getTiers() {
-        var vanilla = List.of(Tiers.values());
-        var custom = new LinkedHashSet<Tier>();
-
-        for (var item : BuiltInRegistries.ITEM) {
-            if (item instanceof TieredItem tiered && !(tiered.getTier() instanceof Tiers)) {
-                var tier = tiered.getTier();
-
+    public List<ToolMaterial> getTiers() {
+        return MixedService.TOOL_MATERIALS.stream()
+            .filter(it -> {
                 //noinspection ConstantValue
-                if (tier.getIncorrectBlocksForDrops() == null) {
-                    LOG.warn("Found tier of class [{}] with null inverse tag, skipping", tier.getClass().getName());
-                    continue;
+                if (it.incorrectBlocksForDrops() == null) {
+                    LOG.warn("Found tier of class [{}] with null inverse tag, skipping", it.getClass().getName());
+                    return false;
                 }
+                return true;
+            }).sorted((tier1, tier2) -> {
+                var tag1 = tier1.incorrectBlocksForDrops();
+                var tag2 = tier2.incorrectBlocksForDrops();
 
-                custom.add(tier);
-            }
-        }
-
-        return Streams.concat(vanilla.stream(), custom.stream())
-            .sorted((tier1, tier2) -> {
-                var tag1 = tier1.getIncorrectBlocksForDrops();
-                var tag2 = tier2.getIncorrectBlocksForDrops();
-
-                var opt1 = BuiltInRegistries.BLOCK.getTag(tag1);
-                var opt2 = BuiltInRegistries.BLOCK.getTag(tag2);
+                var opt1 = BuiltInRegistries.BLOCK.get(tag1);
+                var opt2 = BuiltInRegistries.BLOCK.get(tag2);
 
                 var blocks1 = opt1.isPresent() ? opt1.get() : HolderSet.<Block>empty();
                 var blocks2 = opt2.isPresent() ? opt2.get() : HolderSet.<Block>empty();

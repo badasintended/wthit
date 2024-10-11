@@ -18,8 +18,9 @@ public enum JukeboxDataProvider implements IDataProvider<JukeboxBlockEntity> {
         if (config.getBoolean(Options.JUKEBOX_RECORD)) {
             var stack = accessor.getTarget().getTheItem();
             if (!stack.isEmpty()) {
+                // TODO
                 var text = stack.get(DataComponents.JUKEBOX_PLAYABLE) != null
-                    ? Component.translatable(stack.getDescriptionId() + ".desc")
+                    ? Component.translatable(stack.getDisplayName() + ".desc")
                     : stack.getDisplayName();
                 data.raw().putString("record", Component.Serializer.toJson(text, accessor.getWorld().registryAccess()));
             }

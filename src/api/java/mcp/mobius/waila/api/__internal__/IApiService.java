@@ -23,7 +23,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Tier;
+import net.minecraft.world.item.ToolMaterial;
 import org.jetbrains.annotations.ApiStatus;
 import org.joml.Matrix4f;
 
@@ -73,7 +73,7 @@ public interface IApiService {
 
     <T> IInstanceRegistry<T> createInstanceRegistry(boolean reversed);
 
-    List<Tier> getTiers();
+    List<ToolMaterial> getTiers();
 
     <D extends IData> IData.Type<D> createDataType(ResourceLocation id);
 

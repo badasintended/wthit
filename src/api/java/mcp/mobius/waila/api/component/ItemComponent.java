@@ -45,28 +45,30 @@ public class ItemComponent implements ITooltipComponent {
     }
 
     static void renderItemDecorations(GuiGraphics ctx, ItemStack stack, int x, int y) {
-        var client = Minecraft.getInstance();
-        var count = stack.getCount();
+        ctx.drawSpecial(bufferSource -> {
+            var client = Minecraft.getInstance();
+            var count = stack.getCount();
 
-        ctx.renderItemDecorations(client.font, stack, x + 1, y + 1, "");
-        if (count <= 1) return;
+            ctx.renderItemDecorations(client.font, stack, x + 1, y + 1, "");
+            if (count <= 1) return;
 
-        var countText = WailaHelper.suffix(count);
-        var actualW = client.font.width(countText);
-        var scale = (actualW <= 16) ? 1f : 16f / actualW;
+            var countText = WailaHelper.suffix(count);
+            var actualW = client.font.width(countText);
+            var scale = (actualW <= 16) ? 1f : 16f / actualW;
 
-        var pose = ctx.pose();
-        pose.pushPose();
-        pose.translate(0.0, 0.0, 250.0);
-        pose.scale(scale, scale, 1f);
+            var pose = ctx.pose();
+            pose.pushPose();
+            pose.translate(0.0, 0.0, 250.0);
+            pose.scale(scale, scale, 1f);
 
-        client.font.drawInBatch(countText,
-            ((x + 17 - (actualW * scale)) / scale),
-            ((y + 17 - (client.font.lineHeight * scale)) / scale),
-            0xFFFFFF, true,
-            pose.last().pose(), ctx.bufferSource(), Font.DisplayMode.NORMAL, 0, 0xF000F0, client.font.isBidirectional());
+            client.font.drawInBatch(countText,
+                ((x + 17 - (actualW * scale)) / scale),
+                ((y + 17 - (client.font.lineHeight * scale)) / scale),
+                0xFFFFFF, true,
+                pose.last().pose(), bufferSource, Font.DisplayMode.NORMAL, 0, 0xF000F0, client.font.isBidirectional());
 
-        pose.popPose();
+            pose.popPose();
+        });
     }
 
 }
