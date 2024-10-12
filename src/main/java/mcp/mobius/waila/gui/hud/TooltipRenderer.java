@@ -274,8 +274,6 @@ public class TooltipRenderer {
                 if (canceller.isCanceled()) {
                     ctx.pose().popPose();
                     RenderSystem.enableDepthTest();
-                    // TODO
-//                    RenderSystem.applyModelViewMatrix();
                     profiler.pop();
                     return;
                 }

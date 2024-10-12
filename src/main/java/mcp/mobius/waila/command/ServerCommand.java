@@ -104,7 +104,6 @@ public class ServerCommand extends CommonCommand<CommandSourceStack, MinecraftSe
             })
             .pop("target", "getEntityInfo")
 
-            // TODO
             .then(Commands.literal("lockContainer"))
             .then(Commands.argument("pos", BlockPosArgument.blockPos()))
             .executes(context -> {
