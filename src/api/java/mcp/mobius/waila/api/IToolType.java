@@ -7,7 +7,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Tiers;
+import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -25,13 +25,13 @@ public interface IToolType {
 
         /**
          * The wooden stack, or any stack of the type that has its {@linkplain ItemStack#getDestroySpeed(BlockState) destroy speed}
-         * the same as or higher than {@linkplain Tiers#WOOD wood}.
+         * the same as or higher than {@linkplain ToolMaterial#WOOD wood}.
          */
         Builder1 lowestTierStack(ItemStack stack);
 
         /**
          * The wooden item, or any item of the type that has its {@linkplain Item#getDestroySpeed(ItemStack, BlockState) destroy speed}
-         * the same as or higher than {@linkplain Tiers#WOOD wood}
+         * the same as or higher than {@linkplain ToolMaterial#WOOD wood}
          */
         Builder1 lowestTierItem(ItemLike item);
 

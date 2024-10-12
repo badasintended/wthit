@@ -18,7 +18,7 @@ public enum ContainerEntityDataProvider implements IDataProvider<Entity> {
         data.add(ItemData.TYPE, res -> {
             var entity = accessor.getTarget();
 
-            if (entity instanceof ContainerEntity container && container.getLootTable() != null) {
+            if (entity instanceof ContainerEntity container && container.getContainerLootTable() != null) {
                 res.block();
                 return;
             }

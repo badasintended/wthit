@@ -179,7 +179,7 @@ class ThemeEditorScreen extends ConfigScreen {
 
     @Override
     protected void renderForeground(GuiGraphics ctx, int rowLeft, int rowWidth, int mouseX, int mouseY, float partialTicks) {
-        TooltipRenderer.render(ctx, minecraft.getTimer());
+        TooltipRenderer.render(ctx, minecraft.getDeltaTracker());
     }
 
     @Override
@@ -191,7 +191,7 @@ class ThemeEditorScreen extends ConfigScreen {
         }
 
         if (idVal.getValue().isBlank()) {
-            minecraft.getToasts().addToast(new SystemToast(
+            minecraft.getToastManager().addToast(new SystemToast(
                 SystemToast.SystemToastId.PACK_COPY_FAILURE,
                 Component.translatable(Tl.Config.MISSING_INPUT),
                 Component.translatable(Tl.Config.OverlayThemeEditor.ID_EMPTY)));

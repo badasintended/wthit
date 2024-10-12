@@ -12,13 +12,13 @@ import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.ITooltipComponent;
+import mcp.mobius.waila.api.WailaHelper;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.CoreShaders;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
 import org.joml.Matrix4f;
 
@@ -59,7 +59,7 @@ public final class DisplayUtil {
             var scale = (float) Minecraft.getInstance().getWindow().getGuiScale();
             ctx.pose().scale(1 / scale, 1 / scale, 1);
 
-            RenderSystem.setShader(GameRenderer::getPositionColorShader);
+            RenderSystem.setShader(CoreShaders.POSITION_COLOR);
 
             var buf = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
             var bx = Mth.floor(x * scale + 0.5);
@@ -75,15 +75,15 @@ public final class DisplayUtil {
     }
 
     public static void fillGradient(Matrix4f matrix, BufferBuilder buf, int x, int y, int w, int h, int start, int end) {
-        var sa = FastColor.ARGB32.alpha(start) / 255.0F;
-        var sr = FastColor.ARGB32.red(start) / 255.0F;
-        var sg = FastColor.ARGB32.green(start) / 255.0F;
-        var sb = FastColor.ARGB32.blue(start) / 255.0F;
+        var sa = WailaHelper.getAlpha(start) / 255.0F;
+        var sr = WailaHelper.getRed(start) / 255.0F;
+        var sg = WailaHelper.getGreen(start) / 255.0F;
+        var sb = WailaHelper.getBlue(start) / 255.0F;
 
-        var ea = FastColor.ARGB32.alpha(end) / 255.0F;
-        var er = FastColor.ARGB32.red(end) / 255.0F;
-        var eg = FastColor.ARGB32.green(end) / 255.0F;
-        var eb = FastColor.ARGB32.blue(end) / 255.0F;
+        var ea = WailaHelper.getAlpha(end) / 255.0F;
+        var er = WailaHelper.getRed(end) / 255.0F;
+        var eg = WailaHelper.getGreen(end) / 255.0F;
+        var eb = WailaHelper.getBlue(end) / 255.0F;
 
         buf.addVertex(matrix, x, y, 0).setColor(sr, sg, sb, sa);
         buf.addVertex(matrix, x, y + h, 0).setColor(er, eg, eb, ea);

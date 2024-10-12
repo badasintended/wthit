@@ -1,6 +1,6 @@
 package mcp.mobius.waila.plugin.harvest.provider;
 
-import java.awt.Rectangle;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +27,6 @@ import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TieredItem;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
@@ -156,8 +155,8 @@ public enum HarvestProvider implements IBlockComponentProvider, IEventListener {
                 Boolean matches = null;
                 if (state.requiresCorrectToolForDrops()) {
                     matches = tool.itemPredicate.test(heldStack);
-                    if (highestTier != ToolTier.NONE && heldStack.getItem() instanceof TieredItem tiered) {
-                        var heldTier = ToolTier.get(tiered.getTier());
+                    if (highestTier != ToolTier.NONE) {
+                        var heldTier = ToolTier.get(heldStack);
                         matches = matches && heldTier != null && heldTier.isBetterThanOrEqualTo(highestTier);
                     }
                 }
@@ -206,12 +205,10 @@ public enum HarvestProvider implements IBlockComponentProvider, IEventListener {
         var tierText = I18n.exists(highestTier.tlKey())
             ? Component.translatable(highestTier.tlKey())
             : Component.literal(String.valueOf(highestTier.index));
-        if (heldStack.getItem() instanceof TieredItem tiered) {
-            var heldTier = ToolTier.get(tiered.getTier());
-            tierText.withStyle(heldTier != null && heldTier.isBetterThanOrEqualTo(highestTier) ? ChatFormatting.GREEN : ChatFormatting.RED);
-        } else {
-            tierText.withStyle(ChatFormatting.RED);
-        }
+
+        var heldTier = ToolTier.get(heldStack);
+        tierText.withStyle(heldTier != null && heldTier.isBetterThanOrEqualTo(highestTier) ? ChatFormatting.GREEN : ChatFormatting.RED);
+
         return tierText;
     }
 

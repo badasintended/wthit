@@ -1,6 +1,6 @@
 package mcp.mobius.waila.plugin.vanilla.provider;
 
-import java.awt.Rectangle;
+import java.awt.*;
 import java.util.Objects;
 
 import mcp.mobius.waila.api.ICommonAccessor;
@@ -10,6 +10,7 @@ import mcp.mobius.waila.mixin.MultiPlayerGameModeAccess;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.util.Mth;
 
@@ -29,7 +30,7 @@ public enum BreakProgressProvider implements IEventListener {
         var gameMode = Objects.requireNonNull(Minecraft.getInstance().gameMode);
         var gameModeAccess = (MultiPlayerGameModeAccess) gameMode;
 
-        var dt = Minecraft.getInstance().getTimer().getRealtimeDeltaTicks();
+        var dt = Minecraft.getInstance().getDeltaTracker().getRealtimeDeltaTicks();
 
         var isBreaking = gameMode.isDestroying();
         var targetProgress = gameModeAccess.wthit_destroyProgress();
@@ -46,15 +47,15 @@ public enum BreakProgressProvider implements IEventListener {
         var progressChangeAmount = progressDiff * dt;
         var actualProgress = Mth.clamp(lastProgress + progressChangeAmount, 0f, 1f);
 
-        float lineLength;
+        final float[] lineLength = new float[1];
 
         if (config.getBoolean(Options.BREAKING_PROGRESS_BOTTOM_ONLY)) {
-            lineLength = (rect.width - 2) * actualProgress;
+            lineLength[0] = (rect.width - 2) * actualProgress;
         } else {
-            lineLength = ((rect.width + rect.height - 4) * 2) * actualProgress;
+            lineLength[0] = ((rect.width + rect.height - 4) * 2) * actualProgress;
         }
 
-        if (lineLength > 0) {
+        if (lineLength[0] > 0) ctx.drawSpecial(bufferSource -> {
             var hLength = rect.width - 2;
             var vLength = rect.height - 4;
 
@@ -62,31 +63,29 @@ public enum BreakProgressProvider implements IEventListener {
             var y = rect.y + rect.height - 2;
 
             var color = config.getInt(Options.BREAKING_PROGRESS_COLOR);
-            fill(ctx, x, y, x + Math.min(lineLength, hLength), y + 1, color);
-            lineLength -= hLength;
+            fill(ctx, bufferSource, x, y, x + Math.min(lineLength[0], hLength), y + 1, color);
+            lineLength[0] -= hLength;
 
-            if (lineLength > 0) {
+            if (lineLength[0] > 0) {
                 x = rect.x + rect.width - 2;
                 y = rect.y + rect.height - 2;
-                fill(ctx, x, y, x + 1, y - Math.min(lineLength, vLength), color);
-                lineLength -= vLength;
+                fill(ctx, bufferSource, x, y, x + 1, y - Math.min(lineLength[0], vLength), color);
+                lineLength[0] -= vLength;
 
-                if (lineLength > 0) {
+                if (lineLength[0] > 0) {
                     x = rect.x + rect.width - 1;
                     y = rect.y + 1;
-                    fill(ctx, x, y, x - Math.min(lineLength, hLength), y + 1, color);
-                    lineLength -= hLength;
+                    fill(ctx, bufferSource, x, y, x - Math.min(lineLength[0], hLength), y + 1, color);
+                    lineLength[0] -= hLength;
 
-                    if (lineLength > 0) {
+                    if (lineLength[0] > 0) {
                         x = rect.x + 1;
                         y = rect.y + 2;
-                        fill(ctx, x, y, x + 1, y + Math.min(lineLength, vLength), color);
+                        fill(ctx, bufferSource, x, y, x + 1, y + Math.min(lineLength[0], vLength), color);
                     }
                 }
             }
-
-            ctx.flush();
-        }
+        });
 
         wasBreaking = isBreaking;
         lastProgress = actualProgress;
@@ -94,7 +93,7 @@ public enum BreakProgressProvider implements IEventListener {
         if (isInDelay) progressDelayTimer -= dt;
     }
 
-    private void fill(GuiGraphics ctx, float x1, float y1, float x2, float y2, int color) {
+    private void fill(GuiGraphics ctx, MultiBufferSource bufferSource, float x1, float y1, float x2, float y2, int color) {
         var matrix4f = ctx.pose().last().pose();
         if (x1 < x2) {
             var o = x1;
@@ -108,7 +107,7 @@ public enum BreakProgressProvider implements IEventListener {
             y2 = o;
         }
 
-        var vertexConsumer = ctx.bufferSource().getBuffer(RenderType.gui());
+        var vertexConsumer = bufferSource.getBuffer(RenderType.gui());
         vertexConsumer.addVertex(matrix4f, x1, y1, 0f).setColor(color);
         vertexConsumer.addVertex(matrix4f, x1, y2, 0f).setColor(color);
         vertexConsumer.addVertex(matrix4f, x2, y2, 0f).setColor(color);

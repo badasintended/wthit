@@ -4,6 +4,7 @@ import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.__internal__.ApiSide;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 
 @ApiSide.ClientOnly
@@ -30,7 +31,7 @@ public class SpriteComponent implements ITooltipComponent {
 
     @Override
     public void render(GuiGraphics ctx, int x, int y, DeltaTracker delta) {
-        ctx.blitSprite(id, x, y, width, height);
+        ctx.blitSprite(RenderType::guiTextured, id, x, y, width, height);
     }
 
 }

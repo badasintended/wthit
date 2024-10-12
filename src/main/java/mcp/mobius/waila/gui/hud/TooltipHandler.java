@@ -64,7 +64,7 @@ public class TooltipHandler {
         var camera = client.cameraEntity;
         if (camera == null) return;
 
-        var frameTime = client.getTimer().getGameTimeDeltaPartialTick(true);
+        var frameTime = client.getDeltaTracker().getGameTimeDeltaPartialTick(true);
         var pickRange = Math.max(player.blockInteractionRange(), player.entityInteractionRange());
         var results = PickerResults.get();
         Vec3 castOrigin = null;
@@ -105,7 +105,7 @@ public class TooltipHandler {
         var accessor = ClientAccessor.INSTANCE;
 
         //noinspection DataFlowIssue
-        accessor.set(client.level, player, target, client.cameraEntity, castOrigin, castDirection, pickRange, client.getTimer().getGameTimeDeltaPartialTick(true));
+        accessor.set(client.level, player, target, client.cameraEntity, castOrigin, castDirection, pickRange, client.getDeltaTracker().getGameTimeDeltaPartialTick(true));
 
         TooltipRenderer.beginBuild(STATE);
 

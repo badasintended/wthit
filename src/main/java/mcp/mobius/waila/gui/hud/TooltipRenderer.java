@@ -1,6 +1,6 @@
 package mcp.mobius.waila.gui.hud;
 
-import java.awt.Rectangle;
+import java.awt.*;
 import java.util.Iterator;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
@@ -31,8 +31,9 @@ import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.ChatScreen;
-import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.client.renderer.CoreShaders;
 import net.minecraft.util.Mth;
+import net.minecraft.util.profiling.Profiler;
 import org.jetbrains.annotations.Nullable;
 
 import static mcp.mobius.waila.util.DisplayUtil.renderComponent;
@@ -220,10 +221,10 @@ public class TooltipRenderer {
             if (window.getWidth() != fbWidth || window.getHeight() != fbHeight) {
                 fbWidth = window.getWidth();
                 fbHeight = window.getHeight();
-                framebuffer.resize(fbWidth, fbHeight, Minecraft.ON_OSX);
+                framebuffer.resize(fbWidth, fbHeight);
             }
 
-            framebuffer.clear(Minecraft.ON_OSX);
+            framebuffer.clear();
             framebuffer.bindWrite(true);
             render0(client, ctx, delta);
             framebuffer.unbindWrite();
@@ -233,7 +234,7 @@ public class TooltipRenderer {
 
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
-        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShader(CoreShaders.POSITION_TEX_COLOR);
         RenderSystem.setShaderTexture(0, framebuffer.getColorTextureId());
 
         var w = client.getWindow().getGuiScaledWidth();
@@ -253,7 +254,7 @@ public class TooltipRenderer {
     }
 
     private static void render0(Minecraft client, GuiGraphics ctx, DeltaTracker delta) {
-        var profiler = client.getProfiler();
+        var profiler = Profiler.get();
 
         profiler.push("Waila Overlay");
 
@@ -273,7 +274,6 @@ public class TooltipRenderer {
                 if (canceller.isCanceled()) {
                     ctx.pose().popPose();
                     RenderSystem.enableDepthTest();
-                    RenderSystem.applyModelViewMatrix();
                     profiler.pop();
                     return;
                 }

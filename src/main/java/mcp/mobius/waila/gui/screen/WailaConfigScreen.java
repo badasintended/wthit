@@ -1,6 +1,6 @@
 package mcp.mobius.waila.gui.screen;
 
-import java.awt.Rectangle;
+import java.awt.*;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.platform.InputConstants;
@@ -122,7 +122,7 @@ public class WailaConfigScreen extends ConfigScreen {
             }
 
             renderBackground(ctx, mouseX, mouseY, partialTicks);
-            TooltipRenderer.render(ctx, minecraft.getTimer());
+            TooltipRenderer.render(ctx, minecraft.getDeltaTracker());
         } else {
             TooltipRenderer.resetState();
             f1held = false;
@@ -301,7 +301,7 @@ public class WailaConfigScreen extends ConfigScreen {
 
         public KeyBindValue(KeyMapping key) {
             super(key.getName(), ((KeyMappingAccess) key).wthit_key(), key.getDefaultKey(), value -> {
-                minecraft.options.setKey(key, value);
+                key.setKey(value);
                 KeyMapping.resetMapping();
             });
 

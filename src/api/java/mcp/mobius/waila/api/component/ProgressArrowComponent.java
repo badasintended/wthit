@@ -5,6 +5,7 @@ import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.__internal__.ApiSide;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.util.Mth;
 
 /**
@@ -35,11 +36,11 @@ public class ProgressArrowComponent implements ITooltipComponent {
     @Override
     public void render(GuiGraphics ctx, int x, int y, DeltaTracker delta) {
         // Draws the "empty" background arrow
-        ctx.blit(WailaConstants.COMPONENT_TEXTURE, x, y, 0, 16, 22, 16);
+        ctx.blit(RenderType::guiTextured, WailaConstants.COMPONENT_TEXTURE, x, y, 0, 16, 22, 16, 256, 256);
 
         if (progress > 0) {
             // Draws the "full" foreground arrow based on the progress
-            ctx.blit(WailaConstants.COMPONENT_TEXTURE, x, y, 0, 0, (int) (progress * 22) + 1, 16);
+            ctx.blit(RenderType::guiTextured, WailaConstants.COMPONENT_TEXTURE, x, y, 0, 0, (int) (progress * 22) + 1, 16, 256, 256);
         }
     }
 

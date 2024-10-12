@@ -17,7 +17,6 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.TieredItem;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -47,8 +46,8 @@ public class ToolType implements IToolType, IToolType.Builder0, IToolType.Builde
                 var stack = item.getDefaultInstance();
                 if (itemPredicate.test(stack)) {
                     for (var registeredTier : tiers) {
-                        if (!map.containsKey(registeredTier) && item instanceof TieredItem tiered) {
-                            var itemTier = ToolTier.get(tiered.getTier());
+                        if (!map.containsKey(registeredTier)) {
+                            var itemTier = ToolTier.get(stack);
                             if (itemTier != null && itemTier.isEqualTo(registeredTier)) {
                                 map.put(registeredTier, stack);
                             }
