@@ -12,6 +12,7 @@ import mcp.mobius.waila.api.IntFormat;
 import mcp.mobius.waila.api.__internal__.IApiService;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.CoreShaders;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.Range;
 
@@ -59,8 +60,7 @@ public class GradientTheme implements ITheme {
     public void renderTooltipBackground(GuiGraphics ctx, int x, int y, int width, int height, @Range(from = 0x00, to = 0xFF) int alpha, DeltaTracker delta) {
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
-        // TODO
-//        RenderSystem.setShader(GameRenderer::getPositionColorShader);
+        RenderSystem.setShader(CoreShaders.POSITION_COLOR);
 
         var tesselator = Tesselator.getInstance();
         var buf = tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);

@@ -13,6 +13,7 @@ import mcp.mobius.waila.api.__internal__.ApiSide;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.CoreShaders;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 
@@ -90,8 +91,7 @@ public class BarComponent implements ITooltipComponent {
 
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
-        // TODO
-//        RenderSystem.setShader(GameRenderer::getPositionTexColorShader);
+        RenderSystem.setShader(CoreShaders.POSITION_TEX_COLOR);
         RenderSystem.setShaderTexture(0, WailaConstants.COMPONENT_TEXTURE);
 
         var a = WailaHelper.getAlpha(tint);

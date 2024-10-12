@@ -1,7 +1,6 @@
 package mcp.mobius.waila.plugin.harvest.tool;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
@@ -23,14 +22,14 @@ public final class ToolTier {
 
     public static final ToolTier NONE = Internals.unsafeAlloc(ToolTier.class);
 
-    private static final Supplier<Map<ResourceLocation, String>> VANILLA_TIER_TL_KEYS = Suppliers.memoize(() -> {
-        var map = new HashMap<ResourceLocation, String>();
-        // TODO
-//        for (var tier : Tiers.values()) {
-//            map.put(tier.getIncorrectBlocksForDrops().location(), tier.name().toLowerCase(Locale.ROOT));
-//        }
-        return map;
-    });
+    private static final Supplier<Map<ResourceLocation, String>> VANILLA_TIER_TL_KEYS = Suppliers.memoize(() -> Map.of(
+        ToolMaterial.WOOD.incorrectBlocksForDrops().location(), "wood",
+        ToolMaterial.STONE.incorrectBlocksForDrops().location(), "stone",
+        ToolMaterial.IRON.incorrectBlocksForDrops().location(), "iron",
+        ToolMaterial.DIAMOND.incorrectBlocksForDrops().location(), "diamond",
+        ToolMaterial.GOLD.incorrectBlocksForDrops().location(), "gold",
+        ToolMaterial.NETHERITE.incorrectBlocksForDrops().location(), "netherite"
+    ));
 
     private static Supplier<Map<ResourceLocation, ToolTier>> tiers;
 

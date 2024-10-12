@@ -31,6 +31,7 @@ import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.ChatScreen;
+import net.minecraft.client.renderer.CoreShaders;
 import net.minecraft.util.Mth;
 import net.minecraft.util.profiling.Profiler;
 import org.jetbrains.annotations.Nullable;
@@ -233,8 +234,7 @@ public class TooltipRenderer {
 
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
-        // TODO
-//        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShader(CoreShaders.POSITION_TEX_COLOR);
         RenderSystem.setShaderTexture(0, framebuffer.getColorTextureId());
 
         var w = client.getWindow().getGuiScaledWidth();

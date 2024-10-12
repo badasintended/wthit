@@ -10,16 +10,22 @@ import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.debug.DumpGenerator;
+import mcp.mobius.waila.mixin.BaseContainerBlockEntityAccess;
 import mcp.mobius.waila.network.play.s2c.GenerateClientDumpPlayS2CPacket;
 import mcp.mobius.waila.plugin.PluginLoader;
+import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
+import net.minecraft.core.component.DataComponentPredicate;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.LockCode;
 
 public class ServerCommand extends CommonCommand<CommandSourceStack, MinecraftServer> {
 
@@ -98,33 +104,40 @@ public class ServerCommand extends CommonCommand<CommandSourceStack, MinecraftSe
             })
             .pop("target", "getEntityInfo")
 
-        // TODO
-//            .then(Commands.literal("lockContainer"))
-//            .then(Commands.argument("pos", BlockPosArgument.blockPos()))
-//            .then(Commands.argument("lock", StringArgumentType.string()))
-//            .executes(context -> {
-//                var source = context.getSource();
-//                var world = source.getLevel();
-//                var player = source.getPlayer();
-//                var pos = BlockPosArgument.getLoadedBlockPos(context, "pos");
-//                var lock = StringArgumentType.getString(context, "lock");
-//
-//                if (player == null) {
-//                    source.sendFailure(Component.literal("Needs a player"));
-//                } else if (world.getBlockEntity(pos) instanceof BaseContainerBlockEntityAccess container) {
-//                    container.wthit_lockKey(new LockCode(new ItemPredicate()));
-//                    var key = new ItemStack(Items.NAME_TAG);
-//                    key.set(DataComponents.CUSTOM_NAME, Component.literal(lock));
-//                    player.setItemInHand(InteractionHand.MAIN_HAND, key);
-//                    source.sendSuccess(() -> Component.literal("Locked container " + pos.toShortString() + " with lock \"" + lock + "\""), false);
-//                    return 1;
-//                } else {
-//                    source.sendFailure(Component.literal("Couldn't lock container " + pos.toShortString()));
-//                }
-//
-//                return 0;
-//            })
-//            .pop("lock", "pos", "lockContainer")
+            // TODO
+            .then(Commands.literal("lockContainer"))
+            .then(Commands.argument("pos", BlockPosArgument.blockPos()))
+            .executes(context -> {
+                var source = context.getSource();
+                var world = source.getLevel();
+                var player = source.getPlayer();
+                var pos = BlockPosArgument.getLoadedBlockPos(context, "pos");
+
+                if (player == null) {
+                    source.sendFailure(Component.literal("Needs a player"));
+                    return 0;
+                }
+
+                var stack = player.getItemInHand(InteractionHand.MAIN_HAND);
+                if (stack.isEmpty()) {
+                    source.sendFailure(Component.literal("Needs a held stack"));
+                    return 0;
+                }
+
+                if (world.getBlockEntity(pos) instanceof BaseContainerBlockEntityAccess container) {
+                    container.wthit_lockKey(new LockCode(ItemPredicate.Builder.item()
+                        .of(world.registryAccess().lookupOrThrow(Registries.ITEM), stack.getItem())
+                        .hasComponents(DataComponentPredicate.allOf(stack.getComponents()))
+                        .build()));
+
+                    source.sendSuccess(() -> Component.literal("Locked container " + pos.toShortString()), false);
+                    return 1;
+                } else {
+                    source.sendFailure(Component.literal("Couldn't lock container " + pos.toShortString()));
+                    return 0;
+                }
+            })
+            .pop("pos", "lockContainer")
 
             .pop("debug");
     }
