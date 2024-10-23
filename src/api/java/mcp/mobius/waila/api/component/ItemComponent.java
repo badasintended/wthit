@@ -65,7 +65,7 @@ public class ItemComponent implements ITooltipComponent {
                 ((x + 17 - (actualW * scale)) / scale),
                 ((y + 17 - (client.font.lineHeight * scale)) / scale),
                 0xFFFFFF, true,
-                pose.last().pose(), bufferSource, Font.DisplayMode.NORMAL, 0, 0xF000F0, client.font.isBidirectional());
+                pose.last().pose(), bufferSource, Font.DisplayMode.NORMAL, 0, 0xF000F0);
 
             pose.popPose();
         });

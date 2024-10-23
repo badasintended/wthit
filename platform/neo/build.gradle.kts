@@ -1,5 +1,5 @@
 plugins {
-    id("net.neoforged.moddev") version "1.0.13"
+    id("net.neoforged.moddev") version "2.0.42-beta"
 }
 
 setupPlatform(setRuntimeClasspath = false)
