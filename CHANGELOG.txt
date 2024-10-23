@@ -1,5 +1,6 @@
-13.x - 1.21.2-pre3 - dev/master - java 21
-=========================================
+13.x - 1.21.3 - dev/master - java 21
+====================================
+13.1.0   - Updated to Minecraft 1.21.3
 13.0.0   - Updated to Minecraft 1.21.2-pre3
 
 12.x - 1.21.1 - dev/1.21.1 - java 21
