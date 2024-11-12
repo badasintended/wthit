@@ -1,5 +1,5 @@
 plugins {
-    id("net.minecraftforge.gradle") version "6.0.25"
+    id("net.minecraftforge.gradle") version "6.0.29"
     id("org.spongepowered.mixin") version "0.7.38"
 }
 
@@ -80,12 +80,6 @@ minecraft {
 
             sources = listOf(sourceSets["run"])
         }
-    }
-}
-
-afterEvaluate {
-    minecraft.runs.configureEach {
-        jvmArgs("-classpath", sourceSets["run"].runtimeClasspath.asPath)
     }
 }
 
