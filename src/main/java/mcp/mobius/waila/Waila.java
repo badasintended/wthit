@@ -12,6 +12,7 @@ import mcp.mobius.waila.config.JsonConfig;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.gui.hud.theme.ThemeDefinition;
+import mcp.mobius.waila.plugin.PluginLoader;
 import mcp.mobius.waila.plugin.PluginSide;
 import mcp.mobius.waila.registry.RegistryFilter;
 import mcp.mobius.waila.service.ICommonService;
@@ -69,7 +70,7 @@ public abstract class Waila {
     }
 
     static void onAnyTick() {
-        if (!firstTicked) {
+        if (!firstTicked && PluginLoader.INSTANCE.initialized) {
             firstTicked = true;
             JsonConfig.reloadAllInstances();
             PluginConfig.write();

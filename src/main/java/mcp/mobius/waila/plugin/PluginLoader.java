@@ -55,6 +55,7 @@ public abstract class PluginLoader {
     );
 
     private boolean gathered = false;
+    public volatile boolean initialized = false;
 
     public static void reloadServerPlugins(MinecraftServer server) {
         PluginInfo.saveToggleConfig();
@@ -198,6 +199,7 @@ public abstract class PluginLoader {
         PluginConfig.reload();
 
         JsonConfig.reloadAllInstances();
+        initialized = true;
     }
 
     private void initialize(PluginInfo info) {
