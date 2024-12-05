@@ -18,20 +18,25 @@ import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.component.DataComponentPredicate;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.LockCode;
+import org.jetbrains.annotations.Nullable;
 
-public class ServerCommand extends CommonCommand<CommandSourceStack, MinecraftServer> {
+public abstract class ServerCommand extends CommonCommand<CommandSourceStack, MinecraftServer> {
 
     public ServerCommand() {
         super(WailaConstants.NAMESPACE);
     }
+
+    protected abstract @Nullable String fillContainer(ServerLevel world, BlockPos pos, ServerPlayer player);
 
     @Override
     protected boolean pluginCommandRequirement(CommandSourceStack source) {
@@ -137,6 +142,25 @@ public class ServerCommand extends CommonCommand<CommandSourceStack, MinecraftSe
                 }
             })
             .pop("pos", "lockContainer")
+
+            .then(Commands.literal("fillContainer"))
+            .then(Commands.argument("pos", BlockPosArgument.blockPos()))
+            .executes(context -> {
+                var source = context.getSource();
+                var world = source.getLevel();
+                var player = source.getPlayer();
+                var pos = BlockPosArgument.getLoadedBlockPos(context, "pos");
+
+                var err = fillContainer(world, pos, player);
+                if (err != null) {
+                    source.sendFailure(Component.literal(err));
+                    return 0;
+                } else {
+                    source.sendSuccess(() -> Component.literal("Filled " + pos.toShortString()), false);
+                    return 1;
+                }
+            })
+            .pop("pos", "fillContainer")
 
             .pop("debug");
     }
