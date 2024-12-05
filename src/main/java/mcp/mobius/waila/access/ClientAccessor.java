@@ -191,7 +191,7 @@ public enum ClientAccessor implements ICommonAccessor, IBlockAccessor, IEntityAc
     public void setState(BlockState state) {
         this.state = state;
         this.block = state.getBlock();
-        this.stack = block.getCloneItemStack(world, pos, state);
+        this.stack = state.getCloneItemStack(world, pos, true);
         this.blockRegistryName = BuiltInRegistries.BLOCK.getKey(block);
     }
 

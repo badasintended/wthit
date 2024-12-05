@@ -43,6 +43,7 @@ import net.minecraft.world.item.SpawnEggItem;
 import net.minecraft.world.item.TippedArrowItem;
 import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.item.alchemy.PotionContents;
+import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.block.Block;
 import org.joml.Matrix4f;
@@ -70,9 +71,12 @@ public abstract class ApiService implements IApiService {
                     var id = BuiltInRegistries.POTION.getKey(potion.value());
                     if (id != null) return IModInfo.get(id);
                 }
-            } else if (item instanceof SpawnEggItem spawnEggItem) {
-                var id = BuiltInRegistries.ENTITY_TYPE.getKey(spawnEggItem.getType(stack));
-                return IModInfo.get(id.getNamespace());
+            } else if (item instanceof SpawnEggItem) {
+                var customData = stack.getOrDefault(DataComponents.ENTITY_DATA, CustomData.EMPTY);
+                if (!customData.isEmpty()) {
+                    var id = customData.parseEntityId();
+                    if (id != null) return IModInfo.get(id);
+                }
             }
         }
 

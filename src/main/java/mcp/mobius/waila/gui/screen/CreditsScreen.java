@@ -93,7 +93,7 @@ public class CreditsScreen extends YesIAmSureTheClientInstanceIsPresentByTheTime
         private void init() {
             var totalHeight = (children().size() - 1) * itemHeight;
             if (totalHeight < height) {
-                setRenderHeader(true, (height - totalHeight) / 2 - getY());
+                headerHeight = (height - totalHeight) / 2 - getY();
             }
         }
 
@@ -103,7 +103,7 @@ public class CreditsScreen extends YesIAmSureTheClientInstanceIsPresentByTheTime
         }
 
         @Override
-        protected int getScrollbarPosition() {
+        protected int scrollBarX() {
             return minecraft.getWindow().getGuiScaledWidth() - 5;
         }
 

@@ -56,7 +56,7 @@ public abstract class TextileClientPlugin implements IWailaClientPlugin {
         registrar.toolType(ResourceLocation.withDefaultNamespace("shears"), IToolType.builder()
             .lowestTierItem(Items.SHEARS)
             .blockPredicate(it -> /*it.is(BlockTags.SHEARS_MINEABLE) ||*/ it.getBlock() instanceof IShearable || it.getBlock() instanceof DoublePlantBlock)
-            .itemTag(ConventionalItemTags.SHEARS_TOOLS)
+            .itemTag(ConventionalItemTags.SHEAR_TOOLS)
             .build());
     }
 

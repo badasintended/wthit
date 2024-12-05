@@ -55,7 +55,7 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
     }
 
     @Override
-    protected int getScrollbarPosition() {
+    protected int scrollBarX() {
         return minecraft.getWindow().getGuiScaledWidth() - 5;
     }
 
@@ -127,7 +127,7 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
         }
 
         resize(topOffset, owner.height + bottomOffset);
-        setScrollAmount(getScrollAmount());
+        setScrollAmount(scrollAmount());
     }
 
     public void add(Entry entry) {

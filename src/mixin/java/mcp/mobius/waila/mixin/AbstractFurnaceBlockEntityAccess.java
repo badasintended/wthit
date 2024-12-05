@@ -7,8 +7,8 @@ import org.spongepowered.asm.mixin.gen.Accessor;
 @Mixin(AbstractFurnaceBlockEntity.class)
 public interface AbstractFurnaceBlockEntityAccess {
 
-    @Accessor("cookingProgress")
-    int wthit_cookingProgress();
+    @Accessor("cookingTimer")
+    int wthit_cookingTimer();
 
     @Accessor("cookingTotalTime")
     int wthit_cookingTotalTime();

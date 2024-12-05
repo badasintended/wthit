@@ -13,6 +13,7 @@ import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.IThemeAccessor;
 import mcp.mobius.waila.api.IThemeType;
 import mcp.mobius.waila.api.IntFormat;
+import mcp.mobius.waila.api.WailaConstants;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -43,6 +44,8 @@ public class NinePatchTheme implements ITheme {
         TILE, STRETCH
     }
 
+    private static final ResourceLocation PATH_TEXTURE_ID = ResourceLocation.fromNamespaceAndPath(WailaConstants.NAMESPACE, "nine_patch_path");
+
     private String texture;
     private boolean useResourcePack;
     private int textColor;
@@ -70,7 +73,8 @@ public class NinePatchTheme implements ITheme {
         } else {
             try {
                 var image = NativeImage.read(Files.newInputStream(accessor.getPath(texture)));
-                textureId = Minecraft.getInstance().getTextureManager().register("waila_9p", new DynamicTexture(image));
+                textureId = PATH_TEXTURE_ID;
+                Minecraft.getInstance().getTextureManager().register(textureId, new DynamicTexture(image));
             } catch (Exception e) {
                 textureId = TextureManager.INTENTIONAL_MISSING_TEXTURE;
             }
