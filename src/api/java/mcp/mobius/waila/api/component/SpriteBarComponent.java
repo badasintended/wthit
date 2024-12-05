@@ -62,16 +62,15 @@ public class SpriteBarComponent implements ITooltipComponent {
 
         BarComponent.renderBar(matrices, x, y, BarComponent.WIDTH, BarComponent.V0_BG, BarComponent.U1, BarComponent.V1_BG, 0xFFAAAAAA);
 
+        var mx = (int) (x + BarComponent.WIDTH * ratio);
+        var my = y + BarComponent.HEIGHT;
+        ctx.enableScissor(x + 1, y + 1, mx - 1, my - 1);
+
         matrices.pushPose();
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
         RenderSystem.setShader(CoreShaders.POSITION_TEX_COLOR);
         RenderSystem.setShaderTexture(0, texture);
-
-        var mx = (int) (x + BarComponent.WIDTH * ratio);
-        var my = y + BarComponent.HEIGHT;
-
-        ctx.enableScissor(x + 1, y + 1, mx - 1, my - 1);
 
         var a = WailaHelper.getAlpha(spriteTint);
         var r = WailaHelper.getRed(spriteTint);
