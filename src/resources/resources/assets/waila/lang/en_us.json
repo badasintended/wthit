@@ -374,6 +374,7 @@
   "config.waila.plugin_wailax.item.display_mode_dynamic"       : "Dynamic",
   "config.waila.plugin_wailax.item.max_height"                 : "Max Height",
   "config.waila.plugin_wailax.item.sort_by_count"              : "Sort by Count",
+  "config.waila.plugin_wailax.item.grid_mode_scale"            : "Grid Mode Scale",
   "config.waila.plugin_wailax.item.blacklist"                  : "Item Contents Blacklist",
   "config.waila.plugin_wailax.fluid"                           : "Fluid",
   "config.waila.plugin_wailax.fluid.enabled_block"             : "Show Block Fluid Contents",
