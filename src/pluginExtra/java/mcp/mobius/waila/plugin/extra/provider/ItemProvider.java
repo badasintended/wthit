@@ -42,6 +42,7 @@ public class ItemProvider extends DataProvider<ItemData, ItemDataImpl> {
         registrar.localConfig(ItemData.CONFIG_DISPLAY_MODE, ItemData.ItemDisplayMode.DYNAMIC);
         registrar.localConfig(ItemData.CONFIG_MAX_HEIGHT, 3);
         registrar.localConfig(ItemData.CONFIG_SORT_BY_COUNT, true);
+        registrar.localConfig(ItemData.CONFIG_GRID_MODE_SCALE, 1f);
     }
 
     @Override
@@ -96,12 +97,13 @@ public class ItemProvider extends DataProvider<ItemData, ItemDataImpl> {
 
         var list = stream.toList();
         var maxHeight = config.getInt(ItemData.CONFIG_MAX_HEIGHT);
+        var scale = (float) config.getDouble(ItemData.CONFIG_GRID_MODE_SCALE);
 
         lastItemsComponent = switch (config.<ItemData.ItemDisplayMode>getEnum(ItemData.CONFIG_DISPLAY_MODE)) {
             case DYNAMIC -> list.size() <= maxHeight
                 ? new NamedItemListComponent(list, maxHeight)
-                : new ItemListComponent(list, maxHeight);
-            case GRID -> new ItemListComponent(list, maxHeight);
+                : new ItemListComponent(list, maxHeight, scale);
+            case GRID -> new ItemListComponent(list, maxHeight, scale);
             case LIST -> new NamedItemListComponent(list, maxHeight);
         };
 

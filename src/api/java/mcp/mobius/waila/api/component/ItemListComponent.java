@@ -20,12 +20,18 @@ public class ItemListComponent implements ITooltipComponent.HorizontalGrowing {
     }
 
     public ItemListComponent(List<ItemStack> items, int maxHeight) {
+        this(items, maxHeight, 1f);
+    }
+
+    public ItemListComponent(List<ItemStack> items, int maxHeight, float scale) {
         this.items = items;
         this.maxHeight = maxHeight;
+        this.scale = scale;
     }
 
     private final List<ItemStack> items;
     private final int maxHeight;
+    private final float scale;
 
     private int gridWidth;
     private int gridHeight;
@@ -33,31 +39,37 @@ public class ItemListComponent implements ITooltipComponent.HorizontalGrowing {
 
     @Override
     public int getMinimalWidth() {
-        return Math.min(items.size(), 9) * 18;
+        return (int) (Math.min(items.size(), 9) * 18 * scale);
     }
 
     @Override
     public void setGrownWidth(int grownWidth) {
-        gridWidth = grownWidth / 18;
+        gridWidth = Mth.ceil(grownWidth / (18 * scale));
         gridHeight = items.isEmpty() ? 0 : Math.min(Mth.positiveCeilDiv(items.size(), gridWidth), maxHeight);
         maxIndex = gridWidth * gridHeight - 1;
     }
 
     @Override
     public int getHeight() {
-        return gridHeight * 18;
+        return Mth.ceil(gridHeight * 18 * scale);
     }
 
     @Override
     public void render(PoseStack matrices, int x, int y, float delta) {
+        matrices.pushPose();
+        matrices.translate(x, y, 0);
+        matrices.scale(scale, scale, 0f);
+
         for (var i = 0; i < items.size(); i++) {
             var item = items.get(i);
-            var ix = x + (18 * (i % gridWidth));
-            var iy = y + (18 * (i / gridWidth));
+            var ix = (18 * (i % gridWidth)) + 1;
+            var iy = (18 * (i / gridWidth)) + 1;
             IApiService.INSTANCE.renderItem(ix, iy, item);
 
             if (i == maxIndex) break;
         }
+
+        matrices.popPose();
     }
 
 }
