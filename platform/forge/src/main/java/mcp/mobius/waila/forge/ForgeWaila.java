@@ -2,7 +2,6 @@ package mcp.mobius.waila.forge;
 
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.WailaConstants;
-import mcp.mobius.waila.command.ServerCommand;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.debug.DumpGenerator;
 import mcp.mobius.waila.network.Packets;
@@ -61,7 +60,7 @@ public class ForgeWaila extends Waila {
 
         @SubscribeEvent
         static void registerCommands(RegisterCommandsEvent event) {
-            new ServerCommand().register(event.getDispatcher());
+            new ForgeServerCommand().register(event.getDispatcher());
         }
 
     }
