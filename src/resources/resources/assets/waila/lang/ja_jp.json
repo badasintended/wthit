@@ -374,6 +374,7 @@
   "config.waila.plugin_wailax.item.display_mode_dynamic"       : "ダイナミック",
   "config.waila.plugin_wailax.item.max_height"                 : "最大高さ",
   "config.waila.plugin_wailax.item.sort_by_count"              : "個数でソートする",
+
   "config.waila.plugin_wailax.item.blacklist"                  : "アイテム表示ブラックリスト",
   "config.waila.plugin_wailax.fluid"                           : "流体",
   "config.waila.plugin_wailax.fluid.enabled_block"             : "ブロック内の流体を表示する",

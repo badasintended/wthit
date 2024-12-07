@@ -374,6 +374,7 @@
   "config.waila.plugin_wailax.item.display_mode_dynamic"       : "Động",
   "config.waila.plugin_wailax.item.max_height"                 : "Chiều Cao Tối Đa",
   "config.waila.plugin_wailax.item.sort_by_count"              : "Sắp Xếp Theo Số Lượng",
+
   "config.waila.plugin_wailax.item.blacklist"                  : "Danh Sách Đen Nội Dung Mục",
   "config.waila.plugin_wailax.fluid"                           : "Chất Lỏng",
   "config.waila.plugin_wailax.fluid.enabled_block"             : "Hiển Thị Nội Dung Chất Lỏng Của Khối",
