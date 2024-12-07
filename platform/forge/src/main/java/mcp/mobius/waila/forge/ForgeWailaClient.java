@@ -6,15 +6,14 @@ import mcp.mobius.waila.gui.hud.theme.BuiltinThemeLoader;
 import mcp.mobius.waila.gui.screen.HomeScreen;
 import mcp.mobius.waila.network.Packets;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.ConfigScreenHandler;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.RegisterClientCommandsEvent;
 import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
 import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber.Bus;
@@ -40,8 +39,7 @@ public class ForgeWailaClient extends WailaClient {
     }
 
     static void registerConfigScreen() {
-        ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class,
-            () -> new ConfigScreenHandler.ConfigScreenFactory((mc, screen) -> new HomeScreen(screen)));
+        MinecraftForge.registerConfigScreen(HomeScreen::new);
     }
 
     @EventBusSubscriber(modid = WailaConstants.WAILA, value = Dist.CLIENT)
