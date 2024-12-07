@@ -25,7 +25,7 @@ public class ForgeServerCommand extends ServerCommand {
                 ? offHandStack.getItem()
                 : BuiltInRegistries.ITEM.getRandom(world.random).orElseThrow().value();
 
-            handler.insertItem(i, new ItemStack(item, item.getDefaultMaxStackSize()), false);
+            handler.insertItem(i, new ItemStack(item, item.getMaxStackSize()), false);
         }
 
         return null;
