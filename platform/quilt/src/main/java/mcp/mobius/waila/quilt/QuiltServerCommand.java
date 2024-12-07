@@ -1,4 +1,4 @@
-package mcp.mobius.waila.fabric;
+package mcp.mobius.waila.quilt;
 
 import mcp.mobius.waila.command.ServerCommand;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
@@ -12,7 +12,7 @@ import net.minecraft.server.level.ServerPlayer;
 import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("UnstableApiUsage")
-public class FabricServerCommand extends ServerCommand {
+public class QuiltServerCommand extends ServerCommand {
 
     @Override
     protected @Nullable String fillContainer(ServerLevel world, BlockPos pos, ServerPlayer player) {
