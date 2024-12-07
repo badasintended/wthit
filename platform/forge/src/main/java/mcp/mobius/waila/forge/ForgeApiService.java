@@ -8,7 +8,6 @@ import net.minecraft.world.item.ItemStack;
 public class ForgeApiService extends ApiService {
 
     @Override
-    @SuppressWarnings("DataFlowIssue")
     public IModInfo getModInfo(ItemStack stack) {
         return ModInfo.get(stack.getItem().getCreatorModId(stack));
     }
