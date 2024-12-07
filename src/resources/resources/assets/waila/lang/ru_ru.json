@@ -374,6 +374,7 @@
   "config.waila.plugin_wailax.item.display_mode_dynamic"       : "динамический",
   "config.waila.plugin_wailax.item.max_height"                 : "Максимальная высота",
   "config.waila.plugin_wailax.item.sort_by_count"              : "Сортировать по количеству",
+
   "config.waila.plugin_wailax.item.blacklist"                  : "Черный список",
   "config.waila.plugin_wailax.fluid"                           : "Жидкости",
   "config.waila.plugin_wailax.fluid.enabled_block"             : "Жидкости в блоках",
