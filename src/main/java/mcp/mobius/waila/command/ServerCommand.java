@@ -151,7 +151,7 @@ public abstract class ServerCommand extends CommonCommand<CommandSourceStack, Mi
                     source.sendFailure(Component.literal(err));
                     return 0;
                 } else {
-                    source.sendSuccess(() -> Component.literal("Filled " + pos.toShortString()), false);
+                    source.sendSuccess(Component.literal("Filled " + pos.toShortString()), false);
                     return 1;
                 }
             })
