@@ -58,7 +58,7 @@ public class ItemListComponent implements ITooltipComponent.HorizontalGrowing {
         var pose = ctx.pose();
         pose.pushPose();
         pose.translate(x, y, 0);
-        pose.scale(scale, scale, 0f);
+        pose.scale(scale, scale, 1f);
 
         for (var i = 0; i < items.size(); i++) {
             var item = items.get(i);
