@@ -2,6 +2,7 @@ package mcp.mobius.waila.api.component;
 
 import java.util.List;
 
+import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.__internal__.ApiSide;
@@ -56,9 +57,11 @@ public class ItemListComponent implements ITooltipComponent.HorizontalGrowing {
 
     @Override
     public void render(PoseStack matrices, int x, int y, float delta) {
-        matrices.pushPose();
-        matrices.translate(x, y, 0);
-        matrices.scale(scale, scale, 0f);
+        var pose = RenderSystem.getModelViewStack();
+        pose.pushPose();
+        pose.translate(x, y, 0);
+        pose.scale(scale, scale, 1f);
+        RenderSystem.applyModelViewMatrix();
 
         for (var i = 0; i < items.size(); i++) {
             var item = items.get(i);
@@ -69,7 +72,8 @@ public class ItemListComponent implements ITooltipComponent.HorizontalGrowing {
             if (i == maxIndex) break;
         }
 
-        matrices.popPose();
+        pose.popPose();
+        RenderSystem.applyModelViewMatrix();
     }
 
 }
