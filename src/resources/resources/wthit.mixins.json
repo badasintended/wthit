@@ -11,6 +11,7 @@
     "BeehiveBlockEntity$BeeDataAccess",
     "BeehiveBlockEntityAccess",
     "EntityAccess",
+    "LanguageMixin",
     "RandomizableContainerBlockEntityAccess",
     "ReloadableServerResourcesMixin",
     "ShearableBlocksMixin"

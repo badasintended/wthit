@@ -11,4 +11,6 @@ public interface IMixedService {
 
     void ClientPacketListener_handleUpdateTags(RegistryAccess.Frozen registryAccess);
 
+    void onLanguageReloaded();
+
 }
