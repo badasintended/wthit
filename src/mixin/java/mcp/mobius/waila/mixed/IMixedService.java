@@ -15,4 +15,6 @@ public interface IMixedService {
 
     void onGuiRender(GuiGraphics ctx, DeltaTracker delta);
 
+    void onLanguageReloaded();
+
 }

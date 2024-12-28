@@ -1,6 +1,8 @@
 package mcp.mobius.waila.service;
 
 import mcp.mobius.waila.WailaClient;
+import mcp.mobius.waila.config.JsonConfig;
+import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.gui.hud.TooltipRenderer;
 import mcp.mobius.waila.mixed.IMixedService;
 import mcp.mobius.waila.registry.RegistryFilter;
@@ -23,6 +25,12 @@ public class MixedService implements IMixedService {
     @Override
     public void onGuiRender(GuiGraphics ctx, DeltaTracker delta) {
         TooltipRenderer.render(ctx, delta);
+    }
+
+    @Override
+    public void onLanguageReloaded() {
+        JsonConfig.reloadAllInstances();
+        PluginConfig.write();
     }
 
 }
