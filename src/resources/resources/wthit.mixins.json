@@ -13,6 +13,7 @@
     "ChiseledBookShelfBlockAccess",
     "ChiseledBookShelfBlockEntityAccess",
     "EntityAccess",
+    "LanguageMixin",
     "NoteBlockAccess",
     "ReloadableServerResourcesMixin",
     "ShearableBlocksMixin",

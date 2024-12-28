@@ -4,6 +4,8 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 import mcp.mobius.waila.WailaClient;
+import mcp.mobius.waila.config.JsonConfig;
+import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.gui.hud.TooltipRenderer;
 import mcp.mobius.waila.mixed.IMixedService;
 import mcp.mobius.waila.registry.RegistryFilter;
@@ -34,6 +36,12 @@ public class MixedService implements IMixedService {
     @Override
     public void addToolMaterialInstance(ToolMaterial material) {
         TOOL_MATERIALS.add(material);
+    }
+
+    @Override
+    public void onLanguageReloaded() {
+        JsonConfig.reloadAllInstances();
+        PluginConfig.write();
     }
 
 }

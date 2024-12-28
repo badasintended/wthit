@@ -18,4 +18,6 @@ public interface IMixedService {
 
     void addToolMaterialInstance(ToolMaterial material);
 
+    void onLanguageReloaded();
+
 }
