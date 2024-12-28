@@ -13,4 +13,6 @@ public interface IMixedService {
 
     void ClientPacketListener_handleUpdateTags(LayeredRegistryAccess<ClientRegistryLayer> registryAccess);
 
+    void onLanguageReloaded();
+
 }

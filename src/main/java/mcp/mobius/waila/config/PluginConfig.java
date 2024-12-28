@@ -53,8 +53,9 @@ public enum PluginConfig implements IPluginConfig {
             if (language.has(descKey)) sb.append('\n').append(language.getOrDefault(descKey));
 
             if (type.equals(ConfigEntry.PATH)) {
+                var configPath = (Path) entry.getDefaultValue();
                 sb.append("\n").append(language.getOrDefault(Tl.Json5.Config.Plugin.CUSTOM_FILE));
-                sb.append("\n").append(entry.getDefaultValue());
+                sb.append("\n").append(PATH.getParent().relativize(configPath));
                 return sb.toString();
             }
 
