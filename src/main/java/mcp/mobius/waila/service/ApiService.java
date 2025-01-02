@@ -5,7 +5,7 @@ import java.nio.file.Path;
 import java.util.Collection;
 import java.util.List;
 
-import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.access.DataType;
 import mcp.mobius.waila.api.IBlacklistConfig;
@@ -141,12 +141,12 @@ public abstract class ApiService implements IApiService {
     }
 
     @Override
-    public void fillGradient(Matrix4f matrix, BufferBuilder buf, int x, int y, int w, int h, int start, int end) {
+    public void fillGradient(Matrix4f matrix, VertexConsumer buf, int x, int y, int w, int h, int start, int end) {
         DisplayUtil.fillGradient(matrix, buf, x, y, w, h, start, end);
     }
 
     @Override
-    public void renderRectBorder(Matrix4f matrix, BufferBuilder buf, int x, int y, int w, int h, int s, int gradStart, int gradEnd) {
+    public void renderRectBorder(Matrix4f matrix, VertexConsumer buf, int x, int y, int w, int h, int s, int gradStart, int gradEnd) {
         DisplayUtil.renderRectBorder(matrix, buf, x, y, w, h, s, gradStart, gradEnd);
     }
 

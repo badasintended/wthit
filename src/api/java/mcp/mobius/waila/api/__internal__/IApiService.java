@@ -5,7 +5,7 @@ import java.nio.file.Path;
 import java.util.Collection;
 import java.util.List;
 
-import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import mcp.mobius.waila.api.IBlacklistConfig;
 import mcp.mobius.waila.api.IData;
 import mcp.mobius.waila.api.IInstanceRegistry;
@@ -59,9 +59,9 @@ public interface IApiService {
 
     int getFontColor();
 
-    void fillGradient(Matrix4f matrix, BufferBuilder buf, int x, int y, int w, int h, int start, int end);
+    void fillGradient(Matrix4f matrix, VertexConsumer buf, int x, int y, int w, int h, int start, int end);
 
-    void renderRectBorder(Matrix4f matrix, BufferBuilder buf, int x, int y, int w, int h, int s, int gradStart, int gradEnd);
+    void renderRectBorder(Matrix4f matrix, VertexConsumer buf, int x, int y, int w, int h, int s, int gradStart, int gradEnd);
 
     <T extends ITheme> IThemeType.Builder<T> createThemeTypeBuilder(Class<T> clazz);
 

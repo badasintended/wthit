@@ -5,20 +5,17 @@ import java.util.Random;
 
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.BufferUploader;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.ITooltipComponent;
-import mcp.mobius.waila.api.WailaHelper;
+import mcp.mobius.waila.api.util.WRenders;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.renderer.CoreShaders;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.ARGB;
 import net.minecraft.util.Mth;
 import org.joml.Matrix4f;
 
@@ -38,7 +35,7 @@ public final class DisplayUtil {
         RenderSystem.disableDepthTest();
     }
 
-    public static void renderRectBorder(Matrix4f matrix, BufferBuilder buf, int x, int y, int w, int h, int s, int gradStart, int gradEnd) {
+    public static void renderRectBorder(Matrix4f matrix, VertexConsumer buf, int x, int y, int w, int h, int s, int gradStart, int gradEnd) {
         if (s <= 0) {
             return;
         }
@@ -59,31 +56,29 @@ public final class DisplayUtil {
             var scale = (float) Minecraft.getInstance().getWindow().getGuiScale();
             ctx.pose().scale(1 / scale, 1 / scale, 1);
 
-            RenderSystem.setShader(CoreShaders.POSITION_COLOR);
-
-            var buf = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
+            var buf = WRenders.buffer(RenderType.gui());
             var bx = Mth.floor(x * scale + 0.5);
             var by = Mth.floor(y * scale + 0.5);
             var bw = Mth.floor((cw == 0 ? component.getWidth() : cw) * scale + 0.5);
             var bh = Mth.floor(component.getHeight() * scale + 0.5);
             var color = (0xFF << 24) + Mth.hsvToRgb(RANDOM.nextFloat(), RANDOM.nextFloat(), 1f);
             renderRectBorder(ctx.pose().last().pose(), buf, bx, by, bw, bh, 1, color, color);
-            BufferUploader.drawWithShader(buf.buildOrThrow());
 
             ctx.pose().popPose();
+            ctx.flush();
         }
     }
 
-    public static void fillGradient(Matrix4f matrix, BufferBuilder buf, int x, int y, int w, int h, int start, int end) {
-        var sa = WailaHelper.getAlpha(start) / 255.0F;
-        var sr = WailaHelper.getRed(start) / 255.0F;
-        var sg = WailaHelper.getGreen(start) / 255.0F;
-        var sb = WailaHelper.getBlue(start) / 255.0F;
+    public static void fillGradient(Matrix4f matrix, VertexConsumer buf, int x, int y, int w, int h, int start, int end) {
+        var sa = ARGB.alphaFloat(start);
+        var sr = ARGB.redFloat(start);
+        var sg = ARGB.greenFloat(start);
+        var sb = ARGB.blueFloat(start);
 
-        var ea = WailaHelper.getAlpha(end) / 255.0F;
-        var er = WailaHelper.getRed(end) / 255.0F;
-        var eg = WailaHelper.getGreen(end) / 255.0F;
-        var eb = WailaHelper.getBlue(end) / 255.0F;
+        var ea = ARGB.alphaFloat(end);
+        var er = ARGB.redFloat(end);
+        var eg = ARGB.greenFloat(end);
+        var eb = ARGB.blueFloat(end);
 
         buf.addVertex(matrix, x, y, 0).setColor(sr, sg, sb, sa);
         buf.addVertex(matrix, x, y + h, 0).setColor(er, eg, eb, ea);

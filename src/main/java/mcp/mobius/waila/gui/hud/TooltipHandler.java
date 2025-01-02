@@ -16,6 +16,7 @@ import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.mixin.PlayerTabOverlayAccess;
 import mcp.mobius.waila.pick.PickerResults;
 import mcp.mobius.waila.registry.Registrar;
+import mcp.mobius.waila.util.ProfilerUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.ChatScreen;
@@ -45,6 +46,12 @@ public class TooltipHandler {
     }
 
     public static void tick() {
+        try (var ignored = ProfilerUtil.profile("wthit:tick")) {
+            _tick();
+        }
+    }
+
+    private static void _tick() {
         STATE.render = false;
 
         var client = Minecraft.getInstance();

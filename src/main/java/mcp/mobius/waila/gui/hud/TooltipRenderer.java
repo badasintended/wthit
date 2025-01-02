@@ -11,7 +11,6 @@ import com.mojang.blaze3d.pipeline.MainTarget;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferUploader;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.access.ClientAccessor;
@@ -27,13 +26,13 @@ import mcp.mobius.waila.event.EventCanceller;
 import mcp.mobius.waila.mixin.BossHealthOverlayAccess;
 import mcp.mobius.waila.mixin.GameNarratorAccess;
 import mcp.mobius.waila.registry.Registrar;
+import mcp.mobius.waila.util.ProfilerUtil;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.renderer.CoreShaders;
 import net.minecraft.util.Mth;
-import net.minecraft.util.profiling.Profiler;
 import org.jetbrains.annotations.Nullable;
 
 import static mcp.mobius.waila.util.DisplayUtil.renderComponent;
@@ -185,6 +184,12 @@ public class TooltipRenderer {
     }
 
     public static void render(GuiGraphics ctx, DeltaTracker delta) {
+        try (var ignored = ProfilerUtil.profile("wthit:render")) {
+            _render(ctx, delta);
+        }
+    }
+
+    private static void _render(GuiGraphics ctx, DeltaTracker delta) {
         var client = Minecraft.getInstance();
 
         if (WailaClient.showFps) {
@@ -203,7 +208,7 @@ public class TooltipRenderer {
         // TODO: Figure out why opacity not working properly
         //noinspection ConstantValue
         if (true) {
-            render0(client, ctx, delta);
+            renderUncached(client, ctx, delta);
             return;
         }
 
@@ -224,9 +229,10 @@ public class TooltipRenderer {
                 framebuffer.resize(fbWidth, fbHeight);
             }
 
+            client.getMainRenderTarget().unbindWrite();
             framebuffer.clear();
             framebuffer.bindWrite(true);
-            render0(client, ctx, delta);
+            renderUncached(client, ctx, delta);
             framebuffer.unbindWrite();
             client.getMainRenderTarget().bindWrite(true);
             lastFrame = now;
@@ -234,13 +240,13 @@ public class TooltipRenderer {
 
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
-        RenderSystem.setShader(CoreShaders.POSITION_TEX_COLOR);
+        RenderSystem.setShader(CoreShaders.POSITION_TEX);
         RenderSystem.setShaderTexture(0, framebuffer.getColorTextureId());
 
         var w = client.getWindow().getGuiScaledWidth();
         var h = client.getWindow().getGuiScaledHeight();
 
-        var buffer = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+        var buffer = RenderSystem.renderThreadTesselator().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
 
         var pose = ctx.pose().last().pose();
         buffer.addVertex(pose, 0, h, 0).setUv(0f, 0f);
@@ -253,11 +259,13 @@ public class TooltipRenderer {
         RenderSystem.disableBlend();
     }
 
-    private static void render0(Minecraft client, GuiGraphics ctx, DeltaTracker delta) {
-        var profiler = Profiler.get();
+    private static void renderUncached(Minecraft client, GuiGraphics ctx, DeltaTracker delta) {
+        try (var ignored = ProfilerUtil.profile("wthit:render_uncached")) {
+            _renderUncached(client, ctx, delta);
+        }
+    }
 
-        profiler.push("Waila Overlay");
-
+    private static void _renderUncached(Minecraft client, GuiGraphics ctx, DeltaTracker delta) {
         var scale = state.getScale();
 
         ctx.pose().pushPose();
@@ -274,7 +282,6 @@ public class TooltipRenderer {
                 if (canceller.isCanceled()) {
                     ctx.pose().popPose();
                     RenderSystem.enableDepthTest();
-                    profiler.pop();
                     return;
                 }
             }
@@ -319,7 +326,6 @@ public class TooltipRenderer {
 
         RenderSystem.enableDepthTest();
         ctx.pose().popPose();
-        profiler.pop();
     }
 
     private static void narrateObjectName(Minecraft client) {

@@ -1,20 +1,17 @@
 package mcp.mobius.waila.api.component;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.BufferUploader;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import mcp.mobius.waila.api.ITooltipComponent;
-import mcp.mobius.waila.api.WailaHelper;
+import mcp.mobius.waila.api.util.WRenders;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.CoreShaders;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.ARGB;
 
 /**
  * Component that renders a bar with a texture as the foreground.
@@ -58,26 +55,25 @@ public class SpriteBarComponent implements ITooltipComponent {
 
     @Override
     public void render(GuiGraphics ctx, int x, int y, DeltaTracker delta) {
-        var matrices = ctx.pose();
+        var ps = ctx.pose();
 
-        BarComponent.renderBar(matrices, x, y, BarComponent.WIDTH, BarComponent.V0_BG, BarComponent.U1, BarComponent.V1_BG, 0xFFAAAAAA);
+        BarComponent.renderBar(ctx, x, y, BarComponent.WIDTH, BarComponent.V0_BG, BarComponent.U1, BarComponent.V1_BG, 0xFFAAAAAA);
 
         var mx = (int) (x + BarComponent.WIDTH * ratio);
         var my = y + BarComponent.HEIGHT;
         ctx.enableScissor(x + 1, y + 1, mx - 1, my - 1);
 
-        matrices.pushPose();
+        ps.pushPose();
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
-        RenderSystem.setShader(CoreShaders.POSITION_TEX_COLOR);
-        RenderSystem.setShaderTexture(0, texture);
 
-        var a = WailaHelper.getAlpha(spriteTint);
-        var r = WailaHelper.getRed(spriteTint);
-        var g = WailaHelper.getGreen(spriteTint);
-        var b = WailaHelper.getBlue(spriteTint);
+        var a = ARGB.alpha(spriteTint);
+        var r = ARGB.red(spriteTint);
+        var g = ARGB.green(spriteTint);
+        var b = ARGB.blue(spriteTint);
 
-        BufferBuilder buffer = null;
+        VertexConsumer buffer = null;
+        var pose = ps.last().pose();
 
         for (var px1 = x; px1 < mx; px1 += regionWidth) {
             var px2 = px1 + regionWidth;
@@ -85,18 +81,18 @@ public class SpriteBarComponent implements ITooltipComponent {
             for (var py1 = y; py1 < my; py1 += regionHeight) {
                 var py2 = py1 + regionHeight;
 
-                if (buffer == null) buffer = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
-                buffer.addVertex(matrices.last().pose(), px1, py2, 0).setUv(u0, v1).setColor(r, g, b, a);
-                buffer.addVertex(matrices.last().pose(), px2, py2, 0).setUv(u1, v1).setColor(r, g, b, a);
-                buffer.addVertex(matrices.last().pose(), px2, py1, 0).setUv(u1, v0).setColor(r, g, b, a);
-                buffer.addVertex(matrices.last().pose(), px1, py1, 0).setUv(u0, v0).setColor(r, g, b, a);
+                if (buffer == null) buffer = WRenders.buffer(RenderType.guiTextured(texture));
+                buffer.addVertex(pose, px1, py2, 0).setUv(u0, v1).setColor(r, g, b, a);
+                buffer.addVertex(pose, px2, py2, 0).setUv(u1, v1).setColor(r, g, b, a);
+                buffer.addVertex(pose, px2, py1, 0).setUv(u1, v0).setColor(r, g, b, a);
+                buffer.addVertex(pose, px1, py1, 0).setUv(u0, v0).setColor(r, g, b, a);
             }
         }
 
-        if (buffer != null) BufferUploader.drawWithShader(buffer.buildOrThrow());
         RenderSystem.disableBlend();
-        matrices.popPose();
+        ps.popPose();
         ctx.disableScissor();
+        ctx.flush();
 
         BarComponent.renderText(ctx, text, x, y);
     }

@@ -1,8 +1,8 @@
 package mcp.mobius.waila.api.component;
 
 import mcp.mobius.waila.api.ITooltipComponent;
-import mcp.mobius.waila.api.WailaHelper;
 import mcp.mobius.waila.api.__internal__.ApiSide;
+import mcp.mobius.waila.api.util.WNumbers;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -52,7 +52,7 @@ public class ItemComponent implements ITooltipComponent {
             ctx.renderItemDecorations(client.font, stack, x + 1, y + 1, "");
             if (count <= 1) return;
 
-            var countText = WailaHelper.suffix(count);
+            var countText = WNumbers.suffix(count);
             var actualW = client.font.width(countText);
             var scale = (actualW <= 16) ? 1f : 16f / actualW;
 

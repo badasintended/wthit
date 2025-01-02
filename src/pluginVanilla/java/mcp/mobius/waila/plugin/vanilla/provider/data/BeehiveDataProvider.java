@@ -8,7 +8,7 @@ import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IDataWriter;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerAccessor;
-import mcp.mobius.waila.api.WailaHelper;
+import mcp.mobius.waila.api.util.WCodecs;
 import mcp.mobius.waila.mixin.BeehiveBlockEntityAccess;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.core.registries.Registries;
@@ -29,7 +29,7 @@ public enum BeehiveDataProvider implements IDataProvider<BeehiveBlockEntity> {
     public static final StreamCodec<RegistryFriendlyByteBuf, OccupantsData> OCCUPANTS_CODEC = StreamCodec.composite(
         StreamCodec.composite(
             ByteBufCodecs.registry(Registries.ENTITY_TYPE), OccupantsData.Occupant::entityType,
-            WailaHelper.nullable(ByteBufCodecs.STRING_UTF8), OccupantsData.Occupant::customName,
+                WCodecs.nullable(ByteBufCodecs.STRING_UTF8), OccupantsData.Occupant::customName,
             OccupantsData.Occupant::new).apply(ByteBufCodecs.list()), OccupantsData::occupants,
         OccupantsData::new);
 

@@ -1,9 +1,9 @@
 package mcp.mobius.waila.api.component;
 
 import mcp.mobius.waila.api.ITooltipComponent;
-import mcp.mobius.waila.api.WailaHelper;
 import mcp.mobius.waila.api.__internal__.ApiSide;
 import mcp.mobius.waila.api.__internal__.IApiService;
+import mcp.mobius.waila.api.util.WNumbers;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
@@ -24,7 +24,7 @@ public class NamedItemComponent implements ITooltipComponent {
 
         var count = stack.getCount();
         var name = stack.getHoverName().getString();
-        this.label = count > 1 ? WailaHelper.suffix(count) + " " + name : name;
+        this.label = count > 1 ? WNumbers.suffix(count) + " " + name : name;
     }
 
     public NamedItemComponent(ItemLike item) {

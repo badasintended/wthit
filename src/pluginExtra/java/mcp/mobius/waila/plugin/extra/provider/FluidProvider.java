@@ -6,11 +6,11 @@ import mcp.mobius.waila.api.IClientRegistrar;
 import mcp.mobius.waila.api.ICommonRegistrar;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITooltip;
-import mcp.mobius.waila.api.WailaHelper;
 import mcp.mobius.waila.api.component.PairComponent;
 import mcp.mobius.waila.api.component.SpriteBarComponent;
 import mcp.mobius.waila.api.component.WrappedComponent;
 import mcp.mobius.waila.api.data.FluidData;
+import mcp.mobius.waila.api.util.WNumbers;
 import mcp.mobius.waila.plugin.extra.data.FluidDataImpl;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
@@ -57,8 +57,8 @@ public class FluidProvider extends DataProvider<FluidData, FluidDataImpl> {
             String text;
             if (Double.isInfinite(stored)) text = INFINITE;
             else {
-                text = WailaHelper.suffix((long) FluidData.Unit.convert(storedUnit, displayUnit, stored));
-                if (Double.isFinite(capacity)) text += "/" + WailaHelper.suffix((long) FluidData.Unit.convert(storedUnit, displayUnit, capacity));
+                text = WNumbers.suffix((long) FluidData.Unit.convert(storedUnit, displayUnit, stored));
+                if (Double.isFinite(capacity)) text += "/" + WNumbers.suffix((long) FluidData.Unit.convert(storedUnit, displayUnit, capacity));
             }
 
             text += " " + displayUnit.symbol;

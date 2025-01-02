@@ -7,11 +7,11 @@ import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerAccessor;
 import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.WailaConstants;
-import mcp.mobius.waila.api.WailaHelper;
 import mcp.mobius.waila.api.component.BarComponent;
 import mcp.mobius.waila.api.component.PairComponent;
 import mcp.mobius.waila.api.component.WrappedComponent;
 import mcp.mobius.waila.api.data.EnergyData;
+import mcp.mobius.waila.api.util.WNumbers;
 import mcp.mobius.waila.plugin.extra.data.EnergyDataImpl;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
@@ -59,8 +59,8 @@ public class EnergyProvider extends DataProvider<EnergyData, EnergyDataImpl> {
         String text;
         if (Double.isInfinite(stored)) text = INFINITE;
         else {
-            text = WailaHelper.suffix((long) stored);
-            if (Double.isFinite(capacity)) text += "/" + WailaHelper.suffix((long) capacity);
+            text = WNumbers.suffix((long) stored);
+            if (Double.isFinite(capacity)) text += "/" + WNumbers.suffix((long) capacity);
         }
 
         if (!unit.isEmpty()) text += " " + unit;

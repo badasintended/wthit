@@ -1,21 +1,17 @@
 package mcp.mobius.waila.api.component;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferUploader;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.blaze3d.vertex.VertexFormat;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.WailaConstants;
-import mcp.mobius.waila.api.WailaHelper;
 import mcp.mobius.waila.api.__internal__.ApiSide;
+import mcp.mobius.waila.api.util.WRenders;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.CoreShaders;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.ARGB;
 
 /**
  * Component that renders a colored bar.
@@ -77,50 +73,49 @@ public class BarComponent implements ITooltipComponent {
 
     @Override
     public void render(GuiGraphics ctx, int x, int y, DeltaTracker delta) {
-        renderBar(ctx.pose(), x, y, WIDTH, V0_BG, U1, V1_BG, color);
-        renderBar(ctx.pose(), x, y, WIDTH * ratio, V0_FG, U0 + (UV_W * ratio), V1_FG, color);
+        renderBar(ctx, x, y, WIDTH, V0_BG, U1, V1_BG, color);
+        renderBar(ctx, x, y, WIDTH * ratio, V0_FG, U0 + (UV_W * ratio), V1_FG, color);
         renderText(ctx, text, x, y);
     }
 
     static void renderBar(
-        PoseStack matrices,
+        GuiGraphics ctx,
         int x, int y, float w,
         float v0, float u1, float v1, int tint
     ) {
-        matrices.pushPose();
+        var ps = ctx.pose();
+        ps.pushPose();
 
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
-        RenderSystem.setShader(CoreShaders.POSITION_TEX_COLOR);
-        RenderSystem.setShaderTexture(0, WailaConstants.COMPONENT_TEXTURE);
 
-        var a = WailaHelper.getAlpha(tint);
-        var r = WailaHelper.getRed(tint);
-        var g = WailaHelper.getGreen(tint);
-        var b = WailaHelper.getBlue(tint);
+        var a = ARGB.alpha(tint);
+        var r = ARGB.red(tint);
+        var g = ARGB.green(tint);
+        var b = ARGB.blue(tint);
 
-        var tessellator = Tesselator.getInstance();
-        var buffer = tessellator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
+        var buffer = WRenders.buffer(RenderType.guiTextured(WailaConstants.COMPONENT_TEXTURE));
+        var pose = ps.last().pose();
 
-        buffer.addVertex(matrices.last().pose(), x, y + HEIGHT, 0).setUv(U0, v1).setColor(r, g, b, a);
-        buffer.addVertex(matrices.last().pose(), x + w, y + HEIGHT, 0).setUv(u1, v1).setColor(r, g, b, a);
-        buffer.addVertex(matrices.last().pose(), x + w, y, 0).setUv(u1, v0).setColor(r, g, b, a);
-        buffer.addVertex(matrices.last().pose(), x, y, 0).setUv(U0, v0).setColor(r, g, b, a);
+        buffer.addVertex(pose, x, y + HEIGHT, 0).setUv(U0, v1).setColor(r, g, b, a);
+        buffer.addVertex(pose, x + w, y + HEIGHT, 0).setUv(u1, v1).setColor(r, g, b, a);
+        buffer.addVertex(pose, x + w, y, 0).setUv(u1, v0).setColor(r, g, b, a);
+        buffer.addVertex(pose, x, y, 0).setUv(U0, v0).setColor(r, g, b, a);
 
-        BufferUploader.drawWithShader(buffer.buildOrThrow());
         RenderSystem.disableBlend();
-        matrices.popPose();
+        ps.popPose();
+        ctx.flush();
     }
 
     static void renderText(GuiGraphics ctx, Component text, int x, int y) {
-        ctx.drawSpecial(bufferSource -> {
-            var font = Minecraft.getInstance().font;
-            var textWidth = font.width(text);
-            var textX = x + Math.max((BarComponent.WIDTH - textWidth) / 2F, 0F);
-            float textY = y + 2;
+        var bufferSource = WRenders.bufferSource();
+        var font = Minecraft.getInstance().font;
+        var textWidth = font.width(text);
+        var textX = x + Math.max((BarComponent.WIDTH - textWidth) / 2F, 0F);
+        float textY = y + 2;
 
-            font.drawInBatch8xOutline(text.getVisualOrderText(), textX, textY, 0xAAAAAA, 0x292929, ctx.pose().last().pose(), bufferSource, 0xf000f0);
-        });
+        font.drawInBatch8xOutline(text.getVisualOrderText(), textX, textY, 0xAAAAAA, 0x292929, ctx.pose().last().pose(), bufferSource, 0xf000f0);
+        ctx.flush();
     }
 
 }

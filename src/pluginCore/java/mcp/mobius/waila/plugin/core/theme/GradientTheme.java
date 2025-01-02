@@ -1,18 +1,16 @@
 package mcp.mobius.waila.plugin.core.theme;
 
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferUploader;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.blaze3d.vertex.VertexFormat;
 import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.IThemeAccessor;
 import mcp.mobius.waila.api.IThemeType;
 import mcp.mobius.waila.api.IntFormat;
 import mcp.mobius.waila.api.__internal__.IApiService;
+import mcp.mobius.waila.api.util.WRenders;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.CoreShaders;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.Range;
 
@@ -62,8 +60,7 @@ public class GradientTheme implements ITheme {
         RenderSystem.defaultBlendFunc();
         RenderSystem.setShader(CoreShaders.POSITION_COLOR);
 
-        var tesselator = Tesselator.getInstance();
-        var buf = tesselator.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
+        var buf = WRenders.buffer(RenderType.gui());
         var matrix = ctx.pose().last().pose();
 
         var a = alpha << 24;
@@ -85,7 +82,7 @@ public class GradientTheme implements ITheme {
 
         IApiService.INSTANCE.renderRectBorder(matrix, buf, x + bo, y + bo, width - bo2, height - bo2, borderSize, gradStart, gradEnd);
 
-        BufferUploader.drawWithShader(buf.buildOrThrow());
+        ctx.flush();
     }
 
 }

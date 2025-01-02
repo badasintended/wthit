@@ -4,20 +4,17 @@ import java.nio.file.Files;
 
 import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.BufferUploader;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.blaze3d.vertex.VertexFormat;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.IThemeAccessor;
 import mcp.mobius.waila.api.IThemeType;
 import mcp.mobius.waila.api.IntFormat;
 import mcp.mobius.waila.api.WailaConstants;
+import mcp.mobius.waila.api.util.WRenders;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.CoreShaders;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.resources.ResourceLocation;
@@ -102,10 +99,8 @@ public class NinePatchTheme implements ITheme {
     public void renderTooltipBackground(GuiGraphics ctx, int x, int y, int width, int height, @Range(from = 0x00, to = 0xFF) int alpha, DeltaTracker delta) {
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
-        RenderSystem.setShader(CoreShaders.POSITION_TEX_COLOR);
-        RenderSystem.setShaderTexture(0, textureId);
 
-        var buf = Tesselator.getInstance().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX_COLOR);
+        var buf = WRenders.buffer(RenderType.guiTextured(textureId));
         var matrix = ctx.pose().last().pose();
 
         // @formatter:off
@@ -170,10 +165,10 @@ public class NinePatchTheme implements ITheme {
             }
         }
 
-        BufferUploader.drawWithShader(buf.buildOrThrow());
+        ctx.flush();
     }
 
-    private void patch(BufferBuilder buf, Matrix4f matrix, int x0, int y0, int w, int h, float u0, float u1, float v0, float v1, int alpha) {
+    private void patch(VertexConsumer buf, Matrix4f matrix, int x0, int y0, int w, int h, float u0, float u1, float v0, float v1, int alpha) {
         if (w == 0 || h == 0) {
             return;
         }
