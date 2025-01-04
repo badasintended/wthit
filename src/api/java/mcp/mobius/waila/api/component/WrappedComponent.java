@@ -1,5 +1,6 @@
 package mcp.mobius.waila.api.component;
 
+import java.util.List;
 import java.util.Objects;
 
 import com.mojang.blaze3d.vertex.PoseStack;
@@ -8,7 +9,10 @@ import mcp.mobius.waila.api.__internal__.ApiSide;
 import mcp.mobius.waila.api.__internal__.IApiService;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
+import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
+import net.minecraft.util.FormattedCharSequence;
 
 /**
  * Component that renders a vanilla {@link Component}.
@@ -25,20 +29,34 @@ public class WrappedComponent implements ITooltipComponent {
     }
 
     public final Component component;
+    private List<FormattedCharSequence> lines;
+    private int height;
 
     @Override
     public int getWidth() {
-        return getFont().width(component);
+        var font = getFont();
+        var split = font.getSplitter().splitLines(component, Integer.MAX_VALUE, Style.EMPTY);
+        lines = Language.getInstance().getVisualOrder(split);
+
+        var width = lines.stream().mapToInt(font::width).max().orElse(0);
+        height = font.lineHeight * split.size();
+
+        return width;
     }
 
     @Override
     public int getHeight() {
-        return getFont().lineHeight;
+        return height;
     }
 
     @Override
     public void render(PoseStack matrices, int x, int y, float delta) {
-        getFont().drawShadow(matrices, component, x, y, IApiService.INSTANCE.getFontColor());
+        var font = getFont();
+
+        for (var line : lines) {
+            font.drawShadow(matrices, line, x, y, IApiService.INSTANCE.getFontColor());
+            y += font.lineHeight;
+        }
     }
 
     private Font getFont() {
