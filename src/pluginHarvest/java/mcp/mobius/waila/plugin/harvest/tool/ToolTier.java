@@ -1,11 +1,11 @@
 package mcp.mobius.waila.plugin.harvest.tool;
 
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Supplier;
 
 import com.google.common.base.Suppliers;
-import com.google.common.collect.ImmutableMap;
 import mcp.mobius.waila.api.__internal__.IApiService;
 import mcp.mobius.waila.api.__internal__.Internals;
 import mcp.mobius.waila.buildconst.Tl;
@@ -58,13 +58,14 @@ public final class ToolTier {
 
     public static void resetMap() {
         tiers = Suppliers.memoize(() -> {
-            var builder = ImmutableMap.<ResourceLocation, ToolTier>builder();
-            var tiers = IApiService.INSTANCE.getTiers();
-            for (var i = 0; i < tiers.size(); i++) {
-                var tier = tiers.get(i);
-                builder.put(tier.incorrectBlocksForDrops().location(), new ToolTier(tier, i));
+            var map = new LinkedHashMap<ResourceLocation, ToolTier>();
+            var index = 0;
+            for (var tier : IApiService.INSTANCE.getTiers()) {
+                var key = tier.incorrectBlocksForDrops().location();
+                if (map.containsKey(key)) continue;
+                map.put(key, new ToolTier(tier, index++));
             }
-            return builder.build();
+            return map;
         });
     }
 
