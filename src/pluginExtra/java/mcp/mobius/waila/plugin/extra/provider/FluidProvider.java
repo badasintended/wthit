@@ -12,6 +12,7 @@ import mcp.mobius.waila.api.component.SpriteBarComponent;
 import mcp.mobius.waila.api.component.WrappedComponent;
 import mcp.mobius.waila.api.data.FluidData;
 import mcp.mobius.waila.plugin.extra.data.FluidDataImpl;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
@@ -64,7 +65,7 @@ public class FluidProvider extends DataProvider<FluidData, FluidDataImpl> {
             text += " " + displayUnit.symbol;
 
             var sprite = desc.sprite();
-            tooltip.addLine(new PairComponent(
+            tooltip.setLine(FluidData.ID.withSuffix("." + BuiltInRegistries.FLUID.getKey(entry.fluid()).toLanguageKey()), new PairComponent(
                 new WrappedComponent(desc.name().getString()),
                 new SpriteBarComponent(ratio, sprite, 16, 16, desc.tint(), Component.literal(text))));
         }

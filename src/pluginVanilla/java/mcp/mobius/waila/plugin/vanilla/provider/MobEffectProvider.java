@@ -36,7 +36,7 @@ public enum MobEffectProvider implements IEntityComponentProvider {
 
             if (it.getEffect().value().getCategory() == MobEffectCategory.HARMFUL) text.withStyle(ChatFormatting.RED);
 
-            tooltip.addLine(text);
+            tooltip.setLine(Options.EFFECT_MOB, text);
         });
     }
 

@@ -51,6 +51,13 @@ public class WailaConstants {
     public static final ResourceLocation MOD_NAME_TAG = id("mod_name");
 
     /**
+     * Tooltip tag for errors.
+     *
+     * @see ITooltip#setLine
+     */
+    public static final ResourceLocation ERROR_TAG = id("error");
+
+    /**
      * Whether Waila should show tooltip for blocks.
      * <p>
      * <b>Default value:</b> {@code true}
