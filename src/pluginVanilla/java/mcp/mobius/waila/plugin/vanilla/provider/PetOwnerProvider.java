@@ -55,7 +55,7 @@ public enum PetOwnerProvider implements IEntityComponentProvider {
             }
 
             if (!(name == UNKNOWN || name == LOADING) || !config.getBoolean(Options.PET_HIDE_UNKNOWN_OWNER)) {
-                tooltip.addLine(new PairComponent(KEY, name));
+                tooltip.setLine(Options.PET_OWNER, new PairComponent(KEY, name));
             }
         }
     }

@@ -37,7 +37,7 @@ public enum MobTimerProvider implements IEntityComponentProvider {
                 var seconds = ((-lastAge) / 20) + 1;
                 var minutes = seconds / 60;
                 seconds = seconds - (minutes * 60);
-                tooltip.addLine(new PairComponent(
+                tooltip.setLine(Options.TIMER_GROW, new PairComponent(
                     Component.translatable(Tl.Tooltip.Timer.GROW),
                     Component.literal(TIMER.formatted(minutes, seconds))));
             }
@@ -46,7 +46,7 @@ public enum MobTimerProvider implements IEntityComponentProvider {
                 var seconds = ((lastAge) / 20) + 1;
                 var minutes = seconds / 60;
                 seconds = seconds - (minutes * 60);
-                tooltip.addLine(new PairComponent(
+                tooltip.setLine(Options.TIMER_BREED, new PairComponent(
                     Component.translatable(Tl.Tooltip.Timer.BREED),
                     Component.literal(TIMER.formatted(minutes, seconds))));
             }

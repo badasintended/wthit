@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import mcp.mobius.waila.api.ITooltip;
+import mcp.mobius.waila.api.WailaConstants;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -23,8 +24,9 @@ public final class ExceptionUtil {
         }
 
         if (tooltip != null) {
-            tooltip.addLine(Component.literal("Error on " + errorName).withStyle(ChatFormatting.RED));
-            tooltip.addLine(Component.literal("See logs for more info").withStyle(ChatFormatting.RED));
+            tooltip.setLine(WailaConstants.ERROR_TAG, Component
+                .literal("Error on " + errorName + "\nSee logs for more info")
+                .withStyle(ChatFormatting.RED));
         }
 
         return log;

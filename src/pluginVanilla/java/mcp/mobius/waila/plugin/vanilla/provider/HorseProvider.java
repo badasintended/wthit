@@ -38,7 +38,7 @@ public enum HorseProvider implements IEntityComponentProvider {
             else
                 format = ChatFormatting.RESET;
 
-            tooltip.addLine(new PairComponent(JUMP_KEY,
+            tooltip.setLine(Options.HORSE_JUMP_HEIGHT, new PairComponent(JUMP_KEY,
                 Component.translatable(Tl.Tooltip.Horse.Jump.VALUE, FORMAT.format(jumpHeight)).withStyle(format)));
         }
 
@@ -54,7 +54,7 @@ public enum HorseProvider implements IEntityComponentProvider {
             else
                 format = ChatFormatting.RESET;
 
-            tooltip.addLine(new PairComponent(SPEED_KEY,
+            tooltip.setLine(Options.HORSE_SPEED, new PairComponent(SPEED_KEY,
                 Component.translatable(Tl.Tooltip.Horse.Speed.VALUE, FORMAT.format(speed)).withStyle(format)));
         }
     }

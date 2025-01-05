@@ -39,7 +39,7 @@ public enum PlayerHeadProvider implements IBlockComponentProvider {
         if (config.getBoolean(Options.PLAYER_HEAD_NAME)) {
             SkullBlockEntity skull = accessor.getBlockEntity();
             if (skull != null && skull.getOwnerProfile() != null && !StringUtils.isBlank(skull.getOwnerProfile().getName())) {
-                tooltip.addLine(Component.translatable(skull.getOwnerProfile().getName()));
+                tooltip.setLine(Options.PLAYER_HEAD_NAME, Component.translatable(skull.getOwnerProfile().getName()));
             }
         }
     }
