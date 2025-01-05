@@ -18,19 +18,20 @@ public enum BlockAttributesProvider implements IBlockComponentProvider {
     @Override
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
         if (config.getBoolean(Options.BLOCK_POSITION)) {
-            tooltip.addLine(new PositionComponent(accessor.getPosition()));
+            tooltip.setLine(Options.BLOCK_POSITION, new PositionComponent(accessor.getPosition()));
         }
 
         if (config.getBoolean(Options.BLOCK_STATE)) {
             var state = accessor.getBlockState();
-            state.getProperties().forEach(property -> {
-                Comparable<?> value = state.getValue(property);
+            for (var property : state.getProperties()) {
+                var value = state.getValue(property);
                 var valueText = Component.literal(value.toString());
                 if (property instanceof BooleanProperty) {
                     valueText.withStyle(value == Boolean.TRUE ? ChatFormatting.GREEN : ChatFormatting.RED);
                 }
-                tooltip.addLine(new PairComponent(Component.literal(property.getName()), valueText));
-            });
+                var name = property.getName();
+                tooltip.setLine(Options.BLOCK_STATE.withSuffix("." + name), new PairComponent(Component.literal(name), valueText));
+            }
         }
     }
 

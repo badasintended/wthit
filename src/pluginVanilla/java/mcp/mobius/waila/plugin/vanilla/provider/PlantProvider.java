@@ -11,6 +11,7 @@ import mcp.mobius.waila.api.component.PairComponent;
 import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CropBlock;
@@ -25,24 +26,25 @@ public enum PlantProvider implements IBlockComponentProvider {
     INSTANCE;
 
     private static void addMaturityTooltip(ITooltip tooltip, float growthValue) {
+        var line = tooltip.setLine(Options.PLANT_CROP_PROGRESS);
         growthValue *= 100.0F;
         if (growthValue < 100.0F) {
-            tooltip.addLine(new PairComponent(
+            line.with(new PairComponent(
                 Component.translatable(Tl.Tooltip.CROP_GROWTH), Component.literal(String.format("%.0f%%", growthValue))));
         } else {
-            tooltip.addLine(new PairComponent(
+            line.with(new PairComponent(
                 Component.translatable(Tl.Tooltip.CROP_GROWTH), Component.translatable(Tl.Tooltip.CROP_MATURE)));
         }
     }
 
-    private static void addGrowableTooltip(ITooltip tooltip, String translationKey, boolean growable) {
-        tooltip.addLine(new PairComponent(Component.translatable(translationKey),
+    private static void addGrowableTooltip(ITooltip tooltip, ResourceLocation tag, String translationKey, boolean growable) {
+        tooltip.setLine(tag, new PairComponent(Component.translatable(translationKey),
             growable ? Component.translatable(Tl.Tooltip.TRUE) : Component.translatable(Tl.Tooltip.FALSE)));
     }
 
     private static void addCropGrowableTooltip(ITooltip tooltip, IBlockAccessor accessor) {
         var lightLevel = accessor.getWorld().getRawBrightness(accessor.getPosition(), 0);
-        addGrowableTooltip(tooltip, Tl.Tooltip.CROP_GROWABLE, lightLevel >= 9);
+        addGrowableTooltip(tooltip, Options.PLANT_CROP_GROWABLE, Tl.Tooltip.CROP_GROWABLE, lightLevel >= 9);
     }
 
     private static void addTreeGrowableTooltip(ITooltip tooltip, IBlockAccessor accessor) {
@@ -53,7 +55,7 @@ public enum PlantProvider implements IBlockComponentProvider {
             growable = false;
         }
 
-        addGrowableTooltip(tooltip, Tl.Tooltip.TREE_GROWABLE, growable);
+        addGrowableTooltip(tooltip, Options.PLANT_TREE_GROWABLE, Tl.Tooltip.TREE_GROWABLE, growable);
     }
 
     @Nullable

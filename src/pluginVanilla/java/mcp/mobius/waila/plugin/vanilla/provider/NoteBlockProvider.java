@@ -48,7 +48,7 @@ public enum NoteBlockProvider implements IBlockComponentProvider {
                     .append(level)
                     .append(")");
             }
-            tooltip.addLine()
+            tooltip.setLine(Options.NOTE_BLOCK_NOTE)
                 .with(Component.translatable(Tl.Tooltip.INSTRUMENT + "." + instrument.getSerializedName()))
                 .with(Component.literal(builder.toString()).withStyle(style -> style.withColor(COLORS[level])));
         }

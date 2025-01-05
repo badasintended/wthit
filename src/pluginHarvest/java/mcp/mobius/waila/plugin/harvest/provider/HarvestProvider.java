@@ -1,6 +1,6 @@
 package mcp.mobius.waila.plugin.harvest.provider;
 
-import java.awt.Rectangle;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -25,6 +25,7 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TieredItem;
 import net.minecraft.world.level.block.state.BlockState;
@@ -33,6 +34,12 @@ import org.jetbrains.annotations.NotNull;
 public enum HarvestProvider implements IBlockComponentProvider, IEventListener {
 
     INSTANCE;
+
+    private static final ResourceLocation CLASSIC_HARVESTABLE = Options.rl("classic.harvestable");
+    private static final ResourceLocation CLASSIC_EFFECTIVE_TOOL = Options.rl("classic.effective_tool");
+    private static final ResourceLocation CLASSIC_LEVEL = Options.rl("classic.level");
+
+    private static final ResourceLocation CLASSIC_MINIMAL = Options.rl("classic.minimal");
 
     private static final ToolType UNBREAKABLE = new ToolType();
 
@@ -89,16 +96,16 @@ public enum HarvestProvider implements IBlockComponentProvider, IEventListener {
         var heldStack = accessor.getPlayer().getInventory().getSelected();
 
         if (displayMode == HarvestDisplayMode.CLASSIC) {
-            tooltip.addLine(Component.empty()
+            tooltip.setLine(CLASSIC_HARVESTABLE, Component.empty()
                 .append(getHarvestableSymbol(accessor, unbreakable))
                 .append(" ")
                 .append(Component.translatable(Tl.Tooltip.Harvest.HARVESTABLE)));
 
-            if (!tools.isEmpty() && !unbreakable) tooltip.addLine(new PairComponent(
+            if (!tools.isEmpty() && !unbreakable) tooltip.setLine(CLASSIC_EFFECTIVE_TOOL, new PairComponent(
                 Component.translatable(Tl.Tooltip.Harvest.EFFECTIVE_TOOL),
                 getToolText(tools, heldStack)));
 
-            if (highestTier != ToolTier.NONE) tooltip.addLine(new PairComponent(
+            if (highestTier != ToolTier.NONE) tooltip.setLine(CLASSIC_LEVEL, new PairComponent(
                 Component.translatable(Tl.Tooltip.Harvest.LEVEL),
                 getTierText(highestTier, heldStack)));
         } else if (displayMode == HarvestDisplayMode.CLASSIC_MINIMAL) {
@@ -116,7 +123,7 @@ public enum HarvestProvider implements IBlockComponentProvider, IEventListener {
                 text.append(getTierText(highestTier, heldStack));
             }
 
-            tooltip.addLine(text);
+            tooltip.setLine(CLASSIC_MINIMAL, text);
         }
     }
 

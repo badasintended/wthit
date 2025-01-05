@@ -20,7 +20,7 @@ public enum BeeProvider implements IEntityComponentProvider {
     public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
         var hivePos = accessor.getData().get(BeeDataProvider.HivePosData.class);
         if (hivePos != null && config.getBoolean(Options.BEE_HIVE_POS)) {
-            tooltip.addLine(new PairComponent(
+            tooltip.setLine(Options.BEE_HIVE_POS, new PairComponent(
                 new WrappedComponent(Component.translatable(Tl.Tooltip.Bee.HIVE)),
                 new PositionComponent(hivePos.pos())));
         }

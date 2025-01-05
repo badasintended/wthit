@@ -14,7 +14,7 @@ public enum JukeboxProvider implements IBlockComponentProvider {
     @Override
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
         if (config.getBoolean(Options.JUKEBOX_RECORD) && accessor.getData().raw().contains("record")) {
-            tooltip.addLine(Component.Serializer.fromJson(accessor.getData().raw().getString("record")));
+            tooltip.setLine(Options.JUKEBOX_RECORD, Component.Serializer.fromJson(accessor.getData().raw().getString("record")));
         }
     }
 
