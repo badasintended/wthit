@@ -47,7 +47,7 @@ public enum BreakProgressProvider implements IEventListener {
         var progressChangeAmount = progressDiff * dt;
         var actualProgress = Mth.clamp(lastProgress + progressChangeAmount, 0f, 1f);
 
-        final float[] lineLength = new float[1];
+        final var lineLength = new float[1];
 
         if (config.getBoolean(Options.BREAKING_PROGRESS_BOTTOM_ONLY)) {
             lineLength[0] = (rect.width - 2) * actualProgress;

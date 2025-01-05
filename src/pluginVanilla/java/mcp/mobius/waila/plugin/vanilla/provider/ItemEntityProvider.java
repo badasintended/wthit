@@ -15,8 +15,10 @@ import mcp.mobius.waila.plugin.vanilla.config.EnchantmentDisplayMode;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.EnchantmentTags;
 import net.minecraft.util.StringUtil;
 import net.minecraft.world.entity.Entity;
@@ -31,6 +33,9 @@ import org.jetbrains.annotations.Nullable;
 public enum ItemEntityProvider implements IEntityComponentProvider {
 
     INSTANCE;
+
+    private static final ResourceLocation AUTHOR = Options.BOOK_WRITTEN.withSuffix(".author");
+    private static final ResourceLocation GENERATION = Options.BOOK_WRITTEN.withSuffix(".generation");
 
     private static long lastEnchantmentTime = 0;
     private static int enchantmentIndex = 0;
@@ -104,17 +109,24 @@ public enum ItemEntityProvider implements IEntityComponentProvider {
                     if (curseIndex > (curses.size() - 1)) curseIndex = 0;
                 }
 
+                Component text = null;
+
                 if (!enchantments.isEmpty()) {
                     var instance = enchantments.get(enchantmentIndex);
-                    tooltip.addLine(Enchantment.getFullname(instance.enchantment, instance.level));
+                    text = Enchantment.getFullname(instance.enchantment, instance.level);
                 }
 
                 if (!curses.isEmpty()) {
                     var instance = curses.get(curseIndex);
-                    tooltip.addLine(Enchantment.getFullname(instance.enchantment, instance.level));
+                    var curse = Enchantment.getFullname(instance.enchantment, instance.level);
+                    if (text == null) text = curse;
+                    else text = text.copy().append(CommonComponents.NEW_LINE).append(curse);
                 }
+
+                if (text != null) tooltip.setLine(Options.BOOK_ENCHANTMENT_DISPLAY_MODE, text);
             } else {
                 var enchantments = stack.getOrDefault(DataComponents.STORED_ENCHANTMENTS, ItemEnchantments.EMPTY);
+                MutableComponent text = null;
 
                 if (mode == EnchantmentDisplayMode.COMBINED) {
                     MutableComponent enchantmentLine = null;
@@ -140,13 +152,20 @@ public enum ItemEntityProvider implements IEntityComponentProvider {
                         }
                     }
 
-                    if (enchantmentLine != null) tooltip.addLine(enchantmentLine);
-                    if (curseLine != null) tooltip.addLine(curseLine);
+                    if (enchantmentLine != null) text = enchantmentLine;
+                    if (curseLine != null) {
+                        if (text == null) text = curseLine;
+                        else text.append(CommonComponents.NEW_LINE).append(curseLine);
+                    }
                 } else {
                     for (var entry : enchantments.entrySet()) {
-                        tooltip.addLine(Enchantment.getFullname(entry.getKey(), entry.getIntValue()));
+                        var name = Enchantment.getFullname(entry.getKey(), entry.getIntValue());
+                        if (text == null) text = Component.empty().append(name);
+                        else text.append(CommonComponents.NEW_LINE).append(name);
                     }
                 }
+
+                if (text != null) tooltip.setLine(Options.BOOK_ENCHANTMENT_DISPLAY_MODE, text);
             }
         } else if (stack.is(Items.WRITTEN_BOOK)) {
             if (!config.getBoolean(Options.BOOK_WRITTEN)) return;
@@ -155,11 +174,10 @@ public enum ItemEntityProvider implements IEntityComponentProvider {
             if (tag == null) return;
 
             if (!StringUtil.isNullOrEmpty(tag.author())) {
-                tooltip.addLine(Component.translatable("book.byAuthor", tag.author()));
+                tooltip.setLine(AUTHOR, Component.translatable("book.byAuthor", tag.author()));
             }
 
-            tooltip.addLine(Component.translatable("book.generation." + tag.generation()));
-
+            tooltip.setLine(GENERATION, Component.translatable("book.generation." + tag.generation()));
         }
     }
 

@@ -18,7 +18,7 @@ public enum ComposterProvider implements IBlockComponentProvider {
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
         if (config.getBoolean(Options.LEVEL_COMPOSTER)) {
             var state = accessor.getBlockState();
-            tooltip.addLine(new PairComponent(
+            tooltip.setLine(Options.LEVEL_COMPOSTER, new PairComponent(
                 Component.translatable(Tl.Tooltip.COMPOST_LEVEL),
                 Component.literal(state.getValue(ComposterBlock.LEVEL).toString())));
         }
