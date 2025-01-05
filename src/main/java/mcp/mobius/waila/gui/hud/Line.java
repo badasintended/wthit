@@ -11,7 +11,6 @@ import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.ITooltipComponent.HorizontalGrowing;
 import mcp.mobius.waila.api.ITooltipLine;
 import mcp.mobius.waila.api.component.WrappedComponent;
-import mcp.mobius.waila.util.DisplayUtil;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
@@ -140,7 +139,7 @@ public class Line implements ITooltipLine {
         return height;
     }
 
-    public void render(GuiGraphics ctx, int x, int y, DeltaTracker delta) {
+    public void render(ComponentRenderer renderer, GuiGraphics ctx, int x, int y, DeltaTracker delta) {
         Preconditions.checkState(width != -1 && height != -1);
 
         var cx = x;
@@ -150,7 +149,7 @@ public class Line implements ITooltipLine {
             var h = heights.getInt(component);
 
             var cy = y + (h < height ? (height - h) / 2 : 0);
-            DisplayUtil.renderComponent(ctx, component, cx, cy, w, delta);
+            renderer.render(ctx, component, cx, cy, w, h, delta);
             cx += w + 1;
         }
     }

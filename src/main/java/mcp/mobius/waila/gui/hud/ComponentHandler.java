@@ -66,7 +66,9 @@ public class ComponentHandler {
         var registrar = Registrar.get();
         var providers = registrar.blockComponent.get(position).get(obj);
         for (var entry : providers) {
-            var provider = entry.instance();
+            var pa = entry.instance();
+            var provider = pa.instance();
+            accessor.setOrigin(pa.origin(), provider.getClass());
             try {
                 switch (position) {
                     case HEAD -> provider.appendHead(tooltip, accessor, PluginConfig.CLIENT);
@@ -76,6 +78,7 @@ public class ComponentHandler {
             } catch (Throwable e) {
                 ExceptionUtil.dump(e, provider.getClass().toString(), tooltip);
             }
+            accessor.setOrigin(null, null);
         }
     }
 
@@ -108,7 +111,9 @@ public class ComponentHandler {
 
         var providers = registrar.entityComponent.get(position).get(entity);
         for (var entry : providers) {
-            var provider = entry.instance();
+            var pa = entry.instance();
+            var provider = pa.instance();
+            accessor.setOrigin(pa.origin(), provider.getClass());
             try {
                 switch (position) {
                     case HEAD -> provider.appendHead(tooltip, accessor, PluginConfig.CLIENT);
@@ -118,6 +123,7 @@ public class ComponentHandler {
             } catch (Throwable e) {
                 ExceptionUtil.dump(e, provider.getClass().toString(), tooltip);
             }
+             accessor.setOrigin(null, null);
         }
     }
 
@@ -129,7 +135,8 @@ public class ComponentHandler {
         if (target.getType() == HitResult.Type.ENTITY) {
             var providers = registrar.entityIcon.get(data.getEntity());
             for (var provider : providers) {
-                var icon = provider.instance().getIcon(data, config);
+                var pa = provider.instance();
+                var icon = pa.instance().getIcon(data, config);
                 if (icon != null) {
                     return icon;
                 }
@@ -142,7 +149,8 @@ public class ComponentHandler {
             var priority = 0;
 
             for (var provider : registrar.blockIcon.get(state.getBlock())) {
-                var icon = provider.instance().getIcon(ClientAccessor.INSTANCE, PluginConfig.CLIENT);
+                var pa = provider.instance();
+                var icon = pa.instance().getIcon(ClientAccessor.INSTANCE, PluginConfig.CLIENT);
                 if (icon != null) {
                     result = icon;
                     priority = provider.priority();
@@ -155,7 +163,8 @@ public class ComponentHandler {
                 for (var provider : registrar.blockIcon.get(blockEntity)) {
                     if (provider.priority() >= priority) break;
 
-                    var icon = provider.instance().getIcon(ClientAccessor.INSTANCE, PluginConfig.CLIENT);
+                    var pa = provider.instance();
+                    var icon = pa.instance().getIcon(ClientAccessor.INSTANCE, PluginConfig.CLIENT);
                     if (icon != null) {
                         result = icon;
                         break;

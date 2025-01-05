@@ -21,6 +21,7 @@ import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.__internal__.IApiService;
 import mcp.mobius.waila.config.JsonConfig;
+import mcp.mobius.waila.gui.hud.ComponentRenderer;
 import mcp.mobius.waila.gui.hud.TooltipRenderer;
 import mcp.mobius.waila.gui.hud.theme.ThemeType;
 import mcp.mobius.waila.plugin.PluginInfo;
@@ -122,7 +123,7 @@ public abstract class ApiService implements IApiService {
 
     @Override
     public void renderComponent(GuiGraphics ctx, ITooltipComponent component, int x, int y, DeltaTracker delta) {
-        DisplayUtil.renderComponent(ctx, component, x, y, 0, delta);
+        ComponentRenderer.DEFAULT.render(ctx, component, x, y, component.getWidth(), component.getHeight(), delta);
     }
 
     @Override

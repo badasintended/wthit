@@ -4,6 +4,7 @@ import mcp.mobius.waila.api.IBlockAccessor;
 import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.IDataReader;
 import mcp.mobius.waila.api.IEntityAccessor;
+import mcp.mobius.waila.api.IPluginInfo;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -44,6 +45,22 @@ public enum ClientAccessor implements ICommonAccessor, IBlockAccessor, IEntityAc
     private Vec3 rayCastDirection;
     private double rayCastMaxDistance;
     private float frameTime;
+
+    private @Nullable IPluginInfo plugin;
+    private @Nullable Class<?> provider;
+
+    public void setOrigin(@Nullable IPluginInfo plugin, @Nullable Class<?> provider) {
+        this.plugin = plugin;
+        this.provider = provider;
+    }
+
+    public @Nullable IPluginInfo getPlugin() {
+        return plugin;
+    }
+
+    public @Nullable Class<?> getProvider() {
+        return provider;
+    }
 
     @Override
     public Level getWorld() {
