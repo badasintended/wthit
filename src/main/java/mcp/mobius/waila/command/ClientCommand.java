@@ -161,7 +161,8 @@ public abstract class ClientCommand<S> extends CommonCommand<S, Minecraft> {
 
             .then(literal("inspect"))
             .executes(context -> {
-                Minecraft.getInstance().schedule(InspectorScreen::open);
+                var client = Minecraft.getInstance();
+                client.schedule(() -> client.setScreen(new InspectorScreen()));
                 return 1;
             })
             .pop("inspect")

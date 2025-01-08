@@ -123,7 +123,7 @@ public abstract class ApiService implements IApiService {
 
     @Override
     public void renderComponent(GuiGraphics ctx, ITooltipComponent component, int x, int y, DeltaTracker delta) {
-        ComponentRenderer.DEFAULT.render(ctx, component, x, y, component.getWidth(), component.getHeight(), delta);
+        ComponentRenderer.get().render(ctx, component, x, y, component.getWidth(), component.getHeight(), delta);
     }
 
     @Override

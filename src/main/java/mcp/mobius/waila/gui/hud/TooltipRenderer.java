@@ -83,6 +83,10 @@ public class TooltipRenderer {
         }
 
         for (var component : line.components) {
+            if (component instanceof InspectComponent wrapper) {
+                component = wrapper.actual;
+            }
+
             if (component instanceof PairComponent pair) {
                 colonOffset = Math.max(pair.key.getWidth(), colonOffset);
                 break;
@@ -103,9 +107,10 @@ public class TooltipRenderer {
             for (var entry : Registrar.get().eventListeners.get(Object.class)) {
                 var pa = entry.instance();
                 var listener = pa.instance();
-                accessor.setOrigin(pa.origin(), listener.getClass());
+                var wrapperFactory = ComponentHandler.wrapperFactory;
+                if (wrapperFactory != null) TOOLTIP.wrapper = wrapperFactory.apply(pa);
                 listener.onHandleTooltip(TOOLTIP, accessor, PluginConfig.CLIENT);
-                accessor.setOrigin(null, null);
+                if (wrapperFactory != null) TOOLTIP.wrapper = null;
             }
         }
 
@@ -186,13 +191,13 @@ public class TooltipRenderer {
         state = null;
     }
 
-    public static void render(ComponentRenderer renderer, GuiGraphics ctx, DeltaTracker delta) {
+    public static void render(GuiGraphics ctx, DeltaTracker delta) {
         try (var ignored = ProfilerUtil.profile("wthit:render")) {
-            _render(renderer, ctx, delta);
+            _render(ctx, delta);
         }
     }
 
-    private static void _render(ComponentRenderer renderer, GuiGraphics ctx, DeltaTracker delta) {
+    private static void _render(GuiGraphics ctx, DeltaTracker delta) {
         var client = Minecraft.getInstance();
 
         if (WailaClient.showFps) {
@@ -211,7 +216,7 @@ public class TooltipRenderer {
         // TODO: Figure out why opacity not working properly
         //noinspection ConstantValue
         if (true) {
-            renderUncached(renderer, ctx, delta);
+            renderUncached(ctx, delta);
             return;
         }
 
@@ -235,7 +240,7 @@ public class TooltipRenderer {
             client.getMainRenderTarget().unbindWrite();
             framebuffer.clear();
             framebuffer.bindWrite(true);
-            renderUncached(renderer, ctx, delta);
+            renderUncached(ctx, delta);
             framebuffer.unbindWrite();
             client.getMainRenderTarget().bindWrite(true);
             lastFrame = now;
@@ -262,13 +267,14 @@ public class TooltipRenderer {
         RenderSystem.disableBlend();
     }
 
-    private static void renderUncached(ComponentRenderer renderer, GuiGraphics ctx, DeltaTracker delta) {
+    private static void renderUncached(GuiGraphics ctx, DeltaTracker delta) {
         try (var ignored = ProfilerUtil.profile("wthit:render_uncached")) {
-            _renderUncached(renderer, ctx, delta);
+            _renderUncached(ctx, delta);
         }
     }
 
-    private static void _renderUncached(ComponentRenderer renderer, GuiGraphics ctx, DeltaTracker delta) {
+    private static void _renderUncached(GuiGraphics ctx, DeltaTracker delta) {
+        var renderer = ComponentRenderer.get();
         var scale = state.getScale();
 
         ctx.pose().pushPose();

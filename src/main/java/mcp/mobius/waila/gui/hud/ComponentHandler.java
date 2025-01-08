@@ -1,6 +1,7 @@
 package mcp.mobius.waila.gui.hud;
 
 import java.util.Objects;
+import java.util.function.Function;
 
 import lol.bai.badpackets.api.PacketSender;
 import mcp.mobius.waila.Waila;
@@ -13,6 +14,7 @@ import mcp.mobius.waila.api.component.EmptyComponent;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.network.play.c2s.BlockDataRequestPlayC2SPacket;
 import mcp.mobius.waila.network.play.c2s.EntityDataRequestPlayC2SPacket;
+import mcp.mobius.waila.registry.PluginAware;
 import mcp.mobius.waila.registry.Registrar;
 import mcp.mobius.waila.util.ExceptionUtil;
 import net.minecraft.client.Minecraft;
@@ -24,6 +26,8 @@ import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.Nullable;
 
 public class ComponentHandler {
+
+    public static @Nullable Function<PluginAware<?>, Line.Wrapper> wrapperFactory;
 
     public static void requestBlockData(ClientAccessor accessor) {
         var registrar = Registrar.get();
@@ -68,7 +72,7 @@ public class ComponentHandler {
         for (var entry : providers) {
             var pa = entry.instance();
             var provider = pa.instance();
-            accessor.setOrigin(pa.origin(), provider.getClass());
+            if (wrapperFactory != null) tooltip.wrapper = wrapperFactory.apply(pa);
             try {
                 switch (position) {
                     case HEAD -> provider.appendHead(tooltip, accessor, PluginConfig.CLIENT);
@@ -78,7 +82,7 @@ public class ComponentHandler {
             } catch (Throwable e) {
                 ExceptionUtil.dump(e, provider.getClass().toString(), tooltip);
             }
-            accessor.setOrigin(null, null);
+            if (wrapperFactory != null) tooltip.wrapper = null;
         }
     }
 
@@ -113,7 +117,7 @@ public class ComponentHandler {
         for (var entry : providers) {
             var pa = entry.instance();
             var provider = pa.instance();
-            accessor.setOrigin(pa.origin(), provider.getClass());
+            if (wrapperFactory != null) tooltip.wrapper = wrapperFactory.apply(pa);
             try {
                 switch (position) {
                     case HEAD -> provider.appendHead(tooltip, accessor, PluginConfig.CLIENT);
@@ -123,7 +127,7 @@ public class ComponentHandler {
             } catch (Throwable e) {
                 ExceptionUtil.dump(e, provider.getClass().toString(), tooltip);
             }
-             accessor.setOrigin(null, null);
+            if (wrapperFactory != null) tooltip.wrapper = null;
         }
     }
 
@@ -138,6 +142,7 @@ public class ComponentHandler {
                 var pa = provider.instance();
                 var icon = pa.instance().getIcon(data, config);
                 if (icon != null) {
+                    if (wrapperFactory != null) icon = wrapperFactory.apply(pa).wrap(null, icon);
                     return icon;
                 }
             }
@@ -152,6 +157,7 @@ public class ComponentHandler {
                 var pa = provider.instance();
                 var icon = pa.instance().getIcon(ClientAccessor.INSTANCE, PluginConfig.CLIENT);
                 if (icon != null) {
+                    if (wrapperFactory != null) icon = wrapperFactory.apply(pa).wrap(null, icon);
                     result = icon;
                     priority = provider.priority();
                     break;
@@ -166,6 +172,7 @@ public class ComponentHandler {
                     var pa = provider.instance();
                     var icon = pa.instance().getIcon(ClientAccessor.INSTANCE, PluginConfig.CLIENT);
                     if (icon != null) {
+                        if (wrapperFactory != null) icon = wrapperFactory.apply(pa).wrap(null, icon);
                         result = icon;
                         break;
                     }

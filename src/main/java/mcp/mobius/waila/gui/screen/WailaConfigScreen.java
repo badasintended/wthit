@@ -14,7 +14,6 @@ import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.component.ItemComponent;
 import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.config.WailaConfig;
-import mcp.mobius.waila.gui.hud.ComponentRenderer;
 import mcp.mobius.waila.gui.hud.Line;
 import mcp.mobius.waila.gui.hud.TooltipRenderer;
 import mcp.mobius.waila.gui.hud.theme.ThemeDefinition;
@@ -123,7 +122,7 @@ public class WailaConfigScreen extends ConfigScreen {
             }
 
             renderBackground(ctx, mouseX, mouseY, partialTicks);
-            TooltipRenderer.render(ComponentRenderer.DEFAULT, ctx, minecraft.getDeltaTracker());
+            TooltipRenderer.render(ctx, minecraft.getDeltaTracker());
         } else {
             TooltipRenderer.resetState();
             f1held = false;

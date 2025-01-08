@@ -1,82 +1,112 @@
 package mcp.mobius.waila.gui.screen;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import mcp.mobius.waila.Waila;
-import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.buildconst.Tl;
+import mcp.mobius.waila.gui.hud.ComponentHandler;
 import mcp.mobius.waila.gui.hud.ComponentRenderer;
+import mcp.mobius.waila.gui.hud.InspectComponent;
 import mcp.mobius.waila.gui.hud.TooltipHandler;
 import mcp.mobius.waila.gui.hud.TooltipRenderer;
 import net.minecraft.client.DeltaTracker;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
 
 public class InspectorScreen extends YesIAmSureTheClientInstanceIsPresentByTheTimeIUseItScreen {
 
-    private static final Component TITLE = Component.translatable(Tl.Gui.Inspect.TITLE);
+    private static final String API_COMPONENTS = "mcp.mobius.waila.api.component.";
+    private static final Component TITLE = Component.translatable(Tl.Gui.Inspector.TITLE);
     private static final State STATE = new State();
 
-    private final boolean initShowBounds;
     private final Renderer renderer = new Renderer();
 
-    private InspectorScreen(boolean initShowBounds) {
+    private boolean tickSuccess = false;
+
+    private final List<ITooltipComponent> hoveredComponent = new ArrayList<>();
+
+    public InspectorScreen() {
         super(TITLE);
-        this.initShowBounds = initShowBounds;
-    }
-
-    public static boolean open() {
-        var client = Minecraft.getInstance();
-        var success = TooltipHandler.tick(STATE, true);
-        if (!success) return false;
-
-        client.setScreen(new InspectorScreen(WailaClient.showComponentBounds));
-        WailaClient.showComponentBounds = true;
-        return true;
     }
 
     @Override
     protected void init() {
         super.init();
 
-        var success = TooltipHandler.tick(STATE, true);
+        ComponentHandler.wrapperFactory = pa -> (tag, c) -> {
+            if (c instanceof ITooltipComponent.HorizontalGrowing hg) {
+                return new InspectComponent.Growing(hg, pa.origin(), pa.instance().getClass(), tag);
+            }
+            return new InspectComponent(c, pa.origin(), pa.instance().getClass(), tag);
+        };
+
+        tickSuccess = TooltipHandler.tick(STATE, true);
+        ComponentHandler.wrapperFactory = null;
     }
 
     @Override
     public void onClose() {
         super.onClose();
-        WailaClient.showComponentBounds = initShowBounds;
+        TooltipHandler.tick();
     }
 
     @Override
     public void render(@NotNull GuiGraphics ctx, int mouseX, int mouseY, float tickDelta) {
         super.render(ctx, mouseX, mouseY, tickDelta);
 
-        renderer.mouseX = mouseX;
-        renderer.mouseY = mouseY;
-        renderer.hoveredComponent = null;
-        TooltipRenderer.render(renderer, ctx, minecraft.getDeltaTracker());
+        if (!hoveredComponent.isEmpty()) {
+            var h = minecraft.font.lineHeight + 2;
 
-        if (renderer.hoveredComponent != null) {
-            ctx.renderTooltip(minecraft.font, Component.literal(renderer.hoveredComponent.getClass().getName()), mouseX, mouseY);
+            var component = hoveredComponent.getFirst();
+            if (component instanceof InspectComponent wrapper) component = wrapper.actual;
+            var clazz = component.getClass().getName();
+            if (clazz.startsWith(API_COMPONENTS)) clazz = clazz.substring(API_COMPONENTS.length());
+            ctx.drawString(minecraft.font, Component.literal(clazz), 5, 5, 0xFFFFFF);
+
+            var wrapper = (InspectComponent) hoveredComponent.getLast();
+            ctx.drawString(minecraft.font, Component.translatable(Tl.Gui.Inspector.TAG, wrapper.tag), 5, 5 + h, 0xFFFFFF);
+
+            var provider = wrapper.provider.getName();
+            ctx.drawString(minecraft.font, Component.translatable(Tl.Gui.Inspector.PROVIDER, provider), 5, 5 + h * 2, 0xFFFFFF);
+
+            var pluginId = wrapper.plugin.getPluginId().toString();
+            ctx.drawString(minecraft.font, Component.translatable(Tl.Gui.Inspector.PLUGIN_ID, pluginId), 5, 5 + h * 3, 0xFFFFFF);
+
+            var mod = wrapper.plugin.getModInfo();
+            ctx.drawString(minecraft.font, Component.translatable(Tl.Gui.Inspector.MOD, mod.getName(), mod.getId()), 5, 5 + h * 4, 0xFFFFFF);
+        }
+
+        if (tickSuccess) {
+            renderer.mouseX = mouseX;
+            renderer.mouseY = mouseY;
+            hoveredComponent.clear();
+
+            ComponentRenderer.set(renderer);
+            TooltipRenderer.render(ctx, minecraft.getDeltaTracker());
+            ComponentRenderer.set(null);
         }
     }
 
-    private static class Renderer implements ComponentRenderer {
+    private class Renderer extends ComponentRenderer {
 
         int mouseX, mouseY;
-        ITooltipComponent hoveredComponent;
 
         @Override
         public void render(GuiGraphics ctx, ITooltipComponent component, int x, int y, int cw, int ch, DeltaTracker delta) {
-            ComponentRenderer.DEFAULT.render(ctx, component, x, y, cw, ch, delta);
+            component.render(ctx, x, y, delta);
 
+            var v = 0.3f;
             if (x < mouseX && mouseX < (x + cw) && y < mouseY && mouseY < (y + ch)) {
-                hoveredComponent = component;
+                hoveredComponent.add(component);
+                v = 1f;
             }
+
+            ComponentRenderer.Default.renderBounds(ctx, x, y, cw, ch, v);
         }
 
     }

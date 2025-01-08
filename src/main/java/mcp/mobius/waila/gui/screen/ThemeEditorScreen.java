@@ -6,7 +6,6 @@ import java.util.Map;
 import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.IWailaConfig.Overlay.Position.Align;
 import mcp.mobius.waila.buildconst.Tl;
-import mcp.mobius.waila.gui.hud.ComponentRenderer;
 import mcp.mobius.waila.gui.hud.TooltipRenderer;
 import mcp.mobius.waila.gui.hud.theme.ThemeAccessor;
 import mcp.mobius.waila.gui.hud.theme.ThemeDefinition;
@@ -180,7 +179,7 @@ class ThemeEditorScreen extends ConfigScreen {
 
     @Override
     protected void renderForeground(GuiGraphics ctx, int rowLeft, int rowWidth, int mouseX, int mouseY, float partialTicks) {
-        TooltipRenderer.render(ComponentRenderer.DEFAULT, ctx, minecraft.getDeltaTracker());
+        TooltipRenderer.render(ctx, minecraft.getDeltaTracker());
     }
 
     @Override
