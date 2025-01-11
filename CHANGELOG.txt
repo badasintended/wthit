@@ -1,4 +1,11 @@
 14.x - 1.21.4 - dev/master - java 21
+====================================
+14.1.0   - Added tags to all built-in tooltips
+           - Note that the tags are not guaranteed to be as stable as API classes. This is more of a workaround to allow plugins to override built-in tooltips.
+         - Changed `waila_plugins.json` comment for custom config path to relative (#306)
+         - Changed tooltip rendering to use the idiomatic way
+         - Fixed multiline `WrappedComponent` not rendered properly
+         - Fixed error if there are tier instances with the same incorrect tag (#304)
 14.0.1   - Fixed item tooltip lighting (#303)
 14.0.0   - Updated to Minecraft 1.21.4
          - Added config option to change item grid scale (#301)
@@ -12,6 +19,11 @@
 
 12.x - 1.21.1 - dev/1.21.1 - java 21
 ====================================
+12.5.0   - Added tags to all built-in tooltips
+           - Note that the tags are not guaranteed to be as stable as API classes. This is more of a workaround to allow plugins to override built-in tooltips.
+         - Changed `waila_plugins.json` comment for custom config path to relative (#306)
+         - Fixed multiline `WrappedComponent` not rendered properly
+         - Fixed error if there are tier instances with the same incorrect tag (#304)
 12.4.5   - Fixed item tooltip lighting (#303)
 12.4.4   - Added config option to change item grid scale (#301)
 12.4.3   - Fixed plugin configurations getting reset at every launch (#296)
@@ -230,6 +242,11 @@
 
 8.x - 1.20.1 - dev/1.20.1 - java 17
 ===================================
+8.16.0   - Added tags to all built-in tooltips
+           - Note that the tags are not guaranteed to be as stable as API classes. This is more of a workaround to allow plugins to override built-in tooltips.
+         - Changed `waila_plugins.json` comment for custom config path to relative (#306)
+         - Fixed multiline `WrappedComponent` not rendered properly
+         - Fixed error if there are tier instances with the same incorrect tag (#304)
 8.15.5   - Fixed item tooltip lighting (#303)
 8.15.4   - Added config option to change item grid scale (#301)
 8.15.3   - Fixed plugin configurations getting reset at every launch (#296)
@@ -473,6 +490,11 @@
 
 5.x - 1.19.2 - dev/1.19.2 - java 17
 ===================================
+5.31.0   - Added tags to all built-in tooltips
+           - Note that the tags are not guaranteed to be as stable as API classes. This is more of a workaround to allow plugins to override built-in tooltips.
+         - Changed `waila_plugins.json` comment for custom config path to relative (#306)
+         - Fixed multiline `WrappedComponent` not rendered properly
+         - Fixed error if there are tier instances with the same incorrect tag (#304)
 5.30.5   - Fixed item tooltip rendering
 5.30.4   - Added config option to change item grid scale (#301)
 5.30.3   - Fixed plugin configurations getting reset at every launch (#296)
