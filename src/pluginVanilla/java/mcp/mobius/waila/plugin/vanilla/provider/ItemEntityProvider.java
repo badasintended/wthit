@@ -34,8 +34,8 @@ public enum ItemEntityProvider implements IEntityComponentProvider {
 
     INSTANCE;
 
-    private static final ResourceLocation AUTHOR = Options.BOOK_WRITTEN.withSuffix(".author");
-    private static final ResourceLocation GENERATION = Options.BOOK_WRITTEN.withSuffix(".generation");
+    private static final ResourceLocation AUTHOR = Options.withSuffix(Options.BOOK_WRITTEN, ".author");
+    private static final ResourceLocation GENERATION = Options.withSuffix(Options.BOOK_WRITTEN, ".generation");
 
     private static long lastEnchantmentTime = 0;
     private static int enchantmentIndex = 0;

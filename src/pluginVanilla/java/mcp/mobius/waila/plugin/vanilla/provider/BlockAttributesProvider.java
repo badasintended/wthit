@@ -30,7 +30,7 @@ public enum BlockAttributesProvider implements IBlockComponentProvider {
                     valueText.withStyle(value == Boolean.TRUE ? ChatFormatting.GREEN : ChatFormatting.RED);
                 }
                 var name = property.getName();
-                tooltip.setLine(Options.BLOCK_STATE.withSuffix("." + name), new PairComponent(Component.literal(name), valueText));
+                tooltip.setLine(Options.withSuffix(Options.BLOCK_POSITION, "." + name), new PairComponent(Component.literal(name), valueText));
             }
         }
     }

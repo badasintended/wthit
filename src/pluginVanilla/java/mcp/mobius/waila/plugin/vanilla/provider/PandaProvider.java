@@ -17,8 +17,8 @@ public enum PandaProvider implements IEntityComponentProvider {
 
     INSTANCE;
 
-    private static final ResourceLocation PERSONALITY = Options.PANDA_GENES.withSuffix(".personality");
-    private static final ResourceLocation TRAITS = Options.PANDA_GENES.withSuffix(".traits");
+    private static final ResourceLocation PERSONALITY = Options.withSuffix(Options.PANDA_GENES, ".personality");
+    private static final ResourceLocation TRAITS = Options.withSuffix(Options.PANDA_GENES, ".traits");
 
     @Override
     public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {

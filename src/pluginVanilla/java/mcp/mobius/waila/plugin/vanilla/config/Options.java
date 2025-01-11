@@ -90,4 +90,8 @@ public final class Options {
         return new ResourceLocation(rl);
     }
 
+    public static ResourceLocation withSuffix(ResourceLocation rl, String suffix) {
+        return new ResourceLocation(rl.getNamespace(), rl.getPath() + suffix);
+    }
+
 }
