@@ -44,7 +44,7 @@ public class RayCaster {
 
                     if (fluidState.isSource()) {
                         var fluidShape = fluidState.getShape(world, pos);
-                        var fluidHit = fluidShape.clip(origin, max, pos);
+                        var fluidHit = fluidShape.clip(origin, max, pos.immutable());
 
                         if (fluidHit != null) {
                             results.accept(fluidHit, origin.distanceToSqr(fluidHit.getLocation()));
