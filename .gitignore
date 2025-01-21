@@ -2,7 +2,7 @@
 .vscode/
 .gradle/
 build/
-eclipse/
+.eclipse/
 run/
 out/
 asm/
@@ -19,7 +19,7 @@ logs/
 *.iws
 *.classpath
 *.project
-*.class
+*.factorypath
 
 Thumbs.db
 
@@ -27,3 +27,12 @@ src/buildConst/
 docs/dokka/
 docs/javadoc/
 .b2/
+# Devenv
+.devenv*
+devenv.local.nix
+
+# direnv
+.direnv
+
+# pre-commit
+.pre-commit-config.yaml
