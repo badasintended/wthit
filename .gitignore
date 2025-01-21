@@ -2,7 +2,7 @@
 .vscode/
 .gradle/
 build/
-eclipse/
+.eclipse/
 run/
 out/
 asm/
@@ -19,7 +19,7 @@ logs/
 *.iws
 *.classpath
 *.project
-*.class
+*.factorypath
 
 Thumbs.db
 
