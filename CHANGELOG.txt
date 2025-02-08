@@ -1,5 +1,6 @@
 14.x - 1.21.4 - dev/master - java 21
 ====================================
+14.1.2   - Fixed incompatibility with ImmediatelyFast (https://github.com/RaphiMC/ImmediatelyFast/issues/304)
 14.1.1   - Fixed `PairComponent#key#getWidth` not being called making height calculation wrong
          - Fixed raycast position getting mutated when clipping fluid shape (#312)
 14.1.0   - Added tags to all built-in tooltips
