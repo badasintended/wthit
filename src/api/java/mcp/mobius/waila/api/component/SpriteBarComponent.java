@@ -81,7 +81,7 @@ public class SpriteBarComponent implements ITooltipComponent {
             for (var py1 = y; py1 < my; py1 += regionHeight) {
                 var py2 = py1 + regionHeight;
 
-                if (buffer == null) buffer = WRenders.buffer(RenderType.guiTextured(texture));
+                if (buffer == null) buffer = WRenders.buffer(ctx, RenderType.guiTextured(texture));
                 buffer.addVertex(pose, px1, py2, 0).setUv(u0, v1).setColor(r, g, b, a);
                 buffer.addVertex(pose, px2, py2, 0).setUv(u1, v1).setColor(r, g, b, a);
                 buffer.addVertex(pose, px2, py1, 0).setUv(u1, v0).setColor(r, g, b, a);

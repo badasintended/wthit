@@ -19,6 +19,7 @@ import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.IWailaConfig;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -78,5 +79,7 @@ public interface IApiService {
     <D extends IData> IData.Type<D> createDataType(ResourceLocation id);
 
     boolean isDevEnv();
+
+    MultiBufferSource getBufferSource(GuiGraphics ctx);
 
 }

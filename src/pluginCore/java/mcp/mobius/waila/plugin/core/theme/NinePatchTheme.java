@@ -100,7 +100,7 @@ public class NinePatchTheme implements ITheme {
         RenderSystem.enableBlend();
         RenderSystem.defaultBlendFunc();
 
-        var buf = WRenders.buffer(RenderType.guiTextured(textureId));
+        var buf = WRenders.buffer(ctx, RenderType.guiTextured(textureId));
         var matrix = ctx.pose().last().pose();
 
         // @formatter:off

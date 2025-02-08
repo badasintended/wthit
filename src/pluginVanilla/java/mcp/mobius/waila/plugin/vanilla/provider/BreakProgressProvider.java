@@ -6,6 +6,7 @@ import java.util.Objects;
 import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.IEventListener;
 import mcp.mobius.waila.api.IPluginConfig;
+import mcp.mobius.waila.api.util.WRenders;
 import mcp.mobius.waila.mixin.MultiPlayerGameModeAccess;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.client.Minecraft;
@@ -47,15 +48,16 @@ public enum BreakProgressProvider implements IEventListener {
         var progressChangeAmount = progressDiff * dt;
         var actualProgress = Mth.clamp(lastProgress + progressChangeAmount, 0f, 1f);
 
-        final var lineLength = new float[1];
+        var lineLength = 0f;
 
         if (config.getBoolean(Options.BREAKING_PROGRESS_BOTTOM_ONLY)) {
-            lineLength[0] = (rect.width - 2) * actualProgress;
+            lineLength = (rect.width - 2) * actualProgress;
         } else {
-            lineLength[0] = ((rect.width + rect.height - 4) * 2) * actualProgress;
+            lineLength = ((rect.width + rect.height - 4) * 2) * actualProgress;
         }
 
-        if (lineLength[0] > 0) ctx.drawSpecial(bufferSource -> {
+        if (lineLength > 0) {
+            var bufferSource = WRenders.bufferSource(ctx);
             var hLength = rect.width - 2;
             var vLength = rect.height - 4;
 
@@ -63,29 +65,30 @@ public enum BreakProgressProvider implements IEventListener {
             var y = rect.y + rect.height - 2;
 
             var color = config.getInt(Options.BREAKING_PROGRESS_COLOR);
-            fill(ctx, bufferSource, x, y, x + Math.min(lineLength[0], hLength), y + 1, color);
-            lineLength[0] -= hLength;
+            fill(ctx, bufferSource, x, y, x + Math.min(lineLength, hLength), y + 1, color);
+            lineLength -= hLength;
 
-            if (lineLength[0] > 0) {
+            if (lineLength > 0) {
                 x = rect.x + rect.width - 2;
                 y = rect.y + rect.height - 2;
-                fill(ctx, bufferSource, x, y, x + 1, y - Math.min(lineLength[0], vLength), color);
-                lineLength[0] -= vLength;
+                fill(ctx, bufferSource, x, y, x + 1, y - Math.min(lineLength, vLength), color);
+                lineLength -= vLength;
 
-                if (lineLength[0] > 0) {
+                if (lineLength > 0) {
                     x = rect.x + rect.width - 1;
                     y = rect.y + 1;
-                    fill(ctx, bufferSource, x, y, x - Math.min(lineLength[0], hLength), y + 1, color);
-                    lineLength[0] -= hLength;
+                    fill(ctx, bufferSource, x, y, x - Math.min(lineLength, hLength), y + 1, color);
+                    lineLength -= hLength;
 
-                    if (lineLength[0] > 0) {
+                    if (lineLength > 0) {
                         x = rect.x + 1;
                         y = rect.y + 2;
-                        fill(ctx, bufferSource, x, y, x + 1, y + Math.min(lineLength[0], vLength), color);
+                        fill(ctx, bufferSource, x, y, x + 1, y + Math.min(lineLength, vLength), color);
                     }
                 }
             }
-        });
+            ctx.flush();
+        }
 
         wasBreaking = isBreaking;
         lastProgress = actualProgress;

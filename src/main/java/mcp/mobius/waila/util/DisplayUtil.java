@@ -56,7 +56,7 @@ public final class DisplayUtil {
             var scale = (float) Minecraft.getInstance().getWindow().getGuiScale();
             ctx.pose().scale(1 / scale, 1 / scale, 1);
 
-            var buf = WRenders.buffer(RenderType.gui());
+            var buf = WRenders.buffer(ctx, RenderType.gui());
             var bx = Mth.floor(x * scale + 0.5);
             var by = Mth.floor(y * scale + 0.5);
             var bw = Mth.floor((cw == 0 ? component.getWidth() : cw) * scale + 0.5);
