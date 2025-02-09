@@ -24,6 +24,7 @@ import mcp.mobius.waila.config.JsonConfig;
 import mcp.mobius.waila.gui.hud.ComponentRenderer;
 import mcp.mobius.waila.gui.hud.TooltipRenderer;
 import mcp.mobius.waila.gui.hud.theme.ThemeType;
+import mcp.mobius.waila.mixin.GuiGraphicsAccess;
 import mcp.mobius.waila.plugin.PluginInfo;
 import mcp.mobius.waila.registry.InstanceRegistry;
 import mcp.mobius.waila.registry.RegistryFilter;
@@ -32,6 +33,7 @@ import mcp.mobius.waila.util.Log;
 import mcp.mobius.waila.util.ModInfo;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponents;
@@ -229,6 +231,11 @@ public abstract class ApiService implements IApiService {
     @Override
     public boolean isDevEnv() {
         return Waila.DEV;
+    }
+
+    @Override
+    public MultiBufferSource getBufferSource(GuiGraphics ctx) {
+        return ((GuiGraphicsAccess) ctx).wthit_bufferSource();
     }
 
 }

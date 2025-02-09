@@ -94,7 +94,7 @@ public class BarComponent implements ITooltipComponent {
         var g = ARGB.green(tint);
         var b = ARGB.blue(tint);
 
-        var buffer = WRenders.buffer(RenderType.guiTextured(WailaConstants.COMPONENT_TEXTURE));
+        var buffer = WRenders.buffer(ctx, RenderType.guiTextured(WailaConstants.COMPONENT_TEXTURE));
         var pose = ps.last().pose();
 
         buffer.addVertex(pose, x, y + HEIGHT, 0).setUv(U0, v1).setColor(r, g, b, a);
@@ -108,7 +108,7 @@ public class BarComponent implements ITooltipComponent {
     }
 
     static void renderText(GuiGraphics ctx, Component text, int x, int y) {
-        var bufferSource = WRenders.bufferSource();
+        var bufferSource = WRenders.bufferSource(ctx);
         var font = Minecraft.getInstance().font;
         var textWidth = font.width(text);
         var textX = x + Math.max((BarComponent.WIDTH - textWidth) / 2F, 0F);

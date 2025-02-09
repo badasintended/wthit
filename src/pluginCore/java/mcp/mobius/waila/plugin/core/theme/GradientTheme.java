@@ -60,7 +60,7 @@ public class GradientTheme implements ITheme {
         RenderSystem.defaultBlendFunc();
         RenderSystem.setShader(CoreShaders.POSITION_COLOR);
 
-        var buf = WRenders.buffer(RenderType.gui());
+        var buf = WRenders.buffer(ctx, RenderType.gui());
         var matrix = ctx.pose().last().pose();
 
         var a = alpha << 24;

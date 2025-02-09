@@ -12,10 +12,10 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.EventBusSubscriber.Bus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
+import net.neoforged.neoforge.client.event.AddClientReloadListenersEvent;
 import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
 import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.event.RegisterClientCommandsEvent;
-import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
 import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
@@ -35,8 +35,8 @@ public class NeoWailaClient extends WailaClient {
     }
 
     @SubscribeEvent
-    static void addReloadListener(RegisterClientReloadListenersEvent event) {
-        event.registerReloadListener(new BuiltinThemeLoader());
+    static void addReloadListener(AddClientReloadListenersEvent event) {
+        event.addListener(BuiltinThemeLoader.ID, new BuiltinThemeLoader());
     }
 
     static void registerConfigScreen() {

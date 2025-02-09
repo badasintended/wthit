@@ -2,19 +2,20 @@ package mcp.mobius.waila.api.util;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import mcp.mobius.waila.api.__internal__.ApiSide;
-import net.minecraft.client.Minecraft;
+import mcp.mobius.waila.api.__internal__.IApiService;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
 
 @ApiSide.ClientOnly
 public final class WRenders {
 
-    public static MultiBufferSource bufferSource() {
-        return Minecraft.getInstance().renderBuffers().bufferSource();
+    public static MultiBufferSource bufferSource(GuiGraphics ctx) {
+        return IApiService.INSTANCE.getBufferSource(ctx);
     }
 
-    public static VertexConsumer buffer(RenderType type) {
-        return bufferSource().getBuffer(type);
+    public static VertexConsumer buffer(GuiGraphics ctx, RenderType type) {
+        return bufferSource(ctx).getBuffer(type);
     }
 
     private WRenders() {
