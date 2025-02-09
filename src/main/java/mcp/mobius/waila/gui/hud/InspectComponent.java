@@ -1,24 +1,36 @@
 package mcp.mobius.waila.gui.hud;
 
-import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.api.ITooltipComponent;
+import mcp.mobius.waila.registry.PluginAware;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.Nullable;
 
-@SuppressWarnings("deprecation")
 public class InspectComponent implements ITooltipComponent {
 
+    public static boolean wrap = false;
+
     public final ITooltipComponent actual;
-    public final IPluginInfo plugin;
-    public final Class<?> provider;
+    public final PluginAware<?> origin;
     public final ResourceLocation tag;
 
-    public InspectComponent(ITooltipComponent actual, IPluginInfo plugin, Class<?> provider, ResourceLocation tag) {
+    private InspectComponent(ITooltipComponent actual, PluginAware<?> origin, ResourceLocation tag) {
         this.actual = actual;
-        this.plugin = plugin;
-        this.provider = provider;
+        this.origin = origin;
         this.tag = tag;
+    }
+
+    public static @Nullable ITooltipComponent maybeWrap(@Nullable ITooltipComponent actual, @Nullable PluginAware<?> origin, @Nullable ResourceLocation tag) {
+        if (!wrap || actual == null || origin == null || actual instanceof InspectComponent) {
+            return actual;
+        }
+
+        if (actual instanceof ITooltipComponent.HorizontalGrowing hg) {
+            return new InspectComponent.Growing(hg, origin, tag);
+        }
+
+        return new InspectComponent(actual, origin, tag);
     }
 
     @Override
@@ -40,8 +52,8 @@ public class InspectComponent implements ITooltipComponent {
 
         public final HorizontalGrowing actual;
 
-        public Growing(HorizontalGrowing actual, IPluginInfo plugin, Class<?> provider, ResourceLocation tag) {
-            super(actual, plugin, provider, tag);
+        public Growing(HorizontalGrowing actual, PluginAware<?> origin, ResourceLocation tag) {
+            super(actual, origin, tag);
             this.actual = actual;
         }
 

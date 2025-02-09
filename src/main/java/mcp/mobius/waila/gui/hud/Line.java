@@ -11,6 +11,7 @@ import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.ITooltipComponent.HorizontalGrowing;
 import mcp.mobius.waila.api.ITooltipLine;
 import mcp.mobius.waila.api.component.WrappedComponent;
+import mcp.mobius.waila.registry.PluginAware;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
@@ -24,7 +25,7 @@ public class Line implements ITooltipLine {
     public final Object2IntOpenHashMap<ITooltipComponent> widths = new Object2IntOpenHashMap<>();
     public final Object2IntMap<ITooltipComponent> heights = new Object2IntOpenHashMap<>();
 
-    public Wrapper wrapper = (t, c) -> c;
+    public @Nullable PluginAware<?> origin;
 
     private int fixedWidth = -1;
     private int width = -1;
@@ -39,7 +40,7 @@ public class Line implements ITooltipLine {
 
     @Override
     public Line with(ITooltipComponent component) {
-        component = wrapper.wrap(tag, component);
+        component = InspectComponent.maybeWrap(component, origin, tag);
         components.add(component);
         if (component instanceof HorizontalGrowing growing) {
             growingWeight += growing.getWeight();
@@ -154,12 +155,6 @@ public class Line implements ITooltipLine {
             renderer.render(ctx, component, cx, cy, w, h, delta);
             cx += w + 1;
         }
-    }
-
-    public interface Wrapper {
-
-        ITooltipComponent wrap(ResourceLocation tag, ITooltipComponent component);
-
     }
 
 }

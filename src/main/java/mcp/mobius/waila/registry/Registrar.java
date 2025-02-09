@@ -107,7 +107,6 @@ public class Registrar implements ICommonRegistrar, IClientRegistrar, IRegistrar
         this.plugin = plugin;
     }
 
-    @SuppressWarnings("DataFlowIssue")
     private <T> void addConfig(ResourceLocation key, T defaultValue, T clientOnlyValue, boolean serverRequired, boolean merged, ConfigEntry.Type<T> type) {
         assertLock();
         PluginConfig.addConfig(type.create(plugin, key, defaultValue, clientOnlyValue, serverRequired, merged));

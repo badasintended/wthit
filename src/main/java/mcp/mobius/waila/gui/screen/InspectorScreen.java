@@ -8,7 +8,6 @@ import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.buildconst.Tl;
-import mcp.mobius.waila.gui.hud.ComponentHandler;
 import mcp.mobius.waila.gui.hud.ComponentRenderer;
 import mcp.mobius.waila.gui.hud.InspectComponent;
 import mcp.mobius.waila.gui.hud.TooltipHandler;
@@ -38,15 +37,9 @@ public class InspectorScreen extends YesIAmSureTheClientInstanceIsPresentByTheTi
     protected void init() {
         super.init();
 
-        ComponentHandler.wrapperFactory = pa -> (tag, c) -> {
-            if (c instanceof ITooltipComponent.HorizontalGrowing hg) {
-                return new InspectComponent.Growing(hg, pa.origin(), pa.instance().getClass(), tag);
-            }
-            return new InspectComponent(c, pa.origin(), pa.instance().getClass(), tag);
-        };
-
+        InspectComponent.wrap = true;
         tickSuccess = TooltipHandler.tick(STATE, true);
-        ComponentHandler.wrapperFactory = null;
+        InspectComponent.wrap = false;
     }
 
     @Override
@@ -71,13 +64,13 @@ public class InspectorScreen extends YesIAmSureTheClientInstanceIsPresentByTheTi
             var wrapper = (InspectComponent) hoveredComponent.getLast();
             ctx.drawString(minecraft.font, Component.translatable(Tl.Gui.Inspector.TAG, wrapper.tag), 5, 5 + h, 0xFFFFFF);
 
-            var provider = wrapper.provider.getName();
+            var provider = wrapper.origin.instance().getClass().getName();
             ctx.drawString(minecraft.font, Component.translatable(Tl.Gui.Inspector.PROVIDER, provider), 5, 5 + h * 2, 0xFFFFFF);
 
-            var pluginId = wrapper.plugin.getPluginId().toString();
+            var pluginId = wrapper.origin.plugin().getPluginId().toString();
             ctx.drawString(minecraft.font, Component.translatable(Tl.Gui.Inspector.PLUGIN_ID, pluginId), 5, 5 + h * 3, 0xFFFFFF);
 
-            var mod = wrapper.plugin.getModInfo();
+            var mod = wrapper.origin.plugin().getModInfo();
             ctx.drawString(minecraft.font, Component.translatable(Tl.Gui.Inspector.MOD, mod.getName(), mod.getId()), 5, 5 + h * 4, 0xFFFFFF);
         }
 

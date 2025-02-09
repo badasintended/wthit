@@ -107,10 +107,9 @@ public class TooltipRenderer {
             for (var entry : Registrar.get().eventListeners.get(Object.class)) {
                 var pa = entry.instance();
                 var listener = pa.instance();
-                var wrapperFactory = ComponentHandler.wrapperFactory;
-                if (wrapperFactory != null) TOOLTIP.wrapper = wrapperFactory.apply(pa);
+                TOOLTIP.origin = pa;
                 listener.onHandleTooltip(TOOLTIP, accessor, PluginConfig.CLIENT);
-                if (wrapperFactory != null) TOOLTIP.wrapper = null;
+                TOOLTIP.origin = null;
             }
         }
 
@@ -186,7 +185,6 @@ public class TooltipRenderer {
         return RECT.get();
     }
 
-    @SuppressWarnings("DataFlowIssue")
     public static void resetState() {
         state = null;
     }

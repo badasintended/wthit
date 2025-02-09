@@ -1,7 +1,6 @@
 package mcp.mobius.waila.gui.hud;
 
 import java.util.Objects;
-import java.util.function.Function;
 
 import lol.bai.badpackets.api.PacketSender;
 import mcp.mobius.waila.Waila;
@@ -14,7 +13,6 @@ import mcp.mobius.waila.api.component.EmptyComponent;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.network.play.c2s.BlockDataRequestPlayC2SPacket;
 import mcp.mobius.waila.network.play.c2s.EntityDataRequestPlayC2SPacket;
-import mcp.mobius.waila.registry.PluginAware;
 import mcp.mobius.waila.registry.Registrar;
 import mcp.mobius.waila.util.ExceptionUtil;
 import net.minecraft.client.Minecraft;
@@ -26,8 +24,6 @@ import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.Nullable;
 
 public class ComponentHandler {
-
-    public static @Nullable Function<PluginAware<?>, Line.Wrapper> wrapperFactory;
 
     public static void requestBlockData(ClientAccessor accessor) {
         var registrar = Registrar.get();
@@ -70,9 +66,9 @@ public class ComponentHandler {
         var registrar = Registrar.get();
         var providers = registrar.blockComponent.get(position).get(obj);
         for (var entry : providers) {
-            var pa = entry.instance();
-            var provider = pa.instance();
-            if (wrapperFactory != null) tooltip.wrapper = wrapperFactory.apply(pa);
+            var origin = entry.instance();
+            var provider = origin.instance();
+            tooltip.origin = origin;
             try {
                 switch (position) {
                     case HEAD -> provider.appendHead(tooltip, accessor, PluginConfig.CLIENT);
@@ -82,7 +78,7 @@ public class ComponentHandler {
             } catch (Throwable e) {
                 ExceptionUtil.dump(e, provider.getClass().toString(), tooltip);
             }
-            if (wrapperFactory != null) tooltip.wrapper = null;
+            tooltip.origin = null;
         }
     }
 
@@ -115,9 +111,9 @@ public class ComponentHandler {
 
         var providers = registrar.entityComponent.get(position).get(entity);
         for (var entry : providers) {
-            var pa = entry.instance();
-            var provider = pa.instance();
-            if (wrapperFactory != null) tooltip.wrapper = wrapperFactory.apply(pa);
+            var origin = entry.instance();
+            var provider = origin.instance();
+            tooltip.origin = origin;
             try {
                 switch (position) {
                     case HEAD -> provider.appendHead(tooltip, accessor, PluginConfig.CLIENT);
@@ -127,7 +123,7 @@ public class ComponentHandler {
             } catch (Throwable e) {
                 ExceptionUtil.dump(e, provider.getClass().toString(), tooltip);
             }
-            if (wrapperFactory != null) tooltip.wrapper = null;
+            tooltip.origin = null;
         }
     }
 
@@ -139,12 +135,9 @@ public class ComponentHandler {
         if (target.getType() == HitResult.Type.ENTITY) {
             var providers = registrar.entityIcon.get(data.getEntity());
             for (var provider : providers) {
-                var pa = provider.instance();
-                var icon = pa.instance().getIcon(data, config);
-                if (icon != null) {
-                    if (wrapperFactory != null) icon = wrapperFactory.apply(pa).wrap(null, icon);
-                    return icon;
-                }
+                var origin = provider.instance();
+                var icon = InspectComponent.maybeWrap(origin.instance().getIcon(data, config), origin, null);
+                if (icon != null) return icon;
             }
         } else {
             var state = data.getBlockState();
@@ -154,11 +147,10 @@ public class ComponentHandler {
             var priority = 0;
 
             for (var provider : registrar.blockIcon.get(state.getBlock())) {
-                var pa = provider.instance();
-                var icon = pa.instance().getIcon(ClientAccessor.INSTANCE, PluginConfig.CLIENT);
+                var origin = provider.instance();
+                var icon = origin.instance().getIcon(ClientAccessor.INSTANCE, PluginConfig.CLIENT);
                 if (icon != null) {
-                    if (wrapperFactory != null) icon = wrapperFactory.apply(pa).wrap(null, icon);
-                    result = icon;
+                    result = InspectComponent.maybeWrap(icon, origin, null);
                     priority = provider.priority();
                     break;
                 }
@@ -169,11 +161,10 @@ public class ComponentHandler {
                 for (var provider : registrar.blockIcon.get(blockEntity)) {
                     if (provider.priority() >= priority) break;
 
-                    var pa = provider.instance();
-                    var icon = pa.instance().getIcon(ClientAccessor.INSTANCE, PluginConfig.CLIENT);
+                    var origin = provider.instance();
+                    var icon = origin.instance().getIcon(ClientAccessor.INSTANCE, PluginConfig.CLIENT);
                     if (icon != null) {
-                        if (wrapperFactory != null) icon = wrapperFactory.apply(pa).wrap(null, icon);
-                        result = icon;
+                        result = InspectComponent.maybeWrap(icon, origin, null);
                         break;
                     }
                 }
