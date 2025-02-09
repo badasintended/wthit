@@ -20,8 +20,7 @@ public class BuiltinThemeLoader extends SimplePreparableReloadListener<Map<Resou
     private static final Log LOG = Log.create();
 
     public static final Map<ResourceLocation, ThemeDefinition<?>> THEMES = new HashMap<>();
-
-    protected static final ResourceLocation ID = Waila.id("builtin_themes");
+    public static final ResourceLocation ID = Waila.id("builtin_themes");
 
     public BuiltinThemeLoader() {
     }
