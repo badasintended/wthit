@@ -9,6 +9,7 @@ import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.BufferUploader;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.ITooltipComponent;
@@ -38,7 +39,7 @@ public final class DisplayUtil {
         RenderSystem.disableDepthTest();
     }
 
-    public static void renderRectBorder(Matrix4f matrix, BufferBuilder buf, int x, int y, int w, int h, int s, int gradStart, int gradEnd) {
+    public static void renderRectBorder(Matrix4f matrix, VertexConsumer buf, int x, int y, int w, int h, int s, int gradStart, int gradEnd) {
         if (s <= 0) {
             return;
         }
@@ -74,7 +75,7 @@ public final class DisplayUtil {
         }
     }
 
-    public static void fillGradient(Matrix4f matrix, BufferBuilder buf, int x, int y, int w, int h, int start, int end) {
+    public static void fillGradient(Matrix4f matrix, VertexConsumer buf, int x, int y, int w, int h, int start, int end) {
         var sa = FastColor.ARGB32.alpha(start) / 255.0F;
         var sr = FastColor.ARGB32.red(start) / 255.0F;
         var sg = FastColor.ARGB32.green(start) / 255.0F;
