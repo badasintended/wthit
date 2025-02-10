@@ -1,5 +1,6 @@
 14.x - 1.21.4 - dev/master - java 21
 ====================================
+14.1.4   - Fixed server crash (#317)
 14.1.3   - Updated to Neoforge 21.4.88-beta
 14.1.2   - Fixed incompatibility with ImmediatelyFast (https://github.com/RaphiMC/ImmediatelyFast/issues/304)
 14.1.1   - Fixed `PairComponent#key#getWidth` not being called making height calculation wrong
