@@ -5,6 +5,7 @@ import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.__internal__.ApiSide;
 import mcp.mobius.waila.api.__internal__.IApiService;
+import mcp.mobius.waila.api.__internal__.IClientApiService;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 
@@ -47,14 +48,14 @@ public class PairComponent implements ITooltipComponent {
     @Override
     public void render(PoseStack matrices, int x, int y, float delta) {
         var offset = key.getHeight() < height ? (height - key.getHeight()) / 2 : 0;
-        IApiService.INSTANCE.renderComponent(matrices, key, x, y + offset, delta);
+        IClientApiService.INSTANCE.renderComponent(matrices, key, x, y + offset, delta);
 
         var font = Minecraft.getInstance().font;
         offset = font.lineHeight < height ? (height - font.lineHeight) / 2 : 0;
         font.drawShadow(matrices, ": ", x + getColonOffset(), y + offset, IWailaConfig.get().getOverlay().getColor().getTheme().getDefaultTextColor());
 
         offset = value.getHeight() < height ? (height - value.getHeight()) / 2 : 0;
-        IApiService.INSTANCE.renderComponent(matrices, value, x + getColonOffset() + getColonWidth(), y + offset, delta);
+        IClientApiService.INSTANCE.renderComponent(matrices, value, x + getColonOffset() + getColonWidth(), y + offset, delta);
     }
 
     private int getColonOffset() {

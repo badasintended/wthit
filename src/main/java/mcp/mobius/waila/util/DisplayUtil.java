@@ -5,10 +5,10 @@ import java.util.Random;
 
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Matrix4f;
 import mcp.mobius.waila.WailaClient;
@@ -17,6 +17,7 @@ import mcp.mobius.waila.api.WailaHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.renderer.GameRenderer;
+import net.minecraft.util.FastColor;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 
@@ -52,7 +53,7 @@ public final class DisplayUtil extends GuiComponent {
         RenderSystem.disableDepthTest();
     }
 
-    public static void renderRectBorder(Matrix4f matrix, BufferBuilder buf, int x, int y, int w, int h, int s, int gradStart, int gradEnd) {
+    public static void renderRectBorder(Matrix4f matrix, VertexConsumer buf, int x, int y, int w, int h, int s, int gradStart, int gradEnd) {
         if (s <= 0) {
             return;
         }
@@ -92,8 +93,21 @@ public final class DisplayUtil extends GuiComponent {
         }
     }
 
-    public static void fillGradient(Matrix4f matrix, BufferBuilder buf, int x, int y, int w, int h, int start, int end) {
-        fillGradient(matrix, buf, x, y, x + w, y + h, 0, start, end);
+    public static void fillGradient(Matrix4f matrix, VertexConsumer buf, int x, int y, int w, int h, int start, int end) {
+        var sa = FastColor.ARGB32.alpha(start) / 255.0F;
+        var sr = FastColor.ARGB32.red(start) / 255.0F;
+        var sg = FastColor.ARGB32.green(start) / 255.0F;
+        var sb = FastColor.ARGB32.blue(start) / 255.0F;
+
+        var ea = FastColor.ARGB32.alpha(end) / 255.0F;
+        var er = FastColor.ARGB32.red(end) / 255.0F;
+        var eg = FastColor.ARGB32.green(end) / 255.0F;
+        var eb = FastColor.ARGB32.blue(end) / 255.0F;
+
+        buf.vertex(matrix, x, y, 0).color(sr, sg, sb, sa).endVertex();
+        buf.vertex(matrix, x, y + h, 0).color(er, eg, eb, ea).endVertex();
+        buf.vertex(matrix, x + w, y + h, 0).color(er, eg, eb, ea).endVertex();
+        buf.vertex(matrix, x + w, y, 0).color(sr, sg, sb, sa).endVertex();
     }
 
     public static int getAlphaFromPercentage(int percentage) {

@@ -8,9 +8,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 
 import com.google.common.collect.Streams;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Matrix4f;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IBlacklistConfig;
 import mcp.mobius.waila.api.IInstanceRegistry;
@@ -22,7 +19,6 @@ import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.api.IRegistryFilter;
 import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.IThemeType;
-import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.__internal__.IApiService;
 import mcp.mobius.waila.config.JsonConfig;
@@ -33,7 +29,6 @@ import mcp.mobius.waila.pick.PickerResults;
 import mcp.mobius.waila.plugin.PluginInfo;
 import mcp.mobius.waila.registry.InstanceRegistry;
 import mcp.mobius.waila.registry.RegistryFilter;
-import mcp.mobius.waila.util.DisplayUtil;
 import mcp.mobius.waila.util.ModInfo;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
@@ -115,16 +110,6 @@ public abstract class ApiService implements IApiService {
     }
 
     @Override
-    public void renderItem(int x, int y, ItemStack stack) {
-        DisplayUtil.renderStack(x, y, stack);
-    }
-
-    @Override
-    public void renderComponent(PoseStack matrices, ITooltipComponent component, int x, int y, float delta) {
-        DisplayUtil.renderComponent(matrices, component, x, y, 0, delta);
-    }
-
-    @Override
     public int getPairComponentColonOffset() {
         return TooltipRenderer.colonOffset;
     }
@@ -137,16 +122,6 @@ public abstract class ApiService implements IApiService {
     @Override
     public int getFontColor() {
         return TooltipRenderer.state.getTheme().getDefaultTextColor();
-    }
-
-    @Override
-    public void fillGradient(Matrix4f matrix, BufferBuilder buf, int x, int y, int w, int h, int start, int end) {
-        DisplayUtil.fillGradient(matrix, buf, x, y, w, h, start, end);
-    }
-
-    @Override
-    public void renderRectBorder(Matrix4f matrix, BufferBuilder buf, int x, int y, int w, int h, int s, int gradStart, int gradEnd) {
-        DisplayUtil.renderRectBorder(matrix, buf, x, y, w, h, s, gradStart, gradEnd);
     }
 
     @Override

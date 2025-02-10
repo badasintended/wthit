@@ -9,7 +9,7 @@ import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.IThemeAccessor;
 import mcp.mobius.waila.api.IThemeType;
 import mcp.mobius.waila.api.IntFormat;
-import mcp.mobius.waila.api.__internal__.IApiService;
+import mcp.mobius.waila.api.__internal__.IClientApiService;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.Range;
@@ -73,16 +73,16 @@ public class GradientTheme implements ITheme {
         var bo2 = borderOffset * 2;
 
         if (drawCorner) {
-            IApiService.INSTANCE.fillGradient(matrix, buf, x, y, width, height, bg, bg);
+            IClientApiService.INSTANCE.fillGradient(matrix, buf, x, y, width, height, bg, bg);
         } else {
             // @formatter:off
-            IApiService.INSTANCE.fillGradient(matrix, buf, x + bo        , y     , width - bo2, height      , bg, bg);
-            IApiService.INSTANCE.fillGradient(matrix, buf, x             , y + bo, bo         , height - bo2, bg, bg);
-            IApiService.INSTANCE.fillGradient(matrix, buf, x + width - bo, y + bo, bo         , height - bo2, bg, bg);
+            IClientApiService.INSTANCE.fillGradient(matrix, buf, x + bo        , y     , width - bo2, height      , bg, bg);
+            IClientApiService.INSTANCE.fillGradient(matrix, buf, x             , y + bo, bo         , height - bo2, bg, bg);
+            IClientApiService.INSTANCE.fillGradient(matrix, buf, x + width - bo, y + bo, bo         , height - bo2, bg, bg);
             // @formatter:on
         }
 
-        IApiService.INSTANCE.renderRectBorder(matrix, buf, x + bo, y + bo, width - bo2, height - bo2, borderSize, gradStart, gradEnd);
+        IClientApiService.INSTANCE.renderRectBorder(matrix, buf, x + bo, y + bo, width - bo2, height - bo2, borderSize, gradStart, gradEnd);
 
         tesselator.end();
     }

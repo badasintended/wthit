@@ -6,7 +6,7 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.__internal__.ApiSide;
-import mcp.mobius.waila.api.__internal__.IApiService;
+import mcp.mobius.waila.api.__internal__.IClientApiService;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 
@@ -67,7 +67,7 @@ public class ItemListComponent implements ITooltipComponent.HorizontalGrowing {
             var item = items.get(i);
             var ix = (18 * (i % gridWidth)) + 1;
             var iy = (18 * (i / gridWidth)) + 1;
-            IApiService.INSTANCE.renderItem(ix, iy, item);
+            IClientApiService.INSTANCE.renderItem(ix, iy, item);
 
             if (i == maxIndex) break;
         }

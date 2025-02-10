@@ -3,7 +3,7 @@ package mcp.mobius.waila.api.component;
 import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.__internal__.ApiSide;
-import mcp.mobius.waila.api.__internal__.IApiService;
+import mcp.mobius.waila.api.__internal__.IClientApiService;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 
@@ -38,7 +38,7 @@ public class ItemComponent implements ITooltipComponent {
     @Override
     public void render(PoseStack matrices, int x, int y, float delta) {
         if (!stack.isEmpty()) {
-            IApiService.INSTANCE.renderItem(x + 1, y + 1, stack);
+            IClientApiService.INSTANCE.renderItem(x + 1, y + 1, stack);
         }
     }
 
