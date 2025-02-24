@@ -59,10 +59,10 @@ public class Registrar implements ICommonRegistrar, IClientRegistrar, IRegistrar
 
     public final InstanceRegistry<IBlockComponentProvider> blockRedirect = new InstanceRegistry<>();
     public final InstanceRegistry<IBlockComponentProvider> blockOverride = new InstanceRegistry<>();
-    public final InstanceRegistry<IBlockComponentProvider> blockIcon = new InstanceRegistry<>();
+    public final InstanceRegistry<PluginAware<IBlockComponentProvider>> blockIcon = new InstanceRegistry<>();
     public final InstanceRegistry<IBlockComponentProvider> blockDataCtx = new InstanceRegistry<>();
     public final InstanceRegistry<IDataProvider<BlockEntity>> blockData = new InstanceRegistry<>();
-    public final Map<TooltipPosition, InstanceRegistry<IBlockComponentProvider>> blockComponent = Util.make(new EnumMap<>(TooltipPosition.class), map -> {
+    public final Map<TooltipPosition, InstanceRegistry<PluginAware<IBlockComponentProvider>>> blockComponent = Util.make(new EnumMap<>(TooltipPosition.class), map -> {
         for (var key : TooltipPosition.values()) {
             map.put(key, new InstanceRegistry<>());
         }
@@ -70,16 +70,16 @@ public class Registrar implements ICommonRegistrar, IClientRegistrar, IRegistrar
 
     public final InstanceRegistry<IEntityComponentProvider> entityRedirect = new InstanceRegistry<>();
     public final InstanceRegistry<IEntityComponentProvider> entityOverride = new InstanceRegistry<>();
-    public final InstanceRegistry<IEntityComponentProvider> entityIcon = new InstanceRegistry<>();
+    public final InstanceRegistry<PluginAware<IEntityComponentProvider>> entityIcon = new InstanceRegistry<>();
     public final InstanceRegistry<IEntityComponentProvider> entityDataCtx = new InstanceRegistry<>();
     public final InstanceRegistry<IDataProvider<Entity>> entityData = new InstanceRegistry<>();
-    public final Map<TooltipPosition, InstanceRegistry<IEntityComponentProvider>> entityComponent = Util.make(new EnumMap<>(TooltipPosition.class), map -> {
+    public final Map<TooltipPosition, InstanceRegistry<PluginAware<IEntityComponentProvider>>> entityComponent = Util.make(new EnumMap<>(TooltipPosition.class), map -> {
         for (var key : TooltipPosition.values()) {
             map.put(key, new InstanceRegistry<>());
         }
     });
 
-    public final InstanceRegistry<IEventListener> eventListeners = Util.make(new InstanceRegistry<>(), InstanceRegistry::reversed);
+    public final InstanceRegistry<PluginAware<IEventListener>> eventListeners = Util.make(new InstanceRegistry<>(), InstanceRegistry::reversed);
     public final InstanceRegistry<IRayCastVectorProvider> raycastVectorProviders = new InstanceRegistry<>();
 
     public final BlacklistConfig blacklist = new BlacklistConfig();
@@ -112,7 +112,6 @@ public class Registrar implements ICommonRegistrar, IClientRegistrar, IRegistrar
         this.plugin = plugin;
     }
 
-    @SuppressWarnings("DataFlowIssue")
     private <T> void addConfig(ResourceLocation key, T defaultValue, T clientOnlyValue, boolean serverRequired, boolean merged, ConfigEntry.Type<T> type) {
         assertLock();
         PluginConfig.addConfig(type.create(plugin, key, defaultValue, clientOnlyValue, serverRequired, merged));
@@ -205,7 +204,7 @@ public class Registrar implements ICommonRegistrar, IClientRegistrar, IRegistrar
     public void eventListener(IEventListener listener, int priority) {
         if (skip()) return;
         assertLock();
-        eventListeners.add(Object.class, listener, priority);
+        eventListeners.add(Object.class, new PluginAware<>(plugin, listener), priority);
     }
 
     @Override
@@ -255,7 +254,7 @@ public class Registrar implements ICommonRegistrar, IClientRegistrar, IRegistrar
             assertLock();
             assertPriority(priority);
             warnTargetClass(provider, clazz);
-            blockIcon.add(clazz, provider, priority);
+            blockIcon.add(clazz, new PluginAware<>(plugin, provider), priority);
         }
     }
 
@@ -265,7 +264,7 @@ public class Registrar implements ICommonRegistrar, IClientRegistrar, IRegistrar
             assertLock();
             assertPriority(priority);
             warnTargetClass(provider, clazz);
-            blockComponent.get(position).add(clazz, provider, priority);
+            blockComponent.get(position).add(clazz, new PluginAware<>(plugin, provider), priority);
         }
     }
 
@@ -342,7 +341,7 @@ public class Registrar implements ICommonRegistrar, IClientRegistrar, IRegistrar
             assertLock();
             assertPriority(priority);
             warnTargetClass(provider, clazz);
-            entityIcon.add(clazz, provider, priority);
+            entityIcon.add(clazz, new PluginAware<>(plugin, provider), priority);
         }
     }
 
@@ -352,7 +351,7 @@ public class Registrar implements ICommonRegistrar, IClientRegistrar, IRegistrar
             assertLock();
             assertPriority(priority);
             warnTargetClass(provider, clazz);
-            entityComponent.get(position).add(clazz, provider, priority);
+            entityComponent.get(position).add(clazz, new PluginAware<>(plugin, provider), priority);
         }
     }
 

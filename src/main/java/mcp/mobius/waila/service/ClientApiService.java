@@ -3,6 +3,7 @@ package mcp.mobius.waila.service;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.__internal__.IClientApiService;
+import mcp.mobius.waila.gui.hud.ComponentRenderer;
 import mcp.mobius.waila.util.DisplayUtil;
 import net.minecraft.client.gui.GuiGraphics;
 import org.joml.Matrix4f;
@@ -11,7 +12,7 @@ public class ClientApiService implements IClientApiService {
 
     @Override
     public void renderComponent(GuiGraphics ctx, ITooltipComponent component, int x, int y, float delta) {
-        DisplayUtil.renderComponent(ctx, component, x, y, 0, delta);
+        ComponentRenderer.get().render(ctx, component, x, y, component.getWidth(), component.getHeight(), delta);
     }
 
     @Override
