@@ -11,7 +11,7 @@ import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.ITooltipComponent.HorizontalGrowing;
 import mcp.mobius.waila.api.ITooltipLine;
 import mcp.mobius.waila.api.component.WrappedComponent;
-import mcp.mobius.waila.util.DisplayUtil;
+import mcp.mobius.waila.registry.PluginAware;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
@@ -20,11 +20,12 @@ import org.jetbrains.annotations.Nullable;
 
 public class Line implements ITooltipLine {
 
-    @Nullable
-    public final ResourceLocation tag;
+    public final @Nullable ResourceLocation tag;
     public final List<ITooltipComponent> components = new ArrayList<>();
     public final Object2IntOpenHashMap<ITooltipComponent> widths = new Object2IntOpenHashMap<>();
     public final Object2IntMap<ITooltipComponent> heights = new Object2IntOpenHashMap<>();
+
+    public @Nullable PluginAware<?> origin;
 
     private int fixedWidth = -1;
     private int width = -1;
@@ -39,6 +40,7 @@ public class Line implements ITooltipLine {
 
     @Override
     public Line with(ITooltipComponent component) {
+        component = InspectComponent.maybeWrap(component, origin, tag);
         components.add(component);
         if (component instanceof HorizontalGrowing growing) {
             growingWeight += growing.getWeight();
@@ -140,7 +142,7 @@ public class Line implements ITooltipLine {
         return height;
     }
 
-    public void render(GuiGraphics ctx, int x, int y, DeltaTracker delta) {
+    public void render(ComponentRenderer renderer, GuiGraphics ctx, int x, int y, DeltaTracker delta) {
         Preconditions.checkState(width != -1 && height != -1);
 
         var cx = x;
@@ -150,7 +152,7 @@ public class Line implements ITooltipLine {
             var h = heights.getInt(component);
 
             var cy = y + (h < height ? (height - h) / 2 : 0);
-            DisplayUtil.renderComponent(ctx, component, cx, cy, w, delta);
+            renderer.render(ctx, component, cx, cy, w, h, delta);
             cx += w + 1;
         }
     }
