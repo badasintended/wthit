@@ -106,6 +106,12 @@
   "gui.waila.credits.authors"                                  : "Authors",
   "gui.waila.credits.contributors"                             : "Contributors",
 
+  "gui.waila.inspector.title"                                  : "Inspector",
+  "gui.waila.inspector.tag"                                    : "Tag: %s",
+  "gui.waila.inspector.provider"                               : "Provider: %s",
+  "gui.waila.inspector.plugin_id"                              : "Plugin ID: %s",
+  "gui.waila.inspector.mod"                                    : "Mod: %s (%s)",
+
   "json5.waila.config.default_value"                           : "Default value: [%s]",
   "json5.waila.config.available_values"                        : "Available values: [%s]",
 

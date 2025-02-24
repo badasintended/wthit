@@ -35,8 +35,6 @@ import net.minecraft.client.renderer.CoreShaders;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.Nullable;
 
-import static mcp.mobius.waila.util.DisplayUtil.renderComponent;
-
 public class TooltipRenderer {
 
     private static final Tooltip TOOLTIP = new Tooltip();
@@ -85,6 +83,10 @@ public class TooltipRenderer {
         }
 
         for (var component : line.components) {
+            if (component instanceof InspectComponent wrapper) {
+                component = wrapper.actual;
+            }
+
             if (component instanceof PairComponent pair) {
                 colonOffset = Math.max(pair.key.getWidth(), colonOffset);
                 break;
@@ -99,10 +101,15 @@ public class TooltipRenderer {
 
     public static Rectangle endBuild() {
         Preconditions.checkState(started);
+        var accessor = ClientAccessor.INSTANCE;
 
         if (state.fireEvent()) {
-            for (var listener : Registrar.get().eventListeners.get(Object.class)) {
-                listener.instance().onHandleTooltip(TOOLTIP, ClientAccessor.INSTANCE, PluginConfig.CLIENT);
+            for (var entry : Registrar.get().eventListeners.get(Object.class)) {
+                var pa = entry.instance();
+                var listener = pa.instance();
+                TOOLTIP.origin = pa;
+                listener.onHandleTooltip(TOOLTIP, accessor, PluginConfig.CLIENT);
+                TOOLTIP.origin = null;
             }
         }
 
@@ -178,7 +185,6 @@ public class TooltipRenderer {
         return RECT.get();
     }
 
-    @SuppressWarnings("DataFlowIssue")
     public static void resetState() {
         state = null;
     }
@@ -208,7 +214,7 @@ public class TooltipRenderer {
         // TODO: Figure out why opacity not working properly
         //noinspection ConstantValue
         if (true) {
-            renderUncached(client, ctx, delta);
+            renderUncached(ctx, delta);
             return;
         }
 
@@ -232,7 +238,7 @@ public class TooltipRenderer {
             client.getMainRenderTarget().unbindWrite();
             framebuffer.clear();
             framebuffer.bindWrite(true);
-            renderUncached(client, ctx, delta);
+            renderUncached(ctx, delta);
             framebuffer.unbindWrite();
             client.getMainRenderTarget().bindWrite(true);
             lastFrame = now;
@@ -259,13 +265,14 @@ public class TooltipRenderer {
         RenderSystem.disableBlend();
     }
 
-    private static void renderUncached(Minecraft client, GuiGraphics ctx, DeltaTracker delta) {
+    private static void renderUncached(GuiGraphics ctx, DeltaTracker delta) {
         try (var ignored = ProfilerUtil.profile("wthit:render_uncached")) {
-            _renderUncached(client, ctx, delta);
+            _renderUncached(ctx, delta);
         }
     }
 
-    private static void _renderUncached(Minecraft client, GuiGraphics ctx, DeltaTracker delta) {
+    private static void _renderUncached(GuiGraphics ctx, DeltaTracker delta) {
+        var renderer = ComponentRenderer.get();
         var scale = state.getScale();
 
         ctx.pose().pushPose();
@@ -278,7 +285,7 @@ public class TooltipRenderer {
             var canceller = EventCanceller.INSTANCE;
             canceller.setCanceled(false);
             for (var listener : Registrar.get().eventListeners.get(Object.class)) {
-                listener.instance().onBeforeTooltipRender(ctx, rect, ClientAccessor.INSTANCE, PluginConfig.CLIENT, canceller);
+                listener.instance().instance().onBeforeTooltipRender(ctx, rect, ClientAccessor.INSTANCE, PluginConfig.CLIENT, canceller);
                 if (canceller.isCanceled()) {
                     ctx.pose().popPose();
                     RenderSystem.enableDepthTest();
@@ -305,7 +312,7 @@ public class TooltipRenderer {
         }
 
         for (var line : TOOLTIP) {
-            line.render(ctx, textX, textY, delta);
+            line.render(renderer, ctx, textX, textY, delta);
             textY += line.getHeight() + 1;
         }
 
@@ -313,7 +320,7 @@ public class TooltipRenderer {
 
         if (state.fireEvent()) {
             for (var listener : Registrar.get().eventListeners.get(Object.class)) {
-                listener.instance().onAfterTooltipRender(ctx, rect, ClientAccessor.INSTANCE, PluginConfig.CLIENT);
+                listener.instance().instance().onAfterTooltipRender(ctx, rect, ClientAccessor.INSTANCE, PluginConfig.CLIENT);
             }
         }
 
@@ -322,7 +329,7 @@ public class TooltipRenderer {
         if (iconPos == Align.Y.BOTTOM) {
             iconY++;
         }
-        renderComponent(ctx, icon, x + padding.left, iconY, 0, delta);
+        renderer.render(ctx, icon, x + padding.left, iconY, icon.getWidth(), icon.getHeight(), delta);
 
         RenderSystem.enableDepthTest();
         ctx.pose().popPose();

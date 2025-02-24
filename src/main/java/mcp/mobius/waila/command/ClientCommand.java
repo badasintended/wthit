@@ -12,6 +12,7 @@ import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.config.ConfigEntry;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.gui.screen.HomeScreen;
+import mcp.mobius.waila.gui.screen.InspectorScreen;
 import mcp.mobius.waila.plugin.PluginInfo;
 import mcp.mobius.waila.plugin.PluginLoader;
 import net.minecraft.client.Minecraft;
@@ -157,6 +158,14 @@ public abstract class ClientCommand<S> extends CommonCommand<S, Minecraft> {
                 return enabled ? 1 : 0;
             })
             .pop("enabled", "showFps")
+
+            .then(literal("inspect"))
+            .executes(context -> {
+                var client = Minecraft.getInstance();
+                client.schedule(() -> client.setScreen(new InspectorScreen()));
+                return 1;
+            })
+            .pop("inspect")
 
             .pop("debug");
     }
