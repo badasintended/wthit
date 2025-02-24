@@ -5,7 +5,6 @@ import java.nio.file.Path;
 import java.util.Collection;
 import java.util.List;
 
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.access.DataType;
 import mcp.mobius.waila.api.IBlacklistConfig;
@@ -17,23 +16,17 @@ import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.api.IRegistryFilter;
 import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.IThemeType;
-import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.__internal__.IApiService;
 import mcp.mobius.waila.config.JsonConfig;
 import mcp.mobius.waila.gui.hud.ComponentRenderer;
 import mcp.mobius.waila.gui.hud.TooltipRenderer;
 import mcp.mobius.waila.gui.hud.theme.ThemeType;
-import mcp.mobius.waila.mixin.GuiGraphicsAccess;
 import mcp.mobius.waila.plugin.PluginInfo;
 import mcp.mobius.waila.registry.InstanceRegistry;
 import mcp.mobius.waila.registry.RegistryFilter;
-import mcp.mobius.waila.util.DisplayUtil;
 import mcp.mobius.waila.util.Log;
 import mcp.mobius.waila.util.ModInfo;
-import net.minecraft.client.DeltaTracker;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponents;
@@ -49,7 +42,6 @@ import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.component.CustomData;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.block.Block;
-import org.joml.Matrix4f;
 
 public abstract class ApiService implements IApiService {
 
@@ -124,11 +116,6 @@ public abstract class ApiService implements IApiService {
     }
 
     @Override
-    public void renderComponent(GuiGraphics ctx, ITooltipComponent component, int x, int y, DeltaTracker delta) {
-        ComponentRenderer.get().render(ctx, component, x, y, component.getWidth(), component.getHeight(), delta);
-    }
-
-    @Override
     public int getPairComponentColonOffset() {
         return TooltipRenderer.colonOffset;
     }
@@ -141,16 +128,6 @@ public abstract class ApiService implements IApiService {
     @Override
     public int getFontColor() {
         return TooltipRenderer.state.getTheme().getDefaultTextColor();
-    }
-
-    @Override
-    public void fillGradient(Matrix4f matrix, VertexConsumer buf, int x, int y, int w, int h, int start, int end) {
-        DisplayUtil.fillGradient(matrix, buf, x, y, w, h, start, end);
-    }
-
-    @Override
-    public void renderRectBorder(Matrix4f matrix, VertexConsumer buf, int x, int y, int w, int h, int s, int gradStart, int gradEnd) {
-        DisplayUtil.renderRectBorder(matrix, buf, x, y, w, h, s, gradStart, gradEnd);
     }
 
     @Override
@@ -231,11 +208,6 @@ public abstract class ApiService implements IApiService {
     @Override
     public boolean isDevEnv() {
         return Waila.DEV;
-    }
-
-    @Override
-    public MultiBufferSource getBufferSource(GuiGraphics ctx) {
-        return ((GuiGraphicsAccess) ctx).wthit_bufferSource();
     }
 
 }
