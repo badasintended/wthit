@@ -71,7 +71,9 @@ public class ComponentHandler {
         var registrar = Registrar.get();
         var providers = registrar.blockComponent.get(position).get(obj);
         for (var entry : providers) {
-            var provider = entry.instance();
+            var origin = entry.instance();
+            var provider = origin.instance();
+            tooltip.origin = origin;
             try {
                 switch (position) {
                     case HEAD -> provider.appendHead(tooltip, accessor, PluginConfig.CLIENT);
@@ -81,6 +83,7 @@ public class ComponentHandler {
             } catch (Throwable e) {
                 ExceptionUtil.dump(e, provider.getClass().toString(), tooltip);
             }
+            tooltip.origin = null;
         }
     }
 
@@ -121,7 +124,9 @@ public class ComponentHandler {
 
         var providers = registrar.entityComponent.get(position).get(entity);
         for (var entry : providers) {
-            var provider = entry.instance();
+            var origin = entry.instance();
+            var provider = origin.instance();
+            tooltip.origin = origin;
             try {
                 switch (position) {
                     case HEAD -> provider.appendHead(tooltip, accessor, PluginConfig.CLIENT);
@@ -131,6 +136,7 @@ public class ComponentHandler {
             } catch (Throwable e) {
                 ExceptionUtil.dump(e, provider.getClass().toString(), tooltip);
             }
+            tooltip.origin = null;
         }
     }
 
@@ -142,10 +148,9 @@ public class ComponentHandler {
         if (target.getType() == HitResult.Type.ENTITY) {
             var providers = registrar.entityIcon.get(data.getEntity());
             for (var provider : providers) {
-                var icon = provider.instance().getIcon(data, config);
-                if (icon != null) {
-                    return icon;
-                }
+                var origin = provider.instance();
+                var icon = InspectComponent.maybeWrap(origin.instance().getIcon(data, config), origin, null);
+                if (icon != null) return icon;
             }
         } else {
             var state = data.getBlockState();
@@ -155,9 +160,10 @@ public class ComponentHandler {
             var priority = 0;
 
             for (var provider : registrar.blockIcon.get(state.getBlock())) {
-                var icon = provider.instance().getIcon(ClientAccessor.INSTANCE, PluginConfig.CLIENT);
+                var origin = provider.instance();
+                var icon = origin.instance().getIcon(ClientAccessor.INSTANCE, PluginConfig.CLIENT);
                 if (icon != null) {
-                    result = icon;
+                    result = InspectComponent.maybeWrap(icon, origin, null);
                     priority = provider.priority();
                     break;
                 }
@@ -168,9 +174,10 @@ public class ComponentHandler {
                 for (var provider : registrar.blockIcon.get(blockEntity)) {
                     if (provider.priority() >= priority) break;
 
-                    var icon = provider.instance().getIcon(ClientAccessor.INSTANCE, PluginConfig.CLIENT);
+                    var origin = provider.instance();
+                    var icon = origin.instance().getIcon(ClientAccessor.INSTANCE, PluginConfig.CLIENT);
                     if (icon != null) {
-                        result = icon;
+                        result = InspectComponent.maybeWrap(icon, origin, null);
                         break;
                     }
                 }

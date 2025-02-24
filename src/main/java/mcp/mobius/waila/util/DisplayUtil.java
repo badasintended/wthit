@@ -1,29 +1,19 @@
 package mcp.mobius.waila.util;
 
 import java.util.IllegalFormatException;
-import java.util.Random;
 
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.Tesselator;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Matrix4f;
-import mcp.mobius.waila.WailaClient;
-import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.WailaHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.util.FastColor;
-import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 
 public final class DisplayUtil extends GuiComponent {
 
-    private static final Random RANDOM = new Random();
 
     private static final Minecraft CLIENT = Minecraft.getInstance();
 
@@ -64,33 +54,6 @@ public final class DisplayUtil extends GuiComponent {
         fillGradient(matrix, buf, x        , y + s    , s, h - (s * 2), gradStart, gradEnd);
         fillGradient(matrix, buf, x + w - s, y + s    , s, h - (s * 2), gradStart, gradEnd);
         // @formatter:on
-    }
-
-    public static void renderComponent(PoseStack matrices, ITooltipComponent component, int x, int y, int cw, float delta) {
-        component.render(matrices, x, y, delta);
-
-        if (WailaClient.showComponentBounds) {
-            matrices.pushPose();
-            var scale = (float) Minecraft.getInstance().getWindow().getGuiScale();
-            matrices.scale(1 / scale, 1 / scale, 1);
-
-            RenderSystem.disableTexture();
-            RenderSystem.setShader(GameRenderer::getPositionColorShader);
-
-            var tesselator = Tesselator.getInstance();
-            var buf = tesselator.getBuilder();
-            buf.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
-            var bx = Mth.floor(x * scale + 0.5);
-            var by = Mth.floor(y * scale + 0.5);
-            var bw = Mth.floor((cw == 0 ? component.getWidth() : cw) * scale + 0.5);
-            var bh = Mth.floor(component.getHeight() * scale + 0.5);
-            var color = (0xFF << 24) + Mth.hsvToRgb(RANDOM.nextFloat(), RANDOM.nextFloat(), 1f);
-            renderRectBorder(matrices.last().pose(), buf, bx, by, bw, bh, 1, color, color);
-            tesselator.end();
-
-            RenderSystem.enableTexture();
-            matrices.popPose();
-        }
     }
 
     public static void fillGradient(Matrix4f matrix, VertexConsumer buf, int x, int y, int w, int h, int start, int end) {

@@ -17,6 +17,7 @@ import mcp.mobius.waila.mixin.PlayerTabOverlayAccess;
 import mcp.mobius.waila.pick.PickerAccessor;
 import mcp.mobius.waila.pick.PickerResults;
 import mcp.mobius.waila.registry.Registrar;
+import mcp.mobius.waila.util.ProfilerUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.ChatScreen;
@@ -46,24 +47,38 @@ public class TooltipHandler {
     }
 
     public static void tick() {
+        tick(STATE, false);
+    }
+
+    public static boolean tick(TooltipRenderer.State state, boolean inspect) {
+        try (var ignored = ProfilerUtil.profile("wthit:tick")) {
+            return _tick(state, inspect);
+        }
+    }
+
+    private static boolean _tick(TooltipRenderer.State state, boolean inspect) {
         STATE.render = false;
 
         var client = Minecraft.getInstance();
         var config = Waila.CONFIG.get().getGeneral();
 
-        if (client.options.hideGui) return;
-        if (client.screen != null && !(client.screen instanceof ChatScreen)) return;
-        if (client.level == null || !config.isDisplayTooltip()) return;
-        if (config.getDisplayMode() == IWailaConfig.General.DisplayMode.HOLD_KEY && !WailaClient.keyShowOverlay.isDown()) return;
-        if (config.isHideFromPlayerList() && ((PlayerTabOverlayAccess) client.gui.getTabList()).wthit_isVisible()) return;
-        if (config.isHideFromDebug() && client.options.renderDebug) return;
-        if (client.gameMode == null) return;
+        if (client.level == null) return false;
+        if (client.gameMode == null) return false;
+
+        if (!inspect) {
+            if (client.options.hideGui) return false;
+            if (client.screen != null && !(client.screen instanceof ChatScreen)) return false;
+            if (!config.isDisplayTooltip()) return false;
+            if (config.getDisplayMode() == IWailaConfig.General.DisplayMode.HOLD_KEY && !WailaClient.keyShowOverlay.isDown()) return false;
+            if (config.isHideFromPlayerList() && ((PlayerTabOverlayAccess) client.gui.getTabList()).wthit_isVisible()) return false;
+            if (config.isHideFromDebug() && client.options.renderDebug) return false;
+        }
 
         Player player = client.player;
-        if (player == null) return;
+        if (player == null) return false;
 
         var camera = client.cameraEntity;
-        if (camera == null) return;
+        if (camera == null) return false;
 
         var frameTime = client.getFrameTime();
         var pickRange = client.gameMode.getPickRange();
@@ -89,14 +104,16 @@ public class TooltipHandler {
             }
         }
 
-        if (castOrigin == null) return;
+        if (castOrigin == null) return false;
 
         for (var target : results) {
-            if (processTarget(target, client, player, castOrigin, castDirection, pickRange, config) == ProcessResult.BREAK) break;
+            if (processTarget(state, target, client, player, castOrigin, castDirection, pickRange, config) == ProcessResult.BREAK) break;
         }
+
+        return true;
     }
 
-    private static ProcessResult redirectTarget(HitResult target, TargetRedirector redirector, Minecraft client, Player player, Vec3 castOrigin, Vec3 castDirection, float pickRange, WailaConfig.General config) {
+    private static ProcessResult redirectTarget(TooltipRenderer.State state, HitResult target, TargetRedirector redirector, Minecraft client, Player player, Vec3 castOrigin, Vec3 castDirection, double pickRange, WailaConfig.General config) {
         if (redirector.nowhere) return ProcessResult.BREAK;
         if (redirector.behind) return ProcessResult.CONTINUE;
 
@@ -105,18 +122,18 @@ public class TooltipHandler {
         if (redirect.getType() == HitResult.Type.MISS) return ProcessResult.CONTINUE;
 
         return processTarget(
-            redirect, client, player,
+            state, redirect, client, player,
             castOrigin.subtract(target.getLocation().subtract(redirect.getLocation())),
             castDirection, pickRange, config);
     }
 
-    private static ProcessResult processTarget(HitResult target, Minecraft client, Player player, Vec3 castOrigin, Vec3 castDirection, float pickRange, WailaConfig.General config) {
+    private static ProcessResult processTarget(TooltipRenderer.State state, HitResult target, Minecraft client, Player player, Vec3 castOrigin, Vec3 castDirection, double pickRange, WailaConfig.General config) {
         var accessor = ClientAccessor.INSTANCE;
 
         //noinspection DataFlowIssue
         accessor.set(client.level, player, target, client.cameraEntity, castOrigin, castDirection, pickRange, client.getFrameTime());
 
-        TooltipRenderer.beginBuild(STATE);
+        TooltipRenderer.beginBuild(state);
 
         if (target.getType() == HitResult.Type.BLOCK) {
             var block = accessor.getBlock();
@@ -144,7 +161,7 @@ public class TooltipHandler {
             }
 
             if (redirectResult != null && !redirector.self) {
-                return redirectTarget(target, redirector, client, player, castOrigin, castDirection, pickRange, config);
+                return redirectTarget(state, target, redirector, client, player, castOrigin, castDirection, pickRange, config);
             }
 
             if (block instanceof LiquidBlock) {
@@ -153,10 +170,10 @@ public class TooltipHandler {
                 return ProcessResult.CONTINUE;
             }
 
-            var state = ComponentHandler.getOverrideBlock(target);
-            if (state == IBlockComponentProvider.EMPTY_BLOCK_STATE) return ProcessResult.CONTINUE;
+            var blockState = ComponentHandler.getOverrideBlock(target);
+            if (blockState == IBlockComponentProvider.EMPTY_BLOCK_STATE) return ProcessResult.CONTINUE;
 
-            accessor.setState(state);
+            accessor.setState(blockState);
 
             requestBlockData(accessor);
 
@@ -189,7 +206,7 @@ public class TooltipHandler {
             }
 
             if (redirectResult != null && !redirector.self) {
-                return redirectTarget(target, redirector, client, player, castOrigin, castDirection, pickRange, config);
+                return redirectTarget(state, target, redirector, client, player, castOrigin, castDirection, pickRange, config);
             }
 
             if (!PluginConfig.CLIENT.getBoolean(WailaConstants.CONFIG_SHOW_ENTITY)) return ProcessResult.CONTINUE;

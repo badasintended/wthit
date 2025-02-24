@@ -1,6 +1,6 @@
 package mcp.mobius.waila.gui.hud;
 
-import java.awt.Rectangle;
+import java.awt.*;
 import java.util.Iterator;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
@@ -28,14 +28,13 @@ import mcp.mobius.waila.mixin.BossHealthOverlayAccess;
 import mcp.mobius.waila.mixin.GameNarratorAccess;
 import mcp.mobius.waila.mixin.MinecraftAccess;
 import mcp.mobius.waila.registry.Registrar;
+import mcp.mobius.waila.util.ProfilerUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.Nullable;
-
-import static mcp.mobius.waila.util.DisplayUtil.renderComponent;
 
 public class TooltipRenderer {
 
@@ -85,6 +84,10 @@ public class TooltipRenderer {
         }
 
         for (var component : line.components) {
+            if (component instanceof InspectComponent wrapper) {
+                component = wrapper.actual;
+            }
+
             if (component instanceof PairComponent pair) {
                 colonOffset = Math.max(pair.key.getWidth(), colonOffset);
                 break;
@@ -99,10 +102,15 @@ public class TooltipRenderer {
 
     public static Rectangle endBuild() {
         Preconditions.checkState(started);
+        var accessor = ClientAccessor.INSTANCE;
 
         if (state.fireEvent()) {
-            for (var listener : Registrar.get().eventListeners.get(Object.class)) {
-                listener.instance().onHandleTooltip(TOOLTIP, ClientAccessor.INSTANCE, PluginConfig.CLIENT);
+            for (var entry : Registrar.get().eventListeners.get(Object.class)) {
+                var pa = entry.instance();
+                var listener = pa.instance();
+                TOOLTIP.origin = pa;
+                listener.onHandleTooltip(TOOLTIP, accessor, PluginConfig.CLIENT);
+                TOOLTIP.origin = null;
             }
         }
 
@@ -178,7 +186,6 @@ public class TooltipRenderer {
         return RECT.get();
     }
 
-    @SuppressWarnings("DataFlowIssue")
     public static void resetState() {
         state = null;
     }
@@ -202,7 +209,7 @@ public class TooltipRenderer {
         // TODO: Figure out why opacity not working properly
         //noinspection ConstantValue
         if (true) {
-            render0(client, matrices, delta);
+            renderUncached(matrices, delta);
             return;
         }
 
@@ -225,7 +232,7 @@ public class TooltipRenderer {
 
             framebuffer.clear(Minecraft.ON_OSX);
             framebuffer.bindWrite(true);
-            render0(client, matrices, delta);
+            renderUncached(matrices, delta);
             framebuffer.unbindWrite();
             client.getMainRenderTarget().bindWrite(true);
             lastFrame = now;
@@ -255,11 +262,14 @@ public class TooltipRenderer {
         RenderSystem.disableBlend();
     }
 
-    private static void render0(Minecraft client, PoseStack matrices, float delta) {
-        var profiler = client.getProfiler();
+    private static void renderUncached(PoseStack matrices, float delta) {
+        try (var ignored = ProfilerUtil.profile("wthit:render_uncached")) {
+            _renderUncached(matrices, delta);
+        }
+    }
 
-        profiler.push("Waila Overlay");
-
+    private static void _renderUncached(PoseStack matrices, float delta) {
+        var renderer = ComponentRenderer.get();
         var scale = state.getScale();
 
         RenderSystem.getModelViewStack().pushPose();
@@ -275,13 +285,12 @@ public class TooltipRenderer {
             var canceller = EventCanceller.INSTANCE;
             canceller.setCanceled(false);
             for (var listener : Registrar.get().eventListeners.get(Object.class)) {
-                listener.instance().onBeforeTooltipRender(matrices, rect, ClientAccessor.INSTANCE, PluginConfig.CLIENT, canceller);
+                listener.instance().instance().onBeforeTooltipRender(matrices, rect, ClientAccessor.INSTANCE, PluginConfig.CLIENT, canceller);
                 if (canceller.isCanceled()) {
                     matrices.popPose();
                     RenderSystem.enableDepthTest();
                     RenderSystem.getModelViewStack().popPose();
                     RenderSystem.applyModelViewMatrix();
-                    profiler.pop();
                     return;
                 }
             }
@@ -305,7 +314,7 @@ public class TooltipRenderer {
         }
 
         for (var line : TOOLTIP) {
-            line.render(matrices, textX, textY, delta);
+            line.render(renderer, matrices, textX, textY, delta);
             textY += line.getHeight() + 1;
         }
 
@@ -314,7 +323,7 @@ public class TooltipRenderer {
 
         if (state.fireEvent()) {
             for (var listener : Registrar.get().eventListeners.get(Object.class)) {
-                listener.instance().onAfterTooltipRender(matrices, rect, ClientAccessor.INSTANCE, PluginConfig.CLIENT);
+                listener.instance().instance().onAfterTooltipRender(matrices, rect, ClientAccessor.INSTANCE, PluginConfig.CLIENT);
             }
         }
 
@@ -323,12 +332,11 @@ public class TooltipRenderer {
         if (iconPos == Align.Y.BOTTOM) {
             iconY++;
         }
-        renderComponent(matrices, icon, x + padding.left, iconY, 0, delta);
+        renderer.render(matrices, icon, x + padding.left, iconY, icon.getWidth(), icon.getHeight(), delta);
 
         RenderSystem.enableDepthTest();
         RenderSystem.getModelViewStack().popPose();
         RenderSystem.applyModelViewMatrix();
-        profiler.pop();
     }
 
     private static void narrateObjectName(Minecraft client) {

@@ -5,6 +5,7 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Matrix4f;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.__internal__.IClientApiService;
+import mcp.mobius.waila.gui.hud.ComponentRenderer;
 import mcp.mobius.waila.util.DisplayUtil;
 import net.minecraft.world.item.ItemStack;
 
@@ -12,7 +13,7 @@ public class ClientApiService implements IClientApiService {
 
     @Override
     public void renderComponent(PoseStack matrices, ITooltipComponent component, int x, int y, float delta) {
-        DisplayUtil.renderComponent(matrices, component, x, y, 0, delta);
+        ComponentRenderer.get().render(matrices, component, x, y, component.getWidth(), component.getHeight(), delta);
     }
 
     @Override
