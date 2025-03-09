@@ -5,6 +5,7 @@ import mcp.mobius.waila.api.IWailaClientPlugin;
 import mcp.mobius.waila.api.data.FluidData;
 import mcp.mobius.waila.plugin.vanilla.fluid.LavaDescriptor;
 import mcp.mobius.waila.plugin.vanilla.fluid.WaterDescriptor;
+import mcp.mobius.waila.plugin.vanilla.provider.BannerProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.BeaconProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.BeeProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.BeehiveProvider;
@@ -64,6 +65,7 @@ import net.minecraft.world.level.block.SaplingBlock;
 import net.minecraft.world.level.block.StemBlock;
 import net.minecraft.world.level.block.SweetBerryBushBlock;
 import net.minecraft.world.level.block.TrappedChestBlock;
+import net.minecraft.world.level.block.entity.BannerBlockEntity;
 import net.minecraft.world.level.block.entity.BeaconBlockEntity;
 import net.minecraft.world.level.block.entity.JukeboxBlockEntity;
 import net.minecraft.world.level.block.entity.SkullBlockEntity;
@@ -75,6 +77,8 @@ public class VanillaClientPlugin implements IWailaClientPlugin {
     @Override
     public void register(IClientRegistrar registrar) {
         registrar.body(BlockAttributesProvider.INSTANCE, Block.class, 950);
+
+        registrar.head(BannerProvider.INSTANCE, BannerBlockEntity.class, 950);
 
         registrar.icon(ItemEntityProvider.INSTANCE, ItemEntity.class);
         registrar.head(ItemEntityProvider.INSTANCE, ItemEntity.class, 950);
