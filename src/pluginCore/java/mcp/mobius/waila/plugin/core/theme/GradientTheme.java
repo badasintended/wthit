@@ -1,6 +1,5 @@
 package mcp.mobius.waila.plugin.core.theme;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.IThemeAccessor;
 import mcp.mobius.waila.api.IThemeType;
@@ -55,9 +54,6 @@ public class GradientTheme implements ITheme {
 
     @Override
     public void renderTooltipBackground(GuiGraphics ctx, int x, int y, int width, int height, @Range(from = 0x00, to = 0xFF) int alpha, DeltaTracker delta) {
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
-
         var buf = WRenders.buffer(ctx, RenderType.gui());
         var matrix = ctx.pose().last().pose();
 

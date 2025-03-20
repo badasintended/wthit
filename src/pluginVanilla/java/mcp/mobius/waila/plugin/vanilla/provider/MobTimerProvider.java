@@ -24,7 +24,7 @@ public enum MobTimerProvider implements IEntityComponentProvider {
         if (data.contains("age")) {
             if (lastDataSync != accessor.getServerDataTime()) {
                 lastDataSync = accessor.getServerDataTime();
-                lastAge = data.getInt("age");
+                lastAge = data.getInt("age").orElseThrow();
                 var delay = (System.currentTimeMillis() - lastDataSync) / 50;
                 if (lastAge < 0) {
                     lastAge += delay;

@@ -22,6 +22,7 @@ import mcp.mobius.waila.api.component.PairComponent;
 import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.UUIDUtil;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.OwnableEntity;
 
@@ -41,7 +42,11 @@ public enum PetOwnerProvider implements IEntityComponentProvider {
         if (config.getBoolean(Options.PET_OWNER)) {
             OwnableEntity entity = accessor.getEntity();
             var data = accessor.getData().raw();
-            var uuid = data.hasUUID("owner") ? data.getUUID("owner") : entity.getOwnerUUID();
+            var uuid = data.read("owner", UUIDUtil.CODEC).orElse(null);
+            if (uuid == null) {
+                var owner = entity.getOwner();
+                if (owner != null) uuid = owner.getUUID();
+            }
             if (uuid == null) return;
 
             var name = LOADING;

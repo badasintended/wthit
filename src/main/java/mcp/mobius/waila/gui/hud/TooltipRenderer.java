@@ -8,10 +8,6 @@ import java.util.function.Supplier;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Suppliers;
 import com.mojang.blaze3d.pipeline.MainTarget;
-import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferUploader;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.VertexFormat;
 import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.access.ClientAccessor;
 import mcp.mobius.waila.api.ITheme;
@@ -31,7 +27,6 @@ import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.ChatScreen;
-import net.minecraft.client.renderer.CoreShaders;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.Nullable;
 
@@ -218,51 +213,51 @@ public class TooltipRenderer {
             return;
         }
 
-        var nspf = 1_000_000_000f / fps;
-        var now = System.nanoTime();
-
-        if (framebuffer == null || (now - lastFrame) >= nspf) {
-            var window = client.getWindow();
-
-            if (framebuffer == null) {
-                framebuffer = new MainTarget(window.getWidth(), window.getHeight());
-                framebuffer.setClearColor(0f, 0f, 0f, 0f);
-            }
-
-            if (window.getWidth() != fbWidth || window.getHeight() != fbHeight) {
-                fbWidth = window.getWidth();
-                fbHeight = window.getHeight();
-                framebuffer.resize(fbWidth, fbHeight);
-            }
-
-            client.getMainRenderTarget().unbindWrite();
-            framebuffer.clear();
-            framebuffer.bindWrite(true);
-            renderUncached(ctx, delta);
-            framebuffer.unbindWrite();
-            client.getMainRenderTarget().bindWrite(true);
-            lastFrame = now;
-        }
-
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
-        RenderSystem.setShader(CoreShaders.POSITION_TEX);
-        RenderSystem.setShaderTexture(0, framebuffer.getColorTextureId());
-
-        var w = client.getWindow().getGuiScaledWidth();
-        var h = client.getWindow().getGuiScaledHeight();
-
-        var buffer = RenderSystem.renderThreadTesselator().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
-
-        var pose = ctx.pose().last().pose();
-        buffer.addVertex(pose, 0, h, 0).setUv(0f, 0f);
-        buffer.addVertex(pose, w, h, 0).setUv(1f, 0f);
-        buffer.addVertex(pose, w, 0, 0).setUv(1f, 1f);
-        buffer.addVertex(pose, 0, 0, 0).setUv(0f, 1f);
-
-        BufferUploader.drawWithShader(buffer.buildOrThrow());
-
-        RenderSystem.disableBlend();
+//        var nspf = 1_000_000_000f / fps;
+//        var now = System.nanoTime();
+//
+//        if (framebuffer == null || (now - lastFrame) >= nspf) {
+//            var window = client.getWindow();
+//
+//            if (framebuffer == null) {
+//                framebuffer = new MainTarget(window.getWidth(), window.getHeight());
+//                framebuffer.setClearColor(0f, 0f, 0f, 0f);
+//            }
+//
+//            if (window.getWidth() != fbWidth || window.getHeight() != fbHeight) {
+//                fbWidth = window.getWidth();
+//                fbHeight = window.getHeight();
+//                framebuffer.resize(fbWidth, fbHeight);
+//            }
+//
+//            client.getMainRenderTarget().unbindWrite();
+//            framebuffer.clear();
+//            framebuffer.bindWrite(true);
+//            renderUncached(ctx, delta);
+//            framebuffer.unbindWrite();
+//            client.getMainRenderTarget().bindWrite(true);
+//            lastFrame = now;
+//        }
+//
+//        RenderSystem.enableBlend();
+//        RenderSystem.defaultBlendFunc();
+//        RenderSystem.setShader(CoreShaders.POSITION_TEX);
+//        RenderSystem.setShaderTexture(0, framebuffer.getColorTextureId());
+//
+//        var w = client.getWindow().getGuiScaledWidth();
+//        var h = client.getWindow().getGuiScaledHeight();
+//
+//        var buffer = RenderSystem.renderThreadTesselator().begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_TEX);
+//
+//        var pose = ctx.pose().last().pose();
+//        buffer.addVertex(pose, 0, h, 0).setUv(0f, 0f);
+//        buffer.addVertex(pose, w, h, 0).setUv(1f, 0f);
+//        buffer.addVertex(pose, w, 0, 0).setUv(1f, 1f);
+//        buffer.addVertex(pose, 0, 0, 0).setUv(0f, 1f);
+//
+//        BufferUploader.drawWithShader(buffer.buildOrThrow());
+//
+//        RenderSystem.disableBlend();
     }
 
     private static void renderUncached(GuiGraphics ctx, DeltaTracker delta) {
@@ -288,7 +283,6 @@ public class TooltipRenderer {
                 listener.instance().instance().onBeforeTooltipRender(ctx, rect, ClientAccessor.INSTANCE, PluginConfig.CLIENT, canceller);
                 if (canceller.isCanceled()) {
                     ctx.pose().popPose();
-                    RenderSystem.enableDepthTest();
                     return;
                 }
             }
@@ -316,8 +310,6 @@ public class TooltipRenderer {
             textY += line.getHeight() + 1;
         }
 
-        RenderSystem.disableBlend();
-
         if (state.fireEvent()) {
             for (var listener : Registrar.get().eventListeners.get(Object.class)) {
                 listener.instance().instance().onAfterTooltipRender(ctx, rect, ClientAccessor.INSTANCE, PluginConfig.CLIENT);
@@ -331,7 +323,6 @@ public class TooltipRenderer {
         }
         renderer.render(ctx, icon, x + padding.left, iconY, icon.getWidth(), icon.getHeight(), delta);
 
-        RenderSystem.enableDepthTest();
         ctx.pose().popPose();
     }
 
@@ -349,7 +340,7 @@ public class TooltipRenderer {
         if (objectName != null && objectName.components.get(0) instanceof WrappedComponent component) {
             var narrate = component.component.getString().replaceAll("§[a-z0-9]", "");
             if (!lastNarration.equalsIgnoreCase(narrate)) {
-                CompletableFuture.runAsync(() -> narrator.say(narrate, true));
+                CompletableFuture.runAsync(() -> narrator.say(narrate, true, 1f));
                 lastNarration = narrate;
             }
         }

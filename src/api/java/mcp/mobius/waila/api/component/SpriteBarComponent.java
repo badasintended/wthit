@@ -1,6 +1,5 @@
 package mcp.mobius.waila.api.component;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.util.WRenders;
@@ -64,8 +63,6 @@ public class SpriteBarComponent implements ITooltipComponent {
         ctx.enableScissor(x + 1, y + 1, mx - 1, my - 1);
 
         ps.pushPose();
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
 
         var a = ARGB.alpha(spriteTint);
         var r = ARGB.red(spriteTint);
@@ -89,7 +86,6 @@ public class SpriteBarComponent implements ITooltipComponent {
             }
         }
 
-        RenderSystem.disableBlend();
         ps.popPose();
         ctx.disableScissor();
         ctx.flush();

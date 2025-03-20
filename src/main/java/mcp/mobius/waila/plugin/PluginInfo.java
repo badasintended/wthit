@@ -21,6 +21,7 @@ import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.util.CachedSupplier;
 import mcp.mobius.waila.util.Log;
 import mcp.mobius.waila.util.ModInfo;
+import mcp.mobius.waila.util.ResourceLocationSerde;
 import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.Nullable;
 
@@ -36,7 +37,7 @@ public class PluginInfo implements IPluginInfo {
         .json5()
         .gson(new GsonBuilder()
             .setPrettyPrinting()
-            .registerTypeAdapter(ResourceLocation.class, new ResourceLocation.Serializer())
+            .registerTypeAdapter(ResourceLocation.class, ResourceLocationSerde.INSTANCE)
             .create())
         .build();
 

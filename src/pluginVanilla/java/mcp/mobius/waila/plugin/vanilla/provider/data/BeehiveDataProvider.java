@@ -12,7 +12,6 @@ import mcp.mobius.waila.api.util.WCodecs;
 import mcp.mobius.waila.mixin.BeehiveBlockEntityAccess;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.nbt.Tag;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
@@ -46,9 +45,7 @@ public enum BeehiveDataProvider implements IDataProvider<BeehiveBlockEntity> {
                     var entityType = EntityType.by(beeNbt);
                     if (entityType.isEmpty()) continue;
 
-                    var customName = beeNbt.contains("CustomName", Tag.TAG_STRING)
-                        ? beeNbt.getString("CustomName")
-                        : null;
+                    var customName = beeNbt.getString("CustomName").orElse(null);
 
                     occupants.add(new OccupantsData.Occupant(entityType.get(), customName));
                 }

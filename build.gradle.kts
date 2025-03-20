@@ -4,7 +4,7 @@ import java.nio.charset.StandardCharsets
 
 plugins {
     java
-    id("fabric-loom") version "1.8.9"
+    id("fabric-loom") version "1.10.4"
     id("maven-publish")
 }
 
@@ -72,7 +72,7 @@ allprojects {
         }
     }
 
-    task("listPluginVersions") {
+    tasks.register("listPluginVersions") {
         doLast {
             project.plugins.forEach {
                 println("$it -> ${it.javaClass.protectionDomain.codeSource.location.toURI().toString().lowercase()}")
@@ -188,7 +188,7 @@ tasks {
         useJUnitPlatform()
     }
 
-    create<GenerateTranslationTask>("generateTranslationClass") {
+    register<GenerateTranslationTask>("generateTranslationClass") {
         group = "translation"
 
         input.set(file("src/resources/resources/assets/waila/lang/en_us.json"))
@@ -201,13 +201,13 @@ tasks {
         dependsOn("generateTranslationClass")
     }
 
-    create<FormatTranslationTask>("formatTranslation") {
+    register<FormatTranslationTask>("formatTranslation") {
         group = "translation"
 
         translationDir.set(file("src/resources/resources/assets/waila/lang"))
     }
 
-    create<FormatTranslationTask>("validateTranslation") {
+    register<FormatTranslationTask>("validateTranslation") {
         group = "translation"
 
         translationDir.set(file("src/resources/resources/assets/waila/lang"))
@@ -219,7 +219,7 @@ tasks {
     }
 }
 
-val apiJavadoc by tasks.creating(Javadoc::class) {
+val apiJavadoc by tasks.registering(Javadoc::class) {
     group = "documentation"
 
     val api by sourceSets
@@ -245,8 +245,8 @@ subprojects {
         val subApi = sourceSets.findByName("api")
 
         if (subApi != null) {
-            apiJavadoc.source(subApi.allJava)
-            apiJavadoc.classpath += subApi.compileClasspath
+            apiJavadoc.get().source(subApi.allJava)
+            apiJavadoc.get().classpath += subApi.compileClasspath
         }
     }
 }
