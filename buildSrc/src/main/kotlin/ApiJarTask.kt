@@ -1,15 +1,16 @@
 import org.gradle.api.tasks.SourceSetContainer
+import org.gradle.api.tasks.TaskProvider
 import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.get
 import org.gradle.kotlin.dsl.getByType
 
 abstract class ApiJarTask : Jar() {
 
-    fun fullJar(fullJar: Jar) {
+    fun <T : Jar> fullJar(fullJar: TaskProvider<T>) {
         dependsOn(fullJar)
         project.tasks["build"].dependsOn(this)
 
-        val classifier = fullJar.archiveClassifier.orNull
+        val classifier = fullJar.get().archiveClassifier.orNull
         if (classifier.isNullOrEmpty()) {
             archiveClassifier.set("api")
         } else {
@@ -21,7 +22,7 @@ abstract class ApiJarTask : Jar() {
             from(stub.output)
         }
 
-        from(project.zipTree(fullJar.archiveFile)) {
+        from(project.zipTree(fullJar.get().archiveFile)) {
             include("mcp/mobius/waila/api/**")
         }
     }

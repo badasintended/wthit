@@ -1,5 +1,5 @@
 plugins {
-    id("net.minecraftforge.gradle") version "6.0.29"
+    id("net.minecraftforge.gradle") version "6.0.35"
     id("org.spongepowered.mixin") version "0.7.38"
 }
 
@@ -103,13 +103,13 @@ tasks.withType<ProcessResources> {
 }
 
 afterEvaluate {
-    val jar = tasks.jar.get()
-    val apiJar = task<ApiJarTask>("apiJar") {
+    val jar = tasks.jar
+    val apiJar by tasks.registering(ApiJarTask::class) {
         fullJar(jar)
     }
 
-    val sourcesJar = tasks.sourcesJar.get()
-    val apiSourcesJar = task<ApiJarTask>("apiSourcesJar") {
+    val sourcesJar = tasks.sourcesJar
+    val apiSourcesJar by tasks.registering(ApiJarTask::class) {
         fullJar(sourcesJar)
     }
 

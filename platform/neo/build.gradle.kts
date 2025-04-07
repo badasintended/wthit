@@ -1,5 +1,5 @@
 plugins {
-    id("net.neoforged.moddev") version "2.0.42-beta"
+    id("net.neoforged.moddev") version "2.0.80"
 }
 
 setupPlatform(setRuntimeClasspath = false)
@@ -49,13 +49,13 @@ tasks.processResources {
 }
 
 afterEvaluate {
-    val jar = tasks.jar.get()
-    val apiJar = task<ApiJarTask>("apiJar") {
+    val jar = tasks.jar
+    val apiJar by tasks.registering(ApiJarTask::class) {
         fullJar(jar)
     }
 
-    val sourcesJar = tasks.sourcesJar.get()
-    val apiSourcesJar = task<ApiJarTask>("apiSourcesJar") {
+    val sourcesJar = tasks.sourcesJar
+    val apiSourcesJar by tasks.registering(ApiJarTask::class) {
         fullJar(sourcesJar)
     }
 
