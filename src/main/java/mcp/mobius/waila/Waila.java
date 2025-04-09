@@ -17,6 +17,7 @@ import mcp.mobius.waila.plugin.PluginSide;
 import mcp.mobius.waila.registry.RegistryFilter;
 import mcp.mobius.waila.service.ICommonService;
 import mcp.mobius.waila.util.Log;
+import mcp.mobius.waila.util.ResourceLocationSerde;
 import mcp.mobius.waila.util.UnsupportedPlatformException;
 import net.minecraft.resources.ResourceLocation;
 
@@ -45,7 +46,7 @@ public abstract class Waila {
             .setPrettyPrinting()
             .registerTypeAdapter(WailaConfig.Overlay.Color.class, new WailaConfig.Overlay.Color.Adapter())
             .registerTypeAdapter(ThemeDefinition.class, new ThemeDefinition.Adapter())
-            .registerTypeAdapter(ResourceLocation.class, new ResourceLocation.Serializer())
+            .registerTypeAdapter(ResourceLocation.class, ResourceLocationSerde.INSTANCE)
             .create())
         .build();
 

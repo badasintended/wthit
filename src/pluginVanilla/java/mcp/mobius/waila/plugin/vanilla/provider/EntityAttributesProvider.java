@@ -84,7 +84,7 @@ public enum EntityAttributesProvider implements IEntityComponentProvider {
 
             if (showHealth) {
                 var line = tooltip.setLine(Options.ENTITY_HEALTH);
-                var absorption = data.contains("abs") ? data.getFloat("abs") : 0f;
+                float absorption = data.getFloat("abs").orElse(0f);
                 if (entity.getMaxHealth() + absorption > config.getInt(Options.ENTITY_LONG_HEALTH_MAX)) {
                     addHealth(line, entity, data, showAbsorption);
                 } else {

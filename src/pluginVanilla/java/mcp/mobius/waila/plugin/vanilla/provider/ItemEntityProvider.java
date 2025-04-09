@@ -113,12 +113,12 @@ public enum ItemEntityProvider implements IEntityComponentProvider {
 
                 if (!enchantments.isEmpty()) {
                     var instance = enchantments.get(enchantmentIndex);
-                    text = Enchantment.getFullname(instance.enchantment, instance.level);
+                    text = Enchantment.getFullname(instance.enchantment(), instance.level());
                 }
 
                 if (!curses.isEmpty()) {
                     var instance = curses.get(curseIndex);
-                    var curse = Enchantment.getFullname(instance.enchantment, instance.level);
+                    var curse = Enchantment.getFullname(instance.enchantment(), instance.level());
                     if (text == null) text = curse;
                     else text = text.copy().append(CommonComponents.NEW_LINE).append(curse);
                 }

@@ -1,11 +1,12 @@
 import me.modmuss50.mpp.ModPublishExtension
 import me.modmuss50.mpp.ReleaseType
+import org.gradle.api.tasks.TaskProvider
 import org.gradle.jvm.tasks.Jar
 import org.gradle.kotlin.dsl.apply
 import org.gradle.kotlin.dsl.assign
 import org.gradle.kotlin.dsl.configure
 
-fun <T : Jar> UploadConfig.modrinth(task: T) = project.run {
+fun <T : Jar> UploadConfig.modrinth(task: TaskProvider<T>) = project.run {
     apply(plugin = "me.modmuss50.mod-publish-plugin")
 
     configure<ModPublishExtension> {
@@ -14,7 +15,7 @@ fun <T : Jar> UploadConfig.modrinth(task: T) = project.run {
             dryRun = env["MODRINTH_TOKEN"] == null
 
             projectId = prop["mr.projectId"]
-            file = task.archiveFile
+            file = task.get().archiveFile
             displayName = "${project.version}"
             version = "${project.name}-${project.version}"
             type = ReleaseType.of(prop["mr.releaseType"])

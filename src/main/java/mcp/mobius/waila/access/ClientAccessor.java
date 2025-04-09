@@ -113,7 +113,7 @@ public enum ClientAccessor implements ICommonAccessor, IBlockAccessor, IEntityAc
     @Override
     public long getServerDataTime() {
         var data = getData().raw();
-        return data.contains("WailaTime") ? data.getLong("WailaTime") : System.currentTimeMillis();
+        return data.getLong("WailaTime").orElseGet(System::currentTimeMillis);
     }
 
     @Override
@@ -204,14 +204,14 @@ public enum ClientAccessor implements ICommonAccessor, IBlockAccessor, IEntityAc
 
         var tag = DataReader.CLIENT.raw();
 
-        if (tag == null) {
+        if (tag == null || tag.isEmpty()) {
             this.timeLastUpdate = System.currentTimeMillis() - 250;
             return false;
         }
 
-        var x = tag.getInt("x");
-        var y = tag.getInt("y");
-        var z = tag.getInt("z");
+        var x = tag.getInt("x").orElseThrow();
+        var y = tag.getInt("y").orElseThrow();
+        var z = tag.getInt("z").orElseThrow();
 
         var hitPos = ((BlockHitResult) hitResult).getBlockPos();
         if (x == hitPos.getX() && y == hitPos.getY() && z == hitPos.getZ())
@@ -232,7 +232,7 @@ public enum ClientAccessor implements ICommonAccessor, IBlockAccessor, IEntityAc
             return false;
         }
 
-        var id = tag.getInt("WailaEntityID");
+        var id = tag.getInt("WailaEntityID").orElseThrow();
 
         if (id == this.entity.getId())
             return true;

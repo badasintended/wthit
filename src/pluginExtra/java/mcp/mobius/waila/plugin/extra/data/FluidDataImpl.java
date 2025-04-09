@@ -175,7 +175,7 @@ public class FluidDataImpl extends FluidData.PlatformDependant<Object> {
                 FLUID_STATIC.put(fluid, UNKNOWN_FLUID_DESC);
             }
 
-            INSTANCE.sprite(Minecraft.getInstance().getModelManager().getBlockModelShaper().getBlockModel(Blocks.WATER.defaultBlockState()).getParticleIcon())
+            INSTANCE.sprite(Minecraft.getInstance().getModelManager().getBlockModelShaper().getBlockModel(Blocks.WATER.defaultBlockState()).particleIcon())
                 .tint(0xFFFFFFFF)
                 .name(UNKNOWN_FLUID_NAME);
 

@@ -1,6 +1,5 @@
 package mcp.mobius.waila.api.component;
 
-import com.mojang.blaze3d.systems.RenderSystem;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.__internal__.ApiSide;
@@ -86,9 +85,6 @@ public class BarComponent implements ITooltipComponent {
         var ps = ctx.pose();
         ps.pushPose();
 
-        RenderSystem.enableBlend();
-        RenderSystem.defaultBlendFunc();
-
         var a = ARGB.alpha(tint);
         var r = ARGB.red(tint);
         var g = ARGB.green(tint);
@@ -102,7 +98,6 @@ public class BarComponent implements ITooltipComponent {
         buffer.addVertex(pose, x + w, y, 0).setUv(u1, v0).setColor(r, g, b, a);
         buffer.addVertex(pose, x, y, 0).setUv(U0, v0).setColor(r, g, b, a);
 
-        RenderSystem.disableBlend();
         ps.popPose();
         ctx.flush();
     }

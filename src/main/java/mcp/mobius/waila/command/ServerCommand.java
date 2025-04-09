@@ -13,13 +13,14 @@ import mcp.mobius.waila.debug.DumpGenerator;
 import mcp.mobius.waila.mixin.BaseContainerBlockEntityAccess;
 import mcp.mobius.waila.network.play.s2c.GenerateClientDumpPlayS2CPacket;
 import mcp.mobius.waila.plugin.PluginLoader;
+import net.minecraft.advancements.critereon.DataComponentMatchers;
 import net.minecraft.advancements.critereon.ItemPredicate;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.component.DataComponentPredicate;
+import net.minecraft.core.component.DataComponentExactPredicate;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
@@ -56,7 +57,7 @@ public abstract class ServerCommand extends CommonCommand<CommandSourceStack, Mi
                 if (path != null) {
                     Component pathComponent = Component.literal(path.toString()).withStyle(style -> style
                         .withUnderlined(true)
-                        .withClickEvent(new ClickEvent(ClickEvent.Action.OPEN_FILE, path.toString())));
+                        .withClickEvent(new ClickEvent.OpenFile(path.toString())));
                     source.sendSuccess(() -> Component.translatable(dedicated ? Tl.Command.SERVER_DUMP_SUCCESS : Tl.Command.LOCAL_DUMP_SUCCESS, pathComponent), false);
                     var entity = source.getEntity();
                     if (entity instanceof ServerPlayer player && !server.isSingleplayerOwner(player.getGameProfile())) {
@@ -131,7 +132,7 @@ public abstract class ServerCommand extends CommonCommand<CommandSourceStack, Mi
                 if (world.getBlockEntity(pos) instanceof BaseContainerBlockEntityAccess container) {
                     container.wthit_lockKey(new LockCode(ItemPredicate.Builder.item()
                         .of(world.registryAccess().lookupOrThrow(Registries.ITEM), stack.getItem())
-                        .hasComponents(DataComponentPredicate.allOf(stack.getComponents()))
+                        .withComponents(DataComponentMatchers.Builder.components().exact(DataComponentExactPredicate.allOf(stack.getComponents())).build())
                         .build()));
 
                     source.sendSuccess(() -> Component.literal("Locked container " + pos.toShortString()), false);

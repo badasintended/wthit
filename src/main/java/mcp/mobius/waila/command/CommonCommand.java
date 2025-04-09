@@ -112,7 +112,7 @@ public abstract class CommonCommand<S, E extends Executor> {
             plugins.size(),
             ComponentUtils.formatList(plugins, p -> ComponentUtils.wrapInSquareBrackets(Component.literal(p.getPluginId().toString())).withStyle(s -> s
                 .withColor(enabled ? ChatFormatting.GREEN : ChatFormatting.RED)
-                .withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, Component.empty().append(p.getModInfo().getName()))))
+                .withHoverEvent(new HoverEvent.ShowText(Component.empty().append(p.getModInfo().getName()))))
             )));
 
         return plugins.size();

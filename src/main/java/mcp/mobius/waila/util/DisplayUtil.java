@@ -2,29 +2,13 @@ package mcp.mobius.waila.util;
 
 import java.util.IllegalFormatException;
 
-import com.mojang.blaze3d.platform.Lighting;
-import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.VertexConsumer;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.ARGB;
 import org.joml.Matrix4f;
 
 public final class DisplayUtil {
-
-
-    private static final Minecraft CLIENT = Minecraft.getInstance();
-
-    public static void enable3DRender() {
-        Lighting.setupFor3DItems();
-        RenderSystem.enableDepthTest();
-    }
-
-    public static void enable2DRender() {
-        Lighting.setupForFlatItems();
-        RenderSystem.disableDepthTest();
-    }
 
     public static void renderRectBorder(Matrix4f matrix, VertexConsumer buf, int x, int y, int w, int h, int s, int gradStart, int gradEnd) {
         if (s <= 0) {

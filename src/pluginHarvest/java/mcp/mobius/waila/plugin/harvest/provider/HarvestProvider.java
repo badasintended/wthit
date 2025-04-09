@@ -98,7 +98,7 @@ public enum HarvestProvider implements IBlockComponentProvider, IEventListener {
         HarvestDisplayMode displayMode = config.getEnum(Options.DISPLAY_MODE);
         if (displayMode == HarvestDisplayMode.MODERN) return;
 
-        var heldStack = accessor.getPlayer().getInventory().getSelected();
+        var heldStack = accessor.getPlayer().getInventory().getSelectedItem();
 
         if (displayMode == HarvestDisplayMode.CLASSIC) {
             tooltip.setLine(CLASSIC_HARVESTABLE, Component.empty()
@@ -147,7 +147,7 @@ public enum HarvestProvider implements IBlockComponentProvider, IEventListener {
         var highestTier = tierCache.get(state);
         if (tools == null || highestTier == null || tools.isEmpty()) return;
 
-        var heldStack = accessor.getPlayer().getInventory().getSelected();
+        var heldStack = accessor.getPlayer().getInventory().getSelectedItem();
 
         var line = tooltip.getLine(tooltip.getLineCount() - 1);
         line.with(GrowingComponent.INSTANCE);

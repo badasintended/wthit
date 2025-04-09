@@ -11,13 +11,13 @@ tasks.sourcesJar {
 }
 
 afterEvaluate {
-    val jar = tasks.jar.get()
-    val apiJar = task<ApiJarTask>("apiJar") {
+    val jar = tasks.jar
+    val apiJar by tasks.registering(ApiJarTask::class) {
         fullJar(jar)
     }
 
-    val sourcesJar = tasks.sourcesJar.get()
-    val apiSourcesJar = task<ApiJarTask>("apiSourcesJar") {
+    val sourcesJar = tasks.sourcesJar
+    val apiSourcesJar by tasks.registering(ApiJarTask::class) {
         fullJar(sourcesJar)
     }
 

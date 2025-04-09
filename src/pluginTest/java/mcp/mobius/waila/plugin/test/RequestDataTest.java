@@ -45,7 +45,7 @@ public enum RequestDataTest implements IBlockComponentProvider, IDataProvider<Ba
     public void appendData(IDataWriter data, IServerAccessor<BarrelBlockEntity> accessor, IPluginConfig config) {
         var raw = accessor.getContext().raw();
         if (raw.contains("kyk")) {
-            data.raw().putString("kyk", raw.getString("kyk"));
+            data.raw().putString("kyk", raw.getString("kyk").orElseThrow());
         }
 
         data.add(DATA, res -> {
@@ -60,7 +60,7 @@ public enum RequestDataTest implements IBlockComponentProvider, IDataProvider<Ba
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
         var raw = accessor.getData().raw();
         if (raw.contains("kyk")) {
-            tooltip.addLine(Component.literal(raw.getString("kyk")));
+            tooltip.addLine(Component.literal(raw.getString("kyk").orElseThrow()));
         }
 
         var data = accessor.getData().get(DATA);

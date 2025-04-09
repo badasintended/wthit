@@ -97,13 +97,13 @@ tasks.processResources {
 }
 
 afterEvaluate {
-    val remapJar = tasks.remapJar.get()
-    val apiJar = task<ApiJarTask>("apiJar") {
+    val remapJar = tasks.remapJar
+    val apiJar by tasks.registering(ApiJarTask::class) {
         fullJar(remapJar)
     }
 
-    val remapSourcesJar = tasks.remapSourcesJar.get()
-    val apiSourcesJar = task<ApiJarTask>("apiSourcesJar") {
+    val remapSourcesJar = tasks.remapSourcesJar
+    val apiSourcesJar by tasks.registering(ApiJarTask::class) {
         fullJar(remapSourcesJar)
     }
 
