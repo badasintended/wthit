@@ -23,14 +23,14 @@ logoFile = "wthit.png"
 [[dependencies.wthit]]
 modId = "forge"
 mandatory = true
-versionRange = "[54.0.6,)"
+versionRange = "[55.0.4,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.wthit]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.21.4,)"
+versionRange = "[1.21.5,)"
 ordering = "NONE"
 side = "BOTH"
 
