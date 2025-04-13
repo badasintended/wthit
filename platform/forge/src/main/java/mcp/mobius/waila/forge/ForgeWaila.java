@@ -25,19 +25,24 @@ public class ForgeWaila extends Waila {
 
     @SubscribeEvent
     static void setup(FMLCommonSetupEvent event) {
-        Packets.initServer();
+        event.enqueueWork(() -> {
+            Packets.initServer();
 
-        var mods = new String[]{"minecraft", "forge", "wthit", "jei"};
-        for (var mod : mods) {
-            ModList.get().getModContainerById(mod)
-                .map(ModContainer::getModInfo)
-                .ifPresent(m -> DumpGenerator.VERSIONS.put(m.getDisplayName(), m.getVersion().toString()));
-        }
+            var mods = new String[]{"minecraft", "forge", "wthit", "jei"};
+            for (var mod : mods) {
+                ModList.get().getModContainerById(mod)
+                    .map(ModContainer::getModInfo)
+                    .ifPresent(m -> DumpGenerator.VERSIONS.put(m.getDisplayName(), m.getVersion().toString()));
+            }
+        });
     }
 
     @SubscribeEvent
+    @SuppressWarnings("Convert2MethodRef")
     static void loadComplete(FMLLoadCompleteEvent event) {
-        PluginLoader.INSTANCE.loadPlugins();
+        event.enqueueWork(() -> {
+            PluginLoader.INSTANCE.loadPlugins();
+        });
     }
 
     @EventBusSubscriber(modid = WailaConstants.WAILA)

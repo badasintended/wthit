@@ -24,8 +24,10 @@ public class ForgeWailaClient extends WailaClient {
 
     @SubscribeEvent
     static void clientSetup(FMLClientSetupEvent event) {
-        Packets.initClient();
-        registerConfigScreen();
+        event.enqueueWork(() -> {
+            Packets.initClient();
+            registerConfigScreen();
+        });
     }
 
     @SubscribeEvent
@@ -74,8 +76,11 @@ public class ForgeWailaClient extends WailaClient {
     public static class HahaBorgeGoBrrrr {
 
         @SubscribeEvent
+        @SuppressWarnings("Convert2MethodRef")
         static void clientSetup(FMLClientSetupEvent event) {
-            registerConfigScreen();
+            event.enqueueWork(() -> {
+                registerConfigScreen();
+            });
         }
 
     }
