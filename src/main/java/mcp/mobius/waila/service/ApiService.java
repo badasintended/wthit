@@ -198,15 +198,34 @@ public abstract class ApiService implements IApiService {
                 if (b1inB2) return +1;          // 1 is greater than 2 if 2 contains all of 1
                 if (b2inB1) return -1;          // 2 is greater than 1 if 1 contains all of 2
 
+                var blocks1str = concatBlocks(blocks1);
+                var blocks2str = concatBlocks(blocks2);
+
                 LOG.error("""
                         Unsolvable tier comparison!
                         Either one of [{}] or [{}] does not contain all entries from the other one.
                         The comparison is based on the assumption that lower tier's incorrect block tag contains all entries from higher tier's tag.
                         This was fine for Vanilla, but might be not match modded behavior.
-                        Please open an issue at {}""",
-                    tag1.location(), tag2.location(), Waila.ISSUE_URL);
+                        Please open an issue at {}
+                        Tag [{}] contains:
+                        \t[{}]
+                        Tag [{}] contains:
+                        \t[{}]
+                        """,
+                    tag1.location(), tag2.location(), Waila.ISSUE_URL, tag1.location(), blocks1str, tag2.location(), blocks2str);
                 return 0;
             }).toList();
+    }
+
+    public static String concatBlocks(HolderSet<Block> set) {
+       return String.join("\n\t", set.stream()
+           .map(it -> it
+               .unwrapKey()
+               .orElseThrow()
+               .location()
+               .toString())
+           .sorted()
+           .toList());
     }
 
     @Override
