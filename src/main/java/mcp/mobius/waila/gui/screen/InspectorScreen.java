@@ -13,11 +13,13 @@ import mcp.mobius.waila.gui.hud.ComponentRenderer;
 import mcp.mobius.waila.gui.hud.InspectComponent;
 import mcp.mobius.waila.gui.hud.TooltipHandler;
 import mcp.mobius.waila.gui.hud.TooltipRenderer;
+import mcp.mobius.waila.util.Log;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
 
 public class InspectorScreen extends YesIAmSureTheClientInstanceIsPresentByTheTimeIUseItScreen {
 
+    private static final Log LOG = Log.create();
     private static final String API_COMPONENTS = "mcp.mobius.waila.api.component.";
     private static final Component TITLE = Component.translatable(Tl.Gui.Inspector.TITLE);
     private static final State STATE = new State();
@@ -60,17 +62,19 @@ public class InspectorScreen extends YesIAmSureTheClientInstanceIsPresentByTheTi
             if (clazz.startsWith(API_COMPONENTS)) clazz = clazz.substring(API_COMPONENTS.length());
             drawString(matrices, minecraft.font, Component.literal(clazz), 5, 5, 0xFFFFFF);
 
+            var y = 1;
             var wrapper = (InspectComponent) hoveredComponent.get(hoveredComponent.size() - 1);
-            drawString(matrices, minecraft.font, Component.translatable(Tl.Gui.Inspector.TAG, wrapper.tag), 5, 5 + h, 0xFFFFFF);
+            var tag = wrapper.tag == null ? null : wrapper.tag.toString();
+            if (tag != null) drawString(matrices, minecraft.font, Component.translatable(Tl.Gui.Inspector.TAG, tag), 5, 5 + h * (y++), 0xFFFFFF);
 
             var provider = wrapper.origin.instance().getClass().getName();
-            drawString(matrices, minecraft.font, Component.translatable(Tl.Gui.Inspector.PROVIDER, provider), 5, 5 + h * 2, 0xFFFFFF);
+            drawString(matrices, minecraft.font, Component.translatable(Tl.Gui.Inspector.PROVIDER, provider), 5, 5 + h * (y++), 0xFFFFFF);
 
             var pluginId = wrapper.origin.plugin().getPluginId().toString();
-            drawString(matrices, minecraft.font, Component.translatable(Tl.Gui.Inspector.PLUGIN_ID, pluginId), 5, 5 + h * 3, 0xFFFFFF);
+            drawString(matrices, minecraft.font, Component.translatable(Tl.Gui.Inspector.PLUGIN_ID, pluginId), 5, 5 + h * (y++), 0xFFFFFF);
 
             var mod = wrapper.origin.plugin().getModInfo();
-            drawString(matrices, minecraft.font, Component.translatable(Tl.Gui.Inspector.MOD, mod.getName(), mod.getId()), 5, 5 + h * 4, 0xFFFFFF);
+            drawString(matrices, minecraft.font, Component.translatable(Tl.Gui.Inspector.MOD, mod.getName(), mod.getId()), 5, 5 + h * y, 0xFFFFFF);
         }
 
         if (tickSuccess) {
@@ -82,6 +86,31 @@ public class InspectorScreen extends YesIAmSureTheClientInstanceIsPresentByTheTi
             TooltipRenderer.render(matrices, tickDelta);
             ComponentRenderer.set(null);
         }
+    }
+
+    @Override
+    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+        if (!hoveredComponent.isEmpty()) {
+            var sb = new StringBuilder();
+
+            var wrapper = (InspectComponent) hoveredComponent.get(hoveredComponent.size() - 1);
+            var tag = wrapper.tag == null ? null : wrapper.tag.toString();
+            if (tag != null) sb.append("tag: ").append(tag).append("\n\t");
+
+            var provider = wrapper.origin.instance().getClass().getName();
+            sb.append("provider: ").append(provider).append("\n\t");
+
+            var pluginId = wrapper.origin.plugin().getPluginId().toString();
+            sb.append("pluginId: ").append(pluginId).append("\n\t");
+
+            var mod = wrapper.origin.plugin().getModInfo();
+            sb.append("modName: ").append(mod.getName()).append("\n\t");
+            sb.append("modId: ").append(mod.getId());
+
+            LOG.info(sb.toString());
+        }
+
+        return super.mouseClicked(mouseX, mouseY, button);
     }
 
     private class Renderer extends ComponentRenderer {
