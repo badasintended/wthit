@@ -46,7 +46,7 @@ public enum BlockProvider implements IBlockComponentProvider {
         var name = block.getName().getString();
 
         if (data.contains("customName")) {
-            name = data.getString("customName") + " (" + name + ")";
+            name = data.getString("customName").orElseThrow() + " (" + name + ")";
         }
 
         var formatter = IWailaConfig.get().getFormatter();
