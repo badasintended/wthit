@@ -8,6 +8,7 @@ out/
 asm/
 bin/
 .idea/
+.eclipse/
 .metadata/
 .settings/
 libs/
@@ -20,6 +21,8 @@ logs/
 *.classpath
 *.project
 *.class
+*.factorypath
+*.launch
 
 Thumbs.db
 

@@ -204,7 +204,7 @@ public enum ClientAccessor implements ICommonAccessor, IBlockAccessor, IEntityAc
 
         var tag = DataReader.CLIENT.raw();
 
-        if (tag == null || tag.isEmpty()) {
+        if (tag == null || tag.isEmpty() || !tag.contains("x") || !tag.contains("y") || !tag.contains("z")) {
             this.timeLastUpdate = System.currentTimeMillis() - 250;
             return false;
         }
