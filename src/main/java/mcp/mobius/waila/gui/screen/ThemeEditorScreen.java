@@ -133,7 +133,7 @@ class ThemeEditorScreen extends ConfigScreen {
                         } else {
                             minecraft.setScreen(this);
                         }
-                    }, Component.translatable(Tl.Config.OverlayThemeEditor.DELETE_PROMPT, template.id), CommonComponents.EMPTY)))));
+                    }, Component.translatable(Tl.Config.OverlayThemeEditor.DELETE_PROMPT, template.id.toString()), CommonComponents.EMPTY)))));
         }
 
         addTypeProperties(options);

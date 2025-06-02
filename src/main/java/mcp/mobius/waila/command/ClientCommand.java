@@ -62,11 +62,11 @@ public abstract class ClientCommand<S> extends CommonCommand<S, Minecraft> {
                 var id = context.getArgument("id", ResourceLocation.class);
                 ConfigEntry<?> entry = PluginConfig.getEntry(id);
                 if (entry == null) {
-                    fail(source, Component.translatable(Tl.Command.Config.UNKNOWN_ID, id));
+                    fail(source, Component.translatable(Tl.Command.Config.UNKNOWN_ID, id.toString()));
                     return 0;
                 }
 
-                success(source, () -> Component.translatable(Tl.Command.Config.Get.ID, id));
+                success(source, () -> Component.translatable(Tl.Command.Config.Get.ID, id.toString()));
                 success(source, () -> Component.translatable(Tl.Command.Config.Get.SYNCED, entry.isSynced()));
                 success(source, () -> Component.translatable(Tl.Command.Config.Get.CURRENT_VALUE, entry.getValue(false).toString()));
                 success(source, () -> Component.translatable(Tl.Command.Config.Get.DEFAULT_VALUE, entry.getDefaultValue().toString()));
@@ -97,18 +97,18 @@ public abstract class ClientCommand<S> extends CommonCommand<S, Minecraft> {
                 var id = context.getArgument("id", ResourceLocation.class);
                 var entry = PluginConfig.getEntry(id);
                 if (entry == null) {
-                    fail(source, Component.translatable(Tl.Command.Config.UNKNOWN_ID, id));
+                    fail(source, Component.translatable(Tl.Command.Config.UNKNOWN_ID, id.toString()));
                     return 0;
                 }
 
                 if (entry.blocksClientEdit() && Minecraft.getInstance().getCurrentServer() != null) {
-                    fail(source, Component.translatable(Tl.Command.Config.Set.SYNCED, id));
+                    fail(source, Component.translatable(Tl.Command.Config.Set.SYNCED, id.toString()));
                 }
 
                 var jsonValue = new JsonPrimitive(context.getArgument("value", String.class));
                 try {
                     entry.setLocalValue(entry.getType().parser.apply(jsonValue, entry.getDefaultValue()));
-                    success(source, () -> Component.translatable(Tl.Command.Config.Set.SUCCESS, id, entry.getLocalValue()));
+                    success(source, () -> Component.translatable(Tl.Command.Config.Set.SUCCESS, id, entry.getLocalValue().toString()));
                     return 1;
                 } catch (Throwable throwable) {
                     fail(source, Component.translatable(Tl.Command.Config.Set.PARSE_FAIL, throwable.getMessage()));

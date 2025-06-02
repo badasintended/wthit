@@ -131,7 +131,7 @@ public abstract class CommonCommand<S, E extends Executor> {
         var id = context.getArgument("name", ResourceLocation.class);
         var name = id.toString();
 
-        var plugin = (PluginInfo) PluginInfo.get(id);
+        var plugin = PluginInfo.get(id);
         if (plugin == null) {
             fail(source, Component.translatable(Tl.Command.Plugin.UNKNOWN, name));
             return 0;
