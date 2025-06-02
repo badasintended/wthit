@@ -62,7 +62,8 @@ public class InspectorScreen extends YesIAmSureTheClientInstanceIsPresentByTheTi
             ctx.drawString(minecraft.font, Component.literal(clazz), 5, 5, 0xFFFFFF);
 
             var wrapper = (InspectComponent) hoveredComponent.getLast();
-            ctx.drawString(minecraft.font, Component.translatable(Tl.Gui.Inspector.TAG, wrapper.tag.toString()), 5, 5 + h, 0xFFFFFF);
+            var tag = wrapper.tag == null ? "" : wrapper.tag.toString();
+            ctx.drawString(minecraft.font, Component.translatable(Tl.Gui.Inspector.TAG, tag), 5, 5 + h, 0xFFFFFF);
 
             var provider = wrapper.origin.instance().getClass().getName();
             ctx.drawString(minecraft.font, Component.translatable(Tl.Gui.Inspector.PROVIDER, provider), 5, 5 + h * 2, 0xFFFFFF);

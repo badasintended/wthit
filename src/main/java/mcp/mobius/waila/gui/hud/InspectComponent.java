@@ -13,9 +13,9 @@ public class InspectComponent implements ITooltipComponent {
 
     public final ITooltipComponent actual;
     public final PluginAware<?> origin;
-    public final ResourceLocation tag;
+    public final @Nullable ResourceLocation tag;
 
-    private InspectComponent(ITooltipComponent actual, PluginAware<?> origin, ResourceLocation tag) {
+    private InspectComponent(ITooltipComponent actual, PluginAware<?> origin, @Nullable ResourceLocation tag) {
         this.actual = actual;
         this.origin = origin;
         this.tag = tag;
