@@ -270,8 +270,8 @@ public class TooltipRenderer {
         var renderer = ComponentRenderer.get();
         var scale = state.getScale();
 
-        ctx.pose().pushPose();
-        ctx.pose().scale(scale, scale, 1.0f);
+        ctx.pose().pushMatrix();
+        ctx.pose().scale(scale, scale);
 
         var rect = RENDER_RECT.get();
         rect.setRect(TooltipRenderer.RECT.get());
@@ -282,7 +282,7 @@ public class TooltipRenderer {
             for (var listener : Registrar.get().eventListeners.get(Object.class)) {
                 listener.instance().instance().onBeforeTooltipRender(ctx, rect, ClientAccessor.INSTANCE, PluginConfig.CLIENT, canceller);
                 if (canceller.isCanceled()) {
-                    ctx.pose().popPose();
+                    ctx.pose().popMatrix();
                     return;
                 }
             }
@@ -323,7 +323,7 @@ public class TooltipRenderer {
         }
         renderer.render(ctx, icon, x + padding.left, iconY, icon.getWidth(), icon.getHeight(), delta);
 
-        ctx.pose().popPose();
+        ctx.pose().popMatrix();
     }
 
     private static void narrateObjectName(Minecraft client) {

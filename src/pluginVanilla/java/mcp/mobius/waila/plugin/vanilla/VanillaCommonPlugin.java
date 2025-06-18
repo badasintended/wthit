@@ -85,6 +85,7 @@ public class VanillaCommonPlugin implements IWailaCommonPlugin {
         registrar.entityData(MobEffectDataProvider.INSTANCE, LivingEntity.class);
 
         registrar.featureConfig(Options.JUKEBOX_RECORD, false);
+        registrar.dataType(JukeboxDataProvider.DATA, JukeboxDataProvider.DATA_CODEC);
         registrar.blockData(JukeboxDataProvider.INSTANCE, JukeboxBlockEntity.class);
 
         registrar.featureConfig(Options.TIMER_GROW, false);

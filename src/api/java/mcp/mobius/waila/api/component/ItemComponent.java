@@ -3,10 +3,8 @@ package mcp.mobius.waila.api.component;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.__internal__.ApiSide;
 import mcp.mobius.waila.api.util.WNumbers;
-import mcp.mobius.waila.api.util.WRenders;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
@@ -46,7 +44,6 @@ public class ItemComponent implements ITooltipComponent {
     }
 
     static void renderItemDecorations(GuiGraphics ctx, ItemStack stack, int x, int y) {
-        var buffer = WRenders.bufferSource(ctx);
         var client = Minecraft.getInstance();
         var count = stack.getCount();
 
@@ -58,18 +55,11 @@ public class ItemComponent implements ITooltipComponent {
         var scale = (actualW <= 16) ? 1f : 16f / actualW;
 
         var pose = ctx.pose();
-        pose.pushPose();
-        pose.translate(0.0, 0.0, 250.0);
-        pose.scale(scale, scale, 1f);
+        pose.pushMatrix();
+        pose.scale(scale, scale);
 
-        client.font.drawInBatch(countText,
-            ((x + 17 - (actualW * scale)) / scale),
-            ((y + 17 - (client.font.lineHeight * scale)) / scale),
-            0xFFFFFF, true,
-            pose.last().pose(), buffer, Font.DisplayMode.NORMAL, 0, 0xF000F0);
-
-        pose.popPose();
-        ctx.flush();
+        ctx.drawString(client.font, countText, (int) ((x + 17 - (actualW * scale)) / scale), (int) ((y + 17 - (client.font.lineHeight * scale)) / scale), 0xFFFFFF);
+        pose.popMatrix();
     }
 
 }

@@ -57,9 +57,9 @@ public class ItemListComponent implements ITooltipComponent.HorizontalGrowing {
     @Override
     public void render(GuiGraphics ctx, int x, int y, DeltaTracker delta) {
         var pose = ctx.pose();
-        pose.pushPose();
-        pose.translate(x, y, 0);
-        pose.scale(scale, scale, 1f);
+        pose.pushMatrix();
+        pose.translate(x, y);
+        pose.scale(scale, scale);
 
         for (var i = 0; i < items.size(); i++) {
             var item = items.get(i);
@@ -71,7 +71,7 @@ public class ItemListComponent implements ITooltipComponent.HorizontalGrowing {
             if (i == maxIndex) break;
         }
 
-        pose.popPose();
+        pose.popMatrix();
     }
 
 }

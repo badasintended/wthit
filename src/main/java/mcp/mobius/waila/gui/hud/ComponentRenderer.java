@@ -5,13 +5,15 @@ import java.util.Random;
 import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.util.WRenders;
+import mcp.mobius.waila.gui.render.DisgustingRenderState;
 import mcp.mobius.waila.util.DisplayUtil;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Matrix3x2f;
 
 public abstract class ComponentRenderer {
 
@@ -45,20 +47,20 @@ public abstract class ComponentRenderer {
         }
 
         public static void renderBounds(GuiGraphics ctx, int x, int y, int cw, int ch, float v) {
-            ctx.pose().pushPose();
+            ctx.pose().pushMatrix();
             var scale = (float) Minecraft.getInstance().getWindow().getGuiScale();
-            ctx.pose().scale(1 / scale, 1 / scale, 1);
+            ctx.pose().scale(1 / scale, 1 / scale);
 
-            var buf = WRenders.buffer(ctx, RenderType.gui());
             var bx = Mth.floor(x * scale + 0.5);
             var by = Mth.floor(y * scale + 0.5);
             var bw = Mth.floor(cw * scale + 0.5);
             var bh = Mth.floor(ch * scale + 0.5);
             var color = (0xFF << 24) + Mth.hsvToRgb(RANDOM.nextFloat(), RANDOM.nextFloat(), v);
-            DisplayUtil.renderRectBorder(ctx.pose().last().pose(), buf, bx, by, bw, bh, 1, color, color);
+            WRenders.state(ctx).submitGuiElement(DisgustingRenderState.of(RenderPipelines.GUI, null, null, null, (buf, z) -> {
+                DisplayUtil.renderRectBorder(new Matrix3x2f(ctx.pose()), buf, bx, by, z, bw, bh, 1, color, color);
+            }));
 
-            ctx.pose().popPose();
-            ctx.flush();
+            ctx.pose().popMatrix();
         }
 
     }

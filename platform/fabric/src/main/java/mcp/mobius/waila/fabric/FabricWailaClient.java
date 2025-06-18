@@ -8,6 +8,7 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.item.v1.ItemTooltipCallback;
 import net.fabricmc.fabric.api.client.networking.v1.ClientConfigurationConnectionEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
+import net.fabricmc.fabric.api.client.rendering.v1.SpecialGuiElementRegistry;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.minecraft.server.packs.PackType;
 
@@ -16,6 +17,7 @@ public class FabricWailaClient extends WailaClient implements ClientModInitializ
     @Override
     public void onInitializeClient() {
         registerKeyBinds();
+        getPictureInPictureRenderers().forEach(fn -> SpecialGuiElementRegistry.register(ctx -> fn.apply(ctx.vertexConsumers())));
 
         Packets.initClient();
 

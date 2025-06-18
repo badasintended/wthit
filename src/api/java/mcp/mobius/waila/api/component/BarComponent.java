@@ -3,14 +3,14 @@ package mcp.mobius.waila.api.component;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.__internal__.ApiSide;
+import mcp.mobius.waila.api.__internal__.IClientApiService;
 import mcp.mobius.waila.api.util.WRenders;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.ARGB;
 
 /**
  * Component that renders a colored bar.
@@ -49,12 +49,8 @@ public class BarComponent implements ITooltipComponent {
     static final int WIDTH = 100;
     static final int HEIGHT = 11;
     private static final float U0 = 22f / 256f;
-    static final float U1 = 122f / 256f;
     static final float V0_BG = 0f / 256f;
-    static final float V1_BG = HEIGHT / 256f;
     private static final float V0_FG = HEIGHT / 256f;
-    private static final float V1_FG = 22f / 256f;
-    private static final float UV_W = WIDTH / 256f;
 
     private final float ratio;
     private final int color;
@@ -72,45 +68,25 @@ public class BarComponent implements ITooltipComponent {
 
     @Override
     public void render(GuiGraphics ctx, int x, int y, DeltaTracker delta) {
-        renderBar(ctx, x, y, WIDTH, V0_BG, U1, V1_BG, color);
-        renderBar(ctx, x, y, WIDTH * ratio, V0_FG, U0 + (UV_W * ratio), V1_FG, color);
-        renderText(ctx, text, x, y);
+        renderBar(ctx, x, y, WIDTH, V0_BG, color);
+        renderBar(ctx, x, y, (int) (WIDTH * ratio), V0_FG, color);
     }
 
     static void renderBar(
         GuiGraphics ctx,
-        int x, int y, float w,
-        float v0, float u1, float v1, int tint
+        int x, int y, int w,
+        float v0, int tint
     ) {
-        var ps = ctx.pose();
-        ps.pushPose();
-
-        var a = ARGB.alpha(tint);
-        var r = ARGB.red(tint);
-        var g = ARGB.green(tint);
-        var b = ARGB.blue(tint);
-
-        var buffer = WRenders.buffer(ctx, RenderType.guiTextured(WailaConstants.COMPONENT_TEXTURE));
-        var pose = ps.last().pose();
-
-        buffer.addVertex(pose, x, y + HEIGHT, 0).setUv(U0, v1).setColor(r, g, b, a);
-        buffer.addVertex(pose, x + w, y + HEIGHT, 0).setUv(u1, v1).setColor(r, g, b, a);
-        buffer.addVertex(pose, x + w, y, 0).setUv(u1, v0).setColor(r, g, b, a);
-        buffer.addVertex(pose, x, y, 0).setUv(U0, v0).setColor(r, g, b, a);
-
-        ps.popPose();
-        ctx.flush();
+        ctx.blit(RenderPipelines.GUI_TEXTURED, WailaConstants.COMPONENT_TEXTURE, x, y, U0, v0, w, HEIGHT, 256, 256, tint);
     }
 
     static void renderText(GuiGraphics ctx, Component text, int x, int y) {
-        var bufferSource = WRenders.bufferSource(ctx);
         var font = Minecraft.getInstance().font;
         var textWidth = font.width(text);
-        var textX = x + Math.max((BarComponent.WIDTH - textWidth) / 2F, 0F);
-        float textY = y + 2;
+        var textX = x + (int) Math.max((BarComponent.WIDTH - textWidth) / 2F, 0F);
+        var textY = y + 2;
 
-        font.drawInBatch8xOutline(text.getVisualOrderText(), textX, textY, 0xAAAAAA, 0x292929, ctx.pose().last().pose(), bufferSource, 0xf000f0);
-        ctx.flush();
+        WRenders.state(ctx).submitPicturesInPictureState(IClientApiService.INSTANCE.pipOutlinedText(text, textX, textY, 1, null));
     }
 
 }

@@ -1,16 +1,16 @@
 package mcp.mobius.waila.api.component;
 
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import mcp.mobius.waila.api.ITooltipComponent;
+import mcp.mobius.waila.api.__internal__.IClientApiService;
 import mcp.mobius.waila.api.util.WRenders;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.ARGB;
+import org.joml.Matrix3x2f;
 
 /**
  * Component that renders a bar with a texture as the foreground.
@@ -56,39 +56,33 @@ public class SpriteBarComponent implements ITooltipComponent {
     public void render(GuiGraphics ctx, int x, int y, DeltaTracker delta) {
         var ps = ctx.pose();
 
-        BarComponent.renderBar(ctx, x, y, BarComponent.WIDTH, BarComponent.V0_BG, BarComponent.U1, BarComponent.V1_BG, 0xFFAAAAAA);
+        BarComponent.renderBar(ctx, x, y, BarComponent.WIDTH, BarComponent.V0_BG, 0xFFAAAAAA);
 
         var mx = (int) (x + BarComponent.WIDTH * ratio);
         var my = y + BarComponent.HEIGHT;
         ctx.enableScissor(x + 1, y + 1, mx - 1, my - 1);
 
-        ps.pushPose();
+        ps.pushMatrix();
 
-        var a = ARGB.alpha(spriteTint);
-        var r = ARGB.red(spriteTint);
-        var g = ARGB.green(spriteTint);
-        var b = ARGB.blue(spriteTint);
+        WRenders.state(ctx).submitGuiElement(IClientApiService.INSTANCE.guiDisgusting(RenderPipelines.GUI_TEXTURED, texture, WRenders.scissor(ctx), null, (buffer, z) -> {
+            var pose = new Matrix3x2f(ps);
 
-        VertexConsumer buffer = null;
-        var pose = ps.last().pose();
+            for (var px1 = x; px1 < mx; px1 += regionWidth) {
+                var px2 = px1 + regionWidth;
 
-        for (var px1 = x; px1 < mx; px1 += regionWidth) {
-            var px2 = px1 + regionWidth;
+                for (var py1 = y; py1 < my; py1 += regionHeight) {
+                    var py2 = py1 + regionHeight;
 
-            for (var py1 = y; py1 < my; py1 += regionHeight) {
-                var py2 = py1 + regionHeight;
-
-                if (buffer == null) buffer = WRenders.buffer(ctx, RenderType.guiTextured(texture));
-                buffer.addVertex(pose, px1, py2, 0).setUv(u0, v1).setColor(r, g, b, a);
-                buffer.addVertex(pose, px2, py2, 0).setUv(u1, v1).setColor(r, g, b, a);
-                buffer.addVertex(pose, px2, py1, 0).setUv(u1, v0).setColor(r, g, b, a);
-                buffer.addVertex(pose, px1, py1, 0).setUv(u0, v0).setColor(r, g, b, a);
+                    buffer.addVertexWith2DPose(pose, px1, py2, 0).setUv(u0, v1).setColor(spriteTint);
+                    buffer.addVertexWith2DPose(pose, px2, py2, 0).setUv(u1, v1).setColor(spriteTint);
+                    buffer.addVertexWith2DPose(pose, px2, py1, 0).setUv(u1, v0).setColor(spriteTint);
+                    buffer.addVertexWith2DPose(pose, px1, py1, 0).setUv(u0, v0).setColor(spriteTint);
+                }
             }
-        }
+        }));
 
-        ps.popPose();
+        ps.popMatrix();
         ctx.disableScissor();
-        ctx.flush();
 
         BarComponent.renderText(ctx, text, x, y);
     }

@@ -8,9 +8,10 @@ import mcp.mobius.waila.api.__internal__.IClientApiService;
 import mcp.mobius.waila.api.util.WRenders;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.Range;
+import org.joml.Matrix3x2f;
 
 public class GradientTheme implements ITheme {
 
@@ -54,29 +55,28 @@ public class GradientTheme implements ITheme {
 
     @Override
     public void renderTooltipBackground(GuiGraphics ctx, int x, int y, int width, int height, @Range(from = 0x00, to = 0xFF) int alpha, DeltaTracker delta) {
-        var buf = WRenders.buffer(ctx, RenderType.gui());
-        var matrix = ctx.pose().last().pose();
+        WRenders.state(ctx).submitGuiElement(IClientApiService.INSTANCE.guiDisgusting(RenderPipelines.GUI, null, null, null, (buf, z) -> {
+            var matrix = new Matrix3x2f(ctx.pose());
 
-        var a = alpha << 24;
-        var bg = backgroundColor + a;
-        var gradStart = gradientStart + a;
-        var gradEnd = gradientEnd + a;
-        var bo = borderOffset;
-        var bo2 = borderOffset * 2;
+            var a = alpha << 24;
+            var bg = backgroundColor + a;
+            var gradStart = gradientStart + a;
+            var gradEnd = gradientEnd + a;
+            var bo = borderOffset;
+            var bo2 = borderOffset * 2;
 
-        if (drawCorner) {
-            IClientApiService.INSTANCE.fillGradient(matrix, buf, x, y, width, height, bg, bg);
-        } else {
-            // @formatter:off
-            IClientApiService.INSTANCE.fillGradient(matrix, buf, x + bo        , y     , width - bo2, height      , bg, bg);
-            IClientApiService.INSTANCE.fillGradient(matrix, buf, x             , y + bo, bo         , height - bo2, bg, bg);
-            IClientApiService.INSTANCE.fillGradient(matrix, buf, x + width - bo, y + bo, bo         , height - bo2, bg, bg);
-            // @formatter:on
-        }
+            if (drawCorner) {
+                IClientApiService.INSTANCE.fillGradient(matrix, buf, x, y, z, width, height, bg, bg);
+            } else {
+                // @formatter:off
+                IClientApiService.INSTANCE.fillGradient(matrix, buf, x + bo        , y     , z, width - bo2, height      , bg, bg);
+                IClientApiService.INSTANCE.fillGradient(matrix, buf, x             , y + bo, z, bo         , height - bo2, bg, bg);
+                IClientApiService.INSTANCE.fillGradient(matrix, buf, x + width - bo, y + bo, z, bo         , height - bo2, bg, bg);
+                // @formatter:on
+            }
 
-        IClientApiService.INSTANCE.renderRectBorder(matrix, buf, x + bo, y + bo, width - bo2, height - bo2, borderSize, gradStart, gradEnd);
-
-        ctx.flush();
+            IClientApiService.INSTANCE.renderRectBorder(matrix, buf, x + bo, y + bo, z, width - bo2, height - bo2, borderSize, gradStart, gradEnd);
+        }));
     }
 
 }

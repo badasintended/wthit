@@ -103,7 +103,7 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
             if (id != null) {
                 tooltip.add(Component.literal(id).withStyle(ChatFormatting.DARK_GRAY).getVisualOrderText());
             }
-            ctx.renderTooltip(client.font, tooltip, mouseX, mouseY);
+            ctx.setTooltipForNextFrame(client.font, tooltip, mouseX, mouseY);
         }
     }
 

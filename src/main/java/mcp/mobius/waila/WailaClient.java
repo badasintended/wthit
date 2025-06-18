@@ -1,6 +1,7 @@
 package mcp.mobius.waila;
 
 import java.util.List;
+import java.util.function.Function;
 
 import com.mojang.blaze3d.platform.InputConstants;
 import mcp.mobius.waila.access.ClientAccessor;
@@ -9,6 +10,7 @@ import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.gui.hud.TooltipHandler;
+import mcp.mobius.waila.gui.render.OutlinedTextRenderer;
 import mcp.mobius.waila.gui.screen.HomeScreen;
 import mcp.mobius.waila.integration.IRecipeAction;
 import mcp.mobius.waila.registry.Registrar;
@@ -17,6 +19,8 @@ import mcp.mobius.waila.service.IClientService;
 import mcp.mobius.waila.util.Log;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.render.pip.PictureInPictureRenderer;
+import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
@@ -56,6 +60,10 @@ public abstract class WailaClient {
             keyShowRecipeInput = createKeyBind(Tl.Key.SHOW_RECIPE_INPUT),
             keyShowRecipeOutput = createKeyBind(Tl.Key.SHOW_RECIPE_OUTPUT)
         );
+    }
+
+    protected static List<Function<MultiBufferSource.BufferSource, PictureInPictureRenderer<?>>> getPictureInPictureRenderers() {
+        return List.of(OutlinedTextRenderer::new);
     }
 
     protected static void onClientTick() {

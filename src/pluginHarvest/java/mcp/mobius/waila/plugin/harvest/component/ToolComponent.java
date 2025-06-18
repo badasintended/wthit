@@ -5,8 +5,7 @@ import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.__internal__.ApiSide;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
@@ -53,19 +52,18 @@ public class ToolComponent implements ITooltipComponent {
 
     public void actuallyRender(GuiGraphics ctx, int y) {
         if (icon != null) {
-            ctx.pose().pushPose();
-            ctx.pose().translate(-2, -2, 0);
-            ctx.pose().scale(0.85f, 0.85f, 1f);
-            ctx.pose().translate(x / 0.85f, y / 0.85f, 0);
+            ctx.pose().pushMatrix();
+            ctx.pose().translate(-2, -2);
+            ctx.pose().scale(0.85f, 0.85f);
+            ctx.pose().translate(x / 0.85f, y / 0.85f);
             ctx.renderItem(icon, 0, 0);
-            ctx.pose().popPose();
+            ctx.pose().popMatrix();
         }
 
         if (v0 == -1) return;
-        ctx.pose().pushPose();
-        ctx.pose().translate(0, 0, ItemRenderer.ITEM_DECORATION_BLIT_OFFSET);
-        ctx.blit(RenderType::guiTextured, WailaConstants.COMPONENT_TEXTURE, x + xo, y + 3, 122, v0, 7, 7, 255, 255);
-        ctx.pose().popPose();
+        ctx.pose().pushMatrix();
+        ctx.blit(RenderPipelines.GUI_TEXTURED, WailaConstants.COMPONENT_TEXTURE, x + xo, y + 3, 122, v0, 7, 7, 255, 255);
+        ctx.pose().popMatrix();
     }
 
 }
