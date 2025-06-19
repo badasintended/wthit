@@ -1,16 +1,20 @@
 package mcp.mobius.waila.api.component;
 
+import com.mojang.blaze3d.pipeline.RenderPipeline;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import mcp.mobius.waila.api.ITooltipComponent;
-import mcp.mobius.waila.api.__internal__.IClientApiService;
 import mcp.mobius.waila.api.util.WRenders;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
+import net.minecraft.client.gui.render.TextureSetup;
+import net.minecraft.client.gui.render.state.GuiElementRenderState;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix3x2f;
 
 /**
@@ -64,31 +68,70 @@ public class SpriteBarComponent implements ITooltipComponent {
             var mx = x + mw;
             var my = y + BarComponent.HEIGHT;
             ctx.enableScissor(x + 1, y + 1, mx - 1, my - 1);
-
             ps.pushMatrix();
-            var pose = new Matrix3x2f(ps);
-
-            WRenders.state(ctx).submitGuiElement(IClientApiService.INSTANCE.guiDisgusting(RenderPipelines.GUI_TEXTURED, texture, WRenders.scissor(ctx), new ScreenRectangle(x, y, mw, BarComponent.HEIGHT), (buffer, z) -> {
-                for (var px1 = x; px1 < mx; px1 += regionWidth) {
-                    var px2 = px1 + regionWidth;
-
-                    for (var py1 = y; py1 < my; py1 += regionHeight) {
-                        var py2 = py1 + regionHeight;
-
-                        buffer.addVertexWith2DPose(pose, px1, py2, z).setUv(u0, v1).setColor(spriteTint);
-                        buffer.addVertexWith2DPose(pose, px2, py2, z).setUv(u1, v1).setColor(spriteTint);
-                        buffer.addVertexWith2DPose(pose, px2, py1, z).setUv(u1, v0).setColor(spriteTint);
-                        buffer.addVertexWith2DPose(pose, px1, py1, z).setUv(u0, v0).setColor(spriteTint);
-                    }
-                }
-            }));
-
+            WRenders.state(ctx).submitGuiElement(new ForegroundRenderState(new Matrix3x2f(ps), WRenders.scissor(ctx), new ScreenRectangle(x, y, mw, BarComponent.HEIGHT), mx, my));
             ps.popMatrix();
             ctx.disableScissor();
         }
 
         ctx.nextStratum();
         BarComponent.renderText(ctx, text, x, y);
+    }
+
+    private class ForegroundRenderState implements GuiElementRenderState {
+
+        final Matrix3x2f pose;
+        final ScreenRectangle scissorArea;
+        final ScreenRectangle bounds;
+        final TextureSetup textureSetup;
+        final int mx, my;
+
+        private ForegroundRenderState(Matrix3x2f pose, ScreenRectangle scissorArea, ScreenRectangle bounds, int mx, int my) {
+            this.pose = pose;
+            this.scissorArea = scissorArea;
+            this.bounds = bounds;
+            this.mx = mx;
+            this.my = my;
+
+            textureSetup = TextureSetup.singleTexture(Minecraft.getInstance().getTextureManager().getTexture(texture).getTextureView());
+        }
+
+        @Override
+        public void buildVertices(VertexConsumer buffer, float z) {
+            for (var px1 = bounds.left(); px1 < mx; px1 += regionWidth) {
+                var px2 = px1 + regionWidth;
+
+                for (var py1 = bounds.top(); py1 < my; py1 += regionHeight) {
+                    var py2 = py1 + regionHeight;
+
+                    buffer.addVertexWith2DPose(pose, px1, py2, z).setUv(u0, v1).setColor(spriteTint);
+                    buffer.addVertexWith2DPose(pose, px2, py2, z).setUv(u1, v1).setColor(spriteTint);
+                    buffer.addVertexWith2DPose(pose, px2, py1, z).setUv(u1, v0).setColor(spriteTint);
+                    buffer.addVertexWith2DPose(pose, px1, py1, z).setUv(u0, v0).setColor(spriteTint);
+                }
+            }
+        }
+
+        @Override
+        public RenderPipeline pipeline() {
+            return RenderPipelines.GUI_TEXTURED;
+        }
+
+        @Override
+        public TextureSetup textureSetup() {
+            return textureSetup;
+        }
+
+        @Override
+        public @Nullable ScreenRectangle scissorArea() {
+            return scissorArea;
+        }
+
+        @Override
+        public @Nullable ScreenRectangle bounds() {
+            return bounds;
+        }
+
     }
 
 }

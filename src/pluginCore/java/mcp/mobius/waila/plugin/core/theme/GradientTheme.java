@@ -1,5 +1,7 @@
 package mcp.mobius.waila.plugin.core.theme;
 
+import com.mojang.blaze3d.pipeline.RenderPipeline;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.IThemeAccessor;
 import mcp.mobius.waila.api.IThemeType;
@@ -9,8 +11,11 @@ import mcp.mobius.waila.api.util.WRenders;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
+import net.minecraft.client.gui.render.TextureSetup;
+import net.minecraft.client.gui.render.state.GuiElementRenderState;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.util.Mth;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
 import org.joml.Matrix3x2f;
 
@@ -56,8 +61,33 @@ public class GradientTheme implements ITheme {
 
     @Override
     public void renderTooltipBackground(GuiGraphics ctx, int x, int y, int width, int height, @Range(from = 0x00, to = 0xFF) int alpha, DeltaTracker delta) {
-        var matrix = new Matrix3x2f(ctx.pose());
-        WRenders.state(ctx).submitGuiElement(IClientApiService.INSTANCE.guiDisgusting(RenderPipelines.GUI, null, null, new ScreenRectangle(x, y, width, height), (buf, z) -> {
+        WRenders.state(ctx).submitGuiElement(new RenderState(alpha, new Matrix3x2f(ctx.pose()), new ScreenRectangle(x, y, width, height)));
+    }
+
+    private class RenderState implements GuiElementRenderState {
+
+        final int alpha;
+        final Matrix3x2f matrix;
+        final ScreenRectangle bounds;
+
+        private RenderState(int alpha, Matrix3x2f matrix, ScreenRectangle bounds) {
+            this.alpha = alpha;
+            this.matrix = matrix;
+            this.bounds = bounds;
+        }
+
+        @Override
+        public @Nullable ScreenRectangle bounds() {
+            return bounds;
+        }
+
+        @Override
+        public void buildVertices(VertexConsumer buf, float z) {
+            var x = bounds.left();
+            var y = bounds.top();
+            var width = bounds.width();
+            var height = bounds.height();
+
             var a = alpha << 24;
             var bg = backgroundColor + a;
             var gradStart = gradientStart + a;
@@ -76,7 +106,23 @@ public class GradientTheme implements ITheme {
             }
 
             IClientApiService.INSTANCE.renderRectBorder(matrix, buf, x + bo, y + bo, z, width - bo2, height - bo2, borderSize, gradStart, gradEnd);
-        }));
+        }
+
+        @Override
+        public RenderPipeline pipeline() {
+            return RenderPipelines.GUI;
+        }
+
+        @Override
+        public TextureSetup textureSetup() {
+            return TextureSetup.noTexture();
+        }
+
+        @Override
+        public @Nullable ScreenRectangle scissorArea() {
+            return null;
+        }
+
     }
 
 }

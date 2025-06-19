@@ -68,8 +68,8 @@ public class BarComponent implements ITooltipComponent {
 
     @Override
     public void render(GuiGraphics ctx, int x, int y, DeltaTracker delta) {
-//        renderBar(ctx, x, y, WIDTH, V0_BG, color);
-//        renderBar(ctx, x, y, (int) (WIDTH * ratio), V0_FG, color);
+        renderBar(ctx, x, y, WIDTH, V0_BG, color);
+        renderBar(ctx, x, y, (int) (WIDTH * ratio), V0_FG, color);
 
         ctx.nextStratum();
         renderText(ctx, text, x, y);

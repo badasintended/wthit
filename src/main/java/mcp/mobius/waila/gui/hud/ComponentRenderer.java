@@ -2,15 +2,18 @@ package mcp.mobius.waila.gui.hud;
 
 import java.util.Random;
 
+import com.mojang.blaze3d.pipeline.RenderPipeline;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.util.WRenders;
-import mcp.mobius.waila.gui.render.DisgustingRenderState;
 import mcp.mobius.waila.util.DisplayUtil;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
+import net.minecraft.client.gui.render.TextureSetup;
+import net.minecraft.client.gui.render.state.GuiElementRenderState;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.Nullable;
@@ -58,13 +61,33 @@ public abstract class ComponentRenderer {
             var bw = Mth.floor(cw * scale + 0.5);
             var bh = Mth.floor(ch * scale + 0.5);
             var color = (0xFF << 24) + Mth.hsvToRgb(RANDOM.nextFloat(), RANDOM.nextFloat(), v);
-            var matrix = new Matrix3x2f(ctx.pose());
 
-            WRenders.state(ctx).submitGuiElement(DisgustingRenderState.of(RenderPipelines.GUI, null, null, new ScreenRectangle(bx, by, bw, bh), (buf, z) -> {
-                DisplayUtil.renderRectBorder(matrix, buf, bx, by, z, bw, bh, 1, color, color);
-            }));
-
+            WRenders.state(ctx).submitGuiElement(new BoundsRenderState(new Matrix3x2f(ctx.pose()), new ScreenRectangle(bx, by, bw, bh), color));
             ctx.pose().popMatrix();
+        }
+
+    }
+
+    private record BoundsRenderState(Matrix3x2f pose, ScreenRectangle bounds, int color) implements GuiElementRenderState {
+
+        @Override
+        public void buildVertices(VertexConsumer buf, float z) {
+            DisplayUtil.renderRectBorder(pose, buf, bounds.left(), bounds.top(), z, bounds.width(), bounds.height(), 1, color, color);
+        }
+
+        @Override
+        public RenderPipeline pipeline() {
+            return RenderPipelines.GUI;
+        }
+
+        @Override
+        public TextureSetup textureSetup() {
+            return TextureSetup.noTexture();
+        }
+
+        @Override
+        public @Nullable ScreenRectangle scissorArea() {
+            return null;
         }
 
     }
