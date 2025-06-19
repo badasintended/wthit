@@ -10,6 +10,7 @@ import mcp.mobius.waila.util.DisplayUtil;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.Nullable;
@@ -42,6 +43,7 @@ public abstract class ComponentRenderer {
             component.render(ctx, x, y, delta);
 
             if (WailaClient.showComponentBounds) {
+                ctx.nextStratum();
                 renderBounds(ctx, x, y, cw, ch, 1f);
             }
         }
@@ -56,8 +58,10 @@ public abstract class ComponentRenderer {
             var bw = Mth.floor(cw * scale + 0.5);
             var bh = Mth.floor(ch * scale + 0.5);
             var color = (0xFF << 24) + Mth.hsvToRgb(RANDOM.nextFloat(), RANDOM.nextFloat(), v);
-            WRenders.state(ctx).submitGuiElement(DisgustingRenderState.of(RenderPipelines.GUI, null, null, null, (buf, z) -> {
-                DisplayUtil.renderRectBorder(new Matrix3x2f(ctx.pose()), buf, bx, by, z, bw, bh, 1, color, color);
+            var matrix = new Matrix3x2f(ctx.pose());
+
+            WRenders.state(ctx).submitGuiElement(DisgustingRenderState.of(RenderPipelines.GUI, null, null, new ScreenRectangle(bx, by, bw, bh), (buf, z) -> {
+                DisplayUtil.renderRectBorder(matrix, buf, bx, by, z, bw, bh, 1, color, color);
             }));
 
             ctx.pose().popMatrix();

@@ -4,7 +4,7 @@ import mcp.mobius.waila.WailaDedicatedServer;
 import mcp.mobius.waila.api.WailaConstants;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.eventbus.api.listener.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 public class ForgeWailaDedicatedServer extends WailaDedicatedServer {
@@ -13,10 +13,8 @@ public class ForgeWailaDedicatedServer extends WailaDedicatedServer {
     static class Subscriber {
 
         @SubscribeEvent
-        static void clientTick(TickEvent.ServerTickEvent event) {
-            if (event.phase == TickEvent.Phase.END) {
-                onDedicatedServerTick();
-            }
+        static void clientTick(TickEvent.PlayerTickEvent.Post event) {
+            onDedicatedServerTick();
         }
 
     }

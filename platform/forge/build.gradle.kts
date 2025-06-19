@@ -1,5 +1,5 @@
 plugins {
-    id("net.minecraftforge.gradle") version "6.0.35"
+    id("net.minecraftforge.gradle") version "6.0.36"
     id("org.spongepowered.mixin") version "0.7.38"
 }
 
@@ -7,6 +7,7 @@ setupPlatform(setRuntimeClasspath = false)
 
 dependencies {
     minecraft("net.minecraftforge:forge:${rootProp["minecraft"]}-${rootProp["forge"]}")
+    annotationProcessor("net.minecraftforge:eventbus-validator:7.0-beta.7")
 
     implementation("org.jetbrains:annotations:19.0.0")
     annotationProcessor("org.spongepowered:mixin:0.8.5:processor")
@@ -77,6 +78,7 @@ minecraft {
         configureEach {
             workingDirectory(file("run/${namer.determineName(this)}"))
             ideaModule("${rootProject.name}.${project.name}.run")
+            property("eventbus.api.strictRuntimeChecks", "true")
 
             sources = listOf(sourceSets["run"])
         }

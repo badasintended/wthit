@@ -8,6 +8,7 @@ import mcp.mobius.waila.api.__internal__.IClientApiService;
 import mcp.mobius.waila.api.util.WRenders;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.Range;
@@ -55,9 +56,8 @@ public class GradientTheme implements ITheme {
 
     @Override
     public void renderTooltipBackground(GuiGraphics ctx, int x, int y, int width, int height, @Range(from = 0x00, to = 0xFF) int alpha, DeltaTracker delta) {
-        WRenders.state(ctx).submitGuiElement(IClientApiService.INSTANCE.guiDisgusting(RenderPipelines.GUI, null, null, null, (buf, z) -> {
-            var matrix = new Matrix3x2f(ctx.pose());
-
+        var matrix = new Matrix3x2f(ctx.pose());
+        WRenders.state(ctx).submitGuiElement(IClientApiService.INSTANCE.guiDisgusting(RenderPipelines.GUI, null, null, new ScreenRectangle(x, y, width, height), (buf, z) -> {
             var a = alpha << 24;
             var bg = backgroundColor + a;
             var gradStart = gradientStart + a;

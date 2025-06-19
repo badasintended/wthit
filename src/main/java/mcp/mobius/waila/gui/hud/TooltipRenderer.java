@@ -199,7 +199,7 @@ public class TooltipRenderer {
             var y0 = client.getWindow().getGuiScaledHeight() - client.font.lineHeight - 1;
             var y1 = y0 + client.font.lineHeight + 2;
             ctx.fill(0, y0, x1, y1, 0x90505050);
-            ctx.drawString(client.font, fpsString, 1, y0 + 1, 0xE0E0E0, false);
+            ctx.drawString(client.font, fpsString, 1, y0 + 1, 0xFFE0E0E0, false);
         }
 
         if (state == null || !state.render()) return;
@@ -297,6 +297,8 @@ public class TooltipRenderer {
         if (state.getBackgroundAlpha() > 0) {
             state.getTheme().renderTooltipBackground(ctx, x, y, width, height, state.getBackgroundAlpha(), delta);
         }
+
+        ctx.nextStratum();
 
         var textX = x + padding.left;
         var textY = y + padding.top + topOffset;

@@ -126,7 +126,7 @@ public abstract class ApiService implements IApiService {
 
     @Override
     public int getFontColor() {
-        return TooltipRenderer.state.getTheme().getDefaultTextColor();
+        return TooltipRenderer.state.getTheme().getDefaultTextColor() | 0xFF << 24;
     }
 
     @Override

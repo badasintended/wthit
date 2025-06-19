@@ -34,7 +34,7 @@ public class ButtonEntry extends ConfigListWidget.Entry {
 
     @Override
     protected void drawEntry(GuiGraphics ctx, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
-        ctx.drawString(client.font, title, rowLeft, rowTop + (height - client.font.lineHeight) / 2, 0xFFFFFF);
+        ctx.drawString(client.font, title, rowLeft, rowTop + (height - client.font.lineHeight) / 2, 0xFFFFFFFF);
         this.button.setX(rowLeft + width - button.getWidth());
         this.button.setY(rowTop + (height - button.getHeight()) / 2);
         this.button.render(ctx, mouseX, mouseY, deltaTime);

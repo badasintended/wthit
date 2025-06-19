@@ -48,9 +48,9 @@ public class BarComponent implements ITooltipComponent {
 
     static final int WIDTH = 100;
     static final int HEIGHT = 11;
-    private static final float U0 = 22f / 256f;
-    static final float V0_BG = 0f / 256f;
-    private static final float V0_FG = HEIGHT / 256f;
+    private static final float U0 = 22f;
+    static final float V0_BG = 0f;
+    private static final float V0_FG = HEIGHT;
 
     private final float ratio;
     private final int color;
@@ -68,8 +68,11 @@ public class BarComponent implements ITooltipComponent {
 
     @Override
     public void render(GuiGraphics ctx, int x, int y, DeltaTracker delta) {
-        renderBar(ctx, x, y, WIDTH, V0_BG, color);
-        renderBar(ctx, x, y, (int) (WIDTH * ratio), V0_FG, color);
+//        renderBar(ctx, x, y, WIDTH, V0_BG, color);
+//        renderBar(ctx, x, y, (int) (WIDTH * ratio), V0_FG, color);
+
+        ctx.nextStratum();
+        renderText(ctx, text, x, y);
     }
 
     static void renderBar(
@@ -86,7 +89,7 @@ public class BarComponent implements ITooltipComponent {
         var textX = x + (int) Math.max((BarComponent.WIDTH - textWidth) / 2F, 0F);
         var textY = y + 2;
 
-        WRenders.state(ctx).submitPicturesInPictureState(IClientApiService.INSTANCE.pipOutlinedText(text, textX, textY, 1, null));
+        WRenders.state(ctx).submitPicturesInPictureState(IClientApiService.INSTANCE.pipOutlinedText(text, textX, textY, 1, WRenders.scissor(ctx)));
     }
 
 }

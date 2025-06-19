@@ -6,6 +6,7 @@ import mcp.mobius.waila.api.util.WRenders;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.network.chat.Component;
@@ -58,32 +59,35 @@ public class SpriteBarComponent implements ITooltipComponent {
 
         BarComponent.renderBar(ctx, x, y, BarComponent.WIDTH, BarComponent.V0_BG, 0xFFAAAAAA);
 
-        var mx = (int) (x + BarComponent.WIDTH * ratio);
-        var my = y + BarComponent.HEIGHT;
-        ctx.enableScissor(x + 1, y + 1, mx - 1, my - 1);
+        var mw = (int) (BarComponent.WIDTH * ratio);
+        if (mw > 0) {
+            var mx = x + mw;
+            var my = y + BarComponent.HEIGHT;
+            ctx.enableScissor(x + 1, y + 1, mx - 1, my - 1);
 
-        ps.pushMatrix();
-
-        WRenders.state(ctx).submitGuiElement(IClientApiService.INSTANCE.guiDisgusting(RenderPipelines.GUI_TEXTURED, texture, WRenders.scissor(ctx), null, (buffer, z) -> {
+            ps.pushMatrix();
             var pose = new Matrix3x2f(ps);
 
-            for (var px1 = x; px1 < mx; px1 += regionWidth) {
-                var px2 = px1 + regionWidth;
+            WRenders.state(ctx).submitGuiElement(IClientApiService.INSTANCE.guiDisgusting(RenderPipelines.GUI_TEXTURED, texture, WRenders.scissor(ctx), new ScreenRectangle(x, y, mw, BarComponent.HEIGHT), (buffer, z) -> {
+                for (var px1 = x; px1 < mx; px1 += regionWidth) {
+                    var px2 = px1 + regionWidth;
 
-                for (var py1 = y; py1 < my; py1 += regionHeight) {
-                    var py2 = py1 + regionHeight;
+                    for (var py1 = y; py1 < my; py1 += regionHeight) {
+                        var py2 = py1 + regionHeight;
 
-                    buffer.addVertexWith2DPose(pose, px1, py2, 0).setUv(u0, v1).setColor(spriteTint);
-                    buffer.addVertexWith2DPose(pose, px2, py2, 0).setUv(u1, v1).setColor(spriteTint);
-                    buffer.addVertexWith2DPose(pose, px2, py1, 0).setUv(u1, v0).setColor(spriteTint);
-                    buffer.addVertexWith2DPose(pose, px1, py1, 0).setUv(u0, v0).setColor(spriteTint);
+                        buffer.addVertexWith2DPose(pose, px1, py2, z).setUv(u0, v1).setColor(spriteTint);
+                        buffer.addVertexWith2DPose(pose, px2, py2, z).setUv(u1, v1).setColor(spriteTint);
+                        buffer.addVertexWith2DPose(pose, px2, py1, z).setUv(u1, v0).setColor(spriteTint);
+                        buffer.addVertexWith2DPose(pose, px1, py1, z).setUv(u0, v0).setColor(spriteTint);
+                    }
                 }
-            }
-        }));
+            }));
 
-        ps.popMatrix();
-        ctx.disableScissor();
+            ps.popMatrix();
+            ctx.disableScissor();
+        }
 
+        ctx.nextStratum();
         BarComponent.renderText(ctx, text, x, y);
     }
 

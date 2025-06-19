@@ -25,7 +25,7 @@ public class OutlinedTextRenderer extends PictureInPictureRenderer<OutlinedTextR
 
     @Override
     protected void renderToTexture(State state, PoseStack matrices) {
-        Minecraft.getInstance().font.drawInBatch8xOutline(state.text.getVisualOrderText(), state.x0 + 1, state.x1 + 1, 0xAAAAAA, 0x292929, matrices.last().pose(), bufferSource, 0xf000f0);
+        Minecraft.getInstance().font.drawInBatch8xOutline(state.text.getVisualOrderText(), state.x0, state.y0, 0xFFAAAAAA, 0xFF292929, matrices.last().pose(), bufferSource, 0xfff000f0);
     }
 
     @Override

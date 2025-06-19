@@ -53,7 +53,7 @@ public enum BreakProgressProvider implements IEventListener {
             lineLength = ((rect.width + rect.height - 4) * 2) * actualProgress;
         }
 
-        if (lineLength > 0) {
+        if (lineLength >= 1) {
             var hLength = rect.width - 2;
             var vLength = rect.height - 4;
 

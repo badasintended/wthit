@@ -14,6 +14,7 @@ import mcp.mobius.waila.api.util.WRenders;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
@@ -97,9 +98,8 @@ public class NinePatchTheme implements ITheme {
 
     @Override
     public void renderTooltipBackground(GuiGraphics ctx, int x, int y, int width, int height, @Range(from = 0x00, to = 0xFF) int alpha, DeltaTracker delta) {
-        WRenders.state(ctx).submitGuiElement(IClientApiService.INSTANCE.guiDisgusting(RenderPipelines.GUI, textureId, null, null, (buf, z) -> {
-            var matrix = new  Matrix3x2f(ctx.pose());
-
+        var matrix = new Matrix3x2f(ctx.pose());
+        WRenders.state(ctx).submitGuiElement(IClientApiService.INSTANCE.guiDisgusting(RenderPipelines.GUI, textureId, null, new ScreenRectangle(x, y, width, height), (buf, z) -> {
             // @formatter:off
             patch(buf, matrix, x        , y         , z,   regionLeft,     regionTop,      0f, uCenter,      0f, vMiddle, alpha); // top    left
             patch(buf, matrix, x + width, y         , z, -regionRight,     regionTop,  uRight,      1f,      0f, vMiddle, alpha); // top    right

@@ -121,7 +121,6 @@ public class WailaConfigScreen extends ConfigScreen {
                 buildPreview(previewState);
             }
 
-            renderBackground(ctx, mouseX, mouseY, partialTicks);
             TooltipRenderer.render(ctx, minecraft.getDeltaTracker());
         } else {
             TooltipRenderer.resetState();
@@ -134,7 +133,7 @@ public class WailaConfigScreen extends ConfigScreen {
     @Override
     protected void renderForeground(GuiGraphics ctx, int rowLeft, int rowWidth, int mouseX, int mouseY, float partialTicks) {
         super.renderForeground(ctx, rowLeft, rowWidth, mouseX, mouseY, partialTicks);
-        ctx.drawString(font, PREVIEW_PROMPT, rowLeft, 22, 0xAAAAAA);
+        ctx.drawString(font, PREVIEW_PROMPT, rowLeft, 22, 0xFFAAAAAA);
     }
 
     @Override

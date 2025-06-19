@@ -58,7 +58,7 @@ public class ItemComponent implements ITooltipComponent {
         pose.pushMatrix();
         pose.scale(scale, scale);
 
-        ctx.drawString(client.font, countText, (int) ((x + 17 - (actualW * scale)) / scale), (int) ((y + 17 - (client.font.lineHeight * scale)) / scale), 0xFFFFFF);
+        ctx.drawString(client.font, countText, (int) ((x + 17 - (actualW * scale)) / scale), (int) ((y + 17 - (client.font.lineHeight * scale)) / scale), 0xFFFFFFFF);
         pose.popMatrix();
     }
 
