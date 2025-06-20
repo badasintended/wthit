@@ -219,7 +219,7 @@ public class NinePatchTheme implements ITheme {
 
         @Override
         public RenderPipeline pipeline() {
-            return RenderPipelines.GUI;
+            return RenderPipelines.GUI_TEXTURED;
         }
 
         @Override
