@@ -3,8 +3,6 @@ package mcp.mobius.waila.api.component;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.__internal__.ApiSide;
-import mcp.mobius.waila.api.__internal__.IClientApiService;
-import mcp.mobius.waila.api.util.WRenders;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
@@ -89,7 +87,15 @@ public class BarComponent implements ITooltipComponent {
         var textX = x + (int) Math.max((BarComponent.WIDTH - textWidth) / 2F, 0F);
         var textY = y + 2;
 
-        WRenders.state(ctx).submitPicturesInPictureState(IClientApiService.INSTANCE.pipOutlinedText(text, textX, textY, 1, WRenders.scissor(ctx)));
+        var formatted = text.getVisualOrderText();
+        for (var i = -1; i <= 1; i++) {
+            for (var j = -1; j <= 1; j++) {
+                if (i != 0 || j != 0) {
+                    ctx.drawString(font, formatted, textX + i, textY + j, 0xFF292929, false);
+                }
+            }
+        }
+        ctx.drawString(font, formatted, textX, textY, 0xFFAAAAAA, false);
     }
 
 }

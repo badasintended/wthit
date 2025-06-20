@@ -4,16 +4,11 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.__internal__.IClientApiService;
 import mcp.mobius.waila.gui.hud.ComponentRenderer;
-import mcp.mobius.waila.gui.render.OutlinedTextRenderer;
 import mcp.mobius.waila.mixin.GuiGraphicsAccess;
 import mcp.mobius.waila.util.DisplayUtil;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.client.gui.render.state.GuiRenderState;
-import net.minecraft.client.gui.render.state.pip.PictureInPictureRenderState;
-import net.minecraft.network.chat.Component;
-import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix3x2f;
 
 public abstract class ClientApiService implements IClientApiService {
@@ -36,11 +31,6 @@ public abstract class ClientApiService implements IClientApiService {
     @Override
     public void renderRectBorder(Matrix3x2f matrix, VertexConsumer buf, int x, int y, float z, int w, int h, int s, int gradStart, int gradEnd) {
         DisplayUtil.renderRectBorder(matrix, buf, x, y, z, w, h, s, gradStart, gradEnd);
-    }
-
-    @Override
-    public PictureInPictureRenderState pipOutlinedText(Component text, int x, int y, float scale, @Nullable ScreenRectangle scissorArea) {
-        return OutlinedTextRenderer.state(text, x, y, scale, scissorArea);
     }
 
 }
