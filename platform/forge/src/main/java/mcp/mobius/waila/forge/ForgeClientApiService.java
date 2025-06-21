@@ -8,6 +8,7 @@ public class ForgeClientApiService extends ClientApiService {
 
     @Override
     public ScreenRectangle peekScissorStack(GuiGraphics ctx) {
+        return ctx.getScissorStack().peek();
     }
 
 }
