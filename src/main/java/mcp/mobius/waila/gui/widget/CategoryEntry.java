@@ -136,7 +136,7 @@ public class CategoryEntry extends ConfigListWidget.Entry {
         collapseButton.setX(rowLeft);
         collapseButton.setY(buttonY);
         collapseButton.render(ctx, mouseX, mouseY, deltaTime);
-        ctx.drawString(client.font, title, rowLeft + collapseButton.getWidth() + 4, rowTop + ((height - client.font.lineHeight) / 2) + 1, 0xFFFFFF);
+        ctx.drawString(client.font, title, rowLeft + collapseButton.getWidth() + 4, rowTop + ((height - client.font.lineHeight) / 2) + 1, 0xFFFFFFFF);
 
         expandAllButton.active = hasNested && !hasFilter;
         if (expandAllButton.active) {

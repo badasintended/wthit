@@ -47,11 +47,11 @@ public class NamedItemComponent implements ITooltipComponent {
     @Override
     public void render(GuiGraphics ctx, int x, int y, DeltaTracker delta) {
         var pose = ctx.pose();
-        pose.pushPose();
-        pose.translate(x, y, 0);
-        pose.scale(0.5f, 0.5f, 0.5f);
+        pose.pushMatrix();
+        pose.translate(x, y);
+        pose.scale(0.5f, 0.5f);
         ctx.renderItem(stack, 0, 0);
-        pose.popPose();
+        pose.popMatrix();
 
         ctx.drawString(getFont(), label, x + 10, y, IApiService.INSTANCE.getFontColor());
     }

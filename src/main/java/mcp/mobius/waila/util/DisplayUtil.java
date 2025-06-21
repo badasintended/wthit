@@ -5,39 +5,28 @@ import java.util.IllegalFormatException;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.ARGB;
-import org.joml.Matrix4f;
+import org.joml.Matrix3x2f;
 
 public final class DisplayUtil {
 
-    public static void renderRectBorder(Matrix4f matrix, VertexConsumer buf, int x, int y, int w, int h, int s, int gradStart, int gradEnd) {
+    public static void renderRectBorder(Matrix3x2f matrix, VertexConsumer buf, int x, int y, float z, int w, int h, int s, int gradStart, int gradEnd) {
         if (s <= 0) {
             return;
         }
 
         // @formatter:off
-        fillGradient(matrix, buf, x        , y        , w, s          , gradStart, gradStart);
-        fillGradient(matrix, buf, x        , y + h - s, w, s          , gradEnd  , gradEnd);
-        fillGradient(matrix, buf, x        , y + s    , s, h - (s * 2), gradStart, gradEnd);
-        fillGradient(matrix, buf, x + w - s, y + s    , s, h - (s * 2), gradStart, gradEnd);
+        fillGradient(matrix, buf, x        , y        , z, w, s          , gradStart, gradStart);
+        fillGradient(matrix, buf, x        , y + h - s, z, w, s          , gradEnd  , gradEnd);
+        fillGradient(matrix, buf, x        , y + s    , z, s, h - (s * 2), gradStart, gradEnd);
+        fillGradient(matrix, buf, x + w - s, y + s    , z, s, h - (s * 2), gradStart, gradEnd);
         // @formatter:on
     }
 
-    public static void fillGradient(Matrix4f matrix, VertexConsumer buf, int x, int y, int w, int h, int start, int end) {
-        var sa = ARGB.alphaFloat(start);
-        var sr = ARGB.redFloat(start);
-        var sg = ARGB.greenFloat(start);
-        var sb = ARGB.blueFloat(start);
-
-        var ea = ARGB.alphaFloat(end);
-        var er = ARGB.redFloat(end);
-        var eg = ARGB.greenFloat(end);
-        var eb = ARGB.blueFloat(end);
-
-        buf.addVertex(matrix, x, y, 0).setColor(sr, sg, sb, sa);
-        buf.addVertex(matrix, x, y + h, 0).setColor(er, eg, eb, ea);
-        buf.addVertex(matrix, x + w, y + h, 0).setColor(er, eg, eb, ea);
-        buf.addVertex(matrix, x + w, y, 0).setColor(sr, sg, sb, sa);
+    public static void fillGradient(Matrix3x2f matrix, VertexConsumer buf, int x, int y, float z, int w, int h, int start, int end) {
+        buf.addVertexWith2DPose(matrix, x, y, z).setColor(start);
+        buf.addVertexWith2DPose(matrix, x, y + h, z).setColor(end);
+        buf.addVertexWith2DPose(matrix, x + w, y + h, z).setColor(end);
+        buf.addVertexWith2DPose(matrix, x + w, y, z).setColor(start);
     }
 
     public static int getAlphaFromPercentage(int percentage) {

@@ -87,7 +87,7 @@ public abstract class ConfigScreen extends YesIAmSureTheClientInstanceIsPresentB
     }
 
     protected void renderForeground(GuiGraphics ctx, int rowLeft, int rowWidth, int mouseX, int mouseY, float partialTicks) {
-        ctx.drawString(font, title, rowLeft, 12, 0xFFFFFF);
+        ctx.drawString(font, title, rowLeft, 12, 0xFFFFFFFF);
     }
 
     @Override

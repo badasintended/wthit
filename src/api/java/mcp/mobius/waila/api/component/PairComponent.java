@@ -1,7 +1,6 @@
 package mcp.mobius.waila.api.component;
 
 import mcp.mobius.waila.api.ITooltipComponent;
-import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.__internal__.ApiSide;
 import mcp.mobius.waila.api.__internal__.IApiService;
 import mcp.mobius.waila.api.__internal__.IClientApiService;
@@ -53,7 +52,7 @@ public class PairComponent implements ITooltipComponent {
 
         var font = Minecraft.getInstance().font;
         offset = font.lineHeight < height ? (height - font.lineHeight) / 2 : 0;
-        ctx.drawString(font, ": ", x + getColonOffset(), y + offset, IWailaConfig.get().getOverlay().getColor().getTheme().getDefaultTextColor());
+        ctx.drawString(font, ": ", x + getColonOffset(), y + offset, IApiService.INSTANCE.getFontColor());
 
         offset = value.getHeight() < height ? (height - value.getHeight()) / 2 : 0;
         IClientApiService.INSTANCE.renderComponent(ctx, value, x + getColonOffset() + getColonWidth(), y + offset, delta);

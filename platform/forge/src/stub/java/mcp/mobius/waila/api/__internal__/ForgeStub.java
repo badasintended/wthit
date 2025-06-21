@@ -1,7 +1,7 @@
 package mcp.mobius.waila.api.__internal__;
 
 import mcp.mobius.waila.api.WailaConstants;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.eventbus.api.listener.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import org.jetbrains.annotations.ApiStatus;

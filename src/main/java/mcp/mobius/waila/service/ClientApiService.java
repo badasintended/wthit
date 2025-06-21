@@ -8,10 +8,15 @@ import mcp.mobius.waila.mixin.GuiGraphicsAccess;
 import mcp.mobius.waila.util.DisplayUtil;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.MultiBufferSource;
-import org.joml.Matrix4f;
+import net.minecraft.client.gui.render.state.GuiRenderState;
+import org.joml.Matrix3x2f;
 
-public class ClientApiService implements IClientApiService {
+public abstract class ClientApiService implements IClientApiService {
+
+    @Override
+    public GuiRenderState getRenderState(GuiGraphics ctx) {
+        return ((GuiGraphicsAccess) ctx).wthit_guiRenderState();
+    }
 
     @Override
     public void renderComponent(GuiGraphics ctx, ITooltipComponent component, int x, int y, DeltaTracker delta) {
@@ -19,18 +24,13 @@ public class ClientApiService implements IClientApiService {
     }
 
     @Override
-    public void fillGradient(Matrix4f matrix, VertexConsumer buf, int x, int y, int w, int h, int start, int end) {
-        DisplayUtil.fillGradient(matrix, buf, x, y, w, h, start, end);
+    public void fillGradient(Matrix3x2f matrix, VertexConsumer buf, int x, int y, float z, int w, int h, int start, int end) {
+        DisplayUtil.fillGradient(matrix, buf, x, y, z, w, h, start, end);
     }
 
     @Override
-    public void renderRectBorder(Matrix4f matrix, VertexConsumer buf, int x, int y, int w, int h, int s, int gradStart, int gradEnd) {
-        DisplayUtil.renderRectBorder(matrix, buf, x, y, w, h, s, gradStart, gradEnd);
-    }
-
-    @Override
-    public MultiBufferSource getBufferSource(GuiGraphics ctx) {
-        return ((GuiGraphicsAccess) ctx).wthit_bufferSource();
+    public void renderRectBorder(Matrix3x2f matrix, VertexConsumer buf, int x, int y, float z, int w, int h, int s, int gradStart, int gradEnd) {
+        DisplayUtil.renderRectBorder(matrix, buf, x, y, z, w, h, s, gradStart, gradEnd);
     }
 
 }

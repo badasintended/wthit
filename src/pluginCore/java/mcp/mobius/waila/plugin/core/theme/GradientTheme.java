@@ -1,5 +1,7 @@
 package mcp.mobius.waila.plugin.core.theme;
 
+import com.mojang.blaze3d.pipeline.RenderPipeline;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.IThemeAccessor;
 import mcp.mobius.waila.api.IThemeType;
@@ -8,9 +10,14 @@ import mcp.mobius.waila.api.__internal__.IClientApiService;
 import mcp.mobius.waila.api.util.WRenders;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.gui.navigation.ScreenRectangle;
+import net.minecraft.client.gui.render.TextureSetup;
+import net.minecraft.client.gui.render.state.GuiElementRenderState;
+import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.util.Mth;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
+import org.joml.Matrix3x2f;
 
 public class GradientTheme implements ITheme {
 
@@ -54,29 +61,68 @@ public class GradientTheme implements ITheme {
 
     @Override
     public void renderTooltipBackground(GuiGraphics ctx, int x, int y, int width, int height, @Range(from = 0x00, to = 0xFF) int alpha, DeltaTracker delta) {
-        var buf = WRenders.buffer(ctx, RenderType.gui());
-        var matrix = ctx.pose().last().pose();
+        WRenders.state(ctx).submitGuiElement(new RenderState(alpha, new Matrix3x2f(ctx.pose()), new ScreenRectangle(x, y, width, height)));
+    }
 
-        var a = alpha << 24;
-        var bg = backgroundColor + a;
-        var gradStart = gradientStart + a;
-        var gradEnd = gradientEnd + a;
-        var bo = borderOffset;
-        var bo2 = borderOffset * 2;
+    private class RenderState implements GuiElementRenderState {
 
-        if (drawCorner) {
-            IClientApiService.INSTANCE.fillGradient(matrix, buf, x, y, width, height, bg, bg);
-        } else {
-            // @formatter:off
-            IClientApiService.INSTANCE.fillGradient(matrix, buf, x + bo        , y     , width - bo2, height      , bg, bg);
-            IClientApiService.INSTANCE.fillGradient(matrix, buf, x             , y + bo, bo         , height - bo2, bg, bg);
-            IClientApiService.INSTANCE.fillGradient(matrix, buf, x + width - bo, y + bo, bo         , height - bo2, bg, bg);
-            // @formatter:on
+        final int alpha;
+        final Matrix3x2f matrix;
+        final ScreenRectangle bounds;
+
+        private RenderState(int alpha, Matrix3x2f matrix, ScreenRectangle bounds) {
+            this.alpha = alpha;
+            this.matrix = matrix;
+            this.bounds = bounds;
         }
 
-        IClientApiService.INSTANCE.renderRectBorder(matrix, buf, x + bo, y + bo, width - bo2, height - bo2, borderSize, gradStart, gradEnd);
+        @Override
+        public @Nullable ScreenRectangle bounds() {
+            return bounds;
+        }
 
-        ctx.flush();
+        @Override
+        public void buildVertices(VertexConsumer buf, float z) {
+            var x = bounds.left();
+            var y = bounds.top();
+            var width = bounds.width();
+            var height = bounds.height();
+
+            var a = alpha << 24;
+            var bg = backgroundColor + a;
+            var gradStart = gradientStart + a;
+            var gradEnd = gradientEnd + a;
+            var bo = borderOffset;
+            var bo2 = borderOffset * 2;
+
+            if (drawCorner) {
+                IClientApiService.INSTANCE.fillGradient(matrix, buf, x, y, z, width, height, bg, bg);
+            } else {
+                // @formatter:off
+                IClientApiService.INSTANCE.fillGradient(matrix, buf, x + bo        , y     , z, width - bo2, height      , bg, bg);
+                IClientApiService.INSTANCE.fillGradient(matrix, buf, x             , y + bo, z, bo         , height - bo2, bg, bg);
+                IClientApiService.INSTANCE.fillGradient(matrix, buf, x + width - bo, y + bo, z, bo         , height - bo2, bg, bg);
+                // @formatter:on
+            }
+
+            IClientApiService.INSTANCE.renderRectBorder(matrix, buf, x + bo, y + bo, z, width - bo2, height - bo2, borderSize, gradStart, gradEnd);
+        }
+
+        @Override
+        public RenderPipeline pipeline() {
+            return RenderPipelines.GUI;
+        }
+
+        @Override
+        public TextureSetup textureSetup() {
+            return TextureSetup.noTexture();
+        }
+
+        @Override
+        public @Nullable ScreenRectangle scissorArea() {
+            return null;
+        }
+
     }
 
 }

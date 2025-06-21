@@ -1,5 +1,6 @@
 package mcp.mobius.waila.plugin.vanilla.provider;
 
+import com.mojang.serialization.JsonOps;
 import it.unimi.dsi.fastutil.objects.Object2IntLinkedOpenHashMap;
 import mcp.mobius.waila.api.IBlockAccessor;
 import mcp.mobius.waila.api.IBlockComponentProvider;
@@ -11,6 +12,8 @@ import mcp.mobius.waila.plugin.vanilla.config.Options;
 import mcp.mobius.waila.plugin.vanilla.provider.data.BeehiveDataProvider;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.ComponentSerialization;
+import net.minecraft.util.GsonHelper;
 import net.minecraft.world.level.block.BeehiveBlock;
 
 public enum BeehiveProvider implements IBlockComponentProvider {
@@ -26,7 +29,7 @@ public enum BeehiveProvider implements IBlockComponentProvider {
             for (var occupant : occupants.occupants()) {
                 Component component = null;
                 if (occupant.customName() != null) {
-                    component = Component.Serializer.fromJson(occupant.customName(), accessor.getWorld().registryAccess());
+                    component = ComponentSerialization.CODEC.parse(JsonOps.INSTANCE, GsonHelper.parse(occupant.customName())).result().orElse(null);
                 }
                 if (component == null) component = occupant.entityType().getDescription();
 

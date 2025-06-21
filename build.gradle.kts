@@ -4,7 +4,7 @@ import java.nio.charset.StandardCharsets
 
 plugins {
     java
-    id("fabric-loom") version "1.10.4"
+    id("fabric-loom") version "1.10.5"
     id("maven-publish")
 }
 

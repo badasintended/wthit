@@ -6,13 +6,10 @@ import java.util.Objects;
 import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.IEventListener;
 import mcp.mobius.waila.api.IPluginConfig;
-import mcp.mobius.waila.api.util.WRenders;
 import mcp.mobius.waila.mixin.MultiPlayerGameModeAccess;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.util.Mth;
 
 public enum BreakProgressProvider implements IEventListener {
@@ -56,8 +53,7 @@ public enum BreakProgressProvider implements IEventListener {
             lineLength = ((rect.width + rect.height - 4) * 2) * actualProgress;
         }
 
-        if (lineLength > 0) {
-            var bufferSource = WRenders.bufferSource(ctx);
+        if (lineLength >= 1) {
             var hLength = rect.width - 2;
             var vLength = rect.height - 4;
 
@@ -65,56 +61,34 @@ public enum BreakProgressProvider implements IEventListener {
             var y = rect.y + rect.height - 2;
 
             var color = config.getInt(Options.BREAKING_PROGRESS_COLOR);
-            fill(ctx, bufferSource, x, y, x + Math.min(lineLength, hLength), y + 1, color);
+            ctx.hLine(x, x + (int) Math.min(lineLength, hLength) - 1, y, color);
             lineLength -= hLength;
 
             if (lineLength > 0) {
                 x = rect.x + rect.width - 2;
                 y = rect.y + rect.height - 2;
-                fill(ctx, bufferSource, x, y, x + 1, y - Math.min(lineLength, vLength), color);
+                ctx.vLine(x, y, y - (int) Math.min(lineLength, vLength) - 1, color);
                 lineLength -= vLength;
 
                 if (lineLength > 0) {
-                    x = rect.x + rect.width - 1;
+                    x = rect.x + rect.width - 2;
                     y = rect.y + 1;
-                    fill(ctx, bufferSource, x, y, x - Math.min(lineLength, hLength), y + 1, color);
+                    ctx.hLine(x, x - (int) Math.min(lineLength, hLength) + 1, y, color);
                     lineLength -= hLength;
 
                     if (lineLength > 0) {
                         x = rect.x + 1;
-                        y = rect.y + 2;
-                        fill(ctx, bufferSource, x, y, x + 1, y + Math.min(lineLength, vLength), color);
+                        y = rect.y + 1;
+                        ctx.vLine(x, y, y + (int) Math.min(lineLength, vLength) + 1, color);
                     }
                 }
             }
-            ctx.flush();
         }
 
         wasBreaking = isBreaking;
         lastProgress = actualProgress;
         lastTargetProgress = targetProgress;
         if (isInDelay) progressDelayTimer -= dt;
-    }
-
-    private void fill(GuiGraphics ctx, MultiBufferSource bufferSource, float x1, float y1, float x2, float y2, int color) {
-        var matrix4f = ctx.pose().last().pose();
-        if (x1 < x2) {
-            var o = x1;
-            x1 = x2;
-            x2 = o;
-        }
-
-        if (y1 < y2) {
-            var o = y1;
-            y1 = y2;
-            y2 = o;
-        }
-
-        var vertexConsumer = bufferSource.getBuffer(RenderType.gui());
-        vertexConsumer.addVertex(matrix4f, x1, y1, 0f).setColor(color);
-        vertexConsumer.addVertex(matrix4f, x1, y2, 0f).setColor(color);
-        vertexConsumer.addVertex(matrix4f, x2, y2, 0f).setColor(color);
-        vertexConsumer.addVertex(matrix4f, x2, y1, 0f).setColor(color);
     }
 
 }

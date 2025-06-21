@@ -64,7 +64,7 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
         else if (!value.equals(initialValue)) title.withStyle(ChatFormatting.ITALIC, ChatFormatting.YELLOW);
         else title.withStyle(ChatFormatting.RESET);
 
-        ctx.drawString(client.font, title.copy(), rowLeft, rowTop + (height - client.font.lineHeight) / 2, 0xFFFFFF);
+        ctx.drawString(client.font, title.copy(), rowLeft, rowTop + (height - client.font.lineHeight) / 2, 0xFFFFFFFF);
 
         var w = width;
         if (resetButton != null) {
@@ -103,7 +103,7 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
             if (id != null) {
                 tooltip.add(Component.literal(id).withStyle(ChatFormatting.DARK_GRAY).getVisualOrderText());
             }
-            ctx.renderTooltip(client.font, tooltip, mouseX, mouseY);
+            ctx.setTooltipForNextFrame(client.font, tooltip, mouseX, mouseY);
         }
     }
 

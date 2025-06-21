@@ -61,21 +61,21 @@ public class InspectorScreen extends YesIAmSureTheClientInstanceIsPresentByTheTi
             if (component instanceof InspectComponent wrapper) component = wrapper.actual;
             var clazz = component.getClass().getName();
             if (clazz.startsWith(API_COMPONENTS)) clazz = clazz.substring(API_COMPONENTS.length());
-            ctx.drawString(minecraft.font, Component.literal(clazz), 5, 5, 0xFFFFFF);
+            ctx.drawString(minecraft.font, Component.literal(clazz), 5, 5, 0xFFFFFFFF);
 
             var y = 1;
             var wrapper = (InspectComponent) hoveredComponent.getLast();
             var tag = wrapper.tag == null ? null : wrapper.tag.toString();
-            if (tag != null) ctx.drawString(minecraft.font, Component.translatable(Tl.Gui.Inspector.TAG, tag), 5, 5 + h * (y++), 0xFFFFFF);
+            if (tag != null) ctx.drawString(minecraft.font, Component.translatable(Tl.Gui.Inspector.TAG, tag), 5, 5 + h * (y++), 0xFFFFFFFF);
 
             var provider = wrapper.origin.instance().getClass().getName();
-            ctx.drawString(minecraft.font, Component.translatable(Tl.Gui.Inspector.PROVIDER, provider), 5, 5 + h * (y++), 0xFFFFFF);
+            ctx.drawString(minecraft.font, Component.translatable(Tl.Gui.Inspector.PROVIDER, provider), 5, 5 + h * (y++), 0xFFFFFFFF);
 
             var pluginId = wrapper.origin.plugin().getPluginId().toString();
-            ctx.drawString(minecraft.font, Component.translatable(Tl.Gui.Inspector.PLUGIN_ID, pluginId), 5, 5 + h * (y++), 0xFFFFFF);
+            ctx.drawString(minecraft.font, Component.translatable(Tl.Gui.Inspector.PLUGIN_ID, pluginId), 5, 5 + h * (y++), 0xFFFFFFFF);
 
             var mod = wrapper.origin.plugin().getModInfo();
-            ctx.drawString(minecraft.font, Component.translatable(Tl.Gui.Inspector.MOD, mod.getName(), mod.getId()), 5, 5 + h * y, 0xFFFFFF);
+            ctx.drawString(minecraft.font, Component.translatable(Tl.Gui.Inspector.MOD, mod.getName(), mod.getId()), 5, 5 + h * y, 0xFFFFFFFF);
         }
 
         if (tickSuccess) {
