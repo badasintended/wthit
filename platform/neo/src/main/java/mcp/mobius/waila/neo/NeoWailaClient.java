@@ -9,7 +9,6 @@ import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModLoadingContext;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.common.EventBusSubscriber.Bus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLClientSetupEvent;
 import net.neoforged.neoforge.client.event.AddClientReloadListenersEvent;
@@ -20,7 +19,7 @@ import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 
-@EventBusSubscriber(modid = WailaConstants.WAILA, bus = Bus.MOD, value = Dist.CLIENT)
+@EventBusSubscriber(modid = WailaConstants.WAILA, value = Dist.CLIENT)
 public class NeoWailaClient extends WailaClient {
 
     @SubscribeEvent
@@ -46,33 +45,28 @@ public class NeoWailaClient extends WailaClient {
             () -> (mc, screen) -> new HomeScreen(screen));
     }
 
-    @EventBusSubscriber(modid = WailaConstants.WAILA, value = Dist.CLIENT)
-    static class Subscriber {
+    @SubscribeEvent
+    static void registerClientCommands(RegisterClientCommandsEvent event) {
+        new NeoClientCommand().register(event.getDispatcher());
+    }
 
-        @SubscribeEvent
-        static void registerClientCommands(RegisterClientCommandsEvent event) {
-            new NeoClientCommand().register(event.getDispatcher());
-        }
+    @SubscribeEvent
+    static void clientTick(ClientTickEvent.Post event) {
+        onClientTick();
+    }
 
-        @SubscribeEvent
-        static void clientTick(ClientTickEvent.Post event) {
-            onClientTick();
-        }
+    @SubscribeEvent
+    static void itemTooltip(ItemTooltipEvent event) {
+        onItemTooltip(event.getItemStack(), event.getToolTip());
+    }
 
-        @SubscribeEvent
-        static void itemTooltip(ItemTooltipEvent event) {
-            onItemTooltip(event.getItemStack(), event.getToolTip());
-        }
-
-        @SubscribeEvent
-        static void loggingOut(ClientPlayerNetworkEvent.LoggingOut event) {
-            onServerLogout();
-        }
-
+    @SubscribeEvent
+    static void loggingOut(ClientPlayerNetworkEvent.LoggingOut event) {
+        onServerLogout();
     }
 
     @Mod(WailaConstants.WTHIT)
-    @EventBusSubscriber(modid = WailaConstants.WTHIT, bus = Bus.MOD, value = Dist.CLIENT)
+    @EventBusSubscriber(modid = WailaConstants.WTHIT, value = Dist.CLIENT)
     public static class HahaBorgeGoBrrrr {
 
         @SubscribeEvent

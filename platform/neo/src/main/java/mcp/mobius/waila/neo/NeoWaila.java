@@ -19,7 +19,7 @@ import net.neoforged.neoforge.event.server.ServerStartingEvent;
 import net.neoforged.neoforge.event.server.ServerStoppedEvent;
 
 @Mod(WailaConstants.WAILA)
-@EventBusSubscriber(modid = WailaConstants.WAILA, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = WailaConstants.WAILA)
 public class NeoWaila extends Waila {
 
     @SubscribeEvent
@@ -44,29 +44,24 @@ public class NeoWaila extends Waila {
         });
     }
 
-    @EventBusSubscriber(modid = WailaConstants.WAILA)
-    static class Subscriber {
+    @SubscribeEvent
+    static void serverStarting(ServerStartingEvent event) {
+        PluginConfig.reload();
+    }
 
-        @SubscribeEvent
-        static void serverStarting(ServerStartingEvent event) {
-            PluginConfig.reload();
-        }
+    @SubscribeEvent
+    static void serverStopped(ServerStoppedEvent event) {
+        onServerStopped();
+    }
 
-        @SubscribeEvent
-        static void serverStopped(ServerStoppedEvent event) {
-            onServerStopped();
-        }
+    @SubscribeEvent
+    static void tagReload(TagsUpdatedEvent event) {
+        onTagReload();
+    }
 
-        @SubscribeEvent
-        static void tagReload(TagsUpdatedEvent event) {
-            onTagReload();
-        }
-
-        @SubscribeEvent
-        static void registerCommands(RegisterCommandsEvent event) {
-            new NeoServerCommand().register(event.getDispatcher());
-        }
-
+    @SubscribeEvent
+    static void registerCommands(RegisterCommandsEvent event) {
+        new NeoServerCommand().register(event.getDispatcher());
     }
 
 }
