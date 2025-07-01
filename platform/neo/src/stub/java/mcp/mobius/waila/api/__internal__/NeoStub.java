@@ -9,7 +9,7 @@ import org.jetbrains.annotations.ApiStatus;
 
 @ApiStatus.Internal
 @Mod(NeoStub.MOD_ID)
-@EventBusSubscriber(modid = NeoStub.MOD_ID, bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(modid = NeoStub.MOD_ID)
 public class NeoStub {
 
     static final String MOD_ID = WailaConstants.MOD_ID + "_api";
