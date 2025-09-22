@@ -66,7 +66,7 @@ public abstract class PluginLoader {
             var sender = PacketSender.s2c(player);
             if (!sender.canSend(PluginSyncCommonS2CPacket.TYPE)) return;
 
-            if (!server.isSingleplayerOwner(player.getGameProfile())) {
+            if (!server.isSingleplayerOwner(player.nameAndId())) {
                 sender.send(new PluginSyncCommonS2CPacket.Payload());
             }
 

@@ -6,11 +6,11 @@
   "refmap"            : "wthit.refmap.json",
   "mixins"            : [
     "AbstractFurnaceBlockEntityAccess",
+    "AbstractSelectionListAccess",
     "BaseContainerBlockEntityAccess",
     "BeaconBlockEntityAccess",
     "BeehiveBlockEntity$BeeDataAccess",
     "BeehiveBlockEntityAccess",
-    "ChiseledBookShelfBlockAccess",
     "ChiseledBookShelfBlockEntityAccess",
     "EntityAccess",
     "LanguageMixin",

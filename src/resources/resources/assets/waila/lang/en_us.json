@@ -248,6 +248,7 @@
   "config.waila.format_registry_name"                          : "Registry Name",
 
   "config.waila.keybinds"                                      : "Key Binds",
+  "key.category.waila.key"                                     : "WTHIT",
   "key.waila.config"                                           : "Open Config",
   "key.waila.show_overlay"                                     : "Show Overlay",
   "key.waila.toggle_liquid"                                    : "Toggle Liquid",

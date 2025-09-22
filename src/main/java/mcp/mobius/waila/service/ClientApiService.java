@@ -24,13 +24,13 @@ public abstract class ClientApiService implements IClientApiService {
     }
 
     @Override
-    public void fillGradient(Matrix3x2f matrix, VertexConsumer buf, int x, int y, float z, int w, int h, int start, int end) {
-        DisplayUtil.fillGradient(matrix, buf, x, y, z, w, h, start, end);
+    public void fillGradient(Matrix3x2f matrix, VertexConsumer buf, int x, int y, int w, int h, int start, int end) {
+        DisplayUtil.fillGradient(matrix, buf, x, y, w, h, start, end);
     }
 
     @Override
-    public void renderRectBorder(Matrix3x2f matrix, VertexConsumer buf, int x, int y, float z, int w, int h, int s, int gradStart, int gradEnd) {
-        DisplayUtil.renderRectBorder(matrix, buf, x, y, z, w, h, s, gradStart, gradEnd);
+    public void renderRectBorder(Matrix3x2f matrix, VertexConsumer buf, int x, int y, int w, int h, int s, int gradStart, int gradEnd) {
+        DisplayUtil.renderRectBorder(matrix, buf, x, y, w, h, s, gradStart, gradEnd);
     }
 
 }

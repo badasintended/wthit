@@ -15,6 +15,7 @@ import mcp.mobius.waila.gui.hud.TooltipRenderer;
 import mcp.mobius.waila.util.Log;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
 
@@ -90,7 +91,7 @@ public class InspectorScreen extends YesIAmSureTheClientInstanceIsPresentByTheTi
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+    public boolean mouseClicked(MouseButtonEvent event, boolean doubled) {
         if (!hoveredComponent.isEmpty()) {
             var sb = new StringBuilder();
 
@@ -111,7 +112,7 @@ public class InspectorScreen extends YesIAmSureTheClientInstanceIsPresentByTheTi
             LOG.info(sb.toString());
         }
 
-        return super.mouseClicked(mouseX, mouseY, button);
+        return super.mouseClicked(event, doubled);
     }
 
     private class Renderer extends ComponentRenderer {

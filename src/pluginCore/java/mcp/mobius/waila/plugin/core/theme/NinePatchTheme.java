@@ -122,17 +122,17 @@ public class NinePatchTheme implements ITheme {
         }
 
         @Override
-        public void buildVertices(VertexConsumer buf, float z) {
+        public void buildVertices(VertexConsumer buf) {
             var x = bounds.left();
             var y = bounds.top();
             var width = bounds.width();
             var height = bounds.height();
 
             // @formatter:off
-            patch(buf, matrix, x        , y         , z,   regionLeft,     regionTop,      0f, uCenter,      0f, vMiddle, alpha); // top    left
-            patch(buf, matrix, x + width, y         , z, -regionRight,     regionTop,  uRight,      1f,      0f, vMiddle, alpha); // top    right
-            patch(buf, matrix, x        , y + height, z,   regionLeft, -regionBottom,      0f, uCenter, vBottom,      1f, alpha); // bottom left
-            patch(buf, matrix, x + width, y + height, z, -regionRight, -regionBottom,  uRight,      1f, vBottom,      1f, alpha); // bottom right
+            patch(buf, matrix, x        , y         ,   regionLeft,     regionTop,      0f, uCenter,      0f, vMiddle, alpha); // top    left
+            patch(buf, matrix, x + width, y         , -regionRight,     regionTop,  uRight,      1f,      0f, vMiddle, alpha); // top    right
+            patch(buf, matrix, x        , y + height,   regionLeft, -regionBottom,      0f, uCenter, vBottom,      1f, alpha); // bottom left
+            patch(buf, matrix, x + width, y + height, -regionRight, -regionBottom,  uRight,      1f, vBottom,      1f, alpha); // bottom right
             // @formatter:on
 
             var centerX = x + regionLeft;
@@ -152,8 +152,8 @@ public class NinePatchTheme implements ITheme {
                         var uCenter1 = (regionLeft + clampedCenter) / (float) textureWidth;
 
                         // @formatter:off
-                        patch(buf, matrix, cx, y   , z, clampedCenter,    regionTop, uCenter, uCenter1,      0f, vMiddle, alpha); // top    center
-                        patch(buf, matrix, cx, maxY, z, clampedCenter, regionBottom, uCenter, uCenter1, vBottom,      1f, alpha); // bottom center
+                        patch(buf, matrix, cx, y   ,  clampedCenter,    regionTop, uCenter, uCenter1,      0f, vMiddle, alpha); // top    center
+                        patch(buf, matrix, cx, maxY,  clampedCenter, regionBottom, uCenter, uCenter1, vBottom,      1f, alpha); // bottom center
                         // @formatter:on
 
                         for (var cy = centerY; cy < maxY; cy += regionMiddle) {
@@ -162,12 +162,12 @@ public class NinePatchTheme implements ITheme {
 
                             if (cx == centerX) {
                                 // @formatter:off
-                                patch(buf, matrix,       x              , cy, z,  regionLeft, clampedMiddle,     0f, uCenter, vMiddle, vMiddle1, alpha); // middle left
-                                patch(buf, matrix, centerX + centerWidth, cy, z, regionRight, clampedMiddle, uRight,      1f, vMiddle, vMiddle1, alpha); // middle right
+                                patch(buf, matrix,       x              , cy,  regionLeft, clampedMiddle,     0f, uCenter, vMiddle, vMiddle1, alpha); // middle left
+                                patch(buf, matrix, centerX + centerWidth, cy, regionRight, clampedMiddle, uRight,      1f, vMiddle, vMiddle1, alpha); // middle right
                                 // @formatter:on
                             }
 
-                            patch(buf, matrix, cx, cy, z, clampedCenter, clampedMiddle, uCenter, uCenter1, vMiddle, vMiddle1, alpha); // middle center
+                            patch(buf, matrix, cx, cy, clampedCenter, clampedMiddle, uCenter, uCenter1, vMiddle, vMiddle1, alpha); // middle center
 
                             if (regionMiddle <= 0) {
                                 break;
@@ -181,17 +181,17 @@ public class NinePatchTheme implements ITheme {
                 }
                 case STRETCH -> {
                     // @formatter:off
-                    patch(buf, matrix,  centerX              ,       y               , z, centerWidth,    regionTop, uCenter,  uRight,      0f, vMiddle, alpha); // top    center
-                    patch(buf, matrix,        x              , centerY               , z,  regionLeft, centerHeight,      0f, uCenter, vMiddle, vBottom, alpha); // middle left
-                    patch(buf, matrix,  centerX              , centerY               , z, centerWidth, centerHeight, uCenter,  uRight, vMiddle, vBottom, alpha); // middle center
-                    patch(buf, matrix,  centerX + centerWidth, centerY               , z, regionRight, centerHeight,  uRight,      1f, vMiddle, vBottom, alpha); // middle right
-                    patch(buf, matrix,  centerX              , centerY + centerHeight, z, centerWidth, regionBottom, uCenter,  uRight, vBottom,      1f, alpha); // bottom center
+                    patch(buf, matrix,  centerX              ,       y               , centerWidth,    regionTop, uCenter,  uRight,      0f, vMiddle, alpha); // top    center
+                    patch(buf, matrix,        x              , centerY               ,  regionLeft, centerHeight,      0f, uCenter, vMiddle, vBottom, alpha); // middle left
+                    patch(buf, matrix,  centerX              , centerY               , centerWidth, centerHeight, uCenter,  uRight, vMiddle, vBottom, alpha); // middle center
+                    patch(buf, matrix,  centerX + centerWidth, centerY               , regionRight, centerHeight,  uRight,      1f, vMiddle, vBottom, alpha); // middle right
+                    patch(buf, matrix,  centerX              , centerY + centerHeight, centerWidth, regionBottom, uCenter,  uRight, vBottom,      1f, alpha); // bottom center
                     // @formatter:on
                 }
             }
         }
 
-        private void patch(VertexConsumer buf, Matrix3x2f matrix, int x0, int y0, float z, int w, int h, float u0, float u1, float v0, float v1, int alpha) {
+        private void patch(VertexConsumer buf, Matrix3x2f matrix, int x0, int y0, int w, int h, float u0, float u1, float v0, float v1, int alpha) {
             if (w == 0 || h == 0) {
                 return;
             }
@@ -211,10 +211,10 @@ public class NinePatchTheme implements ITheme {
                 y1 = y0r;
             }
 
-            buf.addVertexWith2DPose(matrix, x0, y1, z).setUv(u0, v1).setColor(0xFF, 0xFF, 0xFF, alpha);
-            buf.addVertexWith2DPose(matrix, x1, y1, z).setUv(u1, v1).setColor(0xFF, 0xFF, 0xFF, alpha);
-            buf.addVertexWith2DPose(matrix, x1, y0, z).setUv(u1, v0).setColor(0xFF, 0xFF, 0xFF, alpha);
-            buf.addVertexWith2DPose(matrix, x0, y0, z).setUv(u0, v0).setColor(0xFF, 0xFF, 0xFF, alpha);
+            buf.addVertexWith2DPose(matrix, x0, y1).setUv(u0, v1).setColor(0xFF, 0xFF, 0xFF, alpha);
+            buf.addVertexWith2DPose(matrix, x1, y1).setUv(u1, v1).setColor(0xFF, 0xFF, 0xFF, alpha);
+            buf.addVertexWith2DPose(matrix, x1, y0).setUv(u1, v0).setColor(0xFF, 0xFF, 0xFF, alpha);
+            buf.addVertexWith2DPose(matrix, x0, y0).setUv(u0, v0).setColor(0xFF, 0xFF, 0xFF, alpha);
         }
 
         @Override

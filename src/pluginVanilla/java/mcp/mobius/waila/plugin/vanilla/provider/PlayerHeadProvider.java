@@ -34,12 +34,14 @@ public enum PlayerHeadProvider implements IBlockComponentProvider {
 
     @Override
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
-        if (config.getBoolean(Options.PLAYER_HEAD_NAME)) {
-            SkullBlockEntity skull = accessor.getBlockEntity();
-            if (skull != null && skull.getOwnerProfile() != null && !StringUtils.isBlank(skull.getOwnerProfile().gameProfile().getName())) {
-                tooltip.setLine(Options.PLAYER_HEAD_NAME, Component.translatable(skull.getOwnerProfile().gameProfile().getName()));
-            }
-        }
+        if (!config.getBoolean(Options.PLAYER_HEAD_NAME)) return;
+        SkullBlockEntity skull = accessor.getBlockEntity();
+        if (skull == null) return;
+        var profile = skull.getOwnerProfile();
+        if (profile == null) return;
+        var name = profile.name().orElse(null);
+        if (name == null || StringUtils.isBlank(name)) return;
+        tooltip.setLine(Options.PLAYER_HEAD_NAME, Component.translatable(null));
     }
 
 }

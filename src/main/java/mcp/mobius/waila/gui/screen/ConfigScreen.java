@@ -12,6 +12,8 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.components.toasts.SystemToast;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
@@ -119,14 +121,14 @@ public abstract class ConfigScreen extends YesIAmSureTheClientInstanceIsPresentB
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+    public boolean mouseClicked(MouseButtonEvent event, boolean doubled) {
         for (var child : children) {
             if (child instanceof EditBox editBox) {
                 editBox.setFocused(false);
             }
         }
 
-        return super.mouseClicked(mouseX, mouseY, button);
+        return super.mouseClicked(event, doubled);
     }
 
     @Override
@@ -156,12 +158,12 @@ public abstract class ConfigScreen extends YesIAmSureTheClientInstanceIsPresentB
     }
 
     @Override
-    public boolean keyReleased(int keyCode, int scanCode, int modifiers) {
-        if (keyCode == InputConstants.KEY_ESCAPE) {
+    public boolean keyReleased(KeyEvent event) {
+        if (event.key() == InputConstants.KEY_ESCAPE) {
             showEscWarning = true;
         }
 
-        return super.keyReleased(keyCode, scanCode, modifiers);
+        return super.keyReleased(event);
     }
 
     @Override

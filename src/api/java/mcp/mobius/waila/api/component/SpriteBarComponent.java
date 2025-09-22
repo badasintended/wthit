@@ -97,17 +97,17 @@ public class SpriteBarComponent implements ITooltipComponent {
         }
 
         @Override
-        public void buildVertices(VertexConsumer buffer, float z) {
+        public void buildVertices(VertexConsumer buffer) {
             for (var px1 = bounds.left(); px1 < mx; px1 += regionWidth) {
                 var px2 = px1 + regionWidth;
 
                 for (var py1 = bounds.top(); py1 < my; py1 += regionHeight) {
                     var py2 = py1 + regionHeight;
 
-                    buffer.addVertexWith2DPose(pose, px1, py2, z).setUv(u0, v1).setColor(spriteTint);
-                    buffer.addVertexWith2DPose(pose, px2, py2, z).setUv(u1, v1).setColor(spriteTint);
-                    buffer.addVertexWith2DPose(pose, px2, py1, z).setUv(u1, v0).setColor(spriteTint);
-                    buffer.addVertexWith2DPose(pose, px1, py1, z).setUv(u0, v0).setColor(spriteTint);
+                    buffer.addVertexWith2DPose(pose, px1, py2).setUv(u0, v1).setColor(spriteTint);
+                    buffer.addVertexWith2DPose(pose, px2, py2).setUv(u1, v1).setColor(spriteTint);
+                    buffer.addVertexWith2DPose(pose, px2, py1).setUv(u1, v0).setColor(spriteTint);
+                    buffer.addVertexWith2DPose(pose, px1, py1).setUv(u0, v0).setColor(spriteTint);
                 }
             }
         }

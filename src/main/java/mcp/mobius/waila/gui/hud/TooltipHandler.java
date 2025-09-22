@@ -76,7 +76,7 @@ public class TooltipHandler {
         Player player = client.player;
         if (player == null) return false;
 
-        var camera = client.cameraEntity;
+        var camera = client.getCameraEntity();
         if (camera == null) return false;
 
         var frameTime = client.getDeltaTracker().getGameTimeDeltaPartialTick(true);
@@ -121,8 +121,7 @@ public class TooltipHandler {
     private static ProcessResult processTarget(TooltipRenderer.State state, HitResult target, Minecraft client, Player player, Vec3 castOrigin, Vec3 castDirection, double pickRange, WailaConfig.General config) {
         var accessor = ClientAccessor.INSTANCE;
 
-        //noinspection DataFlowIssue
-        accessor.set(client.level, player, target, client.cameraEntity, castOrigin, castDirection, pickRange, client.getDeltaTracker().getGameTimeDeltaPartialTick(true));
+        accessor.set(client.level, player, target, client.getCameraEntity(), castOrigin, castDirection, pickRange, client.getDeltaTracker().getGameTimeDeltaPartialTick(true));
 
         TooltipRenderer.beginBuild(state);
 

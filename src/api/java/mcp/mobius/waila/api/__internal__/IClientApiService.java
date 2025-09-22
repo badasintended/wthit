@@ -21,8 +21,8 @@ public interface IClientApiService {
 
     void renderComponent(GuiGraphics ctx, ITooltipComponent component, int x, int y, DeltaTracker delta);
 
-    void fillGradient(Matrix3x2f matrix, VertexConsumer buf, int x, int y, float z, int w, int h, int start, int end);
+    void fillGradient(Matrix3x2f matrix, VertexConsumer buf, int x, int y, int w, int h, int start, int end);
 
-    void renderRectBorder(Matrix3x2f matrix, VertexConsumer buf, int x, int y, float z, int w, int h, int s, int gradStart, int gradEnd);
+    void renderRectBorder(Matrix3x2f matrix, VertexConsumer buf, int x, int y, int w, int h, int s, int gradStart, int gradEnd);
 
 }

@@ -25,6 +25,7 @@ public abstract class WailaClient {
 
     private static final Log LOG = Log.create();
 
+    public static final KeyMapping.Category KEY_CATEGORY = new KeyMapping.Category(Waila.id("key"));
     public static KeyMapping keyOpenConfig;
     public static KeyMapping keyShowOverlay;
     public static KeyMapping keyToggleLiquid;

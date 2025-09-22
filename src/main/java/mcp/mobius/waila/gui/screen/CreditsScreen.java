@@ -42,15 +42,13 @@ public class CreditsScreen extends YesIAmSureTheClientInstanceIsPresentByTheTime
             var listWidget = new ListWidget(minecraft, width, height - 64, 32, minecraft.font.lineHeight + 6);
 
             credits.forEach((key, category) -> {
-                var children = listWidget.children();
-
-                children.add(new CreditLine(1, List.of(Component.translatable(Tl.Gui.CREDITS + "." + key).withStyle(ChatFormatting.GRAY))));
+                listWidget.addEntry(new CreditLine(1, List.of(Component.translatable(Tl.Gui.CREDITS + "." + key).withStyle(ChatFormatting.GRAY))));
 
                 for (var chunk : Lists.partition(category.values.stream().map(Component::literal).toList(), category.width)) {
-                    children.add(new CreditLine(category.width, chunk));
+                    listWidget.addEntry(new CreditLine(category.width, chunk));
                 }
 
-                children.add(new CreditLine(1, List.of()));
+                listWidget.addEntry(new CreditLine(1, List.of()));
             });
 
             listWidget.init();
@@ -84,17 +82,22 @@ public class CreditsScreen extends YesIAmSureTheClientInstanceIsPresentByTheTime
 
     }
 
-    private static class ListWidget extends ContainerObjectSelectionList<CreditLine> {
+    private class ListWidget extends ContainerObjectSelectionList<CreditLine> {
 
         private ListWidget(Minecraft client, int width, int height, int top, int itemHeight) {
             super(client, width, height, top, itemHeight);
         }
 
         private void init() {
-            var totalHeight = (children().size() - 1) * itemHeight;
+            var totalHeight = (children().size() - 1) * defaultEntryHeight;
             if (totalHeight < height) {
-                headerHeight = (height - totalHeight) / 2 - getY();
+                addEntryToTop(new CreditLine(1, List.of()), (height - totalHeight) / 2 - getY());
             }
+        }
+
+        @Override
+        protected int addEntry(CreditLine entry) {
+            return super.addEntry(entry);
         }
 
         @Override
@@ -130,14 +133,16 @@ public class CreditsScreen extends YesIAmSureTheClientInstanceIsPresentByTheTime
         }
 
         @Override
-        public void render(@NotNull GuiGraphics ctx, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
+        public void renderContent(GuiGraphics ctx, int mouseX, int mouseY, boolean hovered, float delta) {
             if (components.isEmpty()) return;
 
-            var columnWidth = width / column;
+            var rowLeft = getX();
+            var rowTop = getY();
+            var columnWidth = getWidth() / column;
 
             for (var i = 0; i < components.size(); i++) {
                 var component = components.get(i);
-                ctx.drawCenteredString(minecraft.font, component, rowLeft + (columnWidth * i) + (columnWidth / 2), rowTop + 3, 0xFFFFFF);
+                ctx.drawCenteredString(minecraft.font, component, rowLeft + (columnWidth * i) + (columnWidth / 2), rowTop + 3, 0xFFFFFFFF);
             }
         }
 

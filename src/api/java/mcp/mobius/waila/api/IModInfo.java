@@ -4,6 +4,7 @@ import mcp.mobius.waila.api.__internal__.IApiService;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
@@ -37,6 +38,10 @@ public interface IModInfo {
 
     static IModInfo get(Entity entity) {
         return get(BuiltInRegistries.ENTITY_TYPE.getKey(entity.getType()));
+    }
+
+    static IModInfo get(EntityType<?> entityType) {
+        return get(BuiltInRegistries.ENTITY_TYPE.getKey(entityType));
     }
 
     /**

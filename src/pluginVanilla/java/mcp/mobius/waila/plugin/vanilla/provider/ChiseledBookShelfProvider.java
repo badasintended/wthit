@@ -9,11 +9,11 @@ import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.component.ItemComponent;
-import mcp.mobius.waila.mixin.ChiseledBookShelfBlockAccess;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import mcp.mobius.waila.plugin.vanilla.provider.data.ChiseledBookShelfDataProvider;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.ChiseledBookShelfBlock;
 import org.jetbrains.annotations.Nullable;
 
 public enum ChiseledBookShelfProvider implements IBlockComponentProvider {
@@ -33,8 +33,8 @@ public enum ChiseledBookShelfProvider implements IBlockComponentProvider {
         var data = accessor.getData().get(ChiseledBookShelfDataProvider.DATA);
         if (data == null) return;
 
-        var block = ((ChiseledBookShelfBlockAccess) accessor.getBlock());
-        var hitSlot = block.wthit_getHitSlot(accessor.getBlockHitResult(), accessor.getBlockState());
+        var block = ((ChiseledBookShelfBlock) accessor.getBlock());
+        var hitSlot = block.getHitSlot(accessor.getBlockHitResult(), accessor.getBlockState().getValue(ChiseledBookShelfBlock.FACING));
         if (hitSlot.isEmpty()) return;
 
         hitItem = data.items().get(hitSlot.getAsInt());

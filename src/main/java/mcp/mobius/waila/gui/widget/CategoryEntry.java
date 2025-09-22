@@ -96,7 +96,7 @@ public class CategoryEntry extends ConfigListWidget.Entry {
 
     @Override
     public void clear(ConfigListWidget list) {
-        list.children().removeIf(it -> it.category == this);
+        list.children.removeIf(it -> it.category == this);
         for (var child : children) {
             child.clear(list);
         }
@@ -143,6 +143,14 @@ public class CategoryEntry extends ConfigListWidget.Entry {
             expandAllButton.setX(rowLeft + width - expandAllButton.getWidth());
             expandAllButton.setY(buttonY);
             expandAllButton.render(ctx, mouseX, mouseY, deltaTime);
+        }
+
+        if (!collapsed) {
+            var lineX1 = rowLeft + 5;
+            var lineX2 = lineX1 + 2;
+            var lineY1 = collapseButton.getY() + collapseButton.getHeight();
+            var lineY2 = lineY1 + 6;
+            ctx.fill(lineX1, lineY1, lineX2, lineY2, 0x22FAFAFA);
         }
     }
 

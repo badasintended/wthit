@@ -60,7 +60,7 @@ public abstract class ServerCommand extends CommonCommand<CommandSourceStack, Mi
                         .withClickEvent(new ClickEvent.OpenFile(path.toString())));
                     source.sendSuccess(() -> Component.translatable(dedicated ? Tl.Command.SERVER_DUMP_SUCCESS : Tl.Command.LOCAL_DUMP_SUCCESS, pathComponent), false);
                     var entity = source.getEntity();
-                    if (entity instanceof ServerPlayer player && !server.isSingleplayerOwner(player.getGameProfile())) {
+                    if (entity instanceof ServerPlayer player && !server.isSingleplayerOwner(player.nameAndId())) {
                         PacketSender.s2c(player).send(GenerateClientDumpPlayS2CPacket.PAYLOAD);
                     }
                     return 1;
@@ -88,7 +88,6 @@ public abstract class ServerCommand extends CommonCommand<CommandSourceStack, Mi
 
                 var blockEntity = world.getBlockEntity(pos);
                 if (blockEntity != null) {
-                    //noinspection DataFlowIssue
                     source.sendSuccess(() -> Component.literal("Block entity type ID: " + blockEntity.getType().builtInRegistryHolder().key().location()), false);
                     source.sendSuccess(() -> Component.literal("Block entity class: " + blockEntity.getClass().getName()), false);
                 }

@@ -82,7 +82,7 @@ public class GradientTheme implements ITheme {
         }
 
         @Override
-        public void buildVertices(VertexConsumer buf, float z) {
+        public void buildVertices(VertexConsumer buf) {
             var x = bounds.left();
             var y = bounds.top();
             var width = bounds.width();
@@ -96,16 +96,16 @@ public class GradientTheme implements ITheme {
             var bo2 = borderOffset * 2;
 
             if (drawCorner) {
-                IClientApiService.INSTANCE.fillGradient(matrix, buf, x, y, z, width, height, bg, bg);
+                IClientApiService.INSTANCE.fillGradient(matrix, buf, x, y, width, height, bg, bg);
             } else {
                 // @formatter:off
-                IClientApiService.INSTANCE.fillGradient(matrix, buf, x + bo        , y     , z, width - bo2, height      , bg, bg);
-                IClientApiService.INSTANCE.fillGradient(matrix, buf, x             , y + bo, z, bo         , height - bo2, bg, bg);
-                IClientApiService.INSTANCE.fillGradient(matrix, buf, x + width - bo, y + bo, z, bo         , height - bo2, bg, bg);
+                IClientApiService.INSTANCE.fillGradient(matrix, buf, x + bo        , y     ,  width - bo2, height      , bg, bg);
+                IClientApiService.INSTANCE.fillGradient(matrix, buf, x             , y + bo,  bo         , height - bo2, bg, bg);
+                IClientApiService.INSTANCE.fillGradient(matrix, buf, x + width - bo, y + bo,  bo         , height - bo2, bg, bg);
                 // @formatter:on
             }
 
-            IClientApiService.INSTANCE.renderRectBorder(matrix, buf, x + bo, y + bo, z, width - bo2, height - bo2, borderSize, gradStart, gradEnd);
+            IClientApiService.INSTANCE.renderRectBorder(matrix, buf, x + bo, y + bo, width - bo2, height - bo2, borderSize, gradStart, gradEnd);
         }
 
         @Override

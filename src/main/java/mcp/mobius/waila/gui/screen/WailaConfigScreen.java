@@ -33,6 +33,8 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -115,7 +117,7 @@ public class WailaConfigScreen extends ConfigScreen {
 
     @Override
     public void render(@NotNull GuiGraphics ctx, int mouseX, int mouseY, float partialTicks) {
-        if (InputConstants.isKeyDown(minecraft.getWindow().getWindow(), InputConstants.KEY_F1)) {
+        if (InputConstants.isKeyDown(minecraft.getWindow(), InputConstants.KEY_F1)) {
             if (!f1held) {
                 f1held = true;
                 buildPreview(previewState);
@@ -268,30 +270,30 @@ public class WailaConfigScreen extends ConfigScreen {
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
+    public boolean mouseClicked(MouseButtonEvent event, boolean doubled) {
         if (selectedKeyBind != null) {
-            selectedKeyBind.setValue(InputConstants.Type.MOUSE.getOrCreate(button));
+            selectedKeyBind.setValue(InputConstants.Type.MOUSE.getOrCreate(event.button()));
             selectedKeyBind = null;
             return true;
         }
 
-        return f1held || super.mouseClicked(mouseX, mouseY, button);
+        return f1held || super.mouseClicked(event, doubled);
     }
 
     @Override
-    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+    public boolean keyPressed(KeyEvent event) {
         if (selectedKeyBind != null) {
-            if (keyCode == InputConstants.KEY_ESCAPE) {
+            if (event.key() == InputConstants.KEY_ESCAPE) {
                 selectedKeyBind.setValue(InputConstants.UNKNOWN);
             } else {
-                selectedKeyBind.setValue(InputConstants.getKey(keyCode, scanCode));
+                selectedKeyBind.setValue(InputConstants.getKey(event));
             }
 
             selectedKeyBind = null;
             return true;
         }
 
-        return super.keyPressed(keyCode, scanCode, modifiers);
+        return super.keyPressed(event);
     }
 
     public class KeyBindValue extends ConfigValue<InputConstants.Key> {

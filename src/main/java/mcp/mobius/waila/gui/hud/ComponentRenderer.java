@@ -71,8 +71,8 @@ public abstract class ComponentRenderer {
     private record BoundsRenderState(Matrix3x2f pose, ScreenRectangle bounds, int color) implements GuiElementRenderState {
 
         @Override
-        public void buildVertices(VertexConsumer buf, float z) {
-            DisplayUtil.renderRectBorder(pose, buf, bounds.left(), bounds.top(), z, bounds.width(), bounds.height(), 1, color, color);
+        public void buildVertices(VertexConsumer buf) {
+            DisplayUtil.renderRectBorder(pose, buf, bounds.left(), bounds.top(), bounds.width(), bounds.height(), 1, color, color);
         }
 
         @Override

@@ -8,10 +8,12 @@ import com.google.common.collect.ImmutableList;
 import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.gui.screen.ConfigScreen;
 import mcp.mobius.waila.gui.widget.value.ConfigValue;
+import mcp.mobius.waila.mixin.AbstractSelectionListAccess;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.ContainerObjectSelectionList;
 import net.minecraft.client.gui.components.EditBox;
+import net.minecraft.client.gui.components.events.ContainerEventHandler;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.components.toasts.SystemToast;
 import net.minecraft.client.gui.narration.NarratableEntry;
@@ -20,10 +22,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWidget.Entry> {
+public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWidget.Entry> implements ContainerEventHandler {
 
     private final ConfigScreen owner;
     private final @Nullable Runnable diskWriter;
+
+    public final List<ConfigListWidget.Entry> children;
 
     private int topOffset;
     private int bottomOffset;
@@ -41,6 +45,7 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
 
         this.owner = owner;
         this.diskWriter = diskWriter;
+        this.children = ((AbstractSelectionListAccess) this).wthit_children();
 
         resize(top, bottom);
     }
@@ -112,15 +117,15 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
                 var isBlank = filter.isBlank();
                 if ((isBlank && this.filter == null) || (filter.equals(this.filter))) return;
 
-                children().clear();
+                children.clear();
                 if (isBlank) {
                     this.filter = null;
                     this.splitFilter = null;
-                    children().addAll(rootChildren);
+                    children.addAll(rootChildren);
                 } else {
                     this.filter = filter;
                     this.splitFilter = filter.split("\\s");
-                    children().addAll(rootChildren.stream().filter(it -> it.match(this.splitFilter)).toList());
+                    children.addAll(rootChildren.stream().filter(it -> it.match(this.splitFilter)).toList());
                 }
                 init();
             });
@@ -128,14 +133,17 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
 
         resize(topOffset, owner.height + bottomOffset);
         setScrollAmount(scrollAmount());
+        ((AbstractSelectionListAccess) this).wthit_repositionEntries();
     }
 
     public void add(Entry entry) {
-        add(children().size(), entry);
+        entry.setHeight(defaultEntryHeight);
+        children.add(entry);
     }
 
     public void add(int index, Entry entry) {
-        children().add(index, entry);
+        entry.setHeight(defaultEntryHeight);
+        children.add(index, entry);
     }
 
     public ConfigListWidget with(Entry entry) {
@@ -232,13 +240,18 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
         }
 
         @Override
-        public final void render(@NotNull GuiGraphics ctx, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
+        public void renderContent(GuiGraphics ctx, int mouseX, int mouseY, boolean hovered, float deltaTime) {
+            var rowLeft = list.getRowLeft();
+            var rowTop = getY();
+            var width = getWidth();
+            var height = getHeight();
+
             if (category != null) {
                 for (var i = 0; i < categoryDepth; i++) {
                     var lineX1 = rowLeft + 5 + i * 16;
                     var lineX2 = lineX1 + 2;
-                    var lineY1 = rowTop - height / 2 - 4;
-                    var lineY2 = lineY1 + height + 4;
+                    var lineY1 = rowTop - height / 2 + 4;
+                    var lineY2 = lineY1 + height;
 
                     if (i == (categoryDepth - 1) && (index - category.index) == 1) {
                         lineY1 += 8;
