@@ -1,4 +1,8 @@
-16.x - 1.21.7 - dev/master - java 21
+17.x - 1.21.9-pre2 - dev/master - java 21
+=========================================
+17.0.0   - Updated to Minecart 1.21.9-pre2
+
+16.x - 1.21.7 - dev/1.21.7 - java 21
 ====================================
 16.0.1   - Updated to Minecraft 1.21.7
          - Fixed crash on NeoForge 21.6.6-beta or later
@@ -200,7 +204,7 @@
          - Added beacon effects tooltip
          - Added mob effects tooltip
          - Added vanilla crop and tree sapling growability tooltip (#245)
-         - Changed the mod name tooltip also to match mod id that uses `-` with namespace that uses `_` (#246) 
+         - Changed the mod name tooltip also to match mod id that uses `-` with namespace that uses `_` (#246)
          - Disabled the overlay FPS option for now
 10.0.1   - Updated to Forge 1.20.3
 10.0.0   - Updated to Minecraft 1.20.3
@@ -255,7 +259,7 @@
          - Added beacon effects tooltip
          - Added mob effects tooltip
          - Added vanilla crop and tree sapling growability tooltip (#245)
-         - Changed the mod name tooltip also to match mod id that uses `-` with namespace that uses `_` (#246) 
+         - Changed the mod name tooltip also to match mod id that uses `-` with namespace that uses `_` (#246)
          - Disabled the overlay FPS option for now
 9.1.2    - Fixed server crash
 9.1.1    - Fixed blockstate override for BlockEntity class not evaluated if it has override from Block class
@@ -346,7 +350,7 @@
          - Added beacon effects tooltip
          - Added mob effects tooltip
          - Added vanilla crop and tree sapling growability tooltip (#245)
-         - Changed the mod name tooltip also to match mod id that uses `-` with namespace that uses `_` (#246) 
+         - Changed the mod name tooltip also to match mod id that uses `-` with namespace that uses `_` (#246)
          - Disabled the overlay FPS option for now
 8.4.3    - Fixed server crash
 8.4.2    - Fixed blockstate override for BlockEntity class not evaluated if it has override from Block class
@@ -599,7 +603,7 @@
          - Added beacon effects tooltip
          - Added mob effects tooltip
          - Added vanilla crop and tree sapling growability tooltip (#245)
-         - Changed the mod name tooltip also to match mod id that uses `-` with namespace that uses `_` (#246) 
+         - Changed the mod name tooltip also to match mod id that uses `-` with namespace that uses `_` (#246)
          - Disabled the overlay FPS option for now
 5.19.3   - Fixed server crash
 5.19.2   - Fixed blockstate override for BlockEntity class not evaluated if it has override from Block class
