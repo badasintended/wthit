@@ -139,7 +139,8 @@ public class VanillaCommonPlugin implements IWailaCommonPlugin {
 
         registrar.blacklist(1100,
             Blocks.BARRIER,
-            Blocks.STRUCTURE_VOID);
+            Blocks.STRUCTURE_VOID,
+            Blocks.LIGHT);
 
         registrar.blacklist(1100,
             EntityType.AREA_EFFECT_CLOUD,
