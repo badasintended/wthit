@@ -1,15 +1,19 @@
-17.x - 1.21.9-pre2 - dev/master - java 21
-=========================================
-17.0.0   - Updated to Minecart 1.21.9-pre2
-
-16.x - 1.21.7 - dev/1.21.7 - java 21
+17.x - 1.21.9 - dev/master - java 21
 ====================================
+17.0.1   - Updated to Minecraft 1.21.9
+         - Added light block to default blacklist (#342)
+17.0.0   - Updated to Minecraft 1.21.9-pre2
+
+16.x - 1.21.8 - dev/1.21.7 - java 21
+====================================
+16.0.2   - Added light block to default blacklist (#342)
 16.0.1   - Updated to Minecraft 1.21.7
          - Fixed crash on NeoForge 21.6.6-beta or later
 16.0.0   - Updated to Minecraft 1.21.6
 
 15.x - 1.21.5 - dev/1.21.5 - java 21
 ====================================
+15.0.3   - Added light block to default blacklist (#342)
 15.0.2   - Added log on when the tier comparison failed
          - Added log when component is clicked on the inspector screen
          - Fixed error when server data isn't ready (#326, #333)
@@ -21,6 +25,7 @@
 
 14.x - 1.21.4 - dev/1.21.4 - java 21
 ====================================
+14.1.8   - Added light block to default blacklist (#342)
 14.1.7   - Added log on when the tier comparison failed
          - Added log when component is clicked on the inspector screen
 14.1.6   - Changed setup to be on the main thread
@@ -49,6 +54,7 @@
 
 12.x - 1.21.1 - dev/1.21.1 - java 21
 ====================================
+12.5.5   - Added light block to default blacklist (#342)
 12.5.4   - Added log on when the tier comparison failed
          - Added log when component is clicked on the inspector screen
 12.5.3   - Changed setup to be on the main thread
@@ -278,6 +284,7 @@
 
 8.x - 1.20.1 - dev/1.20.1 - java 17
 ===================================
+8.16.4   - Added light block to default blacklist (#342)
 8.16.3   - Added log when component is clicked on the inspector screen
 8.16.2   - Changed setup to be on the main thread
 8.16.1   - Fixed `PairComponent#key#getWidth` not being called making height calculation wrong
@@ -530,6 +537,7 @@
 
 5.x - 1.19.2 - dev/1.19.2 - java 17
 ===================================
+5.31.4   - Added light block to default blacklist (#342)
 5.31.3   - Added log when component is clicked on the inspector screen
 5.31.2   - Changed setup to be on the main thread
 5.31.1   - Fixed `PairComponent#key#getWidth` not being called making height calculation wrong
