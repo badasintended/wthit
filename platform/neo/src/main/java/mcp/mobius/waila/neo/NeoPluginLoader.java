@@ -1,7 +1,6 @@
 package mcp.mobius.waila.neo;
 
-import java.nio.file.Files;
-
+import cpw.mods.jarhandling.JarResource;
 import mcp.mobius.waila.plugin.PluginLoader;
 import net.neoforged.fml.ModList;
 
@@ -11,9 +10,10 @@ public class NeoPluginLoader extends PluginLoader {
     protected void gatherPlugins() {
         for (var modFile : ModList.get().getModFiles()) {
             for (var file : PLUGIN_JSON_FILES) {
-                var path = modFile.getFile().findResource(file);
-                if (Files.exists(path)) {
-                    readPluginsJson(modFile.getMods().get(0).getModId(), path);
+                var modId = modFile.getMods().getFirst().getModId();
+                var resource = modFile.getFile().getContents().get(file);
+                if (resource != null) {
+                    readPluginsJson(modId, resource, JarResource::bufferedReader);
                 }
             }
         }

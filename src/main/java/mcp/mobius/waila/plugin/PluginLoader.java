@@ -1,9 +1,6 @@
 package mcp.mobius.waila.plugin;
 
 import java.io.IOException;
-import java.io.Reader;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +23,7 @@ import mcp.mobius.waila.registry.Registrar;
 import mcp.mobius.waila.service.ICommonService;
 import mcp.mobius.waila.util.Log;
 import mcp.mobius.waila.util.ModInfo;
+import mcp.mobius.waila.util.ReaderFor;
 import net.minecraft.client.Minecraft;
 import net.minecraft.server.MinecraftServer;
 
@@ -85,8 +83,8 @@ public abstract class PluginLoader {
 
     protected abstract void gatherPlugins();
 
-    protected void readPluginsJson(String modId, Path path) {
-        try (Reader reader = Files.newBufferedReader(path)) {
+    protected <T> void readPluginsJson(String modId, T resource, ReaderFor<T> readerFor) {
+        try (var reader = readerFor.read(resource)) {
             var object = JsonParser.parseReader(reader).getAsJsonObject();
 
             otherPlugin:
@@ -97,7 +95,7 @@ public abstract class PluginLoader {
                 var entrypoints = plugin.has(KEY_ENTRYPOINTS) ? plugin.getAsJsonObject(KEY_ENTRYPOINTS) : null;
 
                 var side = plugin.has(KEY_SIDE)
-                    ? Objects.requireNonNull(SIDES.get(plugin.get(KEY_SIDE).getAsString()), () -> readError(path) + ", invalid side, available: " + SIDES.keySet().stream().collect(Collectors.joining(", ", "[", "]")))
+                    ? Objects.requireNonNull(SIDES.get(plugin.get(KEY_SIDE).getAsString()), () -> readError(modId) + ", invalid side, available: " + SIDES.keySet().stream().collect(Collectors.joining(", ", "[", "]")))
                     : PluginSide.COMMON;
 
                 if (!side.matches(ICommonService.INSTANCE.getSide())) {
@@ -141,16 +139,16 @@ public abstract class PluginLoader {
                     var client = entrypoints.has(KEY_ENTRYPOINT_CLIENT) ? entrypoints.getAsJsonPrimitive(KEY_ENTRYPOINT_CLIENT).getAsString() : null;
 
                     if (common == null && client == null) {
-                        throw new NullPointerException(readError(path) + ", need at least one entrypoint");
+                        throw new NullPointerException(readError(modId) + ", need at least one entrypoint");
                     }
 
                     PluginInfo.register(modId, pluginId, side, common, client, required, defaultEnabled);
                 } else {
-                    throw new NullPointerException(readError(path) + ", need at least one entrypoint");
+                    throw new NullPointerException(readError(modId) + ", need at least one entrypoint");
                 }
             }
         } catch (IOException e) {
-            throw new RuntimeException(readError(path), e);
+            throw new RuntimeException(readError(modId), e);
         }
     }
 
@@ -222,8 +220,8 @@ public abstract class PluginLoader {
         Registrar.get().attach(null);
     }
 
-    private static String readError(Path path) {
-        return "Failed to read [" + path + "]";
+    private static String readError(String modId) {
+        return "Failed to read plugin json for [" + modId + "]";
     }
 
 }

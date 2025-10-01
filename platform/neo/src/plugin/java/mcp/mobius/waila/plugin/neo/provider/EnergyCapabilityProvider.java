@@ -10,7 +10,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.capabilities.BlockCapabilityCache;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.energy.IEnergyStorage;
+import net.neoforged.neoforge.transfer.energy.EnergyHandler;
 import org.jetbrains.annotations.Nullable;
 
 public enum EnergyCapabilityProvider implements IDataProvider<BlockEntity> {
@@ -18,7 +18,7 @@ public enum EnergyCapabilityProvider implements IDataProvider<BlockEntity> {
     INSTANCE;
 
     @Nullable
-    private BlockCapabilityCache<IEnergyStorage, @Nullable Direction> cache;
+    private BlockCapabilityCache<EnergyHandler, @Nullable Direction> cache;
 
     @Override
     public void appendData(IDataWriter data, IServerAccessor<BlockEntity> accessor, IPluginConfig config) {
@@ -28,14 +28,13 @@ public enum EnergyCapabilityProvider implements IDataProvider<BlockEntity> {
             var pos = target.getBlockPos();
 
             if (cache == null || (cache.level() != world && !cache.pos().equals(pos))) {
-                //noinspection DataFlowIssue
-                cache = BlockCapabilityCache.create(Capabilities.EnergyStorage.BLOCK, world, pos, null);
+                cache = BlockCapabilityCache.create(Capabilities.Energy.BLOCK, world, pos, null);
             }
 
             var storage = cache.getCapability();
             if (storage == null) return;
 
-            res.add(EnergyData.of(storage.getEnergyStored(), storage.getMaxEnergyStored()));
+            res.add(EnergyData.of(storage.getAmountAsLong(), storage.getCapacityAsLong()));
         });
     }
 

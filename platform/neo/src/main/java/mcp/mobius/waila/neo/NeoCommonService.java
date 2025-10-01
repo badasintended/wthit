@@ -39,12 +39,12 @@ public class NeoCommonService implements ICommonService {
 
     @Override
     public boolean isDev() {
-        return !FMLLoader.isProduction();
+        return !FMLLoader.getCurrent().isProduction();
     }
 
     @Override
     public PluginSide getSide() {
-        return switch (FMLLoader.getDist()) {
+        return switch (FMLLoader.getCurrent().getDist()) {
             case CLIENT -> PluginSide.CLIENT;
             case DEDICATED_SERVER -> PluginSide.DEDICATED_SERVER;
         };

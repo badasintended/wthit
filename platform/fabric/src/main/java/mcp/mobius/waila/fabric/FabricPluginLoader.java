@@ -1,5 +1,6 @@
 package mcp.mobius.waila.fabric;
 
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +29,7 @@ public class FabricPluginLoader extends PluginLoader {
         Map<ModContainer, CustomValue.CvObject[]> pluginMap = new Object2ObjectOpenHashMap<>();
         for (var mod : FabricLoader.getInstance().getAllMods()) {
             for (var file : PLUGIN_JSON_FILES) {
-                mod.findPath(file).ifPresent(path -> readPluginsJson(mod.getMetadata().getId(), path));
+                mod.findPath(file).ifPresent(path -> readPluginsJson(mod.getMetadata().getId(), path, Files::newBufferedReader));
             }
 
             var data = mod.getMetadata();

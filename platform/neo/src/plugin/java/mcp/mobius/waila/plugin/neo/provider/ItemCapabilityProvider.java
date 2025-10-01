@@ -10,7 +10,8 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.capabilities.BlockCapabilityCache;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
 import org.jetbrains.annotations.Nullable;
 
 public enum ItemCapabilityProvider implements IDataProvider<BlockEntity> {
@@ -18,7 +19,7 @@ public enum ItemCapabilityProvider implements IDataProvider<BlockEntity> {
     INSTANCE;
 
     @Nullable
-    private BlockCapabilityCache<IItemHandler, @Nullable Direction> cache;
+    private BlockCapabilityCache<ResourceHandler<ItemResource>, @Nullable Direction> cache;
 
     @Override
     public void appendData(IDataWriter data, IServerAccessor<BlockEntity> accessor, IPluginConfig config) {
@@ -28,14 +29,19 @@ public enum ItemCapabilityProvider implements IDataProvider<BlockEntity> {
             var pos = target.getBlockPos();
 
             if (cache == null || (cache.level() != world && !cache.pos().equals(pos))) {
-                //noinspection DataFlowIssue
-                cache = BlockCapabilityCache.create(Capabilities.ItemHandler.BLOCK, world, pos, null);
+                cache = BlockCapabilityCache.create(Capabilities.Item.BLOCK, world, pos, null);
             }
 
             var handler = cache.getCapability();
             if (handler == null) return;
 
-            res.add(ItemData.of(config).getter(handler::getStackInSlot, handler.getSlots()));
+            var size = handler.size();
+            var itemData = ItemData.of(config).ensureSpace(size);
+            for (var i = 0; i < size; i++) {
+                itemData.add(handler.getResource(i).toStack(handler.getAmountAsInt(i)));
+            }
+
+            res.add(itemData);
         });
     }
 

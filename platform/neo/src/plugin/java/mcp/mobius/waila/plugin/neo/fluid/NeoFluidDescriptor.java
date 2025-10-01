@@ -4,7 +4,7 @@ import mcp.mobius.waila.api.data.FluidData.FluidDescription;
 import mcp.mobius.waila.api.data.FluidData.FluidDescriptionContext;
 import mcp.mobius.waila.api.data.FluidData.FluidDescriptor;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.texture.TextureAtlas;
+import net.minecraft.data.AtlasIds;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.fluids.FluidStack;
@@ -18,9 +18,10 @@ public enum NeoFluidDescriptor implements FluidDescriptor<Fluid> {
         var stack = new FluidStack(ctx.fluid().builtInRegistryHolder(), 1, ctx.data());
         var type = ctx.fluid().getFluidType();
         var extensions = IClientFluidTypeExtensions.of(type);
+        var atlas = Minecraft.getInstance().getAtlasManager().getAtlasOrThrow(AtlasIds.BLOCKS);
 
         desc.name(type.getDescription(stack))
-            .sprite(Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS).apply(extensions.getStillTexture(stack)))
+            .sprite(atlas.getSprite(extensions.getStillTexture(stack)))
             .tint(extensions.getTintColor(stack));
     }
 

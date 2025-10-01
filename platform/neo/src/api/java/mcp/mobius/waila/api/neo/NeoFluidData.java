@@ -6,28 +6,29 @@ import mcp.mobius.waila.api.data.FluidData.PlatformTranslator;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
 
 /**
  * NeoForge-specific helper for creating {@link FluidData}.
  */
 public class NeoFluidData {
 
-    public static final PlatformTranslator<FluidStack> TRANSLATOR;
+    public static final PlatformTranslator<FluidResource> TRANSLATOR;
 
     /**
      * Creates a fluid data that accepts a {@link FluidStack}
      */
-    public static PlatformDependant<FluidStack> of() {
+    public static PlatformDependant<FluidResource> of() {
         return FluidData.of(TRANSLATOR);
     }
 
     /**
-     * Creates a fluid data that accepts a {@link FluidStack}
+     * Creates a fluid data that accepts a {@link FluidResource}
      *
      * @param slotCountHint hint of how many the slots probably are to minimize growing the list more
      *                      than necessary, the user can call {@link FluidData#add} more than the specified count
      */
-    public static PlatformDependant<FluidStack> of(int slotCountHint) {
+    public static PlatformDependant<FluidResource> of(int slotCountHint) {
         return FluidData.of(TRANSLATOR, slotCountHint);
     }
 
@@ -39,18 +40,18 @@ public class NeoFluidData {
             }
 
             @Override
-            public Fluid fluid(FluidStack t) {
+            public Fluid fluid(FluidResource t) {
                 return t.getFluid();
             }
 
             @Override
-            public DataComponentPatch data(FluidStack t) {
+            public DataComponentPatch data(FluidResource t) {
                 return t.getComponentsPatch();
             }
 
             @Override
-            public double amount(FluidStack t) {
-                return t.getAmount();
+            public double amount(FluidResource t) {
+                throw new UnsupportedOperationException();
             }
         };
     }
