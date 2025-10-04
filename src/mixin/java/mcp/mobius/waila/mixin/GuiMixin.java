@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 @Mixin(Gui.class)
 public class GuiMixin {
 
-    @Inject(method = "render", at = @At("TAIL"))
+    @Inject(method = "render", at = @At("RETURN"))
     private void wthit_render(GuiGraphics ctx, DeltaTracker delta, CallbackInfo ci) {
         IMixedService.INSTANCE.onGuiRender(ctx, delta);
     }
