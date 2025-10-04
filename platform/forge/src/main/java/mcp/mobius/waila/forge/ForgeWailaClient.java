@@ -2,10 +2,12 @@ package mcp.mobius.waila.forge;
 
 import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.WailaConstants;
+import mcp.mobius.waila.gui.hud.TooltipRenderer;
 import mcp.mobius.waila.gui.hud.theme.BuiltinThemeLoader;
 import mcp.mobius.waila.gui.screen.HomeScreen;
 import mcp.mobius.waila.network.Packets;
 import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.client.event.AddGuiOverlayLayersEvent;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.RegisterClientCommandsEvent;
 import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
@@ -53,6 +55,11 @@ public class ForgeWailaClient extends WailaClient {
         }
 
         @SubscribeEvent
+        static void addGuiOverlayLayers(AddGuiOverlayLayersEvent event) {
+            event.getLayeredDraw().add(TooltipRenderer.ID, TooltipRenderer::render);
+        }
+
+        @SubscribeEvent
         static void clientTick(TickEvent.ClientTickEvent.Post event) {
             onClientTick();
         }
@@ -76,9 +83,7 @@ public class ForgeWailaClient extends WailaClient {
         @SubscribeEvent
         @SuppressWarnings("Convert2MethodRef")
         static void clientSetup(FMLClientSetupEvent event) {
-            event.enqueueWork(() -> {
-                registerConfigScreen();
-            });
+            event.enqueueWork(() -> registerConfigScreen());
         }
 
     }

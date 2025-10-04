@@ -8,6 +8,7 @@ import java.util.function.Supplier;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Suppliers;
 import com.mojang.blaze3d.pipeline.MainTarget;
+import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.access.ClientAccessor;
 import mcp.mobius.waila.api.ITheme;
@@ -27,11 +28,13 @@ import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.ChatScreen;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.Nullable;
 
 public class TooltipRenderer {
 
+    public static final ResourceLocation ID = Waila.id("tooltip");
     private static final Tooltip TOOLTIP = new Tooltip();
 
     private static final Supplier<Rectangle> RENDER_RECT = Suppliers.memoize(Rectangle::new);

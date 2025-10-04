@@ -23,7 +23,7 @@ public class ForgePluginLoader extends PluginLoader {
             for (var file : PLUGIN_JSON_FILES) {
                 var path = modFile.getFile().findResource(file);
                 if (Files.exists(path)) {
-                    readPluginsJson(modFile.getMods().get(0).getModId(), path);
+                    readPluginsJson(modFile.getMods().getFirst().getModId(), path, Files::newBufferedReader);
                 }
             }
 
@@ -51,7 +51,7 @@ public class ForgePluginLoader extends PluginLoader {
                     }
 
                     if (satisfied) {
-                        PluginInfo.registerDeprecated(modFile.getMods().get(0).getModId(), id, side, annotation.memberName(), Arrays.asList(required), true, true);
+                        PluginInfo.registerDeprecated(modFile.getMods().getFirst().getModId(), id, side, annotation.memberName(), Arrays.asList(required), true, true);
                     }
                 }
             }

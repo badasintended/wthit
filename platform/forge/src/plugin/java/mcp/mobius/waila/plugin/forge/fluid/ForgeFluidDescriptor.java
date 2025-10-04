@@ -4,8 +4,8 @@ import mcp.mobius.waila.api.data.FluidData.FluidDescription;
 import mcp.mobius.waila.api.data.FluidData.FluidDescriptionContext;
 import mcp.mobius.waila.api.data.FluidData.FluidDescriptor;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.data.AtlasIds;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.fluids.FluidStack;
@@ -15,16 +15,18 @@ public enum ForgeFluidDescriptor implements FluidDescriptor<Fluid> {
     INSTANCE;
 
     @Override
-    @SuppressWarnings("deprecation")
     public void describeFluid(FluidDescriptionContext<Fluid> ctx, FluidDescription desc) {
         var customData = ctx.data().get(DataComponents.CUSTOM_DATA);
-        var nbt = customData != null && customData.isPresent() ? customData.get().getUnsafe() : null;
-        var stack = new FluidStack(ctx.fluid(), 1, nbt);
+        var nbt = customData != null && customData.isPresent() ? customData.get().copyTag() : null;
+        var stack = new FluidStack(ctx.fluid(), 1);
+        stack.setTag(nbt);
+
         var type = ctx.fluid().getFluidType();
         var extensions = IClientFluidTypeExtensions.of(type);
+        var atlas = Minecraft.getInstance().getAtlasManager().getAtlasOrThrow(AtlasIds.BLOCKS);
 
         desc.name(type.getDescription(stack))
-            .sprite(Minecraft.getInstance().getTextureAtlas(TextureAtlas.LOCATION_BLOCKS).apply(extensions.getStillTexture(stack)))
+            .sprite(atlas.getSprite(extensions.getStillTexture(stack)))
             .tint(extensions.getTintColor(stack));
     }
 
