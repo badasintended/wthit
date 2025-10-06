@@ -89,6 +89,7 @@
 
 
 
+
   "gui.waila.configuration"                                    : "%s 환경설정",
   "gui.waila.waila_settings"                                   : "%s 설정",
 
@@ -105,6 +106,12 @@
   "gui.waila.credits.original_mod_by"                          : "원본 \"WAILA\" 모드 제작",
   "gui.waila.credits.authors"                                  : "제작",
   "gui.waila.credits.contributors"                             : "기여자",
+
+
+
+
+
+
 
 
 
@@ -242,6 +249,7 @@
   "config.waila.format_registry_name"                          : "레지스트리 이름",
 
 
+
   "key.waila.config"                                           : "Config 열기",
   "key.waila.show_overlay"                                     : "오버레이 표시",
   "key.waila.toggle_liquid"                                    : "액체 토글",
@@ -340,6 +348,7 @@
   "config.waila.plugin_waila.show_fluids"                      : "유체 표시",
   "config.waila.plugin_waila.show_fluids_desc"                 : "유체를 보여줍니다.",
   "config.waila.plugin_waila.show_entities"                    : "개체 표시"
+
 
 
 

@@ -69,6 +69,7 @@
   "tooltip.waila.extra.energy"                                 : "Năng Lượng",
   "tooltip.waila.extra.unknown_fluid"                          : "Chất Lỏng Không Xác Định",
 
+
   "tooltip.waila.harvest.harvestable"                          : "Có Thể Thu Hoạch",
   "tooltip.waila.harvest.effective_tool"                       : "Công Cụ Hiệu Quả",
   "tooltip.waila.harvest.level"                                : "Cấp Độ Thu Hoạch",
@@ -105,6 +106,12 @@
   "gui.waila.credits.original_mod_by"                          : "Mod \"WAILA\" Gốc bởi",
   "gui.waila.credits.authors"                                  : "Tác Giả",
   "gui.waila.credits.contributors"                             : "Người Đóng Góp",
+
+
+
+
+
+
 
   "json5.waila.config.default_value"                           : "Giá trị mặc định: [%s]",
   "json5.waila.config.available_values"                        : "Các giá trị có sẵn: [%s]",
@@ -242,6 +249,7 @@
   "config.waila.format_registry_name"                          : "Tên Đăng Ký",
 
   "config.waila.keybinds"                                      : "Phím Tắt",
+
   "key.waila.config"                                           : "Mở Cấu Hình",
   "key.waila.show_overlay"                                     : "Hiển Thị Tổng Quan",
   "key.waila.toggle_liquid"                                    : "Chuyển Đổi Chất Lỏng",
@@ -362,6 +370,7 @@
   "config.waila.plugin_wailax.progress"                        : "Tiến Trình Chế Tạo",
   "config.waila.plugin_wailax.progress.enabled_block"          : "Hiển Thị Tiến Trình Chế Tạo Khối",
   "config.waila.plugin_wailax.progress.enabled_entity"         : "Hiển Thị Tiến Trình Chế Tạo Sinh Vật",
+
   "config.waila.plugin_wailax.progress.blacklist"              : "Danh Sách Đen Tiến Trình Chế Tạo",
   "config.waila.plugin_wailax.item"                            : "Mục",
   "config.waila.plugin_wailax.item.enabled_block"              : "Hiển Thị Nội Dung Mục Của Khối",

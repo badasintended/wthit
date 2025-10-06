@@ -32,6 +32,8 @@ public interface IExtraService {
 
     ItemData createItemData(IPluginConfig config);
 
-    ProgressData createProgressData(float ratio);
+    ProgressData createRatioProgressData(float ratio);
+
+    ProgressData createTickProgressData(int current, int total);
 
 }
