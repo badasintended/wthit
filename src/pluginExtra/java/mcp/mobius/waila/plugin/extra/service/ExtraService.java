@@ -62,8 +62,13 @@ public class ExtraService implements IExtraService {
     }
 
     @Override
-    public ProgressData createProgressData(float ratio) {
+    public ProgressData createRatioProgressData(float ratio) {
         return new ProgressDataImpl(ratio);
+    }
+
+    @Override
+    public ProgressData createTickProgressData(int current, int total) {
+        return new ProgressDataImpl(current, total);
     }
 
 }

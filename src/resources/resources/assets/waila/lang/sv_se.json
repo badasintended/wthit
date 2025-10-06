@@ -89,6 +89,7 @@
 
 
 
+
   "gui.waila.configuration"                                    : "Konfiguration för %s",
   "gui.waila.waila_settings"                                   : "Inställningar för %s",
 
@@ -105,6 +106,12 @@
   "gui.waila.credits.original_mod_by"                          : "Originalmodden \"WAILA\" av",
   "gui.waila.credits.authors"                                  : "Författare",
   "gui.waila.credits.contributors"                             : "Bidragsgivare",
+
+
+
+
+
+
 
 
 
@@ -242,6 +249,7 @@
   "config.waila.format_registry_name"                          : "Registersnamn",
 
   "config.waila.keybinds"                                      : "Kortkommandon",
+
   "key.waila.config"                                           : "Öppna konfigurering",
   "key.waila.show_overlay"                                     : "Visa överlägg",
   "key.waila.toggle_liquid"                                    : "Visa/dölj vätskor",
@@ -362,6 +370,7 @@
   "config.waila.plugin_wailax.progress"                        : "Tillverkningsförlopp",
   "config.waila.plugin_wailax.progress.enabled_block"          : "Visa blocktillverkningsförlopp",
   "config.waila.plugin_wailax.progress.enabled_entity"         : "Visa entitettillverkningsförlopp",
+
   "config.waila.plugin_wailax.progress.blacklist"              : "Svartlista för tillverkningsförlopp",
   "config.waila.plugin_wailax.item"                            : "Föremål",
   "config.waila.plugin_wailax.item.enabled_block"              : "Visa blockföremålsinnehåll",

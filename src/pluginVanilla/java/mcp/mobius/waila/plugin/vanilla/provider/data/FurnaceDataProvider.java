@@ -20,7 +20,7 @@ public enum FurnaceDataProvider implements IDataProvider<AbstractFurnaceBlockEnt
             var access = (AbstractFurnaceBlockEntityAccess) furnace;
 
             if (furnace.getBlockState().getValue(AbstractFurnaceBlock.LIT)) res.add(ProgressData
-                .ratio((float) access.wthit_cookingProgress() / access.wthit_cookingTotalTime())
+                .tick(access.wthit_cookingProgress(), access.wthit_cookingTotalTime())
                 .itemGetter(furnace::getItem)
                 .input(0, 1)
                 .output(2));

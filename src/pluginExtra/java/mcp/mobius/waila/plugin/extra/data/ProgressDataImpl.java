@@ -8,45 +8,61 @@ import net.minecraft.world.item.ItemStack;
 
 public class ProgressDataImpl extends ProgressData {
 
-    private final float ratio;
+    @Override
+    public void write(FriendlyByteBuf buf) {
+        var d = this;
+        if (d.hasTick) {
+            buf.writeVarInt(d.currentTick);
+            buf.writeVarInt(d.maxTick);
+        } else {
+            buf.writeFloat(d.ratio);
+        }
 
-    public ProgressDataImpl(float ratio) {
-        this.ratio = ratio;
+        buf.writeVarInt(d.input.size());
+        for (var stack : d.input) {
+            buf.writeItem(stack);
+        }
+
+        buf.writeVarInt(d.output.size());
+        for (var stack : d.output) {
+            buf.writeItem(stack);
+        }
     }
 
-    public ProgressDataImpl(FriendlyByteBuf buf) {
-        this.ratio = buf.readFloat();
+    public static ProgressDataImpl of(FriendlyByteBuf buf) {
+        var hasTick = buf.readBoolean();
+        var d = hasTick
+            ? new ProgressDataImpl(buf.readVarInt(), buf.readVarInt())
+            : new ProgressDataImpl(buf.readFloat());
 
         var inputSize = buf.readVarInt();
-        input.ensureCapacity(inputSize);
+        d.input.ensureCapacity(inputSize);
         for (var i = 0; i < inputSize; i++) {
-            input.add(buf.readItem());
+            d.input.add(buf.readItem());
         }
 
         var outputSize = buf.readVarInt();
-        output.ensureCapacity(outputSize);
+        d.output.ensureCapacity(outputSize);
         for (var i = 0; i < outputSize; i++) {
-            output.add(buf.readItem());
+            d.output.add(buf.readItem());
         }
+
+        return d;
     }
 
-    @Override
-    public void write(FriendlyByteBuf buf) {
-        buf.writeFloat(ratio);
+    public final boolean hasTick;
+    public float ratio;
+    public int currentTick, maxTick;
 
-        buf.writeVarInt(input.size());
-        for (var stack : input) {
-            buf.writeItem(stack);
-        }
-
-        buf.writeVarInt(output.size());
-        for (var stack : output) {
-            buf.writeItem(stack);
-        }
+    public ProgressDataImpl(float ratio) {
+        this.hasTick = false;
+        this.ratio = ratio;
     }
 
-    public float ratio() {
-        return ratio;
+    public ProgressDataImpl(int currentTick, int maxTick) {
+        this.hasTick = true;
+        this.currentTick = currentTick;
+        this.maxTick = maxTick;
     }
 
     public ArrayList<ItemStack> input() {

@@ -44,7 +44,7 @@ public class ProgressArrowComponent extends GuiComponent implements ITooltipComp
 
         if (progress > 0) {
             // Draws the "full" foreground arrow based on the progress
-            blit(matrices, x, y, 0, 0, (int) (progress * 22) + 1, 16);
+            blit(matrices, x, y, 0, 0, (int) (progress * 22), 16);
         }
     }
 
