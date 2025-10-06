@@ -40,7 +40,7 @@ public class ProgressArrowComponent implements ITooltipComponent {
 
         if (progress > 0) {
             // Draws the "full" foreground arrow based on the progress
-            ctx.blit(RenderPipelines.GUI_TEXTURED, WailaConstants.COMPONENT_TEXTURE, x, y, 0, 0, (int) (progress * 22) + 1, 16, 256, 256);
+            ctx.blit(RenderPipelines.GUI_TEXTURED, WailaConstants.COMPONENT_TEXTURE, x, y, 0, 0, (int) (progress * 22), 16, 256, 256);
         }
     }
 

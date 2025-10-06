@@ -11,7 +11,13 @@ import net.minecraft.world.item.ItemStack;
 public class ProgressDataImpl extends ProgressData {
 
     public static final StreamCodec<RegistryFriendlyByteBuf, ProgressDataImpl> CODEC = StreamCodec.ofMember((d, buf) -> {
-        buf.writeFloat(d.ratio);
+        buf.writeBoolean(d.hasTick);
+        if (d.hasTick) {
+            buf.writeVarInt(d.currentTick);
+            buf.writeVarInt(d.maxTick);
+        } else {
+            buf.writeFloat(d.ratio);
+        }
 
         buf.writeVarInt(d.input.size());
         for (var stack : d.input) {
@@ -23,8 +29,10 @@ public class ProgressDataImpl extends ProgressData {
             ItemStack.OPTIONAL_STREAM_CODEC.encode(buf, stack);
         }
     }, buf -> {
-        var ratio = buf.readFloat();
-        var d = new ProgressDataImpl(ratio);
+        var hasTick = buf.readBoolean();
+        var d = hasTick
+            ? new ProgressDataImpl(buf.readVarInt(), buf.readVarInt())
+            : new ProgressDataImpl(buf.readFloat());
 
         var inputSize = buf.readVarInt();
         d.input.ensureCapacity(inputSize);
@@ -41,14 +49,19 @@ public class ProgressDataImpl extends ProgressData {
         return d;
     });
 
-    private final float ratio;
+    public final boolean hasTick;
+    public float ratio;
+    public int currentTick, maxTick;
 
     public ProgressDataImpl(float ratio) {
+        this.hasTick = false;
         this.ratio = ratio;
     }
 
-    public float ratio() {
-        return ratio;
+    public ProgressDataImpl(int currentTick, int maxTick) {
+        this.hasTick = true;
+        this.currentTick = currentTick;
+        this.maxTick = maxTick;
     }
 
     public ArrayList<ItemStack> input() {
