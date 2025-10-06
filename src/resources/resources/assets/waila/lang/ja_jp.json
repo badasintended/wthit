@@ -69,6 +69,7 @@
   "tooltip.waila.extra.energy"                                 : "エネルギー",
   "tooltip.waila.extra.unknown_fluid"                          : "未知の液体",
 
+
   "tooltip.waila.harvest.harvestable"                          : "現在収穫可能",
   "tooltip.waila.harvest.effective_tool"                       : "効果的な道具",
   "tooltip.waila.harvest.level"                                : "収穫レベル",
@@ -105,6 +106,12 @@
   "gui.waila.credits.original_mod_by"                          : "オリジナルの\"WAILA\" MOD作成者: ",
   "gui.waila.credits.authors"                                  : "作成者",
   "gui.waila.credits.contributors"                             : "貢献者",
+
+
+
+
+
+
 
   "json5.waila.config.default_value"                           : "標準値: [%s]",
   "json5.waila.config.available_values"                        : "利用可能な値: [%s]",
@@ -242,6 +249,7 @@
   "config.waila.format_registry_name"                          : "レジストリ名",
 
   "config.waila.keybinds"                                      : "キーバインド",
+
   "key.waila.config"                                           : "設定を開く",
   "key.waila.show_overlay"                                     : "オーバーレイ表示",
   "key.waila.toggle_liquid"                                    : "液体の切り替え",
@@ -362,6 +370,7 @@
   "config.waila.plugin_wailax.progress"                        : "作業進捗",
   "config.waila.plugin_wailax.progress.enabled_block"          : "ブロックの作業進捗を表示",
   "config.waila.plugin_wailax.progress.enabled_entity"         : "エンティティの作業進捗を表示",
+
   "config.waila.plugin_wailax.progress.blacklist"              : "作業進捗ブラックリスト",
   "config.waila.plugin_wailax.item"                            : "アイテム",
   "config.waila.plugin_wailax.item.enabled_block"              : "ブロック内のアイテムを表示",

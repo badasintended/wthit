@@ -89,6 +89,7 @@
 
 
 
+
   "gui.waila.configuration"                                    : "%s 組態",
   "gui.waila.waila_settings"                                   : "%s 設定",
 
@@ -105,6 +106,12 @@
   "gui.waila.credits.original_mod_by"                          : "原始模組《WAILA》作者",
   "gui.waila.credits.authors"                                  : "作者",
   "gui.waila.credits.contributors"                             : "貢獻者",
+
+
+
+
+
+
 
 
 
@@ -242,6 +249,7 @@
   "config.waila.format_registry_name"                          : "註冊名稱",
 
 
+
   "key.waila.config"                                           : "開啟組態",
   "key.waila.show_overlay"                                     : "顯示提示框",
   "key.waila.toggle_liquid"                                    : "開關流體顯示",
@@ -341,6 +349,7 @@
   "config.waila.plugin_waila.show_fluids_desc"                 : "嘗試顯示流體",
   "config.waila.plugin_waila.show_entities"                    : "顯示實體",
   "config.waila.plugin_waila.show_icon"                        : "顯示圖示"
+
 
 
 

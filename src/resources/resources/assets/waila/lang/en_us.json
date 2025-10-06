@@ -68,6 +68,7 @@
 
   "tooltip.waila.extra.energy"                                 : "Energy",
   "tooltip.waila.extra.unknown_fluid"                          : "Unknown Fluid",
+  "tooltip.waila.extra.estimated_time"                         : "Est. Time",
 
   "tooltip.waila.harvest.harvestable"                          : "Currently Harvestable",
   "tooltip.waila.harvest.effective_tool"                       : "Effective Tool",
@@ -368,6 +369,7 @@
   "config.waila.plugin_wailax.progress"                        : "Crafting Progress",
   "config.waila.plugin_wailax.progress.enabled_block"          : "Show Block Crafting Progress",
   "config.waila.plugin_wailax.progress.enabled_entity"         : "Show Entity Crafting Progress",
+  "config.waila.plugin_wailax.progress.time"                   : "Show Estimated Time",
   "config.waila.plugin_wailax.progress.blacklist"              : "Crafting Progress Blacklist",
   "config.waila.plugin_wailax.item"                            : "Item",
   "config.waila.plugin_wailax.item.enabled_block"              : "Show Block Item Contents",
