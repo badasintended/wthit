@@ -23,15 +23,33 @@ public abstract class ProgressData implements IData {
     public static final ResourceLocation ID = BuiltinDataUtil.rl("progress");
     public static final Type<ProgressData> TYPE = IData.createType(ID);
 
+    public static final ResourceLocation CONFIG_TIME = BuiltinDataUtil.rl("progress.time");
+
     /**
      * Creates a progress data.
+     * <p>
+     * Prefer {@link #tick(int, int)} if the information present.
      * <p>
      * Do <b>NOT</b> {@linkplain IDataWriter.Result#add add} a data if the current progress is zero.
      *
      * @param ratio the ratio of the progress ranging from {@code 0.0f} to {@code 1.0f}
      */
     public static ProgressData ratio(float ratio) {
-        return IExtraService.INSTANCE.createProgressData(Mth.clamp(ratio, 0f, 1f));
+        return IExtraService.INSTANCE.createRatioProgressData(Mth.clamp(ratio, 0f, 1f));
+    }
+
+    /**
+     * Creates a progress data.
+     * <p>
+     * Unlike {@link #ratio(float)}, this version also adds an estimated time to finish on the tooltip.
+     * <p>
+     * Do <b>NOT</b> {@linkplain IDataWriter.Result#add add} a data if the current progress is zero.
+     *
+     * @param current the current tick progress for the process
+     * @param total   the estimated total tick for the process
+     */
+    public static ProgressData tick(int current, int total) {
+        return IExtraService.INSTANCE.createTickProgressData(current, total);
     }
 
     /**
