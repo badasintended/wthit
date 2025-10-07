@@ -1,8 +1,8 @@
 package mcp.mobius.waila.neo;
 
-import cpw.mods.jarhandling.JarResource;
 import mcp.mobius.waila.plugin.PluginLoader;
 import net.neoforged.fml.ModList;
+import net.neoforged.fml.jarcontents.JarResource;
 
 public class NeoPluginLoader extends PluginLoader {
 
