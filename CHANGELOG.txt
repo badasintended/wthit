@@ -1,5 +1,6 @@
-17.x - 1.21.9 - dev/master - java 21
+17.x - 1.21.9 - eol/1.21.9 - java 21
 ====================================
+17.0.4   - Fixed crash on latest NeoForge version
 17.0.3   - Updated Forge to Minecraft 1.21.9
          - Fixed ivisible title on some setting screen
 17.0.2   - ditto
