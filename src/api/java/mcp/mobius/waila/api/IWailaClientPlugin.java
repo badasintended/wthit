@@ -1,6 +1,6 @@
 package mcp.mobius.waila.api;
 
-import lol.bai.badpackets.impl.marker.ApiSide;
+import mcp.mobius.waila.api.__internal__.ApiSide;
 
 /**
  * The client side entrypoint for Waila plugins.

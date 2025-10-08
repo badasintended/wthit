@@ -83,7 +83,7 @@ public abstract class ProgressData implements IData {
      */
     public ProgressData input(int slot) {
         assertInventory();
-        return input(inventory.apply(slot));
+        return input(itemGetter.apply(slot));
     }
 
     /**
@@ -94,7 +94,7 @@ public abstract class ProgressData implements IData {
     public ProgressData input(int... slots) {
         assertInventory();
         ensureInputSpace(slots.length);
-        for (var slot : slots) input.add(inventory.apply(slot));
+        for (var slot : slots) input.add(itemGetter.apply(slot));
         return this;
     }
 
@@ -130,7 +130,7 @@ public abstract class ProgressData implements IData {
      */
     public ProgressData output(int slot) {
         assertInventory();
-        return output(inventory.apply(slot));
+        return output(itemGetter.apply(slot));
     }
 
     /**
@@ -141,15 +141,15 @@ public abstract class ProgressData implements IData {
     public ProgressData output(int... slots) {
         assertInventory();
         ensureOutputSpace(slots.length);
-        for (var slot : slots) output.add(inventory.apply(slot));
+        for (var slot : slots) output.add(itemGetter.apply(slot));
         return this;
     }
 
     /**
      * Specify a slot to item stack getter to be used with {@link #input(int)} and {@link #output(int)}.
      */
-    public ProgressData itemGetter(IntFunction<ItemStack> inventory) {
-        this.inventory = inventory;
+    public ProgressData itemGetter(IntFunction<ItemStack> getter) {
+        this.itemGetter = getter;
         return this;
     }
 
@@ -178,11 +178,11 @@ public abstract class ProgressData implements IData {
     protected final ArrayList<ItemStack> output = new ArrayList<>();
 
     /** @hidden */
-    protected IntFunction<ItemStack> inventory;
+    protected IntFunction<ItemStack> itemGetter;
 
     @ApiStatus.Internal
     private void assertInventory() {
-        Preconditions.checkState(inventory != null, "Call inventory() with stack getter first");
+        Preconditions.checkState(itemGetter != null, "Call itemGetter() with stack getter first");
     }
 
     @ApiStatus.Internal
