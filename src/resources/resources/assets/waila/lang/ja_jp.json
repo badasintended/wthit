@@ -371,6 +371,10 @@
   "config.waila.plugin_wailax.progress.enabled_block"          : "ブロックの作業進捗を表示",
   "config.waila.plugin_wailax.progress.enabled_entity"         : "エンティティの作業進捗を表示",
 
+
+
+
+
   "config.waila.plugin_wailax.progress.blacklist"              : "作業進捗ブラックリスト",
   "config.waila.plugin_wailax.item"                            : "アイテム",
   "config.waila.plugin_wailax.item.enabled_block"              : "ブロック内のアイテムを表示",

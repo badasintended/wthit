@@ -371,6 +371,10 @@
   "config.waila.plugin_wailax.progress.enabled_block"          : "Visa blocktillverkningsförlopp",
   "config.waila.plugin_wailax.progress.enabled_entity"         : "Visa entitettillverkningsförlopp",
 
+
+
+
+
   "config.waila.plugin_wailax.progress.blacklist"              : "Svartlista för tillverkningsförlopp",
   "config.waila.plugin_wailax.item"                            : "Föremål",
   "config.waila.plugin_wailax.item.enabled_block"              : "Visa blockföremålsinnehåll",
