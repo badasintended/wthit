@@ -8,7 +8,6 @@ import mcp.mobius.waila.gui.widget.ConfigListWidget;
 import mcp.mobius.waila.gui.widget.value.ConfigValue;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.components.toasts.SystemToast;
 import net.minecraft.client.gui.screens.Screen;
@@ -119,17 +118,6 @@ public abstract class ConfigScreen extends YesIAmSureTheClientInstanceIsPresentB
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        for (var child : children) {
-            if (child instanceof EditBox editBox) {
-                editBox.setFocused(false);
-            }
-        }
-
-        return super.mouseClicked(mouseX, mouseY, button);
-    }
-
-    @Override
     public boolean shouldCloseOnEsc() {
         if (showEscWarning) {
             var now = System.currentTimeMillis();
@@ -153,6 +141,15 @@ public abstract class ConfigScreen extends YesIAmSureTheClientInstanceIsPresentB
         }
 
         return false;
+    }
+
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if (options.enableSearchBox && Screen.hasControlDown() && keyCode == InputConstants.KEY_F) {
+            setFocused(options.getSearchBox());
+        }
+
+        return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
     @Override
