@@ -371,6 +371,10 @@
   "config.waila.plugin_wailax.progress.enabled_block"          : "Процесс крафта блоков",
   "config.waila.plugin_wailax.progress.enabled_entity"         : "Процесс крафта сущностей",
 
+
+
+
+
   "config.waila.plugin_wailax.progress.blacklist"              : "Черный список",
   "config.waila.plugin_wailax.item"                            : "Предметы",
   "config.waila.plugin_wailax.item.enabled_block"              : "Содержание блоков",
