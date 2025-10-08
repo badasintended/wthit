@@ -8,12 +8,10 @@ import mcp.mobius.waila.gui.widget.ConfigListWidget;
 import mcp.mobius.waila.gui.widget.value.ConfigValue;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.components.toasts.SystemToast;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.KeyEvent;
-import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
@@ -121,17 +119,6 @@ public abstract class ConfigScreen extends YesIAmSureTheClientInstanceIsPresentB
     }
 
     @Override
-    public boolean mouseClicked(MouseButtonEvent event, boolean doubled) {
-        for (var child : children) {
-            if (child instanceof EditBox editBox) {
-                editBox.setFocused(false);
-            }
-        }
-
-        return super.mouseClicked(event, doubled);
-    }
-
-    @Override
     public boolean shouldCloseOnEsc() {
         if (showEscWarning) {
             var now = System.currentTimeMillis();
@@ -155,6 +142,15 @@ public abstract class ConfigScreen extends YesIAmSureTheClientInstanceIsPresentB
         }
 
         return false;
+    }
+
+    @Override
+    public boolean keyPressed(KeyEvent event) {
+        if (options.enableSearchBox && event.hasControlDown() && event.key() == InputConstants.KEY_F) {
+            setFocused(options.getSearchBox());
+        }
+
+        return super.keyPressed(event);
     }
 
     @Override
