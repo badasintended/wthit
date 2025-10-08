@@ -1,6 +1,6 @@
 package mcp.mobius.waila.api;
 
-import lol.bai.badpackets.impl.marker.ApiSide;
+import mcp.mobius.waila.api.__internal__.ApiSide;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.entity.BlockEntity;
