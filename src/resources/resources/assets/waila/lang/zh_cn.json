@@ -371,6 +371,10 @@
   "config.waila.plugin_wailax.progress.enabled_block"          : "显示方块合成进度",
   "config.waila.plugin_wailax.progress.enabled_entity"         : "显示实体合成进度",
 
+
+
+
+
   "config.waila.plugin_wailax.progress.blacklist"              : "合成进度黑名单",
   "config.waila.plugin_wailax.item"                            : "物品",
   "config.waila.plugin_wailax.item.enabled_block"              : "显示方块物品内容",

@@ -24,6 +24,8 @@ public abstract class ProgressData implements IData {
     public static final Type<ProgressData> TYPE = IData.createType(ID);
 
     public static final ResourceLocation CONFIG_TIME = BuiltinDataUtil.rl("progress.time");
+    public static final ResourceLocation CONFIG_BAR_HEIGHT = BuiltinDataUtil.rl("progress.height");
+    public static final ResourceLocation CONFIG_REPLACE_ITEMS = BuiltinDataUtil.rl("progress.replace_items");
 
     /**
      * Creates a progress data.
