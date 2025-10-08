@@ -21,16 +21,16 @@ public class ExtraPlugin implements IWailaCommonPlugin, IWailaClientPlugin {
     public void register(ICommonRegistrar registrar) {
         EnergyProvider.INSTANCE.register(registrar, 500);
         FluidProvider.INSTANCE.register(registrar, 550);
-        ProgressProvider.INSTANCE.register(registrar, 1500);
         ItemProvider.INSTANCE.register(registrar, 1550);
+        ProgressProvider.INSTANCE.register(registrar, 1600);
     }
 
     @Override
     public void register(IClientRegistrar registrar) {
         EnergyProvider.INSTANCE.register(registrar, 500);
         FluidProvider.INSTANCE.register(registrar, 550);
-        ProgressProvider.INSTANCE.register(registrar, 1500);
         ItemProvider.INSTANCE.register(registrar, 1550);
+        ProgressProvider.INSTANCE.register(registrar, 1600);
     }
 
 }

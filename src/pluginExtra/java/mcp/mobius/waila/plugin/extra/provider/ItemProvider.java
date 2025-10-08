@@ -50,7 +50,8 @@ public class ItemProvider extends DataProvider<ItemData, ItemDataImpl> {
         var progress = (ProgressDataImpl) reader.get(ProgressData.class);
         if (progress == null
             || (!progress.hasTick && progress.ratio == 0f)
-            || (progress.hasTick && progress.currentTick == 0)) {
+            || (progress.hasTick && progress.currentTick == 0)
+            || ProgressProvider.isProgressOnly(progress, config)) {
             super.appendBody(tooltip, reader, config, objectId);
         }
     }

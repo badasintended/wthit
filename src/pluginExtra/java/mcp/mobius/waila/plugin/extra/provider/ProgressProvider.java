@@ -6,6 +6,7 @@ import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.component.ItemComponent;
 import mcp.mobius.waila.api.component.PairComponent;
 import mcp.mobius.waila.api.component.ProgressArrowComponent;
+import mcp.mobius.waila.api.component.ProgressBarComponent;
 import mcp.mobius.waila.api.data.ProgressData;
 import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.plugin.extra.data.ProgressDataImpl;
@@ -27,19 +28,34 @@ public class ProgressProvider extends DataProvider<ProgressData, ProgressDataImp
     @Override
     protected void registerAdditions(ICommonRegistrar registrar, int priority) {
         registrar.featureConfig(ProgressData.CONFIG_TIME, false);
+        registrar.localConfig(ProgressData.CONFIG_REPLACE_ITEMS, false);
+        registrar.localConfig(ProgressData.CONFIG_BAR_HEIGHT, 1);
     }
 
-    private void appendProgress(ITooltip tooltip, ProgressDataImpl progress, float ratio) {
+    @SuppressWarnings("RedundantIfStatement")
+    static boolean isProgressOnly(ProgressDataImpl progress, IPluginConfig config) {
+        if (!config.getBoolean(ProgressData.CONFIG_REPLACE_ITEMS)) return true;
+        if (!progress.input().isEmpty()) return false;
+        if (!progress.output().isEmpty()) return false;
+        return true;
+    }
+
+    private void appendProgress(ITooltip tooltip, ProgressDataImpl progress, IPluginConfig config, float ratio) {
         var line = tooltip.setLine(ProgressData.ID);
+        if (isProgressOnly(progress, config)) {
+            line.with(new ProgressBarComponent(config.getInt(ProgressData.CONFIG_BAR_HEIGHT), 0xFFFFFFFF, 0xFF8B8B8B, ratio));
+        } else {
+            for (var stack : progress.input()) {
+                if (stack.isEmpty()) continue;
+                line.with(new ItemComponent(stack));
+            }
 
-        for (var stack : progress.input()) {
-            line.with(new ItemComponent(stack));
-        }
+            line.with(new ProgressArrowComponent(ratio));
 
-        line.with(new ProgressArrowComponent(ratio));
-
-        for (var stack : progress.output()) {
-            line.with(new ItemComponent(stack));
+            for (var stack : progress.output()) {
+                if (stack.isEmpty()) continue;
+                line.with(new ItemComponent(stack));
+            }
         }
     }
 
@@ -50,7 +66,7 @@ public class ProgressProvider extends DataProvider<ProgressData, ProgressDataImp
             var max = progress.maxTick;
             var remaining = max - current;
             if (current == 0 || remaining >= max) return;
-            appendProgress(tooltip, progress, (float) current / max);
+            appendProgress(tooltip, progress, config, (float) current / max);
 
             if (config.getBoolean(ProgressData.CONFIG_TIME)) {
                 var seconds = ((remaining) / 20) + 1;
@@ -69,7 +85,7 @@ public class ProgressProvider extends DataProvider<ProgressData, ProgressDataImp
             progress.currentTick++;
         } else {
             if (progress.ratio == 0f) return;
-            appendProgress(tooltip, progress, progress.ratio);
+            appendProgress(tooltip, progress, config, progress.ratio);
         }
     }
 

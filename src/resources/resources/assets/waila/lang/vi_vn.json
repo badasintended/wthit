@@ -371,6 +371,10 @@
   "config.waila.plugin_wailax.progress.enabled_block"          : "Hiển Thị Tiến Trình Chế Tạo Khối",
   "config.waila.plugin_wailax.progress.enabled_entity"         : "Hiển Thị Tiến Trình Chế Tạo Sinh Vật",
 
+
+
+
+
   "config.waila.plugin_wailax.progress.blacklist"              : "Danh Sách Đen Tiến Trình Chế Tạo",
   "config.waila.plugin_wailax.item"                            : "Mục",
   "config.waila.plugin_wailax.item.enabled_block"              : "Hiển Thị Nội Dung Mục Của Khối",
