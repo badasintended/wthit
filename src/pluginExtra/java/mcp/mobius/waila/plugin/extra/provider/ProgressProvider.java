@@ -17,7 +17,8 @@ public class ProgressProvider extends DataProvider<ProgressData, ProgressDataImp
     public static final ProgressProvider INSTANCE = new ProgressProvider();
 
     private static final Component ESTIMATED_TIME = Component.translatable(Tl.Tooltip.Extra.ESTIMATED_TIME);
-    private static final String TIMER = "%02d:%02d";
+    private static final String TIMER_MS = "%02d:%02d";
+    private static final String TIMER_HMS = "%02d:%02d:%02d";
 
     private ProgressProvider() {
         super(ProgressData.TYPE, ProgressDataImpl.CODEC);
@@ -56,10 +57,15 @@ public class ProgressProvider extends DataProvider<ProgressData, ProgressDataImp
             if (config.getBoolean(ProgressData.CONFIG_TIME)) {
                 var seconds = ((remaining) / 20) + 1;
                 var minutes = seconds / 60;
+                var hours = minutes / 60;
+                minutes = minutes % 60;
                 seconds = seconds % 60;
+
                 tooltip.setLine(ProgressData.CONFIG_TIME, new PairComponent(
                     ESTIMATED_TIME,
-                    Component.literal(TIMER.formatted(minutes, seconds))));
+                    Component.literal(hours > 0
+                        ? TIMER_HMS.formatted(hours, minutes, seconds)
+                        : TIMER_MS.formatted(minutes, seconds))));
             }
 
             progress.currentTick++;
