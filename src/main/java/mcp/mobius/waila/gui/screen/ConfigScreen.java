@@ -119,17 +119,6 @@ public abstract class ConfigScreen extends YesIAmSureTheClientInstanceIsPresentB
     }
 
     @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        for (var child : children) {
-            if (child instanceof EditBox editBox) {
-                editBox.setFocused(false);
-            }
-        }
-
-        return super.mouseClicked(mouseX, mouseY, button);
-    }
-
-    @Override
     public boolean shouldCloseOnEsc() {
         if (showEscWarning) {
             var now = System.currentTimeMillis();
@@ -153,6 +142,15 @@ public abstract class ConfigScreen extends YesIAmSureTheClientInstanceIsPresentB
         }
 
         return false;
+    }
+
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if (options.enableSearchBox && Screen.hasControlDown() && keyCode == InputConstants.KEY_F) {
+            setFocused(options.getSearchBox());
+        }
+
+        return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
     @Override
