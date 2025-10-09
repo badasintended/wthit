@@ -1,5 +1,13 @@
 17.x - 1.21.10 - dev/master - java 21
 =====================================
+17.1.0   - Updated to Minecraft 1.21.10
+         - [API] Added estimated progress time tooltip and API
+         - Added focus on search bar when pressing ctrl+f in config
+         - Added hour component on progress timer
+         - Changed progress to show as a bar by default
+         - Changed player's head name to show in block's name
+         - Fixed tooltip not hiding when debug options set to always (#345)
+         - Fixed crash on looking on player head with profile (#344)
 17.0.4   - Fixed crash on latest NeoForge version
 17.0.3   - Updated Forge to Minecraft 1.21.9
          - Fixed ivisible title on some setting screen
@@ -31,6 +39,11 @@
 
 14.x - 1.21.4 - dev/1.21.4 - java 21
 ====================================
+14.2.0   - [API] Added estimated progress time tooltip and API
+         - Added focus on search bar when pressing ctrl+f in config
+         - Added hour component on progress timer
+         - Changed progress to show as a bar by default
+         - Changed player's head name to show in block's name
 14.1.8   - Added light block to default blacklist (#342)
 14.1.7   - Added log on when the tier comparison failed
          - Added log when component is clicked on the inspector screen
@@ -60,6 +73,11 @@
 
 12.x - 1.21.1 - dev/1.21.1 - java 21
 ====================================
+12.6.0   - [API] Added estimated progress time tooltip and API
+         - Added focus on search bar when pressing ctrl+f in config
+         - Added hour component on progress timer
+         - Changed progress to show as a bar by default
+         - Changed player's head name to show in block's name
 12.5.5   - Added light block to default blacklist (#342)
 12.5.4   - Added log on when the tier comparison failed
          - Added log when component is clicked on the inspector screen
@@ -290,6 +308,11 @@
 
 8.x - 1.20.1 - dev/1.20.1 - java 17
 ===================================
+8.17.0   - [API] Added estimated progress time tooltip and API
+         - Added focus on search bar when pressing ctrl+f in config
+         - Added hour component on progress timer
+         - Changed progress to show as a bar by default
+         - Changed player's head name to show in block's name
 8.16.4   - Added light block to default blacklist (#342)
 8.16.3   - Added log when component is clicked on the inspector screen
 8.16.2   - Changed setup to be on the main thread
@@ -543,6 +566,11 @@
 
 5.x - 1.19.2 - dev/1.19.2 - java 17
 ===================================
+5.32.0   - [API] Added estimated progress time tooltip and API
+         - Added focus on search bar when pressing ctrl+f in config
+         - Added hour component on progress timer
+         - Changed progress to show as a bar by default
+         - Changed player's head name to show in block's name
 5.31.4   - Added light block to default blacklist (#342)
 5.31.3   - Added log when component is clicked on the inspector screen
 5.31.2   - Changed setup to be on the main thread
