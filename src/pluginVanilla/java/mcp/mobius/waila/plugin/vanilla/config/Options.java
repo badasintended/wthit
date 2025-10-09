@@ -27,7 +27,6 @@ public final class Options {
     public static final ResourceLocation REDSTONE_COMPARATOR           = rl("redstone.comparator");
     public static final ResourceLocation REDSTONE_LEVEL                = rl("redstone.level");
     public static final ResourceLocation JUKEBOX_RECORD                = rl("jukebox.record");
-    public static final ResourceLocation PLAYER_HEAD_NAME              = rl("player_head.name");
     public static final ResourceLocation LEVEL_COMPOSTER               = rl("level.composter");
     public static final ResourceLocation NOTE_BLOCK_TYPE               = rl("note_block.type");
     public static final ResourceLocation NOTE_BLOCK_NOTE               = rl("note_block.note");
