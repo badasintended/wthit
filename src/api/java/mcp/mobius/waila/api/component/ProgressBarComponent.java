@@ -1,8 +1,7 @@
 package mcp.mobius.waila.api.component;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import mcp.mobius.waila.api.ITooltipComponent;
-import net.minecraft.client.gui.GuiComponent;
+import net.minecraft.client.gui.GuiGraphics;
 
 /**
  * Component that renders a horizontal progress bar.
@@ -43,15 +42,15 @@ public class ProgressBarComponent implements ITooltipComponent.HorizontalGrowing
     }
 
     @Override
-    public void render(PoseStack matrices, int x, int y, float delta) {
+    public void render(GuiGraphics ctx, int x, int y, float delta) {
         var x1 = x;
         var x2 = x + ((int) (width * progress));
         var y2 = y + height;
-        GuiComponent.fill(matrices, x1, y, x2, y2, foreground);
+        ctx.fill(x1, y, x2, y2, foreground);
 
         x1 = x2;
         x2 = x + width;
-        GuiComponent.fill(matrices, x1, y, x2, y2, background);
+        ctx.fill(x1, y, x2, y2, background);
     }
 
 }

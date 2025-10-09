@@ -11,6 +11,8 @@ public class ProgressDataImpl extends ProgressData {
     @Override
     public void write(FriendlyByteBuf buf) {
         var d = this;
+
+        buf.writeBoolean(d.hasTick);
         if (d.hasTick) {
             buf.writeVarInt(d.currentTick);
             buf.writeVarInt(d.maxTick);

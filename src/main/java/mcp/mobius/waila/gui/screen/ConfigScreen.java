@@ -147,7 +147,7 @@ public abstract class ConfigScreen extends YesIAmSureTheClientInstanceIsPresentB
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (options.enableSearchBox && Screen.hasControlDown() && keyCode == InputConstants.KEY_F) {
-            setFocused(options.getSearchBox());
+            setInitialFocus(options.getSearchBox());
         }
 
         return super.keyPressed(keyCode, scanCode, modifiers);
