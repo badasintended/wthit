@@ -70,7 +70,7 @@ public class TooltipHandler {
             if (!config.isDisplayTooltip()) return false;
             if (config.getDisplayMode() == IWailaConfig.General.DisplayMode.HOLD_KEY && !WailaClient.keyShowOverlay.isDown()) return false;
             if (config.isHideFromPlayerList() && ((PlayerTabOverlayAccess) client.gui.getTabList()).wthit_isVisible()) return false;
-            if (config.isHideFromDebug() && client.getDebugOverlay().showDebugScreen()) return false;
+            if (config.isHideFromDebug() && client.debugEntries.isF3Visible()) return false;
         }
 
         Player player = client.player;
