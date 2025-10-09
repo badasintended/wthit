@@ -110,8 +110,6 @@ public class VanillaCommonPlugin implements IWailaCommonPlugin {
         registrar.featureConfig(Options.REDSTONE_COMPARATOR, true);
         registrar.featureConfig(Options.REDSTONE_LEVEL, true);
 
-        registrar.featureConfig(Options.PLAYER_HEAD_NAME, true);
-
         registrar.featureConfig(Options.LEVEL_COMPOSTER, true);
 
         registrar.featureConfig(Options.NOTE_BLOCK_TYPE, true);

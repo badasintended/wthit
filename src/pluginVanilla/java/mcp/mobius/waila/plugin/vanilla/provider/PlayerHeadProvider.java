@@ -5,10 +5,11 @@ import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.ITooltipComponent;
+import mcp.mobius.waila.api.IWailaConfig;
+import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.component.ItemComponent;
-import mcp.mobius.waila.plugin.vanilla.config.Options;
+import net.minecraft.client.resources.language.I18n;
 import net.minecraft.nbt.NbtUtils;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.entity.SkullBlockEntity;
@@ -36,12 +37,13 @@ public enum PlayerHeadProvider implements IBlockComponentProvider {
 
     @Override
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
-        if (config.getBoolean(Options.PLAYER_HEAD_NAME)) {
-            SkullBlockEntity skull = accessor.getBlockEntity();
-            if (skull != null && skull.getOwnerProfile() != null && !StringUtils.isBlank(skull.getOwnerProfile().getName())) {
-                tooltip.setLine(Options.PLAYER_HEAD_NAME, Component.translatable(skull.getOwnerProfile().getName()));
-            }
-        }
+        SkullBlockEntity skull = accessor.getBlockEntity();
+        if (skull == null) return;
+        var profile = skull.getOwnerProfile();
+        if (profile == null) return;
+        var name = profile.getName();
+        if (name == null || StringUtils.isBlank(name)) return;
+        tooltip.setLine(WailaConstants.OBJECT_NAME_TAG, IWailaConfig.get().getFormatter().blockName(I18n.get("block.minecraft.player_head.named", name)));
     }
 
 }
