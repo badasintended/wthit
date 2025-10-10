@@ -2,8 +2,10 @@ package mcp.mobius.waila.gui.widget;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gson.reflect.TypeToken;
@@ -38,6 +40,7 @@ public class CategoryEntry extends ConfigListWidget.Entry {
     private final Button collapseButton;
     private final Button expandAllButton;
     private final List<ConfigListWidget.Entry> children = new ArrayList<>();
+    private final Set<ConfigValue<?>> hiddenValues = new HashSet<>();
 
     private boolean collapsed;
     private boolean hasNested = false;
@@ -66,16 +69,25 @@ public class CategoryEntry extends ConfigListWidget.Entry {
         return this;
     }
 
-    private void initValues() {
+    public CategoryEntry withHidden(ConfigValue<?> value) {
+        hiddenValues.add(value);
+        return this;
+    }
+
+    private void initValues(ConfigListWidget list) {
         for (var child : children) {
-            if (child instanceof ConfigValue<?> value) list.withValue(value);
-            if (child instanceof CategoryEntry cat) cat.initValues();
+            if (child instanceof ConfigValue<?> value) list.withHidden(value);
+            if (child instanceof CategoryEntry cat) cat.initValues(list);
+        }
+
+        for (var value : hiddenValues) {
+            list.withHidden(value);
         }
     }
 
     @Override
     public int init() {
-        if (category != null) initValues();
+        if (category == null) initValues(list);
 
         var expand = !collapsed || list.filter != null;
         collapseButton.setMessage(Component.literal(!expand ? "+" : "-"));
