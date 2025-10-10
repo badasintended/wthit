@@ -1,7 +1,9 @@
 package mcp.mobius.waila.gui.widget;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
@@ -24,6 +26,8 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
 
     private final ConfigScreen owner;
     private final @Nullable Runnable diskWriter;
+
+    public final Set<ConfigValue<?>> values = new HashSet<>();
 
     private int topOffset;
     private int bottomOffset;
@@ -64,12 +68,6 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
     }
 
     public boolean save(boolean ignoreErrors) {
-        List<? extends ConfigValue<?>> values = children()
-            .stream()
-            .filter(e -> e instanceof ConfigValue)
-            .map(e -> (ConfigValue<?>) e)
-            .toList();
-
         if (values.stream().allMatch(ConfigValue::isValueValid)) {
             values.forEach(ConfigValue::save);
             if (diskWriter != null) diskWriter.run();
@@ -130,20 +128,18 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
         setScrollAmount(scrollAmount());
     }
 
-    public void add(Entry entry) {
-        add(children().size(), entry);
-    }
-
-    public void add(int index, Entry entry) {
-        children().add(index, entry);
-    }
-
     public ConfigListWidget with(Entry entry) {
         return with(children().size(), entry);
     }
 
     public ConfigListWidget with(int index, Entry entry) {
-        add(index, entry);
+        if (entry instanceof ConfigValue<?> cv) withValue(cv);
+        children().add(index, entry);
+        return this;
+    }
+
+    public ConfigListWidget withValue(ConfigValue<?> value) {
+        values.add(value);
         return this;
     }
 

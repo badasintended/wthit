@@ -10,6 +10,7 @@ import com.google.gson.reflect.TypeToken;
 import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.buildconst.Tl;
+import mcp.mobius.waila.gui.widget.value.ConfigValue;
 import mcp.mobius.waila.util.DisplayUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
@@ -67,8 +68,17 @@ public class CategoryEntry extends ConfigListWidget.Entry {
         return this;
     }
 
+    private void initValues() {
+        for (var child : children) {
+            if (child instanceof ConfigValue<?> value) list.withValue(value);
+            if (child instanceof CategoryEntry cat) cat.initValues();
+        }
+    }
+
     @Override
     public int init() {
+        if (category != null) initValues();
+
         var expand = !collapsed || list.filter != null;
         collapseButton.setMessage(Component.literal(!expand ? "+" : "-"));
 
@@ -86,7 +96,7 @@ public class CategoryEntry extends ConfigListWidget.Entry {
                     continue;
                 }
 
-                list.add(index + added, child);
+                list.with(index + added, child);
                 added += child.init(list, index + added);
             }
         }
