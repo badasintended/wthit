@@ -144,7 +144,7 @@ class ThemeEditorScreen extends ConfigScreen {
 
     private void addTypeProperties(ConfigListWidget options) {
         themeAttrCategory = new CategoryEntry(Tl.Config.OverlayThemeEditor.ATTRIBUTES);
-        options.add(options.children().size() - (edit ? 2 : 0), themeAttrCategory);
+        options.with(options.children().size() - (edit ? 2 : 0), themeAttrCategory);
 
         attrValues.clear();
         type2attr.computeIfAbsent(type, t -> new HashMap<>(t.properties.size()));
@@ -156,7 +156,6 @@ class ThemeEditorScreen extends ConfigScreen {
             ConfigValue<?> value;
 
             if (propType == int.class) {
-                //noinspection DataFlowIssue
                 value = new IntInputValue(prop.getTlKey(), TypeUtil.uncheckedCast(templateValue), null, val -> attr.put(key, val), TypeUtil.uncheckedCast(prop.context));
             } else if (propType == boolean.class) {
                 value = new BooleanValue(prop.getTlKey(), TypeUtil.uncheckedCast(templateValue), null, val -> attr.put(key, val));

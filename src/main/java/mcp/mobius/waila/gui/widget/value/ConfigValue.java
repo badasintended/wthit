@@ -80,7 +80,7 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
 
     @Override
     public void renderTooltip(Screen screen, PoseStack matrices, int mouseX, int mouseY, float delta) {
-        for (GuiEventListener child : children()) {
+        for (var child : children()) {
             if (child instanceof AbstractWidget widget) {
                 var x1 = widget.x - 2;
                 var y1 = widget.y;
@@ -168,7 +168,6 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
         this.value = value;
     }
 
-    @SuppressWarnings("DataFlowIssue")
     protected void resetValue() {
         setValue(defaultValue);
     }
