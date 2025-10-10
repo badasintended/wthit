@@ -253,8 +253,10 @@ public class WailaConfig implements IWailaConfig {
             private final Align align = new Align();
             private final Align anchor = new Align();
 
-            private @T(Tl.Config.OVERLAY_POS_X) int x = 0;
-            private @T(Tl.Config.OVERLAY_POS_Y) int y = 0;
+            @T(Tl.Config.OVERLAY_OFFSET)
+            private int x = 0;
+            private int y = 0;
+
             private @T(Tl.Config.BOSS_BARS_OVERLAP) boolean bossBarsOverlap = false;
 
             @Override

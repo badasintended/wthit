@@ -1,6 +1,8 @@
 package mcp.mobius.waila.gui.widget.value;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 import com.google.common.collect.ImmutableList;
@@ -21,6 +23,8 @@ import org.jetbrains.annotations.Nullable;
 import static mcp.mobius.waila.util.DisplayUtil.createButton;
 
 public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
+
+    private final Map<Object, Consumer<T>> watchers = new HashMap<>();
 
     protected final Consumer<T> save;
     protected final String translationKey;
@@ -166,10 +170,15 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
 
     public void setValue(T value) {
         this.value = value;
+        watchers.values().forEach(w -> w.accept(value));
     }
 
     protected void resetValue() {
         setValue(defaultValue);
+    }
+
+    public final void addWatcher(Object key, Consumer<@NotNull T> watcher) {
+        watchers.put(key, watcher);
     }
 
     public void enable() {

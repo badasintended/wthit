@@ -5,9 +5,9 @@ import java.util.function.Consumer;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import static mcp.mobius.waila.util.DisplayUtil.createButton;
@@ -19,8 +19,10 @@ public class EnumValue<T extends Enum<T>> extends ConfigValue<T> {
     public EnumValue(String optionName, T[] values, T selected, @Nullable T defaultValue, Consumer<T> save) {
         super(optionName, selected, defaultValue, save);
 
-        this.button = createButton(0, 0, 100, 20, Component.translatable(optionName + "_" + selected.name().toLowerCase(Locale.ROOT)), w ->
-            setValue(values[(getValue().ordinal() + 1) % values.length]));
+        this.button = createButton(0, 0, 100, 20, Component.translatable(optionName + "_" + selected.name().toLowerCase(Locale.ROOT)), button -> {
+            setValue(values[(getValue().ordinal() + 1) % values.length]);
+            button.setMessage(Component.translatable(getValueTlKey()));
+        });
     }
 
     @Override
@@ -28,12 +30,11 @@ public class EnumValue<T extends Enum<T>> extends ConfigValue<T> {
         button.active = !isDisabled();
         button.setX(x + width - button.getWidth());
         button.setY(y + (height - button.getHeight()) / 2);
-        button.setMessage(Component.translatable(getValueTlKey()));
         button.render(ctx, mouseX, mouseY, partialTicks);
     }
 
     @Override
-    public GuiEventListener getListener() {
+    public @NotNull Button getListener() {
         return button;
     }
 
