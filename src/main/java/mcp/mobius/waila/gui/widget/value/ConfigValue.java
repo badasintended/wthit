@@ -80,7 +80,7 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
     }
 
     public void renderTooltip(GuiGraphics ctx, int mouseX, int mouseY) {
-        for (GuiEventListener child : children()) {
+        for (var child : children()) {
             if (child instanceof AbstractWidget widget) {
                 var x1 = widget.getX() - 2;
                 var y1 = widget.getY();
@@ -168,7 +168,6 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
         this.value = value;
     }
 
-    @SuppressWarnings("DataFlowIssue")
     protected void resetValue() {
         setValue(defaultValue);
     }
