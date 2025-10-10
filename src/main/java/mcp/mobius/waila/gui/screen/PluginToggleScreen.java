@@ -85,7 +85,7 @@ public class PluginToggleScreen extends ConfigScreen {
                 toggle.disable(Tl.Gui.Plugin.Toggle.LOCKED);
             }
 
-            options.add(toggle);
+            options.with(toggle);
         }
 
         return options;
