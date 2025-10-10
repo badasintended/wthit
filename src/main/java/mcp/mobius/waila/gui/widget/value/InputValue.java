@@ -6,8 +6,8 @@ import java.util.function.Predicate;
 import mcp.mobius.waila.mixin.EditBoxAccess;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -22,7 +22,7 @@ public class InputValue<T> extends ConfigValue<@Nullable T> {
 
     private final Predicate<String> validator;
     private final Serializer<T> serializer;
-    private final EditBox textField;
+    protected final WatchedTextfield textField;
 
     private boolean valueFromTextField = false;
     private boolean valueValid = true;
@@ -80,12 +80,11 @@ public class InputValue<T> extends ConfigValue<@Nullable T> {
     }
 
     @Override
-    public GuiEventListener getListener() {
+    public @NotNull WatchedTextfield getListener() {
         return textField;
     }
 
     @Override
-    @SuppressWarnings("DataFlowIssue")
     protected void resetValue() {
         textField.setValue(serializer.serialize(defaultValue));
     }
@@ -130,12 +129,30 @@ public class InputValue<T> extends ConfigValue<@Nullable T> {
         valueValid = true;
     }
 
-    private class WatchedTextfield extends EditBox {
+    public class WatchedTextfield extends EditBox {
+
+        public boolean grow = true;
 
         public WatchedTextfield() {
             super(client.font, 0, 0, 160, 18, Component.empty());
             this.setResponder(InputValue.this::setValue);
             this.setMaxLength(Integer.MAX_VALUE);
+        }
+
+        private void recalculateWidth(boolean reset) {
+            if (!grow) return;
+            if (reset) setWidth(100);
+            else setWidth(Mth.clamp(client.font.width(getValue()) + 8, 100, 300));
+
+            var cursor = getCursorPosition();
+            moveCursorTo(0);
+            moveCursorTo(cursor);
+        }
+
+        @Override
+        public void setFocused(boolean focused) {
+            super.setFocused(focused);
+            recalculateWidth(!focused);
         }
 
         @Override
