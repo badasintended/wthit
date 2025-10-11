@@ -166,6 +166,8 @@
 
 
   "config.waila.general"                                       : "一般設定",
+
+
   "config.waila.display_tooltip"                               : "顯示提示框",
   "config.waila.display_tooltip_desc"                          : "收集資料並顯示提示框",
   "config.waila.sneaky_details"                                : "潛行詳細資訊",

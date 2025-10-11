@@ -1,6 +1,6 @@
 package mcp.mobius.waila.mixin;
 
-import mcp.mobius.waila.mixed.IMixedService;
+import mcp.mobius.waila.mixed.IMixinService;
 import net.minecraft.locale.Language;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -12,7 +12,7 @@ public class LanguageMixin {
 
     @Inject(method = "inject", at = @At("RETURN"))
     private static void wthit_inject(CallbackInfo ci) {
-        IMixedService.INSTANCE.onLanguageReloaded();
+        IMixinService.INSTANCE.onLanguageReloaded();
     }
 
 }

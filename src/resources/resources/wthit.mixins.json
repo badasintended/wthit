@@ -28,6 +28,7 @@
     "GuiGraphicsAccess",
     "KeyMappingAccess",
     "MultiPlayerGameModeAccess",
+    "OptionsScreenMixin",
     "PlayerTabOverlayAccess"
   ],
   "injectors"         : {
