@@ -35,7 +35,7 @@ data class Version(
 ) : Comparable<Version> {
 
     constructor(str: String) : this(str.split(".", limit = 3))
-    private constructor(str: List<String>) : this(str[0].toInt(), str[1].toInt(), str[2].toInt())
+    constructor(str: List<String>) : this(str[0].toInt(), str[1].toInt(), str[2].toInt())
 
     private fun toInt(): Int {
         return patch + (minor * 1000) + (major * 1000000)
@@ -197,6 +197,8 @@ shell {
             .create()
 
         fun upload(lib: File) {
+            if (lib.nameWithoutExtension.endsWith("-sources")) return
+
             println("Uploading ${lib.toRelativeString(workDir)}")
             val contentType = Files.probeContentType(lib.toPath())
             println("Content-type $contentType")
