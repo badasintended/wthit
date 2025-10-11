@@ -166,6 +166,8 @@
   "config.waila.server_missing_option"                         : "Låst eftersom servern saknar detta alternativ",
 
   "config.waila.general"                                       : "Allmänt",
+
+
   "config.waila.display_tooltip"                               : "Visa inforuta",
   "config.waila.display_tooltip_desc"                          : "Samla in data och rendera inforutan",
   "config.waila.sneaky_details"                                : "Smyginformation",

@@ -166,6 +166,8 @@
   "config.waila.server_missing_option"                         : "サーバーにこのオプションがないため、ロックさされました",
 
   "config.waila.general"                                       : "一般",
+
+
   "config.waila.display_tooltip"                               : "ツールヒントの表示",
   "config.waila.display_tooltip_desc"                          : "ツールヒントを示す",
   "config.waila.sneaky_details"                                : "スニークで詳細を表示",

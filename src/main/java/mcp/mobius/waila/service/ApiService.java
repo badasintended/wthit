@@ -158,7 +158,7 @@ public abstract class ApiService implements IApiService {
 
     @Override
     public List<ToolMaterial> getTiers() {
-        return MixedService.TOOL_MATERIALS.stream()
+        return MixinService.TOOL_MATERIALS.stream()
             .filter(it -> {
                 //noinspection ConstantValue
                 if (it.incorrectBlocksForDrops() == null) {

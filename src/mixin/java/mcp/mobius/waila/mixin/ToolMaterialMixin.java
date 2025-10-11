@@ -1,6 +1,6 @@
 package mcp.mobius.waila.mixin;
 
-import mcp.mobius.waila.mixed.IMixedService;
+import mcp.mobius.waila.mixed.IMixinService;
 import net.minecraft.world.item.ToolMaterial;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -12,7 +12,7 @@ public class ToolMaterialMixin {
 
     @Inject(method = "<init>", at = @At("TAIL"))
     private void wthit_init(CallbackInfo ci) {
-        IMixedService.INSTANCE.addToolMaterialInstance((ToolMaterial) (Object) this);
+        IMixinService.INSTANCE.addToolMaterialInstance((ToolMaterial) (Object) this);
     }
 
 }

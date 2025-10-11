@@ -1,6 +1,6 @@
 package mcp.mobius.waila.mixin;
 
-import mcp.mobius.waila.mixed.IMixedService;
+import mcp.mobius.waila.mixed.IMixinService;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiGraphics;
@@ -14,7 +14,7 @@ public class GuiMixin {
 
     @Inject(method = "render", at = @At("TAIL"))
     private void wthit_render(GuiGraphics ctx, DeltaTracker delta, CallbackInfo ci) {
-        IMixedService.INSTANCE.onGuiRender(ctx, delta);
+        IMixinService.INSTANCE.onGuiRender(ctx, delta);
     }
 
 }

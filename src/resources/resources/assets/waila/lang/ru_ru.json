@@ -166,6 +166,8 @@
   "config.waila.server_missing_option"                         : "Заблокировано так как на сервере нет этого параметра",
 
   "config.waila.general"                                       : "Основное",
+
+
   "config.waila.display_tooltip"                               : "Отображать подсказки",
   "config.waila.display_tooltip_desc"                          : "Собирать данные и отображать подсказки",
   "config.waila.sneaky_details"                                : "Умные данные",

@@ -29,6 +29,7 @@
     "GuiMixin",
     "KeyMappingAccess",
     "MultiPlayerGameModeAccess",
+    "OptionsScreenMixin",
     "PlayerTabOverlayAccess"
   ],
   "injectors"         : {

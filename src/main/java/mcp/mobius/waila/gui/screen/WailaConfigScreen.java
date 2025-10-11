@@ -144,6 +144,10 @@ public class WailaConfigScreen extends ConfigScreen {
     public ConfigListWidget getOptions() {
         var options = new ConfigListWidget(this, minecraft, width, height, 42, height - 32, 26, Waila.CONFIG::save);
         options.with(new CategoryEntry(Tl.Config.GENERAL)
+            .with(new BooleanValue(Tl.Config.VANILLA_OPTIONS,
+                get().getGeneral().vanillaOptions(),
+                defaultConfig.getGeneral().vanillaOptions(),
+                val -> get().getGeneral().setVanillaOptions(val)))
             .with(new BooleanValue(Tl.Config.DISPLAY_TOOLTIP,
                 get().getGeneral().isDisplayTooltip(),
                 defaultConfig.getGeneral().isDisplayTooltip(),
