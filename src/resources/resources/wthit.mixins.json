@@ -27,6 +27,7 @@
     "GuiAccess",
     "KeyMappingAccess",
     "MultiPlayerGameModeAccess",
+    "OptionsScreenMixin",
     "PlayerTabOverlayAccess"
   ],
   "injectors"         : {

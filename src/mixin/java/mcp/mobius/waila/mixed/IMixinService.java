@@ -5,9 +5,9 @@ import net.minecraft.client.multiplayer.ClientRegistryLayer;
 import net.minecraft.core.LayeredRegistryAccess;
 import net.minecraft.core.RegistryAccess;
 
-public interface IMixedService {
+public interface IMixinService {
 
-    IMixedService INSTANCE = Internals.loadService(IMixedService.class);
+    IMixinService INSTANCE = Internals.loadService(IMixinService.class);
 
     void ReloadableServerResources_updateRegistryTags(RegistryAccess registryAccess);
 
