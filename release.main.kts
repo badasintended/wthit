@@ -176,6 +176,7 @@ shell {
         }
 
         export("MOD_VERSION" to release.version)
+        export("CHANGELOG" to release.changelog)
         export("CURSEFORGE_API" to Env.CURSEFORGE_API)
         export("MODRINTH_TOKEN" to Env.MODRINTH_TOKEN)
         export("MAVEN_USERNAME" to Env.MAVEN_USERNAME)
