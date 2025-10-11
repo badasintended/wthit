@@ -194,40 +194,22 @@
   "config.waila.overlay_fps_desc"                              : "Снижает частоту отрисовки подсказки для общего увеличения FPS\nУстановите 0 чтобы снять лимит",
   "config.waila.overlay_fps.disabled_reason"                   : "Сейчас этот параметр принудительно выключен так как вызывает ошибки рендеринга",
 
-  "config.waila.overlay_pos_x"                                 : "Смещение по X",
-  "config.waila.overlay_pos_x_desc"                            : "Позиция X относительно привязки экрана\nРазмер влияет на позицию",
-  "config.waila.overlay_pos_y"                                 : "Смещение по Y",
-  "config.waila.overlay_pos_y_desc"                            : "Позиция Y относительно привязки экрана\nРазмер влияет на позицию",
+
+  "config.waila.overlay_anchor"                                : "привязка",
+  "config.waila.overlay_align"                                 : "выравнивание",
+  "config.waila.overlay_offset"                                : "Смещение",
+  "config.waila.overlay_anchor_left"                           : "Лево",
+  "config.waila.overlay_anchor_right"                          : "Право",
+  "config.waila.overlay_anchor_center"                         : "Центр",
+  "config.waila.overlay_anchor_top"                            : "Вверх",
+  "config.waila.overlay_anchor_bottom"                         : "Низ",
+  "config.waila.overlay_anchor_middle"                         : "Центр",
 
   "config.waila.boss_bars_overlap"                             : "Перекрытие босс-бара",
   "config.waila.boss_bars_overlap_desc"                        : "Если Нет, то всплывающая подсказка будет двигаться вниз при любом активном босс-баре.\nВлияет только на выравнивание по центру вверху.",
 
   "config.waila.overlay_scale"                                 : "Размер",
   "config.waila.overlay_scale_desc"                            : "Насколько большой будет подсказка\n1.0 это стандарное значение",
-
-  "config.waila.overlay_anchor_x"                              : "Горизонтальная привязка",
-  "config.waila.overlay_anchor_x_desc"                         : "От какой части экрана будет выполняться рассчет\nПроверить можно изменяя размер окна игры",
-  "config.waila.overlay_anchor_x_left"                         : "Лево",
-  "config.waila.overlay_anchor_x_right"                        : "Право",
-  "config.waila.overlay_anchor_x_center"                       : "Центр",
-
-  "config.waila.overlay_anchor_y"                              : "Вертикальная привязка",
-  "config.waila.overlay_anchor_y_desc"                         : "От какой части экрана будет выполняться рассчет\nПроверить можно изменяя размер окна игры",
-  "config.waila.overlay_anchor_y_top"                          : "Вверх",
-  "config.waila.overlay_anchor_y_bottom"                       : "Низ",
-  "config.waila.overlay_anchor_y_middle"                       : "Центр",
-
-  "config.waila.overlay_align_x"                               : "Горизонтальное выравнивание",
-  "config.waila.overlay_align_x_desc"                          : "Как подсказки с различным размером будут выравнены друг с другом",
-  "config.waila.overlay_align_x_left"                          : "Лево",
-  "config.waila.overlay_align_x_right"                         : "Право",
-  "config.waila.overlay_align_x_center"                        : "Центр",
-
-  "config.waila.overlay_align_y"                               : "Вертикальное выравнивание",
-  "config.waila.overlay_align_y_desc"                          : "Как подсказки с различным размером будут выравнены друг с другом",
-  "config.waila.overlay_align_y_top"                           : "Вверх",
-  "config.waila.overlay_align_y_bottom"                        : "Низ",
-  "config.waila.overlay_align_y_middle"                        : "Центр",
 
   "config.waila.overlay_color"                                 : "Цвет",
   "config.waila.overlay_background_alpha"                      : "Прозрачность",
