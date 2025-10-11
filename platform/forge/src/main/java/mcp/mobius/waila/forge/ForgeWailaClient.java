@@ -32,22 +32,22 @@ public class ForgeWailaClient extends WailaClient {
         });
     }
 
-    @SubscribeEvent
-    static void registerKeyMappings(RegisterKeyMappingsEvent event) {
-        registerKeyBinds().forEach(event::register);
-    }
-
-    @SubscribeEvent
-    static void addReloadListener(RegisterClientReloadListenersEvent event) {
-        event.registerReloadListener(new BuiltinThemeLoader());
-    }
-
     static void registerConfigScreen() {
         MinecraftForge.registerConfigScreen(HomeScreen::new);
     }
 
     @EventBusSubscriber(modid = WailaConstants.WAILA, value = Dist.CLIENT)
     static class Subscriber {
+
+        @SubscribeEvent
+        static void registerKeyMappings(RegisterKeyMappingsEvent event) {
+            registerKeyBinds().forEach(event::register);
+        }
+
+        @SubscribeEvent
+        static void addReloadListener(RegisterClientReloadListenersEvent event) {
+            event.registerReloadListener(new BuiltinThemeLoader());
+        }
 
         @SubscribeEvent
         static void registerClientCommands(RegisterClientCommandsEvent event) {

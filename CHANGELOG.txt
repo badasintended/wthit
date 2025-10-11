@@ -1,5 +1,6 @@
-17.x - 1.21.10 - dev/master - java 21
-=====================================
+17.x - 1.21.10 - dev/1.21.10 - java 21
+======================================
+17.1.1   - Fixed crash on Forge because of wrong EventBus location
 17.1.0   - Updated to Minecraft 1.21.10
          - [API] Added estimated progress time tooltip and API
          - Added focus on search bar when pressing ctrl+f in config
