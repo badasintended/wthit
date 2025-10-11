@@ -166,6 +166,8 @@
   "config.waila.server_missing_option"                         : "Bị khóa vì máy chủ không có tùy chọn này",
 
   "config.waila.general"                                       : "Chung",
+
+
   "config.waila.display_tooltip"                               : "Hiển thị Gợi Ý",
   "config.waila.display_tooltip_desc"                          : "Thu thập dữ liệu và hiển thị gợi ý",
   "config.waila.sneaky_details"                                : "Chi Tiết Lén Lút",

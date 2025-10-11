@@ -1,6 +1,6 @@
 package mcp.mobius.waila.mixin;
 
-import mcp.mobius.waila.mixed.IMixedService;
+import mcp.mobius.waila.mixed.IMixinService;
 import net.minecraft.client.multiplayer.ClientConfigurationPacketListenerImpl;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.protocol.common.ClientboundUpdateTagsPacket;
@@ -18,12 +18,12 @@ public class ClientConfigurationPacketListenerImplMixin {
 
     @Inject(method = "<init>", at = @At("RETURN"))
     private void wthit_onServerLogin(CallbackInfo ci) {
-        IMixedService.INSTANCE.onServerLogin();
+        IMixinService.INSTANCE.onServerLogin();
     }
 
     @Inject(method = "handleUpdateTags", at = @At("TAIL"))
     private void wthit_onHandleUpdateTags(ClientboundUpdateTagsPacket $$0, CallbackInfo ci) {
-        IMixedService.INSTANCE.attachRegistryFilter(receivedRegistries);
+        IMixinService.INSTANCE.attachRegistryFilter(receivedRegistries);
     }
 
 }

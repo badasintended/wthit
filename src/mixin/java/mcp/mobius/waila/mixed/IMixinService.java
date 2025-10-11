@@ -5,9 +5,9 @@ import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.RegistryAccess;
 
-public interface IMixedService {
+public interface IMixinService {
 
-    IMixedService INSTANCE = Internals.loadService(IMixedService.class);
+    IMixinService INSTANCE = Internals.loadService(IMixinService.class);
 
     void attachRegistryFilter(RegistryAccess registryAccess);
 

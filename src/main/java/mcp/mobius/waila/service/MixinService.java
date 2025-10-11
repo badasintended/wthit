@@ -4,13 +4,13 @@ import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.config.JsonConfig;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.gui.hud.TooltipRenderer;
-import mcp.mobius.waila.mixed.IMixedService;
+import mcp.mobius.waila.mixed.IMixinService;
 import mcp.mobius.waila.registry.RegistryFilter;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.RegistryAccess;
 
-public class MixedService implements IMixedService {
+public class MixinService implements IMixinService {
 
     @Override
     public void attachRegistryFilter(RegistryAccess registryAccess) {

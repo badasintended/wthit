@@ -166,6 +166,8 @@
   "config.waila.server_missing_option"                         : "锁定，因为服务器没有此选项",
 
   "config.waila.general"                                       : "常规",
+
+
   "config.waila.display_tooltip"                               : "显示提示框",
   "config.waila.display_tooltip_desc"                          : "收集数据并渲染提示框",
   "config.waila.sneaky_details"                                : "潜行详情",
