@@ -90,7 +90,6 @@
   "tooltip.waila.harvest.tier.diamond"                         : "钻石",
   "tooltip.waila.harvest.tier.netherite"                       : "下届合金",
 
-  "gui.waila.configuration"                                    : "%s配置",
   "gui.waila.waila_settings"                                   : "%s设置",
 
   "gui.waila.esc_warning.umm"                                  : "嗯…",
@@ -150,6 +149,7 @@
   "command.waila.config.set.parse_fail"                        : "解析值失败：%s",
 
   "config.waila.search_prompt"                                 : "搜索配置项",
+
 
   "config.waila.true"                                          : "是",
   "config.waila.false"                                         : "否",

@@ -2,7 +2,7 @@ package mcp.mobius.waila.service;
 
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.WailaConstants;
-import mcp.mobius.waila.gui.screen.HomeScreen;
+import mcp.mobius.waila.gui.screen.WailaConfigScreen;
 import mcp.mobius.waila.mixed.IClientMixinService;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
@@ -17,7 +17,7 @@ public class ClientMixinService implements IClientMixinService {
 
         var client = Minecraft.getInstance();
         var parent = client.screen;
-        rowHelper.addChild(Button.builder(Component.literal(WailaConstants.MOD_NAME), (b) -> client.setScreen(new HomeScreen(parent))).build());
+        rowHelper.addChild(Button.builder(Component.literal(WailaConstants.MOD_NAME), (b) -> client.setScreen(new WailaConfigScreen(parent))).build());
     }
 
 }

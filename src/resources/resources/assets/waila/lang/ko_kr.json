@@ -90,7 +90,6 @@
 
 
 
-  "gui.waila.configuration"                                    : "%s 환경설정",
   "gui.waila.waila_settings"                                   : "%s 설정",
 
 
@@ -124,6 +123,7 @@
   "command.waila.server_dump_success"                          : "%s 서버 덤프 성공",
 
   "command.waila.client_dump_success"                          : "%s 클라이언트 덤프 성공",
+
 
 
 
