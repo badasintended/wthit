@@ -46,8 +46,9 @@ import org.joml.Vector2i;
 import static mcp.mobius.waila.util.DisplayUtil.createButton;
 import static mcp.mobius.waila.util.DisplayUtil.tryFormat;
 
-public class WailaConfigScreen extends ConfigScreen {
+public class WailaConfigScreen extends TabbedConfigScreen {
 
+    public static final Component TITLE = Component.translatable(Tl.Gui.WAILA_SETTINGS, WailaConstants.MOD_NAME);
     private static final Component PREVIEW_PROMPT = Component.translatable(Tl.Config.PREVIEW_PROMPT);
 
     private final WailaConfig defaultConfig = new WailaConfig();
@@ -74,7 +75,7 @@ public class WailaConfigScreen extends ConfigScreen {
     private @Nullable KeyBindValue selectedKeyBind;
 
     public WailaConfigScreen(Screen parent) {
-        super(parent, Component.translatable(Tl.Gui.CONFIGURATION, WailaConstants.MOD_NAME), Waila.CONFIG::save, Waila.CONFIG::invalidate);
+        super(parent, CommonComponents.EMPTY, Waila.CONFIG::save, Waila.CONFIG::invalidate);
     }
 
     private static WailaConfig get() {
@@ -135,14 +136,10 @@ public class WailaConfigScreen extends ConfigScreen {
     }
 
     @Override
-    protected void renderForeground(GuiGraphics ctx, int rowLeft, int rowWidth, int mouseX, int mouseY, float partialTicks) {
-        super.renderForeground(ctx, rowLeft, rowWidth, mouseX, mouseY, partialTicks);
-        ctx.drawString(font, PREVIEW_PROMPT, rowLeft, 22, 0xAAAAAA);
-    }
-
-    @Override
     public ConfigListWidget getOptions() {
-        var options = new ConfigListWidget(this, minecraft, width, height, 42, height - 32, 26, Waila.CONFIG::save);
+        var options = new ConfigListWidget(this, minecraft, width, height, 24, height - 32, 26, Waila.CONFIG::save);
+        options.headerSeparator = false;
+
         options.with(new CategoryEntry(Tl.Config.GENERAL)
             .with(new BooleanValue(Tl.Config.VANILLA_OPTIONS,
                 get().getGeneral().vanillaOptions(),

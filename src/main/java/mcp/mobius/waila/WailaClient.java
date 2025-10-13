@@ -9,7 +9,7 @@ import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.gui.hud.TooltipHandler;
-import mcp.mobius.waila.gui.screen.HomeScreen;
+import mcp.mobius.waila.gui.screen.WailaConfigScreen;
 import mcp.mobius.waila.integration.IRecipeAction;
 import mcp.mobius.waila.registry.Registrar;
 import mcp.mobius.waila.registry.RegistryFilter;
@@ -67,7 +67,7 @@ public abstract class WailaClient {
         TooltipHandler.tick();
 
         while (keyOpenConfig.consumeClick()) {
-            client.setScreen(new HomeScreen(null));
+            client.setScreen(new WailaConfigScreen(null));
         }
 
         while (keyShowOverlay.consumeClick()) {

@@ -16,6 +16,7 @@ import net.minecraft.client.gui.components.ContainerObjectSelectionList;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -23,23 +24,30 @@ import org.jetbrains.annotations.NotNull;
 
 import static mcp.mobius.waila.util.DisplayUtil.createButton;
 
-public class CreditsScreen extends YesIAmSureTheClientInstanceIsPresentByTheTimeIUseItScreen {
+public class CreditsScreen extends YesIAmSureTheClientInstanceIsPresentByTheTimeIUseItScreen implements TabbedScreen {
 
+    public static final Component TITLE = Component.translatable(Tl.Gui.CREDITS);
     private final Screen parent;
 
     protected CreditsScreen(Screen parent) {
-        super(Component.translatable(Tl.Gui.CREDITS));
+        super(TITLE);
 
         this.parent = parent;
     }
 
     @Override
+    public Screen getParent() {
+        return parent;
+    }
+
+    @Override
     protected void init() {
         super.init();
+        initBar(width, this::addRenderableWidget, this::setInitialFocus);
 
         try {
             var credits = new Gson().fromJson(minecraft.getResourceManager().getResource(Waila.id("credits.json")).orElseThrow().openAsReader(), CreditMap.class);
-            var listWidget = new ListWidget(minecraft, width, height - 64, 32, minecraft.font.lineHeight + 6);
+            var listWidget = new ListWidget(minecraft, width, height - 56, 24, minecraft.font.lineHeight + 6);
 
             credits.forEach((key, category) -> {
                 var children = listWidget.children();
@@ -60,12 +68,6 @@ public class CreditsScreen extends YesIAmSureTheClientInstanceIsPresentByTheTime
         }
 
         addRenderableWidget(createButton(width / 2 - 50, height - 25, 100, 20, CommonComponents.GUI_DONE, w -> onClose()));
-    }
-
-    @Override
-    public void render(@NotNull GuiGraphics ctx, int mouseX, int mouseY, float partialTicks) {
-        super.render(ctx, mouseX, mouseY, partialTicks);
-        ctx.drawCenteredString(font, title.getString(), width / 2, 12, 0xFFFFFF);
     }
 
     @Override
@@ -105,6 +107,12 @@ public class CreditsScreen extends YesIAmSureTheClientInstanceIsPresentByTheTime
         @Override
         protected int getScrollbarPosition() {
             return minecraft.getWindow().getGuiScaledWidth() - 5;
+        }
+
+        @Override
+        protected void renderListSeparators(GuiGraphics ctx) {
+            var texture = this.minecraft.level == null ? Screen.FOOTER_SEPARATOR : Screen.INWORLD_FOOTER_SEPARATOR;
+            ctx.blit(texture, this.getX(), this.getBottom(), 0.0F, 0.0F, this.getWidth(), 2, 32, 2);
         }
 
     }

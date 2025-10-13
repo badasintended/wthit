@@ -11,8 +11,8 @@ import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.config.ConfigEntry;
 import mcp.mobius.waila.config.PluginConfig;
-import mcp.mobius.waila.gui.screen.HomeScreen;
 import mcp.mobius.waila.gui.screen.InspectorScreen;
+import mcp.mobius.waila.gui.screen.WailaConfigScreen;
 import mcp.mobius.waila.plugin.PluginInfo;
 import mcp.mobius.waila.plugin.PluginLoader;
 import net.minecraft.client.Minecraft;
@@ -47,7 +47,7 @@ public abstract class ClientCommand<S> extends CommonCommand<S, Minecraft> {
             .then(literal("open"))
             .executes(context -> {
                 var client = Minecraft.getInstance();
-                client.tell(() -> client.setScreen(new HomeScreen(client.screen)));
+                client.tell(() -> client.setScreen(new WailaConfigScreen(client.screen)));
                 return 1;
             })
 

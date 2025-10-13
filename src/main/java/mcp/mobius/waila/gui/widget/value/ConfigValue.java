@@ -111,6 +111,11 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
         }
     }
 
+    public boolean isChanged() {
+        if (!isValueValid()) return true;
+        return !value.equals(initialValue);
+    }
+
     public boolean isValueValid() {
         return true;
     }

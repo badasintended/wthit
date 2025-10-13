@@ -3,7 +3,7 @@ package mcp.mobius.waila.forge;
 import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.gui.hud.theme.BuiltinThemeLoader;
-import mcp.mobius.waila.gui.screen.HomeScreen;
+import mcp.mobius.waila.gui.screen.WailaConfigScreen;
 import mcp.mobius.waila.network.Packets;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
@@ -41,7 +41,7 @@ public class ForgeWailaClient extends WailaClient {
     }
 
     static void registerConfigScreen() {
-        MinecraftForge.registerConfigScreen(HomeScreen::new);
+        MinecraftForge.registerConfigScreen(WailaConfigScreen::new);
     }
 
     @EventBusSubscriber(modid = WailaConstants.WAILA, value = Dist.CLIENT)
