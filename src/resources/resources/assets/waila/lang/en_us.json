@@ -90,7 +90,6 @@
   "tooltip.waila.harvest.tier.diamond"                         : "Diamond",
   "tooltip.waila.harvest.tier.netherite"                       : "Netherite",
 
-  "gui.waila.configuration"                                    : "%s Configuration",
   "gui.waila.waila_settings"                                   : "%s Settings",
 
   "gui.waila.esc_warning.umm"                                  : "Umm...",
@@ -150,6 +149,7 @@
   "command.waila.config.set.parse_fail"                        : "Failed to parse value: %s",
 
   "config.waila.search_prompt"                                 : "Search...",
+  "config.waila.save_prompt"                                   : "Save current configuration?",
   "config.waila.expand_all"                                    : "Expand All",
   "config.waila.true"                                          : "True",
   "config.waila.false"                                         : "False",

@@ -90,7 +90,6 @@
 
 
 
-  "gui.waila.configuration"                                    : "Konfiguration för %s",
   "gui.waila.waila_settings"                                   : "Inställningar för %s",
 
 
@@ -150,6 +149,7 @@
   "command.waila.config.set.parse_fail"                        : "Misslyckades att tolka värde: %s",
 
   "config.waila.search_prompt"                                 : "Sök...",
+
 
   "config.waila.true"                                          : "Sant",
   "config.waila.false"                                         : "Falskt",

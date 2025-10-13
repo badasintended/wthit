@@ -90,7 +90,6 @@
 
 
 
-  "gui.waila.configuration"                                    : "%s — Configuración",
   "gui.waila.waila_settings"                                   : "Opciones de %s",
 
 
@@ -124,6 +123,7 @@
   "command.waila.server_dump_success"                          : "Se ha volcado el servidor con éxito a %s",
 
   "command.waila.client_dump_success"                          : "Se ha volcado el cliente con éxito a %s",
+
 
 
 
