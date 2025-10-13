@@ -20,9 +20,9 @@ import static mcp.mobius.waila.util.DisplayUtil.createButton;
 
 public abstract class ConfigScreen extends YesIAmSureTheClientInstanceIsPresentByTheTimeIUseItScreen {
 
-    private final Screen parent;
-    private final @Nullable Runnable saver;
-    private final @Nullable Runnable canceller;
+    protected final Screen parent;
+    protected final @Nullable Runnable saver;
+    protected final @Nullable Runnable canceller;
 
     private boolean showEscWarning = true;
     private long lastEscPressTime = 0;
@@ -30,7 +30,7 @@ public abstract class ConfigScreen extends YesIAmSureTheClientInstanceIsPresentB
 
     @SuppressWarnings("unchecked")
     private final List<GuiEventListener> children = (List<GuiEventListener>) children();
-    private ConfigListWidget options;
+    protected ConfigListWidget options;
 
     protected boolean cancelled;
 
@@ -55,13 +55,6 @@ public abstract class ConfigScreen extends YesIAmSureTheClientInstanceIsPresentB
         }
 
         options.init();
-
-        if (options.enableSearchBox) {
-            var searchBox = options.getSearchBox();
-            addWidget(searchBox);
-            setInitialFocus(searchBox);
-        }
-
         addWidget(options);
 
         if (saver != null && canceller != null) {
@@ -85,6 +78,11 @@ public abstract class ConfigScreen extends YesIAmSureTheClientInstanceIsPresentB
         }
     }
 
+    @Override
+    public void setInitialFocus(GuiEventListener widget) {
+        super.setInitialFocus(widget);
+    }
+
     protected void renderForeground(GuiGraphics ctx, int rowLeft, int rowWidth, int mouseX, int mouseY, float partialTicks) {
         ctx.drawString(font, title, rowLeft, 12, 0xFFFFFF);
     }
@@ -99,16 +97,9 @@ public abstract class ConfigScreen extends YesIAmSureTheClientInstanceIsPresentB
         super.render(ctx, mouseX, mouseY, partialTicks);
 
         options.render(ctx, mouseX, mouseY, partialTicks);
-
-        if (options.enableSearchBox) {
-            options.getSearchBox().render(ctx, mouseX, mouseY, partialTicks);
-        }
-
         renderForeground(ctx, options.getRowLeft(), options.getRowWidth(), mouseX, mouseY, partialTicks);
 
-        if (mouseY < 32 || mouseY > height - 32) {
-            return;
-        }
+        if (mouseY < 32 || mouseY > height - 32) return;
 
         options.getChildAt(mouseX, mouseY).ifPresent(element -> {
             if (element instanceof ConfigValue<?> value) {
@@ -146,7 +137,7 @@ public abstract class ConfigScreen extends YesIAmSureTheClientInstanceIsPresentB
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (options.enableSearchBox && Screen.hasControlDown() && keyCode == InputConstants.KEY_F) {
-            setFocused(options.getSearchBox());
+            options.search();
         }
 
         return super.keyPressed(keyCode, scanCode, modifiers);

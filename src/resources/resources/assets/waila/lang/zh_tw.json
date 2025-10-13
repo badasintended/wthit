@@ -90,7 +90,6 @@
 
 
 
-  "gui.waila.configuration"                                    : "%s 組態",
   "gui.waila.waila_settings"                                   : "%s 設定",
 
 
@@ -124,6 +123,7 @@
   "command.waila.server_dump_success"                          : "成功轉儲伺服器端組態至 %s",
 
   "command.waila.client_dump_success"                          : "成功轉儲用戶端組態至 %s",
+
 
 
 

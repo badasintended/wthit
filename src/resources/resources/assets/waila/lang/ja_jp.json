@@ -90,7 +90,6 @@
   "tooltip.waila.harvest.tier.diamond"                         : "ダイヤ",
   "tooltip.waila.harvest.tier.netherite"                       : "ネザライト",
 
-  "gui.waila.configuration"                                    : "%s配置",
   "gui.waila.waila_settings"                                   : "%s設定",
 
   "gui.waila.esc_warning.umm"                                  : "うーん...",
@@ -150,6 +149,7 @@
   "command.waila.config.set.parse_fail"                        : "値の解析に失敗しました: %s",
 
   "config.waila.search_prompt"                                 : "検索...",
+
   "config.waila.expand_all"                                    : "全て展開",
   "config.waila.true"                                          : "オン",
   "config.waila.false"                                         : "オフ",

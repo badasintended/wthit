@@ -90,7 +90,6 @@
   "tooltip.waila.harvest.tier.diamond"                         : "Kim Cương",
   "tooltip.waila.harvest.tier.netherite"                       : "Netherite",
 
-  "gui.waila.configuration"                                    : "Cấu Hình %s",
   "gui.waila.waila_settings"                                   : "Cài Đặt %s",
 
   "gui.waila.esc_warning.umm"                                  : "Ừmm...",
@@ -150,6 +149,7 @@
   "command.waila.config.set.parse_fail"                        : "Không thể phân tích giá trị: %s",
 
   "config.waila.search_prompt"                                 : "Tìm kiếm...",
+
   "config.waila.expand_all"                                    : "Mở Rộng Tất Cả",
   "config.waila.true"                                          : "Đúng",
   "config.waila.false"                                         : "Sai",
