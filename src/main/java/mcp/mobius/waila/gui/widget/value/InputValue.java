@@ -134,7 +134,7 @@ public class InputValue<T> extends ConfigValue<@Nullable T> {
         public boolean grow = true;
 
         public WatchedTextfield() {
-            super(client.font, 0, 0, 160, 18, Component.empty());
+            super(client.font, 0, 0, 100, 18, Component.empty());
             this.setResponder(InputValue.this::setValue);
             this.setMaxLength(Integer.MAX_VALUE);
         }
@@ -174,6 +174,7 @@ public class InputValue<T> extends ConfigValue<@Nullable T> {
                 this.setCursorPosition(i + l);
                 this.setHighlightPos(getCursorPosition());
                 access.wthit_onValueChange(string3);
+                recalculateWidth(false);
             }
         }
 
