@@ -2,7 +2,7 @@ package mcp.mobius.waila.mixin;
 
 import java.util.List;
 
-import mcp.mobius.waila.mixed.IMixedService;
+import mcp.mobius.waila.mixed.IMixinService;
 import net.minecraft.commands.Commands;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.LayeredRegistryAccess;
@@ -29,7 +29,7 @@ public class ReloadableServerResourcesMixin {
 
     @Inject(method = "updateStaticRegistryTags()V", at = @At("TAIL"))
     private void wthit_onUpdateRegistryTags(CallbackInfo ci) {
-        IMixedService.INSTANCE.attachRegistryFilter(wthit_registryAccess);
+        IMixinService.INSTANCE.attachRegistryFilter(wthit_registryAccess);
     }
 
 }

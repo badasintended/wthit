@@ -2,14 +2,17 @@ package mcp.mobius.waila.gui.widget;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gson.reflect.TypeToken;
 import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.buildconst.Tl;
+import mcp.mobius.waila.gui.widget.value.ConfigValue;
 import mcp.mobius.waila.util.DisplayUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
@@ -38,6 +41,7 @@ public class CategoryEntry extends ConfigListWidget.Entry {
     private final Button collapseButton;
     private final Button expandAllButton;
     private final List<ConfigListWidget.Entry> children = new ArrayList<>();
+    private final Set<ConfigValue<?>> hiddenValues = new HashSet<>();
 
     private boolean collapsed;
     private boolean hasNested = false;
@@ -67,8 +71,26 @@ public class CategoryEntry extends ConfigListWidget.Entry {
         return this;
     }
 
+    public CategoryEntry withHidden(ConfigValue<?> value) {
+        hiddenValues.add(value);
+        return this;
+    }
+
+    private void initValues(ConfigListWidget list) {
+        for (var child : children) {
+            if (child instanceof ConfigValue<?> value) list.withHidden(value);
+            if (child instanceof CategoryEntry cat) cat.initValues(list);
+        }
+
+        for (var value : hiddenValues) {
+            list.withHidden(value);
+        }
+    }
+
     @Override
     public int init() {
+        if (category == null) initValues(list);
+
         var expand = !collapsed || list.filter != null;
         collapseButton.setMessage(Component.literal(!expand ? "+" : "-"));
 
@@ -86,7 +108,7 @@ public class CategoryEntry extends ConfigListWidget.Entry {
                     continue;
                 }
 
-                list.add(index + added, child);
+                list.with(index + added, child);
                 added += child.init(list, index + added);
             }
         }

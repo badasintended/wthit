@@ -6,7 +6,6 @@ import java.util.function.Predicate;
 import mcp.mobius.waila.mixin.EditBoxAccess;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
-import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
@@ -23,7 +22,7 @@ public class InputValue<T> extends ConfigValue<@Nullable T> {
 
     private final Predicate<String> validator;
     private final Serializer<T> serializer;
-    protected final EditBox textField;
+    protected final WatchedTextfield textField;
 
     private boolean valueFromTextField = false;
     private boolean valueValid = true;
@@ -76,12 +75,11 @@ public class InputValue<T> extends ConfigValue<@Nullable T> {
     }
 
     @Override
-    public GuiEventListener getListener() {
+    public @NotNull WatchedTextfield getListener() {
         return textField;
     }
 
     @Override
-    @SuppressWarnings("DataFlowIssue")
     protected void resetValue() {
         textField.setValue(serializer.serialize(defaultValue));
     }
@@ -126,7 +124,9 @@ public class InputValue<T> extends ConfigValue<@Nullable T> {
         valueValid = true;
     }
 
-    private class WatchedTextfield extends EditBox {
+    public class WatchedTextfield extends EditBox {
+
+        public boolean grow = true;
 
         public WatchedTextfield() {
             super(client.font, 0, 0, 100, 18, Component.empty());
@@ -135,6 +135,7 @@ public class InputValue<T> extends ConfigValue<@Nullable T> {
         }
 
         private void recalculateWidth(boolean reset) {
+            if (!grow) return;
             if (reset) setWidth(100);
             else setWidth(Mth.clamp(client.font.width(getValue()) + 8, 100, 300));
 

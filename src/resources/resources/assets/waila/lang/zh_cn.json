@@ -90,7 +90,6 @@
   "tooltip.waila.harvest.tier.diamond"                         : "钻石",
   "tooltip.waila.harvest.tier.netherite"                       : "下届合金",
 
-  "gui.waila.configuration"                                    : "%s配置",
   "gui.waila.waila_settings"                                   : "%s设置",
 
   "gui.waila.esc_warning.umm"                                  : "嗯…",
@@ -151,6 +150,7 @@
 
   "config.waila.search_prompt"                                 : "搜索配置项",
 
+
   "config.waila.true"                                          : "是",
   "config.waila.false"                                         : "否",
   "config.waila.preview_prompt"                                : "按住§5F1§r预览工具提示",
@@ -166,6 +166,8 @@
   "config.waila.server_missing_option"                         : "锁定，因为服务器没有此选项",
 
   "config.waila.general"                                       : "常规",
+
+
   "config.waila.display_tooltip"                               : "显示提示框",
   "config.waila.display_tooltip_desc"                          : "收集数据并渲染提示框",
   "config.waila.sneaky_details"                                : "潜行详情",
@@ -194,40 +196,22 @@
   "config.waila.overlay_fps_desc"                              : "降低叠加FPS可能会提高整个游戏的FPS\n设置为0以解锁",
   "config.waila.overlay_fps.disabled_reason"                   : "此选项当前被禁用，因为它导致了渲染问题",
 
-  "config.waila.overlay_pos_x"                                 : "X轴偏移",
-  "config.waila.overlay_pos_x_desc"                            : "相对于屏幕锚点的X坐标\n坐标受尺寸影响",
-  "config.waila.overlay_pos_y"                                 : "Y轴偏移",
-  "config.waila.overlay_pos_y_desc"                            : "相对于屏幕锚点的Y坐标\n坐标受尺寸影响",
+
+  "config.waila.overlay_anchor"                                : "锚点",
+  "config.waila.overlay_align"                                 : "对齐",
+  "config.waila.overlay_offset"                                : "偏移",
+  "config.waila.overlay_anchor_left"                           : "左边",
+  "config.waila.overlay_anchor_right"                          : "右边",
+  "config.waila.overlay_anchor_center"                         : "中心",
+  "config.waila.overlay_anchor_top"                            : "顶部",
+  "config.waila.overlay_anchor_bottom"                         : "底部",
+  "config.waila.overlay_anchor_middle"                         : "中间",
 
   "config.waila.boss_bars_overlap"                             : "Boss栏重叠",
   "config.waila.boss_bars_overlap_desc"                        : "如果设为否，当Boss栏可见时工具框将向下移动\n仅影响顶部中心对齐",
 
   "config.waila.overlay_scale"                                 : "尺寸",
   "config.waila.overlay_scale_desc"                            : "提示框的尺寸是多少\n默认为1.0",
-
-  "config.waila.overlay_anchor_x"                              : "水平锚点",
-  "config.waila.overlay_anchor_x_desc"                         : "该位置将从屏幕的哪个部分开始计算\n可调整游戏窗口大小来测试",
-  "config.waila.overlay_anchor_x_left"                         : "左边",
-  "config.waila.overlay_anchor_x_right"                        : "右边",
-  "config.waila.overlay_anchor_x_center"                       : "中心",
-
-  "config.waila.overlay_anchor_y"                              : "垂直锚点",
-  "config.waila.overlay_anchor_y_desc"                         : "该位置将从屏幕的哪个部分开始计算\n可调整游戏窗口大小来测试",
-  "config.waila.overlay_anchor_y_top"                          : "顶部",
-  "config.waila.overlay_anchor_y_bottom"                       : "底部",
-  "config.waila.overlay_anchor_y_middle"                       : "中间",
-
-  "config.waila.overlay_align_x"                               : "水平对齐",
-  "config.waila.overlay_align_x_desc"                          : "不同大小的提示框如何相互对齐",
-  "config.waila.overlay_align_x_left"                          : "左边",
-  "config.waila.overlay_align_x_right"                         : "右边",
-  "config.waila.overlay_align_x_center"                        : "中心",
-
-  "config.waila.overlay_align_y"                               : "垂直对齐",
-  "config.waila.overlay_align_y_desc"                          : "不同大小的提示框如何相互对齐",
-  "config.waila.overlay_align_y_top"                           : "顶部",
-  "config.waila.overlay_align_y_bottom"                        : "底部",
-  "config.waila.overlay_align_y_middle"                        : "中间",
 
   "config.waila.overlay_color"                                 : "颜色",
   "config.waila.overlay_background_alpha"                      : "背景不透明度",

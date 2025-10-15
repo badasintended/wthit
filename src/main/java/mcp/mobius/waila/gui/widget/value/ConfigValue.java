@@ -1,6 +1,8 @@
 package mcp.mobius.waila.gui.widget.value;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 import com.google.common.collect.ImmutableList;
@@ -21,6 +23,8 @@ import org.jetbrains.annotations.Nullable;
 import static mcp.mobius.waila.util.DisplayUtil.createButton;
 
 public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
+
+    private final Map<Object, Consumer<T>> watchers = new HashMap<>();
 
     protected final Consumer<T> save;
     protected final String translationKey;
@@ -80,7 +84,7 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
     }
 
     public void renderTooltip(GuiGraphics ctx, int mouseX, int mouseY) {
-        for (GuiEventListener child : children()) {
+        for (var child : children()) {
             if (child instanceof AbstractWidget widget) {
                 var x1 = widget.getX() - 2;
                 var y1 = widget.getY();
@@ -105,6 +109,11 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
             }
             ctx.setTooltipForNextFrame(client.font, tooltip, mouseX, mouseY);
         }
+    }
+
+    public boolean isChanged() {
+        if (!isValueValid()) return true;
+        return !value.equals(initialValue);
     }
 
     public boolean isValueValid() {
@@ -166,11 +175,15 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
 
     public void setValue(T value) {
         this.value = value;
+        watchers.values().forEach(w -> w.accept(value));
     }
 
-    @SuppressWarnings("DataFlowIssue")
     protected void resetValue() {
         setValue(defaultValue);
+    }
+
+    public final void addWatcher(Object key, Consumer<@NotNull T> watcher) {
+        watchers.put(key, watcher);
     }
 
     public void enable() {

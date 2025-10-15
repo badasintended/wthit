@@ -28,7 +28,9 @@
     "GuiGraphicsAccess",
     "KeyMappingAccess",
     "MultiPlayerGameModeAccess",
-    "PlayerTabOverlayAccess"
+    "OptionsScreenMixin",
+    "PlayerTabOverlayAccess",
+    "TabNavigationBarAccess"
   ],
   "injectors"         : {
     "defaultRequire": 1

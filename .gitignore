@@ -30,3 +30,5 @@ src/buildConst/
 docs/dokka/
 docs/javadoc/
 .b2/
+
+release

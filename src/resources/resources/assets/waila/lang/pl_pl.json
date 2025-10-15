@@ -90,7 +90,6 @@
 
 
 
-  "gui.waila.configuration"                                    : "%s — konfiguracja",
   "gui.waila.waila_settings"                                   : "%s — ustawienia",
 
 
@@ -165,7 +164,10 @@
 
 
 
+
   "config.waila.general"                                       : "Ogólne",
+
+
   "config.waila.display_tooltip"                               : "Pokazuj etykietę",
   "config.waila.display_tooltip_desc"                          : "Zbieraj dane i pokazuj etykietę",
   "config.waila.sneaky_details"                                : "Szczegóły skradania",
@@ -202,31 +204,13 @@
 
 
 
+
+
+
+
+
+
   "config.waila.overlay_scale"                                 : "Skala wyświetlacza",
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
   "config.waila.overlay_color"                                 : "Kolor",

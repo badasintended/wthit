@@ -90,7 +90,6 @@
 
 
 
-  "gui.waila.configuration"                                    : "%s — Configuración",
   "gui.waila.waila_settings"                                   : "Opciones de %s",
 
 
@@ -151,6 +150,7 @@
 
 
 
+
   "config.waila.true"                                          : "SÍ",
   "config.waila.false"                                         : "NO",
 
@@ -166,6 +166,8 @@
 
 
   "config.waila.general"                                       : "General",
+
+
   "config.waila.display_tooltip"                               : "Mostrar tooltip",
   "config.waila.display_tooltip_desc"                          : "Muestra el tooltip con la información",
   "config.waila.sneaky_details"                                : "Detalles al agacharse",
@@ -194,40 +196,22 @@
 
 
 
-  "config.waila.overlay_pos_x"                                 : "Desplazamiento en X",
-  "config.waila.overlay_pos_x_desc"                            : "Posición en X relativa al anclaje de pantalla\nLa posición es afectada por la escala",
-  "config.waila.overlay_pos_y"                                 : "Desplazamiento en Y",
-  "config.waila.overlay_pos_y_desc"                            : "Posición en Y relativa al anclaje de pantalla\nLa posición es afectada por la escala",
+
+  "config.waila.overlay_anchor"                                : "Anclaje",
+  "config.waila.overlay_align"                                 : "Alineación",
+
+  "config.waila.overlay_anchor_left"                           : "Izquierda",
+  "config.waila.overlay_anchor_right"                          : "Derecha",
+  "config.waila.overlay_anchor_center"                         : "En medio",
+  "config.waila.overlay_anchor_top"                            : "Arriba",
+  "config.waila.overlay_anchor_bottom"                         : "Abajo",
+  "config.waila.overlay_anchor_middle"                         : "En medio",
 
   "config.waila.boss_bars_overlap"                             : "Superposición de barras de jefe",
   "config.waila.boss_bars_overlap_desc"                        : "Si se pone falso, el tooltip se moverá abajo si hay barras de jefe visibles\nSólo afecta a la alineación centro-arriba",
 
   "config.waila.overlay_scale"                                 : "Escala",
   "config.waila.overlay_scale_desc"                            : "Cuán grande es el tooltip\n1.0 es el predeterminado",
-
-  "config.waila.overlay_anchor_x"                              : "Anclaje horizontal",
-  "config.waila.overlay_anchor_x_desc"                         : "A partir de que posición en pantalla se comenzará a contar\nPruébalo cambiando el tamaño de la ventana del juego",
-  "config.waila.overlay_anchor_x_left"                         : "Izquierda",
-  "config.waila.overlay_anchor_x_right"                        : "Derecha",
-  "config.waila.overlay_anchor_x_center"                       : "En medio",
-
-  "config.waila.overlay_anchor_y"                              : "Anclaje vertical",
-  "config.waila.overlay_anchor_y_desc"                         : "A partir de que posición en pantalla se comenzará a contar\nPruébalo cambiando el tamaño de la ventana del juego",
-  "config.waila.overlay_anchor_y_top"                          : "Arriba",
-  "config.waila.overlay_anchor_y_bottom"                       : "Abajo",
-  "config.waila.overlay_anchor_y_middle"                       : "En medio",
-
-  "config.waila.overlay_align_x"                               : "Alineación horizontal",
-  "config.waila.overlay_align_x_desc"                          : "Cómo se alinean tooltips de diferentes tamaños unos con los otros",
-  "config.waila.overlay_align_x_left"                          : "Izquierda",
-  "config.waila.overlay_align_x_right"                         : "Derecha",
-  "config.waila.overlay_align_x_center"                        : "En medio",
-
-  "config.waila.overlay_align_y"                               : "Alineación vertical",
-  "config.waila.overlay_align_y_desc"                          : "Cómo se alinean tooltips de diferentes tamaños unos con los otros",
-  "config.waila.overlay_align_y_top"                           : "Arriba",
-  "config.waila.overlay_align_y_bottom"                        : "Abajo",
-  "config.waila.overlay_align_y_middle"                        : "En medio",
 
   "config.waila.overlay_color"                                 : "Color",
   "config.waila.overlay_background_alpha"                      : "Transparencia de fondo",

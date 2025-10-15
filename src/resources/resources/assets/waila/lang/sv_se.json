@@ -90,7 +90,6 @@
 
 
 
-  "gui.waila.configuration"                                    : "Konfiguration för %s",
   "gui.waila.waila_settings"                                   : "Inställningar för %s",
 
 
@@ -151,6 +150,7 @@
 
   "config.waila.search_prompt"                                 : "Sök...",
 
+
   "config.waila.true"                                          : "Sant",
   "config.waila.false"                                         : "Falskt",
   "config.waila.preview_prompt"                                : "Håll ned §5F1§r för att visa inforuta",
@@ -166,6 +166,8 @@
   "config.waila.server_missing_option"                         : "Låst eftersom servern saknar detta alternativ",
 
   "config.waila.general"                                       : "Allmänt",
+
+
   "config.waila.display_tooltip"                               : "Visa inforuta",
   "config.waila.display_tooltip_desc"                          : "Samla in data och rendera inforutan",
   "config.waila.sneaky_details"                                : "Smyginformation",
@@ -194,40 +196,22 @@
 
 
 
-  "config.waila.overlay_pos_x"                                 : "X-förskjutning",
-  "config.waila.overlay_pos_x_desc"                            : "X-position relativt från skärmankaret\nPositionen påverkas av skalan",
-  "config.waila.overlay_pos_y"                                 : "Y-förskjutning",
-  "config.waila.overlay_pos_y_desc"                            : "Y-position relativt från skärmankaret\nPositionen påverkas av skalan",
+  "config.waila.overlay_placement"                             : "Placement",
+  "config.waila.overlay_anchor"                                : "Ankare",
+  "config.waila.overlay_align"                                 : "Justering",
+  "config.waila.overlay_offset"                                : "Förskjutning",
+  "config.waila.overlay_anchor_left"                           : "Vänsterkant",
+  "config.waila.overlay_anchor_right"                          : "Högerkant",
+  "config.waila.overlay_anchor_center"                         : "Center",
+  "config.waila.overlay_anchor_top"                            : "Överkant",
+  "config.waila.overlay_anchor_bottom"                         : "Nederkant",
+  "config.waila.overlay_anchor_middle"                         : "Mitten",
 
   "config.waila.boss_bars_overlap"                             : "Överlappande bossmätare",
   "config.waila.boss_bars_overlap_desc"                        : "Om detta är \"false\" kommer inforutan flyttas ned om någon bossmätare är synlig\nPåverkas endast vid centrerad överkantsjustering",
 
   "config.waila.overlay_scale"                                 : "Skala",
   "config.waila.overlay_scale_desc"                            : "Hur stor inforutan ska vara\n1.0 är standard",
-
-  "config.waila.overlay_anchor_x"                              : "Horisontellt ankare",
-  "config.waila.overlay_anchor_x_desc"                         : "Vilken del av skärmen som positionen ska beräknas ifrån\nTesta genom att storleksändra spelfönstret",
-  "config.waila.overlay_anchor_x_left"                         : "Vänsterkant",
-  "config.waila.overlay_anchor_x_right"                        : "Högerkant",
-  "config.waila.overlay_anchor_x_center"                       : "Center",
-
-  "config.waila.overlay_anchor_y"                              : "Vertikalt ankare",
-  "config.waila.overlay_anchor_y_desc"                         : "Vilken del av skärmen som positionen ska beräknas ifrån\nTesta genom att storleksändra spelfönstret",
-  "config.waila.overlay_anchor_y_top"                          : "Överkant",
-  "config.waila.overlay_anchor_y_bottom"                       : "Nederkant",
-  "config.waila.overlay_anchor_y_middle"                       : "Mitten",
-
-  "config.waila.overlay_align_x"                               : "Horisontell justering",
-  "config.waila.overlay_align_x_desc"                          : "Hur inforutor med olika storlekar ska justeras mot varandra",
-  "config.waila.overlay_align_x_left"                          : "Vänsterkant",
-  "config.waila.overlay_align_x_right"                         : "Högerkant",
-  "config.waila.overlay_align_x_center"                        : "Center",
-
-  "config.waila.overlay_align_y"                               : "Vertikal justering",
-  "config.waila.overlay_align_y_desc"                          : "Hur inforutor med olika storlekar ska justeras mot varandra",
-  "config.waila.overlay_align_y_top"                           : "Överkant",
-  "config.waila.overlay_align_y_bottom"                        : "Nederkant",
-  "config.waila.overlay_align_y_middle"                        : "Mitten",
 
   "config.waila.overlay_color"                                 : "Färg",
   "config.waila.overlay_background_alpha"                      : "Bakgrundgenomskinlighet",

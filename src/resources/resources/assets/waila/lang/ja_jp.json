@@ -90,7 +90,6 @@
   "tooltip.waila.harvest.tier.diamond"                         : "ダイヤ",
   "tooltip.waila.harvest.tier.netherite"                       : "ネザライト",
 
-  "gui.waila.configuration"                                    : "%s配置",
   "gui.waila.waila_settings"                                   : "%s設定",
 
   "gui.waila.esc_warning.umm"                                  : "うーん...",
@@ -150,6 +149,7 @@
   "command.waila.config.set.parse_fail"                        : "値の解析に失敗しました: %s",
 
   "config.waila.search_prompt"                                 : "検索...",
+
   "config.waila.expand_all"                                    : "全て展開",
   "config.waila.true"                                          : "オン",
   "config.waila.false"                                         : "オフ",
@@ -166,6 +166,8 @@
   "config.waila.server_missing_option"                         : "サーバーにこのオプションがないため、ロックさされました",
 
   "config.waila.general"                                       : "一般",
+
+
   "config.waila.display_tooltip"                               : "ツールヒントの表示",
   "config.waila.display_tooltip_desc"                          : "ツールヒントを示す",
   "config.waila.sneaky_details"                                : "スニークで詳細を表示",
@@ -194,40 +196,22 @@
   "config.waila.overlay_fps_desc"                              : "オーバーレイのFPSを下げれば、ゲーム全体のFPSが向上することがある\nロックを解除するには 0 を設定する",
   "config.waila.overlay_fps.disabled_reason"                   : "このオプションはレンダリングの問題を引き起こしたため、現在無効になっています。",
 
-  "config.waila.overlay_pos_x"                                 : "Xオフセット",
-  "config.waila.overlay_pos_x_desc"                            : "スクリーンアンカーからの相対X位置\n位置はスケールによって変化します",
-  "config.waila.overlay_pos_y"                                 : "Yオフセット",
-  "config.waila.overlay_pos_y_desc"                            : "スクリーンアンカーからの相対Y位置\n位置はスケールによって変化します",
+
+  "config.waila.overlay_anchor"                                : "アンカー",
+  "config.waila.overlay_align"                                 : "配置",
+  "config.waila.overlay_offset"                                : "オフセット",
+  "config.waila.overlay_anchor_left"                           : "左",
+  "config.waila.overlay_anchor_right"                          : "右",
+  "config.waila.overlay_anchor_center"                         : "中",
+  "config.waila.overlay_anchor_top"                            : "上",
+  "config.waila.overlay_anchor_bottom"                         : "下",
+  "config.waila.overlay_anchor_middle"                         : "中",
 
   "config.waila.boss_bars_overlap"                             : "ボスバーの重ね合わせ",
   "config.waila.boss_bars_overlap_desc"                        : "オフした場合、ボスバーのある時にツールヒントを下に動かす\n上-中配置の時に限る",
 
   "config.waila.overlay_scale"                                 : "スケール",
   "config.waila.overlay_scale_desc"                            : "ツールヒントの大きさはどのように大きくか\n初期値は1.0",
-
-  "config.waila.overlay_anchor_x"                              : "水平方向のアンカー",
-  "config.waila.overlay_anchor_x_desc"                         : "画面のどの部分から原点が始まるか\nマインクラフトのウィンドウをリサイズすれば確認可能です",
-  "config.waila.overlay_anchor_x_left"                         : "左",
-  "config.waila.overlay_anchor_x_right"                        : "右",
-  "config.waila.overlay_anchor_x_center"                       : "中",
-
-  "config.waila.overlay_anchor_y"                              : "垂直方向のアンカー",
-  "config.waila.overlay_anchor_y_desc"                         : "画面のどの部分から原点が始まるか\nマインクラフトのウィンドウをリサイズすれば確認可能です",
-  "config.waila.overlay_anchor_y_top"                          : "上",
-  "config.waila.overlay_anchor_y_bottom"                       : "下",
-  "config.waila.overlay_anchor_y_middle"                       : "中",
-
-  "config.waila.overlay_align_x"                               : "水平方向の配置",
-  "config.waila.overlay_align_x_desc"                          : "異なるサイズのツールチップをどのように整列させるか",
-  "config.waila.overlay_align_x_left"                          : "左",
-  "config.waila.overlay_align_x_right"                         : "右",
-  "config.waila.overlay_align_x_center"                        : "中",
-
-  "config.waila.overlay_align_y"                               : "垂直方向の配置",
-  "config.waila.overlay_align_y_desc"                          : "異なるサイズのツールチップをどのように整列させるか",
-  "config.waila.overlay_align_y_top"                           : "上",
-  "config.waila.overlay_align_y_bottom"                        : "下",
-  "config.waila.overlay_align_y_middle"                        : "中",
 
   "config.waila.overlay_color"                                 : "色",
   "config.waila.overlay_background_alpha"                      : "背景の透明",

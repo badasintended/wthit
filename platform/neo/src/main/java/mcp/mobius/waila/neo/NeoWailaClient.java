@@ -4,7 +4,7 @@ import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.gui.hud.TooltipRenderer;
 import mcp.mobius.waila.gui.hud.theme.BuiltinThemeLoader;
-import mcp.mobius.waila.gui.screen.HomeScreen;
+import mcp.mobius.waila.gui.screen.WailaConfigScreen;
 import mcp.mobius.waila.network.Packets;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -44,7 +44,7 @@ public class NeoWailaClient extends WailaClient {
 
     static void registerConfigScreen() {
         ModLoadingContext.get().registerExtensionPoint(IConfigScreenFactory.class,
-            () -> (mc, screen) -> new HomeScreen(screen));
+            () -> (mc, screen) -> new WailaConfigScreen(screen));
     }
 
     @SubscribeEvent

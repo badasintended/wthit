@@ -90,7 +90,6 @@
 
 
 
-  "gui.waila.configuration"                                    : "%s Konfiguration",
   "gui.waila.waila_settings"                                   : "%s Einstellung",
 
 
@@ -165,7 +164,10 @@
 
 
 
+
   "config.waila.general"                                       : "Allgemeines",
+
+
   "config.waila.display_tooltip"                               : "Tooltip anzeigen",
   "config.waila.display_tooltip_desc"                          : "Sammle Daten und zeige Tooltip an",
   "config.waila.sneaky_details"                                : "Schleichende Details",
@@ -189,24 +191,6 @@
   "config.waila.tts_desc"                                      : "Lies den Block- und Kreaturname mit dem Text To Speech Prozessor vom System vor",
 
   "config.waila.overlay"                                       : "Oberfläche",
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

@@ -129,6 +129,7 @@ public class WailaConfig implements IWailaConfig {
 
     public static class General implements IWailaConfig.General, Nested {
 
+        private @T(Tl.Config.VANILLA_OPTIONS) boolean vanillaOptions = true;
         private @T(Tl.Config.DISPLAY_TOOLTIP) boolean displayTooltip = true;
         private @T(Tl.Config.SNEAKY_DETAILS) boolean shiftForDetails = false;
         private @T(Tl.Config.HIDE_SNEAK_TEXT) boolean hideShiftText = false;
@@ -137,6 +138,14 @@ public class WailaConfig implements IWailaConfig {
         private @T(Tl.Config.HIDE_FROM_DEBUG) boolean hideFromDebug = true;
         private @T(Tl.Config.TTS) boolean enableTextToSpeech = false;
         private @T(Tl.Config.RATE_LIMIT) int rateLimit = 250;
+
+        public boolean vanillaOptions() {
+            return vanillaOptions;
+        }
+
+        public void setVanillaOptions(boolean vanillaOptions) {
+            this.vanillaOptions = vanillaOptions;
+        }
 
         @Override
         public boolean isDisplayTooltip() {
@@ -253,8 +262,10 @@ public class WailaConfig implements IWailaConfig {
             private final Align align = new Align();
             private final Align anchor = new Align();
 
-            private @T(Tl.Config.OVERLAY_POS_X) int x = 0;
-            private @T(Tl.Config.OVERLAY_POS_Y) int y = 0;
+            @T(Tl.Config.OVERLAY_OFFSET)
+            private int x = 0;
+            private int y = 0;
+
             private @T(Tl.Config.BOSS_BARS_OVERLAP) boolean bossBarsOverlap = false;
 
             @Override
