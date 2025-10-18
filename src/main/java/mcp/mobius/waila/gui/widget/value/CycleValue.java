@@ -14,7 +14,7 @@ import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
 
-public class CycleValue extends ConfigValue<String> {
+public class CycleValue extends ConfigValue<String, CycleValue> {
 
     private final Button button;
     private final boolean createLocale;

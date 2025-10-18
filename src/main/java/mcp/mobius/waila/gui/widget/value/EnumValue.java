@@ -10,7 +10,7 @@ import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class EnumValue<T extends Enum<T>> extends ConfigValue<T> {
+public class EnumValue<T extends Enum<T>> extends ConfigValue<T, EnumValue<T>> {
 
     private final Button button;
 

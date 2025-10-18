@@ -28,7 +28,7 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
     private final ConfigScreen owner;
     private final @Nullable Runnable diskWriter;
 
-    public final Set<ConfigValue<?>> values = new HashSet<>();
+    public final Set<ConfigValue<?, ?>> values = new HashSet<>();
 
     private int topOffset;
     private int bottomOffset;
@@ -77,12 +77,15 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
             return true;
         }
 
-        if (!ignoreErrors) minecraft.getToasts().addToast(new SystemToast(
+        if (!ignoreErrors) showErrorToast(minecraft);
+        return ignoreErrors;
+    }
+
+    public static void showErrorToast(Minecraft minecraft) {
+        minecraft.getToasts().addToast(new SystemToast(
             SystemToast.SystemToastIds.TUTORIAL_HINT,
             Component.translatable(Tl.Config.InvalidInput.TITLE),
             Component.translatable(Tl.Config.InvalidInput.DESC)));
-
-        return ignoreErrors;
     }
 
     public EditBox getSearchBox() {
@@ -135,12 +138,12 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
     }
 
     public ConfigListWidget with(int index, Entry entry) {
-        if (entry instanceof ConfigValue<?> cv) withHidden(cv);
+        if (entry instanceof ConfigValue<?, ?> cv) withHidden(cv);
         children().add(index, entry);
         return this;
     }
 
-    public ConfigListWidget withHidden(ConfigValue<?> value) {
+    public ConfigListWidget withHidden(ConfigValue<?, ?> value) {
         values.add(value);
         return this;
     }

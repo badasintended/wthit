@@ -123,7 +123,7 @@ public class PluginConfigScreen extends ConfigScreen {
     @FunctionalInterface
     private interface ConfigValueFunction<T> {
 
-        ConfigValue<T> create(ResourceLocation key, String name, T value, T defaultValue, Consumer<T> save);
+        ConfigValue<T, ?> create(ResourceLocation key, String name, T value, T defaultValue, Consumer<T> save);
 
     }
 

@@ -10,7 +10,7 @@ import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
 
-public class BooleanValue extends ConfigValue<Boolean> {
+public class BooleanValue extends ConfigValue<Boolean, BooleanValue> {
 
     private final Button button;
 

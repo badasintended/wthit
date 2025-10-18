@@ -40,7 +40,7 @@ public class CategoryEntry extends ConfigListWidget.Entry {
     private final Button collapseButton;
     private final Button expandAllButton;
     private final List<ConfigListWidget.Entry> children = new ArrayList<>();
-    private final Set<ConfigValue<?>> hiddenValues = new HashSet<>();
+    private final Set<ConfigValue<?, ?>> hiddenValues = new HashSet<>();
 
     private boolean collapsed;
     private boolean hasNested = false;
@@ -69,14 +69,14 @@ public class CategoryEntry extends ConfigListWidget.Entry {
         return this;
     }
 
-    public CategoryEntry withHidden(ConfigValue<?> value) {
+    public CategoryEntry withHidden(ConfigValue<?, ?> value) {
         hiddenValues.add(value);
         return this;
     }
 
     private void initValues(ConfigListWidget list) {
         for (var child : children) {
-            if (child instanceof ConfigValue<?> value) list.withHidden(value);
+            if (child instanceof ConfigValue<?, ?> value) list.withHidden(value);
             if (child instanceof CategoryEntry cat) cat.initValues(list);
         }
 

@@ -21,9 +21,9 @@ import net.minecraft.util.FormattedCharSequence;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
+public abstract class ConfigValue<T, C extends ConfigValue<T, C>> extends ConfigListWidget.Entry {
 
-    private final Map<Object, Consumer<T>> watchers = new HashMap<>();
+    private final Map<Object, Consumer<C>> watchers = new HashMap<>();
 
     protected final Consumer<T> save;
     protected final String translationKey;
@@ -168,17 +168,28 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
         return value;
     }
 
-    public void setValue(T value) {
+    @SuppressWarnings("unchecked")
+    protected final void callWatchers() {
+        watchers.values().forEach(w -> w.accept((C) this));
+    }
+
+    protected final void setValue(T value, boolean notify) {
         this.value = value;
-        watchers.values().forEach(w -> w.accept(value));
+        if (notify) callWatchers();
+    }
+
+    public void setValue(T value) {
+        setValue(value, true);
     }
 
     protected void resetValue() {
         setValue(defaultValue);
     }
 
-    public final void addWatcher(Object key, Consumer<@NotNull T> watcher) {
+    @SuppressWarnings("unchecked")
+    public final void addWatcher(Object key, Consumer<C> watcher) {
         watchers.put(key, watcher);
+        watcher.accept((C) this);
     }
 
     public void enable() {
