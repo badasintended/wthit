@@ -99,7 +99,7 @@ class ThemeEditorScreen extends ConfigScreen {
                         super.setValue(value);
                         type = Registrar.get().themeTypes.get(ResourceLocation.parse(value));
                         themeAttrCategory.clear(options);
-                        options.children().remove(themeAttrCategory);
+                        options.children.remove(themeAttrCategory);
                         addTypeProperties(options);
                         options.init();
                         options.setFocused(this);
@@ -144,7 +144,7 @@ class ThemeEditorScreen extends ConfigScreen {
 
     private void addTypeProperties(ConfigListWidget options) {
         themeAttrCategory = new CategoryEntry(Tl.Config.OverlayThemeEditor.ATTRIBUTES);
-        options.with(options.children().size() - (edit ? 2 : 0), themeAttrCategory);
+        options.with(options.children.size() - (edit ? 2 : 0), themeAttrCategory);
 
         attrValues.clear();
         type2attr.computeIfAbsent(type, t -> new HashMap<>(t.properties.size()));

@@ -171,11 +171,15 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
         return this;
     }
 
+    @Override
+    public int getY() {
+        return topOffset;
+    }
+
     public void resize(int top, int bottom) {
         this.topOffset = top;
         this.bottomOffset = bottom - owner.height;
         setSize(owner.width, owner.height - (topOffset - bottomOffset));
-        if (searchBox != null) searchBox.setPosition(getRowLeft() + getRowWidth() - 160, (top - 18) / 2);
     }
 
     @Override
