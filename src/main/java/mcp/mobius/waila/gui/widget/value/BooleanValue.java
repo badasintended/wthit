@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 
 import static mcp.mobius.waila.util.DisplayUtil.createButton;
 
-public class BooleanValue extends ConfigValue<Boolean> {
+public class BooleanValue extends ConfigValue<Boolean, BooleanValue> {
 
     private final Button button;
 
