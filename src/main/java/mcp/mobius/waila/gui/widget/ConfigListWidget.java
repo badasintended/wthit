@@ -156,7 +156,7 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
 
     public ConfigListWidget with(int index, Entry entry) {
         if (entry instanceof ConfigValue<?, ?> cv) withHidden(cv);
-        children.add(index, entry);
+        children().add(index, entry);
         return this;
     }
 

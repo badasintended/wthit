@@ -99,6 +99,7 @@ class ThemeEditorScreen extends ConfigScreen {
                         super.setValue(value);
                         type = Registrar.get().themeTypes.get(ResourceLocation.parse(value));
                         themeAttrCategory.clear(options);
+                        options.children().remove(themeAttrCategory);
                         options.values.removeIf(it -> it.category == themeAttrCategory);
                         addTypeProperties(options);
                         options.init();
