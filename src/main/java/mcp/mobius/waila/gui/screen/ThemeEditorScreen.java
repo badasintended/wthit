@@ -47,7 +47,7 @@ class ThemeEditorScreen extends ConfigScreen {
     private CycleValue typeVal;
 
     private final Map<ThemeType<?>, Map<String, Object>> type2attr = new HashMap<>();
-    private final Map<String, ConfigValue<Object>> attrValues = new HashMap<>();
+    private final Map<String, ConfigValue<Object, ?>> attrValues = new HashMap<>();
 
     public ThemeEditorScreen(WailaConfigScreen parent, ThemeDefinition<?> template, boolean edit) {
         super(parent, CommonComponents.EMPTY, () -> {}, () -> {});
@@ -153,8 +153,8 @@ class ThemeEditorScreen extends ConfigScreen {
             var propType = prop.type;
             var attr = type2attr.get(type);
             var templateValue = attr.computeIfAbsent(key, k -> prop.defaultValue);
-            ConfigValue<?> value;
 
+            ConfigValue<?, ?> value;
             if (propType == int.class) {
                 value = new IntInputValue(prop.getTlKey(), TypeUtil.uncheckedCast(templateValue), null, val -> attr.put(key, val), TypeUtil.uncheckedCast(prop.context));
             } else if (propType == boolean.class) {

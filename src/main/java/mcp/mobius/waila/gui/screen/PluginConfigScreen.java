@@ -127,7 +127,7 @@ public class PluginConfigScreen extends TabbedConfigScreen {
     @FunctionalInterface
     private interface ConfigValueFunction<T> {
 
-        ConfigValue<T> create(ResourceLocation key, String name, T value, T defaultValue, Consumer<T> save);
+        ConfigValue<T, ?> create(ResourceLocation key, String name, T value, T defaultValue, Consumer<T> save);
 
     }
 
