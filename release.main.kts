@@ -183,10 +183,7 @@ shell {
         export("MAVEN_PASSWORD" to Env.MAVEN_PASSWORD)
         export("JAVA_HOME" to System.getenv("JAVA_${release.java}_HOME")!!)
 
-        exec("./gradlew clean")
-        exec("./gradlew build")
-        exec("./gradlew publish")
-        exec("./gradlew publishMods")
+        exec("./gradlew clean build publish publishMods")
         exec("./gradlew --stop")
 
         val releaseName = "[${release.minecraft}] ${release.version}"
