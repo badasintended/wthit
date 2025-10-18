@@ -11,7 +11,7 @@ import net.minecraft.util.Mth;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-public class InputValue<T> extends ConfigValue<@Nullable T> {
+public class InputValue<T> extends ConfigValue<@Nullable T, InputValue<T>> {
 
     public static final Predicate<String> ANY = s -> true;
     public static final Predicate<String> INTEGER = s -> s.matches("[-+]?\\d*$");
@@ -98,6 +98,7 @@ public class InputValue<T> extends ConfigValue<@Nullable T> {
     private void setValue(String text) {
         if (!validator.test(text)) {
             valueValid = false;
+            callWatchers();
             return;
         }
 
@@ -107,17 +108,19 @@ public class InputValue<T> extends ConfigValue<@Nullable T> {
         } catch (Throwable t) {
             // no-op
         }
+        callWatchers();
     }
 
     @Override
     public void setValue(T value) {
-        super.setValue(value);
+        setValue(value, false);
 
         if (!valueFromTextField) {
             var access = (EditBoxAccess) textField;
             access.wthit_value(serializer.serialize(value));
             textField.setCursorPosition(access.wthit_value().length());
             textField.setHighlightPos(textField.getCursorPosition());
+            callWatchers();
         }
 
         valueFromTextField = false;
