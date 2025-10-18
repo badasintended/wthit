@@ -12,7 +12,7 @@ import org.jetbrains.annotations.Nullable;
 
 import static mcp.mobius.waila.util.DisplayUtil.createButton;
 
-public class EnumValue<T extends Enum<T>> extends ConfigValue<T> {
+public class EnumValue<T extends Enum<T>> extends ConfigValue<T, EnumValue<T>> {
 
     private final Button button;
 

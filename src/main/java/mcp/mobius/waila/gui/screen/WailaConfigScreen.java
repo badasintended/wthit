@@ -1,6 +1,8 @@
 package mcp.mobius.waila.gui.screen;
 
-import java.awt.Rectangle;
+import java.awt.*;
+import java.util.Arrays;
+import java.util.List;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.platform.InputConstants;
@@ -38,6 +40,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.Blocks;
+import org.apache.commons.lang3.mutable.MutableObject;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2d;
@@ -58,9 +61,11 @@ public class WailaConfigScreen extends TabbedConfigScreen {
     private ThemeDefinition<?> theme;
     private boolean f1held = false;
 
-    private ConfigValue<String> modNameFormatVal;
-    private ConfigValue<String> blockNameFormatVal;
-    private ConfigValue<Integer> fpsVal;
+    private InputValue<String> modNameFormatVal;
+    private InputValue<String> blockNameFormatVal;
+    private InputValue<Integer> fpsVal;
+
+    private ButtonEntry placementButton;
     private EnumValue<Align.X> xAnchorValue;
     private EnumValue<Align.Y> yAnchorValue;
     private EnumValue<Align.X> xAlignValue;
@@ -68,7 +73,8 @@ public class WailaConfigScreen extends TabbedConfigScreen {
     private InputValue<Integer> xPosValue;
     private InputValue<Integer> yPosValue;
     private InputValue<Float> scaleValue;
-    private ConfigValue<Integer> backgroundAlphaVal;
+
+    private InputValue<Integer> backgroundAlphaVal;
 
     private ThemeValue themeIdVal;
 
@@ -189,7 +195,7 @@ public class WailaConfigScreen extends TabbedConfigScreen {
                     val -> get().getOverlay().setFps(val),
                     InputValue.POSITIVE_INTEGER),
                 it -> it.disable(Tl.Config.OverlayFps.DISABLED_REASON)))
-            .with(new ButtonEntry(Tl.Config.OVERLAY_PLACEMENT, 100, 20, w ->
+            .with(placementButton = new ButtonEntry(Tl.Config.OVERLAY_PLACEMENT, 100, 20, w ->
                 minecraft.setScreen(new PlacementScreen())))
             .withHidden(xAnchorValue = new EnumValue<>(Tl.Config.OVERLAY_ANCHOR,
                 Align.X.values(),
@@ -301,7 +307,7 @@ public class WailaConfigScreen extends TabbedConfigScreen {
         return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
-    public class KeyBindValue extends ConfigValue<InputConstants.Key> {
+    public class KeyBindValue extends ConfigValue<InputConstants.Key, KeyBindValue> {
 
         private final Button button;
 
@@ -387,10 +393,13 @@ public class WailaConfigScreen extends TabbedConfigScreen {
 
     private class PlacementScreen extends YesIAmSureTheClientInstanceIsPresentByTheTimeIUseItScreen {
 
-        static final Component TEXT_ALIGN = Component.translatable(Tl.Config.OVERLAY_ALIGN);
-        static final Component TEXT_ANCHOR = Component.translatable(Tl.Config.OVERLAY_ANCHOR);
-        static final Component TEXT_OFFSET = Component.translatable(Tl.Config.OVERLAY_OFFSET);
-        static final Component TEXT_SCALE = Component.translatable(Tl.Config.OVERLAY_SCALE);
+        static final Object WATCHER_OFFSET = new Object();
+        static final Object WATCHER_UPDATE = new Object();
+
+        final MutableObject<Component> textAlign = new MutableObject<>(Component.translatable(Tl.Config.OVERLAY_ALIGN));
+        final MutableObject<Component> textAnchor = new MutableObject<>(Component.translatable(Tl.Config.OVERLAY_ANCHOR));
+        final MutableObject<Component> textOffset = new MutableObject<>(Component.translatable(Tl.Config.OVERLAY_OFFSET));
+        final MutableObject<Component> textScale = new MutableObject<>(Component.translatable(Tl.Config.OVERLAY_SCALE));
 
         final Rectangle rect = new Rectangle();
         float oldScale;
@@ -411,9 +420,24 @@ public class WailaConfigScreen extends TabbedConfigScreen {
             super(Component.translatable(Tl.Config.OVERLAY));
         }
 
-        private void resetOffset(Object ignored) {
+        private void resetOffset(ConfigValue<?, ?> value) {
+            if (!value.isChanged()) return;
             xPosValue.setValue(0);
             yPosValue.setValue(0);
+        }
+
+        private void addUpdateWatcher(MutableObject<Component> text, ConfigValue<?, ?>... cvs) {
+            for (var cv : cvs) {
+                cv.addWatcher(WATCHER_UPDATE, v -> {
+                    if (!Arrays.stream(cvs).allMatch(ConfigValue::isValueValid)) {
+                        text.setValue(text.getValue().plainCopy().withStyle(ChatFormatting.ITALIC, ChatFormatting.RED));
+                    } else if (Arrays.stream(cvs).anyMatch(ConfigValue::isChanged)) {
+                        text.setValue(text.getValue().plainCopy().withStyle(ChatFormatting.ITALIC, ChatFormatting.YELLOW));
+                    } else {
+                        text.setValue(text.getValue().plainCopy());
+                    }
+                });
+            }
         }
 
         @Override
@@ -422,32 +446,49 @@ public class WailaConfigScreen extends TabbedConfigScreen {
 
             addRenderableWidget(xAnchor = xAnchorValue.getListener());
             addRenderableWidget(yAnchor = yAnchorValue.getListener());
-            xAnchorValue.addWatcher(PlacementScreen.class, this::resetOffset);
-            yAnchorValue.addWatcher(PlacementScreen.class, this::resetOffset);
+            addUpdateWatcher(textAnchor, xAnchorValue, yAnchorValue);
+            xAnchorValue.addWatcher(WATCHER_OFFSET, this::resetOffset);
+            yAnchorValue.addWatcher(WATCHER_OFFSET, this::resetOffset);
             xAnchor.setWidth(50);
             yAnchor.setWidth(50);
 
             addRenderableWidget(xAlign = xAlignValue.getListener());
             addRenderableWidget(yAlign = yAlignValue.getListener());
+            addUpdateWatcher(textAlign, xAlignValue, yAlignValue);
             xAlign.setWidth(50);
             yAlign.setWidth(50);
 
             addRenderableWidget(xPos = xPosValue.getListener());
             addRenderableWidget(yPos = yPosValue.getListener());
+            addUpdateWatcher(textOffset, xPosValue, yPosValue);
             xPos.grow = yPos.grow = false;
             xPos.setWidth(50);
             yPos.setWidth(50);
 
             addRenderableWidget(scale = scaleValue.getListener());
+            addUpdateWatcher(textScale, scaleValue);
             oldScale = scaleValue.getValue();
             scale.grow = false;
             scale.setWidth(102);
-            scaleValue.addWatcher(PlacementScreen.class, newScale -> {
-                if (newScale != oldScale) resetOffset(null);
-                oldScale = newScale;
+            scaleValue.addWatcher(WATCHER_OFFSET, v -> {
+                if (v.isChanged()) resetOffset(v);
+                oldScale = v.getValue();
             });
 
-            addRenderableWidget(done = createButton(0, 0, 102, 20, CommonComponents.GUI_DONE, (b) -> minecraft.setScreen(WailaConfigScreen.this)));
+            addRenderableWidget(done = createButton(0, 0, 102, 20, CommonComponents.GUI_DONE, (b) -> {
+                var list = List.of(xAnchorValue, yAnchorValue, xAlignValue, yAlignValue, xPosValue, yPosValue, scaleValue);
+                if (!list.stream().allMatch(ConfigValue::isValueValid)) {
+                    ConfigListWidget.showErrorToast(minecraft);
+                    return;
+                }
+
+                var message = Component.translatable(Tl.Config.OVERLAY_PLACEMENT);
+                var changed = list.stream().anyMatch(ConfigValue::isChanged);
+                if (changed) message.withStyle(ChatFormatting.ITALIC, ChatFormatting.YELLOW);
+                placementButton.setTitle(message);
+
+                minecraft.setScreen(WailaConfigScreen.this);
+            }));
 
             tick();
         }
@@ -455,10 +496,10 @@ public class WailaConfigScreen extends TabbedConfigScreen {
         @Override
         @SuppressWarnings({"ConstantValue", "UnusedAssignment"})
         public void tick() {
-            maxTextWidth = minecraft.font.width(TEXT_ALIGN);
-            maxTextWidth = Math.max(maxTextWidth, minecraft.font.width(TEXT_ANCHOR));
-            maxTextWidth = Math.max(maxTextWidth, minecraft.font.width(TEXT_OFFSET));
-            maxTextWidth = Math.max(maxTextWidth, minecraft.font.width(TEXT_SCALE));
+            maxTextWidth = minecraft.font.width(textAlign.getValue());
+            maxTextWidth = Math.max(maxTextWidth, minecraft.font.width(textAnchor.getValue()));
+            maxTextWidth = Math.max(maxTextWidth, minecraft.font.width(textOffset.getValue()));
+            maxTextWidth = Math.max(maxTextWidth, minecraft.font.width(textScale.getValue()));
 
             var r = buildPreview(previewState);
             var s = (float) scaleValue.getValue();
@@ -500,10 +541,10 @@ public class WailaConfigScreen extends TabbedConfigScreen {
             var i = 0;
             var y = this.y + minecraft.font.lineHeight / 2;
             // @formatter:off
-            ctx.drawString(minecraft.font, TEXT_ANCHOR, x, y + (22 * i++), 0xFFFFFFFF);
-            ctx.drawString(minecraft.font, TEXT_ALIGN , x, y + (22 * i++), 0xFFFFFFFF);
-            ctx.drawString(minecraft.font, TEXT_OFFSET, x, y + (22 * i++), 0xFFFFFFFF);
-            ctx.drawString(minecraft.font, TEXT_SCALE , x, y + (22 * i++), 0xFFFFFFFF);
+            ctx.drawString(minecraft.font, textAnchor.getValue(), x, y + (22 * i++), 0xFFFFFFFF);
+            ctx.drawString(minecraft.font, textAlign .getValue(), x, y + (22 * i++), 0xFFFFFFFF);
+            ctx.drawString(minecraft.font, textOffset.getValue(), x, y + (22 * i++), 0xFFFFFFFF);
+            ctx.drawString(minecraft.font, textScale .getValue(), x, y + (22 * i++), 0xFFFFFFFF);
             // @formatter:on
 
             TooltipRenderer.render(ctx, delta);

@@ -4,14 +4,13 @@ import com.google.common.collect.ImmutableList;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
-import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 
 import static mcp.mobius.waila.util.DisplayUtil.createButton;
 
 public class ButtonEntry extends ConfigListWidget.Entry {
 
-    private final String title;
+    private Component title;
     private final Button button;
 
     public ButtonEntry(String title, Button button) {
@@ -19,7 +18,7 @@ public class ButtonEntry extends ConfigListWidget.Entry {
     }
 
     public ButtonEntry(String name, String button, Button buttonWidget) {
-        this.title = I18n.get(name);
+        this.title = Component.translatable(name);
         this.button = buttonWidget;
         buttonWidget.setMessage(Component.translatable(button));
     }
@@ -30,6 +29,10 @@ public class ButtonEntry extends ConfigListWidget.Entry {
 
     public ButtonEntry(String name, String button, int width, int height, Button.OnPress pressAction) {
         this(name, button, createButton(0, 0, width, height, Component.empty(), pressAction));
+    }
+
+    public void setTitle(Component title) {
+        this.title = title;
     }
 
     @Override
@@ -47,7 +50,7 @@ public class ButtonEntry extends ConfigListWidget.Entry {
 
     @Override
     protected void buildSearchKey(StringBuilder sb) {
-        sb.append(title);
+        sb.append(title.getString());
     }
 
 }

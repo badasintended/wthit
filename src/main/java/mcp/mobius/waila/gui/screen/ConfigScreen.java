@@ -104,7 +104,7 @@ public abstract class ConfigScreen extends YesIAmSureTheClientInstanceIsPresentB
         if (mouseY < 32 || mouseY > height - 32) return;
 
         options.getChildAt(mouseX, mouseY).ifPresent(element -> {
-            if (element instanceof ConfigValue<?> value) {
+            if (element instanceof ConfigValue<?, ?> value) {
                 value.renderTooltip(ctx, mouseX, mouseY);
             }
         });

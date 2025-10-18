@@ -29,7 +29,7 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
     private final ConfigScreen owner;
     private final @Nullable Runnable diskWriter;
 
-    public final Set<ConfigValue<?>> values = new HashSet<>();
+    public final Set<ConfigValue<?, ?>> values = new HashSet<>();
 
     private int topOffset;
     private int bottomOffset;
@@ -86,12 +86,15 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
             return true;
         }
 
-        if (!ignoreErrors) minecraft.getToasts().addToast(new SystemToast(
+        if (!ignoreErrors) showErrorToast(minecraft);
+        return ignoreErrors;
+    }
+
+    public static void showErrorToast(Minecraft minecraft) {
+        minecraft.getToasts().addToast(new SystemToast(
             SystemToast.SystemToastIds.TUTORIAL_HINT,
             Component.translatable(Tl.Config.InvalidInput.TITLE),
             Component.translatable(Tl.Config.InvalidInput.DESC)));
-
-        return ignoreErrors;
     }
 
     public void search() {
@@ -155,12 +158,12 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
     }
 
     public ConfigListWidget with(int index, Entry entry) {
-        if (entry instanceof ConfigValue<?> cv) withHidden(cv);
+        if (entry instanceof ConfigValue<?, ?> cv) withHidden(cv);
         children().add(index, entry);
         return this;
     }
 
-    public ConfigListWidget withHidden(ConfigValue<?> value) {
+    public ConfigListWidget withHidden(ConfigValue<?, ?> value) {
         values.add(value);
         return this;
     }
@@ -209,7 +212,7 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
         protected void drawEntry(GuiGraphics ctx, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
             box.setPosition(rowLeft, rowTop);
             box.setWidth(width);
-//            box.setHeight(height);
+            //            box.setHeight(height);
             box.render(ctx, mouseX, mouseY, deltaTime);
         }
 
