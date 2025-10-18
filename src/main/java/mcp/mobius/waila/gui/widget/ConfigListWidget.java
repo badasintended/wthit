@@ -32,7 +32,7 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
     private final @Nullable Runnable diskWriter;
 
     public final List<ConfigListWidget.Entry> children;
-    public final Set<ConfigValue<?>> values = new HashSet<>();
+    public final Set<ConfigValue<?, ?>> values = new HashSet<>();
 
     private int topOffset;
     private int bottomOffset;
@@ -87,12 +87,15 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
             return true;
         }
 
-        if (!ignoreErrors) minecraft.getToastManager().addToast(new SystemToast(
+        if (!ignoreErrors) showErrorToast(minecraft);
+        return ignoreErrors;
+    }
+
+    public static void showErrorToast(Minecraft minecraft) {
+        minecraft.getToastManager().addToast(new SystemToast(
             SystemToast.SystemToastId.PACK_COPY_FAILURE,
             Component.translatable(Tl.Config.InvalidInput.TITLE),
             Component.translatable(Tl.Config.InvalidInput.DESC)));
-
-        return ignoreErrors;
     }
 
     public void search() {
@@ -157,22 +160,26 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
     }
 
     public ConfigListWidget with(int index, Entry entry) {
-        if (entry instanceof ConfigValue<?> cv) withHidden(cv);
+        if (entry instanceof ConfigValue<?, ?> cv) withHidden(cv);
         entry.setHeight(defaultEntryHeight);
         children.add(index, entry);
         return this;
     }
 
-    public ConfigListWidget withHidden(ConfigValue<?> value) {
+    public ConfigListWidget withHidden(ConfigValue<?, ?> value) {
         values.add(value);
         return this;
+    }
+
+    @Override
+    public int getY() {
+        return topOffset;
     }
 
     public void resize(int top, int bottom) {
         this.topOffset = top;
         this.bottomOffset = bottom - owner.height;
         setSize(owner.width, owner.height - (topOffset - bottomOffset));
-        if (searchBox != null) searchBox.setPosition(getRowLeft() + getRowWidth() - 160, (top - 18) / 2);
     }
 
     @Override
@@ -215,7 +222,7 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
         protected void drawEntry(GuiGraphics ctx, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
             box.setPosition(rowLeft, rowTop);
             box.setWidth(width);
-//            box.setHeight(height);
+            //            box.setHeight(height);
             box.render(ctx, mouseX, mouseY, deltaTime);
         }
 
