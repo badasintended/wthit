@@ -111,6 +111,11 @@ public abstract class ConfigValue<T, C extends ConfigValue<T, C>> extends Config
         }
     }
 
+    public boolean isChanged() {
+        if (!isValueValid()) return true;
+        return !value.equals(initialValue);
+    }
+
     public boolean isValueValid() {
         return true;
     }
