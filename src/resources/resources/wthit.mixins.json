@@ -23,7 +23,7 @@
     "GameNarratorAccess",
     "KeyMappingAccess",
     "MinecraftAccess",
-    "MultiPlayerGameModeAccess",
+    "MultiPlayerGameModeMixin",
     "PlayerTabOverlayAccess"
   ],
   "injectors"         : {
