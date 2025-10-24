@@ -65,6 +65,16 @@ public class TooltipHandler {
         if (client.level == null) return false;
         if (client.gameMode == null) return false;
 
+        Player player = client.player;
+        if (player == null) return false;
+
+        var camera = client.getCameraEntity();
+        if (camera == null) return false;
+
+        for (var entry : Registrar.get().eventListeners.get(Object.class)) {
+            entry.instance().instance().onTick(PluginConfig.CLIENT);
+        }
+
         if (!inspect) {
             if (client.options.hideGui) return false;
             if (client.screen != null && !(client.screen instanceof ChatScreen)) return false;
@@ -73,12 +83,6 @@ public class TooltipHandler {
             if (config.isHideFromPlayerList() && ((PlayerTabOverlayAccess) client.gui.getTabList()).wthit_isVisible()) return false;
             if (config.isHideFromDebug() && client.options.renderDebug) return false;
         }
-
-        Player player = client.player;
-        if (player == null) return false;
-
-        var camera = client.cameraEntity;
-        if (camera == null) return false;
 
         var frameTime = client.getFrameTime();
         var pickRange = client.gameMode.getPickRange();
