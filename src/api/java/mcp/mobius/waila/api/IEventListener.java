@@ -1,6 +1,6 @@
 package mcp.mobius.waila.api;
 
-import java.awt.Rectangle;
+import java.awt.*;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.item.ItemStack;
@@ -14,6 +14,13 @@ import org.jetbrains.annotations.Nullable;
  */
 @ApiStatus.OverrideOnly
 public interface IEventListener {
+
+    /**
+     * This event is fired on every tick, before Waila handle anything,
+     * regardless whether the tooltip will be shown or not.
+     */
+    default void onTick(IPluginConfig config) {
+    }
 
     /**
      * This event is fired just before the tooltip size is calculated.
