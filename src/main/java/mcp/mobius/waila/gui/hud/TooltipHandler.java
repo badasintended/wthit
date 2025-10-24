@@ -5,6 +5,8 @@ import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.access.ClientAccessor;
 import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IEntityComponentProvider;
+import mcp.mobius.waila.api.IEventListener;
+import mcp.mobius.waila.api.IInstanceRegistry;
 import mcp.mobius.waila.api.ITargetRedirector;
 import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.IWailaConfig;
@@ -15,6 +17,7 @@ import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.mixin.PlayerTabOverlayAccess;
 import mcp.mobius.waila.pick.PickerResults;
+import mcp.mobius.waila.registry.PluginAware;
 import mcp.mobius.waila.registry.Registrar;
 import mcp.mobius.waila.util.ProfilerUtil;
 import net.minecraft.ChatFormatting;
@@ -64,6 +67,16 @@ public class TooltipHandler {
         if (client.level == null) return false;
         if (client.gameMode == null) return false;
 
+        Player player = client.player;
+        if (player == null) return false;
+
+        var camera = client.getCameraEntity();
+        if (camera == null) return false;
+
+        for (var entry : Registrar.get().eventListeners.get(Object.class)) {
+            entry.instance().instance().onTick(PluginConfig.CLIENT);
+        }
+
         if (!inspect) {
             if (client.options.hideGui) return false;
             if (client.screen != null && !(client.screen instanceof ChatScreen)) return false;
@@ -72,12 +85,6 @@ public class TooltipHandler {
             if (config.isHideFromPlayerList() && ((PlayerTabOverlayAccess) client.gui.getTabList()).wthit_isVisible()) return false;
             if (config.isHideFromDebug() && client.debugEntries.isF3Visible()) return false;
         }
-
-        Player player = client.player;
-        if (player == null) return false;
-
-        var camera = client.getCameraEntity();
-        if (camera == null) return false;
 
         var frameTime = client.getDeltaTracker().getGameTimeDeltaPartialTick(true);
         var pickRange = Math.max(player.blockInteractionRange(), player.entityInteractionRange());
