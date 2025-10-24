@@ -28,7 +28,7 @@
     "GuiGraphicsAccess",
     "GuiMixin",
     "KeyMappingAccess",
-    "MultiPlayerGameModeAccess",
+    "MultiPlayerGameModeMixin",
     "OptionsScreenMixin",
     "PlayerTabOverlayAccess",
     "TabNavigationBarAccess"
