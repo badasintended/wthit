@@ -13,7 +13,6 @@ import net.minecraftforge.client.ConfigScreenHandler;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.RegisterClientCommandsEvent;
 import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
-import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.client.event.RenderGuiEvent;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
@@ -33,11 +32,6 @@ public class ForgeWailaClient extends WailaClient {
             Packets.initClient();
             registerConfigScreen();
         });
-    }
-
-    @SubscribeEvent
-    static void registerKeyMappings(RegisterKeyMappingsEvent event) {
-        registerKeyBinds().forEach(event::register);
     }
 
     @SubscribeEvent
