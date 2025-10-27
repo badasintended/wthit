@@ -26,6 +26,7 @@
     "EditBoxAccess",
     "GameNarratorAccess",
     "GuiGraphicsAccess",
+    "KeyBindsListMixin",
     "KeyMappingAccess",
     "MultiPlayerGameModeMixin",
     "OptionsScreenMixin",

@@ -11,6 +11,7 @@ import mcp.mobius.waila.config.DebugConfig;
 import mcp.mobius.waila.config.JsonConfig;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.config.WailaConfig;
+import mcp.mobius.waila.config.input.KeyBind;
 import mcp.mobius.waila.gui.hud.theme.ThemeDefinition;
 import mcp.mobius.waila.plugin.PluginLoader;
 import mcp.mobius.waila.plugin.PluginSide;
@@ -47,6 +48,7 @@ public abstract class Waila {
             .registerTypeAdapter(WailaConfig.Overlay.Color.class, new WailaConfig.Overlay.Color.Adapter())
             .registerTypeAdapter(ThemeDefinition.class, new ThemeDefinition.Adapter())
             .registerTypeAdapter(ResourceLocation.class, ResourceLocationSerde.INSTANCE)
+            .registerTypeAdapter(KeyBind.class, new KeyBind.Adapter())
             .create())
         .build();
 
