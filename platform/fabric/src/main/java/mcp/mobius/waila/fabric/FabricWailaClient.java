@@ -15,8 +15,6 @@ public class FabricWailaClient extends WailaClient implements ClientModInitializ
 
     @Override
     public void onInitializeClient() {
-        registerKeyBinds();
-
         Packets.initClient();
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> onClientTick());
