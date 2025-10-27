@@ -21,7 +21,9 @@
     "ClientPacketListenerMixin",
     "EditBoxAccess",
     "GameNarratorAccess",
+    "KeyBindsListMixin",
     "KeyMappingAccess",
+    "KeyMappingMixin",
     "MinecraftAccess",
     "MultiPlayerGameModeMixin",
     "PlayerTabOverlayAccess"

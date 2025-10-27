@@ -3,13 +3,13 @@ package mcp.mobius.waila.gui.screen;
 import java.awt.*;
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.Consumer;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3d;
 import mcp.mobius.waila.Waila;
-import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.IModInfo;
 import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.IWailaConfig;
@@ -18,6 +18,7 @@ import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.component.ItemComponent;
 import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.config.WailaConfig;
+import mcp.mobius.waila.config.input.KeyBind;
 import mcp.mobius.waila.gui.hud.Line;
 import mcp.mobius.waila.gui.hud.TooltipRenderer;
 import mcp.mobius.waila.gui.hud.theme.ThemeDefinition;
@@ -29,10 +30,8 @@ import mcp.mobius.waila.gui.widget.value.ConfigValue;
 import mcp.mobius.waila.gui.widget.value.CycleValue;
 import mcp.mobius.waila.gui.widget.value.EnumValue;
 import mcp.mobius.waila.gui.widget.value.InputValue;
-import mcp.mobius.waila.mixin.KeyMappingAccess;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
-import net.minecraft.client.KeyMapping;
 import net.minecraft.client.gui.GuiComponent;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
@@ -269,11 +268,26 @@ public class WailaConfigScreen extends ConfigScreen {
                 InputValue.ANY)));
 
         options.with(new CategoryEntry(Tl.Config.KEYBINDS)
-            .with(new KeyBindValue(WailaClient.keyOpenConfig))
-            .with(new KeyBindValue(WailaClient.keyShowOverlay))
-            .with(new KeyBindValue(WailaClient.keyToggleLiquid))
-            .with(new KeyBindValue(WailaClient.keyShowRecipeInput))
-            .with(new KeyBindValue(WailaClient.keyShowRecipeOutput)));
+            .with(new KeyBindValue(Tl.Key.CONFIG,
+                get().getKeyBinds().getOpenConfig(),
+                defaultConfig.getKeyBinds().getOpenConfig(),
+                val -> get().getKeyBinds().setOpenConfig(val)))
+            .with(new KeyBindValue(Tl.Key.SHOW_OVERLAY,
+                get().getKeyBinds().getShowOverlay(),
+                defaultConfig.getKeyBinds().getShowOverlay(),
+                val -> get().getKeyBinds().setShowOverlay(val)))
+            .with(new KeyBindValue(Tl.Key.TOGGLE_LIQUID,
+                get().getKeyBinds().getToggleLiquid(),
+                defaultConfig.getKeyBinds().getToggleLiquid(),
+                val -> get().getKeyBinds().setToggleLiquid(val)))
+            .with(new KeyBindValue(Tl.Key.SHOW_RECIPE_INPUT,
+                get().getKeyBinds().getShowRecipeInput(),
+                defaultConfig.getKeyBinds().getShowRecipeInput(),
+                val -> get().getKeyBinds().setShowRecipeInput(val)))
+            .with(new KeyBindValue(Tl.Key.SHOW_RECIPE_OUTPUT,
+                get().getKeyBinds().getShowRecipeOutput(),
+                defaultConfig.getKeyBinds().getShowRecipeOutput(),
+                val -> get().getKeyBinds().setShowRecipeOutput(val))));
 
         return options;
     }
@@ -281,7 +295,7 @@ public class WailaConfigScreen extends ConfigScreen {
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (selectedKeyBind != null) {
-            selectedKeyBind.setValue(InputConstants.Type.MOUSE.getOrCreate(button));
+            selectedKeyBind.setValue(KeyBind.of(InputConstants.Type.MOUSE.getOrCreate(button)));
             selectedKeyBind = null;
             return true;
         }
@@ -293,9 +307,9 @@ public class WailaConfigScreen extends ConfigScreen {
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (selectedKeyBind != null) {
             if (keyCode == InputConstants.KEY_ESCAPE) {
-                selectedKeyBind.setValue(InputConstants.UNKNOWN);
+                selectedKeyBind.setValue(KeyBind.UNKNOWN);
             } else {
-                selectedKeyBind.setValue(InputConstants.getKey(keyCode, scanCode));
+                selectedKeyBind.setValue(KeyBind.of(InputConstants.getKey(keyCode, scanCode)));
             }
 
             selectedKeyBind = null;
@@ -305,16 +319,12 @@ public class WailaConfigScreen extends ConfigScreen {
         return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
-    public class KeyBindValue extends ConfigValue<InputConstants.Key, KeyBindValue> {
+    public class KeyBindValue extends ConfigValue<KeyBind, KeyBindValue> {
 
         private final Button button;
 
-        public KeyBindValue(KeyMapping key) {
-            super(key.getName(), ((KeyMappingAccess) key).wthit_key(), key.getDefaultKey(), value -> {
-                minecraft.options.setKey(key, value);
-                KeyMapping.resetMapping();
-            });
-
+        public KeyBindValue(String translationKey, KeyBind value, KeyBind defaultValue, Consumer<KeyBind> save) {
+            super(translationKey, value, defaultValue, save);
             this.button = new Button(0, 0, 100, 20, Component.empty(), w -> selectedKeyBind = this);
         }
 
@@ -326,9 +336,9 @@ public class WailaConfigScreen extends ConfigScreen {
         @Override
         protected void drawValue(PoseStack matrices, int width, int height, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks) {
             if (selectedKeyBind == this) {
-                button.setMessage(Component.literal("> " + getValue().getDisplayName().getString() + " <").withStyle(ChatFormatting.YELLOW));
+                button.setMessage(Component.literal("> " + getValue().key().getDisplayName().getString() + " <").withStyle(ChatFormatting.YELLOW));
             } else {
-                button.setMessage(getValue().getDisplayName());
+                button.setMessage(getValue().key().getDisplayName());
             }
 
             button.x = x + width - button.getWidth();

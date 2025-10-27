@@ -22,6 +22,7 @@ import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.buildconst.Tl;
+import mcp.mobius.waila.config.input.KeyBind;
 import mcp.mobius.waila.gui.hud.theme.ThemeDefinition;
 import mcp.mobius.waila.util.Log;
 import mcp.mobius.waila.util.TypeUtil;
@@ -106,6 +107,8 @@ public class WailaConfig implements IWailaConfig {
     @IJsonConfig.Comment("Text formatters")
     private final Formatter formatter = new Formatter();
 
+    private final KeyBinds keyBinds = new KeyBinds();
+
     @IJsonConfig.Comment("Internal value, DO NOT TOUCH!")
     private int configVersion = 0;
 
@@ -130,6 +133,10 @@ public class WailaConfig implements IWailaConfig {
     @Override
     public Formatter getFormatter() {
         return formatter;
+    }
+
+    public KeyBinds getKeyBinds() {
+        return keyBinds;
     }
 
     public static class General implements IWailaConfig.General, Nested {
@@ -531,6 +538,56 @@ public class WailaConfig implements IWailaConfig {
         @Override
         public Component registryName(Object registryName) {
             return Component.literal(this.registryName.formatted(registryName));
+        }
+
+    }
+
+    public static class KeyBinds implements Nested {
+
+        private @T(Tl.Key.CONFIG) KeyBind openConfig = KeyBind.UNKNOWN;
+        private @T(Tl.Key.SHOW_OVERLAY) KeyBind showOverlay = KeyBind.UNKNOWN;
+        private @T(Tl.Key.TOGGLE_LIQUID) KeyBind toggleLiquid = KeyBind.UNKNOWN;
+        private @T(Tl.Key.SHOW_RECIPE_INPUT) KeyBind showRecipeInput = KeyBind.UNKNOWN;
+        private @T(Tl.Key.SHOW_RECIPE_OUTPUT) KeyBind showRecipeOutput = KeyBind.UNKNOWN;
+
+        public KeyBind getOpenConfig() {
+            return openConfig;
+        }
+
+        public void setOpenConfig(KeyBind openConfig) {
+            this.openConfig = openConfig;
+        }
+
+        public KeyBind getShowOverlay() {
+            return showOverlay;
+        }
+
+        public void setShowOverlay(KeyBind showOverlay) {
+            this.showOverlay = showOverlay;
+        }
+
+        public KeyBind getToggleLiquid() {
+            return toggleLiquid;
+        }
+
+        public void setToggleLiquid(KeyBind toggleLiquid) {
+            this.toggleLiquid = toggleLiquid;
+        }
+
+        public KeyBind getShowRecipeInput() {
+            return showRecipeInput;
+        }
+
+        public void setShowRecipeInput(KeyBind showRecipeInput) {
+            this.showRecipeInput = showRecipeInput;
+        }
+
+        public KeyBind getShowRecipeOutput() {
+            return showRecipeOutput;
+        }
+
+        public void setShowRecipeOutput(KeyBind showRecipeOutput) {
+            this.showRecipeOutput = showRecipeOutput;
         }
 
     }
