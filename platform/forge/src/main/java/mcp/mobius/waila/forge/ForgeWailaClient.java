@@ -11,7 +11,6 @@ import net.minecraftforge.client.event.AddGuiOverlayLayersEvent;
 import net.minecraftforge.client.event.ClientPlayerNetworkEvent;
 import net.minecraftforge.client.event.RegisterClientCommandsEvent;
 import net.minecraftforge.client.event.RegisterClientReloadListenersEvent;
-import net.minecraftforge.client.event.RegisterKeyMappingsEvent;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
@@ -38,11 +37,6 @@ public class ForgeWailaClient extends WailaClient {
 
     @EventBusSubscriber(modid = WailaConstants.WAILA, value = Dist.CLIENT)
     static class Subscriber {
-
-        @SubscribeEvent
-        static void registerKeyMappings(RegisterKeyMappingsEvent event) {
-            registerKeyBinds().forEach(event::register);
-        }
 
         @SubscribeEvent
         static void addReloadListener(RegisterClientReloadListenersEvent event) {

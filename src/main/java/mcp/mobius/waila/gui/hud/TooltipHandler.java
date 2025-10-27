@@ -1,7 +1,6 @@
 package mcp.mobius.waila.gui.hud;
 
 import mcp.mobius.waila.Waila;
-import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.access.ClientAccessor;
 import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IEntityComponentProvider;
@@ -59,25 +58,31 @@ public class TooltipHandler {
         STATE.render = false;
 
         var client = Minecraft.getInstance();
-        var config = Waila.CONFIG.get().getGeneral();
+        var config = Waila.CONFIG.get();
+        var binds = config.getKeyBinds();
+        var general = config.getGeneral();
 
         if (client.level == null) return false;
         if (client.gameMode == null) return false;
-
-        if (!inspect) {
-            if (client.options.hideGui) return false;
-            if (client.screen != null && !(client.screen instanceof ChatScreen)) return false;
-            if (!config.isDisplayTooltip()) return false;
-            if (config.getDisplayMode() == IWailaConfig.General.DisplayMode.HOLD_KEY && !WailaClient.keyShowOverlay.isDown()) return false;
-            if (config.isHideFromPlayerList() && ((PlayerTabOverlayAccess) client.gui.getTabList()).wthit_isVisible()) return false;
-            if (config.isHideFromDebug() && client.debugEntries.isF3Visible()) return false;
-        }
 
         Player player = client.player;
         if (player == null) return false;
 
         var camera = client.getCameraEntity();
         if (camera == null) return false;
+
+        for (var entry : Registrar.get().eventListeners.get(Object.class)) {
+            entry.instance().instance().onTick(PluginConfig.CLIENT);
+        }
+
+        if (!inspect) {
+            if (client.options.hideGui) return false;
+            if (client.screen != null && !(client.screen instanceof ChatScreen)) return false;
+            if (!general.isDisplayTooltip()) return false;
+            if (general.getDisplayMode() == IWailaConfig.General.DisplayMode.HOLD_KEY && !binds.getShowOverlay().isDown()) return false;
+            if (general.isHideFromPlayerList() && ((PlayerTabOverlayAccess) client.gui.getTabList()).wthit_isVisible()) return false;
+            if (general.isHideFromDebug() && client.debugEntries.isF3Visible()) return false;
+        }
 
         var frameTime = client.getDeltaTracker().getGameTimeDeltaPartialTick(true);
         var pickRange = Math.max(player.blockInteractionRange(), player.entityInteractionRange());
@@ -98,7 +103,7 @@ public class TooltipHandler {
         if (castOrigin == null) return false;
 
         for (var target : results) {
-            if (processTarget(state, target, client, player, castOrigin, castDirection, pickRange, config) == ProcessResult.BREAK) break;
+            if (processTarget(state, target, client, player, castOrigin, castDirection, pickRange, general) == ProcessResult.BREAK) break;
         }
 
         return true;

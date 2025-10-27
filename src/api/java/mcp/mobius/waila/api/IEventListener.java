@@ -16,6 +16,13 @@ import org.jetbrains.annotations.Nullable;
 public interface IEventListener {
 
     /**
+     * This event is fired on every tick, before Waila handle anything,
+     * regardless whether the tooltip will be shown or not.
+     */
+    default void onTick(IPluginConfig config) {
+    }
+
+    /**
      * This event is fired just before the tooltip size is calculated.
      * This is the last chance to make edits to the information being displayed.
      */
