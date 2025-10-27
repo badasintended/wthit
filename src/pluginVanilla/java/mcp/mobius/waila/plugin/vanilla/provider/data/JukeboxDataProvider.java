@@ -5,9 +5,8 @@ import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IDataWriter;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.IServerAccessor;
+import mcp.mobius.waila.api.data.ItemData;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
-import net.minecraft.core.component.DataComponents;
-import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;
@@ -26,21 +25,13 @@ public enum JukeboxDataProvider implements IDataProvider<JukeboxBlockEntity> {
 
     @Override
     public void appendData(IDataWriter data, IServerAccessor<JukeboxBlockEntity> accessor, IPluginConfig config) {
-        if (config.getBoolean(Options.JUKEBOX_RECORD)) data.add(DATA, res -> {
-            var stack = accessor.getTarget().getTheItem();
-            if (!stack.isEmpty()) {
-                var playable = stack.get(DataComponents.JUKEBOX_PLAYABLE);
-                Component text = null;
+        if (!config.getBoolean(Options.JUKEBOX_RECORD)) return;
 
-                if (playable != null) {
-                    var song = playable.song().unwrap(accessor.getPlayer().registryAccess().lookupOrThrow(Registries.JUKEBOX_SONG));
-                    if (song.isPresent()) text = song.get().description();
-                }
-
-                if (text == null) text = stack.getDisplayName();
-                res.add(new Data(text));
-            }
-        });
+        var song = accessor.getTarget().getSongPlayer().getSong();
+        if (song != null) {
+            data.addImmediate(new Data(song.description()));
+            data.blockAll(ItemData.TYPE);
+        }
     }
 
     public record Data(
