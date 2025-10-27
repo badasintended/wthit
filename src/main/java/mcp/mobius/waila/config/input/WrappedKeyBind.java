@@ -10,6 +10,11 @@ import net.minecraft.client.KeyMapping;
 
 public class WrappedKeyBind extends KeyMapping implements MWrappedKeyBind {
 
+    static {
+        var order = KeyMappingAccess.wthit_categorySortOrder();
+        order.put(WailaConstants.MOD_NAME, order.size());
+    }
+
     private final Consumer<KeyBind> setter;
 
     public WrappedKeyBind(String desc, KeyBind defaultKey, Consumer<KeyBind> setter, Supplier<KeyBind> getter) {

@@ -18,4 +18,9 @@ public interface KeyMappingAccess {
         throw new AssertionError();
     }
 
+    @Accessor("CATEGORY_SORT_ORDER")
+    static Map<String, Integer> wthit_categorySortOrder() {
+        throw new AssertionError();
+    }
+
 }
