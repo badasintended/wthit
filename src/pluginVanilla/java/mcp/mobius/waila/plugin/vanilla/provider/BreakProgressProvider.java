@@ -87,25 +87,25 @@ public enum BreakProgressProvider implements IEventListener {
             var a = (int) (alpha * ((color >> 24) & 0xFF));
             color = (color & 0x00FFFFFF) | (a << 24);
 
-            fill(ctx, bufferSource, x, y, x + Math.round(lineLength, hLength), y + 1, color);
+            fill(ctx, bufferSource, x, y, x + Math.min(lineLength, hLength), y + 1, color);
             lineLength -= hLength;
 
             if (lineLength > 0) {
                 x = rect.x + rect.width - 2;
                 y = rect.y + rect.height - 2;
-                fill(ctx, bufferSource, x, y, x + 1, y - Math.round(lineLength, vLength), color);
+                fill(ctx, bufferSource, x, y, x + 1, y - Math.min(lineLength, vLength), color);
                 lineLength -= vLength;
 
                 if (lineLength > 0) {
                     x = rect.x + rect.width - 1;
                     y = rect.y + 1;
-                    fill(ctx, bufferSource, x, y, x - Math.round(lineLength, hLength), y + 1, color);
+                    fill(ctx, bufferSource, x, y, x - Math.min(lineLength, hLength), y + 1, color);
                     lineLength -= hLength;
 
                     if (lineLength > 0) {
                         x = rect.x + 1;
                         y = rect.y + 2;
-                        fill(ctx, bufferSource, x, y, x + 1, y + Math.round(lineLength, vLength), color);
+                        fill(ctx, bufferSource, x, y, x + 1, y + Math.min(lineLength, vLength), color);
                     }
                 }
             }
