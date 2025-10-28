@@ -40,19 +40,13 @@ public enum BeehiveDataProvider implements IDataProvider<BeehiveBlockEntity> {
                 var occupants = new ArrayList<OccupantsData.Occupant>(stored.size());
 
                 for (var beeData : stored) {
-                    var beeNbt = beeData.wthit_occupant().entityData().getUnsafe();
-                    var entityTypeId = beeNbt.getString("id").orElse(null);
-                    if (entityTypeId == null) continue;
-
-                    var entityType = EntityType.byString(entityTypeId).orElse(null);
-                    if (entityType == null) continue;
-
+                    var entityType = beeData.wthit_occupant().entityData().type();
+                    var beeNbt = beeData.wthit_occupant().entityData().copyTagWithoutId();
                     var customName = beeNbt.getString("CustomName").orElse(null);
-
                     occupants.add(new OccupantsData.Occupant(entityType, customName));
                 }
 
-                if (!occupants.isEmpty()) data.addImmediate(new OccupantsData(occupants));
+                data.addImmediate(new OccupantsData(occupants));
             }
         }
     }
