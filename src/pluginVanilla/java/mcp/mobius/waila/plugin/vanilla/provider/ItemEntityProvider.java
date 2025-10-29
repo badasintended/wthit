@@ -57,7 +57,7 @@ public enum ItemEntityProvider implements IEntityComponentProvider {
         var formatter = IWailaConfig.get().getFormatter();
 
         var stack = accessor.<ItemEntity>getEntity().getItem();
-        tooltip.setLine(WailaConstants.OBJECT_NAME_TAG, formatter.entityName(stack.getHoverName().getString()));
+        tooltip.setLine(WailaConstants.OBJECT_NAME_TAG, formatter.entityName(stack.getHoverName()));
 
         if (config.getBoolean(WailaConstants.CONFIG_SHOW_REGISTRY)) {
             tooltip.setLine(WailaConstants.REGISTRY_NAME_TAG, formatter.registryName(BuiltInRegistries.ITEM.getKey(stack.getItem())));

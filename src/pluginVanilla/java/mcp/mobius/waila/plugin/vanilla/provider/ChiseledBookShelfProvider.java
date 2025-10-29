@@ -54,7 +54,7 @@ public enum ChiseledBookShelfProvider implements IBlockComponentProvider {
         if (hitItem.isEmpty()) return;
 
         var formatter = IWailaConfig.get().getFormatter();
-        tooltip.setLine(WailaConstants.OBJECT_NAME_TAG, formatter.entityName(hitItem.getHoverName().getString()));
+        tooltip.setLine(WailaConstants.OBJECT_NAME_TAG, formatter.entityName(hitItem.getHoverName()));
 
         if (config.getBoolean(WailaConstants.CONFIG_SHOW_REGISTRY)) {
             tooltip.setLine(WailaConstants.REGISTRY_NAME_TAG, formatter.registryName(BuiltInRegistries.ITEM.getKey(hitItem.getItem())));
