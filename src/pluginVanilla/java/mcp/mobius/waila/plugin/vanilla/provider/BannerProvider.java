@@ -7,6 +7,7 @@ import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
 import net.minecraft.core.component.DataComponents;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.entity.BannerBlockEntity;
 
 public enum BannerProvider implements IBlockComponentProvider {
@@ -20,12 +21,11 @@ public enum BannerProvider implements IBlockComponentProvider {
         BannerBlockEntity be = accessor.getBlockEntity();
         if (be == null) return;
 
-        var nameComponent = be.components().get(DataComponents.ITEM_NAME);
-        if (nameComponent == null) return;
+        var name = be.components().get(DataComponents.ITEM_NAME);
+        if (name == null) return;
 
-        var name = nameComponent.getString();
         if (data.contains("customName")) {
-            name = data.getString("customName") + " (" + name + ")";
+            name = Component.literal(data.getString("customName") + " (").append(name).append(")");
         }
 
         tooltip.setLine(WailaConstants.OBJECT_NAME_TAG, IWailaConfig.get().getFormatter().blockName(name));
