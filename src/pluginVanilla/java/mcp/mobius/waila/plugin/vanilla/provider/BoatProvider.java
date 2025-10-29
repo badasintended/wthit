@@ -26,11 +26,10 @@ public enum BoatProvider implements IEntityComponentProvider {
 
     @Override
     public void appendHead(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
-        //noinspection DataFlowIssue
         stack = accessor.<Boat>getEntity().getPickResult();
 
         var formatter = IWailaConfig.get().getFormatter();
-        tooltip.setLine(WailaConstants.OBJECT_NAME_TAG, formatter.entityName(stack.getHoverName().getString()));
+        tooltip.setLine(WailaConstants.OBJECT_NAME_TAG, formatter.entityName(stack.getHoverName()));
 
         if (config.getBoolean(WailaConstants.CONFIG_SHOW_REGISTRY)) {
             tooltip.setLine(WailaConstants.REGISTRY_NAME_TAG, (formatter.registryName(Registry.ITEM.getKey(stack.getItem()))));

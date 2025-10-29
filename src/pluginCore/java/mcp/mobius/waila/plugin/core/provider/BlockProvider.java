@@ -12,6 +12,7 @@ import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.component.ItemComponent;
 import net.minecraft.core.Registry;
+import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.Nullable;
 
 public enum BlockProvider implements IBlockComponentProvider {
@@ -42,10 +43,10 @@ public enum BlockProvider implements IBlockComponentProvider {
 
         var block = accessor.getBlock();
         var data = accessor.getData().raw();
-        var name = block.getName().getString();
+        var name = block.getName();
 
         if (data.contains("customName")) {
-            name = data.getString("customName") + " (" + name + ")";
+            name = Component.literal(data.getString("customName")).append(" (").append(name).append(")");
         }
 
         var formatter = IWailaConfig.get().getFormatter();

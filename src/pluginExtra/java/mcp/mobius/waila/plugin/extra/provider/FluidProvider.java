@@ -66,7 +66,7 @@ public class FluidProvider extends DataProvider<FluidData, FluidDataImpl> {
 
             var sprite = desc.sprite();
             tooltip.setLine(new ResourceLocation(FluidData.ID.getNamespace(), FluidData.ID.getPath() + "." + Registry.FLUID.getKey(entry.fluid()).toLanguageKey()), new PairComponent(
-                new WrappedComponent(desc.name().getString()),
+                new WrappedComponent(desc.name()),
                 new SpriteBarComponent(ratio, sprite, 16, 16, desc.tint(), Component.literal(text))));
         }
     }

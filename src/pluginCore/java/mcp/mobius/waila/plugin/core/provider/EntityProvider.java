@@ -13,6 +13,7 @@ import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.component.ItemComponent;
 import mcp.mobius.waila.mixin.EntityAccess;
 import net.minecraft.core.Registry;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Mob;
 import org.jetbrains.annotations.Nullable;
 
@@ -44,12 +45,12 @@ public enum EntityProvider implements IEntityComponentProvider {
         var entity = accessor.getEntity();
         var formatter = IWailaConfig.get().getFormatter();
 
-        String name;
+        Component name;
         var customName = entity.getCustomName();
         if (customName != null) {
-            name = customName.getString() + " (" + ((EntityAccess) entity).wthit_getTypeName().getString() + ")";
+            name = customName.copy().append(" (").append(((EntityAccess) entity).wthit_getTypeName()).append(")");
         } else {
-            name = entity.getName().getString();
+            name = entity.getName();
         }
 
         tooltip.setLine(WailaConstants.OBJECT_NAME_TAG, formatter.entityName(name));

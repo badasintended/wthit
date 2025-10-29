@@ -32,7 +32,7 @@ public enum FluidProvider implements IBlockComponentProvider {
     public void appendHead(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
         var block = accessor.getBlock();
         var formatter = IWailaConfig.get().getFormatter();
-        tooltip.setLine(WailaConstants.OBJECT_NAME_TAG, formatter.fluidName(block.getName().getString()));
+        tooltip.setLine(WailaConstants.OBJECT_NAME_TAG, formatter.fluidName(block.getName()));
         if (config.getBoolean(WailaConstants.CONFIG_SHOW_REGISTRY)) {
             tooltip.setLine(WailaConstants.REGISTRY_NAME_TAG, formatter.registryName(Registry.BLOCK.getKey(block)));
         }
