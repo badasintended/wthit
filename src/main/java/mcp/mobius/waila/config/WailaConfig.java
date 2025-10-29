@@ -7,6 +7,7 @@ import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;
 
 import com.google.gson.JsonDeserializationContext;
@@ -25,6 +26,7 @@ import mcp.mobius.waila.config.input.KeyBind;
 import mcp.mobius.waila.gui.hud.theme.ThemeDefinition;
 import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 
 public class WailaConfig implements IWailaConfig {
@@ -425,11 +427,14 @@ public class WailaConfig implements IWailaConfig {
         private String entityName = "§f%s";
         private String registryName = "§8%s";
 
+        private final Map<String, Style> styles = new ConcurrentHashMap<>();
+
         public String getModName() {
             return modName;
         }
 
         public void setModName(String modName) {
+            styles.remove(this.modName);
             this.modName = modName;
         }
 
@@ -438,6 +443,7 @@ public class WailaConfig implements IWailaConfig {
         }
 
         public void setBlockName(String blockName) {
+            styles.remove(this.blockName);
             this.blockName = blockName;
         }
 
@@ -446,6 +452,7 @@ public class WailaConfig implements IWailaConfig {
         }
 
         public void setFluidName(String fluidName) {
+            styles.remove(this.fluidName);
             this.fluidName = fluidName;
         }
 
@@ -454,6 +461,7 @@ public class WailaConfig implements IWailaConfig {
         }
 
         public void setEntityName(String entityName) {
+            styles.remove(this.entityName);
             this.entityName = entityName;
         }
 
@@ -462,32 +470,52 @@ public class WailaConfig implements IWailaConfig {
         }
 
         public void setRegistryName(String registryName) {
+            styles.remove(this.registryName);
             this.registryName = registryName;
+        }
+
+        private Component formatted(String format, Object object) {
+            if (object instanceof Component component) {
+                var style = styles.computeIfAbsent(format, f -> {
+                    var ret = new Style[]{Style.EMPTY};
+                    Component.literal(String.format(f, "B"))
+                        .getVisualOrderText()
+                        .accept(((i, s, j) -> {
+                            ret[0] = s;
+                            return true;
+                        }));
+                    return ret[0];
+                });
+
+                return component.copy().withStyle(style);
+            }
+
+            return Component.literal(String.format(format, object));
         }
 
         @Override
         public Component modName(Object modName) {
-            return Component.literal(this.modName.formatted(modName));
+            return formatted(this.modName, modName);
         }
 
         @Override
         public Component blockName(Object blockName) {
-            return Component.literal(this.blockName.formatted(blockName));
+            return formatted(this.blockName, blockName);
         }
 
         @Override
         public Component fluidName(Object fluidName) {
-            return Component.literal(this.fluidName.formatted(fluidName));
+            return formatted(this.fluidName, fluidName);
         }
 
         @Override
         public Component entityName(Object entityName) {
-            return Component.literal(this.entityName.formatted(entityName));
+            return formatted(this.entityName, entityName);
         }
 
         @Override
         public Component registryName(Object registryName) {
-            return Component.literal(this.registryName.formatted(registryName));
+            return formatted(this.registryName, registryName);
         }
 
     }

@@ -2,7 +2,6 @@ package mcp.mobius.waila.plugin.vanilla.provider;
 
 import mcp.mobius.waila.api.IBlockAccessor;
 import mcp.mobius.waila.api.IBlockComponentProvider;
-import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IModInfo;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITooltip;
@@ -16,7 +15,6 @@ import mcp.mobius.waila.plugin.vanilla.provider.data.ChiseledBookShelfDataProvid
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
-import net.minecraft.world.level.block.entity.ChiseledBookShelfBlockEntity;
 import org.jetbrains.annotations.Nullable;
 
 public enum ChiseledBookShelfProvider implements IBlockComponentProvider {
@@ -59,7 +57,7 @@ public enum ChiseledBookShelfProvider implements IBlockComponentProvider {
         if (hitItem.isEmpty()) return;
 
         var formatter = IWailaConfig.get().getFormatter();
-        tooltip.setLine(WailaConstants.OBJECT_NAME_TAG, formatter.entityName(hitItem.getHoverName().getString()));
+        tooltip.setLine(WailaConstants.OBJECT_NAME_TAG, formatter.entityName(hitItem.getHoverName()));
 
         if (config.getBoolean(WailaConstants.CONFIG_SHOW_REGISTRY)) {
             tooltip.setLine(WailaConstants.REGISTRY_NAME_TAG, formatter.registryName(BuiltInRegistries.ITEM.getKey(hitItem.getItem())));

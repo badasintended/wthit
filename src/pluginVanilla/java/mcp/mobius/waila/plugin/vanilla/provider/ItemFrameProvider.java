@@ -30,7 +30,7 @@ public enum ItemFrameProvider implements IEntityComponentProvider {
 
         if (!stack.isEmpty()) {
             var formatter = IWailaConfig.get().getFormatter();
-            tooltip.setLine(WailaConstants.OBJECT_NAME_TAG, formatter.entityName(stack.getHoverName().getString()));
+            tooltip.setLine(WailaConstants.OBJECT_NAME_TAG, formatter.entityName(stack.getHoverName()));
 
             if (config.getBoolean(WailaConstants.CONFIG_SHOW_REGISTRY)) {
                 tooltip.setLine(WailaConstants.REGISTRY_NAME_TAG, formatter.registryName(BuiltInRegistries.ITEM.getKey(stack.getItem())));
