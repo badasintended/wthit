@@ -15,6 +15,4 @@ public interface IMixinService {
 
     void onLanguageReloaded();
 
-    void saveConfig();
-
 }

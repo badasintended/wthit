@@ -10,9 +10,6 @@ import mcp.mobius.waila.config.BlacklistConfig;
 import mcp.mobius.waila.config.DebugConfig;
 import mcp.mobius.waila.config.JsonConfig;
 import mcp.mobius.waila.config.PluginConfig;
-import mcp.mobius.waila.config.WailaConfig;
-import mcp.mobius.waila.config.input.KeyBind;
-import mcp.mobius.waila.gui.hud.theme.ThemeDefinition;
 import mcp.mobius.waila.plugin.PluginLoader;
 import mcp.mobius.waila.plugin.PluginSide;
 import mcp.mobius.waila.registry.RegistryFilter;
@@ -34,20 +31,6 @@ public abstract class Waila {
 
     public static final Path GAME_DIR = ICommonService.INSTANCE.getGameDir();
     public static final Path CONFIG_DIR = ICommonService.INSTANCE.getConfigDir();
-
-    public static final IJsonConfig<WailaConfig> CONFIG = IJsonConfig.of(WailaConfig.class)
-        .file(WailaConstants.NAMESPACE + "/" + WailaConstants.WAILA)
-        .version(WailaConstants.CONFIG_VERSION, WailaConfig::getConfigVersion, WailaConfig::setConfigVersion)
-        .json5()
-        .commenter(WailaConfig.COMMENTER)
-        .gson(new GsonBuilder()
-            .setPrettyPrinting()
-            .registerTypeAdapter(WailaConfig.Overlay.Color.class, new WailaConfig.Overlay.Color.Adapter())
-            .registerTypeAdapter(ThemeDefinition.class, new ThemeDefinition.Adapter())
-            .registerTypeAdapter(ResourceLocation.class, new ResourceLocation.Serializer())
-            .registerTypeAdapter(KeyBind.class, new KeyBind.Adapter())
-            .create())
-        .build();
 
     public static final IJsonConfig<BlacklistConfig> BLACKLIST_CONFIG = IJsonConfig.of(BlacklistConfig.class)
         .file(WailaConstants.NAMESPACE + "/blacklist")
