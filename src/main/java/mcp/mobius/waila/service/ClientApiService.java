@@ -1,7 +1,9 @@
 package mcp.mobius.waila.service;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.ITooltipComponent;
+import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.__internal__.IClientApiService;
 import mcp.mobius.waila.gui.hud.ComponentRenderer;
 import mcp.mobius.waila.mixin.GuiGraphicsAccess;
@@ -31,6 +33,11 @@ public class ClientApiService implements IClientApiService {
     @Override
     public MultiBufferSource getBufferSource(GuiGraphics ctx) {
         return ((GuiGraphicsAccess) ctx).wthit_bufferSource();
+    }
+
+    @Override
+    public IWailaConfig getConfig() {
+        return WailaClient.CONFIG.get();
     }
 
 }
