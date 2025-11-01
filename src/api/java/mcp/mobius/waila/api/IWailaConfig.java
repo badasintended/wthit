@@ -1,7 +1,7 @@
 package mcp.mobius.waila.api;
 
 import mcp.mobius.waila.api.__internal__.ApiSide;
-import mcp.mobius.waila.api.__internal__.IApiService;
+import mcp.mobius.waila.api.__internal__.IClientApiService;
 import net.minecraft.network.chat.Component;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -10,7 +10,7 @@ import org.jetbrains.annotations.ApiStatus;
 public interface IWailaConfig {
 
     static IWailaConfig get() {
-        return IApiService.INSTANCE.getConfig();
+        return IClientApiService.INSTANCE.getConfig();
     }
 
     General getGeneral();

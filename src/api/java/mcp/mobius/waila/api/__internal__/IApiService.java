@@ -15,7 +15,6 @@ import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.api.IRegistryFilter;
 import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.IThemeType;
-import mcp.mobius.waila.api.IWailaConfig;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -45,8 +44,6 @@ public interface IApiService {
     Collection<IPluginInfo> getAllPluginInfoFromMod(String modId);
 
     Collection<IPluginInfo> getAllPluginInfo();
-
-    IWailaConfig getConfig();
 
     int getPairComponentColonOffset();
 

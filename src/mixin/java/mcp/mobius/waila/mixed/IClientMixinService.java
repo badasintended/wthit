@@ -11,4 +11,6 @@ public interface IClientMixinService {
 
     List<KeyMapping> getWrappedBinds();
 
+    void saveConfig();
+
 }

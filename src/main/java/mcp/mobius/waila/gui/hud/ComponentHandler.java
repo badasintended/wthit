@@ -4,7 +4,7 @@ import java.util.Objects;
 
 import io.netty.buffer.Unpooled;
 import lol.bai.badpackets.api.PacketSender;
-import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.access.ClientAccessor;
 import mcp.mobius.waila.access.DataWriter;
 import mcp.mobius.waila.api.IBlockComponentProvider;
@@ -31,9 +31,9 @@ public class ComponentHandler {
         var block = accessor.getBlock();
         var blockEntity = accessor.getBlockEntity();
 
-        var rate = Waila.CONFIG.get().getGeneral().getRateLimit();
+        var rate = WailaClient.CONFIG.get().getGeneral().getRateLimit();
 
-        if (blockEntity == null || !accessor.isTimeElapsed(rate) || !Waila.CONFIG.get().getGeneral().isDisplayTooltip()) return;
+        if (blockEntity == null || !accessor.isTimeElapsed(rate) || !WailaClient.CONFIG.get().getGeneral().isDisplayTooltip()) return;
         if (registrar.blockData.get(block).isEmpty() && registrar.blockData.get(blockEntity).isEmpty()) return;
 
         accessor.resetTimer();
@@ -91,7 +91,7 @@ public class ComponentHandler {
         var registrar = Registrar.get();
         var trueEntity = accessor.getEntity();
 
-        var rate = Waila.CONFIG.get().getGeneral().getRateLimit();
+        var rate = WailaClient.CONFIG.get().getGeneral().getRateLimit();
 
         if (trueEntity == null || !accessor.isTimeElapsed(rate)) return;
         if (registrar.entityData.get(trueEntity).isEmpty()) return;

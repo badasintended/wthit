@@ -10,6 +10,7 @@ import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Vector3d;
 import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.IModInfo;
 import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.IWailaConfig;
@@ -78,11 +79,11 @@ public class WailaConfigScreen extends ConfigScreen {
     private @Nullable KeyBindValue selectedKeyBind;
 
     public WailaConfigScreen(Screen parent) {
-        super(parent, Component.translatable(Tl.Gui.CONFIGURATION, WailaConstants.MOD_NAME), Waila.CONFIG::save, Waila.CONFIG::invalidate);
+        super(parent, Component.translatable(Tl.Gui.CONFIGURATION, WailaConstants.MOD_NAME), WailaClient.CONFIG::save, WailaClient.CONFIG::invalidate);
     }
 
     private static WailaConfig get() {
-        return Waila.CONFIG.get();
+        return WailaClient.CONFIG.get();
     }
 
     public Rectangle buildPreview(TooltipRenderer.State state) {
@@ -146,7 +147,7 @@ public class WailaConfigScreen extends ConfigScreen {
 
     @Override
     public ConfigListWidget getOptions() {
-        var options = new ConfigListWidget(this, minecraft, width, height, 42, height - 32, 26, Waila.CONFIG::save);
+        var options = new ConfigListWidget(this, minecraft, width, height, 42, height - 32, 26, WailaClient.CONFIG::save);
         options.with(new CategoryEntry(Tl.Config.GENERAL)
             .with(new BooleanValue(Tl.Config.DISPLAY_TOOLTIP,
                 get().getGeneral().isDisplayTooltip(),

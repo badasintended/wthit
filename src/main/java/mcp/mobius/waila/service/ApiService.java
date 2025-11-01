@@ -19,7 +19,6 @@ import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.api.IRegistryFilter;
 import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.IThemeType;
-import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.__internal__.IApiService;
 import mcp.mobius.waila.config.JsonConfig;
 import mcp.mobius.waila.gui.hud.TooltipRenderer;
@@ -102,11 +101,6 @@ public abstract class ApiService implements IApiService {
     @Override
     public Collection<IPluginInfo> getAllPluginInfo() {
         return (Collection) PluginInfo.getAll();
-    }
-
-    @Override
-    public IWailaConfig getConfig() {
-        return Waila.CONFIG.get();
     }
 
     @Override

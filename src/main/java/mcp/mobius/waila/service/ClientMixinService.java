@@ -2,7 +2,7 @@ package mcp.mobius.waila.service;
 
 import java.util.List;
 
-import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.config.input.WrappedKeyBind;
@@ -14,7 +14,7 @@ public class ClientMixinService implements IClientMixinService {
     static final List<KeyMapping> WRAPPED_BINDS;
 
     static WailaConfig.KeyBinds binds() {
-        return Waila.CONFIG.get().getKeyBinds();
+        return WailaClient.CONFIG.get().getKeyBinds();
     }
 
     static {
@@ -31,6 +31,11 @@ public class ClientMixinService implements IClientMixinService {
     @Override
     public List<KeyMapping> getWrappedBinds() {
         return WRAPPED_BINDS;
+    }
+
+    @Override
+    public void saveConfig() {
+        WailaClient.CONFIG.save();
     }
 
 }

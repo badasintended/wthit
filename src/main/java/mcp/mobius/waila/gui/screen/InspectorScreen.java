@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.IWailaConfig;
@@ -201,7 +201,7 @@ public class InspectorScreen extends YesIAmSureTheClientInstanceIsPresentByTheTi
 
         @Override
         public ITheme getTheme() {
-            return Waila.CONFIG.get().getOverlay().getColor().getTheme();
+            return WailaClient.CONFIG.get().getOverlay().getColor().getTheme();
         }
 
     }
