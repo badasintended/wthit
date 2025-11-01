@@ -1,5 +1,6 @@
 17.x - 1.21.10 - dev/1.21.10 - java 21
 ======================================
+17.3.1   - Fixed crash on server (#348)
 17.3.0   - Improved formatting to use Component instead of String if available (#169)
          - Changed jukebox to use song description for hide item data (#290)
          - Changed to use home-grown keybinding system
@@ -51,6 +52,7 @@
 
 14.x - 1.21.4 - dev/1.21.4 - java 21
 ====================================
+14.4.1   - Fixed crash on server (#348)
 14.4.0   - Improved formatting to use Component instead of String if available (#169)
          - Changed jukebox to use song description for hide item data (#290)
          - Changed to use home-grown keybinding system
@@ -94,6 +96,7 @@
 
 12.x - 1.21.1 - dev/1.21.1 - java 21
 ====================================
+12.8.1   - Fixed crash on server (#348)
 12.8.0   - Improved formatting to use Component instead of String if available (#169)
          - Changed jukebox to use song description for hide item data (#290)
          - Changed to use home-grown keybinding system
@@ -339,6 +342,7 @@
 
 8.x - 1.20.1 - dev/1.20.1 - java 17
 ===================================
+8.19.1   - Fixed crash on server (#348)
 8.19.0   - Improved formatting to use Component instead of String if available (#169)
          - Changed to use home-grown keybinding system
            - Now key binds won't be conflicting (#170)
@@ -605,6 +609,7 @@
 
 5.x - 1.19.2 - dev/1.19.2 - java 17
 ===================================
+5.34.1   - Fixed crash on server (#348)
 5.34.0   - Improved formatting to use Component instead of String if available (#169)
          - Changed to use home-grown keybinding system
            - Now key binds won't be conflicting (#170)
