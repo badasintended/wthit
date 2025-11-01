@@ -1,5 +1,13 @@
 17.x - 1.21.10 - dev/1.21.10 - java 21
 ======================================
+17.3.0   - Improved formatting to use Component instead of String if available (#169)
+         - Changed jukebox to use song description for hide item data (#290)
+         - Changed to use home-grown keybinding system
+           - Now key binds won't be conflicting (#170)
+         - Changed breaking progress to fade out instead of moving backwards when stopped (#300)
+         - Updated Fabric to use new resource loader api
+         - Fixed beehive occupant info not appearing in tooltip (#347)
+         - Made ModInfo cache concurrent, fixed crash with Language Reload
 17.2.0   - Fixed config screen not sending warning if errors are in collapsed entries
          - Changed config screen to use tabs
          - Changed overlay placement option to be its own screen with preview
@@ -43,6 +51,12 @@
 
 14.x - 1.21.4 - dev/1.21.4 - java 21
 ====================================
+14.4.0   - Improved formatting to use Component instead of String if available (#169)
+         - Changed jukebox to use song description for hide item data (#290)
+         - Changed to use home-grown keybinding system
+           - Now key binds won't be conflicting (#170)
+         - Changed breaking progress to fade out instead of moving backwards when stopped (#300)
+         - Made ModInfo cache concurrent, fixed crash with Language Reload
 14.3.0   - Fixed config screen not sending warning if errors are in collapsed entries
          - Changed config screen to use tabs
          - Changed overlay placement option to be its own screen with preview
@@ -80,6 +94,13 @@
 
 12.x - 1.21.1 - dev/1.21.1 - java 21
 ====================================
+12.8.0   - Improved formatting to use Component instead of String if available (#169)
+         - Changed jukebox to use song description for hide item data (#290)
+         - Changed to use home-grown keybinding system
+           - Now key binds won't be conflicting (#170)
+         - Changed breaking progress to fade out instead of moving backwards when stopped (#300)
+         - Fixed beehive occupant info not appearing in tooltip (#347)
+         - Made ModInfo cache concurrent, fixed crash with Language Reload
 12.7.0   - Fixed config screen not sending warning if errors are in collapsed entries
          - Changed config screen to use tabs
          - Changed overlay placement option to be its own screen with preview
@@ -318,6 +339,11 @@
 
 8.x - 1.20.1 - dev/1.20.1 - java 17
 ===================================
+8.19.0   - Improved formatting to use Component instead of String if available (#169)
+         - Changed to use home-grown keybinding system
+           - Now key binds won't be conflicting (#170)
+         - Changed breaking progress to fade out instead of moving backwards when stopped (#300)
+         - Made ModInfo cache concurrent, fixed crash with Language Reload
 8.18.0   - Fixed config screen not sending warning if errors are in collapsed entries
          - Changed config screen to use tabs
          - Changed overlay placement option to be its own screen with preview
@@ -579,6 +605,11 @@
 
 5.x - 1.19.2 - dev/1.19.2 - java 17
 ===================================
+5.34.0   - Improved formatting to use Component instead of String if available (#169)
+         - Changed to use home-grown keybinding system
+           - Now key binds won't be conflicting (#170)
+         - Changed breaking progress to fade out instead of moving backwards when stopped (#300)
+         - Made ModInfo cache concurrent, fixed crash with Language Reload
 5.33.0   - Fixed config screen not sending warning if errors are in collapsed entries
          - Changed config screen to use tabs
          - Changed overlay placement option to be its own screen with preview

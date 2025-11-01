@@ -18,6 +18,7 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.IWailaConfig;
@@ -356,7 +357,7 @@ public class WailaConfig implements IWailaConfig {
 
                 if (!allTheme.containsKey(activeTheme)) {
                     activeTheme = DEFAULT;
-                    Waila.CONFIG.save();
+                    WailaClient.CONFIG.save();
                 }
 
                 return allTheme.get(activeTheme);

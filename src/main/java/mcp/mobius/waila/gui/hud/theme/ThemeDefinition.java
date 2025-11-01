@@ -12,7 +12,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.registry.Registrar;
@@ -42,7 +42,7 @@ public final class ThemeDefinition<T extends ITheme> {
     public static Map<ResourceLocation, ThemeDefinition<?>> getAll() {
         if (all == null) {
             all = new HashMap<>(BuiltinThemeLoader.THEMES);
-            all.putAll(Waila.CONFIG.get().getOverlay().getColor().getCustomThemes());
+            all.putAll(WailaClient.CONFIG.get().getOverlay().getColor().getCustomThemes());
         }
 
         return all;

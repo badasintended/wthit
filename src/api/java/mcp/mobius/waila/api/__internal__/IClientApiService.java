@@ -2,6 +2,7 @@ package mcp.mobius.waila.api.__internal__;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import mcp.mobius.waila.api.ITooltipComponent;
+import mcp.mobius.waila.api.IWailaConfig;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
@@ -24,5 +25,7 @@ public interface IClientApiService {
     void fillGradient(Matrix3x2f matrix, VertexConsumer buf, int x, int y, int w, int h, int start, int end);
 
     void renderRectBorder(Matrix3x2f matrix, VertexConsumer buf, int x, int y, int w, int h, int s, int gradStart, int gradEnd);
+
+    IWailaConfig getConfig();
 
 }

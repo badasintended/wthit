@@ -2,7 +2,7 @@ package mcp.mobius.waila.service;
 
 import java.util.List;
 
-import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.config.WailaConfig;
@@ -19,7 +19,7 @@ public class ClientMixinService implements IClientMixinService {
 
     @Override
     public void optionsScreenRow(GridLayout.RowHelper rowHelper) {
-        if (!Waila.CONFIG.get().getGeneral().vanillaOptions()) return;
+        if (!WailaClient.CONFIG.get().getGeneral().vanillaOptions()) return;
 
         var client = Minecraft.getInstance();
         var parent = client.screen;
@@ -27,7 +27,7 @@ public class ClientMixinService implements IClientMixinService {
     }
 
     WailaConfig.KeyBinds binds() {
-        return Waila.CONFIG.get().getKeyBinds();
+        return WailaClient.CONFIG.get().getKeyBinds();
     }
 
     @Override
@@ -40,6 +40,11 @@ public class ClientMixinService implements IClientMixinService {
             new WrappedKeyBind(Tl.Key.SHOW_RECIPE_INPUT, def.getShowRecipeInput(), val -> binds().setShowRecipeInput(val), () -> binds().getShowRecipeInput()),
             new WrappedKeyBind(Tl.Key.SHOW_RECIPE_OUTPUT, def.getShowRecipeOutput(), val -> binds().setShowRecipeOutput(val), () -> binds().getShowRecipeOutput())
         );
+    }
+
+    @Override
+    public void saveConfig() {
+        WailaClient.CONFIG.save();
     }
 
 }
