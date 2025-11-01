@@ -7,6 +7,7 @@ import java.util.Map;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.util.Log;
 import net.minecraft.resources.FileToIdConverter;
 import net.minecraft.resources.ResourceLocation;
@@ -51,14 +52,14 @@ public class BuiltinThemeLoader extends SimplePreparableReloadListener<Map<Resou
 
         map.forEach((id, json) -> {
             try {
-                Waila.CONFIG.get().getOverlay().getColor().getCustomThemes().remove(id);
+                WailaClient.CONFIG.get().getOverlay().getColor().getCustomThemes().remove(id);
                 THEMES.put(id, ThemeDefinition.Adapter.deserialize(id, json, true));
             } catch (Exception e) {
                 LOG.error("Couldn't parse builtin theme definition {}", id, e);
             }
         });
 
-        Waila.CONFIG.save();
+        WailaClient.CONFIG.save();
     }
 
 }

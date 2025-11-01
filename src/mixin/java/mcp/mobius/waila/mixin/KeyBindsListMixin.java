@@ -3,7 +3,6 @@ package mcp.mobius.waila.mixin;
 import java.util.List;
 
 import mcp.mobius.waila.mixed.IClientMixinService;
-import mcp.mobius.waila.mixed.IMixinService;
 import mcp.mobius.waila.mixed.MWrappedKeyBind;
 import net.minecraft.client.KeyMapping;
 import net.minecraft.client.gui.components.ContainerObjectSelectionList;
@@ -37,7 +36,7 @@ public class KeyBindsListMixin extends ContainerObjectSelectionList<KeyBindsList
         for (var bind : wthit_wrappedKeyBinds) {
             ((MWrappedKeyBind) bind).update();
         }
-        IMixinService.INSTANCE.saveConfig();
+        IClientMixinService.INSTANCE.saveConfig();
     }
 
 }

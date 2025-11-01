@@ -9,6 +9,7 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.platform.cursor.CursorTypes;
 import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.IModInfo;
 import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.IWailaConfig;
@@ -83,11 +84,11 @@ public class WailaConfigScreen extends TabbedConfigScreen {
     private @Nullable KeyBindValue selectedKeyBind;
 
     public WailaConfigScreen(Screen parent) {
-        super(parent, CommonComponents.EMPTY, Waila.CONFIG::save, Waila.CONFIG::invalidate);
+        super(parent, CommonComponents.EMPTY, WailaClient.CONFIG::save, WailaClient.CONFIG::invalidate);
     }
 
     private static WailaConfig get() {
-        return Waila.CONFIG.get();
+        return WailaClient.CONFIG.get();
     }
 
     public Rectangle buildPreview(TooltipRenderer.State state) {
@@ -144,7 +145,7 @@ public class WailaConfigScreen extends TabbedConfigScreen {
 
     @Override
     public ConfigListWidget getOptions() {
-        var options = new ConfigListWidget(this, minecraft, width, height, 24, height - 32, 26, Waila.CONFIG::save);
+        var options = new ConfigListWidget(this, minecraft, width, height, 24, height - 32, 26, WailaClient.CONFIG::save);
         options.headerSeparator = false;
 
         options.with(new CategoryEntry(Tl.Config.GENERAL)
