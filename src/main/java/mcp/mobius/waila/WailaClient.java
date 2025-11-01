@@ -2,12 +2,16 @@ package mcp.mobius.waila;
 
 import java.util.List;
 
+import com.google.gson.GsonBuilder;
 import mcp.mobius.waila.access.ClientAccessor;
+import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.config.PluginConfig;
+import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.config.input.KeyBind;
 import mcp.mobius.waila.gui.hud.TooltipHandler;
+import mcp.mobius.waila.gui.hud.theme.ThemeDefinition;
 import mcp.mobius.waila.gui.screen.WailaConfigScreen;
 import mcp.mobius.waila.integration.IRecipeAction;
 import mcp.mobius.waila.registry.Registrar;
@@ -15,12 +19,27 @@ import mcp.mobius.waila.registry.RegistryFilter;
 import mcp.mobius.waila.util.Log;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class WailaClient {
 
     private static final Log LOG = Log.create();
+
+    public static final IJsonConfig<WailaConfig> CONFIG = IJsonConfig.of(WailaConfig.class)
+        .file(WailaConstants.NAMESPACE + "/" + WailaConstants.WAILA)
+        .version(WailaConstants.CONFIG_VERSION, WailaConfig::getConfigVersion, WailaConfig::setConfigVersion)
+        .json5()
+        .commenter(WailaConfig.COMMENTER)
+        .gson(new GsonBuilder()
+            .setPrettyPrinting()
+            .registerTypeAdapter(WailaConfig.Overlay.Color.class, new WailaConfig.Overlay.Color.Adapter())
+            .registerTypeAdapter(ThemeDefinition.class, new ThemeDefinition.Adapter())
+            .registerTypeAdapter(ResourceLocation.class, new ResourceLocation.Serializer())
+            .registerTypeAdapter(KeyBind.class, new KeyBind.Adapter())
+            .create())
+        .build();
 
     public static boolean showComponentBounds = false;
     public static boolean showFps = false;
@@ -43,7 +62,7 @@ public abstract class WailaClient {
         Waila.onAnyTick();
 
         var client = Minecraft.getInstance();
-        var config = Waila.CONFIG.get();
+        var config = CONFIG.get();
         var general = config.getGeneral();
         var binds = config.getKeyBinds();
 

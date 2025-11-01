@@ -1,6 +1,6 @@
 package mcp.mobius.waila.gui.hud;
 
-import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.access.ClientAccessor;
 import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IEntityComponentProvider;
@@ -58,7 +58,7 @@ public class TooltipHandler {
         STATE.render = false;
 
         var client = Minecraft.getInstance();
-        var config = Waila.CONFIG.get();
+        var config = WailaClient.CONFIG.get();
         var binds = config.getKeyBinds();
         var general = config.getGeneral();
 
@@ -262,7 +262,7 @@ public class TooltipHandler {
         }
 
         private WailaConfig.Overlay getOverlay() {
-            return Waila.CONFIG.get().getOverlay();
+            return WailaClient.CONFIG.get().getOverlay();
         }
 
         @Override
@@ -322,7 +322,7 @@ public class TooltipHandler {
 
         @Override
         public boolean enableTextToSpeech() {
-            return Waila.CONFIG.get().getGeneral().isEnableTextToSpeech();
+            return WailaClient.CONFIG.get().getGeneral().isEnableTextToSpeech();
         }
 
     }

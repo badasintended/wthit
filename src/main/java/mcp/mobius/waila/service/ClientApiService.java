@@ -1,7 +1,9 @@
 package mcp.mobius.waila.service;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.ITooltipComponent;
+import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.__internal__.IClientApiService;
 import mcp.mobius.waila.gui.hud.ComponentRenderer;
 import mcp.mobius.waila.util.DisplayUtil;
@@ -24,6 +26,11 @@ public class ClientApiService implements IClientApiService {
     @Override
     public void renderRectBorder(Matrix4f matrix, VertexConsumer buf, int x, int y, int w, int h, int s, int gradStart, int gradEnd) {
         DisplayUtil.renderRectBorder(matrix, buf, x, y, w, h, s, gradStart, gradEnd);
+    }
+
+    @Override
+    public IWailaConfig getConfig() {
+        return WailaClient.CONFIG.get();
     }
 
 }

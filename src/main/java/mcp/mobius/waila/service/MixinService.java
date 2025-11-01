@@ -1,6 +1,5 @@
 package mcp.mobius.waila.service;
 
-import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.config.JsonConfig;
 import mcp.mobius.waila.config.PluginConfig;
@@ -32,11 +31,6 @@ public class MixinService implements IMixinService {
     public void onLanguageReloaded() {
         JsonConfig.reloadAllInstances();
         PluginConfig.write();
-    }
-
-    @Override
-    public void saveConfig() {
-        Waila.CONFIG.save();
     }
 
 }

@@ -121,11 +121,11 @@ public abstract class ClientCommand<S> extends CommonCommand<S, Minecraft> {
 
             .then(literal("overlay"))
             .then(argument("enabled", BoolArgumentType.bool()))
-            .suggests((context, builder) -> suggest(new String[]{String.valueOf(!Waila.CONFIG.get().getGeneral().isDisplayTooltip())}, builder))
+            .suggests((context, builder) -> suggest(new String[]{String.valueOf(!WailaClient.CONFIG.get().getGeneral().isDisplayTooltip())}, builder))
             .executes(context -> {
                 var source = context.getSource();
                 var enabled = BoolArgumentType.getBool(context, "enabled");
-                Waila.CONFIG.get().getGeneral().setDisplayTooltip(enabled);
+                WailaClient.CONFIG.get().getGeneral().setDisplayTooltip(enabled);
                 success(source, () -> Component.translatable(enabled ? Tl.Command.Overlay.TRUE : Tl.Command.Overlay.FALSE));
                 return enabled ? 1 : 0;
             })
