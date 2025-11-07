@@ -13,8 +13,6 @@ import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import com.mojang.blaze3d.platform.InputConstants;
-import net.minecraft.client.Minecraft;
-import org.jetbrains.annotations.Nullable;
 
 public final class KeyBind {
 
@@ -24,9 +22,9 @@ public final class KeyBind {
 
     private final InputConstants.Key key;
 
-    private @Nullable Boolean pressed;
-    private @Nullable Boolean wasPressed;
-    private boolean held;
+    private boolean pendingPressed;
+    private boolean pressed;
+    private boolean wasPressed;
 
     private KeyBind(InputConstants.Key key) {
         this.key = key;
@@ -36,31 +34,26 @@ public final class KeyBind {
         return INSTANCES.computeIfAbsent(key, KeyBind::new);
     }
 
+    public static void set(InputConstants.Key key, boolean pressed) {
+        var bind = INSTANCES.get(key);
+        if (bind == null) return;
+
+        bind.pendingPressed = pressed;
+    }
+
     public static void tick() {
         for (var instance : INSTANCES.values()) {
             instance.wasPressed = instance.pressed;
-            instance.pressed = null;
+            instance.pressed = instance.pendingPressed;
         }
     }
 
     public boolean isDown() {
-        if (pressed == null) {
-            pressed = key.getValue() != InputConstants.UNKNOWN.getValue()
-                && InputConstants.isKeyDown(Minecraft.getInstance().getWindow().getWindow(), key.getValue());
-
-            if (!pressed) {
-                held = false;
-            } else {
-                held = wasPressed == Boolean.TRUE;
-            }
-        }
-
         return pressed;
     }
 
     public boolean isPressed() {
-        isDown();
-        return pressed == Boolean.TRUE && !held;
+        return pressed && !wasPressed;
     }
 
     public InputConstants.Key key() {
