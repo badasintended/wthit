@@ -22,9 +22,11 @@
     "EditBoxAccess",
     "GameNarratorAccess",
     "KeyBindsListMixin",
+    "KeyboardHandlerMixin",
     "KeyMappingAccess",
     "KeyMappingMixin",
     "MinecraftAccess",
+    "MouseHandlerMixin",
     "MultiPlayerGameModeMixin",
     "PlayerTabOverlayAccess"
   ],
