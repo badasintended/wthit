@@ -10,7 +10,6 @@ import mcp.mobius.waila.plugin.vanilla.provider.data.BaseContainerDataProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.data.BeaconDataProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.data.BeeDataProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.data.BeehiveDataProvider;
-import mcp.mobius.waila.plugin.vanilla.provider.data.ChiseledBookShelfDataProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.data.ContainerEntityDataProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.data.EnderChestDataProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.data.EntityAttributesDataProvider;
@@ -21,6 +20,7 @@ import mcp.mobius.waila.plugin.vanilla.provider.data.MobEffectDataProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.data.MobTimerDataProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.data.PetOwnerDataProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.data.RandomizableContainerDataProvider;
+import mcp.mobius.waila.plugin.vanilla.provider.data.SelectableSlotContainerDataProvider;
 import net.minecraft.world.Container;
 import net.minecraft.world.RandomizableContainer;
 import net.minecraft.world.entity.AgeableMob;
@@ -38,6 +38,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.ChiseledBookShelfBlockEntity;
 import net.minecraft.world.level.block.entity.EnderChestBlockEntity;
 import net.minecraft.world.level.block.entity.JukeboxBlockEntity;
+import net.minecraft.world.level.block.entity.ShelfBlockEntity;
 
 public class VanillaCommonPlugin implements IWailaCommonPlugin {
 
@@ -119,12 +120,16 @@ public class VanillaCommonPlugin implements IWailaCommonPlugin {
         registrar.localConfig(Options.NOTE_BLOCK_NOTE, NoteDisplayMode.SHARP);
         registrar.localConfig(Options.NOTE_BLOCK_INT_VALUE, false);
 
+        registrar.dataType(SelectableSlotContainerDataProvider.DATA, SelectableSlotContainerDataProvider.DATA_CODEC);
+
+        registrar.featureConfig(Options.SHELF_ITEMS, false);
+        registrar.blockData(SelectableSlotContainerDataProvider.SHELF, ShelfBlockEntity.class);
+
         registrar.featureConfig(Options.BOOK_BOOKSHELF, false);
         registrar.localConfig(Options.BOOK_ENCHANTMENT_DISPLAY_MODE, EnchantmentDisplayMode.CYCLE);
         registrar.localConfig(Options.BOOK_ENCHANTMENT_CYCLE_TIMING, 500);
         registrar.localConfig(Options.BOOK_WRITTEN, true);
-        registrar.dataType(ChiseledBookShelfDataProvider.DATA, ChiseledBookShelfDataProvider.DATA_CODEC);
-        registrar.blockData(ChiseledBookShelfDataProvider.INSTANCE, ChiseledBookShelfBlockEntity.class);
+        registrar.blockData(SelectableSlotContainerDataProvider.BOOKSHELF, ChiseledBookShelfBlockEntity.class);
 
         registrar.blockData(FurnaceDataProvider.INSTANCE, AbstractFurnaceBlockEntity.class);
         registrar.blockData(EnderChestDataProvider.INSTANCE, EnderChestBlockEntity.class);

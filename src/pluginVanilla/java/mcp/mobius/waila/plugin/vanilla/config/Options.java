@@ -53,6 +53,7 @@ public final class Options {
     public static final ResourceLocation EFFECT_BEACON                 = rl("effect.beacon");
     public static final ResourceLocation EFFECT_MOB                    = rl("effect.mob");
     public static final ResourceLocation EFFECT_HIDDEN_MOB             = rl("effect.hidden_mob");
+    public static final ResourceLocation SHELF_ITEMS                   = rl("shelf.items");
     public static final ResourceLocation BOOK_BOOKSHELF                = rl("book.bookshelf");
     public static final ResourceLocation BOOK_WRITTEN                  = rl("book.written");
     public static final ResourceLocation BOOK_ENCHANTMENT_DISPLAY_MODE = rl("book.enchantment");
