@@ -9,7 +9,6 @@
     "BeaconBlockEntityAccess",
     "BeehiveBlockEntity$BeeDataAccess",
     "BeehiveBlockEntityAccess",
-    "ChiseledBookShelfBlockEntityAccess",
     "EntityAccess",
     "LanguageMixin",
     "NoteBlockAccess",

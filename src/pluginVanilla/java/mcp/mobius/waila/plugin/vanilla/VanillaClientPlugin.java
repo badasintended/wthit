@@ -12,7 +12,6 @@ import mcp.mobius.waila.plugin.vanilla.provider.BeehiveProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.BlockAttributesProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.BoatProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.BreakProgressProvider;
-import mcp.mobius.waila.plugin.vanilla.provider.ChiseledBookShelfProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.ComposterProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.EntityAttributesProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.FallingBlockProvider;
@@ -31,6 +30,7 @@ import mcp.mobius.waila.plugin.vanilla.provider.PlantProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.PlayerHeadProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.PowderSnowProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.RedstoneProvider;
+import mcp.mobius.waila.plugin.vanilla.provider.SelectableSlotContainerProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.SpawnerProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.TrappedChestProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.VehicleProvider;
@@ -62,6 +62,7 @@ import net.minecraft.world.level.block.PowderSnowBlock;
 import net.minecraft.world.level.block.RedStoneWireBlock;
 import net.minecraft.world.level.block.RepeaterBlock;
 import net.minecraft.world.level.block.SaplingBlock;
+import net.minecraft.world.level.block.ShelfBlock;
 import net.minecraft.world.level.block.StemBlock;
 import net.minecraft.world.level.block.SweetBerryBushBlock;
 import net.minecraft.world.level.block.TrappedChestBlock;
@@ -153,10 +154,15 @@ public class VanillaClientPlugin implements IWailaClientPlugin {
         registrar.body(ItemHolderProvider.OMINOUS_ITEM_SPAWNER, OminousItemSpawner.class);
         registrar.tail(ItemHolderProvider.OMINOUS_ITEM_SPAWNER, OminousItemSpawner.class);
 
-        registrar.icon(ChiseledBookShelfProvider.INSTANCE, ChiseledBookShelfBlock.class);
-        registrar.head(ChiseledBookShelfProvider.INSTANCE, ChiseledBookShelfBlock.class);
-        registrar.body(ChiseledBookShelfProvider.INSTANCE, ChiseledBookShelfBlock.class);
-        registrar.tail(ChiseledBookShelfProvider.INSTANCE, ChiseledBookShelfBlock.class);
+        registrar.icon(SelectableSlotContainerProvider.SHELF, ShelfBlock.class);
+        registrar.head(SelectableSlotContainerProvider.SHELF, ShelfBlock.class);
+        registrar.body(SelectableSlotContainerProvider.SHELF, ShelfBlock.class);
+        registrar.tail(SelectableSlotContainerProvider.SHELF, ShelfBlock.class);
+
+        registrar.icon(SelectableSlotContainerProvider.BOOKSHELF, ChiseledBookShelfBlock.class);
+        registrar.head(SelectableSlotContainerProvider.BOOKSHELF, ChiseledBookShelfBlock.class);
+        registrar.body(SelectableSlotContainerProvider.BOOKSHELF, ChiseledBookShelfBlock.class);
+        registrar.tail(SelectableSlotContainerProvider.BOOKSHELF, ChiseledBookShelfBlock.class);
 
         FluidData.describeFluid(Fluids.WATER, WaterDescriptor.INSTANCE);
         FluidData.describeFluid(Fluids.LAVA, LavaDescriptor.INSTANCE);

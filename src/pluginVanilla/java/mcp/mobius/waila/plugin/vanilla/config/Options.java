@@ -53,6 +53,7 @@ public final class Options {
     public static final Identifier EFFECT_BEACON                 = rl("effect.beacon");
     public static final Identifier EFFECT_MOB                    = rl("effect.mob");
     public static final Identifier EFFECT_HIDDEN_MOB             = rl("effect.hidden_mob");
+    public static final Identifier SHELF_ITEMS                   = rl("shelf.items");
     public static final Identifier BOOK_BOOKSHELF                = rl("book.bookshelf");
     public static final Identifier BOOK_WRITTEN                  = rl("book.written");
     public static final Identifier BOOK_ENCHANTMENT_DISPLAY_MODE = rl("book.enchantment");
