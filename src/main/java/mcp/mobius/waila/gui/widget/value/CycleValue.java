@@ -6,12 +6,12 @@ import java.util.List;
 import java.util.Locale;
 import java.util.function.Consumer;
 
-import net.minecraft.Util;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.Util;
 import org.jetbrains.annotations.Nullable;
 
 import static mcp.mobius.waila.util.DisplayUtil.createButton;

@@ -19,7 +19,7 @@ import mcp.mobius.waila.api.data.ProgressData;
 import mcp.mobius.waila.plugin.extra.data.ItemDataImpl;
 import mcp.mobius.waila.plugin.extra.data.ProgressDataImpl;
 import net.minecraft.core.component.DataComponentPatch;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
@@ -45,7 +45,7 @@ public class ItemProvider extends DataProvider<ItemData, ItemDataImpl> {
     }
 
     @Override
-    protected void appendBody(ITooltip tooltip, IDataReader reader, IPluginConfig config, ResourceLocation objectId) {
+    protected void appendBody(ITooltip tooltip, IDataReader reader, IPluginConfig config, Identifier objectId) {
         var progress = (ProgressDataImpl) reader.get(ProgressData.TYPE);
         if (progress == null
             || (!progress.hasTick && progress.ratio == 0f)
@@ -56,7 +56,7 @@ public class ItemProvider extends DataProvider<ItemData, ItemDataImpl> {
     }
 
     @Override
-    protected void appendBody(ITooltip tooltip, ItemDataImpl data, IPluginConfig config, ResourceLocation objectId) {
+    protected void appendBody(ITooltip tooltip, ItemDataImpl data, IPluginConfig config, Identifier objectId) {
         if (data == lastData) {
             if (lastItemsComponent != null) tooltip.setLine(ItemData.ID, lastItemsComponent);
             return;

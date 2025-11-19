@@ -15,7 +15,7 @@ import mcp.mobius.waila.util.Log;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import static mcp.mobius.waila.mcless.network.NetworkConstants.CONFIG_BOOL;
 import static mcp.mobius.waila.mcless.network.NetworkConstants.CONFIG_DOUBLE;
@@ -29,7 +29,7 @@ public class ConfigSyncCommonS2CPacket implements Packet {
     public static final CustomPacketPayload.Type<Payload> TYPE = new CustomPacketPayload.Type<>(Waila.id("config"));
     public static final StreamCodec<FriendlyByteBuf, Payload> CODEC = StreamCodec.ofMember((p, buf) -> {
         var groups = p.map.keySet().stream()
-            .collect(Collectors.groupingBy(ResourceLocation::getNamespace));
+            .collect(Collectors.groupingBy(Identifier::getNamespace));
 
         buf.writeVarInt(groups.size());
         groups.forEach((namespace, entries) -> {
@@ -57,13 +57,13 @@ public class ConfigSyncCommonS2CPacket implements Packet {
             });
         });
     }, buf -> {
-        Map<ResourceLocation, Object> map = new HashMap<>();
+        Map<Identifier, Object> map = new HashMap<>();
         var groupSize = buf.readVarInt();
         for (var i = 0; i < groupSize; i++) {
             var namespace = buf.readUtf();
             var groupLen = buf.readVarInt();
             for (var j = 0; j < groupLen; j++) {
-                var id = ResourceLocation.fromNamespaceAndPath(namespace, buf.readUtf());
+                var id = Identifier.fromNamespaceAndPath(namespace, buf.readUtf());
                 var type = buf.readByte();
                 switch (type) {
                     case CONFIG_BOOL -> map.put(id, buf.readBoolean());
@@ -112,7 +112,7 @@ public class ConfigSyncCommonS2CPacket implements Packet {
     }
 
     public record Payload(
-        Map<ResourceLocation, Object> map
+        Map<Identifier, Object> map
     ) implements CustomPacketPayload {
 
         public Payload() {

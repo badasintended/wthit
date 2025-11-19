@@ -8,7 +8,7 @@ import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.world.entity.vehicle.Boat;
+import net.minecraft.world.entity.vehicle.boat.Boat;
 import net.minecraft.world.item.ItemStack;
 
 /**

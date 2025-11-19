@@ -22,33 +22,33 @@ import mcp.mobius.waila.util.CachedSupplier;
 import mcp.mobius.waila.util.Log;
 import mcp.mobius.waila.util.ModInfo;
 import mcp.mobius.waila.util.ResourceLocationSerde;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings("deprecation")
 public class PluginInfo implements IPluginInfo {
 
     private static final Log LOG = Log.create();
-    private static final ResourceLocation CORE = Waila.id("core");
+    private static final Identifier CORE = Waila.id("core");
 
-    private static final IJsonConfig<Map<ResourceLocation, Boolean>> TOGGLE = IJsonConfig.of(new TypeToken<Map<ResourceLocation, Boolean>>() {})
+    private static final IJsonConfig<Map<Identifier, Boolean>> TOGGLE = IJsonConfig.of(new TypeToken<Map<Identifier, Boolean>>() {})
         .file(WailaConstants.NAMESPACE + "/" + "plugin_toggle")
         .factory(LinkedHashMap::new)
         .json5()
         .gson(new GsonBuilder()
             .setPrettyPrinting()
-            .registerTypeAdapter(ResourceLocation.class, ResourceLocationSerde.INSTANCE)
+            .registerTypeAdapter(Identifier.class, ResourceLocationSerde.INSTANCE)
             .create())
         .build();
 
-    private static final Map<ResourceLocation, PluginInfo> PLUGIN_ID_TO_PLUGIN_INFO = new LinkedHashMap<>();
+    private static final Map<Identifier, PluginInfo> PLUGIN_ID_TO_PLUGIN_INFO = new LinkedHashMap<>();
     private static final CachedSupplier<Map<String, List<PluginInfo>>> MOD_ID_TO_PLUGIN_INFOS = new CachedSupplier<>(() ->
         PLUGIN_ID_TO_PLUGIN_INFO.values().stream().collect(Collectors.groupingBy(p -> p.getModInfo().getId())));
 
     private static final IWailaPlugin EMPTY_INIT = registrar -> {};
 
     private final ModInfo modInfo;
-    private final ResourceLocation pluginId;
+    private final Identifier pluginId;
     private final PluginSide side;
     private final List<String> requiredModIds;
     private final boolean legacy;
@@ -62,7 +62,7 @@ public class PluginInfo implements IPluginInfo {
 
     private PluginInfo(
         ModInfo modInfo,
-        ResourceLocation pluginId,
+        Identifier pluginId,
         PluginSide side,
         @Nullable IWailaPlugin deprecatedInit,
         List<String> requiredModIds,
@@ -80,7 +80,7 @@ public class PluginInfo implements IPluginInfo {
         this.client = client;
     }
 
-    private static boolean isDuplicate(ResourceLocation rl) {
+    private static boolean isDuplicate(Identifier rl) {
         if (PLUGIN_ID_TO_PLUGIN_INFO.containsKey(rl)) {
             LOG.error("Duplicate plugin id " + rl);
             return true;
@@ -97,10 +97,10 @@ public class PluginInfo implements IPluginInfo {
         List<String> required,
         boolean defaultEnabled
     ) {
-        var rl = ResourceLocation.parse(pluginIdStr);
+        var rl = Identifier.parse(pluginIdStr);
         if (isDuplicate(rl)) return;
 
-        if (rl.getNamespace().equals(ResourceLocation.DEFAULT_NAMESPACE)) {
+        if (rl.getNamespace().equals(Identifier.DEFAULT_NAMESPACE)) {
             LOG.warn("Plugin " + commonCls + " is using the default namespace " + rl);
         }
 
@@ -136,10 +136,10 @@ public class PluginInfo implements IPluginInfo {
         boolean legacy
     ) {
         try {
-            var rl = ResourceLocation.parse(pluginIdStr);
+            var rl = Identifier.parse(pluginIdStr);
             if (isDuplicate(rl)) return;
 
-            if (rl.getNamespace().equals(ResourceLocation.DEFAULT_NAMESPACE)) {
+            if (rl.getNamespace().equals(Identifier.DEFAULT_NAMESPACE)) {
                 LOG.warn("Plugin " + initializerStr + " is using the default namespace " + rl);
             }
 
@@ -151,7 +151,7 @@ public class PluginInfo implements IPluginInfo {
         }
     }
 
-    public static PluginInfo get(ResourceLocation pluginId) {
+    public static PluginInfo get(Identifier pluginId) {
         return PLUGIN_ID_TO_PLUGIN_INFO.get(pluginId);
     }
 
@@ -169,7 +169,7 @@ public class PluginInfo implements IPluginInfo {
     }
 
     @Override
-    public ResourceLocation getPluginId() {
+    public Identifier getPluginId() {
         return pluginId;
     }
 

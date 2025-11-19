@@ -9,6 +9,7 @@ import net.minecraft.core.LayeredRegistryAccess;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.server.RegistryLayer;
 import net.minecraft.server.ReloadableServerResources;
+import net.minecraft.server.permissions.PermissionSet;
 import net.minecraft.world.flag.FeatureFlagSet;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
@@ -23,7 +24,7 @@ public class ReloadableServerResourcesMixin {
     private RegistryAccess wthit_registryAccess;
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    private void wthit_init(LayeredRegistryAccess<RegistryLayer> layeredRegistryAccess, HolderLookup.Provider provider, FeatureFlagSet featureFlagSet, Commands.CommandSelection commandSelection, List<?> list, int i, CallbackInfo ci) {
+    private void wthit_init(LayeredRegistryAccess<RegistryLayer> layeredRegistryAccess, HolderLookup.Provider provider, FeatureFlagSet featureFlagSet, Commands.CommandSelection commandSelection, List<?> list, PermissionSet permissions, CallbackInfo ci) {
         wthit_registryAccess = layeredRegistryAccess.compositeAccess();
     }
 

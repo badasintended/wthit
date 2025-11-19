@@ -11,7 +11,7 @@ import mcp.mobius.waila.api.component.PairComponent;
 import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.CropBlock;
@@ -37,7 +37,7 @@ public enum PlantProvider implements IBlockComponentProvider {
         }
     }
 
-    private static void addGrowableTooltip(ITooltip tooltip, ResourceLocation tag, String translationKey, boolean growable) {
+    private static void addGrowableTooltip(ITooltip tooltip, Identifier tag, String translationKey, boolean growable) {
         tooltip.setLine(tag, new PairComponent(Component.translatable(translationKey),
             growable ? Component.translatable(Tl.Tooltip.TRUE) : Component.translatable(Tl.Tooltip.FALSE)));
     }

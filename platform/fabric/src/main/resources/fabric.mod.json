@@ -40,10 +40,10 @@
   ],
 
   "depends"      : {
-    "fabricloader": ">=0.17.2",
-    "fabric"      : ">=0.133.10",
-    "minecraft"   : ">=1.21.9-",
-    "badpackets"  : ">=0.10-0"
+    "fabricloader": ">=0.17.3",
+    "fabric"      : ">=0.139.1",
+    "minecraft"   : ">=1.21.11-",
+    "badpackets"  : ">=0.11-"
   },
   "breaks"       : {
     "roughlyenoughitems": "<9.0.462"

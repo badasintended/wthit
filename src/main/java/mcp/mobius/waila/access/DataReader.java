@@ -6,7 +6,7 @@ import java.util.Map;
 import mcp.mobius.waila.api.IData;
 import mcp.mobius.waila.api.IDataReader;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 public enum DataReader implements IDataReader {
@@ -32,7 +32,7 @@ public enum DataReader implements IDataReader {
     };
 
     private CompoundTag raw;
-    private final Map<ResourceLocation, IData> typed = new HashMap<>();
+    private final Map<Identifier, IData> typed = new HashMap<>();
     private boolean clean;
 
     DataReader() {

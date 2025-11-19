@@ -15,7 +15,7 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
 import org.jetbrains.annotations.Nullable;
@@ -24,7 +24,7 @@ public enum BeehiveDataProvider implements IDataProvider<BeehiveBlockEntity> {
 
     INSTANCE;
 
-    public static final IData.Type<OccupantsData> OCCUPANTS = IData.createType(ResourceLocation.withDefaultNamespace("bee.occupants"));
+    public static final IData.Type<OccupantsData> OCCUPANTS = IData.createType(Identifier.withDefaultNamespace("bee.occupants"));
     public static final StreamCodec<RegistryFriendlyByteBuf, OccupantsData> OCCUPANTS_CODEC = StreamCodec.composite(
         StreamCodec.composite(
             ByteBufCodecs.registry(Registries.ENTITY_TYPE), OccupantsData.Occupant::entityType,

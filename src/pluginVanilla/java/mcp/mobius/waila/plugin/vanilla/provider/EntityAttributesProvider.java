@@ -16,15 +16,15 @@ import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.ChatFormatting;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.LivingEntity;
 
 public enum EntityAttributesProvider implements IEntityComponentProvider {
 
     INSTANCE;
 
-    private static final ResourceLocation SPRITE_HEART = ResourceLocation.withDefaultNamespace("hud/heart/full");
-    private static final ResourceLocation SPRITE_ARMOR = ResourceLocation.withDefaultNamespace("hud/armor_full");
+    private static final Identifier SPRITE_HEART = Identifier.withDefaultNamespace("hud/heart/full");
+    private static final Identifier SPRITE_ARMOR = Identifier.withDefaultNamespace("hud/armor_full");
 
     private static final DecimalFormat DECIMAL = new DecimalFormat("0.##");
 

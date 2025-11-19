@@ -13,7 +13,7 @@ import net.minecraft.client.gui.render.state.GuiElementRenderState;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix3x2f;
 
@@ -22,7 +22,7 @@ import org.joml.Matrix3x2f;
  */
 public class SpriteBarComponent implements ITooltipComponent {
 
-    public SpriteBarComponent(float ratio, ResourceLocation texture, float u0, float u1, float v0, float v1, int regionWidth, int regionHeight, int tint, Component text) {
+    public SpriteBarComponent(float ratio, Identifier texture, float u0, float u1, float v0, float v1, int regionWidth, int regionHeight, int tint, Component text) {
         this.ratio = ratio;
         this.texture = texture;
         this.u0 = u0;
@@ -40,7 +40,7 @@ public class SpriteBarComponent implements ITooltipComponent {
     }
 
     private final float ratio;
-    private final ResourceLocation texture;
+    private final Identifier texture;
     private final float u0, u1, v0, v1;
     private final int spriteTint;
     private final int regionWidth;
@@ -93,7 +93,8 @@ public class SpriteBarComponent implements ITooltipComponent {
             this.mx = mx;
             this.my = my;
 
-            textureSetup = TextureSetup.singleTexture(Minecraft.getInstance().getTextureManager().getTexture(texture).getTextureView());
+            var textureInstance = Minecraft.getInstance().getTextureManager().getTexture(texture);
+            textureSetup = TextureSetup.singleTexture(textureInstance.getTextureView(), textureInstance.getSampler());
         }
 
         @Override

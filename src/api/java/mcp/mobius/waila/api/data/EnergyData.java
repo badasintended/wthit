@@ -8,7 +8,7 @@ import mcp.mobius.waila.api.__internal__.IApiService;
 import mcp.mobius.waila.api.__internal__.IExtraService;
 import mcp.mobius.waila.buildconst.Tl;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -18,7 +18,7 @@ import org.jetbrains.annotations.ApiStatus;
 @ApiStatus.NonExtendable
 public abstract class EnergyData implements IData {
 
-    public static final ResourceLocation ID = BuiltinDataUtil.rl("energy");
+    public static final Identifier ID = BuiltinDataUtil.rl("energy");
     public static final Type<EnergyData> TYPE = IData.createType(ID);
 
     /**

@@ -28,13 +28,13 @@ import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.ChatScreen;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.Nullable;
 
 public class TooltipRenderer {
 
-    public static final ResourceLocation ID = Waila.id("tooltip");
+    public static final Identifier ID = Waila.id("tooltip");
     private static final Tooltip TOOLTIP = new Tooltip();
 
     private static final Supplier<Rectangle> RENDER_RECT = Suppliers.memoize(Rectangle::new);

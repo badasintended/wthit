@@ -26,7 +26,7 @@ import net.minecraft.client.gui.components.toasts.SystemToast;
 import net.minecraft.client.gui.screens.ConfirmScreen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 class ThemeEditorScreen extends ConfigScreen {
 
@@ -90,14 +90,14 @@ class ThemeEditorScreen extends ConfigScreen {
 
         if (typeVal == null) {
             typeVal = new CycleValue(Tl.Config.OverlayThemeEditor.TYPE,
-                Registrar.get().themeTypes.keySet().stream().map(ResourceLocation::toString).sorted(String::compareToIgnoreCase).toArray(String[]::new),
+                Registrar.get().themeTypes.keySet().stream().map(Identifier::toString).sorted(String::compareToIgnoreCase).toArray(String[]::new),
                 type.getId().toString(), val -> {}, false) {
 
                 @Override
                 public void setValue(String value) {
                     if (options.save(true)) {
                         super.setValue(value);
-                        type = Registrar.get().themeTypes.get(ResourceLocation.parse(value));
+                        type = Registrar.get().themeTypes.get(Identifier.parse(value));
                         themeAttrCategory.clear(options);
                         options.children.remove(themeAttrCategory);
                         options.values.removeIf(it -> it.category == themeAttrCategory);
@@ -196,9 +196,9 @@ class ThemeEditorScreen extends ConfigScreen {
                 Component.translatable(Tl.Config.MISSING_INPUT),
                 Component.translatable(Tl.Config.OverlayThemeEditor.ID_EMPTY)));
         } else {
-            var id = ResourceLocation.parse(idVal.getValue());
-            if (id.getNamespace().equals(ResourceLocation.DEFAULT_NAMESPACE) && !idVal.getValue().startsWith(ResourceLocation.DEFAULT_NAMESPACE + ":")) {
-                id = ResourceLocation.fromNamespaceAndPath("custom", id.getPath());
+            var id = Identifier.parse(idVal.getValue());
+            if (id.getNamespace().equals(Identifier.DEFAULT_NAMESPACE) && !idVal.getValue().startsWith(Identifier.DEFAULT_NAMESPACE + ":")) {
+                id = Identifier.fromNamespaceAndPath("custom", id.getPath());
             }
 
             parent.addTheme(new ThemeDefinition<>(id, type, false, type2attr.get(type)));

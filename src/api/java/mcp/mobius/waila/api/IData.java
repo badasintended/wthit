@@ -1,7 +1,7 @@
 package mcp.mobius.waila.api;
 
 import mcp.mobius.waila.api.__internal__.IApiService;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.ApiStatus;
 
 /**
@@ -23,26 +23,26 @@ public interface IData {
      *
      * @param id the data id
      */
-    static <D extends IData> Type<D> createType(ResourceLocation id) {
+    static <D extends IData> Type<D> createType(Identifier id) {
         return IApiService.INSTANCE.createDataType(id);
     }
 
     /**
      * Returns the type of the data, should be a constant variable.
      *
-     * @see #createType(ResourceLocation)
+     * @see #createType(Identifier)
      */
     Type<? extends IData> type();
 
 
     /**
-     * @see #createType(ResourceLocation)
+     * @see #createType(Identifier)
      */
     @SuppressWarnings("unused")
     @ApiStatus.NonExtendable
     interface Type<D extends IData> {
 
-        ResourceLocation id();
+        Identifier id();
 
     }
 

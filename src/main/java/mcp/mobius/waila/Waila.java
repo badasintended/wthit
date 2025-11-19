@@ -16,7 +16,7 @@ import mcp.mobius.waila.registry.RegistryFilter;
 import mcp.mobius.waila.service.ICommonService;
 import mcp.mobius.waila.util.Log;
 import mcp.mobius.waila.util.UnsupportedPlatformException;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public abstract class Waila {
 
@@ -52,8 +52,8 @@ public abstract class Waila {
 
     private static volatile boolean firstTicked = false;
 
-    public static ResourceLocation id(String path) {
-        return ResourceLocation.fromNamespaceAndPath(WailaConstants.NAMESPACE, path);
+    public static Identifier id(String path) {
+        return Identifier.fromNamespaceAndPath(WailaConstants.NAMESPACE, path);
     }
 
     static void onAnyTick() {

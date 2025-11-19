@@ -9,14 +9,14 @@ import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.animal.bee.Bee;
 
 public enum BeeDataProvider implements IDataProvider<Bee> {
 
     INSTANCE;
 
-    public static final IData.Type<HivePosData> HIVE_POS = IData.createType(ResourceLocation.withDefaultNamespace("bee.hive_pos"));
+    public static final IData.Type<HivePosData> HIVE_POS = IData.createType(Identifier.withDefaultNamespace("bee.hive_pos"));
     public static final StreamCodec<RegistryFriendlyByteBuf, HivePosData> HIVE_POS_CODEC = StreamCodec.composite(
         BlockPos.STREAM_CODEC, HivePosData::pos,
         HivePosData::new);

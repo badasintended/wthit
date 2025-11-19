@@ -38,12 +38,12 @@ import mcp.mobius.waila.gui.hud.theme.ThemeType;
 import mcp.mobius.waila.util.CachedSupplier;
 import mcp.mobius.waila.util.Log;
 import mcp.mobius.waila.util.TypeUtil;
-import net.minecraft.Util;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
+import net.minecraft.util.Util;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.Block;
@@ -86,11 +86,11 @@ public class Registrar implements ICommonRegistrar, IClientRegistrar, IRegistrar
     public final BlacklistConfig blacklist = new BlacklistConfig();
     public final InstanceRegistry<Consumer<BlacklistConfig>> blacklistModifiers = Util.make(new InstanceRegistry<>(), InstanceRegistry::reversed);
 
-    public final Map<ResourceLocation, IntFormat> intConfigFormats = new HashMap<>();
+    public final Map<Identifier, IntFormat> intConfigFormats = new HashMap<>();
 
-    public final BiMap<ResourceLocation, ThemeType<?>> themeTypes = HashBiMap.create();
+    public final BiMap<Identifier, ThemeType<?>> themeTypes = HashBiMap.create();
 
-    public final Map<ResourceLocation, StreamCodec<RegistryFriendlyByteBuf, IData>> dataCodecs = new HashMap<>();
+    public final Map<Identifier, StreamCodec<RegistryFriendlyByteBuf, IData>> dataCodecs = new HashMap<>();
 
     private @Nullable IPluginInfo plugin;
     private boolean locked = false;
@@ -107,7 +107,7 @@ public class Registrar implements ICommonRegistrar, IClientRegistrar, IRegistrar
         this.plugin = plugin;
     }
 
-    private <T> void addConfig(ResourceLocation key, T defaultValue, T clientOnlyValue, boolean serverRequired, boolean merged, ConfigEntry.Type<T> type) {
+    private <T> void addConfig(Identifier key, T defaultValue, T clientOnlyValue, boolean serverRequired, boolean merged, ConfigEntry.Type<T> type) {
         assertLock();
         PluginConfig.addConfig(type.create(plugin, key, defaultValue, clientOnlyValue, serverRequired, merged));
     }
@@ -125,69 +125,69 @@ public class Registrar implements ICommonRegistrar, IClientRegistrar, IRegistrar
     }
 
     @Override
-    public void localConfig(ResourceLocation key, boolean defaultValue) {
+    public void localConfig(Identifier key, boolean defaultValue) {
         addConfig(key, defaultValue, defaultValue, false, false, ConfigEntry.BOOLEAN);
     }
 
     @Override
-    public void localConfig(ResourceLocation key, int defaultValue, IntFormat format) {
+    public void localConfig(Identifier key, int defaultValue, IntFormat format) {
         intConfigFormats.put(key, format);
         addConfig(key, defaultValue, defaultValue, false, false, ConfigEntry.INTEGER);
     }
 
     @Override
-    public void localConfig(ResourceLocation key, double defaultValue) {
+    public void localConfig(Identifier key, double defaultValue) {
         addConfig(key, defaultValue, defaultValue, false, false, ConfigEntry.DOUBLE);
     }
 
     @Override
-    public void localConfig(ResourceLocation key, String defaultValue) {
+    public void localConfig(Identifier key, String defaultValue) {
         addConfig(key, defaultValue, defaultValue, false, false, ConfigEntry.STRING);
     }
 
     @Override
-    public <T extends Enum<T>> void localConfig(ResourceLocation key, T defaultValue) {
+    public <T extends Enum<T>> void localConfig(Identifier key, T defaultValue) {
         addConfig(key, defaultValue, defaultValue, false, false, ConfigEntry.ENUM);
     }
 
     @Override
-    public void externalConfig(ResourceLocation key, Path path) {
+    public void externalConfig(Identifier key, Path path) {
         addConfig(key, path, path, false, false, ConfigEntry.PATH);
     }
 
     @Override
-    public void featureConfig(ResourceLocation key, boolean clientOnly) {
+    public void featureConfig(Identifier key, boolean clientOnly) {
         addConfig(key, true, clientOnly, !clientOnly, true, ConfigEntry.BOOLEAN);
     }
 
     @Override
-    public void syncedConfig(ResourceLocation key, boolean defaultValue, boolean clientOnlyValue) {
+    public void syncedConfig(Identifier key, boolean defaultValue, boolean clientOnlyValue) {
         addConfig(key, defaultValue, clientOnlyValue, true, false, ConfigEntry.BOOLEAN);
     }
 
     @Override
-    public void syncedConfig(ResourceLocation key, int defaultValue, int clientOnlyValue, IntFormat format) {
+    public void syncedConfig(Identifier key, int defaultValue, int clientOnlyValue, IntFormat format) {
         intConfigFormats.put(key, format);
         addConfig(key, defaultValue, clientOnlyValue, true, false, ConfigEntry.INTEGER);
     }
 
     @Override
-    public void syncedConfig(ResourceLocation key, double defaultValue, double clientOnlyValue) {
+    public void syncedConfig(Identifier key, double defaultValue, double clientOnlyValue) {
         addConfig(key, defaultValue, clientOnlyValue, true, false, ConfigEntry.DOUBLE);
     }
 
     @Override
-    public void syncedConfig(ResourceLocation key, String defaultValue, String clientOnlyValue) {
+    public void syncedConfig(Identifier key, String defaultValue, String clientOnlyValue) {
         addConfig(key, defaultValue, clientOnlyValue, true, false, ConfigEntry.STRING);
     }
 
     @Override
-    public <T extends Enum<T>> void syncedConfig(ResourceLocation key, T defaultValue, T clientOnlyValue) {
+    public <T extends Enum<T>> void syncedConfig(Identifier key, T defaultValue, T clientOnlyValue) {
         addConfig(key, defaultValue, clientOnlyValue, true, false, ConfigEntry.ENUM);
     }
 
     @Override
-    public void configAlias(ResourceLocation actual, ResourceLocation... aliases) {
+    public void configAlias(Identifier actual, Identifier... aliases) {
         assertLock();
 
         for (var alias : aliases) {
@@ -395,7 +395,7 @@ public class Registrar implements ICommonRegistrar, IClientRegistrar, IRegistrar
     }
 
     @Override
-    public <T extends ITheme> void themeType(ResourceLocation id, IThemeType<T> type) {
+    public <T extends ITheme> void themeType(Identifier id, IThemeType<T> type) {
         if (Waila.CLIENT_SIDE) {
             assertLock();
             ThemeType<T> casted = TypeUtil.uncheckedCast(type);
@@ -413,7 +413,7 @@ public class Registrar implements ICommonRegistrar, IClientRegistrar, IRegistrar
     }
 
     @Override
-    public void toolType(ResourceLocation id, IToolType toolType) {
+    public void toolType(Identifier id, IToolType toolType) {
         IHarvestService.INSTANCE.addToolType(id, toolType);
     }
 

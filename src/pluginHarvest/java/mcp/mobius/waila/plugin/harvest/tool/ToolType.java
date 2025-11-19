@@ -13,7 +13,7 @@ import mcp.mobius.waila.buildconst.Tl;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -23,9 +23,9 @@ import net.minecraft.world.level.block.state.BlockState;
 
 public class ToolType implements IToolType, IToolType.Builder0, IToolType.Builder1, IToolType.Builder2, IToolType.Builder3 {
 
-    private static final Map<ResourceLocation, ToolType> MAP = new LinkedHashMap<>();
+    private static final Map<Identifier, ToolType> MAP = new LinkedHashMap<>();
 
-    public ResourceLocation id;
+    public Identifier id;
     public ItemStack lowestTierStack;
     public Predicate<BlockState> blockPredicate;
     public Predicate<ItemStack> itemPredicate;
@@ -71,7 +71,7 @@ public class ToolType implements IToolType, IToolType.Builder0, IToolType.Builde
         else return icons.get().get(tier);
     }
 
-    public void bind(ResourceLocation id) {
+    public void bind(Identifier id) {
         this.id = id;
         this.text = Component.translatable(Tl.Tooltip.Harvest.TOOL + "." + id.toLanguageKey());
 
@@ -107,7 +107,7 @@ public class ToolType implements IToolType, IToolType.Builder0, IToolType.Builde
     }
 
     @Override
-    public Builder2 blockTag(ResourceLocation tag) {
+    public Builder2 blockTag(Identifier tag) {
         return blockTag(TagKey.create(Registries.BLOCK, tag));
     }
 
@@ -124,7 +124,7 @@ public class ToolType implements IToolType, IToolType.Builder0, IToolType.Builde
     }
 
     @Override
-    public Builder3 itemTag(ResourceLocation tag) {
+    public Builder3 itemTag(Identifier tag) {
         return itemTag(TagKey.create(Registries.ITEM, tag));
     }
 

@@ -17,21 +17,21 @@ import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.registry.Registrar;
 import mcp.mobius.waila.util.TypeUtil;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 public final class ThemeDefinition<T extends ITheme> {
 
-    private static @Nullable Map<ResourceLocation, ThemeDefinition<?>> all;
+    private static @Nullable Map<Identifier, ThemeDefinition<?>> all;
 
-    public final ResourceLocation id;
+    public final Identifier id;
     public final ThemeType<T> type;
     public final boolean builtin;
     public final T instance;
 
     private boolean initialized = false;
 
-    public ThemeDefinition(ResourceLocation id, ThemeType<T> type, boolean builtin, Map<String, Object> attr) {
+    public ThemeDefinition(Identifier id, ThemeType<T> type, boolean builtin, Map<String, Object> attr) {
         this.id = id;
         this.type = type;
         this.builtin = builtin;
@@ -39,7 +39,7 @@ public final class ThemeDefinition<T extends ITheme> {
         this.instance = type.create(attr);
     }
 
-    public static Map<ResourceLocation, ThemeDefinition<?>> getAll() {
+    public static Map<Identifier, ThemeDefinition<?>> getAll() {
         if (all == null) {
             all = new HashMap<>(BuiltinThemeLoader.THEMES);
             all.putAll(WailaClient.CONFIG.get().getOverlay().getColor().getCustomThemes());
@@ -63,11 +63,11 @@ public final class ThemeDefinition<T extends ITheme> {
 
     public static class Adapter implements JsonSerializer<ThemeDefinition<?>>, JsonDeserializer<ThemeDefinition<?>> {
 
-        public static ThemeDefinition<?> deserialize(ResourceLocation id, JsonElement json, boolean builtin) {
+        public static ThemeDefinition<?> deserialize(Identifier id, JsonElement json, boolean builtin) {
             var object = json.getAsJsonObject();
 
             var typeId = object.has("type")
-                ? ResourceLocation.parse(object.get("type").getAsString())
+                ? Identifier.parse(object.get("type").getAsString())
                 : WailaConstants.THEME_TYPE_GRADIENT;
 
             var type = Registrar.get().themeTypes.get(typeId);
@@ -102,7 +102,7 @@ public final class ThemeDefinition<T extends ITheme> {
         @Override
         public ThemeDefinition<?> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
             var object = json.getAsJsonObject();
-            var id = ResourceLocation.parse(object.get("id").getAsString());
+            var id = Identifier.parse(object.get("id").getAsString());
 
             return deserialize(id, json, false);
         }

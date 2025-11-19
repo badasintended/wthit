@@ -15,12 +15,12 @@ import mcp.mobius.waila.registry.PluginAware;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 public class Line implements ITooltipLine {
 
-    public final @Nullable ResourceLocation tag;
+    public final @Nullable Identifier tag;
     public final List<ITooltipComponent> components = new ArrayList<>();
     public final Object2IntOpenHashMap<ITooltipComponent> widths = new Object2IntOpenHashMap<>();
     public final Object2IntMap<ITooltipComponent> heights = new Object2IntOpenHashMap<>();
@@ -34,7 +34,7 @@ public class Line implements ITooltipLine {
     private int growingWeight = 0;
     private int growingMinWidth = 0;
 
-    public Line(@Nullable ResourceLocation tag) {
+    public Line(@Nullable Identifier tag) {
         this.tag = tag;
     }
 

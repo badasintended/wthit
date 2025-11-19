@@ -4,7 +4,7 @@ import mcp.mobius.waila.api.IBlockAccessor;
 import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITargetRedirector;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Blocks;
 import org.jetbrains.annotations.Nullable;
 
@@ -12,7 +12,7 @@ public enum RedirectTest implements IBlockComponentProvider {
 
     INSTANCE;
 
-    public static final ResourceLocation TARGET = ResourceLocation.parse("test:redirect.target");
+    public static final Identifier TARGET = Identifier.parse("test:redirect.target");
 
     public enum Target {
         NONE, SELF, BEHIND, HIT, NOWHERE

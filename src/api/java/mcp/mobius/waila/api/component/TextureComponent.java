@@ -5,7 +5,7 @@ import mcp.mobius.waila.api.__internal__.ApiSide;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 /**
  * Component that renders a texture.
@@ -22,7 +22,7 @@ public class TextureComponent implements ITooltipComponent {
      * @param width     the width of the rectangle
      * @param height    the height of the rectangle
      */
-    public TextureComponent(ResourceLocation textureId, int u, int v, int width, int height) {
+    public TextureComponent(Identifier textureId, int u, int v, int width, int height) {
         this(textureId, u, v, width, height, 256, 256);
     }
 
@@ -35,7 +35,7 @@ public class TextureComponent implements ITooltipComponent {
      * @param textureWidth  the width of the entire texture
      * @param textureHeight the height of the entire texture
      */
-    public TextureComponent(ResourceLocation textureId, int u, int v, int width, int height, int textureWidth, int textureHeight) {
+    public TextureComponent(Identifier textureId, int u, int v, int width, int height, int textureWidth, int textureHeight) {
         this(textureId, width, height, u, v, width, height, textureWidth, textureHeight);
     }
 
@@ -50,7 +50,7 @@ public class TextureComponent implements ITooltipComponent {
      * @param textureWidth  the width of the entire texture
      * @param textureHeight the height of the entire texture
      */
-    public TextureComponent(ResourceLocation textureId, int width, int height, int u, int v, int regionWidth, int regionHeight, int textureWidth, int textureHeight) {
+    public TextureComponent(Identifier textureId, int width, int height, int u, int v, int regionWidth, int regionHeight, int textureWidth, int textureHeight) {
         this.textureId = textureId;
         this.width = width;
         this.height = height;
@@ -62,7 +62,7 @@ public class TextureComponent implements ITooltipComponent {
         this.textureHeight = textureHeight;
     }
 
-    private final ResourceLocation textureId;
+    private final Identifier textureId;
     private final int width, height;
     private final int u, v;
     private final int regionWidth, regionHeight;

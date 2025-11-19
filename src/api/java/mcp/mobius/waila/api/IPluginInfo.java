@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import mcp.mobius.waila.api.__internal__.IApiService;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.ApiStatus;
 
 /**
@@ -14,7 +14,7 @@ import org.jetbrains.annotations.ApiStatus;
 @ApiStatus.NonExtendable
 public interface IPluginInfo {
 
-    static IPluginInfo get(ResourceLocation pluginId) {
+    static IPluginInfo get(Identifier pluginId) {
         return IApiService.INSTANCE.getPluginInfo(pluginId);
     }
 
@@ -28,7 +28,7 @@ public interface IPluginInfo {
 
     IModInfo getModInfo();
 
-    ResourceLocation getPluginId();
+    Identifier getPluginId();
 
     Side getSide();
 

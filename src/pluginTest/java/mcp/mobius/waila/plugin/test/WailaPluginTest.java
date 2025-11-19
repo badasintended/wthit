@@ -7,7 +7,7 @@ import mcp.mobius.waila.api.TooltipPosition;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.__internal__.IApiService;
 import mcp.mobius.waila.api.data.EnergyData;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
@@ -30,11 +30,11 @@ public class WailaPluginTest implements IWailaPlugin {
         registrar.addConfig(ConfigTest.ENUM, TooltipPosition.HEAD);
 
         //noinspection OctalInteger
-        registrar.addConfig(ResourceLocation.parse("test:int_octal"), 0_10122, IntFormat.OCTAL);
-        registrar.addConfig(ResourceLocation.parse("test:int_binary"), 0b1010, IntFormat.BINARY);
-        registrar.addConfig(ResourceLocation.parse("test:int_hex"), 0xACA, IntFormat.HEXADECIMAL);
+        registrar.addConfig(Identifier.parse("test:int_octal"), 0_10122, IntFormat.OCTAL);
+        registrar.addConfig(Identifier.parse("test:int_binary"), 0b1010, IntFormat.BINARY);
+        registrar.addConfig(Identifier.parse("test:int_hex"), 0xACA, IntFormat.HEXADECIMAL);
 
-        registrar.addConfig(ResourceLocation.parse("test:path"), IApiService.INSTANCE.getConfigDir().resolve(WailaConstants.NAMESPACE + "/blacklist.json"));
+        registrar.addConfig(Identifier.parse("test:path"), IApiService.INSTANCE.getConfigDir().resolve(WailaConstants.NAMESPACE + "/blacklist.json"));
 
         registrar.addSyncedConfig(ConfigTest.SYNC_BOOL, true, true);
         registrar.addSyncedConfig(ConfigTest.SYNC_INT, 69, 69);

@@ -16,9 +16,9 @@ import mcp.mobius.waila.gui.screen.WailaConfigScreen;
 import mcp.mobius.waila.plugin.PluginInfo;
 import mcp.mobius.waila.plugin.PluginLoader;
 import net.minecraft.client.Minecraft;
-import net.minecraft.commands.arguments.ResourceLocationArgument;
+import net.minecraft.commands.arguments.IdentifierArgument;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import static net.minecraft.commands.SharedSuggestionProvider.suggest;
 import static net.minecraft.commands.SharedSuggestionProvider.suggestResource;
@@ -55,11 +55,11 @@ public abstract class ClientCommand<S> extends CommonCommand<S, Minecraft> {
 
             .then(literal("plugin"))
 
-            .then(argument("id", ResourceLocationArgument.id()))
+            .then(argument("id", IdentifierArgument.id()))
             .suggests((context, builder) -> suggestResource(PluginConfig.getAllKeys(), builder))
             .executes(context -> {
                 var source = context.getSource();
-                var id = context.getArgument("id", ResourceLocation.class);
+                var id = context.getArgument("id", Identifier.class);
                 ConfigEntry<?> entry = PluginConfig.getEntry(id);
                 if (entry == null) {
                     fail(source, Component.translatable(Tl.Command.Config.UNKNOWN_ID, id.toString()));
@@ -78,7 +78,7 @@ public abstract class ClientCommand<S> extends CommonCommand<S, Minecraft> {
 
             .then(argument("value", StringArgumentType.word()))
             .suggests((context, builder) -> {
-                var id = context.getArgument("id", ResourceLocation.class);
+                var id = context.getArgument("id", Identifier.class);
                 var entry = PluginConfig.getEntry(id);
                 if (entry != null) {
                     if (entry.getType().equals(ConfigEntry.BOOLEAN)) {
@@ -94,7 +94,7 @@ public abstract class ClientCommand<S> extends CommonCommand<S, Minecraft> {
             })
             .executes(context -> {
                 var source = context.getSource();
-                var id = context.getArgument("id", ResourceLocation.class);
+                var id = context.getArgument("id", Identifier.class);
                 var entry = PluginConfig.getEntry(id);
                 if (entry == null) {
                     fail(source, Component.translatable(Tl.Command.Config.UNKNOWN_ID, id.toString()));

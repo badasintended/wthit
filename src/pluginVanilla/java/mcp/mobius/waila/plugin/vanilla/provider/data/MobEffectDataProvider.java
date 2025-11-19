@@ -12,7 +12,7 @@ import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 
@@ -20,7 +20,7 @@ public enum MobEffectDataProvider implements IDataProvider<LivingEntity> {
 
     INSTANCE;
 
-    public static final IData.Type<Data> DATA = IData.createType(ResourceLocation.withDefaultNamespace("mob_effects"));
+    public static final IData.Type<Data> DATA = IData.createType(Identifier.withDefaultNamespace("mob_effects"));
     public static final StreamCodec<RegistryFriendlyByteBuf, Data> DATA_CODEC = StreamCodec.composite(
         ByteBufCodecs.collection(ArrayList::new, MobEffectInstance.STREAM_CODEC), Data::list,
         Data::new);

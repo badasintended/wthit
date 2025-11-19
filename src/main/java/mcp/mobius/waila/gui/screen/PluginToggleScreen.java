@@ -14,14 +14,14 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class PluginToggleScreen extends TabbedConfigScreen {
 
     public static final Component TITLE = Component.translatable(Tl.Gui.Plugin.TOGGLE);
 
-    private final Object2BooleanMap<ResourceLocation> initialValues = new Object2BooleanOpenHashMap<>();
-    private final Object2BooleanMap<ResourceLocation> updatedValues = new Object2BooleanOpenHashMap<>();
+    private final Object2BooleanMap<Identifier> initialValues = new Object2BooleanOpenHashMap<>();
+    private final Object2BooleanMap<Identifier> updatedValues = new Object2BooleanOpenHashMap<>();
 
     public PluginToggleScreen(Screen parent) {
         super(parent, CommonComponents.EMPTY);

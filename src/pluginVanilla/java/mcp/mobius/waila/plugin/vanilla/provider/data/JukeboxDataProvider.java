@@ -11,14 +11,14 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.entity.JukeboxBlockEntity;
 
 public enum JukeboxDataProvider implements IDataProvider<JukeboxBlockEntity> {
 
     INSTANCE;
 
-    public static final IData.Type<Data> DATA = IData.createType(ResourceLocation.withDefaultNamespace("jukebox"));
+    public static final IData.Type<Data> DATA = IData.createType(Identifier.withDefaultNamespace("jukebox"));
     public static final StreamCodec<RegistryFriendlyByteBuf, Data> DATA_CODEC = StreamCodec.composite(
         ComponentSerialization.STREAM_CODEC, Data::record,
         Data::new);

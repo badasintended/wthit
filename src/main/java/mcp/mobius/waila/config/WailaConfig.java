@@ -28,7 +28,7 @@ import mcp.mobius.waila.gui.hud.theme.ThemeDefinition;
 import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class WailaConfig implements IWailaConfig {
 
@@ -344,13 +344,13 @@ public class WailaConfig implements IWailaConfig {
 
         public static class Color implements IWailaConfig.Overlay.Color, Nested {
 
-            private static final ResourceLocation DEFAULT = Waila.id("vanilla");
+            private static final Identifier DEFAULT = Waila.id("vanilla");
 
             private @T(Tl.Config.OVERLAY_BACKGROUND_ALPHA) int backgroundAlpha = 204;
-            private @T(Tl.Config.OVERLAY_THEME) ResourceLocation activeTheme = DEFAULT;
+            private @T(Tl.Config.OVERLAY_THEME) Identifier activeTheme = DEFAULT;
 
             @IJsonConfig.Comment("Custom Themes")
-            private final Map<ResourceLocation, ThemeDefinition<?>> themes = new HashMap<>();
+            private final Map<Identifier, ThemeDefinition<?>> themes = new HashMap<>();
 
             private ThemeDefinition<?> getThemeDef() {
                 var allTheme = ThemeDefinition.getAll();
@@ -377,15 +377,15 @@ public class WailaConfig implements IWailaConfig {
                 return getThemeDef().getInitializedInstance();
             }
 
-            public Map<ResourceLocation, ThemeDefinition<?>> getCustomThemes() {
+            public Map<Identifier, ThemeDefinition<?>> getCustomThemes() {
                 return themes;
             }
 
-            public ResourceLocation getActiveTheme() {
+            public Identifier getActiveTheme() {
                 return activeTheme;
             }
 
-            public void applyTheme(ResourceLocation id) {
+            public void applyTheme(Identifier id) {
                 var allTheme = ThemeDefinition.getAll();
                 activeTheme = allTheme.containsKey(id) ? id : activeTheme;
             }
@@ -397,7 +397,7 @@ public class WailaConfig implements IWailaConfig {
                     var json = element.getAsJsonObject();
                     var color = new Color();
                     color.backgroundAlpha = json.has("backgroundAlpha") ? json.getAsJsonPrimitive("backgroundAlpha").getAsInt() : 204;
-                    color.activeTheme = ResourceLocation.parse(json.getAsJsonPrimitive("activeTheme").getAsString());
+                    color.activeTheme = Identifier.parse(json.getAsJsonPrimitive("activeTheme").getAsString());
                     json.getAsJsonArray("themes").forEach(e -> {
                         ThemeDefinition<?> themeDef = context.deserialize(e, ThemeDefinition.class);
                         color.themes.put(themeDef.id, themeDef);

@@ -19,12 +19,12 @@ import mcp.mobius.waila.gui.widget.value.InputValue;
 import mcp.mobius.waila.gui.widget.value.IntInputValue;
 import mcp.mobius.waila.network.common.VersionCommonPacket;
 import mcp.mobius.waila.registry.Registrar;
-import net.minecraft.Util;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
+import net.minecraft.util.Util;
 
 public class PluginConfigScreen extends TabbedConfigScreen {
 
@@ -127,7 +127,7 @@ public class PluginConfigScreen extends TabbedConfigScreen {
     @FunctionalInterface
     private interface ConfigValueFunction<T> {
 
-        ConfigValue<T, ?> create(ResourceLocation key, String name, T value, T defaultValue, Consumer<T> save);
+        ConfigValue<T, ?> create(Identifier key, String name, T value, T defaultValue, Consumer<T> save);
 
     }
 

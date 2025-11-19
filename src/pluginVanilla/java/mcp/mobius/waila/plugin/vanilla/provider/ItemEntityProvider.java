@@ -18,7 +18,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.EnchantmentTags;
 import net.minecraft.util.StringUtil;
 import net.minecraft.world.entity.Entity;
@@ -34,8 +34,8 @@ public enum ItemEntityProvider implements IEntityComponentProvider {
 
     INSTANCE;
 
-    private static final ResourceLocation AUTHOR = Options.BOOK_WRITTEN.withSuffix(".author");
-    private static final ResourceLocation GENERATION = Options.BOOK_WRITTEN.withSuffix(".generation");
+    private static final Identifier AUTHOR = Options.BOOK_WRITTEN.withSuffix(".author");
+    private static final Identifier GENERATION = Options.BOOK_WRITTEN.withSuffix(".generation");
 
     private static long lastEnchantmentTime = 0;
     private static int enchantmentIndex = 0;

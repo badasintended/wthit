@@ -2,7 +2,7 @@ package mcp.mobius.waila.api;
 
 import mcp.mobius.waila.api.__internal__.ApiSide;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import org.jetbrains.annotations.ApiStatus;
 
@@ -342,7 +342,7 @@ public interface IClientRegistrar {
      * @param type the theme type
      */
     @ApiStatus.Experimental
-    <T extends ITheme> void themeType(ResourceLocation id, IThemeType<T> type);
+    <T extends ITheme> void themeType(Identifier id, IThemeType<T> type);
 
     /**
      * Registers an {@link IRayCastVectorProvider} instance
@@ -371,6 +371,6 @@ public interface IClientRegistrar {
      * @param toolType the tool type
      */
     @ApiStatus.Experimental
-    void toolType(ResourceLocation id, IToolType toolType);
+    void toolType(Identifier id, IToolType toolType);
 
 }

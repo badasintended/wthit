@@ -28,7 +28,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.OwnableEntity;
-import net.minecraft.world.entity.animal.Bee;
+import net.minecraft.world.entity.animal.bee.Bee;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.entity.AbstractFurnaceBlockEntity;
 import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;

@@ -31,7 +31,6 @@ import mcp.mobius.waila.gui.widget.value.CycleValue;
 import mcp.mobius.waila.gui.widget.value.EnumValue;
 import mcp.mobius.waila.gui.widget.value.InputValue;
 import net.minecraft.ChatFormatting;
-import net.minecraft.Util;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
@@ -40,8 +39,9 @@ import net.minecraft.client.input.KeyEvent;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
+import net.minecraft.util.Util;
 import net.minecraft.world.level.block.Blocks;
 import org.apache.commons.lang3.mutable.MutableObject;
 import org.jetbrains.annotations.NotNull;
@@ -111,7 +111,7 @@ public class WailaConfigScreen extends TabbedConfigScreen {
         this.theme = theme;
     }
 
-    public void removeTheme(ResourceLocation id) {
+    public void removeTheme(Identifier id) {
         get().getOverlay().getColor().getCustomThemes().remove(id);
         ThemeDefinition.resetAll();
 
@@ -121,7 +121,7 @@ public class WailaConfigScreen extends TabbedConfigScreen {
 
     private ThemeDefinition<?> getTheme() {
         if (theme == null) {
-            theme = ThemeDefinition.getAll().get(ResourceLocation.parse(themeIdVal.getValue()));
+            theme = ThemeDefinition.getAll().get(Identifier.parse(themeIdVal.getValue()));
         }
         return theme;
     }
@@ -362,7 +362,7 @@ public class WailaConfigScreen extends TabbedConfigScreen {
             super(Tl.Config.OVERLAY_THEME,
                 ThemeDefinition.getAll().values().stream().map(t -> t.id.toString()).sorted(String::compareToIgnoreCase).toArray(String[]::new),
                 get().getOverlay().getColor().getActiveTheme().toString(),
-                val -> get().getOverlay().getColor().applyTheme(ResourceLocation.parse(val)),
+                val -> get().getOverlay().getColor().applyTheme(Identifier.parse(val)),
                 false);
 
             this.editButton = createButton(0, 0, 40, 20, Component.translatable(Tl.Config.EDIT), button ->
@@ -374,7 +374,7 @@ public class WailaConfigScreen extends TabbedConfigScreen {
         }
 
         private void reloadEditButton() {
-            editButton.active = !ThemeDefinition.getAll().get(ResourceLocation.parse(getValue())).builtin;
+            editButton.active = !ThemeDefinition.getAll().get(Identifier.parse(getValue())).builtin;
         }
 
         @Override

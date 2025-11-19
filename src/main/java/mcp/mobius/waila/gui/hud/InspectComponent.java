@@ -4,7 +4,7 @@ import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.registry.PluginAware;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 public class InspectComponent implements ITooltipComponent {
@@ -13,15 +13,15 @@ public class InspectComponent implements ITooltipComponent {
 
     public final ITooltipComponent actual;
     public final PluginAware<?> origin;
-    public final @Nullable ResourceLocation tag;
+    public final @Nullable Identifier tag;
 
-    private InspectComponent(ITooltipComponent actual, PluginAware<?> origin, @Nullable ResourceLocation tag) {
+    private InspectComponent(ITooltipComponent actual, PluginAware<?> origin, @Nullable Identifier tag) {
         this.actual = actual;
         this.origin = origin;
         this.tag = tag;
     }
 
-    public static @Nullable ITooltipComponent maybeWrap(@Nullable ITooltipComponent actual, @Nullable PluginAware<?> origin, @Nullable ResourceLocation tag) {
+    public static @Nullable ITooltipComponent maybeWrap(@Nullable ITooltipComponent actual, @Nullable PluginAware<?> origin, @Nullable Identifier tag) {
         if (!wrap || actual == null || origin == null || actual instanceof InspectComponent) {
             return actual;
         }
@@ -52,7 +52,7 @@ public class InspectComponent implements ITooltipComponent {
 
         public final HorizontalGrowing actual;
 
-        public Growing(HorizontalGrowing actual, PluginAware<?> origin, ResourceLocation tag) {
+        public Growing(HorizontalGrowing actual, PluginAware<?> origin, Identifier tag) {
             super(actual, origin, tag);
             this.actual = actual;
         }

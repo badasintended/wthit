@@ -5,14 +5,14 @@ import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.component.ColorComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public enum LongTest implements IBlockComponentProvider {
 
     INSTANCE;
 
-    static final ResourceLocation ENABLED = ResourceLocation.parse("test:long.enabled");
-    static final ResourceLocation WIDTH = ResourceLocation.parse("test:long.width");
+    static final Identifier ENABLED = Identifier.parse("test:long.enabled");
+    static final Identifier WIDTH = Identifier.parse("test:long.width");
 
     @Override
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {

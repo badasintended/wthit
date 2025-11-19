@@ -6,14 +6,14 @@ import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.registry.Registrar;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
-public record DataType<D extends IData>(ResourceLocation id) implements IData.Type<D> {
+public record DataType<D extends IData>(Identifier id) implements IData.Type<D> {
 
     public static final StreamCodec<RegistryFriendlyByteBuf, IData> CODEC = new StreamCodec<>() {
         @Override
         public IData decode(RegistryFriendlyByteBuf buf) {
-            var id = buf.readResourceLocation();
+            var id = buf.readIdentifier();
             var codec = Registrar.get().dataCodecs.get(id);
             if (codec == null) {
                 throw new EncoderException("[%s] Received unknown data type [%s]".formatted(WailaConstants.MOD_NAME, id));
@@ -35,7 +35,7 @@ public record DataType<D extends IData>(ResourceLocation id) implements IData.Ty
             }
 
             try {
-                buf.writeResourceLocation(id);
+                buf.writeIdentifier(id);
                 codec.encode(buf, data);
             } catch (Exception e) {
                 throw new EncoderException("[%s] Failed to encode data [%s]".formatted(WailaConstants.MOD_NAME, data.type().id()), e);

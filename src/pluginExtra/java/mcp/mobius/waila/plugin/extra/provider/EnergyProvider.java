@@ -15,7 +15,7 @@ import mcp.mobius.waila.api.util.WNumbers;
 import mcp.mobius.waila.plugin.extra.data.EnergyDataImpl;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -29,7 +29,7 @@ public class EnergyProvider extends DataProvider<EnergyData, EnergyDataImpl> {
 
     private static final String INFINITE = "∞";
 
-    private static final ResourceLocation INFINITE_TAG_ID = ResourceLocation.fromNamespaceAndPath(WailaConstants.NAMESPACE, "extra/infinite_energy");
+    private static final Identifier INFINITE_TAG_ID = Identifier.fromNamespaceAndPath(WailaConstants.NAMESPACE, "extra/infinite_energy");
     private static final TagKey<Block> INFINITE_BLOCK_TAG = TagKey.create(Registries.BLOCK, INFINITE_TAG_ID);
     private static final TagKey<BlockEntityType<?>> INFINITE_BLOCK_ENTITY_TAG = TagKey.create(Registries.BLOCK_ENTITY_TYPE, INFINITE_TAG_ID);
     private static final TagKey<EntityType<?>> INFINITE_ENTITY_TAG = TagKey.create(Registries.ENTITY_TYPE, INFINITE_TAG_ID);
@@ -45,7 +45,7 @@ public class EnergyProvider extends DataProvider<EnergyData, EnergyDataImpl> {
     }
 
     @Override
-    protected void appendBody(ITooltip tooltip, EnergyDataImpl energy, IPluginConfig config, ResourceLocation objectId) {
+    protected void appendBody(ITooltip tooltip, EnergyDataImpl energy, IPluginConfig config, Identifier objectId) {
         var desc = EnergyDataImpl.Description.get(objectId.getNamespace());
 
         var stored = energy.stored();

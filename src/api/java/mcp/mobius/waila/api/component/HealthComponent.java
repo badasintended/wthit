@@ -5,7 +5,7 @@ import mcp.mobius.waila.api.__internal__.ApiSide;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 
 /**
@@ -14,11 +14,11 @@ import net.minecraft.util.Mth;
 @ApiSide.ClientOnly
 public class HealthComponent implements ITooltipComponent {
 
-    private static final ResourceLocation SPRITE_CONTAINER = ResourceLocation.withDefaultNamespace("hud/heart/container");
-    private static final ResourceLocation SPRITE_NORMAL_FULL = ResourceLocation.withDefaultNamespace("hud/heart/full");
-    private static final ResourceLocation SPRITE_NORMAL_HALF = ResourceLocation.withDefaultNamespace("hud/heart/half");
-    private static final ResourceLocation SPRITE_ABSORBING_FULL = ResourceLocation.withDefaultNamespace("hud/heart/absorbing_full");
-    private static final ResourceLocation SPRITE_ABSORBING_HALF = ResourceLocation.withDefaultNamespace("hud/heart/absorbing_half");
+    private static final Identifier SPRITE_CONTAINER = Identifier.withDefaultNamespace("hud/heart/container");
+    private static final Identifier SPRITE_NORMAL_FULL = Identifier.withDefaultNamespace("hud/heart/full");
+    private static final Identifier SPRITE_NORMAL_HALF = Identifier.withDefaultNamespace("hud/heart/half");
+    private static final Identifier SPRITE_ABSORBING_FULL = Identifier.withDefaultNamespace("hud/heart/absorbing_full");
+    private static final Identifier SPRITE_ABSORBING_HALF = Identifier.withDefaultNamespace("hud/heart/absorbing_half");
 
     /**
      * @param health     the health point, 1 full icon represent 2 hp

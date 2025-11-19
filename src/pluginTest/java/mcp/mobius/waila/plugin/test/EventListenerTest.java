@@ -1,6 +1,6 @@
 package mcp.mobius.waila.plugin.test;
 
-import java.awt.Rectangle;
+import java.awt.*;
 
 import mcp.mobius.waila.api.ICommonAccessor;
 import mcp.mobius.waila.api.IEventListener;
@@ -9,7 +9,7 @@ import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.WailaConstants;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
@@ -17,10 +17,10 @@ public enum EventListenerTest implements IEventListener {
 
     INSTANCE;
 
-    static final ResourceLocation HANDLE_TOOLTIP = ResourceLocation.parse("test:event.handle_tooltip");
-    static final ResourceLocation BEFORE_RENDER = ResourceLocation.parse("test:event.before_render");
-    static final ResourceLocation AFTER_RENDER = ResourceLocation.parse("test:event.after_render");
-    static final ResourceLocation ITEM_MOD_NAME = ResourceLocation.parse("test:event.item_mod_name");
+    static final Identifier HANDLE_TOOLTIP = Identifier.parse("test:event.handle_tooltip");
+    static final Identifier BEFORE_RENDER = Identifier.parse("test:event.before_render");
+    static final Identifier AFTER_RENDER = Identifier.parse("test:event.after_render");
+    static final Identifier ITEM_MOD_NAME = Identifier.parse("test:event.item_mod_name");
 
     @Override
     public void onHandleTooltip(ITooltip tooltip, ICommonAccessor accessor, IPluginConfig config) {

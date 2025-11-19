@@ -26,7 +26,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
@@ -35,11 +35,11 @@ public enum HarvestProvider implements IBlockComponentProvider, IEventListener {
 
     INSTANCE;
 
-    private static final ResourceLocation CLASSIC_HARVESTABLE = Options.rl("classic.harvestable");
-    private static final ResourceLocation CLASSIC_EFFECTIVE_TOOL = Options.rl("classic.effective_tool");
-    private static final ResourceLocation CLASSIC_LEVEL = Options.rl("classic.level");
+    private static final Identifier CLASSIC_HARVESTABLE = Options.rl("classic.harvestable");
+    private static final Identifier CLASSIC_EFFECTIVE_TOOL = Options.rl("classic.effective_tool");
+    private static final Identifier CLASSIC_LEVEL = Options.rl("classic.level");
 
-    private static final ResourceLocation CLASSIC_MINIMAL = Options.rl("classic.minimal");
+    private static final Identifier CLASSIC_MINIMAL = Options.rl("classic.minimal");
 
     private static final ToolType UNBREAKABLE = new ToolType();
 

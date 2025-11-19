@@ -9,7 +9,7 @@ import com.google.common.base.Preconditions;
 import mcp.mobius.waila.api.IData;
 import mcp.mobius.waila.api.IDataWriter;
 import mcp.mobius.waila.api.__internal__.IExtraService;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.ApiStatus;
@@ -20,12 +20,12 @@ import org.jetbrains.annotations.ApiStatus;
 @ApiStatus.NonExtendable
 public abstract class ProgressData implements IData {
 
-    public static final ResourceLocation ID = BuiltinDataUtil.rl("progress");
+    public static final Identifier ID = BuiltinDataUtil.rl("progress");
     public static final Type<ProgressData> TYPE = IData.createType(ID);
 
-    public static final ResourceLocation CONFIG_TIME = BuiltinDataUtil.rl("progress.time");
-    public static final ResourceLocation CONFIG_BAR_HEIGHT = BuiltinDataUtil.rl("progress.height");
-    public static final ResourceLocation CONFIG_REPLACE_ITEMS = BuiltinDataUtil.rl("progress.replace_items");
+    public static final Identifier CONFIG_TIME = BuiltinDataUtil.rl("progress.time");
+    public static final Identifier CONFIG_BAR_HEIGHT = BuiltinDataUtil.rl("progress.height");
+    public static final Identifier CONFIG_REPLACE_ITEMS = BuiltinDataUtil.rl("progress.replace_items");
 
     /**
      * Creates a progress data.

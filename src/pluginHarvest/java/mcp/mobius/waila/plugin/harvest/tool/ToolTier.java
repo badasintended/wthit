@@ -11,7 +11,7 @@ import mcp.mobius.waila.api.__internal__.Internals;
 import mcp.mobius.waila.buildconst.Tl;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ToolMaterial;
@@ -22,7 +22,7 @@ public final class ToolTier {
 
     public static final ToolTier NONE = Internals.unsafeAlloc(ToolTier.class);
 
-    private static final Supplier<Map<ResourceLocation, String>> VANILLA_TIER_TL_KEYS = Suppliers.memoize(() -> Map.of(
+    private static final Supplier<Map<Identifier, String>> VANILLA_TIER_TL_KEYS = Suppliers.memoize(() -> Map.of(
         ToolMaterial.WOOD.incorrectBlocksForDrops().location(), "wood",
         ToolMaterial.STONE.incorrectBlocksForDrops().location(), "stone",
         ToolMaterial.IRON.incorrectBlocksForDrops().location(), "iron",
@@ -31,7 +31,7 @@ public final class ToolTier {
         ToolMaterial.NETHERITE.incorrectBlocksForDrops().location(), "netherite"
     ));
 
-    private static Supplier<Map<ResourceLocation, ToolTier>> tiers;
+    private static Supplier<Map<Identifier, ToolTier>> tiers;
 
     public final ToolMaterial tier;
     public final int index;
@@ -58,7 +58,7 @@ public final class ToolTier {
 
     public static void resetMap() {
         tiers = Suppliers.memoize(() -> {
-            var map = new LinkedHashMap<ResourceLocation, ToolTier>();
+            var map = new LinkedHashMap<Identifier, ToolTier>();
             var index = 0;
             for (var tier : IApiService.INSTANCE.getTiers()) {
                 var key = tier.incorrectBlocksForDrops().location();

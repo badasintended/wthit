@@ -2,7 +2,7 @@ package mcp.mobius.waila.api;
 
 import mcp.mobius.waila.api.__internal__.IApiService;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
@@ -20,7 +20,7 @@ public interface IModInfo {
         return IApiService.INSTANCE.getModInfo(namespace);
     }
 
-    static IModInfo get(ResourceLocation id) {
+    static IModInfo get(Identifier id) {
         return get(id.getNamespace());
     }
 

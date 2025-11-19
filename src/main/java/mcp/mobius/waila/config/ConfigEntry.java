@@ -10,7 +10,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonPrimitive;
 import mcp.mobius.waila.api.IPluginInfo;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 @SuppressWarnings({"rawtypes"})
@@ -24,7 +24,7 @@ public class ConfigEntry<T> {
     public static final Type<Path> PATH = new Type<>((e, d) -> d, e -> JsonNull.INSTANCE);
 
     private final IPluginInfo origin;
-    private final ResourceLocation id;
+    private final Identifier id;
     private final T defaultValue;
     private final T clientOnlyValue;
     private final boolean serverRequired;
@@ -35,7 +35,7 @@ public class ConfigEntry<T> {
     private @Nullable T serverValue;
     private T localValue;
 
-    private ConfigEntry(IPluginInfo origin, ResourceLocation id, T defaultValue, T clientOnlyValue, boolean serverRequired, boolean merged, Type<T> type) {
+    private ConfigEntry(IPluginInfo origin, Identifier id, T defaultValue, T clientOnlyValue, boolean serverRequired, boolean merged, Type<T> type) {
         this.origin = origin;
         this.id = id;
         this.defaultValue = defaultValue;
@@ -54,7 +54,7 @@ public class ConfigEntry<T> {
         return origin;
     }
 
-    public ResourceLocation getId() {
+    public Identifier getId() {
         return id;
     }
 
@@ -122,7 +122,7 @@ public class ConfigEntry<T> {
         return this;
     }
 
-    public Alias<T> createAlias(ResourceLocation id) {
+    public Alias<T> createAlias(Identifier id) {
         return new Alias<>(id, getActual());
     }
 
@@ -146,7 +146,7 @@ public class ConfigEntry<T> {
             this.serializer = serializer;
         }
 
-        public ConfigEntry<T> create(IPluginInfo origin, ResourceLocation id, T defaultValue, T clientOnlyValue, boolean serverRequired, boolean merged) {
+        public ConfigEntry<T> create(IPluginInfo origin, Identifier id, T defaultValue, T clientOnlyValue, boolean serverRequired, boolean merged) {
             return new ConfigEntry<>(origin, id, defaultValue, clientOnlyValue, serverRequired, merged, this);
         }
 
@@ -156,7 +156,7 @@ public class ConfigEntry<T> {
 
         public final ConfigEntry<T> delegate;
 
-        private Alias(ResourceLocation id, ConfigEntry<T> delegate) {
+        private Alias(Identifier id, ConfigEntry<T> delegate) {
             super(delegate.origin, id, delegate.defaultValue, delegate.clientOnlyValue, delegate.serverRequired, delegate.merged, delegate.type);
             this.delegate = delegate;
         }

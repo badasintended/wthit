@@ -58,10 +58,6 @@ sourceSets {
 loom {
     interfaceInjection.enableDependencyInterfaceInjection.set(false)
 
-    mixin {
-        add(sourceSets["main"], "wthit.refmap.json")
-    }
-
     runs {
         getByName("client") {
             programArgs("--username", "A")

@@ -5,7 +5,7 @@ import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.component.ColorComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.Nullable;
 
@@ -13,7 +13,7 @@ public enum CustomIconTest implements IBlockComponentProvider {
 
     INSTANCE;
 
-    public static final ResourceLocation ENABLED = ResourceLocation.parse("test:custom_icon.enabled");
+    public static final Identifier ENABLED = Identifier.parse("test:custom_icon.enabled");
 
     @Nullable
     @Override

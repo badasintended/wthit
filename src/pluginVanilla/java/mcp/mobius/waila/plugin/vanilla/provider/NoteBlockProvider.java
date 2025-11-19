@@ -9,8 +9,8 @@ import mcp.mobius.waila.mixin.NoteBlockAccess;
 import mcp.mobius.waila.plugin.vanilla.config.NoteDisplayMode;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.ChatFormatting;
-import net.minecraft.Util;
 import net.minecraft.network.chat.Component;
+import net.minecraft.util.Util;
 import net.minecraft.world.level.block.NoteBlock;
 
 import static net.minecraft.util.Mth.clamp;

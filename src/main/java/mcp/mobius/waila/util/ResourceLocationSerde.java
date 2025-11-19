@@ -9,20 +9,20 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
-public enum ResourceLocationSerde implements JsonSerializer<ResourceLocation>, JsonDeserializer<ResourceLocation> {
+public enum ResourceLocationSerde implements JsonSerializer<Identifier>, JsonDeserializer<Identifier> {
 
     INSTANCE;
 
     @Override
-    public JsonElement serialize(ResourceLocation src, Type typeOfSrc, JsonSerializationContext context) {
+    public JsonElement serialize(Identifier src, Type typeOfSrc, JsonSerializationContext context) {
         return new JsonPrimitive(src.toString());
     }
 
     @Override
-    public ResourceLocation deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        return ResourceLocation.parse(json.getAsString());
+    public Identifier deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+        return Identifier.parse(json.getAsString());
     }
 
 }

@@ -13,13 +13,13 @@ import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class PluginSyncCommonS2CPacket implements Packet {
 
     public static final CustomPacketPayload.Type<Payload> TYPE = new CustomPacketPayload.Type<>(Waila.id("plugin"));
     public static final StreamCodec<FriendlyByteBuf, Payload> CODEC = StreamCodec.composite(
-        ByteBufCodecs.collection(ArrayList::new, ResourceLocation.STREAM_CODEC), Payload::plugins,
+        ByteBufCodecs.collection(ArrayList::new, Identifier.STREAM_CODEC), Payload::plugins,
         Payload::new);
 
     @Override
@@ -45,7 +45,7 @@ public class PluginSyncCommonS2CPacket implements Packet {
     }
 
     public record Payload(
-        List<ResourceLocation> plugins
+        List<Identifier> plugins
     ) implements CustomPacketPayload {
 
         public Payload() {

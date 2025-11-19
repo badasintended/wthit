@@ -4,13 +4,13 @@ import mcp.mobius.waila.api.IBlockAccessor;
 import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITooltip;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public enum ErrorTest implements IBlockComponentProvider {
 
     INSTANCE;
 
-    public static final ResourceLocation ENABLED = ResourceLocation.parse("test:error.enabled");
+    public static final Identifier ENABLED = Identifier.parse("test:error.enabled");
 
     @Override
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {

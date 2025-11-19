@@ -8,7 +8,7 @@ import java.util.function.IntFunction;
 import mcp.mobius.waila.api.IData;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.__internal__.IExtraService;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.ApiStatus;
@@ -19,14 +19,14 @@ import org.jetbrains.annotations.ApiStatus;
 @ApiStatus.NonExtendable
 public abstract class ItemData implements IData {
 
-    public static final ResourceLocation ID = BuiltinDataUtil.rl("item");
+    public static final Identifier ID = BuiltinDataUtil.rl("item");
     public static final Type<ItemData> TYPE = IData.createType(ID);
 
-    public static final ResourceLocation CONFIG_SYNC_NBT = BuiltinDataUtil.rl("item.nbt");
-    public static final ResourceLocation CONFIG_DISPLAY_MODE = BuiltinDataUtil.rl("item.display_mode");
-    public static final ResourceLocation CONFIG_MAX_HEIGHT = BuiltinDataUtil.rl("item.max_height");
-    public static final ResourceLocation CONFIG_SORT_BY_COUNT = BuiltinDataUtil.rl("item.sort_by_count");
-    public static final ResourceLocation CONFIG_GRID_MODE_SCALE = BuiltinDataUtil.rl("item.grid_mode_scale");
+    public static final Identifier CONFIG_SYNC_NBT = BuiltinDataUtil.rl("item.nbt");
+    public static final Identifier CONFIG_DISPLAY_MODE = BuiltinDataUtil.rl("item.display_mode");
+    public static final Identifier CONFIG_MAX_HEIGHT = BuiltinDataUtil.rl("item.max_height");
+    public static final Identifier CONFIG_SORT_BY_COUNT = BuiltinDataUtil.rl("item.sort_by_count");
+    public static final Identifier CONFIG_GRID_MODE_SCALE = BuiltinDataUtil.rl("item.grid_mode_scale");
 
     public enum ItemDisplayMode {
         GRID, LIST, DYNAMIC

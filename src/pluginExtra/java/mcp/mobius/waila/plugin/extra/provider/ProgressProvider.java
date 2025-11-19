@@ -11,7 +11,7 @@ import mcp.mobius.waila.api.data.ProgressData;
 import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.plugin.extra.data.ProgressDataImpl;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class ProgressProvider extends DataProvider<ProgressData, ProgressDataImpl> {
 
@@ -60,7 +60,7 @@ public class ProgressProvider extends DataProvider<ProgressData, ProgressDataImp
     }
 
     @Override
-    protected void appendBody(ITooltip tooltip, ProgressDataImpl progress, IPluginConfig config, ResourceLocation objectId) {
+    protected void appendBody(ITooltip tooltip, ProgressDataImpl progress, IPluginConfig config, Identifier objectId) {
         if (progress.hasTick) {
             var current = progress.currentTick;
             var max = progress.maxTick;

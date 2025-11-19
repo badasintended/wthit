@@ -3,7 +3,7 @@ package mcp.mobius.waila.api;
 import java.util.function.Predicate;
 
 import mcp.mobius.waila.api.__internal__.IHarvestService;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -49,7 +49,7 @@ public interface IToolType {
          */
         Builder2 blockTag(TagKey<Block> tag);
 
-        Builder2 blockTag(ResourceLocation tag);
+        Builder2 blockTag(Identifier tag);
 
     }
 
@@ -65,7 +65,7 @@ public interface IToolType {
          */
         Builder3 itemTag(TagKey<Item> tag);
 
-        Builder3 itemTag(ResourceLocation tag);
+        Builder3 itemTag(Identifier tag);
 
     }
 

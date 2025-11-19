@@ -7,7 +7,7 @@ import mcp.mobius.waila.api.IEntityAccessor;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -33,7 +33,7 @@ public enum ClientAccessor implements ICommonAccessor, IBlockAccessor, IEntityAc
     private Block block = Blocks.AIR;
     private BlockState state = Blocks.AIR.defaultBlockState();
     private BlockPos pos = BlockPos.ZERO;
-    private ResourceLocation blockRegistryName = BuiltInRegistries.ITEM.getDefaultKey();
+    private Identifier blockRegistryName = BuiltInRegistries.ITEM.getDefaultKey();
     private @Nullable BlockEntity blockEntity;
     private @Nullable Entity entity;
     private long timeLastUpdate = System.currentTimeMillis();
@@ -127,7 +127,7 @@ public enum ClientAccessor implements ICommonAccessor, IBlockAccessor, IEntityAc
     }
 
     @Override
-    public ResourceLocation getBlockId() {
+    public Identifier getBlockId() {
         return blockRegistryName;
     }
 

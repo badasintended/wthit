@@ -24,7 +24,7 @@ import mcp.mobius.waila.plugin.extra.config.ExtraBlacklistConfig;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
@@ -35,8 +35,8 @@ public abstract class DataProvider<A extends IData, I extends A> implements IBlo
     private final IData.Type<A> type;
     private final StreamCodec<RegistryFriendlyByteBuf, I> codec;
 
-    protected final ResourceLocation enabledBlockOption;
-    protected final ResourceLocation enabledEntityOption;
+    protected final Identifier enabledBlockOption;
+    protected final Identifier enabledEntityOption;
     protected final IJsonConfig<ExtraBlacklistConfig> blacklistConfig;
 
     protected DataProvider(IData.Type<A> type, StreamCodec<RegistryFriendlyByteBuf, I> codec) {
@@ -46,7 +46,7 @@ public abstract class DataProvider<A extends IData, I extends A> implements IBlo
         enabledBlockOption = createConfigKey("enabled_block");
         enabledEntityOption = createConfigKey("enabled_entity");
 
-        var tagId = ResourceLocation.fromNamespaceAndPath(WailaConstants.NAMESPACE, "extra/" + type.id().getPath() + "_blacklist");
+        var tagId = Identifier.fromNamespaceAndPath(WailaConstants.NAMESPACE, "extra/" + type.id().getPath() + "_blacklist");
 
         blacklistConfig = IJsonConfig.of(ExtraBlacklistConfig.class)
             .file(WailaConstants.NAMESPACE + "/extra/" + type.id().getPath() + "_blacklist")
@@ -81,8 +81,8 @@ public abstract class DataProvider<A extends IData, I extends A> implements IBlo
         registrar.body((IEntityComponentProvider) this, Entity.class, priority);
     }
 
-    protected final ResourceLocation createConfigKey(String path) {
-        return ResourceLocation.fromNamespaceAndPath(WailaConstants.NAMESPACE + "x", type.id().getPath() + "." + path);
+    protected final Identifier createConfigKey(String path) {
+        return Identifier.fromNamespaceAndPath(WailaConstants.NAMESPACE + "x", type.id().getPath() + "." + path);
     }
 
     protected void registerAdditions(ICommonRegistrar registrar, int priority) {
@@ -91,10 +91,10 @@ public abstract class DataProvider<A extends IData, I extends A> implements IBlo
     protected void registerAdditions(IClientRegistrar registrar, int priority) {
     }
 
-    protected abstract void appendBody(ITooltip tooltip, I i, IPluginConfig config, ResourceLocation objectId);
+    protected abstract void appendBody(ITooltip tooltip, I i, IPluginConfig config, Identifier objectId);
 
     @SuppressWarnings("unchecked")
-    protected void appendBody(ITooltip tooltip, IDataReader reader, IPluginConfig config, ResourceLocation objectId) {
+    protected void appendBody(ITooltip tooltip, IDataReader reader, IPluginConfig config, Identifier objectId) {
         var data = (I) reader.get(type);
         if (data == null) return;
 

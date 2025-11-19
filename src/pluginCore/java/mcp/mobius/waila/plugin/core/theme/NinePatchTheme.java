@@ -20,7 +20,7 @@ import net.minecraft.client.gui.render.state.GuiElementRenderState;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
@@ -45,7 +45,7 @@ public class NinePatchTheme implements ITheme {
         TILE, STRETCH
     }
 
-    private static final ResourceLocation PATH_TEXTURE_ID = ResourceLocation.fromNamespaceAndPath(WailaConstants.NAMESPACE, "nine_patch_path");
+    private static final Identifier PATH_TEXTURE_ID = Identifier.fromNamespaceAndPath(WailaConstants.NAMESPACE, "nine_patch_path");
 
     private String texture;
     private boolean useResourcePack;
@@ -71,13 +71,16 @@ public class NinePatchTheme implements ITheme {
 
         var textureManager = Minecraft.getInstance().getTextureManager();
         if (useResourcePack) {
-            textureSetup = TextureSetup.singleTexture(textureManager.getTexture(ResourceLocation.parse(texture)).getTextureView());
+            var texture = textureManager.getTexture(Identifier.parse(this.texture));
+            textureSetup = TextureSetup.singleTexture(texture.getTextureView(), texture.getSampler());
         } else {
             try {
                 var image = NativeImage.read(Files.newInputStream(accessor.getPath(texture)));
-                textureSetup = TextureSetup.singleTexture(new DynamicTexture(() -> "WTHIT NinePatchTheme", image).getTextureView());
+                var texture = new DynamicTexture(() -> "WTHIT NinePatchTheme", image);
+                textureSetup = TextureSetup.singleTexture(texture.getTextureView(), texture.getSampler());
             } catch (Exception e) {
-                textureSetup = TextureSetup.singleTexture(textureManager.getTexture(TextureManager.INTENTIONAL_MISSING_TEXTURE).getTextureView());
+                var texture = textureManager.getTexture(TextureManager.INTENTIONAL_MISSING_TEXTURE);
+                textureSetup = TextureSetup.singleTexture(texture.getTextureView(), texture.getSampler());
             }
         }
 

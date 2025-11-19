@@ -9,7 +9,7 @@ import mcp.mobius.waila.api.IServerAccessor;
 import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.component.PairComponent;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.phys.BlockHitResult;
 
@@ -17,7 +17,7 @@ public enum HitResultServerDependantTest implements IBlockComponentProvider, IDa
 
     INSTANCE;
 
-    static final ResourceLocation ENABLED = ResourceLocation.parse("test:hit_result.enabled");
+    static final Identifier ENABLED = Identifier.parse("test:hit_result.enabled");
 
     @Override
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {

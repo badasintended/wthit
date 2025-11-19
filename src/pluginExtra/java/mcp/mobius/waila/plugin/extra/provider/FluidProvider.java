@@ -14,7 +14,7 @@ import mcp.mobius.waila.api.util.WNumbers;
 import mcp.mobius.waila.plugin.extra.data.FluidDataImpl;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
 
 public class FluidProvider extends DataProvider<FluidData, FluidDataImpl> {
@@ -38,7 +38,7 @@ public class FluidProvider extends DataProvider<FluidData, FluidDataImpl> {
     }
 
     @Override
-    protected void appendBody(ITooltip tooltip, FluidDataImpl data, IPluginConfig config, ResourceLocation objectId) {
+    protected void appendBody(ITooltip tooltip, FluidDataImpl data, IPluginConfig config, Identifier objectId) {
         addFluidTooltip(tooltip, data, config);
     }
 

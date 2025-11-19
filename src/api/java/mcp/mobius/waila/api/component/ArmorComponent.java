@@ -5,7 +5,7 @@ import mcp.mobius.waila.api.__internal__.ApiSide;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 
 /**
@@ -14,8 +14,8 @@ import net.minecraft.util.Mth;
 @ApiSide.ClientOnly
 public class ArmorComponent implements ITooltipComponent {
 
-    private static final ResourceLocation SPRITE_FULL = ResourceLocation.withDefaultNamespace("hud/armor_full");
-    private static final ResourceLocation SPRITE_HALF = ResourceLocation.withDefaultNamespace("hud/armor_half");
+    private static final Identifier SPRITE_FULL = Identifier.withDefaultNamespace("hud/armor_full");
+    private static final Identifier SPRITE_HALF = Identifier.withDefaultNamespace("hud/armor_half");
 
     /**
      * @param armor      the armor points, 1 full icon represent 2 points

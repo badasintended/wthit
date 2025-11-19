@@ -1,7 +1,7 @@
 package mcp.mobius.waila.api.__internal__;
 
 import mcp.mobius.waila.api.IToolType;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.ApiStatus;
 
 /** @hidden */
@@ -10,7 +10,7 @@ public interface IHarvestService {
 
     IHarvestService INSTANCE = Internals.loadService(IHarvestService.class);
 
-    void addToolType(ResourceLocation id, IToolType toolType);
+    void addToolType(Identifier id, IToolType toolType);
 
     IToolType.Builder0 createToolTypeBuilder();
 

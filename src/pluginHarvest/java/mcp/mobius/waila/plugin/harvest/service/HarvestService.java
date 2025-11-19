@@ -5,12 +5,12 @@ import mcp.mobius.waila.api.__internal__.IHarvestService;
 import mcp.mobius.waila.plugin.harvest.provider.HarvestProvider;
 import mcp.mobius.waila.plugin.harvest.tool.ToolTier;
 import mcp.mobius.waila.plugin.harvest.tool.ToolType;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class HarvestService implements IHarvestService {
 
     @Override
-    public void addToolType(ResourceLocation id, IToolType toolType) {
+    public void addToolType(Identifier id, IToolType toolType) {
         ((ToolType) toolType).bind(id);
     }
 

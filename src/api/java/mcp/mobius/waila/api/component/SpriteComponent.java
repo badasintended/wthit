@@ -5,18 +5,18 @@ import mcp.mobius.waila.api.__internal__.ApiSide;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderPipelines;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 @ApiSide.ClientOnly
 public class SpriteComponent implements ITooltipComponent {
 
-    public SpriteComponent(ResourceLocation id, int width, int height) {
+    public SpriteComponent(Identifier id, int width, int height) {
         this.id = id;
         this.width = width;
         this.height = height;
     }
 
-    private final ResourceLocation id;
+    private final Identifier id;
     private final int width, height;
 
     @Override

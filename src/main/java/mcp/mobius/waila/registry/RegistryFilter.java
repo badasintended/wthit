@@ -18,8 +18,8 @@ import mcp.mobius.waila.util.Log;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import org.jetbrains.annotations.Nullable;
 
@@ -121,7 +121,7 @@ public class RegistryFilter<T> implements IRegistryFilter<T> {
 
         public Builder(ResourceKey<? extends Registry<T>> registryKey) {
             if (LOG.isDebugEnabled()) {
-                LOG.debug("Start filter for {}", registryKey.location());
+                LOG.debug("Start filter for {}", registryKey.identifier());
                 stopwatch = Stopwatch.createStarted();
             } else {
                 stopwatch = null;
@@ -147,11 +147,11 @@ public class RegistryFilter<T> implements IRegistryFilter<T> {
                 case '@' -> {
                     LOG.debug("\tNegate: {}, Namespace: {}", negate, rule);
                     var namespace = rule.substring(1);
-                    rules.add(new Rule<>(negate, it -> it.key().location().getNamespace().equals(namespace)));
+                    rules.add(new Rule<>(negate, it -> it.key().identifier().getNamespace().equals(namespace)));
                 }
                 case '#' -> {
                     LOG.debug("\tNegate: {}, Tag      : {}", negate, rule);
-                    var tagId = ResourceLocation.parse(rule.substring(1));
+                    var tagId = Identifier.parse(rule.substring(1));
                     var tag = TagKey.create(registryKey, tagId);
                     rules.add(new Rule<>(negate, it -> it.is(tag)));
                 }
@@ -159,11 +159,11 @@ public class RegistryFilter<T> implements IRegistryFilter<T> {
                     LOG.debug("\tNegate: {}, Regex    : {}", negate, rule);
                     Preconditions.checkArgument(rule.endsWith("/"), "Regex filter must also ends with /");
                     var pattern = Pattern.compile(rule.substring(1, rule.length() - 1));
-                    rules.add(new Rule<>(negate, it -> pattern.matcher(it.key().location().toString()).matches()));
+                    rules.add(new Rule<>(negate, it -> pattern.matcher(it.key().identifier().toString()).matches()));
                 }
                 default -> {
                     LOG.debug("\tNegate: {}, ID       : {}", negate, rule);
-                    rules.add(new Rule<>(negate, it -> it.is(ResourceLocation.parse(rule))));
+                    rules.add(new Rule<>(negate, it -> it.is(Identifier.parse(rule))));
                 }
             }
         }

@@ -2,7 +2,7 @@ package mcp.mobius.waila.api;
 
 import mcp.mobius.waila.api.__internal__.ApiSide;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
 
@@ -33,7 +33,7 @@ public interface ITooltip {
      *
      * @see WailaConstants
      */
-    ITooltipLine setLine(ResourceLocation tag);
+    ITooltipLine setLine(Identifier tag);
 
     /**
      * Returns the line with specified tag, if any.
@@ -41,7 +41,7 @@ public interface ITooltip {
      * @see WailaConstants
      */
     @Nullable
-    ITooltipLine getLine(ResourceLocation tag);
+    ITooltipLine getLine(Identifier tag);
 
     /**
      * Add a new line to the tooltip.
@@ -62,7 +62,7 @@ public interface ITooltip {
      *
      * @see WailaConstants
      */
-    default void setLine(ResourceLocation tag, Component component) {
+    default void setLine(Identifier tag, Component component) {
         setLine(tag).with(component);
     }
 
@@ -71,7 +71,7 @@ public interface ITooltip {
      *
      * @see WailaConstants
      */
-    default void setLine(ResourceLocation tag, ITooltipComponent component) {
+    default void setLine(Identifier tag, ITooltipComponent component) {
         setLine(tag).with(component);
     }
 

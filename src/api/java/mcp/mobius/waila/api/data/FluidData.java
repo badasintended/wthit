@@ -10,7 +10,7 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
@@ -25,10 +25,10 @@ import org.jetbrains.annotations.Nullable;
 @ApiStatus.NonExtendable
 public abstract class FluidData implements IData {
 
-    public static final ResourceLocation ID = BuiltinDataUtil.rl("fluid");
+    public static final Identifier ID = BuiltinDataUtil.rl("fluid");
     public static final Type<FluidData> TYPE = IData.createType(ID);
 
-    public static final ResourceLocation CONFIG_DISPLAY_UNIT = BuiltinDataUtil.rl("fluid.display_unit");
+    public static final Identifier CONFIG_DISPLAY_UNIT = BuiltinDataUtil.rl("fluid.display_unit");
 
     /**
      * Describes how the specific fluid will be shown in the client.

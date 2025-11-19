@@ -14,7 +14,7 @@ import com.google.gson.JsonSerializer;
 import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.api.IRegistryFilter;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -34,7 +34,7 @@ public class ExtraBlacklistConfig {
         return view;
     }
 
-    public static IJsonConfig.Commenter commenter(ResourceLocation tag) {
+    public static IJsonConfig.Commenter commenter(Identifier tag) {
         return p -> !p.isEmpty() ? null : """
             Run `/waila reload` to apply changes server-wide.
             Run `/wailac reload` to apply changes to only your client.
@@ -63,7 +63,7 @@ public class ExtraBlacklistConfig {
 
         private final String tagRule;
 
-        public Adapter(ResourceLocation tagId) {
+        public Adapter(Identifier tagId) {
             this.tagRule = "#" + tagId.toString();
         }
 

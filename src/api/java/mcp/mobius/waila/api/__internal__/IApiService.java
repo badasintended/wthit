@@ -15,8 +15,8 @@ import mcp.mobius.waila.api.IRegistryFilter;
 import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.IThemeType;
 import net.minecraft.core.Registry;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ToolMaterial;
 import org.jetbrains.annotations.ApiStatus;
@@ -37,7 +37,7 @@ public interface IApiService {
 
     IModInfo getModInfo(ItemStack stack);
 
-    IPluginInfo getPluginInfo(ResourceLocation pluginId);
+    IPluginInfo getPluginInfo(Identifier pluginId);
 
     Collection<IPluginInfo> getAllPluginInfoFromMod(String modId);
 
@@ -61,7 +61,7 @@ public interface IApiService {
 
     List<ToolMaterial> getTiers();
 
-    <D extends IData> IData.Type<D> createDataType(ResourceLocation id);
+    <D extends IData> IData.Type<D> createDataType(Identifier id);
 
     boolean isDevEnv();
 

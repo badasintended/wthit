@@ -6,13 +6,13 @@ import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public enum OverrideTest implements IBlockComponentProvider {
 
     INSTANCE;
 
-    static final ResourceLocation MOD_NAME = ResourceLocation.parse("test:override_mod_name");
+    static final Identifier MOD_NAME = Identifier.parse("test:override_mod_name");
 
     @Override
     public void appendTail(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {

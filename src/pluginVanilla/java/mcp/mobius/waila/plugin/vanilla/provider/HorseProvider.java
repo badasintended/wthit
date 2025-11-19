@@ -12,7 +12,7 @@ import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.ai.attributes.Attributes;
-import net.minecraft.world.entity.animal.horse.AbstractHorse;
+import net.minecraft.world.entity.animal.equine.AbstractHorse;
 
 public enum HorseProvider implements IEntityComponentProvider {
 

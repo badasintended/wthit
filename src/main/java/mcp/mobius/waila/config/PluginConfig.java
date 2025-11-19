@@ -22,7 +22,7 @@ import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.mcless.config.ConfigIo;
 import mcp.mobius.waila.util.Log;
 import net.minecraft.locale.Language;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 @SuppressWarnings("unchecked")
 public enum PluginConfig implements IPluginConfig {
@@ -41,7 +41,7 @@ public enum PluginConfig implements IPluginConfig {
 
             var namespace = p.get(0);
             var path = p.get(1);
-            var entry = getEntry(ResourceLocation.fromNamespaceAndPath(namespace, path));
+            var entry = getEntry(Identifier.fromNamespaceAndPath(namespace, path));
             var type = entry.getType();
 
             var sb = new StringBuilder();
@@ -98,24 +98,24 @@ public enum PluginConfig implements IPluginConfig {
         new TypeToken<Map<String, Map<String, JsonElement>>>() {}.getType(),
         LinkedHashMap::new);
 
-    private static final Map<ResourceLocation, ConfigEntry<Object>> CONFIGS = new LinkedHashMap<>();
+    private static final Map<Identifier, ConfigEntry<Object>> CONFIGS = new LinkedHashMap<>();
 
     public static <T> void addConfig(ConfigEntry<T> entry) {
         CONFIGS.put(entry.getId(), (ConfigEntry<Object>) entry);
     }
 
-    private static Stream<ResourceLocation> getKeyStream() {
+    private static Stream<Identifier> getKeyStream() {
         return CONFIGS.keySet().stream()
             .filter(it -> getEntry(it).getOrigin().isEnabled());
     }
 
-    public static Set<ResourceLocation> getAllKeys(String namespace) {
+    public static Set<Identifier> getAllKeys(String namespace) {
         return getKeyStream()
             .filter(id -> id.getNamespace().equals(namespace))
             .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
-    public static Set<ResourceLocation> getAllKeys() {
+    public static Set<Identifier> getAllKeys() {
         return getKeyStream().collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
@@ -127,17 +127,17 @@ public enum PluginConfig implements IPluginConfig {
 
     public static List<String> getNamespaces() {
         return CONFIGS.keySet().stream()
-            .map(ResourceLocation::getNamespace)
+            .map(Identifier::getNamespace)
             .distinct()
             .sorted((o1, o2) -> o1.equals(WailaConstants.NAMESPACE) ? -1 : o2.equals(WailaConstants.NAMESPACE) ? 1 : o1.compareToIgnoreCase(o2))
             .collect(Collectors.toList());
     }
 
-    public static <T> ConfigEntry<T> getEntry(ResourceLocation key) {
+    public static <T> ConfigEntry<T> getEntry(Identifier key) {
         return (ConfigEntry<T>) CONFIGS.get(key);
     }
 
-    public static <T> void set(ResourceLocation key, T value) {
+    public static <T> void set(Identifier key, T value) {
         var entry = (ConfigEntry<T>) CONFIGS.get(key);
         if (entry != null) {
             entry.setLocalValue(value);
@@ -151,7 +151,7 @@ public enum PluginConfig implements IPluginConfig {
 
         var config = IO.read(PATH);
         config.forEach((namespace, subMap) -> subMap.forEach((path, value) -> {
-            var entry = (ConfigEntry<Object>) CONFIGS.get(ResourceLocation.fromNamespaceAndPath(namespace, path));
+            var entry = (ConfigEntry<Object>) CONFIGS.get(Identifier.fromNamespaceAndPath(namespace, path));
             if (entry != null) try {
                 entry.setLocalValue(entry.getType().parser.apply(value, entry.getDefaultValue()));
             } catch (Throwable throwable) {
@@ -177,7 +177,7 @@ public enum PluginConfig implements IPluginConfig {
         IO.write(PATH, config);
     }
 
-    private <T> T getValue(ResourceLocation key, T defaultValue) {
+    private <T> T getValue(Identifier key, T defaultValue) {
         var entry = CONFIGS.get(key);
         if (entry != null && entry.getOrigin().isEnabled()) {
             return (T) entry.getValue(this == SERVER);
@@ -188,38 +188,38 @@ public enum PluginConfig implements IPluginConfig {
     }
 
     @Override
-    public Set<ResourceLocation> getKeys() {
+    public Set<Identifier> getKeys() {
         return getAllKeys();
     }
 
     @Override
-    public Set<ResourceLocation> getKeys(String namespace) {
+    public Set<Identifier> getKeys(String namespace) {
         return getAllKeys(namespace);
     }
 
     @Override
-    public boolean getBoolean(ResourceLocation key) {
+    public boolean getBoolean(Identifier key) {
         return getValue(key, false);
     }
 
     @Override
-    public int getInt(ResourceLocation key) {
+    public int getInt(Identifier key) {
         return getValue(key, 0);
     }
 
     @Override
-    public double getDouble(ResourceLocation key) {
+    public double getDouble(Identifier key) {
         return getValue(key, 0.0);
     }
 
     @Override
-    public String getString(ResourceLocation key) {
+    public String getString(Identifier key) {
         return getValue(key, "");
     }
 
     @Override
     @SuppressWarnings("DataFlowIssue")
-    public <T extends Enum<T>> T getEnum(ResourceLocation key) {
+    public <T extends Enum<T>> T getEnum(Identifier key) {
         return getValue(key, null);
     }
 

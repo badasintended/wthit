@@ -13,8 +13,8 @@ import mcp.mobius.waila.debug.DumpGenerator;
 import mcp.mobius.waila.mixin.BaseContainerBlockEntityAccess;
 import mcp.mobius.waila.network.play.s2c.GenerateClientDumpPlayS2CPacket;
 import mcp.mobius.waila.plugin.PluginLoader;
-import net.minecraft.advancements.critereon.DataComponentMatchers;
-import net.minecraft.advancements.critereon.ItemPredicate;
+import net.minecraft.advancements.criterion.DataComponentMatchers;
+import net.minecraft.advancements.criterion.ItemPredicate;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
@@ -41,14 +41,14 @@ public abstract class ServerCommand extends CommonCommand<CommandSourceStack, Mi
 
     @Override
     protected boolean pluginCommandRequirement(CommandSourceStack source) {
-        return source.hasPermission(Commands.LEVEL_ADMINS);
+        return Commands.LEVEL_ADMINS.check(source.permissions());
     }
 
     @Override
     protected void register(ArgumentBuilderBuilder<CommandSourceStack> command) {
         command
             .then(Commands.literal("dump"))
-            .requires(source -> source.hasPermission(Commands.LEVEL_ADMINS))
+            .requires(source -> Commands.LEVEL_ADMINS.check(source.permissions()))
             .executes(context -> {
                 var source = context.getSource();
                 var server = source.getServer();
@@ -72,7 +72,7 @@ public abstract class ServerCommand extends CommonCommand<CommandSourceStack, Mi
 
         if (Waila.ENABLE_DEBUG_COMMAND) command
             .then(Commands.literal("debug"))
-            .requires(source -> source.hasPermission(Commands.LEVEL_ADMINS))
+            .requires(source -> Commands.LEVEL_ADMINS.check(source.permissions()))
 
             .then(Commands.literal("getBlockInfo"))
             .then(Commands.argument("pos", BlockPosArgument.blockPos()))
@@ -83,12 +83,12 @@ public abstract class ServerCommand extends CommonCommand<CommandSourceStack, Mi
                 var block = world.getBlockState(pos).getBlock();
 
                 //noinspection deprecation
-                source.sendSuccess(() -> Component.literal("Block ID: " + block.builtInRegistryHolder().key().location()), false);
+                source.sendSuccess(() -> Component.literal("Block ID: " + block.builtInRegistryHolder().key().identifier()), false);
                 source.sendSuccess(() -> Component.literal("Block class: " + block.getClass().getName()), false);
 
                 var blockEntity = world.getBlockEntity(pos);
                 if (blockEntity != null) {
-                    source.sendSuccess(() -> Component.literal("Block entity type ID: " + blockEntity.getType().builtInRegistryHolder().key().location()), false);
+                    source.sendSuccess(() -> Component.literal("Block entity type ID: " + blockEntity.getType().builtInRegistryHolder().key().identifier()), false);
                     source.sendSuccess(() -> Component.literal("Block entity class: " + blockEntity.getClass().getName()), false);
                 }
 
@@ -103,7 +103,7 @@ public abstract class ServerCommand extends CommonCommand<CommandSourceStack, Mi
                 var entity = EntityArgument.getEntity(context, "target");
 
                 //noinspection deprecation
-                source.sendSuccess(() -> Component.literal("Entity type ID: " + entity.getType().builtInRegistryHolder().key().location()), false);
+                source.sendSuccess(() -> Component.literal("Entity type ID: " + entity.getType().builtInRegistryHolder().key().identifier()), false);
                 source.sendSuccess(() -> Component.literal("Entity class: " + entity.getClass().getName()), false);
                 return 1;
             })

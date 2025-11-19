@@ -6,15 +6,15 @@ import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.ITooltipLine;
 import mcp.mobius.waila.registry.PluginAware;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 public class Tooltip extends ObjectArrayList<Line> implements ITooltip {
 
-    private final Object2IntMap<ResourceLocation> tags = new Object2IntOpenHashMap<>();
+    private final Object2IntMap<Identifier> tags = new Object2IntOpenHashMap<>();
     public @Nullable PluginAware<?> origin;
 
-    public void setLine(ResourceLocation tag, Line line) {
+    public void setLine(Identifier tag, Line line) {
         if (tags.containsKey(tag)) {
             set(tags.getInt(tag), line);
         } else {
@@ -44,7 +44,7 @@ public class Tooltip extends ObjectArrayList<Line> implements ITooltip {
     }
 
     @Override
-    public ITooltipLine setLine(ResourceLocation tag) {
+    public ITooltipLine setLine(Identifier tag) {
         var line = new Line(tag);
         line.origin = origin;
         setLine(tag, line);
@@ -52,7 +52,7 @@ public class Tooltip extends ObjectArrayList<Line> implements ITooltip {
     }
 
     @Override
-    public Line getLine(ResourceLocation tag) {
+    public Line getLine(Identifier tag) {
         return tags.containsKey(tag)
             ? get(tags.getInt(tag))
             : null;

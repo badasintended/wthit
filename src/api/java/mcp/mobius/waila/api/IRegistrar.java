@@ -5,7 +5,7 @@ import java.nio.file.Path;
 import mcp.mobius.waila.api.__internal__.ApiSide;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.Block;
@@ -22,63 +22,63 @@ public interface IRegistrar extends ICommonRegistrar, IClientRegistrar {
 
     int DEFAULT_PRIORITY = WailaConstants.DEFAULT_PRIORITY;
 
-    default void addConfig(ResourceLocation key, boolean defaultValue) {
+    default void addConfig(Identifier key, boolean defaultValue) {
         localConfig(key, defaultValue);
     }
 
-    default void addConfig(ResourceLocation key, int defaultValue, IntFormat format) {
+    default void addConfig(Identifier key, int defaultValue, IntFormat format) {
         localConfig(key, defaultValue, format);
     }
 
-    default void addConfig(ResourceLocation key, int defaultValue) {
+    default void addConfig(Identifier key, int defaultValue) {
         addConfig(key, defaultValue, IntFormat.DECIMAL);
     }
 
-    default void addConfig(ResourceLocation key, double defaultValue) {
+    default void addConfig(Identifier key, double defaultValue) {
         localConfig(key, defaultValue);
     }
 
-    default void addConfig(ResourceLocation key, String defaultValue) {
+    default void addConfig(Identifier key, String defaultValue) {
         localConfig(key, defaultValue);
     }
 
-    default <T extends Enum<T>> void addConfig(ResourceLocation key, T defaultValue) {
+    default <T extends Enum<T>> void addConfig(Identifier key, T defaultValue) {
         localConfig(key, defaultValue);
     }
 
-    default void addConfig(ResourceLocation key, Path path) {
+    default void addConfig(Identifier key, Path path) {
         externalConfig(key, path);
     }
 
-    default void addFeatureConfig(ResourceLocation key, boolean clientOnly) {
+    default void addFeatureConfig(Identifier key, boolean clientOnly) {
         featureConfig(key, clientOnly);
     }
 
-    default void addSyncedConfig(ResourceLocation key, boolean defaultValue, boolean clientOnlyValue) {
+    default void addSyncedConfig(Identifier key, boolean defaultValue, boolean clientOnlyValue) {
         syncedConfig(key, defaultValue, clientOnlyValue);
     }
 
-    default void addSyncedConfig(ResourceLocation key, int defaultValue, int clientOnlyValue, IntFormat format) {
+    default void addSyncedConfig(Identifier key, int defaultValue, int clientOnlyValue, IntFormat format) {
         syncedConfig(key, defaultValue, clientOnlyValue, format);
     }
 
-    default void addSyncedConfig(ResourceLocation key, int defaultValue, int clientOnlyValue) {
+    default void addSyncedConfig(Identifier key, int defaultValue, int clientOnlyValue) {
         addSyncedConfig(key, defaultValue, clientOnlyValue, IntFormat.DECIMAL);
     }
 
-    default void addSyncedConfig(ResourceLocation key, double defaultValue, double clientOnlyValue) {
+    default void addSyncedConfig(Identifier key, double defaultValue, double clientOnlyValue) {
         syncedConfig(key, defaultValue, clientOnlyValue);
     }
 
-    default void addSyncedConfig(ResourceLocation key, String defaultValue, String clientOnlyValue) {
+    default void addSyncedConfig(Identifier key, String defaultValue, String clientOnlyValue) {
         syncedConfig(key, defaultValue, clientOnlyValue);
     }
 
-    default <T extends Enum<T>> void addSyncedConfig(ResourceLocation key, T defaultValue, T clientOnlyValue) {
+    default <T extends Enum<T>> void addSyncedConfig(Identifier key, T defaultValue, T clientOnlyValue) {
         syncedConfig(key, defaultValue, clientOnlyValue);
     }
 
-    default void addConfigAlias(ResourceLocation actual, ResourceLocation... aliases) {
+    default void addConfigAlias(Identifier actual, Identifier... aliases) {
         configAlias(actual, aliases);
     }
 
@@ -250,7 +250,7 @@ public interface IRegistrar extends ICommonRegistrar, IClientRegistrar {
 
     @ApiSide.ClientOnly
     @ApiStatus.Experimental
-    default <T extends ITheme> void addThemeType(ResourceLocation id, IThemeType<T> type) {
+    default <T extends ITheme> void addThemeType(Identifier id, IThemeType<T> type) {
         themeType(id, type);
     }
 
@@ -268,7 +268,7 @@ public interface IRegistrar extends ICommonRegistrar, IClientRegistrar {
 
     @ApiSide.ClientOnly
     @ApiStatus.Experimental
-    default void addToolType(ResourceLocation id, IToolType toolType) {
+    default void addToolType(Identifier id, IToolType toolType) {
         toolType(id, toolType);
     }
 
@@ -276,20 +276,20 @@ public interface IRegistrar extends ICommonRegistrar, IClientRegistrar {
     // TODO: Remove
 
     /**
-     * @deprecated use {@link #addFeatureConfig(ResourceLocation, boolean)}
+     * @deprecated use {@link #addFeatureConfig(Identifier, boolean)}
      */
     @Deprecated(forRemoval = true)
     @ApiStatus.ScheduledForRemoval(inVersion = "1.22")
-    default void addMergedConfig(ResourceLocation key, boolean defaultValue) {
+    default void addMergedConfig(Identifier key, boolean defaultValue) {
         addFeatureConfig(key, true);
     }
 
     /**
-     * @deprecated use {@link #addFeatureConfig(ResourceLocation, boolean)}
+     * @deprecated use {@link #addFeatureConfig(Identifier, boolean)}
      */
     @Deprecated(forRemoval = true)
     @ApiStatus.ScheduledForRemoval(inVersion = "1.22")
-    default void addMergedSyncedConfig(ResourceLocation key, boolean defaultValue, boolean clientOnlyValue) {
+    default void addMergedSyncedConfig(Identifier key, boolean defaultValue, boolean clientOnlyValue) {
         addFeatureConfig(key, false);
     }
 

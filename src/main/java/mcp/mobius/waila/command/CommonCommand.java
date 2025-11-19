@@ -13,11 +13,11 @@ import com.mojang.brigadier.suggestion.SuggestionProvider;
 import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.plugin.PluginInfo;
 import net.minecraft.ChatFormatting;
-import net.minecraft.commands.arguments.ResourceLocationArgument;
+import net.minecraft.commands.arguments.IdentifierArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentUtils;
 import net.minecraft.network.chat.HoverEvent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 import static net.minecraft.commands.SharedSuggestionProvider.suggestResource;
 
@@ -70,13 +70,13 @@ public abstract class CommonCommand<S, E extends Executor> {
             .pop("list")
 
             .then(literal("enable"))
-            .then(argument("name", ResourceLocationArgument.id()))
+            .then(argument("name", IdentifierArgument.id()))
             .suggests(suggestPlugins(false))
             .executes(context -> modifyPlugin(context, true))
             .pop("name", "enable")
 
             .then(literal("disable"))
-            .then(argument("name", ResourceLocationArgument.id()))
+            .then(argument("name", IdentifierArgument.id()))
             .suggests(suggestPlugins(true))
             .executes(context -> modifyPlugin(context, false))
             .pop("name", "disable")
@@ -128,7 +128,7 @@ public abstract class CommonCommand<S, E extends Executor> {
         var source = context.getSource();
         var executor = getExecutor(source);
 
-        var id = context.getArgument("name", ResourceLocation.class);
+        var id = context.getArgument("name", Identifier.class);
         var name = id.toString();
 
         var plugin = PluginInfo.get(id);

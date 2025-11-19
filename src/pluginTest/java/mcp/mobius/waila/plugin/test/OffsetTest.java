@@ -6,13 +6,13 @@ import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.component.ColorComponent;
 import mcp.mobius.waila.api.component.PairComponent;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public enum OffsetTest implements IBlockComponentProvider {
 
     INSTANCE;
 
-    public static final ResourceLocation ENABLED = ResourceLocation.parse("test:offset.enabled");
+    public static final Identifier ENABLED = Identifier.parse("test:offset.enabled");
 
     @Override
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {

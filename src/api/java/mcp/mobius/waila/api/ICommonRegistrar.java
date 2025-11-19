@@ -4,7 +4,7 @@ import java.nio.file.Path;
 
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.Block;
@@ -36,12 +36,12 @@ public interface ICommonRegistrar {
      * This method allows server to disable the option remotely for all connected clients,
      * the clients can then toggle the option for their own side only if it is enabled on the server.
      *
-     * @param key        the namespaced key to be used with {@link IPluginConfig#getBoolean(ResourceLocation)}
+     * @param key        the namespaced key to be used with {@link IPluginConfig#getBoolean(Identifier)}
      * @param clientOnly whether the feature available on client-only, e.g. not using {@linkplain IDataProvider server data}
      *
      * @see <a href="#config-tl">The configuration translation documentation</a>
      */
-    void featureConfig(ResourceLocation key, boolean clientOnly);
+    void featureConfig(Identifier key, boolean clientOnly);
 
     /**
      * Registers a namespaced config key to be accessed within data providers.
@@ -54,7 +54,7 @@ public interface ICommonRegistrar {
      *
      * @see <a href="#config-tl">The configuration translation documentation</a>
      */
-    void localConfig(ResourceLocation key, boolean defaultValue);
+    void localConfig(Identifier key, boolean defaultValue);
 
     /**
      * Registers a namespaced config key to be accessed within data providers.
@@ -68,7 +68,7 @@ public interface ICommonRegistrar {
      *
      * @see <a href="#config-tl">The configuration translation documentation</a>
      */
-    void localConfig(ResourceLocation key, int defaultValue, IntFormat format);
+    void localConfig(Identifier key, int defaultValue, IntFormat format);
 
     /**
      * Registers a namespaced config key to be accessed within data providers.
@@ -81,7 +81,7 @@ public interface ICommonRegistrar {
      *
      * @see <a href="#config-tl">The configuration translation documentation</a>
      */
-    default void localConfig(ResourceLocation key, int defaultValue) {
+    default void localConfig(Identifier key, int defaultValue) {
         localConfig(key, defaultValue, IntFormat.DECIMAL);
     }
 
@@ -96,7 +96,7 @@ public interface ICommonRegistrar {
      *
      * @see <a href="#config-tl">The configuration translation documentation</a>
      */
-    void localConfig(ResourceLocation key, double defaultValue);
+    void localConfig(Identifier key, double defaultValue);
 
     /**
      * Registers a namespaced config key to be accessed within data providers.
@@ -109,7 +109,7 @@ public interface ICommonRegistrar {
      *
      * @see <a href="#config-tl">The configuration translation documentation</a>
      */
-    void localConfig(ResourceLocation key, String defaultValue);
+    void localConfig(Identifier key, String defaultValue);
 
     /**
      * Registers a namespaced config key to be accessed within data providers.
@@ -120,7 +120,7 @@ public interface ICommonRegistrar {
      * @param key          the namespaced key
      * @param defaultValue the default value
      */
-    <T extends Enum<T>> void localConfig(ResourceLocation key, T defaultValue);
+    <T extends Enum<T>> void localConfig(Identifier key, T defaultValue);
 
     /**
      * Adds an entry to the config screen to open a file with external editor.
@@ -134,7 +134,7 @@ public interface ICommonRegistrar {
      * @see IJsonConfig
      * @see <a href="#config-tl">The configuration translation documentation</a>
      */
-    void externalConfig(ResourceLocation key, Path path);
+    void externalConfig(Identifier key, Path path);
 
     /**
      * Registers a namespaced config key to be accessed within data providers.
@@ -147,7 +147,7 @@ public interface ICommonRegistrar {
      *
      * @see <a href="#config-tl">The configuration translation documentation</a>
      */
-    void syncedConfig(ResourceLocation key, boolean defaultValue, boolean clientOnlyValue);
+    void syncedConfig(Identifier key, boolean defaultValue, boolean clientOnlyValue);
 
     /**
      * Registers a namespaced config key to be accessed within data providers.
@@ -161,7 +161,7 @@ public interface ICommonRegistrar {
      *
      * @see <a href="#config-tl">The configuration translation documentation</a>
      */
-    void syncedConfig(ResourceLocation key, int defaultValue, int clientOnlyValue, IntFormat format);
+    void syncedConfig(Identifier key, int defaultValue, int clientOnlyValue, IntFormat format);
 
     /**
      * Registers a namespaced config key to be accessed within data providers.
@@ -174,7 +174,7 @@ public interface ICommonRegistrar {
      *
      * @see <a href="#config-tl">The configuration translation documentation</a>
      */
-    default void syncedConfig(ResourceLocation key, int defaultValue, int clientOnlyValue) {
+    default void syncedConfig(Identifier key, int defaultValue, int clientOnlyValue) {
         syncedConfig(key, defaultValue, clientOnlyValue, IntFormat.DECIMAL);
     }
 
@@ -189,7 +189,7 @@ public interface ICommonRegistrar {
      *
      * @see <a href="#config-tl">The configuration translation documentation</a>
      */
-    void syncedConfig(ResourceLocation key, double defaultValue, double clientOnlyValue);
+    void syncedConfig(Identifier key, double defaultValue, double clientOnlyValue);
 
     /**
      * Registers a namespaced config key to be accessed within data providers.
@@ -202,7 +202,7 @@ public interface ICommonRegistrar {
      *
      * @see <a href="#config-tl">The configuration translation documentation</a>
      */
-    void syncedConfig(ResourceLocation key, String defaultValue, String clientOnlyValue);
+    void syncedConfig(Identifier key, String defaultValue, String clientOnlyValue);
 
     /**
      * Registers a namespaced config key to be accessed within data providers.
@@ -215,14 +215,14 @@ public interface ICommonRegistrar {
      *
      * @see <a href="#config-tl">The configuration translation documentation</a>
      */
-    <T extends Enum<T>> void syncedConfig(ResourceLocation key, T defaultValue, T clientOnlyValue);
+    <T extends Enum<T>> void syncedConfig(Identifier key, T defaultValue, T clientOnlyValue);
 
     /**
      * Registers config key aliases that will be migrated gracefully to the actual key.
      * <p>
      * Also sync the value using aliased keys, so outdated client can still get the correct value.
      */
-    void configAlias(ResourceLocation actual, ResourceLocation... aliases);
+    void configAlias(Identifier actual, Identifier... aliases);
 
     /**
      * Adds the specified entity types to the default blacklist.

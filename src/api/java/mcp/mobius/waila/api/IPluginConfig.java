@@ -2,7 +2,7 @@ package mcp.mobius.waila.api;
 
 import java.util.Set;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.ApiStatus;
 
 /**
@@ -20,23 +20,23 @@ public interface IPluginConfig {
      *
      * @return all the keys for a given namespace.
      */
-    Set<ResourceLocation> getKeys(String namespace);
+    Set<Identifier> getKeys(String namespace);
 
     /**
      * Gets a collection of all keys.
      *
      * @return all registered keys.
      */
-    Set<ResourceLocation> getKeys();
+    Set<Identifier> getKeys();
 
-    boolean getBoolean(ResourceLocation key);
+    boolean getBoolean(Identifier key);
 
-    int getInt(ResourceLocation key);
+    int getInt(Identifier key);
 
-    double getDouble(ResourceLocation key);
+    double getDouble(Identifier key);
 
-    String getString(ResourceLocation key);
+    String getString(Identifier key);
 
-    <T extends Enum<T>> T getEnum(ResourceLocation key);
+    <T extends Enum<T>> T getEnum(Identifier key);
 
 }

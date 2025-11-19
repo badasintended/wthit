@@ -10,15 +10,15 @@ import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.entity.animal.Panda;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.animal.panda.Panda;
 
 public enum PandaProvider implements IEntityComponentProvider {
 
     INSTANCE;
 
-    private static final ResourceLocation PERSONALITY = Options.PANDA_GENES.withSuffix(".personality");
-    private static final ResourceLocation TRAITS = Options.PANDA_GENES.withSuffix(".traits");
+    private static final Identifier PERSONALITY = Options.PANDA_GENES.withSuffix(".personality");
+    private static final Identifier TRAITS = Options.PANDA_GENES.withSuffix(".traits");
 
     @Override
     public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {

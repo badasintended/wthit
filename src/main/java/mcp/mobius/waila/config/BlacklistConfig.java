@@ -95,7 +95,7 @@ public class BlacklistConfig {
         }
 
         private static <T> IRegistryFilter<T> sync(ResourceKey<? extends Registry<T>> registryKey, Set<String> localRules, Set<String> syncedRules) {
-            LOG.debug("Syncing blacklist {}", registryKey.location());
+            LOG.debug("Syncing blacklist {}", registryKey.identifier());
 
             return IRegistryFilter.of(registryKey)
                 .parse(syncedRules.stream()

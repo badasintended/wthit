@@ -9,11 +9,11 @@ import mcp.mobius.waila.network.Packet;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class TypedDataResponsePlayS2CPacket implements Packet {
 
-    public static final ResourceLocation ID = Waila.id("data_typed");
+    public static final Identifier ID = Waila.id("data_typed");
     public static final CustomPacketPayload.Type<Payload> TYPE = new CustomPacketPayload.Type<>(ID);
     public static final StreamCodec<RegistryFriendlyByteBuf, Payload> CODEC = StreamCodec.composite(
         DataType.CODEC, Payload::data,

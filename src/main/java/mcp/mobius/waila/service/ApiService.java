@@ -29,8 +29,8 @@ import net.minecraft.core.HolderSet;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.PotionItem;
 import net.minecraft.world.item.SpawnEggItem;
@@ -48,13 +48,13 @@ public abstract class ApiService implements IApiService {
     public IModInfo getModInfo(ItemStack stack) {
         var item = stack.getItem();
 
-        if (ResourceLocation.DEFAULT_NAMESPACE.equals(BuiltInRegistries.ITEM.getKey(item).getNamespace())) {
+        if (Identifier.DEFAULT_NAMESPACE.equals(BuiltInRegistries.ITEM.getKey(item).getNamespace())) {
             var enchantments = stack.getOrDefault(DataComponents.STORED_ENCHANTMENTS, ItemEnchantments.EMPTY);
 
             if (enchantments.size() == 1) {
                 for (var entry : enchantments.entrySet()) {
                     var key = entry.getKey().unwrapKey().orElse(null);
-                    if (key != null) return IModInfo.get(key.location());
+                    if (key != null) return IModInfo.get(key.identifier());
                     break;
                 }
             } else if (item instanceof PotionItem || item instanceof TippedArrowItem) {
@@ -90,7 +90,7 @@ public abstract class ApiService implements IApiService {
     }
 
     @Override
-    public IPluginInfo getPluginInfo(ResourceLocation pluginId) {
+    public IPluginInfo getPluginInfo(Identifier pluginId) {
         return PluginInfo.get(pluginId);
     }
 
@@ -204,14 +204,14 @@ public abstract class ApiService implements IApiService {
            .map(it -> it
                .unwrapKey()
                .orElseThrow()
-               .location()
+               .identifier()
                .toString())
            .sorted()
            .toList());
     }
 
     @Override
-    public <D extends IData> IData.Type<D> createDataType(ResourceLocation id) {
+    public <D extends IData> IData.Type<D> createDataType(Identifier id) {
         return new DataType<>(id);
     }
 

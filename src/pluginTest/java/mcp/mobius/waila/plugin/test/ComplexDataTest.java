@@ -13,16 +13,16 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
 
 public enum ComplexDataTest implements IBlockComponentProvider, IDataProvider<ChestBlockEntity> {
 
     INSTANCE;
 
-    public static final ResourceLocation ENABLED = ResourceLocation.parse("test:data.complex");
-    public static final ResourceLocation BLOCK = ResourceLocation.parse("test:data.complex.block");
-    public static final ResourceLocation MULTIPLE_ADDITION = ResourceLocation.parse("test:data.complex.multiple_addition");
+    public static final Identifier ENABLED = Identifier.parse("test:data.complex");
+    public static final Identifier BLOCK = Identifier.parse("test:data.complex.block");
+    public static final Identifier MULTIPLE_ADDITION = Identifier.parse("test:data.complex.multiple_addition");
 
     public static final IData.Type<Data> DATA = IData.createType(ENABLED);
     public static final StreamCodec<RegistryFriendlyByteBuf, Data> DATA_CODEC = StreamCodec.composite(

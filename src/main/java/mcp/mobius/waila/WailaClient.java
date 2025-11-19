@@ -20,7 +20,7 @@ import mcp.mobius.waila.util.Log;
 import mcp.mobius.waila.util.ResourceLocationSerde;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
@@ -37,7 +37,7 @@ public abstract class WailaClient {
             .setPrettyPrinting()
             .registerTypeAdapter(WailaConfig.Overlay.Color.class, new WailaConfig.Overlay.Color.Adapter())
             .registerTypeAdapter(ThemeDefinition.class, new ThemeDefinition.Adapter())
-            .registerTypeAdapter(ResourceLocation.class, ResourceLocationSerde.INSTANCE)
+            .registerTypeAdapter(Identifier.class, ResourceLocationSerde.INSTANCE)
             .registerTypeAdapter(KeyBind.class, new KeyBind.Adapter())
             .create())
         .build();

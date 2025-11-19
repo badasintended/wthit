@@ -14,7 +14,7 @@ import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.ChiseledBookShelfBlockEntity;
 
@@ -22,7 +22,7 @@ public enum ChiseledBookShelfDataProvider implements IDataProvider<ChiseledBookS
 
     INSTANCE;
 
-    public static final IData.Type<Data> DATA = IData.createType(ResourceLocation.withDefaultNamespace("chiseled_bookshelf"));
+    public static final IData.Type<Data> DATA = IData.createType(Identifier.withDefaultNamespace("chiseled_bookshelf"));
     public static final StreamCodec<RegistryFriendlyByteBuf, Data> DATA_CODEC = StreamCodec.composite(
         ByteBufCodecs.collection(ArrayList::new, ItemStack.OPTIONAL_STREAM_CODEC), Data::items,
         Data::new);

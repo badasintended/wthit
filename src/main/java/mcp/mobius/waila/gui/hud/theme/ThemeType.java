@@ -14,7 +14,7 @@ import mcp.mobius.waila.api.IThemeType;
 import mcp.mobius.waila.api.IntFormat;
 import mcp.mobius.waila.registry.Registrar;
 import mcp.mobius.waila.util.TypeUtil;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 public class ThemeType<T extends ITheme> implements IThemeType<T>, IThemeType.Builder<T> {
@@ -50,7 +50,7 @@ public class ThemeType<T extends ITheme> implements IThemeType<T>, IThemeType.Bu
         }
     }
 
-    public ResourceLocation getId() {
+    public Identifier getId() {
         return Objects.requireNonNull(Registrar.get().themeTypes.inverse().get(this));
     }
 
