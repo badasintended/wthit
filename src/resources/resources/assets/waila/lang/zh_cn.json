@@ -314,6 +314,8 @@
   "config.waila.plugin_minecraft.effect.beacon"                : "显示信标效果",
   "config.waila.plugin_minecraft.effect.mob"                   : "显示生物效果",
   "config.waila.plugin_minecraft.effect.hidden_mob"            : "显示隐藏的生物效果",
+
+
   "config.waila.plugin_minecraft.book"                         : "书",
   "config.waila.plugin_minecraft.book.bookshelf"               : "展示雕纹书架书籍",
   "config.waila.plugin_minecraft.book.written"                 : "展示书籍的作者和时间",
