@@ -22,7 +22,6 @@ import mcp.mobius.waila.api.IData;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.IEventListener;
-import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.api.IRayCastVectorProvider;
 import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.ITheme;
@@ -35,6 +34,7 @@ import mcp.mobius.waila.config.ConfigEntry;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.gui.hud.TooltipPosition;
 import mcp.mobius.waila.gui.hud.theme.ThemeType;
+import mcp.mobius.waila.plugin.PluginInfo;
 import mcp.mobius.waila.util.CachedSupplier;
 import mcp.mobius.waila.util.Log;
 import mcp.mobius.waila.util.TypeUtil;
@@ -49,7 +49,9 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.UnknownNullability;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 @SuppressWarnings("deprecation")
 public class Registrar implements ICommonRegistrar, IClientRegistrar, IRegistrar {
@@ -92,7 +94,7 @@ public class Registrar implements ICommonRegistrar, IClientRegistrar, IRegistrar
 
     public final Map<Identifier, StreamCodec<RegistryFriendlyByteBuf, IData>> dataCodecs = new HashMap<>();
 
-    private @Nullable IPluginInfo plugin;
+    private @UnknownNullability PluginInfo plugin;
     private boolean locked = false;
 
     public static Registrar get() {
@@ -103,7 +105,7 @@ public class Registrar implements ICommonRegistrar, IClientRegistrar, IRegistrar
         INSTANCE.invalidate();
     }
 
-    public void attach(@Nullable IPluginInfo plugin) {
+    public void attach(@Nullable PluginInfo plugin) {
         this.plugin = plugin;
     }
 
@@ -191,7 +193,7 @@ public class Registrar implements ICommonRegistrar, IClientRegistrar, IRegistrar
         assertLock();
 
         for (var alias : aliases) {
-            PluginConfig.addConfig(PluginConfig.getEntry(actual).createAlias(alias));
+            PluginConfig.addConfig(Objects.requireNonNull(PluginConfig.getEntry(actual)).createAlias(alias));
         }
     }
 
@@ -295,7 +297,7 @@ public class Registrar implements ICommonRegistrar, IClientRegistrar, IRegistrar
         assertLock();
         assertPriority(priority);
         warnTargetClass(provider, clazz);
-        blockData.add(clazz, (IDataProvider<BlockEntity>) provider, priority);
+        blockData.add(clazz, (IDataProvider<@NonNull BlockEntity>) provider, priority);
     }
 
     @Override
@@ -382,7 +384,7 @@ public class Registrar implements ICommonRegistrar, IClientRegistrar, IRegistrar
         assertLock();
         assertPriority(priority);
         warnTargetClass(provider, clazz);
-        entityData.add(clazz, (IDataProvider<Entity>) provider, priority);
+        entityData.add(clazz, (IDataProvider<@NonNull Entity>) provider, priority);
     }
 
 
@@ -391,7 +393,7 @@ public class Registrar implements ICommonRegistrar, IClientRegistrar, IRegistrar
     public <D extends IData> void dataType(IData.Type<D> type, StreamCodec<? super RegistryFriendlyByteBuf, ? extends D> codec) {
         assertLock();
         Preconditions.checkArgument(!dataCodecs.containsKey(type.id()), "Data type with id %s already present", type.id());
-        dataCodecs.put(type.id(), (StreamCodec<RegistryFriendlyByteBuf, IData>) codec);
+        dataCodecs.put(type.id(), (StreamCodec<@NonNull RegistryFriendlyByteBuf, @NonNull IData>) codec);
     }
 
     @Override
@@ -468,7 +470,6 @@ public class Registrar implements ICommonRegistrar, IClientRegistrar, IRegistrar
         Preconditions.checkNotNull(plugin, "Tried to register things outside the register method");
     }
 
-    @SuppressWarnings("DataFlowIssue")
     private boolean skip() {
         assertPlugin();
         return !plugin.isEnabled();

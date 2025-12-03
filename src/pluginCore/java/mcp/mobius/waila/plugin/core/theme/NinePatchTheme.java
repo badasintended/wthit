@@ -22,10 +22,11 @@ import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
-import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.Range;
 import org.joml.Matrix3x2f;
+import org.jspecify.annotations.Nullable;
 
+@SuppressWarnings({"unused", "NotNullFieldNotInitialized"})
 public class NinePatchTheme implements ITheme {
 
     public static final IThemeType<NinePatchTheme> TYPE = IThemeType.of(NinePatchTheme.class)

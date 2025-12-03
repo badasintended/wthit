@@ -6,6 +6,7 @@ import java.util.List;
 import mcp.mobius.waila.api.__internal__.IApiService;
 import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * @deprecated no replacement. In practice, plugin should never require this.
@@ -14,7 +15,7 @@ import org.jetbrains.annotations.ApiStatus;
 @ApiStatus.NonExtendable
 public interface IPluginInfo {
 
-    static IPluginInfo get(Identifier pluginId) {
+    static @Nullable IPluginInfo get(Identifier pluginId) {
         return IApiService.INSTANCE.getPluginInfo(pluginId);
     }
 

@@ -19,7 +19,7 @@ import net.minecraft.world.level.block.MangrovePropaguleBlock;
 import net.minecraft.world.level.block.SaplingBlock;
 import net.minecraft.world.level.block.StemBlock;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public enum PlantProvider implements IBlockComponentProvider {
 

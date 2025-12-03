@@ -5,7 +5,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 import mcp.mobius.waila.api.IJsonConfig;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class CommenterFactories implements Supplier<Function<List<String>, @Nullable String>> {
 

@@ -23,8 +23,7 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWidget.Entry> implements ContainerEventHandler {
 
@@ -234,6 +233,7 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
         protected @Nullable List<? extends GuiEventListener> children;
         protected @Nullable List<? extends NarratableEntry> narratables;
 
+        @SuppressWarnings("NotNullFieldNotInitialized")
         protected ConfigListWidget list;
         protected int index;
 
@@ -284,7 +284,7 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
         }
 
         @Override
-        public @NotNull List<? extends GuiEventListener> children() {
+        public List<? extends GuiEventListener> children() {
             if (children == null) {
                 ImmutableList.Builder<GuiEventListener> builder = ImmutableList.builder();
                 gatherChildren(builder);
@@ -295,7 +295,7 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
         }
 
         @Override
-        public @NotNull List<? extends NarratableEntry> narratables() {
+        public List<? extends NarratableEntry> narratables() {
             if (narratables == null) {
                 ImmutableList.Builder<NarratableEntry> builder = ImmutableList.builder();
                 gatherNarratables(builder);

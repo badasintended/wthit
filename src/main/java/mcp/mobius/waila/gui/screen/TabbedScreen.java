@@ -13,6 +13,7 @@ import net.minecraft.client.gui.components.tabs.TabNavigationBar;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
+import org.jspecify.annotations.Nullable;
 
 public interface TabbedScreen {
 
@@ -40,7 +41,7 @@ public interface TabbedScreen {
             .build();
     }
 
-    Screen getParent();
+    @Nullable Screen getParent();
 
     default void changeTab(Runnable change) {
         change.run();
@@ -67,7 +68,7 @@ public interface TabbedScreen {
     record Tab<T extends Screen & TabbedScreen>(
         Component title,
         Class<T> clazz,
-        Function<Screen, T> ctor
+        Function<@Nullable Screen, T> ctor
     ) implements net.minecraft.client.gui.components.tabs.Tab {
 
         @Override

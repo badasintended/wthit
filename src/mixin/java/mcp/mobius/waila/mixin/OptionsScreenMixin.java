@@ -1,8 +1,11 @@
 package mcp.mobius.waila.mixin;
 
+import java.util.Objects;
+
 import mcp.mobius.waila.mixed.IClientMixinService;
 import net.minecraft.client.gui.layouts.GridLayout;
 import net.minecraft.client.gui.screens.options.OptionsScreen;
+import org.jspecify.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
@@ -14,7 +17,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class OptionsScreenMixin {
 
     @Unique
-    private GridLayout.RowHelper wthit_rowHelper;
+    private GridLayout.@Nullable RowHelper wthit_rowHelper;
 
     @ModifyVariable(method = "init", at = @At(value = "INVOKE_ASSIGN", target = "Lnet/minecraft/client/gui/layouts/GridLayout;createRowHelper(I)Lnet/minecraft/client/gui/layouts/GridLayout$RowHelper;"))
     private GridLayout.RowHelper wthit_saveRowHelper(GridLayout.RowHelper helper) {
@@ -24,7 +27,7 @@ public abstract class OptionsScreenMixin {
 
     @Inject(method = "init", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/gui/layouts/HeaderAndFooterLayout;addToContents(Lnet/minecraft/client/gui/layouts/LayoutElement;)Lnet/minecraft/client/gui/layouts/LayoutElement;"))
     private void wthit_onInit(CallbackInfo ci) {
-        IClientMixinService.INSTANCE.optionsScreenRow(this.wthit_rowHelper);
+        IClientMixinService.INSTANCE.optionsScreenRow(Objects.requireNonNull(this.wthit_rowHelper));
         wthit_rowHelper = null;
     }
 

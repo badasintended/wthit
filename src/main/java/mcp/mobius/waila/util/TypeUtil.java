@@ -1,13 +1,16 @@
 package mcp.mobius.waila.util;
 
+import org.jspecify.annotations.Nullable;
+
 @SuppressWarnings("unchecked")
 public final class TypeUtil {
 
-    public static <T> T uncheckedCast(Object object) {
+    @SuppressWarnings("DataFlowIssue")
+    public static <T> T uncheckedCast(@Nullable Object object) {
         return (T) object;
     }
 
-    public static <T> T tryCast(Object object, Object defaultValue) {
+    public static <T> T tryCast(@Nullable Object object, Object defaultValue) {
         if (object == null) {
             return (T) defaultValue;
         }

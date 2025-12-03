@@ -2,7 +2,7 @@ package mcp.mobius.waila.gui.hud;
 
 import mcp.mobius.waila.api.ITargetRedirector;
 import net.minecraft.world.phys.HitResult;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class TargetRedirector implements ITargetRedirector {
 

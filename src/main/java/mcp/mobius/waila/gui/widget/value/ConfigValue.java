@@ -17,8 +17,8 @@ import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.FormattedCharSequence;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import static mcp.mobius.waila.util.DisplayUtil.createButton;
 
@@ -29,13 +29,12 @@ public abstract class ConfigValue<T, C extends ConfigValue<T, C>> extends Config
     protected final Consumer<T> save;
     protected final String translationKey;
 
-    @Nullable
-    protected final T defaultValue;
+    protected final @Nullable T defaultValue;
     protected final T initialValue;
 
     private final MutableComponent title;
     private final String description;
-    private final Button resetButton;
+    private final @Nullable Button resetButton;
 
     @Nullable
     private String disabledReason = null;
@@ -169,7 +168,7 @@ public abstract class ConfigValue<T, C extends ConfigValue<T, C>> extends Config
         return x;
     }
 
-    public final @NotNull T getValue() {
+    public final @NonNull T getValue() {
         return value;
     }
 

@@ -5,7 +5,7 @@ import mcp.mobius.waila.registry.PluginAware;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.resources.Identifier;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class InspectComponent implements ITooltipComponent {
 
@@ -52,7 +52,7 @@ public class InspectComponent implements ITooltipComponent {
 
         public final HorizontalGrowing actual;
 
-        public Growing(HorizontalGrowing actual, PluginAware<?> origin, Identifier tag) {
+        public Growing(HorizontalGrowing actual, PluginAware<?> origin, @Nullable Identifier tag) {
             super(actual, origin, tag);
             this.actual = actual;
         }

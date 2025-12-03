@@ -11,7 +11,7 @@ import java.util.Map;
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
 import mcp.mobius.waila.api.IJsonConfig;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class AnnotationCommenter implements IJsonConfig.Commenter {
 

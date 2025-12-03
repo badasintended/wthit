@@ -16,13 +16,15 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.level.block.entity.BeaconBlockEntity;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public enum BeaconDataProvider implements IDataProvider<BeaconBlockEntity> {
 
     INSTANCE;
 
     public static final IData.Type<Data> DATA = IData.createType(Identifier.withDefaultNamespace("beacon"));
+
+    @SuppressWarnings("DataFlowIssue")
     public static final StreamCodec<RegistryFriendlyByteBuf, Data> DATA_CODEC = StreamCodec.composite(
         WCodecs.nullable(ByteBufCodecs.holderRegistry(Registries.MOB_EFFECT)), Data::primary,
         WCodecs.nullable(ByteBufCodecs.holderRegistry(Registries.MOB_EFFECT)), Data::secondary,

@@ -17,7 +17,6 @@ import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
-import org.jetbrains.annotations.NotNull;
 
 public class InspectorScreen extends YesIAmSureTheClientInstanceIsPresentByTheTimeIUseItScreen {
 
@@ -52,7 +51,7 @@ public class InspectorScreen extends YesIAmSureTheClientInstanceIsPresentByTheTi
     }
 
     @Override
-    public void render(@NotNull GuiGraphics ctx, int mouseX, int mouseY, float tickDelta) {
+    public void render(GuiGraphics ctx, int mouseX, int mouseY, float tickDelta) {
         super.render(ctx, mouseX, mouseY, tickDelta);
 
         if (!hoveredComponent.isEmpty()) {

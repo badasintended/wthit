@@ -7,7 +7,7 @@ import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.ITooltipLine;
 import mcp.mobius.waila.registry.PluginAware;
 import net.minecraft.resources.Identifier;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class Tooltip extends ObjectArrayList<Line> implements ITooltip {
 
@@ -52,7 +52,7 @@ public class Tooltip extends ObjectArrayList<Line> implements ITooltip {
     }
 
     @Override
-    public Line getLine(Identifier tag) {
+    public @Nullable Line getLine(Identifier tag) {
         return tags.containsKey(tag)
             ? get(tags.getInt(tag))
             : null;

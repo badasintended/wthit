@@ -14,7 +14,6 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.ResourceManager;
 import net.minecraft.server.packs.resources.SimplePreparableReloadListener;
 import net.minecraft.util.profiling.ProfilerFiller;
-import org.jetbrains.annotations.NotNull;
 
 public class BuiltinThemeLoader extends SimplePreparableReloadListener<Map<Identifier, JsonElement>> {
 
@@ -47,7 +46,7 @@ public class BuiltinThemeLoader extends SimplePreparableReloadListener<Map<Ident
     }
 
     @Override
-    protected void apply(@NotNull Map<Identifier, JsonElement> map, @NotNull ResourceManager manager, @NotNull ProfilerFiller profiler) {
+    protected void apply(Map<Identifier, JsonElement> map, ResourceManager manager, ProfilerFiller profiler) {
         THEMES.clear();
 
         map.forEach((id, json) -> {

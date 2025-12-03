@@ -2,6 +2,7 @@ package mcp.mobius.waila.gui.hud;
 
 import java.awt.*;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
@@ -30,7 +31,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class TooltipRenderer {
 
@@ -48,7 +49,7 @@ public class TooltipRenderer {
     public static int colonOffset;
     public static int colonWidth;
 
-    public static State state;
+    public static @Nullable State state;
 
     private static long lastFrame = System.nanoTime();
     private static @Nullable MainTarget framebuffer = null;
@@ -98,6 +99,7 @@ public class TooltipRenderer {
     }
 
     public static Rectangle endBuild() {
+        Objects.requireNonNull(state);
         Preconditions.checkState(started);
         var accessor = ClientAccessor.INSTANCE;
 
@@ -270,6 +272,7 @@ public class TooltipRenderer {
     }
 
     private static void _renderUncached(GuiGraphics ctx, DeltaTracker delta) {
+        Objects.requireNonNull(state);
         var renderer = ComponentRenderer.get();
         var scale = state.getScale();
 
@@ -332,9 +335,8 @@ public class TooltipRenderer {
     }
 
     private static void narrateObjectName(Minecraft client) {
-        if (!state.render()) {
-            return;
-        }
+        Objects.requireNonNull(state);
+        if (!state.render()) return;
 
         var narrator = ((GameNarratorAccess) client.getNarrator()).wthit_narrator();
         if (!narrator.active() || !state.enableTextToSpeech() || Minecraft.getInstance().screen instanceof ChatScreen) {
@@ -342,7 +344,7 @@ public class TooltipRenderer {
         }
 
         var objectName = TOOLTIP.getLine(WailaConstants.OBJECT_NAME_TAG);
-        if (objectName != null && objectName.components.get(0) instanceof WrappedComponent component) {
+        if (objectName != null && objectName.components.getFirst() instanceof WrappedComponent component) {
             var narrate = component.component.getString().replaceAll("§[a-z0-9]", "");
             if (!lastNarration.equalsIgnoreCase(narrate)) {
                 CompletableFuture.runAsync(() -> narrator.say(narrate, true, 1f));

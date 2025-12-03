@@ -29,7 +29,6 @@ import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.NotNull;
 
 public enum HarvestProvider implements IBlockComponentProvider, IEventListener {
 
@@ -185,7 +184,6 @@ public enum HarvestProvider implements IBlockComponentProvider, IEventListener {
         }
     }
 
-    @NotNull
     @SuppressWarnings("UnnecessaryUnicodeEscape")
     private MutableComponent getHarvestableSymbol(IBlockAccessor accessor, boolean unbreakable) {
         return unbreakable || !accessor.getPlayer().hasCorrectToolForDrops(state)
@@ -193,7 +191,6 @@ public enum HarvestProvider implements IBlockComponentProvider, IEventListener {
             : Component.literal("\u2714").withStyle(ChatFormatting.GREEN);
     }
 
-    @NotNull
     private static MutableComponent getToolText(List<ToolType> tools, ItemStack heldStack) {
         var toolText = Component.empty();
         var toolIter = tools.iterator();
@@ -207,7 +204,6 @@ public enum HarvestProvider implements IBlockComponentProvider, IEventListener {
         return toolText;
     }
 
-    @NotNull
     private static MutableComponent getTierText(ToolTier highestTier, ItemStack heldStack) {
         var tierText = I18n.exists(highestTier.tlKey())
             ? Component.translatable(highestTier.tlKey())

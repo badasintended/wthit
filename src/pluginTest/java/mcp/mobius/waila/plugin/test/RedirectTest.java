@@ -6,7 +6,7 @@ import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITargetRedirector;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Blocks;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public enum RedirectTest implements IBlockComponentProvider {
 
@@ -19,7 +19,7 @@ public enum RedirectTest implements IBlockComponentProvider {
     }
 
     @Override
-    public @Nullable ITargetRedirector.Result redirect(ITargetRedirector redirect, IBlockAccessor accessor, IPluginConfig config) {
+    public ITargetRedirector.@Nullable Result redirect(ITargetRedirector redirect, IBlockAccessor accessor, IPluginConfig config) {
         if (accessor.getBlock() != Blocks.BLACK_WOOL) return null;
 
         Target target = config.getEnum(TARGET);

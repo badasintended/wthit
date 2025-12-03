@@ -10,6 +10,7 @@ import mcp.mobius.waila.api.WailaConstants;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.vehicle.boat.Boat;
 import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.UnknownNullability;
 
 /**
  * Since Mojang decided to hardcode the boat type using {@link Boat.Type},
@@ -22,6 +23,7 @@ public enum BoatProvider implements IEntityComponentProvider {
 
     INSTANCE;
 
+    @UnknownNullability
     ItemStack stack;
 
     @Override

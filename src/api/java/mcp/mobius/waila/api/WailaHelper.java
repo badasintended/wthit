@@ -6,7 +6,7 @@ import mcp.mobius.waila.api.util.WColors;
 import mcp.mobius.waila.api.util.WNumbers;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.util.ARGB;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 @Deprecated
 public final class WailaHelper {
@@ -42,6 +42,7 @@ public final class WailaHelper {
     }
 
     @Deprecated
+    @SuppressWarnings("NullableProblems")
     public static <B extends ByteBuf, V> StreamCodec<B, @Nullable V> nullable(final StreamCodec<B, V> codec) {
         return WCodecs.nullable(codec);
     }

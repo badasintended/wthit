@@ -30,6 +30,8 @@ public class WrappedComponent implements ITooltipComponent {
     }
 
     public final Component component;
+
+    @SuppressWarnings("NotNullFieldNotInitialized")
     private List<FormattedCharSequence> lines;
     private int height;
 

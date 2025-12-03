@@ -4,6 +4,7 @@ import java.lang.reflect.Type;
 import java.nio.file.Path;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.access.DataType;
@@ -39,6 +40,7 @@ import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.enchantment.ItemEnchantments;
 import net.minecraft.world.level.block.Block;
+import org.jspecify.annotations.Nullable;
 
 public abstract class ApiService implements IApiService {
 
@@ -90,7 +92,7 @@ public abstract class ApiService implements IApiService {
     }
 
     @Override
-    public IPluginInfo getPluginInfo(Identifier pluginId) {
+    public @Nullable IPluginInfo getPluginInfo(Identifier pluginId) {
         return PluginInfo.get(pluginId);
     }
 
@@ -118,7 +120,7 @@ public abstract class ApiService implements IApiService {
 
     @Override
     public int getFontColor() {
-        return TooltipRenderer.state.getTheme().getDefaultTextColor() | 0xFF << 24;
+        return Objects.requireNonNull(TooltipRenderer.state).getTheme().getDefaultTextColor() | 0xFF << 24;
     }
 
     @Override

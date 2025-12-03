@@ -23,7 +23,7 @@ import mcp.mobius.waila.util.Log;
 import mcp.mobius.waila.util.ModInfo;
 import mcp.mobius.waila.util.ResourceLocationSerde;
 import net.minecraft.resources.Identifier;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 @SuppressWarnings("deprecation")
 public class PluginInfo implements IPluginInfo {
@@ -151,7 +151,7 @@ public class PluginInfo implements IPluginInfo {
         }
     }
 
-    public static PluginInfo get(Identifier pluginId) {
+    public static @Nullable PluginInfo get(Identifier pluginId) {
         return PLUGIN_ID_TO_PLUGIN_INFO.get(pluginId);
     }
 

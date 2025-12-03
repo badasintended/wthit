@@ -14,14 +14,14 @@ import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.input.KeyEvent;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jetbrains.annotations.UnknownNullability;
+import org.jspecify.annotations.Nullable;
 
 import static mcp.mobius.waila.util.DisplayUtil.createButton;
 
 public abstract class ConfigScreen extends YesIAmSureTheClientInstanceIsPresentByTheTimeIUseItScreen {
 
-    protected final Screen parent;
+    protected final @Nullable Screen parent;
     protected final @Nullable Runnable saver;
     protected final @Nullable Runnable canceller;
 
@@ -31,11 +31,11 @@ public abstract class ConfigScreen extends YesIAmSureTheClientInstanceIsPresentB
 
     @SuppressWarnings("unchecked")
     private final List<GuiEventListener> children = (List<GuiEventListener>) children();
-    protected ConfigListWidget options;
+    protected @UnknownNullability ConfigListWidget options;
 
     protected boolean cancelled;
 
-    public ConfigScreen(Screen parent, Component title, @Nullable Runnable saver, @Nullable Runnable canceller) {
+    public ConfigScreen(@Nullable Screen parent, Component title, @Nullable Runnable saver, @Nullable Runnable canceller) {
         super(title);
 
         this.parent = parent;
@@ -94,7 +94,7 @@ public abstract class ConfigScreen extends YesIAmSureTheClientInstanceIsPresentB
     }
 
     @Override
-    public void render(@NotNull GuiGraphics ctx, int mouseX, int mouseY, float partialTicks) {
+    public void render(GuiGraphics ctx, int mouseX, int mouseY, float partialTicks) {
         super.render(ctx, mouseX, mouseY, partialTicks);
 
         options.render(ctx, mouseX, mouseY, partialTicks);

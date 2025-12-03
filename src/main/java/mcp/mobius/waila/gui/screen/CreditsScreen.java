@@ -20,7 +20,6 @@ import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import org.jetbrains.annotations.NotNull;
 
 import static mcp.mobius.waila.util.DisplayUtil.createButton;
 
@@ -131,12 +130,12 @@ public class CreditsScreen extends YesIAmSureTheClientInstanceIsPresentByTheTime
         }
 
         @Override
-        public @NotNull List<? extends NarratableEntry> narratables() {
+        public List<? extends NarratableEntry> narratables() {
             return Collections.emptyList();
         }
 
         @Override
-        public @NotNull List<? extends GuiEventListener> children() {
+        public List<? extends GuiEventListener> children() {
             return Collections.emptyList();
         }
 

@@ -8,7 +8,7 @@ import mcp.mobius.waila.api.WailaConstants;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public final class ExceptionUtil {
 

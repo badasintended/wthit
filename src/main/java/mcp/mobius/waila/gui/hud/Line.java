@@ -16,7 +16,7 @@ import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class Line implements ITooltipLine {
 
@@ -41,7 +41,7 @@ public class Line implements ITooltipLine {
     @Override
     public Line with(ITooltipComponent component) {
         component = InspectComponent.maybeWrap(component, origin, tag);
-        components.add(component);
+        if (component != null) components.add(component);
         if (component instanceof HorizontalGrowing growing) {
             growingWeight += growing.getWeight();
         }

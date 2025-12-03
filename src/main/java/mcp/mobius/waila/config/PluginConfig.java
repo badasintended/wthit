@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
@@ -23,6 +24,8 @@ import mcp.mobius.waila.mcless.config.ConfigIo;
 import mcp.mobius.waila.util.Log;
 import net.minecraft.locale.Language;
 import net.minecraft.resources.Identifier;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 @SuppressWarnings("unchecked")
 public enum PluginConfig implements IPluginConfig {
@@ -42,6 +45,7 @@ public enum PluginConfig implements IPluginConfig {
             var namespace = p.get(0);
             var path = p.get(1);
             var entry = getEntry(Identifier.fromNamespaceAndPath(namespace, path));
+            Objects.requireNonNull(entry);
             var type = entry.getType();
 
             var sb = new StringBuilder();
@@ -101,12 +105,12 @@ public enum PluginConfig implements IPluginConfig {
     private static final Map<Identifier, ConfigEntry<Object>> CONFIGS = new LinkedHashMap<>();
 
     public static <T> void addConfig(ConfigEntry<T> entry) {
-        CONFIGS.put(entry.getId(), (ConfigEntry<Object>) entry);
+        CONFIGS.put(entry.getId(), (ConfigEntry<@NonNull Object>) entry);
     }
 
     private static Stream<Identifier> getKeyStream() {
         return CONFIGS.keySet().stream()
-            .filter(it -> getEntry(it).getOrigin().isEnabled());
+            .filter(it -> Objects.requireNonNull(getEntry(it)).getOrigin().isEnabled());
     }
 
     public static Set<Identifier> getAllKeys(String namespace) {
@@ -133,7 +137,7 @@ public enum PluginConfig implements IPluginConfig {
             .collect(Collectors.toList());
     }
 
-    public static <T> ConfigEntry<T> getEntry(Identifier key) {
+    public static <T> @Nullable ConfigEntry<T> getEntry(Identifier key) {
         return (ConfigEntry<T>) CONFIGS.get(key);
     }
 
@@ -151,7 +155,7 @@ public enum PluginConfig implements IPluginConfig {
 
         var config = IO.read(PATH);
         config.forEach((namespace, subMap) -> subMap.forEach((path, value) -> {
-            var entry = (ConfigEntry<Object>) CONFIGS.get(Identifier.fromNamespaceAndPath(namespace, path));
+            var entry = CONFIGS.get(Identifier.fromNamespaceAndPath(namespace, path));
             if (entry != null) try {
                 entry.setLocalValue(entry.getType().parser.apply(value, entry.getDefaultValue()));
             } catch (Throwable throwable) {

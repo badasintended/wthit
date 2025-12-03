@@ -20,6 +20,7 @@ import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ToolMaterial;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * @hidden
@@ -37,7 +38,7 @@ public interface IApiService {
 
     IModInfo getModInfo(ItemStack stack);
 
-    IPluginInfo getPluginInfo(Identifier pluginId);
+    @Nullable IPluginInfo getPluginInfo(Identifier pluginId);
 
     Collection<IPluginInfo> getAllPluginInfoFromMod(String modId);
 

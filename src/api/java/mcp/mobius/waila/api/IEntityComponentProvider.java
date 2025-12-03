@@ -5,7 +5,7 @@ import mcp.mobius.waila.api.__internal__.Internals;
 import net.minecraft.world.entity.AreaEffectCloud;
 import net.minecraft.world.entity.Entity;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Used to provide {@link Entity} tooltip information to Waila.
@@ -40,9 +40,8 @@ public interface IEntityComponentProvider {
      *
      * @see IClientRegistrar#redirect(IEntityComponentProvider, Class)
      */
-    @Nullable
     @ApiStatus.Experimental
-    default ITargetRedirector.Result redirect(ITargetRedirector redirect, IEntityAccessor accessor, IPluginConfig config) {
+    default ITargetRedirector.@Nullable Result redirect(ITargetRedirector redirect, IEntityAccessor accessor, IPluginConfig config) {
         return null;
     }
 

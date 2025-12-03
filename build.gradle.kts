@@ -168,7 +168,7 @@ dependencies {
 
     minecraftlessImplementation("com.google.code.gson:gson:2.8.9")
     minecraftlessImplementation("commons-io:commons-io:2.11.0")
-    minecraftlessImplementation("org.jetbrains:annotations:24.1.0")
+    minecraftlessImplementation("org.jspecify:jspecify:1.0.0")
 
     testImplementation(platform("org.junit:junit-bom:5.10.2"))
     testImplementation("org.junit.jupiter:junit-jupiter")

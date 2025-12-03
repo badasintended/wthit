@@ -21,6 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class ReloadableServerResourcesMixin {
 
     @Unique
+    @SuppressWarnings("NotNullFieldNotInitialized")
     private RegistryAccess wthit_registryAccess;
 
     @Inject(method = "<init>", at = @At("TAIL"))

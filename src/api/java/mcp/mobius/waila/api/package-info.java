@@ -46,4 +46,7 @@
  * @see mcp.mobius.waila.api.IWailaCommonPlugin
  * @see mcp.mobius.waila.api.IWailaClientPlugin
  */
+@NullMarked
 package mcp.mobius.waila.api;
+
+import org.jspecify.annotations.NullMarked;

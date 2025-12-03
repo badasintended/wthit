@@ -4,6 +4,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import com.google.common.collect.Streams;
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
@@ -41,7 +42,10 @@ public class FabricPluginLoader extends PluginLoader {
             if (val.getType() == OBJECT) {
                 pluginMap.put(mod, new CustomValue.CvObject[]{val.getAsObject()});
             } else if (val.getType() == ARRAY) {
-                pluginMap.put(mod, Streams.stream(val.getAsArray()).map(CustomValue::getAsObject).toArray(CustomValue.CvObject[]::new));
+                pluginMap.put(mod, Streams.stream(val.getAsArray())
+                    .filter(Objects::nonNull)
+                    .map(CustomValue::getAsObject)
+                    .toArray(CustomValue.CvObject[]::new));
             } else {
                 LOG.error("Plugin data provided by {} must be an object or array of objects.", data.getId());
             }

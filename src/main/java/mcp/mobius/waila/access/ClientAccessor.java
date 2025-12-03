@@ -20,16 +20,17 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
+@SuppressWarnings("NotNullFieldNotInitialized")
 public enum ClientAccessor implements ICommonAccessor, IBlockAccessor, IEntityAccessor {
 
     INSTANCE;
 
     private Level world;
     private Player player;
-    private HitResult hitResult;
-    private Vec3 renderingVec = null;
+    private @Nullable HitResult hitResult;
+    private @Nullable Vec3 renderingVec;
     private Block block = Blocks.AIR;
     private BlockState state = Blocks.AIR.defaultBlockState();
     private BlockPos pos = BlockPos.ZERO;
@@ -97,7 +98,7 @@ public enum ClientAccessor implements ICommonAccessor, IBlockAccessor, IEntityAc
     }
 
     @Override
-    public Vec3 getRenderingPosition() {
+    public @Nullable Vec3 getRenderingPosition() {
         return this.renderingVec;
     }
 
@@ -117,6 +118,7 @@ public enum ClientAccessor implements ICommonAccessor, IBlockAccessor, IEntityAc
     }
 
     @Override
+    @SuppressWarnings("NullableProblems")
     public @Nullable Direction getSide() {
         return hitResult == null ? null : hitResult.getType() == HitResult.Type.ENTITY ? null : ((BlockHitResult) hitResult).getDirection();
     }
@@ -156,7 +158,7 @@ public enum ClientAccessor implements ICommonAccessor, IBlockAccessor, IEntityAc
         return frameTime;
     }
 
-    public void set(Level world, Player player, HitResult hit, Entity viewEntity, Vec3 rayCastOrigin, Vec3 rayCastDirection, double rayCastMaxDistance, float frameTime) {
+    public void set(Level world, Player player, HitResult hit, @Nullable Entity viewEntity, Vec3 rayCastOrigin, Vec3 rayCastDirection, double rayCastMaxDistance, float frameTime) {
         this.updateId++;
         if (updateId == 0) updateId++;
 
@@ -201,10 +203,10 @@ public enum ClientAccessor implements ICommonAccessor, IBlockAccessor, IEntityAc
 
     private boolean isTagCorrectBlockEntity() {
         if (blockEntity == null) return false;
+        if (hitResult == null) return false;
 
         var tag = DataReader.CLIENT.raw();
-
-        if (tag == null || tag.isEmpty() || !tag.contains("x") || !tag.contains("y") || !tag.contains("z")) {
+        if (tag.isEmpty() || !tag.contains("x") || !tag.contains("y") || !tag.contains("z")) {
             this.timeLastUpdate = System.currentTimeMillis() - 250;
             return false;
         }
@@ -226,8 +228,7 @@ public enum ClientAccessor implements ICommonAccessor, IBlockAccessor, IEntityAc
         if (entity == null) return false;
 
         var tag = DataReader.CLIENT.raw();
-
-        if (tag == null || !tag.contains("WailaEntityID")) {
+        if (!tag.contains("WailaEntityID")) {
             this.timeLastUpdate = System.currentTimeMillis() - 250;
             return false;
         }

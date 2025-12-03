@@ -16,7 +16,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.ToolMaterial;
 import net.minecraft.world.level.block.Block;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public final class ToolTier {
 
@@ -31,6 +31,7 @@ public final class ToolTier {
         ToolMaterial.NETHERITE.incorrectBlocksForDrops().location(), "netherite"
     ));
 
+    @SuppressWarnings("NotNullFieldNotInitialized")
     private static Supplier<Map<Identifier, ToolTier>> tiers;
 
     public final ToolMaterial tier;
@@ -95,8 +96,7 @@ public final class ToolTier {
     public boolean isEqualTo(ToolTier other) {
         if (this == other) return true;
         if (this.tier == other.tier) return true;
-        if (this.incorrect != null && other.incorrect != null) return this.incorrect.location().equals(other.incorrect.location());
-        return false;
+        return this.incorrect.location().equals(other.incorrect.location());
     }
 
     public boolean isBetterThanOrEqualTo(ToolTier other) {

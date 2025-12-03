@@ -15,14 +15,14 @@ import mcp.mobius.waila.mixin.EntityAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.Mob;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public enum EntityProvider implements IEntityComponentProvider {
 
     INSTANCE;
 
     @Override
-    public @Nullable ITargetRedirector.Result redirect(ITargetRedirector redirect, IEntityAccessor accessor, IPluginConfig config) {
+    public ITargetRedirector.@Nullable Result redirect(ITargetRedirector redirect, IEntityAccessor accessor, IPluginConfig config) {
         if (IBlacklistConfig.get().contains(accessor.getEntity())) return redirect.toBehind();
 
         return null;

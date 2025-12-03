@@ -8,6 +8,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.client.gui.render.state.GuiRenderState;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix3x2f;
 
 /** @hidden */
@@ -18,7 +19,7 @@ public interface IClientApiService {
 
     GuiRenderState getRenderState(GuiGraphics ctx);
 
-    ScreenRectangle peekScissorStack(GuiGraphics ctx);
+    @Nullable ScreenRectangle peekScissorStack(GuiGraphics ctx);
 
     void renderComponent(GuiGraphics ctx, ITooltipComponent component, int x, int y, DeltaTracker delta);
 

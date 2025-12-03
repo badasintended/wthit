@@ -44,14 +44,14 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.Util;
 import net.minecraft.world.level.block.Blocks;
 import org.apache.commons.lang3.mutable.MutableObject;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.joml.Vector2d;
 import org.joml.Vector2i;
+import org.jspecify.annotations.Nullable;
 
 import static mcp.mobius.waila.util.DisplayUtil.createButton;
 import static mcp.mobius.waila.util.DisplayUtil.tryFormat;
 
+@SuppressWarnings("NotNullFieldNotInitialized")
 public class WailaConfigScreen extends TabbedConfigScreen {
 
     public static final Component TITLE = Component.translatable(Tl.Gui.WAILA_SETTINGS, WailaConstants.MOD_NAME);
@@ -83,7 +83,7 @@ public class WailaConfigScreen extends TabbedConfigScreen {
 
     private @Nullable KeyBindValue selectedKeyBind;
 
-    public WailaConfigScreen(Screen parent) {
+    public WailaConfigScreen(@Nullable Screen parent) {
         super(parent, CommonComponents.EMPTY, WailaClient.CONFIG::save, WailaClient.CONFIG::invalidate);
     }
 
@@ -127,7 +127,7 @@ public class WailaConfigScreen extends TabbedConfigScreen {
     }
 
     @Override
-    public void render(@NotNull GuiGraphics ctx, int mouseX, int mouseY, float partialTicks) {
+    public void render(GuiGraphics ctx, int mouseX, int mouseY, float partialTicks) {
         if (InputConstants.isKeyDown(minecraft.getWindow(), InputConstants.KEY_F1)) {
             if (!f1held) {
                 f1held = true;

@@ -1,5 +1,7 @@
 package mcp.mobius.waila.gui.screen;
 
+import java.util.Objects;
+
 import it.unimi.dsi.fastutil.objects.Object2BooleanMap;
 import it.unimi.dsi.fastutil.objects.Object2BooleanOpenHashMap;
 import mcp.mobius.waila.api.IWailaConfig;
@@ -39,7 +41,7 @@ public class PluginToggleScreen extends TabbedConfigScreen {
                 return;
             }
 
-            updatedValues.forEach((k, v) -> PluginInfo.get(k).setEnabled(v));
+            updatedValues.forEach((k, v) -> Objects.requireNonNull(PluginInfo.get(k)).setEnabled(v));
             var integratedServer = minecraft.getSingleplayerServer();
 
             if (integratedServer != null) {

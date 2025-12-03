@@ -18,13 +18,15 @@ import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.entity.BeehiveBlockEntity;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public enum BeehiveDataProvider implements IDataProvider<BeehiveBlockEntity> {
 
     INSTANCE;
 
     public static final IData.Type<OccupantsData> OCCUPANTS = IData.createType(Identifier.withDefaultNamespace("bee.occupants"));
+
+    @SuppressWarnings("DataFlowIssue")
     public static final StreamCodec<RegistryFriendlyByteBuf, OccupantsData> OCCUPANTS_CODEC = StreamCodec.composite(
         StreamCodec.composite(
             ByteBufCodecs.registry(Registries.ENTITY_TYPE), OccupantsData.Occupant::entityType,

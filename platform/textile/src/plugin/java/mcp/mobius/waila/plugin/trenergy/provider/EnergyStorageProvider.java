@@ -9,7 +9,7 @@ import net.fabricmc.fabric.api.lookup.v1.block.BlockApiCache;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 import team.reborn.energy.api.EnergyStorage;
 
 public enum EnergyStorageProvider implements IDataProvider<BlockEntity> {
@@ -17,6 +17,7 @@ public enum EnergyStorageProvider implements IDataProvider<BlockEntity> {
     INSTANCE;
 
     @Nullable
+    @SuppressWarnings("NullableProblems")
     private BlockApiCache<EnergyStorage, @Nullable Direction> cache;
 
     @Override
@@ -26,6 +27,7 @@ public enum EnergyStorageProvider implements IDataProvider<BlockEntity> {
                 cache = BlockApiCache.create(EnergyStorage.SIDED, (ServerLevel) accessor.getWorld(), accessor.getTarget().getBlockPos());
             }
 
+            @SuppressWarnings("DataFlowIssue")
             var storage = cache.find(accessor.getTarget().getBlockState(), null);
 
             if (storage != null) {
