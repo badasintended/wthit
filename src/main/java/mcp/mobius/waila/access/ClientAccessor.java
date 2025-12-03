@@ -27,6 +27,8 @@ public enum ClientAccessor implements ICommonAccessor, IBlockAccessor, IEntityAc
 
     INSTANCE;
 
+    public boolean hasServer = false;
+
     private Level world;
     private Player player;
     private @Nullable HitResult hitResult;
