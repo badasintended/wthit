@@ -109,12 +109,14 @@ public abstract class WailaClient {
     }
 
     public static void onServerLogIn() {
+        ClientAccessor.INSTANCE.hasServer = false;
         Waila.BLACKLIST_CONFIG.invalidate();
         PluginConfig.getSyncableConfigs().forEach(config ->
             config.setServerValue(null));
     }
 
     protected static void onServerLogout() {
+        ClientAccessor.INSTANCE.hasServer = false;
         RegistryFilter.attach(null);
         Waila.BLACKLIST_CONFIG.invalidate();
         PluginConfig.getSyncableConfigs().forEach(config ->

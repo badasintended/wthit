@@ -5,6 +5,7 @@ import java.util.function.Consumer;
 import lol.bai.badpackets.api.config.ConfigPackets;
 import lol.bai.badpackets.api.play.PlayPackets;
 import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.access.ClientAccessor;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.network.Packet;
 import net.minecraft.network.FriendlyByteBuf;
@@ -34,7 +35,10 @@ public class VersionCommonPacket implements Packet {
 
     @Override
     public void client() {
-        ConfigPackets.registerClientReceiver(TYPE, (context, payload) -> receive(context::disconnect, payload));
+        ConfigPackets.registerClientReceiver(TYPE, (context, payload) -> {
+            receive(context::disconnect, payload);
+            ClientAccessor.INSTANCE.hasServer = true;
+        });
     }
 
     private void receive(Consumer<Component> disconnector, Payload payload) {
