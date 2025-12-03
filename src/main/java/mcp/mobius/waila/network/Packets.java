@@ -13,6 +13,7 @@ import lol.bai.badpackets.api.PacketSender;
 import lol.bai.badpackets.api.S2CPacketReceiver;
 import lol.bai.badpackets.api.event.PacketSenderReadyCallback;
 import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.access.ClientAccessor;
 import mcp.mobius.waila.access.DataReader;
 import mcp.mobius.waila.access.DataWriter;
 import mcp.mobius.waila.access.ServerAccessor;
@@ -67,6 +68,8 @@ public class Packets {
 
     public static void initServer() {
         PacketSenderReadyCallback.registerServer((handler, sender, server) -> {
+            if (!sender.canSend(VERSION)) return;
+
             var versionBuf = new FriendlyByteBuf(Unpooled.buffer());
             versionBuf.writeVarInt(NETWORK_VERSION);
             sender.send(VERSION, versionBuf);
@@ -170,6 +173,8 @@ public class Packets {
 
     public static void initClient() {
         PacketSenderReadyCallback.registerClient((handler, sender, client) -> {
+            if (!sender.canSend(VERSION)) return;
+
             var buf = new FriendlyByteBuf(Unpooled.buffer());
             buf.writeVarInt(NETWORK_VERSION);
             sender.send(VERSION, buf);
@@ -182,6 +187,8 @@ public class Packets {
                     WailaConstants.MOD_NAME + " network version mismatch! " +
                         "Server version is " + serverVersion + " while client version is " + NETWORK_VERSION));
             }
+
+            client.execute(() -> ClientAccessor.INSTANCE.hasServer = true);
         });
 
         S2CPacketReceiver.register(DATA_RAW, (client, handler, buf, responseSender) -> {
