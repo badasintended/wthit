@@ -26,6 +26,8 @@ import org.jetbrains.annotations.Nullable;
 public class ComponentHandler {
 
     public static void requestBlockData(ClientAccessor accessor) {
+        if (!accessor.hasServer) return;
+
         var registrar = Registrar.get();
         var block = accessor.getBlock();
         var blockEntity = accessor.getBlockEntity();
@@ -83,6 +85,8 @@ public class ComponentHandler {
     }
 
     public static void requestEntityData(Entity entity, ClientAccessor accessor) {
+        if (!accessor.hasServer) return;
+
         var registrar = Registrar.get();
         var trueEntity = accessor.getEntity();
 

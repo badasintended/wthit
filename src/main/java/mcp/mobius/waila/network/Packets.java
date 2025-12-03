@@ -59,12 +59,14 @@ public class Packets {
         ConfigPackets.registerClientReadyCallback(Packets::sendVersionPacket);
     }
 
-    private static void sendVersionPacket(PacketSender sender) {
+    private static boolean sendVersionPacket(PacketSender sender) {
+        if (!sender.canSend(VersionCommonPacket.TYPE)) return false;
         sender.send(new VersionCommonPacket.Payload(NETWORK_VERSION));
+        return true;
     }
 
     private static void sendS2CHandshakePackets(PacketSender sender) {
-        sendVersionPacket(sender);
+        if (!sendVersionPacket(sender)) return;
 
         sender.send(new PluginSyncCommonS2CPacket.Payload());
         sender.send(new BlacklistSyncCommonS2CPacket.Payload());
