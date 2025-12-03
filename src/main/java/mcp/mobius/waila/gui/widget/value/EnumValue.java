@@ -7,8 +7,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import static mcp.mobius.waila.util.DisplayUtil.createButton;
 
@@ -34,7 +33,7 @@ public class EnumValue<T extends Enum<T>> extends ConfigValue<T, EnumValue<T>> {
     }
 
     @Override
-    public @NotNull Button getListener() {
+    public Button getListener() {
         return button;
     }
 

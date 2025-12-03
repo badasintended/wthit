@@ -1,5 +1,7 @@
 package mcp.mobius.waila.gui.hud;
 
+import java.util.Objects;
+
 import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.access.ClientAccessor;
 import mcp.mobius.waila.api.IBlockComponentProvider;
@@ -24,7 +26,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import static mcp.mobius.waila.gui.hud.ComponentHandler.gatherBlock;
 import static mcp.mobius.waila.gui.hud.ComponentHandler.gatherEntity;
@@ -126,7 +128,7 @@ public class TooltipHandler {
     private static ProcessResult processTarget(TooltipRenderer.State state, HitResult target, Minecraft client, Player player, Vec3 castOrigin, Vec3 castDirection, double pickRange, WailaConfig.General config) {
         var accessor = ClientAccessor.INSTANCE;
 
-        accessor.set(client.level, player, target, client.getCameraEntity(), castOrigin, castDirection, pickRange, client.getDeltaTracker().getGameTimeDeltaPartialTick(true));
+        accessor.set(Objects.requireNonNull(client.level), player, target, client.getCameraEntity(), castOrigin, castDirection, pickRange, client.getDeltaTracker().getGameTimeDeltaPartialTick(true));
 
         TooltipRenderer.beginBuild(state);
 
@@ -136,7 +138,7 @@ public class TooltipHandler {
 
             var redirector = TargetRedirector.get();
             var redirectPriority = Integer.MAX_VALUE;
-            @Nullable ITargetRedirector.Result redirectResult = null;
+            ITargetRedirector.@Nullable Result redirectResult = null;
 
             for (var entry : Registrar.get().blockRedirect.get(block)) {
                 redirectResult = entry.instance().redirect(redirector, accessor, PluginConfig.CLIENT);
@@ -193,7 +195,7 @@ public class TooltipHandler {
             var actualEntity = accessor.getEntity();
 
             var redirector = TargetRedirector.get();
-            @Nullable ITargetRedirector.Result redirectResult = null;
+            ITargetRedirector.@Nullable Result redirectResult = null;
 
             for (var entry : Registrar.get().entityRedirect.get(actualEntity)) {
                 redirectResult = entry.instance().redirect(redirector, accessor, PluginConfig.CLIENT);

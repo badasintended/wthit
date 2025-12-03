@@ -12,7 +12,8 @@ import mcp.mobius.waila.plugin.extra.data.ItemDataImpl;
 import mcp.mobius.waila.plugin.extra.data.ProgressDataImpl;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.material.Fluid;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 public class ExtraService implements IExtraService {
 
@@ -26,13 +27,13 @@ public class ExtraService implements IExtraService {
     @Override
     @SuppressWarnings("unchecked")
     public <T extends Fluid> void setFluidDescFor(T fluid, FluidData.FluidDescriptor<T> descriptor) {
-        FluidDataImpl.FluidDescription.FLUID_STATIC.put(fluid, (FluidData.FluidDescriptor<Fluid>) descriptor);
+        FluidDataImpl.FluidDescription.FLUID_STATIC.put(fluid, (FluidData.FluidDescriptor<@NonNull Fluid>) descriptor);
     }
 
     @Override
     @SuppressWarnings("unchecked")
     public <T extends Fluid> void setFluidDescFor(Class<T> clazz, FluidData.FluidDescriptor<T> descriptor) {
-        FluidDataImpl.FluidDescription.FLUID_DYNAMIC.put(clazz, (FluidData.FluidDescriptor<Fluid>) descriptor);
+        FluidDataImpl.FluidDescription.FLUID_DYNAMIC.put(clazz, (FluidData.FluidDescriptor<@NonNull Fluid>) descriptor);
     }
 
     @Override
@@ -52,8 +53,8 @@ public class ExtraService implements IExtraService {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <S> FluidData.PlatformDependant<S> createFluidData(@Nullable FluidData.PlatformTranslator<S> proxy, FluidData.Unit unit, int slotCountHint) {
-        return (FluidData.PlatformDependant<S>) new FluidDataImpl((FluidData.PlatformTranslator<Object>) proxy, unit, slotCountHint);
+    public <S> FluidData.PlatformDependant<S> createFluidData(FluidData.@Nullable PlatformTranslator<S> proxy, FluidData.Unit unit, int slotCountHint) {
+        return (FluidData.PlatformDependant<S>) new FluidDataImpl((FluidData.PlatformTranslator<@NonNull Object>) proxy, unit, slotCountHint);
     }
 
     @Override

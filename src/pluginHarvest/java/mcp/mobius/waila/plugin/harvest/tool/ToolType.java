@@ -21,6 +21,7 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 
+@SuppressWarnings("NotNullFieldNotInitialized")
 public class ToolType implements IToolType, IToolType.Builder0, IToolType.Builder1, IToolType.Builder2, IToolType.Builder3 {
 
     private static final Map<Identifier, ToolType> MAP = new LinkedHashMap<>();

@@ -2,12 +2,13 @@ package mcp.mobius.waila.access;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import mcp.mobius.waila.api.IData;
 import mcp.mobius.waila.api.IDataReader;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.Identifier;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public enum DataReader implements IDataReader {
 
@@ -31,7 +32,7 @@ public enum DataReader implements IDataReader {
         }
     };
 
-    private CompoundTag raw;
+    private @Nullable CompoundTag raw;
     private final Map<Identifier, IData> typed = new HashMap<>();
     private boolean clean;
 
@@ -50,7 +51,7 @@ public enum DataReader implements IDataReader {
 
     @Override
     public CompoundTag raw() {
-        return raw;
+        return Objects.requireNonNull(raw);
     }
 
     @Override

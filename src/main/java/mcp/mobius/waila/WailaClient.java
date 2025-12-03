@@ -22,7 +22,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public abstract class WailaClient {
 
@@ -110,12 +110,14 @@ public abstract class WailaClient {
     }
 
     public static void onServerLogIn() {
+        ClientAccessor.INSTANCE.hasServer = false;
         Waila.BLACKLIST_CONFIG.invalidate();
         PluginConfig.getSyncableConfigs().forEach(config ->
             config.setServerValue(null));
     }
 
     protected static void onServerLogout() {
+        ClientAccessor.INSTANCE.hasServer = false;
         RegistryFilter.attach(null);
         Waila.BLACKLIST_CONFIG.invalidate();
         PluginConfig.getSyncableConfigs().forEach(config ->

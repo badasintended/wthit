@@ -20,7 +20,7 @@ import java.util.function.ToIntFunction;
 import com.google.gson.Gson;
 import mcp.mobius.waila.mcless.json5.Json5Writer;
 import org.apache.commons.io.FilenameUtils;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class ConfigIo<T> {
 

@@ -21,11 +21,13 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.EntityHitResult;
 import net.minecraft.world.phys.HitResult;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class ComponentHandler {
 
     public static void requestBlockData(ClientAccessor accessor) {
+        if (!accessor.hasServer) return;
+
         var registrar = Registrar.get();
         var block = accessor.getBlock();
         var blockEntity = accessor.getBlockEntity();
@@ -83,6 +85,8 @@ public class ComponentHandler {
     }
 
     public static void requestEntityData(Entity entity, ClientAccessor accessor) {
+        if (!accessor.hasServer) return;
+
         var registrar = Registrar.get();
         var trueEntity = accessor.getEntity();
 
@@ -176,7 +180,7 @@ public class ComponentHandler {
         return EmptyComponent.INSTANCE;
     }
 
-    public static @Nullable Entity getOverrideEntity(HitResult target) {
+    public static @Nullable Entity getOverrideEntity(@Nullable HitResult target) {
         if (target == null || target.getType() != HitResult.Type.ENTITY) {
             return null;
         }

@@ -13,7 +13,7 @@ import mcp.mobius.waila.plugin.PluginInfo;
 import mcp.mobius.waila.registry.InstanceRegistry;
 import mcp.mobius.waila.registry.Registrar;
 import mcp.mobius.waila.util.Log;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import static mcp.mobius.waila.gui.hud.TooltipPosition.BODY;
 import static mcp.mobius.waila.gui.hud.TooltipPosition.HEAD;

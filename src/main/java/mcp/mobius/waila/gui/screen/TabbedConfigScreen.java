@@ -5,11 +5,11 @@ import net.minecraft.client.gui.screens.ConfirmScreen;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public abstract class TabbedConfigScreen extends ConfigScreen implements TabbedScreen {
 
-    public TabbedConfigScreen(Screen parent, Component title, @Nullable Runnable saver, @Nullable Runnable canceller) {
+    public TabbedConfigScreen(@Nullable Screen parent, Component title, @Nullable Runnable saver, @Nullable Runnable canceller) {
         super(parent, title, saver, canceller);
     }
 
@@ -18,7 +18,7 @@ public abstract class TabbedConfigScreen extends ConfigScreen implements TabbedS
     }
 
     @Override
-    public Screen getParent() {
+    public @Nullable Screen getParent() {
         return parent;
     }
 

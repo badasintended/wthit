@@ -15,7 +15,7 @@ import mcp.mobius.waila.api.IntFormat;
 import mcp.mobius.waila.registry.Registrar;
 import mcp.mobius.waila.util.TypeUtil;
 import net.minecraft.resources.Identifier;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class ThemeType<T extends ITheme> implements IThemeType<T>, IThemeType.Builder<T> {
 

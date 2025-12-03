@@ -37,8 +37,9 @@ public class PluginSyncCommonS2CPacket implements Packet {
     private static void receive(Payload payload) {
         PluginInfo.refresh();
 
-        for (var plugin : payload.plugins) {
-            PluginInfo.get(plugin).setDisabledOnServer(true);
+        for (var id : payload.plugins) {
+            var plugin = PluginInfo.get(id);
+            if (plugin != null) plugin.setDisabledOnServer(true);
         }
 
         PluginLoader.INSTANCE.loadPlugins();

@@ -19,14 +19,14 @@ import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleSlotStorage;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public enum ItemStorageProvider implements IDataProvider<BlockEntity> {
 
     INSTANCE;
 
-    @Nullable
-    private BlockApiCache<Storage<ItemVariant>, @Nullable Direction> cache;
+    @SuppressWarnings("NullableProblems")
+    private @Nullable BlockApiCache<Storage<ItemVariant>, @Nullable Direction> cache;
 
     @Override
     public void appendData(IDataWriter data, IServerAccessor<BlockEntity> accessor, IPluginConfig config) {
@@ -35,6 +35,7 @@ public enum ItemStorageProvider implements IDataProvider<BlockEntity> {
                 cache = BlockApiCache.create(ItemStorage.SIDED, (ServerLevel) accessor.getWorld(), accessor.getTarget().getBlockPos());
             }
 
+            @SuppressWarnings("DataFlowIssue")
             var storage = cache.find(accessor.getTarget().getBlockState(), null);
 
             if (storage instanceof SingleSlotStorage<ItemVariant> single) {

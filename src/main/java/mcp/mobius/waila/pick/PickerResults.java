@@ -8,6 +8,7 @@ import java.util.function.ObjDoubleConsumer;
 import it.unimi.dsi.fastutil.objects.Object2DoubleArrayMap;
 import it.unimi.dsi.fastutil.objects.Object2DoubleMap;
 import net.minecraft.world.phys.HitResult;
+import org.jspecify.annotations.Nullable;
 
 public enum PickerResults implements Iterable<HitResult>, ObjDoubleConsumer<HitResult> {
 
@@ -16,7 +17,7 @@ public enum PickerResults implements Iterable<HitResult>, ObjDoubleConsumer<HitR
     private final Object2DoubleMap<HitResult> map = new Object2DoubleArrayMap<>();
 
     @Override
-    public void accept(HitResult hitResult, double value) {
+    public void accept(@Nullable HitResult hitResult, double value) {
         if (hitResult != null && hitResult.getType() != HitResult.Type.MISS) {
             map.put(hitResult, value);
         }

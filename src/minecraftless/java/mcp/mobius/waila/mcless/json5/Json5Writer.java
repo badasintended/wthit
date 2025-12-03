@@ -36,7 +36,7 @@ import java.util.Objects;
 import java.util.function.Function;
 
 import com.google.gson.stream.JsonWriter;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /*
  *
@@ -143,7 +143,7 @@ import org.jetbrains.annotations.Nullable;
  * Instances of this class are not thread safe. Calls that would result in a
  * malformed JSON string will fail with an {@link IllegalStateException}.
  */
-@SuppressWarnings({"RedundantExplicitVariableType", "DataFlowIssue"})
+@SuppressWarnings({"RedundantExplicitVariableType"})
 public final class Json5Writer extends JsonWriter {
 	/*
 	 * From RFC 7159, "All Unicode characters may be placed within the

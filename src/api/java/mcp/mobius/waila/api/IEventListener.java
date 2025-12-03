@@ -1,11 +1,11 @@
 package mcp.mobius.waila.api;
 
-import java.awt.Rectangle;
+import java.awt.*;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Used to listen to generic Waila events.

@@ -8,10 +8,9 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
-public class InputValue<T> extends ConfigValue<@Nullable T, InputValue<T>> {
+public class InputValue<T> extends ConfigValue<T, InputValue<T>> {
 
     public static final Predicate<String> ANY = s -> true;
     public static final Predicate<String> INTEGER = s -> s.matches("[-+]?\\d*$");
@@ -75,7 +74,7 @@ public class InputValue<T> extends ConfigValue<@Nullable T, InputValue<T>> {
     }
 
     @Override
-    public @NotNull WatchedTextfield getListener() {
+    public WatchedTextfield getListener() {
         return textField;
     }
 
@@ -154,7 +153,7 @@ public class InputValue<T> extends ConfigValue<@Nullable T, InputValue<T>> {
         }
 
         @Override
-        public void insertText(@NotNull String string) {
+        public void insertText(String string) {
             var access = (EditBoxAccess) this;
             var i = Math.min(getCursorPosition(), access.wthit_highlightPos());
             var j = Math.max(getCursorPosition(), access.wthit_highlightPos());
@@ -180,7 +179,7 @@ public class InputValue<T> extends ConfigValue<@Nullable T, InputValue<T>> {
 
     public interface Serializer<T> {
 
-        String serialize(T t);
+        String serialize(@Nullable T t);
 
         T deserialize(String s);
 

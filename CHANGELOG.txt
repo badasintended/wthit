@@ -1,5 +1,11 @@
+18.x - 1.21.11-pre1 - dev/1.21.11 - java 21
+===========================================
+18.0.0   - Updated to Minecraft 1.21.11-pre1
+         - Added shelf items tooltip
+
 17.x - 1.21.10 - dev/1.21.10 - java 21
 ======================================
+17.3.3   - Added shelf items tooltip
 17.3.2   - Fixed key binds not being able to be set to mouse buttons (#350)
          - Fixed mixin warning (#349)
 17.3.1   - Fixed crash on server (#348)

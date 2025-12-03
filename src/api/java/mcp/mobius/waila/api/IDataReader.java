@@ -2,7 +2,7 @@ package mcp.mobius.waila.api;
 
 import net.minecraft.nbt.CompoundTag;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Used to get data synced.

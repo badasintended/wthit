@@ -18,7 +18,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class ExtraBlacklistConfig {
 
@@ -64,7 +64,7 @@ public class ExtraBlacklistConfig {
         private final String tagRule;
 
         public Adapter(Identifier tagId) {
-            this.tagRule = "#" + tagId.toString();
+            this.tagRule = "#" + tagId;
         }
 
         @Override

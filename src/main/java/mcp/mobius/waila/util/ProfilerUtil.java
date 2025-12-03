@@ -12,6 +12,7 @@ public class ProfilerUtil {
     public enum Impl implements AutoCloseable {
         INSTANCE;
 
+        @SuppressWarnings("NotNullFieldNotInitialized")
         ProfilerFiller profiler;
 
         private Impl start(String name) {

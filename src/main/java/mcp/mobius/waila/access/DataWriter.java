@@ -35,6 +35,7 @@ public enum DataWriter implements IDataWriter {
     private final Map<IData.Type<IData>, IData> immediate = new HashMap<>();
     private final Map<IData.Type<IData>, List<Consumer<Result<IData>>>> lazy = new HashMap<>();
 
+    @SuppressWarnings("NotNullFieldNotInitialized")
     private CompoundTag raw;
     private boolean clean;
 

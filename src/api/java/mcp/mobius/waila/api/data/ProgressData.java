@@ -13,6 +13,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.ApiStatus;
+import org.jetbrains.annotations.UnknownNullability;
 
 /**
  * Adds a crafting progress information to an object.
@@ -181,7 +182,7 @@ public abstract class ProgressData implements IData {
     protected final ArrayList<ItemStack> output = new ArrayList<>();
 
     /** @hidden */
-    protected IntFunction<ItemStack> itemGetter;
+    protected @UnknownNullability IntFunction<ItemStack> itemGetter;
 
     @ApiStatus.Internal
     private void assertInventory() {

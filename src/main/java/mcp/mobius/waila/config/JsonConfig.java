@@ -24,7 +24,7 @@ import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.mcless.config.ConfigIo;
 import mcp.mobius.waila.util.CachedSupplier;
 import mcp.mobius.waila.util.Log;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class JsonConfig<T> implements IJsonConfig<T> {
 
@@ -50,6 +50,7 @@ public class JsonConfig<T> implements IJsonConfig<T> {
         this.io = new ConfigIo<>(LOG::warn, LOG::error, json5, new CommenterFactories(commenterFactories), gson, type, factory, currentVersion, versionGetter, versionSetter);
         this.getter = new CachedSupplier<>(() -> io.read(this.path));
 
+        //noinspection NullableProblems
         INSTANCES.add((JsonConfig<Object>) this);
     }
 
@@ -106,6 +107,7 @@ public class JsonConfig<T> implements IJsonConfig<T> {
         }
     }
 
+    @SuppressWarnings("NotNullFieldNotInitialized")
     public static class Builder<T> implements Builder0<T>, Builder1<T> {
 
         final Type type;

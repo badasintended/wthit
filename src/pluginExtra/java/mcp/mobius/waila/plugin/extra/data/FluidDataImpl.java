@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import mcp.mobius.waila.api.IData;
 import mcp.mobius.waila.api.data.FluidData;
@@ -21,7 +22,8 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 public class FluidDataImpl extends FluidData.PlatformDependant<Object> {
 
@@ -60,10 +62,10 @@ public class FluidDataImpl extends FluidData.PlatformDependant<Object> {
     });
 
     private final List<Entry<?>> entries;
-    private final PlatformTranslator<Object> proxy;
+    private final @Nullable PlatformTranslator<Object> proxy;
     private final Unit unit;
 
-    public FluidDataImpl(@Nullable FluidData.PlatformTranslator<Object> proxy, Unit unit, int slotCountHint) {
+    public FluidDataImpl(FluidData.@Nullable PlatformTranslator<Object> proxy, Unit unit, int slotCountHint) {
         this.entries = slotCountHint == -1 ? new ArrayList<>() : new ArrayList<>(slotCountHint);
         this.proxy = proxy;
         this.unit = unit;
@@ -75,9 +77,8 @@ public class FluidDataImpl extends FluidData.PlatformDependant<Object> {
     }
 
     @Override
-    @SuppressWarnings("DataFlowIssue")
     protected PlatformTranslator<Object> translator() {
-        return proxy;
+        return Objects.requireNonNull(proxy);
     }
 
     @Override
@@ -131,6 +132,7 @@ public class FluidDataImpl extends FluidData.PlatformDependant<Object> {
 
     }
 
+    @SuppressWarnings("NotNullFieldNotInitialized")
     public static class FluidDescription implements FluidData.FluidDescription {
 
         public static final Map<Fluid, FluidDescriptor<Fluid>> FLUID_STATIC = new HashMap<>();
@@ -179,7 +181,7 @@ public class FluidDataImpl extends FluidData.PlatformDependant<Object> {
                 .tint(0xFFFFFFFF)
                 .name(UNKNOWN_FLUID_NAME);
 
-            descriptor.describeFluid((Entry<Fluid>) entry, INSTANCE);
+            descriptor.describeFluid((Entry<@NonNull Fluid>) entry, INSTANCE);
             return INSTANCE;
         }
 

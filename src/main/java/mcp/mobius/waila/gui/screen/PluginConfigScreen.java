@@ -3,6 +3,7 @@ package mcp.mobius.waila.gui.screen;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Consumer;
 
 import lol.bai.badpackets.api.PacketSender;
@@ -25,6 +26,7 @@ import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Util;
+import org.jspecify.annotations.NonNull;
 
 public class PluginConfigScreen extends TabbedConfigScreen {
 
@@ -49,7 +51,7 @@ public class PluginConfigScreen extends TabbedConfigScreen {
 
     @SuppressWarnings("unchecked")
     private static <T> void register(ConfigEntry.Type<T> type, ConfigValueFunction<T> function) {
-        ENTRY_TO_VALUE.put((ConfigEntry.Type<Object>) type, (ConfigValueFunction<Object>) function);
+        ENTRY_TO_VALUE.put((ConfigEntry.Type<@NonNull Object>) type, (ConfigValueFunction<@NonNull Object>) function);
     }
 
     @Override
@@ -69,7 +71,7 @@ public class PluginConfigScreen extends TabbedConfigScreen {
             categories.put(NO_CATEGORY, namespaceCategory);
 
             for (var key : keys) {
-                var entry = PluginConfig.getEntry(key);
+                var entry = Objects.requireNonNull(PluginConfig.getEntry(key));
                 if (entry.isAlias()) continue;
 
                 var path = key.getPath();

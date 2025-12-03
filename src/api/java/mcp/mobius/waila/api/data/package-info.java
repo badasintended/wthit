@@ -15,4 +15,7 @@
  * }
  * </pre>
  */
+@NullMarked
 package mcp.mobius.waila.api.data;
+
+import org.jspecify.annotations.NullMarked;

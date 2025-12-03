@@ -29,7 +29,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.LockCode;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public abstract class ServerCommand extends CommonCommand<CommandSourceStack, MinecraftServer> {
 
@@ -149,6 +149,7 @@ public abstract class ServerCommand extends CommonCommand<CommandSourceStack, Mi
                 var source = context.getSource();
                 var world = source.getLevel();
                 var player = source.getPlayer();
+                if (player == null) return 0;
                 var pos = BlockPosArgument.getLoadedBlockPos(context, "pos");
 
                 var err = fillContainer(world, pos, player);

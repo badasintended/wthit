@@ -14,14 +14,14 @@ import mcp.mobius.waila.api.component.ItemComponent;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.LiquidBlock;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public enum BlockProvider implements IBlockComponentProvider {
 
     INSTANCE;
 
     @Override
-    public @Nullable ITargetRedirector.Result redirect(ITargetRedirector redirect, IBlockAccessor accessor, IPluginConfig config) {
+    public ITargetRedirector.@Nullable Result redirect(ITargetRedirector redirect, IBlockAccessor accessor, IPluginConfig config) {
         var blacklist = IBlacklistConfig.get();
         if (blacklist.contains(accessor.getBlock())) return redirect.toBehind();
 

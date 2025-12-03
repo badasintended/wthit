@@ -27,7 +27,9 @@ import net.minecraft.client.gui.screens.ConfirmScreen;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import org.jetbrains.annotations.UnknownNullability;
 
+@SuppressWarnings("NotNullFieldNotInitialized")
 class ThemeEditorScreen extends ConfigScreen {
 
     private final WailaConfigScreen parent;
@@ -43,8 +45,8 @@ class ThemeEditorScreen extends ConfigScreen {
     private CategoryEntry themeAttrCategory;
 
     private ButtonEntry refreshButton;
-    private InputValue<String> idVal;
-    private CycleValue typeVal;
+    private @UnknownNullability InputValue<String> idVal;
+    private @UnknownNullability CycleValue typeVal;
 
     private final Map<ThemeType<?>, Map<String, Object>> type2attr = new HashMap<>();
     private final Map<String, ConfigValue<Object, ?>> attrValues = new HashMap<>();

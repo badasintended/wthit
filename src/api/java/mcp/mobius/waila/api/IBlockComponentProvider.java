@@ -6,7 +6,7 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.ApiStatus;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Used to provide {@link Block}/{@link BlockEntity} tooltip information to Waila.
@@ -41,9 +41,8 @@ public interface IBlockComponentProvider {
      *
      * @see IClientRegistrar#redirect(IBlockComponentProvider, Class)
      */
-    @Nullable
     @ApiStatus.Experimental
-    default ITargetRedirector.Result redirect(ITargetRedirector redirect, IBlockAccessor accessor, IPluginConfig config) {
+    default ITargetRedirector.@Nullable Result redirect(ITargetRedirector redirect, IBlockAccessor accessor, IPluginConfig config) {
         return null;
     }
 

@@ -9,9 +9,9 @@ import com.google.common.base.Preconditions;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonNull;
 import com.google.gson.JsonPrimitive;
-import mcp.mobius.waila.api.IPluginInfo;
+import mcp.mobius.waila.plugin.PluginInfo;
 import net.minecraft.resources.Identifier;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 @SuppressWarnings({"rawtypes"})
 public class ConfigEntry<T> {
@@ -23,7 +23,7 @@ public class ConfigEntry<T> {
     public static final Type<Enum<? extends Enum>> ENUM = new Type<>((e, d) -> Enum.valueOf(d.getDeclaringClass(), e.getAsString()), e -> new JsonPrimitive(e.name()));
     public static final Type<Path> PATH = new Type<>((e, d) -> d, e -> JsonNull.INSTANCE);
 
-    private final IPluginInfo origin;
+    private final PluginInfo origin;
     private final Identifier id;
     private final T defaultValue;
     private final T clientOnlyValue;
@@ -35,7 +35,7 @@ public class ConfigEntry<T> {
     private @Nullable T serverValue;
     private T localValue;
 
-    private ConfigEntry(IPluginInfo origin, Identifier id, T defaultValue, T clientOnlyValue, boolean serverRequired, boolean merged, Type<T> type) {
+    private ConfigEntry(PluginInfo origin, Identifier id, T defaultValue, T clientOnlyValue, boolean serverRequired, boolean merged, Type<T> type) {
         this.origin = origin;
         this.id = id;
         this.defaultValue = defaultValue;
@@ -50,7 +50,7 @@ public class ConfigEntry<T> {
         return type;
     }
 
-    public IPluginInfo getOrigin() {
+    public PluginInfo getOrigin() {
         return origin;
     }
 
@@ -146,7 +146,7 @@ public class ConfigEntry<T> {
             this.serializer = serializer;
         }
 
-        public ConfigEntry<T> create(IPluginInfo origin, Identifier id, T defaultValue, T clientOnlyValue, boolean serverRequired, boolean merged) {
+        public ConfigEntry<T> create(PluginInfo origin, Identifier id, T defaultValue, T clientOnlyValue, boolean serverRequired, boolean merged) {
             return new ConfigEntry<>(origin, id, defaultValue, clientOnlyValue, serverRequired, merged, this);
         }
 
