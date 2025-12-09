@@ -7,10 +7,8 @@ import net.minecraft.world.item.ItemStack;
 public class NeoApiService extends ApiService {
 
     @Override
-    @SuppressWarnings("DataFlowIssue")
     public IModInfo getModInfo(ItemStack stack) {
         return super.getModInfo(stack);
-        // TODO use Neo's method
         // return ModInfo.get(stack.getItem().getCreatorModId(stack));
     }
 
