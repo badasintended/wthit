@@ -6,7 +6,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import org.jetbrains.annotations.ApiStatus;
 
 /**
@@ -23,7 +23,7 @@ public @interface WailaPlugin {
     /**
      * This plugin ID.
      * <br>
-     * Must be a valid {@link ResourceLocation}.
+     * Must be a valid {@link Identifier}.
      */
     String id();
 
