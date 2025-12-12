@@ -1,5 +1,6 @@
 18.x - 1.21.11 - dev/1.21.11 - java 21
 ===========================================
+18.0.4   - Updated Forge to Minecraft 1.21.11
 18.0.3   - Updated to Minecraft 1.21.11
 18.0.2   - Updated to Minecraft 1.21.11
 18.0.1   - Fixed server spam when WTHIT is not installed on the server
