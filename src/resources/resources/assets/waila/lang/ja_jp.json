@@ -316,6 +316,7 @@
   "config.waila.plugin_minecraft.effect.hidden_mob"            : "隠れているモブの効果を表示する",
   "config.waila.plugin_minecraft.book"                         : "本",
   "config.waila.plugin_minecraft.book.bookshelf"               : "模様入りの本棚の本を表示する",
+
   "config.waila.plugin_minecraft.book.written"                 : "書かれた本の著者と世代を表示する",
   "config.waila.plugin_minecraft.book.enchantment"             : "エンチャント表示モード",
   "config.waila.plugin_minecraft.book.enchantment_separate"    : "分離",
