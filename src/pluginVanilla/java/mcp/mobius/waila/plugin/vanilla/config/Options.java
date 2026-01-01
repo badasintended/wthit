@@ -55,6 +55,7 @@ public final class Options {
     public static final ResourceLocation EFFECT_HIDDEN_MOB             = rl("effect.hidden_mob");
     public static final ResourceLocation SHELF_ITEMS                   = rl("shelf.items");
     public static final ResourceLocation BOOK_BOOKSHELF                = rl("book.bookshelf");
+    public static final ResourceLocation BOOK_LECTERN                  = rl("book.lectern");
     public static final ResourceLocation BOOK_WRITTEN                  = rl("book.written");
     public static final ResourceLocation BOOK_ENCHANTMENT_DISPLAY_MODE = rl("book.enchantment");
     public static final ResourceLocation BOOK_ENCHANTMENT_CYCLE_TIMING = rl("book.enchantment_cycle_timing");
