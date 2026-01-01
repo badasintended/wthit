@@ -1,84 +1,39 @@
 package mcp.mobius.waila.plugin.vanilla.provider;
 
 import mcp.mobius.waila.api.IBlockAccessor;
-import mcp.mobius.waila.api.IBlockComponentProvider;
-import mcp.mobius.waila.api.IModInfo;
 import mcp.mobius.waila.api.IPluginConfig;
-import mcp.mobius.waila.api.ITooltip;
-import mcp.mobius.waila.api.ITooltipComponent;
-import mcp.mobius.waila.api.IWailaConfig;
-import mcp.mobius.waila.api.WailaConstants;
-import mcp.mobius.waila.api.component.ItemComponent;
 import mcp.mobius.waila.mixin.ChiseledBookShelfBlockAccess;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import mcp.mobius.waila.plugin.vanilla.provider.data.ChiseledBookShelfDataProvider;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.HorizontalDirectionalBlock;
-import org.jetbrains.annotations.Nullable;
 
-public enum ChiseledBookShelfProvider implements IBlockComponentProvider {
+public enum ChiseledBookShelfProvider implements ItemShowcaseBlockProvider {
 
     INSTANCE;
 
     private int lastUpdateId = 0;
     private ItemStack hitItem = ItemStack.EMPTY;
 
-    private void init(IBlockAccessor accessor, IPluginConfig config) {
-        if (lastUpdateId == accessor.getUpdateId()) return;
+    @Override
+    public ItemStack init(IBlockAccessor accessor, IPluginConfig config) {
+        if (lastUpdateId == accessor.getUpdateId()) return hitItem;
 
         lastUpdateId = accessor.getUpdateId();
         hitItem = ItemStack.EMPTY;
-        if (!config.getBoolean(Options.BOOK_BOOKSHELF)) return;
+        if (!config.getBoolean(Options.BOOK_BOOKSHELF)) return hitItem;
 
         var data = accessor.getData().get(ChiseledBookShelfDataProvider.Data.class);
-        if (data == null) return;
+        if (data == null) return hitItem;
 
         var blockstate = accessor.getBlockState();
         var facing = blockstate.getValue(HorizontalDirectionalBlock.FACING);
         var relativeHit = ChiseledBookShelfBlockAccess.wthit_getRelativeHitCoordinatesForBlockFace(accessor.getBlockHitResult(), facing);
-        if (relativeHit.isEmpty()) return;
+        if (relativeHit.isEmpty()) return hitItem;
 
         var hitSlot = ChiseledBookShelfBlockAccess.wthit_getHitSlot(relativeHit.get());
         hitItem = data.items().get(hitSlot);
-    }
-
-    @Override
-    public @Nullable ITooltipComponent getIcon(IBlockAccessor accessor, IPluginConfig config) {
-        init(accessor, config);
-        if (hitItem.isEmpty()) return null;
-
-        return new ItemComponent(hitItem);
-    }
-
-    @Override
-    public void appendHead(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
-        init(accessor, config);
-        if (hitItem.isEmpty()) return;
-
-        var formatter = IWailaConfig.get().getFormatter();
-        tooltip.setLine(WailaConstants.OBJECT_NAME_TAG, formatter.entityName(hitItem.getHoverName()));
-
-        if (config.getBoolean(WailaConstants.CONFIG_SHOW_REGISTRY)) {
-            tooltip.setLine(WailaConstants.REGISTRY_NAME_TAG, formatter.registryName(BuiltInRegistries.ITEM.getKey(hitItem.getItem())));
-        }
-    }
-
-    @Override
-    public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
-        init(accessor, config);
-        if (hitItem.isEmpty()) return;
-
-        ItemEntityProvider.appendBookProperties(tooltip, hitItem, config);
-    }
-
-    @Override
-    public void appendTail(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
-        init(accessor, config);
-        if (hitItem.isEmpty()) return;
-        if (!config.getBoolean(WailaConstants.CONFIG_SHOW_MOD_NAME)) return;
-
-        tooltip.setLine(WailaConstants.MOD_NAME_TAG, IWailaConfig.get().getFormatter().modName(IModInfo.get(hitItem).getName()));
+        return hitItem;
     }
 
 }

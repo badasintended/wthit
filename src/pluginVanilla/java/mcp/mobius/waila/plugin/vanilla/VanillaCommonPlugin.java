@@ -6,15 +6,6 @@ import mcp.mobius.waila.api.IntFormat;
 import mcp.mobius.waila.plugin.vanilla.config.EnchantmentDisplayMode;
 import mcp.mobius.waila.plugin.vanilla.config.NoteDisplayMode;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
-import mcp.mobius.waila.plugin.vanilla.provider.BeaconProvider;
-import mcp.mobius.waila.plugin.vanilla.provider.BeeProvider;
-import mcp.mobius.waila.plugin.vanilla.provider.BeehiveProvider;
-import mcp.mobius.waila.plugin.vanilla.provider.ChiseledBookShelfProvider;
-import mcp.mobius.waila.plugin.vanilla.provider.EntityAttributesProvider;
-import mcp.mobius.waila.plugin.vanilla.provider.JukeboxProvider;
-import mcp.mobius.waila.plugin.vanilla.provider.MobEffectProvider;
-import mcp.mobius.waila.plugin.vanilla.provider.MobTimerProvider;
-import mcp.mobius.waila.plugin.vanilla.provider.PetOwnerProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.data.BaseContainerDataProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.data.BeaconDataProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.data.BeeDataProvider;
@@ -26,6 +17,7 @@ import mcp.mobius.waila.plugin.vanilla.provider.data.EntityAttributesDataProvide
 import mcp.mobius.waila.plugin.vanilla.provider.data.FurnaceDataProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.data.HopperContainerDataProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.data.JukeboxDataProvider;
+import mcp.mobius.waila.plugin.vanilla.provider.data.LecternDataProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.data.MobEffectDataProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.data.MobTimerDataProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.data.PetOwnerDataProvider;
@@ -46,6 +38,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.ChiseledBookShelfBlockEntity;
 import net.minecraft.world.level.block.entity.EnderChestBlockEntity;
 import net.minecraft.world.level.block.entity.JukeboxBlockEntity;
+import net.minecraft.world.level.block.entity.LecternBlockEntity;
 import net.minecraft.world.level.block.entity.RandomizableContainerBlockEntity;
 
 public class VanillaCommonPlugin implements IWailaCommonPlugin {
@@ -128,11 +121,14 @@ public class VanillaCommonPlugin implements IWailaCommonPlugin {
         registrar.localConfig(Options.NOTE_BLOCK_INT_VALUE, false);
 
         registrar.featureConfig(Options.BOOK_BOOKSHELF, false);
+        registrar.featureConfig(Options.BOOK_LECTERN, false);
         registrar.localConfig(Options.BOOK_ENCHANTMENT_DISPLAY_MODE, EnchantmentDisplayMode.CYCLE);
         registrar.localConfig(Options.BOOK_ENCHANTMENT_CYCLE_TIMING, 500);
         registrar.localConfig(Options.BOOK_WRITTEN, true);
         registrar.dataType(ChiseledBookShelfDataProvider.DATA, ChiseledBookShelfDataProvider.Data.class, ChiseledBookShelfDataProvider.Data::new);
         registrar.blockData(ChiseledBookShelfDataProvider.INSTANCE, ChiseledBookShelfBlockEntity.class);
+        registrar.dataType(LecternDataProvider.DATA, LecternDataProvider.DATA_CODEC);
+        registrar.blockData(LecternDataProvider.INSTANCE, LecternBlockEntity.class);
 
         registrar.blockData(FurnaceDataProvider.INSTANCE, AbstractFurnaceBlockEntity.class);
         registrar.blockData(EnderChestDataProvider.INSTANCE, EnderChestBlockEntity.class);

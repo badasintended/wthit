@@ -21,6 +21,7 @@ import mcp.mobius.waila.plugin.vanilla.provider.InvisibleEntityProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.ItemEntityProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.ItemFrameProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.JukeboxProvider;
+import mcp.mobius.waila.plugin.vanilla.provider.LecternProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.MobEffectProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.MobTimerProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.NoteBlockProvider;
@@ -65,6 +66,7 @@ import net.minecraft.world.level.block.SweetBerryBushBlock;
 import net.minecraft.world.level.block.TrappedChestBlock;
 import net.minecraft.world.level.block.entity.BeaconBlockEntity;
 import net.minecraft.world.level.block.entity.JukeboxBlockEntity;
+import net.minecraft.world.level.block.entity.LecternBlockEntity;
 import net.minecraft.world.level.block.entity.SkullBlockEntity;
 import net.minecraft.world.level.block.entity.SpawnerBlockEntity;
 import net.minecraft.world.level.material.Fluids;
@@ -146,6 +148,11 @@ public class VanillaClientPlugin implements IWailaClientPlugin {
         registrar.head(ChiseledBookShelfProvider.INSTANCE, ChiseledBookShelfBlock.class);
         registrar.body(ChiseledBookShelfProvider.INSTANCE, ChiseledBookShelfBlock.class);
         registrar.tail(ChiseledBookShelfProvider.INSTANCE, ChiseledBookShelfBlock.class);
+
+        registrar.icon(LecternProvider.INSTANCE, LecternBlockEntity.class);
+        registrar.head(LecternProvider.INSTANCE, LecternBlockEntity.class);
+        registrar.body(LecternProvider.INSTANCE, LecternBlockEntity.class);
+        registrar.tail(LecternProvider.INSTANCE, LecternBlockEntity.class);
 
         FluidData.describeFluid(Fluids.WATER, WaterDescriptor.INSTANCE);
         FluidData.describeFluid(Fluids.LAVA, LavaDescriptor.INSTANCE);
