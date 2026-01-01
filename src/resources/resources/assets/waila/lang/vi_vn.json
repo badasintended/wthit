@@ -316,6 +316,7 @@
   "config.waila.plugin_minecraft.effect.hidden_mob"            : "Hiển Thị Hiệu Ứng Ẩn Của Quái Vật",
   "config.waila.plugin_minecraft.book"                         : "Sách",
   "config.waila.plugin_minecraft.book.bookshelf"               : "Hiển Thị Sách Trong Kệ Sách Chạm Khắc",
+
   "config.waila.plugin_minecraft.book.written"                 : "Hiển Thị Tác Giả Và Thế Hệ Của Sách Đã Viết",
   "config.waila.plugin_minecraft.book.enchantment"             : "Chế Độ Hiển Thị Phép Thuật",
   "config.waila.plugin_minecraft.book.enchantment_separate"    : "Riêng Biệt",
