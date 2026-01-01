@@ -322,6 +322,9 @@
 
 
 
+
+
+
   "config.waila.plugin_waila"                                  : "Waila Core",
   "config.waila.plugin_waila.show_mod_name"                    : "Visa modnamn",
   "config.waila.plugin_waila.show_item_mod_name"               : "Visa modnamn för föremål",
