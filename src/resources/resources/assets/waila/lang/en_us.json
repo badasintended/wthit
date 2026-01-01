@@ -313,6 +313,7 @@
   "config.waila.plugin_minecraft.effect.hidden_mob"            : "Show Hidden Mob Effects",
   "config.waila.plugin_minecraft.book"                         : "Book",
   "config.waila.plugin_minecraft.book.bookshelf"               : "Show Chiseled Bookshelf Books",
+  "config.waila.plugin_minecraft.book.lectern"                 : "Show Lectern Books",
   "config.waila.plugin_minecraft.book.written"                 : "Show Written Book Author and Generation",
   "config.waila.plugin_minecraft.book.enchantment"             : "Enchantment Display Mode",
   "config.waila.plugin_minecraft.book.enchantment_separate"    : "Separate",
