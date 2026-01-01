@@ -326,6 +326,7 @@
 
 
 
+
   "config.waila.plugin_waila"                                  : "Waila Core",
   "config.waila.plugin_waila.show_mod_name"                    : "모드 이름 표시",
 

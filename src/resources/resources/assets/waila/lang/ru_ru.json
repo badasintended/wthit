@@ -318,6 +318,7 @@
 
   "config.waila.plugin_minecraft.book"                         : "Книги",
   "config.waila.plugin_minecraft.book.bookshelf"               : "Показывать число книг на полке",
+
   "config.waila.plugin_minecraft.book.written"                 : "Показывать автора и дату записанных книг",
   "config.waila.plugin_minecraft.book.enchantment"             : "Отображение зачарований",
   "config.waila.plugin_minecraft.book.enchantment_separate"    : "Раздельный",

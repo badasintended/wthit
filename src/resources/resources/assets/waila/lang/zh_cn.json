@@ -318,6 +318,7 @@
 
   "config.waila.plugin_minecraft.book"                         : "书",
   "config.waila.plugin_minecraft.book.bookshelf"               : "展示雕纹书架书籍",
+
   "config.waila.plugin_minecraft.book.written"                 : "展示书籍的作者和时间",
   "config.waila.plugin_minecraft.book.enchantment"             : "附魔显示模式",
   "config.waila.plugin_minecraft.book.enchantment_separate"    : "单独",
