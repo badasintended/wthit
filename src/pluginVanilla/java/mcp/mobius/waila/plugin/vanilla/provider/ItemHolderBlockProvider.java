@@ -9,9 +9,9 @@ import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.component.ItemComponent;
-import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.Registry;
 import net.minecraft.world.item.ItemStack;
-import org.jspecify.annotations.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public interface ItemHolderBlockProvider extends IBlockComponentProvider {
 
@@ -41,7 +41,7 @@ public interface ItemHolderBlockProvider extends IBlockComponentProvider {
         tooltip.setLine(WailaConstants.OBJECT_NAME_TAG, formatter.entityName(item.getHoverName()));
 
         if (config.getBoolean(WailaConstants.CONFIG_SHOW_REGISTRY)) {
-            tooltip.setLine(WailaConstants.REGISTRY_NAME_TAG, formatter.registryName(BuiltInRegistries.ITEM.getKey(item.getItem())));
+            tooltip.setLine(WailaConstants.REGISTRY_NAME_TAG, formatter.registryName(Registry.ITEM.getKey(item.getItem())));
         }
     }
 

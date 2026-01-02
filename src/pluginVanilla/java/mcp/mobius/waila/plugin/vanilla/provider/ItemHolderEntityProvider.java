@@ -1,5 +1,7 @@
 package mcp.mobius.waila.plugin.vanilla.provider;
 
+import java.util.function.Function;
+
 import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.IModInfo;
@@ -11,24 +13,18 @@ import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.component.ItemComponent;
 import net.minecraft.core.Registry;
 import net.minecraft.world.entity.decoration.ItemFrame;
+import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
-<<<<<<<< HEAD:src/pluginVanilla/java/mcp/mobius/waila/plugin/vanilla/provider/ItemFrameProvider.java
-public enum ItemFrameProvider implements IEntityComponentProvider {
-
-    INSTANCE;
-========
 public enum ItemHolderEntityProvider implements IEntityComponentProvider {
 
-    ITEM_FRAME(accessor -> accessor.<ItemFrame>getEntity().getItem()),
-    OMINOUS_ITEM_SPAWNER(accessor -> accessor.<OminousItemSpawner>getEntity().getItem());
+    ITEM_FRAME(accessor -> accessor.<ItemFrame>getEntity().getItem());
 
     final Function<IEntityAccessor, ItemStack> getter;
 
     ItemHolderEntityProvider(Function<IEntityAccessor, ItemStack> getter) {
         this.getter = getter;
     }
->>>>>>>> c8e50b9e (show book page count):src/pluginVanilla/java/mcp/mobius/waila/plugin/vanilla/provider/ItemHolderEntityProvider.java
 
     @Nullable
     @Override
@@ -53,13 +49,8 @@ public enum ItemHolderEntityProvider implements IEntityComponentProvider {
 
     @Override
     public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
-<<<<<<<< HEAD:src/pluginVanilla/java/mcp/mobius/waila/plugin/vanilla/provider/ItemFrameProvider.java
-        var stack = accessor.<ItemFrame>getEntity().getItem();
-        ItemEntityProvider.appendBookProperties(tooltip, stack, config);
-========
         var stack = getter.apply(accessor);
         ItemEntityProvider.appendBookProperties(tooltip, stack, config, true);
->>>>>>>> c8e50b9e (show book page count):src/pluginVanilla/java/mcp/mobius/waila/plugin/vanilla/provider/ItemHolderEntityProvider.java
     }
 
     @Override
