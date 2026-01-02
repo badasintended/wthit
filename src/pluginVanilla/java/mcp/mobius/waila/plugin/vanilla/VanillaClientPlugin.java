@@ -19,8 +19,9 @@ import mcp.mobius.waila.plugin.vanilla.provider.HorseProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.InfestedBlockProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.InvisibleEntityProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.ItemEntityProvider;
-import mcp.mobius.waila.plugin.vanilla.provider.ItemHolderProvider;
+import mcp.mobius.waila.plugin.vanilla.provider.ItemHolderEntityProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.JukeboxProvider;
+import mcp.mobius.waila.plugin.vanilla.provider.LecternProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.MobEffectProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.MobTimerProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.NoteBlockProvider;
@@ -69,6 +70,7 @@ import net.minecraft.world.level.block.TrappedChestBlock;
 import net.minecraft.world.level.block.entity.BannerBlockEntity;
 import net.minecraft.world.level.block.entity.BeaconBlockEntity;
 import net.minecraft.world.level.block.entity.JukeboxBlockEntity;
+import net.minecraft.world.level.block.entity.LecternBlockEntity;
 import net.minecraft.world.level.block.entity.SkullBlockEntity;
 import net.minecraft.world.level.block.entity.SpawnerBlockEntity;
 import net.minecraft.world.level.material.Fluids;
@@ -144,15 +146,15 @@ public class VanillaClientPlugin implements IWailaClientPlugin {
         registrar.head(BoatProvider.INSTANCE, Boat.class, 950);
         registrar.tail(BoatProvider.INSTANCE, Boat.class, 950);
 
-        registrar.icon(ItemHolderProvider.ITEM_FRAME, ItemFrame.class);
-        registrar.head(ItemHolderProvider.ITEM_FRAME, ItemFrame.class);
-        registrar.body(ItemHolderProvider.ITEM_FRAME, ItemFrame.class);
-        registrar.tail(ItemHolderProvider.ITEM_FRAME, ItemFrame.class);
+        registrar.icon(ItemHolderEntityProvider.ITEM_FRAME, ItemFrame.class);
+        registrar.head(ItemHolderEntityProvider.ITEM_FRAME, ItemFrame.class);
+        registrar.body(ItemHolderEntityProvider.ITEM_FRAME, ItemFrame.class);
+        registrar.tail(ItemHolderEntityProvider.ITEM_FRAME, ItemFrame.class);
 
-        registrar.icon(ItemHolderProvider.OMINOUS_ITEM_SPAWNER, OminousItemSpawner.class);
-        registrar.head(ItemHolderProvider.OMINOUS_ITEM_SPAWNER, OminousItemSpawner.class);
-        registrar.body(ItemHolderProvider.OMINOUS_ITEM_SPAWNER, OminousItemSpawner.class);
-        registrar.tail(ItemHolderProvider.OMINOUS_ITEM_SPAWNER, OminousItemSpawner.class);
+        registrar.icon(ItemHolderEntityProvider.OMINOUS_ITEM_SPAWNER, OminousItemSpawner.class);
+        registrar.head(ItemHolderEntityProvider.OMINOUS_ITEM_SPAWNER, OminousItemSpawner.class);
+        registrar.body(ItemHolderEntityProvider.OMINOUS_ITEM_SPAWNER, OminousItemSpawner.class);
+        registrar.tail(ItemHolderEntityProvider.OMINOUS_ITEM_SPAWNER, OminousItemSpawner.class);
 
         registrar.icon(SelectableSlotContainerProvider.SHELF, ShelfBlock.class);
         registrar.head(SelectableSlotContainerProvider.SHELF, ShelfBlock.class);
@@ -163,6 +165,11 @@ public class VanillaClientPlugin implements IWailaClientPlugin {
         registrar.head(SelectableSlotContainerProvider.BOOKSHELF, ChiseledBookShelfBlock.class);
         registrar.body(SelectableSlotContainerProvider.BOOKSHELF, ChiseledBookShelfBlock.class);
         registrar.tail(SelectableSlotContainerProvider.BOOKSHELF, ChiseledBookShelfBlock.class);
+
+        registrar.icon(LecternProvider.INSTANCE, LecternBlockEntity.class);
+        registrar.head(LecternProvider.INSTANCE, LecternBlockEntity.class);
+        registrar.body(LecternProvider.INSTANCE, LecternBlockEntity.class);
+        registrar.tail(LecternProvider.INSTANCE, LecternBlockEntity.class);
 
         FluidData.describeFluid(Fluids.WATER, WaterDescriptor.INSTANCE);
         FluidData.describeFluid(Fluids.LAVA, LavaDescriptor.INSTANCE);

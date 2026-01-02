@@ -24,6 +24,8 @@
 
 
 
+
+
   "tooltip.waila.horse.jump.key"                               : "Hoppstyrka",
   "tooltip.waila.horse.jump.value"                             : "%s block",
   "tooltip.waila.horse.speed.key"                              : "Hastighet",
@@ -308,6 +310,7 @@
 
   "config.waila.plugin_minecraft.horse.jump_height"            : "Visa hästens hoppstyrka",
   "config.waila.plugin_minecraft.horse.speed"                  : "Visa hästens hastighet",
+
 
 
 

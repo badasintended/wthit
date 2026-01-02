@@ -42,6 +42,8 @@
 
 
 
+
+
   "tooltip.waila.instrument.harp"                              : "하프",
   "tooltip.waila.instrument.basedrum"                          : "베이스 드럼",
   "tooltip.waila.instrument.snare"                             : "작은북",
@@ -289,6 +291,7 @@
 
 
   "config.waila.plugin_minecraft.entity.item_entity"           : "아이템 개체 표시",
+
 
 
 

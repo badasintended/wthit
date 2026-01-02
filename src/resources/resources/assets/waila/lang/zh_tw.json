@@ -24,6 +24,8 @@
 
 
 
+
+
   "tooltip.waila.horse.jump.key"                               : "跳躍",
   "tooltip.waila.horse.jump.value"                             : "%s 方格高",
   "tooltip.waila.horse.speed.key"                              : "速度",
@@ -289,6 +291,7 @@
 
 
   "config.waila.plugin_minecraft.entity.item_entity"           : "顯示物品實體",
+
 
 
 

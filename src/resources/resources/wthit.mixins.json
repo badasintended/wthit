@@ -11,6 +11,7 @@
     "BeehiveBlockEntityAccess",
     "EntityAccess",
     "LanguageMixin",
+    "LecternBlockEntityAccess",
     "NoteBlockAccess",
     "ReloadableServerResourcesMixin",
     "ShearableBlocksMixin",

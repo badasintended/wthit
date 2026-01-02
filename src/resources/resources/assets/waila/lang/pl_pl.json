@@ -90,6 +90,8 @@
 
 
 
+
+
   "gui.waila.waila_settings"                                   : "%s — ustawienia",
 
 
@@ -258,6 +260,7 @@
 
 
   "config.waila.plugin_minecraft.plant.crop_progress"          : "Stadium rozwoju plonu",
+
 
 
 
