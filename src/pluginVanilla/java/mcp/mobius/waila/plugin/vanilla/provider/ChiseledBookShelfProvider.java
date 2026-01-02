@@ -7,7 +7,7 @@ import mcp.mobius.waila.plugin.vanilla.config.Options;
 import mcp.mobius.waila.plugin.vanilla.provider.data.ChiseledBookShelfDataProvider;
 import net.minecraft.world.item.ItemStack;
 
-public enum ChiseledBookShelfProvider implements ItemShowcaseBlockProvider {
+public enum ChiseledBookShelfProvider implements ItemHolderBlockProvider {
 
     INSTANCE;
 
@@ -15,21 +15,25 @@ public enum ChiseledBookShelfProvider implements ItemShowcaseBlockProvider {
     private ItemStack hitItem = ItemStack.EMPTY;
 
     @Override
-    public ItemStack init(IBlockAccessor accessor, IPluginConfig config) {
-        if (lastUpdateId == accessor.getUpdateId()) return hitItem;
+    public void init(IBlockAccessor accessor, IPluginConfig config) {
+        if (lastUpdateId == accessor.getUpdateId()) return;
 
         lastUpdateId = accessor.getUpdateId();
         hitItem = ItemStack.EMPTY;
-        if (!config.getBoolean(Options.BOOK_BOOKSHELF)) return hitItem;
+        if (!config.getBoolean(Options.BOOK_BOOKSHELF)) return;
 
         var data = accessor.getData().get(ChiseledBookShelfDataProvider.DATA);
-        if (data == null) return hitItem;
+        if (data == null) return;
 
         var block = ((ChiseledBookShelfBlockAccess) accessor.getBlock());
         var hitSlot = block.wthit_getHitSlot(accessor.getBlockHitResult(), accessor.getBlockState());
-        if (hitSlot.isEmpty()) return hitItem;
+        if (hitSlot.isEmpty()) return;
 
         hitItem = data.items().get(hitSlot.getAsInt());
+    }
+
+    @Override
+    public ItemStack getItem() {
         return hitItem;
     }
 
