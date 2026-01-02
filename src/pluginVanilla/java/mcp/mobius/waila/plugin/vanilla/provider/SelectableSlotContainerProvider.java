@@ -9,7 +9,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.ChiseledBookShelfBlock;
 import net.minecraft.world.level.block.SelectableSlotContainer;
 
-public enum SelectableSlotContainerProvider implements ItemShowcaseBlockProvider {
+public enum SelectableSlotContainerProvider implements ItemHolderBlockProvider {
 
     SHELF(Options.SHELF_ITEMS),
     BOOKSHELF(Options.BOOK_BOOKSHELF);
@@ -24,21 +24,25 @@ public enum SelectableSlotContainerProvider implements ItemShowcaseBlockProvider
     }
 
     @Override
-    public ItemStack init(IBlockAccessor accessor, IPluginConfig config) {
-        if (lastUpdateId == accessor.getUpdateId()) return hitItem;
+    public void init(IBlockAccessor accessor, IPluginConfig config) {
+        if (lastUpdateId == accessor.getUpdateId()) return;
 
         lastUpdateId = accessor.getUpdateId();
         hitItem = ItemStack.EMPTY;
-        if (!config.getBoolean(option)) return hitItem;
+        if (!config.getBoolean(option)) return;
 
         var data = accessor.getData().get(SelectableSlotContainerDataProvider.DATA);
-        if (data == null) return hitItem;
+        if (data == null) return;
 
         var block = ((SelectableSlotContainer) accessor.getBlock());
         var hitSlot = block.getHitSlot(accessor.getBlockHitResult(), accessor.getBlockState().getValue(ChiseledBookShelfBlock.FACING));
-        if (hitSlot.isEmpty()) return hitItem;
+        if (hitSlot.isEmpty()) return;
 
         hitItem = data.items().get(hitSlot.getAsInt());
+    }
+
+    @Override
+    public ItemStack getItem() {
         return hitItem;
     }
 
