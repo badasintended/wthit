@@ -2,16 +2,17 @@ package mcp.mobius.waila.plugin.extra.provider;
 
 import mcp.mobius.waila.api.IBlockAccessor;
 import mcp.mobius.waila.api.IBlockComponentProvider;
+import mcp.mobius.waila.api.IClientRegistrar;
+import mcp.mobius.waila.api.ICommonRegistrar;
 import mcp.mobius.waila.api.IPluginConfig;
-import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.ITooltip;
-import mcp.mobius.waila.api.TooltipPosition;
 import mcp.mobius.waila.api.WailaHelper;
 import mcp.mobius.waila.api.component.PairComponent;
 import mcp.mobius.waila.api.component.SpriteBarComponent;
 import mcp.mobius.waila.api.component.WrappedComponent;
 import mcp.mobius.waila.api.data.FluidData;
 import mcp.mobius.waila.plugin.extra.data.FluidDataImpl;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.Block;
@@ -27,9 +28,13 @@ public class FluidProvider extends DataProvider<FluidData, FluidDataImpl> {
     }
 
     @Override
-    protected void registerAdditions(IRegistrar registrar, int priority) {
-        registrar.addConfig(FluidData.CONFIG_DISPLAY_UNIT, FluidData.Unit.MILLIBUCKETS);
-        registrar.addComponent(new CauldronProvider(), TooltipPosition.BODY, Block.class, priority);
+    protected void registerAdditions(ICommonRegistrar registrar, int priority) {
+        registrar.localConfig(FluidData.CONFIG_DISPLAY_UNIT, FluidData.Unit.MILLIBUCKETS);
+    }
+
+    @Override
+    protected void registerAdditions(IClientRegistrar registrar, int priority) {
+        registrar.body(new CauldronProvider(), Block.class, priority);
     }
 
     @Override
@@ -60,8 +65,8 @@ public class FluidProvider extends DataProvider<FluidData, FluidDataImpl> {
             text += " " + displayUnit.symbol;
 
             var sprite = desc.sprite();
-            tooltip.addLine(new PairComponent(
-                new WrappedComponent(desc.name().getString()),
+            tooltip.setLine(FluidData.ID.withSuffix("." + BuiltInRegistries.FLUID.getKey(entry.fluid()).toLanguageKey()), new PairComponent(
+                new WrappedComponent(desc.name()),
                 new SpriteBarComponent(ratio, sprite, 16, 16, desc.tint(), Component.literal(text))));
         }
     }

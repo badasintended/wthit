@@ -10,7 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 import org.jetbrains.annotations.ApiStatus;
 
 /**
- * @deprecated use {@code waila_plugins.json} file, see {@link IWailaPlugin} javadocs for more info.
+ * @deprecated use {@code waila_plugins.json} file, see {@link mcp.mobius.waila.api} javadocs for more info.
  */
 @Deprecated
 @Documented

@@ -12,11 +12,14 @@ import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.component.ItemComponent;
+import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.plugin.vanilla.config.EnchantmentDisplayMode;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.StringUtil;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -31,6 +34,10 @@ import org.jetbrains.annotations.Nullable;
 public enum ItemEntityProvider implements IEntityComponentProvider {
 
     INSTANCE;
+
+    private static final ResourceLocation AUTHOR = Options.BOOK_DETAILS.withSuffix(".author");
+    private static final ResourceLocation GENERATION = Options.BOOK_DETAILS.withSuffix(".generation");
+    static final ResourceLocation PAGES = new ResourceLocation("book.pages");
 
     private static long lastEnchantmentTime = 0;
     private static int enchantmentIndex = 0;
@@ -52,7 +59,7 @@ public enum ItemEntityProvider implements IEntityComponentProvider {
         var formatter = IWailaConfig.get().getFormatter();
 
         var stack = accessor.<ItemEntity>getEntity().getItem();
-        tooltip.setLine(WailaConstants.OBJECT_NAME_TAG, formatter.entityName(stack.getHoverName().getString()));
+        tooltip.setLine(WailaConstants.OBJECT_NAME_TAG, formatter.entityName(stack.getHoverName()));
 
         if (config.getBoolean(WailaConstants.CONFIG_SHOW_REGISTRY)) {
             tooltip.setLine(WailaConstants.REGISTRY_NAME_TAG, formatter.registryName(BuiltInRegistries.ITEM.getKey(stack.getItem())));
@@ -62,7 +69,7 @@ public enum ItemEntityProvider implements IEntityComponentProvider {
     @Override
     public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
         var stack = accessor.<ItemEntity>getEntity().getItem();
-        appendBookProperties(tooltip, stack, config);
+        appendBookProperties(tooltip, stack, config, true);
     }
 
     @Override
@@ -73,7 +80,7 @@ public enum ItemEntityProvider implements IEntityComponentProvider {
         }
     }
 
-    public static void appendBookProperties(ITooltip tooltip, ItemStack stack, IPluginConfig config) {
+    public static void appendBookProperties(ITooltip tooltip, ItemStack stack, IPluginConfig config, boolean showPages) {
         if (stack.is(Items.ENCHANTED_BOOK)) {
             EnchantmentDisplayMode mode = config.getEnum(Options.BOOK_ENCHANTMENT_DISPLAY_MODE);
             if (mode == EnchantmentDisplayMode.DISABLED) return;
@@ -107,17 +114,24 @@ public enum ItemEntityProvider implements IEntityComponentProvider {
                     if (curseIndex > (curses.size() - 1)) curseIndex = 0;
                 }
 
+                Component text = null;
+
                 if (!enchantments.isEmpty()) {
                     var instance = enchantments.get(enchantmentIndex);
-                    tooltip.addLine(instance.enchantment.getFullname(instance.level));
+                    text = instance.enchantment.getFullname(instance.level);
                 }
 
                 if (!curses.isEmpty()) {
                     var instance = curses.get(curseIndex);
-                    tooltip.addLine(instance.enchantment.getFullname(instance.level));
+                    var curse = instance.enchantment.getFullname(instance.level);
+                    if (text == null) text = curse;
+                    else text = text.copy().append(CommonComponents.NEW_LINE).append(curse);
                 }
+
+                if (text != null) tooltip.setLine(Options.BOOK_ENCHANTMENT_DISPLAY_MODE, text);
             } else {
                 var enchantments = EnchantmentHelper.getEnchantments(stack);
+                MutableComponent text = null;
 
                 if (mode == EnchantmentDisplayMode.COMBINED) {
                     MutableComponent enchantmentLine = null;
@@ -143,25 +157,40 @@ public enum ItemEntityProvider implements IEntityComponentProvider {
                         }
                     }
 
-                    if (enchantmentLine != null) tooltip.addLine(enchantmentLine);
-                    if (curseLine != null) tooltip.addLine(curseLine);
+                    if (enchantmentLine != null) text = enchantmentLine;
+                    if (curseLine != null) {
+                        if (text == null) text = curseLine;
+                        else text.append(CommonComponents.NEW_LINE).append(curseLine);
+                    }
                 } else {
-                    enchantments.forEach((enchantment, level) -> tooltip.addLine(enchantment.getFullname(level)));
+                    for (var entry : enchantments.entrySet()) {
+                        var name = entry.getKey().getFullname(entry.getValue());
+                        if (text == null) text = Component.empty().append(name);
+                        else text.append(CommonComponents.NEW_LINE).append(name);
+                    }
                 }
+
+                if (text != null) tooltip.setLine(Options.BOOK_ENCHANTMENT_DISPLAY_MODE, text);
             }
+
         } else if (stack.is(Items.WRITTEN_BOOK)) {
-            if (!config.getBoolean(Options.BOOK_WRITTEN) || !stack.hasTag()) return;
+            if (!config.getBoolean(Options.BOOK_DETAILS) || !stack.hasTag()) return;
 
             var tag = Objects.requireNonNull(stack.getTag());
             var author = tag.getString(WrittenBookItem.TAG_AUTHOR);
             var generation = WrittenBookItem.getGeneration(stack);
 
             if (!StringUtil.isNullOrEmpty(author)) {
-                tooltip.addLine(Component.translatable("book.byAuthor", author));
+                tooltip.setLine(AUTHOR, Component.translatable("book.byAuthor", author));
             }
 
-            tooltip.addLine(Component.translatable("book.generation." + generation));
+            tooltip.setLine(GENERATION, Component.translatable("book.generation." + generation));
+            if (showPages) tooltip.setLine(PAGES, Component.translatable(Tl.Tooltip.Book.PAGES, WrittenBookItem.getPageCount(stack)));
 
+        } else if (stack.is(Items.WRITABLE_BOOK)) {
+            if (!config.getBoolean(Options.BOOK_DETAILS) || !stack.hasTag()) return;
+
+            if (showPages) tooltip.setLine(PAGES, Component.translatable(Tl.Tooltip.Book.PAGES, WrittenBookItem.getPageCount(stack)));
         }
     }
 

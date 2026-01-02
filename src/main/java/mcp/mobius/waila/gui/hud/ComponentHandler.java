@@ -2,21 +2,21 @@ package mcp.mobius.waila.gui.hud;
 
 import java.util.Objects;
 
+import io.netty.buffer.Unpooled;
 import lol.bai.badpackets.api.PacketSender;
-import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.access.ClientAccessor;
 import mcp.mobius.waila.access.DataWriter;
 import mcp.mobius.waila.api.IBlockComponentProvider;
 import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.ITooltipComponent;
-import mcp.mobius.waila.api.TooltipPosition;
 import mcp.mobius.waila.api.component.EmptyComponent;
 import mcp.mobius.waila.config.PluginConfig;
-import mcp.mobius.waila.network.play.c2s.BlockDataRequestPlayC2SPacket;
-import mcp.mobius.waila.network.play.c2s.EntityDataRequestPlayC2SPacket;
+import mcp.mobius.waila.network.Packets;
 import mcp.mobius.waila.registry.Registrar;
 import mcp.mobius.waila.util.ExceptionUtil;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
@@ -27,13 +27,15 @@ import org.jetbrains.annotations.Nullable;
 public class ComponentHandler {
 
     public static void requestBlockData(ClientAccessor accessor) {
+        if (!accessor.hasServer) return;
+
         var registrar = Registrar.get();
         var block = accessor.getBlock();
         var blockEntity = accessor.getBlockEntity();
 
-        var rate = Waila.CONFIG.get().getGeneral().getRateLimit();
+        var rate = WailaClient.CONFIG.get().getGeneral().getRateLimit();
 
-        if (blockEntity == null || !accessor.isTimeElapsed(rate) || !Waila.CONFIG.get().getGeneral().isDisplayTooltip()) return;
+        if (blockEntity == null || !accessor.isTimeElapsed(rate) || !WailaClient.CONFIG.get().getGeneral().isDisplayTooltip()) return;
         if (registrar.blockData.get(block).isEmpty() && registrar.blockData.get(blockEntity).isEmpty()) return;
 
         accessor.resetTimer();
@@ -50,7 +52,11 @@ public class ComponentHandler {
         }
 
         DataWriter.CLIENT.send(PacketSender.c2s(), player);
-        PacketSender.c2s().send(new BlockDataRequestPlayC2SPacket.Payload(accessor.getBlockHitResult()));
+
+        var buf = new FriendlyByteBuf(Unpooled.buffer());
+        buf.writeBlockHitResult(accessor.getBlockHitResult());
+        PacketSender.c2s().send(Packets.BLOCK, buf);
+
         accessor.setDataAccess(true);
     }
 
@@ -67,7 +73,9 @@ public class ComponentHandler {
         var registrar = Registrar.get();
         var providers = registrar.blockComponent.get(position).get(obj);
         for (var entry : providers) {
-            var provider = entry.instance();
+            var origin = entry.instance();
+            var provider = origin.instance();
+            tooltip.origin = origin;
             try {
                 switch (position) {
                     case HEAD -> provider.appendHead(tooltip, accessor, PluginConfig.CLIENT);
@@ -77,14 +85,17 @@ public class ComponentHandler {
             } catch (Throwable e) {
                 ExceptionUtil.dump(e, provider.getClass().toString(), tooltip);
             }
+            tooltip.origin = null;
         }
     }
 
     public static void requestEntityData(Entity entity, ClientAccessor accessor) {
+        if (!accessor.hasServer) return;
+
         var registrar = Registrar.get();
         var trueEntity = accessor.getEntity();
 
-        var rate = Waila.CONFIG.get().getGeneral().getRateLimit();
+        var rate = WailaClient.CONFIG.get().getGeneral().getRateLimit();
 
         if (trueEntity == null || !accessor.isTimeElapsed(rate)) return;
         if (registrar.entityData.get(trueEntity).isEmpty()) return;
@@ -99,7 +110,15 @@ public class ComponentHandler {
         }
 
         DataWriter.CLIENT.send(PacketSender.c2s(), player);
-        PacketSender.c2s().send(new EntityDataRequestPlayC2SPacket.Payload(entity.getId(), accessor.getEntityHitResult().getLocation()));
+
+        var buf = new FriendlyByteBuf(Unpooled.buffer());
+        buf.writeVarInt(entity.getId());
+        var hitPos = accessor.getEntityHitResult().getLocation();
+        buf.writeDouble(hitPos.x);
+        buf.writeDouble(hitPos.y);
+        buf.writeDouble(hitPos.z);
+        PacketSender.c2s().send(Packets.ENTITY, buf);
+
         accessor.setDataAccess(true);
     }
 
@@ -109,7 +128,9 @@ public class ComponentHandler {
 
         var providers = registrar.entityComponent.get(position).get(entity);
         for (var entry : providers) {
-            var provider = entry.instance();
+            var origin = entry.instance();
+            var provider = origin.instance();
+            tooltip.origin = origin;
             try {
                 switch (position) {
                     case HEAD -> provider.appendHead(tooltip, accessor, PluginConfig.CLIENT);
@@ -119,6 +140,7 @@ public class ComponentHandler {
             } catch (Throwable e) {
                 ExceptionUtil.dump(e, provider.getClass().toString(), tooltip);
             }
+            tooltip.origin = null;
         }
     }
 
@@ -130,10 +152,9 @@ public class ComponentHandler {
         if (target.getType() == HitResult.Type.ENTITY) {
             var providers = registrar.entityIcon.get(data.getEntity());
             for (var provider : providers) {
-                var icon = provider.instance().getIcon(data, config);
-                if (icon != null) {
-                    return icon;
-                }
+                var origin = provider.instance();
+                var icon = InspectComponent.maybeWrap(origin.instance().getIcon(data, config), origin, null);
+                if (icon != null) return icon;
             }
         } else {
             var state = data.getBlockState();
@@ -143,9 +164,10 @@ public class ComponentHandler {
             var priority = 0;
 
             for (var provider : registrar.blockIcon.get(state.getBlock())) {
-                var icon = provider.instance().getIcon(ClientAccessor.INSTANCE, PluginConfig.CLIENT);
+                var origin = provider.instance();
+                var icon = origin.instance().getIcon(ClientAccessor.INSTANCE, PluginConfig.CLIENT);
                 if (icon != null) {
-                    result = icon;
+                    result = InspectComponent.maybeWrap(icon, origin, null);
                     priority = provider.priority();
                     break;
                 }
@@ -156,9 +178,10 @@ public class ComponentHandler {
                 for (var provider : registrar.blockIcon.get(blockEntity)) {
                     if (provider.priority() >= priority) break;
 
-                    var icon = provider.instance().getIcon(ClientAccessor.INSTANCE, PluginConfig.CLIENT);
+                    var origin = provider.instance();
+                    var icon = origin.instance().getIcon(ClientAccessor.INSTANCE, PluginConfig.CLIENT);
                     if (icon != null) {
-                        result = icon;
+                        result = InspectComponent.maybeWrap(icon, origin, null);
                         break;
                     }
                 }

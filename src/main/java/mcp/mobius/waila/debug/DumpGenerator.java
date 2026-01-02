@@ -15,9 +15,9 @@ import mcp.mobius.waila.registry.Registrar;
 import mcp.mobius.waila.util.Log;
 import org.jetbrains.annotations.Nullable;
 
-import static mcp.mobius.waila.api.TooltipPosition.BODY;
-import static mcp.mobius.waila.api.TooltipPosition.HEAD;
-import static mcp.mobius.waila.api.TooltipPosition.TAIL;
+import static mcp.mobius.waila.gui.hud.TooltipPosition.BODY;
+import static mcp.mobius.waila.gui.hud.TooltipPosition.HEAD;
+import static mcp.mobius.waila.gui.hud.TooltipPosition.TAIL;
 
 public class DumpGenerator {
 

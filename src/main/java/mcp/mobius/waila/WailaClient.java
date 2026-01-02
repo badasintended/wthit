@@ -2,22 +2,24 @@ package mcp.mobius.waila;
 
 import java.util.List;
 
-import com.mojang.blaze3d.platform.InputConstants;
+import com.google.gson.GsonBuilder;
 import mcp.mobius.waila.access.ClientAccessor;
+import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
-import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.config.PluginConfig;
+import mcp.mobius.waila.config.WailaConfig;
+import mcp.mobius.waila.config.input.KeyBind;
 import mcp.mobius.waila.gui.hud.TooltipHandler;
-import mcp.mobius.waila.gui.screen.HomeScreen;
+import mcp.mobius.waila.gui.hud.theme.ThemeDefinition;
+import mcp.mobius.waila.gui.screen.WailaConfigScreen;
 import mcp.mobius.waila.integration.IRecipeAction;
 import mcp.mobius.waila.registry.Registrar;
 import mcp.mobius.waila.registry.RegistryFilter;
-import mcp.mobius.waila.service.IClientService;
 import mcp.mobius.waila.util.Log;
-import net.minecraft.client.KeyMapping;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 
@@ -25,11 +27,19 @@ public abstract class WailaClient {
 
     private static final Log LOG = Log.create();
 
-    public static KeyMapping keyOpenConfig;
-    public static KeyMapping keyShowOverlay;
-    public static KeyMapping keyToggleLiquid;
-    public static KeyMapping keyShowRecipeInput;
-    public static KeyMapping keyShowRecipeOutput;
+    public static final IJsonConfig<WailaConfig> CONFIG = IJsonConfig.of(WailaConfig.class)
+        .file(WailaConstants.NAMESPACE + "/" + WailaConstants.WAILA)
+        .version(WailaConstants.CONFIG_VERSION, WailaConfig::getConfigVersion, WailaConfig::setConfigVersion)
+        .json5()
+        .commenter(WailaConfig.COMMENTER)
+        .gson(new GsonBuilder()
+            .setPrettyPrinting()
+            .registerTypeAdapter(WailaConfig.Overlay.Color.class, new WailaConfig.Overlay.Color.Adapter())
+            .registerTypeAdapter(ThemeDefinition.class, new ThemeDefinition.Adapter())
+            .registerTypeAdapter(ResourceLocation.class, new ResourceLocation.Serializer())
+            .registerTypeAdapter(KeyBind.class, new KeyBind.Adapter())
+            .create())
+        .build();
 
     public static boolean showComponentBounds = false;
     public static boolean showFps = false;
@@ -48,43 +58,40 @@ public abstract class WailaClient {
         recipeAction = action;
     }
 
-    protected static List<KeyMapping> registerKeyBinds() {
-        return List.of(
-            keyOpenConfig = createKeyBind(Tl.Key.CONFIG),
-            keyShowOverlay = createKeyBind(Tl.Key.SHOW_OVERLAY),
-            keyToggleLiquid = createKeyBind(Tl.Key.TOGGLE_LIQUID),
-            keyShowRecipeInput = createKeyBind(Tl.Key.SHOW_RECIPE_INPUT),
-            keyShowRecipeOutput = createKeyBind(Tl.Key.SHOW_RECIPE_OUTPUT)
-        );
-    }
-
     protected static void onClientTick() {
-        var client = Minecraft.getInstance();
-        var config = Waila.CONFIG.get();
+        Waila.onAnyTick();
 
+        var client = Minecraft.getInstance();
+        var config = CONFIG.get();
+        var general = config.getGeneral();
+        var binds = config.getKeyBinds();
+
+        KeyBind.tick();
         TooltipHandler.tick();
 
-        while (keyOpenConfig.consumeClick()) {
-            client.setScreen(new HomeScreen(null));
-        }
-
-        while (keyShowOverlay.consumeClick()) {
-            if (config.getGeneral().getDisplayMode() == IWailaConfig.General.DisplayMode.TOGGLE) {
-                config.getGeneral().setDisplayTooltip(!config.getGeneral().isDisplayTooltip());
-            }
-        }
-
-        while (keyToggleLiquid.consumeClick()) {
-            PluginConfig.set(WailaConstants.CONFIG_SHOW_FLUID, !PluginConfig.CLIENT.getBoolean(WailaConstants.CONFIG_SHOW_FLUID));
-        }
-
-        if (recipeAction != null) {
-            while (keyShowRecipeInput.consumeClick()) {
-                recipeAction.showInput(ClientAccessor.INSTANCE.getStack());
+        if (client.screen == null) {
+            if (binds.getOpenConfig().isPressed()) {
+                client.setScreen(new WailaConfigScreen(null));
             }
 
-            while (keyShowRecipeOutput.consumeClick()) {
-                recipeAction.showOutput(ClientAccessor.INSTANCE.getStack());
+            if (binds.getShowOverlay().isPressed()) {
+                if (general.getDisplayMode() == IWailaConfig.General.DisplayMode.TOGGLE) {
+                    general.setDisplayTooltip(!general.isDisplayTooltip());
+                }
+            }
+
+            if (binds.getToggleLiquid().isPressed()) {
+                PluginConfig.set(WailaConstants.CONFIG_SHOW_FLUID, !PluginConfig.CLIENT.getBoolean(WailaConstants.CONFIG_SHOW_FLUID));
+            }
+
+            if (recipeAction != null) {
+                if (binds.getShowRecipeInput().isPressed()) {
+                    recipeAction.showInput(ClientAccessor.INSTANCE.getStack());
+                }
+
+                if (binds.getShowRecipeOutput().isPressed()) {
+                    recipeAction.showOutput(ClientAccessor.INSTANCE.getStack());
+                }
             }
         }
     }
@@ -92,7 +99,7 @@ public abstract class WailaClient {
     protected static void onItemTooltip(ItemStack stack, List<Component> tooltip) {
         if (PluginConfig.CLIENT.getBoolean(WailaConstants.CONFIG_SHOW_ITEM_MOD_NAME)) {
             for (var listener : Registrar.get().eventListeners.get(Object.class)) {
-                var name = listener.instance().getHoveredItemModName(stack, PluginConfig.CLIENT);
+                var name = listener.instance().instance().getHoveredItemModName(stack, PluginConfig.CLIENT);
                 if (name != null) {
                     tooltip.add(IWailaConfig.get().getFormatter().modName(name));
                     return;
@@ -101,21 +108,19 @@ public abstract class WailaClient {
         }
     }
 
-    public static void onServerLogIn() {
+    protected static void onServerLogIn(Connection connection) {
+        ClientAccessor.INSTANCE.hasServer = false;
         Waila.BLACKLIST_CONFIG.invalidate();
         PluginConfig.getSyncableConfigs().forEach(config ->
             config.setServerValue(null));
     }
 
-    protected static void onServerLogout() {
+    protected static void onServerLogout(Connection connection) {
+        ClientAccessor.INSTANCE.hasServer = false;
         RegistryFilter.attach(null);
         Waila.BLACKLIST_CONFIG.invalidate();
         PluginConfig.getSyncableConfigs().forEach(config ->
             config.setServerValue(null));
-    }
-
-    private static KeyMapping createKeyBind(String id) {
-        return IClientService.INSTANCE.createKeyBind(id, InputConstants.UNKNOWN.getValue());
     }
 
 }

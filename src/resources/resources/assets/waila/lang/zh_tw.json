@@ -22,6 +22,10 @@
 
 
 
+
+
+
+
   "tooltip.waila.horse.jump.key"                               : "跳躍",
   "tooltip.waila.horse.jump.value"                             : "%s 方格高",
   "tooltip.waila.horse.speed.key"                              : "速度",
@@ -87,8 +91,9 @@
 
 
 
-  "gui.waila.configuration"                                    : "%s 組態",
+
   "gui.waila.waila_settings"                                   : "%s 設定",
+
 
 
 
@@ -103,9 +108,25 @@
   "gui.waila.credits.authors"                                  : "作者",
   "gui.waila.credits.contributors"                             : "貢獻者",
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   "command.waila.server_dump_success"                          : "成功轉儲伺服器端組態至 %s",
 
   "command.waila.client_dump_success"                          : "成功轉儲用戶端組態至 %s",
+
+
 
 
 
@@ -147,6 +168,8 @@
 
 
   "config.waila.general"                                       : "一般設定",
+
+
   "config.waila.display_tooltip"                               : "顯示提示框",
   "config.waila.display_tooltip_desc"                          : "收集資料並顯示提示框",
   "config.waila.sneaky_details"                                : "潛行詳細資訊",
@@ -175,40 +198,22 @@
 
 
 
-  "config.waila.overlay_pos_x"                                 : "X 軸偏移量",
-  "config.waila.overlay_pos_x_desc"                            : "相對於畫面錨點的 X 軸位置\n位置會受放大比例影響",
-  "config.waila.overlay_pos_y"                                 : "Y 軸偏移量",
-  "config.waila.overlay_pos_y_desc"                            : "相對於畫面錨點的 Y 軸位置\n位置會受放大比例影響",
+
+  "config.waila.overlay_anchor"                                : "錨點",
+  "config.waila.overlay_align"                                 : "對齊",
+  "config.waila.overlay_offset"                                : "偏移量",
+  "config.waila.overlay_anchor_left"                           : "左側",
+  "config.waila.overlay_anchor_right"                          : "右側",
+  "config.waila.overlay_anchor_center"                         : "中心",
+  "config.waila.overlay_anchor_top"                            : "頂部",
+  "config.waila.overlay_anchor_bottom"                         : "底部",
+  "config.waila.overlay_anchor_middle"                         : "中心",
 
   "config.waila.boss_bars_overlap"                             : "Boss 血量條",
   "config.waila.boss_bars_overlap_desc"                        : "若設為「否」，當 Boss 血量條\n顯示在畫面上時，提示框會向下平移\n只會影響到頂部中心對齊",
 
   "config.waila.overlay_scale"                                 : "放大比例",
   "config.waila.overlay_scale_desc"                            : "提示框的比例大小\n預設為 1.0",
-
-  "config.waila.overlay_anchor_x"                              : "水平錨點",
-  "config.waila.overlay_anchor_x_desc"                         : "設定從畫面的哪個位置開始計算顯示位置\n透過調整遊戲視窗大小來測試它",
-  "config.waila.overlay_anchor_x_left"                         : "左側",
-  "config.waila.overlay_anchor_x_right"                        : "右側",
-  "config.waila.overlay_anchor_x_center"                       : "中心",
-
-  "config.waila.overlay_anchor_y"                              : "垂直錨點",
-  "config.waila.overlay_anchor_y_desc"                         : "設定從畫面的哪個位置開始計算顯示位置\n透過調整遊戲視窗大小來測試它",
-  "config.waila.overlay_anchor_y_top"                          : "頂部",
-  "config.waila.overlay_anchor_y_bottom"                       : "底部",
-  "config.waila.overlay_anchor_y_middle"                       : "中心",
-
-  "config.waila.overlay_align_x"                               : "水平對齊",
-  "config.waila.overlay_align_x_desc"                          : "不同長度的提示資訊要如何互相對齊",
-  "config.waila.overlay_align_x_left"                          : "左側",
-  "config.waila.overlay_align_x_right"                         : "右側",
-  "config.waila.overlay_align_x_center"                        : "中心",
-
-  "config.waila.overlay_align_y"                               : "垂直對齊",
-  "config.waila.overlay_align_y_desc"                          : "不同長度的提示資訊要如何互相對齊",
-  "config.waila.overlay_align_y_top"                           : "頂部",
-  "config.waila.overlay_align_y_bottom"                        : "底部",
-  "config.waila.overlay_align_y_middle"                        : "中心",
 
   "config.waila.overlay_color"                                 : "顏色",
   "config.waila.overlay_background_alpha"                      : "背景透明度",
@@ -228,6 +233,7 @@
   "config.waila.format_fluid_name"                             : "流體名稱",
   "config.waila.format_entity_name"                            : "實體名稱",
   "config.waila.format_registry_name"                          : "註冊名稱",
+
 
 
   "key.waila.config"                                           : "開啟組態",
@@ -267,7 +273,6 @@
   "config.waila.plugin_minecraft.player_head.name"             : "顯示玩家名稱",
   "config.waila.plugin_minecraft.level"                        : "等級",
   "config.waila.plugin_minecraft.level.composter"              : "顯示堆肥桶等級",
-  "config.waila.plugin_minecraft.level.honey"                  : "顯示蜂蜜等級",
   "config.waila.plugin_minecraft.note_block"                   : "音階盒",
   "config.waila.plugin_minecraft.note_block.type"              : "顯示樂器和音符",
   "config.waila.plugin_minecraft.note_block.note"              : "音階盒顯示模式",
@@ -317,6 +322,13 @@
 
 
 
+
+
+
+
+
+
+
   "config.waila.plugin_waila"                                  : "Waila 核心",
   "config.waila.plugin_waila.show_mod_name"                    : "顯示模組名稱",
 
@@ -326,6 +338,17 @@
   "config.waila.plugin_waila.show_fluids_desc"                 : "嘗試顯示流體",
   "config.waila.plugin_waila.show_entities"                    : "顯示實體",
   "config.waila.plugin_waila.show_icon"                        : "顯示圖示"
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -21,7 +21,7 @@ public enum RedstoneProvider implements IBlockComponentProvider {
     public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
         if (config.getBoolean(Options.REDSTONE_LEVER) && accessor.getBlock() instanceof LeverBlock) {
             boolean active = accessor.getBlockState().getValue(BlockStateProperties.POWERED);
-            tooltip.addLine(new PairComponent(
+            tooltip.setLine(Options.REDSTONE_LEVER, new PairComponent(
                 Component.translatable(Tl.Tooltip.STATE),
                 Component.translatable(active ? Tl.Tooltip.STATE_ON : Tl.Tooltip.STATE_OFF)));
             return;
@@ -29,7 +29,7 @@ public enum RedstoneProvider implements IBlockComponentProvider {
 
         if (config.getBoolean(Options.REDSTONE_REPEATER) && accessor.getBlock() == Blocks.REPEATER) {
             int delay = accessor.getBlockState().getValue(BlockStateProperties.DELAY);
-            tooltip.addLine(new PairComponent(
+            tooltip.setLine(Options.REDSTONE_REPEATER, new PairComponent(
                 Component.translatable(Tl.Tooltip.DELAY),
                 Component.literal(String.valueOf(delay))));
             return;
@@ -37,14 +37,14 @@ public enum RedstoneProvider implements IBlockComponentProvider {
 
         if (config.getBoolean(Options.REDSTONE_COMPARATOR) && accessor.getBlock() == Blocks.COMPARATOR) {
             var mode = accessor.getBlockState().getValue(BlockStateProperties.MODE_COMPARATOR);
-            tooltip.addLine(new PairComponent(
+            tooltip.setLine(Options.REDSTONE_COMPARATOR, new PairComponent(
                 Component.translatable(Tl.Tooltip.MODE),
                 Component.translatable(mode == ComparatorMode.COMPARE ? Tl.Tooltip.MODE_COMPARATOR : Tl.Tooltip.MODE_SUBTRACTOR)));
             return;
         }
 
         if (config.getBoolean(Options.REDSTONE_LEVEL) && accessor.getBlock() == Blocks.REDSTONE_WIRE) {
-            tooltip.addLine(new PairComponent(
+            tooltip.setLine(Options.REDSTONE_LEVEL, new PairComponent(
                 Component.translatable(Tl.Tooltip.POWER),
                 Component.literal(accessor.getBlockState().getValue(BlockStateProperties.POWER).toString())));
         }

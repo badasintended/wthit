@@ -24,6 +24,7 @@ public abstract class ItemData implements IData {
     public static final ResourceLocation CONFIG_DISPLAY_MODE = BuiltinDataUtil.rl("item.display_mode");
     public static final ResourceLocation CONFIG_MAX_HEIGHT = BuiltinDataUtil.rl("item.max_height");
     public static final ResourceLocation CONFIG_SORT_BY_COUNT = BuiltinDataUtil.rl("item.sort_by_count");
+    public static final ResourceLocation CONFIG_GRID_MODE_SCALE = BuiltinDataUtil.rl("item.grid_mode_scale");
 
     public enum ItemDisplayMode {
         GRID, LIST, DYNAMIC
@@ -90,6 +91,7 @@ public abstract class ItemData implements IData {
 
     // -----------------------------------------------------------------------------------------------------------------------------------------------
 
+    /** @hidden */
     protected final ArrayList<ItemStack> items = new ArrayList<>();
 
 }

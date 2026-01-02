@@ -21,9 +21,9 @@ import static mcp.mobius.waila.util.DisplayUtil.createButton;
 
 public abstract class ConfigScreen extends YesIAmSureTheClientInstanceIsPresentByTheTimeIUseItScreen {
 
-    private final Screen parent;
-    private final @Nullable Runnable saver;
-    private final @Nullable Runnable canceller;
+    protected final Screen parent;
+    protected final @Nullable Runnable saver;
+    protected final @Nullable Runnable canceller;
 
     private boolean showEscWarning = true;
     private long lastEscPressTime = 0;
@@ -31,7 +31,7 @@ public abstract class ConfigScreen extends YesIAmSureTheClientInstanceIsPresentB
 
     @SuppressWarnings("unchecked")
     private final List<GuiEventListener> children = (List<GuiEventListener>) children();
-    private ConfigListWidget options;
+    protected ConfigListWidget options;
 
     protected boolean cancelled;
 
@@ -56,13 +56,6 @@ public abstract class ConfigScreen extends YesIAmSureTheClientInstanceIsPresentB
         }
 
         options.init();
-
-        if (options.enableSearchBox) {
-            var searchBox = options.getSearchBox();
-            addWidget(searchBox);
-            setInitialFocus(searchBox);
-        }
-
         addWidget(options);
 
         if (saver != null && canceller != null) {
@@ -86,6 +79,11 @@ public abstract class ConfigScreen extends YesIAmSureTheClientInstanceIsPresentB
         }
     }
 
+    @Override
+    public void setInitialFocus(GuiEventListener widget) {
+        super.setInitialFocus(widget);
+    }
+
     protected void renderForeground(GuiGraphics ctx, int rowLeft, int rowWidth, int mouseX, int mouseY, float partialTicks) {
         ctx.drawString(font, title, rowLeft, 12, 0xFFFFFF);
     }
@@ -97,36 +95,19 @@ public abstract class ConfigScreen extends YesIAmSureTheClientInstanceIsPresentB
 
     @Override
     public void render(@NotNull GuiGraphics ctx, int mouseX, int mouseY, float partialTicks) {
-        super.render(ctx, mouseX, mouseY, partialTicks);
-
+        renderBackground(ctx);
         options.render(ctx, mouseX, mouseY, partialTicks);
-
-        if (options.enableSearchBox) {
-            options.getSearchBox().render(ctx, mouseX, mouseY, partialTicks);
-        }
+        super.render(ctx, mouseX, mouseY, partialTicks);
 
         renderForeground(ctx, options.getRowLeft(), options.getRowWidth(), mouseX, mouseY, partialTicks);
 
-        if (mouseY < 32 || mouseY > height - 32) {
-            return;
-        }
+        if (mouseY < 32 || mouseY > height - 32) return;
 
         options.getChildAt(mouseX, mouseY).ifPresent(element -> {
-            if (element instanceof ConfigValue<?> value) {
+            if (element instanceof ConfigValue<?, ?> value) {
                 value.renderTooltip(ctx, mouseX, mouseY);
             }
         });
-    }
-
-    @Override
-    public boolean mouseClicked(double mouseX, double mouseY, int button) {
-        for (var child : children) {
-            if (child instanceof EditBox editBox) {
-                editBox.setFocused(false);
-            }
-        }
-
-        return super.mouseClicked(mouseX, mouseY, button);
     }
 
     @Override
@@ -141,7 +122,7 @@ public abstract class ConfigScreen extends YesIAmSureTheClientInstanceIsPresentB
             escPressed++;
             if (escPressed > 5) {
                 minecraft.getToasts().addToast(new SystemToast(
-                    SystemToast.SystemToastId.PACK_COPY_FAILURE,
+                    SystemToast.SystemToastIds.PACK_COPY_FAILURE,
                     Component.translatable(Tl.Gui.EscWarning.UMM),
                     Component.translatable(Tl.Gui.EscWarning.LMAO,
                         CommonComponents.GUI_DONE.copy().withStyle(ChatFormatting.GOLD),
@@ -153,6 +134,15 @@ public abstract class ConfigScreen extends YesIAmSureTheClientInstanceIsPresentB
         }
 
         return false;
+    }
+
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        if (options.enableSearchBox && Screen.hasControlDown() && keyCode == InputConstants.KEY_F) {
+            options.search();
+        }
+
+        return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
     @Override

@@ -7,8 +7,8 @@ import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.List;
 
-import com.google.common.collect.Streams;
 import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.google.common.collect.Streams;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.IBlacklistConfig;
 import mcp.mobius.waila.api.IInstanceRegistry;
@@ -18,8 +18,6 @@ import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.api.IRegistryFilter;
 import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.IThemeType;
-import mcp.mobius.waila.api.ITooltipComponent;
-import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.__internal__.IApiService;
 import mcp.mobius.waila.config.JsonConfig;
 import mcp.mobius.waila.gui.hud.TooltipRenderer;
@@ -27,9 +25,7 @@ import mcp.mobius.waila.gui.hud.theme.ThemeType;
 import mcp.mobius.waila.plugin.PluginInfo;
 import mcp.mobius.waila.registry.InstanceRegistry;
 import mcp.mobius.waila.registry.RegistryFilter;
-import mcp.mobius.waila.util.DisplayUtil;
 import mcp.mobius.waila.util.ModInfo;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
@@ -43,7 +39,6 @@ import net.minecraft.world.item.TieredItem;
 import net.minecraft.world.item.Tiers;
 import net.minecraft.world.item.TippedArrowItem;
 import net.minecraft.world.item.alchemy.PotionUtils;
-import org.joml.Matrix4f;
 
 public abstract class ApiService implements IApiService {
 
@@ -94,24 +89,16 @@ public abstract class ApiService implements IApiService {
         return PluginInfo.get(pluginId);
     }
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     public Collection<IPluginInfo> getAllPluginInfoFromMod(String modId) {
-        return PluginInfo.getAllFromMod(modId);
+        return (Collection) PluginInfo.getAllFromMod(modId);
     }
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
     @Override
     public Collection<IPluginInfo> getAllPluginInfo() {
-        return PluginInfo.getAll();
-    }
-
-    @Override
-    public IWailaConfig getConfig() {
-        return Waila.CONFIG.get();
-    }
-
-    @Override
-    public void renderComponent(GuiGraphics ctx, ITooltipComponent component, int x, int y, float delta) {
-        DisplayUtil.renderComponent(ctx, component, x, y, 0, delta);
+        return (Collection) PluginInfo.getAll();
     }
 
     @Override
@@ -127,16 +114,6 @@ public abstract class ApiService implements IApiService {
     @Override
     public int getFontColor() {
         return TooltipRenderer.state.getTheme().getDefaultTextColor();
-    }
-
-    @Override
-    public void fillGradient(Matrix4f matrix, BufferBuilder buf, int x, int y, int w, int h, int start, int end) {
-        DisplayUtil.fillGradient(matrix, buf, x, y, w, h, start, end);
-    }
-
-    @Override
-    public void renderRectBorder(Matrix4f matrix, BufferBuilder buf, int x, int y, int w, int h, int s, int gradStart, int gradEnd) {
-        DisplayUtil.renderRectBorder(matrix, buf, x, y, w, h, s, gradStart, gradEnd);
     }
 
     @Override

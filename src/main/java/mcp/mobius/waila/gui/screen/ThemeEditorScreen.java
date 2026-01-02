@@ -47,7 +47,7 @@ class ThemeEditorScreen extends ConfigScreen {
     private CycleValue typeVal;
 
     private final Map<ThemeType<?>, Map<String, Object>> type2attr = new HashMap<>();
-    private final Map<String, ConfigValue<Object>> attrValues = new HashMap<>();
+    private final Map<String, ConfigValue<Object, ?>> attrValues = new HashMap<>();
 
     public ThemeEditorScreen(WailaConfigScreen parent, ThemeDefinition<?> template, boolean edit) {
         super(parent, CommonComponents.EMPTY, () -> {}, () -> {});
@@ -100,6 +100,7 @@ class ThemeEditorScreen extends ConfigScreen {
                         type = Registrar.get().themeTypes.get(new ResourceLocation(value));
                         themeAttrCategory.clear(options);
                         options.children().remove(themeAttrCategory);
+                        options.values.removeIf(it -> it.category == themeAttrCategory);
                         addTypeProperties(options);
                         options.init();
                         options.setFocused(this);
@@ -144,7 +145,7 @@ class ThemeEditorScreen extends ConfigScreen {
 
     private void addTypeProperties(ConfigListWidget options) {
         themeAttrCategory = new CategoryEntry(Tl.Config.OverlayThemeEditor.ATTRIBUTES);
-        options.add(options.children().size() - (edit ? 2 : 0), themeAttrCategory);
+        options.with(options.children().size() - (edit ? 2 : 0), themeAttrCategory);
 
         attrValues.clear();
         type2attr.computeIfAbsent(type, t -> new HashMap<>(t.properties.size()));
@@ -153,8 +154,8 @@ class ThemeEditorScreen extends ConfigScreen {
             var propType = prop.type;
             var attr = type2attr.get(type);
             var templateValue = attr.computeIfAbsent(key, k -> prop.defaultValue);
-            ConfigValue<?> value;
 
+            ConfigValue<?, ?> value;
             if (propType == int.class) {
                 //noinspection DataFlowIssue
                 value = new IntInputValue(prop.getTlKey(), TypeUtil.uncheckedCast(templateValue), null, val -> attr.put(key, val), TypeUtil.uncheckedCast(prop.context));

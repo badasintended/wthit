@@ -1,7 +1,9 @@
 package mcp.mobius.waila.gui.widget;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
@@ -15,6 +17,8 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.components.toasts.SystemToast;
 import net.minecraft.client.gui.narration.NarratableEntry;
+import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
@@ -25,11 +29,16 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
     private final ConfigScreen owner;
     private final @Nullable Runnable diskWriter;
 
+    public final Set<ConfigValue<?, ?>> values = new HashSet<>();
+
     private int topOffset;
     private int bottomOffset;
 
+    public boolean headerSeparator = true;
+    public boolean footerSeparator = true;
+
     public boolean enableSearchBox = true;
-    private @Nullable EditBox searchBox;
+    private @Nullable SearchBoxEntry searchBox;
 
     public @Nullable String filter = null;
 
@@ -37,17 +46,22 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
     public String @Nullable [] splitFilter = null;
 
     public ConfigListWidget(ConfigScreen owner, Minecraft client, int width, int height, int top, int bottom, int itemHeight, @Nullable Runnable diskWriter) {
-        super(client, width, height, top, itemHeight - 4);
+        super(client, width, height, top, bottom, itemHeight - 4);
 
         this.owner = owner;
         this.diskWriter = diskWriter;
 
         resize(top, bottom);
         setRenderBackground(false);
+        setRenderTopAndBottom(false);
     }
 
     public ConfigListWidget(ConfigScreen owner, Minecraft client, int width, int height, int top, int bottom, int itemHeight) {
         this(owner, client, width, height, top, bottom, itemHeight, null);
+    }
+
+    public boolean isChanged() {
+        return values.stream().anyMatch(ConfigValue::isChanged);
     }
 
     @Override
@@ -61,33 +75,33 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
     }
 
     public void tick() {
+        if (searchBox != null) searchBox.tick();
         children().forEach(Entry::tick);
     }
 
     public boolean save(boolean ignoreErrors) {
-        List<? extends ConfigValue<?>> values = children()
-            .stream()
-            .filter(e -> e instanceof ConfigValue)
-            .map(e -> (ConfigValue<?>) e)
-            .toList();
-
         if (values.stream().allMatch(ConfigValue::isValueValid)) {
             values.forEach(ConfigValue::save);
             if (diskWriter != null) diskWriter.run();
             return true;
         }
 
-        if (!ignoreErrors) minecraft.getToasts().addToast(new SystemToast(
-            SystemToast.SystemToastId.PACK_COPY_FAILURE,
-            Component.translatable(Tl.Config.InvalidInput.TITLE),
-            Component.translatable(Tl.Config.InvalidInput.DESC)));
-
+        if (!ignoreErrors) showErrorToast(minecraft);
         return ignoreErrors;
     }
 
-    public EditBox getSearchBox() {
+    public static void showErrorToast(Minecraft minecraft) {
+        minecraft.getToasts().addToast(new SystemToast(
+            SystemToast.SystemToastIds.TUTORIAL_HINT,
+            Component.translatable(Tl.Config.InvalidInput.TITLE),
+            Component.translatable(Tl.Config.InvalidInput.DESC)));
+    }
+
+    public void search() {
         Preconditions.checkState(enableSearchBox);
-        return Objects.requireNonNull(searchBox);
+        Objects.requireNonNull(searchBox);
+        centerScrollOn(searchBox);
+        owner.setInitialFocus(searchBox.box);
     }
 
     public void init() {
@@ -98,22 +112,17 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
 
         var rootChildren = List.copyOf(children());
         var index = 0;
-        for (var child : rootChildren) {
-            index += child.init(this, index);
-        }
-
-        for (var child : children()) {
-            child.setFocused(null);
-        }
 
         if (enableSearchBox && searchBox == null) {
-            searchBox = new EditBox(minecraft.font, 0, 0, 160, 18, Component.empty());
-            searchBox.setHint(Component.translatable(Tl.Config.SEARCH_PROMPT));
-            searchBox.setResponder(filter -> {
+            var box = new EditBox(minecraft.font, 0, 0, 160, 18, Component.empty());
+            box.setHint(Component.translatable(Tl.Config.SEARCH_PROMPT));
+            box.setResponder(filter -> {
                 var isBlank = filter.isBlank();
                 if ((isBlank && this.filter == null) || (filter.equals(this.filter))) return;
 
                 children().clear();
+                children().add(searchBox);
+
                 if (isBlank) {
                     this.filter = null;
                     this.splitFilter = null;
@@ -124,19 +133,24 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
                     children().addAll(rootChildren.stream().filter(it -> it.match(this.splitFilter)).toList());
                 }
                 init();
+                search();
             });
+            searchBox = new SearchBoxEntry(box);
+            with(0, searchBox);
+            searchBox.init(this, 0);
+            index++;
+        }
+
+        for (var child : rootChildren) {
+            index += child.init(this, index);
+        }
+
+        for (var child : children()) {
+            child.setFocused(null);
         }
 
         resize(topOffset, owner.height + bottomOffset);
         setScrollAmount(getScrollAmount());
-    }
-
-    public void add(Entry entry) {
-        add(children().size(), entry);
-    }
-
-    public void add(int index, Entry entry) {
-        children().add(index, entry);
     }
 
     public ConfigListWidget with(Entry entry) {
@@ -144,15 +158,64 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
     }
 
     public ConfigListWidget with(int index, Entry entry) {
-        add(index, entry);
+        if (entry instanceof ConfigValue<?, ?> cv) withHidden(cv);
+        children().add(index, entry);
+        return this;
+    }
+
+    public ConfigListWidget withHidden(ConfigValue<?, ?> value) {
+        values.add(value);
         return this;
     }
 
     public void resize(int top, int bottom) {
         this.topOffset = top;
         this.bottomOffset = bottom - owner.height;
-        setSize(owner.width, owner.height - (topOffset - bottomOffset));
-        if (searchBox != null) searchBox.setPosition(getRowLeft() + getRowWidth() - 160, (top - 18) / 2);
+        updateSize(owner.width, owner.height, topOffset, owner.height + bottomOffset);
+    }
+
+    @Override
+    protected void renderDecorations(GuiGraphics  ctx, int mouseY, int mouseX) {
+        if (headerSeparator) {
+            ctx.fillGradient(RenderType.guiOverlay(), this.x0, this.y0, this.x1, this.y0 + 4, 0xff000000, 0, 0);
+        }
+
+        if (footerSeparator) {
+            ctx.fillGradient(RenderType.guiOverlay(), this.x0, this.y1 - 4, this.x1, this.y1, 0, 0xff000000, 0);
+        }
+    }
+
+    private static class SearchBoxEntry extends Entry {
+
+        final EditBox box;
+
+        private SearchBoxEntry(EditBox box) {
+            this.box = box;
+        }
+
+        @Override
+        protected void gatherChildren(ImmutableList.Builder<GuiEventListener> children) {
+            children.add(box);
+        }
+
+        @Override
+        public boolean match(String[] filter) {
+            return true;
+        }
+
+        @Override
+        protected void buildSearchKey(StringBuilder sb) {
+            throw new IllegalStateException();
+        }
+
+        @Override
+        protected void drawEntry(GuiGraphics ctx, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
+            box.setPosition(rowLeft, rowTop);
+            box.setWidth(width);
+            //            box.setHeight(height);
+            box.render(ctx, mouseX, mouseY, deltaTime);
+        }
+
     }
 
     public abstract static class Entry extends ContainerObjectSelectionList.Entry<Entry> {
@@ -197,7 +260,7 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
 
         protected abstract void buildSearchKey(StringBuilder sb);
 
-        public final boolean match(String[] filter) {
+        public boolean match(String[] filter) {
             var sb = new StringBuilder();
             buildSearchKey(sb);
 

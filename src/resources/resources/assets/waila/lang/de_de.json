@@ -87,7 +87,11 @@
 
 
 
-  "gui.waila.configuration"                                    : "%s Konfiguration",
+
+
+
+
+
   "gui.waila.waila_settings"                                   : "%s Einstellung",
 
 
@@ -146,7 +150,26 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   "config.waila.general"                                       : "Allgemeines",
+
+
   "config.waila.display_tooltip"                               : "Tooltip anzeigen",
   "config.waila.display_tooltip_desc"                          : "Sammle Daten und zeige Tooltip an",
   "config.waila.sneaky_details"                                : "Schleichende Details",
@@ -192,24 +215,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
   "config.waila.overlay_color"                                 : "Farbe",
 
 
@@ -228,6 +233,7 @@
   "config.waila.format_fluid_name"                             : "Flüssigkeitsname",
   "config.waila.format_entity_name"                            : "Kreaturname",
   "config.waila.format_registry_name"                          : "Registrierungsname",
+
 
 
   "key.waila.config"                                           : "Öffne Einstellungen",
@@ -320,11 +326,28 @@
 
 
 
+
+
+
+
+
+
   "config.waila.plugin_waila.show_registry"                    : "Zeige Registrierungsnamen",
 
   "config.waila.plugin_waila.show_fluids"                      : "Flüssigkeiten anzeigen",
   "config.waila.plugin_waila.show_fluids_desc"                 : "Versuche Flüssigkeiten anzuzeigen",
   "config.waila.plugin_waila.show_entities"                    : "Zeige Kreaturen"
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -1,6 +1,5 @@
 package mcp.mobius.waila.gui.hud;
 
-import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.access.ClientAccessor;
 import mcp.mobius.waila.api.IBlockComponentProvider;
@@ -17,6 +16,7 @@ import mcp.mobius.waila.mixin.PlayerTabOverlayAccess;
 import mcp.mobius.waila.pick.PickerAccessor;
 import mcp.mobius.waila.pick.PickerResults;
 import mcp.mobius.waila.registry.Registrar;
+import mcp.mobius.waila.util.ProfilerUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.ChatScreen;
@@ -27,13 +27,13 @@ import net.minecraft.world.phys.HitResult;
 import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.Nullable;
 
-import static mcp.mobius.waila.api.TooltipPosition.BODY;
-import static mcp.mobius.waila.api.TooltipPosition.HEAD;
-import static mcp.mobius.waila.api.TooltipPosition.TAIL;
 import static mcp.mobius.waila.gui.hud.ComponentHandler.gatherBlock;
 import static mcp.mobius.waila.gui.hud.ComponentHandler.gatherEntity;
 import static mcp.mobius.waila.gui.hud.ComponentHandler.requestBlockData;
 import static mcp.mobius.waila.gui.hud.ComponentHandler.requestEntityData;
+import static mcp.mobius.waila.gui.hud.TooltipPosition.BODY;
+import static mcp.mobius.waila.gui.hud.TooltipPosition.HEAD;
+import static mcp.mobius.waila.gui.hud.TooltipPosition.TAIL;
 
 public class TooltipHandler {
 
@@ -46,24 +46,44 @@ public class TooltipHandler {
     }
 
     public static void tick() {
+        tick(STATE, false);
+    }
+
+    public static boolean tick(TooltipRenderer.State state, boolean inspect) {
+        try (var ignored = ProfilerUtil.profile("wthit:tick")) {
+            return _tick(state, inspect);
+        }
+    }
+
+    private static boolean _tick(TooltipRenderer.State state, boolean inspect) {
         STATE.render = false;
 
         var client = Minecraft.getInstance();
-        var config = Waila.CONFIG.get().getGeneral();
+        var config = WailaClient.CONFIG.get();
+        var binds = config.getKeyBinds();
+        var general = config.getGeneral();
 
-        if (client.options.hideGui) return;
-        if (client.screen != null && !(client.screen instanceof ChatScreen)) return;
-        if (client.level == null || !config.isDisplayTooltip()) return;
-        if (config.getDisplayMode() == IWailaConfig.General.DisplayMode.HOLD_KEY && !WailaClient.keyShowOverlay.isDown()) return;
-        if (config.isHideFromPlayerList() && ((PlayerTabOverlayAccess) client.gui.getTabList()).wthit_isVisible()) return;
-        if (config.isHideFromDebug() && client.getDebugOverlay().showDebugScreen()) return;
-        if (client.gameMode == null) return;
+        if (client.level == null) return false;
+        if (client.gameMode == null) return false;
 
         Player player = client.player;
-        if (player == null) return;
+        if (player == null) return false;
 
-        var camera = client.cameraEntity;
-        if (camera == null) return;
+        var camera = client.getCameraEntity();
+        if (camera == null) return false;
+
+        for (var entry : Registrar.get().eventListeners.get(Object.class)) {
+            entry.instance().instance().onTick(PluginConfig.CLIENT);
+        }
+
+        if (!inspect) {
+            if (client.options.hideGui) return false;
+            if (client.screen != null && !(client.screen instanceof ChatScreen)) return false;
+            if (!general.isDisplayTooltip()) return false;
+            if (general.getDisplayMode() == IWailaConfig.General.DisplayMode.HOLD_KEY && !binds.getShowOverlay().isDown()) return false;
+            if (general.isHideFromPlayerList() && ((PlayerTabOverlayAccess) client.gui.getTabList()).wthit_isVisible()) return false;
+            if (general.isHideFromDebug() && client.options.renderDebug) return false;
+        }
 
         var frameTime = client.getFrameTime();
         var pickRange = client.gameMode.getPickRange();
@@ -89,14 +109,16 @@ public class TooltipHandler {
             }
         }
 
-        if (castOrigin == null) return;
+        if (castOrigin == null) return false;
 
         for (var target : results) {
-            if (processTarget(target, client, player, castOrigin, castDirection, pickRange, config) == ProcessResult.BREAK) break;
+            if (processTarget(state, target, client, player, castOrigin, castDirection, pickRange, general) == ProcessResult.BREAK) break;
         }
+
+        return true;
     }
 
-    private static ProcessResult redirectTarget(HitResult target, TargetRedirector redirector, Minecraft client, Player player, Vec3 castOrigin, Vec3 castDirection, float pickRange, WailaConfig.General config) {
+    private static ProcessResult redirectTarget(TooltipRenderer.State state, HitResult target, TargetRedirector redirector, Minecraft client, Player player, Vec3 castOrigin, Vec3 castDirection, double pickRange, WailaConfig.General config) {
         if (redirector.nowhere) return ProcessResult.BREAK;
         if (redirector.behind) return ProcessResult.CONTINUE;
 
@@ -105,18 +127,18 @@ public class TooltipHandler {
         if (redirect.getType() == HitResult.Type.MISS) return ProcessResult.CONTINUE;
 
         return processTarget(
-            redirect, client, player,
+            state, redirect, client, player,
             castOrigin.subtract(target.getLocation().subtract(redirect.getLocation())),
             castDirection, pickRange, config);
     }
 
-    private static ProcessResult processTarget(HitResult target, Minecraft client, Player player, Vec3 castOrigin, Vec3 castDirection, float pickRange, WailaConfig.General config) {
+    private static ProcessResult processTarget(TooltipRenderer.State state, HitResult target, Minecraft client, Player player, Vec3 castOrigin, Vec3 castDirection, double pickRange, WailaConfig.General config) {
         var accessor = ClientAccessor.INSTANCE;
 
         //noinspection DataFlowIssue
         accessor.set(client.level, player, target, client.cameraEntity, castOrigin, castDirection, pickRange, client.getFrameTime());
 
-        TooltipRenderer.beginBuild(STATE);
+        TooltipRenderer.beginBuild(state);
 
         if (target.getType() == HitResult.Type.BLOCK) {
             var block = accessor.getBlock();
@@ -144,7 +166,7 @@ public class TooltipHandler {
             }
 
             if (redirectResult != null && !redirector.self) {
-                return redirectTarget(target, redirector, client, player, castOrigin, castDirection, pickRange, config);
+                return redirectTarget(state, target, redirector, client, player, castOrigin, castDirection, pickRange, config);
             }
 
             if (block instanceof LiquidBlock) {
@@ -153,10 +175,10 @@ public class TooltipHandler {
                 return ProcessResult.CONTINUE;
             }
 
-            var state = ComponentHandler.getOverrideBlock(target);
-            if (state == IBlockComponentProvider.EMPTY_BLOCK_STATE) return ProcessResult.CONTINUE;
+            var blockState = ComponentHandler.getOverrideBlock(target);
+            if (blockState == IBlockComponentProvider.EMPTY_BLOCK_STATE) return ProcessResult.CONTINUE;
 
-            accessor.setState(state);
+            accessor.setState(blockState);
 
             requestBlockData(accessor);
 
@@ -189,7 +211,7 @@ public class TooltipHandler {
             }
 
             if (redirectResult != null && !redirector.self) {
-                return redirectTarget(target, redirector, client, player, castOrigin, castDirection, pickRange, config);
+                return redirectTarget(state, target, redirector, client, player, castOrigin, castDirection, pickRange, config);
             }
 
             if (!PluginConfig.CLIENT.getBoolean(WailaConstants.CONFIG_SHOW_ENTITY)) return ProcessResult.CONTINUE;
@@ -249,7 +271,7 @@ public class TooltipHandler {
         }
 
         private WailaConfig.Overlay getOverlay() {
-            return Waila.CONFIG.get().getOverlay();
+            return WailaClient.CONFIG.get().getOverlay();
         }
 
         @Override
@@ -309,7 +331,7 @@ public class TooltipHandler {
 
         @Override
         public boolean enableTextToSpeech() {
-            return Waila.CONFIG.get().getGeneral().isEnableTextToSpeech();
+            return WailaClient.CONFIG.get().getGeneral().isEnableTextToSpeech();
         }
 
     }

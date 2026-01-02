@@ -7,7 +7,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
+import java.util.Set;
+import java.util.WeakHashMap;
 import java.util.function.ObjIntConsumer;
 import java.util.function.Supplier;
 import java.util.function.ToIntFunction;
@@ -24,13 +28,9 @@ import org.jetbrains.annotations.Nullable;
 
 public class JsonConfig<T> implements IJsonConfig<T> {
 
+    public static final Set<JsonConfig<Object>> INSTANCES = Collections.newSetFromMap(Collections.synchronizedMap(new WeakHashMap<>()));
+
     private static final Log LOG = Log.create();
-
-    @SuppressWarnings("rawtypes")
-    private static final ToIntFunction DEFAULT_VERSION_GETTER = t -> 0;
-
-    @SuppressWarnings("rawtypes")
-    private static final ObjIntConsumer DEFAULT_VERSION_SETTER = (t, v) -> {};
 
     private static final Gson DEFAULT_GSON = new GsonBuilder().setPrettyPrinting().create();
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss");
@@ -39,10 +39,22 @@ public class JsonConfig<T> implements IJsonConfig<T> {
     private final ConfigIo<T> io;
     private final CachedSupplier<T> getter;
 
-    JsonConfig(Path path, Type clazz, Supplier<T> factory, Gson gson, int currentVersion, ToIntFunction<T> versionGetter, ObjIntConsumer<T> versionSetter) {
+    @SuppressWarnings("unchecked")
+    JsonConfig(Path path, Type type, Supplier<T> factory, boolean json5, Supplier<Commenter> commenter, Gson gson, int currentVersion, ToIntFunction<T> versionGetter, ObjIntConsumer<T> versionSetter) {
         this.path = path.toAbsolutePath();
-        this.io = new ConfigIo<>(LOG::warn, LOG::error, gson, clazz, factory, currentVersion, versionGetter, versionSetter);
+
+        var commenterFactories = new ArrayList<Supplier<Commenter>>();
+        if (type instanceof Class<?> cls) commenterFactories.add(() -> new AnnotationCommenter(cls, gson));
+        commenterFactories.add(commenter);
+
+        this.io = new ConfigIo<>(LOG::warn, LOG::error, json5, new CommenterFactories(commenterFactories), gson, type, factory, currentVersion, versionGetter, versionSetter);
         this.getter = new CachedSupplier<>(() -> io.read(this.path));
+
+        INSTANCES.add((JsonConfig<Object>) this);
+    }
+
+    public static void reloadAllInstances() {
+        INSTANCES.forEach(it -> it.write(it.get(), true));
     }
 
     private void write(T t, Path path, boolean invalidate) {
@@ -97,7 +109,9 @@ public class JsonConfig<T> implements IJsonConfig<T> {
     public static class Builder<T> implements Builder0<T>, Builder1<T> {
 
         final Type type;
-        Path path;
+        Supplier<Path> path;
+        boolean json5;
+        Supplier<Commenter> commenter;
         Gson gson;
         int currentVersion;
         ToIntFunction<T> versionGetter;
@@ -107,10 +121,12 @@ public class JsonConfig<T> implements IJsonConfig<T> {
         @SuppressWarnings("unchecked")
         public Builder(Type type) {
             this.type = type;
+            this.json5 = false;
+            this.commenter = () -> s -> null;
             this.gson = DEFAULT_GSON;
             this.currentVersion = 0;
-            this.versionGetter = DEFAULT_VERSION_GETTER;
-            this.versionSetter = DEFAULT_VERSION_SETTER;
+            this.versionGetter = t -> 0;
+            this.versionSetter = (t, v) -> {};
 
             if (type instanceof Class<?> clazz) this.factory = () -> {
                 try {
@@ -123,19 +139,29 @@ public class JsonConfig<T> implements IJsonConfig<T> {
 
         @Override
         public Builder1<T> file(File file) {
-            this.path = file.toPath();
+            this.path = file::toPath;
             return this;
         }
 
         @Override
         public Builder1<T> file(Path path) {
-            this.path = path;
+            this.path = () -> path;
             return this;
         }
 
         @Override
         public Builder1<T> file(String fileName) {
-            this.path = Waila.CONFIG_DIR.resolve(fileName + (fileName.endsWith(".json") ? "" : ".json"));
+            this.path = () -> {
+                var path = fileName;
+                if (json5) {
+                    if (!path.endsWith(".json5")) path += ".json5";
+                } else {
+                    if (!path.endsWith(".json")) path += ".json";
+                }
+
+                return Waila.CONFIG_DIR.resolve(path);
+            };
+
             return this;
         }
 
@@ -154,6 +180,18 @@ public class JsonConfig<T> implements IJsonConfig<T> {
         }
 
         @Override
+        public Builder1<T> json5() {
+            this.json5 = true;
+            return this;
+        }
+
+        @Override
+        public Builder1<T> commenter(Supplier<Commenter> commenter) {
+            this.commenter = commenter;
+            return this;
+        }
+
+        @Override
         public Builder1<T> gson(Gson gson) {
             this.gson = gson;
             return this;
@@ -162,7 +200,7 @@ public class JsonConfig<T> implements IJsonConfig<T> {
         @Override
         public IJsonConfig<T> build() {
             Preconditions.checkNotNull(factory, "Default value factory must not be null");
-            return new JsonConfig<>(path, type, factory, gson, currentVersion, versionGetter, versionSetter);
+            return new JsonConfig<>(path.get(), type, factory, json5, commenter, gson, currentVersion, versionGetter, versionSetter);
         }
 
     }

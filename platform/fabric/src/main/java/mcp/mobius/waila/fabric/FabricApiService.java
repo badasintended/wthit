@@ -11,7 +11,7 @@ public class FabricApiService extends ApiService {
 
     @Override
     public @Nullable TagKey<Block> getTierTag(Tier tier) {
-        return tier.getLevel() == 0 ? null : MiningLevelManager.getBlockTag(tier.getLevel());
+        return tier.getLevel() <= 0 ? null : MiningLevelManager.getBlockTag(tier.getLevel());
     }
 
 }

@@ -22,6 +22,10 @@
   "tooltip.waila.timer.grow"                                   : "Växttimer",
   "tooltip.waila.timer.breed"                                  : "Väntetid för parning",
 
+
+
+
+
   "tooltip.waila.horse.jump.key"                               : "Hoppstyrka",
   "tooltip.waila.horse.jump.value"                             : "%s block",
   "tooltip.waila.horse.speed.key"                              : "Hastighet",
@@ -87,8 +91,9 @@
 
 
 
-  "gui.waila.configuration"                                    : "Konfiguration för %s",
+
   "gui.waila.waila_settings"                                   : "Inställningar för %s",
+
 
 
 
@@ -102,6 +107,20 @@
   "gui.waila.credits.original_mod_by"                          : "Originalmodden \"WAILA\" av",
   "gui.waila.credits.authors"                                  : "Författare",
   "gui.waila.credits.contributors"                             : "Bidragsgivare",
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   "command.waila.server_dump_success"                          : "Dedikerad server dumpades till %s",
   "command.waila.local_dump_success"                           : "Lokal server dumpades till %s",
@@ -132,6 +151,8 @@
   "command.waila.config.set.parse_fail"                        : "Misslyckades att tolka värde: %s",
 
   "config.waila.search_prompt"                                 : "Sök...",
+
+
   "config.waila.true"                                          : "Sant",
   "config.waila.false"                                         : "Falskt",
   "config.waila.preview_prompt"                                : "Håll ned §5F1§r för att visa inforuta",
@@ -147,6 +168,8 @@
   "config.waila.server_missing_option"                         : "Låst eftersom servern saknar detta alternativ",
 
   "config.waila.general"                                       : "Allmänt",
+
+
   "config.waila.display_tooltip"                               : "Visa inforuta",
   "config.waila.display_tooltip_desc"                          : "Samla in data och rendera inforutan",
   "config.waila.sneaky_details"                                : "Smyginformation",
@@ -175,40 +198,22 @@
 
 
 
-  "config.waila.overlay_pos_x"                                 : "X-förskjutning",
-  "config.waila.overlay_pos_x_desc"                            : "X-position relativt från skärmankaret\nPositionen påverkas av skalan",
-  "config.waila.overlay_pos_y"                                 : "Y-förskjutning",
-  "config.waila.overlay_pos_y_desc"                            : "Y-position relativt från skärmankaret\nPositionen påverkas av skalan",
+  "config.waila.overlay_placement"                             : "Placement",
+  "config.waila.overlay_anchor"                                : "Ankare",
+  "config.waila.overlay_align"                                 : "Justering",
+  "config.waila.overlay_offset"                                : "Förskjutning",
+  "config.waila.overlay_anchor_left"                           : "Vänsterkant",
+  "config.waila.overlay_anchor_right"                          : "Högerkant",
+  "config.waila.overlay_anchor_center"                         : "Center",
+  "config.waila.overlay_anchor_top"                            : "Överkant",
+  "config.waila.overlay_anchor_bottom"                         : "Nederkant",
+  "config.waila.overlay_anchor_middle"                         : "Mitten",
 
   "config.waila.boss_bars_overlap"                             : "Överlappande bossmätare",
   "config.waila.boss_bars_overlap_desc"                        : "Om detta är \"false\" kommer inforutan flyttas ned om någon bossmätare är synlig\nPåverkas endast vid centrerad överkantsjustering",
 
   "config.waila.overlay_scale"                                 : "Skala",
   "config.waila.overlay_scale_desc"                            : "Hur stor inforutan ska vara\n1.0 är standard",
-
-  "config.waila.overlay_anchor_x"                              : "Horisontellt ankare",
-  "config.waila.overlay_anchor_x_desc"                         : "Vilken del av skärmen som positionen ska beräknas ifrån\nTesta genom att storleksändra spelfönstret",
-  "config.waila.overlay_anchor_x_left"                         : "Vänsterkant",
-  "config.waila.overlay_anchor_x_right"                        : "Högerkant",
-  "config.waila.overlay_anchor_x_center"                       : "Center",
-
-  "config.waila.overlay_anchor_y"                              : "Vertikalt ankare",
-  "config.waila.overlay_anchor_y_desc"                         : "Vilken del av skärmen som positionen ska beräknas ifrån\nTesta genom att storleksändra spelfönstret",
-  "config.waila.overlay_anchor_y_top"                          : "Överkant",
-  "config.waila.overlay_anchor_y_bottom"                       : "Nederkant",
-  "config.waila.overlay_anchor_y_middle"                       : "Mitten",
-
-  "config.waila.overlay_align_x"                               : "Horisontell justering",
-  "config.waila.overlay_align_x_desc"                          : "Hur inforutor med olika storlekar ska justeras mot varandra",
-  "config.waila.overlay_align_x_left"                          : "Vänsterkant",
-  "config.waila.overlay_align_x_right"                         : "Högerkant",
-  "config.waila.overlay_align_x_center"                        : "Center",
-
-  "config.waila.overlay_align_y"                               : "Vertikal justering",
-  "config.waila.overlay_align_y_desc"                          : "Hur inforutor med olika storlekar ska justeras mot varandra",
-  "config.waila.overlay_align_y_top"                           : "Överkant",
-  "config.waila.overlay_align_y_bottom"                        : "Nederkant",
-  "config.waila.overlay_align_y_middle"                        : "Mitten",
 
   "config.waila.overlay_color"                                 : "Färg",
   "config.waila.overlay_background_alpha"                      : "Bakgrundgenomskinlighet",
@@ -230,6 +235,7 @@
   "config.waila.format_registry_name"                          : "Registersnamn",
 
   "config.waila.keybinds"                                      : "Kortkommandon",
+
   "key.waila.config"                                           : "Öppna konfigurering",
   "key.waila.show_overlay"                                     : "Visa överlägg",
   "key.waila.toggle_liquid"                                    : "Visa/dölj vätskor",
@@ -267,7 +273,6 @@
   "config.waila.plugin_minecraft.player_head.name"             : "Visa spelarens namn",
   "config.waila.plugin_minecraft.level"                        : "Nivå",
   "config.waila.plugin_minecraft.level.composter"              : "Visa kompostnivå",
-  "config.waila.plugin_minecraft.level.honey"                  : "Visa honungsnivå",
   "config.waila.plugin_minecraft.note_block"                   : "Notblock",
   "config.waila.plugin_minecraft.note_block.type"              : "Visa instrument och tonart",
   "config.waila.plugin_minecraft.note_block.note"              : "Visningsläge för tonart",
@@ -299,8 +304,15 @@
   "config.waila.plugin_minecraft.entity.long_armor_max"        : "Max. antal rustningspoäng att visa",
   "config.waila.plugin_minecraft.entity.long_armor_max_desc"   : "Det maximala antalet ikoner för rustningspoäng som visas innan sifferformat används",
 
+
+
+
+
   "config.waila.plugin_minecraft.horse.jump_height"            : "Visa hästens hoppstyrka",
   "config.waila.plugin_minecraft.horse.speed"                  : "Visa hästens hastighet",
+
+
+
 
 
 
@@ -338,6 +350,7 @@
 
 
 
+
   "config.waila.plugin_wailax"                                 : "Waila Extra",
   "config.waila.plugin_wailax.energy"                          : "Energi",
   "config.waila.plugin_wailax.energy.enabled_block"            : "Visa blockenergi",
@@ -346,11 +359,21 @@
   "config.waila.plugin_wailax.progress"                        : "Tillverkningsförlopp",
   "config.waila.plugin_wailax.progress.enabled_block"          : "Visa blocktillverkningsförlopp",
   "config.waila.plugin_wailax.progress.enabled_entity"         : "Visa entitettillverkningsförlopp",
+
+
+
+
+
   "config.waila.plugin_wailax.progress.blacklist"              : "Svartlista för tillverkningsförlopp",
   "config.waila.plugin_wailax.item"                            : "Föremål",
   "config.waila.plugin_wailax.item.enabled_block"              : "Visa blockföremålsinnehåll",
   "config.waila.plugin_wailax.item.enabled_entity"             : "Visa entitetföremålsinnehåll",
   "config.waila.plugin_wailax.item.nbt"                        : "Synka NBT-data",
+
+
+
+
+
   "config.waila.plugin_wailax.item.max_height"                 : "Max. höjd",
 
 

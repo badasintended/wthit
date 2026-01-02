@@ -1,28 +1,18 @@
 package mcp.mobius.waila.util;
 
 import java.util.IllegalFormatException;
-import java.util.Random;
 
 import com.mojang.blaze3d.platform.Lighting;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.DefaultVertexFormat;
-import com.mojang.blaze3d.vertex.Tesselator;
-import com.mojang.blaze3d.vertex.VertexFormat;
-import mcp.mobius.waila.WailaClient;
-import mcp.mobius.waila.api.ITooltipComponent;
+import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.FastColor;
-import net.minecraft.util.Mth;
 import org.joml.Matrix4f;
 
 public final class DisplayUtil {
 
-    private static final Random RANDOM = new Random();
 
     private static final Minecraft CLIENT = Minecraft.getInstance();
 
@@ -36,7 +26,7 @@ public final class DisplayUtil {
         RenderSystem.disableDepthTest();
     }
 
-    public static void renderRectBorder(Matrix4f matrix, BufferBuilder buf, int x, int y, int w, int h, int s, int gradStart, int gradEnd) {
+    public static void renderRectBorder(Matrix4f matrix, VertexConsumer buf, int x, int y, int w, int h, int s, int gradStart, int gradEnd) {
         if (s <= 0) {
             return;
         }
@@ -49,32 +39,7 @@ public final class DisplayUtil {
         // @formatter:on
     }
 
-    public static void renderComponent(GuiGraphics ctx, ITooltipComponent component, int x, int y, int cw, float delta) {
-        component.render(ctx, x, y, delta);
-
-        if (WailaClient.showComponentBounds) {
-            ctx.pose().pushPose();
-            var scale = (float) Minecraft.getInstance().getWindow().getGuiScale();
-            ctx.pose().scale(1 / scale, 1 / scale, 1);
-
-            RenderSystem.setShader(GameRenderer::getPositionColorShader);
-
-            var tesselator = Tesselator.getInstance();
-            var buf = tesselator.getBuilder();
-            buf.begin(VertexFormat.Mode.QUADS, DefaultVertexFormat.POSITION_COLOR);
-            var bx = Mth.floor(x * scale + 0.5);
-            var by = Mth.floor(y * scale + 0.5);
-            var bw = Mth.floor((cw == 0 ? component.getWidth() : cw) * scale + 0.5);
-            var bh = Mth.floor(component.getHeight() * scale + 0.5);
-            var color = (0xFF << 24) + Mth.hsvToRgb(RANDOM.nextFloat(), RANDOM.nextFloat(), 1f);
-            renderRectBorder(ctx.pose().last().pose(), buf, bx, by, bw, bh, 1, color, color);
-            tesselator.end();
-
-            ctx.pose().popPose();
-        }
-    }
-
-    public static void fillGradient(Matrix4f matrix, BufferBuilder buf, int x, int y, int w, int h, int start, int end) {
+    public static void fillGradient(Matrix4f matrix, VertexConsumer buf, int x, int y, int w, int h, int start, int end) {
         var sa = FastColor.ARGB32.alpha(start) / 255.0F;
         var sr = FastColor.ARGB32.red(start) / 255.0F;
         var sg = FastColor.ARGB32.green(start) / 255.0F;

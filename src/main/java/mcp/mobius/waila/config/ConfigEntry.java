@@ -6,6 +6,8 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 
 import com.google.common.base.Preconditions;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonNull;
 import com.google.gson.JsonPrimitive;
 import mcp.mobius.waila.api.IPluginInfo;
 import net.minecraft.resources.ResourceLocation;
@@ -19,7 +21,7 @@ public class ConfigEntry<T> {
     public static final Type<Double> DOUBLE = new Type<>((e, d) -> e.getAsDouble(), JsonPrimitive::new);
     public static final Type<String> STRING = new Type<>((e, d) -> e.getAsString(), JsonPrimitive::new);
     public static final Type<Enum<? extends Enum>> ENUM = new Type<>((e, d) -> Enum.valueOf(d.getDeclaringClass(), e.getAsString()), e -> new JsonPrimitive(e.name()));
-    public static final Type<Path> PATH = new Type<>((e, d) -> null, e -> null);
+    public static final Type<Path> PATH = new Type<>((e, d) -> d, e -> JsonNull.INSTANCE);
 
     private final IPluginInfo origin;
     private final ResourceLocation id;
@@ -136,10 +138,10 @@ public class ConfigEntry<T> {
 
     public static class Type<T> {
 
-        public final BiFunction<JsonPrimitive, T, T> parser;
-        public final Function<T, JsonPrimitive> serializer;
+        public final BiFunction<JsonElement, T, T> parser;
+        public final Function<T, JsonElement> serializer;
 
-        public Type(BiFunction<JsonPrimitive, T, T> parser, Function<T, JsonPrimitive> serializer) {
+        public Type(BiFunction<JsonElement, T, T> parser, Function<T, JsonElement> serializer) {
             this.parser = parser;
             this.serializer = serializer;
         }

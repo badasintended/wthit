@@ -4,6 +4,7 @@ import mcp.mobius.waila.api.WailaConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@SuppressWarnings("StringConcatenationArgumentToLogCall")
 public final class Log {
 
     private static final String PREFIX = "[" + WailaConstants.MOD_NAME + "] ";

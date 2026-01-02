@@ -7,6 +7,8 @@ import java.util.Objects;
 import com.google.gson.GsonBuilder;
 import mcp.mobius.waila.api.IBlockAccessor;
 import mcp.mobius.waila.api.IBlockComponentProvider;
+import mcp.mobius.waila.api.IClientRegistrar;
+import mcp.mobius.waila.api.ICommonRegistrar;
 import mcp.mobius.waila.api.IData;
 import mcp.mobius.waila.api.IDataProvider;
 import mcp.mobius.waila.api.IDataReader;
@@ -15,10 +17,8 @@ import mcp.mobius.waila.api.IEntityAccessor;
 import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.api.IPluginConfig;
-import mcp.mobius.waila.api.IRegistrar;
 import mcp.mobius.waila.api.IServerAccessor;
 import mcp.mobius.waila.api.ITooltip;
-import mcp.mobius.waila.api.TooltipPosition;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.plugin.extra.config.ExtraBlacklistConfig;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -52,6 +52,8 @@ public abstract class DataProvider<A extends IData, I extends A> implements IBlo
 
         blacklistConfig = IJsonConfig.of(ExtraBlacklistConfig.class)
             .file(WailaConstants.NAMESPACE + "/extra/" + id.getPath() + "_blacklist")
+            .json5()
+            .commenter(() -> ExtraBlacklistConfig.commenter(tagId))
             .gson(new GsonBuilder()
                 .setPrettyPrinting()
                 .registerTypeAdapter(ExtraBlacklistConfig.class, new ExtraBlacklistConfig.Adapter(tagId))
@@ -63,24 +65,32 @@ public abstract class DataProvider<A extends IData, I extends A> implements IBlo
         INSTANCES.put(id, this);
     }
 
-    public void register(IRegistrar registrar, int priority) {
-        registrar.addFeatureConfig(enabledBlockOption, false);
-        registrar.addFeatureConfig(enabledEntityOption, false);
+    public void register(ICommonRegistrar registrar, int priority) {
+        registrar.featureConfig(enabledBlockOption, false);
+        registrar.featureConfig(enabledEntityOption, false);
         registerAdditions(registrar, priority);
-        registrar.addConfig(createConfigKey("blacklist"), blacklistConfig.getPath());
+        registrar.externalConfig(createConfigKey("blacklist"), blacklistConfig.getPath());
 
-        registrar.addDataType(id, apiType, implType, serializer);
-        registrar.addComponent((IBlockComponentProvider) this, TooltipPosition.BODY, BlockEntity.class, priority);
-        registrar.addComponent((IEntityComponentProvider) this, TooltipPosition.BODY, Entity.class, priority);
-        registrar.addBlockData(new BlockDataProvider(), BlockEntity.class, 0);
-        registrar.addEntityData(new EntityDataProvider(), Entity.class, 0);
+        registrar.dataType(id, apiType, implType, serializer);
+        registrar.blockData(new BlockDataProvider(), BlockEntity.class, 0);
+        registrar.entityData(new EntityDataProvider(), Entity.class, 0);
+    }
+
+    public void register(IClientRegistrar registrar, int priority) {
+        registerAdditions(registrar, priority);
+
+        registrar.body((IBlockComponentProvider) this, BlockEntity.class, priority);
+        registrar.body((IEntityComponentProvider) this, Entity.class, priority);
     }
 
     protected final ResourceLocation createConfigKey(String path) {
         return new ResourceLocation(WailaConstants.NAMESPACE + "x", id.getPath() + "." + path);
     }
 
-    protected void registerAdditions(IRegistrar registrar, int priority) {
+    protected void registerAdditions(ICommonRegistrar registrar, int priority) {
+    }
+
+    protected void registerAdditions(IClientRegistrar registrar, int priority) {
     }
 
     protected abstract void appendBody(ITooltip tooltip, I i, IPluginConfig config, ResourceLocation objectId);

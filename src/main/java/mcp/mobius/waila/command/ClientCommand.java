@@ -11,7 +11,8 @@ import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.config.ConfigEntry;
 import mcp.mobius.waila.config.PluginConfig;
-import mcp.mobius.waila.gui.screen.HomeScreen;
+import mcp.mobius.waila.gui.screen.InspectorScreen;
+import mcp.mobius.waila.gui.screen.WailaConfigScreen;
 import mcp.mobius.waila.plugin.PluginInfo;
 import mcp.mobius.waila.plugin.PluginLoader;
 import net.minecraft.client.Minecraft;
@@ -46,7 +47,7 @@ public abstract class ClientCommand<S> extends CommonCommand<S, Minecraft> {
             .then(literal("open"))
             .executes(context -> {
                 var client = Minecraft.getInstance();
-                client.tell(() -> client.setScreen(new HomeScreen(client.screen)));
+                client.tell(() -> client.setScreen(new WailaConfigScreen(client.screen)));
                 return 1;
             })
 
@@ -120,11 +121,11 @@ public abstract class ClientCommand<S> extends CommonCommand<S, Minecraft> {
 
             .then(literal("overlay"))
             .then(argument("enabled", BoolArgumentType.bool()))
-            .suggests((context, builder) -> suggest(new String[]{String.valueOf(!Waila.CONFIG.get().getGeneral().isDisplayTooltip())}, builder))
+            .suggests((context, builder) -> suggest(new String[]{String.valueOf(!WailaClient.CONFIG.get().getGeneral().isDisplayTooltip())}, builder))
             .executes(context -> {
                 var source = context.getSource();
                 var enabled = BoolArgumentType.getBool(context, "enabled");
-                Waila.CONFIG.get().getGeneral().setDisplayTooltip(enabled);
+                WailaClient.CONFIG.get().getGeneral().setDisplayTooltip(enabled);
                 success(source, () -> Component.translatable(enabled ? Tl.Command.Overlay.TRUE : Tl.Command.Overlay.FALSE));
                 return enabled ? 1 : 0;
             })
@@ -157,6 +158,14 @@ public abstract class ClientCommand<S> extends CommonCommand<S, Minecraft> {
                 return enabled ? 1 : 0;
             })
             .pop("enabled", "showFps")
+
+            .then(literal("inspect"))
+            .executes(context -> {
+                var client = Minecraft.getInstance();
+                client.tell(() -> client.setScreen(new InspectorScreen()));
+                return 1;
+            })
+            .pop("inspect")
 
             .pop("debug");
     }

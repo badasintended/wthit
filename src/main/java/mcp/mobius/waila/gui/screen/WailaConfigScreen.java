@@ -1,6 +1,9 @@
 package mcp.mobius.waila.gui.screen;
 
-import java.awt.Rectangle;
+import java.awt.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.Consumer;
 
 import com.google.common.collect.ImmutableList;
 import com.mojang.blaze3d.platform.InputConstants;
@@ -14,6 +17,7 @@ import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.component.ItemComponent;
 import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.config.WailaConfig;
+import mcp.mobius.waila.config.input.KeyBind;
 import mcp.mobius.waila.gui.hud.Line;
 import mcp.mobius.waila.gui.hud.TooltipRenderer;
 import mcp.mobius.waila.gui.hud.theme.ThemeDefinition;
@@ -25,26 +29,29 @@ import mcp.mobius.waila.gui.widget.value.ConfigValue;
 import mcp.mobius.waila.gui.widget.value.CycleValue;
 import mcp.mobius.waila.gui.widget.value.EnumValue;
 import mcp.mobius.waila.gui.widget.value.InputValue;
-import mcp.mobius.waila.mixin.KeyMappingAccess;
 import net.minecraft.ChatFormatting;
 import net.minecraft.Util;
-import net.minecraft.client.KeyMapping;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.Blocks;
+import org.apache.commons.lang3.mutable.MutableObject;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector2d;
+import org.joml.Vector2i;
 
 import static mcp.mobius.waila.util.DisplayUtil.createButton;
 import static mcp.mobius.waila.util.DisplayUtil.tryFormat;
 
-public class WailaConfigScreen extends ConfigScreen {
+public class WailaConfigScreen extends TabbedConfigScreen {
 
+    public static final Component TITLE = Component.translatable(Tl.Gui.WAILA_SETTINGS, WailaConstants.MOD_NAME);
     private static final Component PREVIEW_PROMPT = Component.translatable(Tl.Config.PREVIEW_PROMPT);
 
     private final WailaConfig defaultConfig = new WailaConfig();
@@ -54,28 +61,31 @@ public class WailaConfigScreen extends ConfigScreen {
     private ThemeDefinition<?> theme;
     private boolean f1held = false;
 
-    private ConfigValue<String> modNameFormatVal;
-    private ConfigValue<String> blockNameFormatVal;
-    private ConfigValue<Integer> fpsVal;
-    private ConfigValue<Integer> xPosValue;
-    private ConfigValue<Align.X> xAnchorValue;
-    private ConfigValue<Align.Y> yAnchorValue;
-    private ConfigValue<Align.X> xAlignValue;
-    private ConfigValue<Align.Y> yAlignValue;
-    private ConfigValue<Integer> yPosValue;
-    private ConfigValue<Float> scaleValue;
-    private ConfigValue<Integer> backgroundAlphaVal;
+    private InputValue<String> modNameFormatVal;
+    private InputValue<String> blockNameFormatVal;
+    private InputValue<Integer> fpsVal;
+
+    private ButtonEntry placementButton;
+    private EnumValue<Align.X> xAnchorValue;
+    private EnumValue<Align.Y> yAnchorValue;
+    private EnumValue<Align.X> xAlignValue;
+    private EnumValue<Align.Y> yAlignValue;
+    private InputValue<Integer> xPosValue;
+    private InputValue<Integer> yPosValue;
+    private InputValue<Float> scaleValue;
+
+    private InputValue<Integer> backgroundAlphaVal;
 
     private ThemeValue themeIdVal;
 
     private @Nullable KeyBindValue selectedKeyBind;
 
     public WailaConfigScreen(Screen parent) {
-        super(parent, Component.translatable(Tl.Gui.CONFIGURATION, WailaConstants.MOD_NAME), Waila.CONFIG::save, Waila.CONFIG::invalidate);
+        super(parent, CommonComponents.EMPTY, WailaClient.CONFIG::save, WailaClient.CONFIG::invalidate);
     }
 
     private static WailaConfig get() {
-        return Waila.CONFIG.get();
+        return WailaClient.CONFIG.get();
     }
 
     public Rectangle buildPreview(TooltipRenderer.State state) {
@@ -132,15 +142,15 @@ public class WailaConfigScreen extends ConfigScreen {
     }
 
     @Override
-    protected void renderForeground(GuiGraphics ctx, int rowLeft, int rowWidth, int mouseX, int mouseY, float partialTicks) {
-        super.renderForeground(ctx, rowLeft, rowWidth, mouseX, mouseY, partialTicks);
-        ctx.drawString(font, PREVIEW_PROMPT, rowLeft, 22, 0xAAAAAA);
-    }
-
-    @Override
     public ConfigListWidget getOptions() {
-        var options = new ConfigListWidget(this, minecraft, width, height, 42, height - 32, 26, Waila.CONFIG::save);
+        var options = new ConfigListWidget(this, minecraft, width, height, 24, height - 32, 26, WailaClient.CONFIG::save);
+        options.headerSeparator = false;
+
         options.with(new CategoryEntry(Tl.Config.GENERAL)
+            .with(new BooleanValue(Tl.Config.VANILLA_OPTIONS,
+                get().getGeneral().vanillaOptions(),
+                defaultConfig.getGeneral().vanillaOptions(),
+                val -> get().getGeneral().setVanillaOptions(val)))
             .with(new BooleanValue(Tl.Config.DISPLAY_TOOLTIP,
                 get().getGeneral().isDisplayTooltip(),
                 defaultConfig.getGeneral().isDisplayTooltip(),
@@ -185,32 +195,34 @@ public class WailaConfigScreen extends ConfigScreen {
                     val -> get().getOverlay().setFps(val),
                     InputValue.POSITIVE_INTEGER),
                 it -> it.disable(Tl.Config.OverlayFps.DISABLED_REASON)))
-            .with(xAnchorValue = new EnumValue<>(Tl.Config.OVERLAY_ANCHOR_X,
+            .with(placementButton = new ButtonEntry(Tl.Config.OVERLAY_PLACEMENT, 100, 20, w ->
+                minecraft.setScreen(new PlacementScreen())))
+            .withHidden(xAnchorValue = new EnumValue<>(Tl.Config.OVERLAY_ANCHOR,
                 Align.X.values(),
                 get().getOverlay().getPosition().getAnchor().getX(),
                 defaultConfig.getOverlay().getPosition().getAnchor().getX(),
                 val -> get().getOverlay().getPosition().getAnchor().setX(val)))
-            .with(yAnchorValue = new EnumValue<>(Tl.Config.OVERLAY_ANCHOR_Y,
+            .withHidden(yAnchorValue = new EnumValue<>(Tl.Config.OVERLAY_ANCHOR,
                 Align.Y.values(),
                 get().getOverlay().getPosition().getAnchor().getY(),
                 defaultConfig.getOverlay().getPosition().getAnchor().getY(),
                 val -> get().getOverlay().getPosition().getAnchor().setY(val)))
-            .with(xAlignValue = new EnumValue<>(Tl.Config.OVERLAY_ALIGN_X,
+            .withHidden(xAlignValue = new EnumValue<>(Tl.Config.OVERLAY_ANCHOR,
                 Align.X.values(),
                 get().getOverlay().getPosition().getAlign().getX(),
                 defaultConfig.getOverlay().getPosition().getAlign().getX(),
                 val -> get().getOverlay().getPosition().getAlign().setX(val)))
-            .with(yAlignValue = new EnumValue<>(Tl.Config.OVERLAY_ALIGN_Y,
+            .withHidden(yAlignValue = new EnumValue<>(Tl.Config.OVERLAY_ANCHOR,
                 Align.Y.values(),
                 get().getOverlay().getPosition().getAlign().getY(),
                 defaultConfig.getOverlay().getPosition().getAlign().getY(),
                 val -> get().getOverlay().getPosition().getAlign().setY(val)))
-            .with(xPosValue = new InputValue<>(Tl.Config.OVERLAY_POS_X,
+            .withHidden(xPosValue = new InputValue<>(Tl.Config.OVERLAY_OFFSET,
                 get().getOverlay().getPosition().getX(),
                 defaultConfig.getOverlay().getPosition().getX(),
                 val -> get().getOverlay().getPosition().setX(val),
                 InputValue.INTEGER))
-            .with(yPosValue = new InputValue<>(Tl.Config.OVERLAY_POS_Y,
+            .withHidden(yPosValue = new InputValue<>(Tl.Config.OVERLAY_OFFSET,
                 get().getOverlay().getPosition().getY(),
                 defaultConfig.getOverlay().getPosition().getY(),
                 val -> get().getOverlay().getPosition().setY(val),
@@ -219,7 +231,7 @@ public class WailaConfigScreen extends ConfigScreen {
                 get().getOverlay().getPosition().isBossBarsOverlap(),
                 defaultConfig.getOverlay().getPosition().isBossBarsOverlap(),
                 val -> get().getOverlay().getPosition().setBossBarsOverlap(val)))
-            .with(scaleValue = new InputValue<>(Tl.Config.OVERLAY_SCALE,
+            .withHidden(scaleValue = new InputValue<>(Tl.Config.OVERLAY_SCALE,
                 get().getOverlay().getScale(),
                 defaultConfig.getOverlay().getScale(),
                 val -> get().getOverlay().setScale(Math.max(val, 0.0F)),
@@ -259,11 +271,26 @@ public class WailaConfigScreen extends ConfigScreen {
                 InputValue.ANY)));
 
         options.with(new CategoryEntry(Tl.Config.KEYBINDS)
-            .with(new KeyBindValue(WailaClient.keyOpenConfig))
-            .with(new KeyBindValue(WailaClient.keyShowOverlay))
-            .with(new KeyBindValue(WailaClient.keyToggleLiquid))
-            .with(new KeyBindValue(WailaClient.keyShowRecipeInput))
-            .with(new KeyBindValue(WailaClient.keyShowRecipeOutput)));
+            .with(new KeyBindValue(Tl.Key.CONFIG,
+                get().getKeyBinds().getOpenConfig(),
+                defaultConfig.getKeyBinds().getOpenConfig(),
+                val -> get().getKeyBinds().setOpenConfig(val)))
+            .with(new KeyBindValue(Tl.Key.SHOW_OVERLAY,
+                get().getKeyBinds().getShowOverlay(),
+                defaultConfig.getKeyBinds().getShowOverlay(),
+                val -> get().getKeyBinds().setShowOverlay(val)))
+            .with(new KeyBindValue(Tl.Key.TOGGLE_LIQUID,
+                get().getKeyBinds().getToggleLiquid(),
+                defaultConfig.getKeyBinds().getToggleLiquid(),
+                val -> get().getKeyBinds().setToggleLiquid(val)))
+            .with(new KeyBindValue(Tl.Key.SHOW_RECIPE_INPUT,
+                get().getKeyBinds().getShowRecipeInput(),
+                defaultConfig.getKeyBinds().getShowRecipeInput(),
+                val -> get().getKeyBinds().setShowRecipeInput(val)))
+            .with(new KeyBindValue(Tl.Key.SHOW_RECIPE_OUTPUT,
+                get().getKeyBinds().getShowRecipeOutput(),
+                defaultConfig.getKeyBinds().getShowRecipeOutput(),
+                val -> get().getKeyBinds().setShowRecipeOutput(val))));
 
         return options;
     }
@@ -271,7 +298,7 @@ public class WailaConfigScreen extends ConfigScreen {
     @Override
     public boolean mouseClicked(double mouseX, double mouseY, int button) {
         if (selectedKeyBind != null) {
-            selectedKeyBind.setValue(InputConstants.Type.MOUSE.getOrCreate(button));
+            selectedKeyBind.setValue(KeyBind.of(InputConstants.Type.MOUSE.getOrCreate(button)));
             selectedKeyBind = null;
             return true;
         }
@@ -283,9 +310,9 @@ public class WailaConfigScreen extends ConfigScreen {
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
         if (selectedKeyBind != null) {
             if (keyCode == InputConstants.KEY_ESCAPE) {
-                selectedKeyBind.setValue(InputConstants.UNKNOWN);
+                selectedKeyBind.setValue(KeyBind.UNKNOWN);
             } else {
-                selectedKeyBind.setValue(InputConstants.getKey(keyCode, scanCode));
+                selectedKeyBind.setValue(KeyBind.of(InputConstants.getKey(keyCode, scanCode)));
             }
 
             selectedKeyBind = null;
@@ -295,16 +322,12 @@ public class WailaConfigScreen extends ConfigScreen {
         return super.keyPressed(keyCode, scanCode, modifiers);
     }
 
-    public class KeyBindValue extends ConfigValue<InputConstants.Key> {
+    public class KeyBindValue extends ConfigValue<KeyBind, KeyBindValue> {
 
         private final Button button;
 
-        public KeyBindValue(KeyMapping key) {
-            super(key.getName(), ((KeyMappingAccess) key).wthit_key(), key.getDefaultKey(), value -> {
-                minecraft.options.setKey(key, value);
-                KeyMapping.resetMapping();
-            });
-
+        public KeyBindValue(String translationKey, KeyBind value, KeyBind defaultValue, Consumer<KeyBind> save) {
+            super(translationKey, value, defaultValue, save);
             this.button = createButton(0, 0, 100, 20, Component.empty(), w -> selectedKeyBind = this);
         }
 
@@ -316,9 +339,9 @@ public class WailaConfigScreen extends ConfigScreen {
         @Override
         protected void drawValue(GuiGraphics ctx, int width, int height, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks) {
             if (selectedKeyBind == this) {
-                button.setMessage(Component.literal("> " + getValue().getDisplayName().getString() + " <").withStyle(ChatFormatting.YELLOW));
+                button.setMessage(Component.literal("> " + getValue().key().getDisplayName().getString() + " <").withStyle(ChatFormatting.YELLOW));
             } else {
-                button.setMessage(getValue().getDisplayName());
+                button.setMessage(getValue().key().getDisplayName());
             }
 
             button.setX(x + width - button.getWidth());
@@ -375,6 +398,221 @@ public class WailaConfigScreen extends ConfigScreen {
             newButton.render(ctx, mouseX, mouseY, partialTicks);
 
             super.drawValue(ctx, width - 84, height, x, y, mouseX, mouseY, selected, partialTicks);
+        }
+
+    }
+
+    private class PlacementScreen extends YesIAmSureTheClientInstanceIsPresentByTheTimeIUseItScreen {
+
+        static final Object WATCHER_OFFSET = new Object();
+        static final Object WATCHER_UPDATE = new Object();
+
+        final MutableObject<Component> textAlign = new MutableObject<>(Component.translatable(Tl.Config.OVERLAY_ALIGN));
+        final MutableObject<Component> textAnchor = new MutableObject<>(Component.translatable(Tl.Config.OVERLAY_ANCHOR));
+        final MutableObject<Component> textOffset = new MutableObject<>(Component.translatable(Tl.Config.OVERLAY_OFFSET));
+        final MutableObject<Component> textScale = new MutableObject<>(Component.translatable(Tl.Config.OVERLAY_SCALE));
+
+        final Rectangle rect = new Rectangle();
+        float oldScale;
+
+        boolean drag;
+        Vector2i dragPos = new Vector2i();
+        Vector2d dragStart = new Vector2d();
+        Vector2d dragNow = new Vector2d();
+
+        Button xAlign, yAlign, xAnchor, yAnchor;
+        InputValue<?>.WatchedTextfield xPos, yPos, scale;
+        Button done;
+
+        int x, y;
+        int maxTextWidth;
+
+        public PlacementScreen() {
+            super(Component.translatable(Tl.Config.OVERLAY));
+        }
+
+        private void resetOffset(ConfigValue<?, ?> value) {
+            if (!value.isChanged()) return;
+            xPosValue.setValue(0);
+            yPosValue.setValue(0);
+        }
+
+        private void addUpdateWatcher(MutableObject<Component> text, ConfigValue<?, ?>... cvs) {
+            for (var cv : cvs) {
+                cv.addWatcher(WATCHER_UPDATE, v -> {
+                    if (!Arrays.stream(cvs).allMatch(ConfigValue::isValueValid)) {
+                        text.setValue(text.getValue().plainCopy().withStyle(ChatFormatting.ITALIC, ChatFormatting.RED));
+                    } else if (Arrays.stream(cvs).anyMatch(ConfigValue::isChanged)) {
+                        text.setValue(text.getValue().plainCopy().withStyle(ChatFormatting.ITALIC, ChatFormatting.YELLOW));
+                    } else {
+                        text.setValue(text.getValue().plainCopy());
+                    }
+                });
+            }
+        }
+
+        @Override
+        protected void init() {
+            super.init();
+
+            addRenderableWidget(xAnchor = xAnchorValue.getListener());
+            addRenderableWidget(yAnchor = yAnchorValue.getListener());
+            addUpdateWatcher(textAnchor, xAnchorValue, yAnchorValue);
+            xAnchorValue.addWatcher(WATCHER_OFFSET, this::resetOffset);
+            yAnchorValue.addWatcher(WATCHER_OFFSET, this::resetOffset);
+            xAnchor.setWidth(50);
+            yAnchor.setWidth(50);
+
+            addRenderableWidget(xAlign = xAlignValue.getListener());
+            addRenderableWidget(yAlign = yAlignValue.getListener());
+            addUpdateWatcher(textAlign, xAlignValue, yAlignValue);
+            xAlign.setWidth(50);
+            yAlign.setWidth(50);
+
+            addRenderableWidget(xPos = xPosValue.getListener());
+            addRenderableWidget(yPos = yPosValue.getListener());
+            addUpdateWatcher(textOffset, xPosValue, yPosValue);
+            xPos.grow = yPos.grow = false;
+            xPos.setWidth(50);
+            yPos.setWidth(50);
+
+            addRenderableWidget(scale = scaleValue.getListener());
+            addUpdateWatcher(textScale, scaleValue);
+            oldScale = scaleValue.getValue();
+            scale.grow = false;
+            scale.setWidth(102);
+            scaleValue.addWatcher(WATCHER_OFFSET, v -> {
+                if (v.isChanged()) resetOffset(v);
+                oldScale = v.getValue();
+            });
+
+            addRenderableWidget(done = createButton(0, 0, 102, 20, CommonComponents.GUI_DONE, (b) -> {
+                var list = List.of(xAnchorValue, yAnchorValue, xAlignValue, yAlignValue, xPosValue, yPosValue, scaleValue);
+                if (!list.stream().allMatch(ConfigValue::isValueValid)) {
+                    ConfigListWidget.showErrorToast(minecraft);
+                    return;
+                }
+
+                var message = Component.translatable(Tl.Config.OVERLAY_PLACEMENT);
+                var changed = list.stream().anyMatch(ConfigValue::isChanged);
+                if (changed) message.withStyle(ChatFormatting.ITALIC, ChatFormatting.YELLOW);
+                placementButton.setTitle(message);
+
+                minecraft.setScreen(WailaConfigScreen.this);
+            }));
+
+            tick();
+        }
+
+        @Override
+        @SuppressWarnings({"ConstantValue", "UnusedAssignment"})
+        public void tick() {
+            maxTextWidth = minecraft.font.width(textAlign.getValue());
+            maxTextWidth = Math.max(maxTextWidth, minecraft.font.width(textAnchor.getValue()));
+            maxTextWidth = Math.max(maxTextWidth, minecraft.font.width(textOffset.getValue()));
+            maxTextWidth = Math.max(maxTextWidth, minecraft.font.width(textScale.getValue()));
+
+            var r = buildPreview(previewState);
+            var s = (float) scaleValue.getValue();
+            rect.setBounds((int) (r.x * s), (int) (r.y * s), (int) (r.width * s), (int) (r.height * s));
+
+            var optWidth = maxTextWidth + 10 + 50 + 2 + 50;
+            var optHeight = 22 * 5;
+
+            x = width - optWidth - 10;
+            y = height - optHeight - 10;
+
+            if (rect.intersects(x, y, optWidth, optHeight)) {
+                x = 10;
+                y = 10;
+            }
+
+            var i = 0;
+            var optX = x + maxTextWidth + 10;
+
+            xAnchor.setPosition(optX, y + (22 * i++));
+            yAnchor.setPosition(xAnchor.getX() + xAnchor.getWidth() + 2, xAnchor.getY());
+
+            xAlign.setPosition(optX, y + (22 * i++));
+            yAlign.setPosition(xAlign.getX() + xAlign.getWidth() + 2, xAlign.getY());
+
+            xPos.setPosition(optX, y + (22 * i++));
+            yPos.setPosition(xPos.getX() + xPos.getWidth() + 2, xPos.getY());
+
+            scale.setPosition(optX, y + (22 * i++));
+            done.setPosition(optX, y + (22 * i++));
+        }
+
+        @SuppressWarnings({"ConstantValue", "UnusedAssignment"})
+        @Override
+        public void render(GuiGraphics ctx, int mouseX, int mouseY, float delta) {
+            renderBackground(ctx);
+            super.render(ctx, mouseX, mouseY, delta);
+
+            var i = 0;
+            var y = this.y + minecraft.font.lineHeight / 2;
+            // @formatter:off
+            ctx.drawString(minecraft.font, textAnchor.getValue(), x, y + (22 * i++), 0xFFFFFFFF);
+            ctx.drawString(minecraft.font, textAlign .getValue(), x, y + (22 * i++), 0xFFFFFFFF);
+            ctx.drawString(minecraft.font, textOffset.getValue(), x, y + (22 * i++), 0xFFFFFFFF);
+            ctx.drawString(minecraft.font, textScale .getValue(), x, y + (22 * i++), 0xFFFFFFFF);
+            // @formatter:on
+
+            TooltipRenderer.render(ctx, delta);
+        }
+
+        @Override
+        public boolean mouseClicked(double mouseX, double mouseY, int button) {
+            if (rect.contains(mouseX, mouseY)) {
+                drag = true;
+                dragPos.set(xPosValue.getValue(), yPosValue.getValue());
+                dragStart.x = dragNow.x = mouseX;
+                dragStart.y = dragNow.y = mouseY;
+            }
+
+            return super.mouseClicked(mouseX, mouseY, button);
+        }
+
+        @Override
+        public boolean mouseDragged(double mouseX, double mouseY, int button, double deltaX, double deltaY) {
+            if (drag) {
+                var scale = (float) scaleValue.getValue();
+                xPosValue.setValue((int) (dragPos.x + (dragNow.x - dragStart.x) / scale));
+                yPosValue.setValue((int) (dragPos.y + (dragNow.y - dragStart.y) / scale));
+                dragNow.x = mouseX;
+                dragNow.y = mouseY;
+                return true;
+            }
+
+            return super.mouseDragged(mouseX, mouseY, button, deltaX, deltaY);
+        }
+
+        @Override
+        public boolean mouseReleased(double mouseX, double mouseY, int button) {
+            drag = false;
+            return super.mouseReleased(mouseX, mouseY, button);
+        }
+
+        @Override
+        public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+            var offset = Screen.hasControlDown() ? 10 : 1;
+
+            switch (keyCode) {
+                case InputConstants.KEY_UP -> yPosValue.setValue(yPosValue.getValue() - offset);
+                case InputConstants.KEY_DOWN -> yPosValue.setValue(yPosValue.getValue() + offset);
+                case InputConstants.KEY_LEFT -> xPosValue.setValue(xPosValue.getValue() - offset);
+                case InputConstants.KEY_RIGHT -> xPosValue.setValue(xPosValue.getValue() + offset);
+                default -> {
+                    return super.keyPressed(keyCode, scanCode, modifiers);
+                }
+            }
+
+            return true;
+        }
+
+        @Override
+        public boolean shouldCloseOnEsc() {
+            return false;
         }
 
     }

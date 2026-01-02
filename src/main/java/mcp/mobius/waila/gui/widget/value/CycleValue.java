@@ -16,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
 
 import static mcp.mobius.waila.util.DisplayUtil.createButton;
 
-public class CycleValue extends ConfigValue<String> {
+public class CycleValue extends ConfigValue<String, CycleValue> {
 
     private final Button button;
     private final boolean createLocale;

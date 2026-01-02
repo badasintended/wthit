@@ -99,7 +99,7 @@ public abstract class CommonCommand<S, E extends Executor> {
             .register(dispatcher);
     }
 
-    private Stream<IPluginInfo> getPlugins(boolean enabled) {
+    private Stream<PluginInfo> getPlugins(boolean enabled) {
         return PluginInfo.getAll().stream().filter(it -> enabled == it.isEnabled());
     }
 
@@ -123,7 +123,7 @@ public abstract class CommonCommand<S, E extends Executor> {
         return (context, builder) -> suggestResource(getPlugins(enabled)
             .map(it -> (PluginInfo) it)
             .filter(it -> !it.isLocked() && !isPluginDisabledOnServer(it))
-            .map(IPluginInfo::getPluginId), builder);
+            .map(PluginInfo::getPluginId), builder);
     }
 
     private int modifyPlugin(CommandContext<S> context, boolean enable) {

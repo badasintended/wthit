@@ -48,3 +48,7 @@ tasks.generateRemapClasspath {
     enabled = false
 }
 
+tasks.generateDLIConfig {
+    enabled = false
+}
+

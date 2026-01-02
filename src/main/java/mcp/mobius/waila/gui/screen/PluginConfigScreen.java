@@ -22,10 +22,13 @@ import mcp.mobius.waila.registry.Registrar;
 import net.minecraft.Util;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
+import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 
-public class PluginConfigScreen extends ConfigScreen {
+public class PluginConfigScreen extends TabbedConfigScreen {
+
+    public static final Component TITLE = Component.translatable(Tl.Gui.Plugin.SETTINGS);
 
     private static final String NO_CATEGORY = "no_category";
     private static final Map<ConfigEntry.Type<Object>, ConfigValueFunction<Object>> ENTRY_TO_VALUE = new HashMap<>();
@@ -41,7 +44,7 @@ public class PluginConfigScreen extends ConfigScreen {
     }
 
     public PluginConfigScreen(Screen parent) {
-        super(parent, Component.translatable(Tl.Gui.Plugin.SETTINGS), PluginConfig::save, PluginConfig::reload);
+        super(parent, CommonComponents.EMPTY, PluginConfig::write, PluginConfig::reload);
     }
 
     @SuppressWarnings("unchecked")
@@ -51,7 +54,8 @@ public class PluginConfigScreen extends ConfigScreen {
 
     @Override
     public ConfigListWidget getOptions() {
-        var options = new ConfigListWidget(this, minecraft, width, height, 32, height - 32, 26, PluginConfig::save);
+        var options = new ConfigListWidget(this, minecraft, width, height, 24, height - 32, 26, PluginConfig::write);
+        options.headerSeparator = false;
 
         for (var namespace : PluginConfig.getNamespaces()) {
             var namespaceTlKey = Tl.Config.PLUGIN_ + namespace;
@@ -123,7 +127,7 @@ public class PluginConfigScreen extends ConfigScreen {
     @FunctionalInterface
     private interface ConfigValueFunction<T> {
 
-        ConfigValue<T> create(ResourceLocation key, String name, T value, T defaultValue, Consumer<T> save);
+        ConfigValue<T, ?> create(ResourceLocation key, String name, T value, T defaultValue, Consumer<T> save);
 
     }
 

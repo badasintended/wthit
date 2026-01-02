@@ -1,7 +1,7 @@
 package mcp.mobius.waila.util;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import mcp.mobius.waila.api.IModInfo;
 import mcp.mobius.waila.service.ICommonService;
@@ -9,7 +9,7 @@ import org.apache.commons.lang3.text.WordUtils;
 
 public final class ModInfo implements IModInfo {
 
-    private static final Map<String, ModInfo> CONTAINER_CACHE = new HashMap<>();
+    private static final Map<String, ModInfo> CONTAINER_CACHE = new ConcurrentHashMap<>();
 
     private final boolean present;
     private final String id;
@@ -27,6 +27,7 @@ public final class ModInfo implements IModInfo {
         CONTAINER_CACHE.put(info.getId(), info);
     }
 
+    @SuppressWarnings("deprecation")
     public static ModInfo get(String namespace) {
         return CONTAINER_CACHE.computeIfAbsent(namespace, s -> ICommonService.INSTANCE.createModInfo(s)
             .or(() -> ICommonService.INSTANCE.createModInfo(s.replace('_', '-')))

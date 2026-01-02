@@ -6,6 +6,7 @@
   "entrypoints"  : {
     "main"          : ["mcp.mobius.waila.fabric.FabricWaila"],
     "client"        : ["mcp.mobius.waila.fabric.FabricWailaClient"],
+    "server"        : ["mcp.mobius.waila.fabric.FabricWailaDedicatedServer"],
     "emi"           : ["mcp.mobius.waila.integration.emi.EmiRecipeAction"],
     "jei_mod_plugin": ["mcp.mobius.waila.integration.jei.JeiRecipeAction"],
     "modmenu"       : ["mcp.mobius.waila.integration.modmenu.WailaModMenu"],

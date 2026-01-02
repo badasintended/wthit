@@ -3,11 +3,8 @@ package mcp.mobius.waila.plugin.core.provider;
 import mcp.mobius.waila.api.IBlacklistConfig;
 import mcp.mobius.waila.api.IBlockAccessor;
 import mcp.mobius.waila.api.IBlockComponentProvider;
-import mcp.mobius.waila.api.IDataProvider;
-import mcp.mobius.waila.api.IDataWriter;
 import mcp.mobius.waila.api.IModInfo;
 import mcp.mobius.waila.api.IPluginConfig;
-import mcp.mobius.waila.api.IServerAccessor;
 import mcp.mobius.waila.api.ITargetRedirector;
 import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.ITooltipComponent;
@@ -15,12 +12,11 @@ import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.component.ItemComponent;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.world.Nameable;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.level.block.LiquidBlock;
-import net.minecraft.world.level.block.entity.BlockEntity;
 import org.jetbrains.annotations.Nullable;
 
-public enum BlockProvider implements IBlockComponentProvider, IDataProvider<BlockEntity> {
+public enum BlockProvider implements IBlockComponentProvider {
 
     INSTANCE;
 
@@ -48,10 +44,10 @@ public enum BlockProvider implements IBlockComponentProvider, IDataProvider<Bloc
 
         var block = accessor.getBlock();
         var data = accessor.getData().raw();
-        var name = block.getName().getString();
+        var name = block.getName();
 
         if (data.contains("customName")) {
-            name = data.getString("customName") + " (" + name + ")";
+            name = Component.literal(data.getString("customName")).append(" (").append(name).append(")");
         }
 
         var formatter = IWailaConfig.get().getFormatter();
@@ -65,16 +61,6 @@ public enum BlockProvider implements IBlockComponentProvider, IDataProvider<Bloc
     public void appendTail(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
         if (config.getBoolean(WailaConstants.CONFIG_SHOW_MOD_NAME)) {
             tooltip.setLine(WailaConstants.MOD_NAME_TAG, IWailaConfig.get().getFormatter().modName(IModInfo.get(accessor.getBlock()).getName()));
-        }
-    }
-
-    @Override
-    public void appendData(IDataWriter data, IServerAccessor<BlockEntity> accessor, IPluginConfig config) {
-        if (accessor.getTarget() instanceof Nameable nameable) {
-            var name = nameable.getCustomName();
-            if (name != null) {
-                data.raw().putString("customName", name.getString());
-            }
         }
     }
 

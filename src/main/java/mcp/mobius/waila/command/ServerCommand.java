@@ -6,32 +6,40 @@ import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
+import io.netty.buffer.Unpooled;
 import lol.bai.badpackets.api.PacketSender;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.debug.DumpGenerator;
 import mcp.mobius.waila.mixin.BaseContainerBlockEntityAccess;
-import mcp.mobius.waila.network.play.s2c.GenerateClientDumpPlayS2CPacket;
+import mcp.mobius.waila.network.Packets;
 import mcp.mobius.waila.plugin.PluginLoader;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.LockCode;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import org.jetbrains.annotations.Nullable;
 
-public class ServerCommand extends CommonCommand<CommandSourceStack, MinecraftServer> {
+public abstract class ServerCommand extends CommonCommand<CommandSourceStack, MinecraftServer> {
 
     public ServerCommand() {
         super(WailaConstants.NAMESPACE);
     }
+
+    protected abstract @Nullable String fillContainer(ServerLevel world, BlockPos pos, ServerPlayer player);
 
     @Override
     protected boolean pluginCommandRequirement(CommandSourceStack source) {
@@ -55,7 +63,7 @@ public class ServerCommand extends CommonCommand<CommandSourceStack, MinecraftSe
                     source.sendSuccess(() -> Component.translatable(dedicated ? Tl.Command.SERVER_DUMP_SUCCESS : Tl.Command.LOCAL_DUMP_SUCCESS, pathComponent), false);
                     var entity = source.getEntity();
                     if (entity instanceof ServerPlayer player && !server.isSingleplayerOwner(player.getGameProfile())) {
-                        PacketSender.s2c(player).send(new GenerateClientDumpPlayS2CPacket.Payload());
+                        PacketSender.s2c(player).send(Packets.GENERATE_CLIENT_DUMP, new FriendlyByteBuf(Unpooled.EMPTY_BUFFER));
                     }
                     return 1;
                 } else {
@@ -83,7 +91,7 @@ public class ServerCommand extends CommonCommand<CommandSourceStack, MinecraftSe
                 var blockEntity = world.getBlockEntity(pos);
                 if (blockEntity != null) {
                     //noinspection DataFlowIssue
-                    source.sendSuccess(() -> Component.literal("Block entity type ID: " + blockEntity.getType().builtInRegistryHolder().key().location()), false);
+                    source.sendSuccess(() -> Component.literal("Block entity type ID: " + BuiltInRegistries.BLOCK_ENTITY_TYPE.getKey(blockEntity.getType())), false);
                     source.sendSuccess(() -> Component.literal("Block entity class: " + blockEntity.getClass().getName()), false);
                 }
 
@@ -130,6 +138,25 @@ public class ServerCommand extends CommonCommand<CommandSourceStack, MinecraftSe
                 return 0;
             })
             .pop("lock", "pos", "lockContainer")
+
+            .then(Commands.literal("fillContainer"))
+            .then(Commands.argument("pos", BlockPosArgument.blockPos()))
+            .executes(context -> {
+                var source = context.getSource();
+                var world = source.getLevel();
+                var player = source.getPlayer();
+                var pos = BlockPosArgument.getLoadedBlockPos(context, "pos");
+
+                var err = fillContainer(world, pos, player);
+                if (err != null) {
+                    source.sendFailure(Component.literal(err));
+                    return 0;
+                } else {
+                    source.sendSuccess(() -> Component.literal("Filled " + pos.toShortString()), false);
+                    return 1;
+                }
+            })
+            .pop("pos", "fillContainer")
 
             .pop("debug");
     }

@@ -1,8 +1,14 @@
 package mcp.mobius.waila.config;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Type;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Supplier;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -12,17 +18,96 @@ import com.google.gson.JsonParseException;
 import com.google.gson.JsonSerializationContext;
 import com.google.gson.JsonSerializer;
 import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.WailaClient;
+import mcp.mobius.waila.api.IJsonConfig;
 import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.IWailaConfig;
+import mcp.mobius.waila.buildconst.Tl;
+import mcp.mobius.waila.config.input.KeyBind;
 import mcp.mobius.waila.gui.hud.theme.ThemeDefinition;
+import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.Style;
 import net.minecraft.resources.ResourceLocation;
 
 public class WailaConfig implements IWailaConfig {
 
+    interface Nested {}
+
+    @Retention(RetentionPolicy.RUNTIME)
+    @interface T {
+
+        String value();
+
+    }
+
+    public static final Supplier<IJsonConfig.Commenter> COMMENTER = () -> {
+        var defaultValue = new WailaConfig();
+        var language = Language.getInstance();
+
+        return path -> {
+            if (path.isEmpty()) return null;
+
+            AnnotatedElement element = null;
+            Object value = defaultValue;
+            Class<?> parentCls = WailaConfig.class;
+            for (var part : path) {
+                try {
+                    var field = parentCls.getDeclaredField(part);
+                    field.setAccessible(true);
+                    value = field.get(value);
+
+                    element = field;
+                    parentCls = field.getType();
+                } catch (NoSuchFieldException ignored) {
+                } catch (IllegalAccessException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+
+            if (element == null) return null;
+            if (value instanceof Nested) return null;
+
+            var sb = new StringBuilder();
+
+            var tlKey = element.getAnnotation(T.class);
+            if (tlKey != null) {
+                sb.append(language.getOrDefault(tlKey.value()));
+
+                var descKey = tlKey.value() + "_desc";
+                if (language.has(descKey)) sb.append('\n').append(language.getOrDefault(descKey));
+
+                sb.append('\n');
+            }
+
+            if (value instanceof Enum<?> e) {
+                sb.append(language.getOrDefault(Tl.Json5.Config.DEFAULT_VALUE).formatted(e.name()));
+
+                var valuesSb = new StringBuilder();
+                var enums = e.getDeclaringClass().getEnumConstants();
+                valuesSb.append(enums[0].name());
+                for (var i = 1; i < enums.length; i++) {
+                    var anEnum = enums[i];
+                    valuesSb.append(", ").append(anEnum.name());
+                }
+                sb.append("\n").append(language.getOrDefault(Tl.Json5.Config.AVAILABLE_VALUES).formatted(valuesSb));
+            } else if (!(value instanceof Map<?, ?> || value instanceof Collection<?>)) {
+                sb.append(language.getOrDefault(Tl.Json5.Config.DEFAULT_VALUE).formatted(value));
+            }
+
+            return sb.toString();
+        };
+    };
+
     private final General general = new General();
     private final Overlay overlay = new Overlay();
+
+    @IJsonConfig.Comment("Text formatters")
     private final Formatter formatter = new Formatter();
+
+    private final KeyBinds keyBinds = new KeyBinds();
+
+    @IJsonConfig.Comment("Internal value, DO NOT TOUCH!")
     private int configVersion = 0;
 
     public int getConfigVersion() {
@@ -48,16 +133,29 @@ public class WailaConfig implements IWailaConfig {
         return formatter;
     }
 
-    public static class General implements IWailaConfig.General {
+    public KeyBinds getKeyBinds() {
+        return keyBinds;
+    }
 
-        private boolean displayTooltip = true;
-        private boolean shiftForDetails = false;
-        private boolean hideShiftText = false;
-        private DisplayMode displayMode = DisplayMode.TOGGLE;
-        private boolean hideFromPlayerList = true;
-        private boolean hideFromDebug = true;
-        private boolean enableTextToSpeech = false;
-        private int rateLimit = 250;
+    public static class General implements IWailaConfig.General, Nested {
+
+        private @T(Tl.Config.VANILLA_OPTIONS) boolean vanillaOptions = false;
+        private @T(Tl.Config.DISPLAY_TOOLTIP) boolean displayTooltip = true;
+        private @T(Tl.Config.SNEAKY_DETAILS) boolean shiftForDetails = false;
+        private @T(Tl.Config.HIDE_SNEAK_TEXT) boolean hideShiftText = false;
+        private @T(Tl.Config.DISPLAY_MODE) DisplayMode displayMode = DisplayMode.TOGGLE;
+        private @T(Tl.Config.HIDE_FROM_PLAYERS) boolean hideFromPlayerList = true;
+        private @T(Tl.Config.HIDE_FROM_DEBUG) boolean hideFromDebug = true;
+        private @T(Tl.Config.TTS) boolean enableTextToSpeech = false;
+        private @T(Tl.Config.RATE_LIMIT) int rateLimit = 250;
+
+        public boolean vanillaOptions() {
+            return vanillaOptions;
+        }
+
+        public void setVanillaOptions(boolean vanillaOptions) {
+            this.vanillaOptions = vanillaOptions;
+        }
 
         @Override
         public boolean isDisplayTooltip() {
@@ -134,12 +232,13 @@ public class WailaConfig implements IWailaConfig {
 
     }
 
-    public static class Overlay implements IWailaConfig.Overlay {
+    public static class Overlay implements IWailaConfig.Overlay, Nested {
 
         private final Position position = new Position();
         private final Color color = new Color();
-        private float scale = 1.0F;
-        private int fps = 30;
+
+        private @T(Tl.Config.OVERLAY_SCALE) float scale = 1.0F;
+        private @T(Tl.Config.OVERLAY_FPS) int fps = 30;
 
         @Override
         public Position getPosition() {
@@ -168,13 +267,16 @@ public class WailaConfig implements IWailaConfig {
             this.fps = fps;
         }
 
-        public static class Position implements IWailaConfig.Overlay.Position {
+        public static class Position implements IWailaConfig.Overlay.Position, Nested {
 
             private final Align align = new Align();
             private final Align anchor = new Align();
+
+            @T(Tl.Config.OVERLAY_OFFSET)
             private int x = 0;
             private int y = 0;
-            private boolean bossBarsOverlap = false;
+
+            private @T(Tl.Config.BOSS_BARS_OVERLAP) boolean bossBarsOverlap = false;
 
             @Override
             public int getX() {
@@ -213,7 +315,7 @@ public class WailaConfig implements IWailaConfig {
                 this.bossBarsOverlap = bossBarsOverlap;
             }
 
-            public static class Align implements IWailaConfig.Overlay.Position.Align {
+            public static class Align implements IWailaConfig.Overlay.Position.Align, Nested {
 
                 X x = X.CENTER;
                 Y y = Y.TOP;
@@ -240,14 +342,14 @@ public class WailaConfig implements IWailaConfig {
 
         }
 
-        public static class Color implements IWailaConfig.Overlay.Color {
+        public static class Color implements IWailaConfig.Overlay.Color, Nested {
 
             private static final ResourceLocation DEFAULT = Waila.id("vanilla");
-            private static boolean warnDeprecatedColorGetter = true;
 
-            private int backgroundAlpha = 204;
-            private ResourceLocation activeTheme = DEFAULT;
+            private @T(Tl.Config.OVERLAY_BACKGROUND_ALPHA) int backgroundAlpha = 204;
+            private @T(Tl.Config.OVERLAY_THEME) ResourceLocation activeTheme = DEFAULT;
 
+            @IJsonConfig.Comment("Custom Themes")
             private final Map<ResourceLocation, ThemeDefinition<?>> themes = new HashMap<>();
 
             private ThemeDefinition<?> getThemeDef() {
@@ -255,7 +357,7 @@ public class WailaConfig implements IWailaConfig {
 
                 if (!allTheme.containsKey(activeTheme)) {
                     activeTheme = DEFAULT;
-                    Waila.CONFIG.save();
+                    WailaClient.CONFIG.save();
                 }
 
                 return allTheme.get(activeTheme);
@@ -318,7 +420,7 @@ public class WailaConfig implements IWailaConfig {
 
     }
 
-    public static class Formatter implements IWailaConfig.Formatter {
+    public static class Formatter implements IWailaConfig.Formatter, Nested {
 
         private String modName = "§9§o%s";
         private String blockName = "§f%s";
@@ -326,11 +428,14 @@ public class WailaConfig implements IWailaConfig {
         private String entityName = "§f%s";
         private String registryName = "§8%s";
 
+        private final Map<String, Style> styles = new ConcurrentHashMap<>();
+
         public String getModName() {
             return modName;
         }
 
         public void setModName(String modName) {
+            styles.remove(this.modName);
             this.modName = modName;
         }
 
@@ -339,6 +444,7 @@ public class WailaConfig implements IWailaConfig {
         }
 
         public void setBlockName(String blockName) {
+            styles.remove(this.blockName);
             this.blockName = blockName;
         }
 
@@ -347,6 +453,7 @@ public class WailaConfig implements IWailaConfig {
         }
 
         public void setFluidName(String fluidName) {
+            styles.remove(this.fluidName);
             this.fluidName = fluidName;
         }
 
@@ -355,6 +462,7 @@ public class WailaConfig implements IWailaConfig {
         }
 
         public void setEntityName(String entityName) {
+            styles.remove(this.entityName);
             this.entityName = entityName;
         }
 
@@ -363,32 +471,102 @@ public class WailaConfig implements IWailaConfig {
         }
 
         public void setRegistryName(String registryName) {
+            styles.remove(this.registryName);
             this.registryName = registryName;
+        }
+
+        private Component formatted(String format, Object object) {
+            if (object instanceof Component component) {
+                var style = styles.computeIfAbsent(format, f -> {
+                    var ret = new Style[]{Style.EMPTY};
+                    Component.literal(String.format(f, "B"))
+                        .getVisualOrderText()
+                        .accept(((i, s, j) -> {
+                            ret[0] = s;
+                            return true;
+                        }));
+                    return ret[0];
+                });
+
+                return component.copy().withStyle(style);
+            }
+
+            return Component.literal(String.format(format, object));
         }
 
         @Override
         public Component modName(Object modName) {
-            return Component.literal(this.modName.formatted(modName));
+            return formatted(this.modName, modName);
         }
 
         @Override
         public Component blockName(Object blockName) {
-            return Component.literal(this.blockName.formatted(blockName));
+            return formatted(this.blockName, blockName);
         }
 
         @Override
         public Component fluidName(Object fluidName) {
-            return Component.literal(this.fluidName.formatted(fluidName));
+            return formatted(this.fluidName, fluidName);
         }
 
         @Override
         public Component entityName(Object entityName) {
-            return Component.literal(this.entityName.formatted(entityName));
+            return formatted(this.entityName, entityName);
         }
 
         @Override
         public Component registryName(Object registryName) {
-            return Component.literal(this.registryName.formatted(registryName));
+            return formatted(this.registryName, registryName);
+        }
+
+    }
+
+    public static class KeyBinds implements Nested {
+
+        private @T(Tl.Key.CONFIG) KeyBind openConfig = KeyBind.UNKNOWN;
+        private @T(Tl.Key.SHOW_OVERLAY) KeyBind showOverlay = KeyBind.UNKNOWN;
+        private @T(Tl.Key.TOGGLE_LIQUID) KeyBind toggleLiquid = KeyBind.UNKNOWN;
+        private @T(Tl.Key.SHOW_RECIPE_INPUT) KeyBind showRecipeInput = KeyBind.UNKNOWN;
+        private @T(Tl.Key.SHOW_RECIPE_OUTPUT) KeyBind showRecipeOutput = KeyBind.UNKNOWN;
+
+        public KeyBind getOpenConfig() {
+            return openConfig;
+        }
+
+        public void setOpenConfig(KeyBind openConfig) {
+            this.openConfig = openConfig;
+        }
+
+        public KeyBind getShowOverlay() {
+            return showOverlay;
+        }
+
+        public void setShowOverlay(KeyBind showOverlay) {
+            this.showOverlay = showOverlay;
+        }
+
+        public KeyBind getToggleLiquid() {
+            return toggleLiquid;
+        }
+
+        public void setToggleLiquid(KeyBind toggleLiquid) {
+            this.toggleLiquid = toggleLiquid;
+        }
+
+        public KeyBind getShowRecipeInput() {
+            return showRecipeInput;
+        }
+
+        public void setShowRecipeInput(KeyBind showRecipeInput) {
+            this.showRecipeInput = showRecipeInput;
+        }
+
+        public KeyBind getShowRecipeOutput() {
+            return showRecipeOutput;
+        }
+
+        public void setShowRecipeOutput(KeyBind showRecipeOutput) {
+            this.showRecipeOutput = showRecipeOutput;
         }
 
     }

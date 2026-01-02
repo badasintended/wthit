@@ -1,6 +1,8 @@
 package mcp.mobius.waila.gui.widget.value;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Consumer;
 
 import com.google.common.collect.ImmutableList;
@@ -20,7 +22,9 @@ import org.jetbrains.annotations.Nullable;
 
 import static mcp.mobius.waila.util.DisplayUtil.createButton;
 
-public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
+public abstract class ConfigValue<T, C extends ConfigValue<T, C>> extends ConfigListWidget.Entry {
+
+    private final Map<Object, Consumer<C>> watchers = new HashMap<>();
 
     protected final Consumer<T> save;
     protected final String translationKey;
@@ -80,7 +84,7 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
     }
 
     public void renderTooltip(GuiGraphics ctx, int mouseX, int mouseY) {
-        for (GuiEventListener child : children()) {
+        for (var child : children()) {
             if (child instanceof AbstractWidget widget) {
                 var x1 = widget.getX() - 2;
                 var y1 = widget.getY();
@@ -105,6 +109,11 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
             }
             ctx.renderTooltip(client.font, tooltip, mouseX, mouseY);
         }
+    }
+
+    public boolean isChanged() {
+        if (!isValueValid()) return true;
+        return !value.equals(initialValue);
     }
 
     public boolean isValueValid() {
@@ -164,13 +173,29 @@ public abstract class ConfigValue<T> extends ConfigListWidget.Entry {
         return value;
     }
 
-    public void setValue(T value) {
+    @SuppressWarnings("unchecked")
+    protected final void callWatchers() {
+        watchers.values().forEach(w -> w.accept((C) this));
+    }
+
+    protected final void setValue(T value, boolean notify) {
         this.value = value;
+        if (notify) callWatchers();
+    }
+
+    public void setValue(T value) {
+        setValue(value, true);
     }
 
     @SuppressWarnings("DataFlowIssue")
     protected void resetValue() {
         setValue(defaultValue);
+    }
+
+    @SuppressWarnings("unchecked")
+    public final void addWatcher(Object key, Consumer<C> watcher) {
+        watchers.put(key, watcher);
+        watcher.accept((C) this);
     }
 
     public void enable() {

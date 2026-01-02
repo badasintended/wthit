@@ -60,6 +60,7 @@ minecraft {
             ideaModule("${rootProject.name}.${project.name}.main")
 
             source(sourceSets["main"])
+            source(sourceSets["api"])
             source(sourceSets["plugin"])
             rootProject.sourceSets.forEach { source(it) }
         }

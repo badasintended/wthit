@@ -18,6 +18,11 @@ public class WailaConstants {
     public static final int CONFIG_VERSION = 1;
 
     /**
+     * The default priority for all component and data provider.
+     */
+    public static final int DEFAULT_PRIORITY = 1000;
+
+    /**
      * Tooltip tag for block, fluid, and entity name line.
      *
      * @see ITooltip#setLine
@@ -44,6 +49,13 @@ public class WailaConstants {
      * @see IWailaConfig.Formatter#modName(Object)
      */
     public static final ResourceLocation MOD_NAME_TAG = id("mod_name");
+
+    /**
+     * Tooltip tag for errors.
+     *
+     * @see ITooltip#setLine
+     */
+    public static final ResourceLocation ERROR_TAG = id("error");
 
     /**
      * Whether Waila should show tooltip for blocks.

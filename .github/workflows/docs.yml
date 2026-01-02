@@ -20,7 +20,7 @@ jobs:
         with:
           java-version: 17
           distribution: temurin
-      - uses: gradle/actions/setup-gradle@v3
+      - uses: gradle/actions/setup-gradle@v4
         with:
           cache-read-only: true
       - run: ./gradlew apiJavadoc --max-workers=1

@@ -21,6 +21,7 @@ allprojects {
         maven("https://maven.blamejared.com")
         maven("https://maven.shedaniel.me")
         maven("https://maven.terraformersmc.com/releases")
+        maven("https://maven.neoforged.net/releases")
 
         maven("https://cursemaven.com") {
             content {
@@ -80,14 +81,14 @@ subprojects {
 
     publishing {
         repositories {
-            maven {
-                url = uri("https://maven.pkg.github.com/badasintended/wthit")
-                name = "GitHub"
-                credentials {
-                    username = env["GITHUB_ACTOR"]
-                    password = env["GITHUB_TOKEN"]
-                }
-            }
+            // maven {
+            //     url = uri("https://maven.pkg.github.com/badasintended/wthit")
+            //     name = "GitHub"
+            //     credentials {
+            //         username = env["GITHUB_ACTOR"]
+            //         password = env["GITHUB_TOKEN"]
+            //     }
+            // }
 
             maven {
                 url = uri("https://maven4.bai.lol")
@@ -157,6 +158,7 @@ dependencies {
     val minecraftlessImplementation by configurations
 
     minecraftlessImplementation("com.google.code.gson:gson:2.8.9")
+    minecraftlessImplementation("commons-io:commons-io:2.11.0")
     minecraftlessImplementation("org.jetbrains:annotations:24.1.0")
 
     testImplementation(platform("org.junit:junit-bom:5.10.2"))

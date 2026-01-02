@@ -1,6 +1,6 @@
 package mcp.mobius.waila.mixin;
 
-import mcp.mobius.waila.mixed.IMixedService;
+import mcp.mobius.waila.mixed.IMixinService;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.server.ReloadableServerResources;
 import org.spongepowered.asm.mixin.Mixin;
@@ -13,7 +13,7 @@ public class ReloadableServerResourcesMixin {
 
     @Inject(method = "updateRegistryTags(Lnet/minecraft/core/RegistryAccess;)V", at = @At("TAIL"))
     private void wthit_onUpdateRegistryTags(RegistryAccess registryAccess, CallbackInfo ci) {
-        IMixedService.INSTANCE.attachRegistryFilter(registryAccess);
+        IMixinService.INSTANCE.ReloadableServerResources_updateRegistryTags(registryAccess);
     }
 
 }

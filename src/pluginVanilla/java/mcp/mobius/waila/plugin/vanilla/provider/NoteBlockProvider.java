@@ -38,7 +38,7 @@ public enum NoteBlockProvider implements IBlockComponentProvider {
         if (config.getBoolean(Options.NOTE_BLOCK_TYPE)) {
             var state = accessor.getBlockState();
             var instrument = state.getValue(NoteBlock.INSTRUMENT);
-            var line = tooltip.addLine();
+            var line = tooltip.setLine(Options.NOTE_BLOCK_TYPE);
 
             Component instrumentText;
             if (instrument.hasCustomSound()) {

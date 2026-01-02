@@ -18,7 +18,7 @@ public interface ITooltip {
     /**
      * Returns the line on this index.
      * <p>
-     * <b>Note:</b> {@link TooltipPosition position} dependant, you can't access
+     * <b>Note:</b> position dependant, you can't access
      * head tooltip in {@code appendBody}. To access all tooltip, use {@link IEventListener#onHandleTooltip}.
      */
     ITooltipLine getLine(int index);

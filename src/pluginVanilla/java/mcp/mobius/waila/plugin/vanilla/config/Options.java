@@ -27,7 +27,6 @@ public final class Options {
     public static final ResourceLocation REDSTONE_COMPARATOR           = rl("redstone.comparator");
     public static final ResourceLocation REDSTONE_LEVEL                = rl("redstone.level");
     public static final ResourceLocation JUKEBOX_RECORD                = rl("jukebox.record");
-    public static final ResourceLocation PLAYER_HEAD_NAME              = rl("player_head.name");
     public static final ResourceLocation LEVEL_COMPOSTER               = rl("level.composter");
     public static final ResourceLocation NOTE_BLOCK_TYPE               = rl("note_block.type");
     public static final ResourceLocation NOTE_BLOCK_NOTE               = rl("note_block.note");
@@ -55,7 +54,8 @@ public final class Options {
     public static final ResourceLocation EFFECT_MOB                    = rl("effect.mob");
     public static final ResourceLocation EFFECT_HIDDEN_MOB             = rl("effect.hidden_mob");
     public static final ResourceLocation BOOK_BOOKSHELF                = rl("book.bookshelf");
-    public static final ResourceLocation BOOK_WRITTEN                  = rl("book.written");
+    public static final ResourceLocation BOOK_LECTERN                  = rl("book.lectern");
+    public static final ResourceLocation BOOK_DETAILS                  = rl("book.details");
     public static final ResourceLocation BOOK_ENCHANTMENT_DISPLAY_MODE = rl("book.enchantment");
     public static final ResourceLocation BOOK_ENCHANTMENT_CYCLE_TIMING = rl("book.enchantment_cycle_timing");
     // @formatter:on
@@ -81,9 +81,10 @@ public final class Options {
         .put(HORSE_JUMP_HEIGHT     , rl("attribute.horse_jump_height"))
         .put(HORSE_SPEED           , rl("attribute.horse_speed"))
         .put(PANDA_GENES           , rl("attribute.panda_genes"))
-        .put(EFFECT_BEACON        , rl("attribute.beacon_effects"))
-        .put(EFFECT_MOB           , rl("attribute.mob_effects"))
-        .put(EFFECT_HIDDEN_MOB    , rl("attribute.hidden_mob_effects"))
+        .put(EFFECT_BEACON         , rl("attribute.beacon_effects"))
+        .put(EFFECT_MOB            , rl("attribute.mob_effects"))
+        .put(EFFECT_HIDDEN_MOB     , rl("attribute.hidden_mob_effects"))
+        .put(BOOK_DETAILS          , rl("book.written"))
         .build();
     // @formatter:on
 

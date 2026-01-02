@@ -5,7 +5,6 @@ import java.nio.file.Path;
 import java.util.Collection;
 import java.util.List;
 
-import com.mojang.blaze3d.vertex.BufferBuilder;
 import mcp.mobius.waila.api.IBlacklistConfig;
 import mcp.mobius.waila.api.IInstanceRegistry;
 import mcp.mobius.waila.api.IJsonConfig;
@@ -14,9 +13,6 @@ import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.api.IRegistryFilter;
 import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.IThemeType;
-import mcp.mobius.waila.api.ITooltipComponent;
-import mcp.mobius.waila.api.IWailaConfig;
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.Registry;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -26,11 +22,8 @@ import net.minecraft.world.item.Tier;
 import net.minecraft.world.level.block.Block;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Matrix4f;
 
-/**
- * @hidden
- */
+/** @hidden */
 @ApiStatus.Internal
 public interface IApiService {
 
@@ -50,19 +43,11 @@ public interface IApiService {
 
     Collection<IPluginInfo> getAllPluginInfo();
 
-    IWailaConfig getConfig();
-
-    void renderComponent(GuiGraphics ctx, ITooltipComponent component, int x, int y, float delta);
-
     int getPairComponentColonOffset();
 
     int getColonFontWidth();
 
     int getFontColor();
-
-    void fillGradient(Matrix4f matrix, BufferBuilder buf, int x, int y, int w, int h, int start, int end);
-
-    void renderRectBorder(Matrix4f matrix, BufferBuilder buf, int x, int y, int w, int h, int s, int gradStart, int gradEnd);
 
     <T extends ITheme> IThemeType.Builder<T> createThemeTypeBuilder(Class<T> clazz);
 

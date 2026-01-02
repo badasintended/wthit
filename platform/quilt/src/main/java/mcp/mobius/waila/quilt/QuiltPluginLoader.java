@@ -7,9 +7,9 @@ import java.util.Map;
 import java.util.Objects;
 
 import it.unimi.dsi.fastutil.objects.Object2ObjectOpenHashMap;
-import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.plugin.PluginInfo;
 import mcp.mobius.waila.plugin.PluginLoader;
+import mcp.mobius.waila.plugin.PluginSide;
 import mcp.mobius.waila.util.Log;
 import net.fabricmc.api.EnvType;
 import org.quiltmc.loader.api.LoaderValue;
@@ -86,26 +86,26 @@ public class QuiltPluginLoader extends PluginLoader {
                 var initializer = Objects.requireNonNull(plugin.get("initializer")).asString();
 
                 var sideStr = plugin.containsKey("environment") ? Objects.requireNonNull(plugin.get("environment")).asString() : "both";
-                IPluginInfo.Side side;
+                PluginSide side;
                 switch (sideStr) {
-                    case "client" -> side = IPluginInfo.Side.CLIENT;
-                    case "server" -> side = IPluginInfo.Side.SERVER;
-                    case "both" -> side = IPluginInfo.Side.BOTH;
+                    case "client" -> side = PluginSide.CLIENT;
+                    case "server" -> side = PluginSide.DEDICATED_SERVER;
+                    case "both" -> side = PluginSide.COMMON;
                     default -> {
                         LOG.error("Environment for plugin {} is not valid, must be one of [client, server, both].", id);
                         continue;
                     }
                 }
 
-                if (side == IPluginInfo.Side.CLIENT && MinecraftQuiltLoader.getEnvironmentType() != EnvType.CLIENT) {
+                if (side == PluginSide.CLIENT && MinecraftQuiltLoader.getEnvironmentType() != EnvType.CLIENT) {
                     continue;
                 }
 
-                if (side == IPluginInfo.Side.SERVER && MinecraftQuiltLoader.getEnvironmentType() != EnvType.SERVER) {
+                if (side == PluginSide.DEDICATED_SERVER && MinecraftQuiltLoader.getEnvironmentType() != EnvType.SERVER) {
                     continue;
                 }
 
-                PluginInfo.register(mod.metadata().id(), id, side, initializer, requiredDeps, true, true);
+                PluginInfo.registerDeprecated(mod.metadata().id(), id, side, initializer, requiredDeps, true, true);
             }
         }
     }

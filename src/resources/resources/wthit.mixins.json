@@ -13,6 +13,8 @@
     "ChiseledBookShelfBlockAccess",
     "ChiseledBookShelfBlockEntityAccess",
     "EntityAccess",
+    "LanguageMixin",
+    "LecternBlockEntityAccess",
     "NoteBlockAccess",
     "RandomizableContainerBlockEntityAccess",
     "ReloadableServerResourcesMixin",
@@ -25,9 +27,15 @@
     "ClientPacketListenerMixin",
     "EditBoxAccess",
     "GameNarratorAccess",
+    "GuiAccess",
+    "KeyBindsListMixin",
+    "KeyboardHandlerMixin",
     "KeyMappingAccess",
-    "MultiPlayerGameModeAccess",
-    "PlayerTabOverlayAccess"
+    "MouseHandlerMixin",
+    "MultiPlayerGameModeMixin",
+    "OptionsScreenMixin",
+    "PlayerTabOverlayAccess",
+    "TabNavigationBarAccess"
   ],
   "injectors"         : {
     "defaultRequire": 1

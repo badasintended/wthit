@@ -22,15 +22,35 @@ public abstract class ProgressData implements IData {
 
     public static final ResourceLocation ID = BuiltinDataUtil.rl("progress");
 
+    public static final ResourceLocation CONFIG_TIME = BuiltinDataUtil.rl("progress.time");
+    public static final ResourceLocation CONFIG_BAR_HEIGHT = BuiltinDataUtil.rl("progress.height");
+    public static final ResourceLocation CONFIG_REPLACE_ITEMS = BuiltinDataUtil.rl("progress.replace_items");
+
     /**
      * Creates a progress data.
+     * <p>
+     * Prefer {@link #tick(int, int)} if the information present.
      * <p>
      * Do <b>NOT</b> {@linkplain IDataWriter.Result#add add} a data if the current progress is zero.
      *
      * @param ratio the ratio of the progress ranging from {@code 0.0f} to {@code 1.0f}
      */
     public static ProgressData ratio(float ratio) {
-        return IExtraService.INSTANCE.createProgressData(Mth.clamp(ratio, 0f, 1f));
+        return IExtraService.INSTANCE.createRatioProgressData(Mth.clamp(ratio, 0f, 1f));
+    }
+
+    /**
+     * Creates a progress data.
+     * <p>
+     * Unlike {@link #ratio(float)}, this version also adds an estimated time to finish on the tooltip.
+     * <p>
+     * Do <b>NOT</b> {@linkplain IDataWriter.Result#add add} a data if the current progress is zero.
+     *
+     * @param current the current tick progress for the process
+     * @param total   the estimated total tick for the process
+     */
+    public static ProgressData tick(int current, int total) {
+        return IExtraService.INSTANCE.createTickProgressData(current, total);
     }
 
     /**
@@ -65,7 +85,7 @@ public abstract class ProgressData implements IData {
      */
     public ProgressData input(int slot) {
         assertInventory();
-        return input(inventory.apply(slot));
+        return input(itemGetter.apply(slot));
     }
 
     /**
@@ -76,7 +96,7 @@ public abstract class ProgressData implements IData {
     public ProgressData input(int... slots) {
         assertInventory();
         ensureInputSpace(slots.length);
-        for (var slot : slots) input.add(inventory.apply(slot));
+        for (var slot : slots) input.add(itemGetter.apply(slot));
         return this;
     }
 
@@ -112,7 +132,7 @@ public abstract class ProgressData implements IData {
      */
     public ProgressData output(int slot) {
         assertInventory();
-        return output(inventory.apply(slot));
+        return output(itemGetter.apply(slot));
     }
 
     /**
@@ -123,15 +143,15 @@ public abstract class ProgressData implements IData {
     public ProgressData output(int... slots) {
         assertInventory();
         ensureOutputSpace(slots.length);
-        for (var slot : slots) output.add(inventory.apply(slot));
+        for (var slot : slots) output.add(itemGetter.apply(slot));
         return this;
     }
 
     /**
      * Specify a slot to item stack getter to be used with {@link #input(int)} and {@link #output(int)}.
      */
-    public ProgressData itemGetter(IntFunction<ItemStack> inventory) {
-        this.inventory = inventory;
+    public ProgressData itemGetter(IntFunction<ItemStack> getter) {
+        this.itemGetter = getter;
         return this;
     }
 
@@ -153,13 +173,18 @@ public abstract class ProgressData implements IData {
 
     // -----------------------------------------------------------------------------------------------------------------------------------------------
 
+    /** @hidden */
     protected final ArrayList<ItemStack> input = new ArrayList<>();
+
+    /** @hidden */
     protected final ArrayList<ItemStack> output = new ArrayList<>();
-    protected IntFunction<ItemStack> inventory;
+
+    /** @hidden */
+    protected IntFunction<ItemStack> itemGetter;
 
     @ApiStatus.Internal
     private void assertInventory() {
-        Preconditions.checkState(inventory != null, "Call inventory() with stack getter first");
+        Preconditions.checkState(itemGetter != null, "Call itemGetter() with stack getter first");
     }
 
     @ApiStatus.Internal
