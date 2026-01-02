@@ -10,7 +10,7 @@ import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.LecternBlockEntity;
 
@@ -18,7 +18,7 @@ public enum LecternDataProvider implements IDataProvider<LecternBlockEntity> {
 
     INSTANCE;
 
-    public static final IData.Type<Data> DATA = IData.createType(Identifier.withDefaultNamespace("lectern"));
+    public static final IData.Type<Data> DATA = IData.createType(ResourceLocation.withDefaultNamespace("lectern"));
     public static final StreamCodec<RegistryFriendlyByteBuf, Data> DATA_CODEC = StreamCodec.composite(
         ItemStack.STREAM_CODEC, Data::book,
         ByteBufCodecs.VAR_INT, Data::page,
