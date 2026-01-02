@@ -19,7 +19,7 @@ import mcp.mobius.waila.plugin.vanilla.provider.HorseProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.InfestedBlockProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.InvisibleEntityProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.ItemEntityProvider;
-import mcp.mobius.waila.plugin.vanilla.provider.ItemFrameProvider;
+import mcp.mobius.waila.plugin.vanilla.provider.ItemHolderEntityProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.JukeboxProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.LecternProvider;
 import mcp.mobius.waila.plugin.vanilla.provider.MobEffectProvider;
@@ -139,10 +139,10 @@ public class VanillaClientPlugin implements IWailaClientPlugin {
         registrar.head(BoatProvider.INSTANCE, Boat.class, 950);
         registrar.tail(BoatProvider.INSTANCE, Boat.class, 950);
 
-        registrar.icon(ItemFrameProvider.INSTANCE, ItemFrame.class);
-        registrar.head(ItemFrameProvider.INSTANCE, ItemFrame.class);
-        registrar.body(ItemFrameProvider.INSTANCE, ItemFrame.class);
-        registrar.tail(ItemFrameProvider.INSTANCE, ItemFrame.class);
+        registrar.icon(ItemHolderEntityProvider.ITEM_FRAME, ItemFrame.class);
+        registrar.head(ItemHolderEntityProvider.ITEM_FRAME, ItemFrame.class);
+        registrar.body(ItemHolderEntityProvider.ITEM_FRAME, ItemFrame.class);
+        registrar.tail(ItemHolderEntityProvider.ITEM_FRAME, ItemFrame.class);
 
         registrar.icon(ChiseledBookShelfProvider.INSTANCE, ChiseledBookShelfBlock.class);
         registrar.head(ChiseledBookShelfProvider.INSTANCE, ChiseledBookShelfBlock.class);

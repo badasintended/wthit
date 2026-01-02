@@ -22,6 +22,8 @@
   "tooltip.waila.timer.grow"                                   : "成長タイマー",
   "tooltip.waila.timer.breed"                                  : "繁殖クールダウン",
 
+
+
   "tooltip.waila.bee.hive"                                     : "養蜂箱",
 
   "tooltip.waila.horse.jump.key"                               : "ジャンプ",
@@ -317,7 +319,7 @@
   "config.waila.plugin_minecraft.book"                         : "本",
   "config.waila.plugin_minecraft.book.bookshelf"               : "模様入りの本棚の本を表示する",
 
-  "config.waila.plugin_minecraft.book.written"                 : "書かれた本の著者と世代を表示する",
+
   "config.waila.plugin_minecraft.book.enchantment"             : "エンチャント表示モード",
   "config.waila.plugin_minecraft.book.enchantment_separate"    : "分離",
   "config.waila.plugin_minecraft.book.enchantment_combined"    : "結合",

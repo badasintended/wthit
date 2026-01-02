@@ -12,6 +12,7 @@ import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.component.ItemComponent;
+import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.plugin.vanilla.config.EnchantmentDisplayMode;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -34,8 +35,9 @@ public enum ItemEntityProvider implements IEntityComponentProvider {
 
     INSTANCE;
 
-    private static final ResourceLocation AUTHOR = Options.BOOK_WRITTEN.withSuffix(".author");
-    private static final ResourceLocation GENERATION = Options.BOOK_WRITTEN.withSuffix(".generation");
+    private static final ResourceLocation AUTHOR = Options.BOOK_DETAILS.withSuffix(".author");
+    private static final ResourceLocation GENERATION = Options.BOOK_DETAILS.withSuffix(".generation");
+    static final ResourceLocation PAGES = ResourceLocation.withDefaultNamespace("book.pages");
 
     private static long lastEnchantmentTime = 0;
     private static int enchantmentIndex = 0;
@@ -67,7 +69,7 @@ public enum ItemEntityProvider implements IEntityComponentProvider {
     @Override
     public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
         var stack = accessor.<ItemEntity>getEntity().getItem();
-        appendBookProperties(tooltip, stack, config);
+        appendBookProperties(tooltip, stack, config, true);
     }
 
     @Override
@@ -78,7 +80,7 @@ public enum ItemEntityProvider implements IEntityComponentProvider {
         }
     }
 
-    public static void appendBookProperties(ITooltip tooltip, ItemStack stack, IPluginConfig config) {
+    public static void appendBookProperties(ITooltip tooltip, ItemStack stack, IPluginConfig config, boolean showPages) {
         if (stack.is(Items.ENCHANTED_BOOK)) {
             EnchantmentDisplayMode mode = config.getEnum(Options.BOOK_ENCHANTMENT_DISPLAY_MODE);
             if (mode == EnchantmentDisplayMode.DISABLED) return;
@@ -170,6 +172,7 @@ public enum ItemEntityProvider implements IEntityComponentProvider {
 
                 if (text != null) tooltip.setLine(Options.BOOK_ENCHANTMENT_DISPLAY_MODE, text);
             }
+
         } else if (stack.is(Items.WRITTEN_BOOK)) {
             if (!config.getBoolean(Options.BOOK_WRITTEN) || !stack.hasTag()) return;
 
@@ -182,6 +185,12 @@ public enum ItemEntityProvider implements IEntityComponentProvider {
             }
 
             tooltip.setLine(GENERATION, Component.translatable("book.generation." + generation));
+            if (showPages) tooltip.setLine(PAGES, Component.translatable(Tl.Tooltip.Book.PAGES, WrittenBookItem.getPageCount(stack)));
+
+        } else if (stack.is(Items.WRITABLE_BOOK)) {
+            if (!config.getBoolean(Options.BOOK_WRITTEN) || !stack.hasTag()) return;
+
+            if (showPages) tooltip.setLine(PAGES, Component.translatable(Tl.Tooltip.Book.PAGES, WrittenBookItem.getPageCount(stack)));
         }
     }
 
