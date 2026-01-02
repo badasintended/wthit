@@ -125,9 +125,9 @@ public class VanillaCommonPlugin implements IWailaCommonPlugin {
         registrar.localConfig(Options.BOOK_ENCHANTMENT_DISPLAY_MODE, EnchantmentDisplayMode.CYCLE);
         registrar.localConfig(Options.BOOK_ENCHANTMENT_CYCLE_TIMING, 500);
         registrar.localConfig(Options.BOOK_DETAILS, true);
-        registrar.dataType(ChiseledBookShelfDataProvider.DATA, ChiseledBookShelfDataProvider.DATA_CODEC);
+        registrar.dataType(ChiseledBookShelfDataProvider.DATA, ChiseledBookShelfDataProvider.Data.class, ChiseledBookShelfDataProvider.Data::new);
         registrar.blockData(ChiseledBookShelfDataProvider.INSTANCE, ChiseledBookShelfBlockEntity.class);
-        registrar.dataType(LecternDataProvider.DATA, LecternDataProvider.DATA_CODEC);
+        registrar.dataType(LecternDataProvider.DATA, LecternDataProvider.Data.class, LecternDataProvider.Data::new);
         registrar.blockData(LecternDataProvider.INSTANCE, LecternBlockEntity.class);
 
         registrar.blockData(FurnaceDataProvider.INSTANCE, AbstractFurnaceBlockEntity.class);

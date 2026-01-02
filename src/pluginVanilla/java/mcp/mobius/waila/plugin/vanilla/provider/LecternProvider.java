@@ -10,7 +10,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.LecternBlock;
-import org.jspecify.annotations.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public enum LecternProvider implements ItemHolderBlockProvider {
 
@@ -26,7 +26,7 @@ public enum LecternProvider implements ItemHolderBlockProvider {
         cachedData = null;
         if (!config.getBoolean(Options.BOOK_LECTERN)) return;
 
-        var data = accessor.getData().get(LecternDataProvider.DATA);
+        var data = accessor.getData().get(LecternDataProvider.Data.class);
         if (data == null) return;
 
         var hit = accessor.getBlockHitResult();

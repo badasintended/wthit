@@ -37,7 +37,7 @@ public enum ItemEntityProvider implements IEntityComponentProvider {
 
     private static final ResourceLocation AUTHOR = Options.BOOK_DETAILS.withSuffix(".author");
     private static final ResourceLocation GENERATION = Options.BOOK_DETAILS.withSuffix(".generation");
-    static final ResourceLocation PAGES = ResourceLocation.withDefaultNamespace("book.pages");
+    static final ResourceLocation PAGES = new ResourceLocation("book.pages");
 
     private static long lastEnchantmentTime = 0;
     private static int enchantmentIndex = 0;
@@ -174,7 +174,7 @@ public enum ItemEntityProvider implements IEntityComponentProvider {
             }
 
         } else if (stack.is(Items.WRITTEN_BOOK)) {
-            if (!config.getBoolean(Options.BOOK_WRITTEN) || !stack.hasTag()) return;
+            if (!config.getBoolean(Options.BOOK_DETAILS) || !stack.hasTag()) return;
 
             var tag = Objects.requireNonNull(stack.getTag());
             var author = tag.getString(WrittenBookItem.TAG_AUTHOR);
@@ -188,7 +188,7 @@ public enum ItemEntityProvider implements IEntityComponentProvider {
             if (showPages) tooltip.setLine(PAGES, Component.translatable(Tl.Tooltip.Book.PAGES, WrittenBookItem.getPageCount(stack)));
 
         } else if (stack.is(Items.WRITABLE_BOOK)) {
-            if (!config.getBoolean(Options.BOOK_WRITTEN) || !stack.hasTag()) return;
+            if (!config.getBoolean(Options.BOOK_DETAILS) || !stack.hasTag()) return;
 
             if (showPages) tooltip.setLine(PAGES, Component.translatable(Tl.Tooltip.Book.PAGES, WrittenBookItem.getPageCount(stack)));
         }
