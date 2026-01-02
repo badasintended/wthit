@@ -22,6 +22,8 @@
   "tooltip.waila.timer.grow"                                   : "Hẹn Giờ Tăng Trưởng",
   "tooltip.waila.timer.breed"                                  : "Hẹn Giờ Sinh Sản",
 
+
+
   "tooltip.waila.bee.hive"                                     : "Tổ ong",
 
   "tooltip.waila.horse.jump.key"                               : "Nhảy",
@@ -319,7 +321,7 @@
   "config.waila.plugin_minecraft.book"                         : "Sách",
   "config.waila.plugin_minecraft.book.bookshelf"               : "Hiển Thị Sách Trong Kệ Sách Chạm Khắc",
 
-  "config.waila.plugin_minecraft.book.written"                 : "Hiển Thị Tác Giả Và Thế Hệ Của Sách Đã Viết",
+
   "config.waila.plugin_minecraft.book.enchantment"             : "Chế Độ Hiển Thị Phép Thuật",
   "config.waila.plugin_minecraft.book.enchantment_separate"    : "Riêng Biệt",
   "config.waila.plugin_minecraft.book.enchantment_combined"    : "Kết Hợp",

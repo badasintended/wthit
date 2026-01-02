@@ -17,14 +17,14 @@ import net.minecraft.world.entity.decoration.ItemFrame;
 import net.minecraft.world.item.ItemStack;
 import org.jspecify.annotations.Nullable;
 
-public enum ItemHolderProvider implements IEntityComponentProvider {
+public enum ItemHolderEntityProvider implements IEntityComponentProvider {
 
     ITEM_FRAME(accessor -> accessor.<ItemFrame>getEntity().getItem()),
     OMINOUS_ITEM_SPAWNER(accessor -> accessor.<OminousItemSpawner>getEntity().getItem());
 
     final Function<IEntityAccessor, ItemStack> getter;
 
-    ItemHolderProvider(Function<IEntityAccessor, ItemStack> getter) {
+    ItemHolderEntityProvider(Function<IEntityAccessor, ItemStack> getter) {
         this.getter = getter;
     }
 
@@ -52,7 +52,7 @@ public enum ItemHolderProvider implements IEntityComponentProvider {
     @Override
     public void appendBody(ITooltip tooltip, IEntityAccessor accessor, IPluginConfig config) {
         var stack = getter.apply(accessor);
-        ItemEntityProvider.appendBookProperties(tooltip, stack, config);
+        ItemEntityProvider.appendBookProperties(tooltip, stack, config, true);
     }
 
     @Override
