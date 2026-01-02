@@ -2,39 +2,60 @@ package mcp.mobius.waila.plugin.vanilla.provider;
 
 import mcp.mobius.waila.api.IBlockAccessor;
 import mcp.mobius.waila.api.IPluginConfig;
+import mcp.mobius.waila.api.ITooltip;
+import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import mcp.mobius.waila.plugin.vanilla.provider.data.LecternDataProvider;
 import net.minecraft.core.Direction;
+import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.LecternBlock;
+import org.jspecify.annotations.Nullable;
 
-public enum LecternProvider implements ItemShowcaseBlockProvider {
+public enum LecternProvider implements ItemHolderBlockProvider {
 
     INSTANCE;
 
     private int lastUpdateId = 0;
-    private ItemStack book = ItemStack.EMPTY;
+    private LecternDataProvider.@Nullable Data cachedData;
 
-    public ItemStack init(IBlockAccessor accessor, IPluginConfig config) {
-        if (lastUpdateId == accessor.getUpdateId()) return book;
+    public void init(IBlockAccessor accessor, IPluginConfig config) {
+        if (lastUpdateId == accessor.getUpdateId()) return;
 
         lastUpdateId = accessor.getUpdateId();
-        book = ItemStack.EMPTY;
-        if (!config.getBoolean(Options.BOOK_LECTERN)) return book;
+        cachedData = null;
+        if (!config.getBoolean(Options.BOOK_LECTERN)) return;
 
         var data = accessor.getData().get(LecternDataProvider.DATA);
-        if (data == null) return book;
+        if (data == null) return;
 
         var hit = accessor.getBlockHitResult();
         var hitDir = hit.getDirection();
         var yOffset = hit.getLocation().y() - hit.getBlockPos().getY();
-        if (yOffset < 0.875) return book;
+        if (yOffset < 0.875) return;
 
         var direction = accessor.getBlockState().getValue(LecternBlock.FACING);
-        if (hitDir != direction && hitDir != Direction.UP) return book;
+        if (hitDir != direction && hitDir != Direction.UP) return;
 
-        book = data.book();
-        return book;
+        cachedData = data;
+    }
+
+    @Override
+    public ItemStack getItem() {
+        return cachedData == null ? ItemStack.EMPTY : cachedData.book();
+    }
+
+    @Override
+    public boolean showBookPages() {
+        return false;
+    }
+
+    @Override
+    public void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
+        if (cachedData == null) return;
+        ItemHolderBlockProvider.super.appendBody(tooltip, accessor, config);
+
+        tooltip.setLine(ItemEntityProvider.PAGES, Component.translatable(Tl.Tooltip.Lectern.PAGE, cachedData.page(), cachedData.pageCount()));
     }
 
 }

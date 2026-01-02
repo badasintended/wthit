@@ -55,7 +55,7 @@ public final class Options {
     public static final ResourceLocation EFFECT_HIDDEN_MOB             = rl("effect.hidden_mob");
     public static final ResourceLocation BOOK_BOOKSHELF                = rl("book.bookshelf");
     public static final ResourceLocation BOOK_LECTERN                  = rl("book.lectern");
-    public static final ResourceLocation BOOK_WRITTEN                  = rl("book.written");
+    public static final ResourceLocation BOOK_DETAILS                  = rl("book.details");
     public static final ResourceLocation BOOK_ENCHANTMENT_DISPLAY_MODE = rl("book.enchantment");
     public static final ResourceLocation BOOK_ENCHANTMENT_CYCLE_TIMING = rl("book.enchantment_cycle_timing");
     // @formatter:on
@@ -84,6 +84,7 @@ public final class Options {
         .put(EFFECT_BEACON         , rl("attribute.beacon_effects"))
         .put(EFFECT_MOB            , rl("attribute.mob_effects"))
         .put(EFFECT_HIDDEN_MOB     , rl("attribute.hidden_mob_effects"))
+        .put(BOOK_DETAILS          , rl("book.written"))
         .build();
     // @formatter:on
 

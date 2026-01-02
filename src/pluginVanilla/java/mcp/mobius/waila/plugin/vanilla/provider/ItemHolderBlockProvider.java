@@ -13,20 +13,28 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.item.ItemStack;
 import org.jspecify.annotations.Nullable;
 
-public interface ItemShowcaseBlockProvider extends IBlockComponentProvider {
+public interface ItemHolderBlockProvider extends IBlockComponentProvider {
 
-    ItemStack init(IBlockAccessor accessor, IPluginConfig config);
+    void init(IBlockAccessor accessor, IPluginConfig config);
+
+    ItemStack getItem();
+
+    default boolean showBookPages() {
+        return true;
+    }
 
     @Override
     default @Nullable ITooltipComponent getIcon(IBlockAccessor accessor, IPluginConfig config) {
-        var item = init(accessor, config);
+        init(accessor, config);
+        var item = getItem();
         if (item.isEmpty()) return null;
         return new ItemComponent(item);
     }
 
     @Override
     default void appendHead(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
-        var item = init(accessor, config);
+        init(accessor, config);
+        var item = getItem();
         if (item.isEmpty()) return;
 
         var formatter = IWailaConfig.get().getFormatter();
@@ -39,15 +47,17 @@ public interface ItemShowcaseBlockProvider extends IBlockComponentProvider {
 
     @Override
     default void appendBody(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
-        var item = init(accessor, config);
+        init(accessor, config);
+        var item = getItem();
         if (item.isEmpty()) return;
 
-        ItemEntityProvider.appendBookProperties(tooltip, item, config);
+        ItemEntityProvider.appendBookProperties(tooltip, item, config, showBookPages());
     }
 
     @Override
     default void appendTail(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
-        var item = init(accessor, config);
+        init(accessor, config);
+        var item = getItem();
         if (item.isEmpty()) return;
         if (!config.getBoolean(WailaConstants.CONFIG_SHOW_MOD_NAME)) return;
 
