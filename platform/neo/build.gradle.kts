@@ -33,6 +33,7 @@ runs {
         workingDirectory(file("run/${namer.determineName(this)}"))
 
         modSource(sourceSets["main"])
+        modSource(sourceSets["api"])
         modSource(sourceSets["plugin"])
         modSource(sourceSets["dummy"])
     }
@@ -49,7 +50,7 @@ tasks.processResources {
 tasks.named<JavaCompile>("compileDummyJava") {
     dependsOn(":generateTranslationClass")
 
-    rootProject.sourceSets.forEach {
+    rootProject.sourceSets.filterNot { it.name == "test" }.forEach {
         source(it.allJava)
     }
 }

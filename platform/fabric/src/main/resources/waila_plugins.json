@@ -50,10 +50,5 @@
     },
     "side"       : "*",
     "required"   : ["team_reborn_energy"]
-  },
-
-  "waila:test"              : {
-    "initializer"   : "mcp.mobius.waila.plugin.test.WailaPluginTest",
-    "defaultEnabled": false
   }
 }
