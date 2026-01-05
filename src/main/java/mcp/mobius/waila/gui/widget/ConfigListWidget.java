@@ -50,6 +50,7 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
         this.owner = owner;
         this.diskWriter = diskWriter;
 
+        setRenderBackground(client.level == null);
         resize(top, bottom);
     }
 
@@ -171,7 +172,7 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
     }
 
     @Override
-    protected void renderDecorations(GuiGraphics  ctx, int mouseY, int mouseX) {
+    protected void renderDecorations(GuiGraphics ctx, int mouseY, int mouseX) {
         if (headerSeparator) {
             ctx.fillGradient(RenderType.guiOverlay(), this.getX(), this.getY(), this.getRight(), this.getY() + 4, 0xff000000, 0, 0);
         }

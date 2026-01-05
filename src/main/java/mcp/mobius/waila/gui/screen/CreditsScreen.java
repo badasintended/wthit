@@ -90,6 +90,8 @@ public class CreditsScreen extends YesIAmSureTheClientInstanceIsPresentByTheTime
 
         private ListWidget(Minecraft client, int width, int height, int top, int itemHeight) {
             super(client, width, height, top, itemHeight);
+
+            setRenderBackground(client.level == null);
         }
 
         private void init() {

@@ -27,7 +27,6 @@
     "ClientPacketListenerMixin",
     "EditBoxAccess",
     "GameNarratorAccess",
-    "GuiAccess",
     "KeyBindsListMixin",
     "KeyboardHandlerMixin",
     "KeyMappingAccess",
