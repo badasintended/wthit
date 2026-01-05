@@ -24,8 +24,8 @@ public class QuiltWailaClient extends WailaClient implements ClientModInitialize
         ClientTickEvents.END.register(client -> onClientTick());
         ItemTooltipCallback.EVENT.register((stack, player, context, lines) -> onItemTooltip(stack, lines));
 
-        ClientConfigurationConnectionEvents.DISCONNECT.register((handler, client) -> client.execute(WailaClient::onServerLogout));
-        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> client.execute(WailaClient::onServerLogout));
+        ClientConfigurationConnectionEvents.DISCONNECT.register((handler, client) -> client.execute(() -> WailaClient.onServerLogout()));
+        ClientPlayConnectionEvents.DISCONNECT.register((handler, client) -> client.execute(() -> WailaClient.onServerLogout()));
 
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, buildContext, environment) -> new QuiltClientCommand().register(dispatcher));
 

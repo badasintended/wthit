@@ -235,7 +235,6 @@
   "config.waila.format_registry_name"                          : "레지스트리 이름",
 
 
-
   "key.waila.config"                                           : "Config 열기",
   "key.waila.show_overlay"                                     : "오버레이 표시",
   "key.waila.toggle_liquid"                                    : "액체 토글",
@@ -291,8 +290,6 @@
 
 
   "config.waila.plugin_minecraft.entity.item_entity"           : "아이템 개체 표시",
-
-
 
 
 

@@ -323,35 +323,6 @@ public abstract class FluidData implements IData {
 
     }
 
-    @ApiStatus.Experimental
-    @ApiStatus.OverrideOnly
-    public interface PlatformTranslator<T> {
-
-        /**
-         * Returns the unit of this platform.
-         */
-        Unit unit();
-
-        /**
-         * Returns the fluid of the platform object.
-         */
-        Fluid fluid(T t);
-
-        /**
-         * Returns the nbt of the platform object.
-         */
-        @Nullable CompoundTag nbt(T t);
-
-        /**
-         * Returns the amount of the platform object.
-         *
-         * @throws UnsupportedOperationException if the platform doesn't store amount information on this type,
-         *                                       forcing user to use {@link PlatformDependant#add(Object, double, double)}
-         */
-        double amount(T t) throws UnsupportedOperationException;
-
-    }
-
     // -----------------------------------------------------------------------------------------------------------------------------------------------
 
     /** @hidden */

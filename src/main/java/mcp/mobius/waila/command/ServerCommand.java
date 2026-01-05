@@ -6,22 +6,19 @@ import com.mojang.brigadier.arguments.ArgumentType;
 import com.mojang.brigadier.arguments.StringArgumentType;
 import com.mojang.brigadier.builder.LiteralArgumentBuilder;
 import com.mojang.brigadier.builder.RequiredArgumentBuilder;
-import io.netty.buffer.Unpooled;
 import lol.bai.badpackets.api.PacketSender;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.debug.DumpGenerator;
 import mcp.mobius.waila.mixin.BaseContainerBlockEntityAccess;
-import mcp.mobius.waila.network.Packets;
+import mcp.mobius.waila.network.play.s2c.GenerateClientDumpPlayS2CPacket;
 import mcp.mobius.waila.plugin.PluginLoader;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
 import net.minecraft.commands.arguments.coordinates.BlockPosArgument;
 import net.minecraft.core.BlockPos;
-import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.ClickEvent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.MinecraftServer;
@@ -63,7 +60,7 @@ public abstract class ServerCommand extends CommonCommand<CommandSourceStack, Mi
                     source.sendSuccess(() -> Component.translatable(dedicated ? Tl.Command.SERVER_DUMP_SUCCESS : Tl.Command.LOCAL_DUMP_SUCCESS, pathComponent), false);
                     var entity = source.getEntity();
                     if (entity instanceof ServerPlayer player && !server.isSingleplayerOwner(player.getGameProfile())) {
-                        PacketSender.s2c(player).send(Packets.GENERATE_CLIENT_DUMP, new FriendlyByteBuf(Unpooled.EMPTY_BUFFER));
+                        PacketSender.s2c(player).send(new GenerateClientDumpPlayS2CPacket.Payload());
                     }
                     return 1;
                 } else {
@@ -91,7 +88,7 @@ public abstract class ServerCommand extends CommonCommand<CommandSourceStack, Mi
                 var blockEntity = world.getBlockEntity(pos);
                 if (blockEntity != null) {
                     //noinspection DataFlowIssue
-                    source.sendSuccess(() -> Component.literal("Block entity type ID: " + BuiltInRegistries.BLOCK_ENTITY_TYPE.getKey(blockEntity.getType())), false);
+                    source.sendSuccess(() -> Component.literal("Block entity type ID: " + blockEntity.getType().builtInRegistryHolder().key().location()), false);
                     source.sendSuccess(() -> Component.literal("Block entity class: " + blockEntity.getClass().getName()), false);
                 }
 

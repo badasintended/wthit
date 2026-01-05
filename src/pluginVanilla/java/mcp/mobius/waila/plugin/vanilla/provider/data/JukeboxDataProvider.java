@@ -16,7 +16,7 @@ public enum JukeboxDataProvider implements IDataProvider<JukeboxBlockEntity> {
     @Override
     public void appendData(IDataWriter data, IServerAccessor<JukeboxBlockEntity> accessor, IPluginConfig config) {
         if (config.getBoolean(Options.JUKEBOX_RECORD)) {
-            var stack = accessor.getTarget().getFirstItem();
+            var stack = accessor.getTarget().getTheItem();
             if (!stack.isEmpty()) {
                 var text = stack.getItem() instanceof RecordItem
                     ? Component.translatable(stack.getDescriptionId() + ".desc")

@@ -235,7 +235,6 @@
   "config.waila.format_registry_name"                          : "註冊名稱",
 
 
-
   "key.waila.config"                                           : "開啟組態",
   "key.waila.show_overlay"                                     : "顯示提示框",
   "key.waila.toggle_liquid"                                    : "開關流體顯示",
@@ -291,8 +290,6 @@
 
 
   "config.waila.plugin_minecraft.entity.item_entity"           : "顯示物品實體",
-
-
 
 
 

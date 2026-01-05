@@ -20,7 +20,7 @@ public class KeyBindsListMixin extends ContainerObjectSelectionList<KeyBindsList
 
     @SuppressWarnings("DataFlowIssue")
     KeyBindsListMixin() {
-        super(null, 0, 0, 0, 0, 0);
+        super(null, 0, 0, 0, 0);
     }
 
     private @Unique List<KeyMapping> wthit_wrappedKeyBinds;

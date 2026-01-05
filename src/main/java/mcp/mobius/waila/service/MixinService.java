@@ -1,5 +1,6 @@
 package mcp.mobius.waila.service;
 
+import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.config.JsonConfig;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.mixed.IMixinService;
@@ -9,7 +10,7 @@ import net.minecraft.core.RegistryAccess;
 public class MixinService implements IMixinService {
 
     @Override
-    public void ReloadableServerResources_updateRegistryTags(RegistryAccess registryAccess) {
+    public void attachRegistryFilter(RegistryAccess registryAccess) {
         RegistryFilter.attach(registryAccess);
     }
 

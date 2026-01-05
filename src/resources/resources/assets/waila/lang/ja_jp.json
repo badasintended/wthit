@@ -235,7 +235,6 @@
   "config.waila.format_registry_name"                          : "レジストリ名",
 
   "config.waila.keybinds"                                      : "キーバインド",
-
   "key.waila.config"                                           : "設定を開く",
   "key.waila.show_overlay"                                     : "オーバーレイ表示",
   "key.waila.toggle_liquid"                                    : "液体の切り替え",

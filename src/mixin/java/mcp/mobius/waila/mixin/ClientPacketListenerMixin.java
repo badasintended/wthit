@@ -16,7 +16,7 @@ public class ClientPacketListenerMixin extends ClientCommonPacketListenerImplMix
 
     @Override
     protected void wthit_onHandleUpdateTags() {
-        IMixinService.INSTANCE.ClientPacketListener_handleUpdateTags(registryAccess);
+        IMixinService.INSTANCE.attachRegistryFilter(registryAccess);
     }
 
 }

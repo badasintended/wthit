@@ -235,7 +235,6 @@
   "config.waila.format_registry_name"                          : "注册名称",
 
   "config.waila.keybinds"                                      : "按键绑定",
-
   "key.waila.config"                                           : "打开配置",
   "key.waila.show_overlay"                                     : "显示叠加层",
   "key.waila.toggle_liquid"                                    : "切换液体",

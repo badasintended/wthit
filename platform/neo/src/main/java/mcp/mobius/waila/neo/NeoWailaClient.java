@@ -4,7 +4,7 @@ import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.gui.hud.TooltipRenderer;
 import mcp.mobius.waila.gui.hud.theme.BuiltinThemeLoader;
-import mcp.mobius.waila.gui.screen.HomeScreen;
+import mcp.mobius.waila.gui.screen.WailaConfigScreen;
 import mcp.mobius.waila.network.Packets;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;
@@ -17,7 +17,6 @@ import net.neoforged.neoforge.client.ConfigScreenHandler;
 import net.neoforged.neoforge.client.event.ClientPlayerNetworkEvent;
 import net.neoforged.neoforge.client.event.RegisterClientCommandsEvent;
 import net.neoforged.neoforge.client.event.RegisterClientReloadListenersEvent;
-import net.neoforged.neoforge.client.event.RegisterKeyMappingsEvent;
 import net.neoforged.neoforge.client.event.RenderGuiEvent;
 import net.neoforged.neoforge.event.TickEvent;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
@@ -27,13 +26,10 @@ public class NeoWailaClient extends WailaClient {
 
     @SubscribeEvent
     static void clientSetup(FMLClientSetupEvent event) {
-        Packets.initClient();
-        registerConfigScreen();
-    }
-
-    @SubscribeEvent
-    static void registerKeyMappings(RegisterKeyMappingsEvent event) {
-        registerKeyBinds().forEach(event::register);
+        event.enqueueWork(() -> {
+            Packets.initClient();
+            registerConfigScreen();
+        });
     }
 
     @SubscribeEvent
@@ -43,7 +39,7 @@ public class NeoWailaClient extends WailaClient {
 
     static void registerConfigScreen() {
         ModLoadingContext.get().registerExtensionPoint(ConfigScreenHandler.ConfigScreenFactory.class,
-            () -> new ConfigScreenHandler.ConfigScreenFactory((mc, screen) -> new HomeScreen(screen)));
+            () -> new ConfigScreenHandler.ConfigScreenFactory((mc, screen) -> new WailaConfigScreen(screen)));
     }
 
     @EventBusSubscriber(modid = WailaConstants.WAILA, value = Dist.CLIENT)
@@ -83,8 +79,11 @@ public class NeoWailaClient extends WailaClient {
     public static class HahaBorgeGoBrrrr {
 
         @SubscribeEvent
+        @SuppressWarnings("Convert2MethodRef")
         static void clientSetup(FMLClientSetupEvent event) {
-            registerConfigScreen();
+            event.enqueueWork(() -> {
+                registerConfigScreen();
+            });
         }
 
     }

@@ -5,30 +5,32 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
+import java.util.function.Function;
 
 import com.google.common.base.Preconditions;
-import io.netty.buffer.Unpooled;
 import lol.bai.badpackets.api.PacketSender;
 import mcp.mobius.waila.api.IData;
 import mcp.mobius.waila.api.IDataWriter;
 import mcp.mobius.waila.config.PluginConfig;
-import mcp.mobius.waila.network.Packets;
+import mcp.mobius.waila.network.play.c2s.RawDataRequestContextPlayC2SPacket;
+import mcp.mobius.waila.network.play.c2s.TypedDataRequestContextPlayC2SPacket;
+import mcp.mobius.waila.network.play.s2c.RawDataResponsePlayS2CPacket;
+import mcp.mobius.waila.network.play.s2c.TypedDataResponsePlayS2CPacket;
 import mcp.mobius.waila.registry.Registrar;
 import mcp.mobius.waila.util.ExceptionUtil;
 import mcp.mobius.waila.util.TypeUtil;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.network.protocol.common.custom.CustomPacketPayload;
 import net.minecraft.world.entity.player.Player;
 
 public enum DataWriter implements IDataWriter {
 
-    SERVER(Packets.DATA_RAW, Packets.DATA_TYPED),
-    CLIENT(Packets.CTX_RAW, Packets.CTX_TYPED);
+    SERVER(RawDataResponsePlayS2CPacket.Payload::new, TypedDataResponsePlayS2CPacket.Payload::new),
+    CLIENT(RawDataRequestContextPlayC2SPacket.Payload::new, TypedDataRequestContextPlayC2SPacket.Payload::new);
 
-    private final ResourceLocation rawPacket;
-    private final ResourceLocation typedPacket;
+    private final Function<CompoundTag, CustomPacketPayload> rawPacket;
+    private final Function<IData, CustomPacketPayload> typedPacket;
 
     private final Map<Class<IData>, IData> immediate = new HashMap<>();
     private final Map<Class<IData>, List<Consumer<Result<IData>>>> lazy = new HashMap<>();
@@ -36,7 +38,7 @@ public enum DataWriter implements IDataWriter {
     private CompoundTag raw;
     private boolean clean;
 
-    DataWriter(ResourceLocation rawPacket, ResourceLocation typedPacket) {
+    DataWriter(Function<CompoundTag, CustomPacketPayload> rawPacket, Function<IData, CustomPacketPayload> typedPacket) {
         this.rawPacket = rawPacket;
         this.typedPacket = typedPacket;
     }
@@ -53,18 +55,11 @@ public enum DataWriter implements IDataWriter {
     }
 
     public void send(PacketSender sender, Player player) {
-        if (!raw.isEmpty()) {
-            var buf = new FriendlyByteBuf(Unpooled.buffer());
-            buf.writeNbt(raw);
-            sender.send(rawPacket, buf);
-        }
+        if (!raw.isEmpty()) sender.send(rawPacket.apply(raw));
 
-        immediate.forEach((type, data) -> {
+        immediate.values().forEach(data -> {
             try {
-                var buf = new FriendlyByteBuf(Unpooled.buffer());
-                buf.writeResourceLocation(Registrar.get().dataType2Id.get(type));
-                data.write(buf);
-                sender.send(typedPacket, buf);
+                sender.send(typedPacket.apply(data));
             } catch (Throwable t) {
                 if (ExceptionUtil.dump(t, data.getClass() + "\nplayer " + player.getScoreboardName(), null)) {
                     player.sendSystemMessage(Component.literal("Error on retrieving data from provider " + data.getClass().getName()));
@@ -73,8 +68,6 @@ public enum DataWriter implements IDataWriter {
         });
 
         lazy.forEach((type, data) -> {
-            var id = Registrar.get().dataType2Id.get(type);
-
             final var finished = new boolean[]{false};
             for (var consumer : data) {
                 try {
@@ -86,10 +79,7 @@ public enum DataWriter implements IDataWriter {
                             Preconditions.checkState(!added, "Called multiple times in the same closure");
                             Preconditions.checkNotNull(data, "Data is null");
 
-                            var buf = new FriendlyByteBuf(Unpooled.buffer());
-                            buf.writeResourceLocation(id);
-                            data.write(buf);
-                            sender.send(typedPacket, buf);
+                            sender.send(typedPacket.apply(data));
 
                             finished[0] = true;
                             added = true;

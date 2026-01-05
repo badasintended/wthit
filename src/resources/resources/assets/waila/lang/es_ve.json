@@ -235,7 +235,6 @@
   "config.waila.format_registry_name"                          : "Nombre de registro",
 
 
-
   "key.waila.config"                                           : "Abrir configuración",
   "key.waila.show_overlay"                                     : "Mostrar overlay",
   "key.waila.toggle_liquid"                                    : "Alternar líquidos",
@@ -291,8 +290,6 @@
 
 
   "config.waila.plugin_minecraft.entity.item_entity"           : "Ver entidad de item",
-
-
 
 
 

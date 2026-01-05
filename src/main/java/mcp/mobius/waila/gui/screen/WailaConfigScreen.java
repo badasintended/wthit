@@ -546,7 +546,6 @@ public class WailaConfigScreen extends TabbedConfigScreen {
         @SuppressWarnings({"ConstantValue", "UnusedAssignment"})
         @Override
         public void render(GuiGraphics ctx, int mouseX, int mouseY, float delta) {
-            renderBackground(ctx);
             super.render(ctx, mouseX, mouseY, delta);
 
             var i = 0;

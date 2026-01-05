@@ -235,7 +235,6 @@
   "config.waila.format_registry_name"                          : "Tên Đăng Ký",
 
   "config.waila.keybinds"                                      : "Phím Tắt",
-
   "key.waila.config"                                           : "Mở Cấu Hình",
   "key.waila.show_overlay"                                     : "Hiển Thị Tổng Quan",
   "key.waila.toggle_liquid"                                    : "Chuyển Đổi Chất Lỏng",

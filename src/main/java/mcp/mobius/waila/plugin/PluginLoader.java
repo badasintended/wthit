@@ -11,22 +11,22 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import com.google.gson.JsonParser;
-import io.netty.buffer.Unpooled;
 import lol.bai.badpackets.api.PacketSender;
 import mcp.mobius.waila.Waila;
-import mcp.mobius.waila.api.IPluginInfo;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.__internal__.Internals;
 import mcp.mobius.waila.config.JsonConfig;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.mcless.version.VersionRanges;
-import mcp.mobius.waila.network.Packets;
+import mcp.mobius.waila.network.common.s2c.BlacklistSyncCommonS2CPacket;
+import mcp.mobius.waila.network.common.s2c.ConfigSyncCommonS2CPacket;
+import mcp.mobius.waila.network.common.s2c.PluginSyncCommonS2CPacket;
+import mcp.mobius.waila.network.play.c2s.ConfigSyncRequestPlayC2SPacket;
 import mcp.mobius.waila.registry.Registrar;
 import mcp.mobius.waila.service.ICommonService;
 import mcp.mobius.waila.util.Log;
 import mcp.mobius.waila.util.ModInfo;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.MinecraftServer;
 
 public abstract class PluginLoader {
@@ -56,38 +56,6 @@ public abstract class PluginLoader {
 
     private boolean gathered = false;
     public volatile boolean initialized = false;
-
-    public static void reloadServerPlugins(MinecraftServer server) {
-        PluginInfo.saveToggleConfig();
-        PluginInfo.refresh();
-        INSTANCE.loadPlugins();
-
-        server.getPlayerList().getPlayers().forEach(player -> {
-            var sender = PacketSender.s2c(player);
-            if (!sender.canSend(Packets.PLUGIN)) return;
-
-            if (!server.isSingleplayerOwner(player.getGameProfile())) {
-                var buf = new FriendlyByteBuf(Unpooled.buffer());
-                buf.writeCollection(PluginInfo.getAll().stream()
-                    .filter(it -> !it.isEnabled())
-                    .map(PluginInfo::getPluginId)
-                    .toList(), FriendlyByteBuf::writeResourceLocation);
-                sender.send(Packets.PLUGIN, buf);
-            }
-
-            Packets.sendConfig(sender);
-        });
-    }
-
-    public static void reloadClientPlugins() {
-        INSTANCE.loadPlugins();
-
-        if (Minecraft.getInstance().getConnection() != null && PacketSender.c2s().canSend(Packets.CONFIG_SYNC_REQ)) {
-            PacketSender.c2s().send(Packets.CONFIG_SYNC_REQ, new FriendlyByteBuf(Unpooled.buffer()));
-        }
-    }
-
-    private boolean gathered = false;
 
     public static void reloadServerPlugins(MinecraftServer server) {
         PluginInfo.saveToggleConfig();
@@ -218,9 +186,9 @@ public abstract class PluginLoader {
         if (extraPlugin != null) initialize(extraPlugin);
 
         if (!legacyPlugins.isEmpty()) {
-            LOG.warn("Found plugins registered via legacy platform-dependant method:");
-            LOG.warn(legacyPlugins.stream().collect(Collectors.joining(", ", "[", "]")));
-            LOG.warn("The method will be removed on Minecraft 1.21");
+            LOG.error("Found plugins registered via legacy platform-dependant method:");
+            LOG.error(legacyPlugins.stream().collect(Collectors.joining(", ", "[", "]")));
+            if (Waila.DEV) throw new UnsupportedOperationException("Found legacy plugins");
         }
 
         Registrar.get().lock();

@@ -1,6 +1,6 @@
 package mcp.mobius.waila.mixin;
 
-import mcp.mobius.waila.mixed.IMixedService;
+import mcp.mobius.waila.mixed.IMixinService;
 import net.minecraft.client.multiplayer.ClientConfigurationPacketListenerImpl;
 import net.minecraft.core.RegistryAccess;
 import org.spongepowered.asm.mixin.Mixin;
@@ -17,12 +17,12 @@ public class ClientConfigurationPacketListenerImplMixin extends ClientCommonPack
 
     @Inject(method = "<init>", at = @At("RETURN"))
     private void wthit_onServerLogin(CallbackInfo ci) {
-        IMixedService.INSTANCE.onServerLogin();
+        IMixinService.INSTANCE.onServerLogin();
     }
 
     @Override
     protected void wthit_onHandleUpdateTags() {
-        IMixedService.INSTANCE.attachRegistryFilter(receivedRegistries);
+        IMixinService.INSTANCE.attachRegistryFilter(receivedRegistries);
     }
 
 }

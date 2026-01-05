@@ -47,7 +47,7 @@ public class CreditsScreen extends YesIAmSureTheClientInstanceIsPresentByTheTime
 
         try {
             var credits = new Gson().fromJson(minecraft.getResourceManager().getResource(Waila.id("credits.json")).orElseThrow().openAsReader(), CreditMap.class);
-            var listWidget = new ListWidget(minecraft, width, height, 24, height - 32, minecraft.font.lineHeight + 6);
+            var listWidget = new ListWidget(minecraft, width, height - 56, 24, minecraft.font.lineHeight + 6);
 
             credits.forEach((key, category) -> {
                 var children = listWidget.children();
@@ -71,12 +71,6 @@ public class CreditsScreen extends YesIAmSureTheClientInstanceIsPresentByTheTime
     }
 
     @Override
-    public void render(@NotNull GuiGraphics ctx, int mouseX, int mouseY, float partialTicks) {
-        renderBackground(ctx);
-        super.render(ctx, mouseX, mouseY, partialTicks);
-    }
-
-    @Override
     public void onClose() {
         minecraft.setScreen(parent);
     }
@@ -94,17 +88,14 @@ public class CreditsScreen extends YesIAmSureTheClientInstanceIsPresentByTheTime
 
     private static class ListWidget extends ContainerObjectSelectionList<CreditLine> {
 
-        private ListWidget(Minecraft client, int width, int height, int top, int bottom, int itemHeight) {
-            super(client, width, height, top, bottom, itemHeight);
+        private ListWidget(Minecraft client, int width, int height, int top, int itemHeight) {
+            super(client, width, height, top, itemHeight);
         }
 
         private void init() {
-            setRenderBackground(false);
-            setRenderTopAndBottom(false);
-
             var totalHeight = (children().size() - 1) * itemHeight;
             if (totalHeight < height) {
-                setRenderHeader(true, (height - totalHeight) / 2 - y0);
+                setRenderHeader(true, (height - totalHeight) / 2 - getY());
             }
         }
 
@@ -120,7 +111,7 @@ public class CreditsScreen extends YesIAmSureTheClientInstanceIsPresentByTheTime
 
         @Override
         protected void renderDecorations(GuiGraphics ctx, int mouseX, int mouseY) {
-            ctx.fillGradient(RenderType.guiOverlay(), this.x0, this.y1 - 4, this.x1, this.y1, 0, 0xff000000, 0);
+            ctx.fillGradient(RenderType.guiOverlay(), this.getX(), this.getBottom() - 4, this.getRight(), this.getBottom(), 0, 0xff000000, 0);
         }
 
     }

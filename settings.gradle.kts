@@ -16,7 +16,7 @@ pluginManagement {
     }
 }
 
-rootProject.name = "wthit-1.20.1"
+rootProject.name = "wthit-1.20.4"
 
 fun platform(name: String) {
     include(name)

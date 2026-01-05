@@ -17,7 +17,6 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.components.toasts.SystemToast;
 import net.minecraft.client.gui.narration.NarratableEntry;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.network.chat.Component;
 import org.apache.commons.lang3.StringUtils;
@@ -46,14 +45,12 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
     public String @Nullable [] splitFilter = null;
 
     public ConfigListWidget(ConfigScreen owner, Minecraft client, int width, int height, int top, int bottom, int itemHeight, @Nullable Runnable diskWriter) {
-        super(client, width, height, top, bottom, itemHeight - 4);
+        super(client, width, height, top, itemHeight - 4);
 
         this.owner = owner;
         this.diskWriter = diskWriter;
 
         resize(top, bottom);
-        setRenderBackground(false);
-        setRenderTopAndBottom(false);
     }
 
     public ConfigListWidget(ConfigScreen owner, Minecraft client, int width, int height, int top, int bottom, int itemHeight) {
@@ -75,7 +72,6 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
     }
 
     public void tick() {
-        if (searchBox != null) searchBox.tick();
         children().forEach(Entry::tick);
     }
 
@@ -92,7 +88,7 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
 
     public static void showErrorToast(Minecraft minecraft) {
         minecraft.getToasts().addToast(new SystemToast(
-            SystemToast.SystemToastIds.TUTORIAL_HINT,
+            SystemToast.SystemToastId.PACK_COPY_FAILURE,
             Component.translatable(Tl.Config.InvalidInput.TITLE),
             Component.translatable(Tl.Config.InvalidInput.DESC)));
     }
@@ -171,17 +167,17 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
     public void resize(int top, int bottom) {
         this.topOffset = top;
         this.bottomOffset = bottom - owner.height;
-        updateSize(owner.width, owner.height, topOffset, owner.height + bottomOffset);
+        setSize(owner.width, owner.height - (topOffset - bottomOffset));
     }
 
     @Override
     protected void renderDecorations(GuiGraphics  ctx, int mouseY, int mouseX) {
         if (headerSeparator) {
-            ctx.fillGradient(RenderType.guiOverlay(), this.x0, this.y0, this.x1, this.y0 + 4, 0xff000000, 0, 0);
+            ctx.fillGradient(RenderType.guiOverlay(), this.getX(), this.getY(), this.getRight(), this.getY() + 4, 0xff000000, 0, 0);
         }
 
         if (footerSeparator) {
-            ctx.fillGradient(RenderType.guiOverlay(), this.x0, this.y1 - 4, this.x1, this.y1, 0, 0xff000000, 0);
+            ctx.fillGradient(RenderType.guiOverlay(), this.getX(), this.getBottom() - 4, this.getRight(), this.getBottom(), 0, 0xff000000, 0);
         }
     }
 

@@ -235,7 +235,6 @@
   "config.waila.format_registry_name"                          : "Название в регистре",
 
   "config.waila.keybinds"                                      : "Привязка клавиш",
-
   "key.waila.config"                                           : "Открыть конфиг",
   "key.waila.show_overlay"                                     : "Отображать оверлей",
   "key.waila.toggle_liquid"                                    : "Отображать жидкости",

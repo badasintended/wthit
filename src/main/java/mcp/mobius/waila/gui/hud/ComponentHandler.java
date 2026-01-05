@@ -2,7 +2,6 @@ package mcp.mobius.waila.gui.hud;
 
 import java.util.Objects;
 
-import io.netty.buffer.Unpooled;
 import lol.bai.badpackets.api.PacketSender;
 import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.access.ClientAccessor;
@@ -12,11 +11,11 @@ import mcp.mobius.waila.api.IEntityComponentProvider;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.component.EmptyComponent;
 import mcp.mobius.waila.config.PluginConfig;
-import mcp.mobius.waila.network.Packets;
+import mcp.mobius.waila.network.play.c2s.BlockDataRequestPlayC2SPacket;
+import mcp.mobius.waila.network.play.c2s.EntityDataRequestPlayC2SPacket;
 import mcp.mobius.waila.registry.Registrar;
 import mcp.mobius.waila.util.ExceptionUtil;
 import net.minecraft.client.Minecraft;
-import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
@@ -52,11 +51,7 @@ public class ComponentHandler {
         }
 
         DataWriter.CLIENT.send(PacketSender.c2s(), player);
-
-        var buf = new FriendlyByteBuf(Unpooled.buffer());
-        buf.writeBlockHitResult(accessor.getBlockHitResult());
-        PacketSender.c2s().send(Packets.BLOCK, buf);
-
+        PacketSender.c2s().send(new BlockDataRequestPlayC2SPacket.Payload(accessor.getBlockHitResult()));
         accessor.setDataAccess(true);
     }
 
@@ -110,15 +105,7 @@ public class ComponentHandler {
         }
 
         DataWriter.CLIENT.send(PacketSender.c2s(), player);
-
-        var buf = new FriendlyByteBuf(Unpooled.buffer());
-        buf.writeVarInt(entity.getId());
-        var hitPos = accessor.getEntityHitResult().getLocation();
-        buf.writeDouble(hitPos.x);
-        buf.writeDouble(hitPos.y);
-        buf.writeDouble(hitPos.z);
-        PacketSender.c2s().send(Packets.ENTITY, buf);
-
+        PacketSender.c2s().send(new EntityDataRequestPlayC2SPacket.Payload(entity.getId(), accessor.getEntityHitResult().getLocation()));
         accessor.setDataAccess(true);
     }
 

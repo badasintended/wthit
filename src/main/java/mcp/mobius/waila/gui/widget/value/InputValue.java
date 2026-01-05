@@ -80,7 +80,6 @@ public class InputValue<T> extends ConfigValue<@Nullable T, InputValue<T>> {
     }
 
     @Override
-    @SuppressWarnings("DataFlowIssue")
     protected void resetValue() {
         textField.setValue(serializer.serialize(defaultValue));
     }
@@ -144,8 +143,8 @@ public class InputValue<T> extends ConfigValue<@Nullable T, InputValue<T>> {
             else setWidth(Mth.clamp(client.font.width(getValue()) + 8, 100, 300));
 
             var cursor = getCursorPosition();
-            moveCursorTo(0);
-            moveCursorTo(cursor);
+            moveCursorTo(0, false);
+            moveCursorTo(cursor, false);
         }
 
         @Override

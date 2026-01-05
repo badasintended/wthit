@@ -13,7 +13,7 @@ public class ReloadableServerResourcesMixin {
 
     @Inject(method = "updateRegistryTags(Lnet/minecraft/core/RegistryAccess;)V", at = @At("TAIL"))
     private void wthit_onUpdateRegistryTags(RegistryAccess registryAccess, CallbackInfo ci) {
-        IMixinService.INSTANCE.ReloadableServerResources_updateRegistryTags(registryAccess);
+        IMixinService.INSTANCE.attachRegistryFilter(registryAccess);
     }
 
 }

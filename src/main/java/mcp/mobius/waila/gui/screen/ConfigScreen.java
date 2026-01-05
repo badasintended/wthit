@@ -8,7 +8,6 @@ import mcp.mobius.waila.gui.widget.ConfigListWidget;
 import mcp.mobius.waila.gui.widget.value.ConfigValue;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.components.toasts.SystemToast;
 import net.minecraft.client.gui.screens.Screen;
@@ -95,10 +94,9 @@ public abstract class ConfigScreen extends YesIAmSureTheClientInstanceIsPresentB
 
     @Override
     public void render(@NotNull GuiGraphics ctx, int mouseX, int mouseY, float partialTicks) {
-        renderBackground(ctx);
-        options.render(ctx, mouseX, mouseY, partialTicks);
         super.render(ctx, mouseX, mouseY, partialTicks);
 
+        options.render(ctx, mouseX, mouseY, partialTicks);
         renderForeground(ctx, options.getRowLeft(), options.getRowWidth(), mouseX, mouseY, partialTicks);
 
         if (mouseY < 32 || mouseY > height - 32) return;
@@ -122,7 +120,7 @@ public abstract class ConfigScreen extends YesIAmSureTheClientInstanceIsPresentB
             escPressed++;
             if (escPressed > 5) {
                 minecraft.getToasts().addToast(new SystemToast(
-                    SystemToast.SystemToastIds.PACK_COPY_FAILURE,
+                    SystemToast.SystemToastId.PACK_COPY_FAILURE,
                     Component.translatable(Tl.Gui.EscWarning.UMM),
                     Component.translatable(Tl.Gui.EscWarning.LMAO,
                         CommonComponents.GUI_DONE.copy().withStyle(ChatFormatting.GOLD),

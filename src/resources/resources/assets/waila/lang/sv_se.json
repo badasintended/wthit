@@ -235,7 +235,6 @@
   "config.waila.format_registry_name"                          : "Registersnamn",
 
   "config.waila.keybinds"                                      : "Kortkommandon",
-
   "key.waila.config"                                           : "Öppna konfigurering",
   "key.waila.show_overlay"                                     : "Visa överlägg",
   "key.waila.toggle_liquid"                                    : "Visa/dölj vätskor",
@@ -310,8 +309,6 @@
 
   "config.waila.plugin_minecraft.horse.jump_height"            : "Visa hästens hoppstyrka",
   "config.waila.plugin_minecraft.horse.speed"                  : "Visa hästens hastighet",
-
-
 
 
 
