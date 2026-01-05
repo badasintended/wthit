@@ -248,7 +248,7 @@
 
 10.x - 1.20.4 - dev/1.20.4 - java 17
 ====================================
-10.10.0  - Changed status from EOL to maintained
+10.10.2  - Changed status from EOL to maintained
            - Ported all changes from the 1.20.1 branch
          - Added lectern book tooltip
          - Changed horse stats formula
