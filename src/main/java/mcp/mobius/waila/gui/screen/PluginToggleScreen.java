@@ -25,19 +25,21 @@ public class PluginToggleScreen extends TabbedConfigScreen {
     private final Object2BooleanMap<Identifier> initialValues = new Object2BooleanOpenHashMap<>();
     private final Object2BooleanMap<Identifier> updatedValues = new Object2BooleanOpenHashMap<>();
 
+    private Runnable afterSave = super::onClose;
+
     public PluginToggleScreen(Screen parent) {
         super(parent, CommonComponents.EMPTY);
     }
 
-    private void askSave(Runnable then) {
+    private void askSave() {
         if (initialValues.equals(updatedValues)) {
-            then.run();
+            afterSave.run();
             return;
         }
 
         minecraft.setScreen(new ConfirmScreen(accepted -> {
             if (!accepted) {
-                then.run();
+                afterSave.run();
                 return;
             }
 
@@ -50,13 +52,13 @@ public class PluginToggleScreen extends TabbedConfigScreen {
                 PluginLoader.reloadClientPlugins();
             }
 
-            then.run();
+            afterSave.run();
         }, Component.translatable(Tl.Gui.Plugin.TOGGLE), Component.translatable(Tl.Gui.Plugin.Toggle.CONFIRM)));
     }
 
     @Override
     public ConfigListWidget getOptions() {
-        var options = new ConfigListWidget(this, minecraft, width, height, 24, height - 32, 26, () -> askSave(super::onClose));
+        var options = new ConfigListWidget(this, minecraft, width, height, 24, height - 32, 26, this::askSave);
         options.headerSeparator = false;
 
         var sorted = PluginInfo.getAll().stream().sorted((a, b) -> {
@@ -100,8 +102,8 @@ public class PluginToggleScreen extends TabbedConfigScreen {
 
     @Override
     public void changeTab(Runnable change) {
+        afterSave = change;
         options.save(false);
-        askSave(change);
     }
 
     @Override
