@@ -41,7 +41,7 @@ public class EntityDataRequestPlayC2SPacket implements Packet.PlayC2S<EntityData
         var hitPos = payload.hitPos;
 
         var registrar = Registrar.get();
-        var world = player.level();
+        var world = player.serverLevel();
         var entity = world.getEntity(entityId);
 
         if (entity == null) {

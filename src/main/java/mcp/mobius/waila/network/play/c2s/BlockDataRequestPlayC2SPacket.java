@@ -40,7 +40,7 @@ public class BlockDataRequestPlayC2SPacket implements Packet.PlayC2S<BlockDataRe
         var hitResult = payload.hitResult;
 
         var registrar = Registrar.get();
-        var world = player.level();
+        var world = player.serverLevel();
         var pos = hitResult.getBlockPos();
 
         //noinspection deprecation
