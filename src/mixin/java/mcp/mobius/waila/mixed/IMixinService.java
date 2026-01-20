@@ -12,7 +12,7 @@ public interface IMixinService {
 
     void onServerLogin();
 
-    void addToolMaterialInstance(ToolMaterial material);
+    void addToolMaterialInstance(ToolMaterial material, Class<?> caller);
 
     void onLanguageReloaded();
 
