@@ -150,11 +150,11 @@ public abstract class ApiService implements IApiService {
 
     @Override
     public List<ToolMaterial> getTiers() {
-        return MixinService.TOOL_MATERIALS.stream()
+        return MixinService.TOOL_MATERIALS.keySet().stream()
             .filter(it -> {
                 //noinspection ConstantValue
                 if (it.incorrectBlocksForDrops() == null) {
-                    LOG.warn("Found tier of class [{}] with null inverse tag, skipping", it.getClass().getName());
+                    LOG.warn("Found tier created on class [{}] with null inverse tag, skipping", MixinService.TOOL_MATERIALS.get(it).getName());
                     return false;
                 }
                 return true;
@@ -189,12 +189,15 @@ public abstract class ApiService implements IApiService {
                         The comparison is based on the assumption that lower tier's incorrect block tag contains all entries from higher tier's tag.
                         This was fine for Vanilla, but might be not match modded behavior.
                         Please open an issue at {}
-                        Tag [{}] contains:
+                        Tag [{}] created on class [{}] contains:
                         \t[{}]
-                        Tag [{}] contains:
+                        Tag [{}] created on class [{}] contains:
                         \t[{}]
                         """,
-                    tag1.location(), tag2.location(), Waila.ISSUE_URL, tag1.location(), blocks1str, tag2.location(), blocks2str);
+                    tag1.location(), tag2.location(),
+                    Waila.ISSUE_URL,
+                    tag1.location(), MixinService.TOOL_MATERIALS.get(tier1).getName(), blocks1str,
+                    tag2.location(), MixinService.TOOL_MATERIALS.get(tier2).getName(), blocks2str);
                 return 0;
             }).toList();
     }
