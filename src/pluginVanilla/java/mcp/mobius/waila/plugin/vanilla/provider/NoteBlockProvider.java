@@ -42,7 +42,7 @@ public enum NoteBlockProvider implements IBlockComponentProvider {
 
             Component instrumentText;
             if (instrument.hasCustomSound()) {
-                var soundId = ((NoteBlockAccess) accessor.getBlock()).wthit_getCustomSoundId(accessor.getWorld(), accessor.getPosition());
+                var soundId = ((NoteBlockAccess) accessor.getBlock()).wthit_getCustomSoundId(accessor.getLevel(), accessor.getPosition());
                 instrumentText = soundId == null
                     ? Component.translatable(Tl.Tooltip.Instrument.NONE)
                     : Component.literal(soundId.toString()).withStyle(ChatFormatting.DARK_PURPLE);
