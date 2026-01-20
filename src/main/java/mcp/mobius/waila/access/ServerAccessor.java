@@ -2,8 +2,8 @@ package mcp.mobius.waila.access;
 
 import mcp.mobius.waila.api.IDataReader;
 import mcp.mobius.waila.api.IServerAccessor;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
-import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.HitResult;
 
 @SuppressWarnings("NotNullFieldNotInitialized")
@@ -11,14 +11,14 @@ public enum ServerAccessor implements IServerAccessor<Object> {
 
     INSTANCE;
 
-    private Level world;
+    private ServerLevel level;
     private ServerPlayer player;
     private HitResult hitResult;
     private Object target;
 
     @SuppressWarnings("unchecked")
-    public <T> IServerAccessor<T> set(Level world, ServerPlayer player, HitResult hitResult, Object target) {
-        this.world = world;
+    public <T> IServerAccessor<T> set(ServerLevel level, ServerPlayer player, HitResult hitResult, Object target) {
+        this.level = level;
         this.player = player;
         this.hitResult = hitResult;
         this.target = target;
@@ -27,8 +27,8 @@ public enum ServerAccessor implements IServerAccessor<Object> {
     }
 
     @Override
-    public Level getWorld() {
-        return world;
+    public ServerLevel getLevel() {
+        return level;
     }
 
     @Override
@@ -43,6 +43,7 @@ public enum ServerAccessor implements IServerAccessor<Object> {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public Object getTarget() {
         return target;
     }

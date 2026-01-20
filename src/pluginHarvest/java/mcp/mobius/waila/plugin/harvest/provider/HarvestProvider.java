@@ -64,7 +64,7 @@ public enum HarvestProvider implements IBlockComponentProvider, IEventListener {
         updateId = accessor.getUpdateId();
         state = accessor.getBlockState();
 
-        var unbreakable = state.getDestroySpeed(accessor.getWorld(), accessor.getPosition()) < 0;
+        var unbreakable = state.getDestroySpeed(accessor.getLevel(), accessor.getPosition()) < 0;
 
         var tools = toolsCache.get(state);
         if (tools == null) {

@@ -49,6 +49,11 @@ public enum ClientAccessor implements ICommonAccessor, IBlockAccessor, IEntityAc
     private float frameTime;
 
     @Override
+    public Level getLevel() {
+        return this.world;
+    }
+
+    @Override
     public Level getWorld() {
         return this.world;
     }
