@@ -43,12 +43,12 @@ public enum PlantProvider implements IBlockComponentProvider {
     }
 
     private static void addCropGrowableTooltip(ITooltip tooltip, IBlockAccessor accessor) {
-        var lightLevel = accessor.getWorld().getRawBrightness(accessor.getPosition(), 0);
+        var lightLevel = accessor.getLevel().getRawBrightness(accessor.getPosition(), 0);
         addGrowableTooltip(tooltip, Options.PLANT_CROP_GROWABLE, Tl.Tooltip.CROP_GROWABLE, lightLevel >= 9);
     }
 
     private static void addTreeGrowableTooltip(ITooltip tooltip, IBlockAccessor accessor) {
-        var lightLevel = accessor.getWorld().getRawBrightness(accessor.getPosition(), 0);
+        var lightLevel = accessor.getLevel().getRawBrightness(accessor.getPosition(), 0);
         var growable = lightLevel >= 9;
         if (accessor.getBlock() instanceof MangrovePropaguleBlock
             && accessor.getBlockState().getValue(MangrovePropaguleBlock.HANGING)) {

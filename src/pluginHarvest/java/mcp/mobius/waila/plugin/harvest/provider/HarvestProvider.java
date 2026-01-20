@@ -1,6 +1,6 @@
 package mcp.mobius.waila.plugin.harvest.provider;
 
-import java.awt.Rectangle;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -66,7 +66,7 @@ public enum HarvestProvider implements IBlockComponentProvider, IEventListener {
         updateId = accessor.getUpdateId();
         state = accessor.getBlockState();
 
-        var unbreakable = state.getDestroySpeed(accessor.getWorld(), accessor.getPosition()) < 0;
+        var unbreakable = state.getDestroySpeed(accessor.getLevel(), accessor.getPosition()) < 0;
 
         var tools = toolsCache.get(state);
         if (tools == null) {

@@ -7,7 +7,6 @@ import mcp.mobius.waila.api.IServerAccessor;
 import mcp.mobius.waila.api.data.FluidData;
 import mcp.mobius.waila.api.neo.NeoFluidData;
 import net.minecraft.core.Direction;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.neoforged.neoforge.capabilities.BlockCapabilityCache;
 import net.neoforged.neoforge.capabilities.Capabilities;
@@ -24,7 +23,7 @@ public enum FluidCapabilityProvider implements IDataProvider<BlockEntity> {
     @Override
     public void appendData(IDataWriter data, IServerAccessor<BlockEntity> accessor, IPluginConfig config) {
         data.add(FluidData.TYPE, res -> {
-            var world = (ServerLevel) accessor.getWorld();
+            var world = accessor.getLevel();
             var target = accessor.getTarget();
             var pos = target.getBlockPos();
 
