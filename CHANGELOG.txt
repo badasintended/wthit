@@ -2,6 +2,7 @@
 ======================================
 18.1.0   - Added lectern book tooltip
          - Changed horse stats formula
+         - Fixed cursor jumping when switching from plugin toggle screen
 18.0.4   - Updated Forge to Minecraft 1.21.11
 18.0.3   - Updated to Minecraft 1.21.11
 18.0.2   - Updated to Minecraft 1.21.11
@@ -13,6 +14,7 @@
 ======================================
 17.4.0   - Added lectern book tooltip
          - Changed horse stats formula
+         - Fixed cursor jumping when switching from plugin toggle screen
 17.3.4   - Fixed server spam when WTHIT is not installed on the server
 17.3.3   - Added shelf items tooltip
 17.3.2   - Fixed key binds not being able to be set to mouse buttons (#350)
@@ -71,6 +73,7 @@
 ====================================
 14.5.0   - Added lectern book tooltip
          - Changed horse stats formula
+         - Fixed cursor jumping when switching from plugin toggle screen
 14.4.3   - Fixed server spam when WTHIT is not installed on the server
 14.4.2   - Fixed key binds not being able to be set to mouse buttons (#350)
 14.4.1   - Fixed crash on server (#348)
@@ -119,6 +122,7 @@
 ====================================
 12.9.0   - Added lectern book tooltip
          - Changed horse stats formula
+         - Fixed cursor jumping when switching from plugin toggle screen
 12.8.3   - Fixed server spam when WTHIT is not installed on the server
 12.8.2   - Fixed key binds not being able to be set to mouse buttons (#350)
 12.8.1   - Fixed crash on server (#348)
@@ -165,7 +169,7 @@
          - [API] Added API to annotate config object with comments in JSON5 mode
          - Changed config files from JSON to JSON5, also added comments for them
          - Changed all config files to be reloaded when the plugin reloaded
-12.2.4   - Added Vietnamese translation (284)
+12.2.4   - Added Vietnamese translation (#284)
 12.2.3   - Updated Simplified Chinese translations
          - Added ominous item spawner's item (#274)
          - Fixed crash when clicking plugin toggles screen (#273)
@@ -242,8 +246,55 @@
            - Now it requires a `StreamCodec` instead of serializer method
            - Now it uses a `IData.Type` instance to set/get, instead of direct data class
 
-10.x - 1.20.4 - eol/1.20.4 - java 17
+10.x - 1.20.4 - dev/1.20.4 - java 17
 ====================================
+10.10.2  - Changed status from EOL to maintained
+           - Ported all changes from the 1.20.1 branch
+         - Added lectern book tooltip
+         - Changed horse stats formula
+         - Fixed cursor jumping when switching from plugin toggle screen
+         - Fixed server spam when WTHIT is not installed on the server
+         - Fixed key binds not being able to be set to mouse buttons (#350)
+         - Fixed crash on server (#348)
+         - Improved formatting to use Component instead of String if available (#169)
+         - Changed to use home-grown keybinding system
+           - Now key binds won't be conflicting (#170)
+         - Changed breaking progress to fade out instead of moving backwards when stopped (#300)
+         - Made ModInfo cache concurrent, fixed crash with Language Reload
+         - Fixed config screen not sending warning if errors are in collapsed entries
+         - Changed config screen to use tabs
+         - Changed overlay placement option to be its own screen with preview
+         - [API] Added estimated progress time tooltip and API
+         - Added focus on search bar when pressing ctrl+f in config
+         - Added hour component on progress timer
+         - Changed progress to show as a bar by default
+         - Changed player's head name to show in block's name
+         - Added light block to default blacklist (#342)
+         - Added log when component is clicked on the inspector screen
+         - Changed setup to be on the main thread
+         - Fixed `PairComponent#key#getWidth` not being called making height calculation wrong
+         - Fixed raycast position getting mutated when clipping fluid shape (#312)
+         - Added tags to all built-in tooltips
+           - Note that the tags are not guaranteed to be as stable as API classes. This is more of a workaround to allow plugins to override built-in tooltips.
+         - Changed `waila_plugins.json` comment for custom config path to relative (#306)
+         - Fixed multiline `WrappedComponent` not rendered properly
+         - Fixed error if there are tier instances with the same incorrect tag (#304)
+         - Fixed item tooltip lighting (#303)
+         - Added config option to change item grid scale (#301)
+         - Fixed plugin configurations getting reset at every launch (#296)
+         - Fixed incompatibility with tiers that has level less than 0 (#292)
+         - Updated Vietnamese translation (#289)
+         - Updated Japanese translation (#295)
+         - Fixed crash on Forge if plugin annotation missing the side value
+         - [API] Added separate common and client-side entrypoints, `IWailaCommonPlugin` and `IWailaClientPlugin`
+           - Added `ICommonRegistrar` and `IClientRegistrar`
+           - Deprecated `IWailaPlugin` and `IRegistrar`
+         - Changed built-in configs to use translations properly
+         - Updated Russian translations (#285)
+         - [API] Added API to annotate config object with comments in JSON5 mode
+         - Changed config files from JSON to JSON5, also added comments for them
+         - Changed all config files to be reloaded when the plugin reloaded
+         - Added Vietnamese translation (#284)
 10.9.4   - Updated Simplified Chinese translations
          - Fixed crash when clicking plugin toggles screen (#273)
          - Changed break progress animation to be smoother
@@ -369,6 +420,7 @@
 ===================================
 8.20.0   - Added lectern book tooltip
          - Changed horse stats formula
+         - Fixed cursor jumping when switching from plugin toggle screen
 8.19.3   - Fixed server spam when WTHIT is not installed on the server
 8.19.2   - Fixed key binds not being able to be set to mouse buttons (#350)
 8.19.1   - Fixed crash on server (#348)
@@ -410,7 +462,7 @@
          - [API] Added API to annotate config object with comments in JSON5 mode
          - Changed config files from JSON to JSON5, also added comments for them
          - Changed all config files to be reloaded when the plugin reloaded
-8.13.4   - Added Vietnamese translation (284)
+8.13.4   - Added Vietnamese translation (#284)
 8.13.3   - Updated Simplified Chinese translations
          - Fixed crash when clicking plugin toggles screen (#273)
          - Changed break progress animation to be smoother
@@ -682,7 +734,7 @@
          - [API] Added API to annotate config object with comments in JSON5 mode
          - Changed config files from JSON to JSON5, also added comments for them
          - Changed all config files to be reloaded when the plugin reloaded
-5.28.7   - Added Vietnamese translation (284)
+5.28.7   - Added Vietnamese translation (#284)
 5.28.3   - Updated Simplified Chinese translations
          - Fixed crash when clicking plugin toggles screen (#273)
          - Changed break progress animation to be smoother

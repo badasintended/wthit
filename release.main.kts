@@ -154,7 +154,8 @@ run {
 shell {
     suspend fun exec(str: String) {
         println("EXEC: $str")
-        str.invoke()
+        val proc = str.invoke()
+        require(proc.pcb.exitCode == 0)
         println()
     }
 
@@ -183,7 +184,8 @@ shell {
         export("MAVEN_PASSWORD" to Env.MAVEN_PASSWORD)
         export("JAVA_HOME" to System.getenv("JAVA_${release.java}_HOME")!!)
 
-        exec("./gradlew clean build publish publishMods")
+        exec("./gradlew clean")
+        exec("./gradlew build publish publishMods")
         exec("./gradlew --stop")
 
         val releaseName = "[${release.minecraft}] ${release.version}"

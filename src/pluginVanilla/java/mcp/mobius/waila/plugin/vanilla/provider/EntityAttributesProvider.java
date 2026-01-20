@@ -39,7 +39,7 @@ public enum EntityAttributesProvider implements IEntityComponentProvider {
     private void addHealth(ITooltipLine line, LivingEntity entity, CompoundTag data, boolean showAbsorption) {
         var component = Component.literal(DECIMAL.format(entity.getHealth()));
         if (showAbsorption && data.contains("abs")) {
-            component.append(Component.literal("+" + DECIMAL.format(data.getFloat("abs"))).withStyle(ChatFormatting.GOLD));
+            component.append(Component.literal("+" + DECIMAL.format(data.getFloat("abs").orElseThrow())).withStyle(ChatFormatting.GOLD));
         }
         line.with(new SpriteComponent(SPRITE_HEART, 9, 9))
             .with(component.append("/" + DECIMAL.format(entity.getMaxHealth())).withStyle(ChatFormatting.RED));
