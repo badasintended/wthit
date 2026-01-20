@@ -17,7 +17,7 @@ public enum SpawnerProvider implements IBlockComponentProvider {
     public void appendHead(ITooltip tooltip, IBlockAccessor accessor, IPluginConfig config) {
         if (config.getBoolean(Options.SPAWNER_TYPE)) {
             SpawnerBlockEntity spawner = accessor.getBlockEntity();
-            var entity = spawner != null ? spawner.getSpawner().getOrCreateDisplayEntity(accessor.getWorld(), accessor.getWorld().random, spawner.getBlockPos()) : null;
+            var entity = spawner != null ? spawner.getSpawner().getOrCreateDisplayEntity(accessor.getLevel(), accessor.getLevel().random, spawner.getBlockPos()) : null;
             if (entity != null) {
                 var name = entity.getDisplayName();
 

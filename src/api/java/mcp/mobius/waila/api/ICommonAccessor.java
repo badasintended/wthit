@@ -22,7 +22,7 @@ import org.jetbrains.annotations.Nullable;
 @ApiStatus.NonExtendable
 public interface ICommonAccessor {
 
-    Level getWorld();
+    Level getLevel();
 
     Player getPlayer();
 
@@ -59,6 +59,10 @@ public interface ICommonAccessor {
     double getRayCastMaxDistance();
 
     float getFrameTime();
+
+    /** @deprecated use {@link #getLevel()} */
+    @Deprecated
+    Level getWorld();
 
     // -----------------------------------------------------------------------------------------------------------------------------------------------
     // TODO: Remove
