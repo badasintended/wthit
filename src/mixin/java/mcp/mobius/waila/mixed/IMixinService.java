@@ -4,6 +4,7 @@ import mcp.mobius.waila.api.__internal__.Internals;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.world.item.Tier;
 
 public interface IMixinService {
 
@@ -14,6 +15,8 @@ public interface IMixinService {
     void onServerLogin();
 
     void onGuiRender(GuiGraphics ctx, DeltaTracker delta);
+
+    void addTierInstance(Tier tier, Class<?> caller);
 
     void onLanguageReloaded();
 

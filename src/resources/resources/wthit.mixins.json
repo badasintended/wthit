@@ -17,7 +17,8 @@
     "LecternBlockEntityAccess",
     "NoteBlockAccess",
     "ReloadableServerResourcesMixin",
-    "ShearableBlocksMixin"
+    "ShearableBlocksMixin",
+    "SimpleTierMixin"
   ],
   "client"            : [
     "BossHealthOverlayAccess",

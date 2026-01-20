@@ -1,5 +1,8 @@
 package mcp.mobius.waila.service;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.config.JsonConfig;
 import mcp.mobius.waila.config.PluginConfig;
@@ -9,8 +12,11 @@ import mcp.mobius.waila.registry.RegistryFilter;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.world.item.Tier;
 
 public class MixinService implements IMixinService {
+
+    public static final Map<Tier, Class<?>> TIERS = new LinkedHashMap<>();
 
     @Override
     public void attachRegistryFilter(RegistryAccess registryAccess) {
@@ -25,6 +31,11 @@ public class MixinService implements IMixinService {
     @Override
     public void onGuiRender(GuiGraphics ctx, DeltaTracker delta) {
         TooltipRenderer.render(ctx, delta);
+    }
+
+    @Override
+    public void addTierInstance(Tier tier, Class<?> caller) {
+        TIERS.put(tier, caller);
     }
 
     @Override

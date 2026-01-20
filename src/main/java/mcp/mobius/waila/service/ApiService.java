@@ -161,7 +161,8 @@ public abstract class ApiService implements IApiService {
 
                 //noinspection ConstantValue
                 if (tier.getIncorrectBlocksForDrops() == null) {
-                    LOG.warn("Found tier of class [{}] with null inverse tag, skipping", tier.getClass().getName());
+                    LOG.warn("Found tier created on class [{}] with null inverse tag, skipping",
+                        MixinService.TIERS.getOrDefault(tier, tier.getClass()).getName());
                     continue;
                 }
 
@@ -201,25 +202,28 @@ public abstract class ApiService implements IApiService {
                         The comparison is based on the assumption that lower tier's incorrect block tag contains all entries from higher tier's tag.
                         This was fine for Vanilla, but might be not match modded behavior.
                         Please open an issue at {}
-                        Tag [{}] contains:
+                        Tag [{}] created on class [{}] contains:
                         \t[{}]
-                        Tag [{}] contains:
+                        Tag [{}] created on class [{}] contains:
                         \t[{}]
                         """,
-                    tag1.location(), tag2.location(), Waila.ISSUE_URL, tag1.location(), blocks1str, tag2.location(), blocks2str);
+                    tag1.location(), tag2.location(),
+                    Waila.ISSUE_URL,
+                    tag1.location(), MixinService.TIERS.getOrDefault(tier1, tier1.getClass()).getName(), blocks1str,
+                    tag2.location(), MixinService.TIERS.getOrDefault(tier2, tier2.getClass()).getName(), blocks2str);
                 return 0;
             }).toList();
     }
 
     public static String concatBlocks(HolderSet<Block> set) {
-       return String.join("\n\t", set.stream()
-           .map(it -> it
-               .unwrapKey()
-               .orElseThrow()
-               .location()
-               .toString())
-           .sorted()
-           .toList());
+        return String.join("\n\t", set.stream()
+            .map(it -> it
+                .unwrapKey()
+                .orElseThrow()
+                .location()
+                .toString())
+            .sorted()
+            .toList());
     }
 
     @Override
