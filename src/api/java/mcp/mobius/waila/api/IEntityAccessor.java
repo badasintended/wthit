@@ -16,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
 @ApiStatus.NonExtendable
 public interface IEntityAccessor {
 
-    Level getWorld();
+    Level getLevel();
 
     Player getPlayer();
 
@@ -40,5 +40,9 @@ public interface IEntityAccessor {
     double getRayCastMaxDistance();
 
     float getFrameTime();
+
+    /** @deprecated use {@link #getLevel()} */
+    @Deprecated
+    Level getWorld();
 
 }

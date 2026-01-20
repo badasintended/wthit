@@ -17,7 +17,6 @@ import net.fabricmc.fabric.api.transfer.v1.storage.Storage;
 import net.fabricmc.fabric.api.transfer.v1.storage.StorageView;
 import net.fabricmc.fabric.api.transfer.v1.storage.base.SingleSlotStorage;
 import net.minecraft.core.Direction;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import org.jetbrains.annotations.Nullable;
 
@@ -32,7 +31,7 @@ public enum FluidStorageProvider implements IDataProvider<BlockEntity> {
     public void appendData(IDataWriter data, IServerAccessor<BlockEntity> accessor, IPluginConfig config) {
         data.add(FluidData.TYPE, res -> {
             if (cache == null || cache.getBlockEntity() != accessor.getTarget()) {
-                cache = BlockApiCache.create(FluidStorage.SIDED, (ServerLevel) accessor.getWorld(), accessor.getTarget().getBlockPos());
+                cache = BlockApiCache.create(FluidStorage.SIDED, accessor.getLevel(), accessor.getTarget().getBlockPos());
             }
 
             var storage = cache.find(accessor.getTarget().getBlockState(), null);
