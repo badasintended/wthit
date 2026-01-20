@@ -1,7 +1,7 @@
 package mcp.mobius.waila.service;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.config.JsonConfig;
@@ -16,7 +16,7 @@ import net.minecraft.world.item.ToolMaterial;
 
 public class MixinService implements IMixinService {
 
-    public static final Set<ToolMaterial> TOOL_MATERIALS = new LinkedHashSet<>();
+    public static final Map<ToolMaterial, Class<?>> TOOL_MATERIALS = new LinkedHashMap<>();
 
     @Override
     public void attachRegistryFilter(RegistryAccess registryAccess) {
@@ -34,8 +34,8 @@ public class MixinService implements IMixinService {
     }
 
     @Override
-    public void addToolMaterialInstance(ToolMaterial material) {
-        TOOL_MATERIALS.add(material);
+    public void addToolMaterialInstance(ToolMaterial material, Class<?> caller) {
+        TOOL_MATERIALS.put(material, caller);
     }
 
     @Override

@@ -16,7 +16,7 @@ public interface IMixinService {
 
     void onGuiRender(GuiGraphics ctx, DeltaTracker delta);
 
-    void addToolMaterialInstance(ToolMaterial material);
+    void addToolMaterialInstance(ToolMaterial material, Class<?> caller);
 
     void onLanguageReloaded();
 
