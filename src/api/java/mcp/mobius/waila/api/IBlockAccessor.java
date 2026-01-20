@@ -23,7 +23,7 @@ import org.jetbrains.annotations.Nullable;
 @ApiStatus.NonExtendable
 public interface IBlockAccessor {
 
-    Level getWorld();
+    Level getLevel();
 
     Player getPlayer();
 
@@ -56,6 +56,10 @@ public interface IBlockAccessor {
     double getRayCastMaxDistance();
 
     float getFrameTime();
+
+    /** @deprecated use {@link #getLevel()} */
+    @Deprecated
+    Level getWorld();
 
     // -----------------------------------------------------------------------------------------------------------------------------------------------
     // TODO: Remove
