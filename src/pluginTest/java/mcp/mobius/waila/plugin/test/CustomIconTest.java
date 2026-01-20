@@ -18,7 +18,7 @@ public enum CustomIconTest implements IBlockComponentProvider {
     @Nullable
     @Override
     public ITooltipComponent getIcon(IBlockAccessor accessor, IPluginConfig config) {
-        var random = (int) Mth.randomBetween(accessor.getWorld().getRandom(), 10, 30);
+        var random = (int) Mth.randomBetween(accessor.getLevel().getRandom(), 10, 30);
         return config.getBoolean(ENABLED) ? new ColorComponent(random, random, 0xFF770000) : null;
     }
 

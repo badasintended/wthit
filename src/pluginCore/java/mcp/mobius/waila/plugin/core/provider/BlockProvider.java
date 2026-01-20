@@ -33,7 +33,7 @@ public enum BlockProvider implements IBlockComponentProvider {
 
     @Override
     public ITooltipComponent getIcon(IBlockAccessor accessor, IPluginConfig config) {
-        return new ItemComponent(accessor.getBlock().getCloneItemStack(accessor.getWorld(), accessor.getPosition(), accessor.getBlockState()));
+        return new ItemComponent(accessor.getBlock().getCloneItemStack(accessor.getLevel(), accessor.getPosition(), accessor.getBlockState()));
     }
 
     @Override
