@@ -108,7 +108,7 @@ public class Packets {
 
             server.execute(() -> {
                 var registrar = Registrar.get();
-                var world = player.level;
+                var world = player.getLevel();
                 var entity = world.getEntity(entityId);
 
                 if (entity == null) {
@@ -134,7 +134,7 @@ public class Packets {
 
             server.execute(() -> {
                 var registrar = Registrar.get();
-                var world = player.level;
+                var world = player.getLevel();
                 var pos = hitResult.getBlockPos();
 
                 //noinspection deprecation
