@@ -1,5 +1,6 @@
 18.x - 1.21.11 - dev/1.21.11 - java 21
 ======================================
+18.2.1   - Fixed material origin always showing vanilla class
 18.2.0   - [API] Deprecated `getWorld` function in favor of `getLevel`
            - `getLevel` returns the `ServerLevel` instance on `IServerAccessor`
          - Added French translation (#357)
@@ -17,6 +18,7 @@
 
 17.x - 1.21.10 - dev/1.21.10 - java 21
 ======================================
+17.5.1   - Fixed material origin always showing vanilla class
 17.5.0   - [API] Deprecated `getWorld` function in favor of `getLevel`
            - `getLevel` returns the `ServerLevel` instance on `IServerAccessor`
          - Added French translation (#357)
@@ -81,6 +83,7 @@
 
 14.x - 1.21.4 - dev/1.21.4 - java 21
 ====================================
+14.6.1   - Fixed material origin always showing vanilla class
 14.6.0   - [API] Deprecated `getWorld` function in favor of `getLevel`
            - `getLevel` returns the `ServerLevel` instance on `IServerAccessor`
          - Added French translation (#357)
@@ -134,6 +137,7 @@
 
 12.x - 1.21.1 - dev/1.21.1 - java 21
 ====================================
+12.10.1  - Fixed simple tier origin always showing Forge class
 12.10.0  - [API] Deprecated `getWorld` function in favor of `getLevel`
            - `getLevel` returns the `ServerLevel` instance on `IServerAccessor`
          - Added French translation (#357)
