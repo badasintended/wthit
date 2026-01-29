@@ -18,7 +18,15 @@ public class ToolMaterialMixin {
     @Inject(method = "<init>", at = @At("TAIL"))
     private void wthit_init(CallbackInfo ci) {
         if (wthit_stackWalker == null) wthit_stackWalker = StackWalker.getInstance(StackWalker.Option.RETAIN_CLASS_REFERENCE);
-        IMixinService.INSTANCE.addToolMaterialInstance((ToolMaterial) (Object) this, wthit_stackWalker.getCallerClass());
+
+        var caller = wthit_stackWalker.walk(s -> s
+            .skip(2)
+            .map(StackWalker.StackFrame::getDeclaringClass)
+            .findFirst()
+            .orElse(null));
+        if (caller == null) caller = wthit_stackWalker.getCallerClass();
+
+        IMixinService.INSTANCE.addToolMaterialInstance((ToolMaterial) (Object) this, caller);
     }
 
 }

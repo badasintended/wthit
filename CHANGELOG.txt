@@ -1,5 +1,10 @@
 18.x - 1.21.11 - dev/1.21.11 - java 21
 ======================================
+18.2.0   - [API] Deprecated `getWorld` function in favor of `getLevel`
+           - `getLevel` returns the `ServerLevel` instance on `IServerAccessor`
+         - Added French translation (#357)
+         - Added log messages of material origin when tier failed to be resolved
+         - Fixed error with absorption health value (#356)
 18.1.0   - Added lectern book tooltip
          - Changed horse stats formula
          - Fixed cursor jumping when switching from plugin toggle screen
@@ -12,6 +17,11 @@
 
 17.x - 1.21.10 - dev/1.21.10 - java 21
 ======================================
+17.5.0   - [API] Deprecated `getWorld` function in favor of `getLevel`
+           - `getLevel` returns the `ServerLevel` instance on `IServerAccessor`
+         - Added French translation (#357)
+         - Added log messages of material origin when tier failed to be resolved
+         - Fixed error with absorption health value (#356)
 17.4.0   - Added lectern book tooltip
          - Changed horse stats formula
          - Fixed cursor jumping when switching from plugin toggle screen
@@ -71,6 +81,10 @@
 
 14.x - 1.21.4 - dev/1.21.4 - java 21
 ====================================
+14.6.0   - [API] Deprecated `getWorld` function in favor of `getLevel`
+           - `getLevel` returns the `ServerLevel` instance on `IServerAccessor`
+         - Added French translation (#357)
+         - Added log messages of material origin when tier failed to be resolved
 14.5.0   - Added lectern book tooltip
          - Changed horse stats formula
          - Fixed cursor jumping when switching from plugin toggle screen
@@ -120,6 +134,10 @@
 
 12.x - 1.21.1 - dev/1.21.1 - java 21
 ====================================
+12.10.0  - [API] Deprecated `getWorld` function in favor of `getLevel`
+           - `getLevel` returns the `ServerLevel` instance on `IServerAccessor`
+         - Added French translation (#357)
+         - Added log messages of material origin when tier failed to be resolved
 12.9.0   - Added lectern book tooltip
          - Changed horse stats formula
          - Fixed cursor jumping when switching from plugin toggle screen
@@ -248,6 +266,9 @@
 
 10.x - 1.20.4 - dev/1.20.4 - java 17
 ====================================
+10.11.0  - [API] Deprecated `getWorld` function in favor of `getLevel`
+           - `getLevel` returns the `ServerLevel` instance on `IServerAccessor`
+         - Added French translation (#357)
 10.10.2  - Changed status from EOL to maintained
            - Ported all changes from the 1.20.1 branch
          - Added lectern book tooltip
@@ -418,6 +439,9 @@
 
 8.x - 1.20.1 - dev/1.20.1 - java 17
 ===================================
+8.21.0   - [API] Deprecated `getWorld` function in favor of `getLevel`
+           - `getLevel` returns the `ServerLevel` instance on `IServerAccessor`
+         - Added French translation (#357)
 8.20.0   - Added lectern book tooltip
          - Changed horse stats formula
          - Fixed cursor jumping when switching from plugin toggle screen
@@ -690,6 +714,9 @@
 
 5.x - 1.19.2 - dev/1.19.2 - java 17
 ===================================
+5.36.0   - [API] Deprecated `getWorld` function in favor of `getLevel`
+           - `getLevel` returns the `ServerLevel` instance on `IServerAccessor`
+         - Added French translation (#357)
 5.35.0   - Added lectern book tooltip
          - Changed horse stats formula
 5.34.3   - Fixed server spam when WTHIT is not installed on the server
