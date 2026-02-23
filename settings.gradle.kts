@@ -7,6 +7,7 @@ pluginManagement {
         maven("https://maven.minecraftforge.net/")
         maven("https://maven.quiltmc.org/repository/release")
         maven("https://repo.spongepowered.org/repository/maven-public")
+        maven("https://repo.papermc.io/repository/maven-public/")
     }
 
     resolutionStrategy.eachPlugin {
@@ -34,4 +35,5 @@ platform("fabric")
 platform("forge")
 platform("neo")
 platform("textile")
+platform("paper")
 //platform("quilt")

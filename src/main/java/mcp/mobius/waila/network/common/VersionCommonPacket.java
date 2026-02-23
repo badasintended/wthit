@@ -28,6 +28,7 @@ public class VersionCommonPacket implements Packet {
         ConfigPackets.registerServerChannel(TYPE, CODEC);
         ConfigPackets.registerClientChannel(TYPE, CODEC);
         PlayPackets.registerServerChannel(TYPE, CODEC);
+        PlayPackets.registerClientChannel(TYPE, CODEC);
 
         ConfigPackets.registerServerReceiver(TYPE, (context, payload) -> receive(context.handler()::disconnect, payload));
         PlayPackets.registerServerReceiver(TYPE, (context, payload) -> receive(context.handler()::disconnect, payload));
@@ -38,6 +39,12 @@ public class VersionCommonPacket implements Packet {
         ConfigPackets.registerClientReceiver(TYPE, (context, payload) -> {
             receive(context::disconnect, payload);
             ClientAccessor.INSTANCE.hasServer = true;
+        });
+
+        PlayPackets.registerClientReceiver(TYPE, (context, payload) -> {
+            if (payload.version() == NETWORK_VERSION) {
+                ClientAccessor.INSTANCE.hasServer = true;
+            }
         });
     }
 

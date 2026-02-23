@@ -57,6 +57,13 @@ public class Packets {
         PACKETS.forEach(Packet::client);
 
         ConfigPackets.registerClientReadyCallback(Packets::sendVersionPacket);
+
+        // Paper servers don't have config stage, handshake happens on play stage
+        PlayPackets.registerClientReadyCallback(context -> {
+            if (context.canSend(VersionCommonPacket.TYPE)) {
+                sendVersionPacket(context);
+            }
+        });
     }
 
     private static boolean sendVersionPacket(PacketSender sender) {

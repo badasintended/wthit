@@ -1,0 +1,10 @@
+name: wthit
+version: ${version}
+main: mcp.mobius.waila.paper.PaperWaila
+api-version: '1.21'
+description: Server companion plugin for WTHIT
+authors:
+  - deirn
+  - TehNut
+  - ProfMobius
+website: https://github.com/badasintended/wthit
