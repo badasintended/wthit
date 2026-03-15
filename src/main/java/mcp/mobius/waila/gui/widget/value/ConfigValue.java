@@ -9,7 +9,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import mcp.mobius.waila.gui.widget.ConfigListWidget;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
@@ -59,7 +59,7 @@ public abstract class ConfigValue<T, C extends ConfigValue<T, C>> extends Config
     }
 
     @Override
-    protected void drawEntry(GuiGraphics ctx, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
+    protected void drawEntry(GuiGraphicsExtractor ctx, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
         var title = getTitle();
 
         if (isDisabled()) title.withStyle(ChatFormatting.STRIKETHROUGH, ChatFormatting.GRAY);
@@ -67,7 +67,7 @@ public abstract class ConfigValue<T, C extends ConfigValue<T, C>> extends Config
         else if (!value.equals(initialValue)) title.withStyle(ChatFormatting.ITALIC, ChatFormatting.YELLOW);
         else title.withStyle(ChatFormatting.RESET);
 
-        ctx.drawString(client.font, title.copy(), rowLeft, rowTop + (height - client.font.lineHeight) / 2, 0xFFFFFFFF);
+        ctx.text(client.font, title.copy(), rowLeft, rowTop + (height - client.font.lineHeight) / 2, 0xFFFFFFFF);
 
         var w = width;
         if (resetButton != null) {
@@ -75,14 +75,14 @@ public abstract class ConfigValue<T, C extends ConfigValue<T, C>> extends Config
             resetButton.setX(rowLeft + width - resetButton.getWidth());
             resetButton.setY(rowTop + (height - resetButton.getHeight()) / 2);
             resetButton.active = !isValueValid() || (!isDisabled() && !getValue().equals(defaultValue));
-            resetButton.render(ctx, mouseX, mouseY, deltaTime);
+            resetButton.extractRenderState(ctx, mouseX, mouseY, deltaTime);
         }
 
         drawValue(ctx, w, height, rowLeft, rowTop, mouseX, mouseY, hovered, deltaTime);
         this.x = rowLeft;
     }
 
-    public void renderTooltip(GuiGraphics ctx, int mouseX, int mouseY) {
+    public void renderTooltip(GuiGraphicsExtractor ctx, int mouseX, int mouseY) {
         for (var child : children()) {
             if (child instanceof AbstractWidget widget) {
                 var x1 = widget.getX() - 2;
@@ -214,6 +214,6 @@ public abstract class ConfigValue<T, C extends ConfigValue<T, C>> extends Config
         this.id = id;
     }
 
-    protected abstract void drawValue(GuiGraphics ctx, int width, int height, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks);
+    protected abstract void drawValue(GuiGraphicsExtractor ctx, int width, int height, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks);
 
 }

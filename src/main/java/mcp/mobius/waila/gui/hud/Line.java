@@ -13,7 +13,7 @@ import mcp.mobius.waila.api.ITooltipLine;
 import mcp.mobius.waila.api.component.WrappedComponent;
 import mcp.mobius.waila.registry.PluginAware;
 import net.minecraft.client.DeltaTracker;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import org.jspecify.annotations.Nullable;
@@ -142,7 +142,7 @@ public class Line implements ITooltipLine {
         return height;
     }
 
-    public void render(ComponentRenderer renderer, GuiGraphics ctx, int x, int y, DeltaTracker delta) {
+    public void render(ComponentRenderer renderer, GuiGraphicsExtractor ctx, int x, int y, DeltaTracker delta) {
         Preconditions.checkState(width != -1 && height != -1);
 
         var cx = x;

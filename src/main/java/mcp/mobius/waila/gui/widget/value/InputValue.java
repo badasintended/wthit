@@ -4,7 +4,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import mcp.mobius.waila.mixin.EditBoxAccess;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
@@ -66,11 +66,11 @@ public class InputValue<T> extends ConfigValue<T, InputValue<T>> {
     }
 
     @Override
-    protected void drawValue(GuiGraphics ctx, int width, int height, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks) {
+    protected void drawValue(GuiGraphicsExtractor ctx, int width, int height, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks) {
         textField.setEditable(!isDisabled());
         textField.setX(x + width - textField.getWidth());
         textField.setY(y + (height - textField.getHeight()) / 2);
-        textField.render(ctx, mouseX, mouseY, partialTicks);
+        textField.extractRenderState(ctx, mouseX, mouseY, partialTicks);
     }
 
     @Override

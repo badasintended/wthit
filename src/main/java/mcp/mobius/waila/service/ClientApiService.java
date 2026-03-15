@@ -6,22 +6,22 @@ import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.__internal__.IClientApiService;
 import mcp.mobius.waila.gui.hud.ComponentRenderer;
-import mcp.mobius.waila.mixin.GuiGraphicsAccess;
+import mcp.mobius.waila.mixin.GuiGraphicsExtractorAccess;
 import mcp.mobius.waila.util.DisplayUtil;
 import net.minecraft.client.DeltaTracker;
-import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.gui.render.state.GuiRenderState;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.renderer.state.gui.GuiRenderState;
 import org.joml.Matrix3x2f;
 
 public abstract class ClientApiService implements IClientApiService {
 
     @Override
-    public GuiRenderState getRenderState(GuiGraphics ctx) {
-        return ((GuiGraphicsAccess) ctx).wthit_guiRenderState();
+    public GuiRenderState getRenderState(GuiGraphicsExtractor ctx) {
+        return ((GuiGraphicsExtractorAccess) ctx).wthit_guiRenderState();
     }
 
     @Override
-    public void renderComponent(GuiGraphics ctx, ITooltipComponent component, int x, int y, DeltaTracker delta) {
+    public void renderComponent(GuiGraphicsExtractor ctx, ITooltipComponent component, int x, int y, DeltaTracker delta) {
         ComponentRenderer.get().render(ctx, component, x, y, component.getWidth(), component.getHeight(), delta);
     }
 

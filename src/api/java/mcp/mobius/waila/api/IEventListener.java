@@ -2,7 +2,7 @@ package mcp.mobius.waila.api;
 
 import java.awt.*;
 
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
@@ -35,7 +35,7 @@ public interface IEventListener {
      * @param rect      the position and dimension of the tooltip, you can modify this to transform the tooltip
      * @param canceller call {@link Canceller#cancel()} to cancel this event, if canceled, the tooltip will not render
      */
-    default void onBeforeTooltipRender(GuiGraphics ctx, Rectangle rect, ICommonAccessor accessor, IPluginConfig config, Canceller canceller) {
+    default void onBeforeTooltipRender(GuiGraphicsExtractor ctx, Rectangle rect, ICommonAccessor accessor, IPluginConfig config, Canceller canceller) {
     }
 
     /**
@@ -43,7 +43,7 @@ public interface IEventListener {
      *
      * @param rect the position and dimension of the tooltip
      */
-    default void onAfterTooltipRender(GuiGraphics ctx, Rectangle rect, ICommonAccessor accessor, IPluginConfig config) {
+    default void onAfterTooltipRender(GuiGraphicsExtractor ctx, Rectangle rect, ICommonAccessor accessor, IPluginConfig config) {
     }
 
     /**

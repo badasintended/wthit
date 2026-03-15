@@ -13,11 +13,11 @@ import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.util.WRenders;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.client.gui.render.TextureSetup;
-import net.minecraft.client.gui.render.state.GuiElementRenderState;
 import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.renderer.state.gui.GuiElementRenderState;
 import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.resources.Identifier;
@@ -104,8 +104,8 @@ public class NinePatchTheme implements ITheme {
     }
 
     @Override
-    public void renderTooltipBackground(GuiGraphics ctx, int x, int y, int width, int height, @Range(from = 0x00, to = 0xFF) int alpha, DeltaTracker delta) {
-        WRenders.state(ctx).submitGuiElement(new RenderState(alpha, new Matrix3x2f(ctx.pose()), new ScreenRectangle(x, y, width, height)));
+    public void renderTooltipBackground(GuiGraphicsExtractor ctx, int x, int y, int width, int height, @Range(from = 0x00, to = 0xFF) int alpha, DeltaTracker delta) {
+        WRenders.state(ctx).addGuiElement(new RenderState(alpha, new Matrix3x2f(ctx.pose()), new ScreenRectangle(x, y, width, height)));
     }
 
     private class RenderState implements GuiElementRenderState {

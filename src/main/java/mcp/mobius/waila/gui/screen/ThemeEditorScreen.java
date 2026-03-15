@@ -21,7 +21,7 @@ import mcp.mobius.waila.gui.widget.value.InputValue;
 import mcp.mobius.waila.gui.widget.value.IntInputValue;
 import mcp.mobius.waila.registry.Registrar;
 import mcp.mobius.waila.util.TypeUtil;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.toasts.SystemToast;
 import net.minecraft.client.gui.screens.ConfirmScreen;
 import net.minecraft.network.chat.CommonComponents;
@@ -180,7 +180,7 @@ class ThemeEditorScreen extends ConfigScreen {
     }
 
     @Override
-    protected void renderForeground(GuiGraphics ctx, int rowLeft, int rowWidth, int mouseX, int mouseY, float partialTicks) {
+    protected void renderForeground(GuiGraphicsExtractor ctx, int rowLeft, int rowWidth, int mouseX, int mouseY, float partialTicks) {
         TooltipRenderer.render(ctx, minecraft.getDeltaTracker());
     }
 

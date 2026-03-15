@@ -14,7 +14,7 @@ import mcp.mobius.waila.gui.hud.TooltipHandler;
 import mcp.mobius.waila.gui.hud.TooltipRenderer;
 import mcp.mobius.waila.util.Log;
 import net.minecraft.client.DeltaTracker;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.Component;
 
@@ -51,8 +51,8 @@ public class InspectorScreen extends YesIAmSureTheClientInstanceIsPresentByTheTi
     }
 
     @Override
-    public void render(GuiGraphics ctx, int mouseX, int mouseY, float tickDelta) {
-        super.render(ctx, mouseX, mouseY, tickDelta);
+    public void extractRenderState(GuiGraphicsExtractor ctx, int mouseX, int mouseY, float tickDelta) {
+        super.extractRenderState(ctx, mouseX, mouseY, tickDelta);
 
         if (!hoveredComponent.isEmpty()) {
             var h = minecraft.font.lineHeight + 2;
@@ -61,21 +61,21 @@ public class InspectorScreen extends YesIAmSureTheClientInstanceIsPresentByTheTi
             if (component instanceof InspectComponent wrapper) component = wrapper.actual;
             var clazz = component.getClass().getName();
             if (clazz.startsWith(API_COMPONENTS)) clazz = clazz.substring(API_COMPONENTS.length());
-            ctx.drawString(minecraft.font, Component.literal(clazz), 5, 5, 0xFFFFFFFF);
+            ctx.text(minecraft.font, Component.literal(clazz), 5, 5, 0xFFFFFFFF);
 
             var y = 1;
             var wrapper = (InspectComponent) hoveredComponent.getLast();
             var tag = wrapper.tag == null ? null : wrapper.tag.toString();
-            if (tag != null) ctx.drawString(minecraft.font, Component.translatable(Tl.Gui.Inspector.TAG, tag), 5, 5 + h * (y++), 0xFFFFFFFF);
+            if (tag != null) ctx.text(minecraft.font, Component.translatable(Tl.Gui.Inspector.TAG, tag), 5, 5 + h * (y++), 0xFFFFFFFF);
 
             var provider = wrapper.origin.instance().getClass().getName();
-            ctx.drawString(minecraft.font, Component.translatable(Tl.Gui.Inspector.PROVIDER, provider), 5, 5 + h * (y++), 0xFFFFFFFF);
+            ctx.text(minecraft.font, Component.translatable(Tl.Gui.Inspector.PROVIDER, provider), 5, 5 + h * (y++), 0xFFFFFFFF);
 
             var pluginId = wrapper.origin.plugin().getPluginId().toString();
-            ctx.drawString(minecraft.font, Component.translatable(Tl.Gui.Inspector.PLUGIN_ID, pluginId), 5, 5 + h * (y++), 0xFFFFFFFF);
+            ctx.text(minecraft.font, Component.translatable(Tl.Gui.Inspector.PLUGIN_ID, pluginId), 5, 5 + h * (y++), 0xFFFFFFFF);
 
             var mod = wrapper.origin.plugin().getModInfo();
-            ctx.drawString(minecraft.font, Component.translatable(Tl.Gui.Inspector.MOD, mod.getName(), mod.getId()), 5, 5 + h * y, 0xFFFFFFFF);
+            ctx.text(minecraft.font, Component.translatable(Tl.Gui.Inspector.MOD, mod.getName(), mod.getId()), 5, 5 + h * y, 0xFFFFFFFF);
         }
 
         if (tickSuccess) {
@@ -119,7 +119,7 @@ public class InspectorScreen extends YesIAmSureTheClientInstanceIsPresentByTheTi
         int mouseX, mouseY;
 
         @Override
-        public void render(GuiGraphics ctx, ITooltipComponent component, int x, int y, int cw, int ch, DeltaTracker delta) {
+        public void render(GuiGraphicsExtractor ctx, ITooltipComponent component, int x, int y, int cw, int ch, DeltaTracker delta) {
             component.render(ctx, x, y, delta);
 
             var v = 0.3f;

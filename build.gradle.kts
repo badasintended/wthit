@@ -4,7 +4,7 @@ import java.nio.charset.StandardCharsets
 
 plugins {
     java
-    id("fabric-loom") version "1.13.4"
+    id("net.fabricmc.fabric-loom") version "1.15.5"
     id("maven-publish")
 }
 
@@ -43,17 +43,17 @@ allprojects {
     }
 
     java {
-        toolchain.languageVersion.set(JavaLanguageVersion.of(21))
+        toolchain.languageVersion.set(JavaLanguageVersion.of(25))
 
-        sourceCompatibility = JavaVersion.VERSION_21
-        targetCompatibility = JavaVersion.VERSION_21
+        sourceCompatibility = JavaVersion.VERSION_25
+        targetCompatibility = JavaVersion.VERSION_25
 
         withSourcesJar()
     }
 
     tasks.withType<JavaCompile> {
         options.encoding = StandardCharsets.UTF_8.name()
-        options.release.set(21)
+        options.release.set(25)
     }
 
     tasks.withType<ProcessResources> {
@@ -113,7 +113,6 @@ subprojects {
 
 dependencies {
     minecraft("com.mojang:minecraft:${rootProp["minecraft"]}")
-    mappings(loom.officialMojangMappings())
 
     compileOnly("lol.bai:badpackets:mojmap-${rootProp["badpackets"]}")
     compileOnly("org.spongepowered:mixin:0.8.5")
@@ -172,6 +171,8 @@ dependencies {
 
     testImplementation(platform("org.junit:junit-bom:5.10.2"))
     testImplementation("org.junit.jupiter:junit-jupiter")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine")
 }
 
 loom {
@@ -214,7 +215,7 @@ tasks {
         test.set(true)
     }
 
-    listOf(remapJar, remapSourcesJar, generateRemapClasspath, generateDLIConfig).applyEach {
+    listOf(generateDLIConfig).applyEach {
         configure { enabled = false }
     }
 }

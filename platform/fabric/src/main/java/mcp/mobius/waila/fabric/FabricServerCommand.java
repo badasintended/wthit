@@ -23,7 +23,7 @@ public class FabricServerCommand extends ServerCommand {
                 var offHandStack = player.getOffhandItem();
                 var item = !offHandStack.isEmpty()
                     ? offHandStack.getItem()
-                    : BuiltInRegistries.ITEM.getRandom(world.random).orElseThrow().value();
+                    : BuiltInRegistries.ITEM.getRandom(world.getRandom()).orElseThrow().value();
 
                 if (storage.insert(ItemVariant.of(item), item.getDefaultMaxStackSize(), tx) == 0L) break;
             }

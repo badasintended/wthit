@@ -27,7 +27,7 @@ import mcp.mobius.waila.registry.Registrar;
 import mcp.mobius.waila.util.ProfilerUtil;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.ChatScreen;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
@@ -189,13 +189,13 @@ public class TooltipRenderer {
         state = null;
     }
 
-    public static void render(GuiGraphics ctx, DeltaTracker delta) {
+    public static void render(GuiGraphicsExtractor ctx, DeltaTracker delta) {
         try (var ignored = ProfilerUtil.profile("wthit:render")) {
             _render(ctx, delta);
         }
     }
 
-    private static void _render(GuiGraphics ctx, DeltaTracker delta) {
+    private static void _render(GuiGraphicsExtractor ctx, DeltaTracker delta) {
         var client = Minecraft.getInstance();
 
         if (WailaClient.showFps) {
@@ -204,7 +204,7 @@ public class TooltipRenderer {
             var y0 = client.getWindow().getGuiScaledHeight() - client.font.lineHeight - 1;
             var y1 = y0 + client.font.lineHeight + 2;
             ctx.fill(0, y0, x1, y1, 0x90505050);
-            ctx.drawString(client.font, fpsString, 1, y0 + 1, 0xFFE0E0E0, false);
+            ctx.text(client.font, fpsString, 1, y0 + 1, 0xFFE0E0E0, false);
         }
 
         if (state == null || !state.render()) return;
@@ -265,13 +265,13 @@ public class TooltipRenderer {
 //        RenderSystem.disableBlend();
     }
 
-    private static void renderUncached(GuiGraphics ctx, DeltaTracker delta) {
+    private static void renderUncached(GuiGraphicsExtractor ctx, DeltaTracker delta) {
         try (var ignored = ProfilerUtil.profile("wthit:render_uncached")) {
             _renderUncached(ctx, delta);
         }
     }
 
-    private static void _renderUncached(GuiGraphics ctx, DeltaTracker delta) {
+    private static void _renderUncached(GuiGraphicsExtractor ctx, DeltaTracker delta) {
         Objects.requireNonNull(state);
         var renderer = ComponentRenderer.get();
         var scale = state.getScale();

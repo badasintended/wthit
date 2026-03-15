@@ -1,7 +1,7 @@
 package mcp.mobius.waila.gui.widget;
 
 import com.google.common.collect.ImmutableList;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.network.chat.Component;
@@ -36,11 +36,11 @@ public class ButtonEntry extends ConfigListWidget.Entry {
     }
 
     @Override
-    protected void drawEntry(GuiGraphics ctx, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
-        ctx.drawString(client.font, title, rowLeft, rowTop + (height - client.font.lineHeight) / 2, 0xFFFFFFFF);
+    protected void drawEntry(GuiGraphicsExtractor ctx, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
+        ctx.text(client.font, title, rowLeft, rowTop + (height - client.font.lineHeight) / 2, 0xFFFFFFFF);
         this.button.setX(rowLeft + width - button.getWidth());
         this.button.setY(rowTop + (height - button.getHeight()) / 2);
-        this.button.render(ctx, mouseX, mouseY, deltaTime);
+        this.button.extractRenderState(ctx, mouseX, mouseY, deltaTime);
     }
 
     @Override

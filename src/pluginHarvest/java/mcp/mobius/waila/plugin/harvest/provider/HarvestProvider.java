@@ -22,7 +22,7 @@ import mcp.mobius.waila.plugin.harvest.config.Options;
 import mcp.mobius.waila.plugin.harvest.tool.ToolTier;
 import mcp.mobius.waila.plugin.harvest.tool.ToolType;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -176,7 +176,7 @@ public enum HarvestProvider implements IBlockComponentProvider, IEventListener {
     }
 
     @Override
-    public void onAfterTooltipRender(GuiGraphics ctx, Rectangle rect, ICommonAccessor accessor, IPluginConfig config) {
+    public void onAfterTooltipRender(GuiGraphicsExtractor ctx, Rectangle rect, ICommonAccessor accessor, IPluginConfig config) {
         if (!renderComponents) return;
 
         for (var component : toolComponents) {

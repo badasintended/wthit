@@ -29,7 +29,7 @@ public class FabricWailaClient extends WailaClient implements ClientModInitializ
 
         ClientCommandRegistrationCallback.EVENT.register((dispatcher, registryAccess) -> new FabricClientCommand().register(dispatcher));
 
-        ResourceLoader.get(PackType.CLIENT_RESOURCES).registerReloader(BuiltinThemeLoader.ID, new BuiltinThemeLoader());
+        ResourceLoader.get(PackType.CLIENT_RESOURCES).registerReloadListener(BuiltinThemeLoader.ID, new BuiltinThemeLoader());
     }
 
 }

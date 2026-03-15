@@ -2,7 +2,7 @@ package mcp.mobius.waila.api.component;
 
 import mcp.mobius.waila.api.ITooltipComponent;
 import net.minecraft.client.DeltaTracker;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 
 /**
  * Component that renders a horizontal progress bar.
@@ -43,7 +43,7 @@ public class ProgressBarComponent implements ITooltipComponent.HorizontalGrowing
     }
 
     @Override
-    public void render(GuiGraphics ctx, int x, int y, DeltaTracker delta) {
+    public void render(GuiGraphicsExtractor ctx, int x, int y, DeltaTracker delta) {
         var x1 = x;
         var x2 = x + ((int) (width * progress));
         var y2 = y + height;

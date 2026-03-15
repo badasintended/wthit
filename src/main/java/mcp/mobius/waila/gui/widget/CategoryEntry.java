@@ -15,7 +15,7 @@ import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.gui.widget.value.ConfigValue;
 import mcp.mobius.waila.util.DisplayUtil;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.Tooltip;
 import net.minecraft.client.gui.components.events.GuiEventListener;
@@ -150,21 +150,21 @@ public class CategoryEntry extends ConfigListWidget.Entry {
     }
 
     @Override
-    protected void drawEntry(GuiGraphics ctx, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
+    protected void drawEntry(GuiGraphicsExtractor ctx, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
         var buttonY = rowTop + (height - collapseButton.getHeight()) / 2;
         var hasFilter = list.filter != null;
 
         collapseButton.active = !hasFilter;
         collapseButton.setX(rowLeft);
         collapseButton.setY(buttonY);
-        collapseButton.render(ctx, mouseX, mouseY, deltaTime);
-        ctx.drawString(client.font, title, rowLeft + collapseButton.getWidth() + 4, rowTop + ((height - client.font.lineHeight) / 2) + 1, 0xFFFFFFFF);
+        collapseButton.extractRenderState(ctx, mouseX, mouseY, deltaTime);
+        ctx.text(client.font, title, rowLeft + collapseButton.getWidth() + 4, rowTop + ((height - client.font.lineHeight) / 2) + 1, 0xFFFFFFFF);
 
         expandAllButton.active = hasNested && !hasFilter;
         if (expandAllButton.active) {
             expandAllButton.setX(rowLeft + width - expandAllButton.getWidth());
             expandAllButton.setY(buttonY);
-            expandAllButton.render(ctx, mouseX, mouseY, deltaTime);
+            expandAllButton.extractRenderState(ctx, mouseX, mouseY, deltaTime);
         }
 
         if (!collapsed) {

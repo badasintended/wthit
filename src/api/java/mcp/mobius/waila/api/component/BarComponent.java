@@ -5,7 +5,7 @@ import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.__internal__.ApiSide;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
@@ -65,7 +65,7 @@ public class BarComponent implements ITooltipComponent {
     }
 
     @Override
-    public void render(GuiGraphics ctx, int x, int y, DeltaTracker delta) {
+    public void render(GuiGraphicsExtractor ctx, int x, int y, DeltaTracker delta) {
         renderBar(ctx, x, y, WIDTH, V0_BG, color);
         renderBar(ctx, x, y, (int) (WIDTH * ratio), V0_FG, color);
 
@@ -74,14 +74,14 @@ public class BarComponent implements ITooltipComponent {
     }
 
     static void renderBar(
-        GuiGraphics ctx,
+        GuiGraphicsExtractor ctx,
         int x, int y, int w,
         float v0, int tint
     ) {
         ctx.blit(RenderPipelines.GUI_TEXTURED, WailaConstants.COMPONENT_TEXTURE, x, y, U0, v0, w, HEIGHT, 256, 256, tint);
     }
 
-    static void renderText(GuiGraphics ctx, Component text, int x, int y) {
+    static void renderText(GuiGraphicsExtractor ctx, Component text, int x, int y) {
         var font = Minecraft.getInstance().font;
         var textWidth = font.width(text);
         var textX = x + (int) Math.max((BarComponent.WIDTH - textWidth) / 2F, 0F);
@@ -91,11 +91,11 @@ public class BarComponent implements ITooltipComponent {
         for (var i = -1; i <= 1; i++) {
             for (var j = -1; j <= 1; j++) {
                 if (i != 0 || j != 0) {
-                    ctx.drawString(font, formatted, textX + i, textY + j, 0xFF292929, false);
+                    ctx.text(font, formatted, textX + i, textY + j, 0xFF292929, false);
                 }
             }
         }
-        ctx.drawString(font, formatted, textX, textY, 0xFFAAAAAA, false);
+        ctx.text(font, formatted, textX, textY, 0xFFAAAAAA, false);
     }
 
 }

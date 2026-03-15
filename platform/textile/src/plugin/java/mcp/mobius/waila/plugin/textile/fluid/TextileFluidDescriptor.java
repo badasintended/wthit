@@ -6,6 +6,7 @@ import mcp.mobius.waila.api.data.FluidData.FluidDescription;
 import mcp.mobius.waila.api.data.FluidData.FluidDescriptionContext;
 import mcp.mobius.waila.api.data.FluidData.FluidDescriptor;
 import mcp.mobius.waila.api.fabric.FabricFluidData;
+import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderingRegistry;
 import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
 import net.fabricmc.fabric.api.transfer.v1.fluid.CauldronFluidContent;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
@@ -22,14 +23,15 @@ public enum TextileFluidDescriptor implements FluidDescriptor<Fluid>, CauldronDe
 
     @Override
     public void describeFluid(FluidDescriptionContext<Fluid> ctx, FluidDescription desc) {
-        var variant = FluidVariant.of(ctx.fluid(), ctx.data());
-        desc.name(FluidVariantAttributes.getName(variant));
+        // TODO(26.1)
+        // var variant = FluidVariant.of(ctx.fluid(), ctx.data());
+        // desc.name(FluidVariantAttributes.getName(variant));
 
-        var sprite = FluidVariantRendering.getSprite(variant);
-        if (sprite != null) {
-            desc.sprite(sprite)
-                .tint(FluidVariantRendering.getColor(variant));
-        }
+        // var sprite = FluidVariantRendering.getSprite(variant);
+        // if (sprite != null) {
+        //     desc.sprite(sprite)
+        //         .tint(FluidVariantRendering.getColor(variant));
+        // }
     }
 
     @Override

@@ -1,35 +1,34 @@
 evaluationDependsOn(":textile")
 
 plugins {
-    id("fabric-loom")
+    id("net.fabricmc.fabric-loom")
 }
 
 setupPlatform()
 
 dependencies {
     minecraft("com.mojang:minecraft:${rootProp["minecraft"]}")
-    mappings(loom.officialMojangMappings())
-    modImplementation("net.fabricmc:fabric-loader:${rootProp["fabricLoader"]}")
+    implementation("net.fabricmc:fabric-loader:${rootProp["fabricLoader"]}")
 
-    modCompileRuntime("net.fabricmc.fabric-api:fabric-api:${rootProp["fabricApi"]}")
+    compileRuntime("net.fabricmc.fabric-api:fabric-api:${rootProp["fabricApi"]}")
 
-    modCompileOnly("com.terraformersmc:modmenu:${rootProp["modMenu"]}")
+    compileOnly("com.terraformersmc:modmenu:${rootProp["modMenu"]}")
 
-    modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:${rootProp["rei"]}")
-    modCompileOnly("dev.emi:emi-fabric:${rootProp["emi"]}")
+    compileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:${rootProp["rei"]}")
+    compileOnly("dev.emi:emi-fabric:${rootProp["emi"]}")
 
-    modRuntimeOnly("lol.bai:badpackets:fabric-${rootProp["badpackets"]}")
-    modRuntimeOnly("net.fabricmc.fabric-api:fabric-api-deprecated:${rootProp["fabricApi"]}")
-//    modRuntimeOnly("dev.architectury:architectury-fabric:${rootProp["architectury"]}")
-//    modRuntimeOnly("me.shedaniel.cloth:cloth-config-fabric:${rootProp["clothConfig"]}")
+    runtimeOnly("lol.bai:badpackets:fabric-${rootProp["badpackets"]}")
+    runtimeOnly("net.fabricmc.fabric-api:fabric-api-deprecated:${rootProp["fabricApi"]}")
+//    runtimeOnly("dev.architectury:architectury-fabric:${rootProp["architectury"]}")
+//    runtimeOnly("me.shedaniel.cloth:cloth-config-fabric:${rootProp["clothConfig"]}")
 
-//    modRuntimeOnly("TechReborn:TechReborn-1.20:5.8.1")
+//    runtimeOnly("TechReborn:TechReborn-1.20:5.8.1")
 
     when (rootProp["recipeViewer"]) {
-        "emi" -> modRuntimeOnly("dev.emi:emi:${rootProp["emi"]}")
-        "rei" -> modRuntimeOnly("me.shedaniel:RoughlyEnoughItems-fabric:${rootProp["rei"]}")
+        "emi" -> runtimeOnly("dev.emi:emi:${rootProp["emi"]}")
+        "rei" -> runtimeOnly("me.shedaniel:RoughlyEnoughItems-fabric:${rootProp["rei"]}")
         "jei" -> rootProp["jei"].split("-").also { (mc, jei) ->
-            modRuntimeOnly("mezz.jei:jei-${mc}-fabric:${jei}")
+            runtimeOnly("mezz.jei:jei-${mc}-fabric:${jei}")
         }
     }
 }
@@ -93,21 +92,21 @@ tasks.processResources {
 }
 
 afterEvaluate {
-    val remapJar = tasks.remapJar
+    val jar = tasks.jar
     val apiJar by tasks.registering(ApiJarTask::class) {
-        fullJar(remapJar)
+        fullJar(jar)
     }
 
-    val remapSourcesJar = tasks.remapSourcesJar
+    val sourcesJar = tasks.sourcesJar
     val apiSourcesJar by tasks.registering(ApiJarTask::class) {
-        fullJar(remapSourcesJar)
+        fullJar(sourcesJar)
     }
 
     upload {
-        curseforge(remapJar)
-        modrinth(remapJar)
+        curseforge(jar)
+        modrinth(jar)
         maven(apiJar, apiSourcesJar, suffix = "api")
-        maven(remapJar, remapSourcesJar) {
+        maven(jar, sourcesJar) {
             pom.withDependencies {
                 runtime("lol.bai:badpackets:fabric-${rootProp["badpackets"]}")
             }

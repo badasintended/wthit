@@ -31,7 +31,7 @@ public class GenerateClientDumpPlayS2CPacket implements Packet {
                 Component pathComponent = Component.literal(path.toString()).withStyle(style -> style
                     .withUnderlined(true)
                     .withClickEvent(new ClickEvent.OpenFile(path.toString())));
-                client.player.displayClientMessage(Component.translatable(Tl.Command.CLIENT_DUMP_SUCCESS, pathComponent), false);
+                client.player.sendSystemMessage(Component.translatable(Tl.Command.CLIENT_DUMP_SUCCESS, pathComponent));
             }
         });
     }

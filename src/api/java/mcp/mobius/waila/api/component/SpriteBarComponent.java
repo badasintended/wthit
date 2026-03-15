@@ -6,11 +6,11 @@ import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.util.WRenders;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.client.gui.render.TextureSetup;
-import net.minecraft.client.gui.render.state.GuiElementRenderState;
 import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.renderer.state.gui.GuiElementRenderState;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -58,7 +58,7 @@ public class SpriteBarComponent implements ITooltipComponent {
     }
 
     @Override
-    public void render(GuiGraphics ctx, int x, int y, DeltaTracker delta) {
+    public void render(GuiGraphicsExtractor ctx, int x, int y, DeltaTracker delta) {
         var ps = ctx.pose();
 
         BarComponent.renderBar(ctx, x, y, BarComponent.WIDTH, BarComponent.V0_BG, 0xFFAAAAAA);
@@ -69,7 +69,7 @@ public class SpriteBarComponent implements ITooltipComponent {
             var my = y + BarComponent.HEIGHT;
             ctx.enableScissor(x + 1, y + 1, mx - 1, my - 1);
             ps.pushMatrix();
-            WRenders.state(ctx).submitGuiElement(new ForegroundRenderState(new Matrix3x2f(ps), WRenders.scissor(ctx), new ScreenRectangle(x, y, mw, BarComponent.HEIGHT), mx, my));
+            WRenders.state(ctx).addGuiElement(new ForegroundRenderState(new Matrix3x2f(ps), WRenders.scissor(ctx), new ScreenRectangle(x, y, mw, BarComponent.HEIGHT), mx, my));
             ps.popMatrix();
             ctx.disableScissor();
         }

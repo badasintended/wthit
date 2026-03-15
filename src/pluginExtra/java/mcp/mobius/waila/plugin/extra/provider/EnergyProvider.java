@@ -91,7 +91,7 @@ public class EnergyProvider extends DataProvider<EnergyData, EnergyDataImpl> {
         @Override
         public void appendData(IDataWriter data, IServerAccessor<Entity> accessor, IPluginConfig config) {
             data.add(EnergyData.TYPE, res -> {
-                if (accessor.getTarget().getType().is(INFINITE_ENTITY_TAG)) {
+                if (accessor.getTarget().is(INFINITE_ENTITY_TAG)) {
                     res.add(EnergyData.INFINITE);
                 }
             });

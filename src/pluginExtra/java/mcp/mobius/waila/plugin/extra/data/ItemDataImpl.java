@@ -27,7 +27,7 @@ public class ItemDataImpl extends ItemData {
                 buf.writeBoolean(true);
             } else {
                 buf.writeBoolean(false);
-                ITEM_CODEC.encode(buf, stack.getItemHolder());
+                ITEM_CODEC.encode(buf, stack.typeHolder());
                 buf.writeVarInt(stack.getCount());
                 if (syncNbt) DataComponentPatch.STREAM_CODEC.encode(buf, stack.getComponentsPatch());
             }

@@ -22,7 +22,7 @@ public enum LavaDescriptor implements FluidDescriptor<FlowingFluid>, CauldronDes
     @Override
     public void describeFluid(FluidDescriptionContext<FlowingFluid> ctx, FluidDescription desc) {
         desc.name(NAME)
-            .sprite(Minecraft.getInstance().getModelManager().getBlockModelShaper().getBlockModel(Blocks.LAVA.defaultBlockState()).particleIcon());
+            .sprite(Minecraft.getInstance().getModelManager().getFluidStateModelSet().get(Fluids.LAVA.defaultFluidState()).stillMaterial().sprite());
     }
 
     @Override

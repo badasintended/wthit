@@ -9,7 +9,7 @@ import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.mixed.MMultiPlayerGameMode;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.util.Mth;
 
 public enum BreakProgressProvider implements IEventListener {
@@ -54,7 +54,7 @@ public enum BreakProgressProvider implements IEventListener {
     }
 
     @Override
-    public void onAfterTooltipRender(GuiGraphics ctx, Rectangle rect, ICommonAccessor accessor, IPluginConfig config) {
+    public void onAfterTooltipRender(GuiGraphicsExtractor ctx, Rectangle rect, ICommonAccessor accessor, IPluginConfig config) {
         var dt = Minecraft.getInstance().getDeltaTracker().getRealtimeDeltaTicks();
 
         var progress = lastProgress;
@@ -83,25 +83,25 @@ public enum BreakProgressProvider implements IEventListener {
             var a = (int) (alpha * ((color >> 24) & 0xFF));
             color = (color & 0x00FFFFFF) | (a << 24);
 
-            ctx.hLine(x, x + Math.round(Math.min(lineLength, hLength)) - 1, y, color);
+            ctx.horizontalLine(x, x + Math.round(Math.min(lineLength, hLength)) - 1, y, color);
             lineLength -= hLength;
 
             if (lineLength > 0) {
                 x = rect.x + rect.width - 2;
                 y = rect.y + rect.height - 2;
-                ctx.vLine(x, y, y - Math.round(Math.min(lineLength, vLength)) - 1, color);
+                ctx.verticalLine(x, y, y - Math.round(Math.min(lineLength, vLength)) - 1, color);
                 lineLength -= vLength;
 
                 if (lineLength > 0) {
                     x = rect.x + rect.width - 2;
                     y = rect.y + 1;
-                    ctx.hLine(x, x - Math.round(Math.min(lineLength, hLength)) + 1, y, color);
+                    ctx.horizontalLine(x, x - Math.round(Math.min(lineLength, hLength)) + 1, y, color);
                     lineLength -= hLength;
 
                     if (lineLength > 0) {
                         x = rect.x + 1;
                         y = rect.y + 1;
-                        ctx.vLine(x, y, y + Math.round(Math.min(lineLength, vLength)) + 1, color);
+                        ctx.verticalLine(x, y, y + Math.round(Math.min(lineLength, vLength)) + 1, color);
                     }
                 }
             }

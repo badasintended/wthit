@@ -7,7 +7,7 @@ import mcp.mobius.waila.api.util.WNumbers;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 
@@ -45,15 +45,15 @@ public class NamedItemComponent implements ITooltipComponent {
     }
 
     @Override
-    public void render(GuiGraphics ctx, int x, int y, DeltaTracker delta) {
+    public void render(GuiGraphicsExtractor ctx, int x, int y, DeltaTracker delta) {
         var pose = ctx.pose();
         pose.pushMatrix();
         pose.translate(x, y);
         pose.scale(0.5f, 0.5f);
-        ctx.renderItem(stack, 0, 0);
+        ctx.item(stack, 0, 0);
         pose.popMatrix();
 
-        ctx.drawString(getFont(), label, x + 10, y, IApiService.INSTANCE.getFontColor());
+        ctx.text(getFont(), label, x + 10, y, IApiService.INSTANCE.getFontColor());
     }
 
     private Font getFont() {

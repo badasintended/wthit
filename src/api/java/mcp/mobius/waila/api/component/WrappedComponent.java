@@ -9,7 +9,7 @@ import mcp.mobius.waila.api.__internal__.IApiService;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.Style;
@@ -53,11 +53,11 @@ public class WrappedComponent implements ITooltipComponent {
     }
 
     @Override
-    public void render(GuiGraphics ctx, int x, int y, DeltaTracker delta) {
+    public void render(GuiGraphicsExtractor ctx, int x, int y, DeltaTracker delta) {
         var font = getFont();
 
         for (var line : lines) {
-            ctx.drawString(font, line, x, y, IApiService.INSTANCE.getFontColor());
+            ctx.text(font, line, x, y, IApiService.INSTANCE.getFontColor());
             y += font.lineHeight;
         }
     }

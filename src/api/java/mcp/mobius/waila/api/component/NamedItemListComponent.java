@@ -9,7 +9,7 @@ import mcp.mobius.waila.api.__internal__.IApiService;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Font;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.world.item.ItemStack;
 
 /**
@@ -58,7 +58,7 @@ public class NamedItemListComponent implements ITooltipComponent {
     }
 
     @Override
-    public void render(GuiGraphics ctx, int x, int y, DeltaTracker delta) {
+    public void render(GuiGraphicsExtractor ctx, int x, int y, DeltaTracker delta) {
         var iy = y;
 
         for (var component : components) {
@@ -67,7 +67,7 @@ public class NamedItemListComponent implements ITooltipComponent {
         }
 
         if (hasOverflow) {
-            ctx.drawString(getFont(), MORE, x + 10, iy, IApiService.INSTANCE.getFontColor());
+            ctx.text(getFont(), MORE, x + 10, iy, IApiService.INSTANCE.getFontColor());
         }
     }
 

@@ -55,8 +55,7 @@ public interface TabbedScreen {
             .filter(it -> it.clazz == clazz)
             .findFirst().orElse(null);
 
-        tabs.setWidth(width);
-        tabs.arrangeElements();
+        tabs.updateWidth(width);
         addRenderableWidget.accept(tabs);
 
         if (currentTab != null) {

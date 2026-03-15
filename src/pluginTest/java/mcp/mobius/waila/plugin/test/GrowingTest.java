@@ -7,7 +7,7 @@ import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.WailaConstants;
 import net.minecraft.client.DeltaTracker;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.resources.Identifier;
 
 public enum GrowingTest implements IBlockComponentProvider {
@@ -66,7 +66,7 @@ public enum GrowingTest implements IBlockComponentProvider {
         }
 
         @Override
-        public void render(GuiGraphics ctx, int x, int y, DeltaTracker delta) {
+        public void render(GuiGraphicsExtractor ctx, int x, int y, DeltaTracker delta) {
             ctx.fill(x, y, x + width, y + 10, color);
         }
 

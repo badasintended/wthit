@@ -11,7 +11,7 @@ import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.buildconst.Tl;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.ContainerObjectSelectionList;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
@@ -112,7 +112,7 @@ public class CreditsScreen extends YesIAmSureTheClientInstanceIsPresentByTheTime
         }
 
         @Override
-        protected void renderListSeparators(GuiGraphics ctx) {
+        protected void extractListSeparators(GuiGraphicsExtractor ctx) {
             var texture = this.minecraft.level == null ? Screen.FOOTER_SEPARATOR : Screen.INWORLD_FOOTER_SEPARATOR;
             ctx.blit(RenderPipelines.GUI_TEXTURED, texture, this.getX(), this.getBottom(), 0.0F, 0.0F, this.getWidth(), 2, 32, 2);
         }
@@ -140,7 +140,7 @@ public class CreditsScreen extends YesIAmSureTheClientInstanceIsPresentByTheTime
         }
 
         @Override
-        public void renderContent(GuiGraphics ctx, int mouseX, int mouseY, boolean hovered, float delta) {
+        public void extractContent(GuiGraphicsExtractor ctx, int mouseX, int mouseY, boolean hovered, float delta) {
             if (components.isEmpty()) return;
 
             var rowLeft = getX();
@@ -149,7 +149,7 @@ public class CreditsScreen extends YesIAmSureTheClientInstanceIsPresentByTheTime
 
             for (var i = 0; i < components.size(); i++) {
                 var component = components.get(i);
-                ctx.drawCenteredString(minecraft.font, component, rowLeft + (columnWidth * i) + (columnWidth / 2), rowTop + 3, 0xFFFFFFFF);
+                ctx.centeredText(minecraft.font, component, rowLeft + (columnWidth * i) + (columnWidth / 2), rowTop + 3, 0xFFFFFFFF);
             }
         }
 

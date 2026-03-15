@@ -7,7 +7,7 @@ import mcp.mobius.waila.api.IEventListener;
 import mcp.mobius.waila.api.IPluginConfig;
 import mcp.mobius.waila.api.ITooltip;
 import mcp.mobius.waila.api.WailaConstants;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
@@ -31,7 +31,7 @@ public enum EventListenerTest implements IEventListener {
     }
 
     @Override
-    public void onBeforeTooltipRender(GuiGraphics ctx, Rectangle rect, ICommonAccessor accessor, IPluginConfig config, Canceller canceller) {
+    public void onBeforeTooltipRender(GuiGraphicsExtractor ctx, Rectangle rect, ICommonAccessor accessor, IPluginConfig config, Canceller canceller) {
         if (config.getBoolean(BEFORE_RENDER)) {
             ctx.fill(rect.x, rect.y, rect.x + 20, rect.y + 20, 0xFF0000FF);
             rect.setLocation(rect.x + 25, rect.y + 25);
@@ -39,7 +39,7 @@ public enum EventListenerTest implements IEventListener {
     }
 
     @Override
-    public void onAfterTooltipRender(GuiGraphics ctx, Rectangle rect, ICommonAccessor accessor, IPluginConfig config) {
+    public void onAfterTooltipRender(GuiGraphicsExtractor ctx, Rectangle rect, ICommonAccessor accessor, IPluginConfig config) {
         if (config.getBoolean(AFTER_RENDER)) {
             ctx.fill(rect.x, rect.y, rect.x + 20, rect.y + 20, 0xFF00FFFF);
         }

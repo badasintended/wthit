@@ -4,7 +4,7 @@ import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.__internal__.ApiSide;
 import net.minecraft.client.DeltaTracker;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.world.item.ItemStack;
 import org.jspecify.annotations.Nullable;
@@ -46,17 +46,17 @@ public class ToolComponent implements ITooltipComponent {
     }
 
     @Override
-    public void render(GuiGraphics ctx, int x, int y, DeltaTracker delta) {
+    public void render(GuiGraphicsExtractor ctx, int x, int y, DeltaTracker delta) {
         this.x = x;
     }
 
-    public void actuallyRender(GuiGraphics ctx, int y) {
+    public void actuallyRender(GuiGraphicsExtractor ctx, int y) {
         if (icon != null) {
             ctx.pose().pushMatrix();
             ctx.pose().translate(-2, -2);
             ctx.pose().scale(0.85f, 0.85f);
             ctx.pose().translate(x / 0.85f, y / 0.85f);
-            ctx.renderItem(icon, 0, 0);
+            ctx.item(icon, 0, 0);
             ctx.pose().popMatrix();
         }
 

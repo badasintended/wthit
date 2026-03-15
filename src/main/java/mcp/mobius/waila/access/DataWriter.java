@@ -63,7 +63,7 @@ public enum DataWriter implements IDataWriter {
                 sender.send(typedPacket.apply(data));
             } catch (Throwable t) {
                 if (ExceptionUtil.dump(t, data.getClass() + "\nplayer " + player.getScoreboardName(), null)) {
-                    player.displayClientMessage(Component.literal("Error on retrieving data from provider " + data.getClass().getName()), false);
+                    player.sendSystemMessage(Component.literal("Error on retrieving data from provider " + data.getClass().getName()));
                 }
             }
         });
@@ -96,7 +96,7 @@ public enum DataWriter implements IDataWriter {
                     });
                 } catch (Throwable t) {
                     if (ExceptionUtil.dump(t, consumer.getClass() + "\nplayer " + player.getScoreboardName(), null)) {
-                        player.displayClientMessage(Component.literal("Error on retrieving data from provider " + consumer.getClass().getName()), false);
+                        player.sendSystemMessage(Component.literal("Error on retrieving data from provider " + consumer.getClass().getName()));
                     }
 
                     finished[0] = true;
@@ -138,7 +138,7 @@ public enum DataWriter implements IDataWriter {
             fn.write(provider, this, accessor, config);
         } catch (Throwable t) {
             if (ExceptionUtil.dump(t, provider.getClass() + "\nplayer " + player.getScoreboardName(), null)) {
-                player.displayClientMessage(Component.literal("Error on retrieving server data from provider " + provider.getClass().getName()), false);
+                player.sendSystemMessage(Component.literal("Error on retrieving server data from provider " + provider.getClass().getName()));
             }
         }
     }

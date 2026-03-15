@@ -24,7 +24,6 @@ public enum ItemStorageProvider implements IDataProvider<BlockEntity> {
 
     INSTANCE;
 
-    @SuppressWarnings("NullableProblems")
     private @Nullable BlockApiCache<Storage<ItemVariant>, @Nullable Direction> cache;
 
     @Override
@@ -34,7 +33,6 @@ public enum ItemStorageProvider implements IDataProvider<BlockEntity> {
                 cache = BlockApiCache.create(ItemStorage.SIDED, accessor.getLevel(), accessor.getTarget().getBlockPos());
             }
 
-            @SuppressWarnings("DataFlowIssue")
             var storage = cache.find(accessor.getTarget().getBlockState(), null);
 
             if (storage instanceof SingleSlotStorage<ItemVariant> single) {

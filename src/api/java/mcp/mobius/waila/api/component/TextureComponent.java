@@ -3,7 +3,7 @@ package mcp.mobius.waila.api.component;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.__internal__.ApiSide;
 import net.minecraft.client.DeltaTracker;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.resources.Identifier;
 
@@ -79,7 +79,7 @@ public class TextureComponent implements ITooltipComponent {
     }
 
     @Override
-    public void render(GuiGraphics ctx, int x, int y, DeltaTracker delta) {
+    public void render(GuiGraphicsExtractor ctx, int x, int y, DeltaTracker delta) {
         ctx.blit(RenderPipelines.GUI_TEXTURED, textureId, x, y, width, height, u, v, regionWidth, regionHeight, textureWidth, textureHeight);
     }
 

@@ -7,7 +7,7 @@ import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.gui.widget.ConfigListWidget;
 import mcp.mobius.waila.gui.widget.value.ConfigValue;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.components.toasts.SystemToast;
 import net.minecraft.client.gui.screens.Screen;
@@ -84,8 +84,8 @@ public abstract class ConfigScreen extends YesIAmSureTheClientInstanceIsPresentB
         super.setInitialFocus(widget);
     }
 
-    protected void renderForeground(GuiGraphics ctx, int rowLeft, int rowWidth, int mouseX, int mouseY, float partialTicks) {
-        ctx.drawString(font, title, rowLeft, 12, 0xFFFFFFFF);
+    protected void renderForeground(GuiGraphicsExtractor ctx, int rowLeft, int rowWidth, int mouseX, int mouseY, float partialTicks) {
+        ctx.text(font, title, rowLeft, 12, 0xFFFFFFFF);
     }
 
     @Override
@@ -94,10 +94,10 @@ public abstract class ConfigScreen extends YesIAmSureTheClientInstanceIsPresentB
     }
 
     @Override
-    public void render(GuiGraphics ctx, int mouseX, int mouseY, float partialTicks) {
-        super.render(ctx, mouseX, mouseY, partialTicks);
+    public void extractRenderState(GuiGraphicsExtractor ctx, int mouseX, int mouseY, float partialTicks) {
+        super.extractRenderState(ctx, mouseX, mouseY, partialTicks);
 
-        options.render(ctx, mouseX, mouseY, partialTicks);
+        options.extractRenderState(ctx, mouseX, mouseY, partialTicks);
         renderForeground(ctx, options.getRowLeft(), options.getRowWidth(), mouseX, mouseY, partialTicks);
 
         if (mouseY < 32 || mouseY > height - 32) return;

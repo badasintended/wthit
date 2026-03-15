@@ -1,3 +1,5 @@
+// TODO: reimplement EMI
+/*
 package mcp.mobius.waila.integration.emi;
 
 import dev.emi.emi.api.EmiApi;
@@ -34,3 +36,4 @@ public class EmiRecipeAction implements EmiPlugin, IRecipeAction {
     }
 
 }
+*/

@@ -12,7 +12,7 @@ import mcp.mobius.waila.gui.screen.ConfigScreen;
 import mcp.mobius.waila.gui.widget.value.ConfigValue;
 import mcp.mobius.waila.mixin.AbstractSelectionListAccess;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.ContainerObjectSelectionList;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.components.events.ContainerEventHandler;
@@ -182,7 +182,7 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
     }
 
     @Override
-    protected void renderListSeparators(GuiGraphics ctx) {
+    protected void extractListSeparators(GuiGraphicsExtractor ctx) {
         if (headerSeparator) {
             var texture = this.minecraft.level == null ? Screen.HEADER_SEPARATOR : Screen.INWORLD_HEADER_SEPARATOR;
             ctx.blit(RenderPipelines.GUI_TEXTURED, texture, this.getX(), this.getY() - 2, 0.0F, 0.0F, this.getWidth(), 2, 32, 2);
@@ -218,11 +218,11 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
         }
 
         @Override
-        protected void drawEntry(GuiGraphics ctx, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
+        protected void drawEntry(GuiGraphicsExtractor ctx, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
             box.setPosition(rowLeft, rowTop);
             box.setWidth(width);
             //            box.setHeight(height);
-            box.render(ctx, mouseX, mouseY, deltaTime);
+            box.extractRenderState(ctx, mouseX, mouseY, deltaTime);
         }
 
     }
@@ -306,7 +306,7 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
         }
 
         @Override
-        public void renderContent(GuiGraphics ctx, int mouseX, int mouseY, boolean hovered, float deltaTime) {
+        public void extractContent(GuiGraphicsExtractor ctx, int mouseX, int mouseY, boolean hovered, float deltaTime) {
             var rowLeft = list.getRowLeft();
             var rowTop = getY();
             var width = getWidth();
@@ -334,7 +334,7 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
             drawEntry(ctx, index, rowTop, rowLeft, width, height, mouseX, mouseY, hovered, deltaTime);
         }
 
-        protected abstract void drawEntry(GuiGraphics ctx, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime);
+        protected abstract void drawEntry(GuiGraphicsExtractor ctx, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime);
 
     }
 

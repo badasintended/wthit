@@ -45,7 +45,7 @@ public final class FabricFluidData {
 
             @Override
             public DataComponentPatch data(FluidVariant t) {
-                return t.getComponents();
+                return t.getComponentsPatch();
             }
 
             @Override

@@ -23,7 +23,7 @@ public enum WaterDescriptor implements FluidDescriptor<FlowingFluid>, CauldronDe
     @Override
     public void describeFluid(FluidDescriptionContext<FlowingFluid> ctx, FluidDescription desc) {
         desc.name(NAME)
-            .sprite(Minecraft.getInstance().getModelManager().getBlockModelShaper().getBlockModel(Blocks.WATER.defaultBlockState()).particleIcon())
+            .sprite(Minecraft.getInstance().getModelManager().getFluidStateModelSet().get(Fluids.WATER.defaultFluidState()).stillMaterial().sprite())
             .tint(0xFF3F76E4);
     }
 

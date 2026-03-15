@@ -10,11 +10,11 @@ import mcp.mobius.waila.api.util.WRenders;
 import mcp.mobius.waila.util.DisplayUtil;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
 import net.minecraft.client.gui.render.TextureSetup;
-import net.minecraft.client.gui.render.state.GuiElementRenderState;
 import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.renderer.state.gui.GuiElementRenderState;
 import net.minecraft.util.Mth;
 import org.joml.Matrix3x2f;
 import org.jspecify.annotations.Nullable;
@@ -23,7 +23,7 @@ public abstract class ComponentRenderer {
 
     private static final Random RANDOM = new Random();
 
-    public abstract void render(GuiGraphics ctx, ITooltipComponent component, int x, int y, int cw, int ch, DeltaTracker delta);
+    public abstract void render(GuiGraphicsExtractor ctx, ITooltipComponent component, int x, int y, int cw, int ch, DeltaTracker delta);
 
     private static @Nullable ComponentRenderer current = null;
 
@@ -42,7 +42,7 @@ public abstract class ComponentRenderer {
         public static final Default INSTANCE = new Default();
 
         @Override
-        public void render(GuiGraphics ctx, ITooltipComponent component, int x, int y, int cw, int ch, DeltaTracker delta) {
+        public void render(GuiGraphicsExtractor ctx, ITooltipComponent component, int x, int y, int cw, int ch, DeltaTracker delta) {
             component.render(ctx, x, y, delta);
 
             if (WailaClient.showComponentBounds) {
@@ -51,7 +51,7 @@ public abstract class ComponentRenderer {
             }
         }
 
-        public static void renderBounds(GuiGraphics ctx, int x, int y, int cw, int ch, float v) {
+        public static void renderBounds(GuiGraphicsExtractor ctx, int x, int y, int cw, int ch, float v) {
             ctx.pose().pushMatrix();
             var scale = (float) Minecraft.getInstance().getWindow().getGuiScale();
             ctx.pose().scale(1 / scale, 1 / scale);
@@ -62,7 +62,7 @@ public abstract class ComponentRenderer {
             var bh = Mth.floor(ch * scale + 0.5);
             var color = (0xFF << 24) + Mth.hsvToRgb(RANDOM.nextFloat(), RANDOM.nextFloat(), v);
 
-            WRenders.state(ctx).submitGuiElement(new BoundsRenderState(new Matrix3x2f(ctx.pose()), new ScreenRectangle(bx, by, bw, bh), color));
+            WRenders.state(ctx).addGuiElement(new BoundsRenderState(new Matrix3x2f(ctx.pose()), new ScreenRectangle(bx, by, bw, bh), color));
             ctx.pose().popMatrix();
         }
 

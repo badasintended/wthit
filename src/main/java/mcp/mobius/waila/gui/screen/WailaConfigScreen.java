@@ -31,7 +31,7 @@ import mcp.mobius.waila.gui.widget.value.CycleValue;
 import mcp.mobius.waila.gui.widget.value.EnumValue;
 import mcp.mobius.waila.gui.widget.value.InputValue;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.screens.Screen;
@@ -127,7 +127,7 @@ public class WailaConfigScreen extends TabbedConfigScreen {
     }
 
     @Override
-    public void render(GuiGraphics ctx, int mouseX, int mouseY, float partialTicks) {
+    public void extractRenderState(GuiGraphicsExtractor ctx, int mouseX, int mouseY, float partialTicks) {
         if (InputConstants.isKeyDown(minecraft.getWindow(), InputConstants.KEY_F1)) {
             if (!f1held) {
                 f1held = true;
@@ -139,7 +139,7 @@ public class WailaConfigScreen extends TabbedConfigScreen {
             TooltipRenderer.resetState();
             f1held = false;
             theme = null;
-            super.render(ctx, mouseX, mouseY, partialTicks);
+            super.extractRenderState(ctx, mouseX, mouseY, partialTicks);
         }
     }
 
@@ -339,7 +339,7 @@ public class WailaConfigScreen extends TabbedConfigScreen {
         }
 
         @Override
-        protected void drawValue(GuiGraphics ctx, int width, int height, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks) {
+        protected void drawValue(GuiGraphicsExtractor ctx, int width, int height, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks) {
             if (selectedKeyBind == this) {
                 button.setMessage(Component.literal("> " + getValue().key().getDisplayName().getString() + " <").withStyle(ChatFormatting.YELLOW));
             } else {
@@ -348,7 +348,7 @@ public class WailaConfigScreen extends TabbedConfigScreen {
 
             button.setX(x + width - button.getWidth());
             button.setY(y + (height - button.getHeight()) / 2);
-            button.render(ctx, mouseX, mouseY, partialTicks);
+            button.extractRenderState(ctx, mouseX, mouseY, partialTicks);
         }
 
     }
@@ -391,13 +391,13 @@ public class WailaConfigScreen extends TabbedConfigScreen {
         }
 
         @Override
-        protected void drawValue(GuiGraphics ctx, int width, int height, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks) {
+        protected void drawValue(GuiGraphicsExtractor ctx, int width, int height, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks) {
             newButton.setX(x + width - newButton.getWidth());
             newButton.setY(y + (height - newButton.getHeight()) / 2);
             editButton.setX(newButton.getX() - newButton.getWidth() - 2);
             editButton.setY(newButton.getY());
-            editButton.render(ctx, mouseX, mouseY, partialTicks);
-            newButton.render(ctx, mouseX, mouseY, partialTicks);
+            editButton.extractRenderState(ctx, mouseX, mouseY, partialTicks);
+            newButton.extractRenderState(ctx, mouseX, mouseY, partialTicks);
 
             super.drawValue(ctx, width - 84, height, x, y, mouseX, mouseY, selected, partialTicks);
         }
@@ -547,8 +547,8 @@ public class WailaConfigScreen extends TabbedConfigScreen {
 
         @SuppressWarnings({"ConstantValue", "UnusedAssignment"})
         @Override
-        public void render(GuiGraphics ctx, int mouseX, int mouseY, float delta) {
-            super.render(ctx, mouseX, mouseY, delta);
+        public void extractRenderState(GuiGraphicsExtractor ctx, int mouseX, int mouseY, float delta) {
+            super.extractRenderState(ctx, mouseX, mouseY, delta);
 
             if (rect.contains(mouseX, (double) mouseY)) {
                 ctx.requestCursor(CursorTypes.RESIZE_ALL);
@@ -557,10 +557,10 @@ public class WailaConfigScreen extends TabbedConfigScreen {
             var i = 0;
             var y = this.y + minecraft.font.lineHeight / 2;
             // @formatter:off
-            ctx.drawString(minecraft.font, textAnchor.getValue(), x, y + (22 * i++), 0xFFFFFFFF);
-            ctx.drawString(minecraft.font, textAlign .getValue(), x, y + (22 * i++), 0xFFFFFFFF);
-            ctx.drawString(minecraft.font, textOffset.getValue(), x, y + (22 * i++), 0xFFFFFFFF);
-            ctx.drawString(minecraft.font, textScale .getValue(), x, y + (22 * i++), 0xFFFFFFFF);
+            ctx.text(minecraft.font, textAnchor.getValue(), x, y + (22 * i++), 0xFFFFFFFF);
+            ctx.text(minecraft.font, textAlign .getValue(), x, y + (22 * i++), 0xFFFFFFFF);
+            ctx.text(minecraft.font, textOffset.getValue(), x, y + (22 * i++), 0xFFFFFFFF);
+            ctx.text(minecraft.font, textScale .getValue(), x, y + (22 * i++), 0xFFFFFFFF);
             // @formatter:on
 
             TooltipRenderer.render(ctx, minecraft.getDeltaTracker());

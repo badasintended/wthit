@@ -3,7 +3,7 @@ package mcp.mobius.waila.gui.hud;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.registry.PluginAware;
 import net.minecraft.client.DeltaTracker;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.resources.Identifier;
 import org.jspecify.annotations.Nullable;
 
@@ -44,7 +44,7 @@ public class InspectComponent implements ITooltipComponent {
     }
 
     @Override
-    public void render(GuiGraphics ctx, int x, int y, DeltaTracker delta) {
+    public void render(GuiGraphicsExtractor ctx, int x, int y, DeltaTracker delta) {
         actual.render(ctx, x, y, delta);
     }
 
