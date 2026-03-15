@@ -1,7 +1,7 @@
 {
-  "tooltip.waila.crop_growth"                                  : "Зрелость",
-  "tooltip.waila.crop_growable"                                : "Благоприятные условия",
-  "tooltip.waila.tree_growable"                                : "Благоприятные условия",
+  "tooltip.waila.crop_growth"                                  : "Рост",
+  "tooltip.waila.crop_growable"                                : "Может расти",
+  "tooltip.waila.tree_growable"                                : "Может расти",
   "tooltip.waila.crop_mature"                                  : "Созрело",
   "tooltip.waila.empty"                                        : "Пусто",
   "tooltip.waila.delay"                                        : "Задержка",
@@ -21,8 +21,8 @@
   "tooltip.waila.owner.loading"                                : "загрузка...",
   "tooltip.waila.timer.grow"                                   : "Вырастет через",
   "tooltip.waila.timer.breed"                                  : "Можно размножить через",
-
-
+  "tooltip.waila.book.pages"                                   : "%s страниц",
+  "tooltip.waila.lectern.page"                                 : "Страница %s/%s",
 
   "tooltip.waila.bee.hive"                                     : "Улей",
 
@@ -70,7 +70,7 @@
 
   "tooltip.waila.extra.energy"                                 : "Энергия",
   "tooltip.waila.extra.unknown_fluid"                          : "Неизвестная жидкость",
-
+  "tooltip.waila.extra.estimated_time"                         : "Оставшееся время",
 
   "tooltip.waila.harvest.harvestable"                          : "Можно добыть",
   "tooltip.waila.harvest.effective_tool"                       : "Эффективный инструмент",
@@ -99,7 +99,7 @@
 
   "gui.waila.plugin.toggle"                                    : "Управление плагинами",
   "gui.waila.plugin.toggle.disabled_on_server"                 : "Этот плагин выключен на сервере",
-  "gui.waila.plugin.toggle.locked"                             : "Невозможно выключить этот плагин",
+  "gui.waila.plugin.toggle.locked"                             : "Плагин заблокирован",
   "gui.waila.plugin.toggle.confirm"                            : "Включение или выключение плагинов может сбросить настройки WTHIT !\nСтарые конфиги будут сохранены в соответствующей папке с приставкой  о времени.\nСмотрите логи для дополнительной информации.",
   "gui.waila.plugin.settings"                                  : "Настройки плагинов",
 
@@ -108,19 +108,19 @@
   "gui.waila.credits.authors"                                  : "Авторы",
   "gui.waila.credits.contributors"                             : "Участники",
 
+  "gui.waila.inspector.title"                                  : "Инспектор",
+  "gui.waila.inspector.tag"                                    : "Тэг: %s",
+  "gui.waila.inspector.provider"                               : "Поставщик: %s",
+  "gui.waila.inspector.plugin_id"                              : "ID плагина: %s",
+  "gui.waila.inspector.mod"                                    : "Мод: %s (%s)",
 
+  "json5.waila.config.default_value"                           : "Стандартное значение: [%s]",
+  "json5.waila.config.available_values"                        : "Доступные значения: [%s]",
 
-
-
-
-
-
-
-
-
-
-
-
+  "json5.waila.config.plugin.custom_file"                      : "Для настройки параметров откройте следующий файл",
+  "json5.waila.config.plugin.server_required"                  : "Требует установленного WTHIT на сервере, иначе, будет заблокировано на [%s]",
+  "json5.waila.config.plugin.merged"                           : "Это значение будет заменено значением с сервера",
+  "json5.waila.config.plugin.synced"                           : "Это значение будет переопределено сервером",
 
   "command.waila.server_dump_success"                          : "Выделенный сервер успешно сброшен до %s",
   "command.waila.local_dump_success"                           : "Локальный сервер успешно сброшен до %s",
@@ -151,7 +151,7 @@
   "command.waila.config.set.parse_fail"                        : "Не удалось разобрать: %s",
 
   "config.waila.search_prompt"                                 : "Поиск...",
-
+  "config.waila.save_prompt"                                   : "Сохранить текущие настройки?",
   "config.waila.expand_all"                                    : "Раскрыть всё",
   "config.waila.true"                                          : "Да",
   "config.waila.false"                                         : "Нет",
@@ -168,8 +168,8 @@
   "config.waila.server_missing_option"                         : "Заблокировано так как на сервере нет этого параметра",
 
   "config.waila.general"                                       : "Основное",
-
-
+  "config.waila.vanilla_options"                               : "Добавить в меню игры",
+  "config.waila.vanilla_options_desc"                          : "Добавляет кнопку настройки WTHIT в настройки игры",
   "config.waila.display_tooltip"                               : "Отображать подсказки",
   "config.waila.display_tooltip_desc"                          : "Собирать данные и отображать подсказки",
   "config.waila.sneaky_details"                                : "Умные данные",
@@ -198,7 +198,7 @@
   "config.waila.overlay_fps_desc"                              : "Снижает частоту отрисовки подсказки для общего увеличения FPS\nУстановите 0 чтобы снять лимит",
   "config.waila.overlay_fps.disabled_reason"                   : "Сейчас этот параметр принудительно выключен так как вызывает ошибки рендеринга",
 
-
+  "config.waila.overlay_placement"                             : "Положение",
   "config.waila.overlay_anchor"                                : "привязка",
   "config.waila.overlay_align"                                 : "выравнивание",
   "config.waila.overlay_offset"                                : "Смещение",
@@ -235,6 +235,7 @@
   "config.waila.format_registry_name"                          : "Название в регистре",
 
   "config.waila.keybinds"                                      : "Привязка клавиш",
+  "key.category.waila.key"                                     : "WTHIT",
   "key.waila.config"                                           : "Открыть конфиг",
   "key.waila.show_overlay"                                     : "Отображать оверлей",
   "key.waila.toggle_liquid"                                    : "Отображать жидкости",
@@ -290,7 +291,7 @@
   "config.waila.plugin_minecraft.block.state"                  : "Отображать состояние блока",
   "config.waila.plugin_minecraft.entity"                       : "Сущности",
   "config.waila.plugin_minecraft.entity.item_entity"           : "Отображать сущности предметов",
-  "config.waila.plugin_minecraft.entity.position"              : "Отображать сущности",
+  "config.waila.plugin_minecraft.entity.position"              : "Отображать позицию сущности",
   "config.waila.plugin_minecraft.entity.health"                : "Отображать очки жизни",
   "config.waila.plugin_minecraft.entity.absorption"            : "Отображать очки поглощения",
   "config.waila.plugin_minecraft.entity.armor"                 : "Отображать очки брони",
@@ -315,10 +316,12 @@
   "config.waila.plugin_minecraft.effect.beacon"                : "Показать эффекты маяков",
   "config.waila.plugin_minecraft.effect.mob"                   : "Показать эффекты мобов",
   "config.waila.plugin_minecraft.effect.hidden_mob"            : "Показать скрытые эффекты мобов",
+  "config.waila.plugin_minecraft.shelf"                        : "Полки",
+  "config.waila.plugin_minecraft.shelf.items"                  : "Показать предметы на полке",
   "config.waila.plugin_minecraft.book"                         : "Книги",
   "config.waila.plugin_minecraft.book.bookshelf"               : "Показывать число книг на полке",
-
-
+  "config.waila.plugin_minecraft.book.lectern"                 : "Показать книги на столе библиотекаря",
+  "config.waila.plugin_minecraft.book.details"                 : "Информация о книге",
   "config.waila.plugin_minecraft.book.enchantment"             : "Отображение зачарований",
   "config.waila.plugin_minecraft.book.enchantment_separate"    : "Раздельный",
   "config.waila.plugin_minecraft.book.enchantment_combined"    : "Комбинированый",
@@ -356,11 +359,11 @@
   "config.waila.plugin_wailax.progress"                        : "Процесс крафта",
   "config.waila.plugin_wailax.progress.enabled_block"          : "Процесс крафта блоков",
   "config.waila.plugin_wailax.progress.enabled_entity"         : "Процесс крафта сущностей",
-
-
-
-
-
+  "config.waila.plugin_wailax.progress.time"                   : "Показать оставшееся время",
+  "config.waila.plugin_wailax.progress.replace_items"          : "Заменить подсказку предмета",
+  "config.waila.plugin_wailax.progress.replace_items_desc"     : "Заменяет подсказку, если рецепт имеет предметный вход и/или выход. Если отключено и отсуствует предметный вход и /или выход, отображается только полоса прогресса",
+  "config.waila.plugin_wailax.progress.height"                 : "Высота полосы прогресса",
+  "config.waila.plugin_wailax.progress.height_desc"            : "Применимо только если используется полоса прогресса, а не стрелка",
   "config.waila.plugin_wailax.progress.blacklist"              : "Черный список",
   "config.waila.plugin_wailax.item"                            : "Предметы",
   "config.waila.plugin_wailax.item.enabled_block"              : "Содержание блоков",
@@ -373,7 +376,7 @@
   "config.waila.plugin_wailax.item.display_mode_dynamic"       : "динамический",
   "config.waila.plugin_wailax.item.max_height"                 : "Максимальная высота",
   "config.waila.plugin_wailax.item.sort_by_count"              : "Сортировать по количеству",
-
+  "config.waila.plugin_wailax.item.grid_mode_scale"            : "Масштабирование в режиме сетки",
   "config.waila.plugin_wailax.item.blacklist"                  : "Черный список",
   "config.waila.plugin_wailax.fluid"                           : "Жидкости",
   "config.waila.plugin_wailax.fluid.enabled_block"             : "Жидкости в блоках",
