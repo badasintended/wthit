@@ -1,18 +1,36 @@
 {
   "schemaVersion": 1,
   "id"           : "wthit",
-  "provides"     : ["waila"],
+  "provides"     : [
+    "waila"
+  ],
   "version"      : "${version}",
   "entrypoints"  : {
-    "main"          : ["mcp.mobius.waila.fabric.FabricWaila"],
-    "client"        : ["mcp.mobius.waila.fabric.FabricWailaClient"],
-    "server"        : ["mcp.mobius.waila.fabric.FabricWailaDedicatedServer"],
-    "emi"           : ["mcp.mobius.waila.integration.emi.EmiRecipeAction"],
-    "jei_mod_plugin": ["mcp.mobius.waila.integration.jei.JeiRecipeAction"],
-    "modmenu"       : ["mcp.mobius.waila.integration.modmenu.WailaModMenu"],
-    "rei_client"    : ["mcp.mobius.waila.integration.reiwhycheckingforpackagename.ReiRecipeAction"]
+    "main"          : [
+      "mcp.mobius.waila.fabric.FabricWaila"
+    ],
+    "client"        : [
+      "mcp.mobius.waila.fabric.FabricWailaClient"
+    ],
+    "server"        : [
+      "mcp.mobius.waila.fabric.FabricWailaDedicatedServer"
+    ],
+    "emi"           : [
+      "mcp.mobius.waila.integration.emi.EmiRecipeAction"
+    ],
+    "jei_mod_plugin": [
+      "mcp.mobius.waila.integration.jei.JeiRecipeAction"
+    ],
+    "modmenu"       : [
+      "mcp.mobius.waila.integration.modmenu.WailaModMenu"
+    ],
+    "rei_client"    : [
+      "mcp.mobius.waila.integration.reiwhycheckingforpackagename.ReiRecipeAction"
+    ]
   },
-  "mixins"       : ["wthit.mixins.json"],
+  "mixins"       : [
+    "wthit.mixins.json"
+  ],
   "name"         : "wthit",
   "description"  : "What the hell is that?",
   "icon"         : "wthit.png",
@@ -40,10 +58,10 @@
   ],
 
   "depends"      : {
-    "fabricloader": ">=0.17.3",
-    "fabric"      : ">=0.139.1",
-    "minecraft"   : ">=1.21.11-",
-    "badpackets"  : ">=0.11-"
+    "fabricloader": ">=0.18.4",
+    "fabric-api"  : ">=0.143.14",
+    "minecraft"   : ">=26.1-",
+    "badpackets"  : ">=0.12-"
   },
   "breaks"       : {
     "roughlyenoughitems": "<9.0.462"

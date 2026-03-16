@@ -1,6 +1,7 @@
 package mcp.mobius.waila.api;
 
 import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 import mcp.mobius.waila.api.__internal__.IHarvestService;
 import net.minecraft.resources.Identifier;
@@ -27,7 +28,7 @@ public interface IToolType {
          * The wooden stack, or any stack of the type that has its {@linkplain ItemStack#getDestroySpeed(BlockState) destroy speed}
          * the same as or higher than {@linkplain ToolMaterial#WOOD wood}.
          */
-        Builder1 lowestTierStack(ItemStack stack);
+        Builder1 lowestTierStack(Supplier<ItemStack> stack);
 
         /**
          * The wooden item, or any item of the type that has its {@linkplain Item#getDestroySpeed(ItemStack, BlockState) destroy speed}

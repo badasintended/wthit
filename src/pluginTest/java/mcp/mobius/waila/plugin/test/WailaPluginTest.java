@@ -15,12 +15,16 @@ import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.FurnaceBlock;
 import net.minecraft.world.level.block.entity.BarrelBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.MixinEnvironment;
 
 @SuppressWarnings({"unused", "deprecation", "CommentedOutCode"})
 public class WailaPluginTest implements IWailaPlugin {
 
     @Override
     public void register(IRegistrar registrar) {
+        MixinEnvironment.getCurrentEnvironment().audit();
+
         registrar.addConfig(ConfigTest.ENABLED, true);
 
         registrar.addConfig(ConfigTest.BOOL, true);

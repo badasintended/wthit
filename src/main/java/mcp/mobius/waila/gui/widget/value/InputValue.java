@@ -8,6 +8,7 @@ import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
+import net.minecraft.util.StringUtil;
 import org.jspecify.annotations.Nullable;
 
 public class InputValue<T> extends ConfigValue<T, InputValue<T>> {
@@ -153,26 +154,30 @@ public class InputValue<T> extends ConfigValue<T, InputValue<T>> {
         }
 
         @Override
-        public void insertText(String string) {
+        public void insertText(String input) {
             var access = (EditBoxAccess) this;
-            var i = Math.min(getCursorPosition(), access.wthit_highlightPos());
-            var j = Math.max(getCursorPosition(), access.wthit_highlightPos());
-            var k = access.wthit_maxLength() - getValue().length() - (i - j);
-            var string2 = string;
-            var l = string2.length();
-            if (k < l) {
-                string2 = string2.substring(0, k);
-                l = k;
+            var start = Math.min(getCursorPosition(), access.wthit_highlightPos());
+            var end = Math.max(getCursorPosition(), access.wthit_highlightPos());
+            var maxInsertionLength = access.wthit_maxLength() - getValue().length() - (start - end);
+            if (maxInsertionLength <= 0) return;
+
+            var text = StringUtil.filterText(input);
+            var insertionLength = text.length();
+            if (maxInsertionLength < insertionLength) {
+                if (Character.isHighSurrogate(text.charAt(maxInsertionLength - 1))) {
+                    maxInsertionLength--;
+                }
+
+                text = text.substring(0, maxInsertionLength);
+                insertionLength = maxInsertionLength;
             }
 
-            var string3 = (new StringBuilder(getValue())).replace(i, j, string2).toString();
-            if (access.wthit_filter().test(string3)) {
-                access.wthit_value(string3);
-                this.setCursorPosition(i + l);
-                this.setHighlightPos(getCursorPosition());
-                access.wthit_onValueChange(string3);
-                recalculateWidth(false);
-            }
+            var value = (new StringBuilder(getValue())).replace(start, end, text).toString();
+            access.wthit_value(value);
+            this.setCursorPosition(start + insertionLength);
+            this.setHighlightPos(getCursorPosition());
+            access.wthit_onValueChange(value);
+            recalculateWidth(false);
         }
 
     }

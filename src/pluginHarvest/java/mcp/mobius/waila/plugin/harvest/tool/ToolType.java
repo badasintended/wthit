@@ -20,6 +20,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.UnknownNullability;
 
 @SuppressWarnings("NotNullFieldNotInitialized")
 public class ToolType implements IToolType, IToolType.Builder0, IToolType.Builder1, IToolType.Builder2, IToolType.Builder3 {
@@ -27,11 +28,12 @@ public class ToolType implements IToolType, IToolType.Builder0, IToolType.Builde
     private static final Map<Identifier, ToolType> MAP = new LinkedHashMap<>();
 
     public Identifier id;
-    public ItemStack lowestTierStack;
+    public Supplier<ItemStack> lowestTierStackSupplier;
     public Predicate<BlockState> blockPredicate;
     public Predicate<ItemStack> itemPredicate;
     public Component text;
 
+    private Supplier<ItemStack> lowerTierStack;
     private Supplier<Map<ToolTier, ItemStack>> icons;
 
     public ToolType() {
@@ -39,6 +41,7 @@ public class ToolType implements IToolType, IToolType.Builder0, IToolType.Builde
     }
 
     public void resetIcons() {
+        lowerTierStack = Suppliers.memoize(() -> lowestTierStackSupplier.get());
         icons = Suppliers.memoize(() -> {
             var tiers = ToolTier.all();
             var map = new Reference2ObjectOpenHashMap<ToolTier, ItemStack>();
@@ -59,7 +62,7 @@ public class ToolType implements IToolType, IToolType.Builder0, IToolType.Builde
 
             if (map.size() < tiers.size()) {
                 for (var tier : tiers) {
-                    map.putIfAbsent(tier, lowestTierStack);
+                    map.putIfAbsent(tier, lowerTierStack.get());
                 }
             }
 
@@ -68,7 +71,7 @@ public class ToolType implements IToolType, IToolType.Builder0, IToolType.Builde
     }
 
     public ItemStack getIcon(ToolTier tier) {
-        if (tier == ToolTier.NONE) return lowestTierStack;
+        if (tier == ToolTier.NONE) return lowerTierStack.get();
         else return icons.get().get(tier);
     }
 
@@ -84,14 +87,14 @@ public class ToolType implements IToolType, IToolType.Builder0, IToolType.Builde
     }
 
     @Override
-    public Builder1 lowestTierStack(ItemStack stack) {
-        lowestTierStack = stack;
+    public Builder1 lowestTierStack(@UnknownNullability Supplier<ItemStack> stack) {
+        lowestTierStackSupplier = stack;
         return this;
     }
 
     @Override
     public Builder1 lowestTierItem(ItemLike item) {
-        lowestTierStack = new ItemStack(item);
+        lowestTierStackSupplier = () -> new ItemStack(item);
         return this;
     }
 

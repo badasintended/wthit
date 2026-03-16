@@ -22,9 +22,6 @@ public interface EditBoxAccess {
     @Accessor("maxLength")
     int wthit_maxLength();
 
-    @Accessor("filter")
-    Predicate<String> wthit_filter();
-
     @Invoker("onValueChange")
     void wthit_onValueChange(String $$0);
 

@@ -20,15 +20,14 @@ public enum PlayerHeadProvider implements IBlockComponentProvider {
 
     INSTANCE;
 
-    static final ItemStack PLAYER_HEAD_STACK = new ItemStack(Items.PLAYER_HEAD);
-
     @Nullable
     @Override
     public ITooltipComponent getIcon(IBlockAccessor accessor, IPluginConfig config) {
         SkullBlockEntity skull = accessor.getBlockEntity();
         if (skull != null && skull.getOwnerProfile() != null) {
-            PLAYER_HEAD_STACK.set(DataComponents.PROFILE, skull.getOwnerProfile());
-            return new ItemComponent(PLAYER_HEAD_STACK);
+            var stack = new ItemStack(Items.PLAYER_HEAD);
+            stack.set(DataComponents.PROFILE, skull.getOwnerProfile());
+            return new ItemComponent(stack);
         }
         return null;
     }

@@ -25,11 +25,11 @@ public class ReloadableServerResourcesMixin {
     private RegistryAccess wthit_registryAccess;
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    private void wthit_init(LayeredRegistryAccess<RegistryLayer> layeredRegistryAccess, HolderLookup.Provider provider, FeatureFlagSet featureFlagSet, Commands.CommandSelection commandSelection, List<?> list, PermissionSet permissions, CallbackInfo ci) {
-        wthit_registryAccess = layeredRegistryAccess.compositeAccess();
+    private void wthit_init(LayeredRegistryAccess<?> fullLayers, HolderLookup.Provider loadingContext, FeatureFlagSet enabledFeatures, Commands.CommandSelection commandSelection, List<?> postponedTags, PermissionSet functionCompilationPermissions, List<?> newComponents, CallbackInfo ci) {
+        wthit_registryAccess = fullLayers.compositeAccess();
     }
 
-    @Inject(method = "updateStaticRegistryTags()V", at = @At("TAIL"))
+    @Inject(method = "updateComponentsAndStaticRegistryTags", at = @At("TAIL"))
     private void wthit_onUpdateRegistryTags(CallbackInfo ci) {
         IMixinService.INSTANCE.attachRegistryFilter(wthit_registryAccess);
     }
