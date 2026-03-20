@@ -5,7 +5,6 @@ import mcp.mobius.waila.api.data.FluidData.PlatformDependant;
 import mcp.mobius.waila.api.data.FluidData.PlatformTranslator;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.world.level.material.Fluid;
-import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.transfer.fluid.FluidResource;
 
 /**
@@ -16,7 +15,7 @@ public class NeoFluidData {
     public static final PlatformTranslator<FluidResource> TRANSLATOR;
 
     /**
-     * Creates a fluid data that accepts a {@link FluidStack}
+     * Creates a fluid data that accepts a {@link FluidResource}
      */
     public static PlatformDependant<FluidResource> of() {
         return FluidData.of(TRANSLATOR);
