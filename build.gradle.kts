@@ -121,6 +121,7 @@ sourceSets {
     val buildConst by creating
     val minecraftless by creating
     val mixin by creating
+    val apiPlatformStub by creating
     val pluginCore by creating
     val pluginExtra by creating
     val pluginHarvest by creating
@@ -128,7 +129,7 @@ sourceSets {
     val pluginTest by creating
     val test by getting
 
-    listOf(api, buildConst, mixin, pluginCore, pluginExtra, pluginHarvest, pluginVanilla, pluginTest).applyEach {
+    listOf(api, buildConst, mixin, apiPlatformStub, pluginCore, pluginExtra, pluginHarvest, pluginVanilla, pluginTest).applyEach {
         compileClasspath += main.compileClasspath
     }
     listOf(api, main, mixin, pluginCore, pluginExtra, pluginHarvest, pluginVanilla, pluginTest).applyEach {
@@ -136,6 +137,9 @@ sourceSets {
     }
     listOf(main, pluginCore, pluginExtra, pluginHarvest, pluginVanilla, pluginTest).applyEach {
         compileClasspath += api.output + mixin.output
+    }
+    api.apply {
+        compileClasspath += apiPlatformStub.output
     }
     mixin.apply {
         compileClasspath += api.output
@@ -214,15 +218,3 @@ val apiJavadoc by tasks.creating(Javadoc::class) {
         )
     })
 }
-
-subprojects {
-    afterEvaluate {
-        val subApi = sourceSets.findByName("api")
-
-        if (subApi != null) {
-            apiJavadoc.source(subApi.allJava)
-            apiJavadoc.classpath += subApi.compileClasspath
-        }
-    }
-}
-
