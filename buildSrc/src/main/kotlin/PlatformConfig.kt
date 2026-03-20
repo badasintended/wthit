@@ -21,9 +21,15 @@ fun Project.setupPlatform() {
             compileClasspath += api.output + rootSourceSets["mixin"].output
         }
 
+        listOf(api, main, plugin).applyEach {
+            compileClasspath += rootSourceSets["buildConst"].output
+        }
+
         main.apply {
             resources.srcDir(rootProject.file("src/resources/resources"))
-            rootSourceSets.forEach {
+
+            val excludedSourceSets = setOf("apiPlatformStub", "buildConst", "mixin")
+            rootSourceSets.filterNot { excludedSourceSets.contains(it.name) }.forEach {
                 compileClasspath += it.output
                 runtimeClasspath += it.output
             }
@@ -40,7 +46,9 @@ fun Project.setupPlatform() {
     tasks.named<Jar>("jar") {
         from(sourceSets["api"].output)
         from(sourceSets["plugin"].output)
-        rootSourceSets.filterNot { it.name == "mixin" || it.name == "buildConst" }.forEach {
+
+        val excludedSourceSets = setOf("apiPlatformStub", "buildConst", "mixin")
+        rootSourceSets.filterNot { excludedSourceSets.contains(it.name) }.forEach {
             from(it.output)
         }
     }

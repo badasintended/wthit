@@ -12,11 +12,10 @@ import org.jetbrains.annotations.ApiStatus;
 /**
  * @deprecated use {@code waila_plugins.json} file, see {@link mcp.mobius.waila.api} javadocs for more info.
  */
-@Deprecated
 @Documented
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-@SuppressWarnings("DeprecatedIsStillUsed")
+@Deprecated(forRemoval = true)
 @ApiStatus.ScheduledForRemoval(inVersion = "1.21")
 public @interface WailaPlugin {
 
