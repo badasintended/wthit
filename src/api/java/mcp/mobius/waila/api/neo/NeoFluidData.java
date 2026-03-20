@@ -15,7 +15,7 @@ public class NeoFluidData {
     public static final PlatformTranslator<FluidStack> TRANSLATOR;
 
     /**
-     * Creates a fluid data that accepts a {@link FluidStack}
+     * Creates a fluid data that accepts a {@link FluidResource}
      */
     public static PlatformDependant<FluidStack> of() {
         return FluidData.of(TRANSLATOR);
