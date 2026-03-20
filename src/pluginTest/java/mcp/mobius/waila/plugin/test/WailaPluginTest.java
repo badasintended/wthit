@@ -23,7 +23,7 @@ public class WailaPluginTest implements IWailaPlugin {
 
     @Override
     public void register(IRegistrar registrar) {
-        MixinEnvironment.getCurrentEnvironment().audit();
+        // MixinEnvironment.getCurrentEnvironment().audit();
 
         registrar.addConfig(ConfigTest.ENABLED, true);
 
