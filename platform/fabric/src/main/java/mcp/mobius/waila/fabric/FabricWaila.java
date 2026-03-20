@@ -1,6 +1,7 @@
 package mcp.mobius.waila.fabric;
 
 import mcp.mobius.waila.Waila;
+import mcp.mobius.waila.api.fabric.FabricFluidData;
 import mcp.mobius.waila.config.PluginConfig;
 import mcp.mobius.waila.debug.DumpGenerator;
 import mcp.mobius.waila.network.Packets;
@@ -10,6 +11,7 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.CommonLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
+import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.loader.api.FabricLoader;
 import net.fabricmc.loader.api.ModContainer;
 
@@ -43,6 +45,9 @@ public class FabricWaila extends Waila implements ModInitializer {
         }
 
         PluginLoader.INSTANCE.loadPlugins();
+
+        // Validate that the stub works.
+        FabricFluidData.of().add(FluidVariant.blank(), 1000, 1000);
     }
 
 }
