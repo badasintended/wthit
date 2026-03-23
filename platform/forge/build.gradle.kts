@@ -51,10 +51,12 @@ sourceSets {
 }
 
 tasks.named<JavaCompile>("compileRunJava") {
-    val excluded = setOf("run", "stub", "test")
+    val excluded = setOf("run", "stub", "test", "apiPlatformStub")
 
     sourceSets.filterNot { excluded.contains(it.name) }.forEach { source(it.allJava) }
     rootProject.sourceSets.filterNot { excluded.contains(it.name) }.forEach { source(it.allJava) }
+
+    source(rootProject.sourceSets["apiPlatformStub"].allJava.filterNot { it.path.contains("minecraftforge") })
 }
 
 tasks.named<ProcessResources>("processRunResources") {
