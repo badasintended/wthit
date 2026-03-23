@@ -36,15 +36,35 @@ dependencies {
 setupStub()
 
 sourceSets {
-    // hack to make forgegradle happy
-    rootProject.sourceSets.forEach {
-        if (findByName(it.name) == null) {
-            create(it.name) {
-                java.setSrcDirs(emptyList<Any>())
-                resources.setSrcDirs(emptyList<Any>())
-            }
-        }
+    val main by getting
+    val run by creating {
+        java.setSrcDirs(emptyList<Any>())
+        resources.setSrcDirs(emptyList<Any>())
+
+        compileClasspath += main.compileClasspath + rootProject.sourceSets.main.get().compileClasspath
+        runtimeClasspath += main.runtimeClasspath - main.output
+
+        val dir = layout.buildDirectory.dir("run")
+        java.destinationDirectory = dir
+        output.setResourcesDir(dir)
     }
+}
+
+tasks.named<JavaCompile>("compileRunJava") {
+    val excluded = setOf("run", "stub", "test", "apiPlatformStub")
+
+    sourceSets.filterNot { excluded.contains(it.name) }.forEach { source(it.allJava) }
+    rootProject.sourceSets.filterNot { excluded.contains(it.name) }.forEach { source(it.allJava) }
+
+    source(rootProject.sourceSets["apiPlatformStub"].allJava.filterNot { it.path.contains("minecraftforge") })
+}
+
+tasks.named<ProcessResources>("processRunResources") {
+    val excluded = setOf("run", "stub", "test")
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    sourceSets.filterNot { excluded.contains(it.name) }.forEach { from(it.resources) }
+    rootProject.sourceSets.filterNot { excluded.contains(it.name) }.forEach { from(it.resources) }
 }
 
 minecraft {
@@ -57,12 +77,9 @@ minecraft {
 
         configureEach {
             workingDirectory(file("run/${namer.determineName(this)}"))
-            ideaModule("${rootProject.name}.${project.name}.main")
+            ideaModule("${rootProject.name}.${project.name}.run")
 
-            source(sourceSets["main"])
-            source(sourceSets["api"])
-            source(sourceSets["plugin"])
-            rootProject.sourceSets.forEach { source(it) }
+            sources = listOf(sourceSets["run"])
         }
     }
 }
@@ -72,7 +89,7 @@ mixin {
     config("wthit.mixins.json")
 }
 
-tasks.processResources {
+tasks.withType<ProcessResources> {
     inputs.property("version", project.version)
 
     filesMatching("META-INF/mods.toml") {
