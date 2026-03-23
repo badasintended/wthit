@@ -34,7 +34,7 @@ neoForge {
             sourceSet(sourceSets["main"])
             sourceSet(sourceSets["plugin"])
 
-            val excluded = setOf("test")
+            val excluded = setOf("test", "apiPlatformStub")
             rootProject.sourceSets.filterNot { excluded.contains(it.name) }.forEach { sourceSet(it) }
         }
     }
