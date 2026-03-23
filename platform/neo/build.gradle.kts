@@ -50,7 +50,8 @@ tasks.processResources {
 tasks.named<JavaCompile>("compileDummyJava") {
     dependsOn(":generateTranslationClass")
 
-    rootProject.sourceSets.filterNot { it.name == "test" }.forEach {
+    val excluded = setOf("test", "apiPlatformStub")
+    rootProject.sourceSets.filterNot { excluded.contains(it.name) }.forEach {
         source(it.allJava)
     }
 }
