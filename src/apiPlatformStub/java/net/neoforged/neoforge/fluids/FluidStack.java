@@ -1,13 +1,15 @@
 package net.neoforged.neoforge.fluids;
 
-import net.minecraft.core.component.DataComponentPatch;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.material.Fluid;
+import org.jetbrains.annotations.Nullable;
 
 public interface FluidStack {
 
     Fluid getFluid();
 
-    DataComponentPatch getComponentsPatch();
+    @Nullable
+    CompoundTag getTag();
 
     int getAmount();
 
