@@ -3,10 +3,14 @@ package net.neoforged.neoforge.transfer.fluid;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.world.level.material.Fluid;
 
-public interface FluidResource {
+public final class FluidResource {
 
-    Fluid getFluid();
+    public Fluid getFluid() {
+        throw new AssertionError("stub");
+    }
 
-    DataComponentPatch getComponentsPatch();
+    public DataComponentPatch getComponentsPatch() {
+        throw new AssertionError("stub");
+    }
 
 }
