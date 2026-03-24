@@ -1,3 +1,7 @@
+19.x - 26.1-rc-3 - dev/26.1 - java 25
+=====================================
+19.0.0   - Updated to Minecraft 26.1-rc-3
+
 18.x - 1.21.11 - dev/1.21.11 - java 21
 ======================================
 18.2.1   - Fixed material origin always showing vanilla class
