@@ -4,13 +4,18 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.material.Fluid;
 import org.jetbrains.annotations.Nullable;
 
-public interface FluidStack {
+public final class FluidStack {
 
-    Fluid getFluid();
+    public Fluid getFluid() {
+        throw new AssertionError("stub");
+    }
 
-    @Nullable
-    CompoundTag getTag();
+    public @Nullable CompoundTag getTag() {
+        throw new AssertionError("stub");
+    }
 
-    int getAmount();
+    public int getAmount() {
+        throw new AssertionError("stub");
+    }
 
 }
