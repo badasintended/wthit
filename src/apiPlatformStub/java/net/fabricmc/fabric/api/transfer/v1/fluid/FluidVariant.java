@@ -1,12 +1,14 @@
 package net.fabricmc.fabric.api.transfer.v1.fluid;
 
-import net.minecraft.core.component.DataComponentPatch;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.material.Fluid;
+import org.jetbrains.annotations.Nullable;
 
 public interface FluidVariant {
 
     Fluid getFluid();
 
-    DataComponentPatch getComponents();
+    @Nullable
+    CompoundTag getNbt();
 
 }
