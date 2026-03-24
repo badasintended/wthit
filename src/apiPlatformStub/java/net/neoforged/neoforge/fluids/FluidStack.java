@@ -3,12 +3,18 @@ package net.neoforged.neoforge.fluids;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.world.level.material.Fluid;
 
-public interface FluidStack {
+public final class FluidStack {
 
-    Fluid getFluid();
+    public Fluid getFluid() {
+        throw new AssertionError("stub");
+    }
 
-    DataComponentPatch getComponentsPatch();
+    public DataComponentPatch getComponentsPatch() {
+        throw new AssertionError("stub");
+    }
 
-    int getAmount();
+    public int getAmount() {
+        throw new AssertionError("stub");
+    }
 
 }
