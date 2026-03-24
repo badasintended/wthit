@@ -3,12 +3,18 @@ package net.minecraftforge.fluids;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.level.material.Fluid;
 
-public interface FluidStack {
+public final class FluidStack {
 
-    Fluid getFluid();
+    public Fluid getFluid() {
+        throw new AssertionError("stub");
+    }
 
-    CompoundTag getTag();
+    public CompoundTag getTag() {
+        throw new AssertionError("stub");
+    }
 
-    int getAmount();
+    public int getAmount() {
+        throw new AssertionError("stub");
+    }
 
 }
