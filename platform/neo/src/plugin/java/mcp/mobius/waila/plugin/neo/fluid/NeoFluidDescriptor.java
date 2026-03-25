@@ -17,12 +17,12 @@ public enum NeoFluidDescriptor implements FluidDescriptor<Fluid> {
     public void describeFluid(FluidDescriptionContext<Fluid> ctx, FluidDescription desc) {
         var stack = new FluidStack(ctx.fluid().builtInRegistryHolder(), 1, ctx.data());
         var type = ctx.fluid().getFluidType();
-        var extensions = IClientFluidTypeExtensions.of(type);
-        var atlas = Minecraft.getInstance().getAtlasManager().getAtlasOrThrow(AtlasIds.BLOCKS);
+        var model = Minecraft.getInstance().getModelManager().getFluidStateModelSet().get(ctx.fluid().defaultFluidState());
+        var tintSource = model.fluidTintSource();
 
         desc.name(type.getDescription(stack))
-            .sprite(atlas.getSprite(extensions.getStillTexture(stack)))
-            .tint(extensions.getTintColor(stack));
+            .sprite(model.stillMaterial().sprite())
+            .tint(tintSource == null ? 0xFFFFFFFF : tintSource.colorAsStack(stack));
     }
 
 }

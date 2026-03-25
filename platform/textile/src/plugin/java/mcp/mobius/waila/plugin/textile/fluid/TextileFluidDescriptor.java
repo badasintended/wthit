@@ -6,11 +6,11 @@ import mcp.mobius.waila.api.data.FluidData.FluidDescription;
 import mcp.mobius.waila.api.data.FluidData.FluidDescriptionContext;
 import mcp.mobius.waila.api.data.FluidData.FluidDescriptor;
 import mcp.mobius.waila.api.fabric.FabricFluidData;
-import net.fabricmc.fabric.api.client.render.fluid.v1.FluidRenderingRegistry;
 import net.fabricmc.fabric.api.transfer.v1.client.fluid.FluidVariantRendering;
 import net.fabricmc.fabric.api.transfer.v1.fluid.CauldronFluidContent;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariant;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidVariantAttributes;
+import net.minecraft.client.Minecraft;
 import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
@@ -23,15 +23,11 @@ public enum TextileFluidDescriptor implements FluidDescriptor<Fluid>, CauldronDe
 
     @Override
     public void describeFluid(FluidDescriptionContext<Fluid> ctx, FluidDescription desc) {
-        // TODO(26.1)
-        // var variant = FluidVariant.of(ctx.fluid(), ctx.data());
-        // desc.name(FluidVariantAttributes.getName(variant));
-
-        // var sprite = FluidVariantRendering.getSprite(variant);
-        // if (sprite != null) {
-        //     desc.sprite(sprite)
-        //         .tint(FluidVariantRendering.getColor(variant));
-        // }
+        var variant = FluidVariant.of(ctx.fluid(), ctx.data());
+        var model = Minecraft.getInstance().getModelManager().getFluidStateModelSet().get(ctx.fluid().defaultFluidState());
+        desc.name(FluidVariantAttributes.getName(variant))
+            .sprite(model.stillMaterial().sprite())
+            .tint(FluidVariantRendering.getColor(variant));
     }
 
     @Override
