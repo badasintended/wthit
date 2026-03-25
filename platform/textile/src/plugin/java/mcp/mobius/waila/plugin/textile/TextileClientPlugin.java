@@ -19,8 +19,7 @@ public abstract class TextileClientPlugin implements IWailaClientPlugin {
 
     @Override
     public void register(IClientRegistrar registrar) {
-        // TODO(26.1)
-        // FluidData.describeFluid(Fluid.class, TextileFluidDescriptor.INSTANCE);
+        FluidData.describeFluid(Fluid.class, TextileFluidDescriptor.INSTANCE);
         FluidData.describeCauldron(Block.class, TextileFluidDescriptor.INSTANCE);
 
         registrar.toolType(Identifier.withDefaultNamespace("pickaxe"), IToolType.builder()
