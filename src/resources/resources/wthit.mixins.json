@@ -32,6 +32,7 @@
     "MultiPlayerGameModeMixin",
     "OptionsScreenMixin",
     "PlayerTabOverlayAccess",
+    "ScissorStackMixin",
     "TabNavigationBarAccess"
   ],
   "injectors"         : {

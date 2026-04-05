@@ -30,7 +30,7 @@ public class ForgeWaila extends Waila {
 
             var mods = new String[]{"minecraft", "forge", "wthit", "jei"};
             for (var mod : mods) {
-                ModList.get().getModContainerById(mod)
+                ModList.getModContainerById(mod)
                     .map(ModContainer::getModInfo)
                     .ifPresent(m -> DumpGenerator.VERSIONS.put(m.getDisplayName(), m.getVersion().toString()));
             }

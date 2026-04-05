@@ -40,6 +40,8 @@ allprojects {
                 includeGroup("org.spongepowered")
             }
         }
+
+        mavenLocal()
     }
 
     java {

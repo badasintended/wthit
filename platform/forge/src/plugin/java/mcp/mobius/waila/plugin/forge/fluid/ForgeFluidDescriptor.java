@@ -16,7 +16,8 @@ public enum ForgeFluidDescriptor implements FluidDescriptor<Fluid> {
 
     @Override
     public void describeFluid(FluidDescriptionContext<Fluid> ctx, FluidDescription desc) {
-        var customData = ctx.data().get(DataComponents.CUSTOM_DATA);
+        // TODO(26.1)
+        /*var customData = ctx.data().get(DataComponents.CUSTOM_DATA);
         var nbt = customData != null && customData.isPresent() ? customData.get().copyTag() : null;
         var stack = new FluidStack(ctx.fluid(), 1);
         stack.setTag(nbt);
@@ -27,7 +28,7 @@ public enum ForgeFluidDescriptor implements FluidDescriptor<Fluid> {
 
         desc.name(type.getDescription(stack))
             .sprite(atlas.getSprite(extensions.getStillTexture(stack)))
-            .tint(extensions.getTintColor(stack));
+            .tint(extensions.getTintColor(stack));*/
     }
 
 }

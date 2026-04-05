@@ -31,7 +31,7 @@ public class ForgeCommonService implements ICommonService {
 
     @Override
     public Optional<ModInfo> createModInfo(String namespace) {
-        return ModList.get()
+        return ModList
             .getModContainerById(namespace)
             .map(ModContainer::getModInfo)
             .map(data -> new ModInfo(true, data.getModId(), data.getDisplayName(), data.getVersion().getQualifier()));
@@ -53,7 +53,7 @@ public class ForgeCommonService implements ICommonService {
     @Override
     @SuppressWarnings("OptionalGetWithoutIsPresent")
     public String getIssueUrl() {
-        return ModList.get().getModContainerById(WailaConstants.MOD_ID).get().getModInfo().getOwningFile().getConfig().<String>getConfigElement("issueTrackerURL").get();
+        return ModList.getModContainerById(WailaConstants.MOD_ID).get().getModInfo().getOwningFile().getConfig().<String>getConfigElement("issueTrackerURL").get();
     }
 
 }
