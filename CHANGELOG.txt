@@ -1,5 +1,7 @@
-19.x - 26.1-rc-3 - dev/26.1 - java 25
-=====================================
+19.x - 26.1.1 - dev/26.1 - java 25
+==================================
+19.0.1   - Updated to Minecraft 26.1.1
+         - Fixed crash when previewing tooltip (#365)
 19.0.0   - Updated to Minecraft 26.1-rc-3
          - Updated Russian translation (#363)
 
