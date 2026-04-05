@@ -80,7 +80,7 @@ public class TextureComponent implements ITooltipComponent {
 
     @Override
     public void render(GuiGraphicsExtractor ctx, int x, int y, DeltaTracker delta) {
-        ctx.blit(RenderPipelines.GUI_TEXTURED, textureId, x, y, width, height, u, v, regionWidth, regionHeight, textureWidth, textureHeight);
+        ctx.blit(RenderPipelines.GUI_TEXTURED, textureId, x, y, u, v, width, height, regionWidth, regionHeight, textureWidth, textureHeight);
     }
 
 }

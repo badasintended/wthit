@@ -15,7 +15,10 @@ import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.IWailaConfig.Overlay.Position.Align;
 import mcp.mobius.waila.api.WailaConstants;
+import mcp.mobius.waila.api.component.ColorComponent;
 import mcp.mobius.waila.api.component.ItemComponent;
+import mcp.mobius.waila.api.component.SpriteComponent;
+import mcp.mobius.waila.api.component.TextureComponent;
 import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.config.WailaConfig;
 import mcp.mobius.waila.config.input.KeyBind;
@@ -93,7 +96,7 @@ public class WailaConfigScreen extends TabbedConfigScreen {
 
     public Rectangle buildPreview(TooltipRenderer.State state) {
         TooltipRenderer.beginBuild(state);
-        TooltipRenderer.setIcon(new ItemComponent(Blocks.GRASS_BLOCK));
+        TooltipRenderer.setIcon(new TextureComponent(Waila.id("textures/fake_block.png"), 0, 0, 16, 16, 16, 16));
         TooltipRenderer.add(new Line(null).with(Component.literal(tryFormat(blockNameFormatVal.getValue(), Blocks.GRASS_BLOCK.getName().getString()))));
         TooltipRenderer.add(new Line(null).with(Component.literal("never gonna give you up").withStyle(ChatFormatting.OBFUSCATED)));
         TooltipRenderer.add(new Line(null).with(Component.literal(tryFormat(modNameFormatVal.getValue(), IModInfo.get(Blocks.GRASS_BLOCK).getName()))));

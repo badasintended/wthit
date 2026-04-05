@@ -17,7 +17,8 @@ public class ForgeClientPlugin implements IWailaClientPlugin {
 
     @Override
     public void register(IClientRegistrar registrar) {
-        FluidData.describeFluid(Fluid.class, ForgeFluidDescriptor.INSTANCE);
+        // TODO(26.1)
+        // FluidData.describeFluid(Fluid.class, ForgeFluidDescriptor.INSTANCE);
 
         registrar.toolType(Identifier.withDefaultNamespace("pickaxe"), IToolType.builder()
             .lowestTierItem(Items.WOODEN_PICKAXE)

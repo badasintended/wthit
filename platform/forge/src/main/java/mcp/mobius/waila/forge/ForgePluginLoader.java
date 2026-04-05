@@ -4,7 +4,6 @@ import java.nio.file.Files;
 import java.util.Arrays;
 
 import mcp.mobius.waila.api.IPluginInfo;
-import mcp.mobius.waila.api.WailaPlugin;
 import mcp.mobius.waila.plugin.PluginInfo;
 import mcp.mobius.waila.plugin.PluginLoader;
 import mcp.mobius.waila.plugin.PluginSide;
@@ -14,12 +13,12 @@ import net.minecraftforge.fml.loading.FMLLoader;
 
 public class ForgePluginLoader extends PluginLoader {
 
-    @SuppressWarnings("deprecation")
-    private static final String WAILA_PLUGIN = WailaPlugin.class.getName();
+    @SuppressWarnings("removal")
+    private static final String WAILA_PLUGIN = mcp.mobius.waila.api.WailaPlugin.class.getName();
 
     @Override
     protected void gatherPlugins() {
-        for (var modFile : ModList.get().getModFiles()) {
+        for (var modFile : ModList.getModFiles()) {
             for (var file : PLUGIN_JSON_FILES) {
                 var path = modFile.getFile().findResource(file);
                 if (Files.exists(path)) {
@@ -39,7 +38,7 @@ public class ForgePluginLoader extends PluginLoader {
 
                     var satisfied = true;
                     for (var dep : required) {
-                        satisfied = satisfied && ModList.get().isLoaded(dep);
+                        satisfied = satisfied && ModList.isLoaded(dep);
                     }
 
                     if (side == PluginSide.CLIENT && FMLLoader.getDist() != Dist.CLIENT) {
