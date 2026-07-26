@@ -14,7 +14,7 @@ repositories {
 }
 
 dependencies {
-    implementation("me.modmuss50:mod-publish-plugin:0.7.4")
+    implementation("me.modmuss50:mod-publish-plugin:2.1.1")
 
     implementation("de.undercouch:gradle-download-task:5.0.5")
 
