@@ -27,6 +27,9 @@ fun <T : Jar> UploadConfig.curseforge(task: TaskProvider<T>) = project.run {
             minecraftVersions.addAll(prop["cf.gameVersion"].split(", "))
             modLoaders.addAll(prop["cf.loader"].split(", "))
 
+            client = true
+            server = true
+
             fun relation(key: String, fn: (Array<String>) -> Unit) {
                 prop.ifPresent("cf.${key}") { value ->
                     fn(value.split(", ").toTypedArray())
