@@ -24,8 +24,8 @@ public class ClientMixinService implements IClientMixinService {
         if (!WailaClient.CONFIG.get().getGeneral().vanillaOptions()) return;
 
         var client = Minecraft.getInstance();
-        var parent = client.screen;
-        rowHelper.addChild(Button.builder(Component.literal(WailaConstants.MOD_NAME), (b) -> client.setScreen(new WailaConfigScreen(parent))).build());
+        var parent = client.gui.screen();
+        rowHelper.addChild(Button.builder(Component.literal(WailaConstants.MOD_NAME), (b) -> client.gui.setScreen(new WailaConfigScreen(parent))).build());
     }
 
     WailaConfig.KeyBinds binds() {

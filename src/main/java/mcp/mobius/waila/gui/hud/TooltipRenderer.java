@@ -176,7 +176,7 @@ public class TooltipRenderer {
         var y = windowH * anchorY.multiplier - h * alignY.multiplier + state.getY();
 
         if (!state.bossBarsOverlap() && anchorX == Align.X.CENTER && anchorY == Align.Y.TOP) {
-            y += Math.min(((BossHealthOverlayAccess) client.gui.getBossOverlay()).wthit_events().size() * 19, window.getGuiScaledHeight() / 3 + 2);
+            y += Math.min(((BossHealthOverlayAccess) client.gui.hud.getBossOverlay()).wthit_events().size() * 19, window.getGuiScaledHeight() / 3 + 2);
         }
 
         RECT.get().setRect(Mth.floor(x + 0.5), Mth.floor(y + 0.5), w, h);
@@ -339,7 +339,7 @@ public class TooltipRenderer {
         if (!state.render()) return;
 
         var narrator = ((GameNarratorAccess) client.getNarrator()).wthit_narrator();
-        if (!narrator.active() || !state.enableTextToSpeech() || Minecraft.getInstance().screen instanceof ChatScreen) {
+        if (!narrator.active() || !state.enableTextToSpeech() || Minecraft.getInstance().gui.screen() instanceof ChatScreen) {
             return;
         }
 

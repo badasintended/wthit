@@ -24,6 +24,7 @@ import mcp.mobius.waila.plugin.harvest.tool.ToolType;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.resources.language.I18n;
+import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.resources.Identifier;
@@ -205,7 +206,7 @@ public enum HarvestProvider implements IBlockComponentProvider, IEventListener {
     }
 
     private static MutableComponent getTierText(ToolTier highestTier, ItemStack heldStack) {
-        var tierText = I18n.exists(highestTier.tlKey())
+        var tierText = Language.getInstance().has(highestTier.tlKey())
             ? Component.translatable(highestTier.tlKey())
             : Component.literal(String.valueOf(highestTier.index));
 

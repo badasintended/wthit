@@ -78,11 +78,11 @@ public class TooltipHandler {
         }
 
         if (!inspect) {
-            if (client.options.hideGui) return false;
-            if (client.screen != null && !(client.screen instanceof ChatScreen)) return false;
+            if (client.gui.hud.isHidden()) return false;
+            if (client.gui.screen() != null && !(client.gui.screen() instanceof ChatScreen)) return false;
             if (!general.isDisplayTooltip()) return false;
             if (general.getDisplayMode() == IWailaConfig.General.DisplayMode.HOLD_KEY && !binds.getShowOverlay().isDown()) return false;
-            if (general.isHideFromPlayerList() && ((PlayerTabOverlayAccess) client.gui.getTabList()).wthit_isVisible()) return false;
+            if (general.isHideFromPlayerList() && ((PlayerTabOverlayAccess) client.gui.hud.getTabList()).wthit_isVisible()) return false;
             if (general.isHideFromDebug() && client.debugEntries.isOverlayVisible()) return false;
         }
 

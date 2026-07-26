@@ -69,7 +69,7 @@ public class CreditsScreen extends YesIAmSureTheClientInstanceIsPresentByTheTime
 
     @Override
     public void onClose() {
-        minecraft.setScreen(parent);
+        minecraft.gui.setScreen(parent);
     }
 
     private static class CreditMap extends LinkedHashMap<String, CreditCategory> {

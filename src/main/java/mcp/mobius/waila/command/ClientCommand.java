@@ -47,7 +47,7 @@ public abstract class ClientCommand<S> extends CommonCommand<S, Minecraft> {
             .then(literal("open"))
             .executes(context -> {
                 var client = Minecraft.getInstance();
-                client.schedule(() -> client.setScreen(new WailaConfigScreen(client.screen)));
+                client.schedule(() -> client.gui.setScreen(new WailaConfigScreen(client.gui.screen())));
                 return 1;
             })
 
@@ -162,7 +162,7 @@ public abstract class ClientCommand<S> extends CommonCommand<S, Minecraft> {
             .then(literal("inspect"))
             .executes(context -> {
                 var client = Minecraft.getInstance();
-                client.schedule(() -> client.setScreen(new InspectorScreen()));
+                client.schedule(() -> client.gui.setScreen(new InspectorScreen()));
                 return 1;
             })
             .pop("inspect")

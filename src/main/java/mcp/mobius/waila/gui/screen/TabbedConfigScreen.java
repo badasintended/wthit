@@ -35,13 +35,13 @@ public abstract class TabbedConfigScreen extends ConfigScreen implements TabbedS
             return;
         }
 
-        minecraft.setScreen(new ConfirmScreen(accept -> {
+        minecraft.gui.setScreen(new ConfirmScreen(accept -> {
             if (accept) {
                 if (options.save(false)) {
                     if (saver != null) saver.run();
                     change.run();
                 } else {
-                    minecraft.setScreen(this);
+                    minecraft.gui.setScreen(this);
                 }
             } else {
                 change.run();

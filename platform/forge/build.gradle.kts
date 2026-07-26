@@ -1,7 +1,7 @@
 import net.minecraftforge.gradle.internal.SlimeLauncherRunTask
 
 plugins {
-    id("net.minecraftforge.gradle") version "7.0.19"
+    id("net.minecraftforge.gradle") version "7.0.31"
 }
 
 setupPlatform(setRuntimeClasspath = false)

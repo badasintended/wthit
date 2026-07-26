@@ -17,16 +17,16 @@ public class AutoClosableScreen extends AbstractContainerScreen<AutoClosableScre
 
     public static void inject() {
         var client = Minecraft.getInstance();
-        var screen = client.screen;
+        var screen = client.gui.screen();
         if (!(screen instanceof AutoClosableScreen)) {
-            client.setScreen(new AutoClosableScreen());
+            client.gui.setScreen(new AutoClosableScreen());
         }
     }
 
     @Override
     public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
-        if (minecraft.screen == this) {
-            minecraft.setScreen(null);
+        if (minecraft.gui.screen() == this) {
+            minecraft.gui.setScreen(null);
         }
     }
 

@@ -8,13 +8,13 @@ import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.__internal__.IApiService;
 import mcp.mobius.waila.api.data.EnergyData;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.FurnaceBlock;
 import net.minecraft.world.level.block.entity.BarrelBlockEntity;
-import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.entity.BlockEntityTypes;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.MixinEnvironment;
 
@@ -115,18 +115,18 @@ public class WailaPluginTest implements IWailaPlugin {
             Blocks.GRASS_BLOCK);
 
         registrar.addBlacklist(9000,
-            BlockEntityType.BED,
-            BlockEntityType.BELL);
+            BlockEntityTypes.BRUSHABLE_BLOCK,
+            BlockEntityTypes.BELL);
 
         registrar.removeBlacklist(8900,
-            BlockEntityType.BED);
+            BlockEntityTypes.BRUSHABLE_BLOCK);
 
         registrar.addBlacklist(9000,
-            EntityType.CREEPER,
-            EntityType.BLAZE);
+            EntityTypes.CREEPER,
+            EntityTypes.BLAZE);
 
         registrar.removeBlacklist(8900,
-            EntityType.BLAZE);
+            EntityTypes.BLAZE);
 
 //        registrar.removeBlacklist(
 //            Blocks.BARRIER,

@@ -8,6 +8,7 @@ import mcp.mobius.waila.plugin.vanilla.config.Options;
 import mcp.mobius.waila.plugin.vanilla.provider.data.MobEffectDataProvider;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.resources.language.I18n;
+import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.effect.MobEffectCategory;
 
@@ -27,7 +28,7 @@ public enum MobEffectProvider implements IEntityComponentProvider {
             var amplifier = it.getAmplifier();
 
             if (amplifier > 0) {
-                if (I18n.exists("potion.potency." + amplifier)) {
+                if (Language.getInstance().has("potion.potency." + amplifier)) {
                     text = Component.translatable("potion.withAmplifier", text, Component.translatable("potion.potency." + amplifier));
                 } else {
                     text.append(" " + (amplifier + 1));

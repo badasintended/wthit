@@ -129,12 +129,12 @@ class ThemeEditorScreen extends ConfigScreen {
         if (edit) {
             options
                 .with(new CategoryEntry(Tl.Config.OverlayThemeEditor.DELETE)
-                    .with(new ButtonEntry(Tl.Config.OverlayThemeEditor.DELETE, 100, 20, button -> minecraft.setScreen(new ConfirmScreen(delete -> {
+                    .with(new ButtonEntry(Tl.Config.OverlayThemeEditor.DELETE, 100, 20, button -> minecraft.gui.setScreen(new ConfirmScreen(delete -> {
                         if (delete) {
                             parent.removeTheme(template.id);
-                            minecraft.setScreen(parent);
+                            minecraft.gui.setScreen(parent);
                         } else {
-                            minecraft.setScreen(this);
+                            minecraft.gui.setScreen(this);
                         }
                     }, Component.translatable(Tl.Config.OverlayThemeEditor.DELETE_PROMPT, template.id.toString()), CommonComponents.EMPTY)))));
         }
@@ -193,7 +193,7 @@ class ThemeEditorScreen extends ConfigScreen {
         }
 
         if (idVal.getValue().isBlank()) {
-            minecraft.getToastManager().addToast(new SystemToast(
+            minecraft.gui.toastManager().addToast(new SystemToast(
                 SystemToast.SystemToastId.PACK_COPY_FAILURE,
                 Component.translatable(Tl.Config.MISSING_INPUT),
                 Component.translatable(Tl.Config.OverlayThemeEditor.ID_EMPTY)));

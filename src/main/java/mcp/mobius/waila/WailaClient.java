@@ -70,9 +70,9 @@ public abstract class WailaClient {
         KeyBind.tick();
         TooltipHandler.tick();
 
-        if (client.screen == null) {
+        if (client.gui.screen() == null) {
             if (binds.getOpenConfig().isPressed()) {
-                client.setScreen(new WailaConfigScreen(null));
+                client.gui.setScreen(new WailaConfigScreen(null));
             }
 
             if (binds.getShowOverlay().isPressed()) {

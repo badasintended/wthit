@@ -22,6 +22,7 @@ import mcp.mobius.waila.network.common.VersionCommonPacket;
 import mcp.mobius.waila.registry.Registrar;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
+import net.minecraft.locale.Language;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -81,7 +82,7 @@ public class PluginConfigScreen extends TabbedConfigScreen {
                     var c = path.split("[.]", 2)[0];
                     var categoryTlKey = namespaceTlKey + "." + c;
 
-                    if (I18n.exists(categoryTlKey)) {
+                    if (Language.getInstance().has(categoryTlKey)) {
                         categoryKey = c;
 
                         if (!categories.containsKey(categoryKey)) {

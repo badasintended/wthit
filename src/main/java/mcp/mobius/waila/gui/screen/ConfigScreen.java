@@ -120,7 +120,7 @@ public abstract class ConfigScreen extends YesIAmSureTheClientInstanceIsPresentB
             lastEscPressTime = now;
             escPressed++;
             if (escPressed > 5) {
-                minecraft.getToastManager().addToast(new SystemToast(
+                minecraft.gui.toastManager().addToast(new SystemToast(
                     SystemToast.SystemToastId.PACK_COPY_FAILURE,
                     Component.translatable(Tl.Gui.EscWarning.UMM),
                     Component.translatable(Tl.Gui.EscWarning.LMAO,
@@ -155,7 +155,7 @@ public abstract class ConfigScreen extends YesIAmSureTheClientInstanceIsPresentB
 
     @Override
     public void onClose() {
-        minecraft.setScreen(parent);
+        minecraft.gui.setScreen(parent);
     }
 
     public void addListener(GuiEventListener listener) {

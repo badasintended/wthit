@@ -27,6 +27,7 @@ import net.minecraft.world.RandomizableContainer;
 import net.minecraft.world.entity.AgeableMob;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.OwnableEntity;
 import net.minecraft.world.entity.animal.bee.Bee;
@@ -151,12 +152,12 @@ public class VanillaCommonPlugin implements IWailaCommonPlugin {
             Blocks.LIGHT);
 
         registrar.blacklist(1100,
-            EntityType.AREA_EFFECT_CLOUD,
-            EntityType.EXPERIENCE_ORB,
-            EntityType.FIREBALL,
-            EntityType.FIREWORK_ROCKET,
-            EntityType.INTERACTION,
-            EntityType.SNOWBALL);
+            EntityTypes.AREA_EFFECT_CLOUD,
+            EntityTypes.EXPERIENCE_ORB,
+            EntityTypes.FIREBALL,
+            EntityTypes.FIREWORK_ROCKET,
+            EntityTypes.INTERACTION,
+            EntityTypes.SNOWBALL);
 
         Options.ALIASES.forEach(registrar::configAlias);
     }

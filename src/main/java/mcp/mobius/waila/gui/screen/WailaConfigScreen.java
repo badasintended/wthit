@@ -201,7 +201,7 @@ public class WailaConfigScreen extends TabbedConfigScreen {
                     InputValue.POSITIVE_INTEGER),
                 it -> it.disable(Tl.Config.OverlayFps.DISABLED_REASON)))
             .with(placementButton = new ButtonEntry(Tl.Config.OVERLAY_PLACEMENT, 100, 20, w ->
-                minecraft.setScreen(new PlacementScreen())))
+                minecraft.gui.setScreen(new PlacementScreen())))
             .withHidden(xAnchorValue = new EnumValue<>(Tl.Config.OVERLAY_ANCHOR,
                 Align.X.values(),
                 get().getOverlay().getPosition().getAnchor().getX(),
@@ -369,9 +369,9 @@ public class WailaConfigScreen extends TabbedConfigScreen {
                 false);
 
             this.editButton = createButton(0, 0, 40, 20, Component.translatable(Tl.Config.EDIT), button ->
-                client.setScreen(new ThemeEditorScreen(WailaConfigScreen.this, getTheme(), true)));
+                client.gui.setScreen(new ThemeEditorScreen(WailaConfigScreen.this, getTheme(), true)));
             this.newButton = createButton(0, 0, 40, 20, Component.translatable(Tl.Config.NEW), button ->
-                client.setScreen(new ThemeEditorScreen(WailaConfigScreen.this, getTheme(), false)));
+                client.gui.setScreen(new ThemeEditorScreen(WailaConfigScreen.this, getTheme(), false)));
 
             reloadEditButton();
         }
@@ -503,7 +503,7 @@ public class WailaConfigScreen extends TabbedConfigScreen {
                 if (changed) message.withStyle(ChatFormatting.ITALIC, ChatFormatting.YELLOW);
                 placementButton.setTitle(message);
 
-                minecraft.setScreen(WailaConfigScreen.this);
+                minecraft.gui.setScreen(WailaConfigScreen.this);
             }));
 
             tick();

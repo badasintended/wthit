@@ -20,7 +20,7 @@ public enum RedirectTest implements IBlockComponentProvider {
 
     @Override
     public ITargetRedirector.@Nullable Result redirect(ITargetRedirector redirect, IBlockAccessor accessor, IPluginConfig config) {
-        if (accessor.getBlock() != Blocks.BLACK_WOOL) return null;
+        if (accessor.getBlock() != Blocks.WOOL.black()) return null;
 
         Target target = config.getEnum(TARGET);
         return switch (target) {

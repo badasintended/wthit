@@ -91,7 +91,7 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
     }
 
     public static void showErrorToast(Minecraft minecraft) {
-        minecraft.getToastManager().addToast(new SystemToast(
+        minecraft.gui.toastManager().addToast(new SystemToast(
             SystemToast.SystemToastId.PACK_COPY_FAILURE,
             Component.translatable(Tl.Config.InvalidInput.TITLE),
             Component.translatable(Tl.Config.InvalidInput.DESC)));

@@ -37,7 +37,7 @@ public class PluginToggleScreen extends TabbedConfigScreen {
             return;
         }
 
-        minecraft.setScreen(new ConfirmScreen(accepted -> {
+        minecraft.gui.setScreen(new ConfirmScreen(accepted -> {
             if (!accepted) {
                 afterSave.run();
                 return;

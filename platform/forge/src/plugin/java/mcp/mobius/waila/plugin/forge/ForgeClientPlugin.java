@@ -4,13 +4,13 @@ import mcp.mobius.waila.api.IClientRegistrar;
 import mcp.mobius.waila.api.IToolType;
 import mcp.mobius.waila.api.IWailaClientPlugin;
 import mcp.mobius.waila.api.data.FluidData;
+import mcp.mobius.waila.mixed.IShearable;
 import mcp.mobius.waila.plugin.forge.fluid.ForgeFluidDescriptor;
 import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.block.DoublePlantBlock;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.common.IForgeShearable;
 import net.minecraftforge.common.ToolActions;
 
 public class ForgeClientPlugin implements IWailaClientPlugin {
@@ -52,7 +52,7 @@ public class ForgeClientPlugin implements IWailaClientPlugin {
 
         registrar.toolType(Identifier.withDefaultNamespace("shears"), IToolType.builder()
             .lowestTierItem(Items.SHEARS)
-            .blockPredicate(it -> it.getBlock() instanceof IForgeShearable || it.getBlock() instanceof DoublePlantBlock)
+            .blockPredicate(it -> it.getBlock() instanceof IShearable || it.getBlock() instanceof DoublePlantBlock)
             .itemPredicate(it -> it.canPerformAction(ToolActions.SHEARS_DIG))
             .build());
     }

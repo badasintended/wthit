@@ -14,6 +14,7 @@ import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.resources.language.I18n;
+import net.minecraft.locale.Language;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.util.FormattedCharSequence;
@@ -161,7 +162,7 @@ public abstract class ConfigValue<T, C extends ConfigValue<T, C>> extends Config
 
     @Nullable
     public Component getDescription() {
-        return I18n.exists(description) ? Component.translatable(description).withStyle(ChatFormatting.GRAY) : null;
+        return Language.getInstance().has(description) ? Component.translatable(description).withStyle(ChatFormatting.GRAY) : null;
     }
 
     public int getX() {
