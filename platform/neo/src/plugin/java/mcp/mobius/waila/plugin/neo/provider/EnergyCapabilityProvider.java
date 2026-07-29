@@ -26,7 +26,7 @@ public enum EnergyCapabilityProvider implements IDataProvider<BlockEntity> {
             var target = accessor.getTarget();
             var pos = target.getBlockPos();
 
-            if (cache == null || (cache.level() != world && !cache.pos().equals(pos))) {
+            if (cache == null || cache.level() != world || !cache.pos().equals(pos)) {
                 cache = BlockCapabilityCache.create(Capabilities.Energy.BLOCK, world, pos, null);
             }
 
