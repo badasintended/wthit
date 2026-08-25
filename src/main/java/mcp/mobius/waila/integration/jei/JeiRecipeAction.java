@@ -1,5 +1,3 @@
-// TODO: Implement JEI again
-/*
 package mcp.mobius.waila.integration.jei;
 
 import mcp.mobius.waila.Waila;
@@ -59,4 +57,3 @@ public class JeiRecipeAction implements IModPlugin, IRecipeAction {
     }
 
 }
-*/
