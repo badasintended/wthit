@@ -58,7 +58,7 @@
   ],
 
   "depends"      : {
-    "fabricloader": ">=0.20.0",
+    "fabricloader": ">=0.19.5",
     "fabric-api"  : ">=0.164.0",
     "minecraft"   : ">=26.3-",
     "badpackets"  : ">=0.12-"
