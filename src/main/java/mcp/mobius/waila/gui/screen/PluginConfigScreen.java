@@ -20,13 +20,13 @@ import mcp.mobius.waila.gui.widget.value.InputValue;
 import mcp.mobius.waila.gui.widget.value.IntInputValue;
 import mcp.mobius.waila.network.common.VersionCommonPacket;
 import mcp.mobius.waila.registry.Registrar;
+import mcp.mobius.waila.util.FileUtil;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.locale.Language;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
-import net.minecraft.util.Util;
 import org.jspecify.annotations.NonNull;
 
 public class PluginConfigScreen extends TabbedConfigScreen {
@@ -98,7 +98,7 @@ public class PluginConfigScreen extends TabbedConfigScreen {
 
                 if (entry.getType().equals(ConfigEntry.PATH)) {
                     var button = new ButtonEntry(entryTlKey, Tl.Config.OPEN_FILE, 100, 20, b ->
-                        Util.getPlatform().openFile(((Path) entry.getDefaultValue()).toFile()));
+                        FileUtil.openFile((Path) entry.getDefaultValue()));
 
                     category.with(button);
                     continue;

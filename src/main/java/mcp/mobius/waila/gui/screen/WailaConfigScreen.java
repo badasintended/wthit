@@ -33,6 +33,7 @@ import mcp.mobius.waila.gui.widget.value.ConfigValue;
 import mcp.mobius.waila.gui.widget.value.CycleValue;
 import mcp.mobius.waila.gui.widget.value.EnumValue;
 import mcp.mobius.waila.gui.widget.value.InputValue;
+import mcp.mobius.waila.util.FileUtil;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.Button;
@@ -131,7 +132,7 @@ public class WailaConfigScreen extends TabbedConfigScreen {
 
     @Override
     public void extractRenderState(GuiGraphicsExtractor ctx, int mouseX, int mouseY, float partialTicks) {
-        if (InputConstants.isKeyDown(minecraft.getWindow(), InputConstants.KEY_F1)) {
+        if (InputConstants.isKeyDown(InputConstants.KEY_F1)) {
             if (!f1held) {
                 f1held = true;
                 buildPreview(previewState);
@@ -191,7 +192,7 @@ public class WailaConfigScreen extends TabbedConfigScreen {
                 val -> get().getGeneral().setRateLimit(Math.max(val, 250)),
                 InputValue.POSITIVE_INTEGER))
             .with(new ButtonEntry(Tl.Config.BLACKLIST, Tl.Config.BLACKLIST_OPEN, 100, 20, w ->
-                Util.getPlatform().openFile(Waila.BLACKLIST_CONFIG.getPath().toFile()))));
+                FileUtil.openFile(Waila.BLACKLIST_CONFIG.getPath()))));
 
         options.with(new CategoryEntry(Tl.Config.OVERLAY)
             .with(fpsVal = Util.make(new InputValue<>(Tl.Config.OVERLAY_FPS,
