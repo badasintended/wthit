@@ -4,13 +4,30 @@
   "provides"     : ["waila"],
   "version"      : "${version}",
   "entrypoints"  : {
-    "main"          : ["mcp.mobius.waila.fabric.FabricWaila"],
-    "client"        : ["mcp.mobius.waila.fabric.FabricWailaClient"],
-    "server"        : ["mcp.mobius.waila.fabric.FabricWailaDedicatedServer"],
-    "emi"           : ["mcp.mobius.waila.integration.emi.EmiRecipeAction"],
-    "jei_mod_plugin": ["mcp.mobius.waila.integration.jei.JeiRecipeAction"],
-    "modmenu"       : ["mcp.mobius.waila.integration.modmenu.WailaModMenu"],
-    "rei_client"    : ["mcp.mobius.waila.integration.reiwhycheckingforpackagename.ReiRecipeAction"]
+    "main"          : [
+      "mcp.mobius.waila.fabric.FabricWaila"
+    ],
+    "client"        : [
+      "mcp.mobius.waila.fabric.FabricWailaClient"
+    ],
+    "server"        : [
+      "mcp.mobius.waila.fabric.FabricWailaDedicatedServer"
+    ],
+    "emi"           : [
+      "mcp.mobius.waila.integration.emi.EmiRecipeAction"
+    ],
+    "jei_mod_plugin": [
+      "mcp.mobius.waila.integration.jei.JeiRecipeAction"
+    ],
+    "modmenu"       : [
+      "mcp.mobius.waila.integration.modmenu.WailaModMenu"
+    ],
+    "rei_client"    : [
+      "mcp.mobius.waila.integration.reiwhycheckingforpackagename.ReiRecipeAction"
+    ],
+    "rrv_client"    : [
+      "mcp.mobius.waila.integration.rrv.RrvRecipeAction"
+    ]
   },
   "mixins"       : ["wthit.mixins.json"],
   "name"         : "wthit",

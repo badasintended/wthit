@@ -17,20 +17,8 @@ dependencies {
     modCompileRuntime("org.quiltmc.quilted-fabric-api:fabric-mining-level-api-v1:${rootProp["qfapi"]}")
     modCompileRuntime("org.quiltmc.quilted-fabric-api:fabric-transfer-api-v1:${rootProp["qfapi"]}")
 
-    modCompileRuntime("com.terraformersmc:modmenu:${rootProp["modMenu"]}")
-
     modRuntimeOnly("lol.bai:badpackets:fabric-${rootProp["badpackets"]}")
     modRuntimeOnly("org.quiltmc.quilted-fabric-api:quilted-fabric-api:${rootProp["qfapi"]}")
-//    modRuntimeOnly("dev.architectury:architectury-fabric:${rootProp["architectury"]}")
-//    modRuntimeOnly("me.shedaniel.cloth:cloth-config-fabric:${rootProp["clothConfig"]}")
-
-    when (rootProp["recipeViewer"]) {
-        "emi" -> modRuntimeOnly("dev.emi:emi-fabric:${rootProp["emi"]}")
-        "rei" -> modRuntimeOnly("me.shedaniel:RoughlyEnoughItems-fabric:${rootProp["rei"]}")
-        "jei" -> rootProp["jei"].split("-").also { (mc, jei) ->
-            modRuntimeOnly("mezz.jei:jei-${mc}-fabric:${jei}")
-        }
-    }
 }
 
 

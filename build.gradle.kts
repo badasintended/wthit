@@ -106,10 +106,6 @@ minecraft {
 dependencies {
     compileOnly("lol.bai:badpackets:mojmap-${rootProp["badpackets"]}")
     compileOnly("org.spongepowered:mixin:0.8.5")
-
-    rootProp["jei"].split("-").also { (mc, jei) ->
-        compileOnly("mezz.jei:jei-${mc}-common-api:${jei}")
-    }
 }
 
 sourceSets {
@@ -133,7 +129,7 @@ sourceSets {
         compileClasspath += buildConst.output
     }
     listOf(main, pluginCore, pluginExtra, pluginHarvest, pluginVanilla, pluginTest).applyEach {
-        compileClasspath += api.output + mixin.output
+        compileClasspath += api.output + mixin.output + apiPlatformStub.output
     }
     api.apply {
         compileClasspath += apiPlatformStub.output
