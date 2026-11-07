@@ -9,28 +9,8 @@ setupPlatform()
 dependencies {
     minecraft("com.mojang:minecraft:${rootProp["minecraft"]}")
     implementation("net.fabricmc:fabric-loader:${rootProp["fabricLoader"]}")
-
     compileRuntime("net.fabricmc.fabric-api:fabric-api:${rootProp["fabricApi"]}")
-
-    compileOnly("com.terraformersmc:modmenu:${rootProp["modMenu"]}")
-
-    compileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:${rootProp["rei"]}")
-    compileOnly("dev.emi:emi-fabric:${rootProp["emi"]}")
-
     runtimeOnly("lol.bai:badpackets:fabric-${rootProp["badpackets"]}")
-    runtimeOnly("net.fabricmc.fabric-api:fabric-api-deprecated:${rootProp["fabricApi"]}")
-//    runtimeOnly("dev.architectury:architectury-fabric:${rootProp["architectury"]}")
-//    runtimeOnly("me.shedaniel.cloth:cloth-config-fabric:${rootProp["clothConfig"]}")
-
-//    runtimeOnly("TechReborn:TechReborn-1.20:5.8.1")
-
-    when (rootProp["recipeViewer"]) {
-        "emi" -> runtimeOnly("dev.emi:emi:${rootProp["emi"]}")
-        "rei" -> runtimeOnly("me.shedaniel:RoughlyEnoughItems-fabric:${rootProp["rei"]}")
-        "jei" -> rootProp["jei"].split("-").also { (mc, jei) ->
-            runtimeOnly("mezz.jei:jei-${mc}-fabric:${jei}")
-        }
-    }
 }
 
 setupStub()

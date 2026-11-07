@@ -26,6 +26,9 @@
     ],
     "rei_client"    : [
       "mcp.mobius.waila.integration.reiwhycheckingforpackagename.ReiRecipeAction"
+    ],
+    "rrv_client"    : [
+      "mcp.mobius.waila.integration.rrv.RrvRecipeAction"
     ]
   },
   "mixins"       : [

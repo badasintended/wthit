@@ -15,26 +15,7 @@ repositories {
 dependencies {
     implementation(minecraft.dependency("net.minecraftforge:forge:${rootProp["minecraft"]}-${rootProp["forge"]}"))
     annotationProcessor("net.minecraftforge:eventbus-validator:7.0-beta.7")
-
-    implementation("org.jetbrains:annotations:19.0.0")
-
     runtimeOnly("lol.bai:badpackets:forge-${rootProp["badpackets"]}")
-//    runtimeOnly("dev.architectury:architectury-forge:${rootProp["architectury"]}")
-//    runtimeOnly("me.shedaniel.cloth:cloth-config-forge:${rootProp["clothConfig"]}")
-
-    // https://www.curseforge.com/minecraft/mc-mods/travelers-backpack/files/4584396
-//    runtimeOnly("curse.maven:travelers-backpack-321117:4584396")
-
-    when (rootProp["recipeViewer"]) {
-        "rei" -> {
-            runtimeOnly("me.shedaniel:RoughlyEnoughItems-forge:${rootProp["rei"]}")
-//            runtimeOnly("me.shedaniel:RoughlyEnoughItems-plugin-compatibilities-forge:${rootProp["rei"]}")
-        }
-
-        "jei" -> rootProp["jei"].split("-").also { (mc, jei) ->
-            runtimeOnly("mezz.jei:jei-${mc}-forge:${jei}")
-        }
-    }
 }
 
 setupStub()
