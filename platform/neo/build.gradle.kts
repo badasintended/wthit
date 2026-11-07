@@ -7,10 +7,6 @@ setupPlatform()
 dependencies {
     implementation("net.neoforged:neoforge:${rootProp["neo"]}")
     implementation("lol.bai:badpackets:neo-${rootProp["badpackets"]}")
-
-    rootProp["jei"].split("-").also { (mc, jei) ->
-        compileOnly("mezz.jei:jei-${mc}-common-api:${jei}")
-    }
 }
 
 setupStub()

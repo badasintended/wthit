@@ -14,6 +14,7 @@ displayName = "wthit"
 description = "What the hell is that? Forge Edition"
 authors = "deirn, TehNut, ProfMobius"
 logoFile = "wthit.png"
+rrv_client = "mcp.mobius.waila.integration.rrv.RrvRecipeAction"
 
 [[mods]]
 modId = "waila"
