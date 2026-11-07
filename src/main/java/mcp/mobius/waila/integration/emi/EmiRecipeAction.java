@@ -1,6 +1,7 @@
 package mcp.mobius.waila.integration.emi;
 
 import dev.emi.emi.api.EmiApi;
+import dev.emi.emi.api.EmiEntrypoint;
 import dev.emi.emi.api.EmiPlugin;
 import dev.emi.emi.api.EmiRegistry;
 import dev.emi.emi.api.stack.EmiStack;
@@ -9,6 +10,7 @@ import mcp.mobius.waila.gui.screen.AutoClosableScreen;
 import mcp.mobius.waila.integration.IRecipeAction;
 import net.minecraft.world.item.ItemStack;
 
+@EmiEntrypoint
 public class EmiRecipeAction implements EmiPlugin, IRecipeAction {
 
     @Override
