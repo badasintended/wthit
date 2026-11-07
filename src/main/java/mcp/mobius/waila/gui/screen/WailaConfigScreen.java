@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import com.google.common.collect.ImmutableList;
+import com.mojang.blaze3d.Blaze3D;
 import com.mojang.blaze3d.platform.InputConstants;
 import com.mojang.blaze3d.platform.cursor.CursorTypes;
 import mcp.mobius.waila.Waila;
@@ -131,7 +132,7 @@ public class WailaConfigScreen extends TabbedConfigScreen {
 
     @Override
     public void extractRenderState(GuiGraphicsExtractor ctx, int mouseX, int mouseY, float partialTicks) {
-        if (InputConstants.isKeyDown(minecraft.getWindow(), InputConstants.KEY_F1)) {
+        if (InputConstants.isKeyDown(InputConstants.KEY_F1)) {
             if (!f1held) {
                 f1held = true;
                 buildPreview(previewState);
@@ -191,7 +192,7 @@ public class WailaConfigScreen extends TabbedConfigScreen {
                 val -> get().getGeneral().setRateLimit(Math.max(val, 250)),
                 InputValue.POSITIVE_INTEGER))
             .with(new ButtonEntry(Tl.Config.BLACKLIST, Tl.Config.BLACKLIST_OPEN, 100, 20, w ->
-                Util.getPlatform().openFile(Waila.BLACKLIST_CONFIG.getPath().toFile()))));
+                Blaze3D.openPath(Waila.BLACKLIST_CONFIG.getPath()))));
 
         options.with(new CategoryEntry(Tl.Config.OVERLAY)
             .with(fpsVal = Util.make(new InputValue<>(Tl.Config.OVERLAY_FPS,

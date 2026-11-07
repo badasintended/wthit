@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
 
+import com.mojang.blaze3d.Blaze3D;
 import lol.bai.badpackets.api.PacketSender;
 import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.config.ConfigEntry;
@@ -26,7 +27,6 @@ import net.minecraft.locale.Language;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
-import net.minecraft.util.Util;
 import org.jspecify.annotations.NonNull;
 
 public class PluginConfigScreen extends TabbedConfigScreen {
@@ -98,7 +98,7 @@ public class PluginConfigScreen extends TabbedConfigScreen {
 
                 if (entry.getType().equals(ConfigEntry.PATH)) {
                     var button = new ButtonEntry(entryTlKey, Tl.Config.OPEN_FILE, 100, 20, b ->
-                        Util.getPlatform().openFile(((Path) entry.getDefaultValue()).toFile()));
+                        Blaze3D.openPath((Path) entry.getDefaultValue()));
 
                     category.with(button);
                     continue;

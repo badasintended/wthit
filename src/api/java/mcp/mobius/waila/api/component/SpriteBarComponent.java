@@ -1,6 +1,6 @@
 package mcp.mobius.waila.api.component;
 
-import com.mojang.blaze3d.pipeline.RenderPipeline;
+import com.mojang.renderpearl.api.pipeline.RenderPipeline;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.util.WRenders;
