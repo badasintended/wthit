@@ -1,5 +1,3 @@
-// TODO: reimplement REI
-/*
 package mcp.mobius.waila.integration.reiwhycheckingforpackagename;
 
 import mcp.mobius.waila.WailaClient;
@@ -11,8 +9,10 @@ import me.shedaniel.rei.api.common.entry.EntryStack;
 import me.shedaniel.rei.api.common.entry.type.VanillaEntryTypes;
 import me.shedaniel.rei.api.common.plugins.PluginManager;
 import me.shedaniel.rei.api.common.registry.ReloadStage;
+import me.shedaniel.rei.forge.REIPluginClient;
 import net.minecraft.world.item.ItemStack;
 
+@REIPluginClient
 public class ReiRecipeAction implements REIClientPlugin, IRecipeAction {
 
     @Override
@@ -47,4 +47,3 @@ public class ReiRecipeAction implements REIClientPlugin, IRecipeAction {
     }
 
 }
-*/
