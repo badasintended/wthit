@@ -6,10 +6,6 @@ setupPlatform(setRuntimeClasspath = false)
 
 dependencies {
     implementation("lol.bai:badpackets:neo-${rootProp["badpackets"]}")
-
-    rootProp["jei"].split("-").also { (mc, jei) ->
-        compileOnly("mezz.jei:jei-${mc}-common-api:${jei}")
-    }
 }
 
 setupStub()
