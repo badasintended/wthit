@@ -26,7 +26,7 @@ public enum ItemCapabilityProvider implements IDataProvider<BlockEntity> {
             var target = accessor.getTarget();
             var pos = target.getBlockPos();
 
-            if (cache == null || (cache.level() != world && !cache.pos().equals(pos))) {
+            if (cache == null || cache.level() != world || !cache.pos().equals(pos)) {
                 //noinspection DataFlowIssue
                 cache = BlockCapabilityCache.create(Capabilities.ItemHandler.BLOCK, world, pos, null);
             }
