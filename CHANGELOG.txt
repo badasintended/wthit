@@ -1,9 +1,21 @@
+21.x - 26.3 - dev/26.3 - java 25
+================================
+21.0.0   - Updated to Minecraft 26.3
+         - Added back support for showing recipe using JEI/REI/EMI/RRV
+         - Fixed crash when showing empty fluid bar
+         - Fixed another block's item/fluid/energy content being shown on NeoForge
+
 20.x - 26.2 - dev/26.2 - java 25
 ================================
+20.0.1   - Added back support for showing recipe using JEI/REI/EMI/RRV
+         - Fixed crash when showing empty fluid bar
+         - Fixed another block's item/fluid/energy content being shown on NeoForge
 20.0.0   - Updated to Minecraft 26.2
 
 19.x - 26.1.1 - dev/26.1 - java 25
 ==================================
+19.0.2   - Added back support for showing recipe using JEI/REI/EMI/RRV
+         - Fixed another block's item/fluid/energy content being shown on NeoForge
 19.0.1   - Updated to Minecraft 26.1.1
          - Fixed crash when previewing tooltip (#365)
 19.0.0   - Updated to Minecraft 26.1-rc-3
@@ -11,6 +23,8 @@
 
 18.x - 1.21.11 - dev/1.21.11 - java 21
 ======================================
+18.2.3   - Added back support for showing recipe using JEI/REI/EMI/RRV
+         - Fixed another block's item/fluid/energy content being shown on NeoForge
 18.2.2   - Updated Russian translation (#363)
 18.2.1   - Fixed material origin always showing vanilla class
 18.2.0   - [API] Deprecated `getWorld` function in favor of `getLevel`
@@ -30,6 +44,8 @@
 
 17.x - 1.21.10 - dev/1.21.10 - java 21
 ======================================
+17.5.3   - Added back support for showing recipe using JEI/REI/EMI/RRV
+         - Fixed another block's item/fluid/energy content being shown on NeoForge
 17.5.2   - Updated Russian translation (#363)
 17.5.1   - Fixed material origin always showing vanilla class
 17.5.0   - [API] Deprecated `getWorld` function in favor of `getLevel`
@@ -96,6 +112,8 @@
 
 14.x - 1.21.4 - dev/1.21.4 - java 21
 ====================================
+14.6.2   - Added back support for showing recipe using JEI/REI/EMI/RRV
+         - Fixed another block's item/fluid/energy content being shown on NeoForge
 14.6.2   - Updated Russian translation (#363)
 14.6.1   - Fixed material origin always showing vanilla class
 14.6.0   - [API] Deprecated `getWorld` function in favor of `getLevel`
@@ -151,7 +169,9 @@
 
 12.x - 1.21.1 - dev/1.21.1 - java 21
 ====================================
-12.10.2   - Updated Russian translation (#363)
+12.10.3  - Added back support for showing recipe using JEI/REI/EMI/RRV
+         - Fixed another block's item/fluid/energy content being shown on NeoForge
+12.10.2  - Updated Russian translation (#363)
 12.10.1  - Fixed simple tier origin always showing Forge class
 12.10.0  - [API] Deprecated `getWorld` function in favor of `getLevel`
            - `getLevel` returns the `ServerLevel` instance on `IServerAccessor`
@@ -285,6 +305,8 @@
 
 10.x - 1.20.4 - dev/1.20.4 - java 17
 ====================================
+10.11.2  - Added back support for showing recipe using JEI/REI/EMI/RRV
+         - Fixed another block's item/fluid/energy content being shown on NeoForge
 10.11.1  - Updated Russian translation (#363)
 10.11.0  - [API] Deprecated `getWorld` function in favor of `getLevel`
            - `getLevel` returns the `ServerLevel` instance on `IServerAccessor`
@@ -459,6 +481,8 @@
 
 8.x - 1.20.1 - dev/1.20.1 - java 17
 ===================================
+8.21.2   - Added back support for showing recipe using JEI/REI/EMI/RRV
+         - Fixed another block's item/fluid/energy content being shown on NeoForge
 8.21.1   - Updated Russian translation (#363)
 8.21.0   - [API] Deprecated `getWorld` function in favor of `getLevel`
            - `getLevel` returns the `ServerLevel` instance on `IServerAccessor`
@@ -735,6 +759,8 @@
 
 5.x - 1.19.2 - dev/1.19.2 - java 17
 ===================================
+5.36.2   - Added back support for showing recipe using JEI/REI/EMI/RRV
+         - Fixed another block's item/fluid/energy content being shown on NeoForge
 5.36.1   - Updated Russian translation (#363)
 5.36.0   - [API] Deprecated `getWorld` function in favor of `getLevel`
            - `getLevel` returns the `ServerLevel` instance on `IServerAccessor`
