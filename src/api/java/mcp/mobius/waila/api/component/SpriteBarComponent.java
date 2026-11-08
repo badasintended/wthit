@@ -63,14 +63,16 @@ public class SpriteBarComponent implements ITooltipComponent {
 
         BarComponent.renderBar(ctx, x, y, BarComponent.WIDTH, BarComponent.V0_BG, 0xFFAAAAAA);
 
-        var mw = (int) (BarComponent.WIDTH * ratio);
-        if (mw > 0) {
-            var mx = x + mw;
-            var my = y + BarComponent.HEIGHT;
-            ctx.enableScissor(x + 1, y + 1, mx - 1, my - 1);
-            ps.pushMatrix();
-            WRenders.state(ctx).submitGuiElement(new ForegroundRenderState(new Matrix3x2f(ps), WRenders.scissor(ctx), new ScreenRectangle(x, y, mw, BarComponent.HEIGHT), mx, my));
-            ps.popMatrix();
+        var iw = (int) ((BarComponent.WIDTH - 2) * ratio);
+        if (iw > 0) {
+            var ix = x + 1;
+            var iy = y + 1;
+            var ih = BarComponent.HEIGHT - 2;
+            var mx = ix + iw;
+            var my = iy + ih;
+            ctx.enableScissor(ix, iy, mx, my);
+            WRenders.state(ctx).submitGuiElement(new ForegroundRenderState(
+                new Matrix3x2f(ps), WRenders.scissor(ctx), new ScreenRectangle(ix, iy, iw, ih), mx, my));
             ctx.disableScissor();
         }
 
@@ -81,12 +83,12 @@ public class SpriteBarComponent implements ITooltipComponent {
     private class ForegroundRenderState implements GuiElementRenderState {
 
         final Matrix3x2f pose;
-        final ScreenRectangle scissorArea;
+        final @Nullable ScreenRectangle scissorArea;
         final ScreenRectangle bounds;
         final TextureSetup textureSetup;
         final int mx, my;
 
-        private ForegroundRenderState(Matrix3x2f pose, ScreenRectangle scissorArea, ScreenRectangle bounds, int mx, int my) {
+        private ForegroundRenderState(Matrix3x2f pose, @Nullable ScreenRectangle scissorArea, ScreenRectangle bounds, int mx, int my) {
             this.pose = pose;
             this.scissorArea = scissorArea;
             this.bounds = bounds;
