@@ -14,6 +14,7 @@ displayName = "wthit"
 description = "What the hell is that? Forge Edition"
 authors = "deirn, TehNut, ProfMobius"
 logoFile = "wthit.png"
+iconFile = "wthit.png"
 rrv_client = "mcp.mobius.waila.integration.rrv.RrvRecipeAction"
 
 [[mods]]
@@ -23,6 +24,7 @@ displayName = "waila"
 description = "Actually WTHIT but with \"waila\" as it's id lmao"
 authors = "deirn, TehNut, ProfMobius"
 logoFile = "wthit.png"
+iconFile = "wthit.png"
 
 [[dependencies.wthit]]
 modId = "neoforge"
