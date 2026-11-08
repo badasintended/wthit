@@ -21,8 +21,8 @@ public class BlockDataRequestPlayC2SPacket implements Packet {
 
     public static final CustomPacketPayload.Type<Payload> TYPE = new CustomPacketPayload.Type<>(Waila.id("block"));
     public static final StreamCodec<FriendlyByteBuf, Payload> CODEC = StreamCodec.ofMember(
-        (p, buf) -> buf.writeBlockHitResult(p.hitResult),
-        buf -> new Payload(buf.readBlockHitResult()));
+        (p, buf) -> BlockHitResult.STREAM_CODEC.encode(buf, p.hitResult),
+        buf -> new Payload(BlockHitResult.STREAM_CODEC.decode(buf)));
 
     @Override
     public void common() {

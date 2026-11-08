@@ -2,7 +2,7 @@ package mcp.mobius.waila.gui.hud;
 
 import java.util.Random;
 
-import com.mojang.blaze3d.pipeline.RenderPipeline;
+import com.mojang.renderpearl.api.pipeline.RenderPipeline;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.ITooltipComponent;

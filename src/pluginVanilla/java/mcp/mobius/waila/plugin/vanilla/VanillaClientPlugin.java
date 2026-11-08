@@ -60,7 +60,7 @@ import net.minecraft.world.level.block.LeverBlock;
 import net.minecraft.world.level.block.NetherWartBlock;
 import net.minecraft.world.level.block.NoteBlock;
 import net.minecraft.world.level.block.PowderSnowBlock;
-import net.minecraft.world.level.block.RedStoneWireBlock;
+import net.minecraft.world.level.block.RedstoneWireBlock;
 import net.minecraft.world.level.block.RepeaterBlock;
 import net.minecraft.world.level.block.SaplingBlock;
 import net.minecraft.world.level.block.ShelfBlock;
@@ -131,7 +131,7 @@ public class VanillaClientPlugin implements IWailaClientPlugin {
         registrar.body(RedstoneProvider.INSTANCE, LeverBlock.class);
         registrar.body(RedstoneProvider.INSTANCE, RepeaterBlock.class);
         registrar.body(RedstoneProvider.INSTANCE, ComparatorBlock.class);
-        registrar.body(RedstoneProvider.INSTANCE, RedStoneWireBlock.class);
+        registrar.body(RedstoneProvider.INSTANCE, RedstoneWireBlock.class);
 
         registrar.icon(PlayerHeadProvider.INSTANCE, SkullBlockEntity.class);
         registrar.body(PlayerHeadProvider.INSTANCE, SkullBlockEntity.class);

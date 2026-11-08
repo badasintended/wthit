@@ -2,7 +2,7 @@ package mcp.mobius.waila.plugin.core.theme;
 
 import java.nio.file.Files;
 
-import com.mojang.blaze3d.pipeline.RenderPipeline;
+import com.mojang.renderpearl.api.pipeline.RenderPipeline;
 import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import mcp.mobius.waila.api.ITheme;
@@ -19,7 +19,7 @@ import net.minecraft.client.gui.render.TextureSetup;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.state.gui.GuiElementRenderState;
 import net.minecraft.client.renderer.texture.DynamicTexture;
-import net.minecraft.client.renderer.texture.TextureManager;
+import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 import org.jetbrains.annotations.Range;
@@ -80,7 +80,7 @@ public class NinePatchTheme implements ITheme {
                 var texture = new DynamicTexture(() -> "WTHIT NinePatchTheme", image);
                 textureSetup = TextureSetup.singleTexture(texture.getTextureView(), texture.getSampler());
             } catch (Exception e) {
-                var texture = textureManager.getTexture(TextureManager.INTENTIONAL_MISSING_TEXTURE);
+                var texture = textureManager.getTexture(MissingTextureAtlasSprite.getLocation());
                 textureSetup = TextureSetup.singleTexture(texture.getTextureView(), texture.getSampler());
             }
         }
