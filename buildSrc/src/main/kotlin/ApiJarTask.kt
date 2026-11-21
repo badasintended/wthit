@@ -1,6 +1,7 @@
 import org.gradle.api.tasks.SourceSetContainer
 import org.gradle.api.tasks.TaskProvider
 import org.gradle.jvm.tasks.Jar
+import org.gradle.kotlin.dsl.assign
 import org.gradle.kotlin.dsl.get
 import org.gradle.kotlin.dsl.getByType
 
@@ -12,9 +13,9 @@ abstract class ApiJarTask : Jar() {
 
         val classifier = fullJar.get().archiveClassifier.orNull
         if (classifier.isNullOrEmpty()) {
-            archiveClassifier.set("api")
+            archiveClassifier = "api"
         } else {
-            archiveClassifier.set("api-${classifier}")
+            archiveClassifier = "api-${classifier}"
         }
 
         val stub = project.extensions.getByType<SourceSetContainer>().findByName("stub")

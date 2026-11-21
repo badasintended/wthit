@@ -45,7 +45,7 @@ allprojects {
     }
 
     java {
-        toolchain.languageVersion.set(JavaLanguageVersion.of(25))
+        toolchain.languageVersion = JavaLanguageVersion.of(25)
 
         sourceCompatibility = JavaVersion.VERSION_25
         targetCompatibility = JavaVersion.VERSION_25
@@ -55,7 +55,7 @@ allprojects {
 
     tasks.withType<JavaCompile> {
         options.encoding = StandardCharsets.UTF_8.name()
-        options.release.set(25)
+        options.release = 25
     }
 
     tasks.withType<ProcessResources> {
@@ -87,7 +87,7 @@ subprojects {
     apply(plugin = "maven-publish")
 
     base {
-        archivesName.set("${rootProject.base.archivesName.get()}-${project.name}")
+        archivesName = "${rootProject.base.archivesName.get()}-${project.name}"
     }
 
     publishing {
@@ -122,18 +122,18 @@ dependencies {
 }
 
 sourceSets {
-    val main by getting
-    val api by creating
-    val buildConst by creating
-    val minecraftless by creating
-    val mixin by creating
-    val apiPlatformStub by creating
-    val pluginCore by creating
-    val pluginExtra by creating
-    val pluginHarvest by creating
-    val pluginVanilla by creating
-    val pluginTest by creating
-    val test by getting
+    val main = getByName("main")
+    val api = create("api")
+    val buildConst = create("buildConst")
+    val minecraftless = create("minecraftless")
+    val mixin = create("mixin")
+    val apiPlatformStub = create("apiPlatformStub")
+    val pluginCore = create("pluginCore")
+    val pluginExtra = create("pluginExtra")
+    val pluginHarvest = create("pluginHarvest")
+    val pluginVanilla = create("pluginVanilla")
+    val pluginTest = create("pluginTest")
+    val test = getByName("test")
 
     listOf(api, buildConst, mixin, apiPlatformStub, pluginCore, pluginExtra, pluginHarvest, pluginVanilla, pluginTest).applyEach {
         compileClasspath += main.compileClasspath
@@ -165,7 +165,7 @@ sourceSets {
 }
 
 dependencies {
-    val minecraftlessImplementation by configurations
+    val minecraftlessImplementation = configurations.getByName("minecraftlessImplementation")
 
     minecraftlessImplementation("com.google.code.gson:gson:2.8.9")
     minecraftlessImplementation("commons-io:commons-io:2.11.0")
@@ -178,10 +178,10 @@ dependencies {
 }
 
 loom {
-    interfaceInjection.enableDependencyInterfaceInjection.set(false)
+    interfaceInjection.enableDependencyInterfaceInjection = false
     runs {
         configureEach {
-            isIdeConfigGenerated = false
+            generateRunConfig = false
         }
     }
 }
@@ -194,10 +194,10 @@ tasks {
     register<GenerateTranslationTask>("generateTranslationClass") {
         group = "translation"
 
-        input.set(file("src/resources/resources/assets/waila/lang/en_us.json"))
-        output.set(file("src/buildConst/java"))
-        className.set("mcp.mobius.waila.buildconst.Tl")
-        skipPaths.set(setOf("waila"))
+        input = file("src/resources/resources/assets/waila/lang/en_us.json")
+        output = file("src/buildConst/java")
+        className = "mcp.mobius.waila.buildconst.Tl"
+        skipPaths = setOf("waila")
     }
 
     named("compileBuildConstJava") {
@@ -207,14 +207,14 @@ tasks {
     register<FormatTranslationTask>("formatTranslation") {
         group = "translation"
 
-        translationDir.set(file("src/resources/resources/assets/waila/lang"))
+        translationDir = file("src/resources/resources/assets/waila/lang")
     }
 
     register<FormatTranslationTask>("validateTranslation") {
         group = "translation"
 
-        translationDir.set(file("src/resources/resources/assets/waila/lang"))
-        test.set(true)
+        translationDir = file("src/resources/resources/assets/waila/lang")
+        test = true
     }
 
     listOf(generateDLIConfig).applyEach {
@@ -222,14 +222,14 @@ tasks {
     }
 }
 
-val apiJavadoc by tasks.registering(Javadoc::class) {
+val apiJavadoc = tasks.register<Javadoc>("apiJavadoc") {
     group = "documentation"
 
-    val api by sourceSets
+    val api = sourceSets.getByName("api")
     source(api.allJava)
     classpath += api.compileClasspath
     title = "WTHIT ${prop["majorVersion"]}.x API"
-    setDestinationDir(file("docs/javadoc"))
+    destinationDirectory = file("docs/javadoc")
 
     options(closureOf<StandardJavadocDocletOptions> {
         overview("src/api/javadoc/overview.html")

@@ -9,9 +9,9 @@ fun Project.setupPlatform(setRuntimeClasspath: Boolean = true) {
     val sourceSets = extensions.getByType<SourceSetContainer>()
 
     sourceSets.apply {
-        val api by creating
-        val main by getting
-        val plugin by creating
+        val api = create("api")
+        val main = getByName("main")
+        val plugin = create("plugin")
 
         listOf(api, plugin).applyEach {
             compileClasspath += main.compileClasspath + rootSourceSets["api"].output
@@ -68,7 +68,7 @@ fun Project.setupPlatform(setRuntimeClasspath: Boolean = true) {
 
 fun Project.setupStub() {
     extensions.configure<SourceSetContainer> {
-        val main by getting
+        val main = getByName("main")
         create("stub") {
             compileClasspath += main.compileClasspath
         }

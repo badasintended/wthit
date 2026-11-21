@@ -46,7 +46,7 @@ abstract class FormatTranslationTask : DefaultTask() {
                 output[lineNumber[key]!!] = "  " + "\"${key}\"".padEnd(maxKeyLength) + ": ${value},"
             }
 
-            lineNumber.forEach { key, line ->
+            lineNumber.forEach { (key, line) ->
                 if (!language.has(key)) {
                     logger.warn("\tMissing translaton ${key}")
                     output[line] = ""
@@ -56,7 +56,10 @@ abstract class FormatTranslationTask : DefaultTask() {
             val lastTranslated = output.indexOfLast { it.endsWith(",") }
             output[lastTranslated] = output[lastTranslated].removeSuffix(",")
 
-            val outputFile = if (test.get()) project.buildDir.resolve("formatTranslation/${file.name}") else file
+            val outputFile =
+                if (test.get()) project.layout.buildDirectory.get().asFile.resolve("formatTranslation/${file.name}")
+                else file
+
             outputFile.parentFile.mkdirs()
             outputFile.writeText(output.joinToString(separator = "\n", postfix = "\n"))
         }

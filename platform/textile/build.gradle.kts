@@ -19,10 +19,10 @@ sourceSets {
 }
 
 loom {
-    interfaceInjection.enableDependencyInterfaceInjection.set(false)
+    interfaceInjection.enableDependencyInterfaceInjection = false
     runs {
         configureEach {
-            isIdeConfigGenerated = false
+            generateRunConfig = false
         }
     }
 }

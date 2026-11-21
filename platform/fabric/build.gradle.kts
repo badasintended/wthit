@@ -17,8 +17,8 @@ setupStub()
 
 sourceSets {
     val textileSourceSets = project(":textile").sourceSets
-    val main by getting
-    val plugin by getting
+    val main = getByName("main")
+    val plugin = getByName("plugin")
 
     main {
         compileClasspath += textileSourceSets["main"].output
@@ -35,16 +35,16 @@ sourceSets {
 }
 
 loom {
-    interfaceInjection.enableDependencyInterfaceInjection.set(false)
+    interfaceInjection.enableDependencyInterfaceInjection = false
 
     runs {
         getByName("client") {
-            programArgs("--username", "A")
+            programArguments.addAll("--username", "A")
         }
 
         configureEach {
-            isIdeConfigGenerated = true
-            runDir = "run/${namer.determineName(this)}"
+            generateRunConfig = true
+            runDirectory = layout.projectDirectory.dir("run/${namer.determineName(this)}")
         }
     }
 }
@@ -73,12 +73,12 @@ tasks.processResources {
 
 afterEvaluate {
     val jar = tasks.jar
-    val apiJar by tasks.registering(ApiJarTask::class) {
+    val apiJar = tasks.register<ApiJarTask>("apiJar") {
         fullJar(jar)
     }
 
     val sourcesJar = tasks.sourcesJar
-    val apiSourcesJar by tasks.registering(ApiJarTask::class) {
+    val apiSourcesJar = tasks.register<ApiJarTask>("apiSourcesJar") {
         fullJar(sourcesJar)
     }
 

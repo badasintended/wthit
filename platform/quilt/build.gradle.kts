@@ -38,8 +38,8 @@ setupStub()
 
 sourceSets {
     val textileSourceSets = project(":textile").sourceSets
-    val main by getting
-    val plugin by getting
+    val main = getByName("main")
+    val plugin = getByName("plugin")
 
     main {
         compileClasspath += textileSourceSets["main"].output

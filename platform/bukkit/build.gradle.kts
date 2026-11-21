@@ -14,8 +14,8 @@ dependencies {
 }
 
 sourceSets {
-    val main by getting
-    val minecraftless by rootProject.sourceSets
+    val main = getByName("main")
+    val minecraftless = rootProject.sourceSets.getByName("minecraftless")
 
     main.apply {
         compileClasspath += minecraftless.output
@@ -32,14 +32,14 @@ tasks {
         }
     }
 
-    val jar by getting(Jar::class) {
+    val jar = getByName<Jar>("jar") {
         from(rootProject.sourceSets["minecraftless"].output)
     }
 
     val (paperclipMc, paperclipBuild) = prop["paperclip"].split("-", limit = 2)
     val paperclipJar = "paper-${paperclipMc}-${paperclipBuild}.jar"
 
-    val downloadPaperclip by creating(Download::class) {
+    val downloadPaperclip = create<Download>("downloadPaperclip") {
         group = "paper"
 
         src("https://papermc.io/api/v2/projects/paper/versions/${paperclipMc}/builds/${paperclipBuild}/downloads/${paperclipJar}")
@@ -47,7 +47,7 @@ tasks {
         onlyIfModified(true)
     }
 
-    val copyBuiltJarToPluginFolder by creating(Copy::class) {
+    val copyBuiltJarToPluginFolder = create<Copy>("copyBuiltJarToPluginFolder") {
         group = "paper"
         dependsOn(build)
 
@@ -56,14 +56,14 @@ tasks {
         include(jar.archiveFileName.get())
     }
 
-    val runPaperServer by creating(JavaExec::class) {
+    val runPaperServer = create<JavaExec>("runPaperServer") {
         group = "paper"
         dependsOn(downloadPaperclip, copyBuiltJarToPluginFolder)
 
         isIgnoreExitValue = true
         workingDir = file("run")
         classpath = files("run/${paperclipJar}")
-        mainClass.set("io.papermc.paperclip.Main")
+        mainClass = "io.papermc.paperclip.Main"
     }
 }
 
