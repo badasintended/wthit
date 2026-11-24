@@ -1,0 +1,45 @@
+{
+  "$schema"             : "https://json-schema.org/draft/2020-12/schema",
+  "$id"                 : "https://docs.bai.lol/plugin/waila_plugins.schema.json",
+
+  "title"               : "waila_plugins.json",
+  "description"         : "WTHIT Plugin Definitions",
+
+  "type"                : "object",
+  "additionalProperties": false,
+  "patternProperties"   : {
+    "^[a-z0-9_.-]+:[a-z0-9/._-]+$": {
+      "type"                : "object",
+      "additionalProperties": false,
+      "required"            : ["initializer"],
+
+      "properties"          : {
+        "initializer"   : {
+          "$comment": "The path to the implementation class",
+          "type"    : "string"
+        },
+
+        "side"          : {
+          "$comment": "The environment of the plugin",
+          "enum"    : ["*", "client", "server"]
+        },
+
+        "required"      : {
+          "$comment"         : "The plugin dependency",
+          "type"             : ["object", "array"],
+          "patternProperties": {
+            ".+": {
+              "$comment": "The version range",
+              "type"    : "string"
+            }
+          }
+        },
+
+        "defaultEnabled": {
+          "$comment": "Whether the plugin is enabled by default",
+          "type"    : "boolean"
+        }
+      }
+    }
+  }
+}
