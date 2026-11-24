@@ -1,6 +1,5 @@
 package mcp.mobius.waila.plugin.core.theme;
 
-import com.mojang.renderpearl.api.pipeline.RenderPipeline;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.IThemeAccessor;
@@ -11,10 +10,9 @@ import mcp.mobius.waila.api.util.WRenders;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
+import net.minecraft.client.gui.GuiPipeline;
 import net.minecraft.client.gui.render.TextureSetup;
-import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.state.gui.GuiElementRenderState;
-import net.minecraft.util.Mth;
 import org.jetbrains.annotations.Range;
 import org.joml.Matrix3x2f;
 import org.jspecify.annotations.Nullable;
@@ -41,12 +39,12 @@ public class GradientTheme implements ITheme {
 
     @Override
     public void processProperties(IThemeAccessor accessor) {
-        backgroundColor = Mth.clamp(backgroundColor, 0x000000, 0xFFFFFF);
-        gradientStart = Mth.clamp(gradientStart, 0x000000, 0xFFFFFF);
-        gradientEnd = Mth.clamp(gradientEnd, 0x000000, 0xFFFFFF);
+        backgroundColor = Math.clamp(backgroundColor, 0x000000, 0xFFFFFF);
+        gradientStart = Math.clamp(gradientStart, 0x000000, 0xFFFFFF);
+        gradientEnd = Math.clamp(gradientEnd, 0x000000, 0xFFFFFF);
         borderSize = Math.max(borderSize, 0);
         borderOffset = Math.max(borderOffset, 0);
-        fontColor = Mth.clamp(fontColor, 0x000000, 0xFFFFFF);
+        fontColor = Math.clamp(fontColor, 0x000000, 0xFFFFFF);
     }
 
     @Override
@@ -109,8 +107,8 @@ public class GradientTheme implements ITheme {
         }
 
         @Override
-        public RenderPipeline pipeline() {
-            return RenderPipelines.GUI;
+        public GuiPipeline pipeline() {
+            return GuiPipeline.DEFAULT;
         }
 
         @Override

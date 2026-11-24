@@ -2,7 +2,6 @@ package mcp.mobius.waila.gui.hud;
 
 import java.util.Random;
 
-import com.mojang.renderpearl.api.pipeline.RenderPipeline;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.ITooltipComponent;
@@ -12,8 +11,8 @@ import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
+import net.minecraft.client.gui.GuiPipeline;
 import net.minecraft.client.gui.render.TextureSetup;
-import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.state.gui.GuiElementRenderState;
 import net.minecraft.util.Mth;
 import org.joml.Matrix3x2f;
@@ -76,8 +75,8 @@ public abstract class ComponentRenderer {
         }
 
         @Override
-        public RenderPipeline pipeline() {
-            return RenderPipelines.GUI;
+        public GuiPipeline pipeline() {
+            return GuiPipeline.DEFAULT;
         }
 
         @Override

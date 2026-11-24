@@ -19,8 +19,8 @@ import net.minecraft.client.gui.components.events.ContainerEventHandler;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.components.toasts.SystemToast;
 import net.minecraft.client.gui.narration.NarratableEntry;
+import net.minecraft.client.gui.GuiPipeline;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.Component;
 import org.apache.commons.lang3.StringUtils;
 import org.jspecify.annotations.Nullable;
@@ -184,13 +184,13 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
     @Override
     protected void extractListSeparators(GuiGraphicsExtractor ctx) {
         if (headerSeparator) {
-            var texture = this.minecraft.level == null ? Screen.HEADER_SEPARATOR : Screen.INWORLD_HEADER_SEPARATOR;
-            ctx.blit(RenderPipelines.GUI_TEXTURED, texture, this.getX(), this.getY() - 2, 0.0F, 0.0F, this.getWidth(), 2, 32, 2);
+            var texture = Screen.HEADER_SEPARATOR;
+            ctx.blit(GuiPipeline.TEXTURED, texture, this.getX(), this.getY() - 2, 0.0F, 0.0F, this.getWidth(), 2, 32, 2);
         }
 
         if (footerSeparator) {
-            var texture = this.minecraft.level == null ? Screen.FOOTER_SEPARATOR : Screen.INWORLD_FOOTER_SEPARATOR;
-            ctx.blit(RenderPipelines.GUI_TEXTURED, texture, this.getX(), this.getBottom(), 0.0F, 0.0F, this.getWidth(), 2, 32, 2);
+            var texture = Screen.FOOTER_SEPARATOR;
+            ctx.blit(GuiPipeline.TEXTURED, texture, this.getX(), this.getBottom(), 0.0F, 0.0F, this.getWidth(), 2, 32, 2);
         }
     }
 
@@ -218,11 +218,11 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
         }
 
         @Override
-        protected void drawEntry(GuiGraphicsExtractor ctx, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
+        protected void drawEntry(GuiGraphicsExtractor ctx, int rowTop, int rowLeft, int width, int height) {
             box.setPosition(rowLeft, rowTop);
             box.setWidth(width);
             //            box.setHeight(height);
-            box.extractRenderState(ctx, mouseX, mouseY, deltaTime);
+            box.extractRenderState(ctx);
         }
 
     }
@@ -306,7 +306,7 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
         }
 
         @Override
-        public void extractContent(GuiGraphicsExtractor ctx, int mouseX, int mouseY, boolean hovered, float deltaTime) {
+        public void extractContent(GuiGraphicsExtractor ctx, boolean hovered) {
             var rowLeft = list.getRowLeft();
             var rowTop = getY();
             var width = getWidth();
@@ -331,10 +331,10 @@ public class ConfigListWidget extends ContainerObjectSelectionList<ConfigListWid
                 width -= offset;
             }
 
-            drawEntry(ctx, index, rowTop, rowLeft, width, height, mouseX, mouseY, hovered, deltaTime);
+            drawEntry(ctx, rowTop, rowLeft, width, height);
         }
 
-        protected abstract void drawEntry(GuiGraphicsExtractor ctx, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime);
+        protected abstract void drawEntry(GuiGraphicsExtractor ctx, int rowTop, int rowLeft, int width, int height);
 
     }
 

@@ -9,7 +9,6 @@ import mcp.mobius.waila.api.__internal__.IExtraService;
 import mcp.mobius.waila.buildconst.Tl;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
-import net.minecraft.util.Mth;
 import org.jetbrains.annotations.ApiStatus;
 
 /**
@@ -75,7 +74,7 @@ public abstract class EnergyData implements IData {
      */
     public static EnergyData of(double stored, double capacity) {
         capacity = Math.max(capacity, 0.0);
-        stored = Mth.clamp(stored, 0.0, capacity);
+        stored = Math.clamp(stored, 0.0, capacity);
         if (capacity == 0) capacity = Double.POSITIVE_INFINITY;
 
         return IExtraService.INSTANCE.createEnergyData(stored, capacity);

@@ -1,6 +1,7 @@
 package mcp.mobius.waila.command;
 
 import java.util.concurrent.Executor;
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
@@ -14,12 +15,13 @@ import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.plugin.PluginInfo;
 import net.minecraft.ChatFormatting;
 import net.minecraft.commands.arguments.IdentifierArgument;
+import net.minecraft.commands.suggestions.ServerOnlyCustomSuggestion;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentUtils;
 import net.minecraft.network.chat.HoverEvent;
 import net.minecraft.resources.Identifier;
 
-import static net.minecraft.commands.SharedSuggestionProvider.suggestResource;
+import static net.minecraft.commands.suggestions.SuggestionContext.suggestResource;
 
 public abstract class CommonCommand<S, E extends Executor> {
 
@@ -43,7 +45,7 @@ public abstract class CommonCommand<S, E extends Executor> {
 
     protected abstract void reloadPlugins(E executor);
 
-    protected abstract boolean pluginCommandRequirement(S source);
+    protected abstract Predicate<S> pluginCommandRequirement();
 
     protected boolean isPluginDisabledOnServer(PluginInfo plugin) {
         return false;
@@ -52,7 +54,7 @@ public abstract class CommonCommand<S, E extends Executor> {
     public final void register(CommandDispatcher<S> dispatcher) {
         new ArgumentBuilderBuilder<>(literal(root))
             .then(literal("plugin"))
-            .requires(this::pluginCommandRequirement)
+            .requires(pluginCommandRequirement())
 
             .then(literal("list"))
             .executes(context -> {
@@ -119,9 +121,10 @@ public abstract class CommonCommand<S, E extends Executor> {
     }
 
     private SuggestionProvider<S> suggestPlugins(boolean enabled) {
-        return (context, builder) -> suggestResource(getPlugins(enabled)
+        return ((ServerOnlyCustomSuggestion) (_, _, builder) -> suggestResource(getPlugins(enabled)
             .filter(it -> !it.isLocked() && !isPluginDisabledOnServer(it))
-            .map(PluginInfo::getPluginId), builder);
+            .map(PluginInfo::getPluginId), builder))
+            .toBrigadier();
     }
 
     private int modifyPlugin(CommandContext<S> context, boolean enable) {

@@ -2,7 +2,6 @@ package mcp.mobius.waila.api.data;
 
 import java.util.Objects;
 
-import com.google.common.base.Preconditions;
 import mcp.mobius.waila.api.IData;
 import mcp.mobius.waila.api.__internal__.ApiSide;
 import mcp.mobius.waila.api.__internal__.IExtraService;
@@ -11,10 +10,8 @@ import net.minecraft.core.component.DataComponentPatch;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
-import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
 import org.jetbrains.annotations.ApiStatus;
 import org.jspecify.annotations.Nullable;
@@ -42,15 +39,9 @@ public abstract class FluidData implements IData {
      * On Fabric, {@code FluidVariantAttributeHandler} will be used for fluid name
      * and {@code FluidVariantRenderHandler} for fluid sprite.
      * </li></ul>
-     *
-     * @throws IllegalArgumentException if the fluid is a {@link FlowingFluid} and is not the source fluid instance
      */
     @ApiSide.ClientOnly
     public static <T extends Fluid> void describeFluid(T fluid, FluidDescriptor<T> descriptor) {
-        if (fluid instanceof FlowingFluid flowing) {
-            Preconditions.checkArgument(flowing == flowing.getSource(), "Not a source fluid");
-        }
-
         IExtraService.INSTANCE.setFluidDescFor(fluid, descriptor);
     }
 
@@ -167,7 +158,7 @@ public abstract class FluidData implements IData {
     /**
      * Adds a fluid entry.
      *
-     * @param fluid    the fluid instance, will be normalized as the source fluid if it is a {@link FlowingFluid}
+     * @param fluid    the fluid instance
      * @param data     the fluid's NBT data, will <b>NOT</b> be modified so it safe to not {@linkplain  CompoundTag#copy() copy} it
      * @param stored   the stored amount of the fluid, in the specified unit
      * @param capacity the maximum capacity of this slot, in the specified unit
@@ -177,11 +168,10 @@ public abstract class FluidData implements IData {
         Objects.requireNonNull(data, "Data can't be null, use EMPTY");
 
         capacity = Math.max(capacity, 0.0);
-        stored = Mth.clamp(stored, 0.0, capacity);
+        stored = Math.clamp(stored, 0.0, capacity);
         if (capacity == 0) capacity = Double.POSITIVE_INFINITY;
 
-        var source = fluid instanceof FlowingFluid flowing ? flowing.getSource() : fluid;
-        implAdd(source, data, stored, capacity);
+        implAdd(fluid, data, stored, capacity);
         return this;
     }
 

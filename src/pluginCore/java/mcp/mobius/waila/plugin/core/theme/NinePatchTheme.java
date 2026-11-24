@@ -2,7 +2,6 @@ package mcp.mobius.waila.plugin.core.theme;
 
 import java.nio.file.Files;
 
-import com.mojang.renderpearl.api.pipeline.RenderPipeline;
 import com.mojang.blaze3d.platform.NativeImage;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import mcp.mobius.waila.api.ITheme;
@@ -15,13 +14,12 @@ import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
+import net.minecraft.client.gui.GuiPipeline;
 import net.minecraft.client.gui.render.TextureSetup;
-import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.state.gui.GuiElementRenderState;
-import net.minecraft.client.renderer.texture.DynamicTexture;
 import net.minecraft.client.renderer.texture.MissingTextureAtlasSprite;
+import net.minecraft.client.renderer.texture.TextureResources;
 import net.minecraft.resources.Identifier;
-import net.minecraft.util.Mth;
 import org.jetbrains.annotations.Range;
 import org.joml.Matrix3x2f;
 import org.jspecify.annotations.Nullable;
@@ -64,24 +62,24 @@ public class NinePatchTheme implements ITheme {
 
     @Override
     public void processProperties(IThemeAccessor accessor) {
-        textColor = Mth.clamp(textColor, 0x000000, 0xFFFFFF);
-        regionTop = Mth.clamp(regionTop, 0, textureHeight);
-        regionBottom = Mth.clamp(regionBottom, 0, textureHeight - regionTop);
-        regionLeft = Mth.clamp(regionLeft, 0, textureWidth);
-        regionRight = Mth.clamp(regionRight, 0, textureWidth - regionLeft);
+        textColor = Math.clamp(textColor, 0x000000, 0xFFFFFF);
+        regionTop = Math.clamp(regionTop, 0, textureHeight);
+        regionBottom = Math.clamp(regionBottom, 0, textureHeight - regionTop);
+        regionLeft = Math.clamp(regionLeft, 0, textureWidth);
+        regionRight = Math.clamp(regionRight, 0, textureWidth - regionLeft);
 
         var textureManager = Minecraft.getInstance().getTextureManager();
         if (useResourcePack) {
             var texture = textureManager.getTexture(Identifier.parse(this.texture));
-            textureSetup = TextureSetup.singleTexture(texture.getTextureView(), texture.getSampler());
+            textureSetup = TextureSetup.singleTexture(texture.textureView(), texture.sampler());
         } else {
             try {
                 var image = NativeImage.read(Files.newInputStream(accessor.getPath(texture)));
-                var texture = new DynamicTexture(() -> "WTHIT NinePatchTheme", image);
-                textureSetup = TextureSetup.singleTexture(texture.getTextureView(), texture.getSampler());
+                var texture = TextureResources.from2dImage(() -> "WTHIT NinePatchTheme", image);
+                textureSetup = TextureSetup.singleTexture(texture.textureView(), texture.sampler());
             } catch (Exception e) {
                 var texture = textureManager.getTexture(MissingTextureAtlasSprite.getLocation());
-                textureSetup = TextureSetup.singleTexture(texture.getTextureView(), texture.getSampler());
+                textureSetup = TextureSetup.singleTexture(texture.textureView(), texture.sampler());
             }
         }
 
@@ -222,8 +220,8 @@ public class NinePatchTheme implements ITheme {
         }
 
         @Override
-        public RenderPipeline pipeline() {
-            return RenderPipelines.GUI_TEXTURED;
+        public GuiPipeline pipeline() {
+            return GuiPipeline.TEXTURED;
         }
 
         @Override

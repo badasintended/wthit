@@ -94,11 +94,13 @@ public abstract class ConfigScreen extends YesIAmSureTheClientInstanceIsPresentB
     }
 
     @Override
-    public void extractRenderState(GuiGraphicsExtractor ctx, int mouseX, int mouseY, float partialTicks) {
-        super.extractRenderState(ctx, mouseX, mouseY, partialTicks);
+    public void extractRenderState(GuiGraphicsExtractor ctx) {
+        super.extractRenderState(ctx);
 
-        options.extractRenderState(ctx, mouseX, mouseY, partialTicks);
-        renderForeground(ctx, options.getRowLeft(), options.getRowWidth(), mouseX, mouseY, partialTicks);
+        var mouseX = ctx.mouseX();
+        var mouseY = ctx.mouseY();
+        options.extractRenderState(ctx);
+        renderForeground(ctx, options.getRowLeft(), options.getRowWidth(), mouseX, mouseY, ctx.partialTicks());
 
         if (mouseY < 32 || mouseY > height - 32) return;
 

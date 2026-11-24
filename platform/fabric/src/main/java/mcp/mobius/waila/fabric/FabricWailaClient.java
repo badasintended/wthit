@@ -20,7 +20,7 @@ public class FabricWailaClient extends WailaClient implements ClientModInitializ
     public void onInitializeClient() {
         Packets.initClient();
 
-        HudElementRegistry.addLast(TooltipRenderer.ID, TooltipRenderer::render);
+        HudElementRegistry.addLast(TooltipRenderer.ID, ctx -> TooltipRenderer.render(ctx, ctx.deltaTracker()));
         ClientTickEvents.END_CLIENT_TICK.register(client -> onClientTick());
         ItemTooltipCallback.EVENT.register((stack, ctx, flag, tooltip) -> onItemTooltip(stack, tooltip));
 

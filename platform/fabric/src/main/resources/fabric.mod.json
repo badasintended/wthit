@@ -61,10 +61,10 @@
   ],
 
   "depends"      : {
-    "fabricloader": ">=0.19.5",
-    "fabric-api"  : ">=0.165.2",
-    "minecraft"   : ">=26.3-",
-    "badpackets"  : ">=0.12-"
+    "fabricloader": ">=0.20.1",
+    "fabric-api"  : ">=0.167.1",
+    "minecraft"   : ">=26.4-",
+    "badpackets"  : ">=0.13-"
   },
   "breaks"       : {
     "roughlyenoughitems": "<9.0.462"

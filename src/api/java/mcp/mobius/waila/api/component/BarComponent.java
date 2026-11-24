@@ -6,7 +6,7 @@ import mcp.mobius.waila.api.__internal__.ApiSide;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.gui.GuiPipeline;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 
@@ -78,7 +78,7 @@ public class BarComponent implements ITooltipComponent {
         int x, int y, int w,
         float v0, int tint
     ) {
-        ctx.blit(RenderPipelines.GUI_TEXTURED, WailaConstants.COMPONENT_TEXTURE, x, y, U0, v0, w, HEIGHT, 256, 256, tint);
+        ctx.blit(GuiPipeline.TEXTURED, WailaConstants.COMPONENT_TEXTURE, x, y, U0, v0, w, HEIGHT, 256, 256, tint);
     }
 
     static void renderText(GuiGraphicsExtractor ctx, Component text, int x, int y) {

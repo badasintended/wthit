@@ -10,7 +10,6 @@ import mcp.mobius.waila.mixed.MMultiPlayerGameMode;
 import mcp.mobius.waila.plugin.vanilla.config.Options;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.util.Mth;
 
 public enum BreakProgressProvider implements IEventListener {
 
@@ -60,7 +59,7 @@ public enum BreakProgressProvider implements IEventListener {
         var progress = lastProgress;
         if (targetProgress > lastProgress) {
             var progressChange = (targetProgress - lastProgress) * dt;
-            progress = Mth.clamp(lastProgress + progressChange, 0f, 1f);
+            progress = Math.clamp(lastProgress + progressChange, 0f, 1f);
         }
 
         lastProgress = progress;

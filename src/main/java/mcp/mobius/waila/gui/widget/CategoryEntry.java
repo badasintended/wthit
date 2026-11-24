@@ -150,21 +150,21 @@ public class CategoryEntry extends ConfigListWidget.Entry {
     }
 
     @Override
-    protected void drawEntry(GuiGraphicsExtractor ctx, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
+    protected void drawEntry(GuiGraphicsExtractor ctx, int rowTop, int rowLeft, int width, int height) {
         var buttonY = rowTop + (height - collapseButton.getHeight()) / 2;
         var hasFilter = list.filter != null;
 
         collapseButton.active = !hasFilter;
         collapseButton.setX(rowLeft);
         collapseButton.setY(buttonY);
-        collapseButton.extractRenderState(ctx, mouseX, mouseY, deltaTime);
+        collapseButton.extractRenderState(ctx);
         ctx.text(client.font, title, rowLeft + collapseButton.getWidth() + 4, rowTop + ((height - client.font.lineHeight) / 2) + 1, 0xFFFFFFFF);
 
         expandAllButton.active = hasNested && !hasFilter;
         if (expandAllButton.active) {
             expandAllButton.setX(rowLeft + width - expandAllButton.getWidth());
             expandAllButton.setY(buttonY);
-            expandAllButton.extractRenderState(ctx, mouseX, mouseY, deltaTime);
+            expandAllButton.extractRenderState(ctx);
         }
 
         if (!collapsed) {

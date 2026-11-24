@@ -33,6 +33,7 @@
     "OptionsScreenMixin",
     "PlayerTabOverlayAccess",
     "ScissorStackMixin",
+    "ScreenAccess",
     "TabNavigationBarAccess"
   ],
   "injectors"         : {

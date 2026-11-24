@@ -13,7 +13,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.util.Util;
 import net.minecraft.world.level.block.NoteBlock;
 
-import static net.minecraft.util.Mth.clamp;
+import static java.lang.Math.clamp;
 import static net.minecraft.util.Mth.sin;
 
 public enum NoteBlockProvider implements IBlockComponentProvider {

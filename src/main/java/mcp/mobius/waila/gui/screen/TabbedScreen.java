@@ -1,6 +1,5 @@
 package mcp.mobius.waila.gui.screen;
 
-import java.util.Objects;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -9,12 +8,9 @@ import mcp.mobius.waila.mixin.TabNavigationBarAccess;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.AbstractWidget;
 import net.minecraft.client.gui.components.TabButton;
-import net.minecraft.client.gui.components.tabs.GridLayoutTab;
 import net.minecraft.client.gui.components.tabs.MenuTabBar;
-import net.minecraft.client.gui.components.tabs.Tab;
 import net.minecraft.client.gui.components.tabs.TabManager;
 import net.minecraft.client.gui.components.tabs.TabNavigationBar;
-import net.minecraft.client.gui.layouts.GridLayout;
 import net.minecraft.client.gui.layouts.Layout;
 import net.minecraft.client.gui.layouts.LayoutElement;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
@@ -32,20 +28,23 @@ public interface TabbedScreen {
     );
 
     static TabNavigationBar bar(Tab<?>... tabs) {
-        return MenuTabBar
-            .builder(new TabManager(t -> {}, t -> {}, t -> {
-                var tab = ((Tab<?>) t);
-                var client = Minecraft.getInstance();
-                var parent = client.gui.screen();
-                if (parent != null && parent.getClass() == tab.clazz) return;
-                if (parent instanceof TabbedScreen tabbed) {
-                    tabbed.changeTab(() -> client.gui.setScreen(tab.ctor.apply(tabbed.getParent())));
-                } else {
-                    client.gui.setScreen(tab.ctor.apply(parent));
-                }
-            }, t -> {}), tabs.length)
-            .addTabs(tabs)
-            .build();
+        var builder = MenuTabBar.builder(new TabManager(t -> {}, t -> {}, t -> {
+            var tab = ((Tab<?>) t);
+            var client = Minecraft.getInstance();
+            var parent = client.gui.screen();
+            if (parent != null && parent.getClass() == tab.clazz) return;
+            if (parent instanceof TabbedScreen tabbed) {
+                tabbed.changeTab(() -> client.gui.setScreen(tab.ctor.apply(tabbed.getParent())));
+            } else {
+                client.gui.setScreen(tab.ctor.apply(parent));
+            }
+        }, t -> {}), tabs.length);
+
+        for (var tab : tabs) {
+            builder.addTab(tab.title(), tab);
+        }
+
+        return builder.build();
     }
 
     @Nullable Screen getParent();
@@ -78,11 +77,6 @@ public interface TabbedScreen {
         Class<T> clazz,
         Function<@Nullable Screen, T> ctor
     ) implements net.minecraft.client.gui.components.tabs.Tab {
-
-        @Override
-        public Component getTabTitle() {
-            return title;
-        }
 
         @Override
         public Component getTabExtraNarration() {

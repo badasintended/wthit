@@ -10,7 +10,6 @@ import mcp.mobius.waila.api.IData;
 import mcp.mobius.waila.api.IDataWriter;
 import mcp.mobius.waila.api.__internal__.IExtraService;
 import net.minecraft.resources.Identifier;
-import net.minecraft.util.Mth;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.UnknownNullability;
@@ -38,7 +37,7 @@ public abstract class ProgressData implements IData {
      * @param ratio the ratio of the progress ranging from {@code 0.0f} to {@code 1.0f}
      */
     public static ProgressData ratio(float ratio) {
-        return IExtraService.INSTANCE.createRatioProgressData(Mth.clamp(ratio, 0f, 1f));
+        return IExtraService.INSTANCE.createRatioProgressData(Math.clamp(ratio, 0f, 1f));
     }
 
     /**

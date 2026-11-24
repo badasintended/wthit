@@ -24,7 +24,7 @@ public class AutoClosableScreen extends AbstractContainerScreen<AutoClosableScre
     }
 
     @Override
-    public void extractBackground(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float a) {
+    public void extractBackground(GuiGraphicsExtractor ctx) {
         if (minecraft.gui.screen() == this) {
             minecraft.gui.setScreen(null);
         }

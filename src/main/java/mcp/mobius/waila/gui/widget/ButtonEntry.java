@@ -36,11 +36,11 @@ public class ButtonEntry extends ConfigListWidget.Entry {
     }
 
     @Override
-    protected void drawEntry(GuiGraphicsExtractor ctx, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
+    protected void drawEntry(GuiGraphicsExtractor ctx, int rowTop, int rowLeft, int width, int height) {
         ctx.text(client.font, title, rowLeft, rowTop + (height - client.font.lineHeight) / 2, 0xFFFFFFFF);
         this.button.setX(rowLeft + width - button.getWidth());
         this.button.setY(rowTop + (height - button.getHeight()) / 2);
-        this.button.extractRenderState(ctx, mouseX, mouseY, deltaTime);
+        this.button.extractRenderState(ctx);
     }
 
     @Override

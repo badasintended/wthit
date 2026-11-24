@@ -53,14 +53,14 @@ public class CycleValue extends ConfigValue<String, CycleValue> {
     }
 
     @Override
-    protected void drawValue(GuiGraphicsExtractor ctx, int width, int height, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks) {
+    protected void drawValue(GuiGraphicsExtractor ctx, int width, int height, int x, int y) {
         button.active = !isDisabled();
         button.setX(x + width - button.getWidth());
         button.setY(y + (height - button.getHeight()) / 2);
         button.setMessage(createLocale
             ? Component.translatable(getValueTlKey())
             : Component.literal(getValue()));
-        button.extractRenderState(ctx, mouseX, mouseY, partialTicks);
+        button.extractRenderState(ctx);
     }
 
     @Override

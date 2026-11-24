@@ -60,7 +60,7 @@ public abstract class ConfigValue<T, C extends ConfigValue<T, C>> extends Config
     }
 
     @Override
-    protected void drawEntry(GuiGraphicsExtractor ctx, int index, int rowTop, int rowLeft, int width, int height, int mouseX, int mouseY, boolean hovered, float deltaTime) {
+    protected void drawEntry(GuiGraphicsExtractor ctx, int rowTop, int rowLeft, int width, int height) {
         var title = getTitle();
 
         if (isDisabled()) title.withStyle(ChatFormatting.STRIKETHROUGH, ChatFormatting.GRAY);
@@ -76,10 +76,10 @@ public abstract class ConfigValue<T, C extends ConfigValue<T, C>> extends Config
             resetButton.setX(rowLeft + width - resetButton.getWidth());
             resetButton.setY(rowTop + (height - resetButton.getHeight()) / 2);
             resetButton.active = !isValueValid() || (!isDisabled() && !getValue().equals(defaultValue));
-            resetButton.extractRenderState(ctx, mouseX, mouseY, deltaTime);
+            resetButton.extractRenderState(ctx);
         }
 
-        drawValue(ctx, w, height, rowLeft, rowTop, mouseX, mouseY, hovered, deltaTime);
+        drawValue(ctx, w, height, rowLeft, rowTop);
         this.x = rowLeft;
     }
 
@@ -215,6 +215,6 @@ public abstract class ConfigValue<T, C extends ConfigValue<T, C>> extends Config
         this.id = id;
     }
 
-    protected abstract void drawValue(GuiGraphicsExtractor ctx, int width, int height, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks);
+    protected abstract void drawValue(GuiGraphicsExtractor ctx, int width, int height, int x, int y);
 
 }

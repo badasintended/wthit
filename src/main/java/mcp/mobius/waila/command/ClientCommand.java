@@ -1,10 +1,9 @@
 package mcp.mobius.waila.command;
 
 import java.util.Arrays;
+import java.util.function.Predicate;
 
 import com.google.gson.JsonPrimitive;
-import com.mojang.brigadier.arguments.BoolArgumentType;
-import com.mojang.brigadier.arguments.StringArgumentType;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.WailaClient;
 import mcp.mobius.waila.api.WailaConstants;
@@ -16,12 +15,14 @@ import mcp.mobius.waila.gui.screen.WailaConfigScreen;
 import mcp.mobius.waila.plugin.PluginInfo;
 import mcp.mobius.waila.plugin.PluginLoader;
 import net.minecraft.client.Minecraft;
+import net.minecraft.commands.arguments.BooleanArgument;
 import net.minecraft.commands.arguments.IdentifierArgument;
+import net.minecraft.commands.arguments.StringArgument;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 
-import static net.minecraft.commands.SharedSuggestionProvider.suggest;
-import static net.minecraft.commands.SharedSuggestionProvider.suggestResource;
+import static net.minecraft.commands.suggestions.SuggestionContext.suggest;
+import static net.minecraft.commands.suggestions.SuggestionContext.suggestResource;
 
 public abstract class ClientCommand<S> extends CommonCommand<S, Minecraft> {
 
@@ -30,8 +31,8 @@ public abstract class ClientCommand<S> extends CommonCommand<S, Minecraft> {
     }
 
     @Override
-    protected boolean pluginCommandRequirement(S source) {
-        return !Minecraft.getInstance().hasSingleplayerServer();
+    protected Predicate<S> pluginCommandRequirement() {
+        return _ -> !Minecraft.getInstance().hasSingleplayerServer();
     }
 
     @Override
@@ -76,7 +77,7 @@ public abstract class ClientCommand<S> extends CommonCommand<S, Minecraft> {
                 return 1;
             })
 
-            .then(argument("value", StringArgumentType.word()))
+            .then(argument("value", StringArgument.word()))
             .suggests((context, builder) -> {
                 var id = context.getArgument("id", Identifier.class);
                 var entry = PluginConfig.getEntry(id);
@@ -120,11 +121,11 @@ public abstract class ClientCommand<S> extends CommonCommand<S, Minecraft> {
             .pop("value", "id", "plugin", "config")
 
             .then(literal("overlay"))
-            .then(argument("enabled", BoolArgumentType.bool()))
+            .then(argument("enabled", BooleanArgument.bool()))
             .suggests((context, builder) -> suggest(new String[]{String.valueOf(!WailaClient.CONFIG.get().getGeneral().isDisplayTooltip())}, builder))
             .executes(context -> {
                 var source = context.getSource();
-                var enabled = BoolArgumentType.getBool(context, "enabled");
+                var enabled = BooleanArgument.getBool(context, "enabled");
                 WailaClient.CONFIG.get().getGeneral().setDisplayTooltip(enabled);
                 success(source, () -> Component.translatable(enabled ? Tl.Command.Overlay.TRUE : Tl.Command.Overlay.FALSE));
                 return enabled ? 1 : 0;
@@ -136,11 +137,11 @@ public abstract class ClientCommand<S> extends CommonCommand<S, Minecraft> {
             .then(literal("debug"))
 
             .then(literal("showComponentBounds"))
-            .then(argument("enabled", BoolArgumentType.bool()))
+            .then(argument("enabled", BooleanArgument.bool()))
             .suggests((context, builder) -> suggest(new String[]{String.valueOf(!WailaClient.showComponentBounds)}, builder))
             .executes(context -> {
                 var source = context.getSource();
-                var enabled = BoolArgumentType.getBool(context, "enabled");
+                var enabled = BooleanArgument.getBool(context, "enabled");
                 Minecraft.getInstance().execute(() -> WailaClient.showComponentBounds = enabled);
                 success(source, () -> Component.literal((enabled ? "En" : "Dis") + "abled component bounds"));
                 return enabled ? 1 : 0;
@@ -148,11 +149,11 @@ public abstract class ClientCommand<S> extends CommonCommand<S, Minecraft> {
             .pop("enabled", "showComponentBounds")
 
             .then(literal("showFps"))
-            .then(argument("enabled", BoolArgumentType.bool()))
+            .then(argument("enabled", BooleanArgument.bool()))
             .suggests((context, builder) -> suggest(new String[]{String.valueOf(!WailaClient.showFps)}, builder))
             .executes(context -> {
                 var source = context.getSource();
-                var enabled = BoolArgumentType.getBool(context, "enabled");
+                var enabled = BooleanArgument.getBool(context, "enabled");
                 Minecraft.getInstance().execute(() -> WailaClient.showFps = enabled);
                 success(source, () -> Component.literal((enabled ? "En" : "Dis") + "abled FPS display"));
                 return enabled ? 1 : 0;

@@ -51,8 +51,8 @@ public class InspectorScreen extends YesIAmSureTheClientInstanceIsPresentByTheTi
     }
 
     @Override
-    public void extractRenderState(GuiGraphicsExtractor ctx, int mouseX, int mouseY, float tickDelta) {
-        super.extractRenderState(ctx, mouseX, mouseY, tickDelta);
+    public void extractRenderState(GuiGraphicsExtractor ctx) {
+        super.extractRenderState(ctx);
 
         if (!hoveredComponent.isEmpty()) {
             var h = minecraft.font.lineHeight + 2;
@@ -79,8 +79,8 @@ public class InspectorScreen extends YesIAmSureTheClientInstanceIsPresentByTheTi
         }
 
         if (tickSuccess) {
-            renderer.mouseX = mouseX;
-            renderer.mouseY = mouseY;
+            renderer.mouseX = ctx.mouseX();
+            renderer.mouseY = ctx.mouseY();
             hoveredComponent.clear();
 
             ComponentRenderer.set(renderer);

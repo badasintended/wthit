@@ -4,7 +4,7 @@ import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.__internal__.ApiSide;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.gui.GuiPipeline;
 import net.minecraft.resources.Identifier;
 import net.minecraft.util.Mth;
 
@@ -51,9 +51,9 @@ public class ArmorComponent implements ITooltipComponent {
             var iy = y + ((i / lineWidth) * 3);
 
             if (i <= filled) {
-                ctx.blitSprite(RenderPipelines.GUI_TEXTURED, SPRITE_FULL, ix, iy, 9, 9);
+                ctx.blitSprite(GuiPipeline.TEXTURED, SPRITE_FULL, ix, iy, 9, 9);
             } else if (i == half) {
-                ctx.blitSprite(RenderPipelines.GUI_TEXTURED, SPRITE_HALF, ix, iy, 9, 9);
+                ctx.blitSprite(GuiPipeline.TEXTURED, SPRITE_HALF, ix, iy, 9, 9);
             }
         }
     }

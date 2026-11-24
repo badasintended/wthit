@@ -16,9 +16,6 @@ import mcp.mobius.waila.api.ITheme;
 import mcp.mobius.waila.api.IWailaConfig;
 import mcp.mobius.waila.api.IWailaConfig.Overlay.Position.Align;
 import mcp.mobius.waila.api.WailaConstants;
-import mcp.mobius.waila.api.component.ColorComponent;
-import mcp.mobius.waila.api.component.ItemComponent;
-import mcp.mobius.waila.api.component.SpriteComponent;
 import mcp.mobius.waila.api.component.TextureComponent;
 import mcp.mobius.waila.buildconst.Tl;
 import mcp.mobius.waila.config.WailaConfig;
@@ -44,7 +41,6 @@ import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
-import net.minecraft.util.Mth;
 import net.minecraft.util.Util;
 import net.minecraft.world.level.block.Blocks;
 import org.apache.commons.lang3.mutable.MutableObject;
@@ -131,7 +127,7 @@ public class WailaConfigScreen extends TabbedConfigScreen {
     }
 
     @Override
-    public void extractRenderState(GuiGraphicsExtractor ctx, int mouseX, int mouseY, float partialTicks) {
+    public void extractRenderState(GuiGraphicsExtractor ctx) {
         if (InputConstants.isKeyDown(InputConstants.KEY_F1)) {
             if (!f1held) {
                 f1held = true;
@@ -143,7 +139,7 @@ public class WailaConfigScreen extends TabbedConfigScreen {
             TooltipRenderer.resetState();
             f1held = false;
             theme = null;
-            super.extractRenderState(ctx, mouseX, mouseY, partialTicks);
+            super.extractRenderState(ctx);
         }
     }
 
@@ -245,7 +241,7 @@ public class WailaConfigScreen extends TabbedConfigScreen {
             .with(backgroundAlphaVal = new InputValue<>(Tl.Config.OVERLAY_BACKGROUND_ALPHA,
                 get().getOverlay().getColor().getBackgroundAlpha(),
                 defaultConfig.getOverlay().getColor().getBackgroundAlpha(),
-                val -> get().getOverlay().getColor().setBackgroundAlpha(Mth.clamp(val, 0x00, 0xFF)),
+                val -> get().getOverlay().getColor().setBackgroundAlpha(Math.clamp(val, 0x00, 0xFF)),
                 InputValue.POSITIVE_INTEGER))
             .with(themeIdVal = new ThemeValue()));
 
@@ -343,7 +339,7 @@ public class WailaConfigScreen extends TabbedConfigScreen {
         }
 
         @Override
-        protected void drawValue(GuiGraphicsExtractor ctx, int width, int height, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks) {
+        protected void drawValue(GuiGraphicsExtractor ctx, int width, int height, int x, int y) {
             if (selectedKeyBind == this) {
                 button.setMessage(Component.literal("> " + getValue().key().getDisplayName().getString() + " <").withStyle(ChatFormatting.YELLOW));
             } else {
@@ -352,7 +348,7 @@ public class WailaConfigScreen extends TabbedConfigScreen {
 
             button.setX(x + width - button.getWidth());
             button.setY(y + (height - button.getHeight()) / 2);
-            button.extractRenderState(ctx, mouseX, mouseY, partialTicks);
+            button.extractRenderState(ctx);
         }
 
     }
@@ -395,15 +391,15 @@ public class WailaConfigScreen extends TabbedConfigScreen {
         }
 
         @Override
-        protected void drawValue(GuiGraphicsExtractor ctx, int width, int height, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks) {
+        protected void drawValue(GuiGraphicsExtractor ctx, int width, int height, int x, int y) {
             newButton.setX(x + width - newButton.getWidth());
             newButton.setY(y + (height - newButton.getHeight()) / 2);
             editButton.setX(newButton.getX() - newButton.getWidth() - 2);
             editButton.setY(newButton.getY());
-            editButton.extractRenderState(ctx, mouseX, mouseY, partialTicks);
-            newButton.extractRenderState(ctx, mouseX, mouseY, partialTicks);
+            editButton.extractRenderState(ctx);
+            newButton.extractRenderState(ctx);
 
-            super.drawValue(ctx, width - 84, height, x, y, mouseX, mouseY, selected, partialTicks);
+            super.drawValue(ctx, width - 84, height, x, y);
         }
 
     }
@@ -551,10 +547,10 @@ public class WailaConfigScreen extends TabbedConfigScreen {
 
         @SuppressWarnings({"ConstantValue", "UnusedAssignment"})
         @Override
-        public void extractRenderState(GuiGraphicsExtractor ctx, int mouseX, int mouseY, float delta) {
-            super.extractRenderState(ctx, mouseX, mouseY, delta);
+        public void extractRenderState(GuiGraphicsExtractor ctx) {
+            super.extractRenderState(ctx);
 
-            if (rect.contains(mouseX, (double) mouseY)) {
+            if (rect.contains(ctx.mouseX(), (double) ctx.mouseY())) {
                 ctx.requestCursor(CursorTypes.RESIZE_ALL);
             }
 

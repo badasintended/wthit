@@ -5,7 +5,7 @@ import mcp.mobius.waila.api.WailaConstants;
 import mcp.mobius.waila.api.__internal__.ApiSide;
 import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
-import net.minecraft.client.renderer.RenderPipelines;
+import net.minecraft.client.gui.GuiPipeline;
 import net.minecraft.world.item.ItemStack;
 import org.jspecify.annotations.Nullable;
 
@@ -62,7 +62,7 @@ public class ToolComponent implements ITooltipComponent {
 
         if (v0 == -1) return;
         ctx.pose().pushMatrix();
-        ctx.blit(RenderPipelines.GUI_TEXTURED, WailaConstants.COMPONENT_TEXTURE, x + xo, y + 3, 122, v0, 7, 7, 255, 255);
+        ctx.blit(GuiPipeline.TEXTURED, WailaConstants.COMPONENT_TEXTURE, x + xo, y + 3, 122, v0, 7, 7, 255, 255);
         ctx.pose().popMatrix();
     }
 

@@ -24,12 +24,12 @@ public class BooleanValue extends ConfigValue<Boolean, BooleanValue> {
     }
 
     @Override
-    protected void drawValue(GuiGraphicsExtractor ctx, int width, int height, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks) {
+    protected void drawValue(GuiGraphicsExtractor ctx, int width, int height, int x, int y) {
         setMessage();
         button.active = !isDisabled();
         button.setX(x + width - button.getWidth());
         button.setY(y + (height - button.getHeight()) / 2);
-        button.extractRenderState(ctx, mouseX, mouseY, partialTicks);
+        button.extractRenderState(ctx);
     }
 
     private void setMessage() {

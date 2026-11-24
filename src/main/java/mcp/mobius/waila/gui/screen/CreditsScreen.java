@@ -9,14 +9,15 @@ import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import mcp.mobius.waila.Waila;
 import mcp.mobius.waila.buildconst.Tl;
+import mcp.mobius.waila.mixin.ScreenAccess;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.ContainerObjectSelectionList;
 import net.minecraft.client.gui.components.events.GuiEventListener;
 import net.minecraft.client.gui.narration.NarratableEntry;
+import net.minecraft.client.gui.GuiPipeline;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.network.chat.CommonComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -113,8 +114,8 @@ public class CreditsScreen extends YesIAmSureTheClientInstanceIsPresentByTheTime
 
         @Override
         protected void extractListSeparators(GuiGraphicsExtractor ctx) {
-            var texture = this.minecraft.level == null ? Screen.FOOTER_SEPARATOR : Screen.INWORLD_FOOTER_SEPARATOR;
-            ctx.blit(RenderPipelines.GUI_TEXTURED, texture, this.getX(), this.getBottom(), 0.0F, 0.0F, this.getWidth(), 2, 32, 2);
+            var texture = this.minecraft.level == null ? Screen.FOOTER_SEPARATOR : ScreenAccess.wthit_INWORLD_FOOTER_SEPARATOR();
+            ctx.blit(GuiPipeline.TEXTURED, texture, this.getX(), this.getBottom(), 0.0F, 0.0F, this.getWidth(), 2, 32, 2);
         }
 
     }
@@ -140,7 +141,7 @@ public class CreditsScreen extends YesIAmSureTheClientInstanceIsPresentByTheTime
         }
 
         @Override
-        public void extractContent(GuiGraphicsExtractor ctx, int mouseX, int mouseY, boolean hovered, float delta) {
+        public void extractContent(GuiGraphicsExtractor ctx, boolean hovered) {
             if (components.isEmpty()) return;
 
             var rowLeft = getX();

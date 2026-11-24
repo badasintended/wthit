@@ -25,11 +25,11 @@ public class EnumValue<T extends Enum<T>> extends ConfigValue<T, EnumValue<T>> {
     }
 
     @Override
-    protected void drawValue(GuiGraphicsExtractor ctx, int width, int height, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks) {
+    protected void drawValue(GuiGraphicsExtractor ctx, int width, int height, int x, int y) {
         button.active = !isDisabled();
         button.setX(x + width - button.getWidth());
         button.setY(y + (height - button.getHeight()) / 2);
-        button.extractRenderState(ctx, mouseX, mouseY, partialTicks);
+        button.extractRenderState(ctx);
     }
 
     @Override

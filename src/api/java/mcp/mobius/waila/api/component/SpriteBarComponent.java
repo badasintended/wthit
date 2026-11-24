@@ -1,6 +1,5 @@
 package mcp.mobius.waila.api.component;
 
-import com.mojang.renderpearl.api.pipeline.RenderPipeline;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import mcp.mobius.waila.api.ITooltipComponent;
 import mcp.mobius.waila.api.util.WRenders;
@@ -8,8 +7,8 @@ import net.minecraft.client.DeltaTracker;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.navigation.ScreenRectangle;
+import net.minecraft.client.gui.GuiPipeline;
 import net.minecraft.client.gui.render.TextureSetup;
-import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.state.gui.GuiElementRenderState;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.network.chat.Component;
@@ -96,7 +95,7 @@ public class SpriteBarComponent implements ITooltipComponent {
             this.my = my;
 
             var textureInstance = Minecraft.getInstance().getTextureManager().getTexture(texture);
-            textureSetup = TextureSetup.singleTexture(textureInstance.getTextureView(), textureInstance.getSampler());
+            textureSetup = TextureSetup.singleTexture(textureInstance.textureView(), textureInstance.sampler());
         }
 
         @Override
@@ -116,8 +115,8 @@ public class SpriteBarComponent implements ITooltipComponent {
         }
 
         @Override
-        public RenderPipeline pipeline() {
-            return RenderPipelines.GUI_TEXTURED;
+        public GuiPipeline pipeline() {
+            return GuiPipeline.TEXTURED;
         }
 
         @Override

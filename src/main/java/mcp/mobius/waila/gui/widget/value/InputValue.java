@@ -7,7 +7,6 @@ import mcp.mobius.waila.mixin.EditBoxAccess;
 import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.network.chat.Component;
-import net.minecraft.util.Mth;
 import net.minecraft.util.StringUtil;
 import org.jspecify.annotations.Nullable;
 
@@ -67,11 +66,11 @@ public class InputValue<T> extends ConfigValue<T, InputValue<T>> {
     }
 
     @Override
-    protected void drawValue(GuiGraphicsExtractor ctx, int width, int height, int x, int y, int mouseX, int mouseY, boolean selected, float partialTicks) {
+    protected void drawValue(GuiGraphicsExtractor ctx, int width, int height, int x, int y) {
         textField.setEditable(!isDisabled());
         textField.setX(x + width - textField.getWidth());
         textField.setY(y + (height - textField.getHeight()) / 2);
-        textField.extractRenderState(ctx, mouseX, mouseY, partialTicks);
+        textField.extractRenderState(ctx);
     }
 
     @Override
@@ -140,7 +139,7 @@ public class InputValue<T> extends ConfigValue<T, InputValue<T>> {
         private void recalculateWidth(boolean reset) {
             if (!grow) return;
             if (reset) setWidth(100);
-            else setWidth(Mth.clamp(client.font.width(getValue()) + 8, 100, 300));
+            else setWidth(Math.clamp(client.font.width(getValue()) + 8, 100, 300));
 
             var cursor = getCursorPosition();
             moveCursorTo(0, false);

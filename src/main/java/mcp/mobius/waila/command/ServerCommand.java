@@ -1,5 +1,6 @@
 package mcp.mobius.waila.command;
 
+import java.util.function.Predicate;
 import java.util.function.Supplier;
 
 import com.mojang.brigadier.arguments.ArgumentType;
@@ -15,6 +16,7 @@ import mcp.mobius.waila.network.play.s2c.GenerateClientDumpPlayS2CPacket;
 import mcp.mobius.waila.plugin.PluginLoader;
 import net.minecraft.advancements.predicates.DataComponentMatchers;
 import net.minecraft.advancements.predicates.ItemPredicate;
+import net.minecraft.commands.CommandPermissionLevels;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.arguments.EntityArgument;
@@ -40,15 +42,15 @@ public abstract class ServerCommand extends CommonCommand<CommandSourceStack, Mi
     protected abstract @Nullable String fillContainer(ServerLevel world, BlockPos pos, ServerPlayer player);
 
     @Override
-    protected boolean pluginCommandRequirement(CommandSourceStack source) {
-        return Commands.LEVEL_ADMINS.check(source.permissions());
+    protected Predicate<CommandSourceStack> pluginCommandRequirement() {
+        return Commands.hasPermission(CommandPermissionLevels.LEVEL_ADMINS);
     }
 
     @Override
     protected void register(ArgumentBuilderBuilder<CommandSourceStack> command) {
         command
             .then(Commands.literal("dump"))
-            .requires(source -> Commands.LEVEL_ADMINS.check(source.permissions()))
+            .requires(pluginCommandRequirement())
             .executes(context -> {
                 var source = context.getSource();
                 var server = source.getServer();
@@ -72,7 +74,7 @@ public abstract class ServerCommand extends CommonCommand<CommandSourceStack, Mi
 
         if (Waila.ENABLE_DEBUG_COMMAND) command
             .then(Commands.literal("debug"))
-            .requires(source -> Commands.LEVEL_ADMINS.check(source.permissions()))
+            .requires(pluginCommandRequirement())
 
             .then(Commands.literal("getBlockInfo"))
             .then(Commands.argument("pos", BlockPosArgument.blockPos()))
